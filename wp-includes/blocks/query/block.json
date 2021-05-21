@@ -31,7 +31,7 @@
 			"type": "string",
 			"default": "div"
 		},
-		"layout": {
+		"displayLayout": {
 			"type": "object",
 			"default": {
 				"type": "list"
@@ -41,11 +41,16 @@
 	"providesContext": {
 		"queryId": "queryId",
 		"query": "query",
-		"layout": "layout"
+		"displayLayout": "displayLayout"
 	},
 	"supports": {
 		"align": [ "wide", "full" ],
-		"html": false
+		"html": false,
+		"color": {
+			"gradients": true,
+			"link": true
+		},
+		"__experimentalLayout": true
 	},
 	"editorStyle": "wp-block-query-editor"
 }

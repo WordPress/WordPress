@@ -76,7 +76,8 @@
 }
 @supports (position: sticky) {
   .wp-block-video [poster] {
-    object-fit: cover;
+    -o-object-fit: cover;
+       object-fit: cover;
   }
 }
 .wp-block-video.aligncenter {

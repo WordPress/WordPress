@@ -18,7 +18,7 @@ function render_block_core_query_loop( $attributes, $content, $block ) {
 	$page_key = isset( $block->context['queryId'] ) ? 'query-' . $block->context['queryId'] . '-page' : 'query-page';
 	$page     = empty( $_GET[ $page_key ] ) ? 1 : filter_var( $_GET[ $page_key ], FILTER_VALIDATE_INT );
 
-	$query_args = construct_wp_query_args( $block, $page );
+	$query_args = build_query_vars_from_query_block( $block, $page );
 	// Override the custom query with the global query if needed.
 	$use_global_query = ( isset( $block->context['query']['inherit'] ) && $block->context['query']['inherit'] );
 	if ( $use_global_query ) {
@@ -41,9 +41,9 @@ function render_block_core_query_loop( $attributes, $content, $block ) {
 	}
 
 	$classnames = '';
-	if ( isset( $block->context['layout'] ) && isset( $block->context['query'] ) ) {
-		if ( isset( $block->context['layout']['type'] ) && 'flex' === $block->context['layout']['type'] ) {
-			$classnames = "is-flex-container columns-{$block->context['layout']['columns']}";
+	if ( isset( $block->context['displayLayout'] ) && isset( $block->context['query'] ) ) {
+		if ( isset( $block->context['displayLayout']['type'] ) && 'flex' === $block->context['displayLayout']['type'] ) {
+			$classnames = "is-flex-container columns-{$block->context['displayLayout']['columns']}";
 		}
 	}
 

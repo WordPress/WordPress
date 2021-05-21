@@ -180,7 +180,8 @@
 .blocks-gallery-grid.is-cropped .blocks-gallery-item img {
     height: 100%;
     flex: 1;
-    object-fit: cover;
+    -o-object-fit: cover;
+       object-fit: cover;
   }
 }
 .wp-block-gallery.columns-1 .blocks-gallery-image, .wp-block-gallery.columns-1 .blocks-gallery-item,

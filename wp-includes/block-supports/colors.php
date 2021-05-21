@@ -83,7 +83,6 @@ function wp_apply_colors_support( $block_type, $block_attributes ) {
 
 	$has_text_colors_support       = true === $color_support || ( is_array( $color_support ) && _wp_array_get( $color_support, array( 'text' ), true ) );
 	$has_background_colors_support = true === $color_support || ( is_array( $color_support ) && _wp_array_get( $color_support, array( 'background' ), true ) );
-	$has_link_colors_support       = _wp_array_get( $color_support, array( 'link' ), false );
 	$has_gradients_support         = _wp_array_get( $color_support, array( 'gradients' ), false );
 	$classes                       = array();
 	$styles                        = array();
@@ -103,24 +102,6 @@ function wp_apply_colors_support( $block_type, $block_attributes ) {
 			$classes[] = sprintf( 'has-%s-color', $block_attributes['textColor'] );
 		} elseif ( $has_custom_text_color ) {
 			$styles[] = sprintf( 'color: %s;', $block_attributes['style']['color']['text'] );
-		}
-	}
-
-	// Link colors.
-	if ( $has_link_colors_support ) {
-		$has_link_color = isset( $block_attributes['style']['color']['link'] );
-		// Apply required class and style.
-		if ( $has_link_color ) {
-			$classes[] = 'has-link-color';
-			// If link is a named color.
-			if ( strpos( $block_attributes['style']['color']['link'], 'var:preset|color|' ) !== false ) {
-				// Get the name from the string and add proper styles.
-				$index_to_splice = strrpos( $block_attributes['style']['color']['link'], '|' ) + 1;
-				$link_color_name = substr( $block_attributes['style']['color']['link'], $index_to_splice );
-				$styles[]        = sprintf( '--wp--style--color--link: var(--wp--preset--color--%s);', $link_color_name );
-			} else {
-				$styles[] = sprintf( '--wp--style--color--link: %s;', $block_attributes['style']['color']['link'] );
-			}
 		}
 	}
 

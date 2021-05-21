@@ -136,7 +136,6 @@
   grid-template-columns: auto 1fr;
 }
 .block-directory-downloadable-block-list-item:hover {
-  box-shadow: 0 0 0 2px #007cba;
   box-shadow: 0 0 0 2px var(--wp-admin-theme-color);
 }
 .block-directory-downloadable-block-list-item.is-busy {

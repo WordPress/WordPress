@@ -937,8 +937,23 @@ var build_module_icon = __webpack_require__("iClF");
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/star-filled.js
 var star_filled = __webpack_require__("URob");
 
-// EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/star-half.js
-var star_half = __webpack_require__("WIVa");
+// EXTERNAL MODULE: external ["wp","primitives"]
+var external_wp_primitives_ = __webpack_require__("Tqx9");
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/star-half.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+const starHalf = Object(external_wp_element_["createElement"])(external_wp_primitives_["SVG"], {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24"
+}, Object(external_wp_element_["createElement"])(external_wp_primitives_["Path"], {
+  d: "M9.518 8.783a.25.25 0 00.188-.137l2.069-4.192a.25.25 0 01.448 0l2.07 4.192a.25.25 0 00.187.137l4.626.672a.25.25 0 01.139.427l-3.347 3.262a.25.25 0 00-.072.222l.79 4.607a.25.25 0 01-.363.264l-4.137-2.176a.25.25 0 00-.233 0l-4.138 2.175a.25.25 0 01-.362-.263l.79-4.607a.25.25 0 00-.072-.222L4.753 9.882a.25.25 0 01.14-.427l4.625-.672zM12 14.533c.28 0 .559.067.814.2l1.895.997-.362-2.11a1.75 1.75 0 01.504-1.55l1.533-1.495-2.12-.308a1.75 1.75 0 01-1.317-.957L12 7.39v7.143z"
+}));
+/* harmony default export */ var star_half = (starHalf);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/star-empty.js
 var star_empty = __webpack_require__("Xxwi");
@@ -976,7 +991,7 @@ function Stars({
   })), Object(external_lodash_["times"])(halfStarCount, i => Object(external_wp_element_["createElement"])(build_module_icon["a" /* default */], {
     key: `half_stars_${i}`,
     className: "block-directory-block-ratings__star-half-full",
-    icon: star_half["a" /* default */],
+    icon: star_half,
     size: 16
   })), Object(external_lodash_["times"])(emptyStarCount, i => Object(external_wp_element_["createElement"])(build_module_icon["a" /* default */], {
     key: `empty_stars_${i}`,
@@ -1442,7 +1457,7 @@ function DownloadableBlocksPanel({
 function InserterMenuDownloadableBlocksPanel() {
   const [debouncedFilterValue, setFilterValue] = Object(external_wp_element_["useState"])('');
   const debouncedSetFilterValue = Object(external_lodash_["debounce"])(setFilterValue, 400);
-  return Object(external_wp_element_["createElement"])(external_wp_blockEditor_["__experimentalInserterMenuExtension"], null, ({
+  return Object(external_wp_element_["createElement"])(external_wp_blockEditor_["__unstableInserterMenuExtension"], null, ({
     onSelect,
     onHover,
     filterValue,
@@ -1802,31 +1817,6 @@ const starFilled = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["creat
   d: "M11.776 4.454a.25.25 0 01.448 0l2.069 4.192a.25.25 0 00.188.137l4.626.672a.25.25 0 01.139.426l-3.348 3.263a.25.25 0 00-.072.222l.79 4.607a.25.25 0 01-.362.263l-4.138-2.175a.25.25 0 00-.232 0l-4.138 2.175a.25.25 0 01-.363-.263l.79-4.607a.25.25 0 00-.071-.222L4.754 9.881a.25.25 0 01.139-.426l4.626-.672a.25.25 0 00.188-.137l2.069-4.192z"
 }));
 /* harmony default export */ __webpack_exports__["a"] = (starFilled);
-
-
-/***/ }),
-
-/***/ "WIVa":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("GRId");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("Tqx9");
-/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__);
-
-
-/**
- * WordPress dependencies
- */
-
-const starHalf = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["SVG"], {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24"
-}, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["Path"], {
-  d: "M9.518 8.783a.25.25 0 00.188-.137l2.069-4.192a.25.25 0 01.448 0l2.07 4.192a.25.25 0 00.187.137l4.626.672a.25.25 0 01.139.427l-3.347 3.262a.25.25 0 00-.072.222l.79 4.607a.25.25 0 01-.363.264l-4.137-2.176a.25.25 0 00-.233 0l-4.138 2.175a.25.25 0 01-.362-.263l.79-4.607a.25.25 0 00-.072-.222L4.753 9.882a.25.25 0 01.14-.427l4.625-.672zM12 14.533c.28 0 .559.067.814.2l1.895.997-.362-2.11a1.75 1.75 0 01.504-1.55l1.533-1.495-2.12-.308a1.75 1.75 0 01-1.317-.957L12 7.39v7.143z"
-}));
-/* harmony default export */ __webpack_exports__["a"] = (starHalf);
 
 
 /***/ }),

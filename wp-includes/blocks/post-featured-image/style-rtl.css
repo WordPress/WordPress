@@ -68,6 +68,10 @@
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
+.wp-block-post-featured-image {
+  margin-right: 0;
+  margin-left: 0;
+}
 .wp-block-post-featured-image a {
   display: inline-block;
 }

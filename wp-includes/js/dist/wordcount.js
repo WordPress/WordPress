@@ -155,7 +155,7 @@ const defaultSettings = {
   connectorRegExp: /--|\u2014/g,
   // Characters to be removed from input text.
   removeRegExp: new RegExp(['[', // Basic Latin (extract)
-  '\u0021-\u0040\u005B-\u0060\u007B-\u007E', // Latin-1 Supplement (extract)
+  '\u0021-\u002F\u003A-\u0040\u005B-\u0060\u007B-\u007E', // Latin-1 Supplement (extract)
   '\u0080-\u00BF\u00D7\u00F7',
   /*
    * The following range consists of:

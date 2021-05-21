@@ -10,12 +10,13 @@
 		"queryId",
 		"query",
 		"queryContext",
-		"layout",
+		"displayLayout",
 		"templateSlug"
 	],
 	"supports": {
 		"reusable": false,
-		"html": false
+		"html": false,
+		"align": true
 	},
 	"style": "wp-block-query-loop",
 	"editorStyle": "wp-block-query-loop-editor"

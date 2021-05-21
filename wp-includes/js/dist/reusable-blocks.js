@@ -115,31 +115,6 @@ this["wp"] = this["wp"] || {}; this["wp"]["reusableBlocks"] =
 
 /***/ }),
 
-/***/ "SRG5":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("GRId");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("Tqx9");
-/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__);
-
-
-/**
- * WordPress dependencies
- */
-
-const reusableBlock = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["SVG"], {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24"
-}, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["Path"], {
-  d: "M7 7.2h8.2L13.5 9l1.1 1.1 3.6-3.6-3.5-4-1.1 1 1.9 2.3H7c-.9 0-1.7.3-2.3.9-1.4 1.5-1.4 4.2-1.4 5.6v.2h1.5v-.3c0-1.1 0-3.5 1-4.5.3-.3.7-.5 1.2-.5zm13.8 4V11h-1.5v.3c0 1.1 0 3.5-1 4.5-.3.3-.7.5-1.3.5H8.8l1.7-1.7-1.1-1.1L5.9 17l3.5 4 1.1-1-1.9-2.3H17c.9 0 1.7-.3 2.3-.9 1.5-1.4 1.5-4.2 1.5-5.6z"
-}));
-/* harmony default export */ __webpack_exports__["a"] = (reusableBlock);
-
-
-/***/ }),
-
 /***/ "Tqx9":
 /***/ (function(module, exports) {
 
@@ -426,8 +401,23 @@ var external_wp_element_ = __webpack_require__("GRId");
 // EXTERNAL MODULE: external ["wp","components"]
 var external_wp_components_ = __webpack_require__("tI+e");
 
-// EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/reusable-block.js
-var reusable_block = __webpack_require__("SRG5");
+// EXTERNAL MODULE: external ["wp","primitives"]
+var external_wp_primitives_ = __webpack_require__("Tqx9");
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/reusable-block.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+const reusable_block_reusableBlock = Object(external_wp_element_["createElement"])(external_wp_primitives_["SVG"], {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24"
+}, Object(external_wp_element_["createElement"])(external_wp_primitives_["Path"], {
+  d: "M7 7.2h8.2L13.5 9l1.1 1.1 3.6-3.6-3.5-4-1.1 1 1.9 2.3H7c-.9 0-1.7.3-2.3.9-1.4 1.5-1.4 4.2-1.4 5.6v.2h1.5v-.3c0-1.1 0-3.5 1-4.5.3-.3.7-.5 1.2-.5zm13.8 4V11h-1.5v.3c0 1.1 0 3.5-1 4.5-.3.3-.7.5-1.3.5H8.8l1.7-1.7-1.1-1.1L5.9 17l3.5 4 1.1-1-1.9-2.3H17c.9 0 1.7-.3 2.3-.9 1.5-1.4 1.5-4.2 1.5-5.6z"
+}));
+/* harmony default export */ var reusable_block = (reusable_block_reusableBlock);
 
 // EXTERNAL MODULE: external ["wp","notices"]
 var external_wp_notices_ = __webpack_require__("onLe");
@@ -516,7 +506,7 @@ function ReusableBlockConvertButton({
   return Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockSettingsMenuControls"], null, ({
     onClose
   }) => Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(external_wp_components_["MenuItem"], {
-    icon: reusable_block["a" /* default */],
+    icon: reusable_block,
     onClick: () => {
       setIsModalOpen(true);
     }

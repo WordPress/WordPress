@@ -438,19 +438,24 @@ function withGlobalEvents(eventTypesToHandlers) {
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/hooks/use-instance-id/index.js
+// Disable reason: Object and object are distinctly different types in TypeScript and we mean the lowercase object in thise case
+// but eslint wants to force us to use `Object`. See https://stackoverflow.com/questions/49464634/difference-between-object-and-object-in-typescript
+
+/* eslint-disable jsdoc/check-types */
+
 /**
  * WordPress dependencies
  */
 
 /**
- * @type {WeakMap<any, number>}
+ * @type {WeakMap<object, number>}
  */
 
 const instanceMap = new WeakMap();
 /**
  * Creates a new id for a given object.
  *
- * @param {unknown} object Object reference to create an id for.
+ * @param {object} object Object reference to create an id for.
  * @return {number} The instance id (index).
  */
 
@@ -462,9 +467,9 @@ function createId(object) {
 /**
  * Provides a unique instance ID.
  *
- * @param {Object} object Object reference to create an id for.
- * @param {string} prefix Prefix for the unique id.
- * @param {string} preferredId Default ID to use.
+ * @param {object} object Object reference to create an id for.
+ * @param {string} [prefix] Prefix for the unique id.
+ * @param {string} [preferredId=''] Default ID to use.
  * @return {string | number} The unique instance id.
  */
 
@@ -476,33 +481,37 @@ function useInstanceId(object, prefix, preferredId = '') {
     return prefix ? `${prefix}-${id}` : id;
   }, [object]);
 }
+/* eslint-enable jsdoc/check-types */
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/higher-order/with-instance-id/index.js
 
 
 
 /**
+ * External dependencies
+ */
+// eslint-disable-next-line no-restricted-imports
+
+/**
  * Internal dependencies
  */
+ // eslint-disable-next-line no-duplicate-imports
 
 
 /**
  * A Higher Order Component used to be provide a unique instance ID by
  * component.
- *
- * @param {WPComponent} WrappedComponent The wrapped component.
- *
- * @return {WPComponent} Component with an instanceId prop.
  */
 
-/* harmony default export */ var with_instance_id = (create_higher_order_component(WrappedComponent => {
+const withInstanceId = create_higher_order_component(WrappedComponent => {
   return props => {
     const instanceId = useInstanceId(WrappedComponent);
     return Object(external_wp_element_["createElement"])(WrappedComponent, Object(esm_extends["a" /* default */])({}, props, {
       instanceId: instanceId
     }));
   };
-}, 'withInstanceId'));
+}, 'withInstanceId');
+/* harmony default export */ var with_instance_id = (withInstanceId);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/higher-order/with-safe-timeout/index.js
 
@@ -646,12 +655,20 @@ var external_wp_dom_ = __webpack_require__("1CF3");
  */
 
 function useConstrainedTabbing() {
-  const ref = Object(external_wp_element_["useCallback"])(node => {
+  const ref = Object(external_wp_element_["useCallback"])(
+  /** @type {Element} */
+  node => {
     if (!node) {
       return;
     }
 
-    node.addEventListener('keydown', event => {
+    node.addEventListener('keydown',
+    /** @type {Event} */
+    event => {
+      if (!(event instanceof window.KeyboardEvent)) {
+        return;
+      }
+
       if (event.keyCode !== external_wp_keycodes_["TAB"]) {
         return;
       }
@@ -667,16 +684,24 @@ function useConstrainedTabbing() {
 
       if (event.shiftKey && event.target === firstTabbable) {
         event.preventDefault();
+        /** @type {HTMLElement} */
+
         lastTabbable.focus();
       } else if (!event.shiftKey && event.target === lastTabbable) {
         event.preventDefault();
+        /** @type {HTMLElement} */
+
         firstTabbable.focus();
         /*
          * When pressing Tab and none of the tabbables has focus, the keydown
          * event happens on the wrapper div: move focus on the first tabbable.
          */
-      } else if (!tabbables.includes(event.target)) {
+      } else if (!tabbables.includes(
+      /** @type {Element} */
+      event.target)) {
         event.preventDefault();
+        /** @type {HTMLElement} */
+
         firstTabbable.focus();
       }
     });
@@ -1187,6 +1212,13 @@ function useFocusOutside(onFocusOutside) {
 
 /** @typedef {import('@wordpress/element').RefCallback} RefCallback */
 
+function assignRef(ref, value) {
+  if (typeof ref === 'function') {
+    ref(value);
+  } else if (ref && ref.hasOwnProperty('current')) {
+    ref.current = value;
+  }
+}
 /**
  * Merges refs into one ref callback. Ensures the merged ref callbacks are only
  * called when it changes (as a result of a `useCallback` dependency update) or
@@ -1201,10 +1233,11 @@ function useFocusOutside(onFocusOutside) {
  * @return {RefCallback} The merged ref callback.
  */
 
+
 function useMergeRefs(refs) {
-  const element = Object(external_wp_element_["useRef"])(null);
+  const element = Object(external_wp_element_["useRef"])();
   const didElementChange = Object(external_wp_element_["useRef"])(false);
-  const previousRefs = Object(external_wp_element_["useRef"])(refs);
+  const previousRefs = Object(external_wp_element_["useRef"])([]);
   const currentRefs = Object(external_wp_element_["useRef"])(refs); // Update on render before the ref callback is called, so the ref callback
   // always has access to the current refs.
 
@@ -1213,14 +1246,17 @@ function useMergeRefs(refs) {
   // which case the ref callbacks will already have been called.
 
   Object(external_wp_element_["useLayoutEffect"])(() => {
-    refs.forEach((ref, index) => {
-      const previousRef = previousRefs.current[index];
+    if (didElementChange.current === false) {
+      refs.forEach((ref, index) => {
+        const previousRef = previousRefs.current[index];
 
-      if (typeof ref === 'function' && ref !== previousRef && didElementChange.current === false) {
-        previousRef(null);
-        ref(element.current);
-      }
-    });
+        if (ref !== previousRef) {
+          assignRef(previousRef, null);
+          assignRef(ref, element.current);
+        }
+      });
+    }
+
     previousRefs.current = refs;
   }, refs); // No dependencies, must be reset after every render so ref callbacks are
   // correctly called after a ref change.
@@ -1233,19 +1269,15 @@ function useMergeRefs(refs) {
   return Object(external_wp_element_["useCallback"])(value => {
     // Update the element so it can be used when calling ref callbacks on a
     // dependency change.
-    element.current = value;
+    assignRef(element, value);
     didElementChange.current = true; // When an element changes, the current ref callback should be called
     // with the new element and the previous one with `null`.
 
-    const refsToUpdate = value ? currentRefs.current : previousRefs.current; // Update the latest refs.
+    const refsToAssign = value ? currentRefs.current : previousRefs.current; // Update the latest refs.
 
-    refsToUpdate.forEach(ref => {
-      if (typeof ref === 'function') {
-        ref(value);
-      } else if (ref && ref.hasOwnProperty('current')) {
-        ref.current = value;
-      }
-    });
+    for (const ref of refsToAssign) {
+      assignRef(ref, value);
+    }
   }, []);
 }
 
@@ -1692,9 +1724,9 @@ var external_wp_priorityQueue_ = __webpack_require__("XI5e");
 /**
  * Returns the first items from list that are present on state.
  *
- * @param {Array} list  New array.
- * @param {Array} state Current state.
- * @return {Array} First items present iin state.
+ * @param list  New array.
+ * @param state Current state.
+ * @return First items present iin state.
  */
 
 function getFirstItemsPresentInState(list, state) {
@@ -1713,44 +1745,20 @@ function getFirstItemsPresentInState(list, state) {
   return firstItems;
 }
 /**
- * Reducer keeping track of a list of appended items.
- *
- * @param {Array}  state  Current state
- * @param {Object} action Action
- *
- * @return {Array} update state.
- */
-
-
-function listReducer(state, action) {
-  if (action.type === 'reset') {
-    return action.list;
-  }
-
-  if (action.type === 'append') {
-    return [...state, action.item];
-  }
-
-  return state;
-}
-/**
  * React hook returns an array which items get asynchronously appended from a source array.
  * This behavior is useful if we want to render a list of items asynchronously for performance reasons.
  *
- * @param {Array} list Source array.
- * @return {Array} Async array.
+ * @param list Source array.
+ * @return Async array.
  */
 
 
 function useAsyncList(list) {
-  const [current, dispatch] = Object(external_wp_element_["useReducer"])(listReducer, []);
+  const [current, setCurrent] = Object(external_wp_element_["useState"])([]);
   Object(external_wp_element_["useEffect"])(() => {
     // On reset, we keep the first items that were previously rendered.
     const firstItems = getFirstItemsPresentInState(list, current);
-    dispatch({
-      type: 'reset',
-      list: firstItems
-    });
+    setCurrent(firstItems);
     const asyncQueue = Object(external_wp_priorityQueue_["createQueue"])();
 
     const append = index => () => {
@@ -1758,10 +1766,7 @@ function useAsyncList(list) {
         return;
       }
 
-      dispatch({
-        type: 'append',
-        item: list[index]
-      });
+      setCurrent(state => [...state, list[index]]);
       asyncQueue.add({}, append(index + 1));
     };
 

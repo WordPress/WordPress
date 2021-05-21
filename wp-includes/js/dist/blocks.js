@@ -187,6 +187,7 @@ __webpack_require__.d(__webpack_exports__, "synchronizeBlocksWithTemplate", func
 __webpack_require__.d(__webpack_exports__, "children", function() { return /* reexport */ api_children; });
 __webpack_require__.d(__webpack_exports__, "node", function() { return /* reexport */ api_node; });
 __webpack_require__.d(__webpack_exports__, "__EXPERIMENTAL_STYLE_PROPERTY", function() { return /* reexport */ __EXPERIMENTAL_STYLE_PROPERTY; });
+__webpack_require__.d(__webpack_exports__, "__EXPERIMENTAL_ELEMENTS", function() { return /* reexport */ __EXPERIMENTAL_ELEMENTS; });
 __webpack_require__.d(__webpack_exports__, "withBlockContentContext", function() { return /* reexport */ withBlockContentContext; });
 
 // NAMESPACE OBJECT: ./node_modules/@wordpress/blocks/build-module/store/selectors.js
@@ -1033,6 +1034,10 @@ var v4 = __webpack_require__("7Cbv");
 // EXTERNAL MODULE: external ["wp","hooks"]
 var external_wp_hooks_ = __webpack_require__("g56x");
 
+// EXTERNAL MODULE: external ["wp","deprecated"]
+var external_wp_deprecated_ = __webpack_require__("NMb1");
+var external_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external_wp_deprecated_);
+
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/block-default.js
 var block_default = __webpack_require__("//Lo");
 
@@ -1316,8 +1321,8 @@ function __experimentalGetBlockAttributesNamesByRole(name, role) {
  */
 const DEPRECATED_ENTRY_KEYS = ['attributes', 'supports', 'save', 'migrate', 'isEligible', 'apiVersion'];
 const __EXPERIMENTAL_STYLE_PROPERTY = {
+  //kept for back-compatibility purposes.
   '--wp--style--color--link': {
-    valueGlobal: ['elements', 'link', 'color', 'text'],
     value: ['color', 'link'],
     support: ['color', 'link']
   },
@@ -1349,6 +1354,10 @@ const __EXPERIMENTAL_STYLE_PROPERTY = {
     value: ['color', 'text'],
     support: ['color']
   },
+  linkColor: {
+    value: ['elements', 'link', 'color', 'text'],
+    support: ['color', 'link']
+  },
   fontFamily: {
     value: ['typography', 'fontFamily'],
     support: ['__experimentalFontFamily']
@@ -1369,6 +1378,11 @@ const __EXPERIMENTAL_STYLE_PROPERTY = {
     value: ['typography', 'lineHeight'],
     support: ['lineHeight']
   },
+  margin: {
+    value: ['spacing', 'margin'],
+    support: ['spacing', 'margin'],
+    properties: ['top', 'right', 'bottom', 'left']
+  },
   padding: {
     value: ['spacing', 'padding'],
     support: ['spacing', 'padding'],
@@ -1383,6 +1397,15 @@ const __EXPERIMENTAL_STYLE_PROPERTY = {
     support: ['__experimentalTextTransform']
   }
 };
+const __EXPERIMENTAL_ELEMENTS = {
+  link: 'a',
+  h1: 'h1',
+  h2: 'h2',
+  h3: 'h3',
+  h4: 'h4',
+  h5: 'h5',
+  h6: 'h6'
+};
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/registration.js
 /* eslint no-console: [ 'error', { allow: [ 'error', 'warn' ] } ] */
@@ -1394,6 +1417,7 @@ const __EXPERIMENTAL_STYLE_PROPERTY = {
 /**
  * WordPress dependencies
  */
+
 
 
 
@@ -1570,18 +1594,60 @@ function unstable__bootstrapServerSideBlockDefinitions(definitions) {
   }
 }
 /**
+ * Gets block settings from metadata loaded from `block.json` file.
+ *
+ * @param {Object} metadata            Block metadata loaded from `block.json`.
+ * @param {string} metadata.textdomain Textdomain to use with translations.
+ *
+ * @return {Object} Block settings.
+ */
+
+function getBlockSettingsFromMetadata({
+  textdomain,
+  ...metadata
+}) {
+  const allowedFields = ['apiVersion', 'title', 'category', 'parent', 'icon', 'description', 'keywords', 'attributes', 'providesContext', 'usesContext', 'supports', 'styles', 'example', 'variations'];
+  const settings = Object(external_lodash_["pick"])(metadata, allowedFields);
+
+  if (textdomain) {
+    Object.keys(i18nBlockSchema).forEach(key => {
+      if (!settings[key]) {
+        return;
+      }
+
+      settings[key] = translateBlockSettingUsingI18nSchema(i18nBlockSchema[key], settings[key], textdomain);
+    });
+  }
+
+  return settings;
+}
+/**
  * Registers a new block provided a unique name and an object defining its
  * behavior. Once registered, the block is made available as an option to any
  * editor interface where blocks are implemented.
  *
- * @param {string} name     Block name.
- * @param {Object} settings Block settings.
+ * @param {string|Object} blockNameOrMetadata Block type name or its metadata.
+ * @param {Object}        settings            Block settings.
  *
  * @return {?WPBlock} The block, if it has been successfully registered;
  *                    otherwise `undefined`.
  */
 
-function registerBlockType(name, settings) {
+
+function registerBlockType(blockNameOrMetadata, settings) {
+  const name = Object(external_lodash_["isObject"])(blockNameOrMetadata) ? blockNameOrMetadata.name : blockNameOrMetadata;
+
+  if (typeof name !== 'string') {
+    console.error('Block names must be strings.');
+    return;
+  }
+
+  if (Object(external_lodash_["isObject"])(blockNameOrMetadata)) {
+    unstable__bootstrapServerSideBlockDefinitions({
+      [name]: getBlockSettingsFromMetadata(blockNameOrMetadata)
+    });
+  }
+
   settings = {
     name,
     icon: block_default["a" /* default */],
@@ -1595,11 +1661,6 @@ function registerBlockType(name, settings) {
     ...(serverSideBlockDefinitions === null || serverSideBlockDefinitions === void 0 ? void 0 : serverSideBlockDefinitions[name]),
     ...settings
   };
-
-  if (typeof name !== 'string') {
-    console.error('Block names must be strings.');
-    return;
-  }
 
   if (!/^[a-z][a-z0-9-]*\/[a-z][a-z0-9-]*$/.test(name)) {
     console.error('Block names must contain a namespace prefix, include only lowercase alphanumeric characters or dashes, and start with a letter. Example: my-plugin/my-custom-block');
@@ -1710,13 +1771,10 @@ function translateBlockSettingUsingI18nSchema(i18nSchema, settingValue, textdoma
 }
 /**
  * Registers a new block provided from metadata stored in `block.json` file.
- * It uses `registerBlockType` internally.
  *
- * @see registerBlockType
+ * @deprecated Use `registerBlockType` instead.
  *
  * @param {Object} metadata            Block metadata loaded from `block.json`.
- * @param {string} metadata.name       Block name.
- * @param {string} metadata.textdomain Textdomain to use with translations.
  * @param {Object} additionalSettings  Additional block settings.
  *
  * @return {?WPBlock} The block, if it has been successfully registered;
@@ -1724,28 +1782,14 @@ function translateBlockSettingUsingI18nSchema(i18nSchema, settingValue, textdoma
  */
 
 
-function registerBlockTypeFromMetadata({
-  name,
-  textdomain,
-  ...metadata
-}, additionalSettings) {
-  const allowedFields = ['apiVersion', 'title', 'category', 'parent', 'icon', 'description', 'keywords', 'attributes', 'providesContext', 'usesContext', 'supports', 'styles', 'example', 'variations'];
-  const settings = Object(external_lodash_["pick"])(metadata, allowedFields);
-
-  if (textdomain) {
-    Object.keys(i18nBlockSchema).forEach(key => {
-      if (!settings[key]) {
-        return;
-      }
-
-      settings[key] = translateBlockSettingUsingI18nSchema(i18nBlockSchema[key], settings[key], textdomain);
-    });
-  }
-
-  unstable__bootstrapServerSideBlockDefinitions({
-    [name]: settings
+function registerBlockTypeFromMetadata(metadata, additionalSettings) {
+  external_wp_deprecated_default()('wp.blocks.registerBlockTypeFromMetadata', {
+    since: '10.7',
+    plugin: 'Gutenberg',
+    alternative: 'wp.blocks.registerBlockType',
+    version: '11.0'
   });
-  return registerBlockType(name, additionalSettings);
+  return registerBlockType(metadata, additionalSettings);
 }
 /**
  * Registers a new block collection to group blocks in the same namespace in the inserter.
@@ -6856,10 +6900,6 @@ function pasteHandler({
 
   return blocks;
 }
-
-// EXTERNAL MODULE: external ["wp","deprecated"]
-var external_wp_deprecated_ = __webpack_require__("NMb1");
-var external_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external_wp_deprecated_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/raw-handling/index.js
 /**

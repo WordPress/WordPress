@@ -32,7 +32,7 @@ function render_block_core_query_pagination_numbers( $attributes, $content, $blo
 		);
 		$content       = paginate_links( $paginate_args );
 	} else {
-		$block_query = new WP_Query( construct_wp_query_args( $block, $page ) );
+		$block_query = new WP_Query( build_query_vars_from_query_block( $block, $page ) );
 		// `paginate_links` works with the global $wp_query, so we have to
 		// temporarily switch it with our custom query.
 		$prev_wp_query = $wp_query;

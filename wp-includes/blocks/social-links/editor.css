@@ -126,6 +126,7 @@
   margin-top: auto;
   margin-bottom: auto;
   cursor: default;
+  padding-right: 8px;
 }
 .wp-block-social-links .wp-block-social-links__social-prompt + .block-list-appender {
   margin-right: 8px;

@@ -243,65 +243,6 @@ module.exports = boundFlat;
 
 /***/ }),
 
-/***/ "/b7M":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return createComponent; });
-/* harmony import */ var _babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("wx14");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("GRId");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _context__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("7Jlx");
-/* harmony import */ var _view__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("mMAw");
-
-
-
-/**
- * External dependencies
- */
-// eslint-disable-next-line no-restricted-imports
-
-/**
- * Internal dependencies
- */
- // eslint-disable-next-line no-duplicate-imports
-
-
-
-/**
- * Factory that creates a React component from a hook
- *
- * @param options
- * @param options.as The element to render for the component.
- * @param options.name The name of the component.
- * @param options.useHook The hook to use for the component
- * @param options.memo Whether to memo the component.
- * @return A polymorphic component that uses the hook to process props.
- */
-const createComponent = ({
-  as,
-  name,
-  useHook,
-  memo = false
-}) => {
-  function Component(props, forwardedRef) {
-    const otherProps = useHook(props);
-    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_view__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"], Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])({
-      as: as || 'div'
-    }, otherProps, {
-      ref: forwardedRef
-    }));
-  }
-
-  Component.displayName = name;
-  return Object(_context__WEBPACK_IMPORTED_MODULE_2__[/* contextConnect */ "a"])(Component, name, {
-    memo
-  });
-};
-
-
-/***/ }),
-
 /***/ "/sVA":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4656,12 +4597,34 @@ module.exports = reflectApply
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var _pencil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("L0kB");
+
+// EXTERNAL MODULE: external ["wp","element"]
+var external_wp_element_ = __webpack_require__("GRId");
+
+// EXTERNAL MODULE: external ["wp","primitives"]
+var external_wp_primitives_ = __webpack_require__("Tqx9");
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/pencil.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+const pencil = Object(external_wp_element_["createElement"])(external_wp_primitives_["SVG"], {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24"
+}, Object(external_wp_element_["createElement"])(external_wp_primitives_["Path"], {
+  d: "M20.1 5.1L16.9 2 6.2 12.7l-1.3 4.4 4.5-1.3L20.1 5.1zM4 20.8h8v-1.5H4v1.5z"
+}));
+/* harmony default export */ var library_pencil = (pencil);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/edit.js
 /**
  * Internal dependencies
  */
 
-/* harmony default export */ __webpack_exports__["a"] = (_pencil__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"]);
+/* harmony default export */ var edit = __webpack_exports__["a"] = (library_pencil);
 
 
 /***/ }),
@@ -4818,66 +4781,6 @@ const link = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createEleme
   d: "M15.6 7.2H14v1.5h1.6c2 0 3.7 1.7 3.7 3.7s-1.7 3.7-3.7 3.7H14v1.5h1.6c2.8 0 5.2-2.3 5.2-5.2 0-2.9-2.3-5.2-5.2-5.2zM4.7 12.4c0-2 1.7-3.7 3.7-3.7H10V7.2H8.4c-2.9 0-5.2 2.3-5.2 5.2 0 2.9 2.3 5.2 5.2 5.2H10v-1.5H8.4c-2 0-3.7-1.7-3.7-3.7zm4.6.9h5.3v-1.5H9.3v1.5z"
 }));
 /* harmony default export */ __webpack_exports__["a"] = (link);
-
-
-/***/ }),
-
-/***/ "C27M":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return rgba; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return color; });
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("YLtl");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var tinycolor2__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("Zss7");
-/* harmony import */ var tinycolor2__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(tinycolor2__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _colors_values__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("fgo+");
-/**
- * External dependencies
- */
-
-
-/**
- * Internal dependencies
- */
-
-
-/**
- * Generating a CSS complient rgba() color value.
- *
- * @param {string} hexValue The hex value to convert to rgba().
- * @param {number} alpha The alpha value for opacity.
- * @return {string} The converted rgba() color value.
- *
- * @example
- * rgba( '#000000', 0.5 )
- * // rgba(0, 0, 0, 0.5)
- */
-
-function rgba(hexValue = '', alpha = 1) {
-  const {
-    r,
-    g,
-    b
-  } = tinycolor2__WEBPACK_IMPORTED_MODULE_1___default()(hexValue).toRgb();
-  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-}
-/**
- * Retrieves a color from the color palette.
- *
- * @param {import('lodash').PropertyPath} value The value to retrieve.
- * @return {string} The color (or fallback, if not found).
- *
- * @example
- * color( 'blue.wordpress.700' )
- * // #00669b
- */
-
-function color(value) {
-  const fallbackColor = '#000';
-  return Object(lodash__WEBPACK_IMPORTED_MODULE_0__["get"])(_colors_values__WEBPACK_IMPORTED_MODULE_2__[/* COLORS */ "a"], value, fallbackColor);
-}
 
 
 /***/ }),
@@ -8016,31 +7919,6 @@ var freeSelf = typeof self == 'object' && self && self.Object === Object && self
 var root = freeGlobal || freeSelf || Function('return this')();
 
 module.exports = root;
-
-
-/***/ }),
-
-/***/ "L0kB":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("GRId");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("Tqx9");
-/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__);
-
-
-/**
- * WordPress dependencies
- */
-
-const pencil = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["SVG"], {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24"
-}, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["Path"], {
-  d: "M20.1 5.1L16.9 2 6.2 12.7l-1.3 4.4 4.5-1.3L20.1 5.1zM4 20.8h8v-1.5H4v1.5z"
-}));
-/* harmony default export */ __webpack_exports__["a"] = (pencil);
 
 
 /***/ }),
@@ -11393,7 +11271,8 @@ __webpack_require__.d(__webpack_exports__, "__experimentalAlignmentMatrixControl
 __webpack_require__.d(__webpack_exports__, "Animate", function() { return /* reexport */ animate["a" /* default */]; });
 __webpack_require__.d(__webpack_exports__, "__unstableGetAnimateClassName", function() { return /* reexport */ animate["b" /* getAnimateClassName */]; });
 __webpack_require__.d(__webpack_exports__, "AnglePickerControl", function() { return /* reexport */ AnglePickerControl; });
-__webpack_require__.d(__webpack_exports__, "Autocomplete", function() { return /* reexport */ autocomplete; });
+__webpack_require__.d(__webpack_exports__, "Autocomplete", function() { return /* reexport */ Autocomplete; });
+__webpack_require__.d(__webpack_exports__, "__unstableUseAutocompleteProps", function() { return /* reexport */ useAutocompleteProps; });
 __webpack_require__.d(__webpack_exports__, "BaseControl", function() { return /* reexport */ base_control; });
 __webpack_require__.d(__webpack_exports__, "__experimentalBoxControl", function() { return /* reexport */ BoxControl; });
 __webpack_require__.d(__webpack_exports__, "Button", function() { return /* reexport */ build_module_button["a" /* default */]; });
@@ -11423,6 +11302,7 @@ __webpack_require__.d(__webpack_exports__, "TimePicker", function() { return /* 
 __webpack_require__.d(__webpack_exports__, "__experimentalDimensionControl", function() { return /* reexport */ dimension_control; });
 __webpack_require__.d(__webpack_exports__, "Disabled", function() { return /* reexport */ build_module_disabled; });
 __webpack_require__.d(__webpack_exports__, "__unstableDisclosureContent", function() { return /* reexport */ DisclosureContent; });
+__webpack_require__.d(__webpack_exports__, "__experimentalDivider", function() { return /* reexport */ divider_component; });
 __webpack_require__.d(__webpack_exports__, "Draggable", function() { return /* reexport */ Draggable; });
 __webpack_require__.d(__webpack_exports__, "DropZone", function() { return /* reexport */ DropZoneComponent; });
 __webpack_require__.d(__webpack_exports__, "DropZoneProvider", function() { return /* reexport */ DropZoneProvider; });
@@ -11442,9 +11322,11 @@ __webpack_require__.d(__webpack_exports__, "FormToggle", function() { return /* 
 __webpack_require__.d(__webpack_exports__, "FormTokenField", function() { return /* reexport */ form_token_field; });
 __webpack_require__.d(__webpack_exports__, "__experimentalGradientPicker", function() { return /* reexport */ GradientPicker; });
 __webpack_require__.d(__webpack_exports__, "__experimentalCustomGradientPicker", function() { return /* reexport */ CustomGradientPicker; });
+__webpack_require__.d(__webpack_exports__, "__experimentalGrid", function() { return /* reexport */ grid_component; });
 __webpack_require__.d(__webpack_exports__, "Guide", function() { return /* reexport */ Guide; });
 __webpack_require__.d(__webpack_exports__, "GuidePage", function() { return /* reexport */ GuidePage; });
 __webpack_require__.d(__webpack_exports__, "__experimentalHeading", function() { return /* reexport */ heading_component; });
+__webpack_require__.d(__webpack_exports__, "__experimentalHStack", function() { return /* reexport */ h_stack_component; });
 __webpack_require__.d(__webpack_exports__, "Icon", function() { return /* reexport */ components_build_module_icon["a" /* default */]; });
 __webpack_require__.d(__webpack_exports__, "IconButton", function() { return /* reexport */ deprecated; });
 __webpack_require__.d(__webpack_exports__, "__experimentalInputControl", function() { return /* reexport */ input_control; });
@@ -11469,7 +11351,7 @@ __webpack_require__.d(__webpack_exports__, "PanelBody", function() { return /* r
 __webpack_require__.d(__webpack_exports__, "PanelHeader", function() { return /* reexport */ panel_header; });
 __webpack_require__.d(__webpack_exports__, "PanelRow", function() { return /* reexport */ panel_row; });
 __webpack_require__.d(__webpack_exports__, "Placeholder", function() { return /* reexport */ build_module_placeholder; });
-__webpack_require__.d(__webpack_exports__, "Popover", function() { return /* reexport */ popover["a" /* default */]; });
+__webpack_require__.d(__webpack_exports__, "Popover", function() { return /* reexport */ build_module_popover["a" /* default */]; });
 __webpack_require__.d(__webpack_exports__, "QueryControls", function() { return /* reexport */ QueryControls; });
 __webpack_require__.d(__webpack_exports__, "__experimentalRadio", function() { return /* reexport */ build_module_radio; });
 __webpack_require__.d(__webpack_exports__, "__experimentalRadioGroup", function() { return /* reexport */ radio_group; });
@@ -11481,6 +11363,7 @@ __webpack_require__.d(__webpack_exports__, "SandBox", function() { return /* ree
 __webpack_require__.d(__webpack_exports__, "SelectControl", function() { return /* reexport */ select_control; });
 __webpack_require__.d(__webpack_exports__, "Snackbar", function() { return /* reexport */ snackbar["a" /* default */]; });
 __webpack_require__.d(__webpack_exports__, "SnackbarList", function() { return /* reexport */ snackbar_list; });
+__webpack_require__.d(__webpack_exports__, "__experimentalSpacer", function() { return /* reexport */ spacer_component; });
 __webpack_require__.d(__webpack_exports__, "Spinner", function() { return /* reexport */ Spinner; });
 __webpack_require__.d(__webpack_exports__, "TabPanel", function() { return /* reexport */ TabPanel; });
 __webpack_require__.d(__webpack_exports__, "__experimentalText", function() { return /* reexport */ text_component; });
@@ -11491,6 +11374,7 @@ __webpack_require__.d(__webpack_exports__, "Tip", function() { return /* reexpor
 __webpack_require__.d(__webpack_exports__, "ToggleControl", function() { return /* reexport */ ToggleControl; });
 __webpack_require__.d(__webpack_exports__, "Toolbar", function() { return /* reexport */ toolbar; });
 __webpack_require__.d(__webpack_exports__, "ToolbarButton", function() { return /* reexport */ toolbar_button; });
+__webpack_require__.d(__webpack_exports__, "ToolbarDropdownMenu", function() { return /* reexport */ toolbar_dropdown_menu; });
 __webpack_require__.d(__webpack_exports__, "__experimentalToolbarContext", function() { return /* reexport */ toolbar_context["a" /* default */]; });
 __webpack_require__.d(__webpack_exports__, "ToolbarGroup", function() { return /* reexport */ toolbar_group; });
 __webpack_require__.d(__webpack_exports__, "ToolbarItem", function() { return /* reexport */ toolbar_item["a" /* default */]; });
@@ -11502,7 +11386,9 @@ __webpack_require__.d(__webpack_exports__, "__experimentalTreeGridItem", functio
 __webpack_require__.d(__webpack_exports__, "TreeSelect", function() { return /* reexport */ TreeSelect; });
 __webpack_require__.d(__webpack_exports__, "__experimentalTruncate", function() { return /* reexport */ truncate_component; });
 __webpack_require__.d(__webpack_exports__, "__experimentalUnitControl", function() { return /* reexport */ unit_control; });
-__webpack_require__.d(__webpack_exports__, "VisuallyHidden", function() { return /* reexport */ component["a" /* default */]; });
+__webpack_require__.d(__webpack_exports__, "__experimentalUseCustomUnits", function() { return /* reexport */ useCustomUnits; });
+__webpack_require__.d(__webpack_exports__, "VisuallyHidden", function() { return /* reexport */ visually_hidden["a" /* default */]; });
+__webpack_require__.d(__webpack_exports__, "__experimentalVStack", function() { return /* reexport */ v_stack_component; });
 __webpack_require__.d(__webpack_exports__, "IsolatedEventContainer", function() { return /* reexport */ isolated_event_container; });
 __webpack_require__.d(__webpack_exports__, "createSlotFill", function() { return /* reexport */ slot_fill["d" /* createSlotFill */]; });
 __webpack_require__.d(__webpack_exports__, "Slot", function() { return /* reexport */ slot_fill["c" /* Slot */]; });
@@ -11562,8 +11448,8 @@ var CompositeItem = __webpack_require__("kTC8");
 // EXTERNAL MODULE: ./node_modules/@wordpress/components/build-module/tooltip/index.js + 1 modules
 var build_module_tooltip = __webpack_require__("W/NR");
 
-// EXTERNAL MODULE: ./node_modules/@wordpress/components/build-module/visually-hidden/component.js + 2 modules
-var component = __webpack_require__("iSWJ");
+// EXTERNAL MODULE: ./node_modules/@wordpress/components/build-module/visually-hidden/index.js + 2 modules
+var visually_hidden = __webpack_require__("ldlY");
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/alignment-matrix-control/utils.js
 /**
@@ -11629,14 +11515,777 @@ function getAlignmentIndex(alignment = 'center') {
   return index > -1 ? index : undefined;
 }
 
-// EXTERNAL MODULE: ./node_modules/@emotion/styled-base/dist/styled-base.browser.esm.js
-var styled_base_browser_esm = __webpack_require__("wTIg");
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/defineProperty.js
+var defineProperty = __webpack_require__("lSNA");
+var defineProperty_default = /*#__PURE__*/__webpack_require__.n(defineProperty);
 
-// EXTERNAL MODULE: ./node_modules/@emotion/core/dist/core.browser.esm.js + 2 modules
-var core_browser_esm = __webpack_require__("qKvR");
+// EXTERNAL MODULE: external "React"
+var external_React_ = __webpack_require__("cDcd");
+var external_React_default = /*#__PURE__*/__webpack_require__.n(external_React_);
 
-// EXTERNAL MODULE: ./node_modules/@wordpress/components/build-module/utils/colors.js
-var utils_colors = __webpack_require__("C27M");
+// EXTERNAL MODULE: ./node_modules/@emotion/is-prop-valid/dist/is-prop-valid.browser.esm.js
+var is_prop_valid_browser_esm = __webpack_require__("9uj6");
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js
+
+function _inheritsLoose(subClass, superClass) {
+  subClass.prototype = Object.create(superClass.prototype);
+  subClass.prototype.constructor = subClass;
+  _setPrototypeOf(subClass, superClass);
+}
+// EXTERNAL MODULE: ./node_modules/@emotion/cache/dist/cache.browser.esm.js + 2 modules
+var cache_browser_esm = __webpack_require__("TqVZ");
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/inheritsLoose.js
+var inheritsLoose = __webpack_require__("VbXa");
+
+// EXTERNAL MODULE: ./node_modules/@emotion/utils/dist/utils.browser.esm.js
+var utils_browser_esm = __webpack_require__("SIPS");
+
+// EXTERNAL MODULE: ./node_modules/@emotion/serialize/dist/serialize.browser.esm.js + 2 modules
+var serialize_browser_esm = __webpack_require__("MiSq");
+
+// CONCATENATED MODULE: ./node_modules/@emotion/core/dist/emotion-element-57a3a7a3.browser.esm.js
+
+
+
+
+
+
+var emotion_element_57a3a7a3_browser_esm_hasOwnProperty = Object.prototype.hasOwnProperty;
+
+var EmotionCacheContext = /*#__PURE__*/Object(external_React_["createContext"])( // we're doing this to avoid preconstruct's dead code elimination in this one case
+// because this module is primarily intended for the browser and node
+// but it's also required in react native and similar environments sometimes
+// and we could have a special build just for that
+// but this is much easier and the native packages
+// might use a different theme context in the future anyway
+typeof HTMLElement !== 'undefined' ? Object(cache_browser_esm["a" /* default */])() : null);
+var ThemeContext = /*#__PURE__*/Object(external_React_["createContext"])({});
+var CacheProvider = EmotionCacheContext.Provider;
+
+var emotion_element_57a3a7a3_browser_esm_withEmotionCache = function withEmotionCache(func) {
+  var render = function render(props, ref) {
+    return /*#__PURE__*/Object(external_React_["createElement"])(EmotionCacheContext.Consumer, null, function (cache) {
+      return func(props, cache, ref);
+    });
+  }; // $FlowFixMe
+
+
+  return /*#__PURE__*/Object(external_React_["forwardRef"])(render);
+};
+
+// thus we only need to replace what is a valid character for JS, but not for CSS
+
+var sanitizeIdentifier = function sanitizeIdentifier(identifier) {
+  return identifier.replace(/\$/g, '-');
+};
+
+var typePropName = '__EMOTION_TYPE_PLEASE_DO_NOT_USE__';
+var labelPropName = '__EMOTION_LABEL_PLEASE_DO_NOT_USE__';
+var createEmotionProps = function createEmotionProps(type, props) {
+  if (false) {}
+
+  var newProps = {};
+
+  for (var key in props) {
+    if (emotion_element_57a3a7a3_browser_esm_hasOwnProperty.call(props, key)) {
+      newProps[key] = props[key];
+    }
+  }
+
+  newProps[typePropName] = type; // TODO: check if this still works with all of those different JSX functions
+
+  if (false) { var match, error; }
+
+  return newProps;
+};
+
+var emotion_element_57a3a7a3_browser_esm_render = function render(cache, props, theme, ref) {
+  var cssProp = theme === null ? props.css : props.css(theme); // so that using `css` from `emotion` and passing the result to the css prop works
+  // not passing the registered cache to serializeStyles because it would
+  // make certain babel optimisations not possible
+
+  if (typeof cssProp === 'string' && cache.registered[cssProp] !== undefined) {
+    cssProp = cache.registered[cssProp];
+  }
+
+  var type = props[typePropName];
+  var registeredStyles = [cssProp];
+  var className = '';
+
+  if (typeof props.className === 'string') {
+    className = Object(utils_browser_esm["a" /* getRegisteredStyles */])(cache.registered, registeredStyles, props.className);
+  } else if (props.className != null) {
+    className = props.className + " ";
+  }
+
+  var serialized = Object(serialize_browser_esm["a" /* serializeStyles */])(registeredStyles);
+
+  if (false) { var labelFromStack; }
+
+  var rules = Object(utils_browser_esm["b" /* insertStyles */])(cache, serialized, typeof type === 'string');
+  className += cache.key + "-" + serialized.name;
+  var newProps = {};
+
+  for (var key in props) {
+    if (emotion_element_57a3a7a3_browser_esm_hasOwnProperty.call(props, key) && key !== 'css' && key !== typePropName && ( true || false)) {
+      newProps[key] = props[key];
+    }
+  }
+
+  newProps.ref = ref;
+  newProps.className = className;
+  var ele = /*#__PURE__*/Object(external_React_["createElement"])(type, newProps);
+
+  return ele;
+}; // eslint-disable-next-line no-undef
+
+
+var Emotion = /* #__PURE__ */emotion_element_57a3a7a3_browser_esm_withEmotionCache(function (props, cache, ref) {
+  if (typeof props.css === 'function') {
+    return /*#__PURE__*/Object(external_React_["createElement"])(ThemeContext.Consumer, null, function (theme) {
+      return emotion_element_57a3a7a3_browser_esm_render(cache, props, theme, ref);
+    });
+  }
+
+  return emotion_element_57a3a7a3_browser_esm_render(cache, props, null, ref);
+});
+
+if (false) {}
+
+
+
+// EXTERNAL MODULE: ./node_modules/@emotion/sheet/dist/sheet.browser.esm.js
+var sheet_browser_esm = __webpack_require__("z9I/");
+
+// CONCATENATED MODULE: ./node_modules/@emotion/css/dist/css.browser.esm.js
+
+
+function css_browser_esm_css() {
+  for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+    args[_key] = arguments[_key];
+  }
+
+  return Object(serialize_browser_esm["a" /* serializeStyles */])(args);
+}
+
+/* harmony default export */ var css_browser_esm = (css_browser_esm_css);
+
+// CONCATENATED MODULE: ./node_modules/@emotion/core/dist/core.browser.esm.js
+
+
+
+
+
+
+
+
+
+
+
+var core_browser_esm_jsx = function jsx(type, props) {
+  var args = arguments;
+
+  if (props == null || !emotion_element_57a3a7a3_browser_esm_hasOwnProperty.call(props, 'css')) {
+    // $FlowFixMe
+    return external_React_["createElement"].apply(undefined, args);
+  }
+
+  var argsLength = args.length;
+  var createElementArgArray = new Array(argsLength);
+  createElementArgArray[0] = Emotion;
+  createElementArgArray[1] = createEmotionProps(type, props);
+
+  for (var i = 2; i < argsLength; i++) {
+    createElementArgArray[i] = args[i];
+  } // $FlowFixMe
+
+
+  return external_React_["createElement"].apply(null, createElementArgArray);
+};
+
+var warnedAboutCssPropForGlobal = false;
+var Global = /* #__PURE__ */emotion_element_57a3a7a3_browser_esm_withEmotionCache(function (props, cache) {
+  if (false) {}
+
+  var styles = props.styles;
+
+  if (typeof styles === 'function') {
+    return /*#__PURE__*/Object(external_React_["createElement"])(ThemeContext.Consumer, null, function (theme) {
+      var serialized = Object(serialize_browser_esm["a" /* serializeStyles */])([styles(theme)]);
+      return /*#__PURE__*/Object(external_React_["createElement"])(core_browser_esm_InnerGlobal, {
+        serialized: serialized,
+        cache: cache
+      });
+    });
+  }
+
+  var serialized = Object(serialize_browser_esm["a" /* serializeStyles */])([styles]);
+  return /*#__PURE__*/Object(external_React_["createElement"])(core_browser_esm_InnerGlobal, {
+    serialized: serialized,
+    cache: cache
+  });
+});
+
+// maintain place over rerenders.
+// initial render from browser, insertBefore context.sheet.tags[0] or if a style hasn't been inserted there yet, appendChild
+// initial client-side render from SSR, use place of hydrating tag
+var core_browser_esm_InnerGlobal = /*#__PURE__*/function (_React$Component) {
+  _inheritsLoose(InnerGlobal, _React$Component);
+
+  function InnerGlobal(props, context, updater) {
+    return _React$Component.call(this, props, context, updater) || this;
+  }
+
+  var _proto = InnerGlobal.prototype;
+
+  _proto.componentDidMount = function componentDidMount() {
+    this.sheet = new sheet_browser_esm["a" /* StyleSheet */]({
+      key: this.props.cache.key + "-global",
+      nonce: this.props.cache.sheet.nonce,
+      container: this.props.cache.sheet.container
+    }); // $FlowFixMe
+
+    var node = document.querySelector("style[data-emotion-" + this.props.cache.key + "=\"" + this.props.serialized.name + "\"]");
+
+    if (node !== null) {
+      this.sheet.tags.push(node);
+    }
+
+    if (this.props.cache.sheet.tags.length) {
+      this.sheet.before = this.props.cache.sheet.tags[0];
+    }
+
+    this.insertStyles();
+  };
+
+  _proto.componentDidUpdate = function componentDidUpdate(prevProps) {
+    if (prevProps.serialized.name !== this.props.serialized.name) {
+      this.insertStyles();
+    }
+  };
+
+  _proto.insertStyles = function insertStyles$1() {
+    if (this.props.serialized.next !== undefined) {
+      // insert keyframes
+      Object(utils_browser_esm["b" /* insertStyles */])(this.props.cache, this.props.serialized.next, true);
+    }
+
+    if (this.sheet.tags.length) {
+      // if this doesn't exist then it will be null so the style element will be appended
+      var element = this.sheet.tags[this.sheet.tags.length - 1].nextElementSibling;
+      this.sheet.before = element;
+      this.sheet.flush();
+    }
+
+    this.props.cache.insert("", this.props.serialized, this.sheet, false);
+  };
+
+  _proto.componentWillUnmount = function componentWillUnmount() {
+    this.sheet.flush();
+  };
+
+  _proto.render = function render() {
+
+    return null;
+  };
+
+  return InnerGlobal;
+}(external_React_["Component"]);
+
+var core_browser_esm_keyframes = function keyframes() {
+  var insertable = css_browser_esm.apply(void 0, arguments);
+  var name = "animation-" + insertable.name; // $FlowFixMe
+
+  return {
+    name: name,
+    styles: "@keyframes " + name + "{" + insertable.styles + "}",
+    anim: 1,
+    toString: function toString() {
+      return "_EMO_" + this.name + "_" + this.styles + "_EMO_";
+    }
+  };
+};
+
+var core_browser_esm_classnames = function classnames(args) {
+  var len = args.length;
+  var i = 0;
+  var cls = '';
+
+  for (; i < len; i++) {
+    var arg = args[i];
+    if (arg == null) continue;
+    var toAdd = void 0;
+
+    switch (typeof arg) {
+      case 'boolean':
+        break;
+
+      case 'object':
+        {
+          if (Array.isArray(arg)) {
+            toAdd = classnames(arg);
+          } else {
+            toAdd = '';
+
+            for (var k in arg) {
+              if (arg[k] && k) {
+                toAdd && (toAdd += ' ');
+                toAdd += k;
+              }
+            }
+          }
+
+          break;
+        }
+
+      default:
+        {
+          toAdd = arg;
+        }
+    }
+
+    if (toAdd) {
+      cls && (cls += ' ');
+      cls += toAdd;
+    }
+  }
+
+  return cls;
+};
+
+function merge(registered, css, className) {
+  var registeredStyles = [];
+  var rawClassName = Object(utils_browser_esm["a" /* getRegisteredStyles */])(registered, registeredStyles, className);
+
+  if (registeredStyles.length < 2) {
+    return className;
+  }
+
+  return rawClassName + css(registeredStyles);
+}
+
+var ClassNames = emotion_element_57a3a7a3_browser_esm_withEmotionCache(function (props, context) {
+  return /*#__PURE__*/Object(external_React_["createElement"])(ThemeContext.Consumer, null, function (theme) {
+    var hasRendered = false;
+
+    var css = function css() {
+      if (hasRendered && "production" !== 'production') {
+        throw new Error('css can only be used during render');
+      }
+
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      var serialized = Object(serialize_browser_esm["a" /* serializeStyles */])(args, context.registered);
+
+      {
+        Object(utils_browser_esm["b" /* insertStyles */])(context, serialized, false);
+      }
+
+      return context.key + "-" + serialized.name;
+    };
+
+    var cx = function cx() {
+      if (hasRendered && "production" !== 'production') {
+        throw new Error('cx can only be used during render');
+      }
+
+      for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+        args[_key2] = arguments[_key2];
+      }
+
+      return merge(context.registered, css, core_browser_esm_classnames(args));
+    };
+
+    var content = {
+      css: css,
+      cx: cx,
+      theme: theme
+    };
+    var ele = props.children(content);
+    hasRendered = true;
+
+    return ele;
+  });
+});
+
+
+
+// CONCATENATED MODULE: ./node_modules/@emotion/styled-base/dist/styled-base.browser.esm.js
+
+
+
+
+
+
+
+var testOmitPropsOnStringTag = is_prop_valid_browser_esm["default"];
+
+var testOmitPropsOnComponent = function testOmitPropsOnComponent(key) {
+  return key !== 'theme' && key !== 'innerRef';
+};
+
+var getDefaultShouldForwardProp = function getDefaultShouldForwardProp(tag) {
+  return typeof tag === 'string' && // 96 is one less than the char code
+  // for "a" so this is checking that
+  // it's a lowercase character
+  tag.charCodeAt(0) > 96 ? testOmitPropsOnStringTag : testOmitPropsOnComponent;
+};
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { defineProperty_default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+var ILLEGAL_ESCAPE_SEQUENCE_ERROR = "You have illegal escape sequence in your template literal, most likely inside content's property value.\nBecause you write your CSS inside a JavaScript string you actually have to do double escaping, so for example \"content: '\\00d7';\" should become \"content: '\\\\00d7';\".\nYou can read more about this here:\nhttps://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#ES2018_revision_of_illegal_escape_sequences";
+
+var styled_base_browser_esm_createStyled = function createStyled(tag, options) {
+  if (false) {}
+
+  var identifierName;
+  var shouldForwardProp;
+  var targetClassName;
+
+  if (options !== undefined) {
+    identifierName = options.label;
+    targetClassName = options.target;
+    shouldForwardProp = tag.__emotion_forwardProp && options.shouldForwardProp ? function (propName) {
+      return tag.__emotion_forwardProp(propName) && // $FlowFixMe
+      options.shouldForwardProp(propName);
+    } : options.shouldForwardProp;
+  }
+
+  var isReal = tag.__emotion_real === tag;
+  var baseTag = isReal && tag.__emotion_base || tag;
+
+  if (typeof shouldForwardProp !== 'function' && isReal) {
+    shouldForwardProp = tag.__emotion_forwardProp;
+  }
+
+  var defaultShouldForwardProp = shouldForwardProp || getDefaultShouldForwardProp(baseTag);
+  var shouldUseAs = !defaultShouldForwardProp('as');
+  return function () {
+    var args = arguments;
+    var styles = isReal && tag.__emotion_styles !== undefined ? tag.__emotion_styles.slice(0) : [];
+
+    if (identifierName !== undefined) {
+      styles.push("label:" + identifierName + ";");
+    }
+
+    if (args[0] == null || args[0].raw === undefined) {
+      styles.push.apply(styles, args);
+    } else {
+      if (false) {}
+
+      styles.push(args[0][0]);
+      var len = args.length;
+      var i = 1;
+
+      for (; i < len; i++) {
+        if (false) {}
+
+        styles.push(args[i], args[0][i]);
+      }
+    } // $FlowFixMe: we need to cast StatelessFunctionalComponent to our PrivateStyledComponent class
+
+
+    var Styled = emotion_element_57a3a7a3_browser_esm_withEmotionCache(function (props, context, ref) {
+      return Object(external_React_["createElement"])(ThemeContext.Consumer, null, function (theme) {
+        var finalTag = shouldUseAs && props.as || baseTag;
+        var className = '';
+        var classInterpolations = [];
+        var mergedProps = props;
+
+        if (props.theme == null) {
+          mergedProps = {};
+
+          for (var key in props) {
+            mergedProps[key] = props[key];
+          }
+
+          mergedProps.theme = theme;
+        }
+
+        if (typeof props.className === 'string') {
+          className = Object(utils_browser_esm["a" /* getRegisteredStyles */])(context.registered, classInterpolations, props.className);
+        } else if (props.className != null) {
+          className = props.className + " ";
+        }
+
+        var serialized = Object(serialize_browser_esm["a" /* serializeStyles */])(styles.concat(classInterpolations), context.registered, mergedProps);
+        var rules = Object(utils_browser_esm["b" /* insertStyles */])(context, serialized, typeof finalTag === 'string');
+        className += context.key + "-" + serialized.name;
+
+        if (targetClassName !== undefined) {
+          className += " " + targetClassName;
+        }
+
+        var finalShouldForwardProp = shouldUseAs && shouldForwardProp === undefined ? getDefaultShouldForwardProp(finalTag) : defaultShouldForwardProp;
+        var newProps = {};
+
+        for (var _key in props) {
+          if (shouldUseAs && _key === 'as') continue;
+
+          if ( // $FlowFixMe
+          finalShouldForwardProp(_key)) {
+            newProps[_key] = props[_key];
+          }
+        }
+
+        newProps.className = className;
+        newProps.ref = ref || props.innerRef;
+
+        if (false) {}
+
+        var ele = Object(external_React_["createElement"])(finalTag, newProps);
+
+        return ele;
+      });
+    });
+    Styled.displayName = identifierName !== undefined ? identifierName : "Styled(" + (typeof baseTag === 'string' ? baseTag : baseTag.displayName || baseTag.name || 'Component') + ")";
+    Styled.defaultProps = tag.defaultProps;
+    Styled.__emotion_real = Styled;
+    Styled.__emotion_base = baseTag;
+    Styled.__emotion_styles = styles;
+    Styled.__emotion_forwardProp = shouldForwardProp;
+    Object.defineProperty(Styled, 'toString', {
+      value: function value() {
+        if (targetClassName === undefined && "production" !== 'production') {
+          return 'NO_COMPONENT_SELECTOR';
+        } // $FlowFixMe: coerce undefined to string
+
+
+        return "." + targetClassName;
+      }
+    });
+
+    Styled.withComponent = function (nextTag, nextOptions) {
+      return createStyled(nextTag, nextOptions !== undefined ? _objectSpread({}, options || {}, {}, nextOptions) : options).apply(void 0, styles);
+    };
+
+    return Styled;
+  };
+};
+
+/* harmony default export */ var styled_base_browser_esm = (styled_base_browser_esm_createStyled);
+
+// EXTERNAL MODULE: ./node_modules/tinycolor2/tinycolor.js
+var tinycolor = __webpack_require__("Zss7");
+var tinycolor_default = /*#__PURE__*/__webpack_require__.n(tinycolor);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/utils/colors.js
+/**
+ * External dependencies
+ */
+
+/**
+ * Generating a CSS compliant rgba() color value.
+ *
+ * @param {string} hexValue The hex value to convert to rgba().
+ * @param {number} alpha The alpha value for opacity.
+ * @return {string} The converted rgba() color value.
+ *
+ * @example
+ * rgba( '#000000', 0.5 )
+ * // rgba(0, 0, 0, 0.5)
+ */
+
+function rgba(hexValue = '', alpha = 1) {
+  const {
+    r,
+    g,
+    b
+  } = tinycolor_default()(hexValue).toRgb();
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/utils/colors-values.js
+/**
+ * External dependencies
+ */
+
+/**
+ * Internal dependencies
+ */
+
+
+const BASE = {
+  black: '#000',
+  white: '#fff'
+};
+/**
+ * TODO: Continue to update values as "G2" design evolves.
+ *
+ * "G2" refers to the movement to advance the interface of the block editor.
+ * https://github.com/WordPress/gutenberg/issues/18667
+ */
+
+const G2 = {
+  blue: {
+    medium: {
+      focus: '#007cba',
+      focusDark: '#fff'
+    }
+  },
+  gray: {
+    900: '#1e1e1e',
+    700: '#757575',
+    // Meets 4.6:1 text contrast against white.
+    600: '#949494',
+    // Meets 3:1 UI or large text contrast against white.
+    400: '#ccc',
+    200: '#ddd',
+    // Used for most borders.
+    100: '#f0f0f0'
+  },
+  darkGray: {
+    primary: '#1e1e1e',
+    heading: '#050505'
+  },
+  mediumGray: {
+    text: '#757575'
+  },
+  lightGray: {
+    ui: '#949494',
+    secondary: '#ccc',
+    tertiary: '#e7e8e9'
+  }
+};
+const DARK_GRAY = {
+  900: '#191e23',
+  800: '#23282d',
+  700: '#32373c',
+  600: '#40464d',
+  500: '#555d66',
+  // Use this most of the time for dark items.
+  400: '#606a73',
+  300: '#6c7781',
+  // Lightest gray that can be used for AA text contrast.
+  200: '#7e8993',
+  150: '#8d96a0',
+  // Lightest gray that can be used for AA non-text contrast.
+  100: '#8f98a1',
+  placeholder: rgba(G2.gray[900], 0.62)
+};
+const DARK_OPACITY = {
+  900: rgba('#000510', 0.9),
+  800: rgba('#00000a', 0.85),
+  700: rgba('#06060b', 0.8),
+  600: rgba('#000913', 0.75),
+  500: rgba('#0a1829', 0.7),
+  400: rgba('#0a1829', 0.65),
+  300: rgba('#0e1c2e', 0.62),
+  200: rgba('#162435', 0.55),
+  100: rgba('#223443', 0.5),
+  backgroundFill: rgba(DARK_GRAY[700], 0.7)
+};
+const DARK_OPACITY_LIGHT = {
+  900: rgba('#304455', 0.45),
+  800: rgba('#425863', 0.4),
+  700: rgba('#667886', 0.35),
+  600: rgba('#7b86a2', 0.3),
+  500: rgba('#9197a2', 0.25),
+  400: rgba('#95959c', 0.2),
+  300: rgba('#829493', 0.15),
+  200: rgba('#8b8b96', 0.1),
+  100: rgba('#747474', 0.05)
+};
+const LIGHT_GRAY = {
+  900: '#a2aab2',
+  800: '#b5bcc2',
+  700: '#ccd0d4',
+  600: '#d7dade',
+  500: '#e2e4e7',
+  // Good for "grayed" items and borders.
+  400: '#e8eaeb',
+  // Good for "readonly" input fields and special text selection.
+  300: '#edeff0',
+  200: '#f3f4f5',
+  100: '#f8f9f9',
+  placeholder: rgba(BASE.white, 0.65)
+};
+const LIGHT_OPACITY_LIGHT = {
+  900: rgba(BASE.white, 0.5),
+  800: rgba(BASE.white, 0.45),
+  700: rgba(BASE.white, 0.4),
+  600: rgba(BASE.white, 0.35),
+  500: rgba(BASE.white, 0.3),
+  400: rgba(BASE.white, 0.25),
+  300: rgba(BASE.white, 0.2),
+  200: rgba(BASE.white, 0.15),
+  100: rgba(BASE.white, 0.1),
+  backgroundFill: rgba(LIGHT_GRAY[300], 0.8)
+}; // Additional colors.
+// Some are from https://make.wordpress.org/design/handbook/foundations/colors/.
+
+const BLUE = {
+  wordpress: {
+    700: '#00669b'
+  },
+  dark: {
+    900: '#0071a1'
+  },
+  medium: {
+    900: '#006589',
+    800: '#00739c',
+    700: '#007fac',
+    600: '#008dbe',
+    500: '#00a0d2',
+    400: '#33b3db',
+    300: '#66c6e4',
+    200: '#bfe7f3',
+    100: '#e5f5fa',
+    highlight: '#b3e7fe',
+    focus: '#007cba'
+  }
+};
+const ALERT = {
+  yellow: '#f0b849',
+  red: '#d94f4f',
+  green: '#4ab866'
+};
+const ADMIN = {
+  theme: `var( --wp-admin-theme-color, ${BLUE.wordpress[700]})`,
+  themeDark10: `var( --wp-admin-theme-color-darker-10, ${BLUE.medium.focus})`
+}; // Namespaced values for raw colors hex codes
+
+const UI = {
+  theme: ADMIN.theme,
+  background: BASE.white,
+  backgroundDisabled: LIGHT_GRAY[200],
+  border: G2.gray[700],
+  borderFocus: ADMIN.themeDark10,
+  borderDisabled: G2.gray[400],
+  borderLight: G2.gray[200],
+  label: DARK_GRAY[500],
+  textDisabled: DARK_GRAY[150],
+  textDark: BASE.white,
+  textLight: BASE.black
+};
+const COLORS = { ...BASE,
+  darkGray: Object(external_lodash_["merge"])({}, DARK_GRAY, G2.darkGray),
+  darkOpacity: DARK_OPACITY,
+  darkOpacityLight: DARK_OPACITY_LIGHT,
+  mediumGray: G2.mediumGray,
+  gray: G2.gray,
+  lightGray: Object(external_lodash_["merge"])({}, LIGHT_GRAY, G2.lightGray),
+  lightGrayLight: LIGHT_OPACITY_LIGHT,
+  blue: Object(external_lodash_["merge"])({}, BLUE, G2.blue),
+  alert: ALERT,
+  admin: ADMIN,
+  ui: UI
+};
+/* harmony default export */ var colors_values = (COLORS);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/utils/reduce-motion.js
 /**
@@ -11695,14 +12344,14 @@ const rootBase = () => {
 const rootSize = ({
   size = 92
 }) => {
-  return /*#__PURE__*/Object(core_browser_esm["c" /* css */])("grid-template-rows:repeat( 3,calc( ", size, "px / 3 ) );width:", size, "px;" + ( true ? "" : undefined));
+  return /*#__PURE__*/css_browser_esm("grid-template-rows:repeat( 3,calc( ", size, "px / 3 ) );width:", size, "px;" + ( true ? "" : undefined));
 };
 
-const Root = Object(styled_base_browser_esm["a" /* default */])("div", {
+const Root = styled_base_browser_esm("div", {
   target: "e1od1u4s0",
   label: "Root"
 })(rootBase, ";border:1px solid transparent;cursor:pointer;grid-template-columns:auto;", rootSize, ";" + ( true ? "" : undefined));
-const Row = Object(styled_base_browser_esm["a" /* default */])("div", {
+const Row = styled_base_browser_esm("div", {
   target: "e1od1u4s1",
   label: "Row"
 })( true ? {
@@ -11713,20 +12362,20 @@ const Row = Object(styled_base_browser_esm["a" /* default */])("div", {
 const pointActive = ({
   isActive
 }) => {
-  const boxShadow = isActive ? `0 0 0 2px ${Object(utils_colors["a" /* color */])('black')}` : null;
-  const pointColor = isActive ? Object(utils_colors["a" /* color */])('black') : Object(utils_colors["a" /* color */])('lightGray.800');
-  const pointColorHover = isActive ? Object(utils_colors["a" /* color */])('black') : Object(utils_colors["a" /* color */])('blue.medium.focus');
-  return /*#__PURE__*/Object(core_browser_esm["c" /* css */])("box-shadow:", boxShadow, ";color:", pointColor, ";*:hover > &{color:", pointColorHover, ";}" + ( true ? "" : undefined));
+  const boxShadow = isActive ? `0 0 0 2px ${COLORS.black}` : null;
+  const pointColor = isActive ? COLORS.black : COLORS.lightGray[800];
+  const pointColorHover = isActive ? COLORS.black : COLORS.blue.medium.focus;
+  return /*#__PURE__*/css_browser_esm("box-shadow:", boxShadow, ";color:", pointColor, ";*:hover > &{color:", pointColorHover, ";}" + ( true ? "" : undefined));
 };
 
 const pointBase = props => {
-  return /*#__PURE__*/Object(core_browser_esm["c" /* css */])("background:currentColor;box-sizing:border-box;display:grid;margin:auto;transition:all 120ms linear;", reduceMotion('transition'), " ", pointActive(props),  true ? "" : undefined);
+  return /*#__PURE__*/css_browser_esm("background:currentColor;box-sizing:border-box;display:grid;margin:auto;transition:all 120ms linear;", reduceMotion('transition'), " ", pointActive(props),  true ? "" : undefined);
 };
-const Point = Object(styled_base_browser_esm["a" /* default */])("span", {
+const Point = styled_base_browser_esm("span", {
   target: "e1od1u4s2",
   label: "Point"
 })("height:6px;width:6px;", pointBase,  true ? "" : undefined);
-const Cell = Object(styled_base_browser_esm["a" /* default */])("span", {
+const Cell = styled_base_browser_esm("span", {
   target: "e1od1u4s3",
   label: "Cell"
 })( true ? {
@@ -11761,7 +12410,7 @@ function cell_Cell({
   }, Object(external_wp_element_["createElement"])(CompositeItem["a" /* CompositeItem */], Object(esm_extends["a" /* default */])({
     as: Cell,
     role: "gridcell"
-  }, props), Object(external_wp_element_["createElement"])(component["a" /* default */], null, value), Object(external_wp_element_["createElement"])(Point, {
+  }, props), Object(external_wp_element_["createElement"])(visually_hidden["a" /* default */], null, value), Object(external_wp_element_["createElement"])(Point, {
     isActive: isActive,
     role: "presentation"
   })));
@@ -11769,10 +12418,6 @@ function cell_Cell({
 
 // EXTERNAL MODULE: ./node_modules/reakit/es/_rollupPluginBabelHelpers-1f0bf8c2.js
 var _rollupPluginBabelHelpers_1f0bf8c2 = __webpack_require__("BZp5");
-
-// EXTERNAL MODULE: external "React"
-var external_React_ = __webpack_require__("cDcd");
-var external_React_default = /*#__PURE__*/__webpack_require__.n(external_React_);
 
 // EXTERNAL MODULE: ./node_modules/reakit-utils/es/useIsomorphicEffect.js
 var useIsomorphicEffect = __webpack_require__("AXvK");
@@ -13492,7 +14137,7 @@ function alignment_matrix_control_icon_styles_EMOTION_STRINGIFIED_CSS_ERROR_() {
 const alignment_matrix_control_icon_styles_rootSize = () => {
   const padding = 1.5;
   const size = 24;
-  return /*#__PURE__*/Object(core_browser_esm["c" /* css */])({
+  return /*#__PURE__*/css_browser_esm({
     gridTemplateRows: `repeat( 3, calc( ${size - padding * 2}px / 3))`,
     padding,
     maxHeight: size,
@@ -13503,19 +14148,19 @@ const alignment_matrix_control_icon_styles_rootSize = () => {
 const rootPointerEvents = ({
   disablePointerEvents
 }) => {
-  return /*#__PURE__*/Object(core_browser_esm["c" /* css */])({
+  return /*#__PURE__*/css_browser_esm({
     pointerEvents: disablePointerEvents ? 'none' : null
   },  true ? "" : undefined);
 };
 
-const alignment_matrix_control_icon_styles_Wrapper = Object(styled_base_browser_esm["a" /* default */])("div", {
+const alignment_matrix_control_icon_styles_Wrapper = styled_base_browser_esm("div", {
   target: "elqsdmc0",
   label: "Wrapper"
 })( true ? {
   name: "co61ta",
   styles: "box-sizing:border-box;padding:2px;"
 } : undefined);
-const alignment_matrix_control_icon_styles_Root = Object(styled_base_browser_esm["a" /* default */])("div", {
+const alignment_matrix_control_icon_styles_Root = styled_base_browser_esm("div", {
   target: "elqsdmc1",
   label: "Root"
 })("transform-origin:top left;height:100%;width:100%;", rootBase, ";", alignment_matrix_control_icon_styles_rootSize, ";", rootPointerEvents, ";" + ( true ? "" : undefined));
@@ -13524,10 +14169,10 @@ const alignment_matrix_control_icon_styles_pointActive = ({
   isActive
 }) => {
   const boxShadow = isActive ? `0 0 0 1px currentColor` : null;
-  return /*#__PURE__*/Object(core_browser_esm["c" /* css */])("box-shadow:", boxShadow, ";color:currentColor;*:hover > &{color:currentColor;}" + ( true ? "" : undefined));
+  return /*#__PURE__*/css_browser_esm("box-shadow:", boxShadow, ";color:currentColor;*:hover > &{color:currentColor;}" + ( true ? "" : undefined));
 };
 
-const alignment_matrix_control_icon_styles_Point = Object(styled_base_browser_esm["a" /* default */])("span", {
+const alignment_matrix_control_icon_styles_Point = styled_base_browser_esm("span", {
   target: "elqsdmc2",
   label: "Point"
 })("height:2px;width:2px;", pointBase, ";", alignment_matrix_control_icon_styles_pointActive, ";" + ( true ? "" : undefined));
@@ -13715,22 +14360,22 @@ function space(value = 1) {
  * Internal dependencies
  */
 
-const base_control_styles_Wrapper = Object(styled_base_browser_esm["a" /* default */])("div", {
+const base_control_styles_Wrapper = styled_base_browser_esm("div", {
   target: "e1puf3u0",
   label: "Wrapper"
 })("font-family:", font('default.fontFamily'), ";font-size:", font('default.fontSize'), ";" + ( true ? "" : undefined));
-const StyledField = Object(styled_base_browser_esm["a" /* default */])("div", {
+const StyledField = styled_base_browser_esm("div", {
   target: "e1puf3u1",
   label: "StyledField"
 })("margin-bottom:", space(1), ";.components-panel__row &{margin-bottom:inherit;}" + ( true ? "" : undefined));
-const StyledLabel = Object(styled_base_browser_esm["a" /* default */])("label", {
+const StyledLabel = styled_base_browser_esm("label", {
   target: "e1puf3u2",
   label: "StyledLabel"
 })("display:inline-block;margin-bottom:", space(1), ";" + ( true ? "" : undefined));
-const StyledHelp = Object(styled_base_browser_esm["a" /* default */])("p", {
+const StyledHelp = styled_base_browser_esm("p", {
   target: "e1puf3u3",
   label: "StyledHelp"
-})("font-size:", font('helpText.fontSize'), ";font-style:normal;color:", Object(utils_colors["a" /* color */])('mediumGray.text'), ";" + ( true ? "" : undefined));
+})("font-size:", font('helpText.fontSize'), ";font-style:normal;color:", COLORS.mediumGray.text, ";" + ( true ? "" : undefined));
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/base-control/index.js
 
@@ -13778,13 +14423,13 @@ function BaseControl({
     className: classnames_default()('components-base-control', className)
   }, Object(external_wp_element_["createElement"])(StyledField, {
     className: "components-base-control__field"
-  }, label && id && (hideLabelFromVision ? Object(external_wp_element_["createElement"])(component["a" /* default */], {
+  }, label && id && (hideLabelFromVision ? Object(external_wp_element_["createElement"])(visually_hidden["a" /* default */], {
     as: "label",
     htmlFor: id
   }, label) : Object(external_wp_element_["createElement"])(StyledLabel, {
     className: "components-base-control__label",
     htmlFor: id
-  }, label)), label && !id && (hideLabelFromVision ? Object(external_wp_element_["createElement"])(component["a" /* default */], {
+  }, label)), label && !id && (hideLabelFromVision ? Object(external_wp_element_["createElement"])(visually_hidden["a" /* default */], {
     as: "label"
   }, label) : Object(external_wp_element_["createElement"])(BaseControl.VisualLabel, null, label)), children), !!help && Object(external_wp_element_["createElement"])(StyledHelp, {
     id: id + '__help',
@@ -13815,8 +14460,83 @@ BaseControl.VisualLabel = ({
 
 /* harmony default export */ var base_control = (BaseControl);
 
-// EXTERNAL MODULE: ./node_modules/@wordpress/components/build-module/ui/utils/create-component.js
-var create_component = __webpack_require__("/b7M");
+// EXTERNAL MODULE: ./node_modules/@wordpress/components/build-module/ui/context/context-connect.js
+var context_connect = __webpack_require__("7Jlx");
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/view/component.js
+
+
+/**
+ * `View` is a core component that renders everything in the library.
+ * It is the principle component in the entire library.
+ *
+ * @example
+ * ```jsx
+ * import { View } from `@wordpress/components`;
+ *
+ * function Example() {
+ * 	return (
+ * 		<View>
+ * 			 Code is Poetry
+ * 		</View>
+ * 	);
+ * }
+ * ```
+ */
+const View = styled_base_browser_esm("div", {
+  target: "em57xhy0",
+  label: "View"
+})( true ? "" : undefined);
+
+View.displayName = 'View';
+/* harmony default export */ var component = (View);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/ui/utils/create-component.js
+
+
+
+/**
+ * External dependencies
+ */
+// eslint-disable-next-line no-restricted-imports
+
+/**
+ * Internal dependencies
+ */
+ // eslint-disable-next-line no-duplicate-imports
+
+
+
+/**
+ * Factory that creates a React component from a hook
+ *
+ * @param options
+ * @param options.as The element to render for the component.
+ * @param options.name The name of the component.
+ * @param options.useHook The hook to use for the component
+ * @param options.memo Whether to memo the component.
+ * @return A polymorphic component that uses the hook to process props.
+ */
+const create_component_createComponent = ({
+  as,
+  name,
+  useHook,
+  memo = false
+}) => {
+  function Component(props, forwardedRef) {
+    const otherProps = useHook(props);
+    return Object(external_wp_element_["createElement"])(component, Object(esm_extends["a" /* default */])({
+      as: as || 'div'
+    }, otherProps, {
+      ref: forwardedRef
+    }));
+  }
+
+  Component.displayName = name;
+  return Object(context_connect["a" /* contextConnect */])(Component, name, {
+    memo
+  });
+};
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/components/build-module/ui/context/use-context-system.js
 var use_context_system = __webpack_require__("C6yU");
@@ -13943,7 +14663,7 @@ function useFlexBlock(props) {
  * ```
  */
 
-const FlexBlock = Object(create_component["a" /* createComponent */])({
+const FlexBlock = create_component_createComponent({
   as: 'div',
   useHook: useFlexBlock,
   name: 'FlexBlock'
@@ -13967,15 +14687,12 @@ const FlexBlock = Object(create_component["a" /* createComponent */])({
  * ```
  */
 
-const FlexItem = Object(create_component["a" /* createComponent */])({
+const FlexItem = create_component_createComponent({
   as: 'div',
   useHook: useFlexItem,
   name: 'FlexItem'
 });
 /* harmony default export */ var flex_item_component = (FlexItem);
-
-// EXTERNAL MODULE: ./node_modules/@wordpress/components/build-module/ui/context/context-connect.js
-var context_connect = __webpack_require__("7Jlx");
 
 // EXTERNAL MODULE: external ["wp","deprecated"]
 var external_wp_deprecated_ = __webpack_require__("NMb1");
@@ -14162,9 +14879,6 @@ function useFlex(props) {
   };
 }
 
-// EXTERNAL MODULE: ./node_modules/@wordpress/components/build-module/ui/view/component.js
-var view_component = __webpack_require__("mMAw");
-
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/flex/flex/component.js
 
 
@@ -14191,7 +14905,7 @@ function component_Flex(props, forwardedRef) {
     value: {
       flexItemDisplay: isColumn ? 'block' : undefined
     }
-  }, Object(external_wp_element_["createElement"])(view_component["a" /* default */], Object(esm_extends["a" /* default */])({}, otherProps, {
+  }, Object(external_wp_element_["createElement"])(component, Object(esm_extends["a" /* default */])({}, otherProps, {
     ref: forwardedRef
   }), children));
 }
@@ -14389,10 +15103,6 @@ function useTruncate(props) {
 var memize = __webpack_require__("4eJC");
 var memize_default = /*#__PURE__*/__webpack_require__.n(memize);
 
-// EXTERNAL MODULE: ./node_modules/tinycolor2/tinycolor.js
-var tinycolor = __webpack_require__("Zss7");
-var tinycolor_default = /*#__PURE__*/__webpack_require__.n(tinycolor);
-
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/ui/utils/colors.js
 /**
  * External dependencies
@@ -14487,9 +15197,6 @@ function getOptimalTextShade(backgroundColor) {
   return result === '#000000' ? 'dark' : 'light';
 }
 
-// EXTERNAL MODULE: ./node_modules/@wordpress/components/build-module/utils/colors-values.js
-var colors_values = __webpack_require__("fgo+");
-
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/utils/config-values.js
 /**
  * Internal dependencies
@@ -14535,14 +15242,14 @@ const CARD_PADDING_Y = space_space(3);
   cardPadding: `${CARD_PADDING_X} ${CARD_PADDING_Y}`,
   cardHeaderFooterPaddingY: space_space(1),
   cardHeaderHeight: '44px',
-  surfaceBackgroundColor: colors_values["a" /* COLORS */].white,
+  surfaceBackgroundColor: COLORS.white,
   surfaceBackgroundSubtleColor: '#F3F3F3',
   surfaceBackgroundTintColor: '#F5F5F5',
   surfaceBorderColor: 'rgba(0, 0, 0, 0.1)',
   surfaceBorderBoldColor: 'rgba(0, 0, 0, 0.15)',
   surfaceBorderSubtleColor: 'rgba(0, 0, 0, 0.05)',
-  surfaceBackgroundTertiaryColor: colors_values["a" /* COLORS */].white,
-  surfaceColor: colors_values["a" /* COLORS */].white,
+  surfaceBackgroundTertiaryColor: COLORS.white,
+  surfaceColor: COLORS.white,
   transitionDuration: '200ms',
   transitionDurationFast: '160ms',
   transitionDurationFaster: '120ms',
@@ -14560,15 +15267,15 @@ function text_styles_EMOTION_STRINGIFIED_CSS_ERROR_() { return "You have tried t
  * Internal dependencies
  */
 
-const Text = /*#__PURE__*/Object(emotion_esm["a" /* css */])("color:", colors_values["a" /* COLORS */].black, ";line-height:", config_values.fontLineHeightBase, ";margin:0;;label:Text;" + ( true ? "" : undefined));
+const Text = /*#__PURE__*/Object(emotion_esm["a" /* css */])("color:", COLORS.black, ";line-height:", config_values.fontLineHeightBase, ";margin:0;;label:Text;" + ( true ? "" : undefined));
 const styles_block = /*#__PURE__*/Object(emotion_esm["a" /* css */])( true ? {
   name: "w2ur5d-block",
   styles: "display:block;;label:block;"
 } : undefined);
-const positive = /*#__PURE__*/Object(emotion_esm["a" /* css */])("color:", colors_values["a" /* COLORS */].alert.green, ";;label:positive;" + ( true ? "" : undefined));
-const destructive = /*#__PURE__*/Object(emotion_esm["a" /* css */])("color:", colors_values["a" /* COLORS */].alert.red, ";;label:destructive;" + ( true ? "" : undefined));
-const styles_muted = /*#__PURE__*/Object(emotion_esm["a" /* css */])("color:", colors_values["a" /* COLORS */].mediumGray.text, ";;label:muted;" + ( true ? "" : undefined));
-const highlighterText = /*#__PURE__*/Object(emotion_esm["a" /* css */])("mark{background:", colors_values["a" /* COLORS */].alert.yellow, ";border-radius:2px;box-shadow:0 0 0 1px rgba( 0,0,0,0.05 ) inset,0 -1px 0 rgba( 0,0,0,0.1 ) inset;};label:highlighterText;" + ( true ? "" : undefined));
+const positive = /*#__PURE__*/Object(emotion_esm["a" /* css */])("color:", COLORS.alert.green, ";;label:positive;" + ( true ? "" : undefined));
+const destructive = /*#__PURE__*/Object(emotion_esm["a" /* css */])("color:", COLORS.alert.red, ";;label:destructive;" + ( true ? "" : undefined));
+const styles_muted = /*#__PURE__*/Object(emotion_esm["a" /* css */])("color:", COLORS.mediumGray.text, ";;label:muted;" + ( true ? "" : undefined));
+const highlighterText = /*#__PURE__*/Object(emotion_esm["a" /* css */])("mark{background:", COLORS.alert.yellow, ";border-radius:2px;box-shadow:0 0 0 1px rgba( 0,0,0,0.05 ) inset,0 -1px 0 rgba( 0,0,0,0.1 ) inset;};label:highlighterText;" + ( true ? "" : undefined));
 const styles_upperCase = /*#__PURE__*/Object(emotion_esm["a" /* css */])( true ? {
   name: "a0nhhd-upperCase",
   styles: "text-transform:uppercase;;label:upperCase;"
@@ -14902,9 +15609,9 @@ function useText(props) {
     if (optimizeReadabilityFor) {
       const isOptimalTextColorDark = getOptimalTextShade(optimizeReadabilityFor) === 'dark';
       sx.optimalTextColor = isOptimalTextColorDark ? /*#__PURE__*/Object(emotion_esm["a" /* css */])({
-        color: colors_values["a" /* COLORS */].black
+        color: COLORS.black
       },  true ? "" : undefined) : /*#__PURE__*/Object(emotion_esm["a" /* css */])({
-        color: colors_values["a" /* COLORS */].white
+        color: COLORS.white
       },  true ? "" : undefined);
     }
 
@@ -14979,7 +15686,7 @@ function useText(props) {
  * ```
  */
 
-const component_Text = Object(create_component["a" /* createComponent */])({
+const component_Text = create_component_createComponent({
   as: 'span',
   useHook: useText,
   name: 'Text'
@@ -15061,11 +15768,11 @@ function rtl_rtl(ltrStyles = {}, rtlStyles) {
   return () => {
     if (rtlStyles) {
       // @ts-ignore: `css` types are wrong, it can accept an object: https://emotion.sh/docs/object-styles#with-css
-      return Object(external_wp_i18n_["isRTL"])() ? /*#__PURE__*/Object(core_browser_esm["c" /* css */])(rtlStyles,  true ? "" : undefined) : /*#__PURE__*/Object(core_browser_esm["c" /* css */])(ltrStyles,  true ? "" : undefined);
+      return Object(external_wp_i18n_["isRTL"])() ? /*#__PURE__*/css_browser_esm(rtlStyles,  true ? "" : undefined) : /*#__PURE__*/css_browser_esm(ltrStyles,  true ? "" : undefined);
     } // @ts-ignore: `css` types are wrong, it can accept an object: https://emotion.sh/docs/object-styles#with-css
 
 
-    return Object(external_wp_i18n_["isRTL"])() ? /*#__PURE__*/Object(core_browser_esm["c" /* css */])(convertLTRToRTL(ltrStyles),  true ? "" : undefined) : /*#__PURE__*/Object(core_browser_esm["c" /* css */])(ltrStyles,  true ? "" : undefined);
+    return Object(external_wp_i18n_["isRTL"])() ? /*#__PURE__*/css_browser_esm(convertLTRToRTL(ltrStyles),  true ? "" : undefined) : /*#__PURE__*/css_browser_esm(ltrStyles,  true ? "" : undefined);
   };
 }
 
@@ -15142,7 +15849,7 @@ const rootLabelPositionStyles = ({
   }
 };
 
-const input_control_styles_Root = /*#__PURE__*/Object(styled_base_browser_esm["a" /* default */])(flex_component, {
+const input_control_styles_Root = /*#__PURE__*/styled_base_browser_esm(flex_component, {
   target: "e1cr7zh10",
   label: "Root"
 })("position:relative;border-radius:2px;", rootFloatLabelStyles, " ", rootFocusedStyles, " ", rootLabelPositionStyles,  true ? "" : undefined);
@@ -15150,8 +15857,8 @@ const input_control_styles_Root = /*#__PURE__*/Object(styled_base_browser_esm["a
 const containerDisabledStyles = ({
   disabled
 }) => {
-  const backgroundColor = disabled ? Object(utils_colors["a" /* color */])('ui.backgroundDisabled') : Object(utils_colors["a" /* color */])('ui.background');
-  return /*#__PURE__*/Object(core_browser_esm["c" /* css */])({
+  const backgroundColor = disabled ? COLORS.ui.backgroundDisabled : COLORS.ui.background;
+  return /*#__PURE__*/css_browser_esm({
     backgroundColor
   },  true ? "" : undefined);
 }; // Normalizes the margins from the <Flex /> (components/ui/flex/) container.
@@ -15181,17 +15888,17 @@ const containerWidthStyles = ({
   if (labelPosition === 'side') return '';
 
   if (labelPosition === 'edge') {
-    return /*#__PURE__*/Object(core_browser_esm["c" /* css */])({
+    return /*#__PURE__*/css_browser_esm({
       flex: `0 0 ${__unstableInputWidth}`
     },  true ? "" : undefined);
   }
 
-  return /*#__PURE__*/Object(core_browser_esm["c" /* css */])({
+  return /*#__PURE__*/css_browser_esm({
     width: __unstableInputWidth
   },  true ? "" : undefined);
 };
 
-const Container = Object(styled_base_browser_esm["a" /* default */])("div", {
+const Container = styled_base_browser_esm("div", {
   target: "e1cr7zh11",
   label: "Container"
 })("align-items:center;box-sizing:border-box;border-radius:inherit;display:flex;flex:1;position:relative;", containerDisabledStyles, " ", containerMarginStyles, " ", containerWidthStyles,  true ? "" : undefined);
@@ -15200,8 +15907,8 @@ const disabledStyles = ({
   disabled
 }) => {
   if (!disabled) return '';
-  return /*#__PURE__*/Object(core_browser_esm["c" /* css */])({
-    color: Object(utils_colors["a" /* color */])('ui.textDisabled')
+  return /*#__PURE__*/css_browser_esm({
+    color: COLORS.ui.textDisabled
   },  true ? "" : undefined);
 };
 
@@ -15215,7 +15922,7 @@ const fontSizeStyles = ({
   const fontSize = sizes[size];
   const fontSizeMobile = '16px';
   if (!fontSize) return '';
-  return /*#__PURE__*/Object(core_browser_esm["c" /* css */])("font-size:", fontSizeMobile, ";@media ( min-width:600px ){font-size:", fontSize, ";}" + ( true ? "" : undefined));
+  return /*#__PURE__*/css_browser_esm("font-size:", fontSizeMobile, ";@media ( min-width:600px ){font-size:", fontSize, ";}" + ( true ? "" : undefined));
 };
 
 const sizeStyles = ({
@@ -15234,7 +15941,7 @@ const sizeStyles = ({
     }
   };
   const style = sizes[size] || sizes.default;
-  return /*#__PURE__*/Object(core_browser_esm["c" /* css */])(style,  true ? "" : undefined);
+  return /*#__PURE__*/css_browser_esm(style,  true ? "" : undefined);
 };
 
 var input_control_styles_ref8 =  true ? {
@@ -15254,22 +15961,22 @@ const dragStyles = ({
   let activeDragCursorStyles = '';
 
   if (isDragging) {
-    defaultArrowStyles = /*#__PURE__*/Object(core_browser_esm["c" /* css */])("cursor:", dragCursor, ";user-select:none;&::-webkit-outer-spin-button,&::-webkit-inner-spin-button{-webkit-appearance:none !important;margin:0 !important;}" + ( true ? "" : undefined));
+    defaultArrowStyles = /*#__PURE__*/css_browser_esm("cursor:", dragCursor, ";user-select:none;&::-webkit-outer-spin-button,&::-webkit-inner-spin-button{-webkit-appearance:none !important;margin:0 !important;}" + ( true ? "" : undefined));
   }
 
   if (isDragging && dragCursor) {
-    activeDragCursorStyles = /*#__PURE__*/Object(core_browser_esm["c" /* css */])("&:active{cursor:", dragCursor, ";}" + ( true ? "" : undefined));
+    activeDragCursorStyles = /*#__PURE__*/css_browser_esm("&:active{cursor:", dragCursor, ";}" + ( true ? "" : undefined));
   }
 
-  return /*#__PURE__*/Object(core_browser_esm["c" /* css */])(defaultArrowStyles, " ", activeDragCursorStyles,  true ? "" : undefined);
+  return /*#__PURE__*/css_browser_esm(defaultArrowStyles, " ", activeDragCursorStyles,  true ? "" : undefined);
 }; // TODO: Resolve need to use &&& to increase specificity
 // https://github.com/WordPress/gutenberg/issues/18483
 
 
-const input_control_styles_Input = Object(styled_base_browser_esm["a" /* default */])("input", {
+const input_control_styles_Input = styled_base_browser_esm("input", {
   target: "e1cr7zh12",
   label: "Input"
-})("&&&{background-color:transparent;box-sizing:border-box;border:none;box-shadow:none !important;color:", Object(utils_colors["a" /* color */])('black'), ";display:block;margin:0;outline:none;padding-left:8px;padding-right:8px;width:100%;", dragStyles, " ", disabledStyles, " ", fontSizeStyles, " ", sizeStyles, " ", placeholderStyles, "}" + ( true ? "" : undefined));
+})("&&&{background-color:transparent;box-sizing:border-box;border:none;box-shadow:none !important;color:", COLORS.black, ";display:block;margin:0;outline:none;padding-left:8px;padding-right:8px;width:100%;", dragStyles, " ", disabledStyles, " ", fontSizeStyles, " ", sizeStyles, " ", placeholderStyles, "}" + ( true ? "" : undefined));
 
 var input_control_styles_ref9 =  true ? {
   name: "8uhtka",
@@ -15289,13 +15996,13 @@ const labelPadding = ({
     paddingBottom = 0;
   }
 
-  return /*#__PURE__*/Object(core_browser_esm["c" /* css */])({
+  return /*#__PURE__*/css_browser_esm({
     paddingTop: 0,
     paddingBottom
   },  true ? "" : undefined);
 };
 
-const BaseLabel = /*#__PURE__*/Object(styled_base_browser_esm["a" /* default */])(text_component, {
+const BaseLabel = /*#__PURE__*/styled_base_browser_esm(text_component, {
   target: "e1cr7zh13",
   label: "BaseLabel"
 })("&&&{box-sizing:border-box;color:currentColor;display:block;margin:0;max-width:100%;z-index:1;", labelPadding, " ", labelTruncation, "}" + ( true ? "" : undefined));
@@ -15303,7 +16010,7 @@ const BaseLabel = /*#__PURE__*/Object(styled_base_browser_esm["a" /* default */]
 const Label = props => Object(external_wp_element_["createElement"])(BaseLabel, Object(esm_extends["a" /* default */])({}, props, {
   as: "label"
 }));
-const LabelWrapper = /*#__PURE__*/Object(styled_base_browser_esm["a" /* default */])(flex_item_component, {
+const LabelWrapper = /*#__PURE__*/styled_base_browser_esm(flex_item_component, {
   target: "e1cr7zh14",
   label: "LabelWrapper"
 })( true ? {
@@ -15315,18 +16022,18 @@ const backdropFocusedStyles = ({
   disabled,
   isFocused
 }) => {
-  let borderColor = isFocused ? Object(utils_colors["a" /* color */])('ui.borderFocus') : Object(utils_colors["a" /* color */])('ui.border');
+  let borderColor = isFocused ? COLORS.ui.borderFocus : COLORS.ui.border;
   let boxShadow = null;
 
   if (isFocused) {
-    boxShadow = `0 0 0 1px ${Object(utils_colors["a" /* color */])('ui.borderFocus')} inset`;
+    boxShadow = `0 0 0 1px ${COLORS.ui.borderFocus} inset`;
   }
 
   if (disabled) {
-    borderColor = Object(utils_colors["a" /* color */])('ui.borderDisabled');
+    borderColor = COLORS.ui.borderDisabled;
   }
 
-  return /*#__PURE__*/Object(core_browser_esm["c" /* css */])({
+  return /*#__PURE__*/css_browser_esm({
     boxShadow,
     borderColor,
     borderStyle: 'solid',
@@ -15334,20 +16041,20 @@ const backdropFocusedStyles = ({
   },  true ? "" : undefined);
 };
 
-const BackdropUI = Object(styled_base_browser_esm["a" /* default */])("div", {
+const BackdropUI = styled_base_browser_esm("div", {
   target: "e1cr7zh15",
   label: "BackdropUI"
 })("&&&{box-sizing:border-box;border-radius:inherit;bottom:0;left:0;margin:0;padding:0;pointer-events:none;position:absolute;right:0;top:0;", backdropFocusedStyles, " ", rtl_rtl({
   paddingLeft: 2
 }), "}" + ( true ? "" : undefined));
-const Prefix = Object(styled_base_browser_esm["a" /* default */])("span", {
+const Prefix = styled_base_browser_esm("span", {
   target: "e1cr7zh16",
   label: "Prefix"
 })( true ? {
   name: "1pxuk39",
   styles: "box-sizing:border-box;display:block;"
 } : undefined);
-const Suffix = Object(styled_base_browser_esm["a" /* default */])("span", {
+const Suffix = styled_base_browser_esm("span", {
   target: "e1cr7zh17",
   label: "Suffix"
 })( true ? {
@@ -15401,7 +16108,7 @@ function label_Label({
   if (!children) return null;
 
   if (hideLabelFromVision) {
-    return Object(external_wp_element_["createElement"])(component["a" /* default */], {
+    return Object(external_wp_element_["createElement"])(visually_hidden["a" /* default */], {
       as: "label",
       htmlFor: htmlFor
     }, children);
@@ -15655,7 +16362,7 @@ function _extends() {
   return _extends.apply(this, arguments);
 }
 
-function _inheritsLoose(subClass, superClass) {
+function reactusegesture_esm_inheritsLoose(subClass, superClass) {
   subClass.prototype = Object.create(superClass.prototype);
   subClass.prototype.constructor = subClass;
   subClass.__proto__ = superClass;
@@ -17076,7 +17783,7 @@ function resolveClasses(internalHandlers) {
  */
 
 var CoordinatesRecognizer = /*#__PURE__*/function (_Recognizer) {
-  _inheritsLoose(CoordinatesRecognizer, _Recognizer);
+  reactusegesture_esm_inheritsLoose(CoordinatesRecognizer, _Recognizer);
 
   function CoordinatesRecognizer() {
     return _Recognizer.apply(this, arguments) || this;
@@ -17161,7 +17868,7 @@ function persistEvent(event) {
 }
 
 var DragRecognizer = /*#__PURE__*/function (_CoordinatesRecognize) {
-  _inheritsLoose(DragRecognizer, _CoordinatesRecognize);
+  reactusegesture_esm_inheritsLoose(DragRecognizer, _CoordinatesRecognize);
 
   function DragRecognizer() {
     var _this;
@@ -17614,7 +18321,7 @@ function useDrag(handler, config) {
  */
 
 var DistanceAngleRecognizer = /*#__PURE__*/function (_Recognizer) {
-  _inheritsLoose(DistanceAngleRecognizer, _Recognizer);
+  reactusegesture_esm_inheritsLoose(DistanceAngleRecognizer, _Recognizer);
 
   function DistanceAngleRecognizer() {
     return _Recognizer.apply(this, arguments) || this;
@@ -17660,7 +18367,7 @@ var DistanceAngleRecognizer = /*#__PURE__*/function (_Recognizer) {
 var ZOOM_CONSTANT = 7;
 var WEBKIT_DISTANCE_SCALE_FACTOR = 260;
 var PinchRecognizer = /*#__PURE__*/function (_DistanceAngleRecogni) {
-  _inheritsLoose(PinchRecognizer, _DistanceAngleRecogni);
+  reactusegesture_esm_inheritsLoose(PinchRecognizer, _DistanceAngleRecogni);
 
   function PinchRecognizer() {
     var _this;
@@ -17963,7 +18670,7 @@ function usePinch(handler, config) {
 }
 
 var WheelRecognizer = /*#__PURE__*/function (_CoordinatesRecognize) {
-  _inheritsLoose(WheelRecognizer, _CoordinatesRecognize);
+  reactusegesture_esm_inheritsLoose(WheelRecognizer, _CoordinatesRecognize);
 
   function WheelRecognizer() {
     var _this;
@@ -18055,7 +18762,7 @@ function useWheel(handler, config) {
 }
 
 var MoveRecognizer = /*#__PURE__*/function (_CoordinatesRecognize) {
-  _inheritsLoose(MoveRecognizer, _CoordinatesRecognize);
+  reactusegesture_esm_inheritsLoose(MoveRecognizer, _CoordinatesRecognize);
 
   function MoveRecognizer() {
     var _this;
@@ -18220,7 +18927,7 @@ function useHover(handler, config) {
 }
 
 var ScrollRecognizer = /*#__PURE__*/function (_CoordinatesRecognize) {
-  _inheritsLoose(ScrollRecognizer, _CoordinatesRecognize);
+  reactusegesture_esm_inheritsLoose(ScrollRecognizer, _CoordinatesRecognize);
 
   function ScrollRecognizer() {
     var _this;
@@ -19124,7 +19831,7 @@ const htmlArrowStyles = ({
   return number_control_styles_ref;
 };
 
-const number_control_styles_Input = /*#__PURE__*/Object(styled_base_browser_esm["a" /* default */])(input_control, {
+const number_control_styles_Input = /*#__PURE__*/styled_base_browser_esm(input_control, {
   target: "ep48uk90",
   label: "Input"
 })(htmlArrowStyles, ";" + ( true ? "" : undefined));
@@ -19444,28 +20151,28 @@ function angle_picker_control_styles_EMOTION_STRINGIFIED_CSS_ERROR_() { return "
 
 
 const CIRCLE_SIZE = 30;
-const angle_picker_control_styles_Root = /*#__PURE__*/Object(styled_base_browser_esm["a" /* default */])(flex_component, {
+const angle_picker_control_styles_Root = /*#__PURE__*/styled_base_browser_esm(flex_component, {
   target: "e65ony40",
   label: "Root"
 })( true ? {
   name: "tn9ygg",
   styles: "max-width:200px;"
 } : undefined);
-const CircleRoot = Object(styled_base_browser_esm["a" /* default */])("div", {
+const CircleRoot = styled_base_browser_esm("div", {
   target: "e65ony41",
   label: "CircleRoot"
-})("border-radius:50%;border:1px solid ", Object(utils_colors["a" /* color */])('ui.borderLight'), ";box-sizing:border-box;cursor:grab;height:", CIRCLE_SIZE, "px;overflow:hidden;width:", CIRCLE_SIZE, "px;" + ( true ? "" : undefined));
-const CircleIndicatorWrapper = Object(styled_base_browser_esm["a" /* default */])("div", {
+})("border-radius:50%;border:1px solid ", COLORS.ui.borderLight, ";box-sizing:border-box;cursor:grab;height:", CIRCLE_SIZE, "px;overflow:hidden;width:", CIRCLE_SIZE, "px;" + ( true ? "" : undefined));
+const CircleIndicatorWrapper = styled_base_browser_esm("div", {
   target: "e65ony42",
   label: "CircleIndicatorWrapper"
 })( true ? {
   name: "11t5m37",
   styles: "box-sizing:border-box;position:relative;width:100%;height:100%;"
 } : undefined);
-const CircleIndicator = Object(styled_base_browser_esm["a" /* default */])("div", {
+const CircleIndicator = styled_base_browser_esm("div", {
   target: "e65ony43",
   label: "CircleIndicator"
-})("background:", Object(utils_colors["a" /* color */])('ui.border'), ";border-radius:50%;border:3px solid ", Object(utils_colors["a" /* color */])('ui.border'), ";bottom:0;box-sizing:border-box;display:block;height:1px;left:0;margin:auto;position:absolute;right:0;top:-", CIRCLE_SIZE / 2, "px;width:1px;" + ( true ? "" : undefined));
+})("background:", COLORS.ui.border, ";border-radius:50%;border:3px solid ", COLORS.ui.border, ";bottom:0;box-sizing:border-box;display:block;height:1px;left:0;margin:auto;position:absolute;right:0;top:-", CIRCLE_SIZE / 2, "px;width:1px;" + ( true ? "" : undefined));
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/angle-picker-control/angle-circle.js
 
@@ -19639,39 +20346,14 @@ function AnglePickerControl({
 // EXTERNAL MODULE: external ["wp","richText"]
 var external_wp_richText_ = __webpack_require__("qRz9");
 
+// EXTERNAL MODULE: external ["wp","a11y"]
+var external_wp_a11y_ = __webpack_require__("gdqT");
+
 // EXTERNAL MODULE: ./node_modules/@wordpress/components/build-module/button/index.js
 var build_module_button = __webpack_require__("kA6J");
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/components/build-module/popover/index.js + 1 modules
-var popover = __webpack_require__("oXO/");
-
-// EXTERNAL MODULE: external ["wp","a11y"]
-var external_wp_a11y_ = __webpack_require__("gdqT");
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/higher-order/with-spoken-messages/index.js
-
-
-
-/**
- * WordPress dependencies
- */
-
-
-/**
- * A Higher Order Component used to be provide speak and debounced speak
- * functions.
- *
- * @see https://developer.wordpress.org/block-editor/packages/packages-a11y/#speak
- *
- * @param {WPComponent} Component The component to be wrapped.
- *
- * @return {WPComponent} The wrapped component.
- */
-
-/* harmony default export */ var with_spoken_messages = (Object(external_wp_compose_["createHigherOrderComponent"])(Component => props => Object(external_wp_element_["createElement"])(Component, Object(esm_extends["a" /* default */])({}, props, {
-  speak: external_wp_a11y_["speak"],
-  debouncedSpeak: Object(external_wp_compose_["useDebounce"])(external_wp_a11y_["speak"], 500)
-})), 'withSpokenMessages'));
+var build_module_popover = __webpack_require__("oXO/");
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/autocomplete/index.js
 
@@ -19690,10 +20372,10 @@ var external_wp_a11y_ = __webpack_require__("gdqT");
 
 
 
+
 /**
  * Internal dependencies
  */
-
 
 
 
@@ -19879,7 +20561,7 @@ const getAutoCompleterUI = autocompleter => {
       return null;
     }
 
-    return Object(external_wp_element_["createElement"])(popover["a" /* default */], {
+    return Object(external_wp_element_["createElement"])(build_module_popover["a" /* default */], {
       focusOnMount: false,
       onClose: onReset,
       position: "top right",
@@ -19905,17 +20587,15 @@ const getAutoCompleterUI = autocompleter => {
   return AutocompleterUI;
 };
 
-function Autocomplete({
-  children,
-  isSelected,
+function useAutocomplete({
   record,
   onChange,
   onReplace,
   completers,
-  debouncedSpeak,
   contentRef
 }) {
-  const instanceId = Object(external_wp_compose_["useInstanceId"])(Autocomplete);
+  const debouncedSpeak = Object(external_wp_compose_["useDebounce"])(external_wp_a11y_["speak"], 500);
+  const instanceId = Object(external_wp_compose_["useInstanceId"])(useAutocomplete);
   const [selectedIndex, setSelectedIndex] = Object(external_wp_element_["useState"])(0);
   const [filteredOptions, setFilteredOptions] = Object(external_wp_element_["useState"])([]);
   const [filterValue, setFilterValue] = Object(external_wp_element_["useState"])('');
@@ -20130,25 +20810,64 @@ function Autocomplete({
   const isExpanded = !!autocompleter && filteredOptions.length > 0;
   const listBoxId = isExpanded ? `components-autocomplete-listbox-${instanceId}` : null;
   const activeId = isExpanded ? `components-autocomplete-item-${instanceId}-${selectedKey}` : null;
-  return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, children({
-    isExpanded,
+  return {
     listBoxId,
     activeId,
-    onKeyDown: handleKeyDown
-  }), isSelected && AutocompleterUI && Object(external_wp_element_["createElement"])(AutocompleterUI, {
-    className: className,
-    filterValue: filterValue,
-    instanceId: instanceId,
-    listBoxId: listBoxId,
-    selectedIndex: selectedIndex,
-    onChangeOptions: onChangeOptions,
-    onSelect: select,
-    value: record,
-    contentRef: contentRef
-  }));
+    onKeyDown: handleKeyDown,
+    popover: AutocompleterUI && Object(external_wp_element_["createElement"])(AutocompleterUI, {
+      className: className,
+      filterValue: filterValue,
+      instanceId: instanceId,
+      listBoxId: listBoxId,
+      selectedIndex: selectedIndex,
+      onChangeOptions: onChangeOptions,
+      onSelect: select,
+      value: record,
+      contentRef: contentRef
+    })
+  };
 }
 
-/* harmony default export */ var autocomplete = (with_spoken_messages(Autocomplete));
+function useAutocompleteProps(options) {
+  const ref = Object(external_wp_element_["useRef"])();
+  const onKeyDownRef = Object(external_wp_element_["useRef"])();
+  const {
+    popover,
+    listBoxId,
+    activeId,
+    onKeyDown
+  } = useAutocomplete({ ...options,
+    contentRef: ref
+  });
+  onKeyDownRef.current = onKeyDown;
+  return {
+    ref: Object(external_wp_compose_["useMergeRefs"])([ref, Object(external_wp_compose_["useRefEffect"])(element => {
+      function _onKeyDown(event) {
+        onKeyDownRef.current(event);
+      }
+
+      element.addEventListener('keydown', _onKeyDown);
+      return () => {
+        element.removeEventListener('keydown', _onKeyDown);
+      };
+    }, [])]),
+    children: popover,
+    'aria-autocomplete': listBoxId ? 'list' : undefined,
+    'aria-owns': listBoxId,
+    'aria-activedescendant': activeId
+  };
+}
+function Autocomplete({
+  children,
+  isSelected,
+  ...options
+}) {
+  const {
+    popover,
+    ...props
+  } = useAutocomplete(options);
+  return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, children(props), isSelected && popover);
+}
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/unit-control/styles/unit-control-styles.js
 
@@ -20165,7 +20884,7 @@ function unit_control_styles_EMOTION_STRINGIFIED_CSS_ERROR_() { return "You have
  */
 
 
-const unit_control_styles_Root = Object(styled_base_browser_esm["a" /* default */])("div", {
+const unit_control_styles_Root = styled_base_browser_esm("div", {
   target: "e1agakv00",
   label: "Root"
 })( true ? {
@@ -20177,7 +20896,7 @@ const paddingStyles = ({
   disableUnits
 }) => {
   const value = disableUnits ? 3 : 24;
-  return /*#__PURE__*/Object(core_browser_esm["c" /* css */])(rtl_rtl({
+  return /*#__PURE__*/css_browser_esm(rtl_rtl({
     paddingRight: value
   })(), ";" + ( true ? "" : undefined));
 };
@@ -20196,7 +20915,7 @@ const arrowStyles = ({
 // https://github.com/WordPress/gutenberg/issues/18483
 
 
-const ValueInput = /*#__PURE__*/Object(styled_base_browser_esm["a" /* default */])(number_control, {
+const ValueInput = /*#__PURE__*/styled_base_browser_esm(number_control, {
   target: "e1agakv01",
   label: "ValueInput"
 })("&&&{input{appearance:none;-moz-appearance:textfield;display:block;width:100%;", arrowStyles, ";", paddingStyles, ";}}" + ( true ? "" : undefined));
@@ -20218,11 +20937,11 @@ const unitSizeStyles = ({
       top: 1
     }
   };
-  return /*#__PURE__*/Object(core_browser_esm["c" /* css */])(sizes[size],  true ? "" : undefined);
+  return /*#__PURE__*/css_browser_esm(sizes[size],  true ? "" : undefined);
 };
 
 const baseUnitLabelStyles = props => {
-  return /*#__PURE__*/Object(core_browser_esm["c" /* css */])("appearance:none;background:transparent;border-radius:2px;border:none;box-sizing:border-box;color:", Object(utils_colors["a" /* color */])('darkGray.500'), ";display:block;font-size:8px;line-height:1;letter-spacing:-0.5px;outline:none;padding:2px 1px;position:absolute;text-align-last:center;text-transform:uppercase;width:20px;", rtl_rtl({
+  return /*#__PURE__*/css_browser_esm("appearance:none;background:transparent;border-radius:2px;border:none;box-sizing:border-box;color:", COLORS.darkGray[500], ";display:block;font-size:8px;line-height:1;letter-spacing:-0.5px;outline:none;padding:2px 1px;position:absolute;text-align-last:center;text-transform:uppercase;width:20px;", rtl_rtl({
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0
   })(), " ", rtl_rtl({
@@ -20230,14 +20949,14 @@ const baseUnitLabelStyles = props => {
   })(), " ", unitSizeStyles(props),  true ? "" : undefined);
 };
 
-const UnitLabel = Object(styled_base_browser_esm["a" /* default */])("div", {
+const UnitLabel = styled_base_browser_esm("div", {
   target: "e1agakv02",
   label: "UnitLabel"
 })("&&&{pointer-events:none;", baseUnitLabelStyles, ";}" + ( true ? "" : undefined));
-const UnitSelect = Object(styled_base_browser_esm["a" /* default */])("select", {
+const UnitSelect = styled_base_browser_esm("select", {
   target: "e1agakv03",
   label: "UnitSelect"
-})("&&&{", baseUnitLabelStyles, ";cursor:pointer;border:1px solid transparent;&:hover{background-color:", Object(utils_colors["a" /* color */])('lightGray.300'), ";}&:focus{border-color:", Object(utils_colors["a" /* color */])('ui.borderFocus'), ";outline:2px solid transparent;outline-offset:0;}&:disabled{cursor:initial;&:hover{background-color:transparent;}}}" + ( true ? "" : undefined));
+})("&&&{", baseUnitLabelStyles, ";cursor:pointer;border:1px solid transparent;&:hover{background-color:", COLORS.lightGray[300], ";}&:focus{border-color:", COLORS.ui.borderFocus, ";outline:2px solid transparent;outline-offset:0;}&:disabled{cursor:initial;&:hover{background-color:transparent;}}}" + ( true ? "" : undefined));
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/unit-control/utils.js
 /**
@@ -20249,6 +20968,88 @@ const UnitSelect = Object(styled_base_browser_esm["a" /* default */])("select", 
  */
 
 
+
+const isWeb = external_wp_element_["Platform"].OS === 'web';
+/**
+ * An array of all available CSS length units.
+ */
+
+const ALL_CSS_UNITS = [{
+  value: 'px',
+  label: isWeb ? 'px' : Object(external_wp_i18n_["__"])('Pixels (px)'),
+  default: '',
+  a11yLabel: Object(external_wp_i18n_["__"])('Pixels (px)')
+}, {
+  value: '%',
+  label: isWeb ? '%' : Object(external_wp_i18n_["__"])('Percentage (%)'),
+  default: '',
+  a11yLabel: Object(external_wp_i18n_["__"])('Percent (%)')
+}, {
+  value: 'em',
+  label: isWeb ? 'em' : Object(external_wp_i18n_["__"])('Relative to parent font size (em)'),
+  default: '',
+  a11yLabel: Object(external_wp_i18n_["__"])('Relative to parent font size (em)')
+}, {
+  value: 'rem',
+  label: isWeb ? 'rem' : Object(external_wp_i18n_["__"])('Relative to root font size (rem)'),
+  default: '',
+  a11yLabel: Object(external_wp_i18n_["__"])('Relative to root font size (rem)')
+}, {
+  value: 'vw',
+  label: isWeb ? 'vw' : Object(external_wp_i18n_["__"])('Viewport width (vw)'),
+  default: '',
+  a11yLabel: Object(external_wp_i18n_["__"])('Viewport width (vw)')
+}, {
+  value: 'vh',
+  label: isWeb ? 'vh' : Object(external_wp_i18n_["__"])('Viewport height (vh)'),
+  default: '',
+  a11yLabel: Object(external_wp_i18n_["__"])('Viewport height (vh)')
+}, {
+  value: 'vmin',
+  label: isWeb ? 'vmin' : Object(external_wp_i18n_["__"])('Viewport smallest dimension (vmin)'),
+  default: '',
+  a11yLabel: Object(external_wp_i18n_["__"])('Viewport smallest dimension (vmin)')
+}, {
+  value: 'vmax',
+  label: isWeb ? 'vmax' : Object(external_wp_i18n_["__"])('Viewport largest dimension (vmax)'),
+  default: '',
+  a11yLabel: Object(external_wp_i18n_["__"])('Viewport largest dimension (vmax)')
+}, {
+  value: 'ch',
+  label: isWeb ? 'ch' : Object(external_wp_i18n_["__"])('Width of the zero (0) character (ch)'),
+  default: '',
+  a11yLabel: Object(external_wp_i18n_["__"])('Width of the zero (0) character (ch)')
+}, {
+  value: 'ex',
+  label: isWeb ? 'ex' : Object(external_wp_i18n_["__"])('x-height of the font (ex)'),
+  default: '',
+  a11yLabel: Object(external_wp_i18n_["__"])('x-height of the font (ex)')
+}, {
+  value: 'cm',
+  label: isWeb ? 'cm' : Object(external_wp_i18n_["__"])('Centimeters (cm)'),
+  default: '',
+  a11yLabel: Object(external_wp_i18n_["__"])('Centimeters (cm)')
+}, {
+  value: 'mm',
+  label: isWeb ? 'mm' : Object(external_wp_i18n_["__"])('Millimeters (mm)'),
+  default: '',
+  a11yLabel: Object(external_wp_i18n_["__"])('Millimeters (mm)')
+}, {
+  value: 'in',
+  label: isWeb ? 'in' : Object(external_wp_i18n_["__"])('Inches (in)'),
+  default: '',
+  a11yLabel: Object(external_wp_i18n_["__"])('Inches (in)')
+}, {
+  value: 'pc',
+  label: isWeb ? 'pc' : Object(external_wp_i18n_["__"])('Picas (pc)'),
+  default: '',
+  a11yLabel: Object(external_wp_i18n_["__"])('Picas (pc)')
+}, {
+  value: 'pt',
+  label: isWeb ? 'pt' : Object(external_wp_i18n_["__"])('Points (pt)'),
+  default: '',
+  a11yLabel: Object(external_wp_i18n_["__"])('Points (pt)')
+}];
 /**
  * Units of measurements. `a11yLabel` is used by screenreaders.
  */
@@ -20320,7 +21121,7 @@ function utils_hasUnits(units) {
  * @return {Array<number, string>} The extracted number and unit.
  */
 
-function parseUnit(initialValue, units = CSS_UNITS) {
+function parseUnit(initialValue, units = ALL_CSS_UNITS) {
   const value = String(initialValue).trim();
   let num = parseFloat(value, 10);
   num = isNaN(num) ? '' : num;
@@ -20380,9 +21181,55 @@ function getValidParsedUnit(next, units, fallbackValue, fallbackUnit) {
  */
 
 function parseA11yLabelForUnit(unit) {
-  const match = CSS_UNITS.find(item => item.value === unit);
+  const match = ALL_CSS_UNITS.find(item => item.value === unit);
   return match !== null && match !== void 0 && match.a11yLabel ? match === null || match === void 0 ? void 0 : match.a11yLabel : match === null || match === void 0 ? void 0 : match.value;
 }
+/**
+ * Filters available units based on values defined by settings.
+ *
+ * @param {Array} settings Collection of preferred units.
+ * @param {Array} units Collection of available units.
+ *
+ * @return {Array} Filtered units based on settings.
+ */
+
+function filterUnitsWithSettings(settings = [], units = []) {
+  return units.filter(unit => {
+    return settings.includes(unit.value);
+  });
+}
+/**
+ * Custom hook to retrieve and consolidate units setting from add_theme_support().
+ * TODO: ideally this hook shouldn't be needed
+ * https://github.com/WordPress/gutenberg/pull/31822#discussion_r633280823
+ *
+ * @param {Object} args                An object containing units, settingPath & defaultUnits.
+ * @param {Object} args.units          Collection of available units.
+ * @param {string} args.availableUnits The setting path. Defaults to 'spacing.units'.
+ * @param {Object} args.defaultValues  Collection of default values for defined units. Example: { px: '350', em: '15' }.
+ *
+ * @return {Array} Filtered units based on settings.
+ */
+
+
+const useCustomUnits = ({
+  units,
+  availableUnits,
+  defaultValues
+}) => {
+  units = units || ALL_CSS_UNITS;
+  const usedUnits = filterUnitsWithSettings(!availableUnits ? [] : availableUnits, units);
+
+  if (defaultValues) {
+    usedUnits.forEach((unit, i) => {
+      if (defaultValues[unit.value]) {
+        usedUnits[i].default = defaultValues[unit.value];
+      }
+    });
+  }
+
+  return usedUnits.length === 0 ? false : usedUnits;
+};
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/unit-control/unit-select-control.js
 
@@ -20691,6 +21538,19 @@ function UnitControl({
     size: size,
     value: unit
   }) : null;
+  let step = props.step;
+  /*
+   * If no step prop has been passed, lookup the active unit and
+   * try to get step from `units`, or default to a value of `1`
+   */
+
+  if (!step && units) {
+    var _activeUnit$step;
+
+    const activeUnit = units.find(option => option.value === unit);
+    step = (_activeUnit$step = activeUnit === null || activeUnit === void 0 ? void 0 : activeUnit.step) !== null && _activeUnit$step !== void 0 ? _activeUnit$step : 1;
+  }
+
   return Object(external_wp_element_["createElement"])(unit_control_styles_Root, {
     className: "components-unit-control-wrapper",
     style: style
@@ -20711,11 +21571,13 @@ function UnitControl({
     size: size,
     suffix: inputSuffix,
     value: value,
+    step: step,
     __unstableStateReducer: composeStateReducers(unitControlStateReducer, stateReducer)
   })));
 }
 
 const ForwardedUnitControl = Object(external_wp_element_["forwardRef"])(UnitControl);
+
 /* harmony default export */ var unit_control = (ForwardedUnitControl);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/box-control/styles/box-control-styles.js
@@ -20734,39 +21596,39 @@ function box_control_styles_EMOTION_STRINGIFIED_CSS_ERROR_() { return "You have 
 
 
 
-const box_control_styles_Root = Object(styled_base_browser_esm["a" /* default */])("div", {
+const box_control_styles_Root = styled_base_browser_esm("div", {
   target: "e7pk0lh0",
   label: "Root"
 })( true ? {
   name: "vho1ao",
   styles: "box-sizing:border-box;max-width:235px;padding-bottom:12px;width:100%;"
 } : undefined);
-const Header = /*#__PURE__*/Object(styled_base_browser_esm["a" /* default */])(flex_component, {
+const Header = /*#__PURE__*/styled_base_browser_esm(flex_component, {
   target: "e7pk0lh1",
   label: "Header"
-})("color:", Object(utils_colors["a" /* color */])('ui.label'), ";padding-bottom:8px;" + ( true ? "" : undefined));
-const HeaderControlWrapper = /*#__PURE__*/Object(styled_base_browser_esm["a" /* default */])(flex_component, {
+})("color:", COLORS.ui.label, ";padding-bottom:8px;" + ( true ? "" : undefined));
+const HeaderControlWrapper = /*#__PURE__*/styled_base_browser_esm(flex_component, {
   target: "e7pk0lh2",
   label: "HeaderControlWrapper"
 })( true ? {
   name: "19de7qh",
   styles: "min-height:30px;"
 } : undefined);
-const UnitControlWrapper = Object(styled_base_browser_esm["a" /* default */])("div", {
+const UnitControlWrapper = styled_base_browser_esm("div", {
   target: "e7pk0lh3",
   label: "UnitControlWrapper"
 })( true ? {
   name: "zypm0w",
   styles: "box-sizing:border-box;max-width:80px;"
 } : undefined);
-const LayoutContainer = /*#__PURE__*/Object(styled_base_browser_esm["a" /* default */])(flex_component, {
+const LayoutContainer = /*#__PURE__*/styled_base_browser_esm(flex_component, {
   target: "e7pk0lh4",
   label: "LayoutContainer"
 })( true ? {
   name: "39f89t",
   styles: "justify-content:center;padding-top:8px;"
 } : undefined);
-const Layout = /*#__PURE__*/Object(styled_base_browser_esm["a" /* default */])(flex_component, {
+const Layout = /*#__PURE__*/styled_base_browser_esm(flex_component, {
   target: "e7pk0lh5",
   label: "Layout"
 })( true ? {
@@ -20819,7 +21681,7 @@ const unitControlMarginStyles = ({
   })();
 };
 
-const box_control_styles_UnitControl = /*#__PURE__*/Object(styled_base_browser_esm["a" /* default */])(unit_control, {
+const box_control_styles_UnitControl = /*#__PURE__*/styled_base_browser_esm(unit_control, {
   target: "e7pk0lh6",
   label: "UnitControl"
 })("max-width:60px;", unitControlBorderRadiusStyles, ";", unitControlMarginStyles, ";" + ( true ? "" : undefined));
@@ -20988,7 +21850,10 @@ function isValuesMixed(values = {}) {
  */
 
 function isValuesDefined(values) {
-  return values !== undefined && !Object(external_lodash_["isEmpty"])(Object.values(values).filter(Boolean));
+  return values !== undefined && !Object(external_lodash_["isEmpty"])(Object.values(values).filter( // Switching units when input is empty causes values only
+  // containing units. This gives false positive on mixed values
+  // unless filtered.
+  value => !!value && /\d/.test(value)));
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/box-control/all-input-control.js
@@ -21167,7 +22032,7 @@ function BoxInputControls({
     onFocus: createHandleOnFocus(side),
     onHoverOn: createHandleOnHoverOn(side),
     onHoverOff: createHandleOnHoverOff(side),
-    label: LABELS.top,
+    label: LABELS[side],
     key: `box-control-${side}`
   })))));
 }
@@ -21181,14 +22046,14 @@ function box_control_icon_styles_EMOTION_STRINGIFIED_CSS_ERROR_() { return "You 
  * External dependencies
  */
 
-const box_control_icon_styles_Root = Object(styled_base_browser_esm["a" /* default */])("span", {
+const box_control_icon_styles_Root = styled_base_browser_esm("span", {
   target: "eaw9yqk0",
   label: "Root"
 })( true ? {
   name: "1qtciqq",
   styles: "box-sizing:border-box;display:block;width:24px;height:24px;position:relative;padding:4px;"
 } : undefined);
-const Viewbox = Object(styled_base_browser_esm["a" /* default */])("span", {
+const Viewbox = styled_base_browser_esm("span", {
   target: "eaw9yqk1",
   label: "Viewbox"
 })( true ? {
@@ -21199,18 +22064,18 @@ const Viewbox = Object(styled_base_browser_esm["a" /* default */])("span", {
 const strokeFocus = ({
   isFocused
 }) => {
-  return /*#__PURE__*/Object(core_browser_esm["c" /* css */])({
+  return /*#__PURE__*/css_browser_esm({
     backgroundColor: 'currentColor',
     opacity: isFocused ? 1 : 0.3
   },  true ? "" : undefined);
 };
 
-const Stroke = Object(styled_base_browser_esm["a" /* default */])("span", {
+const Stroke = styled_base_browser_esm("span", {
   target: "eaw9yqk2",
   label: "Stroke"
 })("box-sizing:border-box;display:block;pointer-events:none;position:absolute;", strokeFocus, ";" + ( true ? "" : undefined));
 
-const VerticalStroke = /*#__PURE__*/Object(styled_base_browser_esm["a" /* default */])(Stroke, {
+const VerticalStroke = /*#__PURE__*/styled_base_browser_esm(Stroke, {
   target: "eaw9yqk3",
   label: "VerticalStroke"
 })( true ? {
@@ -21218,7 +22083,7 @@ const VerticalStroke = /*#__PURE__*/Object(styled_base_browser_esm["a" /* defaul
   styles: "bottom:3px;top:3px;width:2px;"
 } : undefined);
 
-const HorizontalStroke = /*#__PURE__*/Object(styled_base_browser_esm["a" /* default */])(Stroke, {
+const HorizontalStroke = /*#__PURE__*/styled_base_browser_esm(Stroke, {
   target: "eaw9yqk4",
   label: "HorizontalStroke"
 })( true ? {
@@ -21226,28 +22091,28 @@ const HorizontalStroke = /*#__PURE__*/Object(styled_base_browser_esm["a" /* defa
   styles: "height:2px;left:3px;right:3px;"
 } : undefined);
 
-const TopStroke = /*#__PURE__*/Object(styled_base_browser_esm["a" /* default */])(HorizontalStroke, {
+const TopStroke = /*#__PURE__*/styled_base_browser_esm(HorizontalStroke, {
   target: "eaw9yqk5",
   label: "TopStroke"
 })( true ? {
   name: "1etxbbi",
   styles: "top:0;"
 } : undefined);
-const RightStroke = /*#__PURE__*/Object(styled_base_browser_esm["a" /* default */])(VerticalStroke, {
+const RightStroke = /*#__PURE__*/styled_base_browser_esm(VerticalStroke, {
   target: "eaw9yqk6",
   label: "RightStroke"
 })( true ? {
   name: "19zs6va",
   styles: "right:0;"
 } : undefined);
-const BottomStroke = /*#__PURE__*/Object(styled_base_browser_esm["a" /* default */])(HorizontalStroke, {
+const BottomStroke = /*#__PURE__*/styled_base_browser_esm(HorizontalStroke, {
   target: "eaw9yqk7",
   label: "BottomStroke"
 })( true ? {
   name: "lh0t43",
   styles: "bottom:0;"
 } : undefined);
-const LeftStroke = /*#__PURE__*/Object(styled_base_browser_esm["a" /* default */])(VerticalStroke, {
+const LeftStroke = /*#__PURE__*/styled_base_browser_esm(VerticalStroke, {
   target: "eaw9yqk8",
   label: "LeftStroke"
 })( true ? {
@@ -21367,39 +22232,39 @@ const containerPositionStyles = ({
   return box_control_visualizer_styles_ref;
 };
 
-const box_control_visualizer_styles_Container = Object(styled_base_browser_esm["a" /* default */])("div", {
+const box_control_visualizer_styles_Container = styled_base_browser_esm("div", {
   target: "e1df9b4q0",
   label: "Container"
 })("box-sizing:border-box;position:relative;", containerPositionStyles, ";" + ( true ? "" : undefined));
-const Side = Object(styled_base_browser_esm["a" /* default */])("div", {
+const Side = styled_base_browser_esm("div", {
   target: "e1df9b4q1",
   label: "Side"
-})("box-sizing:border-box;background:", Object(utils_colors["a" /* color */])('blue.wordpress.700'), ";background:", Object(utils_colors["a" /* color */])('ui.theme'), ";filter:brightness( 1 );opacity:0;position:absolute;pointer-events:none;transition:opacity 120ms linear;z-index:1;", ({
+})("box-sizing:border-box;background:", COLORS.blue.wordpress[700], ";background:", COLORS.ui.theme, ";filter:brightness( 1 );opacity:0;position:absolute;pointer-events:none;transition:opacity 120ms linear;z-index:1;", ({
   isActive
 }) => isActive && `
 		opacity: 0.3;
 	`,  true ? "" : undefined);
-const TopView = /*#__PURE__*/Object(styled_base_browser_esm["a" /* default */])(Side, {
+const TopView = /*#__PURE__*/styled_base_browser_esm(Side, {
   target: "e1df9b4q2",
   label: "TopView"
 })( true ? {
   name: "1pb21am",
   styles: "top:0;left:0;right:0;"
 } : undefined);
-const RightView = /*#__PURE__*/Object(styled_base_browser_esm["a" /* default */])(Side, {
+const RightView = /*#__PURE__*/styled_base_browser_esm(Side, {
   target: "e1df9b4q3",
   label: "RightView"
 })("top:0;bottom:0;", rtl_rtl({
   right: 0
 }), ";" + ( true ? "" : undefined));
-const BottomView = /*#__PURE__*/Object(styled_base_browser_esm["a" /* default */])(Side, {
+const BottomView = /*#__PURE__*/styled_base_browser_esm(Side, {
   target: "e1df9b4q4",
   label: "BottomView"
 })( true ? {
   name: "w87m56",
   styles: "bottom:0;left:0;right:0;"
 } : undefined);
-const LeftView = /*#__PURE__*/Object(styled_base_browser_esm["a" /* default */])(Side, {
+const LeftView = /*#__PURE__*/styled_base_browser_esm(Side, {
   target: "e1df9b4q5",
   label: "LeftView"
 })("top:0;bottom:0;", rtl_rtl({
@@ -21741,36 +22606,36 @@ const useCardContext = () => Object(external_wp_element_["useContext"])(CardCont
 
 
 const styleProps = {
-  borderColor: Object(utils_colors["a" /* color */])('lightGray.500'),
+  borderColor: COLORS.lightGray[500],
   borderRadius: '3px',
-  backgroundShady: Object(utils_colors["a" /* color */])('lightGray.200')
+  backgroundShady: COLORS.lightGray[200]
 };
 const {
   borderColor: card_styles_borderColor,
   borderRadius,
   backgroundShady
 } = styleProps;
-const CardUI = Object(styled_base_browser_esm["a" /* default */])("div", {
+const CardUI = styled_base_browser_esm("div", {
   target: "e1q7k77g0",
   label: "CardUI"
-})("background:", Object(utils_colors["a" /* color */])('white'), ";box-sizing:border-box;border-radius:", borderRadius, ";border:1px solid ", card_styles_borderColor, ";", handleBorderless, ";&.is-elevated{box-shadow:0px 1px 3px 0px rgba( 0,0,0,0.2 ),0px 1px 1px 0px rgba( 0,0,0,0.14 ),0px 2px 1px -1px rgba( 0,0,0,0.12 );}" + ( true ? "" : undefined));
-const HeaderUI = /*#__PURE__*/Object(styled_base_browser_esm["a" /* default */])(flex_component, {
+})("background:", COLORS.white, ";box-sizing:border-box;border-radius:", borderRadius, ";border:1px solid ", card_styles_borderColor, ";", handleBorderless, ";&.is-elevated{box-shadow:0px 1px 3px 0px rgba( 0,0,0,0.2 ),0px 1px 1px 0px rgba( 0,0,0,0.14 ),0px 2px 1px -1px rgba( 0,0,0,0.12 );}" + ( true ? "" : undefined));
+const HeaderUI = /*#__PURE__*/styled_base_browser_esm(flex_component, {
   target: "e1q7k77g1",
   label: "HeaderUI"
 })("border-bottom:1px solid ", card_styles_borderColor, ";border-top-left-radius:", borderRadius, ";border-top-right-radius:", borderRadius, ";box-sizing:border-box;&:last-child{border-bottom:none;}", headerFooterSizes, ";", handleBorderless, ";", handleShady, ";" + ( true ? "" : undefined));
-const MediaUI = Object(styled_base_browser_esm["a" /* default */])("div", {
+const MediaUI = styled_base_browser_esm("div", {
   target: "e1q7k77g2",
   label: "MediaUI"
 })("box-sizing:border-box;overflow:hidden;& > img,& > iframe{display:block;height:auto;max-width:100%;width:100%;}&:first-of-type{border-top-left-radius:", borderRadius, ";border-top-right-radius:", borderRadius, ";}&:last-of-type{border-bottom-left-radius:", borderRadius, ";border-bottom-right-radius:", borderRadius, ";}" + ( true ? "" : undefined));
-const BodyUI = Object(styled_base_browser_esm["a" /* default */])("div", {
+const BodyUI = styled_base_browser_esm("div", {
   target: "e1q7k77g3",
   label: "BodyUI"
 })("box-sizing:border-box;", bodySize, ";", handleShady, ";" + ( true ? "" : undefined));
-const FooterUI = /*#__PURE__*/Object(styled_base_browser_esm["a" /* default */])(flex_component, {
+const FooterUI = /*#__PURE__*/styled_base_browser_esm(flex_component, {
   target: "e1q7k77g4",
   label: "FooterUI"
 })("border-top:1px solid ", card_styles_borderColor, ";border-bottom-left-radius:", borderRadius, ";border-bottom-right-radius:", borderRadius, ";box-sizing:border-box;&:first-of-type{border-top:none;}", headerFooterSizes, ";", handleBorderless, ";", handleShady, ";" + ( true ? "" : undefined));
-const DividerUI = /*#__PURE__*/Object(styled_base_browser_esm["a" /* default */])(external_wp_primitives_["HorizontalRule"], {
+const DividerUI = /*#__PURE__*/styled_base_browser_esm(external_wp_primitives_["HorizontalRule"], {
   target: "e1q7k77g5",
   label: "DividerUI"
 })("all:unset;border-top:1px solid ", card_styles_borderColor, ";box-sizing:border-box;display:block;height:0;width:100%;" + ( true ? "" : undefined));
@@ -22175,7 +23040,7 @@ function ClipboardButton({
   }), children);
 }
 
-// EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/edit.js
+// EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/edit.js + 1 modules
 var edit = __webpack_require__("B9Az");
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/close.js
@@ -22281,7 +23146,7 @@ function Dropdown({
   return Object(external_wp_element_["createElement"])("div", {
     className: classnames_default()('components-dropdown', className),
     ref: containerRef
-  }, renderToggle(args), isOpen && Object(external_wp_element_["createElement"])(popover["a" /* default */], Object(esm_extends["a" /* default */])({
+  }, renderToggle(args), isOpen && Object(external_wp_element_["createElement"])(build_module_popover["a" /* default */], Object(esm_extends["a" /* default */])({
     position: position,
     onClose: close,
     onFocusOutside: closeIfFocusOutside,
@@ -22857,7 +23722,7 @@ class alpha_Alpha extends external_wp_element_["Component"] {
   }
 
 }
-/* harmony default export */ var alpha = (Object(external_wp_compose_["pure"])(alpha_Alpha));
+/* harmony default export */ var color_picker_alpha = (Object(external_wp_compose_["pure"])(alpha_Alpha));
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/color-picker/hue.js
 
@@ -23033,7 +23898,7 @@ class hue_Hue extends external_wp_element_["Component"] {
       className: "components-color-picker__hue-pointer",
       style: pointerLocation,
       onKeyDown: this.preventKeyEvents
-    }), Object(external_wp_element_["createElement"])(component["a" /* default */], {
+    }), Object(external_wp_element_["createElement"])(visually_hidden["a" /* default */], {
       as: "p",
       id: `components-color-picker__hue-description-${instanceId}`
     }, Object(external_wp_i18n_["__"])('Move the arrow left or right to change hue.')))));
@@ -23327,7 +24192,7 @@ class inputs_Inputs extends external_wp_element_["Component"] {
       }));
     } else if (this.state.view === 'rgb') {
       const legend = disableAlpha ? Object(external_wp_i18n_["__"])('Color value in RGB') : Object(external_wp_i18n_["__"])('Color value in RGBA');
-      return Object(external_wp_element_["createElement"])("fieldset", null, Object(external_wp_element_["createElement"])(component["a" /* default */], {
+      return Object(external_wp_element_["createElement"])("fieldset", null, Object(external_wp_element_["createElement"])(visually_hidden["a" /* default */], {
         as: "legend"
       }, legend), Object(external_wp_element_["createElement"])("div", {
         className: "components-color-picker__inputs-fields"
@@ -23371,7 +24236,7 @@ class inputs_Inputs extends external_wp_element_["Component"] {
       })));
     } else if (this.state.view === 'hsl') {
       const legend = disableAlpha ? Object(external_wp_i18n_["__"])('Color value in HSL') : Object(external_wp_i18n_["__"])('Color value in HSLA');
-      return Object(external_wp_element_["createElement"])("fieldset", null, Object(external_wp_element_["createElement"])(component["a" /* default */], {
+      return Object(external_wp_element_["createElement"])("fieldset", null, Object(external_wp_element_["createElement"])(visually_hidden["a" /* default */], {
         as: "legend"
       }, legend), Object(external_wp_element_["createElement"])("div", {
         className: "components-color-picker__inputs-fields"
@@ -23612,7 +24477,7 @@ class saturation_Saturation extends external_wp_element_["Component"] {
       className: "components-color-picker__saturation-pointer",
       style: pointerLocation,
       onKeyDown: this.preventKeyEvents
-    }), Object(external_wp_element_["createElement"])(component["a" /* default */], {
+    }), Object(external_wp_element_["createElement"])(visually_hidden["a" /* default */], {
       id: `color-picker-saturation-${instanceId}`
     }, Object(external_wp_i18n_["__"])('Use your arrow keys to change the base color. Move up to lighten the color, down to darken, left to decrease saturation, and right to increase saturation.'))));
     /* eslint-enable jsx-a11y/no-noninteractive-element-interactions */
@@ -23875,7 +24740,7 @@ class color_picker_ColorPicker extends external_wp_element_["Component"] {
     }, Object(external_wp_element_["createElement"])(hue, {
       hsl: hsl,
       onChange: this.commitValues
-    }), disableAlpha ? null : Object(external_wp_element_["createElement"])(alpha, {
+    }), disableAlpha ? null : Object(external_wp_element_["createElement"])(color_picker_alpha, {
       rgb: rgb,
       hsl: hsl,
       onChange: this.commitValues
@@ -24692,9 +25557,6 @@ function assertThisInitialized_assertThisInitialized(self) {
 
   return self;
 }
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js + 1 modules
-var inheritsLoose = __webpack_require__("dI71");
-
 // EXTERNAL MODULE: ./node_modules/prop-types/index.js
 var prop_types = __webpack_require__("17x9");
 var prop_types_default = /*#__PURE__*/__webpack_require__.n(prop_types);
@@ -25232,7 +26094,7 @@ var stateChangeTypes$3 = /*#__PURE__*/Object.freeze({
 
 var downshift_esm_Downshift = /*#__PURE__*/function () {
   var Downshift = /*#__PURE__*/function (_Component) {
-    Object(inheritsLoose["a" /* default */])(Downshift, _Component);
+    _inheritsLoose(Downshift, _Component);
 
     function Downshift(_props) {
       var _this;
@@ -28877,7 +29739,7 @@ function CustomSelectControl({
 
   return Object(external_wp_element_["createElement"])("div", {
     className: classnames_default()('components-custom-select-control', className)
-  }, hideLabelFromVision ? Object(external_wp_element_["createElement"])(component["a" /* default */], Object(esm_extends["a" /* default */])({
+  }, hideLabelFromVision ? Object(external_wp_element_["createElement"])(visually_hidden["a" /* default */], Object(esm_extends["a" /* default */])({
     as: "label"
   }, getLabelProps()), label) :
   /* eslint-disable-next-line jsx-a11y/label-has-associated-control, jsx-a11y/label-has-for */
@@ -29524,8 +30386,8 @@ const select_control_styles_disabledStyles = ({
   disabled
 }) => {
   if (!disabled) return '';
-  return /*#__PURE__*/Object(core_browser_esm["c" /* css */])({
-    color: Object(utils_colors["a" /* color */])('ui.textDisabled')
+  return /*#__PURE__*/css_browser_esm({
+    color: COLORS.ui.textDisabled
   },  true ? "" : undefined);
 };
 
@@ -29539,7 +30401,7 @@ const select_control_styles_fontSizeStyles = ({
   const fontSize = sizes[size];
   const fontSizeMobile = '16px';
   if (!fontSize) return '';
-  return /*#__PURE__*/Object(core_browser_esm["c" /* css */])("font-size:", fontSizeMobile, ";@media ( min-width:600px ){font-size:", fontSize, ";}" + ( true ? "" : undefined));
+  return /*#__PURE__*/css_browser_esm("font-size:", fontSizeMobile, ";@media ( min-width:600px ){font-size:", fontSize, ";}" + ( true ? "" : undefined));
 };
 
 const select_control_styles_sizeStyles = ({
@@ -29558,19 +30420,19 @@ const select_control_styles_sizeStyles = ({
     }
   };
   const style = sizes[size] || sizes.default;
-  return /*#__PURE__*/Object(core_browser_esm["c" /* css */])(style,  true ? "" : undefined);
+  return /*#__PURE__*/css_browser_esm(style,  true ? "" : undefined);
 }; // TODO: Resolve need to use &&& to increase specificity
 // https://github.com/WordPress/gutenberg/issues/18483
 
 
-const Select = Object(styled_base_browser_esm["a" /* default */])("select", {
+const Select = styled_base_browser_esm("select", {
   target: "e12x0a390",
   label: "Select"
-})("&&&{appearance:none;background:transparent;box-sizing:border-box;border:none;box-shadow:none !important;color:", Object(utils_colors["a" /* color */])('black'), ";display:block;margin:0;width:100%;", select_control_styles_disabledStyles, ";", select_control_styles_fontSizeStyles, ";", select_control_styles_sizeStyles, ";", rtl_rtl({
+})("&&&{appearance:none;background:transparent;box-sizing:border-box;border:none;box-shadow:none !important;color:", COLORS.black, ";display:block;margin:0;width:100%;", select_control_styles_disabledStyles, ";", select_control_styles_fontSizeStyles, ";", select_control_styles_sizeStyles, ";", rtl_rtl({
   paddingLeft: 8,
   paddingRight: 24
 })(), "}" + ( true ? "" : undefined));
-const DownArrowWrapper = Object(styled_base_browser_esm["a" /* default */])("div", {
+const DownArrowWrapper = styled_base_browser_esm("div", {
   target: "e12x0a391",
   label: "DownArrowWrapper"
 })("align-items:center;bottom:0;box-sizing:border-box;display:flex;padding:0 4px;pointer-events:none;position:absolute;top:0;", rtl_rtl({
@@ -29822,7 +30684,7 @@ var external_wp_dom_ = __webpack_require__("1CF3");
 
 function disabled_styles_EMOTION_STRINGIFIED_CSS_ERROR_() { return "You have tried to stringify object returned from `css` function. It isn't supposed to be used directly (e.g. as value of the `className` prop), but rather handed to emotion so it can handle it (e.g. as value of `css` prop)."; }
 
-const StyledWrapper = Object(styled_base_browser_esm["a" /* default */])("div", {
+const StyledWrapper = styled_base_browser_esm("div", {
   target: "e1ac3xxk0",
   label: "StyledWrapper"
 })( true ? {
@@ -29850,10 +30712,11 @@ const StyledWrapper = Object(styled_base_browser_esm["a" /* default */])("div", 
  */
 
 
+const Context = Object(external_wp_element_["createContext"])(false);
 const {
   Consumer,
   Provider: disabled_Provider
-} = Object(external_wp_element_["createContext"])(false);
+} = Context;
 /**
  * Names of control nodes which qualify for disabled behavior.
  *
@@ -29933,6 +30796,7 @@ function Disabled({
   }, props), children));
 }
 
+Disabled.Context = Context;
 Disabled.Consumer = Consumer;
 /* harmony default export */ var build_module_disabled = (Disabled);
 
@@ -30038,6 +30902,132 @@ var DisclosureContent = Object(createComponent["a" /* createComponent */])({
 });
 
 
+
+// CONCATENATED MODULE: ./node_modules/reakit/es/Separator/Separator.js
+
+
+
+
+
+
+// Automatically generated
+var SEPARATOR_KEYS = ["orientation"];
+
+var useSeparator = Object(createHook["a" /* createHook */])({
+  name: "Separator",
+  compose: Role["a" /* useRole */],
+  keys: SEPARATOR_KEYS,
+  useOptions: function useOptions(_ref) {
+    var _ref$orientation = _ref.orientation,
+        orientation = _ref$orientation === void 0 ? "horizontal" : _ref$orientation,
+        options = Object(_rollupPluginBabelHelpers_1f0bf8c2["a" /* _ */])(_ref, ["orientation"]);
+
+    return Object(_rollupPluginBabelHelpers_1f0bf8c2["b" /* a */])({
+      orientation: orientation
+    }, options);
+  },
+  useProps: function useProps(options, htmlProps) {
+    return Object(_rollupPluginBabelHelpers_1f0bf8c2["b" /* a */])({
+      role: "separator",
+      "aria-orientation": options.orientation
+    }, htmlProps);
+  }
+});
+var Separator = Object(createComponent["a" /* createComponent */])({
+  as: "hr",
+  memo: true,
+  useHook: useSeparator
+});
+
+
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/divider/styles.js
+
+
+/**
+ * Internal dependencies
+ */
+
+const Divider = /*#__PURE__*/Object(emotion_esm["a" /* css */])("border-color:", config_values.colorDivider, ";border-width:0 0 1px 0;height:0;margin:0;width:auto;;label:Divider;" + ( true ? "" : undefined));
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/divider/component.js
+
+
+
+
+// eslint-disable-next-line no-restricted-imports
+ // eslint-disable-next-line no-restricted-imports, no-duplicate-imports
+
+/**
+ * WordPress dependencies
+ */
+
+/**
+ * Internal dependencies
+ */
+
+ // eslint-disable-next-line no-duplicate-imports
+
+
+
+
+function component_Divider(props, forwardedRef) {
+  const {
+    className,
+    margin,
+    marginBottom,
+    marginTop,
+    ...otherProps
+  } = Object(use_context_system["a" /* useContextSystem */])(props, 'Divider');
+  const classes = Object(external_wp_element_["useMemo"])(() => {
+    const sx = {};
+
+    if (typeof margin !== 'undefined') {
+      sx.margin = /*#__PURE__*/Object(emotion_esm["a" /* css */])("margin-bottom:", space_space(margin), ";margin-top:", space_space(margin), ";" + ( true ? "" : undefined));
+    } else {
+      if (typeof marginTop !== 'undefined') {
+        sx.marginTop = /*#__PURE__*/Object(emotion_esm["a" /* css */])("margin-top:", space_space(marginTop), ";" + ( true ? "" : undefined));
+      }
+
+      if (typeof marginBottom !== 'undefined') {
+        sx.marginBottom = /*#__PURE__*/Object(emotion_esm["a" /* css */])("margin-bottom:", space_space(marginBottom), ";" + ( true ? "" : undefined));
+      }
+    }
+
+    return Object(emotion_esm["b" /* cx */])(Divider, sx.marginBottom, sx.marginTop, sx.margin, className);
+  }, [className, margin, marginBottom, marginTop]);
+  return Object(external_wp_element_["createElement"])(Separator, Object(esm_extends["a" /* default */])({
+    as: "hr"
+  }, otherProps, {
+    className: classes,
+    ref: forwardedRef
+  }));
+}
+/**
+ * `Divider` is a layout component that separates groups of related content.
+ *
+ * @example
+ * ```js
+ * import {
+ *     __experimentalDivider as Divider,
+ *     __experimentalText as Text }
+ * from `@wordpress/components`;
+ *
+ * function Example() {
+ * 	return (
+ * 		<ListGroup>
+ * 			<FormGroup>...</FormGroup>
+ * 			<Divider />
+ * 			<FormGroup>...</FormGroup>
+ * 		</ListGroup>
+ * 	);
+ * }
+ * ```
+ */
+
+
+const ConnectedDivider = Object(context_connect["a" /* contextConnect */])(component_Divider, 'Divider');
+/* harmony default export */ var divider_component = (ConnectedDivider);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/draggable/index.js
 
@@ -30357,96 +31347,20 @@ function DropZoneProvider({
   return children;
 }
 
-// EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/menu.js
-var library_menu = __webpack_require__("cHUN");
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/menu.js
 
-// EXTERNAL MODULE: ./node_modules/@wordpress/components/build-module/toolbar-item/index.js
-var toolbar_item = __webpack_require__("aA0e");
-
-// EXTERNAL MODULE: ./node_modules/@wordpress/components/build-module/toolbar-context/index.js
-var toolbar_context = __webpack_require__("GK4x");
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/toolbar-button/toolbar-button-container.js
-
-
-const ToolbarButtonContainer = props => Object(external_wp_element_["createElement"])("div", {
-  className: props.className
-}, props.children);
-
-/* harmony default export */ var toolbar_button_container = (ToolbarButtonContainer);
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/toolbar-button/index.js
-
-
-
-/**
- * External dependencies
- */
 
 /**
  * WordPress dependencies
  */
 
-
-/**
- * Internal dependencies
- */
-
-
-
-
-
-
-function ToolbarButton({
-  containerClassName,
-  className,
-  extraProps,
-  children,
-  title,
-  isActive,
-  isDisabled,
-  ...props
-}, ref) {
-  const accessibleToolbarState = Object(external_wp_element_["useContext"])(toolbar_context["a" /* default */]);
-
-  if (!accessibleToolbarState) {
-    return Object(external_wp_element_["createElement"])(toolbar_button_container, {
-      className: containerClassName
-    }, Object(external_wp_element_["createElement"])(build_module_button["a" /* default */], Object(esm_extends["a" /* default */])({
-      ref: ref,
-      icon: props.icon,
-      label: title,
-      shortcut: props.shortcut,
-      "data-subscript": props.subscript,
-      onClick: event => {
-        event.stopPropagation();
-
-        if (props.onClick) {
-          props.onClick(event);
-        }
-      },
-      className: classnames_default()('components-toolbar__control', className),
-      isPressed: isActive,
-      disabled: isDisabled,
-      "data-toolbar-item": true
-    }, extraProps, props), children));
-  } // ToobarItem will pass all props to the render prop child, which will pass
-  // all props to Button. This means that ToolbarButton has the same API as
-  // Button.
-
-
-  return Object(external_wp_element_["createElement"])(toolbar_item["a" /* default */], Object(esm_extends["a" /* default */])({
-    className: classnames_default()('components-toolbar-button', className)
-  }, extraProps, props, {
-    ref: ref
-  }), toolbarItemProps => Object(external_wp_element_["createElement"])(build_module_button["a" /* default */], Object(esm_extends["a" /* default */])({
-    label: title,
-    isPressed: isActive,
-    disabled: isDisabled
-  }, toolbarItemProps), children));
-}
-
-/* harmony default export */ var toolbar_button = (Object(external_wp_element_["forwardRef"])(ToolbarButton));
+const menu_menu = Object(external_wp_element_["createElement"])(external_wp_primitives_["SVG"], {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24"
+}, Object(external_wp_element_["createElement"])(external_wp_primitives_["Path"], {
+  d: "M5 5v1.5h14V5H5zm0 7.8h14v-1.5H5v1.5zM5 19h14v-1.5H5V19z"
+}));
+/* harmony default export */ var library_menu = (menu_menu);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/navigable-container/container.js
 
@@ -30701,7 +31615,6 @@ function NavigableMenu({
 
 
 
-
 function mergeProps(defaultProps = {}, props = {}) {
   const mergedProps = { ...defaultProps,
     ...props
@@ -30718,7 +31631,7 @@ function DropdownMenu({
   children,
   className,
   controls,
-  icon = library_menu["a" /* default */],
+  icon = library_menu,
   label,
   popoverProps,
   toggleProps,
@@ -30728,8 +31641,7 @@ function DropdownMenu({
   // The following props exist for backward compatibility.
   menuLabel,
   position,
-  noIcons,
-  isToolbarButton = false
+  noIcons
 }) {
   if (menuLabel) {
     external_wp_deprecated_default()('`menuLabel` prop in `DropdownComponent`', {
@@ -30764,7 +31676,6 @@ function DropdownMenu({
     className: 'components-dropdown-menu__popover',
     position
   }, popoverProps);
-  const ButtonComponent = isToolbarButton ? toolbar_button : build_module_button["a" /* default */];
   return Object(external_wp_element_["createElement"])(Dropdown, {
     className: classnames_default()('components-dropdown-menu', className),
     popoverProps: mergedPopoverProps,
@@ -30791,7 +31702,7 @@ function DropdownMenu({
           'is-opened': isOpen
         })
       }, toggleProps);
-      return Object(external_wp_element_["createElement"])(ButtonComponent, Object(esm_extends["a" /* default */])({}, mergedToggleProps, {
+      return Object(external_wp_element_["createElement"])(build_module_button["a" /* default */], Object(esm_extends["a" /* default */])({}, mergedToggleProps, {
         icon: icon,
         onClick: event => {
           onToggle(event);
@@ -30848,8 +31759,20 @@ function DropdownMenu({
 
 /* harmony default export */ var dropdown_menu = (DropdownMenu);
 
-// EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/swatch.js
-var swatch = __webpack_require__("qE/0");
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/swatch.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+const swatch = Object(external_wp_element_["createElement"])(external_wp_primitives_["SVG"], {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24"
+}, Object(external_wp_element_["createElement"])(external_wp_primitives_["Path"], {
+  d: "M5 17.7c.4.5.8.9 1.2 1.2l1.1-1.4c-.4-.3-.7-.6-1-1L5 17.7zM5 6.3l1.4 1.1c.3-.4.6-.7 1-1L6.3 5c-.5.4-.9.8-1.3 1.3zm.1 7.8l-1.7.5c.2.6.4 1.1.7 1.6l1.5-.8c-.2-.4-.4-.8-.5-1.3zM4.8 12v-.7L3 11.1v1.8l1.7-.2c.1-.2.1-.5.1-.7zm3 7.9c.5.3 1.1.5 1.6.7l.5-1.7c-.5-.1-.9-.3-1.3-.5l-.8 1.5zM19 6.3c-.4-.5-.8-.9-1.2-1.2l-1.1 1.4c.4.3.7.6 1 1L19 6.3zm-.1 3.6l1.7-.5c-.2-.6-.4-1.1-.7-1.6l-1.5.8c.2.4.4.8.5 1.3zM5.6 8.6l-1.5-.8c-.3.5-.5 1-.7 1.6l1.7.5c.1-.5.3-.9.5-1.3zm2.2-4.5l.8 1.5c.4-.2.8-.4 1.3-.5l-.5-1.7c-.6.2-1.1.4-1.6.7zm8.8 13.5l1.1 1.4c.5-.4.9-.8 1.2-1.2l-1.4-1.1c-.2.3-.5.6-.9.9zm1.8-2.2l1.5.8c.3-.5.5-1.1.7-1.6l-1.7-.5c-.1.5-.3.9-.5 1.3zm2.6-4.3l-1.7.2v1.4l1.7.2V12v-.9zM11.1 3l.2 1.7h1.4l.2-1.7h-1.8zm3 2.1c.5.1.9.3 1.3.5l.8-1.5c-.5-.3-1.1-.5-1.6-.7l-.5 1.7zM12 19.2h-.7l-.2 1.8h1.8l-.2-1.7c-.2-.1-.5-.1-.7-.1zm2.1-.3l.5 1.7c.6-.2 1.1-.4 1.6-.7l-.8-1.5c-.4.2-.8.4-1.3.5z"
+}));
+/* harmony default export */ var library_swatch = (swatch);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/swatch/index.js
 
@@ -30873,7 +31796,7 @@ function Swatch({
       background: fill
     }
   }) : Object(external_wp_element_["createElement"])(components_build_module_icon["a" /* default */], {
-    icon: swatch["a" /* default */]
+    icon: library_swatch
   });
 }
 
@@ -30999,6 +31922,7 @@ function color_list_picker_ColorOption({
   label,
   value,
   colors,
+  disableCustomColors,
   onChange
 }) {
   const [isOpen, setIsOpen] = Object(external_wp_element_["useState"])(false);
@@ -31012,7 +31936,8 @@ function color_list_picker_ColorOption({
     colors: colors,
     value: value,
     clearable: false,
-    onChange: onChange
+    onChange: onChange,
+    disableCustomColors: disableCustomColors
   }));
 }
 
@@ -31020,6 +31945,7 @@ function ColorListPicker({
   colors,
   labels,
   value = [],
+  disableCustomColors,
   onChange
 }) {
   return Object(external_wp_element_["createElement"])("div", {
@@ -31029,6 +31955,7 @@ function ColorListPicker({
     label: label,
     value: value[index],
     colors: colors,
+    disableCustomColors: disableCustomColors,
     onChange: newColor => {
       const newColors = value.slice();
       newColors[index] = newColor;
@@ -31311,7 +32238,7 @@ function ControlPointButton({
     style: {
       left: `${position}%`
     }
-  }, additionalProps)), Object(external_wp_element_["createElement"])(component["a" /* default */], {
+  }, additionalProps)), Object(external_wp_element_["createElement"])(visually_hidden["a" /* default */], {
     id: descriptionId
   }, Object(external_wp_i18n_["__"])('Use your left or right arrow keys or drag and drop with the mouse to change the gradient position. Press the button to change the color or remove the control point.')));
 }
@@ -31710,6 +32637,7 @@ function CustomDuotoneBar({
 function DuotonePicker({
   colorPalette,
   duotonePalette,
+  disableCustomColors,
   value,
   onChange
 }) {
@@ -31744,13 +32672,14 @@ function DuotonePicker({
     actions: Object(external_wp_element_["createElement"])(CircularOptionPicker.ButtonAction, {
       onClick: () => onChange(undefined)
     }, Object(external_wp_i18n_["__"])('Clear'))
-  }, Object(external_wp_element_["createElement"])(CustomDuotoneBar, {
+  }, !disableCustomColors && Object(external_wp_element_["createElement"])(CustomDuotoneBar, {
     value: value,
     onChange: onChange
-  }), Object(external_wp_element_["createElement"])(color_list_picker, {
+  }), colorPalette && Object(external_wp_element_["createElement"])(color_list_picker, {
     labels: [Object(external_wp_i18n_["__"])('Shadows'), Object(external_wp_i18n_["__"])('Highlights')],
     colors: colorPalette,
     value: value,
+    disableCustomColors: disableCustomColors,
     onChange: newColors => {
       if (!newColors[0]) {
         newColors[0] = defaultDark;
@@ -31780,7 +32709,7 @@ function external_link_styles_EMOTION_STRINGIFIED_CSS_ERROR_() { return "You hav
  * WordPress dependencies
  */
 
-const StyledIcon = /*#__PURE__*/Object(styled_base_browser_esm["a" /* default */])(build_module_icon["a" /* default */], {
+const StyledIcon = /*#__PURE__*/styled_base_browser_esm(build_module_icon["a" /* default */], {
   target: "etxm6pv0",
   label: "StyledIcon"
 })( true ? {
@@ -31827,7 +32756,7 @@ function ExternalLink({
       target: "_blank",
       rel: rel,
       ref: ref
-    }), children, Object(external_wp_element_["createElement"])(component["a" /* default */], {
+    }), children, Object(external_wp_element_["createElement"])(visually_hidden["a" /* default */], {
       as: "span"
     },
     /* translators: accessibility text */
@@ -31852,39 +32781,39 @@ function focal_point_picker_style_EMOTION_STRINGIFIED_CSS_ERROR_() { return "You
 
 
 
-const MediaWrapper = Object(styled_base_browser_esm["a" /* default */])("div", {
+const MediaWrapper = styled_base_browser_esm("div", {
   target: "e11wezi70",
   label: "MediaWrapper"
 })( true ? {
   name: "4wwkjz",
   styles: "background-color:transparent;box-sizing:border-box;text-align:center;width:100%;"
 } : undefined);
-const MediaContainer = Object(styled_base_browser_esm["a" /* default */])("div", {
+const MediaContainer = styled_base_browser_esm("div", {
   target: "e11wezi71",
   label: "MediaContainer"
 })( true ? {
   name: "1q0l1fq",
   styles: "align-items:center;box-sizing:border-box;box-shadow:0 0 0 1px rgba( 0,0,0,0.2 );cursor:pointer;display:inline-flex;justify-content:center;margin:auto;position:relative;height:100%;img,video{box-sizing:border-box;display:block;height:auto;margin:0;max-height:100%;max-width:100%;pointer-events:none;user-select:none;width:auto;}"
 } : undefined);
-const MediaPlaceholder = Object(styled_base_browser_esm["a" /* default */])("div", {
+const MediaPlaceholder = styled_base_browser_esm("div", {
   target: "e11wezi72",
   label: "MediaPlaceholder"
-})("background:", Object(utils_colors["a" /* color */])('lightGray.300'), ";box-sizing:border-box;height:170px;max-width:280px;min-width:200px;width:100%;" + ( true ? "" : undefined));
-const focal_point_picker_style_UnitControl = /*#__PURE__*/Object(styled_base_browser_esm["a" /* default */])(unit_control, {
+})("background:", COLORS.lightGray[300], ";box-sizing:border-box;height:170px;max-width:280px;min-width:200px;width:100%;" + ( true ? "" : undefined));
+const focal_point_picker_style_UnitControl = /*#__PURE__*/styled_base_browser_esm(unit_control, {
   target: "e11wezi73",
   label: "UnitControl"
 })( true ? {
   name: "v7v99c",
   styles: "width:100px;"
 } : undefined);
-const ControlWrapper = /*#__PURE__*/Object(styled_base_browser_esm["a" /* default */])(flex_component, {
+const ControlWrapper = /*#__PURE__*/styled_base_browser_esm(flex_component, {
   target: "e11wezi74",
   label: "ControlWrapper"
 })( true ? {
   name: "lqoi1w",
   styles: "max-width:320px;padding:1em 0;"
 } : undefined);
-const GridView = Object(styled_base_browser_esm["a" /* default */])("div", {
+const GridView = styled_base_browser_esm("div", {
   target: "e11wezi75",
   label: "GridView"
 })("box-sizing:border-box;left:50%;opacity:0;overflow:hidden;pointer-events:none;position:absolute;top:50%;transform:translate3d( -50%,-50%,0 );transition:opacity 120ms linear;z-index:1;", ({
@@ -31892,21 +32821,21 @@ const GridView = Object(styled_base_browser_esm["a" /* default */])("div", {
 }) => isActive && `
 		opacity: 1;
 	`,  true ? "" : undefined);
-const GridLine = Object(styled_base_browser_esm["a" /* default */])("div", {
+const GridLine = styled_base_browser_esm("div", {
   target: "e11wezi76",
   label: "GridLine"
 })( true ? {
   name: "18dz4sk",
   styles: "box-sizing:border-box;background:white;box-shadow:0 0 2px rgba( 0,0,0,0.6 );position:absolute;opacity:0.4;transform:translateZ( 0 );"
 } : undefined);
-const GridLineX = /*#__PURE__*/Object(styled_base_browser_esm["a" /* default */])(GridLine, {
+const GridLineX = /*#__PURE__*/styled_base_browser_esm(GridLine, {
   target: "e11wezi77",
   label: "GridLineX"
 })( true ? {
   name: "1u4twh6",
   styles: "height:1px;left:0;right:0;"
 } : undefined);
-const GridLineY = /*#__PURE__*/Object(styled_base_browser_esm["a" /* default */])(GridLine, {
+const GridLineY = /*#__PURE__*/styled_base_browser_esm(GridLine, {
   target: "e11wezi78",
   label: "GridLineY"
 })( true ? {
@@ -32043,30 +32972,30 @@ function focal_point_style_EMOTION_STRINGIFIED_CSS_ERROR_() { return "You have t
  */
 
 
-const FocalPointWrapper = Object(styled_base_browser_esm["a" /* default */])("div", {
+const FocalPointWrapper = styled_base_browser_esm("div", {
   target: "eas61re0",
   label: "FocalPointWrapper"
 })("background-color:transparent;box-sizing:border-box;cursor:grab;height:30px;margin:-15px 0 0 -15px;opacity:0.8;position:absolute;user-select:none;width:30px;will-change:transform;z-index:10000;", ({
   isDragging
 }) => isDragging && 'cursor: grabbing;',  true ? "" : undefined);
-const PointerIconSVG = /*#__PURE__*/Object(styled_base_browser_esm["a" /* default */])(external_wp_primitives_["SVG"], {
+const PointerIconSVG = /*#__PURE__*/styled_base_browser_esm(external_wp_primitives_["SVG"], {
   target: "eas61re1",
   label: "PointerIconSVG"
 })( true ? {
   name: "1fp1hff",
   styles: "display:block;height:100%;left:0;position:absolute;top:0;width:100%;"
 } : undefined);
-const PointerIconPathOutline = /*#__PURE__*/Object(styled_base_browser_esm["a" /* default */])(external_wp_primitives_["Path"], {
+const PointerIconPathOutline = /*#__PURE__*/styled_base_browser_esm(external_wp_primitives_["Path"], {
   target: "eas61re2",
   label: "PointerIconPathOutline"
 })( true ? {
   name: "j4aqsr",
   styles: "fill:white;"
 } : undefined);
-const PointerIconPathFill = /*#__PURE__*/Object(styled_base_browser_esm["a" /* default */])(external_wp_primitives_["Path"], {
+const PointerIconPathFill = /*#__PURE__*/styled_base_browser_esm(external_wp_primitives_["Path"], {
   target: "eas61re3",
   label: "PointerIconPathFill"
-})("fill:", Object(utils_colors["a" /* color */])('blue.wordpress.700'), ";fill:", Object(utils_colors["a" /* color */])('ui.theme'), ";" + ( true ? "" : undefined));
+})("fill:", COLORS.blue.wordpress[700], ";fill:", COLORS.ui.theme, ";" + ( true ? "" : undefined));
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/focal-point-picker/focal-point.js
 
@@ -32819,7 +33748,7 @@ var range_control_styles_ref =  true ? {
 const rangeHeight = () => range_control_styles_ref;
 
 const thumbSize = 20;
-const range_control_styles_Root = Object(styled_base_browser_esm["a" /* default */])("div", {
+const range_control_styles_Root = styled_base_browser_esm("div", {
   target: "exqw8y20",
   label: "Root"
 })( true ? {
@@ -32828,32 +33757,32 @@ const range_control_styles_Root = Object(styled_base_browser_esm["a" /* default 
 } : undefined);
 
 const wrapperColor = ({
-  color: colorProp = Object(utils_colors["a" /* color */])('ui.borderFocus')
+  color: colorProp = COLORS.ui.borderFocus
 }) => {
-  return /*#__PURE__*/Object(core_browser_esm["c" /* css */])({
+  return /*#__PURE__*/css_browser_esm({
     color: colorProp
   },  true ? "" : undefined);
 };
 
 const wrapperMargin = ({
   marks
-}) => /*#__PURE__*/Object(core_browser_esm["c" /* css */])({
+}) => /*#__PURE__*/css_browser_esm({
   marginBottom: marks ? 16 : null
 },  true ? "" : undefined);
 
-const range_control_styles_Wrapper = Object(styled_base_browser_esm["a" /* default */])("div", {
+const range_control_styles_Wrapper = styled_base_browser_esm("div", {
   target: "exqw8y21",
   label: "Wrapper"
-})("box-sizing:border-box;color:", Object(utils_colors["a" /* color */])('blue.medium.focus'), ";display:block;flex:1;padding-top:15px;position:relative;width:100%;", wrapperColor, ";", rangeHeight, ";", wrapperMargin, ";", rtl_rtl({
+})("box-sizing:border-box;color:", COLORS.blue.medium.focus, ";display:block;flex:1;padding-top:15px;position:relative;width:100%;", wrapperColor, ";", rangeHeight, ";", wrapperMargin, ";", rtl_rtl({
   marginLeft: 10
 }),  true ? "" : undefined);
-const BeforeIconWrapper = Object(styled_base_browser_esm["a" /* default */])("span", {
+const BeforeIconWrapper = styled_base_browser_esm("span", {
   target: "exqw8y22",
   label: "BeforeIconWrapper"
 })("margin-top:3px;", rtl_rtl({
   marginRight: 6
 }),  true ? "" : undefined);
-const AfterIconWrapper = Object(styled_base_browser_esm["a" /* default */])("span", {
+const AfterIconWrapper = styled_base_browser_esm("span", {
   target: "exqw8y23",
   label: "AfterIconWrapper"
 })("margin-top:3px;", rtl_rtl({
@@ -32867,18 +33796,18 @@ const railBackgroundColor = ({
   let background = railColor || null;
 
   if (disabled) {
-    background = Object(utils_colors["a" /* color */])('lightGray.400');
+    background = COLORS.lightGray[400];
   }
 
-  return /*#__PURE__*/Object(core_browser_esm["c" /* css */])({
+  return /*#__PURE__*/css_browser_esm({
     background
   },  true ? "" : undefined);
 };
 
-const Rail = Object(styled_base_browser_esm["a" /* default */])("span", {
+const Rail = styled_base_browser_esm("span", {
   target: "exqw8y24",
   label: "Rail"
-})("background-color:", Object(utils_colors["a" /* color */])('lightGray.600'), ";box-sizing:border-box;left:0;pointer-events:none;right:0;display:block;height:3px;position:absolute;margin-top:14px;top:0;", railBackgroundColor, ";" + ( true ? "" : undefined));
+})("background-color:", COLORS.lightGray[600], ";box-sizing:border-box;left:0;pointer-events:none;right:0;display:block;height:3px;position:absolute;margin-top:14px;top:0;", railBackgroundColor, ";" + ( true ? "" : undefined));
 
 const trackBackgroundColor = ({
   disabled,
@@ -32887,19 +33816,19 @@ const trackBackgroundColor = ({
   let background = trackColor || 'currentColor';
 
   if (disabled) {
-    background = Object(utils_colors["a" /* color */])('lightGray.800');
+    background = COLORS.lightGray[800];
   }
 
-  return /*#__PURE__*/Object(core_browser_esm["c" /* css */])({
+  return /*#__PURE__*/css_browser_esm({
     background
   },  true ? "" : undefined);
 };
 
-const Track = Object(styled_base_browser_esm["a" /* default */])("span", {
+const Track = styled_base_browser_esm("span", {
   target: "exqw8y25",
   label: "Track"
 })("background-color:currentColor;border-radius:1px;box-sizing:border-box;height:3px;pointer-events:none;display:block;position:absolute;margin-top:14px;top:0;", trackBackgroundColor, ";" + ( true ? "" : undefined));
-const MarksWrapper = Object(styled_base_browser_esm["a" /* default */])("span", {
+const MarksWrapper = styled_base_browser_esm("span", {
   target: "exqw8y26",
   label: "MarksWrapper"
 })( true ? {
@@ -32911,18 +33840,18 @@ const markFill = ({
   disabled,
   isFilled
 }) => {
-  let backgroundColor = isFilled ? 'currentColor' : Object(utils_colors["a" /* color */])('lightGray.600');
+  let backgroundColor = isFilled ? 'currentColor' : COLORS.lightGray[600];
 
   if (disabled) {
-    backgroundColor = Object(utils_colors["a" /* color */])('lightGray.800');
+    backgroundColor = COLORS.lightGray[800];
   }
 
-  return /*#__PURE__*/Object(core_browser_esm["c" /* css */])({
+  return /*#__PURE__*/css_browser_esm({
     backgroundColor
   },  true ? "" : undefined);
 };
 
-const Mark = Object(styled_base_browser_esm["a" /* default */])("span", {
+const Mark = styled_base_browser_esm("span", {
   target: "exqw8y27",
   label: "Mark"
 })("box-sizing:border-box;height:9px;left:0;position:absolute;top:-4px;width:1px;", markFill, ";" + ( true ? "" : undefined));
@@ -32930,16 +33859,16 @@ const Mark = Object(styled_base_browser_esm["a" /* default */])("span", {
 const markLabelFill = ({
   isFilled
 }) => {
-  return /*#__PURE__*/Object(core_browser_esm["c" /* css */])({
-    color: isFilled ? Object(utils_colors["a" /* color */])('darkGray.300') : Object(utils_colors["a" /* color */])('lightGray.600')
+  return /*#__PURE__*/css_browser_esm({
+    color: isFilled ? COLORS.darkGray[300] : COLORS.lightGray[600]
   },  true ? "" : undefined);
 };
 
-const MarkLabel = Object(styled_base_browser_esm["a" /* default */])("span", {
+const MarkLabel = styled_base_browser_esm("span", {
   target: "exqw8y28",
   label: "MarkLabel"
-})("box-sizing:border-box;color:", Object(utils_colors["a" /* color */])('lightGray.600'), ";left:0;font-size:11px;position:absolute;top:12px;transform:translateX( -50% );white-space:nowrap;", markLabelFill, ";" + ( true ? "" : undefined));
-const ThumbWrapper = Object(styled_base_browser_esm["a" /* default */])("span", {
+})("box-sizing:border-box;color:", COLORS.lightGray[600], ";left:0;font-size:11px;position:absolute;top:12px;transform:translateX( -50% );white-space:nowrap;", markLabelFill, ";" + ( true ? "" : undefined));
+const ThumbWrapper = styled_base_browser_esm("span", {
   target: "exqw8y29",
   label: "ThumbWrapper"
 })("align-items:center;box-sizing:border-box;display:flex;height:", thumbSize, "px;justify-content:center;margin-top:5px;outline:0;pointer-events:none;position:absolute;top:0;user-select:none;width:", thumbSize, "px;", rtl_rtl({
@@ -32949,21 +33878,21 @@ const ThumbWrapper = Object(styled_base_browser_esm["a" /* default */])("span", 
 const thumbFocus = ({
   isFocused
 }) => {
-  return /*#__PURE__*/Object(core_browser_esm["c" /* css */])({
-    borderColor: isFocused ? Object(utils_colors["a" /* color */])('ui.borderFocus') : Object(utils_colors["a" /* color */])('darkGray.200'),
+  return /*#__PURE__*/css_browser_esm({
+    borderColor: isFocused ? COLORS.ui.borderFocus : COLORS.darkGray[200],
     boxShadow: isFocused ? `
-				0 0 0 1px ${Object(utils_colors["a" /* color */])('ui.borderFocus')}
+				0 0 0 1px ${COLORS.ui.borderFocus}
 			` : `
 				0 0 0 rgba(0, 0, 0, 0)
 			`
   },  true ? "" : undefined);
 };
 
-const Thumb = Object(styled_base_browser_esm["a" /* default */])("span", {
+const Thumb = styled_base_browser_esm("span", {
   target: "exqw8y210",
   label: "Thumb"
-})("align-items:center;background-color:white;border-radius:50%;border:1px solid ", Object(utils_colors["a" /* color */])('darkGray.200'), ";box-sizing:border-box;height:100%;outline:0;position:absolute;user-select:none;width:100%;", thumbFocus, ";" + ( true ? "" : undefined));
-const InputRange = Object(styled_base_browser_esm["a" /* default */])("input", {
+})("align-items:center;background-color:white;border-radius:50%;border:1px solid ", COLORS.darkGray[200], ";box-sizing:border-box;height:100%;outline:0;position:absolute;user-select:none;width:100%;", thumbFocus, ";" + ( true ? "" : undefined));
+const InputRange = styled_base_browser_esm("input", {
   target: "exqw8y211",
   label: "InputRange"
 })("box-sizing:border-box;cursor:pointer;display:block;height:100%;left:0;margin:0 -", thumbSize / 2, "px;opacity:0;outline:none;position:absolute;right:0;top:0;width:calc( 100% + ", thumbSize, "px );" + ( true ? "" : undefined));
@@ -32971,7 +33900,7 @@ const InputRange = Object(styled_base_browser_esm["a" /* default */])("input", {
 const tooltipShow = ({
   show
 }) => {
-  return /*#__PURE__*/Object(core_browser_esm["c" /* css */])({
+  return /*#__PURE__*/css_browser_esm({
     opacity: show ? 1 : 0
   },  true ? "" : undefined);
 };
@@ -32998,23 +33927,23 @@ const tooltipPosition = ({
   return range_control_styles_ref3;
 };
 
-const range_control_styles_Tooltip = Object(styled_base_browser_esm["a" /* default */])("span", {
+const range_control_styles_Tooltip = styled_base_browser_esm("span", {
   target: "exqw8y212",
   label: "Tooltip"
-})("background:", Object(utils_colors["a" /* color */])('ui.border'), ";border-radius:2px;box-sizing:border-box;color:white;display:inline-block;font-size:12px;min-width:32px;opacity:0;padding:4px 8px;pointer-events:none;position:absolute;text-align:center;transition:opacity 120ms ease;user-select:none;line-height:1.4;", tooltipShow, ";", tooltipPosition, ";", reduceMotion('transition'), ";", rtl_rtl({
+})("background:", COLORS.ui.border, ";border-radius:2px;box-sizing:border-box;color:white;display:inline-block;font-size:12px;min-width:32px;opacity:0;padding:4px 8px;pointer-events:none;position:absolute;text-align:center;transition:opacity 120ms ease;user-select:none;line-height:1.4;", tooltipShow, ";", tooltipPosition, ";", reduceMotion('transition'), ";", rtl_rtl({
   transform: 'translateX(-50%)'
 }, {
   transform: 'translateX(50%)'
 }),  true ? "" : undefined); // @todo: Refactor RangeControl with latest HStack configuration
 // @wordpress/components/ui/hstack
 
-const InputNumber = /*#__PURE__*/Object(styled_base_browser_esm["a" /* default */])(number_control, {
+const InputNumber = /*#__PURE__*/styled_base_browser_esm(number_control, {
   target: "exqw8y213",
   label: "InputNumber"
 })("box-sizing:border-box;display:inline-block;font-size:13px;margin-top:0;width:", space(8), " !important;input[type='number']&{", rangeHeight, ";}", rtl_rtl({
   marginLeft: `${space(2)} !important`
 }),  true ? "" : undefined);
-const ActionRightWrapper = Object(styled_base_browser_esm["a" /* default */])("span", {
+const ActionRightWrapper = styled_base_browser_esm("span", {
   target: "exqw8y214",
   label: "ActionRightWrapper"
 })("box-sizing:border-box;display:block;margin-top:0;button,button.is-small{margin-left:0;", rangeHeight, ";}", rtl_rtl({
@@ -33341,7 +34270,7 @@ function RangeControl({
   beforeIcon,
   className,
   currentInput,
-  color: colorProp = Object(utils_colors["a" /* color */])('ui.theme'),
+  color: colorProp = COLORS.ui.theme,
   disabled = false,
   help,
   initialPosition,
@@ -33595,20 +34524,6 @@ const range_control_ForwardedComponent = Object(external_wp_element_["forwardRef
 const DEFAULT_FONT_SIZE = 'default';
 const CUSTOM_FONT_SIZE = 'custom';
 const MAX_FONT_SIZE_DISPLAY = '25px';
-const isWeb = external_wp_element_["Platform"].OS === 'web';
-const font_size_picker_CSS_UNITS = [{
-  value: 'px',
-  label: isWeb ? 'px' : Object(external_wp_i18n_["__"])('Pixels (px)'),
-  default: ''
-}, {
-  value: 'em',
-  label: isWeb ? 'em' : Object(external_wp_i18n_["__"])('Relative to parent font size (em)'),
-  default: ''
-}, {
-  value: 'rem',
-  label: isWeb ? 'rem' : Object(external_wp_i18n_["__"])('Relative to root font size (rem)'),
-  default: ''
-}];
 
 function getSelectValueFromFontSize(fontSizes, value) {
   if (value) {
@@ -33659,6 +34574,9 @@ function FontSizePicker({
   }
 
   const isPixelValue = Object(external_lodash_["isNumber"])(value) || Object(external_lodash_["isString"])(value) && value.endsWith('px');
+  const units = useCustomUnits({
+    availableUnits: ['px', 'em', 'rem']
+  });
   const options = Object(external_wp_element_["useMemo"])(() => getSelectOptions(fontSizes, disableCustomFontSizes), [fontSizes, disableCustomFontSizes]);
 
   if (!options) {
@@ -33670,7 +34588,7 @@ function FontSizePicker({
     className: "components-font-size-picker"
   }, ref ? {} : {
     ref
-  }), Object(external_wp_element_["createElement"])(component["a" /* default */], {
+  }), Object(external_wp_element_["createElement"])(visually_hidden["a" /* default */], {
     as: "legend"
   }, Object(external_wp_i18n_["__"])('Font size')), Object(external_wp_element_["createElement"])("div", {
     className: "components-font-size-picker__controls"
@@ -33700,7 +34618,7 @@ function FontSizePicker({
         onChange(nextSize);
       }
     },
-    units: font_size_picker_CSS_UNITS
+    units: units
   }), Object(external_wp_element_["createElement"])(build_module_button["a" /* default */], {
     className: "components-color-palette__clear",
     disabled: value === undefined,
@@ -33879,7 +34797,7 @@ function Token({
   }, Object(external_wp_element_["createElement"])("span", {
     className: "components-form-token-field__token-text",
     id: `components-form-token-field__token-text-${instanceId}`
-  }, Object(external_wp_element_["createElement"])(component["a" /* default */], {
+  }, Object(external_wp_element_["createElement"])(visually_hidden["a" /* default */], {
     as: "span"
   }, termPositionAndCount), Object(external_wp_element_["createElement"])("span", {
     "aria-hidden": "true"
@@ -33891,6 +34809,31 @@ function Token({
     "aria-describedby": `components-form-token-field__token-text-${instanceId}`
   }));
 }
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/higher-order/with-spoken-messages/index.js
+
+
+
+/**
+ * WordPress dependencies
+ */
+
+
+/**
+ * A Higher Order Component used to be provide speak and debounced speak
+ * functions.
+ *
+ * @see https://developer.wordpress.org/block-editor/packages/packages-a11y/#speak
+ *
+ * @param {WPComponent} Component The component to be wrapped.
+ *
+ * @return {WPComponent} The wrapped component.
+ */
+
+/* harmony default export */ var with_spoken_messages = (Object(external_wp_compose_["createHigherOrderComponent"])(Component => props => Object(external_wp_element_["createElement"])(Component, Object(esm_extends["a" /* default */])({}, props, {
+  speak: external_wp_a11y_["speak"],
+  debouncedSpeak: Object(external_wp_compose_["useDebounce"])(external_wp_a11y_["speak"], 500)
+})), 'withSpokenMessages'));
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/form-token-field/index.js
 
@@ -34737,14 +35680,14 @@ function custom_gradient_picker_styles_EMOTION_STRINGIFIED_CSS_ERROR_() { return
  * Internal dependencies
  */
 
-const SelectWrapper = /*#__PURE__*/Object(styled_base_browser_esm["a" /* default */])(flex_block_component, {
+const SelectWrapper = /*#__PURE__*/styled_base_browser_esm(flex_block_component, {
   target: "e99xvul0",
   label: "SelectWrapper"
 })( true ? {
   name: "otv6bo",
   styles: "flex-grow:5;"
 } : undefined);
-const AccessoryWrapper = /*#__PURE__*/Object(styled_base_browser_esm["a" /* default */])(flex_block_component, {
+const AccessoryWrapper = /*#__PURE__*/styled_base_browser_esm(flex_block_component, {
   target: "e99xvul1",
   label: "AccessoryWrapper"
 })( true ? {
@@ -34941,6 +35884,165 @@ function GradientPicker({
     onChange: onChange
   }));
 }
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/grid/utils.js
+const utils_ALIGNMENTS = {
+  bottom: {
+    alignItems: 'flex-end',
+    justifyContent: 'center'
+  },
+  bottomLeft: {
+    alignItems: 'flex-start',
+    justifyContent: 'flex-end'
+  },
+  bottomRight: {
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end'
+  },
+  center: {
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  spaced: {
+    alignItems: 'center',
+    justifyContent: 'space-between'
+  },
+  left: {
+    alignItems: 'center',
+    justifyContent: 'flex-start'
+  },
+  right: {
+    alignItems: 'center',
+    justifyContent: 'flex-end'
+  },
+  stretch: {
+    alignItems: 'stretch'
+  },
+  top: {
+    alignItems: 'flex-start',
+    justifyContent: 'center'
+  },
+  topLeft: {
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start'
+  },
+  topRight: {
+    alignItems: 'flex-start',
+    justifyContent: 'flex-end'
+  }
+};
+/* eslint-disable jsdoc/valid-types */
+
+/**
+ * @param {keyof typeof ALIGNMENTS | undefined} alignment
+ * @return {{ alignItems?: import('react').CSSProperties['alignItems'], justifyContent?: import('react').CSSProperties['justifyContent']}} CSS props for alignment
+ */
+
+function getAlignmentProps(alignment) {
+  const alignmentProps = alignment ? utils_ALIGNMENTS[alignment] : {};
+  return alignmentProps;
+}
+/* eslint-enable jsdoc/valid-types */
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/grid/hook.js
+
+
+
+/**
+ * WordPress dependencies
+ */
+
+/**
+ * Internal dependencies
+ */
+
+
+
+
+
+/**
+ * @param {import('../ui/context').ViewOwnProps<import('./types').Props, 'div'>} props
+ */
+
+function useGrid(props) {
+  const {
+    align,
+    alignment,
+    className,
+    columnGap,
+    columns = 2,
+    gap = 3,
+    isInline = false,
+    justify,
+    rowGap,
+    rows,
+    templateColumns,
+    templateRows,
+    ...otherProps
+  } = Object(use_context_system["a" /* useContextSystem */])(props, 'Grid');
+  const columnsAsArray = Array.isArray(columns) ? columns : [columns];
+  const column = useResponsiveValue(columnsAsArray);
+  const rowsAsArray = Array.isArray(rows) ? rows : [rows];
+  const row = useResponsiveValue(rowsAsArray);
+  const gridTemplateColumns = templateColumns || !!columns && `repeat(${column}, 1fr)`;
+  const gridTemplateRows = templateRows || !!rows && `repeat(${row}, 1fr)`;
+  const classes = Object(external_wp_element_["useMemo"])(() => {
+    const alignmentProps = getAlignmentProps(alignment);
+
+    const gridClasses = /*#__PURE__*/Object(emotion_esm["a" /* css */])({
+      alignItems: align,
+      display: isInline ? 'inline-grid' : 'grid',
+      gap: `calc( ${config_values.gridBase} * ${gap} )`,
+      gridTemplateColumns: gridTemplateColumns || undefined,
+      gridTemplateRows: gridTemplateRows || undefined,
+      gridRowGap: rowGap,
+      gridColumnGap: columnGap,
+      justifyContent: justify,
+      verticalAlign: isInline ? 'middle' : undefined,
+      ...alignmentProps
+    }, ";label:gridClasses;" + ( true ? "" : undefined));
+
+    return Object(emotion_esm["b" /* cx */])(gridClasses, className);
+  }, [align, alignment, className, columnGap, gap, gridTemplateColumns, gridTemplateRows, isInline, justify, rowGap]);
+  return { ...otherProps,
+    className: classes
+  };
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/grid/component.js
+/**
+ * Internal dependencies
+ */
+
+
+/**
+ * `Grid` is a primitive layout component that can arrange content in a grid configuration.
+ *
+ * @example
+ * ```jsx
+ * import {
+ * 	__experimentalGrid as Grid,
+ * 	__experimentalText as Text
+ * } from `@wordpress/components`;
+ *
+ * function Example() {
+ * 	return (
+ * 		<Grid columns={ 3 }>
+ * 			<Text>Code</Text>
+ * 			<Text>is</Text>
+ * 			<Text>Poetry</Text>
+ * 		</Grid>
+ * 	);
+ * }
+ * ```
+ */
+
+const Grid = create_component_createComponent({
+  as: 'div',
+  useHook: useGrid,
+  name: 'Grid'
+});
+/* harmony default export */ var grid_component = (Grid);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/modal/frame.js
 
@@ -35569,7 +36671,7 @@ function useHeading(props) {
   }
 
   const textProps = useText({
-    color: colors_values["a" /* COLORS */].darkGray.heading,
+    color: COLORS.darkGray.heading,
     size: getHeadingFontSize(level),
     isBlock: true,
     weight: config_values.fontWeightHeading,
@@ -35600,12 +36702,251 @@ function useHeading(props) {
  * ```
  */
 
-const Heading = Object(create_component["a" /* createComponent */])({
+const Heading = create_component_createComponent({
   as: 'h1',
   useHook: useHeading,
   name: 'Heading'
 });
 /* harmony default export */ var heading_component = (Heading);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/h-stack/utils.js
+/**
+ * External dependencies
+ */
+
+/** @type {import('./types').Alignments} */
+
+const h_stack_utils_ALIGNMENTS = {
+  bottom: {
+    align: 'flex-end',
+    justify: 'center'
+  },
+  bottomLeft: {
+    align: 'flex-start',
+    justify: 'flex-end'
+  },
+  bottomRight: {
+    align: 'flex-end',
+    justify: 'flex-end'
+  },
+  center: {
+    align: 'center',
+    justify: 'center'
+  },
+  edge: {
+    align: 'center',
+    justify: 'space-between'
+  },
+  left: {
+    align: 'center',
+    justify: 'flex-start'
+  },
+  right: {
+    align: 'center',
+    justify: 'flex-end'
+  },
+  stretch: {
+    align: 'stretch'
+  },
+  top: {
+    align: 'flex-start',
+    justify: 'center'
+  },
+  topLeft: {
+    align: 'flex-start',
+    justify: 'flex-start'
+  },
+  topRight: {
+    align: 'flex-start',
+    justify: 'flex-end'
+  }
+};
+/** @type {import('./types').Alignments} */
+
+const V_ALIGNMENTS = {
+  bottom: {
+    justify: 'flex-end',
+    align: 'center'
+  },
+  bottomLeft: {
+    justify: 'flex-start',
+    align: 'flex-end'
+  },
+  bottomRight: {
+    justify: 'flex-end',
+    align: 'flex-end'
+  },
+  center: {
+    justify: 'center',
+    align: 'center'
+  },
+  edge: {
+    justify: 'space-between',
+    align: 'center'
+  },
+  left: {
+    justify: 'center',
+    align: 'flex-start'
+  },
+  right: {
+    justify: 'center',
+    align: 'flex-end'
+  },
+  stretch: {
+    justify: 'stretch'
+  },
+  top: {
+    justify: 'flex-start',
+    align: 'center'
+  },
+  topLeft: {
+    justify: 'flex-start',
+    align: 'flex-start'
+  },
+  topRight: {
+    justify: 'flex-start',
+    align: 'flex-end'
+  }
+};
+/* eslint-disable jsdoc/valid-types */
+
+/**
+ * @param {import('./types').HStackAlignment | import('react').CSSProperties[ 'alignItems' ]} alignment Where to align.
+ * @param {import('../flex/types').FlexDirection} [direction='row'] Direction to align.
+ * @return {import('./types').AlignmentProps} Alignment props.
+ */
+
+/* eslint-enable jsdoc/valid-types */
+
+function utils_getAlignmentProps(alignment, direction = 'row') {
+  if (Object(external_lodash_["isNil"])(alignment)) {
+    return {};
+  }
+
+  const isVertical = direction === 'column';
+  const props = isVertical ? V_ALIGNMENTS : h_stack_utils_ALIGNMENTS;
+  const alignmentProps = alignment in props ? props[
+  /** @type {keyof typeof ALIGNMENTS} */
+  alignment] : {
+    align: alignment
+  };
+  return alignmentProps;
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/ui/utils/get-valid-children.js
+/**
+ * External dependencies
+ */
+// eslint-disable-next-line no-restricted-imports
+
+/**
+ * WordPress dependencies
+ */
+
+/**
+ * Gets a collection of available children elements from a React component's children prop.
+ *
+ * @param {import('react').ReactNode} children
+ *
+ * @return {import('react').ReactNodeArray} An array of available children.
+ */
+
+function getValidChildren(children) {
+  if (typeof children === 'string') return [children];
+  return external_wp_element_["Children"].toArray(children).filter(child => Object(external_wp_element_["isValidElement"])(child));
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/h-stack/hook.js
+
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+
+/**
+ *
+ * @param {import('../ui/context').ViewOwnProps<import('./types').Props, 'div'>} props
+ */
+
+function useHStack(props) {
+  const {
+    alignment = 'edge',
+    children,
+    direction,
+    spacing = 2,
+    ...otherProps
+  } = Object(use_context_system["a" /* useContextSystem */])(props, 'HStack');
+  const align = utils_getAlignmentProps(alignment, direction);
+  const validChildren = getValidChildren(children);
+  const clonedChildren = validChildren.map( // @ts-ignore
+  (
+  /** @type {import('react').ReactElement} */
+  child, index) => {
+    const _key = child.key || `hstack-${index}`;
+
+    const _isSpacer = Object(context_connect["b" /* hasConnectNamespace */])(child, ['Spacer']);
+
+    if (_isSpacer) {
+      return Object(external_wp_element_["createElement"])(flex_item_component, Object(esm_extends["a" /* default */])({
+        isBlock: true,
+        key: _key
+      }, child.props));
+    }
+
+    return child;
+  });
+  const propsForFlex = {
+    children: clonedChildren,
+    direction,
+    justify: 'center',
+    ...align,
+    ...otherProps,
+    gap: spacing
+  };
+  const flexProps = useFlex(propsForFlex);
+  return flexProps;
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/h-stack/component.js
+/**
+ * Internal dependencies
+ */
+
+
+/**
+ * `HStack` (Horizontal Stack) arranges child elements in a horizontal line.
+ *
+ * `HStack` can render anything inside.
+ *
+ * @example
+ * ```jsx
+ * import {
+ * 	__experimentalHStack as HStack,
+ * 	__experimentalText as Text,
+ * } from `@wordpress/components`;
+ *
+ * function Example() {
+ * 	return (
+ * 		<HStack>
+ * 			<Text>Code</Text>
+ * 			<Text>is</Text>
+ * 			<Text>Poetry</Text>
+ * 		</HStack>
+ * 	);
+ * }
+ * ```
+ */
+
+const HStack = create_component_createComponent({
+  as: 'div',
+  useHook: useHStack,
+  name: 'HStack'
+});
+/* harmony default export */ var h_stack_component = (HStack);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/button/deprecated.js
 
@@ -35929,61 +37270,61 @@ function navigation_styles_EMOTION_STRINGIFIED_CSS_ERROR_() { return "You have t
 
 
 
-const NavigationUI = Object(styled_base_browser_esm["a" /* default */])("div", {
+const NavigationUI = styled_base_browser_esm("div", {
   target: "ejwewyf0",
   label: "NavigationUI"
-})("width:100%;background-color:", colors_values["b" /* G2 */].darkGray.primary, ";box-sizing:border-box;color:#f0f0f0;padding:0 ", space(2), ";overflow:hidden;" + ( true ? "" : undefined));
-const MenuUI = Object(styled_base_browser_esm["a" /* default */])("div", {
+})("width:100%;background-color:", G2.darkGray.primary, ";box-sizing:border-box;color:#f0f0f0;padding:0 ", space(2), ";overflow:hidden;" + ( true ? "" : undefined));
+const MenuUI = styled_base_browser_esm("div", {
   target: "ejwewyf1",
   label: "MenuUI"
 })("margin-top:", space(3), ";margin-bottom:", space(3), ";display:flex;flex-direction:column;ul{padding:0;margin:0;list-style:none;}.components-navigation__back-button{margin-bottom:", space(3), ";}.components-navigation__group + .components-navigation__group{margin-top:", space(3), ";}" + ( true ? "" : undefined));
-const MenuBackButtonUI = /*#__PURE__*/Object(styled_base_browser_esm["a" /* default */])(build_module_button["a" /* default */], {
+const MenuBackButtonUI = /*#__PURE__*/styled_base_browser_esm(build_module_button["a" /* default */], {
   target: "ejwewyf2",
   label: "MenuBackButtonUI"
-})("&.is-tertiary{color:", colors_values["b" /* G2 */].lightGray.ui, ";&:hover:not(:disabled ){color:#ddd;box-shadow:none;}&:active:not(:disabled ){background:transparent;color:#ddd;}}" + ( true ? "" : undefined));
-const MenuTitleUI = Object(styled_base_browser_esm["a" /* default */])("div", {
+})("&.is-tertiary{color:", G2.lightGray.ui, ";&:hover:not(:disabled ){color:#ddd;box-shadow:none;}&:active:not(:disabled ){background:transparent;color:#ddd;}}" + ( true ? "" : undefined));
+const MenuTitleUI = styled_base_browser_esm("div", {
   target: "ejwewyf3",
   label: "MenuTitleUI"
 })( true ? {
   name: "16agjqd",
   styles: "overflow:hidden;width:100%;"
 } : undefined);
-const MenuTitleHeadingUI = /*#__PURE__*/Object(styled_base_browser_esm["a" /* default */])(text_component, {
+const MenuTitleHeadingUI = /*#__PURE__*/styled_base_browser_esm(text_component, {
   target: "ejwewyf4",
   label: "MenuTitleHeadingUI"
-})("align-items:center;color:", colors_values["b" /* G2 */].gray[100], ";display:flex;justify-content:space-between;margin-bottom:", space(1), ";padding:", () => Object(external_wp_i18n_["isRTL"])() ? `${space(0.5)} ${space(2)} ${space(0.5)} ${space(1.5)}` : `${space(0.5)} ${space(1.5)} ${space(0.5)} ${space(2)}`, ";" + ( true ? "" : undefined));
-const MenuTitleActionsUI = Object(styled_base_browser_esm["a" /* default */])("span", {
+})("align-items:center;color:", G2.gray[100], ";display:flex;justify-content:space-between;margin-bottom:", space(1), ";padding:", () => Object(external_wp_i18n_["isRTL"])() ? `${space(0.5)} ${space(2)} ${space(0.5)} ${space(1.5)}` : `${space(0.5)} ${space(1.5)} ${space(0.5)} ${space(2)}`, ";" + ( true ? "" : undefined));
+const MenuTitleActionsUI = styled_base_browser_esm("span", {
   target: "ejwewyf5",
   label: "MenuTitleActionsUI"
-})("height:", space(3), ";.components-button.is-small{color:", colors_values["b" /* G2 */].lightGray.ui, ";margin-right:", space(0.5), ";padding:0;&:active:not(:disabled ){background:none;color:", colors_values["b" /* G2 */].gray[200], ";}&:hover:not(:disabled ){box-shadow:none;color:", colors_values["b" /* G2 */].gray[200], ";}}" + ( true ? "" : undefined));
-const MenuTitleSearchUI = Object(styled_base_browser_esm["a" /* default */])("div", {
+})("height:", space(3), ";.components-button.is-small{color:", G2.lightGray.ui, ";margin-right:", space(0.5), ";padding:0;&:active:not(:disabled ){background:none;color:", G2.gray[200], ";}&:hover:not(:disabled ){box-shadow:none;color:", G2.gray[200], ";}}" + ( true ? "" : undefined));
+const MenuTitleSearchUI = styled_base_browser_esm("div", {
   target: "ejwewyf6",
   label: "MenuTitleSearchUI"
 })("padding:0;position:relative;input{height:", space(4.5), ";margin-bottom:", space(1), ";padding-left:", space(4), ";padding-right:", space(4), ";&::-webkit-search-decoration,&::-webkit-search-cancel-button,&::-webkit-search-results-button,&::-webkit-search-results-decoration{-webkit-appearance:none;}}> svg{left:", space(0.5), ";position:absolute;top:6px;}.components-button.is-small{height:30px;padding:0;position:absolute;right:", space(1), ";top:3px;&:active:not(:disabled ){background:none;}&:hover:not(:disabled ){box-shadow:none;}}" + ( true ? "" : undefined));
-const GroupTitleUI = /*#__PURE__*/Object(styled_base_browser_esm["a" /* default */])(text_component, {
+const GroupTitleUI = /*#__PURE__*/styled_base_browser_esm(text_component, {
   target: "ejwewyf7",
   label: "GroupTitleUI"
-})("margin-top:", space(1), ";padding:", () => Object(external_wp_i18n_["isRTL"])() ? `${space(0.5)} ${space(2)} ${space(0.5)} 0` : `${space(0.5)} 0 ${space(0.5)} ${space(2)}`, ";text-transform:uppercase;color:", colors_values["b" /* G2 */].gray[100], ";" + ( true ? "" : undefined));
-const ItemBaseUI = Object(styled_base_browser_esm["a" /* default */])("li", {
+})("margin-top:", space(1), ";padding:", () => Object(external_wp_i18n_["isRTL"])() ? `${space(0.5)} ${space(2)} ${space(0.5)} 0` : `${space(0.5)} 0 ${space(0.5)} ${space(2)}`, ";text-transform:uppercase;color:", G2.gray[100], ";" + ( true ? "" : undefined));
+const ItemBaseUI = styled_base_browser_esm("li", {
   target: "ejwewyf8",
   label: "ItemBaseUI"
-})("border-radius:2px;color:", colors_values["b" /* G2 */].lightGray.ui, ";margin-bottom:0;button,a.components-button,a{width:100%;color:", colors_values["b" /* G2 */].lightGray.ui, ";padding:", space(1), " ", space(2), ";", rtl_rtl({
+})("border-radius:2px;color:", G2.lightGray.ui, ";margin-bottom:0;button,a.components-button,a{width:100%;color:", G2.lightGray.ui, ";padding:", space(1), " ", space(2), ";", rtl_rtl({
   textAlign: 'left'
 }, {
   textAlign: 'right'
-}), " &:hover,&:focus:not( [aria-disabled='true'] ):active,&:active:not( [aria-disabled='true'] ):active{color:#ddd;}}&.is-active{background-color:", colors_values["c" /* UI */].theme, ";color:", colors_values["c" /* UI */].textDark, ";button,a{color:", colors_values["c" /* UI */].textDark, ";}}svg path{color:", colors_values["b" /* G2 */].lightGray.ui, ";}" + ( true ? "" : undefined));
-const ItemUI = Object(styled_base_browser_esm["a" /* default */])("div", {
+}), " &:hover,&:focus:not( [aria-disabled='true'] ):active,&:active:not( [aria-disabled='true'] ):active{color:#ddd;}}&.is-active{background-color:", UI.theme, ";color:", UI.textDark, ";button,a{color:", UI.textDark, ";}}svg path{color:", G2.lightGray.ui, ";}" + ( true ? "" : undefined));
+const ItemUI = styled_base_browser_esm("div", {
   target: "ejwewyf9",
   label: "ItemUI"
-})("display:flex;align-items:center;height:auto;min-height:40px;margin:0;padding:", space(0.75), " ", space(2), ";font-weight:400;line-height:20px;width:100%;color:", colors_values["b" /* G2 */].lightGray.ui, ";" + ( true ? "" : undefined));
-const ItemBadgeUI = Object(styled_base_browser_esm["a" /* default */])("span", {
+})("display:flex;align-items:center;height:auto;min-height:40px;margin:0;padding:", space(0.75), " ", space(2), ";font-weight:400;line-height:20px;width:100%;color:", G2.lightGray.ui, ";" + ( true ? "" : undefined));
+const ItemBadgeUI = styled_base_browser_esm("span", {
   target: "ejwewyf10",
   label: "ItemBadgeUI"
 })("margin-left:", () => Object(external_wp_i18n_["isRTL"])() ? '0' : space(1), ";margin-right:", () => Object(external_wp_i18n_["isRTL"])() ? space(1) : '0', ";display:inline-flex;padding:", space(0.5), " ", space(1.5), ";border-radius:2px;animation:fade-in 250ms ease-out;@keyframes fade-in{from{opacity:0;}to{opacity:1;}}", reduceMotion('animation'), ";" + ( true ? "" : undefined));
-const ItemTitleUI = /*#__PURE__*/Object(styled_base_browser_esm["a" /* default */])(text_component, {
+const ItemTitleUI = /*#__PURE__*/styled_base_browser_esm(text_component, {
   target: "ejwewyf11",
   label: "ItemTitleUI"
-})(() => Object(external_wp_i18n_["isRTL"])() ? 'margin-left: auto;' : 'margin-right: auto;', " font-size:14px;line-height:20px;" + ( true ? "" : undefined));
+})(() => Object(external_wp_i18n_["isRTL"])() ? 'margin-left: auto;' : 'margin-right: auto;', " font-size:14px;line-height:20px;color:inherit;" + ( true ? "" : undefined));
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/navigation/use-navigation-tree-nodes.js
 /**
@@ -36656,7 +37997,7 @@ function MenuTitleSearch({
     className: "components-navigation__menu-title-search"
   }, Object(external_wp_element_["createElement"])(build_module_icon["a" /* default */], {
     icon: library_search["a" /* default */]
-  }), Object(external_wp_element_["createElement"])(component["a" /* default */], {
+  }), Object(external_wp_element_["createElement"])(visually_hidden["a" /* default */], {
     as: "label",
     htmlFor: inputId,
     id: menuTitleId
@@ -36963,7 +38304,9 @@ function Notice({
     className: classes
   }, Object(external_wp_element_["createElement"])("div", {
     className: "components-notice__content"
-  }, children, actions.map(({
+  }, children, Object(external_wp_element_["createElement"])("div", {
+    className: "components-notice__actions"
+  }, actions.map(({
     className: buttonCustomClasses,
     label,
     isPrimary,
@@ -36980,7 +38323,7 @@ function Notice({
       onClick: url ? undefined : onClick,
       className: classnames_default()('components-notice__action', buttonCustomClasses)
     }, label);
-  })), isDismissible && Object(external_wp_element_["createElement"])(build_module_button["a" /* default */], {
+  }))), isDismissible && Object(external_wp_element_["createElement"])(build_module_button["a" /* default */], {
     className: "components-notice__dismiss",
     icon: library_close["a" /* default */],
     label: Object(external_wp_i18n_["__"])('Dismiss this notice'),
@@ -37270,8 +38613,8 @@ function Placeholder({
 
   if (typeof width === 'number') {
     modifierClassNames = {
-      'is-large': width >= 320,
-      'is-medium': width >= 160 && width < 320,
+      'is-large': width >= 480,
+      'is-medium': width >= 160 && width < 480,
       'is-small': width < 160
     };
   }
@@ -39092,27 +40435,27 @@ function resize_tooltip_styles_EMOTION_STRINGIFIED_CSS_ERROR_() { return "You ha
  */
 
 
-const resize_tooltip_styles_Root = Object(styled_base_browser_esm["a" /* default */])("div", {
+const resize_tooltip_styles_Root = styled_base_browser_esm("div", {
   target: "ekdag500",
   label: "Root"
 })( true ? {
   name: "mt2ez5",
   styles: "bottom:0;box-sizing:border-box;left:0;pointer-events:none;position:absolute;right:0;top:0;"
 } : undefined);
-const TooltipWrapper = Object(styled_base_browser_esm["a" /* default */])("div", {
+const TooltipWrapper = styled_base_browser_esm("div", {
   target: "ekdag501",
   label: "TooltipWrapper"
 })( true ? {
   name: "1kllayo",
   styles: "align-items:center;box-sizing:border-box;display:inline-flex;justify-content:center;opacity:0;pointer-events:none;transition:opacity 120ms linear;"
 } : undefined);
-const resize_tooltip_styles_Tooltip = Object(styled_base_browser_esm["a" /* default */])("div", {
+const resize_tooltip_styles_Tooltip = styled_base_browser_esm("div", {
   target: "ekdag502",
   label: "Tooltip"
-})("background:", Object(utils_colors["a" /* color */])('ui.border'), ";border-radius:2px;box-sizing:border-box;font-size:12px;color:", Object(utils_colors["a" /* color */])('ui.textDark'), ";padding:4px 8px;position:relative;" + ( true ? "" : undefined)); // TODO: Resolve need to use &&& to increase specificity
+})("background:", COLORS.ui.border, ";border-radius:2px;box-sizing:border-box;font-size:12px;color:", COLORS.ui.textDark, ";padding:4px 8px;position:relative;" + ( true ? "" : undefined)); // TODO: Resolve need to use &&& to increase specificity
 // https://github.com/WordPress/gutenberg/issues/18483
 
-const LabelText = /*#__PURE__*/Object(styled_base_browser_esm["a" /* default */])(text_component, {
+const LabelText = /*#__PURE__*/styled_base_browser_esm(text_component, {
   target: "ekdag503",
   label: "LabelText"
 })( true ? {
@@ -39691,17 +41034,82 @@ function SnackbarList({
 
 /* harmony default export */ var snackbar_list = (SnackbarList);
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/utils/config.js
+// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/spacer/hook.js
+
+
+
+/**
+ * Internal dependencies
+ */
+ // eslint-disable-next-line no-duplicate-imports
+
+
+
+const isDefined = o => typeof o !== 'undefined' && o !== null;
+
+function useSpacer(props) {
+  const {
+    className,
+    margin,
+    marginBottom = 2,
+    marginLeft,
+    marginRight,
+    marginTop,
+    marginX,
+    marginY,
+    padding,
+    paddingBottom,
+    paddingLeft,
+    paddingRight,
+    paddingTop,
+    paddingX,
+    paddingY,
+    ...otherProps
+  } = Object(use_context_system["a" /* useContextSystem */])(props, 'Spacer');
+
+  const classes = Object(emotion_esm["b" /* cx */])(isDefined(marginTop) && /*#__PURE__*/Object(emotion_esm["a" /* css */])("margin-top:", space_space(marginTop), ";;label:classes;" + ( true ? "" : undefined)), isDefined(marginBottom) && /*#__PURE__*/Object(emotion_esm["a" /* css */])("margin-bottom:", space_space(marginBottom), ";;label:classes;" + ( true ? "" : undefined)), isDefined(marginLeft) && /*#__PURE__*/Object(emotion_esm["a" /* css */])("margin-left:", space_space(marginLeft), ";;label:classes;" + ( true ? "" : undefined)), isDefined(marginRight) && /*#__PURE__*/Object(emotion_esm["a" /* css */])("margin-right:", space_space(marginRight), ";;label:classes;" + ( true ? "" : undefined)), isDefined(marginX) && /*#__PURE__*/Object(emotion_esm["a" /* css */])("margin-left:", space_space(marginX), ";margin-right:", space_space(marginX), ";;label:classes;" + ( true ? "" : undefined)), isDefined(marginY) && /*#__PURE__*/Object(emotion_esm["a" /* css */])("margin-bottom:", space_space(marginY), ";margin-top:", space_space(marginY), ";;label:classes;" + ( true ? "" : undefined)), isDefined(margin) && /*#__PURE__*/Object(emotion_esm["a" /* css */])("margin:", space_space(margin), ";;label:classes;" + ( true ? "" : undefined)), isDefined(paddingTop) && /*#__PURE__*/Object(emotion_esm["a" /* css */])("padding-top:", space_space(paddingTop), ";;label:classes;" + ( true ? "" : undefined)), isDefined(paddingBottom) && /*#__PURE__*/Object(emotion_esm["a" /* css */])("padding-bottom:", space_space(paddingBottom), ";;label:classes;" + ( true ? "" : undefined)), isDefined(paddingLeft) && /*#__PURE__*/Object(emotion_esm["a" /* css */])("padding-left:", space_space(paddingLeft), ";;label:classes;" + ( true ? "" : undefined)), isDefined(paddingRight) && /*#__PURE__*/Object(emotion_esm["a" /* css */])("padding-right:", space_space(paddingRight), ";;label:classes;" + ( true ? "" : undefined)), isDefined(paddingX) && /*#__PURE__*/Object(emotion_esm["a" /* css */])("padding-left:", space_space(paddingX), ";padding-right:", space_space(paddingX), ";;label:classes;" + ( true ? "" : undefined)), isDefined(paddingY) && /*#__PURE__*/Object(emotion_esm["a" /* css */])("padding-bottom:", space_space(paddingY), ";padding-top:", space_space(paddingY), ";;label:classes;" + ( true ? "" : undefined)), isDefined(padding) && /*#__PURE__*/Object(emotion_esm["a" /* css */])("padding:", space_space(padding), ";;label:classes;" + ( true ? "" : undefined)), className);
+
+  return { ...otherProps,
+    className: classes
+  };
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/spacer/component.js
 /**
  * Internal dependencies
  */
 
+
 /**
- * @param {keyof CONFIG} name The variable name
- * @return {string | number} The variable
+ * `Spacer` is a primitive layout component that providers inner (`padding`) or outer (`margin`) space in-between components. It can also be used to adaptively provide space within an `HStack` or `VStack`.
+ *
+ * `Spacer` comes with a bunch of shorthand props to adjust `margin` and `padding`. The values of these props work as a multiplier to the library's grid system (base of `4px`).
+ *
+ * @example
+ * ```jsx
+ * import { Spacer } from `@wordpress/components`
+ *
+ * function Example() {
+ *   return (
+ *     <View>
+ *       <Spacer>
+ *         <Heading>WordPress.org</Heading>
+ *       </Spacer>
+ *       <Text>
+ *         Code is Poetry
+ *       </Text>
+ *     </View>
+ *   );
+ * }
+ * ```
  */
 
-const config_config = name => config_values[name];
+const Spacer = create_component_createComponent({
+  as: 'div',
+  useHook: useSpacer,
+  name: 'Spacer'
+});
+/* harmony default export */ var spacer_component = (Spacer);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/spinner/styles/spinner-styles.js
 
@@ -39711,7 +41119,7 @@ const config_config = name => config_values[name];
  */
 
 
-const spinAnimation = core_browser_esm["d" /* keyframes */]`
+const spinAnimation = core_browser_esm_keyframes`
 	from {
 		transform: rotate(0deg);
 	}
@@ -39720,11 +41128,11 @@ const spinAnimation = core_browser_esm["d" /* keyframes */]`
 		transform: rotate(360deg);
 	}
 `;
-const topLeft = `calc( ( ${config_config('spinnerSize')} - ${config_config('spinnerSize')} * ( 2 / 3 ) ) / 2 )`;
-const StyledSpinner = Object(styled_base_browser_esm["a" /* default */])("span", {
+const topLeft = `calc( ( ${config_values.spinnerSize} - ${config_values.spinnerSize} * ( 2 / 3 ) ) / 2 )`;
+const StyledSpinner = styled_base_browser_esm("span", {
   target: "e1s472tg0",
   label: "StyledSpinner"
-})("display:inline-block;background-color:", Object(utils_colors["a" /* color */])('gray.600'), ";width:", config_config('spinnerSize'), ";height:", config_config('spinnerSize'), ";opacity:0.7;margin:5px 11px 0;border-radius:100%;position:relative;&::before{content:'';position:absolute;background-color:", Object(utils_colors["a" /* color */])('white'), ";top:", topLeft, ";left:", topLeft, ";width:calc( ", config_config('spinnerSize'), " / 4.5 );height:calc( ", config_config('spinnerSize'), " / 4.5 );border-radius:100%;transform-origin:calc( ", config_config('spinnerSize'), " / 3 ) calc( ", config_config('spinnerSize'), " / 3 );animation:", spinAnimation, " 1s infinite linear;}" + ( true ? "" : undefined));
+})("display:inline-block;background-color:", COLORS.gray[600], ";width:", config_values.spinnerSize, ";height:", config_values.spinnerSize, ";opacity:0.7;margin:5px 11px 0;border-radius:100%;position:relative;&::before{content:'';position:absolute;background-color:", COLORS.white, ";top:", topLeft, ";left:", topLeft, ";width:calc( ", config_values.spinnerSize, " / 4.5 );height:calc( ", config_values.spinnerSize, " / 4.5 );border-radius:100%;transform-origin:calc( ", config_values.spinnerSize, " / 3 ) calc( ", config_values.spinnerSize, " / 3 );animation:", spinAnimation, " 1s infinite linear;}" + ( true ? "" : undefined));
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/spinner/index.js
 
@@ -39848,8 +41256,8 @@ function TabPanel({
 
 
 
-const inputStyleNeutral = /*#__PURE__*/Object(core_browser_esm["c" /* css */])("box-shadow:0 0 0 transparent;transition:box-shadow 0.1s linear;border-radius:", config_config('radiusBlockUi'), ";border:", config_config('borderWidth'), " solid ", Object(utils_colors["a" /* color */])('ui.border'), ";", reduceMotion('transition'), ";label:inputStyleNeutral;" + ( true ? "" : undefined));
-const inputStyleFocus = /*#__PURE__*/Object(core_browser_esm["c" /* css */])("border-color:var( --wp-admin-theme-color );box-shadow:0 0 0 calc( ", config_config('borderWidthFocus'), " - ", config_config('borderWidth'), " ) var( --wp-admin-theme-color );outline:2px solid transparent;;label:inputStyleFocus;" + ( true ? "" : undefined));
+const inputStyleNeutral = /*#__PURE__*/css_browser_esm("box-shadow:0 0 0 transparent;transition:box-shadow 0.1s linear;border-radius:", config_values.radiusBlockUi, ";border:", config_values.borderWidth, " solid ", COLORS.ui.border, "};", reduceMotion('transition'), ";label:inputStyleNeutral;" + ( true ? "" : undefined));
+const inputStyleFocus = /*#__PURE__*/css_browser_esm("border-color:var( --wp-admin-theme-color );box-shadow:0 0 0 calc( ", config_values.borderWidthFocus, " - ", config_values.borderWidth, " ) var( --wp-admin-theme-color );outline:2px solid transparent;;label:inputStyleFocus;" + ( true ? "" : undefined));
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/utils/breakpoint-values.js
 /* harmony default export */ var breakpoint_values = ({
@@ -39890,7 +41298,7 @@ const breakpoint = point => `@media (min-width: ${breakpoint_values[point]})`;
 
 
 
-const inputControl = /*#__PURE__*/Object(core_browser_esm["c" /* css */])("font-family:", font('default.fontFamily'), ";padding:6px 8px;", inputStyleNeutral, ";font-size:", font('mobileTextMinFontSize'), ";line-height:normal;", breakpoint('small'), "{font-size:", font('default.fontSize'), ";line-height:normal;}&:focus{", inputStyleFocus, "}&::-webkit-input-placeholder{color:", Object(utils_colors["a" /* color */])('darkGray.placeholder'), ";}&::-moz-placeholder{opacity:1;color:", Object(utils_colors["a" /* color */])('darkGray.placeholder'), ";}&:-ms-input-placeholder{color:", Object(utils_colors["a" /* color */])('darkGray.placeholder'), ";}.is-dark-theme &{&::-webkit-input-placeholder{color:", Object(utils_colors["a" /* color */])('lightGray.placeholder'), ";}&::-moz-placeholder{opacity:1;color:", Object(utils_colors["a" /* color */])('lightGray.placeholder'), ";}&:-ms-input-placeholder{color:", Object(utils_colors["a" /* color */])('lightGray.placeholder'), ";}};label:inputControl;" + ( true ? "" : undefined));
+const inputControl = /*#__PURE__*/css_browser_esm("font-family:", font('default.fontFamily'), ";padding:6px 8px;", inputStyleNeutral, ";font-size:", font('mobileTextMinFontSize'), ";line-height:normal;", breakpoint('small'), "{font-size:", font('default.fontSize'), ";line-height:normal;}&:focus{", inputStyleFocus, "}&::-webkit-input-placeholder{color:", COLORS.darkGray.placeholder, ";}&::-moz-placeholder{opacity:1;color:", COLORS.darkGray.placeholder, ";}&:-ms-input-placeholder{color:", COLORS.darkGray.placeholder, ";}.is-dark-theme &{&::-webkit-input-placeholder{color:", COLORS.lightGray.placeholder, ";}&::-moz-placeholder{opacity:1;color:", COLORS.lightGray.placeholder, ";}&:-ms-input-placeholder{color:", COLORS.lightGray.placeholder, ";}};label:inputControl;" + ( true ? "" : undefined));
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/textarea-control/styles/textarea-control-styles.js
 
@@ -39899,7 +41307,7 @@ const inputControl = /*#__PURE__*/Object(core_browser_esm["c" /* css */])("font-
  * Internal dependencies
  */
 
-const StyledTextarea = Object(styled_base_browser_esm["a" /* default */])("textarea", {
+const StyledTextarea = styled_base_browser_esm("textarea", {
   target: "ebk7yr50",
   label: "StyledTextarea"
 })("width:100%;", inputControl,  true ? "" : undefined);
@@ -40066,6 +41474,94 @@ function ToggleControl({
     className: "components-toggle-control__label"
   }, label));
 }
+
+// EXTERNAL MODULE: ./node_modules/@wordpress/components/build-module/toolbar-item/index.js
+var toolbar_item = __webpack_require__("aA0e");
+
+// EXTERNAL MODULE: ./node_modules/@wordpress/components/build-module/toolbar-context/index.js
+var toolbar_context = __webpack_require__("GK4x");
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/toolbar-button/toolbar-button-container.js
+
+
+const ToolbarButtonContainer = props => Object(external_wp_element_["createElement"])("div", {
+  className: props.className
+}, props.children);
+
+/* harmony default export */ var toolbar_button_container = (ToolbarButtonContainer);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/toolbar-button/index.js
+
+
+
+/**
+ * External dependencies
+ */
+
+/**
+ * WordPress dependencies
+ */
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+
+
+
+function ToolbarButton({
+  containerClassName,
+  className,
+  extraProps,
+  children,
+  title,
+  isActive,
+  isDisabled,
+  ...props
+}, ref) {
+  const accessibleToolbarState = Object(external_wp_element_["useContext"])(toolbar_context["a" /* default */]);
+
+  if (!accessibleToolbarState) {
+    return Object(external_wp_element_["createElement"])(toolbar_button_container, {
+      className: containerClassName
+    }, Object(external_wp_element_["createElement"])(build_module_button["a" /* default */], Object(esm_extends["a" /* default */])({
+      ref: ref,
+      icon: props.icon,
+      label: title,
+      shortcut: props.shortcut,
+      "data-subscript": props.subscript,
+      onClick: event => {
+        event.stopPropagation();
+
+        if (props.onClick) {
+          props.onClick(event);
+        }
+      },
+      className: classnames_default()('components-toolbar__control', className),
+      isPressed: isActive,
+      disabled: isDisabled,
+      "data-toolbar-item": true
+    }, extraProps, props), children));
+  } // ToobarItem will pass all props to the render prop child, which will pass
+  // all props to Button. This means that ToolbarButton has the same API as
+  // Button.
+
+
+  return Object(external_wp_element_["createElement"])(toolbar_item["a" /* default */], Object(esm_extends["a" /* default */])({
+    className: classnames_default()('components-toolbar-button', className)
+  }, extraProps, props, {
+    ref: ref
+  }), toolbarItemProps => Object(external_wp_element_["createElement"])(build_module_button["a" /* default */], Object(esm_extends["a" /* default */])({
+    label: title,
+    isPressed: isActive,
+    disabled: isDisabled
+  }, toolbarItemProps), children));
+}
+
+/* harmony default export */ var toolbar_button = (Object(external_wp_element_["forwardRef"])(ToolbarButton));
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/toolbar-group/toolbar-group-container.js
 
@@ -40409,6 +41905,41 @@ function toolbar_Toolbar({
 }
 
 /* harmony default export */ var toolbar = (Object(external_wp_element_["forwardRef"])(toolbar_Toolbar));
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/toolbar-dropdown-menu/index.js
+
+
+
+/**
+ * WordPress dependencies
+ */
+
+/**
+ * Internal dependencies
+ */
+
+
+
+
+
+function ToolbarDropdownMenu(props) {
+  const accessibleToolbarState = Object(external_wp_element_["useContext"])(toolbar_context["a" /* default */]);
+
+  if (!accessibleToolbarState) {
+    return Object(external_wp_element_["createElement"])(dropdown_menu, props);
+  } // ToobarItem will pass all props to the render prop child, which will pass
+  // all props to the toggle of DrpodownMenu. This means that ToolbarDropdownMenu has the same API as
+  // DrpodownMenu.
+
+
+  return Object(external_wp_element_["createElement"])(toolbar_item["a" /* default */], null, toolbarItemProps => Object(external_wp_element_["createElement"])(dropdown_menu, Object(esm_extends["a" /* default */])({}, props, {
+    toggleProps: props.toggleProps ? { ...props.toggleProps,
+      ...toolbarItemProps
+    } : toolbarItemProps
+  })));
+}
+
+/* harmony default export */ var toolbar_dropdown_menu = (ToolbarDropdownMenu);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/tree-grid/roving-tab-index-context.js
 /**
@@ -40779,12 +42310,73 @@ function TreeGridRow({
  * ```
  */
 
-const component_Truncate = Object(create_component["a" /* createComponent */])({
+const component_Truncate = create_component_createComponent({
   as: 'span',
   useHook: useTruncate,
   name: 'Truncate'
 });
 /* harmony default export */ var truncate_component = (component_Truncate);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/v-stack/hook.js
+/**
+ * Internal dependencies
+ */
+
+
+/**
+ *
+ * @param {import('../ui/context').ViewOwnProps<import('./types').Props, 'div'>} props
+ */
+
+function useVStack(props) {
+  const {
+    expanded = false,
+    ...otherProps
+  } = Object(use_context_system["a" /* useContextSystem */])(props, 'VStack');
+  const hStackProps = useHStack({
+    direction: 'column',
+    expanded,
+    ...otherProps
+  });
+  return hStackProps;
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/v-stack/component.js
+/**
+ * Internal dependencies
+ */
+
+
+/**
+ * `VStack` (or Vertical Stack) is a layout component that arranges child elements in a vertical line.
+ *
+ * `VStack` can render anything inside.
+ *
+ * @example
+ * ```jsx
+ * import {
+ * 	__experimentalText as Text,
+ * 	__experimentalVStack as VStack,
+ * } from `@wordpress/components`;
+ *
+ * function Example() {
+ * 	return (
+ * 		<VStack>
+ * 			<Text>Code</Text>
+ * 			<Text>is</Text>
+ * 			<Text>Poetry</Text>
+ * 		</VStack>
+ * 	);
+ * }
+ * ```
+ */
+
+const VStack = create_component_createComponent({
+  as: 'div',
+  useHook: useVStack,
+  name: 'VStack'
+});
+/* harmony default export */ var v_stack_component = (VStack);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/isolated-event-container/index.js
 
@@ -40824,9 +42416,6 @@ var slot_fill = __webpack_require__("dSD1");
 // EXTERNAL MODULE: ./node_modules/@wordpress/components/build-module/slot-fill/bubbles-virtually/use-slot.js
 var use_slot = __webpack_require__("+WFq");
 
-// EXTERNAL MODULE: ./node_modules/@emotion/cache/dist/cache.browser.esm.js + 2 modules
-var cache_browser_esm = __webpack_require__("TqVZ");
-
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/style-provider/index.js
 
 
@@ -40850,7 +42439,7 @@ function StyleProvider({
   }
 
   const cache = memoizedCreateCacheWithContainer(document.head);
-  return Object(external_wp_element_["createElement"])(core_browser_esm["a" /* CacheProvider */], {
+  return Object(external_wp_element_["createElement"])(CacheProvider, {
     value: cache
   }, children);
 }
@@ -41334,6 +42923,12 @@ function ComponentSystemProvider({
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/index.js
 // Primitives
  // Components
+
+
+
+
+
+
 
 
 
@@ -49321,58 +50916,6 @@ const search = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createEle
 
 /***/ }),
 
-/***/ "cHUN":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("GRId");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("Tqx9");
-/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__);
-
-
-/**
- * WordPress dependencies
- */
-
-const menu = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["SVG"], {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24"
-}, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["Path"], {
-  d: "M5 5.5V7h14V5.5H5zM5 13h14v-1.5H5V13zm0 6h14v-1.5H5V19z"
-}));
-/* harmony default export */ __webpack_exports__["a"] = (menu);
-
-
-/***/ }),
-
-/***/ "dI71":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _inheritsLoose; });
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-    o.__proto__ = p;
-    return o;
-  };
-
-  return _setPrototypeOf(o, p);
-}
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js
-
-function _inheritsLoose(subClass, superClass) {
-  subClass.prototype = Object.create(superClass.prototype);
-  subClass.prototype.constructor = subClass;
-  _setPrototypeOf(subClass, superClass);
-}
-
-/***/ }),
-
 /***/ "dRQD":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -49701,6 +51244,9 @@ function fill_Fill({
   return Object(external_wp_element_["createPortal"])(children, slot.ref.current);
 }
 
+// EXTERNAL MODULE: external ["wp","compose"]
+var external_wp_compose_ = __webpack_require__("K9lf");
+
 // EXTERNAL MODULE: ./node_modules/@wordpress/components/build-module/slot-fill/bubbles-virtually/slot-fill-context.js
 var slot_fill_context = __webpack_require__("JYkG");
 
@@ -49712,9 +51258,11 @@ var slot_fill_context = __webpack_require__("JYkG");
  * WordPress dependencies
  */
 
+
 /**
  * Internal dependencies
  */
+
 
 
 function slot_Slot({
@@ -49722,7 +51270,7 @@ function slot_Slot({
   fillProps = {},
   as: Component = 'div',
   ...props
-}) {
+}, forwardedRef) {
   const registry = Object(external_wp_element_["useContext"])(slot_fill_context["a" /* default */]);
   const ref = Object(external_wp_element_["useRef"])();
   Object(external_wp_element_["useLayoutEffect"])(() => {
@@ -49740,9 +51288,11 @@ function slot_Slot({
     registry.updateSlot(name, fillProps);
   });
   return Object(external_wp_element_["createElement"])(Component, Object(esm_extends["a" /* default */])({
-    ref: ref
+    ref: Object(external_wp_compose_["useMergeRefs"])([forwardedRef, ref])
   }, props));
 }
+
+/* harmony default export */ var bubbles_virtually_slot = (Object(external_wp_element_["forwardRef"])(slot_Slot));
 
 // EXTERNAL MODULE: external ["wp","isShallowEqual"]
 var external_wp_isShallowEqual_ = __webpack_require__("rl8x");
@@ -49977,8 +51527,13 @@ class provider_SlotFillProvider extends external_wp_element_["Component"] {
 
 
 /**
+ * WordPress dependencies
+ */
+
+/**
  * Internal dependencies
  */
+
 
 
 
@@ -49992,16 +51547,18 @@ function slot_fill_Fill(props) {
   // will render. The other one will return null.
   return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(slot_fill_fill, props), Object(external_wp_element_["createElement"])(fill_Fill, props));
 }
-function slot_fill_Slot({
+const slot_fill_Slot = Object(external_wp_element_["forwardRef"])(({
   bubblesVirtually,
   ...props
-}) {
+}, ref) => {
   if (bubblesVirtually) {
-    return Object(external_wp_element_["createElement"])(slot_Slot, props);
+    return Object(external_wp_element_["createElement"])(bubbles_virtually_slot, Object(esm_extends["a" /* default */])({}, props, {
+      ref: ref
+    }));
   }
 
   return Object(external_wp_element_["createElement"])(slot_fill_slot, props);
-}
+});
 function Provider({
   children,
   ...props
@@ -50293,205 +51850,6 @@ module.exports = function Call(F, V) {
 	}
 	return $apply(F, V, argumentsList);
 };
-
-
-/***/ }),
-
-/***/ "fgo+":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* unused harmony export BASE */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return G2; });
-/* unused harmony export DARK_GRAY */
-/* unused harmony export DARK_OPACITY */
-/* unused harmony export DARK_OPACITY_LIGHT */
-/* unused harmony export LIGHT_GRAY */
-/* unused harmony export LIGHT_OPACITY_LIGHT */
-/* unused harmony export BLUE */
-/* unused harmony export ALERT */
-/* unused harmony export ADMIN */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return UI; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return COLORS; });
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("YLtl");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _colors__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("C27M");
-/**
- * External dependencies
- */
-
-/**
- * Internal dependencies
- */
-
-
-const BASE = {
-  black: '#000',
-  white: '#fff'
-};
-/**
- * TODO: Continue to update values as "G2" design evolves.
- *
- * "G2" refers to the movement to advance the interface of the block editor.
- * https://github.com/WordPress/gutenberg/issues/18667
- */
-
-const G2 = {
-  blue: {
-    medium: {
-      focus: '#007cba',
-      focusDark: '#fff'
-    }
-  },
-  gray: {
-    900: '#1e1e1e',
-    700: '#757575',
-    // Meets 4.6:1 text contrast against white.
-    600: '#949494',
-    // Meets 3:1 UI or large text contrast against white.
-    400: '#ccc',
-    200: '#ddd',
-    // Used for most borders.
-    100: '#f0f0f0'
-  },
-  darkGray: {
-    primary: '#1e1e1e',
-    heading: '#050505'
-  },
-  mediumGray: {
-    text: '#757575'
-  },
-  lightGray: {
-    ui: '#949494',
-    secondary: '#ccc',
-    tertiary: '#e7e8e9'
-  }
-};
-const DARK_GRAY = {
-  900: '#191e23',
-  800: '#23282d',
-  700: '#32373c',
-  600: '#40464d',
-  500: '#555d66',
-  // Use this most of the time for dark items.
-  400: '#606a73',
-  300: '#6c7781',
-  // Lightest gray that can be used for AA text contrast.
-  200: '#7e8993',
-  150: '#8d96a0',
-  // Lightest gray that can be used for AA non-text contrast.
-  100: '#8f98a1',
-  placeholder: Object(_colors__WEBPACK_IMPORTED_MODULE_1__[/* rgba */ "b"])(G2.gray[900], 0.62)
-};
-const DARK_OPACITY = {
-  900: Object(_colors__WEBPACK_IMPORTED_MODULE_1__[/* rgba */ "b"])('#000510', 0.9),
-  800: Object(_colors__WEBPACK_IMPORTED_MODULE_1__[/* rgba */ "b"])('#00000a', 0.85),
-  700: Object(_colors__WEBPACK_IMPORTED_MODULE_1__[/* rgba */ "b"])('#06060b', 0.8),
-  600: Object(_colors__WEBPACK_IMPORTED_MODULE_1__[/* rgba */ "b"])('#000913', 0.75),
-  500: Object(_colors__WEBPACK_IMPORTED_MODULE_1__[/* rgba */ "b"])('#0a1829', 0.7),
-  400: Object(_colors__WEBPACK_IMPORTED_MODULE_1__[/* rgba */ "b"])('#0a1829', 0.65),
-  300: Object(_colors__WEBPACK_IMPORTED_MODULE_1__[/* rgba */ "b"])('#0e1c2e', 0.62),
-  200: Object(_colors__WEBPACK_IMPORTED_MODULE_1__[/* rgba */ "b"])('#162435', 0.55),
-  100: Object(_colors__WEBPACK_IMPORTED_MODULE_1__[/* rgba */ "b"])('#223443', 0.5),
-  backgroundFill: Object(_colors__WEBPACK_IMPORTED_MODULE_1__[/* rgba */ "b"])(DARK_GRAY[700], 0.7)
-};
-const DARK_OPACITY_LIGHT = {
-  900: Object(_colors__WEBPACK_IMPORTED_MODULE_1__[/* rgba */ "b"])('#304455', 0.45),
-  800: Object(_colors__WEBPACK_IMPORTED_MODULE_1__[/* rgba */ "b"])('#425863', 0.4),
-  700: Object(_colors__WEBPACK_IMPORTED_MODULE_1__[/* rgba */ "b"])('#667886', 0.35),
-  600: Object(_colors__WEBPACK_IMPORTED_MODULE_1__[/* rgba */ "b"])('#7b86a2', 0.3),
-  500: Object(_colors__WEBPACK_IMPORTED_MODULE_1__[/* rgba */ "b"])('#9197a2', 0.25),
-  400: Object(_colors__WEBPACK_IMPORTED_MODULE_1__[/* rgba */ "b"])('#95959c', 0.2),
-  300: Object(_colors__WEBPACK_IMPORTED_MODULE_1__[/* rgba */ "b"])('#829493', 0.15),
-  200: Object(_colors__WEBPACK_IMPORTED_MODULE_1__[/* rgba */ "b"])('#8b8b96', 0.1),
-  100: Object(_colors__WEBPACK_IMPORTED_MODULE_1__[/* rgba */ "b"])('#747474', 0.05)
-};
-const LIGHT_GRAY = {
-  900: '#a2aab2',
-  800: '#b5bcc2',
-  700: '#ccd0d4',
-  600: '#d7dade',
-  500: '#e2e4e7',
-  // Good for "grayed" items and borders.
-  400: '#e8eaeb',
-  // Good for "readonly" input fields and special text selection.
-  300: '#edeff0',
-  200: '#f3f4f5',
-  100: '#f8f9f9',
-  placeholder: Object(_colors__WEBPACK_IMPORTED_MODULE_1__[/* rgba */ "b"])(BASE.white, 0.65)
-};
-const LIGHT_OPACITY_LIGHT = {
-  900: Object(_colors__WEBPACK_IMPORTED_MODULE_1__[/* rgba */ "b"])(BASE.white, 0.5),
-  800: Object(_colors__WEBPACK_IMPORTED_MODULE_1__[/* rgba */ "b"])(BASE.white, 0.45),
-  700: Object(_colors__WEBPACK_IMPORTED_MODULE_1__[/* rgba */ "b"])(BASE.white, 0.4),
-  600: Object(_colors__WEBPACK_IMPORTED_MODULE_1__[/* rgba */ "b"])(BASE.white, 0.35),
-  500: Object(_colors__WEBPACK_IMPORTED_MODULE_1__[/* rgba */ "b"])(BASE.white, 0.3),
-  400: Object(_colors__WEBPACK_IMPORTED_MODULE_1__[/* rgba */ "b"])(BASE.white, 0.25),
-  300: Object(_colors__WEBPACK_IMPORTED_MODULE_1__[/* rgba */ "b"])(BASE.white, 0.2),
-  200: Object(_colors__WEBPACK_IMPORTED_MODULE_1__[/* rgba */ "b"])(BASE.white, 0.15),
-  100: Object(_colors__WEBPACK_IMPORTED_MODULE_1__[/* rgba */ "b"])(BASE.white, 0.1),
-  backgroundFill: Object(_colors__WEBPACK_IMPORTED_MODULE_1__[/* rgba */ "b"])(LIGHT_GRAY[300], 0.8)
-}; // Additional colors.
-// Some are from https://make.wordpress.org/design/handbook/foundations/colors/.
-
-const BLUE = {
-  wordpress: {
-    700: '#00669b'
-  },
-  dark: {
-    900: '#0071a1'
-  },
-  medium: {
-    900: '#006589',
-    800: '#00739c',
-    700: '#007fac',
-    600: '#008dbe',
-    500: '#00a0d2',
-    400: '#33b3db',
-    300: '#66c6e4',
-    200: '#bfe7f3',
-    100: '#e5f5fa',
-    highlight: '#b3e7fe',
-    focus: '#007cba'
-  }
-};
-const ALERT = {
-  yellow: '#f0b849',
-  red: '#d94f4f',
-  green: '#4ab866'
-};
-const ADMIN = {
-  theme: `var( --wp-admin-theme-color, ${BLUE.wordpress[700]})`,
-  themeDark10: `var( --wp-admin-theme-color-darker-10, ${BLUE.medium.focus})`
-}; // Namespaced values for raw colors hex codes
-
-const UI = {
-  theme: ADMIN.theme,
-  background: BASE.white,
-  backgroundDisabled: LIGHT_GRAY[200],
-  border: G2.gray[700],
-  borderFocus: ADMIN.themeDark10,
-  borderDisabled: G2.gray[400],
-  borderLight: G2.gray[200],
-  label: DARK_GRAY[500],
-  textDisabled: DARK_GRAY[150],
-  textDark: BASE.white,
-  textLight: BASE.black
-};
-const COLORS = { ...BASE,
-  darkGray: Object(lodash__WEBPACK_IMPORTED_MODULE_0__["merge"])({}, DARK_GRAY, G2.darkGray),
-  darkOpacity: DARK_OPACITY,
-  darkOpacityLight: DARK_OPACITY_LIGHT,
-  mediumGray: G2.mediumGray,
-  gray: G2.gray,
-  lightGray: Object(lodash__WEBPACK_IMPORTED_MODULE_0__["merge"])({}, LIGHT_GRAY, G2.lightGray),
-  lightGrayLight: LIGHT_OPACITY_LIGHT,
-  blue: Object(lodash__WEBPACK_IMPORTED_MODULE_0__["merge"])({}, BLUE, G2.blue),
-  alert: ALERT,
-  admin: ADMIN,
-  ui: UI
-};
-/* unused harmony default export */ var _unused_webpack_default_export = (COLORS);
 
 
 /***/ }),
@@ -51220,87 +52578,6 @@ module.exports = {
   createMomentChecker: createMomentChecker,
   messages: messages,
 };
-
-
-/***/ }),
-
-/***/ "iSWJ":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-
-// EXTERNAL MODULE: ./node_modules/@wordpress/components/build-module/ui/utils/create-component.js
-var create_component = __webpack_require__("/b7M");
-
-// EXTERNAL MODULE: ./node_modules/emotion/dist/emotion.esm.js + 1 modules
-var emotion_esm = __webpack_require__("kDDq");
-
-// EXTERNAL MODULE: ./node_modules/@wordpress/components/build-module/utils/colors-values.js
-var colors_values = __webpack_require__("fgo+");
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/visually-hidden/styles.js
-
-
-/**
- * Internal dependencies
- */
-
-const VisuallyHidden = /*#__PURE__*/Object(emotion_esm["a" /* css */])("border:0;clip:rect( 1px,1px,1px,1px );-webkit-clip-path:inset( 50% );clip-path:inset( 50% );height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px;word-wrap:normal !important;&:focus{background-color:", colors_values["a" /* COLORS */].lightGray['300'], ";clip:auto !important;clip-path:none;color:#444;display:block;font-size:1em;height:auto;left:5px;line-height:normal;padding:15px 23px 14px;text-decoration:none;top:5px;width:auto;z-index:100000;};label:VisuallyHidden;" + ( true ? "" : undefined));
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/visually-hidden/hook.js
-
-
-/**
- * Internal dependencies
- */
-
-/**
- * @param {import('../ui/context').ViewOwnProps<{}, 'div'>} props
- */
-
-function useVisuallyHidden({
-  className,
-  ...props
-}) {
-  // circumvent the context system and write the classnames ourselves
-  const classes = Object(emotion_esm["b" /* cx */])('components-visually-hidden', className, VisuallyHidden);
-
-  return {
-    className: classes,
-    ...props
-  };
-}
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/visually-hidden/component.js
-/**
- * Internal dependencies
- */
-
-
-/**
- * `VisuallyHidden` is a component used to render text intended to be visually
- * hidden, but will show for alternate devices, for example a screen reader.
- *
- * @example
- * ```jsx
- * import { VisuallyHidden } from `@wordpress/components`;
- *
- * function Example() {
- * 	return (
- * 		<VisuallyHidden>
- * 			<label>Code is Poetry</label>
- * 		</VisuallyHidden>
- * 	);
- * }
- * ```
- */
-
-const component_VisuallyHidden = Object(create_component["a" /* createComponent */])({
-  as: 'div',
-  useHook: useVisuallyHidden,
-  name: 'VisuallyHidden'
-});
-/* harmony default export */ var component = __webpack_exports__["a"] = (component_VisuallyHidden);
 
 
 /***/ }),
@@ -52081,7 +53358,7 @@ function ScrollLock() {
 /* harmony import */ var _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_deprecated__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _tooltip__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("W/NR");
 /* harmony import */ var _icon__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__("9VDH");
-/* harmony import */ var _visually_hidden__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__("iSWJ");
+/* harmony import */ var _visually_hidden__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__("ldlY");
 
 
 
@@ -53244,6 +54521,143 @@ module.exports = function CheckObjectCoercible(value, optMessage) {
 
 /***/ }),
 
+/***/ "ldlY":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+// EXTERNAL MODULE: ./node_modules/classnames/index.js
+var classnames = __webpack_require__("TSYQ");
+var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);
+
+// EXTERNAL MODULE: external ["wp","element"]
+var external_wp_element_ = __webpack_require__("GRId");
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/visually-hidden/utils.js
+
+
+/**
+ * @template {keyof JSX.IntrinsicElements | import('react').JSXElementConstructor<any>} T
+ * @typedef OwnProps
+ * @property {T} [as='div'] Component to render
+ * @property {import('react').ReactNode | ((props: import('react').ComponentProps<T>) => JSX.Element) } [children] Children or render props function
+ */
+
+/**
+ * @template {keyof JSX.IntrinsicElements | import('react').JSXElementConstructor<any>} T
+ * @typedef {OwnProps<T> & import('react').ComponentProps<T>} Props
+ */
+
+/**
+ * renderAsRenderProps is used to wrap a component and convert
+ * the passed property "as" either a string or component, to the
+ * rendered tag if a string, or component.
+ *
+ * See VisuallyHidden hidden for example.
+ *
+ * @template {keyof JSX.IntrinsicElements | import('react').JSXElementConstructor<any>} T
+ * @param {Props<T>} props
+ * @return {JSX.Element} The rendered element.
+ */
+function renderAsRenderProps({
+  as: Component = 'div',
+  ...props
+}) {
+  if (typeof props.children === 'function') {
+    return props.children(props);
+  }
+
+  return Object(external_wp_element_["createElement"])(Component, props);
+}
+
+
+
+// EXTERNAL MODULE: ./node_modules/@wordpress/components/build-module/ui/context/with-next.js
+var with_next = __webpack_require__("9NHk");
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/visually-hidden/next.js
+/**
+ * Internal dependencies
+ */
+
+
+const VisuallyHidden =  false ? undefined : undefined;
+/**
+ * There is nothing to adapt, the props are equal.
+ *
+ * @param {import('.').Props<any>} props
+ * @return {import('../ui/visually-hidden/hook').Props} Adapted props
+ */
+
+const adapter = props =>
+/** @type {import('../ui/visually-hidden/hook').Props} */
+props;
+/**
+ * The generic type is too difficult to type here, default to any to circumvent that.
+ *
+ * @param {import('react').ForwardRefExoticComponent<import('.').Props<any>>} Current
+ */
+
+
+function withNextComponent(Current) {
+  return Object(with_next["a" /* withNext */])(Current, VisuallyHidden, 'WPComponentsVisuallyHidden', adapter);
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/visually-hidden/index.js
+/**
+ * External dependencies
+ */
+
+/**
+ * WordPress dependencies
+ */
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+/**
+ * @template {keyof JSX.IntrinsicElements | import('react').JSXElementConstructor<any>} T
+ * @typedef OwnProps
+ * @property {T} [as='div'] Component to render, e.g. `"div"` or `MyComponent`.
+ */
+
+/**
+ * @template {keyof JSX.IntrinsicElements | import('react').JSXElementConstructor<any>} T
+ * @typedef {OwnProps<T> & import('react').ComponentPropsWithRef<T>} Props
+ */
+
+/**
+ * VisuallyHidden component to render text out non-visually
+ * for use in devices such as a screen reader.
+ *
+ * @template {keyof JSX.IntrinsicElements | import('react').JSXElementConstructor<any>} T T
+ * @param {Props<T>} props
+ * @param {import('react').Ref<any>} forwardedRef
+ * @return {JSX.Element} Element
+ */
+
+function visually_hidden_VisuallyHidden({
+  as = 'div',
+  className,
+  ...props
+}, forwardedRef) {
+  return renderAsRenderProps({
+    as,
+    className: classnames_default()('components-visually-hidden', className),
+    ...props,
+    ref: forwardedRef
+  });
+}
+
+/* harmony default export */ var visually_hidden = __webpack_exports__["a"] = (withNextComponent(Object(external_wp_element_["forwardRef"])(visually_hidden_VisuallyHidden)));
+
+
+/***/ }),
+
 /***/ "lzPt":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -53266,41 +54680,6 @@ exports["default"] = getCalendarMonthWidth;
 function getCalendarMonthWidth(daySize, calendarMonthPadding) {
   return 7 * daySize + 2 * calendarMonthPadding + 1;
 }
-
-/***/ }),
-
-/***/ "mMAw":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _emotion_styled_base__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("wTIg");
-
-
-/**
- * `View` is a core component that renders everything in the library.
- * It is the principle component in the entire library.
- *
- * @example
- * ```jsx
- * import { View } from `@wordpress/components/ui`;
- *
- * function Example() {
- * 	return (
- * 		<View>
- * 			 Code is Poetry
- * 		</View>
- * 	);
- * }
- * ```
- */
-const View = Object(_emotion_styled_base__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])("div", {
-  target: "egi4jkx0",
-  label: "View"
-})( true ? "" : undefined);
-
-View.displayName = 'View';
-/* harmony default export */ __webpack_exports__["a"] = (View);
-
 
 /***/ }),
 
@@ -54263,7 +55642,8 @@ function computeAnchorRect(anchorRefFallback, anchorRect, getAnchorRect, anchorR
       return;
     }
 
-    return offsetIframe(getAnchorRect(anchorRefFallback.current), anchorRefFallback.current.ownerDocument);
+    const rect = getAnchorRect(anchorRefFallback.current);
+    return offsetIframe(rect, rect.ownerDocument || anchorRefFallback.current.ownerDocument);
   }
 
   if (anchorRef !== false) {
@@ -54448,7 +55828,7 @@ const Popover = ({
 
   /* eslint-enable no-unused-vars */
   ...contentProps
-}) => {
+}, ref) => {
   const anchorRefFallback = Object(external_wp_element_["useRef"])(null);
   const contentRef = Object(external_wp_element_["useRef"])(null);
   const containerRef = Object(external_wp_element_["useRef"])();
@@ -54608,7 +55988,7 @@ const Popover = ({
   const focusReturnRef = Object(external_wp_compose_["useFocusReturn"])();
   const focusOnMountRef = Object(external_wp_compose_["useFocusOnMount"])(focusOnMount);
   const focusOutsideProps = Object(external_wp_compose_["__experimentalUseFocusOutside"])(handleOnFocusOutside);
-  const mergedRefs = Object(external_wp_compose_["useMergeRefs"])([containerRef, focusOnMount ? constrainedTabbingRef : null, focusOnMount ? focusReturnRef : null, focusOnMount ? focusOnMountRef : null]); // Event handlers
+  const mergedRefs = Object(external_wp_compose_["useMergeRefs"])([ref, containerRef, focusOnMount ? constrainedTabbingRef : null, focusOnMount ? focusReturnRef : null, focusOnMount ? focusOnMountRef : null]); // Event handlers
 
   const maybeClose = event => {
     // Close on escape
@@ -54719,16 +56099,20 @@ const Popover = ({
   }, content);
 };
 
-const PopoverContainer = Popover;
+const PopoverContainer = Object(external_wp_element_["forwardRef"])(Popover);
 
-PopoverContainer.Slot = ({
+function PopoverSlot({
   name = SLOT_NAME
-}) => Object(external_wp_element_["createElement"])(slot_fill["c" /* Slot */], {
-  bubblesVirtually: true,
-  name: name,
-  className: "popover-slot"
-});
+}, ref) {
+  return Object(external_wp_element_["createElement"])(slot_fill["c" /* Slot */], {
+    bubblesVirtually: true,
+    name: name,
+    className: "popover-slot",
+    ref: ref
+  });
+}
 
+PopoverContainer.Slot = Object(external_wp_element_["forwardRef"])(PopoverSlot);
 /* harmony default export */ var popover = __webpack_exports__["a"] = (PopoverContainer);
 
 
@@ -54854,435 +56238,6 @@ function getTransformStyles(transformValue) {
     WebkitTransform: transformValue
   };
 }
-
-/***/ }),
-
-/***/ "qE/0":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("GRId");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("Tqx9");
-/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__);
-
-
-/**
- * WordPress dependencies
- */
-
-const swatch = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["SVG"], {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24"
-}, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["Path"], {
-  d: "M5 17.7c.4.5.8.9 1.2 1.2l1.1-1.4c-.4-.3-.7-.6-1-1L5 17.7zM5 6.3l1.4 1.1c.3-.4.6-.7 1-1L6.3 5c-.5.4-.9.8-1.3 1.3zm.1 7.8l-1.7.5c.2.6.4 1.1.7 1.6l1.5-.8c-.2-.4-.4-.8-.5-1.3zM4.8 12v-.7L3 11.1v1.8l1.7-.2c.1-.2.1-.5.1-.7zm3 7.9c.5.3 1.1.5 1.6.7l.5-1.7c-.5-.1-.9-.3-1.3-.5l-.8 1.5zM19 6.3c-.4-.5-.8-.9-1.2-1.2l-1.1 1.4c.4.3.7.6 1 1L19 6.3zm-.1 3.6l1.7-.5c-.2-.6-.4-1.1-.7-1.6l-1.5.8c.2.4.4.8.5 1.3zM5.6 8.6l-1.5-.8c-.3.5-.5 1-.7 1.6l1.7.5c.1-.5.3-.9.5-1.3zm2.2-4.5l.8 1.5c.4-.2.8-.4 1.3-.5l-.5-1.7c-.6.2-1.1.4-1.6.7zm8.8 13.5l1.1 1.4c.5-.4.9-.8 1.2-1.2l-1.4-1.1c-.2.3-.5.6-.9.9zm1.8-2.2l1.5.8c.3-.5.5-1.1.7-1.6l-1.7-.5c-.1.5-.3.9-.5 1.3zm2.6-4.3l-1.7.2v1.4l1.7.2V12v-.9zM11.1 3l.2 1.7h1.4l.2-1.7h-1.8zm3 2.1c.5.1.9.3 1.3.5l.8-1.5c-.5-.3-1.1-.5-1.6-.7l-.5 1.7zM12 19.2h-.7l-.2 1.8h1.8l-.2-1.7c-.2-.1-.5-.1-.7-.1zm2.1-.3l.5 1.7c.6-.2 1.1-.4 1.6-.7l-.8-1.5c-.4.2-.8.4-1.3.5z"
-}));
-/* harmony default export */ __webpack_exports__["a"] = (swatch);
-
-
-/***/ }),
-
-/***/ "qKvR":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "a", function() { return /* reexport */ CacheProvider; });
-__webpack_require__.d(__webpack_exports__, "b", function() { return /* reexport */ ThemeContext; });
-__webpack_require__.d(__webpack_exports__, "e", function() { return /* reexport */ emotion_element_57a3a7a3_browser_esm_withEmotionCache; });
-__webpack_require__.d(__webpack_exports__, "c", function() { return /* reexport */ css_browser_esm; });
-__webpack_require__.d(__webpack_exports__, "d", function() { return /* binding */ core_browser_esm_keyframes; });
-
-// UNUSED EXPORTS: ClassNames, Global, createElement, jsx
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js + 1 modules
-var inheritsLoose = __webpack_require__("dI71");
-
-// EXTERNAL MODULE: external "React"
-var external_React_ = __webpack_require__("cDcd");
-
-// EXTERNAL MODULE: ./node_modules/@emotion/cache/dist/cache.browser.esm.js + 2 modules
-var cache_browser_esm = __webpack_require__("TqVZ");
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/inheritsLoose.js
-var helpers_inheritsLoose = __webpack_require__("VbXa");
-
-// EXTERNAL MODULE: ./node_modules/@emotion/utils/dist/utils.browser.esm.js
-var utils_browser_esm = __webpack_require__("SIPS");
-
-// EXTERNAL MODULE: ./node_modules/@emotion/serialize/dist/serialize.browser.esm.js + 2 modules
-var serialize_browser_esm = __webpack_require__("MiSq");
-
-// CONCATENATED MODULE: ./node_modules/@emotion/core/dist/emotion-element-57a3a7a3.browser.esm.js
-
-
-
-
-
-
-var emotion_element_57a3a7a3_browser_esm_hasOwnProperty = Object.prototype.hasOwnProperty;
-
-var EmotionCacheContext = /*#__PURE__*/Object(external_React_["createContext"])( // we're doing this to avoid preconstruct's dead code elimination in this one case
-// because this module is primarily intended for the browser and node
-// but it's also required in react native and similar environments sometimes
-// and we could have a special build just for that
-// but this is much easier and the native packages
-// might use a different theme context in the future anyway
-typeof HTMLElement !== 'undefined' ? Object(cache_browser_esm["a" /* default */])() : null);
-var ThemeContext = /*#__PURE__*/Object(external_React_["createContext"])({});
-var CacheProvider = EmotionCacheContext.Provider;
-
-var emotion_element_57a3a7a3_browser_esm_withEmotionCache = function withEmotionCache(func) {
-  var render = function render(props, ref) {
-    return /*#__PURE__*/Object(external_React_["createElement"])(EmotionCacheContext.Consumer, null, function (cache) {
-      return func(props, cache, ref);
-    });
-  }; // $FlowFixMe
-
-
-  return /*#__PURE__*/Object(external_React_["forwardRef"])(render);
-};
-
-// thus we only need to replace what is a valid character for JS, but not for CSS
-
-var sanitizeIdentifier = function sanitizeIdentifier(identifier) {
-  return identifier.replace(/\$/g, '-');
-};
-
-var typePropName = '__EMOTION_TYPE_PLEASE_DO_NOT_USE__';
-var labelPropName = '__EMOTION_LABEL_PLEASE_DO_NOT_USE__';
-var createEmotionProps = function createEmotionProps(type, props) {
-  if (false) {}
-
-  var newProps = {};
-
-  for (var key in props) {
-    if (emotion_element_57a3a7a3_browser_esm_hasOwnProperty.call(props, key)) {
-      newProps[key] = props[key];
-    }
-  }
-
-  newProps[typePropName] = type; // TODO: check if this still works with all of those different JSX functions
-
-  if (false) { var match, error; }
-
-  return newProps;
-};
-
-var emotion_element_57a3a7a3_browser_esm_render = function render(cache, props, theme, ref) {
-  var cssProp = theme === null ? props.css : props.css(theme); // so that using `css` from `emotion` and passing the result to the css prop works
-  // not passing the registered cache to serializeStyles because it would
-  // make certain babel optimisations not possible
-
-  if (typeof cssProp === 'string' && cache.registered[cssProp] !== undefined) {
-    cssProp = cache.registered[cssProp];
-  }
-
-  var type = props[typePropName];
-  var registeredStyles = [cssProp];
-  var className = '';
-
-  if (typeof props.className === 'string') {
-    className = Object(utils_browser_esm["a" /* getRegisteredStyles */])(cache.registered, registeredStyles, props.className);
-  } else if (props.className != null) {
-    className = props.className + " ";
-  }
-
-  var serialized = Object(serialize_browser_esm["a" /* serializeStyles */])(registeredStyles);
-
-  if (false) { var labelFromStack; }
-
-  var rules = Object(utils_browser_esm["b" /* insertStyles */])(cache, serialized, typeof type === 'string');
-  className += cache.key + "-" + serialized.name;
-  var newProps = {};
-
-  for (var key in props) {
-    if (emotion_element_57a3a7a3_browser_esm_hasOwnProperty.call(props, key) && key !== 'css' && key !== typePropName && ( true || false)) {
-      newProps[key] = props[key];
-    }
-  }
-
-  newProps.ref = ref;
-  newProps.className = className;
-  var ele = /*#__PURE__*/Object(external_React_["createElement"])(type, newProps);
-
-  return ele;
-}; // eslint-disable-next-line no-undef
-
-
-var Emotion = /* #__PURE__ */emotion_element_57a3a7a3_browser_esm_withEmotionCache(function (props, cache, ref) {
-  if (typeof props.css === 'function') {
-    return /*#__PURE__*/Object(external_React_["createElement"])(ThemeContext.Consumer, null, function (theme) {
-      return emotion_element_57a3a7a3_browser_esm_render(cache, props, theme, ref);
-    });
-  }
-
-  return emotion_element_57a3a7a3_browser_esm_render(cache, props, null, ref);
-});
-
-if (false) {}
-
-
-
-// EXTERNAL MODULE: ./node_modules/@emotion/sheet/dist/sheet.browser.esm.js
-var sheet_browser_esm = __webpack_require__("z9I/");
-
-// CONCATENATED MODULE: ./node_modules/@emotion/css/dist/css.browser.esm.js
-
-
-function css_browser_esm_css() {
-  for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-    args[_key] = arguments[_key];
-  }
-
-  return Object(serialize_browser_esm["a" /* serializeStyles */])(args);
-}
-
-/* harmony default export */ var css_browser_esm = (css_browser_esm_css);
-
-// CONCATENATED MODULE: ./node_modules/@emotion/core/dist/core.browser.esm.js
-
-
-
-
-
-
-
-
-
-
-
-var core_browser_esm_jsx = function jsx(type, props) {
-  var args = arguments;
-
-  if (props == null || !emotion_element_57a3a7a3_browser_esm_hasOwnProperty.call(props, 'css')) {
-    // $FlowFixMe
-    return external_React_["createElement"].apply(undefined, args);
-  }
-
-  var argsLength = args.length;
-  var createElementArgArray = new Array(argsLength);
-  createElementArgArray[0] = Emotion;
-  createElementArgArray[1] = createEmotionProps(type, props);
-
-  for (var i = 2; i < argsLength; i++) {
-    createElementArgArray[i] = args[i];
-  } // $FlowFixMe
-
-
-  return external_React_["createElement"].apply(null, createElementArgArray);
-};
-
-var warnedAboutCssPropForGlobal = false;
-var Global = /* #__PURE__ */emotion_element_57a3a7a3_browser_esm_withEmotionCache(function (props, cache) {
-  if (false) {}
-
-  var styles = props.styles;
-
-  if (typeof styles === 'function') {
-    return /*#__PURE__*/Object(external_React_["createElement"])(ThemeContext.Consumer, null, function (theme) {
-      var serialized = Object(serialize_browser_esm["a" /* serializeStyles */])([styles(theme)]);
-      return /*#__PURE__*/Object(external_React_["createElement"])(core_browser_esm_InnerGlobal, {
-        serialized: serialized,
-        cache: cache
-      });
-    });
-  }
-
-  var serialized = Object(serialize_browser_esm["a" /* serializeStyles */])([styles]);
-  return /*#__PURE__*/Object(external_React_["createElement"])(core_browser_esm_InnerGlobal, {
-    serialized: serialized,
-    cache: cache
-  });
-});
-
-// maintain place over rerenders.
-// initial render from browser, insertBefore context.sheet.tags[0] or if a style hasn't been inserted there yet, appendChild
-// initial client-side render from SSR, use place of hydrating tag
-var core_browser_esm_InnerGlobal = /*#__PURE__*/function (_React$Component) {
-  Object(inheritsLoose["a" /* default */])(InnerGlobal, _React$Component);
-
-  function InnerGlobal(props, context, updater) {
-    return _React$Component.call(this, props, context, updater) || this;
-  }
-
-  var _proto = InnerGlobal.prototype;
-
-  _proto.componentDidMount = function componentDidMount() {
-    this.sheet = new sheet_browser_esm["a" /* StyleSheet */]({
-      key: this.props.cache.key + "-global",
-      nonce: this.props.cache.sheet.nonce,
-      container: this.props.cache.sheet.container
-    }); // $FlowFixMe
-
-    var node = document.querySelector("style[data-emotion-" + this.props.cache.key + "=\"" + this.props.serialized.name + "\"]");
-
-    if (node !== null) {
-      this.sheet.tags.push(node);
-    }
-
-    if (this.props.cache.sheet.tags.length) {
-      this.sheet.before = this.props.cache.sheet.tags[0];
-    }
-
-    this.insertStyles();
-  };
-
-  _proto.componentDidUpdate = function componentDidUpdate(prevProps) {
-    if (prevProps.serialized.name !== this.props.serialized.name) {
-      this.insertStyles();
-    }
-  };
-
-  _proto.insertStyles = function insertStyles$1() {
-    if (this.props.serialized.next !== undefined) {
-      // insert keyframes
-      Object(utils_browser_esm["b" /* insertStyles */])(this.props.cache, this.props.serialized.next, true);
-    }
-
-    if (this.sheet.tags.length) {
-      // if this doesn't exist then it will be null so the style element will be appended
-      var element = this.sheet.tags[this.sheet.tags.length - 1].nextElementSibling;
-      this.sheet.before = element;
-      this.sheet.flush();
-    }
-
-    this.props.cache.insert("", this.props.serialized, this.sheet, false);
-  };
-
-  _proto.componentWillUnmount = function componentWillUnmount() {
-    this.sheet.flush();
-  };
-
-  _proto.render = function render() {
-
-    return null;
-  };
-
-  return InnerGlobal;
-}(external_React_["Component"]);
-
-var core_browser_esm_keyframes = function keyframes() {
-  var insertable = css_browser_esm.apply(void 0, arguments);
-  var name = "animation-" + insertable.name; // $FlowFixMe
-
-  return {
-    name: name,
-    styles: "@keyframes " + name + "{" + insertable.styles + "}",
-    anim: 1,
-    toString: function toString() {
-      return "_EMO_" + this.name + "_" + this.styles + "_EMO_";
-    }
-  };
-};
-
-var classnames = function classnames(args) {
-  var len = args.length;
-  var i = 0;
-  var cls = '';
-
-  for (; i < len; i++) {
-    var arg = args[i];
-    if (arg == null) continue;
-    var toAdd = void 0;
-
-    switch (typeof arg) {
-      case 'boolean':
-        break;
-
-      case 'object':
-        {
-          if (Array.isArray(arg)) {
-            toAdd = classnames(arg);
-          } else {
-            toAdd = '';
-
-            for (var k in arg) {
-              if (arg[k] && k) {
-                toAdd && (toAdd += ' ');
-                toAdd += k;
-              }
-            }
-          }
-
-          break;
-        }
-
-      default:
-        {
-          toAdd = arg;
-        }
-    }
-
-    if (toAdd) {
-      cls && (cls += ' ');
-      cls += toAdd;
-    }
-  }
-
-  return cls;
-};
-
-function merge(registered, css, className) {
-  var registeredStyles = [];
-  var rawClassName = Object(utils_browser_esm["a" /* getRegisteredStyles */])(registered, registeredStyles, className);
-
-  if (registeredStyles.length < 2) {
-    return className;
-  }
-
-  return rawClassName + css(registeredStyles);
-}
-
-var ClassNames = emotion_element_57a3a7a3_browser_esm_withEmotionCache(function (props, context) {
-  return /*#__PURE__*/Object(external_React_["createElement"])(ThemeContext.Consumer, null, function (theme) {
-    var hasRendered = false;
-
-    var css = function css() {
-      if (hasRendered && "production" !== 'production') {
-        throw new Error('css can only be used during render');
-      }
-
-      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-        args[_key] = arguments[_key];
-      }
-
-      var serialized = Object(serialize_browser_esm["a" /* serializeStyles */])(args, context.registered);
-
-      {
-        Object(utils_browser_esm["b" /* insertStyles */])(context, serialized, false);
-      }
-
-      return context.key + "-" + serialized.name;
-    };
-
-    var cx = function cx() {
-      if (hasRendered && "production" !== 'production') {
-        throw new Error('cx can only be used during render');
-      }
-
-      for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-        args[_key2] = arguments[_key2];
-      }
-
-      return merge(context.registered, css, classnames(args));
-    };
-
-    var content = {
-      css: css,
-      cx: cx,
-      theme: theme
-    };
-    var ele = props.children(content);
-    hasRendered = true;
-
-    return ele;
-  });
-});
-
-
-
 
 /***/ }),
 
@@ -57388,176 +58343,6 @@ const close = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElem
   d: "M13 11.8l6.1-6.3-1-1-6.1 6.2-6.1-6.2-1 1 6.1 6.3-6.5 6.7 1 1 6.5-6.6 6.5 6.6 1-1z"
 }));
 /* harmony default export */ __webpack_exports__["a"] = (close);
-
-
-/***/ }),
-
-/***/ "wTIg":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("lSNA");
-/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("cDcd");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _emotion_is_prop_valid__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("9uj6");
-/* harmony import */ var _emotion_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("qKvR");
-/* harmony import */ var _emotion_utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("SIPS");
-/* harmony import */ var _emotion_serialize__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("MiSq");
-
-
-
-
-
-
-
-var testOmitPropsOnStringTag = _emotion_is_prop_valid__WEBPACK_IMPORTED_MODULE_2__["default"];
-
-var testOmitPropsOnComponent = function testOmitPropsOnComponent(key) {
-  return key !== 'theme' && key !== 'innerRef';
-};
-
-var getDefaultShouldForwardProp = function getDefaultShouldForwardProp(tag) {
-  return typeof tag === 'string' && // 96 is one less than the char code
-  // for "a" so this is checking that
-  // it's a lowercase character
-  tag.charCodeAt(0) > 96 ? testOmitPropsOnStringTag : testOmitPropsOnComponent;
-};
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-var ILLEGAL_ESCAPE_SEQUENCE_ERROR = "You have illegal escape sequence in your template literal, most likely inside content's property value.\nBecause you write your CSS inside a JavaScript string you actually have to do double escaping, so for example \"content: '\\00d7';\" should become \"content: '\\\\00d7';\".\nYou can read more about this here:\nhttps://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#ES2018_revision_of_illegal_escape_sequences";
-
-var createStyled = function createStyled(tag, options) {
-  if (false) {}
-
-  var identifierName;
-  var shouldForwardProp;
-  var targetClassName;
-
-  if (options !== undefined) {
-    identifierName = options.label;
-    targetClassName = options.target;
-    shouldForwardProp = tag.__emotion_forwardProp && options.shouldForwardProp ? function (propName) {
-      return tag.__emotion_forwardProp(propName) && // $FlowFixMe
-      options.shouldForwardProp(propName);
-    } : options.shouldForwardProp;
-  }
-
-  var isReal = tag.__emotion_real === tag;
-  var baseTag = isReal && tag.__emotion_base || tag;
-
-  if (typeof shouldForwardProp !== 'function' && isReal) {
-    shouldForwardProp = tag.__emotion_forwardProp;
-  }
-
-  var defaultShouldForwardProp = shouldForwardProp || getDefaultShouldForwardProp(baseTag);
-  var shouldUseAs = !defaultShouldForwardProp('as');
-  return function () {
-    var args = arguments;
-    var styles = isReal && tag.__emotion_styles !== undefined ? tag.__emotion_styles.slice(0) : [];
-
-    if (identifierName !== undefined) {
-      styles.push("label:" + identifierName + ";");
-    }
-
-    if (args[0] == null || args[0].raw === undefined) {
-      styles.push.apply(styles, args);
-    } else {
-      if (false) {}
-
-      styles.push(args[0][0]);
-      var len = args.length;
-      var i = 1;
-
-      for (; i < len; i++) {
-        if (false) {}
-
-        styles.push(args[i], args[0][i]);
-      }
-    } // $FlowFixMe: we need to cast StatelessFunctionalComponent to our PrivateStyledComponent class
-
-
-    var Styled = Object(_emotion_core__WEBPACK_IMPORTED_MODULE_3__[/* withEmotionCache */ "e"])(function (props, context, ref) {
-      return Object(react__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_emotion_core__WEBPACK_IMPORTED_MODULE_3__[/* ThemeContext */ "b"].Consumer, null, function (theme) {
-        var finalTag = shouldUseAs && props.as || baseTag;
-        var className = '';
-        var classInterpolations = [];
-        var mergedProps = props;
-
-        if (props.theme == null) {
-          mergedProps = {};
-
-          for (var key in props) {
-            mergedProps[key] = props[key];
-          }
-
-          mergedProps.theme = theme;
-        }
-
-        if (typeof props.className === 'string') {
-          className = Object(_emotion_utils__WEBPACK_IMPORTED_MODULE_4__[/* getRegisteredStyles */ "a"])(context.registered, classInterpolations, props.className);
-        } else if (props.className != null) {
-          className = props.className + " ";
-        }
-
-        var serialized = Object(_emotion_serialize__WEBPACK_IMPORTED_MODULE_5__[/* serializeStyles */ "a"])(styles.concat(classInterpolations), context.registered, mergedProps);
-        var rules = Object(_emotion_utils__WEBPACK_IMPORTED_MODULE_4__[/* insertStyles */ "b"])(context, serialized, typeof finalTag === 'string');
-        className += context.key + "-" + serialized.name;
-
-        if (targetClassName !== undefined) {
-          className += " " + targetClassName;
-        }
-
-        var finalShouldForwardProp = shouldUseAs && shouldForwardProp === undefined ? getDefaultShouldForwardProp(finalTag) : defaultShouldForwardProp;
-        var newProps = {};
-
-        for (var _key in props) {
-          if (shouldUseAs && _key === 'as') continue;
-
-          if ( // $FlowFixMe
-          finalShouldForwardProp(_key)) {
-            newProps[_key] = props[_key];
-          }
-        }
-
-        newProps.className = className;
-        newProps.ref = ref || props.innerRef;
-
-        if (false) {}
-
-        var ele = Object(react__WEBPACK_IMPORTED_MODULE_1__["createElement"])(finalTag, newProps);
-
-        return ele;
-      });
-    });
-    Styled.displayName = identifierName !== undefined ? identifierName : "Styled(" + (typeof baseTag === 'string' ? baseTag : baseTag.displayName || baseTag.name || 'Component') + ")";
-    Styled.defaultProps = tag.defaultProps;
-    Styled.__emotion_real = Styled;
-    Styled.__emotion_base = baseTag;
-    Styled.__emotion_styles = styles;
-    Styled.__emotion_forwardProp = shouldForwardProp;
-    Object.defineProperty(Styled, 'toString', {
-      value: function value() {
-        if (targetClassName === undefined && "production" !== 'production') {
-          return 'NO_COMPONENT_SELECTOR';
-        } // $FlowFixMe: coerce undefined to string
-
-
-        return "." + targetClassName;
-      }
-    });
-
-    Styled.withComponent = function (nextTag, nextOptions) {
-      return createStyled(nextTag, nextOptions !== undefined ? _objectSpread({}, options || {}, {}, nextOptions) : options).apply(void 0, styles);
-    };
-
-    return Styled;
-  };
-};
-
-/* harmony default export */ __webpack_exports__["a"] = (createStyled);
 
 
 /***/ }),

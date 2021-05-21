@@ -975,7 +975,7 @@ function block_has_support( $block_type, $feature, $default = false ) {
  *
  * @return array Returns the constructed WP_Query arguments.
  */
-function construct_wp_query_args( $block, $page ) {
+function build_query_vars_from_query_block( $block, $page ) {
 	$query = array(
 		'post_type'    => 'post',
 		'order'        => 'DESC',

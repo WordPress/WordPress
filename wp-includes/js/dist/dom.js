@@ -620,7 +620,7 @@ function isHTMLInputElement(node) {
  * See: https://html.spec.whatwg.org/#textFieldSelection
  *
  * @param {Node} node The HTML element.
- * @return {element is HTMLElement} True if the element is an text field, false if not.
+ * @return {node is HTMLElement} True if the element is an text field, false if not.
  */
 
 function isTextField(node) {
@@ -1244,14 +1244,36 @@ function isVerticalEdge(container, isReverse) {
 
 
 /**
- * Places the caret at start or end of a given element.
+ * Gets the range to place.
  *
- * @param {HTMLElement} container    Focusable element.
- * @param {boolean} isReverse    True for end, false for start.
- * @param {boolean} [mayUseScroll=false] Whether to allow scrolling.
+ * @param {HTMLElement} container Focusable element.
+ * @param {boolean}     isReverse True for end, false for start.
+ *
+ * @return {Range|null} The range to place.
  */
 
-function placeCaretAtHorizontalEdge(container, isReverse, mayUseScroll = false) {
+function getRange(container, isReverse) {
+  const {
+    ownerDocument
+  } = container; // In the case of RTL scripts, the horizontal edge is at the opposite side.
+
+  const isReverseDir = isRTL(container) ? !isReverse : isReverse;
+  const containerRect = container.getBoundingClientRect(); // When placing at the end (isReverse), find the closest range to the bottom
+  // right corner. When placing at the start, to the top left corner.
+
+  const x = isReverse ? containerRect.right - 1 : containerRect.left + 1;
+  const y = isReverseDir ? containerRect.bottom - 1 : containerRect.top + 1;
+  return hiddenCaretRangeFromPoint(ownerDocument, x, y, container);
+}
+/**
+ * Places the caret at start or end of a given element.
+ *
+ * @param {HTMLElement} container Focusable element.
+ * @param {boolean}     isReverse True for end, false for start.
+ */
+
+
+function placeCaretAtHorizontalEdge(container, isReverse) {
   if (!container) {
     return;
   }
@@ -1279,31 +1301,21 @@ function placeCaretAtHorizontalEdge(container, isReverse, mayUseScroll = false) 
     return;
   }
 
-  const {
-    ownerDocument
-  } = container; // In the case of RTL scripts, the horizontal edge is at the opposite side.
-
-  const isReverseDir = isRTL(container) ? !isReverse : isReverse;
-  const containerRect = container.getBoundingClientRect(); // When placing at the end (isReverse), find the closest range to the bottom
-  // right corner. When placing at the start, to the top left corner.
-
-  const x = isReverse ? containerRect.right - 1 : containerRect.left + 1;
-  const y = isReverseDir ? containerRect.bottom - 1 : containerRect.top + 1;
-  const range = hiddenCaretRangeFromPoint(ownerDocument, x, y, container); // If no range range can be created or it is outside the container, the
+  let range = getRange(container, isReverse); // If no range range can be created or it is outside the container, the
   // element may be out of view.
 
   if (!range || !range.startContainer || !container.contains(range.startContainer)) {
-    if (!mayUseScroll) {
-      return;
-    } // Only try to scroll into view once to avoid an infinite loop.
-
-
-    mayUseScroll = false;
     container.scrollIntoView(isReverse);
-    placeCaretAtHorizontalEdge(container, isReverse, mayUseScroll);
-    return;
+    range = getRange(container, isReverse);
+
+    if (!range || !range.startContainer || !container.contains(range.startContainer)) {
+      return;
+    }
   }
 
+  const {
+    ownerDocument
+  } = container;
   const {
     defaultView
   } = ownerDocument;
@@ -1338,13 +1350,14 @@ function placeCaretAtVerticalEdge(container, isReverse, rect, mayUseScroll = tru
   if (!rect || !container.isContentEditable) {
     placeCaretAtHorizontalEdge(container, isReverse);
     return;
-  } // Offset by a buffer half the height of the caret rect. This is needed
+  }
+
+  container.focus(); // Offset by a buffer half the height of the caret rect. This is needed
   // because caretRangeFromPoint may default to the end of the selection if
   // offset is too close to the edge. It's unclear how to precisely calculate
   // this threshold; it may be the padded area of some combination of line
   // height, caret height, and font size. The buffer offset is effectively
   // equivalent to a point at half the height of a line of text.
-
 
   const buffer = rect.height / 2;
   const editableRect = container.getBoundingClientRect();
@@ -1374,11 +1387,6 @@ function placeCaretAtVerticalEdge(container, isReverse, rect, mayUseScroll = tru
   assertIsDefined(defaultView, 'defaultView');
   const selection = defaultView.getSelection();
   assertIsDefined(selection, 'selection');
-  selection.removeAllRanges();
-  selection.addRange(range);
-  container.focus(); // Editable was already focussed, it goes back to old range...
-  // This fixes it.
-
   selection.removeAllRanges();
   selection.addRange(range);
 }

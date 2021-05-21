@@ -155,3 +155,7 @@
 .wp-block-cover > .components-drop-zone .components-drop-zone__content-text {
   font-size: 13px;
 }
+
+.block-editor-block-patterns-list__list-item .has-parallax.wp-block-cover {
+  background-attachment: scroll;
+}

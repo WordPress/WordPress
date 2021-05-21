@@ -308,7 +308,7 @@ const ExportedServerSideRender = Object(external_wp_data_["withSelect"])(select 
     // for server-side rendering. Since they use a string based ID,
     // we can assume real post IDs are numbers.
 
-    if (currentPostId && typeof currentPostId.id === 'number') {
+    if (currentPostId && typeof currentPostId === 'number') {
       return {
         currentPostId
       };

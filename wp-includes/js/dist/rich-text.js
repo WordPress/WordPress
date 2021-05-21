@@ -87,13 +87,6 @@ this["wp"] = this["wp"] || {}; this["wp"]["richText"] =
 /************************************************************************/
 /******/ ({
 
-/***/ "1CF3":
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["wp"]["dom"]; }());
-
-/***/ }),
-
 /***/ "1ZqX":
 /***/ (function(module, exports) {
 
@@ -461,7 +454,8 @@ __webpack_require__.d(__webpack_exports__, "__unstableOutdentListItems", functio
 __webpack_require__.d(__webpack_exports__, "__unstableChangeListType", function() { return /* reexport */ changeListType; });
 __webpack_require__.d(__webpack_exports__, "__unstableCreateElement", function() { return /* reexport */ createElement; });
 __webpack_require__.d(__webpack_exports__, "useAnchorRef", function() { return /* reexport */ useAnchorRef; });
-__webpack_require__.d(__webpack_exports__, "__experimentalRichText", function() { return /* reexport */ component; });
+__webpack_require__.d(__webpack_exports__, "__experimentalRichText", function() { return /* reexport */ __experimentalRichText; });
+__webpack_require__.d(__webpack_exports__, "__unstableUseRichText", function() { return /* reexport */ useRichText; });
 __webpack_require__.d(__webpack_exports__, "__unstableFormatEdit", function() { return /* reexport */ FormatEdit; });
 
 // NAMESPACE OBJECT: ./node_modules/@wordpress/rich-text/build-module/store/selectors.js
@@ -2343,7 +2337,7 @@ function slice(value, startIndex = value.start, endIndex = value.end) {
  * @param {RichTextValue} value
  * @param {number|string} [string] Start index, or string at which to split.
  *
- * @return {Array<RichTextValue>} An array of new values.
+ * @return {Array<RichTextValue>|undefined} An array of new values.
  */
 
 function split({
@@ -2392,6 +2386,10 @@ function splitAtSelection({
   start,
   end
 }, startIndex = start, endIndex = end) {
+  if (start === undefined || end === undefined) {
+    return;
+  }
+
   const before = {
     formats: formats.slice(0, startIndex),
     replacements: replacements.slice(0, startIndex),
@@ -3689,230 +3687,48 @@ function useAnchorRef({
   }, [activeFormat, value.start, value.end, tagName, className]);
 }
 
-// EXTERNAL MODULE: external ["wp","keycodes"]
-var external_wp_keycodes_ = __webpack_require__("RxS6");
-
-// EXTERNAL MODULE: external ["wp","dom"]
-var external_wp_dom_ = __webpack_require__("1CF3");
-
 // EXTERNAL MODULE: external ["wp","compose"]
 var external_wp_compose_ = __webpack_require__("K9lf");
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/component/format-edit.js
-
-
-/**
- * Internal dependencies
- */
-
-
-function FormatEdit({
-  formatTypes,
-  onChange,
-  onFocus,
-  value,
-  forwardedRef
-}) {
-  return formatTypes.map(settings => {
-    const {
-      name,
-      edit: Edit
-    } = settings;
-
-    if (!Edit) {
-      return null;
-    }
-
-    const activeFormat = getActiveFormat(value, name);
-    const isActive = activeFormat !== undefined;
-    const activeObject = getActiveObject(value);
-    const isObjectActive = activeObject !== undefined && activeObject.type === name;
-    return Object(external_wp_element_["createElement"])(Edit, {
-      key: name,
-      isActive: isActive,
-      activeAttributes: isActive ? activeFormat.attributes || {} : {},
-      isObjectActive: isObjectActive,
-      activeObjectAttributes: isObjectActive ? activeObject.attributes || {} : {},
-      value: value,
-      onChange: onChange,
-      onFocus: onFocus,
-      contentRef: forwardedRef
-    });
-  });
-}
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/update-formats.js
-/**
- * Internal dependencies
- */
-
-/** @typedef {import('./create').RichTextValue} RichTextValue */
-
-/**
- * Efficiently updates all the formats from `start` (including) until `end`
- * (excluding) with the active formats. Mutates `value`.
- *
- * @param  {Object}        $1         Named paramentes.
- * @param  {RichTextValue} $1.value   Value te update.
- * @param  {number}        $1.start   Index to update from.
- * @param  {number}        $1.end     Index to update until.
- * @param  {Array}         $1.formats Replacement formats.
- *
- * @return {RichTextValue} Mutated value.
- */
-
-function updateFormats({
-  value,
-  start,
-  end,
-  formats
-}) {
-  const formatsBefore = value.formats[start - 1] || [];
-  const formatsAfter = value.formats[end] || []; // First, fix the references. If any format right before or after are
-  // equal, the replacement format should use the same reference.
-
-  value.activeFormats = formats.map((format, index) => {
-    if (formatsBefore[index]) {
-      if (isFormatEqual(format, formatsBefore[index])) {
-        return formatsBefore[index];
-      }
-    } else if (formatsAfter[index]) {
-      if (isFormatEqual(format, formatsAfter[index])) {
-        return formatsAfter[index];
-      }
-    }
-
-    return format;
-  });
-
-  while (--end >= start) {
-    if (value.activeFormats.length > 0) {
-      value.formats[end] = value.activeFormats;
-    } else {
-      delete value.formats[end];
-    }
-  }
-
-  return value;
-}
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/component/use-format-types.js
+// CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/component/use-default-style.js
 /**
  * WordPress dependencies
  */
 
-
 /**
- * Internal dependencies
- */
-
-
-
-function formatTypesSelector(select) {
-  return select(store).getFormatTypes();
-}
-/**
- * Set of all interactive content tags.
+ * In HTML, leading and trailing spaces are not visible, and multiple spaces
+ * elsewhere are visually reduced to one space. This rule prevents spaces from
+ * collapsing so all space is visible in the editor and can be removed. It also
+ * prevents some browsers from inserting non-breaking spaces at the end of a
+ * line to prevent the space from visually disappearing. Sometimes these non
+ * breaking spaces can linger in the editor causing unwanted non breaking spaces
+ * in between words. If also prevent Firefox from inserting a trailing `br` node
+ * to visualise any trailing space, causing the element to be saved.
  *
- * @see https://html.spec.whatwg.org/multipage/dom.html#interactive-content
- */
-
-
-const interactiveContentTags = new Set(['a', 'audio', 'button', 'details', 'embed', 'iframe', 'input', 'label', 'select', 'textarea', 'video']);
-/**
- * This hook provides RichText with the `formatTypes` and its derived props from
- * experimental format type settings.
+ * > Authors are encouraged to set the 'white-space' property on editing hosts
+ * > and on markup that was originally created through these editing mechanisms
+ * > to the value 'pre-wrap'. Default HTML whitespace handling is not well
+ * > suited to WYSIWYG editing, and line wrapping will not work correctly in
+ * > some corner cases if 'white-space' is left at its default value.
  *
- * @param {Object} $0                               Options
- * @param {string} $0.clientId                      Block client ID.
- * @param {string} $0.identifier                    Block attribute.
- * @param {boolean} $0.withoutInteractiveFormatting Whether to clean the interactive formattings or not.
- * @param {Array} $0.allowedFormats                 Allowed formats
+ * https://html.spec.whatwg.org/multipage/interaction.html#best-practices-for-in-page-editors
+ *
+ * @type {string}
  */
 
-function useFormatTypes({
-  clientId,
-  identifier,
-  withoutInteractiveFormatting,
-  allowedFormats
-}) {
-  const allFormatTypes = Object(external_wp_data_["useSelect"])(formatTypesSelector, []);
-  const formatTypes = Object(external_wp_element_["useMemo"])(() => {
-    return allFormatTypes.filter(({
-      name,
-      tagName
-    }) => {
-      if (allowedFormats && !allowedFormats.includes(name)) {
-        return false;
-      }
+const whiteSpace = 'pre-wrap';
+/**
+ * A minimum width of 1px will prevent the rich text container from collapsing
+ * to 0 width and hiding the caret. This is useful for inline containers.
+ */
 
-      if (withoutInteractiveFormatting && interactiveContentTags.has(tagName)) {
-        return false;
-      }
-
-      return true;
-    });
-  }, [allFormatTypes, allowedFormats, interactiveContentTags]);
-  const keyedSelected = Object(external_wp_data_["useSelect"])(select => formatTypes.reduce((accumulator, type) => {
-    if (type.__experimentalGetPropsForEditableTreePreparation) {
-      accumulator[type.name] = type.__experimentalGetPropsForEditableTreePreparation(select, {
-        richTextIdentifier: identifier,
-        blockClientId: clientId
-      });
-    }
-
-    return accumulator;
-  }, {}), [formatTypes, clientId, identifier]);
-  const dispatch = Object(external_wp_data_["useDispatch"])();
-  const prepareHandlers = [];
-  const valueHandlers = [];
-  const changeHandlers = [];
-  const dependencies = [];
-  formatTypes.forEach(type => {
-    if (type.__experimentalCreatePrepareEditableTree) {
-      const selected = keyedSelected[type.name];
-
-      const handler = type.__experimentalCreatePrepareEditableTree(selected, {
-        richTextIdentifier: identifier,
-        blockClientId: clientId
-      });
-
-      if (type.__experimentalCreateOnChangeEditableValue) {
-        valueHandlers.push(handler);
-      } else {
-        prepareHandlers.push(handler);
-      }
-
-      for (const key in selected) {
-        dependencies.push(selected[key]);
-      }
-    }
-
-    if (type.__experimentalCreateOnChangeEditableValue) {
-      let dispatchers = {};
-
-      if (type.__experimentalGetPropsForEditableTreeChangeHandler) {
-        dispatchers = type.__experimentalGetPropsForEditableTreeChangeHandler(dispatch, {
-          richTextIdentifier: identifier,
-          blockClientId: clientId
-        });
-      }
-
-      changeHandlers.push(type.__experimentalCreateOnChangeEditableValue({ ...(keyedSelected[type.name] || {}),
-        ...dispatchers
-      }, {
-        richTextIdentifier: identifier,
-        blockClientId: clientId
-      }));
-    }
-  });
-  return {
-    formatTypes,
-    prepareHandlers,
-    valueHandlers,
-    changeHandlers,
-    dependencies
-  };
+const minWidth = '1px';
+function useDefaultStyle() {
+  return Object(external_wp_element_["useCallback"])(element => {
+    if (!element) return;
+    element.style.whiteSpace = whiteSpace;
+    element.style.minWidth = minWidth;
+  }, []);
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/component/use-boundary-style.js
@@ -3926,9 +3742,12 @@ function useFormatTypes({
  */
 
 function useBoundaryStyle({
-  activeFormats,
-  ref
+  record
 }) {
+  const ref = Object(external_wp_element_["useRef"])();
+  const {
+    activeFormats = []
+  } = record.current;
   Object(external_wp_element_["useEffect"])(() => {
     // There's no need to recalculate the boundary styles if no formats are
     // active, because no boundary styles will be visible.
@@ -3967,6 +3786,7 @@ function useBoundaryStyle({
       globalStyle.innerHTML = style;
     }
   }, [activeFormats]);
+  return ref;
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/component/use-inline-warning.js
@@ -3975,12 +3795,12 @@ function useBoundaryStyle({
  */
 
 const message = 'RichText cannot be used with an inline container. Please use a different display property.';
-function useInlineWarning({
-  ref
-}) {
+function useInlineWarning() {
+  const ref = Object(external_wp_element_["useRef"])();
   Object(external_wp_element_["useEffect"])(() => {
     if (false) {}
   }, []);
+  return ref;
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/component/use-copy-handler.js
@@ -4032,6 +3852,9 @@ function useCopyHandler(props) {
   }, []);
 }
 
+// EXTERNAL MODULE: external ["wp","keycodes"]
+var external_wp_keycodes_ = __webpack_require__("RxS6");
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/component/use-format-boundaries.js
 /**
  * WordPress dependencies
@@ -4046,6 +3869,7 @@ function useCopyHandler(props) {
 
 const EMPTY_ACTIVE_FORMATS = [];
 function useFormatBoundaries(props) {
+  const [, forceRender] = Object(external_wp_element_["useReducer"])(() => ({}));
   const propsRef = Object(external_wp_element_["useRef"])(props);
   propsRef.current = props;
   return Object(external_wp_compose_["useRefEffect"])(element => {
@@ -4065,8 +3889,7 @@ function useFormatBoundaries(props) {
 
       const {
         record,
-        applyRecord,
-        setActiveFormats
+        applyRecord
       } = propsRef.current;
       const {
         text,
@@ -4150,7 +3973,7 @@ function useFormatBoundaries(props) {
       };
       record.current = newValue;
       applyRecord(newValue);
-      setActiveFormats(newActiveFormats);
+      forceRender();
     }
 
     element.addEventListener('keydown', onKeyDown);
@@ -4160,52 +3983,46 @@ function useFormatBoundaries(props) {
   }, []);
 }
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/component/use-undo-automatic-change.js
+// CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/component/use-select-object.js
 /**
  * WordPress dependencies
  */
 
-
-
-function useUndoAutomaticChange(props) {
-  const propsRef = Object(external_wp_element_["useRef"])(props);
-  propsRef.current = props;
+function useSelectObject() {
   return Object(external_wp_compose_["useRefEffect"])(element => {
-    function onKeyDown(event) {
+    function onClick(event) {
       const {
-        keyCode
-      } = event;
-      const {
-        didAutomaticChange,
-        undo
-      } = propsRef.current;
+        target
+      } = event; // If the child element has no text content, it must be an object.
 
-      if (!didAutomaticChange || !undo) {
+      if (target === element || target.textContent) {
         return;
       }
 
-      if (keyCode !== external_wp_keycodes_["DELETE"] && keyCode !== external_wp_keycodes_["BACKSPACE"] && keyCode !== external_wp_keycodes_["ESCAPE"]) {
-        return;
-      }
-
-      event.preventDefault();
-      undo();
+      const {
+        ownerDocument
+      } = target;
+      const {
+        defaultView
+      } = ownerDocument;
+      const range = ownerDocument.createRange();
+      const selection = defaultView.getSelection();
+      range.selectNode(target);
+      selection.removeAllRanges();
+      selection.addRange(range);
     }
 
-    element.addEventListener('keydown', onKeyDown);
+    element.addEventListener('click', onClick);
     return () => {
-      element.removeEventListener('keydown', onKeyDown);
+      element.removeEventListener('click', onClick);
     };
   }, []);
 }
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/component/index.js
-
-
+// CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/component/use-indent-list-item-on-space.js
 /**
  * WordPress dependencies
  */
-
 
 
 
@@ -4216,24 +4033,124 @@ function useUndoAutomaticChange(props) {
 
 
 
+function useIndentListItemOnSpace(props) {
+  const propsRef = Object(external_wp_element_["useRef"])(props);
+  propsRef.current = props;
+  return Object(external_wp_compose_["useRefEffect"])(element => {
+    function onKeyDown(event) {
+      const {
+        keyCode,
+        shiftKey,
+        altKey,
+        metaKey,
+        ctrlKey
+      } = event;
+      const {
+        multilineTag,
+        createRecord,
+        handleChange
+      } = propsRef.current;
+
+      if ( // Only override when no modifiers are pressed.
+      shiftKey || altKey || metaKey || ctrlKey || keyCode !== external_wp_keycodes_["SPACE"] || multilineTag !== 'li') {
+        return;
+      }
+
+      const currentValue = createRecord();
+
+      if (!isCollapsed(currentValue)) {
+        return;
+      }
+
+      const {
+        text,
+        start
+      } = currentValue;
+      const characterBefore = text[start - 1]; // The caret must be at the start of a line.
+
+      if (characterBefore && characterBefore !== LINE_SEPARATOR) {
+        return;
+      }
+
+      handleChange(indentListItems(currentValue, {
+        type: element.tagName.toLowerCase()
+      }));
+      event.preventDefault();
+    }
+
+    element.addEventListener('keydown', onKeyDown);
+    return () => {
+      element.removeEventListener('keydown', onKeyDown);
+    };
+  }, []);
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/update-formats.js
+/**
+ * Internal dependencies
+ */
+
+/** @typedef {import('./create').RichTextValue} RichTextValue */
+
+/**
+ * Efficiently updates all the formats from `start` (including) until `end`
+ * (excluding) with the active formats. Mutates `value`.
+ *
+ * @param  {Object}        $1         Named paramentes.
+ * @param  {RichTextValue} $1.value   Value te update.
+ * @param  {number}        $1.start   Index to update from.
+ * @param  {number}        $1.end     Index to update until.
+ * @param  {Array}         $1.formats Replacement formats.
+ *
+ * @return {RichTextValue} Mutated value.
+ */
+
+function updateFormats({
+  value,
+  start,
+  end,
+  formats
+}) {
+  const formatsBefore = value.formats[start - 1] || [];
+  const formatsAfter = value.formats[end] || []; // First, fix the references. If any format right before or after are
+  // equal, the replacement format should use the same reference.
+
+  value.activeFormats = formats.map((format, index) => {
+    if (formatsBefore[index]) {
+      if (isFormatEqual(format, formatsBefore[index])) {
+        return formatsBefore[index];
+      }
+    } else if (formatsAfter[index]) {
+      if (isFormatEqual(format, formatsAfter[index])) {
+        return formatsAfter[index];
+      }
+    }
+
+    return format;
+  });
+
+  while (--end >= start) {
+    if (value.activeFormats.length > 0) {
+      value.formats[end] = value.activeFormats;
+    } else {
+      delete value.formats[end];
+    }
+  }
+
+  return value;
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/component/use-input-and-selection.js
+/**
+ * WordPress dependencies
+ */
 
 
+/**
+ * Internal dependencies
+ */
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-/** @typedef {import('@wordpress/element').WPSyntheticEvent} WPSyntheticEvent */
 
 /**
  * All inserting input types that would insert HTML into the DOM.
@@ -4244,56 +4161,13 @@ function useUndoAutomaticChange(props) {
  */
 
 const INSERTION_INPUT_TYPES_TO_IGNORE = new Set(['insertParagraph', 'insertOrderedList', 'insertUnorderedList', 'insertHorizontalRule', 'insertLink']);
-/**
- * In HTML, leading and trailing spaces are not visible, and multiple spaces
- * elsewhere are visually reduced to one space. This rule prevents spaces from
- * collapsing so all space is visible in the editor and can be removed. It also
- * prevents some browsers from inserting non-breaking spaces at the end of a
- * line to prevent the space from visually disappearing. Sometimes these non
- * breaking spaces can linger in the editor causing unwanted non breaking spaces
- * in between words. If also prevent Firefox from inserting a trailing `br` node
- * to visualise any trailing space, causing the element to be saved.
- *
- * > Authors are encouraged to set the 'white-space' property on editing hosts
- * > and on markup that was originally created through these editing mechanisms
- * > to the value 'pre-wrap'. Default HTML whitespace handling is not well
- * > suited to WYSIWYG editing, and line wrapping will not work correctly in
- * > some corner cases if 'white-space' is left at its default value.
- *
- * https://html.spec.whatwg.org/multipage/interaction.html#best-practices-for-in-page-editors
- *
- * @type {string}
- */
-
-const whiteSpace = 'pre-wrap';
-/**
- * A minimum width of 1px will prevent the rich text container from collapsing
- * to 0 width and hiding the caret. This is useful for inline containers.
- */
-
-const minWidth = '1px';
-/**
- * Default style object for the editable element.
- *
- * @type {Object<string,string>}
- */
-
-const defaultStyle = {
-  whiteSpace,
-  minWidth
-};
-const component_EMPTY_ACTIVE_FORMATS = [];
-
-function createPrepareEditableTree(fns) {
-  return value => fns.reduce((accumulator, fn) => fn(accumulator, value.text), value.formats);
-}
+const use_input_and_selection_EMPTY_ACTIVE_FORMATS = [];
 /**
  * If the selection is set on the placeholder element, collapse the selection to
  * the start (before the placeholder).
  *
  * @param {Window} defaultView
  */
-
 
 function fixPlaceholderSelection(defaultView) {
   const selection = defaultView.getSelection();
@@ -4315,159 +4189,348 @@ function fixPlaceholderSelection(defaultView) {
   selection.collapseToStart();
 }
 
-function RichText({
-  tagName: TagName = 'div',
+function useInputAndSelection(props) {
+  const propsRef = Object(external_wp_element_["useRef"])(props);
+  propsRef.current = props;
+  return Object(external_wp_compose_["useRefEffect"])(element => {
+    const {
+      ownerDocument
+    } = element;
+    const {
+      defaultView
+    } = ownerDocument;
+    let isComposing = false;
+    let rafId;
+
+    function onInput(event) {
+      // Do not trigger a change if characters are being composed.
+      // Browsers  will usually emit a final `input` event when the
+      // characters are composed.
+      // As of December 2019, Safari doesn't support
+      // nativeEvent.isComposing.
+      if (isComposing) {
+        return;
+      }
+
+      let inputType;
+
+      if (event) {
+        inputType = event.inputType;
+      }
+
+      const {
+        record,
+        applyRecord,
+        createRecord,
+        handleChange
+      } = propsRef.current; // The browser formatted something or tried to insert HTML.
+      // Overwrite it. It will be handled later by the format library if
+      // needed.
+
+      if (inputType && (inputType.indexOf('format') === 0 || INSERTION_INPUT_TYPES_TO_IGNORE.has(inputType))) {
+        applyRecord(record.current);
+        return;
+      }
+
+      const currentValue = createRecord();
+      const {
+        start,
+        activeFormats: oldActiveFormats = []
+      } = record.current; // Update the formats between the last and new caret position.
+
+      const change = updateFormats({
+        value: currentValue,
+        start,
+        end: currentValue.start,
+        formats: oldActiveFormats
+      });
+      handleChange(change);
+    }
+    /**
+     * Syncs the selection to local state. A callback for the `selectionchange`
+     * native events, `keyup`, `mouseup` and `touchend` synthetic events, and
+     * animation frames after the `focus` event.
+     *
+     * @param {Event|DOMHighResTimeStamp} event
+     */
+
+
+    function handleSelectionChange(event) {
+      if (ownerDocument.activeElement !== element) {
+        return;
+      }
+
+      const {
+        record,
+        applyRecord,
+        createRecord,
+        isSelected,
+        onSelectionChange
+      } = propsRef.current;
+
+      if (event.type !== 'selectionchange' && !isSelected) {
+        return;
+      } // Check if the implementor disabled editing. `contentEditable`
+      // does disable input, but not text selection, so we must ignore
+      // selection changes.
+
+
+      if (element.contentEditable !== 'true') {
+        return;
+      } // In case of a keyboard event, ignore selection changes during
+      // composition.
+
+
+      if (isComposing) {
+        return;
+      }
+
+      const {
+        start,
+        end,
+        text
+      } = createRecord();
+      const oldRecord = record.current; // Fallback mechanism for IE11, which doesn't support the input event.
+      // Any input results in a selection change.
+
+      if (text !== oldRecord.text) {
+        onInput();
+        return;
+      }
+
+      if (start === oldRecord.start && end === oldRecord.end) {
+        // Sometimes the browser may set the selection on the placeholder
+        // element, in which case the caret is not visible. We need to set
+        // the caret before the placeholder if that's the case.
+        if (oldRecord.text.length === 0 && start === 0) {
+          fixPlaceholderSelection(defaultView);
+        }
+
+        return;
+      }
+
+      const newValue = { ...oldRecord,
+        start,
+        end,
+        // _newActiveFormats may be set on arrow key navigation to control
+        // the right boundary position. If undefined, getActiveFormats will
+        // give the active formats according to the browser.
+        activeFormats: oldRecord._newActiveFormats,
+        _newActiveFormats: undefined
+      };
+      const newActiveFormats = getActiveFormats(newValue, use_input_and_selection_EMPTY_ACTIVE_FORMATS); // Update the value with the new active formats.
+
+      newValue.activeFormats = newActiveFormats; // It is important that the internal value is updated first,
+      // otherwise the value will be wrong on render!
+
+      record.current = newValue;
+      applyRecord(newValue, {
+        domOnly: true
+      });
+      onSelectionChange(start, end);
+    }
+
+    function onCompositionStart() {
+      isComposing = true; // Do not update the selection when characters are being composed as
+      // this rerenders the component and might distroy internal browser
+      // editing state.
+
+      ownerDocument.removeEventListener('selectionchange', handleSelectionChange);
+    }
+
+    function onCompositionEnd() {
+      isComposing = false; // Ensure the value is up-to-date for browsers that don't emit a final
+      // input event after composition.
+
+      onInput({
+        inputType: 'insertText'
+      }); // Tracking selection changes can be resumed.
+
+      ownerDocument.addEventListener('selectionchange', handleSelectionChange);
+    }
+
+    function onFocus() {
+      const {
+        record,
+        isSelected,
+        onSelectionChange
+      } = propsRef.current;
+
+      if (!isSelected) {
+        // We know for certain that on focus, the old selection is invalid.
+        // It will be recalculated on the next mouseup, keyup, or touchend
+        // event.
+        const index = undefined;
+        record.current = { ...record.current,
+          start: index,
+          end: index,
+          activeFormats: use_input_and_selection_EMPTY_ACTIVE_FORMATS
+        };
+        onSelectionChange(index, index);
+      } else {
+        onSelectionChange(record.current.start, record.current.end);
+      } // Update selection as soon as possible, which is at the next animation
+      // frame. The event listener for selection changes may be added too late
+      // at this point, but this focus event is still too early to calculate
+      // the selection.
+
+
+      rafId = defaultView.requestAnimationFrame(handleSelectionChange);
+      ownerDocument.addEventListener('selectionchange', handleSelectionChange);
+    }
+
+    function onBlur() {
+      ownerDocument.removeEventListener('selectionchange', handleSelectionChange);
+    }
+
+    element.addEventListener('input', onInput);
+    element.addEventListener('compositionstart', onCompositionStart);
+    element.addEventListener('compositionend', onCompositionEnd);
+    element.addEventListener('focus', onFocus);
+    element.addEventListener('blur', onBlur); // Selection updates must be done at these events as they
+    // happen before the `selectionchange` event. In some cases,
+    // the `selectionchange` event may not even fire, for
+    // example when the window receives focus again on click.
+
+    element.addEventListener('keyup', handleSelectionChange);
+    element.addEventListener('mouseup', handleSelectionChange);
+    element.addEventListener('touchend', handleSelectionChange);
+    return () => {
+      element.removeEventListener('input', onInput);
+      element.removeEventListener('compositionstart', onCompositionStart);
+      element.removeEventListener('compositionend', onCompositionEnd);
+      element.removeEventListener('focus', onFocus);
+      element.removeEventListener('blur', onBlur);
+      element.removeEventListener('keyup', handleSelectionChange);
+      element.removeEventListener('mouseup', handleSelectionChange);
+      element.removeEventListener('touchend', handleSelectionChange);
+      ownerDocument.removeEventListener('selectionchange', handleSelectionChange);
+      defaultView.cancelAnimationFrame(rafId);
+    };
+  }, []);
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/component/use-delete.js
+/**
+ * WordPress dependencies
+ */
+
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+
+function useDelete(props) {
+  const propsRef = Object(external_wp_element_["useRef"])(props);
+  propsRef.current = props;
+  return Object(external_wp_compose_["useRefEffect"])(element => {
+    function onKeyDown(event) {
+      const {
+        keyCode
+      } = event;
+      const {
+        createRecord,
+        handleChange,
+        multilineTag
+      } = propsRef.current;
+
+      if (event.defaultPrevented) {
+        return;
+      }
+
+      if (keyCode !== external_wp_keycodes_["DELETE"] && keyCode !== external_wp_keycodes_["BACKSPACE"]) {
+        return;
+      }
+
+      const currentValue = createRecord();
+      const {
+        start,
+        end,
+        text
+      } = currentValue;
+      const isReverse = keyCode === external_wp_keycodes_["BACKSPACE"]; // Always handle full content deletion ourselves.
+
+      if (start === 0 && end !== 0 && end === text.length) {
+        handleChange(remove_remove(currentValue));
+        event.preventDefault();
+        return;
+      }
+
+      if (multilineTag) {
+        let newValue; // Check to see if we should remove the first item if empty.
+
+        if (isReverse && currentValue.start === 0 && currentValue.end === 0 && isEmptyLine(currentValue)) {
+          newValue = removeLineSeparator(currentValue, !isReverse);
+        } else {
+          newValue = removeLineSeparator(currentValue, isReverse);
+        }
+
+        if (newValue) {
+          handleChange(newValue);
+          event.preventDefault();
+        }
+      }
+    }
+
+    element.addEventListener('keydown', onKeyDown);
+    return () => {
+      element.removeEventListener('keydown', onKeyDown);
+    };
+  }, []);
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/component/index.js
+/**
+ * WordPress dependencies
+ */
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+function useRichText({
   value = '',
   selectionStart,
   selectionEnd,
-  children,
-  allowedFormats,
-  withoutInteractiveFormatting,
   placeholder,
-  disabled,
   preserveWhiteSpace,
-  onPaste,
-  format = 'string',
-  onDelete,
-  onEnter,
   onSelectionChange,
   onChange,
-  unstableOnFocus: onFocus,
-  clientId,
-  identifier,
   __unstableMultilineTag: multilineTag,
-  __unstableMultilineRootTag: multilineRootTag,
   __unstableDisableFormats: disableFormats,
-  __unstableDidAutomaticChange: didAutomaticChange,
-  __unstableInputRule: inputRule,
-  __unstableMarkAutomaticChange: markAutomaticChange,
-  __unstableAllowPrefixTransformations: allowPrefixTransformations,
-  __unstableUndo: undo,
-  __unstableIsCaretWithinFormattedText: isCaretWithinFormattedText,
-  __unstableOnEnterFormattedText: onEnterFormattedText,
-  __unstableOnExitFormattedText: onExitFormattedText,
-  __unstableOnCreateUndoLevel: onCreateUndoLevel,
-  __unstableIsSelected: isSelected
-}, forwardedRef) {
+  __unstableIsSelected: isSelected,
+  __unstableDependencies,
+  __unstableAfterParse,
+  __unstableBeforeSerialize,
+  __unstableAddInvisibleFormats
+}) {
+  const [, forceRender] = Object(external_wp_element_["useReducer"])(() => ({}));
   const ref = Object(external_wp_element_["useRef"])();
-  const [activeFormats = [], setActiveFormats] = Object(external_wp_element_["useState"])();
-  const {
-    formatTypes,
-    prepareHandlers,
-    valueHandlers,
-    changeHandlers,
-    dependencies
-  } = useFormatTypes({
-    clientId,
-    identifier,
-    withoutInteractiveFormatting,
-    allowedFormats
-  }); // For backward compatibility, fall back to tagName if it's a string.
-  // tagName can now be a component for light blocks.
-
-  if (!multilineRootTag && typeof TagName === 'string') {
-    multilineRootTag = TagName;
-  }
-
-  function getDoc() {
-    return ref.current.ownerDocument;
-  }
-
-  function getWin() {
-    return getDoc().defaultView;
-  }
-  /**
-   * Converts the outside data structure to our internal representation.
-   *
-   * @param {*} string The outside value, data type depends on props.
-   *
-   * @return {Object} An internal rich-text value.
-   */
-
-
-  function formatToValue(string) {
-    if (disableFormats) {
-      return {
-        text: string,
-        formats: Array(string.length),
-        replacements: Array(string.length)
-      };
-    }
-
-    if (format !== 'string') {
-      return string;
-    }
-
-    const prepare = createPrepareEditableTree(valueHandlers);
-    const result = create({
-      html: string,
-      multilineTag,
-      multilineWrapperTags: multilineTag === 'li' ? ['ul', 'ol'] : undefined,
-      preserveWhiteSpace
-    });
-    result.formats = prepare(result);
-    return result;
-  }
-  /**
-   * Removes editor only formats from the value.
-   *
-   * Editor only formats are applied using `prepareEditableTree`, so we need to
-   * remove them before converting the internal state
-   *
-   * @param {Object} val The internal rich-text value.
-   *
-   * @return {Object} A new rich-text value.
-   */
-
-
-  function removeEditorOnlyFormats(val) {
-    formatTypes.forEach(formatType => {
-      // Remove formats created by prepareEditableTree, because they are editor only.
-      if (formatType.__experimentalCreatePrepareEditableTree) {
-        val = removeFormat(val, formatType.name, 0, val.text.length);
-      }
-    });
-    return val;
-  }
-  /**
-   * Converts the internal value to the external data format.
-   *
-   * @param {Object} val The internal rich-text value.
-   *
-   * @return {*} The external data format, data type depends on props.
-   */
-
-
-  function valueToFormat(val) {
-    if (disableFormats) {
-      return val.text;
-    }
-
-    val = removeEditorOnlyFormats(val);
-
-    if (format !== 'string') {
-      return;
-    }
-
-    return toHTMLString({
-      value: val,
-      multilineTag,
-      preserveWhiteSpace
-    });
-  } // Internal values are updated synchronously, unlike props and state.
-
-
-  const _value = Object(external_wp_element_["useRef"])(value);
-
-  const record = Object(external_wp_element_["useRef"])(Object(external_wp_element_["useMemo"])(() => {
-    const initialRecord = formatToValue(value);
-    initialRecord.start = selectionStart;
-    initialRecord.end = selectionEnd;
-    return initialRecord;
-  }, []));
 
   function createRecord() {
-    const selection = getWin().getSelection();
+    const {
+      ownerDocument: {
+        defaultView
+      }
+    } = ref.current;
+    const selection = defaultView.getSelection();
     const range = selection.rangeCount > 0 ? selection.getRangeAt(0) : null;
     return create({
       element: ref.current,
@@ -4487,668 +4550,193 @@ function RichText({
       current: ref.current,
       multilineTag,
       multilineWrapperTags: multilineTag === 'li' ? ['ul', 'ol'] : undefined,
-      prepareEditableTree: createPrepareEditableTree(prepareHandlers),
+      prepareEditableTree: __unstableAddInvisibleFormats,
       __unstableDomOnly: domOnly,
       placeholder
     });
-  }
-  /**
-   * Handles a paste event.
-   *
-   * Saves the pasted data as plain text in `pastedPlainText`.
-   *
-   * @param {ClipboardEvent} event The paste event.
-   */
+  } // Internal values are updated synchronously, unlike props and state.
 
 
-  function handlePaste(event) {
-    if (!isSelected) {
-      event.preventDefault();
-      return;
-    }
+  const _value = Object(external_wp_element_["useRef"])(value);
 
-    const {
-      clipboardData
-    } = event;
-    let plainText = '';
-    let html = ''; // IE11 only supports `Text` as an argument for `getData` and will
-    // otherwise throw an invalid argument error, so we try the standard
-    // arguments first, then fallback to `Text` if they fail.
+  const record = Object(external_wp_element_["useRef"])();
 
-    try {
-      plainText = clipboardData.getData('text/plain');
-      html = clipboardData.getData('text/html');
-    } catch (error1) {
-      try {
-        html = clipboardData.getData('Text');
-      } catch (error2) {
-        // Some browsers like UC Browser paste plain text by default and
-        // don't support clipboardData at all, so allow default
-        // behaviour.
-        return;
-      }
-    }
-
-    event.preventDefault(); // Allows us to ask for this information when we get a report.
-
-    window.console.log('Received HTML:\n\n', html);
-    window.console.log('Received plain text:\n\n', plainText);
+  function setRecordFromProps() {
+    _value.current = value;
+    record.current = create({
+      html: value,
+      multilineTag,
+      multilineWrapperTags: multilineTag === 'li' ? ['ul', 'ol'] : undefined,
+      preserveWhiteSpace
+    });
 
     if (disableFormats) {
-      handleChange(insert(record.current, plainText));
-      return;
+      record.current.formats = Array(value.length);
+      record.current.replacements = Array(value.length);
     }
 
-    const transformed = formatTypes.reduce((accumlator, {
-      __unstablePasteRule
-    }) => {
-      // Only allow one transform.
-      if (__unstablePasteRule && accumlator === record.current) {
-        accumlator = __unstablePasteRule(record.current, {
-          html,
-          plainText
-        });
-      }
-
-      return accumlator;
-    }, record.current);
-
-    if (transformed !== record.current) {
-      handleChange(transformed);
-      return;
-    }
-
-    if (onPaste) {
-      const files = Object(external_wp_dom_["getFilesFromDataTransfer"])(clipboardData);
-      const isInternal = clipboardData.getData('rich-text') === 'true';
-      onPaste({
-        value: removeEditorOnlyFormats(record.current),
-        onChange: handleChange,
-        html,
-        plainText,
-        isInternal,
-        files: [...files],
-        activeFormats
-      });
-    }
-  }
-  /**
-   * Handles delete on keydown:
-   * - outdent list items,
-   * - delete content if everything is selected,
-   * - trigger the onDelete prop when selection is uncollapsed and at an edge.
-   *
-   * @param {WPSyntheticEvent} event A synthetic keyboard event.
-   */
-
-
-  function handleDelete(event) {
-    const {
-      keyCode
-    } = event;
-
-    if (event.defaultPrevented) {
-      return;
-    }
-
-    if (keyCode !== external_wp_keycodes_["DELETE"] && keyCode !== external_wp_keycodes_["BACKSPACE"]) {
-      return;
-    }
-
-    const currentValue = createRecord();
-    const {
-      start,
-      end,
-      text
-    } = currentValue;
-    const isReverse = keyCode === external_wp_keycodes_["BACKSPACE"]; // Always handle full content deletion ourselves.
-
-    if (start === 0 && end !== 0 && end === text.length) {
-      handleChange(remove_remove(currentValue));
-      event.preventDefault();
-      return;
-    }
-
-    if (multilineTag) {
-      let newValue; // Check to see if we should remove the first item if empty.
-
-      if (isReverse && currentValue.start === 0 && currentValue.end === 0 && isEmptyLine(currentValue)) {
-        newValue = removeLineSeparator(currentValue, !isReverse);
-      } else {
-        newValue = removeLineSeparator(currentValue, isReverse);
-      }
-
-      if (newValue) {
-        handleChange(newValue);
-        event.preventDefault();
-        return;
-      }
-    } // Only process delete if the key press occurs at an uncollapsed edge.
-
-
-    if (!onDelete || !isCollapsed(currentValue) || activeFormats.length || isReverse && start !== 0 || !isReverse && end !== text.length) {
-      return;
-    }
-
-    onDelete({
-      isReverse,
-      value: currentValue
-    });
-    event.preventDefault();
-  }
-  /**
-   * Triggers the `onEnter` prop on keydown.
-   *
-   * @param {WPSyntheticEvent} event A synthetic keyboard event.
-   */
-
-
-  function handleEnter(event) {
-    if (event.keyCode !== external_wp_keycodes_["ENTER"]) {
-      return;
-    }
-
-    event.preventDefault();
-
-    if (!onEnter) {
-      return;
-    }
-
-    onEnter({
-      value: removeEditorOnlyFormats(createRecord()),
-      onChange: handleChange,
-      shiftKey: event.shiftKey
-    });
-  }
-  /**
-   * Indents list items on space keydown.
-   *
-   * @param {WPSyntheticEvent} event A synthetic keyboard event.
-   */
-
-
-  function handleSpace(event) {
-    const {
-      keyCode,
-      shiftKey,
-      altKey,
-      metaKey,
-      ctrlKey
-    } = event;
-
-    if ( // Only override when no modifiers are pressed.
-    shiftKey || altKey || metaKey || ctrlKey || keyCode !== external_wp_keycodes_["SPACE"] || multilineTag !== 'li') {
-      return;
-    }
-
-    const currentValue = createRecord();
-
-    if (!isCollapsed(currentValue)) {
-      return;
-    }
-
-    const {
-      text,
-      start
-    } = currentValue;
-    const characterBefore = text[start - 1]; // The caret must be at the start of a line.
-
-    if (characterBefore && characterBefore !== LINE_SEPARATOR) {
-      return;
-    }
-
-    handleChange(indentListItems(currentValue, {
-      type: multilineRootTag
-    }));
-    event.preventDefault();
+    record.current.formats = __unstableAfterParse(record.current);
+    record.current.start = selectionStart;
+    record.current.end = selectionEnd;
   }
 
-  function handleKeyDown(event) {
-    if (event.defaultPrevented) {
-      return;
-    }
+  const hadSelectionUpdate = Object(external_wp_element_["useRef"])(false);
 
-    handleDelete(event);
-    handleEnter(event);
-    handleSpace(event);
-  }
-
-  const lastHistoryValue = Object(external_wp_element_["useRef"])(value);
-
-  function createUndoLevel() {
-    // If the content is the same, no level needs to be created.
-    if (lastHistoryValue.current === _value.current) {
-      return;
-    }
-
-    onCreateUndoLevel();
-    lastHistoryValue.current = _value.current;
-  }
-
-  const isComposing = Object(external_wp_element_["useRef"])(false);
-  const timeout = Object(external_wp_element_["useRef"])();
-  /**
-   * Handle input on the next selection change event.
-   *
-   * @param {WPSyntheticEvent} event Synthetic input event.
-   */
-
-  function handleInput(event) {
-    // Do not trigger a change if characters are being composed. Browsers
-    // will usually emit a final `input` event when the characters are
-    // composed.
-    // As of December 2019, Safari doesn't support nativeEvent.isComposing.
-    if (isComposing.current) {
-      return;
-    }
-
-    let inputType;
-
-    if (event) {
-      inputType = event.inputType;
-    }
-
-    if (!inputType && event && event.nativeEvent) {
-      inputType = event.nativeEvent.inputType;
-    } // The browser formatted something or tried to insert HTML.
-    // Overwrite it. It will be handled later by the format library if
-    // needed.
-
-
-    if (inputType && (inputType.indexOf('format') === 0 || INSERTION_INPUT_TYPES_TO_IGNORE.has(inputType))) {
-      applyRecord(record.current);
-      return;
-    }
-
-    const currentValue = createRecord();
-    const {
-      start,
-      activeFormats: oldActiveFormats = []
-    } = record.current; // Update the formats between the last and new caret position.
-
-    const change = updateFormats({
-      value: currentValue,
-      start,
-      end: currentValue.start,
-      formats: oldActiveFormats
-    });
-    handleChange(change, {
-      withoutHistory: true
-    }); // Create an undo level when input stops for over a second.
-
-    getWin().clearTimeout(timeout.current);
-    timeout.current = getWin().setTimeout(createUndoLevel, 1000); // Only run input rules when inserting text.
-
-    if (inputType !== 'insertText') {
-      return;
-    }
-
-    if (allowPrefixTransformations && inputRule) {
-      inputRule(change, valueToFormat);
-    }
-
-    const transformed = formatTypes.reduce((accumlator, {
-      __unstableInputRule
-    }) => {
-      if (__unstableInputRule) {
-        accumlator = __unstableInputRule(accumlator);
-      }
-
-      return accumlator;
-    }, change);
-
-    if (transformed !== change) {
-      createUndoLevel();
-      handleChange({ ...transformed,
-        activeFormats: oldActiveFormats
-      });
-      markAutomaticChange();
-    }
-  }
-
-  function handleCompositionStart() {
-    isComposing.current = true; // Do not update the selection when characters are being composed as
-    // this rerenders the component and might distroy internal browser
-    // editing state.
-
-    getDoc().removeEventListener('selectionchange', handleSelectionChange);
-  }
-
-  function handleCompositionEnd() {
-    isComposing.current = false; // Ensure the value is up-to-date for browsers that don't emit a final
-    // input event after composition.
-
-    handleInput({
-      inputType: 'insertText'
-    }); // Tracking selection changes can be resumed.
-
-    getDoc().addEventListener('selectionchange', handleSelectionChange);
-  }
-
-  const didMount = Object(external_wp_element_["useRef"])(false);
-  /**
-   * Syncs the selection to local state. A callback for the `selectionchange`
-   * native events, `keyup`, `mouseup` and `touchend` synthetic events, and
-   * animation frames after the `focus` event.
-   *
-   * @param {Event|WPSyntheticEvent|DOMHighResTimeStamp} event
-   */
-
-  function handleSelectionChange(event) {
-    if (!ref.current) {
-      return;
-    }
-
-    if (ref.current.ownerDocument.activeElement !== ref.current) {
-      return;
-    }
-
-    if (event.type !== 'selectionchange' && !isSelected) {
-      return;
-    }
-
-    if (disabled) {
-      return;
-    } // In case of a keyboard event, ignore selection changes during
-    // composition.
-
-
-    if (isComposing.current) {
-      return;
-    }
-
-    const {
-      start,
-      end,
-      text
-    } = createRecord();
-    const oldRecord = record.current; // Fallback mechanism for IE11, which doesn't support the input event.
-    // Any input results in a selection change.
-
-    if (text !== oldRecord.text) {
-      handleInput();
-      return;
-    }
-
-    if (start === oldRecord.start && end === oldRecord.end) {
-      // Sometimes the browser may set the selection on the placeholder
-      // element, in which case the caret is not visible. We need to set
-      // the caret before the placeholder if that's the case.
-      if (oldRecord.text.length === 0 && start === 0) {
-        fixPlaceholderSelection(getWin());
-      }
-
-      return;
-    }
-
-    const newValue = { ...oldRecord,
-      start,
-      end,
-      // _newActiveFormats may be set on arrow key navigation to control
-      // the right boundary position. If undefined, getActiveFormats will
-      // give the active formats according to the browser.
-      activeFormats: oldRecord._newActiveFormats,
-      _newActiveFormats: undefined
+  if (!record.current) {
+    setRecordFromProps();
+  } else if (selectionStart !== record.current.start || selectionEnd !== record.current.end) {
+    hadSelectionUpdate.current = isSelected;
+    record.current = { ...record.current,
+      start: selectionStart,
+      end: selectionEnd
     };
-    const newActiveFormats = getActiveFormats(newValue, component_EMPTY_ACTIVE_FORMATS); // Update the value with the new active formats.
-
-    newValue.activeFormats = newActiveFormats;
-
-    if (!isCaretWithinFormattedText && newActiveFormats.length) {
-      onEnterFormattedText();
-    } else if (isCaretWithinFormattedText && !newActiveFormats.length) {
-      onExitFormattedText();
-    } // It is important that the internal value is updated first,
-    // otherwise the value will be wrong on render!
-
-
-    record.current = newValue;
-    applyRecord(newValue, {
-      domOnly: true
-    });
-    onSelectionChange(start, end);
-    setActiveFormats(newActiveFormats);
   }
   /**
    * Sync the value to global state. The node tree and selection will also be
    * updated if differences are found.
    *
-   * @param {Object}  newRecord         The record to sync and apply.
-   * @param {Object}  $2                Named options.
-   * @param {boolean} $2.withoutHistory If true, no undo level will be
-   *                                    created.
+   * @param {Object} newRecord The record to sync and apply.
    */
 
 
-  function handleChange(newRecord, {
-    withoutHistory
-  } = {}) {
+  function handleChange(newRecord) {
+    applyRecord(newRecord);
+
     if (disableFormats) {
-      newRecord.formats = Array(newRecord.text.length);
-      newRecord.replacements = Array(newRecord.text.length);
+      _value.current = newRecord.text;
+    } else {
+      _value.current = toHTMLString({
+        value: { ...newRecord,
+          formats: __unstableBeforeSerialize(newRecord)
+        },
+        multilineTag,
+        preserveWhiteSpace
+      });
     }
 
-    applyRecord(newRecord);
+    record.current = newRecord;
     const {
       start,
       end,
-      activeFormats: newActiveFormats = []
-    } = newRecord;
-    Object.values(changeHandlers).forEach(changeHandler => {
-      changeHandler(newRecord.formats, newRecord.text);
-    });
-    _value.current = valueToFormat(newRecord);
-    record.current = newRecord; // Selection must be updated first, so it is recorded in history when
+      formats,
+      text
+    } = newRecord; // Selection must be updated first, so it is recorded in history when
     // the content change happens.
 
     onSelectionChange(start, end);
-    onChange(_value.current);
-    setActiveFormats(newActiveFormats);
-
-    if (!withoutHistory) {
-      createUndoLevel();
-    }
-  }
-  /**
-   * Select object when they are clicked. The browser will not set any
-   * selection when clicking e.g. an image.
-   *
-   * @param {WPSyntheticEvent} event Synthetic mousedown or touchstart event.
-   */
-
-
-  function handlePointerDown(event) {
-    const {
-      target
-    } = event; // If the child element has no text content, it must be an object.
-
-    if (target === ref.current || target.textContent) {
-      return;
-    }
-
-    const {
-      parentNode
-    } = target;
-    const index = Array.from(parentNode.childNodes).indexOf(target);
-    const range = getDoc().createRange();
-    const selection = getWin().getSelection();
-    range.setStart(target.parentNode, index);
-    range.setEnd(target.parentNode, index + 1);
-    selection.removeAllRanges();
-    selection.addRange(range);
-  }
-
-  const rafId = Object(external_wp_element_["useRef"])();
-  /**
-   * Handles a focus event on the contenteditable field, calling the
-   * `unstableOnFocus` prop callback if one is defined. The callback does not
-   * receive any arguments.
-   *
-   * This is marked as a private API and the `unstableOnFocus` prop is not
-   * documented, as the current requirements where it is used are subject to
-   * future refactoring following `isSelected` handling.
-   *
-   * @private
-   */
-
-  function handleFocus() {
-    if (onFocus) {
-      onFocus();
-    }
-
-    if (!isSelected) {
-      // We know for certain that on focus, the old selection is invalid.
-      // It will be recalculated on the next mouseup, keyup, or touchend
-      // event.
-      const index = undefined;
-      record.current = { ...record.current,
-        start: index,
-        end: index,
-        activeFormats: component_EMPTY_ACTIVE_FORMATS
-      };
-      onSelectionChange(index, index);
-      setActiveFormats(component_EMPTY_ACTIVE_FORMATS);
-    } else {
-      onSelectionChange(record.current.start, record.current.end);
-      setActiveFormats(getActiveFormats({ ...record.current,
-        activeFormats: undefined
-      }, component_EMPTY_ACTIVE_FORMATS));
-    } // Update selection as soon as possible, which is at the next animation
-    // frame. The event listener for selection changes may be added too late
-    // at this point, but this focus event is still too early to calculate
-    // the selection.
-
-
-    rafId.current = getWin().requestAnimationFrame(handleSelectionChange);
-    getDoc().addEventListener('selectionchange', handleSelectionChange);
-  }
-
-  function handleBlur() {
-    getDoc().removeEventListener('selectionchange', handleSelectionChange);
+    onChange(_value.current, {
+      __unstableFormats: formats,
+      __unstableText: text
+    });
+    forceRender();
   }
 
   function applyFromProps() {
-    _value.current = value;
-    record.current = formatToValue(value);
-    record.current.start = selectionStart;
-    record.current.end = selectionEnd;
+    setRecordFromProps();
     applyRecord(record.current);
   }
 
-  Object(external_wp_element_["useEffect"])(() => {
-    if (didMount.current) {
-      applyFromProps();
-    }
-  }, [TagName, placeholder]);
-  Object(external_wp_element_["useEffect"])(() => {
+  const didMount = Object(external_wp_element_["useRef"])(false); // Value updates must happen synchonously to avoid overwriting newer values.
+
+  Object(external_wp_element_["useLayoutEffect"])(() => {
     if (didMount.current && value !== _value.current) {
       applyFromProps();
     }
-  }, [value]);
-  Object(external_wp_element_["useEffect"])(() => {
-    if (!didMount.current) {
+  }, [value]); // Value updates must happen synchonously to avoid overwriting newer values.
+
+  Object(external_wp_element_["useLayoutEffect"])(() => {
+    if (!hadSelectionUpdate.current) {
       return;
     }
 
-    if (isSelected && (selectionStart !== record.current.start || selectionEnd !== record.current.end)) {
-      applyFromProps();
-    } else {
-      record.current = { ...record.current,
-        start: selectionStart,
-        end: selectionEnd
-      };
-    }
-  }, [selectionStart, selectionEnd, isSelected]);
-  Object(external_wp_element_["useEffect"])(() => {
-    if (didMount.current) {
-      applyFromProps();
-    }
-  }, dependencies);
-  Object(external_wp_element_["useLayoutEffect"])(() => {
-    applyRecord(record.current, {
-      domOnly: true
-    });
-    didMount.current = true;
-    return () => {
-      getDoc().removeEventListener('selectionchange', handleSelectionChange);
-      getWin().cancelAnimationFrame(rafId.current);
-      getWin().clearTimeout(timeout.current);
-    };
-  }, []);
+    applyFromProps();
+    hadSelectionUpdate.current = false;
+  }, [hadSelectionUpdate.current]);
 
   function focus() {
     ref.current.focus();
     applyRecord(record.current);
   }
 
-  const editableProps = {
-    // Overridable props.
-    role: 'textbox',
-    'aria-multiline': true,
-    'aria-label': placeholder,
-    ref: Object(external_wp_compose_["useMergeRefs"])([forwardedRef, ref, useCopyHandler({
-      record,
-      multilineTag,
-      preserveWhiteSpace
-    }), useFormatBoundaries({
-      record,
-      applyRecord,
-      setActiveFormats
-    }), useUndoAutomaticChange({
-      didAutomaticChange,
-      undo
-    })]),
-    style: defaultStyle,
-    className: 'rich-text',
-    onPaste: handlePaste,
-    onInput: handleInput,
-    onCompositionStart: handleCompositionStart,
-    onCompositionEnd: handleCompositionEnd,
-    onKeyDown: handleKeyDown,
-    onFocus: handleFocus,
-    onBlur: handleBlur,
-    onMouseDown: handlePointerDown,
-    onTouchStart: handlePointerDown,
-    // Selection updates must be done at these events as they
-    // happen before the `selectionchange` event. In some cases,
-    // the `selectionchange` event may not even fire, for
-    // example when the window receives focus again on click.
-    onKeyUp: handleSelectionChange,
-    onMouseUp: handleSelectionChange,
-    onTouchEnd: handleSelectionChange,
-    // Do not set the attribute if disabled.
-    contentEditable: disabled ? undefined : true,
-    suppressContentEditableWarning: !disabled
-  };
-  useBoundaryStyle({
-    ref,
-    activeFormats
-  });
-  useInlineWarning({
-    ref
-  });
-  return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, isSelected && Object(external_wp_element_["createElement"])(FormatEdit, {
-    value: record.current,
-    onChange: handleChange,
-    onFocus: focus,
-    formatTypes: formatTypes,
-    forwardedRef: ref
-  }), children && children({
+  const mergedRefs = Object(external_wp_compose_["useMergeRefs"])([ref, useDefaultStyle(), useBoundaryStyle({
+    record
+  }), useInlineWarning(), useCopyHandler({
+    record,
+    multilineTag,
+    preserveWhiteSpace
+  }), useSelectObject(), useFormatBoundaries({
+    record,
+    applyRecord
+  }), useDelete({
+    createRecord,
+    handleChange,
+    multilineTag
+  }), useIndentListItemOnSpace({
+    multilineTag,
+    createRecord,
+    handleChange
+  }), useInputAndSelection({
+    record,
+    applyRecord,
+    createRecord,
+    handleChange,
     isSelected,
+    onSelectionChange
+  }), Object(external_wp_compose_["useRefEffect"])(() => {
+    applyFromProps();
+    didMount.current = true;
+  }, [placeholder, ...__unstableDependencies])]);
+  return {
     value: record.current,
     onChange: handleChange,
     onFocus: focus,
-    editableProps,
-    editableTagName: TagName
-  }), !children && Object(external_wp_element_["createElement"])(TagName, editableProps));
+    ref: mergedRefs
+  };
 }
+function __experimentalRichText() {}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/component/format-edit.js
+
+
 /**
- * Renders a rich content input, providing users with the option to format the
- * content.
+ * Internal dependencies
  */
 
 
-/* harmony default export */ var component = (Object(external_wp_element_["forwardRef"])(RichText));
+function FormatEdit({
+  formatTypes,
+  onChange,
+  onFocus,
+  value,
+  forwardedRef
+}) {
+  return formatTypes.map(settings => {
+    const {
+      name,
+      edit: Edit
+    } = settings;
+
+    if (!Edit) {
+      return null;
+    }
+
+    const activeFormat = getActiveFormat(value, name);
+    const isActive = activeFormat !== undefined;
+    const activeObject = getActiveObject(value);
+    const isObjectActive = activeObject !== undefined && activeObject.type === name;
+    return Object(external_wp_element_["createElement"])(Edit, {
+      key: name,
+      isActive: isActive,
+      activeAttributes: isActive ? activeFormat.attributes || {} : {},
+      isObjectActive: isObjectActive,
+      activeObjectAttributes: isObjectActive ? activeObject.attributes || {} : {},
+      value: value,
+      onChange: onChange,
+      onFocus: onFocus,
+      contentRef: forwardedRef
+    });
+  });
+}
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/index.js
 

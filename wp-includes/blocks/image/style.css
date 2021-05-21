@@ -142,3 +142,7 @@
     border-radius: 0;
   }
 }
+
+.wp-block-image figure {
+  margin: 0;
+}

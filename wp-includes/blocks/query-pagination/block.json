@@ -10,7 +10,11 @@
 	"supports": {
 		"align": true,
 		"reusable": false,
-		"html": false
+		"html": false,
+		"color": {
+			"gradients": true,
+			"link": true
+		}
 	},
 	"editorStyle": "wp-block-query-pagination-editor",
 	"style": "wp-block-query-pagination"

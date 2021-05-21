@@ -3935,7 +3935,13 @@ function __experimentalGetTemplateForLink(state, link) {
   const records = getEntityRecords(state, 'postType', 'wp_template', {
     'find-template': link
   });
-  return records !== null && records !== void 0 && records.length ? records[0] : null;
+  const template = records !== null && records !== void 0 && records.length ? records[0] : null;
+
+  if (template) {
+    return getEditedEntityRecord(state, 'postType', 'wp_template', template.id);
+  }
+
+  return template;
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/utils/if-not-resolved.js
@@ -4761,6 +4767,15 @@ const fetchLinkSuggestions = async (search, searchOptions = {}, settings = {}) =
         type: 'post-format',
         subtype
       })
+    }).then(results => {
+      return results.map(result => {
+        return { ...result,
+          meta: {
+            kind: 'taxonomy',
+            subtype
+          }
+        };
+      });
     }).catch(() => []));
   }
 

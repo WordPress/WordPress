@@ -302,9 +302,10 @@ require ABSPATH . WPINC . '/block-supports/border.php';
 require ABSPATH . WPINC . '/block-supports/colors.php';
 require ABSPATH . WPINC . '/block-supports/custom-classname.php';
 require ABSPATH . WPINC . '/block-supports/duotone.php';
+require ABSPATH . WPINC . '/block-supports/elements.php';
 require ABSPATH . WPINC . '/block-supports/generated-classname.php';
 require ABSPATH . WPINC . '/block-supports/layout.php';
-require ABSPATH . WPINC . '/block-supports/padding.php';
+require ABSPATH . WPINC . '/block-supports/spacing.php';
 require ABSPATH . WPINC . '/block-supports/typography.php';
 
 $GLOBALS['wp_embed'] = new WP_Embed();

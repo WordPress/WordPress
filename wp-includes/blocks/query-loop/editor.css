@@ -68,7 +68,7 @@
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
-.wp-block.wp-block-query-loop {
+.editor-styles-wrapper ul.wp-block-query-loop {
   padding-left: 0;
   margin-left: 0;
   list-style: none;

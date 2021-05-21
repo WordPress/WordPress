@@ -14,7 +14,6 @@ require ABSPATH . WPINC . '/blocks/file.php';
 require ABSPATH . WPINC . '/blocks/latest-comments.php';
 require ABSPATH . WPINC . '/blocks/latest-posts.php';
 require ABSPATH . WPINC . '/blocks/loginout.php';
-require ABSPATH . WPINC . '/blocks/post-author.php';
 require ABSPATH . WPINC . '/blocks/post-content.php';
 require ABSPATH . WPINC . '/blocks/post-date.php';
 require ABSPATH . WPINC . '/blocks/post-excerpt.php';
