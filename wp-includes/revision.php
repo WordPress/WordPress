@@ -564,7 +564,24 @@ function wp_revisions_to_keep( $post ) {
 	 * @param int     $num  Number of revisions to store.
 	 * @param WP_Post $post Post object.
 	 */
-	return (int) apply_filters( 'wp_revisions_to_keep', $num, $post );
+	$num = apply_filters( 'wp_revisions_to_keep', $num, $post );
+
+	/**
+	 * Filters the number of revisions to save for the given post by its post type.
+	 *
+	 * Overrides both the value of WP_POST_REVISIONS and the {@see 'wp_revisions_to_keep'} filter.
+	 *
+	 * The dynamic portion of the hook name, `$post->post_type`, refers to
+	 * the post type slug.
+	 *
+	 * @since 5.8.0
+	 *
+	 * @param int     $num  Number of revisions to store.
+	 * @param WP_Post $post Post object.
+	 */
+	$num = apply_filters( "wp_{$post->post_type}_revisions_to_keep", $num, $post );
+
+	return (int) $num;
 }
 
 /**
