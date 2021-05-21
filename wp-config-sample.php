@@ -81,11 +81,11 @@ $table_prefix = 'wp_';
  */
 define( 'WP_DEBUG', false );
 
-/** Add any custom values after this line. */
+/* Add any custom values between this line and the "stop editing" line. */
 
 
 
-/** Custom values must be above this line. That's all, stop editing! Happy publishing. */
+/* That's all, stop editing! Happy publishing. */
 
 /** Absolute path to the WordPress directory. */
 if ( ! defined( 'ABSPATH' ) ) {
