@@ -34,6 +34,13 @@ function _register_core_block_patterns_and_categories() {
 			'text-two-columns',
 			'media-text-arquitecture',
 			'two-buttons',
+			'query-standard-posts',
+			'query-medium-posts',
+			'query-small-posts',
+			'query-grid-posts',
+			'query-large-title-posts',
+			'query-offset-posts',
+			'social-links-shared-background-color',
 		);
 
 		foreach ( $core_block_patterns as $core_block_pattern ) {
@@ -49,4 +56,5 @@ function _register_core_block_patterns_and_categories() {
 	register_block_pattern_category( 'gallery', array( 'label' => _x( 'Gallery', 'Block pattern category' ) ) );
 	register_block_pattern_category( 'header', array( 'label' => _x( 'Headers', 'Block pattern category' ) ) );
 	register_block_pattern_category( 'text', array( 'label' => _x( 'Text', 'Block pattern category' ) ) );
+	register_block_pattern_category( 'query', array( 'label' => __( 'Query', 'Block pattern category' ) ) );
 }
