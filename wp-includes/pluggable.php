@@ -1221,7 +1221,7 @@ if ( ! function_exists( 'check_ajax_referer' ) ) :
 	 */
 	function check_ajax_referer( $action = -1, $query_arg = false, $die = true ) {
 		if ( -1 == $action ) {
-			_doing_it_wrong( __FUNCTION__, __( 'You should specify an action to be verified by using the first parameter.' ), '4.7' );
+			_doing_it_wrong( __FUNCTION__, __( 'You should specify an action to be verified by using the first parameter.' ), '4.7.0' );
 		}
 
 		$nonce = '';
