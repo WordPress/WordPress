@@ -322,29 +322,28 @@ abstract class WP_Image_Editor {
 		 * Enables filtering the mime type used to save images. By default,
 		 * the mapping array is empty, so the mime type matches the source image.
 		 *
-		 * @see src/wp-includes/class-wp-image-editor.php -> get_output_format()
+		 * @see WP_Image_Editor::get_output_format()
 		 *
 		 * @since 5.8.0
 		 *
-		 * @param array $wp_image_editor_output_format {
+		 * @param array $output_format {
 		 *     An array of mime type mappings. Maps a source mime type to a new
-		 *     destination mime type. Empty by default.
+		 *     destination mime type. Default empty array.
 		 *
 		 *     @type array $mime_type The source mime type {
 		 *         @type string $mime_type The new mime type.
 		 *     }
-		 * @param string $filename Path to the image.
+		 * @param string $filename  Path to the image.
 		 * @param string $mime_type The source image mime type.
 		 * }
 		 */
-		$wp_image_editor_output_format = apply_filters( 'image_editor_output_format', array(), $filename, $mime_type );
+		$output_format = apply_filters( 'image_editor_output_format', array(), $filename, $mime_type );
 
-		if (
-			isset( $wp_image_editor_output_format[ $mime_type ] ) &&
-			$this->supports_mime_type( $wp_image_editor_output_format[ $mime_type ] )
+		if ( isset( $output_format[ $mime_type ] )
+			&& $this->supports_mime_type( $output_format[ $mime_type ] )
 		) {
-			$mime_type = $wp_image_editor_output_format[ $mime_type ];
-			$new_ext = $this->get_extension( $mime_type );
+			$mime_type = $output_format[ $mime_type ];
+			$new_ext   = $this->get_extension( $mime_type );
 		}
 
 		// Double-check that the mime-type selected is supported by the editor.
