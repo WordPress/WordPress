@@ -2233,6 +2233,52 @@ function wp_common_block_scripts_and_styles() {
 }
 
 /**
+ * Enqueues the global styles defined via theme.json.
+ *
+ * @since 5.8.0
+ *
+ * @return void
+ */
+function wp_enqueue_global_styles() {
+	if ( ! WP_Theme_JSON_Resolver::theme_has_support() ) {
+		return;
+	}
+
+	$can_use_cache = (
+		( ! defined( 'WP_DEBUG' ) || ! WP_DEBUG ) &&
+		( ! defined( 'SCRIPT_DEBUG' ) || ! SCRIPT_DEBUG ) &&
+		( ! defined( 'REST_REQUEST' ) || ! REST_REQUEST ) &&
+		! is_admin()
+	);
+
+	$stylesheet = null;
+	if ( $can_use_cache ) {
+		$cache = get_transient( 'global_styles' );
+		if ( $cache ) {
+			$stylesheet = $cache;
+		}
+	}
+
+	if ( null === $stylesheet ) {
+		$settings   = get_default_block_editor_settings();
+		$theme_json = WP_Theme_JSON_Resolver::get_merged_data( $settings );
+		$stylesheet = $theme_json->get_stylesheet();
+
+		if ( $can_use_cache ) {
+			set_transient( 'global_styles', $stylesheet, MINUTE_IN_SECONDS );
+		}
+	}
+
+	if ( empty( $stylesheet ) ) {
+		return;
+	}
+
+	wp_register_style( 'global-styles', false, array(), true, true );
+	wp_add_inline_style( 'global-styles', $stylesheet );
+	wp_enqueue_style( 'global-styles' );
+}
+
+/**
  * Checks if the editor scripts and styles for all registered block types
  * should be enqueued on the current screen.
  *

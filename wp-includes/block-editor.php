@@ -243,8 +243,17 @@ function get_block_editor_settings( $editor_name, $custom_settings = array() ) {
 		$custom_settings
 	);
 
-	$editor_settings['__experimentalFeatures'] = WP_Theme_JSON_Resolver::get_merged_data( $editor_settings )->get_settings();
+	$theme_json = WP_Theme_JSON_Resolver::get_merged_data( $editor_settings );
 
+	if ( WP_Theme_JSON_Resolver::theme_has_support() ) {
+		$editor_settings['styles'][] = array( 'css' => $theme_json->get_stylesheet( 'block_styles' ) );
+		$editor_settings['styles'][] = array(
+			'css'                     => $theme_json->get_stylesheet( 'css_variables' ),
+			'__experimentalNoWrapper' => true,
+		);
+	}
+
+	$editor_settings['__experimentalFeatures'] = $theme_json->get_settings();
 	// These settings may need to be updated based on data coming from theme.json sources.
 	if ( isset( $editor_settings['__experimentalFeatures']['color']['palette'] ) ) {
 		$editor_settings['colors'] = $editor_settings['__experimentalFeatures']['color']['palette'];
