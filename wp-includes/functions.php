@@ -4636,6 +4636,7 @@ function _wp_array_get( $array, $path, $default = null ) {
  *
  *     $array = array();
  *     _wp_array_set( $array, array( 'a', 'b', 'c', 1 );
+ *
  *     $array becomes:
  *     array(
  *         'a' => array(
@@ -4645,9 +4646,14 @@ function _wp_array_get( $array, $path, $default = null ) {
  *         ),
  *     );
  *
- * @param array $array   An array that we want to mutate to include a specific value in a path.
- * @param array $path    An array of keys describing the path that we want to mutate.
- * @param mixed $value   The value that will be set.
+ * @internal
+ *
+ * @since 5.8.0
+ * @access private
+ *
+ * @param array $array An array that we want to mutate to include a specific value in a path.
+ * @param array $path  An array of keys describing the path that we want to mutate.
+ * @param mixed $value The value that will be set.
  */
 function _wp_array_set( &$array, $path, $value = null ) {
 	// Confirm $array is valid.
@@ -4659,10 +4665,13 @@ function _wp_array_set( &$array, $path, $value = null ) {
 	if ( ! is_array( $path ) ) {
 		return;
 	}
+
 	$path_length = count( $path );
+
 	if ( 0 === $path_length ) {
 		return;
 	}
+
 	foreach ( $path as $path_element ) {
 		if (
 			! is_string( $path_element ) && ! is_integer( $path_element ) &&
@@ -4682,6 +4691,7 @@ function _wp_array_set( &$array, $path, $value = null ) {
 		}
 		$array = &$array[ $path_element ]; // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.VariableRedeclaration
 	}
+
 	$array[ $path[ $i ] ] = $value;
 }
 
