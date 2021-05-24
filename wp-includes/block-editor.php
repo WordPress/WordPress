@@ -269,3 +269,75 @@ function get_block_editor_settings( $editor_name, $custom_settings = array() ) {
 
 	return $editor_settings;
 }
+
+/**
+ * Preloads common data used with the block editor by specifying an array of
+ * REST API paths that will be preloaded for a given block editor context.
+ *
+ * @since 5.8.0
+ *
+ * @global WP_Post $post Global post object.
+ *
+ * @param array                   $preload_paths        List of paths to preload.
+ * @param WP_Block_Editor_Context $block_editor_context The current block editor context.
+ *
+ * @return void
+ */
+function block_editor_rest_api_preload( array $preload_paths, $block_editor_context ) {
+	global $post;
+
+	/**
+	 * Filters the array of REST API paths that will be used to preloaded common data
+	 * to use with the block editor.
+	 *
+	 * @since 5.8.0
+	 *
+	 * @param string[] $preload_paths Array of paths to preload.
+	 */
+	$preload_paths = apply_filters( 'block_editor_rest_api_preload_paths', $preload_paths, $block_editor_context );
+	if ( ! empty( $block_editor_context->post ) ) {
+		$selected_post = $block_editor_context->post;
+
+		/**
+		 * Preload common data by specifying an array of REST API paths that will be preloaded.
+		 *
+		 * Filters the array of paths that will be preloaded.
+		 *
+		 * @since 5.0.0
+		 * @deprecated 5.8.0 The hook transitioned to support also screens that don't contain $post instance.
+		 *
+		 * @param string[] $preload_paths Array of paths to preload.
+		 * @param WP_Post  $selected_post Post being edited.
+		 */
+		$preload_paths = apply_filters_deprecated( 'block_editor_preload_paths', array( $preload_paths, $selected_post ), '5.8.0', 'block_editor_rest_api_preload_paths' );
+	}
+
+	if ( empty( $preload_paths ) ) {
+		return;
+	}
+
+	/*
+	 * Ensure the global $post remains the same after API data is preloaded.
+	 * Because API preloading can call the_content and other filters, plugins
+	 * can unexpectedly modify $post.
+	 */
+	$backup_global_post = ! empty( $post ) ? clone $post : $post;
+
+	$preload_data = array_reduce(
+		$preload_paths,
+		'rest_preload_api_request',
+		array()
+	);
+
+	// Restore the global $post as it was before API preloading.
+	$post = $backup_global_post;
+
+	wp_add_inline_script(
+		'wp-api-fetch',
+		sprintf(
+			'wp.apiFetch.use( wp.apiFetch.createPreloadingMiddleware( %s ) );',
+			wp_json_encode( $preload_data )
+		),
+		'after'
+	);
+}
