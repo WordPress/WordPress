@@ -164,7 +164,6 @@ class WP_Widget {
 			$id_base = strtolower( $id_base );
 		} else {
 			$id_base = preg_replace( '/(wp_)?widget_/', '', strtolower( get_class( $this ) ) );
-			$id_base = str_replace( '\\', '-', $id_base );
 		}
 
 		$this->id_base         = $id_base;
@@ -173,7 +172,7 @@ class WP_Widget {
 		$this->widget_options  = wp_parse_args(
 			$widget_options,
 			array(
-				'classname'                   => $this->option_name,
+				'classname'                   => str_replace( '\\', '_', $this->option_name ),
 				'customize_selective_refresh' => false,
 			)
 		);

@@ -753,8 +753,13 @@ function dynamic_sidebar( $index = 1 ) {
 				$classname_ .= '_' . get_class( $cn );
 			}
 		}
-		$classname_                 = ltrim( $classname_, '_' );
-		$params[0]['before_widget'] = sprintf( $params[0]['before_widget'], $id, $classname_ );
+		$classname_ = ltrim( $classname_, '_' );
+
+		$params[0]['before_widget'] = sprintf(
+			$params[0]['before_widget'],
+			str_replace( '\\', '_', $id ),
+			$classname_
+		);
 
 		/**
 		 * Filters the parameters passed to a widget's display callback.
