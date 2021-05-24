@@ -81,20 +81,12 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 22);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 22:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(23);
-
-
-/***/ }),
-
-/***/ 23:
+/***/ "./src/js/_enqueues/wp/media/models.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -167,12 +159,12 @@ l10n = media.model.l10n = window._wpMediaModelsL10n || {};
 media.model.settings = l10n.settings || {};
 delete l10n.settings;
 
-Attachment = media.model.Attachment = __webpack_require__( 24 );
-Attachments = media.model.Attachments = __webpack_require__( 25 );
+Attachment = media.model.Attachment = __webpack_require__( "./src/js/media/models/attachment.js" );
+Attachments = media.model.Attachments = __webpack_require__( "./src/js/media/models/attachments.js" );
 
-media.model.Query = __webpack_require__( 26 );
-media.model.PostImage = __webpack_require__( 27 );
-media.model.Selection = __webpack_require__( 28 );
+media.model.Query = __webpack_require__( "./src/js/media/models/query.js" );
+media.model.PostImage = __webpack_require__( "./src/js/media/models/post-image.js" );
+media.model.Selection = __webpack_require__( "./src/js/media/models/selection.js" );
 
 /**
  * ========================================================================
@@ -345,7 +337,7 @@ $(window).on('unload', function(){
 
 /***/ }),
 
-/***/ 24:
+/***/ "./src/js/media/models/attachment.js":
 /***/ (function(module, exports) {
 
 var $ = Backbone.$,
@@ -521,7 +513,7 @@ module.exports = Attachment;
 
 /***/ }),
 
-/***/ 25:
+/***/ "./src/js/media/models/attachments.js":
 /***/ (function(module, exports) {
 
 /**
@@ -1108,7 +1100,168 @@ module.exports = Attachments;
 
 /***/ }),
 
-/***/ 26:
+/***/ "./src/js/media/models/post-image.js":
+/***/ (function(module, exports) {
+
+/**
+ * wp.media.model.PostImage
+ *
+ * An instance of an image that's been embedded into a post.
+ *
+ * Used in the embedded image attachment display settings modal - @see wp.media.view.MediaFrame.ImageDetails.
+ *
+ * @memberOf wp.media.model
+ *
+ * @class
+ * @augments Backbone.Model
+ *
+ * @param {int} [attributes]               Initial model attributes.
+ * @param {int} [attributes.attachment_id] ID of the attachment.
+ **/
+var PostImage = Backbone.Model.extend(/** @lends wp.media.model.PostImage.prototype */{
+
+	initialize: function( attributes ) {
+		var Attachment = wp.media.model.Attachment;
+		this.attachment = false;
+
+		if ( attributes.attachment_id ) {
+			this.attachment = Attachment.get( attributes.attachment_id );
+			if ( this.attachment.get( 'url' ) ) {
+				this.dfd = jQuery.Deferred();
+				this.dfd.resolve();
+			} else {
+				this.dfd = this.attachment.fetch();
+			}
+			this.bindAttachmentListeners();
+		}
+
+		// Keep URL in sync with changes to the type of link.
+		this.on( 'change:link', this.updateLinkUrl, this );
+		this.on( 'change:size', this.updateSize, this );
+
+		this.setLinkTypeFromUrl();
+		this.setAspectRatio();
+
+		this.set( 'originalUrl', attributes.url );
+	},
+
+	bindAttachmentListeners: function() {
+		this.listenTo( this.attachment, 'sync', this.setLinkTypeFromUrl );
+		this.listenTo( this.attachment, 'sync', this.setAspectRatio );
+		this.listenTo( this.attachment, 'change', this.updateSize );
+	},
+
+	changeAttachment: function( attachment, props ) {
+		this.stopListening( this.attachment );
+		this.attachment = attachment;
+		this.bindAttachmentListeners();
+
+		this.set( 'attachment_id', this.attachment.get( 'id' ) );
+		this.set( 'caption', this.attachment.get( 'caption' ) );
+		this.set( 'alt', this.attachment.get( 'alt' ) );
+		this.set( 'size', props.get( 'size' ) );
+		this.set( 'align', props.get( 'align' ) );
+		this.set( 'link', props.get( 'link' ) );
+		this.updateLinkUrl();
+		this.updateSize();
+	},
+
+	setLinkTypeFromUrl: function() {
+		var linkUrl = this.get( 'linkUrl' ),
+			type;
+
+		if ( ! linkUrl ) {
+			this.set( 'link', 'none' );
+			return;
+		}
+
+		// Default to custom if there is a linkUrl.
+		type = 'custom';
+
+		if ( this.attachment ) {
+			if ( this.attachment.get( 'url' ) === linkUrl ) {
+				type = 'file';
+			} else if ( this.attachment.get( 'link' ) === linkUrl ) {
+				type = 'post';
+			}
+		} else {
+			if ( this.get( 'url' ) === linkUrl ) {
+				type = 'file';
+			}
+		}
+
+		this.set( 'link', type );
+	},
+
+	updateLinkUrl: function() {
+		var link = this.get( 'link' ),
+			url;
+
+		switch( link ) {
+			case 'file':
+				if ( this.attachment ) {
+					url = this.attachment.get( 'url' );
+				} else {
+					url = this.get( 'url' );
+				}
+				this.set( 'linkUrl', url );
+				break;
+			case 'post':
+				this.set( 'linkUrl', this.attachment.get( 'link' ) );
+				break;
+			case 'none':
+				this.set( 'linkUrl', '' );
+				break;
+		}
+	},
+
+	updateSize: function() {
+		var size;
+
+		if ( ! this.attachment ) {
+			return;
+		}
+
+		if ( this.get( 'size' ) === 'custom' ) {
+			this.set( 'width', this.get( 'customWidth' ) );
+			this.set( 'height', this.get( 'customHeight' ) );
+			this.set( 'url', this.get( 'originalUrl' ) );
+			return;
+		}
+
+		size = this.attachment.get( 'sizes' )[ this.get( 'size' ) ];
+
+		if ( ! size ) {
+			return;
+		}
+
+		this.set( 'url', size.url );
+		this.set( 'width', size.width );
+		this.set( 'height', size.height );
+	},
+
+	setAspectRatio: function() {
+		var full;
+
+		if ( this.attachment && this.attachment.get( 'sizes' ) ) {
+			full = this.attachment.get( 'sizes' ).full;
+
+			if ( full ) {
+				this.set( 'aspectRatio', full.width / full.height );
+				return;
+			}
+		}
+
+		this.set( 'aspectRatio', this.get( 'customWidth' ) / this.get( 'customHeight' ) );
+	}
+});
+
+module.exports = PostImage;
+
+
+/***/ }),
+
+/***/ "./src/js/media/models/query.js":
 /***/ (function(module, exports) {
 
 var Attachments = wp.media.model.Attachments,
@@ -1421,168 +1574,7 @@ module.exports = Query;
 
 /***/ }),
 
-/***/ 27:
-/***/ (function(module, exports) {
-
-/**
- * wp.media.model.PostImage
- *
- * An instance of an image that's been embedded into a post.
- *
- * Used in the embedded image attachment display settings modal - @see wp.media.view.MediaFrame.ImageDetails.
- *
- * @memberOf wp.media.model
- *
- * @class
- * @augments Backbone.Model
- *
- * @param {int} [attributes]               Initial model attributes.
- * @param {int} [attributes.attachment_id] ID of the attachment.
- **/
-var PostImage = Backbone.Model.extend(/** @lends wp.media.model.PostImage.prototype */{
-
-	initialize: function( attributes ) {
-		var Attachment = wp.media.model.Attachment;
-		this.attachment = false;
-
-		if ( attributes.attachment_id ) {
-			this.attachment = Attachment.get( attributes.attachment_id );
-			if ( this.attachment.get( 'url' ) ) {
-				this.dfd = jQuery.Deferred();
-				this.dfd.resolve();
-			} else {
-				this.dfd = this.attachment.fetch();
-			}
-			this.bindAttachmentListeners();
-		}
-
-		// Keep URL in sync with changes to the type of link.
-		this.on( 'change:link', this.updateLinkUrl, this );
-		this.on( 'change:size', this.updateSize, this );
-
-		this.setLinkTypeFromUrl();
-		this.setAspectRatio();
-
-		this.set( 'originalUrl', attributes.url );
-	},
-
-	bindAttachmentListeners: function() {
-		this.listenTo( this.attachment, 'sync', this.setLinkTypeFromUrl );
-		this.listenTo( this.attachment, 'sync', this.setAspectRatio );
-		this.listenTo( this.attachment, 'change', this.updateSize );
-	},
-
-	changeAttachment: function( attachment, props ) {
-		this.stopListening( this.attachment );
-		this.attachment = attachment;
-		this.bindAttachmentListeners();
-
-		this.set( 'attachment_id', this.attachment.get( 'id' ) );
-		this.set( 'caption', this.attachment.get( 'caption' ) );
-		this.set( 'alt', this.attachment.get( 'alt' ) );
-		this.set( 'size', props.get( 'size' ) );
-		this.set( 'align', props.get( 'align' ) );
-		this.set( 'link', props.get( 'link' ) );
-		this.updateLinkUrl();
-		this.updateSize();
-	},
-
-	setLinkTypeFromUrl: function() {
-		var linkUrl = this.get( 'linkUrl' ),
-			type;
-
-		if ( ! linkUrl ) {
-			this.set( 'link', 'none' );
-			return;
-		}
-
-		// Default to custom if there is a linkUrl.
-		type = 'custom';
-
-		if ( this.attachment ) {
-			if ( this.attachment.get( 'url' ) === linkUrl ) {
-				type = 'file';
-			} else if ( this.attachment.get( 'link' ) === linkUrl ) {
-				type = 'post';
-			}
-		} else {
-			if ( this.get( 'url' ) === linkUrl ) {
-				type = 'file';
-			}
-		}
-
-		this.set( 'link', type );
-	},
-
-	updateLinkUrl: function() {
-		var link = this.get( 'link' ),
-			url;
-
-		switch( link ) {
-			case 'file':
-				if ( this.attachment ) {
-					url = this.attachment.get( 'url' );
-				} else {
-					url = this.get( 'url' );
-				}
-				this.set( 'linkUrl', url );
-				break;
-			case 'post':
-				this.set( 'linkUrl', this.attachment.get( 'link' ) );
-				break;
-			case 'none':
-				this.set( 'linkUrl', '' );
-				break;
-		}
-	},
-
-	updateSize: function() {
-		var size;
-
-		if ( ! this.attachment ) {
-			return;
-		}
-
-		if ( this.get( 'size' ) === 'custom' ) {
-			this.set( 'width', this.get( 'customWidth' ) );
-			this.set( 'height', this.get( 'customHeight' ) );
-			this.set( 'url', this.get( 'originalUrl' ) );
-			return;
-		}
-
-		size = this.attachment.get( 'sizes' )[ this.get( 'size' ) ];
-
-		if ( ! size ) {
-			return;
-		}
-
-		this.set( 'url', size.url );
-		this.set( 'width', size.width );
-		this.set( 'height', size.height );
-	},
-
-	setAspectRatio: function() {
-		var full;
-
-		if ( this.attachment && this.attachment.get( 'sizes' ) ) {
-			full = this.attachment.get( 'sizes' ).full;
-
-			if ( full ) {
-				this.set( 'aspectRatio', full.width / full.height );
-				return;
-			}
-		}
-
-		this.set( 'aspectRatio', this.get( 'customWidth' ) / this.get( 'customHeight' ) );
-	}
-});
-
-module.exports = PostImage;
-
-
-/***/ }),
-
-/***/ 28:
+/***/ "./src/js/media/models/selection.js":
 /***/ (function(module, exports) {
 
 var Attachments = wp.media.model.Attachments,
@@ -1682,6 +1674,14 @@ Selection = Attachments.extend(/** @lends wp.media.model.Selection.prototype */{
 });
 
 module.exports = Selection;
+
+
+/***/ }),
+
+/***/ 2:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__("./src/js/_enqueues/wp/media/models.js");
 
 
 /***/ })
