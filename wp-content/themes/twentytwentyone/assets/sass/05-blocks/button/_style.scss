@@ -47,7 +47,7 @@ input[type="reset"],
 			}
 		}
 
-		// Hover Button color should match parent element foreground color 
+		// Hover Button color should match parent element foreground color
 		.wp-block-button__link:hover,
 		.wp-block-button__link:active {
 			border-color: currentColor !important;
@@ -103,7 +103,7 @@ input[type="reset"],
 				color: var(--local--color-background, var(--global--color-background)) !important;
 			}
 
-			.has-text-color & {	
+			.has-text-color & {
 				color: var(--local--color-background, var(--global--color-background)) !important;
 			}
 		}
