@@ -6,7 +6,7 @@
  */
 
 return array(
-	'title'      => __( 'Offset', 'gutenberg' ),
+	'title'      => _x( 'Offset', 'Block pattern title' ),
 	'blockTypes' => array( 'core/query' ),
 	'categories' => array( 'query' ),
 	'content'    => '<!-- wp:group {"tagName":"main","style":{"spacing":{"padding":{"top":"30px","right":"30px","bottom":"30px","left":"30px"}}},"layout":{"inherit":false}} -->

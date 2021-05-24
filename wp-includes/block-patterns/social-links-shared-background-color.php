@@ -6,7 +6,7 @@
  */
 
 return array(
-	'title'         => __( 'Social links with a shared background color', 'gutenberg' ),
+	'title'         => _x( 'Social links with a shared background color', 'Block pattern title' ),
 	'categories'    => array( 'buttons' ),
 	'blockTypes'    => array( 'core/social-links' ),
 	'viewportWidth' => 500,

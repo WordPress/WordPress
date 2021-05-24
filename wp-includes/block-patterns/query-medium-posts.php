@@ -6,7 +6,7 @@
  */
 
 return array(
-	'title'      => __( 'Image at left', 'gutenberg' ),
+	'title'      => _x( 'Image at left', 'Block pattern title' ),
 	'blockTypes' => array( 'core/query' ),
 	'categories' => array( 'query' ),
 	'content'    => '<!-- wp:query {"query":{"perPage":1,"pages":0,"offset":0,"postType":"post","categoryIds":[],"tagIds":[],"order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":false}} -->

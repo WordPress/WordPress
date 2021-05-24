@@ -6,7 +6,7 @@
  */
 
 return array(
-	'title'      => __( 'Large title', 'gutenberg' ),
+	'title'      => _x( 'Large title', 'Block pattern title' ),
 	'blockTypes' => array( 'core/query' ),
 	'categories' => array( 'query' ),
 	'content'    => '<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"100px","right":"100px","bottom":"100px","left":"100px"}},"color":{"text":"#ffffff","background":"#000000"}}} -->
