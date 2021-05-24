@@ -235,7 +235,7 @@ function get_default_block_editor_settings() {
  */
 function get_block_editor_settings( $editor_name, $custom_settings = array() ) {
 	$editor_settings = array_merge(
-		get_default_block_editor_settings( $editor_name ),
+		get_default_block_editor_settings(),
 		array(
 			'allowedBlockTypes' => get_allowed_block_types( $editor_name ),
 			'blockCategories'   => get_block_categories( $editor_name ),
