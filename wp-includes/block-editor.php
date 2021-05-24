@@ -58,28 +58,33 @@ function get_default_block_categories() {
  * Returns all the categories for block types that will be shown in the block editor.
  *
  * @since 5.0.0
+ * @since 5.8.0 It is possible to pass the block editor context as param.
  *
- * @param string|WP_Post $editor_name_or_post The name of the editor (e.g. 'post-editor')
- *                                            or the post object.
+ * @param WP_Post|WP_Block_Editor_Context $post_or_block_editor_context The current post object or
+ *                                                                      the block editor context.
  *
  * @return array[] Array of categories for block types.
  */
-function get_block_categories( $editor_name_or_post ) {
-	// Assume the post editor when the WP_Post object passed.
-	$editor_name      = is_object( $editor_name_or_post ) ? 'post-editor' : $editor_name_or_post;
-	$block_categories = get_default_block_categories();
+function get_block_categories( $post_or_block_editor_context ) {
+	$block_categories     = get_default_block_categories();
+	$block_editor_context = $post_or_block_editor_context instanceof WP_Post ?
+		new WP_Block_Editor_Context(
+			array(
+				'post' => $post_or_block_editor_context,
+			)
+		) : $post_or_block_editor_context;
 
 	/**
 	 * Filters the default array of categories for block types.
 	 *
 	 * @since 5.8.0
 	 *
-	 * @param array[] $block_categories Array of categories for block types.
-	 * @param string  $editor_name      The name of the editor, e.g. 'post-editor'.
+	 * @param array[]                 $block_categories     Array of categories for block types.
+	 * @param WP_Block_Editor_Context $block_editor_context The current block editor context.
 	 */
-	$block_categories = apply_filters( 'block_categories_all', $block_categories, $editor_name );
-	if ( 'post-editor' === $editor_name ) {
-		$post = is_object( $editor_name_or_post ) ? $editor_name_or_post : get_post();
+	$block_categories = apply_filters( 'block_categories_all', $block_categories, $block_editor_context );
+	if ( ! empty( $block_editor_context->post ) ) {
+		$post = $block_editor_context->post;
 
 		/**
 		 * Filters the default array of categories for block types.
@@ -101,11 +106,11 @@ function get_block_categories( $editor_name_or_post ) {
  *
  * @since 5.8.0
  *
- * @param string $editor_name The name of the editor (e.g. 'post-editor').
+ * @param WP_Block_Editor_Context $block_editor_context The current block editor context.
  *
  * @return bool|array Array of block type slugs, or boolean to enable/disable all.
  */
-function get_allowed_block_types( $editor_name ) {
+function get_allowed_block_types( $block_editor_context ) {
 	$allowed_block_types = true;
 
 	/**
@@ -115,13 +120,13 @@ function get_allowed_block_types( $editor_name ) {
 	 *
 	 * @since 5.8.0
 	 *
-	 * @param bool|array $allowed_block_types Array of block type slugs, or
-	 *                                        boolean to enable/disable all.
-	 * @param string     $editor_name         The name of the editor, e.g. 'post-editor'.
+	 * @param bool|array              $allowed_block_types  Array of block type slugs, or
+	 *                                                      boolean to enable/disable all.
+	 * @param WP_Block_Editor_Context $block_editor_context The current block editor context.
 	 */
-	$allowed_block_types = apply_filters( 'allowed_block_types_all', $allowed_block_types, $editor_name );
-	if ( 'post-editor' === $editor_name ) {
-		$post = get_post();
+	$allowed_block_types = apply_filters( 'allowed_block_types_all', $allowed_block_types, $block_editor_context );
+	if ( ! empty( $block_editor_context->post ) ) {
+		$post = $block_editor_context->post;
 
 		/**
 		 * Filters the allowed block types for the editor, defaulting to true (all
@@ -224,21 +229,21 @@ function get_default_block_editor_settings() {
 }
 
 /**
- * Returns the contextualized block editor settings settings for a selected editor type.
+ * Returns the contextualized block editor settings settings for a selected editor context.
  *
  * @since 5.8.0
  *
- * @param string $editor_name     The name of the editor (e.g. 'post-editor').
- * @param array  $custom_settings Optional custom settings to use with the editor type.
+ * @param array                   $custom_settings      Custom settings to use with the given editor type.
+ * @param WP_Block_Editor_Context $block_editor_context The current block editor context.
  *
  * @return array The contextualized block editor settings.
  */
-function get_block_editor_settings( $editor_name, $custom_settings = array() ) {
+function get_block_editor_settings( array $custom_settings, $block_editor_context ) {
 	$editor_settings = array_merge(
 		get_default_block_editor_settings(),
 		array(
-			'allowedBlockTypes' => get_allowed_block_types( $editor_name ),
-			'blockCategories'   => get_block_categories( $editor_name ),
+			'allowedBlockTypes' => get_allowed_block_types( $block_editor_context ),
+			'blockCategories'   => get_block_categories( $block_editor_context ),
 		),
 		$custom_settings
 	);
@@ -301,12 +306,12 @@ function get_block_editor_settings( $editor_name, $custom_settings = array() ) {
 	 *
 	 * @since 5.8.0
 	 *
-	 * @param array  $editor_settings Default editor settings.
-	 * @param string $editor_name     The name of the editor, e.g. 'post-editor'.
+	 * @param array                   $editor_settings      Default editor settings.
+	 * @param WP_Block_Editor_Context $block_editor_context The current block editor context.
 	 */
-	$editor_settings = apply_filters( 'block_editor_settings_all', $editor_settings, $editor_name );
-	if ( 'post-editor' === $editor_name ) {
-		$post = get_post();
+	$editor_settings = apply_filters( 'block_editor_settings_all', $editor_settings, $block_editor_context );
+	if ( ! empty( $block_editor_context->post ) ) {
+		$post = $block_editor_context->post;
 
 		/**
 		 * Filters the settings to pass to the block editor.

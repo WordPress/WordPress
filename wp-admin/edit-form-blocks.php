@@ -23,7 +23,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 global $post_type, $post_type_object, $post, $title, $editor_styles, $wp_meta_boxes;
 
-$editor_name          = 'post-editor';
 $block_editor_context = new WP_Block_Editor_Context( array( 'post' => $post ) );
 
 // Flag that we're loading the block editor.
@@ -280,7 +279,7 @@ if ( ! isset( $core_meta_boxes['postcustom'] ) || ! $core_meta_boxes['postcustom
 	unset( $editor_settings['enableCustomFields'] );
 }
 
-$editor_settings = get_block_editor_settings( $editor_name, $editor_settings );
+$editor_settings = get_block_editor_settings( $editor_settings, $block_editor_context );
 
 $init_script = <<<JS
 ( function() {
