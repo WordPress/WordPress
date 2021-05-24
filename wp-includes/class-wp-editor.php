@@ -249,7 +249,7 @@ final class _WP_Editors {
 				$toolbar_id = 'qt_' . $editor_id_attr . '_toolbar';
 			}
 
-			$quicktags_toolbar = '<div id="' . $toolbar_id . '" class="quicktags-toolbar"></div>';
+			$quicktags_toolbar = '<div id="' . $toolbar_id . '" class="quicktags-toolbar hide-if-no-js"></div>';
 		}
 
 		/**
