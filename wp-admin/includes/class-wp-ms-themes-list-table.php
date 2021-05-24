@@ -728,6 +728,14 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			);
 		}
 
+		if ( $theme->parent() ) {
+			$theme_meta[] = sprintf(
+				/* translators: %s: Theme name. */
+				__( 'Child theme of %s' ),
+				'<strong>' . $theme->parent()->display( 'Name' ) . '</strong>'
+			);
+		}
+
 		/**
 		 * Filters the array of row meta for each theme in the Multisite themes
 		 * list table.
