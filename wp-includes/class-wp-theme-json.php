@@ -1,13 +1,14 @@
 <?php
 /**
- * Process of structures that adhere to the theme.json schema.
+ * WP_Theme_JSON class
  *
  * @package WordPress
+ * @subpackage Theme
+ * @since 5.8.0
  */
 
 /**
- * Class that encapsulates the processing of
- * structures that adhere to the theme.json spec.
+ * Class that encapsulates the processing of structures that adhere to the theme.json spec.
  *
  * @access private
  */
@@ -16,6 +17,7 @@ class WP_Theme_JSON {
 	/**
 	 * Container of data in theme.json format.
 	 *
+	 * @since 5.8.0
 	 * @var array
 	 */
 	private $theme_json = null;
@@ -24,6 +26,7 @@ class WP_Theme_JSON {
 	 * Holds the allowed block names extracted from block.json.
 	 * Shared among all instances so we only process it once.
 	 *
+	 * @since 5.8.0
 	 * @var array
 	 */
 	private static $allowed_block_names = null;
@@ -62,6 +65,8 @@ class WP_Theme_JSON {
 	/**
 	 * Constructor.
 	 *
+	 * @since 5.8.0
+	 *
 	 * @param array $theme_json A structure that follows the theme.json schema.
 	 */
 	public function __construct( $theme_json = array() ) {
@@ -70,11 +75,13 @@ class WP_Theme_JSON {
 			return;
 		}
 
-		$this->theme_json  = self::sanitize( $theme_json );
+		$this->theme_json = self::sanitize( $theme_json );
 	}
 
 	/**
 	 * Returns the allowed block names.
+	 *
+	 * @since 5.8.0
 	 *
 	 * @return array
 	 */
@@ -91,8 +98,9 @@ class WP_Theme_JSON {
 	/**
 	 * Sanitizes the input according to the schemas.
 	 *
-	 * @param array $input Structure to sanitize.
+	 * @since 5.8.0
 	 *
+	 * @param array $input Structure to sanitize.
 	 * @return array The sanitized output.
 	 */
 	private static function sanitize( $input ) {
@@ -143,9 +151,10 @@ class WP_Theme_JSON {
 	 *
 	 * It is recursive and modifies the input in-place.
 	 *
+	 * @since 5.8.0
+	 *
 	 * @param array $tree Input to process.
 	 * @param array $schema Schema to adhere to.
-	 *
 	 * @return array Returns the modified $tree.
 	 */
 	private static function remove_keys_not_in_schema( $tree, $schema ) {
@@ -175,18 +184,20 @@ class WP_Theme_JSON {
 	 *
 	 * Example:
 	 *
-	 * {
-	 *   'root': {
-	 *     'color': {
-	 *       'custom': true
+	 *     {
+	 *       'root': {
+	 *         'color': {
+	 *           'custom': true
+	 *         }
+	 *       },
+	 *       'core/paragraph': {
+	 *         'spacing': {
+	 *           'customPadding': true
+	 *         }
+	 *       }
 	 *     }
-	 *   },
-	 *   'core/paragraph': {
-	 *     'spacing': {
-	 *       'customPadding': true
-	 *     }
-	 *   }
-	 * }
+	 *
+	 * @since 5.8.0
 	 *
 	 * @return array Settings per block.
 	 */
@@ -201,17 +212,18 @@ class WP_Theme_JSON {
 	/**
 	 * Builds metadata for the setting nodes, which returns in the form of:
 	 *
-	 * [
-	 *   [
-	 *     'path' => ['path', 'to', 'some', 'node' ]
-	 *   ],
-	 *   [
-	 *     'path' => [ 'path', 'to', 'other', 'node' ]
-	 *   ],
-	 * ]
+	 *     [
+	 *       [
+	 *         'path' => ['path', 'to', 'some', 'node' ]
+	 *       ],
+	 *       [
+	 *         'path' => [ 'path', 'to', 'other', 'node' ]
+	 *       ],
+	 *     ]
+	 *
+	 * @since 5.8.0
 	 *
 	 * @param array $theme_json The tree to extract setting nodes from.
-	 *
 	 * @return array
 	 */
 	private static function get_setting_nodes( $theme_json ) {
@@ -242,17 +254,21 @@ class WP_Theme_JSON {
 	/**
 	 * Merge new incoming data.
 	 *
+	 * @since 5.8.0
+	 *
 	 * @param WP_Theme_JSON $incoming Data to merge.
 	 */
 	public function merge( $incoming ) {
 		$incoming_data    = $incoming->get_raw_data();
 		$this->theme_json = array_replace_recursive( $this->theme_json, $incoming_data );
 
-		// The array_replace_recursive algorithm merges at the leaf level.
-		// For leaf values that are arrays it will use the numeric indexes for replacement.
-		// In those cases, what we want is to use the incoming value, if it exists.
-		//
-		// These are the cases that have array values at the leaf levels.
+		/*
+		 * The array_replace_recursive algorithm merges at the leaf level.
+		 * For leaf values that are arrays it will use the numeric indexes for replacement.
+		 * In those cases, what we want is to use the incoming value, if it exists.
+		 *
+		 * These are the cases that have array values at the leaf levels.
+		 */
 		$properties   = array();
 		$properties[] = array( 'color', 'palette' );
 		$properties[] = array( 'color', 'gradients' );
@@ -277,6 +293,8 @@ class WP_Theme_JSON {
 	/**
 	 * Returns the raw data.
 	 *
+	 * @since 5.8.0
+	 *
 	 * @return array Raw data.
 	 */
 	public function get_raw_data() {
@@ -284,12 +302,12 @@ class WP_Theme_JSON {
 	}
 
 	/**
-	 *
 	 * Transforms the given editor settings according the
 	 * add_theme_support format to the theme.json format.
 	 *
-	 * @param array $settings Existing editor settings.
+	 * @since 5.8.0
 	 *
+	 * @param array $settings Existing editor settings.
 	 * @return array Config that adheres to the theme.json schema.
 	 */
 	public static function get_from_editor_settings( $settings ) {
@@ -364,10 +382,12 @@ class WP_Theme_JSON {
 			$theme_settings['settings']['typography']['fontSizes'] = $font_sizes;
 		}
 
-		// This allows to make the plugin work with WordPress 5.7 beta
-		// as well as lower versions. The second check can be removed
-		// as soon as the minimum WordPress version for the plugin
-		// is bumped to 5.7.
+		/*
+		 * This allows to make the plugin work with WordPress 5.8 beta
+		 * as well as lower versions. The second check can be removed
+		 * as soon as the minimum WordPress version for the plugin
+		 * is bumped to 5.8.
+		 */
 		if ( isset( $settings['enableCustomSpacing'] ) ) {
 			if ( ! isset( $theme_settings['settings']['spacing'] ) ) {
 				$theme_settings['settings']['spacing'] = array();
