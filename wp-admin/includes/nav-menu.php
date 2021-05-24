@@ -154,7 +154,7 @@ function wp_nav_menu_setup() {
 	// If first time editing, disable advanced items by default.
 	if ( false === get_user_option( 'managenav-menuscolumnshidden' ) ) {
 		$user = wp_get_current_user();
-		update_user_option(
+		update_user_meta(
 			$user->ID,
 			'managenav-menuscolumnshidden',
 			array(
@@ -163,8 +163,7 @@ function wp_nav_menu_setup() {
 				2 => 'xfn',
 				3 => 'description',
 				4 => 'title-attribute',
-			),
-			true
+			)
 		);
 	}
 }
@@ -199,7 +198,7 @@ function wp_initial_nav_menu_meta_boxes() {
 	}
 
 	$user = wp_get_current_user();
-	update_user_option( $user->ID, 'metaboxhidden_nav-menus', $hidden_meta_boxes, true );
+	update_user_meta( $user->ID, 'metaboxhidden_nav-menus', $hidden_meta_boxes );
 }
 
 /**

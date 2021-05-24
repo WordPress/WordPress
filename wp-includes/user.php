@@ -2873,7 +2873,7 @@ function reset_password( $user, $new_pass ) {
 	do_action( 'password_reset', $user, $new_pass );
 
 	wp_set_password( $new_pass, $user->ID );
-	update_user_option( $user->ID, 'default_password_nag', false, true );
+	update_user_meta( $user->ID, 'default_password_nag', false );
 
 	/**
 	 * Fires after the user's password is reset.
@@ -2984,7 +2984,7 @@ function register_new_user( $user_login, $user_email ) {
 		return $errors;
 	}
 
-	update_user_option( $user_id, 'default_password_nag', true, true ); // Set up the password change nag.
+	update_user_meta( $user_id, 'default_password_nag', true ); // Set up the password change nag.
 
 	/**
 	 * Fires after a new user registration has been recorded.

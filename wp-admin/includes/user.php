@@ -482,7 +482,7 @@ function default_password_nag_handler( $errors = false ) {
 		|| isset( $_GET['default_password_nag'] ) && '0' == $_GET['default_password_nag']
 	) {
 		delete_user_setting( 'default_password_nag' );
-		update_user_option( $user_ID, 'default_password_nag', false, true );
+		update_user_meta( $user_ID, 'default_password_nag', false );
 	}
 }
 
@@ -503,7 +503,7 @@ function default_password_nag_edit_user( $user_ID, $old_data ) {
 	// Remove the nag if the password has been changed.
 	if ( $new_data->user_pass != $old_data->user_pass ) {
 		delete_user_setting( 'default_password_nag' );
-		update_user_option( $user_ID, 'default_password_nag', false, true );
+		update_user_meta( $user_ID, 'default_password_nag', false );
 	}
 }
 

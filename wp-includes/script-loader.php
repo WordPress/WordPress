@@ -1789,7 +1789,7 @@ function wp_localize_community_events() {
 	 */
 	if ( $saved_ip_address && $current_ip_address && $current_ip_address !== $saved_ip_address ) {
 		$saved_location['ip'] = $current_ip_address;
-		update_user_option( $user_id, 'community-events-location', $saved_location, true );
+		update_user_meta( $user_id, 'community-events-location', $saved_location );
 	}
 
 	$events_client = new WP_Community_Events( $user_id, $saved_location );
