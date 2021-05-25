@@ -34,6 +34,7 @@ class WP_Widget_Text extends WP_Widget {
 			'classname'                   => 'widget_text',
 			'description'                 => __( 'Arbitrary text.' ),
 			'customize_selective_refresh' => true,
+			'show_instance_in_rest'       => true,
 		);
 		$control_ops = array(
 			'width'  => 400,

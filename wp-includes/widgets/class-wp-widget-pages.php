@@ -26,6 +26,7 @@ class WP_Widget_Pages extends WP_Widget {
 			'classname'                   => 'widget_pages',
 			'description'                 => __( 'A list of your site&#8217;s Pages.' ),
 			'customize_selective_refresh' => true,
+			'show_instance_in_rest'       => true,
 		);
 		parent::__construct( 'pages', __( 'Pages' ), $widget_ops );
 	}
