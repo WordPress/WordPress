@@ -400,6 +400,10 @@ html:lang(he-il) .rtl #wpadminbar * {
 	min-width: 198px;
 }
 
+#wp-admin-bar-my-account:not(.with-avatar) > .ab-item {
+	display: inline-block;
+}
+
 #wp-admin-bar-my-account > .ab-item:before {
 	content: "\f110";
 	top: 2px;
