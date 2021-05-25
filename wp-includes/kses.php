@@ -252,7 +252,7 @@ if ( ! CUSTOM_TAGS ) {
 			'align' => true,
 			'value' => true,
 		),
-		'main'        => array(
+		'main'       => array(
 			'align'    => true,
 			'dir'      => true,
 			'lang'     => true,
