@@ -987,9 +987,9 @@
 
 				var menuItemName = $(this).next().text();
 				var menuItemType = $(this).parent().next('.item-controls').find('.item-type').text();
-				var menuItemID = $(this).attr('data-menu-item-id') ;
+				var menuItemID = $(this).attr('data-menu-item-id');
 
-				var ListedMenuItem = $('#pending-menu-items-to-delete ul').find('[data-menu-item-id=' + menuItemID + ']') ;
+				var ListedMenuItem = $('#pending-menu-items-to-delete ul').find('[data-menu-item-id=' + menuItemID + ']');
 				if( ListedMenuItem.length > 0 ){
 					ListedMenuItem.remove();
 				}

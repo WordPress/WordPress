@@ -984,7 +984,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 								<div id="nav-menu-bulk-actions-top" class="bulk-actions">
 									<label class="bulk-select-button" for="bulk-select-switcher-top">
 										<input type="checkbox" id="bulk-select-switcher-top" name="bulk-select-switcher-top" class="bulk-select-switcher">
-										<span class="bulk-select-button-label"><?php echo __( 'Bulk Select' ) ; ?></span>
+										<span class="bulk-select-button-label"><?php echo __( 'Bulk Select' ); ?></span>
 									</label>
 								</div>
 								<?php
@@ -1017,9 +1017,9 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 									<input type="checkbox" id="bulk-select-switcher-bottom" name="bulk-select-switcher-top" class="bulk-select-switcher">
 									<span class="bulk-select-button-label"><?php echo __( 'Bulk Select' ); ?></span>
 								</label>
-								<input type="button" class="deletion menu-items-delete disabled" value="<?php _e( 'Remove Selected Items' ) ; ?>">
+								<input type="button" class="deletion menu-items-delete disabled" value="<?php _e( 'Remove Selected Items' ); ?>">
 								<div id="pending-menu-items-to-delete">
-									<p><?php _e( 'List of menu items selected for deletion:' ) ; ?></p>
+									<p><?php _e( 'List of menu items selected for deletion:' ); ?></p>
 									<ul></ul>
 								</div>
 							</div>
