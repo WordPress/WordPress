@@ -94,6 +94,8 @@ foreach (array(
     'CRYPTO_SIGN_KEYPAIRBYTES',
     'CRYPTO_STREAM_KEYBYTES',
     'CRYPTO_STREAM_NONCEBYTES',
+    'CRYPTO_STREAM_XCHACHA20_KEYBYTES',
+    'CRYPTO_STREAM_XCHACHA20_NONCEBYTES',
     'LIBRARY_MAJOR_VERSION',
     'LIBRARY_MINOR_VERSION',
     'LIBRARY_VERSION_MAJOR',
@@ -1216,6 +1218,7 @@ if (!is_callable('sodium_crypto_stream_xor')) {
         return ParagonIE_Sodium_Compat::crypto_stream_xor($message, $nonce, $key);
     }
 }
+require_once dirname(__FILE__) . '/stream-xchacha20.php';
 if (!is_callable('sodium_hex2bin')) {
     /**
      * @see ParagonIE_Sodium_Compat::hex2bin()
