@@ -86,7 +86,7 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller {
 			array(
 				'args'   => array(
 					'parent' => array(
-						'description' => __( 'The ID for the parent of the object.' ),
+						'description' => __( 'The ID for the parent of the autosave.' ),
 						'type'        => 'integer',
 					),
 				),
@@ -112,11 +112,11 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller {
 			array(
 				'args'   => array(
 					'parent' => array(
-						'description' => __( 'The ID for the parent of the object.' ),
+						'description' => __( 'The ID for the parent of the autosave.' ),
 						'type'        => 'integer',
 					),
 					'id'     => array(
-						'description' => __( 'The ID for the object.' ),
+						'description' => __( 'The ID for the autosave.' ),
 						'type'        => 'integer',
 					),
 				),

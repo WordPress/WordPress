@@ -37,7 +37,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Registers the routes for the objects of the controller.
+	 * Registers the routes for comments.
 	 *
 	 * @since 4.7.0
 	 *
@@ -71,7 +71,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			array(
 				'args'   => array(
 					'id' => array(
-						'description' => __( 'Unique identifier for the object.' ),
+						'description' => __( 'Unique identifier for the comment.' ),
 						'type'        => 'integer',
 					),
 				),
@@ -1381,7 +1381,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			'type'       => 'object',
 			'properties' => array(
 				'id'                => array(
-					'description' => __( 'Unique identifier for the object.' ),
+					'description' => __( 'Unique identifier for the comment.' ),
 					'type'        => 'integer',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
@@ -1392,7 +1392,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 					'context'     => array( 'view', 'edit', 'embed' ),
 				),
 				'author_email'      => array(
-					'description' => __( 'Email address for the object author.' ),
+					'description' => __( 'Email address for the comment author.' ),
 					'type'        => 'string',
 					'format'      => 'email',
 					'context'     => array( 'edit' ),
@@ -1402,13 +1402,13 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 					),
 				),
 				'author_ip'         => array(
-					'description' => __( 'IP address for the object author.' ),
+					'description' => __( 'IP address for the comment author.' ),
 					'type'        => 'string',
 					'format'      => 'ip',
 					'context'     => array( 'edit' ),
 				),
 				'author_name'       => array(
-					'description' => __( 'Display name for the object author.' ),
+					'description' => __( 'Display name for the comment author.' ),
 					'type'        => 'string',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'arg_options' => array(
@@ -1416,13 +1416,13 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 					),
 				),
 				'author_url'        => array(
-					'description' => __( 'URL for the object author.' ),
+					'description' => __( 'URL for the comment author.' ),
 					'type'        => 'string',
 					'format'      => 'uri',
 					'context'     => array( 'view', 'edit', 'embed' ),
 				),
 				'author_user_agent' => array(
-					'description' => __( 'User agent for the object author.' ),
+					'description' => __( 'User agent for the comment author.' ),
 					'type'        => 'string',
 					'context'     => array( 'edit' ),
 					'arg_options' => array(
@@ -1430,7 +1430,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 					),
 				),
 				'content'           => array(
-					'description' => __( 'The content for the object.' ),
+					'description' => __( 'The content for the comment.' ),
 					'type'        => 'object',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'arg_options' => array(
@@ -1439,12 +1439,12 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 					),
 					'properties'  => array(
 						'raw'      => array(
-							'description' => __( 'Content for the object, as it exists in the database.' ),
+							'description' => __( 'Content for the comment, as it exists in the database.' ),
 							'type'        => 'string',
 							'context'     => array( 'edit' ),
 						),
 						'rendered' => array(
-							'description' => __( 'HTML content for the object, transformed for display.' ),
+							'description' => __( 'HTML content for the comment, transformed for display.' ),
 							'type'        => 'string',
 							'context'     => array( 'view', 'edit', 'embed' ),
 							'readonly'    => true,
@@ -1452,26 +1452,26 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 					),
 				),
 				'date'              => array(
-					'description' => __( "The date the object was published, in the site's timezone." ),
+					'description' => __( "The date the comment was published, in the site's timezone." ),
 					'type'        => 'string',
 					'format'      => 'date-time',
 					'context'     => array( 'view', 'edit', 'embed' ),
 				),
 				'date_gmt'          => array(
-					'description' => __( 'The date the object was published, as GMT.' ),
+					'description' => __( 'The date the comment was published, as GMT.' ),
 					'type'        => 'string',
 					'format'      => 'date-time',
 					'context'     => array( 'view', 'edit' ),
 				),
 				'link'              => array(
-					'description' => __( 'URL to the object.' ),
+					'description' => __( 'URL to the comment.' ),
 					'type'        => 'string',
 					'format'      => 'uri',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
 				),
 				'parent'            => array(
-					'description' => __( 'The ID for the parent of the object.' ),
+					'description' => __( 'The ID for the parent of the comment.' ),
 					'type'        => 'integer',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'default'     => 0,
@@ -1483,7 +1483,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 					'default'     => 0,
 				),
 				'status'            => array(
-					'description' => __( 'State of the object.' ),
+					'description' => __( 'State of the comment.' ),
 					'type'        => 'string',
 					'context'     => array( 'view', 'edit' ),
 					'arg_options' => array(
@@ -1491,7 +1491,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 					),
 				),
 				'type'              => array(
-					'description' => __( 'Type of Comment for the object.' ),
+					'description' => __( 'Type of the comment.' ),
 					'type'        => 'string',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
@@ -1515,7 +1515,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			}
 
 			$schema['properties']['author_avatar_urls'] = array(
-				'description' => __( 'Avatar URLs for the object author.' ),
+				'description' => __( 'Avatar URLs for the comment author.' ),
 				'type'        => 'object',
 				'context'     => array( 'view', 'edit', 'embed' ),
 				'readonly'    => true,
@@ -1611,7 +1611,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		);
 
 		$query_params['orderby'] = array(
-			'description' => __( 'Sort collection by object attribute.' ),
+			'description' => __( 'Sort collection by comment attribute.' ),
 			'type'        => 'string',
 			'default'     => 'date_gmt',
 			'enum'        => array(

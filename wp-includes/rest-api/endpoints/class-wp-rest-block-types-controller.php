@@ -45,7 +45,7 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Registers the routes for the objects of the controller.
+	 * Registers the routes for block types.
 	 *
 	 * @since 5.5.0
 	 *

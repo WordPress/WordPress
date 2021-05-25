@@ -17,7 +17,7 @@
 class WP_REST_User_Meta_Fields extends WP_REST_Meta_Fields {
 
 	/**
-	 * Retrieves the object meta type.
+	 * Retrieves the user meta type.
 	 *
 	 * @since 4.7.0
 	 *
@@ -28,7 +28,7 @@ class WP_REST_User_Meta_Fields extends WP_REST_Meta_Fields {
 	}
 
 	/**
-	 * Retrieves the object meta subtype.
+	 * Retrieves the user meta subtype.
 	 *
 	 * @since 4.9.8
 	 *

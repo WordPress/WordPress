@@ -27,7 +27,7 @@ class WP_REST_Post_Types_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Registers the routes for the objects of the controller.
+	 * Registers the routes for post types.
 	 *
 	 * @since 4.7.0
 	 *
