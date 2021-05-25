@@ -9030,31 +9030,6 @@ const upload = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createEle
 
 /***/ }),
 
-/***/ "NWDH":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("GRId");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("Tqx9");
-/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__);
-
-
-/**
- * WordPress dependencies
- */
-
-const chevronDown = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["SVG"], {
-  viewBox: "0 0 24 24",
-  xmlns: "http://www.w3.org/2000/svg"
-}, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["Path"], {
-  d: "M17.5 11.6L12 16l-5.5-4.4.9-1.2L12 14l4.5-3.6 1 1.2z"
-}));
-/* harmony default export */ __webpack_exports__["a"] = (chevronDown);
-
-
-/***/ }),
-
 /***/ "Nho6":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23046,11 +23021,35 @@ var edit = __webpack_require__("B9Az");
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/close.js
 var library_close = __webpack_require__("w95h");
 
-// EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/chevron-up.js
-var chevron_up = __webpack_require__("XgzB");
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/chevron-up.js
 
-// EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/chevron-down.js
-var chevron_down = __webpack_require__("NWDH");
+
+/**
+ * WordPress dependencies
+ */
+
+const chevronUp = Object(external_wp_element_["createElement"])(external_wp_primitives_["SVG"], {
+  viewBox: "0 0 24 24",
+  xmlns: "http://www.w3.org/2000/svg"
+}, Object(external_wp_element_["createElement"])(external_wp_primitives_["Path"], {
+  d: "M6.5 12.4L12 8l5.5 4.4-.9 1.2L12 10l-4.5 3.6-1-1.2z"
+}));
+/* harmony default export */ var chevron_up = (chevronUp);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/chevron-down.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+const chevronDown = Object(external_wp_element_["createElement"])(external_wp_primitives_["SVG"], {
+  viewBox: "0 0 24 24",
+  xmlns: "http://www.w3.org/2000/svg"
+}, Object(external_wp_element_["createElement"])(external_wp_primitives_["Path"], {
+  d: "M17.5 11.6L12 16l-5.5-4.4.9-1.2L12 14l4.5-3.6 1 1.2z"
+}));
+/* harmony default export */ var chevron_down = (chevronDown);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/plus.js
 var plus = __webpack_require__("Q4Sy");
@@ -24288,7 +24287,7 @@ class inputs_Inputs extends external_wp_element_["Component"] {
       className: "components-color-picker__inputs-toggle-wrapper"
     }, Object(external_wp_element_["createElement"])(PureButton, {
       className: "components-color-picker__inputs-toggle",
-      icon: chevron_down["a" /* default */],
+      icon: chevron_down,
       label: Object(external_wp_i18n_["__"])('Change color format'),
       onClick: this.toggleViews
     })));
@@ -24894,7 +24893,7 @@ function ColorOption({
     className: classnames_default()({
       'components-color-edit__hidden-control': !isShowingControls
     }),
-    icon: isShowingAdvancedPanel ? chevron_up["a" /* default */] : chevron_down["a" /* default */],
+    icon: isShowingAdvancedPanel ? chevron_up : chevron_down,
     label: Object(external_wp_i18n_["__"])('Additional color settings'),
     onClick: () => {
       if (isShowingAdvancedPanel) {
@@ -29752,7 +29751,7 @@ function CustomSelectControl({
     className: 'components-custom-select-control__button',
     isSmall: true
   }), custom_select_control_itemToString(selectedItem), Object(external_wp_element_["createElement"])(build_module_icon["a" /* default */], {
-    icon: chevron_down["a" /* default */],
+    icon: chevron_down,
     className: "components-custom-select-control__button-icon"
   })), Object(external_wp_element_["createElement"])("ul", menuProps, isOpen && items.map((item, index) => // eslint-disable-next-line react/jsx-key
   Object(external_wp_element_["createElement"])("li", getItemProps({
@@ -30533,7 +30532,7 @@ function SelectControl({
     label: label,
     size: size,
     suffix: Object(external_wp_element_["createElement"])(DownArrowWrapper, null, Object(external_wp_element_["createElement"])(build_module_icon["a" /* default */], {
-      icon: chevron_down["a" /* default */],
+      icon: chevron_down,
       size: 18
     })),
     labelPosition: labelPosition
@@ -38527,7 +38526,7 @@ const PanelBodyTitle = Object(external_wp_element_["forwardRef"])(({
     "aria-hidden": "true"
   }, Object(external_wp_element_["createElement"])(components_build_module_icon["a" /* default */], {
     className: "components-panel__arrow",
-    icon: isOpened ? chevron_up["a" /* default */] : chevron_down["a" /* default */]
+    icon: isOpened ? chevron_up : chevron_down
   })), title, icon && Object(external_wp_element_["createElement"])(components_build_module_icon["a" /* default */], {
     icon: icon,
     className: "components-panel__icon",
@@ -45813,31 +45812,6 @@ module.exports = {
   ),
 
 };
-
-
-/***/ }),
-
-/***/ "XgzB":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("GRId");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("Tqx9");
-/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__);
-
-
-/**
- * WordPress dependencies
- */
-
-const chevronUp = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["SVG"], {
-  viewBox: "0 0 24 24",
-  xmlns: "http://www.w3.org/2000/svg"
-}, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["Path"], {
-  d: "M6.5 12.4L12 8l5.5 4.4-.9 1.2L12 10l-4.5 3.6-1-1.2z"
-}));
-/* harmony default export */ __webpack_exports__["a"] = (chevronUp);
 
 
 /***/ }),

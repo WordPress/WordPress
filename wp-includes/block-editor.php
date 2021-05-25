@@ -225,6 +225,40 @@ function get_default_block_editor_settings() {
 		$editor_settings['gradients'] = $gradient_presets;
 	}
 
+	/**
+	 * Filters the list of widget-type IDs that should **not** be offered by the
+	 * Legacy Widget block.
+	 *
+	 * Returning an empty array will make all widgets available.
+	 *
+	 * @since 5.8.0
+	 *
+	 * @param array $widgets An array of excluded widget-type IDs.
+	 */
+	$editor_settings['widgetTypesToHideFromLegacyWidgetBlock'] = apply_filters(
+		'widget_types_to_hide_from_legacy_widget_block',
+		array(
+			'pages',
+			'calendar',
+			'archives',
+			'media_audio',
+			'media_image',
+			'media_gallery',
+			'media_video',
+			'meta',
+			'search',
+			'text',
+			'categories',
+			'recent-posts',
+			'recent-comments',
+			'rss',
+			'tag_cloud',
+			'nav_menu',
+			'custom_html',
+			'block',
+		)
+	);
+
 	return $editor_settings;
 }
 

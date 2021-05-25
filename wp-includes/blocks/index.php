@@ -13,6 +13,7 @@ require ABSPATH . WPINC . '/blocks/categories.php';
 require ABSPATH . WPINC . '/blocks/file.php';
 require ABSPATH . WPINC . '/blocks/latest-comments.php';
 require ABSPATH . WPINC . '/blocks/latest-posts.php';
+require ABSPATH . WPINC . '/blocks/legacy-widget.php';
 require ABSPATH . WPINC . '/blocks/loginout.php';
 require ABSPATH . WPINC . '/blocks/post-content.php';
 require ABSPATH . WPINC . '/blocks/post-date.php';

@@ -29,6 +29,14 @@ $block_editor_context = new WP_Block_Editor_Context( array( 'post' => $post ) );
 $current_screen = get_current_screen();
 $current_screen->is_block_editor( true );
 
+// Default to is-fullscreen-mode to avoid jumps in the UI.
+add_filter(
+	'admin_body_class',
+	function( $classes ) {
+		return "$classes is-fullscreen-mode";
+	}
+);
+
 /*
  * Emoji replacement is disabled for now, until it plays nicely with React.
  */

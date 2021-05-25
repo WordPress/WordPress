@@ -940,7 +940,7 @@ var external_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_w
 
 async function defaultProcessor(requests) {
   const batchResponse = await external_wp_apiFetch_default()({
-    path: '/v1/batch',
+    path: '/batch/v1',
     method: 'POST',
     data: {
       validation: 'require-all-validate',
