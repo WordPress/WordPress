@@ -875,12 +875,12 @@
 		attachBulkSelectButtonListeners : function() {
 			var that = this;
 
-			$('.bulk-select-switcher').on( 'change', function(){
-				if( this.checked ){
-					$('.bulk-select-switcher').prop('checked',true);
+			$( '.bulk-select-switcher' ).on( 'change', function() {
+				if ( this.checked ) {
+					$( '.bulk-select-switcher' ).prop( 'checked', true );
 					that.enableBulkSelection();
-				}else{
-					$('.bulk-select-switcher').prop('checked',false);
+				} else {
+					$( '.bulk-select-switcher' ).prop( 'checked', false );
 					that.disableBulkSelection();
 				}
 			});
@@ -892,13 +892,14 @@
 		 * @since 5.8.0
 		 */ 
 		enableBulkSelection : function() {
-			$('#menu-to-edit').addClass('bulk-selection');
-			$('#nav-menu-bulk-actions-top').addClass('bulk-selection');
-			$('#nav-menu-bulk-actions-bottom').addClass('bulk-selection');
+			var checkbox = $( '#menu-to-edit .menu-item-checkbox' );
 
-			var checkbox = $('#menu-to-edit .menu-item-checkbox');
-			$.each( checkbox, function(){
-				$(this).prop('disabled',false);
+			$( '#menu-to-edit' ).addClass( 'bulk-selection' );
+			$( '#nav-menu-bulk-actions-top' ).addClass( 'bulk-selection' );
+			$( '#nav-menu-bulk-actions-bottom' ).addClass( 'bulk-selection' );
+
+			$.each( checkbox, function() {
+				$(this).prop( 'disabled', false );
 			});
 		},
 
@@ -908,20 +909,22 @@
 		 * @since 5.8.0
 		 */ 
 		disableBulkSelection : function() {
-			$('#menu-to-edit').removeClass('bulk-selection');
-			$('#nav-menu-bulk-actions-top').removeClass('bulk-selection');
-			$('#nav-menu-bulk-actions-bottom').removeClass('bulk-selection');
+			var checkbox = $( '#menu-to-edit .menu-item-checkbox' );
 
-			if ( $('.menu-items-delete').is('[aria-describedby="pending-menu-items-to-delete"]') ) {
-				$('.menu-items-delete').removeAttr( 'aria-describedby' );
+			$( '#menu-to-edit' ).removeClass( 'bulk-selection' );
+			$( '#nav-menu-bulk-actions-top' ).removeClass( 'bulk-selection' );
+			$( '#nav-menu-bulk-actions-bottom' ).removeClass( 'bulk-selection' );
+
+			if ( $( '.menu-items-delete' ).is( '[aria-describedby="pending-menu-items-to-delete"]' ) ) {
+				$( '.menu-items-delete' ).removeAttr( 'aria-describedby' );
 			}
 
-			var checkbox = $('#menu-to-edit .menu-item-checkbox');
-			$.each( checkbox, function(){
-				$(this).prop('disabled',true).prop('checked',false);
+			$.each( checkbox, function() {
+				$(this).prop( 'disabled', true ).prop( 'checked', false );
 			});
-			$('.menu-items-delete').addClass('disabled');
-			$('#pending-menu-items-to-delete ul').empty();
+
+			$( '.menu-items-delete' ).addClass( 'disabled' );
+			$( '#pending-menu-items-to-delete ul' ).empty();
 		},
 
 		/**
@@ -932,7 +935,7 @@
 		attachMenuCheckBoxListeners : function() {
 			var that = this;
 
-			$( '#menu-to-edit' ).on( 'change', '.menu-item-checkbox', function(){
+			$( '#menu-to-edit' ).on( 'change', '.menu-item-checkbox', function() {
 				that.setRemoveSelectedButtonStatus();
 			});
 		},
@@ -945,30 +948,33 @@
 		attachMenuItemDeleteButton : function() {
 			var that = this;
 
-			$( document ).on('click', '.menu-items-delete', function(e){
+			$( document ).on( 'click', '.menu-items-delete', function( e ) {
+				var itemsPendingDeletion, itemsPendingDeletionList, deletionSpeech;
+
 				e.preventDefault();
 
-				if( ! $(this).hasClass('disabled') ){
-					$.each( $('.menu-item-checkbox:checked'), function( index, element ) {
+				if ( ! $(this).hasClass( 'disabled' ) ) {
+					$.each( $( '.menu-item-checkbox:checked' ), function( index, element ) {
 						$( element ).parents( 'li' ).find( 'a.item-delete' ).trigger( 'click' );
 					});
 
-					$('.menu-items-delete').addClass('disabled');
-					$('.bulk-select-switcher').prop('checked',false);
+					$( '.menu-items-delete' ).addClass( 'disabled' );
+					$( '.bulk-select-switcher' ).prop( 'checked', false );
 
-					var itemsPendingDeletion = '';
-					var itemsPendingDeletionList = $('#pending-menu-items-to-delete ul li');
+					itemsPendingDeletion     = '';
+					itemsPendingDeletionList = $( '#pending-menu-items-to-delete ul li' );
 
 					$.each( itemsPendingDeletionList, function( index, element ) {
 						var itemName = $( element ).find( '.pending-menu-item-name' ).text();
 						var itemSpeech = menus.menuItemDeletion.replace( '%s', itemName );
-						itemsPendingDeletion += itemSpeech ;
-						if( ( index + 1 ) < itemsPendingDeletionList.length ){
-							itemsPendingDeletion += ', ' ;
+
+						itemsPendingDeletion += itemSpeech;
+						if ( ( index + 1 ) < itemsPendingDeletionList.length ) {
+							itemsPendingDeletion += ', ';
 						}
 					});
 
-					var deletionSpeech = menus.itemsDeleted.replace( '%s', itemsPendingDeletion );
+					deletionSpeech = menus.itemsDeleted.replace( '%s', itemsPendingDeletion );
 					wp.a11y.speak( deletionSpeech, 'polite' );
 					that.disableBulkSelection();
 				}
@@ -980,25 +986,35 @@
 		 *
 		 * @since 5.8.0
 		 */ 
-		attachPendingMenuItemsListForDeletion : function(){
-			$('#post-body-content').on( 'change', '.menu-item-checkbox', function(){
+		attachPendingMenuItemsListForDeletion : function() {
+			$( '#post-body-content' ).on( 'change', '.menu-item-checkbox', function() {
+				var menuItemName, menuItemType, menuItemID, listedMenuItem;
 
-				if( ! $('.menu-items-delete').is('[aria-describedby="pending-menu-items-to-delete"]') ){ $('.menu-items-delete').attr( 'aria-describedby', 'pending-menu-items-to-delete' ); }
-
-				var menuItemName = $(this).next().text();
-				var menuItemType = $(this).parent().next('.item-controls').find('.item-type').text();
-				var menuItemID = $(this).attr('data-menu-item-id');
-
-				var ListedMenuItem = $('#pending-menu-items-to-delete ul').find('[data-menu-item-id=' + menuItemID + ']');
-				if( ListedMenuItem.length > 0 ){
-					ListedMenuItem.remove();
-				}
-				if( this.checked === true ){
-					$('#pending-menu-items-to-delete ul').append( '<li data-menu-item-id="' + menuItemID + '"><span class="pending-menu-item-name">' + menuItemName + '</span> <span class="pending-menu-item-type">(' + menuItemType + ')</span><span class="separator"></span></li>' );
+				if ( ! $( '.menu-items-delete' ).is( '[aria-describedby="pending-menu-items-to-delete"]' ) ) {
+					$( '.menu-items-delete' ).attr( 'aria-describedby', 'pending-menu-items-to-delete' );
 				}
 
-				$('#pending-menu-items-to-delete li .separator').html(', ');
-				$('#pending-menu-items-to-delete li .separator').last().html('.');
+				menuItemName = $(this).next().text();
+				menuItemType = $(this).parent().next( '.item-controls' ).find( '.item-type' ).text();
+				menuItemID   = $(this).attr( 'data-menu-item-id' );
+
+				listedMenuItem = $( '#pending-menu-items-to-delete ul' ).find( '[data-menu-item-id=' + menuItemID + ']' );
+				if ( listedMenuItem.length > 0 ) {
+					listedMenuItem.remove();
+				}
+
+				if ( this.checked === true ) {
+					$( '#pending-menu-items-to-delete ul' ).append(
+						'<li data-menu-item-id="' + menuItemID + '">' +
+							'<span class="pending-menu-item-name">' + menuItemName + '</span> ' +
+							'<span class="pending-menu-item-type">(' + menuItemType + ')</span>' +
+							'<span class="separator"></span>' +
+						'</li>'
+					);
+				}
+
+				$( '#pending-menu-items-to-delete li .separator' ).html( ', ' );
+				$( '#pending-menu-items-to-delete li .separator' ).last().html( '.' );
 			});
 		},
 
@@ -1007,21 +1023,19 @@
 		 *
 		 * @since 5.8.0
 		 */ 
-		setBulkDeleteCheckboxStatus : function(){
-
+		setBulkDeleteCheckboxStatus : function() {
 			var that = this;
-			var checkbox = $('#menu-to-edit .menu-item-checkbox');
+			var checkbox = $( '#menu-to-edit .menu-item-checkbox' );
 
-			$.each( checkbox, function(){
-
-				if( $(this).prop('disabled') == true ){
+			$.each( checkbox, function() {
+				if ( $(this).prop( 'disabled' ) ) {
 					$(this).prop( 'disabled', false );
-				}else{
+				} else {
 					$(this).prop( 'disabled', true );
 				}
 
-				if( $(this).is(':checked')) {
-					$(this).prop('checked',false);
+				if ( $(this).is( ':checked' ) ) {
+					$(this).prop( 'checked', false );
 				}
 			});
 
@@ -1033,14 +1047,13 @@
 		 *
 		 * @since 5.8.0
 		 */ 
-		setRemoveSelectedButtonStatus : function(){
+		setRemoveSelectedButtonStatus : function() {
+			var button = $( '.menu-items-delete' );
 
-			var button = $('.menu-items-delete');
-
-			if( $('.menu-item-checkbox:checked').length > 0 ) {
-				button.removeClass('disabled');
+			if ( $( '.menu-item-checkbox:checked' ).length > 0 ) {
+				button.removeClass( 'disabled' );
 			} else {
-				button.addClass('disabled');
+				button.addClass( 'disabled' );
 			}
 		},
 
