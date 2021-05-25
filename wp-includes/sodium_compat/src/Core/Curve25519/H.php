@@ -1464,4 +1464,86 @@ class ParagonIE_Sodium_Core_Curve25519_H extends ParagonIE_Sodium_Core_Util
         326686,
         11406482
     );
+
+    /**
+     * 1 / sqrt(a - d)
+     *
+     * @var array<int, int>
+     */
+    protected static $invsqrtamd = array(
+        6111485,
+        4156064,
+        -27798727,
+        12243468,
+        -25904040,
+        120897,
+        20826367,
+        -7060776,
+        6093568,
+        -1986012
+    );
+
+    /**
+     *  sqrt(ad - 1) with a = -1 (mod p)
+     *
+     * @var array<int, int>
+     */
+    protected static $sqrtadm1 = array(
+        24849947,
+        -153582,
+        -23613485,
+        6347715,
+        -21072328,
+        -667138,
+        -25271143,
+        -15367704,
+        -870347,
+        14525639
+    );
+
+    /**
+     * 1 - d ^ 2
+     *
+     * @var array<int, int>
+     */
+    protected static $onemsqd = array(
+        6275446,
+        -16617371,
+        -22938544,
+        -3773710,
+        11667077,
+        7397348,
+        -27922721,
+        1766195,
+        -24433858,
+        672203
+    );
+
+    /**
+     * (d - 1) ^ 2
+     * @var array<int, int>
+     */
+    protected static $sqdmone = array(
+        15551795,
+        -11097455,
+        -13425098,
+        -10125071,
+        -11896535,
+        10178284,
+        -26634327,
+        4729244,
+        -5282110,
+        -10116402
+    );
+
+
+    /*
+     *  2^252+27742317777372353535851937790883648493
+        static const unsigned char L[] = {
+            0xed, 0xd3, 0xf5, 0x5c, 0x1a, 0x63, 0x12, 0x58, 0xd6, 0x9c, 0xf7,
+            0xa2, 0xde, 0xf9, 0xde, 0x14, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10
+        };
+    */
+    const L = "\xed\xd3\xf5\x5c\x1a\x63\x12\x58\xd6\x9c\xf7\xa2\xde\xf9\xde\x14\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x10";
 }
