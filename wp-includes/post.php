@@ -5784,10 +5784,13 @@ function get_pages( $args = array() ) {
 	$cache_key = "get_pages:$key:$last_changed";
 	$cache     = wp_cache_get( $cache_key, 'posts' );
 	if ( false !== $cache ) {
+		_prime_post_caches( $cache, false, false );
+
 		// Convert to WP_Post instances.
 		$pages = array_map( 'get_post', $cache );
 		/** This filter is documented in wp-includes/post.php */
 		$pages = apply_filters( 'get_pages', $pages, $parsed_args );
+
 		return $pages;
 	}
 
@@ -5948,6 +5951,7 @@ function get_pages( $args = array() ) {
 
 		/** This filter is documented in wp-includes/post.php */
 		$pages = apply_filters( 'get_pages', array(), $parsed_args );
+
 		return $pages;
 	}
 
@@ -7605,7 +7609,7 @@ function _update_term_count_on_transition_post_status( $new_status, $old_status,
 }
 
 /**
- * Adds any posts from the given IDs to the cache that do not already exist in cache
+ * Adds any posts from the given IDs to the cache that do not already exist in cache.
  *
  * @since 3.4.0
  * @access private
