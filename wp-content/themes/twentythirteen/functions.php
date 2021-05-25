@@ -46,6 +46,13 @@ if ( version_compare( $GLOBALS['wp_version'], '3.6-alpha', '<' ) ) {
 }
 
 /**
+ * Block Patterns.
+ *
+ * @since Twenty Thirteen 3.4
+ */
+require get_template_directory() . '/inc/block-patterns.php';
+
+/**
  * Twenty Thirteen setup.
  *
  * Sets up theme defaults and registers the various WordPress features that
