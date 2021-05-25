@@ -34,10 +34,7 @@ require ABSPATH . WPINC . '/class.wp-styles.php';
 /** WordPress Styles Functions */
 require ABSPATH . WPINC . '/functions.wp-styles.php';
 
-/**
- * get_stylsheet_directory is used by
- * WP_Theme_JSON_Resolver::theme_has_support()
- */
+// get_stylesheet_directory() is used by WP_Theme_JSON_Resolver::theme_has_support().
 if ( ! function_exists( 'get_stylesheet_directory' ) ) {
 	require_once ABSPATH . WPINC . '/theme.php';
 }
