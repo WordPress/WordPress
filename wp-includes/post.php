@@ -310,6 +310,66 @@ function create_initial_post_types() {
 		)
 	);
 
+	register_post_type(
+		'wp_template',
+		array(
+			'labels'                => array(
+				'name'                  => __( 'Templates' ),
+				'singular_name'         => __( 'Template' ),
+				'menu_name'             => _x( 'Templates', 'Admin Menu text' ),
+				'add_new'               => _x( 'Add New', 'Template' ),
+				'add_new_item'          => __( 'Add New Template' ),
+				'new_item'              => __( 'New Template' ),
+				'edit_item'             => __( 'Edit Template' ),
+				'view_item'             => __( 'View Template' ),
+				'all_items'             => __( 'All Templates' ),
+				'search_items'          => __( 'Search Templates' ),
+				'parent_item_colon'     => __( 'Parent Template:' ),
+				'not_found'             => __( 'No templates found.' ),
+				'not_found_in_trash'    => __( 'No templates found in Trash.' ),
+				'archives'              => __( 'Template archives' ),
+				'insert_into_item'      => __( 'Insert into template' ),
+				'uploaded_to_this_item' => __( 'Uploaded to this template' ),
+				'filter_items_list'     => __( 'Filter templates list' ),
+				'items_list_navigation' => __( 'Templates list navigation' ),
+				'items_list'            => __( 'Templates list' ),
+			),
+			'description'           => __( 'Templates to include in your theme.' ),
+			'public'                => false,
+			'has_archive'           => false,
+			'show_ui'               => false,
+			'show_in_menu'          => false,
+			'show_in_admin_bar'     => false,
+			'show_in_rest'          => true,
+			'rewrite'               => false,
+			'rest_base'             => 'templates',
+			'rest_controller_class' => 'WP_REST_Templates_Controller',
+			'capability_type'       => array( 'template', 'templates' ),
+			'capabilities'          => array(
+				'create_posts'           => 'edit_theme_options',
+				'delete_posts'           => 'edit_theme_options',
+				'delete_others_posts'    => 'edit_theme_options',
+				'delete_private_posts'   => 'edit_theme_options',
+				'delete_published_posts' => 'edit_theme_options',
+				'edit_posts'             => 'edit_theme_options',
+				'edit_others_posts'      => 'edit_theme_options',
+				'edit_private_posts'     => 'edit_theme_options',
+				'edit_published_posts'   => 'edit_theme_options',
+				'publish_posts'          => 'edit_theme_options',
+				'read'                   => 'edit_theme_options',
+				'read_private_posts'     => 'edit_theme_options',
+			),
+			'map_meta_cap'          => true,
+			'supports'              => array(
+				'title',
+				'slug',
+				'excerpt',
+				'editor',
+				'revisions',
+			),
+		)
+	);
+
 	register_post_status(
 		'publish',
 		array(

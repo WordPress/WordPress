@@ -555,6 +555,9 @@ add_filter( 'style_loader_src', 'wp_style_loader_src', 10, 2 );
 add_action( 'wp_head', 'wp_maybe_inline_styles', 1 ); // Run for styles enqueued in <head>.
 add_action( 'wp_footer', 'wp_maybe_inline_styles', 1 ); // Run for late-loaded styles in the footer.
 
+add_action( 'admin_footer-post.php', 'wp_add_iframed_editor_assets_html' );
+add_action( 'admin_footer-post-new.php', 'wp_add_iframed_editor_assets_html' );
+
 // Taxonomy.
 add_action( 'init', 'create_initial_taxonomies', 0 ); // Highest priority.
 add_action( 'change_locale', 'create_initial_taxonomies' );
@@ -632,5 +635,10 @@ add_filter( 'pre_oembed_result', 'wp_filter_pre_oembed_result', 10, 3 );
 add_filter( 'user_has_cap', 'wp_maybe_grant_install_languages_cap', 1 );
 add_filter( 'user_has_cap', 'wp_maybe_grant_resume_extensions_caps', 1 );
 add_filter( 'user_has_cap', 'wp_maybe_grant_site_health_caps', 1, 4 );
+
+// Block Templates CPT and Rendering
+add_filter( 'render_block_context', '_block_template_render_without_post_block_context' );
+add_filter( 'pre_wp_unique_post_slug', 'wp_filter_wp_template_unique_post_slug', 10, 5 );
+add_action( 'wp_footer', 'the_block_template_skip_link' );
 
 unset( $filter, $action );
