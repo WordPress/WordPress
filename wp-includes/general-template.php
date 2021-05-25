@@ -1238,10 +1238,15 @@ function wp_get_document_title() {
 	$title = apply_filters( 'document_title_parts', $title );
 
 	$title = implode( " $sep ", array_filter( $title ) );
-	$title = wptexturize( $title );
-	$title = convert_chars( $title );
-	$title = esc_html( $title );
-	$title = capital_P_dangit( $title );
+
+	/**
+	 * Filters the document title.
+	 *
+	 * @since 5.8.0
+	 *
+	 * @param string $title Document title.
+	 */
+	$title = apply_filters( 'document_title', $title );
 
 	return $title;
 }
