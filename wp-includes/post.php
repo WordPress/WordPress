@@ -177,8 +177,6 @@ function create_initial_post_types() {
 			'labels'           => array(
 				'name'               => _x( 'Changesets', 'post type general name' ),
 				'singular_name'      => _x( 'Changeset', 'post type singular name' ),
-				'menu_name'          => _x( 'Changesets', 'admin menu' ),
-				'name_admin_bar'     => _x( 'Changeset', 'add new on admin bar' ),
 				'add_new'            => _x( 'Add New', 'Customize Changeset' ),
 				'add_new_item'       => __( 'Add New Changeset' ),
 				'new_item'           => __( 'New Changeset' ),
@@ -261,8 +259,6 @@ function create_initial_post_types() {
 			'labels'                => array(
 				'name'                     => _x( 'Reusable blocks', 'post type general name' ),
 				'singular_name'            => _x( 'Reusable block', 'post type singular name' ),
-				'menu_name'                => _x( 'Reusable blocks', 'admin menu' ),
-				'name_admin_bar'           => _x( 'Reusable block', 'add new on admin bar' ),
 				'add_new'                  => _x( 'Add New', 'Reusable block' ),
 				'add_new_item'             => __( 'Add new Reusable block' ),
 				'new_item'                 => __( 'New Reusable block' ),
@@ -316,7 +312,6 @@ function create_initial_post_types() {
 			'labels'                => array(
 				'name'                  => __( 'Templates' ),
 				'singular_name'         => __( 'Template' ),
-				'menu_name'             => _x( 'Templates', 'Admin Menu text' ),
 				'add_new'               => _x( 'Add New', 'Template' ),
 				'add_new_item'          => __( 'Add New Template' ),
 				'new_item'              => __( 'New Template' ),
