@@ -336,10 +336,10 @@ function create_initial_post_types() {
 			),
 			'description'           => __( 'Templates to include in your theme.' ),
 			'public'                => false,
+			'_builtin'              => true, /* internal use only. don't use this when registering your own post type. */
 			'has_archive'           => false,
 			'show_ui'               => false,
 			'show_in_menu'          => false,
-			'show_in_admin_bar'     => false,
 			'show_in_rest'          => true,
 			'rewrite'               => false,
 			'rest_base'             => 'templates',
