@@ -485,6 +485,10 @@ $nav_menus_l10n = array(
 	'menuFocus'               => __( '%1$s. Menu item %2$d of %3$d.' ),
 	/* translators: 1: Item name, 2: Item position, 3: Parent item name. */
 	'subMenuFocus'            => __( '%1$s. Sub item number %2$d under %3$s.' ),
+	/* translators: %s: Item name. */
+	'menuItemDeletion'        => __( 'item %s' ),
+	/* translators: %s: Item name. */
+	'itemsDeleted'            => __( 'Deleted menu item: %s.' ),
 );
 wp_localize_script( 'nav-menu', 'menus', $nav_menus_l10n );
 
@@ -961,7 +965,6 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					<div id="post-body">
 						<div id="post-body-content" class="wp-clearfix">
 							<?php if ( ! $add_new_screen ) : ?>
-
 								<?php
 								$hide_style = '';
 
@@ -978,7 +981,12 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 								<div class="drag-instructions post-body-plain" <?php echo $hide_style; ?>>
 									<p><?php echo $starter_copy; ?></p>
 								</div>
-
+								<div id="nav-menu-bulk-actions-top" class="bulk-actions">
+									<label class="bulk-select-button" for="bulk-select-switcher-top">
+										<input type="checkbox" id="bulk-select-switcher-top" name="bulk-select-switcher-top" class="bulk-select-switcher">
+										<span class="bulk-select-button-label"><?php echo __( 'Bulk Select' ) ; ?></span>
+									</label>
+								</div>
 								<?php
 								if ( isset( $edit_markup ) && ! is_wp_error( $edit_markup ) ) {
 									echo $edit_markup;
@@ -1004,6 +1012,17 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 								$no_menus_style = 'style="display: none;"';
 							}
 							?>
+							<div id="nav-menu-bulk-actions-bottom" class="bulk-actions">
+								<label class="bulk-select-button" for="bulk-select-switcher-bottom">
+									<input type="checkbox" id="bulk-select-switcher-bottom" name="bulk-select-switcher-top" class="bulk-select-switcher">
+									<span class="bulk-select-button-label"><?php echo __( 'Bulk Select' ); ?></span>
+								</label>
+								<input type="button" class="deletion menu-items-delete disabled" value="<?php _e( 'Remove Selected Items' ) ; ?>">
+								<div id="pending-menu-items-to-delete">
+									<p><?php _e( 'List of menu items selected for deletion:' ) ; ?></p>
+									<ul></ul>
+								</div>
+							</div>
 							<div class="menu-settings" <?php echo $no_menus_style; ?>>
 								<h3><?php _e( 'Menu Settings' ); ?></h3>
 								<?php
