@@ -25,7 +25,6 @@ class WP_Nav_Menu_Widget extends WP_Widget {
 		$widget_ops = array(
 			'description'                 => __( 'Add a navigation menu to your sidebar.' ),
 			'customize_selective_refresh' => true,
-			'show_instance_in_rest'       => true,
 		);
 		parent::__construct( 'nav_menu', __( 'Navigation Menu' ), $widget_ops );
 	}

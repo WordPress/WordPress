@@ -45,7 +45,6 @@ class WP_Widget_Custom_HTML extends WP_Widget {
 			'classname'                   => 'widget_custom_html',
 			'description'                 => __( 'Arbitrary HTML code.' ),
 			'customize_selective_refresh' => true,
-			'show_instance_in_rest'       => true,
 		);
 		$control_ops = array(
 			'width'  => 400,

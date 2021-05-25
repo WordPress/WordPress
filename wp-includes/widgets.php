@@ -357,7 +357,6 @@ function is_registered_sidebar( $sidebar_id ) {
  * @since 2.2.0
  * @since 5.3.0 Formalized the existing and already documented `...$params` parameter
  *              by adding it to the function signature.
- * @since 5.8.0 Added show_instance_in_rest option.
  *
  * @global array $wp_registered_widgets            Uses stored registered widgets.
  * @global array $wp_registered_widget_controls    Stores the registered widget controls (options).
@@ -370,12 +369,10 @@ function is_registered_sidebar( $sidebar_id ) {
  * @param array      $options {
  *     Optional. An array of supplementary widget options for the instance.
  *
- *     @type string $classname             Class name for the widget's HTML container. Default is a shortened
- *                                         version of the output callback name.
- *     @type string $description           Widget description for display in the widget administration
- *                                         panel and/or theme.
- *     @type bool   $show_instance_in_rest Whether to show the widget's instance settings in the REST API.
- *                                         Only available for WP_Widget based widgets.
+ *     @type string $classname   Class name for the widget's HTML container. Default is a shortened
+ *                               version of the output callback name.
+ *     @type string $description Widget description for display in the widget administration
+ *                               panel and/or theme.
  * }
  * @param mixed      ...$params       Optional additional parameters to pass to the callback function when it's called.
  */
@@ -1799,175 +1796,10 @@ function wp_widgets_init() {
 
 	register_widget( 'WP_Widget_Custom_HTML' );
 
-	register_widget( 'WP_Widget_Block' );
-
 	/**
 	 * Fires after all default WordPress widgets have been registered.
 	 *
 	 * @since 2.2.0
 	 */
 	do_action( 'widgets_init' );
-}
-
-/**
- * Converts a widget ID into its id_base and number components.
- *
- * @since 5.8.0
- *
- * @param string $id Widget ID.
- * @return array Array containing a widget's id_base and number components.
- */
-function wp_parse_widget_id( $id ) {
-	$parsed = array();
-
-	if ( preg_match( '/^(.+)-(\d+)$/', $id, $matches ) ) {
-		$parsed['id_base'] = $matches[1];
-		$parsed['number']  = (int) $matches[2];
-	} else {
-		// Likely an old single widget.
-		$parsed['id_base'] = $id;
-	}
-
-	return $parsed;
-}
-
-/**
- * Finds the sidebar that a given widget belongs to.
- *
- * @since 5.8.0
- *
- * @param string $widget_id The widget id to look for.
- * @return string|null The found sidebar's id, or null if it was not found.
- */
-function wp_find_widgets_sidebar( $widget_id ) {
-	foreach ( wp_get_sidebars_widgets() as $sidebar_id => $widget_ids ) {
-		foreach ( $widget_ids as $maybe_widget_id ) {
-			if ( $maybe_widget_id === $widget_id ) {
-				return (string) $sidebar_id;
-			}
-		}
-	}
-
-	return null;
-}
-
-/**
- * Assigns a widget to the given sidebar.
- *
- * @since 5.8.0
- *
- * @param string $widget_id  The widget id to assign.
- * @param string $sidebar_id The sidebar id to assign to. If empty, the widget won't be added to any sidebar.
- */
-function wp_assign_widget_to_sidebar( $widget_id, $sidebar_id ) {
-	$sidebars = wp_get_sidebars_widgets();
-
-	foreach ( $sidebars as $maybe_sidebar_id => $widgets ) {
-		foreach ( $widgets as $i => $maybe_widget_id ) {
-			if ( $widget_id === $maybe_widget_id && $sidebar_id !== $maybe_sidebar_id ) {
-				unset( $sidebars[ $maybe_sidebar_id ][ $i ] );
-				// We could technically break 2 here, but continue looping in case the id is duplicated.
-				continue 2;
-			}
-		}
-	}
-
-	if ( $sidebar_id ) {
-		$sidebars[ $sidebar_id ][] = $widget_id;
-	}
-
-	wp_set_sidebars_widgets( $sidebars );
-}
-
-/**
- * Calls the render callback of a widget and returns the output.
- *
- * @since 5.8.0
- *
- * @param string $widget_id Widget ID.
- * @param string $sidebar_id Sidebar ID.
- * @return string
- */
-function wp_render_widget( $widget_id, $sidebar_id ) {
-	global $wp_registered_widgets, $wp_registered_sidebars;
-
-	if ( ! isset( $wp_registered_widgets[ $widget_id ] ) ) {
-		return '';
-	}
-
-	if ( isset( $wp_registered_sidebars[ $sidebar_id ] ) ) {
-		$sidebar = $wp_registered_sidebars[ $sidebar_id ];
-	} elseif ( 'wp_inactive_widgets' === $sidebar_id ) {
-		$sidebar = array();
-	} else {
-		return '';
-	}
-
-	$params = array_merge(
-		array(
-			array_merge(
-				$sidebar,
-				array(
-					'widget_id'   => $widget_id,
-					'widget_name' => $wp_registered_widgets[ $widget_id ]['name'],
-				)
-			),
-		),
-		(array) $wp_registered_widgets[ $widget_id ]['params']
-	);
-
-	// Substitute HTML `id` and `class` attributes into `before_widget`.
-	$classname_ = '';
-	foreach ( (array) $wp_registered_widgets[ $widget_id ]['classname'] as $cn ) {
-		if ( is_string( $cn ) ) {
-			$classname_ .= '_' . $cn;
-		} elseif ( is_object( $cn ) ) {
-			$classname_ .= '_' . get_class( $cn );
-		}
-	}
-	$classname_                 = ltrim( $classname_, '_' );
-	$params[0]['before_widget'] = sprintf( $params[0]['before_widget'], $widget_id, $classname_ );
-
-	/** This filter is documented in wp-includes/widgets.php */
-	$params = apply_filters( 'dynamic_sidebar_params', $params );
-
-	$callback = $wp_registered_widgets[ $widget_id ]['callback'];
-
-	ob_start();
-
-	/** This filter is documented in wp-includes/widgets.php */
-	do_action( 'dynamic_sidebar', $wp_registered_widgets[ $widget_id ] );
-
-	if ( is_callable( $callback ) ) {
-		call_user_func_array( $callback, $params );
-	}
-
-	return ob_get_clean();
-}
-
-/**
- * Calls the control callback of a widget and returns the output.
- *
- * @since 5.8.0
- *
- * @param string $id Widget ID.
- * @return string|null
- */
-function wp_render_widget_control( $id ) {
-	global $wp_registered_widget_controls;
-
-	if ( ! isset( $wp_registered_widget_controls[ $id ]['callback'] ) ) {
-		return null;
-	}
-
-	$callback = $wp_registered_widget_controls[ $id ]['callback'];
-	$params   = $wp_registered_widget_controls[ $id ]['params'];
-
-	ob_start();
-
-	if ( is_callable( $callback ) ) {
-		call_user_func_array( $callback, $params );
-	}
-
-	return ob_get_clean();
 }

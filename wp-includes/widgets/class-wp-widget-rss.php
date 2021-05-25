@@ -25,8 +25,6 @@ class WP_Widget_RSS extends WP_Widget {
 		$widget_ops  = array(
 			'description'                 => __( 'Entries from any RSS or Atom feed.' ),
 			'customize_selective_refresh' => true,
-			'show_instance_in_rest'       => true,
-
 		);
 		$control_ops = array(
 			'width'  => 400,
