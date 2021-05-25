@@ -59,6 +59,7 @@ abstract class WP_Widget_Media extends WP_Widget {
 			array(
 				'description'                 => __( 'A media item.' ),
 				'customize_selective_refresh' => true,
+				'show_instance_in_rest'       => true,
 				'mime_type'                   => '',
 			)
 		);
