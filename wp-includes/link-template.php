@@ -3429,12 +3429,15 @@ function get_admin_url( $blog_id = null, $path = '', $scheme = 'admin' ) {
 	 * Filters the admin area URL.
 	 *
 	 * @since 2.8.0
+	 * @since 5.8.0 The `$scheme` parameter was added.
 	 *
-	 * @param string   $url     The complete admin area URL including scheme and path.
-	 * @param string   $path    Path relative to the admin area URL. Blank string if no path is specified.
-	 * @param int|null $blog_id Site ID, or null for the current site.
+	 * @param string      $url     The complete admin area URL including scheme and path.
+	 * @param string      $path    Path relative to the admin area URL. Blank string if no path is specified.
+	 * @param int|null    $blog_id Site ID, or null for the current site.
+	 * @param string|null $scheme  The scheme to use. Accepts 'http', 'https',
+	 *                             'admin', or null. Default 'admin', which obeys force_ssl_admin() and is_ssl().
 	 */
-	return apply_filters( 'admin_url', $url, $path, $blog_id );
+	return apply_filters( 'admin_url', $url, $path, $blog_id, $scheme );
 }
 
 /**
@@ -3458,12 +3461,15 @@ function includes_url( $path = '', $scheme = null ) {
 	 * Filters the URL to the includes directory.
 	 *
 	 * @since 2.8.0
+	 * @since 5.8.0 The `$scheme` parameter was added.
 	 *
-	 * @param string $url  The complete URL to the includes directory including scheme and path.
-	 * @param string $path Path relative to the URL to the wp-includes directory. Blank string
-	 *                     if no path is specified.
+	 * @param string      $url    The complete URL to the includes directory including scheme and path.
+	 * @param string      $path   Path relative to the URL to the wp-includes directory. Blank string
+	 *                            if no path is specified.
+	 * @param string|null $scheme Scheme to give the includes URL context. Accepts
+	 *                            'http', 'https', 'relative', or null. Default null.
 	 */
-	return apply_filters( 'includes_url', $url, $path );
+	return apply_filters( 'includes_url', $url, $path, $scheme );
 }
 
 /**
@@ -3668,12 +3674,15 @@ function network_admin_url( $path = '', $scheme = 'admin' ) {
 	 * Filters the network admin URL.
 	 *
 	 * @since 3.0.0
+	 * @since 5.8.0 The `$scheme` parameter was added.
 	 *
-	 * @param string $url  The complete network admin URL including scheme and path.
-	 * @param string $path Path relative to the network admin URL. Blank string if
-	 *                     no path is specified.
+	 * @param string      $url    The complete network admin URL including scheme and path.
+	 * @param string      $path   Path relative to the network admin URL. Blank string if
+	 *                            no path is specified.
+	 * @param string|null $scheme The scheme to use. Accepts 'http', 'https',
+	 *                            'admin', or null. Default is 'admin', which obeys force_ssl_admin() and is_ssl().
 	 */
-	return apply_filters( 'network_admin_url', $url, $path );
+	return apply_filters( 'network_admin_url', $url, $path, $scheme );
 }
 
 /**
@@ -3697,12 +3706,15 @@ function user_admin_url( $path = '', $scheme = 'admin' ) {
 	 * Filters the user admin URL for the current user.
 	 *
 	 * @since 3.1.0
+	 * @since 5.8.0 The `$scheme` parameter was added.
 	 *
-	 * @param string $url  The complete URL including scheme and path.
-	 * @param string $path Path relative to the URL. Blank string if
-	 *                     no path is specified.
+	 * @param string      $url    The complete URL including scheme and path.
+	 * @param string      $path   Path relative to the URL. Blank string if
+	 *                            no path is specified.
+	 * @param string|null $scheme The scheme to use. Accepts 'http', 'https',
+	 *                            'admin', or null. Default is 'admin', which obeys force_ssl_admin() and is_ssl().
 	 */
-	return apply_filters( 'user_admin_url', $url, $path );
+	return apply_filters( 'user_admin_url', $url, $path, $scheme );
 }
 
 /**
