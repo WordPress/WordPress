@@ -19,21 +19,6 @@ function _register_core_block_patterns_and_categories() {
 
 	if ( $should_register_core_patterns ) {
 		$core_block_patterns = array(
-			'media-text-nature',
-			'two-images-gallery',
-			'three-columns-media-text',
-			'quote',
-			'large-header-left',
-			'large-header-text-button',
-			'media-text-art',
-			'text-two-columns-title',
-			'three-columns-text',
-			'text-two-columns-title-offset',
-			'heading',
-			'three-images-gallery',
-			'text-two-columns',
-			'media-text-arquitecture',
-			'two-buttons',
 			'query-standard-posts',
 			'query-medium-posts',
 			'query-small-posts',
@@ -57,4 +42,44 @@ function _register_core_block_patterns_and_categories() {
 	register_block_pattern_category( 'header', array( 'label' => _x( 'Headers', 'Block pattern category' ) ) );
 	register_block_pattern_category( 'text', array( 'label' => _x( 'Text', 'Block pattern category' ) ) );
 	register_block_pattern_category( 'query', array( 'label' => __( 'Query', 'Block pattern category' ) ) );
+}
+
+/**
+ * Import patterns from wordpress.org/patterns.
+ */
+function _load_remote_block_patterns( $current_screen ) {
+	if ( ! $current_screen->is_block_editor ) {
+		return;
+	}
+
+	$supports_core_patterns = get_theme_support( 'core-block-patterns' );
+
+	/**
+	 * Filter to disable remote block patterns.
+	 *
+	 * @since 5.8.0
+	 *
+	 * @param bool $should_load_remote
+	 */
+	$should_load_remote = apply_filters( 'should_load_remote_block_patterns', true );
+
+	if ( $supports_core_patterns && $should_load_remote ) {
+		$patterns = get_transient( 'wp_remote_block_patterns' );
+		if ( ! $patterns ) {
+			$request         = new WP_REST_Request( 'GET', '/wp/v2/pattern-directory/patterns' );
+			$core_keyword_id = 11; // 11 is the ID for "core".
+			$request->set_param( 'keyword', $core_keyword_id );
+			$response = rest_do_request( $request );
+			if ( $response->is_error() ) {
+				return;
+			}
+			$patterns = $response->get_data();
+			set_transient( 'wp_remote_block_patterns', $patterns, HOUR_IN_SECONDS );
+		}
+
+		foreach ( $patterns as $settings ) {
+			$pattern_name = 'core/' . sanitize_title( $settings['title'] );
+			register_block_pattern( $pattern_name, (array) $settings );
+		}
+	}
 }
