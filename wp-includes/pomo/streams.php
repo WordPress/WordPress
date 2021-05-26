@@ -18,8 +18,15 @@ if ( ! class_exists( 'POMO_Reader', false ) ) :
 		 * PHP5 constructor.
 		 */
 		function __construct() {
-			$this->is_overloaded = ( ( ini_get( 'mbstring.func_overload' ) & 2 ) != 0 ) && function_exists( 'mb_substr' ); // phpcs:ignore PHPCompatibility.IniDirectives.RemovedIniDirectives.mbstring_func_overloadDeprecated
-			$this->_pos          = 0;
+			if ( function_exists( 'mb_substr' )
+				&& ( (int) ini_get( 'mbstring.func_overload' ) & 2 ) // phpcs:ignore PHPCompatibility.IniDirectives.RemovedIniDirectives.mbstring_func_overloadDeprecated
+			) {
+				$this->is_overloaded = true;
+			} else {
+				$this->is_overloaded = false;
+			}
+
+			$this->_pos = 0;
 		}
 
 		/**
