@@ -2941,12 +2941,17 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			if ( $tax_include ) {
 				$terms            = array();
 				$include_children = false;
+				$operator         = 'IN';
 
 				if ( rest_is_array( $tax_include ) ) {
 					$terms = $tax_include;
 				} elseif ( rest_is_object( $tax_include ) ) {
 					$terms            = empty( $tax_include['terms'] ) ? array() : $tax_include['terms'];
 					$include_children = ! empty( $tax_include['include_children'] );
+
+					if ( isset( $tax_include['operator'] ) && 'AND' === $tax_include['operator'] ) {
+						$operator = 'AND';
+					}
 				}
 
 				if ( $terms ) {
@@ -2955,6 +2960,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 						'field'            => 'term_id',
 						'terms'            => $terms,
 						'include_children' => $include_children,
+						'operator'         => $operator,
 					);
 				}
 			}
@@ -3048,6 +3054,14 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			),
 			$limit_schema
 		);
+		// 'operator' is supported only for 'include' queries.
+		$include_schema['oneOf'][1]['properties']['operator'] = array(
+			'description' => __( 'Whether items must be assigned all or any of the specified terms.' ),
+			'type'        => 'string',
+			'enum'        => array( 'AND', 'OR' ),
+			'default'     => 'OR',
+		);
+
 		$exclude_schema = array_merge(
 			array(
 				/* translators: %s: Taxonomy name. */
