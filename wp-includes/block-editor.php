@@ -303,11 +303,11 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
 		unset( $editor_settings['__experimentalFeatures']['color']['gradients'] );
 	}
 	if ( isset( $editor_settings['__experimentalFeatures']['color']['custom'] ) ) {
-		$editor_settings['disableCustomColors'] = $editor_settings['__experimentalFeatures']['color']['custom'];
+		$editor_settings['disableCustomColors'] = ! $editor_settings['__experimentalFeatures']['color']['custom'];
 		unset( $editor_settings['__experimentalFeatures']['color']['custom'] );
 	}
 	if ( isset( $editor_settings['__experimentalFeatures']['color']['customGradient'] ) ) {
-		$editor_settings['disableCustomGradients'] = $editor_settings['__experimentalFeatures']['color']['customGradient'];
+		$editor_settings['disableCustomGradients'] = ! $editor_settings['__experimentalFeatures']['color']['customGradient'];
 		unset( $editor_settings['__experimentalFeatures']['color']['customGradient'] );
 	}
 	if ( isset( $editor_settings['__experimentalFeatures']['typography']['fontSizes'] ) ) {
@@ -315,7 +315,7 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
 		unset( $editor_settings['__experimentalFeatures']['typography']['fontSizes'] );
 	}
 	if ( isset( $editor_settings['__experimentalFeatures']['typography']['customFontSize'] ) ) {
-		$editor_settings['disableCustomFontSizes'] = $editor_settings['__experimentalFeatures']['typography']['customFontSize'];
+		$editor_settings['disableCustomFontSizes'] = ! $editor_settings['__experimentalFeatures']['typography']['customFontSize'];
 		unset( $editor_settings['__experimentalFeatures']['typography']['customFontSize'] );
 	}
 	if ( isset( $editor_settings['__experimentalFeatures']['typography']['customLineHeight'] ) ) {
