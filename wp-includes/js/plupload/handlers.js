@@ -372,10 +372,12 @@ function wpFileExtensionError( up, file, message ) {
  */
 function copyAttachmentUploadURLClipboard() {
 	var clipboard = new ClipboardJS( '.copy-attachment-url' ),
-	successTimeout;
+		successTimeout;
+
 	clipboard.on( 'success', function( event ) {
 		var triggerElement = jQuery( event.trigger ),
 			successElement = jQuery( '.success', triggerElement.closest( '.copy-to-clipboard-container' ) );
+
 		// Clear the selection and move focus back to the trigger.
 		event.clearSelection();
 		// Handle ClipboardJS focus bug, see https://github.com/zenorocha/clipboard.js/issues/680

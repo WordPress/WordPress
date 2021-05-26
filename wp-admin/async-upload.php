@@ -48,22 +48,27 @@ if ( isset( $_REQUEST['attachment_id'] ) && (int) $_REQUEST['attachment_id'] && 
 
 	switch ( $_REQUEST['fetch'] ) {
 		case 3:
-			echo '<div class="attachment-details">';
-			$thumb_url = wp_get_attachment_image_src( $id, 'thumbnail', true );
-			if ( $thumb_url ) {
-				echo '<img class="pinkynail" src="' . esc_url( $thumb_url[0] ) . '" alt="" />';
-			}
-			// Title shouldn't ever be empty, but use filename just in case.
-			$file    = get_attached_file( $post->ID );
-			$fileurl = wp_get_attachment_url( $post->ID );
-			$title   = $post->post_title ? $post->post_title : wp_basename( $file );
-
-			echo '<div class="filename new"><span class="media-list-title"><strong>' . esc_html( wp_html_excerpt( $title, 60, '&hellip;' ) ) . '</strong></span> <span class="media-list-subtitle">' . basename( $file ) . '</span></div>';
-			echo '</div>';
 			?>
+			<div class="attachment-details">
+				<?php
+				$thumb_url = wp_get_attachment_image_src( $id, 'thumbnail', true );
+				if ( $thumb_url ) {
+					echo '<img class="pinkynail" src="' . esc_url( $thumb_url[0] ) . '" alt="" />';
+				}
+
+				// Title shouldn't ever be empty, but use filename just in case.
+				$file     = get_attached_file( $post->ID );
+				$file_url = wp_get_attachment_url( $post->ID );
+				$title    = $post->post_title ? $post->post_title : wp_basename( $file );
+				?>
+				<div class="filename new">
+					<span class="media-list-title"><strong><?php echo esc_html( wp_html_excerpt( $title, 60, '&hellip;' ) ); ?></strong></span>
+					<span class="media-list-subtitle"><?php echo wp_basename( $file ); ?></span>
+				</div>
+			</div>
 			<div class="attachment-tools">
 				<span class="media-item-copy-container copy-to-clipboard-container edit-attachment">
-					<button type="button" class="button button-small copy-attachment-url" data-clipboard-text="<?php echo $fileurl; ?>"><?php _e( 'Copy URL to clipboard' ); ?></button>
+					<button type="button" class="button button-small copy-attachment-url" data-clipboard-text="<?php echo $file_url; ?>"><?php _e( 'Copy URL to clipboard' ); ?></button>
 					<span class="success hidden" aria-hidden="true"><?php _e( 'Copied!' ); ?></span>
 				</span>
 				<?php
