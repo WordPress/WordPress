@@ -4,7 +4,7 @@ Tested up to: 5.7
 Stable tag: 3.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Tags: blog, one-column, two-columns, right-sidebar, custom-background, custom-header, custom-menu, editor-style, featured-images, flexible-header, footer-widgets, full-width-template, microformats, post-formats, rtl-language-support, sticky-post, theme-options, translation-ready
+Tags: blog, one-column, two-columns, right-sidebar, custom-background, custom-header, custom-menu, editor-style, featured-images, flexible-header, footer-widgets, full-width-template, microformats, post-formats, rtl-language-support, sticky-post, theme-options, translation-ready, block-patterns
 
 == Description ==
 The 2012 theme for WordPress is a fully responsive theme that looks great on any device. Features include a front page template with its own widgets, an optional display font, styling for post formats on both index and single views, and an optional no-sidebar page template. Make it yours with a custom menu, header image, and background.
@@ -39,6 +39,10 @@ Twenty Twelve Theme bundles the following third-party resources:
 HTML5 Shiv v3.7.0, Copyright 2014 Alexander Farkas
 Licenses: MIT/GPL2
 Source: https://github.com/aFarkas/html5shiv
+
+"Fall Leaf Photo" by Tim Sullivan. CC0. https://stocksnap.io/photo/fall-leaf-ZBK0NLVP2B
+"Fall Leaf Photo" by Tim Sullivan. CC0. https://stocksnap.io/photo/fall-leaf-EEGO4GCPQD
+"Autumn City Photo" by Oleg Prokopenko. CC0. https://stocksnap.io/photo/autumn-city-PZP8EWR5MR
 
 == Changelog ==
 
