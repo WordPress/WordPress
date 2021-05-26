@@ -701,15 +701,22 @@ form#tags-filter {
 
 /**
 * Privacy Settings section
+*
+* Note: This section includes selectors from
+* Site Health where duplicate styling is used.
 */
 
 /* General */
 .privacy-settings #wpcontent,
-.privacy-settings.auto-fold #wpcontent {
+.privacy-settings.auto-fold #wpcontent,
+.site-health #wpcontent,
+.site-health.auto-fold #wpcontent {
 	padding-left: 0;
 }
 
-.privacy-settings-header h1 {
+/* Emulates .wrap h1 styling */
+.privacy-settings-header h1,
+.health-check-header h1 {
 	display: inline-block;
 	font-weight: 600;
 	margin: 0 0.8rem 1rem;
@@ -719,18 +726,21 @@ form#tags-filter {
 }
 
 /* Header */
-.privacy-settings-header {
+.privacy-settings-header,
+.health-check-header {
 	text-align: center;
 	margin: 0 0 1rem;
 	background: #fff;
 	border-bottom: 1px solid #dcdcde;
 }
 
-.privacy-settings-title-section {
+.privacy-settings-title-section,
+.health-check-title-section {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	clear: both;
+	padding-top: 8px;
 }
 
 .privacy-settings-tabs-wrapper {
@@ -752,27 +762,32 @@ form#tags-filter {
 	transition: box-shadow 0.5s ease-in-out;
 }
 
-.privacy-settings-tab:nth-child(1) {
+.privacy-settings-tab:nth-child(1),
+.health-check-tab:nth-child(1) {
 	-ms-grid-column: 1; /* IE 11 */
 }
 
-.privacy-settings-tab:nth-child(2) {
+.privacy-settings-tab:nth-child(2),
+.health-check-tab:nth-child(2) {
 	-ms-grid-column: 2; /* IE 11 */
 }
 
-.privacy-settings-tab:focus {
+.privacy-settings-tab:focus,
+.health-check-tab:focus {
 	color: #1d2327;
 	outline: 1px solid #787c82;
 	box-shadow: none;
 }
 
-.privacy-settings-tab.active {
+.privacy-settings-tab.active,
+.health-check-tab.active {
 	box-shadow: inset 0 -3px #3582c4;
 	font-weight: 600;
 }
 
 /* Body */
-.privacy-settings-body {
+.privacy-settings-body,
+.health-check-body {
 	max-width: 800px;
 	margin: 0 auto;
 }
@@ -787,11 +802,13 @@ form#tags-filter {
 }
 
 /* Accordions */
-.privacy-settings-accordion {
+.privacy-settings-accordion,
+.health-check-accordion {
 	border: 1px solid #c3c4c7;
 }
 
-.privacy-settings-accordion-heading {
+.privacy-settings-accordion-heading,
+.health-check-accordion-heading {
 	margin: 0;
 	border-top: 1px solid #c3c4c7;
 	font-size: inherit;
@@ -800,11 +817,13 @@ form#tags-filter {
 	color: inherit;
 }
 
-.privacy-settings-accordion-heading:first-child {
+.privacy-settings-accordion-heading:first-child,
+.health-check-accordion-heading:first-child {
 	border-top: none;
 }
 
-.privacy-settings-accordion-trigger {
+.privacy-settings-accordion-trigger,
+.health-check-accordion-trigger {
 	background: #fff;
 	border: 0;
 	color: #2c3338;
@@ -819,14 +838,19 @@ form#tags-filter {
 	width: 100%;
 	align-items: center;
 	justify-content: space-between;
+	-webkit-user-select: auto;
+	user-select: auto;
 }
 
 .privacy-settings-accordion-trigger:hover,
-.privacy-settings-accordion-trigger:active {
+.privacy-settings-accordion-trigger:active,
+.health-check-accordion-trigger:hover,
+.health-check-accordion-trigger:active {
 	background: #f6f7f7;
 }
 
-.privacy-settings-accordion-trigger:focus {
+.privacy-settings-accordion-trigger:focus,
+.health-check-accordion-trigger:focus {
 	color: #1d2327;
 	border: none;
 	box-shadow: none;
@@ -835,14 +859,17 @@ form#tags-filter {
 	background-color: #f6f7f7;
 }
 
-.privacy-settings-accordion-trigger .title {
+.privacy-settings-accordion-trigger .title,
+.health-check-accordion-trigger .title {
 	pointer-events: none;
 	font-weight: 600;
 	flex-grow: 1;
 }
 
 .privacy-settings-accordion-trigger .icon,
-.privacy-settings-view-read .icon {
+.privacy-settings-view-read .icon,
+.health-check-accordion-trigger .icon,
+.site-health-view-passed .icon {
 	border: solid #50575e;
 	border-width: 0 2px 2px 0;
 	height: 0.5rem;
@@ -854,53 +881,68 @@ form#tags-filter {
 	width: 0.5rem;
 }
 
-.privacy-settings-accordion-trigger .badge {
+.privacy-settings-accordion-trigger .badge,
+.health-check-accordion-trigger .badge {
 	padding: 0.1rem 0.5rem 0.15rem;
 	color: #2c3338;
 	font-weight: 600;
+}
+
+.privacy-settings-accordion-trigger .badge {
 	margin-left: 0.5rem;
 }
 
-.privacy-settings-accordion-trigger .badge.blue {
+.privacy-settings-accordion-trigger .badge.blue,
+.health-check-accordion-trigger .badge.blue {
 	border: 1px solid #72aee6;
 }
 
-.privacy-settings-accordion-trigger .badge.orange {
+.privacy-settings-accordion-trigger .badge.orange,
+.health-check-accordion-trigger .badge.orange {
 	border: 1px solid #dba617;
 }
 
-.privacy-settings-accordion-trigger .badge.red {
+.privacy-settings-accordion-trigger .badge.red,
+.health-check-accordion-trigger .badge.red {
 	border: 1px solid #e65054;
 }
 
-.privacy-settings-accordion-trigger .badge.green {
+.privacy-settings-accordion-trigger .badge.green,
+.health-check-accordion-trigger .badge.green {
 	border: 1px solid #00ba37;
 }
 
-.privacy-settings-accordion-trigger .badge.purple {
+.privacy-settings-accordion-trigger .badge.purple,
+.health-check-accordion-trigger .badge.purple {
 	border: 1px solid #2271b1;
 }
 
-.privacy-settings-accordion-trigger .badge.gray {
+.privacy-settings-accordion-trigger .badge.gray,
+.health-check-accordion-trigger .badge.gray {
 	border: 1px solid #c3c4c7;
 }
 
 .privacy-settings-accordion-trigger[aria-expanded="true"] .icon,
-.privacy-settings-view-passed[aria-expanded="true"] .icon {
+.privacy-settings-view-passed[aria-expanded="true"] .icon,
+.health-check-accordion-trigger[aria-expanded="true"] .icon,
+.site-health-view-passed[aria-expanded="true"] .icon {
 	transform: translateY(-30%) rotate(-135deg)
 }
 
-.privacy-settings-accordion-panel {
+.privacy-settings-accordion-panel,
+.health-check-accordion-panel {
 	margin: 0;
 	padding: 1em 1.5em;
 	background: #fff;
 }
 
-.privacy-settings-accordion-panel[hidden] {
+.privacy-settings-accordion-panel[hidden],
+.health-check-accordion-panel[hidden] {
 	display: none;
 }
 
-.privacy-settings-accordion-panel a .dashicons {
+.privacy-settings-accordion-panel a .dashicons,
+.health-check-accordion-panel a .dashicons {
 	text-decoration: none;
 }
 
@@ -945,16 +987,19 @@ form#tags-filter {
 /* Media queries */
 @media screen and (max-width: 782px) {
 
-	.privacy-settings-body {
+	.privacy-settings-body,
+	.health-check-body {
 		margin: 0 12px;
 		width: auto;
 	}
 
-	.privacy-settings .notice {
+	.privacy-settings .notice,
+	.site-health .notice {
 		margin: 5px 10px 15px;
 	}
 
-	.privacy-settings .update-nag {
+	.privacy-settings .update-nag,
+	.site-health .update-nag {
 		margin-right: 10px;
 		margin-left: 10px;
 	}
@@ -971,7 +1016,8 @@ form#tags-filter {
 
 @media only screen and (max-width: 1004px) {
 
-	.privacy-settings-body {
+	.privacy-settings-body,
+	.health-check-body {
 		margin: 0 22px;
 		width: auto;
 	}
