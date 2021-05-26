@@ -44,6 +44,12 @@ Genericons icon font, Copyright 2013-2017 Automattic.com
 License: GNU GPL, Version 2 (or later)
 Source: http://www.genericons.com
 
+Images
+Cylinder Interior: https://www.flickr.com/photos/nasacommons/14052998066/in/album-72157644439092941/. Rick Guidice, NASA Ames Research Center.
+Bernal Cutaway: https://www.flickr.com/photos/nasacommons/14052996976/in/album-72157644439092941/ Don Davis, NASA Ames Research Center.
+Torus Interior: https://www.flickr.com/photos/nasacommons/14076102195/in/album-72157644439092941/ Rick Guidice, NASA Ames Research Center.
+Toroidal Colony: https://www.flickr.com/photos/nasacommons/13889485757/in/album-72157644439092941/ Rick Guidice, NASA Ames Research Center.
+
 == Changelog ==
 
 = 3.3 =
