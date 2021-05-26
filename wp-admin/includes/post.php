@@ -763,6 +763,7 @@ function get_default_post_to_edit( $post_type = 'post', $create_in_db = false ) 
  *
  * @since 2.0.0
  * @since 5.2.0 Added the `$type` parameter.
+ * @since 5.8.0 Added the `$status` parameter.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
@@ -770,15 +771,17 @@ function get_default_post_to_edit( $post_type = 'post', $create_in_db = false ) 
  * @param string $content Optional post content.
  * @param string $date    Optional post date.
  * @param string $type    Optional post type.
+ * @param string $status  Optional post status.
  * @return int Post ID if post exists, 0 otherwise.
  */
-function post_exists( $title, $content = '', $date = '', $type = '' ) {
+function post_exists( $title, $content = '', $date = '', $type = '', $status = '' ) {
 	global $wpdb;
 
 	$post_title   = wp_unslash( sanitize_post_field( 'post_title', $title, 0, 'db' ) );
 	$post_content = wp_unslash( sanitize_post_field( 'post_content', $content, 0, 'db' ) );
 	$post_date    = wp_unslash( sanitize_post_field( 'post_date', $date, 0, 'db' ) );
 	$post_type    = wp_unslash( sanitize_post_field( 'post_type', $type, 0, 'db' ) );
+	$post_status  = wp_unslash( sanitize_post_field( 'post_status', $status, 0, 'db' ) );
 
 	$query = "SELECT ID FROM $wpdb->posts WHERE 1=1";
 	$args  = array();
@@ -801,6 +804,11 @@ function post_exists( $title, $content = '', $date = '', $type = '' ) {
 	if ( ! empty( $type ) ) {
 		$query .= ' AND post_type = %s';
 		$args[] = $post_type;
+	}
+
+	if ( ! empty( $status ) ) {
+		$query .= ' AND post_status = %s';
+		$args[] = $post_status;
 	}
 
 	if ( ! empty( $args ) ) {
