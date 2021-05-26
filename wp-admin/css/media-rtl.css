@@ -52,6 +52,14 @@
 	max-width: 128px;
 }
 
+.media-list-subtitle {
+	display: block;
+}
+
+.media-list-title {
+	display: block;
+}
+
 #wpbody-content #async-upload-wrap a {
 	display: none;
 }
@@ -97,13 +105,45 @@
 	padding: 0 5px 0 0;
 }
 
-.media-item .edit-attachment,
 .describe-toggle-on,
 .describe-toggle-off {
 	display: block;
 	line-height: 2.76923076;
 	float: left;
 	margin-left: 10px;
+}
+
+.media-item {
+	display: grid;
+	grid-template-columns: repeat( 2, 1fr );
+}
+
+.media-item .attachment-tools {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+
+.media-item .edit-attachment {
+	padding: 14px 0;
+	display: block;
+	margin-left: 10px;
+}
+
+.media-item .edit-attachment.copy-to-clipboard-container {
+	margin-top: 0;
+}
+
+.media-item-copy-container .success {
+	line-height: 0;
+}
+
+.media-item button .copy-attachment-url {
+	margin-top:14px;
+}
+
+.media-item .copy-to-clipboard-container {
+	margin-top:7px;
 }
 
 .media-item .describe-toggle-off,
@@ -116,7 +156,7 @@
 }
 
 .media-upload-form .media-item {
-	min-height: 36px;
+	min-height: 70px;
 	margin-bottom: 1px;
 	position: relative;
 	width: 100%;
@@ -133,16 +173,16 @@
 }
 
 .media-item .filename {
-	line-height: 2.76923076;
+	padding: 14px 0;
 	overflow: hidden;
 	margin-right: 6px;
 }
 
 .media-item .pinkynail {
 	float: right;
-	margin: 2px 3px 0 10px;
-	max-width: 40px;
-	max-height: 32px;
+	margin: 0 0 0 10px;
+	max-height: 70px;
+	max-width: 70px;
 }
 
 .media-item .startopen,
