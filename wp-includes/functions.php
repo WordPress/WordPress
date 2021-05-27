@@ -4593,7 +4593,7 @@ function wp_array_slice_assoc( $array, $keys ) {
  *             ),
  *         ),
  *     );
- *     _wp_array_get( $array, array( 'a', 'b', 'c' );
+ *     _wp_array_get( $array, array( 'a', 'b', 'c' ) );
  *
  * @internal
  *
@@ -4635,7 +4635,7 @@ function _wp_array_get( $array, $path, $default = null ) {
  * Example usage:
  *
  *     $array = array();
- *     _wp_array_set( $array, array( 'a', 'b', 'c', 1 );
+ *     _wp_array_set( $array, array( 'a', 'b', 'c', 1 ) );
  *
  *     $array becomes:
  *     array(
