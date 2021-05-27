@@ -50,9 +50,7 @@ wp_add_inline_script(
 
 wp_enqueue_script( 'wp-edit-widgets' );
 wp_enqueue_script( 'admin-widgets' );
-wp_enqueue_script( 'wp-format-library' );
 wp_enqueue_style( 'wp-edit-widgets' );
-wp_enqueue_style( 'wp-format-library' );
 
 /** This action is documented in edit-form-blocks.php */
 do_action( 'enqueue_block_editor_assets' );
