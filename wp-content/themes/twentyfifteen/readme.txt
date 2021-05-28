@@ -5,7 +5,7 @@ Tested up to: 5.8
 Version: 2.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Tags: blog, two-columns, left-sidebar, accessibility-ready, custom-background, custom-colors, custom-header, custom-logo, custom-menu, editor-style, featured-images, microformats, post-formats, rtl-language-support, sticky-post, threaded-comments, translation-ready
+Tags: blog, two-columns, left-sidebar, accessibility-ready, custom-background, custom-colors, custom-header, custom-logo, custom-menu, editor-style, featured-images, microformats, post-formats, rtl-language-support, sticky-post, threaded-comments, translation-ready, block-patterns
 
 == Description ==
 Our 2015 default theme is clean, blog-focused, and designed for clarity. Twenty Fifteen's simple, straightforward typography is readable on a wide variety of screen sizes, and suitable for multiple languages. We designed it using a mobile-first approach, meaning your content takes center-stage, regardless of whether your visitors arrive by smartphone, tablet, laptop, or desktop computer.
@@ -52,6 +52,12 @@ Source: https://github.com/aFarkas/html5shiv
 Genericons icon font, Copyright 2013-2017 Automattic.com
 License: GNU GPL, Version 2 (or later)
 Source: http://www.genericons.com
+
+Block Pattern Images
+License: CC0
+Source: https://stocksnap.io/photo/purple-yellow-ACF0693B9C
+        https://stocksnap.io/photo/sky-sunset-BE7A7709D0
+        https://stocksnap.io/photo/sunset-pier-77F43EA43C
 
 == Changelog ==
 

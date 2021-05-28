@@ -582,3 +582,10 @@ require get_template_directory() . '/inc/template-tags.php';
  * @since Twenty Fifteen 1.0
  */
 require get_template_directory() . '/inc/customizer.php';
+
+/**
+ * Block Patterns.
+ *
+ * @since Twenty Fifteen 3.0
+ */
+require get_template_directory() . '/inc/block-patterns.php';
