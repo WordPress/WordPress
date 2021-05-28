@@ -678,6 +678,9 @@ require get_template_directory() . '/inc/template-tags.php';
 // Add Customizer functionality.
 require get_template_directory() . '/inc/customizer.php';
 
+// Add support for block patterns.
+require get_template_directory() . '/inc/block-patterns.php';
+
 /*
  * Add Featured Content functionality.
  *

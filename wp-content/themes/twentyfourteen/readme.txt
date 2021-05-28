@@ -5,7 +5,7 @@ Tested up to: 5.8
 Stable tag: 3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Tags: blog, news, two-columns, three-columns, left-sidebar, right-sidebar, custom-background, custom-header, custom-menu, editor-style, featured-images, flexible-header, footer-widgets, full-width-template, microformats, post-formats, rtl-language-support, sticky-post, theme-options, translation-ready, accessibility-ready
+Tags: blog, news, two-columns, three-columns, left-sidebar, right-sidebar, custom-background, custom-header, custom-menu, editor-style, featured-images, flexible-header, footer-widgets, full-width-template, microformats, post-formats, rtl-language-support, sticky-post, theme-options, translation-ready, accessibility-ready, block-patterns
 
 == Description ==
 In 2014, our default theme lets you create a responsive magazine website with a sleek, modern design. Feature your favorite homepage content in either a grid or a slider. Use the three widget areas to customize your website, and change your content's layout with a full-width page template and a contributor page to show off your authors. Creating a magazine website with WordPress has never been easier.
@@ -47,6 +47,14 @@ Source: https://github.com/aFarkas/html5shiv
 Genericons icon font, Copyright 2013-2017 Automattic.com
 License: GNU GPL, Version 2 (or later)
 Source: http://www.genericons.com
+
+Photos from Stocksnap, used in block patterns.
+License: CC0
+Source: https://stocksnap.io/photo/fog-mountain-ZKN6UKFKEO
+        https://stocksnap.io/photo/ocean-beach-AEZJXB5LL5
+        https://stocksnap.io/photo/architecture-building-BIL5D73PRC
+        https://stocksnap.io/photo/sea-ocean-G5GBM522C6
+        https://stocksnap.io/photo/guy-man-7CFLDIWXK5
 
 == Changelog ==
 
