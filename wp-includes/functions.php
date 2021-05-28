@@ -4717,18 +4717,29 @@ function wp_is_numeric_array( $data ) {
 /**
  * Filters a list of objects, based on a set of key => value arguments.
  *
+ * Retrieves the objects from the list that match the given arguments.
+ * Key represents property name, and value represents property value.
+ *
+ * If an object has more properties than those specified in arguments,
+ * that will not disqualify it. When using the 'AND' operator,
+ * any missing properties will disqualify it.
+ *
+ * When using the `$field` argument, this function can also retrieve
+ * a particular field from all matching objects, whereas wp_list_filter()
+ * only does the filtering.
+ *
  * @since 3.0.0
  * @since 4.7.0 Uses `WP_List_Util` class.
  *
- * @param array       $list     An array of objects to filter
+ * @param array       $list     An array of objects to filter.
  * @param array       $args     Optional. An array of key => value arguments to match
  *                              against each object. Default empty array.
- * @param string      $operator Optional. The logical operation to perform. 'or' means
- *                              only one element from the array needs to match; 'and'
- *                              means all elements must match; 'not' means no elements may
- *                              match. Default 'and'.
- * @param bool|string $field    A field from the object to place instead of the entire object.
- *                              Default false.
+ * @param string      $operator Optional. The logical operation to perform. 'AND' means
+ *                              all elements from the array must match. 'OR' means only
+ *                              one element needs to match. 'NOT' means no elements may
+ *                              match. Default 'AND'.
+ * @param bool|string $field    Optional. A field from the object to place instead
+ *                              of the entire object. Default false.
  * @return array A list of objects or object fields.
  */
 function wp_filter_object_list( $list, $args = array(), $operator = 'and', $field = false ) {
@@ -4750,6 +4761,16 @@ function wp_filter_object_list( $list, $args = array(), $operator = 'and', $fiel
 /**
  * Filters a list of objects, based on a set of key => value arguments.
  *
+ * Retrieves the objects from the list that match the given arguments.
+ * Key represents property name, and value represents property value.
+ *
+ * If an object has more properties than those specified in arguments,
+ * that will not disqualify it. When using the 'AND' operator,
+ * any missing properties will disqualify it.
+ *
+ * If you want to retrieve a particular field from all matching objects,
+ * use wp_filter_object_list() instead.
+ *
  * @since 3.1.0
  * @since 4.7.0 Uses `WP_List_Util` class.
  *
@@ -4768,6 +4789,7 @@ function wp_list_filter( $list, $args = array(), $operator = 'AND' ) {
 	}
 
 	$util = new WP_List_Util( $list );
+
 	return $util->filter( $args, $operator );
 }
 
@@ -4781,8 +4803,8 @@ function wp_list_filter( $list, $args = array(), $operator = 'AND' ) {
  * @since 4.0.0 $index_key parameter added.
  * @since 4.7.0 Uses `WP_List_Util` class.
  *
- * @param array      $list      List of objects or arrays
- * @param int|string $field     Field from the object to place instead of the entire object
+ * @param array      $list      List of objects or arrays.
+ * @param int|string $field     Field from the object to place instead of the entire object.
  * @param int|string $index_key Optional. Field from the object to use as keys for the new array.
  *                              Default null.
  * @return array Array of found values. If `$index_key` is set, an array of found values with keys
@@ -4791,6 +4813,7 @@ function wp_list_filter( $list, $args = array(), $operator = 'AND' ) {
  */
 function wp_list_pluck( $list, $field, $index_key = null ) {
 	$util = new WP_List_Util( $list );
+
 	return $util->pluck( $field, $index_key );
 }
 
@@ -4813,6 +4836,7 @@ function wp_list_sort( $list, $orderby = array(), $order = 'ASC', $preserve_keys
 	}
 
 	$util = new WP_List_Util( $list );
+
 	return $util->sort( $orderby, $order, $preserve_keys );
 }
 
