@@ -13,16 +13,22 @@
  * @return string Rendered block.
  */
 function render_block_core_legacy_widget( $attributes ) {
+	global $wp_widget_factory;
+
 	if ( isset( $attributes['id'] ) ) {
-		$sidebar_id = gutenberg_find_widgets_sidebar( $attributes['id'] );
-		return gutenberg_render_widget( $attributes['id'], $sidebar_id );
+		$sidebar_id = wp_find_widgets_sidebar( $attributes['id'] );
+		return wp_render_widget( $attributes['id'], $sidebar_id );
 	}
 
 	if ( ! isset( $attributes['idBase'] ) ) {
 		return '';
 	}
 
-	$widget_object = gutenberg_get_widget_object( $attributes['idBase'] );
+	if ( method_exists( $wp_widget_factory, 'get_widget_object' ) ) {
+		$widget_object = $wp_widget_factory->get_widget_object( $attributes['idBase'] );
+	} else {
+		$widget_object = gutenberg_get_widget_object( $attributes['idBase'] );
+	}
 
 	if ( ! $widget_object ) {
 		return '';
@@ -44,25 +50,21 @@ function render_block_core_legacy_widget( $attributes ) {
 }
 
 /**
- * Registers the 'core/legacy-widget' block.
+ * On application init this does two things:
+ *
+ * - Registers the 'core/legacy-widget' block.
+ * - Intercepts any request with legacy-widget-preview in the query param and,
+ *   if set, renders a page containing a preview of the requested Legacy Widget
+ *   block.
  */
-function register_block_core_legacy_widget() {
+function init_legacy_widget_block() {
 	register_block_type_from_metadata(
 		__DIR__ . '/legacy-widget',
 		array(
 			'render_callback' => 'render_block_core_legacy_widget',
 		)
 	);
-}
 
-add_action( 'init', 'register_block_core_legacy_widget', 20 );
-
-/**
- * Intercepts any request with legacy-widget-preview in the query param and, if
- * set, renders a page containing a preview of the requested Legacy Widget
- * block.
- */
-function handle_legacy_widget_preview_iframe() {
 	if ( empty( $_GET['legacy-widget-preview'] ) ) {
 		return;
 	}
@@ -108,4 +110,4 @@ function handle_legacy_widget_preview_iframe() {
 	exit;
 }
 
-add_action( 'init', 'handle_legacy_widget_preview_iframe', 21 );
+add_action( 'init', 'init_legacy_widget_block' );
