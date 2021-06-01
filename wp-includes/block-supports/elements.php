@@ -17,7 +17,10 @@
  * @return string                Filtered block content.
  */
 function wp_render_elements_support( $block_content, $block ) {
-	$link_color = _wp_array_get( $block['attrs'], array( 'style', 'elements', 'link', 'color', 'text' ), null );
+	$link_color = null;
+	if ( ! empty( $block['attrs'] ) ) {
+		$link_color = _wp_array_get( $block['attrs'], array( 'style', 'elements', 'link', 'color', 'text' ), null );
+	}
 
 	/*
 	* For now we only care about link color.

@@ -730,19 +730,7 @@ body.is-fullscreen-mode .edit-widgets-notices__snackbar {
 }
 .edit-widgets-welcome-guide__image {
   background: #00a0d2;
-  height: 240px;
   margin: 0 0 16px;
-}
-.edit-widgets-welcome-guide__image__prm-r {
-  display: none;
-}
-@media (prefers-reduced-motion: reduce) {
-  .edit-widgets-welcome-guide__image__prm-r {
-    display: block;
-  }
-  .edit-widgets-welcome-guide__image__prm-np {
-    display: none;
-  }
 }
 .edit-widgets-welcome-guide__heading {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;

@@ -21,7 +21,7 @@ function render_block_core_social_link( $attributes, $content, $block ) {
 	$url     = ( isset( $attributes['url'] ) ) ? $attributes['url'] : false;
 	$label   = ( isset( $attributes['label'] ) ) ? $attributes['label'] : sprintf(
 		/* translators: %1$s: Social-network name. %2$s: URL. */
-		__( '%1$s: %2$s', 'gutenberg' ),
+		__( '%1$s: %2$s' ),
 		block_core_social_link_get_name( $service ),
 		$url
 	);

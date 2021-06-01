@@ -142,6 +142,7 @@
 .wp-block-latest-posts__featured-image img {
   height: auto;
   width: auto;
+  max-width: 100%;
 }
 .wp-block-latest-posts__featured-image.alignleft {
   /*rtl:ignore*/

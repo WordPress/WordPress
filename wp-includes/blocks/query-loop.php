@@ -16,7 +16,7 @@
  */
 function render_block_core_query_loop( $attributes, $content, $block ) {
 	$page_key = isset( $block->context['queryId'] ) ? 'query-' . $block->context['queryId'] . '-page' : 'query-page';
-	$page     = empty( $_GET[ $page_key ] ) ? 1 : filter_var( $_GET[ $page_key ], FILTER_VALIDATE_INT );
+	$page     = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ];
 
 	$query_args = build_query_vars_from_query_block( $block, $page );
 	// Override the custom query with the global query if needed.

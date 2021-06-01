@@ -270,21 +270,13 @@
   z-index: 7;
 }
 
-.customize-widgets-welcome-guide__image {
+.customize-widgets-welcome-guide__image__wrapper {
   background: #00a0d2;
-  height: 240px;
-  margin: 0 0 8px;
+  text-align: center;
+  margin-bottom: 8px;
 }
-.customize-widgets-welcome-guide__image__prm-r {
-  display: none;
-}
-@media (prefers-reduced-motion: reduce) {
-  .customize-widgets-welcome-guide__image__prm-r {
-    display: block;
-  }
-  .customize-widgets-welcome-guide__image__prm-np {
-    display: none;
-  }
+.customize-widgets-welcome-guide__image {
+  height: auto;
 }
 .wrap .customize-widgets-welcome-guide__heading {
   font-size: 18px;
@@ -309,8 +301,31 @@
   overflow: unset;
   min-height: 100%;
   background-color: #fff;
+  padding-top: 10px !important;
+}
+#customize-theme-controls .customize-pane-child.customize-widgets__sidebar-section .customize-section-title {
+  position: static !important;
+  top: 0 !important;
+  width: unset !important;
 }
 
 .components-modal__screen-overlay {
   z-index: 999999;
+}
+
+.customize-control-sidebar_block_editor,
+.customize-widgets-layout__inspector,
+.customize-widgets-popover {
+  box-sizing: border-box;
+}
+.customize-control-sidebar_block_editor *,
+.customize-control-sidebar_block_editor *::before,
+.customize-control-sidebar_block_editor *::after,
+.customize-widgets-layout__inspector *,
+.customize-widgets-layout__inspector *::before,
+.customize-widgets-layout__inspector *::after,
+.customize-widgets-popover *,
+.customize-widgets-popover *::before,
+.customize-widgets-popover *::after {
+  box-sizing: inherit;
 }

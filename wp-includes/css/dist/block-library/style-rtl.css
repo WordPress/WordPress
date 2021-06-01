@@ -1207,6 +1207,7 @@ ol.wp-block-latest-comments {
 .wp-block-latest-posts__featured-image img {
   height: auto;
   width: auto;
+  max-width: 100%;
 }
 .wp-block-latest-posts__featured-image.alignleft {
   margin-right: 1em;
@@ -2772,6 +2773,9 @@ pre.wp-block-verse {
 .wp-block-post-featured-image img {
   max-width: 100%;
   height: auto;
+}
+.wp-block-post-featured-image.alignwide img, .wp-block-post-featured-image.alignfull img {
+  width: 100%;
 }
 
 :root {

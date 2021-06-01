@@ -540,7 +540,7 @@ function getBlockStyles(state, name) {
  * @return {(WPBlockVariation[]|void)} Block variations.
  */
 
-function getBlockVariations(state, blockName, scope) {
+const getBlockVariations = Object(rememo["a" /* default */])((state, blockName, scope) => {
   const variations = state.blockVariations[blockName];
 
   if (!variations || !scope) {
@@ -548,10 +548,11 @@ function getBlockVariations(state, blockName, scope) {
   }
 
   return variations.filter(variation => {
-    // For backward compatibility reasons, variation's scope defaults to `block` and `inserter` when not set.
+    // For backward compatibility reasons, variation's scope defaults to
+    // `block` and `inserter` when not set.
     return (variation.scope || ['block', 'inserter']).includes(scope);
   });
-}
+}, (state, blockName) => [state.blockVariations[blockName]]);
 /**
  * Returns the active block variation for a given block based on its attributes.
  * Variations are determined by their `isActive` property.

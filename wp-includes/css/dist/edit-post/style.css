@@ -835,8 +835,40 @@ body.is-fullscreen-mode .interface-interface-skeleton {
   width: 100%;
   align-items: center;
 }
-.edit-post-template-top-area .components-button.is-small {
-  height: 24px;
+.edit-post-template-top-area .edit-post-template-title,
+.edit-post-template-top-area .edit-post-template-post-title {
+  padding: 0;
+  text-decoration: none;
+  height: auto;
+}
+.edit-post-template-top-area .edit-post-template-title::before,
+.edit-post-template-top-area .edit-post-template-post-title::before {
+  height: 100%;
+}
+.edit-post-template-top-area .edit-post-template-title.has-icon svg,
+.edit-post-template-top-area .edit-post-template-post-title.has-icon svg {
+  order: 1;
+  margin-right: 0;
+}
+.edit-post-template-top-area .edit-post-template-title {
+  color: #1e1e1e;
+}
+.edit-post-template-top-area .edit-post-template-post-title {
+  margin-top: 4px;
+  max-width: 160px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+.edit-post-template-top-area .edit-post-template-post-title::before {
+  left: 0;
+  right: 0;
+}
+@media (min-width: 1080px) {
+  .edit-post-template-top-area .edit-post-template-post-title {
+    max-width: none;
+  }
 }
 
 .edit-post-template-top-area__popover .components-popover__content {
@@ -1726,19 +1758,7 @@ h2.edit-post-template-summary__title {
 }
 .edit-post-welcome-guide__image {
   background: #00a0d2;
-  height: 240px;
   margin: 0 0 16px;
-}
-.edit-post-welcome-guide__image__prm-r {
-  display: none;
-}
-@media (prefers-reduced-motion: reduce) {
-  .edit-post-welcome-guide__image__prm-r {
-    display: block;
-  }
-  .edit-post-welcome-guide__image__prm-np {
-    display: none;
-  }
 }
 .edit-post-welcome-guide__heading {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;

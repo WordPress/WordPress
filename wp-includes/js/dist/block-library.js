@@ -3450,7 +3450,7 @@ function index_module_classNames() {
   }).join(' ').trim();
 }
 
-var css_248z = ".reactEasyCrop_Container {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  overflow: hidden;\n  user-select: none;\n  touch-action: none;\n  cursor: move;\n}\n\n.reactEasyCrop_Image,\n.reactEasyCrop_Video {\n  max-width: 100%;\n  max-height: 100%;\n  margin: auto;\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  will-change: transform; /* this improves performances and prevent painting issues on iOS Chrome */\n}\n\n.reactEasyCrop_CropArea {\n  position: absolute;\n  left: 50%;\n  top: 50%;\n  transform: translate(-50%, -50%);\n  border: 1px solid rgba(255, 255, 255, 0.5);\n  box-sizing: border-box;\n  box-shadow: 0 0 0 9999em;\n  color: rgba(0, 0, 0, 0.5);\n  overflow: hidden;\n}\n\n.reactEasyCrop_CropAreaRound {\n  border-radius: 50%;\n}\n\n.reactEasyCrop_CropAreaGrid::before {\n  content: ' ';\n  box-sizing: border-box;\n  position: absolute;\n  border: 1px solid rgba(255, 255, 255, 0.5);\n  top: 0;\n  bottom: 0;\n  left: 33.33%;\n  right: 33.33%;\n  border-top: 0;\n  border-bottom: 0;\n}\n\n.reactEasyCrop_CropAreaGrid::after {\n  content: ' ';\n  box-sizing: border-box;\n  position: absolute;\n  border: 1px solid rgba(255, 255, 255, 0.5);\n  top: 33.33%;\n  bottom: 33.33%;\n  left: 0;\n  right: 0;\n  border-left: 0;\n  border-right: 0;\n}\n";
+var css_248z = ".reactEasyCrop_Container {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  overflow: hidden;\n  user-select: none;\n  touch-action: none;\n  cursor: move;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n\n.reactEasyCrop_Image,\n.reactEasyCrop_Video {\n  will-change: transform; /* this improves performances and prevent painting issues on iOS Chrome */\n}\n\n.reactEasyCrop_Contain {\n  max-width: 100%;\n  max-height: 100%;\n  margin: auto;\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n}\n.reactEasyCrop_Cover_Horizontal {\n  width: 100%;\n  height: auto;\n}\n.reactEasyCrop_Cover_Vertical {\n  width: auto;\n  height: 100%;\n}\n\n.reactEasyCrop_CropArea {\n  position: absolute;\n  left: 50%;\n  top: 50%;\n  transform: translate(-50%, -50%);\n  border: 1px solid rgba(255, 255, 255, 0.5);\n  box-sizing: border-box;\n  box-shadow: 0 0 0 9999em;\n  color: rgba(0, 0, 0, 0.5);\n  overflow: hidden;\n}\n\n.reactEasyCrop_CropAreaRound {\n  border-radius: 50%;\n}\n\n.reactEasyCrop_CropAreaGrid::before {\n  content: ' ';\n  box-sizing: border-box;\n  position: absolute;\n  border: 1px solid rgba(255, 255, 255, 0.5);\n  top: 0;\n  bottom: 0;\n  left: 33.33%;\n  right: 33.33%;\n  border-top: 0;\n  border-bottom: 0;\n}\n\n.reactEasyCrop_CropAreaGrid::after {\n  content: ' ';\n  box-sizing: border-box;\n  position: absolute;\n  border: 1px solid rgba(255, 255, 255, 0.5);\n  top: 33.33%;\n  bottom: 33.33%;\n  left: 0;\n  right: 0;\n  border-left: 0;\n  border-right: 0;\n}\n";
 
 var MIN_ZOOM = 1;
 var MAX_ZOOM = 3;
@@ -3903,7 +3903,8 @@ function (_super) {
         _d = _a.classes,
         containerClassName = _d.containerClassName,
         cropAreaClassName = _d.cropAreaClassName,
-        mediaClassName = _d.mediaClassName;
+        mediaClassName = _d.mediaClassName,
+        objectFit = _a.objectFit;
     return /*#__PURE__*/external_React_default.a.createElement("div", {
       onMouseDown: this.onMouseDown,
       onTouchStart: this.onTouchStart,
@@ -3915,7 +3916,7 @@ function (_super) {
       className: index_module_classNames('reactEasyCrop_Container', containerClassName)
     }, image ? /*#__PURE__*/external_React_default.a.createElement("img", __assign({
       alt: "",
-      className: index_module_classNames('reactEasyCrop_Image', mediaClassName)
+      className: index_module_classNames('reactEasyCrop_Image', objectFit === 'contain' && 'reactEasyCrop_Contain', objectFit === 'horizontal-cover' && 'reactEasyCrop_Cover_Horizontal', objectFit === 'vertical-cover' && 'reactEasyCrop_Cover_Vertical', mediaClassName)
     }, mediaProps, {
       src: image,
       ref: function ref(el) {
@@ -3929,7 +3930,7 @@ function (_super) {
       autoPlay: true,
       loop: true,
       muted: true,
-      className: index_module_classNames('reactEasyCrop_Video', mediaClassName)
+      className: index_module_classNames('reactEasyCrop_Video', objectFit === 'contain' && 'reactEasyCrop_Contain', objectFit === 'horizontal-cover' && 'reactEasyCrop_Cover_Horizontal', objectFit === 'vertical-cover' && 'reactEasyCrop_Cover_Vertical', mediaClassName)
     }, mediaProps, {
       src: video,
       ref: function ref(el) {
@@ -3957,6 +3958,7 @@ function (_super) {
     maxZoom: MAX_ZOOM,
     minZoom: MIN_ZOOM,
     cropShape: 'rect',
+    objectFit: 'contain',
     showGrid: true,
     style: {},
     classes: {},
@@ -4681,13 +4683,15 @@ function Image({
   onSelectImage,
   onSelectURL,
   onUploadError,
-  containerRef
+  containerRef,
+  clientId
 }) {
   const captionRef = Object(external_wp_element_["useRef"])();
   const prevUrl = Object(external_wp_compose_["usePrevious"])(url);
   const {
-    block,
-    currentId,
+    getBlock
+  } = Object(external_wp_data_["useSelect"])(external_wp_blockEditor_["store"]);
+  const {
     image,
     multiImageSelection
   } = Object(external_wp_data_["useSelect"])(select => {
@@ -4696,16 +4700,12 @@ function Image({
     } = select(external_wp_coreData_["store"]);
     const {
       getMultiSelectedBlockClientIds,
-      getBlockName,
-      getSelectedBlock,
-      getSelectedBlockClientId
+      getBlockName
     } = select(external_wp_blockEditor_["store"]);
     const multiSelectedClientIds = getMultiSelectedBlockClientIds();
     return {
-      block: getSelectedBlock(),
-      currentId: getSelectedBlockClientId(),
       image: id && isSelected ? getMedia(id) : null,
-      multiImageSelection: multiSelectedClientIds.length && multiSelectedClientIds.every(clientId => getBlockName(clientId) === 'core/image')
+      multiImageSelection: multiSelectedClientIds.length && multiSelectedClientIds.every(_clientId => getBlockName(_clientId) === 'core/image')
     };
   }, [id, isSelected]);
   const {
@@ -4867,6 +4867,11 @@ function Image({
   }, [isSelected]);
   const canEditImage = id && naturalWidth && naturalHeight && imageEditing;
   const allowCrop = !multiImageSelection && canEditImage && !isEditingImage;
+
+  function switchToCover() {
+    replaceBlocks(clientId, Object(external_wp_blocks_["switchToBlockType"])(getBlock(clientId), 'core/cover'));
+  }
+
   const controls = Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockControls"], {
     group: "block"
   }, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockAlignmentControl"], {
@@ -4892,7 +4897,7 @@ function Image({
   }), !multiImageSelection && coverBlockExists && Object(external_wp_element_["createElement"])(external_wp_components_["ToolbarButton"], {
     icon: overlay_text,
     label: Object(external_wp_i18n_["__"])('Add text over image'),
-    onClick: () => replaceBlocks(currentId, Object(external_wp_blocks_["switchToBlockType"])(block, 'core/cover'))
+    onClick: switchToCover
   })), !multiImageSelection && !isEditingImage && Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockControls"], {
     group: "other"
   }, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["MediaReplaceFlow"], {
@@ -5147,7 +5152,8 @@ function ImageEdit({
   noticeUI,
   insertBlocksAfter,
   noticeOperations,
-  onReplace
+  onReplace,
+  clientId
 }) {
   const {
     url = '',
@@ -5362,7 +5368,8 @@ function ImageEdit({
     onSelectImage: onSelectImage,
     onSelectURL: onSelectURL,
     onUploadError: onUploadError,
-    containerRef: ref
+    containerRef: ref,
+    clientId: clientId
   }), !url && Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockControls"], {
     group: "block"
   }, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockAlignmentControl"], {
@@ -13964,20 +13971,24 @@ const cover_transforms_transforms = {
       id,
       anchor,
       style
-    }) => Object(external_wp_blocks_["createBlock"])('core/cover', {
-      url,
-      align,
-      id,
-      anchor,
-      style: {
-        color: {
-          duotone: style.color.duotone
+    }) => {
+      var _style$color;
+
+      return Object(external_wp_blocks_["createBlock"])('core/cover', {
+        url,
+        align,
+        id,
+        anchor,
+        style: {
+          color: {
+            duotone: style === null || style === void 0 ? void 0 : (_style$color = style.color) === null || _style$color === void 0 ? void 0 : _style$color.duotone
+          }
         }
-      }
-    }, [Object(external_wp_blocks_["createBlock"])('core/paragraph', {
-      content: caption,
-      fontSize: 'large'
-    })])
+      }, [Object(external_wp_blocks_["createBlock"])('core/paragraph', {
+        content: caption,
+        fontSize: 'large'
+      })]);
+    }
   }, {
     type: 'block',
     blocks: ['core/video'],
@@ -14005,7 +14016,7 @@ const cover_transforms_transforms = {
       gradient,
       style
     }) => {
-      var _style$color, _style$color2;
+      var _style$color2, _style$color3;
 
       /*
        * Make this transformation available only if the Group has background
@@ -14014,7 +14025,7 @@ const cover_transforms_transforms = {
        * This helps avoid arbitrary decisions about the Cover block's background
        * and user confusion about the existence of previous content.
        */
-      return backgroundColor || (style === null || style === void 0 ? void 0 : (_style$color = style.color) === null || _style$color === void 0 ? void 0 : _style$color.background) || (style === null || style === void 0 ? void 0 : (_style$color2 = style.color) === null || _style$color2 === void 0 ? void 0 : _style$color2.gradient) || gradient;
+      return backgroundColor || (style === null || style === void 0 ? void 0 : (_style$color2 = style.color) === null || _style$color2 === void 0 ? void 0 : _style$color2.background) || (style === null || style === void 0 ? void 0 : (_style$color3 = style.color) === null || _style$color3 === void 0 ? void 0 : _style$color3.gradient) || gradient;
     },
     transform: ({
       align,
@@ -14023,15 +14034,15 @@ const cover_transforms_transforms = {
       gradient,
       style
     }, innerBlocks) => {
-      var _style$color3, _style$color4;
+      var _style$color4, _style$color5;
 
       return Object(external_wp_blocks_["createBlock"])('core/cover', {
         align,
         anchor,
         overlayColor: backgroundColor,
-        customOverlayColor: style === null || style === void 0 ? void 0 : (_style$color3 = style.color) === null || _style$color3 === void 0 ? void 0 : _style$color3.background,
+        customOverlayColor: style === null || style === void 0 ? void 0 : (_style$color4 = style.color) === null || _style$color4 === void 0 ? void 0 : _style$color4.background,
         gradient,
-        customGradient: style === null || style === void 0 ? void 0 : (_style$color4 = style.color) === null || _style$color4 === void 0 ? void 0 : _style$color4.gradient
+        customGradient: style === null || style === void 0 ? void 0 : (_style$color5 = style.color) === null || _style$color5 === void 0 ? void 0 : _style$color5.gradient
       }, innerBlocks);
     }
   }],
@@ -14061,18 +14072,22 @@ const cover_transforms_transforms = {
       id,
       anchor,
       style
-    }) => Object(external_wp_blocks_["createBlock"])('core/image', {
-      caption: title,
-      url,
-      align,
-      id,
-      anchor,
-      style: {
-        color: {
-          duotone: style.color.duotone
+    }) => {
+      var _style$color6;
+
+      return Object(external_wp_blocks_["createBlock"])('core/image', {
+        caption: title,
+        url,
+        align,
+        id,
+        anchor,
+        style: {
+          color: {
+            duotone: style === null || style === void 0 ? void 0 : (_style$color6 = style.color) === null || _style$color6 === void 0 ? void 0 : _style$color6.duotone
+          }
         }
-      }
-    })
+      });
+    }
   }, {
     type: 'block',
     blocks: ['core/video'],
@@ -17995,22 +18010,8 @@ const list = Object(external_wp_element_["createElement"])(external_wp_primitive
 }));
 /* harmony default export */ var library_list = (list);
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/grid.js
-
-
-/**
- * WordPress dependencies
- */
-
-const grid = Object(external_wp_element_["createElement"])(external_wp_primitives_["SVG"], {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24"
-}, Object(external_wp_element_["createElement"])(external_wp_primitives_["Path"], {
-  d: "M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7.8 16.5H5c-.3 0-.5-.2-.5-.5v-6.2h6.8v6.7zm0-8.3H4.5V5c0-.3.2-.5.5-.5h6.2v6.7zm8.3 7.8c0 .3-.2.5-.5.5h-6.2v-6.8h6.8V19zm0-7.8h-6.8V4.5H19c.3 0 .5.2.5.5v6.2z",
-  fillRule: "evenodd",
-  clipRule: "evenodd"
-}));
-/* harmony default export */ var library_grid = (grid);
+// EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/grid.js
+var grid = __webpack_require__("b2RC");
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/latest-posts/constants.js
 const MIN_EXCERPT_LENGTH = 10;
@@ -18194,6 +18195,7 @@ function LatestPostsEdit({
       isStillMounted.current = false;
     };
   }, []);
+  const hasPosts = !!(latestPosts !== null && latestPosts !== void 0 && latestPosts.length);
   const inspectorControls = Object(external_wp_element_["createElement"])(external_wp_blockEditor_["InspectorControls"], null, Object(external_wp_element_["createElement"])(external_wp_components_["PanelBody"], {
     title: Object(external_wp_i18n_["__"])('Post content settings')
   }, Object(external_wp_element_["createElement"])(external_wp_components_["ToggleControl"], {
@@ -18327,7 +18329,6 @@ function LatestPostsEdit({
       [`columns-${columns}`]: postLayout === 'grid'
     })
   });
-  const hasPosts = Array.isArray(latestPosts) && latestPosts.length;
 
   if (!hasPosts) {
     return Object(external_wp_element_["createElement"])("div", blockProps, inspectorControls, Object(external_wp_element_["createElement"])(external_wp_components_["Placeholder"], {
@@ -18346,7 +18347,7 @@ function LatestPostsEdit({
     }),
     isActive: postLayout === 'list'
   }, {
-    icon: library_grid,
+    icon: grid["a" /* default */],
     title: Object(external_wp_i18n_["__"])('Grid view'),
     onClick: () => setAttributes({
       postLayout: 'grid'
@@ -19139,17 +19140,49 @@ function Form({
 
 
 
+
 function Preview({
   idBase,
   instance,
   isVisible
 }) {
-  const [iframeHeight, setIframeHeight] = Object(external_wp_element_["useState"])(null);
+  const [iframeHeight, setIframeHeight] = Object(external_wp_element_["useState"])(); // Resize the iframe on either the load event, or when the iframe becomes visible.
+
+  const ref = Object(external_wp_compose_["useRefEffect"])(iframe => {
+    function onChange() {
+      var _iframe$contentDocume, _iframe$contentDocume2;
+
+      const boundingRect = iframe === null || iframe === void 0 ? void 0 : (_iframe$contentDocume = iframe.contentDocument) === null || _iframe$contentDocume === void 0 ? void 0 : (_iframe$contentDocume2 = _iframe$contentDocume.body) === null || _iframe$contentDocume2 === void 0 ? void 0 : _iframe$contentDocume2.getBoundingClientRect();
+
+      if (boundingRect) {
+        // Include `top` in the height calculation to avoid the bottom
+        // of widget previews being cut-off. Most widgets have a
+        // heading at the top that has top margin, and the `height`
+        // alone doesn't take that margin into account.
+        setIframeHeight(boundingRect.top + boundingRect.height);
+      }
+    }
+
+    const {
+      IntersectionObserver
+    } = iframe.ownerDocument.defaultView; // Observe for intersections that might cause a change in the height of
+    // the iframe, e.g. a Widget Area becoming expanded.
+
+    const intersectionObserver = new IntersectionObserver(onChange, {
+      threshold: 1
+    });
+    intersectionObserver.observe(iframe);
+    iframe.addEventListener('load', onChange);
+    return () => {
+      iframe.removeEventListener('load', onChange);
+    };
+  }, []);
   return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, isVisible && iframeHeight === null && Object(external_wp_element_["createElement"])(external_wp_components_["Placeholder"], null, Object(external_wp_element_["createElement"])(external_wp_components_["Spinner"], null)), Object(external_wp_element_["createElement"])("div", {
     className: classnames_default()('wp-block-legacy-widget__edit-preview', {
       'is-offscreen': !isVisible || iframeHeight === null
     })
   }, Object(external_wp_element_["createElement"])(external_wp_components_["Disabled"], null, Object(external_wp_element_["createElement"])("iframe", {
+    ref: ref,
     className: "wp-block-legacy-widget__edit-preview-iframe",
     title: Object(external_wp_i18n_["__"])('Legacy Widget Preview') // TODO: This chokes when the query param is too big.
     // Ideally, we'd render a <ServerSideRender>. Maybe by
@@ -19162,10 +19195,7 @@ function Preview({
         instance
       }
     }),
-    height: iframeHeight !== null && iframeHeight !== void 0 ? iframeHeight : 100,
-    onLoad: event => {
-      setIframeHeight(event.target.contentDocument.body.scrollHeight);
-    }
+    height: iframeHeight || 100
   }))));
 }
 
@@ -20339,7 +20369,8 @@ const list_metadata = {
     color: {
       gradients: true
     },
-    __unstablePasteTextInline: true
+    __unstablePasteTextInline: true,
+    __experimentalSelector: "ol,ul"
   },
   editorStyle: "wp-block-list-editor",
   style: "wp-block-list"
@@ -22205,7 +22236,7 @@ function RSSEdit({
     }),
     isActive: blockLayout === 'list'
   }, {
-    icon: library_grid,
+    icon: grid["a" /* default */],
     title: Object(external_wp_i18n_["__"])('Grid view'),
     onClick: () => setAttributes({
       blockLayout: 'grid'
@@ -24328,50 +24359,14 @@ const table_deprecated_deprecated = [// Deprecation migrating table block to use
 }];
 /* harmony default export */ var table_deprecated = (table_deprecated_deprecated);
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/align-left.js
+// EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/align-left.js
+var align_left = __webpack_require__("fPbg");
 
+// EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/align-center.js
+var align_center = __webpack_require__("plpT");
 
-/**
- * WordPress dependencies
- */
-
-const alignLeft = Object(external_wp_element_["createElement"])(external_wp_primitives_["SVG"], {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24"
-}, Object(external_wp_element_["createElement"])(external_wp_primitives_["Path"], {
-  d: "M4 19.8h8.9v-1.5H4v1.5zm8.9-15.6H4v1.5h8.9V4.2zm-8.9 7v1.5h16v-1.5H4z"
-}));
-/* harmony default export */ var align_left = (alignLeft);
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/align-center.js
-
-
-/**
- * WordPress dependencies
- */
-
-const alignCenter = Object(external_wp_element_["createElement"])(external_wp_primitives_["SVG"], {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24"
-}, Object(external_wp_element_["createElement"])(external_wp_primitives_["Path"], {
-  d: "M16.4 4.2H7.6v1.5h8.9V4.2zM4 11.2v1.5h16v-1.5H4zm3.6 8.6h8.9v-1.5H7.6v1.5z"
-}));
-/* harmony default export */ var align_center = (alignCenter);
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/align-right.js
-
-
-/**
- * WordPress dependencies
- */
-
-const alignRight = Object(external_wp_element_["createElement"])(external_wp_primitives_["SVG"], {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24"
-}, Object(external_wp_element_["createElement"])(external_wp_primitives_["Path"], {
-  d: "M11.1 19.8H20v-1.5h-8.9v1.5zm0-15.6v1.5H20V4.2h-8.9zM4 12.8h16v-1.5H4v1.5z"
-}));
-/* harmony default export */ var align_right = (alignRight);
+// EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/align-right.js
+var align_right = __webpack_require__("ziDm");
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/table-row-before.js
 
@@ -24805,15 +24800,15 @@ function isEmptyRow(row) {
 
 
 const ALIGNMENT_CONTROLS = [{
-  icon: align_left,
+  icon: align_left["a" /* default */],
   title: Object(external_wp_i18n_["__"])('Align column left'),
   align: 'left'
 }, {
-  icon: align_center,
+  icon: align_center["a" /* default */],
   title: Object(external_wp_i18n_["__"])('Align column center'),
   align: 'center'
 }, {
-  icon: align_right,
+  icon: align_right["a" /* default */],
   title: Object(external_wp_i18n_["__"])('Align column right'),
   align: 'right'
 }];
@@ -26144,20 +26139,8 @@ const VideoSettings = ({
 
 /* harmony default export */ var edit_common_settings = (VideoSettings);
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/media.js
-
-
-/**
- * WordPress dependencies
- */
-
-const media_media = Object(external_wp_element_["createElement"])(external_wp_primitives_["SVG"], {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24"
-}, Object(external_wp_element_["createElement"])(external_wp_primitives_["Path"], {
-  d: "M18.7 3H5.3C4 3 3 4 3 5.3v13.4C3 20 4 21 5.3 21h13.4c1.3 0 2.3-1 2.3-2.3V5.3C21 4 20 3 18.7 3zm.8 15.7c0 .4-.4.8-.8.8H5.3c-.4 0-.8-.4-.8-.8V5.3c0-.4.4-.8.8-.8h13.4c.4 0 .8.4.8.8v13.4zM10 15l5-3-5-3v6z"
-}));
-/* harmony default export */ var library_media = (media_media);
+// EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/media.js
+var library_media = __webpack_require__("rH4q");
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/video/tracks-editor.js
 
@@ -26394,7 +26377,7 @@ function TracksEditor({
         render: ({
           open
         }) => Object(external_wp_element_["createElement"])(external_wp_components_["MenuItem"], {
-          icon: library_media,
+          icon: library_media["a" /* default */],
           onClick: open
         }, Object(external_wp_i18n_["__"])('Open Media Library'))
       }), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["MediaUploadCheck"], null, Object(external_wp_element_["createElement"])(external_wp_components_["FormFileUpload"], {
@@ -29229,34 +29212,26 @@ function LogoEdit({
   const {
     mediaItemData,
     siteLogo,
-    url,
-    stylesheet
+    url
   } = Object(external_wp_data_["useSelect"])(select => {
     const siteSettings = select(external_wp_coreData_["store"]).getEditedEntityRecord('root', 'site');
-    const themeModOptionName = `theme_mods_${siteSettings.stylesheet}`;
-    siteSettings[themeModOptionName] = siteSettings[themeModOptionName] || {};
-    const mediaItem = siteSettings[themeModOptionName].custom_logo ? select(external_wp_coreData_["store"]).getEntityRecord('root', 'media', siteSettings[themeModOptionName].custom_logo) : null;
+    const mediaItem = siteSettings.site_logo ? select(external_wp_coreData_["store"]).getEntityRecord('root', 'media', siteSettings.site_logo) : null;
     return {
       mediaItemData: mediaItem && {
         url: mediaItem.source_url,
         alt: mediaItem.alt_text
       },
-      siteLogo: siteSettings[themeModOptionName].custom_logo,
-      url: siteSettings.url,
-      stylesheet: siteSettings.stylesheet
+      siteLogo: siteSettings.site_logo,
+      url: siteSettings.url
     };
   }, []);
   const {
     editEntityRecord
   } = Object(external_wp_data_["useDispatch"])(external_wp_coreData_["store"]);
 
-  const setLogo = newValue => {
-    const settingsVal = {};
-    settingsVal[`theme_mods_${stylesheet}`] = {
-      custom_logo: newValue
-    };
-    editEntityRecord('root', 'site', undefined, settingsVal);
-  };
+  const setLogo = newValue => editEntityRecord('root', 'site', undefined, {
+    site_logo: newValue
+  });
 
   let alt = null;
 
@@ -29774,7 +29749,7 @@ function QueryToolbar({
     }),
     isActive: (displayLayout === null || displayLayout === void 0 ? void 0 : displayLayout.type) === 'list'
   }, {
-    icon: library_grid,
+    icon: grid["a" /* default */],
     title: Object(external_wp_i18n_["__"])('Grid view'),
     onClick: () => setDisplayLayout({
       type: 'flex',
@@ -34121,6 +34096,33 @@ else {}
 
 /***/ }),
 
+/***/ "b2RC":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("GRId");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("Tqx9");
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__);
+
+
+/**
+ * WordPress dependencies
+ */
+
+const grid = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["SVG"], {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24"
+}, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["Path"], {
+  d: "M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7.8 16.5H5c-.3 0-.5-.2-.5-.5v-6.2h6.8v6.7zm0-8.3H4.5V5c0-.3.2-.5.5-.5h6.2v6.7zm8.3 7.8c0 .3-.2.5-.5.5h-6.2v-6.8h6.8V19zm0-7.8h-6.8V4.5H19c.3 0 .5.2.5.5v6.2z",
+  fillRule: "evenodd",
+  clipRule: "evenodd"
+}));
+/* harmony default export */ __webpack_exports__["a"] = (grid);
+
+
+/***/ }),
+
 /***/ "bWcr":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -34277,6 +34279,31 @@ function isEventSupported(eventNameSuffix, capture) {
 }
 
 module.exports = isEventSupported;
+
+
+/***/ }),
+
+/***/ "fPbg":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("GRId");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("Tqx9");
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__);
+
+
+/**
+ * WordPress dependencies
+ */
+
+const alignLeft = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["SVG"], {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24"
+}, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["Path"], {
+  d: "M4 19.8h8.9v-1.5H4v1.5zm8.9-15.6H4v1.5h8.9V4.2zm-8.9 7v1.5h16v-1.5H4z"
+}));
+/* harmony default export */ __webpack_exports__["a"] = (alignLeft);
 
 
 /***/ }),
@@ -34720,10 +34747,60 @@ const button = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createEle
 
 /***/ }),
 
+/***/ "plpT":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("GRId");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("Tqx9");
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__);
+
+
+/**
+ * WordPress dependencies
+ */
+
+const alignCenter = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["SVG"], {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24"
+}, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["Path"], {
+  d: "M16.4 4.2H7.6v1.5h8.9V4.2zM4 11.2v1.5h16v-1.5H4zm3.6 8.6h8.9v-1.5H7.6v1.5z"
+}));
+/* harmony default export */ __webpack_exports__["a"] = (alignCenter);
+
+
+/***/ }),
+
 /***/ "qRz9":
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["richText"]; }());
+
+/***/ }),
+
+/***/ "rH4q":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("GRId");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("Tqx9");
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__);
+
+
+/**
+ * WordPress dependencies
+ */
+
+const media = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["SVG"], {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24"
+}, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["Path"], {
+  d: "M18.7 3H5.3C4 3 3 4 3 5.3v13.4C3 20 4 21 5.3 21h13.4c1.3 0 2.3-1 2.3-2.3V5.3C21 4 20 3 18.7 3zm.8 15.7c0 .4-.4.8-.8.8H5.3c-.4 0-.8-.4-.8-.8V5.3c0-.4.4-.8.8-.8h13.4c.4 0 .8.4.8.8v13.4zM10 15l5-3-5-3v6z"
+}));
+/* harmony default export */ __webpack_exports__["a"] = (media);
+
 
 /***/ }),
 
@@ -34785,6 +34862,31 @@ function _extends() {
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["apiFetch"]; }());
+
+/***/ }),
+
+/***/ "ziDm":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("GRId");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("Tqx9");
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__);
+
+
+/**
+ * WordPress dependencies
+ */
+
+const alignRight = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["SVG"], {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24"
+}, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["Path"], {
+  d: "M11.1 19.8H20v-1.5h-8.9v1.5zm0-15.6v1.5H20V4.2h-8.9zM4 12.8h16v-1.5H4v1.5z"
+}));
+/* harmony default export */ __webpack_exports__["a"] = (alignRight);
+
 
 /***/ })
 

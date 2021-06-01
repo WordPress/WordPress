@@ -79,3 +79,6 @@
   max-width: 100%;
   height: auto;
 }
+.wp-block-post-featured-image.alignwide img, .wp-block-post-featured-image.alignfull img {
+  width: 100%;
+}
