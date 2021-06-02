@@ -283,10 +283,14 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 	 *
 	 * @since 5.8.0
 	 *
+	 * @global array $wp_registered_widget_updates The registered widget update functions.
+	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function delete_item( $request ) {
+		global $wp_registered_widget_updates;
+
 		$widget_id  = $request['id'];
 		$sidebar_id = wp_find_widgets_sidebar( $widget_id );
 
@@ -301,17 +305,46 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 		$request['context'] = 'edit';
 
 		if ( $request['force'] ) {
-			$prepared = $this->prepare_item_for_response( compact( 'widget_id', 'sidebar_id' ), $request );
+			$response = $this->prepare_item_for_response( compact( 'widget_id', 'sidebar_id' ), $request );
+
+			$parsed_id = wp_parse_widget_id( $widget_id );
+			$id_base   = $parsed_id['id_base'];
+
+			$original_post    = $_POST;
+			$original_request = $_REQUEST;
+
+			$_POST    = array(
+				'sidebar'         => $sidebar_id,
+				"widget-$id_base" => array(),
+				'the-widget-id'   => $widget_id,
+				'delete_widget'   => '1',
+			);
+			$_REQUEST = $_POST;
+
+			$callback = $wp_registered_widget_updates[ $id_base ]['callback'];
+			$params   = $wp_registered_widget_updates[ $id_base ]['params'];
+
+			if ( is_callable( $callback ) ) {
+				ob_start();
+				call_user_func_array( $callback, $params );
+				ob_end_clean();
+			}
+
+			$_POST    = $original_post;
+			$_REQUEST = $original_request;
+
 			wp_assign_widget_to_sidebar( $widget_id, '' );
-			$prepared->set_data(
+
+			$response->set_data(
 				array(
 					'deleted'  => true,
-					'previous' => $prepared->get_data(),
+					'previous' => $response->get_data(),
 				)
 			);
 		} else {
 			wp_assign_widget_to_sidebar( $widget_id, 'wp_inactive_widgets' );
-			$prepared = $this->prepare_item_for_response(
+
+			$response = $this->prepare_item_for_response(
 				array(
 					'sidebar_id' => 'wp_inactive_widgets',
 					'widget_id'  => $widget_id,
@@ -320,7 +353,7 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 			);
 		}
 
-		return $prepared;
+		return $response;
 	}
 
 	/**
