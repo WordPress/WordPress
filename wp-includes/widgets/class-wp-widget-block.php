@@ -51,7 +51,7 @@ class WP_Widget_Block extends WP_Widget {
 	 *
 	 * @since 5.8.0
 	 *
-	 * @param array $args Display arguments including 'before_title', 'after_title',
+	 * @param array $args     Display arguments including 'before_title', 'after_title',
 	 *                        'before_widget', and 'after_widget'.
 	 * @param array $instance Settings for the current Block widget instance.
 	 *
@@ -71,9 +71,9 @@ class WP_Widget_Block extends WP_Widget {
 		 *
 		 * @since 5.8.0
 		 *
-		 * @param string         $content  The widget content.
-		 * @param array          $instance Array of settings for the current widget.
-		 * @param WP_Widget_Text $widget   Current Block widget instance.
+		 * @param string          $content  The widget content.
+		 * @param array           $instance Array of settings for the current widget.
+		 * @param WP_Widget_Block $widget   Current Block widget instance.
 		 */
 		echo apply_filters(
 			'widget_block_content',
