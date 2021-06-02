@@ -55,6 +55,9 @@ wp_enqueue_style( 'wp-edit-widgets' );
 /** This action is documented in wp-admin/edit-form-blocks.php */
 do_action( 'enqueue_block_editor_assets' );
 
+/** This action is documented in wp-admin/widgets-form.php */
+do_action( 'sidebar_admin_setup' );
+
 require_once ABSPATH . 'wp-admin/admin-header.php';
 
 /** This action is documented in wp-admin/widgets-form.php */
@@ -64,4 +67,7 @@ do_action( 'widgets_admin_page' );
 <div id="widgets-editor" class="blocks-widgets-container"></div> 
 
 <?php
+/** This action is documented in wp-admin/widgets-form.php */
+do_action( 'sidebar_admin_page' );
+
 require_once ABSPATH . 'wp-admin/admin-footer.php';
