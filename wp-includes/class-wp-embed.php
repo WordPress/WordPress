@@ -31,6 +31,7 @@ class WP_Embed {
 		// Hack to get the [embed] shortcode to run before wpautop().
 		add_filter( 'the_content', array( $this, 'run_shortcode' ), 8 );
 		add_filter( 'widget_text_content', array( $this, 'run_shortcode' ), 8 );
+		add_filter( 'widget_block_content', array( $this, 'run_shortcode' ), 8 );
 
 		// Shortcode placeholder for strip_shortcodes().
 		add_shortcode( 'embed', '__return_false' );
@@ -38,6 +39,7 @@ class WP_Embed {
 		// Attempts to embed all URLs in a post.
 		add_filter( 'the_content', array( $this, 'autoembed' ), 8 );
 		add_filter( 'widget_text_content', array( $this, 'autoembed' ), 8 );
+		add_filter( 'widget_block_content', array( $this, 'autoembed' ), 8 );
 
 		// After a post is saved, cache oEmbed items via Ajax.
 		add_action( 'edit_form_advanced', array( $this, 'maybe_run_ajax_cache' ) );
