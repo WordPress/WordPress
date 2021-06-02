@@ -2348,15 +2348,21 @@ class WP_Site_Health {
 					'has_rest'          => true,
 					'async_direct_test' => array( WP_Site_Health::get_instance(), 'get_test_https_status' ),
 				),
-				'authorization_header' => array(
+			),
+		);
+
+		// Conditionally include Authorization header test if the site isn't protected by Basic Auth.
+		if ( function_exists( 'wp_is_site_protected_by_basic_auth' ) ) {
+			if ( ! wp_is_site_protected_by_basic_auth() ) {
+				$tests['async']['authorization_header'] = array(
 					'label'     => __( 'Authorization header' ),
 					'test'      => rest_url( 'wp-site-health/v1/tests/authorization-header' ),
 					'has_rest'  => true,
 					'headers'   => array( 'Authorization' => 'Basic ' . base64_encode( 'user:pwd' ) ),
 					'skip_cron' => true,
-				),
-			),
-		);
+				);
+			}
+		}
 
 		// Conditionally include REST rules if the function for it exists.
 		if ( function_exists( 'rest_url' ) ) {
