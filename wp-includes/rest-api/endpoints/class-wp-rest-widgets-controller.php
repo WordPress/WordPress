@@ -321,6 +321,9 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 			);
 			$_REQUEST = $_POST;
 
+			/** This action is documented in wp-admin/widgets-form.php */
+			do_action( 'delete_widget', $widget_id, $sidebar_id, $id_base );
+
 			$callback = $wp_registered_widget_updates[ $id_base ]['callback'];
 			$params   = $wp_registered_widget_updates[ $id_base ]['params'];
 
