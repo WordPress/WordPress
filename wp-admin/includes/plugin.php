@@ -999,8 +999,13 @@ function delete_plugins( $plugins, $deprecated = '' ) {
 			continue;
 		}
 
-		// Remove language files, silently.
 		$plugin_slug = dirname( $plugin_file );
+
+		if ( 'hello.php' === $plugin_file ) {
+			$plugin_slug = 'hello-dolly';
+		}
+
+		// Remove language files, silently.
 		if ( '.' !== $plugin_slug && ! empty( $plugin_translations[ $plugin_slug ] ) ) {
 			$translations = $plugin_translations[ $plugin_slug ];
 
