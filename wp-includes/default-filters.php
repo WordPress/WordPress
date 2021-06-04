@@ -246,7 +246,18 @@ add_filter( 'wp_robots', 'wp_robots_noindex_search' );
 add_filter( 'wp_robots', 'wp_robots_max_image_preview_large' );
 
 // Mark site as no longer fresh.
-foreach ( array( 'publish_post', 'publish_page', 'wp_ajax_save-widget', 'wp_ajax_widgets-order', 'customize_save_after' ) as $action ) {
+foreach (
+	array(
+		'publish_post',
+		'publish_page',
+		'wp_ajax_save-widget',
+		'wp_ajax_widgets-order',
+		'customize_save_after',
+		'rest_after_save_widget',
+		'rest_delete_widget',
+		'rest_save_sidebar',
+	) as $action
+) {
 	add_action( $action, '_delete_option_fresh_site', 0 );
 }
 

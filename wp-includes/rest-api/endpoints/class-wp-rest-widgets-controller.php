@@ -186,7 +186,7 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 	public function create_item( $request ) {
 		$sidebar_id = $request['sidebar'];
 
-		$widget_id = $this->save_widget( $request );
+		$widget_id = $this->save_widget( $request, $sidebar_id );
 
 		if ( is_wp_error( $widget_id ) ) {
 			return $widget_id;
@@ -248,7 +248,7 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 			$request->has_param( 'instance' ) ||
 			$request->has_param( 'form_data' )
 		) {
-			$maybe_error = $this->save_widget( $request );
+			$maybe_error = $this->save_widget( $request, $sidebar_id );
 			if ( is_wp_error( $maybe_error ) ) {
 				return $maybe_error;
 			}
@@ -356,6 +356,17 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 			);
 		}
 
+		/**
+		 * Fires after a widget is deleted via the REST API.
+		 *
+		 * @since 5.8.0
+		 * @param string           $widget_id  ID of the widget marked for deletion.
+		 * @param string           $sidebar_id ID of the sidebar the widget was deleted from.
+		 * @param WP_REST_Response $response   The response data.
+		 * @param WP_REST_Request  $request    The request sent to the API.
+		 */
+		do_action( 'rest_delete_widget', $widget_id, $sidebar_id, $response, $request );
+
 		return $response;
 	}
 
@@ -385,11 +396,12 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 	 *
 	 * @since 5.8.0
 	 *
-	 * @param WP_REST_Request $request Full details about the request.
+	 * @param WP_REST_Request $request    Full details about the request.
+	 * @param string          $sidebar_id ID of the sidebar the widget belongs to.
 	 *
 	 * @return string|WP_Error The saved widget ID.
 	 */
-	protected function save_widget( $request ) {
+	protected function save_widget( $request, $sidebar_id ) {
 		global $wp_widget_factory, $wp_registered_widget_updates;
 
 		require_once ABSPATH . 'wp-admin/includes/widgets.php'; // For next_widget_id_number().
@@ -401,12 +413,14 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 			$id_base       = $parsed_id['id_base'];
 			$number        = isset( $parsed_id['number'] ) ? $parsed_id['number'] : null;
 			$widget_object = $wp_widget_factory->get_widget_object( $id_base );
+			$creating      = false;
 		} elseif ( $request['id_base'] ) {
 			// Saving a new widget.
 			$id_base       = $request['id_base'];
 			$widget_object = $wp_widget_factory->get_widget_object( $id_base );
 			$number        = $widget_object ? next_widget_id_number( $id_base ) : null;
 			$id            = $widget_object ? $id_base . '-' . $number : $id_base;
+			$creating      = true;
 		} else {
 			return new WP_Error(
 				'rest_invalid_widget',
@@ -501,6 +515,17 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 			// want in the REST API, though, as we support batch requests.
 			$widget_object->updated = false;
 		}
+
+		/**
+		 * Fires after a widget is created or updated via the REST API.
+		 *
+		 * @since 5.8.0
+		 * @param string          $id         ID of the widget being saved.
+		 * @param string          $sidebar_id ID of the sidebar containing the widget being saved.
+		 * @param WP_REST_Request $request    Request object.
+		 * @param bool            $creating   True when creating a widget, false when updating.
+		 */
+		do_action( 'rest_after_save_widget', $id, $sidebar_id, $request, $creating );
 
 		return $id;
 	}
