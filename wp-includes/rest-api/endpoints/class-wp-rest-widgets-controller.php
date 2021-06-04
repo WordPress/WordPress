@@ -414,14 +414,14 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 			$id_base       = $parsed_id['id_base'];
 			$number        = isset( $parsed_id['number'] ) ? $parsed_id['number'] : null;
 			$widget_object = $wp_widget_factory->get_widget_object( $id_base );
-			$update        = true;
+			$creating      = false;
 		} elseif ( $request['id_base'] ) {
 			// Saving a new widget.
 			$id_base       = $request['id_base'];
 			$widget_object = $wp_widget_factory->get_widget_object( $id_base );
 			$number        = $widget_object ? next_widget_id_number( $id_base ) : null;
 			$id            = $widget_object ? $id_base . '-' . $number : $id_base;
-			$update        = false;
+			$creating      = true;
 		} else {
 			return new WP_Error(
 				'rest_invalid_widget',
@@ -525,9 +525,9 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 		 * @param string          $id         ID of the widget being saved.
 		 * @param string          $sidebar_id ID of the sidebar containing the widget being saved.
 		 * @param WP_REST_Request $request    Request object.
-		 * @param bool            $update     Whether this is an existing widget being updated.
+		 * @param bool            $creating   True when creating a widget, false when updating.
 		 */
-		do_action( 'rest_after_save_widget', $id, $sidebar_id, $request, $update );
+		do_action( 'rest_after_save_widget', $id, $sidebar_id, $request, $creating );
 
 		return $id;
 	}
