@@ -213,8 +213,9 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller {
 		 * Fires after a sidebar is updated via the REST API.
 		 *
 		 * @since 5.8.0
-		 * @param array           $sidebar  The updated sidebar.
-		 * @param WP_REST_Request $request  Request object.
+		 *
+		 * @param array           $sidebar The updated sidebar.
+		 * @param WP_REST_Request $request Request object.
 		 */
 		do_action( 'rest_save_sidebar', $sidebar, $request );
 
