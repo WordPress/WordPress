@@ -245,7 +245,6 @@ function get_default_block_editor_settings() {
 			'media_image',
 			'media_gallery',
 			'media_video',
-			'meta',
 			'search',
 			'text',
 			'categories',
@@ -253,7 +252,6 @@ function get_default_block_editor_settings() {
 			'recent-comments',
 			'rss',
 			'tag_cloud',
-			'nav_menu',
 			'custom_html',
 			'block',
 		)
