@@ -1647,7 +1647,7 @@ function comments_popup_link( $zero = false, $one = false, $more = false, $css_c
  *
  * @since 2.7.0
  * @since 4.4.0 Added the ability for `$comment` to also accept a WP_Comment object.
- * 
+ *
  * @param array          $args {
  *     Optional. Override default arguments.
  *
