@@ -150,6 +150,13 @@
 		} );
 	} );
 
+	$newAppPassField.on( 'keypress', function ( e ) {
+		if ( 13 === e.which ) {
+			e.preventDefault();
+			$newAppPassButton.trigger( 'click' );
+		}
+	} );
+
 	// If there are no items, don't display the table yet.  If there are, show it.
 	if ( 0 === $appPassTbody.children( 'tr' ).not( $appPassTrNoItems ).length ) {
 		$appPassTwrapper.hide();
