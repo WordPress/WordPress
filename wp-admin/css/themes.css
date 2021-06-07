@@ -66,7 +66,7 @@ body.js .theme-browser.search-loading {
 }
 
 .theme-browser .theme:hover,
-.theme-browser .theme:focus {
+.theme-browser .theme.focus {
 	cursor: pointer;
 }
 
@@ -95,8 +95,7 @@ body.js .theme-browser.search-loading {
 }
 
 .theme-browser .theme:hover .theme-actions,
-.theme-browser .theme.focus .theme-actions,
-.theme-browser .theme:focus .theme-actions {
+.theme-browser .theme.focus .theme-actions {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 	opacity: 1;
 }
@@ -140,12 +139,12 @@ body.js .theme-browser.search-loading {
 }
 
 .theme-browser .theme:hover .theme-screenshot,
-.theme-browser .theme:focus .theme-screenshot {
+.theme-browser .theme.focus .theme-screenshot {
 	background: #fff;
 }
 
 .theme-browser.rendered .theme:hover .theme-screenshot img,
-.theme-browser.rendered .theme:focus .theme-screenshot img {
+.theme-browser.rendered .theme.focus .theme-screenshot img {
 	opacity: 0.4;
 }
 
@@ -156,6 +155,7 @@ body.js .theme-browser.search-loading {
 	top: 35%;
 	right: 20%;
 	left: 20%;
+	width: 60%;
 	background: #1d2327;
 	background: rgba(0, 0, 0, 0.7);
 	color: #fff;
@@ -169,22 +169,26 @@ body.js .theme-browser.search-loading {
 	transition: opacity 0.1s ease-in-out;
 }
 
-.theme-browser .theme:focus {
+.theme-browser .theme .more-details:focus {
+	box-shadow: 0 0 0 1px #fff, 0 0 0 3px #2271b1;
+}
+
+.theme-browser .theme.focus {
 	border-color: #4f94d4;
 	box-shadow: 0 0 2px rgba(79, 148, 212, 0.8);
 }
 
-.theme-browser .theme:focus .more-details {
+.theme-browser .theme.focus .more-details {
 	opacity: 1;
 }
 
 /* Current theme needs to have its action always on view */
-.theme-browser .theme.active:focus .theme-actions {
+.theme-browser .theme.active.focus .theme-actions {
 	display: block;
 }
 
 .theme-browser.rendered .theme:hover .more-details,
-.theme-browser.rendered .theme:focus .more-details {
+.theme-browser.rendered .theme.focus .more-details {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 	opacity: 1;
 }
@@ -877,12 +881,12 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 	.theme:not(.active):hover .theme-actions,
 	.theme:not(.active):focus .theme-actions,
 	.theme:hover .more-details,
-	.theme:focus .more-details {
+	.theme.focus .more-details {
 		display: none;
 	}
 
 	.theme-browser.rendered .theme:hover .theme-screenshot img,
-	.theme-browser.rendered .theme:focus .theme-screenshot img {
+	.theme-browser.rendered .theme.focus .theme-screenshot img {
 		opacity: 1.0;
 	}
 }

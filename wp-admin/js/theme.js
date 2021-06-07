@@ -404,11 +404,7 @@ themes.view.Theme = wp.Backbone.View.extend({
 		var data = this.model.toJSON();
 
 		// Render themes using the html template.
-		this.$el.html( this.html( data ) ).attr({
-			tabindex: 0,
-			'aria-describedby' : data.id + '-action ' + data.id + '-name',
-			'data-slug': data.id
-		});
+		this.$el.html( this.html( data ) ).attr( 'data-slug', data.id );
 
 		// Renders active theme styles.
 		this.activeTheme();
@@ -764,7 +760,7 @@ themes.view.Details = wp.Backbone.View.extend({
 
 				// Return focus to the theme div.
 				if ( themes.focusedTheme ) {
-					themes.focusedTheme.trigger( 'focus' );
+					themes.focusedTheme.find('.more-details').trigger( 'focus' );
 				}
 			});
 		}
@@ -952,7 +948,7 @@ themes.view.Preview = themes.view.Details.extend({
 
 			// Return focus to the theme div.
 			if ( themes.focusedTheme ) {
-				themes.focusedTheme.trigger( 'focus' );
+				themes.focusedTheme.find('.more-details').trigger( 'focus' );
 			}
 		}).removeClass( 'iframe-ready' );
 
