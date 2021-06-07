@@ -1647,7 +1647,7 @@ function comments_popup_link( $zero = false, $one = false, $more = false, $css_c
  *
  * @since 2.7.0
  * @since 4.4.0 Added the ability for `$comment` to also accept a WP_Comment object.
- *
+ * 
  * @param array          $args {
  *     Optional. Override default arguments.
  *
@@ -1706,6 +1706,12 @@ function get_comment_reply_link( $args = array(), $comment = null, $post = null 
 		return false;
 	}
 
+	if ( get_option( 'page_comments' ) ) {
+		$permalink = str_replace( '#comment-' . $comment->comment_ID, '', get_comment_link( $comment ) );
+	} else {
+		$permalink = get_permalink( $post->ID );
+	}
+
 	/**
 	 * Filters the comment reply link arguments.
 	 *
@@ -1750,7 +1756,7 @@ function get_comment_reply_link( $args = array(), $comment = null, $post = null 
 						'unapproved'      => false,
 						'moderation-hash' => false,
 					),
-					get_permalink( $post->ID )
+					$permalink
 				)
 			) . '#' . $args['respond_id'],
 			$data_attribute_string,
