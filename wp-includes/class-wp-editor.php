@@ -1679,7 +1679,7 @@ final class _WP_Editors {
 					if (
 						! init.wp_skip_init &&
 						( $wrap.hasClass( 'tmce-active' ) || ! tinyMCEPreInit.qtInit.hasOwnProperty( id ) ) &&
-						( readyState === 'complete' || ( ! inPostbox && readyState === 'interactive' ) )
+						( ( inPostbox && readyState === 'complete' ) || ( ! inPostbox && readyState === 'interactive' ) )
 					) {
 						tinymce.init( init );
 
