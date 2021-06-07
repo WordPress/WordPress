@@ -52,7 +52,7 @@ if ( 'approved' === wp_get_comment_status( $comment ) && $comment->comment_post_
 <tr>
 	<td class="first"><label for="email"><?php _e( 'Email' ); ?></label></td>
 	<td>
-		<input type="text" name="newcomment_author_email" size="30" value="<?php echo $comment->comment_author_email; ?>" id="email" />
+		<input type="text" name="newcomment_author_email" size="30" value="<?php echo esc_attr( $comment->comment_author_email ); ?>" id="email" />
 	</td>
 </tr>
 <tr>
