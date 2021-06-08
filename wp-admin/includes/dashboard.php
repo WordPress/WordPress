@@ -1658,13 +1658,21 @@ function wp_dashboard_quota() {
  * Displays the browser update nag.
  *
  * @since 3.2.0
+ * @since 5.8.0 Display special message for Internet Explorer users.
+ *
+ * @global bool $is_IE
+ *
  */
 function wp_dashboard_browser_nag() {
+	global $is_IE;
+
 	$notice   = '';
 	$response = wp_check_browser_version();
 
 	if ( $response ) {
-		if ( $response['insecure'] ) {
+		if ( $is_IE ) {
+			$msg = __( "For the best WordPress experience, please use Microsoft Edge or another modern browser instead of Internet Explorer." );
+		} elseif ( $response['insecure'] ) {
 			$msg = sprintf(
 				/* translators: %s: Browser name and link. */
 				__( "It looks like you're using an insecure version of %s. Using an outdated browser makes your computer unsafe. For the best WordPress experience, please update your browser." ),
@@ -1682,7 +1690,7 @@ function wp_dashboard_browser_nag() {
 		if ( ! empty( $response['img_src'] ) ) {
 			$img_src = ( is_ssl() && ! empty( $response['img_src_ssl'] ) ) ? $response['img_src_ssl'] : $response['img_src'];
 
-			$notice           .= '<div class="alignright browser-icon"><a href="' . esc_attr( $response['update_url'] ) . '"><img src="' . esc_attr( $img_src ) . '" alt="" /></a></div>';
+			$notice .= '<div class="alignright browser-icon"><img src="' . esc_attr( $img_src ) . '" alt="" /></div>';
 			$browser_nag_class = ' has-browser-icon';
 		}
 		$notice .= "<p class='browser-update-nag{$browser_nag_class}'>{$msg}</p>";
@@ -1693,13 +1701,23 @@ function wp_dashboard_browser_nag() {
 			$browsehappy = add_query_arg( 'locale', $locale, $browsehappy );
 		}
 
-		$notice .= '<p>' . sprintf(
-			/* translators: 1: Browser update URL, 2: Browser name, 3: Browse Happy URL. */
-			__( '<a href="%1$s" class="update-browser-link">Update %2$s</a> or learn how to <a href="%3$s" class="browse-happy-link">browse happy</a>' ),
-			esc_attr( $response['update_url'] ),
-			esc_html( $response['name'] ),
-			esc_url( $browsehappy )
-		) . '</p>';
+		if ( $is_IE ) {
+			$msg_browsehappy = sprintf(
+				/* translators: %s: Browse Happy URL. */
+				__( 'Learn how to <a href="%s" class="update-browser-link">browse happy</a>' ),
+				esc_url( $browsehappy )
+			);
+		} else {
+			$msg_browsehappy = sprintf(
+				/* translators: 1: Browser update URL, 2: Browser name, 3: Browse Happy URL. */
+				__( '<a href="%1$s" class="update-browser-link">Update %2$s</a> or learn how to <a href="%3$s" class="browse-happy-link">browse happy</a>' ),
+				esc_attr( $response['update_url'] ),
+				esc_html( $response['name'] ),
+				esc_url( $browsehappy )
+			);
+		}
+
+		$notice .= '<p>' . $msg_browsehappy . '</p>';
 		$notice .= '<p class="hide-if-no-js"><a href="" class="dismiss" aria-label="' . esc_attr__( 'Dismiss the browser warning panel' ) . '">' . __( 'Dismiss' ) . '</a></p>';
 		$notice .= '<div class="clear"></div>';
 	}
