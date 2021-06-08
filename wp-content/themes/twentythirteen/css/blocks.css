@@ -370,15 +370,20 @@ body:not(.sidebar) .wp-block-table.alignfull {
 .entry-content .wp-block-button__link:hover,
 .entry-content .wp-block-button__link:focus,
 .wp-block-button.is-style-outline .wp-block-button__link:not(.has-text-color):hover,
-.wp-block-button.is-style-outline .wp-block-button__link:not(.has-text-color):focus {
+.wp-block-button.is-style-outline .wp-block-button__link:not(.has-text-color):focus,
+.wp-block-button.is-style-outline .wp-block-button__link:not(.has-background):hover,
+.wp-block-button.is-style-outline .wp-block-button__link:not(.has-background):focus {
 	background: #ed6a31;
 	color: #fff;
 }
 
 .wp-block-button.is-style-outline .wp-block-button__link {
-	background-color: inherit;
-	border-color: inherit;
 	border-width: 2px;
+	border-color: inherit;
+}
+
+.wp-block-button.is-style-outline .wp-block-button__link:not(.has-background) {
+	background-color: inherit;
 }
 
 .wp-block-button.is-style-outline .wp-block-button__link:not(.has-text-color) {
@@ -405,6 +410,10 @@ body:not(.sidebar) .wp-block-table.alignfull {
 	border: none;
 	border-top: 3px solid #b93207;
 	padding: 10px 24px 11px;
+}
+
+.entry-content .wp-block-button.is-style-no-shadow .wp-block-button__link {
+	border-bottom: none;
 }
 
 /* Separator */
