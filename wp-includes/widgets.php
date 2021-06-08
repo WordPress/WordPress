@@ -1565,7 +1565,7 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 	echo '<ul>';
 	foreach ( $rss->get_items( 0, $items ) as $item ) {
 		$link = $item->get_link();
-		while ( stristr( $link, 'http' ) !== $link ) {
+		while ( ! empty( $link ) && stristr( $link, 'http' ) !== $link ) {
 			$link = substr( $link, 1 );
 		}
 		$link = esc_url( strip_tags( $link ) );
