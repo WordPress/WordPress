@@ -5400,6 +5400,12 @@ function convertLegacyBlocks(name, attributes) {
     }
 
     name = 'core/embed';
+  } // Convert 'core/query-loop' blocks in existing content to 'core/post-template'.
+  // TODO: Remove this check when WordPress 5.9 is released.
+
+
+  if (name === 'core/query-loop') {
+    name = 'core/post-template';
   }
 
   return {

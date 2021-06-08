@@ -2316,7 +2316,7 @@ body.admin-bar .wp-block-navigation__responsive-container.is-menu-open {
   border: 1px dashed;
 }
 
-.editor-styles-wrapper ul.wp-block-query-loop {
+.editor-styles-wrapper ul.wp-block-post-template {
   padding-left: 0;
   margin-left: 0;
   list-style: none;

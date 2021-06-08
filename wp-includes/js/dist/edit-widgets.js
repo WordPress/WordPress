@@ -1977,17 +1977,17 @@ function Sidebar() {
       getActiveComplementaryArea
     } = select(build_module["g" /* store */]);
     const selectedBlock = getSelectedBlock();
-    let activeArea = getActiveComplementaryArea(store.name);
+    const activeArea = getActiveComplementaryArea(store.name);
+    let currentSelection = activeArea;
 
-    if (!activeArea) {
+    if (!currentSelection) {
       if (selectedBlock) {
-        activeArea = BLOCK_INSPECTOR_IDENTIFIER;
+        currentSelection = BLOCK_INSPECTOR_IDENTIFIER;
       } else {
-        activeArea = WIDGET_AREAS_IDENTIFIER;
+        currentSelection = WIDGET_AREAS_IDENTIFIER;
       }
     }
 
-    const isSidebarOpen = !!activeArea;
     let widgetAreaBlock;
 
     if (selectedBlock) {
@@ -1999,9 +1999,9 @@ function Sidebar() {
     }
 
     return {
-      currentArea: activeArea,
+      currentArea: currentSelection,
       hasSelectedNonAreaBlock: !!(selectedBlock && selectedBlock.name !== 'core/widget-area'),
-      isGeneralSidebarOpen: isSidebarOpen,
+      isGeneralSidebarOpen: !!activeArea,
       selectedWidgetAreaBlock: widgetAreaBlock
     };
   }, []); // currentArea, and isGeneralSidebarOpen are intentionally left out from the dependencies,

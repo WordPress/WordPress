@@ -37670,9 +37670,9 @@ function useDarkThemeBodyClassName(styles) {
       body
     } = ownerDocument;
     const canvas = ownerDocument.querySelector(EDITOR_STYLES_SELECTOR);
-    const backgroundColor = defaultView.getComputedStyle(canvas, null).getPropertyValue('background-color');
+    const backgroundColor = defaultView.getComputedStyle(canvas, null).getPropertyValue('background-color'); // If background is transparent, it should be treated as light color.
 
-    if (tinycolor_default()(backgroundColor).getLuminance() > 0.5) {
+    if (tinycolor_default()(backgroundColor).getLuminance() > 0.5 || tinycolor_default()(backgroundColor).getAlpha() === 0) {
       body.classList.remove('is-dark-theme');
     } else {
       body.classList.add('is-dark-theme');

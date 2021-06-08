@@ -1,10 +1,10 @@
 {
 	"apiVersion": 2,
-	"name": "core/query-loop",
-	"title": "Query Loop",
+	"name": "core/post-template",
+	"title": "Post Template",
 	"category": "design",
 	"parent": [ "core/query" ],
-	"description": "Query loop.",
+	"description": "Post Template.",
 	"textdomain": "default",
 	"usesContext": [
 		"queryId",
@@ -18,6 +18,6 @@
 		"html": false,
 		"align": true
 	},
-	"style": "wp-block-query-loop",
-	"editorStyle": "wp-block-query-loop-editor"
+	"style": "wp-block-post-template",
+	"editorStyle": "wp-block-post-template-editor"
 }
