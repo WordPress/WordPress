@@ -665,7 +665,19 @@ function wp_start_object_cache() {
 	static $first_init = true;
 
 	// Only perform the following checks once.
-	if ( $first_init ) {
+
+	/**
+	 * Filters whether to enable loading of the objectcache.php drop-in.
+	 *
+	 * This filter runs before it can be used by plugins. It is designed for non-web
+	 * run-times. If false is returned, object-cache.php will never be loaded.
+	 *
+	 * @since 5.8.0
+	 *
+	 * @param bool $enable_object_cache Whether to enable loading object-cache.php (if present).
+	 *                                    Default true.
+	 */
+	if ( $first_init && apply_filters( 'enable_loading_object_cache_dropin', true ) ) {
 		if ( ! function_exists( 'wp_cache_init' ) ) {
 			/*
 			 * This is the normal situation. First-run of this function. No
