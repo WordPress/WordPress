@@ -4,7 +4,7 @@ Tested up to: 5.8
 Stable tag: 3.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Tags: blog, two-columns, custom-header, custom-background, threaded-comments, sticky-post, translation-ready, microformats, rtl-language-support, editor-style, custom-menu, flexible-header, featured-images, footer-widgets, featured-image-header
+Tags: blog, two-columns, custom-header, custom-background, threaded-comments, sticky-post, translation-ready, microformats, rtl-language-support, editor-style, custom-menu, flexible-header, featured-images, footer-widgets, featured-image-header, block-patterns
 
 == Description ==
 The 2010 theme for WordPress is stylish, customizable, simple, and readable -- make it yours with a custom menu, header image, and background. Twenty Ten supports six widgetized areas (two in the sidebar, four in the footer) and featured images (thumbnails for gallery posts and custom header images for posts and pages). It includes stylesheets for print and the admin Visual Editor, special styles for posts in the "Asides" and "Gallery" categories, and has an optional one-column page template that removes the sidebar.
@@ -33,6 +33,12 @@ This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
+
+Images
+
+“Boats Water Photo” by Bonnie Moreland. CC0. https://stocksnap.io/photo/boats-water-JZETH8NO7I
+“Lake Sunset Photo” by Bonnie Moreland. CC0. https://stocksnap.io/photo/lake-sunset-XYK6WMBSOJ
+“Old Barn Photo” by Bonnie Moreland. CC0. https://stocksnap.io/photo/old-barn-4HMJ2KQVX9
 
 == Changelog ==
 
