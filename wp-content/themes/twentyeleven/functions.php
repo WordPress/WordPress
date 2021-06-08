@@ -137,6 +137,9 @@ if ( ! function_exists( 'twentyeleven_setup' ) ) :
 		// Grab Twenty Eleven's Ephemera widget.
 		require get_template_directory() . '/inc/widgets.php';
 
+		// Load block patterns.
+		require get_template_directory() . '/inc/block-patterns.php';
+
 		// Add default posts and comments RSS feed links to <head>.
 		add_theme_support( 'automatic-feed-links' );
 
