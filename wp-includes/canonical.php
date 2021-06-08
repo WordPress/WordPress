@@ -27,7 +27,6 @@
  * or query in an attempt to figure the correct page to go to.
  *
  * @since 2.3.0
- * @since 5.8.0 Checks comment page count to limit pagination.
  *
  * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  * @global bool       $is_IIS
@@ -505,15 +504,8 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 				&& ( 'newest' === $default_comments_page && $cpage > 0
 					|| 'newest' !== $default_comments_page && $cpage > 1 )
 			) {
-				// Checks comment page count to limit pagination.
-				$per_page = get_option( 'comments_per_page' );
-
-				// Get the total number of pages for comments.
-				$comments_total_pages = ceil( ( $wp_query->post->comment_count ) / $per_page );
-				if ( $cpage <= $comments_total_pages ) {
-					$addl_path  = ( ! empty( $addl_path ) ? trailingslashit( $addl_path ) : '' );
-					$addl_path .= user_trailingslashit( $wp_rewrite->comments_pagination_base . '-' . $cpage, 'commentpaged' );
-				}
+				$addl_path  = ( ! empty( $addl_path ) ? trailingslashit( $addl_path ) : '' );
+				$addl_path .= user_trailingslashit( $wp_rewrite->comments_pagination_base . '-' . $cpage, 'commentpaged' );
 
 				$redirect['query'] = remove_query_arg( 'cpage', $redirect['query'] );
 			}
