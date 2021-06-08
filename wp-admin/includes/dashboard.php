@@ -1671,7 +1671,7 @@ function wp_dashboard_browser_nag() {
 
 	if ( $response ) {
 		if ( $is_IE ) {
-			$msg = __( "Internet Explorer does not give you the best WordPress experience. Switch to Microsoft Edge, or another more modern browser to get the most from your site." );
+			$msg = __( 'Internet Explorer does not give you the best WordPress experience. Switch to Microsoft Edge, or another more modern browser to get the most from your site.' );
 		} elseif ( $response['insecure'] ) {
 			$msg = sprintf(
 				/* translators: %s: Browser name and link. */
@@ -1690,7 +1690,7 @@ function wp_dashboard_browser_nag() {
 		if ( ! empty( $response['img_src'] ) ) {
 			$img_src = ( is_ssl() && ! empty( $response['img_src_ssl'] ) ) ? $response['img_src_ssl'] : $response['img_src'];
 
-			$notice .= '<div class="alignright browser-icon"><img src="' . esc_attr( $img_src ) . '" alt="" /></div>';
+			$notice           .= '<div class="alignright browser-icon"><img src="' . esc_attr( $img_src ) . '" alt="" /></div>';
 			$browser_nag_class = ' has-browser-icon';
 		}
 		$notice .= "<p class='browser-update-nag{$browser_nag_class}'>{$msg}</p>";
