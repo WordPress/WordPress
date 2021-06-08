@@ -209,6 +209,22 @@ function register_block_type_from_metadata( $file_or_folder, $args = array() ) {
 	 */
 	$metadata = apply_filters( 'block_type_metadata', $metadata );
 
+	/**
+	 * Add `style` and `editor_style` for core blocks if missing.
+	 *
+	 * @since 5.8.0
+	 */
+	if ( ! empty( $metadata['name'] ) && 0 === strpos( $metadata['name'], 'core/' ) ) {
+		$block_name = str_replace( 'core/', '', $metadata['name'] );
+
+		if ( ! isset( $metadata['style'] ) ) {
+			$metadata['style'] = "wp-block-$block_name";
+		}
+		if ( ! isset( $metadata['editor_style'] ) ) {
+			$metadata['editor_style'] = "wp-block-$block_name-editor";
+		}
+	}
+
 	$settings          = array();
 	$property_mappings = array(
 		'title'           => 'title',
