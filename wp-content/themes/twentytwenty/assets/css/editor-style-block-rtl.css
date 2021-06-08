@@ -224,7 +224,7 @@ Inter variable font. Usage:
 
 /* Typography -------------------------------- */
 
-.editor-styles-wrapper .editor-block-list__layout a {
+.editor-styles-wrapper a {
 	color: #cd2653;
 	text-decoration: underline;
 }
