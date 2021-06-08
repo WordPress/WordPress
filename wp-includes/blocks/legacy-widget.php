@@ -50,21 +50,25 @@ function render_block_core_legacy_widget( $attributes ) {
 }
 
 /**
- * On application init this does two things:
- *
- * - Registers the 'core/legacy-widget' block.
- * - Intercepts any request with legacy-widget-preview in the query param and,
- *   if set, renders a page containing a preview of the requested Legacy Widget
- *   block.
+ * Registers the 'core/legacy-widget' block.
  */
-function init_legacy_widget_block() {
+function register_block_core_legacy_widget() {
 	register_block_type_from_metadata(
 		__DIR__ . '/legacy-widget',
 		array(
 			'render_callback' => 'render_block_core_legacy_widget',
 		)
 	);
+}
 
+add_action( 'init', 'register_block_core_legacy_widget' );
+
+/**
+ * Intercepts any request with legacy-widget-preview in the query param and, if
+ * set, renders a page containing a preview of the requested Legacy Widget
+ * block.
+ */
+function handle_legacy_widget_preview_iframe() {
 	if ( empty( $_GET['legacy-widget-preview'] ) ) {
 		return;
 	}
@@ -110,4 +114,7 @@ function init_legacy_widget_block() {
 	exit;
 }
 
-add_action( 'init', 'init_legacy_widget_block' );
+// Ensure handle_legacy_widget_preview_iframe() is called after Core's
+// register_block_core_legacy_widget() (priority = 10) and after Gutenberg's
+// register_block_core_legacy_widget() (priority = 20).
+add_action( 'init', 'handle_legacy_widget_preview_iframe', 21 );

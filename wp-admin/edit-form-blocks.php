@@ -131,7 +131,8 @@ $available_templates = ! empty( $available_templates ) ? array_merge(
 // Editor Styles.
 $styles = array(
 	array(
-		'css' => 'body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif }',
+		'css'            => 'body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif }',
+		'__unstableType' => 'core',
 	),
 );
 if ( $editor_styles && current_theme_supports( 'editor-styles' ) ) {
@@ -140,15 +141,17 @@ if ( $editor_styles && current_theme_supports( 'editor-styles' ) ) {
 			$response = wp_remote_get( $style );
 			if ( ! is_wp_error( $response ) ) {
 				$styles[] = array(
-					'css' => wp_remote_retrieve_body( $response ),
+					'css'            => wp_remote_retrieve_body( $response ),
+					'__unstableType' => 'theme',
 				);
 			}
 		} else {
 			$file = get_theme_file_path( $style );
 			if ( is_file( $file ) ) {
 				$styles[] = array(
-					'css'     => file_get_contents( $file ),
-					'baseURL' => get_theme_file_uri( $style ),
+					'css'            => file_get_contents( $file ),
+					'baseURL'        => get_theme_file_uri( $style ),
+					'__unstableType' => 'theme',
 				);
 			}
 		}
