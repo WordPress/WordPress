@@ -7,7 +7,7 @@
   },
   "homepage": "https://wordpress.org/themes/twentynineteen/",
   "devDependencies": {
-    "@wordpress/browserslist-config": "^4.0.0",
+    "@wordpress/browserslist-config": "^4.0.1",
     "autoprefixer": "^9.8.6",
     "chokidar-cli": "^2.1.0",
     "node-sass": "^6.0.0",
