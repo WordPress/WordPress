@@ -3377,18 +3377,48 @@ function wp_video_shortcode( $attr, $content = '' ) {
 add_shortcode( 'video', 'wp_video_shortcode' );
 
 /**
+ * Gets the previous image link that has the same post parent.
+ *
+ * @since 5.8.0
+ *
+ * @see get_adjacent_image_link()
+ *
+ * @param string|int[] $size Optional. Image size. Accepts any registered image size name, or an array
+ *                           of width and height values in pixels (in that order). Default 'thumbnail'.
+ * @param string|false $text Optional. Link text. Default false.
+ * @return string Markup for previous image link.
+ */
+function get_previous_image_link( $size = 'thumbnail', $text = false ) {
+	return get_adjacent_image_link( true, $size, $text );
+}
+
+/**
  * Displays previous image link that has the same post parent.
  *
  * @since 2.5.0
- *
- * @see adjacent_image_link()
  *
  * @param string|int[] $size Optional. Image size. Accepts any registered image size name, or an array
  *                           of width and height values in pixels (in that order). Default 'thumbnail'.
  * @param string|false $text Optional. Link text. Default false.
  */
 function previous_image_link( $size = 'thumbnail', $text = false ) {
-	adjacent_image_link( true, $size, $text );
+	echo get_previous_image_link( $size, $text );
+}
+
+/**
+ * Gets the next image link that has the same post parent.
+ *
+ * @since 5.8.0
+ *
+ * @see get_adjacent_image_link()
+ *
+ * @param string|int[] $size Optional. Image size. Accepts any registered image size name, or an array
+ *                           of width and height values in pixels (in that order). Default 'thumbnail'.
+ * @param string|false $text Optional. Link text. Default false.
+ * @return string Markup for next image link.
+ */
+function get_next_image_link( $size = 'thumbnail', $text = false ) {
+	return get_adjacent_image_link( false, $size, $text );
 }
 
 /**
@@ -3396,29 +3426,28 @@ function previous_image_link( $size = 'thumbnail', $text = false ) {
  *
  * @since 2.5.0
  *
- * @see adjacent_image_link()
- *
  * @param string|int[] $size Optional. Image size. Accepts any registered image size name, or an array
  *                           of width and height values in pixels (in that order). Default 'thumbnail'.
  * @param string|false $text Optional. Link text. Default false.
  */
 function next_image_link( $size = 'thumbnail', $text = false ) {
-	adjacent_image_link( false, $size, $text );
+	echo get_next_image_link( $size, $text );
 }
 
 /**
- * Displays next or previous image link that has the same post parent.
+ * Gets the next or previous image link that has the same post parent.
  *
  * Retrieves the current attachment object from the $post global.
  *
- * @since 2.5.0
+ * @since 5.8.0
  *
  * @param bool         $prev Optional. Whether to display the next (false) or previous (true) link. Default true.
  * @param string|int[] $size Optional. Image size. Accepts any registered image size name, or an array
  *                           of width and height values in pixels (in that order). Default 'thumbnail'.
  * @param bool         $text Optional. Link text. Default false.
+ * @return string Markup for image link.
  */
-function adjacent_image_link( $prev = true, $size = 'thumbnail', $text = false ) {
+function get_adjacent_image_link( $prev = true, $size = 'thumbnail', $text = false ) {
 	$post        = get_post();
 	$attachments = array_values(
 		get_children(
@@ -3473,7 +3502,23 @@ function adjacent_image_link( $prev = true, $size = 'thumbnail', $text = false )
 	 *                              an array of width and height values in pixels (in that order).
 	 * @param string $text          Link text.
 	 */
-	echo apply_filters( "{$adjacent}_image_link", $output, $attachment_id, $size, $text );
+	return apply_filters( "{$adjacent}_image_link", $output, $attachment_id, $size, $text );
+}
+
+/**
+ * Displays next or previous image link that has the same post parent.
+ *
+ * Retrieves the current attachment object from the $post global.
+ *
+ * @since 2.5.0
+ *
+ * @param bool         $prev Optional. Whether to display the next (false) or previous (true) link. Default true.
+ * @param string|int[] $size Optional. Image size. Accepts any registered image size name, or an array
+ *                           of width and height values in pixels (in that order). Default 'thumbnail'.
+ * @param bool         $text Optional. Link text. Default false.
+ */
+function adjacent_image_link( $prev = true, $size = 'thumbnail', $text = false ) {
+	echo get_adjacent_image_link( $prev, $size, $text );
 }
 
 /**
