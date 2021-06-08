@@ -7360,10 +7360,58 @@ h1.page-title {
 	clear: both;
 }
 
-.widget-title {
-	font-size: 1.125rem;
+.widget h1 {
 	font-weight: 700;
 	line-height: 1.4;
+}
+
+.widget h2 {
+	font-weight: 700;
+	line-height: 1.4;
+}
+
+.widget h3 {
+	font-weight: 700;
+	line-height: 1.4;
+}
+
+.widget h4 {
+	font-weight: 700;
+	line-height: 1.4;
+}
+
+.widget h5 {
+	font-weight: 700;
+	line-height: 1.4;
+}
+
+.widget h6 {
+	font-weight: 700;
+	line-height: 1.4;
+}
+
+.widget h1 {
+	font-size: 1.25rem;
+}
+
+.widget h2 {
+	font-size: 1.125rem;
+}
+
+.widget h3 {
+	font-size: 1rem;
+}
+
+.widget h4 {
+	font-size: 1rem;
+}
+
+.widget h5 {
+	font-size: 1rem;
+}
+
+.widget h6 {
+	font-size: 1rem;
 }
 
 .search-form {

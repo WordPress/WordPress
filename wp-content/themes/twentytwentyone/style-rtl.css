@@ -5444,10 +5444,38 @@ h1.page-title {
 	clear: both;
 }
 
-.widget-title {
-	font-size: var(--global--font-size-sm);
+.widget h1,
+.widget h2,
+.widget h3,
+.widget h4,
+.widget h5,
+.widget h6 {
 	font-weight: var(--widget--font-weight-title);
 	line-height: var(--widget--line-height-title);
+}
+
+.widget h1 {
+	font-size: var(--global--font-size-md);
+}
+
+.widget h2 {
+	font-size: var(--global--font-size-sm);
+}
+
+.widget h3 {
+	font-size: var(--global--font-size-xs);
+}
+
+.widget h4 {
+	font-size: var(--global--font-size-xs);
+}
+
+.widget h5 {
+	font-size: var(--global--font-size-xs);
+}
+
+.widget h6 {
+	font-size: var(--global--font-size-xs);
 }
 
 .search-form {
