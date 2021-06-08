@@ -32,6 +32,7 @@ require ABSPATH . WPINC . '/blocks/rss.php';
 require ABSPATH . WPINC . '/blocks/search.php';
 require ABSPATH . WPINC . '/blocks/shortcode.php';
 require ABSPATH . WPINC . '/blocks/site-tagline.php';
+require ABSPATH . WPINC . '/blocks/site-logo.php';
 require ABSPATH . WPINC . '/blocks/site-title.php';
 require ABSPATH . WPINC . '/blocks/social-link.php';
 require ABSPATH . WPINC . '/blocks/tag-cloud.php';
