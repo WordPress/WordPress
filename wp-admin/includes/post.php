@@ -2134,11 +2134,6 @@ function use_block_editor_for_post( $post ) {
 		return false;
 	}
 
-	// The posts page can't be edited in the block editor.
-	if ( absint( get_option( 'page_for_posts' ) ) === $post->ID && empty( $post->post_content ) ) {
-		return false;
-	}
-
 	$use_block_editor = use_block_editor_for_post_type( $post->post_type );
 
 	/**

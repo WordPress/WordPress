@@ -313,6 +313,10 @@ $script = sprintf(
 );
 wp_add_inline_script( 'wp-edit-post', $script );
 
+if ( (int) get_option( 'page_for_posts' ) === (int) $post->ID ) {
+	add_action( 'admin_enqueue_scripts', '_wp_block_editor_posts_page_notice' );
+}
+
 require_once ABSPATH . 'wp-admin/admin-header.php';
 ?>
 

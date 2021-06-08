@@ -2674,3 +2674,20 @@ function wp_star_rating( $args = array() ) {
 function _wp_posts_page_notice() {
 	echo '<div class="notice notice-warning inline"><p>' . __( 'You are currently editing the page that shows your latest posts.' ) . '</p></div>';
 }
+
+/**
+ * Output a notice when editing the page for posts in the block editor (internal use only).
+ *
+ * @ignore
+ * @since 5.8.0
+ */
+function _wp_block_editor_posts_page_notice() {
+	wp_add_inline_script(
+		'wp-notices',
+		sprintf(
+			'wp.data.dispatch( "core/notices" ).createWarningNotice( "%s", { isDismissible: false } )',
+			__( 'You are currently editing the page that shows your latest posts.' )
+		),
+		'after'
+	);
+}
