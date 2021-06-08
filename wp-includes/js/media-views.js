@@ -5648,9 +5648,11 @@ UploaderStatus = View.extend(/** @lends wp.media.view.UploaderStatus.prototype *
 			return attachment.get('uploading');
 		});
 
-		this.$index.text( index + 1 );
-		this.$total.text( queue.length );
-		this.$filename.html( active ? this.filename( active.get('filename') ) : '' );
+		if ( this.$index && this.$total && this.$filename ) {
+			this.$index.text( index + 1 );
+			this.$total.text( queue.length );
+			this.$filename.html( active ? this.filename( active.get('filename') ) : '' );
+		}
 	},
 	/**
 	 * @param {string} filename
