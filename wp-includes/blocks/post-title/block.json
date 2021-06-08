@@ -35,9 +35,11 @@
 			"gradients": true,
 			"link": true
 		},
-		"fontSize": true,
-		"lineHeight": true,
-		"__experimentalFontFamily": true
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true
+		}
 	},
 	"style": "wp-block-post-title"
 }

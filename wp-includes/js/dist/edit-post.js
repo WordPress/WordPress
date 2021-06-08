@@ -13152,7 +13152,6 @@ function VisualEditor({
     contentSize,
     wideSize
   } = defaultLayout || {};
-  const alignments = contentSize || wideSize ? ['wide', 'full'] : ['left', 'center', 'right'];
   let animatedStyles = isTemplateMode ? templateModeStyles : desktopCanvasStyles;
 
   if (resizedCanvasStyles) {
@@ -13170,6 +13169,24 @@ function VisualEditor({
   const contentRef = Object(external_wp_compose_["useMergeRefs"])([ref, Object(external_wp_blockEditor_["__unstableUseClipboardHandler"])(), Object(external_wp_blockEditor_["__unstableUseCanvasClickRedirect"])(), Object(external_wp_blockEditor_["__unstableUseTypewriter"])(), Object(external_wp_blockEditor_["__unstableUseTypingObserver"])(), Object(external_wp_blockEditor_["__unstableUseBlockSelectionClearer"])()]);
   const blockSelectionClearerRef = Object(external_wp_blockEditor_["__unstableUseBlockSelectionClearer"])();
   const [, RecursionProvider] = Object(external_wp_blockEditor_["__experimentalUseNoRecursiveRenders"])(wrapperUniqueId, wrapperBlockName);
+  const layout = Object(external_wp_element_["useMemo"])(() => {
+    if (isTemplateMode) {
+      return {
+        type: 'default'
+      };
+    }
+
+    if (themeSupportsLayout) {
+      const alignments = contentSize || wideSize ? ['wide', 'full'] : ['left', 'center', 'right'];
+      return {
+        type: 'default',
+        // Find a way to inject this in the support flag code (hooks).
+        alignments
+      };
+    }
+
+    return undefined;
+  }, [isTemplateMode, themeSupportsLayout, contentSize, wideSize]);
   return Object(external_wp_element_["createElement"])("div", {
     className: classnames_default()('edit-post-visual-editor', {
       'is-template-mode': isTemplateMode
@@ -13199,17 +13216,13 @@ function VisualEditor({
     style: {
       paddingBottom
     }
-  }, themeSupportsLayout && Object(external_wp_element_["createElement"])(external_wp_blockEditor_["__experimentalLayoutStyle"], {
+  }, themeSupportsLayout && !isTemplateMode && Object(external_wp_element_["createElement"])(external_wp_blockEditor_["__experimentalLayoutStyle"], {
     selector: ".edit-post-visual-editor__post-title-wrapper, .block-editor-block-list__layout.is-root-container",
     layout: defaultLayout
   }), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["WritingFlow"], null, !isTemplateMode && Object(external_wp_element_["createElement"])("div", {
     className: "edit-post-visual-editor__post-title-wrapper"
   }, Object(external_wp_element_["createElement"])(external_wp_editor_["PostTitle"], null)), Object(external_wp_element_["createElement"])(RecursionProvider, null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockList"], {
-    __experimentalLayout: themeSupportsLayout ? {
-      type: 'default',
-      // Find a way to inject this in the support flag code (hooks).
-      alignments: themeSupportsLayout ? alignments : undefined
-    } : undefined
+    __experimentalLayout: layout
   }))))))), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["__unstableBlockSettingsMenuFirstItem"], null, ({
     onClose
   }) => Object(external_wp_element_["createElement"])(block_inspector_button, {
@@ -14550,9 +14563,9 @@ function DeleteTemplate() {
   return Object(external_wp_element_["createElement"])(external_wp_components_["MenuGroup"], {
     className: "edit-post-template-top-area__second-menu-group"
   }, Object(external_wp_element_["createElement"])(external_wp_components_["MenuItem"], {
+    className: "edit-post-template-top-area__delete-template-button",
     isDestructive: true,
-    isTertiary: true,
-    isLink: true,
+    isSecondary: true,
     "aria-label": Object(external_wp_i18n_["__"])('Delete template'),
     onClick: () => {
       if ( // eslint-disable-next-line no-alert
@@ -14630,6 +14643,7 @@ function EditTemplateTitle() {
   return Object(external_wp_element_["createElement"])(external_wp_components_["TextControl"], {
     label: Object(external_wp_i18n_["__"])('Title'),
     value: templateTitle,
+    help: Object(external_wp_i18n_["__"])('Give the template a title that indicates its purpose, e.g. "Full Width".'),
     onChange: newTitle => {
       const settings = getEditorSettings();
       const newAvailableTemplates = Object(external_lodash_["mapValues"])(settings.availableTemplates, (existingTitle, id) => {
@@ -16786,7 +16800,11 @@ function PostTemplateActions() {
 
       const defaultTitle = Object(external_wp_i18n_["__"])('Custom Template');
 
-      const templateContent = [Object(external_wp_blocks_["createBlock"])('core/site-title'), Object(external_wp_blocks_["createBlock"])('core/site-tagline'), Object(external_wp_blocks_["createBlock"])('core/separator'), Object(external_wp_blocks_["createBlock"])('core/post-title'), Object(external_wp_blocks_["createBlock"])('core/post-content')];
+      const templateContent = [Object(external_wp_blocks_["createBlock"])('core/site-title'), Object(external_wp_blocks_["createBlock"])('core/site-tagline'), Object(external_wp_blocks_["createBlock"])('core/separator'), Object(external_wp_blocks_["createBlock"])('core/post-title'), Object(external_wp_blocks_["createBlock"])('core/post-content', {
+        layout: {
+          inherit: true
+        }
+      })];
 
       __unstableSwitchToTemplateMode({
         slug: 'wp-custom-template-' + Object(external_lodash_["kebabCase"])(title !== null && title !== void 0 ? title : defaultTitle),

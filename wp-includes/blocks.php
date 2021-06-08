@@ -956,6 +956,32 @@ function block_has_support( $block_type, $feature, $default = false ) {
 	return true === $block_support || is_array( $block_support );
 }
 
+function wp_migrate_old_typography_shape( $metadata ) {
+	$typography_keys = array(
+		'__experimentalFontFamily',
+		'__experimentalFontStyle',
+		'__experimentalFontWeight',
+		'__experimentalLetterSpacing',
+		'__experimentalTextDecoration',
+		'__experimentalTextTransform',
+		'fontSize',
+		'lineHeight',
+	);
+	foreach ( $typography_keys as $typography_key ) {
+		$support_for_key = _wp_array_get( $metadata['supports'], array( $typography_key ), null );
+		if ( null !== $support_for_key ) {
+			trigger_error(
+				/* translators: %1$s: Block type, %2$s: typography supports key e.g: fontSize, lineHeight etc... */
+				sprintf( __( 'Block %1$s is declaring %2$s support on block.json under supports.%2$s. %2$s support is now declared under supports.typography.%2$s.', 'gutenberg' ), $metadata['name'], $typography_key ),
+				headers_sent() || WP_DEBUG ? E_USER_WARNING : E_USER_NOTICE
+			);
+			gutenberg_experimental_set( $metadata['supports'], array( 'typography', $typography_key ), $support_for_key );
+			unset( $metadata['supports'][ $typography_key ] );
+		}
+	}
+	return $metadata;
+}
+
 /**
  * Helper function that constructs a WP_Query args array from
  * a `Query` block properties.

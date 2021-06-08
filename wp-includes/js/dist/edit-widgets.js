@@ -649,8 +649,9 @@ function transformWidgetToBlock(widget) {
 }
 function transformBlockToWidget(block, relatedWidget = {}) {
   let widget;
+  const isValidLegacyWidgetBlock = block.name === 'core/legacy-widget' && (block.attributes.id || block.attributes.instance);
 
-  if (block.name === 'core/legacy-widget') {
+  if (isValidLegacyWidgetBlock) {
     var _block$attributes$id, _block$attributes$idB, _block$attributes$ins;
 
     widget = { ...relatedWidget,
@@ -667,14 +668,8 @@ function transformBlockToWidget(block, relatedWidget = {}) {
         }
       }
     };
-  } // Delete deprecated properties.
+  } // Delete read-only properties.
 
-
-  delete widget.description;
-  delete widget.name;
-  delete widget.number;
-  delete widget.settings;
-  delete widget.widget_class; // Delete read-only properties.
 
   delete widget.rendered;
   delete widget.rendered_form;
@@ -1905,7 +1900,7 @@ function WidgetAreas({
   }), Object(external_wp_element_["createElement"])("div", null, Object(external_wp_element_["createElement"])("p", null, description), (widgetAreas === null || widgetAreas === void 0 ? void 0 : widgetAreas.length) === 0 && Object(external_wp_element_["createElement"])("p", null, Object(external_wp_i18n_["__"])('Your theme does not contain any Widget Areas.')), !selectedWidgetArea && Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
     href: Object(external_wp_url_["addQueryArgs"])('customize.php', {
       'autofocus[panel]': 'widgets',
-      return: 'themes.php?page=gutenberg-widgets'
+      return: window.location.pathname
     }),
     isTertiary: true
   }, Object(external_wp_i18n_["__"])('Manage with live preview')))));

@@ -565,6 +565,7 @@
  * Block Toolbar when contextual.
  */
 .block-editor-block-contextual-toolbar {
+  display: inline-flex;
   border: 1px solid #1e1e1e;
   border-radius: 2px;
   background-color: #fff;

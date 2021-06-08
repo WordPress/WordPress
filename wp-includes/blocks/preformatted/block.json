@@ -20,7 +20,9 @@
 		"color": {
 			"gradients": true
 		},
-		"fontSize": true
+		"typography": {
+			"fontSize": true
+		}
 	},
 	"style": "wp-block-preformatted"
 }

@@ -938,7 +938,7 @@ __webpack_require__.d(selectors_namespaceObject, "isPermalinkEditable", function
 __webpack_require__.d(selectors_namespaceObject, "getPermalink", function() { return getPermalink; });
 __webpack_require__.d(selectors_namespaceObject, "getEditedPostSlug", function() { return getEditedPostSlug; });
 __webpack_require__.d(selectors_namespaceObject, "getPermalinkParts", function() { return getPermalinkParts; });
-__webpack_require__.d(selectors_namespaceObject, "isPostLocked", function() { return isPostLocked; });
+__webpack_require__.d(selectors_namespaceObject, "isPostLocked", function() { return selectors_isPostLocked; });
 __webpack_require__.d(selectors_namespaceObject, "isPostSavingLocked", function() { return selectors_isPostSavingLocked; });
 __webpack_require__.d(selectors_namespaceObject, "isPostAutosavingLocked", function() { return isPostAutosavingLocked; });
 __webpack_require__.d(selectors_namespaceObject, "isPostLockTakeover", function() { return isPostLockTakeover; });
@@ -1711,11 +1711,11 @@ function getWPAdminURL(page, query) {
  * This replicates some of what sanitize_title() does in WordPress core, but
  * is only designed to approximate what the slug will be.
  *
- * Converts Latin-1 Supplement and Latin Extended-A letters to basic Latin
- * letters. Removes combining diacritical marks. Converts whitespace, periods,
+ * Converts Latin-1 Supplement and Latin Extended-A letters to basic Latin letters.
+ * Removes combining diacritical marks. Converts whitespace, periods,
  * and forward slashes to hyphens. Removes any remaining non-word characters
- * except hyphens. Converts remaining string to lowercase. It does not account
- * for octets, HTML entities, or other encoded characters.
+ * except hyphens and underscores. Converts remaining string to lowercase.
+ * It does not account for octets, HTML entities, or other encoded characters.
  *
  * @param {string} string Title or slug to be processed
  *
@@ -1727,7 +1727,7 @@ function cleanForSlug(string) {
     return '';
   }
 
-  return Object(external_lodash_["trim"])(Object(external_lodash_["deburr"])(string).replace(/[\s\./]+/g, '-').replace(/[^\w-]+/g, '').toLowerCase(), '-');
+  return Object(external_lodash_["trim"])(Object(external_lodash_["deburr"])(string).replace(/[\s\./]+/g, '-').replace(/[^\p{L}\p{N}_-]+/gu, '').toLowerCase(), '-');
 }
 
 // EXTERNAL MODULE: external ["wp","primitives"]
@@ -2784,7 +2784,7 @@ function getPermalinkParts(state) {
  * @return {boolean} Is locked.
  */
 
-function isPostLocked(state) {
+function selectors_isPostLocked(state) {
   return state.postLock.isLocked;
 }
 /**
@@ -7014,10 +7014,12 @@ class post_preview_button_PostPreviewButton extends external_wp_element_["Compon
     // https://html.spec.whatwg.org/multipage/interaction.html#dom-window-focus
 
 
-    this.previewWindow.focus(); // If we don't need to autosave the post before previewing, then we simply
-    // load the Preview URL in the Preview tab.
+    this.previewWindow.focus();
 
-    if (!this.props.isAutosaveable) {
+    if ( // If we don't need to autosave the post before previewing, then we simply
+    // load the Preview URL in the Preview tab.
+    !this.props.isAutosaveable || // Do not save or overwrite the post, if the post is already locked.
+    this.props.isPostLocked) {
       this.setPreviewWindowLink(event.target.href);
       return;
     } // Request an autosave. This happens asynchronously and causes the component
@@ -7080,7 +7082,8 @@ class post_preview_button_PostPreviewButton extends external_wp_element_["Compon
     getEditedPostAttribute,
     isEditedPostSaveable,
     isEditedPostAutosaveable,
-    getEditedPostPreviewLink
+    getEditedPostPreviewLink,
+    isPostLocked
   } = select('core/editor');
   const {
     getPostType
@@ -7094,7 +7097,8 @@ class post_preview_button_PostPreviewButton extends external_wp_element_["Compon
     isSaveable: isEditedPostSaveable(),
     isAutosaveable: forceIsAutosaveable || isEditedPostAutosaveable(),
     isViewable: Object(external_lodash_["get"])(postType, ['viewable'], false),
-    isDraft: ['draft', 'auto-draft'].indexOf(getEditedPostAttribute('status')) !== -1
+    isDraft: ['draft', 'auto-draft'].indexOf(getEditedPostAttribute('status')) !== -1,
+    isPostLocked: isPostLocked()
   };
 }), Object(external_wp_data_["withDispatch"])(dispatch => ({
   autosave: dispatch('core/editor').autosave,

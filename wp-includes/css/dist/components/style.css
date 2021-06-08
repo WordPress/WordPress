@@ -3551,7 +3551,6 @@ body.is-dragging-components-draggable {
 .components-notice-list {
   max-width: 100vw;
   box-sizing: border-box;
-  z-index: 29;
 }
 .components-notice-list .components-notice__content {
   margin-top: 12px;

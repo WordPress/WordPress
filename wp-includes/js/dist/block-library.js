@@ -2212,8 +2212,10 @@ const {
     color: {
       link: true
     },
-    fontSize: true,
-    lineHeight: true,
+    typography: {
+      fontSize: true,
+      lineHeight: true
+    },
     __experimentalSelector: "p",
     __unstablePasteTextInline: true
   },
@@ -2307,8 +2309,10 @@ const paragraph_metadata = {
     color: {
       link: true
     },
-    fontSize: true,
-    lineHeight: true,
+    typography: {
+      fontSize: true,
+      lineHeight: true
+    },
     __experimentalSelector: "p",
     __unstablePasteTextInline: true
   },
@@ -3932,7 +3936,6 @@ function (_super) {
       muted: true,
       className: index_module_classNames('reactEasyCrop_Video', objectFit === 'contain' && 'reactEasyCrop_Contain', objectFit === 'horizontal-cover' && 'reactEasyCrop_Cover_Horizontal', objectFit === 'vertical-cover' && 'reactEasyCrop_Cover_Vertical', mediaClassName)
     }, mediaProps, {
-      src: video,
       ref: function ref(el) {
         return _this.videoRef = el;
       },
@@ -3941,6 +3944,12 @@ function (_super) {
         transform: transform || "translate(" + x + "px, " + y + "px) rotate(" + rotation + "deg) scale(" + zoom + ")"
       }),
       controls: false
+    }), (Array.isArray(video) ? video : [{
+      src: video
+    }]).map(function (item) {
+      return /*#__PURE__*/external_React_default.a.createElement("source", __assign({
+        key: item.src
+      }, item));
     })), this.state.cropSize && /*#__PURE__*/external_React_default.a.createElement("div", {
       style: __assign(__assign({}, cropAreaStyle), {
         width: this.state.cropSize.width,
@@ -6377,8 +6386,11 @@ const {
     color: {
       link: true
     },
-    fontSize: true,
-    lineHeight: true,
+    typography: {
+      fontSize: true,
+      lineHeight: true,
+      __experimentalFontWeight: true
+    },
     __experimentalSelector: "h1,h2,h3,h4,h5,h6",
     __unstablePasteTextInline: true
   },
@@ -6521,8 +6533,11 @@ const heading_metadata = {
     color: {
       link: true
     },
-    fontSize: true,
-    lineHeight: true,
+    typography: {
+      fontSize: true,
+      lineHeight: true,
+      __experimentalFontWeight: true
+    },
     __experimentalSelector: "h1,h2,h3,h4,h5,h6",
     __unstablePasteTextInline: true
   },
@@ -10707,13 +10722,15 @@ const button_metadata = {
       __experimentalSkipSerialization: true,
       gradients: true
     },
-    fontSize: true,
+    typography: {
+      fontSize: true,
+      __experimentalFontFamily: true
+    },
     reusable: false,
     __experimentalBorder: {
       radius: true,
       __experimentalSkipSerialization: true
     },
-    __experimentalFontFamily: true,
     __experimentalSelector: ".wp-block-button__link"
   },
   styles: [{
@@ -10770,6 +10787,12 @@ const button_settings = {
 
 const ALLOWED_BLOCKS = [button_name];
 const BUTTONS_TEMPLATE = [['core/button']];
+const LAYOUT = {
+  type: 'default',
+  alignments: []
+};
+const VERTICAL_JUSTIFY_CONTROLS = ['left', 'center', 'right'];
+const HORIZONTAL_JUSTIFY_CONTROLS = ['left', 'center', 'right', 'space-between'];
 
 function ButtonsEdit({
   attributes: {
@@ -10788,13 +10811,10 @@ function ButtonsEdit({
     allowedBlocks: ALLOWED_BLOCKS,
     template: BUTTONS_TEMPLATE,
     orientation,
-    __experimentalLayout: {
-      type: 'default',
-      alignments: []
-    },
+    __experimentalLayout: LAYOUT,
     templateInsertUpdatesSelection: true
   });
-  const justifyControls = orientation === 'vertical' ? ['left', 'center', 'right'] : ['left', 'center', 'right', 'space-between'];
+  const justifyControls = orientation === 'vertical' ? VERTICAL_JUSTIFY_CONTROLS : HORIZONTAL_JUSTIFY_CONTROLS;
   return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockControls"], {
     group: "block"
   }, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["JustifyContentControl"], {
@@ -11433,7 +11453,9 @@ const code_metadata = {
   },
   supports: {
     anchor: true,
-    fontSize: true
+    typography: {
+      fontSize: true
+    }
   },
   style: "wp-block-code"
 };
@@ -19050,8 +19072,15 @@ function serializeForm(form) {
 
 
 /**
+ * External dependencies
+ */
+
+/**
  * WordPress dependencies
  */
+
+
+
 
 
 
@@ -19067,10 +19096,12 @@ function Form({
   id,
   idBase,
   instance,
+  isWide,
   onChangeInstance,
   onChangeHasPreview
 }) {
-  const ref = Object(external_wp_element_["useRef"])(); // We only want to remount the control when the instance changes
+  const ref = Object(external_wp_element_["useRef"])();
+  const isMediumLargeViewport = Object(external_wp_compose_["useViewportMatch"])('small'); // We only want to remount the control when the instance changes
   // *externally*. For example, if the user performs an undo. To do this, we
   // keep track of changes made to instance by the control itself and then
   // ignore those.
@@ -19115,7 +19146,26 @@ function Form({
 
       control.destroy();
     };
-  }, [id, idBase, instance, onChangeInstance, onChangeHasPreview]);
+  }, [id, idBase, instance, onChangeInstance, onChangeHasPreview, isMediumLargeViewport]);
+
+  if (isWide && isMediumLargeViewport) {
+    return Object(external_wp_element_["createElement"])("div", {
+      className: classnames_default()({
+        'wp-block-legacy-widget__container': isVisible
+      })
+    }, isVisible && Object(external_wp_element_["createElement"])("h3", {
+      className: "wp-block-legacy-widget__edit-form-title"
+    }, title), Object(external_wp_element_["createElement"])(external_wp_components_["Popover"], {
+      focusOnMount: false,
+      position: "middle right",
+      __unstableForceXAlignment: true
+    }, Object(external_wp_element_["createElement"])("div", {
+      ref: ref,
+      className: "wp-block-legacy-widget__edit-form",
+      hidden: !isVisible
+    })));
+  }
+
   return Object(external_wp_element_["createElement"])("div", {
     ref: ref,
     className: "wp-block-legacy-widget__edit-form",
@@ -19188,8 +19238,7 @@ function Preview({
     // Ideally, we'd render a <ServerSideRender>. Maybe by
     // rendering one in an iframe via a portal.
     ,
-    src: Object(external_wp_url_["addQueryArgs"])('themes.php', {
-      page: 'gutenberg-widgets',
+    src: Object(external_wp_url_["addQueryArgs"])('widgets.php', {
       'legacy-widget-preview': {
         idBase,
         instance
@@ -19253,8 +19302,13 @@ function ConvertToBlocksButton({
 
 
 /**
+ * External dependencies
+ */
+
+/**
  * WordPress dependencies
  */
+
 
 
 
@@ -19277,7 +19331,15 @@ function Edit(props) {
     id,
     idBase
   } = props.attributes;
-  return Object(external_wp_element_["createElement"])("div", Object(external_wp_blockEditor_["useBlockProps"])(), !id && !idBase ? Object(external_wp_element_["createElement"])(Empty, props) : Object(external_wp_element_["createElement"])(NotEmpty, props));
+  const {
+    isWide = false
+  } = props;
+  const blockProps = Object(external_wp_blockEditor_["useBlockProps"])({
+    className: classnames_default()({
+      'is-wide-widget': isWide
+    })
+  });
+  return Object(external_wp_element_["createElement"])("div", blockProps, !id && !idBase ? Object(external_wp_element_["createElement"])(Empty, props) : Object(external_wp_element_["createElement"])(NotEmpty, props));
 }
 
 function Empty({
@@ -19329,7 +19391,8 @@ function NotEmpty({
   },
   setAttributes,
   clientId,
-  isSelected
+  isSelected,
+  isWide = false
 }) {
   const [hasPreview, setHasPreview] = Object(external_wp_element_["useState"])(null);
   const {
@@ -19393,6 +19456,7 @@ function NotEmpty({
     id: id,
     idBase: idBase,
     instance: instance,
+    isWide: isWide,
     onChangeInstance: setInstance,
     onChangeHasPreview: setHasPreview
   }), idBase && Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, hasPreview === null && mode === 'preview' && Object(external_wp_element_["createElement"])(external_wp_components_["Placeholder"], null, Object(external_wp_element_["createElement"])(external_wp_components_["Spinner"], null)), hasPreview === true && Object(external_wp_element_["createElement"])(Preview, {
@@ -19752,7 +19816,9 @@ const loginout_metadata = {
   },
   supports: {
     className: true,
-    fontSize: false
+    typography: {
+      fontSize: false
+    }
   }
 };
 const {
@@ -20365,7 +20431,10 @@ const list_metadata = {
   supports: {
     anchor: true,
     className: false,
-    fontSize: true,
+    typography: {
+      fontSize: true,
+      __experimentalFontFamily: true
+    },
     color: {
       gradients: true
     },
@@ -21254,7 +21323,9 @@ const preformatted_metadata = {
     color: {
       gradients: true
     },
-    fontSize: true
+    typography: {
+      fontSize: true
+    }
   },
   style: "wp-block-preformatted"
 };
@@ -23101,6 +23172,7 @@ const group_deprecated_deprecated = [// Version of the block with the double div
 
 
 
+
 function GroupEdit({
   attributes,
   setAttributes,
@@ -23133,18 +23205,27 @@ function GroupEdit({
     contentSize,
     wideSize
   } = usedLayout;
-  const alignments = contentSize || wideSize ? ['wide', 'full'] : ['left', 'center', 'right'];
+
+  const _layout = Object(external_wp_element_["useMemo"])(() => {
+    if (themeSupportsLayout) {
+      const alignments = contentSize || wideSize ? ['wide', 'full'] : ['left', 'center', 'right'];
+      return {
+        type: 'default',
+        // Find a way to inject this in the support flag code (hooks).
+        alignments
+      };
+    }
+
+    return undefined;
+  }, [themeSupportsLayout, contentSize, wideSize]);
+
   const blockProps = Object(external_wp_blockEditor_["useBlockProps"])();
   const innerBlocksProps = Object(external_wp_blockEditor_["__experimentalUseInnerBlocksProps"])(themeSupportsLayout ? blockProps : {
     className: 'wp-block-group__inner-container'
   }, {
     templateLock,
     renderAppender: hasInnerBlocks ? undefined : external_wp_blockEditor_["InnerBlocks"].ButtonBlockAppender,
-    __experimentalLayout: {
-      type: 'default',
-      // Find a way to inject this in the support flag code (hooks).
-      alignments: themeSupportsLayout ? alignments : undefined
-    }
+    __experimentalLayout: _layout
   });
   return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["InspectorAdvancedControls"], null, Object(external_wp_element_["createElement"])(external_wp_components_["SelectControl"], {
     label: Object(external_wp_i18n_["__"])('HTML element'),
@@ -25990,8 +26071,10 @@ const verse_metadata = {
       gradients: true,
       link: true
     },
-    __experimentalFontFamily: true,
-    fontSize: true,
+    typography: {
+      fontSize: true,
+      __experimentalFontFamily: true
+    },
     spacing: {
       padding: true
     }
@@ -29469,10 +29552,12 @@ const site_tagline_metadata = {
       margin: true,
       padding: true
     },
-    fontSize: true,
-    lineHeight: true,
-    __experimentalFontFamily: true,
-    __experimentalTextTransform: true
+    typography: {
+      fontSize: true,
+      lineHeight: true,
+      __experimentalFontFamily: true,
+      __experimentalTextTransform: true
+    }
   }
 };
 
@@ -29674,12 +29759,14 @@ const site_title_metadata = {
       padding: true,
       margin: true
     },
-    fontSize: true,
-    lineHeight: true,
-    __experimentalFontFamily: true,
-    __experimentalTextTransform: true,
-    __experimentalFontStyle: true,
-    __experimentalFontWeight: true
+    typography: {
+      fontSize: true,
+      lineHeight: true,
+      __experimentalFontFamily: true,
+      __experimentalTextTransform: true,
+      __experimentalFontStyle: true,
+      __experimentalFontWeight: true
+    }
   }
 };
 
@@ -30305,15 +30392,24 @@ function QueryContent({
     contentSize,
     wideSize
   } = usedLayout;
-  const alignments = contentSize || wideSize ? ['wide', 'full'] : ['left', 'center', 'right'];
   const blockProps = Object(external_wp_blockEditor_["useBlockProps"])();
+
+  const _layout = Object(external_wp_element_["useMemo"])(() => {
+    if (themeSupportsLayout) {
+      const alignments = contentSize || wideSize ? ['wide', 'full'] : ['left', 'center', 'right'];
+      return {
+        type: 'default',
+        // Find a way to inject this in the support flag code (hooks).
+        alignments
+      };
+    }
+
+    return undefined;
+  }, [themeSupportsLayout, contentSize, wideSize]);
+
   const innerBlocksProps = Object(external_wp_blockEditor_["__experimentalUseInnerBlocksProps"])(blockProps, {
     template: edit_TEMPLATE,
-    __experimentalLayout: {
-      type: 'default',
-      // Find a way to inject this in the support flag code (hooks).
-      alignments: themeSupportsLayout ? alignments : undefined
-    }
+    __experimentalLayout: _layout
   });
   const {
     postsPerPage
@@ -31055,9 +31151,11 @@ const query_title_metadata = {
     color: {
       gradients: true
     },
-    fontSize: true,
-    lineHeight: true,
-    __experimentalFontFamily: true
+    typography: {
+      fontSize: true,
+      lineHeight: true,
+      __experimentalFontFamily: true
+    }
   },
   editorStyle: "wp-block-query-title-editor"
 };
@@ -31268,8 +31366,10 @@ const query_pagination_next_metadata = {
       gradients: true,
       link: true
     },
-    fontSize: true,
-    lineHeight: true
+    typography: {
+      fontSize: true,
+      lineHeight: true
+    }
   }
 };
 
@@ -31454,8 +31554,10 @@ const query_pagination_previous_metadata = {
       gradients: true,
       link: true
     },
-    fontSize: true,
-    lineHeight: true
+    typography: {
+      fontSize: true,
+      lineHeight: true
+    }
   }
 };
 
@@ -31650,9 +31752,11 @@ const post_title_metadata = {
       gradients: true,
       link: true
     },
-    fontSize: true,
-    lineHeight: true,
-    __experimentalFontFamily: true
+    typography: {
+      fontSize: true,
+      lineHeight: true,
+      __experimentalFontFamily: true
+    }
   },
   style: "wp-block-post-title"
 };
@@ -31692,6 +31796,7 @@ const postContent = Object(external_wp_element_["createElement"])(external_wp_pr
 
 
 
+
 function Content({
   layout,
   postType,
@@ -31711,7 +31816,20 @@ function Content({
     contentSize,
     wideSize
   } = usedLayout;
-  const alignments = contentSize || wideSize ? ['wide', 'full'] : ['left', 'center', 'right'];
+
+  const _layout = Object(external_wp_element_["useMemo"])(() => {
+    if (themeSupportsLayout) {
+      const alignments = contentSize || wideSize ? ['wide', 'full'] : ['left', 'center', 'right'];
+      return {
+        type: 'default',
+        // Find a way to inject this in the support flag code (hooks).
+        alignments
+      };
+    }
+
+    return undefined;
+  }, [themeSupportsLayout, contentSize, wideSize]);
+
   const [blocks, onInput, onChange] = Object(external_wp_coreData_["useEntityBlockEditor"])('postType', postType, {
     id: postId
   });
@@ -31721,11 +31839,7 @@ function Content({
     value: blocks,
     onInput,
     onChange,
-    __experimentalLayout: {
-      type: 'default',
-      // Find a way to inject this in the support flag code (hooks).
-      alignments: themeSupportsLayout ? alignments : undefined
-    }
+    __experimentalLayout: _layout
   });
   return Object(external_wp_element_["createElement"])("div", props);
 }
@@ -31959,8 +32073,10 @@ const post_date_metadata = {
       gradients: true,
       link: true
     },
-    fontSize: true,
-    lineHeight: true
+    typography: {
+      fontSize: true,
+      lineHeight: true
+    }
   }
 };
 
@@ -32123,12 +32239,14 @@ const post_excerpt_metadata = {
   usesContext: ["postId", "postType"],
   supports: {
     html: false,
-    fontSize: true,
     color: {
       gradients: true,
       link: true
     },
-    lineHeight: true
+    typography: {
+      fontSize: true,
+      lineHeight: true
+    }
   },
   editorStyle: "wp-block-post-excerpt-editor",
   style: "wp-block-post-excerpt"
@@ -32503,12 +32621,14 @@ const post_terms_metadata = {
   usesContext: ["postId", "postType"],
   supports: {
     html: false,
-    fontSize: true,
     color: {
       gradients: true,
       link: true
     },
-    lineHeight: true
+    typography: {
+      lineHeight: true,
+      fontSize: true
+    }
   }
 };
 

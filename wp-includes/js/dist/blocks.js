@@ -1361,23 +1361,23 @@ const __EXPERIMENTAL_STYLE_PROPERTY = {
   },
   fontFamily: {
     value: ['typography', 'fontFamily'],
-    support: ['__experimentalFontFamily']
+    support: ['typography', '__experimentalFontFamily']
   },
   fontSize: {
     value: ['typography', 'fontSize'],
-    support: ['fontSize']
+    support: ['typography', 'fontSize']
   },
   fontStyle: {
     value: ['typography', 'fontStyle'],
-    support: ['__experimentalFontStyle']
+    support: ['typography', '__experimentalFontStyle']
   },
   fontWeight: {
     value: ['typography', 'fontWeight'],
-    support: ['__experimentalFontWeight']
+    support: ['typography', '__experimentalFontWeight']
   },
   lineHeight: {
     value: ['typography', 'lineHeight'],
-    support: ['lineHeight']
+    support: ['typography', 'lineHeight']
   },
   margin: {
     value: ['spacing', 'margin'],
@@ -1391,11 +1391,11 @@ const __EXPERIMENTAL_STYLE_PROPERTY = {
   },
   textDecoration: {
     value: ['typography', 'textDecoration'],
-    support: ['__experimentalTextDecoration']
+    support: ['typography', '__experimentalTextDecoration']
   },
   textTransform: {
     value: ['typography', 'textTransform'],
-    support: ['__experimentalTextTransform']
+    support: ['typography', '__experimentalTextTransform']
   }
 };
 const __EXPERIMENTAL_ELEMENTS = {
@@ -2475,19 +2475,14 @@ function switchToBlockType(blocks, name) {
     return null;
   }
 
-  const firstSwitchedBlock = Object(external_lodash_["findIndex"])(transformationResults, result => result.name === name); // Ensure that at least one block object returned by the transformation has
+  const hasSwitchedBlock = Object(external_lodash_["some"])(transformationResults, result => result.name === name); // Ensure that at least one block object returned by the transformation has
   // the expected "destination" block type.
 
-  if (firstSwitchedBlock < 0) {
+  if (!hasSwitchedBlock) {
     return null;
   }
 
-  return transformationResults.map((result, index) => {
-    const transformedBlock = { ...result,
-      // The first transformed block whose type matches the "destination"
-      // type gets to keep the existing client ID of the first block.
-      clientId: index === firstSwitchedBlock ? firstBlock.clientId : result.clientId
-    };
+  const ret = transformationResults.map(result => {
     /**
      * Filters an individual transform result from block transformation.
      * All of the original blocks are passed, since transformations are
@@ -2496,9 +2491,9 @@ function switchToBlockType(blocks, name) {
      * @param {Object}   transformedBlock The transformed block.
      * @param {Object[]} blocks           Original blocks transformed.
      */
-
-    return Object(external_wp_hooks_["applyFilters"])('blocks.switchToBlockType.transformedBlock', transformedBlock, blocks);
+    return Object(external_wp_hooks_["applyFilters"])('blocks.switchToBlockType.transformedBlock', result, blocks);
   });
+  return ret;
 }
 /**
  * Create a block object from the example API.

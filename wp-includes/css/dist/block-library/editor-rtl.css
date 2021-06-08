@@ -1118,6 +1118,11 @@ figure.wp-block-image:not(.wp-block) {
   font-weight: 500;
 }
 
+.is-selected .wp-block-legacy-widget__container {
+  padding: 8px 12px;
+  min-height: 50px;
+}
+
 .wp-block-media-text .__resizable_base__ {
   grid-column: 1/span 2;
   grid-row: 2;

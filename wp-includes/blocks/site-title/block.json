@@ -26,11 +26,13 @@
 			"padding": true,
 			"margin": true
 		},
-		"fontSize": true,
-		"lineHeight": true,
-		"__experimentalFontFamily": true,
-		"__experimentalTextTransform": true,
-		"__experimentalFontStyle": true,
-		"__experimentalFontWeight": true
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalTextTransform": true,
+			"__experimentalFontStyle": true,
+			"__experimentalFontWeight": true
+		}
 	}
 }

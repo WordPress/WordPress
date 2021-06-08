@@ -18,6 +18,8 @@
 	},
 	"supports": {
 		"className": true,
-		"fontSize": false
+		"typography": {
+			"fontSize": false
+		}
 	}
 }

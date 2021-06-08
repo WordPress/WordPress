@@ -147,3 +147,8 @@
   margin: 0 0 5px;
   font-weight: 500;
 }
+
+.is-selected .wp-block-legacy-widget__container {
+  padding: 8px 12px;
+  min-height: 50px;
+}

@@ -6313,13 +6313,6 @@ module.exports = computedStyle;
 
 /***/ }),
 
-/***/ "ouCq":
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["wp"]["blockSerializationDefaultParser"]; }());
-
-/***/ }),
-
 /***/ "pPDe":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -7236,7 +7229,7 @@ __webpack_require__.d(selectors_namespaceObject, "getInserterItems", function() 
 __webpack_require__.d(selectors_namespaceObject, "getBlockTransformItems", function() { return selectors_getBlockTransformItems; });
 __webpack_require__.d(selectors_namespaceObject, "hasInserterItems", function() { return selectors_hasInserterItems; });
 __webpack_require__.d(selectors_namespaceObject, "__experimentalGetAllowedBlocks", function() { return selectors_experimentalGetAllowedBlocks; });
-__webpack_require__.d(selectors_namespaceObject, "__experimentalGetParsedPattern", function() { return selectors_experimentalGetParsedPattern; });
+__webpack_require__.d(selectors_namespaceObject, "__experimentalGetParsedPattern", function() { return __experimentalGetParsedPattern; });
 __webpack_require__.d(selectors_namespaceObject, "__experimentalGetAllowedPatterns", function() { return selectors_experimentalGetAllowedPatterns; });
 __webpack_require__.d(selectors_namespaceObject, "__experimentalGetPatternsByBlockTypes", function() { return selectors_experimentalGetPatternsByBlockTypes; });
 __webpack_require__.d(selectors_namespaceObject, "__experimentalGetPatternTransformItems", function() { return selectors_experimentalGetPatternTransformItems; });
@@ -9209,9 +9202,6 @@ function lastBlockInserted(state = {}, action) {
 // EXTERNAL MODULE: ./node_modules/rememo/es/rememo.js
 var rememo = __webpack_require__("pPDe");
 
-// EXTERNAL MODULE: external ["wp","blockSerializationDefaultParser"]
-var external_wp_blockSerializationDefaultParser_ = __webpack_require__("ouCq");
-
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/store/selectors.js
 
 
@@ -9223,7 +9213,6 @@ var external_wp_blockSerializationDefaultParser_ = __webpack_require__("ouCq");
 /**
  * WordPress dependencies
  */
-
 
 
 
@@ -10856,7 +10845,7 @@ const checkAllowListRecursive = (blocks, allowedBlockTypes) => {
   return true;
 };
 
-const selectors_experimentalGetParsedPattern = Object(rememo["a" /* default */])((state, patternName) => {
+const __experimentalGetParsedPattern = Object(rememo["a" /* default */])((state, patternName) => {
   const patterns = state.settings.__experimentalBlockPatterns;
   const pattern = patterns.find(({
     name
@@ -10875,17 +10864,12 @@ const getAllAllowedPatterns = Object(rememo["a" /* default */])(state => {
   const {
     allowedBlockTypes
   } = selectors_getSettings(state);
-  const parsedPatterns = patterns.map(pattern => ({ ...pattern,
-    // We only need the overall block structure of the pattern. So, for
-    // performance reasons, we can parse the pattern's content using
-    // the raw blocks parser, also known as the "stage I" block parser.
-    // This is about 250x faster than the full parse that the Block API
-    // offers.
-    blockNodes: Object(external_wp_blockSerializationDefaultParser_["parse"])(pattern.content)
-  }));
+  const parsedPatterns = patterns.map(({
+    name
+  }) => __experimentalGetParsedPattern(state, name));
   const allowedPatterns = parsedPatterns.filter(({
-    blockNodes
-  }) => checkAllowListRecursive(blockNodes, allowedBlockTypes));
+    blocks
+  }) => checkAllowListRecursive(blocks, allowedBlockTypes));
   return allowedPatterns;
 }, state => [state.settings.__experimentalBlockPatterns, state.settings.allowedBlockTypes]);
 /**
@@ -10900,10 +10884,10 @@ const getAllAllowedPatterns = Object(rememo["a" /* default */])(state => {
 const selectors_experimentalGetAllowedPatterns = Object(rememo["a" /* default */])((state, rootClientId = null) => {
   const availableParsedPatterns = getAllAllowedPatterns(state);
   const patternsAllowed = Object(external_lodash_["filter"])(availableParsedPatterns, ({
-    blockNodes
-  }) => blockNodes.every(({
-    blockName
-  }) => selectors_canInsertBlockType(state, blockName, rootClientId)));
+    blocks
+  }) => blocks.every(({
+    name
+  }) => selectors_canInsertBlockType(state, name, rootClientId)));
   return patternsAllowed;
 }, (state, rootClientId) => [state.settings.__experimentalBlockPatterns, state.settings.allowedBlockTypes, state.settings.templateLock, state.blockListSettings[rootClientId], state.blocks.byClientId[rootClientId]]);
 /**
@@ -13659,9 +13643,13 @@ const getColorObjectByColorValue = (colors, colorValue) => {
 function getColorClassName(colorContextName, colorSlug) {
   if (!colorContextName || !colorSlug) {
     return undefined;
-  }
+  } // We don't want to use kebabCase from lodash here
+  // see https://github.com/WordPress/gutenberg/issues/32347
+  // However, we need to make sure the generated class
+  // doesn't contain spaces.
 
-  return `has-${Object(external_lodash_["kebabCase"])(colorSlug)}-${colorContextName}`;
+
+  return `has-${colorSlug.replace(/\s+/g, '-')}-${colorContextName.replace(/\s+/g, '-')}`;
 }
 /**
  * Given an array of color objects and a color value returns the color value of the most readable color in the array.
@@ -15223,306 +15211,6 @@ Object(external_wp_hooks_["addFilter"])('blocks.getSaveContent.extraProps', 'cor
 Object(external_wp_hooks_["addFilter"])('blocks.registerBlockType', 'core/color/addEditProps', color_addEditProps);
 Object(external_wp_hooks_["addFilter"])('editor.BlockListBlock', 'core/color/with-color-palette-styles', withColorPaletteStyles);
 
-// EXTERNAL MODULE: external ["wp","tokenList"]
-var external_wp_tokenList_ = __webpack_require__("BLeD");
-var external_wp_tokenList_default = /*#__PURE__*/__webpack_require__.n(external_wp_tokenList_);
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/font-sizes/utils.js
-/**
- * External dependencies
- */
-
-/**
- *  Returns the font size object based on an array of named font sizes and the namedFontSize and customFontSize values.
- * 	If namedFontSize is undefined or not found in fontSizes an object with just the size value based on customFontSize is returned.
- *
- * @param {Array}   fontSizes               Array of font size objects containing at least the "name" and "size" values as properties.
- * @param {?string} fontSizeAttribute       Content of the font size attribute (slug).
- * @param {?number} customFontSizeAttribute Contents of the custom font size attribute (value).
- *
- * @return {?Object} If fontSizeAttribute is set and an equal slug is found in fontSizes it returns the font size object for that slug.
- * 					 Otherwise, an object with just the size value based on customFontSize is returned.
- */
-
-const getFontSize = (fontSizes, fontSizeAttribute, customFontSizeAttribute) => {
-  if (fontSizeAttribute) {
-    const fontSizeObject = Object(external_lodash_["find"])(fontSizes, {
-      slug: fontSizeAttribute
-    });
-
-    if (fontSizeObject) {
-      return fontSizeObject;
-    }
-  }
-
-  return {
-    size: customFontSizeAttribute
-  };
-};
-/**
- * Returns the corresponding font size object for a given value.
- *
- * @param {Array} fontSizes Array of font size objects.
- * @param {number} value Font size value.
- *
- * @return {Object} Font size object.
- */
-
-function getFontSizeObjectByValue(fontSizes, value) {
-  const fontSizeObject = Object(external_lodash_["find"])(fontSizes, {
-    size: value
-  });
-
-  if (fontSizeObject) {
-    return fontSizeObject;
-  }
-
-  return {
-    size: value
-  };
-}
-/**
- * Returns a class based on fontSizeName.
- *
- * @param {string} fontSizeSlug    Slug of the fontSize.
- *
- * @return {string} String with the class corresponding to the fontSize passed.
- *                  The class is generated by appending 'has-' followed by fontSizeSlug in kebabCase and ending with '-font-size'.
- */
-
-function getFontSizeClass(fontSizeSlug) {
-  if (!fontSizeSlug) {
-    return;
-  }
-
-  return `has-${Object(external_lodash_["kebabCase"])(fontSizeSlug)}-font-size`;
-}
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/font-sizes/font-size-picker.js
-
-
-
-/**
- * WordPress dependencies
- */
-
-/**
- * Internal dependencies
- */
-
-
-
-function FontSizePicker(props) {
-  const fontSizes = useSetting('typography.fontSizes');
-  const disableCustomFontSizes = !useSetting('typography.customFontSize');
-  return Object(external_wp_element_["createElement"])(external_wp_components_["FontSizePicker"], Object(esm_extends["a" /* default */])({}, props, {
-    fontSizes: fontSizes,
-    disableCustomFontSizes: disableCustomFontSizes
-  }));
-}
-
-/* harmony default export */ var font_size_picker = (FontSizePicker);
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/hooks/font-size.js
-
-
-/**
- * WordPress dependencies
- */
-
-
-
-
-/**
- * Internal dependencies
- */
-
-
-
-
-const FONT_SIZE_SUPPORT_KEY = 'fontSize';
-/**
- * Filters registered block settings, extending attributes to include
- * `fontSize` and `fontWeight` attributes.
- *
- * @param  {Object} settings Original block settings
- * @return {Object}          Filtered block settings
- */
-
-function font_size_addAttributes(settings) {
-  if (!Object(external_wp_blocks_["hasBlockSupport"])(settings, FONT_SIZE_SUPPORT_KEY)) {
-    return settings;
-  } // Allow blocks to specify a default value if needed.
-
-
-  if (!settings.attributes.fontSize) {
-    Object.assign(settings.attributes, {
-      fontSize: {
-        type: 'string'
-      }
-    });
-  }
-
-  return settings;
-}
-/**
- * Override props assigned to save component to inject font size.
- *
- * @param  {Object} props      Additional props applied to save element
- * @param  {Object} blockType  Block type
- * @param  {Object} attributes Block attributes
- * @return {Object}            Filtered props applied to save element
- */
-
-
-function font_size_addSaveProps(props, blockType, attributes) {
-  if (!Object(external_wp_blocks_["hasBlockSupport"])(blockType, FONT_SIZE_SUPPORT_KEY)) {
-    return props;
-  }
-
-  if (Object(external_wp_blocks_["hasBlockSupport"])(blockType, '__experimentalSkipFontSizeSerialization')) {
-    return props;
-  } // Use TokenList to dedupe classes.
-
-
-  const classes = new external_wp_tokenList_default.a(props.className);
-  classes.add(getFontSizeClass(attributes.fontSize));
-  const newClassName = classes.value;
-  props.className = newClassName ? newClassName : undefined;
-  return props;
-}
-/**
- * Filters registered block settings to expand the block edit wrapper
- * by applying the desired styles and classnames.
- *
- * @param  {Object} settings Original block settings
- * @return {Object}          Filtered block settings
- */
-
-
-function font_size_addEditProps(settings) {
-  if (!Object(external_wp_blocks_["hasBlockSupport"])(settings, FONT_SIZE_SUPPORT_KEY)) {
-    return settings;
-  }
-
-  const existingGetEditWrapperProps = settings.getEditWrapperProps;
-
-  settings.getEditWrapperProps = attributes => {
-    let props = {};
-
-    if (existingGetEditWrapperProps) {
-      props = existingGetEditWrapperProps(attributes);
-    }
-
-    return font_size_addSaveProps(props, settings, attributes);
-  };
-
-  return settings;
-}
-/**
- * Inspector control panel containing the font size related configuration
- *
- * @param {Object} props
- *
- * @return {WPElement} Font size edit element.
- */
-
-
-function FontSizeEdit(props) {
-  var _style$typography, _style$typography2;
-
-  const {
-    attributes: {
-      fontSize,
-      style
-    },
-    setAttributes
-  } = props;
-  const isDisabled = useIsFontSizeDisabled(props);
-  const fontSizes = useSetting('typography.fontSizes');
-
-  const onChange = value => {
-    const fontSizeSlug = getFontSizeObjectByValue(fontSizes, value).slug;
-    setAttributes({
-      style: cleanEmptyObject({ ...style,
-        typography: { ...(style === null || style === void 0 ? void 0 : style.typography),
-          fontSize: fontSizeSlug ? undefined : value
-        }
-      }),
-      fontSize: fontSizeSlug
-    });
-  };
-
-  if (isDisabled) {
-    return null;
-  }
-
-  const fontSizeObject = getFontSize(fontSizes, fontSize, style === null || style === void 0 ? void 0 : (_style$typography = style.typography) === null || _style$typography === void 0 ? void 0 : _style$typography.fontSize);
-  const fontSizeValue = (fontSizeObject === null || fontSizeObject === void 0 ? void 0 : fontSizeObject.size) || (style === null || style === void 0 ? void 0 : (_style$typography2 = style.typography) === null || _style$typography2 === void 0 ? void 0 : _style$typography2.fontSize) || fontSize;
-  return Object(external_wp_element_["createElement"])(font_size_picker, {
-    onChange: onChange,
-    value: fontSizeValue
-  });
-}
-/**
- * Custom hook that checks if font-size settings have been disabled.
- *
- * @param {string} name The name of the block.
- * @return {boolean} Whether setting is disabled.
- */
-
-function useIsFontSizeDisabled({
-  name: blockName
-} = {}) {
-  const fontSizes = useSetting('typography.fontSizes');
-  const hasFontSizes = !!(fontSizes !== null && fontSizes !== void 0 && fontSizes.length);
-  return !Object(external_wp_blocks_["hasBlockSupport"])(blockName, FONT_SIZE_SUPPORT_KEY) || !hasFontSizes;
-}
-/**
- * Add inline styles for font sizes.
- * Ideally, this is not needed and themes load the font-size classes on the
- * editor.
- *
- * @param  {Function} BlockListBlock Original component
- * @return {Function}                Wrapped component
- */
-
-const withFontSizeInlineStyles = Object(external_wp_compose_["createHigherOrderComponent"])(BlockListBlock => props => {
-  var _style$typography3, _style$typography4;
-
-  const fontSizes = useSetting('typography.fontSizes');
-  const {
-    name: blockName,
-    attributes: {
-      fontSize,
-      style
-    },
-    wrapperProps
-  } = props; // Only add inline styles if the block supports font sizes,
-  // doesn't skip serialization of font sizes,
-  // doesn't already have an inline font size,
-  // and does have a class to extract the font size from.
-
-  if (!Object(external_wp_blocks_["hasBlockSupport"])(blockName, FONT_SIZE_SUPPORT_KEY) || Object(external_wp_blocks_["hasBlockSupport"])(blockName, '__experimentalSkipFontSizeSerialization') || !fontSize || style !== null && style !== void 0 && (_style$typography3 = style.typography) !== null && _style$typography3 !== void 0 && _style$typography3.fontSize) {
-    return Object(external_wp_element_["createElement"])(BlockListBlock, props);
-  }
-
-  const fontSizeValue = getFontSize(fontSizes, fontSize, style === null || style === void 0 ? void 0 : (_style$typography4 = style.typography) === null || _style$typography4 === void 0 ? void 0 : _style$typography4.fontSize).size;
-  const newProps = { ...props,
-    wrapperProps: { ...wrapperProps,
-      style: {
-        fontSize: fontSizeValue,
-        ...(wrapperProps === null || wrapperProps === void 0 ? void 0 : wrapperProps.style)
-      }
-    }
-  };
-  return Object(external_wp_element_["createElement"])(BlockListBlock, newProps);
-}, 'withFontSizeInlineStyles');
-Object(external_wp_hooks_["addFilter"])('blocks.registerBlockType', 'core/font/addAttribute', font_size_addAttributes);
-Object(external_wp_hooks_["addFilter"])('blocks.getSaveContent.extraProps', 'core/font/addSaveProps', font_size_addSaveProps);
-Object(external_wp_hooks_["addFilter"])('blocks.registerBlockType', 'core/font/addEditProps', font_size_addEditProps);
-Object(external_wp_hooks_["addFilter"])('editor.BlockListBlock', 'core/font-size/with-font-size-inline-styles', withFontSizeInlineStyles);
-
 // CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/format-underline.js
 
 
@@ -15607,7 +15295,7 @@ function TextDecorationControl({
  * decorations e.g. settings found in `block.json`.
  */
 
-const TEXT_DECORATION_SUPPORT_KEY = '__experimentalTextDecoration';
+const TEXT_DECORATION_SUPPORT_KEY = 'typography.__experimentalTextDecoration';
 /**
  * Inspector control panel containing the text decoration options.
  *
@@ -15775,7 +15463,7 @@ function TextTransformControl({
  * transforms e.g. settings found in `block.json`.
  */
 
-const TEXT_TRANSFORM_SUPPORT_KEY = '__experimentalTextTransform';
+const TEXT_TRANSFORM_SUPPORT_KEY = 'typography.__experimentalTextTransform';
 /**
  * Inspector control panel containing the text transform options.
  *
@@ -15985,7 +15673,7 @@ function LineHeightControl({
 
 
 
-const LINE_HEIGHT_SUPPORT_KEY = 'lineHeight';
+const LINE_HEIGHT_SUPPORT_KEY = 'typography.lineHeight';
 /**
  * Inspector control panel containing the line height related configuration
  *
@@ -16227,12 +15915,12 @@ function FontAppearanceControl(props) {
  * Key within block settings' support array indicating support for font style.
  */
 
-const FONT_STYLE_SUPPORT_KEY = '__experimentalFontStyle';
+const FONT_STYLE_SUPPORT_KEY = 'typography.__experimentalFontStyle';
 /**
  * Key within block settings' support array indicating support for font weight.
  */
 
-const FONT_WEIGHT_SUPPORT_KEY = '__experimentalFontWeight';
+const FONT_WEIGHT_SUPPORT_KEY = 'typography.__experimentalFontWeight';
 /**
  * Inspector control panel containing the font appearance options.
  *
@@ -16399,7 +16087,7 @@ function FontFamilyControl({
 
 
 
-const FONT_FAMILY_SUPPORT_KEY = '__experimentalFontFamily';
+const FONT_FAMILY_SUPPORT_KEY = 'typography.__experimentalFontFamily';
 
 const getFontFamilyFromAttributeValue = (fontFamilies, value) => {
   const attributeParsed = /var:preset\|font-family\|(.+)/.exec(value);
@@ -16473,6 +16161,310 @@ function useIsFontFamilyDisabled({
   return !fontFamilies || fontFamilies.length === 0 || !Object(external_wp_blocks_["hasBlockSupport"])(name, FONT_FAMILY_SUPPORT_KEY);
 }
 
+// EXTERNAL MODULE: external ["wp","tokenList"]
+var external_wp_tokenList_ = __webpack_require__("BLeD");
+var external_wp_tokenList_default = /*#__PURE__*/__webpack_require__.n(external_wp_tokenList_);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/font-sizes/utils.js
+/**
+ * External dependencies
+ */
+
+/**
+ *  Returns the font size object based on an array of named font sizes and the namedFontSize and customFontSize values.
+ * 	If namedFontSize is undefined or not found in fontSizes an object with just the size value based on customFontSize is returned.
+ *
+ * @param {Array}   fontSizes               Array of font size objects containing at least the "name" and "size" values as properties.
+ * @param {?string} fontSizeAttribute       Content of the font size attribute (slug).
+ * @param {?number} customFontSizeAttribute Contents of the custom font size attribute (value).
+ *
+ * @return {?Object} If fontSizeAttribute is set and an equal slug is found in fontSizes it returns the font size object for that slug.
+ * 					 Otherwise, an object with just the size value based on customFontSize is returned.
+ */
+
+const getFontSize = (fontSizes, fontSizeAttribute, customFontSizeAttribute) => {
+  if (fontSizeAttribute) {
+    const fontSizeObject = Object(external_lodash_["find"])(fontSizes, {
+      slug: fontSizeAttribute
+    });
+
+    if (fontSizeObject) {
+      return fontSizeObject;
+    }
+  }
+
+  return {
+    size: customFontSizeAttribute
+  };
+};
+/**
+ * Returns the corresponding font size object for a given value.
+ *
+ * @param {Array} fontSizes Array of font size objects.
+ * @param {number} value Font size value.
+ *
+ * @return {Object} Font size object.
+ */
+
+function getFontSizeObjectByValue(fontSizes, value) {
+  const fontSizeObject = Object(external_lodash_["find"])(fontSizes, {
+    size: value
+  });
+
+  if (fontSizeObject) {
+    return fontSizeObject;
+  }
+
+  return {
+    size: value
+  };
+}
+/**
+ * Returns a class based on fontSizeName.
+ *
+ * @param {string} fontSizeSlug    Slug of the fontSize.
+ *
+ * @return {string} String with the class corresponding to the fontSize passed.
+ *                  The class is generated by appending 'has-' followed by fontSizeSlug and ending with '-font-size'.
+ */
+
+function getFontSizeClass(fontSizeSlug) {
+  if (!fontSizeSlug) {
+    return;
+  } // We don't want to use kebabCase from lodash here
+  // see https://github.com/WordPress/gutenberg/issues/32347
+  // However, we need to make sure the generated class
+  // doesn't contain spaces.
+
+
+  return `has-${fontSizeSlug.replace(/\s+/g, '-')}-font-size`;
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/font-sizes/font-size-picker.js
+
+
+
+/**
+ * WordPress dependencies
+ */
+
+/**
+ * Internal dependencies
+ */
+
+
+
+function FontSizePicker(props) {
+  const fontSizes = useSetting('typography.fontSizes');
+  const disableCustomFontSizes = !useSetting('typography.customFontSize');
+  return Object(external_wp_element_["createElement"])(external_wp_components_["FontSizePicker"], Object(esm_extends["a" /* default */])({}, props, {
+    fontSizes: fontSizes,
+    disableCustomFontSizes: disableCustomFontSizes
+  }));
+}
+
+/* harmony default export */ var font_size_picker = (FontSizePicker);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/hooks/font-size.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+
+const FONT_SIZE_SUPPORT_KEY = 'typography.fontSize';
+/**
+ * Filters registered block settings, extending attributes to include
+ * `fontSize` and `fontWeight` attributes.
+ *
+ * @param  {Object} settings Original block settings
+ * @return {Object}          Filtered block settings
+ */
+
+function font_size_addAttributes(settings) {
+  if (!Object(external_wp_blocks_["hasBlockSupport"])(settings, FONT_SIZE_SUPPORT_KEY)) {
+    return settings;
+  } // Allow blocks to specify a default value if needed.
+
+
+  if (!settings.attributes.fontSize) {
+    Object.assign(settings.attributes, {
+      fontSize: {
+        type: 'string'
+      }
+    });
+  }
+
+  return settings;
+}
+/**
+ * Override props assigned to save component to inject font size.
+ *
+ * @param  {Object} props      Additional props applied to save element
+ * @param  {Object} blockType  Block type
+ * @param  {Object} attributes Block attributes
+ * @return {Object}            Filtered props applied to save element
+ */
+
+
+function font_size_addSaveProps(props, blockType, attributes) {
+  if (!Object(external_wp_blocks_["hasBlockSupport"])(blockType, FONT_SIZE_SUPPORT_KEY)) {
+    return props;
+  }
+
+  if (Object(external_wp_blocks_["hasBlockSupport"])(blockType, 'typography.__experimentalSkipSerialization')) {
+    return props;
+  } // Use TokenList to dedupe classes.
+
+
+  const classes = new external_wp_tokenList_default.a(props.className);
+  classes.add(getFontSizeClass(attributes.fontSize));
+  const newClassName = classes.value;
+  props.className = newClassName ? newClassName : undefined;
+  return props;
+}
+/**
+ * Filters registered block settings to expand the block edit wrapper
+ * by applying the desired styles and classnames.
+ *
+ * @param  {Object} settings Original block settings
+ * @return {Object}          Filtered block settings
+ */
+
+
+function font_size_addEditProps(settings) {
+  if (!Object(external_wp_blocks_["hasBlockSupport"])(settings, FONT_SIZE_SUPPORT_KEY)) {
+    return settings;
+  }
+
+  const existingGetEditWrapperProps = settings.getEditWrapperProps;
+
+  settings.getEditWrapperProps = attributes => {
+    let props = {};
+
+    if (existingGetEditWrapperProps) {
+      props = existingGetEditWrapperProps(attributes);
+    }
+
+    return font_size_addSaveProps(props, settings, attributes);
+  };
+
+  return settings;
+}
+/**
+ * Inspector control panel containing the font size related configuration
+ *
+ * @param {Object} props
+ *
+ * @return {WPElement} Font size edit element.
+ */
+
+
+function FontSizeEdit(props) {
+  var _style$typography, _style$typography2;
+
+  const {
+    attributes: {
+      fontSize,
+      style
+    },
+    setAttributes
+  } = props;
+  const isDisabled = useIsFontSizeDisabled(props);
+  const fontSizes = useSetting('typography.fontSizes');
+
+  const onChange = value => {
+    const fontSizeSlug = getFontSizeObjectByValue(fontSizes, value).slug;
+    setAttributes({
+      style: cleanEmptyObject({ ...style,
+        typography: { ...(style === null || style === void 0 ? void 0 : style.typography),
+          fontSize: fontSizeSlug ? undefined : value
+        }
+      }),
+      fontSize: fontSizeSlug
+    });
+  };
+
+  if (isDisabled) {
+    return null;
+  }
+
+  const fontSizeObject = getFontSize(fontSizes, fontSize, style === null || style === void 0 ? void 0 : (_style$typography = style.typography) === null || _style$typography === void 0 ? void 0 : _style$typography.fontSize);
+  const fontSizeValue = (fontSizeObject === null || fontSizeObject === void 0 ? void 0 : fontSizeObject.size) || (style === null || style === void 0 ? void 0 : (_style$typography2 = style.typography) === null || _style$typography2 === void 0 ? void 0 : _style$typography2.fontSize) || fontSize;
+  return Object(external_wp_element_["createElement"])(font_size_picker, {
+    onChange: onChange,
+    value: fontSizeValue
+  });
+}
+/**
+ * Custom hook that checks if font-size settings have been disabled.
+ *
+ * @param {string} name The name of the block.
+ * @return {boolean} Whether setting is disabled.
+ */
+
+function useIsFontSizeDisabled({
+  name: blockName
+} = {}) {
+  const fontSizes = useSetting('typography.fontSizes');
+  const hasFontSizes = !!(fontSizes !== null && fontSizes !== void 0 && fontSizes.length);
+  return !Object(external_wp_blocks_["hasBlockSupport"])(blockName, FONT_SIZE_SUPPORT_KEY) || !hasFontSizes;
+}
+/**
+ * Add inline styles for font sizes.
+ * Ideally, this is not needed and themes load the font-size classes on the
+ * editor.
+ *
+ * @param  {Function} BlockListBlock Original component
+ * @return {Function}                Wrapped component
+ */
+
+const withFontSizeInlineStyles = Object(external_wp_compose_["createHigherOrderComponent"])(BlockListBlock => props => {
+  var _style$typography3, _style$typography4;
+
+  const fontSizes = useSetting('typography.fontSizes');
+  const {
+    name: blockName,
+    attributes: {
+      fontSize,
+      style
+    },
+    wrapperProps
+  } = props; // Only add inline styles if the block supports font sizes,
+  // doesn't skip serialization of font sizes,
+  // doesn't already have an inline font size,
+  // and does have a class to extract the font size from.
+
+  if (!Object(external_wp_blocks_["hasBlockSupport"])(blockName, FONT_SIZE_SUPPORT_KEY) || Object(external_wp_blocks_["hasBlockSupport"])(blockName, 'typography.__experimentalSkipSerialization') || !fontSize || style !== null && style !== void 0 && (_style$typography3 = style.typography) !== null && _style$typography3 !== void 0 && _style$typography3.fontSize) {
+    return Object(external_wp_element_["createElement"])(BlockListBlock, props);
+  }
+
+  const fontSizeValue = getFontSize(fontSizes, fontSize, style === null || style === void 0 ? void 0 : (_style$typography4 = style.typography) === null || _style$typography4 === void 0 ? void 0 : _style$typography4.fontSize).size;
+  const newProps = { ...props,
+    wrapperProps: { ...wrapperProps,
+      style: {
+        fontSize: fontSizeValue,
+        ...(wrapperProps === null || wrapperProps === void 0 ? void 0 : wrapperProps.style)
+      }
+    }
+  };
+  return Object(external_wp_element_["createElement"])(BlockListBlock, newProps);
+}, 'withFontSizeInlineStyles');
+Object(external_wp_hooks_["addFilter"])('blocks.registerBlockType', 'core/font/addAttribute', font_size_addAttributes);
+Object(external_wp_hooks_["addFilter"])('blocks.getSaveContent.extraProps', 'core/font/addSaveProps', font_size_addSaveProps);
+Object(external_wp_hooks_["addFilter"])('blocks.registerBlockType', 'core/font/addEditProps', font_size_addEditProps);
+Object(external_wp_hooks_["addFilter"])('editor.BlockListBlock', 'core/font-size/with-font-size-inline-styles', withFontSizeInlineStyles);
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/hooks/typography.js
 
 
@@ -16499,6 +16491,7 @@ function useIsFontFamilyDisabled({
 
 
 
+const TYPOGRAPHY_SUPPORT_KEY = 'typography';
 const TYPOGRAPHY_SUPPORT_KEYS = [LINE_HEIGHT_SUPPORT_KEY, FONT_SIZE_SUPPORT_KEY, FONT_STYLE_SUPPORT_KEY, FONT_WEIGHT_SUPPORT_KEY, FONT_FAMILY_SUPPORT_KEY, TEXT_DECORATION_SUPPORT_KEY, TEXT_TRANSFORM_SUPPORT_KEY];
 function TypographyPanel(props) {
   const isDisabled = useIsTypographyDisabled(props);
@@ -16838,7 +16831,6 @@ function useCustomSides(blockName, feature) {
 
 
 
-
 const styleSupportKeys = [...TYPOGRAPHY_SUPPORT_KEYS, BORDER_SUPPORT_KEY, COLOR_SUPPORT_KEY, SPACING_SUPPORT_KEY];
 
 const hasStyleSupport = blockType => styleSupportKeys.some(key => Object(external_wp_blocks_["hasBlockSupport"])(blockType, key));
@@ -16921,12 +16913,7 @@ function style_addAttribute(settings) {
 const skipSerializationPaths = {
   [`${BORDER_SUPPORT_KEY}.__experimentalSkipSerialization`]: ['border'],
   [`${COLOR_SUPPORT_KEY}.__experimentalSkipSerialization`]: [COLOR_SUPPORT_KEY],
-  [`__experimentalSkipFontSizeSerialization`]: ['typography', 'fontSize'],
-  [`__experimentalSkipTypographySerialization`]: Object(external_lodash_["without"])(TYPOGRAPHY_SUPPORT_KEYS, FONT_SIZE_SUPPORT_KEY).map(feature => {
-    var _find;
-
-    return (_find = Object(external_lodash_["find"])(external_wp_blocks_["__EXPERIMENTAL_STYLE_PROPERTY"], property => Object(external_lodash_["isEqual"])(property.support, [feature]))) === null || _find === void 0 ? void 0 : _find.value;
-  })
+  [`${TYPOGRAPHY_SUPPORT_KEY}.__experimentalSkipSerialization`]: [TYPOGRAPHY_SUPPORT_KEY]
 };
 /**
  * Override props assigned to save component to inject the CSS variables definition.
@@ -17005,19 +16992,14 @@ const withElementsStyles = Object(external_wp_compose_["createHigherOrderCompone
   var _props$attributes$sty, _props$attributes$sty2;
 
   const elements = (_props$attributes$sty = props.attributes.style) === null || _props$attributes$sty === void 0 ? void 0 : _props$attributes$sty.elements;
-
-  if (!elements) {
-    return Object(external_wp_element_["createElement"])(BlockListBlock, props);
-  }
-
   const blockElementsContainerIdentifier = `wp-elements-${Object(external_wp_compose_["useInstanceId"])(BlockListBlock)}`;
   const styles = compileElementsStyles(blockElementsContainerIdentifier, (_props$attributes$sty2 = props.attributes.style) === null || _props$attributes$sty2 === void 0 ? void 0 : _props$attributes$sty2.elements);
-  return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])("style", {
+  return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, elements && Object(external_wp_element_["createElement"])("style", {
     dangerouslySetInnerHTML: {
       __html: styles
     }
   }), Object(external_wp_element_["createElement"])(BlockListBlock, Object(esm_extends["a" /* default */])({}, props, {
-    className: classnames_default()(props.classname, blockElementsContainerIdentifier)
+    className: elements ? classnames_default()(props.className, blockElementsContainerIdentifier) : props.className
   })));
 });
 Object(external_wp_hooks_["addFilter"])('blocks.registerBlockType', 'core/style/addAttribute', style_addAttribute);
@@ -17326,7 +17308,7 @@ const withDuotoneStyles = Object(external_wp_compose_["createHigherOrderComponen
   const selectors = duotoneSupport.split(',');
   const selectorsScoped = selectors.map(selector => `.${id} ${selector.trim()}`);
   const selectorsGroup = selectorsScoped.join(', ');
-  const className = classnames_default()(props === null || props === void 0 ? void 0 : props.classname, id);
+  const className = classnames_default()(props === null || props === void 0 ? void 0 : props.className, id);
   return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(DuotoneFilter, {
     selector: selectorsGroup,
     id: id,
@@ -20498,9 +20480,7 @@ function BlockHTML({
 /* harmony default export */ var block_html = (BlockHTML);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/utils/dom.js
-// Consider the block appender to be a child block of its own, which also has
-// this class.
-const BLOCK_SELECTOR = '.wp-block';
+const BLOCK_SELECTOR = '.block-editor-block-list__block';
 /**
  * Returns true if two elements are contained within the same block.
  *
@@ -26394,11 +26374,9 @@ const getRetainedBlockAttributes = (name, attributes) => {
  */
 
 
-
 /**
  * Internal dependencies
  */
-
 
 
 /**
@@ -26480,10 +26458,7 @@ const getPatternTransformedBlocks = (selectedBlocks, patternBlocks) => {
 // TODO tests
 
 const useTransformedPatterns = (patterns, selectedBlocks) => {
-  const parsedPatterns = Object(external_wp_data_["useSelect"])(select => patterns.map(({
-    name
-  }) => select(store).__experimentalGetParsedPattern(name)), [patterns]);
-  return Object(external_wp_element_["useMemo"])(() => parsedPatterns.reduce((accumulator, _pattern) => {
+  return Object(external_wp_element_["useMemo"])(() => patterns.reduce((accumulator, _pattern) => {
     const transformedBlocks = getPatternTransformedBlocks(selectedBlocks, _pattern.blocks);
 
     if (transformedBlocks) {
@@ -26493,7 +26468,7 @@ const useTransformedPatterns = (patterns, selectedBlocks) => {
     }
 
     return accumulator;
-  }, []), [parsedPatterns, selectedBlocks]);
+  }, []), [patterns, selectedBlocks]);
 };
 
 /* harmony default export */ var use_transformed_patterns = (useTransformedPatterns);
@@ -28442,7 +28417,8 @@ function useBlockProps(props = {}, {
   const {
     clientId,
     className,
-    wrapperProps = {}
+    wrapperProps = {},
+    isAligned
   } = Object(external_wp_element_["useContext"])(BlockListBlockContext);
   const {
     index,
@@ -28500,7 +28476,9 @@ function useBlockProps(props = {}, {
     'data-type': name,
     'data-title': blockTitle,
     className: classnames_default()( // The wp-block className is important for editor styles.
-    'wp-block block-editor-block-list__block', className, props.className, wrapperProps.className, useBlockClassNames(clientId), useBlockDefaultClassName(clientId), useBlockCustomClassName(clientId), useBlockMovingModeClassNames(clientId)),
+    classnames_default()('block-editor-block-list__block', {
+      'wp-block': !isAligned
+    }), className, props.className, wrapperProps.className, useBlockClassNames(clientId), useBlockDefaultClassName(clientId), useBlockCustomClassName(clientId), useBlockMovingModeClassNames(clientId)),
     style: { ...wrapperProps.style,
       ...props.style
     }
@@ -28664,7 +28642,8 @@ function block_BlockListBlock({
   const value = {
     clientId,
     className,
-    wrapperProps: Object(external_lodash_["omit"])(wrapperProps, ['data-align'])
+    wrapperProps: Object(external_lodash_["omit"])(wrapperProps, ['data-align']),
+    isAligned
   };
   const memoizedValue = Object(external_wp_element_["useMemo"])(() => value, Object.values(value));
   return Object(external_wp_element_["createElement"])(BlockListBlockContext.Provider, {
@@ -31119,7 +31098,7 @@ function RichTextWrapper({
     __unstableMultilineTag: multilineTag,
     __unstableDisableFormats: disableFormats,
     preserveWhiteSpace,
-    __unstableDependencies: dependencies,
+    __unstableDependencies: [...dependencies, tagName],
     __unstableAfterParse: addEditorOnlyFormats,
     __unstableBeforeSerialize: removeEditorOnlyFormats,
     __unstableAddInvisibleFormats: addInvisibleFormats
@@ -31486,21 +31465,15 @@ function usePatternsSetup(clientId, blockName, filterPatternsFn) {
     const {
       getBlockRootClientId,
       __experimentalGetPatternsByBlockTypes,
-      __experimentalGetParsedPattern,
       __experimentalGetAllowedPatterns
     } = select(store);
     const rootClientId = getBlockRootClientId(clientId);
-    let patterns = [];
 
     if (filterPatternsFn) {
-      patterns = __experimentalGetAllowedPatterns(rootClientId).filter(filterPatternsFn);
-    } else {
-      patterns = __experimentalGetPatternsByBlockTypes(blockName, rootClientId);
+      return __experimentalGetAllowedPatterns(rootClientId).filter(filterPatternsFn);
     }
 
-    return patterns.map(({
-      name
-    }) => __experimentalGetParsedPattern(name));
+    return __experimentalGetPatternsByBlockTypes(blockName, rootClientId);
   }, [clientId, blockName, filterPatternsFn]);
 }
 

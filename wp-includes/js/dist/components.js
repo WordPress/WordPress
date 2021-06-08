@@ -25340,7 +25340,7 @@ class suggestions_list_SuggestionsList extends external_wp_element_["Component"]
         id: `components-form-token-suggestions-${this.props.instanceId}-${index}`,
         role: "option",
         className: classeName,
-        key: this.props.displayTransform(suggestion),
+        key: suggestion !== null && suggestion !== void 0 && suggestion.value ? suggestion.value : this.props.displayTransform(suggestion),
         onMouseDown: this.handleMouseDown,
         onClick: this.handleClick(suggestion),
         onMouseEnter: this.handleHover(suggestion),
@@ -55403,11 +55403,12 @@ const HEIGHT_OFFSET = 10; // used by the arrow and a bit of empty space
  * @param {string}  chosenYAxis           yAxis to be used.
  * @param {Element} boundaryElement       Boundary element.
  * @param {boolean} forcePosition         Don't adjust position based on anchor.
+ * @param {boolean} forceXAlignment       Don't adjust alignment based on YAxis
  *
  * @return {Object} Popover xAxis position and constraints.
  */
 
-function computePopoverXAxisPosition(anchorRect, contentSize, xAxis, corner, stickyBoundaryElement, chosenYAxis, boundaryElement, forcePosition) {
+function computePopoverXAxisPosition(anchorRect, contentSize, xAxis, corner, stickyBoundaryElement, chosenYAxis, boundaryElement, forcePosition, forceXAlignment) {
   const {
     width
   } = contentSize; // Correct xAxis for RTL support
@@ -55434,7 +55435,7 @@ function computePopoverXAxisPosition(anchorRect, contentSize, xAxis, corner, sti
 
   if (corner === 'right') {
     leftAlignmentX = anchorRect.right;
-  } else if (chosenYAxis !== 'middle') {
+  } else if (chosenYAxis !== 'middle' && !forceXAlignment) {
     leftAlignmentX = anchorMidPoint;
   }
 
@@ -55442,7 +55443,7 @@ function computePopoverXAxisPosition(anchorRect, contentSize, xAxis, corner, sti
 
   if (corner === 'left') {
     rightAlignmentX = anchorRect.left;
-  } else if (chosenYAxis !== 'middle') {
+  } else if (chosenYAxis !== 'middle' && !forceXAlignment) {
     rightAlignmentX = anchorMidPoint;
   }
 
@@ -55613,14 +55614,15 @@ function computePopoverYAxisPosition(anchorRect, contentSize, yAxis, corner, sti
  *                                        relative positioned parent container.
  * @param {Element} boundaryElement       Boundary element.
  * @param {boolean} forcePosition         Don't adjust position based on anchor.
+ *  @param {boolean} forceXAlignment       Don't adjust alignment based on YAxis
  *
  * @return {Object} Popover position and constraints.
  */
 
-function computePopoverPosition(anchorRect, contentSize, position = 'top', stickyBoundaryElement, anchorRef, relativeOffsetTop, boundaryElement, forcePosition) {
+function computePopoverPosition(anchorRect, contentSize, position = 'top', stickyBoundaryElement, anchorRef, relativeOffsetTop, boundaryElement, forcePosition, forceXAlignment) {
   const [yAxis, xAxis = 'center', corner] = position.split(' ');
   const yAxisPosition = computePopoverYAxisPosition(anchorRect, contentSize, yAxis, corner, stickyBoundaryElement, anchorRef, relativeOffsetTop, forcePosition);
-  const xAxisPosition = computePopoverXAxisPosition(anchorRect, contentSize, xAxis, corner, stickyBoundaryElement, yAxisPosition.yAxis, boundaryElement, forcePosition);
+  const xAxisPosition = computePopoverXAxisPosition(anchorRect, contentSize, xAxis, corner, stickyBoundaryElement, yAxisPosition.yAxis, boundaryElement, forcePosition, forceXAlignment);
   return { ...xAxisPosition,
     ...yAxisPosition
   };
@@ -55896,6 +55898,7 @@ const Popover = ({
   __unstableObserveElement,
   __unstableBoundaryParent,
   __unstableForcePosition,
+  __unstableForceXAlignment,
 
   /* eslint-enable no-unused-vars */
   ...contentProps
@@ -55965,7 +55968,7 @@ const Popover = ({
         yAxis,
         contentHeight,
         contentWidth
-      } = computePopoverPosition(anchor, usedContentSize, position, __unstableStickyBoundaryElement, containerRef.current, relativeOffsetTop, boundaryElement, __unstableForcePosition);
+      } = computePopoverPosition(anchor, usedContentSize, position, __unstableStickyBoundaryElement, containerRef.current, relativeOffsetTop, boundaryElement, __unstableForcePosition, __unstableForceXAlignment);
 
       if (typeof popoverTop === 'number' && typeof popoverLeft === 'number') {
         setStyle(containerRef.current, 'top', popoverTop + 'px');

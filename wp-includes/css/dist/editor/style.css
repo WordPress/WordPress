@@ -190,13 +190,7 @@
   padding: 1px 0;
 }
 
-.components-editor-notices__dismissible {
-  position: sticky;
-  top: 0;
-  right: 0;
-  color: #1e1e1e;
-}
-
+.components-editor-notices__dismissible,
 .components-editor-notices__pinned {
   position: relative;
   left: 0;
@@ -204,7 +198,6 @@
   right: 0;
   color: #1e1e1e;
 }
-
 .components-editor-notices__dismissible .components-notice,
 .components-editor-notices__pinned .components-notice {
   box-sizing: border-box;

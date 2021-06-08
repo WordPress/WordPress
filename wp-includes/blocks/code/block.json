@@ -14,7 +14,9 @@
 	},
 	"supports": {
 		"anchor": true,
-		"fontSize": true
+		"typography": {
+			"fontSize": true
+		}
 	},
 	"style": "wp-block-code"
 }

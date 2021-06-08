@@ -1578,7 +1578,7 @@ function useClearSelectedBlock(sidebarControl, popoverRef) {
   } = Object(external_wp_data_["useDispatch"])(external_wp_blockEditor_["store"]);
   Object(external_wp_element_["useEffect"])(() => {
     if (popoverRef.current && sidebarControl) {
-      const inspectorContainer = sidebarControl.inspector.contentContainer[0];
+      const inspector = sidebarControl.inspector;
       const container = sidebarControl.container[0];
       const ownerDocument = container.ownerDocument;
       const ownerWindow = ownerDocument.defaultView;
@@ -1586,8 +1586,9 @@ function useClearSelectedBlock(sidebarControl, popoverRef) {
       function handleClearSelectedBlock(element) {
         if ( // 1. Make sure there are blocks being selected.
         (hasSelectedBlock() || hasMultiSelection()) && // 2. The element should exist in the DOM (not deleted).
-        element && ownerDocument.contains(element) && // 3. It should also not exist in the container, inspector, nor the popover.
-        !container.contains(element) && !popoverRef.current.contains(element) && !inspectorContainer.contains(element) && !element.closest('[role="dialog"]')) {
+        element && ownerDocument.contains(element) && // 3. It should also not exist in the container, the popover, nor the dialog.
+        !container.contains(element) && !popoverRef.current.contains(element) && !element.closest('[role="dialog"]') && // 4. The inspector should not be opened.
+        !inspector.expanded()) {
           clearSelectedBlock();
         }
       } // Handle focusing in the same document.
@@ -2357,10 +2358,36 @@ const replaceMediaUpload = () => external_wp_mediaUtils_["MediaUpload"];
 
 Object(external_wp_hooks_["addFilter"])('editor.MediaUpload', 'core/edit-widgets/replace-media-upload', replaceMediaUpload);
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/customize-widgets/build-module/filters/wide-widget-display.js
+
+
+
+/**
+ * WordPress dependencies
+ */
+
+
+const {
+  wp: wide_widget_display_wp
+} = window;
+const withWideWidgetDisplay = Object(external_wp_compose_["createHigherOrderComponent"])(BlockEdit => props => {
+  var _wp$customize$Widgets, _wp$customize$Widgets2;
+
+  const {
+    idBase
+  } = props.attributes;
+  const isWide = (_wp$customize$Widgets = (_wp$customize$Widgets2 = wide_widget_display_wp.customize.Widgets.data.availableWidgets.find(widget => widget.id_base === idBase)) === null || _wp$customize$Widgets2 === void 0 ? void 0 : _wp$customize$Widgets2.is_wide) !== null && _wp$customize$Widgets !== void 0 ? _wp$customize$Widgets : false;
+  return Object(external_wp_element_["createElement"])(BlockEdit, Object(esm_extends["a" /* default */])({}, props, {
+    isWide: isWide
+  }));
+}, 'withWideWidgetDisplay');
+Object(external_wp_hooks_["addFilter"])('editor.BlockEdit', 'core/customize-widgets/wide-widget-display', withWideWidgetDisplay);
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/customize-widgets/build-module/filters/index.js
 /**
  * Internal dependencies
  */
+
 
 
 

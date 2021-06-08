@@ -872,7 +872,22 @@ body.is-fullscreen-mode .interface-interface-skeleton {
 }
 
 .edit-post-template-top-area__popover .components-popover__content {
-  min-width: 360px;
+  min-width: 280px;
+}
+
+.edit-post-template-top-area__second-menu-group {
+  margin-right: -12px;
+  margin-left: -12px;
+  padding: 12px;
+  padding-bottom: 0;
+  border-top: 1px solid #ddd;
+}
+.edit-post-template-top-area__second-menu-group .edit-post-template-top-area__delete-template-button {
+  display: flex;
+  justify-content: center;
+}
+.edit-post-template-top-area__second-menu-group .edit-post-template-top-area__delete-template-button .components-menu-item__item {
+  margin-left: 0;
 }
 
 .edit-post-keyboard-shortcut-help-modal__section {
