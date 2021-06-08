@@ -23,7 +23,7 @@ class WP_REST_Pattern_Directory_Controller extends WP_REST_Controller {
 	 * Constructs the controller.
 	 */
 	public function __construct() {
-		$this->namespace = 'wp/v2';
+		$this->namespace     = 'wp/v2';
 			$this->rest_base = 'pattern-directory';
 	}
 
