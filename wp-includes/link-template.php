@@ -735,7 +735,7 @@ function get_feed_link( $feed = '' ) {
  * @param int    $post_id Optional. Post ID. Default is the ID of the global `$post`.
  * @param string $feed    Optional. Feed type. Possible values include 'rss2', 'atom'.
  *                        Default is the value of get_default_feed().
- * @return string The permalink for the comments feed for the given post.
+ * @return string The permalink for the comments feed for the given post on success, empty string on failure.
  */
 function get_post_comments_feed_link( $post_id = 0, $feed = '' ) {
 	$post_id = absint( $post_id );
@@ -748,7 +748,13 @@ function get_post_comments_feed_link( $post_id = 0, $feed = '' ) {
 		$feed = get_default_feed();
 	}
 
-	$post       = get_post( $post_id );
+	$post = get_post( $post_id );
+
+	// Bail out if the post does not exist.
+	if ( ! $post instanceof WP_Post ) {
+		return '';
+	}
+
 	$unattached = 'attachment' === $post->post_type && 0 === (int) $post->post_parent;
 
 	if ( get_option( 'permalink_structure' ) ) {
