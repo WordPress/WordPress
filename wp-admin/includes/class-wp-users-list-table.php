@@ -531,7 +531,7 @@ class WP_Users_List_Table extends WP_List_Table {
 				$classes .= ' hidden';
 			}
 
-			$data = 'data-colname="' . wp_strip_all_tags( $column_display_name ) . '"';
+			$data = 'data-colname="' . esc_attr( wp_strip_all_tags( $column_display_name ) ) . '"';
 
 			$attributes = "class='$classes' $data";
 
