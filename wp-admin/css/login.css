@@ -297,6 +297,7 @@ p {
 
 #backtoblog {
 	margin: 16px 0;
+	word-break: break-word;
 }
 
 .login #nav a,
