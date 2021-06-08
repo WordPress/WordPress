@@ -478,6 +478,7 @@ figcaption,
 	}
 }
 
+.wp-block-pullquote[data-type="core/pullquote"],
 .wp-block[data-type="core/pullquote"],
 .wp-block[data-type="core/pullquote"][data-align="left"],
 .wp-block[data-type="core/pullquote"][data-align="right"] {
@@ -505,6 +506,20 @@ figcaption,
 
 	em {
 		font-style: normal;
+	}
+}
+
+.wp-block[data-align="left"] > .wp-block-pullquote,
+.wp-block[data-align="right"] > .wp-block-pullquote {
+	max-width: 50%;
+	text-align: inherit;
+
+	&:not(.is-style-solid-color) {
+		padding: 0;
+	}
+
+	&.is-style-solid-color {
+		padding: 1em;
 	}
 }
 
