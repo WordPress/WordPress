@@ -1119,12 +1119,10 @@ function validate_plugin( $plugin ) {
  * Uses the information from `Requires at least` and `Requires PHP` headers
  * defined in the plugin's main PHP file.
  *
- * If the headers are not present in the plugin's main PHP file,
- * `readme.txt` is also checked as a fallback.
- *
  * @since 5.2.0
  * @since 5.3.0 Added support for reading the headers from the plugin's
  *              main PHP file, with `readme.txt` as a fallback.
+ * @since 5.8.0 Removed support for using `readme.txt` as a fallback.
  *
  * @param string $plugin Path to the plugin file relative to the plugins directory.
  * @return true|WP_Error True if requirements are met, WP_Error on failure.
@@ -1136,21 +1134,6 @@ function validate_plugin_requirements( $plugin ) {
 		'requires'     => ! empty( $plugin_headers['RequiresWP'] ) ? $plugin_headers['RequiresWP'] : '',
 		'requires_php' => ! empty( $plugin_headers['RequiresPHP'] ) ? $plugin_headers['RequiresPHP'] : '',
 	);
-
-	$readme_file = WP_PLUGIN_DIR . '/' . dirname( $plugin ) . '/readme.txt';
-
-	if ( file_exists( $readme_file ) ) {
-		$readme_headers = get_file_data(
-			$readme_file,
-			array(
-				'requires'     => 'Requires at least',
-				'requires_php' => 'Requires PHP',
-			),
-			'plugin'
-		);
-
-		$requirements = array_merge( $readme_headers, $requirements );
-	}
 
 	$compatible_wp  = is_wp_version_compatible( $requirements['requires'] );
 	$compatible_php = is_php_version_compatible( $requirements['requires_php'] );
