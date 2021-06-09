@@ -816,10 +816,6 @@ $_old_files = array(
 	'wp-includes/block-patterns/large-header-button.php',
 	'wp-includes/blocks/subhead/block.json',
 	'wp-includes/blocks/subhead',
-	'wp-includes/css/dist/editor/editor-styles.min.css',
-	'wp-includes/css/dist/editor/editor-styles-rtl.css',
-	'wp-includes/css/dist/editor/editor-styles-rtl.min.css',
-	'wp-includes/css/dist/editor/editor-styles.css',
 );
 
 /**
