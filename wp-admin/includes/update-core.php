@@ -803,6 +803,23 @@ $_old_files = array(
 	'wp-includes/js/jquery/ui/widget.min.js',
 	// 5.7
 	'wp-includes/blocks/classic/block.json',
+	// 5.8
+	'wp-includes/block-patterns/large-header.php',
+	'wp-includes/block-patterns/heading-paragraph.php',
+	'wp-includes/block-patterns/quote.php',
+	'wp-includes/block-patterns/text-three-columns-buttons.php',
+	'wp-includes/block-patterns/two-buttons.php',
+	'wp-includes/block-patterns/two-images.php',
+	'wp-includes/block-patterns/three-buttons.php',
+	'wp-includes/block-patterns/text-two-columns-with-images.php',
+	'wp-includes/block-patterns/text-two-columns.php',
+	'wp-includes/block-patterns/large-header-button.php',
+	'wp-includes/blocks/subhead/block.json',
+	'wp-includes/blocks/subhead',
+	'wp-includes/css/dist/editor/editor-styles.min.css',
+	'wp-includes/css/dist/editor/editor-styles-rtl.css',
+	'wp-includes/css/dist/editor/editor-styles-rtl.min.css',
+	'wp-includes/css/dist/editor/editor-styles.css',
 );
 
 /**
