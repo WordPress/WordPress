@@ -351,7 +351,7 @@ p.has-drop-cap:not(:focus)::first-letter {
 	color: #fff;
 }
 
-.is-style-outline .wp-block-button__link {
+.is-style-outline .wp-block-button__link:not(.has-text-color) {
 	border-width: 2px;
 	color: #e05d22;
 }
@@ -359,6 +359,10 @@ p.has-drop-cap:not(:focus)::first-letter {
 .wp-block-button:not(.is-style-outline) .wp-block-button__link:not(.has-background) {
 	background: -webkit-linear-gradient(top, #e05d22 0%, #d94412 100%); /* Chrome 10+, Safari 5.1+ */
 	background: linear-gradient(to bottom, #e05d22 0%, #d94412 100%); /* W3C */
+}
+
+.wp-block-button.is-style-no-shadow .wp-block-button__link {
+	border-bottom: none;
 }
 
 /* Separator */

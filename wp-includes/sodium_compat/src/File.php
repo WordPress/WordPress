@@ -597,7 +597,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
         $az[31] = self::intToChr((self::chrToInt($az[31]) & 63) | 64);
 
         $hs = hash_init('sha512');
-        hash_update($hs, self::substr($az, 32, 32));
+        self::hash_update($hs, self::substr($az, 32, 32));
         /** @var resource $hs */
         $hs = self::updateHashWithFile($hs, $fp, $size);
 
@@ -616,8 +616,8 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
         );
 
         $hs = hash_init('sha512');
-        hash_update($hs, self::substr($sig, 0, 32));
-        hash_update($hs, self::substr($pk, 0, 32));
+        self::hash_update($hs, self::substr($sig, 0, 32));
+        self::hash_update($hs, self::substr($pk, 0, 32));
         /** @var resource $hs */
         $hs = self::updateHashWithFile($hs, $fp, $size);
 
@@ -728,8 +728,8 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
         $A = ParagonIE_Sodium_Core_Ed25519::ge_frombytes_negate_vartime($publicKey);
 
         $hs = hash_init('sha512');
-        hash_update($hs, self::substr($sig, 0, 32));
-        hash_update($hs, self::substr($publicKey, 0, 32));
+        self::hash_update($hs, self::substr($sig, 0, 32));
+        self::hash_update($hs, self::substr($publicKey, 0, 32));
         /** @var resource $hs */
         $hs = self::updateHashWithFile($hs, $fp, $size);
         /** @var string $hDigest */
@@ -1083,7 +1083,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
      * Update a hash context with the contents of a file, without
      * loading the entire file into memory.
      *
-     * @param resource|object $hash
+     * @param resource|HashContext $hash
      * @param resource $fp
      * @param int $size
      * @return resource|object Resource on PHP < 7.2, HashContext object on PHP >= 7.2
@@ -1133,7 +1133,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
             }
             /** @var string $message */
             /** @psalm-suppress InvalidArgument */
-            hash_update($hash, $message);
+            self::hash_update($hash, $message);
         }
         // Reset file pointer's position
         fseek($fp, $originalPosition, SEEK_SET);
@@ -1175,7 +1175,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
         $az[31] = self::intToChr((self::chrToInt($az[31]) & 63) | 64);
 
         $hs = hash_init('sha512');
-        hash_update($hs, self::substr($az, 32, 32));
+        self::hash_update($hs, self::substr($az, 32, 32));
         /** @var resource $hs */
         $hs = self::updateHashWithFile($hs, $fp, $size);
 
@@ -1194,8 +1194,8 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
         );
 
         $hs = hash_init('sha512');
-        hash_update($hs, self::substr($sig, 0, 32));
-        hash_update($hs, self::substr($pk, 0, 32));
+        self::hash_update($hs, self::substr($sig, 0, 32));
+        self::hash_update($hs, self::substr($pk, 0, 32));
         /** @var resource $hs */
         $hs = self::updateHashWithFile($hs, $fp, $size);
 
@@ -1278,8 +1278,8 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
         $A = ParagonIE_Sodium_Core32_Ed25519::ge_frombytes_negate_vartime($publicKey);
 
         $hs = hash_init('sha512');
-        hash_update($hs, self::substr($sig, 0, 32));
-        hash_update($hs, self::substr($publicKey, 0, 32));
+        self::hash_update($hs, self::substr($sig, 0, 32));
+        self::hash_update($hs, self::substr($publicKey, 0, 32));
         /** @var resource $hs */
         $hs = self::updateHashWithFile($hs, $fp, $size);
         /** @var string $hDigest */
@@ -1527,12 +1527,6 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
         /** @var int $pos */
         $pos = self::ftell($ifp);
 
-        /** @var int $iter */
-        $iter = 1;
-
-        /** @var int $incr */
-        $incr = self::BUFFER_SIZE >> 6;
-
         while ($mlen > 0) {
             $blockSize = $mlen > self::BUFFER_SIZE
                 ? self::BUFFER_SIZE
@@ -1543,7 +1537,6 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
             }
             $state->update($ciphertext);
             $mlen -= $blockSize;
-            $iter += $incr;
         }
         $res = ParagonIE_Sodium_Core32_Util::verify_16($tag, $state->finish());
 

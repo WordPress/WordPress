@@ -208,7 +208,7 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin {
 			return false;
 		}
 
-		echo '<h2 class="update-from-upload-heading">' . esc_html( __( 'This plugin is already installed.' ) ) . '</h2>';
+		echo '<h2 class="update-from-upload-heading">' . esc_html__( 'This plugin is already installed.' ) . '</h2>';
 
 		$this->is_downgrading = version_compare( $current_plugin_data['Version'], $new_plugin_data['Version'], '>' );
 
@@ -221,8 +221,8 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin {
 		);
 
 		$table  = '<table class="update-from-upload-comparison"><tbody>';
-		$table .= '<tr><th></th><th>' . esc_html( __( 'Current' ) ) . '</th>';
-		$table .= '<th>' . esc_html( __( 'Uploaded' ) ) . '</th></tr>';
+		$table .= '<tr><th></th><th>' . esc_html_x( 'Current', 'plugin' ) . '</th>';
+		$table .= '<th>' . esc_html_x( 'Uploaded', 'plugin' ) . '</th></tr>';
 
 		$is_same_plugin = true; // Let's consider only these rows.
 
@@ -256,7 +256,7 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin {
 		$install_actions = array();
 		$can_update      = true;
 
-		$blocked_message  = '<p>' . esc_html( __( 'The plugin cannot be updated due to the following:' ) ) . '</p>';
+		$blocked_message  = '<p>' . esc_html__( 'The plugin cannot be updated due to the following:' ) . '</p>';
 		$blocked_message .= '<ul class="ul-disc">';
 
 		$requires_php = isset( $new_plugin_data['RequiresPHP'] ) ? $new_plugin_data['RequiresPHP'] : null;
@@ -310,7 +310,7 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin {
 			$install_actions['overwrite_plugin'] = sprintf(
 				'<a class="button button-primary update-from-upload-overwrite" href="%s" target="_parent">%s</a>',
 				wp_nonce_url( add_query_arg( 'overwrite', $overwrite, $this->url ), 'plugin-upload' ),
-				__( 'Replace current with uploaded' )
+				_x( 'Replace current with uploaded', 'plugin' )
 			);
 		} else {
 			echo $blocked_message;

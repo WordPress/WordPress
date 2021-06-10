@@ -197,7 +197,7 @@ window.wp = window.wp || {};
 
 			$.extend( this, options || {} );
 
-			this.set = $.proxy( this.set, this );
+			this.set = this.set.bind( this );
 		},
 
 		/*
@@ -734,7 +734,7 @@ window.wp = window.wp || {};
 			 * This will prevent every Messenger's receive function from being
 			 * unbound when calling $.off( 'message', this.receive );
 			 */
-			this.receive = $.proxy( this.receive, this );
+			this.receive = this.receive.bind( this );
 			this.receive.guid = $.guid++;
 
 			$( window ).on( 'message', this.receive );

@@ -17,7 +17,7 @@
 			<?php
 			get_search_form(
 				array(
-					'label' => __( 'Search for:', 'twentytwenty' ),
+					'aria_label' => __( 'Search for:', 'twentytwenty' ),
 				)
 			);
 			?>

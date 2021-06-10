@@ -533,7 +533,7 @@ function wp_iframe( $content_func, ...$args ) {
 
 	?>
 	<script type="text/javascript">
-	addLoadEvent = function(func){if(typeof jQuery!="undefined")jQuery(document).ready(func);else if(typeof wpOnload!='function'){wpOnload=func;}else{var oldonload=wpOnload;wpOnload=function(){oldonload();func();}}};
+	addLoadEvent = function(func){if(typeof jQuery!=='undefined')jQuery(document).ready(func);else if(typeof wpOnload!=='function'){wpOnload=func;}else{var oldonload=wpOnload;wpOnload=function(){oldonload();func();}}};
 	var ajaxurl = '<?php echo esc_js( admin_url( 'admin-ajax.php', 'relative' ) ); ?>', pagenow = 'media-upload-popup', adminpage = 'media-upload-popup',
 	isRtl = <?php echo (int) is_rtl(); ?>;
 	</script>
@@ -607,7 +607,7 @@ function wp_iframe( $content_func, ...$args ) {
 	do_action( 'admin_print_footer_scripts' );
 
 	?>
-	<script type="text/javascript">if(typeof wpOnload=='function')wpOnload();</script>
+	<script type="text/javascript">if(typeof wpOnload==='function')wpOnload();</script>
 	</body>
 	</html>
 	<?php
@@ -696,9 +696,14 @@ function get_upload_iframe_src( $type = null, $post_id = null, $tab = null ) {
 	 * The dynamic portion of the hook name, `$type`, refers to the type
 	 * of media uploaded.
 	 *
+	 * Possible hook names include:
+	 *
+	 *  - `image_upload_iframe_src`
+	 *  - `media_upload_iframe_src`
+	 *
 	 * @since 3.0.0
 	 *
-	 * @param string $upload_iframe_src The upload iframe source URL by type.
+	 * @param string $upload_iframe_src The upload iframe source URL.
 	 */
 	$upload_iframe_src = apply_filters( "{$type}_upload_iframe_src", $upload_iframe_src );
 
@@ -893,6 +898,12 @@ function wp_media_upload_handler() {
 			 * The dynamic portion of the hook name, `$type`, refers to the type
 			 * of media being sent.
 			 *
+			 * Possible hook names include:
+			 *
+			 *  - `audio_send_to_editor_url`
+			 *  - `file_send_to_editor_url`
+			 *  - `video_send_to_editor_url`
+			 *
 			 * @since 3.3.0
 			 *
 			 * @param string $html  HTML markup sent to the editor.
@@ -982,7 +993,7 @@ function wp_media_upload_handler() {
 function media_sideload_image( $file, $post_id = 0, $desc = null, $return = 'html' ) {
 	if ( ! empty( $file ) ) {
 
-		$allowed_extensions = array( 'jpg', 'jpeg', 'jpe', 'png', 'gif' );
+		$allowed_extensions = array( 'jpg', 'jpeg', 'jpe', 'png', 'gif', 'webp' );
 
 		/**
 		 * Filters the list of allowed file extensions when sideloading an image from a URL.

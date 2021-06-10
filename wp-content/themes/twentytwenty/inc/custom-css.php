@@ -122,7 +122,7 @@ if ( ! function_exists( 'twentytwenty_get_customizer_css' ) ) {
 			// Colors.
 			// Accent color.
 			if ( $accent && $accent !== $accent_default ) {
-				twentytwenty_generate_css( '.has-accent-color, .editor-styles-wrapper .editor-block-list__layout a, .editor-styles-wrapper .has-drop-cap:not(:focus)::first-letter, .editor-styles-wrapper .wp-block-button.is-style-outline .wp-block-button__link, .editor-styles-wrapper .wp-block-pullquote::before, .editor-styles-wrapper .wp-block-file .wp-block-file__textlink', 'color', $accent );
+				twentytwenty_generate_css( ':root .has-accent-color, .editor-styles-wrapper a, .editor-styles-wrapper .has-drop-cap:not(:focus)::first-letter, .editor-styles-wrapper .wp-block-button.is-style-outline .wp-block-button__link, .editor-styles-wrapper .wp-block-pullquote::before, .editor-styles-wrapper .wp-block-file .wp-block-file__textlink', 'color', $accent );
 				twentytwenty_generate_css( '.editor-styles-wrapper .wp-block-quote', 'border-color', $accent, '' );
 				twentytwenty_generate_css( '.has-accent-background-color, .editor-styles-wrapper .wp-block-button__link, .editor-styles-wrapper .wp-block-file__button', 'background-color', $accent );
 			}

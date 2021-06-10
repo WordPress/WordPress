@@ -1,10 +1,15 @@
 {
 	"apiVersion": 2,
 	"name": "core/search",
+	"title": "Search",
 	"category": "widgets",
+	"description": "Help visitors find your content.",
+	"keywords": [ "find" ],
+	"textdomain": "default",
 	"attributes": {
 		"label": {
-			"type": "string"
+			"type": "string",
+			"__experimentalRole": "content"
 		},
 		"showLabel": {
 			"type": "boolean",
@@ -12,7 +17,8 @@
 		},
 		"placeholder": {
 			"type": "string",
-			"default": ""
+			"default": "",
+			"__experimentalRole": "content"
 		},
 		"width": {
 			"type": "number"
@@ -21,7 +27,8 @@
 			"type": "string"
 		},
 		"buttonText": {
-			"type": "string"
+			"type": "string",
+			"__experimentalRole": "content"
 		},
 		"buttonPosition": {
 			"type": "string",
@@ -34,6 +41,10 @@
 	},
 	"supports": {
 		"align": [ "left", "center", "right" ],
+		"__experimentalBorder": {
+			"radius": true,
+			"__experimentalSkipSerialization": true
+		},
 		"html": false
 	},
 	"editorStyle": "wp-block-search-editor",

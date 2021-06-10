@@ -154,7 +154,7 @@ function wp_nav_menu_setup() {
 	// If first time editing, disable advanced items by default.
 	if ( false === get_user_option( 'managenav-menuscolumnshidden' ) ) {
 		$user = wp_get_current_user();
-		update_user_option(
+		update_user_meta(
 			$user->ID,
 			'managenav-menuscolumnshidden',
 			array(
@@ -163,8 +163,7 @@ function wp_nav_menu_setup() {
 				2 => 'xfn',
 				3 => 'description',
 				4 => 'title-attribute',
-			),
-			true
+			)
 		);
 	}
 }
@@ -199,7 +198,7 @@ function wp_initial_nav_menu_meta_boxes() {
 	}
 
 	$user = wp_get_current_user();
-	update_user_option( $user->ID, 'metaboxhidden_nav-menus', $hidden_meta_boxes, true );
+	update_user_meta( $user->ID, 'metaboxhidden_nav-menus', $hidden_meta_boxes );
 }
 
 /**
@@ -545,6 +544,11 @@ function wp_nav_menu_item_post_type_meta_box( $object, $box ) {
 				 *
 				 * The dynamic portion of the hook name, `$post_type_name`, refers to the post type name.
 				 *
+				 * Possible hook names include:
+				 *
+				 *  - `nav_menu_items_post_recent`
+				 *  - `nav_menu_items_page_recent`
+				 *
 				 * @since 4.3.0
 				 * @since 4.9.0 Added the `$recent_args` parameter.
 				 *
@@ -632,6 +636,11 @@ function wp_nav_menu_item_post_type_meta_box( $object, $box ) {
 				 *
 				 * The dynamic portion of the hook name, `$post_type_name`, refers
 				 * to the slug of the current post type.
+				 *
+				 * Possible hook names include:
+				 *
+				 *  - `nav_menu_items_post`
+				 *  - `nav_menu_items_page`
 				 *
 				 * @since 3.2.0
 				 * @since 4.6.0 Converted the `$post_type` parameter to accept a WP_Post_Type object.

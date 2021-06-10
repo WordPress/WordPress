@@ -1111,8 +1111,13 @@ class WP_List_Table {
 	protected function get_column_info() {
 		// $_column_headers is already set / cached.
 		if ( isset( $this->_column_headers ) && is_array( $this->_column_headers ) ) {
-			// Back-compat for list tables that have been manually setting $_column_headers for horse reasons.
-			// In 4.3, we added a fourth argument for primary column.
+			/*
+			 * Backward compatibility for `$_column_headers` format prior to WordPress 4.3.
+			 *
+			 * In WordPress 4.3 the primary column name was added as a fourth item in the
+			 * column headers property. This ensures the primary column name is included
+			 * in plugins setting the property directly in the three item format.
+			 */
 			$column_headers = array( array(), array(), array(), $this->get_primary_column_name() );
 			foreach ( $this->_column_headers as $key => $value ) {
 				$column_headers[ $key ] = $value;
@@ -1420,8 +1425,8 @@ class WP_List_Table {
 			}
 
 			// Comments column uses HTML in the display name with screen reader text.
-			// Instead of using esc_attr(), we strip tags to get closer to a user-friendly string.
-			$data = 'data-colname="' . wp_strip_all_tags( $column_display_name ) . '"';
+			// Strip tags to get closer to a user-friendly string.
+			$data = 'data-colname="' . esc_attr( wp_strip_all_tags( $column_display_name ) ) . '"';
 
 			$attributes = "class='$classes' $data";
 

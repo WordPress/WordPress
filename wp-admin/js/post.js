@@ -260,7 +260,9 @@ window.wp = window.wp || {};
 		timeout = window.setTimeout( function(){ check = true; }, 300000 );
 	}
 
-	$(document).on( 'heartbeat-send.wp-refresh-nonces', function( e, data ) {
+	$( function() {
+		schedule();
+	}).on( 'heartbeat-send.wp-refresh-nonces', function( e, data ) {
 		var post_id,
 			$authCheck = $('#wp-auth-check-wrap');
 
@@ -286,15 +288,13 @@ window.wp = window.wp || {};
 			if ( nonces.heartbeatNonce )
 				window.heartbeatSettings.nonce = nonces.heartbeatNonce;
 		}
-	}).ready( function() {
-		schedule();
 	});
 }(jQuery));
 
 /**
  * All post and postbox controls and functionality.
  */
-jQuery(document).ready( function($) {
+jQuery( function($) {
 	var stamp, visibility, $submitButtons, updateVisibility, updateText,
 		$textarea = $('#content'),
 		$document = $(document),
@@ -661,7 +661,7 @@ jQuery(document).ready( function($) {
 		$('#' + taxonomy + '-add-toggle').on( 'click', function( e ) {
 			e.preventDefault();
 			$('#' + taxonomy + '-adder').toggleClass( 'wp-hidden-children' );
-			$('a[href="#' + taxonomy + '-all"]', '#' + taxonomy + '-tabs').click();
+			$('a[href="#' + taxonomy + '-all"]', '#' + taxonomy + '-tabs').trigger( 'click' );
 			$('#new'+taxonomy).trigger( 'focus' );
 		});
 

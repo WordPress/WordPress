@@ -173,7 +173,7 @@ class Walker_Page extends Walker {
 		 *     The HTML attributes applied to the menu item's `<a>` element, empty strings are ignored.
 		 *
 		 *     @type string $href         The href attribute.
-		 *     @type string $aria_current The aria-current attribute.
+		 *     @type string $aria-current The aria-current attribute.
 		 * }
 		 * @param WP_Post $page         Page data object.
 		 * @param int     $depth        Depth of page, used for padding.

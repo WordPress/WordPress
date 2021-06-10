@@ -36,7 +36,7 @@ class WP_REST_Post_Meta_Fields extends WP_REST_Meta_Fields {
 	}
 
 	/**
-	 * Retrieves the object meta type.
+	 * Retrieves the post meta type.
 	 *
 	 * @since 4.7.0
 	 *
@@ -47,7 +47,7 @@ class WP_REST_Post_Meta_Fields extends WP_REST_Meta_Fields {
 	}
 
 	/**
-	 * Retrieves the object meta subtype.
+	 * Retrieves the post meta subtype.
 	 *
 	 * @since 4.9.8
 	 *

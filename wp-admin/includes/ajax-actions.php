@@ -374,7 +374,7 @@ function wp_ajax_get_community_events() {
 		 * The location is stored network-wide, so that the user doesn't have to set it on each site.
 		 */
 		if ( $ip_changed || $search ) {
-			update_user_option( $user_id, 'community-events-location', $events['location'], true );
+			update_user_meta( $user_id, 'community-events-location', $events['location'] );
 		}
 
 		wp_send_json_success( $events );
@@ -1733,13 +1733,13 @@ function wp_ajax_closed_postboxes() {
 	}
 
 	if ( is_array( $closed ) ) {
-		update_user_option( $user->ID, "closedpostboxes_$page", $closed, true );
+		update_user_meta( $user->ID, "closedpostboxes_$page", $closed );
 	}
 
 	if ( is_array( $hidden ) ) {
 		// Postboxes that are always shown.
 		$hidden = array_diff( $hidden, array( 'submitdiv', 'linksubmitdiv', 'manage-menu', 'create-menu' ) );
-		update_user_option( $user->ID, "metaboxhidden_$page", $hidden, true );
+		update_user_meta( $user->ID, "metaboxhidden_$page", $hidden );
 	}
 
 	wp_die( 1 );
@@ -1764,7 +1764,7 @@ function wp_ajax_hidden_columns() {
 	}
 
 	$hidden = ! empty( $_POST['hidden'] ) ? explode( ',', $_POST['hidden'] ) : array();
-	update_user_option( $user->ID, "manage{$page}columnshidden", $hidden, true );
+	update_user_meta( $user->ID, "manage{$page}columnshidden", $hidden );
 
 	wp_die( 1 );
 }
@@ -1919,11 +1919,11 @@ function wp_ajax_meta_box_order() {
 	}
 
 	if ( $order ) {
-		update_user_option( $user->ID, "meta-box-order_$page", $order, true );
+		update_user_meta( $user->ID, "meta-box-order_$page", $order );
 	}
 
 	if ( $page_columns ) {
-		update_user_option( $user->ID, "screen_layout_$page", $page_columns, true );
+		update_user_meta( $user->ID, "screen_layout_$page", $page_columns );
 	}
 
 	wp_send_json_success();
@@ -2927,6 +2927,8 @@ function wp_ajax_get_attachment() {
  * Ajax handler for querying attachments.
  *
  * @since 3.5.0
+ * @since 5.8.0 The response returns the attachments under `response.attachments` and
+ *              `response.totalAttachments` holds the total number of attachments found.
  */
 function wp_ajax_query_attachments() {
 	if ( ! current_user_can( 'upload_files' ) ) {
@@ -2993,7 +2995,12 @@ function wp_ajax_query_attachments() {
 	$posts = array_map( 'wp_prepare_attachment_for_js', $query->posts );
 	$posts = array_filter( $posts );
 
-	wp_send_json_success( $posts );
+	$result = array(
+		'attachments'      => $posts,
+		'totalAttachments' => $query->found_posts,
+	);
+
+	wp_send_json_success( $result );
 }
 
 /**
@@ -3698,7 +3705,7 @@ function wp_ajax_parse_embed() {
 		$mce_styles = wpview_media_sandbox_styles();
 
 		foreach ( $mce_styles as $style ) {
-			$styles .= sprintf( '<link rel="stylesheet" href="%s"/>', $style );
+			$styles .= sprintf( '<link rel="stylesheet" href="%s" />', $style );
 		}
 
 		$html = do_shortcode( $parsed );

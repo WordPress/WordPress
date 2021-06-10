@@ -22,9 +22,11 @@ class WP_Widget_RSS extends WP_Widget {
 	 * @since 2.8.0
 	 */
 	public function __construct() {
-		$widget_ops  = array(
+		$widget_ops = array(
 			'description'                 => __( 'Entries from any RSS or Atom feed.' ),
 			'customize_selective_refresh' => true,
+			'show_instance_in_rest'       => true,
+
 		);
 		$control_ops = array(
 			'width'  => 400,
@@ -48,7 +50,7 @@ class WP_Widget_RSS extends WP_Widget {
 		}
 
 		$url = ! empty( $instance['url'] ) ? $instance['url'] : '';
-		while ( stristr( $url, 'http' ) !== $url ) {
+		while ( ! empty( $url ) && stristr( $url, 'http' ) !== $url ) {
 			$url = substr( $url, 1 );
 		}
 
@@ -72,7 +74,7 @@ class WP_Widget_RSS extends WP_Widget {
 				$title = strip_tags( $rss->get_title() );
 			}
 			$link = strip_tags( $rss->get_permalink() );
-			while ( stristr( $link, 'http' ) !== $link ) {
+			while ( ! empty( $link ) && stristr( $link, 'http' ) !== $link ) {
 				$link = substr( $link, 1 );
 			}
 		}

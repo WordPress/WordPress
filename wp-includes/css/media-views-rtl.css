@@ -610,7 +610,6 @@
 	border-left-style: solid;
 	border-left-color: #c3c4c7;
 	-webkit-user-select: none;
-	-ms-user-select: none;
 	user-select: none;
 }
 
@@ -949,7 +948,6 @@
 	list-style: none;
 	text-align: center;
 	-webkit-user-select: none;
-	-ms-user-select: none;
 	user-select: none;
 	width: 25%;
 	box-sizing: border-box;
@@ -1191,7 +1189,8 @@
 	padding: 2px 8px 8px;
 }
 
-.attachments-browser .attachments,
+.attachments-browser:not(.has-load-more) .attachments,
+.attachments-browser.has-load-more .attachments-wrapper,
 .attachments-browser .uploader-inline {
 	position: absolute;
 	top: 72px;
@@ -1268,6 +1267,96 @@
 
 .attachments-browser .no-media {
 	padding: 2em 2em 0 0;
+}
+
+.more-loaded .attachment:not(.found-media) {
+	background: #dcdcde;
+}
+
+.load-more-wrapper {
+	clear: both;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	padding: 1em 0;
+}
+
+.load-more-wrapper .load-more-count {
+	min-width: 100%;
+	margin: 0 0 1em;
+	text-align: center;
+}
+
+.load-more-wrapper .load-more {
+	margin: 0;
+}
+
+/* Needs high specificity. */
+.media-frame .load-more-wrapper .load-more + .spinner {
+	float: none;
+	margin: 0 10px 0 -30px;
+}
+
+/* Reset spinner margin when the button is hidden to avoid horizontal scrollbar. */
+.media-frame .load-more-wrapper .load-more.hidden + .spinner {
+	margin: 0;
+}
+
+/* Force a new row within the flex container. */
+.load-more-wrapper::after {
+	content: "";
+	min-width: 100%;
+	order: 1;
+}
+
+.load-more-wrapper .load-more-jump {
+	margin: 0 12px 0 0;
+}
+
+.attachment.new-media {
+	outline: 2px dotted #c3c4c7;
+}
+
+.load-more-wrapper {
+	clear: both;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	padding: 1em 0;
+}
+
+.load-more-wrapper .load-more-count {
+	min-width: 100%;
+	margin: 0 0 1em;
+	text-align: center;
+}
+
+.load-more-wrapper .load-more {
+	margin: 0;
+}
+
+/* Needs high specificity. */
+.media-frame .load-more-wrapper .load-more + .spinner {
+	float: none;
+	margin: 0 10px 0 -30px;
+}
+
+/* Reset spinner margin when the button is hidden to avoid horizontal scrollbar. */
+.media-frame .load-more-wrapper .load-more.hidden + .spinner {
+	margin: 0;
+}
+
+/* Force a new row within the flex container. */
+.load-more-wrapper::after {
+	content: "";
+	min-width: 100%;
+	order: 1;
+}
+
+.load-more-wrapper .load-more-jump {
+	margin: 0 12px 0 0;
 }
 
 /**
@@ -2821,6 +2910,12 @@
 	.media-frame-content .media-toolbar .instructions {
 		display: none;
 	}
+
+	/* Change margin direction on load more button in responsive views. */
+	.load-more-wrapper .load-more-jump {
+		margin: 12px 0 0 0;
+	}
+
 }
 
 @media only screen and (min-width: 901px) and (max-height: 400px) {
@@ -2829,6 +2924,12 @@
 		top: 0;
 		padding-top: 44px;
 	}
+
+	/* Change margin direction on load more button in responsive views. */
+	.load-more-wrapper .load-more-jump {
+		margin: 12px 0 0 0;
+	}
+
 }
 
 @media only screen and (max-width: 480px) {

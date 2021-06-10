@@ -55,14 +55,22 @@ function list_core_update( $update ) {
 		$current = true;
 	}
 
-	$is_development_version = preg_match( '/alpha|beta|RC/', $version_string );
-
 	$message       = '';
-	$submit        = $is_development_version ? __( 'Update to latest nightly' ) : __( 'Update now' );
 	$form_action   = 'update-core.php?action=do-core-upgrade';
 	$php_version   = phpversion();
 	$mysql_version = $wpdb->db_version();
 	$show_buttons  = true;
+
+	// Nightly build versions have two hyphens and a commit number.
+	if ( preg_match( '/-\w+-\d+/', $update->current ) ) {
+		// Retrieve the major version number.
+		preg_match( '/^\d+.\d+/', $update->current, $update_major );
+		/* translators: %s: WordPress version. */
+		$submit = sprintf( __( 'Update to latest %s nightly' ), $update_major[0] );
+	} else {
+		/* translators: %s: WordPress version. */
+		$submit = sprintf( __( 'Update to version %s' ), $version_string );
+	}
 
 	if ( 'development' === $update->response ) {
 		$message = __( 'You can update to the latest nightly build manually:' );
@@ -150,8 +158,8 @@ function list_core_update( $update ) {
 	wp_nonce_field( 'upgrade-core' );
 
 	echo '<p>';
-	echo '<input name="version" value="' . esc_attr( $update->current ) . '" type="hidden"/>';
-	echo '<input name="locale" value="' . esc_attr( $update->locale ) . '" type="hidden"/>';
+	echo '<input name="version" value="' . esc_attr( $update->current ) . '" type="hidden" />';
+	echo '<input name="locale" value="' . esc_attr( $update->locale ) . '" type="hidden" />';
 	if ( $show_buttons ) {
 		if ( $first_pass ) {
 			submit_button( $submit, $current ? '' : 'primary regular', 'upgrade', false );
@@ -441,8 +449,18 @@ function list_plugin_updates() {
 	} else {
 		$core_update_version = $core_updates[0]->current;
 	}
+
+	$plugins_count = count( $plugins );
 	?>
-<h2><?php _e( 'Plugins' ); ?></h2>
+<h2>
+	<?php
+	printf(
+		'%s <span class="count">(%d)</span>',
+		__( 'Plugins' ),
+		number_format_i18n( $plugins_count )
+	);
+	?>
+</h2>
 <p><?php _e( 'The following plugins have new versions available. Check the ones you want to update and then click &#8220;Update Plugins&#8221;.' ); ?></p>
 <form method="post" action="<?php echo esc_url( $form_action ); ?>" name="upgrade-plugins" class="upgrade">
 	<?php wp_nonce_field( 'upgrade-core' ); ?>
@@ -594,8 +612,18 @@ function list_theme_updates() {
 	}
 
 	$form_action = 'update-core.php?action=do-theme-upgrade';
+
+	$themes_count = count( $themes );
 	?>
-<h2><?php _e( 'Themes' ); ?></h2>
+<h2>
+	<?php
+	printf(
+		'%s <span class="count">(%d)</span>',
+		__( 'Themes' ),
+		number_format_i18n( $themes_count )
+	);
+	?>
+</h2>
 <p><?php _e( 'The following themes have new versions available. Check the ones you want to update and then click &#8220;Update Themes&#8221;.' ); ?></p>
 <p>
 	<?php

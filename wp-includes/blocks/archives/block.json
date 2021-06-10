@@ -1,7 +1,10 @@
 {
 	"apiVersion": 2,
 	"name": "core/archives",
+	"title": "Archives",
 	"category": "widgets",
+	"description": "Display a monthly archive of your posts.",
+	"textdomain": "default",
 	"attributes": {
 		"displayAsDropdown": {
 			"type": "boolean",

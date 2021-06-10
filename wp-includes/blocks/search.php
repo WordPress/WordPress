@@ -36,7 +36,7 @@ function render_block_core_search( $attributes ) {
 	$label_markup    = '';
 	$input_markup    = '';
 	$button_markup   = '';
-	$width_styles    = '';
+	$inline_styles   = styles_for_block_core_search( $attributes );
 
 	if ( $show_label ) {
 		if ( ! empty( $attributes['label'] ) ) {
@@ -56,10 +56,11 @@ function render_block_core_search( $attributes ) {
 
 	if ( $show_input ) {
 		$input_markup = sprintf(
-			'<input type="search" id="%s" class="wp-block-search__input" name="s" value="%s" placeholder="%s" required />',
+			'<input type="search" id="%s" class="wp-block-search__input" name="s" value="%s" placeholder="%s" %s required />',
 			$input_id,
 			esc_attr( get_search_query() ),
-			esc_attr( $attributes['placeholder'] )
+			esc_attr( $attributes['placeholder'] ),
+			$inline_styles['shared']
 		);
 	}
 
@@ -80,20 +81,16 @@ function render_block_core_search( $attributes ) {
 		}
 
 		$button_markup = sprintf(
-			'<button type="submit"class="wp-block-search__button ' . $button_classes . '">%s</button>',
+			'<button type="submit" class="wp-block-search__button %s"%s>%s</button>',
+			$button_classes,
+			$inline_styles['shared'],
 			$button_internal_markup
 		);
 	}
 
-	if ( ! empty( $attributes['width'] ) && ! empty( $attributes['widthUnit'] ) ) {
-		if ( ! empty( $attributes['buttonPosition'] ) && 'button-only' !== $attributes['buttonPosition'] ) {
-			$width_styles = ' style="width: ' . $attributes['width'] . $attributes['widthUnit'] . ';"';
-		}
-	}
-
 	$field_markup       = sprintf(
 		'<div class="wp-block-search__inside-wrapper"%s>%s</div>',
-		$width_styles,
+		$inline_styles['wrapper'],
 		$input_markup . $button_markup
 	);
 	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => $classnames ) );
@@ -158,4 +155,59 @@ function classnames_for_block_core_search( $attributes ) {
 	}
 
 	return implode( ' ', $classnames );
+}
+
+/**
+ * Builds an array of inline styles for the search block.
+ *
+ * The result will contain one entry for shared styles such as those for the
+ * inner input or button and a second for the inner wrapper should the block
+ * be positioning the button "inside".
+ *
+ * @param  array $attributes The block attributes.
+ *
+ * @return array Style HTML attribute.
+ */
+function styles_for_block_core_search( $attributes ) {
+	$shared_styles  = array();
+	$wrapper_styles = array();
+
+	// Add width styles.
+	$has_width   = ! empty( $attributes['width'] ) && ! empty( $attributes['widthUnit'] );
+	$button_only = ! empty( $attributes['buttonPosition'] ) && 'button-only' === $attributes['buttonPosition'];
+
+	if ( $has_width && ! $button_only ) {
+		$wrapper_styles[] = sprintf(
+			'width: %d%s;',
+			esc_attr( $attributes['width'] ),
+			esc_attr( $attributes['widthUnit'] )
+		);
+	}
+
+	// Add border radius styles.
+	$has_border_radius = ! empty( $attributes['style']['border']['radius'] );
+
+	if ( $has_border_radius ) {
+		// Shared style for button and input radius values.
+		$border_radius   = $attributes['style']['border']['radius'];
+		$shared_styles[] = sprintf( 'border-radius: %spx;', esc_attr( $border_radius ) );
+
+		// Apply wrapper border radius if button placed inside.
+		$button_inside = ! empty( $attributes['buttonPosition'] ) &&
+			'button-inside' === $attributes['buttonPosition'];
+
+		if ( $button_inside ) {
+			// We adjust the border radius value for the outer wrapper element
+			// to make it visually consistent with the radius applied to inner
+			// elements.
+			$default_padding  = 4;
+			$adjusted_radius  = $border_radius + $default_padding;
+			$wrapper_styles[] = sprintf( 'border-radius: %dpx;', esc_attr( $adjusted_radius ) );
+		}
+	}
+
+	return array(
+		'shared'  => ! empty( $shared_styles ) ? sprintf( ' style="%s"', implode( ' ', $shared_styles ) ) : '',
+		'wrapper' => ! empty( $wrapper_styles ) ? sprintf( ' style="%s"', implode( ' ', $wrapper_styles ) ) : '',
+	);
 }

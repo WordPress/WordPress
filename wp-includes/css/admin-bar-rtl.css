@@ -55,6 +55,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 	border: none;
 	text-decoration: none;
 	background: none;
+	box-shadow: none;
 }
 
 #wpadminbar a:focus,
@@ -400,6 +401,10 @@ html:lang(he-il) .rtl #wpadminbar * {
 	min-width: 198px;
 }
 
+#wp-admin-bar-my-account:not(.with-avatar) > .ab-item {
+	display: inline-block;
+}
+
 #wp-admin-bar-my-account > .ab-item:before {
 	content: "\f110";
 	top: 2px;
@@ -518,12 +523,16 @@ html:lang(he-il) .rtl #wpadminbar * {
 	color: #72aee6;
 }
 
-#wpadminbar .quicklinks li .blavatar:before {
-	content: "\f120";
+#wpadminbar .quicklinks li img.blavatar,
+#wpadminbar .quicklinks li div.blavatar:before {
 	height: 16px;
 	width: 16px;
-	display: inline-block;
 	margin: 0 -2px 2px 8px;
+}
+
+#wpadminbar .quicklinks li div.blavatar:before {
+	content: "\f120";
+	display: inline-block;
 }
 
 #wpadminbar #wp-admin-bar-appearance {

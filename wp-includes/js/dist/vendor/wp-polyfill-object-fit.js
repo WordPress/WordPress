@@ -1,5 +1,5 @@
 /*----------------------------------------
- * objectFitPolyfill 2.3.4
+ * objectFitPolyfill 2.3.5
  *
  * Made by Constance Chen
  * Released under the ISC license
@@ -99,7 +99,7 @@
    *
    * @param {string} axis - either "x" or "y"
    * @param {node} $media - img or video element
-   * @param {string} objectPosition - e.g. "50% 50%", "top bottom"
+   * @param {string} objectPosition - e.g. "50% 50%", "top left"
    */
   var setPosition = function(axis, $media, objectPosition) {
     var position, other, start, end, side;
@@ -109,6 +109,7 @@
       objectPosition[1] = objectPosition[0];
     }
 
+    /* istanbul ignore else */
     if (axis === 'x') {
       position = objectPosition[0];
       other = objectPosition[1];
@@ -143,7 +144,7 @@
 
     // Percentage values (e.g., 30% 10%)
     if (position.indexOf('%') >= 0) {
-      position = parseInt(position);
+      position = parseInt(position, 10);
 
       if (position < 50) {
         $media.style[start] = position + '%';

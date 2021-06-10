@@ -92,7 +92,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 		$classes = array(
 			'menu-item menu-item-depth-' . $depth,
 			'menu-item-' . esc_attr( $item->object ),
-			'menu-item-edit-' . ( ( isset( $_GET['edit-menu-item'] ) && $item_id == $_GET['edit-menu-item'] ) ? 'active' : 'inactive' ),
+			'menu-item-edit-' . ( ( isset( $_GET['edit-menu-item'] ) && $item_id === $_GET['edit-menu-item'] ) ? 'active' : 'inactive' ),
 		);
 
 		$title = $item->title;
@@ -110,7 +110,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 		$title = ( ! isset( $item->label ) || '' === $item->label ) ? $title : $item->label;
 
 		$submenu_text = '';
-		if ( 0 == $depth ) {
+		if ( 0 === $depth ) {
 			$submenu_text = 'style="display: none;"';
 		}
 
@@ -118,7 +118,11 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 		<li id="menu-item-<?php echo $item_id; ?>" class="<?php echo implode( ' ', $classes ); ?>">
 			<div class="menu-item-bar">
 				<div class="menu-item-handle">
-					<span class="item-title"><span class="menu-item-title"><?php echo esc_html( $title ); ?></span> <span class="is-submenu" <?php echo $submenu_text; ?>><?php _e( 'sub item' ); ?></span></span>
+					<label class="item-title" for="menu-item-checkbox-<?php echo $item_id; ?>">
+						<input id="menu-item-checkbox-<?php echo $item_id; ?>" type="checkbox" class="menu-item-checkbox" data-menu-item-id="<?php echo $item_id; ?>" disabled="disabled" />
+						<span class="menu-item-title"><?php echo esc_html( $title ); ?></span>
+						<span class="is-submenu" <?php echo $submenu_text; ?>><?php _e( 'sub item' ); ?></span>
+					</label>
 					<span class="item-controls">
 						<span class="item-type"><?php echo esc_html( $item->type_label ); ?></span>
 						<span class="item-order hide-if-js">
@@ -157,7 +161,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 							?>
 						</span>
 						<?php
-						if ( isset( $_GET['edit-menu-item'] ) && $item_id == $_GET['edit-menu-item'] ) {
+						if ( isset( $_GET['edit-menu-item'] ) && $item_id === $_GET['edit-menu-item'] ) {
 							$edit_url = admin_url( 'nav-menus.php' );
 						} else {
 							$edit_url = add_query_arg(

@@ -1141,7 +1141,7 @@ final class WP_Theme implements ArrayAccess {
 			return false;
 		}
 
-		foreach ( array( 'png', 'gif', 'jpg', 'jpeg' ) as $ext ) {
+		foreach ( array( 'png', 'gif', 'jpg', 'jpeg', 'webp' ) as $ext ) {
 			if ( file_exists( $this->get_stylesheet_directory() . "/screenshot.$ext" ) ) {
 				$this->cache_add( 'screenshot', 'screenshot.' . $ext );
 				if ( 'relative' === $uri ) {
@@ -1182,6 +1182,7 @@ final class WP_Theme implements ArrayAccess {
 	 * Returns the theme's post templates.
 	 *
 	 * @since 4.7.0
+	 * @since 5.8.0 Include block templates.
 	 *
 	 * @return string[] Array of page templates, keyed by filename and post type,
 	 *                  with the value of the translated header name.
@@ -1216,6 +1217,15 @@ final class WP_Theme implements ArrayAccess {
 					}
 
 					$post_templates[ $type ][ $file ] = _cleanup_header_comment( $header[1] );
+				}
+			}
+
+			if ( current_theme_supports( 'block-templates' ) ) {
+				$block_templates = get_block_templates( array(), 'wp_template' );
+				foreach ( get_post_types( array( 'public' => true ) ) as $type ) {
+					foreach ( $block_templates as $block_template ) {
+						$post_templates[ $type ][ $block_template->slug ] = $block_template->title;
+					}
 				}
 			}
 
@@ -1268,6 +1278,12 @@ final class WP_Theme implements ArrayAccess {
 		 * Filters list of page templates for a theme.
 		 *
 		 * The dynamic portion of the hook name, `$post_type`, refers to the post type.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `theme_post_templates`
+		 *  - `theme_page_templates`
+		 *  - `theme_attachment_templates`
 		 *
 		 * @since 3.9.0
 		 * @since 4.4.0 Converted to allow complete control over the `$page_templates` array.

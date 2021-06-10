@@ -34,7 +34,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 				'permission_callback' => array( $this, 'post_process_item_permissions_check' ),
 				'args'                => array(
 					'id'     => array(
-						'description' => __( 'Unique identifier for the object.' ),
+						'description' => __( 'Unique identifier for the attachment.' ),
 						'type'        => 'integer',
 					),
 					'action' => array(
@@ -438,7 +438,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			);
 		}
 
-		$supported_types = array( 'image/jpeg', 'image/png', 'image/gif' );
+		$supported_types = array( 'image/jpeg', 'image/png', 'image/gif', 'image/webp' );
 		$mime_type       = get_post_mime_type( $attachment_id );
 		if ( ! in_array( $mime_type, $supported_types, true ) ) {
 			return new WP_Error(
@@ -888,12 +888,12 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			),
 			'properties'  => array(
 				'raw'      => array(
-					'description' => __( 'Description for the object, as it exists in the database.' ),
+					'description' => __( 'Description for the attachment, as it exists in the database.' ),
 					'type'        => 'string',
 					'context'     => array( 'edit' ),
 				),
 				'rendered' => array(
-					'description' => __( 'HTML description for the object, transformed for display.' ),
+					'description' => __( 'HTML description for the attachment, transformed for display.' ),
 					'type'        => 'string',
 					'context'     => array( 'view', 'edit' ),
 					'readonly'    => true,

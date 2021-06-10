@@ -133,6 +133,11 @@ add_action( 'after_setup_theme', 'twentytwelve_setup' );
 require get_template_directory() . '/inc/custom-header.php';
 
 /**
+ * Add block patterns.
+ */
+require get_template_directory() . '/inc/block-patterns.php';
+
+/**
  * Return the Google font stylesheet URL if available.
  *
  * The use of Open Sans by default is localized. For languages that use

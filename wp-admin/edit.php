@@ -482,7 +482,7 @@ if ( $wp_list_table->has_items() ) {
 ?>
 
 <div id="ajax-response"></div>
-<div class="clear" /></div>
+<div class="clear"></div>
 </div>
 
 <?php

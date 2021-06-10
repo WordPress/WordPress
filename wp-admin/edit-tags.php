@@ -320,7 +320,7 @@ if ( 'category' === $taxonomy || 'link_category' === $taxonomy || 'post_tag' ===
 
 require_once ABSPATH . 'wp-admin/admin-header.php';
 
-/** Also used by the Edit Tag  form */
+// Also used by the Edit Tag form.
 require_once ABSPATH . 'wp-admin/includes/edit-tag-messages.php';
 
 $class = ( isset( $_REQUEST['error'] ) ) ? 'error' : 'updated';
@@ -414,6 +414,11 @@ if ( $can_edit_terms ) {
 	 *
 	 * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
 	 *
+	 * Possible hook names include:
+	 *
+	 *  - `category_pre_add_form`
+	 *  - `post_tag_pre_add_form`
+	 *
 	 * @since 3.0.0
 	 *
 	 * @param string $taxonomy The taxonomy slug.
@@ -429,6 +434,11 @@ if ( $can_edit_terms ) {
 	 * Fires inside the Add Tag form tag.
 	 *
 	 * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
+	 *
+	 * Possible hook names include:
+	 *
+	 *  - `category_term_new_form_tag`
+	 *  - `post_tag_term_new_form_tag`
 	 *
 	 * @since 3.7.0
 	 */
@@ -522,6 +532,11 @@ if ( $can_edit_terms ) {
 	 *
 	 * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
 	 *
+	 * Possible hook names include:
+	 *
+	 *  - `category_add_form_fields`
+	 *  - `post_tag_add_form_fields`
+	 *
 	 * @since 3.0.0
 	 *
 	 * @param string $taxonomy The taxonomy slug.
@@ -569,6 +584,11 @@ if ( $can_edit_terms ) {
 	 * Fires at the end of the Add Term form for all taxonomies.
 	 *
 	 * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
+	 *
+	 * Possible hook names include:
+	 *
+	 *  - `category_add_form`
+	 *  - `post_tag_add_form`
 	 *
 	 * @since 3.0.0
 	 *
@@ -637,6 +657,11 @@ endif;
  * Fires after the taxonomy list table.
  *
  * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
+ *
+ * Possible hook names include:
+ *
+ *  - `after-category-table`
+ *  - `after-post_tag-table`
  *
  * @since 3.0.0
  *

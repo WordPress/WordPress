@@ -239,8 +239,8 @@ $version_url = sprintf(
 	sanitize_title( $wp_version )
 );
 
-/* translators: %s: URL to Update PHP page. */
 $php_update_message = '</p><p>' . sprintf(
+	/* translators: %s: URL to Update PHP page. */
 	__( '<a href="%s">Learn more about updating PHP</a>.' ),
 	esc_url( wp_get_update_php_url() )
 );
@@ -426,11 +426,9 @@ switch ( $step ) {
 	<tr>
 		<th><?php _e( 'Password' ); ?></th>
 		<td>
-			<?php
-			if ( ! empty( $result['password'] ) && empty( $admin_password_check ) ) :
-				?>
-			<code><?php echo esc_html( $result['password'] ); ?></code><br />
-		<?php endif ?>
+			<?php if ( ! empty( $result['password'] ) && empty( $admin_password_check ) ) : ?>
+				<code><?php echo esc_html( $result['password'] ); ?></code><br />
+			<?php endif; ?>
 			<p><?php echo $result['password_message']; ?></p>
 		</td>
 	</tr>

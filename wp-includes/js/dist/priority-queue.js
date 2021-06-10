@@ -95,7 +95,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["priorityQueue"] =
 __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
-__webpack_require__.d(__webpack_exports__, "createQueue", function() { return /* binding */ build_module_createQueue; });
+__webpack_require__.d(__webpack_exports__, "createQueue", function() { return /* binding */ createQueue; });
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/priority-queue/build-module/request-idle-callback.js
 /**
@@ -107,10 +107,8 @@ __webpack_require__.d(__webpack_exports__, "createQueue", function() { return /*
  */
 function createRequestIdleCallback() {
   if (typeof window === 'undefined') {
-    return function (callback) {
-      setTimeout(function () {
-        return callback(Date.now());
-      }, 0);
+    return callback => {
+      setTimeout(() => callback(Date.now()), 0);
     };
   }
 
@@ -186,13 +184,13 @@ function createRequestIdleCallback() {
  * @return {WPPriorityQueue} Queue object with `add`, `flush` and `reset` methods.
  */
 
-var build_module_createQueue = function createQueue() {
+const createQueue = () => {
   /** @type {WPPriorityQueueContext[]} */
-  var waitingList = [];
+  let waitingList = [];
   /** @type {WeakMap<WPPriorityQueueContext,WPPriorityQueueCallback>} */
 
-  var elementsMap = new WeakMap();
-  var isRunning = false;
+  let elementsMap = new WeakMap();
+  let isRunning = false;
   /**
    * Callback to process as much queue as time permits.
    *
@@ -200,12 +198,8 @@ var build_module_createQueue = function createQueue() {
    *                                       animation frame timestamp.
    */
 
-  var runWaitingList = function runWaitingList(deadline) {
-    var hasTimeRemaining = typeof deadline === 'number' ? function () {
-      return false;
-    } : function () {
-      return deadline.timeRemaining() > 0;
-    };
+  const runWaitingList = deadline => {
+    const hasTimeRemaining = typeof deadline === 'number' ? () => false : () => deadline.timeRemaining() > 0;
 
     do {
       if (waitingList.length === 0) {
@@ -213,12 +207,15 @@ var build_module_createQueue = function createQueue() {
         return;
       }
 
-      var nextElement =
+      const nextElement =
       /** @type {WPPriorityQueueContext} */
       waitingList.shift();
-      var callback =
+      const callback =
       /** @type {WPPriorityQueueCallback} */
-      elementsMap.get(nextElement);
+      elementsMap.get(nextElement); // If errors with undefined callbacks are encountered double check that all of your useSelect calls
+      // have all dependecies set correctly in second parameter. Missing dependencies can cause unexpected
+      // loops and race conditions in the queue.
+
       callback();
       elementsMap.delete(nextElement);
     } while (hasTimeRemaining());
@@ -235,7 +232,7 @@ var build_module_createQueue = function createQueue() {
    */
 
 
-  var add = function add(element, item) {
+  const add = (element, item) => {
     if (!elementsMap.has(element)) {
       waitingList.push(element);
     }
@@ -259,14 +256,14 @@ var build_module_createQueue = function createQueue() {
    */
 
 
-  var flush = function flush(element) {
+  const flush = element => {
     if (!elementsMap.has(element)) {
       return false;
     }
 
-    var index = waitingList.indexOf(element);
+    const index = waitingList.indexOf(element);
     waitingList.splice(index, 1);
-    var callback =
+    const callback =
     /** @type {WPPriorityQueueCallback} */
     elementsMap.get(element);
     elementsMap.delete(element);
@@ -280,16 +277,16 @@ var build_module_createQueue = function createQueue() {
    */
 
 
-  var reset = function reset() {
+  const reset = () => {
     waitingList = [];
     elementsMap = new WeakMap();
     isRunning = false;
   };
 
   return {
-    add: add,
-    flush: flush,
-    reset: reset
+    add,
+    flush,
+    reset
   };
 };
 

@@ -195,7 +195,7 @@
 
 			// Clear the search results and trigger an `input` event to fire a new search.
 			this.$clearResults.on( 'click', function() {
-				self.$search.val( '' ).focus().trigger( 'input' );
+				self.$search.val( '' ).trigger( 'focus' ).trigger( 'input' );
 			} );
 
 			// Close the panel if the URL in the preview changes.
@@ -365,7 +365,7 @@
 			this.collection.doSearch( '' );
 
 			if ( ! api.settings.browser.mobile ) {
-				this.$search.focus();
+				this.$search.trigger( 'focus' );
 			}
 		},
 
@@ -421,9 +421,9 @@
 				this.select( selected );
 
 				if ( selected ) {
-					selected.focus();
+					selected.trigger( 'focus' );
 				} else {
-					this.$search.focus();
+					this.$search.trigger( 'focus' );
 				}
 
 				return;
@@ -818,7 +818,7 @@
 				if ( event.type === 'keypress' && ( event.which !== 13 && event.which !== 32 ) ) {
 					return;
 				}
-				$( this ).focus();
+				$( this ).trigger( 'focus' );
 
 				if ( $( this ).is( '.move-widget' ) ) {
 					self.toggleWidgetMoveArea();
@@ -839,7 +839,7 @@
 						wp.a11y.speak( l10n.widgetMovedDown );
 					}
 
-					$( this ).focus(); // Re-focus after the container was moved.
+					$( this ).trigger( 'focus' ); // Re-focus after the container was moved.
 				}
 			} );
 
@@ -1103,7 +1103,7 @@
 			if ( input.is( ':radio, :checkbox' ) ) {
 				input.prop( 'checked', state );
 			} else if ( input.is( 'select[multiple]' ) ) {
-				if ( ! $.isArray( state ) ) {
+				if ( ! Array.isArray( state ) ) {
 					state = [];
 				} else {
 					// Make sure all state items are strings since the DOM value is a string.
@@ -2089,7 +2089,7 @@
 				widgetNumber = widget.get( 'multi_number' );
 			}
 
-			controlHtml = $.trim( $( '#widget-tpl-' + widget.get( 'id' ) ).html() );
+			controlHtml = $( '#widget-tpl-' + widget.get( 'id' ) ).html().trim();
 			if ( widget.get( 'is_multi' ) ) {
 				controlHtml = controlHtml.replace( /<[^<>]+>/g, function( m ) {
 					return m.replace( /__i__|%i%/g, widgetNumber );

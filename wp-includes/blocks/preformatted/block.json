@@ -1,19 +1,28 @@
 {
 	"apiVersion": 2,
 	"name": "core/preformatted",
+	"title": "Preformatted",
 	"category": "text",
+	"description": "Add text that respects your spacing and tabs, and also allows styling.",
+	"textdomain": "default",
 	"attributes": {
 		"content": {
 			"type": "string",
 			"source": "html",
 			"selector": "pre",
 			"default": "",
-			"__unstablePreserveWhiteSpace": true
+			"__unstablePreserveWhiteSpace": true,
+			"__experimentalRole": "content"
 		}
 	},
 	"supports": {
 		"anchor": true,
-		"fontSize": true
+		"color": {
+			"gradients": true
+		},
+		"typography": {
+			"fontSize": true
+		}
 	},
 	"style": "wp-block-preformatted"
 }

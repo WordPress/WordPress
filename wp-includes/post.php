@@ -177,8 +177,6 @@ function create_initial_post_types() {
 			'labels'           => array(
 				'name'               => _x( 'Changesets', 'post type general name' ),
 				'singular_name'      => _x( 'Changeset', 'post type singular name' ),
-				'menu_name'          => _x( 'Changesets', 'admin menu' ),
-				'name_admin_bar'     => _x( 'Changeset', 'add new on admin bar' ),
 				'add_new'            => _x( 'Add New', 'Customize Changeset' ),
 				'add_new_item'       => __( 'Add New Changeset' ),
 				'new_item'           => __( 'New Changeset' ),
@@ -259,27 +257,25 @@ function create_initial_post_types() {
 		'wp_block',
 		array(
 			'labels'                => array(
-				'name'                     => _x( 'Reusable Blocks', 'post type general name' ),
-				'singular_name'            => _x( 'Reusable Block', 'post type singular name' ),
-				'menu_name'                => _x( 'Reusable Blocks', 'admin menu' ),
-				'name_admin_bar'           => _x( 'Reusable Block', 'add new on admin bar' ),
-				'add_new'                  => _x( 'Add New', 'Reusable Block' ),
-				'add_new_item'             => __( 'Add New Reusable Block' ),
-				'new_item'                 => __( 'New Reusable Block' ),
-				'edit_item'                => __( 'Edit Reusable Block' ),
-				'view_item'                => __( 'View Reusable Block' ),
-				'all_items'                => __( 'All Reusable Blocks' ),
-				'search_items'             => __( 'Search Reusable Blocks' ),
+				'name'                     => _x( 'Reusable blocks', 'post type general name' ),
+				'singular_name'            => _x( 'Reusable block', 'post type singular name' ),
+				'add_new'                  => _x( 'Add New', 'Reusable block' ),
+				'add_new_item'             => __( 'Add new Reusable block' ),
+				'new_item'                 => __( 'New Reusable block' ),
+				'edit_item'                => __( 'Edit Reusable block' ),
+				'view_item'                => __( 'View Reusable block' ),
+				'all_items'                => __( 'All Reusable blocks' ),
+				'search_items'             => __( 'Search Reusable blocks' ),
 				'not_found'                => __( 'No reusable blocks found.' ),
 				'not_found_in_trash'       => __( 'No reusable blocks found in Trash.' ),
 				'filter_items_list'        => __( 'Filter reusable blocks list' ),
-				'items_list_navigation'    => __( 'Reusable Blocks list navigation' ),
-				'items_list'               => __( 'Reusable Blocks list' ),
-				'item_published'           => __( 'Reusable Block published.' ),
-				'item_published_privately' => __( 'Reusable Block published privately.' ),
-				'item_reverted_to_draft'   => __( 'Reusable Block reverted to draft.' ),
-				'item_scheduled'           => __( 'Reusable Block scheduled.' ),
-				'item_updated'             => __( 'Reusable Block updated.' ),
+				'items_list_navigation'    => __( 'Reusable blocks list navigation' ),
+				'items_list'               => __( 'Reusable blocks list' ),
+				'item_published'           => __( 'Reusable block published.' ),
+				'item_published_privately' => __( 'Reusable block published privately.' ),
+				'item_reverted_to_draft'   => __( 'Reusable block reverted to draft.' ),
+				'item_scheduled'           => __( 'Reusable block scheduled.' ),
+				'item_updated'             => __( 'Reusable block updated.' ),
 			),
 			'public'                => false,
 			'_builtin'              => true, /* internal use only. don't use this when registering your own post type. */
@@ -305,6 +301,66 @@ function create_initial_post_types() {
 			'supports'              => array(
 				'title',
 				'editor',
+				'revisions',
+			),
+		)
+	);
+
+	register_post_type(
+		'wp_template',
+		array(
+			'labels'                => array(
+				'name'                  => __( 'Templates' ),
+				'singular_name'         => __( 'Template' ),
+				'add_new'               => _x( 'Add New', 'Template' ),
+				'add_new_item'          => __( 'Add New Template' ),
+				'new_item'              => __( 'New Template' ),
+				'edit_item'             => __( 'Edit Template' ),
+				'view_item'             => __( 'View Template' ),
+				'all_items'             => __( 'All Templates' ),
+				'search_items'          => __( 'Search Templates' ),
+				'parent_item_colon'     => __( 'Parent Template:' ),
+				'not_found'             => __( 'No templates found.' ),
+				'not_found_in_trash'    => __( 'No templates found in Trash.' ),
+				'archives'              => __( 'Template archives' ),
+				'insert_into_item'      => __( 'Insert into template' ),
+				'uploaded_to_this_item' => __( 'Uploaded to this template' ),
+				'filter_items_list'     => __( 'Filter templates list' ),
+				'items_list_navigation' => __( 'Templates list navigation' ),
+				'items_list'            => __( 'Templates list' ),
+			),
+			'description'           => __( 'Templates to include in your theme.' ),
+			'public'                => false,
+			'_builtin'              => true, /* internal use only. don't use this when registering your own post type. */
+			'has_archive'           => false,
+			'show_ui'               => false,
+			'show_in_menu'          => false,
+			'show_in_rest'          => true,
+			'rewrite'               => false,
+			'rest_base'             => 'templates',
+			'rest_controller_class' => 'WP_REST_Templates_Controller',
+			'capability_type'       => array( 'template', 'templates' ),
+			'capabilities'          => array(
+				'create_posts'           => 'edit_theme_options',
+				'delete_posts'           => 'edit_theme_options',
+				'delete_others_posts'    => 'edit_theme_options',
+				'delete_private_posts'   => 'edit_theme_options',
+				'delete_published_posts' => 'edit_theme_options',
+				'edit_posts'             => 'edit_theme_options',
+				'edit_others_posts'      => 'edit_theme_options',
+				'edit_private_posts'     => 'edit_theme_options',
+				'edit_published_posts'   => 'edit_theme_options',
+				'publish_posts'          => 'edit_theme_options',
+				'read'                   => 'edit_theme_options',
+				'read_private_posts'     => 'edit_theme_options',
+			),
+			'map_meta_cap'          => true,
+			'supports'              => array(
+				'title',
+				'slug',
+				'excerpt',
+				'editor',
+				'revisions',
 			),
 		)
 	);
@@ -677,15 +733,15 @@ function get_children( $args = '', $output = OBJECT ) {
 		$kids[ $child->ID ] = $children[ $key ];
 	}
 
-	if ( OBJECT == $output ) {
+	if ( OBJECT === $output ) {
 		return $kids;
-	} elseif ( ARRAY_A == $output ) {
+	} elseif ( ARRAY_A === $output ) {
 		$weeuns = array();
 		foreach ( (array) $kids as $kid ) {
 			$weeuns[ $kid->ID ] = get_object_vars( $kids[ $kid->ID ] );
 		}
 		return $weeuns;
-	} elseif ( ARRAY_N == $output ) {
+	} elseif ( ARRAY_N === $output ) {
 		$babes = array();
 		foreach ( (array) $kids as $kid ) {
 			$babes[ $kid->ID ] = array_values( get_object_vars( $kids[ $kid->ID ] ) );
@@ -788,9 +844,9 @@ function get_post( $post = null, $output = OBJECT, $filter = 'raw' ) {
 
 	$_post = $_post->filter( $filter );
 
-	if ( ARRAY_A == $output ) {
+	if ( ARRAY_A === $output ) {
 		return $_post->to_array();
-	} elseif ( ARRAY_N == $output ) {
+	} elseif ( ARRAY_N === $output ) {
 		return array_values( $_post->to_array() );
 	}
 
@@ -1422,20 +1478,20 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  *                                               ?{query_var_string}={post_slug} will be valid.
  *     @type bool         $can_export            Whether to allow this post type to be exported. Default true.
  *     @type bool         $delete_with_user      Whether to delete posts of this type when deleting a user.
- *                                               - If true, posts of this type belonging to the user will be moved
+ *                                               * If true, posts of this type belonging to the user will be moved
  *                                                 to Trash when the user is deleted.
- *                                               - If false, posts of this type belonging to the user will *not*
+ *                                               * If false, posts of this type belonging to the user will *not*
  *                                                 be trashed or deleted.
- *                                               - If not set (the default), posts are trashed if post type supports
+ *                                               * If not set (the default), posts are trashed if post type supports
  *                                                 the 'author' feature. Otherwise posts are not trashed or deleted.
  *                                               Default null.
  *     @type array        $template              Array of blocks to use as the default initial state for an editor
  *                                               session. Each item should be an array containing block name and
  *                                               optional attributes. Default empty array.
  *     @type string|false $template_lock         Whether the block template should be locked if $template is set.
- *                                               - If set to 'all', the user is unable to insert new blocks,
+ *                                               * If set to 'all', the user is unable to insert new blocks,
  *                                                 move existing blocks and delete blocks.
- *                                               - If set to 'insert', the user is able to move existing blocks
+ *                                               * If set to 'insert', the user is able to move existing blocks
  *                                                 but is unable to insert new blocks and delete blocks.
  *                                               Default false.
  *     @type bool         $_builtin              FOR INTERNAL USE ONLY! True if this post type is a native or
@@ -1703,6 +1759,9 @@ function _post_type_meta_capabilities( $capabilities = null ) {
  * - `item_scheduled` - Label used when an item is scheduled for publishing. Default is 'Post scheduled.' /
  *                    'Page scheduled.'
  * - `item_updated` - Label used when an item is updated. Default is 'Post updated.' / 'Page updated.'
+ * - `item_link` - Title for a navigation link block variation. Default is 'Post Link' / 'Page Link'.
+ * - `item_link_description` - Description for a navigation link block variation. Default is 'A link to a post.' /
+ *                             'A link to a page.'
  *
  * Above, the first default value is for non-hierarchical post types (like posts)
  * and the second one is for hierarchical post types (like pages).
@@ -1719,6 +1778,7 @@ function _post_type_meta_capabilities( $capabilities = null ) {
  * @since 5.0.0 Added the `item_published`, `item_published_privately`, `item_reverted_to_draft`,
  *              `item_scheduled`, and `item_updated` labels.
  * @since 5.7.0 Added the `filter_by_date` label.
+ * @since 5.8.0 Added the `item_link` and `item_link_description` labels.
  *
  * @access private
  *
@@ -1726,7 +1786,7 @@ function _post_type_meta_capabilities( $capabilities = null ) {
  * @return object Object with all the labels as member variables.
  */
 function get_post_type_labels( $post_type_object ) {
-	$nohier_vs_hier_defaults              = array(
+	$nohier_vs_hier_defaults = array(
 		'name'                     => array( _x( 'Posts', 'post type general name' ), _x( 'Pages', 'post type general name' ) ),
 		'singular_name'            => array( _x( 'Post', 'post type singular name' ), _x( 'Page', 'post type singular name' ) ),
 		'add_new'                  => array( _x( 'Add New', 'post' ), _x( 'Add New', 'page' ) ),
@@ -1757,7 +1817,16 @@ function get_post_type_labels( $post_type_object ) {
 		'item_reverted_to_draft'   => array( __( 'Post reverted to draft.' ), __( 'Page reverted to draft.' ) ),
 		'item_scheduled'           => array( __( 'Post scheduled.' ), __( 'Page scheduled.' ) ),
 		'item_updated'             => array( __( 'Post updated.' ), __( 'Page updated.' ) ),
+		'item_link'                => array(
+			_x( 'Post Link', 'navigation link block title' ),
+			_x( 'Page Link', 'navigation link block title' ),
+		),
+		'item_link_description'    => array(
+			_x( 'A link to a post.', 'navigation link block description' ),
+			_x( 'A link to a page.', 'navigation link block description' ),
+		),
 	);
+
 	$nohier_vs_hier_defaults['menu_name'] = $nohier_vs_hier_defaults['name'];
 
 	$labels = _get_custom_object_labels( $post_type_object, $nohier_vs_hier_defaults );
@@ -1771,6 +1840,12 @@ function get_post_type_labels( $post_type_object ) {
 	 *
 	 * The dynamic portion of the hook name, `$post_type`, refers to
 	 * the post type slug.
+	 *
+	 * Possible hook names include:
+	 *
+	 *  - `post_type_labels_post`
+	 *  - `post_type_labels_page`
+	 *  - `post_type_labels_attachment`
 	 *
 	 * @since 3.5.0
 	 *
@@ -2217,10 +2292,12 @@ function delete_post_meta( $post_id, $meta_key, $meta_value = '' ) {
  * @param string $key     Optional. The meta key to retrieve. By default,
  *                        returns data for all keys. Default empty.
  * @param bool   $single  Optional. Whether to return a single value.
- *                        This parameter has no effect if $key is not specified.
+ *                        This parameter has no effect if `$key` is not specified.
  *                        Default false.
- * @return mixed An array if $single is false. The value of the meta field
- *               if $single is true. False for an invalid $post_id.
+ * @return mixed An array of values if `$single` is false.
+ *               The value of the meta field if `$single` is true.
+ *               False for an invalid `$post_id` (non-numeric, zero, or negative value).
+ *               An empty string if a valid but non-existing post ID is passed.
  */
 function get_post_meta( $post_id, $key = '', $single = false ) {
 	return get_metadata( 'post', $post_id, $key, $single );
@@ -2609,6 +2686,11 @@ function sanitize_post_field( $field, $value, $post_id, $context = 'display' ) {
 		} elseif ( 'js' === $context ) {
 			$value = esc_js( $value );
 		}
+	}
+
+	// Restore the type for integer fields after esc_attr().
+	if ( in_array( $field, $int_fields, true ) ) {
+		$value = (int) $value;
 	}
 
 	return $value;
@@ -3673,7 +3755,7 @@ function wp_get_recent_posts( $args = array(), $output = ARRAY_A ) {
 	$results = get_posts( $parsed_args );
 
 	// Backward compatibility. Prior to 3.1 expected posts to be returned in array.
-	if ( ARRAY_A == $output ) {
+	if ( ARRAY_A === $output ) {
 		foreach ( $results as $key => $result ) {
 			$results[ $key ] = get_object_vars( $result );
 		}
@@ -3737,6 +3819,8 @@ function wp_get_recent_posts( $args = array(), $output = ARRAY_A ) {
  *     @type int    $menu_order            The order the post should be displayed in. Default 0.
  *     @type string $post_mime_type        The mime type of the post. Default empty.
  *     @type string $guid                  Global Unique ID for referencing the post. Default empty.
+ *     @type int    $import_id             The post ID to be used when inserting a new post.
+ *                                         If specified, must not match any existing post ID. Default 0.
  *     @type int[]  $post_category         Array of category IDs.
  *                                         Defaults to value of the 'default_category' option.
  *     @type array  $tags_input            Array of tag names, slugs, or IDs. Default empty.
@@ -5031,6 +5115,23 @@ function wp_transition_post_status( $new_status, $old_status, $post ) {
 	 * The dynamic portions of the hook name, `$new_status` and `$post->post_type`,
 	 * refer to the new post status and post type, respectively.
 	 *
+	 * Possible hook names include:
+	 *
+	 *  - `draft_post`
+	 *  - `future_post`
+	 *  - `pending_post`
+	 *  - `private_post`
+	 *  - `publish_post`
+	 *  - `trash_post`
+	 *  - `draft_page`
+	 *  - `future_page`
+	 *  - `pending_page`
+	 *  - `private_page`
+	 *  - `publish_page`
+	 *  - `trash_page`
+	 *  - `publish_attachment`
+	 *  - `trash_attachment`
+	 *
 	 * Please note: When this action is hooked using a particular post status (like
 	 * 'publish', as `publish_{$post->post_type}`), it will fire both when a post is
 	 * first transitioned to that status from something else, as well as upon
@@ -5683,10 +5784,13 @@ function get_pages( $args = array() ) {
 	$cache_key = "get_pages:$key:$last_changed";
 	$cache     = wp_cache_get( $cache_key, 'posts' );
 	if ( false !== $cache ) {
+		_prime_post_caches( $cache, false, false );
+
 		// Convert to WP_Post instances.
 		$pages = array_map( 'get_post', $cache );
 		/** This filter is documented in wp-includes/post.php */
 		$pages = apply_filters( 'get_pages', $pages, $parsed_args );
+
 		return $pages;
 	}
 
@@ -5847,6 +5951,7 @@ function get_pages( $args = array() ) {
 
 		/** This filter is documented in wp-includes/post.php */
 		$pages = apply_filters( 'get_pages', array(), $parsed_args );
+
 		return $pages;
 	}
 
@@ -6499,7 +6604,7 @@ function wp_attachment_is( $type, $post = null ) {
 
 	switch ( $type ) {
 		case 'image':
-			$image_exts = array( 'jpg', 'jpeg', 'jpe', 'gif', 'png' );
+			$image_exts = array( 'jpg', 'jpeg', 'jpe', 'gif', 'png', 'webp' );
 			return in_array( $ext, $image_exts, true );
 
 		case 'audio':
@@ -7504,7 +7609,7 @@ function _update_term_count_on_transition_post_status( $new_status, $old_status,
 }
 
 /**
- * Adds any posts from the given IDs to the cache that do not already exist in cache
+ * Adds any posts from the given IDs to the cache that do not already exist in cache.
  *
  * @since 3.4.0
  * @access private

@@ -27,7 +27,7 @@ if ( 'updateblogsettings' === $action && isset( $_POST['primary_blog'] ) ) {
 
 	$blog = get_site( (int) $_POST['primary_blog'] );
 	if ( $blog && isset( $blog->domain ) ) {
-		update_user_option( $current_user->ID, 'primary_blog', (int) $_POST['primary_blog'], true );
+		update_user_meta( $current_user->ID, 'primary_blog', (int) $_POST['primary_blog'] );
 		$updated = true;
 	} else {
 		wp_die( __( 'The primary site you chose does not exist.' ) );

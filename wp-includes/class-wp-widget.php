@@ -152,7 +152,7 @@ class WP_Widget {
 	 * @since 2.8.0
 	 *
 	 * @param string $id_base         Optional. Base ID for the widget, lowercase and unique. If left empty,
-	 *                                a portion of the widget's class name will be used. Has to be unique.
+	 *                                a portion of the widget's PHP class name will be used. Has to be unique.
 	 * @param string $name            Name for the widget displayed on the configuration page.
 	 * @param array  $widget_options  Optional. Widget options. See wp_register_sidebar_widget() for
 	 *                                information on accepted arguments. Default empty array.
@@ -160,13 +160,19 @@ class WP_Widget {
 	 *                                information on accepted arguments. Default empty array.
 	 */
 	public function __construct( $id_base, $name, $widget_options = array(), $control_options = array() ) {
-		$this->id_base         = empty( $id_base ) ? preg_replace( '/(wp_)?widget_/', '', strtolower( get_class( $this ) ) ) : strtolower( $id_base );
+		if ( ! empty( $id_base ) ) {
+			$id_base = strtolower( $id_base );
+		} else {
+			$id_base = preg_replace( '/(wp_)?widget_/', '', strtolower( get_class( $this ) ) );
+		}
+
+		$this->id_base         = $id_base;
 		$this->name            = $name;
 		$this->option_name     = 'widget_' . $this->id_base;
 		$this->widget_options  = wp_parse_args(
 			$widget_options,
 			array(
-				'classname'                   => $this->option_name,
+				'classname'                   => str_replace( '\\', '_', $this->option_name ),
 				'customize_selective_refresh' => false,
 			)
 		);
@@ -182,7 +188,7 @@ class WP_Widget {
 	 * @see WP_Widget::__construct()
 	 *
 	 * @param string $id_base         Optional. Base ID for the widget, lowercase and unique. If left empty,
-	 *                                a portion of the widget's class name will be used. Has to be unique.
+	 *                                a portion of the widget's PHP class name will be used. Has to be unique.
 	 * @param string $name            Name for the widget displayed on the configuration page.
 	 * @param array  $widget_options  Optional. Widget options. See wp_register_sidebar_widget() for
 	 *                                information on accepted arguments. Default empty array.
@@ -203,16 +209,20 @@ class WP_Widget {
 	 * @since 2.8.0
 	 * @since 4.4.0 Array format field names are now accepted.
 	 *
-	 * @param string $field_name Field name
-	 * @return string Name attribute for $field_name
+	 * @param string $field_name Field name.
+	 * @return string Name attribute for `$field_name`.
 	 */
 	public function get_field_name( $field_name ) {
 		$pos = strpos( $field_name, '[' );
-		if ( false === $pos ) {
-			return 'widget-' . $this->id_base . '[' . $this->number . '][' . $field_name . ']';
+
+		if ( false !== $pos ) {
+			// Replace the first occurrence of '[' with ']['.
+			$field_name = '[' . substr_replace( $field_name, '][', $pos, strlen( '[' ) );
 		} else {
-			return 'widget-' . $this->id_base . '[' . $this->number . '][' . substr_replace( $field_name, '][', $pos, strlen( '[' ) );
+			$field_name = '[' . $field_name . ']';
 		}
+
+		return 'widget-' . $this->id_base . '[' . $this->number . ']' . $field_name;
 	}
 
 	/**
@@ -228,7 +238,10 @@ class WP_Widget {
 	 * @return string ID attribute for `$field_name`.
 	 */
 	public function get_field_id( $field_name ) {
-		return 'widget-' . $this->id_base . '-' . $this->number . '-' . trim( str_replace( array( '[]', '[', ']' ), array( '', '-', '' ), $field_name ), '-' );
+		$field_name = str_replace( array( '[]', '[', ']' ), array( '', '-', '' ), $field_name );
+		$field_name = trim( $field_name, '-' );
+
+		return 'widget-' . $this->id_base . '-' . $this->number . '-' . $field_name;
 	}
 
 	/**
@@ -460,6 +473,7 @@ class WP_Widget {
 				 * @param WP_Widget $widget       The current widget instance.
 				 */
 				$instance = apply_filters( 'widget_update_callback', $instance, $new_instance, $old_instance, $this );
+
 				if ( false !== $instance ) {
 					$all_instances[ $number ] = $instance;
 				}
@@ -515,6 +529,7 @@ class WP_Widget {
 		$instance = apply_filters( 'widget_form_callback', $instance, $this );
 
 		$return = null;
+
 		if ( false !== $instance ) {
 			$return = $this->form( $instance );
 
@@ -536,6 +551,7 @@ class WP_Widget {
 			 */
 			do_action_ref_array( 'in_widget_form', array( &$this, &$return, $instance ) );
 		}
+
 		return $return;
 	}
 
@@ -548,9 +564,28 @@ class WP_Widget {
 	 *                    compared to other instances of the same class. Default -1.
 	 */
 	public function _register_one( $number = -1 ) {
-		wp_register_sidebar_widget( $this->id, $this->name, $this->_get_display_callback(), $this->widget_options, array( 'number' => $number ) );
-		_register_widget_update_callback( $this->id_base, $this->_get_update_callback(), $this->control_options, array( 'number' => -1 ) );
-		_register_widget_form_callback( $this->id, $this->name, $this->_get_form_callback(), $this->control_options, array( 'number' => $number ) );
+		wp_register_sidebar_widget(
+			$this->id,
+			$this->name,
+			$this->_get_display_callback(),
+			$this->widget_options,
+			array( 'number' => $number )
+		);
+
+		_register_widget_update_callback(
+			$this->id_base,
+			$this->_get_update_callback(),
+			$this->control_options,
+			array( 'number' => -1 )
+		);
+
+		_register_widget_form_callback(
+			$this->id,
+			$this->name,
+			$this->_get_form_callback(),
+			$this->control_options,
+			array( 'number' => $number )
+		);
 	}
 
 	/**
@@ -595,6 +630,7 @@ class WP_Widget {
 		}
 
 		unset( $settings['_multiwidget'], $settings['__i__'] );
+
 		return $settings;
 	}
 }

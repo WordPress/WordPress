@@ -146,11 +146,10 @@ __webpack_require__.r(__webpack_exports__);
  * @return {?WPShortcodeMatch} Matched information.
  */
 
-function next(tag, text) {
-  var index = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-  var re = regexp(tag);
+function next(tag, text, index = 0) {
+  const re = regexp(tag);
   re.lastIndex = index;
-  var match = re.exec(text);
+  const match = re.exec(text);
 
   if (!match) {
     return;
@@ -161,7 +160,7 @@ function next(tag, text) {
     return next(tag, text, re.lastIndex);
   }
 
-  var result = {
+  const result = {
     index: match.index,
     content: match[0],
     shortcode: fromMatch(match)
@@ -200,7 +199,7 @@ function replace(tag, text, callback) {
     } // Create the match object and pass it through the callback.
 
 
-    var result = callback(fromMatch(arguments)); // Make sure to return any of the extra brackets if they weren't used to
+    const result = callback(fromMatch(arguments)); // Make sure to return any of the extra brackets if they weren't used to
     // escape the shortcode.
 
     return result || result === '' ? left + result + right : match;
@@ -265,9 +264,9 @@ function regexp(tag) {
  * @return {WPShortcodeAttrs} Parsed shortcode attributes.
  */
 
-var attrs = memize__WEBPACK_IMPORTED_MODULE_1___default()(function (text) {
-  var named = {};
-  var numeric = []; // This regular expression is reused from `shortcode_parse_atts()` in
+const attrs = memize__WEBPACK_IMPORTED_MODULE_1___default()(text => {
+  const named = {};
+  const numeric = []; // This regular expression is reused from `shortcode_parse_atts()` in
   // `wp-includes/shortcodes.php`.
   //
   // Capture groups:
@@ -282,10 +281,10 @@ var attrs = memize__WEBPACK_IMPORTED_MODULE_1___default()(function (text) {
   // 8. A numeric attribute in single quotes.
   // 9. An unquoted numeric attribute.
 
-  var pattern = /([\w-]+)\s*=\s*"([^"]*)"(?:\s|$)|([\w-]+)\s*=\s*'([^']*)'(?:\s|$)|([\w-]+)\s*=\s*([^\s'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|'([^']*)'(?:\s|$)|(\S+)(?:\s|$)/g; // Map zero-width spaces to actual spaces.
+  const pattern = /([\w-]+)\s*=\s*"([^"]*)"(?:\s|$)|([\w-]+)\s*=\s*'([^']*)'(?:\s|$)|([\w-]+)\s*=\s*([^\s'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|'([^']*)'(?:\s|$)|(\S+)(?:\s|$)/g; // Map zero-width spaces to actual spaces.
 
   text = text.replace(/[\u00a0\u200b]/g, ' ');
-  var match; // Match and normalize attributes.
+  let match; // Match and normalize attributes.
 
   while (match = pattern.exec(text)) {
     if (match[1]) {
@@ -304,8 +303,8 @@ var attrs = memize__WEBPACK_IMPORTED_MODULE_1___default()(function (text) {
   }
 
   return {
-    named: named,
-    numeric: numeric
+    named,
+    numeric
   };
 });
 /**
@@ -321,7 +320,7 @@ var attrs = memize__WEBPACK_IMPORTED_MODULE_1___default()(function (text) {
  */
 
 function fromMatch(match) {
-  var type;
+  let type;
 
   if (match[4]) {
     type = 'self-closing';
@@ -334,7 +333,7 @@ function fromMatch(match) {
   return new shortcode({
     tag: match[2],
     attrs: match[3],
-    type: type,
+    type,
     content: match[5]
   });
 }
@@ -351,11 +350,9 @@ function fromMatch(match) {
  * @return {WPShortcode} Shortcode instance.
  */
 
-var shortcode = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["extend"])(function (options) {
-  var _this = this;
-
+const shortcode = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["extend"])(function (options) {
   Object(lodash__WEBPACK_IMPORTED_MODULE_0__["extend"])(this, Object(lodash__WEBPACK_IMPORTED_MODULE_0__["pick"])(options || {}, 'tag', 'attrs', 'type', 'content'));
-  var attributes = this.attrs; // Ensure we have a correctly formatted `attrs` object.
+  const attributes = this.attrs; // Ensure we have a correctly formatted `attrs` object.
 
   this.attrs = {
     named: {},
@@ -372,17 +369,17 @@ var shortcode = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["extend"])(function (
   } else if (Object(lodash__WEBPACK_IMPORTED_MODULE_0__["isEqual"])(Object.keys(attributes), ['named', 'numeric'])) {
     this.attrs = attributes; // Handle a flat object of attributes.
   } else {
-    Object(lodash__WEBPACK_IMPORTED_MODULE_0__["forEach"])(attributes, function (value, key) {
-      _this.set(key, value);
+    Object(lodash__WEBPACK_IMPORTED_MODULE_0__["forEach"])(attributes, (value, key) => {
+      this.set(key, value);
     });
   }
 }, {
-  next: next,
-  replace: replace,
-  string: string,
-  regexp: regexp,
-  attrs: attrs,
-  fromMatch: fromMatch
+  next,
+  replace,
+  string,
+  regexp,
+  attrs,
+  fromMatch
 });
 Object(lodash__WEBPACK_IMPORTED_MODULE_0__["extend"])(shortcode.prototype, {
   /**
@@ -395,7 +392,7 @@ Object(lodash__WEBPACK_IMPORTED_MODULE_0__["extend"])(shortcode.prototype, {
    *
    * @return {string} Attribute value.
    */
-  get: function get(attr) {
+  get(attr) {
     return this.attrs[Object(lodash__WEBPACK_IMPORTED_MODULE_0__["isNumber"])(attr) ? 'numeric' : 'named'][attr];
   },
 
@@ -410,7 +407,7 @@ Object(lodash__WEBPACK_IMPORTED_MODULE_0__["extend"])(shortcode.prototype, {
    *
    * @return {WPShortcode} Shortcode instance.
    */
-  set: function set(attr, value) {
+  set(attr, value) {
     this.attrs[Object(lodash__WEBPACK_IMPORTED_MODULE_0__["isNumber"])(attr) ? 'numeric' : 'named'][attr] = value;
     return this;
   },
@@ -420,16 +417,16 @@ Object(lodash__WEBPACK_IMPORTED_MODULE_0__["extend"])(shortcode.prototype, {
    *
    * @return {string} String representation of the shortcode.
    */
-  string: function string() {
-    var text = '[' + this.tag;
-    Object(lodash__WEBPACK_IMPORTED_MODULE_0__["forEach"])(this.attrs.numeric, function (value) {
+  string() {
+    let text = '[' + this.tag;
+    Object(lodash__WEBPACK_IMPORTED_MODULE_0__["forEach"])(this.attrs.numeric, value => {
       if (/\s/.test(value)) {
         text += ' "' + value + '"';
       } else {
         text += ' ' + value;
       }
     });
-    Object(lodash__WEBPACK_IMPORTED_MODULE_0__["forEach"])(this.attrs.named, function (value, name) {
+    Object(lodash__WEBPACK_IMPORTED_MODULE_0__["forEach"])(this.attrs.named, (value, name) => {
       text += ' ' + name + '="' + value + '"';
     }); // If the tag is marked as `single` or `self-closing`, close the tag and
     // ignore any additional content.
@@ -450,6 +447,7 @@ Object(lodash__WEBPACK_IMPORTED_MODULE_0__["extend"])(shortcode.prototype, {
 
     return text + '[/' + this.tag + ']';
   }
+
 });
 /* harmony default export */ __webpack_exports__["default"] = (shortcode);
 

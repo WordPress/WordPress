@@ -12,7 +12,7 @@ wp.svgPainter = ( function( $, window, document, undefined ) {
 		colorscheme = {},
 		elements = [];
 
-	$(document).ready( function() {
+	$( function() {
 		// Detection for browser SVG capability.
 		if ( document.implementation.hasFeature( 'http://www.w3.org/TR/SVG11/feature#Image', '1.1' ) ) {
 			$( document.body ).removeClass( 'no-svg' ).addClass( 'svg' );

@@ -1,0 +1,129 @@
+/**
+ * Colors
+ */
+/**
+ * Breakpoints & Media Queries
+ */
+/**
+ * SCSS Variables.
+ *
+ * Please use variables from this sheet to ensure consistency across the UI.
+ * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
+ * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
+ */
+/**
+ * Colors
+ */
+/**
+ * Fonts & basic variables.
+ */
+/**
+ * Grid System.
+ * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
+ */
+/**
+ * Dimensions.
+ */
+/**
+ * Shadows.
+ */
+/**
+ * Editor widths.
+ */
+/**
+ * Block & Editor UI.
+ */
+/**
+ * Block paddings.
+ */
+/**
+ * React Native specific.
+ * These variables do not appear to be used anywhere else.
+ */
+/**
+ * Breakpoint mixins
+ */
+/**
+ * Long content fade mixin
+ *
+ * Creates a fading overlay to signify that the content is longer
+ * than the space allows.
+ */
+/**
+ * Focus styles.
+ */
+/**
+ * Applies editor left position to the selector passed as argument
+ */
+/**
+ * Styles that are reused verbatim in a few places
+ */
+/**
+ * Allows users to opt-out of animations via OS-level preferences.
+ */
+/**
+ * Reset default styles for JavaScript UI based pages.
+ * This is a WP-admin agnostic reset
+ */
+/**
+ * Reset the WP Admin page styles for Gutenberg-like pages.
+ */
+.wp-block[data-align=center] > .wp-block-site-logo {
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center;
+}
+
+.wp-block-site-logo a {
+  pointer-events: none;
+}
+.wp-block-site-logo:not(.is-default-size) {
+  display: table;
+}
+.wp-block-site-logo.is-default-size {
+  width: 120px;
+}
+.wp-block-site-logo.is-default-size img {
+  width: 100%;
+}
+.wp-block-site-logo .custom-logo-link {
+  cursor: inherit;
+}
+.wp-block-site-logo .custom-logo-link:focus {
+  box-shadow: none;
+}
+.wp-block-site-logo .custom-logo-link.is-transient img {
+  opacity: 0.3;
+}
+.wp-block-site-logo img {
+  display: block;
+  max-width: 100%;
+}
+.wp-block-site-logo .components-placeholder {
+  min-height: auto;
+  height: 120px;
+  padding: 8px;
+}
+.wp-block-site-logo .components-placeholder .components-placeholder__label {
+  white-space: nowrap;
+}
+.wp-block-site-logo .components-placeholder .components-placeholder__label .block-editor-block-icon {
+  margin-left: 4px;
+}
+.wp-block-site-logo .components-placeholder .components-form-file-upload {
+  display: none;
+}
+.wp-block-site-logo .components-placeholder .components-placeholder__preview {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  bottom: 4px;
+  right: 4px;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.wp-block-site-logo .components-placeholder .components-drop-zone__content-text {
+  display: none;
+}

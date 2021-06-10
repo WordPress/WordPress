@@ -1,7 +1,10 @@
 {
 	"apiVersion": 2,
 	"name": "core/columns",
+	"title": "Columns",
 	"category": "design",
+	"description": "Add a block that displays content in multiple columns, then add whatever content blocks you’d like.",
+	"textdomain": "default",
 	"attributes": {
 		"verticalAlignment": {
 			"type": "string"
@@ -9,10 +12,7 @@
 	},
 	"supports": {
 		"anchor": true,
-		"align": [
-			"wide",
-			"full"
-		],
+		"align": [ "wide", "full" ],
 		"html": false,
 		"color": {
 			"gradients": true,

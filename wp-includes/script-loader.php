@@ -97,15 +97,15 @@ function wp_default_packages_vendor( $scripts ) {
 	$vendor_scripts_versions = array(
 		'react'                       => '16.13.1',
 		'react-dom'                   => '16.13.1',
-		'moment'                      => '2.26.0',
+		'moment'                      => '2.29.1',
 		'lodash'                      => '4.17.19',
 		'wp-polyfill-fetch'           => '3.0.0',
-		'wp-polyfill-formdata'        => '3.0.12',
-		'wp-polyfill-node-contains'   => '3.42.0',
+		'wp-polyfill-formdata'        => '4.0.0',
+		'wp-polyfill-node-contains'   => '3.105.0',
 		'wp-polyfill-url'             => '3.6.4',
-		'wp-polyfill-dom-rect'        => '3.42.0',
+		'wp-polyfill-dom-rect'        => '3.104.0',
 		'wp-polyfill-element-closest' => '2.0.2',
-		'wp-polyfill-object-fit'      => '2.3.4',
+		'wp-polyfill-object-fit'      => '2.3.5',
 		'wp-polyfill'                 => '7.4.4',
 	);
 
@@ -122,21 +122,6 @@ function wp_default_packages_vendor( $scripts ) {
 	}
 
 	$scripts->add( 'wp-polyfill', null, array( 'wp-polyfill' ) );
-	did_action( 'init' ) && $scripts->add_inline_script(
-		'wp-polyfill',
-		wp_get_script_polyfill(
-			$scripts,
-			array(
-				'\'fetch\' in window' => 'wp-polyfill-fetch',
-				'document.contains'   => 'wp-polyfill-node-contains',
-				'window.DOMRect'      => 'wp-polyfill-dom-rect',
-				'window.URL && window.URL.prototype && window.URLSearchParams' => 'wp-polyfill-url',
-				'window.FormData && window.FormData.prototype.keys' => 'wp-polyfill-formdata',
-				'Element.prototype.matches && Element.prototype.closest' => 'wp-polyfill-element-closest',
-				'\'objectFit\' in document.documentElement.style' => 'wp-polyfill-object-fit',
-			)
-		)
-	);
 
 	did_action( 'init' ) && $scripts->add_inline_script( 'lodash', 'window.lodash = _.noConflict();' );
 
@@ -839,7 +824,7 @@ function wp_default_scripts( $scripts ) {
 	// It sets jQuery as a dependency, as the theme may have been implicitly loading it this way.
 	$scripts->add( 'imagesloaded', '/wp-includes/js/imagesloaded.min.js', array(), '4.1.4', 1 );
 	$scripts->add( 'masonry', '/wp-includes/js/masonry.min.js', array( 'imagesloaded' ), '4.2.2', 1 );
-	$scripts->add( 'jquery-masonry', "/wp-includes/js/jquery/jquery.masonry$dev_suffix.js", array( 'jquery', 'masonry' ), '3.1.2b', 1 );
+	$scripts->add( 'jquery-masonry', '/wp-includes/js/jquery/jquery.masonry.min.js', array( 'jquery', 'masonry' ), '3.1.2b', 1 );
 
 	$scripts->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.js', array( 'jquery' ), '3.1-20121105', 1 );
 	did_action( 'init' ) && $scripts->localize(
@@ -890,6 +875,7 @@ function wp_default_scripts( $scripts ) {
 		/* translators: %s: File name. */
 		'error_uploading'           => __( '&#8220;%s&#8221; has failed to upload.' ),
 		'unsupported_image'         => __( 'This image cannot be displayed in a web browser. For best results convert it to JPEG before uploading.' ),
+		'file_url_copied'           => __( 'The file URL has been copied to your clipboard' ),
 	);
 
 	$scripts->add( 'moxiejs', "/wp-includes/js/plupload/moxie$suffix.js", array(), '1.3.5' );
@@ -899,7 +885,7 @@ function wp_default_scripts( $scripts ) {
 		$scripts->add( "plupload-$handle", false, array( 'plupload' ), '2.1.1' );
 	}
 
-	$scripts->add( 'plupload-handlers', "/wp-includes/js/plupload/handlers$suffix.js", array( 'plupload', 'jquery' ) );
+	$scripts->add( 'plupload-handlers', "/wp-includes/js/plupload/handlers$suffix.js", array( 'clipboard', 'jquery', 'plupload', 'underscore', 'wp-a11y', 'wp-i18n' ) );
 	did_action( 'init' ) && $scripts->localize( 'plupload-handlers', 'pluploadL10n', $uploader_l10n );
 
 	$scripts->add( 'wp-plupload', "/wp-includes/js/plupload/wp-plupload$suffix.js", array( 'plupload', 'jquery', 'json2', 'media-models' ), false, 1 );
@@ -1501,19 +1487,47 @@ function wp_default_styles( $styles ) {
 		$fonts_url = 'https://fonts.googleapis.com/css?family=' . urlencode( $font_family );
 	}
 	$styles->add( 'wp-editor-font', $fonts_url ); // No longer used in core as of 5.7.
+	$block_library_theme_path = WPINC . "/css/dist/block-library/theme$suffix.css";
+	$styles->add( 'wp-block-library-theme', "/$block_library_theme_path" );
+	$styles->add_data( 'wp-block-library-theme', 'path', ABSPATH . $block_library_theme_path );
 
-	$styles->add( 'wp-block-library-theme', "/wp-includes/css/dist/block-library/theme$suffix.css" );
+	$styles->add(
+		'wp-reset-editor-styles',
+		"/wp-includes/css/dist/block-library/reset$suffix.css",
+		array( 'common', 'forms' ) // Make sure the reset is loaded after the default WP Admin styles.
+	);
+
+	$styles->add(
+		'wp-editor-classic-layout-styles',
+		"/wp-includes/css/dist/edit-post/classic$suffix.css",
+		array()
+	);
+
+	$wp_edit_blocks_dependencies = array(
+		'wp-components',
+		'wp-editor',
+		// This need to be added before the block library styles,
+		// The block library styles override the "reset" styles.
+		'wp-reset-editor-styles',
+		'wp-block-library',
+		'wp-reusable-blocks',
+	);
+
+	// Only load the default layout and margin styles for themes without theme.json file.
+	if ( ! WP_Theme_JSON_Resolver::theme_has_support() ) {
+		$wp_edit_blocks_dependencies[] = 'wp-editor-classic-layout-styles';
+	}
+
+	global $editor_styles;
+	if ( ! is_array( $editor_styles ) || count( $editor_styles ) === 0 ) {
+		// Include opinionated block styles if no $editor_styles are declared, so the editor never appears broken.
+		$wp_edit_blocks_dependencies[] = 'wp-block-library-theme';
+	}
 
 	$styles->add(
 		'wp-edit-blocks',
 		"/wp-includes/css/dist/block-library/editor$suffix.css",
-		array(
-			'wp-components',
-			'wp-editor',
-			'wp-block-library',
-			// Always include visual styles so the editor never appears broken.
-			'wp-block-library-theme',
-		)
+		$wp_edit_blocks_dependencies
 	);
 
 	$package_styles = array(
@@ -1533,17 +1547,37 @@ function wp_default_styles( $styles ) {
 			'wp-components',
 			'wp-block-editor',
 			'wp-nux',
+			'wp-reusable-blocks',
 		),
 		'format-library'       => array(),
 		'list-reusable-blocks' => array( 'wp-components' ),
+		'reusable-blocks'      => array( 'wp-components' ),
 		'nux'                  => array( 'wp-components' ),
+		'edit-widgets'         => array(
+			'wp-components',
+			'wp-block-editor',
+			'wp-edit-blocks',
+			'wp-block-library',
+			'wp-reusable-blocks',
+		),
+		'customize-widgets'    => array(
+			'wp-components',
+			'wp-block-editor',
+			'wp-edit-blocks',
+			'wp-block-library',
+			'wp-reusable-blocks',
+		),
 	);
 
 	foreach ( $package_styles as $package => $dependencies ) {
 		$handle = 'wp-' . $package;
 		$path   = "/wp-includes/css/dist/$package/style$suffix.css";
 
+		if ( 'block-library' === $package && wp_should_load_separate_core_block_assets() ) {
+			$path = "/wp-includes/css/dist/$package/common$suffix.css";
+		}
 		$styles->add( $handle, $path, $dependencies );
+		$styles->add_data( $handle, 'path', ABSPATH . $path );
 	}
 
 	// RTL CSS.
@@ -1580,6 +1614,8 @@ function wp_default_styles( $styles ) {
 		'wp-pointer',
 		'wp-jquery-ui-dialog',
 		// Package styles.
+		'wp-reset-editor-styles',
+		'wp-editor-classic-layout-styles',
 		'wp-block-library-theme',
 		'wp-edit-blocks',
 		'wp-block-editor',
@@ -1590,6 +1626,7 @@ function wp_default_styles( $styles ) {
 		'wp-editor',
 		'wp-format-library',
 		'wp-list-reusable-blocks',
+		'wp-reusable-blocks',
 		'wp-nux',
 		// Deprecated CSS.
 		'deprecated-media',
@@ -1768,7 +1805,7 @@ function wp_localize_community_events() {
 	 */
 	if ( $saved_ip_address && $current_ip_address && $current_ip_address !== $saved_ip_address ) {
 		$saved_location['ip'] = $current_ip_address;
-		update_user_option( $user_id, 'community-events-location', $saved_location, true );
+		update_user_meta( $user_id, 'community-events-location', $saved_location );
 	}
 
 	$events_client = new WP_Community_Events( $user_id, $saved_location );
@@ -2212,12 +2249,58 @@ function wp_common_block_scripts_and_styles() {
 }
 
 /**
+ * Enqueues the global styles defined via theme.json.
+ *
+ * @since 5.8.0
+ *
+ * @return void
+ */
+function wp_enqueue_global_styles() {
+	if ( ! WP_Theme_JSON_Resolver::theme_has_support() ) {
+		return;
+	}
+
+	$can_use_cache = (
+		( ! defined( 'WP_DEBUG' ) || ! WP_DEBUG ) &&
+		( ! defined( 'SCRIPT_DEBUG' ) || ! SCRIPT_DEBUG ) &&
+		( ! defined( 'REST_REQUEST' ) || ! REST_REQUEST ) &&
+		! is_admin()
+	);
+
+	$stylesheet = null;
+	if ( $can_use_cache ) {
+		$cache = get_transient( 'global_styles' );
+		if ( $cache ) {
+			$stylesheet = $cache;
+		}
+	}
+
+	if ( null === $stylesheet ) {
+		$settings   = get_default_block_editor_settings();
+		$theme_json = WP_Theme_JSON_Resolver::get_merged_data( $settings );
+		$stylesheet = $theme_json->get_stylesheet();
+
+		if ( $can_use_cache ) {
+			set_transient( 'global_styles', $stylesheet, MINUTE_IN_SECONDS );
+		}
+	}
+
+	if ( empty( $stylesheet ) ) {
+		return;
+	}
+
+	wp_register_style( 'global-styles', false, array(), true, true );
+	wp_add_inline_style( 'global-styles', $stylesheet );
+	wp_enqueue_style( 'global-styles' );
+}
+
+/**
  * Checks if the editor scripts and styles for all registered block types
  * should be enqueued on the current screen.
  *
  * @since 5.6.0
  *
- * @return bool
+ * @return bool Whether scripts and styles should be enqueued.
  */
 function wp_should_load_block_editor_scripts_and_styles() {
 	global $current_screen;
@@ -2225,14 +2308,38 @@ function wp_should_load_block_editor_scripts_and_styles() {
 	$is_block_editor_screen = ( $current_screen instanceof WP_Screen ) && $current_screen->is_block_editor();
 
 	/**
-	 * Filters the flag that decides whether or not block editor scripts and
-	 * styles are going to be enqueued on the current screen.
+	 * Filters the flag that decides whether or not block editor scripts and styles
+	 * are going to be enqueued on the current screen.
 	 *
 	 * @since 5.6.0
 	 *
 	 * @param bool $is_block_editor_screen Current value of the flag.
 	 */
 	return apply_filters( 'should_load_block_editor_scripts_and_styles', $is_block_editor_screen );
+}
+
+/**
+ * Checks whether separate assets should be loaded for core blocks on-render.
+ *
+ * @since 5.8.0
+ *
+ * @return bool Whether separate assets will be loaded.
+ */
+function wp_should_load_separate_core_block_assets() {
+	if ( is_admin() || is_feed() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
+		return false;
+	}
+
+	/**
+	 * Filters the flag that decides whether separate scripts and styles
+	 * will be loaded for core blocks on-render.
+	 *
+	 * @since 5.8.0
+	 *
+	 * @param bool $load_separate_assets Whether separate assets will be loaded.
+	 *                                   Default false.
+	 */
+	return apply_filters( 'should_load_separate_core_block_assets', false );
 }
 
 /**
@@ -2245,6 +2352,10 @@ function wp_should_load_block_editor_scripts_and_styles() {
  */
 function wp_enqueue_registered_block_scripts_and_styles() {
 	global $current_screen;
+
+	if ( wp_should_load_separate_core_block_assets() ) {
+		return;
+	}
 
 	$load_editor_scripts = is_admin() && wp_should_load_block_editor_scripts_and_styles();
 
@@ -2303,15 +2414,17 @@ function enqueue_editor_block_styles_assets() {
 	$register_script_lines = array( '( function() {' );
 	foreach ( $block_styles as $block_name => $styles ) {
 		foreach ( $styles as $style_properties ) {
+			$block_style = array(
+				'name'  => $style_properties['name'],
+				'label' => $style_properties['label'],
+			);
+			if ( isset( $style_properties['is_default'] ) ) {
+				$block_style['isDefault'] = $style_properties['is_default'];
+			}
 			$register_script_lines[] = sprintf(
 				'	wp.blocks.registerBlockStyle( \'%s\', %s );',
 				$block_name,
-				wp_json_encode(
-					array(
-						'name'  => $style_properties['name'],
-						'label' => $style_properties['label'],
-					)
-				)
+				wp_json_encode( $block_style )
 			);
 		}
 	}
@@ -2331,6 +2444,16 @@ function enqueue_editor_block_styles_assets() {
 function wp_enqueue_editor_block_directory_assets() {
 	wp_enqueue_script( 'wp-block-directory' );
 	wp_enqueue_style( 'wp-block-directory' );
+}
+
+/**
+ * Enqueues the assets required for the format library within the block editor.
+ *
+ * @since 5.8.0
+ */
+function wp_enqueue_editor_format_library_assets() {
+	wp_enqueue_script( 'wp-format-library' );
+	wp_enqueue_style( 'wp-format-library' );
 }
 
 /**
@@ -2451,4 +2574,145 @@ function wp_get_inline_script_tag( $javascript, $attributes = array() ) {
  */
 function wp_print_inline_script_tag( $javascript, $attributes = array() ) {
 	echo wp_get_inline_script_tag( $javascript, $attributes );
+}
+
+/**
+ * Allows small styles to be inlined.
+ *
+ * This improves performance and sustainability, and is opt-in. Stylesheets can opt in
+ * by adding `path` data using `wp_style_add_data`, and defining the file's absolute path:
+ *
+ *     wp_style_add_data( $style_handle, 'path', $file_path );
+ *
+ * @since 5.8.0
+ *
+ * @global WP_Styles $wp_styles
+ */
+function wp_maybe_inline_styles() {
+	global $wp_styles;
+
+	$total_inline_limit = 20000;
+	/**
+	 * The maximum size of inlined styles in bytes.
+	 *
+	 * @since 5.8.0
+	 *
+	 * @param int $total_inline_limit The file-size threshold, in bytes. Defaults to 20000.
+	 */
+	$total_inline_limit = apply_filters( 'styles_inline_size_limit', $total_inline_limit );
+
+	$styles = array();
+
+	// Build an array of styles that have a path defined.
+	foreach ( $wp_styles->queue as $handle ) {
+		if ( wp_styles()->get_data( $handle, 'path' ) && file_exists( $wp_styles->registered[ $handle ]->extra['path'] ) ) {
+			$styles[] = array(
+				'handle' => $handle,
+				'path'   => $wp_styles->registered[ $handle ]->extra['path'],
+				'size'   => filesize( $wp_styles->registered[ $handle ]->extra['path'] ),
+			);
+		}
+	}
+
+	if ( ! empty( $styles ) ) {
+		// Reorder styles array based on size.
+		usort(
+			$styles,
+			function( $a, $b ) {
+				return ( $a['size'] <= $b['size'] ) ? -1 : 1;
+			}
+		);
+
+		/*
+		 * The total inlined size.
+		 *
+		 * On each iteration of the loop, if a style gets added inline the value of this var increases
+		 * to reflect the total size of inlined styles.
+		 */
+		$total_inline_size = 0;
+
+		// Loop styles.
+		foreach ( $styles as $style ) {
+
+			// Size check. Since styles are ordered by size, we can break the loop.
+			if ( $total_inline_size + $style['size'] > $total_inline_limit ) {
+				break;
+			}
+
+			// Get the styles if we don't already have them.
+			$style['css'] = file_get_contents( $style['path'] );
+
+			// Set `src` to `false` and add styles inline.
+			$wp_styles->registered[ $style['handle'] ]->src = false;
+			if ( empty( $wp_styles->registered[ $style['handle'] ]->extra['after'] ) ) {
+				$wp_styles->registered[ $style['handle'] ]->extra['after'] = array();
+			}
+			array_unshift( $wp_styles->registered[ $style['handle'] ]->extra['after'], $style['css'] );
+
+			// Add the styles size to the $total_inline_size var.
+			$total_inline_size += (int) $style['size'];
+		}
+	}
+}
+
+/**
+ * Inject the block editor assets that need to be loaded into the editor's iframe as an inline script.
+ *
+ * @since 5.8.0
+ */
+function wp_add_iframed_editor_assets_html() {
+	$script_handles = array();
+	$style_handles  = array(
+		'wp-block-editor',
+		'wp-block-library',
+		'wp-block-library-theme',
+		'wp-edit-blocks',
+	);
+
+	$block_registry = WP_Block_Type_Registry::get_instance();
+
+	foreach ( $block_registry->get_all_registered() as $block_type ) {
+		if ( ! empty( $block_type->style ) ) {
+			$style_handles[] = $block_type->style;
+		}
+
+		if ( ! empty( $block_type->editor_style ) ) {
+			$style_handles[] = $block_type->editor_style;
+		}
+
+		if ( ! empty( $block_type->script ) ) {
+			$script_handles[] = $block_type->script;
+		}
+	}
+
+	$style_handles = array_unique( $style_handles );
+	$done          = wp_styles()->done;
+
+	ob_start();
+
+	wp_styles()->done = array();
+	wp_styles()->do_items( $style_handles );
+	wp_styles()->done = $done;
+
+	$styles = ob_get_clean();
+
+	$script_handles = array_unique( $script_handles );
+	$done           = wp_scripts()->done;
+
+	ob_start();
+
+	wp_scripts()->done = array();
+	wp_scripts()->do_items( $script_handles );
+	wp_scripts()->done = $done;
+
+	$scripts = ob_get_clean();
+
+	$editor_assets = wp_json_encode(
+		array(
+			'styles'  => $styles,
+			'scripts' => $scripts,
+		)
+	);
+
+	echo "<script>window.__editorAssets = $editor_assets</script>";
 }

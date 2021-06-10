@@ -185,8 +185,22 @@ $menu[59] = array( '', 'read', 'separator2', '', 'wp-menu-separator' );
 
 $appearance_cap = current_user_can( 'switch_themes' ) ? 'switch_themes' : 'edit_theme_options';
 
-$menu[60]                     = array( __( 'Appearance' ), $appearance_cap, 'themes.php', '', 'menu-top menu-icon-appearance', 'menu-appearance', 'dashicons-admin-appearance' );
-	$submenu['themes.php'][5] = array( __( 'Themes' ), $appearance_cap, 'themes.php' );
+$menu[60] = array( __( 'Appearance' ), $appearance_cap, 'themes.php', '', 'menu-top menu-icon-appearance', 'menu-appearance', 'dashicons-admin-appearance' );
+
+$count = '';
+if ( ! is_multisite() && current_user_can( 'update_themes' ) ) {
+	if ( ! isset( $update_data ) ) {
+		$update_data = wp_get_update_data();
+	}
+	$count = sprintf(
+		'<span class="update-plugins count-%s"><span class="theme-count">%s</span></span>',
+		$update_data['counts']['themes'],
+		number_format_i18n( $update_data['counts']['themes'] )
+	);
+}
+
+	/* translators: %s: Number of available theme updates. */
+	$submenu['themes.php'][5] = array( sprintf( __( 'Themes %s' ), $count ), $appearance_cap, 'themes.php' );
 
 	$customize_url            = add_query_arg( 'return', urlencode( remove_query_arg( wp_removable_query_args(), wp_unslash( $_SERVER['REQUEST_URI'] ) ) ), 'customize.php' );
 	$submenu['themes.php'][6] = array( __( 'Customize' ), 'customize', esc_url( $customize_url ), '', 'hide-if-no-customize' );
@@ -236,7 +250,7 @@ if ( ! is_multisite() && current_user_can( 'update_plugins' ) ) {
 	);
 }
 
-/* translators: %s: Number of pending plugin updates. */
+/* translators: %s: Number of available plugin updates. */
 $menu[65] = array( sprintf( __( 'Plugins %s' ), $count ), 'activate_plugins', 'plugins.php', '', 'menu-top menu-icon-plugins', 'menu-plugins', 'dashicons-admin-plugins' );
 
 $submenu['plugins.php'][5] = array( __( 'Installed Plugins' ), 'activate_plugins', 'plugins.php' );

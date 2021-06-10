@@ -50,7 +50,7 @@ abstract class WP_REST_Controller {
 			'WP_REST_Controller::register_routes',
 			/* translators: %s: register_routes() */
 			sprintf( __( "Method '%s' must be overridden." ), __METHOD__ ),
-			'4.7'
+			'4.7.0'
 		);
 	}
 

@@ -1,7 +1,10 @@
 {
 	"apiVersion": 2,
 	"name": "core/block",
+	"title": "Reusable block",
 	"category": "reusable",
+	"description": "Create and save content to reuse across your site. Update the block, and the changes apply everywhere it’s used.",
+	"textdomain": "default",
 	"attributes": {
 		"ref": {
 			"type": "number"

@@ -1,8 +1,12 @@
 {
 	"apiVersion": 2,
 	"name": "core/nextpage",
+	"title": "Page Break",
 	"category": "design",
+	"description": "Separate your content into a multi-page experience.",
+	"keywords": [ "next page", "pagination" ],
 	"parent": [ "core/post-content" ],
+	"textdomain": "default",
 	"supports": {
 		"customClassName": false,
 		"className": false,

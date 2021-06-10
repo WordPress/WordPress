@@ -51,6 +51,14 @@
 	max-width: 128px;
 }
 
+.media-list-subtitle {
+	display: block;
+}
+
+.media-list-title {
+	display: block;
+}
+
 #wpbody-content #async-upload-wrap a {
 	display: none;
 }
@@ -96,13 +104,45 @@
 	padding: 0 0 0 5px;
 }
 
-.media-item .edit-attachment,
 .describe-toggle-on,
 .describe-toggle-off {
 	display: block;
 	line-height: 2.76923076;
 	float: right;
 	margin-right: 10px;
+}
+
+.media-item {
+	display: grid;
+	grid-template-columns: repeat( 2, 1fr );
+}
+
+.media-item .attachment-tools {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+
+.media-item .edit-attachment {
+	padding: 14px 0;
+	display: block;
+	margin-right: 10px;
+}
+
+.media-item .edit-attachment.copy-to-clipboard-container {
+	margin-top: 0;
+}
+
+.media-item-copy-container .success {
+	line-height: 0;
+}
+
+.media-item button .copy-attachment-url {
+	margin-top: 14px;
+}
+
+.media-item .copy-to-clipboard-container {
+	margin-top: 7px;
 }
 
 .media-item .describe-toggle-off,
@@ -115,7 +155,7 @@
 }
 
 .media-upload-form .media-item {
-	min-height: 36px;
+	min-height: 70px;
 	margin-bottom: 1px;
 	position: relative;
 	width: 100%;
@@ -132,16 +172,16 @@
 }
 
 .media-item .filename {
-	line-height: 2.76923076;
+	padding: 14px 0;
 	overflow: hidden;
 	margin-left: 6px;
 }
 
 .media-item .pinkynail {
 	float: left;
-	margin: 2px 10px 0 3px;
-	max-width: 40px;
-	max-height: 32px;
+	margin: 0 10px 0 0;
+	max-height: 70px;
+	max-width: 70px;
 }
 
 .media-item .startopen,
@@ -420,7 +460,8 @@ border color while dragging a file over the uploader drop area */
 
 .media-frame.mode-grid,
 .media-frame.mode-grid .media-frame-content,
-.media-frame.mode-grid .attachments-browser .attachments,
+.media-frame.mode-grid .attachments-browser:not(.has-load-more) .attachments,
+.media-frame.mode-grid .attachments-browser.has-load-more .attachments-wrapper,
 .media-frame.mode-grid .uploader-inline-content {
 	position: static;
 }
@@ -498,7 +539,8 @@ border color while dragging a file over the uploader drop area */
 	border: 4px dashed #c3c4c7;
 }
 
-.media-frame.mode-select .attachments-browser.fixed .attachments {
+.media-frame.mode-select .attachments-browser.fixed:not(.has-load-more) .attachments,
+.media-frame.mode-select .attachments-browser.has-load-more.fixed .attachments-wrapper {
 	position: relative;
 	top: 94px; /* prevent jumping up when the toolbar becomes fixed */
 	padding-bottom: 94px; /* offset for above so the bottom doesn't get cut off */

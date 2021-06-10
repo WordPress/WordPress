@@ -10,11 +10,31 @@ require ABSPATH . WPINC . '/blocks/archives.php';
 require ABSPATH . WPINC . '/blocks/block.php';
 require ABSPATH . WPINC . '/blocks/calendar.php';
 require ABSPATH . WPINC . '/blocks/categories.php';
+require ABSPATH . WPINC . '/blocks/file.php';
 require ABSPATH . WPINC . '/blocks/latest-comments.php';
 require ABSPATH . WPINC . '/blocks/latest-posts.php';
+require ABSPATH . WPINC . '/blocks/legacy-widget.php';
+require ABSPATH . WPINC . '/blocks/loginout.php';
+require ABSPATH . WPINC . '/blocks/page-list.php';
+require ABSPATH . WPINC . '/blocks/post-content.php';
+require ABSPATH . WPINC . '/blocks/post-date.php';
+require ABSPATH . WPINC . '/blocks/post-excerpt.php';
+require ABSPATH . WPINC . '/blocks/post-featured-image.php';
+require ABSPATH . WPINC . '/blocks/post-terms.php';
+require ABSPATH . WPINC . '/blocks/post-title.php';
+require ABSPATH . WPINC . '/blocks/post-template.php';
+require ABSPATH . WPINC . '/blocks/query.php';
+require ABSPATH . WPINC . '/blocks/query-pagination.php';
+require ABSPATH . WPINC . '/blocks/query-pagination-next.php';
+require ABSPATH . WPINC . '/blocks/query-pagination-numbers.php';
+require ABSPATH . WPINC . '/blocks/query-pagination-previous.php';
+require ABSPATH . WPINC . '/blocks/query-title.php';
 require ABSPATH . WPINC . '/blocks/rss.php';
 require ABSPATH . WPINC . '/blocks/search.php';
 require ABSPATH . WPINC . '/blocks/shortcode.php';
+require ABSPATH . WPINC . '/blocks/site-tagline.php';
+require ABSPATH . WPINC . '/blocks/site-logo.php';
+require ABSPATH . WPINC . '/blocks/site-title.php';
 require ABSPATH . WPINC . '/blocks/social-link.php';
 require ABSPATH . WPINC . '/blocks/tag-cloud.php';
 
@@ -33,7 +53,6 @@ function register_core_block_types_from_metadata() {
 		'column',
 		'columns',
 		'embed',
-		'file',
 		'freeform',
 		'gallery',
 		'group',
@@ -52,7 +71,6 @@ function register_core_block_types_from_metadata() {
 		'separator',
 		'social-links',
 		'spacer',
-		'subhead',
 		'table',
 		'text-columns',
 		'verse',
@@ -60,7 +78,7 @@ function register_core_block_types_from_metadata() {
 	);
 
 	foreach ( $block_folders as $block_folder ) {
-		register_block_type_from_metadata(
+		register_block_type(
 			ABSPATH . WPINC . '/blocks/' . $block_folder
 		);
 	}

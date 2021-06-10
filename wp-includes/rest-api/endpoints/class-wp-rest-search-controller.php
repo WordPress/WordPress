@@ -82,7 +82,7 @@ class WP_REST_Search_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Registers the routes for the objects of the controller.
+	 * Registers the routes for the search controller.
 	 *
 	 * @since 5.0.0
 	 *

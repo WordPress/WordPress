@@ -19,6 +19,7 @@
  */
 function wp_dashboard_setup() {
 	global $wp_registered_widgets, $wp_registered_widget_controls, $wp_dashboard_control_callbacks;
+
 	$wp_dashboard_control_callbacks = array();
 	$screen                         = get_current_screen();
 
@@ -28,6 +29,7 @@ function wp_dashboard_setup() {
 
 	if ( $response && $response['upgrade'] ) {
 		add_filter( 'postbox_classes_dashboard_dashboard_browser_nag', 'dashboard_browser_nag_class' );
+
 		if ( $response['insecure'] ) {
 			wp_add_dashboard_widget( 'dashboard_browser_nag', __( 'You are using an insecure browser!' ), 'wp_dashboard_browser_nag' );
 		} else {
@@ -37,8 +39,12 @@ function wp_dashboard_setup() {
 
 	// PHP Version.
 	$response = wp_check_php_version();
-	if ( $response && isset( $response['is_acceptable'] ) && ! $response['is_acceptable'] && current_user_can( 'update_php' ) ) {
+
+	if ( $response && isset( $response['is_acceptable'] ) && ! $response['is_acceptable']
+		&& current_user_can( 'update_php' )
+	) {
 		add_filter( 'postbox_classes_dashboard_dashboard_php_nag', 'dashboard_php_nag_class' );
+
 		wp_add_dashboard_widget( 'dashboard_php_nag', __( 'PHP Update Recommended' ), 'wp_dashboard_php_nag' );
 	}
 
@@ -174,8 +180,9 @@ function wp_dashboard_setup() {
  *                                   Accepts 'high', 'core', 'default', or 'low'. Default 'core'.
  */
 function wp_add_dashboard_widget( $widget_id, $widget_name, $callback, $control_callback = null, $callback_args = null, $context = 'normal', $priority = 'core' ) {
-	$screen = get_current_screen();
 	global $wp_dashboard_control_callbacks;
+
+	$screen = get_current_screen();
 
 	$private_callback_args = array( '__widget_basename' => $widget_name );
 
@@ -185,9 +192,10 @@ function wp_add_dashboard_widget( $widget_id, $widget_name, $callback, $control_
 		$callback_args = array_merge( $callback_args, $private_callback_args );
 	}
 
-	if ( $control_callback && current_user_can( 'edit_dashboard' ) && is_callable( $control_callback ) ) {
+	if ( $control_callback && is_callable( $control_callback ) && current_user_can( 'edit_dashboard' ) ) {
 		$wp_dashboard_control_callbacks[ $widget_id ] = $control_callback;
-		if ( isset( $_GET['edit'] ) && $widget_id == $_GET['edit'] ) {
+
+		if ( isset( $_GET['edit'] ) && $widget_id === $_GET['edit'] ) {
 			list($url)    = explode( '#', add_query_arg( 'edit', false ), 2 );
 			$widget_name .= ' <span class="postbox-title-action"><a href="' . esc_url( $url ) . '">' . __( 'Cancel' ) . '</a></span>';
 			$callback     = '_wp_dashboard_control_callback';
@@ -212,6 +220,7 @@ function wp_add_dashboard_widget( $widget_id, $widget_name, $callback, $control_
 	if ( empty( $context ) ) {
 		$context = 'normal';
 	}
+
 	if ( empty( $priority ) ) {
 		$priority = 'core';
 	}
@@ -246,10 +255,10 @@ function wp_dashboard() {
 	$screen      = get_current_screen();
 	$columns     = absint( $screen->get_columns() );
 	$columns_css = '';
+
 	if ( $columns ) {
 		$columns_css = " columns-$columns";
 	}
-
 	?>
 <div id="dashboard-widgets" class="metabox-holder<?php echo $columns_css; ?>">
 	<div id="postbox-container-1" class="postbox-container">
@@ -291,6 +300,7 @@ function wp_dashboard_right_now() {
 	// Posts and Pages.
 	foreach ( array( 'post', 'page' ) as $post_type ) {
 		$num_posts = wp_count_posts( $post_type );
+
 		if ( $num_posts && $num_posts->publish ) {
 			if ( 'post' === $post_type ) {
 				/* translators: %s: Number of posts. */
@@ -299,8 +309,10 @@ function wp_dashboard_right_now() {
 				/* translators: %s: Number of pages. */
 				$text = _n( '%s Page', '%s Pages', $num_posts->publish );
 			}
+
 			$text             = sprintf( $text, number_format_i18n( $num_posts->publish ) );
 			$post_type_object = get_post_type_object( $post_type );
+
 			if ( $post_type_object && current_user_can( $post_type_object->cap->edit_posts ) ) {
 				printf( '<li class="%1$s-count"><a href="edit.php?post_type=%1$s">%2$s</a></li>', $post_type, $text );
 			} else {
@@ -308,25 +320,25 @@ function wp_dashboard_right_now() {
 			}
 		}
 	}
+
 	// Comments.
 	$num_comm = wp_count_comments();
+
 	if ( $num_comm && ( $num_comm->approved || $num_comm->moderated ) ) {
 		/* translators: %s: Number of comments. */
 		$text = sprintf( _n( '%s Comment', '%s Comments', $num_comm->approved ), number_format_i18n( $num_comm->approved ) );
 		?>
-		<li class="comment-count"><a href="edit-comments.php"><?php echo $text; ?></a></li>
+		<li class="comment-count">
+			<a href="edit-comments.php"><?php echo $text; ?></a>
+		</li>
 		<?php
 		$moderated_comments_count_i18n = number_format_i18n( $num_comm->moderated );
 		/* translators: %s: Number of comments. */
 		$text = sprintf( _n( '%s Comment in moderation', '%s Comments in moderation', $num_comm->moderated ), $moderated_comments_count_i18n );
 		?>
-		<li class="comment-mod-count
-		<?php
-		if ( ! $num_comm->moderated ) {
-			echo ' hidden';
-		}
-		?>
-		"><a href="edit-comments.php?comment_status=moderated" class="comments-in-moderation-text"><?php echo $text; ?></a></li>
+		<li class="comment-mod-count<?php echo ! $num_comm->moderated ? ' hidden' : ''; ?>">
+			<a href="edit-comments.php?comment_status=moderated" class="comments-in-moderation-text"><?php echo $text; ?></a>
+		</li>
 		<?php
 	}
 
@@ -353,7 +365,9 @@ function wp_dashboard_right_now() {
 	update_right_now_message();
 
 	// Check if search engines are asked not to index this site.
-	if ( ! is_network_admin() && ! is_user_admin() && current_user_can( 'manage_options' ) && '0' == get_option( 'blog_public' ) ) {
+	if ( ! is_network_admin() && ! is_user_admin()
+		&& current_user_can( 'manage_options' ) && ! get_option( 'blog_public' )
+	) {
 
 		/**
 		 * Filters the link title attribute for the 'Search engines discouraged'
@@ -378,7 +392,8 @@ function wp_dashboard_right_now() {
 		 *
 		 * @param string $content Default text.
 		 */
-		$content    = apply_filters( 'privacy_on_link_text', __( 'Search engines discouraged' ) );
+		$content = apply_filters( 'privacy_on_link_text', __( 'Search engines discouraged' ) );
+
 		$title_attr = '' === $title ? '' : " title='$title'";
 
 		echo "<p class='search-engines-info'><a href='options-reading.php'$title_attr>$content</a></p>";
@@ -426,6 +441,7 @@ function wp_dashboard_right_now() {
  */
 function wp_network_dashboard_right_now() {
 	$actions = array();
+
 	if ( current_user_can( 'create_sites' ) ) {
 		$actions['create-site'] = '<a href="' . network_admin_url( 'site-new.php' ) . '">' . __( 'Create a New Site' ) . '</a>';
 	}
@@ -471,7 +487,7 @@ function wp_network_dashboard_right_now() {
 	<form action="<?php echo network_admin_url( 'users.php' ); ?>" method="get">
 		<p>
 			<label class="screen-reader-text" for="search-users"><?php _e( 'Search Users' ); ?></label>
-			<input type="search" name="s" value="" size="30" autocomplete="off" id="search-users"/>
+			<input type="search" name="s" value="" size="30" autocomplete="off" id="search-users" />
 			<?php submit_button( __( 'Search Users' ), '', false, false, array( 'id' => 'submit_users' ) ); ?>
 		</p>
 	</form>
@@ -479,7 +495,7 @@ function wp_network_dashboard_right_now() {
 	<form action="<?php echo network_admin_url( 'sites.php' ); ?>" method="get">
 		<p>
 			<label class="screen-reader-text" for="search-sites"><?php _e( 'Search Sites' ); ?></label>
-			<input type="search" name="s" value="" size="30" autocomplete="off" id="search-sites"/>
+			<input type="search" name="s" value="" size="30" autocomplete="off" id="search-sites" />
 			<?php submit_button( __( 'Search Sites' ), '', false, false, array( 'id' => 'submit_sites' ) ); ?>
 		</p>
 	</form>
@@ -515,10 +531,12 @@ function wp_dashboard_quick_press( $error_msg = false ) {
 		return;
 	}
 
-	/* Check if a new auto-draft (= no new post_ID) is needed or if the old can be used */
+	// Check if a new auto-draft (= no new post_ID) is needed or if the old can be used.
 	$last_post_id = (int) get_user_option( 'dashboard_quick_press_last_post_id' ); // Get the last post_ID.
+
 	if ( $last_post_id ) {
 		$post = get_post( $last_post_id );
+
 		if ( empty( $post ) || 'auto-draft' !== $post->post_status ) { // auto-draft doesn't exist anymore.
 			$post = get_default_post_to_edit( 'post', true );
 			update_user_option( get_current_user_id(), 'dashboard_quick_press_last_post_id', (int) $post->ID ); // Save post_ID.
@@ -528,6 +546,7 @@ function wp_dashboard_quick_press( $error_msg = false ) {
 	} else {
 		$post    = get_default_post_to_edit( 'post', true );
 		$user_id = get_current_user_id();
+
 		// Don't create an option if this is a super admin who does not belong to this site.
 		if ( in_array( get_current_blog_id(), array_keys( get_blogs_of_user( $user_id ) ), true ) ) {
 			update_user_option( $user_id, 'dashboard_quick_press_last_post_id', (int) $post->ID ); // Save post_ID.
@@ -606,6 +625,7 @@ function wp_dashboard_recent_drafts( $drafts = false ) {
 	}
 
 	echo '<div class="drafts">';
+
 	if ( count( $drafts ) > 3 ) {
 		printf(
 			'<p class="view-all"><a href="%s">%s</a></p>' . "\n",
@@ -613,7 +633,9 @@ function wp_dashboard_recent_drafts( $drafts = false ) {
 			__( 'View all drafts' )
 		);
 	}
-	echo '<h2 class="hide-if-no-js">' . __( 'Your Recent Drafts' ) . "</h2>\n<ul>";
+
+	echo '<h2 class="hide-if-no-js">' . __( 'Your Recent Drafts' ) . "</h2>\n";
+	echo '<ul>';
 
 	/* translators: Maximum number of words used in a preview of a draft on the dashboard. */
 	$draft_length = (int) _x( '10', 'draft_length' );
@@ -622,6 +644,7 @@ function wp_dashboard_recent_drafts( $drafts = false ) {
 	foreach ( $drafts as $draft ) {
 		$url   = get_edit_post_link( $draft->ID );
 		$title = _draft_or_post_title( $draft->ID );
+
 		echo "<li>\n";
 		printf(
 			'<div class="draft-title"><a href="%s" aria-label="%s">%s</a><time datetime="%s">%s</time></div>',
@@ -632,13 +655,17 @@ function wp_dashboard_recent_drafts( $drafts = false ) {
 			get_the_time( 'c', $draft ),
 			get_the_time( __( 'F j, Y' ), $draft )
 		);
+
 		$the_content = wp_trim_words( $draft->post_content, $draft_length );
+
 		if ( $the_content ) {
 			echo '<p>' . $the_content . '</p>';
 		}
 		echo "</li>\n";
 	}
-	echo "</ul>\n</div>";
+
+	echo "</ul>\n";
+	echo '</div>';
 }
 
 /**
@@ -656,7 +683,6 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 	$GLOBALS['comment'] = clone $comment;
 
 	if ( $comment->comment_post_ID > 0 ) {
-
 		$comment_post_title = _draft_or_post_title( $comment->comment_post_ID );
 		$comment_post_url   = get_the_permalink( $comment->comment_post_ID );
 		$comment_post_link  = "<a href='$comment_post_url'>$comment_post_title</a>";
@@ -952,7 +978,8 @@ function wp_dashboard_recent_posts( $args ) {
 	 * @param array $query_args The arguments passed to WP_Query to produce the list of posts.
 	 */
 	$query_args = apply_filters( 'dashboard_recent_posts_query_args', $query_args );
-	$posts      = new WP_Query( $query_args );
+
+	$posts = new WP_Query( $query_args );
 
 	if ( $posts->have_posts() ) {
 
@@ -970,9 +997,10 @@ function wp_dashboard_recent_posts( $args ) {
 			$posts->the_post();
 
 			$time = get_the_time( 'U' );
-			if ( gmdate( 'Y-m-d', $time ) == $today ) {
+
+			if ( gmdate( 'Y-m-d', $time ) === $today ) {
 				$relative = __( 'Today' );
-			} elseif ( gmdate( 'Y-m-d', $time ) == $tomorrow ) {
+			} elseif ( gmdate( 'Y-m-d', $time ) === $tomorrow ) {
 				$relative = __( 'Tomorrow' );
 			} elseif ( gmdate( 'Y', $time ) !== $year ) {
 				/* translators: Date and time format for recent posts on the dashboard, from a different calendar year, see https://www.php.net/manual/datetime.format.php */
@@ -1025,6 +1053,7 @@ function wp_dashboard_recent_comments( $total_items = 5 ) {
 		'number' => $total_items * 5,
 		'offset' => 0,
 	);
+
 	if ( ! current_user_can( 'edit_posts' ) ) {
 		$comments_query['status'] = 'approve';
 	}
@@ -1033,15 +1062,19 @@ function wp_dashboard_recent_comments( $total_items = 5 ) {
 		if ( ! is_array( $possible ) ) {
 			break;
 		}
+
 		foreach ( $possible as $comment ) {
 			if ( ! current_user_can( 'read_post', $comment->comment_post_ID ) ) {
 				continue;
 			}
+
 			$comments[] = $comment;
-			if ( count( $comments ) == $total_items ) {
+
+			if ( count( $comments ) === $total_items ) {
 				break 2;
 			}
 		}
+
 		$comments_query['offset'] += $comments_query['number'];
 		$comments_query['number']  = $total_items * 10;
 	}
@@ -1109,16 +1142,19 @@ function wp_dashboard_cached_rss_widget( $widget_id, $callback, $check_urls = ar
 
 	if ( empty( $check_urls ) ) {
 		$widgets = get_option( 'dashboard_widget_options' );
+
 		if ( empty( $widgets[ $widget_id ]['url'] ) && ! $doing_ajax ) {
 			echo $loading;
 			return false;
 		}
+
 		$check_urls = array( $widgets[ $widget_id ]['url'] );
 	}
 
 	$locale    = get_user_locale();
 	$cache_key = 'dash_v2_' . md5( $widget_id . '_' . $locale );
 	$output    = get_transient( $cache_key );
+
 	if ( false !== $output ) {
 		echo $output;
 		return true;
@@ -1156,7 +1192,10 @@ function wp_dashboard_cached_rss_widget( $widget_id, $callback, $check_urls = ar
 function wp_dashboard_trigger_widget_control( $widget_control_id = false ) {
 	global $wp_dashboard_control_callbacks;
 
-	if ( is_scalar( $widget_control_id ) && $widget_control_id && isset( $wp_dashboard_control_callbacks[ $widget_control_id ] ) && is_callable( $wp_dashboard_control_callbacks[ $widget_control_id ] ) ) {
+	if ( is_scalar( $widget_control_id ) && $widget_control_id
+		&& isset( $wp_dashboard_control_callbacks[ $widget_control_id ] )
+		&& is_callable( $wp_dashboard_control_callbacks[ $widget_control_id ] )
+	) {
 		call_user_func(
 			$wp_dashboard_control_callbacks[ $widget_control_id ],
 			'',
@@ -1181,6 +1220,7 @@ function wp_dashboard_trigger_widget_control( $widget_control_id = false ) {
  */
 function wp_dashboard_rss_control( $widget_id, $form_inputs = array() ) {
 	$widget_options = get_option( 'dashboard_widget_options' );
+
 	if ( ! $widget_options ) {
 		$widget_options = array();
 	}
@@ -1209,7 +1249,9 @@ function wp_dashboard_rss_control( $widget_id, $form_inputs = array() ) {
 				unset( $rss );
 			}
 		}
+
 		update_option( 'dashboard_widget_options', $widget_options );
+
 		$locale    = get_user_locale();
 		$cache_key = 'dash_v2_' . md5( $widget_id . '_' . $locale );
 		delete_transient( $cache_key );
@@ -1554,7 +1596,9 @@ function wp_dashboard_primary_output( $widget_id, $feeds ) {
  * @return true|void True if not multisite, user can't upload files, or the space check option is disabled.
  */
 function wp_dashboard_quota() {
-	if ( ! is_multisite() || ! current_user_can( 'upload_files' ) || get_site_option( 'upload_space_check_disabled' ) ) {
+	if ( ! is_multisite() || ! current_user_can( 'upload_files' )
+		|| get_site_option( 'upload_space_check_disabled' )
+	) {
 		return true;
 	}
 
@@ -1566,6 +1610,7 @@ function wp_dashboard_quota() {
 	} else {
 		$percentused = ( $used / $quota ) * 100;
 	}
+
 	$used_class  = ( $percentused >= 70 ) ? ' warning' : '';
 	$used        = round( $used, 2 );
 	$percentused = number_format( $percentused );
@@ -1613,13 +1658,21 @@ function wp_dashboard_quota() {
  * Displays the browser update nag.
  *
  * @since 3.2.0
+ * @since 5.8.0 Display special message for Internet Explorer users.
+ *
+ * @global bool $is_IE
+ *
  */
 function wp_dashboard_browser_nag() {
+	global $is_IE;
+
 	$notice   = '';
 	$response = wp_check_browser_version();
 
 	if ( $response ) {
-		if ( $response['insecure'] ) {
+		if ( $is_IE ) {
+			$msg = __( 'Internet Explorer does not give you the best WordPress experience. Switch to Microsoft Edge, or another more modern browser to get the most from your site.' );
+		} elseif ( $response['insecure'] ) {
 			$msg = sprintf(
 				/* translators: %s: Browser name and link. */
 				__( "It looks like you're using an insecure version of %s. Using an outdated browser makes your computer unsafe. For the best WordPress experience, please update your browser." ),
@@ -1637,7 +1690,7 @@ function wp_dashboard_browser_nag() {
 		if ( ! empty( $response['img_src'] ) ) {
 			$img_src = ( is_ssl() && ! empty( $response['img_src_ssl'] ) ) ? $response['img_src_ssl'] : $response['img_src'];
 
-			$notice           .= '<div class="alignright browser-icon"><a href="' . esc_attr( $response['update_url'] ) . '"><img src="' . esc_attr( $img_src ) . '" alt="" /></a></div>';
+			$notice           .= '<div class="alignright browser-icon"><img src="' . esc_attr( $img_src ) . '" alt="" /></div>';
 			$browser_nag_class = ' has-browser-icon';
 		}
 		$notice .= "<p class='browser-update-nag{$browser_nag_class}'>{$msg}</p>";
@@ -1648,13 +1701,23 @@ function wp_dashboard_browser_nag() {
 			$browsehappy = add_query_arg( 'locale', $locale, $browsehappy );
 		}
 
-		$notice .= '<p>' . sprintf(
-			/* translators: 1: Browser update URL, 2: Browser name, 3: Browse Happy URL. */
-			__( '<a href="%1$s" class="update-browser-link">Update %2$s</a> or learn how to <a href="%3$s" class="browse-happy-link">browse happy</a>' ),
-			esc_attr( $response['update_url'] ),
-			esc_html( $response['name'] ),
-			esc_url( $browsehappy )
-		) . '</p>';
+		if ( $is_IE ) {
+			$msg_browsehappy = sprintf(
+				/* translators: %s: Browse Happy URL. */
+				__( 'Learn how to <a href="%s" class="update-browser-link">browse happy</a>' ),
+				esc_url( $browsehappy )
+			);
+		} else {
+			$msg_browsehappy = sprintf(
+				/* translators: 1: Browser update URL, 2: Browser name, 3: Browse Happy URL. */
+				__( '<a href="%1$s" class="update-browser-link">Update %2$s</a> or learn how to <a href="%3$s" class="browse-happy-link">browse happy</a>' ),
+				esc_attr( $response['update_url'] ),
+				esc_html( $response['name'] ),
+				esc_url( $browsehappy )
+			);
+		}
+
+		$notice .= '<p>' . $msg_browsehappy . '</p>';
 		$notice .= '<p class="hide-if-no-js"><a href="" class="dismiss" aria-label="' . esc_attr__( 'Dismiss the browser warning panel' ) . '">' . __( 'Dismiss' ) . '</a></p>';
 		$notice .= '<div class="clear"></div>';
 	}
@@ -1703,6 +1766,7 @@ function wp_check_browser_version() {
 	$key = md5( $_SERVER['HTTP_USER_AGENT'] );
 
 	$response = get_site_transient( 'browser_' . $key );
+
 	if ( false === $response ) {
 		// Include an unmodified $wp_version.
 		require ABSPATH . WPINC . '/version.php';
@@ -1719,7 +1783,7 @@ function wp_check_browser_version() {
 
 		$response = wp_remote_post( $url, $options );
 
-		if ( is_wp_error( $response ) || 200 != wp_remote_retrieve_response_code( $response ) ) {
+		if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
 			return false;
 		}
 
@@ -1845,7 +1909,7 @@ function wp_dashboard_site_health() {
 
 	$issues_total = $issue_counts['recommended'] + $issue_counts['critical'];
 	?>
-	<div class="health-check-title-section site-health-progress-wrapper loading hide-if-no-js">
+	<div class="health-check-widget-title-section site-health-progress-wrapper loading hide-if-no-js">
 		<div class="site-health-progress">
 			<svg role="img" aria-hidden="true" focusable="false" width="100%" height="100%" viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg">
 				<circle r="90" cx="100" cy="100" fill="transparent" stroke-dasharray="565.48" stroke-dashoffset="0"></circle>
@@ -1861,44 +1925,50 @@ function wp_dashboard_site_health() {
 		</div>
 	</div>
 
-	<?php if ( false === $get_issues ) : ?>
-		<p>
-			<?php
-			printf(
-				/* translators: %s: URL to Site Health screen. */
-				__( 'Site health checks will automatically run periodically to gather information about your site. You can also <a href="%s">visit the Site Health screen</a> to gather information about your site now.' ),
-				esc_url( admin_url( 'site-health.php' ) )
-			);
-			?>
-		</p>
-	<?php else : ?>
-		<p>
-			<?php if ( $issue_counts['critical'] > 0 ) : ?>
-				<?php _e( 'Your site has critical issues that should be addressed as soon as possible to improve its performance and security.' ); ?>
-			<?php elseif ( $issues_total <= 0 ) : ?>
-				<?php _e( 'Great job! Your site currently passes all site health checks.' ); ?>
-			<?php else : ?>
-				<?php _e( 'Your site&#8217;s health is looking good, but there are still some things you can do to improve its performance and security.' ); ?>
-			<?php endif; ?>
-		</p>
-	<?php endif; ?>
+	<div class="site-health-details">
+		<?php if ( false === $get_issues ) : ?>
+			<p>
+				<?php
+				printf(
+					/* translators: %s: URL to Site Health screen. */
+					__( 'Site health checks will automatically run periodically to gather information about your site. You can also <a href="%s">visit the Site Health screen</a> to gather information about your site now.' ),
+					esc_url( admin_url( 'site-health.php' ) )
+				);
+				?>
+			</p>
+		<?php else : ?>
+			<p>
+				<?php if ( $issues_total <= 0 ) : ?>
+					<?php _e( 'Great job! Your site currently passes all site health checks.' ); ?>
+				<?php elseif ( 1 === (int) $issue_counts['critical'] ) : ?>
+					<?php _e( 'Your site has a critical issue that should be addressed as soon as possible to improve its performance and security.' ); ?>
+				<?php elseif ( $issue_counts['critical'] > 1 ) : ?>
+					<?php _e( 'Your site has critical issues that should be addressed as soon as possible to improve its performance and security.' ); ?>
+				<?php elseif ( 1 === (int) $issue_counts['recommended'] ) : ?>
+					<?php _e( 'Your site&#8217;s health is looking good, but there is still one thing you can do to improve its performance and security.' ); ?>
+				<?php else : ?>
+					<?php _e( 'Your site&#8217;s health is looking good, but there are still some things you can do to improve its performance and security.' ); ?>
+				<?php endif; ?>
+			</p>
+		<?php endif; ?>
 
-	<?php if ( $issues_total > 0 && false !== $get_issues ) : ?>
-		<p>
-			<?php
-			printf(
-				/* translators: 1: Number of issues. 2: URL to Site Health screen. */
-				_n(
-					'Take a look at the <strong>%1$d item</strong> on the <a href="%2$s">Site Health screen</a>.',
-					'Take a look at the <strong>%1$d items</strong> on the <a href="%2$s">Site Health screen</a>.',
-					$issues_total
-				),
-				$issues_total,
-				esc_url( admin_url( 'site-health.php' ) )
-			);
-			?>
-		</p>
-	<?php endif; ?>
+		<?php if ( $issues_total > 0 && false !== $get_issues ) : ?>
+			<p>
+				<?php
+				printf(
+					/* translators: 1: Number of issues. 2: URL to Site Health screen. */
+					_n(
+						'Take a look at the <strong>%1$d item</strong> on the <a href="%2$s">Site Health screen</a>.',
+						'Take a look at the <strong>%1$d items</strong> on the <a href="%2$s">Site Health screen</a>.',
+						$issues_total
+					),
+					$issues_total,
+					esc_url( admin_url( 'site-health.php' ) )
+				);
+				?>
+			</p>
+		<?php endif; ?>
+	</div>
 
 	<?php
 }

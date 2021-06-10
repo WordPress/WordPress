@@ -54,7 +54,6 @@
 	opacity: 0.7;
 	pointer-events: none;
 	-webkit-user-select: none;
-	-ms-user-select: none;
 	user-select: none;
 }
 
@@ -166,7 +165,6 @@
 	border-top: 1px solid #c3c4c7;
 	cursor: pointer;
 	-webkit-user-select: none;
-	-ms-user-select: none;
 	user-select: none;
 }
 

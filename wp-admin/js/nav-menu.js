@@ -45,6 +45,11 @@
 
 			this.attachMenuEditListeners();
 
+			this.attachBulkSelectButtonListeners();
+			this.attachMenuCheckBoxListeners();
+			this.attachMenuItemDeleteButton();
+			this.attachPendingMenuItemsListForDeletion();
+
 			this.attachQuickSearchListeners();
 			this.attachThemeLocationsListeners();
 			this.attachMenuSaveSubmitListeners();
@@ -862,6 +867,196 @@
 			});
 		},
 
+		/**
+		 * Handle toggling bulk selection checkboxes for menu items.
+		 *
+		 * @since 5.8.0
+		 */ 
+		attachBulkSelectButtonListeners : function() {
+			var that = this;
+
+			$( '.bulk-select-switcher' ).on( 'change', function() {
+				if ( this.checked ) {
+					$( '.bulk-select-switcher' ).prop( 'checked', true );
+					that.enableBulkSelection();
+				} else {
+					$( '.bulk-select-switcher' ).prop( 'checked', false );
+					that.disableBulkSelection();
+				}
+			});
+		},
+
+		/**
+		 * Enable bulk selection checkboxes for menu items.
+		 *
+		 * @since 5.8.0
+		 */ 
+		enableBulkSelection : function() {
+			var checkbox = $( '#menu-to-edit .menu-item-checkbox' );
+
+			$( '#menu-to-edit' ).addClass( 'bulk-selection' );
+			$( '#nav-menu-bulk-actions-top' ).addClass( 'bulk-selection' );
+			$( '#nav-menu-bulk-actions-bottom' ).addClass( 'bulk-selection' );
+
+			$.each( checkbox, function() {
+				$(this).prop( 'disabled', false );
+			});
+		},
+
+		/**
+		 * Disable bulk selection checkboxes for menu items.
+		 *
+		 * @since 5.8.0
+		 */ 
+		disableBulkSelection : function() {
+			var checkbox = $( '#menu-to-edit .menu-item-checkbox' );
+
+			$( '#menu-to-edit' ).removeClass( 'bulk-selection' );
+			$( '#nav-menu-bulk-actions-top' ).removeClass( 'bulk-selection' );
+			$( '#nav-menu-bulk-actions-bottom' ).removeClass( 'bulk-selection' );
+
+			if ( $( '.menu-items-delete' ).is( '[aria-describedby="pending-menu-items-to-delete"]' ) ) {
+				$( '.menu-items-delete' ).removeAttr( 'aria-describedby' );
+			}
+
+			$.each( checkbox, function() {
+				$(this).prop( 'disabled', true ).prop( 'checked', false );
+			});
+
+			$( '.menu-items-delete' ).addClass( 'disabled' );
+			$( '#pending-menu-items-to-delete ul' ).empty();
+		},
+
+		/**
+		 * Listen for state changes on bulk action checkboxes.
+		 *
+		 * @since 5.8.0
+		 */ 
+		attachMenuCheckBoxListeners : function() {
+			var that = this;
+
+			$( '#menu-to-edit' ).on( 'change', '.menu-item-checkbox', function() {
+				that.setRemoveSelectedButtonStatus();
+			});
+		},
+
+		/**
+		 * Create delete button to remove menu items from collection.
+		 *
+		 * @since 5.8.0
+		 */ 
+		attachMenuItemDeleteButton : function() {
+			var that = this;
+
+			$( document ).on( 'click', '.menu-items-delete', function( e ) {
+				var itemsPendingDeletion, itemsPendingDeletionList, deletionSpeech;
+
+				e.preventDefault();
+
+				if ( ! $(this).hasClass( 'disabled' ) ) {
+					$.each( $( '.menu-item-checkbox:checked' ), function( index, element ) {
+						$( element ).parents( 'li' ).find( 'a.item-delete' ).trigger( 'click' );
+					});
+
+					$( '.menu-items-delete' ).addClass( 'disabled' );
+					$( '.bulk-select-switcher' ).prop( 'checked', false );
+
+					itemsPendingDeletion     = '';
+					itemsPendingDeletionList = $( '#pending-menu-items-to-delete ul li' );
+
+					$.each( itemsPendingDeletionList, function( index, element ) {
+						var itemName = $( element ).find( '.pending-menu-item-name' ).text();
+						var itemSpeech = menus.menuItemDeletion.replace( '%s', itemName );
+
+						itemsPendingDeletion += itemSpeech;
+						if ( ( index + 1 ) < itemsPendingDeletionList.length ) {
+							itemsPendingDeletion += ', ';
+						}
+					});
+
+					deletionSpeech = menus.itemsDeleted.replace( '%s', itemsPendingDeletion );
+					wp.a11y.speak( deletionSpeech, 'polite' );
+					that.disableBulkSelection();
+				}
+			});
+		},
+
+		/**
+		 * List menu items awaiting deletion.
+		 *
+		 * @since 5.8.0
+		 */ 
+		attachPendingMenuItemsListForDeletion : function() {
+			$( '#post-body-content' ).on( 'change', '.menu-item-checkbox', function() {
+				var menuItemName, menuItemType, menuItemID, listedMenuItem;
+
+				if ( ! $( '.menu-items-delete' ).is( '[aria-describedby="pending-menu-items-to-delete"]' ) ) {
+					$( '.menu-items-delete' ).attr( 'aria-describedby', 'pending-menu-items-to-delete' );
+				}
+
+				menuItemName = $(this).next().text();
+				menuItemType = $(this).parent().next( '.item-controls' ).find( '.item-type' ).text();
+				menuItemID   = $(this).attr( 'data-menu-item-id' );
+
+				listedMenuItem = $( '#pending-menu-items-to-delete ul' ).find( '[data-menu-item-id=' + menuItemID + ']' );
+				if ( listedMenuItem.length > 0 ) {
+					listedMenuItem.remove();
+				}
+
+				if ( this.checked === true ) {
+					$( '#pending-menu-items-to-delete ul' ).append(
+						'<li data-menu-item-id="' + menuItemID + '">' +
+							'<span class="pending-menu-item-name">' + menuItemName + '</span> ' +
+							'<span class="pending-menu-item-type">(' + menuItemType + ')</span>' +
+							'<span class="separator"></span>' +
+						'</li>'
+					);
+				}
+
+				$( '#pending-menu-items-to-delete li .separator' ).html( ', ' );
+				$( '#pending-menu-items-to-delete li .separator' ).last().html( '.' );
+			});
+		},
+
+		/**
+		 * Set status of bulk delete checkbox.
+		 *
+		 * @since 5.8.0
+		 */ 
+		setBulkDeleteCheckboxStatus : function() {
+			var that = this;
+			var checkbox = $( '#menu-to-edit .menu-item-checkbox' );
+
+			$.each( checkbox, function() {
+				if ( $(this).prop( 'disabled' ) ) {
+					$(this).prop( 'disabled', false );
+				} else {
+					$(this).prop( 'disabled', true );
+				}
+
+				if ( $(this).is( ':checked' ) ) {
+					$(this).prop( 'checked', false );
+				}
+			});
+
+			that.setRemoveSelectedButtonStatus();
+		},
+
+		/**
+		 * Set status of menu items removal button.
+		 *
+		 * @since 5.8.0
+		 */ 
+		setRemoveSelectedButtonStatus : function() {
+			var button = $( '.menu-items-delete' );
+
+			if ( $( '.menu-item-checkbox:checked' ).length > 0 ) {
+				button.removeClass( 'disabled' );
+			} else {
+				button.addClass( 'disabled' );
+			}
+		},
+
 		attachMenuSaveSubmitListeners : function() {
 			/*
 			 * When a navigation menu is saved, store a JSON representation of all form data
@@ -908,7 +1103,7 @@
 
 				searchTimer = setTimeout( function() {
 					api.updateQuickSearchResults( $this );
- 				}, 500 );
+				}, 500 );
 			}).on( 'blur', '.quick-search', function() {
 				api.lastSearch = '';
 			});
@@ -1331,7 +1526,7 @@
 
 	};
 
-	$(document).ready(function() {
+	$( function() {
 
 		wpNavMenu.init();
 

@@ -54,14 +54,14 @@
 			}
 		}
 
-		// Hover Button color should match parent element foreground color 
+		// Hover Button color should match parent element foreground color
 		.wp-block-button__link:hover,
 		.wp-block-button__link:active {
 			border-color: currentColor !important;
 			background-color: transparent !important;
 			color: inherit !important;
 		}
-		
+
 		// Remove :focus styles in the editor
 		.wp-block-button__link:focus {
 			outline-offset: inherit;
@@ -104,7 +104,7 @@
 			}
 		}
 
-		// Hover Button color should match default button style 
+		// Hover Button color should match default button style
 		.wp-block-button__link:hover,
 		.wp-block-button__link:active {
 
@@ -117,7 +117,7 @@
 				color: var(--local--color-background, var(--global--color-background)) !important;
 			}
 
-			.has-text-color & {	
+			.has-text-color & {
 				color: var(--local--color-background, var(--global--color-background)) !important;
 			}
 		}

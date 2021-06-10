@@ -1,0 +1,137 @@
+/**
+ * Colors
+ */
+/**
+ * Breakpoints & Media Queries
+ */
+/**
+ * SCSS Variables.
+ *
+ * Please use variables from this sheet to ensure consistency across the UI.
+ * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
+ * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
+ */
+/**
+ * Colors
+ */
+/**
+ * Fonts & basic variables.
+ */
+/**
+ * Grid System.
+ * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
+ */
+/**
+ * Dimensions.
+ */
+/**
+ * Shadows.
+ */
+/**
+ * Editor widths.
+ */
+/**
+ * Block & Editor UI.
+ */
+/**
+ * Block paddings.
+ */
+/**
+ * React Native specific.
+ * These variables do not appear to be used anywhere else.
+ */
+/**
+ * Breakpoint mixins
+ */
+/**
+ * Long content fade mixin
+ *
+ * Creates a fading overlay to signify that the content is longer
+ * than the space allows.
+ */
+/**
+ * Focus styles.
+ */
+/**
+ * Applies editor left position to the selector passed as argument
+ */
+/**
+ * Styles that are reused verbatim in a few places
+ */
+/**
+ * Allows users to opt-out of animations via OS-level preferences.
+ */
+/**
+ * Reset default styles for JavaScript UI based pages.
+ * This is a WP-admin agnostic reset
+ */
+/**
+ * Reset the WP Admin page styles for Gutenberg-like pages.
+ */
+.wp-block[data-align=center] > .wp-block-button {
+  text-align: center;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.wp-block[data-align=right] > .wp-block-button {
+  text-align: right;
+}
+
+.wp-block-button {
+  position: relative;
+  cursor: text;
+}
+.wp-block-button:not(.has-text-color):not(.is-style-outline) [data-rich-text-placeholder]::after {
+  color: #fff;
+}
+.wp-block-button:focus {
+  box-shadow: 0 0 0 1px #fff, 0 0 0 3px var(--wp-admin-theme-color);
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+}
+.wp-block-button[data-rich-text-placeholder]::after {
+  opacity: 0.8;
+}
+
+.wp-block-button__inline-link {
+  color: #757575;
+  height: 0;
+  overflow: hidden;
+  max-width: 290px;
+}
+.wp-block-button__inline-link-input__suggestions {
+  max-width: 290px;
+}
+@media (min-width: 782px) {
+  .wp-block-button__inline-link {
+    max-width: 260px;
+  }
+  .wp-block-button__inline-link-input__suggestions {
+    max-width: 260px;
+  }
+}
+@media (min-width: 960px) {
+  .wp-block-button__inline-link {
+    max-width: 290px;
+  }
+  .wp-block-button__inline-link-input__suggestions {
+    max-width: 290px;
+  }
+}
+.is-selected .wp-block-button__inline-link {
+  height: auto;
+  overflow: visible;
+  margin-top: 16px;
+}
+
+.wp-button-label__width .components-button-group {
+  display: block;
+}
+.wp-button-label__width .components-base-control__field {
+  margin-bottom: 12px;
+}
+
+div[data-type="core/button"] {
+  display: table;
+}

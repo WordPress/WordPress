@@ -14,8 +14,8 @@ class ParagonIE_Sodium_Core_SipHash extends ParagonIE_Sodium_Core_Util
     /**
      * @internal You should not use this directly from another application
      *
-     * @param array<array-key, int> $v
-     * @return array<array-key, int>
+     * @param int[] $v
+     * @return int[]
      *
      */
     public static function sipRound(array $v)

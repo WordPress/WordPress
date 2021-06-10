@@ -210,7 +210,7 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 
 		$bytes_written = fwrite( $temphandle, $contents );
 
-		if ( false === $bytes_written || strlen( $contents ) != $bytes_written ) {
+		if ( false === $bytes_written || strlen( $contents ) !== $bytes_written ) {
 			fclose( $temphandle );
 			unlink( $tempfile );
 
@@ -650,7 +650,7 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 				continue;
 			}
 
-			if ( $limit_file && $struc['name'] != $limit_file ) {
+			if ( $limit_file && $struc['name'] !== $limit_file ) {
 				continue;
 			}
 

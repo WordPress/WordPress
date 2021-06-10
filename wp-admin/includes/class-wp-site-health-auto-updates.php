@@ -273,7 +273,7 @@ class WP_Site_Health_Auto_Updates {
 	 * @return array The test results.
 	 */
 	function test_check_wp_filesystem_method() {
-		// Make sure the `request_filesystem_credentials` function is available during our REST call.
+		// Make sure the `request_filesystem_credentials()` function is available during our REST API call.
 		if ( ! function_exists( 'request_filesystem_credentials' ) ) {
 			require_once ABSPATH . '/wp-admin/includes/file.php';
 		}
@@ -324,7 +324,7 @@ class WP_Site_Health_Auto_Updates {
 			return false;
 		}
 
-		// Make sure the `get_core_checksums` function is available during our REST call.
+		// Make sure the `get_core_checksums()` function is available during our REST API call.
 		if ( ! function_exists( 'get_core_checksums' ) ) {
 			require_once ABSPATH . '/wp-admin/includes/update.php';
 		}

@@ -96,7 +96,13 @@ function twentytwentyoneExpandSubMenu( el ) { // jshint ignore:line
 	 */
 	var navMenu = function( id ) {
 		var wrapper = document.body, // this is the element to which a CSS class is added when a mobile nav menu is open
-			mobileButton = document.getElementById( id + '-mobile-menu' );
+			mobileButton = document.getElementById( id + '-mobile-menu' ),
+			navMenuEl = document.getElementById( 'site-navigation' );
+
+		// If there's no nav menu, none of this is necessary.
+		if ( ! navMenuEl ) {
+			return;
+		}
 
 		if ( mobileButton ) {
 			mobileButton.onclick = function() {
@@ -167,7 +173,7 @@ function twentytwentyoneExpandSubMenu( el ) { // jshint ignore:line
 			}
 		} );
 
-		document.getElementById( 'site-navigation' ).querySelectorAll( '.menu-wrapper > .menu-item-has-children' ).forEach( function( li ) {
+		navMenuEl.querySelectorAll( '.menu-wrapper > .menu-item-has-children' ).forEach( function( li ) {
 			li.addEventListener( 'mouseenter', function() {
 				this.querySelector( '.sub-menu-toggle' ).setAttribute( 'aria-expanded', 'true' );
 				twentytwentyoneSubmenuPosition( li );

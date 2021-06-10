@@ -14,7 +14,7 @@
 
 (function( $ ) {
 	var id = ( typeof current_site_id !== 'undefined' ) ? '&site_id=' + current_site_id : '';
-	$(document).ready( function() {
+	$( function() {
 		var position = { offset: '0, -1' };
 		if ( typeof isRtl !== 'undefined' && isRtl ) {
 			position.my = 'right top';

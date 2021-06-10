@@ -1,10 +1,11 @@
 {
 	"apiVersion": 2,
 	"name": "core/column",
+	"title": "Column",
 	"category": "text",
-	"parent": [
-		"core/columns"
-	],
+	"parent": [ "core/columns" ],
+	"description": "A single column within a columns block.",
+	"textdomain": "default",
 	"attributes": {
 		"verticalAlignment": {
 			"type": "string"
@@ -13,12 +14,19 @@
 			"type": "string"
 		},
 		"templateLock": {
-			"type": "string"
+			"enum": [ "all", "insert", false ]
 		}
 	},
 	"supports": {
 		"anchor": true,
 		"reusable": false,
-		"html": false
+		"html": false,
+		"color": {
+			"gradients": true,
+			"link": true
+		},
+		"spacing": {
+			"padding": true
+		}
 	}
 }

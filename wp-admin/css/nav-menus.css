@@ -97,6 +97,105 @@ ul.add-menu-item-tabs li {
 	margin: 1em 0 10px;
 }
 
+#nav-menu-bulk-actions-top {
+	margin: 1em 0;
+}
+
+#nav-menu-bulk-actions-bottom {
+	margin: 1em 0;
+	margin: calc( 1em + 9px ) 0 ; 
+}
+
+.bulk-actions input.button {
+	margin-right: 12px;
+}
+
+.bulk-select-button {
+	position: relative;
+	display: inline-block;
+	padding: 0 10px;
+	font-size: 13px;
+	line-height: 2.15384615;
+	height: auto;
+	min-height: 30px;
+	background: #f6f7f7;
+	vertical-align: top;
+	border: 1px solid #dcdcde;
+	margin: 0;
+	cursor: pointer;
+	border-radius: 3px;
+	white-space: nowrap;
+	box-sizing: border-box;
+}
+
+.bulk-selection .bulk-select-button {
+	color: #2271b1;
+	border-color: #2271b1;
+	background: #f6f7f7;
+	vertical-align: top;
+}
+
+#pending-menu-items-to-delete {
+	display: none;
+}
+
+.bulk-selection #pending-menu-items-to-delete {
+	display: block;
+	margin-top: 1em;
+}
+
+#pending-menu-items-to-delete p {
+	margin-bottom: 0;
+}
+
+#pending-menu-items-to-delete ul {
+	margin-top: 0;
+	list-style: none;
+}
+
+#pending-menu-items-to-delete ul li {
+	display: inline;
+}
+
+input.bulk-select-switcher + .bulk-select-button-label {
+	vertical-align: inherit;
+}
+
+label.bulk-select-button:hover,
+label.bulk-select-button:active,
+label.bulk-select-button:focus-within {
+	background: #f0f0f1;
+	border-color: #0a4b78;
+	color: #0a4b78;
+}
+
+input.bulk-select-switcher:focus + .bulk-select-button-label{
+	color: #0a4b78;
+}
+
+.bulk-actions input.menu-items-delete {
+	-webkit-appearance: none;
+	appearance: none;
+	font-size: inherit;
+	border: 0;
+	line-height: 2.1em;
+	background: none;
+	cursor: pointer;
+	text-decoration: underline;
+	color: #b32d2e;
+}
+
+.bulk-actions input.menu-items-delete:hover {
+	color: #b32d2e;
+	border: none;
+}
+
+.bulk-actions input.menu-items-delete.disabled {
+	cursor: default;
+	color: #a7aaad;
+	box-shadow: none;
+}
+
 .menu-settings {
 	border-top: 1px solid #f0f0f1;
 	margin-top: 2em;
@@ -479,6 +578,15 @@ ul.add-menu-item-tabs li {
 	display: block;
 	/* @todo: responsive view. */
 	margin-right: 13em;
+}
+
+.menu-item-handle .menu-item-checkbox {
+	display: none;
+}
+
+.bulk-selection .menu-item-handle .menu-item-checkbox {
+	display: inline-block;
+	margin-right: 6px;
 }
 
 .menu-item-handle .menu-item-title.no-title {
@@ -891,10 +999,9 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 }
 
 @media only screen and (min-width: 783px) {
-    @supports ((position: -webkit-sticky) or (position: sticky)) and (scroll-margin-bottom: 130px) {
+    @supports (position: sticky) and (scroll-margin-bottom: 130px) {
 		
 		#nav-menu-footer {
-                position: -webkit-sticky;
                 position: sticky;
 				bottom: 0;
 				z-index: 10;

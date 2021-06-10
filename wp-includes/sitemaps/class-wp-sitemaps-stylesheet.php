@@ -72,7 +72,7 @@ class WP_Sitemaps_Stylesheet {
 		exclude-result-prefixes="sitemap"
 		>
 
-	<xsl:output method="html" encoding="UTF-8" indent="yes"/>
+	<xsl:output method="html" encoding="UTF-8" indent="yes" />
 
 	<!--
 	  Set variables for whether lastmod, changefreq or priority occur for any url in the sitemap.

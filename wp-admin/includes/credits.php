@@ -44,7 +44,7 @@ function wp_credits( $version = '', $locale = '' ) {
 
 		$response = wp_remote_get( $url, $options );
 
-		if ( is_wp_error( $response ) || 200 != wp_remote_retrieve_response_code( $response ) ) {
+		if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
 			return false;
 		}
 

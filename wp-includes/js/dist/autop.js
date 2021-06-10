@@ -87,118 +87,6 @@ this["wp"] = this["wp"] || {}; this["wp"]["autop"] =
 /************************************************************************/
 /******/ ({
 
-/***/ "BsWD":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _unsupportedIterableToArray; });
-/* harmony import */ var _babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("a3WO");
-
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return Object(_babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Object(_babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
-}
-
-/***/ }),
-
-/***/ "DSFK":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _arrayWithHoles; });
-function _arrayWithHoles(arr) {
-  if (Array.isArray(arr)) return arr;
-}
-
-/***/ }),
-
-/***/ "ODXe":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _slicedToArray; });
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
-var arrayWithHoles = __webpack_require__("DSFK");
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js
-function _iterableToArrayLimit(arr, i) {
-  if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
-  var _arr = [];
-  var _n = true;
-  var _d = false;
-  var _e = undefined;
-
-  try {
-    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
-      _arr.push(_s.value);
-
-      if (i && _arr.length === i) break;
-    }
-  } catch (err) {
-    _d = true;
-    _e = err;
-  } finally {
-    try {
-      if (!_n && _i["return"] != null) _i["return"]();
-    } finally {
-      if (_d) throw _e;
-    }
-  }
-
-  return _arr;
-}
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
-var unsupportedIterableToArray = __webpack_require__("BsWD");
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js
-var nonIterableRest = __webpack_require__("PYwp");
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js
-
-
-
-
-function _slicedToArray(arr, i) {
-  return Object(arrayWithHoles["a" /* default */])(arr) || _iterableToArrayLimit(arr, i) || Object(unsupportedIterableToArray["a" /* default */])(arr, i) || Object(nonIterableRest["a" /* default */])();
-}
-
-/***/ }),
-
-/***/ "PYwp":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _nonIterableRest; });
-function _nonIterableRest() {
-  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-
-/***/ }),
-
-/***/ "a3WO":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _arrayLikeToArray; });
-function _arrayLikeToArray(arr, len) {
-  if (len == null || len > arr.length) len = arr.length;
-
-  for (var i = 0, arr2 = new Array(len); i < len; i++) {
-    arr2[i] = arr[i];
-  }
-
-  return arr2;
-}
-
-/***/ }),
-
 /***/ "zbAn":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -206,24 +94,21 @@ function _arrayLikeToArray(arr, len) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "autop", function() { return autop; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removep", function() { return removep; });
-/* harmony import */ var _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("ODXe");
-
-
 /**
  * The regular expression for an HTML element.
  *
  * @type {RegExp}
  */
-var htmlSplitRegex = function () {
+const htmlSplitRegex = (() => {
   /* eslint-disable no-multi-spaces */
-  var comments = '!' + // Start of comment, after the <.
+  const comments = '!' + // Start of comment, after the <.
   '(?:' + // Unroll the loop: Consume everything until --> is found.
   '-(?!->)' + // Dash not followed by end of comment.
   '[^\\-]*' + // Consume non-dashes.
   ')*' + // Loop possessively.
   '(?:-->)?'; // End of comment. If not found, match all input.
 
-  var cdata = '!\\[CDATA\\[' + // Start of comment, after the <.
+  const cdata = '!\\[CDATA\\[' + // Start of comment, after the <.
   '[^\\]]*' + // Consume non-].
   '(?:' + // Unroll the loop: Consume everything until ]]> is found.
   '](?!]>)' + // One ] not followed by end of comment.
@@ -231,10 +116,10 @@ var htmlSplitRegex = function () {
   ')*?' + // Loop possessively.
   '(?:]]>)?'; // End of comment. If not found, match all input.
 
-  var escaped = '(?=' + // Is the element escaped?
+  const escaped = '(?=' + // Is the element escaped?
   '!--' + '|' + '!\\[CDATA\\[' + ')' + '((?=!-)' + // If yes, which type?
   comments + '|' + cdata + ')';
-  var regex = '(' + // Capture the entire match.
+  const regex = '(' + // Capture the entire match.
   '<' + // Find start of element.
   '(' + // Conditional expression follows.
   escaped + // Find end of escaped element.
@@ -243,7 +128,7 @@ var htmlSplitRegex = function () {
   ')' + ')';
   return new RegExp(regex);
   /* eslint-enable no-multi-spaces */
-}();
+})();
 /**
  * Separate HTML elements and comments from the text.
  *
@@ -253,16 +138,16 @@ var htmlSplitRegex = function () {
 
 
 function htmlSplit(input) {
-  var parts = [];
-  var workingInput = input;
-  var match;
+  const parts = [];
+  let workingInput = input;
+  let match;
 
   while (match = workingInput.match(htmlSplitRegex)) {
     // The `match` result, when invoked on a RegExp with the `g` flag (`/foo/g`) will not include `index`.
     // If the `g` flag is omitted, `index` is included.
     // `htmlSplitRegex` does not have the `g` flag so we can assert it will have an index number.
     // Assert `match.index` is a number.
-    var index =
+    const index =
     /** @type {number} */
     match.index;
     parts.push(workingInput.slice(0, index));
@@ -287,14 +172,14 @@ function htmlSplit(input) {
 
 function replaceInHtmlTags(haystack, replacePairs) {
   // Find all elements.
-  var textArr = htmlSplit(haystack);
-  var changed = false; // Extract all needles.
+  const textArr = htmlSplit(haystack);
+  let changed = false; // Extract all needles.
 
-  var needles = Object.keys(replacePairs); // Loop through delimiters (elements) only.
+  const needles = Object.keys(replacePairs); // Loop through delimiters (elements) only.
 
-  for (var i = 1; i < textArr.length; i += 2) {
-    for (var j = 0; j < needles.length; j++) {
-      var needle = needles[j];
+  for (let i = 1; i < textArr.length; i += 2) {
+    for (let j = 0; j < needles.length; j++) {
+      const needle = needles[j];
 
       if (-1 !== textArr[i].indexOf(needle)) {
         textArr[i] = textArr[i].replace(new RegExp(needle, 'g'), replacePairs[needle]);
@@ -332,9 +217,8 @@ function replaceInHtmlTags(haystack, replacePairs) {
  */
 
 
-function autop(text) {
-  var br = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-  var preTags = [];
+function autop(text, br = true) {
+  const preTags = [];
 
   if (text.trim() === '') {
     return '';
@@ -348,20 +232,20 @@ function autop(text) {
    */
 
   if (text.indexOf('<pre') !== -1) {
-    var textParts = text.split('</pre>');
-    var lastText = textParts.pop();
+    const textParts = text.split('</pre>');
+    const lastText = textParts.pop();
     text = '';
 
-    for (var i = 0; i < textParts.length; i++) {
-      var textPart = textParts[i];
-      var start = textPart.indexOf('<pre'); // Malformed html?
+    for (let i = 0; i < textParts.length; i++) {
+      const textPart = textParts[i];
+      const start = textPart.indexOf('<pre'); // Malformed html?
 
       if (start === -1) {
         text += textPart;
         continue;
       }
 
-      var name = '<pre wp-pre-tag-' + i + '></pre>';
+      const name = '<pre wp-pre-tag-' + i + '></pre>';
       preTags.push([name, textPart.substr(start) + '</pre>']);
       text += textPart.substr(0, start) + name;
     }
@@ -371,7 +255,7 @@ function autop(text) {
 
 
   text = text.replace(/<br\s*\/?>\s*<br\s*\/?>/g, '\n\n');
-  var allBlocks = '(?:table|thead|tfoot|caption|col|colgroup|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li|pre|form|map|area|blockquote|address|math|style|p|h[1-6]|hr|fieldset|legend|section|article|aside|hgroup|header|footer|nav|figure|figcaption|details|menu|summary)'; // Add a double line break above block-level opening tags.
+  const allBlocks = '(?:table|thead|tfoot|caption|col|colgroup|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li|pre|form|map|area|blockquote|address|math|style|p|h[1-6]|hr|fieldset|legend|section|article|aside|hgroup|header|footer|nav|figure|figcaption|details|menu|summary)'; // Add a double line break above block-level opening tags.
 
   text = text.replace(new RegExp('(<' + allBlocks + '[\\s/>])', 'g'), '\n\n$1'); // Add a double line break below block-level closing tags.
 
@@ -419,11 +303,11 @@ function autop(text) {
 
   text = text.replace(/\n\n+/g, '\n\n'); // Split up the contents into an array of strings, separated by double line breaks.
 
-  var texts = text.split(/\n\s*\n/).filter(Boolean); // Reset text prior to rebuilding.
+  const texts = text.split(/\n\s*\n/).filter(Boolean); // Reset text prior to rebuilding.
 
   text = ''; // Rebuild the content as a string, wrapping every bit with a <p>.
 
-  texts.forEach(function (textPiece) {
+  texts.forEach(textPiece => {
     text += '<p>' + textPiece.replace(/^\n*|\n*$/g, '') + '</p>\n';
   }); // Under certain strange conditions it could create a P of entirely whitespace.
 
@@ -444,15 +328,11 @@ function autop(text) {
 
   if (br) {
     // Replace newlines that shouldn't be touched with a placeholder.
-    text = text.replace(/<(script|style).*?<\/\\1>/g, function (match) {
-      return match[0].replace(/\n/g, '<WPPreserveNewline />');
-    }); // Normalize <br>
+    text = text.replace(/<(script|style).*?<\/\\1>/g, match => match[0].replace(/\n/g, '<WPPreserveNewline />')); // Normalize <br>
 
     text = text.replace(/<br>|<br\/>/g, '<br />'); // Replace any new line characters that aren't preceded by a <br /> with a <br />.
 
-    text = text.replace(/(<br \/>)?\s*\n/g, function (a, b) {
-      return b ? a : '<br />\n';
-    }); // Replace newline placeholders with newlines.
+    text = text.replace(/(<br \/>)?\s*\n/g, (a, b) => b ? a : '<br />\n'); // Replace newline placeholders with newlines.
 
     text = text.replace(/<WPPreserveNewline \/>/g, '\n');
   } // If a <br /> tag is after an opening or closing block tag, remove it.
@@ -463,11 +343,8 @@ function autop(text) {
   text = text.replace(/<br \/>(\s*<\/?(?:p|li|div|dl|dd|dt|th|pre|td|ul|ol)[^>]*>)/g, '$1');
   text = text.replace(/\n<\/p>$/g, '</p>'); // Replace placeholder <pre> tags with their original content.
 
-  preTags.forEach(function (preTag) {
-    var _preTag = Object(_babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(preTag, 2),
-        name = _preTag[0],
-        original = _preTag[1];
-
+  preTags.forEach(preTag => {
+    const [name, original] = preTag;
     text = text.replace(name, original);
   }); // Restore newlines in all elements.
 
@@ -495,14 +372,14 @@ function autop(text) {
  */
 
 function removep(html) {
-  var blocklist = 'blockquote|ul|ol|li|dl|dt|dd|table|thead|tbody|tfoot|tr|th|td|h[1-6]|fieldset|figure';
-  var blocklist1 = blocklist + '|div|p';
-  var blocklist2 = blocklist + '|pre';
+  const blocklist = 'blockquote|ul|ol|li|dl|dt|dd|table|thead|tbody|tfoot|tr|th|td|h[1-6]|fieldset|figure';
+  const blocklist1 = blocklist + '|div|p';
+  const blocklist2 = blocklist + '|pre';
   /** @type {string[]} */
 
-  var preserve = [];
-  var preserveLinebreaks = false;
-  var preserveBr = false;
+  const preserve = [];
+  let preserveLinebreaks = false;
+  let preserveBr = false;
 
   if (!html) {
     return '';
@@ -510,7 +387,7 @@ function removep(html) {
 
 
   if (html.indexOf('<script') !== -1 || html.indexOf('<style') !== -1) {
-    html = html.replace(/<(script|style)[^>]*>[\s\S]*?<\/\1>/g, function (match) {
+    html = html.replace(/<(script|style)[^>]*>[\s\S]*?<\/\1>/g, match => {
       preserve.push(match);
       return '<wp-preserve>';
     });
@@ -519,7 +396,7 @@ function removep(html) {
 
   if (html.indexOf('<pre') !== -1) {
     preserveLinebreaks = true;
-    html = html.replace(/<pre[^>]*>[\s\S]+?<\/pre>/g, function (a) {
+    html = html.replace(/<pre[^>]*>[\s\S]+?<\/pre>/g, a => {
       a = a.replace(/<br ?\/?>(\r\n|\n)?/g, '<wp-line-break>');
       a = a.replace(/<\/?p( [^>]*)?>(\r\n|\n)?/g, '<wp-line-break>');
       return a.replace(/\r?\n/g, '<wp-line-break>');
@@ -529,7 +406,7 @@ function removep(html) {
 
   if (html.indexOf('[caption') !== -1) {
     preserveBr = true;
-    html = html.replace(/\[caption[\s\S]+?\[\/caption\]/g, function (a) {
+    html = html.replace(/\[caption[\s\S]+?\[\/caption\]/g, a => {
       return a.replace(/<br([^>]*)>/g, '<wp-temp-br$1>').replace(/[\r\n\t]+/, '');
     });
   } // Normalize white space characters before and after block tags.
@@ -547,7 +424,7 @@ function removep(html) {
 
   html = html.replace(/\n[\s\u00a0]+\n/g, '\n\n'); // Replace <br> tags with line breaks.
 
-  html = html.replace(/(\s*)<br ?\/?>\s*/gi, function (_, space) {
+  html = html.replace(/(\s*)<br ?\/?>\s*/gi, (_, space) => {
     if (space && space.indexOf('\n') !== -1) {
       return '\n\n';
     }
@@ -578,7 +455,7 @@ function removep(html) {
 
 
   if (html.indexOf('<object') !== -1) {
-    html = html.replace(/<object[\s\S]+?<\/object>/g, function (a) {
+    html = html.replace(/<object[\s\S]+?<\/object>/g, a => {
       return a.replace(/[\r\n]+/g, '');
     });
   } // Unmark special paragraph closing tags.
@@ -601,7 +478,7 @@ function removep(html) {
 
 
   if (preserve.length) {
-    html = html.replace(/<wp-preserve>/g, function () {
+    html = html.replace(/<wp-preserve>/g, () => {
       return (
         /** @type {string} */
         preserve.shift()

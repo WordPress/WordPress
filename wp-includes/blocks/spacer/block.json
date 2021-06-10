@@ -1,13 +1,20 @@
 {
 	"apiVersion": 2,
 	"name": "core/spacer",
+	"title": "Spacer",
 	"category": "design",
+	"description": "Add white space between blocks and customize its height.",
+	"textdomain": "default",
 	"attributes": {
 		"height": {
 			"type": "number",
 			"default": 100
+		},
+		"width": {
+			"type": "number"
 		}
 	},
+	"usesContext": [ "orientation" ],
 	"supports": {
 		"anchor": true
 	},

@@ -91,7 +91,7 @@ class WP_Customize_Media_Control extends WP_Customize_Control {
 				// Fake an attachment model - needs all fields used by template.
 				// Note that the default value must be a URL, NOT an attachment ID.
 				$ext  = substr( $this->setting->default, -3 );
-				$type = in_array( $ext, array( 'jpg', 'png', 'gif', 'bmp' ), true ) ? 'image' : 'document';
+				$type = in_array( $ext, array( 'jpg', 'png', 'gif', 'bmp', 'webp' ), true ) ? 'image' : 'document';
 
 				$default_attachment = array(
 					'id'    => 1,
@@ -170,13 +170,13 @@ class WP_Customize_Media_Control extends WP_Customize_Control {
 						<p class="attachment-meta">{{ data.attachment.artist || data.attachment.meta.artist }}</p>
 						<# } #>
 						<audio style="visibility: hidden" controls class="wp-audio-shortcode" width="100%" preload="none">
-							<source type="{{ data.attachment.mime }}" src="{{ data.attachment.url }}"/>
+							<source type="{{ data.attachment.mime }}" src="{{ data.attachment.url }}" />
 						</audio>
 					<# } else if ( 'video' === data.attachment.type ) { #>
 						<div class="wp-media-wrapper wp-video">
 							<video controls="controls" class="wp-video-shortcode" preload="metadata"
 								<# if ( data.attachment.image && data.attachment.image.src !== data.attachment.icon ) { #>poster="{{ data.attachment.image.src }}"<# } #>>
-								<source type="{{ data.attachment.mime }}" src="{{ data.attachment.url }}"/>
+								<source type="{{ data.attachment.mime }}" src="{{ data.attachment.url }}" />
 							</video>
 						</div>
 					<# } else { #>

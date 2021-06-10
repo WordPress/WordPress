@@ -3,18 +3,18 @@
   "version": "2.0.0",
   "description": "Default WP Theme",
   "bugs": {
-    "url": "https://github.com/WordPress/twentynineteen/issues"
+    "url": "https://core.trac.wordpress.org/"
   },
-  "homepage": "https://github.com/WordPress/twentynineteen#readme",
+  "homepage": "https://wordpress.org/themes/twentynineteen/",
   "devDependencies": {
-    "@wordpress/browserslist-config": "^3.0.0",
+    "@wordpress/browserslist-config": "^4.0.1",
     "autoprefixer": "^9.8.6",
     "chokidar-cli": "^2.1.0",
-    "node-sass": "^5.0.0",
+    "node-sass": "^6.0.0",
     "npm-run-all": "^4.1.5",
     "postcss-cli": "^7.1.2",
     "postcss-focus-within": "^4.0.0",
-    "rtlcss": "^2.6.2"
+    "rtlcss": "^3.2.0"
   },
   "rtlcssConfig": {
     "options": {

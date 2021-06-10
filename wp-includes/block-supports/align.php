@@ -3,20 +3,19 @@
  * Align block support flag.
  *
  * @package WordPress
+ * @since 5.6.0
  */
 
 /**
  * Registers the align block attribute for block types that support it.
  *
+ * @since 5.6.0
  * @access private
  *
  * @param WP_Block_Type $block_type Block Type.
  */
 function wp_register_alignment_support( $block_type ) {
-	$has_align_support = false;
-	if ( property_exists( $block_type, 'supports' ) ) {
-		$has_align_support = _wp_array_get( $block_type->supports, array( 'align' ), false );
-	}
+	$has_align_support = block_has_support( $block_type, array( 'align' ), false );
 	if ( $has_align_support ) {
 		if ( ! $block_type->attributes ) {
 			$block_type->attributes = array();
@@ -35,6 +34,7 @@ function wp_register_alignment_support( $block_type ) {
  * Add CSS classes for block alignment to the incoming attributes array.
  * This will be applied to the block markup in the front-end.
  *
+ * @since 5.6.0
  * @access private
  *
  * @param WP_Block_Type $block_type       Block Type.
@@ -44,10 +44,7 @@ function wp_register_alignment_support( $block_type ) {
  */
 function wp_apply_alignment_support( $block_type, $block_attributes ) {
 	$attributes        = array();
-	$has_align_support = false;
-	if ( property_exists( $block_type, 'supports' ) ) {
-		$has_align_support = _wp_array_get( $block_type->supports, array( 'align' ), false );
-	}
+	$has_align_support = block_has_support( $block_type, array( 'align' ), false );
 	if ( $has_align_support ) {
 		$has_block_alignment = array_key_exists( 'align', $block_attributes );
 

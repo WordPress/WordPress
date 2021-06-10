@@ -84,8 +84,16 @@ if ( $tab ) {
 	 * Fires before each of the tabs are rendered on the Install Themes page.
 	 *
 	 * The dynamic portion of the hook name, `$tab`, refers to the current
-	 * theme installation tab. Possible values are 'dashboard', 'search', 'upload',
-	 * 'featured', 'new', or 'updated'.
+	 * theme installation tab.
+	 *
+	 * Possible hook names include:
+	 *
+	 *  - `install_themes_pre_dashboard`
+	 *  - `install_themes_pre_featured`
+	 *  - `install_themes_pre_new`
+	 *  - `install_themes_pre_search`
+	 *  - `install_themes_pre_updated`
+	 *  - `install_themes_pre_upload`
 	 *
 	 * @since 2.8.0
 	 */
@@ -99,7 +107,7 @@ $help_overview =
 		__( 'https://wordpress.org/themes/' )
 	) . '</p>' .
 	'<p>' . __( 'You can Search for themes by keyword, author, or tag, or can get more specific and search by criteria listed in the feature filter.' ) . ' <span id="live-search-desc">' . __( 'The search results will be updated as you type.' ) . '</span></p>' .
-	'<p>' . __( 'Alternately, you can browse the themes that are Featured, Popular, or Latest. When you find a theme you like, you can preview it or install it.' ) . '</p>' .
+	'<p>' . __( 'Alternately, you can browse the themes that are Popular or Latest. When you find a theme you like, you can preview it or install it.' ) . '</p>' .
 	'<p>' . sprintf(
 		/* translators: %s: /wp-content/themes */
 		__( 'You can Upload a theme manually if you have already downloaded its ZIP archive onto your computer (make sure it is from a trusted and original source). You can also do it the old-fashioned way and copy a downloaded theme&#8217;s folder via FTP into your %s directory.' ),
@@ -173,7 +181,6 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 		</div>
 
 		<ul class="filter-links">
-			<li><a href="#" data-sort="featured"><?php _ex( 'Featured', 'themes' ); ?></a></li>
 			<li><a href="#" data-sort="popular"><?php _ex( 'Popular', 'themes' ); ?></a></li>
 			<li><a href="#" data-sort="new"><?php _ex( 'Latest', 'themes' ); ?></a></li>
 			<li><a href="#" data-sort="favorites"><?php _ex( 'Favorites', 'themes' ); ?></a></li>
@@ -251,8 +258,16 @@ if ( $tab ) {
 	 * Fires at the top of each of the tabs on the Install Themes page.
 	 *
 	 * The dynamic portion of the hook name, `$tab`, refers to the current
-	 * theme installation tab. Possible values are 'dashboard', 'search', 'upload',
-	 * 'featured', 'new', or 'updated'.
+	 * theme installation tab.
+	 *
+	 * Possible hook names include:
+	 *
+	 *  - `install_themes_dashboard`
+	 *  - `install_themes_featured`
+	 *  - `install_themes_new`
+	 *  - `install_themes_search`
+	 *  - `install_themes_updated`
+	 *  - `install_themes_upload`
 	 *
 	 * @since 2.8.0
 	 *

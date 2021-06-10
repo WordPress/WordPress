@@ -488,6 +488,7 @@ final class WP_Customize_Nav_Menus {
 		$temp_nav_menu_item_setting = new WP_Customize_Nav_Menu_Item_Setting( $this->manager, 'nav_menu_item[-1]' );
 
 		$num_locations = count( get_registered_nav_menus() );
+
 		if ( 1 === $num_locations ) {
 			$locations_description = __( 'Your theme can display menus in one location.' );
 		} else {
@@ -679,7 +680,8 @@ final class WP_Customize_Nav_Menus {
 		// Menu locations.
 		$locations     = get_registered_nav_menus();
 		$num_locations = count( $locations );
-		if ( 1 == $num_locations ) {
+
+		if ( 1 === $num_locations ) {
 			$description = '<p>' . __( 'Your theme can display menus in one location. Select which menu you would like to use.' ) . '</p>';
 		} else {
 			/* translators: %s: Number of menu locations. */

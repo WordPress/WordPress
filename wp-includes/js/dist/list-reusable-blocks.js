@@ -87,105 +87,10 @@ this["wp"] = this["wp"] || {}; this["wp"]["listReusableBlocks"] =
 /************************************************************************/
 /******/ ({
 
-/***/ "1OyB":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _classCallCheck; });
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-/***/ }),
-
 /***/ "GRId":
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["element"]; }());
-
-/***/ }),
-
-/***/ "HaE+":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _asyncToGenerator; });
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
-  try {
-    var info = gen[key](arg);
-    var value = info.value;
-  } catch (error) {
-    reject(error);
-    return;
-  }
-
-  if (info.done) {
-    resolve(value);
-  } else {
-    Promise.resolve(value).then(_next, _throw);
-  }
-}
-
-function _asyncToGenerator(fn) {
-  return function () {
-    var self = this,
-        args = arguments;
-    return new Promise(function (resolve, reject) {
-      var gen = fn.apply(self, args);
-
-      function _next(value) {
-        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
-      }
-
-      function _throw(err) {
-        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
-      }
-
-      _next(undefined);
-    });
-  };
-}
-
-/***/ }),
-
-/***/ "JX7q":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _assertThisInitialized; });
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return self;
-}
-
-/***/ }),
-
-/***/ "Ji7U":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _inherits; });
-/* harmony import */ var _babel_runtime_helpers_esm_setPrototypeOf__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("s4An");
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function");
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) Object(_babel_runtime_helpers_esm_setPrototypeOf__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(subClass, superClass);
-}
 
 /***/ }),
 
@@ -209,13 +114,6 @@ var external_wp_element_ = __webpack_require__("GRId");
 // EXTERNAL MODULE: external ["wp","i18n"]
 var external_wp_i18n_ = __webpack_require__("l3Sj");
 
-// EXTERNAL MODULE: external "regeneratorRuntime"
-var external_regeneratorRuntime_ = __webpack_require__("dvlR");
-var external_regeneratorRuntime_default = /*#__PURE__*/__webpack_require__.n(external_regeneratorRuntime_);
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js
-var asyncToGenerator = __webpack_require__("HaE+");
-
 // EXTERNAL MODULE: external "lodash"
 var external_lodash_ = __webpack_require__("YLtl");
 
@@ -232,7 +130,7 @@ var external_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_w
  * @param {string} contentType File mime type.
  */
 function download(fileName, content, contentType) {
-  var file = new window.Blob([content], {
+  const file = new window.Blob([content], {
     type: contentType
   }); // IE11 can't use the click to download technique
   // we use a specific IE11 technique instead.
@@ -240,7 +138,7 @@ function download(fileName, content, contentType) {
   if (window.navigator.msSaveOrOpenBlob) {
     window.navigator.msSaveOrOpenBlob(file, fileName);
   } else {
-    var a = document.createElement('a');
+    const a = document.createElement('a');
     a.href = URL.createObjectURL(file);
     a.download = fileName;
     a.style.display = 'none';
@@ -257,9 +155,9 @@ function download(fileName, content, contentType) {
  */
 
 function readTextFile(file) {
-  var reader = new window.FileReader();
-  return new Promise(function (resolve) {
-    reader.onload = function () {
+  const reader = new window.FileReader();
+  return new Promise(resolve => {
+    reader.onload = () => {
       resolve(reader.result);
     };
 
@@ -268,9 +166,6 @@ function readTextFile(file) {
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/list-reusable-blocks/build-module/utils/export.js
-
-
-
 /**
  * External dependencies
  */
@@ -291,49 +186,22 @@ function readTextFile(file) {
  * @param {number} id
  */
 
-function exportReusableBlock(_x) {
-  return _exportReusableBlock.apply(this, arguments);
-}
-
-function _exportReusableBlock() {
-  _exportReusableBlock = Object(asyncToGenerator["a" /* default */])( /*#__PURE__*/external_regeneratorRuntime_default.a.mark(function _callee(id) {
-    var postType, post, title, content, fileContent, fileName;
-    return external_regeneratorRuntime_default.a.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            _context.next = 2;
-            return external_wp_apiFetch_default()({
-              path: "/wp/v2/types/wp_block"
-            });
-
-          case 2:
-            postType = _context.sent;
-            _context.next = 5;
-            return external_wp_apiFetch_default()({
-              path: "/wp/v2/".concat(postType.rest_base, "/").concat(id, "?context=edit")
-            });
-
-          case 5:
-            post = _context.sent;
-            title = post.title.raw;
-            content = post.content.raw;
-            fileContent = JSON.stringify({
-              __file: 'wp_block',
-              title: title,
-              content: content
-            }, null, 2);
-            fileName = Object(external_lodash_["kebabCase"])(title) + '.json';
-            download(fileName, fileContent, 'application/json');
-
-          case 11:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee);
-  }));
-  return _exportReusableBlock.apply(this, arguments);
+async function exportReusableBlock(id) {
+  const postType = await external_wp_apiFetch_default()({
+    path: `/wp/v2/types/wp_block`
+  });
+  const post = await external_wp_apiFetch_default()({
+    path: `/wp/v2/${postType.rest_base}/${id}?context=edit`
+  });
+  const title = post.title.raw;
+  const content = post.content.raw;
+  const fileContent = JSON.stringify({
+    __file: 'wp_block',
+    title,
+    content
+  }, null, 2);
+  const fileName = Object(external_lodash_["kebabCase"])(title) + '.json';
+  download(fileName, fileContent, 'application/json');
 }
 
 /* harmony default export */ var utils_export = (exportReusableBlock);
@@ -341,31 +209,10 @@ function _exportReusableBlock() {
 // EXTERNAL MODULE: external ["wp","components"]
 var external_wp_components_ = __webpack_require__("tI+e");
 
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/classCallCheck.js
-var classCallCheck = __webpack_require__("1OyB");
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/createClass.js
-var createClass = __webpack_require__("vuIU");
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/assertThisInitialized.js
-var assertThisInitialized = __webpack_require__("JX7q");
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/inherits.js
-var inherits = __webpack_require__("Ji7U");
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/possibleConstructorReturn.js
-var possibleConstructorReturn = __webpack_require__("md7G");
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/getPrototypeOf.js
-var getPrototypeOf = __webpack_require__("foSv");
-
 // EXTERNAL MODULE: external ["wp","compose"]
 var external_wp_compose_ = __webpack_require__("K9lf");
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/list-reusable-blocks/build-module/utils/import.js
-
-
-
 /**
  * External dependencies
  */
@@ -387,87 +234,39 @@ var external_wp_compose_ = __webpack_require__("K9lf");
  * @return {Promise} Promise returning the imported reusable block.
  */
 
-function importReusableBlock(_x) {
-  return _importReusableBlock.apply(this, arguments);
-}
+async function importReusableBlock(file) {
+  const fileContent = await readTextFile(file);
+  let parsedContent;
 
-function _importReusableBlock() {
-  _importReusableBlock = Object(asyncToGenerator["a" /* default */])( /*#__PURE__*/external_regeneratorRuntime_default.a.mark(function _callee(file) {
-    var fileContent, parsedContent, postType, reusableBlock;
-    return external_regeneratorRuntime_default.a.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            _context.next = 2;
-            return readTextFile(file);
+  try {
+    parsedContent = JSON.parse(fileContent);
+  } catch (e) {
+    throw new Error('Invalid JSON file');
+  }
 
-          case 2:
-            fileContent = _context.sent;
-            _context.prev = 3;
-            parsedContent = JSON.parse(fileContent);
-            _context.next = 10;
-            break;
+  if (parsedContent.__file !== 'wp_block' || !parsedContent.title || !parsedContent.content || !Object(external_lodash_["isString"])(parsedContent.title) || !Object(external_lodash_["isString"])(parsedContent.content)) {
+    throw new Error('Invalid Reusable block JSON file');
+  }
 
-          case 7:
-            _context.prev = 7;
-            _context.t0 = _context["catch"](3);
-            throw new Error('Invalid JSON file');
-
-          case 10:
-            if (!(parsedContent.__file !== 'wp_block' || !parsedContent.title || !parsedContent.content || !Object(external_lodash_["isString"])(parsedContent.title) || !Object(external_lodash_["isString"])(parsedContent.content))) {
-              _context.next = 12;
-              break;
-            }
-
-            throw new Error('Invalid Reusable Block JSON file');
-
-          case 12:
-            _context.next = 14;
-            return external_wp_apiFetch_default()({
-              path: "/wp/v2/types/wp_block"
-            });
-
-          case 14:
-            postType = _context.sent;
-            _context.next = 17;
-            return external_wp_apiFetch_default()({
-              path: "/wp/v2/".concat(postType.rest_base),
-              data: {
-                title: parsedContent.title,
-                content: parsedContent.content,
-                status: 'publish'
-              },
-              method: 'POST'
-            });
-
-          case 17:
-            reusableBlock = _context.sent;
-            return _context.abrupt("return", reusableBlock);
-
-          case 19:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee, null, [[3, 7]]);
-  }));
-  return _importReusableBlock.apply(this, arguments);
+  const postType = await external_wp_apiFetch_default()({
+    path: `/wp/v2/types/wp_block`
+  });
+  const reusableBlock = await external_wp_apiFetch_default()({
+    path: `/wp/v2/${postType.rest_base}`,
+    data: {
+      title: parsedContent.title,
+      content: parsedContent.content,
+      status: 'publish'
+    },
+    method: 'POST'
+  });
+  return reusableBlock;
 }
 
 /* harmony default export */ var utils_import = (importReusableBlock);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/list-reusable-blocks/build-module/components/import-form/index.js
 
-
-
-
-
-
-
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = Object(getPrototypeOf["a" /* default */])(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = Object(getPrototypeOf["a" /* default */])(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return Object(possibleConstructorReturn["a" /* default */])(this, result); }; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 /**
  * WordPress dependencies
@@ -482,138 +281,121 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 
 
-var import_form_ImportForm = /*#__PURE__*/function (_Component) {
-  Object(inherits["a" /* default */])(ImportForm, _Component);
-
-  var _super = _createSuper(ImportForm);
-
-  function ImportForm() {
-    var _this;
-
-    Object(classCallCheck["a" /* default */])(this, ImportForm);
-
-    _this = _super.apply(this, arguments);
-    _this.state = {
+class import_form_ImportForm extends external_wp_element_["Component"] {
+  constructor() {
+    super(...arguments);
+    this.state = {
       isLoading: false,
       error: null,
       file: null
     };
-    _this.isStillMounted = true;
-    _this.onChangeFile = _this.onChangeFile.bind(Object(assertThisInitialized["a" /* default */])(_this));
-    _this.onSubmit = _this.onSubmit.bind(Object(assertThisInitialized["a" /* default */])(_this));
-    return _this;
+    this.isStillMounted = true;
+    this.onChangeFile = this.onChangeFile.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
-  Object(createClass["a" /* default */])(ImportForm, [{
-    key: "componentWillUnmount",
-    value: function componentWillUnmount() {
-      this.isStillMounted = false;
-    }
-  }, {
-    key: "onChangeFile",
-    value: function onChangeFile(event) {
-      this.setState({
-        file: event.target.files[0],
-        error: null
-      });
-    }
-  }, {
-    key: "onSubmit",
-    value: function onSubmit(event) {
-      var _this2 = this;
+  componentWillUnmount() {
+    this.isStillMounted = false;
+  }
 
-      event.preventDefault();
-      var file = this.state.file;
-      var onUpload = this.props.onUpload;
+  onChangeFile(event) {
+    this.setState({
+      file: event.target.files[0],
+      error: null
+    });
+  }
 
-      if (!file) {
+  onSubmit(event) {
+    event.preventDefault();
+    const {
+      file
+    } = this.state;
+    const {
+      onUpload
+    } = this.props;
+
+    if (!file) {
+      return;
+    }
+
+    this.setState({
+      isLoading: true
+    });
+    utils_import(file).then(reusableBlock => {
+      if (!this.isStillMounted) {
         return;
       }
 
       this.setState({
-        isLoading: true
+        isLoading: false
       });
-      utils_import(file).then(function (reusableBlock) {
-        if (!_this2.isStillMounted) {
-          return;
-        }
+      onUpload(reusableBlock);
+    }).catch(error => {
+      if (!this.isStillMounted) {
+        return;
+      }
 
-        _this2.setState({
-          isLoading: false
-        });
+      let uiMessage;
 
-        onUpload(reusableBlock);
-      }).catch(function (error) {
-        if (!_this2.isStillMounted) {
-          return;
-        }
+      switch (error.message) {
+        case 'Invalid JSON file':
+          uiMessage = Object(external_wp_i18n_["__"])('Invalid JSON file');
+          break;
 
-        var uiMessage;
+        case 'Invalid Reusable block JSON file':
+          uiMessage = Object(external_wp_i18n_["__"])('Invalid Reusable block JSON file');
+          break;
 
-        switch (error.message) {
-          case 'Invalid JSON file':
-            uiMessage = Object(external_wp_i18n_["__"])('Invalid JSON file');
-            break;
+        default:
+          uiMessage = Object(external_wp_i18n_["__"])('Unknown error');
+      }
 
-          case 'Invalid Reusable Block JSON file':
-            uiMessage = Object(external_wp_i18n_["__"])('Invalid Reusable Block JSON file');
-            break;
-
-          default:
-            uiMessage = Object(external_wp_i18n_["__"])('Unknown error');
-        }
-
-        _this2.setState({
-          isLoading: false,
-          error: uiMessage
-        });
-      });
-    }
-  }, {
-    key: "onDismissError",
-    value: function onDismissError() {
       this.setState({
-        error: null
+        isLoading: false,
+        error: uiMessage
       });
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var _this3 = this;
+    });
+  }
 
-      var instanceId = this.props.instanceId;
-      var _this$state = this.state,
-          file = _this$state.file,
-          isLoading = _this$state.isLoading,
-          error = _this$state.error;
-      var inputId = 'list-reusable-blocks-import-form-' + instanceId;
-      return Object(external_wp_element_["createElement"])("form", {
-        className: "list-reusable-blocks-import-form",
-        onSubmit: this.onSubmit
-      }, error && Object(external_wp_element_["createElement"])(external_wp_components_["Notice"], {
-        status: "error",
-        onRemove: function onRemove() {
-          return _this3.onDismissError();
-        }
-      }, error), Object(external_wp_element_["createElement"])("label", {
-        htmlFor: inputId,
-        className: "list-reusable-blocks-import-form__label"
-      }, Object(external_wp_i18n_["__"])('File')), Object(external_wp_element_["createElement"])("input", {
-        id: inputId,
-        type: "file",
-        onChange: this.onChangeFile
-      }), Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
-        type: "submit",
-        isBusy: isLoading,
-        disabled: !file || isLoading,
-        isSecondary: true,
-        className: "list-reusable-blocks-import-form__button"
-      }, Object(external_wp_i18n_["_x"])('Import', 'button label')));
-    }
-  }]);
+  onDismissError() {
+    this.setState({
+      error: null
+    });
+  }
 
-  return ImportForm;
-}(external_wp_element_["Component"]);
+  render() {
+    const {
+      instanceId
+    } = this.props;
+    const {
+      file,
+      isLoading,
+      error
+    } = this.state;
+    const inputId = 'list-reusable-blocks-import-form-' + instanceId;
+    return Object(external_wp_element_["createElement"])("form", {
+      className: "list-reusable-blocks-import-form",
+      onSubmit: this.onSubmit
+    }, error && Object(external_wp_element_["createElement"])(external_wp_components_["Notice"], {
+      status: "error",
+      onRemove: () => this.onDismissError()
+    }, error), Object(external_wp_element_["createElement"])("label", {
+      htmlFor: inputId,
+      className: "list-reusable-blocks-import-form__label"
+    }, Object(external_wp_i18n_["__"])('File')), Object(external_wp_element_["createElement"])("input", {
+      id: inputId,
+      type: "file",
+      onChange: this.onChangeFile
+    }), Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
+      type: "submit",
+      isBusy: isLoading,
+      disabled: !file || isLoading,
+      isSecondary: true,
+      className: "list-reusable-blocks-import-form__button"
+    }, Object(external_wp_i18n_["_x"])('Import', 'button label')));
+  }
+
+}
 
 /* harmony default export */ var import_form = (Object(external_wp_compose_["withInstanceId"])(import_form_ImportForm));
 
@@ -636,26 +418,25 @@ var import_form_ImportForm = /*#__PURE__*/function (_Component) {
 
 
 
-function ImportDropdown(_ref) {
-  var onUpload = _ref.onUpload;
+function ImportDropdown({
+  onUpload
+}) {
   return Object(external_wp_element_["createElement"])(external_wp_components_["Dropdown"], {
     position: "bottom right",
     contentClassName: "list-reusable-blocks-import-dropdown__content",
-    renderToggle: function renderToggle(_ref2) {
-      var isOpen = _ref2.isOpen,
-          onToggle = _ref2.onToggle;
-      return Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
-        "aria-expanded": isOpen,
-        onClick: onToggle,
-        isPrimary: true
-      }, Object(external_wp_i18n_["__"])('Import from JSON'));
-    },
-    renderContent: function renderContent(_ref3) {
-      var onClose = _ref3.onClose;
-      return Object(external_wp_element_["createElement"])(import_form, {
-        onUpload: Object(external_lodash_["flow"])(onClose, onUpload)
-      });
-    }
+    renderToggle: ({
+      isOpen,
+      onToggle
+    }) => Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
+      "aria-expanded": isOpen,
+      onClick: onToggle,
+      isPrimary: true
+    }, Object(external_wp_i18n_["__"])('Import from JSON')),
+    renderContent: ({
+      onClose
+    }) => Object(external_wp_element_["createElement"])(import_form, {
+      onUpload: Object(external_lodash_["flow"])(onClose, onUpload)
+    })
   });
 }
 
@@ -676,7 +457,7 @@ function ImportDropdown(_ref) {
 
  // Setup Export Links
 
-document.body.addEventListener('click', function (event) {
+document.body.addEventListener('click', event => {
   if (!event.target.classList.contains('wp-list-reusable-blocks__export')) {
     return;
   }
@@ -685,18 +466,18 @@ document.body.addEventListener('click', function (event) {
   utils_export(event.target.dataset.id);
 }); // Setup Import Form
 
-document.addEventListener('DOMContentLoaded', function () {
-  var button = document.querySelector('.page-title-action');
+document.addEventListener('DOMContentLoaded', () => {
+  const button = document.querySelector('.page-title-action');
 
   if (!button) {
     return;
   }
 
-  var showNotice = function showNotice() {
-    var notice = document.createElement('div');
+  const showNotice = () => {
+    const notice = document.createElement('div');
     notice.className = 'notice notice-success is-dismissible';
-    notice.innerHTML = "<p>".concat(Object(external_wp_i18n_["__"])('Reusable block imported successfully!'), "</p>");
-    var headerEnd = document.querySelector('.wp-header-end');
+    notice.innerHTML = `<p>${Object(external_wp_i18n_["__"])('Reusable block imported successfully!')}</p>`;
+    const headerEnd = document.querySelector('.wp-header-end');
 
     if (!headerEnd) {
       return;
@@ -705,7 +486,7 @@ document.addEventListener('DOMContentLoaded', function () {
     headerEnd.parentNode.insertBefore(notice, headerEnd);
   };
 
-  var container = document.createElement('div');
+  const container = document.createElement('div');
   container.className = 'list-reusable-blocks__container';
   button.parentNode.insertBefore(container, button);
   Object(external_wp_element_["render"])(Object(external_wp_element_["createElement"])(import_dropdown, {
@@ -716,54 +497,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
 /***/ }),
 
-/***/ "U8pU":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _typeof; });
-function _typeof(obj) {
-  "@babel/helpers - typeof";
-
-  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-    _typeof = function _typeof(obj) {
-      return typeof obj;
-    };
-  } else {
-    _typeof = function _typeof(obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-  }
-
-  return _typeof(obj);
-}
-
-/***/ }),
-
 /***/ "YLtl":
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["lodash"]; }());
-
-/***/ }),
-
-/***/ "dvlR":
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["regeneratorRuntime"]; }());
-
-/***/ }),
-
-/***/ "foSv":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _getPrototypeOf; });
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  };
-  return _getPrototypeOf(o);
-}
 
 /***/ }),
 
@@ -774,68 +511,10 @@ function _getPrototypeOf(o) {
 
 /***/ }),
 
-/***/ "md7G":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _possibleConstructorReturn; });
-/* harmony import */ var _babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("U8pU");
-/* harmony import */ var _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("JX7q");
-
-
-function _possibleConstructorReturn(self, call) {
-  if (call && (Object(_babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(call) === "object" || typeof call === "function")) {
-    return call;
-  }
-
-  return Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(self);
-}
-
-/***/ }),
-
-/***/ "s4An":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _setPrototypeOf; });
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-    o.__proto__ = p;
-    return o;
-  };
-
-  return _setPrototypeOf(o, p);
-}
-
-/***/ }),
-
 /***/ "tI+e":
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["components"]; }());
-
-/***/ }),
-
-/***/ "vuIU":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _createClass; });
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
-  }
-}
-
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  return Constructor;
-}
 
 /***/ }),
 

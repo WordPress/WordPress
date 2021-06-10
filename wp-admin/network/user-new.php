@@ -130,7 +130,7 @@ if ( isset( $add_user_errors ) && is_wp_error( $add_user_errors ) ) {
 		</tr>
 		<tr class="form-field form-required">
 			<th scope="row"><label for="email"><?php _e( 'Email' ); ?></label></th>
-			<td><input type="email" class="regular-text" name="user[email]" id="email"/></td>
+			<td><input type="email" class="regular-text" name="user[email]" id="email" /></td>
 		</tr>
 		<tr class="form-field">
 			<td colspan="2" class="td-full"><?php _e( 'A password reset link will be sent to the user via email.' ); ?></td>

@@ -72,9 +72,28 @@ function delete_theme( $stylesheet, $redirect = '' ) {
 		return new WP_Error( 'fs_no_themes_dir', __( 'Unable to locate WordPress theme directory.' ) );
 	}
 
+	/**
+	 * Fires immediately before a theme deletion attempt.
+	 *
+	 * @since 5.8.0
+	 *
+	 * @param string $stylesheet Stylesheet of the theme to delete.
+	 */
+	do_action( 'delete_theme', $stylesheet );
+
 	$themes_dir = trailingslashit( $themes_dir );
 	$theme_dir  = trailingslashit( $themes_dir . $stylesheet );
 	$deleted    = $wp_filesystem->delete( $theme_dir, true );
+
+	/**
+	 * Fires immediately after a theme deletion attempt.
+	 *
+	 * @since 5.8.0
+	 *
+	 * @param string $stylesheet Stylesheet of the theme to delete.
+	 * @param bool   $deleted    Whether the theme deletion was successful.
+	 */
+	do_action( 'deleted_theme', $stylesheet, $deleted );
 
 	if ( ! $deleted ) {
 		return new WP_Error(

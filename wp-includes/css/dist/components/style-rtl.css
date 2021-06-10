@@ -69,9 +69,6 @@
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
-/**
- * These are default block editor widths in case the theme doesn't provide them.
- */
 :root {
   --wp-admin-theme-color: #007cba;
   --wp-admin-theme-color-darker-10: #006ba1;
@@ -91,6 +88,7 @@
 @media (prefers-reduced-motion: reduce) {
   .components-animate__appear {
     animation-duration: 1ms;
+    animation-delay: 0s;
   }
 }
 .components-animate__appear.is-from-top, .components-animate__appear.is-from-top.is-from-left {
@@ -121,6 +119,7 @@
 @media (prefers-reduced-motion: reduce) {
   .components-animate__slide-in {
     animation-duration: 1ms;
+    animation-delay: 0s;
   }
 }
 .components-animate__slide-in.is-from-left {
@@ -163,7 +162,6 @@
   width: 100%;
 }
 .components-autocomplete__result.components-button.is-selected {
-  box-shadow: 0 0 0 2px #007cba;
   box-shadow: 0 0 0 2px var(--wp-admin-theme-color);
 }
 
@@ -196,6 +194,7 @@
 .components-button {
   display: inline-flex;
   text-decoration: none;
+  font-weight: normal;
   font-size: 13px;
   margin: 0;
   border: 0;
@@ -231,23 +230,21 @@
 @media (prefers-reduced-motion: reduce) {
   .components-button {
     transition-duration: 0s;
+    transition-delay: 0s;
   }
 }
 .components-button[aria-expanded=true], .components-button:hover {
-  color: #007cba;
   color: var(--wp-admin-theme-color);
 }
 .components-button[aria-disabled=true]:hover {
   color: initial;
 }
 .components-button:focus:not(:disabled) {
-  box-shadow: 0 0 0 2px #007cba;
   box-shadow: 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
   outline: 3px solid transparent;
 }
 .components-button.is-primary {
   white-space: nowrap;
-  background: #007cba;
   background: var(--wp-admin-theme-color);
   color: #fff;
   text-decoration: none;
@@ -255,42 +252,33 @@
   outline: 1px solid transparent;
 }
 .components-button.is-primary:hover:not(:disabled) {
-  background: #006ba1;
   background: var(--wp-admin-theme-color-darker-10);
   color: #fff;
 }
 .components-button.is-primary:active:not(:disabled) {
-  background: #005a87;
   background: var(--wp-admin-theme-color-darker-20);
-  border-color: #005a87;
   border-color: var(--wp-admin-theme-color-darker-20);
   color: #fff;
 }
 .components-button.is-primary:focus:not(:disabled) {
-  box-shadow: inset 0 0 0 1px #fff, 0 0 0 2px #007cba;
   box-shadow: inset 0 0 0 1px #fff, 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
 }
 .components-button.is-primary:disabled, .components-button.is-primary:disabled:active:enabled, .components-button.is-primary[aria-disabled=true], .components-button.is-primary[aria-disabled=true]:enabled, .components-button.is-primary[aria-disabled=true]:active:enabled {
   color: rgba(255, 255, 255, 0.4);
-  background: #007cba;
   background: var(--wp-admin-theme-color);
-  border-color: #007cba;
   border-color: var(--wp-admin-theme-color);
   opacity: 1;
   outline: none;
 }
 .components-button.is-primary:disabled:focus:enabled, .components-button.is-primary:disabled:active:enabled:focus:enabled, .components-button.is-primary[aria-disabled=true]:focus:enabled, .components-button.is-primary[aria-disabled=true]:enabled:focus:enabled, .components-button.is-primary[aria-disabled=true]:active:enabled:focus:enabled {
-  box-shadow: 0 0 0 1px #fff, 0 0 0 3px #007cba;
   box-shadow: 0 0 0 1px #fff, 0 0 0 3px var(--wp-admin-theme-color);
 }
 .components-button.is-primary.is-busy, .components-button.is-primary.is-busy:disabled, .components-button.is-primary.is-busy[aria-disabled=true] {
   color: #fff;
   background-size: 100px 100%;
   /* stylelint-disable */
-  background-image: linear-gradient(45deg, #007cba 33%, #005a87 33%, #005a87 70%, #007cba 70%);
   background-image: linear-gradient(45deg, var(--wp-admin-theme-color) 33%, var(--wp-admin-theme-color-darker-20) 33%, var(--wp-admin-theme-color-darker-20) 70%, var(--wp-admin-theme-color) 70%);
   /* stylelint-enable */
-  border-color: #007cba;
   border-color: var(--wp-admin-theme-color);
 }
 .components-button.is-secondary, .components-button.is-tertiary {
@@ -298,14 +286,11 @@
 }
 .components-button.is-secondary:active:not(:disabled), .components-button.is-tertiary:active:not(:disabled) {
   background: #ddd;
-  color: #006ba1;
   color: var(--wp-admin-theme-color-darker-10);
   box-shadow: none;
 }
 .components-button.is-secondary:hover:not(:disabled), .components-button.is-tertiary:hover:not(:disabled) {
-  color: #006ba1;
   color: var(--wp-admin-theme-color-darker-10);
-  box-shadow: inset 0 0 0 1px #006ba1;
   box-shadow: inset 0 0 0 1px var(--wp-admin-theme-color-darker-10);
 }
 .components-button.is-secondary:disabled, .components-button.is-secondary[aria-disabled=true], .components-button.is-secondary[aria-disabled=true]:hover, .components-button.is-tertiary:disabled, .components-button.is-tertiary[aria-disabled=true], .components-button.is-tertiary[aria-disabled=true]:hover {
@@ -317,17 +302,14 @@
   outline: none;
 }
 .components-button.is-secondary {
-  box-shadow: inset 0 0 0 1px #007cba;
   box-shadow: inset 0 0 0 1px var(--wp-admin-theme-color);
   outline: 1px solid transparent;
   white-space: nowrap;
-  color: #007cba;
   color: var(--wp-admin-theme-color);
   background: transparent;
 }
 .components-button.is-tertiary {
   white-space: nowrap;
-  color: #007cba;
   color: var(--wp-admin-theme-color);
   background: transparent;
   padding: 6px;
@@ -345,7 +327,6 @@
   box-shadow: inset 0 0 0 1px #710d0d;
 }
 .components-button.is-destructive:focus:not(:disabled) {
-  color: #007cba;
   color: var(--wp-admin-theme-color);
 }
 .components-button.is-destructive:active:not(:disabled) {
@@ -370,8 +351,7 @@
   background: none;
   outline: none;
   text-align: right;
-  /* Mimics the default link style in common.css */
-  color: #0073aa;
+  color: var(--wp-admin-theme-color);
   text-decoration: underline;
   transition-property: border, background, color;
   transition-duration: 0.05s;
@@ -381,16 +361,11 @@
 @media (prefers-reduced-motion: reduce) {
   .components-button.is-link {
     transition-duration: 0s;
+    transition-delay: 0s;
   }
 }
-.components-button.is-link:hover:not(:disabled), .components-button.is-link:active:not(:disabled) {
-  color: #00a0d2;
-  box-shadow: none;
-}
 .components-button.is-link:focus {
-  color: #124964;
-  box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
-  box-shadow: 0 0 0 1px #5b9dd9, 0 0 var(--wp-admin-border-width-focus) 1px rgba(30, 140, 190, 0.8);
+  border-radius: 2px;
 }
 .components-button.is-link.is-destructive {
   color: #cc1818;
@@ -400,7 +375,6 @@
   background: none;
 }
 .components-button.is-link.is-destructive:focus:not(:disabled) {
-  color: #007cba;
   color: var(--wp-admin-theme-color);
 }
 .components-button:not([aria-disabled=true]):active {
@@ -437,7 +411,7 @@
   display: inline-block;
   flex: 0 0 auto;
   margin-right: 2px;
-  margin-left: 10px;
+  margin-left: 2px;
 }
 .components-button.has-icon.has-text {
   justify-content: left;
@@ -445,12 +419,14 @@
 .components-button.has-icon.has-text svg {
   margin-left: 8px;
 }
+.components-button.has-icon.has-text .dashicon {
+  margin-left: 10px;
+}
 .components-button.is-pressed {
   color: #fff;
   background: #1e1e1e;
 }
 .components-button.is-pressed:focus:not(:disabled) {
-  box-shadow: inset 0 0 0 1px #fff, 0 0 0 2px #007cba;
   box-shadow: inset 0 0 0 1px #fff, 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
   outline: 2px solid transparent;
 }
@@ -506,6 +482,7 @@
 @media (prefers-reduced-motion: reduce) {
   .components-checkbox-control__input[type=checkbox] {
     transition-duration: 0s;
+    transition-delay: 0s;
   }
 }
 @media (min-width: 600px) {
@@ -516,9 +493,7 @@
   }
 }
 .components-checkbox-control__input[type=checkbox]:focus {
-  border-color: #007cba;
   border-color: var(--wp-admin-theme-color);
-  box-shadow: 0 0 0 1px #007cba;
   box-shadow: 0 0 0 1px var(--wp-admin-theme-color);
   outline: 2px solid transparent;
 }
@@ -543,14 +518,11 @@
   color: rgba(255, 255, 255, 0.65);
 }
 .components-checkbox-control__input[type=checkbox]:focus {
-  box-shadow: 0 0 0 2px #fff, 0 0 0 4px #007cba;
   box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--wp-admin-theme-color);
   outline: 2px solid transparent;
 }
 .components-checkbox-control__input[type=checkbox]:checked {
-  background: #007cba;
   background: var(--wp-admin-theme-color);
-  border-color: #007cba;
   border-color: var(--wp-admin-theme-color);
 }
 .components-checkbox-control__input[type=checkbox]:checked::-ms-check {
@@ -566,9 +538,7 @@
   }
 }
 .components-checkbox-control__input[type=checkbox][aria-checked=mixed] {
-  background: #007cba;
   background: var(--wp-admin-theme-color);
-  border-color: #007cba;
   border-color: var(--wp-admin-theme-color);
 }
 .components-checkbox-control__input[type=checkbox][aria-checked=mixed]::before {
@@ -599,17 +569,15 @@
 @media (prefers-reduced-motion: reduce) {
   .components-checkbox-control__input[type=checkbox] {
     transition-duration: 0s;
+    transition-delay: 0s;
   }
 }
 .components-checkbox-control__input[type=checkbox]:focus {
-  box-shadow: 0 0 0 2px #fff, 0 0 0 4px #007cba;
   box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--wp-admin-theme-color);
   outline: 2px solid transparent;
 }
 .components-checkbox-control__input[type=checkbox]:checked {
-  background: #007cba;
   background: var(--wp-admin-theme-color);
-  border-color: #007cba;
   border-color: var(--wp-admin-theme-color);
 }
 .components-checkbox-control__input[type=checkbox]:checked::-ms-check {
@@ -643,7 +611,6 @@ svg.components-checkbox-control__checked {
   width: 24px;
   height: 24px;
   -webkit-user-select: none;
-      -ms-user-select: none;
           user-select: none;
   pointer-events: none;
 }
@@ -680,6 +647,7 @@ svg.components-checkbox-control__checked {
 @media (prefers-reduced-motion: reduce) {
   .components-circular-option-picker__option-wrapper {
     transition-duration: 0s;
+    transition-delay: 0s;
   }
 }
 .components-circular-option-picker__option-wrapper:hover {
@@ -718,6 +686,7 @@ svg.components-checkbox-control__checked {
 @media (prefers-reduced-motion: reduce) {
   .components-circular-option-picker__option {
     transition-duration: 0s;
+    transition-delay: 0s;
   }
 }
 .components-circular-option-picker__option:hover {
@@ -1020,19 +989,17 @@ svg.components-checkbox-control__checked {
   .components-color-picker__hue-pointer,
 .components-color-picker__saturation-pointer {
     transition-duration: 0s;
+    transition-delay: 0s;
   }
 }
 
 .components-color-picker__saturation-pointer:focus {
-  box-shadow: 0 0 0 2px #fff, 0 0 0 4px #007cba, 0 0 5px 0 #007cba, inset 0 0 1px 1px rgba(0, 0, 0, 0.3), 0 0 1px 2px rgba(0, 0, 0, 0.4);
   box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--wp-admin-theme-color), 0 0 5px 0 var(--wp-admin-theme-color), inset 0 0 1px 1px rgba(0, 0, 0, 0.3), 0 0 1px 2px rgba(0, 0, 0, 0.4);
 }
 
 .components-color-picker__hue-pointer:focus,
 .components-color-picker__alpha-pointer:focus {
-  border-color: #007cba;
   border-color: var(--wp-admin-theme-color);
-  box-shadow: 0 0 0 2px #007cba, 0 0 3px 0 #007cba;
   box-shadow: 0 0 0 2px var(--wp-admin-theme-color), 0 0 3px 0 var(--wp-admin-theme-color);
   outline: 2px solid transparent;
   outline-offset: -2px;
@@ -1124,6 +1091,7 @@ input.components-combobox-control__input[type=text]:focus {
 @media (prefers-reduced-motion: reduce) {
   .components-combobox-control__suggestions-container {
     transition-duration: 0s;
+    transition-delay: 0s;
   }
 }
 @media (min-width: 600px) {
@@ -1134,9 +1102,7 @@ input.components-combobox-control__input[type=text]:focus {
   }
 }
 .components-combobox-control__suggestions-container:focus {
-  border-color: #007cba;
   border-color: var(--wp-admin-theme-color);
-  box-shadow: 0 0 0 1px #007cba;
   box-shadow: 0 0 0 1px var(--wp-admin-theme-color);
   outline: 2px solid transparent;
 }
@@ -1161,9 +1127,7 @@ input.components-combobox-control__input[type=text]:focus {
   color: rgba(255, 255, 255, 0.65);
 }
 .components-combobox-control__suggestions-container:focus-within {
-  border-color: #007cba;
   border-color: var(--wp-admin-theme-color);
-  box-shadow: 0 0 0 1px #007cba;
   box-shadow: 0 0 0 1px var(--wp-admin-theme-color);
   outline: 2px solid transparent;
 }
@@ -1173,6 +1137,11 @@ input.components-combobox-control__input[type=text]:focus {
   height: 24px;
   min-width: 24px;
   padding: 0;
+}
+
+.components-color-list-picker,
+.components-color-list-picker__swatch-button {
+  width: 100%;
 }
 
 .components-custom-gradient-picker__gradient-bar:not(.has-gradient) {
@@ -1208,7 +1177,6 @@ input.components-combobox-control__input[type=text]:focus {
 }
 .components-custom-gradient-picker__gradient-bar .components-custom-gradient-picker__control-point-button {
   border: 2px solid transparent;
-  box-shadow: inset 0 0 0 2px #fff;
   box-shadow: inset 0 0 0 var(--wp-admin-border-width-focus) #fff;
   border-radius: 50%;
   height: 24px;
@@ -1280,9 +1248,7 @@ input.components-combobox-control__input[type=text]:focus {
   padding-left: 24px;
 }
 .components-custom-select-control__button:focus:not(:disabled) {
-  border-color: #007cba;
   border-color: var(--wp-admin-theme-color);
-  box-shadow: 0 0 0 1px #007cba;
   box-shadow: 0 0 0 1px var(--wp-admin-theme-color);
 }
 .components-custom-select-control__button .components-custom-select-control__button-icon {
@@ -1792,7 +1758,6 @@ input.components-combobox-control__input[type=text]:focus {
   text-align: center;
   vertical-align: top;
   -webkit-user-select: none;
-  -ms-user-select: none;
   user-select: none;
 }
 
@@ -1884,7 +1849,6 @@ input.components-combobox-control__input[type=text]:focus {
 .DayPickerNavigation_button {
   cursor: pointer;
   -webkit-user-select: none;
-  -ms-user-select: none;
   user-select: none;
   border: 0;
   padding: 0;
@@ -2121,7 +2085,6 @@ input.components-combobox-control__input[type=text]:focus {
 
 .DateInput_input__readOnly {
   -webkit-user-select: none;
-  -ms-user-select: none;
   user-select: none;
 }
 
@@ -2336,6 +2299,9 @@ input.components-combobox-control__input[type=text]:focus {
   fill: #cacccd;
 }
 .components-datetime {
+  padding: 16px;
+}
+.components-panel__body .components-datetime {
   padding: 0;
 }
 .components-datetime .components-datetime__calendar-help {
@@ -2368,6 +2334,7 @@ input.components-combobox-control__input[type=text]:focus {
   .components-datetime select,
 .components-datetime input {
     transition-duration: 0s;
+    transition-delay: 0s;
   }
 }
 .components-datetime select,
@@ -2399,17 +2366,14 @@ input.components-combobox-control__input[type=text]:focus {
   text-align: center;
 }
 .components-datetime__date .CalendarDay:focus {
-  box-shadow: inset 0 0 0 2px #007cba, inset 0 0 0 3px #fff;
   box-shadow: inset 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color), inset 0 0 0 3px #fff;
   outline: 2px solid transparent;
 }
 .components-datetime__date .CalendarDay__selected {
-  background: #007cba;
   background: var(--wp-admin-theme-color);
   border: 2px solid transparent;
 }
 .components-datetime__date .CalendarDay__selected:hover {
-  background: #005a87;
   background: var(--wp-admin-theme-color-darker-20);
 }
 .components-datetime__date .CalendarDay__selected:focus {
@@ -2420,9 +2384,7 @@ input.components-combobox-control__input[type=text]:focus {
   top: 20px;
 }
 .components-datetime__date .DayPickerNavigation_button__horizontalDefault:focus {
-  border-color: #007cba;
   border-color: var(--wp-admin-theme-color);
-  box-shadow: 0 0 0 1px #007cba;
   box-shadow: 0 0 0 1px var(--wp-admin-theme-color);
   outline: 2px solid transparent;
 }
@@ -2436,6 +2398,30 @@ input.components-combobox-control__input[type=text]:focus {
 }
 .components-datetime__date.is-description-visible .DayPicker {
   visibility: hidden;
+}
+
+.components-datetime__date .CalendarDay .components-datetime__date__day {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+  position: relative;
+}
+.components-datetime__date .CalendarDay .components-datetime__date__day.has-events::before {
+  content: " ";
+  width: 4px;
+  height: 4px;
+  border-radius: 2px;
+  position: absolute;
+  right: 50%;
+  margin-right: -2px;
+  bottom: 0;
+  background-color: #fff;
+}
+
+.components-datetime__date .CalendarDay:not(.CalendarDay__selected) .components-datetime__date__day.has-events::before {
+  background: var(--wp-admin-theme-color);
 }
 
 .components-datetime__time {
@@ -2573,13 +2559,13 @@ body.is-dragging-components-draggable {
   visibility: hidden;
   opacity: 0;
   transition: 0.3s opacity, 0.3s background-color, 0s visibility 0.3s;
-  border: 2px solid #007cba;
   border: 2px solid var(--wp-admin-theme-color);
   border-radius: 2px;
 }
 @media (prefers-reduced-motion: reduce) {
   .components-drop-zone {
     transition-duration: 0s;
+    transition-delay: 0s;
   }
 }
 .components-drop-zone.is-active {
@@ -2590,10 +2576,10 @@ body.is-dragging-components-draggable {
 @media (prefers-reduced-motion: reduce) {
   .components-drop-zone.is-active {
     transition-duration: 0s;
+    transition-delay: 0s;
   }
 }
 .components-drop-zone.is-dragging-over-element {
-  background-color: #007cba;
   background-color: var(--wp-admin-theme-color);
 }
 
@@ -2612,6 +2598,7 @@ body.is-dragging-components-draggable {
 @media (prefers-reduced-motion: reduce) {
   .components-drop-zone__content {
     transition-duration: 0s;
+    transition-delay: 0s;
   }
 }
 
@@ -2632,10 +2619,6 @@ body.is-dragging-components-draggable {
 
 .components-drop-zone__content-text {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-}
-
-.components-drop-zone__provider {
-  height: 100%;
 }
 
 .components-dropdown {
@@ -2732,6 +2715,17 @@ body.is-dragging-components-draggable {
   align-items: center;
   margin-bottom: 24px;
 }
+.components-font-size-picker__controls .components-unit-control-wrapper {
+  margin-left: 8px;
+}
+.components-font-size-picker__controls .components-unit-control-wrapper .components-input-control__label {
+  font-weight: 300;
+  padding-bottom: 0 !important;
+  margin-bottom: 8px !important;
+}
+.components-font-size-picker__controls .components-custom-select-control__button {
+  min-width: 120px;
+}
 .components-font-size-picker__controls .components-font-size-picker__number {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   padding: 6px 8px;
@@ -2755,6 +2749,7 @@ body.is-dragging-components-draggable {
 @media (prefers-reduced-motion: reduce) {
   .components-font-size-picker__controls .components-font-size-picker__number {
     transition-duration: 0s;
+    transition-delay: 0s;
   }
 }
 @media (min-width: 600px) {
@@ -2765,9 +2760,7 @@ body.is-dragging-components-draggable {
   }
 }
 .components-font-size-picker__controls .components-font-size-picker__number:focus {
-  border-color: #007cba;
   border-color: var(--wp-admin-theme-color);
-  box-shadow: 0 0 0 1px #007cba;
   box-shadow: 0 0 0 1px var(--wp-admin-theme-color);
   outline: 2px solid transparent;
 }
@@ -2838,6 +2831,7 @@ body.is-dragging-components-draggable {
 @media (prefers-reduced-motion: reduce) {
   .components-form-toggle .components-form-toggle__track {
     transition-duration: 0s;
+    transition-delay: 0s;
   }
 }
 .components-form-toggle .components-form-toggle__thumb {
@@ -2856,17 +2850,15 @@ body.is-dragging-components-draggable {
 @media (prefers-reduced-motion: reduce) {
   .components-form-toggle .components-form-toggle__thumb {
     transition-duration: 0s;
+    transition-delay: 0s;
   }
 }
 .components-form-toggle.is-checked .components-form-toggle__track {
-  background-color: #007cba;
   background-color: var(--wp-admin-theme-color);
-  border: 1px solid #007cba;
   border: 1px solid var(--wp-admin-theme-color);
   border: 9px solid transparent;
 }
 .components-form-toggle .components-form-toggle__input:focus + .components-form-toggle__track {
-  box-shadow: 0 0 0 2px #fff, 0 0 0 4px #007cba;
   box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--wp-admin-theme-color);
   outline: 2px solid transparent;
   outline-offset: 2px;
@@ -2912,7 +2904,7 @@ body.is-dragging-components-draggable {
   line-height: normal;
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-start;
+  align-items: center;
   width: 100%;
   margin: 0 0 8px 0;
   padding: 2px 4px;
@@ -2921,6 +2913,7 @@ body.is-dragging-components-draggable {
 @media (prefers-reduced-motion: reduce) {
   .components-form-token-field__input-container {
     transition-duration: 0s;
+    transition-delay: 0s;
   }
 }
 @media (min-width: 600px) {
@@ -2931,9 +2924,7 @@ body.is-dragging-components-draggable {
   }
 }
 .components-form-token-field__input-container:focus {
-  border-color: #007cba;
   border-color: var(--wp-admin-theme-color);
-  box-shadow: 0 0 0 1px #007cba;
   box-shadow: 0 0 0 1px var(--wp-admin-theme-color);
   outline: 2px solid transparent;
 }
@@ -2962,9 +2953,7 @@ body.is-dragging-components-draggable {
   border-color: #ddd;
 }
 .components-form-token-field__input-container.is-active {
-  border-color: #007cba;
   border-color: var(--wp-admin-theme-color);
-  box-shadow: 0 0 0 1px #007cba;
   box-shadow: 0 0 0 1px var(--wp-admin-theme-color);
   outline: 2px solid transparent;
 }
@@ -3032,7 +3021,6 @@ body.is-dragging-components-draggable {
 }
 .components-form-token-field__token.is-borderless .components-form-token-field__token-text {
   background: transparent;
-  color: #007cba;
   color: var(--wp-admin-theme-color);
 }
 .components-form-token-field__token.is-borderless .components-form-token-field__remove-token {
@@ -3070,7 +3058,9 @@ body.is-dragging-components-draggable {
   .components-form-token-field__token-text,
 .components-form-token-field__remove-token.components-button {
     transition-duration: 0s;
+    transition-delay: 0s;
     animation-duration: 1ms;
+    animation-delay: 0s;
   }
 }
 
@@ -3108,6 +3098,7 @@ body.is-dragging-components-draggable {
 @media (prefers-reduced-motion: reduce) {
   .components-form-token-field__suggestions-list {
     transition-duration: 0s;
+    transition-delay: 0s;
   }
 }
 
@@ -3120,7 +3111,6 @@ body.is-dragging-components-draggable {
   cursor: pointer;
 }
 .components-form-token-field__suggestion.is-selected {
-  background: #007cba;
   background: var(--wp-admin-theme-color);
   color: #fff;
 }
@@ -3184,15 +3174,17 @@ body.is-dragging-components-draggable {
   }
 }
 .components-guide__page-control {
-  margin: 8px 0 8px 0;
+  margin: 0;
   text-align: center;
 }
 .components-guide__page-control li {
   display: inline-block;
+  margin: 0;
 }
 .components-guide__page-control .components-button {
   height: 30px;
   min-width: 20px;
+  margin: -6px 0;
 }
 .components-guide .components-modal__content {
   padding: 0;
@@ -3256,7 +3248,6 @@ body.is-dragging-components-draggable {
   left: 0;
   pointer-events: none;
   outline: 4px solid transparent;
-  box-shadow: inset 0 0 0 4px #007cba;
   box-shadow: inset 0 0 0 4px var(--wp-admin-theme-color);
 }
 @supports (outline-offset: 1px) {
@@ -3265,7 +3256,6 @@ body.is-dragging-components-draggable {
   }
   .is-focusing-regions [role=region]:focus {
     outline-style: solid;
-    outline-color: #007cba;
     outline-color: var(--wp-admin-theme-color);
     outline-width: 4px;
     outline-offset: -4px;
@@ -3276,6 +3266,11 @@ body.is-dragging-components-draggable {
   margin-top: 8px;
   padding-top: 8px;
   border-top: 1px solid #1e1e1e;
+}
+.components-menu-group + .components-menu-group.has-hidden-separator {
+  border-top: none;
+  margin-top: 0;
+  padding-top: 0;
 }
 
 .components-menu-group__label {
@@ -3308,6 +3303,14 @@ body.is-dragging-components-draggable {
   margin-right: -2px;
   margin-left: 8px;
 }
+.components-menu-item__button.is-primary,
+.components-menu-item__button.components-button.is-primary {
+  justify-content: center;
+}
+.components-menu-item__button.is-primary .components-menu-item__item,
+.components-menu-item__button.components-button.is-primary .components-menu-item__item {
+  margin-left: 0;
+}
 
 .components-menu-item__info-wrapper {
   display: flex;
@@ -3330,8 +3333,7 @@ body.is-dragging-components-draggable {
 }
 
 .components-menu-item__shortcut {
-  -ms-grid-row-align: center;
-      align-self: center;
+  align-self: center;
   margin-left: 0;
   margin-right: auto;
   padding-right: 24px;
@@ -3367,6 +3369,7 @@ body.is-dragging-components-draggable {
 @media (prefers-reduced-motion: reduce) {
   .components-modal__screen-overlay {
     animation-duration: 1ms;
+    animation-delay: 0s;
   }
 }
 
@@ -3378,9 +3381,9 @@ body.is-dragging-components-draggable {
   right: 0;
   box-sizing: border-box;
   margin: 0;
-  border: 1px solid #ddd;
   background: #fff;
-  box-shadow: 0 3px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.25);
+  border-radius: 2px;
   overflow: auto;
 }
 @media (min-width: 600px) {
@@ -3400,6 +3403,7 @@ body.is-dragging-components-draggable {
 @media (min-width: 600px) and (prefers-reduced-motion: reduce) {
   .components-modal__frame {
     animation-duration: 1ms;
+    animation-delay: 0s;
   }
 }
 
@@ -3414,7 +3418,7 @@ body.is-dragging-components-draggable {
 .components-modal__header {
   box-sizing: border-box;
   border-bottom: 1px solid #ddd;
-  padding: 0 24px;
+  padding: 0 32px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -3423,10 +3427,9 @@ body.is-dragging-components-draggable {
   height: 60px;
   z-index: 10;
   position: relative;
-  position: -webkit-sticky;
   position: sticky;
   top: 0;
-  margin: 0 -24px 24px;
+  margin: 0 -32px 24px;
 }
 @supports (-ms-ime-align: auto) {
   .components-modal__header {
@@ -3467,7 +3470,7 @@ body.is-dragging-components-draggable {
 .components-modal__content {
   box-sizing: border-box;
   height: 100%;
-  padding: 0 24px 24px;
+  padding: 0 32px 24px;
 }
 @supports (-ms-ime-align: auto) {
   .components-modal__content {
@@ -3480,7 +3483,6 @@ body.is-dragging-components-draggable {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   font-size: 13px;
   background-color: #fff;
-  border-right: 4px solid #007cba;
   border-right: 4px solid var(--wp-admin-theme-color);
   margin: 5px 15px 2px;
   padding: 8px 12px;
@@ -3508,6 +3510,14 @@ body.is-dragging-components-draggable {
   margin: 4px 0 4px 25px;
 }
 
+.components-notice__actions {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.components-notice__action.components-button {
+  margin-left: 8px;
+}
 .components-notice__action.components-button, .components-notice__action.components-button.is-link {
   margin-right: 12px;
 }
@@ -3531,7 +3541,6 @@ body.is-dragging-components-draggable {
 .components-notice-list {
   max-width: 100vw;
   box-sizing: border-box;
-  z-index: 29;
 }
 .components-notice-list .components-notice__content {
   margin-top: 12px;
@@ -3605,6 +3614,7 @@ body.is-dragging-components-draggable {
 @media (prefers-reduced-motion: reduce) {
   .components-panel__body > .components-panel__body-title {
     transition-duration: 0s;
+    transition-delay: 0s;
   }
 }
 
@@ -3620,7 +3630,7 @@ body.is-dragging-components-draggable {
 
 .components-panel__body-toggle.components-button {
   position: relative;
-  padding: 16px;
+  padding: 16px 16px 16px 48px;
   outline: none;
   width: 100%;
   font-weight: 500;
@@ -3634,10 +3644,10 @@ body.is-dragging-components-draggable {
 @media (prefers-reduced-motion: reduce) {
   .components-panel__body-toggle.components-button {
     transition-duration: 0s;
+    transition-delay: 0s;
   }
 }
 .components-panel__body-toggle.components-button:focus {
-  box-shadow: inset 0 0 0 2px #007cba;
   box-shadow: inset 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
   border-radius: 0;
 }
@@ -3653,6 +3663,7 @@ body.is-dragging-components-draggable {
 @media (prefers-reduced-motion: reduce) {
   .components-panel__body-toggle.components-button .components-panel__arrow {
     transition-duration: 0s;
+    transition-delay: 0s;
   }
 }
 body.rtl .components-panel__body-toggle.components-button .dashicons-arrow-right {
@@ -3715,7 +3726,7 @@ body.rtl .components-panel__body-toggle.components-button .dashicons-arrow-right
   box-shadow: inset 0 0 0 1px #1e1e1e;
   outline: 1px solid transparent;
 }
-@supports ((position: -webkit-sticky) or (position: sticky)) {
+@supports (position: sticky) {
   .components-placeholder.components-placeholder {
     display: flex;
     flex-direction: column;
@@ -3746,6 +3757,9 @@ body.rtl .components-panel__body-toggle.components-button .dashicons-arrow-right
 .components-placeholder__label .block-editor-block-icon {
   fill: currentColor;
   margin-left: 1ch;
+}
+.components-placeholder__label:empty {
+  display: none;
 }
 
 .components-placeholder__fieldset,
@@ -3783,6 +3797,7 @@ body.rtl .components-panel__body-toggle.components-button .dashicons-arrow-right
 @media (prefers-reduced-motion: reduce) {
   .components-placeholder__input[type=url] {
     transition-duration: 0s;
+    transition-delay: 0s;
   }
 }
 @media (min-width: 600px) {
@@ -3793,9 +3808,7 @@ body.rtl .components-panel__body-toggle.components-button .dashicons-arrow-right
   }
 }
 .components-placeholder__input[type=url]:focus {
-  border-color: #007cba;
   border-color: var(--wp-admin-theme-color);
-  box-shadow: 0 0 0 1px #007cba;
   box-shadow: 0 0 0 1px var(--wp-admin-theme-color);
   outline: 2px solid transparent;
 }
@@ -4093,6 +4106,7 @@ body.rtl .components-panel__body-toggle.components-button .dashicons-arrow-right
 @media (prefers-reduced-motion: reduce) {
   .components-radio-control__input[type=radio] {
     transition-duration: 0s;
+    transition-delay: 0s;
   }
 }
 @media (min-width: 600px) {
@@ -4103,9 +4117,7 @@ body.rtl .components-panel__body-toggle.components-button .dashicons-arrow-right
   }
 }
 .components-radio-control__input[type=radio]:focus {
-  border-color: #007cba;
   border-color: var(--wp-admin-theme-color);
-  box-shadow: 0 0 0 1px #007cba;
   box-shadow: 0 0 0 1px var(--wp-admin-theme-color);
   outline: 2px solid transparent;
 }
@@ -4136,6 +4148,7 @@ body.rtl .components-panel__body-toggle.components-button .dashicons-arrow-right
   }
 }
 .components-radio-control__input[type=radio]:checked::before {
+  box-sizing: inherit;
   width: 8px;
   height: 8px;
   transform: translate(-7px, 7px);
@@ -4149,14 +4162,11 @@ body.rtl .components-panel__body-toggle.components-button .dashicons-arrow-right
   }
 }
 .components-radio-control__input[type=radio]:focus {
-  box-shadow: 0 0 0 2px #fff, 0 0 0 4px #007cba;
   box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--wp-admin-theme-color);
   outline: 2px solid transparent;
 }
 .components-radio-control__input[type=radio]:checked {
-  background: #007cba;
   background: var(--wp-admin-theme-color);
-  border-color: #007cba;
   border-color: var(--wp-admin-theme-color);
 }
 
@@ -4175,10 +4185,9 @@ body.rtl .components-panel__body-toggle.components-button .dashicons-arrow-right
   content: "";
   width: 15px;
   height: 15px;
-  border: 2px solid #fff;
+  border: 2px solid var(--wp-admin-theme-color);
   border-radius: 50%;
-  background: #007cba;
-  background: var(--wp-admin-theme-color);
+  background: #fff;
   cursor: inherit;
   position: absolute;
   top: calc(50% - 8px);
@@ -4187,28 +4196,23 @@ body.rtl .components-panel__body-toggle.components-button .dashicons-arrow-right
 
 .components-resizable-box__side-handle::before {
   display: block;
+  border-radius: 2px;
   content: "";
-  width: 7px;
-  height: 7px;
-  border: 2px solid #fff;
-  background: #007cba;
+  width: 3px;
+  height: 3px;
   background: var(--wp-admin-theme-color);
   cursor: inherit;
   position: absolute;
-  top: calc(50% - 4px);
-  left: calc(50% - 4px);
+  top: calc(50% - 1px);
+  left: calc(50% - 1px);
   transition: transform 0.1s ease-in;
   opacity: 0;
 }
 @media (prefers-reduced-motion: reduce) {
   .components-resizable-box__side-handle::before {
     transition-duration: 0s;
+    transition-delay: 0s;
   }
-}
-
-.is-dark-theme .components-resizable-box__side-handle::before,
-.is-dark-theme .components-resizable-box__handle::after {
-  border-color: #ddd;
 }
 
 .components-resizable-box__side-handle {
@@ -4252,6 +4256,7 @@ body.rtl .components-panel__body-toggle.components-button .dashicons-arrow-right
 .components-resizable-box__side-handle.components-resizable-box__handle-top:active::before,
 .components-resizable-box__side-handle.components-resizable-box__handle-bottom:active::before {
     animation-duration: 1ms;
+    animation-delay: 0s;
   }
 }
 
@@ -4268,12 +4273,13 @@ body.rtl .components-panel__body-toggle.components-button .dashicons-arrow-right
 .components-resizable-box__side-handle.components-resizable-box__handle-left:active::before,
 .components-resizable-box__side-handle.components-resizable-box__handle-right:active::before {
     animation-duration: 1ms;
+    animation-delay: 0s;
   }
 }
 
 /* This CSS is shown only to Safari, which has a bug with table-caption making it jumpy.
 See https://bugs.webkit.org/show_bug.cgi?id=187903. */
-@media not all and (min-resolution: 0.001dpcm) {
+@media not all and (-webkit-min-device-pixel-ratio: 0), not all and (min-resolution: 0.001dpcm) {
   @supports (-webkit-appearance: none) {
     .components-resizable-box__side-handle.components-resizable-box__handle-top:hover::before,
 .components-resizable-box__side-handle.components-resizable-box__handle-bottom:hover::before,
@@ -4390,16 +4396,15 @@ body.lockscroll {
   max-width: 600px;
   box-sizing: border-box;
   cursor: pointer;
+  pointer-events: auto;
 }
 @media (min-width: 600px) {
   .components-snackbar {
-    width: -webkit-fit-content;
     width: -moz-fit-content;
     width: fit-content;
   }
 }
 .components-snackbar:focus {
-  box-shadow: 0 0 0 1px #fff, 0 0 0 3px #007cba;
   box-shadow: 0 0 0 1px #fff, 0 0 0 3px var(--wp-admin-theme-color);
 }
 .components-snackbar.components-snackbar-explicit-dismiss {
@@ -4436,7 +4441,6 @@ body.lockscroll {
   outline: 1px dotted #fff;
 }
 .components-snackbar__action.components-button:not(:disabled):not([aria-disabled=true]):not(.is-secondary):hover {
-  color: #007cba;
   color: var(--wp-admin-theme-color);
 }
 
@@ -4452,11 +4456,32 @@ body.lockscroll {
   z-index: 100000;
   width: 100%;
   box-sizing: border-box;
+  pointer-events: none;
 }
 
 .components-snackbar-list__notice-container {
   position: relative;
   padding-top: 8px;
+}
+
+.components-swatch {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  color: transparent;
+  background: transparent;
+}
+.components-swatch::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+}
+
+.components-button.has-icon.has-text .components-swatch {
+  margin-left: 8px;
 }
 
 .components-tab-panel__tabs {
@@ -4490,11 +4515,9 @@ body.lockscroll {
   visibility: hidden;
 }
 .components-tab-panel__tabs-item:focus:not(:disabled) {
-  box-shadow: inset 0 2px #007cba;
   box-shadow: inset 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
 }
 .components-tab-panel__tabs-item.is-active {
-  box-shadow: inset 0 0 0 2px transparent, inset 0 -4px 0 0 #007cba;
   box-shadow: inset 0 0 0 var(--wp-admin-border-width-focus) transparent, inset 0 -4px 0 0 var(--wp-admin-theme-color);
   position: relative;
 }
@@ -4508,11 +4531,9 @@ body.lockscroll {
   border-bottom: 4px solid transparent;
 }
 .components-tab-panel__tabs-item:focus {
-  box-shadow: inset 0 0 0 2px #007cba;
   box-shadow: inset 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
 }
 .components-tab-panel__tabs-item.is-active:focus {
-  box-shadow: inset 0 0 0 2px #007cba, inset 0 -4px 0 0 #007cba;
   box-shadow: inset 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color), inset 0 -4px 0 0 var(--wp-admin-theme-color);
 }
 
@@ -4558,6 +4579,7 @@ body.lockscroll {
 .components-text-control__input[type=month],
 .components-text-control__input[type=number] {
     transition-duration: 0s;
+    transition-delay: 0s;
   }
 }
 @media (min-width: 600px) {
@@ -4594,9 +4616,7 @@ body.lockscroll {
 .components-text-control__input[type=email]:focus,
 .components-text-control__input[type=month]:focus,
 .components-text-control__input[type=number]:focus {
-  border-color: #007cba;
   border-color: var(--wp-admin-theme-color);
-  box-shadow: 0 0 0 1px #007cba;
   box-shadow: 0 0 0 1px var(--wp-admin-theme-color);
   outline: 2px solid transparent;
 }
@@ -4704,8 +4724,7 @@ body.lockscroll {
   color: #757575;
 }
 .components-tip svg {
-  -ms-grid-row-align: center;
-      align-self: center;
+  align-self: center;
   fill: #f0b849;
   flex-shrink: 0;
   margin-left: 16px;
@@ -4767,6 +4786,7 @@ body.lockscroll {
   .components-accessible-toolbar .components-button::before,
 .components-toolbar .components-button::before {
     animation-duration: 1ms;
+    animation-delay: 0s;
   }
 }
 .components-accessible-toolbar .components-button svg,
@@ -4789,7 +4809,6 @@ body.lockscroll {
 }
 .components-accessible-toolbar .components-button:focus::before,
 .components-toolbar .components-button:focus::before {
-  box-shadow: inset 0 0 0 2px #007cba, inset 0 0 0 4px #fff;
   box-shadow: inset 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color), inset 0 0 0 4px #fff;
   outline: 2px solid transparent;
 }
@@ -4875,7 +4894,7 @@ div.components-toolbar > div {
   display: block;
   margin: 0;
 }
-@supports ((position: -webkit-sticky) or (position: sticky)) {
+@supports (position: sticky) {
   div.components-toolbar > div {
     display: flex;
   }
@@ -4897,61 +4916,175 @@ div.components-toolbar > div + div.has-left-divider::before {
   height: 20px;
 }
 
-.components-accessible-toolbar .components-toolbar-group > .components-button.components-button.has-icon,
-.components-toolbar div > .components-button.components-button.has-icon {
-  min-width: 36px;
-  padding-right: 6px;
-  padding-left: 6px;
-}
-.components-accessible-toolbar .components-toolbar-group > .components-button.components-button.has-icon svg,
-.components-toolbar div > .components-button.components-button.has-icon svg {
-  min-width: 24px;
-}
-.components-accessible-toolbar .components-toolbar-group > .components-button.components-button.has-icon::before,
-.components-toolbar div > .components-button.components-button.has-icon::before {
-  right: 2px;
-  left: 2px;
-}
-
-.components-accessible-toolbar .components-toolbar-group > .components-button:first-child.has-icon,
-.components-accessible-toolbar .components-toolbar-group > div:first-child > .components-button.has-icon,
-.components-toolbar div:first-child .components-button.has-icon {
-  min-width: 42px;
-  padding-right: 11px;
-  padding-left: 6px;
-}
-.components-accessible-toolbar .components-toolbar-group > .components-button:first-child.has-icon::before,
-.components-accessible-toolbar .components-toolbar-group > div:first-child > .components-button.has-icon::before,
-.components-toolbar div:first-child .components-button.has-icon::before {
-  right: 8px;
-  left: 2px;
-}
-
-.components-accessible-toolbar .components-toolbar-group > .components-button:last-of-type.has-icon,
-.components-accessible-toolbar .components-toolbar-group > div:last-child > .components-button.has-icon,
-.components-toolbar div:last-child .components-button.has-icon {
-  min-width: 42px;
-  padding-right: 6px;
-  padding-left: 11px;
-}
-.components-accessible-toolbar .components-toolbar-group > .components-button:last-of-type.has-icon::before,
-.components-accessible-toolbar .components-toolbar-group > div:last-child > .components-button.has-icon::before,
-.components-toolbar div:last-child .components-button.has-icon::before {
-  right: 2px;
-  left: 8px;
-}
-
-.components-accessible-toolbar .components-toolbar-group > .components-button:first-of-type:last-of-type.has-icon,
-.components-accessible-toolbar .components-toolbar-group > div:first-child:last-child > .components-button.has-icon,
-.components-toolbar div:first-child:last-child > .components-button.has-icon {
+.block-editor-block-toolbar > .components-toolbar > .block-editor-block-toolbar__slot > .components-button:first-child:last-child,
+.block-editor-block-toolbar > .components-toolbar > .block-editor-block-toolbar__slot > .components-dropdown:first-child:last-child .components-button, .block-editor-block-toolbar > .components-toolbar > .block-editor-block-toolbar__slot.components-dropdown > .components-button.components-button, .block-editor-block-toolbar > .components-toolbar > .block-editor-block-toolbar__slot.components-dropdown > * .components-button,
+.block-editor-block-toolbar > .components-toolbar-group > .block-editor-block-toolbar__slot > .components-button:first-child:last-child,
+.block-editor-block-toolbar > .components-toolbar-group > .block-editor-block-toolbar__slot > .components-dropdown:first-child:last-child .components-button,
+.block-editor-block-toolbar > .components-toolbar-group > .block-editor-block-toolbar__slot.components-dropdown > .components-button.components-button,
+.block-editor-block-toolbar > .components-toolbar-group > .block-editor-block-toolbar__slot.components-dropdown > * .components-button,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-toolbar > .components-button:first-child:last-child,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-toolbar > .components-dropdown:first-child:last-child .components-button,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-toolbar.components-dropdown > .components-button.components-button,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-toolbar.components-dropdown > * .components-button,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-dropdown > .components-button:first-child:last-child,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-dropdown > .components-dropdown:first-child:last-child .components-button,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-dropdown.components-dropdown > .components-button.components-button,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-dropdown.components-dropdown > * .components-button,
+.block-editor-block-toolbar .block-editor-block-toolbar__slot .components-toolbar-group > .components-button:first-child:last-child,
+.block-editor-block-toolbar .block-editor-block-toolbar__slot .components-toolbar-group > .components-dropdown:first-child:last-child .components-button,
+.block-editor-block-toolbar .block-editor-block-toolbar__slot .components-toolbar-group.components-dropdown > .components-button.components-button,
+.block-editor-block-toolbar .block-editor-block-toolbar__slot .components-toolbar-group.components-dropdown > * .components-button {
   min-width: 48px;
   padding-right: 12px;
   padding-left: 12px;
 }
-.components-accessible-toolbar .components-toolbar-group > .components-button:first-of-type:last-of-type.has-icon::before,
-.components-accessible-toolbar .components-toolbar-group > div:first-child:last-child > .components-button.has-icon::before,
-.components-toolbar div:first-child:last-child > .components-button.has-icon::before {
+.block-editor-block-toolbar > .components-toolbar > .block-editor-block-toolbar__slot > .components-button:first-child:last-child::before,
+.block-editor-block-toolbar > .components-toolbar > .block-editor-block-toolbar__slot > .components-dropdown:first-child:last-child .components-button::before, .block-editor-block-toolbar > .components-toolbar > .block-editor-block-toolbar__slot.components-dropdown > .components-button.components-button::before, .block-editor-block-toolbar > .components-toolbar > .block-editor-block-toolbar__slot.components-dropdown > * .components-button::before,
+.block-editor-block-toolbar > .components-toolbar-group > .block-editor-block-toolbar__slot > .components-button:first-child:last-child::before,
+.block-editor-block-toolbar > .components-toolbar-group > .block-editor-block-toolbar__slot > .components-dropdown:first-child:last-child .components-button::before,
+.block-editor-block-toolbar > .components-toolbar-group > .block-editor-block-toolbar__slot.components-dropdown > .components-button.components-button::before,
+.block-editor-block-toolbar > .components-toolbar-group > .block-editor-block-toolbar__slot.components-dropdown > * .components-button::before,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-toolbar > .components-button:first-child:last-child::before,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-toolbar > .components-dropdown:first-child:last-child .components-button::before,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-toolbar.components-dropdown > .components-button.components-button::before,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-toolbar.components-dropdown > * .components-button::before,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-dropdown > .components-button:first-child:last-child::before,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-dropdown > .components-dropdown:first-child:last-child .components-button::before,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-dropdown.components-dropdown > .components-button.components-button::before,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-dropdown.components-dropdown > * .components-button::before,
+.block-editor-block-toolbar .block-editor-block-toolbar__slot .components-toolbar-group > .components-button:first-child:last-child::before,
+.block-editor-block-toolbar .block-editor-block-toolbar__slot .components-toolbar-group > .components-dropdown:first-child:last-child .components-button::before,
+.block-editor-block-toolbar .block-editor-block-toolbar__slot .components-toolbar-group.components-dropdown > .components-button.components-button::before,
+.block-editor-block-toolbar .block-editor-block-toolbar__slot .components-toolbar-group.components-dropdown > * .components-button::before {
   right: 8px;
+  left: 8px;
+}
+.block-editor-block-toolbar > .components-toolbar > .block-editor-block-toolbar__slot > .components-button:first-child,
+.block-editor-block-toolbar > .components-toolbar > .block-editor-block-toolbar__slot > div:first-child > .components-button,
+.block-editor-block-toolbar > .components-toolbar > .block-editor-block-toolbar__slot > .components-dropdown:first-child .components-button,
+.block-editor-block-toolbar > .components-toolbar-group > .block-editor-block-toolbar__slot > .components-button:first-child,
+.block-editor-block-toolbar > .components-toolbar-group > .block-editor-block-toolbar__slot > div:first-child > .components-button,
+.block-editor-block-toolbar > .components-toolbar-group > .block-editor-block-toolbar__slot > .components-dropdown:first-child .components-button,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-toolbar > .components-button:first-child,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-toolbar > div:first-child > .components-button,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-toolbar > .components-dropdown:first-child .components-button,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-dropdown > .components-button:first-child,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-dropdown > div:first-child > .components-button,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-dropdown > .components-dropdown:first-child .components-button,
+.block-editor-block-toolbar .block-editor-block-toolbar__slot .components-toolbar-group > .components-button:first-child,
+.block-editor-block-toolbar .block-editor-block-toolbar__slot .components-toolbar-group > div:first-child > .components-button,
+.block-editor-block-toolbar .block-editor-block-toolbar__slot .components-toolbar-group > .components-dropdown:first-child .components-button {
+  min-width: 42px;
+  padding-right: 11px;
+  padding-left: 6px;
+}
+.block-editor-block-toolbar > .components-toolbar > .block-editor-block-toolbar__slot > .components-button:first-child::before,
+.block-editor-block-toolbar > .components-toolbar > .block-editor-block-toolbar__slot > div:first-child > .components-button::before,
+.block-editor-block-toolbar > .components-toolbar > .block-editor-block-toolbar__slot > .components-dropdown:first-child .components-button::before,
+.block-editor-block-toolbar > .components-toolbar-group > .block-editor-block-toolbar__slot > .components-button:first-child::before,
+.block-editor-block-toolbar > .components-toolbar-group > .block-editor-block-toolbar__slot > div:first-child > .components-button::before,
+.block-editor-block-toolbar > .components-toolbar-group > .block-editor-block-toolbar__slot > .components-dropdown:first-child .components-button::before,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-toolbar > .components-button:first-child::before,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-toolbar > div:first-child > .components-button::before,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-toolbar > .components-dropdown:first-child .components-button::before,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-dropdown > .components-button:first-child::before,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-dropdown > div:first-child > .components-button::before,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-dropdown > .components-dropdown:first-child .components-button::before,
+.block-editor-block-toolbar .block-editor-block-toolbar__slot .components-toolbar-group > .components-button:first-child::before,
+.block-editor-block-toolbar .block-editor-block-toolbar__slot .components-toolbar-group > div:first-child > .components-button::before,
+.block-editor-block-toolbar .block-editor-block-toolbar__slot .components-toolbar-group > .components-dropdown:first-child .components-button::before {
+  right: 8px;
+  left: 2px;
+}
+.block-editor-block-toolbar > .components-toolbar > .block-editor-block-toolbar__slot > .components-button,
+.block-editor-block-toolbar > .components-toolbar > .block-editor-block-toolbar__slot > div > .components-button,
+.block-editor-block-toolbar > .components-toolbar > .block-editor-block-toolbar__slot > .components-dropdown .components-button,
+.block-editor-block-toolbar > .components-toolbar-group > .block-editor-block-toolbar__slot > .components-button,
+.block-editor-block-toolbar > .components-toolbar-group > .block-editor-block-toolbar__slot > div > .components-button,
+.block-editor-block-toolbar > .components-toolbar-group > .block-editor-block-toolbar__slot > .components-dropdown .components-button,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-toolbar > .components-button,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-toolbar > div > .components-button,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-toolbar > .components-dropdown .components-button,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-dropdown > .components-button,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-dropdown > div > .components-button,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-dropdown > .components-dropdown .components-button,
+.block-editor-block-toolbar .block-editor-block-toolbar__slot .components-toolbar-group > .components-button,
+.block-editor-block-toolbar .block-editor-block-toolbar__slot .components-toolbar-group > div > .components-button,
+.block-editor-block-toolbar .block-editor-block-toolbar__slot .components-toolbar-group > .components-dropdown .components-button {
+  min-width: 36px;
+  padding-right: 6px;
+  padding-left: 6px;
+}
+.block-editor-block-toolbar > .components-toolbar > .block-editor-block-toolbar__slot > .components-button svg,
+.block-editor-block-toolbar > .components-toolbar > .block-editor-block-toolbar__slot > div > .components-button svg,
+.block-editor-block-toolbar > .components-toolbar > .block-editor-block-toolbar__slot > .components-dropdown .components-button svg,
+.block-editor-block-toolbar > .components-toolbar-group > .block-editor-block-toolbar__slot > .components-button svg,
+.block-editor-block-toolbar > .components-toolbar-group > .block-editor-block-toolbar__slot > div > .components-button svg,
+.block-editor-block-toolbar > .components-toolbar-group > .block-editor-block-toolbar__slot > .components-dropdown .components-button svg,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-toolbar > .components-button svg,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-toolbar > div > .components-button svg,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-toolbar > .components-dropdown .components-button svg,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-dropdown > .components-button svg,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-dropdown > div > .components-button svg,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-dropdown > .components-dropdown .components-button svg,
+.block-editor-block-toolbar .block-editor-block-toolbar__slot .components-toolbar-group > .components-button svg,
+.block-editor-block-toolbar .block-editor-block-toolbar__slot .components-toolbar-group > div > .components-button svg,
+.block-editor-block-toolbar .block-editor-block-toolbar__slot .components-toolbar-group > .components-dropdown .components-button svg {
+  min-width: 24px;
+}
+.block-editor-block-toolbar > .components-toolbar > .block-editor-block-toolbar__slot > .components-button::before,
+.block-editor-block-toolbar > .components-toolbar > .block-editor-block-toolbar__slot > div > .components-button::before,
+.block-editor-block-toolbar > .components-toolbar > .block-editor-block-toolbar__slot > .components-dropdown .components-button::before,
+.block-editor-block-toolbar > .components-toolbar-group > .block-editor-block-toolbar__slot > .components-button::before,
+.block-editor-block-toolbar > .components-toolbar-group > .block-editor-block-toolbar__slot > div > .components-button::before,
+.block-editor-block-toolbar > .components-toolbar-group > .block-editor-block-toolbar__slot > .components-dropdown .components-button::before,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-toolbar > .components-button::before,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-toolbar > div > .components-button::before,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-toolbar > .components-dropdown .components-button::before,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-dropdown > .components-button::before,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-dropdown > div > .components-button::before,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-dropdown > .components-dropdown .components-button::before,
+.block-editor-block-toolbar .block-editor-block-toolbar__slot .components-toolbar-group > .components-button::before,
+.block-editor-block-toolbar .block-editor-block-toolbar__slot .components-toolbar-group > div > .components-button::before,
+.block-editor-block-toolbar .block-editor-block-toolbar__slot .components-toolbar-group > .components-dropdown .components-button::before {
+  right: 2px;
+  left: 2px;
+}
+.block-editor-block-toolbar > .components-toolbar > .block-editor-block-toolbar__slot > .components-button:last-child,
+.block-editor-block-toolbar > .components-toolbar > .block-editor-block-toolbar__slot > div:last-child > .components-button,
+.block-editor-block-toolbar > .components-toolbar > .block-editor-block-toolbar__slot > .components-dropdown:last-child .components-button,
+.block-editor-block-toolbar > .components-toolbar-group > .block-editor-block-toolbar__slot > .components-button:last-child,
+.block-editor-block-toolbar > .components-toolbar-group > .block-editor-block-toolbar__slot > div:last-child > .components-button,
+.block-editor-block-toolbar > .components-toolbar-group > .block-editor-block-toolbar__slot > .components-dropdown:last-child .components-button,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-toolbar > .components-button:last-child,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-toolbar > div:last-child > .components-button,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-toolbar > .components-dropdown:last-child .components-button,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-dropdown > .components-button:last-child,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-dropdown > div:last-child > .components-button,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-dropdown > .components-dropdown:last-child .components-button,
+.block-editor-block-toolbar .block-editor-block-toolbar__slot .components-toolbar-group > .components-button:last-child,
+.block-editor-block-toolbar .block-editor-block-toolbar__slot .components-toolbar-group > div:last-child > .components-button,
+.block-editor-block-toolbar .block-editor-block-toolbar__slot .components-toolbar-group > .components-dropdown:last-child .components-button {
+  min-width: 42px;
+  padding-right: 6px;
+  padding-left: 11px;
+}
+.block-editor-block-toolbar > .components-toolbar > .block-editor-block-toolbar__slot > .components-button:last-child::before,
+.block-editor-block-toolbar > .components-toolbar > .block-editor-block-toolbar__slot > div:last-child > .components-button::before,
+.block-editor-block-toolbar > .components-toolbar > .block-editor-block-toolbar__slot > .components-dropdown:last-child .components-button::before,
+.block-editor-block-toolbar > .components-toolbar-group > .block-editor-block-toolbar__slot > .components-button:last-child::before,
+.block-editor-block-toolbar > .components-toolbar-group > .block-editor-block-toolbar__slot > div:last-child > .components-button::before,
+.block-editor-block-toolbar > .components-toolbar-group > .block-editor-block-toolbar__slot > .components-dropdown:last-child .components-button::before,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-toolbar > .components-button:last-child::before,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-toolbar > div:last-child > .components-button::before,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-toolbar > .components-dropdown:last-child .components-button::before,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-dropdown > .components-button:last-child::before,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-dropdown > div:last-child > .components-button::before,
+.block-editor-block-toolbar > .block-editor-block-toolbar__slot > .components-dropdown > .components-dropdown:last-child .components-button::before,
+.block-editor-block-toolbar .block-editor-block-toolbar__slot .components-toolbar-group > .components-button:last-child::before,
+.block-editor-block-toolbar .block-editor-block-toolbar__slot .components-toolbar-group > div:last-child > .components-button::before,
+.block-editor-block-toolbar .block-editor-block-toolbar__slot .components-toolbar-group > .components-dropdown:last-child .components-button::before {
+  right: 2px;
   left: 8px;
 }
 

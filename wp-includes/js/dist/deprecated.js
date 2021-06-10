@@ -104,15 +104,16 @@ __webpack_require__.r(__webpack_exports__);
  * Object map tracking messages which have been logged, for use in ensuring a
  * message is only logged once.
  *
- * @type {Record<string,true|undefined>}
+ * @type {Record<string, true | undefined>}
  */
 
-var logged = Object.create(null);
+const logged = Object.create(null);
 /**
  * Logs a message to notify developers about a deprecated feature.
  *
  * @param {string} feature               Name of the deprecated feature.
  * @param {Object} [options]             Personalisation options
+ * @param {string} [options.since]       Version in which the feature was deprecated.
  * @param {string} [options.version]     Version in which the feature will be removed.
  * @param {string} [options.alternative] Feature to use instead
  * @param {string} [options.plugin]      Plugin name if it's a plugin feature
@@ -124,29 +125,33 @@ var logged = Object.create(null);
  * import deprecated from '@wordpress/deprecated';
  *
  * deprecated( 'Eating meat', {
- * 	version: 'the future',
+ * 	since: '2019.01.01'
+ * 	version: '2020.01.01',
  * 	alternative: 'vegetables',
  * 	plugin: 'the earth',
  * 	hint: 'You may find it beneficial to transition gradually.',
  * } );
  *
- * // Logs: 'Eating meat is deprecated and will be removed from the earth in the future. Please use vegetables instead. Note: You may find it beneficial to transition gradually.'
+ * // Logs: 'Eating meat is deprecated since version 2019.01.01 and will be removed from the earth in version 2020.01.01. Please use vegetables instead. Note: You may find it beneficial to transition gradually.'
  * ```
  */
 
-function deprecated(feature) {
-  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  var version = options.version,
-      alternative = options.alternative,
-      plugin = options.plugin,
-      link = options.link,
-      hint = options.hint;
-  var pluginMessage = plugin ? " from ".concat(plugin) : '';
-  var versionMessage = version ? " and will be removed".concat(pluginMessage, " in version ").concat(version) : '';
-  var useInsteadMessage = alternative ? " Please use ".concat(alternative, " instead.") : '';
-  var linkMessage = link ? " See: ".concat(link) : '';
-  var hintMessage = hint ? " Note: ".concat(hint) : '';
-  var message = "".concat(feature, " is deprecated").concat(versionMessage, ".").concat(useInsteadMessage).concat(linkMessage).concat(hintMessage); // Skip if already logged.
+function deprecated(feature, options = {}) {
+  const {
+    since,
+    version,
+    alternative,
+    plugin,
+    link,
+    hint
+  } = options;
+  const pluginMessage = plugin ? ` from ${plugin}` : '';
+  const sinceMessage = since ? ` since version ${since}` : '';
+  const versionMessage = version ? ` and will be removed${pluginMessage} in version ${version}` : '';
+  const useInsteadMessage = alternative ? ` Please use ${alternative} instead.` : '';
+  const linkMessage = link ? ` See: ${link}` : '';
+  const hintMessage = hint ? ` Note: ${hint}` : '';
+  const message = `${feature} is deprecated${sinceMessage}${versionMessage}.${useInsteadMessage}${linkMessage}${hintMessage}`; // Skip if already logged.
 
   if (message in logged) {
     return;
@@ -156,6 +161,7 @@ function deprecated(feature) {
    *
    * @param {string}  feature             Name of the deprecated feature.
    * @param {?Object} options             Personalisation options
+   * @param {string}  options.since       Version in which the feature was deprecated.
    * @param {?string} options.version     Version in which the feature will be removed.
    * @param {?string} options.alternative Feature to use instead
    * @param {?string} options.plugin      Plugin name if it's a plugin feature
@@ -170,6 +176,7 @@ function deprecated(feature) {
   console.warn(message);
   logged[message] = true;
 }
+/** @typedef {import('utility-types').NonUndefined<Parameters<typeof deprecated>[1]>} DeprecatedOptions */
 
 
 /***/ }),

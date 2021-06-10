@@ -162,7 +162,7 @@ function next_widget_id_number( $id_base ) {
 	$number = 1;
 
 	foreach ( $wp_registered_widgets as $widget_id => $widget ) {
-		if ( preg_match( '/' . $id_base . '-([0-9]+)$/', $widget_id, $matches ) ) {
+		if ( preg_match( '/' . preg_quote( $id_base, '/' ) . '-([0-9]+)$/', $widget_id, $matches ) ) {
 			$number = max( $number, $matches[1] );
 		}
 	}

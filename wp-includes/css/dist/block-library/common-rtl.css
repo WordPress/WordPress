@@ -68,9 +68,6 @@
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
-/**
- * These are default block editor widths in case the theme doesn't provide them.
- */
 :root {
   --wp-admin-theme-color: #007cba;
   --wp-admin-theme-color-darker-10: #006ba1;
@@ -225,10 +222,6 @@
 :root .has-midnight-gradient-background {
   background: linear-gradient(-135deg, #020381 0%, #2874fc 100%);
 }
-:root .has-link-color a {
-  color: #00e;
-  color: var(--wp--style--color--link, #00e);
-}
 
 .has-small-font-size {
   font-size: 0.8125em;
@@ -270,4 +263,52 @@
 
 .aligncenter {
   clear: both;
+}
+
+.items-justified-left {
+  justify-content: flex-start;
+}
+
+.items-justified-center {
+  justify-content: center;
+}
+
+.items-justified-right {
+  justify-content: flex-end;
+}
+
+.items-justified-space-between {
+  justify-content: space-between;
+}
+
+.screen-reader-text {
+  border: 0;
+  clip: rect(1px, 1px, 1px, 1px);
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  word-wrap: normal !important;
+}
+
+.screen-reader-text:focus {
+  background-color: #ddd;
+  clip: auto !important;
+  -webkit-clip-path: none;
+          clip-path: none;
+  color: #444;
+  display: block;
+  font-size: 1em;
+  height: auto;
+  right: 5px;
+  line-height: normal;
+  padding: 15px 23px 14px;
+  text-decoration: none;
+  top: 5px;
+  width: auto;
+  z-index: 100000;
 }

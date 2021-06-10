@@ -899,10 +899,8 @@ function validate_current_theme() {
  * Uses the information from `Requires at least` and `Requires PHP` headers
  * defined in the theme's `style.css` file.
  *
- * If the headers are not present in the theme's stylesheet file,
- * `readme.txt` is also checked as a fallback.
- *
  * @since 5.5.0
+ * @since 5.8.0 Removed support for using `readme.txt` as a fallback.
  *
  * @param string $stylesheet Directory name for the theme.
  * @return true|WP_Error True if requirements are met, WP_Error on failure.
@@ -914,21 +912,6 @@ function validate_theme_requirements( $stylesheet ) {
 		'requires'     => ! empty( $theme->get( 'RequiresWP' ) ) ? $theme->get( 'RequiresWP' ) : '',
 		'requires_php' => ! empty( $theme->get( 'RequiresPHP' ) ) ? $theme->get( 'RequiresPHP' ) : '',
 	);
-
-	$readme_file = $theme->theme_root . '/' . $stylesheet . '/readme.txt';
-
-	if ( file_exists( $readme_file ) ) {
-		$readme_headers = get_file_data(
-			$readme_file,
-			array(
-				'requires'     => 'Requires at least',
-				'requires_php' => 'Requires PHP',
-			),
-			'theme'
-		);
-
-		$requirements = array_merge( $readme_headers, $requirements );
-	}
 
 	$compatible_wp  = is_wp_version_compatible( $requirements['requires'] );
 	$compatible_php = is_php_version_compatible( $requirements['requires_php'] );

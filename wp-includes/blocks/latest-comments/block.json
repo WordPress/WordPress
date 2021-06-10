@@ -1,7 +1,11 @@
 {
 	"apiVersion": 2,
 	"name": "core/latest-comments",
+	"title": "Latest Comments",
 	"category": "widgets",
+	"description": "Display a list of your most recent comments.",
+	"keywords": [ "recent comments" ],
+	"textdomain": "default",
 	"attributes": {
 		"commentsToShow": {
 			"type": "number",

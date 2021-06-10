@@ -649,7 +649,7 @@ if ( strlen( $usersearch ) ) {
 		<?php $wp_list_table->display(); ?>
 </form>
 
-<div class="clear" /></div>
+<div class="clear"></div>
 </div>
 		<?php
 		break;

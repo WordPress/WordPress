@@ -331,7 +331,7 @@ function _wp_put_post_revision( $post = null, $autosave = false ) {
 	$post = _wp_post_revision_data( $post, $autosave );
 	$post = wp_slash( $post ); // Since data is from DB.
 
-	$revision_id = wp_insert_post( $post );
+	$revision_id = wp_insert_post( $post, true );
 	if ( is_wp_error( $revision_id ) ) {
 		return $revision_id;
 	}
@@ -371,12 +371,12 @@ function wp_get_post_revision( &$post, $output = OBJECT, $filter = 'raw' ) {
 		return null;
 	}
 
-	if ( OBJECT == $output ) {
+	if ( OBJECT === $output ) {
 		return $revision;
-	} elseif ( ARRAY_A == $output ) {
+	} elseif ( ARRAY_A === $output ) {
 		$_revision = get_object_vars( $revision );
 		return $_revision;
-	} elseif ( ARRAY_N == $output ) {
+	} elseif ( ARRAY_N === $output ) {
 		$_revision = array_values( get_object_vars( $revision ) );
 		return $_revision;
 	}
@@ -564,7 +564,24 @@ function wp_revisions_to_keep( $post ) {
 	 * @param int     $num  Number of revisions to store.
 	 * @param WP_Post $post Post object.
 	 */
-	return (int) apply_filters( 'wp_revisions_to_keep', $num, $post );
+	$num = apply_filters( 'wp_revisions_to_keep', $num, $post );
+
+	/**
+	 * Filters the number of revisions to save for the given post by its post type.
+	 *
+	 * Overrides both the value of WP_POST_REVISIONS and the {@see 'wp_revisions_to_keep'} filter.
+	 *
+	 * The dynamic portion of the hook name, `$post->post_type`, refers to
+	 * the post type slug.
+	 *
+	 * @since 5.8.0
+	 *
+	 * @param int     $num  Number of revisions to store.
+	 * @param WP_Post $post Post object.
+	 */
+	$num = apply_filters( "wp_{$post->post_type}_revisions_to_keep", $num, $post );
+
+	return (int) $num;
 }
 
 /**

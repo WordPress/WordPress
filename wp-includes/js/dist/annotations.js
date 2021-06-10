@@ -120,9 +120,6 @@ __webpack_require__.d(actions_namespaceObject, "__experimentalRemoveAnnotation",
 __webpack_require__.d(actions_namespaceObject, "__experimentalUpdateAnnotationRange", function() { return __experimentalUpdateAnnotationRange; });
 __webpack_require__.d(actions_namespaceObject, "__experimentalRemoveAnnotationsBySource", function() { return __experimentalRemoveAnnotationsBySource; });
 
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js
-var objectWithoutProperties = __webpack_require__("Ff2n");
-
 // EXTERNAL MODULE: external ["wp","richText"]
 var external_wp_richText_ = __webpack_require__("qRz9");
 
@@ -135,7 +132,7 @@ var external_wp_i18n_ = __webpack_require__("l3Sj");
  *
  * @type {string}
  */
-var STORE_NAME = 'core/annotations';
+const STORE_NAME = 'core/annotations';
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/annotations/build-module/format/annotation.js
 /**
@@ -143,8 +140,8 @@ var STORE_NAME = 'core/annotations';
  */
 
 
-var FORMAT_NAME = 'core/annotation';
-var ANNOTATION_ATTRIBUTE_PREFIX = 'annotation-text-';
+const FORMAT_NAME = 'core/annotation';
+const ANNOTATION_ATTRIBUTE_PREFIX = 'annotation-text-';
 /**
  * Internal dependencies
  */
@@ -158,11 +155,12 @@ var ANNOTATION_ATTRIBUTE_PREFIX = 'annotation-text-';
  * @return {Object} A record with the annotations applied.
  */
 
-function applyAnnotations(record) {
-  var annotations = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-  annotations.forEach(function (annotation) {
-    var start = annotation.start,
-        end = annotation.end;
+function applyAnnotations(record, annotations = []) {
+  annotations.forEach(annotation => {
+    let {
+      start,
+      end
+    } = annotation;
 
     if (start > record.text.length) {
       start = record.text.length;
@@ -172,13 +170,13 @@ function applyAnnotations(record) {
       end = record.text.length;
     }
 
-    var className = ANNOTATION_ATTRIBUTE_PREFIX + annotation.source;
-    var id = ANNOTATION_ATTRIBUTE_PREFIX + annotation.id;
+    const className = ANNOTATION_ATTRIBUTE_PREFIX + annotation.source;
+    const id = ANNOTATION_ATTRIBUTE_PREFIX + annotation.id;
     record = Object(external_wp_richText_["applyFormat"])(record, {
       type: FORMAT_NAME,
       attributes: {
-        className: className,
-        id: id
+        className,
+        id
       }
     }, start, end);
   });
@@ -202,14 +200,14 @@ function removeAnnotations(record) {
  */
 
 function retrieveAnnotationPositions(formats) {
-  var positions = {};
-  formats.forEach(function (characterFormats, i) {
+  const positions = {};
+  formats.forEach((characterFormats, i) => {
     characterFormats = characterFormats || [];
-    characterFormats = characterFormats.filter(function (format) {
-      return format.type === FORMAT_NAME;
-    });
-    characterFormats.forEach(function (format) {
-      var id = format.attributes.id;
+    characterFormats = characterFormats.filter(format => format.type === FORMAT_NAME);
+    characterFormats.forEach(format => {
+      let {
+        id
+      } = format.attributes;
       id = id.replace(ANNOTATION_ATTRIBUTE_PREFIX, '');
 
       if (!positions.hasOwnProperty(id)) {
@@ -237,11 +235,12 @@ function retrieveAnnotationPositions(formats) {
  */
 
 
-function updateAnnotationsWithPositions(annotations, positions, _ref) {
-  var removeAnnotation = _ref.removeAnnotation,
-      updateAnnotationRange = _ref.updateAnnotationRange;
-  annotations.forEach(function (currentAnnotation) {
-    var position = positions[currentAnnotation.id]; // If we cannot find an annotation, delete it.
+function updateAnnotationsWithPositions(annotations, positions, {
+  removeAnnotation,
+  updateAnnotationRange
+}) {
+  annotations.forEach(currentAnnotation => {
+    const position = positions[currentAnnotation.id]; // If we cannot find an annotation, delete it.
 
     if (!position) {
       // Apparently the annotation has been removed, so remove it from the state:
@@ -250,8 +249,10 @@ function updateAnnotationsWithPositions(annotations, positions, _ref) {
       return;
     }
 
-    var start = currentAnnotation.start,
-        end = currentAnnotation.end;
+    const {
+      start,
+      end
+    } = currentAnnotation;
 
     if (start !== position.start || end !== position.end) {
       updateAnnotationRange(currentAnnotation.id, position.start, position.end);
@@ -259,7 +260,7 @@ function updateAnnotationsWithPositions(annotations, positions, _ref) {
   });
 }
 
-var annotation_annotation = {
+const annotation_annotation = {
   name: FORMAT_NAME,
   title: Object(external_wp_i18n_["__"])('Annotation'),
   tagName: 'mark',
@@ -268,54 +269,62 @@ var annotation_annotation = {
     className: 'class',
     id: 'id'
   },
-  edit: function edit() {
+
+  edit() {
     return null;
   },
-  __experimentalGetPropsForEditableTreePreparation: function __experimentalGetPropsForEditableTreePreparation(select, _ref2) {
-    var richTextIdentifier = _ref2.richTextIdentifier,
-        blockClientId = _ref2.blockClientId;
+
+  __experimentalGetPropsForEditableTreePreparation(select, {
+    richTextIdentifier,
+    blockClientId
+  }) {
     return {
       annotations: select(STORE_NAME).__experimentalGetAnnotationsForRichText(blockClientId, richTextIdentifier)
     };
   },
-  __experimentalCreatePrepareEditableTree: function __experimentalCreatePrepareEditableTree(_ref3) {
-    var annotations = _ref3.annotations;
-    return function (formats, text) {
+
+  __experimentalCreatePrepareEditableTree({
+    annotations
+  }) {
+    return (formats, text) => {
       if (annotations.length === 0) {
         return formats;
       }
 
-      var record = {
-        formats: formats,
-        text: text
+      let record = {
+        formats,
+        text
       };
       record = applyAnnotations(record, annotations);
       return record.formats;
     };
   },
-  __experimentalGetPropsForEditableTreeChangeHandler: function __experimentalGetPropsForEditableTreeChangeHandler(dispatch) {
+
+  __experimentalGetPropsForEditableTreeChangeHandler(dispatch) {
     return {
       removeAnnotation: dispatch(STORE_NAME).__experimentalRemoveAnnotation,
       updateAnnotationRange: dispatch(STORE_NAME).__experimentalUpdateAnnotationRange
     };
   },
-  __experimentalCreateOnChangeEditableValue: function __experimentalCreateOnChangeEditableValue(props) {
-    return function (formats) {
-      var positions = retrieveAnnotationPositions(formats);
-      var removeAnnotation = props.removeAnnotation,
-          updateAnnotationRange = props.updateAnnotationRange,
-          annotations = props.annotations;
+
+  __experimentalCreateOnChangeEditableValue(props) {
+    return formats => {
+      const positions = retrieveAnnotationPositions(formats);
+      const {
+        removeAnnotation,
+        updateAnnotationRange,
+        annotations
+      } = props;
       updateAnnotationsWithPositions(annotations, positions, {
-        removeAnnotation: removeAnnotation,
-        updateAnnotationRange: updateAnnotationRange
+        removeAnnotation,
+        updateAnnotationRange
       });
     };
   }
+
 };
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/annotations/build-module/format/index.js
-
-
 /**
  * WordPress dependencies
  */
@@ -325,10 +334,10 @@ var annotation_annotation = {
  */
 
 
-
-var format_name = annotation_annotation.name,
-    settings = Object(objectWithoutProperties["a" /* default */])(annotation_annotation, ["name"]);
-
+const {
+  name: format_name,
+  ...settings
+} = annotation_annotation;
 Object(external_wp_richText_["registerFormatType"])(format_name, settings);
 
 // EXTERNAL MODULE: external ["wp","hooks"]
@@ -355,40 +364,27 @@ var external_wp_data_ = __webpack_require__("1ZqX");
  * @return {Object} The enhanced component.
  */
 
-var block_addAnnotationClassName = function addAnnotationClassName(OriginalComponent) {
-  return Object(external_wp_data_["withSelect"])(function (select, _ref) {
-    var clientId = _ref.clientId,
-        className = _ref.className;
-
-    var annotations = select(STORE_NAME).__experimentalGetAnnotationsForBlock(clientId);
+const addAnnotationClassName = OriginalComponent => {
+  return Object(external_wp_data_["withSelect"])((select, {
+    clientId,
+    className
+  }) => {
+    const annotations = select(STORE_NAME).__experimentalGetAnnotationsForBlock(clientId);
 
     return {
-      className: annotations.map(function (annotation) {
+      className: annotations.map(annotation => {
         return 'is-annotated-by-' + annotation.source;
       }).concat(className).filter(Boolean).join(' ')
     };
   })(OriginalComponent);
 };
 
-Object(external_wp_hooks_["addFilter"])('editor.BlockListBlock', 'core/annotations', block_addAnnotationClassName);
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js + 2 modules
-var toConsumableArray = __webpack_require__("KQm4");
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
-var defineProperty = __webpack_require__("rePB");
+Object(external_wp_hooks_["addFilter"])('editor.BlockListBlock', 'core/annotations', addAnnotationClassName);
 
 // EXTERNAL MODULE: external "lodash"
 var external_lodash_ = __webpack_require__("YLtl");
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/annotations/build-module/store/reducer.js
-
-
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
 /**
  * External dependencies
  */
@@ -404,7 +400,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
  */
 
 function filterWithReference(collection, predicate) {
-  var filteredCollection = collection.filter(predicate);
+  const filteredCollection = collection.filter(predicate);
   return collection.length === filteredCollection.length ? collection : filteredCollection;
 }
 /**
@@ -428,18 +424,15 @@ function isValidAnnotationRange(annotation) {
  */
 
 
-function reducer_annotations() {
+function reducer_annotations(state = {}, action) {
   var _state$blockClientId;
-
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var action = arguments.length > 1 ? arguments[1] : undefined;
 
   switch (action.type) {
     case 'ANNOTATION_ADD':
-      var blockClientId = action.blockClientId;
-      var newAnnotation = {
+      const blockClientId = action.blockClientId;
+      const newAnnotation = {
         id: action.id,
-        blockClientId: blockClientId,
+        blockClientId,
         richTextIdentifier: action.richTextIdentifier,
         source: action.source,
         selector: action.selector,
@@ -450,28 +443,30 @@ function reducer_annotations() {
         return state;
       }
 
-      var previousAnnotationsForBlock = (_state$blockClientId = state === null || state === void 0 ? void 0 : state[blockClientId]) !== null && _state$blockClientId !== void 0 ? _state$blockClientId : [];
-      return _objectSpread(_objectSpread({}, state), {}, Object(defineProperty["a" /* default */])({}, blockClientId, [].concat(Object(toConsumableArray["a" /* default */])(previousAnnotationsForBlock), [newAnnotation])));
+      const previousAnnotationsForBlock = (_state$blockClientId = state === null || state === void 0 ? void 0 : state[blockClientId]) !== null && _state$blockClientId !== void 0 ? _state$blockClientId : [];
+      return { ...state,
+        [blockClientId]: [...previousAnnotationsForBlock, newAnnotation]
+      };
 
     case 'ANNOTATION_REMOVE':
-      return Object(external_lodash_["mapValues"])(state, function (annotationsForBlock) {
-        return filterWithReference(annotationsForBlock, function (annotation) {
+      return Object(external_lodash_["mapValues"])(state, annotationsForBlock => {
+        return filterWithReference(annotationsForBlock, annotation => {
           return annotation.id !== action.annotationId;
         });
       });
 
     case 'ANNOTATION_UPDATE_RANGE':
-      return Object(external_lodash_["mapValues"])(state, function (annotationsForBlock) {
-        var hasChangedRange = false;
-        var newAnnotations = annotationsForBlock.map(function (annotation) {
+      return Object(external_lodash_["mapValues"])(state, annotationsForBlock => {
+        let hasChangedRange = false;
+        const newAnnotations = annotationsForBlock.map(annotation => {
           if (annotation.id === action.annotationId) {
             hasChangedRange = true;
-            return _objectSpread(_objectSpread({}, annotation), {}, {
+            return { ...annotation,
               range: {
                 start: action.start,
                 end: action.end
               }
-            });
+            };
           }
 
           return annotation;
@@ -480,8 +475,8 @@ function reducer_annotations() {
       });
 
     case 'ANNOTATION_REMOVE_SOURCE':
-      return Object(external_lodash_["mapValues"])(state, function (annotationsForBlock) {
-        return filterWithReference(annotationsForBlock, function (annotation) {
+      return Object(external_lodash_["mapValues"])(state, annotationsForBlock => {
+        return filterWithReference(annotationsForBlock, annotation => {
           return annotation.source !== action.source;
         });
       });
@@ -495,13 +490,6 @@ function reducer_annotations() {
 var rememo = __webpack_require__("pPDe");
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/annotations/build-module/store/selectors.js
-
-
-
-function selectors_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function selectors_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { selectors_ownKeys(Object(source), true).forEach(function (key) { Object(defineProperty["a" /* default */])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { selectors_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
 /**
  * External dependencies
  */
@@ -517,7 +505,7 @@ function selectors_objectSpread(target) { for (var i = 1; i < arguments.length; 
  * @type {Array}
  */
 
-var EMPTY_ARRAY = [];
+const EMPTY_ARRAY = [];
 /**
  * Returns the annotations for a specific client ID.
  *
@@ -527,13 +515,13 @@ var EMPTY_ARRAY = [];
  * @return {Array} The annotations applicable to this block.
  */
 
-var __experimentalGetAnnotationsForBlock = Object(rememo["a" /* default */])(function (state, blockClientId) {
+const __experimentalGetAnnotationsForBlock = Object(rememo["a" /* default */])((state, blockClientId) => {
   var _state$blockClientId;
 
-  return ((_state$blockClientId = state === null || state === void 0 ? void 0 : state[blockClientId]) !== null && _state$blockClientId !== void 0 ? _state$blockClientId : []).filter(function (annotation) {
+  return ((_state$blockClientId = state === null || state === void 0 ? void 0 : state[blockClientId]) !== null && _state$blockClientId !== void 0 ? _state$blockClientId : []).filter(annotation => {
     return annotation.selector === 'block';
   });
-}, function (state, blockClientId) {
+}, (state, blockClientId) => {
   var _state$blockClientId2;
 
   return [(_state$blockClientId2 = state === null || state === void 0 ? void 0 : state[blockClientId]) !== null && _state$blockClientId2 !== void 0 ? _state$blockClientId2 : EMPTY_ARRAY];
@@ -556,18 +544,21 @@ function __experimentalGetAllAnnotationsForBlock(state, blockClientId) {
  * @return {Array} All the annotations relevant for the `RichText`.
  */
 
-var __experimentalGetAnnotationsForRichText = Object(rememo["a" /* default */])(function (state, blockClientId, richTextIdentifier) {
+const __experimentalGetAnnotationsForRichText = Object(rememo["a" /* default */])((state, blockClientId, richTextIdentifier) => {
   var _state$blockClientId4;
 
-  return ((_state$blockClientId4 = state === null || state === void 0 ? void 0 : state[blockClientId]) !== null && _state$blockClientId4 !== void 0 ? _state$blockClientId4 : []).filter(function (annotation) {
+  return ((_state$blockClientId4 = state === null || state === void 0 ? void 0 : state[blockClientId]) !== null && _state$blockClientId4 !== void 0 ? _state$blockClientId4 : []).filter(annotation => {
     return annotation.selector === 'range' && richTextIdentifier === annotation.richTextIdentifier;
-  }).map(function (annotation) {
-    var range = annotation.range,
-        other = Object(objectWithoutProperties["a" /* default */])(annotation, ["range"]);
-
-    return selectors_objectSpread(selectors_objectSpread({}, range), other);
+  }).map(annotation => {
+    const {
+      range,
+      ...other
+    } = annotation;
+    return { ...range,
+      ...other
+    };
   });
-}, function (state, blockClientId) {
+}, (state, blockClientId) => {
   var _state$blockClientId5;
 
   return [(_state$blockClientId5 = state === null || state === void 0 ? void 0 : state[blockClientId]) !== null && _state$blockClientId5 !== void 0 ? _state$blockClientId5 : EMPTY_ARRAY];
@@ -580,7 +571,7 @@ var __experimentalGetAnnotationsForRichText = Object(rememo["a" /* default */])(
  */
 
 function __experimentalGetAnnotations(state) {
-  return Object(external_lodash_["flatMap"])(state, function (annotations) {
+  return Object(external_lodash_["flatMap"])(state, annotations => {
     return annotations;
   });
 }
@@ -621,25 +612,21 @@ var v4 = __webpack_require__("7Cbv");
  * @return {Object} Action object.
  */
 
-function __experimentalAddAnnotation(_ref) {
-  var blockClientId = _ref.blockClientId,
-      _ref$richTextIdentifi = _ref.richTextIdentifier,
-      richTextIdentifier = _ref$richTextIdentifi === void 0 ? null : _ref$richTextIdentifi,
-      _ref$range = _ref.range,
-      range = _ref$range === void 0 ? null : _ref$range,
-      _ref$selector = _ref.selector,
-      selector = _ref$selector === void 0 ? 'range' : _ref$selector,
-      _ref$source = _ref.source,
-      source = _ref$source === void 0 ? 'default' : _ref$source,
-      _ref$id = _ref.id,
-      id = _ref$id === void 0 ? Object(v4["a" /* default */])() : _ref$id;
-  var action = {
+function __experimentalAddAnnotation({
+  blockClientId,
+  richTextIdentifier = null,
+  range = null,
+  selector = 'range',
+  source = 'default',
+  id = Object(v4["a" /* default */])()
+}) {
+  const action = {
     type: 'ANNOTATION_ADD',
-    id: id,
-    blockClientId: blockClientId,
-    richTextIdentifier: richTextIdentifier,
-    source: source,
-    selector: selector
+    id,
+    blockClientId,
+    richTextIdentifier,
+    source,
+    selector
   };
 
   if (selector === 'range') {
@@ -659,7 +646,7 @@ function __experimentalAddAnnotation(_ref) {
 function __experimentalRemoveAnnotation(annotationId) {
   return {
     type: 'ANNOTATION_REMOVE',
-    annotationId: annotationId
+    annotationId
   };
 }
 /**
@@ -675,9 +662,9 @@ function __experimentalRemoveAnnotation(annotationId) {
 function __experimentalUpdateAnnotationRange(annotationId, start, end) {
   return {
     type: 'ANNOTATION_UPDATE_RANGE',
-    annotationId: annotationId,
-    start: start,
-    end: end
+    annotationId,
+    start,
+    end
   };
 }
 /**
@@ -691,7 +678,7 @@ function __experimentalUpdateAnnotationRange(annotationId, start, end) {
 function __experimentalRemoveAnnotationsBySource(source) {
   return {
     type: 'ANNOTATION_REMOVE_SOURCE',
-    source: source
+    source
   };
 }
 
@@ -720,7 +707,7 @@ function __experimentalRemoveAnnotationsBySource(source) {
  * @type {Object}
  */
 
-var store = Object(external_wp_data_["createReduxStore"])(STORE_NAME, {
+const store = Object(external_wp_data_["createReduxStore"])(STORE_NAME, {
   reducer: reducer,
   selectors: selectors_namespaceObject,
   actions: actions_namespaceObject
@@ -735,17 +722,6 @@ Object(external_wp_data_["register"])(store);
 
 
 
-
-/***/ }),
-
-/***/ "25BE":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _iterableToArray; });
-function _iterableToArray(iter) {
-  if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
-}
 
 /***/ }),
 
@@ -843,110 +819,10 @@ function v4(options, buf, offset) {
 
 /***/ }),
 
-/***/ "BsWD":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _unsupportedIterableToArray; });
-/* harmony import */ var _babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("a3WO");
-
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return Object(_babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Object(_babel_runtime_helpers_esm_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
-}
-
-/***/ }),
-
-/***/ "Ff2n":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectWithoutProperties; });
-/* harmony import */ var _babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("zLVn");
-
-function _objectWithoutProperties(source, excluded) {
-  if (source == null) return {};
-  var target = Object(_babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(source, excluded);
-  var key, i;
-
-  if (Object.getOwnPropertySymbols) {
-    var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-
-    for (i = 0; i < sourceSymbolKeys.length; i++) {
-      key = sourceSymbolKeys[i];
-      if (excluded.indexOf(key) >= 0) continue;
-      if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
-      target[key] = source[key];
-    }
-  }
-
-  return target;
-}
-
-/***/ }),
-
-/***/ "KQm4":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _toConsumableArray; });
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js
-var arrayLikeToArray = __webpack_require__("a3WO");
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
-
-function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) return Object(arrayLikeToArray["a" /* default */])(arr);
-}
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-var iterableToArray = __webpack_require__("25BE");
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
-var unsupportedIterableToArray = __webpack_require__("BsWD");
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
-function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
-
-
-
-
-function _toConsumableArray(arr) {
-  return _arrayWithoutHoles(arr) || Object(iterableToArray["a" /* default */])(arr) || Object(unsupportedIterableToArray["a" /* default */])(arr) || _nonIterableSpread();
-}
-
-/***/ }),
-
 /***/ "YLtl":
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["lodash"]; }());
-
-/***/ }),
-
-/***/ "a3WO":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _arrayLikeToArray; });
-function _arrayLikeToArray(arr, len) {
-  if (len == null || len > arr.length) len = arr.length;
-
-  for (var i = 0, arr2 = new Array(len); i < len; i++) {
-    arr2[i] = arr[i];
-  }
-
-  return arr2;
-}
 
 /***/ }),
 
@@ -1250,50 +1126,6 @@ function isShallowEqual( a, b, fromIndex ) {
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["richText"]; }());
-
-/***/ }),
-
-/***/ "rePB":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _defineProperty; });
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
-
-/***/ }),
-
-/***/ "zLVn":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectWithoutPropertiesLoose; });
-function _objectWithoutPropertiesLoose(source, excluded) {
-  if (source == null) return {};
-  var target = {};
-  var sourceKeys = Object.keys(source);
-  var key, i;
-
-  for (i = 0; i < sourceKeys.length; i++) {
-    key = sourceKeys[i];
-    if (excluded.indexOf(key) >= 0) continue;
-    target[key] = source[key];
-  }
-
-  return target;
-}
 
 /***/ })
 

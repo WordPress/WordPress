@@ -16,8 +16,8 @@
  *
  * @since 1.5.0
  *
- * @param string $type      Filename without extension.
- * @param array  $templates An optional list of template candidates
+ * @param string   $type      Filename without extension.
+ * @param string[] $templates An optional list of template candidates.
  * @return string Full path to template file.
  */
 function get_query_template( $type, $templates = array() ) {
@@ -30,18 +30,40 @@ function get_query_template( $type, $templates = array() ) {
 	/**
 	 * Filters the list of template filenames that are searched for when retrieving a template to use.
 	 *
+	 * The dynamic portion of the hook name, `$type`, refers to the filename -- minus the file
+	 * extension and any non-alphanumeric characters delimiting words -- of the file to load.
 	 * The last element in the array should always be the fallback template for this query type.
 	 *
-	 * Possible values for `$type` include: 'index', '404', 'archive', 'author', 'category', 'tag', 'taxonomy', 'date',
-	 * 'embed', 'home', 'frontpage', 'privacypolicy', 'page', 'paged', 'search', 'single', 'singular', and 'attachment'.
+	 * Possible hook names include:
+	 *
+	 *  - `404_template_hierarchy`
+	 *  - `archive_template_hierarchy`
+	 *  - `attachment_template_hierarchy`
+	 *  - `author_template_hierarchy`
+	 *  - `category_template_hierarchy`
+	 *  - `date_template_hierarchy`
+	 *  - `embed_template_hierarchy`
+	 *  - `frontpage_template_hierarchy`
+	 *  - `home_template_hierarchy`
+	 *  - `index_template_hierarchy`
+	 *  - `page_template_hierarchy`
+	 *  - `paged_template_hierarchy`
+	 *  - `privacypolicy_template_hierarchy`
+	 *  - `search_template_hierarchy`
+	 *  - `single_template_hierarchy`
+	 *  - `singular_template_hierarchy`
+	 *  - `tag_template_hierarchy`
+	 *  - `taxonomy_template_hierarchy`
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param array $templates A list of template candidates, in descending order of priority.
+	 * @param string[] $templates A list of template candidates, in descending order of priority.
 	 */
 	$templates = apply_filters( "{$type}_template_hierarchy", $templates );
 
 	$template = locate_template( $templates );
+
+	$template = locate_block_template( $template, $type, $templates );
 
 	/**
 	 * Filters the path of the queried template by type.
@@ -50,15 +72,33 @@ function get_query_template( $type, $templates = array() ) {
 	 * extension and any non-alphanumeric characters delimiting words -- of the file to load.
 	 * This hook also applies to various types of files loaded as part of the Template Hierarchy.
 	 *
-	 * Possible values for `$type` include: 'index', '404', 'archive', 'author', 'category', 'tag', 'taxonomy', 'date',
-	 * 'embed', 'home', 'frontpage', 'privacypolicy', 'page', 'paged', 'search', 'single', 'singular', and 'attachment'.
+	 * Possible hook names include:
+	 *
+	 *  - `404_template`
+	 *  - `archive_template`
+	 *  - `attachment_template`
+	 *  - `author_template`
+	 *  - `category_template`
+	 *  - `date_template`
+	 *  - `embed_template`
+	 *  - `frontpage_template`
+	 *  - `home_template`
+	 *  - `index_template`
+	 *  - `page_template`
+	 *  - `paged_template`
+	 *  - `privacypolicy_template`
+	 *  - `search_template`
+	 *  - `single_template`
+	 *  - `singular_template`
+	 *  - `tag_template`
+	 *  - `taxonomy_template`
 	 *
 	 * @since 1.5.0
 	 * @since 4.8.0 The `$type` and `$templates` parameters were added.
 	 *
-	 * @param string $template  Path to the template. See locate_template().
-	 * @param string $type      Sanitized filename without extension.
-	 * @param array  $templates A list of template candidates, in descending order of priority.
+	 * @param string   $template  Path to the template. See locate_template().
+	 * @param string   $type      Sanitized filename without extension.
+	 * @param string[] $templates A list of template candidates, in descending order of priority.
 	 */
 	return apply_filters( "{$type}_template", $template, $type, $templates );
 }

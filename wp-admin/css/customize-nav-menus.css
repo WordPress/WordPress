@@ -512,7 +512,6 @@
 	transition: background-color 0.15s;
 	/* Reset the value inherited from the base .accordion-section-title style. Ticket #37589. */
 	-webkit-user-select: auto;
-	-ms-user-select: auto;
 	user-select: auto;
 }
 

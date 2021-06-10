@@ -1706,6 +1706,12 @@ function get_comment_reply_link( $args = array(), $comment = null, $post = null 
 		return false;
 	}
 
+	if ( get_option( 'page_comments' ) ) {
+		$permalink = str_replace( '#comment-' . $comment->comment_ID, '', get_comment_link( $comment ) );
+	} else {
+		$permalink = get_permalink( $post->ID );
+	}
+
 	/**
 	 * Filters the comment reply link arguments.
 	 *
@@ -1750,7 +1756,7 @@ function get_comment_reply_link( $args = array(), $comment = null, $post = null 
 						'unapproved'      => false,
 						'moderation-hash' => false,
 					),
-					get_permalink( $post->ID )
+					$permalink
 				)
 			) . '#' . $args['respond_id'],
 			$data_attribute_string,

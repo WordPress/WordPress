@@ -1,7 +1,11 @@
 {
 	"apiVersion": 2,
 	"name": "core/social-links",
+	"title": "Social Icons",
 	"category": "widgets",
+	"description": "Display icons linking to your social media profiles or websites.",
+	"keywords": [ "links" ],
+	"textdomain": "default",
 	"attributes": {
 		"iconColor": {
 			"type": "string"
@@ -35,13 +39,14 @@
 		"iconBackgroundColorValue": "iconBackgroundColorValue"
 	},
 	"supports": {
-		"align": [
-			"left",
-			"center",
-			"right"
-		],
+		"align": [ "left", "center", "right" ],
 		"anchor": true
 	},
+	"styles": [
+		{ "name": "default", "label": "Default", "isDefault": true },
+		{ "name": "logos-only", "label": "Logos Only" },
+		{ "name": "pill-shape", "label": "Pill Shape" }
+	],
 	"editorStyle": "wp-block-social-links-editor",
 	"style": "wp-block-social-links"
 }

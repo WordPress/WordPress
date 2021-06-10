@@ -1568,7 +1568,13 @@ function do_feed() {
 	 * Fires once the given feed is loaded.
 	 *
 	 * The dynamic portion of the hook name, `$feed`, refers to the feed template name.
-	 * Possible values include: 'rdf', 'rss', 'rss2', and 'atom'.
+	 *
+	 * Possible hook names include:
+	 *
+	 *  - `do_feed_atom`
+	 *  - `do_feed_rdf`
+	 *  - `do_feed_rss`
+	 *  - `do_feed_rss2`
 	 *
 	 * @since 2.1.0
 	 * @since 4.4.0 The `$feed` parameter was added.
@@ -2880,6 +2886,7 @@ function wp_check_filetype_and_ext( $file, $filename, $mimes = null ) {
 					'image/gif'  => 'gif',
 					'image/bmp'  => 'bmp',
 					'image/tiff' => 'tif',
+					'image/webp' => 'webp',
 				)
 			);
 
@@ -3037,6 +3044,7 @@ function wp_check_filetype_and_ext( $file, $filename, $mimes = null ) {
  * This depends on exif_imagetype() or getimagesize() to determine real mime types.
  *
  * @since 4.7.1
+ * @since 5.8.0 Added support for WebP images.
  *
  * @param string $file Full path to the file.
  * @return string|false The actual mime type or false if the type cannot be determined.
@@ -3052,11 +3060,52 @@ function wp_get_image_mime( $file ) {
 			$imagetype = exif_imagetype( $file );
 			$mime      = ( $imagetype ) ? image_type_to_mime_type( $imagetype ) : false;
 		} elseif ( function_exists( 'getimagesize' ) ) {
-			$imagesize = wp_getimagesize( $file );
-			$mime      = ( isset( $imagesize['mime'] ) ) ? $imagesize['mime'] : false;
+			// Don't silence errors when in debug mode, unless running unit tests.
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG
+				&& ! defined( 'WP_RUN_CORE_TESTS' )
+			) {
+				// Not using wp_getimagesize() here to avoid an infinite loop.
+				$imagesize = getimagesize( $file );
+			} else {
+				// phpcs:ignore WordPress.PHP.NoSilencedErrors
+				$imagesize = @getimagesize( $file );
+			}
+
+			$mime = ( isset( $imagesize['mime'] ) ) ? $imagesize['mime'] : false;
 		} else {
 			$mime = false;
 		}
+
+		if ( false !== $mime ) {
+			return $mime;
+		}
+
+		$handle = fopen( $file, 'rb' );
+		if ( false === $handle ) {
+			return false;
+		}
+
+		$magic = fread( $handle, 12 );
+		if ( false === $magic ) {
+			return false;
+		}
+
+		/*
+		 * Add WebP fallback detection when image library doesn't support WebP.
+		 * Note: detection values come from LibWebP, see
+		 * https://github.com/webmproject/libwebp/blob/master/imageio/image_dec.c#L30
+		 */
+		$magic = bin2hex( $magic );
+		if (
+			// RIFF.
+			( 0 === strpos( $magic, '52494646' ) ) &&
+			// WEBP.
+			( 16 === strpos( $magic, '57454250' ) )
+		) {
+			$mime = 'image/webp';
+		}
+
+		fclose( $handle );
 	} catch ( Exception $e ) {
 		$mime = false;
 	}
@@ -3095,6 +3144,7 @@ function wp_get_mime_types() {
 			'png'                          => 'image/png',
 			'bmp'                          => 'image/bmp',
 			'tiff|tif'                     => 'image/tiff',
+			'webp'                         => 'image/webp',
 			'ico'                          => 'image/x-icon',
 			'heic'                         => 'image/heic',
 			// Video formats.
@@ -3216,7 +3266,7 @@ function wp_get_ext_types() {
 	return apply_filters(
 		'ext2type',
 		array(
-			'image'       => array( 'jpg', 'jpeg', 'jpe', 'gif', 'png', 'bmp', 'tif', 'tiff', 'ico', 'heic' ),
+			'image'       => array( 'jpg', 'jpeg', 'jpe', 'gif', 'png', 'bmp', 'tif', 'tiff', 'ico', 'heic', 'webp' ),
 			'audio'       => array( 'aac', 'ac3', 'aif', 'aiff', 'flac', 'm3a', 'm4a', 'm4b', 'mka', 'mp1', 'mp2', 'mp3', 'ogg', 'oga', 'ram', 'wav', 'wma' ),
 			'video'       => array( '3g2', '3gp', '3gpp', 'asf', 'avi', 'divx', 'dv', 'flv', 'm4v', 'mkv', 'mov', 'mp4', 'mpeg', 'mpg', 'mpv', 'ogm', 'ogv', 'qt', 'rm', 'vob', 'wmv' ),
 			'document'    => array( 'doc', 'docx', 'docm', 'dotm', 'odt', 'pages', 'pdf', 'xps', 'oxps', 'rtf', 'wp', 'wpd', 'psd', 'xcf' ),
@@ -4483,6 +4533,7 @@ function wp_parse_list( $list ) {
  * Cleans up an array, comma- or space-separated list of IDs.
  *
  * @since 3.0.0
+ * @since 5.1.0 Refactored to use wp_parse_list().
  *
  * @param array|string $list List of IDs.
  * @return int[] Sanitized array of IDs.
@@ -4497,6 +4548,7 @@ function wp_parse_id_list( $list ) {
  * Cleans up an array, comma- or space-separated list of slugs.
  *
  * @since 4.7.0
+ * @since 5.1.0 Refactored to use wp_parse_list().
  *
  * @param array|string $list List of slugs.
  * @return string[] Sanitized array of slugs.
@@ -4543,7 +4595,7 @@ function wp_array_slice_assoc( $array, $keys ) {
  *             ),
  *         ),
  *     );
- *     _wp_array_get( $array, array( 'a', 'b', 'c' );
+ *     _wp_array_get( $array, array( 'a', 'b', 'c' ) );
  *
  * @internal
  *
@@ -4577,6 +4629,75 @@ function _wp_array_get( $array, $path, $default = null ) {
 }
 
 /**
+ * Sets an array in depth based on a path of keys.
+ *
+ * It is the PHP equivalent of JavaScript's `lodash.set()` and mirroring it may help other components
+ * retain some symmetry between client and server implementations.
+ *
+ * Example usage:
+ *
+ *     $array = array();
+ *     _wp_array_set( $array, array( 'a', 'b', 'c', 1 ) );
+ *
+ *     $array becomes:
+ *     array(
+ *         'a' => array(
+ *             'b' => array(
+ *                 'c' => 1,
+ *             ),
+ *         ),
+ *     );
+ *
+ * @internal
+ *
+ * @since 5.8.0
+ * @access private
+ *
+ * @param array $array An array that we want to mutate to include a specific value in a path.
+ * @param array $path  An array of keys describing the path that we want to mutate.
+ * @param mixed $value The value that will be set.
+ */
+function _wp_array_set( &$array, $path, $value = null ) {
+	// Confirm $array is valid.
+	if ( ! is_array( $array ) ) {
+		return;
+	}
+
+	// Confirm $path is valid.
+	if ( ! is_array( $path ) ) {
+		return;
+	}
+
+	$path_length = count( $path );
+
+	if ( 0 === $path_length ) {
+		return;
+	}
+
+	foreach ( $path as $path_element ) {
+		if (
+			! is_string( $path_element ) && ! is_integer( $path_element ) &&
+			! is_null( $path_element )
+		) {
+			return;
+		}
+	}
+
+	for ( $i = 0; $i < $path_length - 1; ++$i ) {
+		$path_element = $path[ $i ];
+		if (
+			! array_key_exists( $path_element, $array ) ||
+			! is_array( $array[ $path_element ] )
+		) {
+			$array[ $path_element ] = array();
+		}
+		$array = &$array[ $path_element ]; // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.VariableRedeclaration
+	}
+
+	$array[ $path[ $i ] ] = $value;
+}
+
+/**
  * Determines if the variable is a numeric-indexed array.
  *
  * @since 4.4.0
@@ -4598,18 +4719,29 @@ function wp_is_numeric_array( $data ) {
 /**
  * Filters a list of objects, based on a set of key => value arguments.
  *
+ * Retrieves the objects from the list that match the given arguments.
+ * Key represents property name, and value represents property value.
+ *
+ * If an object has more properties than those specified in arguments,
+ * that will not disqualify it. When using the 'AND' operator,
+ * any missing properties will disqualify it.
+ *
+ * When using the `$field` argument, this function can also retrieve
+ * a particular field from all matching objects, whereas wp_list_filter()
+ * only does the filtering.
+ *
  * @since 3.0.0
  * @since 4.7.0 Uses `WP_List_Util` class.
  *
- * @param array       $list     An array of objects to filter
+ * @param array       $list     An array of objects to filter.
  * @param array       $args     Optional. An array of key => value arguments to match
  *                              against each object. Default empty array.
- * @param string      $operator Optional. The logical operation to perform. 'or' means
- *                              only one element from the array needs to match; 'and'
- *                              means all elements must match; 'not' means no elements may
- *                              match. Default 'and'.
- * @param bool|string $field    A field from the object to place instead of the entire object.
- *                              Default false.
+ * @param string      $operator Optional. The logical operation to perform. 'AND' means
+ *                              all elements from the array must match. 'OR' means only
+ *                              one element needs to match. 'NOT' means no elements may
+ *                              match. Default 'AND'.
+ * @param bool|string $field    Optional. A field from the object to place instead
+ *                              of the entire object. Default false.
  * @return array A list of objects or object fields.
  */
 function wp_filter_object_list( $list, $args = array(), $operator = 'and', $field = false ) {
@@ -4631,6 +4763,16 @@ function wp_filter_object_list( $list, $args = array(), $operator = 'and', $fiel
 /**
  * Filters a list of objects, based on a set of key => value arguments.
  *
+ * Retrieves the objects from the list that match the given arguments.
+ * Key represents property name, and value represents property value.
+ *
+ * If an object has more properties than those specified in arguments,
+ * that will not disqualify it. When using the 'AND' operator,
+ * any missing properties will disqualify it.
+ *
+ * If you want to retrieve a particular field from all matching objects,
+ * use wp_filter_object_list() instead.
+ *
  * @since 3.1.0
  * @since 4.7.0 Uses `WP_List_Util` class.
  *
@@ -4649,6 +4791,7 @@ function wp_list_filter( $list, $args = array(), $operator = 'AND' ) {
 	}
 
 	$util = new WP_List_Util( $list );
+
 	return $util->filter( $args, $operator );
 }
 
@@ -4662,8 +4805,8 @@ function wp_list_filter( $list, $args = array(), $operator = 'AND' ) {
  * @since 4.0.0 $index_key parameter added.
  * @since 4.7.0 Uses `WP_List_Util` class.
  *
- * @param array      $list      List of objects or arrays
- * @param int|string $field     Field from the object to place instead of the entire object
+ * @param array      $list      List of objects or arrays.
+ * @param int|string $field     Field from the object to place instead of the entire object.
  * @param int|string $index_key Optional. Field from the object to use as keys for the new array.
  *                              Default null.
  * @return array Array of found values. If `$index_key` is set, an array of found values with keys
@@ -4672,6 +4815,7 @@ function wp_list_filter( $list, $args = array(), $operator = 'AND' ) {
  */
 function wp_list_pluck( $list, $field, $index_key = null ) {
 	$util = new WP_List_Util( $list );
+
 	return $util->pluck( $field, $index_key );
 }
 
@@ -4694,6 +4838,7 @@ function wp_list_sort( $list, $orderby = array(), $order = 'ASC', $preserve_keys
 	}
 
 	$util = new WP_List_Util( $list );
+
 	return $util->sort( $orderby, $order, $preserve_keys );
 }
 
@@ -6743,7 +6888,13 @@ function mbstring_binary_safe_encoding( $reset = false ) {
 	static $overloaded = null;
 
 	if ( is_null( $overloaded ) ) {
-		$overloaded = function_exists( 'mb_internal_encoding' ) && ( ini_get( 'mbstring.func_overload' ) & 2 ); // phpcs:ignore PHPCompatibility.IniDirectives.RemovedIniDirectives.mbstring_func_overloadDeprecated
+		if ( function_exists( 'mb_internal_encoding' )
+			&& ( (int) ini_get( 'mbstring.func_overload' ) & 2 ) // phpcs:ignore PHPCompatibility.IniDirectives.RemovedIniDirectives.mbstring_func_overloadDeprecated
+		) {
+			$overloaded = true;
+		} else {
+			$overloaded = false;
+		}
 	}
 
 	if ( false === $overloaded ) {

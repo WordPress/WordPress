@@ -1,7 +1,11 @@
 {
 	"apiVersion": 2,
 	"name": "core/rss",
+	"title": "RSS",
 	"category": "widgets",
+	"description": "Display entries from any RSS or Atom feed.",
+	"keywords": [ "atom", "feed" ],
+	"textdomain": "default",
 	"attributes": {
 		"columns": {
 			"type": "number",

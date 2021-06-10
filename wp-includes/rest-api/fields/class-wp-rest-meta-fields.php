@@ -94,8 +94,10 @@ abstract class WP_REST_Meta_Fields {
 			} else {
 				$value = array();
 
-				foreach ( $all_values as $row ) {
-					$value[] = $this->prepare_value_for_response( $row, $request, $args );
+				if ( is_array( $all_values ) ) {
+					foreach ( $all_values as $row ) {
+						$value[] = $this->prepare_value_for_response( $row, $request, $args );
+					}
 				}
 			}
 
@@ -281,6 +283,10 @@ abstract class WP_REST_Meta_Fields {
 		$current_values = get_metadata( $meta_type, $object_id, $meta_key, false );
 		$subtype        = get_object_subtype( $meta_type, $object_id );
 
+		if ( ! is_array( $current_values ) ) {
+			$current_values = array();
+		}
+
 		$to_remove = $current_values;
 		$to_add    = $values;
 
@@ -377,7 +383,9 @@ abstract class WP_REST_Meta_Fields {
 		$old_value = get_metadata( $meta_type, $object_id, $meta_key );
 		$subtype   = get_object_subtype( $meta_type, $object_id );
 
-		if ( 1 === count( $old_value ) && $this->is_meta_value_same_as_stored_value( $meta_key, $subtype, $old_value[0], $value ) ) {
+		if ( is_array( $old_value ) && 1 === count( $old_value )
+			&& $this->is_meta_value_same_as_stored_value( $meta_key, $subtype, $old_value[0], $value )
+		) {
 			return true;
 		}
 

@@ -113,18 +113,18 @@ function isShallowEqualObjects(a, b) {
     return true;
   }
 
-  var aKeys = Object.keys(a);
-  var bKeys = Object.keys(b);
+  const aKeys = Object.keys(a);
+  const bKeys = Object.keys(b);
 
   if (aKeys.length !== bKeys.length) {
     return false;
   }
 
-  var i = 0;
+  let i = 0;
 
   while (i < aKeys.length) {
-    var key = aKeys[i];
-    var aValue = a[key];
+    const key = aKeys[i];
+    const aValue = a[key];
 
     if ( // In iterating only the keys of the first object after verifying
     // equal lengths, account for the case that an explicit `undefined`
@@ -159,7 +159,7 @@ function isShallowEqualArrays(a, b) {
     return false;
   }
 
-  for (var i = 0, len = a.length; i < len; i++) {
+  for (let i = 0, len = a.length; i < len; i++) {
     if (a[i] !== b[i]) {
       return false;
     }

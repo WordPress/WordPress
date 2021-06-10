@@ -1,0 +1,151 @@
+/**
+ * Colors
+ */
+/**
+ * Breakpoints & Media Queries
+ */
+/**
+ * SCSS Variables.
+ *
+ * Please use variables from this sheet to ensure consistency across the UI.
+ * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
+ * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
+ */
+/**
+ * Colors
+ */
+/**
+ * Fonts & basic variables.
+ */
+/**
+ * Grid System.
+ * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
+ */
+/**
+ * Dimensions.
+ */
+/**
+ * Shadows.
+ */
+/**
+ * Editor widths.
+ */
+/**
+ * Block & Editor UI.
+ */
+/**
+ * Block paddings.
+ */
+/**
+ * React Native specific.
+ * These variables do not appear to be used anywhere else.
+ */
+/**
+ * Breakpoint mixins
+ */
+/**
+ * Long content fade mixin
+ *
+ * Creates a fading overlay to signify that the content is longer
+ * than the space allows.
+ */
+/**
+ * Focus styles.
+ */
+/**
+ * Applies editor left position to the selector passed as argument
+ */
+/**
+ * Styles that are reused verbatim in a few places
+ */
+/**
+ * Allows users to opt-out of animations via OS-level preferences.
+ */
+/**
+ * Reset default styles for JavaScript UI based pages.
+ * This is a WP-admin agnostic reset
+ */
+/**
+ * Reset the WP Admin page styles for Gutenberg-like pages.
+ */
+.wp-block-table {
+  margin: 0 0 1em 0;
+  overflow-x: auto;
+}
+.wp-block-table table {
+  border-collapse: collapse;
+  width: 100%;
+}
+.wp-block-table .has-fixed-layout {
+  table-layout: fixed;
+  width: 100%;
+}
+.wp-block-table .has-fixed-layout td,
+.wp-block-table .has-fixed-layout th {
+  word-break: break-word;
+}
+.wp-block-table.alignleft, .wp-block-table.aligncenter, .wp-block-table.alignright {
+  display: table;
+  width: auto;
+}
+.wp-block-table.alignleft td,
+.wp-block-table.alignleft th, .wp-block-table.aligncenter td,
+.wp-block-table.aligncenter th, .wp-block-table.alignright td,
+.wp-block-table.alignright th {
+  word-break: break-word;
+}
+.wp-block-table .has-subtle-light-gray-background-color {
+  background-color: #f3f4f5;
+}
+.wp-block-table .has-subtle-pale-green-background-color {
+  background-color: #e9fbe5;
+}
+.wp-block-table .has-subtle-pale-blue-background-color {
+  background-color: #e7f5fe;
+}
+.wp-block-table .has-subtle-pale-pink-background-color {
+  background-color: #fcf0ef;
+}
+.wp-block-table.is-style-stripes {
+  border-spacing: 0;
+  border-collapse: inherit;
+  background-color: transparent;
+  border-bottom: 1px solid #f0f0f0;
+}
+.wp-block-table.is-style-stripes tbody tr:nth-child(odd) {
+  background-color: #f0f0f0;
+}
+.wp-block-table.is-style-stripes.has-subtle-light-gray-background-color tbody tr:nth-child(odd) {
+  background-color: #f3f4f5;
+}
+.wp-block-table.is-style-stripes.has-subtle-pale-green-background-color tbody tr:nth-child(odd) {
+  background-color: #e9fbe5;
+}
+.wp-block-table.is-style-stripes.has-subtle-pale-blue-background-color tbody tr:nth-child(odd) {
+  background-color: #e7f5fe;
+}
+.wp-block-table.is-style-stripes.has-subtle-pale-pink-background-color tbody tr:nth-child(odd) {
+  background-color: #fcf0ef;
+}
+.wp-block-table.is-style-stripes th,
+.wp-block-table.is-style-stripes td {
+  border-color: transparent;
+}
+.wp-block-table .has-border-color > *,
+.wp-block-table .has-border-color tr,
+.wp-block-table .has-border-color th,
+.wp-block-table .has-border-color td {
+  border-color: inherit;
+}
+.wp-block-table table[style*=border-style] > *,
+.wp-block-table table[style*=border-style] tr,
+.wp-block-table table[style*=border-style] th,
+.wp-block-table table[style*=border-style] td {
+  border-style: inherit;
+}
+.wp-block-table table[style*=border-width] > *,
+.wp-block-table table[style*=border-width] tr,
+.wp-block-table table[style*=border-width] th,
+.wp-block-table table[style*=border-width] td {
+  border-width: inherit;
+}

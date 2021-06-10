@@ -169,24 +169,27 @@ function _wp_translate_postdata( $update = false, $post_data = null ) {
 	}
 
 	if ( ! empty( $post_data['edit_date'] ) ) {
-		$aa                     = $post_data['aa'];
-		$mm                     = $post_data['mm'];
-		$jj                     = $post_data['jj'];
-		$hh                     = $post_data['hh'];
-		$mn                     = $post_data['mn'];
-		$ss                     = $post_data['ss'];
-		$aa                     = ( $aa <= 0 ) ? gmdate( 'Y' ) : $aa;
-		$mm                     = ( $mm <= 0 ) ? gmdate( 'n' ) : $mm;
-		$jj                     = ( $jj > 31 ) ? 31 : $jj;
-		$jj                     = ( $jj <= 0 ) ? gmdate( 'j' ) : $jj;
-		$hh                     = ( $hh > 23 ) ? $hh - 24 : $hh;
-		$mn                     = ( $mn > 59 ) ? $mn - 60 : $mn;
-		$ss                     = ( $ss > 59 ) ? $ss - 60 : $ss;
+		$aa = $post_data['aa'];
+		$mm = $post_data['mm'];
+		$jj = $post_data['jj'];
+		$hh = $post_data['hh'];
+		$mn = $post_data['mn'];
+		$ss = $post_data['ss'];
+		$aa = ( $aa <= 0 ) ? gmdate( 'Y' ) : $aa;
+		$mm = ( $mm <= 0 ) ? gmdate( 'n' ) : $mm;
+		$jj = ( $jj > 31 ) ? 31 : $jj;
+		$jj = ( $jj <= 0 ) ? gmdate( 'j' ) : $jj;
+		$hh = ( $hh > 23 ) ? $hh - 24 : $hh;
+		$mn = ( $mn > 59 ) ? $mn - 60 : $mn;
+		$ss = ( $ss > 59 ) ? $ss - 60 : $ss;
+
 		$post_data['post_date'] = sprintf( '%04d-%02d-%02d %02d:%02d:%02d', $aa, $mm, $jj, $hh, $mn, $ss );
-		$valid_date             = wp_checkdate( $mm, $jj, $aa, $post_data['post_date'] );
+
+		$valid_date = wp_checkdate( $mm, $jj, $aa, $post_data['post_date'] );
 		if ( ! $valid_date ) {
 			return new WP_Error( 'invalid_date', __( 'Invalid date.' ) );
 		}
+
 		$post_data['post_date_gmt'] = get_gmt_from_date( $post_data['post_date'] );
 	}
 
@@ -246,8 +249,9 @@ function edit_post( $post_data = null ) {
 	// Clear out any data in internal vars.
 	unset( $post_data['filter'] );
 
-	$post_ID                     = (int) $post_data['post_ID'];
-	$post                        = get_post( $post_ID );
+	$post_ID = (int) $post_data['post_ID'];
+	$post    = get_post( $post_ID );
+
 	$post_data['post_type']      = $post->post_type;
 	$post_data['post_mime_type'] = $post->post_mime_type;
 
@@ -759,6 +763,7 @@ function get_default_post_to_edit( $post_type = 'post', $create_in_db = false ) 
  *
  * @since 2.0.0
  * @since 5.2.0 Added the `$type` parameter.
+ * @since 5.8.0 Added the `$status` parameter.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
@@ -766,15 +771,17 @@ function get_default_post_to_edit( $post_type = 'post', $create_in_db = false ) 
  * @param string $content Optional post content.
  * @param string $date    Optional post date.
  * @param string $type    Optional post type.
+ * @param string $status  Optional post status.
  * @return int Post ID if post exists, 0 otherwise.
  */
-function post_exists( $title, $content = '', $date = '', $type = '' ) {
+function post_exists( $title, $content = '', $date = '', $type = '', $status = '' ) {
 	global $wpdb;
 
 	$post_title   = wp_unslash( sanitize_post_field( 'post_title', $title, 0, 'db' ) );
 	$post_content = wp_unslash( sanitize_post_field( 'post_content', $content, 0, 'db' ) );
 	$post_date    = wp_unslash( sanitize_post_field( 'post_date', $date, 0, 'db' ) );
 	$post_type    = wp_unslash( sanitize_post_field( 'post_type', $type, 0, 'db' ) );
+	$post_status  = wp_unslash( sanitize_post_field( 'post_status', $status, 0, 'db' ) );
 
 	$query = "SELECT ID FROM $wpdb->posts WHERE 1=1";
 	$args  = array();
@@ -797,6 +804,11 @@ function post_exists( $title, $content = '', $date = '', $type = '' ) {
 	if ( ! empty( $type ) ) {
 		$query .= ' AND post_type = %s';
 		$args[] = $post_type;
+	}
+
+	if ( ! empty( $status ) ) {
+		$query .= ' AND post_status = %s';
+		$args[] = $post_status;
 	}
 
 	if ( ! empty( $args ) ) {
@@ -1168,8 +1180,11 @@ function wp_edit_posts_query( $q = false ) {
 	 *
 	 * The dynamic portion of the hook name, `$post_type`, refers to the post type.
 	 *
-	 * Some examples of filter hooks generated here include: 'edit_attachment_per_page',
-	 * 'edit_post_per_page', 'edit_page_per_page', etc.
+	 * Possible hook names include:
+	 *
+	 *  - `edit_post_per_page`
+	 *  - `edit_page_per_page`
+	 *  - `edit_attachment_per_page`
 	 *
 	 * @since 3.0.0
 	 *
@@ -2119,11 +2134,6 @@ function use_block_editor_for_post( $post ) {
 		return false;
 	}
 
-	// The posts page can't be edited in the block editor.
-	if ( absint( get_option( 'page_for_posts' ) ) === $post->ID && empty( $post->post_content ) ) {
-		return false;
-	}
-
 	$use_block_editor = use_block_editor_for_post_type( $post->post_type );
 
 	/**
@@ -2174,59 +2184,6 @@ function use_block_editor_for_post_type( $post_type ) {
 }
 
 /**
- * Returns all the block categories that will be shown in the block editor.
- *
- * @since 5.0.0
- *
- * @param WP_Post $post Post object.
- * @return array[] Array of block categories.
- */
-function get_block_categories( $post ) {
-	$default_categories = array(
-		array(
-			'slug'  => 'text',
-			'title' => _x( 'Text', 'block category' ),
-			'icon'  => null,
-		),
-		array(
-			'slug'  => 'media',
-			'title' => _x( 'Media', 'block category' ),
-			'icon'  => null,
-		),
-		array(
-			'slug'  => 'design',
-			'title' => _x( 'Design', 'block category' ),
-			'icon'  => null,
-		),
-		array(
-			'slug'  => 'widgets',
-			'title' => _x( 'Widgets', 'block category' ),
-			'icon'  => null,
-		),
-		array(
-			'slug'  => 'embed',
-			'title' => _x( 'Embeds', 'block category' ),
-			'icon'  => null,
-		),
-		array(
-			'slug'  => 'reusable',
-			'title' => _x( 'Reusable Blocks', 'block category' ),
-			'icon'  => null,
-		),
-	);
-
-	/**
-	 * Filters the default array of block categories.
-	 *
-	 * @since 5.0.0
-	 *
-	 * @param array[] $default_categories Array of block categories.
-	 * @param WP_Post $post               Post being loaded.
-	 */
-	return apply_filters( 'block_categories', $default_categories, $post );
-}
-
-/**
  * Prepares server-registered blocks for the block editor.
  *
  * Returns an associative array of registered block data keyed by block name. Data includes properties
@@ -2254,6 +2211,7 @@ function get_block_editor_server_block_settings() {
 		'parent'           => 'parent',
 		'keywords'         => 'keywords',
 		'example'          => 'example',
+		'variations'       => 'variations',
 	);
 
 	foreach ( $block_registry->get_all_registered() as $block_name => $block_type ) {
@@ -2303,7 +2261,7 @@ function the_block_editor_meta_boxes() {
 	<form class="metabox-base-form">
 	<?php the_block_editor_meta_box_post_form_hidden_fields( $post ); ?>
 	</form>
-	<form id="toggle-custom-fields-form" method="post" action="<?php echo esc_attr( admin_url( 'post.php' ) ); ?>">
+	<form id="toggle-custom-fields-form" method="post" action="<?php echo esc_url( admin_url( 'post.php' ) ); ?>">
 		<?php wp_nonce_field( 'toggle-custom-fields', 'toggle-custom-fields-nonce' ); ?>
 		<input type="hidden" name="action" value="toggle-custom-fields" />
 	</form>

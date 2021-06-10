@@ -426,33 +426,63 @@ if ( ! /iPad|iPod|iPhone/.test( navigator.userAgent ) ) {
 })();
 </script>
 			<?php
-	else :
-		/*
-		 * If this file doesn't exist, then we are using the wp-config-sample.php
-		 * file one level up, which is for the develop repo.
-		 */
-		if ( file_exists( ABSPATH . 'wp-config-sample.php' ) ) {
-			$path_to_wp_config = ABSPATH . 'wp-config.php';
-		} else {
-			$path_to_wp_config = dirname( ABSPATH ) . '/wp-config.php';
-		}
+		else :
+			/*
+			 * If this file doesn't exist, then we are using the wp-config-sample.php
+			 * file one level up, which is for the develop repo.
+			 */
+			if ( file_exists( ABSPATH . 'wp-config-sample.php' ) ) {
+				$path_to_wp_config = ABSPATH . 'wp-config.php';
+			} else {
+				$path_to_wp_config = dirname( ABSPATH ) . '/wp-config.php';
+			}
 
-		$handle = fopen( $path_to_wp_config, 'w' );
-		foreach ( $config_file as $line ) {
-			fwrite( $handle, $line );
-		}
-		fclose( $handle );
-		chmod( $path_to_wp_config, 0666 );
-		setup_config_display_header();
-		?>
+			$error_message = '';
+			$handle        = fopen( $path_to_wp_config, 'w' );
+			/*
+			 * Why check for the absence of false instead of checking for resource with is_resource()?
+			 * To future-proof the check for when fopen returns object instead of resource, i.e. a known
+			 * change coming in PHP.
+			 */
+			if ( false !== $handle ) {
+				foreach ( $config_file as $line ) {
+					fwrite( $handle, $line );
+				}
+				fclose( $handle );
+			} else {
+				$wp_config_perms = fileperms( $path_to_wp_config );
+				if ( ! empty( $wp_config_perms ) && ! is_writable( $path_to_wp_config ) ) {
+					$error_message = sprintf(
+						/* translators: 1: wp-config.php, 2: Documentation URL. */
+						__( 'You need to make the file %1$s writable before you can save your changes. See <a href="%2$s">Changing File Permissions</a> for more information.' ),
+						'<code>wp-config.php</code>',
+						__( 'https://wordpress.org/support/article/changing-file-permissions/' )
+					);
+				} else {
+					$error_message = sprintf(
+						/* translators: %s: wp-config.php */
+						__( 'Unable to write to %s file.' ),
+						'<code>wp-config.php</code>'
+					);
+				}
+			}
+
+			chmod( $path_to_wp_config, 0666 );
+			setup_config_display_header();
+
+			if ( false !== $handle ) :
+				?>
 <h1 class="screen-reader-text"><?php _e( 'Successful database connection' ); ?></h1>
 <p><?php _e( 'All right, sparky! You&#8217;ve made it through this part of the installation. WordPress can now communicate with your database. If you are ready, time now to&hellip;' ); ?></p>
 
 <p class="step"><a href="<?php echo $install; ?>" class="button button-large"><?php _e( 'Run the installation' ); ?></a></p>
-		<?php
-	endif;
+				<?php
+			else :
+				printf( '<p>%s</p>', $error_message );
+			endif;
+		endif;
 		break;
-}
+} // End of the steps switch.
 ?>
 <?php wp_print_scripts( 'language-chooser' ); ?>
 </body>

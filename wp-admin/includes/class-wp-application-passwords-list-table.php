@@ -110,15 +110,13 @@ class WP_Application_Passwords_List_Table extends WP_List_Table {
 	 * @param array $item The current application password item.
 	 */
 	public function column_revoke( $item ) {
-		submit_button(
-			__( 'Revoke' ),
-			'delete',
-			'revoke-application-password-' . $item['uuid'],
-			false,
-			array(
-				/* translators: %s: the application password's given name. */
-				'aria-label' => sprintf( __( 'Revoke "%s"' ), $item['name'] ),
-			)
+		$name = 'revoke-application-password-' . $item['uuid'];
+		printf(
+			'<button type="button" name="%1$s" id="%1$s" class="button delete" aria-label="%2$s">%3$s</button>',
+			esc_attr( $name ),
+			/* translators: %s: the application password's given name. */
+			esc_attr( sprintf( __( 'Revoke "%s"' ), $item['name'] ) ),
+			__( 'Revoke' )
 		);
 	}
 
@@ -156,7 +154,7 @@ class WP_Application_Passwords_List_Table extends WP_List_Table {
 		<div class="tablenav <?php echo esc_attr( $which ); ?>">
 			<?php if ( 'bottom' === $which ) : ?>
 				<div class="alignright">
-					<?php submit_button( __( 'Revoke all application passwords' ), 'delete', 'revoke-all-application-passwords', false ); ?>
+					<button type="button" name="revoke-all-application-passwords" id="revoke-all-application-passwords" class="button delete"><?php _e( 'Revoke all application passwords' ); ?></button>
 				</div>
 			<?php endif; ?>
 			<div class="alignleft actions bulkactions">
@@ -235,10 +233,10 @@ class WP_Application_Passwords_List_Table extends WP_List_Table {
 					break;
 				case 'revoke':
 					printf(
-						'<input type="submit" class="button delete" value="%1$s" aria-label="%2$s">',
-						esc_attr( __( 'Revoke' ) ),
+						'<button type="button" class="button delete" aria-label="%1$s">%2$s</button>',
 						/* translators: %s: the application password's given name. */
-						esc_attr( sprintf( __( 'Revoke "%s"' ), '{{ data.name }}' ) )
+						esc_attr( sprintf( __( 'Revoke "%s"' ), '{{ data.name }}' ) ),
+						esc_html__( 'Revoke' )
 					);
 					break;
 				default:

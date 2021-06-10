@@ -48,20 +48,38 @@ if ( isset( $_REQUEST['attachment_id'] ) && (int) $_REQUEST['attachment_id'] && 
 
 	switch ( $_REQUEST['fetch'] ) {
 		case 3:
-			$thumb_url = wp_get_attachment_image_src( $id, 'thumbnail', true );
-			if ( $thumb_url ) {
-				echo '<img class="pinkynail" src="' . esc_url( $thumb_url[0] ) . '" alt="" />';
-			}
-			if ( current_user_can( 'edit_post', $id ) ) {
-				echo '<a class="edit-attachment" href="' . esc_url( get_edit_post_link( $id ) ) . '" target="_blank">' . _x( 'Edit', 'media item' ) . '</a>';
-			} else {
-				echo '<span class="edit-attachment">' . _x( 'Success', 'media item' ) . '</span>';
-			}
+			?>
+			<div class="attachment-details">
+				<?php
+				$thumb_url = wp_get_attachment_image_src( $id, 'thumbnail', true );
+				if ( $thumb_url ) {
+					echo '<img class="pinkynail" src="' . esc_url( $thumb_url[0] ) . '" alt="" />';
+				}
 
-			// Title shouldn't ever be empty, but use filename just in case.
-			$file  = get_attached_file( $post->ID );
-			$title = $post->post_title ? $post->post_title : wp_basename( $file );
-			echo '<div class="filename new"><span class="title">' . esc_html( wp_html_excerpt( $title, 60, '&hellip;' ) ) . '</span></div>';
+				// Title shouldn't ever be empty, but use filename just in case.
+				$file     = get_attached_file( $post->ID );
+				$file_url = wp_get_attachment_url( $post->ID );
+				$title    = $post->post_title ? $post->post_title : wp_basename( $file );
+				?>
+				<div class="filename new">
+					<span class="media-list-title"><strong><?php echo esc_html( wp_html_excerpt( $title, 60, '&hellip;' ) ); ?></strong></span>
+					<span class="media-list-subtitle"><?php echo wp_basename( $file ); ?></span>
+				</div>
+			</div>
+			<div class="attachment-tools">
+				<span class="media-item-copy-container copy-to-clipboard-container edit-attachment">
+					<button type="button" class="button button-small copy-attachment-url" data-clipboard-text="<?php echo $file_url; ?>"><?php _e( 'Copy URL to clipboard' ); ?></button>
+					<span class="success hidden" aria-hidden="true"><?php _e( 'Copied!' ); ?></span>
+				</span>
+				<?php
+				if ( current_user_can( 'edit_post', $id ) ) {
+					echo '<a class="edit-attachment" href="' . esc_url( get_edit_post_link( $id ) ) . '" target="_blank">' . _x( 'Edit', 'media item' ) . '</a>';
+				} else {
+					echo '<span class="edit-attachment">' . _x( 'Success', 'media item' ) . '</span>';
+				}
+				?>
+			</div>
+			<?php
 			break;
 		case 2:
 			add_filter( 'attachment_fields_to_edit', 'media_single_attachment_fields_to_edit', 10, 2 );
@@ -119,8 +137,14 @@ if ( $_REQUEST['short'] ) {
 	/**
 	 * Filters the returned ID of an uploaded attachment.
 	 *
-	 * The dynamic portion of the hook name, `$type`, refers to the attachment type,
-	 * such as 'image', 'audio', 'video', 'file', etc.
+	 * The dynamic portion of the hook name, `$type`, refers to the attachment type.
+	 *
+	 * Possible hook names include:
+	 *
+	 *  - `async_upload_audio`
+	 *  - `async_upload_file`
+	 *  - `async_upload_image`
+	 *  - `async_upload_video`
 	 *
 	 * @since 2.5.0
 	 *

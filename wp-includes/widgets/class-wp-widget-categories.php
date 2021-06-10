@@ -26,6 +26,7 @@ class WP_Widget_Categories extends WP_Widget {
 			'classname'                   => 'widget_categories',
 			'description'                 => __( 'A list or dropdown of categories.' ),
 			'customize_selective_refresh' => true,
+			'show_instance_in_rest'       => true,
 		);
 		parent::__construct( 'categories', __( 'Categories' ), $widget_ops );
 	}

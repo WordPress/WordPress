@@ -228,6 +228,18 @@ if ( $post_id ) {
 </h1>
 
 <?php
+if ( $post_id ) {
+	$post_type_object = get_post_type_object( get_post_type( $post_id ) );
+
+	if ( $post_type_object ) {
+		printf(
+			'<a href="%1$s" class="comments-view-item-link">%2$s</a>',
+			get_permalink( $post_id ),
+			$post_type_object->labels->view_item
+		);
+	}
+}
+
 if ( isset( $_REQUEST['s'] ) && strlen( $_REQUEST['s'] ) ) {
 	echo '<span class="subtitle">';
 	printf(

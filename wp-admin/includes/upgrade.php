@@ -88,7 +88,7 @@ if ( ! function_exists( 'wp_install' ) ) :
 			$user_password = wp_generate_password( 12, false );
 			$message       = __( '<strong><em>Note that password</em></strong> carefully! It is a <em>random</em> password that was generated just for you.' );
 			$user_id       = wp_create_user( $user_name, $user_password, $user_email );
-			update_user_option( $user_id, 'default_password_nag', true, true );
+			update_user_meta( $user_id, 'default_password_nag', true );
 			$email_password = true;
 			$user_created   = true;
 		} elseif ( ! $user_id ) {
@@ -403,59 +403,13 @@ Commenter avatars come from <a href="https://gravatar.com">Gravatar</a>.'
 
 		// Set up default widgets for default theme.
 		update_option(
-			'widget_search',
+			'widget_block',
 			array(
-				2              => array( 'title' => '' ),
-				'_multiwidget' => 1,
-			)
-		);
-		update_option(
-			'widget_recent-posts',
-			array(
-				2              => array(
-					'title'  => '',
-					'number' => 5,
-				),
-				'_multiwidget' => 1,
-			)
-		);
-		update_option(
-			'widget_recent-comments',
-			array(
-				2              => array(
-					'title'  => '',
-					'number' => 5,
-				),
-				'_multiwidget' => 1,
-			)
-		);
-		update_option(
-			'widget_archives',
-			array(
-				2              => array(
-					'title'    => '',
-					'count'    => 0,
-					'dropdown' => 0,
-				),
-				'_multiwidget' => 1,
-			)
-		);
-		update_option(
-			'widget_categories',
-			array(
-				2              => array(
-					'title'        => '',
-					'count'        => 0,
-					'hierarchical' => 0,
-					'dropdown'     => 0,
-				),
-				'_multiwidget' => 1,
-			)
-		);
-		update_option(
-			'widget_meta',
-			array(
-				2              => array( 'title' => '' ),
+				2              => array( 'content' => '<!-- wp:search /-->' ),
+				3              => array( 'content' => '<!-- wp:group --><div class="wp-block-group"><!-- wp:heading --><h2>' . __( 'Recent Posts' ) . '</h2><!-- /wp:heading --><!-- wp:latest-posts /--></div><!-- /wp:group -->' ),
+				4              => array( 'content' => '<!-- wp:group --><div class="wp-block-group"><!-- wp:heading --><h2>' . __( 'Recent Comments' ) . '</h2><!-- /wp:heading --><!-- wp:latest-comments {"displayAvatar":false,"displayDate":false,"displayExcerpt":false} /--></div><!-- /wp:group -->' ),
+				5              => array( 'content' => '<!-- wp:group --><div class="wp-block-group"><!-- wp:heading --><h2>' . __( 'Archives' ) . '</h2><!-- /wp:heading --><!-- wp:archives /--></div><!-- /wp:group -->' ),
+				6              => array( 'content' => '<!-- wp:group --><div class="wp-block-group"><!-- wp:heading --><h2>' . __( 'Categories' ) . '</h2><!-- /wp:heading --><!-- wp:categories /--></div><!-- /wp:group -->' ),
 				'_multiwidget' => 1,
 			)
 		);
@@ -464,18 +418,18 @@ Commenter avatars come from <a href="https://gravatar.com">Gravatar</a>.'
 			array(
 				'wp_inactive_widgets' => array(),
 				'sidebar-1'           => array(
-					0 => 'search-2',
-					1 => 'recent-posts-2',
-					2 => 'recent-comments-2',
+					0 => 'block-2',
+					1 => 'block-3',
+					2 => 'block-4',
 				),
 				'sidebar-2'           => array(
-					0 => 'archives-2',
-					1 => 'categories-2',
-					2 => 'meta-2',
+					0 => 'block-5',
+					1 => 'block-6',
 				),
 				'array_version'       => 3,
 			)
 		);
+
 		if ( ! is_multisite() ) {
 			update_user_meta( $user_id, 'show_welcome_panel', 1 );
 		} elseif ( ! is_super_admin( $user_id ) && ! metadata_exists( 'user', $user_id, 'show_welcome_panel' ) ) {

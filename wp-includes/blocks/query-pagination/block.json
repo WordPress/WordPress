@@ -1,0 +1,21 @@
+{
+	"apiVersion": 2,
+	"name": "core/query-pagination",
+	"title": "Query Pagination",
+	"category": "design",
+	"parent": [ "core/query" ],
+	"description": "Displays a paginated navigation to next/previous set of posts, when applicable.",
+	"textdomain": "default",
+	"usesContext": [ "queryId", "query" ],
+	"supports": {
+		"align": true,
+		"reusable": false,
+		"html": false,
+		"color": {
+			"gradients": true,
+			"link": true
+		}
+	},
+	"editorStyle": "wp-block-query-pagination-editor",
+	"style": "wp-block-query-pagination"
+}

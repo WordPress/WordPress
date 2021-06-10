@@ -120,7 +120,7 @@ class WP_Upgrader {
 	 *                               instance.
 	 */
 	public function __construct( $skin = null ) {
-		if ( null == $skin ) {
+		if ( null === $skin ) {
 			$this->skin = new WP_Upgrader_Skin();
 		} else {
 			$this->skin = $skin;
@@ -504,7 +504,7 @@ class WP_Upgrader {
 		if ( 1 === count( $source_files ) && $wp_filesystem->is_dir( trailingslashit( $args['source'] ) . $source_files[0] . '/' ) ) {
 			// Only one folder? Then we want its contents.
 			$source = trailingslashit( $args['source'] ) . trailingslashit( $source_files[0] );
-		} elseif ( count( $source_files ) == 0 ) {
+		} elseif ( 0 === count( $source_files ) ) {
 			// There are no files?
 			return new WP_Error( 'incompatible_archive_empty', $this->strings['incompatible_archive'], $this->strings['no_files'] );
 		} else {
@@ -773,7 +773,7 @@ class WP_Upgrader {
 			return $download;
 		}
 
-		$delete_package = ( $download != $options['package'] ); // Do not delete a "local" file.
+		$delete_package = ( $download !== $options['package'] ); // Do not delete a "local" file.
 
 		// Unzips the file into a temporary directory.
 		$working_dir = $this->unpack_package( $download, $delete_package );

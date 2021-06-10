@@ -1,0 +1,127 @@
+/**
+ * Colors
+ */
+/**
+ * Breakpoints & Media Queries
+ */
+/**
+ * SCSS Variables.
+ *
+ * Please use variables from this sheet to ensure consistency across the UI.
+ * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
+ * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
+ */
+/**
+ * Colors
+ */
+/**
+ * Fonts & basic variables.
+ */
+/**
+ * Grid System.
+ * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
+ */
+/**
+ * Dimensions.
+ */
+/**
+ * Shadows.
+ */
+/**
+ * Editor widths.
+ */
+/**
+ * Block & Editor UI.
+ */
+/**
+ * Block paddings.
+ */
+/**
+ * React Native specific.
+ * These variables do not appear to be used anywhere else.
+ */
+/**
+ * Breakpoint mixins
+ */
+/**
+ * Long content fade mixin
+ *
+ * Creates a fading overlay to signify that the content is longer
+ * than the space allows.
+ */
+/**
+ * Focus styles.
+ */
+/**
+ * Applies editor left position to the selector passed as argument
+ */
+/**
+ * Styles that are reused verbatim in a few places
+ */
+/**
+ * Allows users to opt-out of animations via OS-level preferences.
+ */
+/**
+ * Reset default styles for JavaScript UI based pages.
+ * This is a WP-admin agnostic reset
+ */
+/**
+ * Reset the WP Admin page styles for Gutenberg-like pages.
+ */
+[data-type="core/shortcode"] .block-editor-plain-text {
+  max-height: 250px;
+}
+[data-type="core/shortcode"].components-placeholder {
+  min-height: 0;
+}
+
+.blocks-shortcode__textarea {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  padding: 6px 8px;
+  box-shadow: 0 0 0 transparent;
+  transition: box-shadow 0.1s linear;
+  border-radius: 2px;
+  border: 1px solid #757575;
+  /* Fonts smaller than 16px causes mobile safari to zoom. */
+  font-size: 16px;
+  /* Override core line-height. To be reviewed. */
+  line-height: normal;
+}
+@media (prefers-reduced-motion: reduce) {
+  .blocks-shortcode__textarea {
+    transition-duration: 0s;
+    transition-delay: 0s;
+  }
+}
+@media (min-width: 600px) {
+  .blocks-shortcode__textarea {
+    font-size: 13px;
+    /* Override core line-height. To be reviewed. */
+    line-height: normal;
+  }
+}
+.blocks-shortcode__textarea:focus {
+  border-color: var(--wp-admin-theme-color);
+  box-shadow: 0 0 0 1px var(--wp-admin-theme-color);
+  outline: 2px solid transparent;
+}
+.blocks-shortcode__textarea::-webkit-input-placeholder {
+  color: rgba(30, 30, 30, 0.62);
+}
+.blocks-shortcode__textarea::-moz-placeholder {
+  opacity: 1;
+  color: rgba(30, 30, 30, 0.62);
+}
+.blocks-shortcode__textarea:-ms-input-placeholder {
+  color: rgba(30, 30, 30, 0.62);
+}
+.is-dark-theme .blocks-shortcode__textarea::-webkit-input-placeholder {
+  color: rgba(255, 255, 255, 0.65);
+}
+.is-dark-theme .blocks-shortcode__textarea::-moz-placeholder {
+  opacity: 1;
+  color: rgba(255, 255, 255, 0.65);
+}
+.is-dark-theme .blocks-shortcode__textarea:-ms-input-placeholder {
+  color: rgba(255, 255, 255, 0.65);
+}

@@ -370,3 +370,11 @@ if ( ! function_exists( 'is_iterable' ) ) {
 		return ( is_array( $var ) || $var instanceof Traversable );
 	}
 }
+
+// WebP constants are only defined in PHP 7.1+.
+if ( ! defined( 'IMAGETYPE_WEBP' ) ) {
+	define( 'IMAGETYPE_WEBP', 18 );
+}
+if ( ! defined( 'IMG_WEBP' ) ) {
+	define( 'IMG_WEBP', IMAGETYPE_WEBP ); // phpcs:ignore PHPCompatibility.Constants.NewConstants.imagetype_webpFound
+}

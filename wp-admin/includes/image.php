@@ -517,6 +517,9 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 				case 'image/png':
 					$ext = '.png';
 					break;
+				case 'image/webp':
+					$ext = '.webp';
+					break;
 			}
 			$basename = str_replace( '.', '-', wp_basename( $file ) ) . '-image' . $ext;
 			$uploaded = wp_upload_bits( $basename, '', $metadata['image']['data'] );
@@ -720,12 +723,9 @@ function wp_read_image_metadata( $file ) {
 		wp_getimagesize( $file, $info );
 
 		if ( ! empty( $info['APP13'] ) ) {
-			if (
-				// Skip when running unit tests.
-				! defined( 'WP_RUN_CORE_TESTS' )
-				&&
-				// Process without silencing errors when in debug mode.
-				defined( 'WP_DEBUG' ) && WP_DEBUG
+			// Don't silence errors when in debug mode, unless running unit tests.
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG
+				&& ! defined( 'WP_RUN_CORE_TESTS' )
 			) {
 				$iptc = iptcparse( $info['APP13'] );
 			} else {
@@ -791,12 +791,9 @@ function wp_read_image_metadata( $file ) {
 	$exif_image_types = apply_filters( 'wp_read_image_metadata_types', array( IMAGETYPE_JPEG, IMAGETYPE_TIFF_II, IMAGETYPE_TIFF_MM ) );
 
 	if ( is_callable( 'exif_read_data' ) && in_array( $image_type, $exif_image_types, true ) ) {
-		if (
-			// Skip when running unit tests.
-			! defined( 'WP_RUN_CORE_TESTS' )
-			&&
-			// Process without silencing errors when in debug mode.
-			defined( 'WP_DEBUG' ) && WP_DEBUG
+		// Don't silence errors when in debug mode, unless running unit tests.
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG
+			&& ! defined( 'WP_RUN_CORE_TESTS' )
 		) {
 			$exif = exif_read_data( $file );
 		} else {
@@ -913,7 +910,7 @@ function file_is_valid_image( $path ) {
  * @return bool True if suitable, false if not suitable.
  */
 function file_is_displayable_image( $path ) {
-	$displayable_image_types = array( IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_BMP, IMAGETYPE_ICO );
+	$displayable_image_types = array( IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_BMP, IMAGETYPE_ICO, IMAGETYPE_WEBP ); // phpcs:ignore PHPCompatibility.Constants.NewConstants.imagetype_webpFound
 
 	$info = wp_getimagesize( $path );
 	if ( empty( $info ) ) {
@@ -962,6 +959,12 @@ function load_image_to_edit( $attachment_id, $mime_type, $size = 'full' ) {
 			break;
 		case 'image/gif':
 			$image = imagecreatefromgif( $filepath );
+			break;
+		case 'image/webp':
+			$image = false;
+			if ( function_exists( 'imagecreatefromwebp' ) ) {
+				$image = imagecreatefromwebp( $filepath );
+			}
 			break;
 		default:
 			$image = false;

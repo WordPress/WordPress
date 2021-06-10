@@ -341,10 +341,40 @@ function wp_link_manager_disabled_message() {
 	$really_can_manage_links = current_user_can( 'manage_links' );
 	remove_filter( 'pre_option_link_manager_enabled', '__return_true', 100 );
 
-	if ( $really_can_manage_links && current_user_can( 'install_plugins' ) ) {
-		$link = network_admin_url( 'plugin-install.php?tab=search&amp;s=Link+Manager' );
-		/* translators: %s: URL to install the Link Manager plugin. */
-		wp_die( sprintf( __( 'If you are looking to use the link manager, please install the <a href="%s">Link Manager</a> plugin.' ), $link ) );
+	if ( $really_can_manage_links ) {
+		$plugins = get_plugins();
+
+		if ( empty( $plugins['link-manager/link-manager.php'] ) ) {
+			if ( current_user_can( 'install_plugins' ) ) {
+				$install_url = wp_nonce_url(
+					self_admin_url( 'update.php?action=install-plugin&plugin=link-manager' ),
+					'install-plugin_link-manager'
+				);
+
+				wp_die(
+					sprintf(
+						/* translators: %s: A link to install the Link Manager plugin. */
+						__( 'If you are looking to use the link manager, please install the <a href="%s">Link Manager plugin</a>.' ),
+						esc_url( $install_url )
+					)
+				);
+			}
+		} elseif ( is_plugin_inactive( 'link-manager/link-manager.php' ) ) {
+			if ( current_user_can( 'activate_plugins' ) ) {
+				$activate_url = wp_nonce_url(
+					self_admin_url( 'plugins.php?action=activate&plugin=link-manager/link-manager.php' ),
+					'activate-plugin_link-manager/link-manager.php'
+				);
+
+				wp_die(
+					sprintf(
+						/* translators: %s: A link to activate the Link Manager plugin. */
+						__( 'Please activate the <a href="%s">Link Manager plugin</a> to use the link manager.' ),
+						esc_url( $activate_url )
+					)
+				);
+			}
+		}
 	}
 
 	wp_die( __( 'Sorry, you are not allowed to edit the links for this site.' ) );

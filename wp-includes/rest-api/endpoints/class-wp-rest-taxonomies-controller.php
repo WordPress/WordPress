@@ -27,7 +27,7 @@ class WP_REST_Taxonomies_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Registers the routes for the objects of the controller.
+	 * Registers the routes for taxonomies.
 	 *
 	 * @since 4.7.0
 	 *
