@@ -88,7 +88,7 @@ function get_block_templates( $query = array(), $template_type = 'wp_template' )
 
 	$template_query = new WP_Query( $wp_query_args );
 	$query_result   = array();
-	foreach ( $template_query->get_posts() as $post ) {
+	foreach ( $template_query->posts as $post ) {
 		$template = _build_template_result_from_post( $post );
 
 		if ( ! is_wp_error( $template ) ) {
@@ -130,7 +130,7 @@ function get_block_template( $id, $template_type = 'wp_template' ) {
 		),
 	);
 	$template_query       = new WP_Query( $wp_query_args );
-	$posts                = $template_query->get_posts();
+	$posts                = $template_query->posts;
 
 	if ( count( $posts ) > 0 ) {
 		$template = _build_template_result_from_post( $posts[0] );

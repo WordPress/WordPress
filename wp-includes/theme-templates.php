@@ -49,7 +49,7 @@ function wp_filter_wp_template_unique_post_slug( $override_slug, $slug, $post_ID
 		),
 	);
 	$check_query      = new WP_Query( $check_query_args );
-	$posts            = $check_query->get_posts();
+	$posts            = $check_query->posts;
 
 	if ( count( $posts ) > 0 ) {
 		$suffix = 2;
@@ -59,7 +59,7 @@ function wp_filter_wp_template_unique_post_slug( $override_slug, $slug, $post_ID
 			$query_args['post_name__in'] = array( $alt_post_name );
 			$query                       = new WP_Query( $query_args );
 			$suffix++;
-		} while ( count( $query->get_posts() ) > 0 );
+		} while ( count( $query->posts ) > 0 );
 		$override_slug = $alt_post_name;
 	}
 
