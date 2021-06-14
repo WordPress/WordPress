@@ -828,9 +828,11 @@ final class WP_Customize_Widgets {
 			sprintf( 'var _wpCustomizeWidgetsSettings = %s;', wp_json_encode( $settings ) )
 		);
 
-		// TODO: Update 'wp-customize-widgets' to not rely so much on things in
-		// 'customize-widgets'. This will let us skip most of the above and not
-		// enqueue 'customize-widgets' which saves bytes.
+		/*
+		 * TODO: Update 'wp-customize-widgets' to not rely so much on things in
+		 * 'customize-widgets'. This will let us skip most of the above and not
+		 * enqueue 'customize-widgets' which saves bytes.
+		 */
 
 		if ( wp_use_widgets_block_editor() ) {
 			$block_editor_context = new WP_Block_Editor_Context();
@@ -1394,11 +1396,12 @@ final class WP_Customize_Widgets {
 	 * only get applied to an instance *once*.
 	 *
 	 * @since 3.9.0
+	 * @since 5.8.0 Added the `$id_base` parameter.
 	 *
 	 * @global WP_Widget_Factory $wp_widget_factory
 	 *
-	 * @param array $value Widget instance to sanitize.
-	 * @param string $id_base Base of the ID of the widget being sanitized.
+	 * @param array  $value   Widget instance to sanitize.
+	 * @param string $id_base Optional. Base of the ID of the widget being sanitized. Default null.
 	 * @return array|void Sanitized widget instance.
 	 */
 	public function sanitize_widget_instance( $value, $id_base = null ) {
@@ -1444,9 +1447,12 @@ final class WP_Customize_Widgets {
 	 * Converts a widget instance into JSON-representable format.
 	 *
 	 * @since 3.9.0
+	 * @since 5.8.0 Added the `$id_base` parameter.
 	 *
-	 * @param array $value Widget instance to convert to JSON.
-	 * @param string $id_base Base of the ID of the widget being sanitized.
+	 * @global WP_Widget_Factory $wp_widget_factory
+	 *
+	 * @param array  $value   Widget instance to convert to JSON.
+	 * @param string $id_base Optional. Base of the ID of the widget being sanitized. Default null.
 	 * @return array JSON-converted widget instance.
 	 */
 	public function sanitize_widget_js_instance( $value, $id_base = null ) {
