@@ -631,6 +631,33 @@ class WP_Debug_Data {
 			'debug' => ( is_array( $gd ) ? $gd['GD Version'] : 'not available' ),
 		);
 
+		$gd_image_formats     = array();
+		$gd_supported_formats = array(
+			'GIF Create' => 'GIF',
+			'JPEG'       => 'JPEG',
+			'PNG'        => 'PNG',
+			'WebP'       => 'WebP',
+			'BMP'        => 'BMP',
+			'AVIF'       => 'AVIF',
+			'HEIF'       => 'HEIF',
+			'TIFF'       => 'TIFF',
+			'XPM'        => 'XPM',
+		);
+
+		foreach ( $gd_supported_formats as $format_key => $format ) {
+			$index = $format_key . ' Support';
+			if ( isset( $gd[ $index ] ) && $gd[ $index ] ) {
+				array_push( $gd_image_formats, $format );
+			}
+		}
+
+		if ( ! empty( $gd_image_formats ) ) {
+			$info['wp-media']['fields']['gd_formats'] = array(
+				'label' => __( 'GD supported file formats' ),
+				'value' => implode( ', ', $gd_image_formats ),
+			);
+		}
+
 		// Get Ghostscript information, if available.
 		if ( function_exists( 'exec' ) ) {
 			$gs = exec( 'gs --version' );
