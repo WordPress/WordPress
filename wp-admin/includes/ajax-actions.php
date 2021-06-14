@@ -2990,17 +2990,27 @@ function wp_ajax_query_attachments() {
 	 * @param array $query An array of query variables.
 	 */
 	$query = apply_filters( 'ajax_query_attachments_args', $query );
-	$query = new WP_Query( $query );
+	$attachments_query = new WP_Query( $query );
 
-	$posts = array_map( 'wp_prepare_attachment_for_js', $query->posts );
+	$posts = array_map( 'wp_prepare_attachment_for_js', $attachments_query->posts );
 	$posts = array_filter( $posts );
+	$total_posts = $attachments_query->found_posts;
 
-	$result = array(
-		'attachments'      => $posts,
-		'totalAttachments' => $query->found_posts,
-	);
+	if ( $total_posts < 1 ) {
+		// Out-of-bounds, run the query again without LIMIT for total count.
+		unset( $query['paged'] );
 
-	wp_send_json_success( $result );
+		$count_query = new WP_Query();
+		$count_query->query( $query_args );
+		$total_posts = $count_query->found_posts;
+	}
+
+	$max_pages = ceil( $total_posts / (int) $attachments_query->query['posts_per_page'] );
+
+	header( 'X-WP-Total: ' . (int) $total_posts );
+	header( 'X-WP-TotalPages: ' . (int) $max_pages );
+
+	wp_send_json_success( $posts );
 }
 
 /**

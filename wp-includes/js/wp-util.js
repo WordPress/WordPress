@@ -115,7 +115,7 @@ window.wp = window.wp || {};
 					}
 
 					if ( _.isObject( response ) && ! _.isUndefined( response.success ) ) {
-						deferred[ response.success ? 'resolveWith' : 'rejectWith' ]( this, [response.data] );
+						deferred[ response.success ? 'resolveWith' : 'rejectWith' ]( deferred.jqXHR, [response.data] );
 					} else {
 						deferred.rejectWith( this, [response] );
 					}
