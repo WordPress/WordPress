@@ -988,10 +988,10 @@ function wp_migrate_old_typography_shape( $metadata ) {
 		if ( null !== $support_for_key ) {
 			trigger_error(
 				/* translators: %1$s: Block type, %2$s: typography supports key e.g: fontSize, lineHeight etc... */
-				sprintf( __( 'Block %1$s is declaring %2$s support on block.json under supports.%2$s. %2$s support is now declared under supports.typography.%2$s.', 'gutenberg' ), $metadata['name'], $typography_key ),
+				sprintf( __( 'Block %1$s is declaring %2$s support on block.json under supports.%2$s. %2$s support is now declared under supports.typography.%2$s.' ), $metadata['name'], $typography_key ),
 				headers_sent() || WP_DEBUG ? E_USER_WARNING : E_USER_NOTICE
 			);
-			gutenberg_experimental_set( $metadata['supports'], array( 'typography', $typography_key ), $support_for_key );
+			_wp_array_set( $metadata['supports'], array( 'typography', $typography_key ), $support_for_key );
 			unset( $metadata['supports'][ $typography_key ] );
 		}
 	}
