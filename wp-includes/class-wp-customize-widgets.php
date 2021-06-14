@@ -1395,6 +1395,8 @@ final class WP_Customize_Widgets {
 	 *
 	 * @since 3.9.0
 	 *
+	 * @global WP_Widget_Factory $wp_widget_factory
+	 *
 	 * @param array $value Widget instance to sanitize.
 	 * @param string $id_base Base of the ID of the widget being sanitized.
 	 * @return array|void Sanitized widget instance.
