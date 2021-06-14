@@ -2989,11 +2989,11 @@ function wp_ajax_query_attachments() {
 	 *
 	 * @param array $query An array of query variables.
 	 */
-	$query = apply_filters( 'ajax_query_attachments_args', $query );
+	$query             = apply_filters( 'ajax_query_attachments_args', $query );
 	$attachments_query = new WP_Query( $query );
 
-	$posts = array_map( 'wp_prepare_attachment_for_js', $attachments_query->posts );
-	$posts = array_filter( $posts );
+	$posts       = array_map( 'wp_prepare_attachment_for_js', $attachments_query->posts );
+	$posts       = array_filter( $posts );
 	$total_posts = $attachments_query->found_posts;
 
 	if ( $total_posts < 1 ) {
