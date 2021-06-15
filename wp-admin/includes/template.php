@@ -2666,17 +2666,20 @@ function wp_star_rating( $args = array() ) {
 }
 
 /**
- * Output a notice when editing the page for posts (internal use only).
+ * Outputs a notice when editing the page for posts (internal use only).
  *
  * @ignore
  * @since 4.2.0
  */
 function _wp_posts_page_notice() {
-	echo '<div class="notice notice-warning inline"><p>' . __( 'You are currently editing the page that shows your latest posts.' ) . '</p></div>';
+	printf(
+		'<div class="notice notice-warning inline"><p>%s</p></div>',
+		__( 'You are currently editing the page that shows your latest posts.' )
+	);
 }
 
 /**
- * Output a notice when editing the page for posts in the block editor (internal use only).
+ * Outputs a notice when editing the page for posts in the block editor (internal use only).
  *
  * @ignore
  * @since 5.8.0
