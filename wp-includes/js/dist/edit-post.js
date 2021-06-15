@@ -14675,6 +14675,40 @@ function EditTemplateTitle() {
   });
 }
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-post/build-module/components/header/template-title/template-description.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+
+/**
+ * Internal dependencies
+ */
+
+
+function TemplateDescription() {
+  const {
+    description
+  } = Object(external_wp_data_["useSelect"])(select => {
+    const {
+      getEditedPostTemplate
+    } = select(store["a" /* store */]);
+    return {
+      description: getEditedPostTemplate().description
+    };
+  }, []);
+
+  if (!description) {
+    return null;
+  }
+
+  return Object(external_wp_element_["createElement"])(external_wp_components_["__experimentalText"], {
+    size: "body"
+  }, description);
+}
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/edit-post/build-module/components/header/template-title/index.js
 
 
@@ -14689,6 +14723,7 @@ function EditTemplateTitle() {
 /**
  * Internal dependencies
  */
+
 
 
 
@@ -14763,7 +14798,7 @@ function TemplateTitle() {
         onClick: onToggle,
         label: Object(external_wp_i18n_["__"])('Template Options')
       }), templateTitle)),
-      renderContent: () => Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(EditTemplateTitle, null), Object(external_wp_element_["createElement"])(DeleteTemplate, null))
+      renderContent: () => Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, template.has_theme_file ? Object(external_wp_element_["createElement"])(TemplateDescription, null) : Object(external_wp_element_["createElement"])(EditTemplateTitle, null), Object(external_wp_element_["createElement"])(DeleteTemplate, null))
     });
   });
 }

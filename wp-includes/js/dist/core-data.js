@@ -2044,7 +2044,8 @@ function* loadPostTypeEntities() {
 
         return (record === null || record === void 0 ? void 0 : (_record$title = record.title) === null || _record$title === void 0 ? void 0 : _record$title.rendered) || (record === null || record === void 0 ? void 0 : record.title) || (isTemplate ? Object(external_lodash_["startCase"])(record.slug) : String(record.id));
       },
-      __unstablePrePersist: isTemplate ? undefined : prePersistPostType
+      __unstablePrePersist: isTemplate ? undefined : prePersistPostType,
+      __unstable_rest_base: postType.rest_base
     };
   });
 }
@@ -3862,18 +3863,22 @@ function canUser(state, action, resource, id) {
  *
  * https://developer.wordpress.org/rest-api/reference/
  *
- * @param {Object} state Data state.
- * @param {string} kind Entity kind.
- * @param {string} name Entity name.
- * @param {number} key Record's key.
+ * @param {Object} state    Data state.
+ * @param {string} kind     Entity kind.
+ * @param {string} name     Entity name.
  * @param {string} recordId Record's id.
  * @return {boolean|undefined} Whether or not the user can edit,
  * or `undefined` if the OPTIONS request is still being made.
  */
 
-function canUserEditEntityRecord(state, kind, name, key, recordId) {
-  const entity = getEntityRecord(state, kind, name, key);
-  const resource = (entity === null || entity === void 0 ? void 0 : entity.rest_base) || '';
+function canUserEditEntityRecord(state, kind, name, recordId) {
+  const entity = getEntity(state, kind, name);
+
+  if (!entity) {
+    return false;
+  }
+
+  const resource = entity.__unstable_rest_base;
   return canUser(state, 'update', resource, recordId);
 }
 /**
@@ -4325,15 +4330,23 @@ function* resolvers_canUser(action, resource, id) {
  * Checks whether the current user can perform the given action on the given
  * REST resource.
  *
- * @param {string} kind Entity kind.
- * @param {string} name Entity name.
- * @param {number} key Record's key.
+ * @param {string} kind     Entity kind.
+ * @param {string} name     Entity name.
  * @param {string} recordId Record's id.
  */
 
-function* resolvers_canUserEditEntityRecord(kind, name, key, recordId) {
-  const entity = yield external_wp_data_["controls"].select('core', 'getEntityRecord', kind, name, key);
-  const resource = (entity === null || entity === void 0 ? void 0 : entity.rest_base) || '';
+function* resolvers_canUserEditEntityRecord(kind, name, recordId) {
+  const entities = yield getKindEntities(kind);
+  const entity = Object(external_lodash_["find"])(entities, {
+    kind,
+    name
+  });
+
+  if (!entity) {
+    return;
+  }
+
+  const resource = entity.__unstable_rest_base;
   yield resolvers_canUser('update', resource, recordId);
 }
 /**

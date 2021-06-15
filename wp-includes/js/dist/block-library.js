@@ -30410,12 +30410,11 @@ const postTitle = Object(external_wp_element_["createElement"])(external_wp_prim
  *
  * @param {string} kind     Entity kind.
  * @param {string} name     Entity name.
- * @param {number} key      Record's key.
  * @param {string} recordId Record's id.
  */
 
-function useCanEditEntity(kind, name, key, recordId) {
-  return Object(external_wp_data_["useSelect"])(select => select(external_wp_coreData_["store"]).canUserEditEntityRecord(kind, name, key, recordId), [kind, name, key, recordId]);
+function useCanEditEntity(kind, name, recordId) {
+  return Object(external_wp_data_["useSelect"])(select => select(external_wp_coreData_["store"]).canUserEditEntityRecord(kind, name, recordId), [kind, name, recordId]);
 }
 /* harmony default export */ var utils_hooks = ({
   useCanEditEntity
@@ -30461,7 +30460,7 @@ function PostTitleEdit({
 }) {
   const TagName = 0 === level ? 'p' : 'h' + level;
   const isDescendentOfQueryLoop = !!queryId;
-  const userCanEdit = useCanEditEntity('root', 'postType', postType, postId);
+  const userCanEdit = useCanEditEntity('postType', postType, postId);
   const [rawTitle = '', setTitle, fullTitle] = Object(external_wp_coreData_["useEntityProp"])('postType', postType, 'title', postId);
   const [link] = Object(external_wp_coreData_["useEntityProp"])('postType', postType, 'link', postId);
   const blockProps = Object(external_wp_blockEditor_["useBlockProps"])({
@@ -30650,9 +30649,12 @@ function ReadOnlyContent({
 
 function EditableContent({
   layout,
-  postType,
-  postId
+  context = {}
 }) {
+  const {
+    postType,
+    postId
+  } = context;
   const themeSupportsLayout = Object(external_wp_data_["useSelect"])(select => {
     var _getSettings;
 
@@ -30704,7 +30706,7 @@ function Content(props) {
     } = {}
   } = props;
   const isDescendentOfQueryLoop = !!queryId;
-  const userCanEdit = useCanEditEntity('root', 'postType', postType, postId);
+  const userCanEdit = useCanEditEntity('postType', postType, postId);
   const isEditable = userCanEdit && !isDescendentOfQueryLoop;
   return isEditable ? Object(external_wp_element_["createElement"])(EditableContent, props) : Object(external_wp_element_["createElement"])(ReadOnlyContent, {
     userCanEdit: userCanEdit,
@@ -31027,7 +31029,7 @@ function PostExcerptEditor({
   }
 }) {
   const isDescendentOfQueryLoop = !!queryId;
-  const userCanEdit = useCanEditEntity('root', 'postType', postType, postId);
+  const userCanEdit = useCanEditEntity('postType', postType, postId);
   const isEditable = userCanEdit && !isDescendentOfQueryLoop;
   const [rawExcerpt, setExcerpt, {
     rendered: renderedExcerpt,
