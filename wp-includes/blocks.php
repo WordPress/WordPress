@@ -986,6 +986,10 @@ function block_has_support( $block_type, $feature, $default = false ) {
  * @return array Filtered metadata for registering a block type.
  */
 function wp_migrate_old_typography_shape( $metadata ) {
+	if ( ! isset( $metadata['supports'] ) ) {
+		return $metadata;
+	}
+
 	$typography_keys = array(
 		'__experimentalFontFamily',
 		'__experimentalFontStyle',
@@ -996,8 +1000,10 @@ function wp_migrate_old_typography_shape( $metadata ) {
 		'fontSize',
 		'lineHeight',
 	);
+
 	foreach ( $typography_keys as $typography_key ) {
 		$support_for_key = _wp_array_get( $metadata['supports'], array( $typography_key ), null );
+
 		if ( null !== $support_for_key ) {
 			_doing_it_wrong(
 				'register_block_type_from_metadata()',
@@ -1012,10 +1018,12 @@ function wp_migrate_old_typography_shape( $metadata ) {
 				),
 				'5.8.0'
 			);
+
 			_wp_array_set( $metadata['supports'], array( 'typography', $typography_key ), $support_for_key );
 			unset( $metadata['supports'][ $typography_key ] );
 		}
 	}
+
 	return $metadata;
 }
 
