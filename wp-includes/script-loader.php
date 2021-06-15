@@ -140,11 +140,11 @@ function wp_default_packages_vendor( $scripts ) {
 						'dow' => (int) get_option( 'start_of_week', 0 ),
 					),
 					'longDateFormat' => array(
-						'LT'   => get_option( 'time_format', __( 'g:i a', 'default' ) ),
+						'LT'   => get_option( 'time_format', __( 'g:i a' ) ),
 						'LTS'  => null,
 						'L'    => null,
-						'LL'   => get_option( 'date_format', __( 'F j, Y', 'default' ) ),
-						'LLL'  => __( 'F j, Y g:i a', 'default' ),
+						'LL'   => get_option( 'date_format', __( 'F j, Y' ) ),
+						'LLL'  => __( 'F j, Y g:i a' ),
 						'LLLL' => null,
 					),
 				)
@@ -262,7 +262,7 @@ function wp_default_packages_scripts( $scripts ) {
 		 * is called before wp.i18n is defined.
 		 */
 		if ( 'wp-i18n' === $handle ) {
-			$ltr    = _x( 'ltr', 'text direction', 'default' );
+			$ltr    = _x( 'ltr', 'text direction' );
 			$script = sprintf( "wp.i18n.setLocaleData( { 'text direction\u0004ltr': [ '%s' ] } );", $ltr );
 			$scripts->add_inline_script( $handle, $script, 'after' );
 		}
