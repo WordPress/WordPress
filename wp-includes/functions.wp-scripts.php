@@ -304,13 +304,16 @@ function wp_deregister_script( $handle ) {
 		);
 
 		if ( in_array( $handle, $not_allowed, true ) ) {
-			$message = sprintf(
-				/* translators: 1: Script name, 2: wp_enqueue_scripts */
-				__( 'Do not deregister the %1$s script in the administration area. To target the front-end theme, use the %2$s hook.' ),
-				"<code>$handle</code>",
-				'<code>wp_enqueue_scripts</code>'
+			_doing_it_wrong(
+				__FUNCTION__,
+				sprintf(
+					/* translators: 1: Script name, 2: wp_enqueue_scripts */
+					__( 'Do not deregister the %1$s script in the administration area. To target the front-end theme, use the %2$s hook.' ),
+					"<code>$handle</code>",
+					'<code>wp_enqueue_scripts</code>'
+				),
+				'3.6.0'
 			);
-			_doing_it_wrong( __FUNCTION__, $message, '3.6.0' );
 			return;
 		}
 	}

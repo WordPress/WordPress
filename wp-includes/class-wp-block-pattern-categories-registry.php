@@ -38,7 +38,11 @@ final class WP_Block_Pattern_Categories_Registry {
 	 */
 	public function register( $category_name, $category_properties ) {
 		if ( ! isset( $category_name ) || ! is_string( $category_name ) ) {
-			_doing_it_wrong( __METHOD__, __( 'Block pattern category name must be a string.' ), '5.5.0' );
+			_doing_it_wrong(
+				__METHOD__,
+				__( 'Block pattern category name must be a string.' ),
+				'5.5.0'
+			);
 			return false;
 		}
 
@@ -60,9 +64,12 @@ final class WP_Block_Pattern_Categories_Registry {
 	 */
 	public function unregister( $category_name ) {
 		if ( ! $this->is_registered( $category_name ) ) {
-			/* translators: %s: Block pattern name. */
-			$message = sprintf( __( 'Block pattern category "%s" not found.' ), $category_name );
-			_doing_it_wrong( __METHOD__, $message, '5.5.0' );
+			_doing_it_wrong(
+				__METHOD__,
+				/* translators: %s: Block pattern name. */
+				sprintf( __( 'Block pattern category "%s" not found.' ), $category_name ),
+				'5.5.0'
+			);
 			return false;
 		}
 

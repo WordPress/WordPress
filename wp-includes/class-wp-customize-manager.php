@@ -3907,18 +3907,20 @@ final class WP_Customize_Manager {
 	public function remove_panel( $id ) {
 		// Removing core components this way is _doing_it_wrong().
 		if ( in_array( $id, $this->components, true ) ) {
-			$message = sprintf(
-				/* translators: 1: Panel ID, 2: Link to 'customize_loaded_components' filter reference. */
-				__( 'Removing %1$s manually will cause PHP warnings. Use the %2$s filter instead.' ),
-				$id,
+			_doing_it_wrong(
+				__METHOD__,
 				sprintf(
-					'<a href="%1$s">%2$s</a>',
-					esc_url( 'https://developer.wordpress.org/reference/hooks/customize_loaded_components/' ),
-					'<code>customize_loaded_components</code>'
-				)
+					/* translators: 1: Panel ID, 2: Link to 'customize_loaded_components' filter reference. */
+					__( 'Removing %1$s manually will cause PHP warnings. Use the %2$s filter instead.' ),
+					$id,
+					sprintf(
+						'<a href="%1$s">%2$s</a>',
+						esc_url( 'https://developer.wordpress.org/reference/hooks/customize_loaded_components/' ),
+						'<code>customize_loaded_components</code>'
+					)
+				),
+				'4.5.0'
 			);
-
-			_doing_it_wrong( __METHOD__, $message, '4.5.0' );
 		}
 		unset( $this->panels[ $id ] );
 	}
