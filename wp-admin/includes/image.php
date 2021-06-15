@@ -470,7 +470,7 @@ function _wp_make_subsizes( $new_sizes, $file, $image_meta, $attachment_id ) {
  *
  * @param int    $attachment_id Attachment Id to process.
  * @param string $file          Filepath of the Attached image.
- * @return mixed Metadata for attachment.
+ * @return array Metadata for attachment.
  */
 function wp_generate_attachment_metadata( $attachment_id, $file ) {
 	$attachment = get_post( $attachment_id );
@@ -488,6 +488,12 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 	} elseif ( wp_attachment_is( 'audio', $attachment ) ) {
 		$metadata = wp_read_audio_metadata( $file );
 		$support  = current_theme_supports( 'post-thumbnails', 'attachment:audio' ) || post_type_supports( 'attachment:audio', 'thumbnail' );
+	}
+
+	// wp_read_video_metadata() and wp_read_audio_metadata() return `false` if the attachment
+	// does not exist in the local filesystem, so make sure to convert the value to an array.
+	if ( ! is_array( $metadata ) ) {
+		$metadata = array();
 	}
 
 	if ( $support && ! empty( $metadata['image']['data'] ) ) {
@@ -616,9 +622,7 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 	}
 
 	// Remove the blob of binary data from the array.
-	if ( $metadata ) {
-		unset( $metadata['image']['data'] );
-	}
+	unset( $metadata['image']['data'] );
 
 	/**
 	 * Filters the generated attachment meta data.
