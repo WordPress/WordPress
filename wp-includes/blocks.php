@@ -975,6 +975,16 @@ function block_has_support( $block_type, $feature, $default = false ) {
 	return true === $block_support || is_array( $block_support );
 }
 
+/**
+ * Converts typography keys declared under `supports.*` to `supports.typography.*`.
+ *
+ * Displays a `_doing_it_wrong()` notice when a block using the older format is detected.
+ *
+ * @since 5.8.0
+ *
+ * @param array $metadata Metadata for registering a block type.
+ * @return array Filtered metadata for registering a block type.
+ */
 function wp_migrate_old_typography_shape( $metadata ) {
 	$typography_keys = array(
 		'__experimentalFontFamily',
