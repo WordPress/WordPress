@@ -5,7 +5,7 @@
 	"category": "design",
 	"description": "Displays the title of a post, page, or any other content-type.",
 	"textdomain": "default",
-	"usesContext": [ "postId", "postType" ],
+	"usesContext": [ "postId", "postType", "queryId" ],
 	"attributes": {
 		"textAlign": {
 			"type": "string"

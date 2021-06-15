@@ -17,7 +17,7 @@
 			"default": false
 		}
 	},
-	"usesContext": [ "postId", "postType" ],
+	"usesContext": [ "postId", "postType", "queryId" ],
 	"supports": {
 		"html": false,
 		"color": {

@@ -3986,10 +3986,14 @@ function __spreadArrays() {
     return r;
 }
 
-function __spreadArray(to, from) {
-    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
-        to[j] = from[i];
-    return to;
+function __spreadArray(to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || from);
 }
 
 function __await(v) {
@@ -5035,10 +5039,14 @@ function tslib_es6_spreadArrays() {
     return r;
 }
 
-function tslib_es6_spreadArray(to, from) {
-    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
-        to[j] = from[i];
-    return to;
+function tslib_es6_spreadArray(to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || from);
 }
 
 function tslib_es6_await(v) {
@@ -6579,10 +6587,14 @@ function tslib_tslib_es6_spreadArrays() {
     return r;
 }
 
-function tslib_tslib_es6_spreadArray(to, from) {
-    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
-        to[j] = from[i];
-    return to;
+function tslib_tslib_es6_spreadArray(to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || from);
 }
 
 function tslib_tslib_es6_await(v) {
@@ -13132,7 +13144,7 @@ function VisualEditor({
     setIsEditingTemplate
   } = Object(external_wp_data_["useDispatch"])(store["a" /* store */]);
   const desktopCanvasStyles = {
-    height: '100%',
+    minHeight: '100%',
     width: '100%',
     margin: 0,
     display: 'flex',
@@ -16787,7 +16799,7 @@ function PostTemplateActions() {
     isLink: true,
     onClick: () => setIsModalOpen(true)
   }, Object(external_wp_i18n_["__"])('New'))), isModalOpen && Object(external_wp_element_["createElement"])(external_wp_components_["Modal"], {
-    title: Object(external_wp_i18n_["__"])('Create a custom template'),
+    title: Object(external_wp_i18n_["__"])('Create custom template'),
     closeLabel: Object(external_wp_i18n_["__"])('Close'),
     onRequestClose: () => {
       setIsModalOpen(false);
@@ -16814,15 +16826,20 @@ function PostTemplateActions() {
 
       setIsModalOpen(false);
     }
-  }, Object(external_wp_element_["createElement"])(external_wp_components_["TextControl"], {
+  }, Object(external_wp_element_["createElement"])(external_wp_components_["Flex"], {
+    align: "flex-start",
+    gap: 8
+  }, Object(external_wp_element_["createElement"])(external_wp_components_["FlexItem"], null, Object(external_wp_element_["createElement"])(external_wp_components_["TextControl"], {
     label: Object(external_wp_i18n_["__"])('Name'),
     value: title,
-    onChange: setTitle
-  }), Object(external_wp_element_["createElement"])(external_wp_components_["Flex"], {
-    className: "edit-post-post-template__modal-actions",
-    justify: "flex-end"
+    onChange: setTitle,
+    help: Object(external_wp_i18n_["__"])('Describe the purpose of the template, e.g. "Full Width". Custom templates can be applied to any post or page.')
+  }))), Object(external_wp_element_["createElement"])(external_wp_components_["Flex"], {
+    className: "edit-post-template__modal-actions",
+    justify: "flex-end",
+    expanded: false
   }, Object(external_wp_element_["createElement"])(external_wp_components_["FlexItem"], null, Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
-    isSecondary: true,
+    isTertiary: true,
     onClick: () => {
       setIsModalOpen(false);
       setTitle('');

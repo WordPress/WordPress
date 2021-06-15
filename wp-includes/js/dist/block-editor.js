@@ -7065,7 +7065,8 @@ __webpack_require__.d(__webpack_exports__, "__experimentalBlockVariationTransfor
 __webpack_require__.d(__webpack_exports__, "BlockVerticalAlignmentToolbar", function() { return /* reexport */ BlockVerticalAlignmentToolbar; });
 __webpack_require__.d(__webpack_exports__, "BlockVerticalAlignmentControl", function() { return /* reexport */ BlockVerticalAlignmentControl; });
 __webpack_require__.d(__webpack_exports__, "__experimentalBorderStyleControl", function() { return /* reexport */ BorderStyleControl; });
-__webpack_require__.d(__webpack_exports__, "ButtonBlockerAppender", function() { return /* reexport */ button_block_appender; });
+__webpack_require__.d(__webpack_exports__, "ButtonBlockerAppender", function() { return /* reexport */ ButtonBlockerAppender; });
+__webpack_require__.d(__webpack_exports__, "ButtonBlockAppender", function() { return /* reexport */ button_block_appender; });
 __webpack_require__.d(__webpack_exports__, "ColorPalette", function() { return /* reexport */ color_palette; });
 __webpack_require__.d(__webpack_exports__, "ColorPaletteControl", function() { return /* reexport */ ColorPaletteControl; });
 __webpack_require__.d(__webpack_exports__, "ContrastChecker", function() { return /* reexport */ contrast_checker; });
@@ -11493,6 +11494,13 @@ function actions_stopMultiSelect() {
  */
 
 function* actions_multiSelect(start, end) {
+  const startBlockRootClientId = yield external_wp_data_["controls"].select(STORE_NAME, 'getBlockRootClientId', start);
+  const endBlockRootClientId = yield external_wp_data_["controls"].select(STORE_NAME, 'getBlockRootClientId', end); // Only allow block multi-selections at the same level.
+
+  if (startBlockRootClientId !== endBlockRootClientId) {
+    return;
+  }
+
   yield {
     type: 'MULTI_SELECT',
     start,
@@ -13515,18 +13523,11 @@ const deprecatedFlags = {
   },
   'spacing.customPadding': settings => settings.enableCustomSpacing
 };
-
-const filterColorsFromCoreOrigin = (path, setting) => {
-  if (path !== 'color.palette' && path !== 'color.gradients') {
-    return setting;
-  }
-
-  if (!Array.isArray(setting)) {
-    return setting;
-  }
-
-  const colors = setting.filter(color => (color === null || color === void 0 ? void 0 : color.origin) !== 'core');
-  return colors.length > 0 ? colors : setting;
+const PATHS_WITH_MERGE = {
+  'color.gradients': true,
+  'color.palette': true,
+  'typography.fontFamilies': true,
+  'typography.fontSizes': true
 };
 /**
  * Hook that retrieves the editor setting.
@@ -13541,7 +13542,6 @@ const filterColorsFromCoreOrigin = (path, setting) => {
  * const isEnabled = useSetting( 'typography.dropCap' );
  * ```
  */
-
 
 function useSetting(path) {
   const {
@@ -13558,14 +13558,20 @@ function useSetting(path) {
     const experimentalFeaturesResult = (_get = Object(external_lodash_["get"])(settings, blockPath)) !== null && _get !== void 0 ? _get : Object(external_lodash_["get"])(settings, defaultsPath);
 
     if (experimentalFeaturesResult !== undefined) {
-      return filterColorsFromCoreOrigin(path, experimentalFeaturesResult);
+      if (PATHS_WITH_MERGE[path]) {
+        var _ref, _experimentalFeatures;
+
+        return (_ref = (_experimentalFeatures = experimentalFeaturesResult.user) !== null && _experimentalFeatures !== void 0 ? _experimentalFeatures : experimentalFeaturesResult.theme) !== null && _ref !== void 0 ? _ref : experimentalFeaturesResult.core;
+      }
+
+      return experimentalFeaturesResult;
     } // 2 - Use deprecated settings, otherwise.
 
 
     const deprecatedSettingsValue = deprecatedFlags[path] ? deprecatedFlags[path](settings) : undefined;
 
     if (deprecatedSettingsValue !== undefined) {
-      return filterColorsFromCoreOrigin(path, deprecatedSettingsValue);
+      return deprecatedSettingsValue;
     } // 3 - Fall back for typography.dropCap:
     // This is only necessary to support typography.dropCap.
     // when __experimentalFeatures are not present (core without plugin).
@@ -19203,10 +19209,14 @@ function BlockTitle({
 /**
  * Block breadcrumb component, displaying the hierarchy of the current block selection as a breadcrumb.
  *
- * @return {WPElement} Block Breadcrumb.
+ * @param  {Object}   props               Component props.
+ * @param  {string}   props.rootLabelText Translated label for the root element of the breadcrumb trail.
+ * @return {WPElement}                    Block Breadcrumb.
  */
 
-function BlockBreadcrumb() {
+function BlockBreadcrumb({
+  rootLabelText
+}) {
   const {
     selectBlock,
     clearSelectedBlock
@@ -19228,12 +19238,15 @@ function BlockBreadcrumb() {
       hasSelection: !!getSelectionStart().clientId
     };
   }, []);
+
+  const rootLabel = rootLabelText || Object(external_wp_i18n_["__"])('Document');
   /*
    * Disable reason: The `list` ARIA role is redundant but
    * Safari+VoiceOver won't announce the list otherwise.
    */
 
   /* eslint-disable jsx-a11y/no-redundant-roles */
+
 
   return Object(external_wp_element_["createElement"])("ul", {
     className: "block-editor-block-breadcrumb",
@@ -19246,7 +19259,7 @@ function BlockBreadcrumb() {
     className: "block-editor-block-breadcrumb__button",
     isTertiary: true,
     onClick: clearSelectedBlock
-  }, Object(external_wp_i18n_["__"])('Document')), !hasSelection && Object(external_wp_i18n_["__"])('Document')), parents.map(parentClientId => Object(external_wp_element_["createElement"])("li", {
+  }, rootLabel), !hasSelection && rootLabel), parents.map(parentClientId => Object(external_wp_element_["createElement"])("li", {
     key: parentClientId
   }, Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
     className: "block-editor-block-breadcrumb__button",
@@ -20719,10 +20732,12 @@ function useBlockClassNames(clientId) {
       getBlockName,
       getSettings,
       hasSelectedInnerBlock,
+      isTyping,
       __experimentalGetActiveBlockIdByBlockNames: getActiveBlockIdByBlockNames
     } = select(store);
     const {
-      __experimentalSpotlightEntityBlocks: spotlightEntityBlocks
+      __experimentalSpotlightEntityBlocks: spotlightEntityBlocks,
+      outlineMode
     } = getSettings();
     const isDragging = isBlockBeingDragged(clientId);
     const isSelected = isBlockSelected(clientId);
@@ -20740,7 +20755,8 @@ function useBlockClassNames(clientId) {
       'has-child-selected': isAncestorOfSelectedBlock,
       'has-active-entity': activeEntityBlockId,
       // Determine if there is an active entity area to spotlight.
-      'is-active-entity': activeEntityBlockId === clientId
+      'is-active-entity': activeEntityBlockId === clientId,
+      'remove-outline': isSelected && outlineMode && isTyping()
     });
   }, [clientId]);
 }
@@ -23910,6 +23926,7 @@ function DefaultBlockAppender({
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -23971,9 +23988,21 @@ function ButtonBlockAppender({
   });
 }
 /**
- * @see https://github.com/WordPress/gutenberg/blob/HEAD/packages/block-editor/src/components/button-block-appender/README.md
+ * Use `ButtonBlockAppender` instead.
+ *
+ * @deprecated
  */
 
+
+const ButtonBlockerAppender = Object(external_wp_element_["forwardRef"])((props, ref) => {
+  external_wp_deprecated_default()(`wp.blockEditor.ButtonBlockerAppender`, {
+    alternative: 'wp.blockEditor.ButtonBlockAppender'
+  });
+  return ButtonBlockAppender(props, ref);
+});
+/**
+ * @see https://github.com/WordPress/gutenberg/blob/HEAD/packages/block-editor/src/components/button-block-appender/README.md
+ */
 
 /* harmony default export */ var button_block_appender = (Object(external_wp_element_["forwardRef"])(ButtonBlockAppender));
 
@@ -24406,12 +24435,7 @@ function getNearestBlockIndex(elements, position, orientation) {
       // If the user is dropping to the trailing edge of the block
       // add 1 to the index to represent dragging after.
       const isTrailingEdge = edge === 'bottom' || edge === 'right';
-      let offset = isTrailingEdge ? 1 : 0; // If the target is the dragged block itself and another 1 to
-      // index as the dragged block is set to `display: none` and
-      // should be skipped in the calculation.
-
-      const isTargetDraggedBlock = isTrailingEdge && elements[index + 1] && elements[index + 1].classList.contains('is-dragging');
-      offset += isTargetDraggedBlock ? 1 : 0; // Update the currently known best candidate.
+      const offset = isTrailingEdge ? 1 : 0; // Update the currently known best candidate.
 
       candidateDistance = distance;
       candidateIndex = index + offset;
@@ -24438,32 +24462,28 @@ function useBlockDropZone({
   rootClientId: targetRootClientId = ''
 } = {}) {
   const [targetBlockIndex, setTargetBlockIndex] = Object(external_wp_element_["useState"])(null);
-  const {
-    isLockedAll,
-    orientation
-  } = Object(external_wp_data_["useSelect"])(select => {
-    var _getBlockListSettings;
-
+  const isLockedAll = Object(external_wp_data_["useSelect"])(select => {
     const {
-      getBlockListSettings,
       getTemplateLock
     } = select(store);
-    return {
-      isLockedAll: getTemplateLock(targetRootClientId) === 'all',
-      orientation: (_getBlockListSettings = getBlockListSettings(targetRootClientId)) === null || _getBlockListSettings === void 0 ? void 0 : _getBlockListSettings.orientation
-    };
+    return getTemplateLock(targetRootClientId) === 'all';
   }, [targetRootClientId]);
+  const {
+    getBlockListSettings
+  } = Object(external_wp_data_["useSelect"])(store);
   const {
     showInsertionPoint,
     hideInsertionPoint
   } = Object(external_wp_data_["useDispatch"])(store);
   const onBlockDrop = useOnBlockDrop(targetRootClientId, targetBlockIndex);
   const throttled = Object(external_wp_compose_["useThrottle"])(Object(external_wp_element_["useCallback"])((event, currentTarget) => {
+    var _getBlockListSettings;
+
     const blockElements = Array.from(currentTarget.children);
     const targetIndex = getNearestBlockIndex(blockElements, {
       x: event.clientX,
       y: event.clientY
-    }, orientation);
+    }, (_getBlockListSettings = getBlockListSettings(targetRootClientId)) === null || _getBlockListSettings === void 0 ? void 0 : _getBlockListSettings.orientation);
     setTargetBlockIndex(targetIndex === undefined ? 0 : targetIndex);
 
     if (targetIndex !== null) {
@@ -24479,6 +24499,12 @@ function useBlockDropZone({
       // handled, so get it now and pass it to the thottled function.
       // https://developer.mozilla.org/en-US/docs/Web/API/Event/currentTarget
       throttled(event, event.currentTarget);
+    },
+
+    onDragLeave() {
+      throttled.cancel();
+      hideInsertionPoint();
+      setTargetBlockIndex(null);
     },
 
     onDragEnd() {
@@ -24560,7 +24586,6 @@ function InsertionPointPopover({
   const ref = Object(external_wp_element_["useRef"])();
   const {
     orientation,
-    isHidden,
     previousClientId,
     nextClientId,
     rootClientId,
@@ -24571,38 +24596,34 @@ function InsertionPointPopover({
     const {
       getBlockOrder,
       getBlockListSettings,
-      getMultiSelectedBlockClientIds,
-      getSelectedBlockClientId,
-      hasMultiSelection,
-      getSettings,
-      getBlockInsertionPoint
+      getBlockInsertionPoint,
+      isBlockBeingDragged,
+      getPreviousBlockClientId,
+      getNextBlockClientId
     } = select(store);
     const insertionPoint = getBlockInsertionPoint();
     const order = getBlockOrder(insertionPoint.rootClientId);
-    const targetClientId = order[insertionPoint.index - 1];
-    const targetRootClientId = insertionPoint.rootClientId;
-    const blockOrder = getBlockOrder(targetRootClientId);
 
-    if (!blockOrder.length) {
+    if (!order.length) {
       return {};
     }
 
-    const previous = targetClientId ? targetClientId : blockOrder[blockOrder.length - 1];
-    const isLast = previous === blockOrder[blockOrder.length - 1];
-    const next = isLast ? null : blockOrder[blockOrder.indexOf(previous) + 1];
-    const {
-      hasReducedUI
-    } = getSettings();
-    const multiSelectedBlockClientIds = getMultiSelectedBlockClientIds();
-    const selectedBlockClientId = getSelectedBlockClientId();
-    const blockOrientation = ((_getBlockListSettings = getBlockListSettings(targetRootClientId)) === null || _getBlockListSettings === void 0 ? void 0 : _getBlockListSettings.orientation) || 'vertical';
+    let _previousClientId = order[insertionPoint.index - 1];
+    let _nextClientId = order[insertionPoint.index];
+
+    while (isBlockBeingDragged(_previousClientId)) {
+      _previousClientId = getPreviousBlockClientId(_previousClientId);
+    }
+
+    while (isBlockBeingDragged(_nextClientId)) {
+      _nextClientId = getNextBlockClientId(_nextClientId);
+    }
+
     return {
-      previousClientId: previous,
-      nextClientId: next,
-      isHidden: hasReducedUI || (hasMultiSelection() ? next && multiSelectedBlockClientIds.includes(next) : next && blockOrientation === 'vertical' && next === selectedBlockClientId),
-      orientation: blockOrientation,
-      clientId: targetClientId,
-      rootClientId: targetRootClientId,
+      previousClientId: _previousClientId,
+      nextClientId: _nextClientId,
+      orientation: ((_getBlockListSettings = getBlockListSettings(insertionPoint.rootClientId)) === null || _getBlockListSettings === void 0 ? void 0 : _getBlockListSettings.orientation) || 'vertical',
+      rootClientId: insertionPoint.rootClientId,
       isInserterShown: insertionPoint === null || insertionPoint === void 0 ? void 0 : insertionPoint.__unstableWithInserter
     };
   }, []);
@@ -24704,11 +24725,7 @@ function InsertionPointPopover({
   // should serve the purpose of inserting blocks.
 
 
-  const showInsertionPointInserter = !isHidden && nextElement && isInserterShown; // Show the indicator if the insertion point inserter is visible, or if
-  // the `showInsertionPoint` state is `true`. The latter is generally true
-  // when hovering blocks for insertion in the block library.
-
-  const showInsertionPointIndicator = showInsertionPointInserter || !isHidden;
+  const showInsertionPointInserter = nextElement && isInserterShown;
   /* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
   // While ideally it would be enough to capture the
   // bubbling focus event from the Inserter, due to the
@@ -24736,7 +24753,7 @@ function InsertionPointPopover({
       'is-with-inserter': showInsertionPointInserter
     }),
     style: style
-  }, showInsertionPointIndicator && Object(external_wp_element_["createElement"])("div", {
+  }, Object(external_wp_element_["createElement"])("div", {
     className: "block-editor-block-list__insertion-point-indicator"
   }), showInsertionPointInserter && Object(external_wp_element_["createElement"])("div", {
     className: classnames_default()('block-editor-block-list__insertion-point-inserter')
@@ -24761,11 +24778,7 @@ function InsertionPoint({
   __unstableContentRef
 }) {
   const isVisible = Object(external_wp_data_["useSelect"])(select => {
-    const {
-      isMultiSelecting,
-      isBlockInsertionPointVisible
-    } = select(store);
-    return isBlockInsertionPointVisible() && !isMultiSelecting();
+    return select(store).isBlockInsertionPointVisible();
   }, []);
   return Object(external_wp_element_["createElement"])(InsertionPointOpenRef.Provider, {
     value: Object(external_wp_element_["useRef"])(false)
@@ -24790,18 +24803,24 @@ function InsertionPoint({
 
 function useInBetweenInserter() {
   const openRef = Object(external_wp_element_["useContext"])(InsertionPointOpenRef);
+  const hasReducedUI = Object(external_wp_data_["useSelect"])(select => select(store).getSettings().hasReducedUI, []);
   const {
     getBlockListSettings,
     getBlockRootClientId,
     getBlockIndex,
     isBlockInsertionPointVisible,
-    isMultiSelecting
+    isMultiSelecting,
+    getSelectedBlockClientIds
   } = Object(external_wp_data_["useSelect"])(store);
   const {
     showInsertionPoint,
     hideInsertionPoint
   } = Object(external_wp_data_["useDispatch"])(store);
   return Object(external_wp_compose_["useRefEffect"])(node => {
+    if (hasReducedUI) {
+      return;
+    }
+
     function onMouseMove(event) {
       var _getBlockListSettings;
 
@@ -24855,6 +24874,12 @@ function useInBetweenInserter() {
 
       if (!clientId) {
         return;
+      } // Don't show the inserter when hovering above (conflicts with
+      // block toolbar) or inside selected block(s).
+
+
+      if (getSelectedBlockClientIds().includes(clientId)) {
+        return;
       }
 
       const elementRect = element.getBoundingClientRect();
@@ -24887,7 +24912,7 @@ function useInBetweenInserter() {
     return () => {
       node.removeEventListener('mousemove', onMouseMove);
     };
-  }, [openRef, getBlockListSettings, getBlockRootClientId, getBlockIndex, isBlockInsertionPointVisible, isMultiSelecting, showInsertionPoint, hideInsertionPoint]);
+  }, [openRef, getBlockListSettings, getBlockRootClientId, getBlockIndex, isBlockInsertionPointVisible, isMultiSelecting, showInsertionPoint, hideInsertionPoint, getSelectedBlockClientIds]);
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/utils/pre-parse-patterns.js
@@ -27872,6 +27897,21 @@ function BlockPopover({
     hasFixedToolbar,
     lastClientId
   } = Object(external_wp_data_["useSelect"])(block_popover_selector, []);
+  const isInsertionPointVisible = Object(external_wp_data_["useSelect"])(select => {
+    const {
+      isBlockInsertionPointVisible,
+      getBlockInsertionPoint,
+      getBlockOrder
+    } = select(store);
+
+    if (!isBlockInsertionPointVisible()) {
+      return false;
+    }
+
+    const insertionPoint = getBlockInsertionPoint();
+    const order = getBlockOrder(insertionPoint.rootClientId);
+    return order[insertionPoint.index] === clientId;
+  }, [clientId]);
   const isLargeViewport = Object(external_wp_compose_["useViewportMatch"])('medium');
   const [isToolbarForced, setIsToolbarForced] = Object(external_wp_element_["useState"])(false);
   const [isInserterShown, setIsInserterShown] = Object(external_wp_element_["useState"])(false);
@@ -27962,7 +28002,9 @@ function BlockPopover({
     position: popoverPosition,
     focusOnMount: false,
     anchorRef: anchorRef,
-    className: "block-editor-block-list__block-popover",
+    className: classnames_default()('block-editor-block-list__block-popover', {
+      'is-insertion-point-visible': isInsertionPointVisible
+    }),
     __unstableStickyBoundaryElement: stickyBoundaryElement // Render in the old slot if needed for backward compatibility,
     // otherwise render in place (not in the the default popover slot).
     ,
@@ -28216,13 +28258,11 @@ function Root({
 }) {
   const isLargeViewport = Object(external_wp_compose_["useViewportMatch"])('medium');
   const {
-    isTyping,
     isOutlineMode,
     isFocusMode,
     isNavigationMode
   } = Object(external_wp_data_["useSelect"])(select => {
     const {
-      isTyping: _isTyping,
       getSettings,
       isNavigationMode: _isNavigationMode
     } = select(store);
@@ -28231,7 +28271,6 @@ function Root({
       focusMode
     } = getSettings();
     return {
-      isTyping: _isTyping(),
       isOutlineMode: outlineMode,
       isFocusMode: focusMode,
       isNavigationMode: _isNavigationMode()
@@ -28240,7 +28279,6 @@ function Root({
   return Object(external_wp_element_["createElement"])("div", {
     ref: Object(external_wp_compose_["useMergeRefs"])([useBlockSelectionClearer(), useBlockDropZone(), useInBetweenInserter()]),
     className: classnames_default()('block-editor-block-list__layout is-root-container', className, {
-      'is-typing': isTyping,
       'is-outline-mode': isOutlineMode,
       'is-focus-mode': isFocusMode && isLargeViewport,
       'is-navigate-mode': isNavigationMode
@@ -28250,14 +28288,12 @@ function Root({
 
 function BlockList({
   className,
-  __experimentalLayout
+  ...props
 }) {
   usePreParsePatterns();
   return Object(external_wp_element_["createElement"])(BlockToolsBackCompat, null, Object(external_wp_element_["createElement"])(Root, {
     className: className
-  }, Object(external_wp_element_["createElement"])(BlockListItems, {
-    __experimentalLayout: __experimentalLayout
-  })));
+  }, Object(external_wp_element_["createElement"])(BlockListItems, props)));
 }
 
 function Items({

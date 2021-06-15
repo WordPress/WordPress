@@ -1553,15 +1553,18 @@ function wp_default_styles( $styles ) {
 		'list-reusable-blocks' => array( 'wp-components' ),
 		'reusable-blocks'      => array( 'wp-components' ),
 		'nux'                  => array( 'wp-components' ),
-		'edit-widgets'         => array(
+		'widgets'              => array(
 			'wp-components',
+		),
+		'edit-widgets'         => array(
+			'wp-widgets',
 			'wp-block-editor',
 			'wp-edit-blocks',
 			'wp-block-library',
 			'wp-reusable-blocks',
 		),
 		'customize-widgets'    => array(
-			'wp-components',
+			'wp-widgets',
 			'wp-block-editor',
 			'wp-edit-blocks',
 			'wp-block-library',
@@ -1622,12 +1625,15 @@ function wp_default_styles( $styles ) {
 		'wp-block-library',
 		'wp-block-directory',
 		'wp-components',
+		'wp-customize-widgets',
 		'wp-edit-post',
+		'wp-edit-widgets',
 		'wp-editor',
 		'wp-format-library',
 		'wp-list-reusable-blocks',
 		'wp-reusable-blocks',
 		'wp-nux',
+		'wp-widgets',
 		// Deprecated CSS.
 		'deprecated-media',
 		'farbtastic',

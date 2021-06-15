@@ -1498,7 +1498,9 @@ function SidebarBlockEditor({
     isInserterOpened: isInserterOpened,
     setIsInserterOpened: setIsInserterOpened,
     isFixedToolbarActive: isFixedToolbarActive
-  }), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockTools"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockSelectionClearer"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["WritingFlow"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["ObserveTyping"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockList"], null))))), Object(external_wp_element_["createPortal"])( // This is a temporary hack to prevent button component inside <BlockInspector>
+  }), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockTools"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockSelectionClearer"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["WritingFlow"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["ObserveTyping"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockList"], {
+    renderAppender: external_wp_blockEditor_["ButtonBlockAppender"]
+  }))))), Object(external_wp_element_["createPortal"])( // This is a temporary hack to prevent button component inside <BlockInspector>
   // from submitting form when type="button" is not specified.
   Object(external_wp_element_["createElement"])("form", {
     onSubmit: event => event.preventDefault()
@@ -2422,6 +2424,7 @@ function initialize(editorName, blockEditorSettings) {
   const coreBlocks = Object(external_wp_blockLibrary_["__experimentalGetCoreBlocks"])().filter(block => !['core/more'].includes(block.name));
 
   Object(external_wp_blockLibrary_["registerCoreBlocks"])(coreBlocks);
+  Object(external_wp_widgets_["registerLegacyWidgetBlock"])();
 
   if (false) {}
 

@@ -235,7 +235,8 @@ var external_lodash_ = __webpack_require__("YLtl");
 const PREFERENCES_DEFAULTS = {
   features: {
     fixedToolbar: false,
-    welcomeGuide: true
+    welcomeGuide: true,
+    showBlockBreadcrumbs: true
   }
 };
 
@@ -777,11 +778,14 @@ function* saveWidgetArea(widgetAreaId) {
     const widget = transformBlockToWidget(block, oldWidget); // We'll replace the null widgetId after save, but we track it here
     // since order is important.
 
-    sidebarWidgetsIds.push(widgetId);
+    sidebarWidgetsIds.push(widgetId); // We need to check for the id in the widget object here, because a deleted
+    // and restored widget won't have this id.
 
-    if (widgetId) {
+    if (widget.id) {
       yield dispatch('core', 'editEntityRecord', 'root', 'widget', widgetId, { ...widget,
         sidebar: widgetAreaId
+      }, {
+        undoIgnore: true
       });
       const hasEdits = yield controls_select('core', 'hasEditsForEntityRecord', 'root', 'widget', widgetId);
 
@@ -824,10 +828,10 @@ function* saveWidgetArea(widgetAreaId) {
     const {
       block,
       position
-    } = batchMeta[i];
-    yield dispatch('core/block-editor', 'updateBlockAttributes', block.clientId, {
-      __internalWidgetId: widget.id
-    });
+    } = batchMeta[i]; // Set __internalWidgetId on the block. This will be persisted to the
+    // store when we dispatch receiveEntityRecords( post ) below.
+
+    post.blocks[position].attributes.__internalWidgetId = widget.id;
     const error = yield controls_select('core', 'getLastEntitySaveError', 'root', 'widget', widget.id);
 
     if (error) {
@@ -849,6 +853,8 @@ function* saveWidgetArea(widgetAreaId) {
 
   yield dispatch('core', 'editEntityRecord', KIND, WIDGET_AREA_ENTITY_TYPE, widgetAreaId, {
     widgets: sidebarWidgetsIds
+  }, {
+    undoIgnore: true
   });
   yield* trySaveWidgetArea(widgetAreaId);
   yield dispatch('core', 'receiveEntityRecords', KIND, POST_TYPE, post, undefined);
@@ -1400,7 +1406,7 @@ function WidgetAreaInnerBlocks() {
     onInput: onInput,
     onChange: onChange,
     templateLock: false,
-    renderAppender: external_wp_blockEditor_["InnerBlocks"].DefaultBlockAppender
+    renderAppender: external_wp_blockEditor_["InnerBlocks"].ButtonBlockAppender
   });
 }
 
@@ -2560,6 +2566,12 @@ function MoreMenu() {
     info: Object(external_wp_i18n_["__"])('Aids screen readers by stopping text caret from leaving blocks.'),
     messageActivated: Object(external_wp_i18n_["__"])('Contain text cursor inside block activated'),
     messageDeactivated: Object(external_wp_i18n_["__"])('Contain text cursor inside block deactivated')
+  }), Object(external_wp_element_["createElement"])(FeatureToggle, {
+    feature: "showBlockBreadcrumbs",
+    label: Object(external_wp_i18n_["__"])('Display block breadcrumbs'),
+    info: Object(external_wp_i18n_["__"])('Shows block breadcrumbs at the bottom of the editor.'),
+    messageActivated: Object(external_wp_i18n_["__"])('Display block breadcrumbs activated'),
+    messageDeactivated: Object(external_wp_i18n_["__"])('Display block breadcrumbs deactivated')
   })))), Object(external_wp_element_["createElement"])(KeyboardShortcutHelpModal, {
     isModalActive: isKeyboardShortcutsModalActive,
     toggleModal: toggleKeyboardShortcutsModal
@@ -2826,7 +2838,10 @@ const interfaceLabels = {
   body: Object(external_wp_i18n_["__"])('Widgets and blocks'),
 
   /* translators: accessibility text for the widgets screen settings landmark region. */
-  sidebar: Object(external_wp_i18n_["__"])('Widgets settings')
+  sidebar: Object(external_wp_i18n_["__"])('Widgets settings'),
+
+  /* translators: accessibility text for the widgets screen footer landmark region. */
+  footer: Object(external_wp_i18n_["__"])('Widgets footer')
 };
 
 function Interface({
@@ -2843,11 +2858,13 @@ function Interface({
     insertionIndex
   } = use_widget_library_insertion_point();
   const {
+    hasBlockBreadCrumbsEnabled,
     hasSidebarEnabled,
     isInserterOpened
   } = Object(external_wp_data_["useSelect"])(select => ({
     hasSidebarEnabled: !!select(build_module["g" /* store */]).getActiveComplementaryArea(store.name),
-    isInserterOpened: !!select(store).isInserterOpened()
+    isInserterOpened: !!select(store).isInserterOpened(),
+    hasBlockBreadCrumbsEnabled: select(store).__unstableIsFeatureActive('showBlockBreadcrumbs')
   }), []); // Inserter and Sidebars are mutually exclusive
 
   Object(external_wp_element_["useEffect"])(() => {
@@ -2888,7 +2905,12 @@ function Interface({
     }),
     content: Object(external_wp_element_["createElement"])(WidgetAreasBlockEditorContent, {
       blockEditorSettings: blockEditorSettings
-    })
+    }),
+    footer: hasBlockBreadCrumbsEnabled && !isMobileViewport && Object(external_wp_element_["createElement"])("div", {
+      className: "edit-widgets-layout__footer"
+    }, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockBreadcrumb"], {
+      rootLabelText: Object(external_wp_i18n_["__"])('Widgets')
+    }))
   });
 }
 
@@ -3119,6 +3141,7 @@ function initialize(id, settings) {
   const coreBlocks = Object(external_wp_blockLibrary_["__experimentalGetCoreBlocks"])().filter(block => !['core/more'].includes(block.name));
 
   Object(external_wp_blockLibrary_["registerCoreBlocks"])(coreBlocks);
+  Object(external_wp_widgets_["registerLegacyWidgetBlock"])();
 
   if (false) {}
 

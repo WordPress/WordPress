@@ -1349,13 +1349,6 @@ __webpack_require__.d(latest_posts_namespaceObject, "metadata", function() { ret
 __webpack_require__.d(latest_posts_namespaceObject, "name", function() { return latest_posts_name; });
 __webpack_require__.d(latest_posts_namespaceObject, "settings", function() { return latest_posts_settings; });
 
-// NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/legacy-widget/index.js
-var legacy_widget_namespaceObject = {};
-__webpack_require__.r(legacy_widget_namespaceObject);
-__webpack_require__.d(legacy_widget_namespaceObject, "metadata", function() { return legacy_widget_metadata; });
-__webpack_require__.d(legacy_widget_namespaceObject, "name", function() { return legacy_widget_name; });
-__webpack_require__.d(legacy_widget_namespaceObject, "settings", function() { return legacy_widget_settings; });
-
 // NAMESPACE OBJECT: ./node_modules/@wordpress/block-library/build-module/loginout/index.js
 var loginout_namespaceObject = {};
 __webpack_require__.r(loginout_namespaceObject);
@@ -18551,1188 +18544,6 @@ const latest_posts_settings = {
   deprecated: latest_posts_deprecated
 };
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/widget.js
-
-
-/**
- * WordPress dependencies
- */
-
-const widget_widget = Object(external_wp_element_["createElement"])(external_wp_primitives_["SVG"], {
-  viewBox: "0 0 24 24",
-  xmlns: "http://www.w3.org/2000/svg"
-}, Object(external_wp_element_["createElement"])(external_wp_primitives_["Path"], {
-  d: "M7 11h2v2H7v-2zm14-5v14l-2 2H5l-2-2V6l2-2h1V2h2v2h8V2h2v2h1l2 2zM5 8h14V6H5v2zm14 12V10H5v10h14zm-4-7h2v-2h-2v2zm-4 0h2v-2h-2v2z"
-}));
-/* harmony default export */ var library_widget = (widget_widget);
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/brush.js
-
-
-/**
- * WordPress dependencies
- */
-
-const brush = Object(external_wp_element_["createElement"])(external_wp_primitives_["SVG"], {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24"
-}, Object(external_wp_element_["createElement"])(external_wp_primitives_["Path"], {
-  d: "M4 20h8v-1.5H4V20zM18.9 3.5c-.6-.6-1.5-.6-2.1 0l-7.2 7.2c-.4-.1-.7 0-1.1.1-.5.2-1.5.7-1.9 2.2-.4 1.7-.8 2.2-1.1 2.7-.1.1-.2.3-.3.4l-.6 1.1H6c2 0 3.4-.4 4.7-1.4.8-.6 1.2-1.4 1.3-2.3 0-.3 0-.5-.1-.7L19 5.7c.5-.6.5-1.6-.1-2.2zM9.7 14.7c-.7.5-1.5.8-2.4 1 .2-.5.5-1.2.8-2.3.2-.6.4-1 .8-1.1.5-.1 1 .1 1.3.3.2.2.3.5.2.8 0 .3-.1.9-.7 1.3z"
-}));
-/* harmony default export */ var library_brush = (brush);
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/update.js
-
-
-/**
- * WordPress dependencies
- */
-
-const update = Object(external_wp_element_["createElement"])(external_wp_primitives_["SVG"], {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "-2 -2 24 24"
-}, Object(external_wp_element_["createElement"])(external_wp_primitives_["Path"], {
-  d: "M10.2 3.28c3.53 0 6.43 2.61 6.92 6h2.08l-3.5 4-3.5-4h2.32c-.45-1.97-2.21-3.45-4.32-3.45-1.45 0-2.73.71-3.54 1.78L4.95 5.66C6.23 4.2 8.11 3.28 10.2 3.28zm-.4 13.44c-3.52 0-6.43-2.61-6.92-6H.8l3.5-4c1.17 1.33 2.33 2.67 3.5 4H5.48c.45 1.97 2.21 3.45 4.32 3.45 1.45 0 2.73-.71 3.54-1.78l1.71 1.95c-1.28 1.46-3.15 2.38-5.25 2.38z"
-}));
-/* harmony default export */ var library_update = (update);
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/legacy-widget/edit/widget-type-selector.js
-
-
-/**
- * WordPress dependencies
- */
-
-
-
-
-
-function WidgetTypeSelector({
-  selectedId,
-  onSelect
-}) {
-  const widgetTypes = Object(external_wp_data_["useSelect"])(select => {
-    var _select$getSettings$w, _select$getSettings, _select$getWidgetType;
-
-    const hiddenIds = (_select$getSettings$w = (_select$getSettings = select(external_wp_blockEditor_["store"]).getSettings()) === null || _select$getSettings === void 0 ? void 0 : _select$getSettings.widgetTypesToHideFromLegacyWidgetBlock) !== null && _select$getSettings$w !== void 0 ? _select$getSettings$w : [];
-    return (_select$getWidgetType = select(external_wp_coreData_["store"]).getWidgetTypes({
-      per_page: -1
-    })) === null || _select$getWidgetType === void 0 ? void 0 : _select$getWidgetType.filter(widgetType => !hiddenIds.includes(widgetType.id));
-  }, []);
-
-  if (!widgetTypes) {
-    return Object(external_wp_element_["createElement"])(external_wp_components_["Spinner"], null);
-  }
-
-  if (widgetTypes.length === 0) {
-    return Object(external_wp_i18n_["__"])('There are no widgets available.');
-  }
-
-  return Object(external_wp_element_["createElement"])(external_wp_components_["SelectControl"], {
-    label: Object(external_wp_i18n_["__"])('Select a legacy widget to display:'),
-    value: selectedId !== null && selectedId !== void 0 ? selectedId : '',
-    options: [{
-      value: '',
-      label: Object(external_wp_i18n_["__"])('Select widget')
-    }, ...widgetTypes.map(widgetType => ({
-      value: widgetType.id,
-      label: widgetType.name
-    }))],
-    onChange: value => {
-      if (value) {
-        const selected = widgetTypes.find(widgetType => widgetType.id === value);
-        onSelect({
-          selectedId: selected.id,
-          isMulti: selected.is_multi
-        });
-      } else {
-        onSelect({
-          selectedId: null
-        });
-      }
-    }
-  });
-}
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/legacy-widget/edit/inspector-card.js
-
-function InspectorCard({
-  name,
-  description
-}) {
-  return Object(external_wp_element_["createElement"])("div", {
-    className: "wp-block-legacy-widget-inspector-card"
-  }, Object(external_wp_element_["createElement"])("h3", {
-    className: "wp-block-legacy-widget-inspector-card__name"
-  }, name), Object(external_wp_element_["createElement"])("span", null, description));
-}
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/legacy-widget/edit/control.js
-/**
- * External dependencies
- */
-
-/**
- * WordPress dependencies
- */
-
-
-
-/**
- * An API for creating and loading a widget control (a <div class="widget">
- * element) that is compatible with most third party widget scripts. By not
- * using React for this, we ensure that we have complete contorl over the DOM
- * and do not accidentally remove any elements that a third party widget script
- * has attached an event listener to.
- *
- * @property {Element} element The control's DOM element.
- */
-
-class control_Control {
-  /**
-   * Creates and loads a new control.
-   *
-   * @access public
-   * @param {Object} params
-   * @param {string} params.id
-   * @param {string} params.idBase
-   * @param {Object} params.instance
-   * @param {Function} params.onChangeInstance
-   * @param {Function} params.onChangeHasPreview
-   * @param {Function} params.onError
-   */
-  constructor({
-    id,
-    idBase,
-    instance,
-    onChangeInstance,
-    onChangeHasPreview,
-    onError
-  }) {
-    this.id = id;
-    this.idBase = idBase;
-    this._instance = instance;
-    this._hasPreview = null;
-    this.onChangeInstance = onChangeInstance;
-    this.onChangeHasPreview = onChangeHasPreview;
-    this.onError = onError; // We can't use the real widget number as this is calculated by the
-    // server and we may not ever *actually* save this widget. Instead, use
-    // a fake but unique number.
-
-    this.number = ++lastNumber;
-    this.handleFormChange = Object(external_lodash_["debounce"])(this.saveForm.bind(this), 200);
-    this.handleFormSubmit = this.handleFormSubmit.bind(this);
-    this.initDOM();
-    this.bindEvents();
-    this.loadContent();
-  }
-  /**
-   * Clean up the control so that it can be garabge collected.
-   *
-   * @access public
-   */
-
-
-  destroy() {
-    this.unbindEvents();
-    this.element.remove(); // TODO: How do we make third party widget scripts remove their event
-    // listeners?
-  }
-  /**
-   * Creates the control's DOM structure.
-   *
-   * @access private
-   */
-
-
-  initDOM() {
-    var _this$id, _this$idBase;
-
-    this.element = control_el('div', {
-      class: 'widget open'
-    }, [control_el('div', {
-      class: 'widget-inside'
-    }, [this.form = control_el('form', {
-      class: 'form',
-      method: 'post'
-    }, [// These hidden form inputs are what most widgets' scripts
-    // use to access data about the widget.
-    control_el('input', {
-      class: 'widget-id',
-      type: 'hidden',
-      name: 'widget-id',
-      value: (_this$id = this.id) !== null && _this$id !== void 0 ? _this$id : `${this.idBase}-${this.number}`
-    }), control_el('input', {
-      class: 'id_base',
-      type: 'hidden',
-      name: 'id_base',
-      value: (_this$idBase = this.idBase) !== null && _this$idBase !== void 0 ? _this$idBase : this.id
-    }), control_el('input', {
-      class: 'widget-width',
-      type: 'hidden',
-      name: 'widget-width',
-      value: '250'
-    }), control_el('input', {
-      class: 'widget-height',
-      type: 'hidden',
-      name: 'widget-height',
-      value: '200'
-    }), control_el('input', {
-      class: 'widget_number',
-      type: 'hidden',
-      name: 'widget_number',
-      value: this.idBase ? this.number.toString() : ''
-    }), this.content = control_el('div', {
-      class: 'widget-content'
-    }), // Non-multi widgets can be saved via a Save button.
-    this.id && control_el('button', {
-      class: 'button is-primary',
-      type: 'submit'
-    }, Object(external_wp_i18n_["__"])('Save'))])])]);
-  }
-  /**
-   * Adds the control's event listeners.
-   *
-   * @access private
-   */
-
-
-  bindEvents() {
-    // Prefer jQuery 'change' event instead of the native 'change' event
-    // because many widgets use jQuery's event bus to trigger an update.
-    if (window.jQuery) {
-      const {
-        jQuery: $
-      } = window;
-      $(this.form).on('change', null, this.handleFormChange);
-      $(this.form).on('input', null, this.handleFormChange);
-      $(this.form).on('submit', this.handleFormSubmit);
-    } else {
-      this.form.addEventListener('change', this.handleFormChange);
-      this.form.addEventListener('input', this.handleFormChange);
-      this.form.addEventListener('submit', this.handleFormSubmit);
-    }
-  }
-  /**
-   * Removes the control's event listeners.
-   *
-   * @access private
-   */
-
-
-  unbindEvents() {
-    if (window.jQuery) {
-      const {
-        jQuery: $
-      } = window;
-      $(this.form).off('change', null, this.handleFormChange);
-      $(this.form).off('input', null, this.handleFormChange);
-      $(this.form).off('submit', this.handleFormSubmit);
-    } else {
-      this.form.removeEventListener('change', this.handleFormChange);
-      this.form.removeEventListener('input', this.handleFormChange);
-      this.form.removeEventListener('submit', this.handleFormSubmit);
-    }
-  }
-  /**
-   * Fetches the widget's form HTML from the REST API and loads it into the
-   * control's form.
-   *
-   * @access private
-   */
-
-
-  async loadContent() {
-    try {
-      if (this.id) {
-        const {
-          form
-        } = await saveWidget(this.id);
-        this.content.innerHTML = form;
-      } else if (this.idBase) {
-        const {
-          form,
-          preview
-        } = await encodeWidget({
-          idBase: this.idBase,
-          instance: this.instance,
-          number: this.number
-        });
-        this.content.innerHTML = form;
-        this.hasPreview = !isEmptyHTML(preview); // If we don't have an instance, perform a save right away. This
-        // happens when creating a new Legacy Widget block.
-
-        if (!this.instance.hash) {
-          const {
-            instance
-          } = await encodeWidget({
-            idBase: this.idBase,
-            instance: this.instance,
-            number: this.number,
-            formData: serializeForm(this.form)
-          });
-          this.instance = instance;
-        }
-      } // Trigger 'widget-added' when widget is ready. This event is what
-      // widgets' scripts use to initialize, attach events, etc. The event
-      // must be fired using jQuery's event bus as this is what widget
-      // scripts expect. If jQuery is not loaded, do nothing - some
-      // widgets will still work regardless.
-
-
-      if (window.jQuery) {
-        const {
-          jQuery: $
-        } = window;
-        $(document).trigger('widget-added', [$(this.element)]);
-      }
-    } catch (error) {
-      this.onError(error);
-    }
-  }
-  /**
-   * Perform a save when the control's form is manually submitted.
-   *
-   * @access private
-   * @param {Event} event
-   */
-
-
-  handleFormSubmit(event) {
-    event.preventDefault();
-    this.saveForm();
-  }
-  /**
-   * Serialize the control's form, send it to the REST API, and update the
-   * instance with the encoded instance that the REST API returns.
-   *
-   * @access private
-   */
-
-
-  async saveForm() {
-    const formData = serializeForm(this.form);
-
-    try {
-      if (this.id) {
-        const {
-          form
-        } = await saveWidget(this.id, formData);
-        this.content.innerHTML = form;
-
-        if (window.jQuery) {
-          const {
-            jQuery: $
-          } = window;
-          $(document).trigger('widget-updated', [$(this.element)]);
-        }
-      } else if (this.idBase) {
-        const {
-          instance,
-          preview
-        } = await encodeWidget({
-          idBase: this.idBase,
-          instance: this.instance,
-          number: this.number,
-          formData
-        });
-        this.instance = instance;
-        this.hasPreview = !isEmptyHTML(preview);
-      }
-    } catch (error) {
-      this.onError(error);
-    }
-  }
-  /**
-   * The widget's instance object.
-   *
-   * @access private
-   */
-
-
-  get instance() {
-    return this._instance;
-  }
-  /**
-   * The widget's instance object.
-   *
-   * @access private
-   */
-
-
-  set instance(instance) {
-    if (this._instance !== instance) {
-      this._instance = instance;
-      this.onChangeInstance(instance);
-    }
-  }
-  /**
-   * Whether or not the widget can be previewed.
-   *
-   * @access public
-   */
-
-
-  get hasPreview() {
-    return this._hasPreview;
-  }
-  /**
-   * Whether or not the widget can be previewed.
-   *
-   * @access private
-   */
-
-
-  set hasPreview(hasPreview) {
-    if (this._hasPreview !== hasPreview) {
-      this._hasPreview = hasPreview;
-      this.onChangeHasPreview(hasPreview);
-    }
-  }
-
-}
-let lastNumber = 0;
-
-function control_el(tagName, attributes = {}, content = null) {
-  const element = document.createElement(tagName);
-
-  for (const [attribute, value] of Object.entries(attributes)) {
-    element.setAttribute(attribute, value);
-  }
-
-  if (Array.isArray(content)) {
-    for (const child of content) {
-      if (child) {
-        element.appendChild(child);
-      }
-    }
-  } else if (typeof content === 'string') {
-    element.innerText = content;
-  }
-
-  return element;
-}
-
-async function saveWidget(id, formData = null) {
-  let widget;
-
-  if (formData) {
-    widget = await external_wp_apiFetch_default()({
-      path: `/wp/v2/widgets/${id}?context=edit`,
-      method: 'PUT',
-      data: {
-        form_data: formData
-      }
-    });
-  } else {
-    widget = await external_wp_apiFetch_default()({
-      path: `/wp/v2/widgets/${id}?context=edit`,
-      method: 'GET'
-    });
-  }
-
-  return {
-    form: widget.rendered_form
-  };
-}
-
-async function encodeWidget({
-  idBase,
-  instance,
-  number,
-  formData = null
-}) {
-  const response = await external_wp_apiFetch_default()({
-    path: `/wp/v2/widget-types/${idBase}/encode`,
-    method: 'POST',
-    data: {
-      instance,
-      number,
-      form_data: formData
-    }
-  });
-  return {
-    instance: response.instance,
-    form: response.form,
-    preview: response.preview
-  };
-}
-
-function isEmptyHTML(html) {
-  const element = document.createElement('div');
-  element.innerHTML = html;
-  return element.innerText.trim() === '';
-}
-
-function serializeForm(form) {
-  return new window.URLSearchParams(Array.from(new window.FormData(form))).toString();
-}
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/legacy-widget/edit/form.js
-
-
-/**
- * External dependencies
- */
-
-/**
- * WordPress dependencies
- */
-
-
-
-
-
-
-
-/**
- * Internal dependencies
- */
-
-
-function Form({
-  title,
-  isVisible,
-  id,
-  idBase,
-  instance,
-  isWide,
-  onChangeInstance,
-  onChangeHasPreview
-}) {
-  const ref = Object(external_wp_element_["useRef"])();
-  const isMediumLargeViewport = Object(external_wp_compose_["useViewportMatch"])('small'); // We only want to remount the control when the instance changes
-  // *externally*. For example, if the user performs an undo. To do this, we
-  // keep track of changes made to instance by the control itself and then
-  // ignore those.
-
-  const outgoingInstances = Object(external_wp_element_["useRef"])(new Set());
-  const incomingInstances = Object(external_wp_element_["useRef"])(new Set());
-  const {
-    createNotice
-  } = Object(external_wp_data_["useDispatch"])(external_wp_notices_["store"]);
-  Object(external_wp_element_["useEffect"])(() => {
-    if (incomingInstances.current.has(instance)) {
-      incomingInstances.current.delete(instance);
-      return;
-    }
-
-    const control = new control_Control({
-      id,
-      idBase,
-      instance,
-
-      onChangeInstance(nextInstance) {
-        outgoingInstances.current.add(instance);
-        incomingInstances.current.add(nextInstance);
-        onChangeInstance(nextInstance);
-      },
-
-      onChangeHasPreview,
-
-      onError(error) {
-        var _error$message;
-
-        createNotice('error', (_error$message = error === null || error === void 0 ? void 0 : error.message) !== null && _error$message !== void 0 ? _error$message : Object(external_wp_i18n_["__"])('An error occured while fetching or updating the widget.'));
-      }
-
-    });
-    ref.current.appendChild(control.element);
-    return () => {
-      if (outgoingInstances.current.has(instance)) {
-        outgoingInstances.current.delete(instance);
-        return;
-      }
-
-      control.destroy();
-    };
-  }, [id, idBase, instance, onChangeInstance, onChangeHasPreview, isMediumLargeViewport]);
-
-  if (isWide && isMediumLargeViewport) {
-    return Object(external_wp_element_["createElement"])("div", {
-      className: classnames_default()({
-        'wp-block-legacy-widget__container': isVisible
-      })
-    }, isVisible && Object(external_wp_element_["createElement"])("h3", {
-      className: "wp-block-legacy-widget__edit-form-title"
-    }, title), Object(external_wp_element_["createElement"])(external_wp_components_["Popover"], {
-      focusOnMount: false,
-      position: "middle right",
-      __unstableForceXAlignment: true
-    }, Object(external_wp_element_["createElement"])("div", {
-      ref: ref,
-      className: "wp-block-legacy-widget__edit-form",
-      hidden: !isVisible
-    })));
-  }
-
-  return Object(external_wp_element_["createElement"])("div", {
-    ref: ref,
-    className: "wp-block-legacy-widget__edit-form",
-    hidden: !isVisible
-  }, Object(external_wp_element_["createElement"])("h3", {
-    className: "wp-block-legacy-widget__edit-form-title"
-  }, title));
-}
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/legacy-widget/edit/preview.js
-
-
-/**
- * External dependencies
- */
-
-/**
- * WordPress dependencies
- */
-
-
-
-
-
-
-function Preview({
-  idBase,
-  instance,
-  isVisible
-}) {
-  const [iframeHeight, setIframeHeight] = Object(external_wp_element_["useState"])(); // Resize the iframe on either the load event, or when the iframe becomes visible.
-
-  const ref = Object(external_wp_compose_["useRefEffect"])(iframe => {
-    function onChange() {
-      var _iframe$contentDocume, _iframe$contentDocume2;
-
-      const boundingRect = iframe === null || iframe === void 0 ? void 0 : (_iframe$contentDocume = iframe.contentDocument) === null || _iframe$contentDocume === void 0 ? void 0 : (_iframe$contentDocume2 = _iframe$contentDocume.body) === null || _iframe$contentDocume2 === void 0 ? void 0 : _iframe$contentDocume2.getBoundingClientRect();
-
-      if (boundingRect) {
-        // Include `top` in the height calculation to avoid the bottom
-        // of widget previews being cut-off. Most widgets have a
-        // heading at the top that has top margin, and the `height`
-        // alone doesn't take that margin into account.
-        setIframeHeight(boundingRect.top + boundingRect.height);
-      }
-    }
-
-    const {
-      IntersectionObserver
-    } = iframe.ownerDocument.defaultView; // Observe for intersections that might cause a change in the height of
-    // the iframe, e.g. a Widget Area becoming expanded.
-
-    const intersectionObserver = new IntersectionObserver(onChange, {
-      threshold: 1
-    });
-    intersectionObserver.observe(iframe);
-    iframe.addEventListener('load', onChange);
-    return () => {
-      iframe.removeEventListener('load', onChange);
-    };
-  }, []);
-  return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, isVisible && iframeHeight === null && Object(external_wp_element_["createElement"])(external_wp_components_["Placeholder"], null, Object(external_wp_element_["createElement"])(external_wp_components_["Spinner"], null)), Object(external_wp_element_["createElement"])("div", {
-    className: classnames_default()('wp-block-legacy-widget__edit-preview', {
-      'is-offscreen': !isVisible || iframeHeight === null
-    })
-  }, Object(external_wp_element_["createElement"])(external_wp_components_["Disabled"], null, Object(external_wp_element_["createElement"])("iframe", {
-    ref: ref,
-    className: "wp-block-legacy-widget__edit-preview-iframe",
-    title: Object(external_wp_i18n_["__"])('Legacy Widget Preview') // TODO: This chokes when the query param is too big.
-    // Ideally, we'd render a <ServerSideRender>. Maybe by
-    // rendering one in an iframe via a portal.
-    ,
-    src: Object(external_wp_url_["addQueryArgs"])('widgets.php', {
-      'legacy-widget-preview': {
-        idBase,
-        instance
-      }
-    }),
-    height: iframeHeight || 100
-  }))));
-}
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/legacy-widget/edit/no-preview.js
-
-
-/**
- * WordPress dependencies
- */
-
-function NoPreview({
-  name
-}) {
-  return Object(external_wp_element_["createElement"])("div", {
-    className: "wp-block-legacy-widget__edit-no-preview"
-  }, name && Object(external_wp_element_["createElement"])("h3", null, name), Object(external_wp_element_["createElement"])("p", null, Object(external_wp_i18n_["__"])('No preview available.')));
-}
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/legacy-widget/edit/convert-to-blocks-button.js
-
-
-/**
- * WordPress dependencies
- */
-
-
-
-
-
-function ConvertToBlocksButton({
-  clientId,
-  rawInstance
-}) {
-  const {
-    replaceBlocks
-  } = Object(external_wp_data_["useDispatch"])(external_wp_blockEditor_["store"]);
-  return Object(external_wp_element_["createElement"])(external_wp_components_["ToolbarButton"], {
-    onClick: () => {
-      if (rawInstance.title) {
-        replaceBlocks(clientId, [Object(external_wp_blocks_["createBlock"])('core/heading', {
-          content: rawInstance.title
-        }), ...Object(external_wp_blocks_["rawHandler"])({
-          HTML: rawInstance.text
-        })]);
-      } else {
-        replaceBlocks(clientId, Object(external_wp_blocks_["rawHandler"])({
-          HTML: rawInstance.text
-        }));
-      }
-    }
-  }, Object(external_wp_i18n_["__"])('Convert to blocks'));
-}
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/legacy-widget/edit/index.js
-
-
-/**
- * External dependencies
- */
-
-/**
- * WordPress dependencies
- */
-
-
-
-
-
-
-
-
-/**
- * Internal dependencies
- */
-
-
-
-
-
-
-
-function Edit(props) {
-  const {
-    id,
-    idBase
-  } = props.attributes;
-  const {
-    isWide = false
-  } = props;
-  const blockProps = Object(external_wp_blockEditor_["useBlockProps"])({
-    className: classnames_default()({
-      'is-wide-widget': isWide
-    })
-  });
-  return Object(external_wp_element_["createElement"])("div", blockProps, !id && !idBase ? Object(external_wp_element_["createElement"])(Empty, props) : Object(external_wp_element_["createElement"])(NotEmpty, props));
-}
-
-function Empty({
-  attributes: {
-    id,
-    idBase
-  },
-  setAttributes
-}) {
-  return Object(external_wp_element_["createElement"])(external_wp_components_["Placeholder"], {
-    icon: Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockIcon"], {
-      icon: library_brush
-    }),
-    label: Object(external_wp_i18n_["__"])('Legacy Widget')
-  }, Object(external_wp_element_["createElement"])(WidgetTypeSelector, {
-    selectedId: id !== null && id !== void 0 ? id : idBase,
-    onSelect: ({
-      selectedId,
-      isMulti
-    }) => {
-      if (!selectedId) {
-        setAttributes({
-          id: null,
-          idBase: null,
-          instance: null
-        });
-      } else if (isMulti) {
-        setAttributes({
-          id: null,
-          idBase: selectedId,
-          instance: {}
-        });
-      } else {
-        setAttributes({
-          id: selectedId,
-          idBase: null,
-          instance: null
-        });
-      }
-    }
-  }));
-}
-
-function NotEmpty({
-  attributes: {
-    id,
-    idBase,
-    instance
-  },
-  setAttributes,
-  clientId,
-  isSelected,
-  isWide = false
-}) {
-  const [hasPreview, setHasPreview] = Object(external_wp_element_["useState"])(null);
-  const {
-    widgetType,
-    hasResolvedWidgetType,
-    isWidgetTypeHidden,
-    isNavigationMode
-  } = Object(external_wp_data_["useSelect"])(select => {
-    var _select$getSettings$w, _select$getSettings;
-
-    const widgetTypeId = id !== null && id !== void 0 ? id : idBase;
-    const hiddenIds = (_select$getSettings$w = (_select$getSettings = select(external_wp_blockEditor_["store"]).getSettings()) === null || _select$getSettings === void 0 ? void 0 : _select$getSettings.widgetTypesToHideFromLegacyWidgetBlock) !== null && _select$getSettings$w !== void 0 ? _select$getSettings$w : [];
-    return {
-      widgetType: select(external_wp_coreData_["store"]).getWidgetType(widgetTypeId),
-      hasResolvedWidgetType: select(external_wp_coreData_["store"]).hasFinishedResolution('getWidgetType', [widgetTypeId]),
-      isWidgetTypeHidden: hiddenIds.includes(widgetTypeId),
-      isNavigationMode: select(external_wp_blockEditor_["store"]).isNavigationMode()
-    };
-  }, [id, idBase]);
-  const setInstance = Object(external_wp_element_["useCallback"])(nextInstance => {
-    setAttributes({
-      instance: nextInstance
-    });
-  }, []);
-
-  if (!widgetType && hasResolvedWidgetType) {
-    return Object(external_wp_element_["createElement"])(external_wp_components_["Placeholder"], {
-      icon: Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockIcon"], {
-        icon: library_brush
-      }),
-      label: Object(external_wp_i18n_["__"])('Legacy Widget')
-    }, Object(external_wp_i18n_["__"])('Widget is missing.'));
-  }
-
-  if (!hasResolvedWidgetType) {
-    return Object(external_wp_element_["createElement"])(external_wp_components_["Placeholder"], null, Object(external_wp_element_["createElement"])(external_wp_components_["Spinner"], null));
-  }
-
-  const mode = isNavigationMode || !isSelected ? 'preview' : 'edit';
-  return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, !isWidgetTypeHidden && Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockControls"], {
-    group: "block"
-  }, Object(external_wp_element_["createElement"])(external_wp_components_["ToolbarButton"], {
-    label: Object(external_wp_i18n_["__"])('Change widget'),
-    icon: library_update,
-    onClick: () => setAttributes({
-      id: null,
-      idBase: null,
-      instance: null
-    })
-  })), idBase === 'text' && Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockControls"], {
-    group: "other"
-  }, Object(external_wp_element_["createElement"])(ConvertToBlocksButton, {
-    clientId: clientId,
-    rawInstance: instance.raw
-  })), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["InspectorControls"], null, Object(external_wp_element_["createElement"])(InspectorCard, {
-    name: widgetType.name,
-    description: widgetType.description
-  })), Object(external_wp_element_["createElement"])(Form, {
-    title: widgetType.name,
-    isVisible: mode === 'edit',
-    id: id,
-    idBase: idBase,
-    instance: instance,
-    isWide: isWide,
-    onChangeInstance: setInstance,
-    onChangeHasPreview: setHasPreview
-  }), idBase && Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, hasPreview === null && mode === 'preview' && Object(external_wp_element_["createElement"])(external_wp_components_["Placeholder"], null, Object(external_wp_element_["createElement"])(external_wp_components_["Spinner"], null)), hasPreview === true && Object(external_wp_element_["createElement"])(Preview, {
-    idBase: idBase,
-    instance: instance,
-    isVisible: mode === 'preview'
-  }), hasPreview === false && mode === 'preview' && Object(external_wp_element_["createElement"])(NoPreview, {
-    name: widgetType.name
-  })));
-}
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/legacy-widget/transforms.js
-/**
- * WordPress dependencies
- */
-
-const legacyWidgetTransforms = [{
-  block: 'core/calendar',
-  widget: 'calendar'
-}, {
-  block: 'core/search',
-  widget: 'search'
-}, {
-  block: 'core/html',
-  widget: 'html',
-  transform: ({
-    content
-  }) => ({
-    content
-  })
-}, {
-  block: 'core/archives',
-  widget: 'archives',
-  transform: ({
-    count,
-    dropdown
-  }) => {
-    return {
-      displayAsDropdown: !!dropdown,
-      showPostCounts: !!count
-    };
-  }
-}, {
-  block: 'core/latest-posts',
-  widget: 'recent-posts',
-  transform: ({
-    show_date: displayPostDate,
-    number
-  }) => {
-    return {
-      displayPostDate: !!displayPostDate,
-      postsToShow: number
-    };
-  }
-}, {
-  block: 'core/latest-comments',
-  widget: 'recent-comments',
-  transform: ({
-    number
-  }) => {
-    return {
-      commentsToShow: number
-    };
-  }
-}, {
-  block: 'core/tag-cloud',
-  widget: 'tag_cloud',
-  transform: ({
-    taxonomy,
-    count
-  }) => {
-    return {
-      showTagCounts: !!count,
-      taxonomy
-    };
-  }
-}, {
-  block: 'core/categories',
-  widget: 'categories',
-  transform: ({
-    count,
-    dropdown,
-    hierarchical
-  }) => {
-    return {
-      displayAsDropdown: !!dropdown,
-      showPostCounts: !!count,
-      showHierarchy: !!hierarchical
-    };
-  }
-}, {
-  block: 'core/audio',
-  widget: 'media_audio',
-  transform: ({
-    url,
-    preload,
-    loop,
-    attachment_id: id
-  }) => {
-    return {
-      src: url,
-      id,
-      preload,
-      loop
-    };
-  }
-}, {
-  block: 'core/video',
-  widget: 'media_video',
-  transform: ({
-    url,
-    preload,
-    loop,
-    attachment_id: id
-  }) => {
-    return {
-      src: url,
-      id,
-      preload,
-      loop
-    };
-  }
-}, {
-  block: 'core/image',
-  widget: 'media_image',
-  transform: ({
-    alt,
-    attachment_id: id,
-    caption,
-    height,
-    link_classes: linkClass,
-    link_rel: rel,
-    link_target_blank: targetBlack,
-    link_type: linkDestination,
-    link_url: link,
-    size: sizeSlug,
-    url,
-    width
-  }) => {
-    return {
-      alt,
-      caption,
-      height,
-      id,
-      link,
-      linkClass,
-      linkDestination,
-      linkTarget: targetBlack ? '_blank' : undefined,
-      rel,
-      sizeSlug,
-      url,
-      width
-    };
-  }
-}, {
-  block: 'core/gallery',
-  widget: 'media_gallery',
-  transform: ({
-    ids,
-    link_type: linkTo,
-    size,
-    number
-  }) => {
-    return {
-      ids,
-      columns: number,
-      linkTo,
-      sizeSlug: size,
-      images: ids.map(id => ({
-        id
-      }))
-    };
-  }
-}, {
-  block: 'core/rss',
-  widget: 'rss',
-  transform: ({
-    url,
-    show_author: displayAuthor,
-    show_date: displayDate,
-    show_summary: displayExcerpt,
-    items
-  }) => {
-    return {
-      feedURL: url,
-      displayAuthor: !!displayAuthor,
-      displayDate: !!displayDate,
-      displayExcerpt: !!displayExcerpt,
-      itemsToShow: items
-    };
-  }
-}].map(({
-  block,
-  widget,
-  transform
-}) => {
-  return {
-    type: 'block',
-    blocks: [block],
-    isMatch: ({
-      idBase,
-      instance
-    }) => {
-      return idBase === widget && !!(instance !== null && instance !== void 0 && instance.raw);
-    },
-    transform: ({
-      instance
-    }) => {
-      var _instance$raw;
-
-      const transformedBlock = Object(external_wp_blocks_["createBlock"])(block, transform ? transform(instance.raw) : undefined);
-
-      if (!((_instance$raw = instance.raw) !== null && _instance$raw !== void 0 && _instance$raw.title)) {
-        return transformedBlock;
-      }
-
-      return [Object(external_wp_blocks_["createBlock"])('core/heading', {
-        content: instance.raw.title
-      }), transformedBlock];
-    }
-  };
-});
-const legacy_widget_transforms_transforms = {
-  to: legacyWidgetTransforms
-};
-/* harmony default export */ var legacy_widget_transforms = (legacy_widget_transforms_transforms);
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/legacy-widget/index.js
-/**
- * WordPress dependencies
- */
-
-/**
- * Internal dependencies
- */
-
-const legacy_widget_metadata = {
-  apiVersion: 2,
-  name: "core/legacy-widget",
-  title: "Legacy Widget",
-  category: "widgets",
-  description: "Display a legacy widget.",
-  textdomain: "default",
-  attributes: {
-    id: {
-      type: "string",
-      "default": null
-    },
-    idBase: {
-      type: "string",
-      "default": null
-    },
-    instance: {
-      type: "object",
-      "default": null
-    }
-  },
-  supports: {
-    html: false,
-    customClassName: false,
-    reusable: false
-  },
-  editorStyle: "wp-block-legacy-widget-editor"
-};
-
-
-const {
-  name: legacy_widget_name
-} = legacy_widget_metadata;
-
-const legacy_widget_settings = {
-  icon: library_widget,
-  edit: Edit,
-  transforms: legacy_widget_transforms
-};
-
 // CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/login.js
 
 
@@ -27157,7 +25968,7 @@ const classic = Object(external_wp_element_["createElement"])(external_wp_primit
 
 
 
-const convert_to_blocks_button_ConvertToBlocksButton = ({
+const ConvertToBlocksButton = ({
   clientId
 }) => {
   const {
@@ -27173,7 +25984,7 @@ const convert_to_blocks_button_ConvertToBlocksButton = ({
   }, Object(external_wp_i18n_["__"])('Convert to blocks'));
 };
 
-/* harmony default export */ var convert_to_blocks_button = (convert_to_blocks_button_ConvertToBlocksButton);
+/* harmony default export */ var convert_to_blocks_button = (ConvertToBlocksButton);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/freeform/edit.js
 
@@ -30858,6 +29669,7 @@ function PostTemplateEdit({
       sticky,
       inherit
     } = {},
+    queryId,
     queryContext = [{
       page: 1
     }],
@@ -30929,7 +29741,8 @@ function PostTemplateEdit({
   }, [perPage, page, offset, categoryIds, tagIds, order, orderBy, clientId, author, search, postType, exclude, sticky, inherit, templateSlug]);
   const blockContexts = Object(external_wp_element_["useMemo"])(() => posts === null || posts === void 0 ? void 0 : posts.map(post => ({
     postType: post.type,
-    postId: post.id
+    postId: post.id,
+    queryId
   })), [posts]);
   const hasLayoutFlex = layoutType === 'flex' && columns > 1;
   const blockProps = Object(external_wp_blockEditor_["useBlockProps"])({
@@ -31593,93 +30406,19 @@ const postTitle = Object(external_wp_element_["createElement"])(external_wp_prim
 
 
 /**
- * Internal dependencies
+ * Returns whether the current user can edit the given entity.
+ *
+ * @param {string} kind     Entity kind.
+ * @param {string} name     Entity name.
+ * @param {number} key      Record's key.
+ * @param {string} recordId Record's id.
  */
 
-const queryMetaData = {
-  apiVersion: 2,
-  name: "core/query",
-  title: "Query Loop",
-  category: "design",
-  description: "Displays a list of posts as a result of a query.",
-  textdomain: "default",
-  attributes: {
-    queryId: {
-      type: "number"
-    },
-    query: {
-      type: "object",
-      "default": {
-        perPage: null,
-        pages: 0,
-        offset: 0,
-        postType: "post",
-        categoryIds: [],
-        tagIds: [],
-        order: "desc",
-        orderBy: "date",
-        author: "",
-        search: "",
-        exclude: [],
-        sticky: "",
-        inherit: true
-      }
-    },
-    tagName: {
-      type: "string",
-      "default": "div"
-    },
-    displayLayout: {
-      type: "object",
-      "default": {
-        type: "list"
-      }
-    }
-  },
-  providesContext: {
-    queryId: "queryId",
-    query: "query",
-    displayLayout: "displayLayout"
-  },
-  supports: {
-    align: ["wide", "full"],
-    html: false,
-    color: {
-      gradients: true,
-      link: true
-    },
-    __experimentalLayout: true
-  },
-  editorStyle: "wp-block-query-editor"
-};
-const {
-  name: queryBlockName
-} = queryMetaData;
-/**
- * Hook that determines if a Post block is editable or not.
- * The returned value is used to determine if the specific
- * Post block will be rendered in `readonly` mode or not.
- *
- * For now this is checking if a Post block is nested in
- * a Query block. If it is, the block should not be editable.
- *
- * @param {string} clientId The ID of the block to be checked.
- * @return {boolean} Whether the block can be edited or not.
- */
-
-function useIsEditablePostBlock(clientId) {
-  return Object(external_wp_data_["useSelect"])(select => {
-    const {
-      getBlockParents,
-      getBlockName
-    } = select(external_wp_blockEditor_["store"]);
-    const blockParents = getBlockParents(clientId);
-    const hasQueryParent = blockParents.some(parentClientId => getBlockName(parentClientId) === queryBlockName);
-    return !hasQueryParent;
-  }, [clientId]);
+function useCanEditEntity(kind, name, key, recordId) {
+  return Object(external_wp_data_["useSelect"])(select => select(external_wp_coreData_["store"]).canUserEditEntityRecord(kind, name, key, recordId), [kind, name, key, recordId]);
 }
 /* harmony default export */ var utils_hooks = ({
-  useIsEditablePostBlock
+  useCanEditEntity
 });
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/post-title/edit.js
@@ -31706,7 +30445,6 @@ function useIsEditablePostBlock(clientId) {
 
 
 function PostTitleEdit({
-  clientId,
   attributes: {
     level,
     textAlign,
@@ -31717,61 +30455,52 @@ function PostTitleEdit({
   setAttributes,
   context: {
     postType,
-    postId
+    postId,
+    queryId
   }
 }) {
   const TagName = 0 === level ? 'p' : 'h' + level;
-  const isEditable = useIsEditablePostBlock(clientId);
-  const post = Object(external_wp_data_["useSelect"])(select => select(external_wp_coreData_["store"]).getEditedEntityRecord('postType', postType, postId), [postType, postId]);
-  const {
-    editEntityRecord
-  } = Object(external_wp_data_["useDispatch"])(external_wp_coreData_["store"]);
+  const isDescendentOfQueryLoop = !!queryId;
+  const userCanEdit = useCanEditEntity('root', 'postType', postType, postId);
+  const [rawTitle = '', setTitle, fullTitle] = Object(external_wp_coreData_["useEntityProp"])('postType', postType, 'title', postId);
+  const [link] = Object(external_wp_coreData_["useEntityProp"])('postType', postType, 'link', postId);
   const blockProps = Object(external_wp_blockEditor_["useBlockProps"])({
     className: classnames_default()({
       [`has-text-align-${textAlign}`]: textAlign
     })
   });
-
-  if (!post) {
-    return null;
-  }
-
-  const {
-    title = '',
-    link
-  } = post;
   let titleElement = Object(external_wp_element_["createElement"])(TagName, isLink ? {} : blockProps, Object(external_wp_i18n_["__"])('An example title'));
 
   if (postType && postId) {
-    titleElement = isEditable ? Object(external_wp_element_["createElement"])(external_wp_blockEditor_["PlainText"], Object(esm_extends["a" /* default */])({
+    titleElement = userCanEdit && !isDescendentOfQueryLoop ? Object(external_wp_element_["createElement"])(external_wp_blockEditor_["PlainText"], Object(esm_extends["a" /* default */])({
       tagName: TagName,
       placeholder: Object(external_wp_i18n_["__"])('No Title'),
-      value: title,
-      onChange: value => editEntityRecord('postType', postType, postId, {
-        title: value
-      }),
+      value: rawTitle,
+      onChange: setTitle,
       __experimentalVersion: 2
-    }, isLink ? {} : blockProps)) : Object(external_wp_element_["createElement"])(TagName, isLink ? {} : blockProps, title);
+    }, isLink ? {} : blockProps)) : Object(external_wp_element_["createElement"])(TagName, isLink ? {} : blockProps, Object(external_wp_element_["createElement"])(external_wp_element_["RawHTML"], {
+      key: "html"
+    }, fullTitle.rendered));
   }
 
   if (isLink) {
-    titleElement = isEditable ? Object(external_wp_element_["createElement"])(TagName, blockProps, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["PlainText"], {
+    titleElement = userCanEdit && !isDescendentOfQueryLoop ? Object(external_wp_element_["createElement"])(TagName, blockProps, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["PlainText"], {
       tagName: "a",
       href: link,
       target: linkTarget,
       rel: rel,
-      placeholder: title.length === 0 ? Object(external_wp_i18n_["__"])('No Title') : null,
-      value: title,
-      onChange: value => editEntityRecord('postType', postType, postId, {
-        title: value
-      }),
+      placeholder: !rawTitle.length ? Object(external_wp_i18n_["__"])('No Title') : null,
+      value: rawTitle,
+      onChange: setTitle,
       __experimentalVersion: 2
     })) : Object(external_wp_element_["createElement"])(TagName, blockProps, Object(external_wp_element_["createElement"])("a", {
       href: link,
       target: linkTarget,
       rel: rel,
       onClick: event => event.preventDefault()
-    }, title));
+    }, Object(external_wp_element_["createElement"])(external_wp_element_["RawHTML"], {
+      key: "html"
+    }, fullTitle.rendered)));
   }
 
   return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockControls"], {
@@ -31827,7 +30556,7 @@ const post_title_metadata = {
   category: "design",
   description: "Displays the title of a post, page, or any other content-type.",
   textdomain: "default",
-  usesContext: ["postId", "postType"],
+  usesContext: ["postId", "postType", "queryId"],
   attributes: {
     textAlign: {
       type: "string"
@@ -31908,12 +30637,13 @@ const postContent = Object(external_wp_element_["createElement"])(external_wp_pr
 
 
 function ReadOnlyContent({
+  userCanEdit,
   postType,
   postId
 }) {
   const [,, content] = Object(external_wp_coreData_["useEntityProp"])('postType', postType, 'content', postId);
   const blockProps = Object(external_wp_blockEditor_["useBlockProps"])();
-  return Object(external_wp_element_["createElement"])("div", blockProps, Object(external_wp_element_["createElement"])(external_wp_element_["RawHTML"], {
+  return content !== null && content !== void 0 && content.protected && !userCanEdit ? Object(external_wp_element_["createElement"])("div", blockProps, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["Warning"], null, Object(external_wp_i18n_["__"])('This content is password protected.'))) : Object(external_wp_element_["createElement"])("div", blockProps, Object(external_wp_element_["createElement"])(external_wp_element_["RawHTML"], {
     key: "html"
   }, content === null || content === void 0 ? void 0 : content.rendered));
 }
@@ -31967,12 +30697,17 @@ function EditableContent({
 
 function Content(props) {
   const {
-    clientId,
-    postType,
-    postId
+    context: {
+      queryId,
+      postType,
+      postId
+    } = {}
   } = props;
-  const isEditable = useIsEditablePostBlock(clientId);
+  const isDescendentOfQueryLoop = !!queryId;
+  const userCanEdit = useCanEditEntity('root', 'postType', postType, postId);
+  const isEditable = userCanEdit && !isDescendentOfQueryLoop;
   return isEditable ? Object(external_wp_element_["createElement"])(EditableContent, props) : Object(external_wp_element_["createElement"])(ReadOnlyContent, {
+    userCanEdit: userCanEdit,
     postType: postType,
     postId: postId
   });
@@ -31991,13 +30726,13 @@ function RecursionError() {
 }
 
 function PostContentEdit({
-  clientId,
-  context: {
-    postId: contextPostId,
-    postType: contextPostType
-  },
+  context,
   attributes
 }) {
+  const {
+    postId: contextPostId,
+    postType: contextPostType
+  } = context;
   const {
     layout = {}
   } = attributes;
@@ -32008,10 +30743,8 @@ function PostContentEdit({
   }
 
   return Object(external_wp_element_["createElement"])(RecursionProvider, null, contextPostId && contextPostType ? Object(external_wp_element_["createElement"])(Content, {
-    postType: contextPostType,
-    postId: contextPostId,
-    layout: layout,
-    clientId: clientId
+    context: context,
+    layout: layout
   }) : Object(external_wp_element_["createElement"])(edit_Placeholder, null));
 }
 
@@ -32031,7 +30764,7 @@ const post_content_metadata = {
   category: "design",
   description: "Displays the contents of a post or page.",
   textdomain: "default",
-  usesContext: ["postId", "postType"],
+  usesContext: ["postId", "postType", "queryId"],
   supports: {
     align: ["wide", "full"],
     html: false,
@@ -32084,27 +30817,20 @@ const post_date_postDate = Object(external_wp_element_["createElement"])(externa
 
 
 
-/**
- * Internal dependencies
- */
-
-
 function PostDateEdit({
-  clientId,
-  attributes,
-  context,
-  setAttributes
-}) {
-  const {
+  attributes: {
     textAlign,
     format,
     isLink
-  } = attributes;
-  const {
+  },
+  context: {
     postId,
-    postType
-  } = context;
-  const isEditable = useIsEditablePostBlock(clientId);
+    postType,
+    queryId
+  },
+  setAttributes
+}) {
+  const isDescendentOfQueryLoop = !!queryId;
   const [siteFormat] = Object(external_wp_coreData_["useEntityProp"])('root', 'site', 'date_format');
   const [date, setDate] = Object(external_wp_coreData_["useEntityProp"])('postType', postType, 'date', postId);
   const [isPickerOpen, setIsPickerOpen] = Object(external_wp_element_["useState"])(false);
@@ -32153,7 +30879,7 @@ function PostDateEdit({
         textAlign: nextAlign
       });
     }
-  }), date && isEditable && Object(external_wp_element_["createElement"])(external_wp_components_["ToolbarButton"], {
+  }), date && !isDescendentOfQueryLoop && Object(external_wp_element_["createElement"])(external_wp_components_["ToolbarButton"], {
     icon: library_edit["a" /* default */],
     title: Object(external_wp_i18n_["__"])('Change Date'),
     onClick: () => setIsPickerOpen(_isPickerOpen => !_isPickerOpen)
@@ -32209,7 +30935,7 @@ const post_date_metadata = {
       "default": false
     }
   },
-  usesContext: ["postId", "postType"],
+  usesContext: ["postId", "postType", "queryId"],
   supports: {
     html: false,
     color: {
@@ -32272,21 +30998,20 @@ const post_excerpt_postExcerpt = Object(external_wp_element_["createElement"])(e
 function usePostContentExcerpt(wordCount, postId, postType) {
   // Don't destrcuture items from content here, it can be undefined.
   const [,, content] = Object(external_wp_coreData_["useEntityProp"])('postType', postType, 'content', postId);
-  const rawPostContent = content === null || content === void 0 ? void 0 : content.raw;
+  const renderedPostContent = content === null || content === void 0 ? void 0 : content.rendered;
   return Object(external_wp_element_["useMemo"])(() => {
-    if (!rawPostContent) {
+    if (!renderedPostContent) {
       return '';
     }
 
     const excerptElement = document.createElement('div');
-    excerptElement.innerHTML = rawPostContent;
+    excerptElement.innerHTML = renderedPostContent;
     const excerpt = excerptElement.textContent || excerptElement.innerText || '';
     return excerpt.trim().split(' ', wordCount).join(' ');
-  }, [rawPostContent, wordCount]);
+  }, [renderedPostContent, wordCount]);
 }
 
 function PostExcerptEditor({
-  clientId,
   attributes: {
     textAlign,
     wordCount,
@@ -32297,11 +31022,17 @@ function PostExcerptEditor({
   isSelected,
   context: {
     postId,
-    postType
+    postType,
+    queryId
   }
 }) {
-  const isEditable = useIsEditablePostBlock(clientId);
-  const [excerpt, setExcerpt] = Object(external_wp_coreData_["useEntityProp"])('postType', postType, 'excerpt', postId);
+  const isDescendentOfQueryLoop = !!queryId;
+  const userCanEdit = useCanEditEntity('root', 'postType', postType, postId);
+  const isEditable = userCanEdit && !isDescendentOfQueryLoop;
+  const [rawExcerpt, setExcerpt, {
+    rendered: renderedExcerpt,
+    protected: isProtected
+  } = {}] = Object(external_wp_coreData_["useEntityProp"])('postType', postType, 'excerpt', postId);
   const postContentExcerpt = usePostContentExcerpt(wordCount, postId, postType);
   const blockProps = Object(external_wp_blockEditor_["useBlockProps"])({
     className: classnames_default()({
@@ -32311,6 +31042,10 @@ function PostExcerptEditor({
 
   if (!postType || !postId) {
     return Object(external_wp_element_["createElement"])("div", blockProps, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["Warning"], null, Object(external_wp_i18n_["__"])('Post excerpt block: no post found.')));
+  }
+
+  if (isProtected && !userCanEdit) {
+    return Object(external_wp_element_["createElement"])("div", blockProps, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["Warning"], null, Object(external_wp_i18n_["__"])('There is no excerpt because this is a protected post.')));
   }
 
   const readMoreLink = Object(external_wp_element_["createElement"])(external_wp_blockEditor_["RichText"], {
@@ -32326,9 +31061,11 @@ function PostExcerptEditor({
   const excerptContent = isEditable ? Object(external_wp_element_["createElement"])(external_wp_blockEditor_["RichText"], {
     className: !showMoreOnNewLine && 'wp-block-post-excerpt__excerpt is-inline',
     "aria-label": Object(external_wp_i18n_["__"])('Post excerpt text'),
-    value: excerpt || postContentExcerpt || (isSelected ? '' : Object(external_wp_i18n_["__"])('No post excerpt found')),
+    value: rawExcerpt || postContentExcerpt || (isSelected ? '' : Object(external_wp_i18n_["__"])('No post excerpt found')),
     onChange: setExcerpt
-  }) : excerpt || postContentExcerpt || Object(external_wp_i18n_["__"])('No post excerpt found');
+  }) : renderedExcerpt && Object(external_wp_element_["createElement"])(external_wp_element_["RawHTML"], {
+    key: "html"
+  }, renderedExcerpt) || postContentExcerpt || Object(external_wp_i18n_["__"])('No post excerpt found');
   return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockControls"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["AlignmentToolbar"], {
     value: textAlign,
     onChange: newAlign => setAttributes({
@@ -32336,7 +31073,7 @@ function PostExcerptEditor({
     })
   })), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["InspectorControls"], null, Object(external_wp_element_["createElement"])(external_wp_components_["PanelBody"], {
     title: Object(external_wp_i18n_["__"])('Post Excerpt Settings')
-  }, !excerpt && Object(external_wp_element_["createElement"])(external_wp_components_["RangeControl"], {
+  }, !renderedExcerpt && Object(external_wp_element_["createElement"])(external_wp_components_["RangeControl"], {
     label: Object(external_wp_i18n_["__"])('Max words'),
     value: wordCount,
     onChange: newExcerptLength => setAttributes({
@@ -32387,7 +31124,7 @@ const post_excerpt_metadata = {
       "default": true
     }
   },
-  usesContext: ["postId", "postType"],
+  usesContext: ["postId", "postType", "queryId"],
   supports: {
     html: false,
     color: {
@@ -32439,11 +31176,6 @@ const postFeaturedImage = Object(external_wp_element_["createElement"])(external
 
 
 
-/**
- * Internal dependencies
- */
-
-
 const post_featured_image_edit_ALLOWED_MEDIA_TYPES = ['image'];
 const placeholderChip = Object(external_wp_element_["createElement"])("div", {
   className: "post-featured-image_placeholder"
@@ -32452,19 +31184,19 @@ const placeholderChip = Object(external_wp_element_["createElement"])("div", {
 }), Object(external_wp_element_["createElement"])("p", null, " ", Object(external_wp_i18n_["__"])('Featured Image')));
 
 function PostFeaturedImageDisplay({
-  clientId,
   attributes: {
     isLink
   },
   setAttributes,
   context: {
     postId,
-    postType
+    postType,
+    queryId
   },
   noticeUI,
   noticeOperations
 }) {
-  const isEditable = useIsEditablePostBlock(clientId);
+  const isDescendentOfQueryLoop = !!queryId;
   const [featuredImage, setFeaturedImage] = Object(external_wp_coreData_["useEntityProp"])('postType', postType, 'featured_media', postId);
   const media = Object(external_wp_data_["useSelect"])(select => featuredImage && select(external_wp_coreData_["store"]).getMedia(featuredImage), [featuredImage]);
   const blockProps = Object(external_wp_blockEditor_["useBlockProps"])();
@@ -32482,7 +31214,7 @@ function PostFeaturedImageDisplay({
 
   let image;
 
-  if (!featuredImage && !isEditable) {
+  if (!featuredImage && isDescendentOfQueryLoop) {
     return Object(external_wp_element_["createElement"])("div", blockProps, placeholderChip);
   }
 
@@ -32518,7 +31250,7 @@ function PostFeaturedImageDisplay({
       isLink: !isLink
     }),
     checked: isLink
-  }))), !!media && isEditable && Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockControls"], {
+  }))), !!media && !isDescendentOfQueryLoop && Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockControls"], {
     group: "other"
   }, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["MediaReplaceFlow"], {
     mediaId: featuredImage,
@@ -32565,7 +31297,7 @@ const post_featured_image_metadata = {
       "default": false
     }
   },
-  usesContext: ["postId", "postType"],
+  usesContext: ["postId", "postType", "queryId"],
   supports: {
     align: ["left", "right", "center", "wide", "full"],
     html: false
@@ -32855,7 +31587,6 @@ const post_terms_settings = {
 
 
 
-
  // import * as tableOfContents from './table-of-contents';
 
 
@@ -32932,7 +31663,7 @@ const __experimentalGetCoreBlocks = () => [// Common blocks are grouped at the t
 // in various contexts — like the inserter and auto-complete components.
 build_module_paragraph_namespaceObject, build_module_image_namespaceObject, build_module_heading_namespaceObject, build_module_gallery_namespaceObject, build_module_list_namespaceObject, build_module_quote_namespaceObject, // Register all remaining core blocks.
 build_module_shortcode_namespaceObject, archives_namespaceObject, build_module_audio_namespaceObject, button_namespaceObject, build_module_buttons_namespaceObject, build_module_calendar_namespaceObject, categories_namespaceObject, code_namespaceObject, build_module_columns_namespaceObject, build_module_column_namespaceObject, build_module_cover_namespaceObject, embed_namespaceObject, build_module_file_namespaceObject, build_module_group_namespaceObject, window.wp && window.wp.oldEditor ? freeform_namespaceObject : null, // Only add the classic block in WP Context
-build_module_html_namespaceObject, media_text_namespaceObject, latest_comments_namespaceObject, latest_posts_namespaceObject, legacy_widget_namespaceObject, missing_namespaceObject, build_module_more_namespaceObject, nextpage_namespaceObject, page_list_namespaceObject, build_module_preformatted_namespaceObject, build_module_pullquote_namespaceObject, build_module_rss_namespaceObject, search_namespaceObject, build_module_separator_namespaceObject, block_namespaceObject, social_links_namespaceObject, social_link_namespaceObject, spacer_namespaceObject, build_module_table_namespaceObject, // tableOfContents,
+build_module_html_namespaceObject, media_text_namespaceObject, latest_comments_namespaceObject, latest_posts_namespaceObject, missing_namespaceObject, build_module_more_namespaceObject, nextpage_namespaceObject, page_list_namespaceObject, build_module_preformatted_namespaceObject, build_module_pullquote_namespaceObject, build_module_rss_namespaceObject, search_namespaceObject, build_module_separator_namespaceObject, block_namespaceObject, social_links_namespaceObject, social_link_namespaceObject, spacer_namespaceObject, build_module_table_namespaceObject, // tableOfContents,
 tag_cloud_namespaceObject, text_columns_namespaceObject, build_module_verse_namespaceObject, build_module_video_namespaceObject, // Theme blocks
 build_module_site_logo_namespaceObject, site_tagline_namespaceObject, site_title_namespaceObject, query_namespaceObject, post_template_namespaceObject, query_title_namespaceObject, build_module_query_pagination_namespaceObject, build_module_query_pagination_next_namespaceObject, build_module_query_pagination_numbers_namespaceObject, build_module_query_pagination_previous_namespaceObject, build_module_post_title_namespaceObject, build_module_post_content_namespaceObject, build_module_post_date_namespaceObject, build_module_post_excerpt_namespaceObject, build_module_post_featured_image_namespaceObject, post_terms_namespaceObject, loginout_namespaceObject];
 /**

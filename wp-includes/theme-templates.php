@@ -76,8 +76,14 @@ function wp_filter_wp_template_unique_post_slug( $override_slug, $slug, $post_ID
  */
 function the_block_template_skip_link() {
 
-	// Early exit if not an FSE theme.
+	// Early exit if not a block theme.
 	if ( ! current_theme_supports( 'block-templates' ) ) {
+		return;
+	}
+
+	// Early exit if not a block template.
+	global $_wp_current_template_content;
+	if ( ! $_wp_current_template_content ) {
 		return;
 	}
 	?>
@@ -137,7 +143,12 @@ function the_block_template_skip_link() {
 
 		// Get the site wrapper.
 		// The skip-link will be injected in the beginning of it.
-		parentEl = document.querySelector( '.wp-site-blocks' ) || document.body,
+		parentEl = document.querySelector( '.wp-site-blocks' );
+
+		// Early exit if the root element was not found.
+		if ( ! parentEl ) {
+			return;
+		}
 
 		// Get the skip-link target's ID, and generate one if it doesn't exist.
 		skipLinkTargetID = skipLinkTarget.id;

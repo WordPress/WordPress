@@ -1633,8 +1633,31 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar {
   box-shadow: inset 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color), inset 0 -4px 0 0 var(--wp-admin-theme-color);
 }
 
+@media (min-width: 782px) {
+  .edit-post-template__modal .components-base-control {
+    width: 320px;
+  }
+}
+.edit-post-template__modal .components-modal__header {
+  border-bottom: none;
+}
+.edit-post-template__modal .components-modal__content::before {
+  margin-bottom: 4px;
+}
+
 .edit-post-template__modal-actions {
-  padding-top: 12px;
+  margin-top: 12px;
+}
+
+.edit-post-template-modal__tip {
+  padding: 16px 24px;
+  background: #f0f0f0;
+  border-radius: 2px;
+}
+@media (min-width: 782px) {
+  .edit-post-template-modal__tip {
+    width: 240px;
+  }
 }
 
 .edit-post-template__actions button:not(:last-child) {
@@ -1764,8 +1787,9 @@ h2.edit-post-template-summary__title {
 
 .edit-post-visual-editor__content-area {
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   position: relative;
+  display: flex;
 }
 
 .edit-post-welcome-guide {

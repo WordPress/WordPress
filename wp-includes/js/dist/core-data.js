@@ -619,6 +619,7 @@ __webpack_require__.d(build_module_selectors_namespaceObject, "getThemeSupports"
 __webpack_require__.d(build_module_selectors_namespaceObject, "getEmbedPreview", function() { return getEmbedPreview; });
 __webpack_require__.d(build_module_selectors_namespaceObject, "isPreviewEmbedFallback", function() { return isPreviewEmbedFallback; });
 __webpack_require__.d(build_module_selectors_namespaceObject, "canUser", function() { return canUser; });
+__webpack_require__.d(build_module_selectors_namespaceObject, "canUserEditEntityRecord", function() { return canUserEditEntityRecord; });
 __webpack_require__.d(build_module_selectors_namespaceObject, "getAutosaves", function() { return getAutosaves; });
 __webpack_require__.d(build_module_selectors_namespaceObject, "getAutosave", function() { return getAutosave; });
 __webpack_require__.d(build_module_selectors_namespaceObject, "hasFetchedAutosaves", function() { return hasFetchedAutosaves; });
@@ -639,6 +640,7 @@ __webpack_require__.d(resolvers_namespaceObject, "getCurrentTheme", function() {
 __webpack_require__.d(resolvers_namespaceObject, "getThemeSupports", function() { return resolvers_getThemeSupports; });
 __webpack_require__.d(resolvers_namespaceObject, "getEmbedPreview", function() { return resolvers_getEmbedPreview; });
 __webpack_require__.d(resolvers_namespaceObject, "canUser", function() { return resolvers_canUser; });
+__webpack_require__.d(resolvers_namespaceObject, "canUserEditEntityRecord", function() { return resolvers_canUserEditEntityRecord; });
 __webpack_require__.d(resolvers_namespaceObject, "getAutosaves", function() { return resolvers_getAutosaves; });
 __webpack_require__.d(resolvers_namespaceObject, "getAutosave", function() { return resolvers_getAutosave; });
 __webpack_require__.d(resolvers_namespaceObject, "__experimentalGetTemplateForLink", function() { return resolvers_experimentalGetTemplateForLink; });
@@ -3853,6 +3855,28 @@ function canUser(state, action, resource, id) {
   return Object(external_lodash_["get"])(state, ['userPermissions', key]);
 }
 /**
+ * Returns whether the current user can edit the given entity.
+ *
+ * Calling this may trigger an OPTIONS request to the REST API via the
+ * `canUser()` resolver.
+ *
+ * https://developer.wordpress.org/rest-api/reference/
+ *
+ * @param {Object} state Data state.
+ * @param {string} kind Entity kind.
+ * @param {string} name Entity name.
+ * @param {number} key Record's key.
+ * @param {string} recordId Record's id.
+ * @return {boolean|undefined} Whether or not the user can edit,
+ * or `undefined` if the OPTIONS request is still being made.
+ */
+
+function canUserEditEntityRecord(state, kind, name, key, recordId) {
+  const entity = getEntityRecord(state, kind, name, key);
+  const resource = (entity === null || entity === void 0 ? void 0 : entity.rest_base) || '';
+  return canUser(state, 'update', resource, recordId);
+}
+/**
  * Returns the latest autosaves for the post.
  *
  * May return multiple autosaves since the backend stores one autosave per
@@ -4298,6 +4322,21 @@ function* resolvers_canUser(action, resource, id) {
   yield receiveUserPermission(key, isAllowed);
 }
 /**
+ * Checks whether the current user can perform the given action on the given
+ * REST resource.
+ *
+ * @param {string} kind Entity kind.
+ * @param {string} name Entity name.
+ * @param {number} key Record's key.
+ * @param {string} recordId Record's id.
+ */
+
+function* resolvers_canUserEditEntityRecord(kind, name, key, recordId) {
+  const entity = yield external_wp_data_["controls"].select('core', 'getEntityRecord', kind, name, key);
+  const resource = (entity === null || entity === void 0 ? void 0 : entity.rest_base) || '';
+  yield resolvers_canUser('update', resource, recordId);
+}
+/**
  * Request autosave data from the REST API.
  *
  * @param {string} postType The type of the parent post.
@@ -4505,9 +4544,12 @@ function useEntityId(kind, type) {
  * @param {string} prop  The property name.
  * @param {string} [_id] An entity ID to use instead of the context-provided one.
  *
- * @return {[*, Function]} A tuple where the first item is the
- *                          property value and the second is the
- *                          setter.
+ * @return {[*, Function, *]} An array where the first item is the
+ *                            property value, the second is the
+ *                            setter and the third is the full value
+ * 							  object from REST API containing more
+ * 							  information like `raw`, `rendered` and
+ * 							  `protected` props.
  */
 
 function useEntityProp(kind, type, prop, _id) {

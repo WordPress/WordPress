@@ -5,7 +5,7 @@
 	"category": "design",
 	"description": "Displays the contents of a post or page.",
 	"textdomain": "default",
-	"usesContext": [ "postId", "postType" ],
+	"usesContext": [ "postId", "postType", "queryId" ],
 	"supports": {
 		"align": [ "wide", "full" ],
 		"html": false,

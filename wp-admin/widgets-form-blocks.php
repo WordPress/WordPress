@@ -24,7 +24,10 @@ $preload_paths = array(
 );
 block_editor_rest_api_preload( $preload_paths, $block_editor_context );
 
-$editor_settings = get_block_editor_settings( array(), $block_editor_context );
+$editor_settings = get_block_editor_settings(
+	get_legacy_widget_block_editor_settings(),
+	$block_editor_context
+);
 
 wp_add_inline_script(
 	'wp-edit-widgets',

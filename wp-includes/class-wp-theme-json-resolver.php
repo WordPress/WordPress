@@ -248,7 +248,7 @@ class WP_Theme_JSON_Resolver {
 
 		$config     = self::read_json_file( __DIR__ . '/theme.json' );
 		$config     = self::translate( $config );
-		self::$core = new WP_Theme_JSON( $config );
+		self::$core = new WP_Theme_JSON( $config, 'core' );
 
 		return self::$core;
 	}
@@ -301,7 +301,7 @@ class WP_Theme_JSON_Resolver {
 	 *
 	 * @since 5.8.0
 	 *
-	 * @param array  $settings Existing block editor settings.
+	 * @param array $settings Existing block editor settings.
 	 *                         Empty array by default.
 	 * @return WP_Theme_JSON
 	 */

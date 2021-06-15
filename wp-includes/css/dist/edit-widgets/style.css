@@ -440,6 +440,18 @@ body.is-fullscreen-mode .interface-interface-skeleton {
 .edit-widgets-header__actions {
   display: flex;
 }
+.edit-widgets-header__actions .components-button {
+  margin-right: 4px;
+}
+@media (min-width: 600px) {
+  .edit-widgets-header__actions .components-button {
+    margin-right: 12px;
+  }
+}
+.edit-widgets-header__actions .edit-widgets-more-menu .components-button,
+.edit-widgets-header__actions .interface-pinned-items .components-button {
+  margin-right: 0;
+}
 
 .edit-widgets-header-toolbar {
   border: none;

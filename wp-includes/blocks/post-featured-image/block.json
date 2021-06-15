@@ -11,7 +11,7 @@
 			"default": false
 		}
 	},
-	"usesContext": [ "postId", "postType" ],
+	"usesContext": [ "postId", "postType", "queryId" ],
 	"supports": {
 		"align": [ "left", "right", "center", "wide", "full" ],
 		"html": false

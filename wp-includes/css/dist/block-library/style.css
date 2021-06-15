@@ -2350,33 +2350,31 @@ p.has-text-color a {
   justify-content: flex-end;
 }
 
-.wp-social-link {
+.wp-block-social-link {
   display: block;
   border-radius: 9999px;
   transition: transform 0.1s ease;
   height: auto;
 }
 @media (prefers-reduced-motion: reduce) {
-  .wp-social-link {
+  .wp-block-social-link {
     transition-duration: 0s;
     transition-delay: 0s;
   }
 }
-.wp-social-link a {
+.wp-block-social-link a {
   display: block;
   line-height: 0;
   transition: transform 0.1s ease;
 }
-.wp-social-link a,
-.wp-social-link a:hover,
-.wp-social-link a:active,
-.wp-social-link a:visited,
-.wp-social-link svg {
+.wp-block-social-link:hover {
+  transform: scale(1.1);
+}
+
+.wp-block-social-links .wp-block-social-link .wp-block-social-link-anchor, .wp-block-social-links .wp-block-social-link .wp-block-social-link-anchor:hover, .wp-block-social-links .wp-block-social-link .wp-block-social-link-anchor:active, .wp-block-social-links .wp-block-social-link .wp-block-social-link-anchor:visited,
+.wp-block-social-links .wp-block-social-link .wp-block-social-link-anchor svg {
   color: currentColor;
   fill: currentColor;
-}
-.wp-social-link:hover {
-  transform: scale(1.1);
 }
 
 .wp-block-social-links:not(.is-style-logos-only) .wp-social-link {

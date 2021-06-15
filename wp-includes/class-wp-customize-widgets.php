@@ -837,7 +837,10 @@ final class WP_Customize_Widgets {
 		if ( wp_use_widgets_block_editor() ) {
 			$block_editor_context = new WP_Block_Editor_Context();
 
-			$editor_settings = get_block_editor_settings( array(), $block_editor_context );
+			$editor_settings = get_block_editor_settings(
+				get_legacy_widget_block_editor_settings(),
+				$block_editor_context
+			);
 
 			wp_add_inline_script(
 				'wp-customize-widgets',

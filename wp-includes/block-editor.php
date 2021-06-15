@@ -225,6 +225,20 @@ function get_default_block_editor_settings() {
 		$editor_settings['gradients'] = $gradient_presets;
 	}
 
+	return $editor_settings;
+}
+
+/**
+ * Returns the block editor settings needed to use the Legacy Widget block which
+ * is not registered by default.
+ *
+ * @since 5.8.0
+ *
+ * @return array Settings to be used with get_block_editor_settings().
+ */
+function get_legacy_widget_block_editor_settings() {
+	$editor_settings = array();
+
 	/**
 	 * Filters the list of widget-type IDs that should **not** be offered by the
 	 * Legacy Widget block.
@@ -296,13 +310,32 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
 
 	$editor_settings['__experimentalFeatures'] = $theme_json->get_settings();
 	// These settings may need to be updated based on data coming from theme.json sources.
-	if ( isset( $editor_settings['__experimentalFeatures']['color']['palette'] ) ) {
-		$editor_settings['colors'] = $editor_settings['__experimentalFeatures']['color']['palette'];
-		unset( $editor_settings['__experimentalFeatures']['color']['palette'] );
+	if ( isset( $settings['__experimentalFeatures']['color']['palette'] ) ) {
+		$colors_by_origin   = $settings['__experimentalFeatures']['color']['palette'];
+		$settings['colors'] = isset( $colors_by_origin['user'] ) ?
+			$colors_by_origin['user'] : (
+				isset( $colors_by_origin['theme'] ) ?
+					$colors_by_origin['theme'] :
+					$colors_by_origin['core']
+			);
 	}
-	if ( isset( $editor_settings['__experimentalFeatures']['color']['gradients'] ) ) {
-		$editor_settings['gradients'] = $editor_settings['__experimentalFeatures']['color']['gradients'];
-		unset( $editor_settings['__experimentalFeatures']['color']['gradients'] );
+	if ( isset( $settings['__experimentalFeatures']['color']['gradients'] ) ) {
+		$gradients_by_origin   = $settings['__experimentalFeatures']['color']['gradients'];
+		$settings['gradients'] = isset( $gradients_by_origin['user'] ) ?
+			$gradients_by_origin['user'] : (
+				isset( $gradients_by_origin['theme'] ) ?
+					$gradients_by_origin['theme'] :
+					$gradients_by_origin['core']
+			);
+	}
+	if ( isset( $settings['__experimentalFeatures']['typography']['fontSizes'] ) ) {
+		$font_sizes_by_origin  = $settings['__experimentalFeatures']['typography']['fontSizes'];
+		$settings['fontSizes'] = isset( $font_sizes_by_origin['user'] ) ?
+			$font_sizes_by_origin['user'] : (
+				isset( $font_sizes_by_origin['theme'] ) ?
+					$font_sizes_by_origin['theme'] :
+					$font_sizes_by_origin['core']
+			);
 	}
 	if ( isset( $editor_settings['__experimentalFeatures']['color']['custom'] ) ) {
 		$editor_settings['disableCustomColors'] = ! $editor_settings['__experimentalFeatures']['color']['custom'];
@@ -311,10 +344,6 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
 	if ( isset( $editor_settings['__experimentalFeatures']['color']['customGradient'] ) ) {
 		$editor_settings['disableCustomGradients'] = ! $editor_settings['__experimentalFeatures']['color']['customGradient'];
 		unset( $editor_settings['__experimentalFeatures']['color']['customGradient'] );
-	}
-	if ( isset( $editor_settings['__experimentalFeatures']['typography']['fontSizes'] ) ) {
-		$editor_settings['fontSizes'] = $editor_settings['__experimentalFeatures']['typography']['fontSizes'];
-		unset( $editor_settings['__experimentalFeatures']['typography']['fontSizes'] );
 	}
 	if ( isset( $editor_settings['__experimentalFeatures']['typography']['customFontSize'] ) ) {
 		$editor_settings['disableCustomFontSizes'] = ! $editor_settings['__experimentalFeatures']['typography']['customFontSize'];
