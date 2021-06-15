@@ -12,6 +12,8 @@
  *
  * @since 5.8.0
  *
+ * @global string $_wp_current_template_content
+ *
  * @param string $template  Path to the template. See locate_template().
  * @param string $type      Sanitized filename without extension.
  * @param array  $templates A list of template candidates, in descending order of priority.
@@ -147,7 +149,10 @@ function _block_template_render_title_tag() {
  * @access private
  * @since 5.8.0
  *
- * @return string block tempate markup.
+ * @global string   $_wp_current_template_content
+ * @global WP_Embed $wp_embed
+ *
+ * @return string Block template markup.
  */
 function get_the_block_template_html() {
 	global $_wp_current_template_content;

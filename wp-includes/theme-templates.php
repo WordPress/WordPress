@@ -72,9 +72,12 @@ function wp_filter_wp_template_unique_post_slug( $override_slug, $slug, $post_ID
  * @access private
  * @since 5.8.0
  *
+ * @global string $_wp_current_template_content
+ *
  * @return void
  */
 function the_block_template_skip_link() {
+	global $_wp_current_template_content;
 
 	// Early exit if not a block theme.
 	if ( ! current_theme_supports( 'block-templates' ) ) {
@@ -82,7 +85,6 @@ function the_block_template_skip_link() {
 	}
 
 	// Early exit if not a block template.
-	global $_wp_current_template_content;
 	if ( ! $_wp_current_template_content ) {
 		return;
 	}
