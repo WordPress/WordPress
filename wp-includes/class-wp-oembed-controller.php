@@ -159,10 +159,14 @@ final class WP_oEmbed_Controller {
 	 * @since 4.8.0
 	 *
 	 * @see WP_oEmbed::get_html()
+	 * @global WP_Embed $wp_embed
+	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 * @return object|WP_Error oEmbed response data or WP_Error on failure.
 	 */
 	public function get_proxy_item( $request ) {
+		global $wp_embed;
+
 		$args = $request->get_params();
 
 		// Serve oEmbed data from cache if set.
@@ -195,8 +199,6 @@ final class WP_oEmbed_Controller {
 
 		if ( false === $data ) {
 			// Try using a classic embed, instead.
-			global $wp_embed;
-
 			/* @var WP_Embed $wp_embed */
 			$html = $wp_embed->get_embed_handler_html( $args, $url );
 
