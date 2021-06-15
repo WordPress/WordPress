@@ -148,7 +148,7 @@ if ( $doaction ) {
 			break;
 
 		case 'trash':
-			if ( ! isset( $post_ids ) ) {
+			if ( empty( $post_ids ) ) {
 				break;
 			}
 			foreach ( (array) $post_ids as $post_id ) {
@@ -169,7 +169,7 @@ if ( $doaction ) {
 			);
 			break;
 		case 'untrash':
-			if ( ! isset( $post_ids ) ) {
+			if ( empty( $post_ids ) ) {
 				break;
 			}
 			foreach ( (array) $post_ids as $post_id ) {
@@ -184,7 +184,7 @@ if ( $doaction ) {
 			$location = add_query_arg( 'untrashed', count( $post_ids ), $location );
 			break;
 		case 'delete':
-			if ( ! isset( $post_ids ) ) {
+			if ( empty( $post_ids ) ) {
 				break;
 			}
 			foreach ( (array) $post_ids as $post_id_del ) {
