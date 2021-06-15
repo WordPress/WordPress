@@ -40,6 +40,12 @@ class WP_Theme_JSON {
 	 */
 	const ROOT_BLOCK_SELECTOR = 'body';
 
+	/**
+	 * The sources of data this object can represent.
+	 *
+	 * @since 5.8.0
+	 * @var array
+	 */
 	const VALID_ORIGINS = array(
 		'core',
 		'theme',
