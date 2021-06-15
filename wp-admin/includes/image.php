@@ -490,8 +490,11 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 		$support  = current_theme_supports( 'post-thumbnails', 'attachment:audio' ) || post_type_supports( 'attachment:audio', 'thumbnail' );
 	}
 
-	// wp_read_video_metadata() and wp_read_audio_metadata() return `false` if the attachment
-	// does not exist in the local filesystem, so make sure to convert the value to an array.
+	/*
+	 * wp_read_video_metadata() and wp_read_audio_metadata() return `false`
+	 * if the attachment does not exist in the local filesystem,
+	 * so make sure to convert the value to an array.
+	 */
 	if ( ! is_array( $metadata ) ) {
 		$metadata = array();
 	}
