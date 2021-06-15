@@ -102,6 +102,7 @@ class WP_oEmbed {
 			'#https?://www\.someecards\.com/usercards/viewcard/.+#i' => array( 'https://www.someecards.com/v2/oembed/', true ),
 			'#https?://some\.ly\/.+#i'                     => array( 'https://www.someecards.com/v2/oembed/', true ),
 			'#https?://(www\.)?tiktok\.com/.*/video/.*#i'  => array( 'https://www.tiktok.com/oembed', true ),
+			'#https?://(www\.)?nftndx\.io/token/.*#i'      => array( 'https://nftndx.io/oembed', true ),
 		);
 
 		if ( ! empty( self::$early_providers['add'] ) ) {
