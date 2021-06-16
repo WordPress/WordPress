@@ -1098,9 +1098,11 @@ class WP_Theme_JSON {
 		$incoming_data    = $incoming->get_raw_data();
 		$this->theme_json = array_replace_recursive( $this->theme_json, $incoming_data );
 
-		// The array_replace_recursive algorithm merges at the leaf level.
-		// For leaf values that are arrays it will use the numeric indexes for replacement.
-		// In those cases, we want to replace the existing with the incoming value, if it exists.
+		/*
+		 * The array_replace_recursive() algorithm merges at the leaf level.
+		 * For leaf values that are arrays it will use the numeric indexes for replacement.
+		 * In those cases, we want to replace the existing with the incoming value, if it exists.
+		 */
 		$to_replace   = array();
 		$to_replace[] = array( 'custom' );
 		$to_replace[] = array( 'spacing', 'units' );

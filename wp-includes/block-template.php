@@ -23,11 +23,14 @@ function locate_block_template( $template, $type, array $templates ) {
 	global $_wp_current_template_content;
 
 	if ( $template ) {
-		// locate_template() has found a PHP template at the path specified by $template.
-		// That means that we have a fallback candidate if we cannot find a block template
-		// with higher specificity.
-		// Thus, before looking for matching block themes, we shorten our list of candidate
-		// templates accordingly.
+		/*
+		 * locate_template() has found a PHP template at the path specified by $template.
+		 * That means that we have a fallback candidate if we cannot find a block template
+		 * with higher specificity.
+		 *
+		 * Thus, before looking for matching block themes, we shorten our list of candidate
+		 * templates accordingly.
+		 */
 
 		// Locate the index of $template (without the theme directory path) in $templates.
 		$relative_template_path = str_replace(
@@ -218,11 +221,10 @@ function _strip_template_file_suffix( $template_file ) {
  */
 function _block_template_render_without_post_block_context( $context ) {
 	/*
-	 * When loading a template directly and not through a page
-	 * that resolves it, the top-level post ID and type context get set to that
-	 * of the template. Templates are just the structure of a site, and
-	 * they should not be available as post context because blocks like Post
-	 * Content would recurse infinitely.
+	 * When loading a template directly and not through a page that resolves it,
+	 * the top-level post ID and type context get set to that of the template.
+	 * Templates are just the structure of a site, and they should not be available
+	 * as post context because blocks like Post Content would recurse infinitely.
 	 */
 	if ( isset( $context['postType'] ) && 'wp_template' === $context['postType'] ) {
 		unset( $context['postId'] );
