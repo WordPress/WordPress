@@ -644,6 +644,7 @@ abstract class ParagonIE_Sodium_Core_BLAKE2b extends ParagonIE_Sodium_Core_Util
      *
      * @param string $str
      * @return SplFixedArray
+     * @psalm-suppress MixedArgumentTypeCoercion
      */
     public static function stringToSplFixedArray($str = '')
     {

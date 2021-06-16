@@ -13,7 +13,7 @@
  *
  * @global string $wp_version
  */
-$wp_version = '5.7.3-alpha-51170';
+$wp_version = '5.7.3-alpha-51171';
 
 /**
  * Holds the WordPress DB revision, increments when changes are made to the WordPress DB schema.

@@ -86,9 +86,8 @@ abstract class ParagonIE_Sodium_Core_Curve25519 extends ParagonIE_Sodium_Core_Cu
         $h = array();
         $b *= -1;
         for ($i = 0; $i < 10; ++$i) {
-            /** @var int $x */
             $x = (($f[$i] ^ $g[$i]) & $b);
-            $h[$i] = (int) ((int) ($f[$i]) ^ $x);
+            $h[$i] = ($f[$i]) ^ $x;
         }
         return ParagonIE_Sodium_Core_Curve25519_Fe::fromArray($h);
     }
@@ -701,7 +700,7 @@ abstract class ParagonIE_Sodium_Core_Curve25519 extends ParagonIE_Sodium_Core_Cu
         $f9_38 = self::mul($f9, 38, 6);
         $f0f0    = self::mul($f0,    $f0,    25);
         $f0f1_2  = self::mul($f0_2,  $f1,    24);
-        $f0f2_2  = self::mul($f0_2,  $f2,    25);
+        $f0f2_2  = self::mul($f0_2,  $f2,    26);
         $f0f3_2  = self::mul($f0_2,  $f3,    24);
         $f0f4_2  = self::mul($f0_2,  $f4,    25);
         $f0f5_2  = self::mul($f0_2,  $f5,    25);
@@ -710,7 +709,7 @@ abstract class ParagonIE_Sodium_Core_Curve25519 extends ParagonIE_Sodium_Core_Cu
         $f0f8_2  = self::mul($f0_2,  $f8,    25);
         $f0f9_2  = self::mul($f0_2,  $f9,    25);
         $f1f1_2  = self::mul($f1_2,  $f1,    24);
-        $f1f2_2  = self::mul($f1_2,  $f2,    25);
+        $f1f2_2  = self::mul($f1_2,  $f2,    26);
         $f1f3_4  = self::mul($f1_2,  $f3_2,  25);
         $f1f4_2  = self::mul($f1_2,  $f4,    25);
         $f1f5_4  = self::mul($f1_2,  $f5_2,  26);
@@ -718,15 +717,15 @@ abstract class ParagonIE_Sodium_Core_Curve25519 extends ParagonIE_Sodium_Core_Cu
         $f1f7_4  = self::mul($f1_2,  $f7_2,  25);
         $f1f8_2  = self::mul($f1_2,  $f8,    25);
         $f1f9_76 = self::mul($f9_38, $f1_2,  25);
-        $f2f2    = self::mul($f2,    $f2,    25);
+        $f2f2    = self::mul($f2,    $f2,    26);
         $f2f3_2  = self::mul($f2_2,  $f3,    24);
         $f2f4_2  = self::mul($f2_2,  $f4,    25);
         $f2f5_2  = self::mul($f2_2,  $f5,    25);
         $f2f6_2  = self::mul($f2_2,  $f6,    25);
-        $f2f7_2  = self::mul($f2_2,  $f7,    24);
-        $f2f8_38 = self::mul($f8_19, $f2_2,  26);
-        $f2f9_38 = self::mul($f9_38, $f2,    25);
-        $f3f3_2  = self::mul($f3_2,  $f3,    24);
+        $f2f7_2  = self::mul($f2_2,  $f7,    25);
+        $f2f8_38 = self::mul($f8_19, $f2_2,  27);
+        $f2f9_38 = self::mul($f9_38, $f2,    26);
+        $f3f3_2  = self::mul($f3_2,  $f3,    25);
         $f3f4_2  = self::mul($f3_2,  $f4,    25);
         $f3f5_4  = self::mul($f3_2,  $f5_2,  26);
         $f3f6_2  = self::mul($f3_2,  $f6,    25);
@@ -1585,9 +1584,9 @@ abstract class ParagonIE_Sodium_Core_Curve25519 extends ParagonIE_Sodium_Core_Cu
     public static function ge_p3_to_p2(ParagonIE_Sodium_Core_Curve25519_Ge_P3 $p)
     {
         return new ParagonIE_Sodium_Core_Curve25519_Ge_P2(
-            $p->X,
-            $p->Y,
-            $p->Z
+            self::fe_copy($p->X),
+            self::fe_copy($p->Y),
+            self::fe_copy($p->Z)
         );
     }
 
@@ -1644,7 +1643,7 @@ abstract class ParagonIE_Sodium_Core_Curve25519 extends ParagonIE_Sodium_Core_Cu
      */
     public static function equal($b, $c)
     {
-        return (int) ((($b ^ $c) - 1 & 0xffffffff) >> 31);
+        return (int) ((($b ^ $c) - 1) >> 31) & 1;
     }
 
     /**
@@ -1658,7 +1657,7 @@ abstract class ParagonIE_Sodium_Core_Curve25519 extends ParagonIE_Sodium_Core_Cu
     public static function negative($char)
     {
         if (is_int($char)) {
-            return $char < 0 ? 1 : 0;
+            return ($char >> 63) & 1;
         }
         $x = self::chrToInt(self::substr($char, 0, 1));
         return (int) ($x >> 63);
@@ -1683,10 +1682,76 @@ abstract class ParagonIE_Sodium_Core_Curve25519 extends ParagonIE_Sodium_Core_Cu
             throw new InvalidArgumentException('Expected an integer.');
         }
         return new ParagonIE_Sodium_Core_Curve25519_Ge_Precomp(
-            self::fe_cmov($t->yplusx, $u->yplusx, $b),
+            self::fe_cmov($t->yplusx,  $u->yplusx,  $b),
             self::fe_cmov($t->yminusx, $u->yminusx, $b),
-            self::fe_cmov($t->xy2d, $u->xy2d, $b)
+            self::fe_cmov($t->xy2d,    $u->xy2d,    $b)
         );
+    }
+
+    /**
+     * @param ParagonIE_Sodium_Core_Curve25519_Ge_Cached $t
+     * @param ParagonIE_Sodium_Core_Curve25519_Ge_Cached $u
+     * @param int $b
+     * @return ParagonIE_Sodium_Core_Curve25519_Ge_Cached
+     */
+    public static function ge_cmov_cached(
+        ParagonIE_Sodium_Core_Curve25519_Ge_Cached $t,
+        ParagonIE_Sodium_Core_Curve25519_Ge_Cached $u,
+        $b
+    ) {
+        $b &= 1;
+        $ret = new ParagonIE_Sodium_Core_Curve25519_Ge_Cached();
+        $ret->YplusX  = self::fe_cmov($t->YplusX,  $u->YplusX,  $b);
+        $ret->YminusX = self::fe_cmov($t->YminusX, $u->YminusX, $b);
+        $ret->Z       = self::fe_cmov($t->Z,       $u->Z,       $b);
+        $ret->T2d     = self::fe_cmov($t->T2d,     $u->T2d,     $b);
+        return $ret;
+    }
+
+    /**
+     * @param ParagonIE_Sodium_Core_Curve25519_Ge_Cached[] $cached
+     * @param int $b
+     * @return ParagonIE_Sodium_Core_Curve25519_Ge_Cached
+     * @throws SodiumException
+     */
+    public static function ge_cmov8_cached(array $cached, $b)
+    {
+        // const unsigned char bnegative = negative(b);
+        // const unsigned char babs      = b - (((-bnegative) & b) * ((signed char) 1 << 1));
+        $bnegative = self::negative($b);
+        $babs = $b - (((-$bnegative) & $b) << 1);
+
+        // ge25519_cached_0(t);
+        $t = new ParagonIE_Sodium_Core_Curve25519_Ge_Cached(
+            self::fe_1(),
+            self::fe_1(),
+            self::fe_1(),
+            self::fe_0()
+        );
+
+        // ge25519_cmov_cached(t, &cached[0], equal(babs, 1));
+        // ge25519_cmov_cached(t, &cached[1], equal(babs, 2));
+        // ge25519_cmov_cached(t, &cached[2], equal(babs, 3));
+        // ge25519_cmov_cached(t, &cached[3], equal(babs, 4));
+        // ge25519_cmov_cached(t, &cached[4], equal(babs, 5));
+        // ge25519_cmov_cached(t, &cached[5], equal(babs, 6));
+        // ge25519_cmov_cached(t, &cached[6], equal(babs, 7));
+        // ge25519_cmov_cached(t, &cached[7], equal(babs, 8));
+        for ($x = 0; $x < 8; ++$x) {
+            $t = self::ge_cmov_cached($t, $cached[$x], self::equal($babs, $x + 1));
+        }
+
+        // fe25519_copy(minust.YplusX, t->YminusX);
+        // fe25519_copy(minust.YminusX, t->YplusX);
+        // fe25519_copy(minust.Z, t->Z);
+        // fe25519_neg(minust.T2d, t->T2d);
+        $minust = new ParagonIE_Sodium_Core_Curve25519_Ge_Cached(
+            self::fe_copy($t->YminusX),
+            self::fe_copy($t->YplusX),
+            self::fe_copy($t->Z),
+            self::fe_neg($t->T2d)
+        );
+        return self::ge_cmov_cached($t, $minust, $bnegative);
     }
 
     /**
@@ -1923,6 +1988,145 @@ abstract class ParagonIE_Sodium_Core_Curve25519 extends ParagonIE_Sodium_Core_Cu
             $r = self::ge_p1p1_to_p2($t);
         }
         return $r;
+    }
+
+    /**
+     * @internal You should not use this directly from another application
+     *
+     * @param string $a
+     * @param ParagonIE_Sodium_Core_Curve25519_Ge_P3 $p
+     * @return ParagonIE_Sodium_Core_Curve25519_Ge_P3
+     * @throws SodiumException
+     * @throws TypeError
+     * @psalm-suppress MixedAssignment
+     * @psalm-suppress MixedOperand
+     */
+    public static function ge_scalarmult($a, $p)
+    {
+        $e = array_fill(0, 64, 0);
+
+        /** @var ParagonIE_Sodium_Core_Curve25519_Ge_Cached[] $pi */
+        $pi = array();
+
+        //        ge25519_p3_to_cached(&pi[1 - 1], p);   /* p */
+        $pi[0] = self::ge_p3_to_cached($p);
+
+        //        ge25519_p3_dbl(&t2, p);
+        //        ge25519_p1p1_to_p3(&p2, &t2);
+        //        ge25519_p3_to_cached(&pi[2 - 1], &p2); /* 2p = 2*p */
+        $t2 = self::ge_p3_dbl($p);
+        $p2 = self::ge_p1p1_to_p3($t2);
+        $pi[1] = self::ge_p3_to_cached($p2);
+
+        //        ge25519_add_cached(&t3, p, &pi[2 - 1]);
+        //        ge25519_p1p1_to_p3(&p3, &t3);
+        //        ge25519_p3_to_cached(&pi[3 - 1], &p3); /* 3p = 2p+p */
+        $t3 = self::ge_add($p, $pi[1]);
+        $p3 = self::ge_p1p1_to_p3($t3);
+        $pi[2] = self::ge_p3_to_cached($p3);
+
+        //        ge25519_p3_dbl(&t4, &p2);
+        //        ge25519_p1p1_to_p3(&p4, &t4);
+        //        ge25519_p3_to_cached(&pi[4 - 1], &p4); /* 4p = 2*2p */
+        $t4 = self::ge_p3_dbl($p2);
+        $p4 = self::ge_p1p1_to_p3($t4);
+        $pi[3] = self::ge_p3_to_cached($p4);
+
+        //        ge25519_add_cached(&t5, p, &pi[4 - 1]);
+        //        ge25519_p1p1_to_p3(&p5, &t5);
+        //        ge25519_p3_to_cached(&pi[5 - 1], &p5); /* 5p = 4p+p */
+        $t5 = self::ge_add($p, $pi[3]);
+        $p5 = self::ge_p1p1_to_p3($t5);
+        $pi[4] = self::ge_p3_to_cached($p5);
+
+        //        ge25519_p3_dbl(&t6, &p3);
+        //        ge25519_p1p1_to_p3(&p6, &t6);
+        //        ge25519_p3_to_cached(&pi[6 - 1], &p6); /* 6p = 2*3p */
+        $t6 = self::ge_p3_dbl($p3);
+        $p6 = self::ge_p1p1_to_p3($t6);
+        $pi[5] = self::ge_p3_to_cached($p6);
+
+        //        ge25519_add_cached(&t7, p, &pi[6 - 1]);
+        //        ge25519_p1p1_to_p3(&p7, &t7);
+        //        ge25519_p3_to_cached(&pi[7 - 1], &p7); /* 7p = 6p+p */
+        $t7 = self::ge_add($p, $pi[5]);
+        $p7 = self::ge_p1p1_to_p3($t7);
+        $pi[6] = self::ge_p3_to_cached($p7);
+
+        //        ge25519_p3_dbl(&t8, &p4);
+        //        ge25519_p1p1_to_p3(&p8, &t8);
+        //        ge25519_p3_to_cached(&pi[8 - 1], &p8); /* 8p = 2*4p */
+        $t8 = self::ge_p3_dbl($p4);
+        $p8 = self::ge_p1p1_to_p3($t8);
+        $pi[7] = self::ge_p3_to_cached($p8);
+
+
+        //        for (i = 0; i < 32; ++i) {
+        //            e[2 * i + 0] = (a[i] >> 0) & 15;
+        //            e[2 * i + 1] = (a[i] >> 4) & 15;
+        //        }
+        for ($i = 0; $i < 32; ++$i) {
+            $e[($i << 1)    ] =  self::chrToInt($a[$i]) & 15;
+            $e[($i << 1) + 1] = (self::chrToInt($a[$i]) >> 4) & 15;
+        }
+        //        /* each e[i] is between 0 and 15 */
+        //        /* e[63] is between 0 and 7 */
+
+        //        carry = 0;
+        //        for (i = 0; i < 63; ++i) {
+        //            e[i] += carry;
+        //            carry = e[i] + 8;
+        //            carry >>= 4;
+        //            e[i] -= carry * ((signed char) 1 << 4);
+        //        }
+        $carry = 0;
+        for ($i = 0; $i < 64; ++$i) {
+            $e[$i] += $carry;
+            $carry = $e[$i] + 8;
+            $carry >>= 4;
+            $e[$i] -= $carry << 4;
+        }
+        //        e[63] += carry;
+        //        /* each e[i] is between -8 and 8 */
+        $e[63] += $carry;
+
+        //        ge25519_p3_0(h);
+        $h = self::ge_p3_0();
+
+        //        for (i = 63; i != 0; i--) {
+        for ($i = 63; $i != 0; --$i) {
+            // ge25519_cmov8_cached(&t, pi, e[i]);
+            $t = self::ge_cmov8_cached($pi, $e[$i]);
+            // ge25519_add_cached(&r, h, &t);
+            $r = self::ge_add($h, $t);
+
+            // ge25519_p1p1_to_p2(&s, &r);
+            // ge25519_p2_dbl(&r, &s);
+            // ge25519_p1p1_to_p2(&s, &r);
+            // ge25519_p2_dbl(&r, &s);
+            // ge25519_p1p1_to_p2(&s, &r);
+            // ge25519_p2_dbl(&r, &s);
+            // ge25519_p1p1_to_p2(&s, &r);
+            // ge25519_p2_dbl(&r, &s);
+            $s = self::ge_p1p1_to_p2($r);
+            $r = self::ge_p2_dbl($s);
+            $s = self::ge_p1p1_to_p2($r);
+            $r = self::ge_p2_dbl($s);
+            $s = self::ge_p1p1_to_p2($r);
+            $r = self::ge_p2_dbl($s);
+            $s = self::ge_p1p1_to_p2($r);
+            $r = self::ge_p2_dbl($s);
+
+            // ge25519_p1p1_to_p3(h, &r);  /* *16 */
+            $h = self::ge_p1p1_to_p3($r); /* *16 */
+        }
+
+        //        ge25519_cmov8_cached(&t, pi, e[i]);
+        //        ge25519_add_cached(&r, h, &t);
+        //        ge25519_p1p1_to_p3(h, &r);
+        $t = self::ge_cmov8_cached($pi, $e[0]);
+        $r = self::ge_add($h, $t);
+        return self::ge_p1p1_to_p3($r);
     }
 
     /**
@@ -2998,5 +3202,905 @@ abstract class ParagonIE_Sodium_Core_Curve25519 extends ParagonIE_Sodium_Core_Cu
 
         # ge_p1p1_to_p3(r, &t);
         return self::ge_p1p1_to_p3($t);
+    }
+
+    /**
+     * @param string $a
+     * @param string $b
+     * @return string
+     */
+    public static function sc25519_mul($a, $b)
+    {
+        //    int64_t a0  = 2097151 & load_3(a);
+        //    int64_t a1  = 2097151 & (load_4(a + 2) >> 5);
+        //    int64_t a2  = 2097151 & (load_3(a + 5) >> 2);
+        //    int64_t a3  = 2097151 & (load_4(a + 7) >> 7);
+        //    int64_t a4  = 2097151 & (load_4(a + 10) >> 4);
+        //    int64_t a5  = 2097151 & (load_3(a + 13) >> 1);
+        //    int64_t a6  = 2097151 & (load_4(a + 15) >> 6);
+        //    int64_t a7  = 2097151 & (load_3(a + 18) >> 3);
+        //    int64_t a8  = 2097151 & load_3(a + 21);
+        //    int64_t a9  = 2097151 & (load_4(a + 23) >> 5);
+        //    int64_t a10 = 2097151 & (load_3(a + 26) >> 2);
+        //    int64_t a11 = (load_4(a + 28) >> 7);
+        $a0  = 2097151 &  self::load_3(self::substr($a, 0, 3));
+        $a1  = 2097151 & (self::load_4(self::substr($a, 2, 4)) >> 5);
+        $a2  = 2097151 & (self::load_3(self::substr($a, 5, 3)) >> 2);
+        $a3  = 2097151 & (self::load_4(self::substr($a, 7, 4)) >> 7);
+        $a4  = 2097151 & (self::load_4(self::substr($a, 10, 4)) >> 4);
+        $a5  = 2097151 & (self::load_3(self::substr($a, 13, 3)) >> 1);
+        $a6  = 2097151 & (self::load_4(self::substr($a, 15, 4)) >> 6);
+        $a7  = 2097151 & (self::load_3(self::substr($a, 18, 3)) >> 3);
+        $a8  = 2097151 &  self::load_3(self::substr($a, 21, 3));
+        $a9  = 2097151 & (self::load_4(self::substr($a, 23, 4)) >> 5);
+        $a10 = 2097151 & (self::load_3(self::substr($a, 26, 3)) >> 2);
+        $a11 = (self::load_4(self::substr($a, 28, 4)) >> 7);
+
+        //    int64_t b0  = 2097151 & load_3(b);
+        //    int64_t b1  = 2097151 & (load_4(b + 2) >> 5);
+        //    int64_t b2  = 2097151 & (load_3(b + 5) >> 2);
+        //    int64_t b3  = 2097151 & (load_4(b + 7) >> 7);
+        //    int64_t b4  = 2097151 & (load_4(b + 10) >> 4);
+        //    int64_t b5  = 2097151 & (load_3(b + 13) >> 1);
+        //    int64_t b6  = 2097151 & (load_4(b + 15) >> 6);
+        //    int64_t b7  = 2097151 & (load_3(b + 18) >> 3);
+        //    int64_t b8  = 2097151 & load_3(b + 21);
+        //    int64_t b9  = 2097151 & (load_4(b + 23) >> 5);
+        //    int64_t b10 = 2097151 & (load_3(b + 26) >> 2);
+        //    int64_t b11 = (load_4(b + 28) >> 7);
+        $b0  = 2097151 &  self::load_3(self::substr($b, 0, 3));
+        $b1  = 2097151 & (self::load_4(self::substr($b, 2, 4)) >> 5);
+        $b2  = 2097151 & (self::load_3(self::substr($b, 5, 3)) >> 2);
+        $b3  = 2097151 & (self::load_4(self::substr($b, 7, 4)) >> 7);
+        $b4  = 2097151 & (self::load_4(self::substr($b, 10, 4)) >> 4);
+        $b5  = 2097151 & (self::load_3(self::substr($b, 13, 3)) >> 1);
+        $b6  = 2097151 & (self::load_4(self::substr($b, 15, 4)) >> 6);
+        $b7  = 2097151 & (self::load_3(self::substr($b, 18, 3)) >> 3);
+        $b8  = 2097151 &  self::load_3(self::substr($b, 21, 3));
+        $b9  = 2097151 & (self::load_4(self::substr($b, 23, 4)) >> 5);
+        $b10 = 2097151 & (self::load_3(self::substr($b, 26, 3)) >> 2);
+        $b11 = (self::load_4(self::substr($b, 28, 4)) >> 7);
+
+        //    s0 = a0 * b0;
+        //    s1 = a0 * b1 + a1 * b0;
+        //    s2 = a0 * b2 + a1 * b1 + a2 * b0;
+        //    s3 = a0 * b3 + a1 * b2 + a2 * b1 + a3 * b0;
+        //    s4 = a0 * b4 + a1 * b3 + a2 * b2 + a3 * b1 + a4 * b0;
+        //    s5 = a0 * b5 + a1 * b4 + a2 * b3 + a3 * b2 + a4 * b1 + a5 * b0;
+        //    s6 = a0 * b6 + a1 * b5 + a2 * b4 + a3 * b3 + a4 * b2 + a5 * b1 + a6 * b0;
+        //    s7 = a0 * b7 + a1 * b6 + a2 * b5 + a3 * b4 + a4 * b3 + a5 * b2 +
+        //        a6 * b1 + a7 * b0;
+        //    s8 = a0 * b8 + a1 * b7 + a2 * b6 + a3 * b5 + a4 * b4 + a5 * b3 +
+        //        a6 * b2 + a7 * b1 + a8 * b0;
+        //    s9 = a0 * b9 + a1 * b8 + a2 * b7 + a3 * b6 + a4 * b5 + a5 * b4 +
+        //        a6 * b3 + a7 * b2 + a8 * b1 + a9 * b0;
+        //    s10 = a0 * b10 + a1 * b9 + a2 * b8 + a3 * b7 + a4 * b6 + a5 * b5 +
+        //        a6 * b4 + a7 * b3 + a8 * b2 + a9 * b1 + a10 * b0;
+        //    s11 = a0 * b11 + a1 * b10 + a2 * b9 + a3 * b8 + a4 * b7 + a5 * b6 +
+        //        a6 * b5 + a7 * b4 + a8 * b3 + a9 * b2 + a10 * b1 + a11 * b0;
+        //    s12 = a1 * b11 + a2 * b10 + a3 * b9 + a4 * b8 + a5 * b7 + a6 * b6 +
+        //        a7 * b5 + a8 * b4 + a9 * b3 + a10 * b2 + a11 * b1;
+        //    s13 = a2 * b11 + a3 * b10 + a4 * b9 + a5 * b8 + a6 * b7 + a7 * b6 +
+        //        a8 * b5 + a9 * b4 + a10 * b3 + a11 * b2;
+        //    s14 = a3 * b11 + a4 * b10 + a5 * b9 + a6 * b8 + a7 * b7 + a8 * b6 +
+        //        a9 * b5 + a10 * b4 + a11 * b3;
+        //    s15 = a4 * b11 + a5 * b10 + a6 * b9 + a7 * b8 + a8 * b7 + a9 * b6 +
+        //        a10 * b5 + a11 * b4;
+        //    s16 =
+        //        a5 * b11 + a6 * b10 + a7 * b9 + a8 * b8 + a9 * b7 + a10 * b6 + a11 * b5;
+        //    s17 = a6 * b11 + a7 * b10 + a8 * b9 + a9 * b8 + a10 * b7 + a11 * b6;
+        //    s18 = a7 * b11 + a8 * b10 + a9 * b9 + a10 * b8 + a11 * b7;
+        //    s19 = a8 * b11 + a9 * b10 + a10 * b9 + a11 * b8;
+        //    s20 = a9 * b11 + a10 * b10 + a11 * b9;
+        //    s21 = a10 * b11 + a11 * b10;
+        //    s22 = a11 * b11;
+        //    s23 = 0;
+        $s0 = self::mul($a0, $b0, 22);
+        $s1 = self::mul($a0, $b1, 22) + self::mul($a1, $b0, 22);
+        $s2 = self::mul($a0, $b2, 22) + self::mul($a1, $b1, 22) + self::mul($a2, $b0, 22);
+        $s3 = self::mul($a0, $b3, 22) + self::mul($a1, $b2, 22) + self::mul($a2, $b1, 22) + self::mul($a3, $b0, 22);
+        $s4 = self::mul($a0, $b4, 22) + self::mul($a1, $b3, 22) + self::mul($a2, $b2, 22) + self::mul($a3, $b1, 22) +
+            self::mul($a4, $b0, 22);
+        $s5 = self::mul($a0, $b5, 22) + self::mul($a1, $b4, 22) + self::mul($a2, $b3, 22) + self::mul($a3, $b2, 22) +
+            self::mul($a4, $b1, 22) + self::mul($a5, $b0, 22);
+        $s6 = self::mul($a0, $b6, 22) + self::mul($a1, $b5, 22) + self::mul($a2, $b4, 22) + self::mul($a3, $b3, 22) +
+            self::mul($a4, $b2, 22) + self::mul($a5, $b1, 22) + self::mul($a6, $b0, 22);
+        $s7 = self::mul($a0, $b7, 22) + self::mul($a1, $b6, 22) + self::mul($a2, $b5, 22) + self::mul($a3, $b4, 22) +
+            self::mul($a4, $b3, 22) + self::mul($a5, $b2, 22) + self::mul($a6, $b1, 22) + self::mul($a7, $b0, 22);
+        $s8 = self::mul($a0, $b8, 22) + self::mul($a1, $b7, 22) + self::mul($a2, $b6, 22) + self::mul($a3, $b5, 22) +
+            self::mul($a4, $b4, 22) + self::mul($a5, $b3, 22) + self::mul($a6, $b2, 22) + self::mul($a7, $b1, 22) +
+            self::mul($a8, $b0, 22);
+        $s9 = self::mul($a0, $b9, 22) + self::mul($a1, $b8, 22) + self::mul($a2, $b7, 22) + self::mul($a3, $b6, 22) +
+            self::mul($a4, $b5, 22) + self::mul($a5, $b4, 22) + self::mul($a6, $b3, 22) + self::mul($a7, $b2, 22) +
+            self::mul($a8, $b1, 22) + self::mul($a9, $b0, 22);
+        $s10 = self::mul($a0, $b10, 22) + self::mul($a1, $b9, 22) + self::mul($a2, $b8, 22) + self::mul($a3, $b7, 22) +
+            self::mul($a4, $b6, 22) + self::mul($a5, $b5, 22) + self::mul($a6, $b4, 22) + self::mul($a7, $b3, 22) +
+            self::mul($a8, $b2, 22) + self::mul($a9, $b1, 22) + self::mul($a10, $b0, 22);
+        $s11 = self::mul($a0, $b11, 22) + self::mul($a1, $b10, 22) + self::mul($a2, $b9, 22) + self::mul($a3, $b8, 22) +
+            self::mul($a4, $b7, 22) + self::mul($a5, $b6, 22) + self::mul($a6, $b5, 22) + self::mul($a7, $b4, 22) +
+            self::mul($a8, $b3, 22) + self::mul($a9, $b2, 22) + self::mul($a10, $b1, 22) + self::mul($a11, $b0, 22);
+        $s12 = self::mul($a1, $b11, 22) + self::mul($a2, $b10, 22) + self::mul($a3, $b9, 22) + self::mul($a4, $b8, 22) +
+            self::mul($a5, $b7, 22) + self::mul($a6, $b6, 22) + self::mul($a7, $b5, 22) + self::mul($a8, $b4, 22) +
+            self::mul($a9, $b3, 22) + self::mul($a10, $b2, 22) + self::mul($a11, $b1, 22);
+        $s13 = self::mul($a2, $b11, 22) + self::mul($a3, $b10, 22) + self::mul($a4, $b9, 22) + self::mul($a5, $b8, 22) +
+            self::mul($a6, $b7, 22) + self::mul($a7, $b6, 22) + self::mul($a8, $b5, 22) + self::mul($a9, $b4, 22) +
+            self::mul($a10, $b3, 22) + self::mul($a11, $b2, 22);
+        $s14 = self::mul($a3, $b11, 22) + self::mul($a4, $b10, 22) + self::mul($a5, $b9, 22) + self::mul($a6, $b8, 22) +
+            self::mul($a7, $b7, 22) + self::mul($a8, $b6, 22) + self::mul($a9, $b5, 22) + self::mul($a10, $b4, 22) +
+            self::mul($a11, $b3, 22);
+        $s15 = self::mul($a4, $b11, 22) + self::mul($a5, $b10, 22) + self::mul($a6, $b9, 22) + self::mul($a7, $b8, 22) +
+            self::mul($a8, $b7, 22) + self::mul($a9, $b6, 22) + self::mul($a10, $b5, 22) + self::mul($a11, $b4, 22);
+        $s16 =
+            self::mul($a5, $b11, 22) + self::mul($a6, $b10, 22) + self::mul($a7, $b9, 22) + self::mul($a8, $b8, 22) +
+            self::mul($a9, $b7, 22) + self::mul($a10, $b6, 22) + self::mul($a11, $b5, 22);
+        $s17 = self::mul($a6, $b11, 22) + self::mul($a7, $b10, 22) + self::mul($a8, $b9, 22) + self::mul($a9, $b8, 22) +
+            self::mul($a10, $b7, 22) + self::mul($a11, $b6, 22);
+        $s18 = self::mul($a7, $b11, 22) + self::mul($a8, $b10, 22) + self::mul($a9, $b9, 22) + self::mul($a10, $b8, 22)
+            + self::mul($a11, $b7, 22);
+        $s19 = self::mul($a8, $b11, 22) + self::mul($a9, $b10, 22) + self::mul($a10, $b9, 22) +
+            self::mul($a11, $b8, 22);
+        $s20 = self::mul($a9, $b11, 22) + self::mul($a10, $b10, 22) + self::mul($a11, $b9, 22);
+        $s21 = self::mul($a10, $b11, 22) + self::mul($a11, $b10, 22);
+        $s22 = self::mul($a11, $b11, 22);
+        $s23 = 0;
+
+        //    carry0 = (s0 + (int64_t) (1L << 20)) >> 21;
+        //    s1 += carry0;
+        //    s0 -= carry0 * ((uint64_t) 1L << 21);
+        $carry0 = ($s0 + (1 << 20)) >> 21;
+        $s1 += $carry0;
+        $s0 -= $carry0 << 21;
+        //    carry2 = (s2 + (int64_t) (1L << 20)) >> 21;
+        //    s3 += carry2;
+        //    s2 -= carry2 * ((uint64_t) 1L << 21);
+        $carry2 = ($s2 + (1 << 20)) >> 21;
+        $s3 += $carry2;
+        $s2 -= $carry2 << 21;
+        //    carry4 = (s4 + (int64_t) (1L << 20)) >> 21;
+        //    s5 += carry4;
+        //    s4 -= carry4 * ((uint64_t) 1L << 21);
+        $carry4 = ($s4 + (1 << 20)) >> 21;
+        $s5 += $carry4;
+        $s4 -= $carry4 << 21;
+        //    carry6 = (s6 + (int64_t) (1L << 20)) >> 21;
+        //    s7 += carry6;
+        //    s6 -= carry6 * ((uint64_t) 1L << 21);
+        $carry6 = ($s6 + (1 << 20)) >> 21;
+        $s7 += $carry6;
+        $s6 -= $carry6 << 21;
+        //    carry8 = (s8 + (int64_t) (1L << 20)) >> 21;
+        //    s9 += carry8;
+        //    s8 -= carry8 * ((uint64_t) 1L << 21);
+        $carry8 = ($s8 + (1 << 20)) >> 21;
+        $s9 += $carry8;
+        $s8 -= $carry8 << 21;
+        //    carry10 = (s10 + (int64_t) (1L << 20)) >> 21;
+        //    s11 += carry10;
+        //    s10 -= carry10 * ((uint64_t) 1L << 21);
+        $carry10 = ($s10 + (1 << 20)) >> 21;
+        $s11 += $carry10;
+        $s10 -= $carry10 << 21;
+        //    carry12 = (s12 + (int64_t) (1L << 20)) >> 21;
+        //    s13 += carry12;
+        //    s12 -= carry12 * ((uint64_t) 1L << 21);
+        $carry12 = ($s12 + (1 << 20)) >> 21;
+        $s13 += $carry12;
+        $s12 -= $carry12 << 21;
+        //    carry14 = (s14 + (int64_t) (1L << 20)) >> 21;
+        //    s15 += carry14;
+        //    s14 -= carry14 * ((uint64_t) 1L << 21);
+        $carry14 = ($s14 + (1 << 20)) >> 21;
+        $s15 += $carry14;
+        $s14 -= $carry14 << 21;
+        //    carry16 = (s16 + (int64_t) (1L << 20)) >> 21;
+        //    s17 += carry16;
+        //    s16 -= carry16 * ((uint64_t) 1L << 21);
+        $carry16 = ($s16 + (1 << 20)) >> 21;
+        $s17 += $carry16;
+        $s16 -= $carry16 << 21;
+        //    carry18 = (s18 + (int64_t) (1L << 20)) >> 21;
+        //    s19 += carry18;
+        //    s18 -= carry18 * ((uint64_t) 1L << 21);
+        $carry18 = ($s18 + (1 << 20)) >> 21;
+        $s19 += $carry18;
+        $s18 -= $carry18 << 21;
+        //    carry20 = (s20 + (int64_t) (1L << 20)) >> 21;
+        //    s21 += carry20;
+        //    s20 -= carry20 * ((uint64_t) 1L << 21);
+        $carry20 = ($s20 + (1 << 20)) >> 21;
+        $s21 += $carry20;
+        $s20 -= $carry20 << 21;
+        //    carry22 = (s22 + (int64_t) (1L << 20)) >> 21;
+        //    s23 += carry22;
+        //    s22 -= carry22 * ((uint64_t) 1L << 21);
+        $carry22 = ($s22 + (1 << 20)) >> 21;
+        $s23 += $carry22;
+        $s22 -= $carry22 << 21;
+
+        //    carry1 = (s1 + (int64_t) (1L << 20)) >> 21;
+        //    s2 += carry1;
+        //    s1 -= carry1 * ((uint64_t) 1L << 21);
+        $carry1 = ($s1 + (1 << 20)) >> 21;
+        $s2 += $carry1;
+        $s1 -= $carry1 << 21;
+        //    carry3 = (s3 + (int64_t) (1L << 20)) >> 21;
+        //    s4 += carry3;
+        //    s3 -= carry3 * ((uint64_t) 1L << 21);
+        $carry3 = ($s3 + (1 << 20)) >> 21;
+        $s4 += $carry3;
+        $s3 -= $carry3 << 21;
+        //    carry5 = (s5 + (int64_t) (1L << 20)) >> 21;
+        //    s6 += carry5;
+        //    s5 -= carry5 * ((uint64_t) 1L << 21);
+        $carry5 = ($s5 + (1 << 20)) >> 21;
+        $s6 += $carry5;
+        $s5 -= $carry5 << 21;
+        //    carry7 = (s7 + (int64_t) (1L << 20)) >> 21;
+        //    s8 += carry7;
+        //    s7 -= carry7 * ((uint64_t) 1L << 21);
+        $carry7 = ($s7 + (1 << 20)) >> 21;
+        $s8 += $carry7;
+        $s7 -= $carry7 << 21;
+        //    carry9 = (s9 + (int64_t) (1L << 20)) >> 21;
+        //    s10 += carry9;
+        //    s9 -= carry9 * ((uint64_t) 1L << 21);
+        $carry9 = ($s9 + (1 << 20)) >> 21;
+        $s10 += $carry9;
+        $s9 -= $carry9 << 21;
+        //    carry11 = (s11 + (int64_t) (1L << 20)) >> 21;
+        //    s12 += carry11;
+        //    s11 -= carry11 * ((uint64_t) 1L << 21);
+        $carry11 = ($s11 + (1 << 20)) >> 21;
+        $s12 += $carry11;
+        $s11 -= $carry11 << 21;
+        //    carry13 = (s13 + (int64_t) (1L << 20)) >> 21;
+        //    s14 += carry13;
+        //    s13 -= carry13 * ((uint64_t) 1L << 21);
+        $carry13 = ($s13 + (1 << 20)) >> 21;
+        $s14 += $carry13;
+        $s13 -= $carry13 << 21;
+        //    carry15 = (s15 + (int64_t) (1L << 20)) >> 21;
+        //    s16 += carry15;
+        //    s15 -= carry15 * ((uint64_t) 1L << 21);
+        $carry15 = ($s15 + (1 << 20)) >> 21;
+        $s16 += $carry15;
+        $s15 -= $carry15 << 21;
+        //    carry17 = (s17 + (int64_t) (1L << 20)) >> 21;
+        //    s18 += carry17;
+        //    s17 -= carry17 * ((uint64_t) 1L << 21);
+        $carry17 = ($s17 + (1 << 20)) >> 21;
+        $s18 += $carry17;
+        $s17 -= $carry17 << 21;
+        //    carry19 = (s19 + (int64_t) (1L << 20)) >> 21;
+        //    s20 += carry19;
+        //    s19 -= carry19 * ((uint64_t) 1L << 21);
+        $carry19 = ($s19 + (1 << 20)) >> 21;
+        $s20 += $carry19;
+        $s19 -= $carry19 << 21;
+        //    carry21 = (s21 + (int64_t) (1L << 20)) >> 21;
+        //    s22 += carry21;
+        //    s21 -= carry21 * ((uint64_t) 1L << 21);
+        $carry21 = ($s21 + (1 << 20)) >> 21;
+        $s22 += $carry21;
+        $s21 -= $carry21 << 21;
+
+        //    s11 += s23 * 666643;
+        //    s12 += s23 * 470296;
+        //    s13 += s23 * 654183;
+        //    s14 -= s23 * 997805;
+        //    s15 += s23 * 136657;
+        //    s16 -= s23 * 683901;
+        $s11 += self::mul($s23, 666643, 20);
+        $s12 += self::mul($s23, 470296, 19);
+        $s13 += self::mul($s23, 654183, 20);
+        $s14 -= self::mul($s23, 997805, 20);
+        $s15 += self::mul($s23, 136657, 18);
+        $s16 -= self::mul($s23, 683901, 20);
+
+        //    s10 += s22 * 666643;
+        //    s11 += s22 * 470296;
+        //    s12 += s22 * 654183;
+        //    s13 -= s22 * 997805;
+        //    s14 += s22 * 136657;
+        //    s15 -= s22 * 683901;
+        $s10 += self::mul($s22, 666643, 20);
+        $s11 += self::mul($s22, 470296, 19);
+        $s12 += self::mul($s22, 654183, 20);
+        $s13 -= self::mul($s22, 997805, 20);
+        $s14 += self::mul($s22, 136657, 18);
+        $s15 -= self::mul($s22, 683901, 20);
+
+        //    s9 += s21 * 666643;
+        //    s10 += s21 * 470296;
+        //    s11 += s21 * 654183;
+        //    s12 -= s21 * 997805;
+        //    s13 += s21 * 136657;
+        //    s14 -= s21 * 683901;
+        $s9 += self::mul($s21, 666643, 20);
+        $s10 += self::mul($s21, 470296, 19);
+        $s11 += self::mul($s21, 654183, 20);
+        $s12 -= self::mul($s21, 997805, 20);
+        $s13 += self::mul($s21, 136657, 18);
+        $s14 -= self::mul($s21, 683901, 20);
+
+        //    s8 += s20 * 666643;
+        //    s9 += s20 * 470296;
+        //    s10 += s20 * 654183;
+        //    s11 -= s20 * 997805;
+        //    s12 += s20 * 136657;
+        //    s13 -= s20 * 683901;
+        $s8 += self::mul($s20, 666643, 20);
+        $s9 += self::mul($s20, 470296, 19);
+        $s10 += self::mul($s20, 654183, 20);
+        $s11 -= self::mul($s20, 997805, 20);
+        $s12 += self::mul($s20, 136657, 18);
+        $s13 -= self::mul($s20, 683901, 20);
+
+        //    s7 += s19 * 666643;
+        //    s8 += s19 * 470296;
+        //    s9 += s19 * 654183;
+        //    s10 -= s19 * 997805;
+        //    s11 += s19 * 136657;
+        //    s12 -= s19 * 683901;
+        $s7 += self::mul($s19, 666643, 20);
+        $s8 += self::mul($s19, 470296, 19);
+        $s9 += self::mul($s19, 654183, 20);
+        $s10 -= self::mul($s19, 997805, 20);
+        $s11 += self::mul($s19, 136657, 18);
+        $s12 -= self::mul($s19, 683901, 20);
+
+        //    s6 += s18 * 666643;
+        //    s7 += s18 * 470296;
+        //    s8 += s18 * 654183;
+        //    s9 -= s18 * 997805;
+        //    s10 += s18 * 136657;
+        //    s11 -= s18 * 683901;
+        $s6 += self::mul($s18, 666643, 20);
+        $s7 += self::mul($s18, 470296, 19);
+        $s8 += self::mul($s18, 654183, 20);
+        $s9 -= self::mul($s18, 997805, 20);
+        $s10 += self::mul($s18, 136657, 18);
+        $s11 -= self::mul($s18, 683901, 20);
+
+        //    carry6 = (s6 + (int64_t) (1L << 20)) >> 21;
+        //    s7 += carry6;
+        //    s6 -= carry6 * ((uint64_t) 1L << 21);
+        $carry6 = ($s6 + (1 << 20)) >> 21;
+        $s7 += $carry6;
+        $s6 -= $carry6 << 21;
+        //    carry8 = (s8 + (int64_t) (1L << 20)) >> 21;
+        //    s9 += carry8;
+        //    s8 -= carry8 * ((uint64_t) 1L << 21);
+        $carry8 = ($s8 + (1 << 20)) >> 21;
+        $s9 += $carry8;
+        $s8 -= $carry8 << 21;
+        //    carry10 = (s10 + (int64_t) (1L << 20)) >> 21;
+        //    s11 += carry10;
+        //    s10 -= carry10 * ((uint64_t) 1L << 21);
+        $carry10 = ($s10 + (1 << 20)) >> 21;
+        $s11 += $carry10;
+        $s10 -= $carry10 << 21;
+        //    carry12 = (s12 + (int64_t) (1L << 20)) >> 21;
+        //    s13 += carry12;
+        //    s12 -= carry12 * ((uint64_t) 1L << 21);
+        $carry12 = ($s12 + (1 << 20)) >> 21;
+        $s13 += $carry12;
+        $s12 -= $carry12 << 21;
+        //    carry14 = (s14 + (int64_t) (1L << 20)) >> 21;
+        //    s15 += carry14;
+        //    s14 -= carry14 * ((uint64_t) 1L << 21);
+        $carry14 = ($s14 + (1 << 20)) >> 21;
+        $s15 += $carry14;
+        $s14 -= $carry14 << 21;
+        //    carry16 = (s16 + (int64_t) (1L << 20)) >> 21;
+        //    s17 += carry16;
+        //    s16 -= carry16 * ((uint64_t) 1L << 21);
+        $carry16 = ($s16 + (1 << 20)) >> 21;
+        $s17 += $carry16;
+        $s16 -= $carry16 << 21;
+
+        //    carry7 = (s7 + (int64_t) (1L << 20)) >> 21;
+        //    s8 += carry7;
+        //    s7 -= carry7 * ((uint64_t) 1L << 21);
+        $carry7 = ($s7 + (1 << 20)) >> 21;
+        $s8 += $carry7;
+        $s7 -= $carry7 << 21;
+        //    carry9 = (s9 + (int64_t) (1L << 20)) >> 21;
+        //    s10 += carry9;
+        //    s9 -= carry9 * ((uint64_t) 1L << 21);
+        $carry9 = ($s9 + (1 << 20)) >> 21;
+        $s10 += $carry9;
+        $s9 -= $carry9 << 21;
+        //    carry11 = (s11 + (int64_t) (1L << 20)) >> 21;
+        //    s12 += carry11;
+        //    s11 -= carry11 * ((uint64_t) 1L << 21);
+        $carry11 = ($s11 + (1 << 20)) >> 21;
+        $s12 += $carry11;
+        $s11 -= $carry11 << 21;
+        //    carry13 = (s13 + (int64_t) (1L << 20)) >> 21;
+        //    s14 += carry13;
+        //    s13 -= carry13 * ((uint64_t) 1L << 21);
+        $carry13 = ($s13 + (1 << 20)) >> 21;
+        $s14 += $carry13;
+        $s13 -= $carry13 << 21;
+        //    carry15 = (s15 + (int64_t) (1L << 20)) >> 21;
+        //    s16 += carry15;
+        //    s15 -= carry15 * ((uint64_t) 1L << 21);
+        $carry15 = ($s15 + (1 << 20)) >> 21;
+        $s16 += $carry15;
+        $s15 -= $carry15 << 21;
+
+        //    s5 += s17 * 666643;
+        //    s6 += s17 * 470296;
+        //    s7 += s17 * 654183;
+        //    s8 -= s17 * 997805;
+        //    s9 += s17 * 136657;
+        //    s10 -= s17 * 683901;
+        $s5 += self::mul($s17, 666643, 20);
+        $s6 += self::mul($s17, 470296, 19);
+        $s7 += self::mul($s17, 654183, 20);
+        $s8 -= self::mul($s17, 997805, 20);
+        $s9 += self::mul($s17, 136657, 18);
+        $s10 -= self::mul($s17, 683901, 20);
+
+        //    s4 += s16 * 666643;
+        //    s5 += s16 * 470296;
+        //    s6 += s16 * 654183;
+        //    s7 -= s16 * 997805;
+        //    s8 += s16 * 136657;
+        //    s9 -= s16 * 683901;
+        $s4 += self::mul($s16, 666643, 20);
+        $s5 += self::mul($s16, 470296, 19);
+        $s6 += self::mul($s16, 654183, 20);
+        $s7 -= self::mul($s16, 997805, 20);
+        $s8 += self::mul($s16, 136657, 18);
+        $s9 -= self::mul($s16, 683901, 20);
+
+        //    s3 += s15 * 666643;
+        //    s4 += s15 * 470296;
+        //    s5 += s15 * 654183;
+        //    s6 -= s15 * 997805;
+        //    s7 += s15 * 136657;
+        //    s8 -= s15 * 683901;
+        $s3 += self::mul($s15, 666643, 20);
+        $s4 += self::mul($s15, 470296, 19);
+        $s5 += self::mul($s15, 654183, 20);
+        $s6 -= self::mul($s15, 997805, 20);
+        $s7 += self::mul($s15, 136657, 18);
+        $s8 -= self::mul($s15, 683901, 20);
+
+        //    s2 += s14 * 666643;
+        //    s3 += s14 * 470296;
+        //    s4 += s14 * 654183;
+        //    s5 -= s14 * 997805;
+        //    s6 += s14 * 136657;
+        //    s7 -= s14 * 683901;
+        $s2 += self::mul($s14, 666643, 20);
+        $s3 += self::mul($s14, 470296, 19);
+        $s4 += self::mul($s14, 654183, 20);
+        $s5 -= self::mul($s14, 997805, 20);
+        $s6 += self::mul($s14, 136657, 18);
+        $s7 -= self::mul($s14, 683901, 20);
+
+        //    s1 += s13 * 666643;
+        //    s2 += s13 * 470296;
+        //    s3 += s13 * 654183;
+        //    s4 -= s13 * 997805;
+        //    s5 += s13 * 136657;
+        //    s6 -= s13 * 683901;
+        $s1 += self::mul($s13, 666643, 20);
+        $s2 += self::mul($s13, 470296, 19);
+        $s3 += self::mul($s13, 654183, 20);
+        $s4 -= self::mul($s13, 997805, 20);
+        $s5 += self::mul($s13, 136657, 18);
+        $s6 -= self::mul($s13, 683901, 20);
+
+        //    s0 += s12 * 666643;
+        //    s1 += s12 * 470296;
+        //    s2 += s12 * 654183;
+        //    s3 -= s12 * 997805;
+        //    s4 += s12 * 136657;
+        //    s5 -= s12 * 683901;
+        //    s12 = 0;
+        $s0 += self::mul($s12, 666643, 20);
+        $s1 += self::mul($s12, 470296, 19);
+        $s2 += self::mul($s12, 654183, 20);
+        $s3 -= self::mul($s12, 997805, 20);
+        $s4 += self::mul($s12, 136657, 18);
+        $s5 -= self::mul($s12, 683901, 20);
+        $s12 = 0;
+
+        //    carry0 = (s0 + (int64_t) (1L << 20)) >> 21;
+        //    s1 += carry0;
+        //    s0 -= carry0 * ((uint64_t) 1L << 21);
+        $carry0 = ($s0 + (1 << 20)) >> 21;
+        $s1 += $carry0;
+        $s0 -= $carry0 << 21;
+        //    carry2 = (s2 + (int64_t) (1L << 20)) >> 21;
+        //    s3 += carry2;
+        //    s2 -= carry2 * ((uint64_t) 1L << 21);
+        $carry2 = ($s2 + (1 << 20)) >> 21;
+        $s3 += $carry2;
+        $s2 -= $carry2 << 21;
+        //    carry4 = (s4 + (int64_t) (1L << 20)) >> 21;
+        //    s5 += carry4;
+        //    s4 -= carry4 * ((uint64_t) 1L << 21);
+        $carry4 = ($s4 + (1 << 20)) >> 21;
+        $s5 += $carry4;
+        $s4 -= $carry4 << 21;
+        //    carry6 = (s6 + (int64_t) (1L << 20)) >> 21;
+        //    s7 += carry6;
+        //    s6 -= carry6 * ((uint64_t) 1L << 21);
+        $carry6 = ($s6 + (1 << 20)) >> 21;
+        $s7 += $carry6;
+        $s6 -= $carry6 << 21;
+        //    carry8 = (s8 + (int64_t) (1L << 20)) >> 21;
+        //    s9 += carry8;
+        //    s8 -= carry8 * ((uint64_t) 1L << 21);
+        $carry8 = ($s8 + (1 << 20)) >> 21;
+        $s9 += $carry8;
+        $s8 -= $carry8 << 21;
+        //    carry10 = (s10 + (int64_t) (1L << 20)) >> 21;
+        //    s11 += carry10;
+        //    s10 -= carry10 * ((uint64_t) 1L << 21);
+        $carry10 = ($s10 + (1 << 20)) >> 21;
+        $s11 += $carry10;
+        $s10 -= $carry10 << 21;
+
+        //    carry1 = (s1 + (int64_t) (1L << 20)) >> 21;
+        //    s2 += carry1;
+        //    s1 -= carry1 * ((uint64_t) 1L << 21);
+        $carry1 = ($s1 + (1 << 20)) >> 21;
+        $s2 += $carry1;
+        $s1 -= $carry1 << 21;
+        //    carry3 = (s3 + (int64_t) (1L << 20)) >> 21;
+        //    s4 += carry3;
+        //    s3 -= carry3 * ((uint64_t) 1L << 21);
+        $carry3 = ($s3 + (1 << 20)) >> 21;
+        $s4 += $carry3;
+        $s3 -= $carry3 << 21;
+        //    carry5 = (s5 + (int64_t) (1L << 20)) >> 21;
+        //    s6 += carry5;
+        //    s5 -= carry5 * ((uint64_t) 1L << 21);
+        $carry5 = ($s5 + (1 << 20)) >> 21;
+        $s6 += $carry5;
+        $s5 -= $carry5 << 21;
+        //    carry7 = (s7 + (int64_t) (1L << 20)) >> 21;
+        //    s8 += carry7;
+        //    s7 -= carry7 * ((uint64_t) 1L << 21);
+        $carry7 = ($s7 + (1 << 20)) >> 21;
+        $s8 += $carry7;
+        $s7 -= $carry7 << 21;
+        //    carry9 = (s9 + (int64_t) (1L << 20)) >> 21;
+        //    s10 += carry9;
+        //    s9 -= carry9 * ((uint64_t) 1L << 21);
+        $carry9 = ($s9 + (1 << 20)) >> 21;
+        $s10 += $carry9;
+        $s9 -= $carry9 << 21;
+        //    carry11 = (s11 + (int64_t) (1L << 20)) >> 21;
+        //    s12 += carry11;
+        //    s11 -= carry11 * ((uint64_t) 1L << 21);
+        $carry11 = ($s11 + (1 << 20)) >> 21;
+        $s12 += $carry11;
+        $s11 -= $carry11 << 21;
+
+        //    s0 += s12 * 666643;
+        //    s1 += s12 * 470296;
+        //    s2 += s12 * 654183;
+        //    s3 -= s12 * 997805;
+        //    s4 += s12 * 136657;
+        //    s5 -= s12 * 683901;
+        //    s12 = 0;
+        $s0 += self::mul($s12, 666643, 20);
+        $s1 += self::mul($s12, 470296, 19);
+        $s2 += self::mul($s12, 654183, 20);
+        $s3 -= self::mul($s12, 997805, 20);
+        $s4 += self::mul($s12, 136657, 18);
+        $s5 -= self::mul($s12, 683901, 20);
+        $s12 = 0;
+
+        //    carry0 = s0 >> 21;
+        //    s1 += carry0;
+        //    s0 -= carry0 * ((uint64_t) 1L << 21);
+        $carry0 = $s0 >> 21;
+        $s1 += $carry0;
+        $s0 -= $carry0 << 21;
+        //    carry1 = s1 >> 21;
+        //    s2 += carry1;
+        //    s1 -= carry1 * ((uint64_t) 1L << 21);
+        $carry1 = $s1 >> 21;
+        $s2 += $carry1;
+        $s1 -= $carry1 << 21;
+        //    carry2 = s2 >> 21;
+        //    s3 += carry2;
+        //    s2 -= carry2 * ((uint64_t) 1L << 21);
+        $carry2 = $s2 >> 21;
+        $s3 += $carry2;
+        $s2 -= $carry2 << 21;
+        //    carry3 = s3 >> 21;
+        //    s4 += carry3;
+        //    s3 -= carry3 * ((uint64_t) 1L << 21);
+        $carry3 = $s3 >> 21;
+        $s4 += $carry3;
+        $s3 -= $carry3 << 21;
+        //    carry4 = s4 >> 21;
+        //    s5 += carry4;
+        //    s4 -= carry4 * ((uint64_t) 1L << 21);
+        $carry4 = $s4 >> 21;
+        $s5 += $carry4;
+        $s4 -= $carry4 << 21;
+        //    carry5 = s5 >> 21;
+        //    s6 += carry5;
+        //    s5 -= carry5 * ((uint64_t) 1L << 21);
+        $carry5 = $s5 >> 21;
+        $s6 += $carry5;
+        $s5 -= $carry5 << 21;
+        //    carry6 = s6 >> 21;
+        //    s7 += carry6;
+        //    s6 -= carry6 * ((uint64_t) 1L << 21);
+        $carry6 = $s6 >> 21;
+        $s7 += $carry6;
+        $s6 -= $carry6 << 21;
+        //    carry7 = s7 >> 21;
+        //    s8 += carry7;
+        //    s7 -= carry7 * ((uint64_t) 1L << 21);
+        $carry7 = $s7 >> 21;
+        $s8 += $carry7;
+        $s7 -= $carry7 << 21;
+        //    carry8 = s8 >> 21;
+        //    s9 += carry8;
+        //    s8 -= carry8 * ((uint64_t) 1L << 21);
+        $carry8 = $s8 >> 21;
+        $s9 += $carry8;
+        $s8 -= $carry8 << 21;
+        //    carry9 = s9 >> 21;
+        //    s10 += carry9;
+        //    s9 -= carry9 * ((uint64_t) 1L << 21);
+        $carry9 = $s9 >> 21;
+        $s10 += $carry9;
+        $s9 -= $carry9 << 21;
+        //    carry10 = s10 >> 21;
+        //    s11 += carry10;
+        //    s10 -= carry10 * ((uint64_t) 1L << 21);
+        $carry10 = $s10 >> 21;
+        $s11 += $carry10;
+        $s10 -= $carry10 << 21;
+        //    carry11 = s11 >> 21;
+        //    s12 += carry11;
+        //    s11 -= carry11 * ((uint64_t) 1L << 21);
+        $carry11 = $s11 >> 21;
+        $s12 += $carry11;
+        $s11 -= $carry11 << 21;
+
+        //    s0 += s12 * 666643;
+        //    s1 += s12 * 470296;
+        //    s2 += s12 * 654183;
+        //    s3 -= s12 * 997805;
+        //    s4 += s12 * 136657;
+        //    s5 -= s12 * 683901;
+        $s0 += self::mul($s12, 666643, 20);
+        $s1 += self::mul($s12, 470296, 19);
+        $s2 += self::mul($s12, 654183, 20);
+        $s3 -= self::mul($s12, 997805, 20);
+        $s4 += self::mul($s12, 136657, 18);
+        $s5 -= self::mul($s12, 683901, 20);
+
+        //    carry0 = s0 >> 21;
+        //    s1 += carry0;
+        //    s0 -= carry0 * ((uint64_t) 1L << 21);
+        $carry0 = $s0 >> 21;
+        $s1 += $carry0;
+        $s0 -= $carry0 << 21;
+        //    carry1 = s1 >> 21;
+        //    s2 += carry1;
+        //    s1 -= carry1 * ((uint64_t) 1L << 21);
+        $carry1 = $s1 >> 21;
+        $s2 += $carry1;
+        $s1 -= $carry1 << 21;
+        //    carry2 = s2 >> 21;
+        //    s3 += carry2;
+        //    s2 -= carry2 * ((uint64_t) 1L << 21);
+        $carry2 = $s2 >> 21;
+        $s3 += $carry2;
+        $s2 -= $carry2 << 21;
+        //    carry3 = s3 >> 21;
+        //    s4 += carry3;
+        //    s3 -= carry3 * ((uint64_t) 1L << 21);
+        $carry3 = $s3 >> 21;
+        $s4 += $carry3;
+        $s3 -= $carry3 << 21;
+        //    carry4 = s4 >> 21;
+        //    s5 += carry4;
+        //    s4 -= carry4 * ((uint64_t) 1L << 21);
+        $carry4 = $s4 >> 21;
+        $s5 += $carry4;
+        $s4 -= $carry4 << 21;
+        //    carry5 = s5 >> 21;
+        //    s6 += carry5;
+        //    s5 -= carry5 * ((uint64_t) 1L << 21);
+        $carry5 = $s5 >> 21;
+        $s6 += $carry5;
+        $s5 -= $carry5 << 21;
+        //    carry6 = s6 >> 21;
+        //    s7 += carry6;
+        //    s6 -= carry6 * ((uint64_t) 1L << 21);
+        $carry6 = $s6 >> 21;
+        $s7 += $carry6;
+        $s6 -= $carry6 << 21;
+        //    carry7 = s7 >> 21;
+        //    s8 += carry7;
+        //    s7 -= carry7 * ((uint64_t) 1L << 21);
+        $carry7 = $s7 >> 21;
+        $s8 += $carry7;
+        $s7 -= $carry7 << 21;
+        //    carry8 = s8 >> 21;
+        //    s9 += carry8;
+        //    s8 -= carry8 * ((uint64_t) 1L << 21);
+        $carry8 = $s8 >> 21;
+        $s9 += $carry8;
+        $s8 -= $carry8 << 21;
+        //    carry9 = s9 >> 21;
+        //    s10 += carry9;
+        //    s9 -= carry9 * ((uint64_t) 1L << 21);
+        $carry9 = $s9 >> 21;
+        $s10 += $carry9;
+        $s9 -= $carry9 << 21;
+        //    carry10 = s10 >> 21;
+        //    s11 += carry10;
+        //    s10 -= carry10 * ((uint64_t) 1L << 21);
+        $carry10 = $s10 >> 21;
+        $s11 += $carry10;
+        $s10 -= $carry10 << 21;
+
+        $s = array_fill(0, 32, 0);
+        // s[0]  = s0 >> 0;
+        $s[0]  = $s0 >> 0;
+        // s[1]  = s0 >> 8;
+        $s[1]  = $s0 >> 8;
+        // s[2]  = (s0 >> 16) | (s1 * ((uint64_t) 1 << 5));
+        $s[2]  = ($s0 >> 16) | ($s1 << 5);
+        // s[3]  = s1 >> 3;
+        $s[3]  = $s1 >> 3;
+        // s[4]  = s1 >> 11;
+        $s[4]  = $s1 >> 11;
+        // s[5]  = (s1 >> 19) | (s2 * ((uint64_t) 1 << 2));
+        $s[5]  = ($s1 >> 19) | ($s2 << 2);
+        // s[6]  = s2 >> 6;
+        $s[6]  = $s2 >> 6;
+        // s[7]  = (s2 >> 14) | (s3 * ((uint64_t) 1 << 7));
+        $s[7]  = ($s2 >> 14) | ($s3 << 7);
+        // s[8]  = s3 >> 1;
+        $s[8]  = $s3 >> 1;
+        // s[9]  = s3 >> 9;
+        $s[9]  = $s3 >> 9;
+        // s[10] = (s3 >> 17) | (s4 * ((uint64_t) 1 << 4));
+        $s[10] = ($s3 >> 17) | ($s4 << 4);
+        // s[11] = s4 >> 4;
+        $s[11] = $s4 >> 4;
+        // s[12] = s4 >> 12;
+        $s[12] = $s4 >> 12;
+        // s[13] = (s4 >> 20) | (s5 * ((uint64_t) 1 << 1));
+        $s[13] = ($s4 >> 20) | ($s5 << 1);
+        // s[14] = s5 >> 7;
+        $s[14] = $s5 >> 7;
+        // s[15] = (s5 >> 15) | (s6 * ((uint64_t) 1 << 6));
+        $s[15] = ($s5 >> 15) | ($s6 << 6);
+        // s[16] = s6 >> 2;
+        $s[16] = $s6 >> 2;
+        // s[17] = s6 >> 10;
+        $s[17] = $s6 >> 10;
+        // s[18] = (s6 >> 18) | (s7 * ((uint64_t) 1 << 3));
+        $s[18] = ($s6 >> 18) | ($s7 << 3);
+        // s[19] = s7 >> 5;
+        $s[19] = $s7 >> 5;
+        // s[20] = s7 >> 13;
+        $s[20] = $s7 >> 13;
+        // s[21] = s8 >> 0;
+        $s[21] = $s8 >> 0;
+        // s[22] = s8 >> 8;
+        $s[22] = $s8 >> 8;
+        // s[23] = (s8 >> 16) | (s9 * ((uint64_t) 1 << 5));
+        $s[23] = ($s8 >> 16) | ($s9 << 5);
+        // s[24] = s9 >> 3;
+        $s[24] = $s9 >> 3;
+        // s[25] = s9 >> 11;
+        $s[25] = $s9 >> 11;
+        // s[26] = (s9 >> 19) | (s10 * ((uint64_t) 1 << 2));
+        $s[26] = ($s9 >> 19) | ($s10 << 2);
+        // s[27] = s10 >> 6;
+        $s[27] = $s10 >> 6;
+        // s[28] = (s10 >> 14) | (s11 * ((uint64_t) 1 << 7));
+        $s[28] = ($s10 >> 14) | ($s11 << 7);
+        // s[29] = s11 >> 1;
+        $s[29] = $s11 >> 1;
+        // s[30] = s11 >> 9;
+        $s[30] = $s11 >> 9;
+        // s[31] = s11 >> 17;
+        $s[31] = $s11 >> 17;
+        return self::intArrayToString($s);
+    }
+
+    /**
+     * @param string $s
+     * @return string
+     */
+    public static function sc25519_sq($s)
+    {
+        return self::sc25519_mul($s, $s);
+    }
+
+    /**
+     * @param string $s
+     * @param int $n
+     * @param string $a
+     * @return string
+     */
+    public static function sc25519_sqmul($s, $n, $a)
+    {
+        for ($i = 0; $i < $n; ++$i) {
+            $s = self::sc25519_sq($s);
+        }
+        return self::sc25519_mul($s, $a);
+    }
+
+    /**
+     * @param string $s
+     * @return string
+     */
+    public static function sc25519_invert($s)
+    {
+        $_10 = self::sc25519_sq($s);
+        $_11 = self::sc25519_mul($s, $_10);
+        $_100 = self::sc25519_mul($s, $_11);
+        $_1000 = self::sc25519_sq($_100);
+        $_1010 = self::sc25519_mul($_10, $_1000);
+        $_1011 = self::sc25519_mul($s, $_1010);
+        $_10000 = self::sc25519_sq($_1000);
+        $_10110 = self::sc25519_sq($_1011);
+        $_100000 = self::sc25519_mul($_1010, $_10110);
+        $_100110 = self::sc25519_mul($_10000, $_10110);
+        $_1000000 = self::sc25519_sq($_100000);
+        $_1010000 = self::sc25519_mul($_10000, $_1000000);
+        $_1010011 = self::sc25519_mul($_11, $_1010000);
+        $_1100011 = self::sc25519_mul($_10000, $_1010011);
+        $_1100111 = self::sc25519_mul($_100, $_1100011);
+        $_1101011 = self::sc25519_mul($_100, $_1100111);
+        $_10010011 = self::sc25519_mul($_1000000, $_1010011);
+        $_10010111 = self::sc25519_mul($_100, $_10010011);
+        $_10111101 = self::sc25519_mul($_100110, $_10010111);
+        $_11010011 = self::sc25519_mul($_10110, $_10111101);
+        $_11100111 = self::sc25519_mul($_1010000, $_10010111);
+        $_11101011 = self::sc25519_mul($_100, $_11100111);
+        $_11110101 = self::sc25519_mul($_1010, $_11101011);
+
+        $recip = self::sc25519_mul($_1011, $_11110101);
+        $recip = self::sc25519_sqmul($recip, 126, $_1010011);
+        $recip = self::sc25519_sqmul($recip, 9, $_10);
+        $recip = self::sc25519_mul($recip, $_11110101);
+        $recip = self::sc25519_sqmul($recip, 7, $_1100111);
+        $recip = self::sc25519_sqmul($recip, 9, $_11110101);
+        $recip = self::sc25519_sqmul($recip, 11, $_10111101);
+        $recip = self::sc25519_sqmul($recip, 8, $_11100111);
+        $recip = self::sc25519_sqmul($recip, 9, $_1101011);
+        $recip = self::sc25519_sqmul($recip, 6, $_1011);
+        $recip = self::sc25519_sqmul($recip, 14, $_10010011);
+        $recip = self::sc25519_sqmul($recip, 10, $_1100011);
+        $recip = self::sc25519_sqmul($recip, 9, $_10010111);
+        $recip = self::sc25519_sqmul($recip, 10, $_11110101);
+        $recip = self::sc25519_sqmul($recip, 8, $_11010011);
+        return self::sc25519_sqmul($recip, 8, $_11101011);
+    }
+
+    /**
+     * @param string $s
+     * @return string
+     */
+    public static function clamp($s)
+    {
+        $s_ = self::stringToIntArray($s);
+        $s_[0] &= 248;
+        $s_[31] |= 64;
+        $s_[31] &= 128;
+        return self::intArrayToString($s_);
     }
 }

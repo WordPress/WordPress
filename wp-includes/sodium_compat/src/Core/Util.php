@@ -287,6 +287,22 @@ abstract class ParagonIE_Sodium_Core_Util
     }
 
     /**
+     * Catch hash_update() failures and throw instead of silently proceding
+     *
+     * @param HashContext|resource &$hs
+     * @param string $data
+     * @return void
+     * @throws SodiumException
+     * @psalm-suppress PossiblyInvalidArgument
+     */
+    protected static function hash_update(&$hs, $data)
+    {
+        if (!hash_update($hs, $data)) {
+            throw new SodiumException('hash_update() failed');
+        }
+    }
+
+    /**
      * Convert a hexadecimal string into a binary string without cache-timing
      * leaks
      *
