@@ -167,19 +167,19 @@ switch ( $action ) {
 
 <table class="form-table comment-ays">
 <tr>
-<th scope="row"><?php _e( 'Author' ); ?></th>
-<td><?php comment_author( $comment ); ?></td>
+	<th scope="row"><?php _e( 'Author' ); ?></th>
+	<td><?php comment_author( $comment ); ?></td>
 </tr>
 		<?php if ( get_comment_author_email( $comment ) ) { ?>
 <tr>
-<th scope="row"><?php _e( 'Email' ); ?></th>
-<td><?php comment_author_email( $comment ); ?></td>
+	<th scope="row"><?php _e( 'Email' ); ?></th>
+	<td><?php comment_author_email( $comment ); ?></td>
 </tr>
 <?php } ?>
 		<?php if ( get_comment_author_url( $comment ) ) { ?>
 <tr>
-<th scope="row"><?php _e( 'URL' ); ?></th>
-<td><a href="<?php comment_author_url( $comment ); ?>"><?php comment_author_url( $comment ); ?></a></td>
+	<th scope="row"><?php _e( 'URL' ); ?></th>
+	<td><a href="<?php comment_author_url( $comment ); ?>"><?php comment_author_url( $comment ); ?></a></td>
 </tr>
 <?php } ?>
 <tr>
@@ -207,8 +207,8 @@ switch ( $action ) {
 		}
 		?>
 	</td>
-	</tr>
-	<tr>
+</tr>
+<tr>
 	<th scope="row"><?php _e( 'Submitted on' ); ?></th>
 	<td>
 		<?php
@@ -226,31 +226,32 @@ switch ( $action ) {
 			echo $submitted;
 		}
 		?>
-		</td>
-	</tr>
-	<tr>
+	</td>
+</tr>
+<tr>
 	<th scope="row"><?php /* translators: Field name in comment form. */ _ex( 'Comment', 'noun' ); ?></th>
 	<td class="comment-content">
 		<?php comment_text( $comment ); ?>
-	<p class="edit-comment"><a href="<?php echo esc_url( admin_url( "comment.php?action=editcomment&c={$comment->comment_ID}" ) ); ?>"><?php esc_html_e( 'Edit' ); ?></a></p>
+		<p class="edit-comment">
+			<a href="<?php echo esc_url( admin_url( "comment.php?action=editcomment&c={$comment->comment_ID}" ) ); ?>"><?php esc_html_e( 'Edit' ); ?></a>
+		</p>
 	</td>
-	</tr>
-	</table>
+</tr>
+</table>
 
-	<form action="comment.php" method="get" class="comment-ays-submit">
-
+<form action="comment.php" method="get" class="comment-ays-submit">
 	<p>
 		<?php submit_button( $button, 'primary', 'submit', false ); ?>
-	<a href="<?php echo esc_url( admin_url( 'edit-comments.php' ) ); ?>" class="button-cancel"><?php esc_html_e( 'Cancel' ); ?></a>
+		<a href="<?php echo esc_url( admin_url( 'edit-comments.php' ) ); ?>" class="button-cancel"><?php esc_html_e( 'Cancel' ); ?></a>
 	</p>
 
 		<?php wp_nonce_field( $nonce_action ); ?>
 	<input type="hidden" name="action" value="<?php echo esc_attr( $formaction ); ?>" />
 	<input type="hidden" name="c" value="<?php echo esc_attr( $comment->comment_ID ); ?>" />
 	<input type="hidden" name="noredir" value="1" />
-	</form>
+</form>
 
-	</div>
+</div>
 		<?php
 		break;
 
