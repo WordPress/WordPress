@@ -210,8 +210,8 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
 			$parsed_id     = wp_parse_widget_id( $widget['id'] );
 			$widget_object = $wp_widget_factory->get_widget_object( $parsed_id['id_base'] );
 
-			$widget['id']          = $parsed_id['id_base'];
-			$widget['is_multi']    = (bool) $widget_object;
+			$widget['id']       = $parsed_id['id_base'];
+			$widget['is_multi'] = (bool) $widget_object;
 
 			if ( isset( $widget['name'] ) ) {
 				$widget['name'] = html_entity_decode( $widget['name'] );
