@@ -52,6 +52,7 @@ function register_core_block_types_from_metadata() {
 		'code',
 		'column',
 		'columns',
+		'cover',
 		'embed',
 		'freeform',
 		'gallery',
