@@ -232,7 +232,7 @@ switch ( $action ) {
 	<th scope="row"><?php /* translators: Field name in comment form. */ _ex( 'Comment', 'noun' ); ?></th>
 	<td class="comment-content">
 		<?php comment_text( $comment ); ?>
-	<p class="edit-comment"><a href="<?php echo admin_url( "comment.php?action=editcomment&amp;c={$comment->comment_ID}" ); ?>"><?php esc_html_e( 'Edit' ); ?></a></p>
+	<p class="edit-comment"><a href="<?php echo esc_url( admin_url( "comment.php?action=editcomment&c={$comment->comment_ID}" ) ); ?>"><?php esc_html_e( 'Edit' ); ?></a></p>
 	</td>
 	</tr>
 	</table>
@@ -241,7 +241,7 @@ switch ( $action ) {
 
 	<p>
 		<?php submit_button( $button, 'primary', 'submit', false ); ?>
-	<a href="<?php echo admin_url( 'edit-comments.php' ); ?>" class="button-cancel"><?php esc_html_e( 'Cancel' ); ?></a>
+	<a href="<?php echo esc_url( admin_url( 'edit-comments.php' ) ); ?>" class="button-cancel"><?php esc_html_e( 'Cancel' ); ?></a>
 	</p>
 
 		<?php wp_nonce_field( $nonce_action ); ?>

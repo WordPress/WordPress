@@ -689,7 +689,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 	<hr class="wp-header-end">
 
 	<nav class="nav-tab-wrapper wp-clearfix" aria-label="<?php esc_attr_e( 'Secondary menu' ); ?>">
-		<a href="<?php echo admin_url( 'nav-menus.php' ); ?>" class="nav-tab<?php echo $nav_tab_active_class; ?>"<?php echo $nav_aria_current; ?>><?php esc_html_e( 'Edit Menus' ); ?></a>
+		<a href="<?php echo esc_url( admin_url( 'nav-menus.php' ) ); ?>" class="nav-tab<?php echo $nav_tab_active_class; ?>"<?php echo $nav_aria_current; ?>><?php esc_html_e( 'Edit Menus' ); ?></a>
 		<?php
 		if ( $num_locations && $menu_count ) {
 			$active_tab_class = '';
@@ -840,7 +840,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			<span class="screen-reader-text"><?php _e( 'Click the Save Menu button to save your changes.' ); ?></span>
 		</span><!-- /add-edit-menu-action -->
 		<?php else : ?>
-			<form method="get" action="<?php echo admin_url( 'nav-menus.php' ); ?>">
+			<form method="get" action="<?php echo esc_url( admin_url( 'nav-menus.php' ) ); ?>">
 			<input type="hidden" name="action" value="edit" />
 			<label for="select-menu-to-edit" class="selected-menu"><?php _e( 'Select a menu to edit:' ); ?></label>
 			<select name="menu" id="select-menu-to-edit">

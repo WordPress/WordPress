@@ -23,7 +23,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 
 		<div class="about__header">
 			<div class="about__header-image">
-				<img alt="<?php _e( 'Code is Poetry' ); ?>" src="<?php echo admin_url( 'images/about-badge.svg' ); ?>" />
+				<img alt="<?php _e( 'Code is Poetry' ); ?>" src="<?php echo esc_url( admin_url( 'images/about-badge.svg' ) ); ?>" />
 			</div>
 
 			<div class="about__header-title">
@@ -179,8 +179,8 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 		<div class="about__section has-subtle-background-color">
 			<div class="column about__image">
 				<picture>
-					<source media="(max-width: 600px)" srcset="<?php echo admin_url( 'images/about-color-palette-vert.svg' ); ?>" />
-					<img alt="" src="<?php echo admin_url( 'images/about-color-palette.svg' ); ?>" />
+					<source media="(max-width: 600px)" srcset="<?php echo esc_url( admin_url( 'images/about-color-palette-vert.svg' ) ); ?>" />
+					<img alt="" src="<?php echo esc_url( admin_url( 'images/about-color-palette.svg' ) ); ?>" />
 				</picture>
 			</div>
 		</div>
