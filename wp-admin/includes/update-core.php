@@ -1384,8 +1384,11 @@ function update_core( $from, $to ) {
 	// Remove any Genericons example.html's from the filesystem.
 	_upgrade_422_remove_genericons();
 
-	// Remove the REST API plugin if its version is Beta 4 or lower.
+	// Deactivate the REST API plugin if its version is 2.0 Beta 4 or lower.
 	_upgrade_440_force_deactivate_incompatible_plugins();
+
+	// Deactivate the Gutenberg plugin if its version is 10.7 or lower.
+	_upgrade_580_force_deactivate_incompatible_plugins();
 
 	// Upgrade DB with separate request.
 	/** This filter is documented in wp-admin/includes/update-core.php */
@@ -1660,5 +1663,15 @@ function _upgrade_422_find_genericons_files_in_folder( $directory ) {
 function _upgrade_440_force_deactivate_incompatible_plugins() {
 	if ( defined( 'REST_API_VERSION' ) && version_compare( REST_API_VERSION, '2.0-beta4', '<=' ) ) {
 		deactivate_plugins( array( 'rest-api/plugin.php' ), true );
+	}
+}
+
+/**
+ * @ignore
+ * @since 5.8.0
+ */
+function _upgrade_580_force_deactivate_incompatible_plugins() {
+	if ( defined( 'GUTENBERG_VERSION' ) && version_compare( GUTENBERG_VERSION, '10.7', '<=' ) ) {
+		deactivate_plugins( array( 'gutenberg/gutenberg.php' ), true );
 	}
 }
