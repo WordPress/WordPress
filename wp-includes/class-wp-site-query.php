@@ -152,7 +152,7 @@ class WP_Site_Query {
 	 *     @type string[]     $lang__in               Array of language IDs to include affiliated sites for. Default empty.
 	 *     @type string[]     $lang__not_in           Array of language IDs to exclude affiliated sites for. Default empty.
 	 *     @type string       $search                 Search term(s) to retrieve matching sites for. Default empty.
-	 *     @type array        $search_columns         Array of column names to be searched. Accepts 'domain' and 'path'.
+	 *     @type string[]     $search_columns         Array of column names to be searched. Accepts 'domain' and 'path'.
 	 *                                                Default empty array.
 	 *     @type bool         $update_site_cache      Whether to prime the cache for found sites. Default true.
 	 *     @type bool         $update_site_meta_cache Whether to prime the metadata cache for found sites. Default true.
