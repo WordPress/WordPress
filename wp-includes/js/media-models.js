@@ -783,20 +783,6 @@ var Attachments = Backbone.Collection.extend(/** @lends wp.media.model.Attachmen
 		});
 	},
 
-	// Customize fetch so we can extract the total post count from the response headers.
-	fetch: function(options) {
-		var collection = this;
-		var fetched = Backbone.Collection.prototype.fetch.call(this, options)
-			.done( function() {
-				if ( this.hasOwnProperty( 'getResponseHeader' ) ) {
-					collection.totalAttachments = parseInt( this.getResponseHeader( 'X-WP-Total' ), 10 );
-				} else {
-					collection.totalAttachments = 0;
-				}
-			} );
-		return fetched;
-	},
-
 	/**
 	 * If the collection is a query, create and mirror an Attachments Query collection.
 	 *
