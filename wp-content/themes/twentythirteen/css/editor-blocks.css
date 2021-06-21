@@ -78,8 +78,8 @@ Description: Used to style blocks in the editor.
 
 /* List styles */
 
-.edit-post-visual-editor ul:not(.wp-block-gallery),
-.editor-block-list__block ul:not(.wp-block-gallery),
+.edit-post-visual-editor ul:not(.wp-block-gallery):not(.wp-block-post-template),
+.editor-block-list__block ul:not(.wp-block-gallery):not(.wp-block-post-template),
 .block-library-list ul,
 .edit-post-visual-editor ol,
 .editor-block-list__block ol,
@@ -88,8 +88,8 @@ Description: Used to style blocks in the editor.
 	padding: 0;
 }
 
-.edit-post-visual-editor ul:not(.wp-block-gallery),
-.edit-post-visual-editor .editor-block-list__block ul:not(.wp-block-gallery),
+.edit-post-visual-editor ul:not(.wp-block-gallery):not(.wp-block-post-template),
+.edit-post-visual-editor .editor-block-list__block ul:not(.wp-block-gallery):not(.wp-block-post-template),
 .block-library-list ul {
 	list-style-type: square;
 }
@@ -117,10 +117,10 @@ Description: Used to style blocks in the editor.
 	margin-bottom: 0;
 }
 
-.editor-styles-wrapper ul.block-editor-block-list__block,
-.editor-styles-wrapper ol.block-editor-block-list__block,
-.editor-styles-wrapper ol ul:not(.wp-block-gallery),
-.editor-styles-wrapper ul ul:not(.wp-block-gallery),
+.editor-styles-wrapper ul.block-editor-block-list__block:not(.wp-block-post-template),
+.editor-styles-wrapper ol.block-editor-block-list__block:not(.wp-block-post-template),
+.editor-styles-wrapper ol ul:not(.wp-block-gallery):not(.wp-block-post-template),
+.editor-styles-wrapper ul ul:not(.wp-block-gallery):not(.wp-block-post-template),
 .editor-styles-wrapper ul ol,
 .editor-styles-wrapper ol ol,
 .wp-block-freeform.block-library-rich-text__tinymce ul,
@@ -128,10 +128,10 @@ Description: Used to style blocks in the editor.
 	padding: 0 0 0 40px;
 }
 
-.rtl .editor-styles-wrapper ul.block-editor-block-list__block,
-.rtl .editor-styles-wrapper ol.block-editor-block-list__block,
-.rtl .editor-styles-wrapper ol ul:not(.wp-block-gallery),
-.rtl .editor-styles-wrapper ul ul:not(.wp-block-gallery),
+.rtl .editor-styles-wrapper ul.block-editor-block-list__block:not(.wp-block-post-template),
+.rtl .editor-styles-wrapper ol.block-editor-block-list__block:not(.wp-block-post-template),
+.rtl .editor-styles-wrapper ol ul:not(.wp-block-gallery):not(.wp-block-post-template),
+.rtl .editor-styles-wrapper ul ul:not(.wp-block-gallery):not(.wp-block-post-template),
 .rtl .editor-styles-wrapper ul ol,
 .rtl .editor-styles-wrapper ol ol,
 .rtl .wp-block-freeform.block-library-rich-text__tinymce ul,
