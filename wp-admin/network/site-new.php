@@ -201,7 +201,7 @@ printf(
 );
 ?>
 </p>
-<form method="post" action="<?php echo network_admin_url( 'site-new.php?action=add-site' ); ?>" novalidate="novalidate">
+<form method="post" action="<?php echo esc_url( network_admin_url( 'site-new.php?action=add-site' ) ); ?>" novalidate="novalidate">
 <?php wp_nonce_field( 'add-blog', '_wpnonce_add-blog' ); ?>
 	<table class="form-table" role="presentation">
 		<tr class="form-field form-required">

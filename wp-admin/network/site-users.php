@@ -330,7 +330,7 @@ if ( current_user_can( 'promote_users' ) && apply_filters( 'show_network_site_us
 if ( current_user_can( 'create_users' ) && apply_filters( 'show_network_site_users_add_new_form', true ) ) :
 	?>
 <h2 id="add-new-user"><?php _e( 'Add New User' ); ?></h2>
-<form action="<?php echo network_admin_url( 'site-users.php?action=newuser' ); ?>" id="newuser" method="post">
+<form action="<?php echo esc_url( network_admin_url( 'site-users.php?action=newuser' ) ); ?>" id="newuser" method="post">
 	<input type="hidden" name="id" value="<?php echo esc_attr( $id ); ?>" />
 	<table class="form-table" role="presentation">
 		<tr>

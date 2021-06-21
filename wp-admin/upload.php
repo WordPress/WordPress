@@ -88,7 +88,7 @@ if ( 'grid' === $mode ) {
 		if ( current_user_can( 'upload_files' ) ) {
 			?>
 			<a href="<?php echo esc_url( admin_url( 'media-new.php' ) ); ?>" class="page-title-action aria-button-if-js"><?php echo esc_html_x( 'Add New', 'file' ); ?></a>
-								<?php
+			<?php
 		}
 		?>
 

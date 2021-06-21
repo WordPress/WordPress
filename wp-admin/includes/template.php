@@ -972,7 +972,7 @@ function wp_import_upload_form( $action ) {
 		?>
 		<div class="error"><p><?php _e( 'Before you can upload your import file, you will need to fix the following error:' ); ?></p>
 		<p><strong><?php echo $upload_dir['error']; ?></strong></p></div>
-								<?php
+		<?php
 	else :
 		?>
 <form enctype="multipart/form-data" id="import-upload-form" method="post" class="wp-upload-form" action="<?php echo esc_url( wp_nonce_url( $action, 'import-upload' ) ); ?>">

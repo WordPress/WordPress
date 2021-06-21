@@ -484,7 +484,7 @@ function wp_network_dashboard_right_now() {
 		do_action( 'wpmuadminresult' );
 	?>
 
-	<form action="<?php echo network_admin_url( 'users.php' ); ?>" method="get">
+	<form action="<?php echo esc_url( network_admin_url( 'users.php' ) ); ?>" method="get">
 		<p>
 			<label class="screen-reader-text" for="search-users"><?php _e( 'Search Users' ); ?></label>
 			<input type="search" name="s" value="" size="30" autocomplete="off" id="search-users" />
@@ -492,7 +492,7 @@ function wp_network_dashboard_right_now() {
 		</p>
 	</form>
 
-	<form action="<?php echo network_admin_url( 'sites.php' ); ?>" method="get">
+	<form action="<?php echo esc_url( network_admin_url( 'sites.php' ) ); ?>" method="get">
 		<p>
 			<label class="screen-reader-text" for="search-sites"><?php _e( 'Search Sites' ); ?></label>
 			<input type="search" name="s" value="" size="30" autocomplete="off" id="search-sites" />
