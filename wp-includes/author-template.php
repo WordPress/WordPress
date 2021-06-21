@@ -474,7 +474,7 @@ function wp_list_authors( $args = '' ) {
 
 		$link = sprintf(
 			'<a href="%1$s" title="%2$s">%3$s</a>',
-			get_author_posts_url( $author->ID, $author->user_nicename ),
+			esc_url( get_author_posts_url( $author->ID, $author->user_nicename ) ),
 			/* translators: %s: Author's display name. */
 			esc_attr( sprintf( __( 'Posts by %s' ), $author->display_name ) ),
 			$name
