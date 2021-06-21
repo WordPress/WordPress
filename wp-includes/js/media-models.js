@@ -591,6 +591,8 @@ var Attachments = Backbone.Collection.extend(/** @lends wp.media.model.Attachmen
 		this.observers.push( attachments );
 
 		attachments.on( 'add change remove', this._validateHandler, this );
+		attachments.on( 'add', this._addToTotalAttachments, this );
+		attachments.on( 'remove', this._removeFromTotalAttachments, this );
 		attachments.on( 'reset', this._validateAllHandler, this );
 		this.validateAll( attachments );
 		return this;
@@ -614,6 +616,30 @@ var Attachments = Backbone.Collection.extend(/** @lends wp.media.model.Attachmen
 		}
 
 		return this;
+	},
+	/**
+	 * Update total attachment count when items are added to a collection.
+	 *
+	 * @access private
+	 *
+	 * @since 5.8.0
+	 */
+	_removeFromTotalAttachments: function() {
+		if ( this.mirroring ) {
+			this.mirroring.totalAttachments = this.mirroring.totalAttachments - 1;
+		}
+	},
+	/**
+	 * Update total attachment count when items are added to a collection.
+	 *
+	 * @access private
+	 *
+	 * @since 5.8.0
+	 */
+	_addToTotalAttachments: function() {
+		if ( this.mirroring ) {
+			this.mirroring.totalAttachments = this.mirroring.totalAttachments + 1;
+		}
 	},
 	/**
 	 * @access private
