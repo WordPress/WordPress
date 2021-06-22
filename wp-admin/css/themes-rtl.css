@@ -167,6 +167,7 @@ body.js .theme-browser.search-loading {
 	padding: 15px 12px;
 	text-align: center;
 	border-radius: 3px;
+	border: none;
 	transition: opacity 0.1s ease-in-out;
 }
 
