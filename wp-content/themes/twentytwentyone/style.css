@@ -922,7 +922,8 @@ template {
 .site-main > .not-found > *,
 .entry-content > *,
 [class*=inner-container] > *,
-.wp-block-template-part > * {
+.wp-block-template-part > *,
+.wp-block-post-template :where(li > *) {
 	margin-top: calc(0.666 * var(--global--spacing-vertical));
 	margin-bottom: calc(0.666 * var(--global--spacing-vertical));
 }
@@ -932,7 +933,8 @@ template {
 	.site-main > .not-found > *,
 	.entry-content > *,
 	[class*=inner-container] > *,
-	.wp-block-template-part > * {
+	.wp-block-template-part > *,
+	.wp-block-post-template :where(li > *) {
 		margin-top: var(--global--spacing-vertical);
 		margin-bottom: var(--global--spacing-vertical);
 	}
@@ -942,7 +944,8 @@ template {
 .site-main > .not-found > *:first-child,
 .entry-content > *:first-child,
 [class*=inner-container] > *:first-child,
-.wp-block-template-part > *:first-child {
+.wp-block-template-part > *:first-child,
+.wp-block-post-template :where(li > *):first-child {
 	margin-top: 0;
 }
 
@@ -950,7 +953,8 @@ template {
 .site-main > .not-found > *:last-child,
 .entry-content > *:last-child,
 [class*=inner-container] > *:last-child,
-.wp-block-template-part > *:last-child {
+.wp-block-template-part > *:last-child,
+.wp-block-post-template :where(li > *):last-child {
 	margin-bottom: 0;
 }
 

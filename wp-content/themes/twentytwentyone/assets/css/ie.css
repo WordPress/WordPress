@@ -1094,6 +1094,11 @@ template {
 	margin-top: 20px;
 	margin-bottom: 20px;
 }
+
+.wp-block-post-template :where(li > *) {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
 @media only screen and (min-width: 482px) {
 
 	.site-main > article > * {
@@ -1120,13 +1125,19 @@ template {
 		margin-top: 30px;
 		margin-bottom: 30px;
 	}
+
+	.wp-block-post-template :where(li > *) {
+		margin-top: 30px;
+		margin-bottom: 30px;
+	}
 }
 
 .site-main > article > *:first-child,
 .site-main > .not-found > *:first-child,
 .entry-content > *:first-child,
 [class*=inner-container] > *:first-child,
-.wp-block-template-part > *:first-child {
+.wp-block-template-part > *:first-child,
+.wp-block-post-template :where(li > *):first-child {
 	margin-top: 0;
 }
 
@@ -1134,7 +1145,8 @@ template {
 .site-main > .not-found > *:last-child,
 .entry-content > *:last-child,
 [class*=inner-container] > *:last-child,
-.wp-block-template-part > *:last-child {
+.wp-block-template-part > *:last-child,
+.wp-block-post-template :where(li > *):last-child {
 	margin-bottom: 0;
 }
 
