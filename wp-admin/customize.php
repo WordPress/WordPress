@@ -184,8 +184,16 @@ do_action( 'customize_controls_head' );
 			<?php
 			$compatible_wp  = is_wp_version_compatible( $wp_customize->theme()->get( 'RequiresWP' ) );
 			$compatible_php = is_php_version_compatible( $wp_customize->theme()->get( 'RequiresPHP' ) );
+			$fse_safe       = true;
+
+			// Check if the theme requires the FSE to work correctly.
+			$theme_tags = $wp_customize->theme()->get( 'Tags' );
+
+			if ( ! empty( $theme_tags ) && in_array( 'full-site-editing', $theme_tags, true ) && ! is_plugin_active( 'gutenberg/gutenberg.php' ) ) {
+				$fse_safe = false;
+			}
 			?>
-			<?php if ( $compatible_wp && $compatible_php ) : ?>
+			<?php if ( $compatible_wp && $compatible_php && $fse_safe ) : ?>
 				<?php $save_text = $wp_customize->is_theme_active() ? __( 'Publish' ) : __( 'Activate &amp; Publish' ); ?>
 				<div id="customize-save-button-wrapper" class="customize-save-button-wrapper" >
 					<?php submit_button( $save_text, 'primary save', 'save', false ); ?>
