@@ -45537,6 +45537,7 @@ function tooltip_Tooltip({
 
   const clearOnUnmount = () => {
     delayedSetIsOver.cancel();
+    document.removeEventListener('mouseup', cancelIsMouseDown);
   };
 
   Object(external_wp_element_["useEffect"])(() => clearOnUnmount, []);

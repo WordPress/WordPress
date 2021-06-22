@@ -10960,9 +10960,6 @@ const calendar = Object(external_wp_element_["createElement"])(external_wp_primi
 var external_moment_ = __webpack_require__("wy2R");
 var external_moment_default = /*#__PURE__*/__webpack_require__.n(external_moment_);
 
-// EXTERNAL MODULE: external ["wp","editor"]
-var external_wp_editor_ = __webpack_require__("jSdM");
-
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/calendar/edit.js
 
 
@@ -10974,7 +10971,6 @@ var external_wp_editor_ = __webpack_require__("jSdM");
 /**
  * WordPress dependencies
  */
-
 
 
 
@@ -10995,14 +10991,24 @@ function CalendarEdit({
   attributes
 }) {
   const date = Object(external_wp_data_["useSelect"])(select => {
-    const {
-      getEditedPostAttribute
-    } = select(external_wp_editor_["store"]);
-    const postType = getEditedPostAttribute('type'); // Dates are used to overwrite year and month used on the calendar.
-    // This overwrite should only happen for 'post' post types.
-    // For other post types the calendar always displays the current month.
+    // FIXME: @wordpress/block-library should not depend on @wordpress/editor.
+    // Blocks can be loaded into a *non-post* block editor.
+    // eslint-disable-next-line @wordpress/data-no-store-string-literals
+    const editorSelectors = select('core/editor');
 
-    return postType === 'post' ? getEditedPostAttribute('date') : undefined;
+    let _date;
+
+    if (editorSelectors) {
+      const postType = editorSelectors.getEditedPostAttribute('type'); // Dates are used to overwrite year and month used on the calendar.
+      // This overwrite should only happen for 'post' post types.
+      // For other post types the calendar always displays the current month.
+
+      if (postType === 'post') {
+        _date = editorSelectors.getEditedPostAttribute('date');
+      }
+    }
+
+    return _date;
   }, []);
   return Object(external_wp_element_["createElement"])("div", Object(external_wp_blockEditor_["useBlockProps"])(), Object(external_wp_element_["createElement"])(external_wp_components_["Disabled"], null, Object(external_wp_element_["createElement"])(external_wp_serverSideRender_default.a, {
     block: "core/calendar",
@@ -18611,7 +18617,7 @@ const loginout_metadata = {
   apiVersion: 2,
   name: "core/loginout",
   title: "Login/out",
-  category: "design",
+  category: "theme",
   description: "Show login & logout links.",
   keywords: ["login", "logout", "form"],
   textdomain: "default",
@@ -22019,7 +22025,7 @@ function GroupEdit({
 
   const _layout = Object(external_wp_element_["useMemo"])(() => {
     if (themeSupportsLayout) {
-      const alignments = contentSize || wideSize ? ['wide', 'full'] : ['left', 'center', 'right'];
+      const alignments = contentSize || wideSize ? ['wide', 'full', 'left', 'center', 'right'] : ['left', 'center', 'right'];
       return {
         type: 'default',
         // Find a way to inject this in the support flag code (hooks).
@@ -28289,6 +28295,7 @@ const site_logo_settings = {
 
 
 
+
 function SiteTaglineEdit({
   attributes,
   setAttributes
@@ -28297,11 +28304,34 @@ function SiteTaglineEdit({
     textAlign
   } = attributes;
   const [siteTagline, setSiteTagline] = Object(external_wp_coreData_["useEntityProp"])('root', 'site', 'description');
+  const {
+    canUserEdit,
+    readOnlySiteTagLine
+  } = Object(external_wp_data_["useSelect"])(select => {
+    const {
+      canUser,
+      getEntityRecord
+    } = select(external_wp_coreData_["store"]);
+    const siteData = getEntityRecord('root', '__unstableBase');
+    return {
+      canUserEdit: canUser('update', 'settings'),
+      readOnlySiteTagLine: siteData === null || siteData === void 0 ? void 0 : siteData.description
+    };
+  }, []);
   const blockProps = Object(external_wp_blockEditor_["useBlockProps"])({
     className: classnames_default()({
-      [`has-text-align-${textAlign}`]: textAlign
+      [`has-text-align-${textAlign}`]: textAlign,
+      'wp-block-site-tagline__placeholder': !canUserEdit && !readOnlySiteTagLine
     })
   });
+  const siteTaglineContent = canUserEdit ? Object(external_wp_element_["createElement"])(external_wp_blockEditor_["RichText"], Object(esm_extends["a" /* default */])({
+    allowedFormats: [],
+    onChange: setSiteTagline,
+    "aria-label": Object(external_wp_i18n_["__"])('Site tagline text'),
+    placeholder: Object(external_wp_i18n_["__"])('Write site tagline…'),
+    tagName: "p",
+    value: siteTagline
+  }, blockProps)) : Object(external_wp_element_["createElement"])("p", blockProps, readOnlySiteTagLine || Object(external_wp_i18n_["__"])('Site Tagline placeholder'));
   return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockControls"], {
     group: "block"
   }, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["AlignmentControl"], {
@@ -28309,14 +28339,7 @@ function SiteTaglineEdit({
       textAlign: newAlign
     }),
     value: textAlign
-  })), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["RichText"], Object(esm_extends["a" /* default */])({
-    allowedFormats: [],
-    onChange: setSiteTagline,
-    "aria-label": Object(external_wp_i18n_["__"])('Site tagline text'),
-    placeholder: Object(external_wp_i18n_["__"])('Write site tagline…'),
-    tagName: "p",
-    value: siteTagline
-  }, blockProps)));
+  })), siteTaglineContent);
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/site-tagline/icon.js
@@ -28369,7 +28392,8 @@ const site_tagline_metadata = {
       __experimentalFontFamily: true,
       __experimentalTextTransform: true
     }
-  }
+  },
+  editorStyle: "wp-block-site-tagline-editor"
 };
 
 
@@ -28483,6 +28507,7 @@ function LevelControl({
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -28498,12 +28523,43 @@ function SiteTitleEdit({
     textAlign
   } = attributes;
   const [title, setTitle] = Object(external_wp_coreData_["useEntityProp"])('root', 'site', 'title');
+  const {
+    canUserEdit,
+    readOnlyTitle
+  } = Object(external_wp_data_["useSelect"])(select => {
+    const {
+      canUser,
+      getEntityRecord
+    } = select(external_wp_coreData_["store"]);
+    const siteData = getEntityRecord('root', '__unstableBase');
+    return {
+      canUserEdit: canUser('update', 'settings'),
+      readOnlyTitle: siteData === null || siteData === void 0 ? void 0 : siteData.name
+    };
+  }, []);
   const TagName = level === 0 ? 'p' : `h${level}`;
   const blockProps = Object(external_wp_blockEditor_["useBlockProps"])({
     className: classnames_default()({
-      [`has-text-align-${textAlign}`]: textAlign
+      [`has-text-align-${textAlign}`]: textAlign,
+      'wp-block-site-title__placeholder': !canUserEdit && !readOnlyTitle
     })
   });
+  const siteTitleContent = canUserEdit ? Object(external_wp_element_["createElement"])(TagName, blockProps, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["RichText"], {
+    tagName: "a",
+    style: {
+      display: 'inline-block'
+    },
+    "aria-label": Object(external_wp_i18n_["__"])('Site title text'),
+    placeholder: Object(external_wp_i18n_["__"])('Write site title…'),
+    value: title || readOnlyTitle,
+    onChange: setTitle,
+    allowedFormats: [],
+    disableLineBreaks: true,
+    __unstableOnSplitAtEnd: () => insertBlocksAfter(Object(external_wp_blocks_["createBlock"])(Object(external_wp_blocks_["getDefaultBlockName"])()))
+  })) : Object(external_wp_element_["createElement"])(TagName, blockProps, Object(external_wp_element_["createElement"])("a", {
+    href: "#site-title-pseudo-link",
+    onClick: event => event.preventDefault()
+  }, readOnlyTitle || Object(external_wp_i18n_["__"])('Site Title placeholder')));
   return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockControls"], {
     group: "block"
   }, Object(external_wp_element_["createElement"])(LevelControl, {
@@ -28518,19 +28574,7 @@ function SiteTitleEdit({
         textAlign: nextAlign
       });
     }
-  })), Object(external_wp_element_["createElement"])(TagName, blockProps, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["RichText"], {
-    tagName: "a",
-    style: {
-      display: 'inline-block'
-    },
-    "aria-label": Object(external_wp_i18n_["__"])('Site title text'),
-    placeholder: Object(external_wp_i18n_["__"])('Write site title…'),
-    value: title,
-    onChange: setTitle,
-    allowedFormats: [],
-    disableLineBreaks: true,
-    __unstableOnSplitAtEnd: () => insertBlocksAfter(Object(external_wp_blocks_["createBlock"])(Object(external_wp_blocks_["getDefaultBlockName"])()))
-  })));
+  })), siteTitleContent);
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/site-title/index.js
@@ -28578,7 +28622,8 @@ const site_title_metadata = {
       __experimentalFontStyle: true,
       __experimentalFontWeight: true
     }
-  }
+  },
+  editorStyle: "wp-block-site-title-editor"
 };
 
 const {
@@ -29025,8 +29070,8 @@ function QueryInspectorControls({
   return Object(external_wp_element_["createElement"])(external_wp_blockEditor_["InspectorControls"], null, Object(external_wp_element_["createElement"])(external_wp_components_["PanelBody"], {
     title: Object(external_wp_i18n_["__"])('Settings')
   }, Object(external_wp_element_["createElement"])(external_wp_components_["ToggleControl"], {
-    label: Object(external_wp_i18n_["__"])('Inherit query from URL'),
-    help: Object(external_wp_i18n_["__"])('Disable the option to customize the query arguments. Leave enabled to inherit the global query depending on the URL.'),
+    label: Object(external_wp_i18n_["__"])('Inherit query from template'),
+    help: Object(external_wp_i18n_["__"])('Toggle to use the global query context that is set with the current template, such as an archive or search. Disable to customize the settings independently.'),
     checked: !!inherit,
     onChange: value => setQuery({
       inherit: !!value
@@ -29035,7 +29080,8 @@ function QueryInspectorControls({
     options: postTypesSelectOptions,
     value: postType,
     label: Object(external_wp_i18n_["__"])('Post Type'),
-    onChange: onPostTypeChange
+    onChange: onPostTypeChange,
+    help: Object(external_wp_i18n_["__"])('WordPress contains different types of content and they are divided into collections called "Post Types". By default there are a few different ones such as blog posts and pages, but plugins could add more.')
   }), (displayLayout === null || displayLayout === void 0 ? void 0 : displayLayout.type) === 'flex' && Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(external_wp_components_["RangeControl"], {
     label: Object(external_wp_i18n_["__"])('Columns'),
     value: displayLayout.columns,
@@ -29062,7 +29108,8 @@ function QueryInspectorControls({
     value: sticky,
     onChange: value => setQuery({
       sticky: value
-    })
+    }),
+    help: Object(external_wp_i18n_["__"])('Blog posts can be "stickied", a feature that places them at the top of the front page of posts, keeping it there until new sticky posts are published.')
   })), !inherit && Object(external_wp_element_["createElement"])(external_wp_components_["PanelBody"], {
     title: Object(external_wp_i18n_["__"])('Filters')
   }, showCategories && (categories === null || categories === void 0 ? void 0 : (_categories$terms = categories.terms) === null || _categories$terms === void 0 ? void 0 : _categories$terms.length) > 0 && Object(external_wp_element_["createElement"])(external_wp_components_["FormTokenField"], {
@@ -29207,7 +29254,7 @@ function QueryContent({
 
   const _layout = Object(external_wp_element_["useMemo"])(() => {
     if (themeSupportsLayout) {
-      const alignments = contentSize || wideSize ? ['wide', 'full'] : ['left', 'center', 'right'];
+      const alignments = contentSize || wideSize ? ['wide', 'full', 'left', 'center', 'right'] : ['left', 'center', 'right'];
       return {
         type: 'default',
         // Find a way to inject this in the support flag code (hooks).
@@ -29562,8 +29609,8 @@ const query_metadata = {
   apiVersion: 2,
   name: "core/query",
   title: "Query Loop",
-  category: "design",
-  description: "Displays a list of posts as a result of a query.",
+  category: "theme",
+  description: "An advanced block that allows displaying post types based on different query parameters and visual configurations.",
   textdomain: "default",
   attributes: {
     queryId: {
@@ -29799,7 +29846,7 @@ const post_template_metadata = {
   title: "Post Template",
   category: "design",
   parent: ["core/query"],
-  description: "Post Template.",
+  description: "Contains the block elements used to render a post, like the title, date, featured image, content or excerpt, and more.",
   textdomain: "default",
   usesContext: ["queryId", "query", "queryContext", "displayLayout", "templateSlug"],
   supports: {
@@ -30552,7 +30599,7 @@ const post_title_metadata = {
   apiVersion: 2,
   name: "core/post-title",
   title: "Post Title",
-  category: "design",
+  category: "theme",
   description: "Displays the title of a post, page, or any other content-type.",
   textdomain: "default",
   usesContext: ["postId", "postType", "queryId"],
@@ -30672,7 +30719,7 @@ function EditableContent({
 
   const _layout = Object(external_wp_element_["useMemo"])(() => {
     if (themeSupportsLayout) {
-      const alignments = contentSize || wideSize ? ['wide', 'full'] : ['left', 'center', 'right'];
+      const alignments = contentSize || wideSize ? ['wide', 'full', 'left', 'center', 'right'] : ['left', 'center', 'right'];
       return {
         type: 'default',
         // Find a way to inject this in the support flag code (hooks).
@@ -30763,7 +30810,7 @@ const post_content_metadata = {
   apiVersion: 2,
   name: "core/post-content",
   title: "Post Content",
-  category: "design",
+  category: "theme",
   description: "Displays the contents of a post or page.",
   textdomain: "default",
   usesContext: ["postId", "postType", "queryId"],
@@ -30922,7 +30969,7 @@ const post_date_metadata = {
   apiVersion: 2,
   name: "core/post-date",
   title: "Post Date",
-  category: "design",
+  category: "theme",
   description: "Add the date of this post.",
   textdomain: "default",
   attributes: {
@@ -31107,7 +31154,7 @@ const post_excerpt_metadata = {
   apiVersion: 2,
   name: "core/post-excerpt",
   title: "Post Excerpt",
-  category: "design",
+  category: "theme",
   description: "Display a post's excerpt.",
   textdomain: "default",
   attributes: {
@@ -31290,7 +31337,7 @@ const post_featured_image_metadata = {
   apiVersion: 2,
   name: "core/post-featured-image",
   title: "Post Featured Image",
-  category: "design",
+  category: "theme",
   description: "Display a post's featured image.",
   textdomain: "default",
   attributes: {
@@ -33367,13 +33414,6 @@ function Icon({
 
 /* harmony default export */ __webpack_exports__["a"] = (Icon);
 
-
-/***/ }),
-
-/***/ "jSdM":
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["wp"]["editor"]; }());
 
 /***/ }),
 

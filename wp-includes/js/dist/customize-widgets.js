@@ -1593,10 +1593,10 @@ function useClearSelectedBlock(sidebarControl, popoverRef) {
         !inspector.expanded()) {
           clearSelectedBlock();
         }
-      } // Handle focusing in the same document.
+      } // Handle mouse down in the same document.
 
 
-      function handleFocus(event) {
+      function handleMouseDown(event) {
         handleClearSelectedBlock(event.target);
       } // Handle focusing outside the current document, like to iframes.
 
@@ -1605,10 +1605,10 @@ function useClearSelectedBlock(sidebarControl, popoverRef) {
         handleClearSelectedBlock(ownerDocument.activeElement);
       }
 
-      ownerDocument.addEventListener('focusin', handleFocus);
+      ownerDocument.addEventListener('mousedown', handleMouseDown);
       ownerWindow.addEventListener('blur', handleBlur);
       return () => {
-        ownerDocument.removeEventListener('focusin', handleFocus);
+        ownerDocument.removeEventListener('mousedown', handleMouseDown);
         ownerWindow.removeEventListener('blur', handleBlur);
       };
     }
@@ -2421,7 +2421,7 @@ const {
  */
 
 function initialize(editorName, blockEditorSettings) {
-  const coreBlocks = Object(external_wp_blockLibrary_["__experimentalGetCoreBlocks"])().filter(block => !['core/more'].includes(block.name));
+  const coreBlocks = Object(external_wp_blockLibrary_["__experimentalGetCoreBlocks"])().filter(block => !['core/more', 'core/freeform'].includes(block.name));
 
   Object(external_wp_blockLibrary_["registerCoreBlocks"])(coreBlocks);
   Object(external_wp_widgets_["registerLegacyWidgetBlock"])();

@@ -92,7 +92,7 @@ function block_core_page_list_build_css_font_sizes( $context ) {
  *
  * @return string List markup.
  */
-function render_nested_page_list( $nested_pages ) {
+function block_core_page_list_render_nested_page_list( $nested_pages ) {
 	if ( empty( $nested_pages ) ) {
 		return;
 	}
@@ -109,7 +109,7 @@ function render_nested_page_list( $nested_pages ) {
 		) . '</a>';
 		if ( isset( $page['children'] ) ) {
 			$markup .= '<span class="wp-block-page-list__submenu-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none" role="img" aria-hidden="true" focusable="false"><path d="M1.50002 4L6.00002 8L10.5 4" stroke-width="1.5"></path></svg></span>';
-			$markup .= '<ul class="submenu-container">' . render_nested_page_list( $page['children'] ) . '</ul>';
+			$markup .= '<ul class="submenu-container">' . block_core_page_list_render_nested_page_list( $page['children'] ) . '</ul>';
 		}
 		$markup .= '</li>';
 	}
@@ -124,13 +124,13 @@ function render_nested_page_list( $nested_pages ) {
  *
  * @return array The nested array of pages.
  */
-function nest_pages( $current_level, $children ) {
+function block_core_page_list_nest_pages( $current_level, $children ) {
 	if ( empty( $current_level ) ) {
 		return;
 	}
 	foreach ( (array) $current_level as $key => $current ) {
 		if ( isset( $children[ $key ] ) ) {
-			$current_level[ $key ]['children'] = nest_pages( $children[ $key ], $children );
+			$current_level[ $key ]['children'] = block_core_page_list_nest_pages( $children[ $key ], $children );
 		}
 	}
 	return $current_level;
@@ -180,11 +180,11 @@ function render_block_core_page_list( $attributes, $content, $block ) {
 		}
 	}
 
-	$nested_pages = nest_pages( $top_level_pages, $pages_with_children );
+	$nested_pages = block_core_page_list_nest_pages( $top_level_pages, $pages_with_children );
 
 	$wrapper_markup = '<ul %1$s>%2$s</ul>';
 
-	$items_markup = render_nested_page_list( $nested_pages );
+	$items_markup = block_core_page_list_render_nested_page_list( $nested_pages );
 
 	$colors          = block_core_page_list_build_css_colors( $block->context );
 	$font_sizes      = block_core_page_list_build_css_font_sizes( $block->context );

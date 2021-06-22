@@ -84,6 +84,7 @@
   font-size: initial;
   line-height: initial;
   color: initial;
+  background: #fff;
 }
 .editor-styles-wrapper .block-editor-block-list__layout.is-root-container > .wp-block[data-align=full] {
   margin-left: -8px;

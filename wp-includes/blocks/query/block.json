@@ -2,8 +2,8 @@
 	"apiVersion": 2,
 	"name": "core/query",
 	"title": "Query Loop",
-	"category": "design",
-	"description": "Displays a list of posts as a result of a query.",
+	"category": "theme",
+	"description": "An advanced block that allows displaying post types based on different query parameters and visual configurations.",
 	"textdomain": "default",
 	"attributes": {
 		"queryId": {

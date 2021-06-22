@@ -13144,7 +13144,7 @@ function VisualEditor({
     setIsEditingTemplate
   } = Object(external_wp_data_["useDispatch"])(store["a" /* store */]);
   const desktopCanvasStyles = {
-    minHeight: '100%',
+    height: '100%',
     width: '100%',
     margin: 0,
     display: 'flex',
@@ -13189,7 +13189,7 @@ function VisualEditor({
     }
 
     if (themeSupportsLayout) {
-      const alignments = contentSize || wideSize ? ['wide', 'full'] : ['left', 'center', 'right'];
+      const alignments = contentSize || wideSize ? ['wide', 'full', 'left', 'center', 'right'] : ['left', 'center', 'right'];
       return {
         type: 'default',
         // Find a way to inject this in the support flag code (hooks).
@@ -14581,9 +14581,9 @@ function DeleteTemplate() {
     "aria-label": Object(external_wp_i18n_["__"])('Delete template'),
     onClick: () => {
       if ( // eslint-disable-next-line no-alert
-      window.confirm(
-      /* translators: %1$s: template name */
-      Object(external_wp_i18n_["sprintf"])('Are you sure you want to delete the %s template? It may be used by other pages or posts.', templateTitle))) {
+      window.confirm(Object(external_wp_i18n_["sprintf"])(
+      /* translators: %s: template name */
+      Object(external_wp_i18n_["__"])('Are you sure you want to delete the %s template? It may be used by other pages or posts.'), templateTitle))) {
         clearSelectedBlock();
         setIsEditingTemplate(false);
         editPost({
@@ -16795,12 +16795,14 @@ function PostTemplateActions() {
   const [title, setTitle] = Object(external_wp_element_["useState"])('');
   const {
     template,
-    supportsTemplateMode
+    supportsTemplateMode,
+    defaultTemplate
   } = Object(external_wp_data_["useSelect"])(select => {
     var _getPostType$viewable, _getPostType;
 
     const {
-      getCurrentPostType
+      getCurrentPostType,
+      getEditorSettings
     } = select(external_wp_editor_["store"]);
     const {
       getPostType
@@ -16810,11 +16812,12 @@ function PostTemplateActions() {
     } = select(store["a" /* store */]);
     const isViewable = (_getPostType$viewable = (_getPostType = getPostType(getCurrentPostType())) === null || _getPostType === void 0 ? void 0 : _getPostType.viewable) !== null && _getPostType$viewable !== void 0 ? _getPostType$viewable : false;
 
-    const _supportsTemplateMode = select(external_wp_editor_["store"]).getEditorSettings().supportsTemplateMode && isViewable;
+    const _supportsTemplateMode = getEditorSettings().supportsTemplateMode && isViewable;
 
     return {
       template: _supportsTemplateMode && getEditedPostTemplate(),
-      supportsTemplateMode: _supportsTemplateMode
+      supportsTemplateMode: _supportsTemplateMode,
+      defaultTemplate: getEditorSettings().defaultBlockTemplate
     };
   }, []);
   const {
@@ -16824,6 +16827,8 @@ function PostTemplateActions() {
   if (!supportsTemplateMode) {
     return null;
   }
+
+  const defaultTitle = Object(external_wp_i18n_["__"])('Custom Template');
 
   return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])("div", {
     className: "edit-post-template__actions"
@@ -16844,19 +16849,27 @@ function PostTemplateActions() {
   }, Object(external_wp_element_["createElement"])("form", {
     onSubmit: event => {
       event.preventDefault();
-
-      const defaultTitle = Object(external_wp_i18n_["__"])('Custom Template');
-
-      const templateContent = [Object(external_wp_blocks_["createBlock"])('core/site-title'), Object(external_wp_blocks_["createBlock"])('core/site-tagline'), Object(external_wp_blocks_["createBlock"])('core/separator'), Object(external_wp_blocks_["createBlock"])('core/post-title'), Object(external_wp_blocks_["createBlock"])('core/post-content', {
+      const newTemplateContent = defaultTemplate !== null && defaultTemplate !== void 0 ? defaultTemplate : Object(external_wp_blocks_["serialize"])([Object(external_wp_blocks_["createBlock"])('core/group', {
+        tagName: 'header',
         layout: {
           inherit: true
         }
-      })];
+      }, [Object(external_wp_blocks_["createBlock"])('core/site-title'), Object(external_wp_blocks_["createBlock"])('core/site-tagline')]), Object(external_wp_blocks_["createBlock"])('core/separator'), Object(external_wp_blocks_["createBlock"])('core/group', {
+        tagName: 'main'
+      }, [Object(external_wp_blocks_["createBlock"])('core/group', {
+        layout: {
+          inherit: true
+        }
+      }, [Object(external_wp_blocks_["createBlock"])('core/post-title')]), Object(external_wp_blocks_["createBlock"])('core/post-content', {
+        layout: {
+          inherit: true
+        }
+      })])]);
 
       __unstableSwitchToTemplateMode({
-        slug: 'wp-custom-template-' + Object(external_lodash_["kebabCase"])(title !== null && title !== void 0 ? title : defaultTitle),
-        content: Object(external_wp_blocks_["serialize"])(templateContent),
-        title: title !== null && title !== void 0 ? title : defaultTitle
+        slug: 'wp-custom-template-' + Object(external_lodash_["kebabCase"])(title || defaultTitle),
+        content: newTemplateContent,
+        title: title || defaultTitle
       });
 
       setIsModalOpen(false);
@@ -16868,6 +16881,7 @@ function PostTemplateActions() {
     label: Object(external_wp_i18n_["__"])('Name'),
     value: title,
     onChange: setTitle,
+    placeholder: defaultTitle,
     help: Object(external_wp_i18n_["__"])('Describe the purpose of the template, e.g. "Full Width". Custom templates can be applied to any post or page.')
   }))), Object(external_wp_element_["createElement"])(external_wp_components_["Flex"], {
     className: "edit-post-template__modal-actions",

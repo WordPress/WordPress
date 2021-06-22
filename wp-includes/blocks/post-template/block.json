@@ -4,7 +4,7 @@
 	"title": "Post Template",
 	"category": "design",
 	"parent": [ "core/query" ],
-	"description": "Post Template.",
+	"description": "Contains the block elements used to render a post, like the title, date, featured image, content or excerpt, and more.",
 	"textdomain": "default",
 	"usesContext": [
 		"queryId",

@@ -26,5 +26,6 @@
 			"__experimentalFontFamily": true,
 			"__experimentalTextTransform": true
 		}
-	}
+	},
+	"editorStyle": "wp-block-site-tagline-editor"
 }

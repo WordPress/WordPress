@@ -164,21 +164,6 @@ const brush = Object(external_wp_element_["createElement"])(external_wp_primitiv
 }));
 /* harmony default export */ var library_brush = (brush);
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/update.js
-
-
-/**
- * WordPress dependencies
- */
-
-const update = Object(external_wp_element_["createElement"])(external_wp_primitives_["SVG"], {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "-2 -2 24 24"
-}, Object(external_wp_element_["createElement"])(external_wp_primitives_["Path"], {
-  d: "M10.2 3.28c3.53 0 6.43 2.61 6.92 6h2.08l-3.5 4-3.5-4h2.32c-.45-1.97-2.21-3.45-4.32-3.45-1.45 0-2.73.71-3.54 1.78L4.95 5.66C6.23 4.2 8.11 3.28 10.2 3.28zm-.4 13.44c-3.52 0-6.43-2.61-6.92-6H.8l3.5-4c1.17 1.33 2.33 2.67 3.5 4H5.48c.45 1.97 2.21 3.45 4.32 3.45 1.45 0 2.73-.71 3.54-1.78l1.71 1.95c-1.28 1.46-3.15 2.38-5.25 2.38z"
-}));
-/* harmony default export */ var library_update = (update);
-
 // EXTERNAL MODULE: external ["wp","i18n"]
 var external_wp_i18n_ = __webpack_require__("l3Sj");
 
@@ -1032,17 +1017,12 @@ function NotEmpty({
   const {
     widgetType,
     hasResolvedWidgetType,
-    isWidgetTypeHidden,
     isNavigationMode
   } = Object(external_wp_data_["useSelect"])(select => {
-    var _select$getSettings$w, _select$getSettings;
-
     const widgetTypeId = id !== null && id !== void 0 ? id : idBase;
-    const hiddenIds = (_select$getSettings$w = (_select$getSettings = select(external_wp_blockEditor_["store"]).getSettings()) === null || _select$getSettings === void 0 ? void 0 : _select$getSettings.widgetTypesToHideFromLegacyWidgetBlock) !== null && _select$getSettings$w !== void 0 ? _select$getSettings$w : [];
     return {
       widgetType: select(external_wp_coreData_["store"]).getWidgetType(widgetTypeId),
       hasResolvedWidgetType: select(external_wp_coreData_["store"]).hasFinishedResolution('getWidgetType', [widgetTypeId]),
-      isWidgetTypeHidden: hiddenIds.includes(widgetTypeId),
       isNavigationMode: select(external_wp_blockEditor_["store"]).isNavigationMode()
     };
   }, [id, idBase]);
@@ -1066,17 +1046,7 @@ function NotEmpty({
   }
 
   const mode = isNavigationMode || !isSelected ? 'preview' : 'edit';
-  return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, !isWidgetTypeHidden && Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockControls"], {
-    group: "block"
-  }, Object(external_wp_element_["createElement"])(external_wp_components_["ToolbarButton"], {
-    label: Object(external_wp_i18n_["__"])('Change widget'),
-    icon: library_update,
-    onClick: () => setAttributes({
-      id: null,
-      idBase: null,
-      instance: null
-    })
-  })), idBase === 'text' && Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockControls"], {
+  return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, idBase === 'text' && Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockControls"], {
     group: "other"
   }, Object(external_wp_element_["createElement"])(ConvertToBlocksButton, {
     clientId: clientId,
@@ -1115,7 +1085,7 @@ const legacyWidgetTransforms = [{
   widget: 'search'
 }, {
   block: 'core/html',
-  widget: 'html',
+  widget: 'custom_html',
   transform: ({
     content
   }) => ({

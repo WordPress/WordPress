@@ -2,7 +2,7 @@
 	"apiVersion": 2,
 	"name": "core/loginout",
 	"title": "Login/out",
-	"category": "design",
+	"category": "theme",
 	"description": "Show login & logout links.",
 	"keywords": [ "login", "logout", "form" ],
 	"textdomain": "default",

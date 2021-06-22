@@ -34,5 +34,6 @@
 			"__experimentalFontStyle": true,
 			"__experimentalFontWeight": true
 		}
-	}
+	},
+	"editorStyle": "wp-block-site-title-editor"
 }

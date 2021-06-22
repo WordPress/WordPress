@@ -2,7 +2,7 @@
 	"apiVersion": 2,
 	"name": "core/post-excerpt",
 	"title": "Post Excerpt",
-	"category": "design",
+	"category": "theme",
 	"description": "Display a post's excerpt.",
 	"textdomain": "default",
 	"attributes": {

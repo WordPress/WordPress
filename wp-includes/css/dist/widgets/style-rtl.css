@@ -165,3 +165,8 @@
   padding: 8px 12px;
   min-height: 50px;
 }
+
+.wp-block-legacy-widget .components-select-control__input {
+  padding: 0;
+  font-family: system-ui;
+}

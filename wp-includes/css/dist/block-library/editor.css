@@ -1823,6 +1823,16 @@ body.admin-bar .wp-block-navigation__responsive-container.is-menu-open {
   display: none;
 }
 
+.wp-block-site-tagline__placeholder {
+  padding: 1em 0;
+  border: 1px dashed;
+}
+
+.wp-block-site-title__placeholder {
+  padding: 1em 0;
+  border: 1px dashed;
+}
+
 .wp-block-social-links .wp-social-link {
   line-height: 0;
 }

@@ -236,7 +236,8 @@ const PREFERENCES_DEFAULTS = {
   features: {
     fixedToolbar: false,
     welcomeGuide: true,
-    showBlockBreadcrumbs: true
+    showBlockBreadcrumbs: true,
+    themeStyles: true
   }
 };
 
@@ -762,11 +763,20 @@ function* saveWidgetArea(widgetAreaId) {
     }
 
     return true;
-  }); // Get all widgets that have been deleted
+  }); // Determine which widgets have been deleted. We can tell if a widget is
+  // deleted and not just moved to a different area by looking to see if
+  // getWidgetAreaForWidgetId() finds something.
 
-  const deletedWidgets = areaWidgets.filter(({
-    id
-  }) => !widgetsBlocks.some(widgetBlock => Object(external_wp_widgets_["getWidgetIdFromBlock"])(widgetBlock) === id));
+  const deletedWidgets = [];
+
+  for (const widget of areaWidgets) {
+    const widgetsNewArea = yield controls_select(STORE_NAME, 'getWidgetAreaForWidgetId', widget.id);
+
+    if (!widgetsNewArea) {
+      deletedWidgets.push(widget);
+    }
+  }
+
   const batchMeta = [];
   const batchTasks = [];
   const sidebarWidgetsIds = [];
@@ -1470,15 +1480,19 @@ function WidgetAreaEdit({
     scrollAfterOpen: !isDragging
   }, ({
     opened
-  }) => // This is required to ensure LegacyWidget blocks are not unmounted when the panel is collapsed.
-  // Unmounting legacy widgets may have unintended consequences (e.g. TinyMCE not being properly reinitialized)
+  }) => // This is required to ensure LegacyWidget blocks are not
+  // unmounted when the panel is collapsed. Unmounting legacy
+  // widgets may have unintended consequences (e.g.  TinyMCE
+  // not being properly reinitialized)
   Object(external_wp_element_["createElement"])(external_wp_components_["__unstableDisclosureContent"], {
     visible: opened
+  }, Object(external_wp_element_["createElement"])("div", {
+    className: "editor-styles-wrapper"
   }, Object(external_wp_element_["createElement"])(external_wp_coreData_["EntityProvider"], {
     kind: "root",
     type: "postType",
     id: `widget-area-${id}`
-  }, Object(external_wp_element_["createElement"])(WidgetAreaInnerBlocks, null)))));
+  }, Object(external_wp_element_["createElement"])(WidgetAreaInnerBlocks, null))))));
 }
 /**
  * A React hook to determine if dragging is active.
@@ -1702,6 +1716,32 @@ function KeyboardShortcutsRegister() {
         modifier: 'access',
         character: 'h'
       }
+    });
+    registerShortcut({
+      name: 'core/edit-widgets/next-region',
+      category: 'global',
+      description: Object(external_wp_i18n_["__"])('Navigate to the next part of the editor.'),
+      keyCombination: {
+        modifier: 'ctrl',
+        character: '`'
+      },
+      aliases: [{
+        modifier: 'access',
+        character: 'n'
+      }]
+    });
+    registerShortcut({
+      name: 'core/edit-widgets/previous-region',
+      category: 'global',
+      description: Object(external_wp_i18n_["__"])('Navigate to the previous part of the editor.'),
+      keyCombination: {
+        modifier: 'ctrlShift',
+        character: '`'
+      },
+      aliases: [{
+        modifier: 'access',
+        character: 'p'
+      }]
     });
   }, [registerShortcut]);
   return null;
@@ -2501,6 +2541,7 @@ function KeyboardShortcutHelpModal({
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -2522,6 +2563,7 @@ function MoreMenu() {
   Object(external_wp_keyboardShortcuts_["useShortcut"])('core/edit-widgets/keyboard-shortcuts', toggleKeyboardShortcutsModal, {
     bindGlobal: true
   });
+  const isLargeViewport = Object(external_wp_compose_["useViewportMatch"])('medium');
   return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(external_wp_components_["DropdownMenu"], {
     className: "edit-widgets-more-menu",
     icon: more_vertical["a" /* default */]
@@ -2530,7 +2572,7 @@ function MoreMenu() {
     label: Object(external_wp_i18n_["__"])('Options'),
     popoverProps: POPOVER_PROPS,
     toggleProps: TOGGLE_PROPS
-  }, () => Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(external_wp_components_["MenuGroup"], {
+  }, () => Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, isLargeViewport && Object(external_wp_element_["createElement"])(external_wp_components_["MenuGroup"], {
     label: Object(external_wp_i18n_["_x"])('View', 'noun')
   }, Object(external_wp_element_["createElement"])(FeatureToggle, {
     feature: "fixedToolbar",
@@ -2567,6 +2609,10 @@ function MoreMenu() {
     messageActivated: Object(external_wp_i18n_["__"])('Contain text cursor inside block activated'),
     messageDeactivated: Object(external_wp_i18n_["__"])('Contain text cursor inside block deactivated')
   }), Object(external_wp_element_["createElement"])(FeatureToggle, {
+    feature: "themeStyles",
+    info: Object(external_wp_i18n_["__"])('Make the editor look like your theme.'),
+    label: Object(external_wp_i18n_["__"])('Use theme styles')
+  }), isLargeViewport && Object(external_wp_element_["createElement"])(FeatureToggle, {
     feature: "showBlockBreadcrumbs",
     label: Object(external_wp_i18n_["__"])('Display block breadcrumbs'),
     info: Object(external_wp_i18n_["__"])('Shows block breadcrumbs at the bottom of the editor.'),
@@ -2736,24 +2782,33 @@ function Notices() {
  * WordPress dependencies
  */
 
+
+
 /**
  * Internal dependencies
  */
 
 
 
+
 function WidgetAreasBlockEditorContent({
   blockEditorSettings
 }) {
+  const {
+    hasThemeStyles
+  } = Object(external_wp_data_["useSelect"])(select => ({
+    hasThemeStyles: select(store).__unstableIsFeatureActive('themeStyles')
+  }));
+  const styles = Object(external_wp_element_["useMemo"])(() => {
+    return hasThemeStyles ? blockEditorSettings.styles : [];
+  }, [blockEditorSettings, hasThemeStyles]);
   return Object(external_wp_element_["createElement"])("div", {
     className: "edit-widgets-block-editor"
-  }, Object(external_wp_element_["createElement"])(components_notices, null), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockTools"], null, Object(external_wp_element_["createElement"])(keyboard_shortcuts, null), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockEditorKeyboardShortcuts"], null), Object(external_wp_element_["createElement"])("div", {
-    className: "editor-styles-wrapper"
-  }, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["__unstableEditorStyles"], {
-    styles: blockEditorSettings.styles
+  }, Object(external_wp_element_["createElement"])(components_notices, null), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockTools"], null, Object(external_wp_element_["createElement"])(keyboard_shortcuts, null), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockEditorKeyboardShortcuts"], null), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["__unstableEditorStyles"], {
+    styles: styles
   }), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockSelectionClearer"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["WritingFlow"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["ObserveTyping"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockList"], {
     className: "edit-widgets-main-block-list"
-  })))))));
+  }))))));
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/hooks/use-widget-library-insertion-point.js
@@ -2822,6 +2877,7 @@ const useWidgetLibraryInsertionPoint = () => {
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -2860,11 +2916,15 @@ function Interface({
   const {
     hasBlockBreadCrumbsEnabled,
     hasSidebarEnabled,
-    isInserterOpened
+    isInserterOpened,
+    previousShortcut,
+    nextShortcut
   } = Object(external_wp_data_["useSelect"])(select => ({
     hasSidebarEnabled: !!select(build_module["g" /* store */]).getActiveComplementaryArea(store.name),
     isInserterOpened: !!select(store).isInserterOpened(),
-    hasBlockBreadCrumbsEnabled: select(store).__unstableIsFeatureActive('showBlockBreadcrumbs')
+    hasBlockBreadCrumbsEnabled: select(store).__unstableIsFeatureActive('showBlockBreadcrumbs'),
+    previousShortcut: select(external_wp_keyboardShortcuts_["store"]).getAllShortcutRawKeyCombinations('core/edit-widgets/previous-region'),
+    nextShortcut: select(external_wp_keyboardShortcuts_["store"]).getAllShortcutRawKeyCombinations('core/edit-widgets/next-region')
   }), []); // Inserter and Sidebars are mutually exclusive
 
   Object(external_wp_element_["useEffect"])(() => {
@@ -2910,7 +2970,11 @@ function Interface({
       className: "edit-widgets-layout__footer"
     }, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockBreadcrumb"], {
       rootLabelText: Object(external_wp_i18n_["__"])('Widgets')
-    }))
+    })),
+    shortcuts: {
+      previous: previousShortcut,
+      next: nextShortcut
+    }
   });
 }
 
@@ -3138,7 +3202,7 @@ function Layout({
  */
 
 function initialize(id, settings) {
-  const coreBlocks = Object(external_wp_blockLibrary_["__experimentalGetCoreBlocks"])().filter(block => !['core/more'].includes(block.name));
+  const coreBlocks = Object(external_wp_blockLibrary_["__experimentalGetCoreBlocks"])().filter(block => !['core/more', 'core/freeform'].includes(block.name));
 
   Object(external_wp_blockLibrary_["registerCoreBlocks"])(coreBlocks);
   Object(external_wp_widgets_["registerLegacyWidgetBlock"])();

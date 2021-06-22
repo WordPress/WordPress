@@ -2,7 +2,7 @@
 	"apiVersion": 2,
 	"name": "core/post-date",
 	"title": "Post Date",
-	"category": "design",
+	"category": "theme",
 	"description": "Add the date of this post.",
 	"textdomain": "default",
 	"attributes": {

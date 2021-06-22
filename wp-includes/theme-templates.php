@@ -173,5 +173,14 @@ function the_block_template_skip_link() {
 	<?php
 }
 
-// By default, themes support block templates.
-add_theme_support( 'block-templates' );
+/**
+ * Enable the block templates (editor mode) for themes with theme.json by default.
+ *
+ * @access private
+ * @since 5.8.0
+ */
+function wp_enable_block_templates() {
+	if ( WP_Theme_JSON_Resolver::theme_has_support() ) {
+		add_theme_support( 'block-templates' );
+	}
+}

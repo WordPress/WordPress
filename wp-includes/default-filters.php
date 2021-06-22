@@ -657,5 +657,6 @@ add_filter( 'user_has_cap', 'wp_maybe_grant_site_health_caps', 1, 4 );
 add_filter( 'render_block_context', '_block_template_render_without_post_block_context' );
 add_filter( 'pre_wp_unique_post_slug', 'wp_filter_wp_template_unique_post_slug', 10, 5 );
 add_action( 'wp_footer', 'the_block_template_skip_link' );
+add_action( 'setup_theme', 'wp_enable_block_templates' );
 
 unset( $filter, $action );

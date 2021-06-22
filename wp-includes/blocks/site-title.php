@@ -13,6 +13,11 @@
  * @return string The render.
  */
 function render_block_core_site_title( $attributes ) {
+	$site_title = get_bloginfo( 'name' );
+	if ( ! $site_title ) {
+		return;
+	}
+
 	$tag_name         = 'h1';
 	$align_class_name = empty( $attributes['textAlign'] ) ? '' : "has-text-align-{$attributes['textAlign']}";
 
@@ -20,7 +25,7 @@ function render_block_core_site_title( $attributes ) {
 		$tag_name = 0 === $attributes['level'] ? 'p' : 'h' . $attributes['level'];
 	}
 
-	$link               = sprintf( '<a href="%1$s" rel="home">%2$s</a>', get_bloginfo( 'url' ), get_bloginfo( 'name' ) );
+	$link               = sprintf( '<a href="%1$s" rel="home">%2$s</a>', get_bloginfo( 'url' ), $site_title );
 	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => $align_class_name ) );
 
 	return sprintf(
