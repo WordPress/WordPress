@@ -464,3 +464,48 @@ function block_editor_rest_api_preload( array $preload_paths, $block_editor_cont
 		'after'
 	);
 }
+
+/**
+ * Creates an array of theme styles to load into the block editor.
+ *
+ * @since 5.8.0
+ *
+ * @global array $editor_styles
+ *
+ * @return array An array of theme styles for the block editor. Includes default font family
+ *               style and theme stylesheets.
+ */
+function get_block_editor_theme_styles() {
+	global $editor_styles;
+
+	$styles = array(
+		array(
+			'css'            => 'body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif }',
+			'__unstableType' => 'core',
+		),
+	);
+	if ( $editor_styles && current_theme_supports( 'editor-styles' ) ) {
+		foreach ( $editor_styles as $style ) {
+			if ( preg_match( '~^(https?:)?//~', $style ) ) {
+				$response = wp_remote_get( $style );
+				if ( ! is_wp_error( $response ) ) {
+					$styles[] = array(
+						'css'            => wp_remote_retrieve_body( $response ),
+						'__unstableType' => 'theme',
+					);
+				}
+			} else {
+				$file = get_theme_file_path( $style );
+				if ( is_file( $file ) ) {
+					$styles[] = array(
+						'css'            => file_get_contents( $file ),
+						'baseURL'        => get_theme_file_uri( $style ),
+						'__unstableType' => 'theme',
+					);
+				}
+			}
+		}
+	}
+
+	return $styles;
+}

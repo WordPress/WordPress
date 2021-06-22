@@ -25,7 +25,7 @@ $preload_paths = array(
 block_editor_rest_api_preload( $preload_paths, $block_editor_context );
 
 $editor_settings = get_block_editor_settings(
-	get_legacy_widget_block_editor_settings(),
+	array_merge( get_legacy_widget_block_editor_settings(), array( 'styles' => get_block_editor_theme_styles() ) ),
 	$block_editor_context
 );
 

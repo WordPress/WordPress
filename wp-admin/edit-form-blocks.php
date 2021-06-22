@@ -18,10 +18,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @global WP_Post_Type $post_type_object
  * @global WP_Post      $post             Global post object.
  * @global string       $title
- * @global array        $editor_styles
  * @global array        $wp_meta_boxes
  */
-global $post_type, $post_type_object, $post, $title, $editor_styles, $wp_meta_boxes;
+global $post_type, $post_type_object, $post, $title, $wp_meta_boxes;
 
 $block_editor_context = new WP_Block_Editor_Context( array( 'post' => $post ) );
 
@@ -128,36 +127,6 @@ $available_templates = ! empty( $available_templates ) ? array_merge(
 	$available_templates
 ) : $available_templates;
 
-// Editor Styles.
-$styles = array(
-	array(
-		'css'            => 'body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif }',
-		'__unstableType' => 'core',
-	),
-);
-if ( $editor_styles && current_theme_supports( 'editor-styles' ) ) {
-	foreach ( $editor_styles as $style ) {
-		if ( preg_match( '~^(https?:)?//~', $style ) ) {
-			$response = wp_remote_get( $style );
-			if ( ! is_wp_error( $response ) ) {
-				$styles[] = array(
-					'css'            => wp_remote_retrieve_body( $response ),
-					'__unstableType' => 'theme',
-				);
-			}
-		} else {
-			$file = get_theme_file_path( $style );
-			if ( is_file( $file ) ) {
-				$styles[] = array(
-					'css'            => file_get_contents( $file ),
-					'baseURL'        => get_theme_file_uri( $style ),
-					'__unstableType' => 'theme',
-				);
-			}
-		}
-	}
-}
-
 // Lock settings.
 $user_id = wp_check_post_lock( $post->ID );
 if ( $user_id ) {
@@ -212,7 +181,7 @@ $editor_settings = array(
 	'titlePlaceholder'                     => apply_filters( 'enter_title_here', __( 'Add title' ), $post ),
 	'bodyPlaceholder'                      => $body_placeholder,
 	'autosaveInterval'                     => AUTOSAVE_INTERVAL,
-	'styles'                               => $styles,
+	'styles'                               => get_block_editor_theme_styles(),
 	'richEditingEnabled'                   => user_can_richedit(),
 	'postLock'                             => $lock_details,
 	'postLockUtils'                        => array(
