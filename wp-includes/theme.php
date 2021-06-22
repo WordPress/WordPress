@@ -911,7 +911,7 @@ function validate_theme_requirements( $stylesheet ) {
 	// If the theme is a Full Site Editing theme, check for the presence of the Gutenberg plugin.
 	$theme_tags = $theme->get( 'Tags' );
 
-	if ( ! empty( $theme_tags ) && in_array( 'full-site-editing', $theme_tags, true ) && ! is_plugin_active( 'gutenberg/gutenberg.php' ) ) {
+	if ( ! empty( $theme_tags ) && in_array( 'full-site-editing', $theme_tags, true ) && ! function_exists( 'gutenberg_is_fse_theme' ) ) {
 		return new WP_Error(
 			'theme_requires_fse',
 			sprintf(
