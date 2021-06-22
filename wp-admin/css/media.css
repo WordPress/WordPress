@@ -112,9 +112,9 @@
 	margin-right: 10px;
 }
 
-.media-item {
+.media-item-wrapper {
 	display: grid;
-	grid-template-columns: repeat( 2, 1fr );
+	grid-template-columns: 1fr 1fr;
 }
 
 .media-item .attachment-tools {
@@ -253,6 +253,7 @@
 
 .media-upload-form .media-item .error {
 	padding: 10px 0 10px 14px;
+	min-height: 50px;
 }
 
 .media-item .error-div button.dismiss {
@@ -1284,6 +1285,12 @@ audio, video {
 
 	.copy-to-clipboard-container .success {
 		font-size: 14px;
+	}
+}
+
+@media only screen and (max-width: 600px) {
+	.media-item-wrapper {
+		grid-template-columns: 1fr;
 	}
 }
 
