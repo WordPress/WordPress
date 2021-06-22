@@ -83,7 +83,18 @@ class WP_REST_Pattern_Directory_Controller extends WP_REST_Controller {
 	 * @return WP_Error|WP_REST_Response Response object on success, or WP_Error object on failure.
 	 */
 	public function get_items( $request ) {
-		$query_args  = array();
+		/*
+		 * Include an unmodified `$wp_version`, so the API can craft a response that's tailored to
+		 * it. Some plugins modify the version in a misguided attempt to improve security by
+		 * obscuring the version, which can cause invalid requests.
+		 */
+		require ABSPATH . WPINC . '/version.php';
+
+		$query_args = array(
+			'locale'     => get_user_locale(),
+			'wp-version' => $wp_version,
+		);
+
 		$category_id = $request['category'];
 		$keyword_id  = $request['keyword'];
 		$search_term = $request['search'];
