@@ -354,11 +354,7 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
 		unset( $editor_settings['__experimentalFeatures']['typography']['customLineHeight'] );
 	}
 	if ( isset( $editor_settings['__experimentalFeatures']['spacing']['units'] ) ) {
-		if ( ! is_array( $editor_settings['__experimentalFeatures']['spacing']['units'] ) ) {
-			$editor_settings['enableCustomUnits'] = false;
-		} else {
-			$editor_settings['enableCustomUnits'] = count( $editor_settings['__experimentalFeatures']['spacing']['units'] ) > 0;
-		}
+		$editor_settings['enableCustomUnits'] = $editor_settings['__experimentalFeatures']['spacing']['units'];
 		unset( $editor_settings['__experimentalFeatures']['spacing']['units'] );
 	}
 	if ( isset( $editor_settings['__experimentalFeatures']['spacing']['customPadding'] ) ) {
