@@ -3590,6 +3590,11 @@ h6 {
 	margin-bottom: 0;
 }
 
+.widget-area .wp-block-latest-posts:not(.is-grid) > li {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
 .wp-block-latest-posts.is-grid {
 	word-wrap: break-word;
 	word-break: break-word;
@@ -3642,6 +3647,11 @@ h6 {
 	.wp-block-latest-posts > li > a {
 		font-size: 2rem;
 	}
+}
+
+.widget-area .wp-block-latest-posts > li > a {
+	font-size: 1.125rem;
+	margin-bottom: 0;
 }
 
 .wp-block-latest-posts .wp-block-latest-posts__post-author {

@@ -306,6 +306,10 @@ p.has-drop-cap:not(:focus)::first-letter {
 	margin-bottom: 4em;
 }
 
+.widget-area .wp-block-latest-comments article {
+	margin-bottom: 1em;
+}
+
 .blog:not(.has-sidebar) #primary .wp-block-latest-comments article,
 .archive:not(.page-one-column):not(.has-sidebar) #primary .wp-block-latest-comments article,
 .search:not(.has-sidebar) #primary .wp-block-latest-comments article {
@@ -322,6 +326,10 @@ p.has-drop-cap:not(:focus)::first-letter {
 	-webkit-box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 1);
 	box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 1);
 
+}
+
+.wp-block-latest-comments .wp-block-latest-comments__comment {
+	border-top: none;
 }
 
 .wp-block-latest-comments__comment-meta {
@@ -349,6 +357,12 @@ p.has-drop-cap:not(:focus)::first-letter {
 .editor-block-list__block .wp-block-latest-comments__comment-excerpt p {
 	font-size: 14px;
 	font-size: 0.875rem;
+}
+
+/* Query Loop & Post Template */
+
+.wp-block-query .wp-block-post-template > li {
+	border-top: none;
 }
 
 /*--------------------------------------------------------------

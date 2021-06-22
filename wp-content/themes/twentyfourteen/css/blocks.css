@@ -331,6 +331,15 @@ p.has-drop-cap:not(:focus)::first-letter {
 	color: #41a62a;
 }
 
+.widget-area .wp-block-latest-comments__comment-meta a {
+	color: #fff;
+}
+
+.widget-area .wp-block-latest-comments__comment-meta a:hover,
+.widget-area .wp-block-latest-comments__comment-meta a:focus {
+	color: #41a62a;
+}
+
 .wp-block-latest-comments__comment-excerpt p:last-child {
 }
 

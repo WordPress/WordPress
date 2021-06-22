@@ -2472,6 +2472,11 @@ h6,
 	margin-bottom: 0;
 }
 
+.widget-area .wp-block-latest-posts:not(.is-grid) > li {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
 .wp-block-latest-posts.is-grid {
 	word-wrap: break-word;
 	word-break: break-word;
@@ -2518,6 +2523,11 @@ h6,
 	font-weight: var(--heading--font-weight);
 	line-height: var(--global--line-height-heading);
 	margin-bottom: calc(0.333 * var(--global--spacing-vertical));
+}
+
+.widget-area .wp-block-latest-posts > li > a {
+	font-size: var(--global--font-size-sm);
+	margin-bottom: 0;
 }
 
 .wp-block-latest-posts .wp-block-latest-posts__post-author {

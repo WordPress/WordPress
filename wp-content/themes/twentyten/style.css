@@ -1285,6 +1285,11 @@ h3#reply-title {
 	margin-left: 1.3em;
 	padding: 0;
 }
+
+#main .widget-area ul.wp-block-latest-posts.wp-block-latest-posts__list {
+	list-style: square;
+}
+
 #primary {
 }
 #secondary {

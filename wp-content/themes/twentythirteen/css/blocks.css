@@ -583,7 +583,7 @@ body:not(.sidebar) .wp-block-table.alignfull {
 	font-size: 16px;
 }
 
-.wp-block-latest-comments .wp-block-latest-comments__comment {
+.wp-block-latest-comments .wp-block-latest-comments__comment:not(:first-child) {
 	background: url(../images/dotted-line.png) repeat-x left top;
 	margin-bottom: 0;
 	padding: 24px 0;

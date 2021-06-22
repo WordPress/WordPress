@@ -15,6 +15,11 @@
 		}
 	}
 
+	.widget-area &:not(.is-grid) > li {
+		margin-top: 0;
+		margin-bottom: 0;
+	}
+
 	&.is-grid {
 		word-wrap: break-word;
 		word-break: break-word;
@@ -63,6 +68,11 @@
 		font-weight: var(--heading--font-weight);
 		line-height: var(--global--line-height-heading);
 		margin-bottom: calc(0.333 * var(--global--spacing-vertical));
+	}
+
+	.widget-area & > li > a {
+		font-size: var(--global--font-size-sm);
+		margin-bottom: 0;
 	}
 
 	// Post author
