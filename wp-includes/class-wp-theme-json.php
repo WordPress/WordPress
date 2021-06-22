@@ -711,11 +711,11 @@ class WP_Theme_JSON {
 			foreach ( $preset['classes'] as $class ) {
 				foreach ( $preset_by_slug as $slug => $value ) {
 					$stylesheet .= self::to_ruleset(
-						self::append_to_selector( $selector, '.has-' . $slug . '-' . $class['class_suffix'] ),
+						self::append_to_selector( $selector, '.has-' . _wp_to_kebab_case( $slug ) . '-' . $class['class_suffix'] ),
 						array(
 							array(
 								'name'  => $class['property_name'],
-								'value' => $value . ' !important',
+								'value' => 'var(--wp--preset--' . $preset['css_var_infix'] . '--' . _wp_to_kebab_case( $slug ) . ') !important',
 							),
 						)
 					);
@@ -751,7 +751,7 @@ class WP_Theme_JSON {
 			$preset_by_slug    = self::get_merged_preset_by_slug( $preset_per_origin, $preset['value_key'] );
 			foreach ( $preset_by_slug as $slug => $value ) {
 				$declarations[] = array(
-					'name'  => '--wp--preset--' . $preset['css_var_infix'] . '--' . $slug,
+					'name'  => '--wp--preset--' . $preset['css_var_infix'] . '--' . _wp_to_kebab_case( $slug ),
 					'value' => $value,
 				);
 			}
