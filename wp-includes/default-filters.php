@@ -215,6 +215,7 @@ add_filter( 'widget_text_content', 'wp_replace_insecure_home_url' );
 add_filter( 'widget_text_content', 'do_shortcode', 11 ); // Runs after wpautop(); note that $post global will be null when shortcodes run.
 
 add_filter( 'widget_block_content', 'do_blocks', 9 );
+add_filter( 'widget_block_content', 'wp_filter_content_tags' );
 add_filter( 'widget_block_content', 'do_shortcode', 11 );
 
 add_filter( 'block_type_metadata', 'wp_migrate_old_typography_shape' );
