@@ -2927,8 +2927,6 @@ function wp_ajax_get_attachment() {
  * Ajax handler for querying attachments.
  *
  * @since 3.5.0
- * @since 5.8.0 The response returns the attachments under `response.attachments` and
- *              `response.totalAttachments` holds the total number of attachments found.
  */
 function wp_ajax_query_attachments() {
 	if ( ! current_user_can( 'upload_files' ) ) {
