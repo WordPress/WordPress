@@ -2006,16 +2006,3 @@ function wp_render_widget_control( $id ) {
 
 	return ob_get_clean();
 }
-
-// Needed until src/blocks/legacy-widget/index.php in @wordpress/block-library
-// is updated to use the 'wp_' functions.
-function gutenberg_find_widgets_sidebar( $widget_id ) {
-	return wp_find_widgets_sidebar( $widget_id );
-}
-function gutenberg_render_widget( $widget_id, $sidebar_id ) {
-	return wp_render_widget( $widget_id, $sidebar_id );
-}
-function gutenberg_get_widget_object( $id_base ) {
-	global $wp_widget_factory;
-	return $wp_widget_factory->get_widget_object( $id_base );
-}
