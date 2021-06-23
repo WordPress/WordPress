@@ -2999,7 +2999,7 @@ function wp_ajax_query_attachments() {
 		unset( $query['paged'] );
 
 		$count_query = new WP_Query();
-		$count_query->query( $query_args );
+		$count_query->query( $query );
 		$total_posts = $count_query->found_posts;
 	}
 
