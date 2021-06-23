@@ -265,7 +265,7 @@ class WP_Theme_JSON_Resolver {
 	 *
 	 * @since 5.8.0
 	 *
-	 * @param array $theme_support_data Theme support data in theme.json format.
+	 * @param array $theme_support_data Theme support data in theme.json format. Default empty array.
 	 * @return WP_Theme_JSON Entity that holds theme data.
 	 */
 	public static function get_theme_data( $theme_support_data = array() ) {
@@ -318,7 +318,9 @@ class WP_Theme_JSON_Resolver {
 	/**
 	 * Whether the current theme has a theme.json file.
 	 *
-	 * @return boolean
+	 * @since 5.8.0
+	 *
+	 * @return bool
 	 */
 	public static function theme_has_support() {
 		if ( ! isset( self::$theme_has_support ) ) {

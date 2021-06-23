@@ -45,7 +45,7 @@ function wp_register_border_support( $block_type ) {
  * @since 5.8.0
  * @access private
  *
- * @param WP_Block_type $block_type       Block type.
+ * @param WP_Block_Type $block_type       Block type.
  * @param array         $block_attributes Block attributes.
  *
  * @return array Border CSS classes and inline styles.
@@ -123,7 +123,7 @@ function wp_apply_border_support( $block_type, $block_attributes ) {
  * @since 5.8.0
  * @access private
  *
- * @param WP_Block_type $block_type Block type.
+ * @param WP_Block_Type $block_type Block type.
  *
  * @return boolean
  */

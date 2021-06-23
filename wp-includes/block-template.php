@@ -93,10 +93,8 @@ function locate_block_template( $template, $type, array $templates ) {
  * @access private
  * @since 5.8.0
  *
- * Accepts an optional $template_hierarchy argument as a hint.
- *
  * @param string   $template_type      The current template type.
- * @param string[] $template_hierarchy (optional) The current template hierarchy, ordered by priority.
+ * @param string[] $template_hierarchy The current template hierarchy, ordered by priority.
  * @return WP_Block_Template|null template A template object, or null if none could be found.
  */
 function resolve_block_template( $template_type, $template_hierarchy ) {
@@ -187,10 +185,10 @@ function get_the_block_template_html() {
 /**
  * Renders a 'viewport' meta tag.
  *
+ * This is hooked into {@see 'wp_head'} to decouple its output from the default template canvas.
+ *
  * @access private
  * @since 5.8.0
- *
- * This is hooked into {@see 'wp_head'} to decouple its output from the default template canvas.
  */
 function _block_template_viewport_meta_tag() {
 	echo '<meta name="viewport" content="width=device-width, initial-scale=1" />' . "\n";

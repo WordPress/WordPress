@@ -214,8 +214,6 @@ function register_block_type_from_metadata( $file_or_folder, $args = array() ) {
 
 	/**
 	 * Add `style` and `editor_style` for core blocks if missing.
-	 *
-	 * @since 5.8.0
 	 */
 	if ( ! empty( $metadata['name'] ) && 0 === strpos( $metadata['name'], 'core/' ) ) {
 		$block_name = str_replace( 'core/', '', $metadata['name'] );

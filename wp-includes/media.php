@@ -4356,7 +4356,7 @@ function wp_enqueue_media( $args = array() ) {
 	 *
 	 * @since 5.8.0
 	 *
-	 * @param bool $value The filtered value, defaults to `false`.
+	 * @param bool $infinite Whether the Media Library grid has infinite scrolling.
 	 */
 	$infinite_scrolling = apply_filters( 'media_library_infinite_scrolling', false );
 

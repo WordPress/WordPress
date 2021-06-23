@@ -667,7 +667,7 @@ function wp_start_object_cache() {
 	// Only perform the following checks once.
 
 	/**
-	 * Filters whether to enable loading of the objectcache.php drop-in.
+	 * Filters whether to enable loading of the object-cache.php drop-in.
 	 *
 	 * This filter runs before it can be used by plugins. It is designed for non-web
 	 * run-times. If false is returned, object-cache.php will never be loaded.

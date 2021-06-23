@@ -10,7 +10,7 @@
 /**
  * Returns the list of default categories for block types.
  *
- * @since 5.8.0.
+ * @since 5.8.0
  *
  * @return array[] Array of categories for block types.
  */

@@ -98,7 +98,7 @@ class WP_Widget_Block extends WP_Widget {
 	 *
 	 * @since 5.8.0
 	 *
-	 * @param array $content The HTML content of the current block widget.
+	 * @param string $content The HTML content of the current block widget.
 	 *
 	 * @return string The classname to use in the block widget's container HTML.
 	 */
@@ -191,9 +191,9 @@ class WP_Widget_Block extends WP_Widget {
 	 *
 	 * @since 5.8.0
 	 *
-	 * @param array $instance Current instance.
-	 *
 	 * @see WP_Widget_Custom_HTML::render_control_template_scripts()
+	 *
+	 * @param array $instance Current instance.
 	 */
 	public function form( $instance ) {
 		$instance = wp_parse_args( (array) $instance, $this->default_instance );

@@ -56,9 +56,8 @@ function _build_template_result_from_post( $post ) {
  *     @type array  $slug__in List of slugs to include.
  *     @type int    $wp_id Post ID of customized template.
  * }
- * @param string $template_type wp_template.
- *
- * @return array Templates.
+ * @param string $template_type Optional. The template type (post type). Default 'wp_template'.
+ * @return WP_Block_Template[] Block template objects.
  */
 function get_block_templates( $query = array(), $template_type = 'wp_template' ) {
 	$wp_query_args = array(

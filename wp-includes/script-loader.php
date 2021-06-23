@@ -2603,7 +2603,7 @@ function wp_maybe_inline_styles() {
 	 *
 	 * @since 5.8.0
 	 *
-	 * @param int $total_inline_limit The file-size threshold, in bytes. Defaults to 20000.
+	 * @param int $total_inline_limit The file-size threshold, in bytes. Default 20000.
 	 */
 	$total_inline_limit = apply_filters( 'styles_inline_size_limit', $total_inline_limit );
 

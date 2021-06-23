@@ -42,8 +42,6 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
 	 * Registers the controllers routes.
 	 *
 	 * @since 5.8.0
-	 *
-	 * @return void
 	 */
 	public function register_routes() {
 		// Lists all templates.

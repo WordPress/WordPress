@@ -355,23 +355,23 @@ class WP_Theme_JSON {
 	 *
 	 * Example:
 	 *
-	 * {
-	 *   'core/paragraph': {
-	 *     'selector': 'p',
-	 *     'elements': {
-	 *       'link' => 'link selector',
-	 *       'etc'  => 'element selector'
+	 *     {
+	 *       'core/paragraph': {
+	 *         'selector': 'p',
+	 *         'elements': {
+	 *           'link' => 'link selector',
+	 *           'etc'  => 'element selector'
+	 *         }
+	 *       },
+	 *       'core/heading': {
+	 *         'selector': 'h1',
+	 *         'elements': {}
+	 *       }
+	 *       'core/group': {
+	 *         'selector': '.wp-block-group',
+	 *         'elements': {}
+	 *       }
 	 *     }
-	 *   },
-	 *   'core/heading': {
-	 *     'selector': 'h1',
-	 *     'elements': {}
-	 *   }
-	 *   'core/group': {
-	 *     'selector': '.wp-block-group',
-	 *     'elements': {}
-	 *   }
-	 * }
 	 *
 	 * @since 5.8.0
 	 *
@@ -517,25 +517,25 @@ class WP_Theme_JSON {
 	 * Additionally, it'll also create new rulesets
 	 * as classes for each preset value such as:
 	 *
-	 *   .has-value-color {
-	 *     color: value;
-	 *   }
+	 *     .has-value-color {
+	 *       color: value;
+	 *     }
 	 *
-	 *   .has-value-background-color {
-	 *     background-color: value;
-	 *   }
+	 *     .has-value-background-color {
+	 *       background-color: value;
+	 *     }
 	 *
-	 *   .has-value-font-size {
-	 *     font-size: value;
-	 *   }
+	 *     .has-value-font-size {
+	 *       font-size: value;
+	 *     }
 	 *
-	 *   .has-value-gradient-background {
-	 *     background: value;
-	 *   }
+	 *     .has-value-gradient-background {
+	 *       background: value;
+	 *     }
 	 *
-	 *   p.has-value-gradient-background {
-	 *     background: value;
-	 *   }
+	 *     p.has-value-gradient-background {
+	 *       background: value;
+	 *     }
 	 *
 	 * @since 5.8.0
 	 *
@@ -580,10 +580,10 @@ class WP_Theme_JSON {
 	 *
 	 * For each section this creates a new ruleset such as:
 	 *
-	 *   block-selector {
-	 *     --wp--preset--category--slug: value;
-	 *     --wp--custom--variable: value;
-	 *   }
+	 *     block-selector {
+	 *       --wp--preset--category--slug: value;
+	 *       --wp--custom--variable: value;
+	 *     }
 	 *
 	 * @since 5.8.0
 	 *
@@ -612,9 +612,6 @@ class WP_Theme_JSON {
 	/**
 	 * Given a selector and a declaration list,
 	 * creates the corresponding ruleset.
-	 *
-	 * To help debugging, will add some space
-	 * if SCRIPT_DEBUG is defined and true.
 	 *
 	 * @since 5.8.0
 	 *
@@ -731,12 +728,10 @@ class WP_Theme_JSON {
 	 * for the presets and adds them to the $declarations array
 	 * following the format:
 	 *
-	 * ```php
-	 * array(
-	 *   'name'  => 'property_name',
-	 *   'value' => 'property_value,
-	 * )
-	 * ```
+	 *     array(
+	 *       'name'  => 'property_name',
+	 *       'value' => 'property_value,
+	 *     )
 	 *
 	 * @since 5.8.0
 	 *
@@ -765,12 +760,10 @@ class WP_Theme_JSON {
 	 * for the custom values and adds them to the $declarations
 	 * array following the format:
 	 *
-	 * ```php
-	 * array(
-	 *   'name'  => 'property_name',
-	 *   'value' => 'property_value,
-	 * )
-	 * ```
+	 *     array(
+	 *       'name'  => 'property_name',
+	 *       'value' => 'property_value,
+	 *     )
 	 *
 	 * @since 5.8.0
 	 *
@@ -808,19 +801,19 @@ class WP_Theme_JSON {
 	 * For example, assuming the given prefix is '--wp'
 	 * and the token is '--', for this input tree:
 	 *
-	 * {
-	 *   'some/property': 'value',
-	 *   'nestedProperty': {
-	 *     'sub-property': 'value'
-	 *   }
-	 * }
+	 *     {
+	 *       'some/property': 'value',
+	 *       'nestedProperty': {
+	 *         'sub-property': 'value'
+	 *       }
+	 *     }
 	 *
 	 * it'll return this output:
 	 *
-	 * {
-	 *   '--wp--some-property': 'value',
-	 *   '--wp--nested-property--sub-property': 'value'
-	 * }
+	 *     {
+	 *       '--wp--some-property': 'value',
+	 *       '--wp--nested-property--sub-property': 'value'
+	 *     }
 	 *
 	 * @since 5.8.0
 	 *
@@ -856,12 +849,10 @@ class WP_Theme_JSON {
 	 * Given a styles array, it extracts the style properties
 	 * and adds them to the $declarations array following the format:
 	 *
-	 * ```php
-	 * array(
-	 *   'name'  => 'property_name',
-	 *   'value' => 'property_value,
-	 * )
-	 * ```
+	 *     array(
+	 *       'name'  => 'property_name',
+	 *       'value' => 'property_value,
+	 *     )
 	 *
 	 * @since 5.8.0
 	 *
@@ -967,16 +958,16 @@ class WP_Theme_JSON {
 	/**
 	 * Builds metadata for the setting nodes, which returns in the form of:
 	 *
-	 * [
-	 *   [
-	 *     'path'     => ['path', 'to', 'some', 'node' ],
-	 *     'selector' => 'CSS selector for some node'
-	 *   ],
-	 *   [
-	 *     'path'     => [ 'path', 'to', 'other', 'node' ],
-	 *     'selector' => 'CSS selector for other node'
-	 *   ],
-	 * ]
+	 *     [
+	 *       [
+	 *         'path'     => ['path', 'to', 'some', 'node' ],
+	 *         'selector' => 'CSS selector for some node'
+	 *       ],
+	 *       [
+	 *         'path'     => [ 'path', 'to', 'other', 'node' ],
+	 *         'selector' => 'CSS selector for other node'
+	 *       ],
+	 *     ]
 	 *
 	 * @since 5.8.0
 	 *
@@ -1021,16 +1012,16 @@ class WP_Theme_JSON {
 	/**
 	 * Builds metadata for the style nodes, which returns in the form of:
 	 *
-	 * [
-	 *   [
-	 *     'path'     => [ 'path', 'to', 'some', 'node' ],
-	 *     'selector' => 'CSS selector for some node'
-	 *   ],
-	 *   [
-	 *     'path'     => ['path', 'to', 'other', 'node' ],
-	 *     'selector' => 'CSS selector for other node'
-	 *   ],
-	 * ]
+	 *     [
+	 *       [
+	 *         'path'     => [ 'path', 'to', 'some', 'node' ],
+	 *         'selector' => 'CSS selector for some node'
+	 *       ],
+	 *       [
+	 *         'path'     => ['path', 'to', 'other', 'node' ],
+	 *         'selector' => 'CSS selector for other node'
+	 *       ],
+	 *     ]
 	 *
 	 * @since 5.8.0
 	 *
