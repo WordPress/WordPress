@@ -1801,14 +1801,24 @@ function wp_widgets_init() {
 
 	register_widget( 'WP_Widget_Block' );
 
-	add_theme_support( 'widgets-block-editor' );
-
 	/**
 	 * Fires after all default WordPress widgets have been registered.
 	 *
 	 * @since 2.2.0
 	 */
 	do_action( 'widgets_init' );
+}
+
+/**
+ * Enables the widgets block editor. This is hooked into 'after_setup_theme' so
+ * that the block editor is enabled by default but can be disabled by themes.
+ *
+ * @since 5.8.0
+ *
+ * @access private
+ */
+function wp_setup_widgets_block_editor() {
+	add_theme_support( 'widgets-block-editor' );
 }
 
 /**
