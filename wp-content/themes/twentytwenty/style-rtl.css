@@ -3444,6 +3444,14 @@ figure.wp-block-table.is-style-stripes {
 	margin-top: 0;
 }
 
+/* Block: Post Template ---------------- */
+
+.wp-block-post-template,
+.wp-block-post-template > li {
+	margin-right: 0;
+	margin-left: 0;
+}
+
 
 /* -------------------------------------------------------------------------- */
 

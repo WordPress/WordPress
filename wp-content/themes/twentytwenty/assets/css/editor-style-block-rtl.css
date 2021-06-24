@@ -1084,6 +1084,12 @@ hr.wp-block-separator.is-style-dots::before {
 	padding-right: 1.3em;
 }
 
+/* Block: Post Template ---------------- */
+
+.editor-styles-wrapper ul.wp-block-post-template {
+	padding-right: 0;
+}
+
 
 /*	X.	Media Queries
 /* ------------------------------------------- */
