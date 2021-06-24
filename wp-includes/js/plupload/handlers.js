@@ -604,7 +604,12 @@ jQuery( document ).ready( function( $ ) {
 			plupload.each( files, function( file ) {
 				if ( file.type === 'image/heic' && up.settings.heic_upload_error ) {
 					// Show error but do not block uploading.
-					wpQueueError( pluploadL10n.unsupported_image )
+					wpQueueError( pluploadL10n.unsupported_image );
+				} else if ( file.type === 'image/webp' && up.settings.webp_upload_error ) {
+					// Disallow uploading of WebP images if the server cannot edit them.
+					wpQueueError( pluploadL10n.noneditable_image );
+					up.removeFile( file );
+					return;
 				}
 
 				fileQueued( file );

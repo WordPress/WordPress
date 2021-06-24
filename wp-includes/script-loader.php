@@ -875,6 +875,7 @@ function wp_default_scripts( $scripts ) {
 		/* translators: %s: File name. */
 		'error_uploading'           => __( '&#8220;%s&#8221; has failed to upload.' ),
 		'unsupported_image'         => __( 'This image cannot be displayed in a web browser. For best results convert it to JPEG before uploading.' ),
+		'noneditable_image'         => __( 'This image cannot be processed by the web server. Convert it to JPEG or PNG before uploading.' ),
 		'file_url_copied'           => __( 'The file URL has been copied to your clipboard' ),
 	);
 

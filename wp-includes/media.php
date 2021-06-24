@@ -3858,6 +3858,11 @@ function wp_plupload_default_settings() {
 		$defaults['multi_selection'] = false;
 	}
 
+	// Check if WebP images can be edited.
+	if ( ! wp_image_editor_supports( array( 'mime_type' => 'image/webp' ) ) ) {
+	    $defaults['webp_upload_error'] = true;
+	}
+
 	/**
 	 * Filters the Plupload default settings.
 	 *
