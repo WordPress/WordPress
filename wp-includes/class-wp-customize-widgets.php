@@ -480,8 +480,10 @@ final class WP_Customize_Widgets {
 							$this->manager,
 							$setting_id,
 							array(
-								'section'    => $section_id,
-								'sidebar_id' => $sidebar_id,
+								'section'     => $section_id,
+								'sidebar_id'  => $sidebar_id,
+								'label'       => $section_args['title'],
+								'description' => $section_args['description'],
 							)
 						);
 					} else {
