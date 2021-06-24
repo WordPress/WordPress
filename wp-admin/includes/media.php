@@ -2200,7 +2200,7 @@ function media_upload_form( $errors = null ) {
 
 	// Check if WebP images can be edited.
 	if ( ! wp_image_editor_supports( array( 'mime_type' => 'image/webp' ) ) ) {
-	    $plupload_init['webp_upload_error'] = true;
+		$plupload_init['webp_upload_error'] = true;
 	}
 
 	/**
