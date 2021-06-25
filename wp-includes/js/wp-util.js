@@ -120,6 +120,8 @@ window.wp = window.wp || {};
 						var context = this;
 						deferred.done( function() {
 							if (
+								action &&
+								action.data &&
 								'query-attachments' === action.data.action &&
 								deferred.jqXHR.hasOwnProperty( 'getResponseHeader' ) &&
 								deferred.jqXHR.getResponseHeader( 'X-WP-Total' )
