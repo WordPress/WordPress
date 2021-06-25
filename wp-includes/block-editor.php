@@ -90,7 +90,7 @@ function get_block_categories( $post_or_block_editor_context ) {
 		 * Filters the default array of categories for block types.
 		 *
 		 * @since 5.0.0
-		 * @deprecated 5.8.0 The hook transitioned to support also screens that don't contain the $post instance.
+		 * @deprecated 5.8.0 Use the {@see 'block_categories_all'} filter instead.
 		 *
 		 * @param array[] $block_categories Array of categories for block types.
 		 * @param WP_Post $post             Post being loaded.
@@ -114,14 +114,12 @@ function get_allowed_block_types( $block_editor_context ) {
 	$allowed_block_types = true;
 
 	/**
-	 * Filters the allowed block types for all editor types, defaulting to `true`
-	 * (all registered block types supported).
-	 *
+	 * Filters the allowed block types for all editor types.
 	 *
 	 * @since 5.8.0
 	 *
-	 * @param bool|array              $allowed_block_types  Array of block type slugs, or
-	 *                                                      boolean to enable/disable all.
+	 * @param bool|array              $allowed_block_types  Array of block type slugs, or boolean to enable/disable all.
+	 *                                                      Default true (all registered block types supported).
 	 * @param WP_Block_Editor_Context $block_editor_context The current block editor context.
 	 */
 	$allowed_block_types = apply_filters( 'allowed_block_types_all', $allowed_block_types, $block_editor_context );
@@ -129,14 +127,13 @@ function get_allowed_block_types( $block_editor_context ) {
 		$post = $block_editor_context->post;
 
 		/**
-		 * Filters the allowed block types for the editor, defaulting to true (all
-		 * block types supported).
+		 * Filters the allowed block types for the editor.
 		 *
 		 * @since 5.0.0
-		 * @deprecated 5.8.0 The hook transitioned to support also screens that don't contain $post instance.
+		 * @deprecated 5.8.0 Use the {@see 'allowed_block_types_all'} filter instead.
 		 *
-		 * @param bool|array $allowed_block_types Array of block type slugs, or
-		 *                                        boolean to enable/disable all.
+		 * @param bool|array $allowed_block_types Array of block type slugs, or boolean to enable/disable all.
+		 *                                        Default true (all registered block types supported)
 		 * @param WP_Post    $post                The post resource data.
 		 */
 		$allowed_block_types = apply_filters_deprecated( 'allowed_block_types', array( $allowed_block_types, $post ), '5.8.0', 'allowed_block_types_all' );
@@ -378,7 +375,7 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
 		 * Filters the settings to pass to the block editor.
 		 *
 		 * @since 5.0.0
-		 * @deprecated 5.8.0 The hook transitioned to support also screens that don't contain $post instance.
+		 * @deprecated 5.8.0 Use the {@see 'block_editor_settings_all'} filter instead.
 		 *
 		 * @param array   $editor_settings Default editor settings.
 		 * @param WP_Post $post            Post being edited.
@@ -406,8 +403,7 @@ function block_editor_rest_api_preload( array $preload_paths, $block_editor_cont
 	global $post;
 
 	/**
-	 * Filters the array of REST API paths that will be used to preloaded common data
-	 * to use with the block editor.
+	 * Filters the array of REST API paths that will be used to preloaded common data for the block editor.
 	 *
 	 * @since 5.8.0
 	 *
@@ -418,12 +414,12 @@ function block_editor_rest_api_preload( array $preload_paths, $block_editor_cont
 		$selected_post = $block_editor_context->post;
 
 		/**
-		 * Preload common data by specifying an array of REST API paths that will be preloaded.
-		 *
 		 * Filters the array of paths that will be preloaded.
 		 *
+		 * Preload common data by specifying an array of REST API paths that will be preloaded.
+		 *
 		 * @since 5.0.0
-		 * @deprecated 5.8.0 The hook transitioned to support also screens that don't contain $post instance.
+		 * @deprecated 5.8.0 Use the {@see 'block_editor_rest_api_preload_paths'} filter instead.
 		 *
 		 * @param string[] $preload_paths Array of paths to preload.
 		 * @param WP_Post  $selected_post Post being edited.
