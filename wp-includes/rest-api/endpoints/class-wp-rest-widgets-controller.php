@@ -478,6 +478,7 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 				"widget-$id_base" => array(
 					$number => $instance,
 				),
+				'sidebar'         => $sidebar_id,
 			);
 		} elseif ( isset( $request['form_data'] ) ) {
 			$form_data = $request['form_data'];
