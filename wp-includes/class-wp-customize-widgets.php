@@ -1413,7 +1413,7 @@ final class WP_Customize_Widgets {
 		global $wp_widget_factory;
 
 		if ( array() === $value ) {
-			return;
+			return $value;
 		}
 
 		if ( isset( $value['raw_instance'] ) && $id_base && wp_use_widgets_block_editor() ) {
