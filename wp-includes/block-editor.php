@@ -470,12 +470,17 @@ function block_editor_rest_api_preload( array $preload_paths, $block_editor_cont
 function get_block_editor_theme_styles() {
 	global $editor_styles;
 
-	$styles = array(
-		array(
-			'css'            => 'body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif }',
-			'__unstableType' => 'core',
-		),
-	);
+	if ( ! WP_Theme_JSON_Resolver::theme_has_support() ) {
+		$styles = array(
+			array(
+				'css'            => 'body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif }',
+				'__unstableType' => 'core',
+			),
+		);
+	} else {
+		$styles = array();
+	}
+
 	if ( $editor_styles && current_theme_supports( 'editor-styles' ) ) {
 		foreach ( $editor_styles as $style ) {
 			if ( preg_match( '~^(https?:)?//~', $style ) ) {
