@@ -400,24 +400,43 @@ body.is-fullscreen-mode .interface-interface-skeleton {
 }
 .wp-block[data-type="core/widget-area"] .components-panel__body > .components-panel__body-title {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-  margin-bottom: 0;
+  margin: 0;
+  height: 48px;
+  position: relative;
+  z-index: 1;
+  background: #fff;
+  transform: translateZ(0);
 }
 .wp-block[data-type="core/widget-area"] .components-panel__body > .components-panel__body-title:hover {
-  background: inherit;
-}
-.wp-block[data-type="core/widget-area"] .components-panel__body .editor-styles-wrapper {
-  margin: 0 -16px -16px -16px;
-  padding: 16px;
+  background: #fff;
 }
 .wp-block[data-type="core/widget-area"] .block-list-appender.wp-block {
   width: initial;
 }
-
-.wp-block-widget-area > .components-panel__body > div > .editor-styles-wrapper > .block-editor-inner-blocks {
-  padding-top: 24px;
+.wp-block[data-type="core/widget-area"] .editor-styles-wrapper .wp-block.wp-block.wp-block.wp-block.wp-block {
+  max-width: 100%;
 }
-.wp-block-widget-area > .components-panel__body > div > .editor-styles-wrapper > .block-editor-inner-blocks > .block-editor-block-list__layout {
+.wp-block[data-type="core/widget-area"] .components-panel__body.is-opened {
+  padding: 0;
+}
+
+.blocks-widgets-container .wp-block-widget-area__inner-blocks.editor-styles-wrapper {
+  margin: 0;
+  padding: 0;
+}
+.blocks-widgets-container .wp-block-widget-area__inner-blocks.editor-styles-wrapper > .block-editor-block-list__layout {
+  margin-top: -48px;
+  padding: 72px 16px 16px;
   min-height: 32px;
+}
+
+.wp-block-widget-area__highlight-drop-zone {
+  outline: var(--wp-admin-border-width-focus) solid var(--wp-admin-theme-color);
+}
+
+body.is-dragging-components-draggable .wp-block[data-type="core/widget-area"] .components-panel__body > .components-panel__body-title,
+body.is-dragging-components-draggable .wp-block[data-type="core/widget-area"] .components-panel__body > .components-panel__body-title * {
+  pointer-events: none;
 }
 
 .edit-widgets-header {
@@ -773,8 +792,20 @@ body.is-fullscreen-mode .edit-widgets-notices__snackbar {
 
 .edit-widgets-block-editor {
   position: relative;
-  background: #f0f0f0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+.edit-widgets-block-editor > div:last-of-type,
+.edit-widgets-block-editor .block-editor-writing-flow,
+.edit-widgets-block-editor .block-editor-writing-flow > div {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+.edit-widgets-block-editor .edit-widgets-main-block-list {
+  height: 100%;
 }
 .edit-widgets-block-editor .components-button {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
@@ -866,6 +897,10 @@ body.widgets-php .media-frame select.attachment-filters:last-of-type {
 
 .edit-widgets-sidebar .components-button.interface-complementary-area__pin-unpin-item {
   display: none;
+}
+
+.widgets-php .notice {
+  display: none !important;
 }
 
 body.admin-color-light {

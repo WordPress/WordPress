@@ -2413,6 +2413,8 @@ Object(external_wp_hooks_["addFilter"])('editor.BlockEdit', 'core/customize-widg
 const {
   wp: build_module_wp
 } = window;
+const DISABLED_BLOCKS = ['core/more', 'core/block', 'core/freeform'];
+const ENABLE_EXPERIMENTAL_FSE_BLOCKS = false;
 /**
  * Initializes the widgets block editor in the customizer.
  *
@@ -2421,7 +2423,9 @@ const {
  */
 
 function initialize(editorName, blockEditorSettings) {
-  const coreBlocks = Object(external_wp_blockLibrary_["__experimentalGetCoreBlocks"])().filter(block => !['core/more', 'core/freeform'].includes(block.name));
+  const coreBlocks = Object(external_wp_blockLibrary_["__experimentalGetCoreBlocks"])().filter(block => {
+    return !(DISABLED_BLOCKS.includes(block.name) || block.name.startsWith('core/post') || block.name.startsWith('core/query') || block.name.startsWith('core/site'));
+  });
 
   Object(external_wp_blockLibrary_["registerCoreBlocks"])(coreBlocks);
   Object(external_wp_widgets_["registerLegacyWidgetBlock"])();

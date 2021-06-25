@@ -6,7 +6,7 @@
  */
 
 /**
- * When the `core/file` block is rendering, check if we need to enqueue the `'wp-block-library-file` script.
+ * When the `core/file` block is rendering, check if we need to enqueue the `'wp-block-file-view` script.
  *
  * @param array $attributes The block attributes.
  * @param array $content    The block content.
@@ -14,11 +14,9 @@
  * @return string Returns the block content.
  */
 function render_block_core_file( $attributes, $content ) {
-	if ( ! empty( $attributes['displayPreview'] ) ) {
-		// Check if it's already enqueued, so we don't add the inline script multiple times.
-		if ( ! wp_script_is( 'wp-block-library-file' ) ) {
-			wp_enqueue_script( 'wp-block-library-file', plugins_url( 'file/frontend.js', __FILE__ ) );
-		}
+	$should_load_view_script = ! empty( $attributes['displayPreview'] ) && ! wp_script_is( 'wp-block-file-view' );
+	if ( $should_load_view_script ) {
+		wp_enqueue_script( 'wp-block-file-view' );
 	}
 
 	return $content;

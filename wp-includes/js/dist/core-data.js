@@ -2225,7 +2225,8 @@ function getQueryParts(query) {
     page: 1,
     perPage: 10,
     fields: null,
-    include: null
+    include: null,
+    context: 'default'
   }; // Ensure stable key by sorting keys. Also more efficient for iterating.
 
   const keys = Object.keys(query).sort();
@@ -2245,6 +2246,10 @@ function getQueryParts(query) {
 
       case 'include':
         parts.include = get_normalized_comma_separable(value).map(Number);
+        break;
+
+      case 'context':
+        parts.context = value;
         break;
 
       default:
@@ -2293,6 +2298,19 @@ function getQueryParts(query) {
 
 
 
+
+function getContextFromAction(action) {
+  const {
+    query
+  } = action;
+
+  if (!query) {
+    return 'default';
+  }
+
+  const queryParts = get_query_parts(query);
+  return queryParts.context;
+}
 /**
  * Returns a merged array of item IDs, given details of the received paginated
  * items. The array is sparse-like with `undefined` entries where holes exist.
@@ -2304,6 +2322,7 @@ function getQueryParts(query) {
  *
  * @return {number[]} Merged array of item IDs.
  */
+
 
 function getMergedItemIds(itemIds, nextItemIds, page, perPage) {
   const receivedAllIds = page === 1 && perPage === -1;
@@ -2340,18 +2359,24 @@ function getMergedItemIds(itemIds, nextItemIds, page, perPage) {
 function reducer_items(state = {}, action) {
   switch (action.type) {
     case 'RECEIVE_ITEMS':
-      const key = action.key || DEFAULT_ENTITY_KEY;
-      return { ...state,
-        ...action.items.reduce((accumulator, value) => {
-          const itemId = value[key];
-          accumulator[itemId] = conservativeMapItem(state[itemId], value);
-          return accumulator;
-        }, {})
-      };
+      {
+        const context = getContextFromAction(action);
+        const key = action.key || DEFAULT_ENTITY_KEY;
+        return { ...state,
+          [context]: { ...state[context],
+            ...action.items.reduce((accumulator, value) => {
+              var _state$context;
+
+              const itemId = value[key];
+              accumulator[itemId] = conservativeMapItem(state === null || state === void 0 ? void 0 : (_state$context = state[context]) === null || _state$context === void 0 ? void 0 : _state$context[itemId], value);
+              return accumulator;
+            }, {})
+          }
+        };
+      }
 
     case 'REMOVE_ITEMS':
-      const newState = Object(external_lodash_["omit"])(state, action.itemIds);
-      return newState;
+      return Object(external_lodash_["mapValues"])(state, contextState => Object(external_lodash_["omit"])(contextState, action.itemIds));
   }
 
   return state;
@@ -2369,34 +2394,43 @@ function reducer_items(state = {}, action) {
  * @return {Object<string,boolean>} Next state.
  */
 
-
 function itemIsComplete(state = {}, action) {
-  const {
-    type,
-    query,
-    key = DEFAULT_ENTITY_KEY
-  } = action;
+  switch (action.type) {
+    case 'RECEIVE_ITEMS':
+      {
+        const context = getContextFromAction(action);
+        const {
+          query,
+          key = DEFAULT_ENTITY_KEY
+        } = action; // An item is considered complete if it is received without an associated
+        // fields query. Ideally, this would be implemented in such a way where the
+        // complete aggregate of all fields would satisfy completeness. Since the
+        // fields are not consistent across all entity types, this would require
+        // introspection on the REST schema for each entity to know which fields
+        // compose a complete item for that entity.
 
-  if (type !== 'RECEIVE_ITEMS') {
-    return state;
-  } // An item is considered complete if it is received without an associated
-  // fields query. Ideally, this would be implemented in such a way where the
-  // complete aggregate of all fields would satisfy completeness. Since the
-  // fields are not consistent across all entity types, this would require
-  // introspection on the REST schema for each entity to know which fields
-  // compose a complete item for that entity.
+        const queryParts = query ? get_query_parts(query) : {};
+        const isCompleteQuery = !query || !Array.isArray(queryParts.fields);
+        return { ...state,
+          [context]: { ...state[context],
+            ...action.items.reduce((result, item) => {
+              var _state$context2;
 
+              const itemId = item[key]; // Defer to completeness if already assigned. Technically the
+              // data may be outdated if receiving items for a field subset.
 
-  const isCompleteQuery = !query || !Array.isArray(get_query_parts(query).fields);
-  return { ...state,
-    ...action.items.reduce((result, item) => {
-      const itemId = item[key]; // Defer to completeness if already assigned. Technically the
-      // data may be outdated if receiving items for a field subset.
+              result[itemId] = (state === null || state === void 0 ? void 0 : (_state$context2 = state[context]) === null || _state$context2 === void 0 ? void 0 : _state$context2[itemId]) || isCompleteQuery;
+              return result;
+            }, {})
+          }
+        };
+      }
 
-      result[itemId] = state[itemId] || isCompleteQuery;
-      return result;
-    }, {})
-  };
+    case 'REMOVE_ITEMS':
+      return Object(external_lodash_["mapValues"])(state, contextState => Object(external_lodash_["omit"])(contextState, action.itemIds));
+  }
+
+  return state;
 }
 /**
  * Reducer tracking queries state, keyed by stable query key. Each reducer
@@ -2422,7 +2456,7 @@ replace_action(action => {
   }
 
   return action;
-}), // Queries shape is shared, but keyed by query `stableKey` part. Original
+}), on_sub_key('context'), // Queries shape is shared, but keyed by query `stableKey` part. Original
 // reducer tracks only a single query object.
 on_sub_key('stableKey')])((state = null, action) => {
   const {
@@ -2453,18 +2487,17 @@ const reducer_queries = (state = {}, action) => {
       return receiveQueries(state, action);
 
     case 'REMOVE_ITEMS':
-      const newState = { ...state
-      };
       const removedItems = action.itemIds.reduce((result, itemId) => {
         result[itemId] = true;
         return result;
       }, {});
-      Object(external_lodash_["forEach"])(newState, (queryItems, key) => {
-        newState[key] = Object(external_lodash_["filter"])(queryItems, queryId => {
-          return !removedItems[queryId];
+      return Object(external_lodash_["mapValues"])(state, contextQueries => {
+        return Object(external_lodash_["mapValues"])(contextQueries, queryItems => {
+          return Object(external_lodash_["filter"])(queryItems, queryId => {
+            return !removedItems[queryId];
+          });
         });
       });
-      return newState;
 
     default:
       return state;
@@ -2801,8 +2834,16 @@ function reducer_entity(entityConfig) {
   })])(Object(external_wp_data_["combineReducers"])({
     queriedData: reducer,
     edits: (state = {}, action) => {
+      var _action$query$context, _action$query;
+
       switch (action.type) {
         case 'RECEIVE_ITEMS':
+          const context = (_action$query$context = action === null || action === void 0 ? void 0 : (_action$query = action.query) === null || _action$query === void 0 ? void 0 : _action$query.context) !== null && _action$query$context !== void 0 ? _action$query$context : 'default';
+
+          if (context !== 'default') {
+            return state;
+          }
+
           const nextState = { ...state
           };
 
@@ -3179,12 +3220,15 @@ const queriedItemsCacheByState = new WeakMap();
  */
 
 function getQueriedItemsUncached(state, query) {
+  var _state$queries, _state$queries$contex;
+
   const {
     stableKey,
     page,
     perPage,
     include,
-    fields
+    fields,
+    context
   } = get_query_parts(query);
   let itemIds;
 
@@ -3195,8 +3239,8 @@ function getQueriedItemsUncached(state, query) {
     // accounted for below in the loop `null` return.
     itemIds = include; // TODO: Avoid storing the empty stable string in reducer, since it
     // can be computed dynamically here always.
-  } else if (state.queries[stableKey]) {
-    itemIds = state.queries[stableKey];
+  } else if ((_state$queries = state.queries) !== null && _state$queries !== void 0 && (_state$queries$contex = _state$queries[context]) !== null && _state$queries$contex !== void 0 && _state$queries$contex[stableKey]) {
+    itemIds = state.queries[context][stableKey];
   }
 
   if (!itemIds) {
@@ -3208,17 +3252,19 @@ function getQueriedItemsUncached(state, query) {
   const items = [];
 
   for (let i = startOffset; i < endOffset; i++) {
+    var _state$items$context;
+
     const itemId = itemIds[i];
 
     if (Array.isArray(include) && !include.includes(itemId)) {
       continue;
     }
 
-    if (!state.items.hasOwnProperty(itemId)) {
+    if (!((_state$items$context = state.items[context]) !== null && _state$items$context !== void 0 && _state$items$context.hasOwnProperty(itemId))) {
       return null;
     }
 
-    const item = state.items[itemId];
+    const item = state.items[context][itemId];
     let filteredItem;
 
     if (Array.isArray(fields)) {
@@ -3230,9 +3276,11 @@ function getQueriedItemsUncached(state, query) {
         Object(external_lodash_["set"])(filteredItem, field, value);
       }
     } else {
+      var _state$itemIsComplete;
+
       // If expecting a complete item, validate that completeness, or
       // otherwise abort.
-      if (!state.itemIsComplete[itemId]) {
+      if (!((_state$itemIsComplete = state.itemIsComplete[context]) !== null && _state$itemIsComplete !== void 0 && _state$itemIsComplete[itemId])) {
         return null;
       }
 
@@ -3416,22 +3464,28 @@ function getEntity(state, kind, name) {
  */
 
 function getEntityRecord(state, kind, name, key, query) {
+  var _query$context, _queriedState$items$c;
+
   const queriedState = Object(external_lodash_["get"])(state.entities.data, [kind, name, 'queriedData']);
 
   if (!queriedState) {
     return undefined;
   }
 
+  const context = (_query$context = query === null || query === void 0 ? void 0 : query.context) !== null && _query$context !== void 0 ? _query$context : 'default';
+
   if (query === undefined) {
+    var _queriedState$itemIsC;
+
     // If expecting a complete item, validate that completeness.
-    if (!queriedState.itemIsComplete[key]) {
+    if (!((_queriedState$itemIsC = queriedState.itemIsComplete[context]) !== null && _queriedState$itemIsC !== void 0 && _queriedState$itemIsC[key])) {
       return undefined;
     }
 
-    return queriedState.items[key];
+    return queriedState.items[context][key];
   }
 
-  const item = queriedState.items[key];
+  const item = (_queriedState$items$c = queriedState.items[context]) === null || _queriedState$items$c === void 0 ? void 0 : _queriedState$items$c[key];
 
   if (item && query._fields) {
     const filteredItem = {};
@@ -4181,8 +4235,8 @@ function* resolvers_getEntityRecords(kind, name, query = {}) {
       };
     }
 
-    const path = Object(external_wp_url_["addQueryArgs"])(entity.baseURL, { ...query,
-      context: 'edit'
+    const path = Object(external_wp_url_["addQueryArgs"])(entity.baseURL, { ...entity.baseURLParams,
+      ...query
     });
     let records = Object.values(yield Object(external_wp_dataControls_["apiFetch"])({
       path
@@ -4206,7 +4260,7 @@ function* resolvers_getEntityRecords(kind, name, query = {}) {
     // resolve the `getEntityRecord` selector in addition to `getEntityRecords`.
     // See https://github.com/WordPress/gutenberg/pull/26575
 
-    if (!((_query = query) !== null && _query !== void 0 && _query._fields)) {
+    if (!((_query = query) !== null && _query !== void 0 && _query._fields) && !query.context) {
       const key = entity.key || DEFAULT_ENTITY_KEY;
       const resolutionsArgs = records.filter(record => record[key]).map(record => [kind, name, record[key]]);
       yield {

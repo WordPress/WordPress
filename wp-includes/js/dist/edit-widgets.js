@@ -746,15 +746,18 @@ function* saveWidgetArea(widgetAreaId) {
 
   const areaWidgets = Object.values(widgets).filter(({
     sidebar
-  }) => sidebar === widgetAreaId); // Remove all duplicate reference widget instances
+  }) => sidebar === widgetAreaId); // Remove all duplicate reference widget instances for legacy widgets.
+  // Why? We filter out the widgets with duplicate IDs to prevent adding more than one instance of a widget
+  // implemented using a function. WordPress doesn't support having more than one instance of these, if you try to
+  // save multiple instances of these in different sidebars you will run into undefined behaviors.
 
   const usedReferenceWidgets = [];
-  const widgetsBlocks = post.blocks.filter(({
-    attributes: {
+  const widgetsBlocks = post.blocks.filter(block => {
+    const {
       id
-    }
-  }) => {
-    if (id) {
+    } = block.attributes;
+
+    if (block.name === 'core/legacy-widget' && id) {
       if (usedReferenceWidgets.includes(id)) {
         return false;
       }
@@ -1401,131 +1404,17 @@ Object(external_wp_hooks_["addFilter"])('editor.MediaUpload', 'core/edit-widgets
 // EXTERNAL MODULE: external ["wp","components"]
 var external_wp_components_ = __webpack_require__("tI+e");
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/blocks/widget-area/edit/inner-blocks.js
+// EXTERNAL MODULE: ./node_modules/classnames/index.js
+var classnames = __webpack_require__("TSYQ");
+var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);
 
-
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/blocks/widget-area/edit/use-is-dragging-within.js
 /**
  * WordPress dependencies
  */
-
-
-function WidgetAreaInnerBlocks() {
-  const [blocks, onInput, onChange] = Object(external_wp_coreData_["useEntityBlockEditor"])('root', 'postType');
-  return Object(external_wp_element_["createElement"])(external_wp_blockEditor_["InnerBlocks"], {
-    value: blocks,
-    onInput: onInput,
-    onChange: onChange,
-    templateLock: false,
-    renderAppender: external_wp_blockEditor_["InnerBlocks"].ButtonBlockAppender
-  });
-}
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/blocks/widget-area/edit/index.js
-
-
-/**
- * WordPress dependencies
- */
-
-
-
-
-/**
- * Internal dependencies
- */
-
-
 
 /** @typedef {import('@wordpress/element').RefObject} RefObject */
 
-function WidgetAreaEdit({
-  clientId,
-  className,
-  attributes: {
-    id,
-    name
-  }
-}) {
-  const isOpen = Object(external_wp_data_["useSelect"])(select => select(store).getIsWidgetAreaOpen(clientId), [clientId]);
-  const {
-    setIsWidgetAreaOpen
-  } = Object(external_wp_data_["useDispatch"])(store);
-  const wrapper = Object(external_wp_element_["useRef"])();
-  const setOpen = Object(external_wp_element_["useCallback"])(openState => setIsWidgetAreaOpen(clientId, openState), [clientId]);
-  const isDragging = useIsDragging(wrapper);
-  const isDraggingWithin = useIsDraggingWithin(wrapper);
-  const [openedWhileDragging, setOpenedWhileDragging] = Object(external_wp_element_["useState"])(false);
-  Object(external_wp_element_["useEffect"])(() => {
-    if (!isDragging) {
-      setOpenedWhileDragging(false);
-      return;
-    }
-
-    if (isDraggingWithin && !isOpen) {
-      setOpen(true);
-      setOpenedWhileDragging(true);
-    } else if (!isDraggingWithin && isOpen && openedWhileDragging) {
-      setOpen(false);
-    }
-  }, [isOpen, isDragging, isDraggingWithin, openedWhileDragging]);
-  return Object(external_wp_element_["createElement"])(external_wp_components_["Panel"], {
-    className: className,
-    ref: wrapper
-  }, Object(external_wp_element_["createElement"])(external_wp_components_["PanelBody"], {
-    title: name,
-    opened: isOpen,
-    onToggle: () => {
-      setIsWidgetAreaOpen(clientId, !isOpen);
-    },
-    scrollAfterOpen: !isDragging
-  }, ({
-    opened
-  }) => // This is required to ensure LegacyWidget blocks are not
-  // unmounted when the panel is collapsed. Unmounting legacy
-  // widgets may have unintended consequences (e.g.  TinyMCE
-  // not being properly reinitialized)
-  Object(external_wp_element_["createElement"])(external_wp_components_["__unstableDisclosureContent"], {
-    visible: opened
-  }, Object(external_wp_element_["createElement"])("div", {
-    className: "editor-styles-wrapper"
-  }, Object(external_wp_element_["createElement"])(external_wp_coreData_["EntityProvider"], {
-    kind: "root",
-    type: "postType",
-    id: `widget-area-${id}`
-  }, Object(external_wp_element_["createElement"])(WidgetAreaInnerBlocks, null))))));
-}
-/**
- * A React hook to determine if dragging is active.
- *
- * @param {RefObject<HTMLElement>} elementRef The target elementRef object.
- *
- * @return {boolean} Is dragging within the entire document.
- */
-
-const useIsDragging = elementRef => {
-  const [isDragging, setIsDragging] = Object(external_wp_element_["useState"])(false);
-  Object(external_wp_element_["useEffect"])(() => {
-    const {
-      ownerDocument
-    } = elementRef.current;
-
-    function handleDragStart() {
-      setIsDragging(true);
-    }
-
-    function handleDragEnd() {
-      setIsDragging(false);
-    }
-
-    ownerDocument.addEventListener('dragstart', handleDragStart);
-    ownerDocument.addEventListener('dragend', handleDragEnd);
-    return () => {
-      ownerDocument.removeEventListener('dragstart', handleDragStart);
-      ownerDocument.removeEventListener('dragend', handleDragEnd);
-    };
-  }, []);
-  return isDragging;
-};
 /**
  * A React hook to determine if it's dragging within the target element.
  *
@@ -1533,7 +1422,6 @@ const useIsDragging = elementRef => {
  *
  * @return {boolean} Is dragging within the target element.
  */
-
 
 const useIsDraggingWithin = elementRef => {
   const [isDraggingWithin, setIsDraggingWithin] = Object(external_wp_element_["useState"])(false);
@@ -1573,6 +1461,157 @@ const useIsDraggingWithin = elementRef => {
     };
   }, []);
   return isDraggingWithin;
+};
+
+/* harmony default export */ var use_is_dragging_within = (useIsDraggingWithin);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/blocks/widget-area/edit/inner-blocks.js
+
+
+/**
+ * External dependencies
+ */
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+/**
+ * Internal dependencies
+ */
+
+
+function WidgetAreaInnerBlocks() {
+  const [blocks, onInput, onChange] = Object(external_wp_coreData_["useEntityBlockEditor"])('root', 'postType');
+  const innerBlocksRef = Object(external_wp_element_["useRef"])();
+  const isDraggingWithinInnerBlocks = use_is_dragging_within(innerBlocksRef);
+  const shouldHighlightDropZone = isDraggingWithinInnerBlocks; // Using the experimental hook so that we can control the className of the element.
+
+  const innerBlocksProps = Object(external_wp_blockEditor_["__experimentalUseInnerBlocksProps"])({
+    ref: innerBlocksRef
+  }, {
+    value: blocks,
+    onInput,
+    onChange,
+    templateLock: false,
+    renderAppender: external_wp_blockEditor_["InnerBlocks"].ButtonBlockAppender
+  });
+
+  return Object(external_wp_element_["createElement"])("div", {
+    className: classnames_default()('wp-block-widget-area__inner-blocks block-editor-inner-blocks editor-styles-wrapper', {
+      'wp-block-widget-area__highlight-drop-zone': shouldHighlightDropZone
+    })
+  }, Object(external_wp_element_["createElement"])("div", innerBlocksProps));
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/blocks/widget-area/edit/index.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+
+/** @typedef {import('@wordpress/element').RefObject} RefObject */
+
+function WidgetAreaEdit({
+  clientId,
+  className,
+  attributes: {
+    id,
+    name
+  }
+}) {
+  const isOpen = Object(external_wp_data_["useSelect"])(select => select(store).getIsWidgetAreaOpen(clientId), [clientId]);
+  const {
+    setIsWidgetAreaOpen
+  } = Object(external_wp_data_["useDispatch"])(store);
+  const wrapper = Object(external_wp_element_["useRef"])();
+  const setOpen = Object(external_wp_element_["useCallback"])(openState => setIsWidgetAreaOpen(clientId, openState), [clientId]);
+  const isDragging = useIsDragging(wrapper);
+  const isDraggingWithin = use_is_dragging_within(wrapper);
+  const [openedWhileDragging, setOpenedWhileDragging] = Object(external_wp_element_["useState"])(false);
+  Object(external_wp_element_["useEffect"])(() => {
+    if (!isDragging) {
+      setOpenedWhileDragging(false);
+      return;
+    }
+
+    if (isDraggingWithin && !isOpen) {
+      setOpen(true);
+      setOpenedWhileDragging(true);
+    } else if (!isDraggingWithin && isOpen && openedWhileDragging) {
+      setOpen(false);
+    }
+  }, [isOpen, isDragging, isDraggingWithin, openedWhileDragging]);
+  return Object(external_wp_element_["createElement"])(external_wp_components_["Panel"], {
+    className: className,
+    ref: wrapper
+  }, Object(external_wp_element_["createElement"])(external_wp_components_["PanelBody"], {
+    title: name,
+    opened: isOpen,
+    onToggle: () => {
+      setIsWidgetAreaOpen(clientId, !isOpen);
+    },
+    scrollAfterOpen: !isDragging
+  }, ({
+    opened
+  }) => // This is required to ensure LegacyWidget blocks are not
+  // unmounted when the panel is collapsed. Unmounting legacy
+  // widgets may have unintended consequences (e.g.  TinyMCE
+  // not being properly reinitialized)
+  Object(external_wp_element_["createElement"])(external_wp_components_["__unstableDisclosureContent"], {
+    className: "wp-block-widget-area__panel-body-content",
+    visible: opened
+  }, Object(external_wp_element_["createElement"])(external_wp_coreData_["EntityProvider"], {
+    kind: "root",
+    type: "postType",
+    id: `widget-area-${id}`
+  }, Object(external_wp_element_["createElement"])(WidgetAreaInnerBlocks, null)))));
+}
+/**
+ * A React hook to determine if dragging is active.
+ *
+ * @param {RefObject<HTMLElement>} elementRef The target elementRef object.
+ *
+ * @return {boolean} Is dragging within the entire document.
+ */
+
+const useIsDragging = elementRef => {
+  const [isDragging, setIsDragging] = Object(external_wp_element_["useState"])(false);
+  Object(external_wp_element_["useEffect"])(() => {
+    const {
+      ownerDocument
+    } = elementRef.current;
+
+    function handleDragStart() {
+      setIsDragging(true);
+    }
+
+    function handleDragEnd() {
+      setIsDragging(false);
+    }
+
+    ownerDocument.addEventListener('dragstart', handleDragStart);
+    ownerDocument.addEventListener('dragend', handleDragEnd);
+    return () => {
+      ownerDocument.removeEventListener('dragstart', handleDragStart);
+      ownerDocument.removeEventListener('dragend', handleDragEnd);
+    };
+  }, []);
+  return isDragging;
 };
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/blocks/widget-area/index.js
@@ -1801,6 +1840,10 @@ const useLastSelectedWidgetArea = () => Object(external_wp_data_["useSelect"])(s
 
 /* harmony default export */ var use_last_selected_widget_area = (useLastSelectedWidgetArea);
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/constants.js
+const ALLOW_REUSABLE_BLOCKS = false;
+const ENABLE_EXPERIMENTAL_FSE_BLOCKS = false;
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/widget-areas-block-editor-provider/index.js
 
 
@@ -1828,6 +1871,7 @@ const useLastSelectedWidgetArea = () => Object(external_wp_data_["useSelect"])(s
 
 
 
+
 function WidgetAreasBlockEditorProvider({
   blockEditorSettings,
   children,
@@ -1842,7 +1886,7 @@ function WidgetAreasBlockEditorProvider({
     hasUploadPermissions: Object(external_lodash_["defaultTo"])(select('core').canUser('create', 'media'), true),
     widgetAreas: select(store).getWidgetAreas(),
     widgets: select(store).getWidgets(),
-    reusableBlocks: select('core').getEntityRecords('postType', 'wp_block'),
+    reusableBlocks: ALLOW_REUSABLE_BLOCKS ? select('core').getEntityRecords('postType', 'wp_block') : [],
     isFixedToolbarActive: select(store).__unstableIsFeatureActive('fixedToolbar'),
     keepCaretInsideBlock: select(store).__unstableIsFeatureActive('keepCaretInsideBlock')
   }), []);
@@ -1890,10 +1934,6 @@ function WidgetAreasBlockEditorProvider({
     rootClientId: widgetAreaId
   }))));
 }
-
-// EXTERNAL MODULE: ./node_modules/classnames/index.js
-var classnames = __webpack_require__("TSYQ");
-var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/cog.js
 var cog = __webpack_require__("Cg8A");
@@ -3194,6 +3234,8 @@ function Layout({
 
 
 
+
+const disabledBlocks = ['core/more', 'core/freeform', ...(!ALLOW_REUSABLE_BLOCKS && ['core/block'])];
 /**
  * Initializes the block editor in the widgets screen.
  *
@@ -3202,7 +3244,9 @@ function Layout({
  */
 
 function initialize(id, settings) {
-  const coreBlocks = Object(external_wp_blockLibrary_["__experimentalGetCoreBlocks"])().filter(block => !['core/more', 'core/freeform'].includes(block.name));
+  const coreBlocks = Object(external_wp_blockLibrary_["__experimentalGetCoreBlocks"])().filter(block => {
+    return !(disabledBlocks.includes(block.name) || block.name.startsWith('core/post') || block.name.startsWith('core/query') || block.name.startsWith('core/site'));
+  });
 
   Object(external_wp_blockLibrary_["registerCoreBlocks"])(coreBlocks);
   Object(external_wp_widgets_["registerLegacyWidgetBlock"])();

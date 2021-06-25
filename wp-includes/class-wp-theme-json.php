@@ -1095,7 +1095,6 @@ class WP_Theme_JSON {
 		 * In those cases, we want to replace the existing with the incoming value, if it exists.
 		 */
 		$to_replace   = array();
-		$to_replace[] = array( 'custom' );
 		$to_replace[] = array( 'spacing', 'units' );
 		$to_replace[] = array( 'color', 'duotone' );
 		foreach ( self::VALID_ORIGINS as $origin ) {

@@ -300,14 +300,14 @@
 #customize-theme-controls .customize-pane-child.customize-widgets__sidebar-section {
   min-height: 100%;
   background-color: #fff;
-  padding-top: 10px !important;
+  padding-top: 12px !important;
 }
 #customize-theme-controls .customize-pane-child.customize-widgets__sidebar-section.open {
   overflow: unset;
 }
 #customize-theme-controls .customize-pane-child.customize-widgets__sidebar-section .customize-section-title {
   position: static !important;
-  top: 0 !important;
+  margin-top: -12px !important;
   width: unset !important;
 }
 

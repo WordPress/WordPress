@@ -1990,6 +1990,7 @@
   background-color: #1e1e1e;
   color: #fff;
   border-radius: 2px;
+  flex: 1 0 auto;
 }
 
 .block-editor-color-gradient-control .block-editor-color-gradient-control__color-indicator {

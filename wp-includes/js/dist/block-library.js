@@ -5146,6 +5146,20 @@ const isTemporaryImage = (id, url) => !id && Object(external_wp_blob_["isBlobURL
 
 
 const isExternalImage = (id, url) => url && !id && !Object(external_wp_blob_["isBlobURL"])(url);
+/**
+ * Checks if WP generated default image size. Size generation is skipped
+ * when the image is smaller than the said size.
+ *
+ * @param {Object} image
+ * @param {string} defaultSize
+ *
+ * @return {boolean} Whether or not it has default image size.
+ */
+
+function hasDefaultSize(image, defaultSize) {
+  return Object(external_lodash_["has"])(image, ['sizes', defaultSize, 'url']) || Object(external_lodash_["has"])(image, ['media_details', 'sizes', defaultSize, 'source_url']);
+}
+
 function ImageEdit({
   attributes,
   setAttributes,
@@ -5225,7 +5239,9 @@ function ImageEdit({
       additionalAttributes = {
         width: undefined,
         height: undefined,
-        sizeSlug: imageDefaultSize
+        // Fallback to size "full" if there's no default image size.
+        // It means the image is smaller, and the block will use a full-size URL.
+        sizeSlug: hasDefaultSize(media, imageDefaultSize) ? imageDefaultSize : 'full'
       };
     } else {
       // Keep the same url when selecting the same file, so "Image Size"
@@ -11130,7 +11146,8 @@ function CategoriesEdit({
     } = select('core/data');
     const query = {
       per_page: -1,
-      hide_empty: true
+      hide_empty: true,
+      context: 'view'
     };
     return {
       categories: getEntityRecords('taxonomy', 'category', query),
@@ -11232,7 +11249,7 @@ function CategoriesEdit({
   }))), isRequesting && Object(external_wp_element_["createElement"])(external_wp_components_["Placeholder"], {
     icon: library_pin,
     label: Object(external_wp_i18n_["__"])('Categories')
-  }, Object(external_wp_element_["createElement"])(external_wp_components_["Spinner"], null)), !isRequesting && categories.length === 0 && Object(external_wp_element_["createElement"])("p", null, Object(external_wp_i18n_["__"])('Your site does not have any posts, so there is nothing to display here at the moment.')), !isRequesting && categories.length > 0 && (displayAsDropdown ? renderCategoryDropdown() : renderCategoryList()));
+  }, Object(external_wp_element_["createElement"])(external_wp_components_["Spinner"], null)), !isRequesting && (categories === null || categories === void 0 ? void 0 : categories.length) === 0 && Object(external_wp_element_["createElement"])("p", null, Object(external_wp_i18n_["__"])('Your site does not have any posts, so there is nothing to display here at the moment.')), !isRequesting && (categories === null || categories === void 0 ? void 0 : categories.length) > 0 && (displayAsDropdown ? renderCategoryDropdown() : renderCategoryList()));
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/categories/index.js
@@ -16355,6 +16372,7 @@ const file_metadata = {
     anchor: true,
     align: true
   },
+  viewScript: "file:./view.min.js",
   editorStyle: "wp-block-file-editor",
   style: "wp-block-file"
 };
@@ -27863,13 +27881,13 @@ const social_link_settings = {
  * WordPress dependencies
  */
 
-const site_logo_siteLogo = Object(external_wp_element_["createElement"])(external_wp_primitives_["SVG"], {
+const siteLogo = Object(external_wp_element_["createElement"])(external_wp_primitives_["SVG"], {
   xmlns: "http://www.w3.org/2000/svg",
   viewBox: "0 0 24 24"
 }, Object(external_wp_element_["createElement"])(external_wp_primitives_["Path"], {
   d: "M12 3c-5 0-9 4-9 9s4 9 9 9 9-4 9-9-4-9-9-9zm0 1.5c4.1 0 7.5 3.4 7.5 7.5v.1c-1.4-.8-3.3-1.7-3.4-1.8-.2-.1-.5-.1-.8.1l-2.9 2.1L9 11.3c-.2-.1-.4 0-.6.1l-3.7 2.2c-.1-.5-.2-1-.2-1.5 0-4.2 3.4-7.6 7.5-7.6zm0 15c-3.1 0-5.7-1.9-6.9-4.5l3.7-2.2 3.5 1.2c.2.1.5 0 .7-.1l2.9-2.1c.8.4 2.5 1.2 3.5 1.9-.9 3.3-3.9 5.8-7.4 5.8z"
 }));
-/* harmony default export */ var site_logo = (site_logo_siteLogo);
+/* harmony default export */ var site_logo = (siteLogo);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/site-logo/edit.js
 
@@ -27946,7 +27964,7 @@ const SiteLogo = ({
       title: siteEntities.title,
       ...Object(external_lodash_["pick"])(getSettings(), ['imageSizes', 'maxWidth'])
     };
-  });
+  }, []);
 
   function onResizeStart() {
     toggleSelection(false);
@@ -28110,19 +28128,39 @@ function LogoEdit({
   const [error, setError] = Object(external_wp_element_["useState"])();
   const ref = Object(external_wp_element_["useRef"])();
   const {
-    mediaItemData,
-    siteLogo,
-    url
+    siteLogoId,
+    canUserEdit,
+    url,
+    mediaItemData
   } = Object(external_wp_data_["useSelect"])(select => {
-    const siteSettings = select(external_wp_coreData_["store"]).getEditedEntityRecord('root', 'site');
-    const mediaItem = siteSettings.site_logo ? select(external_wp_coreData_["store"]).getEntityRecord('root', 'media', siteSettings.site_logo) : null;
+    const {
+      canUser,
+      getEntityRecord,
+      getEditedEntityRecord
+    } = select(external_wp_coreData_["store"]);
+    const siteSettings = getEditedEntityRecord('root', 'site');
+    const siteData = getEntityRecord('root', '__unstableBase');
+
+    const _siteLogo = siteSettings === null || siteSettings === void 0 ? void 0 : siteSettings.site_logo;
+
+    const _readOnlyLogo = siteData === null || siteData === void 0 ? void 0 : siteData.site_logo;
+
+    const _canUserEdit = canUser('update', 'settings');
+
+    const _siteLogoId = _siteLogo || _readOnlyLogo;
+
+    const mediaItem = _siteLogoId && select(external_wp_coreData_["store"]).getEntityRecord('root', 'media', _siteLogoId, {
+      context: 'view'
+    });
+
     return {
+      siteLogoId: _siteLogoId,
+      canUserEdit: _canUserEdit,
+      url: siteData === null || siteData === void 0 ? void 0 : siteData.url,
       mediaItemData: mediaItem && {
         url: mediaItem.source_url,
         alt: mediaItem.alt_text
-      },
-      siteLogo: siteSettings.site_logo,
-      url: siteSettings.url
+      }
     };
   }, []);
   const {
@@ -28163,7 +28201,7 @@ function LogoEdit({
     setError(message[2] ? message[2] : null);
   };
 
-  const controls = logoUrl && Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockControls"], {
+  const controls = canUserEdit && logoUrl && Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockControls"], {
     group: "other"
   }, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["MediaReplaceFlow"], {
     mediaURL: logoUrl,
@@ -28176,8 +28214,9 @@ function LogoEdit({
   const label = Object(external_wp_i18n_["__"])('Site Logo');
 
   let logoImage;
+  const isLoading = siteLogoId === undefined || siteLogoId && !logoUrl;
 
-  if (siteLogo === undefined) {
+  if (isLoading) {
     logoImage = Object(external_wp_element_["createElement"])(external_wp_components_["Spinner"], null);
   }
 
@@ -28194,7 +28233,18 @@ function LogoEdit({
     });
   }
 
-  const mediaPlaceholder = Object(external_wp_element_["createElement"])(external_wp_blockEditor_["MediaPlaceholder"], {
+  const classes = classnames_default()(className, {
+    'is-default-size': !width
+  });
+  const blockProps = Object(external_wp_blockEditor_["useBlockProps"])({
+    ref,
+    className: classes
+  });
+  return Object(external_wp_element_["createElement"])("div", blockProps, controls, !!logoUrl && logoImage, !logoUrl && !canUserEdit && Object(external_wp_element_["createElement"])("div", {
+    className: "site-logo_placeholder"
+  }, Object(external_wp_element_["createElement"])(external_wp_components_["Icon"], {
+    icon: site_logo
+  }), Object(external_wp_element_["createElement"])("p", null, " ", Object(external_wp_i18n_["__"])('Site Logo'))), !logoUrl && canUserEdit && Object(external_wp_element_["createElement"])(external_wp_blockEditor_["MediaPlaceholder"], {
     icon: Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockIcon"], {
       icon: site_logo
     }),
@@ -28211,15 +28261,7 @@ function LogoEdit({
       isDismissible: false
     }, error),
     onError: onUploadError
-  });
-  const classes = classnames_default()(className, {
-    'is-default-size': !width
-  });
-  const blockProps = Object(external_wp_blockEditor_["useBlockProps"])({
-    ref,
-    className: classes
-  });
-  return Object(external_wp_element_["createElement"])("div", blockProps, controls, logoUrl && logoImage, !logoUrl && mediaPlaceholder);
+  }));
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/site-logo/index.js
@@ -31364,20 +31406,13 @@ const post_featured_image_settings = {
   edit: PostFeaturedImageEdit
 };
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/post-terms/use-term-links.js
-
-
-/**
- * External dependencies
- */
-
+// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/post-terms/use-post-terms.js
 /**
  * WordPress dependencies
  */
 
 
-
-function useTermLinks({
+function usePostTerms({
   postId,
   postType,
   term
@@ -31386,37 +31421,39 @@ function useTermLinks({
     rest_base: restBase,
     slug
   } = term;
-  const [termItems] = Object(external_wp_coreData_["useEntityProp"])('postType', postType, restBase, postId);
-  const {
-    termLinks,
-    isLoadingTermLinks
-  } = Object(external_wp_data_["useSelect"])(select => {
+  const [termIds] = Object(external_wp_coreData_["useEntityProp"])('postType', postType, restBase, postId);
+  return Object(external_wp_data_["useSelect"])(select => {
+    if (!termIds) {
+      // Waiting for post terms to be fetched.
+      return {
+        isLoading: true
+      };
+    }
+
+    if (!termIds.length) {
+      return {
+        isLoading: false
+      };
+    }
+
     const {
-      getEntityRecord
+      getEntityRecords,
+      isResolving
     } = select(external_wp_coreData_["store"]);
-    let loaded = true;
-    const links = Object(external_lodash_["map"])(termItems, itemId => {
-      const item = getEntityRecord('taxonomy', slug, itemId);
+    const taxonomyArgs = ['taxonomy', slug, {
+      include: termIds,
+      context: 'view'
+    }];
+    const terms = getEntityRecords(...taxonomyArgs);
 
-      if (!item) {
-        return loaded = false;
-      }
+    const _isLoading = isResolving('getEntityRecords', taxonomyArgs);
 
-      return Object(external_wp_element_["createElement"])("a", {
-        key: itemId,
-        href: item.link,
-        onClick: event => event.preventDefault()
-      }, item.name);
-    });
     return {
-      termLinks: links,
-      isLoadingTermLinks: !loaded
+      postTerms: terms,
+      isLoading: _isLoading,
+      hasPostTerms: !!(terms !== null && terms !== void 0 && terms.length)
     };
-  }, [termItems]);
-  return {
-    termLinks,
-    isLoadingTermLinks
-  };
+  }, [termIds]);
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/post-terms/edit.js
@@ -31425,7 +31462,6 @@ function useTermLinks({
 /**
  * External dependencies
  */
-
 
 /**
  * WordPress dependencies
@@ -31457,22 +31493,25 @@ function PostTermsEdit({
     postType
   } = context;
   const selectedTerm = Object(external_wp_data_["useSelect"])(select => {
+    var _taxonomy$visibility;
+
     if (!term) return {};
-    const taxonomies = select(external_wp_coreData_["store"]).getTaxonomies({
-      per_page: -1
-    });
-    return Object(external_lodash_["find"])(taxonomies, taxonomy => taxonomy.slug === term && taxonomy.visibility.show_ui) || {};
+    const {
+      getTaxonomy
+    } = select(external_wp_coreData_["store"]);
+    const taxonomy = getTaxonomy(term);
+    return taxonomy !== null && taxonomy !== void 0 && (_taxonomy$visibility = taxonomy.visibility) !== null && _taxonomy$visibility !== void 0 && _taxonomy$visibility.show_ui ? taxonomy : {};
   }, [term]);
   const {
-    termLinks,
-    isLoadingTermLinks
-  } = useTermLinks({
+    postTerms,
+    hasPostTerms,
+    isLoading
+  } = usePostTerms({
     postId,
     postType,
     term: selectedTerm
   });
   const hasPost = postId && postType;
-  const hasTermLinks = termLinks && termLinks.length > 0;
   const blockProps = Object(external_wp_blockEditor_["useBlockProps"])({
     className: classnames_default()({
       [`has-text-align-${textAlign}`]: textAlign
@@ -31494,8 +31533,11 @@ function PostTermsEdit({
         textAlign: nextAlign
       });
     }
-  })), Object(external_wp_element_["createElement"])("div", blockProps, isLoadingTermLinks && Object(external_wp_element_["createElement"])(external_wp_components_["Spinner"], null), hasTermLinks && !isLoadingTermLinks && termLinks.reduce((prev, curr) => [prev, ' | ', curr]), !isLoadingTermLinks && !hasTermLinks && ( // eslint-disable-next-line camelcase
-  (selectedTerm === null || selectedTerm === void 0 ? void 0 : (_selectedTerm$labels = selectedTerm.labels) === null || _selectedTerm$labels === void 0 ? void 0 : _selectedTerm$labels.no_terms) || Object(external_wp_i18n_["__"])('Term items not found.'))));
+  })), Object(external_wp_element_["createElement"])("div", blockProps, isLoading && Object(external_wp_element_["createElement"])(external_wp_components_["Spinner"], null), !isLoading && hasPostTerms && postTerms.map(postTerm => Object(external_wp_element_["createElement"])("a", {
+    key: postTerm.id,
+    href: postTerm.link,
+    onClick: event => event.preventDefault()
+  }, postTerm.name)).reduce((prev, curr) => [prev, ' | ', curr]), !isLoading && !hasPostTerms && ((selectedTerm === null || selectedTerm === void 0 ? void 0 : (_selectedTerm$labels = selectedTerm.labels) === null || _selectedTerm$labels === void 0 ? void 0 : _selectedTerm$labels.no_terms) || Object(external_wp_i18n_["__"])('Term items not found.'))));
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/post-categories.js

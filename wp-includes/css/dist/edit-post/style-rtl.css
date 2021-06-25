@@ -1073,10 +1073,6 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar {
   bottom: 0;
 }
 
-.edit-post-layout .interface-interface-skeleton__content {
-  background-color: #2f2f2f;
-}
-
 @media (min-width: 600px) {
   .edit-post-manage-blocks-modal {
     height: calc(100% - 60px - 60px);
@@ -1749,6 +1745,7 @@ h2.edit-post-template-summary__title {
   position: relative;
   display: flex;
   flex-flow: column;
+  background-color: #2f2f2f;
   flex: 1 1 auto;
 }
 .edit-post-visual-editor .components-button {

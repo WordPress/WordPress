@@ -23039,7 +23039,7 @@ function useInsertionPoint({
 
     let _destinationIndex;
 
-    if (insertionIndex) {
+    if (insertionIndex !== undefined) {
       // Insert into a specific index.
       _destinationIndex = insertionIndex;
     } else if (clientId) {
@@ -24425,11 +24425,6 @@ function getNearestBlockIndex(elements, position, orientation) {
   let candidateIndex;
   let candidateDistance;
   elements.forEach((element, index) => {
-    // Ensure the element is a block. It should have the `wp-block` class.
-    if (!element.classList.contains('wp-block')) {
-      return;
-    }
-
     const rect = element.getBoundingClientRect();
     const [distance, edge] = getDistanceToNearestEdge(position, rect, allowedEdges);
 
@@ -24481,7 +24476,8 @@ function useBlockDropZone({
   const throttled = Object(external_wp_compose_["useThrottle"])(Object(external_wp_element_["useCallback"])((event, currentTarget) => {
     var _getBlockListSettings;
 
-    const blockElements = Array.from(currentTarget.children);
+    const blockElements = Array.from(currentTarget.children).filter( // Ensure the element is a block. It should have the `wp-block` class.
+    element => element.classList.contains('wp-block'));
     const targetIndex = getNearestBlockIndex(blockElements, {
       x: event.clientX,
       y: event.clientY
@@ -30220,7 +30216,7 @@ var external_wp_shortcode_ = __webpack_require__("SVSp");
 
 
 function addActiveFormats(value, activeFormats) {
-  if (activeFormats.length) {
+  if (activeFormats !== null && activeFormats !== void 0 && activeFormats.length) {
     let index = value.formats.length;
 
     while (index--) {
@@ -37715,7 +37711,7 @@ function useDarkThemeBodyClassName(styles) {
       // DOM, so calculate the background color by creating a fake
       // wrapper.
       const tempCanvas = ownerDocument.createElement('div');
-      tempCanvas.classList.add(EDITOR_STYLES_SELECTOR);
+      tempCanvas.classList.add('editor-styles-wrapper');
       body.appendChild(tempCanvas);
       backgroundColor = defaultView.getComputedStyle(tempCanvas, null).getPropertyValue('background-color');
       body.removeChild(tempCanvas);

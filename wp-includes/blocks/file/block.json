@@ -51,6 +51,7 @@
 		"anchor": true,
 		"align": true
 	},
+	"viewScript": "file:./view.min.js",
 	"editorStyle": "wp-block-file-editor",
 	"style": "wp-block-file"
 }
