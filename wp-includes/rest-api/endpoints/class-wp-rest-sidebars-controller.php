@@ -98,8 +98,10 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function get_items( $request ) {
+		retrieve_widgets();
+
 		$data = array();
-		foreach ( (array) wp_get_sidebars_widgets() as $id => $widgets ) {
+		foreach ( wp_get_sidebars_widgets() as $id => $widgets ) {
 			$sidebar = $this->get_sidebar( $id );
 
 			if ( ! $sidebar ) {
@@ -135,6 +137,8 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function get_item( $request ) {
+		retrieve_widgets();
+
 		$sidebar = $this->get_sidebar( $request['id'] );
 
 		if ( ! $sidebar ) {
