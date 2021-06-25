@@ -4235,6 +4235,16 @@ pre.wp-block-preformatted {
 	max-width: initial;
 }
 
+.wp-block-query.has-background {
+	padding: 20px;
+}
+@media only screen and (min-width: 482px) {
+
+	.wp-block-query.has-background {
+		padding: 30px;
+	}
+}
+
 .wp-block-quote {
 	border-left: none;
 

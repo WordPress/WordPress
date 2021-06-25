@@ -3011,6 +3011,16 @@ pre.wp-block-preformatted {
 	max-width: initial;
 }
 
+.wp-block-query.has-background {
+	padding: calc(0.666 * var(--global--spacing-vertical));
+}
+@media only screen and (min-width: 482px) {
+
+	.wp-block-query.has-background {
+		padding: var(--global--spacing-vertical);
+	}
+}
+
 .wp-block-quote {
 	border-right: none;
 
