@@ -113,7 +113,7 @@ class Twenty_Twenty_One_Custom_Colors {
 			'twenty-twenty-one-custom-color-overrides',
 			get_theme_file_uri( 'assets/css/custom-color-overrides.css' ),
 			array(),
-			(string) filemtime( get_theme_file_path( 'assets/css/custom-color-overrides.css' ) )
+			wp_get_theme()->get( 'Version' )
 		);
 
 		$background_color = get_theme_mod( 'background_color', 'D1E4DD' );
