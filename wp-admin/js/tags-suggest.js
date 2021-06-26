@@ -1,13 +1,15 @@
 /**
  * Default settings for jQuery UI Autocomplete for use with non-hierarchical taxonomies.
+ *
+ * @output wp-admin/js/tags-suggest.js
  */
 ( function( $ ) {
-	if ( typeof window.tagsSuggestL10n === 'undefined' || typeof window.uiAutocompleteL10n === 'undefined' ) {
+	if ( typeof window.uiAutocompleteL10n === 'undefined' ) {
 		return;
 	}
 
 	var tempID = 0;
-	var separator = window.tagsSuggestL10n.tagDelimiter || ',';
+	var separator = wp.i18n._x( ',', 'tag delimiter' ) || ',';
 
 	function split( val ) {
 		return val.split( new RegExp( separator + '\\s*' ) );
@@ -28,13 +30,18 @@
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param {object} options Options that are passed to UI Autocomplete. Can be used to override the default settings.
-	 * @returns {object} jQuery instance.
+	 * @param {Object} options Options that are passed to UI Autocomplete. Can be used to override the default settings.
+	 * @return {Object} jQuery instance.
 	 */
 	$.fn.wpTagsSuggest = function( options ) {
 		var cache;
 		var last;
 		var $element = $( this );
+
+		// Do not initialize if the element doesn't exist.
+		if ( ! $element.length ) {
+			return this;
+		}
 
 		options = options || {};
 
@@ -87,8 +94,8 @@
 			focus: function( event, ui ) {
 				$element.attr( 'aria-activedescendant', 'wp-tags-autocomplete-' + ui.item.id );
 
-				// Don't empty the input field when using the arrow keys to
-				// highlight items. See api.jqueryui.com/autocomplete/#event-focus
+				// Don't empty the input field when using the arrow keys
+				// to highlight items. See api.jqueryui.com/autocomplete/#event-focus
 				event.preventDefault();
 			},
 			select: function( event, ui ) {
@@ -102,10 +109,16 @@
 
 				if ( $.ui.keyCode.TAB === event.keyCode ) {
 					// Audible confirmation message when a tag has been selected.
-					window.wp.a11y.speak( window.tagsSuggestL10n.termSelected, 'assertive' );
+					window.wp.a11y.speak( wp.i18n.__( 'Term selected.' ), 'assertive' );
 					event.preventDefault();
 				} else if ( $.ui.keyCode.ENTER === event.keyCode ) {
-					// Do not close Quick Edit / Bulk Edit
+					// If we're in the edit post Tags meta box, add the tag.
+					if ( window.tagBox ) {
+						window.tagBox.userAction = 'add';
+						window.tagBox.flushTags( $( this ).closest( '.tagsdiv' ) );
+					}
+
+					// Do not close Quick Edit / Bulk Edit.
 					event.preventDefault();
 					event.stopPropagation();
 				}
@@ -138,9 +151,16 @@
 
 		$element.on( 'keydown', function() {
 			$element.removeAttr( 'aria-activedescendant' );
-		} )
-		.autocomplete( options )
-		.autocomplete( 'instance' )._renderItem = function( ul, item ) {
+		} );
+
+		$element.autocomplete( options );
+
+		// Ensure the autocomplete instance exists.
+		if ( ! $element.autocomplete( 'instance' ) ) {
+			return this;
+		}
+
+		$element.autocomplete( 'instance' )._renderItem = function( ul, item ) {
 			return $( '<li role="option" id="wp-tags-autocomplete-' + item.id + '">' )
 				.text( item.name )
 				.appendTo( ul );
@@ -160,21 +180,24 @@
 			if ( inputValue ) {
 				$element.autocomplete( 'search' );
 			}
-		} )
+		} );
+
 		// Returns a jQuery object containing the menu element.
-		.autocomplete( 'widget' )
+		$element.autocomplete( 'widget' )
 			.addClass( 'wp-tags-autocomplete' )
 			.attr( 'role', 'listbox' )
 			.removeAttr( 'tabindex' ) // Remove the `tabindex=0` attribute added by jQuery UI.
 
-			// Looks like Safari and VoiceOver need an `aria-selected` attribute. See ticket #33301.
-			// The `menufocus` and `menublur` events are the same events used to add and remove
-			// the `ui-state-focus` CSS class on the menu items. See jQuery UI Menu Widget.
+			/*
+			 * Looks like Safari and VoiceOver need an `aria-selected` attribute. See ticket #33301.
+			 * The `menufocus` and `menublur` events are the same events used to add and remove
+			 * the `ui-state-focus` CSS class on the menu items. See jQuery UI Menu Widget.
+			 */
 			.on( 'menufocus', function( event, ui ) {
 				ui.item.attr( 'aria-selected', 'true' );
 			})
 			.on( 'menublur', function() {
-				// The `menublur` event returns an object where the item is `null`
+				// The `menublur` event returns an object where the item is `null`,
 				// so we need to find the active item with other means.
 				$( this ).find( '[aria-selected="true"]' ).removeAttr( 'aria-selected' );
 			});

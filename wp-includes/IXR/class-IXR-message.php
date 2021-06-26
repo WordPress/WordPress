@@ -9,12 +9,12 @@
  */
 class IXR_Message
 {
-    var $message;
-    var $messageType;  // methodCall / methodResponse / fault
-    var $faultCode;
-    var $faultString;
-    var $methodName;
-    var $params;
+    var $message     = false;
+    var $messageType = false;  // methodCall / methodResponse / fault
+    var $faultCode   = false;
+    var $faultString = false;
+    var $methodName  = '';
+    var $params      = array();
 
     // Current variable stacks
     var $_arraystructs = array();   // The stack used to keep track of the current array/struct
@@ -101,7 +101,7 @@ class IXR_Message
         $chunk_size = 262144;
 
         /**
-         * Filters the chunk size that can be used to parse an XML-RPC reponse message.
+         * Filters the chunk size that can be used to parse an XML-RPC response message.
          *
          * @since 4.4.0
          *
@@ -110,20 +110,28 @@ class IXR_Message
         $chunk_size = apply_filters( 'xmlrpc_chunk_parsing_size', $chunk_size );
 
         $final = false;
+
         do {
             if (strlen($this->message) <= $chunk_size) {
                 $final = true;
             }
+
             $part = substr($this->message, 0, $chunk_size);
             $this->message = substr($this->message, $chunk_size);
+
             if (!xml_parse($this->_parser, $part, $final)) {
+                xml_parser_free($this->_parser);
+                unset($this->_parser);
                 return false;
             }
+
             if ($final) {
                 break;
             }
         } while (true);
+
         xml_parser_free($this->_parser);
+        unset($this->_parser);
 
         // Grab the error messages, if any
         if ($this->messageType == 'fault') {

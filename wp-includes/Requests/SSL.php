@@ -20,7 +20,6 @@ class Requests_SSL {
 	 *
 	 * Unfortunately, PHP doesn't check the certificate against the alternative
 	 * names, leading things like 'https://www.github.com/' to be invalid.
-	 * Instead
 	 *
 	 * @see https://tools.ietf.org/html/rfc2818#section-3.1 RFC2818, Section 3.1
 	 *
@@ -30,13 +29,6 @@ class Requests_SSL {
 	 * @return bool
 	 */
 	public static function verify_certificate($host, $cert) {
-		// Calculate the valid wildcard match if the host is not an IP address
-		$parts = explode('.', $host);
-		if (ip2long($host) === false) {
-			$parts[0] = '*';
-		}
-		$wildcard = implode('.', $parts);
-
 		$has_dns_alt = false;
 
 		// Check the subjectAltName
@@ -125,7 +117,7 @@ class Requests_SSL {
 	 * @return boolean Does the domain match?
 	 */
 	public static function match_domain($host, $reference) {
-		// Check if the reference is blacklisted first
+		// Check if the reference is blocklisted first
 		if (self::verify_reference_name($reference) !== true) {
 			return false;
 		}
@@ -139,7 +131,7 @@ class Requests_SSL {
 		// Also validates that the host has 3 parts or more, as per Firefox's
 		// ruleset.
 		if (ip2long($host) === false) {
-			$parts = explode('.', $host);
+			$parts    = explode('.', $host);
 			$parts[0] = '*';
 			$wildcard = implode('.', $parts);
 			if ($wildcard === $reference) {

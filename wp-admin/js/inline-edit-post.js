@@ -1,116 +1,117 @@
-/* global inlineEditL10n, ajaxurl, typenow */
 /**
  * This file contains the functions needed for the inline editing of posts.
  *
  * @since 2.7.0
+ * @output wp-admin/js/inline-edit-post.js
  */
+
+/* global ajaxurl, typenow, inlineEditPost */
 
 window.wp = window.wp || {};
 
 /**
  * Manages the quick edit and bulk edit windows for editing posts or pages.
  *
- * @namespace
+ * @namespace inlineEditPost
  *
  * @since 2.7.0
- * @access public
  *
  * @type {Object}
  *
  * @property {string} type The type of inline editor.
- * @property {string} what The prefix before the post id.
+ * @property {string} what The prefix before the post ID.
  *
  */
-var inlineEditPost;
 ( function( $, wp ) {
 
-	inlineEditPost = {
+	window.inlineEditPost = {
 
 	/**
-	 * @summary Initializes the inline and bulk post editor.
+	 * Initializes the inline and bulk post editor.
 	 *
-	 * Binds event handlers to the escape key to close the inline editor
+	 * Binds event handlers to the Escape key to close the inline editor
 	 * and to the save and close buttons. Changes DOM to be ready for inline
 	 * editing. Adds event handler to bulk edit.
 	 *
-	 * @memberof inlineEditPost
 	 * @since 2.7.0
 	 *
-	 * @returns {void}
+	 * @memberof inlineEditPost
+	 *
+	 * @return {void}
 	 */
 	init : function(){
 		var t = this, qeRow = $('#inline-edit'), bulkRow = $('#bulk-edit');
 
 		t.type = $('table.widefat').hasClass('pages') ? 'page' : 'post';
-		// Post id prefix.
+		// Post ID prefix.
 		t.what = '#post-';
 
 		/**
-		 * @summary Bind escape key to revert the changes and close the quick editor.
+		 * Binds the Escape key to revert the changes and close the quick editor.
 		 *
-		 * @returns {boolean} The result of revert.
+		 * @return {boolean} The result of revert.
 		 */
-		qeRow.keyup(function(e){
-			// Revert changes if escape key is pressed.
+		qeRow.on( 'keyup', function(e){
+			// Revert changes if Escape key is pressed.
 			if ( e.which === 27 ) {
 				return inlineEditPost.revert();
 			}
 		});
 
 		/**
-		 * @summary Bind escape key to revert the changes and close the bulk editor.
+		 * Binds the Escape key to revert the changes and close the bulk editor.
 		 *
-		 * @returns {boolean} The result of revert.
+		 * @return {boolean} The result of revert.
 		 */
-		bulkRow.keyup(function(e){
-			// Revert changes if escape key is pressed.
+		bulkRow.on( 'keyup', function(e){
+			// Revert changes if Escape key is pressed.
 			if ( e.which === 27 ) {
 				return inlineEditPost.revert();
 			}
 		});
 
 		/**
-		 * @summary Revert changes and close the quick editor if the cancel button is clicked.
+		 * Reverts changes and close the quick editor if the cancel button is clicked.
 		 *
-		 * @returns {boolean} The result of revert.
+		 * @return {boolean} The result of revert.
 		 */
-		$( '.cancel', qeRow ).click( function() {
+		$( '.cancel', qeRow ).on( 'click', function() {
 			return inlineEditPost.revert();
 		});
 
 		/**
-		 * @summary Save changes in the quick editor if the save(named: update) button is clicked.
+		 * Saves changes in the quick editor if the save(named: update) button is clicked.
 		 *
-		 * @returns {boolean} The result of save.
+		 * @return {boolean} The result of save.
 		 */
-		$( '.save', qeRow ).click( function() {
+		$( '.save', qeRow ).on( 'click', function() {
 			return inlineEditPost.save(this);
 		});
 
 		/**
-		 * @summary If enter is pressed, and the target is not the cancel button, save the post.
+		 * If Enter is pressed, and the target is not the cancel button, save the post.
 		 *
-		 * @returns {boolean} The result of save.
+		 * @return {boolean} The result of save.
 		 */
-		$('td', qeRow).keydown(function(e){
+		$('td', qeRow).on( 'keydown', function(e){
 			if ( e.which === 13 && ! $( e.target ).hasClass( 'cancel' ) ) {
 				return inlineEditPost.save(this);
 			}
 		});
 
 		/**
-		 * @summary Revert changes and close the bulk editor if the cancel button is clicked.
+		 * Reverts changes and close the bulk editor if the cancel button is clicked.
 		 *
-		 * @returns {boolean} The result of revert.
+		 * @return {boolean} The result of revert.
 		 */
-		$( '.cancel', bulkRow ).click( function() {
+		$( '.cancel', bulkRow ).on( 'click', function() {
 			return inlineEditPost.revert();
 		});
 
 		/**
-		 * @summary Disables the password input field when the private post checkbox is checked.
+		 * Disables the password input field when the private post checkbox is checked.
 		 */
-		$('#inline-edit .inline-edit-private input[value="private"]').click( function(){
+		$('#inline-edit .inline-edit-private input[value="private"]').on( 'click', function(){
 			var pw = $('input.inline-edit-password-input');
 			if ( $(this).prop('checked') ) {
 				pw.val('').prop('disabled', true);
@@ -120,11 +121,11 @@ var inlineEditPost;
 		});
 
 		/**
-		 * @summary Bind click event to the .editinline link which opens the quick editor.
+		 * Binds click event to the .editinline button which opens the quick editor.
 		 */
-		$('#the-list').on( 'click', 'a.editinline', function( e ) {
-			e.preventDefault();
-			inlineEditPost.edit(this);
+		$( '#the-list' ).on( 'click', '.editinline', function() {
+			$( this ).attr( 'aria-expanded', 'true' );
+			inlineEditPost.edit( this );
 		});
 
 		$('#bulk-edit').find('fieldset:first').after(
@@ -136,9 +137,9 @@ var inlineEditPost;
 		$('select[name="_status"] option[value="future"]', bulkRow).remove();
 
 		/**
-		 * @summary Adds onclick events to the apply buttons.
+		 * Adds onclick events to the apply buttons.
 		 */
-		$('#doaction, #doaction2').click(function(e){
+		$('#doaction').on( 'click', function(e){
 			var n;
 
 			t.whichBulkButtonId = $( this ).attr( 'id' );
@@ -154,12 +155,12 @@ var inlineEditPost;
 	},
 
 	/**
-	 * @summary Toggles the quick edit window.
+	 * Toggles the quick edit window, hiding it when it's active and showing it when
+	 * inactive.
 	 *
-	 * Hides the window when it's active and shows the window when inactive.
+	 * @since 2.7.0
 	 *
 	 * @memberof inlineEditPost
-	 * @since 2.7.0
 	 *
 	 * @param {Object} el Element within a post table row.
 	 */
@@ -169,10 +170,11 @@ var inlineEditPost;
 	},
 
 	/**
-	 * @summary Creates the bulk editor row to edit multiple posts at once.
+	 * Creates the bulk editor row to edit multiple posts at once.
+	 *
+	 * @since 2.7.0
 	 *
 	 * @memberof inlineEditPost
-	 * @since 2.7.0
 	 */
 	setBulk : function(){
 		var te = '', type = this.type, c = true;
@@ -185,10 +187,10 @@ var inlineEditPost;
 		$('#bulk-edit').addClass('inline-editor').show();
 
 		/**
-		 * @summary Create a HTML div with the title and a delete link(cross-icon) for each selected post.
+		 * Create a HTML div with the title and a link(delete-icon) for each selected
+		 * post.
 		 *
 		 * Get the selected posts based on the checked checkboxes in the post table.
-		 * Create a HTML div with the title and a link(delete-icon) for each selected post.
 		 */
 		$( 'tbody th.check-column input[type="checkbox"]' ).each( function() {
 
@@ -196,8 +198,8 @@ var inlineEditPost;
 			if ( $(this).prop('checked') ) {
 				c = false;
 				var id = $(this).val(), theTitle;
-				theTitle = $('#inline_'+id+' .post_title').html() || inlineEditL10n.notitle;
-				te += '<div id="ttle'+id+'"><a id="_'+id+'" class="ntdelbutton" title="'+inlineEditL10n.ntdeltitle+'">X</a>'+theTitle+'</div>';
+				theTitle = $('#inline_'+id+' .post_title').html() || wp.i18n.__( '(no title)' );
+				te += '<div id="ttle'+id+'"><a id="_'+id+'" class="ntdelbutton" title="'+ wp.i18n.__( 'Remove From Bulk Edit' ) +'">X</a>'+theTitle+'</div>';
 			}
 		});
 
@@ -209,11 +211,11 @@ var inlineEditPost;
 		// Add onclick events to the delete-icons in the bulk editors the post title list.
 		$('#bulk-titles').html(te);
 		/**
-		 * @summary Binds on click events to the checkboxes before the posts in the table.
+		 * Binds on click events to the checkboxes before the posts in the table.
 		 *
 		 * @listens click
 		 */
-		$('#bulk-titles a').click(function(){
+		$('#bulk-titles a').on( 'click', function(){
 			var id = $(this).attr('id').substr(1);
 
 			$('table.widefat input[value="' + id + '"]').prop('checked', false);
@@ -241,14 +243,15 @@ var inlineEditPost;
 	},
 
 	/**
-	 * @summary Creates a quick edit window for the post that has been clicked.
+	 * Creates a quick edit window for the post that has been clicked.
 	 *
-	 * @memberof inlineEditPost
 	 * @since 2.7.0
 	 *
-	 * @param {number|Object} id The id of the clicked post or an element within a post
+	 * @memberof inlineEditPost
+	 *
+	 * @param {number|Object} id The ID of the clicked post or an element within a post
 	 *                           table row.
-	 * @returns {boolean} Always returns false at the end of execution.
+	 * @return {boolean} Always returns false at the end of execution.
 	 */
 	edit : function(id) {
 		var t = this, fields, editRow, rowData, status, pageOpt, pageLevel, nextPage, pageLoop = true, nextLevel, f, val, pw;
@@ -284,9 +287,9 @@ var inlineEditPost;
 			val = $('.'+fields[f], rowData);
 
 			/**
-			 * @summary Replaces the image for a Twemoji(Twitter emoji) with it's alternate text.
+			 * Replaces the image for a Twemoji(Twitter emoji) with it's alternate text.
 			 *
-			 * @returns Alternate text from the image.
+			 * @return {string} Alternate text from the image.
 			 */
 			val.find( 'img' ).replaceWith( function() { return this.alt; } );
 			val = val.text();
@@ -304,7 +307,7 @@ var inlineEditPost;
 		}
 
 		/**
-		 * @summary Creates the select boxes for the categories.
+		 * Creates the select boxes for the categories.
 		 */
 		$('.post_category', rowData).each(function(){
 			var taxname,
@@ -317,14 +320,19 @@ var inlineEditPost;
 		});
 
 		/**
-		 * @summary Gets all the taxonomies for live auto-fill suggestions.
-		 * When typing the name of a tag.
+		 * Gets all the taxonomies for live auto-fill suggestions when typing the name
+		 * of a tag.
 		 */
 		$('.tags_input', rowData).each(function(){
 			var terms = $(this),
 				taxname = $(this).attr('id').replace('_' + id, ''),
 				textarea = $('textarea.tax_input_' + taxname, editRow),
-				comma = inlineEditL10n.comma;
+				comma = wp.i18n._x( ',', 'tag delimiter' ).trim();
+
+			// Ensure the textarea exists.
+			if ( ! textarea.length ) {
+				return;
+			}
 
 			terms.find( 'img' ).replaceWith( function() { return this.alt; } );
 			terms = terms.text();
@@ -375,20 +383,20 @@ var inlineEditPost;
 		}
 
 		$(editRow).attr('id', 'edit-'+id).addClass('inline-editor').show();
-		$('.ptitle', editRow).focus();
+		$('.ptitle', editRow).trigger( 'focus' );
 
 		return false;
 	},
 
 	/**
-	 * @summary Saves the changes made in the quick edit window to the post.
-	 * AJAX saving is only for Quick Edit and not for bulk edit.
+	 * Saves the changes made in the quick edit window to the post.
+	 * Ajax saving is only for Quick Edit and not for bulk edit.
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param   {int}     id The id for the post that has been changed.
-	 * @returns {boolean}    false, so the form does not submit when pressing
-	 *                       Enter on a focused field.
+	 * @param {number} id The ID for the post that has been changed.
+	 * @return {boolean} False, so the form does not submit when pressing
+	 *                   Enter on a focused field.
 	 */
 	save : function(id) {
 		var params, fields, page = $('.post_status_page').val() || '';
@@ -410,31 +418,35 @@ var inlineEditPost;
 		fields = $('#edit-'+id).find(':input').serialize();
 		params = fields + '&' + $.param(params);
 
-		// Make ajax request.
+		// Make Ajax request.
 		$.post( ajaxurl, params,
 			function(r) {
-				var $errorSpan = $( '#edit-' + id + ' .inline-edit-save .error' );
+				var $errorNotice = $( '#edit-' + id + ' .inline-edit-save .notice-error' ),
+					$error = $errorNotice.find( '.error' );
 
 				$( 'table.widefat .spinner' ).removeClass( 'is-active' );
-				$( '.ac_results' ).hide();
 
 				if (r) {
 					if ( -1 !== r.indexOf( '<tr' ) ) {
 						$(inlineEditPost.what+id).siblings('tr.hidden').addBack().remove();
 						$('#edit-'+id).before(r).remove();
 						$( inlineEditPost.what + id ).hide().fadeIn( 400, function() {
-							// Move focus back to the Quick Edit link. $( this ) is the row being animated.
-							$( this ).find( '.editinline' ).focus();
-							wp.a11y.speak( inlineEditL10n.saved );
+							// Move focus back to the Quick Edit button. $( this ) is the row being animated.
+							$( this ).find( '.editinline' )
+								.attr( 'aria-expanded', 'false' )
+								.trigger( 'focus' );
+							wp.a11y.speak( wp.i18n.__( 'Changes saved.' ) );
 						});
 					} else {
 						r = r.replace( /<.[^<>]*?>/g, '' );
-						$errorSpan.html( r ).show();
-						wp.a11y.speak( $errorSpan.text() );
+						$errorNotice.removeClass( 'hidden' );
+						$error.html( r );
+						wp.a11y.speak( $error.text() );
 					}
 				} else {
-					$errorSpan.html( inlineEditL10n.error ).show();
-					wp.a11y.speak( inlineEditL10n.error );
+					$errorNotice.removeClass( 'hidden' );
+					$error.text( wp.i18n.__( 'Error while saving the changes.' ) );
+					wp.a11y.speak( wp.i18n.__( 'Error while saving the changes.' ) );
 				}
 			},
 		'html');
@@ -444,12 +456,13 @@ var inlineEditPost;
 	},
 
 	/**
-	 * @summary Hides and empties the Quick Edit and/or Bulk Edit windows.
+	 * Hides and empties the Quick Edit and/or Bulk Edit windows.
 	 *
-	 * @memberof    inlineEditPost
 	 * @since 2.7.0
 	 *
-	 * @returns {boolean} Always returns false.
+	 * @memberof inlineEditPost
+	 *
+	 * @return {boolean} Always returns false.
 	 */
 	revert : function(){
 		var $tableWideFat = $( '.widefat' ),
@@ -457,7 +470,6 @@ var inlineEditPost;
 
 		if ( id ) {
 			$( '.spinner', $tableWideFat ).removeClass( 'is-active' );
-			$( '.ac_results' ).hide();
 
 			if ( 'bulk-edit' === id ) {
 
@@ -469,15 +481,17 @@ var inlineEditPost;
 				$('#inlineedit').append( $('#bulk-edit') );
 
 				// Move focus back to the Bulk Action button that was activated.
-				$( '#' + inlineEditPost.whichBulkButtonId ).focus();
+				$( '#' + inlineEditPost.whichBulkButtonId ).trigger( 'focus' );
 			} else {
 
 				// Remove both the inline-editor and its hidden tr siblings.
 				$('#'+id).siblings('tr.hidden').addBack().remove();
 				id = id.substr( id.lastIndexOf('-') + 1 );
 
-				// Show the post row and move focus back to the Quick Edit link.
-				$( this.what + id ).show().find( '.editinline' ).focus();
+				// Show the post row and move focus back to the Quick Edit button.
+				$( this.what + id ).show().find( '.editinline' )
+					.attr( 'aria-expanded', 'false' )
+					.trigger( 'focus' );
 			}
 		}
 
@@ -485,14 +499,15 @@ var inlineEditPost;
 	},
 
 	/**
-	 * @summary Gets the id for a the post that you want to quick edit from the row
-	 * in the quick edit table.
+	 * Gets the ID for a the post that you want to quick edit from the row in the quick
+	 * edit table.
 	 *
-	 * @memberof    inlineEditPost
 	 * @since 2.7.0
 	 *
-	 * @param   {Object} o DOM row object to get the id for.
-	 * @returns {string}   The post id extracted from the table row in the object.
+	 * @memberof inlineEditPost
+	 *
+	 * @param {Object} o DOM row object to get the ID for.
+	 * @return {string} The post ID extracted from the table row in the object.
 	 */
 	getId : function(o) {
 		var id = $(o).closest('tr').attr('id'),
@@ -501,10 +516,16 @@ var inlineEditPost;
 	}
 };
 
-$( document ).ready( function(){ inlineEditPost.init(); } );
+$( function() { inlineEditPost.init(); } );
 
 // Show/hide locks on posts.
-$( document ).on( 'heartbeat-tick.wp-check-locked-posts', function( e, data ) {
+$( function() {
+
+	// Set the heartbeat interval to 15 seconds.
+	if ( typeof wp !== 'undefined' && wp.heartbeat ) {
+		wp.heartbeat.interval( 15 );
+	}
+}).on( 'heartbeat-tick.wp-check-locked-posts', function( e, data ) {
 	var locked = data['wp-check-locked-posts'] || {};
 
 	$('#the-list tr').each( function(i, el) {
@@ -517,14 +538,20 @@ $( document ).on( 'heartbeat-tick.wp-check-locked-posts', function( e, data ) {
 				row.find('.check-column checkbox').prop('checked', false);
 
 				if ( lock_data.avatar_src ) {
-					avatar = $( '<img class="avatar avatar-18 photo" width="18" height="18" alt="" />' ).attr( 'src', lock_data.avatar_src.replace( /&amp;/g, '&' ) );
+					avatar = $( '<img />', {
+						'class': 'avatar avatar-18 photo',
+						width: 18,
+						height: 18,
+						alt: '',
+						src: lock_data.avatar_src,
+						srcset: lock_data.avatar_src_2x ? lock_data.avatar_src_2x + ' 2x' : undefined
+					} );
 					row.find('.column-title .locked-avatar').empty().append( avatar );
 				}
 				row.addClass('wp-locked');
 			}
 		} else if ( row.hasClass('wp-locked') ) {
-			// Make room for the CSS animation
-			row.removeClass('wp-locked').delay(1000).find('.locked-info span').empty();
+			row.removeClass( 'wp-locked' ).find( '.locked-info span' ).empty();
 		}
 	});
 }).on( 'heartbeat-send.wp-check-locked-posts', function( e, data ) {
@@ -538,12 +565,6 @@ $( document ).on( 'heartbeat-tick.wp-check-locked-posts', function( e, data ) {
 
 	if ( check.length ) {
 		data['wp-check-locked-posts'] = check;
-	}
-}).ready( function() {
-
-	// Set the heartbeat interval to 15 sec.
-	if ( typeof wp !== 'undefined' && wp.heartbeat ) {
-		wp.heartbeat.interval( 15 );
 	}
 });
 

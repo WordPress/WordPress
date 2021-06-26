@@ -2,7 +2,7 @@
 
 class Requests_Exception_Transport_cURL extends Requests_Exception_Transport {
 
-	const EASY = 'cURLEasy';
+	const EASY  = 'cURLEasy';
 	const MULTI = 'cURLMulti';
 	const SHARE = 'cURLShare';
 

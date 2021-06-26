@@ -4,7 +4,7 @@
  *
  * Used to display archive-type pages for posts by an author.
  *
- * @link https://codex.wordpress.org/Template_Hierarchy
+ * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
  *
  * @package WordPress
  * @subpackage Twenty_Twelve
@@ -19,7 +19,8 @@ get_header(); ?>
 		<?php if ( have_posts() ) : ?>
 
 			<?php
-				/* Queue the first post, that way we know
+				/*
+				 * Queue the first post, that way we know
 				 * what author we're dealing with (if that is the case).
 				 *
 				 * We reset this later so we can run the loop
@@ -29,13 +30,19 @@ get_header(); ?>
 			?>
 
 			<header class="archive-header">
-				<h1 class="archive-title"><?php printf( __( 'Author Archives: %s', 'twentytwelve' ), '<span class="vcard"><a class="url fn n" href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '" title="' . esc_attr( get_the_author() ) . '" rel="me">' . get_the_author() . '</a></span>' ); ?></h1>
+				<h1 class="archive-title">
+				<?php
+				/* translators: Author display name. */
+				printf( __( 'Author Archives: %s', 'twentytwelve' ), '<span class="vcard"><a class="url fn n" href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '" title="' . esc_attr( get_the_author() ) . '" rel="me">' . get_the_author() . '</a></span>' );
+				?>
+				</h1>
 			</header><!-- .archive-header -->
 
 			<?php
-				/* Since we called the_post() above, we need to
-				 * rewind the loop back to the beginning that way
-				 * we can run the loop properly, in full.
+				/*
+				 * Since we called the_post() above, we need
+				 * to rewind the loop back to the beginning.
+				 * That way we can run the loop properly, in full.
 				 */
 				rewind_posts();
 			?>
@@ -44,12 +51,13 @@ get_header(); ?>
 
 			<?php
 			// If a user has filled out their description, show a bio on their entries.
-			if ( get_the_author_meta( 'description' ) ) : ?>
+			if ( get_the_author_meta( 'description' ) ) :
+				?>
 			<div class="author-info">
 				<div class="author-avatar">
 					<?php
 					/**
-					 * Filter the author bio avatar size.
+					 * Filters the author bio avatar size.
 					 *
 					 * @since Twenty Twelve 1.0
 					 *
@@ -60,14 +68,22 @@ get_header(); ?>
 					?>
 				</div><!-- .author-avatar -->
 				<div class="author-description">
-					<h2><?php printf( __( 'About %s', 'twentytwelve' ), get_the_author() ); ?></h2>
+					<h2>
+					<?php
+					/* translators: Author display name. */
+					printf( __( 'About %s', 'twentytwelve' ), get_the_author() );
+					?>
+					</h2>
 					<p><?php the_author_meta( 'description' ); ?></p>
 				</div><!-- .author-description	-->
 			</div><!-- .author-info -->
 			<?php endif; ?>
 
-			<?php /* Start the Loop */ ?>
-			<?php while ( have_posts() ) : the_post(); ?>
+			<?php
+			// Start the Loop.
+			while ( have_posts() ) :
+				the_post();
+				?>
 				<?php get_template_part( 'content', get_post_format() ); ?>
 			<?php endwhile; ?>
 

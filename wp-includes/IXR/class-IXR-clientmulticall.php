@@ -25,9 +25,13 @@ class IXR_ClientMulticall extends IXR_Client
 		self::__construct( $server, $path, $port );
 	}
 
-    function addCall()
+	/**
+	 * @since 1.5.0
+	 * @since 5.5.0 Formalized the existing `...$args` parameter by adding it
+	 *              to the function signature.
+	 */
+    function addCall( ...$args )
     {
-        $args = func_get_args();
         $methodName = array_shift($args);
         $struct = array(
             'methodName' => $methodName,
@@ -36,7 +40,14 @@ class IXR_ClientMulticall extends IXR_Client
         $this->calls[] = $struct;
     }
 
-    function query()
+	/**
+	 * @since 1.5.0
+	 * @since 5.5.0 Formalized the existing `...$args` parameter by adding it
+	 *              to the function signature.
+	 *
+	 * @return bool
+	 */
+    function query( ...$args )
     {
         // Prepare multicall, then call the parent::query() method
         return parent::query('system.multicall', $this->calls);

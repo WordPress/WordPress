@@ -1,0 +1,55 @@
+{
+	"name": "twentytwenty",
+	"version": "1.7.0",
+	"description": "Default WP Theme",
+	"author": "The WordPress Contributors",
+	"license": "GPL-2.0-or-later",
+	"keywords": [
+		"WordPress",
+		"Theme",
+		"TwentyTwenty"
+	],
+	"homepage": "https://wordpress.org/themes/twentytwenty/",
+	"bugs": {
+		"url": "https://core.trac.wordpress.org/"
+	},
+	"devDependencies": {
+		"@wordpress/browserslist-config": "^4.0.1",
+		"@wordpress/scripts": "^16.1.2",
+		"autoprefixer": "^10.2.6",
+		"concurrently": "^6.2.0",
+		"postcss-cli": "^8.3.1",
+		"postcss": "^8.3.0",
+		"rtlcss": "^3.2.0",
+		"stylelint-a11y": "^1.2.3"
+	},
+	"browserslist": [
+		"extends @wordpress/browserslist-config"
+	],
+	"rtlcssConfig": {
+		"options": {
+			"autoRename": false,
+			"autoRenameStrict": false,
+			"clean": true,
+			"greedy": false,
+			"processUrls": false,
+			"stringMap": []
+		},
+		"plugins": [],
+		"map": false
+	},
+	"scripts": {
+		"build": "npm run build:vendor-prefixes && npm run build:rtl",
+		"build:rtl": "concurrently \"npm run build:rtl-style\" \"npm run build:rtl-esb\" \"npm run build:rtl-esc\"",
+		"build:rtl-style": "rtlcss style.css style-rtl.css",
+		"build:rtl-esb": "rtlcss assets/css/editor-style-block.css assets/css/editor-style-block-rtl.css",
+		"build:rtl-esc": "rtlcss assets/css/editor-style-classic.css assets/css/editor-style-classic-rtl.css",
+		"build:vendor-prefixes": "concurrently \"npm run build:vendor-prefixes-style\" \"npm run build:vendor-prefixes-esb\" \"npm run build:vendor-prefixes-esc\"",
+		"build:vendor-prefixes-style": "postcss -r --no-map style.css assets/css/editor-style-block.css assets/css/editor-style-classic.css",
+		"build:vendor-prefixes-esb": "postcss -r --no-map assets/css/editor-style-block.css ",
+		"build:vendor-prefixes-esc": "postcss -r --no-map assets/css/editor-style-classic.css",
+		"lint:css": "wp-scripts lint-style 'style.css' 'assets/**/*.css'",
+		"lint:js": "wp-scripts lint-js 'assets/**/*.js'",
+		"lint:pkg-json": "wp-scripts lint-pkg-json"
+	}
+}

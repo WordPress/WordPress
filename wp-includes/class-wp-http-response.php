@@ -48,7 +48,7 @@ class WP_HTTP_Response {
 	 * @param array $headers Optional. HTTP header map. Default empty array.
 	 */
 	public function __construct( $data = null, $status = 200, $headers = array() ) {
-		$this->data = $data;
+		$this->set_data( $data );
 		$this->set_status( $status );
 		$this->set_headers( $headers );
 	}
@@ -147,7 +147,7 @@ class WP_HTTP_Response {
 	 *
 	 * @return mixed Any JSON-serializable value.
 	 */
-	public function jsonSerialize() {
+	public function jsonSerialize() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
 		return $this->get_data();
 	}
 }

@@ -11,15 +11,17 @@
  * Meta-based user sessions token manager.
  *
  * @since 4.0.0
+ *
+ * @see WP_Session_Tokens
  */
 class WP_User_Meta_Session_Tokens extends WP_Session_Tokens {
 
 	/**
-	 * Get all sessions of a user.
+	 * Retrieves all sessions of the user.
 	 *
 	 * @since 4.0.0
 	 *
-	 * @return array Sessions of a user.
+	 * @return array Sessions of the user.
 	 */
 	protected function get_sessions() {
 		$sessions = get_user_meta( $this->user_id, 'session_tokens', true );
@@ -47,11 +49,11 @@ class WP_User_Meta_Session_Tokens extends WP_Session_Tokens {
 	}
 
 	/**
-	 * Retrieve a session by its verifier (token hash).
+	 * Retrieves a session based on its verifier (token hash).
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param string $verifier Verifier of the session to retrieve.
+	 * @param string $verifier Verifier for the session to retrieve.
 	 * @return array|null The session, or null if it does not exist
 	 */
 	protected function get_session( $verifier ) {
@@ -65,11 +67,11 @@ class WP_User_Meta_Session_Tokens extends WP_Session_Tokens {
 	}
 
 	/**
-	 * Update a session by its verifier.
+	 * Updates a session based on its verifier (token hash).
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param string $verifier Verifier of the session to update.
+	 * @param string $verifier Verifier for the session to update.
 	 * @param array  $session  Optional. Session. Omitting this argument destroys the session.
 	 */
 	protected function update_session( $verifier, $session = null ) {
@@ -85,7 +87,7 @@ class WP_User_Meta_Session_Tokens extends WP_Session_Tokens {
 	}
 
 	/**
-	 * Update a user's sessions in the usermeta table.
+	 * Updates the user's sessions in the usermeta table.
 	 *
 	 * @since 4.0.0
 	 *
@@ -100,7 +102,7 @@ class WP_User_Meta_Session_Tokens extends WP_Session_Tokens {
 	}
 
 	/**
-	 * Destroy all session tokens for a user, except a single session passed.
+	 * Destroys all sessions for this user, except the single session with the given verifier.
 	 *
 	 * @since 4.0.0
 	 *
@@ -112,7 +114,7 @@ class WP_User_Meta_Session_Tokens extends WP_Session_Tokens {
 	}
 
 	/**
-	 * Destroy all session tokens for a user.
+	 * Destroys all session tokens for the user.
 	 *
 	 * @since 4.0.0
 	 */
@@ -121,10 +123,9 @@ class WP_User_Meta_Session_Tokens extends WP_Session_Tokens {
 	}
 
 	/**
-	 * Destroy all session tokens for all users.
+	 * Destroys all sessions for all users.
 	 *
 	 * @since 4.0.0
-	 * @static
 	 */
 	public static function drop_sessions() {
 		delete_metadata( 'user', 0, 'session_tokens', false, true );

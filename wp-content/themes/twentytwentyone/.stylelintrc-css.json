@@ -1,0 +1,23 @@
+{
+	"extends": [
+		"@wordpress/stylelint-config"
+	],
+	"rules": {
+		"indentation": "tab",
+		"no-duplicate-selectors": null,
+		"function-url-quotes": null,
+		"selector-attribute-quotes": null,
+		"declaration-block-no-duplicate-properties": null,
+		"function-calc-no-unspaced-operator": null,
+		"selector-pseudo-class-no-unknown": null,
+		"selector-class-pattern": null,
+		"font-weight-notation": null,
+		"selector-type-no-unknown": null,
+		"max-line-length": null,
+		"at-rule-empty-line-before": null,
+		"selector-pseudo-element-colon-notation": null,
+		"number-leading-zero": null,
+		"no-descending-specificity": null,
+		"length-zero-no-unit": [true, {"ignore": ["custom-properties"]}]
+	}
+}

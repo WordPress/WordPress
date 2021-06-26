@@ -1,21 +1,21 @@
-/* global ajaxurl, attachMediaBoxL10n, _wpMediaGridSettings, showNotice */
-
 /**
- * @summary Creates a dialog containing posts that can have a particular media attached to it.
+ * Creates a dialog containing posts that can have a particular media attached
+ * to it.
  *
  * @since 2.7.0
+ * @output wp-admin/js/media.js
  *
- * @global
- * @namespace
+ * @namespace findPosts
  *
  * @requires jQuery
  */
-var findPosts;
+
+/* global ajaxurl, _wpMediaGridSettings, showNotice, findPosts */
 
 ( function( $ ){
-	findPosts = {
+	window.findPosts = {
 		/**
-		 * @summary Opens a dialog to attach media to a post.
+		 * Opens a dialog to attach media to a post.
 		 *
 		 * Adds an overlay prior to retrieving a list of posts to attach the media to.
 		 *
@@ -26,7 +26,7 @@ var findPosts;
 		 * @param {string} af_name The name of the affected element.
 		 * @param {string} af_val The value of the affected post element.
 		 *
-		 * @returns {boolean} Always returns false.
+		 * @return {boolean} Always returns false.
 		 */
 		open: function( af_name, af_val ) {
 			var overlay = $( '.ui-find-overlay' );
@@ -46,7 +46,7 @@ var findPosts;
 			$( '#find-posts' ).show();
 
 			// Close the dialog when the escape key is pressed.
-			$('#find-posts-input').focus().keyup( function( event ){
+			$('#find-posts-input').trigger( 'focus' ).on( 'keyup', function( event ){
 				if ( event.which == 27 ) {
 					findPosts.close();
 				}
@@ -59,13 +59,13 @@ var findPosts;
 		},
 
 		/**
-		 * @summary Clears the found posts lists before hiding the attach media dialog.
+		 * Clears the found posts lists before hiding the attach media dialog.
 		 *
 		 * @since 2.7.0
 		 *
 		 * @memberOf findPosts
 		 *
-		 * @returns {void}
+		 * @return {void}
 		 */
 		close: function() {
 			$('#find-posts-response').empty();
@@ -74,13 +74,14 @@ var findPosts;
 		},
 
 		/**
-		 * @summary Binds a click event listener to the overlay which closes the attach media dialog.
+		 * Binds a click event listener to the overlay which closes the attach media
+		 * dialog.
 		 *
 		 * @since 3.5.0
 		 *
 		 * @memberOf findPosts
 		 *
-		 * @returns {void}
+		 * @return {void}
 		 */
 		overlay: function() {
 			$( '.ui-find-overlay' ).on( 'click', function () {
@@ -89,16 +90,17 @@ var findPosts;
 		},
 
 		/**
-		 * @summary Retrieves and displays posts based on the search term.
+		 * Retrieves and displays posts based on the search term.
 		 *
-		 * Sends a post request to the admin_ajax.php, requesting posts based on the search term provided by the user.
-		 * Defaults to all posts if no search term is provided.
+		 * Sends a post request to the admin_ajax.php, requesting posts based on the
+		 * search term provided by the user. Defaults to all posts if no search term is
+		 * provided.
 		 *
 		 * @since 2.7.0
 		 *
 		 * @memberOf findPosts
 		 *
-		 * @returns {void}
+		 * @return {void}
 		 */
 		send: function() {
 			var post = {
@@ -111,8 +113,8 @@ var findPosts;
 			spinner.addClass( 'is-active' );
 
 			/**
-			 * Send a POST request to admin_ajax.php, hide the spinner and replace the list of posts with the response data.
-			 * If an error occurs, display it.
+			 * Send a POST request to admin_ajax.php, hide the spinner and replace the list
+			 * of posts with the response data. If an error occurs, display it.
 			 */
 			$.ajax( ajaxurl, {
 				type: 'POST',
@@ -122,43 +124,47 @@ var findPosts;
 				spinner.removeClass( 'is-active' );
 			}).done( function( x ) {
 				if ( ! x.success ) {
-					$( '#find-posts-response' ).text( attachMediaBoxL10n.error );
+					$( '#find-posts-response' ).text( wp.i18n.__( 'An error has occurred. Please reload the page and try again.' ) );
 				}
 
 				$( '#find-posts-response' ).html( x.data );
 			}).fail( function() {
-				$( '#find-posts-response' ).text( attachMediaBoxL10n.error );
+				$( '#find-posts-response' ).text( wp.i18n.__( 'An error has occurred. Please reload the page and try again.' ) );
 			});
 		}
 	};
 
 	/**
-	 * @summary Initializes the file once the DOM is fully loaded and attaches events to the various form elements.
+	 * Initializes the file once the DOM is fully loaded and attaches events to the
+	 * various form elements.
 	 *
-	 * @returns {void}
+	 * @return {void}
 	 */
-	$( document ).ready( function() {
+	$( function() {
 		var settings, $mediaGridWrap = $( '#wp-media-grid' );
 
 		// Opens a manage media frame into the grid.
 		if ( $mediaGridWrap.length && window.wp && window.wp.media ) {
 			settings = _wpMediaGridSettings;
 
-			window.wp.media({
+			var frame = window.wp.media({
 				frame: 'manage',
 				container: $mediaGridWrap,
 				library: settings.queryVars
 			}).open();
+
+			// Fire a global ready event.
+			$mediaGridWrap.trigger( 'wp-media-grid-ready', frame );
 		}
 
 		// Prevents form submission if no post has been selected.
-		$( '#find-posts-submit' ).click( function( event ) {
+		$( '#find-posts-submit' ).on( 'click', function( event ) {
 			if ( ! $( '#find-posts-response input[type="radio"]:checked' ).length )
 				event.preventDefault();
 		});
 
 		// Submits the search query when hitting the enter key in the search input.
-		$( '#find-posts .find-box-search :input' ).keypress( function( event ) {
+		$( '#find-posts .find-box-search :input' ).on( 'keypress', function( event ) {
 			if ( 13 == event.which ) {
 				findPosts.send();
 				return false;
@@ -166,19 +172,18 @@ var findPosts;
 		});
 
 		// Binds the click event to the search button.
-		$( '#find-posts-search' ).click( findPosts.send );
+		$( '#find-posts-search' ).on( 'click', findPosts.send );
 
 		// Binds the close dialog click event.
-		$( '#find-posts-close' ).click( findPosts.close );
+		$( '#find-posts-close' ).on( 'click', findPosts.close );
 
 		// Binds the bulk action events to the submit buttons.
-		$( '#doaction, #doaction2' ).click( function( event ) {
+		$( '#doaction' ).on( 'click', function( event ) {
 
 			/*
-			 * Retrieves all select elements for bulk actions that have a name starting with `action`
-			 * and handle its action based on its value.
+			 * Handle the bulk action based on its value.
 			 */
-			$( 'select[name^="action"]' ).each( function() {
+			$( 'select[name="action"]' ).each( function() {
 				var optionValue = $( this ).val();
 
 				if ( 'attach' === optionValue ) {
@@ -193,9 +198,9 @@ var findPosts;
 		});
 
 		/**
-		 * @summary Enables clicking on the entire table row.
+		 * Enables clicking on the entire table row.
 		 *
-		 * @returns {void}
+		 * @return {void}
 		 */
 		$( '.find-box-inside' ).on( 'click', 'tr', function() {
 			$( this ).find( '.found-radio input' ).prop( 'checked', true );

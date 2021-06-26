@@ -860,7 +860,7 @@ video {
 }
 
 .rtl blockquote.alignright,
-.rtl .wp-caption.alignright
+.rtl .wp-caption.alignright,
 .rtl img.alignright {
 	margin: 0.4211em 0 1.6842em 1.6842em;
 }

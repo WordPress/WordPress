@@ -94,7 +94,7 @@
 #TB_load {
 	position: fixed;
 	display: none;
-	z-index: 103;
+	z-index: 100050;
 	top: 50%;
 	left: 50%;
 	background-color: #E8E8E8;
@@ -136,14 +136,14 @@
 .tb-close-icon:before {
 	content: "\f158";
 	font: normal 20px/29px dashicons;
-	speak: none;
+	speak: never;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
 
 #TB_closeWindowButton:hover .tb-close-icon,
 #TB_closeWindowButton:focus .tb-close-icon {
-	color: #00a0d2;
+	color: #006799;
 }
 
 #TB_closeWindowButton:focus .tb-close-icon {

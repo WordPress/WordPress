@@ -1,0 +1,301 @@
+// Featured image styles
+
+.site-header.featured-image {
+
+	/* Hide overflow for overflowing featured image */
+	overflow: hidden;
+
+	/* Need relative positioning to properly align layers. */
+	position: relative;
+
+	/* Add text shadow to text, to increase readability. */
+	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+
+	/* Set white text color when featured image is set. */
+	.site-branding .site-title,
+	.site-branding .site-description,
+	.main-navigation a:after,
+	.main-navigation .main-menu > li.menu-item-has-children:after,
+	.main-navigation li,
+	.social-navigation li,
+	.entry-meta,
+	.entry-title {
+		color: $color__background-body;
+	}
+
+	.main-navigation a,
+	.main-navigation a + svg,
+	.social-navigation a,
+	.site-title a,
+	.site-featured-image a {
+		color: $color__background-body;
+		transition: opacity $link_transition ease-in-out;
+
+		&:hover,
+		&:active,
+		&:hover + svg,
+		&:active + svg {
+			color: $color__background-body;
+			opacity: 0.6;
+		}
+
+		&:focus,
+		&:focus + svg {
+			color: $color__background-body;
+		}
+	}
+
+	.main-navigation .sub-menu a {
+		opacity: inherit;
+	}
+
+	/* add focus state to social media icons */
+	.social-navigation a {
+		&:focus {
+			color: $color__background-body;
+			opacity: 1;
+			border-bottom: 1px solid $color__background-body;
+		}
+	}
+
+	.social-navigation svg,
+	.site-featured-image svg {
+		/* Use -webkit- only if supporting: Chrome < 54, iOS < 9.3, Android < 4.4.4 */
+		-webkit-filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35) );
+				filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35) );
+	}
+
+	/* Entry header */
+	.site-featured-image {
+
+		/* First layer: grayscale. */
+		.post-thumbnail img {
+			height: auto;
+			left: 50%;
+			max-width: 1000%;
+			min-height: 100%;
+			min-width: 100vw;
+			position: absolute;
+			top: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			width: auto;
+			z-index: 1;
+
+			@supports ( object-fit: cover ) {
+				height: 100%;
+				left: 0;
+				object-fit: cover;
+				top: 0;
+				transform: none;
+				width: 100%;
+			}
+
+			/* When image filters are active, make it grayscale to colorize it blue. */
+			.image-filters-enabled & {
+				filter: grayscale(100%);
+			}
+		}
+
+		.entry-header {
+
+			margin-top: calc( 4 * #{$size__spacing-unit});
+			margin-bottom: 0;
+			margin-left: 0;
+			margin-right: 0;
+
+			@include media (tablet) {
+
+				margin-left: $size__site-margins;
+				margin-right: $size__site-margins;
+			}
+
+			.entry-title {
+
+				&:before {
+					background: $color__background-body;
+				}
+			}
+
+			/* Entry meta */
+
+			.entry-meta {
+
+				font-weight: 500;
+
+				> span {
+
+					margin-right: $size__spacing-unit;
+					display: inline-block;
+
+					&:last-child {
+						margin-right: 0;
+					}
+				}
+
+				a {
+
+					@include link-transition;
+					color: currentColor;
+
+					&:hover {
+						text-decoration: none;
+					}
+				}
+
+				.svg-icon {
+					position: relative;
+					display: inline-block;
+					vertical-align: middle;
+					margin-right: 0.5em;
+				}
+
+				.discussion-avatar-list {
+					display: none;
+				}
+			}
+
+			&.has-discussion {
+
+				@include media (tablet) {
+
+					.entry-meta {
+						display: flex;
+						position: relative;
+					}
+
+					.entry-title {
+						padding-right: calc(1 * (100vw / 12) + #{$size__spacing-unit});
+					}
+
+					.entry-meta .comment-count {
+						position: absolute;
+						right: 0;
+					}
+
+					.entry-meta .discussion-avatar-list {
+						display: block;
+						position: absolute;
+						bottom: 100%;
+					}
+				}
+			}
+		}
+	}
+
+	/* Custom Logo Link */
+
+	.custom-logo-link {
+
+		background: $color__background-body;
+		box-shadow: 0 0 0 0 rgba($color__background-body, 0);
+
+		&:hover,
+		&:active,
+		&:focus {
+			box-shadow: 0 0 0 2px rgba($color__background-body, 1);
+		}
+	}
+
+	/* Make sure important elements are above pseudo elements used for effects. */
+	.site-branding {
+		position: relative;
+		z-index: 10;
+	}
+
+	.site-featured-image .entry-header {
+		position: relative;
+		z-index: 9;
+	}
+
+	/* Set up image filter layer positioning */
+	.site-branding-container:after,
+	.site-featured-image:before,
+	.site-featured-image:after,
+	&:after {
+		display: block;
+		position: absolute;
+		top: 0; left: 0;
+		content: "\020";
+		width: 100%;
+		height: 100%;
+	}
+
+	/* Background & Effects */
+	/* Shared background settings between pseudo elements. */
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+
+	/* The intensity of each blend mode is controlled via layer opacity. */
+
+	/* Second layer: screen. */
+	.image-filters-enabled & .site-featured-image:before {
+		background: $color__link;
+		mix-blend-mode: screen;
+		opacity: 0.1;
+	}
+
+	/* Third layer: multiply. */
+	/* When image filters are inactive, a black overlay is added. */
+	.site-featured-image:after {
+		background: #000;
+		mix-blend-mode: multiply;
+		opacity: .7;
+
+		/* When image filters are active, a blue overlay is added. */
+		.image-filters-enabled & {
+			background: $color__link;
+			opacity: .8;
+			z-index: 3;
+
+			/* Browsers supporting mix-blend-mode don't need opacity < 1 */
+			@supports (mix-blend-mode: multiply) {
+				opacity: 1;
+			}
+		}
+	}
+
+	/* Fourth layer: overlay. */
+	.image-filters-enabled & .site-branding-container:after {
+		background: rgba(0, 0, 0, 0.35);
+		mix-blend-mode: overlay;
+		opacity: 0.5;
+		z-index: 4;
+
+		/* Browsers supporting mix-blend-mode can have a light overlay */
+		@supports (mix-blend-mode: overlay) {
+			background: rgba($color__background-body, 0.35);
+		}
+	}
+
+	/* Fifth layer: readability overlay */
+	&:after {
+		background: #000;
+		/**
+		 * Add a transition to the readability overlay, to add a subtle
+		 * but smooth effect when resizing the screen.
+		 */
+		transition: opacity 1200ms ease-in-out;
+		opacity: 0.7;
+		z-index: 5;
+
+		/* When image filters are active, a blue overlay is added. */
+		.image-filters-enabled & {
+			background: mix($color__link, black, 12%);
+			opacity: 0.38;
+
+			@include media(tablet) {
+				opacity: 0.18;
+			}
+		}
+	}
+
+
+	::-moz-selection {
+		background: rgba($color__background-body, 0.17);
+	}
+
+	::selection {
+		background: rgba($color__background-body, 0.17);
+	}
+}

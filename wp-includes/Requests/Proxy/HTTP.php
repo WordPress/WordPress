@@ -59,12 +59,12 @@ class Requests_Proxy_HTTP implements Requests_Proxy {
 			$this->proxy = $args;
 		}
 		elseif (is_array($args)) {
-			if (count($args) == 1) {
+			if (count($args) === 1) {
 				list($this->proxy) = $args;
 			}
-			elseif (count($args) == 3) {
+			elseif (count($args) === 3) {
 				list($this->proxy, $this->user, $this->pass) = $args;
-				$this->use_authentication = true;
+				$this->use_authentication                    = true;
 			}
 			else {
 				throw new Requests_Exception('Invalid number of arguments', 'proxyhttpbadargs');
@@ -82,13 +82,13 @@ class Requests_Proxy_HTTP implements Requests_Proxy {
 	 * @see fsockopen_header
 	 * @param Requests_Hooks $hooks Hook system
 	 */
-	public function register(Requests_Hooks &$hooks) {
-		$hooks->register('curl.before_send', array(&$this, 'curl_before_send'));
+	public function register(Requests_Hooks $hooks) {
+		$hooks->register('curl.before_send', array($this, 'curl_before_send'));
 
-		$hooks->register('fsockopen.remote_socket', array(&$this, 'fsockopen_remote_socket'));
-		$hooks->register('fsockopen.remote_host_path', array(&$this, 'fsockopen_remote_host_path'));
+		$hooks->register('fsockopen.remote_socket', array($this, 'fsockopen_remote_socket'));
+		$hooks->register('fsockopen.remote_host_path', array($this, 'fsockopen_remote_host_path'));
 		if ($this->use_authentication) {
-			$hooks->register('fsockopen.after_headers', array(&$this, 'fsockopen_header'));
+			$hooks->register('fsockopen.after_headers', array($this, 'fsockopen_header'));
 		}
 	}
 

@@ -4,10 +4,11 @@ Theme URI: https://wordpress.org/themes/twentyfifteen/
 Author: the WordPress team
 Author URI: https://wordpress.org/
 Description: Our 2015 default theme is clean, blog-focused, and designed for clarity. Twenty Fifteen's simple, straightforward typography is readable on a wide variety of screen sizes, and suitable for multiple languages. We designed it using a mobile-first approach, meaning your content takes center-stage, regardless of whether your visitors arrive by smartphone, tablet, laptop, or desktop computer.
-Version: 1.8
+Version: 2.9
+Requires PHP: 5.2.4
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Tags: blog, two-columns, left-sidebar, accessibility-ready, custom-background, custom-colors, custom-header, custom-logo, custom-menu, editor-style, featured-images, microformats, post-formats, rtl-language-support, sticky-post, threaded-comments, translation-ready
+Tags: blog, two-columns, left-sidebar, accessibility-ready, custom-background, custom-colors, custom-header, custom-logo, custom-menu, editor-style, featured-images, microformats, post-formats, rtl-language-support, sticky-post, threaded-comments, translation-ready, block-patterns
 Text Domain: twentyfifteen
 
 This theme, like WordPress, is licensed under the GPL.
@@ -194,7 +195,7 @@ a img {
 	font-weight: normal;
 	font-variant: normal;
 	line-height: 1;
-	speak: none;
+	speak: never;
 	text-align: center;
 	text-decoration: inherit;
 	text-transform: none;
@@ -1397,7 +1398,8 @@ img.aligncenter {
 	text-transform: uppercase;
 }
 
-.widget > :last-child {
+.widget > :last-child,
+.widget > nav > :last-child {
 	margin-bottom: 0;
 }
 
@@ -1405,8 +1407,23 @@ img.aligncenter {
 	margin: 0;
 }
 
+.widget_calendar .wp-calendar-nav {
+	display: table;
+	width: 100%;
+}
+
+.widget_calendar .wp-calendar-nav span {
+	display: table-cell;
+}
+
+.widget_calendar .wp-calendar-nav-prev,
+.widget_calendar .wp-calendar-nav-next {
+	width: 40%;
+}
+
 .widget_calendar td,
-.widget_calendar th {
+.widget_calendar th,
+.widget_calendar .wp-calendar-nav span {
 	line-height: 2.3333;
 	text-align: center;
 	padding: 0;
@@ -1559,6 +1576,13 @@ img.aligncenter {
 	margin-left: 1.6em;
 }
 
+.tagcloud ul {
+	list-style-type: none;
+}
+
+.tagcloud ul li {
+	display: inline-block;
+}
 
 /**
  * 12.0 Content
@@ -2399,6 +2423,18 @@ a.post-thumbnail:focus {
 	top: -3px;
 }
 
+.comment-form #wp-comment-cookies-consent {
+	margin: 0 10px 0 0;
+}
+
+.comment-form .comment-form-cookies-consent label {
+	display: inline;
+	font-size: 12px;
+	font-size: 1.2rem;
+	font-weight: normal;
+	letter-spacing: 0;
+	text-transform: none;
+}
 
 /**
  * 13.0 Footer
@@ -2427,6 +2463,13 @@ a.post-thumbnail:focus {
 	color: #333;
 }
 
+.site-info span[role=separator] {
+	padding: 0 0.25em 0 0.5em;
+}
+
+.site-info span[role=separator]::before {
+	content: '\002f';
+}
 
 /**
  * 14.0 Media
@@ -3026,6 +3069,7 @@ p > video {
 	.comment-awaiting-moderation,
 	.logged-in-as,
 	.comment-form label,
+	.comment-form .comment-form-cookies-consent label,
 	.form-allowed-tags,
 	.site-info,
 	.wp-caption-text,
@@ -3228,11 +3272,20 @@ p > video {
 	}
 
 	.widget_calendar td,
-	.widget_calendar th {
+	.widget_calendar th,
+	.widget_calendar .wp-calendar-nav span {
 		line-height: 2.9286;
 	}
 
 	.widget_calendar caption {
+		margin: 0 0 1.5em;
+	}
+
+	.widget_calendar .wp-calendar-table {
+		margin-bottom: 0;
+	}
+
+	.widget_calendar .wp-calendar-nav {
 		margin: 0 0 1.5em;
 	}
 
@@ -3655,6 +3708,7 @@ p > video {
 	.comment-awaiting-moderation,
 	.logged-in-as,
 	.comment-form label,
+	.comment-form .comment-form-cookies-consent label,
 	.form-allowed-tags,
 	.site-info,
 	.wp-caption-text,
@@ -3806,7 +3860,8 @@ p > video {
 	}
 
 	.widget_calendar td,
-	.widget_calendar th {
+	.widget_calendar th,
+	.widget_calendar .wp-calendar-nav span {
 		line-height: 2.9375;
 	}
 
@@ -4274,6 +4329,7 @@ p > video {
 	.comment-awaiting-moderation,
 	.logged-in-as,
 	.comment-form label,
+	.comment-form .comment-form-cookies-consent label,
 	.form-allowed-tags,
 	.site-info,
 	.wp-caption-text,
@@ -4452,7 +4508,8 @@ p > video {
 	}
 
 	.widget_calendar td,
-	.widget_calendar th {
+	.widget_calendar th,
+	.widget_calendar .wp-calendar-nav span {
 		line-height: 1.9167;
 	}
 
@@ -4931,6 +4988,7 @@ p > video {
 	.comment-awaiting-moderation,
 	.logged-in-as,
 	.comment-form label,
+	.comment-form .comment-form-cookies-consent label,
 	.form-allowed-tags,
 	.site-info,
 	.wp-caption-text,
@@ -5060,7 +5118,8 @@ p > video {
 	}
 
 	.widget_calendar td,
-	.widget_calendar th {
+	.widget_calendar th,
+	.widget_calendar .wp-calendar-nav span {
 		line-height: 1.9286;
 	}
 
@@ -5472,6 +5531,7 @@ p > video {
 	.comment-awaiting-moderation,
 	.logged-in-as,
 	.comment-form label,
+	.comment-form .comment-form-cookies-consent label,
 	.form-allowed-tags,
 	.site-info,
 	.wp-caption-text,
@@ -5607,7 +5667,8 @@ p > video {
 	}
 
 	.widget_calendar td,
-	.widget_calendar th {
+	.widget_calendar th,
+	.widget_calendar .wp-calendar-nav span {
 		line-height: 1.9375;
 	}
 
@@ -5931,7 +5992,7 @@ p > video {
 	.page-content,
 	.comments-area,
 	.widecolumn {
-		background: none !important; /* Make sure color schemes dont't affect to print */
+		background: none !important; /* Make sure color schemes don't affect to print */
 	}
 
 	body,

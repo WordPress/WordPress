@@ -1,0 +1,35 @@
+{
+	"apiVersion": 2,
+	"name": "core/text-columns",
+	"title": "Text Columns (deprecated)",
+	"icon": "columns",
+	"category": "design",
+	"description": "This block is deprecated. Please use the Columns block instead.",
+	"textdomain": "default",
+	"attributes": {
+		"content": {
+			"type": "array",
+			"source": "query",
+			"selector": "p",
+			"query": {
+				"children": {
+					"type": "string",
+					"source": "html"
+				}
+			},
+			"default": [ {}, {} ]
+		},
+		"columns": {
+			"type": "number",
+			"default": 2
+		},
+		"width": {
+			"type": "string"
+		}
+	},
+	"supports": {
+		"inserter": false
+	},
+	"editorStyle": "wp-block-text-columns-editor",
+	"style": "wp-block-text-columns"
+}

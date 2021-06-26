@@ -18,7 +18,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 	} );
 
 	editor.addButton( 'wp_img_edit', {
-		tooltip: 'Edit ', // trailing space is needed, used for context
+		tooltip: 'Edit|button', // '|button' is not displayed, only used for context.
 		icon: 'dashicon dashicons-edit',
 		onclick: function() {
 			editImage( editor.selection.getNode() );
@@ -146,7 +146,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 				caption = trim( img[2] );
 				img = trim( img[1] );
 			} else {
-				// old captions shortcode style
+				// Old captions shortcode style.
 				caption = trim( b ).replace( /caption=['"]/, '' ).replace( /['"]$/, '' );
 				img = c;
 			}
@@ -214,18 +214,18 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 				}
 
 				caption = caption.replace( /\r\n|\r/g, '\n' ).replace( /<[a-zA-Z0-9]+( [^<>]+)?>/g, function( a ) {
-					// no line breaks inside HTML tags
+					// No line breaks inside HTML tags.
 					return a.replace( /[\r\n\t]+/, ' ' );
 				});
 
-				// convert remaining line breaks to <br>
+				// Convert remaining line breaks to <br>.
 				caption = caption.replace( /\s*\n\s*/g, '<br />' );
 
 				return '[caption id="' + id + '" align="' + align + '" width="' + width + '"' + classes + ']' + c + ' ' + caption + '[/caption]';
 			});
 
 			if ( out.indexOf('[caption') === -1 ) {
-				// the caption html seems broken, try to find the image that may be wrapped in a link
+				// The caption html seems broken, try to find the image that may be wrapped in a link
 				// and may be followed by <p> with the caption text.
 				out = dl.replace( /[\s\S]*?((?:<a [^>]+>)?<img [^>]+>(?:<\/a>)?)(<p>[\s\S]*<\/p>)?[\s\S]*/gi, '<p>$1</p>$2' );
 			}
@@ -240,7 +240,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 			dom = editor.dom,
 			isIntRegExp = /^\d+$/;
 
-		// default attributes
+		// Default attributes.
 		metadata = {
 			attachment_id: false,
 			size: 'custom',
@@ -292,7 +292,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 
 		metadata.extraClasses = extraClasses.join( ' ' );
 
-		// Extract caption
+		// Extract caption.
 		captionBlock = dom.getParents( imageNode, '.wp-caption' );
 
 		if ( captionBlock.length ) {
@@ -318,7 +318,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 			}
 		}
 
-		// Extract linkTo
+		// Extract linkTo.
 		if ( imageNode.parentNode && imageNode.parentNode.nodeName === 'A' ) {
 			link = imageNode.parentNode;
 			metadata.linkUrl = dom.getAttrib( link, 'href' );
@@ -331,10 +331,10 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 	}
 
 	function hasTextContent( node ) {
-		return node && !! ( node.textContent || node.innerText );
+		return node && !! ( node.textContent || node.innerText ).replace( /\ufeff/g, '' );
 	}
 
-	// Verify HTML in captions
+	// Verify HTML in captions.
 	function verifyHTML( caption ) {
 		if ( ! caption || ( caption.indexOf( '<' ) === -1 && caption.indexOf( '>' ) === -1 ) ) {
 			return caption;
@@ -347,12 +347,17 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		return serializer.serialize( editor.parser.parse( caption, { forced_root_block: false } ) );
 	}
 
-	function updateImage( imageNode, imageData ) {
-		var classes, className, node, html, parent, wrap, linkNode,
+	function updateImage( $imageNode, imageData ) {
+		var classes, className, node, html, parent, wrap, linkNode, imageNode,
 			captionNode, dd, dl, id, attrs, linkAttrs, width, height, align,
 			$imageNode, srcset, src,
 			dom = editor.dom;
 
+		if ( ! $imageNode || ! $imageNode.length ) {
+			return;
+		}
+
+		imageNode = $imageNode[0];
 		classes = tinymce.explode( imageData.extraClasses, ' ' );
 
 		if ( ! classes ) {
@@ -389,7 +394,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		dom.setAttribs( imageNode, attrs );
 
 		// Preserve empty alt attributes.
-		editor.$( imageNode ).attr( 'alt', imageData.alt || '' );
+		$imageNode.attr( 'alt', imageData.alt || '' );
 
 		linkAttrs = {
 			href: imageData.linkUrl,
@@ -399,7 +404,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		};
 
 		if ( imageNode.parentNode && imageNode.parentNode.nodeName === 'A' && ! hasTextContent( imageNode.parentNode ) ) {
-			// Update or remove an existing link wrapped around the image
+			// Update or remove an existing link wrapped around the image.
 			if ( imageData.linkUrl ) {
 				dom.setAttribs( imageNode.parentNode, linkAttrs );
 			} else {
@@ -408,11 +413,11 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		} else if ( imageData.linkUrl ) {
 			if ( linkNode = dom.getParent( imageNode, 'a' ) ) {
 				// The image is inside a link together with other nodes,
-				// or is nested in another node, move it out
+				// or is nested in another node, move it out.
 				dom.insertAfter( imageNode, linkNode );
 			}
 
-			// Add link wrapped around the image
+			// Add link wrapped around the image.
 			linkNode = dom.create( 'a', linkAttrs );
 			imageNode.parentNode.insertBefore( linkNode, imageNode );
 			linkNode.appendChild( imageNode );
@@ -462,7 +467,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 			} else {
 				id = id ? 'id="'+ id +'" ' : '';
 
-				// should create a new function for generating the caption markup
+				// Should create a new function for generating the caption markup.
 				html =  '<dl ' + id + 'class="' + className +'" style="width: '+ width +'px">' +
 					'<dt class="wp-caption-dt"></dt><dd class="wp-caption-dd">'+ imageData.caption +'</dd></dl>';
 
@@ -481,7 +486,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 				}
 			}
 		} else if ( captionNode ) {
-			// Remove the caption wrapper and place the image in new paragraph
+			// Remove the caption wrapper and place the image in new paragraph.
 			parent = dom.create( 'p' );
 			captionNode.parentNode.insertBefore( parent, captionNode );
 			parent.appendChild( node );
@@ -513,7 +518,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 	}
 
 	function editImage( img ) {
-		var frame, callback, metadata;
+		var frame, callback, metadata, imageNode;
 
 		if ( typeof wp === 'undefined' || ! wp.media ) {
 			editor.execCommand( 'mceImage' );
@@ -522,7 +527,10 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 
 		metadata = extractImageData( img );
 
-		// Manipulate the metadata by reference that is fed into the PostImage model used in the media modal
+		// Mark the image node so we can select it later.
+		editor.$( img ).attr( 'data-wp-editing', 1 );
+
+		// Manipulate the metadata by reference that is fed into the PostImage model used in the media modal.
 		wp.media.events.trigger( 'editor:image-edit', {
 			editor: editor,
 			metadata: metadata,
@@ -538,9 +546,8 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		wp.media.events.trigger( 'editor:frame-create', { frame: frame } );
 
 		callback = function( imageData ) {
-			editor.focus();
 			editor.undoManager.transact( function() {
-				updateImage( img, imageData );
+				updateImage( imageNode, imageData );
 			} );
 			frame.detach();
 		};
@@ -550,6 +557,14 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		frame.on( 'close', function() {
 			editor.focus();
 			frame.detach();
+
+			/*
+			 * `close` fires first...
+			 * To be able to update the image node, we need to find it here,
+			 * and use it in the callback.
+			 */
+			imageNode = editor.$( 'img[data-wp-editing]' )
+			imageNode.removeAttr( 'data-wp-editing' );
 		});
 
 		frame.open();
@@ -587,12 +602,12 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 
 		dom.addClass( editor.getBody(), captionClass );
 
-		// Prevent IE11 from making dl.wp-caption resizable
+		// Prevent IE11 from making dl.wp-caption resizable.
 		if ( tinymce.Env.ie && tinymce.Env.ie > 10 ) {
-			// The 'mscontrolselect' event is supported only in IE11+
+			// The 'mscontrolselect' event is supported only in IE11+.
 			dom.bind( editor.getBody(), 'mscontrolselect', function( event ) {
 				if ( event.target.nodeName === 'IMG' && dom.getParent( event.target, '.wp-caption' ) ) {
-					// Hide the thick border with resize handles around dl.wp-caption
+					// Hide the thick border with resize handles around dl.wp-caption.
 					editor.getBody().focus(); // :(
 				} else if ( event.target.nodeName === 'DL' && dom.hasClass( event.target, 'wp-caption' ) ) {
 					// Trigger the thick border with resize handles...
@@ -675,25 +690,31 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 				if ( cmd === 'mceInsertContent' ) {
 					if ( pasteInCaption ) {
 						pasteInCaption = false;
-						// We are in the caption element, and in 'paste' context,
-						// and the pasted HTML was cleaned up on 'pastePostProcess' above.
-						// Let it be pasted in the caption.
+						/*
+						 * We are in the caption element, and in 'paste' context,
+						 * and the pasted HTML was cleaned up on 'pastePostProcess' above.
+						 * Let it be pasted in the caption.
+						 */
 						return;
 					}
 
-					// The paste is somewhere else in the caption DL element.
-					// Prevent pasting in there as it will break the caption.
-					// Make new paragraph under the caption DL and move the caret there.
+					/*
+					 * The paste is somewhere else in the caption DL element.
+					 * Prevent pasting in there as it will break the caption.
+					 * Make new paragraph under the caption DL and move the caret there.
+					 */
 					p = dom.create( 'p' );
 					dom.insertAfter( p, captionParent );
 					editor.selection.setCursorLocation( p, 0 );
 
-					// If the image is selected and the user pastes "over" it,
-					// replace both the image and the caption elements with the pasted content.
-					// This matches the behavior when pasting over non-caption images.
+					/*
+					 * If the image is selected and the user pastes "over" it,
+					 * replace both the image and the caption elements with the pasted content.
+					 * This matches the behavior when pasting over non-caption images.
+					 */
 					if ( node.nodeName === 'IMG' ) {
-                        editor.$( captionParent ).remove();
-                    }
+						editor.$( captionParent ).remove();
+					}
 
 					editor.nodeChanged();
 				} else {
@@ -746,7 +767,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 			VK = tinymce.util.VK;
 
 		if ( keyCode === VK.ENTER ) {
-			// When pressing Enter inside a caption move the caret to a new parapraph under it
+			// When pressing Enter inside a caption move the caret to a new parapraph under it.
 			node = selection.getNode();
 			wrap = dom.getParent( node, 'div.mceTemp' );
 
@@ -789,9 +810,11 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		}
 	});
 
-	// After undo/redo FF seems to set the image height very slowly when it is set to 'auto' in the CSS.
-	// This causes image.getBoundingClientRect() to return wrong values and the resize handles are shown in wrong places.
-	// Collapse the selection to remove the resize handles.
+	/*
+	 * After undo/redo FF seems to set the image height very slowly when it is set to 'auto' in the CSS.
+	 * This causes image.getBoundingClientRect() to return wrong values and the resize handles are shown in wrong places.
+	 * Collapse the selection to remove the resize handles.
+	 */
 	if ( tinymce.Env.gecko ) {
 		editor.on( 'undo redo', function() {
 			if ( editor.selection.getNode().nodeName === 'IMG' ) {
@@ -810,7 +833,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 
 	editor.on( 'beforeGetContent', function( event ) {
 		if ( event.format !== 'raw' ) {
-			editor.$( 'img[id="__wp-temp-img-id"]' ).attr( 'id', null );
+			editor.$( 'img[id="__wp-temp-img-id"]' ).removeAttr( 'id' );
 		}
 	});
 
@@ -865,7 +888,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		} );
 	} )();
 
-	// Add to editor.wp
+	// Add to editor.wp.
 	editor.wp = editor.wp || {};
 	editor.wp.isPlaceholder = isPlaceholder;
 

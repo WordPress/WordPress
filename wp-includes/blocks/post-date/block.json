@@ -1,0 +1,32 @@
+{
+	"apiVersion": 2,
+	"name": "core/post-date",
+	"title": "Post Date",
+	"category": "theme",
+	"description": "Add the date of this post.",
+	"textdomain": "default",
+	"attributes": {
+		"textAlign": {
+			"type": "string"
+		},
+		"format": {
+			"type": "string"
+		},
+		"isLink": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"usesContext": [ "postId", "postType", "queryId" ],
+	"supports": {
+		"html": false,
+		"color": {
+			"gradients": true,
+			"link": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true
+		}
+	}
+}

@@ -4,7 +4,7 @@
  *
  * Used on index and archive pages.
  *
- * @link https://codex.wordpress.org/Post_Formats
+ * @link https://wordpress.org/support/article/post-formats/
  *
  * @package WordPress
  * @subpackage Twenty_Eleven
@@ -26,14 +26,21 @@
 			<?php endif; ?>
 		</header><!-- .entry-header -->
 
-		<?php if ( is_search() ) : // Only display Excerpts for Search ?>
+		<?php if ( is_search() ) : // Only display excerpts for search. ?>
 		<div class="entry-summary">
 			<?php the_excerpt(); ?>
 		</div><!-- .entry-summary -->
 		<?php else : ?>
 		<div class="entry-content">
 			<?php the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'twentyeleven' ) ); ?>
-			<?php wp_link_pages( array( 'before' => '<div class="page-link"><span>' . __( 'Pages:', 'twentyeleven' ) . '</span>', 'after' => '</div>' ) ); ?>
+			<?php
+			wp_link_pages(
+				array(
+					'before' => '<div class="page-link"><span>' . __( 'Pages:', 'twentyeleven' ) . '</span>',
+					'after'  => '</div>',
+				)
+			);
+			?>
 		</div><!-- .entry-content -->
 		<?php endif; ?>
 

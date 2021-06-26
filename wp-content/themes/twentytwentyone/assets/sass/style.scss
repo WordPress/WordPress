@@ -1,0 +1,122 @@
+@import "01-settings/file-header";
+
+/**
+ * SETTINGS
+ * File-header..........The file header for the themes style.css file.
+ * Fonts................Any font files, if the project needs specific fonts.
+ * Global...............Project-specific, globally available variables.
+ *
+ * TOOLS
+ * Functions............Global functions.
+ * Mixins...............Global mixins.
+ *
+ * GENERIC
+ * Normalize.css........Normalise browser defaults.
+ * Breakpoints..........Mixins and variables for responsive styles
+ * Vertical-margins.....Vertical spacing for the main components.
+ * Reset................Reset specific elements to make them easier to style in other contexts.
+ * Clearings............Clearings for the main components.
+ *
+ * ELEMENTS
+ * Blockquote...........Default blockquote.
+ * Forms................Element-level form styling.
+ * Headings.............H1–H6
+ * Links................Default links.
+ * Lists................Default lists.
+ * Media................Images, Figure, Figcaption, Embed, iFrame, Objects, Video.
+ *
+ * BLOCKS
+ * Audio................Specific styles for the audio block.
+ * Button...............Specific styles for the button block.
+ * Code.................Specific styles for the code block.
+ * Columns..............Specific styles for the columns block.
+ * Cover................Specific styles for the cover block.
+ * File.................Specific styles for the file block.
+ * Gallery..............Specific styles for the gallery block.
+ * Group................Specific styles for the group block.
+ * Heading..............Specific styles for the heading block.
+ * Image................Specific styles for the image block.
+ * Latest comments......Specific styles for the latest comments block.
+ * Latest posts.........Specific styles for the latest posts block.
+ * Legacy...............Specific styles for the legacy gallery.
+ * List.................Specific styles for the list block.
+ * Media text...........Specific styles for the media and text block.
+ * Navigation...........Specific styles for the navigation block.
+ * Paragraph............Specific styles for the paragraph block.
+ * Pullquote............Specific styles for the pullquote block.
+ * Quote................Specific styles for the quote block.
+ * Search...............Specific styles for the search block.
+ * Separator............Specific styles for the separator block.
+ * Spacer...............Specific styles for the spacer block.
+ * Table................Specific styles for the table block.
+ * Verse................Specific styles for the verse block.
+ * Video................Specific styles for the video block.
+ * Utilities............Block alignments.
+ *
+ * COMPONENTS
+ * Header...............Header styles.
+ * Footer...............Footer styles.
+ * Comments.............Comment styles.
+ * Archives.............Archive styles.
+ * 404..................404 styles.
+ * Search...............Search styles.
+ * Navigation...........Navigation styles.
+ * Footer Navigation....Footer Navigation styles.
+ * Pagination...........Pagination styles.
+ * Single...............Single page and post styles.
+ * Posts and pages......Misc, sticky post styles.
+ * Entry................Entry, author biography.
+ * Widget...............Widget styles.
+ * Editor...............Editor styles.
+ *
+ * UTILITIES
+ * A11y.................Screen reader text, prefers reduced motion etc.
+ * Color Palette........Classes for the color palette colors.
+ * Editor Font Sizes....Editor Font Sizes.
+ * Measure..............The width of a line of text, in characters.
+ */
+// Print................Print styles
+
+/* Categories 01 to 03 are the basics. */
+@import "01-settings/fonts";
+@import "01-settings/global";
+
+@import "02-tools/mixins";
+@import "02-tools/functions";
+
+@import "03-generic/normalize";
+@import "03-generic/breakpoints";
+@import "03-generic/vertical-margins";
+@import "03-generic/reset";
+@import "03-generic/clearings";
+
+/* Category 04 can contain any default HTML element. Do not add classes here, just give the elements some basic styles. */
+@import "04-elements/blockquote";
+@import "04-elements/forms";
+@import "04-elements/media";
+@import "04-elements/misc";
+@import "04-elements/links";
+
+/* Category 05 is all about adjusting the default block styles to the given layout. I only added three blocks as examples. */
+@import "05-blocks/blocks";
+
+/* Category 06 contains all "bigger" components which contain elements of the previous two categories like header, footer, page template, single template, comments section, archives, ... */
+@import "06-components/header";
+@import "06-components/footer";
+@import "06-components/single";
+@import "06-components/posts-and-pages";
+@import "06-components/entry";
+@import "06-components/archives";
+@import "06-components/404";
+@import "06-components/search";
+@import "06-components/comments";
+@import "06-components/navigation";
+@import "06-components/footer-navigation";
+@import "06-components/pagination";
+@import "06-components/widgets";
+
+/* Category 07 is for any utility classes that are not assigned to a specific component. */
+@import "07-utilities/a11y";
+@import "07-utilities/color-palette";
+@import "07-utilities/measure";
+@import "07-utilities/ie";

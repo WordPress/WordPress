@@ -39,7 +39,7 @@ USAGE:
         ".":">",  "/":"?",  "\\":"|" };
 
     this.add = function(combi, options, callback) {
-        if (jQuery.isFunction(options)){
+        if ( typeof options === 'function' ){
             callback = options;
             options = {};
         }

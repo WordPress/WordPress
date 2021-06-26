@@ -6,9 +6,9 @@
  * @access private
  */
 
-// If gettext isn't available
-if ( !function_exists('_') ) {
-	function _($string) {
+// If gettext isn't available.
+if ( ! function_exists( '_' ) ) {
+	function _( $string ) {
 		return $string;
 	}
 }
@@ -19,8 +19,6 @@ if ( !function_exists('_') ) {
  * @ignore
  * @since 4.2.2
  * @access private
- *
- * @staticvar string $utf8_pcre
  *
  * @param bool $set - Used for testing only
  *             null   : default - get PCRE/u capability
@@ -35,6 +33,7 @@ function _wp_can_use_pcre_u( $set = null ) {
 	}
 
 	if ( 'reset' === $utf8_pcre ) {
+		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- intentional error generated to detect PCRE/u support.
 		$utf8_pcre = @preg_match( '/^./u', 'a' );
 	}
 
@@ -88,7 +87,7 @@ function _mb_substr( $str, $start, $length = null, $encoding = null ) {
 	 * The solution below works only for UTF-8, so in case of a different
 	 * charset just use built-in substr().
 	 */
-	if ( ! in_array( $encoding, array( 'utf8', 'utf-8', 'UTF8', 'UTF-8' ) ) ) {
+	if ( ! in_array( $encoding, array( 'utf8', 'utf-8', 'UTF8', 'UTF-8' ), true ) ) {
 		return is_null( $length ) ? substr( $str, $start ) : substr( $str, $start, $length );
 	}
 
@@ -100,7 +99,7 @@ function _mb_substr( $str, $start, $length = null, $encoding = null ) {
 	}
 
 	$regex = '/(
-		  [\x00-\x7F]                  # single-byte sequences   0xxxxxxx
+		[\x00-\x7F]                  # single-byte sequences   0xxxxxxx
 		| [\xC2-\xDF][\x80-\xBF]       # double-byte sequences   110xxxxx 10xxxxxx
 		| \xE0[\xA0-\xBF][\x80-\xBF]   # triple-byte sequences   1110xxxx 10xxxxxx * 2
 		| [\xE1-\xEC][\x80-\xBF]{2}
@@ -125,10 +124,10 @@ function _mb_substr( $str, $start, $length = null, $encoding = null ) {
 
 		$chars = array_merge( $chars, $pieces );
 
-	// If there's anything left over, repeat the loop.
+		// If there's anything left over, repeat the loop.
 	} while ( count( $pieces ) > 1 && $str = array_pop( $pieces ) );
 
-	return join( '', array_slice( $chars, $start, $length ) );
+	return implode( '', array_slice( $chars, $start, $length ) );
 }
 
 if ( ! function_exists( 'mb_strlen' ) ) :
@@ -172,7 +171,7 @@ function _mb_strlen( $str, $encoding = null ) {
 	 * The solution below works only for UTF-8, so in case of a different charset
 	 * just use built-in strlen().
 	 */
-	if ( ! in_array( $encoding, array( 'utf8', 'utf-8', 'UTF8', 'UTF-8' ) ) ) {
+	if ( ! in_array( $encoding, array( 'utf8', 'utf-8', 'UTF8', 'UTF-8' ), true ) ) {
 		return strlen( $str );
 	}
 
@@ -183,7 +182,7 @@ function _mb_strlen( $str, $encoding = null ) {
 	}
 
 	$regex = '/(?:
-		  [\x00-\x7F]                  # single-byte sequences   0xxxxxxx
+		[\x00-\x7F]                  # single-byte sequences   0xxxxxxx
 		| [\xC2-\xDF][\x80-\xBF]       # double-byte sequences   110xxxxx 10xxxxxx
 		| \xE0[\xA0-\xBF][\x80-\xBF]   # triple-byte sequences   1110xxxx 10xxxxxx * 2
 		| [\xE1-\xEC][\x80-\xBF]{2}
@@ -209,33 +208,40 @@ function _mb_strlen( $str, $encoding = null ) {
 		// Increment.
 		$count += count( $pieces );
 
-	// If there's anything left over, repeat the loop.
+		// If there's anything left over, repeat the loop.
 	} while ( $str = array_pop( $pieces ) );
 
 	// Fencepost: preg_split() always returns one extra item in the array.
 	return --$count;
 }
 
-if ( !function_exists('hash_hmac') ):
-/**
- * Compat function to mimic hash_hmac().
- *
- * @ignore
- * @since 3.2.0
- *
- * @see _hash_hmac()
- *
- * @param string $algo       Hash algorithm. Accepts 'md5' or 'sha1'.
- * @param string $data       Data to be hashed.
- * @param string $key        Secret key to use for generating the hash.
- * @param bool   $raw_output Optional. Whether to output raw binary data (true),
- *                           or lowercase hexits (false). Default false.
- * @return string|false The hash in output determined by `$raw_output`. False if `$algo`
- *                      is unknown or invalid.
- */
-function hash_hmac($algo, $data, $key, $raw_output = false) {
-	return _hash_hmac($algo, $data, $key, $raw_output);
-}
+if ( ! function_exists( 'hash_hmac' ) ) :
+	/**
+	 * Compat function to mimic hash_hmac().
+	 *
+	 * The Hash extension is bundled with PHP by default since PHP 5.1.2.
+	 * However, the extension may be explicitly disabled on select servers.
+	 * As of PHP 7.4.0, the Hash extension is a core PHP extension and can no
+	 * longer be disabled.
+	 * I.e. when PHP 7.4.0 becomes the minimum requirement, this polyfill
+	 * and the associated `_hash_hmac()` function can be safely removed.
+	 *
+	 * @ignore
+	 * @since 3.2.0
+	 *
+	 * @see _hash_hmac()
+	 *
+	 * @param string $algo       Hash algorithm. Accepts 'md5' or 'sha1'.
+	 * @param string $data       Data to be hashed.
+	 * @param string $key        Secret key to use for generating the hash.
+	 * @param bool   $raw_output Optional. Whether to output raw binary data (true),
+	 *                           or lowercase hexits (false). Default false.
+	 * @return string|false The hash in output determined by `$raw_output`. False if `$algo`
+	 *                      is unknown or invalid.
+	 */
+	function hash_hmac( $algo, $data, $key, $raw_output = false ) {
+		return _hash_hmac( $algo, $data, $key, $raw_output );
+	}
 endif;
 
 /**
@@ -252,248 +258,123 @@ endif;
  * @return string|false The hash in output determined by `$raw_output`. False if `$algo`
  *                      is unknown or invalid.
  */
-function _hash_hmac($algo, $data, $key, $raw_output = false) {
-	$packs = array('md5' => 'H32', 'sha1' => 'H40');
+function _hash_hmac( $algo, $data, $key, $raw_output = false ) {
+	$packs = array(
+		'md5'  => 'H32',
+		'sha1' => 'H40',
+	);
 
-	if ( !isset($packs[$algo]) )
+	if ( ! isset( $packs[ $algo ] ) ) {
 		return false;
+	}
 
-	$pack = $packs[$algo];
+	$pack = $packs[ $algo ];
 
-	if (strlen($key) > 64)
-		$key = pack($pack, $algo($key));
+	if ( strlen( $key ) > 64 ) {
+		$key = pack( $pack, $algo( $key ) );
+	}
 
-	$key = str_pad($key, 64, chr(0));
+	$key = str_pad( $key, 64, chr( 0 ) );
 
-	$ipad = (substr($key, 0, 64) ^ str_repeat(chr(0x36), 64));
-	$opad = (substr($key, 0, 64) ^ str_repeat(chr(0x5C), 64));
+	$ipad = ( substr( $key, 0, 64 ) ^ str_repeat( chr( 0x36 ), 64 ) );
+	$opad = ( substr( $key, 0, 64 ) ^ str_repeat( chr( 0x5C ), 64 ) );
 
-	$hmac = $algo($opad . pack($pack, $algo($ipad . $data)));
+	$hmac = $algo( $opad . pack( $pack, $algo( $ipad . $data ) ) );
 
-	if ( $raw_output )
+	if ( $raw_output ) {
 		return pack( $pack, $hmac );
+	}
 	return $hmac;
 }
 
-if ( !function_exists('json_encode') ) {
-	function json_encode( $string ) {
-		global $wp_json;
-
-		if ( ! ( $wp_json instanceof Services_JSON ) ) {
-			require_once( ABSPATH . WPINC . '/class-json.php' );
-			$wp_json = new Services_JSON();
-		}
-
-		return $wp_json->encodeUnsafe( $string );
-	}
-}
-
-if ( !function_exists('json_decode') ) {
-	/**
-	 * @global Services_JSON $wp_json
-	 * @param string $string
-	 * @param bool   $assoc_array
-	 * @return object|array
-	 */
-	function json_decode( $string, $assoc_array = false ) {
-		global $wp_json;
-
-		if ( ! ($wp_json instanceof Services_JSON ) ) {
-			require_once( ABSPATH . WPINC . '/class-json.php' );
-			$wp_json = new Services_JSON();
-		}
-
-		$res = $wp_json->decode( $string );
-		if ( $assoc_array )
-			$res = _json_decode_object_helper( $res );
-		return $res;
-	}
-
-	/**
-	 * @param object $data
-	 * @return array
-	 */
-	function _json_decode_object_helper($data) {
-		if ( is_object($data) )
-			$data = get_object_vars($data);
-		return is_array($data) ? array_map(__FUNCTION__, $data) : $data;
-	}
-}
-
 if ( ! function_exists( 'hash_equals' ) ) :
-/**
- * Timing attack safe string comparison
- *
- * Compares two strings using the same time whether they're equal or not.
- *
- * This function was added in PHP 5.6.
- *
- * Note: It can leak the length of a string when arguments of differing length are supplied.
- *
- * @since 3.9.2
- *
- * @param string $a Expected string.
- * @param string $b Actual, user supplied, string.
- * @return bool Whether strings are equal.
- */
-function hash_equals( $a, $b ) {
-	$a_length = strlen( $a );
-	if ( $a_length !== strlen( $b ) ) {
-		return false;
-	}
-	$result = 0;
-
-	// Do not attempt to "optimize" this.
-	for ( $i = 0; $i < $a_length; $i++ ) {
-		$result |= ord( $a[ $i ] ) ^ ord( $b[ $i ] );
-	}
-
-	return $result === 0;
-}
-endif;
-
-// JSON_PRETTY_PRINT was introduced in PHP 5.4
-// Defined here to prevent a notice when using it with wp_json_encode()
-if ( ! defined( 'JSON_PRETTY_PRINT' ) ) {
-	define( 'JSON_PRETTY_PRINT', 128 );
-}
-
-if ( ! function_exists( 'json_last_error_msg' ) ) :
 	/**
-	 * Retrieves the error string of the last json_encode() or json_decode() call.
+	 * Timing attack safe string comparison
 	 *
-	 * @since 4.4.0
+	 * Compares two strings using the same time whether they're equal or not.
 	 *
-	 * @internal This is a compatibility function for PHP <5.5
+	 * Note: It can leak the length of a string when arguments of differing length are supplied.
 	 *
-	 * @return bool|string Returns the error message on success, "No Error" if no error has occurred,
-	 *                     or false on failure.
+	 * This function was added in PHP 5.6.
+	 * However, the Hash extension may be explicitly disabled on select servers.
+	 * As of PHP 7.4.0, the Hash extension is a core PHP extension and can no
+	 * longer be disabled.
+	 * I.e. when PHP 7.4.0 becomes the minimum requirement, this polyfill
+	 * can be safely removed.
+	 *
+	 * @since 3.9.2
+	 *
+	 * @param string $a Expected string.
+	 * @param string $b Actual, user supplied, string.
+	 * @return bool Whether strings are equal.
 	 */
-	function json_last_error_msg() {
-		// See https://core.trac.wordpress.org/ticket/27799.
-		if ( ! function_exists( 'json_last_error' ) ) {
+	function hash_equals( $a, $b ) {
+		$a_length = strlen( $a );
+		if ( strlen( $b ) !== $a_length ) {
 			return false;
 		}
+		$result = 0;
 
-		$last_error_code = json_last_error();
-
-		// Just in case JSON_ERROR_NONE is not defined.
-		$error_code_none = defined( 'JSON_ERROR_NONE' ) ? JSON_ERROR_NONE : 0;
-
-		switch ( true ) {
-			case $last_error_code === $error_code_none:
-				return 'No error';
-
-			case defined( 'JSON_ERROR_DEPTH' ) && JSON_ERROR_DEPTH === $last_error_code:
-				return 'Maximum stack depth exceeded';
-
-			case defined( 'JSON_ERROR_STATE_MISMATCH' ) && JSON_ERROR_STATE_MISMATCH === $last_error_code:
-				return 'State mismatch (invalid or malformed JSON)';
-
-			case defined( 'JSON_ERROR_CTRL_CHAR' ) && JSON_ERROR_CTRL_CHAR === $last_error_code:
-				return 'Control character error, possibly incorrectly encoded';
-
-			case defined( 'JSON_ERROR_SYNTAX' ) && JSON_ERROR_SYNTAX === $last_error_code:
-				return 'Syntax error';
-
-			case defined( 'JSON_ERROR_UTF8' ) && JSON_ERROR_UTF8 === $last_error_code:
-				return 'Malformed UTF-8 characters, possibly incorrectly encoded';
-
-			case defined( 'JSON_ERROR_RECURSION' ) && JSON_ERROR_RECURSION === $last_error_code:
-				return 'Recursion detected';
-
-			case defined( 'JSON_ERROR_INF_OR_NAN' ) && JSON_ERROR_INF_OR_NAN === $last_error_code:
-				return 'Inf and NaN cannot be JSON encoded';
-
-			case defined( 'JSON_ERROR_UNSUPPORTED_TYPE' ) && JSON_ERROR_UNSUPPORTED_TYPE === $last_error_code:
-				return 'Type is not supported';
-
-			default:
-				return 'An unknown error occurred';
+		// Do not attempt to "optimize" this.
+		for ( $i = 0; $i < $a_length; $i++ ) {
+			$result |= ord( $a[ $i ] ) ^ ord( $b[ $i ] );
 		}
+
+		return 0 === $result;
 	}
 endif;
 
-if ( ! interface_exists( 'JsonSerializable' ) ) {
-	define( 'WP_JSON_SERIALIZE_COMPATIBLE', true );
-	/**
-	 * JsonSerializable interface.
-	 *
-	 * Compatibility shim for PHP <5.4
-	 *
-	 * @link https://secure.php.net/jsonserializable
-	 *
-	 * @since 4.4.0
-	 */
-	interface JsonSerializable {
-		public function jsonSerialize();
-	}
-}
-
-// random_int was introduced in PHP 7.0
+// random_int() was introduced in PHP 7.0.
 if ( ! function_exists( 'random_int' ) ) {
 	require ABSPATH . WPINC . '/random_compat/random.php';
 }
+// sodium_crypto_box() was introduced in PHP 7.2.
+if ( ! function_exists( 'sodium_crypto_box' ) ) {
+	require ABSPATH . WPINC . '/sodium_compat/autoload.php';
+}
 
-if ( ! function_exists( 'array_replace_recursive' ) ) :
+if ( ! function_exists( 'is_countable' ) ) {
 	/**
-	 * PHP-agnostic version of {@link array_replace_recursive()}.
+	 * Polyfill for is_countable() function added in PHP 7.3.
 	 *
-	 * The array_replace_recursive() function is a PHP 5.3 function. WordPress
-	 * currently supports down to PHP 5.2, so this method is a workaround
-	 * for PHP 5.2.
+	 * Verify that the content of a variable is an array or an object
+	 * implementing the Countable interface.
 	 *
-	 * Note: array_replace_recursive() supports infinite arguments, but for our use-
-	 * case, we only need to support two arguments.
+	 * @since 4.9.6
 	 *
-	 * Subject to removal once WordPress makes PHP 5.3.0 the minimum requirement.
-	 *
-	 * @since 4.5.3
-	 *
-	 * @see https://secure.php.net/manual/en/function.array-replace-recursive.php#109390
-	 *
-	 * @param  array $base         Array with keys needing to be replaced.
-	 * @param  array $replacements Array with the replaced keys.
-	 *
-	 * @return array
+	 * @param mixed $var The value to check.
+	 * @return bool True if `$var` is countable, false otherwise.
 	 */
-	function array_replace_recursive( $base = array(), $replacements = array() ) {
-		foreach ( array_slice( func_get_args(), 1 ) as $replacements ) {
-			$bref_stack = array( &$base );
-			$head_stack = array( $replacements );
-
-			do {
-				end( $bref_stack );
-
-				$bref = &$bref_stack[ key( $bref_stack ) ];
-				$head = array_pop( $head_stack );
-
-				unset( $bref_stack[ key( $bref_stack ) ] );
-
-				foreach ( array_keys( $head ) as $key ) {
-					if ( isset( $key, $bref ) &&
-					     isset( $bref[ $key ] ) && is_array( $bref[ $key ] ) &&
-					     isset( $head[ $key ] ) && is_array( $head[ $key ] )
-					) {
-						$bref_stack[] = &$bref[ $key ];
-						$head_stack[] = $head[ $key ];
-					} else {
-						$bref[ $key ] = $head[ $key ];
-					}
-				}
-			} while ( count( $head_stack ) );
-		}
-
-		return $base;
+	function is_countable( $var ) {
+		return ( is_array( $var )
+			|| $var instanceof Countable
+			|| $var instanceof SimpleXMLElement
+			|| $var instanceof ResourceBundle
+		);
 	}
-endif;
+}
 
-/**
- * Polyfill for the SPL autoloader. In PHP 5.2 (but not 5.3 and later), SPL can
- * be disabled, and PHP 7.2 raises notices if the compiler finds an __autoload()
- * function declaration. Function availability is checked here, and the
- * autoloader is included only if necessary.
- */
-if ( ! function_exists( 'spl_autoload_register' ) ) {
-	require_once ABSPATH . WPINC . '/spl-autoload-compat.php';
+if ( ! function_exists( 'is_iterable' ) ) {
+	/**
+	 * Polyfill for is_iterable() function added in PHP 7.1.
+	 *
+	 * Verify that the content of a variable is an array or an object
+	 * implementing the Traversable interface.
+	 *
+	 * @since 4.9.6
+	 *
+	 * @param mixed $var The value to check.
+	 * @return bool True if `$var` is iterable, false otherwise.
+	 */
+	function is_iterable( $var ) {
+		return ( is_array( $var ) || $var instanceof Traversable );
+	}
+}
+
+// WebP constants are only defined in PHP 7.1+.
+if ( ! defined( 'IMAGETYPE_WEBP' ) ) {
+	define( 'IMAGETYPE_WEBP', 18 );
+}
+if ( ! defined( 'IMG_WEBP' ) ) {
+	define( 'IMG_WEBP', IMAGETYPE_WEBP ); // phpcs:ignore PHPCompatibility.Constants.NewConstants.imagetype_webpFound
 }

@@ -1,13 +1,13 @@
 /*
  * imgAreaSelect jQuery plugin
- * version 0.9.10-monkey
+ * version 0.9.10-wp
  *
  * Copyright (c) 2008-2013 Michal Wojciechowski (odyniec.net)
  *
  * Dual licensed under the MIT (MIT-LICENSE.txt)
  * and GPL (GPL-LICENSE.txt) licenses.
  *
- * http://odyniec.net/projects/imgareaselect/
+ * https://github.com/odyniec/imgareaselect
  *
  */
 
@@ -388,7 +388,7 @@ $.imgAreaSelect = function (img, options) {
              * current handler
              */
             if ($.imgAreaSelect.onKeyPress != docKeyPress)
-                $(document).unbind($.imgAreaSelect.keyPress,
+                $(document).off($.imgAreaSelect.keyPress,
                     $.imgAreaSelect.onKeyPress);
 
             if (options.keys)
@@ -396,8 +396,9 @@ $.imgAreaSelect = function (img, options) {
                  * Set the document keypress event handler to this instance's
                  * docKeyPress() function
                  */
-                $(document)[$.imgAreaSelect.keyPress](
-                    $.imgAreaSelect.onKeyPress = docKeyPress);
+                $(document).on( $.imgAreaSelect.keyPress, function() {
+                    $.imgAreaSelect.onKeyPress = docKeyPress;
+                });
         }
 
         /*
@@ -748,7 +749,7 @@ $.imgAreaSelect = function (img, options) {
      */
     function imgMouseDown(event) {
         /* Ignore the event if animation is in progress */
-        if (event.which != 1 || $outer.is(':animated')) return false;
+        if (event.which > 1 || $outer.is(':animated')) return false;
 
         adjust();
         startX = x1 = evX(event);
@@ -931,7 +932,7 @@ $.imgAreaSelect = function (img, options) {
                  * The font-size property needs to be set to zero, otherwise
                  * Internet Explorer makes the handles too large
                  */
-                fontSize: 0,
+                fontSize: '0',
                 zIndex: zIndex + 1 || 1
             });
 
@@ -1010,7 +1011,7 @@ $.imgAreaSelect = function (img, options) {
         /* Calculate the aspect ratio factor */
         aspectRatio = (d = (options.aspectRatio || '').split(/:/))[0] / d[1];
 
-        $img.add($outer).unbind('mousedown', imgMouseDown);
+        $img.add($outer).off('mousedown', imgMouseDown);
 
         if (options.disable || options.enable === false) {
             /* Disable the plugin */
@@ -1025,7 +1026,7 @@ $.imgAreaSelect = function (img, options) {
                     $box.on({ 'mousemove touchmove': areaMouseMove,
                         'mousedown touchstart': areaMouseDown });
 
-                $(window).resize(windowResize);
+                $(window).on( 'resize', windowResize);
             }
 
             if (!options.persistent)
@@ -1162,7 +1163,7 @@ $.imgAreaSelect = function (img, options) {
     $box.add($outer).css({ visibility: 'hidden', position: position,
         overflow: 'hidden', zIndex: zIndex || '0' });
     $box.css({ zIndex: zIndex + 2 || 2 });
-    $area.add($border).css({ position: 'absolute', fontSize: 0 });
+    $area.add($border).css({ position: 'absolute', fontSize: '0' });
 
     /*
      * If the image has been fully loaded, or if it is not really an image (eg.

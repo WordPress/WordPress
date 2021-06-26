@@ -45,7 +45,7 @@ class WP_Locale_Switcher {
 	 * @since 4.7.0
 	 */
 	public function __construct() {
-		$this->original_locale     = is_admin() ? get_user_locale() : get_locale();
+		$this->original_locale     = determine_locale();
 		$this->available_languages = array_merge( array( 'en_US' ), get_available_languages() );
 	}
 
@@ -53,6 +53,8 @@ class WP_Locale_Switcher {
 	 * Initializes the locale switcher.
 	 *
 	 * Hooks into the {@see 'locale'} filter to change the locale on the fly.
+	 *
+	 * @since 4.7.0
 	 */
 	public function init() {
 		add_filter( 'locale', array( $this, 'filter_locale' ) );
@@ -67,7 +69,7 @@ class WP_Locale_Switcher {
 	 * @return bool True on success, false on failure.
 	 */
 	public function switch_to_locale( $locale ) {
-		$current_locale = is_admin() ? get_user_locale() : get_locale();
+		$current_locale = determine_locale();
 		if ( $current_locale === $locale ) {
 			return false;
 		}
@@ -211,7 +213,7 @@ class WP_Locale_Switcher {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @global WP_Locale $wp_locale The WordPress date and time locale object.
+	 * @global WP_Locale $wp_locale WordPress date and time locale object.
 	 *
 	 * @param string $locale The locale to change to.
 	 */

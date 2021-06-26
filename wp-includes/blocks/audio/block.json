@@ -1,0 +1,49 @@
+{
+	"apiVersion": 2,
+	"name": "core/audio",
+	"title": "Audio",
+	"category": "media",
+	"description": "Embed a simple audio player.",
+	"keywords": [ "music", "sound", "podcast", "recording" ],
+	"textdomain": "default",
+	"attributes": {
+		"src": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "audio",
+			"attribute": "src"
+		},
+		"caption": {
+			"type": "string",
+			"source": "html",
+			"selector": "figcaption"
+		},
+		"id": {
+			"type": "number"
+		},
+		"autoplay": {
+			"type": "boolean",
+			"source": "attribute",
+			"selector": "audio",
+			"attribute": "autoplay"
+		},
+		"loop": {
+			"type": "boolean",
+			"source": "attribute",
+			"selector": "audio",
+			"attribute": "loop"
+		},
+		"preload": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "audio",
+			"attribute": "preload"
+		}
+	},
+	"supports": {
+		"anchor": true,
+		"align": true
+	},
+	"editorStyle": "wp-block-audio-editor",
+	"style": "wp-block-audio"
+}

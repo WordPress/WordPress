@@ -98,7 +98,8 @@ textarea,
 .site-footer .site-title,
 .site-footer .site-title:after,
 .widecolumn label,
-.widecolumn .mu_register label {
+.widecolumn .mu_register label,
+.site-footer span[role=separator] {
 	font-family: Arial, Tahoma, sans-serif;
 }
 
@@ -315,6 +316,10 @@ input[type="search"].search-field {
 	margin-left: 0.1875em;
 }
 
+.tagcloud ul {
+	margin-right: 0;
+}
+
 
 /**
  * 8.0 - Content
@@ -395,16 +400,13 @@ body:not(.search-results) .entry-summary .alignleft {
 	float: left;
 }
 
-
-/**
- * 8.4 - Footer
- */
-
-.site-footer .site-title:after {
-	padding-right: 0.538461538em;
-	padding-left: 0.307692308em;
+.comment-form #wp-comment-cookies-consent {
+	margin: 0 0 0 10px;
 }
 
+.comment-form .comment-form-cookies-consent label {
+	font-family: Arial, Tahoma, sans-serif;
+}
 
 /**
  * 9.0 - Multisites
@@ -679,7 +681,7 @@ body:not(.search-results) .entry-summary .alignleft {
 		margin-right: 1.473684211em;
 		margin-left: 0;
 		width: -webkit-calc(50% - 0.736842105em);
-		width: calc(50% - 0.736842105em);;
+		width: calc(50% - 0.736842105em);
 	}
 
 	body:not(.search-results) article:not(.type-page) .entry-content > blockquote.alignright.below-entry-meta {

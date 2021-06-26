@@ -1,0 +1,23 @@
+{
+	"apiVersion": 2,
+	"name": "core/tag-cloud",
+	"title": "Tag Cloud",
+	"category": "widgets",
+	"description": "A cloud of your most used tags.",
+	"textdomain": "default",
+	"attributes": {
+		"taxonomy": {
+			"type": "string",
+			"default": "post_tag"
+		},
+		"showTagCounts": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": true
+	},
+	"editorStyle": "wp-block-tag-cloud-editor"
+}

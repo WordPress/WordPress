@@ -54,8 +54,9 @@ add_action( 'after_setup_theme', 'twentytwelve_custom_header_setup' );
  */
 function twentytwelve_custom_header_fonts() {
 	$font_url = twentytwelve_get_font_url();
-	if ( ! empty( $font_url ) )
+	if ( ! empty( $font_url ) ) {
 		wp_enqueue_style( 'twentytwelve-fonts', esc_url_raw( $font_url ), array(), null );
+	}
 }
 add_action( 'admin_print_styles-appearance_page_custom-header', 'twentytwelve_custom_header_fonts' );
 
@@ -69,27 +70,28 @@ add_action( 'admin_print_styles-appearance_page_custom-header', 'twentytwelve_cu
 function twentytwelve_header_style() {
 	$text_color = get_header_textcolor();
 
-	// If no custom options for text are set, let's bail
-	if ( $text_color == get_theme_support( 'custom-header', 'default-text-color' ) )
+	// If no custom options for text are set, let's bail.
+	if ( get_theme_support( 'custom-header', 'default-text-color' ) == $text_color ) {
 		return;
+	}
 
 	// If we get this far, we have custom styles.
 	?>
 	<style type="text/css" id="twentytwelve-header-css">
 	<?php
 		// Has the text been hidden?
-		if ( ! display_header_text() ) :
-	?>
-		.site-title,
-		.site-description {
-			position: absolute;
-			clip: rect(1px 1px 1px 1px); /* IE7 */
-			clip: rect(1px, 1px, 1px, 1px);
-		}
-	<?php
+	if ( ! display_header_text() ) :
+		?>
+	.site-title,
+	.site-description {
+		position: absolute;
+		clip: rect(1px 1px 1px 1px); /* IE7 */
+		clip: rect(1px, 1px, 1px, 1px);
+	}
+		<?php
 		// If the user has set a custom color for the text, use that.
 		else :
-	?>
+			?>
 		.site-header h1 a,
 		.site-header h2 {
 			color: #<?php echo $text_color; ?>;
@@ -105,7 +107,7 @@ function twentytwelve_header_style() {
  * @since Twenty Twelve 1.0
  */
 function twentytwelve_admin_header_style() {
-?>
+	?>
 	<style type="text/css" id="twentytwelve-admin-header-css">
 	.appearance_page_custom-header #headimg {
 		border: none;
@@ -136,7 +138,7 @@ function twentytwelve_admin_header_style() {
 		max-width: <?php echo get_theme_support( 'custom-header', 'max-width' ); ?>px;
 	}
 	</style>
-<?php
+	<?php
 }
 
 /**
@@ -155,9 +157,12 @@ function twentytwelve_admin_header_image() {
 	<div id="headimg">
 		<h1 class="displaying-header-text"><a id="name" style="<?php echo esc_attr( $style ); ?>" onclick="return false;" href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php bloginfo( 'name' ); ?></a></h1>
 		<h2 id="desc" class="displaying-header-text" style="<?php echo esc_attr( $style ); ?>"><?php bloginfo( 'description' ); ?></h2>
-		<?php $header_image = get_header_image();
-		if ( ! empty( $header_image ) ) : ?>
+		<?php
+		$header_image = get_header_image();
+		if ( ! empty( $header_image ) ) :
+			?>
 			<img src="<?php echo esc_url( $header_image ); ?>" class="header-image" width="<?php echo esc_attr( get_custom_header()->width ); ?>" height="<?php echo esc_attr( get_custom_header()->height ); ?>" alt="" />
 		<?php endif; ?>
 	</div>
-<?php }
+	<?php
+}

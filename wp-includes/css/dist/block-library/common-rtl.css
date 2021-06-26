@@ -1,0 +1,314 @@
+/**
+ * Colors
+ */
+/**
+ * Breakpoints & Media Queries
+ */
+/**
+ * SCSS Variables.
+ *
+ * Please use variables from this sheet to ensure consistency across the UI.
+ * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
+ * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
+ */
+/**
+ * Colors
+ */
+/**
+ * Fonts & basic variables.
+ */
+/**
+ * Grid System.
+ * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
+ */
+/**
+ * Dimensions.
+ */
+/**
+ * Shadows.
+ */
+/**
+ * Editor widths.
+ */
+/**
+ * Block & Editor UI.
+ */
+/**
+ * Block paddings.
+ */
+/**
+ * React Native specific.
+ * These variables do not appear to be used anywhere else.
+ */
+/**
+ * Breakpoint mixins
+ */
+/**
+ * Long content fade mixin
+ *
+ * Creates a fading overlay to signify that the content is longer
+ * than the space allows.
+ */
+/**
+ * Focus styles.
+ */
+/**
+ * Applies editor left position to the selector passed as argument
+ */
+/**
+ * Styles that are reused verbatim in a few places
+ */
+/**
+ * Allows users to opt-out of animations via OS-level preferences.
+ */
+/**
+ * Reset default styles for JavaScript UI based pages.
+ * This is a WP-admin agnostic reset
+ */
+/**
+ * Reset the WP Admin page styles for Gutenberg-like pages.
+ */
+:root {
+  --wp-admin-theme-color: #007cba;
+  --wp-admin-theme-color-darker-10: #006ba1;
+  --wp-admin-theme-color-darker-20: #005a87;
+  --wp-admin-border-width-focus: 2px;
+}
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  :root {
+    --wp-admin-border-width-focus: 1.5px;
+  }
+}
+
+:root {
+  /* stylelint-disable function-comma-space-after */
+  /* stylelint-enable function-comma-space-after */
+}
+:root .has-pale-pink-background-color {
+  background-color: #f78da7;
+}
+:root .has-vivid-red-background-color {
+  background-color: #cf2e2e;
+}
+:root .has-luminous-vivid-orange-background-color {
+  background-color: #ff6900;
+}
+:root .has-luminous-vivid-amber-background-color {
+  background-color: #fcb900;
+}
+:root .has-light-green-cyan-background-color {
+  background-color: #7bdcb5;
+}
+:root .has-vivid-green-cyan-background-color {
+  background-color: #00d084;
+}
+:root .has-pale-cyan-blue-background-color {
+  background-color: #8ed1fc;
+}
+:root .has-vivid-cyan-blue-background-color {
+  background-color: #0693e3;
+}
+:root .has-vivid-purple-background-color {
+  background-color: #9b51e0;
+}
+:root .has-white-background-color {
+  background-color: #fff;
+}
+:root .has-very-light-gray-background-color {
+  background-color: #eee;
+}
+:root .has-cyan-bluish-gray-background-color {
+  background-color: #abb8c3;
+}
+:root .has-very-dark-gray-background-color {
+  background-color: #313131;
+}
+:root .has-black-background-color {
+  background-color: #000;
+}
+:root .has-pale-pink-color {
+  color: #f78da7;
+}
+:root .has-vivid-red-color {
+  color: #cf2e2e;
+}
+:root .has-luminous-vivid-orange-color {
+  color: #ff6900;
+}
+:root .has-luminous-vivid-amber-color {
+  color: #fcb900;
+}
+:root .has-light-green-cyan-color {
+  color: #7bdcb5;
+}
+:root .has-vivid-green-cyan-color {
+  color: #00d084;
+}
+:root .has-pale-cyan-blue-color {
+  color: #8ed1fc;
+}
+:root .has-vivid-cyan-blue-color {
+  color: #0693e3;
+}
+:root .has-vivid-purple-color {
+  color: #9b51e0;
+}
+:root .has-white-color {
+  color: #fff;
+}
+:root .has-very-light-gray-color {
+  color: #eee;
+}
+:root .has-cyan-bluish-gray-color {
+  color: #abb8c3;
+}
+:root .has-very-dark-gray-color {
+  color: #313131;
+}
+:root .has-black-color {
+  color: #000;
+}
+:root .has-vivid-cyan-blue-to-vivid-purple-gradient-background {
+  background: linear-gradient(-135deg, #0693e3 0%, #9b51e0 100%);
+}
+:root .has-vivid-green-cyan-to-vivid-cyan-blue-gradient-background {
+  background: linear-gradient(-135deg, #00d084 0%, #0693e3 100%);
+}
+:root .has-light-green-cyan-to-vivid-green-cyan-gradient-background {
+  background: linear-gradient(-135deg, #7adcb4 0%, #00d082 100%);
+}
+:root .has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background {
+  background: linear-gradient(-135deg, #fcb900 0%, #ff6900 100%);
+}
+:root .has-luminous-vivid-orange-to-vivid-red-gradient-background {
+  background: linear-gradient(-135deg, #ff6900 0%, #cf2e2e 100%);
+}
+:root .has-very-light-gray-to-cyan-bluish-gray-gradient-background {
+  background: linear-gradient(-135deg, #eeeeee 0%, #a9b8c3 100%);
+}
+:root .has-cool-to-warm-spectrum-gradient-background {
+  background: linear-gradient(-135deg, #4aeadc 0%, #9778d1 20%, #cf2aba 40%, #ee2c82 60%, #fb6962 80%, #fef84c 100%);
+}
+:root .has-blush-light-purple-gradient-background {
+  background: linear-gradient(-135deg, #ffceec 0%, #9896f0 100%);
+}
+:root .has-blush-bordeaux-gradient-background {
+  background: linear-gradient(-135deg, #fecda5 0%, #fe2d2d 50%, #6b003e 100%);
+}
+:root .has-purple-crush-gradient-background {
+  background: linear-gradient(-135deg, #34e2e4 0%, #4721fb 50%, #ab1dfe 100%);
+}
+:root .has-luminous-dusk-gradient-background {
+  background: linear-gradient(-135deg, #ffcb70 0%, #c751c0 50%, #4158d0 100%);
+}
+:root .has-hazy-dawn-gradient-background {
+  background: linear-gradient(-135deg, #faaca8 0%, #dad0ec 100%);
+}
+:root .has-pale-ocean-gradient-background {
+  background: linear-gradient(-135deg, #fff5cb 0%, #b6e3d4 50%, #33a7b5 100%);
+}
+:root .has-electric-grass-gradient-background {
+  background: linear-gradient(-135deg, #caf880 0%, #71ce7e 100%);
+}
+:root .has-subdued-olive-gradient-background {
+  background: linear-gradient(-135deg, #fafae1 0%, #67a671 100%);
+}
+:root .has-atomic-cream-gradient-background {
+  background: linear-gradient(-135deg, #fdd79a 0%, #004a59 100%);
+}
+:root .has-nightshade-gradient-background {
+  background: linear-gradient(-135deg, #330968 0%, #31cdcf 100%);
+}
+:root .has-midnight-gradient-background {
+  background: linear-gradient(-135deg, #020381 0%, #2874fc 100%);
+}
+
+.has-small-font-size {
+  font-size: 0.8125em;
+}
+
+.has-regular-font-size,
+.has-normal-font-size {
+  font-size: 1em;
+}
+
+.has-medium-font-size {
+  font-size: 1.25em;
+}
+
+.has-large-font-size {
+  font-size: 2.25em;
+}
+
+.has-larger-font-size,
+.has-huge-font-size {
+  font-size: 2.625em;
+}
+
+.has-text-align-center {
+  text-align: center;
+}
+
+.has-text-align-left {
+  text-align: left;
+}
+
+.has-text-align-right {
+  text-align: right;
+}
+
+#end-resizable-editor-section {
+  display: none;
+}
+
+.aligncenter {
+  clear: both;
+}
+
+.items-justified-left {
+  justify-content: flex-start;
+}
+
+.items-justified-center {
+  justify-content: center;
+}
+
+.items-justified-right {
+  justify-content: flex-end;
+}
+
+.items-justified-space-between {
+  justify-content: space-between;
+}
+
+.screen-reader-text {
+  border: 0;
+  clip: rect(1px, 1px, 1px, 1px);
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  word-wrap: normal !important;
+}
+
+.screen-reader-text:focus {
+  background-color: #ddd;
+  clip: auto !important;
+  -webkit-clip-path: none;
+          clip-path: none;
+  color: #444;
+  display: block;
+  font-size: 1em;
+  height: auto;
+  right: 5px;
+  line-height: normal;
+  padding: 15px 23px 14px;
+  text-decoration: none;
+  top: 5px;
+  width: auto;
+  z-index: 100000;
+}

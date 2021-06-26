@@ -1,0 +1,25 @@
+{
+	"apiVersion": 2,
+	"name": "core/more",
+	"title": "More",
+	"category": "design",
+	"description": "Content before this block will be shown in the excerpt on your archives page.",
+	"keywords": [ "read more" ],
+	"textdomain": "default",
+	"attributes": {
+		"customText": {
+			"type": "string"
+		},
+		"noTeaser": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"supports": {
+		"customClassName": false,
+		"className": false,
+		"html": false,
+		"multiple": false
+	},
+	"editorStyle": "wp-block-more-editor"
+}

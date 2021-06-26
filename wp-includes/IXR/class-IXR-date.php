@@ -37,12 +37,12 @@ class IXR_Date {
 
     function parseTimestamp($timestamp)
     {
-        $this->year = date('Y', $timestamp);
-        $this->month = date('m', $timestamp);
-        $this->day = date('d', $timestamp);
-        $this->hour = date('H', $timestamp);
-        $this->minute = date('i', $timestamp);
-        $this->second = date('s', $timestamp);
+        $this->year = gmdate('Y', $timestamp);
+        $this->month = gmdate('m', $timestamp);
+        $this->day = gmdate('d', $timestamp);
+        $this->hour = gmdate('H', $timestamp);
+        $this->minute = gmdate('i', $timestamp);
+        $this->second = gmdate('s', $timestamp);
         $this->timezone = '';
     }
 

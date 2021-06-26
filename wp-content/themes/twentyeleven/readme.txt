@@ -1,11 +1,11 @@
 === Twenty Eleven ===
-Contributors: the WordPress team
+Contributors: wordpressdotorg
 Requires at least: WordPress 3.2
-Tested up to: WordPress 4.9-trunk
-Stable tag: 2.6
+Tested up to: 5.8
+Stable tag: 3.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Tags: blog, one-column, two-columns, left-sidebar, right-sidebar, custom-background, custom-colors, custom-header, custom-menu, editor-style, featured-image-header, featured-images, flexible-header, footer-widgets, full-width-template, microformats, post-formats, rtl-language-support, sticky-post, theme-options, translation-ready
+Tags: blog, one-column, two-columns, left-sidebar, right-sidebar, custom-background, custom-colors, custom-header, custom-menu, editor-style, featured-image-header, featured-images, flexible-header, footer-widgets, full-width-template, microformats, post-formats, rtl-language-support, sticky-post, theme-options, translation-ready, block-patterns
 
 == Description ==
 The 2011 theme for WordPress is sophisticated, lightweight, and adaptable. Make it yours with a custom menu, header image, and background -- then go further with available theme options for light or dark color scheme, custom link colors, and three layout choices. Twenty Eleven comes equipped with a Showcase page template that transforms your front page into a showcase to show off your best content, widget support galore (sidebar, three footer areas, and a Showcase page widget area), and a custom "Ephemera" widget to display your Aside, Link, Quote, or Status posts. Included are styles for print and for the admin editor, support for featured images (as custom header images on posts and pages and as large images on featured "sticky" posts), and special styles for six different post formats.
@@ -22,7 +22,7 @@ For more information about Twenty Eleven please go to https://codex.wordpress.or
 
 == Copyright ==
 
-Twenty Eleven WordPress Theme, Copyright 2011-2017 WordPress.org & Automattic.com
+Twenty Eleven WordPress Theme, Copyright 2011-2021 WordPress.org & Automattic.com
 Twenty Eleven is Distributed under the terms of the GNU GPL
 
 This program is free software: you can redistribute it and/or modify
@@ -41,7 +41,66 @@ HTML5 Shiv v3.7.0, Copyright 2014 Alexander Farkas
 Licenses: MIT/GPL2
 Source: https://github.com/aFarkas/html5shiv
 
+Images
+"Yellow Flower Photo" by Bernard Spragg. CC0. https://stocksnap.io/photo/yellow-flower-GWT9JVALSV
+"People Woman Photo" by Brooke Cagle. CC0. https://stocksnap.io/photo/people-woman-MU7G67710S
+
 == Changelog ==
+
+= 3.7 =
+* Released: March 9, 2021
+
+https://codex.wordpress.org/Twenty_Eleven_Theme_Changelog#Version_3.7
+
+= 3.6 =
+* Released: December 8, 2020
+
+https://codex.wordpress.org/Twenty_Eleven_Theme_Changelog#Version_3.6
+
+= 3.5 =
+* Released: August 11, 2020
+
+https://codex.wordpress.org/Twenty_Eleven_Theme_Changelog#Version_3.5
+
+= 3.4 =
+* Released: March 31, 2020
+
+https://codex.wordpress.org/Twenty_Eleven_Theme_Changelog#Version_3.4
+
+= 3.3 =
+* Released: May 7, 2019
+
+https://codex.wordpress.org/Twenty_Eleven_Theme_Changelog#Version_3.3
+
+= 3.2 =
+* Released: February 21, 2019
+
+https://codex.wordpress.org/Twenty_Eleven_Theme_Changelog#Version_3.2
+
+= 3.1 =
+* Released: January 9, 2019
+
+https://codex.wordpress.org/Twenty_Eleven_Theme_Changelog#Version_3.1
+
+= 3.0 =
+* Released: December 19, 2018
+
+https://codex.wordpress.org/Twenty_Eleven_Theme_Changelog#Version_3.0
+
+= 2.9 =
+* Released: December 6, 2018
+
+https://codex.wordpress.org/Twenty_Eleven_Theme_Changelog#Version_2.9
+
+= 2.8 =
+* Released: May 17, 2018
+
+https://codex.wordpress.org/Twenty_Eleven_Theme_Changelog#Version_2.8
+
+= 2.7 =
+* Released: November 14, 2017
+
+https://codex.wordpress.org/Twenty_Eleven_Theme_Changelog#Version_2.7
 
 = 2.6 =
 * Released: June 8, 2017

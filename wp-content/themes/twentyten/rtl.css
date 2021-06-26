@@ -51,6 +51,7 @@ h3#reply-title,
 #site-info,
 #site-title,
 #wp-calendar,
+.calendar_wrap,
 .comment-meta,
 .comment-body tr th,
 .comment-body thead th,
@@ -238,6 +239,9 @@ div.menu li{
 .children #respond {
 	margin: 0 0 0 48px;
 }
+#respond #wp-comment-cookies-consent {
+	margin: 0 0 0 10px;
+}
 
 /* =Widget Areas
 -------------------------------------------------------------- */
@@ -252,6 +256,7 @@ div.menu li{
 #wp-calendar caption {
 	text-align: right;
 }
+.wp-calendar-nav-next,
 #wp-calendar tfoot #next {
 	text-align: left;
 }
@@ -268,6 +273,11 @@ div.menu li{
 .widget_text ol {
 	margin-left: auto;
 	margin-right: 1.3em;
+}
+
+#main .widget-area .tagcloud ul,
+.widget-area .tagcloud ul {
+	margin-right: 0;
 }
 
 /* =Footer

@@ -7,17 +7,19 @@
  * @since Twenty Fifteen 1.0
  */
 
-if ( has_nav_menu( 'primary' ) || has_nav_menu( 'social' ) || is_active_sidebar( 'sidebar-1' )  ) : ?>
+if ( has_nav_menu( 'primary' ) || has_nav_menu( 'social' ) || is_active_sidebar( 'sidebar-1' ) ) : ?>
 	<div id="secondary" class="secondary">
 
 		<?php if ( has_nav_menu( 'primary' ) ) : ?>
 			<nav id="site-navigation" class="main-navigation" role="navigation">
 				<?php
 					// Primary navigation menu.
-					wp_nav_menu( array(
-						'menu_class'     => 'nav-menu',
-						'theme_location' => 'primary',
-					) );
+					wp_nav_menu(
+						array(
+							'menu_class'     => 'nav-menu',
+							'theme_location' => 'primary',
+						)
+					);
 				?>
 			</nav><!-- .main-navigation -->
 		<?php endif; ?>
@@ -26,12 +28,14 @@ if ( has_nav_menu( 'primary' ) || has_nav_menu( 'social' ) || is_active_sidebar(
 			<nav id="social-navigation" class="social-navigation" role="navigation">
 				<?php
 					// Social links navigation menu.
-					wp_nav_menu( array(
-						'theme_location' => 'social',
-						'depth'          => 1,
-						'link_before'    => '<span class="screen-reader-text">',
-						'link_after'     => '</span>',
-					) );
+					wp_nav_menu(
+						array(
+							'theme_location' => 'social',
+							'depth'          => 1,
+							'link_before'    => '<span class="screen-reader-text">',
+							'link_after'     => '</span>',
+						)
+					);
 				?>
 			</nav><!-- .social-navigation -->
 		<?php endif; ?>

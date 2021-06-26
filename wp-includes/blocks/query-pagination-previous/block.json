@@ -1,0 +1,27 @@
+{
+	"apiVersion": 2,
+	"name": "core/query-pagination-previous",
+	"title": "Query Pagination Previous",
+	"category": "design",
+	"parent": [ "core/query-pagination" ],
+	"description": "Displays the previous posts page link.",
+	"textdomain": "default",
+	"attributes": {
+		"label": {
+			"type": "string"
+		}
+	},
+	"usesContext": [ "queryId", "query" ],
+	"supports": {
+		"reusable": false,
+		"html": false,
+		"color": {
+			"gradients": true,
+			"link": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true
+		}
+	}
+}

@@ -1,8 +1,13 @@
-/* global userSettings */
-/* exported getUserSetting, setUserSetting, deleteUserSetting */
-// utility functions
+/**
+ * Cookie functions.
+ *
+ * @output wp-includes/js/utils.js
+ */
 
-var wpCookies = {
+/* global userSettings, getAllUserSettings, wpCookies, setUserSetting */
+/* exported getUserSetting, setUserSetting, deleteUserSetting */
+
+window.wpCookies = {
 // The following functions are from Cookie.js class in TinyMCE 3, Moxiecode, used under LGPL.
 
 	each: function( obj, cb, scope ) {
@@ -110,7 +115,7 @@ var wpCookies = {
 		if ( typeof( expires ) === 'object' && expires.toGMTString ) {
 			expires = expires.toGMTString();
 		} else if ( parseInt( expires, 10 ) ) {
-			d.setTime( d.getTime() + ( parseInt( expires, 10 ) * 1000 ) ); // time must be in milliseconds
+			d.setTime( d.getTime() + ( parseInt( expires, 10 ) * 1000 ) ); // Time must be in milliseconds.
 			expires = d.toGMTString();
 		} else {
 			expires = '';
@@ -134,7 +139,7 @@ var wpCookies = {
 };
 
 // Returns the value as string. Second arg or empty string is returned when value is not set.
-function getUserSetting( name, def ) {
+window.getUserSetting = function( name, def ) {
 	var settings = getAllUserSettings();
 
 	if ( settings.hasOwnProperty( name ) ) {
@@ -146,12 +151,14 @@ function getUserSetting( name, def ) {
 	}
 
 	return '';
-}
+};
 
-// Both name and value must be only ASCII letters, numbers or underscore
-// and the shorter, the better (cookies can store maximum 4KB). Not suitable to store text.
-// The value is converted and stored as string.
-function setUserSetting( name, value, _del ) {
+/*
+ * Both name and value must be only ASCII letters, numbers or underscore
+ * and the shorter, the better (cookies can store maximum 4KB). Not suitable to store text.
+ * The value is converted and stored as string.
+ */
+window.setUserSetting = function( name, value, _del ) {
 	if ( 'object' !== typeof userSettings ) {
 		return false;
 	}
@@ -181,18 +188,17 @@ function setUserSetting( name, value, _del ) {
 	wpCookies.set( 'wp-settings-time-' + uid, userSettings.time, 31536000, path, '', secure );
 
 	return name;
-}
+};
 
-function deleteUserSetting( name ) {
+window.deleteUserSetting = function( name ) {
 	return setUserSetting( name, '', 1 );
-}
+};
 
-// Returns all settings as js object.
-function getAllUserSettings() {
+// Returns all settings as JS object.
+window.getAllUserSettings = function() {
 	if ( 'object' !== typeof userSettings ) {
 		return {};
 	}
 
 	return wpCookies.getHash( 'wp-settings-' + userSettings.uid ) || {};
-}
-
+};

@@ -1,11 +1,11 @@
 === Twenty Fourteen ===
-Contributors: the WordPress team
+Contributors: wordpressdotorg
 Requires at least: WordPress 3.6
-Tested up to: WordPress 4.9-trunk
-Stable tag: 2.0
+Tested up to: 5.8
+Stable tag: 3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Tags: blog, news, two-columns, three-columns, left-sidebar, right-sidebar, custom-background, custom-header, custom-menu, editor-style, featured-images, flexible-header, footer-widgets, full-width-template, microformats, post-formats, rtl-language-support, sticky-post, theme-options, translation-ready, accessibility-ready
+Tags: blog, news, two-columns, three-columns, left-sidebar, right-sidebar, custom-background, custom-header, custom-menu, editor-style, featured-images, flexible-header, footer-widgets, full-width-template, microformats, post-formats, rtl-language-support, sticky-post, theme-options, translation-ready, accessibility-ready, block-patterns
 
 == Description ==
 In 2014, our default theme lets you create a responsive magazine website with a sleek, modern design. Feature your favorite homepage content in either a grid or a slider. Use the three widget areas to customize your website, and change your content's layout with a full-width page template and a contributor page to show off your authors. Creating a magazine website with WordPress has never been easier.
@@ -22,7 +22,7 @@ For more information about Twenty Fourteen please go to https://codex.wordpress.
 
 == Copyright ==
 
-Twenty Fourteen WordPress Theme, Copyright 2013-2017 WordPress.org & Automattic.com
+Twenty Fourteen WordPress Theme, Copyright 2013-2021 WordPress.org & Automattic.com
 Twenty Fourteen is Distributed under the terms of the GNU GPL
 
 This program is free software: you can redistribute it and/or modify
@@ -44,11 +44,74 @@ HTML5 Shiv v3.7.0, Copyright 2014 Alexander Farkas
 Licenses: MIT/GPL2
 Source: https://github.com/aFarkas/html5shiv
 
-Genericons icon font, Copyright 2013-2016 Automattic.com
+Genericons icon font, Copyright 2013-2017 Automattic.com
 License: GNU GPL, Version 2 (or later)
 Source: http://www.genericons.com
 
+Photos from Stocksnap, used in block patterns.
+License: CC0
+Source: https://stocksnap.io/photo/fog-mountain-ZKN6UKFKEO
+        https://stocksnap.io/photo/ocean-beach-AEZJXB5LL5
+        https://stocksnap.io/photo/architecture-building-BIL5D73PRC
+        https://stocksnap.io/photo/sea-ocean-G5GBM522C6
+        https://stocksnap.io/photo/guy-man-7CFLDIWXK5
+
 == Changelog ==
+
+= 3.1 =
+* Released: March 9, 2021
+
+https://codex.wordpress.org/Twenty_Fourteen_Theme_Changelog#Version_3.1
+
+= 3.0 =
+* Released: December 8, 2020
+
+https://codex.wordpress.org/Twenty_Fourteen_Theme_Changelog#Version_3.0
+
+= 2.9 =
+* Released: August 11, 2020
+
+https://codex.wordpress.org/Twenty_Fourteen_Theme_Changelog#Version_2.9
+
+= 2.8 =
+* Released: March 31, 2020
+
+https://codex.wordpress.org/Twenty_Fourteen_Theme_Changelog#Version_2.8
+
+= 2.7 =
+* Released: May 7, 2019
+
+https://codex.wordpress.org/Twenty_Fourteen_Theme_Changelog#Version_2.7
+
+= 2.6 =
+* Released: February 21, 2019
+
+https://codex.wordpress.org/Twenty_Fourteen_Theme_Changelog#Version_2.6
+
+= 2.5 =
+* Released: January 9, 2019
+
+https://codex.wordpress.org/Twenty_Fourteen_Theme_Changelog#Version_2.5
+
+= 2.4 =
+* Released: December 19, 2018
+
+https://codex.wordpress.org/Twenty_Fourteen_Theme_Changelog#Version_2.4
+
+= 2.3 =
+* Released: December 6, 2018
+
+https://codex.wordpress.org/Twenty_Fourteen_Theme_Changelog#Version_2.3
+
+= 2.2 =
+* Released: May 17, 2018
+
+https://codex.wordpress.org/Twenty_Fourteen_Theme_Changelog#Version_2.2
+
+= 2.1 =
+* Released: November 14, 2017
+
+https://codex.wordpress.org/Twenty_Fourteen_Theme_Changelog#Version_2.1
 
 = 2.0 =
 * Released: June 8, 2017

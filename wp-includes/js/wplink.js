@@ -1,7 +1,11 @@
-var wpLink;
+/**
+ * @output wp-includes/js/wplink.js
+ */
+
+ /* global wpLink */
 
 ( function( $, wpLinkL10n, wp ) {
-	var editor, searchTimer, River, Query, correctedURL, linkNode,
+	var editor, searchTimer, River, Query, correctedURL,
 		emailRegexp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,63}$/i,
 		urlRegexp = /^(https?|ftp):\/\/[A-Z0-9.-]+\.[A-Z]{2,63}[^ "]*$/i,
 		inputs = {},
@@ -9,10 +13,14 @@ var wpLink;
 		isTouch = ( 'ontouchend' in document );
 
 	function getLink() {
-		return linkNode || editor.dom.getParent( editor.selection.getNode(), 'a[href]' );
+		if ( editor ) {
+			return editor.$( 'a[data-wplink-edit="true"]' );
+		}
+
+		return null;
 	}
 
-	wpLink = {
+	window.wpLink = {
 		timeToTriggerRiver: 150,
 		minRiverAJAXDuration: 200,
 		riverBottomThreshold: 5,
@@ -28,39 +36,39 @@ var wpLink;
 			inputs.submit = $( '#wp-link-submit' );
 			inputs.close = $( '#wp-link-close' );
 
-			// Input
+			// Input.
 			inputs.text = $( '#wp-link-text' );
 			inputs.url = $( '#wp-link-url' );
 			inputs.nonce = $( '#_ajax_linking_nonce' );
 			inputs.openInNewTab = $( '#wp-link-target' );
 			inputs.search = $( '#wp-link-search' );
 
-			// Build Rivers
+			// Build rivers.
 			rivers.search = new River( $( '#search-results' ) );
 			rivers.recent = new River( $( '#most-recent-results' ) );
 			rivers.elements = inputs.dialog.find( '.query-results' );
 
-			// Get search notice text
+			// Get search notice text.
 			inputs.queryNotice = $( '#query-notice-message' );
 			inputs.queryNoticeTextDefault = inputs.queryNotice.find( '.query-notice-default' );
 			inputs.queryNoticeTextHint = inputs.queryNotice.find( '.query-notice-hint' );
 
-			// Bind event handlers
-			inputs.dialog.keydown( wpLink.keydown );
-			inputs.dialog.keyup( wpLink.keyup );
-			inputs.submit.click( function( event ) {
+			// Bind event handlers.
+			inputs.dialog.on( 'keydown', wpLink.keydown );
+			inputs.dialog.on( 'keyup', wpLink.keyup );
+			inputs.submit.on( 'click', function( event ) {
 				event.preventDefault();
 				wpLink.update();
 			});
 
-			inputs.close.add( inputs.backdrop ).add( '#wp-link-cancel button' ).click( function( event ) {
+			inputs.close.add( inputs.backdrop ).add( '#wp-link-cancel button' ).on( 'click', function( event ) {
 				event.preventDefault();
 				wpLink.close();
 			});
 
 			rivers.elements.on( 'river-select', wpLink.updateFields );
 
-			// Display 'hint' message when search field or 'query-results' box are focused
+			// Display 'hint' message when search field or 'query-results' box are focused.
 			inputs.search.on( 'focus.wplink', function() {
 				inputs.queryNoticeTextDefault.hide();
 				inputs.queryNoticeTextHint.removeClass( 'screen-reader-text' ).show();
@@ -83,9 +91,9 @@ var wpLink;
 			inputs.url.on( 'blur', wpLink.correctURL );
 		},
 
-		// If URL wasn't corrected last time and doesn't start with http:, https:, ? # or /, prepend http://
+		// If URL wasn't corrected last time and doesn't start with http:, https:, ? # or /, prepend http://.
 		correctURL: function () {
-			var url = $.trim( inputs.url.val() );
+			var url = inputs.url.val().trim();
 
 			if ( url && correctedURL !== url && ! /^(?:[a-z]+:|#|\?|\.|\/)/.test( url ) ) {
 				inputs.url.val( 'http://' + url );
@@ -93,13 +101,12 @@ var wpLink;
 			}
 		},
 
-		open: function( editorId, url, text, node ) {
+		open: function( editorId, url, text ) {
 			var ed,
 				$body = $( document.body );
 
 			$body.addClass( 'modal-open' );
 			wpLink.modalOpen = true;
-			linkNode = node;
 
 			wpLink.range = null;
 
@@ -147,24 +154,24 @@ var wpLink;
 		refresh: function( url, text ) {
 			var linkText = '';
 
-			// Refresh rivers (clear links, check visibility)
+			// Refresh rivers (clear links, check visibility).
 			rivers.search.refresh();
 			rivers.recent.refresh();
 
 			if ( wpLink.isMCE() ) {
 				wpLink.mceRefresh( url, text );
 			} else {
-				// For the Text editor the "Link text" field is always shown
+				// For the Text editor the "Link text" field is always shown.
 				if ( ! inputs.wrap.hasClass( 'has-text-field' ) ) {
 					inputs.wrap.addClass( 'has-text-field' );
 				}
 
 				if ( document.selection ) {
-					// Old IE
+					// Old IE.
 					linkText = document.selection.createRange().text || text || '';
 				} else if ( typeof this.textarea.selectionStart !== 'undefined' &&
 					( this.textarea.selectionStart !== this.textarea.selectionEnd ) ) {
-					// W3C
+					// W3C.
 					text = this.textarea.value.substring( this.textarea.selectionStart, this.textarea.selectionEnd ) || text || '';
 				}
 
@@ -173,15 +180,17 @@ var wpLink;
 			}
 
 			if ( isTouch ) {
-				// Close the onscreen keyboard
-				inputs.url.focus().blur();
+				// Close the onscreen keyboard.
+				inputs.url.trigger( 'focus' ).trigger( 'blur' );
 			} else {
-				// Focus the URL field and highlight its contents.
-				// If this is moved above the selection changes,
-				// IE will show a flashing cursor over the dialog.
+				/*
+				 * Focus the URL field and highlight its contents.
+				 * If this is moved above the selection changes,
+				 * IE will show a flashing cursor over the dialog.
+				 */
 				window.setTimeout( function() {
 					inputs.url[0].select();
-					inputs.url.focus();
+					inputs.url.trigger( 'focus' );
 				} );
 			}
 
@@ -196,15 +205,15 @@ var wpLink;
 		hasSelectedText: function( linkNode ) {
 			var node, nodes, i, html = editor.selection.getContent();
 
-			// Partial html and not a fully selected anchor element
+			// Partial html and not a fully selected anchor element.
 			if ( /</.test( html ) && ( ! /^<a [^>]+>[^<]+<\/a>$/.test( html ) || html.indexOf('href=') === -1 ) ) {
 				return false;
 			}
 
-			if ( linkNode ) {
-				nodes = linkNode.childNodes;
+			if ( linkNode.length ) {
+				nodes = linkNode[0].childNodes;
 
-				if ( nodes.length === 0 ) {
+				if ( ! nodes || ! nodes.length ) {
 					return false;
 				}
 
@@ -225,11 +234,11 @@ var wpLink;
 				linkNode = getLink(),
 				onlyText = this.hasSelectedText( linkNode );
 
-			if ( linkNode ) {
-				linkText = linkNode.textContent || linkNode.innerText;
-				href = editor.dom.getAttrib( linkNode, 'href' );
+			if ( linkNode.length ) {
+				linkText = linkNode.text();
+				href = linkNode.attr( 'href' );
 
-				if ( ! $.trim( linkText ) ) {
+				if ( ! linkText.trim() ) {
 					linkText = text || '';
 				}
 
@@ -239,7 +248,7 @@ var wpLink;
 
 				if ( href !== '_wp_link_placeholder' ) {
 					inputs.url.val( href );
-					inputs.openInNewTab.prop( 'checked', '_blank' === editor.dom.getAttrib( linkNode, 'target' ) );
+					inputs.openInNewTab.prop( 'checked', '_blank' === linkNode.attr( 'target' ) );
 					inputs.submit.val( wpLinkL10n.update );
 				} else {
 					this.setDefaultValues( linkText );
@@ -252,7 +261,7 @@ var wpLink;
 					inputs.search.val( '' );
 				}
 
-				// Always reset the search
+				// Always reset the search.
 				window.setTimeout( function() {
 					wpLink.searchInternalLinks();
 				} );
@@ -303,7 +312,7 @@ var wpLink;
 			wpLink.correctURL();
 
 			return {
-				href: $.trim( inputs.url.val() ),
+				href: inputs.url.val().trim(),
 				target: inputs.openInNewTab.prop( 'checked' ) ? '_blank' : null
 			};
 		},
@@ -312,7 +321,7 @@ var wpLink;
 			var html = '<a href="' + attrs.href + '"';
 
 			if ( attrs.target ) {
-				html += ' target="' + attrs.target + '"';
+				html += ' rel="noopener" target="' + attrs.target + '"';
 			}
 
 			return html + '>';
@@ -337,6 +346,13 @@ var wpLink;
 			attrs = wpLink.getAttrs();
 			text = inputs.text.val();
 
+			var parser = document.createElement( 'a' );
+			parser.href = attrs.href;
+
+			if ( 'javascript:' === parser.protocol || 'data:' === parser.protocol ) { // jshint ignore:line
+				attrs.href = '';
+			}
+
 			// If there's no href, return.
 			if ( ! attrs.href ) {
 				return;
@@ -344,11 +360,11 @@ var wpLink;
 
 			html = wpLink.buildHtml(attrs);
 
-			// Insert HTML
+			// Insert HTML.
 			if ( document.selection && wpLink.range ) {
-				// IE
+				// IE.
 				// Note: If no text is selected, IE will not place the cursor
-				//       inside the closing tag.
+				// inside the closing tag.
 				textarea.focus();
 				wpLink.range.text = html + ( text || wpLink.range.text ) + '</a>';
 				wpLink.range.moveToBookmark( wpLink.range.getBookmark() );
@@ -356,7 +372,7 @@ var wpLink;
 
 				wpLink.range = null;
 			} else if ( typeof textarea.selectionStart !== 'undefined' ) {
-				// W3C
+				// W3C.
 				begin = textarea.selectionStart;
 				end = textarea.selectionEnd;
 				selection = text || textarea.value.substring( begin, end );
@@ -374,7 +390,7 @@ var wpLink;
 					textarea.value.substring( end, textarea.value.length )
 				);
 
-				// Update cursor position
+				// Update cursor position.
 				textarea.selectionStart = textarea.selectionEnd = cursor;
 			}
 
@@ -388,7 +404,14 @@ var wpLink;
 
 		mceUpdate: function() {
 			var attrs = wpLink.getAttrs(),
-				$link, text, hasText, $mceCaret;
+				$link, text, hasText;
+
+			var parser = document.createElement( 'a' );
+			parser.href = attrs.href;
+
+			if ( 'javascript:' === parser.protocol || 'data:' === parser.protocol ) { // jshint ignore:line
+				attrs.href = '';
+			}
 
 			if ( ! attrs.href ) {
 				editor.execCommand( 'unlink' );
@@ -396,13 +419,13 @@ var wpLink;
 				return;
 			}
 
-			$link = editor.$( getLink() );
+			$link = getLink();
 
 			editor.undoManager.transact( function() {
 				if ( ! $link.length ) {
 					editor.execCommand( 'mceInsertLink', false, { href: '_wp_link_placeholder', 'data-wp-temp-link': 1 } );
 					$link = editor.$( 'a[data-wp-temp-link="1"]' ).removeAttr( 'data-wp-temp-link' );
-					hasText = $.trim( $link.text() );
+					hasText = $link.text().trim();
 				}
 
 				if ( ! $link.length ) {
@@ -419,7 +442,7 @@ var wpLink;
 					}
 
 					attrs['data-wplink-edit'] = null;
-					attrs['data-mce-href'] = null; // attrs.href
+					attrs['data-mce-href'] = attrs.href;
 					$link.attr( attrs );
 				}
 			} );
@@ -428,14 +451,7 @@ var wpLink;
 			editor.focus();
 
 			if ( $link.length ) {
-				$mceCaret = $link.parent( '#_mce_caret' );
-
-				if ( $mceCaret.length ) {
-					$mceCaret.before( $link.removeAttr( 'data-mce-bogus' ) );
-				}
-
 				editor.selection.select( $link[0] );
-				editor.selection.collapse();
 
 				if ( editor.plugins.wplink ) {
 					editor.plugins.wplink.checkLink( $link[0] );
@@ -450,6 +466,10 @@ var wpLink;
 
 		updateFields: function( e, li ) {
 			inputs.url.val( li.children( '.item-permalink' ).val() );
+
+			if ( inputs.wrap.hasClass( 'has-text-field' ) && ! inputs.text.val() ) {
+				inputs.text.val( li.children( '.item-title' ).text() );
+			}
 		},
 
 		getUrlFromSelection: function( selection ) {
@@ -463,13 +483,14 @@ var wpLink;
 				}
 			}
 
-			selection = $.trim( selection );
+			selection = selection || '';
+			selection = selection.trim();
 
 			if ( selection && emailRegexp.test( selection ) ) {
-				// Selection is email address
+				// Selection is email address.
 				return 'mailto:' + selection;
 			} else if ( selection && urlRegexp.test( selection ) ) {
-				// Selection is URL
+				// Selection is URL.
 				return selection.replace( /&amp;|&#0?38;/gi, '&' );
 			}
 
@@ -489,9 +510,10 @@ var wpLink;
 
 		searchInternalLinks: function() {
 			var waiting,
-				search = inputs.search.val() || '';
+				search = inputs.search.val() || '',
+				minInputLength = parseInt( wpLinkL10n.minInputLength, 10 ) || 3;
 
-			if ( search.length > 2 ) {
+			if ( search.length >= minInputLength ) {
 				rivers.recent.hide();
 				rivers.search.show();
 
@@ -534,18 +556,18 @@ var wpLink;
 				id = event.target.id;
 
 				// wp-link-submit must always be the last focusable element in the dialog.
-				// following focusable elements will be skipped on keyboard navigation.
+				// Following focusable elements will be skipped on keyboard navigation.
 				if ( id === 'wp-link-submit' && ! event.shiftKey ) {
-					inputs.close.focus();
+					inputs.close.trigger( 'focus' );
 					event.preventDefault();
 				} else if ( id === 'wp-link-close' && event.shiftKey ) {
-					inputs.submit.focus();
+					inputs.submit.trigger( 'focus' );
 					event.preventDefault();
 				}
 			}
 
 			// Up Arrow and Down Arrow keys.
-			if ( 38 !== event.keyCode && 40 !== event.keyCode ) {
+			if ( event.shiftKey || ( 38 !== event.keyCode && 40 !== event.keyCode ) ) {
 				return;
 			}
 
@@ -604,7 +626,7 @@ var wpLink;
 		this.change( search );
 		this.refresh();
 
-		$( '#wp-link .query-results, #wp-link #link-selector' ).scroll( function() {
+		$( '#wp-link .query-results, #wp-link #link-selector' ).on( 'scroll', function() {
 			self.maybeLoad();
 		});
 		element.on( 'click', 'li', function( event ) {
@@ -637,18 +659,18 @@ var wpLink;
 
 			this.deselect();
 			this.selected = li.addClass( 'selected' );
-			// Make sure the element is visible
+			// Make sure the element is visible.
 			liHeight = li.outerHeight();
 			elHeight = this.element.height();
 			liTop = li.position().top;
 			elTop = this.element.scrollTop();
 
-			if ( liTop < 0 ) // Make first visible element
+			if ( liTop < 0 ) // Make first visible element.
 				this.element.scrollTop( elTop + liTop );
-			else if ( liTop + liHeight > elHeight ) // Make last visible element
+			else if ( liTop + liHeight > elHeight ) // Make last visible element.
 				this.element.scrollTop( elTop + liTop - elHeight + liHeight );
 
-			// Trigger the river-select event
+			// Trigger the river-select event.
 			this.element.trigger( 'river-select', [ li, event, this ] );
 		},
 		deselect: function() {
@@ -776,5 +798,5 @@ var wpLink;
 		}
 	});
 
-	$( document ).ready( wpLink.init );
+	$( wpLink.init );
 })( jQuery, window.wpLinkL10n, window.wp );

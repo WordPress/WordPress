@@ -1,0 +1,32 @@
+ul,
+ol {
+	font-family: var(--list--font-family);
+	margin: var(--global--spacing-vertical) 0;
+	padding-left: calc(2 * var(--global--spacing-horizontal));
+
+	// Utility classes
+	&.aligncenter {
+		list-style-position: inside;
+		padding: 0;
+		text-align: center;
+	}
+
+	&.alignright {
+		list-style-position: inside;
+		padding: 0;
+		text-align: right;
+	}
+}
+
+li {
+
+	> ul,
+	> ol {
+		margin: 0;
+	}
+}
+
+dt {
+	font-family: var(--definition-term--font-family);
+	font-weight: bold;
+}

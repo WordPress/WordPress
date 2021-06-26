@@ -23,8 +23,6 @@ class Featured_Content {
 	 *
 	 * @since Twenty Fourteen 1.0
 	 *
-	 * @static
-	 * @access public
 	 * @var int
 	 */
 	public static $max_posts = 15;
@@ -34,8 +32,6 @@ class Featured_Content {
 	 *
 	 * All custom functionality will be hooked into the "init" action.
 	 *
-	 * @static
-	 * @access public
 	 * @since Twenty Fourteen 1.0
 	 */
 	public static function setup() {
@@ -51,8 +47,6 @@ class Featured_Content {
 	 * If no theme support is found there is no need to hook into WordPress.
 	 * We'll just return early instead.
 	 *
-	 * @static
-	 * @access public
 	 * @since Twenty Fourteen 1.0
 	 */
 	public static function init() {
@@ -83,15 +77,15 @@ class Featured_Content {
 			self::$max_posts = absint( $theme_support[0]['max_posts'] );
 		}
 
-		add_filter( $filter,                              array( __CLASS__, 'get_featured_posts' )    );
-		add_action( 'customize_register',                 array( __CLASS__, 'customize_register' ), 9 );
-		add_action( 'admin_init',                         array( __CLASS__, 'register_setting'   )    );
-		add_action( 'switch_theme',                       array( __CLASS__, 'delete_transient'   )    );
-		add_action( 'save_post',                          array( __CLASS__, 'delete_transient'   )    );
-		add_action( 'delete_post_tag',                    array( __CLASS__, 'delete_post_tag'    )    );
-		add_action( 'customize_controls_enqueue_scripts', array( __CLASS__, 'enqueue_scripts'    )    );
-		add_action( 'pre_get_posts',                      array( __CLASS__, 'pre_get_posts'      )    );
-		add_action( 'wp_loaded',                          array( __CLASS__, 'wp_loaded'          )    );
+		add_filter( $filter, array( __CLASS__, 'get_featured_posts' ) );
+		add_action( 'customize_register', array( __CLASS__, 'customize_register' ), 9 );
+		add_action( 'admin_init', array( __CLASS__, 'register_setting' ) );
+		add_action( 'switch_theme', array( __CLASS__, 'delete_transient' ) );
+		add_action( 'save_post', array( __CLASS__, 'delete_transient' ) );
+		add_action( 'delete_post_tag', array( __CLASS__, 'delete_post_tag' ) );
+		add_action( 'customize_controls_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
+		add_action( 'pre_get_posts', array( __CLASS__, 'pre_get_posts' ) );
+		add_action( 'wp_loaded', array( __CLASS__, 'wp_loaded' ) );
 	}
 
 	/**
@@ -100,13 +94,11 @@ class Featured_Content {
 	 * Has to run on wp_loaded so that the preview filters of the Customizer
 	 * have a chance to alter the value.
 	 *
-	 * @static
-	 * @access public
 	 * @since Twenty Fourteen 1.0
 	 */
 	public static function wp_loaded() {
 		if ( self::get_setting( 'hide-tag' ) ) {
-			add_filter( 'get_terms',     array( __CLASS__, 'hide_featured_term'     ), 10, 3 );
+			add_filter( 'get_terms', array( __CLASS__, 'hide_featured_term' ), 10, 3 );
 			add_filter( 'get_the_terms', array( __CLASS__, 'hide_the_featured_term' ), 10, 3 );
 		}
 	}
@@ -114,8 +106,6 @@ class Featured_Content {
 	/**
 	 * Get featured posts.
 	 *
-	 * @static
-	 * @access public
 	 * @since Twenty Fourteen 1.0
 	 *
 	 * @return array Array of featured posts.
@@ -128,10 +118,12 @@ class Featured_Content {
 			return array();
 		}
 
-		$featured_posts = get_posts( array(
-			'include'        => $post_ids,
-			'posts_per_page' => count( $post_ids ),
-		) );
+		$featured_posts = get_posts(
+			array(
+				'include'        => $post_ids,
+				'posts_per_page' => count( $post_ids ),
+			)
+		);
 
 		return $featured_posts;
 	}
@@ -144,8 +136,6 @@ class Featured_Content {
 	 *
 	 * Sets the "featured_content_ids" transient.
 	 *
-	 * @static
-	 * @access public
 	 * @since Twenty Fourteen 1.0
 	 *
 	 * @return array Array of post IDs.
@@ -160,18 +150,20 @@ class Featured_Content {
 
 			if ( $term ) {
 				// Query for featured posts.
-				$featured_ids = get_posts( array(
-					'fields'           => 'ids',
-					'numberposts'      => self::$max_posts,
-					'suppress_filters' => false,
-					'tax_query'        => array(
-						array(
-							'field'    => 'term_id',
-							'taxonomy' => 'post_tag',
-							'terms'    => $term->term_id,
+				$featured_ids = get_posts(
+					array(
+						'fields'           => 'ids',
+						'numberposts'      => self::$max_posts,
+						'suppress_filters' => false,
+						'tax_query'        => array(
+							array(
+								'field'    => 'term_id',
+								'taxonomy' => 'post_tag',
+								'terms'    => $term->term_id,
+							),
 						),
-					),
-				) );
+					)
+				);
 			}
 
 			// Get sticky posts if no Featured Content exists.
@@ -189,8 +181,6 @@ class Featured_Content {
 	/**
 	 * Return an array with IDs of posts maked as sticky.
 	 *
-	 * @static
-	 * @access public
 	 * @since Twenty Fourteen 1.0
 	 *
 	 * @return array Array of sticky posts.
@@ -200,14 +190,12 @@ class Featured_Content {
 	}
 
 	/**
-	 * Delete featured content ids transient.
+	 * Delete featured content IDs transient.
 	 *
 	 * Hooks in the "save_post" action.
 	 *
 	 * @see Featured_Content::validate_settings().
 	 *
-	 * @static
-	 * @access public
 	 * @since Twenty Fourteen 1.0
 	 */
 	public static function delete_transient() {
@@ -221,8 +209,6 @@ class Featured_Content {
 	 * Hooked onto the 'pre_get_posts' action, this changes the parameters of
 	 * the query before it gets any posts.
 	 *
-	 * @static
-	 * @access public
 	 * @since Twenty Fourteen 1.0
 	 *
 	 * @param WP_Query $query WP_Query object.
@@ -247,7 +233,7 @@ class Featured_Content {
 			return;
 		}
 
-		// We need to respect post ids already in the blacklist.
+		// We need to respect post IDs already in the exclude list.
 		$post__not_in = $query->get( 'post__not_in' );
 
 		if ( ! empty( $post__not_in ) ) {
@@ -269,8 +255,6 @@ class Featured_Content {
 	 *
 	 * @see Featured_Content::validate_settings().
 	 *
-	 * @static
-	 * @access public
 	 * @since Twenty Fourteen 1.0
 	 *
 	 * @param int $tag_id The term_id of the tag that has been deleted.
@@ -283,7 +267,7 @@ class Featured_Content {
 		}
 
 		$settings['tag-id'] = 0;
-		$settings = self::validate_settings( $settings );
+		$settings           = self::validate_settings( $settings );
 		update_option( 'featured-content', $settings );
 	}
 
@@ -292,8 +276,6 @@ class Featured_Content {
 	 *
 	 * Hooks into the "get_terms" filter.
 	 *
-	 * @static
-	 * @access public
 	 * @since Twenty Fourteen 1.0
 	 *
 	 * @param array $terms      List of term objects. This is the return value of get_terms().
@@ -310,7 +292,7 @@ class Featured_Content {
 		}
 
 		// We only want to hide the featured tag.
-		if ( ! in_array( 'post_tag', $taxonomies ) ) {
+		if ( ! in_array( 'post_tag', $taxonomies, true ) ) {
 			return $terms;
 		}
 
@@ -320,7 +302,7 @@ class Featured_Content {
 		}
 
 		// Bail if term objects are unavailable.
-		if ( 'all' != $args['fields'] ) {
+		if ( 'all' !== $args['fields'] ) {
 			return $terms;
 		}
 
@@ -340,8 +322,6 @@ class Featured_Content {
 	 *
 	 * Hooks into the "get_the_terms" filter.
 	 *
-	 * @static
-	 * @access public
 	 * @since Twenty Fourteen 1.0
 	 *
 	 * @param array $terms    A list of term objects. This is the return value of get_the_terms().
@@ -359,7 +339,7 @@ class Featured_Content {
 		}
 
 		// Make sure we are in the correct taxonomy.
-		if ( 'post_tag' != $taxonomy ) {
+		if ( 'post_tag' !== $taxonomy ) {
 			return $terms;
 		}
 
@@ -381,8 +361,6 @@ class Featured_Content {
 	/**
 	 * Register custom setting on the Settings -> Reading screen.
 	 *
-	 * @static
-	 * @access public
 	 * @since Twenty Fourteen 1.0
 	 */
 	public static function register_setting() {
@@ -392,58 +370,71 @@ class Featured_Content {
 	/**
 	 * Add settings to the Customizer.
 	 *
-	 * @static
-	 * @access public
 	 * @since Twenty Fourteen 1.0
 	 *
 	 * @param WP_Customize_Manager $wp_customize Customizer object.
 	 */
 	public static function customize_register( $wp_customize ) {
-		$wp_customize->add_section( 'featured_content', array(
-			'title'          => __( 'Featured Content', 'twentyfourteen' ),
-			'description'    => sprintf( __( 'Use a <a href="%1$s">tag</a> to feature your posts. If no posts match the tag, <a href="%2$s">sticky posts</a> will be displayed instead.', 'twentyfourteen' ),
-				esc_url( add_query_arg( 'tag', _x( 'featured', 'featured content default tag slug', 'twentyfourteen' ), admin_url( 'edit.php' ) ) ),
-				admin_url( 'edit.php?show_sticky=1' )
-			),
-			'priority'       => 130,
-			'theme_supports' => 'featured-content',
-		) );
+		$wp_customize->add_section(
+			'featured_content',
+			array(
+				'title'          => __( 'Featured Content', 'twentyfourteen' ),
+				'description'    => sprintf(
+					/* translators: 1: Featured tag editor URL, 2: Post editor URL. */
+					__( 'Use a <a href="%1$s">tag</a> to feature your posts. If no posts match the tag, <a href="%2$s">sticky posts</a> will be displayed instead.', 'twentyfourteen' ),
+					esc_url( add_query_arg( 'tag', _x( 'featured', 'featured content default tag slug', 'twentyfourteen' ), admin_url( 'edit.php' ) ) ),
+					admin_url( 'edit.php?show_sticky=1' )
+				),
+				'priority'       => 130,
+				'theme_supports' => 'featured-content',
+			)
+		);
 
 		// Add Featured Content settings.
-		$wp_customize->add_setting( 'featured-content[tag-name]', array(
-			'default'              => _x( 'featured', 'featured content default tag slug', 'twentyfourteen' ),
-			'type'                 => 'option',
-			'sanitize_js_callback' => array( __CLASS__, 'delete_transient' ),
-		) );
-		$wp_customize->add_setting( 'featured-content[hide-tag]', array(
-			'default'              => true,
-			'type'                 => 'option',
-			'sanitize_js_callback' => array( __CLASS__, 'delete_transient' ),
-		) );
+		$wp_customize->add_setting(
+			'featured-content[tag-name]',
+			array(
+				'default'              => _x( 'featured', 'featured content default tag slug', 'twentyfourteen' ),
+				'type'                 => 'option',
+				'sanitize_js_callback' => array( __CLASS__, 'delete_transient' ),
+			)
+		);
+		$wp_customize->add_setting(
+			'featured-content[hide-tag]',
+			array(
+				'default'              => true,
+				'type'                 => 'option',
+				'sanitize_js_callback' => array( __CLASS__, 'delete_transient' ),
+			)
+		);
 
 		// Add Featured Content controls.
-		$wp_customize->add_control( 'featured-content[tag-name]', array(
-			'label'    => __( 'Tag Name', 'twentyfourteen' ),
-			'section'  => 'featured_content',
-			'priority' => 20,
-		) );
-		$wp_customize->add_control( 'featured-content[hide-tag]', array(
-			'label'    => __( 'Don&rsquo;t display tag on front end.', 'twentyfourteen' ),
-			'section'  => 'featured_content',
-			'type'     => 'checkbox',
-			'priority' => 30,
-		) );
+		$wp_customize->add_control(
+			'featured-content[tag-name]',
+			array(
+				'label'    => __( 'Tag Name', 'twentyfourteen' ),
+				'section'  => 'featured_content',
+				'priority' => 20,
+			)
+		);
+		$wp_customize->add_control(
+			'featured-content[hide-tag]',
+			array(
+				'label'    => __( 'Don&rsquo;t display tag on front end.', 'twentyfourteen' ),
+				'section'  => 'featured_content',
+				'type'     => 'checkbox',
+				'priority' => 30,
+			)
+		);
 	}
 
 	/**
 	 * Enqueue the tag suggestion script.
 	 *
-	 * @static
-	 * @access public
 	 * @since Twenty Fourteen 1.0
 	 */
 	public static function enqueue_scripts() {
-		wp_enqueue_script( 'featured-content-suggest', get_template_directory_uri() . '/js/featured-content-admin.js', array( 'jquery', 'suggest' ), '20131022', true );
+		wp_enqueue_script( 'featured-content-suggest', get_template_directory_uri() . '/js/featured-content-admin.js', array( 'jquery', 'suggest' ), '20131205', true );
 	}
 
 	/**
@@ -458,8 +449,6 @@ class Featured_Content {
 	 * its name as the first parameter to the function and only that
 	 * value will be returned.
 	 *
-	 * @static
-	 * @access public
 	 * @since Twenty Fourteen 1.0
 	 *
 	 * @param string $key The key of a recognized setting.
@@ -477,7 +466,7 @@ class Featured_Content {
 		$options = wp_parse_args( $saved, $defaults );
 		$options = array_intersect_key( $options, $defaults );
 
-		if ( 'all' != $key ) {
+		if ( 'all' !== $key ) {
 			return isset( $options[ $key ] ) ? $options[ $key ] : false;
 		}
 
@@ -491,8 +480,6 @@ class Featured_Content {
 	 * format before saving to the database. This function will also
 	 * delete the transient set in Featured_Content::get_featured_content().
 	 *
-	 * @static
-	 * @access public
 	 * @since Twenty Fourteen 1.0
 	 *
 	 * @param array $input Array of settings input.
@@ -521,7 +508,7 @@ class Featured_Content {
 
 		$output['hide-tag'] = isset( $input['hide-tag'] ) && $input['hide-tag'] ? 1 : 0;
 
-		// Delete the featured post ids transient.
+		// Delete the featured post IDs transient.
 		self::delete_transient();
 
 		return $output;

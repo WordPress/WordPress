@@ -4,7 +4,7 @@
  *
  * Displays posts from Aside, Quote, Video, Audio, Image, Gallery, and Link formats.
  *
- * @link https://codex.wordpress.org/Widgets_API#Developing_Widgets
+ * @link https://developer.wordpress.org/themes/functionality/widgets/#developing-widgets
  *
  * @package WordPress
  * @subpackage Twenty_Fourteen
@@ -16,7 +16,6 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 	/**
 	 * The supported post formats.
 	 *
-	 * @access private
 	 * @since Twenty Fourteen 1.0
 	 *
 	 * @var array
@@ -31,11 +30,15 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 	 * @return Twenty_Fourteen_Ephemera_Widget
 	 */
 	public function __construct() {
-		parent::__construct( 'widget_twentyfourteen_ephemera', __( 'Twenty Fourteen Ephemera', 'twentyfourteen' ), array(
-			'classname'   => 'widget_twentyfourteen_ephemera',
-			'description' => __( 'Use this widget to list your recent Aside, Quote, Video, Audio, Image, Gallery, and Link posts.', 'twentyfourteen' ),
-			'customize_selective_refresh' => true,
-		) );
+		parent::__construct(
+			'widget_twentyfourteen_ephemera',
+			__( 'Twenty Fourteen Ephemera', 'twentyfourteen' ),
+			array(
+				'classname'                   => 'widget_twentyfourteen_ephemera',
+				'description'                 => __( 'Use this widget to list your recent Aside, Quote, Video, Audio, Image, Gallery, and Link posts.', 'twentyfourteen' ),
+				'customize_selective_refresh' => true,
+			)
+		);
 
 		if ( is_active_widget( false, false, $this->id_base ) || is_customize_preview() ) {
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
@@ -62,14 +65,17 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 	/**
 	 * Output the HTML for this widget.
 	 *
-	 * @access public
 	 * @since Twenty Fourteen 1.0
 	 *
 	 * @param array $args     An array of standard parameters for widgets in this theme.
 	 * @param array $instance An array of settings for this widget instance.
 	 */
 	public function widget( $args, $instance ) {
-		$format = isset( $instance['format'] ) && in_array( $instance['format'], $this->formats ) ? $instance['format'] : 'aside';
+		$format = isset( $instance['format'] ) ? $instance['format'] : '';
+
+		if ( ! $format || ! in_array( $format, $this->formats, true ) ) {
+			$format = 'aside';
+		}
 
 		switch ( $format ) {
 			case 'image':
@@ -103,27 +109,30 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 				break;
 		}
 
-		$number = empty( $instance['number'] ) ? 2 : absint( $instance['number'] );
-		$title  = apply_filters( 'widget_title', empty( $instance['title'] ) ? $format_string : $instance['title'], $instance, $this->id_base );
+		$number = ! empty( $instance['number'] ) ? absint( $instance['number'] ) : 2;
+		$title  = ! empty( $instance['title'] ) ? $instance['title'] : $format_string;
+		$title  = apply_filters( 'widget_title', $title, $instance, $this->id_base );
 
-		$ephemera = new WP_Query( array(
-			'order'          => 'DESC',
-			'posts_per_page' => $number,
-			'no_found_rows'  => true,
-			'post_status'    => 'publish',
-			'post__not_in'   => get_option( 'sticky_posts' ),
-			'tax_query'      => array(
-				array(
-					'taxonomy' => 'post_format',
-					'terms'    => array( "post-format-$format" ),
-					'field'    => 'slug',
-					'operator' => 'IN',
+		$ephemera = new WP_Query(
+			array(
+				'order'          => 'DESC',
+				'posts_per_page' => $number,
+				'no_found_rows'  => true,
+				'post_status'    => 'publish',
+				'post__not_in'   => get_option( 'sticky_posts' ),
+				'tax_query'      => array(
+					array(
+						'taxonomy' => 'post_format',
+						'terms'    => array( "post-format-$format" ),
+						'field'    => 'slug',
+						'operator' => 'IN',
+					),
 				),
-			),
-		) );
+			)
+		);
 
 		if ( $ephemera->have_posts() ) :
-			$tmp_content_width = $GLOBALS['content_width'];
+			$tmp_content_width        = $GLOBALS['content_width'];
 			$GLOBALS['content_width'] = 306;
 
 			echo $args['before_widget'];
@@ -134,97 +143,103 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 			<ol>
 
 				<?php
-					while ( $ephemera->have_posts() ) :
-						$ephemera->the_post();
-						$tmp_more = $GLOBALS['more'];
-						$GLOBALS['more'] = 0;
-				?>
+				while ( $ephemera->have_posts() ) :
+					$ephemera->the_post();
+					$tmp_more        = $GLOBALS['more'];
+					$GLOBALS['more'] = 0;
+					?>
 				<li>
 				<article <?php post_class(); ?>>
-					<div class="entry-content">
-						<?php
-							if ( has_post_format( 'gallery' ) ) :
+				<div class="entry-content">
+					<?php
+					if ( has_post_format( 'gallery' ) ) :
 
-								if ( post_password_required() ) :
-									the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'twentyfourteen' ) );
-								else :
-									$images = array();
+						if ( post_password_required() ) :
+							the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'twentyfourteen' ) );
+							else :
+								$images = array();
 
-									$galleries = get_post_galleries( get_the_ID(), false );
-									if ( isset( $galleries[0]['ids'] ) )
-										$images = explode( ',', $galleries[0]['ids'] );
+								$galleries = get_post_galleries( get_the_ID(), false );
+								if ( isset( $galleries[0]['ids'] ) ) {
+									$images = explode( ',', $galleries[0]['ids'] );
+								}
 
-									if ( ! $images ) :
-										$images = get_posts( array(
-											'fields'         => 'ids',
-											'numberposts'    => -1,
-											'order'          => 'ASC',
-											'orderby'        => 'menu_order',
+								if ( ! $images ) :
+									$images = get_posts(
+										array(
+											'fields'      => 'ids',
+											'numberposts' => -1,
+											'order'       => 'ASC',
+											'orderby'     => 'menu_order',
 											'post_mime_type' => 'image',
-											'post_parent'    => get_the_ID(),
-											'post_type'      => 'attachment',
-										) );
-									endif;
+											'post_parent' => get_the_ID(),
+											'post_type'   => 'attachment',
+										)
+									);
+								endif;
 
-									$total_images = count( $images );
+								$total_images = count( $images );
 
-									if ( has_post_thumbnail() ) :
-										$post_thumbnail = get_the_post_thumbnail();
+								if ( has_post_thumbnail() ) :
+									$post_thumbnail = get_the_post_thumbnail();
 									elseif ( $total_images > 0 ) :
 										$image          = reset( $images );
 										$post_thumbnail = wp_get_attachment_image( $image, 'post-thumbnail' );
 									endif;
 
-									if ( ! empty ( $post_thumbnail ) ) :
-						?>
+									if ( ! empty( $post_thumbnail ) ) :
+										?>
 						<a href="<?php the_permalink(); ?>"><?php echo $post_thumbnail; ?></a>
 						<?php endif; ?>
 						<p class="wp-caption-text">
-							<?php
-								printf( _n( 'This gallery contains <a href="%1$s" rel="bookmark">%2$s photo</a>.', 'This gallery contains <a href="%1$s" rel="bookmark">%2$s photos</a>.', $total_images, 'twentyfourteen' ),
+								<?php
+								printf(
+									/* translators: 1: Post permalink, 2: Number of images in the gallery. */
+									_n( 'This gallery contains <a href="%1$s" rel="bookmark">%2$s photo</a>.', 'This gallery contains <a href="%1$s" rel="bookmark">%2$s photos</a>.', $total_images, 'twentyfourteen' ),
 									esc_url( get_permalink() ),
 									number_format_i18n( $total_images )
 								);
-							?>
+								?>
 						</p>
-						<?php
-								endif;
+								<?php
+						endif;
 
 							else :
 								the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'twentyfourteen' ) );
 							endif;
-						?>
+							?>
 					</div><!-- .entry-content -->
 
 					<header class="entry-header">
 						<div class="entry-meta">
-							<?php
-								if ( ! has_post_format( 'link' ) ) :
-									the_title( '<h1 class="entry-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h1>' );
-								endif;
+						<?php
+						if ( ! has_post_format( 'link' ) ) :
+							the_title( '<h1 class="entry-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h1>' );
+							endif;
 
-								printf( '<span class="entry-date"><a href="%1$s" rel="bookmark"><time class="entry-date" datetime="%2$s">%3$s</time></a></span> <span class="byline"><span class="author vcard"><a class="url fn n" href="%4$s" rel="author">%5$s</a></span></span>',
-									esc_url( get_permalink() ),
-									esc_attr( get_the_date( 'c' ) ),
-									esc_html( get_the_date() ),
-									esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
-									get_the_author()
-								);
+							printf(
+								'<span class="entry-date"><a href="%1$s" rel="bookmark"><time class="entry-date" datetime="%2$s">%3$s</time></a></span> <span class="byline"><span class="author vcard"><a class="url fn n" href="%4$s" rel="author">%5$s</a></span></span>',
+								esc_url( get_permalink() ),
+								esc_attr( get_the_date( 'c' ) ),
+								esc_html( get_the_date() ),
+								esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
+								get_the_author()
+							);
 
-								if ( ! post_password_required() && ( comments_open() || get_comments_number() ) ) :
+						if ( ! post_password_required() && ( comments_open() || get_comments_number() ) ) :
 							?>
 							<span class="comments-link"><?php comments_popup_link( __( 'Leave a comment', 'twentyfourteen' ), __( '1 Comment', 'twentyfourteen' ), __( '% Comments', 'twentyfourteen' ) ); ?></span>
 							<?php endif; ?>
 						</div><!-- .entry-meta -->
 					</header><!-- .entry-header -->
-				</article><!-- #post-## -->
+				</article><!-- #post-<?php the_ID(); ?> -->
 				</li>
 				<?php endwhile; ?>
 
 			</ol>
 			<a class="post-format-archive-link" href="<?php echo esc_url( get_post_format_link( $format ) ); ?>">
 				<?php
-					/* translators: used with More archives link */
+					/* translators: Used with More archives link. */
 					printf( __( '%s <span class="meta-nav">&rarr;</span>', 'twentyfourteen' ), $format_string_more );
 				?>
 			</a>
@@ -255,7 +270,8 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 	function update( $new_instance, $instance ) {
 		$instance['title']  = strip_tags( $new_instance['title'] );
 		$instance['number'] = empty( $new_instance['number'] ) ? 2 : absint( $new_instance['number'] );
-		if ( in_array( $new_instance['format'], $this->formats ) ) {
+
+		if ( in_array( $new_instance['format'], $this->formats, true ) ) {
 			$instance['format'] = $new_instance['format'];
 		}
 
@@ -270,9 +286,13 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 	 * @param array $instance
 	 */
 	function form( $instance ) {
-		$title  = empty( $instance['title'] ) ? '' : esc_attr( $instance['title'] );
-		$number = empty( $instance['number'] ) ? 2 : absint( $instance['number'] );
-		$format = isset( $instance['format'] ) && in_array( $instance['format'], $this->formats ) ? $instance['format'] : 'aside';
+		$title  = ! empty( $instance['title'] ) ? esc_attr( $instance['title'] ) : '';
+		$number = ! empty( $instance['number'] ) ? absint( $instance['number'] ) : 2;
+		$format = isset( $instance['format'] ) ? $instance['format'] : '';
+
+		if ( ! $format || ! in_array( $format, $this->formats, true ) ) {
+			$format = 'aside';
+		}
 		?>
 			<p><label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php _e( 'Title:', 'twentyfourteen' ); ?></label>
 			<input id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" class="widefat" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>"></p>

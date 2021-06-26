@@ -1,0 +1,23 @@
+{
+	"apiVersion": 2,
+	"name": "core/post-template",
+	"title": "Post Template",
+	"category": "design",
+	"parent": [ "core/query" ],
+	"description": "Contains the block elements used to render a post, like the title, date, featured image, content or excerpt, and more.",
+	"textdomain": "default",
+	"usesContext": [
+		"queryId",
+		"query",
+		"queryContext",
+		"displayLayout",
+		"templateSlug"
+	],
+	"supports": {
+		"reusable": false,
+		"html": false,
+		"align": true
+	},
+	"style": "wp-block-post-template",
+	"editorStyle": "wp-block-post-template-editor"
+}

@@ -1,0 +1,137 @@
+/**
+ * Colors
+ */
+/**
+ * Breakpoints & Media Queries
+ */
+/**
+ * SCSS Variables.
+ *
+ * Please use variables from this sheet to ensure consistency across the UI.
+ * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
+ * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
+ */
+/**
+ * Colors
+ */
+/**
+ * Fonts & basic variables.
+ */
+/**
+ * Grid System.
+ * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
+ */
+/**
+ * Dimensions.
+ */
+/**
+ * Shadows.
+ */
+/**
+ * Editor widths.
+ */
+/**
+ * Block & Editor UI.
+ */
+/**
+ * Block paddings.
+ */
+/**
+ * React Native specific.
+ * These variables do not appear to be used anywhere else.
+ */
+/**
+ * Breakpoint mixins
+ */
+/**
+ * Long content fade mixin
+ *
+ * Creates a fading overlay to signify that the content is longer
+ * than the space allows.
+ */
+/**
+ * Focus styles.
+ */
+/**
+ * Applies editor left position to the selector passed as argument
+ */
+/**
+ * Styles that are reused verbatim in a few places
+ */
+/**
+ * Allows users to opt-out of animations via OS-level preferences.
+ */
+/**
+ * Reset default styles for JavaScript UI based pages.
+ * This is a WP-admin agnostic reset
+ */
+/**
+ * Reset the WP Admin page styles for Gutenberg-like pages.
+ */
+.wp-block-post-template,
+.wp-block-query-loop {
+  max-width: 100%;
+  list-style: none;
+  padding: 0;
+}
+.wp-block-post-template li,
+.wp-block-query-loop li {
+  clear: both;
+}
+.wp-block-post-template.is-flex-container,
+.wp-block-query-loop.is-flex-container {
+  flex-direction: row;
+  display: flex;
+  flex-wrap: wrap;
+}
+.wp-block-post-template.is-flex-container li,
+.wp-block-query-loop.is-flex-container li {
+  margin: 0 0 1.25em 0;
+  width: 100%;
+}
+@media (min-width: 600px) {
+  .wp-block-post-template.is-flex-container li,
+.wp-block-query-loop.is-flex-container li {
+    margin-right: 1.25em;
+  }
+  .wp-block-post-template.is-flex-container.is-flex-container.columns-2 > li,
+.wp-block-query-loop.is-flex-container.is-flex-container.columns-2 > li {
+    width: calc((100% / 2) - 1.25em + (1.25em / 2));
+  }
+  .wp-block-post-template.is-flex-container.is-flex-container.columns-2 > li:nth-child(2n),
+.wp-block-query-loop.is-flex-container.is-flex-container.columns-2 > li:nth-child(2n) {
+    margin-right: 0;
+  }
+  .wp-block-post-template.is-flex-container.is-flex-container.columns-3 > li,
+.wp-block-query-loop.is-flex-container.is-flex-container.columns-3 > li {
+    width: calc((100% / 3) - 1.25em + (1.25em / 3));
+  }
+  .wp-block-post-template.is-flex-container.is-flex-container.columns-3 > li:nth-child(3n),
+.wp-block-query-loop.is-flex-container.is-flex-container.columns-3 > li:nth-child(3n) {
+    margin-right: 0;
+  }
+  .wp-block-post-template.is-flex-container.is-flex-container.columns-4 > li,
+.wp-block-query-loop.is-flex-container.is-flex-container.columns-4 > li {
+    width: calc((100% / 4) - 1.25em + (1.25em / 4));
+  }
+  .wp-block-post-template.is-flex-container.is-flex-container.columns-4 > li:nth-child(4n),
+.wp-block-query-loop.is-flex-container.is-flex-container.columns-4 > li:nth-child(4n) {
+    margin-right: 0;
+  }
+  .wp-block-post-template.is-flex-container.is-flex-container.columns-5 > li,
+.wp-block-query-loop.is-flex-container.is-flex-container.columns-5 > li {
+    width: calc((100% / 5) - 1.25em + (1.25em / 5));
+  }
+  .wp-block-post-template.is-flex-container.is-flex-container.columns-5 > li:nth-child(5n),
+.wp-block-query-loop.is-flex-container.is-flex-container.columns-5 > li:nth-child(5n) {
+    margin-right: 0;
+  }
+  .wp-block-post-template.is-flex-container.is-flex-container.columns-6 > li,
+.wp-block-query-loop.is-flex-container.is-flex-container.columns-6 > li {
+    width: calc((100% / 6) - 1.25em + (1.25em / 6));
+  }
+  .wp-block-post-template.is-flex-container.is-flex-container.columns-6 > li:nth-child(6n),
+.wp-block-query-loop.is-flex-container.is-flex-container.columns-6 > li:nth-child(6n) {
+    margin-right: 0;
+  }
+}

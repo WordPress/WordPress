@@ -1,46 +1,43 @@
+/*! This file is auto-generated */
 html {
-	background: #f1f1f1;
+	background: #f0f0f1;
 	margin: 0 20px;
 }
 
 body {
 	background: #fff;
-	color: #444;
+	border: 1px solid #c3c4c7;
+	color: #3c434a;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 	margin: 140px auto 25px;
 	padding: 20px 20px 10px 20px;
 	max-width: 700px;
 	-webkit-font-smoothing: subpixel-antialiased;
-	box-shadow: 0 1px 3px rgba(0,0,0,0.13);
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
 }
 
 a {
-	color: #0073aa;
+	color: #2271b1;
 }
 
 a:hover,
 a:active {
-	color: #00a0d2;
+	color: #135e96;
 }
 
 a:focus {
-	color: #124964;
+	color: #043959;
 	box-shadow:
-		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba(30, 140, 190, .8);
-}
-
-.ie8 a:focus {
-	outline: #5b9dd9 solid 1px;
+		0 0 0 1px #4f94d4,
+		0 0 2px 1px rgba(79, 148, 212, 0.8);
 }
 
 h1, h2 {
-	border-bottom: 1px solid #ddd;
+	border-bottom: 1px solid #dcdcde;
 	clear: both;
-	color: #666;
+	color: #646970;
 	font-size: 24px;
-	padding: 0;
-	padding-bottom: 7px;
+	padding: 0 0 7px;
 	font-weight: 400;
 }
 
@@ -63,7 +60,7 @@ ul, ol, dl {
 }
 
 a img {
-	border:0
+	border: 0
 }
 abbr {
 	border: 0;
@@ -81,34 +78,24 @@ label {
 }
 
 #logo {
-	margin: 6px 0 14px 0;
-	padding: 0 0 7px 0;
-	border-bottom: none;
-	text-align:center
-}
-#logo a {
+	margin: -130px auto 25px;
+	padding: 0 0 25px 0;
+	width: 84px;
+	height: 84px;
+	overflow: hidden;
 	background-image: url(../images/w-logo-blue.png?ver=20131202);
 	background-image: none, url(../images/wordpress-logo.svg?ver=20131107);
 	background-size: 84px;
 	background-position: center top;
 	background-repeat: no-repeat;
-	color: #444; /* same as login.css */
-	height: 84px;
+	color: #3c434a; /* same as login.css */
 	font-size: 20px;
 	font-weight: 400;
 	line-height: 1.3em;
-	margin: -130px auto 25px;
-	padding: 0;
 	text-decoration: none;
-	width: 84px;
+	text-align: center;
 	text-indent: -9999px;
 	outline: none;
-	overflow: hidden;
-	display: block;
-}
-
-#logo a:focus {
-	box-shadow: none;
 }
 
 .step {
@@ -119,13 +106,10 @@ label {
 	padding: 0;
 }
 .language-chooser.wp-core-ui .step .button.button-large {
-	height: 36px;
 	font-size: 14px;
-	line-height: 33px;
-	vertical-align: middle;
 }
 textarea {
-	border: 1px solid #ddd;
+	border: 1px solid #dcdcde;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 	width: 100%;
 	box-sizing: border-box;
@@ -153,7 +137,7 @@ textarea {
 }
 
 .form-table code {
-	line-height: 18px;
+	line-height: 1.28571428;
 	font-size: 14px;
 }
 
@@ -163,11 +147,9 @@ textarea {
 }
 
 .form-table input {
-	line-height: 20px;
+	line-height: 1.33333333;
 	font-size: 15px;
 	padding: 3px 5px;
-	border: 1px solid #ddd;
-	box-shadow: inset 0 1px 2px rgba(0,0,0,0.07);
 }
 
 input,
@@ -178,8 +160,9 @@ submit {
 .form-table input[type=text],
 .form-table input[type=email],
 .form-table input[type=url],
-.form-table input[type=password] {
-	width: 206px;
+.form-table input[type=password],
+#pass-strength-result {
+	width: 218px;
 }
 
 .form-table th p {
@@ -208,7 +191,7 @@ submit {
 
 #error-page p {
 	font-size: 14px;
-	line-height: 18px;
+	line-height: 1.28571428;
 	margin: 25px 0 20px;
 }
 
@@ -216,70 +199,10 @@ submit {
 	font-family: Consolas, Monaco, monospace;
 }
 
-.wp-hide-pw > .dashicons {
-	line-height: inherit;
-}
-
-#pass-strength-result {
-	background-color: #eee;
-	border: 1px solid #ddd;
-	color: #23282d;
-	margin: -2px 0px 5px 5px;
-	padding: 3px 5px;
-	text-align: center;
-	width: 218px;
-	box-sizing: border-box;
-	opacity: 0;
-}
-
-#pass-strength-result.short {
-	background-color: #f1adad;
-	border-color: #e35b5b;
-	opacity: 1;
-}
-
-#pass-strength-result.bad {
-	background-color: #fbc5a9;
-	border-color: #f78b53;
-	opacity: 1;
-}
-
-#pass-strength-result.good {
-	background-color: #ffe399;
-	border-color: #ffc733;
-	opacity: 1;
-}
-
-#pass-strength-result.strong {
-	background-color: #c1e1b9;
-	border-color: #83c373;
-	opacity: 1;
-}
-
-#pass1.short, #pass1-text.short {
-	border-color: #e35b5b;
-}
-
-#pass1.bad, #pass1-text.bad {
-	border-color: #f78b53;
-}
-
-#pass1.good, #pass1-text.good {
-	border-color: #ffc733;
-}
-
-#pass1.strong, #pass1-text.strong {
-	border-color: #83c373;
-}
-
-.pw-weak {
-	display: none;
-}
-
 .message {
-	border-right: 4px solid #dc3232;
+	border-right: 4px solid #d63638;
 	padding: .7em .6em;
-	background-color: #fbeaea;
+	background-color: #fcf0f1;
 }
 
 /* rtl:ignore */
@@ -293,20 +216,6 @@ submit {
 #pass1,
 #pass2 {
 	direction: ltr;
-}
-
-#pass1-text,
-.show-password #pass1 {
-	display: none;
-}
-
-.show-password #pass1-text
-{
-	display: inline-block;
-}
-
-.form-table span.description.important {
-	font-size: 12px;
 }
 
 
@@ -334,7 +243,7 @@ body.rtl,
 	}
 }
 
-@media screen and ( max-width: 782px ) {
+@media screen and (max-width: 782px) {
 
 	.form-table {
 		margin-top: 0;
@@ -378,6 +287,17 @@ body.rtl,
 		box-sizing: border-box;
 	}
 
+	.wp-pwd #pass1 {
+		padding-left: 50px;
+	}
+
+	.wp-pwd .button.wp-hide-pw {
+		left: 0;
+	}
+
+	#pass-strength-result {
+		width: 100%;
+	}
 }
 
 body.language-chooser {
@@ -388,28 +308,40 @@ body.language-chooser {
 	padding: 8px;
 	width: 100%;
 	display: block;
-	border: 1px solid #ddd;
-	background-color: #fff;
-	color: #32373c;
+	border: 1px solid #dcdcde;
+	background: #fff;
+	color: #2c3338;
 	font-size: 16px;
 	font-family: Arial, sans-serif;
 	font-weight: 400;
 }
 
-.language-chooser p {
+.language-chooser select:focus {
+	color: #2c3338;
+}
+
+.language-chooser select option:hover,
+.language-chooser select option:focus {
+	color: #0a4b78;
+}
+
+.language-chooser .step {
 	text-align: left;
 }
 
 .screen-reader-input,
 .screen-reader-text {
-	position: absolute;
-	margin: -1px;
-	padding: 0;
-	height: 1px;
-	width: 1px;
-	overflow: hidden;
-	clip: rect(0 0 0 0);
 	border: 0;
+	clip: rect(1px, 1px, 1px, 1px);
+	-webkit-clip-path: inset(50%);
+	clip-path: inset(50%);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	width: 1px;
+	word-wrap: normal !important;
 }
 
 .spinner {

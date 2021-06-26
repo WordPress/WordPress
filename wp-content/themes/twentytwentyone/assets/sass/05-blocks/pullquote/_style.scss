@@ -1,0 +1,110 @@
+.wp-block-pullquote {
+	padding: calc(2 * var(--global--spacing-unit)) 0;
+	text-align: center;
+	border-width: var(--pullquote--border-width);
+	border-bottom-style: solid;
+	border-top-style: solid;
+	color: currentColor;
+	border-color: currentColor;
+	position: relative;
+
+	blockquote::before {
+		color: currentColor;
+		content: "\201C";
+		display: block;
+		position: relative; // Override the absolute position.
+		left: 0;
+		font-size: 3rem;
+		font-weight: 500;
+		line-height: 1;
+	}
+
+	p {
+		font-family: var(--pullquote--font-family);
+		font-size: var(--pullquote--font-size);
+		font-style: var(--pullquote--font-style);
+		font-weight: 700;
+		letter-spacing: var(--pullquote--letter-spacing);
+		line-height: var(--pullquote--line-height);
+		margin: 0;
+	}
+
+	a {
+		color: currentColor;
+	}
+
+	.wp-block-pullquote__citation,
+	cite,
+	footer {
+		color: currentColor;
+		display: block;
+		font-size: var(--global--font-size-xs);
+		font-style: var(--pullquote--font-style);
+		text-transform: none;
+	}
+
+	/**
+	 * Block Options
+	 */
+	&:not(.is-style-solid-color) {
+		background: none;
+	}
+
+	&.alignleft:not(.is-style-solid-color) {
+
+		blockquote:before,
+		cite {
+			text-align: center;
+		}
+	}
+
+	&.alignwide > p,
+	&.alignwide blockquote {
+		max-width: var(--responsive--alignwide-width);
+	}
+
+	&.alignfull:not(.is-style-solid-color) > p,
+	&.alignfull:not(.is-style-solid-color) blockquote {
+		padding: 0 calc(2 * var(--global--spacing-unit));
+	}
+
+	&.is-style-solid-color {
+		color: var(--pullquote--color-foreground);
+		padding: calc(2.5 * var(--global--spacing-unit));
+		border-width: var(--pullquote--border-width);
+		border-style: solid;
+		border-color: var(--pullquote--border-color);
+
+		@media (min-width: 600px) {
+			padding: calc(5 * var(--global--spacing-unit));
+		}
+
+		blockquote::before {
+			text-align: left;
+		}
+
+		blockquote {
+			margin: 0;
+			max-width: inherit;
+
+			p {
+				font-size: var(--pullquote--font-size);
+			}
+		}
+
+		.wp-block-pullquote__citation,
+		cite,
+		footer {
+			color: currentColor;
+		}
+
+		&.alignleft,
+		&.alignright {
+			padding: var(--global--spacing-unit);
+
+			blockquote {
+				max-width: initial;
+			}
+		}
+	}
+}

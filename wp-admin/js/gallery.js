@@ -1,6 +1,10 @@
-/* global unescape, getUserSetting, setUserSetting */
+/**
+ * @output wp-admin/js/gallery.js
+ */
 
-jQuery(document).ready(function($) {
+/* global unescape, getUserSetting, setUserSetting, wpgallery, tinymce */
+
+jQuery( function($) {
 	var gallerySortable, gallerySortableInit, sortIt, clearAll, w, desc = false;
 
 	gallerySortableInit = function() {
@@ -11,7 +15,7 @@ jQuery(document).ready(function($) {
 			distance: 2,
 			handle: 'div.filename',
 			stop: function() {
-				// When an update has occurred, adjust the order for each item
+				// When an update has occurred, adjust the order for each item.
 				var all = $('#media-items').sortable('toArray'), len = all.length;
 				$.each(all, function(i, id) {
 					var order = desc ? (len - i) : (1 + i);
@@ -38,28 +42,28 @@ jQuery(document).ready(function($) {
 		});
 	};
 
-	$('#asc').click( function( e ) {
+	$('#asc').on( 'click', function( e ) {
 		e.preventDefault();
 		desc = false;
 		sortIt();
 	});
-	$('#desc').click( function( e ) {
+	$('#desc').on( 'click', function( e ) {
 		e.preventDefault();
 		desc = true;
 		sortIt();
 	});
-	$('#clear').click( function( e ) {
+	$('#clear').on( 'click', function( e ) {
 		e.preventDefault();
 		clearAll(1);
 	});
-	$('#showall').click( function( e ) {
+	$('#showall').on( 'click', function( e ) {
 		e.preventDefault();
 		$('#sort-buttons span a').toggle();
 		$('a.describe-toggle-on').hide();
 		$('a.describe-toggle-off, table.slidetoggle').show();
 		$('img.pinkynail').toggle(false);
 	});
-	$('#hideall').click( function( e ) {
+	$('#hideall').on( 'click', function( e ) {
 		e.preventDefault();
 		$('#sort-buttons span a').toggle();
 		$('a.describe-toggle-on').show();
@@ -67,7 +71,7 @@ jQuery(document).ready(function($) {
 		$('img.pinkynail').toggle(true);
 	});
 
-	// initialize sortable
+	// Initialize sortable.
 	gallerySortableInit();
 	clearAll();
 
@@ -84,12 +88,12 @@ jQuery(document).ready(function($) {
 	}
 });
 
-jQuery(window).unload( function () { tinymce = tinyMCE = wpgallery = null; } ); // Cleanup
+jQuery(window).on( 'unload', function () { window.tinymce = window.tinyMCE = window.wpgallery = null; } ); // Cleanup.
 
 /* gallery settings */
-var tinymce = null, tinyMCE, wpgallery;
+window.tinymce = null;
 
-wpgallery = {
+window.wpgallery = {
 	mcemode : false,
 	editor : {},
 	dom : {},
@@ -118,9 +122,9 @@ wpgallery = {
 			document.domain = q.mce_rdomain;
 		}
 
-		// Find window & API
-		tinymce = w.tinymce;
-		tinyMCE = w.tinyMCE;
+		// Find window & API.
+		window.tinymce = w.tinymce;
+		window.tinyMCE = w.tinyMCE;
 		t.editor = tinymce.EditorManager.activeEditor;
 
 		t.setup();

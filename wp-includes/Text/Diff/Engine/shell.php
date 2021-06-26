@@ -83,7 +83,7 @@ class Text_Diff_Engine_shell {
 
             if ($from_line_no < $match[1] || $to_line_no < $match[4]) {
                 // copied lines
-                assert('$match[1] - $from_line_no == $match[4] - $to_line_no');
+                assert($match[1] - $from_line_no == $match[4] - $to_line_no);
                 array_push($edits,
                     new Text_Diff_Op_copy(
                         $this->_getLines($from_lines, $from_line_no, $match[1] - 1),
@@ -135,10 +135,10 @@ class Text_Diff_Engine_shell {
      *
      * @access private
      *
-     * @param array &$text_lines Either $from_lines or $to_lines
-     * @param int   &$line_no    Current line number
-     * @param int   $end         Optional end line, when we want to chop more
-     *                           than one line.
+     * @param array $text_lines Either $from_lines or $to_lines (passed by reference).
+     * @param int   $line_no    Current line number (passed by reference).
+     * @param int   $end        Optional end line, when we want to chop more
+     *                          than one line.
      *
      * @return array The chopped lines
      */

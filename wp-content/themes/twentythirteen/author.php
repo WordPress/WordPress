@@ -2,7 +2,7 @@
 /**
  * The template for displaying Author archive pages
  *
- * @link https://codex.wordpress.org/Template_Hierarchy
+ * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
  *
  * @package WordPress
  * @subpackage Twenty_Thirteen
@@ -28,14 +28,19 @@ get_header(); ?>
 			?>
 
 			<header class="archive-header">
-				<h1 class="archive-title"><?php printf( __( 'All posts by %s', 'twentythirteen' ), '<span class="vcard"><a class="url fn n" href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '" title="' . esc_attr( get_the_author() ) . '" rel="me">' . get_the_author() . '</a></span>' ); ?></h1>
+				<h1 class="archive-title">
+				<?php
+				/* translators: %s: Author display name. */
+				printf( __( 'All posts by %s', 'twentythirteen' ), '<span class="vcard"><a class="url fn n" href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '" title="' . esc_attr( get_the_author() ) . '" rel="me">' . get_the_author() . '</a></span>' );
+				?>
+				</h1>
 			</header><!-- .archive-header -->
 
 			<?php
 				/*
-				 * Since we called the_post() above, we need to
-				 * rewind the loop back to the beginning that way
-				 * we can run the loop properly, in full.
+				 * Since we called the_post() above, we need
+				 * to rewind the loop back to the beginning.
+				 * That way we can run the loop properly, in full.
 				 */
 				rewind_posts();
 			?>
@@ -44,8 +49,11 @@ get_header(); ?>
 				<?php get_template_part( 'author-bio' ); ?>
 			<?php endif; ?>
 
-			<?php /* The loop */ ?>
-			<?php while ( have_posts() ) : the_post(); ?>
+			<?php
+			// Start the loop.
+			while ( have_posts() ) :
+				the_post();
+				?>
 				<?php get_template_part( 'content', get_post_format() ); ?>
 			<?php endwhile; ?>
 

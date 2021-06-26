@@ -1,0 +1,41 @@
+{
+	"apiVersion": 2,
+	"name": "core/embed",
+	"title": "Embed",
+	"category": "embed",
+	"description": "Add a block that displays content pulled from other sites, like Twitter, Instagram or YouTube.",
+	"textdomain": "default",
+	"attributes": {
+		"url": {
+			"type": "string"
+		},
+		"caption": {
+			"type": "string",
+			"source": "html",
+			"selector": "figcaption"
+		},
+		"type": {
+			"type": "string"
+		},
+		"providerNameSlug": {
+			"type": "string"
+		},
+		"allowResponsive": {
+			"type": "boolean",
+			"default": true
+		},
+		"responsive": {
+			"type": "boolean",
+			"default": false
+		},
+		"previewable": {
+			"type": "boolean",
+			"default": true
+		}
+	},
+	"supports": {
+		"align": true
+	},
+	"editorStyle": "wp-block-embed-editor",
+	"style": "wp-block-embed"
+}

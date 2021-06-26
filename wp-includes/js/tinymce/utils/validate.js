@@ -230,12 +230,12 @@ var AutoValidator = {
 
   addClass : function (n, c, b) {
     var o = this.removeClass(n, c);
-    n.className = b ? c + (o != '' ? (' ' + o) : '') : (o != '' ? (o + ' ') : '') + c;
+    n.className = b ? c + (o !== '' ? (' ' + o) : '') : (o !== '' ? (o + ' ') : '') + c;
   },
 
   removeClass : function (n, c) {
     c = n.className.replace(new RegExp("(^|\\s+)" + c + "(\\s+|$)"), ' ');
-    return n.className = c != ' ' ? c : '';
+    return n.className = c !== ' ' ? c : '';
   },
 
   tags : function (f, s) {

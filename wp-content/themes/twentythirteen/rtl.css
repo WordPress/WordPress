@@ -495,6 +495,10 @@ div.nav-menu > ul {
 	float: right;
 }
 
+.comment-form #wp-comment-cookies-consent {
+	margin: 0 0 0 10px;
+}
+
 .form-allowed-tags code {
 	margin-left: auto;
 	margin-right: 3px;
@@ -567,6 +571,9 @@ div.nav-menu > ul {
 	margin-right: auto;
 }
 
+.site-footer span[role=separator] {
+	padding: 0 0.5em;
+}
 
 /**
  * 8.0 Media Queries

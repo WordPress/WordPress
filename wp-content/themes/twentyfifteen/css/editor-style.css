@@ -28,7 +28,7 @@ body {
 	font-weight: 400;
 	font-size: 17px;
 	line-height: 1.6471;
-	margin: 20px 40px;
+	margin: auto 20px;
 	max-width: 660px;
 	vertical-align: baseline;
 }
@@ -163,7 +163,6 @@ pre {
 	font-size: 17px;
 	line-height: 1.2353;
 	margin-bottom: 28px;
-	max-width: 100%;
 	overflow: auto;
 	padding: 14px;
 	white-space: pre;

@@ -19,6 +19,8 @@
 .colors-dark .entry-content a:hover,
 .colors-dark .entry-summary a:focus,
 .colors-dark .entry-summary a:hover,
+.colors-dark .comment-content a:focus,
+.colors-dark .comment-content a:hover,
 .colors-dark .widget a:focus,
 .colors-dark .widget a:hover,
 .colors-dark .site-footer .widget-area a:focus,
@@ -74,6 +76,8 @@
 .colors-dark .entry-content a:hover,
 .colors-dark .entry-summary a:focus,
 .colors-dark .entry-summary a:hover,
+.colors-dark .comment-content a:focus,
+.colors-dark .comment-content a:hover,
 .colors-dark .widget a:focus,
 .colors-dark .widget a:hover,
 .colors-dark .site-footer .widget-area a:focus,
@@ -128,6 +132,7 @@
 
 .colors-dark .entry-content a,
 .colors-dark .entry-summary a,
+.colors-dark .comment-content a,
 .colors-dark .widget a,
 .colors-dark .site-footer .widget-area a,
 .colors-dark .posts-navigation a,
@@ -284,8 +289,8 @@ body.colors-dark,
 	color: #bbb;
 }
 
-.colors-dark button:hover,
-.colors-dark button:focus,
+.colors-dark :not( .mejs-button ) > button:hover,
+.colors-dark :not( .mejs-button ) > button:focus,
 .colors-dark input[type="button"]:hover,
 .colors-dark input[type="button"]:focus,
 .colors-dark input[type="submit"]:hover,
@@ -475,6 +480,7 @@ body.colors-dark,
 
 /* Fixes linked images */
 .colors-dark .entry-content a img,
+.colors-dark .comment-content a img,
 .colors-dark .widget a img {
 	-webkit-box-shadow: 0 0 0 8px #222;
 	box-shadow: 0 0 0 8px #222;

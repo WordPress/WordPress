@@ -1,0 +1,30 @@
+{
+	"apiVersion": 2,
+	"name": "core/social-link",
+	"title": "Social Icon",
+	"category": "widgets",
+	"parent": [ "core/social-links" ],
+	"description": "Display an icon linking to a social media profile or website.",
+	"textdomain": "default",
+	"attributes": {
+		"url": {
+			"type": "string"
+		},
+		"service": {
+			"type": "string"
+		},
+		"label": {
+			"type": "string"
+		}
+	},
+	"usesContext": [
+		"openInNewTab",
+		"iconColorValue",
+		"iconBackgroundColorValue"
+	],
+	"supports": {
+		"reusable": false,
+		"html": false
+	},
+	"editorStyle": "wp-block-social-link-editor"
+}

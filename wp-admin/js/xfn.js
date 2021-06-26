@@ -1,6 +1,12 @@
-jQuery( document ).ready(function( $ ) {
+/**
+ * Generates the XHTML Friends Network 'rel' string from the inputs.
+ *
+ * @deprecated 3.5.0
+ * @output wp-admin/js/xfn.js
+ */
+jQuery( function( $ ) {
 	$( '#link_rel' ).prop( 'readonly', true );
-	$( '#linkxfndiv input' ).bind( 'click keyup', function() {
+	$( '#linkxfndiv input' ).on( 'click keyup', function() {
 		var isMe = $( '#me' ).is( ':checked' ), inputs = '';
 		$( 'input.valinp' ).each( function() {
 			if ( isMe ) {

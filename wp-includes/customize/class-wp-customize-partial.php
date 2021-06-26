@@ -68,7 +68,7 @@ class WP_Customize_Partial {
 	 * IDs for settings tied to the partial.
 	 *
 	 * @since 4.5.0
-	 * @var array
+	 * @var string[]
 	 */
 	public $settings;
 
@@ -97,10 +97,11 @@ class WP_Customize_Partial {
 	 * Render callback.
 	 *
 	 * @since 4.5.0
+	 *
 	 * @see WP_Customize_Partial::render()
 	 * @var callable Callback is called with one argument, the instance of
-	 *                 WP_Customize_Partial. The callback can either echo the
-	 *                 partial or return the partial as a string, or return false if error.
+	 *               WP_Customize_Partial. The callback can either echo the
+	 *               partial or return the partial as a string, or return false if error.
 	 */
 	public $render_callback;
 
@@ -133,10 +134,27 @@ class WP_Customize_Partial {
 	 *
 	 * @param WP_Customize_Selective_Refresh $component Customize Partial Refresh plugin instance.
 	 * @param string                         $id        Control ID.
-	 * @param array                          $args      {
-	 *     Optional. Arguments to override class property defaults.
+	 * @param array                          $args {
+	 *     Optional. Array of properties for the new Partials object. Default empty array.
 	 *
-	 *     @type array|string $settings All settings IDs tied to the partial. If undefined, `$id` will be used.
+	 *     @type string   $type                  Type of the partial to be created.
+	 *     @type string   $selector              The jQuery selector to find the container element for the partial, that is,
+	 *                                           a partial's placement.
+	 *     @type string[] $settings              IDs for settings tied to the partial. If undefined, `$id` will be used.
+	 *     @type string   $primary_setting       The ID for the setting that this partial is primarily responsible for
+	 *                                           rendering. If not supplied, it will default to the ID of the first setting.
+	 *     @type string   $capability            Capability required to edit this partial.
+	 *                                           Normally this is empty and the capability is derived from the capabilities
+	 *                                           of the associated `$settings`.
+	 *     @type callable $render_callback       Render callback.
+	 *                                           Callback is called with one argument, the instance of WP_Customize_Partial.
+	 *                                           The callback can either echo the partial or return the partial as a string,
+	 *                                           or return false if error.
+	 *     @type bool     $container_inclusive   Whether the container element is included in the partial, or if only
+	 *                                           the contents are rendered.
+	 *     @type bool     $fallback_refresh      Whether to refresh the entire preview in case a partial cannot be refreshed.
+	 *                                           A partial render is considered a failure if the render_callback returns
+	 *                                           false.
 	 * }
 	 */
 	public function __construct( WP_Customize_Selective_Refresh $component, $id, $args = array() ) {
@@ -159,7 +177,7 @@ class WP_Customize_Partial {
 		// Process settings.
 		if ( ! isset( $this->settings ) ) {
 			$this->settings = array( $id );
-		} else if ( is_string( $this->settings ) ) {
+		} elseif ( is_string( $this->settings ) ) {
 			$this->settings = array( $this->settings );
 		}
 
@@ -201,7 +219,7 @@ class WP_Customize_Partial {
 		if ( ! empty( $this->render_callback ) ) {
 			ob_start();
 			$return_render = call_user_func( $this->render_callback, $this, $container_context );
-			$ob_render = ob_get_clean();
+			$ob_render     = ob_get_clean();
 
 			if ( null !== $return_render && '' !== $ob_render ) {
 				_doing_it_wrong( __FUNCTION__, __( 'Partial render must echo the content or return the content string (or array), but not both.' ), '4.5.0' );
@@ -293,7 +311,7 @@ class WP_Customize_Partial {
 	 *
 	 * @since 4.5.0
 	 *
-	 * @return bool False if user can't edit one one of the related settings,
+	 * @return bool False if user can't edit one of the related settings,
 	 *                    or if one of the associated settings does not exist.
 	 */
 	final public function check_capabilities() {

@@ -1,15 +1,15 @@
 <?php
 /**
- * PemFTP - A Ftp implementation in pure PHP
+ * PemFTP - An Ftp implementation in pure PHP
  *
  * @package PemFTP
- * @since 2.5
+ * @since 2.5.0
  *
  * @version 1.0
  * @copyright Alexey Dotsenko
  * @author Alexey Dotsenko
- * @link http://www.phpclasses.org/browse/package/1743.html Site
- * @license LGPL http://www.opensource.org/licenses/lgpl-license.html
+ * @link https://www.phpclasses.org/package/1743-PHP-FTP-client-in-pure-PHP.html
+ * @license LGPL https://opensource.org/licenses/lgpl-license.html
  */
 
 /**
@@ -17,7 +17,7 @@
  *
  * This can be redefined.
  *
- * @since 2.5
+ * @since 2.5.0
  * @var string
  */
 if(!defined('CRLF')) define('CRLF',"\r\n");
@@ -27,7 +27,7 @@ if(!defined('CRLF')) define('CRLF',"\r\n");
  *
  * This can be redefined.
  *
- * @since 2.5
+ * @since 2.5.0
  * @var int
  */
 if(!defined("FTP_AUTOASCII")) define("FTP_AUTOASCII", -1);
@@ -35,7 +35,7 @@ if(!defined("FTP_AUTOASCII")) define("FTP_AUTOASCII", -1);
 /**
  *
  * This can be redefined.
- * @since 2.5
+ * @since 2.5.0
  * @var int
  */
 if(!defined("FTP_BINARY")) define("FTP_BINARY", 1);
@@ -43,7 +43,7 @@ if(!defined("FTP_BINARY")) define("FTP_BINARY", 1);
 /**
  *
  * This can be redefined.
- * @since 2.5
+ * @since 2.5.0
  * @var int
  */
 if(!defined("FTP_ASCII")) define("FTP_ASCII", 0);
@@ -53,25 +53,25 @@ if(!defined("FTP_ASCII")) define("FTP_ASCII", 0);
  *
  * This can be redefined.
  *
- * @since 2.5
+ * @since 2.5.0
  * @var bool
  */
 if(!defined('FTP_FORCE')) define('FTP_FORCE', true);
 
 /**
- * @since 2.5
+ * @since 2.5.0
  * @var string
  */
 define('FTP_OS_Unix','u');
 
 /**
- * @since 2.5
+ * @since 2.5.0
  * @var string
  */
 define('FTP_OS_Windows','w');
 
 /**
- * @since 2.5
+ * @since 2.5.0
  * @var string
  */
 define('FTP_OS_Mac','m');
@@ -185,8 +185,8 @@ class ftp_base {
 			$lcount=count($lucifer);
 			if ($lcount<8) return '';
 			$b = array();
-			$b['isdir'] = $lucifer[0]{0} === "d";
-			$b['islink'] = $lucifer[0]{0} === "l";
+			$b['isdir'] = $lucifer[0][0] === "d";
+			$b['islink'] = $lucifer[0][0] === "l";
 			if ( $b['isdir'] )
 				$b['type'] = 'd';
 			elseif ( $b['islink'] )
@@ -207,7 +207,7 @@ class ftp_base {
 				$b['month'] = $lucifer[5];
 				$b['day'] = $lucifer[6];
 				if (preg_match("/([0-9]{2}):([0-9]{2})/",$lucifer[7],$l2)) {
-					$b['year'] = date("Y");
+					$b['year'] = gmdate("Y");
 					$b['hour'] = $l2[1];
 					$b['minute'] = $l2[2];
 				} else {
@@ -524,7 +524,7 @@ class ftp_base {
 		return $exists;
 	}
 
-	function fget($fp, $remotefile,$rest=0) {
+	function fget($fp, $remotefile, $rest=0) {
 		if($this->_can_restore and $rest!=0) fseek($fp, $rest);
 		$pi=pathinfo($remotefile);
 		if($this->_type==FTP_ASCII or ($this->_type==FTP_AUTOASCII and in_array(strtoupper($pi["extension"]), $this->AutoAsciiExt))) $mode=FTP_ASCII;
@@ -583,7 +583,7 @@ class ftp_base {
 		return $out;
 	}
 
-	function fput($remotefile, $fp) {
+	function fput($remotefile, $fp, $rest=0) {
 		if($this->_can_restore and $rest!=0) fseek($fp, $rest);
 		$pi=pathinfo($remotefile);
 		if($this->_type==FTP_ASCII or ($this->_type==FTP_AUTOASCII and in_array(strtoupper($pi["extension"]), $this->AutoAsciiExt))) $mode=FTP_ASCII;
@@ -775,7 +775,7 @@ class ftp_base {
 			$pattern=substr($pattern,$lastpos);
 		} else $path=getcwd();
 		if(is_array($handle) and !empty($handle)) {
-			while($dir=each($handle)) {
+			foreach($handle as $dir) {
 				if($this->glob_pattern_match($pattern,$dir))
 				$output[]=$dir;
 			}
@@ -899,11 +899,11 @@ class ftp_base {
 $mod_sockets = extension_loaded( 'sockets' );
 if ( ! $mod_sockets && function_exists( 'dl' ) && is_callable( 'dl' ) ) {
 	$prefix = ( PHP_SHLIB_SUFFIX == 'dll' ) ? 'php_' : '';
-	@dl( $prefix . 'sockets.' . PHP_SHLIB_SUFFIX );
+	@dl( $prefix . 'sockets.' . PHP_SHLIB_SUFFIX ); // phpcs:ignore PHPCompatibility.FunctionUse.RemovedFunctions.dlDeprecated
 	$mod_sockets = extension_loaded( 'sockets' );
 }
 
-require_once dirname( __FILE__ ) . "/class-ftp-" . ( $mod_sockets ? "sockets" : "pure" ) . ".php";
+require_once __DIR__ . "/class-ftp-" . ( $mod_sockets ? "sockets" : "pure" ) . ".php";
 
 if ( $mod_sockets ) {
 	class ftp extends ftp_sockets {}

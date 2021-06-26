@@ -76,9 +76,9 @@ class WP_REST_Response extends WP_HTTP_Response {
 	 *
 	 * @since 4.4.0
 	 *
-	 * @param  string $rel  Link relation. Either an IANA registered type, or an absolute URL.
-	 * @param  string $href Optional. Only remove links for the relation matching the given href.
-	 *                      Default null.
+	 * @param string $rel  Link relation. Either an IANA registered type, or an absolute URL.
+	 * @param string $href Optional. Only remove links for the relation matching the given href.
+	 *                     Default null.
 	 */
 	public function remove_link( $rel, $href = null ) {
 		if ( ! isset( $this->links[ $rel ] ) ) {
@@ -154,6 +154,7 @@ class WP_REST_Response extends WP_HTTP_Response {
 			if ( 'title' === $key ) {
 				$value = '"' . $value . '"';
 			}
+
 			$header .= '; ' . $key . '=' . $value;
 		}
 		$this->header( 'Link', $header, false );
@@ -193,7 +194,7 @@ class WP_REST_Response extends WP_HTTP_Response {
 	}
 
 	/**
-	 * Retrieves the handler that was responsible for generating the response.
+	 * Sets the handler that was responsible for generating the response.
 	 *
 	 * @since 4.4.0
 	 *
@@ -231,8 +232,9 @@ class WP_REST_Response extends WP_HTTP_Response {
 		if ( is_array( $this->get_data() ) ) {
 			$data = $this->get_data();
 			$error->add( $data['code'], $data['message'], $data['data'] );
+
 			if ( ! empty( $data['additional_errors'] ) ) {
-				foreach( $data['additional_errors'] as $err ) {
+				foreach ( $data['additional_errors'] as $err ) {
 					$error->add( $err['code'], $err['message'], $err['data'] );
 				}
 			}
@@ -253,14 +255,14 @@ class WP_REST_Response extends WP_HTTP_Response {
 	public function get_curies() {
 		$curies = array(
 			array(
-				'name' => 'wp',
-				'href' => 'https://api.w.org/{rel}',
+				'name'      => 'wp',
+				'href'      => 'https://api.w.org/{rel}',
 				'templated' => true,
 			),
 		);
 
 		/**
-		 * Filters extra CURIEs available on API responses.
+		 * Filters extra CURIEs available on REST API responses.
 		 *
 		 * CURIEs allow a shortened version of URI relations. This allows a more
 		 * usable form for custom relations than using the full URI. These work
@@ -282,9 +284,10 @@ class WP_REST_Response extends WP_HTTP_Response {
 		 *
 		 * @since 4.5.0
 		 *
-		 * @param array $additional Additional CURIEs to register with the API.
+		 * @param array $additional Additional CURIEs to register with the REST API.
 		 */
 		$additional = apply_filters( 'rest_response_link_curies', array() );
+
 		return array_merge( $curies, $additional );
 	}
 }

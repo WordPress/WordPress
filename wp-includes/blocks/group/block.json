@@ -1,0 +1,39 @@
+{
+	"apiVersion": 2,
+	"name": "core/group",
+	"title": "Group",
+	"category": "design",
+	"description": "Combine blocks into a group.",
+	"keywords": [ "container", "wrapper", "row", "section" ],
+	"textdomain": "default",
+	"attributes": {
+		"tagName": {
+			"type": "string",
+			"default": "div"
+		},
+		"templateLock": {
+			"enum": [ "all", "insert", false ]
+		}
+	},
+	"supports": {
+		"align": [ "wide", "full" ],
+		"anchor": true,
+		"html": false,
+		"color": {
+			"gradients": true,
+			"link": true
+		},
+		"spacing": {
+			"padding": true
+		},
+		"__experimentalBorder": {
+			"color": true,
+			"radius": true,
+			"style": true,
+			"width": true
+		},
+		"__experimentalLayout": true
+	},
+	"editorStyle": "wp-block-group-editor",
+	"style": "wp-block-group"
+}

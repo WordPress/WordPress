@@ -1,844 +1,1209 @@
 (function () {
+var image = (function (domGlobals) {
+    'use strict';
 
-var defs = {}; // id -> {dependencies, definition, instance (possibly undefined)}
+    var global = tinymce.util.Tools.resolve('tinymce.PluginManager');
 
-// Used when there is no 'main' module.
-// The name is probably (hopefully) unique so minification removes for releases.
-var register_3795 = function (id) {
-  var module = dem(id);
-  var fragments = id.split('.');
-  var target = Function('return this;')();
-  for (var i = 0; i < fragments.length - 1; ++i) {
-    if (target[fragments[i]] === undefined)
-      target[fragments[i]] = {};
-    target = target[fragments[i]];
-  }
-  target[fragments[fragments.length - 1]] = module;
-};
+    var hasDimensions = function (editor) {
+      return editor.settings.image_dimensions === false ? false : true;
+    };
+    var hasAdvTab = function (editor) {
+      return editor.settings.image_advtab === true ? true : false;
+    };
+    var getPrependUrl = function (editor) {
+      return editor.getParam('image_prepend_url', '');
+    };
+    var getClassList = function (editor) {
+      return editor.getParam('image_class_list');
+    };
+    var hasDescription = function (editor) {
+      return editor.settings.image_description === false ? false : true;
+    };
+    var hasImageTitle = function (editor) {
+      return editor.settings.image_title === true ? true : false;
+    };
+    var hasImageCaption = function (editor) {
+      return editor.settings.image_caption === true ? true : false;
+    };
+    var getImageList = function (editor) {
+      return editor.getParam('image_list', false);
+    };
+    var hasUploadUrl = function (editor) {
+      return editor.getParam('images_upload_url', false);
+    };
+    var hasUploadHandler = function (editor) {
+      return editor.getParam('images_upload_handler', false);
+    };
+    var getUploadUrl = function (editor) {
+      return editor.getParam('images_upload_url');
+    };
+    var getUploadHandler = function (editor) {
+      return editor.getParam('images_upload_handler');
+    };
+    var getUploadBasePath = function (editor) {
+      return editor.getParam('images_upload_base_path');
+    };
+    var getUploadCredentials = function (editor) {
+      return editor.getParam('images_upload_credentials');
+    };
+    var Settings = {
+      hasDimensions: hasDimensions,
+      hasAdvTab: hasAdvTab,
+      getPrependUrl: getPrependUrl,
+      getClassList: getClassList,
+      hasDescription: hasDescription,
+      hasImageTitle: hasImageTitle,
+      hasImageCaption: hasImageCaption,
+      getImageList: getImageList,
+      hasUploadUrl: hasUploadUrl,
+      hasUploadHandler: hasUploadHandler,
+      getUploadUrl: getUploadUrl,
+      getUploadHandler: getUploadHandler,
+      getUploadBasePath: getUploadBasePath,
+      getUploadCredentials: getUploadCredentials
+    };
 
-var instantiate = function (id) {
-  var actual = defs[id];
-  var dependencies = actual.deps;
-  var definition = actual.defn;
-  var len = dependencies.length;
-  var instances = new Array(len);
-  for (var i = 0; i < len; ++i)
-    instances[i] = dem(dependencies[i]);
-  var defResult = definition.apply(null, instances);
-  if (defResult === undefined)
-     throw 'module [' + id + '] returned undefined';
-  actual.instance = defResult;
-};
+    var Global = typeof domGlobals.window !== 'undefined' ? domGlobals.window : Function('return this;')();
 
-var def = function (id, dependencies, definition) {
-  if (typeof id !== 'string')
-    throw 'module id must be a string';
-  else if (dependencies === undefined)
-    throw 'no dependencies for ' + id;
-  else if (definition === undefined)
-    throw 'no definition function for ' + id;
-  defs[id] = {
-    deps: dependencies,
-    defn: definition,
-    instance: undefined
-  };
-};
+    var path = function (parts, scope) {
+      var o = scope !== undefined && scope !== null ? scope : Global;
+      for (var i = 0; i < parts.length && o !== undefined && o !== null; ++i) {
+        o = o[parts[i]];
+      }
+      return o;
+    };
+    var resolve = function (p, scope) {
+      var parts = p.split('.');
+      return path(parts, scope);
+    };
 
-var dem = function (id) {
-  var actual = defs[id];
-  if (actual === undefined)
-    throw 'module [' + id + '] was undefined';
-  else if (actual.instance === undefined)
-    instantiate(id);
-  return actual.instance;
-};
+    var unsafe = function (name, scope) {
+      return resolve(name, scope);
+    };
+    var getOrDie = function (name, scope) {
+      var actual = unsafe(name, scope);
+      if (actual === undefined || actual === null) {
+        throw new Error(name + ' not available on this browser');
+      }
+      return actual;
+    };
+    var Global$1 = { getOrDie: getOrDie };
 
-var req = function (ids, callback) {
-  var len = ids.length;
-  var instances = new Array(len);
-  for (var i = 0; i < len; ++i)
-    instances.push(dem(ids[i]));
-  callback.apply(null, callback);
-};
-
-var ephox = {};
-
-ephox.bolt = {
-  module: {
-    api: {
-      define: def,
-      require: req,
-      demand: dem
+    function FileReader () {
+      var f = Global$1.getOrDie('FileReader');
+      return new f();
     }
-  }
-};
 
-var define = def;
-var require = req;
-var demand = dem;
-// this helps with minificiation when using a lot of global references
-var defineGlobal = function (id, ref) {
-  define(id, [], function () { return ref; });
-};
-/*jsc
-["tinymce.plugins.image.Plugin","tinymce.core.Env","tinymce.core.PluginManager","tinymce.core.util.JSON","tinymce.core.util.Tools","tinymce.core.util.XHR","global!tinymce.util.Tools.resolve"]
-jsc*/
-defineGlobal("global!tinymce.util.Tools.resolve", tinymce.util.Tools.resolve);
-/**
- * ResolveGlobal.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
+    var global$1 = tinymce.util.Tools.resolve('tinymce.util.Promise');
 
-define(
-  'tinymce.core.Env',
-  [
-    'global!tinymce.util.Tools.resolve'
-  ],
-  function (resolve) {
-    return resolve('tinymce.Env');
-  }
-);
+    var global$2 = tinymce.util.Tools.resolve('tinymce.util.Tools');
 
-/**
- * ResolveGlobal.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
+    var global$3 = tinymce.util.Tools.resolve('tinymce.util.XHR');
 
-define(
-  'tinymce.core.PluginManager',
-  [
-    'global!tinymce.util.Tools.resolve'
-  ],
-  function (resolve) {
-    return resolve('tinymce.PluginManager');
-  }
-);
-
-/**
- * ResolveGlobal.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.core.util.JSON',
-  [
-    'global!tinymce.util.Tools.resolve'
-  ],
-  function (resolve) {
-    return resolve('tinymce.util.JSON');
-  }
-);
-
-/**
- * ResolveGlobal.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.core.util.Tools',
-  [
-    'global!tinymce.util.Tools.resolve'
-  ],
-  function (resolve) {
-    return resolve('tinymce.util.Tools');
-  }
-);
-
-/**
- * ResolveGlobal.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.core.util.XHR',
-  [
-    'global!tinymce.util.Tools.resolve'
-  ],
-  function (resolve) {
-    return resolve('tinymce.util.XHR');
-  }
-);
-
-/**
- * Plugin.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-/**
- * This class contains all core logic for the image plugin.
- *
- * @class tinymce.image.Plugin
- * @private
- */
-define(
-  'tinymce.plugins.image.Plugin',
-  [
-    'tinymce.core.Env',
-    'tinymce.core.PluginManager',
-    'tinymce.core.util.JSON',
-    'tinymce.core.util.Tools',
-    'tinymce.core.util.XHR'
-  ],
-  function (Env, PluginManager, JSON, Tools, XHR) {
-    PluginManager.add('image', function (editor) {
-      function getImageSize(url, callback) {
-        var img = document.createElement('img');
-
-        function done(width, height) {
-          if (img.parentNode) {
-            img.parentNode.removeChild(img);
-          }
-
-          callback({ width: width, height: height });
+    var parseIntAndGetMax = function (val1, val2) {
+      return Math.max(parseInt(val1, 10), parseInt(val2, 10));
+    };
+    var getImageSize = function (url, callback) {
+      var img = domGlobals.document.createElement('img');
+      function done(width, height) {
+        if (img.parentNode) {
+          img.parentNode.removeChild(img);
         }
-
-        img.onload = function () {
-          done(Math.max(img.width, img.clientWidth), Math.max(img.height, img.clientHeight));
-        };
-
-        img.onerror = function () {
-          done();
-        };
-
-        var style = img.style;
-        style.visibility = 'hidden';
-        style.position = 'fixed';
-        style.bottom = style.left = 0;
-        style.width = style.height = 'auto';
-
-        document.body.appendChild(img);
-        img.src = url;
+        callback({
+          width: width,
+          height: height
+        });
       }
-
-      function buildListItems(inputList, itemCallback, startItems) {
-        function appendItems(values, output) {
-          output = output || [];
-
-          Tools.each(values, function (item) {
-            var menuItem = { text: item.text || item.title };
-
-            if (item.menu) {
-              menuItem.menu = appendItems(item.menu);
-            } else {
-              menuItem.value = item.value;
-              itemCallback(menuItem);
-            }
-
-            output.push(menuItem);
-          });
-
-          return output;
-        }
-
-        return appendItems(inputList, startItems || []);
-      }
-
-      function createImageList(callback) {
-        return function () {
-          var imageList = editor.settings.image_list;
-
-          if (typeof imageList == "string") {
-            XHR.send({
-              url: imageList,
-              success: function (text) {
-                callback(JSON.parse(text));
-              }
-            });
-          } else if (typeof imageList == "function") {
-            imageList(callback);
+      img.onload = function () {
+        var width = parseIntAndGetMax(img.width, img.clientWidth);
+        var height = parseIntAndGetMax(img.height, img.clientHeight);
+        done(width, height);
+      };
+      img.onerror = function () {
+        done(0, 0);
+      };
+      var style = img.style;
+      style.visibility = 'hidden';
+      style.position = 'fixed';
+      style.bottom = style.left = '0px';
+      style.width = style.height = 'auto';
+      domGlobals.document.body.appendChild(img);
+      img.src = url;
+    };
+    var buildListItems = function (inputList, itemCallback, startItems) {
+      function appendItems(values, output) {
+        output = output || [];
+        global$2.each(values, function (item) {
+          var menuItem = { text: item.text || item.title };
+          if (item.menu) {
+            menuItem.menu = appendItems(item.menu);
           } else {
-            callback(imageList);
+            menuItem.value = item.value;
+            itemCallback(menuItem);
           }
-        };
+          output.push(menuItem);
+        });
+        return output;
       }
+      return appendItems(inputList, startItems || []);
+    };
+    var removePixelSuffix = function (value) {
+      if (value) {
+        value = value.replace(/px$/, '');
+      }
+      return value;
+    };
+    var addPixelSuffix = function (value) {
+      if (value.length > 0 && /^[0-9]+$/.test(value)) {
+        value += 'px';
+      }
+      return value;
+    };
+    var mergeMargins = function (css) {
+      if (css.margin) {
+        var splitMargin = css.margin.split(' ');
+        switch (splitMargin.length) {
+        case 1:
+          css['margin-top'] = css['margin-top'] || splitMargin[0];
+          css['margin-right'] = css['margin-right'] || splitMargin[0];
+          css['margin-bottom'] = css['margin-bottom'] || splitMargin[0];
+          css['margin-left'] = css['margin-left'] || splitMargin[0];
+          break;
+        case 2:
+          css['margin-top'] = css['margin-top'] || splitMargin[0];
+          css['margin-right'] = css['margin-right'] || splitMargin[1];
+          css['margin-bottom'] = css['margin-bottom'] || splitMargin[0];
+          css['margin-left'] = css['margin-left'] || splitMargin[1];
+          break;
+        case 3:
+          css['margin-top'] = css['margin-top'] || splitMargin[0];
+          css['margin-right'] = css['margin-right'] || splitMargin[1];
+          css['margin-bottom'] = css['margin-bottom'] || splitMargin[2];
+          css['margin-left'] = css['margin-left'] || splitMargin[1];
+          break;
+        case 4:
+          css['margin-top'] = css['margin-top'] || splitMargin[0];
+          css['margin-right'] = css['margin-right'] || splitMargin[1];
+          css['margin-bottom'] = css['margin-bottom'] || splitMargin[2];
+          css['margin-left'] = css['margin-left'] || splitMargin[3];
+        }
+        delete css.margin;
+      }
+      return css;
+    };
+    var createImageList = function (editor, callback) {
+      var imageList = Settings.getImageList(editor);
+      if (typeof imageList === 'string') {
+        global$3.send({
+          url: imageList,
+          success: function (text) {
+            callback(JSON.parse(text));
+          }
+        });
+      } else if (typeof imageList === 'function') {
+        imageList(callback);
+      } else {
+        callback(imageList);
+      }
+    };
+    var waitLoadImage = function (editor, data, imgElm) {
+      function selectImage() {
+        imgElm.onload = imgElm.onerror = null;
+        if (editor.selection) {
+          editor.selection.select(imgElm);
+          editor.nodeChanged();
+        }
+      }
+      imgElm.onload = function () {
+        if (!data.width && !data.height && Settings.hasDimensions(editor)) {
+          editor.dom.setAttribs(imgElm, {
+            width: imgElm.clientWidth,
+            height: imgElm.clientHeight
+          });
+        }
+        selectImage();
+      };
+      imgElm.onerror = selectImage;
+    };
+    var blobToDataUri = function (blob) {
+      return new global$1(function (resolve, reject) {
+        var reader = FileReader();
+        reader.onload = function () {
+          resolve(reader.result);
+        };
+        reader.onerror = function () {
+          reject(reader.error.message);
+        };
+        reader.readAsDataURL(blob);
+      });
+    };
+    var Utils = {
+      getImageSize: getImageSize,
+      buildListItems: buildListItems,
+      removePixelSuffix: removePixelSuffix,
+      addPixelSuffix: addPixelSuffix,
+      mergeMargins: mergeMargins,
+      createImageList: createImageList,
+      waitLoadImage: waitLoadImage,
+      blobToDataUri: blobToDataUri
+    };
 
-      function showDialog(imageList) {
-        var win, data = {}, dom = editor.dom, imgElm, figureElm;
-        var width, height, imageListCtrl, classListCtrl, imageDimensions = editor.settings.image_dimensions !== false;
+    var global$4 = tinymce.util.Tools.resolve('tinymce.dom.DOMUtils');
 
-        function recalcSize() {
-          var widthCtrl, heightCtrl, newWidth, newHeight;
+    var hasOwnProperty = Object.prototype.hasOwnProperty;
+    var shallow = function (old, nu) {
+      return nu;
+    };
+    var baseMerge = function (merger) {
+      return function () {
+        var objects = new Array(arguments.length);
+        for (var i = 0; i < objects.length; i++) {
+          objects[i] = arguments[i];
+        }
+        if (objects.length === 0) {
+          throw new Error('Can\'t merge zero objects');
+        }
+        var ret = {};
+        for (var j = 0; j < objects.length; j++) {
+          var curObject = objects[j];
+          for (var key in curObject) {
+            if (hasOwnProperty.call(curObject, key)) {
+              ret[key] = merger(ret[key], curObject[key]);
+            }
+          }
+        }
+        return ret;
+      };
+    };
+    var merge = baseMerge(shallow);
 
-          widthCtrl = win.find('#width')[0];
-          heightCtrl = win.find('#height')[0];
+    var DOM = global$4.DOM;
+    var getHspace = function (image) {
+      if (image.style.marginLeft && image.style.marginRight && image.style.marginLeft === image.style.marginRight) {
+        return Utils.removePixelSuffix(image.style.marginLeft);
+      } else {
+        return '';
+      }
+    };
+    var getVspace = function (image) {
+      if (image.style.marginTop && image.style.marginBottom && image.style.marginTop === image.style.marginBottom) {
+        return Utils.removePixelSuffix(image.style.marginTop);
+      } else {
+        return '';
+      }
+    };
+    var getBorder = function (image) {
+      if (image.style.borderWidth) {
+        return Utils.removePixelSuffix(image.style.borderWidth);
+      } else {
+        return '';
+      }
+    };
+    var getAttrib = function (image, name) {
+      if (image.hasAttribute(name)) {
+        return image.getAttribute(name);
+      } else {
+        return '';
+      }
+    };
+    var getStyle = function (image, name) {
+      return image.style[name] ? image.style[name] : '';
+    };
+    var hasCaption = function (image) {
+      return image.parentNode !== null && image.parentNode.nodeName === 'FIGURE';
+    };
+    var setAttrib = function (image, name, value) {
+      image.setAttribute(name, value);
+    };
+    var wrapInFigure = function (image) {
+      var figureElm = DOM.create('figure', { class: 'image' });
+      DOM.insertAfter(figureElm, image);
+      figureElm.appendChild(image);
+      figureElm.appendChild(DOM.create('figcaption', { contentEditable: true }, 'Caption'));
+      figureElm.contentEditable = 'false';
+    };
+    var removeFigure = function (image) {
+      var figureElm = image.parentNode;
+      DOM.insertAfter(image, figureElm);
+      DOM.remove(figureElm);
+    };
+    var toggleCaption = function (image) {
+      if (hasCaption(image)) {
+        removeFigure(image);
+      } else {
+        wrapInFigure(image);
+      }
+    };
+    var normalizeStyle = function (image, normalizeCss) {
+      var attrValue = image.getAttribute('style');
+      var value = normalizeCss(attrValue !== null ? attrValue : '');
+      if (value.length > 0) {
+        image.setAttribute('style', value);
+        image.setAttribute('data-mce-style', value);
+      } else {
+        image.removeAttribute('style');
+      }
+    };
+    var setSize = function (name, normalizeCss) {
+      return function (image, name, value) {
+        if (image.style[name]) {
+          image.style[name] = Utils.addPixelSuffix(value);
+          normalizeStyle(image, normalizeCss);
+        } else {
+          setAttrib(image, name, value);
+        }
+      };
+    };
+    var getSize = function (image, name) {
+      if (image.style[name]) {
+        return Utils.removePixelSuffix(image.style[name]);
+      } else {
+        return getAttrib(image, name);
+      }
+    };
+    var setHspace = function (image, value) {
+      var pxValue = Utils.addPixelSuffix(value);
+      image.style.marginLeft = pxValue;
+      image.style.marginRight = pxValue;
+    };
+    var setVspace = function (image, value) {
+      var pxValue = Utils.addPixelSuffix(value);
+      image.style.marginTop = pxValue;
+      image.style.marginBottom = pxValue;
+    };
+    var setBorder = function (image, value) {
+      var pxValue = Utils.addPixelSuffix(value);
+      image.style.borderWidth = pxValue;
+    };
+    var setBorderStyle = function (image, value) {
+      image.style.borderStyle = value;
+    };
+    var getBorderStyle = function (image) {
+      return getStyle(image, 'borderStyle');
+    };
+    var isFigure = function (elm) {
+      return elm.nodeName === 'FIGURE';
+    };
+    var defaultData = function () {
+      return {
+        src: '',
+        alt: '',
+        title: '',
+        width: '',
+        height: '',
+        class: '',
+        style: '',
+        caption: false,
+        hspace: '',
+        vspace: '',
+        border: '',
+        borderStyle: ''
+      };
+    };
+    var getStyleValue = function (normalizeCss, data) {
+      var image = domGlobals.document.createElement('img');
+      setAttrib(image, 'style', data.style);
+      if (getHspace(image) || data.hspace !== '') {
+        setHspace(image, data.hspace);
+      }
+      if (getVspace(image) || data.vspace !== '') {
+        setVspace(image, data.vspace);
+      }
+      if (getBorder(image) || data.border !== '') {
+        setBorder(image, data.border);
+      }
+      if (getBorderStyle(image) || data.borderStyle !== '') {
+        setBorderStyle(image, data.borderStyle);
+      }
+      return normalizeCss(image.getAttribute('style'));
+    };
+    var create = function (normalizeCss, data) {
+      var image = domGlobals.document.createElement('img');
+      write(normalizeCss, merge(data, { caption: false }), image);
+      setAttrib(image, 'alt', data.alt);
+      if (data.caption) {
+        var figure = DOM.create('figure', { class: 'image' });
+        figure.appendChild(image);
+        figure.appendChild(DOM.create('figcaption', { contentEditable: true }, 'Caption'));
+        figure.contentEditable = 'false';
+        return figure;
+      } else {
+        return image;
+      }
+    };
+    var read = function (normalizeCss, image) {
+      return {
+        src: getAttrib(image, 'src'),
+        alt: getAttrib(image, 'alt'),
+        title: getAttrib(image, 'title'),
+        width: getSize(image, 'width'),
+        height: getSize(image, 'height'),
+        class: getAttrib(image, 'class'),
+        style: normalizeCss(getAttrib(image, 'style')),
+        caption: hasCaption(image),
+        hspace: getHspace(image),
+        vspace: getVspace(image),
+        border: getBorder(image),
+        borderStyle: getStyle(image, 'borderStyle')
+      };
+    };
+    var updateProp = function (image, oldData, newData, name, set) {
+      if (newData[name] !== oldData[name]) {
+        set(image, name, newData[name]);
+      }
+    };
+    var normalized = function (set, normalizeCss) {
+      return function (image, name, value) {
+        set(image, value);
+        normalizeStyle(image, normalizeCss);
+      };
+    };
+    var write = function (normalizeCss, newData, image) {
+      var oldData = read(normalizeCss, image);
+      updateProp(image, oldData, newData, 'caption', function (image, _name, _value) {
+        return toggleCaption(image);
+      });
+      updateProp(image, oldData, newData, 'src', setAttrib);
+      updateProp(image, oldData, newData, 'alt', setAttrib);
+      updateProp(image, oldData, newData, 'title', setAttrib);
+      updateProp(image, oldData, newData, 'width', setSize('width', normalizeCss));
+      updateProp(image, oldData, newData, 'height', setSize('height', normalizeCss));
+      updateProp(image, oldData, newData, 'class', setAttrib);
+      updateProp(image, oldData, newData, 'style', normalized(function (image, value) {
+        return setAttrib(image, 'style', value);
+      }, normalizeCss));
+      updateProp(image, oldData, newData, 'hspace', normalized(setHspace, normalizeCss));
+      updateProp(image, oldData, newData, 'vspace', normalized(setVspace, normalizeCss));
+      updateProp(image, oldData, newData, 'border', normalized(setBorder, normalizeCss));
+      updateProp(image, oldData, newData, 'borderStyle', normalized(setBorderStyle, normalizeCss));
+    };
 
-          if (!widthCtrl || !heightCtrl) {
+    var normalizeCss = function (editor, cssText) {
+      var css = editor.dom.styles.parse(cssText);
+      var mergedCss = Utils.mergeMargins(css);
+      var compressed = editor.dom.styles.parse(editor.dom.styles.serialize(mergedCss));
+      return editor.dom.styles.serialize(compressed);
+    };
+    var getSelectedImage = function (editor) {
+      var imgElm = editor.selection.getNode();
+      var figureElm = editor.dom.getParent(imgElm, 'figure.image');
+      if (figureElm) {
+        return editor.dom.select('img', figureElm)[0];
+      }
+      if (imgElm && (imgElm.nodeName !== 'IMG' || imgElm.getAttribute('data-mce-object') || imgElm.getAttribute('data-mce-placeholder'))) {
+        return null;
+      }
+      return imgElm;
+    };
+    var splitTextBlock = function (editor, figure) {
+      var dom = editor.dom;
+      var textBlock = dom.getParent(figure.parentNode, function (node) {
+        return editor.schema.getTextBlockElements()[node.nodeName];
+      }, editor.getBody());
+      if (textBlock) {
+        return dom.split(textBlock, figure);
+      } else {
+        return figure;
+      }
+    };
+    var readImageDataFromSelection = function (editor) {
+      var image = getSelectedImage(editor);
+      return image ? read(function (css) {
+        return normalizeCss(editor, css);
+      }, image) : defaultData();
+    };
+    var insertImageAtCaret = function (editor, data) {
+      var elm = create(function (css) {
+        return normalizeCss(editor, css);
+      }, data);
+      editor.dom.setAttrib(elm, 'data-mce-id', '__mcenew');
+      editor.focus();
+      editor.selection.setContent(elm.outerHTML);
+      var insertedElm = editor.dom.select('*[data-mce-id="__mcenew"]')[0];
+      editor.dom.setAttrib(insertedElm, 'data-mce-id', null);
+      if (isFigure(insertedElm)) {
+        var figure = splitTextBlock(editor, insertedElm);
+        editor.selection.select(figure);
+      } else {
+        editor.selection.select(insertedElm);
+      }
+    };
+    var syncSrcAttr = function (editor, image) {
+      editor.dom.setAttrib(image, 'src', image.getAttribute('src'));
+    };
+    var deleteImage = function (editor, image) {
+      if (image) {
+        var elm = editor.dom.is(image.parentNode, 'figure.image') ? image.parentNode : image;
+        editor.dom.remove(elm);
+        editor.focus();
+        editor.nodeChanged();
+        if (editor.dom.isEmpty(editor.getBody())) {
+          editor.setContent('');
+          editor.selection.setCursorLocation();
+        }
+      }
+    };
+    var writeImageDataToSelection = function (editor, data) {
+      var image = getSelectedImage(editor);
+      write(function (css) {
+        return normalizeCss(editor, css);
+      }, data, image);
+      syncSrcAttr(editor, image);
+      if (isFigure(image.parentNode)) {
+        var figure = image.parentNode;
+        splitTextBlock(editor, figure);
+        editor.selection.select(image.parentNode);
+      } else {
+        editor.selection.select(image);
+        Utils.waitLoadImage(editor, data, image);
+      }
+    };
+    var insertOrUpdateImage = function (editor, data) {
+      var image = getSelectedImage(editor);
+      if (image) {
+        if (data.src) {
+          writeImageDataToSelection(editor, data);
+        } else {
+          deleteImage(editor, image);
+        }
+      } else if (data.src) {
+        insertImageAtCaret(editor, data);
+      }
+    };
+
+    var updateVSpaceHSpaceBorder = function (editor) {
+      return function (evt) {
+        var dom = editor.dom;
+        var rootControl = evt.control.rootControl;
+        if (!Settings.hasAdvTab(editor)) {
+          return;
+        }
+        var data = rootControl.toJSON();
+        var css = dom.parseStyle(data.style);
+        rootControl.find('#vspace').value('');
+        rootControl.find('#hspace').value('');
+        css = Utils.mergeMargins(css);
+        if (css['margin-top'] && css['margin-bottom'] || css['margin-right'] && css['margin-left']) {
+          if (css['margin-top'] === css['margin-bottom']) {
+            rootControl.find('#vspace').value(Utils.removePixelSuffix(css['margin-top']));
+          } else {
+            rootControl.find('#vspace').value('');
+          }
+          if (css['margin-right'] === css['margin-left']) {
+            rootControl.find('#hspace').value(Utils.removePixelSuffix(css['margin-right']));
+          } else {
+            rootControl.find('#hspace').value('');
+          }
+        }
+        if (css['border-width']) {
+          rootControl.find('#border').value(Utils.removePixelSuffix(css['border-width']));
+        } else {
+          rootControl.find('#border').value('');
+        }
+        if (css['border-style']) {
+          rootControl.find('#borderStyle').value(css['border-style']);
+        } else {
+          rootControl.find('#borderStyle').value('');
+        }
+        rootControl.find('#style').value(dom.serializeStyle(dom.parseStyle(dom.serializeStyle(css))));
+      };
+    };
+    var updateStyle = function (editor, win) {
+      win.find('#style').each(function (ctrl) {
+        var value = getStyleValue(function (css) {
+          return normalizeCss(editor, css);
+        }, merge(defaultData(), win.toJSON()));
+        ctrl.value(value);
+      });
+    };
+    var makeTab = function (editor) {
+      return {
+        title: 'Advanced',
+        type: 'form',
+        pack: 'start',
+        items: [
+          {
+            label: 'Style',
+            name: 'style',
+            type: 'textbox',
+            onchange: updateVSpaceHSpaceBorder(editor)
+          },
+          {
+            type: 'form',
+            layout: 'grid',
+            packV: 'start',
+            columns: 2,
+            padding: 0,
+            defaults: {
+              type: 'textbox',
+              maxWidth: 50,
+              onchange: function (evt) {
+                updateStyle(editor, evt.control.rootControl);
+              }
+            },
+            items: [
+              {
+                label: 'Vertical space',
+                name: 'vspace'
+              },
+              {
+                label: 'Border width',
+                name: 'border'
+              },
+              {
+                label: 'Horizontal space',
+                name: 'hspace'
+              },
+              {
+                label: 'Border style',
+                type: 'listbox',
+                name: 'borderStyle',
+                width: 90,
+                maxWidth: 90,
+                onselect: function (evt) {
+                  updateStyle(editor, evt.control.rootControl);
+                },
+                values: [
+                  {
+                    text: 'Select...',
+                    value: ''
+                  },
+                  {
+                    text: 'Solid',
+                    value: 'solid'
+                  },
+                  {
+                    text: 'Dotted',
+                    value: 'dotted'
+                  },
+                  {
+                    text: 'Dashed',
+                    value: 'dashed'
+                  },
+                  {
+                    text: 'Double',
+                    value: 'double'
+                  },
+                  {
+                    text: 'Groove',
+                    value: 'groove'
+                  },
+                  {
+                    text: 'Ridge',
+                    value: 'ridge'
+                  },
+                  {
+                    text: 'Inset',
+                    value: 'inset'
+                  },
+                  {
+                    text: 'Outset',
+                    value: 'outset'
+                  },
+                  {
+                    text: 'None',
+                    value: 'none'
+                  },
+                  {
+                    text: 'Hidden',
+                    value: 'hidden'
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      };
+    };
+    var AdvTab = { makeTab: makeTab };
+
+    var doSyncSize = function (widthCtrl, heightCtrl) {
+      widthCtrl.state.set('oldVal', widthCtrl.value());
+      heightCtrl.state.set('oldVal', heightCtrl.value());
+    };
+    var doSizeControls = function (win, f) {
+      var widthCtrl = win.find('#width')[0];
+      var heightCtrl = win.find('#height')[0];
+      var constrained = win.find('#constrain')[0];
+      if (widthCtrl && heightCtrl && constrained) {
+        f(widthCtrl, heightCtrl, constrained.checked());
+      }
+    };
+    var doUpdateSize = function (widthCtrl, heightCtrl, isContrained) {
+      var oldWidth = widthCtrl.state.get('oldVal');
+      var oldHeight = heightCtrl.state.get('oldVal');
+      var newWidth = widthCtrl.value();
+      var newHeight = heightCtrl.value();
+      if (isContrained && oldWidth && oldHeight && newWidth && newHeight) {
+        if (newWidth !== oldWidth) {
+          newHeight = Math.round(newWidth / oldWidth * newHeight);
+          if (!isNaN(newHeight)) {
+            heightCtrl.value(newHeight);
+          }
+        } else {
+          newWidth = Math.round(newHeight / oldHeight * newWidth);
+          if (!isNaN(newWidth)) {
+            widthCtrl.value(newWidth);
+          }
+        }
+      }
+      doSyncSize(widthCtrl, heightCtrl);
+    };
+    var syncSize = function (win) {
+      doSizeControls(win, doSyncSize);
+    };
+    var updateSize = function (win) {
+      doSizeControls(win, doUpdateSize);
+    };
+    var createUi = function () {
+      var recalcSize = function (evt) {
+        updateSize(evt.control.rootControl);
+      };
+      return {
+        type: 'container',
+        label: 'Dimensions',
+        layout: 'flex',
+        align: 'center',
+        spacing: 5,
+        items: [
+          {
+            name: 'width',
+            type: 'textbox',
+            maxLength: 5,
+            size: 5,
+            onchange: recalcSize,
+            ariaLabel: 'Width'
+          },
+          {
+            type: 'label',
+            text: 'x'
+          },
+          {
+            name: 'height',
+            type: 'textbox',
+            maxLength: 5,
+            size: 5,
+            onchange: recalcSize,
+            ariaLabel: 'Height'
+          },
+          {
+            name: 'constrain',
+            type: 'checkbox',
+            checked: true,
+            text: 'Constrain proportions'
+          }
+        ]
+      };
+    };
+    var SizeManager = {
+      createUi: createUi,
+      syncSize: syncSize,
+      updateSize: updateSize
+    };
+
+    var onSrcChange = function (evt, editor) {
+      var srcURL, prependURL, absoluteURLPattern;
+      var meta = evt.meta || {};
+      var control = evt.control;
+      var rootControl = control.rootControl;
+      var imageListCtrl = rootControl.find('#image-list')[0];
+      if (imageListCtrl) {
+        imageListCtrl.value(editor.convertURL(control.value(), 'src'));
+      }
+      global$2.each(meta, function (value, key) {
+        rootControl.find('#' + key).value(value);
+      });
+      if (!meta.width && !meta.height) {
+        srcURL = editor.convertURL(control.value(), 'src');
+        prependURL = Settings.getPrependUrl(editor);
+        absoluteURLPattern = new RegExp('^(?:[a-z]+:)?//', 'i');
+        if (prependURL && !absoluteURLPattern.test(srcURL) && srcURL.substring(0, prependURL.length) !== prependURL) {
+          srcURL = prependURL + srcURL;
+        }
+        control.value(srcURL);
+        Utils.getImageSize(editor.documentBaseURI.toAbsolute(control.value()), function (data) {
+          if (data.width && data.height && Settings.hasDimensions(editor)) {
+            rootControl.find('#width').value(data.width);
+            rootControl.find('#height').value(data.height);
+            SizeManager.syncSize(rootControl);
+          }
+        });
+      }
+    };
+    var onBeforeCall = function (evt) {
+      evt.meta = evt.control.rootControl.toJSON();
+    };
+    var getGeneralItems = function (editor, imageListCtrl) {
+      var generalFormItems = [
+        {
+          name: 'src',
+          type: 'filepicker',
+          filetype: 'image',
+          label: 'Source',
+          autofocus: true,
+          onchange: function (evt) {
+            onSrcChange(evt, editor);
+          },
+          onbeforecall: onBeforeCall
+        },
+        imageListCtrl
+      ];
+      if (Settings.hasDescription(editor)) {
+        generalFormItems.push({
+          name: 'alt',
+          type: 'textbox',
+          label: 'Image description'
+        });
+      }
+      if (Settings.hasImageTitle(editor)) {
+        generalFormItems.push({
+          name: 'title',
+          type: 'textbox',
+          label: 'Image Title'
+        });
+      }
+      if (Settings.hasDimensions(editor)) {
+        generalFormItems.push(SizeManager.createUi());
+      }
+      if (Settings.getClassList(editor)) {
+        generalFormItems.push({
+          name: 'class',
+          type: 'listbox',
+          label: 'Class',
+          values: Utils.buildListItems(Settings.getClassList(editor), function (item) {
+            if (item.value) {
+              item.textStyle = function () {
+                return editor.formatter.getCssText({
+                  inline: 'img',
+                  classes: [item.value]
+                });
+              };
+            }
+          })
+        });
+      }
+      if (Settings.hasImageCaption(editor)) {
+        generalFormItems.push({
+          name: 'caption',
+          type: 'checkbox',
+          label: 'Caption'
+        });
+      }
+      return generalFormItems;
+    };
+    var makeTab$1 = function (editor, imageListCtrl) {
+      return {
+        title: 'General',
+        type: 'form',
+        items: getGeneralItems(editor, imageListCtrl)
+      };
+    };
+    var MainTab = {
+      makeTab: makeTab$1,
+      getGeneralItems: getGeneralItems
+    };
+
+    var url = function () {
+      return Global$1.getOrDie('URL');
+    };
+    var createObjectURL = function (blob) {
+      return url().createObjectURL(blob);
+    };
+    var revokeObjectURL = function (u) {
+      url().revokeObjectURL(u);
+    };
+    var URL = {
+      createObjectURL: createObjectURL,
+      revokeObjectURL: revokeObjectURL
+    };
+
+    var global$5 = tinymce.util.Tools.resolve('tinymce.ui.Factory');
+
+    function XMLHttpRequest () {
+      var f = Global$1.getOrDie('XMLHttpRequest');
+      return new f();
+    }
+
+    var noop = function () {
+    };
+    var pathJoin = function (path1, path2) {
+      if (path1) {
+        return path1.replace(/\/$/, '') + '/' + path2.replace(/^\//, '');
+      }
+      return path2;
+    };
+    function Uploader (settings) {
+      var defaultHandler = function (blobInfo, success, failure, progress) {
+        var xhr, formData;
+        xhr = XMLHttpRequest();
+        xhr.open('POST', settings.url);
+        xhr.withCredentials = settings.credentials;
+        xhr.upload.onprogress = function (e) {
+          progress(e.loaded / e.total * 100);
+        };
+        xhr.onerror = function () {
+          failure('Image upload failed due to a XHR Transport error. Code: ' + xhr.status);
+        };
+        xhr.onload = function () {
+          var json;
+          if (xhr.status < 200 || xhr.status >= 300) {
+            failure('HTTP Error: ' + xhr.status);
             return;
           }
-
-          newWidth = widthCtrl.value();
-          newHeight = heightCtrl.value();
-
-          if (win.find('#constrain')[0].checked() && width && height && newWidth && newHeight) {
-            if (width != newWidth) {
-              newHeight = Math.round((newWidth / width) * newHeight);
-
-              if (!isNaN(newHeight)) {
-                heightCtrl.value(newHeight);
-              }
-            } else {
-              newWidth = Math.round((newHeight / height) * newWidth);
-
-              if (!isNaN(newWidth)) {
-                widthCtrl.value(newWidth);
-              }
-            }
+          json = JSON.parse(xhr.responseText);
+          if (!json || typeof json.location !== 'string') {
+            failure('Invalid JSON: ' + xhr.responseText);
+            return;
           }
-
-          width = newWidth;
-          height = newHeight;
-        }
-
-        function onSubmitForm() {
-          var figureElm, oldImg;
-
-          function waitLoad(imgElm) {
-            function selectImage() {
-              imgElm.onload = imgElm.onerror = null;
-
-              if (editor.selection) {
-                editor.selection.select(imgElm);
-                editor.nodeChanged();
-              }
-            }
-
-            imgElm.onload = function () {
-              if (!data.width && !data.height && imageDimensions) {
-                dom.setAttribs(imgElm, {
-                  width: imgElm.clientWidth,
-                  height: imgElm.clientHeight
-                });
-              }
-
-              selectImage();
-            };
-
-            imgElm.onerror = selectImage;
+          success(pathJoin(settings.basePath, json.location));
+        };
+        formData = new domGlobals.FormData();
+        formData.append('file', blobInfo.blob(), blobInfo.filename());
+        xhr.send(formData);
+      };
+      var uploadBlob = function (blobInfo, handler) {
+        return new global$1(function (resolve, reject) {
+          try {
+            handler(blobInfo, resolve, reject, noop);
+          } catch (ex) {
+            reject(ex.message);
           }
+        });
+      };
+      var isDefaultHandler = function (handler) {
+        return handler === defaultHandler;
+      };
+      var upload = function (blobInfo) {
+        return !settings.url && isDefaultHandler(settings.handler) ? global$1.reject('Upload url missing from the settings.') : uploadBlob(blobInfo, settings.handler);
+      };
+      settings = global$2.extend({
+        credentials: false,
+        handler: defaultHandler
+      }, settings);
+      return { upload: upload };
+    }
 
-          updateStyle();
-          recalcSize();
-
-          data = Tools.extend(data, win.toJSON());
-
-          if (!data.alt) {
-            data.alt = '';
-          }
-
-          if (!data.title) {
-            data.title = '';
-          }
-
-          if (data.width === '') {
-            data.width = null;
-          }
-
-          if (data.height === '') {
-            data.height = null;
-          }
-
-          if (!data.style) {
-            data.style = null;
-          }
-
-          // Setup new data excluding style properties
-          /*eslint dot-notation: 0*/
-          data = {
-            src: data.src,
-            alt: data.alt,
-            title: data.title,
-            width: data.width,
-            height: data.height,
-            style: data.style,
-            caption: data.caption,
-            "class": data["class"]
-          };
-
-          editor.undoManager.transact(function () {
-            if (!data.src) {
-              if (imgElm) {
-                dom.remove(imgElm);
-                editor.focus();
-                editor.nodeChanged();
-              }
-
-              return;
-            }
-
-            if (data.title === "") {
-              data.title = null;
-            }
-
-            if (!imgElm) {
-              data.id = '__mcenew';
-              editor.focus();
-              editor.selection.setContent(dom.createHTML('img', data));
-              imgElm = dom.get('__mcenew');
-              dom.setAttrib(imgElm, 'id', null);
-            } else {
-              dom.setAttribs(imgElm, data);
-            }
-
-            editor.editorUpload.uploadImagesAuto();
-
-            if (data.caption === false) {
-              if (dom.is(imgElm.parentNode, 'figure.image')) {
-                figureElm = imgElm.parentNode;
-                dom.insertAfter(imgElm, figureElm);
-                dom.remove(figureElm);
-              }
-            }
-
-            function isTextBlock(node) {
-              return editor.schema.getTextBlockElements()[node.nodeName];
-            }
-
-            if (data.caption === true) {
-              if (!dom.is(imgElm.parentNode, 'figure.image')) {
-                oldImg = imgElm;
-                imgElm = imgElm.cloneNode(true);
-                figureElm = dom.create('figure', { 'class': 'image' });
-                figureElm.appendChild(imgElm);
-                figureElm.appendChild(dom.create('figcaption', { contentEditable: true }, 'Caption'));
-                figureElm.contentEditable = false;
-
-                var textBlock = dom.getParent(oldImg, isTextBlock);
-                if (textBlock) {
-                  dom.split(textBlock, oldImg, figureElm);
-                } else {
-                  dom.replace(figureElm, oldImg);
-                }
-
-                editor.selection.select(figureElm);
-              }
-
-              return;
-            }
-
-            waitLoad(imgElm);
+    var onFileInput = function (editor) {
+      return function (evt) {
+        var Throbber = global$5.get('Throbber');
+        var rootControl = evt.control.rootControl;
+        var throbber = new Throbber(rootControl.getEl());
+        var file = evt.control.value();
+        var blobUri = URL.createObjectURL(file);
+        var uploader = Uploader({
+          url: Settings.getUploadUrl(editor),
+          basePath: Settings.getUploadBasePath(editor),
+          credentials: Settings.getUploadCredentials(editor),
+          handler: Settings.getUploadHandler(editor)
+        });
+        var finalize = function () {
+          throbber.hide();
+          URL.revokeObjectURL(blobUri);
+        };
+        throbber.show();
+        return Utils.blobToDataUri(file).then(function (dataUrl) {
+          var blobInfo = editor.editorUpload.blobCache.create({
+            blob: file,
+            blobUri: blobUri,
+            name: file.name ? file.name.replace(/\.[^\.]+$/, '') : null,
+            base64: dataUrl.split(',')[1]
           });
-        }
-
-        function removePixelSuffix(value) {
-          if (value) {
-            value = value.replace(/px$/, '');
-          }
-
-          return value;
-        }
-
-        function srcChange(e) {
-          var srcURL, prependURL, absoluteURLPattern, meta = e.meta || {};
-
-          if (imageListCtrl) {
-            imageListCtrl.value(editor.convertURL(this.value(), 'src'));
-          }
-
-          Tools.each(meta, function (value, key) {
-            win.find('#' + key).value(value);
+          return uploader.upload(blobInfo).then(function (url) {
+            var src = rootControl.find('#src');
+            src.value(url);
+            rootControl.find('tabpanel')[0].activateTab(0);
+            src.fire('change');
+            finalize();
+            return url;
           });
-
-          if (!meta.width && !meta.height) {
-            srcURL = editor.convertURL(this.value(), 'src');
-
-            // Pattern test the src url and make sure we haven't already prepended the url
-            prependURL = editor.settings.image_prepend_url;
-            absoluteURLPattern = new RegExp('^(?:[a-z]+:)?//', 'i');
-            if (prependURL && !absoluteURLPattern.test(srcURL) && srcURL.substring(0, prependURL.length) !== prependURL) {
-              srcURL = prependURL + srcURL;
-            }
-
-            this.value(srcURL);
-
-            getImageSize(editor.documentBaseURI.toAbsolute(this.value()), function (data) {
-              if (data.width && data.height && imageDimensions) {
-                width = data.width;
-                height = data.height;
-
-                win.find('#width').value(width);
-                win.find('#height').value(height);
+        }).catch(function (err) {
+          editor.windowManager.alert(err);
+          finalize();
+        });
+      };
+    };
+    var acceptExts = '.jpg,.jpeg,.png,.gif';
+    var makeTab$2 = function (editor) {
+      return {
+        title: 'Upload',
+        type: 'form',
+        layout: 'flex',
+        direction: 'column',
+        align: 'stretch',
+        padding: '20 20 20 20',
+        items: [
+          {
+            type: 'container',
+            layout: 'flex',
+            direction: 'column',
+            align: 'center',
+            spacing: 10,
+            items: [
+              {
+                text: 'Browse for an image',
+                type: 'browsebutton',
+                accept: acceptExts,
+                onchange: onFileInput(editor)
+              },
+              {
+                text: 'OR',
+                type: 'label'
               }
-            });
+            ]
+          },
+          {
+            text: 'Drop an image here',
+            type: 'dropzone',
+            accept: acceptExts,
+            height: 100,
+            onchange: onFileInput(editor)
           }
+        ]
+      };
+    };
+    var UploadTab = { makeTab: makeTab$2 };
+
+    function curry(fn) {
+      var initialArgs = [];
+      for (var _i = 1; _i < arguments.length; _i++) {
+        initialArgs[_i - 1] = arguments[_i];
+      }
+      return function () {
+        var restArgs = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+          restArgs[_i] = arguments[_i];
         }
+        var all = initialArgs.concat(restArgs);
+        return fn.apply(null, all);
+      };
+    }
 
-        function onBeforeCall(e) {
-          e.meta = win.toJSON();
-        }
-
-        imgElm = editor.selection.getNode();
-        figureElm = dom.getParent(imgElm, 'figure.image');
-        if (figureElm) {
-          imgElm = dom.select('img', figureElm)[0];
-        }
-
-        if (imgElm &&
-          (imgElm.nodeName != 'IMG' ||
-            imgElm.getAttribute('data-mce-object') ||
-            imgElm.getAttribute('data-mce-placeholder'))) {
-          imgElm = null;
-        }
-
-        if (imgElm) {
-          width = dom.getAttrib(imgElm, 'width');
-          height = dom.getAttrib(imgElm, 'height');
-
-          data = {
-            src: dom.getAttrib(imgElm, 'src'),
-            alt: dom.getAttrib(imgElm, 'alt'),
-            title: dom.getAttrib(imgElm, 'title'),
-            "class": dom.getAttrib(imgElm, 'class'),
-            width: width,
-            height: height,
-            caption: !!figureElm
-          };
-        }
-
+    var submitForm = function (editor, evt) {
+      var win = evt.control.getRoot();
+      SizeManager.updateSize(win);
+      editor.undoManager.transact(function () {
+        var data = merge(readImageDataFromSelection(editor), win.toJSON());
+        insertOrUpdateImage(editor, data);
+      });
+      editor.editorUpload.uploadImagesAuto();
+    };
+    function Dialog (editor) {
+      function showDialog(imageList) {
+        var data = readImageDataFromSelection(editor);
+        var win, imageListCtrl;
         if (imageList) {
           imageListCtrl = {
             type: 'listbox',
             label: 'Image list',
-            values: buildListItems(
-              imageList,
-              function (item) {
-                item.value = editor.convertURL(item.value || item.url, 'src');
-              },
-              [{ text: 'None', value: '' }]
-            ),
+            name: 'image-list',
+            values: Utils.buildListItems(imageList, function (item) {
+              item.value = editor.convertURL(item.value || item.url, 'src');
+            }, [{
+                text: 'None',
+                value: ''
+              }]),
             value: data.src && editor.convertURL(data.src, 'src'),
             onselect: function (e) {
               var altCtrl = win.find('#alt');
-
-              if (!altCtrl.value() || (e.lastControl && altCtrl.value() == e.lastControl.text())) {
+              if (!altCtrl.value() || e.lastControl && altCtrl.value() === e.lastControl.text()) {
                 altCtrl.value(e.control.text());
               }
-
               win.find('#src').value(e.control.value()).fire('change');
             },
             onPostRender: function () {
-              /*eslint consistent-this: 0*/
               imageListCtrl = this;
             }
           };
         }
-
-        if (editor.settings.image_class_list) {
-          classListCtrl = {
-            name: 'class',
-            type: 'listbox',
-            label: 'Class',
-            values: buildListItems(
-              editor.settings.image_class_list,
-              function (item) {
-                if (item.value) {
-                  item.textStyle = function () {
-                    return editor.formatter.getCssText({ inline: 'img', classes: [item.value] });
-                  };
-                }
-              }
-            )
-          };
-        }
-
-        // General settings shared between simple and advanced dialogs
-        var generalFormItems = [
-          {
-            name: 'src',
-            type: 'filepicker',
-            filetype: 'image',
-            label: 'Source',
-            autofocus: true,
-            onchange: srcChange,
-            onbeforecall: onBeforeCall
-          },
-          imageListCtrl
-        ];
-
-        if (editor.settings.image_description !== false) {
-          generalFormItems.push({ name: 'alt', type: 'textbox', label: 'Image description' });
-        }
-
-        if (editor.settings.image_title) {
-          generalFormItems.push({ name: 'title', type: 'textbox', label: 'Image Title' });
-        }
-
-        if (imageDimensions) {
-          generalFormItems.push({
-            type: 'container',
-            label: 'Dimensions',
-            layout: 'flex',
-            direction: 'row',
-            align: 'center',
-            spacing: 5,
-            items: [
-              { name: 'width', type: 'textbox', maxLength: 5, size: 3, onchange: recalcSize, ariaLabel: 'Width' },
-              { type: 'label', text: 'x' },
-              { name: 'height', type: 'textbox', maxLength: 5, size: 3, onchange: recalcSize, ariaLabel: 'Height' },
-              { name: 'constrain', type: 'checkbox', checked: true, text: 'Constrain proportions' }
-            ]
-          });
-        }
-
-        generalFormItems.push(classListCtrl);
-
-        if (editor.settings.image_caption && Env.ceFalse) {
-          generalFormItems.push({ name: 'caption', type: 'checkbox', label: 'Caption' });
-        }
-
-        function mergeMargins(css) {
-          if (css.margin) {
-
-            var splitMargin = css.margin.split(" ");
-
-            switch (splitMargin.length) {
-              case 1: //margin: toprightbottomleft;
-                css['margin-top'] = css['margin-top'] || splitMargin[0];
-                css['margin-right'] = css['margin-right'] || splitMargin[0];
-                css['margin-bottom'] = css['margin-bottom'] || splitMargin[0];
-                css['margin-left'] = css['margin-left'] || splitMargin[0];
-                break;
-              case 2: //margin: topbottom rightleft;
-                css['margin-top'] = css['margin-top'] || splitMargin[0];
-                css['margin-right'] = css['margin-right'] || splitMargin[1];
-                css['margin-bottom'] = css['margin-bottom'] || splitMargin[0];
-                css['margin-left'] = css['margin-left'] || splitMargin[1];
-                break;
-              case 3: //margin: top rightleft bottom;
-                css['margin-top'] = css['margin-top'] || splitMargin[0];
-                css['margin-right'] = css['margin-right'] || splitMargin[1];
-                css['margin-bottom'] = css['margin-bottom'] || splitMargin[2];
-                css['margin-left'] = css['margin-left'] || splitMargin[1];
-                break;
-              case 4: //margin: top right bottom left;
-                css['margin-top'] = css['margin-top'] || splitMargin[0];
-                css['margin-right'] = css['margin-right'] || splitMargin[1];
-                css['margin-bottom'] = css['margin-bottom'] || splitMargin[2];
-                css['margin-left'] = css['margin-left'] || splitMargin[3];
-            }
-            delete css.margin;
+        if (Settings.hasAdvTab(editor) || Settings.hasUploadUrl(editor) || Settings.hasUploadHandler(editor)) {
+          var body = [MainTab.makeTab(editor, imageListCtrl)];
+          if (Settings.hasAdvTab(editor)) {
+            body.push(AdvTab.makeTab(editor));
           }
-          return css;
-        }
-
-        function updateStyle() {
-          function addPixelSuffix(value) {
-            if (value.length > 0 && /^[0-9]+$/.test(value)) {
-              value += 'px';
-            }
-
-            return value;
+          if (Settings.hasUploadUrl(editor) || Settings.hasUploadHandler(editor)) {
+            body.push(UploadTab.makeTab(editor));
           }
-
-          if (!editor.settings.image_advtab) {
-            return;
-          }
-
-          var data = win.toJSON(),
-            css = dom.parseStyle(data.style);
-
-          css = mergeMargins(css);
-
-          if (data.vspace) {
-            css['margin-top'] = css['margin-bottom'] = addPixelSuffix(data.vspace);
-          }
-          if (data.hspace) {
-            css['margin-left'] = css['margin-right'] = addPixelSuffix(data.hspace);
-          }
-          if (data.border) {
-            css['border-width'] = addPixelSuffix(data.border);
-          }
-
-          win.find('#style').value(dom.serializeStyle(dom.parseStyle(dom.serializeStyle(css))));
-        }
-
-        function updateVSpaceHSpaceBorder() {
-          if (!editor.settings.image_advtab) {
-            return;
-          }
-
-          var data = win.toJSON(),
-            css = dom.parseStyle(data.style);
-
-          win.find('#vspace').value("");
-          win.find('#hspace').value("");
-
-          css = mergeMargins(css);
-
-          //Move opposite equal margins to vspace/hspace field
-          if ((css['margin-top'] && css['margin-bottom']) || (css['margin-right'] && css['margin-left'])) {
-            if (css['margin-top'] === css['margin-bottom']) {
-              win.find('#vspace').value(removePixelSuffix(css['margin-top']));
-            } else {
-              win.find('#vspace').value('');
-            }
-            if (css['margin-right'] === css['margin-left']) {
-              win.find('#hspace').value(removePixelSuffix(css['margin-right']));
-            } else {
-              win.find('#hspace').value('');
-            }
-          }
-
-          //Move border-width
-          if (css['border-width']) {
-            win.find('#border').value(removePixelSuffix(css['border-width']));
-          }
-
-          win.find('#style').value(dom.serializeStyle(dom.parseStyle(dom.serializeStyle(css))));
-
-        }
-
-        if (editor.settings.image_advtab) {
-          // Parse styles from img
-          if (imgElm) {
-            if (imgElm.style.marginLeft && imgElm.style.marginRight && imgElm.style.marginLeft === imgElm.style.marginRight) {
-              data.hspace = removePixelSuffix(imgElm.style.marginLeft);
-            }
-            if (imgElm.style.marginTop && imgElm.style.marginBottom && imgElm.style.marginTop === imgElm.style.marginBottom) {
-              data.vspace = removePixelSuffix(imgElm.style.marginTop);
-            }
-            if (imgElm.style.borderWidth) {
-              data.border = removePixelSuffix(imgElm.style.borderWidth);
-            }
-
-            data.style = editor.dom.serializeStyle(editor.dom.parseStyle(editor.dom.getAttrib(imgElm, 'style')));
-          }
-
-          // Advanced dialog shows general+advanced tabs
           win = editor.windowManager.open({
             title: 'Insert/edit image',
             data: data,
             bodyType: 'tabpanel',
-            body: [
-              {
-                title: 'General',
-                type: 'form',
-                items: generalFormItems
-              },
-
-              {
-                title: 'Advanced',
-                type: 'form',
-                pack: 'start',
-                items: [
-                  {
-                    label: 'Style',
-                    name: 'style',
-                    type: 'textbox',
-                    onchange: updateVSpaceHSpaceBorder
-                  },
-                  {
-                    type: 'form',
-                    layout: 'grid',
-                    packV: 'start',
-                    columns: 2,
-                    padding: 0,
-                    alignH: ['left', 'right'],
-                    defaults: {
-                      type: 'textbox',
-                      maxWidth: 50,
-                      onchange: updateStyle
-                    },
-                    items: [
-                      { label: 'Vertical space', name: 'vspace' },
-                      { label: 'Horizontal space', name: 'hspace' },
-                      { label: 'Border', name: 'border' }
-                    ]
-                  }
-                ]
-              }
-            ],
-            onSubmit: onSubmitForm
+            body: body,
+            onSubmit: curry(submitForm, editor)
           });
         } else {
-          // Simple default dialog
           win = editor.windowManager.open({
             title: 'Insert/edit image',
             data: data,
-            body: generalFormItems,
-            onSubmit: onSubmitForm
+            body: MainTab.getGeneralItems(editor, imageListCtrl),
+            onSubmit: curry(submitForm, editor)
           });
         }
+        SizeManager.syncSize(win);
       }
+      function open() {
+        Utils.createImageList(editor, showDialog);
+      }
+      return { open: open };
+    }
 
+    var register = function (editor) {
+      editor.addCommand('mceImage', Dialog(editor).open);
+    };
+    var Commands = { register: register };
+
+    var hasImageClass = function (node) {
+      var className = node.attr('class');
+      return className && /\bimage\b/.test(className);
+    };
+    var toggleContentEditableState = function (state) {
+      return function (nodes) {
+        var i = nodes.length, node;
+        var toggleContentEditable = function (node) {
+          node.attr('contenteditable', state ? 'true' : null);
+        };
+        while (i--) {
+          node = nodes[i];
+          if (hasImageClass(node)) {
+            node.attr('contenteditable', state ? 'false' : null);
+            global$2.each(node.getAll('figcaption'), toggleContentEditable);
+          }
+        }
+      };
+    };
+    var setup = function (editor) {
       editor.on('preInit', function () {
-        function hasImageClass(node) {
-          var className = node.attr('class');
-          return className && /\bimage\b/.test(className);
-        }
-
-        function toggleContentEditableState(state) {
-          return function (nodes) {
-            var i = nodes.length, node;
-
-            function toggleContentEditable(node) {
-              node.attr('contenteditable', state ? 'true' : null);
-            }
-
-            while (i--) {
-              node = nodes[i];
-
-              if (hasImageClass(node)) {
-                node.attr('contenteditable', state ? 'false' : null);
-                Tools.each(node.getAll('figcaption'), toggleContentEditable);
-              }
-            }
-          };
-        }
-
         editor.parser.addNodeFilter('figure', toggleContentEditableState(true));
         editor.serializer.addNodeFilter('figure', toggleContentEditableState(false));
       });
+    };
+    var FilterContent = { setup: setup };
 
+    var register$1 = function (editor) {
       editor.addButton('image', {
         icon: 'image',
         tooltip: 'Insert/edit image',
-        onclick: createImageList(showDialog),
+        onclick: Dialog(editor).open,
         stateSelector: 'img:not([data-mce-object],[data-mce-placeholder]),figure.image'
       });
-
       editor.addMenuItem('image', {
         icon: 'image',
         text: 'Image',
-        onclick: createImageList(showDialog),
+        onclick: Dialog(editor).open,
         context: 'insert',
         prependToContext: true
       });
+    };
+    var Buttons = { register: register$1 };
 
-      editor.addCommand('mceImage', createImageList(showDialog));
+    global.add('image', function (editor) {
+      FilterContent.setup(editor);
+      Buttons.register(editor);
+      Commands.register(editor);
     });
+    function Plugin () {
+    }
 
-    return function () { };
-  }
-);
-dem('tinymce.plugins.image.Plugin')();
+    return Plugin;
+
+}(window));
 })();

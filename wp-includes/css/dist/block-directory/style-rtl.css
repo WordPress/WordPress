@@ -1,0 +1,249 @@
+/**
+ * Colors
+ */
+/**
+ * Breakpoints & Media Queries
+ */
+/**
+ * SCSS Variables.
+ *
+ * Please use variables from this sheet to ensure consistency across the UI.
+ * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
+ * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
+ */
+/**
+ * Colors
+ */
+/**
+ * Fonts & basic variables.
+ */
+/**
+ * Grid System.
+ * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
+ */
+/**
+ * Dimensions.
+ */
+/**
+ * Shadows.
+ */
+/**
+ * Editor widths.
+ */
+/**
+ * Block & Editor UI.
+ */
+/**
+ * Block paddings.
+ */
+/**
+ * React Native specific.
+ * These variables do not appear to be used anywhere else.
+ */
+/**
+ * Breakpoint mixins
+ */
+/**
+ * Long content fade mixin
+ *
+ * Creates a fading overlay to signify that the content is longer
+ * than the space allows.
+ */
+/**
+ * Focus styles.
+ */
+/**
+ * Applies editor left position to the selector passed as argument
+ */
+/**
+ * Styles that are reused verbatim in a few places
+ */
+/**
+ * Allows users to opt-out of animations via OS-level preferences.
+ */
+/**
+ * Reset default styles for JavaScript UI based pages.
+ * This is a WP-admin agnostic reset
+ */
+/**
+ * Reset the WP Admin page styles for Gutenberg-like pages.
+ */
+:root {
+  --wp-admin-theme-color: #007cba;
+  --wp-admin-theme-color-darker-10: #006ba1;
+  --wp-admin-theme-color-darker-20: #005a87;
+  --wp-admin-border-width-focus: 2px;
+}
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  :root {
+    --wp-admin-border-width-focus: 1.5px;
+  }
+}
+
+.block-directory-block-ratings > span {
+  display: flex;
+}
+.block-directory-block-ratings svg {
+  fill: #1e1e1e;
+  margin-right: -4px;
+}
+.block-directory-block-ratings .block-directory-block-ratings__star-empty {
+  fill: #ccc;
+}
+
+.block-directory-compact-list {
+  margin: 0;
+  list-style: none;
+}
+
+.block-directory-compact-list__item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.block-directory-compact-list__item:last-child {
+  margin-bottom: 0;
+}
+
+.block-directory-compact-list__item-details {
+  margin-right: 8px;
+}
+
+.block-directory-compact-list__item-title {
+  font-weight: 500;
+}
+
+.block-directory-compact-list__item-author {
+  color: #757575;
+  font-size: 11px;
+}
+
+.block-directory-downloadable-block-icon {
+  min-width: 54px;
+  width: 54px;
+  height: 54px;
+  vertical-align: middle;
+  border: 1px solid #ddd;
+}
+
+.block-directory-downloadable-block-list-item {
+  padding: 12px;
+  width: 100%;
+  height: auto;
+  text-align: right;
+  display: grid;
+  grid-template-columns: auto 1fr;
+}
+.block-directory-downloadable-block-list-item:hover {
+  box-shadow: 0 0 0 2px var(--wp-admin-theme-color);
+}
+.block-directory-downloadable-block-list-item.is-busy {
+  background: transparent;
+}
+.block-directory-downloadable-block-list-item.is-busy .block-directory-downloadable-block-list-item__author {
+  border: 0;
+  clip: rect(1px, 1px, 1px, 1px);
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  word-wrap: normal !important;
+}
+.block-directory-downloadable-block-list-item:disabled, .block-directory-downloadable-block-list-item[aria-disabled] {
+  opacity: 1;
+}
+
+.block-directory-downloadable-block-list-item__icon {
+  position: relative;
+  margin-left: 16px;
+  align-self: flex-start;
+}
+.block-directory-downloadable-block-list-item__icon .block-directory-downloadable-block-list-item__spinner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.block-directory-block-ratings {
+  display: block;
+  margin-top: 4px;
+}
+
+.block-directory-downloadable-block-list-item__details {
+  color: #1e1e1e;
+}
+
+.block-directory-downloadable-block-list-item__title {
+  display: block;
+  font-weight: 600;
+}
+
+.block-directory-downloadable-block-list-item__author {
+  display: block;
+  margin-top: 4px;
+  font-weight: normal;
+}
+
+.block-directory-downloadable-block-list-item__desc {
+  display: block;
+  margin-top: 8px;
+}
+
+.block-directory-downloadable-block-notice {
+  margin: 8px 0 0;
+  color: #cc1818;
+}
+
+.block-directory-downloadable-block-notice__content {
+  padding-left: 12px;
+  margin-bottom: 8px;
+}
+
+.block-directory-downloadable-blocks-panel {
+  padding: 16px;
+}
+.block-directory-downloadable-blocks-panel.has-blocks-loading {
+  font-style: normal;
+  padding: 0;
+  margin: 112px 0;
+  text-align: center;
+  color: #757575;
+}
+.block-directory-downloadable-blocks-panel.has-blocks-loading .components-spinner {
+  float: inherit;
+}
+
+.block-directory-downloadable-blocks-panel__no-local {
+  margin: 48px 0;
+  padding: 0 64px;
+  color: #757575;
+  text-align: center;
+}
+
+.block-directory-downloadable-blocks-panel__title {
+  margin: 0 0 4px;
+  font-size: 14px;
+}
+
+.block-directory-downloadable-blocks-panel__description {
+  margin-top: 0;
+}
+
+.block-directory-downloadable-blocks-panel button {
+  margin-top: 4px;
+}
+
+.installed-blocks-pre-publish-panel__copy {
+  margin-top: 0;
+}

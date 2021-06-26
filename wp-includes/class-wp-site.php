@@ -27,6 +27,8 @@ final class WP_Site {
 	/**
 	 * Site ID.
 	 *
+	 * Named "blog" vs. "site" for legacy reasons.
+	 *
 	 * A numeric string, for compatibility reasons.
 	 *
 	 * @since 4.5.0
@@ -64,7 +66,7 @@ final class WP_Site {
 	public $site_id = '0';
 
 	/**
-	 * The date on which the site was created or registered.
+	 * The date and time on which the site was created or registered.
 	 *
 	 * @since 4.5.0
 	 * @var string Date in MySQL's datetime format.
@@ -145,7 +147,6 @@ final class WP_Site {
 	/**
 	 * Retrieves a site from the database by its ID.
 	 *
-	 * @static
 	 * @since 4.5.0
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
@@ -163,14 +164,18 @@ final class WP_Site {
 
 		$_site = wp_cache_get( $site_id, 'sites' );
 
-		if ( ! $_site ) {
+		if ( false === $_site ) {
 			$_site = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->blogs} WHERE blog_id = %d LIMIT 1", $site_id ) );
 
 			if ( empty( $_site ) || is_wp_error( $_site ) ) {
-				return false;
+				$_site = -1;
 			}
 
 			wp_cache_add( $site_id, $_site, 'sites' );
+		}
+
+		if ( is_numeric( $_site ) ) {
+			return false;
 		}
 
 		return new WP_Site( $_site );
@@ -187,7 +192,7 @@ final class WP_Site {
 	 * @param WP_Site|object $site A site object.
 	 */
 	public function __construct( $site ) {
-		foreach( get_object_vars( $site ) as $key => $value ) {
+		foreach ( get_object_vars( $site ) as $key => $value ) {
 			$this->$key = $value;
 		}
 	}
@@ -316,7 +321,7 @@ final class WP_Site {
 		if ( false === $details ) {
 
 			switch_to_blog( $this->blog_id );
-			// Create a raw copy of the object for backwards compatibility with the filter below.
+			// Create a raw copy of the object for backward compatibility with the filter below.
 			$details = new stdClass();
 			foreach ( get_object_vars( $this ) as $key => $value ) {
 				$details->$key = $value;

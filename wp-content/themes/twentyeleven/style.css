@@ -4,10 +4,11 @@ Theme URI: https://wordpress.org/themes/twentyeleven/
 Author: the WordPress team
 Author URI: https://wordpress.org/
 Description: The 2011 theme for WordPress is sophisticated, lightweight, and adaptable. Make it yours with a custom menu, header image, and background -- then go further with available theme options for light or dark color scheme, custom link colors, and three layout choices. Twenty Eleven comes equipped with a Showcase page template that transforms your front page into a showcase to show off your best content, widget support galore (sidebar, three footer areas, and a Showcase page widget area), and a custom "Ephemera" widget to display your Aside, Link, Quote, or Status posts. Included are styles for print and for the admin editor, support for featured images (as custom header images on posts and pages and as large images on featured "sticky" posts), and special styles for six different post formats.
-Version: 2.6
+Version: 3.7
+Requires PHP: 5.2.4
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Tags: blog, one-column, two-columns, left-sidebar, right-sidebar, custom-background, custom-colors, custom-header, custom-menu, editor-style, featured-image-header, featured-images, flexible-header, footer-widgets, full-width-template, microformats, post-formats, rtl-language-support, sticky-post, theme-options, translation-ready
+Tags: blog, one-column, two-columns, left-sidebar, right-sidebar, custom-background, custom-colors, custom-header, custom-menu, editor-style, featured-image-header, featured-images, flexible-header, footer-widgets, full-width-template, microformats, post-formats, rtl-language-support, sticky-post, theme-options, translation-ready, block-patterns
 Text Domain: twentyeleven
 */
 
@@ -502,23 +503,29 @@ a:hover {
 	height: 1px;
 	width: 1px;
 }
-#access a.assistive-text:focus,
+
+a.assistive-text:focus,
 .screen-reader-text:hover,
 .screen-reader-text:active,
 .screen-reader-text:focus {
-	background: #eee;
-	border-bottom: 1px solid #ddd;
-	color: #1982d1;
+	background-color: #f1f1f1;
+	box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
 	clip: auto !important;
-	font-size: 12px;
+	clip-path: none;
+	color: #21759b;
+	display: block;
+	font-size: 14px;
+	font-weight: bold;
 	height: auto;
-	position: absolute;
-	text-decoration: underline;
-	top: 0;
-	left: 7.6%;
+	left: 6px;
+	line-height: normal;
+	padding: 17px 22px 15px;
+	text-decoration: none;
+	top: 7px;
 	width: auto;
+	z-index: 100000;
+	/* Above WP toolbar. */
 }
-
 
 /* =Header
 ----------------------------------------------- */
@@ -1584,7 +1591,7 @@ section.feature-image.large img {
 	background: -o-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* Opera11.10+ */
 	background: -ms-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* IE10+ */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
-	background: linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* W3C */
+	background: linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* W3C */
 	width: 100%;
 	height: 45px;
 	position: absolute;
@@ -1839,6 +1846,9 @@ video {
 .widget a:active {
 	text-decoration: underline;
 }
+.widget select {
+	max-width: 100%;
+ }
 
 /* Search Widget */
 .widget_search form {
@@ -1922,7 +1932,6 @@ section.ephemera .entry-title a span {
 }
 
 /* Calendar Widget */
-
 .widget_calendar #wp-calendar {
 	color: #555;
 	width: 95%;
@@ -1950,9 +1959,20 @@ section.ephemera .entry-title a span {
 	border-top: 1px solid #ccc;
 	border-bottom: 1px solid #ccc;
 }
+.widget_calendar .wp-calendar-nav {
+	display: table;
+	width: 95%;
+}
+.widget_calendar .wp-calendar-nav span {
+	display: table-cell;
+	text-align: center;
+}
+.widget_calendar .wp-calendar-nav-prev,
+.widget_calendar .wp-calendar-nav-next {
+	width: 40%;
+}
 
 /* Text Widget */
-
 .widget_text ul,
 .widget_text ol {
 	margin: 0 0 1.625em 2.5em;
@@ -1962,6 +1982,29 @@ section.ephemera .entry-title a span {
 .widget_text ul ol,
 .widget_text ol ul {
 	margin-bottom: 0;
+}
+
+/* Tag Cloud Widget */
+.tagcloud ul {
+	list-style-type: none;
+}
+
+.tagcloud ul li {
+	display: inline-block;
+}
+
+/* Helps galleries in widget areas look presentable in most cases. */
+#page .widget-area .gallery-columns-2 img,
+#page .widget-area .gallery-columns-3 img,
+#page .widget-area .gallery-columns-4 img,
+#page .widget-area .gallery-columns-5 img,
+#page .widget-area .gallery-columns-6 img,
+#page .widget-area .gallery-columns-7 img,
+#page .widget-area .gallery-columns-8 img,
+#page .widget-area .gallery-columns-9 img {
+	border: none;
+	max-width: 90%;
+	width: auto;
 }
 
 /* =Comments
@@ -2277,6 +2320,9 @@ a.comment-reply-link > span {
 #respond p {
 	font-size: 12px;
 }
+#respond #wp-comment-cookies-consent {
+	margin: 0 10px 0 0;
+}
 p.comment-form-comment {
 	margin: 0;
 }
@@ -2330,6 +2376,12 @@ p.comment-form-comment {
 #site-generator a {
 	color: #555;
 	font-weight: bold;
+}
+#site-generator span[role=separator] {
+	padding: 0 0.25em 0 0.5em
+}
+#site-generator span[role=separator]::before {
+	content: '\007c';
 }
 
 

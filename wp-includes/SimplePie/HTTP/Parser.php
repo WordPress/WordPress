@@ -5,7 +5,7 @@
  * A PHP-Based RSS and Atom Feed Framework.
  * Takes the hard work out of managing a complete RSS/Atom solution.
  *
- * Copyright (c) 2004-2012, Ryan Parman, Geoffrey Sneddon, Ryan McCue, and contributors
+ * Copyright (c) 2004-2016, Ryan Parman, Sam Sneddon, Ryan McCue, and contributors
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
@@ -33,10 +33,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package SimplePie
- * @version 1.3.1
- * @copyright 2004-2012 Ryan Parman, Geoffrey Sneddon, Ryan McCue
+ * @copyright 2004-2016 Ryan Parman, Sam Sneddon, Ryan McCue
  * @author Ryan Parman
- * @author Geoffrey Sneddon
+ * @author Sam Sneddon
  * @author Ryan McCue
  * @link http://simplepie.org/ SimplePie
  * @license http://www.opensource.org/licenses/bsd-license.php BSD License
@@ -156,15 +155,13 @@ class SimplePie_HTTP_Parser
 		{
 			return true;
 		}
-		else
-		{
-			$this->http_version = '';
-			$this->status_code = '';
-			$this->reason = '';
-			$this->headers = array();
-			$this->body = '';
-			return false;
-		}
+
+		$this->http_version = '';
+		$this->status_code = '';
+		$this->reason = '';
+		$this->headers = array();
+		$this->body = '';
+		return false;
 	}
 
 	/**
@@ -496,5 +493,26 @@ class SimplePie_HTTP_Parser
 				return;
 			}
 		}
+	}
+
+	/**
+	 * Prepare headers (take care of proxies headers)
+	 *
+	 * @param string  $headers Raw headers
+	 * @param integer $count   Redirection count. Default to 1.
+	 *
+	 * @return string
+	 */
+	static public function prepareHeaders($headers, $count = 1)
+	{
+		$data = explode("\r\n\r\n", $headers, $count);
+		$data = array_pop($data);
+		if (false !== stripos($data, "HTTP/1.0 200 Connection established\r\n\r\n")) {
+			$data = str_ireplace("HTTP/1.0 200 Connection established\r\n\r\n", '', $data);
+		}
+		if (false !== stripos($data, "HTTP/1.1 200 Connection established\r\n\r\n")) {
+			$data = str_ireplace("HTTP/1.1 200 Connection established\r\n\r\n", '', $data);
+		}
+		return $data;
 	}
 }

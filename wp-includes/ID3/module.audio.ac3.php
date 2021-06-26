@@ -1,11 +1,11 @@
 <?php
+
 /////////////////////////////////////////////////////////////////
 /// getID3() by James Heinrich <info@getid3.org>               //
-//  available at http://getid3.sourceforge.net                 //
-//            or http://www.getid3.org                         //
-//          also https://github.com/JamesHeinrich/getID3       //
-/////////////////////////////////////////////////////////////////
-// See readme.txt for more details                             //
+//  available at https://github.com/JamesHeinrich/getID3       //
+//            or https://www.getid3.org                        //
+//            or http://getid3.sourceforge.net                 //
+//  see readme.txt for more details                            //
 /////////////////////////////////////////////////////////////////
 //                                                             //
 // module.audio.ac3.php                                        //
@@ -14,14 +14,27 @@
 //                                                            ///
 /////////////////////////////////////////////////////////////////
 
+if (!defined('GETID3_INCLUDEPATH')) { // prevent path-exposing attacks that access modules directly on public webservers
+	exit;
+}
 
 class getid3_ac3 extends getid3_handler
 {
-    private $AC3header = array();
-    private $BSIoffset = 0;
+	/**
+	 * @var array
+	 */
+	private $AC3header = array();
 
-    const syncword = 0x0B77;
+	/**
+	 * @var int
+	 */
+	private $BSIoffset = 0;
 
+	const syncword = 0x0B77;
+
+	/**
+	 * @return bool
+	 */
 	public function Analyze() {
 		$info = &$this->getid3->info;
 
@@ -187,7 +200,7 @@ class getid3_ac3 extends getid3_handler
 		} elseif ($thisfile_ac3_raw_bsi['bsid'] <= 16) { // E-AC3
 
 
-$this->error('E-AC3 parsing is incomplete and experimental in this version of getID3 ('.$this->getid3->version().'). Notably the bitrate calculations are wrong -- value might (or not) be correct, but it is not calculated correctly. Email info@getid3.org if you know how to calculate EAC3 bitrate correctly.');
+			$this->error('E-AC3 parsing is incomplete and experimental in this version of getID3 ('.$this->getid3->version().'). Notably the bitrate calculations are wrong -- value might (or not) be correct, but it is not calculated correctly. Email info@getid3.org if you know how to calculate EAC3 bitrate correctly.');
 			$info['audio']['dataformat'] = 'eac3';
 
 			$thisfile_ac3_raw_bsi['strmtyp']          =        $this->readHeaderBSI(2);
@@ -412,7 +425,7 @@ $this->error('E-AC3 parsing is incomplete and experimental in this version of ge
 		} else {
 
 			$this->error('Bit stream identification is version '.$thisfile_ac3_raw_bsi['bsid'].', but getID3() only understands up to version 16. Please submit a support ticket with a sample file.');
-		    unset($info['ac3']);
+			unset($info['ac3']);
 			return false;
 
 		}
@@ -431,15 +444,17 @@ $this->error('E-AC3 parsing is incomplete and experimental in this version of ge
 			$thisfile_ac3['frame_length'] = self::frameSizeLookup($thisfile_ac3_raw_bsi['frmsizecod'], $thisfile_ac3_raw_bsi['fscod']);
 			$thisfile_ac3['bitrate']      = self::bitrateLookup($thisfile_ac3_raw_bsi['frmsizecod']);
 		} elseif (!empty($thisfile_ac3_raw_bsi['frmsiz'])) {
-// this isn't right, but it's (usually) close, roughly 5% less than it should be.
-// but WHERE is the actual bitrate value stored in EAC3?? email info@getid3.org if you know!
+			// this isn't right, but it's (usually) close, roughly 5% less than it should be.
+			// but WHERE is the actual bitrate value stored in EAC3?? email info@getid3.org if you know!
 			$thisfile_ac3['bitrate']      = ($thisfile_ac3_raw_bsi['frmsiz'] + 1) * 16 * 30; // The frmsiz field shall contain a value one less than the overall size of the coded syncframe in 16-bit words. That is, this field may assume a value ranging from 0 to 2047, and these values correspond to syncframe sizes ranging from 1 to 2048.
-// kludge-fix to make it approximately the expected value, still not "right":
-$thisfile_ac3['bitrate'] = round(($thisfile_ac3['bitrate'] * 1.05) / 16000) * 16000;
+			// kludge-fix to make it approximately the expected value, still not "right":
+			$thisfile_ac3['bitrate'] = round(($thisfile_ac3['bitrate'] * 1.05) / 16000) * 16000;
 		}
 		$info['audio']['bitrate'] = $thisfile_ac3['bitrate'];
 
-		$thisfile_ac3['service_type'] = self::serviceTypeLookup($thisfile_ac3_raw_bsi['bsmod'], $thisfile_ac3_raw_bsi['acmod']);
+		if (isset($thisfile_ac3_raw_bsi['bsmod']) && isset($thisfile_ac3_raw_bsi['acmod'])) {
+			$thisfile_ac3['service_type'] = self::serviceTypeLookup($thisfile_ac3_raw_bsi['bsmod'], $thisfile_ac3_raw_bsi['acmod']);
+		}
 		$ac3_coding_mode = self::audioCodingModeLookup($thisfile_ac3_raw_bsi['acmod']);
 		foreach($ac3_coding_mode as $key => $value) {
 			$thisfile_ac3[$key] = $value;
@@ -470,6 +485,11 @@ $thisfile_ac3['bitrate'] = round(($thisfile_ac3['bitrate'] * 1.05) / 16000) * 16
 		return true;
 	}
 
+	/**
+	 * @param int $length
+	 *
+	 * @return int
+	 */
 	private function readHeaderBSI($length) {
 		$data = substr($this->AC3header['bsi'], $this->BSIoffset, $length);
 		$this->BSIoffset += $length;
@@ -477,6 +497,11 @@ $thisfile_ac3['bitrate'] = round(($thisfile_ac3['bitrate'] * 1.05) / 16000) * 16
 		return bindec($data);
 	}
 
+	/**
+	 * @param int $fscod
+	 *
+	 * @return int|string|false
+	 */
 	public static function sampleRateCodeLookup($fscod) {
 		static $sampleRateCodeLookup = array(
 			0 => 48000,
@@ -487,6 +512,11 @@ $thisfile_ac3['bitrate'] = round(($thisfile_ac3['bitrate'] * 1.05) / 16000) * 16
 		return (isset($sampleRateCodeLookup[$fscod]) ? $sampleRateCodeLookup[$fscod] : false);
 	}
 
+	/**
+	 * @param int $fscod2
+	 *
+	 * @return int|string|false
+	 */
 	public static function sampleRateCodeLookup2($fscod2) {
 		static $sampleRateCodeLookup2 = array(
 			0 => 24000,
@@ -497,6 +527,12 @@ $thisfile_ac3['bitrate'] = round(($thisfile_ac3['bitrate'] * 1.05) / 16000) * 16
 		return (isset($sampleRateCodeLookup2[$fscod2]) ? $sampleRateCodeLookup2[$fscod2] : false);
 	}
 
+	/**
+	 * @param int $bsmod
+	 * @param int $acmod
+	 *
+	 * @return string|false
+	 */
 	public static function serviceTypeLookup($bsmod, $acmod) {
 		static $serviceTypeLookup = array();
 		if (empty($serviceTypeLookup)) {
@@ -518,6 +554,11 @@ $thisfile_ac3['bitrate'] = round(($thisfile_ac3['bitrate'] * 1.05) / 16000) * 16
 		return (isset($serviceTypeLookup[$bsmod][$acmod]) ? $serviceTypeLookup[$bsmod][$acmod] : false);
 	}
 
+	/**
+	 * @param int $acmod
+	 *
+	 * @return array|false
+	 */
 	public static function audioCodingModeLookup($acmod) {
 		// array(channel configuration, # channels (not incl LFE), channel order)
 		static $audioCodingModeLookup = array (
@@ -533,6 +574,11 @@ $thisfile_ac3['bitrate'] = round(($thisfile_ac3['bitrate'] * 1.05) / 16000) * 16
 		return (isset($audioCodingModeLookup[$acmod]) ? $audioCodingModeLookup[$acmod] : false);
 	}
 
+	/**
+	 * @param int $cmixlev
+	 *
+	 * @return int|float|string|false
+	 */
 	public static function centerMixLevelLookup($cmixlev) {
 		static $centerMixLevelLookup;
 		if (empty($centerMixLevelLookup)) {
@@ -546,6 +592,11 @@ $thisfile_ac3['bitrate'] = round(($thisfile_ac3['bitrate'] * 1.05) / 16000) * 16
 		return (isset($centerMixLevelLookup[$cmixlev]) ? $centerMixLevelLookup[$cmixlev] : false);
 	}
 
+	/**
+	 * @param int $surmixlev
+	 *
+	 * @return int|float|string|false
+	 */
 	public static function surroundMixLevelLookup($surmixlev) {
 		static $surroundMixLevelLookup;
 		if (empty($surroundMixLevelLookup)) {
@@ -559,6 +610,11 @@ $thisfile_ac3['bitrate'] = round(($thisfile_ac3['bitrate'] * 1.05) / 16000) * 16
 		return (isset($surroundMixLevelLookup[$surmixlev]) ? $surroundMixLevelLookup[$surmixlev] : false);
 	}
 
+	/**
+	 * @param int $dsurmod
+	 *
+	 * @return string|false
+	 */
 	public static function dolbySurroundModeLookup($dsurmod) {
 		static $dolbySurroundModeLookup = array(
 			0 => 'not indicated',
@@ -569,12 +625,18 @@ $thisfile_ac3['bitrate'] = round(($thisfile_ac3['bitrate'] * 1.05) / 16000) * 16
 		return (isset($dolbySurroundModeLookup[$dsurmod]) ? $dolbySurroundModeLookup[$dsurmod] : false);
 	}
 
+	/**
+	 * @param int  $acmod
+	 * @param bool $lfeon
+	 *
+	 * @return array
+	 */
 	public static function channelsEnabledLookup($acmod, $lfeon) {
 		$lookup = array(
-			'ch1'=>(bool) ($acmod == 0),
-			'ch2'=>(bool) ($acmod == 0),
-			'left'=>(bool) ($acmod > 1),
-			'right'=>(bool) ($acmod > 1),
+			'ch1'=>($acmod == 0),
+			'ch2'=>($acmod == 0),
+			'left'=>($acmod > 1),
+			'right'=>($acmod > 1),
 			'center'=>(bool) ($acmod & 0x01),
 			'surround_mono'=>false,
 			'surround_left'=>false,
@@ -594,6 +656,11 @@ $thisfile_ac3['bitrate'] = round(($thisfile_ac3['bitrate'] * 1.05) / 16000) * 16
 		return $lookup;
 	}
 
+	/**
+	 * @param int $compre
+	 *
+	 * @return float|int
+	 */
 	public static function heavyCompression($compre) {
 		// The first four bits indicate gain changes in 6.02dB increments which can be
 		// implemented with an arithmetic shift operation. The following four bits
@@ -623,7 +690,7 @@ $thisfile_ac3['bitrate'] = round(($thisfile_ac3['bitrate'] * 1.05) / 16000) * 16
 		// -8    -42.14 dB
 
 		$fourbit = str_pad(decbin(($compre & 0xF0) >> 4), 4, '0', STR_PAD_LEFT);
-		if ($fourbit{0} == '1') {
+		if ($fourbit[0] == '1') {
 			$log_gain = -8 + bindec(substr($fourbit, 1));
 		} else {
 			$log_gain = bindec(substr($fourbit, 1));
@@ -644,6 +711,11 @@ $thisfile_ac3['bitrate'] = round(($thisfile_ac3['bitrate'] * 1.05) / 16000) * 16
 		return $log_gain - $lin_gain;
 	}
 
+	/**
+	 * @param int $roomtyp
+	 *
+	 * @return string|false
+	 */
 	public static function roomTypeLookup($roomtyp) {
 		static $roomTypeLookup = array(
 			0 => 'not indicated',
@@ -654,6 +726,12 @@ $thisfile_ac3['bitrate'] = round(($thisfile_ac3['bitrate'] * 1.05) / 16000) * 16
 		return (isset($roomTypeLookup[$roomtyp]) ? $roomTypeLookup[$roomtyp] : false);
 	}
 
+	/**
+	 * @param int $frmsizecod
+	 * @param int $fscod
+	 *
+	 * @return int|false
+	 */
 	public static function frameSizeLookup($frmsizecod, $fscod) {
 		// LSB is whether padding is used or not
 		$padding     = (bool) ($frmsizecod & 0x01);
@@ -683,13 +761,20 @@ $thisfile_ac3['bitrate'] = round(($thisfile_ac3['bitrate'] * 1.05) / 16000) * 16
 				18 => array(2560, 2786, 3840)   // 640 kbps
 			);
 		}
+		$paddingBytes = 0;
 		if (($fscod == 1) && $padding) {
 			// frame lengths are padded by 1 word (16 bits) at 44100
-			$frameSizeLookup[$frmsizecod] += 2;
+			// (fscode==1) means 44100Hz (see sampleRateCodeLookup)
+			$paddingBytes = 2;
 		}
-		return (isset($frameSizeLookup[$framesizeid][$fscod]) ? $frameSizeLookup[$framesizeid][$fscod] : false);
+		return (isset($frameSizeLookup[$framesizeid][$fscod]) ? $frameSizeLookup[$framesizeid][$fscod] + $paddingBytes : false);
 	}
 
+	/**
+	 * @param int $frmsizecod
+	 *
+	 * @return int|false
+	 */
 	public static function bitrateLookup($frmsizecod) {
 		// LSB is whether padding is used or not
 		$padding     = (bool) ($frmsizecod & 0x01);
@@ -719,6 +804,11 @@ $thisfile_ac3['bitrate'] = round(($thisfile_ac3['bitrate'] * 1.05) / 16000) * 16
 		return (isset($bitrateLookup[$framesizeid]) ? $bitrateLookup[$framesizeid] : false);
 	}
 
+	/**
+	 * @param int $numblkscod
+	 *
+	 * @return int|false
+	 */
 	public static function blocksPerSyncFrame($numblkscod) {
 		static $blocksPerSyncFrameLookup = array(
 			0 => 1,

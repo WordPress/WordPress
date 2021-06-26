@@ -68,7 +68,7 @@ class Requests_Cookie_Jar implements ArrayAccess, IteratorAggregate {
 	 * Get the value for the item
 	 *
 	 * @param string $key Item key
-	 * @return string Item value
+	 * @return string|null Item value (null if offsetExists is false)
 	 */
 	public function offsetGet($key) {
 		if (!isset($this->cookies[$key])) {
@@ -162,14 +162,14 @@ class Requests_Cookie_Jar implements ArrayAccess, IteratorAggregate {
 	 *
 	 * @var Requests_Response $response
 	 */
-	public function before_redirect_check(Requests_Response &$return) {
+	public function before_redirect_check(Requests_Response $return) {
 		$url = $return->url;
 		if (!$url instanceof Requests_IRI) {
 			$url = new Requests_IRI($url);
 		}
 
-		$cookies = Requests_Cookie::parse_from_headers($return->headers, $url);
-		$this->cookies = array_merge($this->cookies, $cookies);
+		$cookies         = Requests_Cookie::parse_from_headers($return->headers, $url);
+		$this->cookies   = array_merge($this->cookies, $cookies);
 		$return->cookies = $this;
 	}
 }

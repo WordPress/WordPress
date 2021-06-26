@@ -134,6 +134,9 @@ label ~ span.required {
 	margin: -18px -16px 0 0;
 	margin: -1.285714286rem -1.142857143rem 0 0;
 }
+#respond #wp-comment-cookies-consent {
+	margin: 0 0 0 10px;
+}
 
 
 /* =Front page template styling
@@ -170,6 +173,7 @@ label ~ span.required {
 #wp-calendar caption {
 	text-align: right;
 }
+.wp-calendar-nav-next,
 #wp-calendar #next {
 	padding-left: 24px;
 	padding-left: 1.714285714rem;

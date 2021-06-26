@@ -1,0 +1,168 @@
+/**
+ * Colors
+ */
+/**
+ * Breakpoints & Media Queries
+ */
+/**
+ * SCSS Variables.
+ *
+ * Please use variables from this sheet to ensure consistency across the UI.
+ * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
+ * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
+ */
+/**
+ * Colors
+ */
+/**
+ * Fonts & basic variables.
+ */
+/**
+ * Grid System.
+ * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
+ */
+/**
+ * Dimensions.
+ */
+/**
+ * Shadows.
+ */
+/**
+ * Editor widths.
+ */
+/**
+ * Block & Editor UI.
+ */
+/**
+ * Block paddings.
+ */
+/**
+ * React Native specific.
+ * These variables do not appear to be used anywhere else.
+ */
+/**
+ * Breakpoint mixins
+ */
+/**
+ * Long content fade mixin
+ *
+ * Creates a fading overlay to signify that the content is longer
+ * than the space allows.
+ */
+/**
+ * Focus styles.
+ */
+/**
+ * Applies editor left position to the selector passed as argument
+ */
+/**
+ * Styles that are reused verbatim in a few places
+ */
+/**
+ * Allows users to opt-out of animations via OS-level preferences.
+ */
+/**
+ * Reset default styles for JavaScript UI based pages.
+ * This is a WP-admin agnostic reset
+ */
+/**
+ * Reset the WP Admin page styles for Gutenberg-like pages.
+ */
+.wp-block[data-align=center] > .wp-block-video {
+  text-align: center;
+}
+
+.wp-block-video {
+  position: relative;
+}
+.wp-block-video.is-transient video {
+  opacity: 0.3;
+}
+.wp-block-video .components-spinner {
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  margin-top: -9px;
+  margin-right: -9px;
+}
+
+.editor-video-poster-control .components-base-control__label {
+  display: block;
+}
+.editor-video-poster-control .components-button {
+  margin-left: 8px;
+}
+
+.block-library-video-tracks-editor {
+  z-index: 159990;
+}
+
+.block-library-video-tracks-editor > .components-popover__content {
+  width: 360px;
+}
+
+.block-library-video-tracks-editor__track-list-track {
+  display: flex;
+  place-content: space-between;
+  align-items: baseline;
+  padding-right: 12px;
+}
+
+.block-library-video-tracks-editor__single-track-editor-label-language {
+  display: flex;
+  margin-top: 12px;
+}
+.block-library-video-tracks-editor__single-track-editor-label-language > .components-base-control {
+  width: 50%;
+}
+.block-library-video-tracks-editor__single-track-editor-label-language > .components-base-control:first-child {
+  margin-left: 16px;
+}
+
+.block-library-video-tracks-editor__single-track-editor-kind-select {
+  max-width: 240px;
+}
+
+.block-library-video-tracks-editor__single-track-editor-buttons-container {
+  display: flex;
+  place-content: space-between;
+  margin-top: 32px;
+}
+
+.block-library-video-tracks-editor__single-track-editor-edit-track-label {
+  margin-top: 4px;
+  margin-bottom: 12px;
+  color: #757575;
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 500;
+  display: block;
+}
+
+.block-library-video-tracks-editor > .components-popover__content > div {
+  padding: 0;
+}
+
+.block-library-video-tracks-editor__track-list .components-menu-group__label,
+.block-library-video-tracks-editor__add-tracks-container .components-menu-group__label {
+  padding: 0;
+}
+
+.block-library-video-tracks-editor__single-track-editor,
+.block-library-video-tracks-editor__track-list,
+.block-library-video-tracks-editor__add-tracks-container {
+  padding: 12px;
+}
+
+.block-library-video-tracks-editor__single-track-editor .components-base-control .components-base-control__label {
+  margin-bottom: 4px;
+}
+.block-library-video-tracks-editor__single-track-editor .components-base-control .components-base-control__field {
+  margin-bottom: 12px;
+}
+.block-library-video-tracks-editor__single-track-editor .components-base-control .components-text-control__input {
+  margin-right: 0;
+}
+.block-library-video-tracks-editor__single-track-editor .components-base-control .components-input-control__label {
+  margin-bottom: 4px;
+}

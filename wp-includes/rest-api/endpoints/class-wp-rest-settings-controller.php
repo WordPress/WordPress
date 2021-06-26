@@ -27,7 +27,7 @@ class WP_REST_Settings_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Registers the routes for the objects of the controller.
+	 * Registers the routes for the site's settings.
 	 *
 	 * @since 4.7.0
 	 *
@@ -35,21 +35,25 @@ class WP_REST_Settings_Controller extends WP_REST_Controller {
 	 */
 	public function register_routes() {
 
-		register_rest_route( $this->namespace, '/' . $this->rest_base, array(
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->rest_base,
 			array(
-				'methods'             => WP_REST_Server::READABLE,
-				'callback'            => array( $this, 'get_item' ),
-				'args'                => array(),
-				'permission_callback' => array( $this, 'get_item_permissions_check' ),
-			),
-			array(
-				'methods'             => WP_REST_Server::EDITABLE,
-				'callback'            => array( $this, 'update_item' ),
-				'args'                => $this->get_endpoint_args_for_item_schema( WP_REST_Server::EDITABLE ),
-				'permission_callback' => array( $this, 'get_item_permissions_check' ),
-			),
-			'schema' => array( $this, 'get_public_item_schema' ),
-		) );
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_item' ),
+					'args'                => array(),
+					'permission_callback' => array( $this, 'get_item_permissions_check' ),
+				),
+				array(
+					'methods'             => WP_REST_Server::EDITABLE,
+					'callback'            => array( $this, 'update_item' ),
+					'args'                => $this->get_endpoint_args_for_item_schema( WP_REST_Server::EDITABLE ),
+					'permission_callback' => array( $this, 'get_item_permissions_check' ),
+				),
+				'schema' => array( $this, 'get_public_item_schema' ),
+			)
+		);
 
 	}
 
@@ -119,23 +123,16 @@ class WP_REST_Settings_Controller extends WP_REST_Controller {
 	 * @return mixed The prepared value.
 	 */
 	protected function prepare_value( $value, $schema ) {
-		// If the value is not a scalar, it's not possible to cast it to anything.
-		if ( ! is_scalar( $value ) ) {
+		/*
+		 * If the value is not valid by the schema, set the value to null.
+		 * Null values are specifically non-destructive, so this will not cause
+		 * overwriting the current invalid value to null.
+		 */
+		if ( is_wp_error( rest_validate_value_from_schema( $value, $schema ) ) ) {
 			return null;
 		}
 
-		switch ( $schema['type'] ) {
-			case 'string':
-				return (string) $value;
-			case 'integer':
-				return (int) $value;
-			case 'number':
-				return (float) $value;
-			case 'boolean':
-				return (bool) $value;
-			default:
-				return null;
-		}
+		return rest_sanitize_value_from_schema( $value, $schema );
 	}
 
 	/**
@@ -148,7 +145,8 @@ class WP_REST_Settings_Controller extends WP_REST_Controller {
 	 */
 	public function update_item( $request ) {
 		$options = $this->get_registered_options();
-		$params  = $request->get_params();
+
+		$params = $request->get_params();
 
 		foreach ( $options as $name => $args ) {
 			if ( ! array_key_exists( $name, $params ) ) {
@@ -156,7 +154,7 @@ class WP_REST_Settings_Controller extends WP_REST_Controller {
 			}
 
 			/**
-			 * Filters whether to preempt a setting value update.
+			 * Filters whether to preempt a setting value update via the REST API.
 			 *
 			 * Allows hijacking the setting update logic and overriding the built-in behavior by
 			 * returning true.
@@ -187,14 +185,17 @@ class WP_REST_Settings_Controller extends WP_REST_Controller {
 				 *
 				 * To protect clients from accidentally including the null
 				 * values from a response object in a request, we do not allow
-				 * options with non-scalar values to be updated to null.
+				 * options with values that don't pass validation to be updated to null.
 				 * Without this added protection a client could mistakenly
-				 * delete all options that have non-scalar values from the
+				 * delete all options that have invalid values from the
 				 * database.
 				 */
-				if ( ! is_scalar( get_option( $args['option_name'], false ) ) ) {
+				if ( is_wp_error( rest_validate_value_from_schema( get_option( $args['option_name'], false ), $args['schema'] ) ) ) {
 					return new WP_Error(
-						'rest_invalid_stored_value', sprintf( __( 'The %s property has an invalid stored value, and cannot be updated to null.' ), $name ), array( 'status' => 500 )
+						'rest_invalid_stored_value',
+						/* translators: %s: Property name. */
+						sprintf( __( 'The %s property has an invalid stored value, and cannot be updated to null.' ), $name ),
+						array( 'status' => 500 )
 					);
 				}
 
@@ -241,7 +242,7 @@ class WP_REST_Settings_Controller extends WP_REST_Controller {
 				'default'     => isset( $args['default'] ) ? $args['default'] : null,
 			);
 
-			$rest_args['schema'] = array_merge( $default_schema, $rest_args['schema'] );
+			$rest_args['schema']      = array_merge( $default_schema, $rest_args['schema'] );
 			$rest_args['option_name'] = $name;
 
 			// Skip over settings that don't have a defined type in the schema.
@@ -250,12 +251,14 @@ class WP_REST_Settings_Controller extends WP_REST_Controller {
 			}
 
 			/*
-			 * Whitelist the supported types for settings, as we don't want invalid types
+			 * Allow the supported types for settings, as we don't want invalid types
 			 * to be updated with arbitrary values that we can't do decent sanitizing for.
 			 */
-			if ( ! in_array( $rest_args['schema']['type'], array( 'number', 'integer', 'string', 'boolean' ), true ) ) {
+			if ( ! in_array( $rest_args['schema']['type'], array( 'number', 'integer', 'string', 'boolean', 'array', 'object' ), true ) ) {
 				continue;
 			}
+
+			$rest_args['schema'] = $this->set_additional_properties_to_false( $rest_args['schema'] );
 
 			$rest_options[ $rest_args['name'] ] = $rest_args;
 		}
@@ -271,23 +274,29 @@ class WP_REST_Settings_Controller extends WP_REST_Controller {
 	 * @return array Item schema data.
 	 */
 	public function get_item_schema() {
+		if ( $this->schema ) {
+			return $this->add_additional_fields_schema( $this->schema );
+		}
+
 		$options = $this->get_registered_options();
 
 		$schema = array(
-			'$schema'    => 'http://json-schema.org/schema#',
+			'$schema'    => 'http://json-schema.org/draft-04/schema#',
 			'title'      => 'settings',
 			'type'       => 'object',
 			'properties' => array(),
 		);
 
 		foreach ( $options as $option_name => $option ) {
-			$schema['properties'][ $option_name ] = $option['schema'];
+			$schema['properties'][ $option_name ]                = $option['schema'];
 			$schema['properties'][ $option_name ]['arg_options'] = array(
 				'sanitize_callback' => array( $this, 'sanitize_callback' ),
 			);
 		}
 
-		return $this->add_additional_fields_schema( $schema );
+		$this->schema = $schema;
+
+		return $this->add_additional_fields_schema( $this->schema );
 	}
 
 	/**
@@ -295,19 +304,49 @@ class WP_REST_Settings_Controller extends WP_REST_Controller {
 	 *
 	 * By default, the schema of settings will throw an error if a value is set to
 	 * `null` as it's not a valid value for something like "type => string". We
-	 * provide a wrapper sanitizer to whitelist the use of `null`.
+	 * provide a wrapper sanitizer to allow the use of `null`.
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param  mixed           $value   The value for the setting.
-	 * @param  WP_REST_Request $request The request object.
-	 * @param  string          $param   The parameter name.
+	 * @param mixed           $value   The value for the setting.
+	 * @param WP_REST_Request $request The request object.
+	 * @param string          $param   The parameter name.
 	 * @return mixed|WP_Error
 	 */
 	public function sanitize_callback( $value, $request, $param ) {
 		if ( is_null( $value ) ) {
 			return $value;
 		}
+
 		return rest_parse_request_arg( $value, $request, $param );
+	}
+
+	/**
+	 * Recursively add additionalProperties = false to all objects in a schema.
+	 *
+	 * This is need to restrict properties of objects in settings values to only
+	 * registered items, as the REST API will allow additional properties by
+	 * default.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @param array $schema The schema array.
+	 * @return array
+	 */
+	protected function set_additional_properties_to_false( $schema ) {
+		switch ( $schema['type'] ) {
+			case 'object':
+				foreach ( $schema['properties'] as $key => $child_schema ) {
+					$schema['properties'][ $key ] = $this->set_additional_properties_to_false( $child_schema );
+				}
+
+				$schema['additionalProperties'] = false;
+				break;
+			case 'array':
+				$schema['items'] = $this->set_additional_properties_to_false( $schema['items'] );
+				break;
+		}
+
+		return $schema;
 	}
 }

@@ -16,52 +16,58 @@
 class WP_Filesystem_Direct extends WP_Filesystem_Base {
 
 	/**
-	 * constructor
+	 * Constructor.
 	 *
+	 * @since 2.5.0
 	 *
-	 * @param mixed $arg ignored argument
+	 * @param mixed $arg Not used.
 	 */
-	public function __construct($arg) {
+	public function __construct( $arg ) {
 		$this->method = 'direct';
 		$this->errors = new WP_Error();
 	}
 
 	/**
-	 * Reads entire file into a string
+	 * Reads entire file into a string.
 	 *
+	 * @since 2.5.0
 	 *
 	 * @param string $file Name of the file to read.
-	 * @return string|bool The function returns the read data or false on failure.
+	 * @return string|false Read data on success, false on failure.
 	 */
-	public function get_contents($file) {
-		return @file_get_contents($file);
+	public function get_contents( $file ) {
+		return @file_get_contents( $file );
 	}
 
 	/**
-	 * Reads entire file into an array
+	 * Reads entire file into an array.
 	 *
+	 * @since 2.5.0
 	 *
 	 * @param string $file Path to the file.
-	 * @return array|bool the file contents in an array or false on failure.
+	 * @return array|false File contents in an array on success, false on failure.
 	 */
-	public function get_contents_array($file) {
-		return @file($file);
+	public function get_contents_array( $file ) {
+		return @file( $file );
 	}
 
 	/**
-	 * Write a string to a file
+	 * Writes a string to a file.
 	 *
+	 * @since 2.5.0
 	 *
-	 * @param string $file     Remote path to the file where to write the data.
-	 * @param string $contents The data to write.
-	 * @param int    $mode     Optional. The file permissions as octal number, usually 0644.
-	 *                         Default false.
-	 * @return bool False upon failure, true otherwise.
+	 * @param string    $file     Remote path to the file where to write the data.
+	 * @param string    $contents The data to write.
+	 * @param int|false $mode     Optional. The file permissions as octal number, usually 0644.
+	 *                            Default false.
+	 * @return bool True on success, false on failure.
 	 */
 	public function put_contents( $file, $contents, $mode = false ) {
 		$fp = @fopen( $file, 'wb' );
-		if ( ! $fp )
+
+		if ( ! $fp ) {
 			return false;
+		}
 
 		mbstring_binary_safe_encoding();
 
@@ -73,8 +79,9 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 
 		fclose( $fp );
 
-		if ( $data_length !== $bytes_written )
+		if ( $data_length !== $bytes_written ) {
 			return false;
+		}
 
 		$this->chmod( $file, $mode );
 
@@ -82,187 +89,256 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	}
 
 	/**
-	 * Gets the current working directory
+	 * Gets the current working directory.
 	 *
+	 * @since 2.5.0
 	 *
-	 * @return string|bool the current working directory on success, or false on failure.
+	 * @return string|false The current working directory on success, false on failure.
 	 */
 	public function cwd() {
-		return @getcwd();
+		return getcwd();
 	}
 
 	/**
-	 * Change directory
+	 * Changes current directory.
 	 *
+	 * @since 2.5.0
 	 *
 	 * @param string $dir The new current directory.
-	 * @return bool Returns true on success or false on failure.
+	 * @return bool True on success, false on failure.
 	 */
-	public function chdir($dir) {
-		return @chdir($dir);
+	public function chdir( $dir ) {
+		return @chdir( $dir );
 	}
 
 	/**
-	 * Changes file group
+	 * Changes the file group.
 	 *
+	 * @since 2.5.0
 	 *
-	 * @param string $file      Path to the file.
-	 * @param mixed  $group     A group name or number.
-	 * @param bool   $recursive Optional. If set True changes file group recursively. Default false.
-	 * @return bool Returns true on success or false on failure.
+	 * @param string     $file      Path to the file.
+	 * @param string|int $group     A group name or number.
+	 * @param bool       $recursive Optional. If set to true, changes file group recursively.
+	 *                              Default false.
+	 * @return bool True on success, false on failure.
 	 */
-	public function chgrp($file, $group, $recursive = false) {
-		if ( ! $this->exists($file) )
+	public function chgrp( $file, $group, $recursive = false ) {
+		if ( ! $this->exists( $file ) ) {
 			return false;
-		if ( ! $recursive )
-			return @chgrp($file, $group);
-		if ( ! $this->is_dir($file) )
-			return @chgrp($file, $group);
-		// Is a directory, and we want recursive
-		$file = trailingslashit($file);
-		$filelist = $this->dirlist($file);
-		foreach ($filelist as $filename)
-			$this->chgrp($file . $filename, $group, $recursive);
+		}
+
+		if ( ! $recursive ) {
+			return chgrp( $file, $group );
+		}
+
+		if ( ! $this->is_dir( $file ) ) {
+			return chgrp( $file, $group );
+		}
+
+		// Is a directory, and we want recursive.
+		$file     = trailingslashit( $file );
+		$filelist = $this->dirlist( $file );
+
+		foreach ( $filelist as $filename ) {
+			$this->chgrp( $file . $filename, $group, $recursive );
+		}
 
 		return true;
 	}
 
 	/**
-	 * Changes filesystem permissions
+	 * Changes filesystem permissions.
 	 *
+	 * @since 2.5.0
 	 *
-	 * @param string $file      Path to the file.
-	 * @param int    $mode      Optional. The permissions as octal number, usually 0644 for files,
-	 *                          0755 for dirs. Default false.
-	 * @param bool   $recursive Optional. If set True changes file group recursively. Default false.
-	 * @return bool Returns true on success or false on failure.
+	 * @param string    $file      Path to the file.
+	 * @param int|false $mode      Optional. The permissions as octal number, usually 0644 for files,
+	 *                             0755 for directories. Default false.
+	 * @param bool      $recursive Optional. If set to true, changes file permissions recursively.
+	 *                             Default false.
+	 * @return bool True on success, false on failure.
 	 */
-	public function chmod($file, $mode = false, $recursive = false) {
+	public function chmod( $file, $mode = false, $recursive = false ) {
 		if ( ! $mode ) {
-			if ( $this->is_file($file) )
+			if ( $this->is_file( $file ) ) {
 				$mode = FS_CHMOD_FILE;
-			elseif ( $this->is_dir($file) )
+			} elseif ( $this->is_dir( $file ) ) {
 				$mode = FS_CHMOD_DIR;
-			else
+			} else {
 				return false;
+			}
 		}
 
-		if ( ! $recursive || ! $this->is_dir($file) )
-			return @chmod($file, $mode);
-		// Is a directory, and we want recursive
-		$file = trailingslashit($file);
-		$filelist = $this->dirlist($file);
-		foreach ( (array)$filelist as $filename => $filemeta)
-			$this->chmod($file . $filename, $mode, $recursive);
+		if ( ! $recursive || ! $this->is_dir( $file ) ) {
+			return chmod( $file, $mode );
+		}
+
+		// Is a directory, and we want recursive.
+		$file     = trailingslashit( $file );
+		$filelist = $this->dirlist( $file );
+
+		foreach ( (array) $filelist as $filename => $filemeta ) {
+			$this->chmod( $file . $filename, $mode, $recursive );
+		}
 
 		return true;
 	}
 
 	/**
-	 * Changes file owner
+	 * Changes the owner of a file or directory.
 	 *
+	 * @since 2.5.0
 	 *
-	 * @param string $file      Path to the file.
-	 * @param mixed  $owner     A user name or number.
-	 * @param bool   $recursive Optional. If set True changes file owner recursively.
-	 *                          Default false.
-	 * @return bool Returns true on success or false on failure.
+	 * @param string     $file      Path to the file or directory.
+	 * @param string|int $owner     A user name or number.
+	 * @param bool       $recursive Optional. If set to true, changes file owner recursively.
+	 *                              Default false.
+	 * @return bool True on success, false on failure.
 	 */
-	public function chown($file, $owner, $recursive = false) {
-		if ( ! $this->exists($file) )
+	public function chown( $file, $owner, $recursive = false ) {
+		if ( ! $this->exists( $file ) ) {
 			return false;
-		if ( ! $recursive )
-			return @chown($file, $owner);
-		if ( ! $this->is_dir($file) )
-			return @chown($file, $owner);
-		// Is a directory, and we want recursive
-		$filelist = $this->dirlist($file);
-		foreach ($filelist as $filename) {
-			$this->chown($file . '/' . $filename, $owner, $recursive);
 		}
+
+		if ( ! $recursive ) {
+			return chown( $file, $owner );
+		}
+
+		if ( ! $this->is_dir( $file ) ) {
+			return chown( $file, $owner );
+		}
+
+		// Is a directory, and we want recursive.
+		$filelist = $this->dirlist( $file );
+
+		foreach ( $filelist as $filename ) {
+			$this->chown( $file . '/' . $filename, $owner, $recursive );
+		}
+
 		return true;
 	}
 
 	/**
-	 * Gets file owner
+	 * Gets the file owner.
 	 *
+	 * @since 2.5.0
 	 *
 	 * @param string $file Path to the file.
-	 * @return string|bool Username of the user or false on error.
+	 * @return string|false Username of the owner on success, false on failure.
 	 */
-	public function owner($file) {
-		$owneruid = @fileowner($file);
-		if ( ! $owneruid )
+	public function owner( $file ) {
+		$owneruid = @fileowner( $file );
+
+		if ( ! $owneruid ) {
 			return false;
-		if ( ! function_exists('posix_getpwuid') )
+		}
+
+		if ( ! function_exists( 'posix_getpwuid' ) ) {
 			return $owneruid;
-		$ownerarray = posix_getpwuid($owneruid);
+		}
+
+		$ownerarray = posix_getpwuid( $owneruid );
+
+		if ( ! $ownerarray ) {
+			return false;
+		}
+
 		return $ownerarray['name'];
 	}
 
 	/**
-	 * Gets file permissions
+	 * Gets the permissions of the specified file or filepath in their octal format.
 	 *
 	 * FIXME does not handle errors in fileperms()
 	 *
+	 * @since 2.5.0
 	 *
 	 * @param string $file Path to the file.
-	 * @return string Mode of the file (last 3 digits).
+	 * @return string Mode of the file (the last 3 digits).
 	 */
-	public function getchmod($file) {
+	public function getchmod( $file ) {
 		return substr( decoct( @fileperms( $file ) ), -3 );
 	}
 
 	/**
+	 * Gets the file's group.
 	 *
-	 * @param string $file
-	 * @return string|false
+	 * @since 2.5.0
+	 *
+	 * @param string $file Path to the file.
+	 * @return string|false The group on success, false on failure.
 	 */
-	public function group($file) {
-		$gid = @filegroup($file);
-		if ( ! $gid )
+	public function group( $file ) {
+		$gid = @filegroup( $file );
+
+		if ( ! $gid ) {
 			return false;
-		if ( ! function_exists('posix_getgrgid') )
+		}
+
+		if ( ! function_exists( 'posix_getgrgid' ) ) {
 			return $gid;
-		$grouparray = posix_getgrgid($gid);
+		}
+
+		$grouparray = posix_getgrgid( $gid );
+
+		if ( ! $grouparray ) {
+			return false;
+		}
+
 		return $grouparray['name'];
 	}
 
 	/**
+	 * Copies a file.
 	 *
-	 * @param string $source
-	 * @param string $destination
-	 * @param bool   $overwrite
-	 * @param int    $mode
-	 * @return bool
+	 * @since 2.5.0
+	 *
+	 * @param string    $source      Path to the source file.
+	 * @param string    $destination Path to the destination file.
+	 * @param bool      $overwrite   Optional. Whether to overwrite the destination file if it exists.
+	 *                               Default false.
+	 * @param int|false $mode        Optional. The permissions as octal number, usually 0644 for files,
+	 *                               0755 for dirs. Default false.
+	 * @return bool True on success, false on failure.
 	 */
-	public function copy($source, $destination, $overwrite = false, $mode = false) {
-		if ( ! $overwrite && $this->exists($destination) )
+	public function copy( $source, $destination, $overwrite = false, $mode = false ) {
+		if ( ! $overwrite && $this->exists( $destination ) ) {
 			return false;
+		}
 
-		$rtval = copy($source, $destination);
-		if ( $mode )
-			$this->chmod($destination, $mode);
+		$rtval = copy( $source, $destination );
+
+		if ( $mode ) {
+			$this->chmod( $destination, $mode );
+		}
+
 		return $rtval;
 	}
 
 	/**
+	 * Moves a file.
 	 *
-	 * @param string $source
-	 * @param string $destination
-	 * @param bool $overwrite
-	 * @return bool
+	 * @since 2.5.0
+	 *
+	 * @param string $source      Path to the source file.
+	 * @param string $destination Path to the destination file.
+	 * @param bool   $overwrite   Optional. Whether to overwrite the destination file if it exists.
+	 *                            Default false.
+	 * @return bool True on success, false on failure.
 	 */
-	public function move($source, $destination, $overwrite = false) {
-		if ( ! $overwrite && $this->exists($destination) )
+	public function move( $source, $destination, $overwrite = false ) {
+		if ( ! $overwrite && $this->exists( $destination ) ) {
 			return false;
+		}
 
 		// Try using rename first. if that fails (for example, source is read only) try copy.
-		if ( @rename($source, $destination) )
+		if ( @rename( $source, $destination ) ) {
 			return true;
+		}
 
-		if ( $this->copy($source, $destination, $overwrite) && $this->exists($destination) ) {
-			$this->delete($source);
+		if ( $this->copy( $source, $destination, $overwrite ) && $this->exists( $destination ) ) {
+			$this->delete( $source );
+
 			return true;
 		} else {
 			return false;
@@ -270,220 +346,319 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	}
 
 	/**
+	 * Deletes a file or directory.
 	 *
-	 * @param string $file
-	 * @param bool $recursive
-	 * @param string $type
-	 * @return bool
+	 * @since 2.5.0
+	 *
+	 * @param string       $file      Path to the file or directory.
+	 * @param bool         $recursive Optional. If set to true, deletes files and folders recursively.
+	 *                                Default false.
+	 * @param string|false $type      Type of resource. 'f' for file, 'd' for directory.
+	 *                                Default false.
+	 * @return bool True on success, false on failure.
 	 */
-	public function delete($file, $recursive = false, $type = false) {
-		if ( empty( $file ) ) // Some filesystems report this as /, which can cause non-expected recursive deletion of all files in the filesystem.
+	public function delete( $file, $recursive = false, $type = false ) {
+		if ( empty( $file ) ) {
+			// Some filesystems report this as /, which can cause non-expected recursive deletion of all files in the filesystem.
 			return false;
-		$file = str_replace( '\\', '/', $file ); // for win32, occasional problems deleting files otherwise
+		}
 
-		if ( 'f' == $type || $this->is_file($file) )
-			return @unlink($file);
-		if ( ! $recursive && $this->is_dir($file) )
-			return @rmdir($file);
+		$file = str_replace( '\\', '/', $file ); // For Win32, occasional problems deleting files otherwise.
 
-		// At this point it's a folder, and we're in recursive mode
-		$file = trailingslashit($file);
-		$filelist = $this->dirlist($file, true);
+		if ( 'f' === $type || $this->is_file( $file ) ) {
+			return @unlink( $file );
+		}
+
+		if ( ! $recursive && $this->is_dir( $file ) ) {
+			return @rmdir( $file );
+		}
+
+		// At this point it's a folder, and we're in recursive mode.
+		$file     = trailingslashit( $file );
+		$filelist = $this->dirlist( $file, true );
 
 		$retval = true;
+
 		if ( is_array( $filelist ) ) {
 			foreach ( $filelist as $filename => $fileinfo ) {
-				if ( ! $this->delete($file . $filename, $recursive, $fileinfo['type']) )
+				if ( ! $this->delete( $file . $filename, $recursive, $fileinfo['type'] ) ) {
 					$retval = false;
+				}
 			}
 		}
 
-		if ( file_exists($file) && ! @rmdir($file) )
+		if ( file_exists( $file ) && ! @rmdir( $file ) ) {
 			$retval = false;
+		}
 
 		return $retval;
 	}
+
 	/**
+	 * Checks if a file or directory exists.
 	 *
-	 * @param string $file
-	 * @return bool
-	 */
-	public function exists($file) {
-		return @file_exists($file);
-	}
-	/**
+	 * @since 2.5.0
 	 *
-	 * @param string $file
-	 * @return bool
+	 * @param string $file Path to file or directory.
+	 * @return bool Whether $file exists or not.
 	 */
-	public function is_file($file) {
-		return @is_file($file);
-	}
-	/**
-	 *
-	 * @param string $path
-	 * @return bool
-	 */
-	public function is_dir($path) {
-		return @is_dir($path);
+	public function exists( $file ) {
+		return @file_exists( $file );
 	}
 
 	/**
+	 * Checks if resource is a file.
 	 *
-	 * @param string $file
-	 * @return bool
+	 * @since 2.5.0
+	 *
+	 * @param string $file File path.
+	 * @return bool Whether $file is a file.
 	 */
-	public function is_readable($file) {
-		return @is_readable($file);
+	public function is_file( $file ) {
+		return @is_file( $file );
 	}
 
 	/**
+	 * Checks if resource is a directory.
 	 *
-	 * @param string $file
-	 * @return bool
+	 * @since 2.5.0
+	 *
+	 * @param string $path Directory path.
+	 * @return bool Whether $path is a directory.
 	 */
-	public function is_writable($file) {
-		return @is_writable($file);
+	public function is_dir( $path ) {
+		return @is_dir( $path );
 	}
 
 	/**
+	 * Checks if a file is readable.
 	 *
-	 * @param string $file
-	 * @return int
+	 * @since 2.5.0
+	 *
+	 * @param string $file Path to file.
+	 * @return bool Whether $file is readable.
 	 */
-	public function atime($file) {
-		return @fileatime($file);
+	public function is_readable( $file ) {
+		return @is_readable( $file );
 	}
 
 	/**
+	 * Checks if a file or directory is writable.
 	 *
-	 * @param string $file
-	 * @return int
+	 * @since 2.5.0
+	 *
+	 * @param string $file Path to file or directory.
+	 * @return bool Whether $file is writable.
 	 */
-	public function mtime($file) {
-		return @filemtime($file);
+	public function is_writable( $file ) {
+		return @is_writable( $file );
 	}
 
 	/**
+	 * Gets the file's last access time.
 	 *
-	 * @param string $file
-	 * @return int
+	 * @since 2.5.0
+	 *
+	 * @param string $file Path to file.
+	 * @return int|false Unix timestamp representing last access time, false on failure.
 	 */
-	public function size($file) {
-		return @filesize($file);
+	public function atime( $file ) {
+		return @fileatime( $file );
 	}
 
 	/**
+	 * Gets the file modification time.
 	 *
-	 * @param string $file
-	 * @param int $time
-	 * @param int $atime
-	 * @return bool
+	 * @since 2.5.0
+	 *
+	 * @param string $file Path to file.
+	 * @return int|false Unix timestamp representing modification time, false on failure.
 	 */
-	public function touch($file, $time = 0, $atime = 0) {
-		if ($time == 0)
+	public function mtime( $file ) {
+		return @filemtime( $file );
+	}
+
+	/**
+	 * Gets the file size (in bytes).
+	 *
+	 * @since 2.5.0
+	 *
+	 * @param string $file Path to file.
+	 * @return int|false Size of the file in bytes on success, false on failure.
+	 */
+	public function size( $file ) {
+		return @filesize( $file );
+	}
+
+	/**
+	 * Sets the access and modification times of a file.
+	 *
+	 * Note: If $file doesn't exist, it will be created.
+	 *
+	 * @since 2.5.0
+	 *
+	 * @param string $file  Path to file.
+	 * @param int    $time  Optional. Modified time to set for file.
+	 *                      Default 0.
+	 * @param int    $atime Optional. Access time to set for file.
+	 *                      Default 0.
+	 * @return bool True on success, false on failure.
+	 */
+	public function touch( $file, $time = 0, $atime = 0 ) {
+		if ( 0 === $time ) {
 			$time = time();
-		if ($atime == 0)
+		}
+
+		if ( 0 === $atime ) {
 			$atime = time();
-		return @touch($file, $time, $atime);
+		}
+
+		return touch( $file, $time, $atime );
 	}
 
 	/**
+	 * Creates a directory.
 	 *
-	 * @param string $path
-	 * @param mixed  $chmod
-	 * @param mixed  $chown
-	 * @param mixed  $chgrp
-	 * @return bool
+	 * @since 2.5.0
+	 *
+	 * @param string           $path  Path for new directory.
+	 * @param int|false        $chmod Optional. The permissions as octal number (or false to skip chmod).
+	 *                                Default false.
+	 * @param string|int|false $chown Optional. A user name or number (or false to skip chown).
+	 *                                Default false.
+	 * @param string|int|false $chgrp Optional. A group name or number (or false to skip chgrp).
+	 *                                Default false.
+	 * @return bool True on success, false on failure.
 	 */
-	public function mkdir($path, $chmod = false, $chown = false, $chgrp = false) {
+	public function mkdir( $path, $chmod = false, $chown = false, $chgrp = false ) {
 		// Safe mode fails with a trailing slash under certain PHP versions.
-		$path = untrailingslashit($path);
-		if ( empty($path) )
-			return false;
+		$path = untrailingslashit( $path );
 
-		if ( ! $chmod )
+		if ( empty( $path ) ) {
+			return false;
+		}
+
+		if ( ! $chmod ) {
 			$chmod = FS_CHMOD_DIR;
+		}
 
-		if ( ! @mkdir($path) )
+		if ( ! @mkdir( $path ) ) {
 			return false;
-		$this->chmod($path, $chmod);
-		if ( $chown )
-			$this->chown($path, $chown);
-		if ( $chgrp )
-			$this->chgrp($path, $chgrp);
+		}
+
+		$this->chmod( $path, $chmod );
+
+		if ( $chown ) {
+			$this->chown( $path, $chown );
+		}
+
+		if ( $chgrp ) {
+			$this->chgrp( $path, $chgrp );
+		}
+
 		return true;
 	}
 
 	/**
+	 * Deletes a directory.
 	 *
-	 * @param string $path
-	 * @param bool $recursive
-	 * @return bool
+	 * @since 2.5.0
+	 *
+	 * @param string $path      Path to directory.
+	 * @param bool   $recursive Optional. Whether to recursively remove files/directories.
+	 *                          Default false.
+	 * @return bool True on success, false on failure.
 	 */
-	public function rmdir($path, $recursive = false) {
-		return $this->delete($path, $recursive);
+	public function rmdir( $path, $recursive = false ) {
+		return $this->delete( $path, $recursive );
 	}
 
 	/**
+	 * Gets details for files in a directory or a specific file.
 	 *
-	 * @param string $path
-	 * @param bool $include_hidden
-	 * @param bool $recursive
-	 * @return bool|array
+	 * @since 2.5.0
+	 *
+	 * @param string $path           Path to directory or file.
+	 * @param bool   $include_hidden Optional. Whether to include details of hidden ("." prefixed) files.
+	 *                               Default true.
+	 * @param bool   $recursive      Optional. Whether to recursively include file details in nested directories.
+	 *                               Default false.
+	 * @return array|false {
+	 *     Array of files. False if unable to list directory contents.
+	 *
+	 *     @type string $name        Name of the file or directory.
+	 *     @type string $perms       *nix representation of permissions.
+	 *     @type int    $permsn      Octal representation of permissions.
+	 *     @type string $owner       Owner name or ID.
+	 *     @type int    $size        Size of file in bytes.
+	 *     @type int    $lastmodunix Last modified unix timestamp.
+	 *     @type mixed  $lastmod     Last modified month (3 letter) and day (without leading 0).
+	 *     @type int    $time        Last modified time.
+	 *     @type string $type        Type of resource. 'f' for file, 'd' for directory.
+	 *     @type mixed  $files       If a directory and $recursive is true, contains another array of files.
+	 * }
 	 */
-	public function dirlist($path, $include_hidden = true, $recursive = false) {
-		if ( $this->is_file($path) ) {
-			$limit_file = basename($path);
-			$path = dirname($path);
+	public function dirlist( $path, $include_hidden = true, $recursive = false ) {
+		if ( $this->is_file( $path ) ) {
+			$limit_file = basename( $path );
+			$path       = dirname( $path );
 		} else {
 			$limit_file = false;
 		}
 
-		if ( ! $this->is_dir($path) )
+		if ( ! $this->is_dir( $path ) || ! $this->is_readable( $path ) ) {
 			return false;
+		}
 
-		$dir = @dir($path);
-		if ( ! $dir )
+		$dir = dir( $path );
+
+		if ( ! $dir ) {
 			return false;
+		}
 
 		$ret = array();
 
-		while (false !== ($entry = $dir->read()) ) {
-			$struc = array();
+		while ( false !== ( $entry = $dir->read() ) ) {
+			$struc         = array();
 			$struc['name'] = $entry;
 
-			if ( '.' == $struc['name'] || '..' == $struc['name'] )
+			if ( '.' === $struc['name'] || '..' === $struc['name'] ) {
 				continue;
+			}
 
-			if ( ! $include_hidden && '.' == $struc['name'][0] )
+			if ( ! $include_hidden && '.' === $struc['name'][0] ) {
 				continue;
+			}
 
-			if ( $limit_file && $struc['name'] != $limit_file)
+			if ( $limit_file && $struc['name'] !== $limit_file ) {
 				continue;
+			}
 
-			$struc['perms'] 	= $this->gethchmod($path.'/'.$entry);
-			$struc['permsn']	= $this->getnumchmodfromh($struc['perms']);
-			$struc['number'] 	= false;
-			$struc['owner']    	= $this->owner($path.'/'.$entry);
-			$struc['group']    	= $this->group($path.'/'.$entry);
-			$struc['size']    	= $this->size($path.'/'.$entry);
-			$struc['lastmodunix']= $this->mtime($path.'/'.$entry);
-			$struc['lastmod']   = date('M j',$struc['lastmodunix']);
-			$struc['time']    	= date('h:i:s',$struc['lastmodunix']);
-			$struc['type']		= $this->is_dir($path.'/'.$entry) ? 'd' : 'f';
+			$struc['perms']       = $this->gethchmod( $path . '/' . $entry );
+			$struc['permsn']      = $this->getnumchmodfromh( $struc['perms'] );
+			$struc['number']      = false;
+			$struc['owner']       = $this->owner( $path . '/' . $entry );
+			$struc['group']       = $this->group( $path . '/' . $entry );
+			$struc['size']        = $this->size( $path . '/' . $entry );
+			$struc['lastmodunix'] = $this->mtime( $path . '/' . $entry );
+			$struc['lastmod']     = gmdate( 'M j', $struc['lastmodunix'] );
+			$struc['time']        = gmdate( 'h:i:s', $struc['lastmodunix'] );
+			$struc['type']        = $this->is_dir( $path . '/' . $entry ) ? 'd' : 'f';
 
-			if ( 'd' == $struc['type'] ) {
-				if ( $recursive )
-					$struc['files'] = $this->dirlist($path . '/' . $struc['name'], $include_hidden, $recursive);
-				else
+			if ( 'd' === $struc['type'] ) {
+				if ( $recursive ) {
+					$struc['files'] = $this->dirlist( $path . '/' . $struc['name'], $include_hidden, $recursive );
+				} else {
 					$struc['files'] = array();
+				}
 			}
 
 			$ret[ $struc['name'] ] = $struc;
 		}
+
 		$dir->close();
-		unset($dir);
+		unset( $dir );
+
 		return $ret;
 	}
 }

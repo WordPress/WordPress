@@ -32,20 +32,29 @@
 		</div><!-- .entry-meta -->
 	</header><!-- .entry-header -->
 
-	<?php if ( is_search() ) : // Only display Excerpts for Search ?>
+	<?php if ( is_search() ) : // Only display excerpts for search. ?>
 	<div class="entry-summary">
 		<?php the_excerpt(); ?>
 	</div><!-- .entry-summary -->
 	<?php else : ?>
 	<div class="entry-content">
 		<?php
-			/* translators: %s: Name of current post */
-			the_content( sprintf(
-				__( 'Continue reading %s <span class="meta-nav">&rarr;</span>', 'twentythirteen' ),
-				the_title( '<span class="screen-reader-text">', '</span>', false )
-			) );
+			the_content(
+				sprintf(
+					/* translators: %s: Post title. */
+					__( 'Continue reading %s <span class="meta-nav">&rarr;</span>', 'twentythirteen' ),
+					the_title( '<span class="screen-reader-text">', '</span>', false )
+				)
+			);
 
-			wp_link_pages( array( 'before' => '<div class="page-links"><span class="page-links-title">' . __( 'Pages:', 'twentythirteen' ) . '</span>', 'after' => '</div>', 'link_before' => '<span>', 'link_after' => '</span>' ) );
+			wp_link_pages(
+				array(
+					'before'      => '<div class="page-links"><span class="page-links-title">' . __( 'Pages:', 'twentythirteen' ) . '</span>',
+					'after'       => '</div>',
+					'link_before' => '<span>',
+					'link_after'  => '</span>',
+				)
+			);
 		?>
 	</div><!-- .entry-content -->
 	<?php endif; ?>
