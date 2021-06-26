@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>technology &#8211; rLOVEutioners</title>
+	<atom:link href="http://idls.github.io/rLOVEutioners.com/tag/technology/feed/" rel="self" type="application/rss+xml" />
+	<link>http://idls.github.io/rLOVEutioners.com/</link>
+	<description>revoution for evolution</description>
+	<lastBuildDate>Sun, 13 Jun 2021 13:52:24 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=5.7.2</generator>
+	<item>
+		<title>Over 365 Cool, Innovative and Best Profile Picture Ideas – Male Only</title>
+		<link>http://idls.github.io/rLOVEutioners.com/best-facebook-linkedin-orkut-myspace-profile-pics-photos-images-ideas/</link>
+					<comments>http://idls.github.io/rLOVEutioners.com/best-facebook-linkedin-orkut-myspace-profile-pics-photos-images-ideas/#respond</comments>
+		
+		<dc:creator><![CDATA[ku1deep]]></dc:creator>
+		<pubDate>Mon, 05 Sep 2011 13:20:41 +0000</pubDate>
+				<category><![CDATA[Social]]></category>
+		<category><![CDATA[internet]]></category>
+		<category><![CDATA[technology]]></category>
+		<category><![CDATA[tricks]]></category>
+		<guid isPermaLink="false">http://www.revolutioners.com/?p=47</guid>
+
+					<description><![CDATA[While I was hunting for suitable theme for Revolutioners, I stumbled upon a theme website. The theme was not that good but the content on that site made me post this article. It had lot of images of a single person. I thought it would be a good idea to have it as a single &#8230; <a href="http://idls.github.io/rLOVEutioners.com/best-facebook-linkedin-orkut-myspace-profile-pics-photos-images-ideas/" class="more-link">Continue reading <span class="screen-reader-text">Over 365 Cool, Innovative and Best Profile Picture Ideas – Male Only</span></a>]]></description>
+										<content:encoded><![CDATA[<p>While I was hunting for suitable theme for Revolutioners, I stumbled upon a theme website. The theme was not that good but the content on that site made me post this article. It had lot of images of a single person. I thought it would be a good idea to have it as a single point to refer in case anyone is looking for ideas for his/her next Facebook or any other Social Media profile picture. I saved the whole site as Image and posting it here on my blog. I really liked the ideas of the pictures shown on the blog. If you need inspiration for clicking your own picture for your social website’s profile then look nowhere else. The image is really long and huge in size. So be careful.</p>
+<p><img class="alignnone" src="https://web.archive.org/web/20120323131000im_/http://img24.imageshack.us/img24/5550/facebookprofilepicturei.jpg" alt="Social Networking Profile Picture Idea" width="600"></p>
+<p><a href="https://web.archive.org/web/20120323131000/http://img24.imageshack.us/img24/5550/facebookprofilepicturei.jpg">Link to full size image</a></p>
+
+
+<p></p>
+]]></content:encoded>
+					
+					<wfw:commentRss>http://idls.github.io/rLOVEutioners.com/best-facebook-linkedin-orkut-myspace-profile-pics-photos-images-ideas/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>How to use Hiren Boot CD programs with switches</title>
+		<link>http://idls.github.io/rLOVEutioners.com/notron-ghost-switches-hiren-bootcd-application-switches-command-prompt/</link>
+					<comments>http://idls.github.io/rLOVEutioners.com/notron-ghost-switches-hiren-bootcd-application-switches-command-prompt/#respond</comments>
+		
+		<dc:creator><![CDATA[ku1deep]]></dc:creator>
+		<pubDate>Fri, 02 Jul 2010 10:20:24 +0000</pubDate>
+				<category><![CDATA[Personal]]></category>
+		<category><![CDATA[internet]]></category>
+		<category><![CDATA[technology]]></category>
+		<category><![CDATA[tricks]]></category>
+		<guid isPermaLink="false">http://www.revolutioners.com/?p=176</guid>
+
+					<description><![CDATA[Last night it look me over 3 hours to understand the problem why Norton Ghost was acting weird. I was not able to clone my laptop hard drive with an existing image. The image was correct and consistent however Norton Ghost while restoring kept giving me some inconsistency errors. Image was created with a 160 &#8230; <a href="http://idls.github.io/rLOVEutioners.com/notron-ghost-switches-hiren-bootcd-application-switches-command-prompt/" class="more-link">Continue reading <span class="screen-reader-text">How to use Hiren Boot CD programs with switches</span></a>]]></description>
+										<content:encoded><![CDATA[<p>Last night it look me over 3 hours to understand the problem why Norton Ghost was acting weird. I was not able to clone my laptop hard drive with an existing image. The image was correct and consistent however Norton Ghost while restoring kept giving me some inconsistency errors. Image was created with a 160 GB partition and I was restoring it on 320 GB drive. I tried both ways to restore. Image to Drive and Image to Disk. But every time it gave me inconsistency errors.<br />
+<span id="more-2028"></span></p>
+<p>Finally after some research I found out the solution for the problem. There are various switches that you can use on command line Ghost. I had to use <strong>-ntc-</strong> switch. This switch basically Disables NTFS contiguous run allocation which makes the image to be restored on any hard drive with any size of drive. But unfortunately when you use Hiren Bootcd you can not run Ghost with any switch.</p>
+<p>But suddenly all my problems were solved. Actually what happens is whenever you run any program from the menu it first gets extracted and then gets saved in the RAM drive created by the CD. That’s it. That was the solution.</p>
+<p>To run Ghost or any other program from Hiren Bootcd with switches follow the steps below:</p>
+<ol>
+<li>Boot with Hiren BootCD.</li>
+<li>Run a program of your choice. I was using Ghost so I will continue with Ghost with the example.</li>
+<li>Once Ghost is up and running <strong>Exi</strong>t it without doing anything.</li>
+<li>It will take you back to the Command Prompt.</li>
+<li>Now use <strong>Ghost.exe -ntc-</strong></li>
+<li>That’s it. Similarily you can use any program with their compatible switches. All you need to do is run it first and then exit it.</li>
+</ol>
+<p>Pretty Simple huh !!</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>http://idls.github.io/rLOVEutioners.com/notron-ghost-switches-hiren-bootcd-application-switches-command-prompt/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Indian Developers &#8211; Help Indian Government</title>
+		<link>http://idls.github.io/rLOVEutioners.com/where-the-hell-are-indian-web-developers/</link>
+					<comments>http://idls.github.io/rLOVEutioners.com/where-the-hell-are-indian-web-developers/#respond</comments>
+		
+		<dc:creator><![CDATA[ku1deep]]></dc:creator>
+		<pubDate>Sun, 12 Jul 2009 08:27:46 +0000</pubDate>
+				<category><![CDATA[Social]]></category>
+		<category><![CDATA[govt]]></category>
+		<category><![CDATA[india]]></category>
+		<category><![CDATA[internet]]></category>
+		<category><![CDATA[technology]]></category>
+		<guid isPermaLink="false">http://www.revolutioners.com/?p=155</guid>
+
+					<description><![CDATA[What are you thinking now ? Does India not have good Web Developers ? Why Indian Govt websites are such pathetic to look. Is Indian Govt running out of Funds for spending money on our Country’s website. I mean this is the only thing the world looks at now days for a legitimate source of &#8230; <a href="http://idls.github.io/rLOVEutioners.com/where-the-hell-are-indian-web-developers/" class="more-link">Continue reading <span class="screen-reader-text">Indian Developers &#8211; Help Indian Government</span></a>]]></description>
+										<content:encoded><![CDATA[<p>What are you thinking now ? Does India not have good Web Developers ? Why Indian Govt websites are such pathetic to look. Is Indian Govt running out of Funds for spending money on our Country’s website. I mean this is the only thing the world looks at now days for a legitimate source of information. I feel Indian Govt websites are created just for the sake of creating them. So what do you think is responsible for this situation. Let me tell you one thing before you come to any conclusion. India has more than 50% of the Software Development Industry business. Its our sick old politicians. Who, in 21st Century don’t even know how a computer is operated. Till the time we have the old generation ruling India, we the younger generation will keep facing the issues.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>http://idls.github.io/rLOVEutioners.com/where-the-hell-are-indian-web-developers/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>
