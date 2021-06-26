@@ -4,7 +4,7 @@
  *
  * @package WordPress
  * @subpackage Twenty_Seventeen
- * @since 1.0
+ * @since Twenty Seventeen 1.0
  * @version 1.0
  */
 
@@ -25,7 +25,7 @@
 			$description = get_bloginfo( 'description', 'display' );
 
 			if ( $description || is_customize_preview() ) :
-			?>
+				?>
 				<p class="site-description"><?php echo $description; ?></p>
 			<?php endif; ?>
 		</div><!-- .site-branding-text -->

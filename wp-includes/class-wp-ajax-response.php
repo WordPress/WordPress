@@ -18,13 +18,15 @@ class WP_Ajax_Response {
 	 * Constructor - Passes args to WP_Ajax_Response::add().
 	 *
 	 * @since 2.1.0
+	 *
 	 * @see WP_Ajax_Response::add()
 	 *
 	 * @param string|array $args Optional. Will be passed to add() method.
 	 */
 	public function __construct( $args = '' ) {
-		if ( !empty($args) )
-			$this->add($args);
+		if ( ! empty( $args ) ) {
+			$this->add( $args );
+		}
 	}
 
 	/**
@@ -53,7 +55,7 @@ class WP_Ajax_Response {
 	 *     @type int|false       $old_id       The previous response ID. Used as the value for the response type
 	 *                                         `old_id` attribute. False hides the attribute. Default false.
 	 *     @type string          $position     Value of the response type `position` attribute. Accepts 1 (bottom),
-	 *                                         -1 (top), html ID (after), or -html ID (before). Default 1 (bottom).
+	 *                                         -1 (top), HTML ID (after), or -HTML ID (before). Default 1 (bottom).
 	 *     @type string|WP_Error $data         The response content/message. Also accepts a WP_Error object if the
 	 *                                         ID does not exist. Default empty.
 	 *     @type array           $supplemental An array of extra strings that will be output within a `<supplemental>`
@@ -63,36 +65,40 @@ class WP_Ajax_Response {
 	 */
 	public function add( $args = '' ) {
 		$defaults = array(
-			'what' => 'object', 'action' => false,
-			'id' => '0', 'old_id' => false,
-			'position' => 1,
-			'data' => '', 'supplemental' => array()
+			'what'         => 'object',
+			'action'       => false,
+			'id'           => '0',
+			'old_id'       => false,
+			'position'     => 1,
+			'data'         => '',
+			'supplemental' => array(),
 		);
 
-		$r = wp_parse_args( $args, $defaults );
+		$parsed_args = wp_parse_args( $args, $defaults );
 
-		$position = preg_replace( '/[^a-z0-9:_-]/i', '', $r['position'] );
-		$id = $r['id'];
-		$what = $r['what'];
-		$action = $r['action'];
-		$old_id = $r['old_id'];
-		$data = $r['data'];
+		$position = preg_replace( '/[^a-z0-9:_-]/i', '', $parsed_args['position'] );
+		$id       = $parsed_args['id'];
+		$what     = $parsed_args['what'];
+		$action   = $parsed_args['action'];
+		$old_id   = $parsed_args['old_id'];
+		$data     = $parsed_args['data'];
 
 		if ( is_wp_error( $id ) ) {
 			$data = $id;
-			$id = 0;
+			$id   = 0;
 		}
 
 		$response = '';
 		if ( is_wp_error( $data ) ) {
 			foreach ( (array) $data->get_error_codes() as $code ) {
-				$response .= "<wp_error code='$code'><![CDATA[" . $data->get_error_message( $code ) . "]]></wp_error>";
-				if ( ! $error_data = $data->get_error_data( $code ) ) {
+				$response  .= "<wp_error code='$code'><![CDATA[" . $data->get_error_message( $code ) . ']]></wp_error>';
+				$error_data = $data->get_error_data( $code );
+				if ( ! $error_data ) {
 					continue;
 				}
 				$class = '';
 				if ( is_object( $error_data ) ) {
-					$class = ' class="' . get_class( $error_data ) . '"';
+					$class      = ' class="' . get_class( $error_data ) . '"';
 					$error_data = get_object_vars( $error_data );
 				}
 
@@ -106,15 +112,15 @@ class WP_Ajax_Response {
 					}
 				}
 
-				$response .= "</wp_error_data>";
+				$response .= '</wp_error_data>';
 			}
 		} else {
 			$response = "<response_data><![CDATA[$data]]></response_data>";
 		}
 
 		$s = '';
-		if ( is_array( $r['supplemental'] ) ) {
-			foreach ( $r['supplemental'] as $k => $v ) {
+		if ( is_array( $parsed_args['supplemental'] ) ) {
+			foreach ( $parsed_args['supplemental'] as $k => $v ) {
 				$s .= "<$k><![CDATA[$v]]></$k>";
 			}
 			$s = "<supplemental>$s</supplemental>";
@@ -123,13 +129,13 @@ class WP_Ajax_Response {
 		if ( false === $action ) {
 			$action = $_POST['action'];
 		}
-		$x = '';
-		$x .= "<response action='{$action}_$id'>"; // The action attribute in the xml output is formatted like a nonce action
-		$x .=	"<$what id='$id' " . ( false === $old_id ? '' : "old_id='$old_id' " ) . "position='$position'>";
-		$x .=		$response;
-		$x .=		$s;
-		$x .=	"</$what>";
-		$x .= "</response>";
+		$x  = '';
+		$x .= "<response action='{$action}_$id'>"; // The action attribute in the xml output is formatted like a nonce action.
+		$x .= "<$what id='$id' " . ( false === $old_id ? '' : "old_id='$old_id' " ) . "position='$position'>";
+		$x .= $response;
+		$x .= $s;
+		$x .= "</$what>";
+		$x .= '</response>';
 
 		$this->responses[] = $x;
 		return $x;
@@ -145,12 +151,14 @@ class WP_Ajax_Response {
 	public function send() {
 		header( 'Content-Type: text/xml; charset=' . get_option( 'blog_charset' ) );
 		echo "<?xml version='1.0' encoding='" . get_option( 'blog_charset' ) . "' standalone='yes'?><wp_ajax>";
-		foreach ( (array) $this->responses as $response )
+		foreach ( (array) $this->responses as $response ) {
 			echo $response;
+		}
 		echo '</wp_ajax>';
-		if ( wp_doing_ajax() )
+		if ( wp_doing_ajax() ) {
 			wp_die();
-		else
+		} else {
 			die();
+		}
 	}
 }

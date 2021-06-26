@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////
 /// getID3() by James Heinrich <info@getid3.org>               //
 //  available at http://getid3.sourceforge.net                 //
-//            or http://www.getid3.org                         //
+//            or https://www.getid3.org                        //
 //          also https://github.com/JamesHeinrich/getID3       //
 /////////////////////////////////////////////////////////////////
 
@@ -18,9 +18,9 @@ GNU GPL: https://gnu.org/licenses/gpl.html                   (v3)
 
 GNU LGPL: https://gnu.org/licenses/lgpl.html                 (v3)
 
-Mozilla MPL: http://www.mozilla.org/MPL/2.0/                 (v2)
+Mozilla MPL: https://www.mozilla.org/MPL/2.0/                (v2)
 
-getID3 Commercial License: http://getid3.org/#gCL (payment required)
+getID3 Commercial License: https://www.getid3.org/#gCL (payment required)
 
 *****************************************************************
 *****************************************************************

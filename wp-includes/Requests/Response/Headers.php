@@ -21,7 +21,7 @@ class Requests_Response_Headers extends Requests_Utility_CaseInsensitiveDictiona
 	 * Set-Cookie headers.
 	 *
 	 * @param string $key
-	 * @return string Header value
+	 * @return string|null Header value
 	 */
 	public function offsetGet($key) {
 		$key = strtolower($key);
@@ -58,7 +58,7 @@ class Requests_Response_Headers extends Requests_Utility_CaseInsensitiveDictiona
 	 * Get all values for a given header
 	 *
 	 * @param string $key
-	 * @return array Header values
+	 * @return array|null Header values
 	 */
 	public function getValues($key) {
 		$key = strtolower($key);

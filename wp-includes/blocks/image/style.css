@@ -1,0 +1,148 @@
+/**
+ * Colors
+ */
+/**
+ * Breakpoints & Media Queries
+ */
+/**
+ * SCSS Variables.
+ *
+ * Please use variables from this sheet to ensure consistency across the UI.
+ * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
+ * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
+ */
+/**
+ * Colors
+ */
+/**
+ * Fonts & basic variables.
+ */
+/**
+ * Grid System.
+ * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
+ */
+/**
+ * Dimensions.
+ */
+/**
+ * Shadows.
+ */
+/**
+ * Editor widths.
+ */
+/**
+ * Block & Editor UI.
+ */
+/**
+ * Block paddings.
+ */
+/**
+ * React Native specific.
+ * These variables do not appear to be used anywhere else.
+ */
+/**
+ * Breakpoint mixins
+ */
+/**
+ * Long content fade mixin
+ *
+ * Creates a fading overlay to signify that the content is longer
+ * than the space allows.
+ */
+/**
+ * Focus styles.
+ */
+/**
+ * Applies editor left position to the selector passed as argument
+ */
+/**
+ * Styles that are reused verbatim in a few places
+ */
+/**
+ * Allows users to opt-out of animations via OS-level preferences.
+ */
+/**
+ * Reset default styles for JavaScript UI based pages.
+ * This is a WP-admin agnostic reset
+ */
+/**
+ * Reset the WP Admin page styles for Gutenberg-like pages.
+ */
+.wp-block-image {
+  margin: 0 0 1em 0;
+}
+.wp-block-image img {
+  max-width: 100%;
+}
+.wp-block-image:not(.is-style-rounded) img {
+  border-radius: inherit;
+}
+.wp-block-image.aligncenter {
+  text-align: center;
+}
+.wp-block-image.alignfull img, .wp-block-image.alignwide img {
+  width: 100%;
+}
+.wp-block-image .alignleft,
+.wp-block-image .alignright,
+.wp-block-image .aligncenter {
+  display: table;
+}
+.wp-block-image .alignleft > figcaption,
+.wp-block-image .alignright > figcaption,
+.wp-block-image .aligncenter > figcaption {
+  display: table-caption;
+  caption-side: bottom;
+}
+.wp-block-image .alignleft {
+  /*rtl:ignore*/
+  float: left;
+  /*rtl:ignore*/
+  margin-left: 0;
+  margin-right: 1em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+.wp-block-image .alignright {
+  /*rtl:ignore*/
+  float: right;
+  /*rtl:ignore*/
+  margin-right: 0;
+  margin-left: 1em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+.wp-block-image .aligncenter {
+  margin-left: auto;
+  margin-right: auto;
+}
+.wp-block-image figcaption {
+  margin-top: 0.5em;
+  margin-bottom: 1em;
+}
+.wp-block-image.is-style-rounded img {
+  border-radius: 9999px;
+}
+.wp-block-image.is-style-circle-mask img {
+  border-radius: 9999px;
+}
+@supports ((-webkit-mask-image: none) or (mask-image: none)) or (-webkit-mask-image: none) {
+  .wp-block-image.is-style-circle-mask img {
+    /* stylelint-disable */
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="50"/></svg>');
+            mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="50"/></svg>');
+    /* stylelint-enable */
+    mask-mode: alpha;
+    -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+    -webkit-mask-size: contain;
+            mask-size: contain;
+    -webkit-mask-position: center;
+            mask-position: center;
+    border-radius: 0;
+  }
+}
+
+.wp-block-image figure {
+  margin: 0;
+}

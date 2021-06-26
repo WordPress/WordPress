@@ -1,6 +1,11 @@
+/**
+ * @output wp-includes/js/customize-models.js
+ */
+
 /* global _wpCustomizeHeader */
 (function( $, wp ) {
 	var api = wp.customize;
+	/** @namespace wp.customize.HeaderTool */
 	api.HeaderTool = {};
 
 
@@ -8,15 +13,18 @@
 	 * wp.customize.HeaderTool.ImageModel
 	 *
 	 * A header image. This is where saves via the Customizer API are
-	 * abstracted away, plus our own AJAX calls to add images to and remove
+	 * abstracted away, plus our own Ajax calls to add images to and remove
 	 * images from the user's recently uploaded images setting on the server.
 	 * These calls are made regardless of whether the user actually saves new
 	 * Customizer settings.
 	 *
+	 * @memberOf wp.customize.HeaderTool
+	 * @alias wp.customize.HeaderTool.ImageModel
+	 *
 	 * @constructor
 	 * @augments Backbone.Model
 	 */
-	api.HeaderTool.ImageModel = Backbone.Model.extend({
+	api.HeaderTool.ImageModel = Backbone.Model.extend(/** @lends wp.customize.HeaderTool.ImageModel.prototype */{
 		defaults: function() {
 			return {
 				header: {
@@ -45,8 +53,8 @@
 			var data = this.get('header'),
 				curr = api.HeaderTool.currentHeader.get('header').attachment_id;
 
-			// If the image we're removing is also the current header, unset
-			// the latter
+			// If the image we're removing is also the current header,
+			// unset the latter.
 			if (curr && data.attachment_id === curr) {
 				api.HeaderTool.currentHeader.trigger('hide');
 			}
@@ -125,13 +133,16 @@
 	/**
 	 * wp.customize.HeaderTool.ChoiceList
 	 *
+	 * @memberOf wp.customize.HeaderTool
+	 * @alias wp.customize.HeaderTool.ChoiceList
+	 *
 	 * @constructor
 	 * @augments Backbone.Collection
 	 */
 	api.HeaderTool.ChoiceList = Backbone.Collection.extend({
 		model: api.HeaderTool.ImageModel,
 
-		// Ordered from most recently used to least
+		// Ordered from most recently used to least.
 		comparator: function(model) {
 			return -model.get('header').timestamp;
 		},
@@ -140,23 +151,24 @@
 			var current = api.HeaderTool.currentHeader.get('choice').replace(/^https?:\/\//, ''),
 				isRandom = this.isRandomChoice(api.get().header_image);
 
-			// Overridable by an extending class
+			// Overridable by an extending class.
 			if (!this.type) {
 				this.type = 'uploaded';
 			}
 
-			// Overridable by an extending class
+			// Overridable by an extending class.
 			if (typeof this.data === 'undefined') {
 				this.data = _wpCustomizeHeader.uploads;
 			}
 
 			if (isRandom) {
-				// So that when adding data we don't hide regular images
+				// So that when adding data we don't hide regular images.
 				current = api.get().header_image;
 			}
 
 			this.on('control:setImage', this.setImage, this);
 			this.on('control:removeImage', this.removeImage, this);
+			this.on('add', this.maybeRemoveOldCrop, this);
 			this.on('add', this.maybeAddRandomChoice, this);
 
 			_.each(this.data, function(elt, index) {
@@ -177,6 +189,25 @@
 
 			if (this.size() > 0) {
 				this.addRandomChoice(current);
+			}
+		},
+
+		maybeRemoveOldCrop: function( model ) {
+			var newID = model.get( 'header' ).attachment_id || false,
+			 	oldCrop;
+
+			// Bail early if we don't have a new attachment ID.
+			if ( ! newID ) {
+				return;
+			}
+
+			oldCrop = this.find( function( item ) {
+				return ( item.cid !== model.cid && item.get( 'header' ).attachment_id === newID );
+			} );
+
+			// If we found an old crop, remove it from the collection.
+			if ( oldCrop ) {
+				this.remove( oldCrop );
 			}
 		},
 
@@ -231,6 +262,9 @@
 
 	/**
 	 * wp.customize.HeaderTool.DefaultsList
+	 *
+	 * @memberOf wp.customize.HeaderTool
+	 * @alias wp.customize.HeaderTool.DefaultsList
 	 *
 	 * @constructor
 	 * @augments wp.customize.HeaderTool.ChoiceList

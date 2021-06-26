@@ -9,11 +9,17 @@ body {
 
 /* Text meant only for screen readers */
 .screen-reader-text {
+	border: 0;
 	clip: rect(1px, 1px, 1px, 1px);
+	-webkit-clip-path: inset(50%);
+	clip-path: inset(50%);
 	height: 1px;
+	margin: -1px;
 	overflow: hidden;
-	position: absolute !important;
+	padding: 0;
+	position: absolute;
 	width: 1px;
+	word-wrap: normal !important;
 }
 
 /* Dashicons */
@@ -61,17 +67,17 @@ body {
 	font-weight: 400;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 	line-height: 1.5;
-	color: #82878c;
+	color: #8c8f94;
 	background: #fff;
-	border: 1px solid #e5e5e5;
-	box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+	border: 1px solid #dcdcde;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
 	/* Clearfix */
 	overflow: auto;
 	zoom: 1;
 }
 
 .wp-embed a {
-	color: #82878c;
+	color: #8c8f94;
 	text-decoration: none;
 }
 
@@ -107,11 +113,11 @@ p.wp-embed-heading {
 }
 
 .wp-embed-heading a {
-	color: #32373c;
+	color: #2c3338;
 }
 
 .wp-embed .wp-embed-more {
-	color: #b4b9be;
+	color: #c3c4c7;
 }
 
 .wp-embed-footer {
@@ -124,7 +130,6 @@ p.wp-embed-heading {
 	position: absolute;
 	top: 50%;
 	left: 0;
-	-webkit-transform: translateY(-50%);
 	transform: translateY(-50%);
 	height: 25px;
 	width: 25px;
@@ -133,7 +138,7 @@ p.wp-embed-heading {
 
 .wp-embed-site-title {
 	font-weight: 600;
-	line-height: 25px;
+	line-height: 1.78571428;
 }
 
 .wp-embed-site-title a {
@@ -160,11 +165,11 @@ p.wp-embed-heading {
 
 .wp-embed-meta a:hover {
 	text-decoration: none;
-	color: #0073aa;
+	color: #2271b1;
 }
 
 .wp-embed-comments a {
-	line-height: 25px;
+	line-height: 1.78571428;
 	display: inline-block;
 }
 
@@ -178,8 +183,8 @@ p.wp-embed-heading {
 	left: 0;
 	right: 0;
 	bottom: 0;
-	background-color: #222;
-	background-color: rgba(10, 10, 10, 0.9);
+	background-color: #1d2327;
+	background-color: rgba(0, 0, 0, 0.9);
 	color: #fff;
 	opacity: 1;
 	transition: opacity .25s ease-in-out;
@@ -211,7 +216,7 @@ p.wp-embed-heading {
 
 .wp-embed-share-dialog-open:focus .dashicons,
 .wp-embed-share-dialog-close:focus .dashicons {
-	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8);
+	box-shadow: 0 0 0 1px #4f94d4, 0 0 2px 1px rgba(79, 148, 212, 0.8);
 	border-radius: 100%;
 }
 
@@ -234,7 +239,6 @@ p.wp-embed-heading {
 
 .wp-embed-share-dialog-content {
 	height: 100%;
-	-webkit-transform-style: preserve-3d;
 	transform-style: preserve-3d;
 	overflow: hidden;
 }
@@ -261,7 +265,7 @@ p.wp-embed-heading {
 	background: transparent;
 	font-size: 16px;
 	line-height: 1.3;
-	color: #aaa;
+	color: #a7aaad;
 	cursor: pointer;
 	transition: color .1s ease-in;
 }
@@ -277,7 +281,7 @@ p.wp-embed-heading {
 .wp-embed-share-tab-button + .wp-embed-share-tab-button {
 	margin: 0 0 0 10px;
 	padding: 0 0 0 11px;
-	border-left: 1px solid #aaa;
+	border-left: 1px solid #a7aaad;
 }
 
 .wp-embed-share-tab[aria-hidden="true"] {
@@ -289,7 +293,7 @@ p.wp-embed-share-description {
 	font-size: 14px;
 	line-height: 1;
 	font-style: italic;
-	color: #aaa;
+	color: #a7aaad;
 }
 
 .wp-embed-share-input {
@@ -351,5 +355,5 @@ html[dir="rtl"] .wp-embed-share-tab-button + .wp-embed-share-tab-button {
 	margin: 0 10px 0 0;
 	padding: 0 11px 0 0;
 	border-left: none;
-	border-right: 1px solid #aaa;
+	border-right: 1px solid #a7aaad;
 }

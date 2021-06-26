@@ -1,10 +1,11 @@
 /**
- * Word or character counting functionality. Count words or characters in a provided text string.
- *
- * @summary   Count words or characters in a text.
+ * Word or character counting functionality. Count words or characters in a
+ * provided text string.
  *
  * @namespace wp.utils
- * @since     2.6.0
+ *
+ * @since 2.6.0
+ * @output wp-admin/js/word-count.js
  */
 
 ( function() {
@@ -37,11 +38,11 @@
 	 * @param {RegExp} settings.shortcodesRegExp                  Optional. Regular expression to find shortcodes.
 	 * @param {Object} settings.l10n                              Optional. Localization object containing specific
 	 *                                                            configuration for the current localization.
-	 * @param {String} settings.l10n.type                         Optional. Method of finding words to count.
+	 * @param {string} settings.l10n.type                         Optional. Method of finding words to count.
 	 * @param {Array}  settings.l10n.shortcodes                   Optional. Array of shortcodes that should be removed
 	 *                                                            from the text.
 	 *
-	 * @return void
+	 * @return {void}
 	 */
 	function WordCounter( settings ) {
 		var key,
@@ -73,17 +74,17 @@
 		spaceRegExp: /&nbsp;|&#160;/gi,
 		HTMLEntityRegExp: /&\S+?;/g,
 
-		// \u2014 = em-dash
+		// \u2014 = em-dash.
 		connectorRegExp: /--|\u2014/g,
 
 		// Characters to be removed from input text.
 		removeRegExp: new RegExp( [
 			'[',
 
-				// Basic Latin (extract)
+				// Basic Latin (extract).
 				'\u0021-\u0040\u005B-\u0060\u007B-\u007E',
 
-				// Latin-1 Supplement (extract)
+				// Latin-1 Supplement (extract).
 				'\u0080-\u00BF\u00D7\u00F7',
 
 				/*
@@ -115,7 +116,7 @@
 				 */
 				'\u2000-\u2BFF',
 
-				// Supplemental Punctuation
+				// Supplemental Punctuation.
 				'\u2E00-\u2E7F',
 			']'
 		].join( '' ), 'g' ),
@@ -143,15 +144,14 @@
 	/**
 	 * Counts the number of words (or other specified type) in the specified text.
 	 *
-	 * @summary  Count the number of elements in a text.
+	 * @since 2.6.0
 	 *
-	 * @since    2.6.0
 	 * @memberof wp.utils.wordcounter
 	 *
-	 * @param {String}  text Text to count elements in.
-	 * @param {String}  type Optional. Specify type to use.
+	 * @param {string}  text Text to count elements in.
+	 * @param {string}  type Optional. Specify type to use.
 	 *
-	 * @return {Number} The number of items counted.
+	 * @return {number} The number of items counted.
 	 */
 	WordCounter.prototype.count = function( text, type ) {
 		var count = 0;

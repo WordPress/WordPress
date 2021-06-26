@@ -171,7 +171,7 @@ class AtomParser {
             if($this->debug) $this->content .= $data;
 
             if(!xml_parse($parser, $data, feof($fp))) {
-                /* translators: 1: error message, 2: line number */
+                /* translators: 1: Error message, 2: Line number. */
                 trigger_error(sprintf(__('XML Error: %1$s at line %2$s')."\n",
                     xml_error_string(xml_get_error_code($parser)),
                     xml_get_current_line_number($parser)));
@@ -182,6 +182,7 @@ class AtomParser {
         fclose($fp);
 
         xml_parser_free($parser);
+        unset($parser);
 
         restore_error_handler();
 
@@ -190,7 +191,8 @@ class AtomParser {
 
     function start_element($parser, $name, $attrs) {
 
-        $tag = array_pop(explode(":", $name));
+        $name_parts = explode(":", $name);
+        $tag        = array_pop($name_parts);
 
         switch($name) {
             case $this->NS . ':feed':
@@ -269,7 +271,8 @@ class AtomParser {
 
     function end_element($parser, $name) {
 
-        $tag = array_pop(explode(":", $name));
+        $name_parts = explode(":", $name);
+        $tag        = array_pop($name_parts);
 
         $ccount = count($this->in_content);
 

@@ -1,3 +1,7 @@
+/**
+ * @output wp-admin/js/widgets/media-image-widget.js
+ */
+
 /* eslint consistent-this: [ "error", "control" ] */
 (function( component, $ ) {
 	'use strict';
@@ -9,8 +13,8 @@
 	 *
 	 * See WP_Widget_Media_Image::enqueue_admin_scripts() for amending prototype from PHP exports.
 	 *
-	 * @class ImageWidgetModel
-	 * @constructor
+	 * @class    wp.mediaWidgets.modelConstructors.media_image
+	 * @augments wp.mediaWidgets.MediaWidgetModel
 	 */
 	ImageWidgetModel = component.MediaWidgetModel.extend({});
 
@@ -19,15 +23,24 @@
 	 *
 	 * See WP_Widget_Media_Image::enqueue_admin_scripts() for amending prototype from PHP exports.
 	 *
-	 * @class ImageWidgetModel
-	 * @constructor
+	 * @class    wp.mediaWidgets.controlConstructors.media_audio
+	 * @augments wp.mediaWidgets.MediaWidgetControl
 	 */
-	ImageWidgetControl = component.MediaWidgetControl.extend({
+	ImageWidgetControl = component.MediaWidgetControl.extend(/** @lends wp.mediaWidgets.controlConstructors.media_image.prototype */{
+
+		/**
+		 * View events.
+		 *
+		 * @type {object}
+		 */
+		events: _.extend( {}, component.MediaWidgetControl.prototype.events, {
+			'click .media-widget-preview.populated': 'editMedia'
+		} ),
 
 		/**
 		 * Render preview.
 		 *
-		 * @returns {void}
+		 * @return {void}
 		 */
 		renderPreview: function renderPreview() {
 			var control = this, previewContainer, previewTemplate, fieldsContainer, fieldsTemplate, linkInput;
@@ -38,6 +51,7 @@
 			previewContainer = control.$el.find( '.media-widget-preview' );
 			previewTemplate = wp.template( 'wp-media-widget-image-preview' );
 			previewContainer.html( previewTemplate( control.previewTemplateProps.toJSON() ) );
+			previewContainer.addClass( 'populated' );
 
 			linkInput = control.$el.find( '.link' );
 			if ( ! linkInput.is( document.activeElement ) ) {
@@ -50,7 +64,7 @@
 		/**
 		 * Open the media image-edit frame to modify the selected item.
 		 *
-		 * @returns {void}
+		 * @return {void}
 		 */
 		editMedia: function editMedia() {
 			var control = this, mediaFrame, updateCallback, defaultSync, metadata;
@@ -105,7 +119,7 @@
 		/**
 		 * Get props which are merged on top of the model when an embed is chosen (as opposed to an attachment).
 		 *
-		 * @returns {Object} Reset/override props.
+		 * @return {Object} Reset/override props.
 		 */
 		getEmbedResetProps: function getEmbedResetProps() {
 			return _.extend(
@@ -124,7 +138,7 @@
 		 * Prevent the image_title attribute from being initially set when adding an image from the media library.
 		 *
 		 * @param {wp.media.view.MediaFrame.Select} mediaFrame - Select frame.
-		 * @returns {Object} Props.
+		 * @return {Object} Props.
 		 */
 		getModelPropsFromMediaFrame: function getModelPropsFromMediaFrame( mediaFrame ) {
 			var control = this;
@@ -137,7 +151,7 @@
 		/**
 		 * Map model props to preview template props.
 		 *
-		 * @returns {Object} Preview template props.
+		 * @return {Object} Preview template props.
 		 */
 		mapModelToPreviewTemplateProps: function mapModelToPreviewTemplateProps() {
 			var control = this, previewTemplateProps, url;

@@ -1,0 +1,25 @@
+{
+	"apiVersion": 2,
+	"name": "core/loginout",
+	"title": "Login/out",
+	"category": "theme",
+	"description": "Show login & logout links.",
+	"keywords": [ "login", "logout", "form" ],
+	"textdomain": "default",
+	"attributes": {
+		"displayLoginAsForm": {
+			"type": "boolean",
+			"default": false
+		},
+		"redirectToCurrent": {
+			"type": "boolean",
+			"default": true
+		}
+	},
+	"supports": {
+		"className": true,
+		"typography": {
+			"fontSize": false
+		}
+	}
+}

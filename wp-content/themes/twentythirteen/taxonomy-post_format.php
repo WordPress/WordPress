@@ -6,7 +6,7 @@
  * If you'd like to further customize these Post Format views, you may create a
  * new template file for each specific one.
  *
- * @link https://codex.wordpress.org/Template_Hierarchy
+ * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
  *
  * @package WordPress
  * @subpackage Twenty_Thirteen
@@ -20,11 +20,19 @@ get_header(); ?>
 
 		<?php if ( have_posts() ) : ?>
 			<header class="archive-header">
-				<h1 class="archive-title"><?php printf( __( '%s Archives', 'twentythirteen' ), '<span>' . esc_html( get_post_format_string( get_post_format() ) ) . '</span>' ); ?></h1>
+				<h1 class="archive-title">
+				<?php
+				/* translators: %s: Post format name. */
+				printf( __( '%s Archives', 'twentythirteen' ), '<span>' . esc_html( get_post_format_string( get_post_format() ) ) . '</span>' );
+				?>
+				</h1>
 			</header><!-- .archive-header -->
 
-			<?php /* The loop */ ?>
-			<?php while ( have_posts() ) : the_post(); ?>
+			<?php
+			// Start the loop.
+			while ( have_posts() ) :
+				the_post();
+				?>
 				<?php get_template_part( 'content', get_post_format() ); ?>
 			<?php endwhile; ?>
 

@@ -1,0 +1,108 @@
+/* OS dark theme preference */
+@media only screen {
+
+	.is-dark-theme.is-dark-theme {
+		--global--color-background: var(--global--color-dark-gray);
+		--global--color-primary: var(--global--color-light-gray);
+		--global--color-secondary: var(--global--color-light-gray);
+		--button--color-text: var(--global--color-background);
+		--button--color-text-hover: var(--global--color-secondary);
+		--button--color-text-active: var(--global--color-secondary);
+		--button--color-background: var(--global--color-secondary);
+		--button--color-background-active: var(--global--color-background);
+		--global--color-border: #9ea1a7;
+
+		/* Block: Table */
+		--table--stripes-border-color: rgba(240, 240, 240, 0.15);
+		--table--stripes-background-color: rgba(240, 240, 240, 0.15);
+	}
+
+	.is-dark-theme.is-dark-theme img {
+		filter: brightness(0.85) contrast(1.1);
+	}
+
+	.respect-color-scheme-preference.is-dark-theme body {
+		background-color: var(--global--color-background);
+	}
+
+	#dark-mode-toggler {
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: var(--global--font-size-xs);
+		padding: 0.5em;
+		min-height: 44px;
+		min-width: max-content;
+		border: 2px solid currentColor;
+		box-shadow: none;
+		background: var(--button--color-text);
+		color: var(--button--color-background);
+		z-index: 9998;
+	}
+
+	.no-js #dark-mode-toggler {
+		display: none;
+	}
+
+	#dark-mode-toggler.fixed-bottom {
+		position: fixed;
+		bottom: 5px;
+		left: 5px;
+		transition: bottom 0.5s;
+	}
+
+	#dark-mode-toggler.fixed-bottom.hide:not(:focus) {
+		bottom: -80px;
+	}
+
+	#dark-mode-toggler.relative {
+		position: absolute;
+		height: 44px;
+		top: calc(2.4 * var(--global--spacing-vertical) - 44px);
+		left: calc(50vw - var(--responsive--alignwide-width) / 2 - 0.5em);
+	}
+
+	.admin-bar #dark-mode-toggler.relative {
+		top: calc(2.4 * var(--global--spacing-vertical) - 44px + 32px);
+	}
+}
+@media only screen and (max-width: 782px) {
+
+	.admin-bar #dark-mode-toggler.relative {
+		top: calc(2.4 * var(--global--spacing-vertical) - 44px + 46px);
+	}
+}
+@media only screen and (max-width: 481px) {
+
+	.admin-bar #dark-mode-toggler.relative {
+		top: calc(2.4 * var(--global--spacing-vertical) - 44px + 26px);
+	}
+}
+@media only screen and (max-width: 481px) {
+
+	body:not(.primary-navigation-open) #dark-mode-toggler.relative ~ nav {
+		top: calc(44px + 44px);
+	}
+}
+@media only screen {
+
+	.primary-navigation-open #dark-mode-toggler {
+		display: none;
+	}
+}
+@media only screen {
+
+	#dark-mode-toggler:hover,
+	#dark-mode-toggler:focus {
+		color: var(--button--color-background-active);
+		border: 2px solid var(--button--color-text-active);
+		background-color: var(--button--color-text-active);
+	}
+}
+@media only screen {
+
+	.is-IE #dark-mode-toggler {
+		display: none;
+	}
+}

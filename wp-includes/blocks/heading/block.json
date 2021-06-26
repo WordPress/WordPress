@@ -1,0 +1,45 @@
+{
+	"apiVersion": 2,
+	"name": "core/heading",
+	"title": "Heading",
+	"category": "text",
+	"description": "Introduce new sections and organize content to help visitors (and search engines) understand the structure of your content.",
+	"keywords": [ "title", "subtitle" ],
+	"textdomain": "default",
+	"attributes": {
+		"textAlign": {
+			"type": "string"
+		},
+		"content": {
+			"type": "string",
+			"source": "html",
+			"selector": "h1,h2,h3,h4,h5,h6",
+			"default": "",
+			"__experimentalRole": "content"
+		},
+		"level": {
+			"type": "number",
+			"default": 2
+		},
+		"placeholder": {
+			"type": "string"
+		}
+	},
+	"supports": {
+		"align": [ "wide", "full" ],
+		"anchor": true,
+		"className": false,
+		"color": {
+			"link": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontWeight": true
+		},
+		"__experimentalSelector": "h1,h2,h3,h4,h5,h6",
+		"__unstablePasteTextInline": true
+	},
+	"editorStyle": "wp-block-heading-editor",
+	"style": "wp-block-heading"
+}

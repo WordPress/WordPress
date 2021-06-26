@@ -7,11 +7,11 @@
  * This file is here for backward compatibility with old themes and will be removed in a future version
  */
 _deprecated_file(
-	/* translators: %s: template name */
+	/* translators: %s: Template name. */
 	sprintf( __( 'Theme without %s' ), basename( __FILE__ ) ),
 	'3.0.0',
 	null,
-	/* translators: %s: template name */
+	/* translators: %s: Template name. */
 	sprintf( __( 'Please include a %s template in your theme.' ), basename( __FILE__ ) )
 );
 ?>
@@ -22,9 +22,9 @@ _deprecated_file(
 	<p>
 		<?php
 		printf(
-			/* translators: 1: blog name, 2: WordPress */
+			/* translators: 1: Blog name, 2: WordPress */
 			__( '%1$s is proudly powered by %2$s' ),
-			get_bloginfo('name'),
+			get_bloginfo( 'name' ),
 			'<a href="https://wordpress.org/">WordPress</a>'
 		);
 		?>
@@ -32,7 +32,7 @@ _deprecated_file(
 </div>
 </div>
 
-<!-- Gorgeous design by Michael Heilemann - http://binarybonsai.com/kubrick/ -->
+<!-- Gorgeous design by Michael Heilemann - http://binarybonsai.com/ -->
 <?php /* "Just what do you think you're doing Dave?" */ ?>
 
 		<?php wp_footer(); ?>

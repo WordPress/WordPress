@@ -5,8 +5,8 @@ div#media-upload-header {
 	padding: 5px 5px 0;
 	font-weight: 600;
 	position: relative;
-	border-bottom: 1px solid #ddd;
-	background: #f9f9f9;
+	border-bottom: 1px solid #dcdcde;
+	background: #f6f7f7;
 }
 
 #sidemenu {
@@ -27,9 +27,9 @@ div#media-upload-header {
 	display: block;
 	float: left;
 	line-height: 28px;
-	border-top: 1px solid #f9f9f9;
-	border-bottom: 1px solid #ddd;
-	background-color: #f9f9f9;
+	border-top: 1px solid #f6f7f7;
+	border-bottom: 1px solid #dcdcde;
+	background-color: #f6f7f7;
 	text-decoration: none;
 	transition: none;
 }
@@ -48,9 +48,9 @@ div#media-upload-header {
 	font-weight: 400;
 	padding-left: 6px;
 	padding-right: 6px;
-	border: 1px solid #ddd;
-	border-bottom-color: #f1f1f1;
-	background-color: #f1f1f1;
+	border: 1px solid #dcdcde;
+	border-bottom-color: #f0f0f1;
+	background-color: #f0f0f1;
 	color: #000;
 }
 
@@ -61,7 +61,7 @@ div#media-upload-header {
 }
 
 #media-upload .slidetoggle {
-	border-top-color: #ddd;
+	border-top-color: #dcdcde;
 }
 
 #media-upload input[type="radio"] {
@@ -70,7 +70,7 @@ div#media-upload-header {
 
 .media-upload-form label.form-help,
 td.help {
-	color: #72777c;
+	color: #646970;
 }
 
 form {
@@ -206,6 +206,22 @@ span.required {
 	margin: 8px 0;
 }
 
+#media-upload .tablenav-pages a,
+#media-upload .tablenav-pages .current {
+	display: inline-block;
+	padding: 4px 5px 6px;
+	font-size: 16px;
+	line-height: 1;
+	text-align: center;
+	text-decoration: none;
+}
+
+#media-upload .tablenav-pages a {
+	min-width: 17px;
+	border: 1px solid #c3c4c7;
+	background: #f6f7f7;
+}
+
 #filter .tablenav select {
 	border-style: solid;
 	border-width: 1px;
@@ -226,7 +242,7 @@ span.required {
 }
 
 .menu_order_input {
-	border: 1px solid #ddd;
+	border: 1px solid #dcdcde;
 	font-size: 10px;
 	padding: 1px;
 	width: 23px;
@@ -234,7 +250,7 @@ span.required {
 
 .ui-sortable-helper {
 	background-color: #fff;
-	border: 1px solid #a0a5aa;
+	border: 1px solid #a7aaad;
 	opacity: 0.6;
 	filter: alpha(opacity=60);
 }
@@ -275,15 +291,15 @@ span.required {
 	clear: both;
 	padding: 0 0 3px;
 	font-size: 1.6em;
-	border-bottom: 1px solid #ddd;
+	border-bottom: 1px solid #dcdcde;
 }
 
-h3.media-title  {
+h3.media-title {
 	font-size: 1.6em;
 }
 
-h4.media-sub-title  {
-	border-bottom: 1px solid #ddd;
+h4.media-sub-title {
+	border-bottom: 1px solid #dcdcde;
 	font-size: 1.3em;
 	margin: 12px;
 	padding: 0 0 3px;
@@ -294,7 +310,7 @@ h3.media-title,
 h4.media-sub-title {
 	font-family: Georgia,"Times New Roman",Times,serif;
 	font-weight: 400;
-	color: #5A5A5A;
+	color: #50575e;
 }
 
 #gallery-settings .describe td {
@@ -327,7 +343,7 @@ h4.media-sub-title {
 #gallery-settings label,
 #gallery-settings legend {
 	font-size: 13px;
-	color: #444;
+	color: #3c434a;
 	margin-right: 15px;
 }
 
@@ -336,7 +352,7 @@ h4.media-sub-title {
 }
 
 #gallery-settings p.ml-submit {
-	border-top: 1px solid #ddd;
+	border-top: 1px solid #dcdcde;
 }
 
 #gallery-settings select#columns {

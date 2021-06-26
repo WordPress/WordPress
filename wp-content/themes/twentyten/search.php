@@ -13,7 +13,12 @@ get_header(); ?>
 			<div id="content" role="main">
 
 <?php if ( have_posts() ) : ?>
-				<h1 class="page-title"><?php printf( __( 'Search Results for: %s', 'twentyten' ), '<span>' . get_search_query() . '</span>' ); ?></h1>
+				<h1 class="page-title">
+				<?php
+				/* translators: %s: Search query. */
+				printf( __( 'Search Results for: %s', 'twentyten' ), '<span>' . get_search_query() . '</span>' );
+				?>
+				</h1>
 				<?php
 				/*
 				 * Run the loop for the search to output the results.

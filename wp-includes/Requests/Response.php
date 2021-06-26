@@ -51,6 +51,7 @@ class Requests_Response {
 
 	/**
 	 * Protocol version, false if non-blocking
+	 *
 	 * @var float|boolean
 	 */
 	public $protocol_version = false;
@@ -97,7 +98,7 @@ class Requests_Response {
 	 */
 	public function is_redirect() {
 		$code = $this->status_code;
-		return in_array($code, array(300, 301, 302, 303, 307)) || $code > 307 && $code < 400;
+		return in_array($code, array(300, 301, 302, 303, 307), true) || $code > 307 && $code < 400;
 	}
 
 	/**

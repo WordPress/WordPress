@@ -1,0 +1,35 @@
+{
+	"apiVersion": 2,
+	"name": "core/latest-comments",
+	"title": "Latest Comments",
+	"category": "widgets",
+	"description": "Display a list of your most recent comments.",
+	"keywords": [ "recent comments" ],
+	"textdomain": "default",
+	"attributes": {
+		"commentsToShow": {
+			"type": "number",
+			"default": 5,
+			"minimum": 1,
+			"maximum": 100
+		},
+		"displayAvatar": {
+			"type": "boolean",
+			"default": true
+		},
+		"displayDate": {
+			"type": "boolean",
+			"default": true
+		},
+		"displayExcerpt": {
+			"type": "boolean",
+			"default": true
+		}
+	},
+	"supports": {
+		"align": true,
+		"html": false
+	},
+	"editorStyle": "wp-block-latest-comments-editor",
+	"style": "wp-block-latest-comments"
+}

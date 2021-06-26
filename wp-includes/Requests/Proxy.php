@@ -31,5 +31,5 @@ interface Requests_Proxy {
 	 * @see Requests_Hooks::register
 	 * @param Requests_Hooks $hooks Hook system
 	 */
-	public function register(Requests_Hooks &$hooks);
+	public function register(Requests_Hooks $hooks);
 }

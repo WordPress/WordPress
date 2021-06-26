@@ -12,7 +12,7 @@
 
 function MCTabs() {
   this.settings = [];
-  this.onChange = tinyMCEPopup.editor.windowManager.createInstance('tinymce.plugins.util.Dispatcher');
+  this.onChange = tinyMCEPopup.editor.windowManager.createInstance('tinymce.util.Dispatcher');
 }
 
 MCTabs.prototype.init = function (settings) {
@@ -155,7 +155,7 @@ tinyMCEPopup.onInit.add(function () {
       dom.setAttrib(a, 'tabindex', '-1');
     });
 
-    /*keyNav = tinyMCEPopup.editor.windowManager.createInstance('tinymce.plugins.ui.KeyboardNavigation', {
+    /*keyNav = tinyMCEPopup.editor.windowManager.createInstance('tinymce.ui.KeyboardNavigation', {
       root: tabContainerElm,
       items: items,
       onAction: action,

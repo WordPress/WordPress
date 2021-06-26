@@ -14,317 +14,409 @@
  * @see WP_Filesystem_Base
  */
 class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
+
 	/**
+	 * @since 2.5.0
 	 * @var ftp
 	 */
 	public $ftp;
 
 	/**
+	 * Constructor.
+	 *
+	 * @since 2.5.0
 	 *
 	 * @param array $opt
 	 */
-	public function __construct( $opt  = '' ) {
+	public function __construct( $opt = '' ) {
 		$this->method = 'ftpsockets';
 		$this->errors = new WP_Error();
 
 		// Check if possible to use ftp functions.
-		if ( ! @include_once( ABSPATH . 'wp-admin/includes/class-ftp.php' ) ) {
+		if ( ! include_once ABSPATH . 'wp-admin/includes/class-ftp.php' ) {
 			return;
 		}
+
 		$this->ftp = new ftp();
 
-		if ( empty($opt['port']) )
+		if ( empty( $opt['port'] ) ) {
 			$this->options['port'] = 21;
-		else
+		} else {
 			$this->options['port'] = (int) $opt['port'];
+		}
 
-		if ( empty($opt['hostname']) )
-			$this->errors->add('empty_hostname', __('FTP hostname is required'));
-		else
+		if ( empty( $opt['hostname'] ) ) {
+			$this->errors->add( 'empty_hostname', __( 'FTP hostname is required' ) );
+		} else {
 			$this->options['hostname'] = $opt['hostname'];
+		}
 
 		// Check if the options provided are OK.
-		if ( empty ($opt['username']) )
-			$this->errors->add('empty_username', __('FTP username is required'));
-		else
+		if ( empty( $opt['username'] ) ) {
+			$this->errors->add( 'empty_username', __( 'FTP username is required' ) );
+		} else {
 			$this->options['username'] = $opt['username'];
+		}
 
-		if ( empty ($opt['password']) )
-			$this->errors->add('empty_password', __('FTP password is required'));
-		else
+		if ( empty( $opt['password'] ) ) {
+			$this->errors->add( 'empty_password', __( 'FTP password is required' ) );
+		} else {
 			$this->options['password'] = $opt['password'];
+		}
 	}
 
 	/**
+	 * Connects filesystem.
 	 *
-	 * @return bool
+	 * @since 2.5.0
+	 *
+	 * @return bool True on success, false on failure.
 	 */
 	public function connect() {
-		if ( ! $this->ftp )
+		if ( ! $this->ftp ) {
 			return false;
+		}
 
-		$this->ftp->setTimeout(FS_CONNECT_TIMEOUT);
+		$this->ftp->setTimeout( FS_CONNECT_TIMEOUT );
 
 		if ( ! $this->ftp->SetServer( $this->options['hostname'], $this->options['port'] ) ) {
-			$this->errors->add( 'connect',
-				/* translators: %s: hostname:port */
-				sprintf( __( 'Failed to connect to FTP Server %s' ),
+			$this->errors->add(
+				'connect',
+				sprintf(
+					/* translators: %s: hostname:port */
+					__( 'Failed to connect to FTP Server %s' ),
 					$this->options['hostname'] . ':' . $this->options['port']
 				)
 			);
+
 			return false;
 		}
 
 		if ( ! $this->ftp->connect() ) {
-			$this->errors->add( 'connect',
-				/* translators: %s: hostname:port */
-				sprintf( __( 'Failed to connect to FTP Server %s' ),
+			$this->errors->add(
+				'connect',
+				sprintf(
+					/* translators: %s: hostname:port */
+					__( 'Failed to connect to FTP Server %s' ),
 					$this->options['hostname'] . ':' . $this->options['port']
 				)
 			);
+
 			return false;
 		}
 
 		if ( ! $this->ftp->login( $this->options['username'], $this->options['password'] ) ) {
-			$this->errors->add( 'auth',
-				/* translators: %s: username */
-				sprintf( __( 'Username/Password incorrect for %s' ),
+			$this->errors->add(
+				'auth',
+				sprintf(
+					/* translators: %s: Username. */
+					__( 'Username/Password incorrect for %s' ),
 					$this->options['username']
 				)
 			);
+
 			return false;
 		}
 
 		$this->ftp->SetType( FTP_BINARY );
 		$this->ftp->Passive( true );
 		$this->ftp->setTimeout( FS_TIMEOUT );
+
 		return true;
 	}
 
 	/**
-	 * Retrieves the file contents.
+	 * Reads entire file into a string.
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param string $file Filename.
-	 * @return string|false File contents on success, false if no temp file could be opened,
-	 *                      or if the file doesn't exist.
+	 * @param string $file Name of the file to read.
+	 * @return string|false Read data on success, false if no temporary file could be opened,
+	 *                      or if the file couldn't be retrieved.
 	 */
 	public function get_contents( $file ) {
-		if ( ! $this->exists($file) )
+		if ( ! $this->exists( $file ) ) {
 			return false;
+		}
 
-		$temp = wp_tempnam( $file );
+		$tempfile   = wp_tempnam( $file );
+		$temphandle = fopen( $tempfile, 'w+' );
 
-		if ( ! $temphandle = fopen( $temp, 'w+' ) ) {
-			unlink( $temp );
+		if ( ! $temphandle ) {
+			unlink( $tempfile );
 			return false;
 		}
 
 		mbstring_binary_safe_encoding();
 
-		if ( ! $this->ftp->fget($temphandle, $file) ) {
-			fclose($temphandle);
-			unlink($temp);
+		if ( ! $this->ftp->fget( $temphandle, $file ) ) {
+			fclose( $temphandle );
+			unlink( $tempfile );
 
 			reset_mbstring_encoding();
 
-			return ''; // Blank document, File does exist, It's just blank.
+			return ''; // Blank document. File does exist, it's just blank.
 		}
 
 		reset_mbstring_encoding();
 
-		fseek( $temphandle, 0 ); // Skip back to the start of the file being written to
+		fseek( $temphandle, 0 ); // Skip back to the start of the file being written to.
 		$contents = '';
 
-		while ( ! feof($temphandle) )
-			$contents .= fread($temphandle, 8192);
+		while ( ! feof( $temphandle ) ) {
+			$contents .= fread( $temphandle, 8 * KB_IN_BYTES );
+		}
 
-		fclose($temphandle);
-		unlink($temp);
+		fclose( $temphandle );
+		unlink( $tempfile );
+
 		return $contents;
 	}
 
 	/**
+	 * Reads entire file into an array.
 	 *
-	 * @param string $file
-	 * @return array
+	 * @since 2.5.0
+	 *
+	 * @param string $file Path to the file.
+	 * @return array|false File contents in an array on success, false on failure.
 	 */
-	public function get_contents_array($file) {
-		return explode("\n", $this->get_contents($file) );
+	public function get_contents_array( $file ) {
+		return explode( "\n", $this->get_contents( $file ) );
 	}
 
 	/**
+	 * Writes a string to a file.
 	 *
-	 * @param string $file
-	 * @param string $contents
-	 * @param int|bool $mode
-	 * @return bool
+	 * @since 2.5.0
+	 *
+	 * @param string    $file     Remote path to the file where to write the data.
+	 * @param string    $contents The data to write.
+	 * @param int|false $mode     Optional. The file permissions as octal number, usually 0644.
+	 *                            Default false.
+	 * @return bool True on success, false on failure.
 	 */
-	public function put_contents($file, $contents, $mode = false ) {
-		$temp = wp_tempnam( $file );
-		if ( ! $temphandle = @fopen($temp, 'w+') ) {
-			unlink($temp);
+	public function put_contents( $file, $contents, $mode = false ) {
+		$tempfile   = wp_tempnam( $file );
+		$temphandle = @fopen( $tempfile, 'w+' );
+
+		if ( ! $temphandle ) {
+			unlink( $tempfile );
 			return false;
 		}
 
-		// The FTP class uses string functions internally during file download/upload
+		// The FTP class uses string functions internally during file download/upload.
 		mbstring_binary_safe_encoding();
 
 		$bytes_written = fwrite( $temphandle, $contents );
-		if ( false === $bytes_written || $bytes_written != strlen( $contents ) ) {
+
+		if ( false === $bytes_written || strlen( $contents ) !== $bytes_written ) {
 			fclose( $temphandle );
-			unlink( $temp );
+			unlink( $tempfile );
 
 			reset_mbstring_encoding();
 
 			return false;
 		}
 
-		fseek( $temphandle, 0 ); // Skip back to the start of the file being written to
+		fseek( $temphandle, 0 ); // Skip back to the start of the file being written to.
 
-		$ret = $this->ftp->fput($file, $temphandle);
+		$ret = $this->ftp->fput( $file, $temphandle );
 
 		reset_mbstring_encoding();
 
-		fclose($temphandle);
-		unlink($temp);
+		fclose( $temphandle );
+		unlink( $tempfile );
 
-		$this->chmod($file, $mode);
+		$this->chmod( $file, $mode );
 
 		return $ret;
 	}
 
 	/**
+	 * Gets the current working directory.
 	 *
-	 * @return string
+	 * @since 2.5.0
+	 *
+	 * @return string|false The current working directory on success, false on failure.
 	 */
 	public function cwd() {
 		$cwd = $this->ftp->pwd();
-		if ( $cwd )
-			$cwd = trailingslashit($cwd);
+
+		if ( $cwd ) {
+			$cwd = trailingslashit( $cwd );
+		}
+
 		return $cwd;
 	}
 
 	/**
+	 * Changes current directory.
 	 *
-	 * @param string $file
-	 * @return bool
+	 * @since 2.5.0
+	 *
+	 * @param string $dir The new current directory.
+	 * @return bool True on success, false on failure.
 	 */
-	public function chdir($file) {
-		return $this->ftp->chdir($file);
+	public function chdir( $dir ) {
+		return $this->ftp->chdir( $dir );
 	}
 
 	/**
+	 * Changes filesystem permissions.
 	 *
-	 * @param string $file
-	 * @param int|bool $mode
-	 * @param bool $recursive
-	 * @return bool
+	 * @since 2.5.0
+	 *
+	 * @param string    $file      Path to the file.
+	 * @param int|false $mode      Optional. The permissions as octal number, usually 0644 for files,
+	 *                             0755 for directories. Default false.
+	 * @param bool      $recursive Optional. If set to true, changes file permissions recursively.
+	 *                             Default false.
+	 * @return bool True on success, false on failure.
 	 */
-	public function chmod($file, $mode = false, $recursive = false ) {
+	public function chmod( $file, $mode = false, $recursive = false ) {
 		if ( ! $mode ) {
-			if ( $this->is_file($file) )
+			if ( $this->is_file( $file ) ) {
 				$mode = FS_CHMOD_FILE;
-			elseif ( $this->is_dir($file) )
+			} elseif ( $this->is_dir( $file ) ) {
 				$mode = FS_CHMOD_DIR;
-			else
+			} else {
 				return false;
+			}
 		}
 
 		// chmod any sub-objects if recursive.
-		if ( $recursive && $this->is_dir($file) ) {
-			$filelist = $this->dirlist($file);
-			foreach ( (array)$filelist as $filename => $filemeta )
-				$this->chmod($file . '/' . $filename, $mode, $recursive);
+		if ( $recursive && $this->is_dir( $file ) ) {
+			$filelist = $this->dirlist( $file );
+
+			foreach ( (array) $filelist as $filename => $filemeta ) {
+				$this->chmod( $file . '/' . $filename, $mode, $recursive );
+			}
 		}
 
-		// chmod the file or directory
-		return $this->ftp->chmod($file, $mode);
+		// chmod the file or directory.
+		return $this->ftp->chmod( $file, $mode );
 	}
 
 	/**
+	 * Gets the file owner.
 	 *
-	 * @param string $file
-	 * @return string
+	 * @since 2.5.0
+	 *
+	 * @param string $file Path to the file.
+	 * @return string|false Username of the owner on success, false on failure.
 	 */
-	public function owner($file) {
-		$dir = $this->dirlist($file);
-		return $dir[$file]['owner'];
+	public function owner( $file ) {
+		$dir = $this->dirlist( $file );
+
+		return $dir[ $file ]['owner'];
 	}
 
 	/**
+	 * Gets the permissions of the specified file or filepath in their octal format.
 	 *
-	 * @param string $file
-	 * @return string
+	 * @since 2.5.0
+	 *
+	 * @param string $file Path to the file.
+	 * @return string Mode of the file (the last 3 digits).
 	 */
-	public function getchmod($file) {
-		$dir = $this->dirlist($file);
-		return $dir[$file]['permsn'];
+	public function getchmod( $file ) {
+		$dir = $this->dirlist( $file );
+
+		return $dir[ $file ]['permsn'];
 	}
 
 	/**
+	 * Gets the file's group.
 	 *
-	 * @param string $file
-	 * @return string
+	 * @since 2.5.0
+	 *
+	 * @param string $file Path to the file.
+	 * @return string|false The group on success, false on failure.
 	 */
-	public function group($file) {
-		$dir = $this->dirlist($file);
-		return $dir[$file]['group'];
+	public function group( $file ) {
+		$dir = $this->dirlist( $file );
+
+		return $dir[ $file ]['group'];
 	}
 
 	/**
+	 * Copies a file.
 	 *
-	 * @param string   $source
-	 * @param string   $destination
-	 * @param bool     $overwrite
-	 * @param int|bool $mode
-	 * @return bool
+	 * @since 2.5.0
+	 *
+	 * @param string    $source      Path to the source file.
+	 * @param string    $destination Path to the destination file.
+	 * @param bool      $overwrite   Optional. Whether to overwrite the destination file if it exists.
+	 *                               Default false.
+	 * @param int|false $mode        Optional. The permissions as octal number, usually 0644 for files,
+	 *                               0755 for dirs. Default false.
+	 * @return bool True on success, false on failure.
 	 */
-	public function copy($source, $destination, $overwrite = false, $mode = false) {
-		if ( ! $overwrite && $this->exists($destination) )
+	public function copy( $source, $destination, $overwrite = false, $mode = false ) {
+		if ( ! $overwrite && $this->exists( $destination ) ) {
 			return false;
+		}
 
-		$content = $this->get_contents($source);
-		if ( false === $content )
+		$content = $this->get_contents( $source );
+
+		if ( false === $content ) {
 			return false;
+		}
 
-		return $this->put_contents($destination, $content, $mode);
+		return $this->put_contents( $destination, $content, $mode );
 	}
 
 	/**
+	 * Moves a file.
 	 *
-	 * @param string $source
-	 * @param string $destination
-	 * @param bool   $overwrite
-	 * @return bool
+	 * @since 2.5.0
+	 *
+	 * @param string $source      Path to the source file.
+	 * @param string $destination Path to the destination file.
+	 * @param bool   $overwrite   Optional. Whether to overwrite the destination file if it exists.
+	 *                            Default false.
+	 * @return bool True on success, false on failure.
 	 */
-	public function move($source, $destination, $overwrite = false ) {
-		return $this->ftp->rename($source, $destination);
+	public function move( $source, $destination, $overwrite = false ) {
+		return $this->ftp->rename( $source, $destination );
 	}
 
 	/**
+	 * Deletes a file or directory.
 	 *
-	 * @param string $file
-	 * @param bool   $recursive
-	 * @param string $type
-	 * @return bool
+	 * @since 2.5.0
+	 *
+	 * @param string       $file      Path to the file or directory.
+	 * @param bool         $recursive Optional. If set to true, deletes files and folders recursively.
+	 *                                Default false.
+	 * @param string|false $type      Type of resource. 'f' for file, 'd' for directory.
+	 *                                Default false.
+	 * @return bool True on success, false on failure.
 	 */
-	public function delete($file, $recursive = false, $type = false) {
-		if ( empty($file) )
+	public function delete( $file, $recursive = false, $type = false ) {
+		if ( empty( $file ) ) {
 			return false;
-		if ( 'f' == $type || $this->is_file($file) )
-			return $this->ftp->delete($file);
-		if ( !$recursive )
-			return $this->ftp->rmdir($file);
+		}
 
-		return $this->ftp->mdel($file);
+		if ( 'f' === $type || $this->is_file( $file ) ) {
+			return $this->ftp->delete( $file );
+		}
+
+		if ( ! $recursive ) {
+			return $this->ftp->rmdir( $file );
+		}
+
+		return $this->ftp->mdel( $file );
 	}
 
 	/**
+	 * Checks if a file or directory exists.
 	 *
-	 * @param string $file
-	 * @return bool
+	 * @since 2.5.0
+	 *
+	 * @param string $file Path to file or directory.
+	 * @return bool Whether $file exists or not.
 	 */
 	public function exists( $file ) {
 		$list = $this->ftp->nlist( $file );
@@ -333,141 +425,212 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 			return true; // File is an empty directory.
 		}
 
-		return !empty( $list ); //empty list = no file, so invert.
+		return ! empty( $list ); // Empty list = no file, so invert.
 		// Return $this->ftp->is_exists($file); has issues with ABOR+426 responses on the ncFTPd server.
 	}
 
 	/**
+	 * Checks if resource is a file.
 	 *
-	 * @param string $file
-	 * @return bool
+	 * @since 2.5.0
+	 *
+	 * @param string $file File path.
+	 * @return bool Whether $file is a file.
 	 */
-	public function is_file($file) {
-		if ( $this->is_dir($file) )
+	public function is_file( $file ) {
+		if ( $this->is_dir( $file ) ) {
 			return false;
-		if ( $this->exists($file) )
-			return true;
-		return false;
-	}
+		}
 
-	/**
-	 *
-	 * @param string $path
-	 * @return bool
-	 */
-	public function is_dir($path) {
-		$cwd = $this->cwd();
-		if ( $this->chdir($path) ) {
-			$this->chdir($cwd);
+		if ( $this->exists( $file ) ) {
 			return true;
 		}
+
 		return false;
 	}
 
 	/**
+	 * Checks if resource is a directory.
 	 *
-	 * @param string $file
-	 * @return bool
+	 * @since 2.5.0
+	 *
+	 * @param string $path Directory path.
+	 * @return bool Whether $path is a directory.
 	 */
-	public function is_readable($file) {
+	public function is_dir( $path ) {
+		$cwd = $this->cwd();
+
+		if ( $this->chdir( $path ) ) {
+			$this->chdir( $cwd );
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Checks if a file is readable.
+	 *
+	 * @since 2.5.0
+	 *
+	 * @param string $file Path to file.
+	 * @return bool Whether $file is readable.
+	 */
+	public function is_readable( $file ) {
 		return true;
 	}
 
 	/**
+	 * Checks if a file or directory is writable.
 	 *
-	 * @param string $file
-	 * @return bool
+	 * @since 2.5.0
+	 *
+	 * @param string $file Path to file or directory.
+	 * @return bool Whether $file is writable.
 	 */
-	public function is_writable($file) {
+	public function is_writable( $file ) {
 		return true;
 	}
 
 	/**
+	 * Gets the file's last access time.
 	 *
-	 * @param string $file
-	 * @return bool
+	 * @since 2.5.0
+	 *
+	 * @param string $file Path to file.
+	 * @return int|false Unix timestamp representing last access time, false on failure.
 	 */
-	public function atime($file) {
+	public function atime( $file ) {
 		return false;
 	}
 
 	/**
+	 * Gets the file modification time.
 	 *
-	 * @param string $file
-	 * @return int
+	 * @since 2.5.0
+	 *
+	 * @param string $file Path to file.
+	 * @return int|false Unix timestamp representing modification time, false on failure.
 	 */
-	public function mtime($file) {
-		return $this->ftp->mdtm($file);
+	public function mtime( $file ) {
+		return $this->ftp->mdtm( $file );
 	}
 
 	/**
-	 * @param string $file
-	 * @return int
+	 * Gets the file size (in bytes).
+	 *
+	 * @since 2.5.0
+	 *
+	 * @param string $file Path to file.
+	 * @return int|false Size of the file in bytes on success, false on failure.
 	 */
-	public function size($file) {
-		return $this->ftp->filesize($file);
+	public function size( $file ) {
+		return $this->ftp->filesize( $file );
 	}
 
 	/**
+	 * Sets the access and modification times of a file.
 	 *
-	 * @param string $file
-	 * @param int $time
-	 * @param int $atime
-	 * @return bool
+	 * Note: If $file doesn't exist, it will be created.
+	 *
+	 * @since 2.5.0
+	 *
+	 * @param string $file  Path to file.
+	 * @param int    $time  Optional. Modified time to set for file.
+	 *                      Default 0.
+	 * @param int    $atime Optional. Access time to set for file.
+	 *                      Default 0.
+	 * @return bool True on success, false on failure.
 	 */
-	public function touch($file, $time = 0, $atime = 0 ) {
+	public function touch( $file, $time = 0, $atime = 0 ) {
 		return false;
 	}
 
 	/**
+	 * Creates a directory.
 	 *
-	 * @param string $path
-	 * @param mixed  $chmod
-	 * @param mixed  $chown
-	 * @param mixed  $chgrp
-	 * @return bool
+	 * @since 2.5.0
+	 *
+	 * @param string           $path  Path for new directory.
+	 * @param int|false        $chmod Optional. The permissions as octal number (or false to skip chmod).
+	 *                                Default false.
+	 * @param string|int|false $chown Optional. A user name or number (or false to skip chown).
+	 *                                Default false.
+	 * @param string|int|false $chgrp Optional. A group name or number (or false to skip chgrp).
+	 *                                Default false.
+	 * @return bool True on success, false on failure.
 	 */
-	public function mkdir($path, $chmod = false, $chown = false, $chgrp = false ) {
-		$path = untrailingslashit($path);
-		if ( empty($path) )
-			return false;
+	public function mkdir( $path, $chmod = false, $chown = false, $chgrp = false ) {
+		$path = untrailingslashit( $path );
 
-		if ( ! $this->ftp->mkdir($path) )
+		if ( empty( $path ) ) {
 			return false;
-		if ( ! $chmod )
+		}
+
+		if ( ! $this->ftp->mkdir( $path ) ) {
+			return false;
+		}
+
+		if ( ! $chmod ) {
 			$chmod = FS_CHMOD_DIR;
-		$this->chmod($path, $chmod);
+		}
+
+		$this->chmod( $path, $chmod );
+
 		return true;
 	}
 
 	/**
+	 * Deletes a directory.
 	 *
-	 * @param string $path
-	 * @param bool $recursive
-	 * @return bool
+	 * @since 2.5.0
+	 *
+	 * @param string $path      Path to directory.
+	 * @param bool   $recursive Optional. Whether to recursively remove files/directories.
+	 *                          Default false.
+	 * @return bool True on success, false on failure.
 	 */
-	public function rmdir($path, $recursive = false ) {
-		return $this->delete($path, $recursive);
+	public function rmdir( $path, $recursive = false ) {
+		return $this->delete( $path, $recursive );
 	}
 
 	/**
+	 * Gets details for files in a directory or a specific file.
 	 *
-	 * @param string $path
-	 * @param bool   $include_hidden
-	 * @param bool   $recursive
-	 * @return bool|array
+	 * @since 2.5.0
+	 *
+	 * @param string $path           Path to directory or file.
+	 * @param bool   $include_hidden Optional. Whether to include details of hidden ("." prefixed) files.
+	 *                               Default true.
+	 * @param bool   $recursive      Optional. Whether to recursively include file details in nested directories.
+	 *                               Default false.
+	 * @return array|false {
+	 *     Array of files. False if unable to list directory contents.
+	 *
+	 *     @type string $name        Name of the file or directory.
+	 *     @type string $perms       *nix representation of permissions.
+	 *     @type int    $permsn      Octal representation of permissions.
+	 *     @type string $owner       Owner name or ID.
+	 *     @type int    $size        Size of file in bytes.
+	 *     @type int    $lastmodunix Last modified unix timestamp.
+	 *     @type mixed  $lastmod     Last modified month (3 letter) and day (without leading 0).
+	 *     @type int    $time        Last modified time.
+	 *     @type string $type        Type of resource. 'f' for file, 'd' for directory.
+	 *     @type mixed  $files       If a directory and $recursive is true, contains another array of files.
+	 * }
 	 */
-	public function dirlist($path = '.', $include_hidden = true, $recursive = false ) {
-		if ( $this->is_file($path) ) {
-			$limit_file = basename($path);
-			$path = dirname($path) . '/';
+	public function dirlist( $path = '.', $include_hidden = true, $recursive = false ) {
+		if ( $this->is_file( $path ) ) {
+			$limit_file = basename( $path );
+			$path       = dirname( $path ) . '/';
 		} else {
 			$limit_file = false;
 		}
 
 		mbstring_binary_safe_encoding();
 
-		$list = $this->ftp->dirlist($path);
+		$list = $this->ftp->dirlist( $path );
+
 		if ( empty( $list ) && ! $this->exists( $path ) ) {
 
 			reset_mbstring_encoding();
@@ -476,29 +639,35 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 		}
 
 		$ret = array();
+
 		foreach ( $list as $struc ) {
 
-			if ( '.' == $struc['name'] || '..' == $struc['name'] )
+			if ( '.' === $struc['name'] || '..' === $struc['name'] ) {
 				continue;
-
-			if ( ! $include_hidden && '.' == $struc['name'][0] )
-				continue;
-
-			if ( $limit_file && $struc['name'] != $limit_file )
-				continue;
-
-			if ( 'd' == $struc['type'] ) {
-				if ( $recursive )
-					$struc['files'] = $this->dirlist($path . '/' . $struc['name'], $include_hidden, $recursive);
-				else
-					$struc['files'] = array();
 			}
 
-			// Replace symlinks formatted as "source -> target" with just the source name
-			if ( $struc['islink'] )
-				$struc['name'] = preg_replace( '/(\s*->\s*.*)$/', '', $struc['name'] );
+			if ( ! $include_hidden && '.' === $struc['name'][0] ) {
+				continue;
+			}
 
-			// Add the Octal representation of the file permissions
+			if ( $limit_file && $struc['name'] !== $limit_file ) {
+				continue;
+			}
+
+			if ( 'd' === $struc['type'] ) {
+				if ( $recursive ) {
+					$struc['files'] = $this->dirlist( $path . '/' . $struc['name'], $include_hidden, $recursive );
+				} else {
+					$struc['files'] = array();
+				}
+			}
+
+			// Replace symlinks formatted as "source -> target" with just the source name.
+			if ( $struc['islink'] ) {
+				$struc['name'] = preg_replace( '/(\s*->\s*.*)$/', '', $struc['name'] );
+			}
+
+			// Add the octal representation of the file permissions.
 			$struc['permsn'] = $this->getnumchmodfromh( $struc['perms'] );
 
 			$ret[ $struc['name'] ] = $struc;
@@ -510,6 +679,9 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 	}
 
 	/**
+	 * Destructor.
+	 *
+	 * @since 2.5.0
 	 */
 	public function __destruct() {
 		$this->ftp->quit();

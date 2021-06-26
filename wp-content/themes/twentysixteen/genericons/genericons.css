@@ -54,7 +54,7 @@
 	text-transform: none;
 	-moz-osx-font-smoothing: grayscale;
 	-webkit-font-smoothing: antialiased;
-	speak: none;
+	speak: never;
 }
 
 

@@ -1,0 +1,45 @@
+{
+	"apiVersion": 2,
+	"name": "core/post-title",
+	"title": "Post Title",
+	"category": "theme",
+	"description": "Displays the title of a post, page, or any other content-type.",
+	"textdomain": "default",
+	"usesContext": [ "postId", "postType", "queryId" ],
+	"attributes": {
+		"textAlign": {
+			"type": "string"
+		},
+		"level": {
+			"type": "number",
+			"default": 2
+		},
+		"isLink": {
+			"type": "boolean",
+			"default": false
+		},
+		"rel": {
+			"type": "string",
+			"attribute": "rel",
+			"default": ""
+		},
+		"linkTarget": {
+			"type": "string",
+			"default": "_self"
+		}
+	},
+	"supports": {
+		"align": [ "wide", "full" ],
+		"html": false,
+		"color": {
+			"gradients": true,
+			"link": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true
+		}
+	},
+	"style": "wp-block-post-title"
+}

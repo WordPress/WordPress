@@ -1,0 +1,27 @@
+{
+	"apiVersion": 2,
+	"name": "core/missing",
+	"title": "Unsupported",
+	"category": "text",
+	"description": "Your site doesn’t include support for this block.",
+	"textdomain": "default",
+	"attributes": {
+		"originalName": {
+			"type": "string"
+		},
+		"originalUndelimitedContent": {
+			"type": "string"
+		},
+		"originalContent": {
+			"type": "string",
+			"source": "html"
+		}
+	},
+	"supports": {
+		"className": false,
+		"customClassName": false,
+		"inserter": false,
+		"html": false,
+		"reusable": false
+	}
+}

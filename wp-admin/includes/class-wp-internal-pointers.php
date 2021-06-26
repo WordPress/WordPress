@@ -22,9 +22,14 @@ final class WP_Internal_Pointers {
 	 *     remove_action( 'admin_enqueue_scripts', array( 'WP_Internal_Pointers', 'enqueue_scripts' ) );
 	 *
 	 * Individual pointers (e.g. wp390_widgets) can be disabled using the following:
-	 *     remove_action( 'admin_print_footer_scripts', array( 'WP_Internal_Pointers', 'pointer_wp390_widgets' ) );
 	 *
-	 * @static
+	 *    function yourprefix_remove_pointers() {
+	 *        remove_action(
+	 *            'admin_print_footer_scripts',
+	 *            array( 'WP_Internal_Pointers', 'pointer_wp390_widgets' )
+	 *        );
+	 *    }
+	 *    add_action( 'admin_enqueue_scripts', 'yourprefix_remove_pointers', 11 );
 	 *
 	 * @param string $hook_suffix The current admin page.
 	 */
@@ -43,12 +48,13 @@ final class WP_Internal_Pointers {
 		 *     )
 		 */
 		$registered_pointers = array(
-			// None currently
+			// None currently.
 		);
 
-		// Check if screen related pointer is registered
-		if ( empty( $registered_pointers[ $hook_suffix ] ) )
+		// Check if screen related pointer is registered.
+		if ( empty( $registered_pointers[ $hook_suffix ] ) ) {
 			return;
+		}
 
 		$pointers = (array) $registered_pointers[ $hook_suffix ];
 
@@ -66,30 +72,32 @@ final class WP_Internal_Pointers {
 		 *     )
 		 */
 		$caps_required = array(
-			// None currently
+			// None currently.
 		);
 
-		// Get dismissed pointers
+		// Get dismissed pointers.
 		$dismissed = explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) );
 
 		$got_pointers = false;
 		foreach ( array_diff( $pointers, $dismissed ) as $pointer ) {
 			if ( isset( $caps_required[ $pointer ] ) ) {
 				foreach ( $caps_required[ $pointer ] as $cap ) {
-					if ( ! current_user_can( $cap ) )
+					if ( ! current_user_can( $cap ) ) {
 						continue 2;
+					}
 				}
 			}
 
-			// Bind pointer print function
+			// Bind pointer print function.
 			add_action( 'admin_print_footer_scripts', array( 'WP_Internal_Pointers', 'pointer_' . $pointer ) );
 			$got_pointers = true;
 		}
 
-		if ( ! $got_pointers )
+		if ( ! $got_pointers ) {
 			return;
+		}
 
-		// Add pointers script and style to queue
+		// Add pointers script and style to queue.
 		wp_enqueue_style( 'wp-pointer' );
 		wp_enqueue_script( 'wp-pointer' );
 	}
@@ -99,15 +107,14 @@ final class WP_Internal_Pointers {
 	 *
 	 * @since 3.3.0
 	 *
-	 * @static
-	 *
 	 * @param string $pointer_id The pointer ID.
 	 * @param string $selector The HTML elements, on which the pointer should be attached.
 	 * @param array  $args Arguments to be passed to the pointer JS (see wp-pointer.js).
 	 */
 	private static function print_js( $pointer_id, $selector, $args ) {
-		if ( empty( $pointer_id ) || empty( $selector ) || empty( $args ) || empty( $args['content'] ) )
+		if ( empty( $pointer_id ) || empty( $selector ) || empty( $args ) || empty( $args['content'] ) ) {
 			return;
+		}
 
 		?>
 		<script type="text/javascript">
@@ -150,13 +157,12 @@ final class WP_Internal_Pointers {
 	public static function pointer_wp360_locks() {}
 	public static function pointer_wp390_widgets() {}
 	public static function pointer_wp410_dfw() {}
+	public static function pointer_wp496_privacy() {}
 
 	/**
 	 * Prevents new users from seeing existing 'new feature' pointers.
 	 *
 	 * @since 3.3.0
-	 *
-	 * @static
 	 *
 	 * @param int $user_id User ID.
 	 */

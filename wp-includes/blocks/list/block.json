@@ -1,0 +1,52 @@
+{
+	"apiVersion": 2,
+	"name": "core/list",
+	"title": "List",
+	"category": "text",
+	"description": "Create a bulleted or numbered list.",
+	"keywords": [ "bullet list", "ordered list", "numbered list" ],
+	"textdomain": "default",
+	"attributes": {
+		"ordered": {
+			"type": "boolean",
+			"default": false,
+			"__experimentalRole": "content"
+		},
+		"values": {
+			"type": "string",
+			"source": "html",
+			"selector": "ol,ul",
+			"multiline": "li",
+			"__unstableMultilineWrapperTags": [ "ol", "ul" ],
+			"default": "",
+			"__experimentalRole": "content"
+		},
+		"type": {
+			"type": "string"
+		},
+		"start": {
+			"type": "number"
+		},
+		"reversed": {
+			"type": "boolean"
+		},
+		"placeholder": {
+			"type": "string"
+		}
+	},
+	"supports": {
+		"anchor": true,
+		"className": false,
+		"typography": {
+			"fontSize": true,
+			"__experimentalFontFamily": true
+		},
+		"color": {
+			"gradients": true
+		},
+		"__unstablePasteTextInline": true,
+		"__experimentalSelector": "ol,ul"
+	},
+	"editorStyle": "wp-block-list-editor",
+	"style": "wp-block-list"
+}

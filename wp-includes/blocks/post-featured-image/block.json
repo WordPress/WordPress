@@ -1,0 +1,21 @@
+{
+	"apiVersion": 2,
+	"name": "core/post-featured-image",
+	"title": "Post Featured Image",
+	"category": "theme",
+	"description": "Display a post's featured image.",
+	"textdomain": "default",
+	"attributes": {
+		"isLink": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"usesContext": [ "postId", "postType", "queryId" ],
+	"supports": {
+		"align": [ "left", "right", "center", "wide", "full" ],
+		"html": false
+	},
+	"editorStyle": "wp-block-post-featured-image-editor",
+	"style": "wp-block-post-featured-image"
+}

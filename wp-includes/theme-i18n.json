@@ -1,0 +1,51 @@
+{
+	"settings": {
+		"typography": {
+				"fontSizes": [
+					{
+						"name": "Font size name"
+					}
+				]
+		},
+		"color": {
+				"palette": [
+					{
+						"name": "Color name"
+					}
+				],
+				"gradients": [
+					{
+						"name": "Gradient name"
+					}
+				],
+				"duotone": [
+					{
+						"name": "Duotone name"
+					}
+				]
+		},
+		"blocks": {
+			"*": {
+				"typography": {
+					"fontSizes": [
+						{
+							"name": "Font size name"
+						}
+					]
+				},
+				"color": {
+					"palette": [
+						{
+							"name": "Color name"
+						}
+					],
+					"gradients": [
+						{
+							"name": "Gradient name"
+						}
+					]
+				}
+			}
+		}
+	}
+}

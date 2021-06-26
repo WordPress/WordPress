@@ -31,9 +31,13 @@ class WP_Customize_Site_Icon_Control extends WP_Customize_Cropped_Image_Control 
 	 *
 	 * @since 4.3.0
 	 *
+	 * @see WP_Customize_Control::__construct()
+	 *
 	 * @param WP_Customize_Manager $manager Customizer bootstrap instance.
 	 * @param string               $id      Control ID.
 	 * @param array                $args    Optional. Arguments to override class property defaults.
+	 *                                      See WP_Customize_Control::__construct() for information
+	 *                                      on accepted arguments. Default empty array.
 	 */
 	public function __construct( $manager, $id, $args = array() ) {
 		parent::__construct( $manager, $id, $args );
@@ -47,14 +51,12 @@ class WP_Customize_Site_Icon_Control extends WP_Customize_Cropped_Image_Control 
 	 */
 	public function content_template() {
 		?>
-		<label for="{{ data.settings['default'] }}-button">
-			<# if ( data.label ) { #>
-				<span class="customize-control-title">{{ data.label }}</span>
-			<# } #>
-			<# if ( data.description ) { #>
-				<span class="description customize-control-description">{{{ data.description }}}</span>
-			<# } #>
-		</label>
+		<# if ( data.label ) { #>
+			<span class="customize-control-title">{{ data.label }}</span>
+		<# } #>
+		<# if ( data.description ) { #>
+			<span class="description customize-control-description">{{{ data.description }}}</span>
+		<# } #>
 
 		<# if ( data.attachment && data.attachment.id ) { #>
 			<div class="attachment-media-view">
@@ -64,31 +66,28 @@ class WP_Customize_Site_Icon_Control extends WP_Customize_Cropped_Image_Control 
 							<img src="<?php echo esc_url( admin_url( 'images/' . ( is_rtl() ? 'browser-rtl.png' : 'browser.png' ) ) ); ?>" class="browser-preview" width="182" alt="" />
 
 							<div class="favicon">
-								<img src="{{ data.attachment.sizes.full ? data.attachment.sizes.full.url : data.attachment.url }}" alt="<?php esc_attr_e( 'Preview as a browser icon' ); ?>"/>
+								<img src="{{ data.attachment.sizes.full ? data.attachment.sizes.full.url : data.attachment.url }}" alt="<?php esc_attr_e( 'Preview as a browser icon' ); ?>" />
 							</div>
-							<span class="browser-title" aria-hidden="true"><?php bloginfo( 'name' ); ?></span>
+							<span class="browser-title" aria-hidden="true"><# print( '<?php bloginfo( 'name' ); ?>' ) #></span>
 						</div>
-						<img class="app-icon-preview" src="{{ data.attachment.sizes.full ? data.attachment.sizes.full.url : data.attachment.url }}" alt="<?php esc_attr_e( 'Preview as an app icon' ); ?>"/>
+						<img class="app-icon-preview" src="{{ data.attachment.sizes.full ? data.attachment.sizes.full.url : data.attachment.url }}" alt="<?php esc_attr_e( 'Preview as an app icon' ); ?>" />
 					</div>
 				<# } #>
 				<div class="actions">
 					<# if ( data.canUpload ) { #>
 						<button type="button" class="button remove-button"><?php echo $this->button_labels['remove']; ?></button>
-						<button type="button" class="button upload-button" id="{{ data.settings['default'] }}-button"><?php echo $this->button_labels['change']; ?></button>
+						<button type="button" class="button upload-button"><?php echo $this->button_labels['change']; ?></button>
 					<# } #>
 				</div>
 			</div>
 		<# } else { #>
 			<div class="attachment-media-view">
-				<div class="placeholder">
-					<?php echo $this->button_labels['placeholder']; ?>
-				</div>
+				<# if ( data.canUpload ) { #>
+					<button type="button" class="upload-button button-add-media"><?php echo $this->button_labels['site_icon']; ?></button>
+				<# } #>
 				<div class="actions">
 					<# if ( data.defaultAttachment ) { #>
 						<button type="button" class="button default-button"><?php echo $this->button_labels['default']; ?></button>
-					<# } #>
-					<# if ( data.canUpload ) { #>
-						<button type="button" class="button upload-button" id="{{ data.settings['default'] }}-button"><?php echo $this->button_labels['select']; ?></button>
 					<# } #>
 				</div>
 			</div>

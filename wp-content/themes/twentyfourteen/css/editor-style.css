@@ -153,7 +153,6 @@ pre {
 pre {
 	border: 1px solid rgba(0, 0, 0, 0.1);
 	margin-bottom: 24px;
-	max-width: 100%;
 	overflow: auto;
 	padding: 12px;
 	white-space: pre;
@@ -628,7 +627,6 @@ img {
 	box-shadow: 1px 1px 1px rgba(0,0,0,.8);
 	color: #000;
 	height: 36px;
-	margin-left: -24px;
 	width: 48px;
 }
 
@@ -637,7 +635,7 @@ img {
 	content: '\f452';
 	display: inline-block;
 	font: normal 32px/1.125 Genericons;
-	position: absolute;
+	position: relative;
 	top: 1px;
 	left: 10px;
 }

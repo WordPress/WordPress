@@ -12,7 +12,10 @@ get_header(); ?>
 		<div id="primary">
 			<div id="content" role="main">
 
-				<?php while ( have_posts() ) : the_post(); ?>
+				<?php
+				while ( have_posts() ) :
+					the_post();
+					?>
 
 					<nav id="nav-single">
 						<h3 class="assistive-text"><?php _e( 'Post navigation', 'twentyeleven' ); ?></h3>
@@ -24,7 +27,7 @@ get_header(); ?>
 
 					<?php comments_template( '', true ); ?>
 
-				<?php endwhile; // end of the loop. ?>
+				<?php endwhile; // End of the loop. ?>
 
 			</div><!-- #content -->
 		</div><!-- #primary -->

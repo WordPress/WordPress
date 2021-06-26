@@ -1,0 +1,506 @@
+/** === Main menu === */
+
+.main-navigation {
+
+	display: block;
+	margin-top: #{0.25 * $size__spacing-unit};
+
+	body.page & {
+		display: block;
+	}
+
+	> div {
+		display: inline;
+	}
+
+	/* Un-style buttons */
+	button {
+		display: inline-block;
+		border: none;
+		padding: 0;
+		margin: 0;
+		font-family: $font__heading;
+		font-weight: 700;
+		line-height: $font__line-height-heading;
+		text-decoration: none;
+		background: transparent;
+		color: inherit;
+		cursor: pointer;
+		transition:
+			background 250ms ease-in-out,
+			transform 150ms ease;
+		-webkit-appearance: none;
+		-moz-appearance: none;
+
+		&:hover,
+		&:focus {
+			background: transparent;
+		}
+
+		&:focus {
+			outline: 1px solid transparent;
+			outline-offset: -4px;
+		}
+
+		&:active {
+			transform: scale(0.99);
+		}
+	}
+
+	.main-menu {
+
+		display: inline-block;
+		margin: 0;
+		padding: 0;
+
+		> li {
+
+			color: $color__link;
+			display: inline;
+			position: relative;
+
+			> a {
+
+				font-weight: 700;
+				color: $color__link;
+				margin-right: #{0.5 * $size__spacing-unit};
+
+				+ svg {
+					margin-right: #{0.5 * $size__spacing-unit};
+				}
+
+				&:hover,
+				&:hover + svg {
+					color: $color__link-hover;
+				}
+			}
+
+			&.menu-item-has-children {
+
+				display: inline-block;
+				position: inherit;
+
+				@include media(tablet) {
+					position: relative;
+				}
+
+				> a {
+					margin-right: #{0.125 * $size__spacing-unit};
+				}
+
+				& > a,
+				.menu-item-has-children > a {
+
+					&:after {
+						content: "";
+						display: none;
+					}
+				}
+
+				.submenu-expand {
+
+					display: inline-block;
+					margin-right: #{0.25 * $size__spacing-unit};
+
+					/* Priority+ Menu */
+					&.main-menu-more-toggle {
+
+						position: relative;
+						height: 24px;
+						line-height: $font__line-height-heading;
+						width: 24px;
+						padding: 0;
+						margin-left: #{0.5 * $size__spacing-unit};
+
+						svg {
+							height: 24px;
+							width: 24px;
+							top: #{-0.125 * $size__spacing-unit};
+							vertical-align: text-bottom;
+						}
+					}
+
+					.wp-customizer-unloading &,
+					&.is-empty {
+						display: none;
+					}
+
+					svg {
+						position: relative;
+						top: 0.2rem;
+					}
+				}
+			}
+
+			&:last-child > a,
+			&:last-child.menu-item-has-children .submenu-expand {
+				margin-right: 0;
+			}
+		}
+	}
+
+	.sub-menu {
+
+		background-color: $color__link;
+		color: $color__background-body;
+		list-style: none;
+		padding-left: 0;
+
+		position: absolute;
+		opacity: 0;
+		left: -9999px;
+		z-index: 99999;
+
+		@include media(tablet) {
+			width: auto;
+			min-width: -moz-max-content;
+			min-width: -webkit-max-content;
+			min-width: max-content;
+		}
+
+		> li {
+
+			display: block;
+			float: none;
+			position: relative;
+
+			&.menu-item-has-children {
+
+				.submenu-expand {
+					display: inline-block;
+					position: absolute;
+					width: calc( 24px + #{$size__spacing-unit} );
+					right: 0;
+					top: calc( .125 * #{$size__spacing-unit} );
+					bottom: 0;
+					color: white;
+					line-height: 1;
+					padding: calc( .5 * #{$size__spacing-unit} );
+
+					svg {
+						top: 0;
+					}
+				}
+
+				.submenu-expand {
+					margin-right: 0;
+				}
+
+				@include media(tablet) {
+
+					.menu-item-has-children > a {
+
+						&:after {
+							content: "\203a";
+						}
+					}
+				}
+			}
+
+			> a,
+			> .menu-item-link-return {
+
+				color: $color__background-body;
+				display: block;
+				line-height: $font__line-height-heading;
+				text-shadow: none;
+				padding: calc( .5 * #{$size__spacing-unit} ) calc( 24px + #{$size__spacing-unit} ) calc( .5 * #{$size__spacing-unit} ) $size__spacing-unit;
+				max-width: #{20 * $size__spacing-unit};
+
+				&:hover,
+				&:focus {
+					background: $color__link-hover;
+
+					&:after {
+						background: $color__link-hover;
+					}
+				}
+			}
+
+			> .menu-item-link-return {
+				width: 100%;
+				font-size: $font__size_base;
+				font-weight: normal;
+				text-align: left;
+			}
+
+			> a:empty {
+				display: none;
+			}
+
+			&.mobile-parent-nav-menu-item {
+
+				display: none;
+				font-size: $font__size-sm;
+				font-weight: normal;
+
+				svg {
+					position: relative;
+					top: 0.2rem;
+					margin-right: calc( .25 * #{$size__spacing-unit} );
+				}
+			}
+		}
+	}
+
+	/*
+	 * Sub-menu styles
+	 *
+	 * :focus-within needs its own selector so other similar
+	 * selectors don’t get ignored if a browser doesn’t recognize it
+	 */
+	.main-menu .menu-item-has-children:not(.off-canvas):focus-within > .sub-menu {
+
+		display: block;
+		left: 0;
+		margin-top: 0;
+		opacity: 1;
+		width: auto;
+		min-width: 100%;
+
+
+		/* Non-mobile position */
+		@include media(tablet) {
+			display: block;
+			margin-top: 0;
+			opacity: 1;
+			position: absolute;
+			left: 0;
+			right: auto;
+			top: auto;
+			bottom: auto;
+			height: auto;
+			min-width: -moz-max-content;
+			min-width: -webkit-max-content;
+			min-width: max-content;
+			transform: none;
+		}
+
+		&.hidden-links {
+			left: 0;
+			width: 100%;
+			display: table;
+			position: absolute;
+
+			@include media(tablet) {
+				right: 0;
+				left: auto;
+				display: block;
+				width: max-content;
+			}
+		}
+
+		.submenu-expand {
+			display: none;
+		}
+
+		.sub-menu {
+			display: block;
+			margin-top: inherit;
+			position: relative;
+			width: 100%;
+			left: 0;
+			opacity: 1;
+
+			/* Non-mobile position */
+			@include media(tablet) {
+				float: none;
+				max-width: 100%;
+			}
+		}
+
+		/* Nested sub-menu dashes */
+		.sub-menu {
+			counter-reset: submenu;
+		}
+
+		.sub-menu > li > a::before {
+			font-family: $font__body;
+			font-weight: normal;
+			content: "\2013\00a0" counters(submenu, "\2013\00a0", none);
+			counter-increment: submenu
+		}
+	}
+
+	.main-menu .menu-item-has-children:not(.off-canvas):hover > .sub-menu,
+	.main-menu .menu-item-has-children:not(.off-canvas):focus > .sub-menu,
+	.main-menu .menu-item-has-children.is-focused:not(.off-canvas) > .sub-menu {
+
+		display: block;
+		left: 0;
+		margin-top: 0;
+		opacity: 1;
+		width: auto;
+		min-width: 100%;
+
+
+		/* Non-mobile position */
+		@include media(tablet) {
+			display: block;
+			float: none;
+			margin-top: 0;
+			opacity: 1;
+			position: absolute;
+			left: 0;
+			right: auto;
+			top: auto;
+			bottom: auto;
+			height: auto;
+			min-width: -moz-max-content;
+			min-width: -webkit-max-content;
+			min-width: max-content;
+			transform: none;
+		}
+
+		&.hidden-links {
+			left: 0;
+			width: 100%;
+			display: table;
+			position: absolute;
+
+			@include media(tablet) {
+				right: 0;
+				left: auto;
+				display: table;
+				width: max-content;
+			}
+		}
+
+		.submenu-expand {
+			display: none;
+		}
+
+		.sub-menu {
+			display: block;
+			margin-top: inherit;
+			position: relative;
+			width: 100%;
+			left: 0;
+			opacity: 1;
+
+			/* Non-mobile position */
+			@include media(tablet) {
+				float: none;
+				max-width: 100%;
+			}
+		}
+
+		/* Nested sub-menu dashes */
+		.sub-menu {
+			counter-reset: submenu;
+		}
+
+		.sub-menu > li > a::before {
+			font-family: $font__body;
+			font-weight: normal;
+			content: "\2013\00a0" counters(submenu, "\2013\00a0", none);
+			counter-increment: submenu
+		}
+	}
+
+	/**
+	 * Fade-in animation for top-level submenus
+	 */
+	.main-menu > .menu-item-has-children:not(.off-canvas):hover > .sub-menu {
+		animation: fade_in 0.1s forwards;
+	}
+
+	/**
+	 * Off-canvas touch device styles
+	 */
+	.main-menu .menu-item-has-children.off-canvas .sub-menu {
+
+		.submenu-expand .svg-icon {
+			transform: rotate(270deg);
+		}
+
+		.sub-menu {
+			opacity: 0;
+			position: absolute;
+			z-index: 0;
+			transform: translateX(-100%);
+		}
+
+		li:hover,
+		li:focus,
+		li > a:hover,
+		li > a:focus {
+			background-color: transparent;
+		}
+
+		> li > a,
+		> li > .menu-item-link-return {
+			white-space: inherit;
+		}
+
+		&.expanded-true {
+
+			display: table;
+			margin-top: 0;
+			opacity: 1;
+			padding-left: 0;
+
+			/* Mobile position */
+			left: 0;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			position: fixed;
+			z-index: 100000; /* Make sure appears above mobile admin bar */
+			width: 100vw;
+			height: 100vh;
+			max-width: 100vw;
+			transform: translateX(+100%);
+			animation: slide_in_right 0.3s forwards;
+
+			> .mobile-parent-nav-menu-item {
+				display: block;
+			}
+
+			/* Prevent menu from being blocked by admin bar */
+			.admin-bar & {
+				top: 46px;
+				height: calc( 100vh - 46px );
+
+				.sub-menu.expanded-true {
+					top: 0;
+				}
+
+				/* WP core breakpoint */
+				@media only screen and ( min-width: 782px ) {
+					top: 32px;
+					height: calc( 100vh - 32px );
+
+					.sub-menu.expanded-true {
+						top: 0;
+					}
+				}
+			}
+		}
+	}
+
+	// Hide duplicate menu-more-link when re-loading a menu in the customizer
+	.main-menu-more {
+		&:nth-child(n+3) {
+			display: none;
+		}
+	}
+
+}
+
+/* Menu animation */
+
+@keyframes slide_in_right {
+	100% {
+		transform: translateX(0%);
+	}
+}
+
+@keyframes fade_in {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}

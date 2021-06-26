@@ -1,0 +1,81 @@
+{
+	"apiVersion": 2,
+	"name": "core/button",
+	"title": "Button",
+	"category": "design",
+	"parent": [ "core/buttons" ],
+	"description": "Prompt visitors to take action with a button-style link.",
+	"keywords": [ "link" ],
+	"textdomain": "default",
+	"attributes": {
+		"url": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "a",
+			"attribute": "href"
+		},
+		"title": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "a",
+			"attribute": "title"
+		},
+		"text": {
+			"type": "string",
+			"source": "html",
+			"selector": "a"
+		},
+		"linkTarget": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "a",
+			"attribute": "target"
+		},
+		"rel": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "a",
+			"attribute": "rel"
+		},
+		"placeholder": {
+			"type": "string"
+		},
+		"backgroundColor": {
+			"type": "string"
+		},
+		"textColor": {
+			"type": "string"
+		},
+		"gradient": {
+			"type": "string"
+		},
+		"width": {
+			"type": "number"
+		}
+	},
+	"supports": {
+		"anchor": true,
+		"align": true,
+		"alignWide": false,
+		"color": {
+			"__experimentalSkipSerialization": true,
+			"gradients": true
+		},
+		"typography": {
+			"fontSize": true,
+			"__experimentalFontFamily": true
+		},
+		"reusable": false,
+		"__experimentalBorder": {
+			"radius": true,
+			"__experimentalSkipSerialization": true
+		},
+		"__experimentalSelector": ".wp-block-button__link"
+	},
+	"styles": [
+		{ "name": "fill", "label": "Fill", "isDefault": true },
+		{ "name": "outline", "label": "Outline" }
+	],
+	"editorStyle": "wp-block-button-editor",
+	"style": "wp-block-button"
+}

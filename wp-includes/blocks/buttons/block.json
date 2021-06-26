@@ -1,0 +1,24 @@
+{
+	"apiVersion": 2,
+	"name": "core/buttons",
+	"title": "Buttons",
+	"category": "design",
+	"description": "Prompt visitors to take action with a group of button-style links.",
+	"keywords": [ "link" ],
+	"textdomain": "default",
+	"attributes": {
+		"contentJustification": {
+			"type": "string"
+		},
+		"orientation": {
+			"type": "string",
+			"default": "horizontal"
+		}
+	},
+	"supports": {
+		"anchor": true,
+		"align": [ "wide", "full" ]
+	},
+	"editorStyle": "wp-block-buttons-editor",
+	"style": "wp-block-buttons"
+}

@@ -41,14 +41,17 @@ class WP_Customize_Color_Control extends WP_Customize_Control {
 	 * Constructor.
 	 *
 	 * @since 3.4.0
-	 * @uses WP_Customize_Control::__construct()
+	 *
+	 * @see WP_Customize_Control::__construct()
 	 *
 	 * @param WP_Customize_Manager $manager Customizer bootstrap instance.
 	 * @param string               $id      Control ID.
 	 * @param array                $args    Optional. Arguments to override class property defaults.
+	 *                                      See WP_Customize_Control::__construct() for information
+	 *                                      on accepted arguments. Default empty array.
 	 */
 	public function __construct( $manager, $id, $args = array() ) {
-		$this->statuses = array( '' => __('Default') );
+		$this->statuses = array( '' => __( 'Default' ) );
 		parent::__construct( $manager, $id, $args );
 	}
 
@@ -70,9 +73,9 @@ class WP_Customize_Color_Control extends WP_Customize_Control {
 	 */
 	public function to_json() {
 		parent::to_json();
-		$this->json['statuses'] = $this->statuses;
+		$this->json['statuses']     = $this->statuses;
 		$this->json['defaultValue'] = $this->setting->default;
-		$this->json['mode'] = $this->mode;
+		$this->json['mode']         = $this->mode;
 	}
 
 	/**
@@ -99,21 +102,21 @@ class WP_Customize_Color_Control extends WP_Customize_Control {
 			}
 			defaultValueAttr = ' data-default-color=' + defaultValue; // Quotes added automatically.
 		} #>
-		<label>
-			<# if ( data.label ) { #>
-				<span class="customize-control-title">{{{ data.label }}}</span>
+		<# if ( data.label ) { #>
+			<span class="customize-control-title">{{{ data.label }}}</span>
+		<# } #>
+		<# if ( data.description ) { #>
+			<span class="description customize-control-description">{{{ data.description }}}</span>
+		<# } #>
+		<div class="customize-control-content">
+			<label><span class="screen-reader-text">{{{ data.label }}}</span>
+			<# if ( isHueSlider ) { #>
+				<input class="color-picker-hue" type="text" data-type="hue" />
+			<# } else { #>
+				<input class="color-picker-hex" type="text" maxlength="7" placeholder="{{ defaultValue }}" {{ defaultValueAttr }} />
 			<# } #>
-			<# if ( data.description ) { #>
-				<span class="description customize-control-description">{{{ data.description }}}</span>
-			<# } #>
-			<div class="customize-control-content">
-				<# if ( isHueSlider ) { #>
-					<input class="color-picker-hue" type="text" data-type="hue" />
-				<# } else { #>
-					<input class="color-picker-hex" type="text" maxlength="7" placeholder="{{ defaultValue }}" {{ defaultValueAttr }} />
-				<# } #>
-			</div>
-		</label>
+			</label>
+		</div>
 		<?php
 	}
 }

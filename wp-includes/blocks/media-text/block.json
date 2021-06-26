@@ -1,0 +1,99 @@
+{
+	"apiVersion": 2,
+	"name": "core/media-text",
+	"title": "Media & Text",
+	"category": "media",
+	"description": "Set media and words side-by-side for a richer layout.",
+	"keywords": [ "image", "video" ],
+	"textdomain": "default",
+	"attributes": {
+		"align": {
+			"type": "string",
+			"default": "wide"
+		},
+		"mediaAlt": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "figure img",
+			"attribute": "alt",
+			"default": ""
+		},
+		"mediaPosition": {
+			"type": "string",
+			"default": "left"
+		},
+		"mediaId": {
+			"type": "number"
+		},
+		"mediaUrl": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "figure video,figure img",
+			"attribute": "src"
+		},
+		"mediaLink": {
+			"type": "string"
+		},
+		"linkDestination": {
+			"type": "string"
+		},
+		"linkTarget": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "figure a",
+			"attribute": "target"
+		},
+		"href": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "figure a",
+			"attribute": "href"
+		},
+		"rel": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "figure a",
+			"attribute": "rel"
+		},
+		"linkClass": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "figure a",
+			"attribute": "class"
+		},
+		"mediaType": {
+			"type": "string"
+		},
+		"mediaWidth": {
+			"type": "number",
+			"default": 50
+		},
+		"mediaSizeSlug": {
+			"type": "string"
+		},
+		"isStackedOnMobile": {
+			"type": "boolean",
+			"default": true
+		},
+		"verticalAlignment": {
+			"type": "string"
+		},
+		"imageFill": {
+			"type": "boolean"
+		},
+		"focalPoint": {
+			"type": "object"
+		}
+	},
+	"supports": {
+		"anchor": true,
+		"align": [ "wide", "full" ],
+		"html": false,
+		"color": {
+			"gradients": true,
+			"link": true
+		}
+	},
+	"editorStyle": "wp-block-media-text-editor",
+	"style": "wp-block-media-text"
+}

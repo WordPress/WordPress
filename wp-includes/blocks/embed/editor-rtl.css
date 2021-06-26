@@ -1,0 +1,116 @@
+/**
+ * Colors
+ */
+/**
+ * Breakpoints & Media Queries
+ */
+/**
+ * SCSS Variables.
+ *
+ * Please use variables from this sheet to ensure consistency across the UI.
+ * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
+ * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
+ */
+/**
+ * Colors
+ */
+/**
+ * Fonts & basic variables.
+ */
+/**
+ * Grid System.
+ * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
+ */
+/**
+ * Dimensions.
+ */
+/**
+ * Shadows.
+ */
+/**
+ * Editor widths.
+ */
+/**
+ * Block & Editor UI.
+ */
+/**
+ * Block paddings.
+ */
+/**
+ * React Native specific.
+ * These variables do not appear to be used anywhere else.
+ */
+/**
+ * Breakpoint mixins
+ */
+/**
+ * Long content fade mixin
+ *
+ * Creates a fading overlay to signify that the content is longer
+ * than the space allows.
+ */
+/**
+ * Focus styles.
+ */
+/**
+ * Applies editor left position to the selector passed as argument
+ */
+/**
+ * Styles that are reused verbatim in a few places
+ */
+/**
+ * Allows users to opt-out of animations via OS-level preferences.
+ */
+/**
+ * Reset default styles for JavaScript UI based pages.
+ * This is a WP-admin agnostic reset
+ */
+/**
+ * Reset the WP Admin page styles for Gutenberg-like pages.
+ */
+.wp-block-embed {
+  margin-right: 0;
+  margin-left: 0;
+  clear: both;
+}
+.wp-block-embed.is-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1em;
+  min-height: 200px;
+  text-align: center;
+  border-radius: 2px;
+  background-color: #fff;
+  box-shadow: inset 0 0 0 1px #1e1e1e;
+}
+.wp-block-embed.is-loading p {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-size: 13px;
+}
+.wp-block-embed .components-placeholder__error {
+  word-break: break-word;
+}
+.wp-block-embed .components-placeholder__learn-more {
+  margin-top: 1em;
+}
+
+.block-library-embed__interactive-overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  opacity: 0;
+}
+
+.wp-block[data-align=left] > .wp-block-embed,
+.wp-block[data-align=right] > .wp-block-embed {
+  max-width: 360px;
+  width: 100%;
+}
+.wp-block[data-align=left] > .wp-block-embed .wp-block-embed__wrapper,
+.wp-block[data-align=right] > .wp-block-embed .wp-block-embed__wrapper {
+  min-width: 280px;
+}

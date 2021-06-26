@@ -1,0 +1,33 @@
+{
+	"apiVersion": 2,
+	"name": "core/query-title",
+	"title": "Query Title",
+	"category": "design",
+	"description": "Display the query title.",
+	"textdomain": "default",
+	"attributes": {
+		"type": {
+			"type": "string"
+		},
+		"textAlign": {
+			"type": "string"
+		},
+		"level": {
+			"type": "number",
+			"default": 1
+		}
+	},
+	"supports": {
+		"align": [ "wide", "full" ],
+		"html": false,
+		"color": {
+			"gradients": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true
+		}
+	},
+	"editorStyle": "wp-block-query-title-editor"
+}

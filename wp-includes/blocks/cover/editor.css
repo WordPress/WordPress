@@ -1,0 +1,161 @@
+/**
+ * Colors
+ */
+/**
+ * Breakpoints & Media Queries
+ */
+/**
+ * SCSS Variables.
+ *
+ * Please use variables from this sheet to ensure consistency across the UI.
+ * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
+ * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
+ */
+/**
+ * Colors
+ */
+/**
+ * Fonts & basic variables.
+ */
+/**
+ * Grid System.
+ * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
+ */
+/**
+ * Dimensions.
+ */
+/**
+ * Shadows.
+ */
+/**
+ * Editor widths.
+ */
+/**
+ * Block & Editor UI.
+ */
+/**
+ * Block paddings.
+ */
+/**
+ * React Native specific.
+ * These variables do not appear to be used anywhere else.
+ */
+/**
+ * Breakpoint mixins
+ */
+/**
+ * Long content fade mixin
+ *
+ * Creates a fading overlay to signify that the content is longer
+ * than the space allows.
+ */
+/**
+ * Focus styles.
+ */
+/**
+ * Applies editor left position to the selector passed as argument
+ */
+/**
+ * Styles that are reused verbatim in a few places
+ */
+/**
+ * Allows users to opt-out of animations via OS-level preferences.
+ */
+/**
+ * Reset default styles for JavaScript UI based pages.
+ * This is a WP-admin agnostic reset
+ */
+/**
+ * Reset the WP Admin page styles for Gutenberg-like pages.
+ */
+.wp-block-cover.is-placeholder {
+  min-height: auto !important;
+  padding: 0 !important;
+}
+.wp-block-cover.components-placeholder h2 {
+  color: inherit;
+}
+.wp-block-cover.is-transient::before {
+  background-color: #fff;
+  opacity: 0.3;
+}
+.wp-block-cover .components-spinner {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+}
+.wp-block-cover .block-editor-block-list__layout {
+  width: 100%;
+}
+.wp-block-cover .wp-block-cover__inner-container {
+  text-align: left;
+  margin-left: 0;
+  margin-right: 0;
+}
+.wp-block-cover .wp-block-cover__placeholder-background-options {
+  width: 100%;
+}
+
+[data-align=left] > .wp-block-cover,
+[data-align=right] > .wp-block-cover {
+  max-width: 420px;
+  width: 100%;
+}
+
+.block-library-cover__reset-button {
+  margin-left: auto;
+}
+
+.block-library-cover__resize-container {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.block-library-cover__resize-container:not(.is-resizing) {
+  height: auto !important;
+}
+
+.wp-block-cover > .components-drop-zone.is-active {
+  transition: 0.2s opacity, 0.2s border;
+}
+@media (prefers-reduced-motion: reduce) {
+  .wp-block-cover > .components-drop-zone.is-active {
+    transition-duration: 0s;
+    transition-delay: 0s;
+  }
+}
+.wp-block-cover > .components-drop-zone.is-dragging-over-element {
+  background-color: transparent;
+  border: 48px solid var(--wp-admin-theme-color);
+}
+.wp-block-cover > .components-drop-zone.is-dragging-over-element .components-drop-zone__content {
+  transform: none;
+}
+.wp-block-cover > .components-drop-zone .components-drop-zone__content {
+  display: flex;
+  align-items: center;
+  top: -36px;
+  left: -36px;
+  transform: none;
+}
+.wp-block-cover > .components-drop-zone .components-drop-zone__content-icon,
+.wp-block-cover > .components-drop-zone .components-drop-zone__content-text {
+  display: inline;
+}
+.wp-block-cover > .components-drop-zone .components-drop-zone__content-icon {
+  margin: 0;
+  margin-right: 8px;
+}
+.wp-block-cover > .components-drop-zone .components-drop-zone__content-text {
+  font-size: 13px;
+}
+
+.block-editor-block-patterns-list__list-item .has-parallax.wp-block-cover {
+  background-attachment: scroll;
+}

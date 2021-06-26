@@ -40,8 +40,8 @@ class Requests_IPv6 {
 		}
 
 		list($ip1, $ip2) = explode('::', $ip);
-		$c1 = ($ip1 === '') ? -1 : substr_count($ip1, ':');
-		$c2 = ($ip2 === '') ? -1 : substr_count($ip2, ':');
+		$c1              = ($ip1 === '') ? -1 : substr_count($ip1, ':');
+		$c2              = ($ip2 === '') ? -1 : substr_count($ip2, ':');
 
 		if (strpos($ip2, '.') !== false) {
 			$c2++;
@@ -51,19 +51,19 @@ class Requests_IPv6 {
 			$ip = '0:0:0:0:0:0:0:0';
 		}
 		// ::xxx
-		else if ($c1 === -1) {
+		elseif ($c1 === -1) {
 			$fill = str_repeat('0:', 7 - $c2);
-			$ip = str_replace('::', $fill, $ip);
+			$ip   = str_replace('::', $fill, $ip);
 		}
 		// xxx::
-		else if ($c2 === -1) {
+		elseif ($c2 === -1) {
 			$fill = str_repeat(':0', 7 - $c1);
-			$ip = str_replace('::', $fill, $ip);
+			$ip   = str_replace('::', $fill, $ip);
 		}
 		// xxx::xxx
 		else {
 			$fill = ':' . str_repeat('0:', 6 - $c2 - $c1);
-			$ip = str_replace('::', $fill, $ip);
+			$ip   = str_replace('::', $fill, $ip);
 		}
 		return $ip;
 	}
@@ -84,7 +84,7 @@ class Requests_IPv6 {
 	 */
 	public static function compress($ip) {
 		// Prepare the IP to be compressed
-		$ip = self::uncompress($ip);
+		$ip       = self::uncompress($ip);
 		$ip_parts = self::split_v6_v4($ip);
 
 		// Replace all leading zeros
@@ -126,7 +126,7 @@ class Requests_IPv6 {
 	 */
 	protected static function split_v6_v4($ip) {
 		if (strpos($ip, '.') !== false) {
-			$pos = strrpos($ip, ':');
+			$pos       = strrpos($ip, ':');
 			$ipv6_part = substr($ip, 0, $pos);
 			$ipv4_part = substr($ip, $pos + 1);
 			return array($ipv6_part, $ipv4_part);
@@ -145,10 +145,10 @@ class Requests_IPv6 {
 	 * @return bool true if $ip is a valid IPv6 address
 	 */
 	public static function check_ipv6($ip) {
-		$ip = self::uncompress($ip);
+		$ip                = self::uncompress($ip);
 		list($ipv6, $ipv4) = self::split_v6_v4($ip);
-		$ipv6 = explode(':', $ipv6);
-		$ipv4 = explode('.', $ipv4);
+		$ipv6              = explode(':', $ipv6);
+		$ipv4              = explode('.', $ipv4);
 		if (count($ipv6) === 8 && count($ipv4) === 1 || count($ipv6) === 6 && count($ipv4) === 4) {
 			foreach ($ipv6 as $ipv6_part) {
 				// The section can't be empty

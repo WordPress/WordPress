@@ -32,25 +32,25 @@ class WP_HTTP_Requests_Hooks extends Requests_Hooks {
 	/**
 	 * Constructor.
 	 *
-	 * @param string $url URL to request.
-	 * @param array $request Request data in WP_Http format.
+	 * @param string $url     URL to request.
+	 * @param array  $request Request data in WP_Http format.
 	 */
 	public function __construct( $url, $request ) {
-		$this->url = $url;
+		$this->url     = $url;
 		$this->request = $request;
 	}
 
 	/**
 	 * Dispatch a Requests hook to a native WordPress action.
 	 *
-	 * @param string $hook Hook name.
-	 * @param array $parameters Parameters to pass to callbacks.
-	 * @return boolean True if hooks were run, false if nothing was hooked.
+	 * @param string $hook       Hook name.
+	 * @param array  $parameters Parameters to pass to callbacks.
+	 * @return bool True if hooks were run, false if nothing was hooked.
 	 */
 	public function dispatch( $hook, $parameters = array() ) {
 		$result = parent::dispatch( $hook, $parameters );
 
-		// Handle back-compat actions
+		// Handle back-compat actions.
 		switch ( $hook ) {
 			case 'curl.before_send':
 				/** This action is documented in wp-includes/class-wp-http-curl.php */
@@ -59,17 +59,19 @@ class WP_HTTP_Requests_Hooks extends Requests_Hooks {
 		}
 
 		/**
-		 * Transforms a native Request hook to a WordPress actions.
+		 * Transforms a native Request hook to a WordPress action.
 		 *
 		 * This action maps Requests internal hook to a native WordPress action.
 		 *
 		 * @see https://github.com/rmccue/Requests/blob/master/docs/hooks.md
 		 *
+		 * @since 4.7.0
+		 *
 		 * @param array $parameters Parameters from Requests internal hook.
 		 * @param array $request Request data in WP_Http format.
 		 * @param string $url URL to request.
 		 */
-		do_action_ref_array( "requests-{$hook}", $parameters, $this->request, $this->url );
+		do_action_ref_array( "requests-{$hook}", $parameters, $this->request, $this->url ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
 		return $result;
 	}

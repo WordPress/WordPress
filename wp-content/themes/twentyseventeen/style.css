@@ -4,11 +4,13 @@ Theme URI: https://wordpress.org/themes/twentyseventeen/
 Author: the WordPress team
 Author URI: https://wordpress.org/
 Description: Twenty Seventeen brings your site to life with header video and immersive featured images. With a focus on business sites, it features multiple sections on the front page as well as widgets, navigation and social menus, a logo, and more. Personalize its asymmetrical grid with a custom color scheme and showcase your multimedia content with post formats. Our default theme for 2017 works great in many languages, for any abilities, and on any device.
-Version: 1.3
+Version: 2.7
+Requires at least: 4.7
+Requires PHP: 5.2.4
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: twentyseventeen
-Tags: one-column, two-columns, right-sidebar, flexible-header, accessibility-ready, custom-colors, custom-header, custom-menu, custom-logo, editor-style, featured-images, footer-widgets, post-formats, rtl-language-support, sticky-post, theme-options, threaded-comments, translation-ready
+Tags: one-column, two-columns, right-sidebar, flexible-header, accessibility-ready, custom-colors, custom-header, custom-menu, custom-logo, editor-style, featured-images, footer-widgets, post-formats, rtl-language-support, sticky-post, theme-options, threaded-comments, translation-ready, block-patterns
 
 This theme, like WordPress, is licensed under the GPL.
 Use it to make something cool, have fun, and share what you've learned with others.
@@ -982,6 +984,11 @@ select {
 	max-width: 100%;
 }
 
+input[type="radio"]:focus,
+input[type="checkbox"]:focus {
+	outline: thin dotted #333;
+}
+
 input[type="radio"],
 input[type="checkbox"] {
 	margin-right: 0.5em;
@@ -1029,8 +1036,8 @@ input[type="submit"].secondary {
 	color: #222;
 }
 
-button:hover,
-button:focus,
+:not( .mejs-button ) > button:hover,
+:not( .mejs-button ) > button:focus,
 input[type="button"]:hover,
 input[type="button"]:focus,
 input[type="submit"]:hover,
@@ -1145,6 +1152,8 @@ td {
 	padding: 0.4em;
 }
 
+th,
+td,
 th:first-child,
 td:first-child {
 	padding-left: 0;
@@ -1178,6 +1187,7 @@ a:active {
 
 .entry-content a,
 .entry-summary a,
+.comment-content a,
 .widget a,
 .site-footer .widget-area a,
 .posts-navigation a,
@@ -1225,6 +1235,8 @@ a .nav-title,
 .entry-content a:hover,
 .entry-summary a:focus,
 .entry-summary a:hover,
+.comment-content a:focus,
+.comment-content a:hover,
 .widget a:focus,
 .widget a:hover,
 .site-footer .widget-area a:focus,
@@ -1276,6 +1288,7 @@ a:hover .nav-title,
 
 /* Fixes linked images */
 .entry-content a img,
+.comment-content a img,
 .widget a img {
 	-webkit-box-shadow: 0 0 0 8px #fff;
 	box-shadow: 0 0 0 8px #fff;
@@ -1637,6 +1650,7 @@ body.home.title-tagline-hidden.has-header-video .custom-logo-link img {
 
 body:not(.title-tagline-hidden) .site-branding-text {
 	display: inline-block;
+	max-width: 100%;
 	vertical-align: middle;
 }
 
@@ -1739,7 +1753,6 @@ body:not(.title-tagline-hidden) .site-branding-text {
 @supports ( object-fit: cover ) {
 	.has-header-image .custom-header-media img,
 	.has-header-video .custom-header-media video,
-	.has-header-video .custom-header-media iframe,
 	.has-header-image:not(.twentyseventeen-front-page):not(.home) .custom-header-media img {
 		height: 100%;
 		left: 0;
@@ -2374,6 +2387,14 @@ body:not(.twentyseventeen-front-page) .entry-header {
 	width: 100%;
 }
 
+.site-info span[role=separator] {
+	padding: 0 0.2em 0 0.4em;
+}
+
+.site-info span[role=separator]::before {
+	content: '\002f';
+}
+
 /*--------------------------------------------------------------
 14.0 Comments
 --------------------------------------------------------------*/
@@ -2493,6 +2514,14 @@ body:not(.twentyseventeen-front-page) .entry-header {
 	text-align: right;
 }
 
+.comment-form #wp-comment-cookies-consent {
+	margin: 0 10px 0 0;
+}
+
+.comment-form .comment-form-cookies-consent label {
+	display: inline;
+}
+
 /*--------------------------------------------------------------
 15.0 Widgets
 --------------------------------------------------------------*/
@@ -2540,7 +2569,7 @@ h2.widget-title {
 	padding: 0.5em 0;
 }
 
-.widget ul li + li {
+.widget:not(.widget_tag_cloud) ul li + li {
 	margin-top: -1px;
 }
 
@@ -2582,7 +2611,7 @@ h2.widget-title {
 	padding-top: 1em;
 }
 
-/* widget markup */
+/* Widget markup */
 
 .widget .post-date,
 .widget .rss-date {
@@ -2733,6 +2762,14 @@ h2.widget-title {
 
 /* Tag cloud widget */
 
+.tagcloud ul li {
+	float: left;
+	border-top: 0;
+	border-bottom: 0;
+	padding: 0;
+	margin: 4px 4px 0 0;
+}
+
 .tagcloud,
 .widget_tag_cloud,
 .wp_widget_tag_cloud {
@@ -2745,12 +2782,8 @@ h2.widget-title {
 	border: 1px solid #ddd;
 	-webkit-box-shadow: none;
 	box-shadow: none;
-	display: inline-block;
-	float: left;
-	font-size: 14px !important; /* !important to overwrite inline styles */
-	font-size: 0.875rem !important;
-	margin: 4px 4px 0 0 !important;
-	padding: 4px 10px 5px !important;
+	display: block;
+	padding: 4px 10px 5px;
 	position: relative;
 	-webkit-transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.3s ease-in-out;
 	transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.3s ease-in-out;
@@ -2773,13 +2806,44 @@ h2.widget-title {
 
 /* Calendar widget */
 
+.widget_calendar .wp-calendar-table {
+	margin-bottom: 0;
+}
+
+.widget_calendar .wp-calendar-nav {
+	display: table;
+	width: 100%;
+	margin: 0 0 1.5em;
+	padding: 0.4em 0;
+}
+
+.widget_calendar .wp-calendar-nav span {
+	display: table-cell;
+}
+
+.widget_calendar .wp-calendar-nav-prev,
+.widget_calendar .wp-calendar-nav-next {
+	width: 40%;
+}
+
 .widget_calendar th,
-.widget_calendar td {
+.widget_calendar td,
+.widget_calendar .wp-calendar-nav span {
 	text-align: center;
 }
 
 .widget_calendar tfoot td {
 	border: 0;
+}
+
+/* Gallery widget */
+
+.gallery-columns-5 .gallery-caption,
+.gallery-columns-6 .gallery-caption,
+.gallery-columns-7 .gallery-caption,
+.gallery-columns-8 .gallery-caption,
+.gallery-columns-9 .gallery-caption {
+	display: none;
 }
 
 /*--------------------------------------------------------------
@@ -2807,6 +2871,11 @@ img.alignright {
 	padding: 0;
 }
 
+audio:focus,
+video:focus {
+	outline: thin dotted;
+}
+
 /* Make sure embeds and iframes fit their containers. */
 
 embed,
@@ -2814,6 +2883,14 @@ iframe,
 object {
 	margin-bottom: 1.5em;
 	max-width: 100%;
+}
+
+/* Remove bottom on embeds that wrapped in paragraphs via wpautop. */
+
+p > embed:only-child,
+p > iframe:only-child,
+p > object:only-child {
+	margin-bottom: 0;
 }
 
 .wp-caption,
@@ -3014,7 +3091,10 @@ object {
 
 .gallery-item a,
 .gallery-item a:hover,
-.gallery-item a:focus {
+.gallery-item a:focus,
+.widget-area .gallery-item a,
+.widget-area .gallery-item a:hover,
+.widget-area .gallery-item a:focus {
 	-webkit-box-shadow: none;
 	box-shadow: none;
 	background: none;
@@ -3087,7 +3167,7 @@ object {
 }
 
 /* Add some space around the visual edit shortcut buttons. */
-.twentyseventeen-panel .customize-partial-edit-shortcut button {
+.twentyseventeen-panel > .customize-partial-edit-shortcut > button {
 	top: 30px;
 	left: 30px;
 }
@@ -3449,7 +3529,7 @@ object {
 		right: 0;
 		top: 0;
 		width: 100%;
-		z-index: 7;
+		z-index: 1000;
 	}
 
 	.admin-bar .site-navigation-fixed.navigation-top {

@@ -1,0 +1,66 @@
+{
+  "name": "paragonie/sodium_compat",
+  "description": "Pure PHP implementation of libsodium; uses the PHP extension if it exists",
+  "keywords": [
+    "PHP",
+    "cryptography",
+    "elliptic curve",
+    "elliptic curve cryptography",
+    "Pure-PHP cryptography",
+    "side-channel resistant",
+    "Curve25519",
+    "X25519",
+    "ECDH",
+    "Elliptic Curve Diffie-Hellman",
+    "Ed25519",
+    "RFC 7748",
+    "RFC 8032",
+    "EdDSA",
+    "Edwards-curve Digital Signature Algorithm",
+    "ChaCha20",
+    "Salsa20",
+    "Xchacha20",
+    "Xsalsa20",
+    "Poly1305",
+    "BLAKE2b",
+    "public-key cryptography",
+    "secret-key cryptography",
+    "AEAD",
+    "Chapoly",
+    "Salpoly",
+    "ChaCha20-Poly1305",
+    "XSalsa20-Poly1305",
+    "XChaCha20-Poly1305",
+    "encryption",
+    "authentication",
+    "libsodium"
+  ],
+  "license": "ISC",
+  "authors": [
+    {
+      "name": "Paragon Initiative Enterprises",
+      "email": "security@paragonie.com"
+    },
+    {
+      "name": "Frank Denis",
+      "email": "jedisct1@pureftpd.org"
+    }
+  ],
+  "autoload": {
+    "files": ["autoload.php"]
+  },
+  "require": {
+    "php": "^5.2.4|^5.3|^5.4|^5.5|^5.6|^7|^8",
+    "paragonie/random_compat": ">=1"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^3|^4|^5|^6|^7|^8|^9"
+  },
+  "scripts": {
+    "test": "phpunit"
+  },
+  "suggest": {
+    "ext-libsodium": "PHP < 7.0: Better performance, password hashing (Argon2i), secure memory management (memzero), and better security.",
+    "ext-sodium": "PHP >= 7.0: Better performance, password hashing (Argon2i), secure memory management (memzero), and better security."
+  }
+}

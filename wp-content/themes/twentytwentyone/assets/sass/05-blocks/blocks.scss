@@ -1,0 +1,38 @@
+// Blocks
+// - These styles replace key Gutenberg Block styles with font, color, and
+//   spacing with CSS-variables overrides
+// - In the future the Block styles may get compiled to individual .css
+//   files and conditionally loaded
+
+@import "audio/style";
+@import "button/style";
+@import "code/style";
+@import "columns/style";
+@import "cover/style";
+@import "file/style";
+@import "gallery/style";
+@import "group/style";
+@import "heading/style";
+@import "image/style";
+@import "latest-comments/style";
+@import "latest-posts/style";
+@import "legacy/style"; // "Blocks" from the legacy WP editor, ie: galleries, .button class, etc.
+@import "list/style";
+@import "media-text/style";
+@import "navigation/style";
+@import "paragraph/style";
+@import "preformatted/style";
+@import "pullquote/style";
+@import "query-loop/style";
+@import "quote/style";
+@import "rss/style";
+@import "search/style";
+@import "separator/style";
+@import "social-icons/style";
+@import "spacer/style";
+@import "table/style";
+@import "tag-clould/style";
+@import "verse/style";
+@import "video/style";
+@import "utilities/font-sizes";
+@import "utilities/style"; // Import LAST to cascade properly

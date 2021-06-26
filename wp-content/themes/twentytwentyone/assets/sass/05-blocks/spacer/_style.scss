@@ -1,0 +1,13 @@
+.wp-block-spacer {
+	display: block;
+	// Remove vertical margins
+	margin-bottom: 0 !important;
+	margin-top: 0 !important;
+
+	@include media(mobile-only) {
+
+		&[style] {
+			height: var(--global--spacing-unit) !important;
+		}
+	}
+}

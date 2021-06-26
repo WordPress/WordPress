@@ -2,7 +2,7 @@
 /**
  * The template part for displaying results in search pages
  *
- * Learn more: {@link https://codex.wordpress.org/Template_Hierarchy}
+ * Learn more: {@link https://developer.wordpress.org/themes/basics/template-hierarchy/}
  *
  * @package WordPress
  * @subpackage Twenty_Fifteen
@@ -21,7 +21,7 @@
 		<?php the_excerpt(); ?>
 	</div><!-- .entry-summary -->
 
-	<?php if ( 'post' == get_post_type() ) : ?>
+	<?php if ( 'post' === get_post_type() ) : ?>
 
 		<footer class="entry-footer">
 			<?php twentyfifteen_entry_meta(); ?>
@@ -34,4 +34,4 @@
 
 	<?php endif; ?>
 
-</article><!-- #post-## -->
+</article><!-- #post-<?php the_ID(); ?> -->

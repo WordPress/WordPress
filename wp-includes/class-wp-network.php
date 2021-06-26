@@ -89,7 +89,7 @@ class WP_Network {
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @param int $network_id The ID of the network to retrieve.
-	 * @return WP_Network|bool The network's object if found. False if not.
+	 * @return WP_Network|false The network's object if found. False if not.
 	 */
 	public static function get_instance( $network_id ) {
 		global $wpdb;
@@ -101,14 +101,18 @@ class WP_Network {
 
 		$_network = wp_cache_get( $network_id, 'networks' );
 
-		if ( ! $_network ) {
+		if ( false === $_network ) {
 			$_network = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->site} WHERE id = %d LIMIT 1", $network_id ) );
 
 			if ( empty( $_network ) || is_wp_error( $_network ) ) {
-				return false;
+				$_network = -1;
 			}
 
 			wp_cache_add( $network_id, $_network, 'networks' );
+		}
+
+		if ( is_numeric( $_network ) ) {
+			return false;
 		}
 
 		return new WP_Network( $_network );
@@ -125,7 +129,7 @@ class WP_Network {
 	 * @param WP_Network|object $network A network object.
 	 */
 	public function __construct( $network ) {
-		foreach( get_object_vars( $network ) as $key => $value ) {
+		foreach ( get_object_vars( $network ) as $key => $value ) {
 			$this->$key = $value;
 		}
 
@@ -148,9 +152,9 @@ class WP_Network {
 			case 'id':
 				return (int) $this->id;
 			case 'blog_id':
-				return $this->blog_id;
+				return (string) $this->get_main_site_id();
 			case 'site_id':
-				return (int) $this->blog_id;
+				return $this->get_main_site_id();
 		}
 
 		return null;
@@ -202,6 +206,79 @@ class WP_Network {
 	}
 
 	/**
+	 * Returns the main site ID for the network.
+	 *
+	 * Internal method used by the magic getter for the 'blog_id' and 'site_id'
+	 * properties.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @return int The ID of the main site.
+	 */
+	private function get_main_site_id() {
+		/**
+		 * Filters the main site ID.
+		 *
+		 * Returning a positive integer will effectively short-circuit the function.
+		 *
+		 * @since 4.9.0
+		 *
+		 * @param int|null   $main_site_id If a positive integer is returned, it is interpreted as the main site ID.
+		 * @param WP_Network $network      The network object for which the main site was detected.
+		 */
+		$main_site_id = (int) apply_filters( 'pre_get_main_site_id', null, $this );
+		if ( 0 < $main_site_id ) {
+			return $main_site_id;
+		}
+
+		if ( 0 < (int) $this->blog_id ) {
+			return (int) $this->blog_id;
+		}
+
+		if ( ( defined( 'DOMAIN_CURRENT_SITE' ) && defined( 'PATH_CURRENT_SITE' ) && DOMAIN_CURRENT_SITE === $this->domain && PATH_CURRENT_SITE === $this->path )
+			|| ( defined( 'SITE_ID_CURRENT_SITE' ) && SITE_ID_CURRENT_SITE == $this->id ) ) {
+			if ( defined( 'BLOG_ID_CURRENT_SITE' ) ) {
+				$this->blog_id = (string) BLOG_ID_CURRENT_SITE;
+
+				return (int) $this->blog_id;
+			}
+
+			if ( defined( 'BLOGID_CURRENT_SITE' ) ) { // Deprecated.
+				$this->blog_id = (string) BLOGID_CURRENT_SITE;
+
+				return (int) $this->blog_id;
+			}
+		}
+
+		$site = get_site();
+		if ( $site->domain === $this->domain && $site->path === $this->path ) {
+			$main_site_id = (int) $site->id;
+		} else {
+			$cache_key = 'network:' . $this->id . ':main_site';
+
+			$main_site_id = wp_cache_get( $cache_key, 'site-options' );
+			if ( false === $main_site_id ) {
+				$_sites       = get_sites(
+					array(
+						'fields'     => 'ids',
+						'number'     => 1,
+						'domain'     => $this->domain,
+						'path'       => $this->path,
+						'network_id' => $this->id,
+					)
+				);
+				$main_site_id = ! empty( $_sites ) ? array_shift( $_sites ) : 0;
+
+				wp_cache_add( $cache_key, $main_site_id, 'site-options' );
+			}
+		}
+
+		$this->blog_id = (string) $main_site_id;
+
+		return (int) $this->blog_id;
+	}
+
+	/**
 	 * Set the site name assigned to the network if one has not been populated.
 	 *
 	 * @since 4.4.0
@@ -211,7 +288,7 @@ class WP_Network {
 			return;
 		}
 
-		$default = ucfirst( $this->domain );
+		$default         = ucfirst( $this->domain );
 		$this->site_name = get_network_option( $this->id, 'site_name', $default );
 	}
 
@@ -245,12 +322,11 @@ class WP_Network {
 	 * requested site address.
 	 *
 	 * @since 4.4.0
-	 * @static
 	 *
 	 * @param string   $domain   Domain to check.
 	 * @param string   $path     Path to check.
 	 * @param int|null $segments Path segments to use. Defaults to null, or the full path.
-	 * @return WP_Network|bool Network object if successful. False when no network is found.
+	 * @return WP_Network|false Network object if successful. False when no network is found.
 	 */
 	public static function get_by_path( $domain = '', $path = '', $segments = null ) {
 		$domains = array( $domain );
@@ -279,12 +355,14 @@ class WP_Network {
 		if ( wp_using_ext_object_cache() ) {
 			$using_paths = wp_cache_get( 'networks_have_paths', 'site-options' );
 			if ( false === $using_paths ) {
-				$using_paths = get_networks( array(
-					'number'       => 1,
-					'count'        => true,
-					'path__not_in' => '/',
-				) );
-				wp_cache_add( 'networks_have_paths', $using_paths, 'site-options'  );
+				$using_paths = get_networks(
+					array(
+						'number'       => 1,
+						'count'        => true,
+						'path__not_in' => '/',
+					)
+				);
+				wp_cache_add( 'networks_have_paths', $using_paths, 'site-options' );
 			}
 		}
 
@@ -329,12 +407,13 @@ class WP_Network {
 		 *
 		 * @since 3.9.0
 		 *
-		 * @param null|bool|object $network  Network value to return by path.
-		 * @param string           $domain   The requested domain.
-		 * @param string           $path     The requested path, in full.
-		 * @param int|null         $segments The suggested number of paths to consult.
-		 *                                   Default null, meaning the entire path was to be consulted.
-		 * @param array            $paths    The paths to search for, based on $path and $segments.
+		 * @param null|false|WP_Network $network  Network value to return by path. Default null
+		 *                                       to continue retrieving the network.
+		 * @param string               $domain   The requested domain.
+		 * @param string               $path     The requested path, in full.
+		 * @param int|null             $segments The suggested number of paths to consult.
+		 *                                       Default null, meaning the entire path was to be consulted.
+		 * @param string[]             $paths    Array of paths to search for, based on `$path` and `$segments`.
 		 */
 		$pre = apply_filters( 'pre_get_network_by_path', null, $domain, $path, $segments, $paths );
 		if ( null !== $pre ) {
@@ -342,13 +421,15 @@ class WP_Network {
 		}
 
 		if ( ! $using_paths ) {
-			$networks = get_networks( array(
-				'number'     => 1,
-				'orderby'    => array(
-					'domain_length' => 'DESC',
-				),
-				'domain__in' => $domains,
-			) );
+			$networks = get_networks(
+				array(
+					'number'     => 1,
+					'orderby'    => array(
+						'domain_length' => 'DESC',
+					),
+					'domain__in' => $domains,
+				)
+			);
 
 			if ( ! empty( $networks ) ) {
 				return array_shift( $networks );
@@ -357,14 +438,16 @@ class WP_Network {
 			return false;
 		}
 
-		$networks = get_networks( array(
-			'orderby'    => array(
-				'domain_length' => 'DESC',
-				'path_length'   => 'DESC',
-			),
-			'domain__in' => $domains,
-			'path__in'   => $paths,
-		) );
+		$networks = get_networks(
+			array(
+				'orderby'    => array(
+					'domain_length' => 'DESC',
+					'path_length'   => 'DESC',
+				),
+				'domain__in' => $domains,
+				'path__in'   => $paths,
+			)
+		);
 
 		/*
 		 * Domains are sorted by length of domain, then by length of path.
@@ -379,7 +462,7 @@ class WP_Network {
 					break;
 				}
 			}
-			if ( $network->path === '/' ) {
+			if ( '/' === $network->path ) {
 				$found = true;
 				break;
 			}

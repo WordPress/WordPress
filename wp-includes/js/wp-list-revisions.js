@@ -1,3 +1,7 @@
+/**
+ * @output wp-includes/js/wp-list-revisions.js
+ */
+
 (function(w) {
 	var init = function() {
 		var pr = document.getElementById('post-revisions'),

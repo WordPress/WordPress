@@ -1,12 +1,25 @@
+/**
+ * @output wp-admin/js/custom-header.js
+ */
+
 /* global isRtl */
+
+/**
+ * Initializes the custom header selection page.
+ *
+ * @since 3.5.0
+ *
+ * @deprecated 4.1.0 The page this is used on is never linked to from the UI.
+ *             Setting a custom header is completely handled by the Customizer.
+ */
 (function($) {
 	var frame;
 
 	$( function() {
-		// Fetch available headers and apply jQuery.masonry
-		// once the images have loaded.
+		// Fetch available headers.
 		var $headers = $('.available-headers');
 
+		// Apply jQuery.masonry once the images have loaded.
 		$headers.imagesLoaded( function() {
 			$headers.masonry({
 				itemSelector: '.default-header',
@@ -14,8 +27,15 @@
 			});
 		});
 
-		// Build the choose from library frame.
-		$('#choose-from-library-link').click( function( event ) {
+		/**
+		 * Opens the 'choose from library' frame and creates it if it doesn't exist.
+		 *
+		 * @since 3.5.0
+		 * @deprecated 4.1.0
+		 *
+		 * @return {void}
+		 */
+		$('#choose-from-library-link').on( 'click', function( event ) {
 			var $el = $(this);
 			event.preventDefault();
 
@@ -45,7 +65,14 @@
 				}
 			});
 
-			// When an image is selected, run a callback.
+			/**
+			 * Updates the window location to include the selected attachment.
+			 *
+			 * @since 3.5.0
+			 * @deprecated 4.1.0
+			 *
+			 * @return {void}
+			 */
 			frame.on( 'select', function() {
 				// Grab the selected attachment.
 				var attachment = frame.state().get('selection').first(),

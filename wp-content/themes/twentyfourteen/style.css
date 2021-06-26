@@ -4,10 +4,11 @@ Theme URI: https://wordpress.org/themes/twentyfourteen/
 Author: the WordPress team
 Author URI: https://wordpress.org/
 Description: In 2014, our default theme lets you create a responsive magazine website with a sleek, modern design. Feature your favorite homepage content in either a grid or a slider. Use the three widget areas to customize your website, and change your content's layout with a full-width page template and a contributor page to show off your authors. Creating a magazine website with WordPress has never been easier.
-Version: 2.0
+Version: 3.1
+Requires PHP: 5.2.4
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Tags: blog, news, two-columns, three-columns, left-sidebar, right-sidebar, custom-background, custom-header, custom-menu, editor-style, featured-images, flexible-header, footer-widgets, full-width-template, microformats, post-formats, rtl-language-support, sticky-post, theme-options, translation-ready, accessibility-ready
+Tags: blog, news, two-columns, three-columns, left-sidebar, right-sidebar, custom-background, custom-header, custom-menu, editor-style, featured-images, flexible-header, footer-widgets, full-width-template, microformats, post-formats, rtl-language-support, sticky-post, theme-options, translation-ready, accessibility-ready, block-patterns
 Text Domain: twentyfourteen
 
 This theme, like WordPress, is licensed under the GPL.
@@ -762,10 +763,38 @@ div.wp-caption.alignright .wp-caption-text {
 .contributor-info:after,
 .search-box:before,
 .search-box:after,
-[class*="content"]:before,
-[class*="content"]:after,
-[class*="site"]:before,
-[class*="site"]:after {
+.site:before,
+.site:after,
+.site-header:before,
+.site-header:after,
+.site-description:before,
+.site-description:after,
+.site-navigation:before,
+.site-navigation:after,
+.site-main:before,
+.site-main:after,
+.main-content:before,
+.main-content:after,
+.featured-content:before,
+.featured-content:after,
+.featured-content-inner:before,
+.featured-content-inner:after,
+.content-area:before,
+.content-area:after,
+.site-content:before,
+.site-content:after,
+.page-content:before,
+.page-content:after,
+.entry-content:before,
+.entry-content:after,
+.comment-content:before,
+.comment-content:after,
+.content-sidebar:before,
+.content-sidebar:after,
+.site-footer:before,
+.site-footer:after,
+.site-info:before,
+.site-info:after {
 	content: "";
 	display: table;
 }
@@ -776,8 +805,22 @@ div.wp-caption.alignright .wp-caption-text {
 .slider-direction-nav:after,
 .contributor-info:after,
 .search-box:after,
-[class*="content"]:after,
-[class*="site"]:after {
+.site:after,
+.site-header:after,
+.site-description:after,
+.site-navigation:after,
+.site-main:after,
+.main-content:after,
+.featured-content:after,
+.featured-content-inner:after,
+.content-area:after,
+.site-content:after,
+.page-content:after,
+.entry-content:after,
+.comment-content:after,
+.content-sidebar:after,
+.site-footer:after,
+.site-info:after {
 	clear: both;
 }
 
@@ -1261,6 +1304,10 @@ a.post-thumbnail:hover {
 	padding: 12px 10px 0;
 }
 
+.site-content .entry-content {
+	padding-top: 22px;
+}
+
 .page .entry-content {
 	padding-top: 0;
 }
@@ -1345,6 +1392,34 @@ a.post-thumbnail:hover {
 	white-space: nowrap;
 }
 
+.entry-content span[id^="more-"] {
+	display: block;
+	padding-top: 52px;
+	margin-top: -76px;
+}
+
+.admin-bar .entry-content span[id^="more-"] {
+	padding-top: 84px;
+	margin-top: -108px;
+}
+
+.entry-content span[id^="more-"] + blockquote,
+.entry-content span[id^="more-"] + div,
+.entry-content span[id^="more-"] + figure,
+.entry-content span[id^="more-"] + hr,
+.entry-content span[id^="more-"] + ol,
+.entry-content span[id^="more-"] + ul,
+.entry-content span[id^="more-"] + p,
+.entry-content span[id^="more-"] + pre {
+	margin-top: 24px;
+}
+
+.entry-content p span[id^="more-"] {
+	width: 1px;
+	height: 24px;
+	float: left;
+}
+
 /* Mediaelements */
 
 .hentry .mejs-container,
@@ -1405,7 +1480,6 @@ a.post-thumbnail:hover {
 	box-shadow: 1px 1px 1px rgba(0,0,0,.8);
 	color: #000;
 	height: 36px;
-	margin: -28px 0 0 -24px; /* Keep centered on video (container includes visible controls bar) */
 	width: 48px;
 }
 
@@ -1415,7 +1489,7 @@ a.post-thumbnail:hover {
 	content: '\f452';
 	display: inline-block;
 	font: normal 32px/1.125 Genericons;
-	position: absolute;
+	position: relative;
 	top: 1px;
 	left: 10px;
 }
@@ -1612,7 +1686,15 @@ a.post-thumbnail:hover {
 .gallery-columns-1.gallery-size-medium figure.gallery-item:nth-of-type(1n+1),
 .gallery-columns-1.gallery-size-thumbnail figure.gallery-item:nth-of-type(1n+1),
 .gallery-columns-2.gallery-size-thumbnail figure.gallery-item:nth-of-type(2n+1),
-.gallery-columns-3.gallery-size-thumbnail figure.gallery-item:nth-of-type(3n+1) {
+.gallery-columns-3.gallery-size-thumbnail figure.gallery-item:nth-of-type(3n+1),
+.widget-area .gallery-columns-2 figure.gallery-item:nth-of-type(2n+1),
+.widget-area .gallery-columns-3 figure.gallery-item:nth-of-type(3n+1),
+.widget-area .gallery-columns-4 figure.gallery-item:nth-of-type(4n+1),
+.widget-area .gallery-columns-5 figure.gallery-item:nth-of-type(5n+1),
+.widget-area .gallery-columns-6 figure.gallery-item:nth-of-type(6n+1),
+.widget-area .gallery-columns-7 figure.gallery-item:nth-of-type(7n+1),
+.widget-area .gallery-columns-8 figure.gallery-item:nth-of-type(8n+1),
+.widget-area .gallery-columns-9 figure.gallery-item:nth-of-type(9n+1) {
 	clear: left;
 }
 
@@ -1651,7 +1733,15 @@ a.post-thumbnail:hover {
 
 .gallery-columns-7 .gallery-caption,
 .gallery-columns-8 .gallery-caption,
-.gallery-columns-9 .gallery-caption {
+.gallery-columns-9 .gallery-caption,
+.widget-area .gallery-columns-2 .gallery-caption,
+.widget-area .gallery-columns-3 .gallery-caption,
+.widget-area .gallery-columns-4 .gallery-caption,
+.widget-area .gallery-columns-5 .gallery-caption,
+.widget-area .gallery-columns-6 .gallery-caption,
+.widget-area .gallery-columns-7 .gallery-caption,
+.widget-area .gallery-columns-8 .gallery-caption,
+.widget-area .gallery-columns-9 .gallery-caption {
 	display: none;
 }
 
@@ -2170,6 +2260,13 @@ a.post-thumbnail:hover {
 	margin-bottom: 0;
 }
 
+.comment-form #wp-comment-cookies-consent {
+	margin: 0 10px 0 0;
+}
+
+.comment-form .comment-form-cookies-consent label {
+	display: inline;
+}
 
 /**
  * 7.0 Sidebars
@@ -2466,10 +2563,23 @@ a.post-thumbnail:hover {
 	color: #fff;
 }
 
-.widget_calendar #prev {
-	padding-left: 5px;
+.widget_calendar .wp-calendar-nav {
+	display: table;
+	width: 100%;
+	line-height: 2;
 }
 
+.widget_calendar .wp-calendar-nav span {
+	display: table-cell;
+}
+
+.widget_calendar .wp-calendar-nav-prev,
+.widget_calendar #prev {
+	padding-left: 5px;
+	text-align: left;
+}
+
+.widget_calendar .wp-calendar-nav-next,
 .widget_calendar #next {
 	padding-right: 5px;
 	text-align: right;
@@ -2581,6 +2691,14 @@ a.post-thumbnail:hover {
 .widget_pages li li:last-child,
 .widget_text li li:last-child {
 	padding-bottom: 0;
+}
+
+.tagcloud ul {
+	list-style-type: none;
+}
+
+.tagcloud ul li {
+	display: inline-block;
 }
 
 /* Recent Posts Widget */
@@ -2892,6 +3010,13 @@ a.post-thumbnail:hover {
 	color: #41a62a;
 }
 
+.site-info span[role=separator] {
+	padding: 0 0.25em 0 0.5em;
+}
+
+.site-info span[role=separator]::before {
+	content: '\002f';
+}
 
 /**
  * 9.0 Featured Content

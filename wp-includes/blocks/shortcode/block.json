@@ -1,0 +1,20 @@
+{
+	"apiVersion": 2,
+	"name": "core/shortcode",
+	"title": "Shortcode",
+	"category": "widgets",
+	"description": "Insert additional custom elements with a WordPress shortcode.",
+	"textdomain": "default",
+	"attributes": {
+		"text": {
+			"type": "string",
+			"source": "html"
+		}
+	},
+	"supports": {
+		"className": false,
+		"customClassName": false,
+		"html": false
+	},
+	"editorStyle": "wp-block-shortcode-editor"
+}

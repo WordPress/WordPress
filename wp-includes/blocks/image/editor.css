@@ -1,0 +1,194 @@
+/**
+ * Colors
+ */
+/**
+ * Breakpoints & Media Queries
+ */
+/**
+ * SCSS Variables.
+ *
+ * Please use variables from this sheet to ensure consistency across the UI.
+ * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
+ * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
+ */
+/**
+ * Colors
+ */
+/**
+ * Fonts & basic variables.
+ */
+/**
+ * Grid System.
+ * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
+ */
+/**
+ * Dimensions.
+ */
+/**
+ * Shadows.
+ */
+/**
+ * Editor widths.
+ */
+/**
+ * Block & Editor UI.
+ */
+/**
+ * Block paddings.
+ */
+/**
+ * React Native specific.
+ * These variables do not appear to be used anywhere else.
+ */
+/**
+ * Breakpoint mixins
+ */
+/**
+ * Long content fade mixin
+ *
+ * Creates a fading overlay to signify that the content is longer
+ * than the space allows.
+ */
+/**
+ * Focus styles.
+ */
+/**
+ * Applies editor left position to the selector passed as argument
+ */
+/**
+ * Styles that are reused verbatim in a few places
+ */
+/**
+ * Allows users to opt-out of animations via OS-level preferences.
+ */
+/**
+ * Reset default styles for JavaScript UI based pages.
+ * This is a WP-admin agnostic reset
+ */
+/**
+ * Reset the WP Admin page styles for Gutenberg-like pages.
+ */
+figure.wp-block-image:not(.wp-block) {
+  margin: 0;
+}
+
+.wp-block-image {
+  position: relative;
+}
+.wp-block-image .is-applying img, .wp-block-image.is-transient img {
+  opacity: 0.3;
+}
+.wp-block-image figcaption img {
+  display: inline;
+}
+.wp-block-image .components-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -9px;
+  margin-left: -9px;
+}
+.wp-block-image:not(.is-style-rounded) > div {
+  border-radius: inherit;
+}
+
+.wp-block-image .components-resizable-box__container {
+  display: inline-block;
+}
+.wp-block-image .components-resizable-box__container img {
+  display: block;
+  width: inherit;
+  height: inherit;
+}
+
+.block-editor-block-list__block[data-type="core/image"] .block-editor-block-toolbar .block-editor-url-input__button-modal {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: -1px 0;
+}
+@media (min-width: 600px) {
+  .block-editor-block-list__block[data-type="core/image"] .block-editor-block-toolbar .block-editor-url-input__button-modal {
+    margin: -1px;
+  }
+}
+
+[data-align=wide] > .wp-block-image img,
+[data-align=full] > .wp-block-image img {
+  width: 100%;
+}
+
+.wp-block[data-align=left] > .wp-block-image,
+.wp-block[data-align=center] > .wp-block-image,
+.wp-block[data-align=right] > .wp-block-image {
+  display: table;
+}
+.wp-block[data-align=left] > .wp-block-image > figcaption,
+.wp-block[data-align=center] > .wp-block-image > figcaption,
+.wp-block[data-align=right] > .wp-block-image > figcaption {
+  display: table-caption;
+  caption-side: bottom;
+}
+
+.wp-block[data-align=left] > .wp-block-image {
+  margin-right: 1em;
+  margin-left: 0;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.wp-block[data-align=right] > .wp-block-image {
+  margin-left: 1em;
+  margin-right: 0;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.wp-block[data-align=center] > .wp-block-image {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.wp-block-image__crop-area {
+  position: relative;
+  max-width: 100%;
+  width: 100%;
+}
+
+.wp-block-image__crop-icon {
+  padding: 0 8px;
+  min-width: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.wp-block-image__crop-icon svg {
+  fill: currentColor;
+}
+
+.wp-block-image__zoom .components-popover__content {
+  overflow: visible;
+  min-width: 260px;
+}
+.wp-block-image__zoom .components-range-control {
+  flex: 1;
+}
+.wp-block-image__zoom .components-base-control__field {
+  display: flex;
+  margin-bottom: 0;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.wp-block-image__aspect-ratio {
+  height: 46px;
+  margin-bottom: -8px;
+  display: flex;
+  align-items: center;
+}
+.wp-block-image__aspect-ratio .components-button {
+  width: 36px;
+  padding-left: 0;
+  padding-right: 0;
+}

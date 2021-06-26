@@ -400,6 +400,9 @@ img.alignleft {
 	float: left;
 }
 
+.comment-form #wp-comment-cookies-consent {
+	margin: 0 0 0 10px;
+}
 
 /**
  * 11.0 Media Queries

@@ -1,0 +1,20 @@
+{
+	"apiVersion": 2,
+	"name": "core/freeform",
+	"title": "Classic",
+	"category": "text",
+	"description": "Use the classic WordPress editor.",
+	"textdomain": "default",
+	"attributes": {
+		"content": {
+			"type": "string",
+			"source": "html"
+		}
+	},
+	"supports": {
+		"className": false,
+		"customClassName": false,
+		"reusable": false
+	},
+	"editorStyle": "wp-block-freeform-editor"
+}

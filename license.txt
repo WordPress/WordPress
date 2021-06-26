@@ -1,6 +1,6 @@
 WordPress - Web publishing software
 
-Copyright 2011-2017 by the contributors
+Copyright 2011-2021 by the contributors
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,8 +19,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 This program incorporates work covered by the following copyright and
 permission notices:
 
-  b2 is (c) 2001, 2002 Michel Valdrighi - m@tidakada.com -
-  http://tidakada.com
+  b2 is (c) 2001, 2002 Michel Valdrighi - https://cafelog.com
 
   Wherever third party code has been used, credit has been given in the code's
   comments.

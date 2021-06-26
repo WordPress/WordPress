@@ -8,14 +8,19 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once( dirname( __FILE__ ) . '/admin.php' );
+require_once __DIR__ . '/admin.php';
 
 if ( empty( $_REQUEST['tag_ID'] ) ) {
 	$sendback = admin_url( 'edit-tags.php' );
 	if ( ! empty( $taxnow ) ) {
 		$sendback = add_query_arg( array( 'taxonomy' => $taxnow ), $sendback );
 	}
-	wp_redirect( esc_url( $sendback ) );
+
+	if ( 'post' !== get_current_screen()->post_type ) {
+		$sendback = add_query_arg( 'post_type', get_current_screen()->post_type, $sendback );
+	}
+
+	wp_redirect( esc_url_raw( $sendback ) );
 	exit;
 }
 
@@ -30,11 +35,11 @@ $tax      = get_taxonomy( $tag->taxonomy );
 $taxonomy = $tax->name;
 $title    = $tax->labels->edit_item;
 
-if ( ! in_array( $taxonomy, get_taxonomies( array( 'show_ui' => true ) ) ) ||
-     ! current_user_can( 'edit_term', $tag->term_id )
+if ( ! in_array( $taxonomy, get_taxonomies( array( 'show_ui' => true ) ), true )
+	|| ! current_user_can( 'edit_term', $tag->term_id )
 ) {
 	wp_die(
-		'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+		'<h1>' . __( 'You need a higher level of permission.' ) . '</h1>' .
 		'<p>' . __( 'Sorry, you are not allowed to edit this item.' ) . '</p>',
 		403
 	);
@@ -47,10 +52,10 @@ if ( empty( $post_type ) ) {
 	$post_type = reset( $tax->object_type );
 }
 
-if ( 'post' != $post_type ) {
-	$parent_file  = ( 'attachment' == $post_type ) ? 'upload.php' : "edit.php?post_type=$post_type";
+if ( 'post' !== $post_type ) {
+	$parent_file  = ( 'attachment' === $post_type ) ? 'upload.php' : "edit.php?post_type=$post_type";
 	$submenu_file = "edit-tags.php?taxonomy=$taxonomy&amp;post_type=$post_type";
-} elseif ( 'link_category' == $taxonomy ) {
+} elseif ( 'link_category' === $taxonomy ) {
 	$parent_file  = 'link-manager.php';
 	$submenu_file = 'edit-tags.php?taxonomy=link_category';
 } else {
@@ -58,11 +63,13 @@ if ( 'post' != $post_type ) {
 	$submenu_file = "edit-tags.php?taxonomy=$taxonomy";
 }
 
-get_current_screen()->set_screen_reader_content( array(
-	'heading_pagination' => $tax->labels->items_list_navigation,
-	'heading_list'       => $tax->labels->items_list,
-) );
+get_current_screen()->set_screen_reader_content(
+	array(
+		'heading_pagination' => $tax->labels->items_list_navigation,
+		'heading_list'       => $tax->labels->items_list,
+	)
+);
 wp_enqueue_script( 'admin-tags' );
-require_once( ABSPATH . 'wp-admin/admin-header.php' );
-include( ABSPATH . 'wp-admin/edit-tag-form.php' );
-include( ABSPATH . 'wp-admin/admin-footer.php' );
+require_once ABSPATH . 'wp-admin/admin-header.php';
+require ABSPATH . 'wp-admin/edit-tag-form.php';
+require_once ABSPATH . 'wp-admin/admin-footer.php';

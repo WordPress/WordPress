@@ -1,0 +1,139 @@
+/**
+ * Colors
+ */
+/**
+ * Breakpoints & Media Queries
+ */
+/**
+ * SCSS Variables.
+ *
+ * Please use variables from this sheet to ensure consistency across the UI.
+ * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
+ * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
+ */
+/**
+ * Colors
+ */
+/**
+ * Fonts & basic variables.
+ */
+/**
+ * Grid System.
+ * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
+ */
+/**
+ * Dimensions.
+ */
+/**
+ * Shadows.
+ */
+/**
+ * Editor widths.
+ */
+/**
+ * Block & Editor UI.
+ */
+/**
+ * Block paddings.
+ */
+/**
+ * React Native specific.
+ * These variables do not appear to be used anywhere else.
+ */
+/**
+ * Breakpoint mixins
+ */
+/**
+ * Long content fade mixin
+ *
+ * Creates a fading overlay to signify that the content is longer
+ * than the space allows.
+ */
+/**
+ * Focus styles.
+ */
+/**
+ * Applies editor left position to the selector passed as argument
+ */
+/**
+ * Styles that are reused verbatim in a few places
+ */
+/**
+ * Allows users to opt-out of animations via OS-level preferences.
+ */
+/**
+ * Reset default styles for JavaScript UI based pages.
+ * This is a WP-admin agnostic reset
+ */
+/**
+ * Reset the WP Admin page styles for Gutenberg-like pages.
+ */
+.wp-block-table {
+  margin: 0;
+}
+.wp-block[data-align=left] > .wp-block-table, .wp-block[data-align=right] > .wp-block-table, .wp-block[data-align=center] > .wp-block-table {
+  height: auto;
+}
+.wp-block[data-align=left] > .wp-block-table table, .wp-block[data-align=right] > .wp-block-table table, .wp-block[data-align=center] > .wp-block-table table {
+  width: auto;
+}
+.wp-block[data-align=left] > .wp-block-table td,
+.wp-block[data-align=left] > .wp-block-table th, .wp-block[data-align=right] > .wp-block-table td,
+.wp-block[data-align=right] > .wp-block-table th, .wp-block[data-align=center] > .wp-block-table td,
+.wp-block[data-align=center] > .wp-block-table th {
+  word-break: break-word;
+}
+.wp-block[data-align=center] > .wp-block-table {
+  text-align: initial;
+}
+.wp-block[data-align=center] > .wp-block-table table {
+  margin: 0 auto;
+}
+.wp-block-table td,
+.wp-block-table th {
+  border: 1px solid;
+}
+.wp-block-table td.is-selected,
+.wp-block-table th.is-selected {
+  border-color: var(--wp-admin-theme-color);
+  box-shadow: inset 0 0 0 1px var(--wp-admin-theme-color);
+  border-style: double;
+}
+.wp-block-table figcaption {
+  color: #555;
+  font-size: 13px;
+  text-align: center;
+}
+.is-dark-theme .wp-block-table figcaption {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.blocks-table__placeholder-form.blocks-table__placeholder-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.blocks-table__placeholder-form.blocks-table__placeholder-form > * {
+  margin-bottom: 8px;
+}
+@media (min-width: 782px) {
+  .blocks-table__placeholder-form.blocks-table__placeholder-form {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+  .blocks-table__placeholder-form.blocks-table__placeholder-form > * {
+    margin-bottom: 0;
+  }
+}
+
+.blocks-table__placeholder-input {
+  width: 112px;
+  margin-left: 8px;
+  margin-bottom: 0;
+}
+.blocks-table__placeholder-input input {
+  height: 36px;
+}
+.blocks-table__placeholder-input .components-base-control__field {
+  margin-bottom: 0;
+}

@@ -4,7 +4,7 @@
  *
  * @package WordPress
  * @subpackage Twenty_Seventeen
- * @since 1.0
+ * @since Twenty Seventeen 1.0
  */
 
 /**
@@ -16,7 +16,7 @@ function twentyseventeen_include_svg_icons() {
 
 	// If it exists, include it.
 	if ( file_exists( $svg_icons ) ) {
-		require_once( $svg_icons );
+		require_once $svg_icons;
 	}
 }
 add_action( 'wp_footer', 'twentyseventeen_include_svg_icons', 9999 );
@@ -46,10 +46,10 @@ function twentyseventeen_get_svg( $args = array() ) {
 
 	// Set defaults.
 	$defaults = array(
-		'icon'        => '',
-		'title'       => '',
-		'desc'        => '',
-		'fallback'    => false,
+		'icon'     => '',
+		'title'    => '',
+		'desc'     => '',
+		'fallback' => false,
 	);
 
 	// Parse args.
@@ -74,7 +74,7 @@ function twentyseventeen_get_svg( $args = array() ) {
 	 */
 	if ( $args['title'] ) {
 		$aria_hidden     = '';
-		$unique_id       = uniqid();
+		$unique_id       = twentyseventeen_unique_id();
 		$aria_labelledby = ' aria-labelledby="title-' . $unique_id . '"';
 
 		if ( $args['desc'] ) {
@@ -117,11 +117,11 @@ function twentyseventeen_get_svg( $args = array() ) {
 /**
  * Display SVG icons in social links menu.
  *
- * @param  string  $item_output The menu item output.
- * @param  WP_Post $item        Menu item object.
- * @param  int     $depth       Depth of the menu.
- * @param  array   $args        wp_nav_menu() arguments.
- * @return string  $item_output The menu item output with social icon.
+ * @param string   $item_output The menu item's starting HTML output.
+ * @param WP_Post  $item        Menu item data object.
+ * @param int      $depth       Depth of the menu. Used for padding.
+ * @param stdClass $args        An object of wp_nav_menu() arguments.
+ * @return string The menu item output with social icon.
  */
 function twentyseventeen_nav_menu_social_icons( $item_output, $item, $depth, $args ) {
 	// Get supported social icons.
@@ -143,11 +143,11 @@ add_filter( 'walker_nav_menu_start_el', 'twentyseventeen_nav_menu_social_icons',
 /**
  * Add dropdown icon if menu item has children.
  *
- * @param  string $title The menu item's title.
- * @param  object $item  The current menu item.
- * @param  array  $args  An array of wp_nav_menu() arguments.
- * @param  int    $depth Depth of menu item. Used for padding.
- * @return string $title The menu item's title with dropdown icon.
+ * @param string   $title The menu item's title.
+ * @param WP_Post  $item  The current menu item.
+ * @param stdClass $args  An object of wp_nav_menu() arguments.
+ * @param int      $depth Depth of menu item. Used for padding.
+ * @return string The menu item's title with dropdown icon.
  */
 function twentyseventeen_dropdown_icon_to_menu_link( $title, $item, $args, $depth ) {
 	if ( 'top' === $args->theme_location ) {
@@ -165,7 +165,7 @@ add_filter( 'nav_menu_item_title', 'twentyseventeen_dropdown_icon_to_menu_link',
 /**
  * Returns an array of supported social links (URL and icon name).
  *
- * @return array $social_links_icons
+ * @return array Array of social links icons.
  */
 function twentyseventeen_social_links_icons() {
 	// Supported social links icons.
@@ -174,6 +174,7 @@ function twentyseventeen_social_links_icons() {
 		'codepen.io'      => 'codepen',
 		'deviantart.com'  => 'deviantart',
 		'digg.com'        => 'digg',
+		'docker.com'      => 'dockerhub',
 		'dribbble.com'    => 'dribbble',
 		'dropbox.com'     => 'dropbox',
 		'facebook.com'    => 'facebook',
@@ -186,6 +187,7 @@ function twentyseventeen_social_links_icons() {
 		'mailto:'         => 'envelope-o',
 		'medium.com'      => 'medium',
 		'pinterest.com'   => 'pinterest-p',
+		'pscp.tv'         => 'periscope',
 		'getpocket.com'   => 'get-pocket',
 		'reddit.com'      => 'reddit-alien',
 		'skype.com'       => 'skype',
@@ -195,12 +197,15 @@ function twentyseventeen_social_links_icons() {
 		'soundcloud.com'  => 'soundcloud',
 		'spotify.com'     => 'spotify',
 		'stumbleupon.com' => 'stumbleupon',
+		't.me'            => 'telegram',
+		'telegram.me'     => 'telegram',
 		'tumblr.com'      => 'tumblr',
 		'twitch.tv'       => 'twitch',
 		'twitter.com'     => 'twitter',
 		'vimeo.com'       => 'vimeo',
 		'vine.co'         => 'vine',
 		'vk.com'          => 'vk',
+		'whatsapp.com'    => 'whatsapp',
 		'wordpress.org'   => 'wordpress',
 		'wordpress.com'   => 'wordpress',
 		'yelp.com'        => 'yelp',
@@ -208,7 +213,7 @@ function twentyseventeen_social_links_icons() {
 	);
 
 	/**
-	 * Filter Twenty Seventeen social links icons.
+	 * Filters Twenty Seventeen social links icons.
 	 *
 	 * @since Twenty Seventeen 1.0
 	 *

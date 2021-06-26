@@ -4,10 +4,12 @@ Theme URI: https://wordpress.org/themes/twentysixteen/
 Author: the WordPress team
 Author URI: https://wordpress.org/
 Description: Twenty Sixteen is a modernized take on an ever-popular WordPress layout — the horizontal masthead with an optional right sidebar that works perfectly for blogs and websites. It has custom color options with beautiful default color schemes, a harmonious fluid grid using a mobile-first approach, and impeccable polish in every detail. Twenty Sixteen will make your WordPress look beautiful everywhere.
-Version: 1.3
+Version: 2.4
+Requires at least: 4.4
+Requires PHP: 5.2.4
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Tags: one-column, two-columns, right-sidebar, accessibility-ready, custom-background, custom-colors, custom-header, custom-menu, editor-style, featured-images, flexible-header, microformats, post-formats, rtl-language-support, sticky-post, threaded-comments, translation-ready, blog
+Tags: one-column, two-columns, right-sidebar, accessibility-ready, custom-background, custom-colors, custom-header, custom-menu, editor-style, featured-images, flexible-header, microformats, post-formats, rtl-language-support, sticky-post, threaded-comments, translation-ready, blog, block-patterns
 Text Domain: twentysixteen
 
 This theme, like WordPress, is licensed under the GPL.
@@ -286,7 +288,7 @@ optgroup {
 	font-variant: normal;
 	font-weight: normal;
 	line-height: 1;
-	speak: none;
+	speak: never;
 	text-align: center;
 	text-decoration: inherit;
 	text-transform: none;
@@ -1411,7 +1413,8 @@ blockquote:after,
 }
 
 .widget-area > :last-child,
-.widget > :last-child {
+.widget > :last-child,
+.widget > nav > :last-child {
 	margin-bottom: 0;
 }
 
@@ -1438,8 +1441,23 @@ blockquote:after,
 	margin: 0;
 }
 
+.widget_calendar .wp-calendar-nav {
+	display: table;
+	width: 100%;
+}
+
+.widget_calendar .wp-calendar-nav span {
+	display: table-cell;
+}
+
+.widget_calendar .wp-calendar-nav-prev,
+.widget_calendar .wp-calendar-nav-next {
+	width: 40%;
+}
+
 .widget_calendar td,
-.widget_calendar th {
+.widget_calendar th,
+.widget_calendar .wp-calendar-nav span {
 	line-height: 2.5625;
 	padding: 0;
 	text-align: center;
@@ -1512,6 +1530,15 @@ blockquote:after,
 	line-height: 1;
 	margin: 0 0.1875em 0.4375em 0;
 	padding: 0.5625em 0.4375em 0.5em;
+}
+
+.tagcloud ul {
+	list-style-type: none;
+	margin-left: 0;
+}
+
+.tagcloud ul li {
+	display: inline-block;
 }
 
 .tagcloud a:hover,
@@ -2385,6 +2412,16 @@ body.search-no-results .page-header {
 	top: -5px;
 }
 
+.comment-form #wp-comment-cookies-consent {
+	margin: 0 10px 0 0;
+}
+
+.comment-form .comment-form-cookies-consent label {
+	display: inline;
+	font-family: Merriweather, Georgia, serif;
+	letter-spacing: 0;
+	text-transform: none;
+}
 
 /**
  * 11.5 - Sidebar
@@ -2432,6 +2469,16 @@ body.search-no-results .page-header {
 	font-family: Montserrat, sans-serif;
 	opacity: 0.7;
 	padding: 0 0.307692308em 0 0.538461538em;
+}
+
+.site-footer span[role=separator] {
+	font-family: Montserrat, sans-serif;
+	opacity: 0.7;
+	padding: 0 0.307692308em 0 0.538461538em;
+}
+
+.site-footer span[role=separator]::before {
+	content: '\002f';
 }
 
 
@@ -3273,7 +3320,8 @@ p > video {
 	}
 
 	.widget_calendar td,
-	.widget_calendar th {
+	.widget_calendar th,
+	.widget_calendar .wp-calendar-nav span {
 		line-height: 2.6923076923;
 		padding: 0;
 	}

@@ -1,3 +1,8 @@
+/*
+ * Edited for compatibility with old TinyMCE 3.x plugins in WordPress.
+ * More info: https://core.trac.wordpress.org/ticket/31596#comment:10
+ */
+
 /* Generic */
 body {
 font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;

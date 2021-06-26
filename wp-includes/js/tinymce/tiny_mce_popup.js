@@ -53,7 +53,7 @@ var tinyMCEPopup = {
     }
 
     // Setup local DOM
-    self.dom = self.editor.windowManager.createInstance('tinymce.plugins.dom.DOMUtils', document, {
+    self.dom = self.editor.windowManager.createInstance('tinymce.dom.DOMUtils', document, {
       ownEvents: true,
       proxy: tinyMCEPopup._eventProxy
     });

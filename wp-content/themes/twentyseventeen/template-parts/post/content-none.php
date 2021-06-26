@@ -2,11 +2,11 @@
 /**
  * Template part for displaying a message that posts cannot be found
  *
- * @link https://codex.wordpress.org/Template_Hierarchy
+ * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
  *
  * @package WordPress
  * @subpackage Twenty_Seventeen
- * @since 1.0
+ * @since Twenty Seventeen 1.0
  * @version 1.0
  */
 
@@ -18,9 +18,15 @@
 	</header>
 	<div class="page-content">
 		<?php
-		if ( is_home() && current_user_can( 'publish_posts' ) ) : ?>
+		if ( is_home() && current_user_can( 'publish_posts' ) ) :
+			?>
 
-			<p><?php printf( __( 'Ready to publish your first post? <a href="%1$s">Get started here</a>.', 'twentyseventeen' ), esc_url( admin_url( 'post-new.php' ) ) ); ?></p>
+			<p>
+			<?php
+			/* translators: %s: Post editor URL. */
+			printf( __( 'Ready to publish your first post? <a href="%s">Get started here</a>.', 'twentyseventeen' ), esc_url( admin_url( 'post-new.php' ) ) );
+			?>
+			</p>
 
 		<?php else : ?>
 
@@ -28,6 +34,7 @@
 			<?php
 				get_search_form();
 
-		endif; ?>
+		endif;
+		?>
 	</div><!-- .page-content -->
 </section><!-- .no-results -->

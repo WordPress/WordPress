@@ -15,6 +15,7 @@
  * @since 3.4.0
  *
  * @see WP_Customize_Manager
+ * @link https://developer.wordpress.org/themes/customize-api
  */
 class WP_Customize_Setting {
 	/**
@@ -50,10 +51,10 @@ class WP_Customize_Setting {
 	public $capability = 'edit_theme_options';
 
 	/**
-	 * Feature a theme is required to support to enable this setting.
+	 * Theme features required to support the setting.
 	 *
 	 * @since 3.4.0
-	 * @var string
+	 * @var string|string[]
 	 */
 	public $theme_supports = '';
 
@@ -66,12 +67,10 @@ class WP_Customize_Setting {
 	public $default = '';
 
 	/**
-	 * Options for rendering the live preview of changes in Theme Customizer.
+	 * Options for rendering the live preview of changes in Customizer.
 	 *
-	 * Set this value to 'postMessage' to enable a custom Javascript handler to render changes to this setting
+	 * Set this value to 'postMessage' to enable a custom JavaScript handler to render changes to this setting
 	 * as opposed to reloading the whole page.
-	 *
-	 * @link https://developer.wordpress.org/themes/customize-api
 	 *
 	 * @since 3.4.0
 	 * @var string
@@ -98,7 +97,7 @@ class WP_Customize_Setting {
 	 * Callback to convert a Customize PHP setting value to a value that is JSON serializable.
 	 *
 	 * @since 3.4.0
-	 * @var string
+	 * @var callable
 	 */
 	public $sanitize_js_callback = '';
 
@@ -135,7 +134,6 @@ class WP_Customize_Setting {
 	 * Cache of multidimensional values to improve performance.
 	 *
 	 * @since 4.4.0
-	 * @static
 	 * @var array
 	 */
 	protected static $aggregated_multidimensionals = array();
@@ -155,10 +153,26 @@ class WP_Customize_Setting {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param WP_Customize_Manager $manager
-	 * @param string               $id      An specific ID of the setting. Can be a
-	 *                                      theme mod or option name.
-	 * @param array                $args    Setting arguments.
+	 * @param WP_Customize_Manager $manager Customizer bootstrap instance.
+	 * @param string               $id      A specific ID of the setting.
+	 *                                      Can be a theme mod or option name.
+	 * @param array                $args    {
+	 *     Optional. Array of properties for the new Setting object. Default empty array.
+	 *
+	 *     @type string          $type                 Type of the setting. Default 'theme_mod'.
+	 *     @type string          $capability           Capability required for the setting. Default 'edit_theme_options'
+	 *     @type string|string[] $theme_supports       Theme features required to support the panel. Default is none.
+	 *     @type string          $default              Default value for the setting. Default is empty string.
+	 *     @type string          $transport            Options for rendering the live preview of changes in Customizer.
+	 *                                                 Using 'refresh' makes the change visible by reloading the whole preview.
+	 *                                                 Using 'postMessage' allows a custom JavaScript to handle live changes.
+	 *                                                 Default is 'refresh'.
+	 *     @type callable        $validate_callback    Server-side validation callback for the setting's value.
+	 *     @type callable        $sanitize_callback    Callback to filter a Customize setting value in un-slashed form.
+	 *     @type callable        $sanitize_js_callback Callback to convert a Customize PHP setting value to a value that is
+	 *                                                 JSON serializable.
+	 *     @type bool            $dirty                Whether or not the setting is initially dirty when created.
+	 * }
 	 */
 	public function __construct( $manager, $id, $args = array() ) {
 		$keys = array_keys( get_object_vars( $this ) );
@@ -169,15 +183,15 @@ class WP_Customize_Setting {
 		}
 
 		$this->manager = $manager;
-		$this->id = $id;
+		$this->id      = $id;
 
 		// Parse the ID for array keys.
 		$this->id_data['keys'] = preg_split( '/\[/', str_replace( ']', '', $this->id ) );
 		$this->id_data['base'] = array_shift( $this->id_data['keys'] );
 
 		// Rebuild the ID.
-		$this->id = $this->id_data[ 'base' ];
-		if ( ! empty( $this->id_data[ 'keys' ] ) ) {
+		$this->id = $this->id_data['base'];
+		if ( ! empty( $this->id_data['keys'] ) ) {
 			$this->id .= '[' . implode( '][', $this->id_data['keys'] ) . ']';
 		}
 
@@ -311,8 +325,8 @@ class WP_Customize_Setting {
 			return true;
 		}
 
-		$id_base = $this->id_data['base'];
-		$is_multidimensional = ! empty( $this->id_data['keys'] );
+		$id_base                 = $this->id_data['base'];
+		$is_multidimensional     = ! empty( $this->id_data['keys'] );
 		$multidimensional_filter = array( $this, '_multidimensional_preview_filter' );
 
 		/*
@@ -321,19 +335,19 @@ class WP_Customize_Setting {
 		 * then the preview short-circuits because there is nothing that needs
 		 * to be previewed.
 		 */
-		$undefined = new stdClass();
+		$undefined     = new stdClass();
 		$needs_preview = ( $undefined !== $this->post_value( $undefined ) );
-		$value = null;
+		$value         = null;
 
 		// Since no post value was defined, check if we have an initial value set.
 		if ( ! $needs_preview ) {
 			if ( $this->is_multidimensional_aggregated ) {
-				$root = self::$aggregated_multidimensionals[ $this->type ][ $id_base ]['root_value'];
+				$root  = self::$aggregated_multidimensionals[ $this->type ][ $id_base ]['root_value'];
 				$value = $this->multidimensional_get( $root, $this->id_data['keys'], $undefined );
 			} else {
-				$default = $this->default;
+				$default       = $this->default;
 				$this->default = $undefined; // Temporarily set default to undefined so we can detect if existing value is set.
-				$value = $this->value();
+				$value         = $this->value();
 				$this->default = $default;
 			}
 			$needs_preview = ( $undefined === $value ); // Because the default needs to be supplied.
@@ -348,7 +362,7 @@ class WP_Customize_Setting {
 		}
 
 		switch ( $this->type ) {
-			case 'theme_mod' :
+			case 'theme_mod':
 				if ( ! $is_multidimensional ) {
 					add_filter( "theme_mod_{$id_base}", array( $this, '_preview_filter' ) );
 				} else {
@@ -359,7 +373,7 @@ class WP_Customize_Setting {
 					self::$aggregated_multidimensionals[ $this->type ][ $id_base ]['previewed_instances'][ $this->id ] = $this;
 				}
 				break;
-			case 'option' :
+			case 'option':
 				if ( ! $is_multidimensional ) {
 					add_filter( "pre_option_{$id_base}", array( $this, '_preview_filter' ) );
 				} else {
@@ -371,8 +385,7 @@ class WP_Customize_Setting {
 					self::$aggregated_multidimensionals[ $this->type ][ $id_base ]['previewed_instances'][ $this->id ] = $this;
 				}
 				break;
-			default :
-
+			default:
 				/**
 				 * Fires when the WP_Customize_Setting::preview() method is called for settings
 				 * not handled as theme_mods or options.
@@ -436,7 +449,7 @@ class WP_Customize_Setting {
 			return $original;
 		}
 
-		$undefined = new stdClass(); // Symbol hack.
+		$undefined  = new stdClass(); // Symbol hack.
 		$post_value = $this->post_value( $undefined );
 		if ( $undefined !== $post_value ) {
 			$value = $post_value;
@@ -483,8 +496,8 @@ class WP_Customize_Setting {
 
 			// Do the replacements of the posted/default sub value into the root value.
 			$value = $previewed_setting->post_value( $previewed_setting->default );
-			$root = self::$aggregated_multidimensionals[ $previewed_setting->type ][ $id_base ]['root_value'];
-			$root = $previewed_setting->multidimensional_replace( $root, $previewed_setting->id_data['keys'], $value );
+			$root  = self::$aggregated_multidimensionals[ $previewed_setting->type ][ $id_base ]['root_value'];
+			$root  = $previewed_setting->multidimensional_replace( $root, $previewed_setting->id_data['keys'], $value );
 			self::$aggregated_multidimensionals[ $previewed_setting->type ][ $id_base ]['root_value'] = $root;
 
 			// Mark this setting having been applied so that it will be skipped when the filter is called again.
@@ -500,7 +513,8 @@ class WP_Customize_Setting {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @return false|void False if cap check fails or value isn't set or is invalid.
+	 * @return void|false Void on success, false if cap check fails
+	 *                    or value isn't set or is invalid.
 	 */
 	final public function save() {
 		$value = $this->post_value();
@@ -533,7 +547,7 @@ class WP_Customize_Setting {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param mixed $default A default value which is used as a fallback. Default is null.
+	 * @param mixed $default A default value which is used as a fallback. Default null.
 	 * @return mixed The default value on failure, otherwise the sanitized and validated value.
 	 */
 	final public function post_value( $default = null ) {
@@ -592,11 +606,11 @@ class WP_Customize_Setting {
 		 *
 		 * @param WP_Error             $validity Filtered from `true` to `WP_Error` when invalid.
 		 * @param mixed                $value    Value of the setting.
-		 * @param WP_Customize_Setting $this     WP_Customize_Setting instance.
+		 * @param WP_Customize_Setting $setting  WP_Customize_Setting instance.
 		 */
 		$validity = apply_filters( "customize_validate_{$this->id}", $validity, $value, $this );
 
-		if ( is_wp_error( $validity ) && empty( $validity->errors ) ) {
+		if ( is_wp_error( $validity ) && ! $validity->has_errors() ) {
 			$validity = true;
 		}
 		return $validity;
@@ -720,7 +734,7 @@ class WP_Customize_Setting {
 	 * @return mixed The value.
 	 */
 	public function value() {
-		$id_base = $this->id_data['base'];
+		$id_base      = $this->id_data['base'];
 		$is_core_type = ( 'option' === $this->type || 'theme_mod' === $this->type );
 
 		if ( ! $is_core_type && ! $this->is_multidimensional_aggregated ) {
@@ -748,12 +762,12 @@ class WP_Customize_Setting {
 			 * @since 4.6.0 Added the `$this` setting instance as the second parameter.
 			 *
 			 * @param mixed                $default The setting default value. Default empty.
-			 * @param WP_Customize_Setting $this    The setting instance.
+			 * @param WP_Customize_Setting $setting The setting instance.
 			 */
 			$value = apply_filters( "customize_value_{$id_base}", $value, $this );
 		} elseif ( $this->is_multidimensional_aggregated ) {
 			$root_value = self::$aggregated_multidimensionals[ $this->type ][ $id_base ]['root_value'];
-			$value = $this->multidimensional_get( $root_value, $this->id_data['keys'], $this->default );
+			$value      = $this->multidimensional_get( $root_value, $this->id_data['keys'], $this->default );
 
 			// Ensure that the post value is used if the setting is previewed, since preview filters aren't applying on cached $root_value.
 			if ( $this->is_previewed ) {
@@ -781,13 +795,14 @@ class WP_Customize_Setting {
 		 *
 		 * @since 3.4.0
 		 *
-		 * @param mixed                $value The setting value.
-		 * @param WP_Customize_Setting $this  WP_Customize_Setting instance.
+		 * @param mixed                $value   The setting value.
+		 * @param WP_Customize_Setting $setting WP_Customize_Setting instance.
 		 */
 		$value = apply_filters( "customize_sanitize_js_{$this->id}", $this->value(), $this );
 
-		if ( is_string( $value ) )
-			return html_entity_decode( $value, ENT_QUOTES, 'UTF-8');
+		if ( is_string( $value ) ) {
+			return html_entity_decode( $value, ENT_QUOTES, 'UTF-8' );
+		}
 
 		return $value;
 	}
@@ -816,11 +831,13 @@ class WP_Customize_Setting {
 	 * @return bool False if theme doesn't support the setting or user can't change setting, otherwise true.
 	 */
 	final public function check_capabilities() {
-		if ( $this->capability && ! call_user_func_array( 'current_user_can', (array) $this->capability ) )
+		if ( $this->capability && ! current_user_can( $this->capability ) ) {
 			return false;
+		}
 
-		if ( $this->theme_supports && ! call_user_func_array( 'current_theme_supports', (array) $this->theme_supports ) )
+		if ( $this->theme_supports && ! current_theme_supports( ... (array) $this->theme_supports ) ) {
 			return false;
+		}
 
 		return true;
 	}
@@ -830,34 +847,38 @@ class WP_Customize_Setting {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param $root
-	 * @param $keys
-	 * @param bool $create Default is false.
+	 * @param array $root
+	 * @param array $keys
+	 * @param bool  $create Default false.
 	 * @return array|void Keys are 'root', 'node', and 'key'.
 	 */
 	final protected function multidimensional( &$root, $keys, $create = false ) {
-		if ( $create && empty( $root ) )
+		if ( $create && empty( $root ) ) {
 			$root = array();
+		}
 
-		if ( ! isset( $root ) || empty( $keys ) )
+		if ( ! isset( $root ) || empty( $keys ) ) {
 			return;
+		}
 
 		$last = array_pop( $keys );
 		$node = &$root;
 
 		foreach ( $keys as $key ) {
-			if ( $create && ! isset( $node[ $key ] ) )
+			if ( $create && ! isset( $node[ $key ] ) ) {
 				$node[ $key ] = array();
+			}
 
-			if ( ! is_array( $node ) || ! isset( $node[ $key ] ) )
+			if ( ! is_array( $node ) || ! isset( $node[ $key ] ) ) {
 				return;
+			}
 
 			$node = &$node[ $key ];
 		}
 
 		if ( $create ) {
 			if ( ! is_array( $node ) ) {
-				// account for an array overriding a string or object value
+				// Account for an array overriding a string or object value.
 				$node = array();
 			}
 			if ( ! isset( $node[ $last ] ) ) {
@@ -865,8 +886,9 @@ class WP_Customize_Setting {
 			}
 		}
 
-		if ( ! isset( $node[ $last ] ) )
+		if ( ! isset( $node[ $last ] ) ) {
 			return;
+		}
 
 		return array(
 			'root' => &$root,
@@ -880,21 +902,23 @@ class WP_Customize_Setting {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param $root
-	 * @param $keys
+	 * @param array $root
+	 * @param array $keys
 	 * @param mixed $value The value to update.
 	 * @return mixed
 	 */
 	final protected function multidimensional_replace( $root, $keys, $value ) {
-		if ( ! isset( $value ) )
+		if ( ! isset( $value ) ) {
 			return $root;
-		elseif ( empty( $keys ) ) // If there are no keys, we're replacing the root.
+		} elseif ( empty( $keys ) ) { // If there are no keys, we're replacing the root.
 			return $value;
+		}
 
 		$result = $this->multidimensional( $root, $keys, true );
 
-		if ( isset( $result ) )
+		if ( isset( $result ) ) {
 			$result['node'][ $result['key'] ] = $value;
+		}
 
 		return $root;
 	}
@@ -904,14 +928,15 @@ class WP_Customize_Setting {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param $root
-	 * @param $keys
-	 * @param mixed $default A default value which is used as a fallback. Default is null.
+	 * @param array $root
+	 * @param array $keys
+	 * @param mixed $default A default value which is used as a fallback. Default null.
 	 * @return mixed The requested value or the default value.
 	 */
 	final protected function multidimensional_get( $root, $keys, $default = null ) {
-		if ( empty( $keys ) ) // If there are no keys, test the root.
+		if ( empty( $keys ) ) { // If there are no keys, test the root.
 			return isset( $root ) ? $root : $default;
+		}
 
 		$result = $this->multidimensional( $root, $keys );
 		return isset( $result ) ? $result['node'][ $result['key'] ] : $default;
@@ -922,8 +947,8 @@ class WP_Customize_Setting {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param $root
-	 * @param $keys
+	 * @param array $root
+	 * @param array $keys
 	 * @return bool True if value is set, false if not.
 	 */
 	final protected function multidimensional_isset( $root, $keys ) {
@@ -935,24 +960,24 @@ class WP_Customize_Setting {
 /**
  * WP_Customize_Filter_Setting class.
  */
-require_once( ABSPATH . WPINC . '/customize/class-wp-customize-filter-setting.php' );
+require_once ABSPATH . WPINC . '/customize/class-wp-customize-filter-setting.php';
 
 /**
  * WP_Customize_Header_Image_Setting class.
  */
-require_once( ABSPATH . WPINC . '/customize/class-wp-customize-header-image-setting.php' );
+require_once ABSPATH . WPINC . '/customize/class-wp-customize-header-image-setting.php';
 
 /**
  * WP_Customize_Background_Image_Setting class.
  */
-require_once( ABSPATH . WPINC . '/customize/class-wp-customize-background-image-setting.php' );
+require_once ABSPATH . WPINC . '/customize/class-wp-customize-background-image-setting.php';
 
 /**
  * WP_Customize_Nav_Menu_Item_Setting class.
  */
-require_once( ABSPATH . WPINC . '/customize/class-wp-customize-nav-menu-item-setting.php' );
+require_once ABSPATH . WPINC . '/customize/class-wp-customize-nav-menu-item-setting.php';
 
 /**
  * WP_Customize_Nav_Menu_Setting class.
  */
-require_once( ABSPATH . WPINC . '/customize/class-wp-customize-nav-menu-setting.php' );
+require_once ABSPATH . WPINC . '/customize/class-wp-customize-nav-menu-setting.php';

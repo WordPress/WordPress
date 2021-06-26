@@ -4,7 +4,7 @@
  *
  * Handles displaying Aside, Link, Status, and Quote Posts available with Twenty Eleven.
  *
- * @link https://codex.wordpress.org/Widgets_API#Developing_Widgets
+ * @link https://developer.wordpress.org/themes/functionality/widgets/#developing-widgets
  *
  * @package WordPress
  * @subpackage Twenty_Eleven
@@ -18,11 +18,15 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 	 * @since Twenty Eleven 2.2
 	 */
 	function __construct() {
-		parent::__construct( 'widget_twentyeleven_ephemera', __( 'Twenty Eleven Ephemera', 'twentyeleven' ), array(
-			'classname'   => 'widget_twentyeleven_ephemera',
-			'description' => __( 'Use this widget to list your recent Aside, Status, Quote, and Link posts', 'twentyeleven' ),
-			'customize_selective_refresh' => true,
-		) );
+		parent::__construct(
+			'widget_twentyeleven_ephemera',
+			__( 'Twenty Eleven Ephemera', 'twentyeleven' ),
+			array(
+				'classname'                   => 'widget_twentyeleven_ephemera',
+				'description'                 => __( 'Use this widget to list your recent Aside, Status, Quote, and Link posts', 'twentyeleven' ),
+				'customize_selective_refresh' => true,
+			)
+		);
 		$this->alt_option_name = 'widget_twentyeleven_ephemera';
 
 		add_action( 'save_post', array( &$this, 'flush_widget_cache' ) );
@@ -34,6 +38,7 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 	 * PHP4 constructor.
 	 *
 	 * @since Twenty Eleven 1.0
+	 * @deprecated Twenty Eleven 2.2
 	 */
 	function Twenty_Eleven_Ephemera_Widget() {
 		self::__construct();
@@ -46,15 +51,17 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 	 *
 	 * @param array $args     An array of standard parameters for widgets in this theme.
 	 * @param array $instance An array of settings for this widget instance.
-	 **/
+	 */
 	function widget( $args, $instance ) {
 		$cache = wp_cache_get( 'widget_twentyeleven_ephemera', 'widget' );
 
-		if ( ! is_array( $cache ) )
+		if ( ! is_array( $cache ) ) {
 			$cache = array();
+		}
 
-		if ( ! isset( $args['widget_id'] ) )
+		if ( ! isset( $args['widget_id'] ) ) {
 			$args['widget_id'] = null;
+		}
 
 		if ( ! is_customize_preview() && isset( $cache[ $args['widget_id'] ] ) ) {
 			echo $cache[ $args['widget_id'] ];
@@ -62,16 +69,18 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 		}
 
 		ob_start();
-		extract( $args, EXTR_SKIP );
 
 		/** This filter is documented in wp-includes/default-widgets.php */
 		$args['title'] = apply_filters( 'widget_title', empty( $instance['title'] ) ? __( 'Ephemera', 'twentyeleven' ) : $instance['title'], $instance, $this->id_base );
 
-		if ( ! isset( $instance['number'] ) )
+		if ( ! isset( $instance['number'] ) ) {
 			$instance['number'] = '10';
+		}
 
-		if ( ! $args['number'] = absint( $instance['number'] ) )
+		$args['number'] = absint( $instance['number'] );
+		if ( ! $args['number'] ) {
 			$args['number'] = 10;
+		}
 
 		$ephemera_args = array(
 			'order'          => 'DESC',
@@ -88,7 +97,7 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 				),
 			),
 		);
-		$ephemera = new WP_Query( $ephemera_args );
+		$ephemera      = new WP_Query( $ephemera_args );
 
 		if ( $ephemera->have_posts() ) :
 			echo $args['before_widget'];
@@ -97,9 +106,12 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 			echo $args['after_title'];
 			?>
 			<ol>
-			<?php while ( $ephemera->have_posts() ) : $ephemera->the_post(); ?>
+			<?php
+			while ( $ephemera->have_posts() ) :
+				$ephemera->the_post();
+				?>
 
-				<?php if ( 'link' != get_post_format() ) : ?>
+				<?php if ( 'link' !== get_post_format() ) : ?>
 
 				<li class="widget-entry-title">
 					<a href="<?php echo esc_url( get_permalink() ); ?>" rel="bookmark"><?php the_title(); ?></a>
@@ -125,10 +137,10 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 
 			echo $args['after_widget'];
 
-			// Reset the post globals as this query will have stomped on it
+			// Reset the post globals as this query will have stomped on it.
 			wp_reset_postdata();
 
-		// end check for ephemeral posts
+			// End check for ephemeral posts.
 		endif;
 
 		$cache[ $args['widget_id'] ] = ob_get_flush();
@@ -145,16 +157,17 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 	 * where any validation should be dealt with.
 	 *
 	 * @since Twenty Eleven 1.0
-	 **/
+	 */
 	function update( $new_instance, $old_instance ) {
-		$instance = $old_instance;
-		$instance['title'] = strip_tags( $new_instance['title'] );
+		$instance           = $old_instance;
+		$instance['title']  = strip_tags( $new_instance['title'] );
 		$instance['number'] = (int) $new_instance['number'];
 		$this->flush_widget_cache();
 
 		$alloptions = wp_cache_get( 'alloptions', 'options' );
-		if ( isset( $alloptions['widget_twentyeleven_ephemera'] ) )
+		if ( isset( $alloptions['widget_twentyeleven_ephemera'] ) ) {
 			delete_option( 'widget_twentyeleven_ephemera' );
+		}
 
 		return $instance;
 	}
@@ -174,11 +187,11 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 	 * Displays the form for this widget on the Widgets page of the WP Admin area.
 	 *
 	 * @since Twenty Eleven 1.0
-	 **/
+	 */
 	function form( $instance ) {
-		$title = isset( $instance['title']) ? esc_attr( $instance['title'] ) : '';
+		$title  = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : '';
 		$number = isset( $instance['number'] ) ? absint( $instance['number'] ) : 10;
-?>
+		?>
 			<p><label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php _e( 'Title:', 'twentyeleven' ); ?></label>
 			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" /></p>
 

@@ -1,22 +1,24 @@
-/* global plugininstallL10n, tb_click, tb_remove */
-
 /**
- * Functionality for the plugin install screens.
+ * @file Functionality for the plugin install screens.
+ *
+ * @output wp-admin/js/plugin-install.js
  */
-var tb_position;
-jQuery( document ).ready( function( $ ) {
+
+/* global tb_click, tb_remove, tb_position */
+
+jQuery( function( $ ) {
 
 	var tbWindow,
-		$focusedBefore,
 		$iframeBody,
 		$tabbables,
 		$firstTabbable,
 		$lastTabbable,
+		$focusedBefore = $(),
 		$uploadViewToggle = $( '.upload-view-toggle' ),
 		$wrap = $ ( '.wrap' ),
 		$body = $( document.body );
 
-	tb_position = function() {
+	window.tb_position = function() {
 		var width = $( window ).width(),
 			H = $( window ).height() - ( ( 792 < width ) ? 60 : 20 ),
 			W = ( 792 < width ) ? 772 : width - 20;
@@ -48,7 +50,7 @@ jQuery( document ).ready( function( $ ) {
 		});
 	};
 
-	$( window ).resize( function() {
+	$( window ).on( 'resize', function() {
 		tb_position();
 	});
 
@@ -58,12 +60,22 @@ jQuery( document ).ready( function( $ ) {
 	 */
 	$body
 		.on( 'thickbox:iframe:loaded', tbWindow, function() {
+			/*
+			 * Return if it's not the modal with the plugin details iframe. Other
+			 * thickbox instances might want to load an iframe with content from
+			 * an external domain. Avoid to access the iframe contents when we're
+			 * not sure the iframe loads from the same domain.
+			 */
+			if ( ! tbWindow.hasClass( 'plugin-details-modal' ) ) {
+				return;
+			}
+
 			iframeLoaded();
 		})
 		.on( 'thickbox:removed', function() {
 			// Set focus back to the element that opened the modal dialog.
 			// Note: IE 8 would need this wrapped in a fake setTimeout `0`.
-			$focusedBefore.focus();
+			$focusedBefore.trigger( 'focus' );
 		});
 
 	function iframeLoaded() {
@@ -76,7 +88,7 @@ jQuery( document ).ready( function( $ ) {
 		handleTabbables();
 
 		// Set initial focus on the "Close" button.
-		$firstTabbable.focus();
+		$firstTabbable.trigger( 'focus' );
 
 		/*
 		 * When the "Install" button is disabled (e.g. the Plugin is already installed)
@@ -129,17 +141,28 @@ jQuery( document ).ready( function( $ ) {
 
 		if ( $lastTabbable[0] === event.target && ! event.shiftKey ) {
 			event.preventDefault();
-			$firstTabbable.focus();
+			$firstTabbable.trigger( 'focus' );
 		} else if ( $firstTabbable[0] === event.target && event.shiftKey ) {
 			event.preventDefault();
-			$lastTabbable.focus();
+			$lastTabbable.trigger( 'focus' );
 		}
 	}
 
-	// Open the Plugin details modal.
-	$( '.thickbox.open-plugin-details-modal' ).on( 'click', function( e ) {
+	/*
+	 * Open the Plugin details modal. The event is delegated to get also the links
+	 * in the plugins search tab, after the Ajax search rebuilds the HTML. It's
+	 * delegated on the closest ancestor and not on the body to avoid conflicts
+	 * with other handlers, see Trac ticket #43082.
+	 */
+	$( '.wrap' ).on( 'click', '.thickbox.open-plugin-details-modal', function( e ) {
 		// The `data-title` attribute is used only in the Plugin screens.
-		var title = $( this ).data( 'title' ) ? plugininstallL10n.plugin_information + ' ' + $( this ).data( 'title' ) : plugininstallL10n.plugin_modal_label;
+		var title = $( this ).data( 'title' ) ?
+			wp.i18n.sprintf(
+				// translators: %s: Plugin name.
+				wp.i18n.__( 'Plugin: %s' ),
+				$( this ).data( 'title' )
+			) :
+			wp.i18n.__( 'Plugin details' );
 
 		e.preventDefault();
 		e.stopPropagation();
@@ -149,26 +172,29 @@ jQuery( document ).ready( function( $ ) {
 
 		tb_click.call(this);
 
-		// Set ARIA role and ARIA label.
-		tbWindow.attr({
-			'role': 'dialog',
-			'aria-label': plugininstallL10n.plugin_modal_label
-		});
+		// Set ARIA role, ARIA label, and add a CSS class.
+		tbWindow
+			.attr({
+				'role': 'dialog',
+				'aria-label': wp.i18n.__( 'Plugin details' )
+			})
+			.addClass( 'plugin-details-modal' );
 
 		// Set title attribute on the iframe.
 		tbWindow.find( '#TB_iframeContent' ).attr( 'title', title );
 	});
 
 	/* Plugin install related JS */
-	$( '#plugin-information-tabs a' ).click( function( event ) {
+	$( '#plugin-information-tabs a' ).on( 'click', function( event ) {
 		var tab = $( this ).attr( 'name' );
 		event.preventDefault();
 
-		// Flip the tab
+		// Flip the tab.
 		$( '#plugin-information-tabs a.current' ).removeClass( 'current' );
 		$( this ).addClass( 'current' );
 
-		// Only show the fyi box in the description section, on smaller screen, where it's otherwise always displayed at the top.
+		// Only show the fyi box in the description section, on smaller screen,
+		// where it's otherwise always displayed at the top.
 		if ( 'description' !== tab && $( window ).width() < 772 ) {
 			$( '#plugin-information-content' ).find( '.fyi' ).hide();
 		} else {

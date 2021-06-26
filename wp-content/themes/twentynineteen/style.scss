@@ -1,0 +1,116 @@
+/*
+Theme Name: Twenty Nineteen
+Theme URI: https://wordpress.org/themes/twentynineteen/
+Author: the WordPress team
+Author URI: https://wordpress.org/
+Description: Our 2019 default theme is designed to show off the power of the block editor. It features custom styles for all the default blocks, and is built so that what you see in the editor looks like what you'll see on your website. Twenty Nineteen is designed to be adaptable to a wide range of websites, whether you’re running a photo blog, launching a new business, or supporting a non-profit. Featuring ample whitespace and modern sans-serif headlines paired with classic serif body text, it's built to be beautiful on all screen sizes.
+Requires at least: 4.9.6
+Requires PHP: 5.2.4
+Version: 2.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: twentynineteen
+Tags: one-column, flexible-header, accessibility-ready, custom-colors, custom-menu, custom-logo, editor-style, featured-images, footer-widgets, rtl-language-support, sticky-post, threaded-comments, translation-ready, block-patterns
+
+This theme, like WordPress, is licensed under the GPL.
+Use it to make something cool, have fun, and share what you've learned with others.
+
+Twenty Nineteen is based on Underscores https://underscores.me/, (C) 2012-2020 Automattic, Inc.
+Underscores is distributed under the terms of the GNU GPL v2 or later.
+
+Normalizing styles have been helped along thanks to the fine work of
+Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
+
+Bundled block pattern images:
+Abstract Background by HD Wallpapers, CC0. https://stocksnap.io/photo/abstract-background-0SRRVNMKBX
+Abstract Waves by HD Wallpapers, CC0. https://stocksnap.io/photo/abstract-waves-0KREGLTZQ3
+Abstract Bokeh by HD Wallpapers, CC0. https://stocksnap.io/photo/abstract-bokeh-P4KVZBMQ6L
+Colorful Bokeh by HD Wallpapers, CC0. https://stocksnap.io/photo/colorful-bokeh-VN4G84GL8H
+*/
+
+/*--------------------------------------------------------------
+>>> TABLE OF CONTENTS:
+----------------------------------------------------------------
+# Variables
+# Normalize
+# Typography
+	## Headings
+	## Copy
+# Elements
+	## Lists
+	## Tables
+# Forms
+	## Buttons
+	## Fields
+# Navigation
+	## Links
+	## Menus
+	## Next & Previous
+# Accessibility
+# Alignments
+# Clearings
+# Layout
+# Widgets
+# Content
+	## Archives
+	## Posts and pages
+	## Comments
+# Blocks
+# Media
+	## Captions
+	## Galleries
+--------------------------------------------------------------*/
+@import "sass/variables-site/variables-site";
+@import "sass/mixins/mixins-master";
+
+/* Normalize */
+
+@import "sass/normalize";
+
+/* Typography */
+
+@import "sass/typography/typography";
+
+/* Elements */
+
+@import "sass/elements/elements";
+
+/* Forms */
+
+@import "sass/forms/forms";
+
+/* Navigation */
+
+@import "sass/navigation/navigation";
+
+/* Accessibility */
+
+@import "sass/modules/accessibility";
+
+/* Alignments */
+
+@import "sass/modules/alignments";
+
+/* Clearings */
+
+@import "sass/modules/clearings";
+
+/* Layout */
+
+@import "sass/layout/layout";
+
+/* Content */
+
+@import "sass/site/site";
+
+/* Widgets */
+
+@import "sass/site/secondary/widgets";
+
+/* Blocks */
+
+@import "sass/blocks/blocks";
+
+/* Media */
+
+@import "sass/media/media";

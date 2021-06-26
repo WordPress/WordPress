@@ -4,7 +4,7 @@
 		renderHtml: function() {
 			return (
 				'<div id="' + this._id + '" class="wp-link-preview">' +
-					'<a href="' + this.url + '" target="_blank" tabindex="-1">' + this.url + '</a>' +
+					'<a href="' + this.url + '" target="_blank" rel="noopener" tabindex="-1">' + this.url + '</a>' +
 				'</div>'
 			);
 		},
@@ -37,9 +37,9 @@
 					url = this.url;
 				}
 
-				// If the URL is longer that 40 chars, concatenate the beginning (after the domain) and ending with ...
+				// If the URL is longer that 40 chars, concatenate the beginning (after the domain) and ending with '...'.
 				if ( url.length > 40 && ( index = url.indexOf( '/' ) ) !== -1 && ( lastIndex = url.lastIndexOf( '/' ) ) !== -1 && lastIndex !== index ) {
-					// If the beginning + ending are shorter that 40 chars, show more of the ending
+					// If the beginning + ending are shorter that 40 chars, show more of the ending.
 					if ( index + url.length - lastIndex < 40 ) {
 						lastIndex = -( 40 - ( index + 1 ) );
 					}
@@ -226,15 +226,15 @@
 			linkNode = getSelectedLink();
 			editToolbar.tempHide = false;
 
-			if ( linkNode ) {
-				editor.dom.setAttribs( linkNode, { 'data-wplink-edit': true } );
-			} else {
+			if ( ! linkNode ) {
 				removePlaceholders();
 				editor.execCommand( 'mceInsertLink', false, { href: '_wp_link_placeholder' } );
 
 				linkNode = editor.$( 'a[href="_wp_link_placeholder"]' )[0];
 				editor.nodeChanged();
 			}
+
+			editor.dom.setAttribs( linkNode, { 'data-wplink-edit': true } );
 		} );
 
 		editor.addCommand( 'wp_link_apply', function() {
@@ -248,6 +248,13 @@
 				href = inputInstance.getURL();
 				text = inputInstance.getLinkText();
 				editor.focus();
+
+				var parser = document.createElement( 'a' );
+				parser.href = href;
+
+				if ( 'javascript:' === parser.protocol || 'data:' === parser.protocol ) { // jshint ignore:line
+					href = '';
+				}
 
 				if ( ! href ) {
 					editor.dom.remove( linkNode, true );
@@ -277,8 +284,9 @@
 		} );
 
 		editor.addCommand( 'wp_link_cancel', function() {
+			inputInstance.reset();
+
 			if ( ! editToolbar.tempHide ) {
-				inputInstance.reset();
 				removePlaceholders();
 			}
 		} );
@@ -289,10 +297,10 @@
 			editor.execCommand( 'wp_link_cancel' );
 		} );
 
-		// WP default shortcuts
+		// WP default shortcuts.
 		editor.addShortcut( 'access+a', '', 'WP_Link' );
 		editor.addShortcut( 'access+s', '', 'wp_unlink' );
-		// The "de-facto standard" shortcut, see #27305
+		// The "de-facto standard" shortcut, see #27305.
 		editor.addShortcut( 'meta+k', '', 'WP_Link' );
 
 		editor.addButton( 'link', {
@@ -461,8 +469,11 @@
 							}
 						}
 					} ).autocomplete( 'instance' )._renderItem = function( ul, item ) {
+						var fallbackTitle = ( typeof window.wpLinkL10n !== 'undefined' ) ? window.wpLinkL10n.noTitle : '',
+							title = item.title ? item.title : fallbackTitle;
+
 						return $( '<li role="option" id="mce-wp-autocomplete-' + item.ID + '">' )
-						.append( '<span>' + item.title + '</span>&nbsp;<span class="wp-editor-float-right">' + item.info + '</span>' )
+						.append( '<span>' + title + '</span>&nbsp;<span class="wp-editor-float-right">' + item.info + '</span>' )
 						.appendTo( ul );
 					};
 
@@ -554,7 +565,7 @@
 		} );
 
 		editor.addButton( 'wp_link_edit', {
-			tooltip: 'Edit ', // trailing space is needed, used for context
+			tooltip: 'Edit|button', // '|button' is not displayed, only used for context.
 			icon: 'dashicon dashicons-edit',
 			cmd: 'WP_Link'
 		} );
@@ -573,24 +584,10 @@
 					var url = inputInstance.getURL() || null,
 						text = inputInstance.getLinkText() || null;
 
-					/*
-					 * Accessibility note: moving focus back to the editor confuses
-					 * screen readers. They will announce again the Editor ARIA role
-					 * `application` and the iframe `title` attribute.
-					 *
-					 * Unfortunately IE looses the selection when the editor iframe
-					 * looses focus, so without returning focus to the editor, the code
-					 * in the modal will not be able to get the selection, place the caret
-					 * at the same location, etc.
-					 */
-					if ( tinymce.Env.ie ) {
-						editor.focus(); // Needed for IE
-					}
+					window.wpLink.open( editor.id, url, text );
 
 					editToolbar.tempHide = true;
-					window.wpLink.open( editor.id, url, text, linkNode );
-
-					inputInstance.reset();
+					editToolbar.hide();
 				}
 			}
 		} );

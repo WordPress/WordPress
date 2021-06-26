@@ -1,0 +1,39 @@
+{
+	"apiVersion": 2,
+	"name": "core/site-title",
+	"title": "Site Title",
+	"category": "design",
+	"description": "Displays and allows editing the name of the site. The site title usually appears in the browser title bar, in search results, and more. Also available in Settings > General.",
+	"textdomain": "default",
+	"attributes": {
+		"level": {
+			"type": "number",
+			"default": 1
+		},
+		"textAlign": {
+			"type": "string"
+		}
+	},
+	"supports": {
+		"align": [ "wide", "full" ],
+		"html": false,
+		"color": {
+			"gradients": true,
+			"text": false,
+			"link": true
+		},
+		"spacing": {
+			"padding": true,
+			"margin": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalTextTransform": true,
+			"__experimentalFontStyle": true,
+			"__experimentalFontWeight": true
+		}
+	},
+	"editorStyle": "wp-block-site-title-editor"
+}
