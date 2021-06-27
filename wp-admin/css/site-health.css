@@ -306,7 +306,7 @@ are styled in the Privacy section of edit.css */
 	padding-left: 16px;
 }
 
-#dashboard_site_health .inside {
+#dashboard_site_health .health-check-widget {
 	display: grid;
 	grid-template-columns: 1fr 2fr;
 	grid-auto-rows: minmax(64px, auto);
@@ -318,7 +318,7 @@ are styled in the Privacy section of edit.css */
 }
 
 @media screen and (max-width: 480px) {
-	#dashboard_site_health .inside {
+	#dashboard_site_health .health-check-widget {
 		grid-template-columns: 100%;
 	}
 }
