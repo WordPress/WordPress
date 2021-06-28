@@ -36,10 +36,12 @@ $wrapper_classes = array(
 	'tab-count-' . count( $tabs ),
 );
 
+$current_tab = ( isset( $_GET['tab'] ) ? $_GET['tab'] : '' );
+
 $title = sprintf(
 	// translators: %s: The currently displayed tab.
-	__( 'Site Health %s' ),
-	( isset( $_GET['tab'] ) ? esc_html( $tabs[ $_GET['tab'] ] ) : esc_html( reset( $tabs ) ) )
+	__( 'Site Health - %s' ),
+	( isset( $tabs[ $current_tab ] ) ? esc_html( $tabs[ $current_tab ] ) : esc_html( reset( $tabs ) ) )
 );
 
 if ( ! current_user_can( 'view_site_health_checks' ) ) {
@@ -133,7 +135,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 						admin_url( 'site-health.php' )
 					)
 				),
-				( isset( $_GET['tab'] ) && $_GET['tab'] === $slug ? 'active' : '' ),
+				( $current_tab === $slug ? 'active' : '' ),
 				esc_html( $label )
 			);
 		}
