@@ -186,7 +186,7 @@ do_action( 'customize_controls_head' );
 			$compatible_php = is_php_version_compatible( $wp_customize->theme()->get( 'RequiresPHP' ) );
 			$fse_safe       = true;
 
-			// Check if the theme requires the FSE to work correctly.
+			// Check if the theme requires the Gutenberg plugin to work correctly.
 			$theme_tags = $wp_customize->theme()->get( 'Tags' );
 
 			if ( ! empty( $theme_tags ) && in_array( 'full-site-editing', $theme_tags, true ) && ! function_exists( 'gutenberg_is_fse_theme' ) ) {

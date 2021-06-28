@@ -913,7 +913,7 @@ function validate_theme_requirements( $stylesheet ) {
 
 	if ( ! empty( $theme_tags ) && in_array( 'full-site-editing', $theme_tags, true ) && ! function_exists( 'gutenberg_is_fse_theme' ) ) {
 		return new WP_Error(
-			'theme_requires_fse',
+			'theme_requires_gutenberg_plugin',
 			sprintf(
 					/* translators: %s: Theme name. */
 				_x( '<strong>Error:</strong> This theme (%s) uses Full Site Editing, which requires the Gutenberg plugin to be activated.', 'theme' ),
