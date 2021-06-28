@@ -20879,11 +20879,12 @@ function useAutocomplete({
   const isExpanded = !!autocompleter && filteredOptions.length > 0;
   const listBoxId = isExpanded ? `components-autocomplete-listbox-${instanceId}` : null;
   const activeId = isExpanded ? `components-autocomplete-item-${instanceId}-${selectedKey}` : null;
+  const hasSelection = record.start !== undefined;
   return {
     listBoxId,
     activeId,
     onKeyDown: handleKeyDown,
-    popover: AutocompleterUI && Object(external_wp_element_["createElement"])(AutocompleterUI, {
+    popover: hasSelection && AutocompleterUI && Object(external_wp_element_["createElement"])(AutocompleterUI, {
       className: className,
       filterValue: filterValue,
       instanceId: instanceId,

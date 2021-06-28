@@ -29758,7 +29758,6 @@ function PostTemplateEdit({
       sticky,
       inherit
     } = {},
-    queryId,
     queryContext = [{
       page: 1
     }],
@@ -29830,8 +29829,7 @@ function PostTemplateEdit({
   }, [perPage, page, offset, categoryIds, tagIds, order, orderBy, clientId, author, search, postType, exclude, sticky, inherit, templateSlug]);
   const blockContexts = Object(external_wp_element_["useMemo"])(() => posts === null || posts === void 0 ? void 0 : posts.map(post => ({
     postType: post.type,
-    postId: post.id,
-    queryId
+    postId: post.id
   })), [posts]);
   const hasLayoutFlex = layoutType === 'flex' && columns > 1;
   const blockProps = Object(external_wp_blockEditor_["useBlockProps"])({

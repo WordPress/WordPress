@@ -1094,6 +1094,10 @@ h6.has-background {
 }
 
 ol.wp-block-latest-comments {
+  margin-right: 0;
+}
+
+.wp-block-latest-comments .wp-block-latest-comments {
   padding-right: 0;
 }
 
@@ -1143,6 +1147,7 @@ ol.wp-block-latest-comments {
 }
 .wp-block-latest-posts.wp-block-latest-posts__list {
   list-style: none;
+  padding-right: 0;
 }
 .wp-block-latest-posts.wp-block-latest-posts__list li {
   clear: both;

@@ -81,11 +81,13 @@
 }
 
 .wp-block-legacy-widget__edit-form {
-  display: flow-root;
   background: #fff;
   border-radius: 2px;
   border: 1px solid #1e1e1e;
   padding: 11px;
+}
+.wp-block-legacy-widget__edit-form:not([hidden]) {
+  display: flow-root;
 }
 .wp-block-legacy-widget__edit-form .wp-block-legacy-widget__edit-form-title {
   color: #000;

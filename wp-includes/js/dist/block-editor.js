@@ -11300,6 +11300,16 @@ function* ensureDefaultBlock() {
   // always a default block if the last of the blocks have been removed.
 
   if (count === 0) {
+    const {
+      __unstableHasCustomAppender
+    } = yield external_wp_data_["controls"].select(STORE_NAME, 'getSettings'); // If there's an custom appender, don't insert default block.
+    // We have to remember to manually move the focus elsewhere to
+    // prevent it from being lost though.
+
+    if (__unstableHasCustomAppender) {
+      return;
+    }
+
     return yield actions_insertDefaultBlock();
   }
 }
@@ -24095,7 +24105,7 @@ function BlockListAppender({
     // clicked.
     ,
     onFocus: stopPropagation,
-    className: classnames_default()('block-list-appender', 'wp-block', className)
+    className: classnames_default()('block-list-appender', className)
   }, appender);
 }
 
@@ -24394,6 +24404,7 @@ function getDistanceToNearestEdge(point, rect, allowedEdges = ['top', 'bottom', 
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -24422,6 +24433,7 @@ function getDistanceToNearestEdge(point, rect, allowedEdges = ['top', 'bottom', 
 
 function getNearestBlockIndex(elements, position, orientation) {
   const allowedEdges = orientation === 'horizontal' ? ['left', 'right'] : ['top', 'bottom'];
+  const isRightToLeft = Object(external_wp_i18n_["isRTL"])();
   let candidateIndex;
   let candidateDistance;
   elements.forEach((element, index) => {
@@ -24431,7 +24443,9 @@ function getNearestBlockIndex(elements, position, orientation) {
     if (candidateDistance === undefined || distance < candidateDistance) {
       // If the user is dropping to the trailing edge of the block
       // add 1 to the index to represent dragging after.
-      const isTrailingEdge = edge === 'bottom' || edge === 'right';
+      // Take RTL languages into account where the left edge is
+      // the trailing edge.
+      const isTrailingEdge = edge === 'bottom' || !isRightToLeft && edge === 'right' || isRightToLeft && edge === 'left';
       const offset = isTrailingEdge ? 1 : 0; // Update the currently known best candidate.
 
       candidateDistance = distance;
@@ -24628,53 +24642,57 @@ function InsertionPointPopover({
   const previousElement = useBlockElement(previousClientId);
   const nextElement = useBlockElement(nextClientId);
   const style = Object(external_wp_element_["useMemo"])(() => {
-    if (!previousElement) {
+    if (!previousElement && !nextElement) {
       return {};
     }
 
-    const previousRect = previousElement.getBoundingClientRect();
+    const previousRect = previousElement ? previousElement.getBoundingClientRect() : null;
     const nextRect = nextElement ? nextElement.getBoundingClientRect() : null;
 
     if (orientation === 'vertical') {
       return {
-        width: previousElement.offsetWidth,
-        height: nextRect ? nextRect.top - previousRect.bottom : 0
+        width: previousElement ? previousElement.offsetWidth : nextElement.offsetWidth,
+        height: nextRect && previousRect ? nextRect.top - previousRect.bottom : 0
       };
     }
 
     let width = 0;
 
-    if (nextElement) {
+    if (previousRect && nextRect) {
       width = Object(external_wp_i18n_["isRTL"])() ? previousRect.left - nextRect.right : nextRect.left - previousRect.right;
     }
 
     return {
       width,
-      height: previousElement.offsetHeight
+      height: previousElement ? previousElement.offsetHeight : nextElement.offsetHeight
     };
   }, [previousElement, nextElement]);
   const getAnchorRect = Object(external_wp_element_["useCallback"])(() => {
+    if (!previousElement && !nextElement) {
+      return {};
+    }
+
     const {
       ownerDocument
-    } = previousElement;
-    const previousRect = previousElement.getBoundingClientRect();
+    } = previousElement || nextElement;
+    const previousRect = previousElement ? previousElement.getBoundingClientRect() : null;
     const nextRect = nextElement ? nextElement.getBoundingClientRect() : null;
 
     if (orientation === 'vertical') {
       if (Object(external_wp_i18n_["isRTL"])()) {
         return {
-          top: previousRect.bottom,
-          left: previousRect.right,
-          right: previousRect.left,
+          top: previousRect ? previousRect.bottom : nextRect.top,
+          left: previousRect ? previousRect.right : nextRect.right,
+          right: previousRect ? previousRect.left : nextRect.left,
           bottom: nextRect ? nextRect.top : previousRect.bottom,
           ownerDocument
         };
       }
 
       return {
-        top: previousRect.bottom,
-        left: previousRect.left,
-        right: previousRect.right,
+        top: previousRect ? previousRect.bottom : nextRect.top,
+        left: previousRect ? previousRect.left : nextRect.left,
+        right: previousRect ? previousRect.right : nextRect.right,
         bottom: nextRect ? nextRect.top : previousRect.bottom,
         ownerDocument
       };
@@ -24682,28 +24700,23 @@ function InsertionPointPopover({
 
     if (Object(external_wp_i18n_["isRTL"])()) {
       return {
-        top: previousRect.top,
-        left: nextRect ? nextRect.right : previousRect.left,
-        right: previousRect.left,
-        bottom: previousRect.bottom,
+        top: previousRect ? previousRect.top : nextRect.top,
+        left: previousRect ? previousRect.left : nextRect.right,
+        right: nextRect ? nextRect.right : previousRect.left,
+        bottom: previousRect ? previousRect.bottom : nextRect.bottom,
         ownerDocument
       };
     }
 
     return {
-      top: previousRect.top,
-      left: previousRect.right,
+      top: previousRect ? previousRect.top : nextRect.top,
+      left: previousRect ? previousRect.right : nextRect.left,
       right: nextRect ? nextRect.left : previousRect.right,
-      bottom: previousRect.bottom,
+      bottom: previousRect ? previousRect.bottom : nextRect.bottom,
       ownerDocument
     };
   }, [previousElement, nextElement]);
   const popoverScrollRef = usePopoverScroll(__unstableContentRef);
-
-  if (!previousElement) {
-    return null;
-  }
-
   const className = classnames_default()('block-editor-block-list__insertion-point', 'is-' + orientation);
 
   function onClick(event) {
@@ -24718,12 +24731,11 @@ function InsertionPointPopover({
     if (event.target !== ref.current) {
       openRef.current = true;
     }
-  } // Only show the inserter when there's a `nextElement` (a block after the
-  // insertion point). At the end of the block list the trailing appender
-  // should serve the purpose of inserting blocks.
+  } // Only show the in-between inserter between blocks, so when there's a
+  // previous and a next element.
 
 
-  const showInsertionPointInserter = nextElement && isInserterShown;
+  const showInsertionPointInserter = previousElement && nextElement && isInserterShown;
   /* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
   // While ideally it would be enough to capture the
   // bubbling focus event from the Inserter, due to the
@@ -31194,7 +31206,7 @@ function RichTextWrapper({
     value,
     onChange,
     onFocus
-  }), isSelected && Object(external_wp_element_["createElement"])(RemoveBrowserShortcuts, null), isSelected && autocompleteProps.children, isSelected && Object(external_wp_element_["createElement"])(FormatEdit, {
+  }), isSelected && Object(external_wp_element_["createElement"])(RemoveBrowserShortcuts, null), isSelected && Object(external_wp_element_["createElement"])(FormatEdit, {
     value: value,
     onChange: onChange,
     onFocus: onFocus,
@@ -39395,6 +39407,7 @@ function Iframe({
   head,
   ...props
 }, ref) {
+  const [, forceRender] = Object(external_wp_element_["useReducer"])(() => ({}));
   const [iframeDocument, setIframeDocument] = Object(external_wp_element_["useState"])();
   const styles = useParsedAssets(window.__editorAssets.styles);
   const scripts = useParsedAssets(window.__editorAssets.scripts);
@@ -39430,7 +39443,11 @@ function Iframe({
       setIframeDocument(contentDocument);
       clearerRef(documentElement);
       clearerRef(body);
-      scripts.reduce((promise, script) => promise.then(() => loadScript(contentDocument, script)), Promise.resolve());
+      scripts.reduce((promise, script) => promise.then(() => loadScript(contentDocument, script)), Promise.resolve()).finally(() => {
+        // When script are loaded, re-render blocks to allow them
+        // to initialise.
+        forceRender();
+      });
       return true;
     }
 

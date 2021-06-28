@@ -1406,6 +1406,37 @@ function KeyboardShortcutsRegister() {
 KeyboardShortcuts.Register = KeyboardShortcutsRegister;
 /* harmony default export */ var keyboard_shortcuts = (KeyboardShortcuts);
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/customize-widgets/build-module/components/block-appender/index.js
+
+
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+function BlockAppender(props) {
+  const ref = Object(external_wp_element_["useRef"])();
+  const isBlocksListEmpty = Object(external_wp_data_["useSelect"])(select => select(external_wp_blockEditor_["store"]).getBlockCount() === 0); // Move the focus to the block appender to prevent focus from
+  // being lost when emptying the widget area.
+
+  Object(external_wp_element_["useEffect"])(() => {
+    if (isBlocksListEmpty && ref.current) {
+      const {
+        ownerDocument
+      } = ref.current;
+
+      if (!ownerDocument.activeElement || ownerDocument.activeElement === ownerDocument.body) {
+        ref.current.focus();
+      }
+    }
+  }, [isBlocksListEmpty]);
+  return Object(external_wp_element_["createElement"])(external_wp_blockEditor_["ButtonBlockAppender"], Object(esm_extends["a" /* default */])({}, props, {
+    ref: ref
+  }));
+}
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/customize-widgets/build-module/components/sidebar-block-editor/index.js
 
 
@@ -1425,6 +1456,7 @@ KeyboardShortcuts.Register = KeyboardShortcutsRegister;
 /**
  * Internal dependencies
  */
+
 
 
 
@@ -1475,7 +1507,8 @@ function SidebarBlockEditor({
       __experimentalSetIsInserterOpened: setIsInserterOpened,
       mediaUpload: mediaUploadBlockEditor,
       hasFixedToolbar: isFixedToolbarActive,
-      keepCaretInsideBlock
+      keepCaretInsideBlock,
+      __unstableHasCustomAppender: true
     };
   }, [hasUploadPermissions, blockEditorSettings, isFixedToolbarActive, keepCaretInsideBlock]);
 
@@ -1499,7 +1532,7 @@ function SidebarBlockEditor({
     setIsInserterOpened: setIsInserterOpened,
     isFixedToolbarActive: isFixedToolbarActive
   }), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockTools"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockSelectionClearer"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["WritingFlow"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["ObserveTyping"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockList"], {
-    renderAppender: external_wp_blockEditor_["ButtonBlockAppender"]
+    renderAppender: BlockAppender
   }))))), Object(external_wp_element_["createPortal"])( // This is a temporary hack to prevent button component inside <BlockInspector>
   // from submitting form when type="button" is not specified.
   Object(external_wp_element_["createElement"])("form", {

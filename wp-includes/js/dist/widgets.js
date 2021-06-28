@@ -310,7 +310,7 @@ class control_Control {
     // a fake but unique number.
 
     this.number = ++lastNumber;
-    this.handleFormChange = Object(external_lodash_["debounce"])(this.saveForm.bind(this), 200);
+    this.handleFormChange = Object(external_lodash_["debounce"])(this.handleFormChange.bind(this), 200);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.initDOM();
     this.bindEvents();
@@ -478,6 +478,19 @@ class control_Control {
       }
     } catch (error) {
       this.onError(error);
+    }
+  }
+  /**
+   * Perform a save when a multi widget's form is changed. Non-multi widgets
+   * are saved manually.
+   *
+   * @access private
+   */
+
+
+  handleFormChange() {
+    if (this.idBase) {
+      this.saveForm();
     }
   }
   /**
@@ -1045,7 +1058,7 @@ function NotEmpty({
     return Object(external_wp_element_["createElement"])(external_wp_components_["Placeholder"], null, Object(external_wp_element_["createElement"])(external_wp_components_["Spinner"], null));
   }
 
-  const mode = isNavigationMode || !isSelected ? 'preview' : 'edit';
+  const mode = idBase && (isNavigationMode || !isSelected) ? 'preview' : 'edit';
   return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, idBase === 'text' && Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockControls"], {
     group: "other"
   }, Object(external_wp_element_["createElement"])(ConvertToBlocksButton, {

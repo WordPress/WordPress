@@ -69,6 +69,10 @@
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
 ol.wp-block-latest-comments {
+  margin-right: 0;
+}
+
+.wp-block-latest-comments .wp-block-latest-comments {
   padding-right: 0;
 }
 

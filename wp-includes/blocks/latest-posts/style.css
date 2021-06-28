@@ -78,6 +78,7 @@
 }
 .wp-block-latest-posts.wp-block-latest-posts__list {
   list-style: none;
+  padding-left: 0;
 }
 .wp-block-latest-posts.wp-block-latest-posts__list li {
   clear: both;
