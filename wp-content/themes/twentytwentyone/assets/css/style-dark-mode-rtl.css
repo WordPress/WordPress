@@ -17,7 +17,7 @@
 		--table--stripes-background-color: rgba(240, 240, 240, 0.15);
 	}
 
-	.is-dark-theme.is-dark-theme img {
+	.is-dark-theme img {
 		filter: brightness(0.85) contrast(1.1);
 	}
 

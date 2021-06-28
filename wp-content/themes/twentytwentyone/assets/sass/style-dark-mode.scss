@@ -15,10 +15,10 @@
 		/* Block: Table */
 		--table--stripes-border-color: rgba(240, 240, 240, 0.15);
 		--table--stripes-background-color: rgba(240, 240, 240, 0.15);
+	}
 
-		img {
-			filter: brightness(.85) contrast(1.1);
-		}
+	.is-dark-theme img {
+		filter: brightness(.85) contrast(1.1);
 	}
 
 	.respect-color-scheme-preference.is-dark-theme body {
