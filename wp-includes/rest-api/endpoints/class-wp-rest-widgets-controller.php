@@ -109,6 +109,8 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function get_items( $request ) {
+		retrieve_widgets();
+
 		$prepared = array();
 
 		foreach ( wp_get_sidebars_widgets() as $sidebar_id => $widget_ids ) {
@@ -149,6 +151,8 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function get_item( $request ) {
+		retrieve_widgets();
+
 		$widget_id  = $request['id'];
 		$sidebar_id = wp_find_widgets_sidebar( $widget_id );
 
@@ -230,6 +234,8 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 	public function update_item( $request ) {
 		global $wp_widget_factory;
 
+		retrieve_widgets();
+
 		$widget_id  = $request['id'];
 		$sidebar_id = wp_find_widgets_sidebar( $widget_id );
 
@@ -290,6 +296,8 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 	 */
 	public function delete_item( $request ) {
 		global $wp_registered_widget_updates;
+
+		retrieve_widgets();
 
 		$widget_id  = $request['id'];
 		$sidebar_id = wp_find_widgets_sidebar( $widget_id );
