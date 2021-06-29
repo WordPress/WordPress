@@ -174,7 +174,7 @@ class WP_Block_Type {
 	/**
 	 * Block type front end only script handle.
 	 *
-	 * @since 5.0.0
+	 * @since 5.8.0
 	 * @var string|null
 	 */
 	public $view_script = null;
