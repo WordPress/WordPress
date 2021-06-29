@@ -28907,6 +28907,31 @@ const usePostTypes = () => {
     postTypesSelectOptions
   };
 };
+/**
+ * Recurses over a list of blocks and returns the first found
+ * Query Loop block's clientId.
+ *
+ * @param {WPBlock[]} blocks The list of blocks to look through.
+ * @return {string=} The first found Query Loop's clientId.
+ */
+
+const getFirstQueryClientIdFromBlocks = blocks => {
+  const blocksQueue = [...blocks];
+
+  while (blocksQueue.length > 0) {
+    var _block$innerBlocks;
+
+    const block = blocksQueue.shift();
+
+    if (block.name === 'core/query') {
+      return block.clientId;
+    }
+
+    (_block$innerBlocks = block.innerBlocks) === null || _block$innerBlocks === void 0 ? void 0 : _block$innerBlocks.forEach(innerBlock => {
+      blocksQueue.push(innerBlock);
+    });
+  }
+};
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/query/constants.js
 const MAX_FETCHED_TERMS = 100;
@@ -29250,9 +29275,11 @@ const QueryPlaceholder = ({
 
 
 
+
 /**
  * Internal dependencies
  */
+
 
 
 
@@ -29401,13 +29428,29 @@ function QueryPatternSetup(props) {
     clientId,
     name: blockName
   } = props;
-  const blockProps = Object(external_wp_blockEditor_["useBlockProps"])(); // `startBlankComponent` is what to render when clicking `Start blank`
+  const blockProps = Object(external_wp_blockEditor_["useBlockProps"])();
+  const {
+    replaceBlock,
+    selectBlock
+  } = Object(external_wp_data_["useDispatch"])(external_wp_blockEditor_["store"]);
+
+  const onBlockPatternSelect = blocks => {
+    const clonedBlocks = blocks.map(block => Object(external_wp_blocks_["cloneBlock"])(block));
+    const firstQueryClientId = getFirstQueryClientIdFromBlocks(clonedBlocks);
+    replaceBlock(clientId, clonedBlocks);
+
+    if (firstQueryClientId) {
+      selectBlock(firstQueryClientId);
+    }
+  }; // `startBlankComponent` is what to render when clicking `Start blank`
   // or if no matched patterns are found.
+
 
   return Object(external_wp_element_["createElement"])("div", blockProps, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["__experimentalBlockPatternSetup"], {
     blockName: blockName,
     clientId: clientId,
-    startBlankComponent: Object(external_wp_element_["createElement"])(query_placeholder, props)
+    startBlankComponent: Object(external_wp_element_["createElement"])(query_placeholder, props),
+    onBlockPatternSelect: onBlockPatternSelect
   }));
 }
 

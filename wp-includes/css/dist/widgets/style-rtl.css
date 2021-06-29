@@ -102,8 +102,12 @@
   display: block;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 }
+.wp-block-legacy-widget__edit-form .widget-inside.widget-inside p {
+  margin: 8px 0;
+}
 .wp-block-legacy-widget__edit-form .widget-inside.widget-inside label {
   font-size: 13px;
+  line-height: 2.1;
 }
 .wp-block-legacy-widget__edit-form .widget-inside.widget-inside label,
 .wp-block-legacy-widget__edit-form .widget-inside.widget-inside input,
@@ -113,9 +117,21 @@
   color: #000;
 }
 .wp-block-legacy-widget__edit-form .widget-inside.widget-inside input[type=text],
+.wp-block-legacy-widget__edit-form .widget-inside.widget-inside input[type=password],
+.wp-block-legacy-widget__edit-form .widget-inside.widget-inside input[type=date],
+.wp-block-legacy-widget__edit-form .widget-inside.widget-inside input[type=datetime],
+.wp-block-legacy-widget__edit-form .widget-inside.widget-inside input[type=datetime-local],
+.wp-block-legacy-widget__edit-form .widget-inside.widget-inside input[type=email],
+.wp-block-legacy-widget__edit-form .widget-inside.widget-inside input[type=month],
+.wp-block-legacy-widget__edit-form .widget-inside.widget-inside input[type=number],
+.wp-block-legacy-widget__edit-form .widget-inside.widget-inside input[type=search],
+.wp-block-legacy-widget__edit-form .widget-inside.widget-inside input[type=tel],
+.wp-block-legacy-widget__edit-form .widget-inside.widget-inside input[type=time],
+.wp-block-legacy-widget__edit-form .widget-inside.widget-inside input[type=url],
+.wp-block-legacy-widget__edit-form .widget-inside.widget-inside input[type=week],
 .wp-block-legacy-widget__edit-form .widget-inside.widget-inside select {
   font-family: system-ui;
-  background: transparent;
+  background-color: transparent;
   box-sizing: border-box;
   border: 1px solid #757575;
   border-radius: 3px;
@@ -126,9 +142,11 @@
   width: 100%;
   font-size: 13px;
   font-weight: normal;
-  height: 30px;
   line-height: 1;
   min-height: 30px;
+  padding-right: 8px;
+}
+.wp-block-legacy-widget__edit-form .widget-inside.widget-inside select {
   padding-right: 4px;
 }
 .wp-block-legacy-widget__edit-form .widget.open {

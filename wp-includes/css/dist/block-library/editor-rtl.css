@@ -1747,16 +1747,6 @@ body.admin-bar .wp-block-navigation__responsive-container.is-menu-open {
 .blocks-shortcode__textarea:-ms-input-placeholder {
   color: rgba(30, 30, 30, 0.62);
 }
-.is-dark-theme .blocks-shortcode__textarea::-webkit-input-placeholder {
-  color: rgba(255, 255, 255, 0.65);
-}
-.is-dark-theme .blocks-shortcode__textarea::-moz-placeholder {
-  opacity: 1;
-  color: rgba(255, 255, 255, 0.65);
-}
-.is-dark-theme .blocks-shortcode__textarea:-ms-input-placeholder {
-  color: rgba(255, 255, 255, 0.65);
-}
 
 .wp-block[data-align=center] > .wp-block-site-logo {
   margin-right: auto;
