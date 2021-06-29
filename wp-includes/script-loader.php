@@ -2326,16 +2326,16 @@ function wp_should_load_block_editor_scripts_and_styles() {
 }
 
 /**
- * Checks whether separate assets should be loaded for core blocks on-render.
+ * Checks whether separate styles should be loaded for core blocks on-render.
  *
  * When this function returns true, other functions ensure that core blocks
- * only load their styles on-render, and each block loads its own, individual
- * stylesheet. Third-party blocks only load their styles when rendered.
+ * only load their assets on-render, and each block loads its own, individual
+ * assets. Third-party blocks only load their assets when rendered.
  *
- * When this function returns false, all core block styles are loaded regardless
+ * When this function returns false, all core block assets are loaded regardless
  * of whether they are rendered in a page or not, because they are all part of
- * the `block-library/style.css` file. Third-party blocks always get enqueued
- * regardless of whether they are rendered or not.
+ * the `block-library/style.css` file. Assets for third-party blocks are always
+ * enqueued regardless of whether they are rendered or not.
  *
  * This only affects front end and not the block editor screens.
  *
@@ -2352,13 +2352,15 @@ function wp_should_load_separate_core_block_assets() {
 	}
 
 	/**
-	 * Filters the flag that decides whether separate scripts and styles
-	 * will be loaded for core blocks on-render.
+	 * Filters whether block styles should be loaded separately.
+	 *
+	 * Returning false loads all core block assets, regardless of whether they are rendered
+	 * in a page or not. Returning true loads core block assets only when they are rendered.
 	 *
 	 * @since 5.8.0
 	 *
 	 * @param bool $load_separate_assets Whether separate assets will be loaded.
-	 *                                   Default false.
+	 *                                   Default false (all block assets are loaded, even when not used).
 	 */
 	return apply_filters( 'should_load_separate_core_block_assets', false );
 }
