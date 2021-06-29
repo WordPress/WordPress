@@ -24,21 +24,14 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 <div class="wrap about__container">
 
 	<div class="about__header">
-		<div class="about__header-image">
-			<img alt="<?php _e( 'Code is Poetry' ); ?>" src="<?php echo esc_url( admin_url( 'images/about-badge.svg' ) ); ?>" />
+		<div class="about__header-title">
+			<h1>
+				<?php _e( 'The Four Freedoms' ); ?>
+			</h1>
 		</div>
 
-		<div class="about__header-container">
-			<div class="about__header-title">
-				<p>
-					<?php _e( 'WordPress' ); ?>
-					<?php echo $display_version; ?>
-				</p>
-			</div>
-
-			<div class="about__header-text">
-				<?php _e( 'Jazz up your stories in an editor that’s cleaner, crisper, and does more to get out of your way.' ); ?>
-			</div>
+		<div class="about__header-text">
+			<?php _e( 'WordPress is free and open source software, built by a distributed community of mostly volunteer developers from around the world' ); ?>
 		</div>
 
 		<nav class="about__header-navigation nav-tab-wrapper wp-clearfix" aria-label="<?php esc_attr_e( 'Secondary menu' ); ?>">
@@ -50,8 +43,6 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 	</div>
 
 	<div class="about__section has-subtle-background-color is-feature">
-		<h1><?php _e( 'Freedoms' ); ?></h1>
-
 		<p class="about-description">
 		<?php
 		printf(
