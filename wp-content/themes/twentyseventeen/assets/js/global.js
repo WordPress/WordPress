@@ -111,7 +111,9 @@
 	function belowEntryMetaClass( param ) {
 		var sidebarPos, sidebarPosBottom;
 
-		if ( ! $body.hasClass( 'has-sidebar' ) || (
+		if ( ! $body.hasClass( 'has-sidebar' ) ||
+			typeof $sidebar === 'undefined' ||
+			$sidebar.length < 1 || (
 			$body.hasClass( 'search' ) ||
 			$body.hasClass( 'single-attachment' ) ||
 			$body.hasClass( 'error404' ) ||
