@@ -258,7 +258,8 @@ class WP_Theme_JSON {
 	 * @since 5.8.0
 	 *
 	 * @param array $theme_json A structure that follows the theme.json schema.
-	 * @param string $origin What source of data this object represents. One of core, theme, or user. Default: theme.
+	 * @param string $origin    Optional. What source of data this object represents.
+	 *                          One of 'core', 'theme', or 'user'. Default 'theme'.
 	 */
 	public function __construct( $theme_json = array(), $origin = 'theme' ) {
 		if ( ! in_array( $origin, self::VALID_ORIGINS, true ) ) {
@@ -421,9 +422,8 @@ class WP_Theme_JSON {
 	 *
 	 * @since 5.8.0
 	 *
-	 * @param array $tree Input to process.
+	 * @param array $tree   Input to process.
 	 * @param array $schema Schema to adhere to.
-	 *
 	 * @return array Returns the modified $tree.
 	 */
 	private static function remove_keys_not_in_schema( $tree, $schema ) {
@@ -484,8 +484,8 @@ class WP_Theme_JSON {
 	 *
 	 * @since 5.8.0
 	 *
-	 * @param string $type Type of stylesheet we want accepts 'all', 'block_styles', and 'css_variables'.
-	 *
+	 * @param string $type Optional. Type of stylesheet we want. Accepts 'all',
+	 *                     'block_styles', and 'css_variables'. Default 'all'.
 	 * @return string Stylesheet.
 	 */
 	public function get_stylesheet( $type = 'all' ) {
@@ -541,9 +541,8 @@ class WP_Theme_JSON {
 	 *
 	 * @since 5.8.0
 	 *
-	 * @param array $style_nodes Nodes with styles.
+	 * @param array $style_nodes   Nodes with styles.
 	 * @param array $setting_nodes Nodes with settings.
-	 *
 	 * @return string The new stylesheet.
 	 */
 	private function get_block_styles( $style_nodes, $setting_nodes ) {
@@ -590,7 +589,6 @@ class WP_Theme_JSON {
 	 * @since 5.8.0
 	 *
 	 * @param array $nodes Nodes with settings.
-	 *
 	 * @return string The new stylesheet.
 	 */
 	private function get_css_variables( $nodes ) {
@@ -617,9 +615,8 @@ class WP_Theme_JSON {
 	 *
 	 * @since 5.8.0
 	 *
-	 * @param string $selector CSS selector.
+	 * @param string $selector     CSS selector.
 	 * @param array  $declarations List of declarations.
-	 *
 	 * @return string CSS ruleset.
 	 */
 	private static function to_ruleset( $selector, $declarations ) {
@@ -646,9 +643,8 @@ class WP_Theme_JSON {
 	 *
 	 * @since 5.8.0
 	 *
-	 * @param string $selector Original selector.
+	 * @param string $selector  Original selector.
 	 * @param string $to_append Selector to append.
-	 *
 	 * @return string
 	 */
 	private static function append_to_selector( $selector, $to_append ) {
@@ -669,7 +665,6 @@ class WP_Theme_JSON {
 	 *
 	 * @param array  $preset_per_origin Array of presets keyed by origin.
 	 * @param string $value_key         The property of the preset that contains its value.
-	 *
 	 * @return array Array of presets where each key is a slug and each value is the preset value.
 	 */
 	private static function get_merged_preset_by_slug( $preset_per_origin, $value_key ) {
@@ -699,7 +694,6 @@ class WP_Theme_JSON {
 	 *
 	 * @param array  $settings Settings to process.
 	 * @param string $selector Selector wrapping the classes.
-	 *
 	 * @return string The result of processing the presets.
 	 */
 	private static function compute_preset_classes( $settings, $selector ) {
@@ -744,7 +738,6 @@ class WP_Theme_JSON {
 	 * @since 5.8.0
 	 *
 	 * @param array $settings Settings to process.
-	 *
 	 * @return array Returns the modified $declarations.
 	 */
 	private static function compute_preset_vars( $settings ) {
@@ -776,7 +769,6 @@ class WP_Theme_JSON {
 	 * @since 5.8.0
 	 *
 	 * @param array $settings Settings to process.
-	 *
 	 * @return array Returns the modified $declarations.
 	 */
 	private static function compute_theme_vars( $settings ) {
@@ -825,10 +817,9 @@ class WP_Theme_JSON {
 	 *
 	 * @since 5.8.0
 	 *
-	 * @param array  $tree Input tree to process.
-	 * @param string $prefix Prefix to prepend to each variable. '' by default.
-	 * @param string $token Token to use between levels. '--' by default.
-	 *
+	 * @param array  $tree   Input tree to process.
+	 * @param string $prefix Optional. Prefix to prepend to each variable. Default empty string.
+	 * @param string $token  Optional. Token to use between levels. Default '--'.
 	 * @return array The flattened tree.
 	 */
 	private static function flatten_tree( $tree, $prefix = '', $token = '--' ) {
@@ -865,7 +856,6 @@ class WP_Theme_JSON {
 	 * @since 5.8.0
 	 *
 	 * @param array $styles Styles to process.
-	 *
 	 * @return array Returns the modified $declarations.
 	 */
 	private static function compute_style_properties( $styles ) {
@@ -917,8 +907,7 @@ class WP_Theme_JSON {
 	 * @since 5.8.0
 	 *
 	 * @param array $metadata Description of the style property.
-	 *
-	 * @return boolean True if properties exists, false otherwise.
+	 * @return bool True if properties exists, false otherwise.
 	 */
 	private static function has_properties( $metadata ) {
 		if ( array_key_exists( 'properties', $metadata ) ) {
@@ -938,8 +927,7 @@ class WP_Theme_JSON {
 	 * @since 5.8.0
 	 *
 	 * @param array $styles Styles subtree.
-	 * @param array $path Which property to process.
-	 *
+	 * @param array $path   Which property to process.
 	 * @return string Style property value.
 	 */
 	private static function get_property_value( $styles, $path ) {
@@ -982,8 +970,7 @@ class WP_Theme_JSON {
 	 * @since 5.8.0
 	 *
 	 * @param array $theme_json The tree to extract setting nodes from.
-	 * @param array $selectors List of selectors per block.
-	 *
+	 * @param array $selectors  List of selectors per block.
 	 * @return array
 	 */
 	private static function get_setting_nodes( $theme_json, $selectors = array() ) {
@@ -1036,8 +1023,7 @@ class WP_Theme_JSON {
 	 * @since 5.8.0
 	 *
 	 * @param array $theme_json The tree to extract style nodes from.
-	 * @param array $selectors List of selectors per block.
-	 *
+	 * @param array $selectors  List of selectors per block.
 	 * @return array
 	 */
 	private static function get_style_nodes( $theme_json, $selectors = array() ) {
