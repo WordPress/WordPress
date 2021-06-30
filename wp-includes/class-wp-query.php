@@ -2547,7 +2547,7 @@ class WP_Query {
 					// Public statuses.
 					$public_statuses = get_post_stati( array( 'public' => true ) );
 					$status_clauses  = array();
-					foreach ( (array) $public_statuses as $public_status ) {
+					foreach ( $public_statuses as $public_status ) {
 						$status_clauses[] = "{$wpdb->posts}.post_status = '$public_status'";
 					}
 					$type_where .= implode( ' OR ', $status_clauses );
@@ -2560,7 +2560,7 @@ class WP_Query {
 								'show_in_admin_all_list' => true,
 							)
 						);
-						foreach ( (array) $admin_all_statuses as $admin_all_status ) {
+						foreach ( $admin_all_statuses as $admin_all_status ) {
 							$type_where .= " OR {$wpdb->posts}.post_status = '$admin_all_status'";
 						}
 					}
@@ -2569,7 +2569,7 @@ class WP_Query {
 					if ( is_user_logged_in() && $queried_post_type_object instanceof WP_Post_Type ) {
 						$read_private_cap = $queried_post_type_object->cap->read_private_posts;
 						$private_statuses = get_post_stati( array( 'private' => true ) );
-						foreach ( (array) $private_statuses as $private_status ) {
+						foreach ( $private_statuses as $private_status ) {
 							$type_where .= current_user_can( $read_private_cap ) ? " \nOR {$wpdb->posts}.post_status = '$private_status'" : " \nOR ({$wpdb->posts}.post_author = $user_id AND {$wpdb->posts}.post_status = '$private_status')";
 						}
 					}
