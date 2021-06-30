@@ -396,9 +396,11 @@ class WP_Theme_JSON {
 				self::$blocks_metadata[ $block_name ]['selector'] = '.wp-block-' . str_replace( '/', '-', str_replace( 'core/', '', $block_name ) );
 			}
 
-			// Assign defaults, then overwrite those that the block sets by itself.
-			// If the block selector is compounded, will append the element to each
-			// individual block selector.
+			/*
+			 * Assign defaults, then overwrite those that the block sets by itself.
+			 * If the block selector is compounded, will append the element to each
+			 * individual block selector.
+			 */
 			$block_selectors = explode( ',', self::$blocks_metadata[ $block_name ]['selector'] );
 			foreach ( self::ELEMENTS as $el_name => $el_selector ) {
 				$element_selector = array();
@@ -642,6 +644,8 @@ class WP_Theme_JSON {
 	 * and the $to_append selector ".some-class" the result will be
 	 * "h1.some-class, h2.some-class, h3.some-class".
 	 *
+	 * @since 5.8.0
+	 *
 	 * @param string $selector Original selector.
 	 * @param string $to_append Selector to append.
 	 *
@@ -661,6 +665,8 @@ class WP_Theme_JSON {
 	 * Given an array of presets keyed by origin and the value key of the preset,
 	 * it returns an array where each key is the preset slug and each value the preset value.
 	 *
+	 * @since 5.8.0
+	 *
 	 * @param array  $preset_per_origin Array of presets keyed by origin.
 	 * @param string $value_key         The property of the preset that contains its value.
 	 *
@@ -673,10 +679,12 @@ class WP_Theme_JSON {
 				continue;
 			}
 			foreach ( $preset_per_origin[ $origin ] as $preset ) {
-				// We don't want to use kebabCase here,
-				// see https://github.com/WordPress/gutenberg/issues/32347
-				// However, we need to make sure the generated class or css variable
-				// doesn't contain spaces.
+				/*
+				 * We don't want to use kebabCase here,
+				 * see https://github.com/WordPress/gutenberg/issues/32347
+				 * However, we need to make sure the generated class or CSS variable
+				 * doesn't contain spaces.
+				 */
 				$result[ preg_replace( '/\s+/', '-', $preset['slug'] ) ] = $preset[ $value_key ];
 			}
 		}
@@ -868,9 +876,11 @@ class WP_Theme_JSON {
 
 		$properties = array();
 		foreach ( self::PROPERTIES_METADATA as $name => $metadata ) {
-			// Some properties can be shorthand properties, meaning that
-			// they contain multiple values instead of a single one.
-			// An example of this is the padding property.
+			/*
+			 * Some properties can be shorthand properties, meaning that
+			 * they contain multiple values instead of a single one.
+			 * An example of this is the padding property.
+			 */
 			if ( self::has_properties( $metadata ) ) {
 				foreach ( $metadata['properties'] as $property ) {
 					$properties[] = array(
@@ -1082,6 +1092,8 @@ class WP_Theme_JSON {
 
 	/**
 	 * Merge new incoming data.
+	 *
+	 * @since 5.8.0
 	 *
 	 * @param WP_Theme_JSON $incoming Data to merge.
 	 */
