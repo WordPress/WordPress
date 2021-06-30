@@ -424,7 +424,6 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 	 *
 	 * @param WP_REST_Request $request    Full details about the request.
 	 * @param string          $sidebar_id ID of the sidebar the widget belongs to.
-	 *
 	 * @return string|WP_Error The saved widget ID.
 	 */
 	protected function save_widget( $request, $sidebar_id ) {
