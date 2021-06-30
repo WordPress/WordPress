@@ -118,8 +118,8 @@ function register_rest_route( $namespace, $route, $args = array(), $override = f
  * @global array $wp_rest_additional_fields Holds registered fields, organized
  *                                          by object type.
  *
- * @param string|array $object_type Object(s) the field is being registered
- *                                  to, "post"|"term"|"comment" etc.
+ * @param string|array $object_type Object(s) the field is being registered to,
+ *                                  "post"|"term"|"comment" etc.
  * @param string       $attribute   The attribute name.
  * @param array        $args {
  *     Optional. An array of arguments used to handle the registered field.
@@ -135,6 +135,8 @@ function register_rest_route( $namespace, $route, $args = array(), $override = f
  * }
  */
 function register_rest_field( $object_type, $attribute, $args = array() ) {
+	global $wp_rest_additional_fields;
+
 	$defaults = array(
 		'get_callback'    => null,
 		'update_callback' => null,
@@ -142,8 +144,6 @@ function register_rest_field( $object_type, $attribute, $args = array() ) {
 	);
 
 	$args = wp_parse_args( $args, $defaults );
-
-	global $wp_rest_additional_fields;
 
 	$object_types = (array) $object_type;
 

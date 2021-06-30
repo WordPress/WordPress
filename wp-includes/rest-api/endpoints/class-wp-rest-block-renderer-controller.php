@@ -103,6 +103,8 @@ class WP_REST_Block_Renderer_Controller extends WP_REST_Controller {
 	 *
 	 * @since 5.0.0
 	 *
+	 * @global WP_Post $post Global post object.
+	 *
 	 * @param WP_REST_Request $request Request.
 	 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
 	 */
@@ -111,7 +113,7 @@ class WP_REST_Block_Renderer_Controller extends WP_REST_Controller {
 
 		$post_id = isset( $request['post_id'] ) ? (int) $request['post_id'] : 0;
 
-		if ( 0 < $post_id ) {
+		if ( $post_id > 0 ) {
 			$post = get_post( $post_id );
 
 			if ( ! $post || ! current_user_can( 'edit_post', $post->ID ) ) {
@@ -143,6 +145,8 @@ class WP_REST_Block_Renderer_Controller extends WP_REST_Controller {
 	 *
 	 * @since 5.0.0
 	 *
+	 * @global WP_Post $post Global post object.
+	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
@@ -151,7 +155,7 @@ class WP_REST_Block_Renderer_Controller extends WP_REST_Controller {
 
 		$post_id = isset( $request['post_id'] ) ? (int) $request['post_id'] : 0;
 
-		if ( 0 < $post_id ) {
+		if ( $post_id > 0 ) {
 			$post = get_post( $post_id );
 
 			// Set up postdata since this will be needed if post_id was set.

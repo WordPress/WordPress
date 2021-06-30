@@ -265,10 +265,14 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
 	 *
 	 * @since 5.5.0
 	 *
+	 * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function create_item( $request ) {
+		global $wp_filesystem;
+
 		require_once ABSPATH . 'wp-admin/includes/file.php';
 		require_once ABSPATH . 'wp-admin/includes/plugin.php';
 		require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
@@ -329,19 +333,32 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
 		}
 
 		if ( is_null( $result ) ) {
-			global $wp_filesystem;
 			// Pass through the error from WP_Filesystem if one was raised.
-			if ( $wp_filesystem instanceof WP_Filesystem_Base && is_wp_error( $wp_filesystem->errors ) && $wp_filesystem->errors->has_errors() ) {
-				return new WP_Error( 'unable_to_connect_to_filesystem', $wp_filesystem->errors->get_error_message(), array( 'status' => 500 ) );
+			if ( $wp_filesystem instanceof WP_Filesystem_Base
+				&& is_wp_error( $wp_filesystem->errors ) && $wp_filesystem->errors->has_errors()
+			) {
+				return new WP_Error(
+					'unable_to_connect_to_filesystem',
+					$wp_filesystem->errors->get_error_message(),
+					array( 'status' => 500 )
+				);
 			}
 
-			return new WP_Error( 'unable_to_connect_to_filesystem', __( 'Unable to connect to the filesystem. Please confirm your credentials.' ), array( 'status' => 500 ) );
+			return new WP_Error(
+				'unable_to_connect_to_filesystem',
+				__( 'Unable to connect to the filesystem. Please confirm your credentials.' ),
+				array( 'status' => 500 )
+			);
 		}
 
 		$file = $upgrader->plugin_info();
 
 		if ( ! $file ) {
-			return new WP_Error( 'unable_to_determine_installed_plugin', __( 'Unable to determine what plugin was installed.' ), array( 'status' => 500 ) );
+			return new WP_Error(
+				'unable_to_determine_installed_plugin',
+				__( 'Unable to determine what plugin was installed.' ),
+				array( 'status' => 500 )
+			);
 		}
 
 		if ( 'inactive' !== $request['status'] ) {
