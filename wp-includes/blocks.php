@@ -82,7 +82,12 @@ function register_block_script_handle( $metadata, $field_name ) {
 		return $script_handle;
 	}
 
-	$script_handle     = generate_block_asset_handle( $metadata['name'], $field_name );
+	$script_handle = generate_block_asset_handle( $metadata['name'], $field_name );
+
+	if ( 'viewScript' === $field_name ) {
+		$script_path = str_replace( '.min.js', '.js', $script_path );
+	}
+
 	$script_asset_path = realpath(
 		dirname( $metadata['file'] ) . '/' .
 		substr_replace( $script_path, '.asset.php', - strlen( '.js' ) )
