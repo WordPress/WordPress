@@ -1233,7 +1233,7 @@ function get_post_status_object( $post_status ) {
  * @param string       $operator Optional. The logical operation to perform. 'or' means only one element
  *                               from the array needs to match; 'and' means all elements must match.
  *                               Default 'and'.
- * @return array A list of post status names or objects.
+ * @return string[]|stdClass[] A list of post status names or objects.
  */
 function get_post_stati( $args = array(), $output = 'names', $operator = 'and' ) {
 	global $wp_post_statuses;
@@ -1427,7 +1427,7 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  *                                               of a Dashicons helper class to use a font icon, e.g.
  *                                               'dashicons-chart-pie'. Pass 'none' to leave div.wp-menu-image empty
  *                                               so an icon can be added via CSS. Defaults to use the posts icon.
- *     @type string       $capability_type       The string to use to build the read, edit, and delete capabilities.
+ *     @type string|array $capability_type       The string to use to build the read, edit, and delete capabilities.
  *                                               May be passed as an array to allow for alternative plurals when using
  *                                               this argument as a base to construct the capabilities, e.g.
  *                                               array('story', 'stories'). Default 'post'.
@@ -3794,7 +3794,7 @@ function wp_get_recent_posts( $args = array(), $output = ARRAY_A ) {
  *     @type string $post_date             The date of the post. Default is the current time.
  *     @type string $post_date_gmt         The date of the post in the GMT timezone. Default is
  *                                         the value of `$post_date`.
- *     @type mixed  $post_content          The post content. Default empty.
+ *     @type string $post_content          The post content. Default empty.
  *     @type string $post_content_filtered The filtered post content. Default empty.
  *     @type string $post_title            The post title. Default empty.
  *     @type string $post_excerpt          The post excerpt. Default empty.

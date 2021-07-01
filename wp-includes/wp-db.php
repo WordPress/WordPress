@@ -1007,7 +1007,7 @@ class wpdb {
 	 *                        then the custom users and usermeta tables will be mapped. Default true.
 	 * @param int    $blog_id Optional. The blog_id to prefix. Used only when prefix is requested.
 	 *                        Defaults to wpdb::$blogid.
-	 * @return array Table names. When a prefix is requested, the key is the unprefixed table name.
+	 * @return string[] Table names. When a prefix is requested, the key is the unprefixed table name.
 	 */
 	public function tables( $scope = 'all', $prefix = true, $blog_id = 0 ) {
 		switch ( $scope ) {

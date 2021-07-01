@@ -214,7 +214,7 @@ class WP_Comment_Query {
 	 *     @type string|array $post_status               Post status or array of post statuses to retrieve
 	 *                                                   affiliated comments for. Pass 'any' to match any value.
 	 *                                                   Default empty.
-	 *     @type string       $post_type                 Post type or array of post types to retrieve affiliated
+	 *     @type string|array $post_type                 Post type or array of post types to retrieve affiliated
 	 *                                                   comments for. Pass 'any' to match any value. Default empty.
 	 *     @type string       $post_name                 Post name to retrieve affiliated comments for.
 	 *                                                   Default empty.

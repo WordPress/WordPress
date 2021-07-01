@@ -37,7 +37,7 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller {
 	 * Revision controller.
 	 *
 	 * @since 5.0.0
-	 * @var WP_REST_Controller
+	 * @var WP_REST_Revisions_Controller
 	 */
 	private $revisions_controller;
 

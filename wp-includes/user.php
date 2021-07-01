@@ -2442,7 +2442,7 @@ function _get_additional_user_keys( $user ) {
  *
  * @since 3.7.0
  *
- * @param WP_User $user Optional. WP_User object.
+ * @param WP_User|null $user Optional. WP_User object.
  * @return string[] Array of contact method labels keyed by contact method.
  */
 function wp_get_user_contact_methods( $user = null ) {
@@ -2460,8 +2460,8 @@ function wp_get_user_contact_methods( $user = null ) {
 	 *
 	 * @since 2.9.0
 	 *
-	 * @param string[] $methods Array of contact method labels keyed by contact method.
-	 * @param WP_User  $user    WP_User object.
+	 * @param string[]     $methods Array of contact method labels keyed by contact method.
+	 * @param WP_User|null $user    WP_User object or null if none was provided.
 	 */
 	return apply_filters( 'user_contactmethods', $methods, $user );
 }
@@ -2474,7 +2474,7 @@ function wp_get_user_contact_methods( $user = null ) {
  * @since 2.9.0
  * @access private
  *
- * @param WP_User $user Optional. WP_User object. Default null.
+ * @param WP_User|null $user Optional. WP_User object. Default null.
  * @return string[] Array of contact method labels keyed by contact method.
  */
 function _wp_get_user_contactmethods( $user = null ) {

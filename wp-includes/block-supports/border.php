@@ -125,7 +125,7 @@ function wp_apply_border_support( $block_type, $block_attributes ) {
  *
  * @param WP_Block_Type $block_type Block type.
  *
- * @return boolean
+ * @return bool
  */
 function wp_skip_border_serialization( $block_type ) {
 	$border_support = _wp_array_get( $block_type->supports, array( '__experimentalBorder' ), false );
@@ -149,8 +149,7 @@ function wp_skip_border_serialization( $block_type ) {
  * @param WP_Block_Type $block_type Block type to check for support.
  * @param string        $feature    Name of the feature to check support for.
  * @param mixed         $default    Fallback value for feature support, defaults to false.
- *
- * @return boolean Whether or not the feature is supported.
+ * @return bool Whether the feature is supported.
  */
 function wp_has_border_feature_support( $block_type, $feature, $default = false ) {
 	// Check if all border support features have been opted into via `"__experimentalBorder": true`.

@@ -1290,7 +1290,7 @@ function _wp_render_title_tag() {
  *                            Default '&raquo;'.
  * @param bool   $display     Optional. Whether to display or retrieve title. Default true.
  * @param string $seplocation Optional. Location of the separator ('left' or 'right').
- * @return string|null String on retrieve, null when displaying.
+ * @return string|void String when `$display` is true, nothing otherwise.
  */
 function wp_title( $sep = '&raquo;', $display = true, $seplocation = '' ) {
 	global $wp_locale;

@@ -44,7 +44,7 @@ class WP_Theme_JSON {
 	 * The sources of data this object can represent.
 	 *
 	 * @since 5.8.0
-	 * @var array
+	 * @var string[]
 	 */
 	const VALID_ORIGINS = array(
 		'core',
@@ -166,7 +166,7 @@ class WP_Theme_JSON {
 
 	/**
 	 * @since 5.8.0
-	 * @var array
+	 * @var string[]
 	 */
 	const ALLOWED_TOP_LEVEL_KEYS = array(
 		'settings',
@@ -234,7 +234,7 @@ class WP_Theme_JSON {
 
 	/**
 	 * @since 5.8.0
-	 * @var array
+	 * @var string[]
 	 */
 	const ELEMENTS = array(
 		'link' => 'a',

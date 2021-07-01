@@ -244,7 +244,7 @@ function get_legacy_widget_block_editor_settings() {
 	 *
 	 * @since 5.8.0
 	 *
-	 * @param array $widgets An array of excluded widget-type IDs.
+	 * @param string[] $widgets An array of excluded widget-type IDs.
 	 */
 	$editor_settings['widgetTypesToHideFromLegacyWidgetBlock'] = apply_filters(
 		'widget_types_to_hide_from_legacy_widget_block',
@@ -394,7 +394,7 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
  *
  * @global WP_Post $post Global post object.
  *
- * @param array                   $preload_paths        List of paths to preload.
+ * @param string[]                $preload_paths        List of paths to preload.
  * @param WP_Block_Editor_Context $block_editor_context The current block editor context.
  *
  * @return void
