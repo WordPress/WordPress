@@ -159,7 +159,7 @@ function get_registered_nav_menus() {
  *
  * @since 3.0.0
  *
- * @return int[] Associative array of egistered navigation menu IDs keyed by their
+ * @return int[] Associative array of registered navigation menu IDs keyed by their
  *               location name. If none are registered, an empty array.
  */
 function get_nav_menu_locations() {

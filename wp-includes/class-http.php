@@ -110,7 +110,7 @@ class WP_Http {
 	 *                                             Some transports technically allow others, but should not be
 	 *                                             assumed. Default 'GET'.
 	 *     @type float        $timeout             How long the connection should stay open in seconds. Default 5.
-	 *     @type int          $redirection         Number of allowed redirects. Not supported by all transports
+	 *     @type int          $redirection         Number of allowed redirects. Not supported by all transports.
 	 *                                             Default 5.
 	 *     @type string       $httpversion         Version of the HTTP protocol to use. Accepts '1.0' and '1.1'.
 	 *                                             Default '1.0'.
