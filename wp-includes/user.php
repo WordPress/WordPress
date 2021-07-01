@@ -1749,7 +1749,7 @@ function validate_username( $username ) {
  *     @type string $admin_color          Admin color scheme for the user. Default 'fresh'.
  *     @type bool   $use_ssl              Whether the user should always access the admin over
  *                                        https. Default false.
- *     @type string $user_registered      Date the user registered. Format is 'Y-m-d H:i:s'.
+ *     @type string $user_registered      Date the user registered in UTC. Format is 'Y-m-d H:i:s'.
  *     @type string $user_activation_key  Password reset key. Default empty.
  *     @type bool   $spam                 Multisite only. Whether the user is marked as spam.
  *                                        Default false.

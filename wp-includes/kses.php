@@ -854,7 +854,7 @@ function wp_kses_allowed_html( $context = '' ) {
 
 	if ( is_array( $context ) ) {
 		/**
-		 * Filters the HTML that is allowed for a given context.
+		 * Filters the HTML tags that are allowed for a given context.
 		 *
 		 * @since 3.5.0
 		 *
@@ -1040,7 +1040,7 @@ function wp_kses_uri_attributes() {
  *                                                or a context name such as 'post'.
  * @global string[]       $pass_allowed_protocols Array of allowed URL protocols.
  *
- * @param array $matches preg_replace regexp matches
+ * @param array $match preg_replace regexp matches
  * @return string
  */
 function _wp_kses_split_callback( $match ) {

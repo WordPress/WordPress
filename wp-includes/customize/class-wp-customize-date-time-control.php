@@ -214,7 +214,12 @@ class WP_Customize_Date_Time_Control extends WP_Customize_Control {
 	 *
 	 * @since 4.9.0
 	 *
-	 * @return array abbr and description.
+	 * @return array {
+	 *     Timezone info. All properties are optional.
+	 *
+	 *     @type string $abbr        Timezone abbreviation, eg. PST or CEST.
+	 *     @type string $description Human-readable timezone description as HTML.
+	 * }
 	 */
 	public function get_timezone_info() {
 		$tz_string     = get_option( 'timezone_string' );

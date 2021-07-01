@@ -1832,7 +1832,7 @@ function wp_setup_widgets_block_editor() {
  */
 function wp_use_widgets_block_editor() {
 	/**
-	 * Filters whether or not to use the block editor to manage widgets.
+	 * Filters whether to use the block editor to manage widgets.
 	 *
 	 * @since 5.8.0
 	 *

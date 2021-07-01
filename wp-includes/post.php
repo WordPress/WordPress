@@ -1391,7 +1391,7 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  *     @type bool         $public                Whether a post type is intended for use publicly either via
  *                                               the admin interface or by front-end users. While the default
  *                                               settings of $exclude_from_search, $publicly_queryable, $show_ui,
- *                                               and $show_in_nav_menus are inherited from $public, each does not
+ *                                               and $show_in_nav_menus are inherited from public, each does not
  *                                               rely on this relationship and controls a very specific intention.
  *                                               Default false.
  *     @type bool         $hierarchical          Whether the post type is hierarchical (e.g. page). Default false.
@@ -1417,11 +1417,11 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  *                                               of $show_in_menu.
  *     @type bool         $show_in_rest          Whether to include the post type in the REST API. Set this to true
  *                                               for the post type to be available in the block editor.
- *     @type string       $rest_base             To change the base URL of REST API route. Default is $post_type.
- *     @type string       $rest_controller_class REST API controller class name. Default is 'WP_REST_Posts_Controller'.
+ *     @type string       $rest_base             To change the base url of REST API route. Default is $post_type.
+ *     @type string       $rest_controller_class REST API Controller class name. Default is 'WP_REST_Posts_Controller'.
  *     @type int          $menu_position         The position in the menu order the post type should appear. To work,
  *                                               $show_in_menu must be true. Default null (at the bottom).
- *     @type string       $menu_icon             The URL to the icon to be used for this menu. Pass a base64-encoded
+ *     @type string       $menu_icon             The url to the icon to be used for this menu. Pass a base64-encoded
  *                                               SVG using a data URI, which will be colored to match the color scheme
  *                                               -- this should begin with 'data:image/svg+xml;base64,'. Pass the name
  *                                               of a Dashicons helper class to use a font icon, e.g.

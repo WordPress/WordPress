@@ -218,6 +218,8 @@ function date_i18n( $format, $timestamp_with_offset = false, $gmt = false ) {
  *
  * @since 5.3.0
  *
+ * @global WP_Locale $wp_locale WordPress date and time locale object.
+ *
  * @param string       $format    PHP date format.
  * @param int          $timestamp Optional. Unix timestamp. Defaults to current time.
  * @param DateTimeZone $timezone  Optional. Timezone to output result in. Defaults to timezone
