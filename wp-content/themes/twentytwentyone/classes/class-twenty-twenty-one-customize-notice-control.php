@@ -29,8 +29,6 @@ class Twenty_Twenty_One_Customize_Notice_Control extends WP_Customize_Control {
 	 *
 	 * This simply prints the notice we need.
 	 *
-	 * @access public
-	 *
 	 * @since Twenty Twenty-One 1.0
 	 *
 	 * @return void

@@ -22,7 +22,6 @@
  * @param object $item   Nav menu item.
  * @param int    $depth  Depth.
  * @param object $args   Nav menu args.
- *
  * @return string Nav menu item start element.
  */
 function twenty_twenty_one_add_sub_menu_toggle( $output, $item, $depth, $args ) {
@@ -44,9 +43,8 @@ add_filter( 'walker_nav_menu_start_el', 'twenty_twenty_one_add_sub_menu_toggle',
  *
  * @since Twenty Twenty-One 1.0
  *
- * @param string $uri Social link.
+ * @param string $uri  Social link.
  * @param int    $size The icon size in pixels.
- *
  * @return string
  */
 function twenty_twenty_one_get_social_link_svg( $uri, $size = 24 ) {
@@ -84,7 +82,6 @@ add_filter( 'walker_nav_menu_start_el', 'twenty_twenty_one_nav_menu_social_icons
  * @param stdClass $args  An object of wp_nav_menu() arguments.
  * @param WP_Post  $item  Menu item data object.
  * @param int      $depth Depth of menu item. Used for padding.
- *
  * @return stdClass
  */
 function twenty_twenty_one_add_menu_description_args( $args, $item, $depth ) {

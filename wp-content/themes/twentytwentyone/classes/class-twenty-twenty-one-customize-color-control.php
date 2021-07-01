@@ -27,8 +27,6 @@ class Twenty_Twenty_One_Customize_Color_Control extends WP_Customize_Color_Contr
 	/**
 	 * Colorpicker palette
 	 *
-	 * @access public
-	 *
 	 * @since Twenty Twenty-One 1.0
 	 *
 	 * @var array
@@ -37,8 +35,6 @@ class Twenty_Twenty_One_Customize_Color_Control extends WP_Customize_Color_Contr
 
 	/**
 	 * Enqueue control related scripts/styles.
-	 *
-	 * @access public
 	 *
 	 * @since Twenty Twenty-One 1.0
 	 *
@@ -59,8 +55,6 @@ class Twenty_Twenty_One_Customize_Color_Control extends WP_Customize_Color_Contr
 
 	/**
 	 * Refresh the parameters passed to the JavaScript via JSON.
-	 *
-	 * @access public
 	 *
 	 * @since Twenty Twenty-One 1.0
 	 *

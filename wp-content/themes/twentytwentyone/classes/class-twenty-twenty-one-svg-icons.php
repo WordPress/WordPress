@@ -24,8 +24,6 @@ class Twenty_Twenty_One_SVG_Icons {
 	/**
 	 * User Interface icons – svg sources.
 	 *
-	 * @access protected
-	 *
 	 * @since Twenty Twenty-One 1.0
 	 *
 	 * @var array
@@ -41,8 +39,6 @@ class Twenty_Twenty_One_SVG_Icons {
 
 	/**
 	 * Social Icons – svg sources.
-	 *
-	 * @access protected
 	 *
 	 * @since Twenty Twenty-One 1.0
 	 *
@@ -148,14 +144,11 @@ class Twenty_Twenty_One_SVG_Icons {
 	 *
 	 * @static
 	 *
-	 * @access public
-	 *
 	 * @since Twenty Twenty-One 1.0
 	 *
-	 * @param string $group the icon group.
-	 * @param string $icon The icon.
-	 * @param int    $size The icon-size in pixels.
-	 *
+	 * @param string $group The icon group.
+	 * @param string $icon  The icon.
+	 * @param int    $size  The icon-size in pixels.
 	 * @return string
 	 */
 	public static function get_svg( $group, $icon, $size ) {
@@ -196,13 +189,10 @@ class Twenty_Twenty_One_SVG_Icons {
 	 *
 	 * @static
 	 *
-	 * @access public
-	 *
 	 * @since Twenty Twenty-One 1.0
 	 *
-	 * @param string $uri Social link.
+	 * @param string $uri  Social link.
 	 * @param int    $size The icon-size in pixels.
-	 *
 	 * @return string|null
 	 */
 	public static function get_social_link_svg( $uri, $size ) {
