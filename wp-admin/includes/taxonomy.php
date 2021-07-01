@@ -19,7 +19,7 @@
  *
  * @param int|string $cat_name Category name.
  * @param int        $parent   Optional. ID of parent term.
- * @return mixed
+ * @return string|null Returns the category ID as a numeric string if the pairing exists, null if not.
  */
 function category_exists( $cat_name, $parent = null ) {
 	$id = term_exists( $cat_name, 'category', $parent );
@@ -215,7 +215,9 @@ function wp_update_category( $catarr ) {
  * @since 2.3.0
  *
  * @param int|string $tag_name
- * @return mixed
+ * @return mixed Returns null if the term does not exist.
+ *               Returns an array of the term ID and the term taxonomy ID if the pairing exists.
+ *               Returns 0 if term ID 0 is passed to the function.
  */
 function tag_exists( $tag_name ) {
 	return term_exists( $tag_name, 'post_tag' );

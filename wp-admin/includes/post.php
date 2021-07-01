@@ -978,7 +978,7 @@ function delete_meta( $mid ) {
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @return mixed
+ * @return string[] Array of meta key names.
  */
 function get_meta_keys() {
 	global $wpdb;
@@ -1013,8 +1013,19 @@ function get_post_meta_by_id( $mid ) {
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param int $postid
- * @return mixed
+ * @param int $postid A post ID.
+ * @return array {
+ *     Array of meta data arrays for the given post ID.
+ *
+ *     @type array ...$0 {
+ *         Associative array of meta data.
+ *
+ *         @type string $meta_key   Meta key.
+ *         @type mixed  $meta_value Meta value.
+ *         @type string $meta_id    Meta ID as a numeric string.
+ *         @type string $post_id    Post ID as a numeric string.
+ *     }
+ * }
  */
 function has_meta( $postid ) {
 	global $wpdb;
