@@ -18,7 +18,7 @@
 class WP_Query {
 
 	/**
-	 * Query vars set by the user
+	 * Query vars set by the user.
 	 *
 	 * @since 1.5.0
 	 * @var array
@@ -26,7 +26,7 @@ class WP_Query {
 	public $query;
 
 	/**
-	 * Query vars, after parsing
+	 * Query vars, after parsing.
 	 *
 	 * @since 1.5.0
 	 * @var array
@@ -34,7 +34,7 @@ class WP_Query {
 	public $query_vars = array();
 
 	/**
-	 * Taxonomy query, as passed to get_tax_sql()
+	 * Taxonomy query, as passed to get_tax_sql().
 	 *
 	 * @since 3.1.0
 	 * @var WP_Tax_Query A taxonomy query instance.
@@ -42,7 +42,7 @@ class WP_Query {
 	public $tax_query;
 
 	/**
-	 * Metadata query container
+	 * Metadata query container.
 	 *
 	 * @since 3.2.0
 	 * @var WP_Meta_Query A meta query instance.
@@ -50,7 +50,7 @@ class WP_Query {
 	public $meta_query = false;
 
 	/**
-	 * Date query container
+	 * Date query container.
 	 *
 	 * @since 3.7.0
 	 * @var WP_Date_Query A date query instance.
@@ -92,7 +92,7 @@ class WP_Query {
 	public $posts;
 
 	/**
-	 * The amount of posts for the current query.
+	 * The number of posts for the current query.
 	 *
 	 * @since 1.5.0
 	 * @var int
@@ -135,7 +135,7 @@ class WP_Query {
 	public $comments;
 
 	/**
-	 * The amount of comments for the posts.
+	 * The number of comments for the posts.
 	 *
 	 * @since 2.2.0
 	 * @var int
@@ -159,7 +159,7 @@ class WP_Query {
 	public $comment;
 
 	/**
-	 * The amount of found posts for the current query.
+	 * The number of found posts for the current query.
 	 *
 	 * If limit clause was not used, equals $post_count.
 	 *
@@ -169,7 +169,7 @@ class WP_Query {
 	public $found_posts = 0;
 
 	/**
-	 * The amount of pages.
+	 * The number of pages.
 	 *
 	 * @since 2.1.0
 	 * @var int
@@ -177,7 +177,7 @@ class WP_Query {
 	public $max_num_pages = 0;
 
 	/**
-	 * The amount of comment pages.
+	 * The number of comment pages.
 	 *
 	 * @since 2.7.0
 	 * @var int

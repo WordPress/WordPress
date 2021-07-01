@@ -12,9 +12,9 @@
  * @since 5.8.0
  * @access private
  *
- * @param  string $block_content Rendered block content.
- * @param  array  $block         Block object.
- * @return string                Filtered block content.
+ * @param string $block_content Rendered block content.
+ * @param array  $block         Block object.
+ * @return string Filtered block content.
  */
 function wp_render_elements_support( $block_content, $block ) {
 	$link_color = null;
@@ -23,11 +23,11 @@ function wp_render_elements_support( $block_content, $block ) {
 	}
 
 	/*
-	* For now we only care about link color.
-	* This code in the future when we have a public API
-	* should take advantage of WP_Theme_JSON::compute_style_properties
-	* and work for any element and style.
-	*/
+	 * For now we only care about link color.
+	 * This code in the future when we have a public API
+	 * should take advantage of WP_Theme_JSON::compute_style_properties
+	 * and work for any element and style.
+	 */
 	if ( null === $link_color ) {
 		return $block_content;
 	}

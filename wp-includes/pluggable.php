@@ -2785,8 +2785,7 @@ if ( ! function_exists( 'get_avatar' ) ) :
 		 * @param int    $size        Square avatar width and height in pixels to retrieve.
 		 * @param string $default     URL for the default image or a default type. Accepts '404', 'retro', 'monsterid',
 		 *                            'wavatar', 'indenticon', 'mystery', 'mm', 'mysteryman', 'blank', or 'gravatar_default'.
-		 *                            Default is the value of the 'avatar_default' option, with a fallback of 'mystery'.
-		 * @param string $alt         Alternative text to use in the avatar image tag. Default empty.
+		 * @param string $alt         Alternative text to use in the avatar image tag.
 		 * @param array  $args        Arguments passed to get_avatar_data(), after processing.
 		 */
 		return apply_filters( 'get_avatar', $avatar, $id_or_email, $args['size'], $args['default'], $args['alt'], $args );
