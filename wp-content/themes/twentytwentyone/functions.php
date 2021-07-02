@@ -95,7 +95,7 @@ if ( ! function_exists( 'twenty_twenty_one_setup' ) ) {
 			)
 		);
 
-		/**
+		/*
 		 * Add support for core custom logo.
 		 *
 		 * @link https://codex.wordpress.org/Theme_Logo
@@ -485,6 +485,8 @@ add_action( 'enqueue_block_editor_assets', 'twentytwentyone_block_editor_script'
  * This does not enqueue the script because it is tiny and because it is only for IE11,
  * thus it does not warrant having an entire dedicated blocking script being loaded.
  *
+ * @since Twenty Twenty-One 1.0
+ *
  * @link https://git.io/vWdr2
  */
 function twenty_twenty_one_skip_link_focus_fix() {
@@ -603,6 +605,13 @@ add_action( 'customize_controls_enqueue_scripts', 'twentytwentyone_customize_con
  * @return void
  */
 function twentytwentyone_the_html_classes() {
+	/**
+	 * Filters the classes for the main <html> element.
+	 *
+	 * @since Twenty Twenty-One 1.0
+	 *
+	 * @param string The list of classes. Default empty string.
+	 */
 	$classes = apply_filters( 'twentytwentyone_html_classes', '' );
 	if ( ! $classes ) {
 		return;
