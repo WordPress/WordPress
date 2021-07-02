@@ -228,6 +228,8 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 	 *
 	 * @since 5.8.0
 	 *
+	 * @global WP_Widget_Factory $wp_widget_factory
+	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
@@ -289,14 +291,14 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 	 *
 	 * @since 5.8.0
 	 *
-	 * @global array             $wp_registered_widget_updates The registered widget update functions.
 	 * @global WP_Widget_Factory $wp_widget_factory
+	 * @global array             $wp_registered_widget_updates The registered widget update functions.
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function delete_item( $request ) {
-		global $wp_registered_widget_updates, $wp_widget_factory;
+		global $wp_widget_factory, $wp_registered_widget_updates;
 
 		retrieve_widgets();
 
@@ -416,6 +418,9 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 	 * Saves the widget in the request object.
 	 *
 	 * @since 5.8.0
+	 *
+	 * @global WP_Widget_Factory $wp_widget_factory
+	 * @global array             $wp_registered_widget_updates The registered widget update functions.
 	 *
 	 * @param WP_REST_Request $request    Full details about the request.
 	 * @param string          $sidebar_id ID of the sidebar the widget belongs to.
@@ -560,9 +565,8 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 	 *
 	 * @since 5.8.0
 	 *
-	 * @global array $wp_registered_sidebars        The registered sidebars.
-	 * @global array $wp_registered_widgets         The registered widgets.
-	 * @global array $wp_registered_widget_controls The registered widget controls.
+	 * @global WP_Widget_Factory $wp_widget_factory
+	 * @global array             $wp_registered_widgets The registered widgets.
 	 *
 	 * @param array           $item    An array containing a widget_id and sidebar_id.
 	 * @param WP_REST_Request $request Request object.
