@@ -1219,14 +1219,6 @@ class WP_Theme_JSON {
 			$theme_settings['settings']['spacing']['customPadding'] = $settings['enableCustomSpacing'];
 		}
 
-		// Things that didn't land in core yet, so didn't have a setting assigned.
-		if ( current( (array) get_theme_support( 'experimental-link-color' ) ) ) {
-			if ( ! isset( $theme_settings['settings']['color'] ) ) {
-				$theme_settings['settings']['color'] = array();
-			}
-			$theme_settings['settings']['color']['link'] = true;
-		}
-
 		return $theme_settings;
 	}
 
