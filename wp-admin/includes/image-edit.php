@@ -375,7 +375,7 @@ function wp_save_image_file( $filename, $image, $mime_type, $post_id ) {
 		 *
 		 * @param bool|null        $override  Value to return instead of saving. Default null.
 		 * @param string           $filename  Name of the file to be saved.
-		 * @param resource|GdImage $image     The image editor instance.
+		 * @param resource|GdImage $image     Image resource or GdImage instance.
 		 * @param string           $mime_type The mime type of the image.
 		 * @param int              $post_id   Attachment post ID.
 		 */
