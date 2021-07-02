@@ -349,7 +349,6 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
 	 *
 	 * @param WP_Theme $theme_a First theme to compare.
 	 * @param WP_Theme $theme_b Second theme to compare.
-	 *
 	 * @return bool
 	 */
 	protected function is_same_theme( $theme_a, $theme_b ) {

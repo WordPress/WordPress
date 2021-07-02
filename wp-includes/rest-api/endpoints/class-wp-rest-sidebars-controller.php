@@ -268,7 +268,6 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller {
 	 *
 	 * @param array           $raw_sidebar Sidebar instance.
 	 * @param WP_REST_Request $request     Full details about the request.
-	 *
 	 * @return WP_REST_Response Prepared response object.
 	 */
 	public function prepare_item_for_response( $raw_sidebar, $request ) {
@@ -344,7 +343,6 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller {
 	 * @since 5.8.0
 	 *
 	 * @param array $sidebar Sidebar.
-	 *
 	 * @return array Links for the given widget.
 	 */
 	protected function prepare_links( $sidebar ) {

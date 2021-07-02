@@ -1080,7 +1080,6 @@ class WP_REST_Server {
 	 * @param array           $handler  The matched route handler.
 	 * @param string          $route    The matched route regex.
 	 * @param WP_Error|null   $response The current error object if any.
-	 *
 	 * @return WP_REST_Response
 	 */
 	protected function respond_to_request( $request, $route, $handler, $response ) {

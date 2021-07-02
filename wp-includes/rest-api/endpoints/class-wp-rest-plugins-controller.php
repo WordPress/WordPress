@@ -662,7 +662,6 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
 	 * @param string $plugin         The plugin file to update.
 	 * @param string $new_status     The plugin's new status.
 	 * @param string $current_status The plugin's current status.
-	 *
 	 * @return true|WP_Error
 	 */
 	protected function plugin_status_permission_check( $plugin, $new_status, $current_status ) {
@@ -772,7 +771,6 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
 	 *
 	 * @param WP_REST_Request $request The request to require the plugin matches against.
 	 * @param array           $item    The plugin item.
-	 *
 	 * @return bool
 	 */
 	protected function does_plugin_match_request( $request, $item ) {

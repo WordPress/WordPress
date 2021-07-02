@@ -145,7 +145,6 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
 	 * @since 5.8.0
 	 *
 	 * @param WP_REST_Request $request The request instance.
-	 *
 	 * @return WP_REST_Response
 	 */
 	public function get_items( $request ) {
@@ -156,6 +155,7 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
 		if ( isset( $request['area'] ) ) {
 			$query['area'] = $request['area'];
 		}
+
 		$templates = array();
 		foreach ( get_block_templates( $query, $this->post_type ) as $template ) {
 			$data        = $this->prepare_item_for_response( $template, $request );
@@ -183,7 +183,6 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
 	 * @since 5.8.0
 	 *
 	 * @param WP_REST_Request $request The request instance.
-	 *
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function get_item( $request ) {
@@ -405,7 +404,6 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
 	 *
 	 * @param WP_Block_Template $template Template instance.
 	 * @param WP_REST_Request   $request Request object.
-	 *
 	 * @return WP_REST_Response $data
 	 */
 	public function prepare_item_for_response( $template, $request ) { // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
