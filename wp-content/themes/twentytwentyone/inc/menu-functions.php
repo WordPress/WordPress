@@ -54,6 +54,8 @@ function twenty_twenty_one_get_social_link_svg( $uri, $size = 24 ) {
 /**
  * Displays SVG icons in the footer navigation.
  *
+ * @since Twenty Twenty-One 1.0
+ *
  * @param string   $item_output The menu item's starting HTML output.
  * @param WP_Post  $item        Menu item data object.
  * @param int      $depth       Depth of the menu. Used for padding.
