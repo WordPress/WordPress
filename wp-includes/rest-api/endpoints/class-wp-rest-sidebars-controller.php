@@ -365,6 +365,8 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller {
 	/**
 	 * Retrieves the block type' schema, conforming to JSON Schema.
 	 *
+	 * @since 5.8.0
+	 *
 	 * @return array Item schema data.
 	 */
 	public function get_item_schema() {

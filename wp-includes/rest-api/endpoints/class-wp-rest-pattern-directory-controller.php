@@ -21,6 +21,8 @@ class WP_REST_Pattern_Directory_Controller extends WP_REST_Controller {
 
 	/**
 	 * Constructs the controller.
+	 *
+	 * @since 5.8.0
 	 */
 	public function __construct() {
 		$this->namespace     = 'wp/v2';
@@ -29,6 +31,8 @@ class WP_REST_Pattern_Directory_Controller extends WP_REST_Controller {
 
 	/**
 	 * Registers the necessary REST API routes.
+	 *
+	 * @since 5.8.0
 	 */
 	public function register_routes() {
 		register_rest_route(
