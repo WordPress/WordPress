@@ -15,8 +15,6 @@ class Twenty_Twenty_One_Dark_Mode {
 	/**
 	 * Instantiate the object.
 	 *
-	 * @access public
-	 *
 	 * @since Twenty Twenty-One 1.0
 	 */
 	public function __construct() {
@@ -48,8 +46,6 @@ class Twenty_Twenty_One_Dark_Mode {
 
 	/**
 	 * Editor custom color variables & scripts.
-	 *
-	 * @access public
 	 *
 	 * @since Twenty Twenty-One 1.0
 	 *
@@ -88,8 +84,6 @@ class Twenty_Twenty_One_Dark_Mode {
 	/**
 	 * Enqueue scripts and styles.
 	 *
-	 * @access public
-	 *
 	 * @since Twenty Twenty-One 1.0
 	 *
 	 * @return void
@@ -107,8 +101,6 @@ class Twenty_Twenty_One_Dark_Mode {
 
 	/**
 	 * Enqueue scripts for the customizer.
-	 *
-	 * @access public
 	 *
 	 * @since Twenty Twenty-One 1.0
 	 *
@@ -130,12 +122,9 @@ class Twenty_Twenty_One_Dark_Mode {
 	/**
 	 * Register customizer options.
 	 *
-	 * @access public
-	 *
 	 * @since Twenty Twenty-One 1.0
 	 *
 	 * @param WP_Customize_Manager $wp_customize Theme Customizer object.
-	 *
 	 * @return void
 	 */
 	public function customizer_controls( $wp_customize ) {
@@ -222,12 +211,9 @@ class Twenty_Twenty_One_Dark_Mode {
 	/**
 	 * Calculate classes for the main <html> element.
 	 *
-	 * @access public
-	 *
 	 * @since Twenty Twenty-One 1.0
 	 *
 	 * @param string $classes The classes for <html> element.
-	 *
 	 * @return string
 	 */
 	public function html_classes( $classes ) {
@@ -247,12 +233,9 @@ class Twenty_Twenty_One_Dark_Mode {
 	/**
 	 * Adds a class to the <body> element in the editor to accommodate dark-mode.
 	 *
-	 * @access public
-	 *
 	 * @since Twenty Twenty-One 1.0
 	 *
 	 * @param string $classes The admin body-classes.
-	 *
 	 * @return string
 	 */
 	public function admin_body_classes( $classes ) {
@@ -280,8 +263,6 @@ class Twenty_Twenty_One_Dark_Mode {
 	/**
 	 * Determine if we want to print the dark-mode switch or not.
 	 *
-	 * @access public
-	 *
 	 * @since Twenty Twenty-One 1.0
 	 *
 	 * @return bool
@@ -297,8 +278,6 @@ class Twenty_Twenty_One_Dark_Mode {
 
 	/**
 	 * Add night/day switch.
-	 *
-	 * @access public
 	 *
 	 * @since Twenty Twenty-One 1.0
 	 *
@@ -317,12 +296,9 @@ class Twenty_Twenty_One_Dark_Mode {
 	 *
 	 * Inspired from https://codepen.io/aaroniker/pen/KGpXZo (MIT-licensed)
 	 *
-	 * @access public
-	 *
 	 * @since Twenty Twenty-One 1.0
 	 *
 	 * @param array $attrs The attributes to add to our <button> element.
-	 *
 	 * @return void
 	 */
 	public function the_html( $attrs = array() ) {
@@ -378,8 +354,6 @@ class Twenty_Twenty_One_Dark_Mode {
 	/**
 	 * Print the dark-mode switch script.
 	 *
-	 * @access public
-	 *
 	 * @since Twenty Twenty-One 1.0
 	 *
 	 * @return void
@@ -392,8 +366,6 @@ class Twenty_Twenty_One_Dark_Mode {
 
 	/**
 	 * Adds information to the privacy policy.
-	 *
-	 * @access public
 	 *
 	 * @since Twenty Twenty-One 1.0
 	 *
