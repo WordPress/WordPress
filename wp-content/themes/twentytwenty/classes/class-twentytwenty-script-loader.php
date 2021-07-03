@@ -14,6 +14,8 @@
 if ( ! class_exists( 'TwentyTwenty_Script_Loader' ) ) {
 	/**
 	 * A class that provides a way to add `async` or `defer` attributes to scripts.
+	 *
+	 * @since Twenty Twenty 1.0
 	 */
 	class TwentyTwenty_Script_Loader {
 
@@ -21,6 +23,8 @@ if ( ! class_exists( 'TwentyTwenty_Script_Loader' ) ) {
 		 * Adds async/defer attributes to enqueued / registered scripts.
 		 *
 		 * If #12009 lands in WordPress, this function can no-op since it would be handled in core.
+		 *
+		 * @since Twenty Twenty 1.0
 		 *
 		 * @link https://core.trac.wordpress.org/ticket/12009
 		 *

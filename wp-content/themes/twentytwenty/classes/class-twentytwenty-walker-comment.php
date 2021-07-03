@@ -11,11 +11,15 @@ if ( ! class_exists( 'TwentyTwenty_Walker_Comment' ) ) {
 	/**
 	 * CUSTOM COMMENT WALKER
 	 * A custom walker for comments, based on the walker in Twenty Nineteen.
+	 *
+	 * @since Twenty Twenty 1.0
 	 */
 	class TwentyTwenty_Walker_Comment extends Walker_Comment {
 
 		/**
 		 * Outputs a comment in the HTML5 format.
+		 *
+		 * @since Twenty Twenty 1.0
 		 *
 		 * @see wp_list_comments()
 		 * @see https://developer.wordpress.org/reference/functions/get_comment_author_url/
