@@ -3,7 +3,7 @@
  * Twenty Nineteen: Color Patterns
  *
  * @package WordPress
- * @subpackage TwentyNineteen
+ * @subpackage Twenty_Nineteen
  * @since Twenty Nineteen 1.0
  */
 

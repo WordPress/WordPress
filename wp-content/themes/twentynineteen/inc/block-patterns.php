@@ -6,8 +6,8 @@
  * @link https://developer.wordpress.org/reference/functions/register_block_pattern_category/
  *
  * @package WordPress
- * @subpackage TwentyNineteen
- * @since Twenty Nineteen 1.7
+ * @subpackage Twenty_Nineteen
+ * @since Twenty Nineteen 1.8
  */
 
 /**
