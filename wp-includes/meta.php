@@ -60,6 +60,13 @@ function add_metadata( $meta_type, $object_id, $meta_key, $meta_value, $unique =
 	 * (post, comment, term, user, or any other type with an associated meta table).
 	 * Returning a non-null value will effectively short-circuit the function.
 	 *
+	 * Possible hook names include:
+	 *
+	 *  - `add_post_metadata`
+	 *  - `add_comment_metadata`
+	 *  - `add_term_metadata`
+	 *  - `add_user_metadata`
+	 *
 	 * @since 3.1.0
 	 *
 	 * @param null|bool $check      Whether to allow adding metadata for the given type.
@@ -92,6 +99,13 @@ function add_metadata( $meta_type, $object_id, $meta_key, $meta_value, $unique =
 	 * The dynamic portion of the hook, `$meta_type`, refers to the meta object type
 	 * (post, comment, term, user, or any other type with an associated meta table).
 	 *
+	 * Possible hook names include:
+	 *
+	 *  - `add_post_meta`
+	 *  - `add_comment_meta`
+	 *  - `add_term_meta`
+	 *  - `add_user_meta`
+	 *
 	 * @since 3.1.0
 	 *
 	 * @param int    $object_id   ID of the object metadata is for.
@@ -122,6 +136,13 @@ function add_metadata( $meta_type, $object_id, $meta_key, $meta_value, $unique =
 	 *
 	 * The dynamic portion of the hook, `$meta_type`, refers to the meta object type
 	 * (post, comment, term, user, or any other type with an associated meta table).
+	 *
+	 * Possible hook names include:
+	 *
+	 *  - `added_post_meta`
+	 *  - `added_comment_meta`
+	 *  - `added_term_meta`
+	 *  - `added_user_meta`
 	 *
 	 * @since 2.9.0
 	 *
@@ -192,6 +213,13 @@ function update_metadata( $meta_type, $object_id, $meta_key, $meta_value, $prev_
 	 * (post, comment, term, user, or any other type with an associated meta table).
 	 * Returning a non-null value will effectively short-circuit the function.
 	 *
+	 * Possible hook names include:
+	 *
+	 *  - `update_post_metadata`
+	 *  - `update_comment_metadata`
+	 *  - `update_term_metadata`
+	 *  - `update_user_metadata`
+	 *
 	 * @since 3.1.0
 	 *
 	 * @param null|bool $check      Whether to allow updating metadata for the given type.
@@ -243,6 +271,13 @@ function update_metadata( $meta_type, $object_id, $meta_key, $meta_value, $prev_
 		 * The dynamic portion of the hook, `$meta_type`, refers to the meta object type
 		 * (post, comment, term, user, or any other type with an associated meta table).
 		 *
+		 * Possible hook names include:
+		 *
+		 *  - `update_post_meta`
+		 *  - `update_comment_meta`
+		 *  - `update_term_meta`
+		 *  - `update_user_meta`
+		 *
 		 * @since 2.9.0
 		 *
 		 * @param int    $meta_id     ID of the metadata entry to update.
@@ -281,6 +316,13 @@ function update_metadata( $meta_type, $object_id, $meta_key, $meta_value, $prev_
 		 *
 		 * The dynamic portion of the hook, `$meta_type`, refers to the meta object type
 		 * (post, comment, term, user, or any other type with an associated meta table).
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `updated_post_meta`
+		 *  - `updated_comment_meta`
+		 *  - `updated_term_meta`
+		 *  - `updated_user_meta`
 		 *
 		 * @since 2.9.0
 		 *
@@ -363,6 +405,13 @@ function delete_metadata( $meta_type, $object_id, $meta_key, $meta_value = '', $
 	 * (post, comment, term, user, or any other type with an associated meta table).
 	 * Returning a non-null value will effectively short-circuit the function.
 	 *
+	 * Possible hook names include:
+	 *
+	 *  - `delete_post_metadata`
+	 *  - `delete_comment_metadata`
+	 *  - `delete_term_metadata`
+	 *  - `delete_user_metadata`
+	 *
 	 * @since 3.1.0
 	 *
 	 * @param null|bool $delete     Whether to allow metadata deletion of the given type.
@@ -410,6 +459,13 @@ function delete_metadata( $meta_type, $object_id, $meta_key, $meta_value = '', $
 	 * The dynamic portion of the hook, `$meta_type`, refers to the meta object type
 	 * (post, comment, term, user, or any other type with an associated meta table).
 	 *
+	 * Possible hook names include:
+	 *
+	 *  - `delete_post_meta`
+	 *  - `delete_comment_meta`
+	 *  - `delete_term_meta`
+	 *  - `delete_user_meta`
+	 *
 	 * @since 3.1.0
 	 *
 	 * @param string[] $meta_ids    An array of metadata entry IDs to delete.
@@ -452,6 +508,13 @@ function delete_metadata( $meta_type, $object_id, $meta_key, $meta_value = '', $
 	 *
 	 * The dynamic portion of the hook, `$meta_type`, refers to the meta object type
 	 * (post, comment, term, user, or any other type with an associated meta table).
+	 *
+	 * Possible hook names include:
+	 *
+	 *  - `deleted_post_meta`
+	 *  - `deleted_comment_meta`
+	 *  - `deleted_term_meta`
+	 *  - `deleted_user_meta`
 	 *
 	 * @since 2.9.0
 	 *
@@ -746,6 +809,13 @@ function get_metadata_by_mid( $meta_type, $meta_id ) {
 	 * (post, comment, term, user, or any other type with an associated meta table).
 	 * Returning a non-null value will effectively short-circuit the function.
 	 *
+	 * Possible hook names include:
+	 *
+	 *  - `get_post_metadata_by_mid`
+	 *  - `get_comment_metadata_by_mid`
+	 *  - `get_term_metadata_by_mid`
+	 *  - `get_user_metadata_by_mid`
+	 *
 	 * @since 5.0.0
 	 *
 	 * @param stdClass|null $value   The value to return.
@@ -812,6 +882,13 @@ function update_metadata_by_mid( $meta_type, $meta_id, $meta_value, $meta_key = 
 	 * The dynamic portion of the hook, `$meta_type`, refers to the meta object type
 	 * (post, comment, term, user, or any other type with an associated meta table).
 	 * Returning a non-null value will effectively short-circuit the function.
+	 *
+	 * Possible hook names include:
+	 *
+	 *  - `update_post_metadata_by_mid`
+	 *  - `update_comment_metadata_by_mid`
+	 *  - `update_term_metadata_by_mid`
+	 *  - `update_user_metadata_by_mid`
 	 *
 	 * @since 5.0.0
 	 *
@@ -929,6 +1006,13 @@ function delete_metadata_by_mid( $meta_type, $meta_id ) {
 	 * (post, comment, term, user, or any other type with an associated meta table).
 	 * Returning a non-null value will effectively short-circuit the function.
 	 *
+	 * Possible hook names include:
+	 *
+	 *  - `delete_post_metadata_by_mid`
+	 *  - `delete_comment_metadata_by_mid`
+	 *  - `delete_term_metadata_by_mid`
+	 *  - `delete_user_metadata_by_mid`
+	 *
 	 * @since 5.0.0
 	 *
 	 * @param null|bool $delete  Whether to allow metadata deletion of the given type.
@@ -955,6 +1039,13 @@ function delete_metadata_by_mid( $meta_type, $meta_id ) {
 			 * The dynamic portion of the hook, `$meta_type`, refers to the meta
 			 * object type (post or comment).
 			 *
+			 * Possible hook names include:
+			 *
+			 *  - `delete_postmeta`
+			 *  - `delete_commentmeta`
+			 *  - `delete_termmeta`
+			 *  - `delete_usermeta`
+			 *
 			 * @since 3.4.0
 			 *
 			 * @param int $meta_id ID of the metadata entry to delete.
@@ -978,6 +1069,13 @@ function delete_metadata_by_mid( $meta_type, $meta_id ) {
 			 *
 			 * The dynamic portion of the hook, `$meta_type`, refers to the meta
 			 * object type (post or comment).
+			 *
+			 * Possible hook names include:
+			 *
+			 *  - `deleted_postmeta`
+			 *  - `deleted_commentmeta`
+			 *  - `deleted_termmeta`
+			 *  - `deleted_usermeta`
 			 *
 			 * @since 3.4.0
 			 *
@@ -1033,6 +1131,13 @@ function update_meta_cache( $meta_type, $object_ids ) {
 	 * The dynamic portion of the hook, `$meta_type`, refers to the meta object type
 	 * (post, comment, term, user, or any other type with an associated meta table).
 	 * Returning a non-null value will effectively short-circuit the function.
+	 *
+	 * Possible hook names include:
+	 *
+	 *  - `update_post_metadata_cache`
+	 *  - `update_comment_metadata_cache`
+	 *  - `update_term_metadata_cache`
+	 *  - `update_user_metadata_cache`
 	 *
 	 * @since 5.0.0
 	 *
@@ -1671,6 +1776,13 @@ function get_object_subtype( $object_type, $object_id ) {
 	 *
 	 * The dynamic portion of the hook, `$object_type`, refers to the meta object type
 	 * (post, comment, term, user, or any other type with an associated meta table).
+	 *
+	 * Possible hook names include:
+	 *
+	 *  - `get_object_subtype_post`
+	 *  - `get_object_subtype_comment`
+	 *  - `get_object_subtype_term`
+	 *  - `get_object_subtype_user`
 	 *
 	 * @since 4.9.8
 	 *
