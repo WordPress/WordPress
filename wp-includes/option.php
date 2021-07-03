@@ -12,10 +12,10 @@
  * If the option does not exist, and a default value is not provided,
  * boolean false is returned. This could be used to check whether you need
  * to initialize an option during installation of a plugin, however that
- * can be done better by using {@see add_option} which will not overwrite
+ * can be done better by using add_option() which will not overwrite
  * existing options.
  *
- * Not initializing an option and using the boolean false as a return value
+ * Not initializing an option and using boolean `false` as a return value
  * is a bad practice as it triggers an additional database query.
  *
  * The type of the returned value can be different from the type that was passed
@@ -28,19 +28,19 @@
  * as string equivalents.
  *
  * Exceptions:
- * 1. When the option has not been saved in the database, the default value
- *    {@see get_option} is returned if provided. If not, boolean `false` is returned.
- * 2. When one of the Options API filters is used: {@see pre_option_{$option}},
- *    {@see default_option_{$option}}, and {@see option_{$option}}, the returned
+ * 1. When the option has not been saved in the database, the `$default` value
+ *    is returned if provided. If not, boolean `false` is returned.
+ * 2. When one of the Options API filters is used: {@see 'pre_option_{$option}'},
+ *    {@see 'default_option_{$option}'}, or {@see 'option_{$option}'}, the returned
  *    value may not match the expected type.
- * 3. When the option has just been saved in the database, and {@see get_option}
+ * 3. When the option has just been saved in the database, and get_option()
  *    is used right after, non-string scalar and null values are not converted to
  *    string equivalents and the original type is returned.
  *
  * Examples:
  *
  * When adding options like this: `add_option( 'my_option_name', 'value' );`
- * and then retrieving them with `get_option( 'my_option_name' )`, the returned
+ * and then retrieving them with `get_option( 'my_option_name' );`, the returned
  * values will be:
  *
  * `false` returns `string(0) ""`
