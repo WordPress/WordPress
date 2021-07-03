@@ -948,6 +948,11 @@ function get_term( $term, $taxonomy = '', $output = OBJECT, $filter = 'raw' ) {
 	 * The dynamic portion of the filter name, `$taxonomy`, refers
 	 * to the slug of the term's taxonomy.
 	 *
+	 * Possible hook names include:
+	 *
+	 *  - `get_category`
+	 *  - `get_post_tag`
+	 *
 	 * @since 2.3.0
 	 * @since 4.4.0 `$_term` is now a `WP_Term` object.
 	 *

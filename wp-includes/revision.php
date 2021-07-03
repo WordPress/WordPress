@@ -574,6 +574,11 @@ function wp_revisions_to_keep( $post ) {
 	 * The dynamic portion of the hook name, `$post->post_type`, refers to
 	 * the post type slug.
 	 *
+	 * Possible hook names include:
+	 *
+	 *  - `wp_post_revisions_to_keep`
+	 *  - `wp_page_revisions_to_keep`
+	 *
 	 * @since 5.8.0
 	 *
 	 * @param int     $num  Number of revisions to store.

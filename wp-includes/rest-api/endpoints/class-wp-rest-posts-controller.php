@@ -1024,6 +1024,12 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		 *
 		 * They dynamic portion of the hook name, `$this->post_type`, refers to the post type slug.
 		 *
+		 * Possible hook names include:
+		 *
+		 *  - `rest_delete_post`
+		 *  - `rest_delete_page`
+		 *  - `rest_delete_attachment`
+		 *
 		 * @since 4.7.0
 		 *
 		 * @param WP_Post          $post     The deleted or trashed post.
@@ -2533,6 +2539,12 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		 *
 		 * The dynamic portion of the filter, `$this->post_type`, refers to the
 		 * post type slug for the controller.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `rest_post_item_schema`
+		 *  - `rest_page_item_schema`
+		 *  - `rest_attachment_item_schema`
 		 *
 		 * @since 5.4.0
 		 *

@@ -1582,6 +1582,12 @@ function register_and_do_post_meta_boxes( $post ) {
 	 *
 	 * The dynamic portion of the hook, `$post_type`, refers to the post type of the post.
 	 *
+	 * Possible hook names include:
+	 *
+	 *  - `add_meta_boxes_post`
+	 *  - `add_meta_boxes_page`
+	 *  - `add_meta_boxes_attachment`
+	 *
 	 * @since 3.0.0
 	 *
 	 * @param WP_Post $post Post object.

@@ -4411,6 +4411,11 @@ function wp_insert_post( $postarr, $wp_error = false, $fire_after_hooks = true )
 		 * The dynamic portion of the hook name, `$post->post_type`, refers to
 		 * the post type slug.
 		 *
+		 * Possible hook names include:
+		 *
+		 *  - `edit_post_post`
+		 *  - `edit_post_page`
+		 *
 		 * @since 5.1.0
 		 *
 		 * @param int     $post_ID Post ID.
@@ -4447,6 +4452,11 @@ function wp_insert_post( $postarr, $wp_error = false, $fire_after_hooks = true )
 	 *
 	 * The dynamic portion of the hook name, `$post->post_type`, refers to
 	 * the post type slug.
+	 *
+	 * Possible hook names include:
+	 *
+	 *  - `save_post_post`
+	 *  - `save_post_page`
 	 *
 	 * @since 3.7.0
 	 *
