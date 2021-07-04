@@ -478,9 +478,8 @@ class WP_Upgrader {
 		/**
 		 * Filters the install response before the installation has started.
 		 *
-		 * Returning a truthy value, or one that could be evaluated as a WP_Error
-		 * will effectively short-circuit the installation, returning that value
-		 * instead.
+		 * Returning a value that could be evaluated as a `WP_Error` will effectively
+		 * short-circuit the installation, returning that value instead.
 		 *
 		 * @since 2.8.0
 		 *
