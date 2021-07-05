@@ -1315,7 +1315,7 @@ class WP_Rewrite {
 		/**
 		 * Filters rewrite rules used for date archives.
 		 *
-		 * Likely date archives would include /yyyy/, /yyyy/mm/, and /yyyy/mm/dd/.
+		 * Likely date archives would include `/yyyy/`, `/yyyy/mm/`, and `/yyyy/mm/dd/`.
 		 *
 		 * @since 1.5.0
 		 *
@@ -1330,7 +1330,7 @@ class WP_Rewrite {
 		 * Filters rewrite rules used for root-level archives.
 		 *
 		 * Likely root-level archives would include pagination rules for the homepage
-		 * as well as site-wide post feeds (e.g. /feed/, and /feed/atom/).
+		 * as well as site-wide post feeds (e.g. `/feed/`, and `/feed/atom/`).
 		 *
 		 * @since 1.5.0
 		 *
@@ -1344,7 +1344,7 @@ class WP_Rewrite {
 		/**
 		 * Filters rewrite rules used for comment feed archives.
 		 *
-		 * Likely comments feed archives include /comments/feed/, and /comments/feed/atom/.
+		 * Likely comments feed archives include `/comments/feed/` and `/comments/feed/atom/`.
 		 *
 		 * @since 1.5.0
 		 *
@@ -1359,7 +1359,7 @@ class WP_Rewrite {
 		/**
 		 * Filters rewrite rules used for search archives.
 		 *
-		 * Likely search-related archives include /search/search+query/ as well as
+		 * Likely search-related archives include `/search/search+query/` as well as
 		 * pagination and feed paths for a search.
 		 *
 		 * @since 1.5.0
@@ -1374,7 +1374,7 @@ class WP_Rewrite {
 		/**
 		 * Filters rewrite rules used for author archives.
 		 *
-		 * Likely author archives would include /author/author-name/, as well as
+		 * Likely author archives would include `/author/author-name/`, as well as
 		 * pagination and feed paths for author archives.
 		 *
 		 * @since 1.5.0
