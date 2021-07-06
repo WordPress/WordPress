@@ -31487,12 +31487,26 @@ function usePostTerms({
   postType,
   term
 }) {
+  var _term$visibility2;
+
   const {
     rest_base: restBase,
     slug
   } = term;
   const [termIds] = Object(external_wp_coreData_["useEntityProp"])('postType', postType, restBase, postId);
   return Object(external_wp_data_["useSelect"])(select => {
+    var _term$visibility;
+
+    const visible = term === null || term === void 0 ? void 0 : (_term$visibility = term.visibility) === null || _term$visibility === void 0 ? void 0 : _term$visibility.publicly_queryable;
+
+    if (!visible) {
+      return {
+        postTerms: [],
+        _isLoading: false,
+        hasPostTerms: false
+      };
+    }
+
     if (!termIds) {
       // Waiting for post terms to be fetched.
       return {
@@ -31523,7 +31537,7 @@ function usePostTerms({
       isLoading: _isLoading,
       hasPostTerms: !!(terms !== null && terms !== void 0 && terms.length)
     };
-  }, [termIds]);
+  }, [termIds, term === null || term === void 0 ? void 0 : (_term$visibility2 = term.visibility) === null || _term$visibility2 === void 0 ? void 0 : _term$visibility2.publicly_queryable]);
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/post-terms/edit.js
@@ -31570,7 +31584,7 @@ function PostTermsEdit({
       getTaxonomy
     } = select(external_wp_coreData_["store"]);
     const taxonomy = getTaxonomy(term);
-    return taxonomy !== null && taxonomy !== void 0 && (_taxonomy$visibility = taxonomy.visibility) !== null && _taxonomy$visibility !== void 0 && _taxonomy$visibility.show_ui ? taxonomy : {};
+    return taxonomy !== null && taxonomy !== void 0 && (_taxonomy$visibility = taxonomy.visibility) !== null && _taxonomy$visibility !== void 0 && _taxonomy$visibility.publicly_queryable ? taxonomy : {};
   }, [term]);
   const {
     postTerms,
