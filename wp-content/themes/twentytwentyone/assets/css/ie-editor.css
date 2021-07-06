@@ -324,6 +324,19 @@ select {
 	background-position: right 10px top 60%;
 }
 
+select:focus {
+	border: 3px solid #39414d;
+	border-radius: 0;
+	color: #28303d;
+	font-size: 1.125rem;
+	-moz-appearance: none;
+	-webkit-appearance: none;
+	appearance: none;
+	padding: 10px 30px 10px 10px;
+	background: #fff url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' fill='%2328303d'><polygon points='0,0 10,0 5,5'/></svg>") no-repeat;
+	background-position: right 10px top 60%;
+}
+
 /*
  * text-underline-offset doesn't work in Chrome at all 👎
  * But looks nice in Safari/Firefox, so let's keep it and
