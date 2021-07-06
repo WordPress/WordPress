@@ -109,9 +109,10 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
 	 *
 	 * @since 5.8.0
 	 *
+	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
 	 */
-	protected function permissions_check() {
+	protected function permissions_check( $request ) {
 		// Verify if the current user has edit_theme_options capability.
 		// This capability is required to edit/view/delete templates.
 		if ( ! current_user_can( 'edit_theme_options' ) ) {

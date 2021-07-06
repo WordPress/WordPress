@@ -97,7 +97,7 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 	 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
 	 */
 	public function get_items_permissions_check( $request ) {
-		return $this->permissions_check();
+		return $this->permissions_check( $request );
 	}
 
 	/**
@@ -139,7 +139,7 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 	 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
 	 */
 	public function get_item_permissions_check( $request ) {
-		return $this->permissions_check();
+		return $this->permissions_check( $request );
 	}
 
 	/**
@@ -176,7 +176,7 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 	 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
 	 */
 	public function create_item_permissions_check( $request ) {
-		return $this->permissions_check();
+		return $this->permissions_check( $request );
 	}
 
 	/**
@@ -220,7 +220,7 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 	 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
 	 */
 	public function update_item_permissions_check( $request ) {
-		return $this->permissions_check();
+		return $this->permissions_check( $request );
 	}
 
 	/**
@@ -283,7 +283,7 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 	 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
 	 */
 	public function delete_item_permissions_check( $request ) {
-		return $this->permissions_check();
+		return $this->permissions_check( $request );
 	}
 
 	/**
@@ -398,9 +398,10 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 	 *
 	 * @since 5.8.0
 	 *
+	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
 	 */
-	protected function permissions_check() {
+	protected function permissions_check( $request ) {
 		if ( ! current_user_can( 'edit_theme_options' ) ) {
 			return new WP_Error(
 				'rest_cannot_manage_widgets',
