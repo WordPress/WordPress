@@ -102,10 +102,10 @@ if ( ! class_exists( 'MO', false ) ) :
 			$magic                     = 0x950412de;
 			$revision                  = 0;
 			$total                     = count( $entries ) + 1; // All the headers are one entry.
-			$originals_lenghts_addr    = 28;
-			$translations_lenghts_addr = $originals_lenghts_addr + 8 * $total;
+			$originals_lengths_addr    = 28;
+			$translations_lengths_addr = $originals_lengths_addr + 8 * $total;
 			$size_of_hash              = 0;
-			$hash_addr                 = $translations_lenghts_addr + 8 * $total;
+			$hash_addr                 = $translations_lengths_addr + 8 * $total;
 			$current_addr              = $hash_addr;
 			fwrite(
 				$fh,
@@ -114,13 +114,13 @@ if ( ! class_exists( 'MO', false ) ) :
 					$magic,
 					$revision,
 					$total,
-					$originals_lenghts_addr,
-					$translations_lenghts_addr,
+					$originals_lengths_addr,
+					$translations_lengths_addr,
 					$size_of_hash,
 					$hash_addr
 				)
 			);
-			fseek( $fh, $originals_lenghts_addr );
+			fseek( $fh, $originals_lengths_addr );
 
 			// Headers' msgid is an empty string.
 			fwrite( $fh, pack( 'VV', 0, $current_addr ) );
@@ -229,7 +229,7 @@ if ( ! class_exists( 'MO', false ) ) :
 			}
 
 			// Parse header.
-			$header = unpack( "{$endian}revision/{$endian}total/{$endian}originals_lenghts_addr/{$endian}translations_lenghts_addr/{$endian}hash_length/{$endian}hash_addr", $header );
+			$header = unpack( "{$endian}revision/{$endian}total/{$endian}originals_lengths_addr/{$endian}translations_lengths_addr/{$endian}hash_length/{$endian}hash_addr", $header );
 			if ( ! is_array( $header ) ) {
 				return false;
 			}
@@ -240,10 +240,10 @@ if ( ! class_exists( 'MO', false ) ) :
 			}
 
 			// Seek to data blocks.
-			$reader->seekto( $header['originals_lenghts_addr'] );
+			$reader->seekto( $header['originals_lengths_addr'] );
 
 			// Read originals' indices.
-			$originals_lengths_length = $header['translations_lenghts_addr'] - $header['originals_lenghts_addr'];
+			$originals_lengths_length = $header['translations_lengths_addr'] - $header['originals_lengths_addr'];
 			if ( $originals_lengths_length != $header['total'] * 8 ) {
 				return false;
 			}
@@ -254,13 +254,13 @@ if ( ! class_exists( 'MO', false ) ) :
 			}
 
 			// Read translations' indices.
-			$translations_lenghts_length = $header['hash_addr'] - $header['translations_lenghts_addr'];
-			if ( $translations_lenghts_length != $header['total'] * 8 ) {
+			$translations_lengths_length = $header['hash_addr'] - $header['translations_lengths_addr'];
+			if ( $translations_lengths_length != $header['total'] * 8 ) {
 				return false;
 			}
 
-			$translations = $reader->read( $translations_lenghts_length );
-			if ( $reader->strlen( $translations ) != $translations_lenghts_length ) {
+			$translations = $reader->read( $translations_lengths_length );
+			if ( $reader->strlen( $translations ) != $translations_lengths_length ) {
 				return false;
 			}
 
