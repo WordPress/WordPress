@@ -11,6 +11,8 @@
 	/**
 	 * Return a value for our partial refresh.
 	 *
+	 * @since Twenty Twenty 1.0
+	 *
 	 * @param {Object} partial  Current partial.
 	 *
 	 * @return {jQuery.Promise} Resolved promise.
@@ -30,6 +32,8 @@
 
 		/**
 		 * Override the refresh method.
+		 *
+		 * @since Twenty Twenty 1.0
 		 *
 		 * @return {jQuery.Promise} Resolved promise.
 		 */
@@ -55,12 +59,15 @@
 		/**
 		 * Input attributes.
 		 *
+		 * @since Twenty Twenty 1.0
 		 * @type {Object}
 		 */
 		attrs: {},
 
 		/**
 		 * Override the refresh method.
+		 *
+		 * @since Twenty Twenty 1.0
 		 *
 		 * @return {jQuery.Promise} Resolved promise.
 		 */

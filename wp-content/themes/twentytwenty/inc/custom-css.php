@@ -12,12 +12,14 @@ if ( ! function_exists( 'twentytwenty_generate_css' ) ) {
 	/**
 	 * Generate CSS.
 	 *
+	 * @since Twenty Twenty 1.0
+	 *
 	 * @param string $selector The CSS selector.
-	 * @param string $style The CSS style.
-	 * @param string $value The CSS value.
-	 * @param string $prefix The CSS prefix.
-	 * @param string $suffix The CSS suffix.
-	 * @param bool   $echo Echo the styles.
+	 * @param string $style    The CSS style.
+	 * @param string $value    The CSS value.
+	 * @param string $prefix   The CSS prefix.
+	 * @param string $suffix   The CSS suffix.
+	 * @param bool   $echo     Echo the styles.
 	 */
 	function twentytwenty_generate_css( $selector, $style, $value, $prefix = '', $suffix = '', $echo = true ) {
 
@@ -50,7 +52,9 @@ if ( ! function_exists( 'twentytwenty_get_customizer_css' ) ) {
 	 * Get CSS Built from Customizer Options.
 	 * Build CSS reflecting colors, fonts and other options set in the Customizer, and return them for output.
 	 *
-	 * @param string $type Whether to return CSS for the "front-end", "block-editor" or "classic-editor".
+	 * @since Twenty Twenty 1.0
+	 *
+	 * @param string $type Whether to return CSS for the "front-end", "block-editor", or "classic-editor".
 	 */
 	function twentytwenty_get_customizer_css( $type = 'front-end' ) {
 
@@ -78,7 +82,7 @@ if ( ! function_exists( 'twentytwenty_get_customizer_css' ) ) {
 
 		ob_start();
 
-		/**
+		/*
 		 * Note – Styles are applied in this order:
 		 * 1. Element specific
 		 * 2. Helper classes
@@ -86,7 +90,7 @@ if ( ! function_exists( 'twentytwenty_get_customizer_css' ) ) {
 		 * This enables all helper classes to overwrite base element styles,
 		 * meaning that any color classes applied in the block editor will
 		 * have a higher priority than the base element styles.
-		*/
+		 */
 
 		// Front-End Styles.
 		if ( 'front-end' === $type ) {

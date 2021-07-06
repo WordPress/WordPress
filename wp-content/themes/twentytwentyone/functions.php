@@ -507,7 +507,8 @@ function twenty_twenty_one_skip_link_focus_fix() {
 }
 add_action( 'wp_print_footer_scripts', 'twenty_twenty_one_skip_link_focus_fix' );
 
-/** Enqueue non-latin language styles
+/**
+ * Enqueue non-latin language styles.
  *
  * @since Twenty Twenty-One 1.0
  *

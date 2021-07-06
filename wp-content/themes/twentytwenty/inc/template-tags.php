@@ -25,8 +25,10 @@
 /**
  * Displays the site logo, either text or image.
  *
- * @param array   $args Arguments for displaying the site logo either as an image or text.
- * @param bool    $echo Echo or return the HTML.
+ * @since Twenty Twenty 1.0
+ *
+ * @param array $args Arguments for displaying the site logo either as an image or text.
+ * @param bool  $echo Echo or return the HTML.
  * @return string Compiled HTML based on our arguments.
  */
 function twentytwenty_site_logo( $args = array(), $echo = true ) {
@@ -50,8 +52,10 @@ function twentytwenty_site_logo( $args = array(), $echo = true ) {
 	/**
 	 * Filters the arguments for `twentytwenty_site_logo()`.
 	 *
-	 * @param array  $args     Parsed arguments.
-	 * @param array  $defaults Function's default arguments.
+	 * @since Twenty Twenty 1.0
+	 *
+	 * @param array $args     Parsed arguments.
+	 * @param array $defaults Function's default arguments.
 	 */
 	$args = apply_filters( 'twentytwenty_site_logo_args', $args, $defaults );
 
@@ -70,6 +74,8 @@ function twentytwenty_site_logo( $args = array(), $echo = true ) {
 	/**
 	 * Filters the arguments for `twentytwenty_site_logo()`.
 	 *
+	 * @since Twenty Twenty 1.0
+	 *
 	 * @param string $html      Compiled HTML based on our arguments.
 	 * @param array  $args      Parsed arguments.
 	 * @param string $classname Class name based on current view, home or single.
@@ -87,6 +93,8 @@ function twentytwenty_site_logo( $args = array(), $echo = true ) {
 
 /**
  * Displays the site description.
+ *
+ * @since Twenty Twenty 1.0
  *
  * @param bool $echo Echo or return the html.
  * @return string The HTML to display.
@@ -107,9 +115,9 @@ function twentytwenty_site_description( $echo = true ) {
 	 *
 	 * @since Twenty Twenty 1.0
 	 *
-	 * @param string $html         The HTML to display.
-	 * @param string $description  Site description via `bloginfo()`.
-	 * @param string $wrapper      The format used in case you want to reuse it in a `sprintf()`.
+	 * @param string $html        The HTML to display.
+	 * @param string $description Site description via `bloginfo()`.
+	 * @param string $wrapper     The format used in case you want to reuse it in a `sprintf()`.
 	 */
 	$html = apply_filters( 'twentytwenty_site_description', $html, $description, $wrapper );
 
@@ -126,6 +134,8 @@ function twentytwenty_site_description( $echo = true ) {
 
 /**
  * Checks if the specified comment is written by the author of the post commented on.
+ *
+ * @since Twenty Twenty 1.0
  *
  * @param object $comment Comment data.
  * @return bool
@@ -153,6 +163,8 @@ function twentytwenty_is_comment_by_post_author( $comment = null ) {
  * Filter the comment reply link to add a class indicating it should not use JS slow-scroll, as it
  * makes it scroll to the wrong position on the page.
  *
+ * @since Twenty Twenty 1.0
+ *
  * @param string $link Link to the top of the page.
  * @return string Link to the top of the page.
  */
@@ -174,6 +186,8 @@ add_filter( 'comment_reply_link', 'twentytwenty_filter_comment_reply_link' );
  *
  * If it's a single post, outputs the post meta values specified in the Customizer settings.
  *
+ * @since Twenty Twenty 1.0
+ *
  * @param int    $post_id  The ID of the post for which the post meta should be output.
  * @param string $location Which post meta location to output – single or preview.
  */
@@ -185,6 +199,8 @@ function twentytwenty_the_post_meta( $post_id = null, $location = 'single-top' )
 
 /**
  * Filters the edit post link to add an icon and use the post meta structure.
+ *
+ * @since Twenty Twenty 1.0
  *
  * @param string $link    Anchor tag for the edit link.
  * @param int    $post_id Post ID.
@@ -223,7 +239,9 @@ add_filter( 'edit_post_link', 'twentytwenty_edit_post_link', 10, 3 );
 /**
  * Retrieves the post meta.
  *
- * @param int    $post_id The ID of the post.
+ * @since Twenty Twenty 1.0
+ *
+ * @param int    $post_id  The ID of the post.
  * @param string $location The location where the meta is shown.
  */
 function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' ) {
@@ -241,7 +259,7 @@ function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' )
 	 *
 	 * @since Twenty Twenty 1.0
 	 *
-	 * @param array Array of post types
+	 * @param array Array of post types.
 	 */
 	$disallowed_post_types = apply_filters( 'twentytwenty_disallowed_post_types_for_meta_output', array( 'page' ) );
 
@@ -263,10 +281,10 @@ function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' )
 		 * @since Twenty Twenty 1.0
 		 *
 		 * @param array $args {
-		 *  @type string 'author'
-		 *  @type string 'post-date'
-		 *  @type string 'comments'
-		 *  @type string 'sticky'
+		 *     @type string $author
+		 *     @type string $post-date
+		 *     @type string $comments
+		 *     @type string $sticky
 		 * }
 		 */
 		$post_meta = apply_filters(
@@ -291,7 +309,7 @@ function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' )
 		 * @since Twenty Twenty 1.0
 		 *
 		 * @param array $args {
-		 *   @type string 'tags'
+		 *     @type string $tags
 		 * }
 		 */
 		$post_meta = apply_filters(
@@ -499,6 +517,8 @@ function twentytwenty_get_post_meta( $post_id = null, $location = 'single-top' )
  * Filter the class applied to wp_list_pages() items with children to match the menu class, to simplify.
  * styling of sub levels in the fallback. Only applied if the match_menu_classes argument is set.
  *
+ * @since Twenty Twenty 1.0
+ *
  * @param string[] $css_class    An array of CSS classes to be applied to each list item.
  * @param WP_Post  $page         Page data object.
  * @param int      $depth        Depth of page, used for padding.
@@ -533,6 +553,8 @@ add_filter( 'page_css_class', 'twentytwenty_filter_wp_list_pages_item_classes', 
 
 /**
  * Adds a Sub Nav Toggle to the Expanded Menu and Mobile Menu.
+ *
+ * @since Twenty Twenty 1.0
  *
  * @param stdClass $args  An object of wp_nav_menu() arguments.
  * @param WP_Post  $item  Menu item data object.
@@ -580,6 +602,8 @@ add_filter( 'nav_menu_item_args', 'twentytwenty_add_sub_toggles_to_main_menu', 1
 /**
  * Displays SVG icons in social links menu.
  *
+ * @since Twenty Twenty 1.0
+ *
  * @param string   $item_output The menu item's starting HTML output.
  * @param WP_Post  $item        Menu item data object.
  * @param int      $depth       Depth of the menu. Used for padding.
@@ -609,6 +633,8 @@ add_filter( 'walker_nav_menu_start_el', 'twentytwenty_nav_menu_social_icons', 10
  * Adds 'no-js' class.
  *
  * If we're missing JavaScript support, the HTML element will have a 'no-js' class.
+ *
+ * @since Twenty Twenty 1.0
  */
 function twentytwenty_no_js_class() {
 
@@ -622,6 +648,8 @@ add_action( 'wp_head', 'twentytwenty_no_js_class' );
 
 /**
  * Adds conditional body classes.
+ *
+ * @since Twenty Twenty 1.0
  *
  * @param array $classes Classes added to the body tag.
  * @return array Classes added to the body tag.
@@ -724,11 +752,20 @@ add_filter( 'body_class', 'twentytwenty_body_classes' );
 /**
  * Filters the archive title and styles the word before the first colon.
  *
+ * @since Twenty Twenty 1.0
+ *
  * @param string $title Current archive title.
  * @return string Current archive title.
  */
 function twentytwenty_get_the_archive_title( $title ) {
 
+	/**
+	 * Filters the regular expression used to style the word before the first colon.
+	 *
+	 * @since Twenty Twenty 1.0
+	 *
+	 * @param array $regex An array of regular expression pattern and replacement.
+	 */
 	$regex = apply_filters(
 		'twentytwenty_get_the_archive_title_regex',
 		array(
@@ -756,6 +793,8 @@ add_filter( 'get_the_archive_title', 'twentytwenty_get_the_archive_title' );
 /**
  * Toggles animation duration in milliseconds.
  *
+ * @since Twenty Twenty 1.0
+ *
  * @return int Duration in milliseconds
  */
 function twentytwenty_toggle_duration() {
@@ -778,6 +817,8 @@ function twentytwenty_toggle_duration() {
  * contains an integer that is incremented with each call. This number is returned
  * with the optional prefix. As such the returned value is not universally unique,
  * but it is unique across the life of the PHP process.
+ *
+ * @since Twenty Twenty 1.0
  *
  * @see wp_unique_id() Themes requiring WordPress 5.0.3 and greater should use this instead.
  *

@@ -11,14 +11,17 @@ if ( ! class_exists( 'TwentyTwenty_Walker_Page' ) ) {
 	/**
 	 * CUSTOM PAGE WALKER
 	 * A custom walker for pages.
+	 *
+	 * @since Twenty Twenty 1.0
 	 */
 	class TwentyTwenty_Walker_Page extends Walker_Page {
 
 		/**
 		 * Outputs the beginning of the current element in the tree.
 		 *
+		 * @since Twenty Twenty 1.0
+		 *
 		 * @see Walker::start_el()
-		 * @since 2.1.0
 		 *
 		 * @param string  $output       Used to append additional content. Passed by reference.
 		 * @param WP_Post $page         Page data object.

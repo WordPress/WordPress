@@ -9,19 +9,21 @@
  * @since Twenty Twenty 1.0
  */
 
-/**
- * Translators:
- * This text contains HTML to allow the text to be shorter on small screens.
- * The text inside the span with the class nav-short will be hidden on small screens.
- */
-
 $prev_text = sprintf(
 	'%s <span class="nav-prev-text">%s</span>',
 	'<span aria-hidden="true">&larr;</span>',
+	/*
+	 * Translators: This text contains HTML to allow the text to be shorter on small screens.
+	 * The text inside the span with the class nav-short will be hidden on small screens.
+	 */
 	__( 'Newer <span class="nav-short">Posts</span>', 'twentytwenty' )
 );
 $next_text = sprintf(
 	'<span class="nav-next-text">%s</span> %s',
+	/*
+	 * Translators: This text contains HTML to allow the text to be shorter on small screens.
+	 * The text inside the span with the class nav-short will be hidden on small screens.
+	 */
 	__( 'Older <span class="nav-short">Posts</span>', 'twentytwenty' ),
 	'<span aria-hidden="true">&rarr;</span>'
 );

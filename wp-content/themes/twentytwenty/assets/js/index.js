@@ -646,6 +646,8 @@ twentytwenty.toggles = {
  *
  * This implementation is coming from https://gomakethings.com/a-native-javascript-equivalent-of-jquerys-ready-method/
  *
+ * @since Twenty Twenty 1.0
+ *
  * @param {Function} fn Callback function to run.
  */
 function twentytwentyDomReady( fn ) {
@@ -694,6 +696,8 @@ function twentytwentyToggleAttribute( element, attribute, trueVal, falseVal ) {
 
 /**
  * Toggle a menu item on or off.
+ *
+ * @since Twenty Twenty 1.0
  *
  * @param {HTMLElement} target
  * @param {number} duration
@@ -795,6 +799,8 @@ function twentytwentyMenuToggle( target, duration ) {
 
 /**
  * Traverses the DOM up to find elements matching the query.
+ *
+ * @since Twenty Twenty 1.0
  *
  * @param {HTMLElement} target
  * @param {string} query
