@@ -3814,7 +3814,7 @@ function (_super) {
   };
 
   Cropper.prototype.componentDidUpdate = function (prevProps) {
-    var _a, _b, _c, _d, _e, _f, _g, _h;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j;
 
     if (prevProps.rotation !== this.props.rotation) {
       this.computeSizes();
@@ -3833,6 +3833,10 @@ function (_super) {
       this.props.zoomWithScroll ? this.containerRef.addEventListener('wheel', this.onWheel, {
         passive: false
       }) : this.clearScrollEvent();
+    }
+
+    if (prevProps.video !== this.props.video) {
+      (_j = this.videoRef) === null || _j === void 0 ? void 0 : _j.load();
     }
   };
 
@@ -29523,6 +29527,23 @@ const imageDateTitle = Object(external_wp_element_["createElement"])(external_wp
  */
 
 
+const QUERY_DEFAULT_ATTRIBUTES = {
+  query: {
+    perPage: 3,
+    pages: 0,
+    offset: 0,
+    postType: 'post',
+    categoryIds: [],
+    tagIds: [],
+    order: 'desc',
+    orderBy: 'date',
+    author: '',
+    search: '',
+    exclude: [],
+    sticky: '',
+    inherit: false
+  }
+};
 const query_variations_variations = [{
   name: 'posts-list',
   title: Object(external_wp_i18n_["__"])('Posts List'),
@@ -29549,24 +29570,32 @@ const query_variations_variations = [{
   name: 'title-date',
   title: Object(external_wp_i18n_["__"])('Title & Date'),
   icon: titleDate,
+  attributes: { ...QUERY_DEFAULT_ATTRIBUTES
+  },
   innerBlocks: [['core/post-template', {}, [['core/post-title'], ['core/post-date']]]],
   scope: ['block']
 }, {
   name: 'title-excerpt',
   title: Object(external_wp_i18n_["__"])('Title & Excerpt'),
   icon: titleExcerpt,
+  attributes: { ...QUERY_DEFAULT_ATTRIBUTES
+  },
   innerBlocks: [['core/post-template', {}, [['core/post-title'], ['core/post-excerpt']]]],
   scope: ['block']
 }, {
   name: 'title-date-excerpt',
   title: Object(external_wp_i18n_["__"])('Title, Date, & Excerpt'),
   icon: titleDateExcerpt,
+  attributes: { ...QUERY_DEFAULT_ATTRIBUTES
+  },
   innerBlocks: [['core/post-template', {}, [['core/post-title'], ['core/post-date'], ['core/post-excerpt']]]],
   scope: ['block']
 }, {
   name: 'image-date-title',
   title: Object(external_wp_i18n_["__"])('Image, Date, & Title'),
   icon: imageDateTitle,
+  attributes: { ...QUERY_DEFAULT_ATTRIBUTES
+  },
   innerBlocks: [['core/post-template', {}, [['core/post-featured-image'], ['core/post-date'], ['core/post-title']]]],
   scope: ['block']
 }];

@@ -23,19 +23,11 @@ function render_block_core_post_content( $attributes, $content, $block ) {
 	$post_id = $block->context['postId'];
 
 	if ( isset( $seen_ids[ $post_id ] ) ) {
-		if ( ! is_admin() ) {
-			trigger_error(
-				sprintf(
-					// translators: %s is a post ID (integer).
-					__( 'Could not render Post Content block with post ID: <code>%s</code>. Block cannot be rendered inside itself.' ),
-					$post_id
-				),
-				E_USER_WARNING
-			);
-		}
-
+		// WP_DEBUG_DISPLAY must only be honored when WP_DEBUG. This precedent
+		// is set in `wp_debug_mode()`.
 		$is_debug = defined( 'WP_DEBUG' ) && WP_DEBUG &&
 			defined( 'WP_DEBUG_DISPLAY' ) && WP_DEBUG_DISPLAY;
+
 		return $is_debug ?
 			// translators: Visible only in the front end, this warning takes the place of a faulty block.
 			__( '[block rendering halted]' ) :
@@ -44,7 +36,7 @@ function render_block_core_post_content( $attributes, $content, $block ) {
 
 	$seen_ids[ $post_id ] = true;
 
-	if ( ! in_the_loop() ) {
+	if ( ! in_the_loop() && have_posts() ) {
 		the_post();
 	}
 

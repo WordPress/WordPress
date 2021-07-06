@@ -191,6 +191,7 @@ __webpack_require__.d(selectors_namespaceObject, "getWidgets", function() { retu
 __webpack_require__.d(selectors_namespaceObject, "getWidget", function() { return getWidget; });
 __webpack_require__.d(selectors_namespaceObject, "getWidgetAreas", function() { return selectors_getWidgetAreas; });
 __webpack_require__.d(selectors_namespaceObject, "getWidgetAreaForWidgetId", function() { return getWidgetAreaForWidgetId; });
+__webpack_require__.d(selectors_namespaceObject, "getParentWidgetAreaBlock", function() { return selectors_getParentWidgetAreaBlock; });
 __webpack_require__.d(selectors_namespaceObject, "getEditedWidgetAreas", function() { return selectors_getEditedWidgetAreas; });
 __webpack_require__.d(selectors_namespaceObject, "getReferenceWidgetBlocks", function() { return getReferenceWidgetBlocks; });
 __webpack_require__.d(selectors_namespaceObject, "isSavingWidgetAreas", function() { return selectors_isSavingWidgetAreas; });
@@ -1127,6 +1128,24 @@ const getWidgetAreaForWidgetId = Object(external_wp_data_["createRegistrySelecto
     return blockWidgetIds.includes(widgetId);
   });
 });
+/**
+ * Given a child client id, returns the parent widget area block.
+ *
+ * @param {string} clientId The client id of a block in a widget area.
+ *
+ * @return {WPBlock} The widget area block.
+ */
+
+const selectors_getParentWidgetAreaBlock = Object(external_wp_data_["createRegistrySelector"])(select => (state, clientId) => {
+  const {
+    getBlock,
+    getBlockName,
+    getBlockParents
+  } = select('core/block-editor');
+  const blockParents = getBlockParents(clientId);
+  const widgetAreaClientId = blockParents.find(parentClientId => getBlockName(parentClientId) === 'core/widget-area');
+  return getBlock(widgetAreaClientId);
+});
 const selectors_getEditedWidgetAreas = Object(external_wp_data_["createRegistrySelector"])(select => (state, ids) => {
   let widgetAreas = select(STORE_NAME).getWidgetAreas();
 
@@ -1346,14 +1365,16 @@ var external_wp_hooks_ = __webpack_require__("g56x");
 
 
 const withMoveToWidgetAreaToolbarItem = Object(external_wp_compose_["createHigherOrderComponent"])(BlockEdit => props => {
-  const widgetId = Object(external_wp_widgets_["getWidgetIdFromBlock"])(props);
-  const blockName = props.name;
+  const {
+    clientId,
+    name: blockName
+  } = props;
   const {
     widgetAreas,
     currentWidgetAreaId,
     canInsertBlockInWidgetArea
   } = Object(external_wp_data_["useSelect"])(select => {
-    var _selectors$getWidgetA;
+    var _widgetAreaBlock$attr;
 
     // Component won't display for a widget area, so don't run selectors.
     if (blockName === 'core/widget-area') {
@@ -1361,12 +1382,13 @@ const withMoveToWidgetAreaToolbarItem = Object(external_wp_compose_["createHighe
     }
 
     const selectors = select(store);
+    const widgetAreaBlock = selectors.getParentWidgetAreaBlock(clientId);
     return {
       widgetAreas: selectors.getWidgetAreas(),
-      currentWidgetAreaId: widgetId ? (_selectors$getWidgetA = selectors.getWidgetAreaForWidgetId(widgetId)) === null || _selectors$getWidgetA === void 0 ? void 0 : _selectors$getWidgetA.id : undefined,
+      currentWidgetAreaId: widgetAreaBlock === null || widgetAreaBlock === void 0 ? void 0 : (_widgetAreaBlock$attr = widgetAreaBlock.attributes) === null || _widgetAreaBlock$attr === void 0 ? void 0 : _widgetAreaBlock$attr.id,
       canInsertBlockInWidgetArea: selectors.canInsertBlockInWidgetArea(blockName)
     };
-  }, [widgetId, blockName]);
+  }, [clientId, blockName]);
   const {
     moveBlockToWidgetArea
   } = Object(external_wp_data_["useDispatch"])(store);
@@ -1801,6 +1823,7 @@ KeyboardShortcuts.Register = KeyboardShortcutsRegister;
  */
 
 
+
 /**
  * A react hook that returns the client id of the last widget area to have
  * been selected, or to have a selected block within it.
@@ -1813,22 +1836,22 @@ const useLastSelectedWidgetArea = () => Object(external_wp_data_["useSelect"])(s
 
   const {
     getBlockSelectionEnd,
-    getBlockParents,
     getBlockName
   } = select('core/block-editor');
-  const blockSelectionEndClientId = getBlockSelectionEnd(); // If the selected block is a widget area, return its clientId.
+  const selectionEndClientId = getBlockSelectionEnd(); // If the selected block is a widget area, return its clientId.
 
-  if (getBlockName(blockSelectionEndClientId) === 'core/widget-area') {
-    return blockSelectionEndClientId;
-  } // Otherwise, find the clientId of the top-level widget area by looking
-  // through the selected block's parents.
+  if (getBlockName(selectionEndClientId) === 'core/widget-area') {
+    return selectionEndClientId;
+  }
 
+  const {
+    getParentWidgetAreaBlock
+  } = select(store);
+  const widgetAreaBlock = getParentWidgetAreaBlock(selectionEndClientId);
+  const widgetAreaBlockClientId = widgetAreaBlock === null || widgetAreaBlock === void 0 ? void 0 : widgetAreaBlock.clientId;
 
-  const blockParents = getBlockParents(blockSelectionEndClientId);
-  const rootWidgetAreaClientId = blockParents.find(clientId => getBlockName(clientId) === 'core/widget-area');
-
-  if (rootWidgetAreaClientId) {
-    return rootWidgetAreaClientId;
+  if (widgetAreaBlockClientId) {
+    return widgetAreaBlockClientId;
   } // If no widget area has been selected, return the clientId of the first
   // area.
 
@@ -1932,7 +1955,7 @@ function WidgetAreasBlockEditorProvider({
     onChange: onChange,
     settings: settings,
     useSubRegistry: false
-  }, props), children, Object(external_wp_element_["createElement"])(external_wp_reusableBlocks_["ReusableBlocksMenuItems"], {
+  }, props), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["CopyHandler"], null, children), Object(external_wp_element_["createElement"])(external_wp_reusableBlocks_["ReusableBlocksMenuItems"], {
     rootClientId: widgetAreaId
   }))));
 }
@@ -3258,8 +3281,13 @@ function initialize(id, settings) {
   Object(external_wp_widgets_["registerLegacyWidgetVariations"])(settings);
   registerBlock(widget_area_namespaceObject);
 
-  settings.__experimentalFetchLinkSuggestions = (search, searchOptions) => Object(external_wp_coreData_["__experimentalFetchLinkSuggestions"])(search, searchOptions, settings);
+  settings.__experimentalFetchLinkSuggestions = (search, searchOptions) => Object(external_wp_coreData_["__experimentalFetchLinkSuggestions"])(search, searchOptions, settings); // As we are unregistering `core/freeform` to avoid the Classic block, we must
+  // replace it with something as the default freeform content handler. Failure to
+  // do this will result in errors in the default block parser.
+  // see: https://github.com/WordPress/gutenberg/issues/33097
 
+
+  Object(external_wp_blocks_["setFreeformContentHandlerName"])('core/html');
   Object(external_wp_element_["render"])(Object(external_wp_element_["createElement"])(layout, {
     blockEditorSettings: settings
   }), document.getElementById(id));

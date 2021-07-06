@@ -905,10 +905,35 @@ function isEntirelySelected(element) {
 
   const lastChild = element.lastChild;
   assertIsDefined(lastChild, 'lastChild');
-  const lastChildContentLength = lastChild.nodeType === lastChild.TEXT_NODE ?
+  const endContainerContentLength = endContainer.nodeType === endContainer.TEXT_NODE ?
   /** @type {Text} */
-  lastChild.data.length : lastChild.childNodes.length;
-  return startContainer === element.firstChild && endContainer === element.lastChild && startOffset === 0 && endOffset === lastChildContentLength;
+  endContainer.data.length : endContainer.childNodes.length;
+  return isDeepChild(startContainer, element, 'firstChild') && isDeepChild(endContainer, element, 'lastChild') && startOffset === 0 && endOffset === endContainerContentLength;
+}
+/**
+ * Check whether the contents of the element have been entirely selected.
+ * Returns true if there is no possibility of selection.
+ *
+ * @param {HTMLElement|Node} query The element to check.
+ * @param {HTMLElement} container The container that we suspect "query" may be a first or last child of.
+ * @param {"firstChild"|"lastChild"} propName "firstChild" or "lastChild"
+ *
+ * @return {boolean} True if query is a deep first/last child of container, false otherwise.
+ */
+
+function isDeepChild(query, container, propName) {
+  /** @type {HTMLElement | ChildNode | null} */
+  let candidate = container;
+
+  do {
+    if (query === candidate) {
+      return true;
+    }
+
+    candidate = candidate[propName];
+  } while (candidate);
+
+  return false;
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/dom/is-rtl.js
