@@ -792,16 +792,16 @@
 .about__section .wp-person-avatar {
 	display: block;
 	margin: 0 auto calc(var(--gap) / 2);
-	width: 160px;
-	height: 160px;
+	width: 140px;
+	height: 140px;
 	border-radius: 100%;
 	overflow: hidden;
 	background: var(--accent-1);
 }
 
 .about__section .wp-person .gravatar {
-	width: 160px;
-	height: 160px;
+	width: 140px;
+	height: 140px;
 	filter: grayscale(100%);
 	mix-blend-mode: screen;
 }
@@ -880,8 +880,9 @@
   3.0 - Freedoms Page
 ------------------------------------------------------------------------------*/
 
-.about__section .column .freedoms-image {
-	margin-bottom: 1em;
+.about__section .column .freedom-image {
+	margin-bottom: var(--gap);
+	max-height: 140px;
 }
 
 

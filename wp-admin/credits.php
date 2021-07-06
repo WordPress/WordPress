@@ -39,34 +39,28 @@ $credits = wp_credits();
 		</nav>
 	</div>
 
-	<div class="about__section is-feature">
+	<div class="about__section has-1-column">
 		<div class="column aligncenter">
 			<?php if ( ! $credits ) : ?>
 
 			<p>
 				<?php
 				printf(
-					/* translators: 1: https://wordpress.org/about/, 2: https://make.wordpress.org/ */
-					__( 'WordPress is created by a <a href="%1$s">worldwide team</a> of passionate individuals. <a href="%2$s">Get involved in WordPress</a>.' ),
-					__( 'https://wordpress.org/about/' ),
-					__( 'https://make.wordpress.org/' )
+					/* translators: 1: https://wordpress.org/about/ */
+					__( 'WordPress is created by a <a href="%1$s">worldwide team</a> of passionate individuals.' ),
+					__( 'https://wordpress.org/about/' )
 				);
 				?>
+				<br />
+				<a href="https://make.wordpress.org/"><?php _e( 'Get involved in WordPress' ); ?></a>.
 			</p>
 
 			<?php else : ?>
 
 			<p>
-				<?php _e( 'WordPress is created by a worldwide team of passionate individuals.' ); ?>
-			</p>
-			<p>
-				<?php
-				printf(
-					/* translators: %s: https://make.wordpress.org/ */
-					__( 'Want to see your name in lights on this page? <a href="%s">Get involved in WordPress</a>.' ),
-					__( 'https://make.wordpress.org/' )
-				);
-				?>
+				<?php _e( 'Want to see your name in lights on this page?' ); ?>
+				<br />
+				<a href="https://make.wordpress.org/"><?php _e( 'Get involved in WordPress' ); ?></a>.
 			</p>
 
 			<?php endif; ?>
