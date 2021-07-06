@@ -507,16 +507,6 @@
 .components-checkbox-control__input[type=checkbox]:-ms-input-placeholder {
   color: rgba(30, 30, 30, 0.62);
 }
-.is-dark-theme .components-checkbox-control__input[type=checkbox]::-webkit-input-placeholder {
-  color: rgba(255, 255, 255, 0.65);
-}
-.is-dark-theme .components-checkbox-control__input[type=checkbox]::-moz-placeholder {
-  opacity: 1;
-  color: rgba(255, 255, 255, 0.65);
-}
-.is-dark-theme .components-checkbox-control__input[type=checkbox]:-ms-input-placeholder {
-  color: rgba(255, 255, 255, 0.65);
-}
 .components-checkbox-control__input[type=checkbox]:focus {
   box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--wp-admin-theme-color);
   outline: 2px solid transparent;
@@ -1115,16 +1105,6 @@ input.components-combobox-control__input[type=text]:focus {
 }
 .components-combobox-control__suggestions-container:-ms-input-placeholder {
   color: rgba(30, 30, 30, 0.62);
-}
-.is-dark-theme .components-combobox-control__suggestions-container::-webkit-input-placeholder {
-  color: rgba(255, 255, 255, 0.65);
-}
-.is-dark-theme .components-combobox-control__suggestions-container::-moz-placeholder {
-  opacity: 1;
-  color: rgba(255, 255, 255, 0.65);
-}
-.is-dark-theme .components-combobox-control__suggestions-container:-ms-input-placeholder {
-  color: rgba(255, 255, 255, 0.65);
 }
 .components-combobox-control__suggestions-container:focus-within {
   border-color: var(--wp-admin-theme-color);
@@ -2774,16 +2754,6 @@ body.is-dragging-components-draggable {
 .components-font-size-picker__controls .components-font-size-picker__number:-ms-input-placeholder {
   color: rgba(30, 30, 30, 0.62);
 }
-.is-dark-theme .components-font-size-picker__controls .components-font-size-picker__number::-webkit-input-placeholder {
-  color: rgba(255, 255, 255, 0.65);
-}
-.is-dark-theme .components-font-size-picker__controls .components-font-size-picker__number::-moz-placeholder {
-  opacity: 1;
-  color: rgba(255, 255, 255, 0.65);
-}
-.is-dark-theme .components-font-size-picker__controls .components-font-size-picker__number:-ms-input-placeholder {
-  color: rgba(255, 255, 255, 0.65);
-}
 .components-font-size-picker__controls .components-font-size-picker__number[value=""] + .components-button {
   cursor: default;
   opacity: 0.3;
@@ -2937,16 +2907,6 @@ body.is-dragging-components-draggable {
 }
 .components-form-token-field__input-container:-ms-input-placeholder {
   color: rgba(30, 30, 30, 0.62);
-}
-.is-dark-theme .components-form-token-field__input-container::-webkit-input-placeholder {
-  color: rgba(255, 255, 255, 0.65);
-}
-.is-dark-theme .components-form-token-field__input-container::-moz-placeholder {
-  opacity: 1;
-  color: rgba(255, 255, 255, 0.65);
-}
-.is-dark-theme .components-form-token-field__input-container:-ms-input-placeholder {
-  color: rgba(255, 255, 255, 0.65);
 }
 .components-form-token-field__input-container.is-disabled {
   background: #ddd;
@@ -3822,16 +3782,6 @@ body.rtl .components-panel__body-toggle.components-button .dashicons-arrow-right
 .components-placeholder__input[type=url]:-ms-input-placeholder {
   color: rgba(30, 30, 30, 0.62);
 }
-.is-dark-theme .components-placeholder__input[type=url]::-webkit-input-placeholder {
-  color: rgba(255, 255, 255, 0.65);
-}
-.is-dark-theme .components-placeholder__input[type=url]::-moz-placeholder {
-  opacity: 1;
-  color: rgba(255, 255, 255, 0.65);
-}
-.is-dark-theme .components-placeholder__input[type=url]:-ms-input-placeholder {
-  color: rgba(255, 255, 255, 0.65);
-}
 
 .components-placeholder__instructions {
   margin-bottom: 1em;
@@ -4130,16 +4080,6 @@ body.rtl .components-panel__body-toggle.components-button .dashicons-arrow-right
 }
 .components-radio-control__input[type=radio]:-ms-input-placeholder {
   color: rgba(30, 30, 30, 0.62);
-}
-.is-dark-theme .components-radio-control__input[type=radio]::-webkit-input-placeholder {
-  color: rgba(255, 255, 255, 0.65);
-}
-.is-dark-theme .components-radio-control__input[type=radio]::-moz-placeholder {
-  opacity: 1;
-  color: rgba(255, 255, 255, 0.65);
-}
-.is-dark-theme .components-radio-control__input[type=radio]:-ms-input-placeholder {
-  color: rgba(255, 255, 255, 0.65);
 }
 @media (min-width: 600px) {
   .components-radio-control__input[type=radio] {
@@ -4668,55 +4608,6 @@ body.lockscroll {
 .components-text-control__input[type=month]:-ms-input-placeholder,
 .components-text-control__input[type=number]:-ms-input-placeholder {
   color: rgba(30, 30, 30, 0.62);
-}
-.is-dark-theme .components-text-control__input::-webkit-input-placeholder,
-.is-dark-theme .components-text-control__input[type=text]::-webkit-input-placeholder,
-.is-dark-theme .components-text-control__input[type=tel]::-webkit-input-placeholder,
-.is-dark-theme .components-text-control__input[type=time]::-webkit-input-placeholder,
-.is-dark-theme .components-text-control__input[type=url]::-webkit-input-placeholder,
-.is-dark-theme .components-text-control__input[type=week]::-webkit-input-placeholder,
-.is-dark-theme .components-text-control__input[type=password]::-webkit-input-placeholder,
-.is-dark-theme .components-text-control__input[type=color]::-webkit-input-placeholder,
-.is-dark-theme .components-text-control__input[type=date]::-webkit-input-placeholder,
-.is-dark-theme .components-text-control__input[type=datetime]::-webkit-input-placeholder,
-.is-dark-theme .components-text-control__input[type=datetime-local]::-webkit-input-placeholder,
-.is-dark-theme .components-text-control__input[type=email]::-webkit-input-placeholder,
-.is-dark-theme .components-text-control__input[type=month]::-webkit-input-placeholder,
-.is-dark-theme .components-text-control__input[type=number]::-webkit-input-placeholder {
-  color: rgba(255, 255, 255, 0.65);
-}
-.is-dark-theme .components-text-control__input::-moz-placeholder,
-.is-dark-theme .components-text-control__input[type=text]::-moz-placeholder,
-.is-dark-theme .components-text-control__input[type=tel]::-moz-placeholder,
-.is-dark-theme .components-text-control__input[type=time]::-moz-placeholder,
-.is-dark-theme .components-text-control__input[type=url]::-moz-placeholder,
-.is-dark-theme .components-text-control__input[type=week]::-moz-placeholder,
-.is-dark-theme .components-text-control__input[type=password]::-moz-placeholder,
-.is-dark-theme .components-text-control__input[type=color]::-moz-placeholder,
-.is-dark-theme .components-text-control__input[type=date]::-moz-placeholder,
-.is-dark-theme .components-text-control__input[type=datetime]::-moz-placeholder,
-.is-dark-theme .components-text-control__input[type=datetime-local]::-moz-placeholder,
-.is-dark-theme .components-text-control__input[type=email]::-moz-placeholder,
-.is-dark-theme .components-text-control__input[type=month]::-moz-placeholder,
-.is-dark-theme .components-text-control__input[type=number]::-moz-placeholder {
-  opacity: 1;
-  color: rgba(255, 255, 255, 0.65);
-}
-.is-dark-theme .components-text-control__input:-ms-input-placeholder,
-.is-dark-theme .components-text-control__input[type=text]:-ms-input-placeholder,
-.is-dark-theme .components-text-control__input[type=tel]:-ms-input-placeholder,
-.is-dark-theme .components-text-control__input[type=time]:-ms-input-placeholder,
-.is-dark-theme .components-text-control__input[type=url]:-ms-input-placeholder,
-.is-dark-theme .components-text-control__input[type=week]:-ms-input-placeholder,
-.is-dark-theme .components-text-control__input[type=password]:-ms-input-placeholder,
-.is-dark-theme .components-text-control__input[type=color]:-ms-input-placeholder,
-.is-dark-theme .components-text-control__input[type=date]:-ms-input-placeholder,
-.is-dark-theme .components-text-control__input[type=datetime]:-ms-input-placeholder,
-.is-dark-theme .components-text-control__input[type=datetime-local]:-ms-input-placeholder,
-.is-dark-theme .components-text-control__input[type=email]:-ms-input-placeholder,
-.is-dark-theme .components-text-control__input[type=month]:-ms-input-placeholder,
-.is-dark-theme .components-text-control__input[type=number]:-ms-input-placeholder {
-  color: rgba(255, 255, 255, 0.65);
 }
 
 .components-tip {

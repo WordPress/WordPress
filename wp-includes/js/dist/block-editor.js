@@ -10320,17 +10320,7 @@ function selectors_getBlockInsertionPoint(state) {
  */
 
 function selectors_isBlockInsertionPointVisible(state) {
-  const insertionPoint = state.insertionPoint;
-
-  if (!state.insertionPoint) {
-    return false;
-  }
-
-  if (selectors_getTemplateLock(state, insertionPoint.rootClientId)) {
-    return false;
-  }
-
-  return true;
+  return state.insertionPoint !== null;
 }
 /**
  * Returns whether the blocks matches the template or not.
@@ -24820,7 +24810,8 @@ function useInBetweenInserter() {
     getBlockIndex,
     isBlockInsertionPointVisible,
     isMultiSelecting,
-    getSelectedBlockClientIds
+    getSelectedBlockClientIds,
+    getTemplateLock
   } = Object(external_wp_data_["useSelect"])(store);
   const {
     showInsertionPoint,
@@ -24855,6 +24846,11 @@ function useInBetweenInserter() {
       if (!event.target.classList.contains('is-root-container')) {
         const blockElement = !!event.target.getAttribute('data-block') ? event.target : event.target.closest('[data-block]');
         rootClientId = blockElement.getAttribute('data-block');
+      } // Don't set the insertion point if the template is locked.
+
+
+      if (getTemplateLock(rootClientId)) {
+        return;
       }
 
       const orientation = ((_getBlockListSettings = getBlockListSettings(rootClientId)) === null || _getBlockListSettings === void 0 ? void 0 : _getBlockListSettings.orientation) || 'vertical';

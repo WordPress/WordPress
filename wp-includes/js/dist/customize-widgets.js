@@ -137,6 +137,9 @@ var external_wp_blockLibrary_ = __webpack_require__("QyPg");
 // EXTERNAL MODULE: external ["wp","widgets"]
 var external_wp_widgets_ = __webpack_require__("GLVC");
 
+// EXTERNAL MODULE: external ["wp","blocks"]
+var external_wp_blocks_ = __webpack_require__("HSyU");
+
 // EXTERNAL MODULE: external ["wp","components"]
 var external_wp_components_ = __webpack_require__("tI+e");
 
@@ -931,9 +934,6 @@ function useInserter(inserter) {
   }, [inserter])];
 }
 
-// EXTERNAL MODULE: external ["wp","blocks"]
-var external_wp_blocks_ = __webpack_require__("HSyU");
-
 // EXTERNAL MODULE: external ["wp","isShallowEqual"]
 var external_wp_isShallowEqual_ = __webpack_require__("rl8x");
 var external_wp_isShallowEqual_default = /*#__PURE__*/__webpack_require__.n(external_wp_isShallowEqual_);
@@ -1531,9 +1531,9 @@ function SidebarBlockEditor({
     isInserterOpened: isInserterOpened,
     setIsInserterOpened: setIsInserterOpened,
     isFixedToolbarActive: isFixedToolbarActive
-  }), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockTools"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockSelectionClearer"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["WritingFlow"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["ObserveTyping"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockList"], {
+  }), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["CopyHandler"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockTools"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockSelectionClearer"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["WritingFlow"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["ObserveTyping"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockList"], {
     renderAppender: BlockAppender
-  }))))), Object(external_wp_element_["createPortal"])( // This is a temporary hack to prevent button component inside <BlockInspector>
+  })))))), Object(external_wp_element_["createPortal"])( // This is a temporary hack to prevent button component inside <BlockInspector>
   // from submitting form when type="button" is not specified.
   Object(external_wp_element_["createElement"])("form", {
     onSubmit: event => event.preventDefault()
@@ -2435,6 +2435,7 @@ Object(external_wp_hooks_["addFilter"])('editor.BlockEdit', 'core/customize-widg
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -2465,7 +2466,12 @@ function initialize(editorName, blockEditorSettings) {
 
   if (false) {}
 
-  Object(external_wp_widgets_["registerLegacyWidgetVariations"])(blockEditorSettings);
+  Object(external_wp_widgets_["registerLegacyWidgetVariations"])(blockEditorSettings); // As we are unregistering `core/freeform` to avoid the Classic block, we must
+  // replace it with something as the default freeform content handler. Failure to
+  // do this will result in errors in the default block parser.
+  // see: https://github.com/WordPress/gutenberg/issues/33097
+
+  Object(external_wp_blocks_["setFreeformContentHandlerName"])('core/html');
   const SidebarControl = getSidebarControl(blockEditorSettings);
   build_module_wp.customize.sectionConstructor.sidebar = getSidebarSection();
   build_module_wp.customize.controlConstructor.sidebar_block_editor = SidebarControl;

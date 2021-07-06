@@ -132,10 +132,10 @@ var external_wp_primitives_ = __webpack_require__("Tqx9");
  */
 
 const widget_widget = Object(external_wp_element_["createElement"])(external_wp_primitives_["SVG"], {
-  viewBox: "0 0 24 24",
-  xmlns: "http://www.w3.org/2000/svg"
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24"
 }, Object(external_wp_element_["createElement"])(external_wp_primitives_["Path"], {
-  d: "M7 11h2v2H7v-2zm14-5v14l-2 2H5l-2-2V6l2-2h1V2h2v2h8V2h2v2h1l2 2zM5 8h14V6H5v2zm14 12V10H5v10h14zm-4-7h2v-2h-2v2zm-4 0h2v-2h-2v2z"
+  d: "M6 3H8V5H16V3H18V5C19.1046 5 20 5.89543 20 7V19C20 20.1046 19.1046 21 18 21H6C4.89543 21 4 20.1046 4 19V7C4 5.89543 4.89543 5 6 5V3ZM18 6.5H6C5.72386 6.5 5.5 6.72386 5.5 7V8H18.5V7C18.5 6.72386 18.2761 6.5 18 6.5ZM18.5 9.5H5.5V19C5.5 19.2761 5.72386 19.5 6 19.5H18C18.2761 19.5 18.5 19.2761 18.5 19V9.5ZM11 11H13V13H11V11ZM7 11V13H9V11H7ZM15 13V11H17V13H15Z"
 }));
 /* harmony default export */ var library_widget = (widget_widget);
 
@@ -760,9 +760,10 @@ function Form({
       onChangeHasPreview,
 
       onError(error) {
-        var _error$message;
-
-        createNotice('error', (_error$message = error === null || error === void 0 ? void 0 : error.message) !== null && _error$message !== void 0 ? _error$message : Object(external_wp_i18n_["__"])('An error occured while fetching or updating the widget.'));
+        window.console.error(error);
+        createNotice('error', Object(external_wp_i18n_["sprintf"])(
+        /* translators: %s: the name of the affected block. */
+        Object(external_wp_i18n_["__"])('The "%s" block was affected by errors and may not function properly. Check the developer tools for more details.'), idBase || id));
       }
 
     });
@@ -828,40 +829,44 @@ function Preview({
   instance,
   isVisible
 }) {
-  const [iframeHeight, setIframeHeight] = Object(external_wp_element_["useState"])(); // Resize the iframe on either the load event, or when the iframe becomes visible.
+  const [isLoaded, setIsLoaded] = Object(external_wp_element_["useState"])(false); // Resize the iframe on either the load event, or when the iframe becomes visible.
 
   const ref = Object(external_wp_compose_["useRefEffect"])(iframe => {
-    function onChange() {
-      var _iframe$contentDocume, _iframe$contentDocume2;
-
-      const boundingRect = iframe === null || iframe === void 0 ? void 0 : (_iframe$contentDocume = iframe.contentDocument) === null || _iframe$contentDocume === void 0 ? void 0 : (_iframe$contentDocume2 = _iframe$contentDocume.body) === null || _iframe$contentDocume2 === void 0 ? void 0 : _iframe$contentDocume2.getBoundingClientRect();
-
-      if (boundingRect) {
-        // Include `top` in the height calculation to avoid the bottom
-        // of widget previews being cut-off. Most widgets have a
-        // heading at the top that has top margin, and the `height`
-        // alone doesn't take that margin into account.
-        setIframeHeight(boundingRect.top + boundingRect.height);
+    // Only set height if the iframe is loaded,
+    // or it will grow to an unexpected large height in Safari if it's hidden initially.
+    if (isLoaded) {
+      // If the preview frame has another origin then this won't work.
+      // One possible solution is to add custom script to call `postMessage` in the preview frame.
+      // Or, better yet, we migrate away from iframe.
+      function setHeight() {
+        // Pick the maximum of these two values to account for margin collapsing.
+        const height = Math.max(iframe.contentDocument.documentElement.offsetHeight, iframe.contentDocument.body.offsetHeight);
+        iframe.style.height = `${height}px`;
       }
+
+      const {
+        IntersectionObserver
+      } = iframe.ownerDocument.defaultView; // Observe for intersections that might cause a change in the height of
+      // the iframe, e.g. a Widget Area becoming expanded.
+
+      const intersectionObserver = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) {
+          setHeight();
+        }
+      }, {
+        threshold: 1
+      });
+      intersectionObserver.observe(iframe);
+      iframe.addEventListener('load', setHeight);
+      return () => {
+        intersectionObserver.disconnect();
+        iframe.removeEventListener('load', setHeight);
+      };
     }
-
-    const {
-      IntersectionObserver
-    } = iframe.ownerDocument.defaultView; // Observe for intersections that might cause a change in the height of
-    // the iframe, e.g. a Widget Area becoming expanded.
-
-    const intersectionObserver = new IntersectionObserver(onChange, {
-      threshold: 1
-    });
-    intersectionObserver.observe(iframe);
-    iframe.addEventListener('load', onChange);
-    return () => {
-      iframe.removeEventListener('load', onChange);
-    };
-  }, []);
-  return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, isVisible && iframeHeight === null && Object(external_wp_element_["createElement"])(external_wp_components_["Placeholder"], null, Object(external_wp_element_["createElement"])(external_wp_components_["Spinner"], null)), Object(external_wp_element_["createElement"])("div", {
+  }, [isLoaded]);
+  return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, isVisible && !isLoaded && Object(external_wp_element_["createElement"])(external_wp_components_["Placeholder"], null, Object(external_wp_element_["createElement"])(external_wp_components_["Spinner"], null)), Object(external_wp_element_["createElement"])("div", {
     className: classnames_default()('wp-block-legacy-widget__edit-preview', {
-      'is-offscreen': !isVisible || iframeHeight === null
+      'is-offscreen': !isVisible || !isLoaded
     })
   }, Object(external_wp_element_["createElement"])(external_wp_components_["Disabled"], null, Object(external_wp_element_["createElement"])("iframe", {
     ref: ref,
@@ -876,7 +881,15 @@ function Preview({
         instance
       }
     }),
-    height: iframeHeight || 100
+    onLoad: event => {
+      // To hide the scrollbars of the preview frame for some edge cases,
+      // such as negative margins in the Gallery Legacy Widget.
+      // It can't be scrolled anyway.
+      // TODO: Ideally, this should be fixed in core.
+      event.target.contentDocument.body.style.overflow = 'hidden';
+      setIsLoaded(true);
+    },
+    height: 100
   }))));
 }
 

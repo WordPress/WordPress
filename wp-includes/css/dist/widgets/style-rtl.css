@@ -149,7 +149,8 @@
 .wp-block-legacy-widget__edit-form .widget-inside.widget-inside select {
   padding-right: 4px;
 }
-.wp-block-legacy-widget__edit-form .widget.open {
+.wp-block-legacy-widget__edit-form .widget.open,
+.wp-block-legacy-widget__edit-form .widget.open:focus-within {
   z-index: 0;
 }
 
@@ -186,18 +187,20 @@
   width: 100%;
 }
 
-.wp-block-legacy-widget__edit-no-preview {
+.wp-block-legacy-widget__edit-no-preview.wp-block-legacy-widget__edit-no-preview.wp-block-legacy-widget__edit-no-preview {
   background: #f0f0f0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-  font-size: 13px;
   padding: 8px 12px;
 }
-.wp-block-legacy-widget__edit-no-preview h3 {
+.wp-block-legacy-widget__edit-no-preview.wp-block-legacy-widget__edit-no-preview.wp-block-legacy-widget__edit-no-preview, .wp-block-legacy-widget__edit-no-preview.wp-block-legacy-widget__edit-no-preview.wp-block-legacy-widget__edit-no-preview h3, .wp-block-legacy-widget__edit-no-preview.wp-block-legacy-widget__edit-no-preview.wp-block-legacy-widget__edit-no-preview p {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-size: 13px;
+}
+.wp-block-legacy-widget__edit-no-preview.wp-block-legacy-widget__edit-no-preview.wp-block-legacy-widget__edit-no-preview h3 {
   font-size: 14px;
   font-weight: 600;
   margin: 4px 0;
 }
-.wp-block-legacy-widget__edit-no-preview p {
+.wp-block-legacy-widget__edit-no-preview.wp-block-legacy-widget__edit-no-preview.wp-block-legacy-widget__edit-no-preview p {
   margin: 4px 0;
 }
 
@@ -219,6 +222,9 @@
   min-width: 400px;
 }
 
+.wp-block-legacy-widget .components-base-control {
+  width: 100%;
+}
 .wp-block-legacy-widget .components-select-control__input {
   padding: 0;
   font-family: system-ui;

@@ -25,17 +25,6 @@ function render_block_core_block( $attributes ) {
 	}
 
 	if ( isset( $seen_refs[ $attributes['ref'] ] ) ) {
-		if ( ! is_admin() ) {
-			trigger_error(
-				sprintf(
-					// translators: %s is the user-provided title of the reusable block.
-					__( 'Could not render Reusable Block <strong>%s</strong>. Block cannot be rendered inside itself.' ),
-					$reusable_block->post_title
-				),
-				E_USER_WARNING
-			);
-		}
-
 		// WP_DEBUG_DISPLAY must only be honored when WP_DEBUG. This precedent
 		// is set in `wp_debug_mode()`.
 		$is_debug = defined( 'WP_DEBUG' ) && WP_DEBUG &&
