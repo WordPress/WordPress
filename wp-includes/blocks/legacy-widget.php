@@ -25,13 +25,15 @@ function render_block_core_legacy_widget( $attributes ) {
 	}
 
 	$id_base = $attributes['idBase'];
-	if ( method_exists( $wp_widget_factory, 'get_widget_key' ) ) {
-		$widget_key = $wp_widget_factory->get_widget_key( $id_base );
+	if ( method_exists( $wp_widget_factory, 'get_widget_key' ) && method_exists( $wp_widget_factory, 'get_widget_object' ) ) {
+		$widget_key    = $wp_widget_factory->get_widget_key( $id_base );
+		$widget_object = $wp_widget_factory->get_widget_object( $id_base );
 	} else {
-		$widget_key = gutenberg_get_widget_key( $id_base );
+		$widget_key    = gutenberg_get_widget_key( $id_base );
+		$widget_object = gutenberg_get_widget_object( $id_base );
 	}
 
-	if ( ! $widget_key ) {
+	if ( ! $widget_key || ! $widget_object ) {
 		return '';
 	}
 
@@ -45,8 +47,13 @@ function render_block_core_legacy_widget( $attributes ) {
 		$instance = array();
 	}
 
+	$args = array(
+		'widget_id'   => $widget_object->id,
+		'widget_name' => $widget_object->name,
+	);
+
 	ob_start();
-	the_widget( $widget_key, $instance );
+	the_widget( $widget_key, $instance, $args );
 	return ob_get_clean();
 }
 
