@@ -4049,7 +4049,7 @@ All at ###SITENAME###
 	/**
 	 * Filters the headers of the data erasure fulfillment notification.
 	 *
-	 * @since 5.7.0
+	 * @since 5.8.0
 	 *
 	 * @param string|array $headers    The email headers.
 	 * @param string       $subject    The email subject.
