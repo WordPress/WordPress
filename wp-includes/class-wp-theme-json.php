@@ -1206,12 +1206,6 @@ class WP_Theme_JSON {
 			$theme_settings['settings']['typography']['fontSizes'] = $font_sizes;
 		}
 
-		/*
-		 * This allows to make the plugin work with WordPress 5.8 beta
-		 * as well as lower versions. The second check can be removed
-		 * as soon as the minimum WordPress version for the plugin
-		 * is bumped to 5.8.
-		 */
 		if ( isset( $settings['enableCustomSpacing'] ) ) {
 			if ( ! isset( $theme_settings['settings']['spacing'] ) ) {
 				$theme_settings['settings']['spacing'] = array();
