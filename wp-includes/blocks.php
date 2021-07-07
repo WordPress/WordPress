@@ -716,6 +716,16 @@ function excerpt_remove_blocks( $content ) {
 		'core/group',
 	);
 
+	/**
+	 * Filters the list of blocks that can be used as wrapper blocks, allowing
+	 * excerpts to be generated from the `innerBlocks` of these warppers.
+	 *
+	 * @since 5.8.0
+	 *
+	 * @param array $allowed_wrapper_blocks The list of allowed wrapper blocks.
+	 */
+	$allowed_wrapper_blocks = apply_filters( 'excerpt_allowed_wrapper_blocks', $allowed_wrapper_blocks );
+
 	$allowed_blocks = array_merge( $allowed_inner_blocks, $allowed_wrapper_blocks );
 
 	/**
