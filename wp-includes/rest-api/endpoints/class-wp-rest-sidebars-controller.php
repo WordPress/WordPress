@@ -304,7 +304,7 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller {
 				}
 			);
 
-			$sidebar['widgets'] = $widgets;
+			$sidebar['widgets'] = array_values( $widgets );
 		}
 
 		$schema = $this->get_item_schema();
