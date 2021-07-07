@@ -34,7 +34,7 @@ if ( function_exists( 'register_block_pattern' ) ) {
 			'categories'    => array( 'twentytwelve' ),
 			'viewportWidth' => 700,
 			'content'       => '<!-- wp:group -->
-				<div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:columns -->
+				<div class="wp-block-group"><!-- wp:columns -->
 				<div class="wp-block-columns"><!-- wp:column -->
 				<div class="wp-block-column"><!-- wp:spacer -->
 				<div style="height:100px" aria-hidden="true" class="wp-block-spacer"></div>
@@ -62,7 +62,7 @@ if ( function_exists( 'register_block_pattern' ) ) {
 				<figure class="wp-block-image size-large"><img src="' . esc_url( get_stylesheet_directory_uri() ) . '/images/pattern-jumble-1.jpg" alt="' . esc_attr__( 'Close up of a yellow and green leaf.', 'twentytwelve' ) . '" /></figure>
 				<!-- /wp:image --></div>
 				<!-- /wp:column --></div>
-				<!-- /wp:columns --></div></div>
+				<!-- /wp:columns --></div>
 				<!-- /wp:group -->',
 		)
 	);
