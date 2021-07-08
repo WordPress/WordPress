@@ -22,7 +22,7 @@ get_current_screen()->add_help_tab(
 					'<p>' . __( 'This screen allows you to manage requests to erase or delete personal data.' ) . '</p>' .
 					'<p>' . __( 'Deleting, anonymizing, or forgetting all data that a business or website has collected about an individual is a requirement of many Privacy Laws around the world, and is sometimes referred to as the "Right To Be Forgotten".' ) . '</p>' .
 					'<p>' . __( 'The tool associates data stored in WordPress by a supplied email address, including profile data and comments.' ) . '</p>' .
-					'<p>' . __( '<strong>Note: As this tool only gathers data from WordPress and participating plugins, you may need to do more to comply with erasure requests. You should also delete any data collected by or stored with any 3rd party services used by your business or site.</strong>' ) . '</p>',
+					'<p><strong>' . __( 'Note: As this tool only gathers data from WordPress and participating plugins, you may need to do more to comply with erasure requests. You should also delete any data collected by or stored with any 3rd party services used by your business or site.' ) . '</strong></p>',
 	)
 );
 
