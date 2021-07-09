@@ -2006,3 +2006,39 @@ function wp_render_widget_control( $id ) {
 
 	return ob_get_clean();
 }
+
+/**
+ * The 'wp-editor' script module is exposed as window.wp.editor. This overrides
+ * the legacy TinyMCE editor module which is required by the widgets editor.
+ * Because of that conflict, these two shouldn't be enqueued together. See
+ * https://core.trac.wordpress.org/ticket/53569.
+ *
+ * There is also another conflict related to styles where the block widgets
+ * editor is hidden if a block enqueues 'wp-edit-post' stylesheet. See
+ * https://core.trac.wordpress.org/ticket/53569.
+ *
+ * @since 5.8.0
+ * @access private
+ */
+function wp_check_widget_editor_deps() {
+	global $wp_scripts, $wp_styles;
+	if (
+		$wp_scripts->query( 'wp-edit-widgets', 'enqueued' ) ||
+		$wp_scripts->query( 'wp-customize-widgets', 'enqueued' )
+	) {
+		if ( $wp_scripts->query( 'wp-editor', 'enqueued' ) ) {
+			_doing_it_wrong(
+				'enqueue_script',
+				'"wp-editor" script should not be enqueued together with the new widgets editor (wp-edit-widgets or wp-customize-widgets).',
+				'5.8.0'
+			);
+		}
+		if ( $wp_styles->query( 'wp-edit-post', 'enqueued' ) ) {
+			_doing_it_wrong(
+				'enqueue_style',
+				'"wp-edit-post" style should not be enqueued together with the new widgets editor (wp-edit-widgets or wp-customize-widgets).',
+				'5.8.0'
+			);
+		}
+	}
+}
