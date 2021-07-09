@@ -2035,14 +2035,26 @@ function wp_check_widget_editor_deps() {
 		if ( $wp_scripts->query( 'wp-editor', 'enqueued' ) ) {
 			_doing_it_wrong(
 				'wp_enqueue_script()',
-				'"wp-editor" script should not be enqueued together with the new widgets editor (wp-edit-widgets or wp-customize-widgets).',
+				sprintf(
+					/* translators: 1: 'wp-editor', 2: 'wp-edit-widgets', 3: 'wp-customize-widgets'. */
+					__( '"%1$s" script should not be enqueued together with the new widgets editor (%2$s or %3$s).' ),
+					'wp-editor',
+					'wp-edit-widgets',
+					'wp-customize-widgets'
+				),
 				'5.8.0'
 			);
 		}
 		if ( $wp_styles->query( 'wp-edit-post', 'enqueued' ) ) {
 			_doing_it_wrong(
 				'wp_enqueue_style()',
-				'"wp-edit-post" style should not be enqueued together with the new widgets editor (wp-edit-widgets or wp-customize-widgets).',
+				sprintf(
+					/* translators: 1: 'wp-edit-post', 2: 'wp-edit-widgets', 3: 'wp-customize-widgets'. */
+					__( '"%1$s" style should not be enqueued together with the new widgets editor (%2$s or %3$s).' ),
+					'wp-edit-post',
+					'wp-edit-widgets',
+					'wp-customize-widgets'
+				),
 				'5.8.0'
 			);
 		}
