@@ -10,7 +10,7 @@
  * @since Twenty Eleven 3.8
  */
 
- /**
+/**
  * Register Block Pattern Category.
  */
 if ( function_exists( 'register_block_pattern_category' ) ) {
