@@ -1773,9 +1773,9 @@ function wp_insert_user( $userdata ) {
 
 	// Are we updating or creating?
 	if ( ! empty( $userdata['ID'] ) ) {
-		$ID            = (int) $userdata['ID'];
+		$user_id       = (int) $userdata['ID'];
 		$update        = true;
-		$old_user_data = get_userdata( $ID );
+		$old_user_data = get_userdata( $user_id );
 
 		if ( ! $old_user_data ) {
 			return new WP_Error( 'invalid_user_id', __( 'Invalid user ID.' ) );
@@ -2031,10 +2031,10 @@ function wp_insert_user( $userdata ) {
 	 *                                   the current UTC timestamp.
 	 * }
 	 * @param bool     $update   Whether the user is being updated rather than created.
-	 * @param int|null $id       ID of the user to be updated, or NULL if the user is being created.
+	 * @param int|null $user_id  ID of the user to be updated, or NULL if the user is being created.
 	 * @param array    $userdata The raw array of data passed to wp_insert_user().
 	 */
-	$data = apply_filters( 'wp_pre_insert_user_data', $data, $update, ( $update ? (int) $ID : null ), $userdata );
+	$data = apply_filters( 'wp_pre_insert_user_data', $data, $update, ( $update ? $user_id : null ), $userdata );
 
 	if ( empty( $data ) || ! is_array( $data ) ) {
 		return new WP_Error( 'empty_data', __( 'Not enough data to create this user.' ) );
@@ -2044,8 +2044,7 @@ function wp_insert_user( $userdata ) {
 		if ( $user_email !== $old_user_data->user_email || $user_pass !== $old_user_data->user_pass ) {
 			$data['user_activation_key'] = '';
 		}
-		$wpdb->update( $wpdb->users, $data, compact( 'ID' ) );
-		$user_id = (int) $ID;
+		$wpdb->update( $wpdb->users, $data, array( 'ID' => $user_id ) );
 	} else {
 		$wpdb->insert( $wpdb->users, $data );
 		$user_id = (int) $wpdb->insert_id;
@@ -2177,13 +2176,13 @@ function wp_update_user( $userdata ) {
 		$userdata = $userdata->to_array();
 	}
 
-	$ID = isset( $userdata['ID'] ) ? (int) $userdata['ID'] : 0;
-	if ( ! $ID ) {
+	$user_id = isset( $userdata['ID'] ) ? (int) $userdata['ID'] : 0;
+	if ( ! $user_id ) {
 		return new WP_Error( 'invalid_user_id', __( 'Invalid user ID.' ) );
 	}
 
 	// First, get all of the original fields.
-	$user_obj = get_userdata( $ID );
+	$user_obj = get_userdata( $user_id );
 	if ( ! $user_obj ) {
 		return new WP_Error( 'invalid_user_id', __( 'Invalid user ID.' ) );
 	}
@@ -2192,7 +2191,7 @@ function wp_update_user( $userdata ) {
 
 	// Add additional custom fields.
 	foreach ( _get_additional_user_keys( $user_obj ) as $key ) {
-		$user[ $key ] = get_user_meta( $ID, $key, true );
+		$user[ $key ] = get_user_meta( $user_id, $key, true );
 	}
 
 	// Escape data pulled from DB.
@@ -2373,7 +2372,7 @@ All at ###SITENAME###
 
 	// Update the cookies if the password changed.
 	$current_user = wp_get_current_user();
-	if ( $current_user->ID == $ID ) {
+	if ( $current_user->ID == $user_id ) {
 		if ( isset( $plaintext_pass ) ) {
 			wp_clear_auth_cookie();
 
@@ -2381,13 +2380,13 @@ All at ###SITENAME###
 			// If it's greater than this, then we know the user checked 'Remember Me' when they logged in.
 			$logged_in_cookie = wp_parse_auth_cookie( '', 'logged_in' );
 			/** This filter is documented in wp-includes/pluggable.php */
-			$default_cookie_life = apply_filters( 'auth_cookie_expiration', ( 2 * DAY_IN_SECONDS ), $ID, false );
+			$default_cookie_life = apply_filters( 'auth_cookie_expiration', ( 2 * DAY_IN_SECONDS ), $user_id, false );
 			$remember            = false;
 			if ( false !== $logged_in_cookie && ( $logged_in_cookie['expiration'] - time() ) > $default_cookie_life ) {
 				$remember = true;
 			}
 
-			wp_set_auth_cookie( $ID, $remember );
+			wp_set_auth_cookie( $user_id, $remember );
 		}
 	}
 
@@ -2550,8 +2549,8 @@ function get_password_reset_key( $user ) {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param bool $allow Whether to allow the password to be reset. Default true.
-	 * @param int  $ID    The ID of the user attempting to reset a password.
+	 * @param bool $allow   Whether to allow the password to be reset. Default true.
+	 * @param int  $user_id The ID of the user attempting to reset a password.
 	 */
 	$allow = apply_filters( 'allow_password_reset', $allow, $user->ID );
 
