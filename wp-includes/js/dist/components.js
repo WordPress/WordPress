@@ -2169,8 +2169,8 @@ module.exports = function inspect_(obj, options, depth, seen) {
         throw new TypeError('option "maxStringLength", if provided, must be a positive integer, Infinity, or `null`');
     }
     var customInspect = has(opts, 'customInspect') ? opts.customInspect : true;
-    if (typeof customInspect !== 'boolean') {
-        throw new TypeError('option "customInspect", if provided, must be `true` or `false`');
+    if (typeof customInspect !== 'boolean' && customInspect !== 'symbol') {
+        throw new TypeError('option "customInspect", if provided, must be `true`, `false`, or `\'symbol\'`');
     }
 
     if (
@@ -2272,7 +2272,7 @@ module.exports = function inspect_(obj, options, depth, seen) {
     if (typeof obj === 'object' && customInspect) {
         if (inspectSymbol && typeof obj[inspectSymbol] === 'function') {
             return obj[inspectSymbol]();
-        } else if (typeof obj.inspect === 'function') {
+        } else if (customInspect !== 'symbol' && typeof obj.inspect === 'function') {
             return obj.inspect();
         }
     }
@@ -32708,6 +32708,7 @@ function DuotonePicker({
   colorPalette,
   duotonePalette,
   disableCustomColors,
+  disableCustomDuotone,
   value,
   onChange
 }) {
@@ -32742,10 +32743,10 @@ function DuotonePicker({
     actions: Object(external_wp_element_["createElement"])(CircularOptionPicker.ButtonAction, {
       onClick: () => onChange(undefined)
     }, Object(external_wp_i18n_["__"])('Clear'))
-  }, !disableCustomColors && Object(external_wp_element_["createElement"])(CustomDuotoneBar, {
+  }, !disableCustomColors && !disableCustomDuotone && Object(external_wp_element_["createElement"])(CustomDuotoneBar, {
     value: value,
     onChange: onChange
-  }), colorPalette && Object(external_wp_element_["createElement"])(color_list_picker, {
+  }), !disableCustomDuotone && Object(external_wp_element_["createElement"])(color_list_picker, {
     labels: [Object(external_wp_i18n_["__"])('Shadows'), Object(external_wp_i18n_["__"])('Highlights')],
     colors: colorPalette,
     value: value,

@@ -3,7 +3,9 @@
 	"settings": {
 		"color": {
 			"custom": true,
-			"customGradient": true,
+			"customDuotone": true,
+ 			"customGradient": true,
+ 			"link": false,
 			"duotone": [
 				{
 					"name":  "Dark grayscale" ,
@@ -108,7 +110,6 @@
 					"slug": "midnight"
 				}
 			],
-			"link": false,
 			"palette": [
 				{
 					"name": "Black",
