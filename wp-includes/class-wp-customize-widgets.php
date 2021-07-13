@@ -1420,9 +1420,11 @@ final class WP_Customize_Widgets {
 			$widget_object = $wp_widget_factory->get_widget_object( $id_base );
 			if ( ! empty( $widget_object->widget_options['show_instance_in_rest'] ) ) {
 				if ( 'block' === $id_base && ! current_user_can( 'unfiltered_html' ) ) {
-					// The content of the 'block' widget is not filtered on the
-					// fly while editing. Filter the content here to prevent
-					// vulnerabilities.
+					/*
+					 * The content of the 'block' widget is not filtered on the
+					 * fly while editing. Filter the content here to prevent
+					 * vulnerabilities.
+					 */
 					$value['raw_instance']['content'] = wp_kses_post( $value['raw_instance']['content'] );
 				}
 
