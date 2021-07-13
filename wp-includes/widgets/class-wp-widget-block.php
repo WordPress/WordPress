@@ -178,8 +178,13 @@ class WP_Widget_Block extends WP_Widget {
 	 * @return array Settings to save or bool false to cancel saving.
 	 */
 	public function update( $new_instance, $old_instance ) {
-		$instance            = array_merge( $this->default_instance, $old_instance );
-		$instance['content'] = $new_instance['content'];
+		$instance = array_merge( $this->default_instance, $old_instance );
+
+		if ( current_user_can( 'unfiltered_html' ) ) {
+			$instance['content'] = $new_instance['content'];
+		} else {
+			$instance['content'] = wp_kses_post( $new_instance['content'] );
+		}
 
 		return $instance;
 	}
