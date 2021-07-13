@@ -906,7 +906,7 @@
 			'WebkitTransition': 'webkitTransitionEnd'
 		};
 		prop = _.find( _.keys( transitions ), function( prop ) {
-			return ! _.isUndefined( el.style[ prop ] ) && ! _.isEmpty( el.style[ prop ] );
+			return ! _.isUndefined( el.style[ prop ] );
 		} );
 		if ( prop ) {
 			return transitions[ prop ];
