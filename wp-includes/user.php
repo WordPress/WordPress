@@ -3676,8 +3676,7 @@ function _wp_privacy_send_request_confirmation_notification( $request_id ) {
 
 	/* translators: Do not translate SITENAME, USER_EMAIL, DESCRIPTION, MANAGE_URL, SITEURL; those are placeholders. */
 	$content = __(
-// phpcs:ignore Generic.WhiteSpace.ScopeIndent.Incorrect, PEAR.Functions.FunctionCallSignature.Indent
-'Howdy,
+		'Howdy,
 
 A user data privacy request has been confirmed on ###SITENAME###:
 
@@ -3696,9 +3695,7 @@ All at ###SITENAME###
 	/**
 	 * Filters the body of the user request confirmation email.
 	 *
-	 * Use {@see 'user_request_confirmed_email_content'} instead.
-	 *
-	 * The email is sent to an administrator when an user request is confirmed.
+	 * The email is sent to an administrator when a user request is confirmed.
 	 *
 	 * The following strings have a special meaning and will get replaced dynamically:
 	 *
@@ -3708,11 +3705,10 @@ All at ###SITENAME###
 	 * ###MANAGE_URL###  The URL to manage requests.
 	 * ###SITEURL###     The URL to the site.
 	 *
-	 * For fulfillment email content use {@see 'user_erasure_fulfillment_email_content'} instead.
-	 *
 	 * @since 4.9.6
-	 *
-	 * @deprecated 5.8.0 Use {@see 'user_request_confirmed_email_content'} instead. For fulfillment email content use {@see 'user_erasure_fulfillment_email_content'} instead.
+	 * @deprecated 5.8.0 Use {@see 'user_request_confirmed_email_content'} instead.
+	 *                   For user erasure fulfillment email content
+	 *                   use {@see 'user_erasure_fulfillment_email_content'} instead.
 	 *
 	 * @param string $content    The email content.
 	 * @param array  $email_data {
@@ -3720,7 +3716,8 @@ All at ###SITENAME###
 	 *
 	 *     @type WP_User_Request $request     User request object.
 	 *     @type string          $user_email  The email address confirming a request
-	 *     @type string          $description Description of the action being performed so the user knows what the email is for.
+	 *     @type string          $description Description of the action being performed
+	 *                                        so the user knows what the email is for.
 	 *     @type string          $manage_url  The link to click manage privacy requests of this type.
 	 *     @type string          $sitename    The site name sending the mail.
 	 *     @type string          $siteurl     The site URL sending the mail.
@@ -3732,7 +3729,7 @@ All at ###SITENAME###
 		array( $content, $email_data ),
 		'5.8.0',
 		sprintf(
-			/* translators: 1 & 2: Deprecation replacement options */
+			/* translators: 1 & 2: Deprecation replacement options. */
 			__( '%1$s or %2$s' ),
 			'user_request_confirmed_email_content',
 			'user_erasure_fulfillment_email_content'
@@ -3742,7 +3739,7 @@ All at ###SITENAME###
 	/**
 	 * Filters the body of the user request confirmation email.
 	 *
-	 * The email is sent to an administrator when an user request is confirmed.
+	 * The email is sent to an administrator when a user request is confirmed.
 	 * The following strings have a special meaning and will get replaced dynamically:
 	 *
 	 * ###SITENAME###    The name of the site.
@@ -3864,10 +3861,7 @@ function _wp_privacy_send_erasure_fulfillment_notification( $request_id ) {
 	/**
 	 * Filters the subject of the email sent when an erasure request is completed.
 	 *
-	 * Use {@see 'user_erasure_fulfillment_email_subject'} instead.
-	 *
 	 * @since 4.9.8
-	 *
 	 * @deprecated 5.8.0 Use {@see 'user_erasure_fulfillment_email_subject'} instead.
 	 *
 	 * @param string $subject    The email subject.
@@ -3884,7 +3878,12 @@ function _wp_privacy_send_erasure_fulfillment_notification( $request_id ) {
 	 *     @type string          $siteurl            The site URL sending the mail.
 	 * }
 	 */
-	$subject = apply_filters_deprecated( 'user_erasure_complete_email_subject', array( $subject, $email_data['sitename'], $email_data ), '5.8.0', 'user_erasure_fulfillment_email_subject' );
+	$subject = apply_filters_deprecated(
+		'user_erasure_complete_email_subject',
+		array( $subject, $email_data['sitename'], $email_data ),
+		'5.8.0',
+		'user_erasure_fulfillment_email_subject'
+	);
 
 	/**
 	 * Filters the subject of the email sent when an erasure request is completed.
@@ -3909,8 +3908,7 @@ function _wp_privacy_send_erasure_fulfillment_notification( $request_id ) {
 
 	/* translators: Do not translate SITENAME, SITEURL; those are placeholders. */
 	$content = __(
-// phpcs:ignore Generic.WhiteSpace.ScopeIndent.Incorrect, PEAR.Functions.FunctionCallSignature.Indent
-'Howdy,
+		'Howdy,
 
 Your request to erase your personal data on ###SITENAME### has been completed.
 
@@ -3924,8 +3922,7 @@ All at ###SITENAME###
 	if ( ! empty( $email_data['privacy_policy_url'] ) ) {
 		/* translators: Do not translate SITENAME, SITEURL, PRIVACY_POLICY_URL; those are placeholders. */
 		$content = __(
-// phpcs:ignore Generic.WhiteSpace.ScopeIndent.Incorrect, PEAR.Functions.FunctionCallSignature.Indent
-'Howdy,
+			'Howdy,
 
 Your request to erase your personal data on ###SITENAME### has been completed.
 
@@ -3942,9 +3939,7 @@ All at ###SITENAME###
 	/**
 	 * Filters the body of the data erasure fulfillment notification.
 	 *
-	 * Use {@see 'user_erasure_fulfillment_email_content'} instead.
-	 *
-	 * The email is sent to a user when a their data erasure request is fulfilled
+	 * The email is sent to a user when their data erasure request is fulfilled
 	 * by an administrator.
 	 *
 	 * The following strings have a special meaning and will get replaced dynamically:
@@ -3953,11 +3948,10 @@ All at ###SITENAME###
 	 * ###PRIVACY_POLICY_URL### Privacy policy page URL.
 	 * ###SITEURL###            The URL to the site.
 	 *
-	 * For user request confirmation email content use {@see 'user_request_confirmed_email_content'} instead.
-	 *
 	 * @since 4.9.6
-	 *
-	 * @deprecated 5.8.0 Use {@see 'user_erasure_fulfillment_email_content'} instead. For user request confirmation email content use {@see 'user_request_confirmed_email_content'} instead.
+	 * @deprecated 5.8.0 Use {@see 'user_erasure_fulfillment_email_content'} instead.
+	 *                   For user request confirmation email content
+	 *                   use {@see 'user_request_confirmed_email_content'} instead.
 	 *
 	 * @param string $content The email content.
 	 * @param array  $email_data {
@@ -3977,7 +3971,7 @@ All at ###SITENAME###
 		array( $content, $email_data ),
 		'5.8.0',
 		sprintf(
-			/* translators: 1 & 2: Deprecation replacement options */
+			/* translators: 1 & 2: Deprecation replacement options. */
 			__( '%1$s or %2$s' ),
 			'user_erasure_fulfillment_email_content',
 			'user_request_confirmed_email_content'
@@ -3987,7 +3981,7 @@ All at ###SITENAME###
 	/**
 	 * Filters the body of the data erasure fulfillment notification.
 	 *
-	 * The email is sent to a user when a their data erasure request is fulfilled
+	 * The email is sent to a user when their data erasure request is fulfilled
 	 * by an administrator.
 	 *
 	 * The following strings have a special meaning and will get replaced dynamically:
@@ -4022,10 +4016,7 @@ All at ###SITENAME###
 	/**
 	 * Filters the headers of the data erasure fulfillment notification.
 	 *
-	 * Use {@see 'user_erasure_fulfillment_email_headers'} instead.
-	 *
 	 * @since 5.4.0
-	 *
 	 * @deprecated 5.8.0 Use {@see 'user_erasure_fulfillment_email_headers'} instead.
 	 *
 	 * @param string|array $headers    The email headers.
@@ -4044,7 +4035,12 @@ All at ###SITENAME###
 	 *     @type string          $siteurl            The site URL sending the mail.
 	 * }
 	 */
-	$headers = apply_filters_deprecated( 'user_erasure_complete_email_headers', array( $headers, $subject, $content, $request_id, $email_data ), '5.8.0', 'user_erasure_fulfillment_email_headers' );
+	$headers = apply_filters_deprecated(
+		'user_erasure_complete_email_headers',
+		array( $headers, $subject, $content, $request_id, $email_data ),
+		'5.8.0',
+		'user_erasure_fulfillment_email_headers'
+	);
 
 	/**
 	 * Filters the headers of the data erasure fulfillment notification.
@@ -4290,8 +4286,7 @@ function wp_send_user_request( $request_id ) {
 
 	/* translators: Do not translate DESCRIPTION, CONFIRM_URL, SITENAME, SITEURL: those are placeholders. */
 	$content = __(
-// phpcs:ignore Generic.WhiteSpace.ScopeIndent.Incorrect, PEAR.Functions.FunctionCallSignature.Indent
-'Howdy,
+		'Howdy,
 
 A request has been made to perform the following action on your account:
 
