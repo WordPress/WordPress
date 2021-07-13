@@ -12536,7 +12536,7 @@ function ColumnEdit({
     [`is-vertically-aligned-${verticalAlignment}`]: verticalAlignment
   });
   const units = Object(external_wp_components_["__experimentalUseCustomUnits"])({
-    availableUnits: Object(external_wp_blockEditor_["useSetting"])('layout.units') || ['%', 'px', 'em', 'rem', 'vw']
+    availableUnits: Object(external_wp_blockEditor_["useSetting"])('spacing.units') || ['%', 'px', 'em', 'rem', 'vw']
   });
   const {
     columnsIds,
@@ -28135,7 +28135,8 @@ function LogoEdit({
     siteLogoId,
     canUserEdit,
     url,
-    mediaItemData
+    mediaItemData,
+    isRequestingMediaItem
   } = Object(external_wp_data_["useSelect"])(select => {
     const {
       canUser,
@@ -28157,6 +28158,10 @@ function LogoEdit({
       context: 'view'
     });
 
+    const _isRequestingMediaItem = _siteLogoId && !select(external_wp_coreData_["store"]).hasFinishedResolution('getEntityRecord', ['root', 'media', _siteLogoId, {
+      context: 'view'
+    }]);
+
     return {
       siteLogoId: _siteLogoId,
       canUserEdit: _canUserEdit,
@@ -28164,7 +28169,8 @@ function LogoEdit({
       mediaItemData: mediaItem && {
         url: mediaItem.source_url,
         alt: mediaItem.alt_text
-      }
+      },
+      isRequestingMediaItem: _isRequestingMediaItem
     };
   }, []);
   const {
@@ -28218,7 +28224,7 @@ function LogoEdit({
   const label = Object(external_wp_i18n_["__"])('Site Logo');
 
   let logoImage;
-  const isLoading = siteLogoId === undefined || siteLogoId && !logoUrl;
+  const isLoading = siteLogoId === undefined || isRequestingMediaItem;
 
   if (isLoading) {
     logoImage = Object(external_wp_element_["createElement"])(external_wp_components_["Spinner"], null);
@@ -28244,11 +28250,13 @@ function LogoEdit({
     ref,
     className: classes
   });
-  return Object(external_wp_element_["createElement"])("div", blockProps, controls, !!logoUrl && logoImage, !logoUrl && !canUserEdit && Object(external_wp_element_["createElement"])("div", {
-    className: "site-logo_placeholder"
-  }, Object(external_wp_element_["createElement"])(external_wp_components_["Icon"], {
-    icon: site_logo
-  }), Object(external_wp_element_["createElement"])("p", null, " ", Object(external_wp_i18n_["__"])('Site Logo'))), !logoUrl && canUserEdit && Object(external_wp_element_["createElement"])(external_wp_blockEditor_["MediaPlaceholder"], {
+  return Object(external_wp_element_["createElement"])("div", blockProps, controls, !!logoUrl && logoImage, !logoUrl && !canUserEdit && Object(external_wp_element_["createElement"])(external_wp_components_["Placeholder"], {
+    className: "site-logo_placeholder",
+    icon: site_logo,
+    label: label
+  }, isLoading && Object(external_wp_element_["createElement"])("span", {
+    className: "components-placeholder__preview"
+  }, Object(external_wp_element_["createElement"])(external_wp_components_["Spinner"], null))), !logoUrl && canUserEdit && Object(external_wp_element_["createElement"])(external_wp_blockEditor_["MediaPlaceholder"], {
     icon: Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockIcon"], {
       icon: site_logo
     }),
@@ -28762,10 +28770,12 @@ function QueryToolbar({
       min: 1,
       max: 100,
       onChange: value => {
-        var _value;
+        if (isNaN(value) || value < 1 || value > 100) {
+          return;
+        }
 
-        return setQuery({
-          perPage: (_value = +value) !== null && _value !== void 0 ? _value : -1
+        setQuery({
+          perPage: value
         });
       },
       step: "1",
@@ -28777,9 +28787,15 @@ function QueryToolbar({
       labelPosition: "edge",
       min: 0,
       max: 100,
-      onChange: value => setQuery({
-        offset: +value
-      }),
+      onChange: value => {
+        if (isNaN(value) || value < 0 || value > 100) {
+          return;
+        }
+
+        setQuery({
+          offset: value
+        });
+      },
       step: "1",
       value: query.offset,
       isDragEnabled: false
@@ -28792,9 +28808,15 @@ function QueryToolbar({
       label: Object(external_wp_i18n_["__"])('Max page to show'),
       labelPosition: "edge",
       min: 0,
-      onChange: value => setQuery({
-        pages: +value
-      }),
+      onChange: value => {
+        if (isNaN(value) || value < 0) {
+          return;
+        }
+
+        setQuery({
+          pages: value
+        });
+      },
       step: "1",
       value: query.pages,
       isDragEnabled: false
@@ -28846,9 +28868,8 @@ function QueryToolbar({
  * @return {QueryTermsInfo} The object with the terms information.
  */
 
-const getTermsInfo = terms => ({
-  terms,
-  ...(terms === null || terms === void 0 ? void 0 : terms.reduce((accumulator, term) => {
+const getTermsInfo = terms => {
+  const mapping = terms === null || terms === void 0 ? void 0 : terms.reduce((accumulator, term) => {
     const {
       mapById,
       mapByName,
@@ -28862,8 +28883,12 @@ const getTermsInfo = terms => ({
     mapById: {},
     mapByName: {},
     names: []
-  }))
-});
+  });
+  return {
+    terms,
+    ...mapping
+  };
+};
 /**
  * Returns a helper object that contains:
  * 1. An `options` object from the available post types, to be passed to a `SelectControl`.

@@ -32708,6 +32708,7 @@ function DuotonePicker({
   colorPalette,
   duotonePalette,
   disableCustomColors,
+  disableCustomDuotone,
   value,
   onChange
 }) {
@@ -32742,10 +32743,10 @@ function DuotonePicker({
     actions: Object(external_wp_element_["createElement"])(CircularOptionPicker.ButtonAction, {
       onClick: () => onChange(undefined)
     }, Object(external_wp_i18n_["__"])('Clear'))
-  }, !disableCustomColors && Object(external_wp_element_["createElement"])(CustomDuotoneBar, {
+  }, !disableCustomColors && !disableCustomDuotone && Object(external_wp_element_["createElement"])(CustomDuotoneBar, {
     value: value,
     onChange: onChange
-  }), colorPalette && Object(external_wp_element_["createElement"])(color_list_picker, {
+  }), !disableCustomDuotone && Object(external_wp_element_["createElement"])(color_list_picker, {
     labels: [Object(external_wp_i18n_["__"])('Shadows'), Object(external_wp_i18n_["__"])('Highlights')],
     colors: colorPalette,
     value: value,

@@ -181,6 +181,7 @@ class WP_Theme_JSON {
 	const ALLOWED_SETTINGS = array(
 		'color'      => array(
 			'custom'         => null,
+			'customDuotone'  => null,
 			'customGradient' => null,
 			'duotone'        => null,
 			'gradients'      => null,
@@ -188,7 +189,10 @@ class WP_Theme_JSON {
 			'palette'        => null,
 		),
 		'custom'     => null,
-		'layout'     => null,
+		'layout'     => array(
+			'contentSize' => null,
+			'wideSize'    => null,
+		),
 		'spacing'    => array(
 			'customMargin'  => null,
 			'customPadding' => null,
