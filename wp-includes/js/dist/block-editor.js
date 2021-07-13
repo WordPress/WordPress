@@ -20174,14 +20174,15 @@ var diff_character = __webpack_require__("iA5R");
  */
 
 
-const BlockView = ({
+
+function BlockView({
   title,
   rawContent,
   renderedContent,
   action,
   actionText,
   className
-}) => {
+}) {
   return Object(external_wp_element_["createElement"])("div", {
     className: className
   }, Object(external_wp_element_["createElement"])("div", {
@@ -20192,16 +20193,14 @@ const BlockView = ({
     className: "block-editor-block-compare__html"
   }, rawContent), Object(external_wp_element_["createElement"])("div", {
     className: "block-editor-block-compare__preview edit-post-visual-editor"
-  }, renderedContent)), Object(external_wp_element_["createElement"])("div", {
+  }, Object(external_wp_element_["createElement"])(external_wp_element_["RawHTML"], null, Object(external_wp_dom_["safeHTML"])(renderedContent)))), Object(external_wp_element_["createElement"])("div", {
     className: "block-editor-block-compare__action"
   }, Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
     isSecondary: true,
     tabIndex: "0",
     onClick: action
   }, actionText)));
-};
-
-/* harmony default export */ var block_view = (BlockView);
+}
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/block-compare/index.js
 
@@ -20252,35 +20251,27 @@ function BlockCompare({
     const newBlocks = Object(external_lodash_["castArray"])(convertedBlock); // Get converted block details
 
     const newContent = newBlocks.map(item => Object(external_wp_blocks_["getSaveContent"])(item.name, item.attributes, item.innerBlocks));
-    const renderedContent = newBlocks.map(item => Object(external_wp_blocks_["getSaveElement"])(item.name, item.attributes, item.innerBlocks));
-    return {
-      rawContent: newContent.join(''),
-      renderedContent
-    };
+    return newContent.join('');
   }
 
-  const original = {
-    rawContent: block.originalContent,
-    renderedContent: Object(external_wp_blocks_["getSaveElement"])(block.name, block.attributes)
-  };
   const converted = getConvertedContent(convertor(block));
-  const difference = getDifference(original.rawContent, converted.rawContent);
+  const difference = getDifference(block.originalContent, converted);
   return Object(external_wp_element_["createElement"])("div", {
     className: "block-editor-block-compare__wrapper"
-  }, Object(external_wp_element_["createElement"])(block_view, {
+  }, Object(external_wp_element_["createElement"])(BlockView, {
     title: Object(external_wp_i18n_["__"])('Current'),
     className: "block-editor-block-compare__current",
     action: onKeep,
     actionText: Object(external_wp_i18n_["__"])('Convert to HTML'),
-    rawContent: original.rawContent,
-    renderedContent: original.renderedContent
-  }), Object(external_wp_element_["createElement"])(block_view, {
+    rawContent: block.originalContent,
+    renderedContent: block.originalContent
+  }), Object(external_wp_element_["createElement"])(BlockView, {
     title: Object(external_wp_i18n_["__"])('After Conversion'),
     className: "block-editor-block-compare__converted",
     action: onConvert,
     actionText: convertButtonText,
     rawContent: difference,
-    renderedContent: converted.renderedContent
+    renderedContent: converted
   }));
 }
 
@@ -28568,6 +28559,7 @@ useBlockProps.save = external_wp_blocks_["__unstableGetBlockProps"];
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -28675,11 +28667,12 @@ function block_BlockListBlock({
   let block;
 
   if (!isValid) {
+    const saveContent = Object(external_wp_blocks_["getSaveContent"])(blockType, attributes);
     block = Object(external_wp_element_["createElement"])(Block, {
       className: "has-warning"
     }, Object(external_wp_element_["createElement"])(block_invalid_warning, {
       clientId: clientId
-    }), Object(external_wp_element_["createElement"])("div", null, Object(external_wp_blocks_["getSaveElement"])(blockType, attributes)));
+    }), Object(external_wp_element_["createElement"])(external_wp_element_["RawHTML"], null, Object(external_wp_dom_["safeHTML"])(saveContent)));
   } else if (mode === 'html') {
     // Render blockEdit so the inspector controls don't disappear.
     // See #8969.
