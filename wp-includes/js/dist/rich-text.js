@@ -1274,6 +1274,22 @@ function createFromElement({
       continue;
     }
 
+    if (type === 'script') {
+      const value = {
+        formats: [,],
+        replacements: [{
+          type,
+          attributes: {
+            'data-rich-text-script': node.getAttribute('data-rich-text-script') || encodeURIComponent(node.innerHTML)
+          }
+        }],
+        text: OBJECT_REPLACEMENT_CHARACTER
+      };
+      accumulateSelection(accumulator, node, range, value);
+      mergePair(accumulator, value);
+      continue;
+    }
+
     if (type === 'br') {
       accumulateSelection(accumulator, node, range, createEmptyValue());
       mergePair(accumulator, create({
@@ -1452,8 +1468,9 @@ function getAttributes({
       continue;
     }
 
+    const safeName = /^on/i.test(name) ? 'data-disable-rich-text-' + name : name;
     accumulator = accumulator || {};
-    accumulator[name] = value;
+    accumulator[safeName] = value;
   }
 
   return accumulator;
@@ -2437,6 +2454,26 @@ function get_format_type_getFormatType(name) {
 
 
 
+
+function restoreOnAttributes(attributes, isEditableTree) {
+  if (isEditableTree) {
+    return attributes;
+  }
+
+  const newAttributes = {};
+
+  for (const key in attributes) {
+    let newKey = key;
+
+    if (key.startsWith('data-disable-rich-text-')) {
+      newKey = key.slice('data-disable-rich-text-'.length);
+    }
+
+    newAttributes[newKey] = attributes[key];
+  }
+
+  return newAttributes;
+}
 /**
  * Converts a format object to information that can be used to create an element
  * from (type, attributes and object).
@@ -2450,16 +2487,20 @@ function get_format_type_getFormatType(name) {
  *                                             format.
  * @param  {boolean} $1.boundaryClass          Whether or not to apply a boundary
  *                                             class.
+ * @param  {boolean} $1.isEditableTree
+ *
  * @return {Object}                            Information to be used for
  *                                             element creation.
  */
+
 
 function fromFormat({
   type,
   attributes,
   unregisteredAttributes,
   object,
-  boundaryClass
+  boundaryClass,
+  isEditableTree
 }) {
   const formatType = get_format_type_getFormatType(type);
   let elementAttributes = {};
@@ -2477,7 +2518,7 @@ function fromFormat({
 
     return {
       type,
-      attributes: elementAttributes,
+      attributes: restoreOnAttributes(elementAttributes, isEditableTree),
       object
     };
   }
@@ -2507,7 +2548,7 @@ function fromFormat({
   return {
     type: formatType.tagName,
     object: formatType.object,
-    attributes: elementAttributes
+    attributes: restoreOnAttributes(elementAttributes, isEditableTree)
   };
 }
 /**
@@ -2642,7 +2683,8 @@ function toTree({
           type,
           attributes,
           unregisteredAttributes,
-          boundaryClass
+          boundaryClass,
+          isEditableTree
         }));
 
         if (isText(pointer) && getText(pointer).length === 0) {
@@ -2672,9 +2714,21 @@ function toTree({
     }
 
     if (character === OBJECT_REPLACEMENT_CHARACTER) {
-      pointer = append(getParent(pointer), fromFormat({ ...replacements[i],
-        object: true
-      })); // Ensure pointer is text node.
+      if (!isEditableTree && replacements[i].type === 'script') {
+        pointer = append(getParent(pointer), fromFormat({
+          type: 'script',
+          isEditableTree
+        }));
+        append(pointer, {
+          html: decodeURIComponent(replacements[i].attributes['data-rich-text-script'])
+        });
+      } else {
+        pointer = append(getParent(pointer), fromFormat({ ...replacements[i],
+          object: true,
+          isEditableTree
+        }));
+      } // Ensure pointer is text node.
+
 
       pointer = append(getParent(pointer), '');
     } else if (!preserveWhiteSpace && character === '\n') {
@@ -3189,6 +3243,10 @@ function createElementHTML({
 
 function createChildrenHTML(children = []) {
   return children.map(child => {
+    if (child.html !== undefined) {
+      return child.html;
+    }
+
     return child.text === undefined ? createElementHTML(child) : Object(external_wp_escapeHtml_["escapeEditableHTML"])(child.text);
   }).join('');
 }

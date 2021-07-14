@@ -87,6 +87,13 @@ this["wp"] = this["wp"] || {}; this["wp"]["blockLibrary"] =
 /************************************************************************/
 /******/ ({
 
+/***/ "1CF3":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["dom"]; }());
+
+/***/ }),
+
 /***/ "1K8p":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9633,6 +9640,7 @@ const buttons_deprecated_deprecated = [{
  * WordPress dependencies
  */
 
+
 /**
  * Internal dependencies
  */
@@ -9679,12 +9687,11 @@ const buttons_transforms_transforms = {
     transform: buttons => // Creates the buttons block
     Object(external_wp_blocks_["createBlock"])(buttons_transforms_name, {}, // Loop the selected buttons
     buttons.map(attributes => {
-      // Remove any HTML tags
-      const div = document.createElement('div');
-      div.innerHTML = attributes.content;
-      const text = div.innerText || ''; // Get first url
+      const element = Object(external_wp_richText_["__unstableCreateElement"])(document, attributes.content); // Remove any HTML tags
 
-      const link = div.querySelector('a');
+      const text = element.innerText || ''; // Get first url
+
+      const link = element.querySelector('a');
       const url = link === null || link === void 0 ? void 0 : link.getAttribute('href'); // Create singular button in the buttons block
 
       return Object(external_wp_blocks_["createBlock"])('core/button', {
@@ -9694,10 +9701,9 @@ const buttons_transforms_transforms = {
     })),
     isMatch: paragraphs => {
       return paragraphs.every(attributes => {
-        const div = document.createElement('div');
-        div.innerHTML = attributes.content;
-        const text = div.innerText || '';
-        const links = div.querySelectorAll('a');
+        const element = Object(external_wp_richText_["__unstableCreateElement"])(document, attributes.content);
+        const text = element.innerText || '';
+        const links = element.querySelectorAll('a');
         return text.length <= 30 && links.length <= 1;
       });
     }
@@ -19316,12 +19322,16 @@ const list_settings = {
   save: list_save_save
 };
 
+// EXTERNAL MODULE: external ["wp","dom"]
+var external_wp_dom_ = __webpack_require__("1CF3");
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/missing/edit.js
 
 
 /**
  * WordPress dependencies
  */
+
 
 
 
@@ -19361,7 +19371,7 @@ function MissingBlockWarning({
     className: 'has-warning'
   }), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["Warning"], {
     actions: actions
-  }, messageHTML), Object(external_wp_element_["createElement"])(external_wp_element_["RawHTML"], null, originalUndelimitedContent));
+  }, messageHTML), Object(external_wp_element_["createElement"])(external_wp_element_["RawHTML"], null, Object(external_wp_dom_["safeHTML"])(originalUndelimitedContent)));
 }
 
 const MissingEdit = Object(external_wp_data_["withDispatch"])((dispatch, {
