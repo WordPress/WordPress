@@ -28,7 +28,7 @@ if ( function_exists( 'register_block_pattern' ) ) {
 			'title'      => __( 'Large heading with short description', 'twentysixteen' ),
 			'categories' => array( 'twentysixteen' ),
 			'content'    => '<!-- wp:group {"align":"full","backgroundColor":"background"} -->
-            <div class="wp-block-group alignfull has-background-background-color has-background"><!-- wp:spacer {"height":60} -->
+            <div class="wp-block-group alignfull has-background-background-color has-background"><div class="wp-block-group__inner-container"><!-- wp:spacer {"height":60} -->
             <div style="height:60px" aria-hidden="true" class="wp-block-spacer"></div>
             <!-- /wp:spacer -->
             <!-- wp:heading {"level":6,"style":{"typography":{"lineHeight":"1.5","fontSize":35}}} -->
@@ -39,7 +39,7 @@ if ( function_exists( 'register_block_pattern' ) ) {
             <!-- /wp:paragraph -->
             <!-- wp:spacer {"height":60} -->
             <div style="height:60px" aria-hidden="true" class="wp-block-spacer"></div>
-            <!-- /wp:spacer --></div>
+            <!-- /wp:spacer --></div></div>
             <!-- /wp:group -->',
 		)
 	);
@@ -136,7 +136,7 @@ if ( function_exists( 'register_block_pattern' ) ) {
             <!-- wp:columns -->
             <div class="wp-block-columns"><!-- wp:column -->
             <div class="wp-block-column"><!-- wp:buttons -->
-            <div class="wp-block-buttons"><!-- wp:button {"style":{"border":{"radius":0}},"backgroundColor":"bright-blue"} -->
+            <div class="wp-block-buttons"><!-- wp:button {"borderRadius":0,"backgroundColor":"bright-blue"} -->
             <div class="wp-block-button"><a class="wp-block-button__link has-bright-blue-background-color has-background no-border-radius">' . esc_html__( 'Pre-Order Now', 'twentysixteen' ) . '</a></div>
             <!-- /wp:button --></div>
             <!-- /wp:buttons --></div>

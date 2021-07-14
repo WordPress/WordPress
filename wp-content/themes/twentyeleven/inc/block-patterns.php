@@ -97,7 +97,7 @@ if ( function_exists( 'register_block_pattern' ) ) {
 				<p class="has-text-align-center" style="font-size:25px">' . esc_html__( 'Join 1,729 other followers', 'twentyeleven' ) . '</p>
 				<!-- /wp:paragraph -->
 				<!-- wp:buttons {"contentJustification":"center"} -->
-				<div class="wp-block-buttons is-content-justification-center"><!-- wp:button {"style":{"border":{"radius":0}},"backgroundColor":"white","textColor":"black"} -->
+				<div class="wp-block-buttons is-content-justification-center"><!-- wp:button {"borderRadius":0,"backgroundColor":"white","textColor":"black"} -->
 				<div class="wp-block-button"><a class="wp-block-button__link has-black-color has-white-background-color has-text-color has-background no-border-radius">' . esc_html__( 'Follow', 'twentyeleven' ) . '</a></div>
 				<!-- /wp:button --></div>
 				<!-- /wp:buttons --></div></div>

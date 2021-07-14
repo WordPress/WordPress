@@ -32,7 +32,7 @@ if ( function_exists( 'register_block_pattern' ) ) {
             <!-- /wp:heading -->
 
             <!-- wp:buttons -->
-            <div class="wp-block-buttons"><!-- wp:button {"style":{"border":{"radius":0}},"className":"is-style-fill"} -->
+            <div class="wp-block-buttons"><!-- wp:button {"borderRadius":0,"className":"is-style-fill"} -->
             <div class="wp-block-button is-style-fill"><a class="wp-block-button__link no-border-radius">' . __( 'Our Services', 'twentyseventeen' ) . '</a></div>
             <!-- /wp:button --></div>
             <!-- /wp:buttons -->',
@@ -95,7 +95,7 @@ if ( function_exists( 'register_block_pattern' ) ) {
             <!-- wp:columns {"verticalAlignment":"top"} -->
             <div class="wp-block-columns are-vertically-aligned-top"><!-- wp:column -->
             <div class="wp-block-column"><!-- wp:group -->
-            <div class="wp-block-group">
+            <div class="wp-block-group"><div class="wp-block-group__inner-container">
 			<!-- wp:image {"align":"center","sizeSlug":"large","className":"is-style-default"} -->
 			<div class="wp-block-image is-style-default"><figure class="aligncenter size-large"><img src="' . esc_url( get_template_directory_uri() ) . '/assets/images/stripes.jpg" alt="' . __( 'Black Stripes', 'twentyseventeen' ) . '"/></figure></div>
 			<!-- /wp:image -->
@@ -104,12 +104,12 @@ if ( function_exists( 'register_block_pattern' ) ) {
             <!-- /wp:heading -->
             <!-- wp:paragraph {"align":"left"} -->
             <p class="has-text-align-left"><a href="#">' . __( 'See Case Study', 'twentyseventeen' ) . ' →</a></p>
-            <!-- /wp:paragraph --></div>
+            <!-- /wp:paragraph --></div></div>
             <!-- /wp:group --></div>
             <!-- /wp:column -->
             <!-- wp:column -->
             <div class="wp-block-column"><!-- wp:group -->
-            <div class="wp-block-group">
+            <div class="wp-block-group"><div class="wp-block-group__inner-container">
 			<!-- wp:image {"align":"center","sizeSlug":"large","className":"is-style-default"} -->
 			<div class="wp-block-image is-style-default"><figure class="aligncenter size-large"><img src="' . esc_url( get_template_directory_uri() ) . '/assets/images/white-border.jpg" alt="' . __( 'White border', 'twentyseventeen' ) . '"/></figure></div>
 			<!-- /wp:image -->
@@ -118,12 +118,12 @@ if ( function_exists( 'register_block_pattern' ) ) {
             <!-- /wp:heading -->
             <!-- wp:paragraph {"align":"left"} -->
             <p class="has-text-align-left"><a href="#">' . __( 'See Case Study', 'twentyseventeen' ) . ' →</a></p>
-            <!-- /wp:paragraph --></div>
+            <!-- /wp:paragraph --></div></div>
             <!-- /wp:group --></div>
             <!-- /wp:column -->
             <!-- wp:column -->
             <div class="wp-block-column"><!-- wp:group -->
-            <div class="wp-block-group">
+            <div class="wp-block-group"><div class="wp-block-group__inner-container">
 			<!-- wp:image {"align":"center","sizeSlug":"large","className":"is-style-default"} -->
 			<div class="wp-block-image is-style-default"><figure class="aligncenter size-large"><img src="' . esc_url( get_template_directory_uri() ) . '/assets/images/direct-light.jpg" alt="' . __( 'Direct Light', 'twentyseventeen' ) . '"/></figure></div>
 			<!-- /wp:image -->
@@ -132,7 +132,7 @@ if ( function_exists( 'register_block_pattern' ) ) {
             <!-- /wp:heading -->
             <!-- wp:paragraph {"align":"left"} -->
             <p class="has-text-align-left"><a href="#">' . __( 'See Case Study' ) . ' →</a></p>
-            <!-- /wp:paragraph --></div>
+            <!-- /wp:paragraph --></div></div>
             <!-- /wp:group --></div>
             <!-- /wp:column --></div>
             <!-- /wp:columns -->
@@ -150,28 +150,28 @@ if ( function_exists( 'register_block_pattern' ) ) {
 			'content'    => '<!-- wp:spacer -->
             <div style="height:100px" aria-hidden="true" class="wp-block-spacer"></div>
             <!-- /wp:spacer -->
-
+            
             <!-- wp:heading {"level":1,"style":{"typography":{"fontSize":50}}} -->
             <h1 style="font-size:50px">' . __( 'Our Services', 'twentyseventeen' ) . '</h1>
             <!-- /wp:heading -->
-
+            
             <!-- wp:columns -->
             <div class="wp-block-columns"><!-- wp:column -->
             <div class="wp-block-column">
-            <!-- wp:paragraph {"style":{"typography":{"fontSize":"21px", "lineHeight":"2.5"}}} -->
-            <p style="font-size:21px;line-height:2.5"><a href="#">' . __( 'Branding', 'twentyseventeen' ) . ' →</a><br><a href="#">' . __( 'Web Design', 'twentyseventeen' ) . ' →</a><br><a href="#">' . __( 'Web Development', 'twentyseventeen' ) . ' →</a></p>
+            <!-- wp:paragraph {"style":{"typography":{"fontSize":21, "lineHeight":"2.5"}}} -->
+            <p style="font-size:21px"><a href="#">' . __( 'Branding', 'twentyseventeen' ) . ' →</a><br><a href="#">' . __( 'Web Design', 'twentyseventeen' ) . ' →</a><br><a href="#">' . __( 'Web Development', 'twentyseventeen' ) . ' →</a></p>
             <!-- /wp:paragraph -->
             </div>
             <!-- /wp:column -->
-
+            
             <!-- wp:column -->
             <div class="wp-block-column">
-            <!-- wp:paragraph {"style":{"typography":{"fontSize":"21px", "lineHeight":"2.5"}}} -->
-            <p style="font-size:21px;line-height:2.5"><a href="#">' . __( 'Content Strategy', 'twentyseventeen' ) . ' →</a><br><a href="#">' . __( 'Marketing &amp; SEO', 'twentyseventeen' ) . ' →</a><br><a href="#">' . __( 'Video Production', 'twentyseventeen' ) . ' →</a></p>
+            <!-- wp:paragraph {"style":{"typography":{"fontSize":21, "lineHeight":"2.5"}}} -->
+            <p style="font-size:21px"><a href="#">' . __( 'Content Strategy', 'twentyseventeen' ) . ' →</a><br><a href="#">' . __( 'Marketing &amp; SEO', 'twentyseventeen' ) . ' →</a><br><a href="#">' . __( 'Video Production', 'twentyseventeen' ) . ' →</a></p>
             <!-- /wp:paragraph --></div>
             <!-- /wp:column --></div>
             <!-- /wp:columns -->
-
+            
             <!-- wp:spacer -->
             <div style="height:100px" aria-hidden="true" class="wp-block-spacer"></div>
             <!-- /wp:spacer -->',
@@ -187,9 +187,9 @@ if ( function_exists( 'register_block_pattern' ) ) {
             <div class="wp-block-cover aligncenter has-background-dim" style="background-color:#93aab8;min-height:700px"><div class="wp-block-cover__inner-container"><!-- wp:paragraph {"align":"left","textColor":"white","style":{"typography":{"fontSize":50}}} -->
             <p class="has-text-align-left has-white-color has-text-color" style="font-size:50px">' . __( 'We are proud to serve outstanding clients.', 'twentyseventeen' ) . '</p>
             <!-- /wp:paragraph -->
-
+            
             <!-- wp:buttons -->
-            <div class="wp-block-buttons"><!-- wp:button {"style":{"border":{"radius":0}},"backgroundColor":"black","textColor":"white","className":"is-style-fill"} -->
+            <div class="wp-block-buttons"><!-- wp:button {"borderRadius":0,"backgroundColor":"black","textColor":"white","className":"is-style-fill"} -->
             <div class="wp-block-button is-style-fill"><a class="wp-block-button__link has-white-color has-black-background-color has-text-color has-background no-border-radius">' . __( 'Contact us', 'twentyseventeen' ) . '</a></div>
             <!-- /wp:button --></div>
             <!-- /wp:buttons --></div></div>
