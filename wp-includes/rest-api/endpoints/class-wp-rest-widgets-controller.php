@@ -236,6 +236,18 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 	public function update_item( $request ) {
 		global $wp_widget_factory;
 
+		/*
+		 * retrieve_widgets() contains logic to move "hidden" or "lost" widgets to the
+		 * wp_inactive_widgets sidebar based on the contents of the $sidebars_widgets global.
+		 *
+		 * When batch requests are processed, this global is not properly updated by previous
+		 * calls, resulting in widgets incorrectly being moved to the wp_inactive_widgets
+		 * sidebar.
+		 *
+		 * See https://core.trac.wordpress.org/ticket/53657.
+		 */
+		wp_get_sidebars_widgets();
+
 		retrieve_widgets();
 
 		$widget_id  = $request['id'];
@@ -299,6 +311,18 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 	 */
 	public function delete_item( $request ) {
 		global $wp_widget_factory, $wp_registered_widget_updates;
+
+		/*
+		 * retrieve_widgets() contains logic to move "hidden" or "lost" widgets to the
+		 * wp_inactive_widgets sidebar based on the contents of the $sidebars_widgets global.
+		 *
+		 * When batch requests are processed, this global is not properly updated by previous
+		 * calls, resulting in widgets incorrectly being moved to the wp_inactive_widgets
+		 * sidebar.
+		 *
+		 * See https://core.trac.wordpress.org/ticket/53657.
+		 */
+		wp_get_sidebars_widgets();
 
 		retrieve_widgets();
 
