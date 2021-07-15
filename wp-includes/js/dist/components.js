@@ -20798,6 +20798,7 @@ function useAutocomplete({
 
   Object(external_wp_element_["useEffect"])(() => {
     if (!textContent) {
+      reset();
       return;
     }
 
@@ -25270,7 +25271,7 @@ class suggestions_list_SuggestionsList extends external_wp_element_["Component"]
   componentDidUpdate() {
     // only have to worry about scrolling selected suggestion into view
     // when already expanded
-    if (this.props.selectedIndex > -1 && this.props.scrollIntoView) {
+    if (this.props.selectedIndex > -1 && this.props.scrollIntoView && this.list.children[this.props.selectedIndex]) {
       this.scrollingIntoView = true;
       lib_default()(this.list.children[this.props.selectedIndex], this.list, {
         onlyScrollIfNeeded: true

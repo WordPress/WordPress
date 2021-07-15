@@ -7143,7 +7143,7 @@ __webpack_require__.d(__webpack_exports__, "SkipToSelectedBlock", function() { r
 __webpack_require__.d(__webpack_exports__, "Typewriter", function() { return /* reexport */ typewriter; });
 __webpack_require__.d(__webpack_exports__, "__unstableUseTypewriter", function() { return /* reexport */ useTypewriter; });
 __webpack_require__.d(__webpack_exports__, "Warning", function() { return /* reexport */ warning; });
-__webpack_require__.d(__webpack_exports__, "WritingFlow", function() { return /* reexport */ WritingFlow; });
+__webpack_require__.d(__webpack_exports__, "WritingFlow", function() { return /* reexport */ writing_flow; });
 __webpack_require__.d(__webpack_exports__, "__unstableUseCanvasClickRedirect", function() { return /* reexport */ useCanvasClickRedirect; });
 __webpack_require__.d(__webpack_exports__, "useBlockDisplayInformation", function() { return /* reexport */ useBlockDisplayInformation; });
 __webpack_require__.d(__webpack_exports__, "__unstableIframe", function() { return /* reexport */ iframe; });
@@ -13526,7 +13526,7 @@ const deprecatedFlags = {
     }
 
     if (settings.enableCustomUnits === true) {
-      return ['px', 'em', 'rem', 'vh', 'vw'];
+      return ['px', 'em', 'rem', 'vh', 'vw', '%'];
     }
 
     return settings.enableCustomUnits;
@@ -30622,7 +30622,8 @@ function useInputRules(props) {
 
     function onInput(event) {
       const {
-        inputType
+        inputType,
+        type
       } = event;
       const {
         value,
@@ -30631,7 +30632,7 @@ function useInputRules(props) {
         formatTypes
       } = propsRef.current; // Only run input rules when inserting text.
 
-      if (inputType !== 'insertText') {
+      if (inputType !== 'insertText' && type !== 'compositionend') {
         return;
       }
 
@@ -30661,8 +30662,10 @@ function useInputRules(props) {
     }
 
     element.addEventListener('input', onInput);
+    element.addEventListener('compositionend', onInput);
     return () => {
       element.removeEventListener('input', onInput);
+      element.removeEventListener('compositionend', onInput);
     };
   }, []);
 }
@@ -38740,6 +38743,7 @@ function useTabNav() {
     function onKeyDown(event) {
       if (event.keyCode === external_wp_keycodes_["ESCAPE"] && !hasMultiSelection()) {
         event.stopPropagation();
+        event.preventDefault();
         setNavigationMode(true);
         return;
       } // In Edit mode, Tab should focus the first tabbable element after
@@ -38758,6 +38762,13 @@ function useTabNav() {
       const direction = isShift ? 'findPrevious' : 'findNext';
 
       if (!hasMultiSelection() && !getSelectedBlockClientId()) {
+        // Preserve the behaviour of entering navigation mode when
+        // tabbing into the content without a block selection.
+        // `onFocusCapture` already did this previously, but we need to
+        // do it again here because after clearing block selection,
+        // focus land on the writing flow container and pressing Tab
+        // will no longer send focus through the focus capture element.
+        if (event.target === node) setNavigationMode(true);
         return;
       } // Allow tabbing between form elements rendered in a block,
       // such as inside a placeholder. Form elements are generally
@@ -39130,7 +39141,6 @@ function useArrowNav() {
 
 
 function useSelectAll() {
-  const ref = Object(external_wp_element_["useRef"])();
   const {
     getBlockOrder,
     getSelectedBlockClientIds,
@@ -39139,48 +39149,59 @@ function useSelectAll() {
   const {
     multiSelect
   } = Object(external_wp_data_["useDispatch"])(store);
-  const callback = Object(external_wp_element_["useCallback"])(event => {
-    const selectedClientIds = getSelectedBlockClientIds();
+  const isMatch = Object(external_wp_keyboardShortcuts_["__unstableUseShortcutEventMatch"])();
+  return Object(external_wp_compose_["useRefEffect"])(node => {
+    function onKeyDown(event) {
+      if (!isMatch('core/block-editor/select-all', event)) {
+        return;
+      }
 
-    if (!selectedClientIds.length) {
-      return;
+      const selectedClientIds = getSelectedBlockClientIds();
+
+      if (selectedClientIds.length === 1 && !Object(external_wp_dom_["isEntirelySelected"])(event.target)) {
+        return;
+      }
+
+      const [firstSelectedClientId] = selectedClientIds;
+      const rootClientId = getBlockRootClientId(firstSelectedClientId);
+      let blockClientIds = getBlockOrder(rootClientId); // If we have selected all sibling nested blocks, try selecting up a
+      // level. See: https://github.com/WordPress/gutenberg/pull/31859/
+
+      if (selectedClientIds.length === blockClientIds.length) {
+        blockClientIds = getBlockOrder(getBlockRootClientId(rootClientId));
+      }
+
+      const firstClientId = Object(external_lodash_["first"])(blockClientIds);
+      const lastClientId = Object(external_lodash_["last"])(blockClientIds);
+
+      if (firstClientId === lastClientId) {
+        return;
+      }
+
+      multiSelect(firstClientId, lastClientId);
+      event.preventDefault();
     }
 
-    if (selectedClientIds.length === 1 && !Object(external_wp_dom_["isEntirelySelected"])(event.target)) {
-      return;
-    }
-
-    const [firstSelectedClientId] = selectedClientIds;
-    const rootClientId = getBlockRootClientId(firstSelectedClientId);
-    let blockClientIds = getBlockOrder(rootClientId); // If we have selected all sibling nested blocks, try selecting up a
-    // level. See: https://github.com/WordPress/gutenberg/pull/31859/
-
-    if (selectedClientIds.length === blockClientIds.length) {
-      blockClientIds = getBlockOrder(getBlockRootClientId(rootClientId));
-    }
-
-    const firstClientId = Object(external_lodash_["first"])(blockClientIds);
-    const lastClientId = Object(external_lodash_["last"])(blockClientIds);
-
-    if (firstClientId === lastClientId) {
-      return;
-    }
-
-    multiSelect(firstClientId, lastClientId);
-    event.preventDefault();
-  }, []);
-  Object(external_wp_keyboardShortcuts_["useShortcut"])('core/block-editor/select-all', callback, {
-    target: ref
+    node.addEventListener('keydown', onKeyDown);
+    return () => {
+      node.removeEventListener('keydown', onKeyDown);
+    };
   });
-  return ref;
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/writing-flow/index.js
 
 
+
+/**
+ * External dependencies
+ */
+
 /**
  * WordPress dependencies
  */
+
+
 
 
 
@@ -39193,6 +39214,20 @@ function useSelectAll() {
 
 
 
+
+function WritingFlow({
+  children,
+  ...props
+}, forwardedRef) {
+  const [before, ref, after] = useTabNav();
+  const hasMultiSelection = Object(external_wp_data_["useSelect"])(select => select(store).hasMultiSelection(), []);
+  return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, before, Object(external_wp_element_["createElement"])("div", Object(esm_extends["a" /* default */])({}, props, {
+    ref: Object(external_wp_compose_["useMergeRefs"])([forwardedRef, ref, use_multi_selection_useMultiSelection(), useSelectAll(), useArrowNav()]),
+    className: classnames_default()(props.className, 'block-editor-writing-flow'),
+    tabIndex: -1,
+    "aria-label": hasMultiSelection ? Object(external_wp_i18n_["__"])('Multiple selected blocks') : undefined
+  }), children), after);
+}
 /**
  * Handles selection and navigation across blocks. This component should be
  * wrapped around BlockList.
@@ -39201,18 +39236,8 @@ function useSelectAll() {
  * @param {WPElement} props.children Children to be rendered.
  */
 
-function WritingFlow({
-  children
-}) {
-  const [before, ref, after] = useTabNav();
-  const hasMultiSelection = Object(external_wp_data_["useSelect"])(select => select(store).hasMultiSelection(), []);
-  return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, before, Object(external_wp_element_["createElement"])("div", {
-    ref: Object(external_wp_compose_["useMergeRefs"])([ref, use_multi_selection_useMultiSelection(), useSelectAll(), useArrowNav()]),
-    className: "block-editor-writing-flow",
-    tabIndex: hasMultiSelection ? '0' : undefined,
-    "aria-label": hasMultiSelection ? Object(external_wp_i18n_["__"])('Multiple selected blocks') : undefined
-  }, children), after);
-}
+
+/* harmony default export */ var writing_flow = (Object(external_wp_element_["forwardRef"])(WritingFlow));
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/use-canvas-click-redirect/index.js
 /**
@@ -39316,6 +39341,19 @@ function styleSheetsCompat(doc) {
 
     if (!cssRules) {
       return;
+    } // Generally, ignore inline styles. We add inline styles belonging to a
+    // stylesheet later, which may or may not match the selectors.
+
+
+    if (ownerNode.tagName !== 'LINK') {
+      return;
+    } // Don't try to add the reset styles, which were removed as a dependency
+    // from `edit-blocks` for the iframe since we don't need to reset admin
+    // styles.
+
+
+    if (ownerNode.id === 'wp-reset-editor-styles-css') {
+      return;
     }
 
     const isMatch = Array.from(cssRules).find(({
@@ -39326,8 +39364,15 @@ function styleSheetsCompat(doc) {
       // eslint-disable-next-line no-console
       console.error(`Stylesheet ${ownerNode.id} was not properly added.
 For blocks, use the block API's style (https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/#style) or editorStyle (https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/#editor-style).
-For themes, use add_editor_style (https://developer.wordpress.org/block-editor/how-to-guides/themes/theme-support/#editor-styles).`, ownerNode);
-      doc.head.appendChild(ownerNode.cloneNode(true));
+For themes, use add_editor_style (https://developer.wordpress.org/block-editor/how-to-guides/themes/theme-support/#editor-styles).`, ownerNode.outerHTML);
+      doc.head.appendChild(ownerNode.cloneNode(true)); // Add inline styles belonging to the stylesheet.
+
+      const inlineCssId = ownerNode.id.replace('-css', '-inline-css');
+      const inlineCssElement = document.getElementById(inlineCssId);
+
+      if (inlineCssElement) {
+        doc.head.appendChild(inlineCssElement.cloneNode(true));
+      }
     }
   });
 }
@@ -39508,15 +39553,24 @@ function Iframe({
     href,
     id,
     rel,
-    media
-  }, index) => {
+    media,
+    textContent
+  }) => {
     const TagName = tagName.toLowerCase();
+
+    if (TagName === 'style') {
+      return Object(external_wp_element_["createElement"])(TagName, {
+        id,
+        key: id
+      }, textContent);
+    }
+
     return Object(external_wp_element_["createElement"])(TagName, {
       href,
       id,
       rel,
       media,
-      key: index
+      key: id
     });
   }), head);
   return Object(external_wp_element_["createElement"])("iframe", Object(esm_extends["a" /* default */])({}, props, {

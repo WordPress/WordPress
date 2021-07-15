@@ -2826,6 +2826,10 @@ var external_wp_compose_ = __webpack_require__("K9lf");
  * WordPress dependencies
  */
 
+/**
+ * WordPress dependencies
+ */
+
 
 
 
@@ -2851,6 +2855,7 @@ function InterfaceSkeleton({
   header,
   sidebar,
   secondarySidebar,
+  notices,
   content,
   drawer,
   actions,
@@ -2907,7 +2912,9 @@ function InterfaceSkeleton({
     role: "region",
     "aria-label": mergedLabels.secondarySidebar,
     tabIndex: "-1"
-  }, secondarySidebar), Object(external_wp_element_["createElement"])("div", {
+  }, secondarySidebar), !!notices && Object(external_wp_element_["createElement"])("div", {
+    className: "interface-interface-skeleton__notices"
+  }, notices), Object(external_wp_element_["createElement"])("div", {
     className: "interface-interface-skeleton__content",
     role: "region",
     "aria-label": mergedLabels.body,
@@ -13071,13 +13078,14 @@ function MaybeIframe({
   if (!isTemplateMode) {
     return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["__unstableEditorStyles"], {
       styles: styles
-    }), Object(external_wp_element_["createElement"])("div", {
+    }), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["WritingFlow"], {
       ref: contentRef,
       className: "editor-styles-wrapper",
       style: {
         flex: '1',
         ...style
-      }
+      },
+      tabIndex: -1
     }, children));
   }
 
@@ -13092,7 +13100,7 @@ function MaybeIframe({
       height: '100%',
       display: 'block'
     }
-  }, children);
+  }, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["WritingFlow"], null, children));
 }
 
 function VisualEditor({
@@ -13231,11 +13239,11 @@ function VisualEditor({
   }, themeSupportsLayout && !isTemplateMode && Object(external_wp_element_["createElement"])(external_wp_blockEditor_["__experimentalLayoutStyle"], {
     selector: ".edit-post-visual-editor__post-title-wrapper, .block-editor-block-list__layout.is-root-container",
     layout: defaultLayout
-  }), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["WritingFlow"], null, !isTemplateMode && Object(external_wp_element_["createElement"])("div", {
+  }), !isTemplateMode && Object(external_wp_element_["createElement"])("div", {
     className: "edit-post-visual-editor__post-title-wrapper"
   }, Object(external_wp_element_["createElement"])(external_wp_editor_["PostTitle"], null)), Object(external_wp_element_["createElement"])(RecursionProvider, null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockList"], {
     __experimentalLayout: layout
-  }))))))), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["__unstableBlockSettingsMenuFirstItem"], null, ({
+  })))))), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["__unstableBlockSettingsMenuFirstItem"], null, ({
     onClose
   }) => Object(external_wp_element_["createElement"])(block_inspector_button, {
     onClick: onClose
@@ -17756,6 +17764,7 @@ function Layout({
     }, hasBlockSelected ? Object(external_wp_i18n_["__"])('Open block settings') : Object(external_wp_i18n_["__"])('Open document settings'))), Object(external_wp_element_["createElement"])(build_module["b" /* ComplementaryArea */].Slot, {
       scope: "core/edit-post"
     })),
+    notices: Object(external_wp_element_["createElement"])(external_wp_editor_["EditorSnackbars"], null),
     content: Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(external_wp_editor_["EditorNotices"], null), (mode === 'text' || !isRichEditingEnabled) && Object(external_wp_element_["createElement"])(text_editor, null), isRichEditingEnabled && mode === 'visual' && Object(external_wp_element_["createElement"])(VisualEditor, {
       styles: styles
     }), !isTemplateMode && Object(external_wp_element_["createElement"])("div", {

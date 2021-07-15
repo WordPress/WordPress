@@ -785,6 +785,7 @@ __webpack_require__.d(__webpack_exports__, "EditorKeyboardShortcutsRegister", fu
 __webpack_require__.d(__webpack_exports__, "EditorHistoryRedo", function() { return /* reexport */ editor_history_redo; });
 __webpack_require__.d(__webpack_exports__, "EditorHistoryUndo", function() { return /* reexport */ editor_history_undo; });
 __webpack_require__.d(__webpack_exports__, "EditorNotices", function() { return /* reexport */ editor_notices; });
+__webpack_require__.d(__webpack_exports__, "EditorSnackbars", function() { return /* reexport */ EditorSnackbars; });
 __webpack_require__.d(__webpack_exports__, "EntitiesSavedStates", function() { return /* reexport */ EntitiesSavedStates; });
 __webpack_require__.d(__webpack_exports__, "ErrorBoundary", function() { return /* reexport */ error_boundary; });
 __webpack_require__.d(__webpack_exports__, "LocalAutosaveMonitor", function() { return /* reexport */ local_autosave_monitor; });
@@ -4967,9 +4968,6 @@ function EditorNotices({
     isDismissible: false,
     type: 'default'
   });
-  const snackbarNotices = Object(external_lodash_["filter"])(notices, {
-    type: 'snackbar'
-  });
   return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(external_wp_components_["NoticeList"], {
     notices: nonDismissibleNotices,
     className: "components-editor-notices__pinned"
@@ -4977,17 +4975,42 @@ function EditorNotices({
     notices: dismissibleNotices,
     className: "components-editor-notices__dismissible",
     onRemove: onRemove
-  }, Object(external_wp_element_["createElement"])(template_validation_notice, null)), Object(external_wp_element_["createElement"])(external_wp_components_["SnackbarList"], {
-    notices: snackbarNotices,
-    className: "components-editor-notices__snackbar",
-    onRemove: onRemove
-  }));
+  }, Object(external_wp_element_["createElement"])(template_validation_notice, null)));
 }
 /* harmony default export */ var editor_notices = (Object(external_wp_compose_["compose"])([Object(external_wp_data_["withSelect"])(select => ({
   notices: select(external_wp_notices_["store"]).getNotices()
 })), Object(external_wp_data_["withDispatch"])(dispatch => ({
   onRemove: dispatch(external_wp_notices_["store"]).removeNotice
 }))])(EditorNotices));
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/components/editor-snackbars/index.js
+
+
+/**
+ * External dependencies
+ */
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+function EditorSnackbars() {
+  const notices = Object(external_wp_data_["useSelect"])(select => select(external_wp_notices_["store"]).getNotices(), []);
+  const {
+    removeNotice
+  } = Object(external_wp_data_["useDispatch"])(external_wp_notices_["store"]);
+  const snackbarNotices = Object(external_lodash_["filter"])(notices, {
+    type: 'snackbar'
+  });
+  return Object(external_wp_element_["createElement"])(external_wp_components_["SnackbarList"], {
+    notices: snackbarNotices,
+    className: "components-editor-notices__snackbar",
+    onRemove: removeNotice
+  });
+}
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/close.js
 var library_close = __webpack_require__("w95h");
@@ -11031,6 +11054,7 @@ const withFontSizes = deprecateFunction('withFontSizes', external_wp_blockEditor
 // CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/components/index.js
 // Block Creation Components
  // Post Related Components
+
 
 
 

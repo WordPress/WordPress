@@ -1508,7 +1508,9 @@ const useIsDraggingWithin = elementRef => {
  */
 
 
-function WidgetAreaInnerBlocks() {
+function WidgetAreaInnerBlocks({
+  id
+}) {
   const [blocks, onInput, onChange] = Object(external_wp_coreData_["useEntityBlockEditor"])('root', 'postType');
   const innerBlocksRef = Object(external_wp_element_["useRef"])();
   const isDraggingWithinInnerBlocks = use_is_dragging_within(innerBlocksRef);
@@ -1525,6 +1527,7 @@ function WidgetAreaInnerBlocks() {
   });
 
   return Object(external_wp_element_["createElement"])("div", {
+    "data-widget-area-id": id,
     className: classnames_default()('wp-block-widget-area__inner-blocks block-editor-inner-blocks editor-styles-wrapper', {
       'wp-block-widget-area__highlight-drop-zone': shouldHighlightDropZone
     })
@@ -1603,7 +1606,9 @@ function WidgetAreaEdit({
     kind: "root",
     type: "postType",
     id: `widget-area-${id}`
-  }, Object(external_wp_element_["createElement"])(WidgetAreaInnerBlocks, null)))));
+  }, Object(external_wp_element_["createElement"])(WidgetAreaInnerBlocks, {
+    id: id
+  })))));
 }
 /**
  * A React hook to determine if dragging is active.
@@ -4440,6 +4445,10 @@ var external_wp_compose_ = __webpack_require__("K9lf");
  * WordPress dependencies
  */
 
+/**
+ * WordPress dependencies
+ */
+
 
 
 
@@ -4465,6 +4474,7 @@ function InterfaceSkeleton({
   header,
   sidebar,
   secondarySidebar,
+  notices,
   content,
   drawer,
   actions,
@@ -4521,7 +4531,9 @@ function InterfaceSkeleton({
     role: "region",
     "aria-label": mergedLabels.secondarySidebar,
     tabIndex: "-1"
-  }, secondarySidebar), Object(external_wp_element_["createElement"])("div", {
+  }, secondarySidebar), !!notices && Object(external_wp_element_["createElement"])("div", {
+    className: "interface-interface-skeleton__notices"
+  }, notices), Object(external_wp_element_["createElement"])("div", {
     className: "interface-interface-skeleton__content",
     role: "region",
     "aria-label": mergedLabels.body,

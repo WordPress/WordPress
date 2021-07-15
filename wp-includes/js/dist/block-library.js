@@ -31190,27 +31190,9 @@ const post_excerpt_postExcerpt = Object(external_wp_element_["createElement"])(e
  */
 
 
-
-function usePostContentExcerpt(wordCount, postId, postType) {
-  // Don't destrcuture items from content here, it can be undefined.
-  const [,, content] = Object(external_wp_coreData_["useEntityProp"])('postType', postType, 'content', postId);
-  const renderedPostContent = content === null || content === void 0 ? void 0 : content.rendered;
-  return Object(external_wp_element_["useMemo"])(() => {
-    if (!renderedPostContent) {
-      return '';
-    }
-
-    const excerptElement = document.createElement('div');
-    excerptElement.innerHTML = renderedPostContent;
-    const excerpt = excerptElement.textContent || excerptElement.innerText || '';
-    return excerpt.trim().split(' ', wordCount).join(' ');
-  }, [renderedPostContent, wordCount]);
-}
-
 function PostExcerptEditor({
   attributes: {
     textAlign,
-    wordCount,
     moreText,
     showMoreOnNewLine
   },
@@ -31229,12 +31211,22 @@ function PostExcerptEditor({
     rendered: renderedExcerpt,
     protected: isProtected
   } = {}] = Object(external_wp_coreData_["useEntityProp"])('postType', postType, 'excerpt', postId);
-  const postContentExcerpt = usePostContentExcerpt(wordCount, postId, postType);
   const blockProps = Object(external_wp_blockEditor_["useBlockProps"])({
     className: classnames_default()({
       [`has-text-align-${textAlign}`]: textAlign
     })
   });
+  /**
+   * When excerpt is editable, strip the html tags from
+   * rendered excerpt. This will be used if the entity's
+   * excerpt has been produced from the content.
+   */
+
+  const strippedRenderedExcerpt = Object(external_wp_element_["useMemo"])(() => {
+    if (!renderedExcerpt) return '';
+    const document = new window.DOMParser().parseFromString(renderedExcerpt, 'text/html');
+    return document.body.textContent || document.body.innerText || '';
+  }, [renderedExcerpt]);
 
   if (!postType || !postId) {
     return Object(external_wp_element_["createElement"])("div", blockProps, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["Warning"], null, Object(external_wp_i18n_["__"])('Post excerpt block: no post found.')));
@@ -31257,11 +31249,11 @@ function PostExcerptEditor({
   const excerptContent = isEditable ? Object(external_wp_element_["createElement"])(external_wp_blockEditor_["RichText"], {
     className: !showMoreOnNewLine && 'wp-block-post-excerpt__excerpt is-inline',
     "aria-label": Object(external_wp_i18n_["__"])('Post excerpt text'),
-    value: rawExcerpt || postContentExcerpt || (isSelected ? '' : Object(external_wp_i18n_["__"])('No post excerpt found')),
+    value: rawExcerpt || strippedRenderedExcerpt || (isSelected ? '' : Object(external_wp_i18n_["__"])('No post excerpt found')),
     onChange: setExcerpt
-  }) : renderedExcerpt && Object(external_wp_element_["createElement"])(external_wp_element_["RawHTML"], {
+  }) : renderedExcerpt && Object(external_wp_element_["createElement"])(external_wp_components_["Disabled"], null, Object(external_wp_element_["createElement"])(external_wp_element_["RawHTML"], {
     key: "html"
-  }, renderedExcerpt) || postContentExcerpt || Object(external_wp_i18n_["__"])('No post excerpt found');
+  }, renderedExcerpt)) || Object(external_wp_i18n_["__"])('No post excerpt found');
   return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockControls"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["AlignmentToolbar"], {
     value: textAlign,
     onChange: newAlign => setAttributes({
@@ -31269,15 +31261,7 @@ function PostExcerptEditor({
     })
   })), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["InspectorControls"], null, Object(external_wp_element_["createElement"])(external_wp_components_["PanelBody"], {
     title: Object(external_wp_i18n_["__"])('Post Excerpt Settings')
-  }, !renderedExcerpt && Object(external_wp_element_["createElement"])(external_wp_components_["RangeControl"], {
-    label: Object(external_wp_i18n_["__"])('Max words'),
-    value: wordCount,
-    onChange: newExcerptLength => setAttributes({
-      wordCount: newExcerptLength
-    }),
-    min: 10,
-    max: 100
-  }), Object(external_wp_element_["createElement"])(external_wp_components_["ToggleControl"], {
+  }, Object(external_wp_element_["createElement"])(external_wp_components_["ToggleControl"], {
     label: Object(external_wp_i18n_["__"])('Show link on new line'),
     checked: showMoreOnNewLine,
     onChange: newShowMoreOnNewLine => setAttributes({
@@ -31307,10 +31291,6 @@ const post_excerpt_metadata = {
   attributes: {
     textAlign: {
       type: "string"
-    },
-    wordCount: {
-      type: "number",
-      "default": 55
     },
     moreText: {
       type: "string"

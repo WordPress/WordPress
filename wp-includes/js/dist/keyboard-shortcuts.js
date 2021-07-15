@@ -125,6 +125,7 @@ __webpack_require__.r(__webpack_exports__);
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, "store", function() { return /* reexport */ store; });
 __webpack_require__.d(__webpack_exports__, "useShortcut", function() { return /* reexport */ use_shortcut; });
+__webpack_require__.d(__webpack_exports__, "__unstableUseShortcutEventMatch", function() { return /* reexport */ useShortcutEventMatch; });
 
 // NAMESPACE OBJECT: ./node_modules/@wordpress/keyboard-shortcuts/build-module/store/actions.js
 var actions_namespaceObject = {};
@@ -139,6 +140,7 @@ __webpack_require__.d(selectors_namespaceObject, "getShortcutKeyCombination", fu
 __webpack_require__.d(selectors_namespaceObject, "getShortcutRepresentation", function() { return getShortcutRepresentation; });
 __webpack_require__.d(selectors_namespaceObject, "getShortcutDescription", function() { return getShortcutDescription; });
 __webpack_require__.d(selectors_namespaceObject, "getShortcutAliases", function() { return getShortcutAliases; });
+__webpack_require__.d(selectors_namespaceObject, "getAllShortcutKeyCombinations", function() { return selectors_getAllShortcutKeyCombinations; });
 __webpack_require__.d(selectors_namespaceObject, "getAllShortcutRawKeyCombinations", function() { return getAllShortcutRawKeyCombinations; });
 __webpack_require__.d(selectors_namespaceObject, "getCategoryShortcuts", function() { return getCategoryShortcuts; });
 
@@ -356,6 +358,9 @@ function getShortcutDescription(state, name) {
 function getShortcutAliases(state, name) {
   return state[name] && state[name].aliases ? state[name].aliases : EMPTY_ARRAY;
 }
+const selectors_getAllShortcutKeyCombinations = Object(rememo["a" /* default */])((state, name) => {
+  return Object(external_lodash_["compact"])([getShortcutKeyCombination(state, name), ...getShortcutAliases(state, name)]);
+}, (state, name) => [state[name]]);
 /**
  * Returns the raw representation of all the keyboard combinations of a given shortcut name.
  *
@@ -366,7 +371,7 @@ function getShortcutAliases(state, name) {
  */
 
 const getAllShortcutRawKeyCombinations = Object(rememo["a" /* default */])((state, name) => {
-  return Object(external_lodash_["compact"])([getKeyCombinationRepresentation(getShortcutKeyCombination(state, name), 'raw'), ...getShortcutAliases(state, name).map(combination => getKeyCombinationRepresentation(combination, 'raw'))]);
+  return selectors_getAllShortcutKeyCombinations(state, name).map(combination => getKeyCombinationRepresentation(combination, 'raw'));
 }, (state, name) => [state[name]]);
 /**
  * Returns the shortcut names list for a given category name.
@@ -440,7 +445,52 @@ function useShortcut(name, callback, options) {
 
 /* harmony default export */ var use_shortcut = (useShortcut);
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/keyboard-shortcuts/build-module/hooks/use-shortcut-event-match.js
+/**
+ * WordPress dependencies
+ */
+
+
+/**
+ * Internal dependencies
+ */
+
+
+/**
+ * Returns a function to check if a keyboard event matches a shortcut name.
+ *
+ * @return {Function} A function to to check if a keyboard event matches a
+ *                    predefined shortcut combination.
+ */
+
+function useShortcutEventMatch() {
+  const {
+    getAllShortcutKeyCombinations
+  } = Object(external_wp_data_["useSelect"])(store);
+  /**
+   * A function to check if a keyboard event matches a predefined shortcut
+   * combination.
+   *
+   * @param {string}        name  Shortcut name.
+   * @param {KeyboardEvent} event Event to check.
+   *
+   * @return {boolean} True if the event matches any shortcuts, false if not.
+   */
+
+  function isMatch(name, event) {
+    return getAllShortcutKeyCombinations(name).some(({
+      modifier,
+      character
+    }) => {
+      return external_wp_keycodes_["isKeyboardEvent"][modifier](event, character);
+    });
+  }
+
+  return isMatch;
+}
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/keyboard-shortcuts/build-module/index.js
+
 
 
 

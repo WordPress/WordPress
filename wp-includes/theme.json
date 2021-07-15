@@ -176,7 +176,7 @@
 		"spacing": {
 			"customMargin": false,
 			"customPadding": false,
-			"units": [ "px", "em", "rem", "vh", "vw" ]
+			"units": [ "px", "em", "rem", "vh", "vw", "%" ]
 		},
 		"typography": {
 			"customFontSize": true,
