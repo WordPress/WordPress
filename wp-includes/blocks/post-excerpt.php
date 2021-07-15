@@ -18,34 +18,34 @@ function render_block_core_post_excerpt( $attributes, $content, $block ) {
 		return '';
 	}
 
-	$more_text = isset( $attributes['moreText'] ) ? '<a class="wp-block-post-excerpt__more-link" href="' . esc_url( get_the_permalink( $block->context['postId'] ) ) . '">' . $attributes['moreText'] . '</a>' : '';
-
-	$filter_excerpt_length = function() use ( $attributes ) {
-		return isset( $attributes['wordCount'] ) ? $attributes['wordCount'] : 55;
+	$more_text           = ! empty( $attributes['moreText'] ) ? '<a class="wp-block-post-excerpt__more-link" href="' . esc_url( get_the_permalink( $block->context['postId'] ) ) . '">' . $attributes['moreText'] . '</a>' : '';
+	$filter_excerpt_more = function( $more ) use ( $more_text ) {
+		return empty( $more_text ) ? $more : '';
 	};
-	add_filter(
-		'excerpt_length',
-		$filter_excerpt_length
-	);
-
+	/**
+	 * Some themes might use `excerpt_more` filter to handle the
+	 * `more` link displayed after a trimmed excerpt. Since the
+	 * block has a `more text` attribute we have to check and
+	 * override if needed the return value from this filter.
+	 * So if the block's attribute is not empty override the
+	 * `excerpt_more` filter and return nothing. This will
+	 * result in showing only one `read more` link at a time.
+	 */
+	add_filter( 'excerpt_more', $filter_excerpt_more );
 	$classes = '';
 	if ( isset( $attributes['textAlign'] ) ) {
-		$classes .= 'has-text-align-' . $attributes['textAlign'];
+		$classes .= "has-text-align-{$attributes['textAlign']}";
 	}
 	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => $classes ) );
 
-	$content = '<p class="wp-block-post-excerpt__excerpt">' . get_the_excerpt( $block->context['postId'] );
-	if ( ! isset( $attributes['showMoreOnNewLine'] ) || $attributes['showMoreOnNewLine'] ) {
+	$content               = '<p class="wp-block-post-excerpt__excerpt">' . get_the_excerpt( $block->context['postId'] );
+	$show_more_on_new_line = ! isset( $attributes['showMoreOnNewLine'] ) || $attributes['showMoreOnNewLine'];
+	if ( $show_more_on_new_line && ! empty( $more_text ) ) {
 		$content .= '</p><p class="wp-block-post-excerpt__more-text">' . $more_text . '</p>';
 	} else {
 		$content .= " $more_text</p>";
 	}
-
-	remove_filter(
-		'excerpt_length',
-		$filter_excerpt_length
-	);
-
+	remove_filter( 'excerpt_more', $filter_excerpt_more );
 	return sprintf( '<div %1$s>%2$s</div>', $wrapper_attributes, $content );
 }
 

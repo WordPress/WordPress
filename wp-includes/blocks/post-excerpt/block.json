@@ -9,10 +9,6 @@
 		"textAlign": {
 			"type": "string"
 		},
-		"wordCount": {
-			"type": "number",
-			"default": 55
-		},
 		"moreText": {
 			"type": "string"
 		},
