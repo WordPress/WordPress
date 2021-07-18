@@ -3,7 +3,7 @@ Contributors: wordpressdotorg
 Requires at least: 5.3
 Tested up to: 5.8
 Requires PHP: 5.6
-Stable tag: 1.3
+Stable tag: 1.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,6 +29,11 @@ LocalStorage is necessary for the setting to work and is only used when a user c
 No data is saved in the database or transferred.
 
 == Changelog ==
+
+= 1.4 =
+* Released: July 20, 2021
+
+https://wordpress.org/support/article/twenty-twenty-one-changelog#Version_1.4
 
 = 1.3 =
 * Released: April 14, 2021
