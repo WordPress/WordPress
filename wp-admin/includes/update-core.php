@@ -804,6 +804,12 @@ $_old_files = array(
 	// 5.7
 	'wp-includes/blocks/classic/block.json',
 	// 5.8
+	'wp-admin/images/freedoms.png',
+	'wp-admin/images/privacy.png',
+	'wp-admin/images/about-badge.svg',
+	'wp-admin/images/about-color-palette.svg',
+	'wp-admin/images/about-color-palette-vert.svg',
+	'wp-admin/images/about-header-brushes.svg',
 	'wp-includes/block-patterns/large-header.php',
 	'wp-includes/block-patterns/heading-paragraph.php',
 	'wp-includes/block-patterns/quote.php',
