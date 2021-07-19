@@ -151,12 +151,12 @@ class WP_Application_Passwords {
 	}
 
 	/**
-	 * Gets a user's application password with the given uuid.
+	 * Gets a user's application password with the given UUID.
 	 *
 	 * @since 5.6.0
 	 *
 	 * @param int    $user_id User ID.
-	 * @param string $uuid    The password's uuid.
+	 * @param string $uuid    The password's UUID.
 	 * @return array|null The application password if found, null otherwise.
 	 */
 	public static function get_user_application_password( $user_id, $uuid ) {
@@ -198,7 +198,7 @@ class WP_Application_Passwords {
 	 * @since 5.6.0
 	 *
 	 * @param int    $user_id User ID.
-	 * @param string $uuid    The password's uuid.
+	 * @param string $uuid    The password's UUID.
 	 * @param array  $update  Information about the application password to update.
 	 * @return true|WP_Error True if successful, otherwise a WP_Error instance is returned on error.
 	 */
@@ -252,7 +252,7 @@ class WP_Application_Passwords {
 	 * @since 5.6.0
 	 *
 	 * @param int    $user_id User ID.
-	 * @param string $uuid    The password's uuid.
+	 * @param string $uuid    The password's UUID.
 	 * @return true|WP_Error True if the usage was recorded, a WP_Error if an error occurs.
 	 */
 	public static function record_application_password_usage( $user_id, $uuid ) {
@@ -290,7 +290,7 @@ class WP_Application_Passwords {
 	 * @since 5.6.0
 	 *
 	 * @param int    $user_id User ID.
-	 * @param string $uuid    The password's uuid.
+	 * @param string $uuid    The password's UUID.
 	 * @return true|WP_Error Whether the password was successfully found and deleted, a WP_Error otherwise.
 	 */
 	public static function delete_application_password( $user_id, $uuid ) {

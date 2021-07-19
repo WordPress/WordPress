@@ -90,7 +90,7 @@ if ( is_wp_error( $is_valid ) ) {
 
 if ( wp_is_site_protected_by_basic_auth( 'front' ) ) {
 	wp_die(
-		__( 'Your website appears to use Basic Authentication, which is not currently compatible with Application Passwords.' ),
+		__( 'Your website appears to use Basic Authentication, which is not currently compatible with application passwords.' ),
 		__( 'Cannot Authorize Application' ),
 		array(
 			'response'  => 501,
@@ -147,13 +147,13 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 				<?php
 				printf(
 					/* translators: %s: Application name. */
-					__( 'Would you like to give the application identifying itself as %s access to your account? You should only do this if you trust the app in question.' ),
+					__( 'Would you like to give the application identifying itself as %s access to your account? You should only do this if you trust the application in question.' ),
 					'<strong>' . esc_html( $app_name ) . '</strong>'
 				);
 				?>
 			</p>
 		<?php else : ?>
-			<p><?php _e( 'Would you like to give this application access to your account? You should only do this if you trust the app in question.' ); ?></p>
+			<p><?php _e( 'Would you like to give this application access to your account? You should only do this if you trust the application in question.' ); ?></p>
 		<?php endif; ?>
 
 		<?php
@@ -247,7 +247,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 
 				<?php
 				submit_button(
-					__( 'Yes, I approve of this connection.' ),
+					__( 'Yes, I approve of this connection' ),
 					'primary',
 					'approve',
 					false,
@@ -262,7 +262,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 						printf(
 							/* translators: %s: The URL the user is being redirected to. */
 							__( 'You will be sent to %s' ),
-							'<strong><kbd>' . esc_html(
+							'<strong><code>' . esc_html(
 								add_query_arg(
 									array(
 										'site_url'   => site_url(),
@@ -271,7 +271,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 									),
 									$success_url
 								)
-							) . '</kbd></strong>'
+							) . '</code></strong>'
 						);
 					} else {
 						_e( 'You will be given a password to manually enter into the application in question.' );
@@ -281,7 +281,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 
 				<?php
 				submit_button(
-					__( 'No, I do not approve of this connection.' ),
+					__( 'No, I do not approve of this connection' ),
 					'secondary',
 					'reject',
 					false,
@@ -296,7 +296,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 						printf(
 							/* translators: %s: The URL the user is being redirected to. */
 							__( 'You will be sent to %s' ),
-							'<strong><kbd>' . esc_html( $reject_url ) . '</kbd></strong>'
+							'<strong><code>' . esc_html( $reject_url ) . '</code></strong>'
 						);
 					} else {
 						_e( 'You will be returned to the WordPress Dashboard, and no changes will be made.' );

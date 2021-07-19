@@ -491,7 +491,7 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller {
 		if ( get_current_user_id() !== $user->ID ) {
 			return new WP_Error(
 				'rest_cannot_introspect_app_password_for_non_authenticated_user',
-				__( 'The authenticated Application Password can only be introspected for the current user.' ),
+				__( 'The authenticated application password can only be introspected for the current user.' ),
 				array( 'status' => rest_authorization_required_code() )
 			);
 		}
@@ -519,7 +519,7 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller {
 		if ( ! $uuid ) {
 			return new WP_Error(
 				'rest_no_authenticated_app_password',
-				__( 'Cannot introspect Application Password.' ),
+				__( 'Cannot introspect application password.' ),
 				array( 'status' => 404 )
 			);
 		}
@@ -788,7 +788,7 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller {
 					'readonly'    => true,
 				),
 				'app_id'    => array(
-					'description' => __( 'A uuid provided by the application to uniquely identify it. It is recommended to use an UUID v5 with the URL or DNS namespace.' ),
+					'description' => __( 'A UUID provided by the application to uniquely identify it. It is recommended to use an UUID v5 with the URL or DNS namespace.' ),
 					'type'        => 'string',
 					'format'      => 'uuid',
 					'context'     => array( 'view', 'edit', 'embed' ),
