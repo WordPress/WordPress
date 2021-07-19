@@ -1,7 +1,7 @@
 === Twenty Thirteen ===
 Contributors: wordpressdotorg
 Tested up to: 5.8
-Stable tag: 3.3
+Stable tag: 3.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: blog, one-column, two-columns, right-sidebar, custom-header, custom-menu, editor-style, featured-images, footer-widgets, microformats, post-formats, rtl-language-support, sticky-post, translation-ready, accessibility-ready, block-patterns
@@ -51,6 +51,11 @@ Torus Interior: https://www.flickr.com/photos/nasacommons/14076102195/in/album-7
 Toroidal Colony: https://www.flickr.com/photos/nasacommons/13889485757/in/album-72157644439092941/ Rick Guidice, NASA Ames Research Center.
 
 == Changelog ==
+
+= 3.4 =
+* Released: July 20, 2021
+
+https://codex.wordpress.org/Twenty_Thirteen_Theme_Changelog#Version_3.4
 
 = 3.3 =
 * Released: March 9, 2021

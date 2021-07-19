@@ -2,7 +2,7 @@
 Contributors: wordpressdotorg
 Requires at least: WordPress 4.1
 Tested up to: 5.8
-Version: 2.9
+Version: 3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: blog, two-columns, left-sidebar, accessibility-ready, custom-background, custom-colors, custom-header, custom-logo, custom-menu, editor-style, featured-images, microformats, post-formats, rtl-language-support, sticky-post, threaded-comments, translation-ready, block-patterns
@@ -60,6 +60,11 @@ Source: https://stocksnap.io/photo/purple-yellow-ACF0693B9C
         https://stocksnap.io/photo/sunset-pier-77F43EA43C
 
 == Changelog ==
+
+= 3.0 =
+* Released: July 20, 2021
+
+https://codex.wordpress.org/Twenty_Fifteen_Theme_Changelog#Version_3.0
 
 = 2.9 =
 * Released: March 9, 2021
