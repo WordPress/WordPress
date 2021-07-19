@@ -989,7 +989,6 @@ html:lang(he-il) .rtl #wpadminbar * {
 	/* Override default min-width so dropdown lists aren't stretched
 		to 100% viewport width at responsive sizes. */
 	#wpadminbar .ab-top-menu > .menupop > .ab-sub-wrapper {
-		min-width: -webkit-fit-content;
 		min-width: -moz-fit-content;
 		min-width: fit-content;
 	}
