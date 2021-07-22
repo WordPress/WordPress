@@ -2436,13 +2436,39 @@ function wp_enqueue_registered_block_scripts_and_styles() {
 function enqueue_block_styles_assets() {
 	$block_styles = WP_Block_Styles_Registry::get_instance()->get_all_registered();
 
-	foreach ( $block_styles as $styles ) {
+	foreach ( $block_styles as $block_name => $styles ) {
 		foreach ( $styles as $style_properties ) {
 			if ( isset( $style_properties['style_handle'] ) ) {
-				wp_enqueue_style( $style_properties['style_handle'] );
+
+				// If the site loads separate styles per-block, enqueue the stylesheet on render.
+				if ( wp_should_load_separate_core_block_assets() ) {
+					add_filter(
+						'render_block',
+						function( $html, $block ) use ( $style_properties ) {
+							wp_enqueue_style( $style_properties['style_handle'] );
+							return $html;
+						}
+					);
+				} else {
+					wp_enqueue_style( $style_properties['style_handle'] );
+				}
 			}
 			if ( isset( $style_properties['inline_style'] ) ) {
-				wp_add_inline_style( 'wp-block-library', $style_properties['inline_style'] );
+
+				// Default to "wp-block-library".
+				$handle = 'wp-block-library';
+
+				// If the site loads separate styles per-block, check if the block has a stylesheet registered.
+				if ( wp_should_load_separate_core_block_assets() ) {
+					$block_stylesheet_handle = generate_block_asset_handle( $block_name, 'style' );
+					global $wp_styles;
+					if ( isset( $wp_styles->registered[ $block_stylesheet_handle ] ) ) {
+						$handle = $block_stylesheet_handle;
+					}
+				}
+
+				// Add inline styles to the calculated handle.
+				wp_add_inline_style( $handle, $style_properties['inline_style'] );
 			}
 		}
 	}
