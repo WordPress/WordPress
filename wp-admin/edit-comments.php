@@ -138,7 +138,9 @@ enqueue_comment_hotkeys_js();
 if ( $post_id ) {
 	$comments_count      = wp_count_comments( $post_id );
 	$draft_or_post_title = wp_html_excerpt( _draft_or_post_title( $post_id ), 50, '&hellip;' );
+
 	if ( $comments_count->moderated > 0 ) {
+		// Used in the HTML title tag.
 		$title = sprintf(
 			/* translators: 1: Comments count, 2: Post title. */
 			__( 'Comments (%1$s) on &#8220;%2$s&#8221;' ),
@@ -146,6 +148,7 @@ if ( $post_id ) {
 			$draft_or_post_title
 		);
 	} else {
+		// Used in the HTML title tag.
 		$title = sprintf(
 			/* translators: %s: Post title. */
 			__( 'Comments on &#8220;%s&#8221;' ),
@@ -154,13 +157,16 @@ if ( $post_id ) {
 	}
 } else {
 	$comments_count = wp_count_comments();
+
 	if ( $comments_count->moderated > 0 ) {
+		// Used in the HTML title tag.
 		$title = sprintf(
 			/* translators: %s: Comments count. */
 			__( 'Comments (%s)' ),
 			number_format_i18n( $comments_count->moderated )
 		);
 	} else {
+		// Used in the HTML title tag.
 		$title = __( 'Comments' );
 	}
 }

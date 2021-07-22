@@ -18,6 +18,7 @@ if ( ! current_user_can( 'edit_themes' ) ) {
 	wp_die( '<p>' . __( 'Sorry, you are not allowed to edit templates for this site.' ) . '</p>' );
 }
 
+// Used in the HTML title tag.
 $title       = __( 'Edit Themes' );
 $parent_file = 'themes.php';
 

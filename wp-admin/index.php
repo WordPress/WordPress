@@ -29,6 +29,7 @@ if ( wp_is_mobile() ) {
 	wp_enqueue_script( 'jquery-touch-punch' );
 }
 
+// Used in the HTML title tag.
 $title       = __( 'Dashboard' );
 $parent_file = 'index.php';
 

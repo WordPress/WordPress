@@ -13,6 +13,7 @@ if ( ! current_user_can( 'manage_links' ) ) {
 	wp_die( __( 'Sorry, you are not allowed to add links to this site.' ) );
 }
 
+// Used in the HTML title tag.
 $title       = __( 'Add New Link' );
 $parent_file = 'link-manager.php';
 

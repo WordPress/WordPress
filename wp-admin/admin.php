@@ -334,9 +334,10 @@ if ( isset( $plugin_page ) ) {
 	 */
 	do_action( "load-importer-{$importer}" ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
+	// Used in the HTML title tag.
+	$title        = __( 'Import' );
 	$parent_file  = 'tools.php';
 	$submenu_file = 'import.php';
-	$title        = __( 'Import' );
 
 	if ( ! isset( $_GET['noheader'] ) ) {
 		require_once ABSPATH . 'wp-admin/admin-header.php';

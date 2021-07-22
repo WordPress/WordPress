@@ -174,6 +174,7 @@ if ( isset( $_GET['update'] ) ) {
 	}
 }
 
+// Used in the HTML title tag.
 $title       = __( 'Add New Site' );
 $parent_file = 'sites.php';
 

@@ -39,6 +39,7 @@ if ( isset( $_GET['wp-privacy-policy-guide'] ) ) {
 /** WordPress Administration Bootstrap */
 require_once __DIR__ . '/admin.php';
 
+// Used in the HTML title tag.
 $title = __( 'Tools' );
 
 get_current_screen()->add_help_tab(

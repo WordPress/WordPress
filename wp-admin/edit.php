@@ -232,6 +232,7 @@ if ( 'wp_block' === $post_type ) {
 	wp_enqueue_style( 'wp-list-reusable-blocks' );
 }
 
+// Used in the HTML title tag.
 $title = $post_type_object->labels->name;
 
 if ( 'post' === $post_type ) {

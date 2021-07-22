@@ -59,6 +59,7 @@ if ( isset( $_GET['action'] ) ) {
 
 		check_admin_referer( 'upgrade-plugin_' . $plugin );
 
+		// Used in the HTML title tag.
 		$title        = __( 'Update Plugin' );
 		$parent_file  = 'plugins.php';
 		$submenu_file = 'plugins.php';
@@ -123,9 +124,11 @@ if ( isset( $_GET['action'] ) ) {
 			wp_die( $api );
 		}
 
+		// Used in the HTML title tag.
 		$title        = __( 'Plugin Installation' );
 		$parent_file  = 'plugins.php';
 		$submenu_file = 'plugin-install.php';
+
 		require_once ABSPATH . 'wp-admin/admin-header.php';
 
 		/* translators: %s: Plugin name and version. */
@@ -153,9 +156,11 @@ if ( isset( $_GET['action'] ) ) {
 
 		$file_upload = new File_Upload_Upgrader( 'pluginzip', 'package' );
 
+		// Used in the HTML title tag.
 		$title        = __( 'Upload Plugin' );
 		$parent_file  = 'plugins.php';
 		$submenu_file = 'plugin-install.php';
+
 		require_once ABSPATH . 'wp-admin/admin-header.php';
 
 		/* translators: %s: File name. */
@@ -206,9 +211,11 @@ if ( isset( $_GET['action'] ) ) {
 
 		wp_enqueue_script( 'updates' );
 
+		// Used in the HTML title tag.
 		$title        = __( 'Update Theme' );
 		$parent_file  = 'themes.php';
 		$submenu_file = 'themes.php';
+
 		require_once ABSPATH . 'wp-admin/admin-header.php';
 
 		$nonce = 'upgrade-theme_' . $theme;
@@ -269,9 +276,11 @@ if ( isset( $_GET['action'] ) ) {
 			wp_die( $api );
 		}
 
+		// Used in the HTML title tag.
 		$title        = __( 'Install Themes' );
 		$parent_file  = 'themes.php';
 		$submenu_file = 'themes.php';
+
 		require_once ABSPATH . 'wp-admin/admin-header.php';
 
 		/* translators: %s: Theme name and version. */
@@ -295,6 +304,7 @@ if ( isset( $_GET['action'] ) ) {
 
 		$file_upload = new File_Upload_Upgrader( 'themezip', 'package' );
 
+		// Used in the HTML title tag.
 		$title        = __( 'Upload Theme' );
 		$parent_file  = 'themes.php';
 		$submenu_file = 'theme-install.php';

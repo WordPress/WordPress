@@ -32,8 +32,10 @@ if ( wp_is_application_passwords_available_for_user( $user_id ) ) {
 }
 
 if ( IS_PROFILE_PAGE ) {
+	// Used in the HTML title tag.
 	$title = __( 'Profile' );
 } else {
+	// Used in the HTML title tag.
 	/* translators: %s: User's display name. */
 	$title = __( 'Edit User %s' );
 }

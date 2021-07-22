@@ -245,6 +245,7 @@ Please click the following link to confirm the invite:
 	}
 }
 
+// Used in the HTML title tag.
 $title       = __( 'Add New User' );
 $parent_file = 'users.php';
 

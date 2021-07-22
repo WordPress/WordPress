@@ -17,6 +17,7 @@ if ( ! current_user_can( 'manage_network_options' ) ) {
 	wp_die( __( 'Sorry, you are not allowed to access this page.' ), 403 );
 }
 
+// Used in the HTML title tag.
 $title       = __( 'Network Settings' );
 $parent_file = 'settings.php';
 

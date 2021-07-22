@@ -195,6 +195,7 @@ if ( isset( $_GET['action'] ) && 'update-site' === $_GET['action'] ) {
 
 add_screen_option( 'per_page' );
 
+// Used in the HTML title tag.
 /* translators: %s: Site title. */
 $title = sprintf( __( 'Edit Site: %s' ), esc_html( $details->blogname ) );
 

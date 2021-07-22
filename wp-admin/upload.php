@@ -76,6 +76,7 @@ if ( 'grid' === $mode ) {
 		'<p>' . __( '<a href="https://wordpress.org/support/">Support</a>' ) . '</p>'
 	);
 
+	// Used in the HTML title tag.
 	$title       = __( 'Media Library' );
 	$parent_file = 'upload.php';
 
@@ -215,6 +216,7 @@ if ( $doaction ) {
 
 $wp_list_table->prepare_items();
 
+// Used in the HTML title tag.
 $title       = __( 'Media Library' );
 $parent_file = 'upload.php';
 

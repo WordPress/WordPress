@@ -21,6 +21,7 @@ if ( is_multisite() && ! is_network_admin() ) {
 	exit;
 }
 
+// Used in the HTML title tag.
 $title       = __( 'Add Themes' );
 $parent_file = 'themes.php';
 

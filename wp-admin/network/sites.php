@@ -17,6 +17,7 @@ if ( ! current_user_can( 'manage_sites' ) ) {
 $wp_list_table = _get_list_table( 'WP_MS_Sites_List_Table' );
 $pagenum       = $wp_list_table->get_pagenum();
 
+// Used in the HTML title tag.
 $title       = __( 'Sites' );
 $parent_file = 'sites.php';
 

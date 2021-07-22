@@ -39,6 +39,7 @@ if ( $_POST ) {
 	exit;
 }
 
+// Used in the HTML title tag.
 $title       = __( 'Upload New Media' );
 $parent_file = 'upload.php';
 

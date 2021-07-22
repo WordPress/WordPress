@@ -122,6 +122,7 @@ if ( isset( $_GET['update'] ) ) {
 	}
 }
 
+// Used in the HTML title tag.
 /* translators: %s: Site title. */
 $title = sprintf( __( 'Edit Site: %s' ), esc_html( $details->blogname ) );
 

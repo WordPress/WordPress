@@ -18,6 +18,7 @@ if ( ! current_user_can( 'edit_plugins' ) ) {
 	wp_die( __( 'Sorry, you are not allowed to edit plugins for this site.' ) );
 }
 
+// Used in the HTML title tag.
 $title       = __( 'Edit Plugins' );
 $parent_file = 'plugins.php';
 

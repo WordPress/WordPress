@@ -47,6 +47,7 @@ if ( $pagenum > $total_pages && $total_pages > 0 ) {
 	exit;
 }
 
+// Used in the HTML title tag.
 $title       = __( 'Add Plugins' );
 $parent_file = 'plugins.php';
 

@@ -62,6 +62,7 @@ if ( isset( $_POST['action'] ) && 'authorize_application_password' === $_POST['a
 	}
 }
 
+// Used in the HTML title tag.
 $title = __( 'Authorize Application' );
 
 $app_name    = ! empty( $_REQUEST['app_name'] ) ? $_REQUEST['app_name'] : '';

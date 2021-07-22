@@ -15,6 +15,7 @@ if ( isset( $_GET['privacy-notice'] ) ) {
 	exit;
 }
 
+// Used in the HTML title tag.
 $title = __( 'Freedoms' );
 
 list( $display_version ) = explode( '-', get_bloginfo( 'version' ) );

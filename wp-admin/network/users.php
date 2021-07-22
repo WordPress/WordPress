@@ -29,12 +29,17 @@ if ( isset( $_GET['action'] ) ) {
 			$id = (int) $_GET['id'];
 			if ( $id > 1 ) {
 				$_POST['allusers'] = array( $id ); // confirm_delete_users() can only handle arrays.
+
+				// Used in the HTML title tag.
 				$title             = __( 'Users' );
 				$parent_file       = 'users.php';
+
 				require_once ABSPATH . 'wp-admin/admin-header.php';
+
 				echo '<div class="wrap">';
 				confirm_delete_users( $_POST['allusers'] );
 				echo '</div>';
+
 				require_once ABSPATH . 'wp-admin/admin-footer.php';
 			} else {
 				wp_redirect( network_admin_url( 'users.php' ) );
@@ -59,12 +64,17 @@ if ( isset( $_GET['action'] ) ) {
 								if ( ! current_user_can( 'delete_users' ) ) {
 									wp_die( __( 'Sorry, you are not allowed to access this page.' ), 403 );
 								}
+
+								// Used in the HTML title tag.
 								$title       = __( 'Users' );
 								$parent_file = 'users.php';
+
 								require_once ABSPATH . 'wp-admin/admin-header.php';
+
 								echo '<div class="wrap">';
 								confirm_delete_users( $_POST['allusers'] );
 								echo '</div>';
+
 								require_once ABSPATH . 'wp-admin/admin-footer.php';
 								exit;
 
@@ -206,6 +216,8 @@ if ( $pagenum > $total_pages && $total_pages > 0 ) {
 	wp_redirect( add_query_arg( 'paged', $total_pages ) );
 	exit;
 }
+
+// Used in the HTML title tag.
 $title       = __( 'Users' );
 $parent_file = 'users.php';
 
