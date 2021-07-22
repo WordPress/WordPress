@@ -346,7 +346,7 @@ function register_block_type_from_metadata( $file_or_folder, $args = array() ) {
  * the metadata stored in the `block.json` file.
  *
  * @since 5.0.0
- * @since 5.8.0 First param accepts a path to the `block.json` file.
+ * @since 5.8.0 First parameter now accepts a path to the `block.json` file.
  *
  * @param string|WP_Block_Type $block_type Block type name including namespace, or alternatively
  *                                         a path to the JSON file with metadata definition for the block,
@@ -722,7 +722,7 @@ function excerpt_remove_blocks( $content ) {
 	 *
 	 * @since 5.8.0
 	 *
-	 * @param array $allowed_wrapper_blocks The list of allowed wrapper blocks.
+	 * @param string[] $allowed_wrapper_blocks The list of names of allowed wrapper blocks.
 	 */
 	$allowed_wrapper_blocks = apply_filters( 'excerpt_allowed_wrapper_blocks', $allowed_wrapper_blocks );
 
@@ -736,7 +736,7 @@ function excerpt_remove_blocks( $content ) {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @param array $allowed_blocks The list of allowed blocks.
+	 * @param string[] $allowed_blocks The list of names of allowed blocks.
 	 */
 	$allowed_blocks = apply_filters( 'excerpt_allowed_blocks', $allowed_blocks );
 	$blocks         = parse_blocks( $content );
@@ -772,7 +772,7 @@ function excerpt_remove_blocks( $content ) {
  * Render inner blocks from the allowed wrapper blocks
  * for generating an excerpt.
  *
- * @since 5.8
+ * @since 5.8.0
  * @access private
  *
  * @param array $parsed_block   The parsed block.
