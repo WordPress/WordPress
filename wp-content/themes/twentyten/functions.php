@@ -740,7 +740,7 @@ function twentyten_block_editor_styles() {
 add_action( 'enqueue_block_editor_assets', 'twentyten_block_editor_styles' );
 
 // Block Patterns.
-require get_stylesheet_directory() . '/block-patterns.php';
+require get_template_directory() . '/block-patterns.php';
 
 if ( ! function_exists( 'wp_body_open' ) ) :
 	/**
