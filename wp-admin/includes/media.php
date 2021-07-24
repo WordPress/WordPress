@@ -2577,7 +2577,6 @@ function media_upload_gallery_form( $errors ) {
 	</div>
 	<form enctype="multipart/form-data" method="post" action="<?php echo esc_url( $form_action_url ); ?>" class="<?php echo $form_class; ?>" id="gallery-form">
 		<?php wp_nonce_field( 'media-form' ); ?>
-		<?php // media_upload_form( $errors ); ?>
 	<table class="widefat">
 	<thead><tr>
 	<th><?php _e( 'Media' ); ?></th>
@@ -2879,7 +2878,6 @@ function media_upload_library_form( $errors ) {
 
 	<form enctype="multipart/form-data" method="post" action="<?php echo esc_url( $form_action_url ); ?>" class="<?php echo $form_class; ?>" id="library-form">
 	<?php wp_nonce_field( 'media-form' ); ?>
-	<?php // media_upload_form( $errors ); ?>
 
 	<script type="text/javascript">
 	jQuery(function($){
