@@ -40,18 +40,18 @@ if ( function_exists( 'register_block_pattern' ) ) {
 				<div style="height:100px" aria-hidden="true" class="wp-block-spacer"></div>
 				<!-- /wp:spacer -->
 				<!-- wp:image {"align":"center","sizeSlug":"large","linkDestination":"none"} -->
-				<div class="wp-block-image"><figure class="aligncenter size-large"><img src="' . esc_url( get_stylesheet_directory_uri() ) . '/images/pattern-jumble-2.jpg" alt="' . esc_attr__( 'Close up of a yellow and green leaf.', 'twentytwelve' ) . '" /></figure></div>
+				<div class="wp-block-image"><figure class="aligncenter size-large"><img src="' . esc_url( get_template_directory_uri() ) . '/images/pattern-jumble-2.jpg" alt="' . esc_attr__( 'Close up of a yellow and green leaf.', 'twentytwelve' ) . '" /></figure></div>
 				<!-- /wp:image --></div>
 				<!-- /wp:column -->
 				<!-- wp:column {"width":"29%"} -->
 				<div class="wp-block-column" style="flex-basis:29%"><!-- wp:image {"align":"center","sizeSlug":"large","linkDestination":"none"} -->
-				<div class="wp-block-image"><figure class="aligncenter size-large"><img src="' . esc_url( get_stylesheet_directory_uri() ) . '/images/pattern-jumble-3.jpg" alt="' . esc_attr__( 'Close up of a yellow leaf.', 'twentytwelve' ) . '" /></figure></div>
+				<div class="wp-block-image"><figure class="aligncenter size-large"><img src="' . esc_url( get_template_directory_uri() ) . '/images/pattern-jumble-3.jpg" alt="' . esc_attr__( 'Close up of a yellow leaf.', 'twentytwelve' ) . '" /></figure></div>
 				<!-- /wp:image -->
 				<!-- wp:spacer {"height":25} -->
 				<div style="height:25px" aria-hidden="true" class="wp-block-spacer"></div>
 				<!-- /wp:spacer -->
 				<!-- wp:image {"sizeSlug":"large","linkDestination":"none"} -->
-				<figure class="wp-block-image size-large"><img src="' . esc_url( get_stylesheet_directory_uri() ) . '/images/pattern-jumble-4.jpg" alt="' . esc_attr__( 'Close up of a yellow and green leaf.', 'twentytwelve' ) . '" /></figure>
+				<figure class="wp-block-image size-large"><img src="' . esc_url( get_template_directory_uri() ) . '/images/pattern-jumble-4.jpg" alt="' . esc_attr__( 'Close up of a yellow and green leaf.', 'twentytwelve' ) . '" /></figure>
 				<!-- /wp:image --></div>
 				<!-- /wp:column -->
 				<!-- wp:column {"width":"43%"} -->
@@ -59,7 +59,7 @@ if ( function_exists( 'register_block_pattern' ) ) {
 				<div style="height:37px" aria-hidden="true" class="wp-block-spacer"></div>
 				<!-- /wp:spacer -->
 				<!-- wp:image {"sizeSlug":"large","linkDestination":"none"} -->
-				<figure class="wp-block-image size-large"><img src="' . esc_url( get_stylesheet_directory_uri() ) . '/images/pattern-jumble-1.jpg" alt="' . esc_attr__( 'Close up of a yellow and green leaf.', 'twentytwelve' ) . '" /></figure>
+				<figure class="wp-block-image size-large"><img src="' . esc_url( get_template_directory_uri() ) . '/images/pattern-jumble-1.jpg" alt="' . esc_attr__( 'Close up of a yellow and green leaf.', 'twentytwelve' ) . '" /></figure>
 				<!-- /wp:image --></div>
 				<!-- /wp:column --></div>
 				<!-- /wp:columns --></div></div>
@@ -92,7 +92,7 @@ if ( function_exists( 'register_block_pattern' ) ) {
 			'content'       => '<!-- wp:columns -->
 				<div class="wp-block-columns"><!-- wp:column -->
 				<div class="wp-block-column"><!-- wp:image {"sizeSlug":"large","linkDestination":"none","className":"is-style-default"} -->
-				<figure class="wp-block-image size-large is-style-default"><img src="' . esc_url( get_stylesheet_directory_uri() ) . '/images/pattern-jumble-3.jpg" alt="' . esc_attr__( 'Close up of a yellow leaf.', 'twentytwelve' ) . '" /></figure>
+				<figure class="wp-block-image size-large is-style-default"><img src="' . esc_url( get_template_directory_uri() ) . '/images/pattern-jumble-3.jpg" alt="' . esc_attr__( 'Close up of a yellow leaf.', 'twentytwelve' ) . '" /></figure>
 				<!-- /wp:image --></div>
 				<!-- /wp:column -->
 				<!-- wp:column -->
