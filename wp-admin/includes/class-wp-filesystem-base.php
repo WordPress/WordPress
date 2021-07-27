@@ -408,7 +408,7 @@ class WP_Filesystem_Base {
 	 * @since 2.5.0
 	 *
 	 * @param string $mode string The *nix-style file permission.
-	 * @return int octal representation
+	 * @return string Octal representation.
 	 */
 	public function getnumchmodfromh( $mode ) {
 		$realmode = '';
@@ -831,7 +831,7 @@ class WP_Filesystem_Base {
 	 *
 	 *     @type string $name        Name of the file or directory.
 	 *     @type string $perms       *nix representation of permissions.
-	 *     @type int    $permsn      Octal representation of permissions.
+	 *     @type string $permsn      Octal representation of permissions.
 	 *     @type string $owner       Owner name or ID.
 	 *     @type int    $size        Size of file in bytes.
 	 *     @type int    $lastmodunix Last modified unix timestamp.
