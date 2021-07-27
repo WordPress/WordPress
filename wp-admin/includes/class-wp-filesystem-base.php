@@ -407,8 +407,8 @@ class WP_Filesystem_Base {
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param string $mode string The *nix-style file permission.
-	 * @return string Octal representation.
+	 * @param string $mode string The *nix-style file permissions.
+	 * @return string Octal representation of permissions.
 	 */
 	public function getnumchmodfromh( $mode ) {
 		$realmode = '';
