@@ -109,7 +109,7 @@ switch ( $action ) {
 		$parent_file  = 'link-manager.php';
 		$submenu_file = 'link-manager.php';
 		// Used in the HTML title tag.
-		$title        = __( 'Edit Link' );
+		$title = __( 'Edit Link' );
 
 		$link_id = (int) $_GET['link_id'];
 

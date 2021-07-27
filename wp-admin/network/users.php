@@ -31,8 +31,8 @@ if ( isset( $_GET['action'] ) ) {
 				$_POST['allusers'] = array( $id ); // confirm_delete_users() can only handle arrays.
 
 				// Used in the HTML title tag.
-				$title             = __( 'Users' );
-				$parent_file       = 'users.php';
+				$title       = __( 'Users' );
+				$parent_file = 'users.php';
 
 				require_once ABSPATH . 'wp-admin/admin-header.php';
 

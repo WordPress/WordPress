@@ -109,7 +109,7 @@ switch ( $action ) {
 		$h1             = sprintf( __( 'Compare Revisions of &#8220;%s&#8221;' ), $post_title );
 		$return_to_post = '<a href="' . $post_edit_link . '">' . __( '&larr; Go to editor' ) . '</a>';
 		// Used in the HTML title tag.
-		$title          = __( 'Revisions' );
+		$title = __( 'Revisions' );
 
 		$redirect = false;
 		break;
