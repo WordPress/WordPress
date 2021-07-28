@@ -56,7 +56,7 @@ if ( isset( $_REQUEST['action'] ) && 'add-site' === $_REQUEST['action'] ) {
 			wp_die(
 				sprintf(
 					/* translators: %s: Reserved names list. */
-					__( 'The following words are reserved for use by WordPress functions and cannot be used as blog names: %s' ),
+					__( 'The following words are reserved for use by WordPress functions and cannot be used as site names: %s' ),
 					'<code>' . implode( '</code>, <code>', $subdirectory_reserved_names ) . '</code>'
 				)
 			);
