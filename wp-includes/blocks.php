@@ -42,12 +42,16 @@ function generate_block_asset_handle( $block_name, $field_name ) {
 		if ( 0 === strpos( $field_name, 'editor' ) ) {
 			$asset_handle .= '-editor';
 		}
+		if ( 0 === strpos( $field_name, 'view' ) ) {
+			$asset_handle .= '-view';
+		}
 		return $asset_handle;
 	}
 
 	$field_mappings = array(
 		'editorScript' => 'editor-script',
 		'script'       => 'script',
+		'viewScript'   => 'view-script',
 		'editorStyle'  => 'editor-style',
 		'style'        => 'style',
 	);
@@ -96,18 +100,23 @@ function register_block_script_handle( $metadata, $field_name ) {
 		);
 		return false;
 	}
-	$script_asset = require $script_asset_path;
-	$result       = wp_register_script(
+	$is_core_block       = isset( $metadata['file'] ) && 0 === strpos( $metadata['file'], ABSPATH . WPINC );
+	$script_uri          = $is_core_block ?
+		includes_url( str_replace( ABSPATH . WPINC, '', realpath( dirname( $metadata['file'] ) . '/' . $script_path ) ) ) :
+		plugins_url( $script_path, $metadata['file'] );
+	$script_asset        = require $script_asset_path;
+	$script_dependencies = isset( $script_asset['dependencies'] ) ? $script_asset['dependencies'] : array();
+	$result              = wp_register_script(
 		$script_handle,
-		plugins_url( $script_path, $metadata['file'] ),
-		$script_asset['dependencies'],
-		$script_asset['version']
+		$script_uri,
+		$script_dependencies,
+		isset( $script_asset['version'] ) ? $script_asset['version'] : false
 	);
 	if ( ! $result ) {
 		return false;
 	}
 
-	if ( ! empty( $metadata['textdomain'] ) ) {
+	if ( ! empty( $metadata['textdomain'] ) && in_array( 'wp-i18n', $script_dependencies ) ) {
 		wp_set_script_translations( $script_handle, $metadata['textdomain'] );
 	}
 
@@ -182,6 +191,7 @@ function register_block_style_handle( $metadata, $field_name ) {
  * Registers a block type from the metadata stored in the `block.json` file.
  *
  * @since 5.5.0
+ * @since 5.9.0 Added support for the `viewScript` field.
  *
  * @param string $file_or_folder Path to the JSON file with metadata definition for
  *                               the block or path to the folder where the `block.json` file is located.
@@ -301,6 +311,13 @@ function register_block_type_from_metadata( $file_or_folder, $args = array() ) {
 		$settings['script'] = register_block_script_handle(
 			$metadata,
 			'script'
+		);
+	}
+
+	if ( ! empty( $metadata['viewScript'] ) ) {
+		$settings['view_script'] = register_block_script_handle(
+			$metadata,
+			'viewScript'
 		);
 	}
 

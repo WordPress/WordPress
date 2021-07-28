@@ -156,7 +156,7 @@ class WP_Block_Type {
 	public $provides_context = null;
 
 	/**
-	 * Block type editor script handle.
+	 * Block type editor only script handle.
 	 *
 	 * @since 5.0.0
 	 * @var string|null
@@ -164,7 +164,7 @@ class WP_Block_Type {
 	public $editor_script = null;
 
 	/**
-	 * Block type front end script handle.
+	 * Block type front end and editor script handle.
 	 *
 	 * @since 5.0.0
 	 * @var string|null
@@ -172,7 +172,15 @@ class WP_Block_Type {
 	public $script = null;
 
 	/**
-	 * Block type editor style handle.
+	 * Block type front end only script handle.
+	 *
+	 * @since 5.9.0
+	 * @var string|null
+	 */
+	public $view_script = null;
+
+	/**
+	 * Block type editor only style handle.
 	 *
 	 * @since 5.0.0
 	 * @var string|null
@@ -180,7 +188,7 @@ class WP_Block_Type {
 	public $editor_style = null;
 
 	/**
-	 * Block type front end style handle.
+	 * Block type front end and editor style handle.
 	 *
 	 * @since 5.0.0
 	 * @var string|null
@@ -198,6 +206,7 @@ class WP_Block_Type {
 	 *              `uses_context`, and `provides_context` properties.
 	 * @since 5.6.0 Added the `api_version` property.
 	 * @since 5.8.0 Added the `variations` property.
+	 * @since 5.9.0 Added the `view_script` property.
 	 *
 	 * @see register_block_type()
 	 *
@@ -225,10 +234,11 @@ class WP_Block_Type {
 	 *     @type array|null    $attributes       Block type attributes property schemas.
 	 *     @type array         $uses_context     Context values inherited by blocks of this type.
 	 *     @type array|null    $provides_context Context provided by blocks of this type.
-	 *     @type string|null   $editor_script    Block type editor script handle.
-	 *     @type string|null   $script           Block type front end script handle.
-	 *     @type string|null   $editor_style     Block type editor style handle.
-	 *     @type string|null   $style            Block type front end style handle.
+	 *     @type string|null   $editor_script    Block type editor only script handle.
+	 *     @type string|null   $script           Block type front end and editor script handle.
+	 *     @type string|null   $view_script      Block type front end only script handle.
+	 *     @type string|null   $editor_style     Block type editor only style handle.
+	 *     @type string|null   $style            Block type front end and editor style handle.
 	 * }
 	 */
 	public function __construct( $block_type, $args = array() ) {
