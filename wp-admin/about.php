@@ -160,8 +160,8 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			</h2>
 			<div class="column about__image is-vertically-aligned-center">
 				<picture>
-					<source srcset="https://s.w.org/images/core/5.8/about-theme-json.png, https://s.w.org/images/core/5.8/about-theme-json-2x.png 2x">
-					<img src="https://s.w.org/images/core/5.8/about-theme-json.png" alt="">
+					<source srcset="https://s.w.org/images/core/5.8/about-theme-json.png, https://s.w.org/images/core/5.8/about-theme-json-2x.png 2x" />
+					<img src="https://s.w.org/images/core/5.8/about-theme-json.png" alt="" />
 				</picture>
 			</div>
 		</div>
