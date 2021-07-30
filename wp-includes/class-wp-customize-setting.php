@@ -394,7 +394,7 @@ class WP_Customize_Setting {
 				 *
 				 * @since 3.4.0
 				 *
-				 * @param WP_Customize_Setting $this WP_Customize_Setting instance.
+				 * @param WP_Customize_Setting $setting WP_Customize_Setting instance.
 				 */
 				do_action( "customize_preview_{$this->id}", $this );
 
@@ -406,7 +406,7 @@ class WP_Customize_Setting {
 				 *
 				 * @since 4.1.0
 				 *
-				 * @param WP_Customize_Setting $this WP_Customize_Setting instance.
+				 * @param WP_Customize_Setting $setting WP_Customize_Setting instance.
 				 */
 				do_action( "customize_preview_{$this->type}", $this );
 		}
@@ -533,7 +533,7 @@ class WP_Customize_Setting {
 		 *
 		 * @since 3.4.0
 		 *
-		 * @param WP_Customize_Setting $this WP_Customize_Setting instance.
+		 * @param WP_Customize_Setting $setting WP_Customize_Setting instance.
 		 */
 		do_action( "customize_save_{$id_base}", $this );
 
@@ -569,8 +569,8 @@ class WP_Customize_Setting {
 		 *
 		 * @since 3.4.0
 		 *
-		 * @param mixed                $value Value of the setting.
-		 * @param WP_Customize_Setting $this  WP_Customize_Setting instance.
+		 * @param mixed                $value   Value of the setting.
+		 * @param WP_Customize_Setting $setting WP_Customize_Setting instance.
 		 */
 		return apply_filters( "customize_sanitize_{$this->id}", $value, $this );
 	}
@@ -697,8 +697,8 @@ class WP_Customize_Setting {
 			 *
 			 * @since 3.4.0
 			 *
-			 * @param mixed                $value Value of the setting.
-			 * @param WP_Customize_Setting $this  WP_Customize_Setting instance.
+			 * @param mixed                $value   Value of the setting.
+			 * @param WP_Customize_Setting $setting WP_Customize_Setting instance.
 			 */
 			do_action( "customize_update_{$this->type}", $value, $this );
 

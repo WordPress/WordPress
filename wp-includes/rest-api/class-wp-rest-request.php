@@ -378,8 +378,8 @@ class WP_REST_Request implements ArrayAccess {
 		 *
 		 * @since 4.4.0
 		 *
-		 * @param string[]        $order Array of types to check, in order of priority.
-		 * @param WP_REST_Request $this  The request object.
+		 * @param string[]        $order   Array of types to check, in order of priority.
+		 * @param WP_REST_Request $request The request object.
 		 */
 		return apply_filters( 'rest_request_parameter_order', $order, $this );
 	}

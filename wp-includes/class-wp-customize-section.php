@@ -298,7 +298,7 @@ class WP_Customize_Section {
 		 *
 		 * @since 3.4.0
 		 *
-		 * @param WP_Customize_Section $this WP_Customize_Section instance.
+		 * @param WP_Customize_Section $section WP_Customize_Section instance.
 		 */
 		do_action( 'customize_render_section', $this );
 		/**

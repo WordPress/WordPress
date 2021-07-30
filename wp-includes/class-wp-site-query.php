@@ -234,7 +234,7 @@ class WP_Site_Query {
 		 *
 		 * @since 4.6.0
 		 *
-		 * @param WP_Site_Query $this The WP_Site_Query instance (passed by reference).
+		 * @param WP_Site_Query $query The WP_Site_Query instance (passed by reference).
 		 */
 		do_action_ref_array( 'parse_site_query', array( &$this ) );
 	}
@@ -278,7 +278,7 @@ class WP_Site_Query {
 		 *
 		 * @since 4.6.0
 		 *
-		 * @param WP_Site_Query $this Current instance of WP_Site_Query (passed by reference).
+		 * @param WP_Site_Query $query Current instance of WP_Site_Query (passed by reference).
 		 */
 		do_action_ref_array( 'pre_get_sites', array( &$this ) );
 

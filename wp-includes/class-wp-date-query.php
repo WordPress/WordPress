@@ -555,7 +555,7 @@ class WP_Date_Query {
 		 * @since 3.7.0
 		 *
 		 * @param string        $where WHERE clause of the date query.
-		 * @param WP_Date_Query $this  The WP_Date_Query instance.
+		 * @param WP_Date_Query $query The WP_Date_Query instance.
 		 */
 		return apply_filters( 'get_date_sql', $where, $this );
 	}

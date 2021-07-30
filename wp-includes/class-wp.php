@@ -139,7 +139,7 @@ class WP {
 		 * @since 3.5.0
 		 *
 		 * @param bool         $bool             Whether or not to parse the request. Default true.
-		 * @param WP           $this             Current WordPress environment instance.
+		 * @param WP           $wp               Current WordPress environment instance.
 		 * @param array|string $extra_query_vars Extra passed query variables.
 		 */
 		if ( ! apply_filters( 'do_parse_request', true, $this, $extra_query_vars ) ) {
@@ -383,7 +383,7 @@ class WP {
 		 *
 		 * @since 2.1.0
 		 *
-		 * @param WP $this Current WordPress environment instance (passed by reference).
+		 * @param WP $wp Current WordPress environment instance (passed by reference).
 		 */
 		do_action_ref_array( 'parse_request', array( &$this ) );
 	}
@@ -522,7 +522,7 @@ class WP {
 		 *
 		 * @since 2.1.0
 		 *
-		 * @param WP $this Current WordPress environment instance (passed by reference).
+		 * @param WP $wp Current WordPress environment instance (passed by reference).
 		 */
 		do_action_ref_array( 'send_headers', array( &$this ) );
 	}
@@ -758,7 +758,7 @@ class WP {
 		 *
 		 * @since 2.1.0
 		 *
-		 * @param WP $this Current WordPress environment instance (passed by reference).
+		 * @param WP $wp Current WordPress environment instance (passed by reference).
 		 */
 		do_action_ref_array( 'wp', array( &$this ) );
 	}

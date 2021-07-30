@@ -825,7 +825,7 @@ class WP_Meta_Query {
 		 * @param string|false  $alias        Table alias, or false if none was found.
 		 * @param array         $clause       First-order query clause.
 		 * @param array         $parent_query Parent of $clause.
-		 * @param WP_Meta_Query $this         WP_Meta_Query object.
+		 * @param WP_Meta_Query $query        WP_Meta_Query object.
 		 */
 		return apply_filters( 'meta_query_find_compatible_table_alias', $alias, $clause, $parent_query, $this );
 	}

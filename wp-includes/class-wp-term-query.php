@@ -280,7 +280,7 @@ class WP_Term_Query {
 		 *
 		 * @since 4.6.0
 		 *
-		 * @param WP_Term_Query $this Current instance of WP_Term_Query.
+		 * @param WP_Term_Query $query Current instance of WP_Term_Query.
 		 */
 		do_action( 'parse_term_query', $this );
 	}
@@ -354,7 +354,7 @@ class WP_Term_Query {
 		 *
 		 * @since 4.6.0
 		 *
-		 * @param WP_Term_Query $this Current instance of WP_Term_Query (passed by reference).
+		 * @param WP_Term_Query $query Current instance of WP_Term_Query (passed by reference).
 		 */
 		do_action_ref_array( 'pre_get_terms', array( &$this ) );
 

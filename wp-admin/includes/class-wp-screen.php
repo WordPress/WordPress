@@ -1014,7 +1014,7 @@ final class WP_Screen {
 		 * @since 3.0.0
 		 *
 		 * @param string    $screen_settings Screen settings.
-		 * @param WP_Screen $this            WP_Screen object.
+		 * @param WP_Screen $screen          WP_Screen object.
 		 */
 		$this->_screen_settings = apply_filters( 'screen_settings', $this->_screen_settings, $this );
 
@@ -1029,7 +1029,7 @@ final class WP_Screen {
 		 *
 		 * @param bool      $show_screen Whether to show Screen Options tab.
 		 *                               Default true.
-		 * @param WP_Screen $this        Current WP_Screen instance.
+		 * @param WP_Screen $screen      Current WP_Screen instance.
 		 */
 		$this->_show_screen_options = apply_filters( 'screen_options_show_screen', $show_screen, $this );
 		return $this->_show_screen_options;

@@ -275,7 +275,7 @@ class WP_Customize_Panel {
 		 *
 		 * @since 4.0.0
 		 *
-		 * @param WP_Customize_Panel $this WP_Customize_Panel instance.
+		 * @param WP_Customize_Panel $panel WP_Customize_Panel instance.
 		 */
 		do_action( 'customize_render_panel', $this );
 
