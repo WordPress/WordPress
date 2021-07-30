@@ -133,9 +133,9 @@ class WP_Date_Query {
 	 *                                               Default empty.
 	 *             @type int|int[]    $hour          Optional. The hour of the day. Accepts numbers 0-23 or an array
 	 *                                               of valid numbers if `$compare` supports it. Default empty.
-	 *             @type int|int[]    $minute        Optional. The minute of the hour. Accepts numbers 0-60 or an array
+	 *             @type int|int[]    $minute        Optional. The minute of the hour. Accepts numbers 0-59 or an array
 	 *                                               of valid numbers if `$compare` supports it. Default empty.
-	 *             @type int|int[]    $second        Optional. The second of the minute. Accepts numbers 0-60 or an
+	 *             @type int|int[]    $second        Optional. The second of the minute. Accepts numbers 0-59 or an
 	 *                                               array of valid numbers if `$compare` supports it. Default empty.
 	 *         }
 	 *     }
