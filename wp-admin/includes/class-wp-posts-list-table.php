@@ -1725,7 +1725,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 						<span class="title inline-edit-categories-label"><?php echo esc_html( $taxonomy->labels->name ); ?></span>
 						<input type="hidden" name="<?php echo ( 'category' === $taxonomy->name ) ? 'post_category[]' : 'tax_input[' . esc_attr( $taxonomy->name ) . '][]'; ?>" value="0" />
 						<ul class="cat-checklist <?php echo esc_attr( $taxonomy->name ); ?>-checklist">
-							<?php wp_terms_checklist( null, array( 'taxonomy' => $taxonomy->name ) ); ?>
+							<?php wp_terms_checklist( 0, array( 'taxonomy' => $taxonomy->name ) ); ?>
 						</ul>
 
 					<?php endforeach; // $hierarchical_taxonomies as $taxonomy ?>
