@@ -1464,6 +1464,8 @@ class WP_Debug_Data {
 	 *
 	 * @since 5.9.0
 	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
 	 * @param string $var Name of the MySQL variable.
 	 * @return string|null The variable value on success. Null if the variable does not exist.
 	 */
