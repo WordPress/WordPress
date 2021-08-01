@@ -925,6 +925,21 @@ class WP_Debug_Data {
 			'private' => true,
 		);
 
+		$info['wp-database']['fields']['max_allowed_packet'] = array(
+			'label' => __( 'Max allowed packet size' ),
+			'value' => self::get_mysql_var( 'max_allowed_packet' ),
+		);
+
+		$info['wp-database']['fields']['max_connections'] = array(
+			'label' => __( 'Max connections number' ),
+			'value' => self::get_mysql_var( 'max_connections' ),
+		);
+
+		$info['wp-database']['fields']['query_cache_size'] = array(
+			'label' => __( 'Query cache size' ),
+			'value' => self::get_mysql_var( 'query_cache_size' ),
+		);
+
 		// List must use plugins if there are any.
 		$mu_plugins = get_mu_plugins();
 
@@ -1442,6 +1457,29 @@ class WP_Debug_Data {
 		$info = apply_filters( 'debug_information', $info );
 
 		return $info;
+	}
+
+	/**
+	 * Returns the value of a MySQL variable.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @param string $var Name of the MySQL variable.
+	 * @return string|null The variable value on success. Null if the variable does not exist.
+	 */
+	public static function get_mysql_var( $var ) {
+		global $wpdb;
+
+		$result = $wpdb->get_row(
+			$wpdb->prepare( 'SHOW VARIABLES LIKE %s', $var ),
+			ARRAY_A
+		);
+
+		if ( ! empty( $result ) && array_key_exists( 'Value', $result ) ) {
+			return $result['Value'];
+		}
+
+		return null;
 	}
 
 	/**
