@@ -422,7 +422,7 @@ class WP_Upgrader {
 	/**
 	 * Install a package.
 	 *
-	 * Copies the contents of a package form a source directory, and installs them in
+	 * Copies the contents of a package from a source directory, and installs them in
 	 * a destination directory. Optionally removes the source. It can also optionally
 	 * clear out the destination folder if it already exists.
 	 *
