@@ -60,7 +60,7 @@ function _get_cron_lock() {
 	global $wpdb;
 
 	$value = 0;
-	if (wp_using_ext_object_cache()) {
+	if ( wp_using_ext_object_cache() ) {
 		/*
 		 * Skip local cache and force re-fetch of doing_cron transient
 		 * in case another process updated the cache.
