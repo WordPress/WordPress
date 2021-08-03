@@ -330,7 +330,7 @@ function wp_default_packages_inline_scripts( $scripts ) {
 	$timezone_abbr   = '';
 
 	if ( ! empty( $timezone_string ) ) {
-		$timezone_date = new DateTime( null, new DateTimeZone( $timezone_string ) );
+		$timezone_date = new DateTime( 'now', new DateTimeZone( $timezone_string ) );
 		$timezone_abbr = $timezone_date->format( 'T' );
 	}
 
