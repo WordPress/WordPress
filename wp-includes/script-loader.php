@@ -2732,6 +2732,10 @@ function wp_maybe_inline_styles() {
  * @since 5.8.0
  */
 function wp_add_iframed_editor_assets_html() {
+	if ( ! wp_should_load_block_editor_scripts_and_styles() ) {
+		return;
+	}
+
 	$script_handles = array();
 	$style_handles  = array(
 		'wp-block-editor',
