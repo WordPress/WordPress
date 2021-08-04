@@ -144,7 +144,7 @@ if ( ! function_exists( 'twentyfourteen_admin_header_image' ) ) :
 		?>
 	<div id="headimg">
 		<?php if ( get_header_image() ) : ?>
-		<img src="<?php header_image(); ?>" alt="">
+		<img src="<?php header_image(); ?>" alt="" />
 		<?php endif; ?>
 		<h1 class="displaying-header-text"><a id="name" style="<?php echo esc_attr( sprintf( 'color: #%s;', get_header_textcolor() ) ); ?>" onclick="return false;" href="<?php echo esc_url( home_url( '/' ) ); ?>" tabindex="-1"><?php bloginfo( 'name' ); ?></a></h1>
 	</div>
