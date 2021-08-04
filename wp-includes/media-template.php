@@ -1479,7 +1479,7 @@ function wp_print_media_templates() {
 
 	<?php // Template for the Crop area layout, used for example in the Customizer. ?>
 	<script type="text/html" id="tmpl-crop-content">
-		<img class="crop-image" src="{{ data.url }}" alt="<?php esc_attr_e( 'Image crop area preview. Requires mouse interaction.' ); ?>">
+		<img class="crop-image" src="{{ data.url }}" alt="<?php esc_attr_e( 'Image crop area preview. Requires mouse interaction.' ); ?>" />
 		<div class="upload-errors"></div>
 	</script>
 
