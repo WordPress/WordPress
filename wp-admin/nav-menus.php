@@ -981,12 +981,16 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 								<div class="drag-instructions post-body-plain" <?php echo $hide_style; ?>>
 									<p><?php echo $starter_copy; ?></p>
 								</div>
-								<div id="nav-menu-bulk-actions-top" class="bulk-actions">
-									<label class="bulk-select-button" for="bulk-select-switcher-top">
-										<input type="checkbox" id="bulk-select-switcher-top" name="bulk-select-switcher-top" class="bulk-select-switcher">
-										<span class="bulk-select-button-label"><?php _e( 'Bulk Select' ); ?></span>
-									</label>
-								</div>
+
+								<?php if ( ! $add_new_screen ) : ?>
+									<div id="nav-menu-bulk-actions-top" class="bulk-actions">
+										<label class="bulk-select-button" for="bulk-select-switcher-top">
+											<input type="checkbox" id="bulk-select-switcher-top" name="bulk-select-switcher-top" class="bulk-select-switcher">
+											<span class="bulk-select-button-label"><?php _e( 'Bulk Select' ); ?></span>
+										</label>
+									</div>
+								<?php endif; ?>
+
 								<?php
 								if ( isset( $edit_markup ) && ! is_wp_error( $edit_markup ) ) {
 									echo $edit_markup;
@@ -1012,17 +1016,21 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 								$no_menus_style = 'style="display: none;"';
 							}
 							?>
-							<div id="nav-menu-bulk-actions-bottom" class="bulk-actions">
-								<label class="bulk-select-button" for="bulk-select-switcher-bottom">
-									<input type="checkbox" id="bulk-select-switcher-bottom" name="bulk-select-switcher-top" class="bulk-select-switcher">
-									<span class="bulk-select-button-label"><?php _e( 'Bulk Select' ); ?></span>
-								</label>
-								<input type="button" class="deletion menu-items-delete disabled" value="<?php _e( 'Remove Selected Items' ); ?>">
-								<div id="pending-menu-items-to-delete">
-									<p><?php _e( 'List of menu items selected for deletion:' ); ?></p>
-									<ul></ul>
+
+							<?php if ( ! $add_new_screen ) : ?>
+								<div id="nav-menu-bulk-actions-bottom" class="bulk-actions">
+									<label class="bulk-select-button" for="bulk-select-switcher-bottom">
+										<input type="checkbox" id="bulk-select-switcher-bottom" name="bulk-select-switcher-top" class="bulk-select-switcher">
+										<span class="bulk-select-button-label"><?php _e( 'Bulk Select' ); ?></span>
+									</label>
+									<input type="button" class="deletion menu-items-delete disabled" value="<?php _e( 'Remove Selected Items' ); ?>">
+									<div id="pending-menu-items-to-delete">
+										<p><?php _e( 'List of menu items selected for deletion:' ); ?></p>
+										<ul></ul>
+									</div>
 								</div>
-							</div>
+							<?php endif; ?>
+
 							<div class="menu-settings" <?php echo $no_menus_style; ?>>
 								<h3><?php _e( 'Menu Settings' ); ?></h3>
 								<?php
