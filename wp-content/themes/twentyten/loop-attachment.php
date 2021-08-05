@@ -179,4 +179,4 @@ if ( have_posts() ) {
 		<?php comments_template(); ?>
 
 <?php endwhile;
-}; // End of the loop. ?>
+} // End of the loop. ?>

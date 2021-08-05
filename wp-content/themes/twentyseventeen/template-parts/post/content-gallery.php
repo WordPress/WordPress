@@ -27,9 +27,9 @@
 			} else {
 				echo twentyseventeen_time_link();
 				twentyseventeen_edit_link();
-			};
+			}
 			echo '</div><!-- .entry-meta -->';
-		};
+		}
 
 		if ( is_single() ) {
 			the_title( '<h1 class="entry-title">', '</h1>' );
@@ -59,9 +59,8 @@
 				echo '<div class="entry-gallery">';
 					echo get_post_gallery();
 				echo '</div>';
-			};
-
-		};
+			}
+		}
 
 		if ( is_single() || ! get_post_gallery() ) {
 
@@ -81,8 +80,7 @@
 					'link_after'  => '</span>',
 				)
 			);
-
-		};
+		}
 		?>
 
 	</div><!-- .entry-content -->

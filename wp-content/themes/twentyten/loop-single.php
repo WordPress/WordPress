@@ -88,4 +88,4 @@ if ( have_posts() ) {
 					<?php comments_template( '', true ); ?>
 
 	<?php endwhile;
-}; // End of the loop. ?>
+} // End of the loop. ?>
