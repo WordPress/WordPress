@@ -109,7 +109,7 @@ $maxdeep = (int) apply_filters( 'thread_comments_depth_max', 10 );
 $thread_comments_depth = '</label> <label for="thread_comments_depth"><select name="thread_comments_depth" id="thread_comments_depth">';
 for ( $i = 2; $i <= $maxdeep; $i++ ) {
 	$thread_comments_depth .= "<option value='" . esc_attr( $i ) . "'";
-	if ( get_option( 'thread_comments_depth' ) == $i ) {
+	if ( (int) get_option( 'thread_comments_depth' ) === $i ) {
 		$thread_comments_depth .= " selected='selected'";
 	}
 	$thread_comments_depth .= ">$i</option>";
@@ -256,7 +256,7 @@ $ratings = array(
 	'X'  => __( 'X &#8212; Even more mature than above' ),
 );
 foreach ( $ratings as $key => $rating ) :
-	$selected = ( get_option( 'avatar_rating' ) == $key ) ? 'checked="checked"' : '';
+	$selected = ( get_option( 'avatar_rating' ) === $key ) ? 'checked="checked"' : '';
 	echo "\n\t<label><input type='radio' name='avatar_rating' value='" . esc_attr( $key ) . "' $selected/> $rating</label><br />";
 endforeach;
 ?>
@@ -299,7 +299,7 @@ $avatar_list     = '';
 add_filter( 'pre_option_show_avatars', '__return_true', 100 );
 
 foreach ( $avatar_defaults as $default_key => $default_name ) {
-	$selected     = ( $default == $default_key ) ? 'checked="checked" ' : '';
+	$selected     = ( $default === $default_key ) ? 'checked="checked" ' : '';
 	$avatar_list .= "\n\t<label><input type='radio' name='avatar_default' id='avatar_{$default_key}' value='" . esc_attr( $default_key ) . "' {$selected}/> ";
 	$avatar_list .= get_avatar( $user_email, 32, $default_key, '', array( 'force_default' => true ) );
 	$avatar_list .= ' ' . $default_name . '</label>';
