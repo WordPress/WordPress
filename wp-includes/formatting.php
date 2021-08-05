@@ -3265,7 +3265,7 @@ function wp_init_targeted_link_rel_filters() {
 
 	foreach ( $filters as $filter ) {
 		add_filter( $filter, 'wp_targeted_link_rel' );
-	};
+	}
 }
 
 /**
@@ -3288,7 +3288,7 @@ function wp_remove_targeted_link_rel_filters() {
 
 	foreach ( $filters as $filter ) {
 		remove_filter( $filter, 'wp_targeted_link_rel' );
-	};
+	}
 }
 
 /**
