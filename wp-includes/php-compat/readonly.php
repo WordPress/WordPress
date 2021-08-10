@@ -15,7 +15,7 @@
 /**
  * Outputs the HTML readonly attribute.
  *
- * Compares the first two arguments and if identical marks as readonly
+ * Compares the first two arguments and if identical marks as readonly.
  *
  * This function is deprecated, and cannot be used on PHP >= 8.1.
  *
@@ -24,10 +24,12 @@
  *
  * @see wp_readonly()
  *
- * @param mixed $readonly One of the values to compare
- * @param mixed $current  (true) The other value to compare if not just true
- * @param bool  $echo     Whether to echo or just return the string
- * @return string HTML attribute or empty string
+ * @param mixed $readonly One of the values to compare.
+ * @param mixed $current  Optional. The other value to compare if not just true.
+ *                        Default true.
+ * @param bool  $echo     Optional. Whether to echo or just return the string.
+ *                        Default true.
+ * @return string HTML attribute or empty string.
  */
 function readonly( $readonly, $current = true, $echo = true ) {
 	_deprecated_function( __FUNCTION__, '5.9.0', 'wp_readonly()' );
