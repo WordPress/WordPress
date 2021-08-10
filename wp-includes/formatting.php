@@ -5876,11 +5876,11 @@ function wp_staticize_emoji_for_email( $mail ) {
 	}
 
 	/*
-	 * We can only transform the emoji into images if it's a text/html email.
+	 * We can only transform the emoji into images if it's a `text/html` email.
 	 * To do that, here's a cut down version of the same process that happens
-	 * in wp_mail() - get the Content-Type from the headers, if there is one,
-	 * then pass it through the wp_mail_content_type filter, in case a plugin
-	 * is handling changing the Content-Type.
+	 * in wp_mail() - get the `Content-Type` from the headers, if there is one,
+	 * then pass it through the {@see 'wp_mail_content_type'} filter, in case
+	 * a plugin is handling changing the `Content-Type`.
 	 */
 	$headers = array();
 	if ( isset( $mail['headers'] ) ) {
