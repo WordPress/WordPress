@@ -3013,7 +3013,7 @@ class ParagonIE_Sodium_Compat
     /**
      * DANGER! UNAUTHENTICATED ENCRYPTION!
      *
-     * Unless you are following expert advice, do not used this feature.
+     * Unless you are following expert advice, do not use this feature.
      *
      * Algorithm: XSalsa20
      *
@@ -3112,7 +3112,7 @@ class ParagonIE_Sodium_Compat
     /**
      * DANGER! UNAUTHENTICATED ENCRYPTION!
      *
-     * Unless you are following expert advice, do not used this feature.
+     * Unless you are following expert advice, do not use this feature.
      *
      * Algorithm: XChaCha20
      *
