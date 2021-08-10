@@ -186,7 +186,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	private function set_is_enabled() {
 		/*
 		 * Respect old get_option() filters left for back-compat when the 'enable_xmlrpc'
-		 * option was deprecated in 3.5.0. Use the 'xmlrpc_enabled' hook instead.
+		 * option was deprecated in 3.5.0. Use the {@see 'xmlrpc_enabled'} hook instead.
 		 */
 		$is_enabled = apply_filters( 'pre_option_enable_xmlrpc', false );
 		if ( false === $is_enabled ) {
