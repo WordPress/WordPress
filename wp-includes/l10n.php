@@ -1712,3 +1712,47 @@ function is_locale_switched() {
 
 	return $wp_locale_switcher->is_switched();
 }
+
+/**
+ * Translates the provided settings value using its i18n schema.
+ *
+ * @since 5.9.0
+ * @access private
+ *
+ * @param string|string[]|array[]|object $i18n_schema I18n schema for the setting.
+ * @param string|string[]|array[]        $settings    Value for the settings.
+ * @param string                         $textdomain  Textdomain to use with translations.
+ *
+ * @return string|string[]|array[] Translated settings.
+ */
+function translate_settings_using_i18n_schema( $i18n_schema, $settings, $textdomain ) {
+	if ( empty( $i18n_schema ) || empty( $settings ) || empty( $textdomain ) ) {
+		return $settings;
+	}
+
+	if ( is_string( $i18n_schema ) && is_string( $settings ) ) {
+		return translate_with_gettext_context( $settings, $i18n_schema, $textdomain );
+	}
+	if ( is_array( $i18n_schema ) && is_array( $settings ) ) {
+		$translated_settings = array();
+		foreach ( $settings as $value ) {
+			$translated_settings[] = translate_settings_using_i18n_schema( $i18n_schema[0], $value, $textdomain );
+		}
+		return $translated_settings;
+	}
+	if ( is_object( $i18n_schema ) && is_array( $settings ) ) {
+		$group_key           = '*';
+		$translated_settings = array();
+		foreach ( $settings as $key => $value ) {
+			if ( isset( $i18n_schema->$key ) ) {
+				$translated_settings[ $key ] = translate_settings_using_i18n_schema( $i18n_schema->$key, $value, $textdomain );
+			} elseif ( isset( $i18n_schema->$group_key ) ) {
+				$translated_settings[ $key ] = translate_settings_using_i18n_schema( $i18n_schema->$group_key, $value, $textdomain );
+			} else {
+				$translated_settings[ $key ] = $value;
+			}
+		}
+		return $translated_settings;
+	}
+	return $settings;
+}
