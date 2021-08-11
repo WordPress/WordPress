@@ -602,15 +602,18 @@ function themes_api( $action, $args = array() ) {
 			}
 		}
 
-		// Back-compat for info/1.2 API, upgrade the theme objects in query_themes to objects.
-		if ( 'query_themes' === $action ) {
-			foreach ( $res->themes as $i => $theme ) {
-				$res->themes[ $i ] = (object) $theme;
+		if ( ! is_wp_error( $res ) ) {
+			// Back-compat for info/1.2 API, upgrade the theme objects in query_themes to objects.
+			if ( 'query_themes' === $action ) {
+				foreach ( $res->themes as $i => $theme ) {
+					$res->themes[ $i ] = (object) $theme;
+				}
 			}
-		}
-		// Back-compat for info/1.2 API, downgrade the feature_list result back to an array.
-		if ( 'feature_list' === $action ) {
-			$res = (array) $res;
+
+			// Back-compat for info/1.2 API, downgrade the feature_list result back to an array.
+			if ( 'feature_list' === $action ) {
+				$res = (array) $res;
+			}
 		}
 	}
 
