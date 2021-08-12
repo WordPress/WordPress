@@ -559,10 +559,12 @@ add_filter( 'wp_calculate_image_sizes', 'twentysixteen_content_image_sizes_attr'
  *
  * @since Twenty Sixteen 1.0
  *
- * @param array $attr Attributes for the image markup.
- * @param int   $attachment Image attachment ID.
- * @param array $size Registered image size or flat array of height and width dimensions.
- * @return array The filtered attributes for the image markup.
+ * @param string[]     $attr       Array of attribute values for the image markup, keyed by attribute name.
+ *                                 See wp_get_attachment_image().
+ * @param WP_Post      $attachment Image attachment post.
+ * @param string|int[] $size       Requested image size. Can be any registered image size name, or
+ *                                 an array of width and height values in pixels (in that order).
+ * @return string[] The filtered attributes for the image markup.
  */
 function twentysixteen_post_thumbnail_sizes_attr( $attr, $attachment, $size ) {
 	if ( 'post-thumbnail' === $size ) {

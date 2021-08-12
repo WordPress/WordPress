@@ -432,12 +432,12 @@ add_filter( 'the_password_form', 'twenty_twenty_one_password_form', 10, 2 );
  *
  * @since Twenty Twenty-One 1.0
  *
- * @param array        $attr       Array of attribute values for the image markup, keyed by attribute name.
+ * @param string[]     $attr       Array of attribute values for the image markup, keyed by attribute name.
  *                                 See wp_get_attachment_image().
  * @param WP_Post      $attachment Image attachment post.
- * @param string|array $size       Requested size. Image size or array of width and height values
- *                                 (in that order). Default 'thumbnail'.
- * @return array
+ * @param string|int[] $size       Requested image size. Can be any registered image size name, or
+ *                                 an array of width and height values in pixels (in that order).
+ * @return string[] The filtered attributes for the image markup.
  */
 function twenty_twenty_one_get_attachment_image_attributes( $attr, $attachment, $size ) {
 
