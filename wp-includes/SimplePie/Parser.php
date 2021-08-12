@@ -164,12 +164,18 @@ class SimplePie_Parser
 			xml_set_element_handler($xml, 'tag_open', 'tag_close');
 
 			// Parse!
-			if (!xml_parse($xml, $data, true))
-			{
-				$this->error_code = xml_get_error_code($xml);
-				$this->error_string = xml_error_string($this->error_code);
-				$return = false;
+			$fileStream = fopen('php://memory','r+');
+			fwrite($fileStream, $data);
+			rewind($fileStream);
+			while (($dataChunk = fread($fileStream, 16384))) {
+				if (!xml_parse($xml, $dataChunk)) {
+					$this->error_code = xml_get_error_code($xml);
+					$this->error_string = xml_error_string($this->error_code);
+					$return = false;
+					break;
+				}
 			}
+			
 			$this->current_line = xml_get_current_line_number($xml);
 			$this->current_column = xml_get_current_column_number($xml);
 			$this->current_byte = xml_get_current_byte_index($xml);
