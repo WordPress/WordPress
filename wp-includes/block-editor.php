@@ -272,7 +272,7 @@ function get_legacy_widget_block_editor_settings() {
 }
 
 /**
- * Returns the contextualized block editor settings settings for a selected editor context.
+ * Returns the contextualized block editor settings for a selected editor context.
  *
  * @since 5.8.0
  *
