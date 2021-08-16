@@ -223,6 +223,10 @@ if ( ! class_exists( 'TwentyTwenty_SVG_Icons' ) ) {
 			'twitch'    => array(
 				'twitch.tv',
 			),
+			'whatsapp' => array(
+				'wa.me',
+				'whatsapp.com',
+			),
 			'wordpress' => array(
 				'wordpress.com',
 				'wordpress.org',
