@@ -5709,6 +5709,10 @@ function iis7_supports_permalinks() {
  * @return int 0 means nothing is wrong, greater than 0 means something was wrong.
  */
 function validate_file( $file, $allowed_files = array() ) {
+	if ( ! is_scalar( $file ) || '' === $file ) {
+		return 0;
+	}
+
 	// `../` on its own is not allowed:
 	if ( '../' === $file ) {
 		return 1;
