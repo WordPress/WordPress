@@ -205,6 +205,7 @@ function twentyseventeen_social_links_icons() {
 		'vimeo.com'       => 'vimeo',
 		'vine.co'         => 'vine',
 		'vk.com'          => 'vk',
+		'wa.me'           => 'whatsapp',
 		'whatsapp.com'    => 'whatsapp',
 		'wordpress.org'   => 'wordpress',
 		'wordpress.com'   => 'wordpress',
