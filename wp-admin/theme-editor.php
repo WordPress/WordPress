@@ -343,10 +343,12 @@ if ( ! in_array( 'theme_editor_notice', $dismissed_pointers, true ) ) :
 
 	$excluded_referer_basenames = array( 'theme-editor.php', 'wp-login.php' );
 
-	if ( $referer && ! in_array( basename( parse_url( $referer, PHP_URL_PATH ) ), $excluded_referer_basenames, true ) ) {
-		$return_url = $referer;
-	} else {
-		$return_url = admin_url( '/' );
+	$return_url = admin_url( '/' );
+	if ( $referer ) {
+		$referer_path = parse_url( $referer, PHP_URL_PATH );
+		if ( is_string( $referer_path ) && ! in_array( basename( $referer_path ), $excluded_referer_basenames, true ) ) {
+			$return_url = $referer;
+		}
 	}
 	?>
 	<div id="file-editor-warning" class="notification-dialog-wrap file-editor-warning hide-if-no-js hidden">
