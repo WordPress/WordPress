@@ -1126,7 +1126,11 @@ function download_url( $url, $timeout = 300, $signature_verification = false ) {
 		return new WP_Error( 'http_no_url', __( 'Invalid URL Provided.' ) );
 	}
 
-	$url_filename = basename( parse_url( $url, PHP_URL_PATH ) );
+	$url_path     = parse_url( $url, PHP_URL_PATH );
+	$url_filename = '';
+	if ( is_string( $url_path ) && '' !== $url_path ) {
+		$url_filename = basename( $url_path );
+	}
 
 	$tmpfname = wp_tempnam( $url_filename );
 	if ( ! $tmpfname ) {
@@ -1212,9 +1216,8 @@ function download_url( $url, $timeout = 300, $signature_verification = false ) {
 			// WordPress.org stores signatures at $package_url.sig.
 
 			$signature_url = false;
-			$url_path      = parse_url( $url, PHP_URL_PATH );
 
-			if ( '.zip' === substr( $url_path, -4 ) || '.tar.gz' === substr( $url_path, -7 ) ) {
+			if ( is_string( $url_path ) && ( '.zip' === substr( $url_path, -4 ) || '.tar.gz' === substr( $url_path, -7 ) ) ) {
 				$signature_url = str_replace( $url_path, $url_path . '.sig', $url );
 			}
 
@@ -1243,7 +1246,7 @@ function download_url( $url, $timeout = 300, $signature_verification = false ) {
 		}
 
 		// Perform the checks.
-		$signature_verification = verify_file_signature( $tmpfname, $signature, basename( parse_url( $url, PHP_URL_PATH ) ) );
+		$signature_verification = verify_file_signature( $tmpfname, $signature, $url_filename );
 	}
 
 	if ( is_wp_error( $signature_verification ) ) {
