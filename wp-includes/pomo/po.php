@@ -13,7 +13,10 @@ if ( ! defined( 'PO_MAX_LINE_LEN' ) ) {
 	define( 'PO_MAX_LINE_LEN', 79 );
 }
 
-ini_set( 'auto_detect_line_endings', 1 );
+// This setting has been deprecated in PHP 8.1.
+if ( PHP_VERSION_ID < 80100 ) {
+	ini_set( 'auto_detect_line_endings', 1 );
+}
 
 /**
  * Routines for working with PO files
