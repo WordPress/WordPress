@@ -1409,7 +1409,7 @@ Query = Attachments.extend(/** @lends wp.media.model.Query.prototype */{
 	 * @readonly
 	 */
 	defaultArgs: {
-		posts_per_page: 40
+		posts_per_page: 80
 	},
 	/**
 	 * @readonly
