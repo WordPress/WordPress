@@ -13,10 +13,15 @@ if ( ! defined( 'PO_MAX_LINE_LEN' ) ) {
 	define( 'PO_MAX_LINE_LEN', 79 );
 }
 
-// This setting has been deprecated in PHP 8.1.
-if ( PHP_VERSION_ID < 80100 ) {
-	ini_set( 'auto_detect_line_endings', 1 );
-}
+/*
+ * The `auto_detect_line_endings` setting has been deprecated in PHP 8.1,
+ * but will continue to work until PHP 9.0.
+ * For now, we're silencing the deprecation notice as there may still be
+ * translation files around which haven't been updated in a long time and
+ * which still use the old MacOS standalone `\r` as a line ending.
+ * This fix should be revisited when PHP 9.0 is in alpha/beta.
+ */
+@ini_set( 'auto_detect_line_endings', 1 ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
 
 /**
  * Routines for working with PO files
