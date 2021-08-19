@@ -249,7 +249,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 #wpadminbar .ab-item:before,
 #wpadminbar #adminbarsearch:before {
 	position: relative;
-	transition: all .1s ease-in-out;
+	transition: color .1s ease-in-out;
 }
 
 #wpadminbar .ab-label {
