@@ -78,12 +78,16 @@ class WP_Media_List_Table extends WP_List_Table {
 		 */
 		$not_in = array();
 
-		foreach ( _get_cron_array() as $cron ) {
-			if ( isset( $cron['upgrader_scheduled_cleanup'] ) ) {
-				$details = reset( $cron['upgrader_scheduled_cleanup'] );
+		$crons = _get_cron_array();
 
-				if ( ! empty( $details['args'][0] ) ) {
-					$not_in[] = (int) $details['args'][0];
+		if ( is_array( $crons ) ) {
+			foreach ( $crons as $cron ) {
+				if ( isset( $cron['upgrader_scheduled_cleanup'] ) ) {
+					$details = reset( $cron['upgrader_scheduled_cleanup'] );
+
+					if ( ! empty( $details['args'][0] ) ) {
+						$not_in[] = (int) $details['args'][0];
+					}
 				}
 			}
 		}
