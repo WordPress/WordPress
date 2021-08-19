@@ -2618,7 +2618,9 @@
 
 	.attachments-browser .attachments,
 	.attachments-browser .uploader-inline,
-	.attachments-browser .media-toolbar {
+	.attachments-browser .media-toolbar,
+	.attachments-browser .attachments-wrapper,
+	.attachments-browser.has-load-more .attachments-wrapper {
 		left: 262px;
 	}
 
@@ -2885,8 +2887,13 @@
 
 	.attachments-browser .attachments,
 	.attachments-browser .uploader-inline,
-	.attachments-browser .media-toolbar {
+	.attachments-browser .media-toolbar,
+	.media-frame-content .attachments-browser .attachments-wrapper {
 		left: 0;
+	}
+
+	.attachments-browser .attachments-wrapper {
+		padding-top: 12px;
 	}
 
 	.image-details .media-frame-title {
