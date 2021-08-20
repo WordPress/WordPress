@@ -2818,6 +2818,11 @@ function rest_preload_api_request( $memo, $path ) {
 		}
 	}
 
+	$path = untrailingslashit( $path );
+	if ( empty( $path ) ) {
+		$path = '/';
+	}
+
 	$path_parts = parse_url( $path );
 	if ( false === $path_parts ) {
 		return $memo;
