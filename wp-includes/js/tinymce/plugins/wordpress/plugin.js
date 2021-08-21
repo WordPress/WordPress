@@ -12,7 +12,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 		__ = editor.editorManager.i18n.translate,
 		$ = window.jQuery,
 		wp = window.wp,
-		hasWpautop = ( wp && wp.editor && wp.editor.autop && editor.getParam( 'wpautop', true ) ),
+		hasWpautop = ( wp && wp.oldEditor && wp.oldEditor.autop && editor.getParam( 'wpautop', true ) ),
 		wpTooltips = false;
 
 	if ( $ ) {
@@ -130,7 +130,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 
 			if ( event.load && event.format !== 'raw' ) {
 				if ( hasWpautop ) {
-					event.content = wp.editor.autop( event.content );
+					event.content = wp.oldEditor.autop( event.content );
 				} else {
 					// Prevent creation of paragraphs out of multiple HTML comments.
 					event.content = event.content.replace( /-->\s+<!--/g, '--><!--' );
@@ -601,7 +601,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 		event.content = event.content.replace( /<p>(?:<br ?\/?>|\u00a0|\uFEFF| )*<\/p>/g, '<p>&nbsp;</p>' );
 
 		if ( hasWpautop ) {
-			event.content = wp.editor.removep( event.content );
+			event.content = wp.oldEditor.removep( event.content );
 		} else {
 			// Restore formatting of block boundaries.
 			event.content = event.content.replace( /-->\s*<!-- wp:/g, '-->\n\n<!-- wp:' );
