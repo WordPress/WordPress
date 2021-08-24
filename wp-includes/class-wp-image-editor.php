@@ -591,13 +591,11 @@ abstract class WP_Image_Editor {
 	 * @return string|false
 	 */
 	protected static function get_extension( $mime_type = null ) {
-		$extensions = explode( '|', array_search( $mime_type, wp_get_mime_types(), true ) );
-
-		if ( empty( $extensions[0] ) ) {
+		if ( empty( $mime_type ) ) {
 			return false;
 		}
 
-		return $extensions[0];
+		return wp_get_default_extension_for_mime_type( $mime_type );
 	}
 }
 
