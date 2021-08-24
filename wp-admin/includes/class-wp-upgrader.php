@@ -378,7 +378,7 @@ class WP_Upgrader {
 	 *
 	 * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
 	 *
-	 * @param string $remote_destination The location on the remote filesystem to be cleared
+	 * @param string $remote_destination The location on the remote filesystem to be cleared.
 	 * @return bool|WP_Error True upon success, WP_Error on failure.
 	 */
 	public function clear_destination( $remote_destination ) {
@@ -563,7 +563,8 @@ class WP_Upgrader {
 			 *
 			 * @since 2.8.0
 			 *
-			 * @param true|WP_Error $removed            Whether the destination was cleared. true upon success, WP_Error on failure.
+			 * @param true|WP_Error $removed            Whether the destination was cleared.
+			 *                                          True upon success, WP_Error on failure.
 			 * @param string        $local_destination  The local package destination.
 			 * @param string        $remote_destination The remote package destination.
 			 * @param array         $hook_extra         Extra arguments passed to hooked filters.
@@ -736,8 +737,8 @@ class WP_Upgrader {
 		}
 
 		/*
-		 * Download the package (Note, This just returns the filename
-		 * of the file if the package is a local file)
+		 * Download the package. Note: If the package is the full path
+		 * to an existing local file, it will be returned untouched.
 		 */
 		$download = $this->download_package( $options['package'], true, $options['hook_extra'] );
 
@@ -868,7 +869,7 @@ class WP_Upgrader {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @global WP_Filesystem_Base $wp_filesystem Subclass
+	 * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
 	 *
 	 * @param bool $enable True to enable maintenance mode, false to disable.
 	 */
