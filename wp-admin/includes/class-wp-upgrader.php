@@ -244,6 +244,7 @@ class WP_Upgrader {
 	 * Download a package.
 	 *
 	 * @since 2.8.0
+	 * @since 5.2.0 Added the `$check_signatures` parameter.
 	 * @since 5.5.0 Added the `$hook_extra` parameter.
 	 *
 	 * @param string $package          The URI of the package. If this is the full path to an
