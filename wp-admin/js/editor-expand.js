@@ -33,7 +33,7 @@
 			$sideSortables = $( '#side-sortables' ),
 			$postboxContainer = $( '#postbox-container-1' ),
 			$postBody = $('#post-body'),
-			fullscreen = window.wp.editor && window.wp.editor.fullscreen,
+			fullscreen = window.wp.oldEditor && window.wp.oldEditor.fullscreen,
 			mceEditor,
 			mceBind = function(){},
 			mceUnbind = function(){},
@@ -1603,8 +1603,8 @@
 		}
 
 		window.wp = window.wp || {};
-		window.wp.editor = window.wp.editor || {};
-		window.wp.editor.dfw = {
+		window.wp.oldEditor = window.wp.oldEditor || {};
+		window.wp.oldEditor.dfw = {
 			activate: activate,
 			deactivate: deactivate,
 			isActive: isActive,

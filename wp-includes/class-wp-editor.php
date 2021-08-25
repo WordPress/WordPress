@@ -969,8 +969,8 @@ final class _WP_Editors {
 		?>
 		<script type="text/javascript">
 		window.wp = window.wp || {};
-		window.wp.editor = window.wp.editor || {};
-		window.wp.editor.getDefaultSettings = function() {
+		window.wp.editor = window.wp.oldEditor = window.wp.oldEditor || {};
+		window.wp.oldEditor.getDefaultSettings = function() {
 			return {
 				tinymce: <?php echo $settings; ?>,
 				quicktags: {

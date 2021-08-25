@@ -5,7 +5,7 @@
 window.wp = window.wp || {};
 
 ( function( $, wp ) {
-	wp.editor = wp.editor || {};
+	wp.editor = wp.oldEditor = wp.oldEditor || {};
 
 	/**
 	 * Utility functions for the editor.
@@ -1191,8 +1191,8 @@ window.wp = window.wp || {};
 			} );
 		}
 
-		wp.editor.autop = wpautop;
-		wp.editor.removep = pre_wpautop;
+		wp.oldEditor.autop = wpautop;
+		wp.oldEditor.removep = pre_wpautop;
 
 		exports = {
 			go: switchEditor,
@@ -1241,15 +1241,15 @@ window.wp = window.wp || {};
 	 *    }
 	 * }
 	 */
-	wp.editor.initialize = function( id, settings ) {
+	wp.oldEditor.initialize = function( id, settings ) {
 		var init;
 		var defaults;
 
-		if ( ! $ || ! id || ! wp.editor.getDefaultSettings ) {
+		if ( ! $ || ! id || ! wp.oldEditor.getDefaultSettings ) {
 			return;
 		}
 
-		defaults = wp.editor.getDefaultSettings();
+		defaults = wp.oldEditor.getDefaultSettings();
 
 		// Initialize TinyMCE by default.
 		if ( ! settings ) {
@@ -1349,13 +1349,13 @@ window.wp = window.wp || {};
 	/**
 	 * Remove one editor instance.
 	 *
-	 * Intended for use with editors that were initialized with wp.editor.initialize().
+	 * Intended for use with editors that were initialized with wp.oldEditor.initialize().
 	 *
 	 * @since 4.8.0
 	 *
 	 * @param {string} id The HTML id of the editor textarea.
 	 */
-	wp.editor.remove = function( id ) {
+	wp.oldEditor.remove = function( id ) {
 		var mceInstance, qtInstance,
 			$wrap = $( '#wp-' + id + '-wrap' );
 
@@ -1388,14 +1388,14 @@ window.wp = window.wp || {};
 	/**
 	 * Get the editor content.
 	 *
-	 * Intended for use with editors that were initialized with wp.editor.initialize().
+	 * Intended for use with editors that were initialized with wp.oldEditor.initialize().
 	 *
 	 * @since 4.8.0
 	 *
 	 * @param {string} id The HTML id of the editor textarea.
 	 * @return The editor content.
 	 */
-	wp.editor.getContent = function( id ) {
+	wp.oldEditor.getContent = function( id ) {
 		var editor;
 
 		if ( ! $ || ! id ) {
