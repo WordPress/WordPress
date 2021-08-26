@@ -270,7 +270,7 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller {
 					'context'     => array( 'view' ),
 				),
 				'last_updated'        => array(
-					'description' => __( 'The date when the block was last updated, in fuzzy human readable format.' ),
+					'description' => __( 'The date when the block was last updated.' ),
 					'type'        => 'string',
 					'format'      => 'date-time',
 					'context'     => array( 'view' ),
