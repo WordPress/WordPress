@@ -381,7 +381,7 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
 		$installed_locales = apply_filters( 'plugins_update_check_locales', $installed_locales );
 
 		$language_packs = array_map(
-			function( $item ) {
+			static function( $item ) {
 				return (object) $item;
 			},
 			$api->language_packs
@@ -389,7 +389,7 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
 
 		$language_packs = array_filter(
 			$language_packs,
-			function( $pack ) use ( $installed_locales ) {
+			static function( $pack ) use ( $installed_locales ) {
 				return in_array( $pack->language, $installed_locales, true );
 			}
 		);

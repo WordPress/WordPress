@@ -636,7 +636,7 @@ class WP_Theme_JSON {
 
 		$declaration_block = array_reduce(
 			$declarations,
-			function ( $carry, $element ) {
+			static function ( $carry, $element ) {
 				return $carry .= $element['name'] . ': ' . $element['value'] . ';'; },
 			''
 		);

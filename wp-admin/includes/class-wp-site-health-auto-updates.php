@@ -41,7 +41,7 @@ class WP_Site_Health_Auto_Updates {
 
 		$tests = array_filter( $tests );
 		$tests = array_map(
-			function( $test ) {
+			static function( $test ) {
 				$test = (object) $test;
 
 				if ( empty( $test->severity ) ) {

@@ -3113,7 +3113,7 @@ function wp_rel_nofollow( $text ) {
 	$text = stripslashes( $text );
 	$text = preg_replace_callback(
 		'|<a (.+?)>|i',
-		function( $matches ) {
+		static function( $matches ) {
 			return wp_rel_callback( $matches, 'nofollow' );
 		},
 		$text
@@ -3147,7 +3147,7 @@ function wp_rel_ugc( $text ) {
 	$text = stripslashes( $text );
 	$text = preg_replace_callback(
 		'|<a (.+?)>|i',
-		function( $matches ) {
+		static function( $matches ) {
 			return wp_rel_callback( $matches, 'nofollow ugc' );
 		},
 		$text

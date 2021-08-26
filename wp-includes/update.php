@@ -517,7 +517,7 @@ function wp_update_plugins( $extra_stats = array() ) {
 		}
 	}
 
-	$sanitize_plugin_update_payload = function( &$item ) {
+	$sanitize_plugin_update_payload = static function( &$item ) {
 		$item = (object) $item;
 
 		unset( $item->translations, $item->compatibility );

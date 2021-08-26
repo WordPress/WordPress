@@ -124,7 +124,7 @@ function resolve_block_template( $template_type, $template_hierarchy ) {
 
 	usort(
 		$templates,
-		function ( $template_a, $template_b ) use ( $slug_priorities ) {
+		static function ( $template_a, $template_b ) use ( $slug_priorities ) {
 			return $slug_priorities[ $template_a->slug ] - $slug_priorities[ $template_b->slug ];
 		}
 	);

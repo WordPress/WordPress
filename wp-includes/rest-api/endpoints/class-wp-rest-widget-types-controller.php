@@ -85,7 +85,7 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
 					'form_data' => array(
 						'description'       => __( 'Serialized widget form data to encode into instance settings.' ),
 						'type'              => 'string',
-						'sanitize_callback' => function( $string ) {
+						'sanitize_callback' => static function( $string ) {
 							$array = array();
 							wp_parse_str( $string, $array );
 							return $array;

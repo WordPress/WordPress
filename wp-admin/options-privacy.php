@@ -20,7 +20,7 @@ if ( isset( $_GET['tab'] ) && 'policyguide' === $_GET['tab'] ) {
 
 add_filter(
 	'admin_body_class',
-	function( $body_class ) {
+	static function( $body_class ) {
 		$body_class .= ' privacy-settings ';
 
 		return $body_class;

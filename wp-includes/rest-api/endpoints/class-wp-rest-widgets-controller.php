@@ -792,7 +792,7 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 					'type'        => 'string',
 					'context'     => array(),
 					'arg_options' => array(
-						'sanitize_callback' => function( $string ) {
+						'sanitize_callback' => static function( $string ) {
 							$array = array();
 							wp_parse_str( $string, $array );
 							return $array;

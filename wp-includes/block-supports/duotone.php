@@ -361,7 +361,7 @@ function wp_render_duotone_support( $block_content, $block ) {
 
 	$selectors        = explode( ',', $duotone_support );
 	$selectors_scoped = array_map(
-		function ( $selector ) use ( $duotone_id ) {
+		static function ( $selector ) use ( $duotone_id ) {
 			return '.' . $duotone_id . ' ' . trim( $selector );
 		},
 		$selectors

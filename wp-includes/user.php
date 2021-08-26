@@ -3459,7 +3459,7 @@ function wp_user_personal_data_exporter( $email_address ) {
 		// Remove items that use reserved names.
 		$extra_data = array_filter(
 			$_extra_data,
-			function( $item ) use ( $reserved_names ) {
+			static function( $item ) use ( $reserved_names ) {
 				return ! in_array( $item['name'], $reserved_names, true );
 			}
 		);

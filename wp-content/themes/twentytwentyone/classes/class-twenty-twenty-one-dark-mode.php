@@ -153,7 +153,7 @@ class Twenty_Twenty_One_Dark_Mode {
 				array(
 					'section'         => 'colors',
 					'priority'        => 100,
-					'active_callback' => function() {
+					'active_callback' => static function() {
 						return 127 >= Twenty_Twenty_One_Custom_Colors::get_relative_luminance_from_hex( get_theme_mod( 'background_color', 'D1E4DD' ) );
 					},
 				)
@@ -165,7 +165,7 @@ class Twenty_Twenty_One_Dark_Mode {
 			array(
 				'capability'        => 'edit_theme_options',
 				'default'           => false,
-				'sanitize_callback' => function( $value ) {
+				'sanitize_callback' => static function( $value ) {
 					return (bool) $value;
 				},
 			)
@@ -188,7 +188,7 @@ class Twenty_Twenty_One_Dark_Mode {
 				'label'           => esc_html__( 'Dark Mode support', 'twentytwentyone' ),
 				'priority'        => 110,
 				'description'     => $description,
-				'active_callback' => function( $value ) {
+				'active_callback' => static function( $value ) {
 					return 127 < Twenty_Twenty_One_Custom_Colors::get_relative_luminance_from_hex( get_theme_mod( 'background_color', 'D1E4DD' ) );
 				},
 			)
