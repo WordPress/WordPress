@@ -488,13 +488,17 @@ function get_dynamic_block_names() {
  * substitution for characters which might otherwise interfere with embedding
  * the result in an HTML comment.
  *
+ * This function must produce output that remains in sync with the output of
+ * the serializeAttributes JavaScript function in the block editor in order
+ * to ensure consistent operation between PHP and JavaScript.
+ *
  * @since 5.3.1
  *
  * @param array $block_attributes Attributes object.
  * @return string Serialized attributes.
  */
 function serialize_block_attributes( $block_attributes ) {
-	$encoded_attributes = json_encode( $block_attributes );
+	$encoded_attributes = wp_json_encode( $block_attributes, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
 	$encoded_attributes = preg_replace( '/--/', '\\u002d\\u002d', $encoded_attributes );
 	$encoded_attributes = preg_replace( '/</', '\\u003c', $encoded_attributes );
 	$encoded_attributes = preg_replace( '/>/', '\\u003e', $encoded_attributes );
