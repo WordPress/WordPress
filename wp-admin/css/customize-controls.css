@@ -105,6 +105,12 @@ body:not(.ready) #customize-save-button-wrapper .save {
 	height: 100%;
 }
 
+@media (prefers-reduced-motion: reduce) {
+	#customize-sidebar-outer-content {
+		transition: none;
+	}
+}
+
 #customize-theme-controls .control-section-outer {
 	display: none !important;
 }
@@ -121,6 +127,12 @@ body:not(.ready) #customize-save-button-wrapper .save {
 	visibility: visible;
 	left: 100%;
 	transition: left .18s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.outer-section-open .wp-full-overlay.expanded #customize-sidebar-outer-content {
+		transition: none;
+	}
 }
 
 .customize-outer-pane-parent {
@@ -537,6 +549,13 @@ body.trashing #publish-settings {
 		.15s border-color ease-in-out;
 }
 
+@media (prefers-reduced-motion: reduce) {
+	#customize-theme-controls .accordion-section-title,
+	#customize-outer-theme-controls .accordion-section-title {
+		transition: none;
+	}
+}
+
 #customize-controls #customize-theme-controls .customize-themes-panel .accordion-section-title {
 	color: #50575e;
 	background-color: #fff;
@@ -633,6 +652,14 @@ body.trashing #publish-settings {
 	padding: 0;
 	box-sizing: border-box;
 	transition: 0.18s transform cubic-bezier(0.645, 0.045, 0.355, 1); /* easeInOutCubic */
+}
+
+@media (prefers-reduced-motion: reduce) {
+	#customize-info,
+	#customize-theme-controls .customize-pane-parent,
+	#customize-theme-controls .customize-pane-child {
+		transition: none;
+	}
 }
 
 #customize-theme-controls .customize-pane-child.skip-transition {
@@ -1721,6 +1748,12 @@ p.customize-section-description {
 	height: calc(100% - 96px);
 	background: #f0f0f1;
 	z-index: 20;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.control-panel-themes .customize-themes-full-container {
+		transition: none;
+	}
 }
 
 @media screen and (min-width: 1670px) {
