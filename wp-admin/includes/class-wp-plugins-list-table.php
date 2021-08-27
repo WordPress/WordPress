@@ -739,6 +739,12 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		$restrict_network_active = false;
 		$restrict_network_only   = false;
 
+		$requires_php = isset( $plugin_data['RequiresPHP'] ) ? $plugin_data['RequiresPHP'] : null;
+		$requires_wp  = isset( $plugin_data['RequiresWP'] ) ? $plugin_data['RequiresWP'] : null;
+
+		$compatible_php = is_php_version_compatible( $requires_php );
+		$compatible_wp  = is_wp_version_compatible( $requires_wp );
+
 		if ( 'mustuse' === $context ) {
 			$is_active = true;
 		} elseif ( 'dropins' === $context ) {
@@ -792,14 +798,21 @@ class WP_Plugins_List_Table extends WP_List_Table {
 					}
 				} else {
 					if ( current_user_can( 'manage_network_plugins' ) ) {
-						$actions['activate'] = sprintf(
-							'<a href="%s" id="activate-%s" class="edit" aria-label="%s">%s</a>',
-							wp_nonce_url( 'plugins.php?action=activate&amp;plugin=' . urlencode( $plugin_file ) . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'activate-plugin_' . $plugin_file ),
-							esc_attr( $plugin_id_attr ),
-							/* translators: %s: Plugin name. */
-							esc_attr( sprintf( _x( 'Network Activate %s', 'plugin' ), $plugin_data['Name'] ) ),
-							__( 'Network Activate' )
-						);
+						if ( $compatible_php && $compatible_wp ) {
+							$actions['activate'] = sprintf(
+								'<a href="%s" id="activate-%s" class="edit" aria-label="%s">%s</a>',
+								wp_nonce_url( 'plugins.php?action=activate&amp;plugin=' . urlencode( $plugin_file ) . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'activate-plugin_' . $plugin_file ),
+								esc_attr( $plugin_id_attr ),
+								/* translators: %s: Plugin name. */
+								esc_attr( sprintf( _x( 'Network Activate %s', 'plugin' ), $plugin_data['Name'] ) ),
+								__( 'Network Activate' )
+							);
+						} else {
+							$actions['activate'] = sprintf(
+								'<span>%s</span>',
+								_x( 'Cannot Activate', 'plugin' )
+							);
+						}
 					}
 
 					if ( current_user_can( 'delete_plugins' ) && ! is_plugin_active( $plugin_file ) ) {
@@ -846,14 +859,21 @@ class WP_Plugins_List_Table extends WP_List_Table {
 					}
 				} else {
 					if ( current_user_can( 'activate_plugin', $plugin_file ) ) {
-						$actions['activate'] = sprintf(
-							'<a href="%s" id="activate-%s" class="edit" aria-label="%s">%s</a>',
-							wp_nonce_url( 'plugins.php?action=activate&amp;plugin=' . urlencode( $plugin_file ) . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'activate-plugin_' . $plugin_file ),
-							esc_attr( $plugin_id_attr ),
-							/* translators: %s: Plugin name. */
-							esc_attr( sprintf( _x( 'Activate %s', 'plugin' ), $plugin_data['Name'] ) ),
-							__( 'Activate' )
-						);
+						if ( $compatible_php && $compatible_wp ) {
+							$actions['activate'] = sprintf(
+								'<a href="%s" id="activate-%s" class="edit" aria-label="%s">%s</a>',
+								wp_nonce_url( 'plugins.php?action=activate&amp;plugin=' . urlencode( $plugin_file ) . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'activate-plugin_' . $plugin_file ),
+								esc_attr( $plugin_id_attr ),
+								/* translators: %s: Plugin name. */
+								esc_attr( sprintf( _x( 'Activate %s', 'plugin' ), $plugin_data['Name'] ) ),
+								__( 'Activate' )
+							);
+						} else {
+							$actions['activate'] = sprintf(
+								'<span>%s</span>',
+								_x( 'Cannot Activate', 'plugin' )
+							);
+						}
 					}
 
 					if ( ! is_multisite() && current_user_can( 'delete_plugins' ) ) {
@@ -945,10 +965,8 @@ class WP_Plugins_List_Table extends WP_List_Table {
 
 		}
 
-		$requires_php   = isset( $plugin_data['requires_php'] ) ? $plugin_data['requires_php'] : null;
-		$compatible_php = is_php_version_compatible( $requires_php );
-		$class          = $is_active ? 'active' : 'inactive';
-		$checkbox_id    = 'checkbox_' . md5( $plugin_file );
+		$class       = $is_active ? 'active' : 'inactive';
+		$checkbox_id = 'checkbox_' . md5( $plugin_file );
 
 		if ( $restrict_network_active || $restrict_network_only || in_array( $status, array( 'mustuse', 'dropins' ), true ) || ! $compatible_php ) {
 			$checkbox = '';
@@ -968,7 +986,9 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			$plugin_name = $plugin_data['Name'];
 		}
 
-		if ( ! empty( $totals['upgrade'] ) && ! empty( $plugin_data['update'] ) ) {
+		if ( ! empty( $totals['upgrade'] ) && ! empty( $plugin_data['update'] )
+			|| ! $compatible_php || ! $compatible_wp
+		) {
 			$class .= ' update';
 		}
 
@@ -1189,6 +1209,62 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		}
 
 		echo '</tr>';
+
+		if ( ! $compatible_php || ! $compatible_wp ) {
+			printf(
+				'<tr class="plugin-update-tr">' .
+				'<td colspan="%s" class="plugin-update colspanchange">' .
+				'<div class="update-message notice inline notice-error notice-alt"><p>',
+				esc_attr( $this->get_column_count() )
+			);
+
+			if ( ! $compatible_php && ! $compatible_wp ) {
+				_e( 'This plugin doesn&#8217;t work with your versions of WordPress and PHP.' );
+				if ( current_user_can( 'update_core' ) && current_user_can( 'update_php' ) ) {
+					printf(
+						/* translators: 1: URL to WordPress Updates screen, 2: URL to Update PHP page. */
+						' ' . __( '<a href="%1$s">Please update WordPress</a>, and then <a href="%2$s">learn more about updating PHP</a>.' ),
+						self_admin_url( 'update-core.php' ),
+						esc_url( wp_get_update_php_url() )
+					);
+					wp_update_php_annotation( '</p><p><em>', '</em>' );
+				} elseif ( current_user_can( 'update_core' ) ) {
+					printf(
+						/* translators: %s: URL to WordPress Updates screen. */
+						' ' . __( '<a href="%s">Please update WordPress</a>.' ),
+						self_admin_url( 'update-core.php' )
+					);
+				} elseif ( current_user_can( 'update_php' ) ) {
+					printf(
+						/* translators: %s: URL to Update PHP page. */
+						' ' . __( '<a href="%s">Learn more about updating PHP</a>.' ),
+						esc_url( wp_get_update_php_url() )
+					);
+					wp_update_php_annotation( '</p><p><em>', '</em>' );
+				}
+			} elseif ( ! $compatible_wp ) {
+				_e( 'This plugin doesn&#8217;t work with your version of WordPress.' );
+				if ( current_user_can( 'update_core' ) ) {
+					printf(
+						/* translators: %s: URL to WordPress Updates screen. */
+						' ' . __( '<a href="%s">Please update WordPress</a>.' ),
+						self_admin_url( 'update-core.php' )
+					);
+				}
+			} elseif ( ! $compatible_php ) {
+				_e( 'This plugin doesn&#8217;t work with your version of PHP.' );
+				if ( current_user_can( 'update_php' ) ) {
+					printf(
+						/* translators: %s: URL to Update PHP page. */
+						' ' . __( '<a href="%s">Learn more about updating PHP</a>.' ),
+						esc_url( wp_get_update_php_url() )
+					);
+					wp_update_php_annotation( '</p><p><em>', '</em>' );
+				}
+			}
+
+			echo '</p></div></td></tr>';
+		}
 
 		/**
 		 * Fires after each row in the Plugins list table.
