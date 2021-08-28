@@ -8462,8 +8462,8 @@
 			}
 
 			// Abort if we're inside of a block editor instance.
-			if ( event.target.closest( '.block-editor-writing-flow' ) !== null
-				|| event.target.closest( '.block-editor-block-list__block-popover' ) !== null
+			if ( event.target.closest( '.block-editor-writing-flow' ) !== null ||
+				event.target.closest( '.block-editor-block-list__block-popover' ) !== null
 			) {
 				return;
 			}
