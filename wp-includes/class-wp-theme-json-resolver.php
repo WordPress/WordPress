@@ -93,7 +93,7 @@ class WP_Theme_JSON_Resolver {
 	 */
 	private static function translate( $theme_json, $domain = 'default' ) {
 		if ( null === self::$i18n_schema ) {
-			$i18n_schema = wp_json_file_decode( __DIR__ . '/theme-i18n.json' );
+			$i18n_schema       = wp_json_file_decode( __DIR__ . '/theme-i18n.json' );
 			self::$i18n_schema = null === $i18n_schema ? array() : $i18n_schema;
 		}
 

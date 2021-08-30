@@ -524,7 +524,7 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller {
 					'context'     => array( 'embed', 'view', 'edit' ),
 					'readonly'    => true,
 				),
-				'view_script'    => array(
+				'view_script'      => array(
 					'description' => __( 'Public facing script handle.' ),
 					'type'        => array( 'string', 'null' ),
 					'default'     => null,

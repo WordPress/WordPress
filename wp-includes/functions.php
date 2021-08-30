@@ -2628,7 +2628,7 @@ function wp_unique_filename( $dir, $filename, $unique_filename_callback = null )
 				$alt_mime_type = $output_formats[ $mime_type ];
 
 				// Other types of images whose names may conflict if their sub-sizes are regenerated.
-				$alt_types = array_keys( array_intersect( $output_formats, array( $mime_type, $alt_mime_type ) ) );
+				$alt_types   = array_keys( array_intersect( $output_formats, array( $mime_type, $alt_mime_type ) ) );
 				$alt_types[] = $alt_mime_type;
 			} elseif ( ! empty( $output_formats ) ) {
 				$alt_types = array_keys( array_intersect( $output_formats, array( $mime_type ) ) );
