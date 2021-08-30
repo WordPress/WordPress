@@ -1191,6 +1191,10 @@ function _get_cron_array() {
  * @return bool|WP_Error True if cron array updated. False or WP_Error on failure.
  */
 function _set_cron_array( $cron, $wp_error = false ) {
+	if ( ! is_array( $cron ) ) {
+		$cron = array();
+	}
+
 	$cron['version'] = 2;
 	$result          = update_option( 'cron', $cron );
 
