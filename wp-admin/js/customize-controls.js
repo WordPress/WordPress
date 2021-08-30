@@ -8452,6 +8452,13 @@
 				return;
 			}
 
+			// Abort if we're inside of a block editor instance.
+			if ( event.target.closest( '.block-editor-writing-flow' ) !== null ||
+				event.target.closest( '.block-editor-block-list__block-popover' ) !== null
+			) {
+				return;
+			}
+
 			// Check for expanded expandable controls (e.g. widgets and nav menus items), sections, and panels.
 			api.control.each( function( control ) {
 				if ( control.expanded && control.expanded() && _.isFunction( control.collapse ) ) {
