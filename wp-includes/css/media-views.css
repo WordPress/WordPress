@@ -370,7 +370,7 @@
 }
 
 .media-sidebar h2,
-.image-details h2 {
+.image-details h2:not(.media-attachments-filter-heading) {
 	position: relative;
 	font-weight: 600;
 	text-transform: uppercase;
