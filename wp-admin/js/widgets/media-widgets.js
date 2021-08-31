@@ -1212,7 +1212,7 @@ wp.mediaWidgets = ( function( $ ) {
 			return;
 		}
 
-		idBase = widgetForm.find( '> .widget-control-actions > .id_base' ).val();
+		idBase = widgetForm.find( '.id_base' ).val();
 
 		ControlConstructor = component.controlConstructors[ idBase ];
 		if ( ! ControlConstructor ) {
