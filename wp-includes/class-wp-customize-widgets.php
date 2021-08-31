@@ -862,7 +862,7 @@ final class WP_Customize_Widgets {
 
 			wp_add_inline_script(
 				'wp-blocks',
-				sprintf( 'wp.blocks.setCategories( %s );', wp_json_encode( get_block_categories( 'widgets-customizer' ) ) ),
+				sprintf( 'wp.blocks.setCategories( %s );', wp_json_encode( get_block_categories( $block_editor_context ) ) ),
 				'after'
 			);
 
