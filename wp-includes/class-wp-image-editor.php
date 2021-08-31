@@ -15,9 +15,12 @@ abstract class WP_Image_Editor {
 	protected $file              = null;
 	protected $size              = null;
 	protected $mime_type         = null;
+	protected $output_mime_type  = null;
 	protected $default_mime_type = 'image/jpeg';
 	protected $quality           = false;
-	protected $default_quality   = 82;
+
+	// Deprecated since 5.8.1. See get_default_quality() below.
+	protected $default_quality = 82;
 
 	/**
 	 * Each instance handles a single file.
@@ -224,6 +227,11 @@ abstract class WP_Image_Editor {
 	 * @return true|WP_Error True if set successfully; WP_Error on failure.
 	 */
 	public function set_quality( $quality = null ) {
+		// Use the output mime type if present. If not, fall back to the input/initial mime type.
+		$mime_type = ! empty( $this->output_mime_type ) ? $this->output_mime_type : $this->mime_type;
+		// Get the default quality setting for the mime type.
+		$default_quality = $this->get_default_quality( $mime_type );
+
 		if ( null === $quality ) {
 			/**
 			 * Filters the default image compression quality setting.
@@ -238,9 +246,9 @@ abstract class WP_Image_Editor {
 			 * @param int    $quality   Quality level between 1 (low) and 100 (high).
 			 * @param string $mime_type Image mime type.
 			 */
-			$quality = apply_filters( 'wp_editor_set_quality', $this->default_quality, $this->mime_type );
+			$quality = apply_filters( 'wp_editor_set_quality', $default_quality, $mime_type );
 
-			if ( 'image/jpeg' === $this->mime_type ) {
+			if ( 'image/jpeg' === $mime_type ) {
 				/**
 				 * Filters the JPEG compression quality for backward-compatibility.
 				 *
@@ -261,7 +269,7 @@ abstract class WP_Image_Editor {
 			}
 
 			if ( $quality < 0 || $quality > 100 ) {
-				$quality = $this->default_quality;
+				$quality = $default_quality;
 			}
 		}
 
@@ -276,6 +284,27 @@ abstract class WP_Image_Editor {
 		} else {
 			return new WP_Error( 'invalid_image_quality', __( 'Attempted to set image quality outside of the range [1,100].' ) );
 		}
+	}
+
+	/**
+	 * Returns the default compression quality setting for the mime type.
+	 *
+	 * @since 5.8.1
+	 *
+	 * @param string $mime_type
+	 * @return int The default quality setting for the mime type.
+	 */
+	protected function get_default_quality( $mime_type ) {
+		switch ( $mime_type ) {
+			case 'image/webp':
+				$quality = 86;
+				break;
+			case 'image/jpeg':
+			default:
+				$quality = $this->default_quality;
+		}
+
+		return $quality;
 	}
 
 	/**
@@ -374,11 +403,26 @@ abstract class WP_Image_Editor {
 			$new_ext   = $this->get_extension( $mime_type );
 		}
 
-		if ( $filename ) {
+		// Ensure both $filename and $new_ext are not empty.
+		// $this->get_extension() returns false on error which would effectively remove the extension
+		// from $filename. That shouldn't happen, files without extensions are not supported.
+		if ( $filename && $new_ext ) {
 			$dir = pathinfo( $filename, PATHINFO_DIRNAME );
 			$ext = pathinfo( $filename, PATHINFO_EXTENSION );
 
 			$filename = trailingslashit( $dir ) . wp_basename( $filename, ".$ext" ) . ".{$new_ext}";
+		}
+
+		if ( $mime_type && ( $mime_type !== $this->mime_type ) ) {
+			// The image will be converted when saving. Set the quality for the new mime-type if not already set.
+			if ( $mime_type !== $this->output_mime_type ) {
+				$this->output_mime_type = $mime_type;
+				$this->set_quality();
+			}
+		} elseif ( ! empty( $this->output_mime_type ) ) {
+			// Reset output_mime_type and quality.
+			$this->output_mime_type = null;
+			$this->set_quality();
 		}
 
 		return array( $filename, $new_ext, $mime_type );
