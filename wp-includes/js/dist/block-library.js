@@ -10439,30 +10439,42 @@ function URLPicker({
   setAttributes,
   opensInNewTab,
   onToggleOpenInNewTab,
-  anchorRef
+  anchorRef,
+  richTextRef
 }) {
-  const [isURLPickerOpen, setIsURLPickerOpen] = Object(external_wp_element_["useState"])(false);
-  const urlIsSet = !!url;
-  const urlIsSetandSelected = urlIsSet && isSelected;
+  const [isEditingURL, setIsEditingURL] = Object(external_wp_element_["useState"])(false);
+  const isURLSet = !!url;
 
-  const openLinkControl = () => {
-    setIsURLPickerOpen(true);
-    return false; // prevents default behaviour for event
+  const startEditing = event => {
+    event.preventDefault();
+    setIsEditingURL(true);
   };
 
-  const unlinkButton = () => {
+  const unlink = () => {
     setAttributes({
       url: undefined,
       linkTarget: undefined,
       rel: undefined
     });
-    setIsURLPickerOpen(false);
+    setIsEditingURL(false);
   };
 
-  const linkControl = (isURLPickerOpen || urlIsSetandSelected) && Object(external_wp_element_["createElement"])(external_wp_components_["Popover"], {
+  Object(external_wp_element_["useEffect"])(() => {
+    if (!isSelected) {
+      setIsEditingURL(false);
+    }
+  }, [isSelected]);
+  const isLinkControlVisible = isSelected && (isEditingURL || isURLSet);
+  const linkControl = isLinkControlVisible && Object(external_wp_element_["createElement"])(external_wp_components_["Popover"], {
     position: "bottom center",
-    onClose: () => setIsURLPickerOpen(false),
-    anchorRef: anchorRef === null || anchorRef === void 0 ? void 0 : anchorRef.current
+    onClose: () => {
+      var _richTextRef$current;
+
+      setIsEditingURL(false);
+      (_richTextRef$current = richTextRef.current) === null || _richTextRef$current === void 0 ? void 0 : _richTextRef$current.focus();
+    },
+    anchorRef: anchorRef === null || anchorRef === void 0 ? void 0 : anchorRef.current,
+    focusOnMount: isEditingURL ? 'firstElement' : false
   }, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["__experimentalLinkControl"], {
     className: "wp-block-navigation-link__inline-link-input",
     value: {
@@ -10480,28 +10492,40 @@ function URLPicker({
       if (opensInNewTab !== newOpensInNewTab) {
         onToggleOpenInNewTab(newOpensInNewTab);
       }
-    }
+    },
+    onRemove: () => {
+      var _richTextRef$current2;
+
+      unlink();
+      (_richTextRef$current2 = richTextRef.current) === null || _richTextRef$current2 === void 0 ? void 0 : _richTextRef$current2.focus();
+    },
+    forceIsEditingLink: isEditingURL
   }));
   return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockControls"], {
     group: "block"
-  }, !urlIsSet && Object(external_wp_element_["createElement"])(external_wp_components_["ToolbarButton"], {
+  }, !isURLSet && Object(external_wp_element_["createElement"])(external_wp_components_["ToolbarButton"], {
     name: "link",
     icon: library_link["a" /* default */],
     title: Object(external_wp_i18n_["__"])('Link'),
     shortcut: external_wp_keycodes_["displayShortcut"].primary('k'),
-    onClick: openLinkControl
-  }), urlIsSetandSelected && Object(external_wp_element_["createElement"])(external_wp_components_["ToolbarButton"], {
+    onClick: startEditing
+  }), isURLSet && Object(external_wp_element_["createElement"])(external_wp_components_["ToolbarButton"], {
     name: "link",
     icon: link_off["a" /* default */],
     title: Object(external_wp_i18n_["__"])('Unlink'),
     shortcut: external_wp_keycodes_["displayShortcut"].primaryShift('k'),
-    onClick: unlinkButton,
+    onClick: unlink,
     isActive: true
   })), isSelected && Object(external_wp_element_["createElement"])(external_wp_components_["KeyboardShortcuts"], {
     bindGlobal: true,
     shortcuts: {
-      [external_wp_keycodes_["rawShortcut"].primary('k')]: openLinkControl,
-      [external_wp_keycodes_["rawShortcut"].primaryShift('k')]: unlinkButton
+      [external_wp_keycodes_["rawShortcut"].primary('k')]: startEditing,
+      [external_wp_keycodes_["rawShortcut"].primaryShift('k')]: () => {
+        var _richTextRef$current3;
+
+        unlink();
+        (_richTextRef$current3 = richTextRef.current) === null || _richTextRef$current3 === void 0 ? void 0 : _richTextRef$current3.focus();
+      }
     }
   }), linkControl);
 }
@@ -10557,6 +10581,7 @@ function ButtonEdit(props) {
   const borderRadius = style === null || style === void 0 ? void 0 : (_style$border = style.border) === null || _style$border === void 0 ? void 0 : _style$border.radius;
   const colorProps = Object(external_wp_blockEditor_["__experimentalUseColorProps"])(attributes);
   const ref = Object(external_wp_element_["useRef"])();
+  const richTextRef = Object(external_wp_element_["useRef"])();
   const blockProps = Object(external_wp_blockEditor_["useBlockProps"])({
     ref
   });
@@ -10566,6 +10591,7 @@ function ButtonEdit(props) {
       [`has-custom-font-size`]: blockProps.style.fontSize
     })
   }), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["RichText"], {
+    ref: richTextRef,
     "aria-label": Object(external_wp_i18n_["__"])('Button text'),
     placeholder: placeholder || Object(external_wp_i18n_["__"])('Add text…'),
     value: text,
@@ -10590,7 +10616,8 @@ function ButtonEdit(props) {
     isSelected: isSelected,
     opensInNewTab: linkTarget === '_blank',
     onToggleOpenInNewTab: onToggleOpenInNewTab,
-    anchorRef: ref
+    anchorRef: ref,
+    richTextRef: richTextRef
   }), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["InspectorControls"], null, Object(external_wp_element_["createElement"])(WidthPanel, {
     selectedWidth: width,
     setAttributes: setAttributes

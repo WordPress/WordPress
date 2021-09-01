@@ -634,6 +634,7 @@ __webpack_require__.d(actions_namespaceObject, "setIsInserterOpened", function()
 __webpack_require__.d(actions_namespaceObject, "setIsListViewOpened", function() { return setIsListViewOpened; });
 __webpack_require__.d(actions_namespaceObject, "setIsEditingTemplate", function() { return setIsEditingTemplate; });
 __webpack_require__.d(actions_namespaceObject, "__unstableSwitchToTemplateMode", function() { return __unstableSwitchToTemplateMode; });
+__webpack_require__.d(actions_namespaceObject, "initializeMetaBoxes", function() { return initializeMetaBoxes; });
 
 // NAMESPACE OBJECT: ./node_modules/@wordpress/edit-post/build-module/store/selectors.js
 var selectors_namespaceObject = {};
@@ -656,13 +657,14 @@ __webpack_require__.d(selectors_namespaceObject, "isMetaBoxLocationVisible", fun
 __webpack_require__.d(selectors_namespaceObject, "isMetaBoxLocationActive", function() { return isMetaBoxLocationActive; });
 __webpack_require__.d(selectors_namespaceObject, "getMetaBoxesPerLocation", function() { return getMetaBoxesPerLocation; });
 __webpack_require__.d(selectors_namespaceObject, "getAllMetaBoxes", function() { return getAllMetaBoxes; });
-__webpack_require__.d(selectors_namespaceObject, "hasMetaBoxes", function() { return hasMetaBoxes; });
+__webpack_require__.d(selectors_namespaceObject, "hasMetaBoxes", function() { return selectors_hasMetaBoxes; });
 __webpack_require__.d(selectors_namespaceObject, "isSavingMetaBoxes", function() { return selectors_isSavingMetaBoxes; });
 __webpack_require__.d(selectors_namespaceObject, "__experimentalGetPreviewDeviceType", function() { return __experimentalGetPreviewDeviceType; });
 __webpack_require__.d(selectors_namespaceObject, "isInserterOpened", function() { return isInserterOpened; });
 __webpack_require__.d(selectors_namespaceObject, "__experimentalGetInsertionPoint", function() { return __experimentalGetInsertionPoint; });
 __webpack_require__.d(selectors_namespaceObject, "isListViewOpened", function() { return isListViewOpened; });
 __webpack_require__.d(selectors_namespaceObject, "isEditingTemplate", function() { return selectors_isEditingTemplate; });
+__webpack_require__.d(selectors_namespaceObject, "areMetaBoxesInitialized", function() { return areMetaBoxesInitialized; });
 __webpack_require__.d(selectors_namespaceObject, "getEditedPostTemplate", function() { return getEditedPostTemplate; });
 
 // EXTERNAL MODULE: external ["wp","data"]
@@ -1005,10 +1007,29 @@ function isEditingTemplate(state = false, action) {
 
   return state;
 }
+/**
+ * Reducer tracking whether meta boxes are initialized.
+ *
+ * @param {boolean} state
+ * @param {Object}  action
+ *
+ * @return {boolean} Updated state.
+ */
+
+
+function metaBoxesInitialized(state = false, action) {
+  switch (action.type) {
+    case 'META_BOXES_INITIALIZED':
+      return true;
+  }
+
+  return state;
+}
 
 const metaBoxes = Object(external_wp_data_["combineReducers"])({
   isSaving: isSavingMetaBoxes,
-  locations: metaBoxLocations
+  locations: metaBoxLocations,
+  initialized: metaBoxesInitialized
 });
 /* harmony default export */ var reducer = (Object(external_wp_data_["combineReducers"])({
   activeModal,
@@ -1301,7 +1322,6 @@ function showBlockTypes(blockNames) {
     blockNames: Object(external_lodash_["castArray"])(blockNames)
   };
 }
-let saveMetaboxUnsubscribe;
 /**
  * Returns an action object used in signaling
  * what Meta boxes are available in which location.
@@ -1316,38 +1336,6 @@ function* setAvailableMetaBoxesPerLocation(metaBoxesPerLocation) {
     type: 'SET_META_BOXES_PER_LOCATIONS',
     metaBoxesPerLocation
   };
-  const postType = yield external_wp_data_["controls"].select('core/editor', 'getCurrentPostType');
-
-  if (window.postboxes.page !== postType) {
-    window.postboxes.add_postbox_toggles(postType);
-  }
-
-  let wasSavingPost = yield external_wp_data_["controls"].select('core/editor', 'isSavingPost');
-  let wasAutosavingPost = yield external_wp_data_["controls"].select('core/editor', 'isAutosavingPost'); // Meta boxes are initialized once at page load. It is not necessary to
-  // account for updates on each state change.
-  //
-  // See: https://github.com/WordPress/WordPress/blob/5.1.1/wp-admin/includes/post.php#L2307-L2309
-
-  const hasActiveMetaBoxes = yield external_wp_data_["controls"].select(store.name, 'hasMetaBoxes'); // First remove any existing subscription in order to prevent multiple saves
-
-  if (!!saveMetaboxUnsubscribe) {
-    saveMetaboxUnsubscribe();
-  } // Save metaboxes when performing a full save on the post.
-
-
-  saveMetaboxUnsubscribe = Object(external_wp_data_["subscribe"])(() => {
-    const isSavingPost = Object(external_wp_data_["select"])('core/editor').isSavingPost();
-    const isAutosavingPost = Object(external_wp_data_["select"])('core/editor').isAutosavingPost(); // Save metaboxes on save completion, except for autosaves that are not a post preview.
-
-    const shouldTriggerMetaboxesSave = hasActiveMetaBoxes && wasSavingPost && !isSavingPost && !wasAutosavingPost; // Save current state for next inspection.
-
-    wasSavingPost = isSavingPost;
-    wasAutosavingPost = isAutosavingPost;
-
-    if (shouldTriggerMetaboxesSave) {
-      Object(external_wp_data_["dispatch"])(store.name).requestMetaBoxUpdates();
-    }
-  });
 }
 /**
  * Returns an action object used to request meta box update.
@@ -1484,6 +1472,55 @@ function* __unstableSwitchToTemplateMode(template) {
       type: 'snackbar'
     });
   }
+}
+let actions_metaBoxesInitialized = false;
+/**
+ * Initializes WordPress `postboxes` script and the logic for saving meta boxes.
+ */
+
+function* initializeMetaBoxes() {
+  const isEditorReady = yield external_wp_data_["controls"].select('core/editor', '__unstableIsEditorReady');
+
+  if (!isEditorReady) {
+    return;
+  }
+
+  const postType = yield external_wp_data_["controls"].select('core/editor', 'getCurrentPostType'); // Only initialize once.
+
+  if (actions_metaBoxesInitialized) {
+    return;
+  }
+
+  if (window.postboxes.page !== postType) {
+    window.postboxes.add_postbox_toggles(postType);
+  }
+
+  actions_metaBoxesInitialized = true;
+  let wasSavingPost = yield external_wp_data_["controls"].select('core/editor', 'isSavingPost');
+  let wasAutosavingPost = yield external_wp_data_["controls"].select('core/editor', 'isAutosavingPost');
+  const hasMetaBoxes = yield external_wp_data_["controls"].select(store, 'hasMetaBoxes'); // Save metaboxes when performing a full save on the post.
+
+  Object(external_wp_data_["subscribe"])(() => {
+    const isSavingPost = Object(external_wp_data_["select"])('core/editor').isSavingPost();
+    const isAutosavingPost = Object(external_wp_data_["select"])('core/editor').isAutosavingPost(); // Save metaboxes on save completion, except for autosaves that are not a post preview.
+    //
+    // Meta boxes are initialized once at page load. It is not necessary to
+    // account for updates on each state change.
+    //
+    // See: https://github.com/WordPress/WordPress/blob/5.1.1/wp-admin/includes/post.php#L2307-L2309
+
+    const shouldTriggerMetaboxesSave = hasMetaBoxes && wasSavingPost && !isSavingPost && !wasAutosavingPost; // Save current state for next inspection.
+
+    wasSavingPost = isSavingPost;
+    wasAutosavingPost = isAutosavingPost;
+
+    if (shouldTriggerMetaboxesSave) {
+      Object(external_wp_data_["dispatch"])(store).requestMetaBoxUpdates();
+    }
+  });
+  return {
+    type: 'META_BOXES_INITIALIZED'
+  };
 }
 
 // EXTERNAL MODULE: ./node_modules/rememo/es/rememo.js
@@ -1744,7 +1781,7 @@ const getAllMetaBoxes = Object(rememo["a" /* default */])(state => {
  * @return {boolean} Whether there are metaboxes or not.
  */
 
-function hasMetaBoxes(state) {
+function selectors_hasMetaBoxes(state) {
   return getActiveMetaBoxLocations(state).length > 0;
 }
 /**
@@ -1819,6 +1856,17 @@ function isListViewOpened(state) {
 
 function selectors_isEditingTemplate(state) {
   return state.isEditingTemplate;
+}
+/**
+ * Returns true if meta boxes are initialized.
+ *
+ * @param {Object} state Global application state.
+ *
+ * @return {boolean} Whether meta boxes are initialized.
+ */
+
+function areMetaBoxesInitialized(state) {
+  return state.metaBoxes.initialized;
 }
 /**
  * Retrieves the template of the currently edited post.
@@ -3348,7 +3396,6 @@ const arrowLeft = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["create
 __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
-__webpack_require__.d(__webpack_exports__, "store", function() { return /* reexport */ store["a" /* store */]; });
 __webpack_require__.d(__webpack_exports__, "reinitializeEditor", function() { return /* binding */ reinitializeEditor; });
 __webpack_require__.d(__webpack_exports__, "initializeEditor", function() { return /* binding */ initializeEditor; });
 __webpack_require__.d(__webpack_exports__, "PluginBlockSettingsMenuItem", function() { return /* reexport */ plugin_block_settings_menu_item; });
@@ -3361,6 +3408,7 @@ __webpack_require__.d(__webpack_exports__, "PluginSidebar", function() { return 
 __webpack_require__.d(__webpack_exports__, "PluginSidebarMoreMenuItem", function() { return /* reexport */ PluginSidebarMoreMenuItem; });
 __webpack_require__.d(__webpack_exports__, "__experimentalFullscreenModeClose", function() { return /* reexport */ fullscreen_mode_close; });
 __webpack_require__.d(__webpack_exports__, "__experimentalMainDashboardButton", function() { return /* reexport */ main_dashboard_button; });
+__webpack_require__.d(__webpack_exports__, "store", function() { return /* reexport */ store["a" /* store */]; });
 
 // EXTERNAL MODULE: external ["wp","element"]
 var external_wp_element_ = __webpack_require__("GRId");
@@ -4000,7 +4048,7 @@ function __spreadArray(to, from, pack) {
             ar[i] = from[i];
         }
     }
-    return to.concat(ar || from);
+    return to.concat(ar || Array.prototype.slice.call(from));
 }
 
 function __await(v) {
@@ -5053,7 +5101,7 @@ function tslib_es6_spreadArray(to, from, pack) {
             ar[i] = from[i];
         }
     }
-    return to.concat(ar || from);
+    return to.concat(ar || Array.prototype.slice.call(from));
 }
 
 function tslib_es6_await(v) {
@@ -6601,7 +6649,7 @@ function tslib_tslib_es6_spreadArray(to, from, pack) {
             ar[i] = from[i];
         }
     }
-    return to.concat(ar || from);
+    return to.concat(ar || Array.prototype.slice.call(from));
 }
 
 function tslib_tslib_es6_await(v) {
@@ -16626,6 +16674,8 @@ class meta_box_visibility_MetaBoxVisibility extends external_wp_element_["Compon
  */
 
 
+
+
 /**
  * Internal dependencies
  */
@@ -16633,12 +16683,44 @@ class meta_box_visibility_MetaBoxVisibility extends external_wp_element_["Compon
 
 
 
-
 function MetaBoxes({
-  location,
-  isVisible,
-  metaBoxes
+  location
 }) {
+  const registry = Object(external_wp_data_["useRegistry"])();
+  const {
+    metaBoxes,
+    isVisible,
+    areMetaBoxesInitialized,
+    isEditorReady
+  } = Object(external_wp_data_["useSelect"])(select => {
+    const {
+      __unstableIsEditorReady
+    } = select(external_wp_editor_["store"]);
+    const {
+      isMetaBoxLocationVisible,
+      getMetaBoxesPerLocation,
+      areMetaBoxesInitialized: _areMetaBoxesInitialized
+    } = select(store["a" /* store */]);
+    return {
+      metaBoxes: getMetaBoxesPerLocation(location),
+      isVisible: isMetaBoxLocationVisible(location),
+      areMetaBoxesInitialized: _areMetaBoxesInitialized(),
+      isEditorReady: __unstableIsEditorReady()
+    };
+  }, [location]); // When editor is ready, initialize postboxes (wp core script) and metabox
+  // saving. This initializes all meta box locations, not just this specific
+  // one.
+
+  Object(external_wp_element_["useEffect"])(() => {
+    if (isEditorReady && !areMetaBoxesInitialized) {
+      registry.dispatch(store["a" /* store */]).initializeMetaBoxes();
+    }
+  }, [isEditorReady, areMetaBoxesInitialized]);
+
+  if (!areMetaBoxesInitialized) {
+    return null;
+  }
+
   return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_lodash_["map"])(metaBoxes, ({
     id
   }) => Object(external_wp_element_["createElement"])(meta_box_visibility, {
@@ -16648,19 +16730,6 @@ function MetaBoxes({
     location: location
   }));
 }
-
-/* harmony default export */ var meta_boxes = (Object(external_wp_data_["withSelect"])((select, {
-  location
-}) => {
-  const {
-    isMetaBoxLocationVisible,
-    getMetaBoxesPerLocation
-  } = select(store["a" /* store */]);
-  return {
-    metaBoxes: getMetaBoxesPerLocation(location),
-    isVisible: isMetaBoxLocationVisible(location)
-  };
-})(MetaBoxes));
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/edit-post/build-module/components/sidebar/plugin-document-setting-panel/index.js
 var plugin_document_setting_panel = __webpack_require__("xrib");
@@ -17158,7 +17227,7 @@ const SettingsSidebar = () => {
     toggleShortcut: keyboardShortcut,
     icon: cog["a" /* default */],
     isActiveByDefault: SIDEBAR_ACTIVE_BY_DEFAULT
-  }, !isTemplateMode && sidebarName === 'edit-post/document' && Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(post_status, null), Object(external_wp_element_["createElement"])(sidebar_template, null), Object(external_wp_element_["createElement"])(plugin_document_setting_panel["a" /* default */].Slot, null), Object(external_wp_element_["createElement"])(last_revision, null), Object(external_wp_element_["createElement"])(post_link, null), Object(external_wp_element_["createElement"])(post_taxonomies, null), Object(external_wp_element_["createElement"])(featured_image, null), Object(external_wp_element_["createElement"])(post_excerpt, null), Object(external_wp_element_["createElement"])(discussion_panel, null), Object(external_wp_element_["createElement"])(page_attributes, null), Object(external_wp_element_["createElement"])(meta_boxes, {
+  }, !isTemplateMode && sidebarName === 'edit-post/document' && Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(post_status, null), Object(external_wp_element_["createElement"])(sidebar_template, null), Object(external_wp_element_["createElement"])(plugin_document_setting_panel["a" /* default */].Slot, null), Object(external_wp_element_["createElement"])(last_revision, null), Object(external_wp_element_["createElement"])(post_link, null), Object(external_wp_element_["createElement"])(post_taxonomies, null), Object(external_wp_element_["createElement"])(featured_image, null), Object(external_wp_element_["createElement"])(post_excerpt, null), Object(external_wp_element_["createElement"])(discussion_panel, null), Object(external_wp_element_["createElement"])(page_attributes, null), Object(external_wp_element_["createElement"])(MetaBoxes, {
     location: "side"
   })), isTemplateMode && sidebarName === 'edit-post/document' && Object(external_wp_element_["createElement"])(template_summary, null), sidebarName === 'edit-post/block' && Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockInspector"], null));
 };
@@ -17769,9 +17838,9 @@ function Layout({
       styles: styles
     }), !isTemplateMode && Object(external_wp_element_["createElement"])("div", {
       className: "edit-post-layout__metaboxes"
-    }, Object(external_wp_element_["createElement"])(meta_boxes, {
+    }, Object(external_wp_element_["createElement"])(MetaBoxes, {
       location: "normal"
-    }), Object(external_wp_element_["createElement"])(meta_boxes, {
+    }), Object(external_wp_element_["createElement"])(MetaBoxes, {
       location: "advanced"
     })), isMobileViewport && sidebarIsOpened && Object(external_wp_element_["createElement"])(external_wp_components_["ScrollLock"], null)),
     footer: !hasReducedUI && showBlockBreadcrumbs && !isMobileViewport && isRichEditingEnabled && mode === 'visual' && Object(external_wp_element_["createElement"])("div", {
@@ -18306,7 +18375,6 @@ function PluginSidebarMoreMenuItem(props) {
 
 
 
-
 /**
  * Reinitializes the editor after the user chooses to reboot the editor after
  * an unhandled error occurs, replacing previously mounted editor element using
@@ -18336,11 +18404,8 @@ function reinitializeEditor(postType, postId, target, settings, initialEdits) {
 /**
  * Initializes and returns an instance of Editor.
  *
- * The return value of this function is not necessary if we change where we
- * call initializeEditor(). This is due to metaBox timing.
- *
  * @param {string}  id           Unique identifier for editor instance.
- * @param {Object}  postType     Post type of the post to edit.
+ * @param {string}  postType     Post type of the post to edit.
  * @param {Object}  postId       ID of the post to edit.
  * @param {?Object} settings     Editor settings object.
  * @param {Object}  initialEdits Programmatic edits to apply initially, to be
@@ -18398,6 +18463,7 @@ function initializeEditor(id, postType, postId, settings, initialEdits) {
     initialEdits: initialEdits
   }), target);
 }
+
 
 
 

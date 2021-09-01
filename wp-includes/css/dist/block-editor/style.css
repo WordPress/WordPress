@@ -737,7 +737,7 @@
   align-self: center;
   padding: 0;
   list-style: none;
-  margin: 0 auto 0 0;
+  margin: 8px;
 }
 .block-editor-block-list__block .block-list-appender.wp-block {
   max-width: none;

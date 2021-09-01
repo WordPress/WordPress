@@ -112,6 +112,13 @@ const blockDefault = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["cre
 
 /***/ }),
 
+/***/ "1CF3":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["dom"]; }());
+
+/***/ }),
+
 /***/ "1ZqX":
 /***/ (function(module, exports) {
 
@@ -161,6 +168,7 @@ const cog = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElemen
 __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
+__webpack_require__.d(__webpack_exports__, "reinitializeEditor", function() { return /* binding */ reinitializeEditor; });
 __webpack_require__.d(__webpack_exports__, "initialize", function() { return /* binding */ initialize; });
 
 // NAMESPACE OBJECT: ./node_modules/@wordpress/edit-widgets/build-module/store/actions.js
@@ -197,6 +205,7 @@ __webpack_require__.d(selectors_namespaceObject, "getReferenceWidgetBlocks", fun
 __webpack_require__.d(selectors_namespaceObject, "isSavingWidgetAreas", function() { return selectors_isSavingWidgetAreas; });
 __webpack_require__.d(selectors_namespaceObject, "getIsWidgetAreaOpen", function() { return getIsWidgetAreaOpen; });
 __webpack_require__.d(selectors_namespaceObject, "isInserterOpened", function() { return selectors_isInserterOpened; });
+__webpack_require__.d(selectors_namespaceObject, "__experimentalGetInsertionPoint", function() { return __experimentalGetInsertionPoint; });
 __webpack_require__.d(selectors_namespaceObject, "canInsertBlockInWidgetArea", function() { return selectors_canInsertBlockInWidgetArea; });
 __webpack_require__.d(selectors_namespaceObject, "__unstableIsFeatureActive", function() { return __unstableIsFeatureActive; });
 
@@ -1248,6 +1257,24 @@ function selectors_isInserterOpened(state) {
   return !!state.blockInserterPanel;
 }
 /**
+ * Get the insertion point for the inserter.
+ *
+ * @param {Object} state Global application state.
+ *
+ * @return {Object} The root client ID and index to insert at.
+ */
+
+function __experimentalGetInsertionPoint(state) {
+  const {
+    rootClientId,
+    insertionIndex
+  } = state.blockInserterPanel;
+  return {
+    rootClientId,
+    insertionIndex
+  };
+}
+/**
  * Returns true if a block can be inserted into a widget area.
  *
  * @param {Array}  state    The open state of the widget areas.
@@ -1691,6 +1718,72 @@ const widget_area_settings = {
 // EXTERNAL MODULE: external ["wp","plugins"]
 var external_wp_plugins_ = __webpack_require__("TvNi");
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/error-boundary/index.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+
+
+function CopyButton({
+  text,
+  children
+}) {
+  const ref = Object(external_wp_compose_["useCopyToClipboard"])(text);
+  return Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
+    variant: "secondary",
+    ref: ref
+  }, children);
+}
+
+class error_boundary_ErrorBoundary extends external_wp_element_["Component"] {
+  constructor() {
+    super(...arguments);
+    this.reboot = this.reboot.bind(this);
+    this.state = {
+      error: null
+    };
+  }
+
+  componentDidCatch(error) {
+    this.setState({
+      error
+    });
+  }
+
+  reboot() {
+    this.props.onError();
+  }
+
+  render() {
+    const {
+      error
+    } = this.state;
+
+    if (!error) {
+      return this.props.children;
+    }
+
+    return Object(external_wp_element_["createElement"])(external_wp_blockEditor_["Warning"], {
+      className: "edit-widgets-error-boundary",
+      actions: [Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
+        key: "recovery",
+        onClick: this.reboot,
+        variant: "secondary"
+      }, Object(external_wp_i18n_["__"])('Attempt Recovery')), Object(external_wp_element_["createElement"])(CopyButton, {
+        key: "copy-error",
+        text: error.stack
+      }, Object(external_wp_i18n_["__"])('Copy Error'))]
+    }, Object(external_wp_i18n_["__"])('The editor has encountered an unexpected error.'));
+  }
+
+}
+
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
 var esm_extends = __webpack_require__("wx14");
 
@@ -1974,12 +2067,16 @@ var block_default = __webpack_require__("//Lo");
 // EXTERNAL MODULE: external ["wp","url"]
 var external_wp_url_ = __webpack_require__("Mmq9");
 
+// EXTERNAL MODULE: external ["wp","dom"]
+var external_wp_dom_ = __webpack_require__("1CF3");
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/sidebar/widget-areas.js
 
 
 /**
  * WordPress dependencies
  */
+
 
 
 
@@ -2013,7 +2110,15 @@ function WidgetAreas({
     className: "edit-widgets-widget-areas__top-container"
   }, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockIcon"], {
     icon: block_default["a" /* default */]
-  }), Object(external_wp_element_["createElement"])("div", null, Object(external_wp_element_["createElement"])("p", null, description), (widgetAreas === null || widgetAreas === void 0 ? void 0 : widgetAreas.length) === 0 && Object(external_wp_element_["createElement"])("p", null, Object(external_wp_i18n_["__"])('Your theme does not contain any Widget Areas.')), !selectedWidgetArea && Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
+  }), Object(external_wp_element_["createElement"])("div", null, Object(external_wp_element_["createElement"])("p", {
+    // Use `dangerouslySetInnerHTML` to keep backwards
+    // compatibility. Basic markup in the description is an
+    // established feature of WordPress.
+    // @see https://github.com/WordPress/gutenberg/issues/33106
+    dangerouslySetInnerHTML: {
+      __html: Object(external_wp_dom_["safeHTML"])(description)
+    }
+  }), (widgetAreas === null || widgetAreas === void 0 ? void 0 : widgetAreas.length) === 0 && Object(external_wp_element_["createElement"])("p", null, Object(external_wp_i18n_["__"])('Your theme does not contain any Widget Areas.')), !selectedWidgetArea && Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
     href: Object(external_wp_url_["addQueryArgs"])('customize.php', {
       'autofocus[panel]': 'widgets',
       return: window.location.pathname
@@ -2663,7 +2768,7 @@ function MoreMenu() {
   }), Object(external_wp_element_["createElement"])(external_wp_components_["MenuItem"], {
     role: "menuitem",
     icon: external["a" /* default */],
-    href: Object(external_wp_i18n_["__"])('https://wordpress.org/support/article/wordpress-editor/'),
+    href: Object(external_wp_i18n_["__"])('https://wordpress.org/support/article/block-based-widgets-editor/'),
     target: "_blank",
     rel: "noopener noreferrer"
   }, Object(external_wp_i18n_["__"])('Help'), Object(external_wp_element_["createElement"])(external_wp_components_["VisuallyHidden"], {
@@ -2893,6 +2998,7 @@ function WidgetAreasBlockEditorContent({
 
 
 
+
 const useWidgetLibraryInsertionPoint = () => {
   const firstRootId = Object(external_wp_data_["useSelect"])(select => {
     var _widgetAreasPost$bloc;
@@ -2911,6 +3017,15 @@ const useWidgetLibraryInsertionPoint = () => {
       getBlockOrder,
       getBlockIndex
     } = select(external_wp_blockEditor_["store"]);
+
+    const insertionPoint = select(store).__experimentalGetInsertionPoint(); // "Browse all" in the quick inserter will set the rootClientId to the current block.
+    // Otherwise, it will just be undefined, and we'll have to handle it differently below.
+
+
+    if (insertionPoint.rootClientId) {
+      return insertionPoint;
+    }
+
     const clientId = getBlockSelectionEnd() || firstRootId;
     const rootClientId = getBlockRootClientId(clientId); // If the selected block is at the root level, it's a widget area and
     // blocks can't be inserted here. Return this block as the root and the
@@ -3233,14 +3348,18 @@ function WelcomeGuideImage({
 
 
 
+
 function Layout({
-  blockEditorSettings
+  blockEditorSettings,
+  onError
 }) {
-  return Object(external_wp_element_["createElement"])(WidgetAreasBlockEditorProvider, {
+  return Object(external_wp_element_["createElement"])(error_boundary_ErrorBoundary, {
+    onError: onError
+  }, Object(external_wp_element_["createElement"])(WidgetAreasBlockEditorProvider, {
     blockEditorSettings: blockEditorSettings
   }, Object(external_wp_element_["createElement"])(layout_interface, {
     blockEditorSettings: blockEditorSettings
-  }), Object(external_wp_element_["createElement"])(Sidebar, null), Object(external_wp_element_["createElement"])(external_wp_components_["Popover"].Slot, null), Object(external_wp_element_["createElement"])(external_wp_plugins_["PluginArea"], null), Object(external_wp_element_["createElement"])(UnsavedChangesWarning, null), Object(external_wp_element_["createElement"])(WelcomeGuide, null));
+  }), Object(external_wp_element_["createElement"])(Sidebar, null), Object(external_wp_element_["createElement"])(external_wp_components_["Popover"].Slot, null), Object(external_wp_element_["createElement"])(external_wp_plugins_["PluginArea"], null), Object(external_wp_element_["createElement"])(UnsavedChangesWarning, null), Object(external_wp_element_["createElement"])(WelcomeGuide, null)));
 }
 
 /* harmony default export */ var layout = (Layout);
@@ -3267,6 +3386,23 @@ function Layout({
 
 const disabledBlocks = ['core/more', 'core/freeform', ...(!ALLOW_REUSABLE_BLOCKS && ['core/block'])];
 /**
+ * Reinitializes the editor after the user chooses to reboot the editor after
+ * an unhandled error occurs, replacing previously mounted editor element using
+ * an initial state from prior to the crash.
+ *
+ * @param {Element} target   DOM node in which editor is rendered.
+ * @param {?Object} settings Editor settings object.
+ */
+
+function reinitializeEditor(target, settings) {
+  Object(external_wp_element_["unmountComponentAtNode"])(target);
+  const reboot = reinitializeEditor.bind(null, target, settings);
+  Object(external_wp_element_["render"])(Object(external_wp_element_["createElement"])(layout, {
+    blockEditorSettings: settings,
+    onError: reboot
+  }), target);
+}
+/**
  * Initializes the block editor in the widgets screen.
  *
  * @param {string} id       ID of the root element to render the screen in.
@@ -3274,6 +3410,9 @@ const disabledBlocks = ['core/more', 'core/freeform', ...(!ALLOW_REUSABLE_BLOCKS
  */
 
 function initialize(id, settings) {
+  const target = document.getElementById(id);
+  const reboot = reinitializeEditor.bind(null, target, settings);
+
   const coreBlocks = Object(external_wp_blockLibrary_["__experimentalGetCoreBlocks"])().filter(block => {
     return !(disabledBlocks.includes(block.name) || block.name.startsWith('core/post') || block.name.startsWith('core/query') || block.name.startsWith('core/site'));
   });
@@ -3294,8 +3433,9 @@ function initialize(id, settings) {
 
   Object(external_wp_blocks_["setFreeformContentHandlerName"])('core/html');
   Object(external_wp_element_["render"])(Object(external_wp_element_["createElement"])(layout, {
-    blockEditorSettings: settings
-  }), document.getElementById(id));
+    blockEditorSettings: settings,
+    onError: reboot
+  }), target);
 }
 /**
  * Function to register an individual block.

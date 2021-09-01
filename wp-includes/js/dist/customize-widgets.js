@@ -122,11 +122,14 @@ __webpack_require__.d(__webpack_exports__, "initialize", function() { return /* 
 var selectors_namespaceObject = {};
 __webpack_require__.r(selectors_namespaceObject);
 __webpack_require__.d(selectors_namespaceObject, "__unstableIsFeatureActive", function() { return __unstableIsFeatureActive; });
+__webpack_require__.d(selectors_namespaceObject, "isInserterOpened", function() { return selectors_isInserterOpened; });
+__webpack_require__.d(selectors_namespaceObject, "__experimentalGetInsertionPoint", function() { return __experimentalGetInsertionPoint; });
 
 // NAMESPACE OBJECT: ./node_modules/@wordpress/customize-widgets/build-module/store/actions.js
 var actions_namespaceObject = {};
 __webpack_require__.r(actions_namespaceObject);
 __webpack_require__.d(actions_namespaceObject, "__unstableToggleFeature", function() { return __unstableToggleFeature; });
+__webpack_require__.d(actions_namespaceObject, "setIsInserterOpened", function() { return actions_setIsInserterOpened; });
 
 // EXTERNAL MODULE: external ["wp","element"]
 var external_wp_element_ = __webpack_require__("GRId");
@@ -143,6 +146,72 @@ var external_wp_blocks_ = __webpack_require__("HSyU");
 // EXTERNAL MODULE: external ["wp","components"]
 var external_wp_components_ = __webpack_require__("tI+e");
 
+// EXTERNAL MODULE: external ["wp","i18n"]
+var external_wp_i18n_ = __webpack_require__("l3Sj");
+
+// EXTERNAL MODULE: external ["wp","blockEditor"]
+var external_wp_blockEditor_ = __webpack_require__("axFQ");
+
+// EXTERNAL MODULE: external ["wp","compose"]
+var external_wp_compose_ = __webpack_require__("K9lf");
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/customize-widgets/build-module/components/error-boundary/index.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+
+
+function CopyButton({
+  text,
+  children
+}) {
+  const ref = Object(external_wp_compose_["useCopyToClipboard"])(text);
+  return Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
+    variant: "secondary",
+    ref: ref
+  }, children);
+}
+
+class error_boundary_ErrorBoundary extends external_wp_element_["Component"] {
+  constructor() {
+    super(...arguments);
+    this.state = {
+      error: null
+    };
+  }
+
+  componentDidCatch(error) {
+    this.setState({
+      error
+    });
+  }
+
+  render() {
+    const {
+      error
+    } = this.state;
+
+    if (!error) {
+      return this.props.children;
+    }
+
+    return Object(external_wp_element_["createElement"])(external_wp_blockEditor_["Warning"], {
+      className: "customize-widgets-error-boundary",
+      actions: [Object(external_wp_element_["createElement"])(CopyButton, {
+        key: "copy-error",
+        text: error.stack
+      }, Object(external_wp_i18n_["__"])('Copy Error'))]
+    }, Object(external_wp_i18n_["__"])('The editor has encountered an unexpected error.'));
+  }
+
+}
+
 // EXTERNAL MODULE: external "lodash"
 var external_lodash_ = __webpack_require__("YLtl");
 
@@ -152,17 +221,11 @@ var external_wp_coreData_ = __webpack_require__("jZUy");
 // EXTERNAL MODULE: external ["wp","data"]
 var external_wp_data_ = __webpack_require__("1ZqX");
 
-// EXTERNAL MODULE: external ["wp","blockEditor"]
-var external_wp_blockEditor_ = __webpack_require__("axFQ");
-
 // EXTERNAL MODULE: external ["wp","mediaUtils"]
 var external_wp_mediaUtils_ = __webpack_require__("6aBm");
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
 var esm_extends = __webpack_require__("wx14");
-
-// EXTERNAL MODULE: external ["wp","i18n"]
-var external_wp_i18n_ = __webpack_require__("l3Sj");
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/customize-widgets/build-module/components/block-inspector-button/index.js
 
@@ -214,65 +277,8 @@ var library_redo = __webpack_require__("K2cm");
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/plus.js
 var plus = __webpack_require__("Q4Sy");
 
-// EXTERNAL MODULE: external ["wp","compose"]
-var external_wp_compose_ = __webpack_require__("K9lf");
-
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/close-small.js
 var close_small = __webpack_require__("bWcr");
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/customize-widgets/build-module/components/inserter/index.js
-
-
-/**
- * WordPress dependencies
- */
-
-
-
-
-
-
-function Inserter({
-  setIsOpened
-}) {
-  const inserterTitleId = Object(external_wp_compose_["useInstanceId"])(Inserter, 'customize-widget-layout__inserter-panel-title');
-  return Object(external_wp_element_["createElement"])("div", {
-    className: "customize-widgets-layout__inserter-panel",
-    "aria-labelledby": inserterTitleId
-  }, Object(external_wp_element_["createElement"])("div", {
-    className: "customize-widgets-layout__inserter-panel-header"
-  }, Object(external_wp_element_["createElement"])("h2", {
-    id: inserterTitleId,
-    className: "customize-widgets-layout__inserter-panel-header-title"
-  }, Object(external_wp_i18n_["__"])('Add a block')), Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
-    className: "customize-widgets-layout__inserter-panel-header-close-button",
-    icon: close_small["a" /* default */],
-    onClick: () => setIsOpened(false),
-    "aria-label": Object(external_wp_i18n_["__"])('Close inserter')
-  })), Object(external_wp_element_["createElement"])("div", {
-    className: "customize-widgets-layout__inserter-panel-content"
-  }, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["__experimentalLibrary"], {
-    showInserterHelpPanel: true,
-    onSelect: () => setIsOpened(false)
-  })));
-}
-
-/* harmony default export */ var components_inserter = (Inserter);
-
-// EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/more-vertical.js
-var more_vertical = __webpack_require__("VKE3");
-
-// EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/external.js
-var external = __webpack_require__("K+tz");
-
-// EXTERNAL MODULE: external ["wp","keyboardShortcuts"]
-var external_wp_keyboardShortcuts_ = __webpack_require__("hF7m");
-
-// EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/check.js
-var check = __webpack_require__("RMJe");
-
-// EXTERNAL MODULE: external ["wp","a11y"]
-var external_wp_a11y_ = __webpack_require__("gdqT");
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/customize-widgets/build-module/store/defaults.js
 const PREFERENCES_DEFAULTS = {
@@ -310,6 +316,22 @@ const createWithInitialState = initialState => reducer => {
   return (state = initialState, action) => reducer(state, action);
 };
 /**
+ * Reducer tracking whether the inserter is open.
+ *
+ * @param {boolean|Object} state
+ * @param {Object}         action
+ */
+
+
+function blockInserterPanel(state = false, action) {
+  switch (action.type) {
+    case 'SET_IS_INSERTER_OPENED':
+      return action.value;
+  }
+
+  return state;
+}
+/**
  * Reducer returning the user preferences.
  *
  * @param {Object}  state                           Current state.
@@ -332,6 +354,7 @@ const preferences = Object(external_lodash_["flow"])([external_wp_data_["combine
 
 });
 /* harmony default export */ var reducer = (Object(external_wp_data_["combineReducers"])({
+  blockInserterPanel,
   preferences
 }));
 
@@ -356,6 +379,35 @@ const preferences = Object(external_lodash_["flow"])([external_wp_data_["combine
 function __unstableIsFeatureActive(state, feature) {
   return Object(external_lodash_["get"])(state.preferences.features, [feature], false);
 }
+/**
+ * Returns true if the inserter is opened.
+ *
+ * @param {Object} state Global application state.
+ *
+ * @return {boolean} Whether the inserter is opened.
+ */
+
+function selectors_isInserterOpened(state) {
+  return !!state.blockInserterPanel;
+}
+/**
+ * Get the insertion point for the inserter.
+ *
+ * @param {Object} state Global application state.
+ *
+ * @return {Object} The root client ID and index to insert at.
+ */
+
+function __experimentalGetInsertionPoint(state) {
+  const {
+    rootClientId,
+    insertionIndex
+  } = state.blockInserterPanel;
+  return {
+    rootClientId,
+    insertionIndex
+  };
+}
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/customize-widgets/build-module/store/actions.js
 /**
@@ -373,6 +425,25 @@ function __unstableToggleFeature(feature) {
   return {
     type: 'TOGGLE_FEATURE',
     feature
+  };
+}
+/**
+ * Returns an action object used to open/close the inserter.
+ *
+ * @param {boolean|Object} value                Whether the inserter should be
+ *                                              opened (true) or closed (false).
+ *                                              To specify an insertion point,
+ *                                              use an object.
+ * @param {string}         value.rootClientId   The root client ID to insert at.
+ * @param {number}         value.insertionIndex The index to insert at.
+ *
+ * @return {Object} Action object.
+ */
+
+function actions_setIsInserterOpened(value) {
+  return {
+    type: 'SET_IS_INSERTER_OPENED',
+    value
   };
 }
 
@@ -421,6 +492,69 @@ const store = Object(external_wp_data_["createReduxStore"])(STORE_NAME, storeCon
 // we'd be able to replace this with a register call.
 
 Object(external_wp_data_["registerStore"])(STORE_NAME, storeConfig);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/customize-widgets/build-module/components/inserter/index.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+function Inserter({
+  setIsOpened
+}) {
+  const inserterTitleId = Object(external_wp_compose_["useInstanceId"])(Inserter, 'customize-widget-layout__inserter-panel-title');
+  const insertionPoint = Object(external_wp_data_["useSelect"])(select => select(store).__experimentalGetInsertionPoint());
+  return Object(external_wp_element_["createElement"])("div", {
+    className: "customize-widgets-layout__inserter-panel",
+    "aria-labelledby": inserterTitleId
+  }, Object(external_wp_element_["createElement"])("div", {
+    className: "customize-widgets-layout__inserter-panel-header"
+  }, Object(external_wp_element_["createElement"])("h2", {
+    id: inserterTitleId,
+    className: "customize-widgets-layout__inserter-panel-header-title"
+  }, Object(external_wp_i18n_["__"])('Add a block')), Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
+    className: "customize-widgets-layout__inserter-panel-header-close-button",
+    icon: close_small["a" /* default */],
+    onClick: () => setIsOpened(false),
+    "aria-label": Object(external_wp_i18n_["__"])('Close inserter')
+  })), Object(external_wp_element_["createElement"])("div", {
+    className: "customize-widgets-layout__inserter-panel-content"
+  }, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["__experimentalLibrary"], {
+    rootClientId: insertionPoint.rootClientId,
+    __experimentalInsertionIndex: insertionPoint.insertionIndex,
+    showInserterHelpPanel: true,
+    onSelect: () => setIsOpened(false)
+  })));
+}
+
+/* harmony default export */ var components_inserter = (Inserter);
+
+// EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/more-vertical.js
+var more_vertical = __webpack_require__("VKE3");
+
+// EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/external.js
+var external = __webpack_require__("K+tz");
+
+// EXTERNAL MODULE: external ["wp","keyboardShortcuts"]
+var external_wp_keyboardShortcuts_ = __webpack_require__("hF7m");
+
+// EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/check.js
+var check = __webpack_require__("RMJe");
+
+// EXTERNAL MODULE: external ["wp","a11y"]
+var external_wp_a11y_ = __webpack_require__("gdqT");
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/customize-widgets/build-module/components/more-menu/feature-toggle.js
 
@@ -804,7 +938,7 @@ function MoreMenu() {
   }), Object(external_wp_element_["createElement"])(external_wp_components_["MenuItem"], {
     role: "menuitem",
     icon: external["a" /* default */],
-    href: Object(external_wp_i18n_["__"])('https://wordpress.org/support/article/wordpress-editor/'),
+    href: Object(external_wp_i18n_["__"])('https://wordpress.org/support/article/block-based-widgets-editor/'),
     target: "_blank",
     rel: "noopener noreferrer"
   }, Object(external_wp_i18n_["__"])('Help'), Object(external_wp_element_["createElement"])(external_wp_components_["VisuallyHidden"], {
@@ -914,24 +1048,33 @@ function Header({
  * WordPress dependencies
  */
 
+
+/**
+ * Internal dependencies
+ */
+
+
 function useInserter(inserter) {
-  const [isInserterOpened, setIsInserterOpened] = Object(external_wp_element_["useState"])(() => inserter.isOpen);
+  const isInserterOpened = Object(external_wp_data_["useSelect"])(select => select(store).isInserterOpened());
+  const {
+    setIsInserterOpened
+  } = Object(external_wp_data_["useDispatch"])(store);
   Object(external_wp_element_["useEffect"])(() => {
-    return inserter.subscribe(setIsInserterOpened);
-  }, [inserter]);
-  return [isInserterOpened, Object(external_wp_element_["useCallback"])(updater => {
-    let isOpen = updater;
-
-    if (typeof updater === 'function') {
-      isOpen = updater(inserter.isOpen);
-    }
-
-    if (isOpen) {
+    if (isInserterOpened) {
       inserter.open();
     } else {
       inserter.close();
     }
-  }, [inserter])];
+  }, [inserter, isInserterOpened]);
+  return [isInserterOpened, Object(external_wp_element_["useCallback"])(updater => {
+    let isOpen = updater;
+
+    if (typeof updater === 'function') {
+      isOpen = updater(Object(external_wp_data_["select"])(store).isInserterOpened());
+    }
+
+    setIsInserterOpened(isOpen);
+  }, [setIsInserterOpened])];
 }
 
 // EXTERNAL MODULE: external ["wp","isShallowEqual"]
@@ -1542,7 +1685,7 @@ function SidebarBlockEditor({
       keepCaretInsideBlock,
       __unstableHasCustomAppender: true
     };
-  }, [hasUploadPermissions, blockEditorSettings, isFixedToolbarActive, keepCaretInsideBlock]);
+  }, [hasUploadPermissions, blockEditorSettings, isFixedToolbarActive, keepCaretInsideBlock, setIsInserterOpened]);
 
   if (isWelcomeGuideActive) {
     return Object(external_wp_element_["createElement"])(WelcomeGuide, {
@@ -1696,6 +1839,7 @@ function useClearSelectedBlock(sidebarControl, popoverRef) {
 
 
 
+
 function CustomizeWidgets({
   api,
   sidebarControls,
@@ -1715,13 +1859,13 @@ function CustomizeWidgets({
       unsubscribers.forEach(unsubscriber => unsubscriber());
     };
   }, [sidebarControls]);
-  const activeSidebar = activeSidebarControl && Object(external_wp_element_["createPortal"])(Object(external_wp_element_["createElement"])(SidebarBlockEditor, {
+  const activeSidebar = activeSidebarControl && Object(external_wp_element_["createPortal"])(Object(external_wp_element_["createElement"])(error_boundary_ErrorBoundary, null, Object(external_wp_element_["createElement"])(SidebarBlockEditor, {
     key: activeSidebarControl.id,
     blockEditorSettings: blockEditorSettings,
     sidebar: activeSidebarControl.sidebarAdapter,
     inserter: activeSidebarControl.inserter,
     inspector: activeSidebarControl.inspector
-  }), activeSidebarControl.container[0]); // We have to portal this to the parent of both the editor and the inspector,
+  })), activeSidebarControl.container[0]); // We have to portal this to the parent of both the editor and the inspector,
   // so that the popovers will appear above both of them.
 
   const popover = parentContainer && Object(external_wp_element_["createPortal"])(Object(external_wp_element_["createElement"])("div", {
@@ -1838,7 +1982,9 @@ function getSidebarSection() {
           var _args$completeCallbac;
 
           controls.forEach(control => {
-            control.onChangeSectionExpanded(expanded, args);
+            var _control$onChangeSect;
+
+            (_control$onChangeSect = control.onChangeSectionExpanded) === null || _control$onChangeSect === void 0 ? void 0 : _control$onChangeSect.call(control, expanded, args);
           });
           (_args$completeCallbac = _args.completeCallback) === null || _args$completeCallbac === void 0 ? void 0 : _args$completeCallbac.call(_args);
         }
@@ -2204,6 +2350,12 @@ var external_wp_dom_ = __webpack_require__("1CF3");
  */
 
 
+
+/**
+ * Internal dependencies
+ */
+
+
 function getInserterOuterSection() {
   const {
     wp: {
@@ -2242,28 +2394,31 @@ function getInserterOuterSection() {
       const ownerWindow = this.contentContainer[0].ownerDocument.defaultView; // Handle closing the inserter when pressing the Escape key.
 
       ownerWindow.addEventListener('keydown', event => {
-        if (this.isOpen && (event.keyCode === external_wp_keycodes_["ESCAPE"] || event.code === 'Escape')) {
+        if (this.expanded() && (event.keyCode === external_wp_keycodes_["ESCAPE"] || event.code === 'Escape')) {
           event.stopPropagation();
-          this.close();
+          Object(external_wp_data_["dispatch"])(store).setIsInserterOpened(false);
         }
       }, // Use capture mode to make this run before other event listeners.
       true);
-      this.contentContainer.addClass('widgets-inserter');
-    }
+      this.contentContainer.addClass('widgets-inserter'); // Set a flag if the state is being changed from open() or close().
+      // Don't propagate the event if it's an internal action to prevent infinite loop.
 
-    get isOpen() {
-      return this.expanded();
-    }
+      this.isFromInternalAction = false;
+      this.expanded.bind(() => {
+        if (!this.isFromInternalAction) {
+          // Propagate the event to React to sync the state.
+          Object(external_wp_data_["dispatch"])(store).setIsInserterOpened(this.expanded());
+        }
 
-    subscribe(handler) {
-      this.expanded.bind(handler);
-      return () => this.expanded.unbind(handler);
+        this.isFromInternalAction = false;
+      });
     }
 
     open() {
-      if (!this.isOpen) {
+      if (!this.expanded()) {
         const contentContainer = this.contentContainer[0];
         this.activeElementBeforeExpanded = contentContainer.ownerDocument.activeElement;
+        this.isFromInternalAction = true;
         this.expand({
           completeCallback() {
             // We have to do this in a "completeCallback" or else the elements will not yet be visible/tabbable.
@@ -2281,9 +2436,10 @@ function getInserterOuterSection() {
     }
 
     close() {
-      if (this.isOpen) {
+      if (this.expanded()) {
         const contentContainer = this.contentContainer[0];
         const activeElement = contentContainer.ownerDocument.activeElement;
+        this.isFromInternalAction = true;
         this.collapse({
           completeCallback() {
             // Return back the focus when closing the inserter.
@@ -2308,8 +2464,14 @@ function getInserterOuterSection() {
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/customize-widgets/build-module/controls/sidebar-control.js
 /**
+ * WordPress dependencies
+ */
+
+/**
  * Internal dependencies
  */
+
+
 
 
 
@@ -2347,7 +2509,7 @@ function getSidebarControl() {
       if (!args.unchanged) {
         // Close the inserter when the section collapses.
         if (!expanded) {
-          this.inserter.close();
+          Object(external_wp_data_["dispatch"])(store).setIsInserterOpened(false);
         }
 
         this.subscribers.forEach(subscriber => subscriber(expanded, args));

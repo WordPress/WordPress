@@ -5037,7 +5037,7 @@ var tryFunctionObject = function tryFunctionToStr(value) {
 var toStr = Object.prototype.toString;
 var fnClass = '[object Function]';
 var genClass = '[object GeneratorFunction]';
-var hasToStringTag = typeof Symbol === 'function' && typeof Symbol.toStringTag === 'symbol';
+var hasToStringTag = typeof Symbol === 'function' && !!Symbol.toStringTag; // better: use `has-tostringtag`
 /* globals document: false */
 var documentDotAll = typeof document === 'object' && typeof document.all === 'undefined' && document.all !== undefined ? document.all : {};
 
@@ -5064,6 +5064,21 @@ module.exports = reflectApply
 		var strClass = toStr.call(value);
 		return strClass === fnClass || strClass === genClass;
 	};
+
+
+/***/ }),
+
+/***/ "B6Q+":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var hasSymbols = __webpack_require__("qGip");
+
+module.exports = function hasToStringTagShams() {
+	return hasSymbols() && !!Symbol.toStringTag;
+};
 
 
 /***/ }),
@@ -25605,7 +25620,7 @@ function ComboboxControl({
 
 /* harmony default export */ var combobox_control = (ComboboxControl);
 
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js
+// CONCATENATED MODULE: ./node_modules/downshift/node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js
 function objectWithoutPropertiesLoose_objectWithoutPropertiesLoose(source, excluded) {
   if (source == null) return {};
   var target = {};
@@ -25620,13 +25635,47 @@ function objectWithoutPropertiesLoose_objectWithoutPropertiesLoose(source, exclu
 
   return target;
 }
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/assertThisInitialized.js
+// CONCATENATED MODULE: ./node_modules/downshift/node_modules/@babel/runtime/helpers/esm/extends.js
+function extends_extends() {
+  extends_extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+
+    return target;
+  };
+
+  return extends_extends.apply(this, arguments);
+}
+// CONCATENATED MODULE: ./node_modules/downshift/node_modules/@babel/runtime/helpers/esm/assertThisInitialized.js
 function assertThisInitialized_assertThisInitialized(self) {
   if (self === void 0) {
     throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
   }
 
   return self;
+}
+// CONCATENATED MODULE: ./node_modules/downshift/node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js
+function setPrototypeOf_setPrototypeOf(o, p) {
+  setPrototypeOf_setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return setPrototypeOf_setPrototypeOf(o, p);
+}
+// CONCATENATED MODULE: ./node_modules/downshift/node_modules/@babel/runtime/helpers/esm/inheritsLoose.js
+
+function inheritsLoose_inheritsLoose(subClass, superClass) {
+  subClass.prototype = Object.create(superClass.prototype);
+  subClass.prototype.constructor = subClass;
+  setPrototypeOf_setPrototypeOf(subClass, superClass);
 }
 // EXTERNAL MODULE: ./node_modules/prop-types/index.js
 var prop_types = __webpack_require__("17x9");
@@ -25638,7 +25687,249 @@ var react_is = __webpack_require__("cD2C");
 // CONCATENATED MODULE: ./node_modules/compute-scroll-into-view/dist/index.module.js
 function t(t){return"object"==typeof t&&null!=t&&1===t.nodeType}function index_module_e(t,e){return(!e||"hidden"!==t)&&"visible"!==t&&"clip"!==t}function n(t,n){if(t.clientHeight<t.scrollHeight||t.clientWidth<t.scrollWidth){var r=getComputedStyle(t,null);return index_module_e(r.overflowY,n)||index_module_e(r.overflowX,n)||function(t){var e=function(t){if(!t.ownerDocument||!t.ownerDocument.defaultView)return null;try{return t.ownerDocument.defaultView.frameElement}catch(t){return null}}(t);return!!e&&(e.clientHeight<t.scrollHeight||e.clientWidth<t.scrollWidth)}(t)}return!1}function index_module_r(t,e,n,r,i,o,l,d){return o<t&&l>e||o>t&&l<e?0:o<=t&&d<=n||l>=e&&d>=n?o-t-r:l>e&&d<n||o<t&&d>n?l-e+i:0}/* harmony default export */ var index_module = (function(e,i){var o=window,l=i.scrollMode,d=i.block,u=i.inline,h=i.boundary,a=i.skipOverflowHiddenElements,c="function"==typeof h?h:function(t){return t!==h};if(!t(e))throw new TypeError("Invalid target");for(var f=document.scrollingElement||document.documentElement,s=[],p=e;t(p)&&c(p);){if((p=p.parentElement)===f){s.push(p);break}null!=p&&p===document.body&&n(p)&&!n(document.documentElement)||null!=p&&n(p,a)&&s.push(p)}for(var m=o.visualViewport?o.visualViewport.width:innerWidth,g=o.visualViewport?o.visualViewport.height:innerHeight,w=window.scrollX||pageXOffset,v=window.scrollY||pageYOffset,W=e.getBoundingClientRect(),b=W.height,H=W.width,y=W.top,E=W.right,M=W.bottom,V=W.left,x="start"===d||"nearest"===d?y:"end"===d?M:y+b/2,I="center"===u?V+H/2:"end"===u?E:V,C=[],T=0;T<s.length;T++){var k=s[T],B=k.getBoundingClientRect(),D=B.height,O=B.width,R=B.top,X=B.right,Y=B.bottom,L=B.left;if("if-needed"===l&&y>=0&&V>=0&&M<=g&&E<=m&&y>=R&&M<=Y&&V>=L&&E<=X)return C;var S=getComputedStyle(k),j=parseInt(S.borderLeftWidth,10),q=parseInt(S.borderTopWidth,10),z=parseInt(S.borderRightWidth,10),A=parseInt(S.borderBottomWidth,10),F=0,G=0,J="offsetWidth"in k?k.offsetWidth-k.clientWidth-j-z:0,K="offsetHeight"in k?k.offsetHeight-k.clientHeight-q-A:0;if(f===k)F="start"===d?x:"end"===d?x-g:"nearest"===d?index_module_r(v,v+g,g,q,A,v+x,v+x+b,b):x-g/2,G="start"===u?I:"center"===u?I-m/2:"end"===u?I-m:index_module_r(w,w+m,m,j,z,w+I,w+I+H,H),F=Math.max(0,F+v),G=Math.max(0,G+w);else{F="start"===d?x-R-q:"end"===d?x-Y+A+K:"nearest"===d?index_module_r(R,Y,D,q,A+K,x,x+b,b):x-(R+D/2)+K/2,G="start"===u?I-L-j:"center"===u?I-(L+O/2)+J/2:"end"===u?I-X+z+J:index_module_r(L,X,O,j,z+J,I,I+H,H);var N=k.scrollLeft,P=k.scrollTop;x+=P-(F=Math.max(0,Math.min(P+F,k.scrollHeight-D+K))),I+=N-(G=Math.max(0,Math.min(N+G,k.scrollWidth-O+J)))}C.push({el:k,top:F,left:G})}return C});
 
+// CONCATENATED MODULE: ./node_modules/downshift/node_modules/tslib/tslib.es6.js
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
+/* global Reflect, Promise */
+
+var extendStatics = function(d, b) {
+    extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+    return extendStatics(d, b);
+};
+
+function __extends(d, b) {
+    if (typeof b !== "function" && b !== null)
+        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+    extendStatics(d, b);
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
+
+var __assign = function() {
+    __assign = Object.assign || function __assign(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+        }
+        return t;
+    }
+    return __assign.apply(this, arguments);
+}
+
+function __rest(s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+}
+
+function __decorate(decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+
+function __param(paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+}
+
+function __metadata(metadataKey, metadataValue) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
+}
+
+function __awaiter(thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+}
+
+function __generator(thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+}
+
+var __createBinding = Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+});
+
+function __exportStar(m, o) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(o, p)) __createBinding(o, m, p);
+}
+
+function __values(o) {
+    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+    if (m) return m.call(o);
+    if (o && typeof o.length === "number") return {
+        next: function () {
+            if (o && i >= o.length) o = void 0;
+            return { value: o && o[i++], done: !o };
+        }
+    };
+    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+}
+
+function __read(o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+}
+
+/** @deprecated */
+function __spread() {
+    for (var ar = [], i = 0; i < arguments.length; i++)
+        ar = ar.concat(__read(arguments[i]));
+    return ar;
+}
+
+/** @deprecated */
+function __spreadArrays() {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+}
+
+function __spreadArray(to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+}
+
+function __await(v) {
+    return this instanceof __await ? (this.v = v, this) : new __await(v);
+}
+
+function __asyncGenerator(thisArg, _arguments, generator) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var g = generator.apply(thisArg, _arguments || []), i, q = [];
+    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
+    function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
+    function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
+    function step(r) { r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
+    function fulfill(value) { resume("next", value); }
+    function reject(value) { resume("throw", value); }
+    function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
+}
+
+function __asyncDelegator(o) {
+    var i, p;
+    return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
+    function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: __await(o[n](v)), done: n === "return" } : f ? f(v) : v; } : f; }
+}
+
+function __asyncValues(o) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var m = o[Symbol.asyncIterator], i;
+    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+}
+
+function __makeTemplateObject(cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
+
+var __setModuleDefault = Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+};
+
+function __importStar(mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+}
+
+function __importDefault(mod) {
+    return (mod && mod.__esModule) ? mod : { default: mod };
+}
+
+function __classPrivateFieldGet(receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+}
+
+function __classPrivateFieldSet(receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+}
+
 // CONCATENATED MODULE: ./node_modules/downshift/dist/downshift.esm.js
+
 
 
 
@@ -25797,7 +26088,7 @@ function resetIdCounter() {
 }
 /**
  * Default implementation for status message. Only added when menu is open.
- * Will specift if there are results in the list, and if so, how many,
+ * Will specify if there are results in the list, and if so, how many,
  * and what keys are relevant.
  *
  * @param {Object} param the downshift state and other relevant properties
@@ -26163,9 +26454,15 @@ var stateChangeTypes$3 = /*#__PURE__*/Object.freeze({
   touchEnd: touchEnd
 });
 
+var _excluded$4 = ["refKey", "ref"],
+    _excluded2$3 = ["onClick", "onPress", "onKeyDown", "onKeyUp", "onBlur"],
+    _excluded3$2 = ["onKeyDown", "onBlur", "onChange", "onInput", "onChangeText"],
+    _excluded4$1 = ["refKey", "ref"],
+    _excluded5$1 = ["onMouseMove", "onMouseDown", "onClick", "onPress", "index", "item"];
+
 var downshift_esm_Downshift = /*#__PURE__*/function () {
   var Downshift = /*#__PURE__*/function (_Component) {
-    _inheritsLoose(Downshift, _Component);
+    inheritsLoose_inheritsLoose(Downshift, _Component);
 
     function Downshift(_props) {
       var _this;
@@ -26219,7 +26516,7 @@ var downshift_esm_Downshift = /*#__PURE__*/function () {
 
         otherStateToSet = pickState(otherStateToSet);
 
-        _this.internalSetState(Object(esm_extends["a" /* default */])({
+        _this.internalSetState(extends_extends({
           highlightedIndex: highlightedIndex
         }, otherStateToSet));
       };
@@ -26236,7 +26533,7 @@ var downshift_esm_Downshift = /*#__PURE__*/function () {
       _this.selectItem = function (item, otherStateToSet, cb) {
         otherStateToSet = pickState(otherStateToSet);
 
-        _this.internalSetState(Object(esm_extends["a" /* default */])({
+        _this.internalSetState(extends_extends({
           isOpen: _this.props.defaultIsOpen,
           highlightedIndex: _this.props.defaultHighlightedIndex,
           selectedItem: item,
@@ -26268,7 +26565,7 @@ var downshift_esm_Downshift = /*#__PURE__*/function () {
         // See https://github.com/downshift-js/downshift/issues/217 for more info.
 
         if (!isStateToSetFunction && stateToSet.hasOwnProperty('inputValue')) {
-          _this.props.onInputValueChange(stateToSet.inputValue, Object(esm_extends["a" /* default */])({}, _this.getStateAndHelpers(), stateToSet));
+          _this.props.onInputValueChange(stateToSet.inputValue, extends_extends({}, _this.getStateAndHelpers(), stateToSet));
         }
 
         return _this.setState(function (state) {
@@ -26282,6 +26579,8 @@ var downshift_esm_Downshift = /*#__PURE__*/function () {
           isItemSelected = newStateToSet.hasOwnProperty('selectedItem'); // this keeps track of the object we want to call with setState
 
           var nextState = {}; // this is just used to tell whether the state changed
+
+          var nextFullState = {}; // we need to call on change if the outside world is controlling any of our state
           // and we're trying to update that state. OR if the selection has changed and we're
           // trying to update the selection
 
@@ -26307,7 +26606,7 @@ var downshift_esm_Downshift = /*#__PURE__*/function () {
               return;
             }
 
-            newStateToSet[key]; // if it's coming from props, then we don't care to set it internally
+            nextFullState[key] = newStateToSet[key]; // if it's coming from props, then we don't care to set it internally
 
             if (!isControlledProp(_this.props, key)) {
               nextState[key] = newStateToSet[key];
@@ -26316,7 +26615,7 @@ var downshift_esm_Downshift = /*#__PURE__*/function () {
           // earlier, so we'll call it now that we know what the inputValue state will be.
 
           if (isStateToSetFunction && newStateToSet.hasOwnProperty('inputValue')) {
-            _this.props.onInputValueChange(newStateToSet.inputValue, Object(esm_extends["a" /* default */])({}, _this.getStateAndHelpers(), newStateToSet));
+            _this.props.onInputValueChange(newStateToSet.inputValue, extends_extends({}, _this.getStateAndHelpers(), newStateToSet));
           }
 
           return nextState;
@@ -26356,7 +26655,7 @@ var downshift_esm_Downshift = /*#__PURE__*/function () {
             _ref$refKey = _ref.refKey,
             refKey = _ref$refKey === void 0 ? 'ref' : _ref$refKey,
             ref = _ref.ref,
-            rest = objectWithoutPropertiesLoose_objectWithoutPropertiesLoose(_ref, ["refKey", "ref"]);
+            rest = objectWithoutPropertiesLoose_objectWithoutPropertiesLoose(_ref, _excluded$4);
 
         var _ref2 = _temp2 === void 0 ? {} : _temp2,
             _ref2$suppressRefErro = _ref2.suppressRefError,
@@ -26371,7 +26670,7 @@ var downshift_esm_Downshift = /*#__PURE__*/function () {
         var _this$getState = _this.getState(),
             isOpen = _this$getState.isOpen;
 
-        return Object(esm_extends["a" /* default */])((_extends2 = {}, _extends2[refKey] = handleRefs(ref, _this.rootRef), _extends2.role = 'combobox', _extends2['aria-expanded'] = isOpen, _extends2['aria-haspopup'] = 'listbox', _extends2['aria-owns'] = isOpen ? _this.menuId : null, _extends2['aria-labelledby'] = _this.labelId, _extends2), rest);
+        return extends_extends((_extends2 = {}, _extends2[refKey] = handleRefs(ref, _this.rootRef), _extends2.role = 'combobox', _extends2['aria-expanded'] = isOpen, _extends2['aria-haspopup'] = 'listbox', _extends2['aria-owns'] = isOpen ? _this.menuId : null, _extends2['aria-labelledby'] = _this.labelId, _extends2), rest);
       };
 
       _this.keyDownHandlers = {
@@ -26464,7 +26763,7 @@ var downshift_esm_Downshift = /*#__PURE__*/function () {
         },
         Escape: function Escape(event) {
           event.preventDefault();
-          this.reset(Object(esm_extends["a" /* default */])({
+          this.reset(extends_extends({
             type: keyDownEscape
           }, !this.state.isOpen && {
             selectedItem: null,
@@ -26472,7 +26771,7 @@ var downshift_esm_Downshift = /*#__PURE__*/function () {
           }));
         }
       };
-      _this.buttonKeyDownHandlers = Object(esm_extends["a" /* default */])({}, _this.keyDownHandlers, {
+      _this.buttonKeyDownHandlers = extends_extends({}, _this.keyDownHandlers, {
         ' ': function _(event) {
           event.preventDefault();
           this.toggleMenu({
@@ -26480,7 +26779,7 @@ var downshift_esm_Downshift = /*#__PURE__*/function () {
           });
         }
       });
-      _this.inputKeyDownHandlers = Object(esm_extends["a" /* default */])({}, _this.keyDownHandlers, {
+      _this.inputKeyDownHandlers = extends_extends({}, _this.keyDownHandlers, {
         Home: function Home(event) {
           var _this4 = this;
 
@@ -26540,7 +26839,7 @@ var downshift_esm_Downshift = /*#__PURE__*/function () {
             var onKeyDown = _ref3.onKeyDown,
             onKeyUp = _ref3.onKeyUp,
             onBlur = _ref3.onBlur,
-            rest = objectWithoutPropertiesLoose_objectWithoutPropertiesLoose(_ref3, ["onClick", "onPress", "onKeyDown", "onKeyUp", "onBlur"]);
+            rest = objectWithoutPropertiesLoose_objectWithoutPropertiesLoose(_ref3, _excluded2$3);
 
         var _this$getState5 = _this.getState(),
             isOpen = _this$getState5.isOpen;
@@ -26552,7 +26851,7 @@ var downshift_esm_Downshift = /*#__PURE__*/function () {
           onBlur: callAllEventHandlers(onBlur, _this.buttonHandleBlur)
         };
         var eventHandlers = rest.disabled ? {} : enabledEventHandlers;
-        return Object(esm_extends["a" /* default */])({
+        return extends_extends({
           type: 'button',
           role: 'button',
           'aria-label': isOpen ? 'close menu' : 'open menu',
@@ -26604,15 +26903,15 @@ var downshift_esm_Downshift = /*#__PURE__*/function () {
         _this.internalSetTimeout(function () {
           if (!_this.isMouseDown && (_this.props.environment.document.activeElement == null || _this.props.environment.document.activeElement.id !== _this.inputId) && _this.props.environment.document.activeElement !== blurTarget // Do nothing if we refocus the same element again (to solve issue in Safari on iOS)
           ) {
-              _this.reset({
-                type: blurButton
-              });
-            }
+            _this.reset({
+              type: blurButton
+            });
+          }
         });
       };
 
       _this.getLabelProps = function (props) {
-        return Object(esm_extends["a" /* default */])({
+        return extends_extends({
           htmlFor: _this.inputId,
           id: _this.labelId
         }, props);
@@ -26625,7 +26924,7 @@ var downshift_esm_Downshift = /*#__PURE__*/function () {
             onChange = _ref4.onChange,
             onInput = _ref4.onInput;
             _ref4.onChangeText;
-            var rest = objectWithoutPropertiesLoose_objectWithoutPropertiesLoose(_ref4, ["onKeyDown", "onBlur", "onChange", "onInput", "onChangeText"]);
+            var rest = objectWithoutPropertiesLoose_objectWithoutPropertiesLoose(_ref4, _excluded3$2);
 
         var onChangeKey;
         var eventHandlers = {};
@@ -26646,7 +26945,7 @@ var downshift_esm_Downshift = /*#__PURE__*/function () {
           eventHandlers = (_eventHandlers = {}, _eventHandlers[onChangeKey] = callAllEventHandlers(onChange, onInput, _this.inputHandleChange), _eventHandlers.onKeyDown = callAllEventHandlers(onKeyDown, _this.inputHandleKeyDown), _eventHandlers.onBlur = callAllEventHandlers(onBlur, _this.inputHandleBlur), _eventHandlers);
         }
 
-        return Object(esm_extends["a" /* default */])({
+        return extends_extends({
           'aria-autocomplete': 'list',
           'aria-activedescendant': isOpen && typeof highlightedIndex === 'number' && highlightedIndex >= 0 ? _this.getItemId(highlightedIndex) : null,
           'aria-controls': isOpen ? _this.menuId : null,
@@ -26700,7 +26999,7 @@ var downshift_esm_Downshift = /*#__PURE__*/function () {
             _ref5$refKey = _ref5.refKey,
             refKey = _ref5$refKey === void 0 ? 'ref' : _ref5$refKey,
             ref = _ref5.ref,
-            props = objectWithoutPropertiesLoose_objectWithoutPropertiesLoose(_ref5, ["refKey", "ref"]);
+            props = objectWithoutPropertiesLoose_objectWithoutPropertiesLoose(_ref5, _excluded4$1);
 
         var _ref6 = _temp6 === void 0 ? {} : _temp6,
             _ref6$suppressRefErro = _ref6.suppressRefError,
@@ -26709,7 +27008,7 @@ var downshift_esm_Downshift = /*#__PURE__*/function () {
         _this.getMenuProps.called = true;
         _this.getMenuProps.refKey = refKey;
         _this.getMenuProps.suppressRefError = suppressRefError;
-        return Object(esm_extends["a" /* default */])((_extends3 = {}, _extends3[refKey] = handleRefs(ref, _this.menuRef), _extends3.role = 'listbox', _extends3['aria-labelledby'] = props && props['aria-label'] ? null : _this.labelId, _extends3.id = _this.menuId, _extends3), props);
+        return extends_extends((_extends3 = {}, _extends3[refKey] = handleRefs(ref, _this.menuRef), _extends3.role = 'listbox', _extends3['aria-labelledby'] = props && props['aria-label'] ? null : _this.labelId, _extends3.id = _this.menuId, _extends3), props);
       };
 
       _this.getItemProps = function (_temp7) {
@@ -26725,7 +27024,7 @@ var downshift_esm_Downshift = /*#__PURE__*/function () {
             item = _ref7$item === void 0 ?  true ?
         /* istanbul ignore next */
         undefined : undefined : _ref7$item,
-            rest = objectWithoutPropertiesLoose_objectWithoutPropertiesLoose(_ref7, ["onMouseMove", "onMouseDown", "onClick", "onPress", "index", "item"]);
+            rest = objectWithoutPropertiesLoose_objectWithoutPropertiesLoose(_ref7, _excluded5$1);
 
         if (index === undefined) {
           _this.items.push(item);
@@ -26776,7 +27075,7 @@ var downshift_esm_Downshift = /*#__PURE__*/function () {
         var eventHandlers = rest.disabled ? {
           onMouseDown: enabledEventHandlers.onMouseDown
         } : enabledEventHandlers;
-        return Object(esm_extends["a" /* default */])({
+        return extends_extends({
           id: _this.getItemId(index),
           role: 'option',
           'aria-selected': _this.getState().highlightedIndex === index
@@ -26796,7 +27095,7 @@ var downshift_esm_Downshift = /*#__PURE__*/function () {
 
         _this.internalSetState(function (_ref8) {
           var selectedItem = _ref8.selectedItem;
-          return Object(esm_extends["a" /* default */])({
+          return extends_extends({
             isOpen: _this.props.defaultIsOpen,
             highlightedIndex: _this.props.defaultHighlightedIndex,
             inputValue: _this.props.itemToString(selectedItem)
@@ -26813,7 +27112,7 @@ var downshift_esm_Downshift = /*#__PURE__*/function () {
 
         _this.internalSetState(function (_ref9) {
           var isOpen = _ref9.isOpen;
-          return Object(esm_extends["a" /* default */])({
+          return extends_extends({
             isOpen: !isOpen
           }, isOpen && {
             highlightedIndex: _this.props.defaultHighlightedIndex
@@ -26852,7 +27151,7 @@ var downshift_esm_Downshift = /*#__PURE__*/function () {
 
         var resultCount = _this.getItemCount();
 
-        var status = _this.props.getA11yStatusMessage(Object(esm_extends["a" /* default */])({
+        var status = _this.props.getA11yStatusMessage(extends_extends({
           itemToString: _this.props.itemToString,
           previousResultCount: _this.previousResultCount,
           resultCount: resultCount,
@@ -27215,9 +27514,9 @@ var downshift_esm_Downshift = /*#__PURE__*/function () {
     selectedItemChanged: function selectedItemChanged(prevItem, item) {
       return prevItem !== item;
     },
-    environment: typeof window === 'undefined'
+    environment:
     /* istanbul ignore next (ssr) */
-    ? {} : window,
+    typeof window === 'undefined' ? {} : window,
     stateReducer: function stateReducer(state, stateToSet) {
       return stateToSet;
     },
@@ -27229,6 +27528,7 @@ var downshift_esm_Downshift = /*#__PURE__*/function () {
 }();
 
  false ? undefined : void 0;
+var Downshift$1 = downshift_esm_Downshift;
 
 function validateGetMenuPropsCalledCorrectly(node, _ref12) {
   var refKey = _ref12.refKey;
@@ -27258,6 +27558,7 @@ function validateGetRootPropsCalledCorrectly(element, _ref13) {
   }
 }
 
+var _excluded$3 = ["isInitialMount", "highlightedIndex", "items", "environment"];
 var dropdownDefaultStateValues = {
   highlightedIndex: -1,
   isOpen: false,
@@ -27278,7 +27579,7 @@ function callOnChangeProps(action, state, newState) {
   });
 
   if (props.onStateChange && Object.keys(changes).length) {
-    props.onStateChange(Object(esm_extends["a" /* default */])({
+    props.onStateChange(extends_extends({
       type: type
     }, changes));
   }
@@ -27290,7 +27591,7 @@ function invokeOnChangeHandler(key, action, state, newState) {
   var handler = "on" + capitalizeString(key) + "Change";
 
   if (props[handler] && newState[key] !== undefined && newState[key] !== state[key]) {
-    props[handler](Object(esm_extends["a" /* default */])({
+    props[handler](extends_extends({
       type: type
     }, newState));
   }
@@ -27404,7 +27705,7 @@ function useEnhancedReducer(reducer, initialState, props) {
     actionRef.current = action;
     state = getState(state, action.props);
     var changes = reducer(state, action);
-    var newState = action.props.stateReducer(state, Object(esm_extends["a" /* default */])({}, action, {
+    var newState = action.props.stateReducer(state, extends_extends({}, action, {
       changes: changes
     }));
     return newState;
@@ -27416,7 +27717,7 @@ function useEnhancedReducer(reducer, initialState, props) {
 
   var propsRef = useLatestRef(props);
   var dispatchWithProps = Object(external_React_["useCallback"])(function (action) {
-    return dispatch(Object(esm_extends["a" /* default */])({
+    return dispatch(extends_extends({
       props: propsRef.current
     }, action));
   }, [propsRef]);
@@ -27455,9 +27756,9 @@ var defaultProps$3 = {
   getA11ySelectionMessage: downshift_esm_getA11ySelectionMessage,
   scrollIntoView: downshift_esm_scrollIntoView,
   circularNavigation: false,
-  environment: typeof window === 'undefined'
+  environment:
   /* istanbul ignore next (ssr) */
-  ? {} : window
+  typeof window === 'undefined' ? {} : window
 };
 
 function getDefaultValue$1(props, propKey, defaultStateValues) {
@@ -27627,16 +27928,16 @@ function useA11yMessageSetter(getA11yMessage, dependencyArray, _ref2) {
       highlightedIndex = _ref2.highlightedIndex,
       items = _ref2.items,
       environment = _ref2.environment,
-      rest = objectWithoutPropertiesLoose_objectWithoutPropertiesLoose(_ref2, ["isInitialMount", "highlightedIndex", "items", "environment"]);
+      rest = objectWithoutPropertiesLoose_objectWithoutPropertiesLoose(_ref2, _excluded$3);
 
   // Sets a11y status message on changes in state.
   Object(external_React_["useEffect"])(function () {
-    if (isInitialMount) {
+    if (isInitialMount || false) {
       return;
     }
 
     updateA11yStatus(function () {
-      return getA11yMessage(Object(esm_extends["a" /* default */])({
+      return getA11yMessage(extends_extends({
         highlightedIndex: highlightedIndex,
         highlightedItem: items[highlightedIndex],
         resultCount: items.length
@@ -27742,62 +28043,62 @@ function downshiftCommonReducer(state, action, stateChangeTypes) {
       throw new Error('Reducer called without proper action type.');
   }
 
-  return Object(esm_extends["a" /* default */])({}, state, changes);
+  return extends_extends({}, state, changes);
 }
 /* eslint-enable complexity */
 
-function getItemIndexByCharacterKey(keysSoFar, highlightedIndex, items, itemToString, getItemNodeFromIndex) {
-  var lowerCasedKeysSoFar = keysSoFar.toLowerCase();
-
-  for (var index = 0; index < items.length; index++) {
-    var offsetIndex = (index + highlightedIndex + 1) % items.length;
-
-    if (itemToString(items[offsetIndex]).toLowerCase().startsWith(lowerCasedKeysSoFar)) {
-      var element = getItemNodeFromIndex(offsetIndex);
-
-      if (!(element && element.hasAttribute('disabled'))) {
-        return offsetIndex;
-      }
+function getItemIndexByCharacterKey(_a) {
+    var keysSoFar = _a.keysSoFar, highlightedIndex = _a.highlightedIndex, items = _a.items, itemToString = _a.itemToString, getItemNodeFromIndex = _a.getItemNodeFromIndex;
+    var lowerCasedKeysSoFar = keysSoFar.toLowerCase();
+    for (var index = 0; index < items.length; index++) {
+        var offsetIndex = (index + highlightedIndex + 1) % items.length;
+        var item = items[offsetIndex];
+        if (item !== undefined &&
+            itemToString(item)
+                .toLowerCase()
+                .startsWith(lowerCasedKeysSoFar)) {
+            var element = getItemNodeFromIndex(offsetIndex);
+            if (!(element === null || element === void 0 ? void 0 : element.hasAttribute('disabled'))) {
+                return offsetIndex;
+            }
+        }
     }
-  }
-
-  return highlightedIndex;
+    return highlightedIndex;
 }
-
 var propTypes$2 = {
-  items: prop_types_default.a.array.isRequired,
-  itemToString: prop_types_default.a.func,
-  getA11yStatusMessage: prop_types_default.a.func,
-  getA11ySelectionMessage: prop_types_default.a.func,
-  circularNavigation: prop_types_default.a.bool,
-  highlightedIndex: prop_types_default.a.number,
-  defaultHighlightedIndex: prop_types_default.a.number,
-  initialHighlightedIndex: prop_types_default.a.number,
-  isOpen: prop_types_default.a.bool,
-  defaultIsOpen: prop_types_default.a.bool,
-  initialIsOpen: prop_types_default.a.bool,
-  selectedItem: prop_types_default.a.any,
-  initialSelectedItem: prop_types_default.a.any,
-  defaultSelectedItem: prop_types_default.a.any,
-  id: prop_types_default.a.string,
-  labelId: prop_types_default.a.string,
-  menuId: prop_types_default.a.string,
-  getItemId: prop_types_default.a.func,
-  toggleButtonId: prop_types_default.a.string,
-  stateReducer: prop_types_default.a.func,
-  onSelectedItemChange: prop_types_default.a.func,
-  onHighlightedIndexChange: prop_types_default.a.func,
-  onStateChange: prop_types_default.a.func,
-  onIsOpenChange: prop_types_default.a.func,
-  environment: prop_types_default.a.shape({
-    addEventListener: prop_types_default.a.func,
-    removeEventListener: prop_types_default.a.func,
-    document: prop_types_default.a.shape({
-      getElementById: prop_types_default.a.func,
-      activeElement: prop_types_default.a.any,
-      body: prop_types_default.a.any
+    items: prop_types_default.a.array.isRequired,
+    itemToString: prop_types_default.a.func,
+    getA11yStatusMessage: prop_types_default.a.func,
+    getA11ySelectionMessage: prop_types_default.a.func,
+    circularNavigation: prop_types_default.a.bool,
+    highlightedIndex: prop_types_default.a.number,
+    defaultHighlightedIndex: prop_types_default.a.number,
+    initialHighlightedIndex: prop_types_default.a.number,
+    isOpen: prop_types_default.a.bool,
+    defaultIsOpen: prop_types_default.a.bool,
+    initialIsOpen: prop_types_default.a.bool,
+    selectedItem: prop_types_default.a.any,
+    initialSelectedItem: prop_types_default.a.any,
+    defaultSelectedItem: prop_types_default.a.any,
+    id: prop_types_default.a.string,
+    labelId: prop_types_default.a.string,
+    menuId: prop_types_default.a.string,
+    getItemId: prop_types_default.a.func,
+    toggleButtonId: prop_types_default.a.string,
+    stateReducer: prop_types_default.a.func,
+    onSelectedItemChange: prop_types_default.a.func,
+    onHighlightedIndexChange: prop_types_default.a.func,
+    onStateChange: prop_types_default.a.func,
+    onIsOpenChange: prop_types_default.a.func,
+    environment: prop_types_default.a.shape({
+        addEventListener: prop_types_default.a.func,
+        removeEventListener: prop_types_default.a.func,
+        document: prop_types_default.a.shape({
+            getElementById: prop_types_default.a.func,
+            activeElement: prop_types_default.a.any,
+            body: prop_types_default.a.any
+        })
     })
-  })
 };
 /**
  * Default implementation for status message. Only added when menu is open.
@@ -27807,35 +28108,23 @@ var propTypes$2 = {
  * @param {Object} param the downshift state and other relevant properties
  * @return {String} the a11y status message
  */
-
-function downshift_esm_getA11yStatusMessage(_ref) {
-  var isOpen = _ref.isOpen,
-      resultCount = _ref.resultCount,
-      previousResultCount = _ref.previousResultCount;
-
-  if (!isOpen) {
+function downshift_esm_getA11yStatusMessage(_a) {
+    var isOpen = _a.isOpen, resultCount = _a.resultCount, previousResultCount = _a.previousResultCount;
+    if (!isOpen) {
+        return '';
+    }
+    if (!resultCount) {
+        return 'No results are available.';
+    }
+    if (resultCount !== previousResultCount) {
+        return resultCount + " result" + (resultCount === 1 ? ' is' : 's are') + " available, use up and down arrow keys to navigate. Press Enter or Space Bar keys to select.";
+    }
     return '';
-  }
-
-  if (!resultCount) {
-    return 'No results are available.';
-  }
-
-  if (resultCount !== previousResultCount) {
-    return resultCount + " result" + (resultCount === 1 ? ' is' : 's are') + " available, use up and down arrow keys to navigate. Press Enter or Space Bar keys to select.";
-  }
-
-  return '';
 }
-
-var defaultProps$2 = Object(esm_extends["a" /* default */])({}, defaultProps$3, {
-  getA11yStatusMessage: downshift_esm_getA11yStatusMessage
-}); // eslint-disable-next-line import/no-mutable-exports
-
-
+var defaultProps$2 = __assign(__assign({}, defaultProps$3), { getA11yStatusMessage: downshift_esm_getA11yStatusMessage });
+// eslint-disable-next-line import/no-mutable-exports
 var validatePropTypes$2 = downshift_esm_noop;
 /* istanbul ignore next */
-
 if (false) {}
 
 var MenuKeyDownArrowDown =  false ? undefined : 0;
@@ -27910,8 +28199,14 @@ function downshiftSelectReducer(state, action) {
       {
         var lowercasedKey = action.key;
         var inputValue = "" + state.inputValue + lowercasedKey;
-        var itemIndex = getItemIndexByCharacterKey(inputValue, state.selectedItem ? props.items.indexOf(state.selectedItem) : -1, props.items, props.itemToString, action.getItemNodeFromIndex);
-        changes = Object(esm_extends["a" /* default */])({
+        var itemIndex = getItemIndexByCharacterKey({
+          keysSoFar: inputValue,
+          highlightedIndex: state.selectedItem ? props.items.indexOf(state.selectedItem) : -1,
+          items: props.items,
+          itemToString: props.itemToString,
+          getItemNodeFromIndex: action.getItemNodeFromIndex
+        });
+        changes = extends_extends({
           inputValue: inputValue
         }, itemIndex >= 0 && {
           selectedItem: props.items[itemIndex]
@@ -27935,7 +28230,7 @@ function downshiftSelectReducer(state, action) {
 
     case MenuKeyDownEnter:
     case MenuKeyDownSpaceButton:
-      changes = Object(esm_extends["a" /* default */])({
+      changes = extends_extends({
         isOpen: getDefaultValue$1(props, 'isOpen'),
         highlightedIndex: getDefaultValue$1(props, 'highlightedIndex')
       }, state.highlightedIndex >= 0 && {
@@ -27975,8 +28270,14 @@ function downshiftSelectReducer(state, action) {
 
         var _inputValue = "" + state.inputValue + _lowercasedKey;
 
-        var highlightedIndex = getItemIndexByCharacterKey(_inputValue, state.highlightedIndex, props.items, props.itemToString, action.getItemNodeFromIndex);
-        changes = Object(esm_extends["a" /* default */])({
+        var highlightedIndex = getItemIndexByCharacterKey({
+          keysSoFar: _inputValue,
+          highlightedIndex: state.highlightedIndex,
+          items: props.items,
+          itemToString: props.itemToString,
+          getItemNodeFromIndex: action.getItemNodeFromIndex
+        });
+        changes = extends_extends({
           inputValue: _inputValue
         }, highlightedIndex >= 0 && {
           highlightedIndex: highlightedIndex
@@ -28006,10 +28307,13 @@ function downshiftSelectReducer(state, action) {
       return downshiftCommonReducer(state, action, stateChangeTypes$2);
   }
 
-  return Object(esm_extends["a" /* default */])({}, state, changes);
+  return extends_extends({}, state, changes);
 }
 /* eslint-enable complexity */
 
+var _excluded$2 = ["onMouseLeave", "refKey", "onKeyDown", "onBlur", "ref"],
+    _excluded2$2 = ["onClick", "onKeyDown", "refKey", "ref"],
+    _excluded3$1 = ["item", "index", "onMouseMove", "onClick", "refKey", "ref"];
 useSelect.stateChangeTypes = stateChangeTypes$2;
 
 function useSelect(userProps) {
@@ -28019,7 +28323,7 @@ function useSelect(userProps) {
 
   validatePropTypes$2(userProps, useSelect); // Props defaults and destructuring.
 
-  var props = Object(esm_extends["a" /* default */])({}, defaultProps$2, userProps);
+  var props = extends_extends({}, defaultProps$2, userProps);
 
   var items = props.items,
       scrollIntoView = props.scrollIntoView,
@@ -28064,7 +28368,7 @@ function useSelect(userProps) {
   }, [elementIds]); // Effects.
   // Sets a11y status message on changes in state.
 
-  useA11yMessageSetter(getA11yStatusMessage, [isOpen, highlightedIndex, inputValue, items], Object(esm_extends["a" /* default */])({
+  useA11yMessageSetter(getA11yStatusMessage, [isOpen, highlightedIndex, inputValue, items], extends_extends({
     isInitialMount: isInitialMountRef.current,
     previousResultCount: previousResultCountRef.current,
     items: items,
@@ -28072,7 +28376,7 @@ function useSelect(userProps) {
     itemToString: itemToString
   }, state)); // Sets a11y status message on changes in selectedItem.
 
-  useA11yMessageSetter(getA11ySelectionMessage, [selectedItem], Object(esm_extends["a" /* default */])({
+  useA11yMessageSetter(getA11ySelectionMessage, [selectedItem], extends_extends({
     isInitialMount: isInitialMountRef.current,
     previousResultCount: previousResultCountRef.current,
     items: items,
@@ -28285,7 +28589,7 @@ function useSelect(userProps) {
   }, [dispatch]); // Getter functions.
 
   var getLabelProps = Object(external_React_["useCallback"])(function (labelProps) {
-    return Object(esm_extends["a" /* default */])({
+    return extends_extends({
       id: elementIds.labelId,
       htmlFor: elementIds.toggleButtonId
     }, labelProps);
@@ -28300,7 +28604,7 @@ function useSelect(userProps) {
         onKeyDown = _ref.onKeyDown,
         onBlur = _ref.onBlur,
         ref = _ref.ref,
-        rest = objectWithoutPropertiesLoose_objectWithoutPropertiesLoose(_ref, ["onMouseLeave", "refKey", "onKeyDown", "onBlur", "ref"]);
+        rest = objectWithoutPropertiesLoose_objectWithoutPropertiesLoose(_ref, _excluded$2);
 
     var _ref2 = _temp2 === void 0 ? {} : _temp2,
         _ref2$suppressRefErro = _ref2.suppressRefError,
@@ -28346,7 +28650,7 @@ function useSelect(userProps) {
     };
 
     setGetterPropCallInfo('getMenuProps', suppressRefError, refKey, menuRef);
-    return Object(esm_extends["a" /* default */])((_extends2 = {}, _extends2[refKey] = handleRefs(ref, function (menuNode) {
+    return extends_extends((_extends2 = {}, _extends2[refKey] = handleRefs(ref, function (menuNode) {
       menuRef.current = menuNode;
     }), _extends2.id = elementIds.menuId, _extends2.role = 'listbox', _extends2['aria-labelledby'] = elementIds.labelId, _extends2.tabIndex = -1, _extends2), latestState.isOpen && latestState.highlightedIndex > -1 && {
       'aria-activedescendant': elementIds.getItemId(latestState.highlightedIndex)
@@ -28365,7 +28669,7 @@ function useSelect(userProps) {
         _ref3$refKey = _ref3.refKey,
         refKey = _ref3$refKey === void 0 ? 'ref' : _ref3$refKey,
         ref = _ref3.ref,
-        rest = objectWithoutPropertiesLoose_objectWithoutPropertiesLoose(_ref3, ["onClick", "onKeyDown", "refKey", "ref"]);
+        rest = objectWithoutPropertiesLoose_objectWithoutPropertiesLoose(_ref3, _excluded2$2);
 
     var _ref4 = _temp4 === void 0 ? {} : _temp4,
         _ref4$suppressRefErro = _ref4.suppressRefError,
@@ -28391,7 +28695,7 @@ function useSelect(userProps) {
       }
     };
 
-    var toggleProps = Object(esm_extends["a" /* default */])((_extends3 = {}, _extends3[refKey] = handleRefs(ref, function (toggleButtonNode) {
+    var toggleProps = extends_extends((_extends3 = {}, _extends3[refKey] = handleRefs(ref, function (toggleButtonNode) {
       toggleButtonRef.current = toggleButtonNode;
     }), _extends3.id = elementIds.toggleButtonId, _extends3['aria-haspopup'] = 'listbox', _extends3['aria-expanded'] = latest.current.state.isOpen, _extends3['aria-labelledby'] = elementIds.labelId + " " + elementIds.toggleButtonId, _extends3), rest);
 
@@ -28414,7 +28718,7 @@ function useSelect(userProps) {
         _ref5$refKey = _ref5.refKey,
         refKey = _ref5$refKey === void 0 ? 'ref' : _ref5$refKey,
         ref = _ref5.ref,
-        rest = objectWithoutPropertiesLoose_objectWithoutPropertiesLoose(_ref5, ["item", "index", "onMouseMove", "onClick", "refKey", "ref"]);
+        rest = objectWithoutPropertiesLoose_objectWithoutPropertiesLoose(_ref5, _excluded3$1);
 
     var _latest$current = latest.current,
         latestState = _latest$current.state,
@@ -28445,7 +28749,7 @@ function useSelect(userProps) {
       throw new Error('Pass either item or item index in getItemProps!');
     }
 
-    var itemProps = Object(esm_extends["a" /* default */])((_extends4 = {
+    var itemProps = extends_extends((_extends4 = {
       role: 'option',
       'aria-selected': "" + (itemIndex === latestState.highlightedIndex),
       id: elementIds.getItemId(itemIndex)
@@ -28538,7 +28842,7 @@ function getInitialState$1(props) {
     inputValue = props.itemToString(selectedItem);
   }
 
-  return Object(esm_extends["a" /* default */])({}, initialState, {
+  return extends_extends({}, initialState, {
     inputValue: inputValue
   });
 }
@@ -28625,7 +28929,7 @@ var validatePropTypes$1 = downshift_esm_noop;
 
 if (false) {}
 
-var defaultProps$1 = Object(esm_extends["a" /* default */])({}, defaultProps$3, {
+var defaultProps$1 = extends_extends({}, defaultProps$3, {
   getA11yStatusMessage: getA11yStatusMessage$1,
   circularNavigation: true
 });
@@ -28677,7 +28981,7 @@ function downshiftUseComboboxReducer(state, action) {
       break;
 
     case InputKeyDownEnter:
-      changes = Object(esm_extends["a" /* default */])({}, state.isOpen && state.highlightedIndex >= 0 && {
+      changes = extends_extends({}, state.isOpen && state.highlightedIndex >= 0 && {
         selectedItem: props.items[state.highlightedIndex],
         isOpen: getDefaultValue$1(props, 'isOpen'),
         highlightedIndex: getDefaultValue$1(props, 'highlightedIndex'),
@@ -28686,7 +28990,7 @@ function downshiftUseComboboxReducer(state, action) {
       break;
 
     case InputKeyDownEscape:
-      changes = Object(esm_extends["a" /* default */])({
+      changes = extends_extends({
         isOpen: false,
         highlightedIndex: -1
       }, !state.isOpen && {
@@ -28708,7 +29012,7 @@ function downshiftUseComboboxReducer(state, action) {
       break;
 
     case InputBlur:
-      changes = Object(esm_extends["a" /* default */])({
+      changes = extends_extends({
         isOpen: false,
         highlightedIndex: -1
       }, state.highlightedIndex >= 0 && action.selectItem && {
@@ -28742,10 +29046,15 @@ function downshiftUseComboboxReducer(state, action) {
       return downshiftCommonReducer(state, action, stateChangeTypes$1);
   }
 
-  return Object(esm_extends["a" /* default */])({}, state, changes);
+  return extends_extends({}, state, changes);
 }
 /* eslint-enable complexity */
 
+var _excluded$1 = ["onMouseLeave", "refKey", "ref"],
+    _excluded2$1 = ["item", "index", "refKey", "ref", "onMouseMove", "onClick", "onPress"],
+    _excluded3 = ["onClick", "onPress", "refKey", "ref"],
+    _excluded4 = ["onKeyDown", "onChange", "onInput", "onBlur", "onChangeText", "refKey", "ref"],
+    _excluded5 = ["refKey", "ref"];
 useCombobox.stateChangeTypes = stateChangeTypes$1;
 
 function useCombobox(userProps) {
@@ -28755,7 +29064,7 @@ function useCombobox(userProps) {
 
   validatePropTypes$1(userProps, useCombobox); // Props defaults and destructuring.
 
-  var props = Object(esm_extends["a" /* default */])({}, defaultProps$1, userProps);
+  var props = extends_extends({}, defaultProps$1, userProps);
 
   var initialIsOpen = props.initialIsOpen,
       defaultIsOpen = props.defaultIsOpen,
@@ -28797,7 +29106,7 @@ function useCombobox(userProps) {
   }, [elementIds]); // Effects.
   // Sets a11y status message on changes in state.
 
-  useA11yMessageSetter(getA11yStatusMessage, [isOpen, highlightedIndex, inputValue, items], Object(esm_extends["a" /* default */])({
+  useA11yMessageSetter(getA11yStatusMessage, [isOpen, highlightedIndex, inputValue, items], extends_extends({
     isInitialMount: isInitialMountRef.current,
     previousResultCount: previousResultCountRef.current,
     items: items,
@@ -28805,7 +29114,7 @@ function useCombobox(userProps) {
     itemToString: itemToString
   }, state)); // Sets a11y status message on changes in selectedItem.
 
-  useA11yMessageSetter(getA11ySelectionMessage, [selectedItem], Object(esm_extends["a" /* default */])({
+  useA11yMessageSetter(getA11ySelectionMessage, [selectedItem], extends_extends({
     isInitialMount: isInitialMountRef.current,
     previousResultCount: previousResultCountRef.current,
     items: items,
@@ -28916,8 +29225,8 @@ function useCombobox(userProps) {
 
         if (!latestState.isOpen || latestState.highlightedIndex < 0 || event.which === 229 // if IME composing, wait for next Enter keydown event.
         ) {
-            return;
-          }
+          return;
+        }
 
         event.preventDefault();
         dispatch({
@@ -28929,7 +29238,7 @@ function useCombobox(userProps) {
   }, [dispatch, latest, getItemNodeFromIndex]); // Getter props.
 
   var getLabelProps = Object(external_React_["useCallback"])(function (labelProps) {
-    return Object(esm_extends["a" /* default */])({
+    return extends_extends({
       id: elementIds.labelId,
       htmlFor: elementIds.inputId
     }, labelProps);
@@ -28942,14 +29251,14 @@ function useCombobox(userProps) {
         _ref$refKey = _ref.refKey,
         refKey = _ref$refKey === void 0 ? 'ref' : _ref$refKey,
         ref = _ref.ref,
-        rest = objectWithoutPropertiesLoose_objectWithoutPropertiesLoose(_ref, ["onMouseLeave", "refKey", "ref"]);
+        rest = objectWithoutPropertiesLoose_objectWithoutPropertiesLoose(_ref, _excluded$1);
 
     var _ref2 = _temp2 === void 0 ? {} : _temp2,
         _ref2$suppressRefErro = _ref2.suppressRefError,
         suppressRefError = _ref2$suppressRefErro === void 0 ? false : _ref2$suppressRefErro;
 
     setGetterPropCallInfo('getMenuProps', suppressRefError, refKey, menuRef);
-    return Object(esm_extends["a" /* default */])((_extends2 = {}, _extends2[refKey] = handleRefs(ref, function (menuNode) {
+    return extends_extends((_extends2 = {}, _extends2[refKey] = handleRefs(ref, function (menuNode) {
       menuRef.current = menuNode;
     }), _extends2.id = elementIds.menuId, _extends2.role = 'listbox', _extends2['aria-labelledby'] = elementIds.labelId, _extends2.onMouseLeave = callAllEventHandlers(onMouseLeave, function () {
       dispatch({
@@ -28969,7 +29278,7 @@ function useCombobox(userProps) {
         onMouseMove = _ref3.onMouseMove,
         onClick = _ref3.onClick;
         _ref3.onPress;
-        var rest = objectWithoutPropertiesLoose_objectWithoutPropertiesLoose(_ref3, ["item", "index", "refKey", "ref", "onMouseMove", "onClick", "onPress"]);
+        var rest = objectWithoutPropertiesLoose_objectWithoutPropertiesLoose(_ref3, _excluded2$1);
 
     var _latest$current = latest.current,
         latestProps = _latest$current.props,
@@ -29006,7 +29315,7 @@ function useCombobox(userProps) {
       }
     };
 
-    return Object(esm_extends["a" /* default */])((_extends3 = {}, _extends3[refKey] = handleRefs(ref, function (itemNode) {
+    return extends_extends((_extends3 = {}, _extends3[refKey] = handleRefs(ref, function (itemNode) {
       if (itemNode) {
         itemRefs.current[elementIds.getItemId(itemIndex)] = itemNode;
       }
@@ -29023,7 +29332,7 @@ function useCombobox(userProps) {
         var _ref5$refKey = _ref5.refKey,
         refKey = _ref5$refKey === void 0 ? 'ref' : _ref5$refKey,
         ref = _ref5.ref,
-        rest = objectWithoutPropertiesLoose_objectWithoutPropertiesLoose(_ref5, ["onClick", "onPress", "refKey", "ref"]);
+        rest = objectWithoutPropertiesLoose_objectWithoutPropertiesLoose(_ref5, _excluded3);
 
     var toggleButtonHandleClick = function toggleButtonHandleClick() {
       dispatch({
@@ -29035,9 +29344,9 @@ function useCombobox(userProps) {
       }
     };
 
-    return Object(esm_extends["a" /* default */])((_extends4 = {}, _extends4[refKey] = handleRefs(ref, function (toggleButtonNode) {
+    return extends_extends((_extends4 = {}, _extends4[refKey] = handleRefs(ref, function (toggleButtonNode) {
       toggleButtonRef.current = toggleButtonNode;
-    }), _extends4.id = elementIds.toggleButtonId, _extends4.tabIndex = -1, _extends4), !rest.disabled && Object(esm_extends["a" /* default */])({}, {
+    }), _extends4.id = elementIds.toggleButtonId, _extends4.tabIndex = -1, _extends4), !rest.disabled && extends_extends({}, {
       onClick: callAllEventHandlers(onClick, toggleButtonHandleClick)
     }), rest);
   }, [dispatch, latest, elementIds]);
@@ -29053,7 +29362,7 @@ function useCombobox(userProps) {
         var _ref6$refKey = _ref6.refKey,
         refKey = _ref6$refKey === void 0 ? 'ref' : _ref6$refKey,
         ref = _ref6.ref,
-        rest = objectWithoutPropertiesLoose_objectWithoutPropertiesLoose(_ref6, ["onKeyDown", "onChange", "onInput", "onBlur", "onChangeText", "refKey", "ref"]);
+        rest = objectWithoutPropertiesLoose_objectWithoutPropertiesLoose(_ref6, _excluded4);
 
     var _ref7 = _temp6 === void 0 ? {} : _temp6,
         _ref7$suppressRefErro = _ref7.suppressRefError,
@@ -29098,7 +29407,7 @@ function useCombobox(userProps) {
       eventHandlers = (_eventHandlers = {}, _eventHandlers[onChangeKey] = callAllEventHandlers(onChange, onInput, inputHandleChange), _eventHandlers.onKeyDown = callAllEventHandlers(onKeyDown, inputHandleKeyDown), _eventHandlers.onBlur = callAllEventHandlers(onBlur, inputHandleBlur), _eventHandlers);
     }
 
-    return Object(esm_extends["a" /* default */])((_extends5 = {}, _extends5[refKey] = handleRefs(ref, function (inputNode) {
+    return extends_extends((_extends5 = {}, _extends5[refKey] = handleRefs(ref, function (inputNode) {
       inputRef.current = inputNode;
     }), _extends5.id = elementIds.inputId, _extends5['aria-autocomplete'] = 'list', _extends5['aria-controls'] = elementIds.menuId, _extends5), latestState.isOpen && latestState.highlightedIndex > -1 && {
       'aria-activedescendant': elementIds.getItemId(latestState.highlightedIndex)
@@ -29117,14 +29426,14 @@ function useCombobox(userProps) {
         _ref8$refKey = _ref8.refKey,
         refKey = _ref8$refKey === void 0 ? 'ref' : _ref8$refKey,
         ref = _ref8.ref,
-        rest = objectWithoutPropertiesLoose_objectWithoutPropertiesLoose(_ref8, ["refKey", "ref"]);
+        rest = objectWithoutPropertiesLoose_objectWithoutPropertiesLoose(_ref8, _excluded5);
 
     var _ref9 = _temp8 === void 0 ? {} : _temp8,
         _ref9$suppressRefErro = _ref9.suppressRefError,
         suppressRefError = _ref9$suppressRefErro === void 0 ? false : _ref9$suppressRefErro;
 
     setGetterPropCallInfo('getComboboxProps', suppressRefError, refKey, comboboxRef);
-    return Object(esm_extends["a" /* default */])((_extends6 = {}, _extends6[refKey] = handleRefs(ref, function (comboboxNode) {
+    return extends_extends((_extends6 = {}, _extends6[refKey] = handleRefs(ref, function (comboboxNode) {
       comboboxRef.current = comboboxNode;
     }), _extends6.role = 'combobox', _extends6['aria-haspopup'] = 'listbox', _extends6['aria-owns'] = elementIds.menuId, _extends6['aria-expanded'] = latest.current.state.isOpen, _extends6), rest);
   }, [latest, setGetterPropCallInfo, elementIds]); // returns
@@ -29257,9 +29566,7 @@ function isKeyDownOperationPermitted(event) {
   var element = event.target;
 
   if (element instanceof HTMLInputElement && // if element is a text input
-  element.value !== '' && ( // and we have text in it
-  // and cursor is either not at the start or is currently highlighting text.
-  element.selectionStart !== 0 || element.selectionEnd !== 0)) {
+  element.value !== '' && (element.selectionStart !== 0 || element.selectionEnd !== 0)) {
     return false;
   }
 
@@ -29389,7 +29696,7 @@ function downshiftMultipleSelectionReducer(state, action) {
           newActiveIndex = selectedItems.length - 2;
         }
 
-        changes = Object(esm_extends["a" /* default */])({
+        changes = extends_extends({
           selectedItems: [].concat(selectedItems.slice(0, activeIndex), selectedItems.slice(activeIndex + 1))
         }, {
           activeIndex: newActiveIndex
@@ -29432,7 +29739,7 @@ function downshiftMultipleSelectionReducer(state, action) {
           _newActiveIndex = selectedItems.length - 2;
         }
 
-        changes = Object(esm_extends["a" /* default */])({
+        changes = extends_extends({
           selectedItems: [].concat(selectedItems.slice(0, selectedItemIndex), selectedItems.slice(selectedItemIndex + 1))
         }, {
           activeIndex: _newActiveIndex
@@ -29469,9 +29776,11 @@ function downshiftMultipleSelectionReducer(state, action) {
       throw new Error('Reducer called without proper action type.');
   }
 
-  return Object(esm_extends["a" /* default */])({}, state, changes);
+  return extends_extends({}, state, changes);
 }
 
+var _excluded = ["refKey", "ref", "onClick", "onKeyDown", "selectedItem", "index"],
+    _excluded2 = ["refKey", "ref", "onKeyDown", "onClick", "preventKeyAction"];
 useMultipleSelection.stateChangeTypes = downshift_esm_stateChangeTypes;
 
 function useMultipleSelection(userProps) {
@@ -29481,7 +29790,7 @@ function useMultipleSelection(userProps) {
 
   validatePropTypes(userProps, useMultipleSelection); // Props defaults and destructuring.
 
-  var props = Object(esm_extends["a" /* default */])({}, downshift_esm_defaultProps, userProps);
+  var props = extends_extends({}, downshift_esm_defaultProps, userProps);
 
   var getA11yRemovalMessage = props.getA11yRemovalMessage,
       itemToString = props.itemToString,
@@ -29601,7 +29910,7 @@ function useMultipleSelection(userProps) {
         onKeyDown = _ref3.onKeyDown,
         selectedItem = _ref3.selectedItem,
         index = _ref3.index,
-        rest = objectWithoutPropertiesLoose_objectWithoutPropertiesLoose(_ref3, ["refKey", "ref", "onClick", "onKeyDown", "selectedItem", "index"]);
+        rest = objectWithoutPropertiesLoose_objectWithoutPropertiesLoose(_ref3, _excluded);
 
     var latestState = latest.current.state;
     var itemIndex = getItemIndex(index, selectedItem, latestState.selectedItems);
@@ -29625,7 +29934,7 @@ function useMultipleSelection(userProps) {
       }
     };
 
-    return Object(esm_extends["a" /* default */])((_extends2 = {}, _extends2[refKey] = handleRefs(ref, function (selectedItemNode) {
+    return extends_extends((_extends2 = {}, _extends2[refKey] = handleRefs(ref, function (selectedItemNode) {
       if (selectedItemNode) {
         selectedItemRefs.current.push(selectedItemNode);
       }
@@ -29642,7 +29951,7 @@ function useMultipleSelection(userProps) {
         onClick = _ref4.onClick,
         _ref4$preventKeyActio = _ref4.preventKeyAction,
         preventKeyAction = _ref4$preventKeyActio === void 0 ? false : _ref4$preventKeyActio,
-        rest = objectWithoutPropertiesLoose_objectWithoutPropertiesLoose(_ref4, ["refKey", "ref", "onKeyDown", "onClick", "preventKeyAction"]);
+        rest = objectWithoutPropertiesLoose_objectWithoutPropertiesLoose(_ref4, _excluded2);
 
     var _ref5 = _temp3 === void 0 ? {} : _temp3,
         _ref5$suppressRefErro = _ref5.suppressRefError,
@@ -29664,7 +29973,7 @@ function useMultipleSelection(userProps) {
       });
     };
 
-    return Object(esm_extends["a" /* default */])((_extends3 = {}, _extends3[refKey] = handleRefs(ref, function (dropdownNode) {
+    return extends_extends((_extends3 = {}, _extends3[refKey] = handleRefs(ref, function (dropdownNode) {
       if (dropdownNode) {
         dropdownRef.current = dropdownNode;
       }
@@ -29716,7 +30025,6 @@ function useMultipleSelection(userProps) {
   };
 }
 
-/* harmony default export */ var downshift_esm = (downshift_esm_Downshift);
 
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/custom-select-control/index.js
@@ -34687,10 +34995,10 @@ function FontSizePicker({
       if (0 === parseFloat(nextSize) || !nextSize) {
         onChange(undefined);
       } else {
-        onChange(nextSize);
+        onChange(hasUnits ? nextSize : parseInt(nextSize, 10));
       }
     },
-    units: units
+    units: hasUnits ? units : false
   }), Object(external_wp_element_["createElement"])(build_module_button["a" /* default */], {
     className: "components-color-palette__clear",
     disabled: value === undefined,
@@ -39391,7 +39699,7 @@ function RadioControl({
 }
 
 // CONCATENATED MODULE: ./node_modules/re-resizable/lib/resizer.js
-var __extends = (undefined && undefined.__extends) || (function () {
+var resizer_extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -39404,8 +39712,8 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __assign = (undefined && undefined.__assign) || function () {
-    __assign = Object.assign || function(t) {
+var resizer_assign = (undefined && undefined.__assign) || function () {
+    resizer_assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
             s = arguments[i];
             for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
@@ -39413,7 +39721,7 @@ var __assign = (undefined && undefined.__assign) || function () {
         }
         return t;
     };
-    return __assign.apply(this, arguments);
+    return resizer_assign.apply(this, arguments);
 };
 
 var resizer_styles = {
@@ -39479,7 +39787,7 @@ var resizer_styles = {
     },
 };
 var resizer_Resizer = /** @class */ (function (_super) {
-    __extends(Resizer, _super);
+    resizer_extends(Resizer, _super);
     function Resizer() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.onMouseDown = function (e) {
@@ -39491,7 +39799,7 @@ var resizer_Resizer = /** @class */ (function (_super) {
         return _this;
     }
     Resizer.prototype.render = function () {
-        return (external_React_["createElement"]("div", { className: this.props.className || '', style: __assign(__assign({ position: 'absolute', userSelect: 'none' }, resizer_styles[this.props.direction]), (this.props.replaceStyles || {})), onMouseDown: this.onMouseDown, onTouchStart: this.onTouchStart }, this.props.children));
+        return (external_React_["createElement"]("div", { className: this.props.className || '', style: resizer_assign(resizer_assign({ position: 'absolute', userSelect: 'none' }, resizer_styles[this.props.direction]), (this.props.replaceStyles || {})), onMouseDown: this.onMouseDown, onTouchStart: this.onTouchStart }, this.props.children));
     };
     return Resizer;
 }(external_React_["PureComponent"]));
@@ -43186,8 +43494,7 @@ var e=__webpack_require__("cDcd"),n={display:"block",opacity:0,position:"absolut
 
 
 var callBound = __webpack_require__("6ZB3");
-var hasSymbols = __webpack_require__("eJkf")();
-var hasToStringTag = hasSymbols && !!Symbol.toStringTag;
+var hasToStringTag = __webpack_require__("B6Q+")();
 var has;
 var $exec;
 var isRegexMarker;
@@ -56316,6 +56623,56 @@ function getTransformStyles(transformValue) {
     WebkitTransform: transformValue
   };
 }
+
+/***/ }),
+
+/***/ "qGip":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/* eslint complexity: [2, 18], max-statements: [2, 33] */
+module.exports = function hasSymbols() {
+	if (typeof Symbol !== 'function' || typeof Object.getOwnPropertySymbols !== 'function') { return false; }
+	if (typeof Symbol.iterator === 'symbol') { return true; }
+
+	var obj = {};
+	var sym = Symbol('test');
+	var symObj = Object(sym);
+	if (typeof sym === 'string') { return false; }
+
+	if (Object.prototype.toString.call(sym) !== '[object Symbol]') { return false; }
+	if (Object.prototype.toString.call(symObj) !== '[object Symbol]') { return false; }
+
+	// temp disabled per https://github.com/ljharb/object.assign/issues/17
+	// if (sym instanceof Symbol) { return false; }
+	// temp disabled per https://github.com/WebReflection/get-own-property-symbols/issues/4
+	// if (!(symObj instanceof Symbol)) { return false; }
+
+	// if (typeof Symbol.prototype.toString !== 'function') { return false; }
+	// if (String(sym) !== Symbol.prototype.toString.call(sym)) { return false; }
+
+	var symVal = 42;
+	obj[sym] = symVal;
+	for (sym in obj) { return false; } // eslint-disable-line no-restricted-syntax, no-unreachable-loop
+	if (typeof Object.keys === 'function' && Object.keys(obj).length !== 0) { return false; }
+
+	if (typeof Object.getOwnPropertyNames === 'function' && Object.getOwnPropertyNames(obj).length !== 0) { return false; }
+
+	var syms = Object.getOwnPropertySymbols(obj);
+	if (syms.length !== 1 || syms[0] !== sym) { return false; }
+
+	if (!Object.prototype.propertyIsEnumerable.call(obj, sym)) { return false; }
+
+	if (typeof Object.getOwnPropertyDescriptor === 'function') {
+		var descriptor = Object.getOwnPropertyDescriptor(obj, sym);
+		if (descriptor.value !== symVal || descriptor.enumerable !== true) { return false; }
+	}
+
+	return true;
+};
+
 
 /***/ }),
 
