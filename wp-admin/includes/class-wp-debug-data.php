@@ -935,11 +935,6 @@ class WP_Debug_Data {
 			'value' => self::get_mysql_var( 'max_connections' ),
 		);
 
-		$info['wp-database']['fields']['query_cache_size'] = array(
-			'label' => __( 'Query cache size' ),
-			'value' => self::get_mysql_var( 'query_cache_size' ),
-		);
-
 		// List must use plugins if there are any.
 		$mu_plugins = get_mu_plugins();
 
