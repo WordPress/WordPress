@@ -1,0 +1,181 @@
+/**
+ * Colors
+ */
+/**
+ * Breakpoints & Media Queries
+ */
+/**
+ * SCSS Variables.
+ *
+ * Please use variables from this sheet to ensure consistency across the UI.
+ * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
+ * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
+ */
+/**
+ * Colors
+ */
+/**
+ * Fonts & basic variables.
+ */
+/**
+ * Grid System.
+ * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
+ */
+/**
+ * Dimensions.
+ */
+/**
+ * Shadows.
+ */
+/**
+ * Editor widths.
+ */
+/**
+ * Block & Editor UI.
+ */
+/**
+ * Block paddings.
+ */
+/**
+ * React Native specific.
+ * These variables do not appear to be used anywhere else.
+ */
+/**
+ * Breakpoint mixins
+ */
+/**
+ * Long content fade mixin
+ *
+ * Creates a fading overlay to signify that the content is longer
+ * than the space allows.
+ */
+/**
+ * Focus styles.
+ */
+/**
+ * Applies editor left position to the selector passed as argument
+ */
+/**
+ * Styles that are reused verbatim in a few places
+ */
+/**
+ * Allows users to opt-out of animations via OS-level preferences.
+ */
+/**
+ * Reset default styles for JavaScript UI based pages.
+ * This is a WP-admin agnostic reset
+ */
+/**
+ * Reset the WP Admin page styles for Gutenberg-like pages.
+ */
+/**
+* Editor Normalization Styles
+*
+* These are only output in the editor, but styles here are prefixed .editor-styles-wrapper and affect the theming
+* of the editor by themes.
+*/
+.editor-styles-wrapper {
+  padding: 8px;
+  /**
+  * The following styles revert to the browser defaults overriding the WPAdmin styles.
+  * This is only needed while the block editor is not being loaded in an iframe.
+  */
+  font-family: serif;
+  font-size: initial;
+  line-height: initial;
+  color: initial;
+  background: #fff;
+}
+.editor-styles-wrapper .block-editor-block-list__layout.is-root-container > .wp-block[data-align=full] {
+  margin-left: -8px;
+  margin-right: -8px;
+}
+.editor-styles-wrapper .wp-align-wrapper {
+  max-width: 840px;
+}
+.editor-styles-wrapper .wp-align-wrapper > .wp-block, .editor-styles-wrapper .wp-align-wrapper.wp-align-full {
+  max-width: none;
+}
+.editor-styles-wrapper .wp-align-wrapper.wp-align-wide {
+  max-width: 840px;
+}
+.editor-styles-wrapper a {
+  transition: none;
+}
+.editor-styles-wrapper code,
+.editor-styles-wrapper kbd {
+  padding: 0;
+  margin: 0;
+  background: inherit;
+  font-size: inherit;
+  font-family: monospace;
+}
+.editor-styles-wrapper p {
+  font-size: revert;
+  line-height: revert;
+  margin: revert;
+}
+.editor-styles-wrapper ul,
+.editor-styles-wrapper ol {
+  margin: revert;
+  padding: revert;
+  list-style-type: revert;
+  box-sizing: revert;
+}
+.editor-styles-wrapper ul ul,
+.editor-styles-wrapper ul ol,
+.editor-styles-wrapper ol ul,
+.editor-styles-wrapper ol ol {
+  margin: revert;
+}
+.editor-styles-wrapper ul li,
+.editor-styles-wrapper ol li {
+  margin: revert;
+}
+.editor-styles-wrapper ul ul,
+.editor-styles-wrapper ol ul {
+  list-style-type: revert;
+}
+.editor-styles-wrapper h1,
+.editor-styles-wrapper h2,
+.editor-styles-wrapper h3,
+.editor-styles-wrapper h4,
+.editor-styles-wrapper h5,
+.editor-styles-wrapper h6 {
+  font-size: revert;
+  margin: revert;
+  color: revert;
+  line-height: revert;
+  font-weight: revert;
+}
+.editor-styles-wrapper select {
+  font-family: system-ui;
+  -webkit-appearance: revert;
+  color: revert;
+  border: revert;
+  border-radius: revert;
+  background: revert;
+  box-shadow: revert;
+  text-shadow: revert;
+  outline: revert;
+  cursor: revert;
+  transform: revert;
+  font-size: revert;
+  line-height: revert;
+  padding: revert;
+  margin: revert;
+  min-height: revert;
+  max-width: revert;
+  vertical-align: revert;
+  font-weight: revert;
+}
+.editor-styles-wrapper select:disabled,
+.editor-styles-wrapper select:focus {
+  color: revert;
+  border-color: revert;
+  background: revert;
+  box-shadow: revert;
+  text-shadow: revert;
+  cursor: revert;
+  transform: revert;
+}
