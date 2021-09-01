@@ -927,11 +927,24 @@ var external_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_w
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/batch/default-processor.js
 /**
- * WordPress dependencies
+ * External dependencies
  */
 
 /**
- * Default batch processor. Sends its input requests to /v1/batch.
+ * WordPress dependencies
+ */
+
+
+/**
+ * Maximum number of requests to place in a single batch request. Obtained by
+ * sending a preflight OPTIONS request to /batch/v1/.
+ *
+ * @type {number?}
+ */
+
+let maxItems = null;
+/**
+ * Default batch processor. Sends its input requests to /batch/v1.
  *
  * @param {Array} requests List of API requests to perform at once.
  *
@@ -941,38 +954,55 @@ var external_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_w
  */
 
 async function defaultProcessor(requests) {
-  const batchResponse = await external_wp_apiFetch_default()({
-    path: '/batch/v1',
-    method: 'POST',
-    data: {
-      validation: 'require-all-validate',
-      requests: requests.map(request => ({
-        path: request.path,
-        body: request.data,
-        // Rename 'data' to 'body'.
-        method: request.method,
-        headers: request.headers
-      }))
-    }
-  });
-
-  if (batchResponse.failed) {
-    return batchResponse.responses.map(response => ({
-      error: response === null || response === void 0 ? void 0 : response.body
-    }));
+  if (maxItems === null) {
+    const preflightResponse = await external_wp_apiFetch_default()({
+      path: '/batch/v1',
+      method: 'OPTIONS'
+    });
+    maxItems = preflightResponse.endpoints[0].args.requests.maxItems;
   }
 
-  return batchResponse.responses.map(response => {
-    const result = {};
+  const results = [];
 
-    if (response.status >= 200 && response.status < 300) {
-      result.output = response.body;
+  for (const batchRequests of Object(external_lodash_["chunk"])(requests, maxItems)) {
+    const batchResponse = await external_wp_apiFetch_default()({
+      path: '/batch/v1',
+      method: 'POST',
+      data: {
+        validation: 'require-all-validate',
+        requests: batchRequests.map(request => ({
+          path: request.path,
+          body: request.data,
+          // Rename 'data' to 'body'.
+          method: request.method,
+          headers: request.headers
+        }))
+      }
+    });
+    let batchResults;
+
+    if (batchResponse.failed) {
+      batchResults = batchResponse.responses.map(response => ({
+        error: response === null || response === void 0 ? void 0 : response.body
+      }));
     } else {
-      result.error = response.body;
+      batchResults = batchResponse.responses.map(response => {
+        const result = {};
+
+        if (response.status >= 200 && response.status < 300) {
+          result.output = response.body;
+        } else {
+          result.error = response.body;
+        }
+
+        return result;
+      });
     }
 
-    return result;
-  });
+    results.push(...batchResults);
+  }
+
+  return results;
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/batch/create-batch.js

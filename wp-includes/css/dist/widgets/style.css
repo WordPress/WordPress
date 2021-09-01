@@ -145,6 +145,8 @@
   line-height: 1;
   min-height: 30px;
   padding-left: 8px;
+  padding-top: 8px;
+  padding-bottom: 8px;
 }
 .wp-block-legacy-widget__edit-form .widget-inside.widget-inside select {
   padding-left: 4px;

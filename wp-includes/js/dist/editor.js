@@ -8074,6 +8074,7 @@ const DEFAULT_QUERY = {
   per_page: MAX_MOST_USED_TERMS,
   orderby: 'count',
   order: 'desc',
+  hide_empty: true,
   _fields: 'id,name,count'
 };
 function MostUsedTerms({
