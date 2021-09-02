@@ -217,7 +217,7 @@ function wp_style_is( $handle, $list = 'enqueued' ) {
 /**
  * Add metadata to a CSS stylesheet.
  *
- * Works only if the stylesheet has already been added.
+ * Works only if the stylesheet has already been registered.
  *
  * Possible values for $key and $value:
  * 'conditional' string      Comments for IE 6, lte IE 7 etc.
