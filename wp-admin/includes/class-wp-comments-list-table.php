@@ -1047,10 +1047,12 @@ class WP_Comments_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @param WP_Comment $comment     The comment object.
+	 * @since 5.9.0 Renamed `$comment` to `$item` to match parent class for PHP 8 named param.
+	 *
+	 * @param WP_Comment $item        The comment object.
 	 * @param string     $column_name The custom column's name.
 	 */
-	public function column_default( $comment, $column_name ) {
+	public function column_default( $item, $column_name ) {
 		/**
 		 * Fires when the default column output is displayed for a single row.
 		 *
@@ -1059,6 +1061,6 @@ class WP_Comments_List_Table extends WP_List_Table {
 		 * @param string $column_name The custom column's name.
 		 * @param int    $comment_id  The custom column's unique ID number.
 		 */
-		do_action( 'manage_comments_custom_column', $column_name, $comment->comment_ID );
+		do_action( 'manage_comments_custom_column', $column_name, $item->comment_ID );
 	}
 }

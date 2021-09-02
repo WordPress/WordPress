@@ -279,11 +279,12 @@ class WP_Links_List_Table extends WP_List_Table {
 	 * Handles the default column output.
 	 *
 	 * @since 4.3.0
+	 * @since 5.9.0 Renamed `$link` to `$item` to match parent class for PHP 8 named param.
 	 *
-	 * @param object $link        Link object.
+	 * @param object $item        Link object.
 	 * @param string $column_name Current column name.
 	 */
-	public function column_default( $link, $column_name ) {
+	public function column_default( $item, $column_name ) {
 		/**
 		 * Fires for each registered custom link column.
 		 *
@@ -292,7 +293,7 @@ class WP_Links_List_Table extends WP_List_Table {
 		 * @param string $column_name Name of the custom column.
 		 * @param int    $link_id     Link ID.
 		 */
-		do_action( 'manage_link_custom_column', $column_name, $link->link_id );
+		do_action( 'manage_link_custom_column', $column_name, $item->link_id );
 	}
 
 	public function display_rows() {

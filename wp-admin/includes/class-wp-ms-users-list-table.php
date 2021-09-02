@@ -442,13 +442,19 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 	 * Handles the default column output.
 	 *
 	 * @since 4.3.0
+	 * @since 5.9.0 Renamed `$user` to `$item` to match parent class for PHP 8 named param.
 	 *
-	 * @param WP_User $user        The current WP_User object.
+	 * @param WP_User $item        The current WP_User object.
 	 * @param string  $column_name The current column name.
 	 */
-	public function column_default( $user, $column_name ) {
+	public function column_default( $item, $column_name ) {
 		/** This filter is documented in wp-admin/includes/class-wp-users-list-table.php */
-		echo apply_filters( 'manage_users_custom_column', '', $column_name, $user->ID );
+		echo apply_filters(
+			'manage_users_custom_column',
+			'', // Custom column output. Default empty.
+			$column_name,
+			$item->ID // User ID.
+		);
 	}
 
 	public function display_rows() {

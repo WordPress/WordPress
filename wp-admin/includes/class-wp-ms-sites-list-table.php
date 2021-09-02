@@ -560,11 +560,12 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	 * Handles output for the default column.
 	 *
 	 * @since 4.3.0
+	 * @since 5.9.0 Renamed `$blog` to `$item` to match parent class for PHP 8 named param.
 	 *
-	 * @param array  $blog        Current site.
+	 * @param array  $item        Current site.
 	 * @param string $column_name Current column name.
 	 */
-	public function column_default( $blog, $column_name ) {
+	public function column_default( $item, $column_name ) {
 		/**
 		 * Fires for each registered custom column in the Sites list table.
 		 *
@@ -573,7 +574,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 		 * @param string $column_name The name of the column to display.
 		 * @param int    $blog_id     The site ID.
 		 */
-		do_action( 'manage_sites_custom_column', $column_name, $blog['blog_id'] );
+		do_action( 'manage_sites_custom_column', $column_name, $item['blog_id'] );
 	}
 
 	/**

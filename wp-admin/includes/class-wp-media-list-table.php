@@ -594,11 +594,15 @@ class WP_Media_List_Table extends WP_List_Table {
 	 * Handles output for the default column.
 	 *
 	 * @since 4.3.0
+	 * @since 5.9.0 Renamed `$post` to `$item` to match parent class for PHP 8 named param.
 	 *
-	 * @param WP_Post $post        The current WP_Post object.
+	 * @param WP_Post $item        The current WP_Post object.
 	 * @param string  $column_name Current column name.
 	 */
-	public function column_default( $post, $column_name ) {
+	public function column_default( $item, $column_name ) {
+		// Restores the more descriptive, specific name for use within this method.
+		$post = $item;
+
 		if ( 'categories' === $column_name ) {
 			$taxonomy = 'category';
 		} elseif ( 'tags' === $column_name ) {
