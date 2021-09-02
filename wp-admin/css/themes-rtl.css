@@ -704,7 +704,7 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 	font-size: 15px;
 	font-weight: 400;
 	line-height: 1.5;
-	margin: 30px 0 0 0;
+	margin: 30px 0 0;
 }
 
 .theme-overlay .theme-tags {
@@ -712,7 +712,7 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 	color: #646970;
 	font-size: 13px;
 	font-weight: 400;
-	margin: 30px 0 0 0;
+	margin: 30px 0 0;
 	padding-top: 20px;
 }
 
@@ -866,7 +866,7 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 	}
 
 	.theme-browser .theme .theme-actions {
-		padding: 5px 10px 4px 10px;
+		padding: 5px 10px 4px;
 	}
 
 	.theme-overlay.small-screenshot .theme-screenshots {
@@ -939,7 +939,7 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 	}
 
 	.theme-overlay .theme-author {
-		margin: 5px 0 15px 0;
+		margin: 5px 0 15px;
 	}
 
 	.theme-overlay .current-label {
@@ -952,7 +952,7 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 		clear: both;
 		right: 0;
 		left: 0;
-		margin: -5px 0 20px 0;
+		margin: -5px 0 20px;
 		width: 100%;
 		max-width: 280px;
 	}

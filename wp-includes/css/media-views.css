@@ -1394,7 +1394,7 @@
 	top: 50%;
 	left: 15%;
 	width: 70%;
-	margin: -5px 0 0 0;
+	margin: -5px 0 0;
 }
 
 .media-uploader-status {
@@ -1976,7 +1976,7 @@
 }
 
 .media-modal .imgedit-wrap .imgedit-panel-content {
-	padding: 16px 16px 0 16px;
+	padding: 16px 16px 0;
 	position: absolute;
 	top: 0;
 	right: 282px;
@@ -2289,7 +2289,7 @@
 
 .image-details .custom-size .sep {
 	float: left;
-	margin: 26px 6px 0 6px;
+	margin: 26px 6px 0;
 }
 
 .image-details .custom-size .description {
@@ -2428,7 +2428,7 @@
 	float: left;
 	width: 25%;
 	text-align: right;
-	margin: 8px 1% 0 1%;
+	margin: 8px 1% 0;
 	line-height: 1.1;
 }
 
@@ -2625,7 +2625,7 @@
 
 	.media-sidebar .setting,
 	.attachment-details .setting {
-		margin: 6px 0px;
+		margin: 6px 0;
 	}
 
 	.media-sidebar .setting input,
@@ -2919,7 +2919,7 @@
 
 	/* Change margin direction on load more button in responsive views. */
 	.load-more-wrapper .load-more-jump {
-		margin: 12px 0 0 0;
+		margin: 12px 0 0;
 	}
 
 }
@@ -2933,7 +2933,7 @@
 
 	/* Change margin direction on load more button in responsive views. */
 	.load-more-wrapper .load-more-jump {
-		margin: 12px 0 0 0;
+		margin: 12px 0 0;
 	}
 
 }

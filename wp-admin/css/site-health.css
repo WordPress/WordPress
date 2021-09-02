@@ -149,8 +149,8 @@ are styled in the Privacy section of edit.css */
 	width: 0;
 	height: 0;
 	border-style: solid;
-	border-width: 0 10px 5px 10px;
-	border-color: transparent transparent #ffffff transparent;
+	border-width: 0 10px 5px;
+	border-color: transparent transparent #ffffff;
 	right: 20px;
 	top: 5px;
 }

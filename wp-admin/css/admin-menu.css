@@ -39,7 +39,7 @@
 .icon16 {
 	height: 18px;
 	width: 18px;
-	padding: 6px 6px;
+	padding: 6px;
 	margin: -6px 0 0 -8px;
 	float: left;
 }
@@ -344,7 +344,7 @@
 }
 
 #adminmenu .wp-menu-image img {
-	padding: 9px 0 0 0;
+	padding: 9px 0 0;
 	opacity: 0.6;
 	filter: alpha(opacity=60);
 }
@@ -487,7 +487,7 @@ ul#adminmenu > li.current > a.current:after {
 #adminmenu li.wp-menu-separator {
 	height: 5px;
 	padding: 0;
-	margin: 0 0 6px 0;
+	margin: 0 0 6px;
 	cursor: inherit;
 }
 
@@ -502,7 +502,7 @@ ul#adminmenu > li.current > a.current:after {
 	font-weight: 400;
 	font-size: 14px;
 	padding: 5px 4px 5px 11px;
-	margin: -7px 0px 4px -5px;
+	margin: -7px 0 4px -5px;
 	border-width: 3px 0 3px 5px;
 	border-style: solid;
 	border-color: transparent;
@@ -653,7 +653,7 @@ li#wp-admin-bar-menu-toggle {
 	.auto-fold #adminmenu .wp-has-current-submenu.opensub .wp-submenu,
 	.auto-fold #adminmenu a.menu-top:focus + .wp-submenu,
 	.auto-fold #adminmenu .wp-has-current-submenu a.menu-top:focus + .wp-submenu {
-		top: 0px;
+		top: 0;
 		left: 36px;
 	}
 

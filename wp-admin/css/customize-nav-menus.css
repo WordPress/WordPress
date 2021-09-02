@@ -11,7 +11,7 @@
 #customize-theme-controls .customize-section-title-nav_menus-heading,
 #customize-theme-controls .customize-section-title-menu_locations-heading,
 #customize-theme-controls .customize-section-title-menu_locations-description {
-	padding: 0 12px 0 12px;
+	padding: 0 12px;
 }
 
 #customize-theme-controls .customize-control-description.customize-section-title-menu_locations-description {
@@ -100,7 +100,7 @@
 .wp-customizer .menu-item-settings .description-thin {
 	width: 100%;
 	height: auto;
-	margin: 0 0 8px 0;
+	margin: 0 0 8px;
 }
 
 .wp-customizer .menu-item-settings input[type="text"] {
@@ -185,7 +185,7 @@
 }
 
 .wp-customizer .menu-settings dl {
-	margin: 12px 0 0 0;
+	margin: 12px 0 0;
 	padding: 0;
 }
 
@@ -322,7 +322,7 @@
 #available-menu-items .accordion-section-title .toggle-indicator:before {
 	content: "\f140";
 	display: block;
-	padding: 1px 2px 1px 0px;
+	padding: 1px 2px 1px 0;
 	speak: never;
 	border-radius: 50%;
 	color: #787c82;
@@ -581,8 +581,8 @@
 }
 
 #available-menu-items .accordion-section-content .available-menu-items-list {
-	margin: 0 0 45px 0;
-	padding: 1px 15px 15px 15px;
+	margin: 0 0 45px;
+	padding: 1px 15px 15px;
 }
 
 #available-menu-items .accordion-section-content .available-menu-items-list:only-child { /* Types that do not support new items for the current user */
@@ -590,7 +590,7 @@
 }
 
 #new-custom-menu-item .accordion-section-content {
-	padding: 0 15px 15px 15px;
+	padding: 0 15px 15px;
 }
 
 #available-menu-items .menu-item-tpl {
@@ -690,7 +690,7 @@
 	position: absolute;
 	left: 0;
 	top: 60px; /* below title div / search input */
-	bottom: 0px; /* 100% height that still triggers lazy load */
+	bottom: 0; /* 100% height that still triggers lazy load */
 	max-height: none;
 	width: 100%;
 	padding: 1px 15px 15px;
@@ -795,7 +795,7 @@ body.adding-menu-items #customize-preview iframe {
 
 #create-new-menu-submit {
 	float: right;
-	margin: 0 0 12px 0;
+	margin: 0 0 12px;
 }
 
 .menu-delete-item {
@@ -805,7 +805,7 @@ body.adding-menu-items #customize-preview iframe {
 }
 
 .assigned-menu-locations-title p {
-	margin: 0 0 8px 0;
+	margin: 0 0 8px;
 }
 
 li.assigned-to-menu-location .menu-delete-item {

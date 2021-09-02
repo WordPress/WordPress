@@ -303,7 +303,7 @@ input.bulk-select-switcher:focus + .bulk-select-button-label{
 
 #select-nav-menu-container {
 	text-align: right;
-	padding: 0 10px 3px 10px;
+	padding: 0 10px 3px;
 	margin-bottom: 5px;
 }
 
@@ -433,7 +433,7 @@ input.bulk-select-switcher:focus + .bulk-select-button-label{
 }
 
 #manage-menu .inside {
-	padding: 0px 0px;
+	padding: 0;
 }
 
 /* Custom Links */
@@ -614,7 +614,7 @@ li.menu-item.ui-sortable-helper .menu-item-transport .menu-item-bar {
 }
 
 /* WARNING: The factor of 30px is hardcoded into the nav-menus JavaScript. */
-.menu-item-depth-0 { margin-left: 0px; }
+.menu-item-depth-0 { margin-left: 0; }
 .menu-item-depth-1 { margin-left: 30px; }
 .menu-item-depth-2 { margin-left: 60px; }
 .menu-item-depth-3 { margin-left: 90px; }
@@ -627,7 +627,7 @@ li.menu-item.ui-sortable-helper .menu-item-transport .menu-item-bar {
 .menu-item-depth-10 { margin-left: 300px; }
 .menu-item-depth-11 { margin-left: 330px; }
 
-.menu-item-depth-0 .menu-item-transport { margin-left: 0px; }
+.menu-item-depth-0 .menu-item-transport { margin-left: 0; }
 .menu-item-depth-1 .menu-item-transport { margin-left: -30px; }
 .menu-item-depth-2 .menu-item-transport { margin-left: -60px; }
 .menu-item-depth-3 .menu-item-transport { margin-left: -90px; }
@@ -1005,7 +1005,7 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
                 position: sticky;
 				bottom: 0;
 				z-index: 10;
-				box-shadow: 0 -1px 0 0px #ddd;
+				box-shadow: 0 -1px 0 0 #ddd;
         }
 
         #save_menu_header {

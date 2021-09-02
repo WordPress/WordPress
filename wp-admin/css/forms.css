@@ -32,7 +32,7 @@ select {
 }
 
 textarea.code {
-	padding: 4px 6px 1px 6px;
+	padding: 4px 6px 1px;
 }
 
 input[type="text"],
@@ -999,8 +999,8 @@ table.form-table td .updated p {
 
 .pressthis-bookmarklet span {
 	display: inline-block;
-	margin: 0px 0 0;
-	padding: 0px 12px 8px 9px;
+	margin: 0;
+	padding: 0 12px 8px 9px;
 }
 
 .pressthis-bookmarklet span:before {
@@ -1225,7 +1225,7 @@ table.form-table td .updated p {
 }
 
 .request-filesystem-credentials-form .notice {
-	margin: 0 0 20px 0;
+	margin: 0 0 20px;
 	clear: both;
 }
 
@@ -1562,13 +1562,13 @@ table.form-table td .updated p {
 	}
 
 	.form-table th {
-		padding: 10px 0 0 0;
+		padding: 10px 0 0;
 		border-bottom: 0;
 	}
 
 	.form-table td {
 		margin-bottom: 0;
-		padding: 4px 0 6px 0;
+		padding: 4px 0 6px;
 	}
 
 	.form-table.permalink-structure td code {

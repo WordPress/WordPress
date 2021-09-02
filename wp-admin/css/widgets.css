@@ -42,7 +42,7 @@
 
 .widgets-holder-wrap .widget-inside {
 	border-top: none;
-	padding: 1px 15px 15px 15px;
+	padding: 1px 15px 15px;
 	line-height: 1.23076923;
 }
 
@@ -436,7 +436,7 @@ div#widgets-left .widget-holder {
 	width: 100%;
 	background: transparent;
 	padding: 0;
-	margin: 0 0 20px 0;
+	margin: 0 0 20px;
 	border: none;
 	box-shadow: none;
 }
@@ -471,7 +471,7 @@ div#widgets-right .sidebars-column-2 {
 }
 
 div#widgets-right .widgets-holder-wrap {
-	margin: 10px 0 0 0;
+	margin: 10px 0 0;
 }
 
 div#widgets-right .sidebar-description {
@@ -734,7 +734,7 @@ div#widgets-right .widget-top:hover,
 }
 
 .widgets-chooser .widgets-chooser-actions {
-	padding: 10px 0 12px 0;
+	padding: 10px 0 12px;
 	text-align: center;
 }
 
@@ -826,7 +826,7 @@ ul.CodeMirror-hints {
 
 	.widget-access-link {
 		float: none;
-		margin: 15px 0 0 0;
+		margin: 15px 0 0;
 	}
 }
 

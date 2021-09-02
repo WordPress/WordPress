@@ -518,7 +518,7 @@ body #dashboard-widgets .postbox form .submit {
 
 #dashboard_primary .rss-widget {
 	font-size: 13px;
-	padding: 0 12px 0;
+	padding: 0 12px;
 }
 
 #dashboard_primary .rss-widget:last-child {
@@ -599,7 +599,7 @@ body #dashboard-widgets .postbox form .submit {
 	color: #50575e;
 	background: #f6f7f7;
 	border-top: 1px solid #f0f0f1;
-	padding: 10px 12px 6px 12px;
+	padding: 10px 12px 6px;
 }
 
 #dashboard_right_now .sub h3 {
@@ -835,7 +835,7 @@ body #dashboard-widgets .postbox form .submit {
 }
 
 #activity-widget #the-comment-list .comment-item p.row-actions {
-	margin: 4px 0 0 0;
+	margin: 4px 0 0;
 }
 
 #activity-widget #the-comment-list .comment-item:first-child {
