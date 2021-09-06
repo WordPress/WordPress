@@ -87,7 +87,8 @@ function post_submit_meta_box( $post, $args = array() ) {
 		endif;
 
 		/**
-		 * Fires before the post time/date setting in the Publish meta box.
+		 * Fires after the Save Draft (or Save as Pending) and Preview (or Preview Changes) buttons
+		 * in the Publish meta box.
 		 *
 		 * @since 4.4.0
 		 *
