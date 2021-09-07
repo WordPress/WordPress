@@ -651,17 +651,18 @@ class WP_Comments_List_Table extends WP_List_Table {
 	 * Generate and display row actions links.
 	 *
 	 * @since 4.3.0
+	 * @since 5.9.0 Renamed `$comment` to `$item` to match parent class for PHP 8 named parameter support.
 	 *
 	 * @global string $comment_status Status for the current listed comments.
 	 *
-	 * @param WP_Comment $comment     The comment object.
+	 * @param WP_Comment $item        The comment object.
 	 * @param string     $column_name Current column name.
 	 * @param string     $primary     Primary column name.
 	 * @return string Row actions output for comments. An empty string
 	 *                if the current column is not the primary column,
 	 *                or if the current user cannot edit the comment.
 	 */
-	protected function handle_row_actions( $comment, $column_name, $primary ) {
+	protected function handle_row_actions( $item, $column_name, $primary ) {
 		global $comment_status;
 
 		if ( $primary !== $column_name ) {
@@ -672,6 +673,8 @@ class WP_Comments_List_Table extends WP_List_Table {
 			return '';
 		}
 
+		// Restores the more descriptive, specific name for use within this method.
+		$comment            = $item;
 		$the_comment_status = wp_get_comment_status( $comment );
 
 		$out = '';
