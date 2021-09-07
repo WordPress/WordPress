@@ -1711,9 +1711,10 @@ function validate_username( $username ) {
  * @since 2.0.0
  * @since 3.6.0 The `aim`, `jabber`, and `yim` fields were removed as default user contact
  *              methods for new installations. See wp_get_user_contact_methods().
- * @since 4.7.0 The user's locale can be passed to `$userdata`.
+ * @since 4.7.0 The `locale` field can be passed to `$userdata`.
  * @since 5.3.0 The `user_activation_key` field can be passed to `$userdata`.
  * @since 5.3.0 The `spam` field can be passed to `$userdata` (Multisite only).
+ * @since 5.9.0 The `meta_input` field can be passed to `$userdata` to allow addition of user meta data.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
@@ -1758,6 +1759,8 @@ function validate_username( $username ) {
  *                                        as a string literal, not boolean. Default 'true'.
  *     @type string $role                 User's role.
  *     @type string $locale               User's locale. Default empty.
+ *     @type array  $meta_input           Array of custom user meta values keyed by meta key.
+ *                                        Default empty.
  * }
  * @return int|WP_Error The newly created user's ID or a WP_Error object if the user could not
  *                      be created.
@@ -2058,6 +2061,8 @@ function wp_insert_user( $userdata ) {
 	 *
 	 * Does not include contact methods. These are added using `wp_get_user_contact_methods( $user )`.
 	 *
+	 * For custom meta fields, see the {@see 'insert_custom_user_meta'} filter.
+	 *
 	 * @since 4.4.0
 	 * @since 5.8.0 The $userdata parameter was added.
 	 *
@@ -2083,6 +2088,28 @@ function wp_insert_user( $userdata ) {
 	 * @param array   $userdata The raw array of data passed to wp_insert_user().
 	 */
 	$meta = apply_filters( 'insert_user_meta', $meta, $user, $update, $userdata );
+
+	$custom_meta = array();
+	if ( array_key_exists( 'meta_input', $userdata ) && is_array( $userdata['meta_input'] ) && ! empty( $userdata['meta_input'] ) ) {
+		$custom_meta = $userdata['meta_input'];
+	}
+
+	/**
+	 * Filters a user's custom meta values and keys immediately after the user is created or updated
+	 * and before any user meta is inserted or updated.
+	 *
+	 * For non-custom meta fields, see the {@see 'insert_user_meta'} filter.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @param array   $custom_meta Array of custom user meta values keyed by meta key.
+	 * @param WP_User $user        User object.
+	 * @param bool    $update      Whether the user is being updated rather than created.
+	 * @param array   $userdata    The raw array of data passed to wp_insert_user().
+	 */
+	$custom_meta = apply_filters( 'insert_custom_user_meta', $custom_meta, $user, $update, $userdata );
+
+	$meta = array_merge( $meta, $custom_meta );
 
 	// Update user meta.
 	foreach ( $meta as $key => $value ) {
