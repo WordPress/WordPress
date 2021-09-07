@@ -971,10 +971,13 @@ class WP_Posts_List_Table extends WP_List_Table {
 	 * Handles the checkbox column output.
 	 *
 	 * @since 4.3.0
+	 * @since 5.9.0 Renamed `$post` to `$item` to match parent class for PHP 8 named parameter support.
 	 *
-	 * @param WP_Post $post The current WP_Post object.
+	 * @param WP_Post $item The current WP_Post object.
 	 */
-	public function column_cb( $post ) {
+	public function column_cb( $item ) {
+		// Restores the more descriptive, specific name for use within this method.
+		$post = $item;
 		$show = current_user_can( 'edit_post', $post->ID );
 
 		/**

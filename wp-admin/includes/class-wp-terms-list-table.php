@@ -364,10 +364,15 @@ class WP_Terms_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @param WP_Term $tag Term object.
+	 * @since 5.9.0 Renamed `$tag` to `$item` to match parent class for PHP 8 named parameter support.
+	 *
+	 * @param WP_Term $item Term object.
 	 * @return string
 	 */
-	public function column_cb( $tag ) {
+	public function column_cb( $item ) {
+		// Restores the more descriptive, specific name for use within this method.
+		$tag = $item;
+
 		if ( current_user_can( 'delete_term', $tag->term_id ) ) {
 			return sprintf(
 				'<label class="screen-reader-text" for="cb-select-%1$s">%2$s</label>' .

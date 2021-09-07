@@ -505,10 +505,13 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	 * Handles the checkbox column output.
 	 *
 	 * @since 4.3.0
+	 * @since 5.9.0 Renamed `$theme` to `$item` to match parent class for PHP 8 named parameter support.
 	 *
-	 * @param WP_Theme $theme The current WP_Theme object.
+	 * @param WP_Theme $item The current WP_Theme object.
 	 */
-	public function column_cb( $theme ) {
+	public function column_cb( $item ) {
+		// Restores the more descriptive, specific name for use within this method.
+		$theme       = $item;
 		$checkbox_id = 'checkbox_' . md5( $theme->get( 'Name' ) );
 		?>
 		<input type="checkbox" name="checked[]" value="<?php echo esc_attr( $theme->get_stylesheet() ); ?>" id="<?php echo $checkbox_id; ?>" />
