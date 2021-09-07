@@ -1047,7 +1047,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @since 5.9.0 Renamed `$comment` to `$item` to match parent class for PHP 8 named param.
+	 * @since 5.9.0 Renamed `$comment` to `$item` to match parent class for PHP 8 named parameter support.
 	 *
 	 * @param WP_Comment $item        The comment object.
 	 * @param string     $column_name The custom column's name.
