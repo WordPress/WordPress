@@ -558,7 +558,7 @@ function wp_plugin_update_row( $file, $plugin_data ) {
 		 *
 		 * @since 2.8.0
 		 *
-		 * @param array $plugin_data {
+		 * @param array  $plugin_data {
 		 *     An array of plugin metadata.
 		 *
 		 *     @type string $name        The human-readable name of the plugin.
@@ -574,8 +574,8 @@ function wp_plugin_update_row( $file, $plugin_data ) {
 		 *     @type string $author_name Plugin author's name.
 		 *     @type bool   $update      Whether there's an available update. Default null.
 		 * }
-		 * @param array $response {
-		 *     An array of metadata about the available plugin update.
+		 * @param object $response {
+		 *     An object of metadata about the available plugin update.
 		 *
 		 *     @type int    $id          Plugin ID.
 		 *     @type string $slug        Plugin slug.
