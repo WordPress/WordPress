@@ -82,181 +82,19 @@ this["wp"] = this["wp"] || {}; this["wp"]["blockDirectory"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 429);
+/******/ 	return __webpack_require__(__webpack_require__.s = "7f3f");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 0:
+/***/ "1ZqX":
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["wp"]["element"]; }());
+(function() { module.exports = this["wp"]["data"]; }());
 
 /***/ }),
 
-/***/ 1:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["i18n"]; }());
-
-/***/ }),
-
-/***/ 10:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["blocks"]; }());
-
-/***/ }),
-
-/***/ 18:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _toConsumableArray; });
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js
-var arrayLikeToArray = __webpack_require__(25);
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
-
-function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) return Object(arrayLikeToArray["a" /* default */])(arr);
-}
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-var iterableToArray = __webpack_require__(35);
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
-var unsupportedIterableToArray = __webpack_require__(27);
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
-function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
-
-
-
-
-function _toConsumableArray(arr) {
-  return _arrayWithoutHoles(arr) || Object(iterableToArray["a" /* default */])(arr) || Object(unsupportedIterableToArray["a" /* default */])(arr) || _nonIterableSpread();
-}
-
-/***/ }),
-
-/***/ 2:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["lodash"]; }());
-
-/***/ }),
-
-/***/ 20:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _slicedToArray; });
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
-var arrayWithHoles = __webpack_require__(38);
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js
-function _iterableToArrayLimit(arr, i) {
-  if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
-  var _arr = [];
-  var _n = true;
-  var _d = false;
-  var _e = undefined;
-
-  try {
-    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
-      _arr.push(_s.value);
-
-      if (i && _arr.length === i) break;
-    }
-  } catch (err) {
-    _d = true;
-    _e = err;
-  } finally {
-    try {
-      if (!_n && _i["return"] != null) _i["return"]();
-    } finally {
-      if (_d) throw _e;
-    }
-  }
-
-  return _arr;
-}
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
-var unsupportedIterableToArray = __webpack_require__(27);
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js
-var nonIterableRest = __webpack_require__(39);
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js
-
-
-
-
-function _slicedToArray(arr, i) {
-  return Object(arrayWithHoles["a" /* default */])(arr) || _iterableToArrayLimit(arr, i) || Object(unsupportedIterableToArray["a" /* default */])(arr, i) || Object(nonIterableRest["a" /* default */])();
-}
-
-/***/ }),
-
-/***/ 23:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["regeneratorRuntime"]; }());
-
-/***/ }),
-
-/***/ 25:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _arrayLikeToArray; });
-function _arrayLikeToArray(arr, len) {
-  if (len == null || len > arr.length) len = arr.length;
-
-  for (var i = 0, arr2 = new Array(len); i < len; i++) {
-    arr2[i] = arr[i];
-  }
-
-  return arr2;
-}
-
-/***/ }),
-
-/***/ 27:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _unsupportedIterableToArray; });
-/* harmony import */ var _arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(25);
-
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return Object(_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(n);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Object(_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
-}
-
-/***/ }),
-
-/***/ 3:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["components"]; }());
-
-/***/ }),
-
-/***/ 35:
+/***/ "25BE":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -267,43 +105,7 @@ function _iterableToArray(iter) {
 
 /***/ }),
 
-/***/ 38:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _arrayWithHoles; });
-function _arrayWithHoles(arr) {
-  if (Array.isArray(arr)) return arr;
-}
-
-/***/ }),
-
-/***/ 39:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _nonIterableRest; });
-function _nonIterableRest() {
-  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-
-/***/ }),
-
-/***/ 4:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["data"]; }());
-
-/***/ }),
-
-/***/ 42:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["apiFetch"]; }());
-
-/***/ }),
-
-/***/ 429:
+/***/ "7f3f":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -331,13 +133,13 @@ __webpack_require__.d(actions_namespaceObject, "addInstalledBlockType", function
 __webpack_require__.d(actions_namespaceObject, "removeInstalledBlockType", function() { return removeInstalledBlockType; });
 
 // EXTERNAL MODULE: external {"this":["wp","data"]}
-var external_this_wp_data_ = __webpack_require__(4);
+var external_this_wp_data_ = __webpack_require__("1ZqX");
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js + 2 modules
-var toConsumableArray = __webpack_require__(18);
+var toConsumableArray = __webpack_require__("KQm4");
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
-var defineProperty = __webpack_require__(5);
+var defineProperty = __webpack_require__("rePB");
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-directory/build-module/store/reducer.js
 
@@ -490,17 +292,17 @@ function getInstalledBlockTypes(state) {
 }
 
 // EXTERNAL MODULE: external {"this":"regeneratorRuntime"}
-var external_this_regeneratorRuntime_ = __webpack_require__(23);
+var external_this_regeneratorRuntime_ = __webpack_require__("dvlR");
 var external_this_regeneratorRuntime_default = /*#__PURE__*/__webpack_require__.n(external_this_regeneratorRuntime_);
 
 // EXTERNAL MODULE: external {"this":["wp","blocks"]}
-var external_this_wp_blocks_ = __webpack_require__(10);
+var external_this_wp_blocks_ = __webpack_require__("HSyU");
 
 // EXTERNAL MODULE: external {"this":"lodash"}
-var external_this_lodash_ = __webpack_require__(2);
+var external_this_lodash_ = __webpack_require__("YLtl");
 
 // EXTERNAL MODULE: external {"this":["wp","apiFetch"]}
-var external_this_wp_apiFetch_ = __webpack_require__(42);
+var external_this_wp_apiFetch_ = __webpack_require__("ywyh");
 var external_this_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_apiFetch_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-directory/build-module/store/controls.js
@@ -1131,25 +933,25 @@ var store = Object(external_this_wp_data_["registerStore"])(MODULE_KEY, storeCon
 /* harmony default export */ var build_module_store = (store);
 
 // EXTERNAL MODULE: external {"this":["wp","element"]}
-var external_this_wp_element_ = __webpack_require__(0);
+var external_this_wp_element_ = __webpack_require__("GRId");
 
 // EXTERNAL MODULE: external {"this":["wp","plugins"]}
-var external_this_wp_plugins_ = __webpack_require__(55);
+var external_this_wp_plugins_ = __webpack_require__("TvNi");
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js + 1 modules
-var slicedToArray = __webpack_require__(20);
+var slicedToArray = __webpack_require__("ODXe");
 
 // EXTERNAL MODULE: external {"this":["wp","blockEditor"]}
-var external_this_wp_blockEditor_ = __webpack_require__(6);
+var external_this_wp_blockEditor_ = __webpack_require__("axFQ");
 
 // EXTERNAL MODULE: external {"this":["wp","compose"]}
-var external_this_wp_compose_ = __webpack_require__(8);
+var external_this_wp_compose_ = __webpack_require__("K9lf");
 
 // EXTERNAL MODULE: external {"this":["wp","i18n"]}
-var external_this_wp_i18n_ = __webpack_require__(1);
+var external_this_wp_i18n_ = __webpack_require__("l3Sj");
 
 // EXTERNAL MODULE: external {"this":["wp","components"]}
-var external_this_wp_components_ = __webpack_require__(3);
+var external_this_wp_components_ = __webpack_require__("tI+e");
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-directory/build-module/components/block-ratings/stars.js
 
@@ -1296,7 +1098,7 @@ function DownloadableBlockAuthorInfo(_ref) {
 /* harmony default export */ var downloadable_block_author_info = (DownloadableBlockAuthorInfo);
 
 // EXTERNAL MODULE: external {"this":["wp","primitives"]}
-var external_this_wp_primitives_ = __webpack_require__(9);
+var external_this_wp_primitives_ = __webpack_require__("Tqx9");
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/update.js
 
@@ -1679,7 +1481,219 @@ Object(external_this_wp_plugins_["registerPlugin"])('block-directory', {
 
 /***/ }),
 
-/***/ 5:
+/***/ "BsWD":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _unsupportedIterableToArray; });
+/* harmony import */ var _arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("a3WO");
+
+function _unsupportedIterableToArray(o, minLen) {
+  if (!o) return;
+  if (typeof o === "string") return Object(_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === "Object" && o.constructor) n = o.constructor.name;
+  if (n === "Map" || n === "Set") return Array.from(n);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return Object(_arrayLikeToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(o, minLen);
+}
+
+/***/ }),
+
+/***/ "DSFK":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _arrayWithHoles; });
+function _arrayWithHoles(arr) {
+  if (Array.isArray(arr)) return arr;
+}
+
+/***/ }),
+
+/***/ "GRId":
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["element"]; }());
+
+/***/ }),
+
+/***/ "HSyU":
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["blocks"]; }());
+
+/***/ }),
+
+/***/ "K9lf":
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["compose"]; }());
+
+/***/ }),
+
+/***/ "KQm4":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _toConsumableArray; });
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js
+var arrayLikeToArray = __webpack_require__("a3WO");
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
+
+function _arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) return Object(arrayLikeToArray["a" /* default */])(arr);
+}
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
+var iterableToArray = __webpack_require__("25BE");
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
+var unsupportedIterableToArray = __webpack_require__("BsWD");
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
+function _nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
+
+
+
+
+function _toConsumableArray(arr) {
+  return _arrayWithoutHoles(arr) || Object(iterableToArray["a" /* default */])(arr) || Object(unsupportedIterableToArray["a" /* default */])(arr) || _nonIterableSpread();
+}
+
+/***/ }),
+
+/***/ "ODXe":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _slicedToArray; });
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
+var arrayWithHoles = __webpack_require__("DSFK");
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js
+function _iterableToArrayLimit(arr, i) {
+  if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
+  var _arr = [];
+  var _n = true;
+  var _d = false;
+  var _e = undefined;
+
+  try {
+    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+      _arr.push(_s.value);
+
+      if (i && _arr.length === i) break;
+    }
+  } catch (err) {
+    _d = true;
+    _e = err;
+  } finally {
+    try {
+      if (!_n && _i["return"] != null) _i["return"]();
+    } finally {
+      if (_d) throw _e;
+    }
+  }
+
+  return _arr;
+}
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
+var unsupportedIterableToArray = __webpack_require__("BsWD");
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js
+var nonIterableRest = __webpack_require__("PYwp");
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js
+
+
+
+
+function _slicedToArray(arr, i) {
+  return Object(arrayWithHoles["a" /* default */])(arr) || _iterableToArrayLimit(arr, i) || Object(unsupportedIterableToArray["a" /* default */])(arr, i) || Object(nonIterableRest["a" /* default */])();
+}
+
+/***/ }),
+
+/***/ "PYwp":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _nonIterableRest; });
+function _nonIterableRest() {
+  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+
+/***/ }),
+
+/***/ "Tqx9":
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["primitives"]; }());
+
+/***/ }),
+
+/***/ "TvNi":
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["plugins"]; }());
+
+/***/ }),
+
+/***/ "YLtl":
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["lodash"]; }());
+
+/***/ }),
+
+/***/ "a3WO":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _arrayLikeToArray; });
+function _arrayLikeToArray(arr, len) {
+  if (len == null || len > arr.length) len = arr.length;
+
+  for (var i = 0, arr2 = new Array(len); i < len; i++) {
+    arr2[i] = arr[i];
+  }
+
+  return arr2;
+}
+
+/***/ }),
+
+/***/ "axFQ":
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["blockEditor"]; }());
+
+/***/ }),
+
+/***/ "dvlR":
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["regeneratorRuntime"]; }());
+
+/***/ }),
+
+/***/ "l3Sj":
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["i18n"]; }());
+
+/***/ }),
+
+/***/ "rePB":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1701,31 +1715,17 @@ function _defineProperty(obj, key, value) {
 
 /***/ }),
 
-/***/ 55:
+/***/ "tI+e":
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["wp"]["plugins"]; }());
+(function() { module.exports = this["wp"]["components"]; }());
 
 /***/ }),
 
-/***/ 6:
+/***/ "ywyh":
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["wp"]["blockEditor"]; }());
-
-/***/ }),
-
-/***/ 8:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["compose"]; }());
-
-/***/ }),
-
-/***/ 9:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["primitives"]; }());
+(function() { module.exports = this["wp"]["apiFetch"]; }());
 
 /***/ })
 
