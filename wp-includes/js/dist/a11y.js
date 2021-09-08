@@ -82,19 +82,19 @@ this["wp"] = this["wp"] || {}; this["wp"]["a11y"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 324);
+/******/ 	return __webpack_require__(__webpack_require__.s = "jncB");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 182:
+/***/ "Y8OO":
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["domReady"]; }());
 
 /***/ }),
 
-/***/ 324:
+/***/ "jncB":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -143,7 +143,7 @@ var clear = function clear() {
 /* harmony default export */ var build_module_clear = (clear);
 
 // EXTERNAL MODULE: external {"this":["wp","domReady"]}
-var external_this_wp_domReady_ = __webpack_require__(182);
+var external_this_wp_domReady_ = __webpack_require__("Y8OO");
 var external_this_wp_domReady_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_domReady_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/a11y/build-module/filterMessage.js

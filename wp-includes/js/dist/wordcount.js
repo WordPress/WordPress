@@ -82,19 +82,19 @@ this["wp"] = this["wp"] || {}; this["wp"]["wordcount"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 312);
+/******/ 	return __webpack_require__(__webpack_require__.s = "pC98");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 2:
+/***/ "YLtl":
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["lodash"]; }());
 
 /***/ }),
 
-/***/ 312:
+/***/ "pC98":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -105,7 +105,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.d(__webpack_exports__, "count", function() { return /* binding */ count; });
 
 // EXTERNAL MODULE: external "lodash"
-var external_lodash_ = __webpack_require__(2);
+var external_lodash_ = __webpack_require__("YLtl");
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/wordcount/build-module/defaultSettings.js
 var defaultSettings = {
