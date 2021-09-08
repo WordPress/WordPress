@@ -83,15 +83,16 @@ class Walker {
 	 * class methods. Includes the element output also.
 	 *
 	 * @since 2.1.0
+	 * @since 5.9.0 Renamed `$object` (a PHP reserved keyword) to `$data_object` for PHP 8 named parameter support.
 	 * @abstract
 	 *
 	 * @param string $output            Used to append additional content (passed by reference).
-	 * @param object $object            The data object.
+	 * @param object $data_object       The data object.
 	 * @param int    $depth             Depth of the item.
 	 * @param array  $args              An array of additional arguments.
 	 * @param int    $current_object_id ID of the current item.
 	 */
-	public function start_el( &$output, $object, $depth = 0, $args = array(), $current_object_id = 0 ) {}
+	public function start_el( &$output, $data_object, $depth = 0, $args = array(), $current_object_id = 0 ) {}
 
 	/**
 	 * Ends the element output, if needed.

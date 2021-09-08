@@ -93,14 +93,18 @@ class Walker_Page extends Walker {
 	 *
 	 * @see Walker::start_el()
 	 * @since 2.1.0
+	 * @since 5.9.0 Renamed `$page` to `$data_object` to match parent class for PHP 8 named parameter support.
 	 *
 	 * @param string  $output       Used to append additional content. Passed by reference.
-	 * @param WP_Post $page         Page data object.
+	 * @param WP_Post $data_object  Page data object.
 	 * @param int     $depth        Optional. Depth of page. Used for padding. Default 0.
 	 * @param array   $args         Optional. Array of arguments. Default empty array.
 	 * @param int     $current_page Optional. Page ID. Default 0.
 	 */
-	public function start_el( &$output, $page, $depth = 0, $args = array(), $current_page = 0 ) {
+	public function start_el( &$output, $data_object, $depth = 0, $args = array(), $current_page = 0 ) {
+		// Restores the more descriptive, specific name for use within this method.
+		$page = $data_object;
+
 		if ( isset( $args['item_spacing'] ) && 'preserve' === $args['item_spacing'] ) {
 			$t = "\t";
 			$n = "\n";
