@@ -82,19 +82,26 @@ this["wp"] = this["wp"] || {}; this["wp"]["viewport"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 373);
+/******/ 	return __webpack_require__(__webpack_require__.s = "PR0u");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 2:
+/***/ "1ZqX":
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["lodash"]; }());
+(function() { module.exports = this["wp"]["data"]; }());
 
 /***/ }),
 
-/***/ 373:
+/***/ "K9lf":
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["compose"]; }());
+
+/***/ }),
+
+/***/ "PR0u":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -116,10 +123,10 @@ __webpack_require__.r(selectors_namespaceObject);
 __webpack_require__.d(selectors_namespaceObject, "isViewportMatch", function() { return isViewportMatch; });
 
 // EXTERNAL MODULE: external "lodash"
-var external_lodash_ = __webpack_require__(2);
+var external_lodash_ = __webpack_require__("YLtl");
 
 // EXTERNAL MODULE: external {"this":["wp","data"]}
-var external_this_wp_data_ = __webpack_require__(5);
+var external_this_wp_data_ = __webpack_require__("1ZqX");
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/viewport/build-module/store/reducer.js
 /**
@@ -207,7 +214,7 @@ function isViewportMatch(state, query) {
 }));
 
 // EXTERNAL MODULE: external {"this":["wp","compose"]}
-var external_this_wp_compose_ = __webpack_require__(7);
+var external_this_wp_compose_ = __webpack_require__("K9lf");
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/viewport/build-module/with-viewport-match.js
 /**
@@ -356,17 +363,10 @@ build_module_setIsMatching.flush();
 
 /***/ }),
 
-/***/ 5:
+/***/ "YLtl":
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["wp"]["data"]; }());
-
-/***/ }),
-
-/***/ 7:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["compose"]; }());
+(function() { module.exports = this["lodash"]; }());
 
 /***/ })
 

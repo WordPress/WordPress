@@ -94,7 +94,7 @@ function wp_default_packages_vendor( &$scripts ) {
 		'react' => '16.6.3',
 		'react-dom' => '16.6.3',
 		'moment' => '2.22.2',
-		'lodash' => '4.17.11',
+		'lodash' => '4.17.21',
 		'wp-polyfill-fetch' => '3.0.0',
 		'wp-polyfill-formdata' => '3.0.12',
 		'wp-polyfill-node-contains' => '3.26.0-0',
