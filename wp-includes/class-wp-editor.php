@@ -970,11 +970,7 @@ final class _WP_Editors {
 		<script type="text/javascript">
 		window.wp = window.wp || {};
 		window.wp.editor = window.wp.editor || {};
-		window.wp.oldEditor = window.wp.oldEditor || {};
-
-		// Add getDefaultSettings() to both wp.editor and wp.oldEditor for back compat.
-		// Use of wp.editor for "old editor" functionality should be deprecated.
-		window.wp.editor.getDefaultSettings = window.wp.oldEditor.getDefaultSettings = function() {
+		window.wp.editor.getDefaultSettings = function() {
 			return {
 				tinymce: <?php echo $settings; ?>,
 				quicktags: {
