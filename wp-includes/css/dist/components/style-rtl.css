@@ -616,10 +616,8 @@ svg.dashicon.components-checkbox-control__checked {
   top: -2px;
   width: 31px;
   height: 31px;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
+  -ms-user-select: none;
+      user-select: none;
   pointer-events: none; }
   @media (min-width: 600px) {
     svg.dashicon.components-checkbox-control__checked {
@@ -1263,8 +1261,6 @@ svg.dashicon {
   background: #fff;
   text-align: center;
   vertical-align: top;
-  -webkit-user-select: none;
-  -moz-user-select: none;
   -ms-user-select: none;
   user-select: none; }
 
@@ -1339,8 +1335,6 @@ svg.dashicon {
 
 .DayPickerNavigation_button {
   cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
   border: 0;
@@ -1536,8 +1530,6 @@ svg.dashicon {
   font-weight: auto; }
 
 .DateInput_input__readOnly {
-  -webkit-user-select: none;
-  -moz-user-select: none;
   -ms-user-select: none;
   user-select: none; }
 
@@ -2111,10 +2103,8 @@ body.is-dragging-components-draggable {
     max-height: 100%;
     max-width: 100%;
     width: auto;
-    -webkit-user-select: none;
-       -moz-user-select: none;
-        -ms-user-select: none;
-            user-select: none; }
+    -ms-user-select: none;
+        user-select: none; }
 
 .components-focal-point-picker__icon_container {
   background-color: transparent;
@@ -2661,7 +2651,6 @@ body.is-dragging-components-draggable {
   background: #fff;
   align-items: center;
   height: 56px;
-  position: -webkit-sticky;
   position: sticky;
   top: 0;
   z-index: 10;
@@ -2889,7 +2878,7 @@ body.is-dragging-components-draggable {
   width: 100%;
   text-align: center;
   background: rgba(139, 139, 150, 0.1); }
-  @supports ((position: -webkit-sticky) or (position: sticky)) {
+  @supports (position: sticky) {
     .components-placeholder {
       display: flex;
       flex-direction: column;
@@ -3406,7 +3395,6 @@ body.lockscroll {
   cursor: pointer; }
   @media (min-width: 600px) {
     .components-snackbar {
-      width: -webkit-fit-content;
       width: fit-content; } }
   .components-snackbar:hover {
     background-color: #191e23; }
@@ -3510,14 +3498,14 @@ body.lockscroll {
   background-color: #fff;
   display: inline-flex;
   flex-shrink: 0; }
-  @supports ((position: -webkit-sticky) or (position: sticky)) {
+  @supports (position: sticky) {
     .components-toolbar {
       display: flex; } }
 
 div.components-toolbar > div {
   display: block;
   margin: 0; }
-  @supports ((position: -webkit-sticky) or (position: sticky)) {
+  @supports (position: sticky) {
     div.components-toolbar > div {
       display: flex; } }
 

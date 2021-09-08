@@ -283,10 +283,8 @@
 
 .block-editor-block-list__layout .block-editor-block-list__block.has-warning .block-editor-block-list__block-edit > * {
   pointer-events: none;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none; }
+  -ms-user-select: none;
+      user-select: none; }
 
 .block-editor-block-list__layout .block-editor-block-list__block.has-warning .block-editor-block-list__block-edit .block-editor-warning {
   pointer-events: all; }
@@ -771,9 +769,8 @@ body.admin-color-light .block-editor-block-list__insertion-point-indicator{
     right: auto;
     box-shadow: none;
     transform: translateY(-52px); }
-    @supports ((position: -webkit-sticky) or (position: sticky)) {
+    @supports (position: sticky) {
       .block-editor-block-list__block .block-editor-block-contextual-toolbar {
-        position: -webkit-sticky;
         position: sticky;
         top: 51px; } } }
 
@@ -785,7 +782,7 @@ body.admin-color-light .block-editor-block-list__insertion-point-indicator{
   /*rtl:ignore*/
   float: right;
   min-width: 200px; }
-  @supports ((position: -webkit-sticky) or (position: sticky)) {
+  @supports (position: sticky) {
     .block-editor-block-list__block[data-align="right"] .block-editor-block-contextual-toolbar {
       min-width: 0; } }
 
@@ -1293,7 +1290,6 @@ body.admin-color-light .block-editor-block-list__insertion-point-indicator{
       background: #fff;
       width: 300px;
       height: auto;
-      position: -webkit-sticky;
       position: sticky;
       -ms-grid-row-align: stretch;
           align-self: stretch;
@@ -1350,7 +1346,7 @@ body.admin-color-light .block-editor-block-list__insertion-point-indicator{
 
 .block-editor-block-toolbar__slot {
   display: inline-block; }
-  @supports ((position: -webkit-sticky) or (position: sticky)) {
+  @supports (position: sticky) {
     .block-editor-block-toolbar__slot {
       display: inline-flex; } }
 
@@ -2005,6 +2001,12 @@ figcaption.block-editor-rich-text__editable [data-rich-text-placeholder]::before
   z-index: 1; }
   .block-editor-rich-text__inline-toolbar ul.components-toolbar {
     box-shadow: 0 2px 10px rgba(25, 30, 35, 0.1), 0 0 2px rgba(25, 30, 35, 0.1); }
+
+[data-rich-text-script] {
+  display: inline; }
+  [data-rich-text-script]::before {
+    content: "</>";
+    background: yellow; }
 
 .block-editor-skip-to-selected-block {
   position: absolute;

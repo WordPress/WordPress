@@ -82,54 +82,51 @@ this["wp"] = this["wp"] || {}; this["wp"]["isShallowEqual"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 327);
+/******/ 	return __webpack_require__(__webpack_require__.s = "mNmh");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 327:
+/***/ "1O94":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 /**
- * Internal dependencies;
- */
-var isShallowEqualObjects = __webpack_require__( 328 );
-var isShallowEqualArrays = __webpack_require__( 329 );
-
-var isArray = Array.isArray;
-
-/**
- * Returns true if the two arrays or objects are shallow equal, or false
- * otherwise.
+ * Returns true if the two arrays are shallow equal, or false otherwise.
  *
- * @param {(Array|Object)} a First object or array to compare.
- * @param {(Array|Object)} b Second object or array to compare.
+ * @param {Array} a First array to compare.
+ * @param {Array} b Second array to compare.
  *
- * @return {boolean} Whether the two values are shallow equal.
+ * @return {boolean} Whether the two arrays are shallow equal.
  */
-function isShallowEqual( a, b ) {
-	if ( a && b ) {
-		if ( a.constructor === Object && b.constructor === Object ) {
-			return isShallowEqualObjects( a, b );
-		} else if ( isArray( a ) && isArray( b ) ) {
-			return isShallowEqualArrays( a, b );
+function isShallowEqualArrays( a, b ) {
+	var i;
+
+	if ( a === b ) {
+		return true;
+	}
+
+	if ( a.length !== b.length ) {
+		return false;
+	}
+
+	for ( i = 0; i < a.length; i++ ) {
+		if ( a[ i ] !== b[ i ] ) {
+			return false;
 		}
 	}
 
-	return a === b;
+	return true;
 }
 
-module.exports = isShallowEqual;
-module.exports.isShallowEqualObjects = isShallowEqualObjects;
-module.exports.isShallowEqualArrays = isShallowEqualArrays;
+module.exports = isShallowEqualArrays;
 
 
 /***/ }),
 
-/***/ 328:
+/***/ "4UZf":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -188,41 +185,44 @@ module.exports = isShallowEqualObjects;
 
 /***/ }),
 
-/***/ 329:
+/***/ "mNmh":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 /**
- * Returns true if the two arrays are shallow equal, or false otherwise.
- *
- * @param {Array} a First array to compare.
- * @param {Array} b Second array to compare.
- *
- * @return {boolean} Whether the two arrays are shallow equal.
+ * Internal dependencies;
  */
-function isShallowEqualArrays( a, b ) {
-	var i;
+var isShallowEqualObjects = __webpack_require__( "4UZf" );
+var isShallowEqualArrays = __webpack_require__( "1O94" );
 
-	if ( a === b ) {
-		return true;
-	}
+var isArray = Array.isArray;
 
-	if ( a.length !== b.length ) {
-		return false;
-	}
-
-	for ( i = 0; i < a.length; i++ ) {
-		if ( a[ i ] !== b[ i ] ) {
-			return false;
+/**
+ * Returns true if the two arrays or objects are shallow equal, or false
+ * otherwise.
+ *
+ * @param {(Array|Object)} a First object or array to compare.
+ * @param {(Array|Object)} b Second object or array to compare.
+ *
+ * @return {boolean} Whether the two values are shallow equal.
+ */
+function isShallowEqual( a, b ) {
+	if ( a && b ) {
+		if ( a.constructor === Object && b.constructor === Object ) {
+			return isShallowEqualObjects( a, b );
+		} else if ( isArray( a ) && isArray( b ) ) {
+			return isShallowEqualArrays( a, b );
 		}
 	}
 
-	return true;
+	return a === b;
 }
 
-module.exports = isShallowEqualArrays;
+module.exports = isShallowEqual;
+module.exports.isShallowEqualObjects = isShallowEqualObjects;
+module.exports.isShallowEqualArrays = isShallowEqualArrays;
 
 
 /***/ })

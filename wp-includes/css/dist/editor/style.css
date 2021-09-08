@@ -128,7 +128,6 @@
   padding: 1px 0; }
 
 .components-editor-notices__dismissible {
-  position: -webkit-sticky;
   position: sticky;
   top: 56px;
   right: 0;
@@ -381,8 +380,6 @@
   display: block;
   position: absolute;
   -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
   pointer-events: none;
