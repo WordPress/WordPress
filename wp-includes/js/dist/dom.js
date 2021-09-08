@@ -124,6 +124,7 @@ __webpack_require__.d(__webpack_exports__, "insertAfter", function() { return /*
 __webpack_require__.d(__webpack_exports__, "unwrap", function() { return /* reexport */ unwrap; });
 __webpack_require__.d(__webpack_exports__, "replaceTag", function() { return /* reexport */ replaceTag; });
 __webpack_require__.d(__webpack_exports__, "wrap", function() { return /* reexport */ wrap; });
+__webpack_require__.d(__webpack_exports__, "safeHTML", function() { return /* reexport */ safeHTML; });
 
 // NAMESPACE OBJECT: ./node_modules/@wordpress/dom/build-module/focusable.js
 var focusable_namespaceObject = {};
@@ -958,6 +959,48 @@ function wrap(newNode, referenceNode) {
   newNode.appendChild(referenceNode);
 }
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/safe-html.js
+/**
+ * Internal dependencies
+ */
+
+/**
+ * Strips scripts and on* attributes from HTML.
+ *
+ * @param {string} html HTML to sanitize.
+ *
+ * @return {string} The sanitized HTML.
+ */
+
+function safeHTML(html) {
+  var _document$implementat = document.implementation.createHTMLDocument(''),
+      body = _document$implementat.body;
+
+  body.innerHTML = html;
+  var elements = body.getElementsByTagName('*');
+  var elementIndex = elements.length;
+
+  while (elementIndex--) {
+    var element = elements[elementIndex];
+
+    if (element.tagName === 'SCRIPT') {
+      remove(element);
+    } else {
+      var attributeIndex = element.attributes.length;
+
+      while (attributeIndex--) {
+        var key = element.attributes[attributeIndex].name;
+
+        if (key.startsWith('on')) {
+          element.removeAttribute(key);
+        }
+      }
+    }
+  }
+
+  return body.innerHTML;
+}
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/index.js
 /**
  * Internal dependencies
@@ -968,6 +1011,7 @@ var build_module_focus = {
   focusable: focusable_namespaceObject,
   tabbable: tabbable_namespaceObject
 };
+
 
 
 

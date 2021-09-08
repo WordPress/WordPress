@@ -11202,6 +11202,8 @@ var diff = __webpack_require__("v2jn");
  */
 
 
+
+
 var block_view_BlockView = function BlockView(_ref) {
   var title = _ref.title,
       rawContent = _ref.rawContent,
@@ -11219,7 +11221,7 @@ var block_view_BlockView = function BlockView(_ref) {
     className: "editor-block-compare__html"
   }, rawContent), Object(external_this_wp_element_["createElement"])("div", {
     className: "editor-block-compare__preview edit-post-visual-editor"
-  }, renderedContent)), Object(external_this_wp_element_["createElement"])("div", {
+  }, Object(external_this_wp_element_["createElement"])(external_this_wp_element_["RawHTML"], null, Object(external_this_wp_dom_["safeHTML"])(renderedContent)))), Object(external_this_wp_element_["createElement"])("div", {
     className: "editor-block-compare__action"
   }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Button"], {
     isLarge: true,
@@ -11284,14 +11286,6 @@ function (_Component) {
       });
     }
   }, {
-    key: "getOriginalContent",
-    value: function getOriginalContent(block) {
-      return {
-        rawContent: block.originalContent,
-        renderedContent: Object(external_this_wp_blocks_["getSaveElement"])(block.name, block.attributes)
-      };
-    }
-  }, {
     key: "getConvertedContent",
     value: function getConvertedContent(block) {
       // The convertor may return an array of items or a single item
@@ -11300,13 +11294,7 @@ function (_Component) {
       var newContent = newBlocks.map(function (item) {
         return Object(external_this_wp_blocks_["getSaveContent"])(item.name, item.attributes, item.innerBlocks);
       });
-      var renderedContent = newBlocks.map(function (item) {
-        return Object(external_this_wp_blocks_["getSaveElement"])(item.name, item.attributes, item.innerBlocks);
-      });
-      return {
-        rawContent: newContent.join(''),
-        renderedContent: renderedContent
-      };
+      return newContent.join('');
     }
   }, {
     key: "render",
@@ -11317,9 +11305,8 @@ function (_Component) {
           onConvert = _this$props.onConvert,
           convertor = _this$props.convertor,
           convertButtonText = _this$props.convertButtonText;
-      var original = this.getOriginalContent(block);
       var converted = this.getConvertedContent(convertor(block));
-      var difference = this.getDifference(original.rawContent, converted.rawContent);
+      var difference = this.getDifference(block.originalContent, converted);
       return Object(external_this_wp_element_["createElement"])("div", {
         className: "editor-block-compare__wrapper"
       }, Object(external_this_wp_element_["createElement"])(block_view, {
@@ -11327,15 +11314,15 @@ function (_Component) {
         className: "editor-block-compare__current",
         action: onKeep,
         actionText: Object(external_this_wp_i18n_["__"])('Convert to HTML'),
-        rawContent: original.rawContent,
-        renderedContent: original.renderedContent
+        rawContent: block.originalContent,
+        renderedContent: block.originalContent
       }), Object(external_this_wp_element_["createElement"])(block_view, {
         title: Object(external_this_wp_i18n_["__"])('After Conversion'),
         className: "editor-block-compare__converted",
         action: onConvert,
         actionText: convertButtonText,
         rawContent: difference,
-        renderedContent: converted.renderedContent
+        renderedContent: converted
       }));
     }
   }]);
@@ -14024,7 +14011,7 @@ function (_Component) {
           clientId: clientId
         }), Object(external_this_wp_element_["createElement"])("div", {
           key: "invalid-preview"
-        }, Object(external_this_wp_blocks_["getSaveElement"])(blockType, attributes))]), shouldShowMobileToolbar && Object(external_this_wp_element_["createElement"])(block_mobile_toolbar, {
+        }, Object(external_this_wp_element_["createElement"])(external_this_wp_element_["RawHTML"], null, Object(external_this_wp_dom_["safeHTML"])(Object(external_this_wp_blocks_["getSaveContent"])(blockType, attributes))))]), shouldShowMobileToolbar && Object(external_this_wp_element_["createElement"])(block_mobile_toolbar, {
           clientId: clientId
         }), !!error && Object(external_this_wp_element_["createElement"])(block_crash_warning, null))), showEmptyBlockSideInserter && Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])("div", {
           className: "editor-block-list__side-inserter"

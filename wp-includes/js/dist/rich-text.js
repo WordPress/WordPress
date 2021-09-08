@@ -1658,6 +1658,22 @@ function createFromElement(_ref3) {
       continue;
     }
 
+    if (type === 'script') {
+      var _value = {
+        formats: [,],
+        replacements: [{
+          type: type,
+          attributes: {
+            'data-rich-text-script': node.getAttribute('data-rich-text-script') || encodeURIComponent(node.innerHTML)
+          }
+        }],
+        text: OBJECT_REPLACEMENT_CHARACTER
+      };
+      accumulateSelection(accumulator, node, range, _value);
+      mergePair(accumulator, _value);
+      continue;
+    }
+
     if (type === 'br') {
       accumulateSelection(accumulator, node, range, createEmptyValue());
       accumulator.text += '\n';
@@ -1891,8 +1907,9 @@ function getAttributes(_ref5) {
       continue;
     }
 
+    var safeName = /^on/i.test(name) ? 'data-disable-rich-text-' + name : name;
     accumulator = accumulator || {};
-    accumulator[name] = value;
+    accumulator[safeName] = value;
   }
 
   return accumulator;
@@ -2648,17 +2665,38 @@ function get_format_type_getFormatType(name) {
 
 
 
+function restoreOnAttributes(attributes, isEditableTree) {
+  if (isEditableTree) {
+    return attributes;
+  }
+
+  var newAttributes = {};
+
+  for (var key in attributes) {
+    var newKey = key;
+
+    if (key.startsWith('data-disable-rich-text-')) {
+      newKey = key.slice('data-disable-rich-text-'.length);
+    }
+
+    newAttributes[newKey] = attributes[key];
+  }
+
+  return newAttributes;
+}
+
 function fromFormat(_ref) {
   var type = _ref.type,
       attributes = _ref.attributes,
       unregisteredAttributes = _ref.unregisteredAttributes,
-      object = _ref.object;
+      object = _ref.object,
+      isEditableTree = _ref.isEditableTree;
   var formatType = get_format_type_getFormatType(type);
 
   if (!formatType) {
     return {
       type: type,
-      attributes: attributes,
+      attributes: restoreOnAttributes(attributes, isEditableTree),
       object: object
     };
   }
@@ -2686,7 +2724,7 @@ function fromFormat(_ref) {
   return {
     type: formatType.tagName,
     object: formatType.object,
-    attributes: elementAttributes
+    attributes: restoreOnAttributes(elementAttributes, isEditableTree)
   };
 }
 
@@ -2792,7 +2830,15 @@ function toTree(_ref2) {
         }
 
         var parent = getParent(pointer);
-        var newNode = append(parent, fromFormat(format));
+        var type = format.type,
+            attributes = format.attributes,
+            unregisteredAttributes = format.unregisteredAttributes;
+        var newNode = append(parent, fromFormat({
+          type: type,
+          attributes: attributes,
+          unregisteredAttributes: unregisteredAttributes,
+          isEditableTree: isEditableTree
+        }));
 
         if (isText(pointer) && getText(pointer).length === 0) {
           remove(pointer);
@@ -2821,19 +2867,35 @@ function toTree(_ref2) {
       }
     }
 
-    if (character !== OBJECT_REPLACEMENT_CHARACTER) {
-      if (character === '\n') {
-        pointer = append(getParent(pointer), {
-          type: 'br',
-          object: true
-        }); // Ensure pointer is text node.
-
-        pointer = append(getParent(pointer), '');
-      } else if (!isText(pointer)) {
-        pointer = append(getParent(pointer), character);
+    if (character === OBJECT_REPLACEMENT_CHARACTER) {
+      if (!isEditableTree && replacements[i].type === 'script') {
+        pointer = append(getParent(pointer), fromFormat({
+          type: 'script',
+          isEditableTree: isEditableTree
+        }));
+        append(pointer, {
+          html: decodeURIComponent(replacements[i].attributes['data-rich-text-script'])
+        });
       } else {
-        appendText(pointer, character);
-      }
+        pointer = append(getParent(pointer), fromFormat(Object(objectSpread["a" /* default */])({}, replacements[i], {
+          object: true,
+          isEditableTree: isEditableTree
+        })));
+      } // Ensure pointer is text node.
+
+
+      pointer = append(getParent(pointer), '');
+    } else if (character === '\n') {
+      pointer = append(getParent(pointer), {
+        type: 'br',
+        object: true
+      }); // Ensure pointer is text node.
+
+      pointer = append(getParent(pointer), '');
+    } else if (!isText(pointer)) {
+      pointer = append(getParent(pointer), character);
+    } else {
+      appendText(pointer, character);
     }
 
     pointer = setFormatPlaceholder(pointer, i + 1);
@@ -3307,6 +3369,10 @@ function createElementHTML(_ref6) {
 function createChildrenHTML() {
   var children = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   return children.map(function (child) {
+    if (child.html !== undefined) {
+      return child.html;
+    }
+
     return child.text === undefined ? createElementHTML(child) : Object(external_this_wp_escapeHtml_["escapeHTML"])(child.text);
   }).join('');
 }

@@ -87,6 +87,13 @@ this["wp"] = this["wp"] || {}; this["wp"]["blockLibrary"] =
 /************************************************************************/
 /******/ ({
 
+/***/ "1CF3":
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["dom"]; }());
+
+/***/ }),
+
 /***/ "1OyB":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -11099,12 +11106,16 @@ var list_settings = {
   }
 };
 
+// EXTERNAL MODULE: external {"this":["wp","dom"]}
+var external_this_wp_dom_ = __webpack_require__("1CF3");
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/missing/index.js
 
 
 /**
  * WordPress dependencies
  */
+
 
 
 
@@ -11136,7 +11147,7 @@ function MissingBlockWarning(_ref) {
 
   return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_editor_["Warning"], {
     actions: actions
-  }, messageHTML), Object(external_this_wp_element_["createElement"])(external_this_wp_element_["RawHTML"], null, originalUndelimitedContent));
+  }, messageHTML), Object(external_this_wp_element_["createElement"])(external_this_wp_element_["RawHTML"], null, Object(external_this_wp_dom_["safeHTML"])(originalUndelimitedContent)));
 }
 
 var missing_edit = Object(external_this_wp_data_["withDispatch"])(function (dispatch, _ref2) {
@@ -12360,7 +12371,7 @@ var shortcode_settings = {
   attributes: {
     text: {
       type: 'string',
-      source: 'html'
+      source: 'text'
     }
   },
   transforms: {
