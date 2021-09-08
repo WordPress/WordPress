@@ -1800,6 +1800,12 @@ body.admin-color-light .block-editor-block-list__insertion-point-indicator{
   .block-editor-rich-text__inline-toolbar ul.components-toolbar {
     box-shadow: 0 2px 10px rgba(25, 30, 35, 0.1), 0 0 2px rgba(25, 30, 35, 0.1); }
 
+[data-rich-text-script] {
+  display: inline; }
+  [data-rich-text-script]::before {
+    content: "</>";
+    background: yellow; }
+
 .block-editor-skip-to-selected-block {
   position: absolute;
   top: -9999em; }
