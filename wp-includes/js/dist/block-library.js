@@ -87,6 +87,13 @@ this["wp"] = this["wp"] || {}; this["wp"]["blockLibrary"] =
 /************************************************************************/
 /******/ ({
 
+/***/ "1CF3":
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["dom"]; }());
+
+/***/ }),
+
 /***/ "1K8p":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1215,12 +1222,30 @@ return FastAverageColor;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectWithoutProperties; });
-/* harmony import */ var _babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("zLVn");
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _objectWithoutProperties; });
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js
+function _objectWithoutPropertiesLoose(source, excluded) {
+  if (source == null) return {};
+  var target = {};
+  var sourceKeys = Object.keys(source);
+  var key, i;
+
+  for (i = 0; i < sourceKeys.length; i++) {
+    key = sourceKeys[i];
+    if (excluded.indexOf(key) >= 0) continue;
+    target[key] = source[key];
+  }
+
+  return target;
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js
 
 function _objectWithoutProperties(source, excluded) {
   if (source == null) return {};
-  var target = Object(_babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(source, excluded);
+  var target = _objectWithoutPropertiesLoose(source, excluded);
   var key, i;
 
   if (Object.getOwnPropertySymbols) {
@@ -3392,7 +3417,7 @@ function index_module_classNames() {
   }).join(' ').trim();
 }
 
-var css_248z = ".reactEasyCrop_Container {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  overflow: hidden;\n  user-select: none;\n  touch-action: none;\n  cursor: move;\n}\n\n.reactEasyCrop_Image,\n.reactEasyCrop_Video {\n  max-width: 100%;\n  max-height: 100%;\n  margin: auto;\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  will-change: transform; /* this improves performances and prevent painting issues on iOS Chrome */\n}\n\n.reactEasyCrop_CropArea {\n  position: absolute;\n  left: 50%;\n  top: 50%;\n  transform: translate(-50%, -50%);\n  border: 1px solid rgba(255, 255, 255, 0.5);\n  box-sizing: border-box;\n  box-shadow: 0 0 0 9999em;\n  color: rgba(0, 0, 0, 0.5);\n  overflow: hidden;\n}\n\n.reactEasyCrop_CropAreaRound {\n  border-radius: 50%;\n}\n\n.reactEasyCrop_CropAreaGrid::before {\n  content: ' ';\n  box-sizing: border-box;\n  position: absolute;\n  border: 1px solid rgba(255, 255, 255, 0.5);\n  top: 0;\n  bottom: 0;\n  left: 33.33%;\n  right: 33.33%;\n  border-top: 0;\n  border-bottom: 0;\n}\n\n.reactEasyCrop_CropAreaGrid::after {\n  content: ' ';\n  box-sizing: border-box;\n  position: absolute;\n  border: 1px solid rgba(255, 255, 255, 0.5);\n  top: 33.33%;\n  bottom: 33.33%;\n  left: 0;\n  right: 0;\n  border-left: 0;\n  border-right: 0;\n}\n";
+var css_248z = ".reactEasyCrop_Container {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  overflow: hidden;\n  user-select: none;\n  touch-action: none;\n  cursor: move;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n\n.reactEasyCrop_Image,\n.reactEasyCrop_Video {\n  will-change: transform; /* this improves performances and prevent painting issues on iOS Chrome */\n}\n\n.reactEasyCrop_Contain {\n  max-width: 100%;\n  max-height: 100%;\n  margin: auto;\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n}\n.reactEasyCrop_Cover_Horizontal {\n  width: 100%;\n  height: auto;\n}\n.reactEasyCrop_Cover_Vertical {\n  width: auto;\n  height: 100%;\n}\n\n.reactEasyCrop_CropArea {\n  position: absolute;\n  left: 50%;\n  top: 50%;\n  transform: translate(-50%, -50%);\n  border: 1px solid rgba(255, 255, 255, 0.5);\n  box-sizing: border-box;\n  box-shadow: 0 0 0 9999em;\n  color: rgba(0, 0, 0, 0.5);\n  overflow: hidden;\n}\n\n.reactEasyCrop_CropAreaRound {\n  border-radius: 50%;\n}\n\n.reactEasyCrop_CropAreaGrid::before {\n  content: ' ';\n  box-sizing: border-box;\n  position: absolute;\n  border: 1px solid rgba(255, 255, 255, 0.5);\n  top: 0;\n  bottom: 0;\n  left: 33.33%;\n  right: 33.33%;\n  border-top: 0;\n  border-bottom: 0;\n}\n\n.reactEasyCrop_CropAreaGrid::after {\n  content: ' ';\n  box-sizing: border-box;\n  position: absolute;\n  border: 1px solid rgba(255, 255, 255, 0.5);\n  top: 33.33%;\n  bottom: 33.33%;\n  left: 0;\n  right: 0;\n  border-left: 0;\n  border-right: 0;\n}\n";
 
 var MIN_ZOOM = 1;
 var MAX_ZOOM = 3;
@@ -3759,7 +3784,7 @@ function (_super) {
   };
 
   Cropper.prototype.componentDidUpdate = function (prevProps) {
-    var _a, _b, _c, _d, _e, _f, _g, _h;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j;
 
     if (prevProps.rotation !== this.props.rotation) {
       this.computeSizes();
@@ -3778,6 +3803,10 @@ function (_super) {
       this.props.zoomWithScroll ? this.containerRef.addEventListener('wheel', this.onWheel, {
         passive: false
       }) : this.clearScrollEvent();
+    }
+
+    if (prevProps.video !== this.props.video) {
+      (_j = this.videoRef) === null || _j === void 0 ? void 0 : _j.load();
     }
   };
 
@@ -3845,7 +3874,8 @@ function (_super) {
         _d = _a.classes,
         containerClassName = _d.containerClassName,
         cropAreaClassName = _d.cropAreaClassName,
-        mediaClassName = _d.mediaClassName;
+        mediaClassName = _d.mediaClassName,
+        objectFit = _a.objectFit;
     return /*#__PURE__*/external_React_default.a.createElement("div", {
       onMouseDown: this.onMouseDown,
       onTouchStart: this.onTouchStart,
@@ -3857,7 +3887,7 @@ function (_super) {
       className: index_module_classNames('reactEasyCrop_Container', containerClassName)
     }, image ? /*#__PURE__*/external_React_default.a.createElement("img", __assign({
       alt: "",
-      className: index_module_classNames('reactEasyCrop_Image', mediaClassName)
+      className: index_module_classNames('reactEasyCrop_Image', objectFit === 'contain' && 'reactEasyCrop_Contain', objectFit === 'horizontal-cover' && 'reactEasyCrop_Cover_Horizontal', objectFit === 'vertical-cover' && 'reactEasyCrop_Cover_Vertical', mediaClassName)
     }, mediaProps, {
       src: image,
       ref: function ref(el) {
@@ -3871,9 +3901,8 @@ function (_super) {
       autoPlay: true,
       loop: true,
       muted: true,
-      className: index_module_classNames('reactEasyCrop_Video', mediaClassName)
+      className: index_module_classNames('reactEasyCrop_Video', objectFit === 'contain' && 'reactEasyCrop_Contain', objectFit === 'horizontal-cover' && 'reactEasyCrop_Cover_Horizontal', objectFit === 'vertical-cover' && 'reactEasyCrop_Cover_Vertical', mediaClassName)
     }, mediaProps, {
-      src: video,
       ref: function ref(el) {
         return _this.videoRef = el;
       },
@@ -3882,6 +3911,12 @@ function (_super) {
         transform: transform || "translate(" + x + "px, " + y + "px) rotate(" + rotation + "deg) scale(" + zoom + ")"
       }),
       controls: false
+    }), (Array.isArray(video) ? video : [{
+      src: video
+    }]).map(function (item) {
+      return /*#__PURE__*/external_React_default.a.createElement("source", __assign({
+        key: item.src
+      }, item));
     })), this.state.cropSize && /*#__PURE__*/external_React_default.a.createElement("div", {
       style: __assign(__assign({}, cropAreaStyle), {
         width: this.state.cropSize.width,
@@ -3899,6 +3934,7 @@ function (_super) {
     maxZoom: MAX_ZOOM,
     minZoom: MIN_ZOOM,
     cropShape: 'rect',
+    objectFit: 'contain',
     showGrid: true,
     style: {},
     classes: {},
@@ -5835,7 +5871,7 @@ var heading = Object(external_wp_element_["createElement"])(external_wp_primitiv
 }));
 /* harmony default export */ var library_heading = (heading);
 
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js + 1 modules
 var objectWithoutProperties = __webpack_require__("Ff2n");
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/heading/deprecated.js
@@ -19191,12 +19227,16 @@ var list_settings = {
   save: list_save_save
 };
 
+// EXTERNAL MODULE: external ["wp","dom"]
+var external_wp_dom_ = __webpack_require__("1CF3");
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/missing/edit.js
 
 
 /**
  * WordPress dependencies
  */
+
 
 
 
@@ -19231,7 +19271,7 @@ function MissingBlockWarning(_ref) {
 
   return Object(external_wp_element_["createElement"])("div", Object(external_wp_blockEditor_["useBlockProps"])(), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["Warning"], {
     actions: actions
-  }, messageHTML), Object(external_wp_element_["createElement"])(external_wp_element_["RawHTML"], null, originalUndelimitedContent));
+  }, messageHTML), Object(external_wp_element_["createElement"])(external_wp_element_["RawHTML"], null, Object(external_wp_dom_["safeHTML"])(originalUndelimitedContent)));
 }
 
 var MissingEdit = Object(external_wp_data_["withDispatch"])(function (dispatch, _ref2) {
@@ -29779,28 +29819,6 @@ function _extends() {
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["apiFetch"]; }());
-
-/***/ }),
-
-/***/ "zLVn":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectWithoutPropertiesLoose; });
-function _objectWithoutPropertiesLoose(source, excluded) {
-  if (source == null) return {};
-  var target = {};
-  var sourceKeys = Object.keys(source);
-  var key, i;
-
-  for (i = 0; i < sourceKeys.length; i++) {
-    key = sourceKeys[i];
-    if (excluded.indexOf(key) >= 0) continue;
-    target[key] = source[key];
-  }
-
-  return target;
-}
 
 /***/ }),
 

@@ -948,12 +948,30 @@ function _arrayWithHoles(arr) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectWithoutProperties; });
-/* harmony import */ var _babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("zLVn");
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "a", function() { return /* binding */ _objectWithoutProperties; });
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js
+function _objectWithoutPropertiesLoose(source, excluded) {
+  if (source == null) return {};
+  var target = {};
+  var sourceKeys = Object.keys(source);
+  var key, i;
+
+  for (i = 0; i < sourceKeys.length; i++) {
+    key = sourceKeys[i];
+    if (excluded.indexOf(key) >= 0) continue;
+    target[key] = source[key];
+  }
+
+  return target;
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js
 
 function _objectWithoutProperties(source, excluded) {
   if (source == null) return {};
-  var target = Object(_babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(source, excluded);
+  var target = _objectWithoutPropertiesLoose(source, excluded);
   var key, i;
 
   if (Object.getOwnPropertySymbols) {
@@ -983,7 +1001,7 @@ function _objectWithoutProperties(source, excluded) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
-	autosize 4.0.2
+	autosize 4.0.4
 	license: MIT
 	http://www.jacklmoore.com/autosize
 */
@@ -9102,7 +9120,7 @@ function __experimentalUseGradient() {
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js + 1 modules
 var slicedToArray = __webpack_require__("ODXe");
 
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js + 1 modules
 var objectWithoutProperties = __webpack_require__("Ff2n");
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/colors-gradients/control.js
@@ -20045,7 +20063,8 @@ var diff_character = __webpack_require__("iA5R");
  */
 
 
-var block_view_BlockView = function BlockView(_ref) {
+
+function BlockView(_ref) {
   var title = _ref.title,
       rawContent = _ref.rawContent,
       renderedContent = _ref.renderedContent,
@@ -20062,16 +20081,14 @@ var block_view_BlockView = function BlockView(_ref) {
     className: "block-editor-block-compare__html"
   }, rawContent), Object(external_wp_element_["createElement"])("div", {
     className: "block-editor-block-compare__preview edit-post-visual-editor"
-  }, renderedContent)), Object(external_wp_element_["createElement"])("div", {
+  }, Object(external_wp_element_["createElement"])(external_wp_element_["RawHTML"], null, Object(external_wp_dom_["safeHTML"])(renderedContent)))), Object(external_wp_element_["createElement"])("div", {
     className: "block-editor-block-compare__action"
   }, Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
     isSecondary: true,
     tabIndex: "0",
     onClick: action
   }, actionText)));
-};
-
-/* harmony default export */ var block_view = (block_view_BlockView);
+}
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/block-compare/index.js
 
@@ -20124,37 +20141,27 @@ function BlockCompare(_ref) {
     var newContent = newBlocks.map(function (item) {
       return Object(external_wp_blocks_["getSaveContent"])(item.name, item.attributes, item.innerBlocks);
     });
-    var renderedContent = newBlocks.map(function (item) {
-      return Object(external_wp_blocks_["getSaveElement"])(item.name, item.attributes, item.innerBlocks);
-    });
-    return {
-      rawContent: newContent.join(''),
-      renderedContent: renderedContent
-    };
+    return newContent.join('');
   }
 
-  var original = {
-    rawContent: block.originalContent,
-    renderedContent: Object(external_wp_blocks_["getSaveElement"])(block.name, block.attributes)
-  };
   var converted = getConvertedContent(convertor(block));
-  var difference = getDifference(original.rawContent, converted.rawContent);
+  var difference = getDifference(block.originalContent, converted);
   return Object(external_wp_element_["createElement"])("div", {
     className: "block-editor-block-compare__wrapper"
-  }, Object(external_wp_element_["createElement"])(block_view, {
+  }, Object(external_wp_element_["createElement"])(BlockView, {
     title: Object(external_wp_i18n_["__"])('Current'),
     className: "block-editor-block-compare__current",
     action: onKeep,
     actionText: Object(external_wp_i18n_["__"])('Convert to HTML'),
-    rawContent: original.rawContent,
-    renderedContent: original.renderedContent
-  }), Object(external_wp_element_["createElement"])(block_view, {
+    rawContent: block.originalContent,
+    renderedContent: block.originalContent
+  }), Object(external_wp_element_["createElement"])(BlockView, {
     title: Object(external_wp_i18n_["__"])('After Conversion'),
     className: "block-editor-block-compare__converted",
     action: onConvert,
     actionText: convertButtonText,
     rawContent: difference,
-    renderedContent: converted.renderedContent
+    renderedContent: converted
   }));
 }
 
@@ -28324,6 +28331,7 @@ function block_objectSpread(target) { for (var i = 1; i < arguments.length; i++)
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -28509,9 +28517,10 @@ function block_BlockListBlock(_ref2) {
   var block;
 
   if (!isValid) {
+    var saveContent = Object(external_wp_blocks_["getSaveContent"])(blockType, attributes);
     block = Object(external_wp_element_["createElement"])(Block, null, Object(external_wp_element_["createElement"])(block_invalid_warning, {
       clientId: clientId
-    }), Object(external_wp_element_["createElement"])("div", null, Object(external_wp_blocks_["getSaveElement"])(blockType, attributes)));
+    }), Object(external_wp_element_["createElement"])(external_wp_element_["RawHTML"], null, Object(external_wp_dom_["safeHTML"])(saveContent)));
   } else if (mode === 'html') {
     // Render blockEdit so the inspector controls don't disappear.
     // See #8969.
@@ -38454,28 +38463,6 @@ function _extends() {
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["blob"]; }());
-
-/***/ }),
-
-/***/ "zLVn":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectWithoutPropertiesLoose; });
-function _objectWithoutPropertiesLoose(source, excluded) {
-  if (source == null) return {};
-  var target = {};
-  var sourceKeys = Object.keys(source);
-  var key, i;
-
-  for (i = 0; i < sourceKeys.length; i++) {
-    key = sourceKeys[i];
-    if (excluded.indexOf(key) >= 0) continue;
-    target[key] = source[key];
-  }
-
-  return target;
-}
 
 /***/ }),
 

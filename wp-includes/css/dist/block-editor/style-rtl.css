@@ -2508,6 +2508,14 @@ figcaption.block-editor-rich-text__editable [data-rich-text-placeholder]::before
   padding-left: 12px;
 }
 
+[data-rich-text-script] {
+  display: inline;
+}
+[data-rich-text-script]::before {
+  content: "</>";
+  background: yellow;
+}
+
 .block-editor-skip-to-selected-block {
   position: absolute;
   top: -9999em;

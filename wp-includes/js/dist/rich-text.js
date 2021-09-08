@@ -1520,6 +1520,22 @@ function createFromElement(_ref3) {
       return "continue";
     }
 
+    if (type === 'script') {
+      var _value = {
+        formats: [,],
+        replacements: [{
+          type: type,
+          attributes: {
+            'data-rich-text-script': node.getAttribute('data-rich-text-script') || encodeURIComponent(node.innerHTML)
+          }
+        }],
+        text: OBJECT_REPLACEMENT_CHARACTER
+      };
+      accumulateSelection(accumulator, node, range, _value);
+      mergePair(accumulator, _value);
+      return "continue";
+    }
+
     if (type === 'br') {
       accumulateSelection(accumulator, node, range, createEmptyValue());
       mergePair(accumulator, create({
@@ -1539,7 +1555,7 @@ function createFromElement(_ref3) {
     var format = isFormatEqual(newFormat, lastFormat) ? lastFormat : newFormat;
 
     if (multilineWrapperTags && multilineWrapperTags.indexOf(type) !== -1) {
-      var _value = createFromMultilineElement({
+      var _value2 = createFromMultilineElement({
         element: node,
         range: range,
         multilineTag: multilineTag,
@@ -1549,8 +1565,8 @@ function createFromElement(_ref3) {
         preserveWhiteSpace: preserveWhiteSpace
       });
 
-      accumulateSelection(accumulator, node, range, _value);
-      mergePair(accumulator, _value);
+      accumulateSelection(accumulator, node, range, _value2);
+      mergePair(accumulator, _value2);
       return "continue";
     }
 
@@ -1704,8 +1720,9 @@ function getAttributes(_ref5) {
       continue;
     }
 
+    var safeName = /^on/i.test(name) ? 'data-disable-rich-text-' + name : name;
     accumulator = accumulator || {};
-    accumulator[name] = value;
+    accumulator[safeName] = value;
   }
 
   return accumulator;
@@ -2720,6 +2737,26 @@ function to_tree_objectSpread(target) { for (var i = 1; i < arguments.length; i+
 
 
 
+
+function restoreOnAttributes(attributes, isEditableTree) {
+  if (isEditableTree) {
+    return attributes;
+  }
+
+  var newAttributes = {};
+
+  for (var key in attributes) {
+    var newKey = key;
+
+    if (key.startsWith('data-disable-rich-text-')) {
+      newKey = key.slice('data-disable-rich-text-'.length);
+    }
+
+    newAttributes[newKey] = attributes[key];
+  }
+
+  return newAttributes;
+}
 /**
  * Converts a format object to information that can be used to create an element
  * from (type, attributes and object).
@@ -2733,16 +2770,19 @@ function to_tree_objectSpread(target) { for (var i = 1; i < arguments.length; i+
  *                                             format.
  * @param  {boolean} $1.boundaryClass          Whether or not to apply a boundary
  *                                             class.
+ * @param  {boolean} $1.isEditableTree
  * @return {Object}                            Information to be used for
  *                                             element creation.
  */
+
 
 function fromFormat(_ref) {
   var type = _ref.type,
       attributes = _ref.attributes,
       unregisteredAttributes = _ref.unregisteredAttributes,
       object = _ref.object,
-      boundaryClass = _ref.boundaryClass;
+      boundaryClass = _ref.boundaryClass,
+      isEditableTree = _ref.isEditableTree;
   var formatType = get_format_type_getFormatType(type);
   var elementAttributes = {};
 
@@ -2757,7 +2797,7 @@ function fromFormat(_ref) {
 
     return {
       type: type,
-      attributes: elementAttributes,
+      attributes: restoreOnAttributes(elementAttributes, isEditableTree),
       object: object
     };
   }
@@ -2785,7 +2825,7 @@ function fromFormat(_ref) {
   return {
     type: formatType.tagName,
     object: formatType.object,
-    attributes: elementAttributes
+    attributes: restoreOnAttributes(elementAttributes, isEditableTree)
   };
 }
 /**
@@ -2915,7 +2955,8 @@ function toTree(_ref2) {
           type: type,
           attributes: attributes,
           unregisteredAttributes: unregisteredAttributes,
-          boundaryClass: boundaryClass
+          boundaryClass: boundaryClass,
+          isEditableTree: isEditableTree
         }));
 
         if (isText(pointer) && getText(pointer).length === 0) {
@@ -2945,9 +2986,21 @@ function toTree(_ref2) {
     }
 
     if (character === OBJECT_REPLACEMENT_CHARACTER) {
-      pointer = append(getParent(pointer), fromFormat(to_tree_objectSpread(to_tree_objectSpread({}, replacements[i]), {}, {
-        object: true
-      }))); // Ensure pointer is text node.
+      if (!isEditableTree && replacements[i].type === 'script') {
+        pointer = append(getParent(pointer), fromFormat({
+          type: 'script',
+          isEditableTree: isEditableTree
+        }));
+        append(pointer, {
+          html: decodeURIComponent(replacements[i].attributes['data-rich-text-script'])
+        });
+      } else {
+        pointer = append(getParent(pointer), fromFormat(to_tree_objectSpread(to_tree_objectSpread({}, replacements[i]), {}, {
+          object: true,
+          isEditableTree: isEditableTree
+        })));
+      } // Ensure pointer is text node.
+
 
       pointer = append(getParent(pointer), '');
     } else if (!preserveWhiteSpace && character === '\n') {
@@ -3456,6 +3509,10 @@ function createElementHTML(_ref6) {
 function createChildrenHTML() {
   var children = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   return children.map(function (child) {
+    if (child.html !== undefined) {
+      return child.html;
+    }
+
     return child.text === undefined ? createElementHTML(child) : Object(external_wp_escapeHtml_["escapeEditableHTML"])(child.text);
   }).join('');
 }
