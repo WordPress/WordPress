@@ -435,7 +435,7 @@ window.edToolbar = function(){};
 			ariaLabel = this.attr && this.attr.ariaLabel ? ' aria-label="' + _escape( this.attr.ariaLabel ) + '"' : '',
 			val = this.display ? ' value="' + _escape( this.display ) + '"' : '',
 			id = this.id ? ' id="' + _escape( idPrefix + this.id ) + '"' : '',
-			dfw = ( wp = window.wp ) && wp.oldEditor && wp.oldEditor.dfw;
+			dfw = ( wp = window.wp ) && wp.editor && wp.editor.dfw;
 
 		if ( this.id === 'fullscreen' ) {
 			return '<button type="button"' + id + ' class="ed_button qt-dfw qt-fullscreen"' + title + ariaLabel + '></button>';
@@ -681,11 +681,11 @@ window.edToolbar = function(){};
 	qt.DFWButton.prototype.callback = function() {
 		var wp;
 
-		if ( ! ( wp = window.wp ) || ! wp.oldEditor || ! wp.oldEditor.dfw ) {
+		if ( ! ( wp = window.wp ) || ! wp.editor || ! wp.editor.dfw ) {
 			return;
 		}
 
-		window.wp.oldEditor.dfw.toggle();
+		window.wp.editor.dfw.toggle();
 	};
 
 	qt.TextDirectionButton = function() {
