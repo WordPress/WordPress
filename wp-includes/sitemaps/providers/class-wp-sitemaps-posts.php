@@ -53,12 +53,18 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider {
 	 * Gets a URL list for a post type sitemap.
 	 *
 	 * @since 5.5.0
+	 * @since 5.9.0 Renamed `$post_type` to `$object_subtype` to match parent class
+	 *              for PHP 8 named parameter support.
 	 *
-	 * @param int    $page_num  Page of results.
-	 * @param string $post_type Optional. Post type name. Default empty.
+	 * @param int    $page_num       Page of results.
+	 * @param string $object_subtype Optional. Post type name. Default empty.
+	 *
 	 * @return array Array of URLs for a sitemap.
 	 */
-	public function get_url_list( $page_num, $post_type = '' ) {
+	public function get_url_list( $page_num, $object_subtype = '' ) {
+		// Restores the more descriptive, specific name for use within this method.
+		$post_type = $object_subtype;
+
 		// Bail early if the queried post type is not supported.
 		$supported_types = $this->get_object_subtypes();
 

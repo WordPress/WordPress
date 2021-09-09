@@ -51,12 +51,16 @@ class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider {
 	 * Gets a URL list for a taxonomy sitemap.
 	 *
 	 * @since 5.5.0
+	 * @since 5.9.0 Renamed `$taxonomy` to `$object_subtype` to match parent class
+	 *              for PHP 8 named parameter support.
 	 *
-	 * @param int    $page_num Page of results.
-	 * @param string $taxonomy Optional. Taxonomy name. Default empty.
+	 * @param int    $page_num       Page of results.
+	 * @param string $object_subtype Optional. Taxonomy name. Default empty.
 	 * @return array Array of URLs for a sitemap.
 	 */
-	public function get_url_list( $page_num, $taxonomy = '' ) {
+	public function get_url_list( $page_num, $object_subtype = '' ) {
+		// Restores the more descriptive, specific name for use within this method.
+		$taxonomy        = $object_subtype;
 		$supported_types = $this->get_object_subtypes();
 
 		// Bail early if the queried taxonomy is not supported.
