@@ -259,16 +259,18 @@ abstract class WP_Widget_Media extends WP_Widget {
 	 * Sanitizes the widget form values as they are saved.
 	 *
 	 * @since 4.8.0
+	 * @since 5.9.0 Renamed `$instance` to `$old_instance` to match parent class
+	 *              for PHP 8 named parameter support.
 	 *
 	 * @see WP_Widget::update()
 	 * @see WP_REST_Request::has_valid_params()
 	 * @see WP_REST_Request::sanitize_params()
 	 *
 	 * @param array $new_instance Values just sent to be saved.
-	 * @param array $instance     Previously saved values from database.
+	 * @param array $old_instance Previously saved values from database.
 	 * @return array Updated safe values to be saved.
 	 */
-	public function update( $new_instance, $instance ) {
+	public function update( $new_instance, $old_instance ) {
 
 		$schema = $this->get_instance_schema();
 		foreach ( $schema as $field => $field_schema ) {
@@ -303,10 +305,10 @@ abstract class WP_Widget_Media extends WP_Widget {
 			if ( is_wp_error( $value ) ) {
 				continue;
 			}
-			$instance[ $field ] = $value;
+			$old_instance[ $field ] = $value;
 		}
 
-		return $instance;
+		return $old_instance;
 	}
 
 	/**
