@@ -49,28 +49,30 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 	}
 
 	/**
-	 * @param string $string
-	 * @param mixed  ...$args Optional text replacements.
+	 * @since 5.9.0 Renamed `$string` (a PHP reserved keyword) to `$feedback` for PHP 8 named parameter support.
+	 *
+	 * @param string $feedback Message data.
+	 * @param mixed  ...$args  Optional text replacements.
 	 */
-	public function feedback( $string, ...$args ) {
-		if ( isset( $this->upgrader->strings[ $string ] ) ) {
-			$string = $this->upgrader->strings[ $string ];
+	public function feedback( $feedback, ...$args ) {
+		if ( isset( $this->upgrader->strings[ $feedback ] ) ) {
+			$feedback = $this->upgrader->strings[ $feedback ];
 		}
 
-		if ( strpos( $string, '%' ) !== false ) {
+		if ( strpos( $feedback, '%' ) !== false ) {
 			if ( $args ) {
-				$args   = array_map( 'strip_tags', $args );
-				$args   = array_map( 'esc_html', $args );
-				$string = vsprintf( $string, $args );
+				$args     = array_map( 'strip_tags', $args );
+				$args     = array_map( 'esc_html', $args );
+				$feedback = vsprintf( $feedback, $args );
 			}
 		}
-		if ( empty( $string ) ) {
+		if ( empty( $feedback ) ) {
 			return;
 		}
 		if ( $this->in_loop ) {
-			echo "$string<br />\n";
+			echo "$feedback<br />\n";
 		} else {
-			echo "<p>$string</p>\n";
+			echo "<p>$feedback</p>\n";
 		}
 	}
 
