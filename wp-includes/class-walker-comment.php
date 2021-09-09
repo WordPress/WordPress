@@ -157,20 +157,21 @@ class Walker_Comment extends Walker {
 	 * Starts the element output.
 	 *
 	 * @since 2.7.0
-	 * @since 5.9.0 Renamed `$comment` to `$data_object` to match parent class for PHP 8 named parameter support.
+	 * @since 5.9.0 Renamed `$comment` to `$data_object` and `$id` to `$current_object_id`
+	 *              to match parent class for PHP 8 named parameter support.
 	 *
 	 * @see Walker::start_el()
 	 * @see wp_list_comments()
 	 * @global int        $comment_depth
 	 * @global WP_Comment $comment       Global comment object.
 	 *
-	 * @param string     $output      Used to append additional content. Passed by reference.
-	 * @param WP_Comment $data_object Comment data object.
-	 * @param int        $depth       Optional. Depth of the current comment in reference to parents. Default 0.
-	 * @param array      $args        Optional. An array of arguments. Default empty array.
-	 * @param int        $id          Optional. ID of the current comment. Default 0 (unused).
+	 * @param string     $output            Used to append additional content. Passed by reference.
+	 * @param WP_Comment $data_object       Comment data object.
+	 * @param int        $depth             Optional. Depth of the current comment in reference to parents. Default 0.
+	 * @param array      $args              Optional. An array of arguments. Default empty array.
+	 * @param int        $current_object_id Optional. ID of the current comment. Default 0.
 	 */
-	public function start_el( &$output, $data_object, $depth = 0, $args = array(), $id = 0 ) {
+	public function start_el( &$output, $data_object, $depth = 0, $args = array(), $current_object_id = 0 ) {
 		// Restores the more descriptive, specific name for use within this method.
 		$comment = $data_object;
 

@@ -86,18 +86,19 @@ class Walker_Category extends Walker {
 	 * Starts the element output.
 	 *
 	 * @since 2.1.0
-	 * @since 5.9.0 Renamed `$category` to `$data_object` to match parent class for PHP 8 named parameter support.
+	 * @since 5.9.0 Renamed `$category` to `$data_object` and `$id` to `$current_object_id`
+	 *              to match parent class for PHP 8 named parameter support.
 	 *
 	 * @see Walker::start_el()
 	 *
-	 * @param string  $output      Used to append additional content (passed by reference).
-	 * @param WP_Term $data_object Category data object.
-	 * @param int     $depth       Optional. Depth of category in reference to parents. Default 0.
-	 * @param array   $args        Optional. An array of arguments. See wp_list_categories().
-	 *                             Default empty array.
-	 * @param int     $id          Optional. ID of the current category. Default 0.
+	 * @param string  $output            Used to append additional content (passed by reference).
+	 * @param WP_Term $data_object       Category data object.
+	 * @param int     $depth             Optional. Depth of category in reference to parents. Default 0.
+	 * @param array   $args              Optional. An array of arguments. See wp_list_categories().
+	 *                                   Default empty array.
+	 * @param int     $current_object_id Optional. ID of the current category. Default 0.
 	 */
-	public function start_el( &$output, $data_object, $depth = 0, $args = array(), $id = 0 ) {
+	public function start_el( &$output, $data_object, $depth = 0, $args = array(), $current_object_id = 0 ) {
 		// Restores the more descriptive, specific name for use within this method.
 		$category = $data_object;
 
@@ -135,12 +136,12 @@ class Walker_Category extends Walker {
 		 *     @type string $href  The href attribute.
 		 *     @type string $title The title attribute.
 		 * }
-		 * @param WP_Term $category Term data object.
-		 * @param int     $depth    Depth of category, used for padding.
-		 * @param array   $args     An array of arguments.
-		 * @param int     $id       ID of the current category.
+		 * @param WP_Term $category          Term data object.
+		 * @param int     $depth             Depth of category, used for padding.
+		 * @param array   $args              An array of arguments.
+		 * @param int     $current_object_id ID of the current category.
 		 */
-		$atts = apply_filters( 'category_list_link_attributes', $atts, $category, $depth, $args, $id );
+		$atts = apply_filters( 'category_list_link_attributes', $atts, $category, $depth, $args, $current_object_id );
 
 		$attributes = '';
 		foreach ( $atts as $attr => $value ) {

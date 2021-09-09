@@ -20,19 +20,21 @@ if ( ! class_exists( 'TwentyTwenty_Walker_Page' ) ) {
 		 * Outputs the beginning of the current element in the tree.
 		 *
 		 * @since Twenty Twenty 1.0
-		 * @since Twenty Twenty 1.9 Renamed `$page` to `$data_object` to match parent class for PHP 8 named parameter support.
+		 * @since Twenty Twenty 1.9 Renamed `$page` to `$data_object` and `$current_page` to `$current_object_id`
+		 *                          to match parent class for PHP 8 named parameter support.
 		 *
 		 * @see Walker::start_el()
 		 *
-		 * @param string  $output       Used to append additional content. Passed by reference.
-		 * @param WP_Post $data_object  Page data object.
-		 * @param int     $depth        Optional. Depth of page. Used for padding. Default 0.
-		 * @param array   $args         Optional. Array of arguments. Default empty array.
-		 * @param int     $current_page Optional. Page ID. Default 0.
+		 * @param string  $output            Used to append additional content. Passed by reference.
+		 * @param WP_Post $data_object       Page data object.
+		 * @param int     $depth             Optional. Depth of page. Used for padding. Default 0.
+		 * @param array   $args              Optional. Array of arguments. Default empty array.
+		 * @param int     $current_object_id Optional. ID of the current page. Default 0.
 		 */
-		public function start_el( &$output, $data_object, $depth = 0, $args = array(), $current_page = 0 ) {
+		public function start_el( &$output, $data_object, $depth = 0, $args = array(), $current_object_id = 0 ) {
 			// Restores the more descriptive, specific name for use within this method.
-			$page = $data_object;
+			$page            = $data_object;
+			$current_page_id = $current_object_id;
 
 			if ( isset( $args['item_spacing'] ) && 'preserve' === $args['item_spacing'] ) {
 				$t = "\t";
@@ -53,12 +55,12 @@ if ( ! class_exists( 'TwentyTwenty_Walker_Page' ) ) {
 				$css_class[] = 'page_item_has_children';
 			}
 
-			if ( ! empty( $current_page ) ) {
-				$_current_page = get_post( $current_page );
+			if ( ! empty( $current_page_id ) ) {
+				$_current_page = get_post( $current_page_id );
 				if ( $_current_page && in_array( $page->ID, $_current_page->ancestors, true ) ) {
 					$css_class[] = 'current_page_ancestor';
 				}
-				if ( $page->ID === $current_page ) {
+				if ( $page->ID === $current_page_id ) {
 					$css_class[] = 'current_page_item';
 				} elseif ( $_current_page && $page->ID === $_current_page->post_parent ) {
 					$css_class[] = 'current_page_parent';
@@ -68,7 +70,7 @@ if ( ! class_exists( 'TwentyTwenty_Walker_Page' ) ) {
 			}
 
 			/** This filter is documented in wp-includes/class-walker-page.php */
-			$css_classes = implode( ' ', apply_filters( 'page_css_class', $css_class, $page, $depth, $args, $current_page ) );
+			$css_classes = implode( ' ', apply_filters( 'page_css_class', $css_class, $page, $depth, $args, $current_page_id ) );
 			$css_classes = $css_classes ? ' class="' . esc_attr( $css_classes ) . '"' : '';
 
 			if ( '' === $page->post_title ) {
@@ -81,10 +83,10 @@ if ( ! class_exists( 'TwentyTwenty_Walker_Page' ) ) {
 
 			$atts                 = array();
 			$atts['href']         = get_permalink( $page->ID );
-			$atts['aria-current'] = ( $page->ID === $current_page ) ? 'page' : '';
+			$atts['aria-current'] = ( $page->ID === $current_page_id ) ? 'page' : '';
 
 			/** This filter is documented in wp-includes/class-walker-page.php */
-			$atts = apply_filters( 'page_menu_link_attributes', $atts, $page, $depth, $args, $current_page );
+			$atts = apply_filters( 'page_menu_link_attributes', $atts, $page, $depth, $args, $current_page_id );
 
 			$attributes = '';
 			foreach ( $atts as $attr => $value ) {

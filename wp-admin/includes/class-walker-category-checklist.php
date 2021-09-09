@@ -61,15 +61,16 @@ class Walker_Category_Checklist extends Walker {
 	 * @see Walker::start_el()
 	 *
 	 * @since 2.5.1
-	 * @since 5.9.0 Renamed `$category` to `$data_object` to match parent class for PHP 8 named parameter support.
+	 * @since 5.9.0 Renamed `$category` to `$data_object` and `$id` to `$current_object_id`
+	 *              to match parent class for PHP 8 named parameter support.
 	 *
-	 * @param string  $output      Used to append additional content (passed by reference).
-	 * @param WP_Term $data_object The current term object.
-	 * @param int     $depth       Depth of the term in reference to parents. Default 0.
-	 * @param array   $args        An array of arguments. @see wp_terms_checklist()
-	 * @param int     $id          ID of the current term.
+	 * @param string  $output            Used to append additional content (passed by reference).
+	 * @param WP_Term $data_object       The current term object.
+	 * @param int     $depth             Depth of the term in reference to parents. Default 0.
+	 * @param array   $args              An array of arguments. @see wp_terms_checklist()
+	 * @param int     $current_object_id Optional. ID of the current term. Default 0.
 	 */
-	public function start_el( &$output, $data_object, $depth = 0, $args = array(), $id = 0 ) {
+	public function start_el( &$output, $data_object, $depth = 0, $args = array(), $current_object_id = 0 ) {
 		// Restores the more descriptive, specific name for use within this method.
 		$category = $data_object;
 

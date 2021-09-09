@@ -90,7 +90,7 @@ class Walker {
 	 * @param object $data_object       The data object.
 	 * @param int    $depth             Depth of the item.
 	 * @param array  $args              An array of additional arguments.
-	 * @param int    $current_object_id ID of the current item.
+	 * @param int    $current_object_id Optional. ID of the current item. Default 0.
 	 */
 	public function start_el( &$output, $data_object, $depth = 0, $args = array(), $current_object_id = 0 ) {}
 
