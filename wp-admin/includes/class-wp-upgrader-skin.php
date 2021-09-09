@@ -165,7 +165,7 @@ class WP_Upgrader_Skin {
 	/**
 	 * @since 2.8.0
 	 *
-	 * @param string|WP_Error $errors
+	 * @param string|WP_Error $errors Errors.
 	 */
 	public function error( $errors ) {
 		if ( ! $this->done_header ) {
