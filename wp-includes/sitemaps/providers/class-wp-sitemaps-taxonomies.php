@@ -134,14 +134,19 @@ class WP_Sitemaps_Taxonomies extends WP_Sitemaps_Provider {
 	 * Gets the max number of pages available for the object type.
 	 *
 	 * @since 5.5.0
+	 * @since 5.9.0 Renamed `$taxonomy` to `$object_subtype` to match parent class
+	 *              for PHP 8 named parameter support.
 	 *
-	 * @param string $taxonomy Taxonomy name.
+	 * @param string $object_subtype Optional. Taxonomy name. Default empty.
 	 * @return int Total number of pages.
 	 */
-	public function get_max_num_pages( $taxonomy = '' ) {
-		if ( empty( $taxonomy ) ) {
+	public function get_max_num_pages( $object_subtype = '' ) {
+		if ( empty( $object_subtype ) ) {
 			return 0;
 		}
+
+		// Restores the more descriptive, specific name for use within this method.
+		$taxonomy = $object_subtype;
 
 		/**
 		 * Filters the max number of pages before it is generated.
