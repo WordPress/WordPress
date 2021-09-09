@@ -256,15 +256,16 @@ class Walker_Nav_Menu extends Walker {
 	 * Ends the element output, if needed.
 	 *
 	 * @since 3.0.0
+	 * @since 5.9.0 Renamed `$item` to `$data_object` to match parent class for PHP 8 named parameter support.
 	 *
 	 * @see Walker::end_el()
 	 *
-	 * @param string   $output Used to append additional content (passed by reference).
-	 * @param WP_Post  $item   Page data object. Not used.
-	 * @param int      $depth  Depth of page. Not Used.
-	 * @param stdClass $args   An object of wp_nav_menu() arguments.
+	 * @param string   $output      Used to append additional content (passed by reference).
+	 * @param WP_Post  $data_object Menu item data object. Not used.
+	 * @param int      $depth       Depth of page. Not Used.
+	 * @param stdClass $args        An object of wp_nav_menu() arguments.
 	 */
-	public function end_el( &$output, $item, $depth = 0, $args = null ) {
+	public function end_el( &$output, $data_object, $depth = 0, $args = null ) {
 		if ( isset( $args->item_spacing ) && 'discard' === $args->item_spacing ) {
 			$t = '';
 			$n = '';

@@ -254,16 +254,17 @@ class Walker_Category extends Walker {
 	 * Ends the element output, if needed.
 	 *
 	 * @since 2.1.0
+	 * @since 5.9.0 Renamed `$page` to `$data_object` to match parent class for PHP 8 named parameter support.
 	 *
 	 * @see Walker::end_el()
 	 *
-	 * @param string $output Used to append additional content (passed by reference).
-	 * @param object $page   Not used.
-	 * @param int    $depth  Optional. Depth of category. Not used.
-	 * @param array  $args   Optional. An array of arguments. Only uses 'list' for whether should append
-	 *                       to output. See wp_list_categories(). Default empty array.
+	 * @param string $output      Used to append additional content (passed by reference).
+	 * @param object $data_object Category data object. Not used.
+	 * @param int    $depth       Optional. Depth of category. Not used.
+	 * @param array  $args        Optional. An array of arguments. Only uses 'list' for whether should
+	 *                            append to output. See wp_list_categories(). Default empty array.
 	 */
-	public function end_el( &$output, $page, $depth = 0, $args = array() ) {
+	public function end_el( &$output, $data_object, $depth = 0, $args = array() ) {
 		if ( 'list' !== $args['style'] ) {
 			return;
 		}

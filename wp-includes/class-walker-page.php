@@ -222,15 +222,16 @@ class Walker_Page extends Walker {
 	 * Outputs the end of the current element in the tree.
 	 *
 	 * @since 2.1.0
+	 * @since 5.9.0 Renamed `$page` to `$data_object` to match parent class for PHP 8 named parameter support.
 	 *
 	 * @see Walker::end_el()
 	 *
-	 * @param string  $output Used to append additional content. Passed by reference.
-	 * @param WP_Post $page   Page data object. Not used.
-	 * @param int     $depth  Optional. Depth of page. Default 0 (unused).
-	 * @param array   $args   Optional. Array of arguments. Default empty array.
+	 * @param string  $output      Used to append additional content. Passed by reference.
+	 * @param WP_Post $data_object Page data object. Not used.
+	 * @param int     $depth       Optional. Depth of page. Default 0 (unused).
+	 * @param array   $args        Optional. Array of arguments. Default empty array.
 	 */
-	public function end_el( &$output, $page, $depth = 0, $args = array() ) {
+	public function end_el( &$output, $data_object, $depth = 0, $args = array() ) {
 		if ( isset( $args['item_spacing'] ) && 'preserve' === $args['item_spacing'] ) {
 			$t = "\t";
 			$n = "\n";
