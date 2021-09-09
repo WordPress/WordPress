@@ -7618,6 +7618,10 @@ All at ###SITENAME###
  * @return string  The anonymized IP address.
  */
 function wp_privacy_anonymize_ip( $ip_addr, $ipv6_fallback = false ) {
+	if ( empty( $ip_addr ) ) {
+		return '0.0.0.0';
+	}
+
 	// Detect what kind of IP address this is.
 	$ip_prefix = '';
 	$is_ipv6   = substr_count( $ip_addr, ':' ) > 1;
