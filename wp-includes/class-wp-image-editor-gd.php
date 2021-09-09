@@ -423,13 +423,15 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	 * Saves current in-memory image to file.
 	 *
 	 * @since 3.5.0
+	 * @since 5.9.0 Renamed `$filename` to `$destfilename` to match parent class
+	 *              for PHP 8 named parameter support.
 	 *
-	 * @param string|null $filename
-	 * @param string|null $mime_type
+	 * @param string|null $destfilename Optional. Destination filename. Default null.
+	 * @param string|null $mime_type    Optional. The mime-type. Default null.
 	 * @return array|WP_Error {'path'=>string, 'file'=>string, 'width'=>int, 'height'=>int, 'mime-type'=>string}
 	 */
-	public function save( $filename = null, $mime_type = null ) {
-		$saved = $this->_save( $this->image, $filename, $mime_type );
+	public function save( $destfilename = null, $mime_type = null ) {
+		$saved = $this->_save( $this->image, $destfilename, $mime_type );
 
 		if ( ! is_wp_error( $saved ) ) {
 			$this->file      = $saved['path'];

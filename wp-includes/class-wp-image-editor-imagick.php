@@ -662,8 +662,8 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 *
 	 * @since 3.5.0
 	 *
-	 * @param string $destfilename
-	 * @param string $mime_type
+	 * @param string $destfilename Optional. Destination filename. Default null.
+	 * @param string $mime_type    Optional. The mime-type. Default null.
 	 * @return array|WP_Error {'path'=>string, 'file'=>string, 'width'=>int, 'height'=>int, 'mime-type'=>string}
 	 */
 	public function save( $destfilename = null, $mime_type = null ) {
