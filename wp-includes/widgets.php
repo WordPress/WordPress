@@ -1251,30 +1251,13 @@ function _wp_sidebars_changed() {
 		$sidebars_widgets = wp_get_sidebars_widgets();
 	}
 
-	sync_registered_widgets( true );
+	retrieve_widgets( true );
 }
 
 /**
- * Do not use, deprecated.
- *
- * Use sync_registered_widgets() instead.
+ * Look for "lost" widgets, this has to run at least on each theme change.
  *
  * @since 2.8.0
- * @deprecated 5.8.1 Use sync_registered_widgets()
- * @see sync_registered_widgets()
- *
- * @param string|bool $theme_changed
- * @return array
- */
-function retrieve_widgets( $theme_changed = false ) {
-	return sync_registered_widgets( $theme_changed );
-}
-
-/**
- * Looks for "lost" widgets and Updates widgets-to-sidebars allocation.
- * This has to run at least on each theme change.
- *
- * @since 5.8.1
  *
  * @global array $wp_registered_sidebars Registered sidebars.
  * @global array $sidebars_widgets
@@ -1284,7 +1267,7 @@ function retrieve_widgets( $theme_changed = false ) {
  *                                   of 'customize' defers updates for the Customizer.
  * @return array Updated sidebars widgets.
  */
-function sync_registered_widgets( $theme_changed = false ) {
+function retrieve_widgets( $theme_changed = false ) {
 	global $wp_registered_sidebars, $sidebars_widgets, $wp_registered_widgets;
 
 	$registered_sidebars_keys = array_keys( $wp_registered_sidebars );

@@ -109,7 +109,7 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function get_items( $request ) {
-		sync_registered_widgets();
+		retrieve_widgets();
 
 		$prepared = array();
 
@@ -151,7 +151,7 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function get_item( $request ) {
-		sync_registered_widgets();
+		retrieve_widgets();
 
 		$widget_id  = $request['id'];
 		$sidebar_id = wp_find_widgets_sidebar( $widget_id );
@@ -237,7 +237,7 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 		global $wp_widget_factory;
 
 		/*
-		 * sync_registered_widgets() contains logic to move "hidden" or "lost" widgets to the
+		 * retrieve_widgets() contains logic to move "hidden" or "lost" widgets to the
 		 * wp_inactive_widgets sidebar based on the contents of the $sidebars_widgets global.
 		 *
 		 * When batch requests are processed, this global is not properly updated by previous
@@ -248,7 +248,7 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 		 */
 		wp_get_sidebars_widgets();
 
-		sync_registered_widgets();
+		retrieve_widgets();
 
 		$widget_id  = $request['id'];
 		$sidebar_id = wp_find_widgets_sidebar( $widget_id );
@@ -313,7 +313,7 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 		global $wp_widget_factory, $wp_registered_widget_updates;
 
 		/*
-		 * sync_registered_widgets() contains logic to move "hidden" or "lost" widgets to the
+		 * retrieve_widgets() contains logic to move "hidden" or "lost" widgets to the
 		 * wp_inactive_widgets sidebar based on the contents of the $sidebars_widgets global.
 		 *
 		 * When batch requests are processed, this global is not properly updated by previous
@@ -324,7 +324,7 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 		 */
 		wp_get_sidebars_widgets();
 
-		sync_registered_widgets();
+		retrieve_widgets();
 
 		$widget_id  = $request['id'];
 		$sidebar_id = wp_find_widgets_sidebar( $widget_id );

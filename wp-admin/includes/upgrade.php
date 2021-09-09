@@ -1773,7 +1773,7 @@ function upgrade_330() {
 
 			// Intentional fall-through to upgrade to the next version.
 		case 2:
-			$sidebars_widgets                  = sync_registered_widgets();
+			$sidebars_widgets                  = retrieve_widgets();
 			$sidebars_widgets['array_version'] = 3;
 			update_option( 'sidebars_widgets', $sidebars_widgets );
 	}

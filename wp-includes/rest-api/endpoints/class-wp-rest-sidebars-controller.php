@@ -98,7 +98,7 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function get_items( $request ) {
-		sync_registered_widgets();
+		retrieve_widgets();
 
 		$data = array();
 		foreach ( wp_get_sidebars_widgets() as $id => $widgets ) {
@@ -137,7 +137,7 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function get_item( $request ) {
-		sync_registered_widgets();
+		retrieve_widgets();
 
 		$sidebar = $this->get_sidebar( $request['id'] );
 

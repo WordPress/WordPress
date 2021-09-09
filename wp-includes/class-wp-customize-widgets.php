@@ -275,9 +275,9 @@ final class WP_Customize_Widgets {
 		add_filter( 'customize_value_old_sidebars_widgets_data', array( $this, 'filter_customize_value_old_sidebars_widgets_data' ) );
 		$this->manager->set_post_value( 'old_sidebars_widgets_data', $this->old_sidebars_widgets ); // Override any value cached in changeset.
 
-		// sync_registered_widgets() looks at the global $sidebars_widgets.
+		// retrieve_widgets() looks at the global $sidebars_widgets.
 		$sidebars_widgets = $this->old_sidebars_widgets;
-		$sidebars_widgets = sync_registered_widgets( 'customize' );
+		$sidebars_widgets = retrieve_widgets( 'customize' );
 		add_filter( 'option_sidebars_widgets', array( $this, 'filter_option_sidebars_widgets_for_theme_switch' ), 1 );
 		// Reset global cache var used by wp_get_sidebars_widgets().
 		unset( $GLOBALS['_wp_sidebars_widgets'] );
@@ -287,7 +287,7 @@ final class WP_Customize_Widgets {
 	 * Filters old_sidebars_widgets_data Customizer setting.
 	 *
 	 * When switching themes, filter the Customizer setting old_sidebars_widgets_data
-	 * to supply initial $sidebars_widgets before they were overridden by sync_registered_widgets().
+	 * to supply initial $sidebars_widgets before they were overridden by retrieve_widgets().
 	 * The value for old_sidebars_widgets_data gets set in the old theme's sidebars_widgets
 	 * theme_mod.
 	 *
@@ -305,7 +305,7 @@ final class WP_Customize_Widgets {
 	/**
 	 * Filters sidebars_widgets option for theme switch.
 	 *
-	 * When switching themes, the sync_registered_widgets() function is run when the Customizer initializes,
+	 * When switching themes, the retrieve_widgets() function is run when the Customizer initializes,
 	 * and then the new sidebars_widgets here get supplied as the default value for the sidebars_widgets
 	 * option.
 	 *

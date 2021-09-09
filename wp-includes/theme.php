@@ -805,7 +805,7 @@ function switch_theme( $stylesheet ) {
 		add_option( "theme_mods_$stylesheet", $default_theme_mods );
 	} else {
 		/*
-		 * Since sync_registered_widgets() is called when initializing a theme in the Customizer,
+		 * Since retrieve_widgets() is called when initializing a theme in the Customizer,
 		 * we need to remove the theme mods to avoid overwriting changes made via
 		 * the Customizer when accessing wp-admin/widgets.php.
 		 */

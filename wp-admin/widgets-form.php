@@ -118,7 +118,7 @@ register_sidebar(
 	)
 );
 
-sync_registered_widgets();
+retrieve_widgets();
 
 // We're saving a widget without JS.
 if ( isset( $_POST['savewidget'] ) || isset( $_POST['removewidget'] ) ) {
