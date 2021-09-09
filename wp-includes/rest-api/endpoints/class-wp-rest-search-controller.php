@@ -186,12 +186,15 @@ class WP_REST_Search_Controller extends WP_REST_Controller {
 	 *
 	 * @since 5.0.0
 	 * @since 5.6.0 The `$id` parameter can accept a string.
+	 * @since 5.9.0 Renamed `$id` to `$item` to match parent class for PHP 8 named parameter support.
 	 *
-	 * @param int|string      $id      ID of the item to prepare.
+	 * @param int|string      $item    ID of the item to prepare.
 	 * @param WP_REST_Request $request Request object.
 	 * @return WP_REST_Response Response object.
 	 */
-	public function prepare_item_for_response( $id, $request ) {
+	public function prepare_item_for_response( $item, $request ) {
+		// Restores the more descriptive, specific name for use within this method.
+		$item_id = $item;
 		$handler = $this->get_search_handler( $request );
 		if ( is_wp_error( $handler ) ) {
 			return new WP_REST_Response();
@@ -199,7 +202,7 @@ class WP_REST_Search_Controller extends WP_REST_Controller {
 
 		$fields = $this->get_fields_for_response( $request );
 
-		$data = $handler->prepare_item( $id, $fields );
+		$data = $handler->prepare_item( $item_id, $fields );
 		$data = $this->add_additional_fields_to_object( $data, $request );
 
 		$context = ! empty( $request['context'] ) ? $request['context'] : 'view';
@@ -207,7 +210,7 @@ class WP_REST_Search_Controller extends WP_REST_Controller {
 
 		$response = rest_ensure_response( $data );
 
-		$links               = $handler->prepare_item_links( $id );
+		$links               = $handler->prepare_item_links( $item_id );
 		$links['collection'] = array(
 			'href' => rest_url( sprintf( '%s/%s', $this->namespace, $this->rest_base ) ),
 		);

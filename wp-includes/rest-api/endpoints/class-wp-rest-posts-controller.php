@@ -1679,12 +1679,15 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 	 * Prepares a single post output for response.
 	 *
 	 * @since 4.7.0
+	 * @since 5.9.0 Renamed `$post` to `$item` to match parent class for PHP 8 named parameter support.
 	 *
-	 * @param WP_Post         $post    Post object.
+	 * @param WP_Post         $item    Post object.
 	 * @param WP_REST_Request $request Request object.
 	 * @return WP_REST_Response Response object.
 	 */
-	public function prepare_item_for_response( $post, $request ) {
+	public function prepare_item_for_response( $item, $request ) {
+		// Restores the more descriptive, specific name for use within this method.
+		$post            = $item;
 		$GLOBALS['post'] = $post;
 
 		setup_postdata( $post );

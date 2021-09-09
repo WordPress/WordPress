@@ -963,13 +963,15 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 	 * Prepares a single user output for response.
 	 *
 	 * @since 4.7.0
+	 * @since 5.9.0 Renamed `$user` to `$item` to match parent class for PHP 8 named parameter support.
 	 *
-	 * @param WP_User         $user    User object.
+	 * @param WP_User         $item    User object.
 	 * @param WP_REST_Request $request Request object.
 	 * @return WP_REST_Response Response object.
 	 */
-	public function prepare_item_for_response( $user, $request ) {
-
+	public function prepare_item_for_response( $item, $request ) {
+		// Restores the more descriptive, specific name for use within this method.
+		$user   = $item;
 		$data   = array();
 		$fields = $this->get_fields_for_response( $request );
 

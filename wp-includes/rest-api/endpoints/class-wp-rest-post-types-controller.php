@@ -168,12 +168,15 @@ class WP_REST_Post_Types_Controller extends WP_REST_Controller {
 	 * Prepares a post type object for serialization.
 	 *
 	 * @since 4.7.0
+	 * @since 5.9.0 Renamed `$post_type` to `$item` to match parent class for PHP 8 named parameter support.
 	 *
-	 * @param WP_Post_Type    $post_type Post type object.
-	 * @param WP_REST_Request $request   Full details about the request.
+	 * @param WP_Post_Type    $item    Post type object.
+	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response Response object.
 	 */
-	public function prepare_item_for_response( $post_type, $request ) {
+	public function prepare_item_for_response( $item, $request ) {
+		// Restores the more descriptive, specific name for use within this method.
+		$post_type  = $item;
 		$taxonomies = wp_list_filter( get_object_taxonomies( $post_type->name, 'objects' ), array( 'show_in_rest' => true ) );
 		$taxonomies = wp_list_pluck( $taxonomies, 'name' );
 		$base       = ! empty( $post_type->rest_base ) ? $post_type->rest_base : $post_type->name;

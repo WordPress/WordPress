@@ -535,12 +535,15 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 	 * Prepares the revision for the REST response.
 	 *
 	 * @since 4.7.0
+	 * @since 5.9.0 Renamed `$post` to `$item` to match parent class for PHP 8 named parameter support.
 	 *
-	 * @param WP_Post         $post    Post revision object.
+	 * @param WP_Post         $item    Post revision object.
 	 * @param WP_REST_Request $request Request object.
 	 * @return WP_REST_Response Response object.
 	 */
-	public function prepare_item_for_response( $post, $request ) {
+	public function prepare_item_for_response( $item, $request ) {
+		// Restores the more descriptive, specific name for use within this method.
+		$post            = $item;
 		$GLOBALS['post'] = $post;
 
 		setup_postdata( $post );

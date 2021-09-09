@@ -199,12 +199,15 @@ class WP_REST_Pattern_Directory_Controller extends WP_REST_Controller {
 	 * Prepare a raw pattern before it's output in an API response.
 	 *
 	 * @since 5.8.0
+	 * @since 5.9.0 Renamed `$raw_pattern` to `$item` to match parent class for PHP 8 named parameter support.
 	 *
-	 * @param object          $raw_pattern A pattern from api.wordpress.org, before any changes.
-	 * @param WP_REST_Request $request     Request object.
+	 * @param object          $item    Raw pattern from api.wordpress.org, before any changes.
+	 * @param WP_REST_Request $request Request object.
 	 * @return WP_REST_Response
 	 */
-	public function prepare_item_for_response( $raw_pattern, $request ) {
+	public function prepare_item_for_response( $item, $request ) {
+		// Restores the more descriptive, specific name for use within this method.
+		$raw_pattern      = $item;
 		$prepared_pattern = array(
 			'id'             => absint( $raw_pattern->id ),
 			'title'          => sanitize_text_field( $raw_pattern->title->rendered ),

@@ -402,13 +402,16 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
 	 * Prepare a single template output for response
 	 *
 	 * @since 5.8.0
+	 * @since 5.9.0 Renamed `$template` to `$item` to match parent class for PHP 8 named parameter support.
 	 *
-	 * @param WP_Block_Template $template Template instance.
+	 * @param WP_Block_Template $item    Template instance.
 	 * @param WP_REST_Request   $request Request object.
 	 * @return WP_REST_Response $data
 	 */
-	public function prepare_item_for_response( $template, $request ) { // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
-		$result = array(
+	public function prepare_item_for_response( $item, $request ) { // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
+		// Restores the more descriptive, specific name for use within this method.
+		$template = $item;
+		$result   = array(
 			'id'             => $template->id,
 			'theme'          => $template->theme,
 			'content'        => array( 'raw' => $template->content ),

@@ -263,14 +263,17 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
 	 * Prepares a widget type object for serialization.
 	 *
 	 * @since 5.8.0
+	 * @since 5.9.0 Renamed `$widget_type` to `$item` to match parent class for PHP 8 named parameter support.
 	 *
-	 * @param array           $widget_type Widget type data.
-	 * @param WP_REST_Request $request    Full details about the request.
+	 * @param array           $item    Widget type data.
+	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response Widget type data.
 	 */
-	public function prepare_item_for_response( $widget_type, $request ) {
-		$fields = $this->get_fields_for_response( $request );
-		$data   = array(
+	public function prepare_item_for_response( $item, $request ) {
+		// Restores the more descriptive, specific name for use within this method.
+		$widget_type = $item;
+		$fields      = $this->get_fields_for_response( $request );
+		$data        = array(
 			'id' => $widget_type['id'],
 		);
 

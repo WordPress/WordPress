@@ -200,13 +200,16 @@ class WP_REST_Taxonomies_Controller extends WP_REST_Controller {
 	 * Prepares a taxonomy object for serialization.
 	 *
 	 * @since 4.7.0
+	 * @since 5.9.0 Renamed `$taxonomy` to `$item` to match parent class for PHP 8 named parameter support.
 	 *
-	 * @param WP_Taxonomy     $taxonomy Taxonomy data.
-	 * @param WP_REST_Request $request  Full details about the request.
+	 * @param WP_Taxonomy     $item    Taxonomy data.
+	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response Response object.
 	 */
-	public function prepare_item_for_response( $taxonomy, $request ) {
-		$base = ! empty( $taxonomy->rest_base ) ? $taxonomy->rest_base : $taxonomy->name;
+	public function prepare_item_for_response( $item, $request ) {
+		// Restores the more descriptive, specific name for use within this method.
+		$taxonomy = $item;
+		$base     = ! empty( $taxonomy->rest_base ) ? $taxonomy->rest_base : $taxonomy->name;
 
 		$fields = $this->get_fields_for_response( $request );
 		$data   = array();

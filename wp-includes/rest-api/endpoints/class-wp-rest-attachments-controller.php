@@ -707,12 +707,15 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 	 * Prepares a single attachment output for response.
 	 *
 	 * @since 4.7.0
+	 * @since 5.9.0 Renamed `$post` to `$item` to match parent class for PHP 8 named parameter support.
 	 *
-	 * @param WP_Post         $post    Attachment object.
+	 * @param WP_Post         $item    Attachment object.
 	 * @param WP_REST_Request $request Request object.
 	 * @return WP_REST_Response Response object.
 	 */
-	public function prepare_item_for_response( $post, $request ) {
+	public function prepare_item_for_response( $item, $request ) {
+		// Restores the more descriptive, specific name for use within this method.
+		$post     = $item;
 		$response = parent::prepare_item_for_response( $post, $request );
 		$fields   = $this->get_fields_for_response( $request );
 		$data     = $response->get_data();
