@@ -1480,6 +1480,10 @@ function unregister_term_meta( $taxonomy, $meta_key ) {
 function term_exists( $term, $taxonomy = '', $parent = null ) {
 	global $wpdb;
 
+	if ( null === $term ) {
+		return null;
+	}
+
 	$select     = "SELECT term_id FROM $wpdb->terms as t WHERE ";
 	$tax_select = "SELECT tt.term_id, tt.term_taxonomy_id FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy as tt ON tt.term_id = t.term_id WHERE ";
 
