@@ -1158,7 +1158,7 @@ class wpdb {
 	 * @return string Escaped string.
 	 */
 	function _real_escape( $string ) {
-		if ( ! is_scalar( $string ) && ! is_null( $string ) ) {
+		if ( ! is_scalar( $string ) ) {
 			return '';
 		}
 
