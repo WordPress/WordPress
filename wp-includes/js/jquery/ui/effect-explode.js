@@ -1,5 +1,5 @@
 /*!
- * jQuery UI Effects Explode 1.12.1
+ * jQuery UI Effects Explode 1.13.0-rc.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -9,13 +9,15 @@
 
 //>>label: Explode Effect
 //>>group: Effects
-// jscs:disable maximumLineLength
+/* eslint-disable max-len */
 //>>description: Explodes an element in all directions into n pieces. Implodes an element to its original wholeness.
-// jscs:enable maximumLineLength
+/* eslint-enable max-len */
 //>>docs: http://api.jqueryui.com/explode-effect/
 //>>demos: http://jqueryui.com/effect/
 
 ( function( factory ) {
+	"use strict";
+
 	if ( typeof define === "function" && define.amd ) {
 
 		// AMD. Register as an anonymous module.
@@ -28,7 +30,8 @@
 		// Browser globals
 		factory( jQuery );
 	}
-}( function( $ ) {
+} )( function( $ ) {
+"use strict";
 
 return $.effects.define( "explode", "hide", function( options, done ) {
 
@@ -107,4 +110,4 @@ return $.effects.define( "explode", "hide", function( options, done ) {
 	}
 } );
 
-} ) );
+} );

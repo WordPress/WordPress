@@ -1,5 +1,5 @@
 /*!
- * jQuery UI Effects Highlight 1.12.1
+ * jQuery UI Effects Highlight 1.13.0-rc.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -14,6 +14,8 @@
 //>>demos: http://jqueryui.com/effect/
 
 ( function( factory ) {
+	"use strict";
+
 	if ( typeof define === "function" && define.amd ) {
 
 		// AMD. Register as an anonymous module.
@@ -26,7 +28,8 @@
 		// Browser globals
 		factory( jQuery );
 	}
-}( function( $ ) {
+} )( function( $ ) {
+"use strict";
 
 return $.effects.define( "highlight", "show", function( options, done ) {
 	var element = $( this ),
@@ -53,4 +56,4 @@ return $.effects.define( "highlight", "show", function( options, done ) {
 		} );
 } );
 
-} ) );
+} );

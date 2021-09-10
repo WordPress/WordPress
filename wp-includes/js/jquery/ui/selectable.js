@@ -1,5 +1,5 @@
 /*!
- * jQuery UI Selectable 1.12.1
+ * jQuery UI Selectable 1.13.0-rc.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -15,6 +15,8 @@
 //>>css.structure: ../../themes/base/selectable.css
 
 ( function( factory ) {
+	"use strict";
+
 	if ( typeof define === "function" && define.amd ) {
 
 		// AMD. Register as an anonymous module.
@@ -28,10 +30,11 @@
 		// Browser globals
 		factory( jQuery );
 	}
-}( function( $ ) {
+} )( function( $ ) {
+"use strict";
 
 return $.widget( "ui.selectable", $.ui.mouse, {
-	version: "1.12.1",
+	version: "1.13.0-rc.2",
 	options: {
 		appendTo: "body",
 		autoRefresh: true,
@@ -182,8 +185,12 @@ return $.widget( "ui.selectable", $.ui.mouse, {
 			x2 = event.pageX,
 			y2 = event.pageY;
 
-		if ( x1 > x2 ) { tmp = x2; x2 = x1; x1 = tmp; }
-		if ( y1 > y2 ) { tmp = y2; y2 = y1; y1 = tmp; }
+		if ( x1 > x2 ) {
+			tmp = x2; x2 = x1; x1 = tmp;
+		}
+		if ( y1 > y2 ) {
+			tmp = y2; y2 = y1; y1 = tmp;
+		}
 		this.helper.css( { left: x1, top: y1, width: x2 - x1, height: y2 - y1 } );
 
 		this.selectees.each( function() {
@@ -306,4 +313,4 @@ return $.widget( "ui.selectable", $.ui.mouse, {
 
 } );
 
-} ) );
+} );

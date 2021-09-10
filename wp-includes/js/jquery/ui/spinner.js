@@ -1,5 +1,5 @@
 /*!
- * jQuery UI Spinner 1.12.1
+ * jQuery UI Spinner 1.13.0-rc.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -17,6 +17,8 @@
 //>>css.theme: ../../themes/base/theme.css
 
 ( function( factory ) {
+	"use strict";
+
 	if ( typeof define === "function" && define.amd ) {
 
 		// AMD. Register as an anonymous module.
@@ -30,9 +32,10 @@
 		// Browser globals
 		factory( jQuery );
 	}
-}( function( $ ) {
+} )( function( $ ) {
+"use strict";
 
-function spinnerModifer( fn ) {
+function spinnerModifier( fn ) {
 	return function() {
 		var previous = this.element.val();
 		fn.apply( this, arguments );
@@ -44,7 +47,7 @@ function spinnerModifer( fn ) {
 }
 
 $.widget( "ui.spinner", {
-	version: "1.12.1",
+	version: "1.13.0-rc.2",
 	defaultElement: "<input>",
 	widgetEventPrefix: "spin",
 	options: {
@@ -137,9 +140,13 @@ $.widget( "ui.spinner", {
 			}
 		},
 		mousewheel: function( event, delta ) {
-			if ( !delta ) {
+			var activeElement = $.ui.safeActiveElement( this.document[ 0 ] );
+			var isActive = this.element[ 0 ] === activeElement;
+
+			if ( !isActive || !delta ) {
 				return;
 			}
+
 			if ( !this.spinning && !this._start( event ) ) {
 				return false;
 			}
@@ -337,7 +344,7 @@ $.widget( "ui.spinner", {
 		var incremental = this.options.incremental;
 
 		if ( incremental ) {
-			return $.isFunction( incremental ) ?
+			return typeof incremental === "function" ?
 				incremental( i ) :
 				Math.floor( i * i * i / 50000 - i * i / 500 + 17 * i / 200 + 1 );
 		}
@@ -435,7 +442,7 @@ $.widget( "ui.spinner", {
 		this.buttons.button( value ? "disable" : "enable" );
 	},
 
-	_setOptions: spinnerModifer( function( options ) {
+	_setOptions: spinnerModifier( function( options ) {
 		this._super( options );
 	} ),
 
@@ -502,7 +509,7 @@ $.widget( "ui.spinner", {
 		this.uiSpinner.replaceWith( this.element );
 	},
 
-	stepUp: spinnerModifer( function( steps ) {
+	stepUp: spinnerModifier( function( steps ) {
 		this._stepUp( steps );
 	} ),
 	_stepUp: function( steps ) {
@@ -512,7 +519,7 @@ $.widget( "ui.spinner", {
 		}
 	},
 
-	stepDown: spinnerModifer( function( steps ) {
+	stepDown: spinnerModifier( function( steps ) {
 		this._stepDown( steps );
 	} ),
 	_stepDown: function( steps ) {
@@ -522,11 +529,11 @@ $.widget( "ui.spinner", {
 		}
 	},
 
-	pageUp: spinnerModifer( function( pages ) {
+	pageUp: spinnerModifier( function( pages ) {
 		this._stepUp( ( pages || 1 ) * this.options.page );
 	} ),
 
-	pageDown: spinnerModifer( function( pages ) {
+	pageDown: spinnerModifier( function( pages ) {
 		this._stepDown( ( pages || 1 ) * this.options.page );
 	} ),
 
@@ -534,7 +541,7 @@ $.widget( "ui.spinner", {
 		if ( !arguments.length ) {
 			return this._parse( this.element.val() );
 		}
-		spinnerModifer( this._value ).call( this, newVal );
+		spinnerModifier( this._value ).call( this, newVal );
 	},
 
 	widget: function() {
@@ -569,4 +576,4 @@ if ( $.uiBackCompat !== false ) {
 
 return $.ui.spinner;
 
-} ) );
+} );
