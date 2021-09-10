@@ -459,7 +459,13 @@ class WP_Http {
 
 		foreach ( $cookies as $name => $value ) {
 			if ( $value instanceof WP_Http_Cookie ) {
-				$cookie_jar[ $value->name ] = new Requests_Cookie( $value->name, $value->value, $value->get_attributes(), array( 'host-only' => $value->host_only ) );
+				$attributes                 = array_filter(
+					$value->get_attributes(),
+					static function( $attr ) {
+						return null !== $attr;
+					}
+				);
+				$cookie_jar[ $value->name ] = new Requests_Cookie( $value->name, $value->value, $attributes, array( 'host-only' => $value->host_only ) );
 			} elseif ( is_scalar( $value ) ) {
 				$cookie_jar[ $name ] = new Requests_Cookie( $name, $value );
 			}
