@@ -691,7 +691,7 @@ class WP_Meta_Query {
 				if ( ! is_array( $meta_value ) ) {
 					$meta_value = preg_split( '/[,\s]+/', $meta_value );
 				}
-			} else {
+			} elseif ( is_string( $meta_value ) ) {
 				$meta_value = trim( $meta_value );
 			}
 
