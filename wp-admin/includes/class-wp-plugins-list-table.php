@@ -1066,9 +1066,13 @@ class WP_Plugins_List_Table extends WP_List_Table {
 							__( 'View details' )
 						);
 					} elseif ( ! empty( $plugin_data['PluginURI'] ) ) {
+						/* translators: %s: Plugin name. */
+						$aria_label = sprintf( __( 'Visit plugin site for %s' ), $plugin_name );
+
 						$plugin_meta[] = sprintf(
-							'<a href="%s">%s</a>',
+							'<a href="%s" aria-label="%s">%s</a>',
 							esc_url( $plugin_data['PluginURI'] ),
+							esc_attr( $aria_label ),
 							__( 'Visit plugin site' )
 						);
 					}

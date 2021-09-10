@@ -721,7 +721,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 
 		if ( $theme->get( 'ThemeURI' ) ) {
 			/* translators: %s: Theme name. */
-			$aria_label = sprintf( __( 'Visit %s homepage' ), $theme->display( 'Name' ) );
+			$aria_label = sprintf( __( 'Visit theme site for %s' ), $theme->display( 'Name' ) );
 
 			$theme_meta[] = sprintf(
 				'<a href="%s" aria-label="%s">%s</a>',
