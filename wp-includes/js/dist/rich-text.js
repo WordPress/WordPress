@@ -1636,6 +1636,22 @@ function createFromElement(_ref3) {
       return "continue";
     }
 
+    if (type === 'script') {
+      var _value2 = {
+        formats: [,],
+        replacements: [{
+          type: type,
+          attributes: {
+            'data-rich-text-script': node.getAttribute('data-rich-text-script') || encodeURIComponent(node.innerHTML)
+          }
+        }],
+        text: OBJECT_REPLACEMENT_CHARACTER
+      };
+      accumulateSelection(accumulator, node, range, _value2);
+      mergePair(accumulator, _value2);
+      return "continue";
+    }
+
     if (type === 'br') {
       accumulateSelection(accumulator, node, range, createEmptyValue());
       mergePair(accumulator, create({
@@ -1655,7 +1671,7 @@ function createFromElement(_ref3) {
     var format = isFormatEqual(newFormat, lastFormat) ? lastFormat : newFormat;
 
     if (multilineWrapperTags && multilineWrapperTags.indexOf(type) !== -1) {
-      var _value2 = createFromMultilineElement({
+      var _value3 = createFromMultilineElement({
         element: node,
         range: range,
         multilineTag: multilineTag,
@@ -1664,8 +1680,8 @@ function createFromElement(_ref3) {
         isEditableTree: isEditableTree
       });
 
-      accumulateSelection(accumulator, node, range, _value2);
-      mergePair(accumulator, _value2);
+      accumulateSelection(accumulator, node, range, _value3);
+      mergePair(accumulator, _value3);
       return "continue";
     }
 
