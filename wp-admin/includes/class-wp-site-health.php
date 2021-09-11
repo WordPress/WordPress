@@ -941,6 +941,10 @@ class WP_Site_Health {
 				'function' => 'iconv',
 				'required' => false,
 			),
+			'intl'      => array(
+				'extension' => 'intl',
+				'required'  => false,
+			),
 			'mcrypt'    => array(
 				'extension'    => 'mcrypt',
 				'required'     => false,
