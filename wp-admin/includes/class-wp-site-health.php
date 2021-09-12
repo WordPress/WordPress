@@ -891,6 +891,10 @@ class WP_Site_Health {
 				'function' => 'hash',
 				'required' => false,
 			),
+			'imagick'   => array(
+				'extension' => 'imagick',
+				'required'  => false,
+			),
 			'json'      => array(
 				'function' => 'json_last_error',
 				'required' => true,
@@ -915,10 +919,6 @@ class WP_Site_Health {
 			'pcre'      => array(
 				'function' => 'preg_match',
 				'required' => false,
-			),
-			'imagick'   => array(
-				'extension' => 'imagick',
-				'required'  => false,
 			),
 			'mod_xml'   => array(
 				'extension' => 'libxml',
