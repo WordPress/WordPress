@@ -801,7 +801,7 @@ class WP_Comment_Query {
 		}
 
 		// Falsey search strings are ignored.
-		if ( strlen( $this->query_vars['search'] ) ) {
+		if ( isset( $this->query_vars['search'] ) && strlen( $this->query_vars['search'] ) ) {
 			$search_sql = $this->get_search_sql(
 				$this->query_vars['search'],
 				array( 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_author_IP', 'comment_content' )
