@@ -701,6 +701,7 @@ a.assistive-text:focus,
 	top: auto;
 	bottom: -27px;
 	max-width: 195px;
+	height: 32px;
 }
 #branding .only-search + #access div {
 	padding-right: 205px;
