@@ -77,7 +77,10 @@
 function get_option( $option, $default = false ) {
 	global $wpdb;
 
-	$option = trim( $option );
+	if ( is_scalar( $option ) ) {
+		$option = trim( $option );
+	}
+
 	if ( empty( $option ) ) {
 		return false;
 	}
@@ -378,7 +381,10 @@ function wp_load_core_site_options( $network_id = null ) {
 function update_option( $option, $value, $autoload = null ) {
 	global $wpdb;
 
-	$option = trim( $option );
+	if ( is_scalar( $option ) ) {
+		$option = trim( $option );
+	}
+
 	if ( empty( $option ) ) {
 		return false;
 	}
@@ -565,7 +571,10 @@ function add_option( $option, $value = '', $deprecated = '', $autoload = 'yes' )
 		_deprecated_argument( __FUNCTION__, '2.3.0' );
 	}
 
-	$option = trim( $option );
+	if ( is_scalar( $option ) ) {
+		$option = trim( $option );
+	}
+
 	if ( empty( $option ) ) {
 		return false;
 	}
@@ -687,7 +696,10 @@ function add_option( $option, $value = '', $deprecated = '', $autoload = 'yes' )
 function delete_option( $option ) {
 	global $wpdb;
 
-	$option = trim( $option );
+	if ( is_scalar( $option ) ) {
+		$option = trim( $option );
+	}
+
 	if ( empty( $option ) ) {
 		return false;
 	}
