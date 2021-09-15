@@ -2085,6 +2085,7 @@ add_shortcode( 'caption', 'img_caption_shortcode' );
  * @since 2.6.0
  * @since 3.9.0 The `class` attribute was added.
  * @since 5.1.0 The `caption_id` attribute was added.
+ * @since 5.9.0 The `$content` parameter default value changed from `null` to `''`.
  *
  * @param array  $attr {
  *     Attributes of the caption shortcode.
@@ -2097,10 +2098,10 @@ add_shortcode( 'caption', 'img_caption_shortcode' );
  *     @type string $caption    The caption text.
  *     @type string $class      Additional class name(s) added to the caption container.
  * }
- * @param string $content Shortcode content.
+ * @param string $content Optional. Shortcode content. Default empty string.
  * @return string HTML content to display the caption.
  */
-function img_caption_shortcode( $attr, $content = null ) {
+function img_caption_shortcode( $attr, $content = '' ) {
 	// New-style shortcode with the caption inside the shortcode with the link and image tags.
 	if ( ! isset( $attr['caption'] ) ) {
 		if ( preg_match( '#((?:<a [^>]+>\s*)?<img [^>]+>(?:\s*</a>)?)(.*)#is', $content, $matches ) ) {
