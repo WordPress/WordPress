@@ -133,11 +133,25 @@ class WP_Upgrader {
 	 * This will set the relationship between the skin being used and this upgrader,
 	 * and also add the generic strings to `WP_Upgrader::$strings`.
 	 *
+	 * Additionally, it will schedule a weekly task to clean up the temp-backup directory.
+	 *
 	 * @since 2.8.0
+	 * @since 5.9.0 Added the `schedule_temp_backup_cleanup()` task.
 	 */
 	public function init() {
 		$this->skin->set_upgrader( $this );
 		$this->generic_strings();
+		$this->schedule_temp_backup_cleanup();
+	}
+
+	/**
+	 * Schedule cleanup of the temp-backup directory.
+	 *
+	 * @since 5.9.0
+	 */
+	protected function schedule_temp_backup_cleanup() {
+		wp_schedule_event( time(), 'weekly', 'delete_temp_updater_backups' );
+		add_action( 'delete_temp_updater_backups', array( $this, 'delete_all_temp_backups' ) );
 	}
 
 	/**
@@ -166,6 +180,13 @@ class WP_Upgrader {
 
 		$this->strings['maintenance_start'] = __( 'Enabling Maintenance mode&#8230;' );
 		$this->strings['maintenance_end']   = __( 'Disabling Maintenance mode&#8230;' );
+
+		/* translators: %s: temp-backup */
+		$this->strings['temp_backup_mkdir_failed'] = sprintf( __( 'Could not create the %s directory.' ), 'temp-backup' );
+		/* translators: %s: temp-backup */
+		$this->strings['temp_backup_move_failed']    = sprintf( __( 'Could not move old version to the %s directory.' ), 'temp-backup' );
+		$this->strings['temp_backup_restore_failed'] = __( 'Could not restore original version.' );
+
 	}
 
 	/**
@@ -313,6 +334,9 @@ class WP_Upgrader {
 		$upgrade_files = $wp_filesystem->dirlist( $upgrade_folder );
 		if ( ! empty( $upgrade_files ) ) {
 			foreach ( $upgrade_files as $file ) {
+				if ( 'temp-backup' === $file['name'] ) {
+					continue;
+				}
 				$wp_filesystem->delete( $upgrade_folder . $file['name'], true );
 			}
 		}
@@ -491,6 +515,13 @@ class WP_Upgrader {
 
 		if ( is_wp_error( $res ) ) {
 			return $res;
+		}
+
+		if ( ! empty( $args['hook_extra']['temp_backup'] ) ) {
+			$temp_backup = $this->move_to_temp_backup_dir( $args['hook_extra']['temp_backup'] );
+			if ( is_wp_error( $temp_backup ) ) {
+				return $temp_backup;
+			}
 		}
 
 		// Retain the original source and destinations.
@@ -811,6 +842,9 @@ class WP_Upgrader {
 
 		$this->skin->set_result( $result );
 		if ( is_wp_error( $result ) ) {
+			if ( ! empty( $options['hook_extra']['temp_backup'] ) ) {
+				$this->restore_temp_backup( $options['hook_extra']['temp_backup'] );
+			}
 			$this->skin->error( $result );
 
 			if ( ! method_exists( $this->skin, 'hide_process_failed' ) || ! $this->skin->hide_process_failed( $result ) ) {
@@ -822,6 +856,11 @@ class WP_Upgrader {
 		}
 
 		$this->skin->after();
+
+		// Clean up the backup kept in the temp-backup directory.
+		if ( ! empty( $options['hook_extra']['temp_backup'] ) ) {
+			$this->delete_temp_backup( $options['hook_extra']['temp_backup'] );
+		}
 
 		if ( ! $options['is_multi'] ) {
 
@@ -948,6 +987,154 @@ class WP_Upgrader {
 		return delete_option( $lock_name . '.lock' );
 	}
 
+	/**
+	 * Moves the plugin/theme being updated into a temp-backup directory.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+	 *
+	 * @param array $args Array of data for the temp-backup. Must include a slug, the source, and directory.
+	 * @return bool|WP_Error
+	 */
+	public function move_to_temp_backup_dir( $args ) {
+		global $wp_filesystem;
+
+		if ( empty( $args['slug'] ) || empty( $args['src'] ) || empty( $args['dir'] ) ) {
+			return false;
+		}
+
+		$dest_dir = $wp_filesystem->wp_content_dir() . 'upgrade/temp-backup/';
+		// Create the temp-backup directory if it doesn't exist.
+		if ( (
+				! $wp_filesystem->is_dir( $dest_dir )
+				&& ! $wp_filesystem->mkdir( $dest_dir )
+			) || (
+				! $wp_filesystem->is_dir( $dest_dir . $args['dir'] . '/' )
+				&& ! $wp_filesystem->mkdir( $dest_dir . $args['dir'] . '/' )
+			)
+		) {
+			return new WP_Error( 'fs_temp_backup_mkdir', $this->strings['temp_backup_mkdir_failed'] );
+		}
+
+		$src  = trailingslashit( $args['src'] ) . $args['slug'];
+		$dest = $dest_dir . $args['dir'] . '/' . $args['slug'];
+
+		// Delete the temp-backup directory if it already exists.
+		if ( $wp_filesystem->is_dir( $dest ) ) {
+			$wp_filesystem->delete( $dest, true );
+		}
+
+		// Move to the temp-backup directory.
+		if ( ! $wp_filesystem->move( $src, $dest, true ) ) {
+			return new WP_Error( 'fs_temp_backup_move', $this->strings['temp_backup_move_failed'] );
+		}
+
+		return true;
+	}
+
+	/**
+	 * Restores the plugin/theme from the temp-backup directory.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+	 *
+	 * @param array $args Array of data for the temp-backup. Must include a slug, the source, and directory.
+	 * @return bool|WP_Error
+	 */
+	public function restore_temp_backup( $args ) {
+		global $wp_filesystem;
+
+		if ( empty( $args['slug'] ) || empty( $args['src'] ) || empty( $args['dir'] ) ) {
+			return false;
+		}
+
+		$src  = $wp_filesystem->wp_content_dir() . 'upgrade/temp-backup/' . $args['dir'] . '/' . $args['slug'];
+		$dest = trailingslashit( $args['src'] ) . $args['slug'];
+
+		if ( $wp_filesystem->is_dir( $src ) ) {
+			// Cleanup.
+			if ( $wp_filesystem->is_dir( $dest ) && ! $wp_filesystem->delete( $dest, true ) ) {
+				return new WP_Error( 'fs_temp_backup_delete', $this->strings['temp_backup_restore_failed'] );
+			}
+
+			// Move it.
+			if ( ! $wp_filesystem->move( $src, $dest, true ) ) {
+				return new WP_Error( 'fs_temp_backup_delete', $this->strings['temp_backup_restore_failed'] );
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Deletes a temp-backup.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+	 *
+	 * @param array $args Array of data for the temp-backup. Must include a slug, the source, and directory.
+	 * @return bool
+	 */
+	public function delete_temp_backup( $args ) {
+		global $wp_filesystem;
+
+		if ( empty( $args['slug'] ) || empty( $args['dir'] ) ) {
+			return false;
+		}
+
+		return $wp_filesystem->delete(
+			$wp_filesystem->wp_content_dir() . "upgrade/temp-backup/{$args['dir']}/{$args['slug']}",
+			true
+		);
+	}
+
+	/**
+	 * Deletes all contents of the temp-backup directory.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+	 */
+	public function delete_all_temp_backups() {
+		/*
+		 * Check if there's a lock, or if currently performing an Ajax request,
+		 * in which case there's a chance we're doing an update.
+		 * Reschedule for an hour from now and exit early.
+		 */
+		if ( get_option( 'core_updater.lock' ) || get_option( 'auto_updater.lock' ) || wp_doing_ajax() ) {
+			wp_schedule_single_event( time() + HOUR_IN_SECONDS, 'delete_temp_updater_backups' );
+			return;
+		}
+
+		add_action(
+			'shutdown',
+			/*
+			 * This action runs on shutdown to make sure there's no plugin updates currently running.
+			 * Using a closure in this case is OK since the action can be removed by removing the parent hook.
+			 */
+			function() {
+				global $wp_filesystem;
+
+				if ( ! $wp_filesystem ) {
+					include_once ABSPATH . '/wp-admin/includes/file.php';
+					WP_Filesystem();
+				}
+
+				$dirlist = $wp_filesystem->dirlist( $wp_filesystem->wp_content_dir() . 'upgrade/temp-backup/' );
+
+				foreach ( array_keys( $dirlist ) as $dir ) {
+					if ( '.' === $dir || '..' === $dir ) {
+						continue;
+					}
+
+					$wp_filesystem->delete( $wp_filesystem->wp_content_dir() . 'upgrade/temp-backup/' . $dir, true );
+				}
+			}
+		);
+	}
 }
 
 /** Plugin_Upgrader class */
