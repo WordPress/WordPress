@@ -2300,8 +2300,9 @@ function wp_enqueue_global_styles() {
 	);
 
 	$stylesheet = null;
+	$transient_name = 'global_styles_' . get_stylesheet();
 	if ( $can_use_cache ) {
-		$cache = get_transient( 'global_styles' );
+		$cache = get_transient( $transient_name );
 		if ( $cache ) {
 			$stylesheet = $cache;
 		}
@@ -2313,7 +2314,7 @@ function wp_enqueue_global_styles() {
 		$stylesheet = $theme_json->get_stylesheet();
 
 		if ( $can_use_cache ) {
-			set_transient( 'global_styles', $stylesheet, MINUTE_IN_SECONDS );
+			set_transient( $transient_name, $stylesheet, MINUTE_IN_SECONDS );
 		}
 	}
 
