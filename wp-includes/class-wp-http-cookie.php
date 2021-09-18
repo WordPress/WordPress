@@ -187,7 +187,7 @@ class WP_Http_Cookie {
 
 		// Host - very basic check that the request URL ends with the domain restriction (minus leading dot).
 		$domain = ( '.' === substr( $domain, 0, 1 ) ) ? substr( $domain, 1 ) : $domain;
-		if ( substr( $url['host'], -strlen( $domain ) ) != $domain ) {
+		if ( substr( $url['host'], -strlen( $domain ) ) !== $domain ) {
 			return false;
 		}
 
@@ -197,7 +197,7 @@ class WP_Http_Cookie {
 		}
 
 		// Path - request path must start with path restriction.
-		if ( substr( $url['path'], 0, strlen( $path ) ) != $path ) {
+		if ( substr( $url['path'], 0, strlen( $path ) ) !== $path ) {
 			return false;
 		}
 
