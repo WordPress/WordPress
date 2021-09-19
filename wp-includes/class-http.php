@@ -269,9 +269,9 @@ class WP_Http {
 			}
 		}
 
-		$arrURL = parse_url( $url );
+		$parsed_url = parse_url( $url );
 
-		if ( empty( $url ) || empty( $arrURL['scheme'] ) ) {
+		if ( empty( $url ) || empty( $parsed_url['scheme'] ) ) {
 			$response = new WP_Error( 'http_request_failed', __( 'A valid URL was not provided.' ) );
 			/** This action is documented in wp-includes/class-http.php */
 			do_action( 'http_api_debug', $response, 'response', 'Requests', $parsed_args, $url );
