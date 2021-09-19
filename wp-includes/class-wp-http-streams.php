@@ -51,30 +51,30 @@ class WP_Http_Streams {
 		// Construct Cookie: header if any cookies are set.
 		WP_Http::buildCookieHeader( $parsed_args );
 
-		$arrURL = parse_url( $url );
+		$parsed_url = parse_url( $url );
 
-		$connect_host = $arrURL['host'];
+		$connect_host = $parsed_url['host'];
 
-		$secure_transport = ( 'ssl' === $arrURL['scheme'] || 'https' === $arrURL['scheme'] );
-		if ( ! isset( $arrURL['port'] ) ) {
-			if ( 'ssl' === $arrURL['scheme'] || 'https' === $arrURL['scheme'] ) {
-				$arrURL['port']   = 443;
-				$secure_transport = true;
+		$secure_transport = ( 'ssl' === $parsed_url['scheme'] || 'https' === $parsed_url['scheme'] );
+		if ( ! isset( $parsed_url['port'] ) ) {
+			if ( 'ssl' === $parsed_url['scheme'] || 'https' === $parsed_url['scheme'] ) {
+				$parsed_url['port'] = 443;
+				$secure_transport   = true;
 			} else {
-				$arrURL['port'] = 80;
+				$parsed_url['port'] = 80;
 			}
 		}
 
 		// Always pass a path, defaulting to the root in cases such as http://example.com.
-		if ( ! isset( $arrURL['path'] ) ) {
-			$arrURL['path'] = '/';
+		if ( ! isset( $parsed_url['path'] ) ) {
+			$parsed_url['path'] = '/';
 		}
 
 		if ( isset( $parsed_args['headers']['Host'] ) || isset( $parsed_args['headers']['host'] ) ) {
 			if ( isset( $parsed_args['headers']['Host'] ) ) {
-				$arrURL['host'] = $parsed_args['headers']['Host'];
+				$parsed_url['host'] = $parsed_args['headers']['Host'];
 			} else {
-				$arrURL['host'] = $parsed_args['headers']['host'];
+				$parsed_url['host'] = $parsed_args['headers']['host'];
 			}
 			unset( $parsed_args['headers']['Host'], $parsed_args['headers']['host'] );
 		}
@@ -114,7 +114,7 @@ class WP_Http_Streams {
 			array(
 				'ssl' => array(
 					'verify_peer'       => $ssl_verify,
-					// 'CN_match' => $arrURL['host'], // This is handled by self::verify_ssl_certificate().
+					// 'CN_match' => $parsed_url['host'], // This is handled by self::verify_ssl_certificate().
 					'capture_peer_cert' => $ssl_verify,
 					'SNI_enabled'       => true,
 					'cafile'            => $parsed_args['sslcertificates'],
@@ -144,7 +144,7 @@ class WP_Http_Streams {
 				$handle = @stream_socket_client( 'tcp://' . $proxy->host() . ':' . $proxy->port(), $connection_error, $connection_error_str, $connect_timeout, STREAM_CLIENT_CONNECT, $context );
 			} else {
 				// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
-				$handle = @stream_socket_client( $connect_host . ':' . $arrURL['port'], $connection_error, $connection_error_str, $connect_timeout, STREAM_CLIENT_CONNECT, $context );
+				$handle = @stream_socket_client( $connect_host . ':' . $parsed_url['port'], $connection_error, $connection_error_str, $connect_timeout, STREAM_CLIENT_CONNECT, $context );
 			}
 
 			if ( $secure_transport ) {
@@ -154,7 +154,7 @@ class WP_Http_Streams {
 			if ( $proxy->is_enabled() && $proxy->send_through_proxy( $url ) ) {
 				$handle = stream_socket_client( 'tcp://' . $proxy->host() . ':' . $proxy->port(), $connection_error, $connection_error_str, $connect_timeout, STREAM_CLIENT_CONNECT, $context );
 			} else {
-				$handle = stream_socket_client( $connect_host . ':' . $arrURL['port'], $connection_error, $connection_error_str, $connect_timeout, STREAM_CLIENT_CONNECT, $context );
+				$handle = stream_socket_client( $connect_host . ':' . $parsed_url['port'], $connection_error, $connection_error_str, $connect_timeout, STREAM_CLIENT_CONNECT, $context );
 			}
 		}
 
@@ -169,7 +169,7 @@ class WP_Http_Streams {
 
 		// Verify that the SSL certificate is valid for this request.
 		if ( $secure_transport && $ssl_verify && ! $proxy->is_enabled() ) {
-			if ( ! self::verify_ssl_certificate( $handle, $arrURL['host'] ) ) {
+			if ( ! self::verify_ssl_certificate( $handle, $parsed_url['host'] ) ) {
 				return new WP_Error( 'http_request_failed', __( 'The SSL certificate for the host could not be verified.' ) );
 			}
 		}
@@ -179,21 +179,21 @@ class WP_Http_Streams {
 		if ( $proxy->is_enabled() && $proxy->send_through_proxy( $url ) ) { // Some proxies require full URL in this field.
 			$requestPath = $url;
 		} else {
-			$requestPath = $arrURL['path'] . ( isset( $arrURL['query'] ) ? '?' . $arrURL['query'] : '' );
+			$requestPath = $parsed_url['path'] . ( isset( $parsed_url['query'] ) ? '?' . $parsed_url['query'] : '' );
 		}
 
 		$strHeaders = strtoupper( $parsed_args['method'] ) . ' ' . $requestPath . ' HTTP/' . $parsed_args['httpversion'] . "\r\n";
 
 		$include_port_in_host_header = (
 			( $proxy->is_enabled() && $proxy->send_through_proxy( $url ) ) ||
-			( 'http' === $arrURL['scheme'] && 80 != $arrURL['port'] ) ||
-			( 'https' === $arrURL['scheme'] && 443 != $arrURL['port'] )
+			( 'http' === $parsed_url['scheme'] && 80 != $parsed_url['port'] ) ||
+			( 'https' === $parsed_url['scheme'] && 443 != $parsed_url['port'] )
 		);
 
 		if ( $include_port_in_host_header ) {
-			$strHeaders .= 'Host: ' . $arrURL['host'] . ':' . $arrURL['port'] . "\r\n";
+			$strHeaders .= 'Host: ' . $parsed_url['host'] . ':' . $parsed_url['port'] . "\r\n";
 		} else {
-			$strHeaders .= 'Host: ' . $arrURL['host'] . "\r\n";
+			$strHeaders .= 'Host: ' . $parsed_url['host'] . "\r\n";
 		}
 
 		if ( isset( $parsed_args['user-agent'] ) ) {
