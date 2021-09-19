@@ -93,12 +93,12 @@ class WP_Http_Cookie {
 	 */
 	public function __construct( $data, $requested_url = '' ) {
 		if ( $requested_url ) {
-			$arrURL = parse_url( $requested_url );
+			$parsed_url = parse_url( $requested_url );
 		}
-		if ( isset( $arrURL['host'] ) ) {
-			$this->domain = $arrURL['host'];
+		if ( isset( $parsed_url['host'] ) ) {
+			$this->domain = $parsed_url['host'];
 		}
-		$this->path = isset( $arrURL['path'] ) ? $arrURL['path'] : '/';
+		$this->path = isset( $parsed_url['path'] ) ? $parsed_url['path'] : '/';
 		if ( '/' !== substr( $this->path, -1 ) ) {
 			$this->path = dirname( $this->path ) . '/';
 		}
