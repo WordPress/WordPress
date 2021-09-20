@@ -2259,7 +2259,7 @@ function register_initial_settings() {
  *
  * @param string $option_group A settings group name. Should correspond to an allowed option key name.
  *                             Default allowed option key names include 'general', 'discussion', 'media',
- *                             'reading', 'writing', 'misc', 'options', and 'privacy'.
+ *                             'reading', 'writing', and 'options'.
  * @param string $option_name The name of an option to sanitize and save.
  * @param array  $args {
  *     Data used to describe the setting when registered.

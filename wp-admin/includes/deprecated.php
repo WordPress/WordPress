@@ -165,7 +165,7 @@ function wp_dropdown_cats( $currentcat = 0, $currentparent = 0, $parent = 0, $le
  *
  * @param string $option_group A settings group name. Should correspond to an allowed option key name.
  *                             Default allowed option key names include 'general', 'discussion', 'media',
- *                             'reading', 'writing', 'misc', 'options', and 'privacy'.
+ *                             'reading', 'writing', and 'options'.
  * @param string $option_name The name of an option to sanitize and save.
  * @param callable $sanitize_callback A callback function that sanitizes the option's value.
  */
