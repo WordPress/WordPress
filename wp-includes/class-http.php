@@ -309,8 +309,8 @@ class WP_Http {
 
 		// WP allows passing in headers as a string, weirdly.
 		if ( ! is_array( $parsed_args['headers'] ) ) {
-			$processedHeaders       = WP_Http::processHeaders( $parsed_args['headers'] );
-			$parsed_args['headers'] = $processedHeaders['headers'];
+			$processed_headers      = WP_Http::processHeaders( $parsed_args['headers'] );
+			$parsed_args['headers'] = $processed_headers['headers'];
 		}
 
 		// Setup arguments.
