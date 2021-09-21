@@ -5112,6 +5112,12 @@ function wp_transition_post_status( $new_status, $old_status, $post ) {
 	 * The dynamic portions of the hook name, `$new_status` and `$old_status`,
 	 * refer to the old and new post statuses, respectively.
 	 *
+	 * Possible hook names include:
+	 *
+	 *  - `draft_to_publish`
+	 *  - `publish_to_trash`
+	 *  - `pending_to_draft`
+	 *
 	 * @since 2.3.0
 	 *
 	 * @param WP_Post $post Post object.

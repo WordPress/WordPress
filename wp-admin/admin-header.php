@@ -132,7 +132,7 @@ do_action( 'admin_print_scripts' );
 /**
  * Fires in head section for a specific admin page.
  *
- * The dynamic portion of the hook, `$hook_suffix`, refers to the hook suffix
+ * The dynamic portion of the hook name, `$hook_suffix`, refers to the hook suffix
  * for the admin page.
  *
  * @since 2.1.0

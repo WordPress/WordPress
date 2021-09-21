@@ -1581,7 +1581,7 @@ function register_and_do_post_meta_boxes( $post ) {
 	/**
 	 * Fires after all built-in meta boxes have been added, contextually for the given post type.
 	 *
-	 * The dynamic portion of the hook, `$post_type`, refers to the post type of the post.
+	 * The dynamic portion of the hook name, `$post_type`, refers to the post type of the post.
 	 *
 	 * Possible hook names include:
 	 *

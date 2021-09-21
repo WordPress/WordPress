@@ -225,6 +225,8 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		 *  - `install_plugins_table_api_args_popular`
 		 *  - `install_plugins_table_api_args_recommended`
 		 *  - `install_plugins_table_api_args_upload`
+		 *  - `install_plugins_table_api_args_search`
+		 *  - `install_plugins_table_api_args_beta`
 		 *
 		 * @since 3.7.0
 		 *

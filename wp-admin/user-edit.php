@@ -553,7 +553,7 @@ endif;
 			/**
 			 * Filters a user contactmethod label.
 			 *
-			 * The dynamic portion of the filter hook, `$name`, refers to
+			 * The dynamic portion of the hook name, `$name`, refers to
 			 * each of the keys in the contact methods array.
 			 *
 			 * @since 2.9.0

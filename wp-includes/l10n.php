@@ -191,7 +191,7 @@ function translate( $text, $domain = 'default' ) {
 	/**
 	 * Filters text with its translation for a domain.
 	 *
-	 * The dynamic portion of the hook, `$domain`, refers to the text domain.
+	 * The dynamic portion of the hook name, `$domain`, refers to the text domain.
 	 *
 	 * @since 5.5.0
 	 *
@@ -259,7 +259,7 @@ function translate_with_gettext_context( $text, $context, $domain = 'default' ) 
 	/**
 	 * Filters text with its translation based on context information for a domain.
 	 *
-	 * The dynamic portion of the hook, `$domain`, refers to the text domain.
+	 * The dynamic portion of the hook name, `$domain`, refers to the text domain.
 	 *
 	 * @since 5.5.0
 	 *
@@ -482,7 +482,7 @@ function _n( $single, $plural, $number, $domain = 'default' ) {
 	/**
 	 * Filters the singular or plural form of a string for a domain.
 	 *
-	 * The dynamic portion of the hook, `$domain`, refers to the text domain.
+	 * The dynamic portion of the hook name, `$domain`, refers to the text domain.
 	 *
 	 * @since 5.5.0
 	 *
@@ -542,7 +542,7 @@ function _nx( $single, $plural, $number, $context, $domain = 'default' ) {
 	/**
 	 * Filters the singular or plural form of a string with gettext context for a domain.
 	 *
-	 * The dynamic portion of the hook, `$domain`, refers to the text domain.
+	 * The dynamic portion of the hook name, `$domain`, refers to the text domain.
 	 *
 	 * @since 5.5.0
 	 *

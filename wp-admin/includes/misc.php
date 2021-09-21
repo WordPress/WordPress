@@ -716,7 +716,7 @@ function set_screen_options() {
 				/**
 				 * Filters a screen option value before it is set.
 				 *
-				 * The dynamic portion of the hook, `$option`, refers to the option name.
+				 * The dynamic portion of the hook name, `$option`, refers to the option name.
 				 *
 				 * Returning false from the filter will skip saving the current option.
 				 *

@@ -1826,6 +1826,15 @@ function wp_transition_comment_status( $new_status, $old_status, $comment ) {
 		 * The dynamic portions of the hook name, `$old_status`, and `$new_status`,
 		 * refer to the old and new comment statuses, respectively.
 		 *
+		 * Possible hook names include:
+		 *
+		 *  - `comment_unapproved_to_approved`
+		 *  - `comment_spam_to_approved`
+		 *  - `comment_approved_to_unapproved`
+		 *  - `comment_spam_to_unapproved`
+		 *  - `comment_unapproved_to_spam`
+		 *  - `comment_approved_to_spam`
+		 *
 		 * @since 2.7.0
 		 *
 		 * @param WP_Comment $comment Comment object.
@@ -1838,8 +1847,19 @@ function wp_transition_comment_status( $new_status, $old_status, $comment ) {
 	 * The dynamic portions of the hook name, `$new_status`, and `$comment->comment_type`,
 	 * refer to the new comment status, and the type of comment, respectively.
 	 *
-	 * Typical comment types include an empty string (standard comment), 'pingback',
-	 * or 'trackback'.
+	 * Typical comment types include 'comment', 'pingback', or 'trackback'.
+	 *
+	 * Possible hook names include:
+	 *
+	 *  - `comment_approved_comment`
+	 *  - `comment_approved_pingback`
+	 *  - `comment_approved_trackback`
+	 *  - `comment_unapproved_comment`
+	 *  - `comment_unapproved_pingback`
+	 *  - `comment_unapproved_trackback`
+	 *  - `comment_spam_comment`
+	 *  - `comment_spam_pingback`
+	 *  - `comment_spam_trackback`
 	 *
 	 * @since 2.7.0
 	 *

@@ -577,7 +577,7 @@ function wp_iframe( $content_func, ...$args ) {
 		 * Fires in the admin header for each specific form tab in the legacy
 		 * (pre-3.5.0) media upload popup.
 		 *
-		 * The dynamic portion of the hook, `$content_func`, refers to the form
+		 * The dynamic portion of the hook name, `$content_func`, refers to the form
 		 * callback for the media upload type.
 		 *
 		 * @since 2.5.0
