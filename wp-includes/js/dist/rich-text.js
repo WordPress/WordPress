@@ -1063,7 +1063,8 @@ function normaliseFormats(_ref) {
   var formats = _ref.formats,
       text = _ref.text,
       start = _ref.start,
-      end = _ref.end;
+      end = _ref.end,
+      replacements = _ref.replacements;
   var refs = [];
   var newFormats = formats.map(function (formatsAtIndex) {
     return formatsAtIndex.map(function (format) {
@@ -1083,7 +1084,8 @@ function normaliseFormats(_ref) {
     formats: newFormats,
     text: text,
     start: start,
-    end: end
+    end: end,
+    replacements: replacements
   };
 }
 
@@ -1114,7 +1116,8 @@ function applyFormat(_ref, format) {
   var formats = _ref.formats,
       text = _ref.text,
       start = _ref.start,
-      end = _ref.end;
+      end = _ref.end,
+      replacements = _ref.replacements;
   var startIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : start;
   var endIndex = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : end;
   var newFormats = formats.slice(0); // The selection is collpased.
@@ -1149,6 +1152,7 @@ function applyFormat(_ref, format) {
         text: text,
         start: start,
         end: end,
+        replacements: replacements,
         formatPlaceholder: {
           index: startIndex,
           format: hasType ? undefined : format
@@ -1165,7 +1169,8 @@ function applyFormat(_ref, format) {
     formats: newFormats,
     text: text,
     start: start,
-    end: end
+    end: end,
+    replacements: replacements
   });
 }
 
@@ -1340,6 +1345,7 @@ var _window$Node = window.Node,
 function createEmptyValue() {
   return {
     formats: [],
+    replacements: [],
     text: ''
   };
 }
@@ -1454,6 +1460,7 @@ function create() {
   if (typeof text === 'string' && text.length > 0) {
     return {
       formats: Array(text.length),
+      replacements: Array(text.length),
       text: text
     };
   }
@@ -1646,6 +1653,7 @@ function createFromElement(_ref3) {
       // formats can be added.
 
       accumulator.formats.length += _text.length;
+      accumulator.replacements.length += _text.length;
       continue;
     }
 
@@ -1670,7 +1678,9 @@ function createFromElement(_ref3) {
         text: OBJECT_REPLACEMENT_CHARACTER
       };
       accumulateSelection(accumulator, node, range, _value);
-      mergePair(accumulator, _value);
+      accumulator.formats.length += 1;
+      accumulator.replacements = accumulator.replacements.concat(_value.replacements);
+      accumulator.text += OBJECT_REPLACEMENT_CHARACTER;
       continue;
     }
 
@@ -1678,6 +1688,7 @@ function createFromElement(_ref3) {
       accumulateSelection(accumulator, node, range, createEmptyValue());
       accumulator.text += '\n';
       accumulator.formats.length += 1;
+      accumulator.replacements.length += 1;
       continue;
     }
 
@@ -1742,17 +1753,20 @@ function createFromElement(_ref3) {
     var formats = accumulator.formats;
 
     if (format && format.attributes && text.length === 0) {
+      var lastReplacement = accumulator.replacements[accumulator.replacements.length - 1];
       format.object = true;
-      accumulator.text += OBJECT_REPLACEMENT_CHARACTER;
 
-      if (formats[start]) {
-        formats[start].unshift(format);
-      } else {
-        formats[start] = [format];
+      if (isFormatEqual(lastReplacement, format)) {
+        return accumulator;
       }
+
+      accumulator.text += OBJECT_REPLACEMENT_CHARACTER;
+      accumulator.replacements.push(format);
+      accumulator.formats.length += 1;
     } else {
       accumulator.text += text;
       accumulator.formats.length += text.length;
+      accumulator.replacements.length += text.length;
       var i = value.formats.length; // Optimise for speed.
 
       while (i--) {
@@ -1774,6 +1788,10 @@ function createFromElement(_ref3) {
           } else {
             formats[formatIndex] = value.formats[i];
           }
+        }
+
+        if (value.replacements[i]) {
+          accumulator.replacements[formatIndex] = value.replacements[i];
         }
       }
     }
@@ -1864,11 +1882,13 @@ function createFromMultilineElement(_ref4) {
     if (index !== 0 || currentWrapperTags.length > 0) {
       var formats = currentWrapperTags.length > 0 ? [currentWrapperTags] : [,];
       accumulator.formats = accumulator.formats.concat(formats);
+      accumulator.replacements.length += 1;
       accumulator.text += LINE_SEPARATOR;
     }
 
     accumulateSelection(accumulator, node, range, value);
     accumulator.formats = accumulator.formats.concat(value.formats);
+    accumulator.replacements = accumulator.replacements.concat(value.replacements);
     accumulator.text += value.text;
   }
 
@@ -2277,7 +2297,8 @@ function removeFormat(_ref, formatType) {
   var formats = _ref.formats,
       text = _ref.text,
       start = _ref.start,
-      end = _ref.end;
+      end = _ref.end,
+      replacements = _ref.replacements;
   var startIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : start;
   var endIndex = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : end;
   var newFormats = formats.slice(0); // If the selection is collapsed, expand start and end to the edges of the
@@ -2311,7 +2332,8 @@ function removeFormat(_ref, formatType) {
     formats: newFormats,
     text: text,
     start: start,
-    end: end
+    end: end,
+    replacements: replacements
   });
 }
 
@@ -2352,7 +2374,8 @@ function insert(_ref, valueToInsert) {
   var formats = _ref.formats,
       text = _ref.text,
       start = _ref.start,
-      end = _ref.end;
+      end = _ref.end,
+      replacements = _ref.replacements;
   var startIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : start;
   var endIndex = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : end;
 
@@ -2366,6 +2389,7 @@ function insert(_ref, valueToInsert) {
   return normaliseFormats({
     formats: formats.slice(0, startIndex).concat(valueToInsert.formats, formats.slice(endIndex)),
     text: text.slice(0, startIndex) + valueToInsert.text + text.slice(endIndex),
+    replacements: replacements.slice(0, startIndex).concat(valueToInsert.replacements, replacements.slice(endIndex)),
     start: index,
     end: index
   });
@@ -2420,7 +2444,8 @@ function replace(_ref, pattern, replacement) {
   var formats = _ref.formats,
       text = _ref.text,
       start = _ref.start,
-      end = _ref.end;
+      end = _ref.end,
+      replacements = _ref.replacements;
   text = text.replace(pattern, function (match) {
     for (var _len = arguments.length, rest = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
       rest[_key - 1] = arguments[_key];
@@ -2429,6 +2454,7 @@ function replace(_ref, pattern, replacement) {
     var offset = rest[rest.length - 2];
     var newText = replacement;
     var newFormats;
+    var newReplacements;
 
     if (typeof newText === 'function') {
       newText = replacement.apply(void 0, [match].concat(rest));
@@ -2436,9 +2462,11 @@ function replace(_ref, pattern, replacement) {
 
     if (Object(esm_typeof["a" /* default */])(newText) === 'object') {
       newFormats = newText.formats;
+      newReplacements = newText.replacements;
       newText = newText.text;
     } else {
       newFormats = Array(newText.length);
+      newReplacements = Array(newText.length);
 
       if (formats[offset]) {
         newFormats = newFormats.fill(formats[offset]);
@@ -2446,6 +2474,7 @@ function replace(_ref, pattern, replacement) {
     }
 
     formats = formats.slice(0, offset).concat(newFormats, formats.slice(offset + match.length));
+    replacements = replacements.slice(0, offset).concat(newReplacements, replacements.slice(offset + match.length));
 
     if (start) {
       start = end = offset + newText.length;
@@ -2455,6 +2484,7 @@ function replace(_ref, pattern, replacement) {
   });
   return normaliseFormats({
     formats: formats,
+    replacements: replacements,
     text: text,
     start: start,
     end: end
@@ -2494,6 +2524,7 @@ function insertLineSeparator(value) {
 
   var valueToInsert = {
     formats: formats,
+    replacements: [,],
     text: LINE_SEPARATOR
   };
   return insert(value, valueToInsert, startIndex, endIndex);
@@ -2523,9 +2554,10 @@ var insert_object_OBJECT_REPLACEMENT_CHARACTER = "\uFFFC";
 function insertObject(value, formatToInsert, startIndex, endIndex) {
   var valueToInsert = {
     text: insert_object_OBJECT_REPLACEMENT_CHARACTER,
-    formats: [[Object(objectSpread["a" /* default */])({}, formatToInsert, {
+    replacements: [Object(objectSpread["a" /* default */])({}, formatToInsert, {
       object: true
-    })]]
+    })],
+    formats: [,]
   };
   return insert(value, valueToInsert, startIndex, endIndex);
 }
@@ -2546,19 +2578,22 @@ function slice(_ref) {
   var formats = _ref.formats,
       text = _ref.text,
       start = _ref.start,
-      end = _ref.end;
+      end = _ref.end,
+      replacements = _ref.replacements;
   var startIndex = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : start;
   var endIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : end;
 
   if (startIndex === undefined || endIndex === undefined) {
     return {
       formats: formats,
-      text: text
+      text: text,
+      replacements: replacements
     };
   }
 
   return {
     formats: formats.slice(startIndex, endIndex),
+    replacements: replacements.slice(startIndex, endIndex),
     text: text.slice(startIndex, endIndex)
   };
 }
@@ -2584,7 +2619,8 @@ function split(_ref, string) {
   var formats = _ref.formats,
       text = _ref.text,
       start = _ref.start,
-      end = _ref.end;
+      end = _ref.end,
+      replacements = _ref.replacements;
 
   if (typeof string !== 'string') {
     return splitAtSelection.apply(void 0, arguments);
@@ -2595,6 +2631,7 @@ function split(_ref, string) {
     var startIndex = nextStart;
     var value = {
       formats: formats.slice(startIndex, startIndex + substring.length),
+      replacements: replacements.slice(startIndex, startIndex + substring.length),
       text: substring
     };
     nextStart += string.length + substring.length;
@@ -2621,15 +2658,18 @@ function splitAtSelection(_ref2) {
   var formats = _ref2.formats,
       text = _ref2.text,
       start = _ref2.start,
-      end = _ref2.end;
+      end = _ref2.end,
+      replacements = _ref2.replacements;
   var startIndex = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : start;
   var endIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : end;
   var before = {
     formats: formats.slice(0, startIndex),
+    replacements: replacements.slice(0, startIndex),
     text: text.slice(0, startIndex)
   };
   var after = {
     formats: formats.slice(endIndex),
+    replacements: replacements.slice(endIndex),
     text: text.slice(endIndex),
     start: 0,
     end: 0
@@ -2748,7 +2788,8 @@ function toTree(_ref2) {
       text = value.text,
       start = value.start,
       end = value.end,
-      formatPlaceholder = value.formatPlaceholder;
+      formatPlaceholder = value.formatPlaceholder,
+      replacements = value.replacements;
   var formatsLength = formats.length + 1;
   var tree = createEmpty();
   var multilineFormat = {

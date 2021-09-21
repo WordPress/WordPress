@@ -16175,6 +16175,7 @@ function (_Component) {
     value: function getRecord() {
       var _this$formatToValue = this.formatToValue(this.props.value),
           formats = _this$formatToValue.formats,
+          replacements = _this$formatToValue.replacements,
           text = _this$formatToValue.text;
 
       var _this$state = this.state,
@@ -16184,7 +16185,8 @@ function (_Component) {
         formats: formats,
         text: text,
         start: start,
-        end: end
+        end: end,
+        replacements: replacements
       };
     }
   }, {
