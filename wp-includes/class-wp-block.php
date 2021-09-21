@@ -241,11 +241,13 @@ class WP_Block {
 		 * Filters the content of a single block.
 		 *
 		 * @since 5.0.0
+		 * @since 5.9.0 The `$instance` parameter was added.
 		 *
-		 * @param string $block_content The block content about to be appended.
-		 * @param array  $block         The full block, including name and attributes.
+		 * @param string   $block_content The block content about to be appended.
+		 * @param array    $block         The full block, including name and attributes.
+		 * @param WP_Block $instance      The block instance.
 		 */
-		$block_content = apply_filters( 'render_block', $block_content, $this->parsed_block );
+		$block_content = apply_filters( 'render_block', $block_content, $this->parsed_block, $this );
 
 		/**
 		 * Filters the content of a single block.
@@ -254,11 +256,13 @@ class WP_Block {
 		 * the block name, e.g. "core/paragraph".
 		 *
 		 * @since 5.7.0
+		 * @since 5.9.0 The `$instance` parameter was added.
 		 *
-		 * @param string $block_content The block content about to be appended.
-		 * @param array  $block         The full block, including name and attributes.
+		 * @param string   $block_content The block content about to be appended.
+		 * @param array    $block         The full block, including name and attributes.
+		 * @param WP_Block $instance      The block instance.
 		 */
-		$block_content = apply_filters( "render_block_{$this->name}", $block_content, $this->parsed_block );
+		$block_content = apply_filters( "render_block_{$this->name}", $block_content, $this->parsed_block, $this );
 
 		return $block_content;
 	}
