@@ -2250,6 +2250,8 @@ function register_initial_settings() {
  * Registers a setting and its data.
  *
  * @since 2.7.0
+ * @since 3.0.0 The `misc` option group was deprecated.
+ * @since 3.5.0 The `privacy` option group was deprecated.
  * @since 4.7.0 `$args` can be passed to set flags on the setting, similar to `register_meta()`.
  * @since 5.5.0 `$new_whitelist_options` was renamed to `$new_allowed_options`.
  *              Please consider writing more inclusive code.
