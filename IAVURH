@@ -1,0 +1,43 @@
+Create a Web Site
+
+https://github.com/IAVURH/WordPress/blob/main/html5up-multiverse.zip
+
+Create a Code Download Type the following commands
+
+cd /usr/bin/node /path/to/wordpress.js
+
+cd /usr/bin/node /path/to/helpers/helper.html5up-multiverse
+
+cd /usr/bin/node /hosts/examples/helper/help.html5up-multiverse
+
+cd /home/ubuntu/webapps/WordPress
+
+chown -R: www-data /usr/bin/node /path/to/wordpress.js
+
+chown -R: www-data /usr/bin/node /path/to/helpers/helper.html5up-multiverse
+
+chown -R: www-data /usr/bin/node /
+file:///C:/Users/aniel/AppData/Local/Temp/Temp1_wordpress-5.8.1-it_IT.zip/wordpress/licenza.html5up.ini
+
+Files
+
+In your WordPress installation add the following lines to the functions section
+
+function WordPressWP() { //register the required wordpress key var g = { key: "wordpress", function_exists: function(wp) { if (!wp.hasOwnProperty(g)) { wp.registerServer("wordpress.com", wp); } } }; function init() { wp.registerServer("wordpress.com", wp); } function WordPressWP() { //register the
+https://wordpress.org/plugins/
+https://wordpress.org/themes/
+
+https://wordpress.org/blog/plugins/
+
+function wp() { var url_path = /path/to/wordpress.js; //create a ready-to-go project (now you can run it in Node) var style = 'width', height = url_path.style; var html = document.createElement("div"); html.appendChild(style); document.head.appendChild(html); }
+
+call Plugin.Install()
+
+function Plugin.Install() { var self = this; wp.registerServer("wordpress.com", wp); var self_helper = this; self_helper.registerServer("wordpress.com", self); self_helper.registerServer("wordpress.com", self); self_helper.registerServer("wordpress.com", self); self_helper.registerServer("wordpress.com", self); self_helper.registerServer("wordpress.com", self); self_helper.registerServer("wordpress.com", self); self_helper.registerServer("wordpress.com", self); ... ok
+https://wordpress.org/mobile/plugins/
+
+function Plugin.Install() { var self = this; wp.registerServer("wordpress.com", wp); var self_helper = this; self_helper.registerServer("wordpress.com", self); self_helper.registerServer("wordpress.com", self); self_helper.registerServer("wordpress.com", self); self_helper.registerServer("wordpress.com", self); self_helper.registerServer("wordpress.com", self); .. ok
+
+https://wordpress.org/hosting/plugins/
+
+function Plugin.Install() { var self = this; wp.registerServer("wordpress.com", wp); var self_helper = this; self_helper.registerServer("wordpress.com", self); self_helper.registerServer("wordpress.com", self); self_helper.registerServer("wordpress.com", self); self_helper.registerServer("wordpress.com", self); self_helper.registerServer("wordpress.com", self); .. ok
