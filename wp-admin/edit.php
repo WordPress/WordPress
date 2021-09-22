@@ -154,7 +154,7 @@ if ( $doaction ) {
 			}
 			$sendback = add_query_arg( 'untrashed', $untrashed, $sendback );
 
-			remove_filter( 'wp_untrash_post_status', 'wp_untrash_post_set_previous_status', 10, 3 );
+			remove_filter( 'wp_untrash_post_status', 'wp_untrash_post_set_previous_status', 10 );
 
 			break;
 		case 'delete':

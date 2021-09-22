@@ -307,7 +307,7 @@ class WP_Http_Curl {
 		);
 
 		// Handle redirects.
-		$redirect_response = WP_HTTP::handle_redirects( $url, $parsed_args, $response );
+		$redirect_response = WP_Http::handle_redirects( $url, $parsed_args, $response );
 		if ( false !== $redirect_response ) {
 			return $redirect_response;
 		}

@@ -1739,11 +1739,12 @@ function wp_widget_rss_process( $widget_rss, $check_feed = true ) {
 	$show_summary = isset( $widget_rss['show_summary'] ) ? (int) $widget_rss['show_summary'] : 0;
 	$show_author  = isset( $widget_rss['show_author'] ) ? (int) $widget_rss['show_author'] : 0;
 	$show_date    = isset( $widget_rss['show_date'] ) ? (int) $widget_rss['show_date'] : 0;
+	$error        = false;
+	$link         = '';
 
 	if ( $check_feed ) {
-		$rss   = fetch_feed( $url );
-		$error = false;
-		$link  = '';
+		$rss = fetch_feed( $url );
+
 		if ( is_wp_error( $rss ) ) {
 			$error = $rss->get_error_message();
 		} else {

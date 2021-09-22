@@ -53,6 +53,8 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 			}
 		}
 
+		$default_title = $title;
+
 		$show_count = ! empty( $instance['count'] );
 
 		$tag_cloud = wp_tag_cloud(
