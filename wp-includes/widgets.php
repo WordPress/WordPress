@@ -1255,15 +1255,17 @@ function _wp_sidebars_changed() {
 }
 
 /**
- * Validates and remaps any "orphaned" widgets to wp_inactive_sidgets sidebar, and saves the widget settings.
- * This has to run at least on each theme change.
+ * Validates and remaps any "orphaned" widgets to wp_inactive_widgets sidebar,
+ * and saves the widget settings. This has to run at least on each theme change.
  *
  * For example, let's say theme A has a "footer" sidebar, and theme B doesn't have one.
- * After switching from theme A to theme B, all the widgets previously assigned to the footer would be inaccessible.
- * This function detects this scenario, and moves all the widgets previously assigned to the footer under wp_inactive_widgets.
+ * After switching from theme A to theme B, all the widgets previously assigned
+ * to the footer would be inaccessible. This function detects this scenario, and
+ * moves all the widgets previously assigned to the footer under wp_inactive_widgets.
  *
- * Despite the word "retrieve" in the name, this function actually updates the database and the global $sidebars_widgets.
- * For that reason it should not be run from the front end unless the param value is 'customize' (to bypass the database write).
+ * Despite the word "retrieve" in the name, this function actually updates the database
+ * and the global `$sidebars_widgets`. For that reason it should not be run on front end,
+ * unless the `$theme_changed` value is 'customize' (to bypass the database write).
  *
  * @since 2.8.0
  *
