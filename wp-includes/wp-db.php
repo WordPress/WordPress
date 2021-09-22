@@ -59,6 +59,7 @@ class wpdb {
 	 * Default is to show errors if both WP_DEBUG and WP_DEBUG_DISPLAY evaluate to true.
 	 *
 	 * @since 0.71
+	 *
 	 * @var bool
 	 */
 	public $show_errors = false;
@@ -67,6 +68,7 @@ class wpdb {
 	 * Whether to suppress errors during the DB bootstrapping. Default false.
 	 *
 	 * @since 2.5.0
+	 *
 	 * @var bool
 	 */
 	public $suppress_errors = false;
@@ -75,6 +77,7 @@ class wpdb {
 	 * The error encountered during the last query.
 	 *
 	 * @since 2.5.0
+	 *
 	 * @var string
 	 */
 	public $last_error = '';
@@ -83,6 +86,7 @@ class wpdb {
 	 * The number of queries made.
 	 *
 	 * @since 1.2.0
+	 *
 	 * @var int
 	 */
 	public $num_queries = 0;
@@ -91,6 +95,7 @@ class wpdb {
 	 * Count of rows returned by the last query.
 	 *
 	 * @since 0.71
+	 *
 	 * @var int
 	 */
 	public $num_rows = 0;
@@ -99,6 +104,7 @@ class wpdb {
 	 * Count of rows affected by the last query.
 	 *
 	 * @since 0.71
+	 *
 	 * @var int
 	 */
 	public $rows_affected = 0;
@@ -107,6 +113,7 @@ class wpdb {
 	 * The ID generated for an AUTO_INCREMENT column by the last query (usually INSERT).
 	 *
 	 * @since 0.71
+	 *
 	 * @var int
 	 */
 	public $insert_id = 0;
@@ -115,6 +122,7 @@ class wpdb {
 	 * The last query made.
 	 *
 	 * @since 0.71
+	 *
 	 * @var string
 	 */
 	public $last_query;
@@ -123,6 +131,7 @@ class wpdb {
 	 * Results of the last query.
 	 *
 	 * @since 0.71
+	 *
 	 * @var array|null
 	 */
 	public $last_result;
@@ -131,6 +140,7 @@ class wpdb {
 	 * MySQL result, which is either a resource or boolean.
 	 *
 	 * @since 0.71
+	 *
 	 * @var mixed
 	 */
 	protected $result;
@@ -139,6 +149,7 @@ class wpdb {
 	 * Cached column info, for sanity checking data before inserting.
 	 *
 	 * @since 4.2.0
+	 *
 	 * @var array
 	 */
 	protected $col_meta = array();
@@ -147,6 +158,7 @@ class wpdb {
 	 * Calculated character sets on tables.
 	 *
 	 * @since 4.2.0
+	 *
 	 * @var array
 	 */
 	protected $table_charset = array();
@@ -155,6 +167,7 @@ class wpdb {
 	 * Whether text fields in the current query need to be sanity checked. Default false.
 	 *
 	 * @since 4.2.0
+	 *
 	 * @var bool
 	 */
 	protected $check_current_query = true;
@@ -163,6 +176,7 @@ class wpdb {
 	 * Flag to ensure we don't run into recursion problems when checking the collation.
 	 *
 	 * @since 4.2.0
+	 *
 	 * @see wpdb::check_safe_collation()
 	 * @var bool
 	 */
@@ -172,6 +186,7 @@ class wpdb {
 	 * Saved info on the table column.
 	 *
 	 * @since 0.71
+	 *
 	 * @var array
 	 */
 	protected $col_info;
@@ -204,6 +219,7 @@ class wpdb {
 	 * The number of times to retry reconnecting before dying. Default 5.
 	 *
 	 * @since 3.9.0
+	 *
 	 * @see wpdb::check_connection()
 	 * @var int
 	 */
@@ -216,6 +232,7 @@ class wpdb {
 	 * The second reason is for possible security precautions.
 	 *
 	 * @since 2.5.0
+	 *
 	 * @var string
 	 */
 	public $prefix = '';
@@ -224,6 +241,7 @@ class wpdb {
 	 * WordPress base table prefix.
 	 *
 	 * @since 3.0.0
+	 *
 	 * @var string
 	 */
 	public $base_prefix;
@@ -232,6 +250,7 @@ class wpdb {
 	 * Whether the database queries are ready to start executing.
 	 *
 	 * @since 2.3.2
+	 *
 	 * @var bool
 	 */
 	public $ready = false;
@@ -240,6 +259,7 @@ class wpdb {
 	 * Blog ID.
 	 *
 	 * @since 3.0.0
+	 *
 	 * @var int
 	 */
 	public $blogid = 0;
@@ -248,6 +268,7 @@ class wpdb {
 	 * Site ID.
 	 *
 	 * @since 3.0.0
+	 *
 	 * @var int
 	 */
 	public $siteid = 0;
@@ -256,6 +277,7 @@ class wpdb {
 	 * List of WordPress per-blog tables.
 	 *
 	 * @since 2.5.0
+	 *
 	 * @see wpdb::tables()
 	 * @var array
 	 */
@@ -278,6 +300,7 @@ class wpdb {
 	 * 'categories', 'post2cat', and 'link2cat' were deprecated in 2.3.0, db version 5539.
 	 *
 	 * @since 2.9.0
+	 *
 	 * @see wpdb::tables()
 	 * @var array
 	 */
@@ -287,6 +310,7 @@ class wpdb {
 	 * List of WordPress global tables.
 	 *
 	 * @since 3.0.0
+	 *
 	 * @see wpdb::tables()
 	 * @var array
 	 */
@@ -296,6 +320,7 @@ class wpdb {
 	 * List of Multisite global tables.
 	 *
 	 * @since 3.0.0
+	 *
 	 * @see wpdb::tables()
 	 * @var array
 	 */
@@ -313,6 +338,7 @@ class wpdb {
 	 * WordPress Comments table.
 	 *
 	 * @since 1.5.0
+	 *
 	 * @var string
 	 */
 	public $comments;
@@ -321,6 +347,7 @@ class wpdb {
 	 * WordPress Comment Metadata table.
 	 *
 	 * @since 2.9.0
+	 *
 	 * @var string
 	 */
 	public $commentmeta;
@@ -329,6 +356,7 @@ class wpdb {
 	 * WordPress Links table.
 	 *
 	 * @since 1.5.0
+	 *
 	 * @var string
 	 */
 	public $links;
@@ -337,6 +365,7 @@ class wpdb {
 	 * WordPress Options table.
 	 *
 	 * @since 1.5.0
+	 *
 	 * @var string
 	 */
 	public $options;
@@ -345,6 +374,7 @@ class wpdb {
 	 * WordPress Post Metadata table.
 	 *
 	 * @since 1.5.0
+	 *
 	 * @var string
 	 */
 	public $postmeta;
@@ -353,6 +383,7 @@ class wpdb {
 	 * WordPress Posts table.
 	 *
 	 * @since 1.5.0
+	 *
 	 * @var string
 	 */
 	public $posts;
@@ -361,6 +392,7 @@ class wpdb {
 	 * WordPress Terms table.
 	 *
 	 * @since 2.3.0
+	 *
 	 * @var string
 	 */
 	public $terms;
@@ -369,6 +401,7 @@ class wpdb {
 	 * WordPress Term Relationships table.
 	 *
 	 * @since 2.3.0
+	 *
 	 * @var string
 	 */
 	public $term_relationships;
@@ -377,6 +410,7 @@ class wpdb {
 	 * WordPress Term Taxonomy table.
 	 *
 	 * @since 2.3.0
+	 *
 	 * @var string
 	 */
 	public $term_taxonomy;
@@ -385,6 +419,7 @@ class wpdb {
 	 * WordPress Term Meta table.
 	 *
 	 * @since 4.4.0
+	 *
 	 * @var string
 	 */
 	public $termmeta;
@@ -397,6 +432,7 @@ class wpdb {
 	 * WordPress User Metadata table.
 	 *
 	 * @since 2.3.0
+	 *
 	 * @var string
 	 */
 	public $usermeta;
@@ -405,6 +441,7 @@ class wpdb {
 	 * WordPress Users table.
 	 *
 	 * @since 1.5.0
+	 *
 	 * @var string
 	 */
 	public $users;
@@ -413,6 +450,7 @@ class wpdb {
 	 * Multisite Blogs table.
 	 *
 	 * @since 3.0.0
+	 *
 	 * @var string
 	 */
 	public $blogs;
@@ -421,6 +459,7 @@ class wpdb {
 	 * Multisite Blog Metadata table.
 	 *
 	 * @since 5.1.0
+	 *
 	 * @var string
 	 */
 	public $blogmeta;
@@ -429,6 +468,7 @@ class wpdb {
 	 * Multisite Registration Log table.
 	 *
 	 * @since 3.0.0
+	 *
 	 * @var string
 	 */
 	public $registration_log;
@@ -437,6 +477,7 @@ class wpdb {
 	 * Multisite Signups table.
 	 *
 	 * @since 3.0.0
+	 *
 	 * @var string
 	 */
 	public $signups;
@@ -445,6 +486,7 @@ class wpdb {
 	 * Multisite Sites table.
 	 *
 	 * @since 3.0.0
+	 *
 	 * @var string
 	 */
 	public $site;
@@ -453,6 +495,7 @@ class wpdb {
 	 * Multisite Sitewide Terms table.
 	 *
 	 * @since 3.0.0
+	 *
 	 * @var string
 	 */
 	public $sitecategories;
@@ -461,6 +504,7 @@ class wpdb {
 	 * Multisite Site Metadata table.
 	 *
 	 * @since 3.0.0
+	 *
 	 * @var string
 	 */
 	public $sitemeta;
@@ -472,6 +516,7 @@ class wpdb {
 	 * Keys are column names, values are format types: 'ID' => '%d'.
 	 *
 	 * @since 2.8.0
+	 *
 	 * @see wpdb::prepare()
 	 * @see wpdb::insert()
 	 * @see wpdb::update()
@@ -485,6 +530,7 @@ class wpdb {
 	 * Database table columns charset.
 	 *
 	 * @since 2.2.0
+	 *
 	 * @var string
 	 */
 	public $charset;
@@ -493,6 +539,7 @@ class wpdb {
 	 * Database table columns collate.
 	 *
 	 * @since 2.2.0
+	 *
 	 * @var string
 	 */
 	public $collate;
@@ -501,6 +548,7 @@ class wpdb {
 	 * Database Username.
 	 *
 	 * @since 2.9.0
+	 *
 	 * @var string
 	 */
 	protected $dbuser;
@@ -509,6 +557,7 @@ class wpdb {
 	 * Database Password.
 	 *
 	 * @since 3.1.0
+	 *
 	 * @var string
 	 */
 	protected $dbpassword;
@@ -517,6 +566,7 @@ class wpdb {
 	 * Database Name.
 	 *
 	 * @since 3.1.0
+	 *
 	 * @var string
 	 */
 	protected $dbname;
@@ -525,6 +575,7 @@ class wpdb {
 	 * Database Host.
 	 *
 	 * @since 3.1.0
+	 *
 	 * @var string
 	 */
 	protected $dbhost;
@@ -533,6 +584,7 @@ class wpdb {
 	 * Database Handle.
 	 *
 	 * @since 0.71
+	 *
 	 * @var string
 	 */
 	protected $dbh;
@@ -541,6 +593,7 @@ class wpdb {
 	 * A textual description of the last query/get_row/get_var call.
 	 *
 	 * @since 3.0.0
+	 *
 	 * @var string
 	 */
 	public $func_call;
@@ -554,6 +607,7 @@ class wpdb {
 	 * will force the checks to occur.
 	 *
 	 * @since 3.3.0
+	 *
 	 * @var bool
 	 */
 	public $is_mysql = null;
@@ -562,6 +616,7 @@ class wpdb {
 	 * A list of incompatible SQL modes.
 	 *
 	 * @since 3.9.0
+	 *
 	 * @var array
 	 */
 	protected $incompatible_modes = array(
@@ -577,6 +632,7 @@ class wpdb {
 	 * Whether to use mysqli over mysql. Default false.
 	 *
 	 * @since 3.9.0
+	 *
 	 * @var bool
 	 */
 	private $use_mysqli = false;
@@ -585,9 +641,30 @@ class wpdb {
 	 * Whether we've managed to successfully connect at some point.
 	 *
 	 * @since 3.9.0
+	 *
 	 * @var bool
 	 */
 	private $has_connected = false;
+
+	/**
+	 * Time when the last query was performed.
+	 *
+	 * Only set when `SAVEQUERIES` is defined and truthy.
+	 *
+	 * @since 1.5.0
+	 *
+	 * @var float
+	 */
+	public $time_start = null;
+
+	/**
+	 * The last SQL error that was encountered.
+	 *
+	 * @since 2.5.0
+	 *
+	 * @var WP_Error|string
+	 */
+	public $error = null;
 
 	/**
 	 * Connects to the database server and selects a database.

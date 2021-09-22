@@ -17,33 +17,37 @@
  */
 class WP_Dependencies {
 	/**
-	 * An array of registered handle objects.
+	 * An array of all registered dependencies keyed by handle.
 	 *
 	 * @since 2.6.8
-	 * @var array
+	 *
+	 * @var _WP_Dependency[]
 	 */
 	public $registered = array();
 
 	/**
-	 * An array of handles of queued objects.
+	 * An array of handles of queued dependencies.
 	 *
 	 * @since 2.6.8
+	 *
 	 * @var string[]
 	 */
 	public $queue = array();
 
 	/**
-	 * An array of handles of objects to queue.
+	 * An array of handles of dependencies to queue.
 	 *
 	 * @since 2.6.0
+	 *
 	 * @var string[]
 	 */
 	public $to_do = array();
 
 	/**
-	 * An array of handles of objects already queued.
+	 * An array of handles of dependencies already queued.
 	 *
 	 * @since 2.6.0
+	 *
 	 * @var string[]
 	 */
 	public $done = array();
@@ -54,15 +58,20 @@ class WP_Dependencies {
 	 * Arguments are appended to the item query string.
 	 *
 	 * @since 2.6.0
+	 *
 	 * @var array
 	 */
 	public $args = array();
 
 	/**
-	 * An array of handle groups to enqueue.
+	 * An array of dependency groups to enqueue.
+	 *
+	 * Each entry is keyed by handle and represents the integer group level or boolean
+	 * false if the handle has no group.
 	 *
 	 * @since 2.8.0
-	 * @var array
+	 *
+	 * @var (int|false)[]
 	 */
 	public $groups = array();
 
@@ -70,6 +79,7 @@ class WP_Dependencies {
 	 * A handle group to enqueue.
 	 *
 	 * @since 2.8.0
+	 *
 	 * @deprecated 4.5.0
 	 * @var int
 	 */
@@ -79,6 +89,7 @@ class WP_Dependencies {
 	 * Cached lookup array of flattened queued items and dependencies.
 	 *
 	 * @since 5.4.0
+	 *
 	 * @var array
 	 */
 	private $all_queued_deps;
@@ -94,7 +105,7 @@ class WP_Dependencies {
 	 * @param string|string[]|false $handles Optional. Items to be processed: queue (false),
 	 *                                       single item (string), or multiple items (array of strings).
 	 *                                       Default false.
-	 * @param int|false             $group   Optional. Group level: level (int), no groups (false).
+	 * @param int|false             $group   Optional. Group level: level (int), no group (false).
 	 * @return string[] Array of handles of items that have been processed.
 	 */
 	public function do_items( $handles = false, $group = false ) {
@@ -131,7 +142,7 @@ class WP_Dependencies {
 	 * @since 5.5.0 Added the `$group` parameter.
 	 *
 	 * @param string    $handle Name of the item. Should be unique.
-	 * @param int|false $group  Optional. Group level: level (int), no groups (false).
+	 * @param int|false $group  Optional. Group level: level (int), no group (false).
 	 *                          Default false.
 	 * @return bool True on success, false if not set.
 	 */
@@ -152,7 +163,7 @@ class WP_Dependencies {
 	 * @param string|string[] $handles   Item handle (string) or item handles (array of strings).
 	 * @param bool            $recursion Optional. Internal flag that function is calling itself.
 	 *                                   Default false.
-	 * @param int|false       $group     Optional. Group level: level (int), no groups (false).
+	 * @param int|false       $group     Optional. Group level: level (int), no group (false).
 	 *                                   Default false.
 	 * @return bool True on success, false on failure.
 	 */
@@ -354,7 +365,7 @@ class WP_Dependencies {
 	}
 
 	/**
-	 * Recursively search the passed dependency tree for $handle.
+	 * Recursively search the passed dependency tree for a handle.
 	 *
 	 * @since 4.0.0
 	 *
@@ -434,7 +445,7 @@ class WP_Dependencies {
 	 *
 	 * @param string    $handle    Name of the item. Should be unique.
 	 * @param bool      $recursion Internal flag that calling function was called recursively.
-	 * @param int|false $group     Group level: level (int), no groups (false).
+	 * @param int|false $group     Group level: level (int), no group (false).
 	 * @return bool Not already in the group or a lower group.
 	 */
 	public function set_group( $handle, $recursion, $group ) {

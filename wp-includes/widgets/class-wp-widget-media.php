@@ -317,7 +317,6 @@ abstract class WP_Widget_Media extends WP_Widget {
 	 * @since 4.8.0
 	 *
 	 * @param array $instance Widget instance props.
-	 * @return string
 	 */
 	abstract public function render_media( $instance );
 

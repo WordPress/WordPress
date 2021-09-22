@@ -24,6 +24,7 @@ class WP_Http_Cookie {
 	 * Cookie name.
 	 *
 	 * @since 2.8.0
+	 *
 	 * @var string
 	 */
 	public $name;
@@ -32,6 +33,7 @@ class WP_Http_Cookie {
 	 * Cookie value.
 	 *
 	 * @since 2.8.0
+	 *
 	 * @var string
 	 */
 	public $value;
@@ -40,6 +42,7 @@ class WP_Http_Cookie {
 	 * When the cookie expires. Unix timestamp or formatted date.
 	 *
 	 * @since 2.8.0
+	 *
 	 * @var string|int|null
 	 */
 	public $expires;
@@ -48,6 +51,7 @@ class WP_Http_Cookie {
 	 * Cookie URL path.
 	 *
 	 * @since 2.8.0
+	 *
 	 * @var string
 	 */
 	public $path;
@@ -56,14 +60,25 @@ class WP_Http_Cookie {
 	 * Cookie Domain.
 	 *
 	 * @since 2.8.0
+	 *
 	 * @var string
 	 */
 	public $domain;
 
 	/**
+	 * Cookie port or comma-separated list of ports.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @var int|string
+	 */
+	public $port;
+
+	/**
 	 * host-only flag.
 	 *
 	 * @since 5.2.0
+	 *
 	 * @var bool
 	 */
 	public $host_only;
@@ -85,7 +100,7 @@ class WP_Http_Cookie {
 	 *     @type string|int|null $expires   Optional. Unix timestamp or formatted date. Default null.
 	 *     @type string          $path      Optional. Path. Default '/'.
 	 *     @type string          $domain    Optional. Domain. Default host of parsed $requested_url.
-	 *     @type int             $port      Optional. Port. Default null.
+	 *     @type int|string      $port      Optional. Port or comma-separated list of ports. Default null.
 	 *     @type bool            $host_only Optional. host-only storage flag. Default true.
 	 * }
 	 * @param string       $requested_url The URL which the cookie was set on, used for default $domain
