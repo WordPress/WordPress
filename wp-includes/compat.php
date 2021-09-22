@@ -79,6 +79,10 @@ endif;
  * @return string Extracted substring.
  */
 function _mb_substr( $str, $start, $length = null, $encoding = null ) {
+	if ( null === $str ) {
+		return '';
+	}
+
 	if ( null === $encoding ) {
 		$encoding = get_option( 'blog_charset' );
 	}
