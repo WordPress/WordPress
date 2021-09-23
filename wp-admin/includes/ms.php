@@ -736,6 +736,9 @@ function avoid_blog_page_permalink_collision( $data, $postarr ) {
 	if ( ! is_main_site() ) {
 		return $data;
 	}
+	if ( isset( $data['post_parent'] ) && $data['post_parent'] ) {
+		return $data;
+	}
 
 	$post_name = $data['post_name'];
 	$c         = 0;
