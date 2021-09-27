@@ -643,11 +643,16 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 
 		if ( ! empty( $site_states ) ) {
 			$state_count = count( $site_states );
-			$i           = 0;
+
+			$i = 0;
+
 			echo ' &mdash; ';
+
 			foreach ( $site_states as $state ) {
 				++$i;
-				( $i == $state_count ) ? $sep = '' : $sep = ', ';
+
+				$sep = ( $i < $state_count ) ? ', ' : '';
+
 				echo "<span class='post-state'>{$state}{$sep}</span>";
 			}
 		}

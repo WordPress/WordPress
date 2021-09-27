@@ -2145,12 +2145,15 @@ function _post_states( $post, $echo = true ) {
 
 	if ( ! empty( $post_states ) ) {
 		$state_count = count( $post_states );
-		$i           = 0;
+
+		$i = 0;
 
 		$post_states_string .= ' &mdash; ';
 
 		foreach ( $post_states as $state ) {
-			$sep = ( ++$i === $state_count ) ? '' : ', ';
+			++$i;
+
+			$sep = ( $i < $state_count ) ? ', ' : '';
 
 			$post_states_string .= "<span class='post-state'>$state$sep</span>";
 		}
@@ -2255,12 +2258,15 @@ function _media_states( $post, $echo = true ) {
 
 	if ( ! empty( $media_states ) ) {
 		$state_count = count( $media_states );
-		$i           = 0;
+
+		$i = 0;
 
 		$media_states_string .= ' &mdash; ';
 
 		foreach ( $media_states as $state ) {
-			$sep = ( ++$i === $state_count ) ? '' : ', ';
+			++$i;
+
+			$sep = ( $i < $state_count ) ? ', ' : '';
 
 			$media_states_string .= "<span class='post-state'>$state$sep</span>";
 		}
