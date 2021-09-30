@@ -881,7 +881,7 @@ class WP_Http {
 		$home = parse_url( get_option( 'siteurl' ) );
 
 		// Don't block requests back to ourselves by default.
-		if ( 'localhost' === $check['host'] || ( isset( $home['host'] ) && $home['host'] == $check['host'] ) ) {
+		if ( 'localhost' === $check['host'] || ( isset( $home['host'] ) && $home['host'] === $check['host'] ) ) {
 			/**
 			 * Filters whether to block local HTTP API requests.
 			 *
