@@ -225,7 +225,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 
 				<div class="form-field">
 					<label for="app_name"><?php _e( 'New Application Password Name' ); ?></label>
-					<input type="text" id="app_name" name="app_name" value="<?php echo esc_attr( $app_name ); ?>" placeholder="<?php esc_attr_e( 'WordPress App on My Phone' ); ?>" required />
+					<input type="text" id="app_name" name="app_name" value="<?php echo esc_attr( $app_name ); ?>" required />
 				</div>
 
 				<?php
