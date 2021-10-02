@@ -87,11 +87,15 @@ add_filter( 'walker_nav_menu_start_el', 'twenty_twenty_one_nav_menu_social_icons
  * @return stdClass
  */
 function twenty_twenty_one_add_menu_description_args( $args, $item, $depth ) {
-	$args->link_after = '';
+	if ( '</span>' !== $args->link_after ) {
+		$args->link_after = '';
+	}
+
 	if ( 0 === $depth && isset( $item->description ) && $item->description ) {
 		// The extra <span> element is here for styling purposes: Allows the description to not be underlined on hover.
 		$args->link_after = '<p class="menu-item-description"><span>' . $item->description . '</span></p>';
 	}
+
 	return $args;
 }
 add_filter( 'nav_menu_item_args', 'twenty_twenty_one_add_menu_description_args', 10, 3 );
