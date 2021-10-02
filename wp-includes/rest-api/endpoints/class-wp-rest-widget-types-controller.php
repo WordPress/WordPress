@@ -237,6 +237,8 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
 			$widgets[ $widget['id'] ] = $widget;
 		}
 
+		ksort( $widgets );
+
 		return $widgets;
 	}
 
