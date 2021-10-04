@@ -3855,7 +3855,7 @@ class WP_Query {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @global array $wp_taxonomies
+	 * @global WP_Taxonomy[] $wp_taxonomies Registered taxonomies.
 	 *
 	 * @param string|string[]           $taxonomy Optional. Taxonomy slug or slugs to check against.
 	 *                                            Default empty.

@@ -1533,7 +1533,7 @@ function get_num_queries() {
  * @since 1.0.0
  *
  * @param string $yn Character string containing either 'y' (yes) or 'n' (no).
- * @return bool True if yes, false on anything else.
+ * @return bool True if 'y', false on anything else.
  */
 function bool_from_yn( $yn ) {
 	return ( 'y' === strtolower( $yn ) );

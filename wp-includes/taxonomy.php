@@ -198,7 +198,7 @@ function create_initial_taxonomies() {
  *
  * @since 3.0.0
  *
- * @global array $wp_taxonomies The registered taxonomies.
+ * @global WP_Taxonomy[] $wp_taxonomies The registered taxonomies.
  *
  * @param array  $args     Optional. An array of `key => value` arguments to match against the taxonomy objects.
  *                         Default empty array.
@@ -231,7 +231,7 @@ function get_taxonomies( $args = array(), $output = 'names', $operator = 'and' )
  *
  * @since 2.3.0
  *
- * @global array $wp_taxonomies The registered taxonomies.
+ * @global WP_Taxonomy[] $wp_taxonomies The registered taxonomies.
  *
  * @param string|string[]|WP_Post $object Name of the type of taxonomy object, or an object (row from posts)
  * @param string                  $output Optional. The type of output to return in the array. Accepts either
@@ -272,7 +272,7 @@ function get_object_taxonomies( $object, $output = 'names' ) {
  *
  * @since 2.3.0
  *
- * @global array $wp_taxonomies The registered taxonomies.
+ * @global WP_Taxonomy[] $wp_taxonomies The registered taxonomies.
  *
  * @param string $taxonomy Name of taxonomy object to return.
  * @return WP_Taxonomy|false The Taxonomy Object or false if $taxonomy doesn't exist.
@@ -298,7 +298,7 @@ function get_taxonomy( $taxonomy ) {
  *
  * @since 3.0.0
  *
- * @global array $wp_taxonomies The registered taxonomies.
+ * @global WP_Taxonomy[] $wp_taxonomies The registered taxonomies.
  *
  * @param string $taxonomy Name of taxonomy object.
  * @return bool Whether the taxonomy exists.
@@ -356,7 +356,7 @@ function is_taxonomy_hierarchical( $taxonomy ) {
  * @since 5.4.0 Added the registered taxonomy object as a return value.
  * @since 5.5.0 Introduced `default_term` argument.
  *
- * @global array $wp_taxonomies Registered taxonomies.
+ * @global WP_Taxonomy[] $wp_taxonomies Registered taxonomies.
  *
  * @param string       $taxonomy    Taxonomy key, must not exceed 32 characters.
  * @param array|string $object_type Object type or array of object types with which the taxonomy should be associated.
@@ -507,7 +507,7 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
  * @since 4.5.0
  *
  * @global WP    $wp            Current WordPress environment instance.
- * @global array $wp_taxonomies List of taxonomies.
+ * @global WP_Taxonomy[] $wp_taxonomies List of taxonomies.
  *
  * @param string $taxonomy Taxonomy name.
  * @return true|WP_Error True on success, WP_Error on failure or if the taxonomy doesn't exist.
@@ -684,7 +684,7 @@ function get_taxonomy_labels( $tax ) {
  *
  * @since 3.0.0
  *
- * @global array $wp_taxonomies The registered taxonomies.
+ * @global WP_Taxonomy[] $wp_taxonomies The registered taxonomies.
  *
  * @param string $taxonomy    Name of taxonomy object.
  * @param string $object_type Name of the object type.
@@ -726,7 +726,7 @@ function register_taxonomy_for_object_type( $taxonomy, $object_type ) {
  *
  * @since 3.7.0
  *
- * @global array $wp_taxonomies The registered taxonomies.
+ * @global WP_Taxonomy[] $wp_taxonomies The registered taxonomies.
  *
  * @param string $taxonomy    Name of taxonomy object.
  * @param string $object_type Name of the object type.
