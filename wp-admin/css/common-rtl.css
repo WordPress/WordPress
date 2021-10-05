@@ -884,7 +884,8 @@ hr {
 #media-items a.delete-permanently,
 #nav-menu-footer .menu-delete,
 #delete-link a.delete,
-a#remove-post-thumbnail {
+a#remove-post-thumbnail,
+.privacy_requests .remove-personal-data .remove-personal-data-handle {
 	color: #b32d2e;
 }
 
@@ -902,7 +903,8 @@ span.required,
 #media-items a.delete-permanently:hover,
 #nav-menu-footer .menu-delete:hover,
 #delete-link a.delete:hover,
-a#remove-post-thumbnail:hover {
+a#remove-post-thumbnail:hover,
+.privacy_requests .remove-personal-data .remove-personal-data-handle:hover {
 	color: #b32d2e;
 	border: none;
 }
