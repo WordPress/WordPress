@@ -1255,6 +1255,11 @@ ul.cat-checklist {
 	padding: 0 0 5px;
 }
 
+.plugins .row-actions {
+	white-space: normal;
+	min-width: 12em;
+}
+
 .plugins .update .second,
 .plugins .update .row-actions,
 .plugins .updated .second,
