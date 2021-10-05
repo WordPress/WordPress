@@ -116,7 +116,7 @@ function register_block_script_handle( $metadata, $field_name ) {
 		return false;
 	}
 
-	if ( ! empty( $metadata['textdomain'] ) && in_array( 'wp-i18n', $script_dependencies ) ) {
+	if ( ! empty( $metadata['textdomain'] ) && in_array( 'wp-i18n', $script_dependencies, true ) ) {
 		wp_set_script_translations( $script_handle, $metadata['textdomain'] );
 	}
 
