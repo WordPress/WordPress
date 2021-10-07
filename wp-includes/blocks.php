@@ -819,6 +819,7 @@ function render_block( $parsed_block ) {
 	 * Allows render_block() to be short-circuited, by returning a non-null value.
 	 *
 	 * @since 5.1.0
+	 * @since 5.9.0 The `$parent_block` parameter was added.
 	 *
 	 * @param string|null   $pre_render   The pre-rendered content. Default null.
 	 * @param array         $parsed_block The block being rendered.
@@ -835,6 +836,7 @@ function render_block( $parsed_block ) {
 	 * Filters the block being rendered in render_block(), before it's processed.
 	 *
 	 * @since 5.1.0
+	 * @since 5.9.0 The `$parent_block` parameter was added.
 	 *
 	 * @param array         $parsed_block The block being rendered.
 	 * @param array         $source_block An un-modified copy of $parsed_block, as it appeared in the source content.
@@ -860,6 +862,7 @@ function render_block( $parsed_block ) {
 	 * Filters the default context provided to a rendered block.
 	 *
 	 * @since 5.5.0
+	 * @since 5.9.0 The `$parent_block` parameter was added.
 	 *
 	 * @param array         $context      Default context.
 	 * @param array         $parsed_block Block being rendered, filtered by `render_block_data`.
