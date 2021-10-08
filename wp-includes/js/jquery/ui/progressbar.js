@@ -1,5 +1,5 @@
 /*!
- * jQuery UI Progressbar 1.13.0-rc.2
+ * jQuery UI Progressbar 1.13.0
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -37,7 +37,7 @@
 "use strict";
 
 return $.widget( "ui.progressbar", {
-	version: "1.13.0-rc.2",
+	version: "1.13.0",
 	options: {
 		classes: {
 			"ui-progressbar": "ui-corner-all",

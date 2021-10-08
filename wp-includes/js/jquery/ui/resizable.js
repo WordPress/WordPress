@@ -1,5 +1,5 @@
 /*!
- * jQuery UI Resizable 1.13.0-rc.2
+ * jQuery UI Resizable 1.13.0
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -36,7 +36,7 @@
 "use strict";
 
 $.widget( "ui.resizable", $.ui.mouse, {
-	version: "1.13.0-rc.2",
+	version: "1.13.0",
 	widgetEventPrefix: "resize",
 	options: {
 		alsoResize: false,

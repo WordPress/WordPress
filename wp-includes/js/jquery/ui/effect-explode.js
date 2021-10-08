@@ -1,5 +1,5 @@
 /*!
- * jQuery UI Effects Explode 1.13.0-rc.2
+ * jQuery UI Effects Explode 1.13.0
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
