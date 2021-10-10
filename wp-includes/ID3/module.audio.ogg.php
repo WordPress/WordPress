@@ -529,7 +529,6 @@ class getid3_ogg extends getid3_handler
 	 */
 	public function ParseOggPageHeader() {
 		// http://xiph.org/ogg/vorbis/doc/framing.html
-		$oggheader = array();
 		$oggheader['page_start_offset'] = $this->ftell(); // where we started from in the file
 
 		$filedata = $this->fread($this->getid3->fread_buffer_size());
@@ -681,39 +680,35 @@ class getid3_ogg extends getid3_handler
 
 				$VorbisCommentPage++;
 
-				if ($oggpageinfo = $this->ParseOggPageHeader()) {
-					$info['ogg']['pageheader'][$oggpageinfo['page_seqno']] = $oggpageinfo;
+				$oggpageinfo = $this->ParseOggPageHeader();
+				$info['ogg']['pageheader'][$oggpageinfo['page_seqno']] = $oggpageinfo;
 
-					// First, save what we haven't read yet
-					$AsYetUnusedData = substr($commentdata, $commentdataoffset);
+				// First, save what we haven't read yet
+				$AsYetUnusedData = substr($commentdata, $commentdataoffset);
 
-					// Then take that data off the end
-					$commentdata     = substr($commentdata, 0, $commentdataoffset);
+				// Then take that data off the end
+				$commentdata     = substr($commentdata, 0, $commentdataoffset);
 
-					// Add [headerlength] bytes of dummy data for the Ogg Page Header, just to keep absolute offsets correct
-					$commentdata .= str_repeat("\x00", 27 + $info['ogg']['pageheader'][$oggpageinfo['page_seqno']]['page_segments']);
-					$commentdataoffset += (27 + $info['ogg']['pageheader'][$oggpageinfo['page_seqno']]['page_segments']);
+				// Add [headerlength] bytes of dummy data for the Ogg Page Header, just to keep absolute offsets correct
+				$commentdata .= str_repeat("\x00", 27 + $info['ogg']['pageheader'][$oggpageinfo['page_seqno']]['page_segments']);
+				$commentdataoffset += (27 + $info['ogg']['pageheader'][$oggpageinfo['page_seqno']]['page_segments']);
 
-					// Finally, stick the unused data back on the end
-					$commentdata .= $AsYetUnusedData;
+				// Finally, stick the unused data back on the end
+				$commentdata .= $AsYetUnusedData;
 
-					//$commentdata .= $this->fread($info['ogg']['pageheader'][$oggpageinfo['page_seqno']]['page_length']);
-					if (!isset($info['ogg']['pageheader'][$VorbisCommentPage])) {
-						$this->warning('undefined Vorbis Comment page "'.$VorbisCommentPage.'" at offset '.$this->ftell());
-						break;
-					}
-					$readlength = self::OggPageSegmentLength($info['ogg']['pageheader'][$VorbisCommentPage], 1);
-					if ($readlength <= 0) {
-						$this->warning('invalid length Vorbis Comment page "'.$VorbisCommentPage.'" at offset '.$this->ftell());
-						break;
-					}
-					$commentdata .= $this->fread($readlength);
-
-					//$filebaseoffset += $oggpageinfo['header_end_offset'] - $oggpageinfo['page_start_offset'];
-				} else {
-					$this->warning('failed to ParseOggPageHeader() at offset '.$this->ftell());
+				//$commentdata .= $this->fread($info['ogg']['pageheader'][$oggpageinfo['page_seqno']]['page_length']);
+				if (!isset($info['ogg']['pageheader'][$VorbisCommentPage])) {
+					$this->warning('undefined Vorbis Comment page "'.$VorbisCommentPage.'" at offset '.$this->ftell());
 					break;
 				}
+				$readlength = self::OggPageSegmentLength($info['ogg']['pageheader'][$VorbisCommentPage], 1);
+				if ($readlength <= 0) {
+					$this->warning('invalid length Vorbis Comment page "'.$VorbisCommentPage.'" at offset '.$this->ftell());
+					break;
+				}
+				$commentdata .= $this->fread($readlength);
+
+				//$filebaseoffset += $oggpageinfo['header_end_offset'] - $oggpageinfo['page_start_offset'];
 			}
 			$ThisFileInfo_ogg_comments_raw[$i]['offset'] = $commentdataoffset;
 			$commentstring = substr($commentdata, $commentdataoffset, $ThisFileInfo_ogg_comments_raw[$i]['size']);

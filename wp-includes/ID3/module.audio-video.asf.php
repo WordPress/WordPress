@@ -93,7 +93,6 @@ class getid3_asf extends getid3_handler
 		$offset = 0;
 		$thisfile_asf_streambitratepropertiesobject = array();
 		$thisfile_asf_codeclistobject = array();
-		$StreamPropertiesObjectData = array();
 
 		for ($HeaderObjectsCounter = 0; $HeaderObjectsCounter < $thisfile_asf_headerobject['headerobjects']; $HeaderObjectsCounter++) {
 			$NextObjectGUID = substr($ASFHeaderData, $offset, 16);
@@ -284,7 +283,7 @@ class getid3_asf extends getid3_handler
 					$thisfile_asf_headerextensionobject['reserved_2']          = getid3_lib::LittleEndian2Int(substr($ASFHeaderData, $offset, 2));
 					$offset += 2;
 					if ($thisfile_asf_headerextensionobject['reserved_2'] != 6) {
-						$this->warning('header_extension_object.reserved_2 ('.$thisfile_asf_headerextensionobject['reserved_2'].') does not match expected value of "6"');
+						$this->warning('header_extension_object.reserved_2 ('.getid3_lib::PrintHexBytes($thisfile_asf_headerextensionobject['reserved_2']).') does not match expected value of "6"');
 						//return false;
 						break;
 					}
@@ -536,7 +535,7 @@ class getid3_asf extends getid3_handler
 					$thisfile_asf_markerobject['reserved_2'] = getid3_lib::LittleEndian2Int(substr($ASFHeaderData, $offset, 2));
 					$offset += 2;
 					if ($thisfile_asf_markerobject['reserved_2'] != 0) {
-						$this->warning('marker_object.reserved_2 ('.$thisfile_asf_markerobject['reserved_2'].') does not match expected value of "0"');
+						$this->warning('marker_object.reserved_2 ('.getid3_lib::PrintHexBytes($thisfile_asf_markerobject['reserved_2']).') does not match expected value of "0"');
 						break;
 					}
 					$thisfile_asf_markerobject['name_length'] = getid3_lib::LittleEndian2Int(substr($ASFHeaderData, $offset, 2));
@@ -1194,7 +1193,7 @@ class getid3_asf extends getid3_handler
 					$thisfile_asf_dataobject['reserved']           = getid3_lib::LittleEndian2Int(substr($DataObjectData, $offset, 2));
 					$offset += 2;
 					if ($thisfile_asf_dataobject['reserved'] != 0x0101) {
-						$this->warning('data_object.reserved (0x'.sprintf('%04X', $thisfile_asf_dataobject['reserved']).') does not match expected value of "0x0101"');
+						$this->warning('data_object.reserved ('.getid3_lib::PrintHexBytes($thisfile_asf_dataobject['reserved']).') does not match expected value of "0x0101"');
 						//return false;
 						break;
 					}

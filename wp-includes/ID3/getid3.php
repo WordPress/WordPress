@@ -17,6 +17,10 @@ if (!defined('GETID3_OS_ISWINDOWS')) {
 if (!defined('GETID3_INCLUDEPATH')) {
 	define('GETID3_INCLUDEPATH', dirname(__FILE__).DIRECTORY_SEPARATOR);
 }
+// Workaround Bug #39923 (https://bugs.php.net/bug.php?id=39923)
+if (!defined('IMG_JPG') && defined('IMAGETYPE_JPEG')) {
+	define('IMG_JPG', IMAGETYPE_JPEG);
+}
 if (!defined('ENT_SUBSTITUTE')) { // PHP5.3 adds ENT_IGNORE, PHP5.4 adds ENT_SUBSTITUTE
 	define('ENT_SUBSTITUTE', (defined('ENT_IGNORE') ? ENT_IGNORE : 8));
 }
@@ -53,7 +57,7 @@ if ($open_basedir) {
 		if (substr($basedir, -1, 1) != DIRECTORY_SEPARATOR) {
 			$basedir .= DIRECTORY_SEPARATOR;
 		}
-		if (strpos($temp_dir, $basedir) === 0) {
+		if (preg_match('#^'.preg_quote($basedir).'#', $temp_dir)) {
 			$found_valid_tempdir = true;
 			break;
 		}
@@ -210,140 +214,6 @@ class getID3
 	 */
 	public $option_fread_buffer_size = 32768;
 
-
-
-	// module-specific options
-
-	/** archive.rar
-	 * if true use PHP RarArchive extension, if false (non-extension parsing not yet written in getID3)
-	 *
-	 * @var bool
-	 */
-	public $options_archive_rar_use_php_rar_extension = true;
-
-	/** archive.gzip
-	 * Optional file list - disable for speed.
-	 * Decode gzipped files, if possible, and parse recursively (.tar.gz for example).
-	 *
-	 * @var bool
-	 */
-	public $options_archive_gzip_parse_contents = false;
-
-	/** audio.midi
-	 * if false only parse most basic information, much faster for some files but may be inaccurate
-	 *
-	 * @var bool
-	 */
-	public $options_audio_midi_scanwholefile = true;
-
-	/** audio.mp3
-	 * Forces getID3() to scan the file byte-by-byte and log all the valid audio frame headers - extremely slow,
-	 * unrecommended, but may provide data from otherwise-unusable files.
-	 *
-	 * @var bool
-	 */
-	public $options_audio_mp3_allow_bruteforce = false;
-
-	/** audio.mp3
-	 * number of frames to scan to determine if MPEG-audio sequence is valid
-	 * Lower this number to 5-20 for faster scanning
-	 * Increase this number to 50+ for most accurate detection of valid VBR/CBR mpeg-audio streams
-	 *
-	 * @var int
-	 */
-	public $options_audio_mp3_mp3_valid_check_frames = 50;
-
-	/** audio.wavpack
-	 * Avoid scanning all frames (break after finding ID_RIFF_HEADER and ID_CONFIG_BLOCK,
-	 * significantly faster for very large files but other data may be missed
-	 *
-	 * @var bool
-	 */
-	public $options_audio_wavpack_quick_parsing = false;
-
-	/** audio-video.flv
-	 * Break out of the loop if too many frames have been scanned; only scan this
-	 * many if meta frame does not contain useful duration.
-	 *
-	 * @var int
-	 */
-	public $options_audiovideo_flv_max_frames = 100000;
-
-	/** audio-video.matroska
-	 * If true, do not return information about CLUSTER chunks, since there's a lot of them
-	 * and they're not usually useful [default: TRUE].
-	 *
-	 * @var bool
-	 */
-	public $options_audiovideo_matroska_hide_clusters    = true;
-
-	/** audio-video.matroska
-	 * True to parse the whole file, not only header [default: FALSE].
-	 *
-	 * @var bool
-	 */
-	public $options_audiovideo_matroska_parse_whole_file = false;
-
-	/** audio-video.quicktime
-	 * return all parsed data from all atoms if true, otherwise just returned parsed metadata
-	 *
-	 * @var bool
-	 */
-	public $options_audiovideo_quicktime_ReturnAtomData  = false;
-
-	/** audio-video.quicktime
-	 * return all parsed data from all atoms if true, otherwise just returned parsed metadata
-	 *
-	 * @var bool
-	 */
-	public $options_audiovideo_quicktime_ParseAllPossibleAtoms = false;
-
-	/** audio-video.swf
-	 * return all parsed tags if true, otherwise do not return tags not parsed by getID3
-	 *
-	 * @var bool
-	 */
-	public $options_audiovideo_swf_ReturnAllTagData = false;
-
-	/** graphic.bmp
-	 * return BMP palette
-	 *
-	 * @var bool
-	 */
-	public $options_graphic_bmp_ExtractPalette = false;
-
-	/** graphic.bmp
-	 * return image data
-	 *
-	 * @var bool
-	 */
-	public $options_graphic_bmp_ExtractData    = false;
-
-	/** graphic.png
-	 * If data chunk is larger than this do not read it completely (getID3 only needs the first
-	 * few dozen bytes for parsing).
-	 *
-	 * @var int
-	 */
-	public $options_graphic_png_max_data_bytes = 10000000;
-
-	/** misc.pdf
-	 * return full details of PDF Cross-Reference Table (XREF)
-	 *
-	 * @var bool
-	 */
-	public $options_misc_pdf_returnXREF = false;
-
-	/** misc.torrent
-	 * Assume all .torrent files are less than 1MB and just read entire thing into memory for easy processing.
-	 * Override this value if you need to process files larger than 1MB
-	 *
-	 * @var int
-	 */
-	public $options_misc_torrent_max_torrent_filesize = 1048576;
-
-
-
 	// Public variables
 
 	/**
@@ -387,7 +257,7 @@ class getID3
 	 */
 	protected $startup_warning = '';
 
-	const VERSION           = '1.9.21-202109171300';
+	const VERSION           = '1.9.20-202006061653';
 	const FREAD_BUFFER_SIZE = 32768;
 
 	const ATTACHMENTS_NONE   = false;
@@ -767,18 +637,6 @@ class getID3
 				return $this->error('Format not supported, module "'.$determined_format['include'].'" is corrupt.');
 			}
 			$class = new $class_name($this);
-
-			// set module-specific options
-			foreach (get_object_vars($this) as $getid3_object_vars_key => $getid3_object_vars_value) {
-				if (preg_match('#^options_([^_]+)_([^_]+)_(.+)$#i', $getid3_object_vars_key, $matches)) {
-					list($dummy, $GOVgroup, $GOVmodule, $GOVsetting) = $matches;
-					$GOVgroup = (($GOVgroup == 'audiovideo') ? 'audio-video' : $GOVgroup); // variable names can only contain 0-9a-z_ so standardize here
-					if (($GOVgroup == $determined_format['group']) && ($GOVmodule == $determined_format['module'])) {
-						$class->$GOVsetting = $getid3_object_vars_value;
-					}
-				}
-			}
-
 			$class->Analyze();
 			unset($class);
 
@@ -1497,16 +1355,6 @@ class getID3
 							'fail_ape'  => 'ERROR',
 						),
 
-				// TORRENT             - .torrent
-				'torrent' => array(
-							'pattern'   => '^(d8\\:announce|d7\\:comment)',
-							'group'     => 'misc',
-							'module'    => 'torrent',
-							'mime_type' => 'application/x-bittorrent',
-							'fail_id3'  => 'ERROR',
-							'fail_ape'  => 'ERROR',
-						),
-
 				 // CUE  - data       - CUEsheet (index to single-file disc images)
 				 'cue' => array(
 							'pattern'   => '', // empty pattern means cannot be automatically detected, will fall through all other formats and match based on filename and very basic file contents
@@ -1641,7 +1489,7 @@ class getID3
 						if (is_string($value)) {
 							$value = trim($value, " \r\n\t"); // do not trim nulls from $value!! Unicode characters will get mangled if trailing nulls are removed!
 						}
-						if (isset($value) && $value !== "") {
+						if ($value) {
 							if (!is_numeric($key)) {
 								$this->info['tags'][trim($tag_name)][trim($tag_key)][$key] = $value;
 							} else {
@@ -2248,25 +2096,19 @@ abstract class getid3_handler
 					$this->data_string_position = $this->data_string_length + $bytes;
 					break;
 			}
-			return 0; // fseek returns 0 on success
+			return 0;
+		} else {
+			$pos = $bytes;
+			if ($whence == SEEK_CUR) {
+				$pos = $this->ftell() + $bytes;
+			} elseif ($whence == SEEK_END) {
+				$pos = $this->getid3->info['filesize'] + $bytes;
+			}
+			if (!getid3_lib::intValueSupported($pos)) {
+				throw new getid3_exception('cannot fseek('.$pos.') because beyond PHP filesystem limit', 10);
+			}
 		}
-
-		$pos = $bytes;
-		if ($whence == SEEK_CUR) {
-			$pos = $this->ftell() + $bytes;
-		} elseif ($whence == SEEK_END) {
-			$pos = $this->getid3->info['filesize'] + $bytes;
-		}
-		if (!getid3_lib::intValueSupported($pos)) {
-			throw new getid3_exception('cannot fseek('.$pos.') because beyond PHP filesystem limit', 10);
-		}
-
-		// https://github.com/JamesHeinrich/getID3/issues/327
-		$result = fseek($this->getid3->fp, $bytes, $whence);
-		if ($result !== 0) { // fseek returns 0 on success
-			throw new getid3_exception('cannot fseek('.$pos.'). resource/stream does not appear to support seeking', 10);
-		}
-		return $result;
+		return fseek($this->getid3->fp, $bytes, $whence);
 	}
 
 	/**
@@ -2382,8 +2224,6 @@ abstract class getid3_handler
 	 * @throws getid3_exception
 	 */
 	public function saveAttachment($name, $offset, $length, $image_mime=null) {
-		$fp_dest = null;
-		$dest = null;
 		try {
 
 			// do not extract at all

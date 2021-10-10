@@ -33,9 +33,6 @@ class getid3_lyrics3 extends getid3_handler
 		}
 
 		$this->fseek((0 - 128 - 9 - 6), SEEK_END);          // end - ID3v1 - "LYRICSEND" - [Lyrics3size]
-		$lyrics3offset = null;
-		$lyrics3version = null;
-		$lyrics3size   = null;
 		$lyrics3_id3v1 = $this->fread(128 + 9 + 6);
 		$lyrics3lsz    = (int) substr($lyrics3_id3v1, 0, 6); // Lyrics3size
 		$lyrics3end    = substr($lyrics3_id3v1,  6,   9); // LYRICSEND or LYRICS200
