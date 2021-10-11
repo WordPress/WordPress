@@ -843,7 +843,18 @@ class WP_Upgrader {
 		$this->skin->set_result( $result );
 		if ( is_wp_error( $result ) ) {
 			if ( ! empty( $options['hook_extra']['temp_backup'] ) ) {
-				$this->restore_temp_backup( $options['hook_extra']['temp_backup'] );
+				/*
+				 * Restore the backup on shutdown.
+				 * Actions running on `shutdown` are immune to PHP timeouts,
+				 * so in case the failure was due to a PHP timeout,
+				 * we'll still be able to properly restore the previous version.
+				 */
+				add_action(
+					'shutdown',
+					function() use ( $options ) {
+						$this->restore_temp_backup( $options['hook_extra']['temp_backup'] );
+					}
+				);
 			}
 			$this->skin->error( $result );
 
@@ -859,7 +870,13 @@ class WP_Upgrader {
 
 		// Clean up the backup kept in the temp-backup directory.
 		if ( ! empty( $options['hook_extra']['temp_backup'] ) ) {
-			$this->delete_temp_backup( $options['hook_extra']['temp_backup'] );
+			// Delete the backup on `shutdown` to avoid a PHP timeout.
+			add_action(
+				'shutdown',
+				function() use ( $options ) {
+					$this->delete_temp_backup( $options['hook_extra']['temp_backup'] );
+				}
+			);
 		}
 
 		if ( ! $options['is_multi'] ) {
