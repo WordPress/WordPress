@@ -2939,7 +2939,7 @@ function get_post_mime_types() {
 			),
 		),
 		'audio'       => array(
-			__( 'Audio' ),
+			_x( 'Audio', 'file type group' ),
 			__( 'Manage Audio' ),
 			/* translators: %s: Number of audio files. */
 			_n_noop(
@@ -2948,7 +2948,7 @@ function get_post_mime_types() {
 			),
 		),
 		'video'       => array(
-			__( 'Video' ),
+			_x( 'Video', 'file type group' ),
 			__( 'Manage Video' ),
 			/* translators: %s: Number of video files. */
 			_n_noop(
