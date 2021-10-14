@@ -74,8 +74,8 @@ class WP_Date_Query {
 	 *
 	 *     @type array ...$0 {
 	 *         @type string $column   Optional. The column to query against. If undefined, inherits the value of
-	 *                                the `$default_column` parameter. Accepts 'post_date', 'post_date_gmt',
-	 *                                'post_modified','post_modified_gmt', 'comment_date', 'comment_date_gmt'.
+	 *                                the `$default_column` parameter. See WP_Date_Query::validate_column() and
+	 *                                the {@see 'date_query_valid_columns'} filter for the list of accepted values.
 	 *                                Default 'post_date'.
 	 *         @type string $compare  Optional. The comparison operator. Accepts '=', '!=', '>', '>=', '<', '<=',
 	 *                                'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN'. Default '='.
@@ -104,11 +104,11 @@ class WP_Date_Query {
 	 *                 @type string $day   Optional when passing array.The day of the month. Accepts numbers 1-31.
 	 *                                     Default (string:empty)|(array:last day of month).
 	 *             }
-	 *             @type string       $column        Optional. Used to add a clause comparing a column other than the
-	 *                                               column specified in the top-level `$column` parameter. Accepts
-	 *                                               'post_date', 'post_date_gmt', 'post_modified', 'post_modified_gmt',
-	 *                                               'comment_date', 'comment_date_gmt'. Default is the value of
-	 *                                               top-level `$column`.
+	 *             @type string       $column        Optional. Used to add a clause comparing a column other than
+	 *                                               the column specified in the top-level `$column` parameter.
+	 *                                               See WP_Date_Query::validate_column() and
+	 *                                               the {@see 'date_query_valid_columns'} filter for the list
+	 *                                               of accepted values. Default is the value of top-level `$column`.
 	 *             @type string       $compare       Optional. The comparison operator. Accepts '=', '!=', '>', '>=',
 	 *                                               '<', '<=', 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN'. 'IN',
 	 *                                               'NOT IN', 'BETWEEN', and 'NOT BETWEEN'. Comparisons support
@@ -140,9 +140,9 @@ class WP_Date_Query {
 	 *         }
 	 *     }
 	 * }
-	 * @param string $default_column Optional. Default column to query against. Default 'post_date'.
-	 *                               Accepts 'post_date', 'post_date_gmt', 'post_modified', 'post_modified_gmt',
-	 *                               'comment_date', 'comment_date_gmt'.
+	 * @param string $default_column Optional. Default column to query against. See WP_Date_Query::validate_column()
+	 *                               and the {@see 'date_query_valid_columns'} filter for the list of accepted values.
+	 *                               Default 'post_date'.
 	 */
 	public function __construct( $date_query, $default_column = 'post_date' ) {
 		if ( empty( $date_query ) || ! is_array( $date_query ) ) {
