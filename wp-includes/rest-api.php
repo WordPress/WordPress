@@ -2635,6 +2635,7 @@ function rest_validate_integer_value_from_schema( $value, $args, $param ) {
  * @since 4.7.0
  * @since 5.5.0 Added the `$param` parameter.
  * @since 5.6.0 Support the "anyOf" and "oneOf" keywords.
+ * @since 5.9.0 Added `text-field` and `textarea-field` formats.
  *
  * @param mixed  $value The value to sanitize.
  * @param array  $args  Schema array to use for sanitization.
@@ -2777,6 +2778,12 @@ function rest_sanitize_value_from_schema( $value, $args, $param = '' ) {
 
 			case 'uuid':
 				return sanitize_text_field( $value );
+
+			case 'text-field':
+				return sanitize_text_field( $value );
+
+			case 'textarea-field':
+				return sanitize_textarea_field( $value );
 		}
 	}
 
