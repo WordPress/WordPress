@@ -8221,21 +8221,50 @@ function recurse_dirsize( $directory, $exclude = null, $max_execution_time = nul
  * Removes the current directory and all parent directories from the `dirsize_cache` transient.
  *
  * @since 5.6.0
+ * @since 5.9.0 Added input validation with a notice for invalid input.
  *
  * @param string $path Full path of a directory or file.
  */
 function clean_dirsize_cache( $path ) {
+	if ( ! is_string( $path ) || empty( $path ) ) {
+		trigger_error(
+			sprintf(
+				/* translators: 1: Function name, 2: A variable type, like "boolean" or "integer". */
+				__( '%1$s only accepts a non-empty path string, received %2$s.' ),
+				'<code>clean_dirsize_cache()</code>',
+				'<code>' . gettype( $path ) . '</code>'
+			)
+		);
+		return;
+	}
+
 	$directory_cache = get_transient( 'dirsize_cache' );
 
 	if ( empty( $directory_cache ) ) {
 		return;
 	}
 
-	$path = untrailingslashit( $path );
+	if (
+		strpos( $path, '/' ) === false &&
+		strpos( $path, '\\' ) === false
+	) {
+		unset( $directory_cache[ $path ] );
+		set_transient( 'dirsize_cache', $directory_cache );
+		return;
+	}
+
+	$last_path = null;
+	$path      = untrailingslashit( $path );
 	unset( $directory_cache[ $path ] );
 
-	while ( DIRECTORY_SEPARATOR !== $path && '.' !== $path && '..' !== $path ) {
-		$path = dirname( $path );
+	while (
+		$last_path !== $path &&
+		DIRECTORY_SEPARATOR !== $path &&
+		'.' !== $path &&
+		'..' !== $path
+	) {
+		$last_path = $path;
+		$path      = dirname( $path );
 		unset( $directory_cache[ $path ] );
 	}
 
