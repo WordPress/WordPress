@@ -8120,8 +8120,9 @@ function get_dirsize( $directory, $max_execution_time = null ) {
  * @param string       $directory          Full path of a directory.
  * @param string|array $exclude            Optional. Full path of a subdirectory to exclude from the total,
  *                                         or array of paths. Expected without trailing slash(es).
- * @param int          $max_execution_time Maximum time to run before giving up. In seconds. The timeout is global
- *                                         and is measured from the moment WordPress started to load.
+ * @param int          $max_execution_time Optional. Maximum time to run before giving up. In seconds.
+ *                                         The timeout is global and is measured from the moment
+ *                                         WordPress started to load.
  * @param array        $directory_cache    Optional. Array of cached directory paths.
  *
  * @return int|false|null Size in bytes if a valid directory. False if not. Null if timeout.
@@ -8194,7 +8195,9 @@ function recurse_dirsize( $directory, $exclude = null, $max_execution_time = nul
 						}
 					}
 
-					if ( $max_execution_time > 0 && microtime( true ) - WP_START_TIMESTAMP > $max_execution_time ) {
+					if ( $max_execution_time > 0 &&
+						( microtime( true ) - WP_START_TIMESTAMP ) > $max_execution_time
+					) {
 						// Time exceeded. Give up instead of risking a fatal timeout.
 						$size = null;
 						break;
@@ -8203,6 +8206,10 @@ function recurse_dirsize( $directory, $exclude = null, $max_execution_time = nul
 			}
 			closedir( $handle );
 		}
+	}
+
+	if ( ! is_array( $directory_cache ) ) {
+		$directory_cache = array();
 	}
 
 	$directory_cache[ $directory ] = $size;
