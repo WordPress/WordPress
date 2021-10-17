@@ -154,7 +154,7 @@ function list_core_update( $update ) {
 	echo $message;
 	echo '</p>';
 
-	echo '<form method="post" action="' . $form_action . '" name="upgrade" class="upgrade">';
+	echo '<form method="post" action="' . esc_url( $form_action ) . '" name="upgrade" class="upgrade">';
 	wp_nonce_field( 'upgrade-core' );
 
 	echo '<p>';
