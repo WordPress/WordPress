@@ -1216,7 +1216,7 @@ class wpdb {
 	 * @param string $string
 	 * @return string
 	 */
-	function _weak_escape( $string ) {
+	public function _weak_escape( $string ) {
 		if ( func_num_args() === 1 && function_exists( '_deprecated_function' ) ) {
 			_deprecated_function( __METHOD__, '3.6.0', 'wpdb::prepare() or esc_sql()' );
 		}
@@ -1234,7 +1234,7 @@ class wpdb {
 	 * @param string $string String to escape.
 	 * @return string Escaped string.
 	 */
-	function _real_escape( $string ) {
+	public function _real_escape( $string ) {
 		if ( ! is_scalar( $string ) ) {
 			return '';
 		}
@@ -2331,7 +2331,7 @@ class wpdb {
 	 *                             Default 'INSERT'.
 	 * @return int|false The number of rows affected, or false on error.
 	 */
-	function _insert_replace_helper( $table, $data, $format = null, $type = 'INSERT' ) {
+	public function _insert_replace_helper( $table, $data, $format = null, $type = 'INSERT' ) {
 		$this->insert_id = 0;
 
 		if ( ! in_array( strtoupper( $type ), array( 'REPLACE', 'INSERT' ), true ) ) {

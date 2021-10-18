@@ -13,7 +13,7 @@ class WP_Debug_Data {
 	 *
 	 * @since 5.2.0
 	 */
-	static function check_for_updates() {
+	public static function check_for_updates() {
 		wp_version_check();
 		wp_update_plugins();
 		wp_update_themes();
@@ -32,7 +32,7 @@ class WP_Debug_Data {
 	 *
 	 * @return array The debug data for the site.
 	 */
-	static function debug_data() {
+	public static function debug_data() {
 		global $wpdb;
 
 		// Save few function calls.

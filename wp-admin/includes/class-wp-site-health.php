@@ -2767,7 +2767,7 @@ class WP_Site_Health {
 	 *
 	 * @return object The test results.
 	 */
-	function detect_plugin_theme_auto_update_issues() {
+	public function detect_plugin_theme_auto_update_issues() {
 		$mock_plugin = (object) array(
 			'id'            => 'w.org/plugins/a-fake-plugin',
 			'slug'          => 'a-fake-plugin',
@@ -2850,7 +2850,7 @@ class WP_Site_Health {
 	 *
 	 * @return object The test results.
 	 */
-	function can_perform_loopback() {
+	public function can_perform_loopback() {
 		$body    = array( 'site-health' => 'loopback-test' );
 		$cookies = wp_unslash( $_COOKIE );
 		$timeout = 10;

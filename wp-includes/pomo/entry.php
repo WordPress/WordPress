@@ -40,7 +40,7 @@ if ( ! class_exists( 'Translation_Entry', false ) ) :
 		 *  - references (array) -- places in the code this strings is used, in relative_to_root_path/file.php:linenum form
 		 *  - flags (array) -- flags like php-format
 		 */
-		function __construct( $args = array() ) {
+		public function __construct( $args = array() ) {
 			// If no singular -- empty object.
 			if ( ! isset( $args['singular'] ) ) {
 				return;
@@ -80,7 +80,7 @@ if ( ! class_exists( 'Translation_Entry', false ) ) :
 		 *
 		 * @return string|bool the key or false if the entry is empty
 		 */
-		function key() {
+		public function key() {
 			if ( null === $this->singular || '' === $this->singular ) {
 				return false;
 			}
@@ -96,7 +96,7 @@ if ( ! class_exists( 'Translation_Entry', false ) ) :
 		/**
 		 * @param object $other
 		 */
-		function merge_with( &$other ) {
+		public function merge_with( &$other ) {
 			$this->flags      = array_unique( array_merge( $this->flags, $other->flags ) );
 			$this->references = array_unique( array_merge( $this->references, $other->references ) );
 			if ( $this->extracted_comments != $other->extracted_comments ) {
