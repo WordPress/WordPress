@@ -1077,8 +1077,8 @@ class WP_REST_Server {
 	 * @since 5.6.0
 	 *
 	 * @param WP_REST_Request $request  The request object.
-	 * @param array           $handler  The matched route handler.
 	 * @param string          $route    The matched route regex.
+	 * @param array           $handler  The matched route handler.
 	 * @param WP_Error|null   $response The current error object if any.
 	 * @return WP_REST_Response
 	 */
