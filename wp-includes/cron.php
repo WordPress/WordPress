@@ -118,7 +118,11 @@ function wp_schedule_single_event( $timestamp, $hook, $args = array(), $wp_error
 	 * current time) all events scheduled within the next ten minutes
 	 * are considered duplicates.
 	 */
-	$crons     = (array) _get_cron_array();
+	$crons = _get_cron_array();
+	if ( ! is_array( $crons ) ) {
+		$crons = array();
+	}
+
 	$key       = md5( serialize( $event->args ) );
 	$duplicate = false;
 
