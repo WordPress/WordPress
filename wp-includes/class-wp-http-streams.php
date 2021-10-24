@@ -316,14 +316,14 @@ class WP_Http_Streams {
 
 		fclose( $handle );
 
-		$arrHeaders = WP_Http::processHeaders( $process['headers'], $url );
+		$processed_headers = WP_Http::processHeaders( $process['headers'], $url );
 
 		$response = array(
-			'headers'  => $arrHeaders['headers'],
+			'headers'  => $processed_headers['headers'],
 			// Not yet processed.
 			'body'     => null,
-			'response' => $arrHeaders['response'],
-			'cookies'  => $arrHeaders['cookies'],
+			'response' => $processed_headers['response'],
+			'cookies'  => $processed_headers['cookies'],
 			'filename' => $parsed_args['filename'],
 		);
 
@@ -334,13 +334,13 @@ class WP_Http_Streams {
 		}
 
 		// If the body was chunk encoded, then decode it.
-		if ( ! empty( $process['body'] ) && isset( $arrHeaders['headers']['transfer-encoding'] )
-			&& 'chunked' === $arrHeaders['headers']['transfer-encoding']
+		if ( ! empty( $process['body'] ) && isset( $processed_headers['headers']['transfer-encoding'] )
+			&& 'chunked' === $processed_headers['headers']['transfer-encoding']
 		) {
 			$process['body'] = WP_Http::chunkTransferDecode( $process['body'] );
 		}
 
-		if ( true === $parsed_args['decompress'] && true === WP_Http_Encoding::should_decode( $arrHeaders['headers'] ) ) {
+		if ( true === $parsed_args['decompress'] && true === WP_Http_Encoding::should_decode( $processed_headers['headers'] ) ) {
 			$process['body'] = WP_Http_Encoding::decompress( $process['body'] );
 		}
 
