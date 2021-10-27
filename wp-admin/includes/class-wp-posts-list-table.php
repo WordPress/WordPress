@@ -1660,7 +1660,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 					if ( current_user_can( $post_type_object->cap->edit_others_posts ) ) {
 						$users_opt = array(
 							'hide_if_only_one_author' => false,
-							'who'                     => 'authors',
+							'capability'              => array( $post_type_object->cap->edit_posts ),
 							'name'                    => 'post_author',
 							'class'                   => 'authors',
 							'multi'                   => 1,

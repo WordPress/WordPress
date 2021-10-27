@@ -1320,13 +1320,32 @@ function wp_dropdown_users( $args = '' ) {
 		'role'                    => '',
 		'role__in'                => array(),
 		'role__not_in'            => array(),
+		'capability'              => '',
+		'capability__in'          => array(),
+		'capability__not_in'      => array(),
 	);
 
 	$defaults['selected'] = is_author() ? get_query_var( 'author' ) : 0;
 
 	$parsed_args = wp_parse_args( $args, $defaults );
 
-	$query_args = wp_array_slice_assoc( $parsed_args, array( 'blog_id', 'include', 'exclude', 'orderby', 'order', 'who', 'role', 'role__in', 'role__not_in' ) );
+	$query_args = wp_array_slice_assoc(
+		$parsed_args,
+		array(
+			'blog_id',
+			'include',
+			'exclude',
+			'orderby',
+			'order',
+			'who',
+			'role',
+			'role__in',
+			'role__not_in',
+			'capability',
+			'capability__in',
+			'capability__not_in',
+		)
+	);
 
 	$fields = array( 'ID', 'user_login' );
 

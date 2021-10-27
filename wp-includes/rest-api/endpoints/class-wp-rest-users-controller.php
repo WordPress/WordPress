@@ -198,6 +198,15 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 			);
 		}
 
+		// Check if capabilities is specified in GET request and if user can list users.
+		if ( ! empty( $request['capabilities'] ) && ! current_user_can( 'list_users' ) ) {
+			return new WP_Error(
+				'rest_user_cannot_view',
+				__( 'Sorry, you are not allowed to filter users by capability.' ),
+				array( 'status' => rest_authorization_required_code() )
+			);
+		}
+
 		if ( 'edit' === $request['context'] && ! current_user_can( 'list_users' ) ) {
 			return new WP_Error(
 				'rest_forbidden_context',
@@ -254,13 +263,14 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 		 * present in $registered will be set.
 		 */
 		$parameter_mappings = array(
-			'exclude'  => 'exclude',
-			'include'  => 'include',
-			'order'    => 'order',
-			'per_page' => 'number',
-			'search'   => 'search',
-			'roles'    => 'role__in',
-			'slug'     => 'nicename__in',
+			'exclude'      => 'exclude',
+			'include'      => 'include',
+			'order'        => 'order',
+			'per_page'     => 'number',
+			'search'       => 'search',
+			'roles'        => 'role__in',
+			'capabilities' => 'capability__in',
+			'slug'         => 'nicename__in',
 		);
 
 		$prepared_args = array();
@@ -1548,6 +1558,14 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 
 		$query_params['roles'] = array(
 			'description' => __( 'Limit result set to users matching at least one specific role provided. Accepts csv list or single role.' ),
+			'type'        => 'array',
+			'items'       => array(
+				'type' => 'string',
+			),
+		);
+
+		$query_params['capabilities'] = array(
+			'description' => __( 'Limit result set to users matching at least one specific capability provided. Accepts csv list or single capability.' ),
 			'type'        => 'array',
 			'items'       => array(
 				'type' => 'string',
