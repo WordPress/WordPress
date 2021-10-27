@@ -1112,6 +1112,7 @@ function wp_handle_sideload( &$file, $overrides = false, $time = null ) {
  *
  * @since 2.5.0
  * @since 5.2.0 Signature Verification with SoftFail was added.
+ * @since 5.9.0 Support for Content-Disposition filename was added.
  *
  * @param string $url                    The URL of the file to download.
  * @param int    $timeout                The timeout for the request to download the file.
@@ -1180,6 +1181,29 @@ function download_url( $url, $timeout = 300, $signature_verification = false ) {
 		unlink( $tmpfname );
 
 		return new WP_Error( 'http_404', trim( wp_remote_retrieve_response_message( $response ) ), $data );
+	}
+
+	$content_disposition = wp_remote_retrieve_header( $response, 'content-disposition' );
+
+	if ( $content_disposition ) {
+		$content_disposition = strtolower( $content_disposition );
+
+		if ( 0 === strpos( $content_disposition, 'attachment; filename=' ) ) {
+			$tmpfname_disposition = sanitize_file_name( substr( $content_disposition, 21 ) );
+		} else {
+			$tmpfname_disposition = '';
+		}
+
+		// Potential file name must be valid string
+		if ( $tmpfname_disposition && is_string( $tmpfname_disposition ) && ( 0 === validate_file( $tmpfname_disposition ) ) ) {
+			if ( rename( $tmpfname, $tmpfname_disposition ) ) {
+				$tmpfname = $tmpfname_disposition;
+			}
+
+			if ( ( $tmpfname !== $tmpfname_disposition ) && file_exists( $tmpfname_disposition ) ) {
+				unlink( $tmpfname_disposition );
+			}
+		}
 	}
 
 	$content_md5 = wp_remote_retrieve_header( $response, 'content-md5' );
