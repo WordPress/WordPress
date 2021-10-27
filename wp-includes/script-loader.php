@@ -39,11 +39,16 @@ require ABSPATH . WPINC . '/functions.wp-styles.php';
  *
  * @since 5.0.0
  *
+ * @global string $tinymce_version
+ * @global bool   $concatenate_scripts
+ * @global bool   $compress_scripts
+ *
  * @param WP_Scripts $scripts            WP_Scripts object.
  * @param bool       $force_uncompressed Whether to forcibly prevent gzip compression. Default false.
  */
 function wp_register_tinymce_scripts( $scripts, $force_uncompressed = false ) {
 	global $tinymce_version, $concatenate_scripts, $compress_scripts;
+
 	$suffix     = wp_scripts_get_suffix();
 	$dev_suffix = wp_scripts_get_suffix( 'dev' );
 
@@ -71,6 +76,8 @@ function wp_register_tinymce_scripts( $scripts, $force_uncompressed = false ) {
  * For the order of `$scripts->add` see `wp_default_scripts`.
  *
  * @since 5.0.0
+ *
+ * @global WP_Locale $wp_locale WordPress date and time locale object.
  *
  * @param WP_Scripts $scripts WP_Scripts object.
  */
@@ -276,6 +283,8 @@ function wp_default_packages_scripts( $scripts ) {
  * Adds inline scripts required for the WordPress JavaScript packages.
  *
  * @since 5.0.0
+ *
+ * @global WP_Locale $wp_locale WordPress date and time locale object.
  *
  * @param WP_Scripts $scripts WP_Scripts object.
  */
@@ -1379,9 +1388,13 @@ function wp_default_scripts( $scripts ) {
  *
  * @since 2.6.0
  *
+ * @global array $editor_styles
+ *
  * @param WP_Styles $styles
  */
 function wp_default_styles( $styles ) {
+	global $editor_styles;
+
 	// Include an unmodified $wp_version.
 	require ABSPATH . WPINC . '/version.php';
 
@@ -1534,7 +1547,6 @@ function wp_default_styles( $styles ) {
 		$wp_edit_blocks_dependencies[] = 'wp-editor-classic-layout-styles';
 	}
 
-	global $editor_styles;
 	if ( ! is_array( $editor_styles ) || count( $editor_styles ) === 0 ) {
 		// Include opinionated block styles if no $editor_styles are declared, so the editor never appears broken.
 		$wp_edit_blocks_dependencies[] = 'wp-block-library-theme';
@@ -2032,16 +2044,17 @@ function _print_scripts() {
  * @return array
  */
 function wp_print_head_scripts() {
+	global $wp_scripts;
+
 	if ( ! did_action( 'wp_print_scripts' ) ) {
 		/** This action is documented in wp-includes/functions.wp-scripts.php */
 		do_action( 'wp_print_scripts' );
 	}
 
-	global $wp_scripts;
-
 	if ( ! ( $wp_scripts instanceof WP_Scripts ) ) {
 		return array(); // No need to run if nothing is queued.
 	}
+
 	return print_head_scripts();
 }
 
@@ -2243,8 +2256,6 @@ function script_concat_settings() {
  * the editor and the front-end.
  *
  * @since 5.0.0
- *
- * @global WP_Screen $current_screen WordPress current screen object.
  */
 function wp_common_block_scripts_and_styles() {
 	if ( is_admin() && ! wp_should_load_block_editor_scripts_and_styles() ) {
@@ -2332,6 +2343,8 @@ function wp_enqueue_global_styles() {
  * should be enqueued on the current screen.
  *
  * @since 5.6.0
+ *
+ * @global WP_Screen $current_screen WordPress current screen object.
  *
  * @return bool Whether scripts and styles should be enqueued.
  */
@@ -2436,8 +2449,12 @@ function wp_enqueue_registered_block_scripts_and_styles() {
  * Function responsible for enqueuing the styles required for block styles functionality on the editor and on the frontend.
  *
  * @since 5.3.0
+ *
+ * @global WP_Styles $wp_styles
  */
 function enqueue_block_styles_assets() {
+	global $wp_styles;
+
 	$block_styles = WP_Block_Styles_Registry::get_instance()->get_all_registered();
 
 	foreach ( $block_styles as $block_name => $styles ) {
@@ -2465,7 +2482,7 @@ function enqueue_block_styles_assets() {
 				// If the site loads separate styles per-block, check if the block has a stylesheet registered.
 				if ( wp_should_load_separate_core_block_assets() ) {
 					$block_stylesheet_handle = generate_block_asset_handle( $block_name, 'style' );
-					global $wp_styles;
+
 					if ( isset( $wp_styles->registered[ $block_stylesheet_handle ] ) ) {
 						$handle = $block_stylesheet_handle;
 					}
