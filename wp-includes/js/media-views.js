@@ -8071,8 +8071,8 @@ Modal = wp.media.View.extend(/** @lends wp.media.view.Modal.prototype */{
 		// Enable page scrolling.
 		$( 'body' ).removeClass( 'modal-open' );
 
-		// Hide modal and remove restricted media modal tab focus once it's closed.
-		this.$el.hide().off( 'keydown' );
+		// Hide the modal element by adding display none.
+		this.$el.hide();
 
 		/*
 		 * Make visible again to assistive technologies all body children that
