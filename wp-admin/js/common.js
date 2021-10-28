@@ -1695,6 +1695,25 @@ $( function() {
 				}
 			} );
 
+			// Close sidebar when focus moves outside of toggle and sidebar.
+			$( '#wp-admin-bar-menu-toggle, #adminmenumain' ).on( 'focusout', function() {
+				var focusIsInToggle, focusIsInSidebar;
+
+				if ( ! $wpwrap.hasClass( 'wp-responsive-open' ) ) {
+					return;
+				}
+
+				// A brief delay is required to allow focus to switch to another element.
+				setTimeout( function() {
+					focusIsInToggle  = $.contains( $( '#wp-admin-bar-menu-toggle' )[0], $( ':focus' )[0] );
+					focusIsInSidebar = $.contains( $( '#adminmenumain' )[0], $( ':focus' )[0] );
+
+					if ( ! focusIsInToggle && ! focusIsInSidebar ) {
+						$( '#wp-admin-bar-menu-toggle' ).trigger( 'click.wp-responsive' );
+					}
+				}, 10 );
+			} );
+
 			// Add menu events.
 			$adminmenu.on( 'click.wp-responsive', 'li.wp-has-submenu > a', function( event ) {
 				if ( ! $adminmenu.data('wp-responsive') ) {
