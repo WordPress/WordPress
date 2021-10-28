@@ -2310,8 +2310,9 @@ function wp_enqueue_global_styles() {
 		! is_admin()
 	);
 
-	$stylesheet = null;
+	$stylesheet     = null;
 	$transient_name = 'global_styles_' . get_stylesheet();
+
 	if ( $can_use_cache ) {
 		$cache = get_transient( $transient_name );
 		if ( $cache ) {
