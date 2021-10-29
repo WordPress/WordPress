@@ -1978,8 +1978,8 @@ class WP_Site_Health {
 		$themes_dir_is_writable  = $wp_filesystem->is_writable( "$wp_content/upgrade/temp-backup/themes" );
 
 		if ( $plugins_dir_exists && ! $plugins_dir_is_writable && $themes_dir_exists && ! $themes_dir_is_writable ) {
-			$result['status']      = 'critical';
-			$result['label']       = sprintf(
+			$result['status'] = 'critical';
+			$result['label']  = sprintf(
 				/* translators: %s: temp-backup */
 				__( 'Plugins and themes %s directories exist but are not writable' ),
 				'temp-backup'
@@ -1994,8 +1994,8 @@ class WP_Site_Health {
 		}
 
 		if ( $plugins_dir_exists && ! $plugins_dir_is_writable ) {
-			$result['status']      = 'critical';
-			$result['label']       = sprintf(
+			$result['status'] = 'critical';
+			$result['label']  = sprintf(
 				/* translators: %s: temp-backup */
 				__( 'Plugins %s directory exists but is not writable' ),
 				'temp-backup'
@@ -2009,8 +2009,8 @@ class WP_Site_Health {
 		}
 
 		if ( $themes_dir_exists && ! $themes_dir_is_writable ) {
-			$result['status']      = 'critical';
-			$result['label']       = sprintf(
+			$result['status'] = 'critical';
+			$result['label']  = sprintf(
 				/* translators: %s: temp-backup */
 				__( 'Themes %s directory exists but is not writable' ),
 				'temp-backup'
@@ -2024,8 +2024,8 @@ class WP_Site_Health {
 		}
 
 		if ( ( ! $plugins_dir_exists || ! $themes_dir_exists ) && $backup_dir_exists && ! $backup_dir_is_writable ) {
-			$result['status']      = 'critical';
-			$result['label']       = sprintf(
+			$result['status'] = 'critical';
+			$result['label']  = sprintf(
 				/* translators: %s: temp-backup */
 				__( 'The %s directory exists but is not writable' ),
 				'temp-backup'
@@ -2039,8 +2039,8 @@ class WP_Site_Health {
 		}
 
 		if ( ! $backup_dir_exists && $upgrade_dir_exists && ! $upgrade_dir_is_writable ) {
-			$result['status']      = 'critical';
-			$result['label']       = sprintf(
+			$result['status'] = 'critical';
+			$result['label']  = sprintf(
 				/* translators: %s: upgrade */
 				__( 'The %s directory exists but is not writable' ),
 				'upgrade'
@@ -2054,8 +2054,8 @@ class WP_Site_Health {
 		}
 
 		if ( ! $upgrade_dir_exists && ! $wp_filesystem->is_writable( $wp_content ) ) {
-			$result['status']      = 'critical';
-			$result['label']       = sprintf(
+			$result['status'] = 'critical';
+			$result['label']  = sprintf(
 				/* translators: %s: upgrade */
 				__( 'The %s directory cannot be created' ),
 				'upgrade'
