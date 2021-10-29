@@ -3539,8 +3539,8 @@ function get_gmt_from_date( $string, $format = 'Y-m-d H:i:s' ) {
 /**
  * Given a date in UTC or GMT timezone, returns that date in the timezone of the site.
  *
- * Requires and returns a date in the Y-m-d H:i:s format.
- * Return format can be overridden using the $format parameter.
+ * Requires a date in the Y-m-d H:i:s format.
+ * Default return format of 'Y-m-d H:i:s' can be overridden using the `$format` parameter.
  *
  * @since 1.2.0
  *

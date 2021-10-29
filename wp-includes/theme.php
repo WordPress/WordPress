@@ -3073,7 +3073,7 @@ function require_if_theme_supports( $feature, $include ) {
  *     @type string     $type         The type of data associated with this feature.
  *                                    Valid values are 'string', 'boolean', 'integer',
  *                                    'number', 'array', and 'object'. Defaults to 'boolean'.
- *     @type boolean    $variadic     Does this feature utilize the variadic support
+ *     @type bool       $variadic     Does this feature utilize the variadic support
  *                                    of add_theme_support(), or are all arguments specified
  *                                    as the second parameter. Must be used with the "array" type.
  *     @type string     $description  A short description of the feature. Included in

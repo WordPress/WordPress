@@ -434,18 +434,18 @@ do_action( 'login_init' );
  *
  * Possible hook names include:
  *
- *  - 'login_form_checkemail'
- *  - 'login_form_confirm_admin_email'
- *  - 'login_form_confirmaction'
- *  - 'login_form_entered_recovery_mode'
- *  - 'login_form_login'
- *  - 'login_form_logout'
- *  - 'login_form_lostpassword'
- *  - 'login_form_postpass'
- *  - 'login_form_register'
- *  - 'login_form_resetpass'
- *  - 'login_form_retrievepassword'
- *  - 'login_form_rp'
+ *  - `login_form_checkemail`
+ *  - `login_form_confirm_admin_email`
+ *  - `login_form_confirmaction`
+ *  - `login_form_entered_recovery_mode`
+ *  - `login_form_login`
+ *  - `login_form_logout`
+ *  - `login_form_lostpassword`
+ *  - `login_form_postpass`
+ *  - `login_form_register`
+ *  - `login_form_resetpass`
+ *  - `login_form_retrievepassword`
+ *  - `login_form_rp`
  *
  * @since 2.8.0
  */
