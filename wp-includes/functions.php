@@ -10,9 +10,9 @@ require ABSPATH . WPINC . '/option.php';
 /**
  * Convert given MySQL date string into a different format.
  *
- * `$format` should be a PHP date format string.
- * 'U' and 'G' formats will return a sum of timestamp with timezone offset.
- * `$date` is expected to be local time in MySQL format (`Y-m-d H:i:s`).
+ *  - `$format` should be a PHP date format string.
+ *  - 'U' and 'G' formats will return an integer sum of timestamp with timezone offset.
+ *  - `$date` is expected to be local time in MySQL format (`Y-m-d H:i:s`).
  *
  * Historically UTC time could be passed to the function to produce Unix timestamp.
  *
@@ -24,7 +24,7 @@ require ABSPATH . WPINC . '/option.php';
  * @param string $format    Format of the date to return.
  * @param string $date      Date string to convert.
  * @param bool   $translate Whether the return date should be translated. Default true.
- * @return string|int|false Formatted date string or sum of Unix timestamp and timezone offset.
+ * @return string|int|false Integer if `$format` is 'U' or 'G', string otherwise.
  *                          False on failure.
  */
 function mysql2date( $format, $date, $translate = true ) {
@@ -53,20 +53,21 @@ function mysql2date( $format, $date, $translate = true ) {
 /**
  * Retrieves the current time based on specified type.
  *
- * The 'mysql' type will return the time in the format for MySQL DATETIME field.
- * The 'timestamp' type will return the current timestamp or a sum of timestamp
- * and timezone offset, depending on `$gmt`.
- * Other strings will be interpreted as PHP date formats (e.g. 'Y-m-d').
+ *  - The 'mysql' type will return the time in the format for MySQL DATETIME field.
+ *  - The 'timestamp' or 'U' types will return the current timestamp or a sum of timestamp
+ *    and timezone offset, depending on `$gmt`.
+ *  - Other strings will be interpreted as PHP date formats (e.g. 'Y-m-d').
  *
- * If $gmt is set to either '1' or 'true', then both types will use GMT time.
- * if $gmt is false, the output is adjusted with the GMT offset in the WordPress option.
+ * If `$gmt` is a truthy value then both types will use GMT time, otherwise the
+ * output is adjusted with the GMT offset for the site.
  *
  * @since 1.0.0
+ * @since 5.3.0 Now returns an integer if `$type` is 'U'. Previously a string was returned.
  *
- * @param string   $type Type of time to retrieve. Accepts 'mysql', 'timestamp',
+ * @param string   $type Type of time to retrieve. Accepts 'mysql', 'timestamp', 'U',
  *                       or PHP date format string (e.g. 'Y-m-d').
  * @param int|bool $gmt  Optional. Whether to use GMT timezone. Default false.
- * @return int|string Integer if $type is 'timestamp', string otherwise.
+ * @return int|string Integer if `$type` is 'timestamp' or 'U', string otherwise.
  */
 function current_time( $type, $gmt = 0 ) {
 	// Don't use non-GMT timestamp, unless you know the difference and really need to.
@@ -85,7 +86,7 @@ function current_time( $type, $gmt = 0 ) {
 }
 
 /**
- * Retrieves the current time as an object with the timezone from settings.
+ * Retrieves the current time as an object using the site's timezone.
  *
  * @since 5.3.0
  *
@@ -96,14 +97,23 @@ function current_datetime() {
 }
 
 /**
- * Retrieves the timezone from site settings as a string.
+ * Retrieves the timezone of the site as a string.
  *
- * Uses the `timezone_string` option to get a proper timezone if available,
- * otherwise falls back to an offset.
+ * Uses the `timezone_string` option to get a proper timezone name if available,
+ * otherwise falls back to a manual UTC ± offset.
+ *
+ * Example return values:
+ *
+ *  - 'Europe/Rome'
+ *  - 'America/North_Dakota/New_Salem'
+ *  - 'UTC'
+ *  - '-06:30'
+ *  - '+00:00'
+ *  - '+08:45'
  *
  * @since 5.3.0
  *
- * @return string PHP timezone string or a ±HH:MM offset.
+ * @return string PHP timezone name or a ±HH:MM offset.
  */
 function wp_timezone_string() {
 	$timezone_string = get_option( 'timezone_string' );
@@ -125,7 +135,7 @@ function wp_timezone_string() {
 }
 
 /**
- * Retrieves the timezone from site settings as a `DateTimeZone` object.
+ * Retrieves the timezone of the site as a `DateTimeZone` object.
  *
  * Timezone can be based on a PHP timezone string or a ±HH:MM offset.
  *
