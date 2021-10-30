@@ -356,7 +356,7 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Checks if a given request has access to delete all application passwords.
+	 * Checks if a given request has access to delete all application passwords for a user.
 	 *
 	 * @since 5.6.0
 	 *
@@ -382,7 +382,7 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Deletes all application passwords.
+	 * Deletes all application passwords for a user.
 	 *
 	 * @since 5.6.0
 	 *
@@ -411,7 +411,7 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Checks if a given request has access to delete a specific application password.
+	 * Checks if a given request has access to delete a specific application password for a user.
 	 *
 	 * @since 5.6.0
 	 *
@@ -437,7 +437,7 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Deletes one application password.
+	 * Deletes an application password for a user.
 	 *
 	 * @since 5.6.0
 	 *
@@ -474,7 +474,7 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Checks if a given request has access to get the currently used application password.
+	 * Checks if a given request has access to get the currently used application password for a user.
 	 *
 	 * @since 5.7.0
 	 *
@@ -500,7 +500,7 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Retrieves the application password being currently used for authentication.
+	 * Retrieves the application password being currently used for authentication of a user.
 	 *
 	 * @since 5.7.0
 	 *
@@ -723,7 +723,7 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Gets the requested application password.
+	 * Gets the requested application password for a user.
 	 *
 	 * @since 5.6.0
 	 *

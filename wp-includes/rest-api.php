@@ -1091,7 +1091,7 @@ function rest_application_password_collect_status( $user_or_error, $app_password
  *
  * @global string|null $wp_rest_application_password_uuid
  *
- * @return string|null The App Password UUID, or null if Application Passwords was not used.
+ * @return string|null The Application Password UUID, or null if Application Passwords was not used.
  */
 function rest_get_authenticated_app_password() {
 	global $wp_rest_application_password_uuid;
