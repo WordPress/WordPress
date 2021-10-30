@@ -189,7 +189,7 @@ function get_template_part( $slug, $name = null, $args = array() ) {
 	$templates[] = "{$slug}.php";
 
 	/**
-	 * Fires before a template part is loaded.
+	 * Fires before an attempt is made to locate and load a template part.
 	 *
 	 * @since 5.2.0
 	 * @since 5.5.0 The `$args` parameter was added.

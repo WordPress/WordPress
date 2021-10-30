@@ -1521,7 +1521,7 @@ function get_attachment_fields_to_edit( $post, $errors = null ) {
  *
  * @global WP_Query $wp_the_query WordPress Query object.
  *
- * @param int   $post_id Optional. Post ID.
+ * @param int   $post_id Post ID.
  * @param array $errors  Errors for attachment, if any.
  * @return string
  */
