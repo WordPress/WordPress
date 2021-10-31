@@ -268,6 +268,8 @@ class WP_REST_Post_Types_Controller extends WP_REST_Controller {
 	 * Retrieves the post type's schema, conforming to JSON Schema.
 	 *
 	 * @since 4.7.0
+	 * @since 4.8.0 The `supports` property was added.
+	 * @since 5.9.0 The `visibility` property was added.
 	 *
 	 * @return array Item schema data.
 	 */
