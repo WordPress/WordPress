@@ -497,6 +497,7 @@ class WP_REST_Server {
 			$json_error_message = $this->get_json_last_error();
 
 			if ( $json_error_message ) {
+				$this->set_status( 500 );
 				$json_error_obj = new WP_Error(
 					'rest_encode_error',
 					$json_error_message,
