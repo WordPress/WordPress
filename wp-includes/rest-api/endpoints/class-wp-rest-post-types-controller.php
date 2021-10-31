@@ -197,6 +197,13 @@ class WP_REST_Post_Types_Controller extends WP_REST_Controller {
 			$data['hierarchical'] = $post_type->hierarchical;
 		}
 
+		if ( in_array( 'visibility', $fields, true ) ) {
+			$data['visibility'] = array(
+				'show_in_nav_menus' => (bool) $post_type->show_in_nav_menus,
+				'show_ui'           => (bool) $post_type->show_ui,
+			);
+		}
+
 		if ( in_array( 'viewable', $fields, true ) ) {
 			$data['viewable'] = is_post_type_viewable( $post_type );
 		}
@@ -336,6 +343,22 @@ class WP_REST_Post_Types_Controller extends WP_REST_Controller {
 					'type'        => 'string',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
+				),
+				'visibility'   => array(
+					'description' => __( 'The visibility settings for the post type.' ),
+					'type'        => 'object',
+					'context'     => array( 'edit' ),
+					'readonly'    => true,
+					'properties'  => array(
+						'show_ui'           => array(
+							'description' => __( 'Whether to generate a default UI for managing this post type.' ),
+							'type'        => 'boolean',
+						),
+						'show_in_nav_menus' => array(
+							'description' => __( 'Whether to make the post type is available for selection in navigation menus.' ),
+							'type'        => 'boolean',
+						),
+					),
 				),
 			),
 		);
