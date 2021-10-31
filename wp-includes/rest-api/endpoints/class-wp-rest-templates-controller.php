@@ -33,9 +33,9 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
 	 */
 	public function __construct( $post_type ) {
 		$this->post_type = $post_type;
-		$this->namespace = 'wp/v2';
 		$obj             = get_post_type_object( $post_type );
 		$this->rest_base = ! empty( $obj->rest_base ) ? $obj->rest_base : $obj->name;
+		$this->namespace = ! empty( $obj->rest_namespace ) ? $obj->rest_namespace : 'wp/v2';
 	}
 
 	/**

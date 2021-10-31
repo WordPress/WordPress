@@ -3049,24 +3049,12 @@ function rest_get_route_for_post( $post ) {
 		return '';
 	}
 
-	$post_type = get_post_type_object( $post->post_type );
-	if ( ! $post_type ) {
+	$post_type_route = rest_get_route_for_post_type_items( $post->post_type );
+	if ( ! $post_type_route ) {
 		return '';
 	}
 
-	$controller = $post_type->get_rest_controller();
-	if ( ! $controller ) {
-		return '';
-	}
-
-	$route = '';
-
-	// The only two controllers that we can detect are the Attachments and Posts controllers.
-	if ( in_array( get_class( $controller ), array( 'WP_REST_Attachments_Controller', 'WP_REST_Posts_Controller' ), true ) ) {
-		$namespace = 'wp/v2';
-		$rest_base = ! empty( $post_type->rest_base ) ? $post_type->rest_base : $post_type->name;
-		$route     = sprintf( '/%s/%s/%d', $namespace, $rest_base, $post->ID );
-	}
+	$route = sprintf( '%s/%d', $post_type_route, $post->ID );
 
 	/**
 	 * Filters the REST API route for a post.
@@ -3077,6 +3065,39 @@ function rest_get_route_for_post( $post ) {
 	 * @param WP_Post $post  The post object.
 	 */
 	return apply_filters( 'rest_route_for_post', $route, $post );
+}
+
+/**
+ * Gets the REST API route for a post type.
+ *
+ * @since 5.9.0
+ *
+ * @param string $post_type The name of a registered post type.
+ * @return string The route path with a leading slash for the given post type, or an empty string if there is not a route.
+ */
+function rest_get_route_for_post_type_items( $post_type ) {
+	$post_type = get_post_type_object( $post_type );
+	if ( ! $post_type ) {
+		return '';
+	}
+
+	if ( ! $post_type->show_in_rest ) {
+		return '';
+	}
+
+	$namespace = ! empty( $post_type->rest_namespace ) ? $post_type->rest_namespace : 'wp/v2';
+	$rest_base = ! empty( $post_type->rest_base ) ? $post_type->rest_base : $post_type->name;
+	$route     = sprintf( '/%s/%s', $namespace, $rest_base );
+
+	/**
+	 * Filters the REST API route for a post type.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @param string       $route      The route path.
+	 * @param WP_Post_Type $post_type  The post type object.
+	 */
+	return apply_filters( 'rest_route_for_post_type_items', $route, $post_type );
 }
 
 /**

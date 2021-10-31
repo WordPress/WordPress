@@ -359,6 +359,14 @@ final class WP_Post_Type {
 	public $rest_base;
 
 	/**
+	 * The namespace for this post type's REST API endpoints.
+	 *
+	 * @since 5.9
+	 * @var string|bool $rest_namespace
+	 */
+	public $rest_namespace;
+
+	/**
 	 * The controller for this post type's REST API endpoints.
 	 *
 	 * Custom controllers must extend WP_REST_Controller.
@@ -452,6 +460,7 @@ final class WP_Post_Type {
 			'delete_with_user'      => null,
 			'show_in_rest'          => false,
 			'rest_base'             => false,
+			'rest_namespace'        => false,
 			'rest_controller_class' => false,
 			'template'              => array(),
 			'template_lock'         => false,
@@ -471,6 +480,11 @@ final class WP_Post_Type {
 		// If not set, default to the setting for 'public'.
 		if ( null === $args['show_ui'] ) {
 			$args['show_ui'] = $args['public'];
+		}
+
+		// If not set, default rest_namespace to wp/v2 if show_in_rest is true.
+		if ( false === $args['rest_namespace'] && ! empty( $args['show_in_rest'] ) ) {
+			$args['rest_namespace'] = 'wp/v2';
 		}
 
 		// If not set, default to the setting for 'show_ui'.

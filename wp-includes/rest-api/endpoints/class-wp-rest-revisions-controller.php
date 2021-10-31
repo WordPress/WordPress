@@ -49,10 +49,10 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 	 */
 	public function __construct( $parent_post_type ) {
 		$this->parent_post_type  = $parent_post_type;
-		$this->namespace         = 'wp/v2';
 		$this->rest_base         = 'revisions';
 		$post_type_object        = get_post_type_object( $parent_post_type );
 		$this->parent_base       = ! empty( $post_type_object->rest_base ) ? $post_type_object->rest_base : $post_type_object->name;
+		$this->namespace         = ! empty( $post_type_object->rest_namespace ) ? $post_type_object->rest_namespace : 'wp/v2';
 		$this->parent_controller = $post_type_object->get_rest_controller();
 
 		if ( ! $this->parent_controller ) {

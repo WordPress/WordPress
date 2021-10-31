@@ -48,9 +48,9 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 	 */
 	public function __construct( $post_type ) {
 		$this->post_type = $post_type;
-		$this->namespace = 'wp/v2';
 		$obj             = get_post_type_object( $post_type );
 		$this->rest_base = ! empty( $obj->rest_base ) ? $obj->rest_base : $obj->name;
+		$this->namespace = ! empty( $obj->rest_namespace ) ? $obj->rest_namespace : 'wp/v2';
 
 		$this->meta = new WP_REST_Post_Meta_Fields( $this->post_type );
 	}
@@ -2037,7 +2037,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		// If we have a featured media, add that.
 		$featured_media = get_post_thumbnail_id( $post->ID );
 		if ( $featured_media ) {
-			$image_url = rest_url( 'wp/v2/media/' . $featured_media );
+			$image_url = rest_url( rest_get_route_for_post( $featured_media ) );
 
 			$links['https://api.w.org/featuredmedia'] = array(
 				'href'       => $image_url,
@@ -2046,7 +2046,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		}
 
 		if ( ! in_array( $post->post_type, array( 'attachment', 'nav_menu_item', 'revision' ), true ) ) {
-			$attachments_url = rest_url( 'wp/v2/media' );
+			$attachments_url = rest_url( rest_get_route_for_post_type_items( 'attachment' ) );
 			$attachments_url = add_query_arg( 'parent', $post->ID, $attachments_url );
 
 			$links['https://api.w.org/attachment'] = array(

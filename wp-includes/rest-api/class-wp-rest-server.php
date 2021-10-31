@@ -1288,7 +1288,7 @@ class WP_REST_Server {
 		if ( $site_logo_id ) {
 			$response->add_link(
 				'https://api.w.org/featuredmedia',
-				rest_url( 'wp/v2/media/' . $site_logo_id ),
+				rest_url( rest_get_route_for_post( $site_logo_id ) ),
 				array(
 					'embeddable' => true,
 				)
