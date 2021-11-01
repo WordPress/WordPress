@@ -22,9 +22,10 @@ if ( ! defined( 'WP_ADMIN' ) ) {
  * @global string    $update_title
  * @global int       $total_update_count
  * @global string    $parent_file
+ * @global string    $typenow
  */
 global $title, $hook_suffix, $current_screen, $wp_locale, $pagenow,
-	$update_title, $total_update_count, $parent_file;
+	$update_title, $total_update_count, $parent_file, $typenow;
 
 // Catch plugins that include admin-header.php before admin.php completes.
 if ( empty( $current_screen ) ) {
@@ -55,6 +56,15 @@ if ( $admin_title === $title ) {
 if ( wp_is_recovery_mode() ) {
 	/* translators: %s: Admin screen title. */
 	$admin_title = sprintf( __( 'Recovery Mode &#8212; %s' ), $admin_title );
+}
+
+if ( 'post' === $current_screen->base && 'add' !== $current_screen->action ) {
+	$post_title = get_the_title();
+	if ( ! empty( $post_title ) ) {
+		$obj = get_post_type_object( $typenow );
+		/* translators: Editor admin screen title. 1: "Edit item" text for the post type, 2: Post title. */
+		$admin_title = sprintf( __( '%1$s &#8220;%2$s&#8221;' ), $obj->labels->edit_item, $post_title );
+	}
 }
 
 /**
