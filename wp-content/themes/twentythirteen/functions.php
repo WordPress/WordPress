@@ -425,7 +425,7 @@ if ( ! function_exists( 'twentythirteen_paging_nav' ) ) :
 			return;
 		}
 		?>
-		<nav class="navigation paging-navigation" role="navigation">
+		<nav class="navigation paging-navigation">
 		<h1 class="screen-reader-text"><?php _e( 'Posts navigation', 'twentythirteen' ); ?></h1>
 		<div class="nav-links">
 
@@ -460,7 +460,7 @@ if ( ! function_exists( 'twentythirteen_post_nav' ) ) :
 			return;
 		}
 		?>
-		<nav class="navigation post-navigation" role="navigation">
+		<nav class="navigation post-navigation">
 		<h1 class="screen-reader-text"><?php _e( 'Post navigation', 'twentythirteen' ); ?></h1>
 		<div class="nav-links">
 

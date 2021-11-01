@@ -106,7 +106,7 @@ class WP_Widget_RSS extends WP_Widget {
 			// The title may be filtered: Strip out HTML and make sure the aria-label is never empty.
 			$title      = trim( strip_tags( $title ) );
 			$aria_label = $title ? $title : __( 'RSS Feed' );
-			echo '<nav role="navigation" aria-label="' . esc_attr( $aria_label ) . '">';
+			echo '<nav aria-label="' . esc_attr( $aria_label ) . '">';
 		}
 
 		wp_widget_rss_output( $rss, $instance );

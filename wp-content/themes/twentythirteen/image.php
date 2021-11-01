@@ -59,7 +59,7 @@ get_header(); ?>
 				</header><!-- .entry-header -->
 
 				<div class="entry-content">
-					<nav id="image-navigation" class="navigation image-navigation" role="navigation">
+					<nav id="image-navigation" class="navigation image-navigation">
 					<span class="nav-previous"><?php previous_image_link( false, __( '<span class="meta-nav">&larr;</span> Previous', 'twentythirteen' ) ); ?></span>
 						<span class="nav-next"><?php next_image_link( false, __( 'Next <span class="meta-nav">&rarr;</span>', 'twentythirteen' ) ); ?></span>
 					</nav><!-- #image-navigation -->

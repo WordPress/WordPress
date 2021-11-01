@@ -56,7 +56,7 @@ if ( ! function_exists( 'twentyfourteen_paging_nav' ) ) :
 		if ( $links ) :
 
 			?>
-		<nav class="navigation paging-navigation" role="navigation">
+		<nav class="navigation paging-navigation">
 		<h1 class="screen-reader-text"><?php _e( 'Posts navigation', 'twentyfourteen' ); ?></h1>
 		<div class="pagination loop-pagination">
 			<?php echo $links; ?>
@@ -83,7 +83,7 @@ if ( ! function_exists( 'twentyfourteen_post_nav' ) ) :
 		}
 
 		?>
-		<nav class="navigation post-navigation" role="navigation">
+		<nav class="navigation post-navigation">
 		<h1 class="screen-reader-text"><?php _e( 'Post navigation', 'twentyfourteen' ); ?></h1>
 		<div class="nav-links">
 			<?php
