@@ -354,7 +354,7 @@
 .community-events-errors [aria-hidden="true"],
 .community-events-loading[aria-hidden="true"],
 .community-events[aria-hidden="true"],
-.community-events [aria-hidden="true"] {
+.community-events form[aria-hidden="true"] {
 	display: none;
 }
 
