@@ -361,7 +361,7 @@ final class WP_Post_Type {
 	/**
 	 * The namespace for this post type's REST API endpoints.
 	 *
-	 * @since 5.9
+	 * @since 5.9.0
 	 * @var string|bool $rest_namespace
 	 */
 	public $rest_namespace;

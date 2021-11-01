@@ -301,6 +301,8 @@ class WP_REST_Taxonomies_Controller extends WP_REST_Controller {
 	 * Retrieves the taxonomy's schema, conforming to JSON Schema.
 	 *
 	 * @since 4.7.0
+	 * @since 5.0.0 The `visibility` property was added.
+	 * @since 5.9.0 The `rest_namespace` property was added.
 	 *
 	 * @return array Item schema data.
 	 */

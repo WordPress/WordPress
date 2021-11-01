@@ -355,6 +355,7 @@ function is_taxonomy_hierarchical( $taxonomy ) {
  * @since 5.1.0 Introduced `meta_box_sanitize_cb` argument.
  * @since 5.4.0 Added the registered taxonomy object as a return value.
  * @since 5.5.0 Introduced `default_term` argument.
+ * @since 5.9.0 Introduced `rest_namespace` argument.
  *
  * @global WP_Taxonomy[] $wp_taxonomies Registered taxonomies.
  *

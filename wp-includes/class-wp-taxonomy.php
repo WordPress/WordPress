@@ -202,7 +202,7 @@ final class WP_Taxonomy {
 	/**
 	 * The namespace for this taxonomy's REST API endpoints.
 	 *
-	 * @since 5.9
+	 * @since 5.9.0
 	 * @var string|bool $rest_namespace
 	 */
 	public $rest_namespace;
