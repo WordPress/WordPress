@@ -271,6 +271,13 @@ if ( ! CUSTOM_TAGS ) {
 			'lang'     => true,
 			'xml:lang' => true,
 		),
+		'object'     => array(
+			'data' => true,
+			'type' => array(
+				'required' => true,
+				'values'   => array( 'application/pdf' ),
+			),
+		),
 		'p'          => array(
 			'align'    => true,
 			'dir'      => true,
@@ -1165,13 +1172,45 @@ function wp_kses_attr( $element, $attr, $allowed_html, $allowed_protocols ) {
 	// Split it.
 	$attrarr = wp_kses_hair( $attr, $allowed_protocols );
 
+	// Check if there are attributes that are required.
+	$required_attrs = array_filter(
+		$allowed_html[ $element_low ],
+		function( $required_attr_limits ) {
+			return isset( $required_attr_limits['required'] ) && true === $required_attr_limits['required'];
+		}
+	);
+
+	// If a required attribute check fails, we can return nothing for a self-closing tag,
+	// but for a non-self-closing tag the best option is to return the element with attributes,
+	// as KSES doesn't handle matching the relevant closing tag.
+	$stripped_tag = '';
+	if ( empty( $xhtml_slash ) ) {
+		$stripped_tag = "<$element>";
+	}
+
 	// Go through $attrarr, and save the allowed attributes for this element
 	// in $attr2.
 	$attr2 = '';
 	foreach ( $attrarr as $arreach ) {
+		// Check if this attribute is required.
+		$required = isset( $required_attrs[ strtolower( $arreach['name'] ) ] );
+
 		if ( wp_kses_attr_check( $arreach['name'], $arreach['value'], $arreach['whole'], $arreach['vless'], $element, $allowed_html ) ) {
 			$attr2 .= ' ' . $arreach['whole'];
+
+			// If this was a required attribute, we can mark it as found.
+			if ( $required ) {
+				unset( $required_attrs[ strtolower( $arreach['name'] ) ] );
+			}
+		} elseif ( $required ) {
+			// This attribute was required, but didn't pass the check. The entire tag is not allowed.
+			return $stripped_tag;
 		}
+	}
+
+	// If some required attributes weren't set, the entire tag is not allowed.
+	if ( ! empty( $required_attrs ) ) {
+		return $stripped_tag;
 	}
 
 	// Remove any "<" or ">" characters.
@@ -1597,6 +1636,17 @@ function wp_kses_check_attr_val( $value, $vless, $checkname, $checkvalue ) {
 			 */
 
 			if ( strtolower( $checkvalue ) != $vless ) {
+				$ok = false;
+			}
+			break;
+
+		case 'values':
+			/*
+			 * The values check is used when you want to make sure that the attribute
+			 * has one of the given values.
+			 */
+
+			if ( false === array_search( strtolower( $value ), $checkvalue, true ) ) {
 				$ok = false;
 			}
 			break;
