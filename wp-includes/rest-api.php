@@ -3115,24 +3115,12 @@ function rest_get_route_for_term( $term ) {
 		return '';
 	}
 
-	$taxonomy = get_taxonomy( $term->taxonomy );
-	if ( ! $taxonomy ) {
+	$taxonomy_route = rest_get_route_for_taxonomy_items( $term->taxonomy );
+	if ( ! $taxonomy_route ) {
 		return '';
 	}
 
-	$controller = $taxonomy->get_rest_controller();
-	if ( ! $controller ) {
-		return '';
-	}
-
-	$route = '';
-
-	// The only controller that works is the Terms controller.
-	if ( $controller instanceof WP_REST_Terms_Controller ) {
-		$namespace = 'wp/v2';
-		$rest_base = ! empty( $taxonomy->rest_base ) ? $taxonomy->rest_base : $taxonomy->name;
-		$route     = sprintf( '/%s/%s/%d', $namespace, $rest_base, $term->term_id );
-	}
+	$route = sprintf( '%s/%d', $taxonomy_route, $term->term_id );
 
 	/**
 	 * Filters the REST API route for a term.
@@ -3143,6 +3131,39 @@ function rest_get_route_for_term( $term ) {
 	 * @param WP_Term $term  The term object.
 	 */
 	return apply_filters( 'rest_route_for_term', $route, $term );
+}
+
+/**
+ * Gets the REST API route for a taxonomy.
+ *
+ * @since 5.9.0
+ *
+ * @param string $taxonomy Name of taxonomy.
+ * @return string The route path with a leading slash for the given taxonomy.
+ */
+function rest_get_route_for_taxonomy_items( $taxonomy ) {
+	$taxonomy = get_taxonomy( $taxonomy );
+	if ( ! $taxonomy ) {
+		return '';
+	}
+
+	if ( ! $taxonomy->show_in_rest ) {
+		return '';
+	}
+
+	$namespace = ! empty( $taxonomy->rest_namespace ) ? $taxonomy->rest_namespace : 'wp/v2';
+	$rest_base = ! empty( $taxonomy->rest_base ) ? $taxonomy->rest_base : $taxonomy->name;
+	$route     = sprintf( '/%s/%s', $namespace, $rest_base );
+
+	/**
+	 * Filters the REST API route for a taxonomy.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @param string      $route    The route path.
+	 * @param WP_Taxonomy $taxonomy The taxonomy object.
+	 */
+	return apply_filters( 'rest_route_for_taxonomy_items', $route, $taxonomy );
 }
 
 /**

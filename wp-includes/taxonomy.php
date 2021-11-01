@@ -387,6 +387,7 @@ function is_taxonomy_hierarchical( $taxonomy ) {
  *     @type bool          $show_in_rest          Whether to include the taxonomy in the REST API. Set this to true
  *                                                for the taxonomy to be available in the block editor.
  *     @type string        $rest_base             To change the base url of REST API route. Default is $taxonomy.
+ *     @type string        $rest_namespace        To change the namespace URL of REST API route. Default is wp/v2.
  *     @type string        $rest_controller_class REST API Controller class name. Default is 'WP_REST_Terms_Controller'.
  *     @type bool          $show_tagcloud         Whether to list the taxonomy in the Tag Cloud Widget controls. If not set,
  *                                                the default is inherited from `$show_ui` (default true).
