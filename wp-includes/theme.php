@@ -1234,6 +1234,16 @@ function get_header_image_tag( $attr = array() ) {
 		}
 	}
 
+	/*
+	 * Filters the list of header image attributes.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @param array  $attr   Array of the attributes for the image tag.
+	 * @param object $header The custom header object returned by 'get_custom_header()'.
+	 */
+	$attr = apply_filters( 'get_header_image_tag_attributes', $attr, $header );
+
 	$attr = array_map( 'esc_attr', $attr );
 	$html = '<img';
 
