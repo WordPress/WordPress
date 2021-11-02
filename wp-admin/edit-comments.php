@@ -251,7 +251,7 @@ if ( isset( $_REQUEST['s'] ) && strlen( $_REQUEST['s'] ) ) {
 	printf(
 		/* translators: %s: Search query. */
 		__( 'Search results for: %s' ),
-		'<strong>' . wp_html_excerpt( esc_html( wp_unslash( $_REQUEST['s'] ) ), 50, '&hellip;' ) . '</strong>'
+		'<strong>' . esc_html( wp_unslash( $_REQUEST['s'] ) ) . '</strong>'
 	);
 	echo '</span>';
 }
