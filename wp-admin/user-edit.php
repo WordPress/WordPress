@@ -796,14 +796,17 @@ endif;
 			$application_passwords_list_table->display();
 			?>
 		</div>
-		<?php else: ?>
-			<p><?php esc_html_e( 'The application password feature requires HTTPS, which is not enabled on this site.' ); ?></p>
-			<p><?php
-			printf(
-				__( 'If this is a development website you can <a href="%s" target="_blank">set the environment type accordingly</a> to enable application passwords.' ),
-				__( 'https://wordpress.org/support/article/editing-wp-config-php/#wp_environment_type' )
-			);
-			?></p>
+		<?php else : ?>
+			<p><?php _e( 'The application password feature requires HTTPS, which is not enabled on this site.' ); ?></p>
+			<p>
+				<?php
+				printf(
+					/* translators: %s: Documentation URL. */
+					__( 'If this is a development website you can <a href="%s" target="_blank">set the environment type accordingly</a> to enable application passwords.' ),
+					__( 'https://wordpress.org/support/article/editing-wp-config-php/#wp_environment_type' )
+				);
+				?>
+			</p>
 		<?php endif; ?>
 	</div>
 
