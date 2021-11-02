@@ -854,7 +854,7 @@ $( function() {
 		// Reset any compensation for submenus near the bottom of the screen.
 		$('#adminmenu div.wp-submenu').css('margin-top', '');
 
-		if ( viewportWidth < 960 ) {
+		if ( viewportWidth <= 960 ) {
 			if ( $body.hasClass('auto-fold') ) {
 				$body.removeClass('auto-fold').removeClass('folded');
 				setUserSetting('unfold', 1);
