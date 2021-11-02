@@ -33,7 +33,8 @@ if ( wp_is_mobile() ) {
 $title       = __( 'Dashboard' );
 $parent_file = 'index.php';
 
-$help = '<p>' . __( 'Welcome to your WordPress Dashboard! This is the screen you will see when you log in to your site, and gives you access to all the site management features of WordPress. You can get help for any screen by clicking the Help tab above the screen title.' ) . '</p>';
+$help  = '<p>' . __( 'Welcome to your WordPress Dashboard!' ) . '</p>';
+$help .= '<p>' . __( 'The Dashboard is the first place you will come to every time you log into your site. It is where you will find all your WordPress tools. If you need help, just click the "Help" tab above the screen title.' ) . '</p>';
 
 $screen = get_current_screen();
 
