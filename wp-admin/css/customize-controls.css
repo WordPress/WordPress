@@ -949,7 +949,8 @@ p.customize-section-description {
 .customize-control input[type="number"],
 .customize-control input[type="search"],
 .customize-control input[type="tel"],
-.customize-control input[type="url"] {
+.customize-control input[type="url"],
+.customize-control input[type="range"] {
 	width: 100%;
 	margin: 0;
 }
