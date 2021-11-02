@@ -107,10 +107,30 @@ $screen->add_help_tab(
 
 unset( $help );
 
+$wp_version     = get_bloginfo( 'version', 'display' );
+$is_dev_version = preg_match( '/alpha|beta|RC/', $wp_version );
+
+if ( $is_dev_version ) {
+	/* translators: %s. The WordPress version. */
+	$wp_version_text = sprintf( __( 'Version %s' ), $wp_version );
+} else {
+	$wp_version_text = sprintf(
+		/*
+		 * translators:
+		 * 1. A link to the changelog ending with the WordPress version where '.' is replaced by '-'.
+		 * 2. The WordPress version.
+		 */
+		__( '<a href="%1$s">Version %2$s</a>' ),
+		esc_url( 'https://wordpress.org/support/wordpress-version/version-' . str_replace( '.', '-', $wp_version ) ),
+		$wp_version
+	);
+}
+
 $screen->set_help_sidebar(
 	'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
 	'<p>' . __( '<a href="https://wordpress.org/support/article/dashboard-screen/">Documentation on Dashboard</a>' ) . '</p>' .
-	'<p>' . __( '<a href="https://wordpress.org/support/">Support</a>' ) . '</p>'
+	'<p>' . __( '<a href="https://wordpress.org/support/">Support</a>' ) . '</p>' .
+	'<p>' . $wp_version_text . '</p>'
 );
 
 require_once ABSPATH . 'wp-admin/admin-header.php';
