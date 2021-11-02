@@ -2288,8 +2288,42 @@ function sanitize_title_with_dashes( $title, $raw_title = '', $context = 'displa
 				'%cc%80',
 				'%cc%84',
 				'%cc%8c',
+				// Non-visible characters that display without a width.
+				'%e2%80%8b',
+				'%e2%80%8c',
+				'%e2%80%8d',
+				'%e2%80%8e',
+				'%e2%80%8f',
+				'%e2%80%aa',
+				'%e2%80%ab',
+				'%e2%80%ac',
+				'%e2%80%ad',
+				'%e2%80%ae',
+				'%ef%bb%bf',
 			),
 			'',
+			$title
+		);
+
+		// Convert non-visible characters that display with a width to hyphen.
+		$title = str_replace(
+			array(
+				'%e2%80%80',
+				'%e2%80%81',
+				'%e2%80%82',
+				'%e2%80%83',
+				'%e2%80%84',
+				'%e2%80%85',
+				'%e2%80%86',
+				'%e2%80%87',
+				'%e2%80%88',
+				'%e2%80%89',
+				'%e2%80%8a',
+				'%e2%80%a8',
+				'%e2%80%a9',
+				'%e2%80%af',
+			),
+			'-',
 			$title
 		);
 
