@@ -695,10 +695,22 @@
 	 * @param {Function} [params.completeCallback]
 	 */
 	focus = function ( params ) {
-		var construct, completeCallback, focus, focusElement;
+		var construct, completeCallback, focus, focusElement, sections;
 		construct = this;
 		params = params || {};
 		focus = function () {
+			// If a child section is currently expanded, collapse it.
+			if ( construct.extended( api.Panel ) ) {
+				sections = construct.sections();
+				if ( 1 < sections.length ) {
+					sections.forEach( function ( section ) {
+						if ( section.expanded() ) {
+							section.collapse();
+						}
+					} );
+				}
+			}
+
 			var focusContainer;
 			if ( ( construct.extended( api.Panel ) || construct.extended( api.Section ) ) && construct.expanded && construct.expanded() ) {
 				focusContainer = construct.contentContainer;
