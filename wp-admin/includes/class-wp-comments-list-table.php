@@ -947,7 +947,12 @@ class WP_Comments_List_Table extends WP_List_Table {
 		echo '</strong><br />';
 
 		if ( ! empty( $author_url_display ) ) {
-			printf( '<a href="%s">%s</a><br />', esc_url( $author_url ), esc_html( $author_url_display ) );
+			// Print link to author URL, and disallow referrer information (without using target="_blank").
+			printf(
+				'<a href="%s" rel="noopener noreferrer">%s</a><br />',
+				esc_url( $author_url ),
+				esc_html( $author_url_display )
+			);
 		}
 
 		if ( $this->user_can ) {
