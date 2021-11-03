@@ -3000,7 +3000,20 @@ class WP_Query {
 			}
 
 			/** @var int[] */
-			$this->posts      = array_map( 'intval', $this->posts );
+			$this->posts = array_map( 'intval', $this->posts );
+
+			if ( ! $q['suppress_filters'] ) {
+				/**
+				 * Filters the post IDs array when returning ids.
+				 *
+				 * @since TBD
+				 *
+				 * @param int[]    $posts The list of post IDs.
+				 * @param WP_Query $query The WP_Query instance.
+				 */
+				$this->posts = apply_filters( 'posts_results_ids', $this->posts, $this );
+			}
+
 			$this->post_count = count( $this->posts );
 			$this->set_found_posts( $q, $limits );
 
@@ -3010,6 +3023,18 @@ class WP_Query {
 		if ( 'id=>parent' === $q['fields'] ) {
 			if ( null === $this->posts ) {
 				$this->posts = $wpdb->get_results( $this->request );
+			}
+
+			if ( ! $q['suppress_filters'] ) {
+				/**
+				 * Filters the basic post objects array when returning id=>parent.
+				 *
+				 * @since TBD
+				 *
+				 * @param stdClass[] $posts The list of basic post objects containing ID and post_parent.
+				 * @param WP_Query   $query The WP_Query instance.
+				 */
+				$this->posts = apply_filters( 'posts_results_id_parent', $this->posts, $this );
 			}
 
 			$this->post_count = count( $this->posts );
