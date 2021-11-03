@@ -182,7 +182,7 @@ p.has-drop-cap:not(:focus)::first-letter {
 	display: block;
 	font-size: 16px;
 	font-size: 1rem;
-	font-style: none;
+	font-style: normal;
 	line-height: 1.75;
 	text-transform: none;
 }
