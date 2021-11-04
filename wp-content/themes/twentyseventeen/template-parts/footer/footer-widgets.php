@@ -15,7 +15,7 @@ if ( is_active_sidebar( 'sidebar-2' ) ||
 	is_active_sidebar( 'sidebar-3' ) ) :
 	?>
 
-	<aside class="widget-area" role="complementary" aria-label="<?php esc_attr_e( 'Footer', 'twentyseventeen' ); ?>">
+	<aside class="widget-area" aria-label="<?php esc_attr_e( 'Footer', 'twentyseventeen' ); ?>">
 		<?php
 		if ( is_active_sidebar( 'sidebar-2' ) ) {
 			?>

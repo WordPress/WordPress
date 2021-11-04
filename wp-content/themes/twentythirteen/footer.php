@@ -11,7 +11,7 @@
 ?>
 
 		</div><!-- #main -->
-		<footer id="colophon" class="site-footer" role="contentinfo">
+		<footer id="colophon" class="site-footer">
 			<?php get_sidebar( 'main' ); ?>
 
 			<div class="site-info">

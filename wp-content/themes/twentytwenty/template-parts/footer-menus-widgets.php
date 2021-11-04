@@ -86,7 +86,7 @@ if ( $has_footer_menu || $has_social_menu || $has_sidebar_1 || $has_sidebar_2 ) 
 
 			<?php if ( $has_sidebar_1 || $has_sidebar_2 ) { ?>
 
-				<aside class="footer-widgets-outer-wrapper" role="complementary">
+				<aside class="footer-widgets-outer-wrapper">
 
 					<div class="footer-widgets-wrapper">
 
