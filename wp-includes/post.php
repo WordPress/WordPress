@@ -3236,7 +3236,7 @@ function wp_delete_post( $postid = 0, $force_delete = false ) {
 
 	wp_defer_comment_counting( true );
 
-	$comment_ids = $wpdb->get_col( $wpdb->prepare( "SELECT comment_ID FROM $wpdb->comments WHERE comment_post_ID = %d", $postid ) );
+	$comment_ids = $wpdb->get_col( $wpdb->prepare( "SELECT comment_ID FROM $wpdb->comments WHERE comment_post_ID = %d ORDER BY comment_ID DESC", $postid ) );
 	foreach ( $comment_ids as $comment_id ) {
 		wp_delete_comment( $comment_id, true );
 	}
@@ -6194,7 +6194,7 @@ function wp_delete_attachment( $post_id, $force_delete = false ) {
 
 	wp_defer_comment_counting( true );
 
-	$comment_ids = $wpdb->get_col( $wpdb->prepare( "SELECT comment_ID FROM $wpdb->comments WHERE comment_post_ID = %d", $post_id ) );
+	$comment_ids = $wpdb->get_col( $wpdb->prepare( "SELECT comment_ID FROM $wpdb->comments WHERE comment_post_ID = %d ORDER BY comment_ID DESC", $post_id ) );
 	foreach ( $comment_ids as $comment_id ) {
 		wp_delete_comment( $comment_id, true );
 	}
