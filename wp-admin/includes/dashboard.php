@@ -242,7 +242,7 @@ function _wp_dashboard_control_callback( $dashboard, $meta_box ) {
 	wp_dashboard_trigger_widget_control( $meta_box['id'] );
 	wp_nonce_field( 'edit-dashboard-widget_' . $meta_box['id'], 'dashboard-widget-nonce' );
 	echo '<input type="hidden" name="widget_id" value="' . esc_attr( $meta_box['id'] ) . '" />';
-	submit_button( __( 'Submit' ) );
+	submit_button( __( 'Save Changes' ) );
 	echo '</form>';
 }
 
