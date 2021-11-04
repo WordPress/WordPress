@@ -213,6 +213,7 @@ function get_block_metadata_i18n_schema() {
  *
  * @param string $file_or_folder Path to the JSON file with metadata definition for
  *                               the block or path to the folder where the `block.json` file is located.
+ *                               If providing the path to a JSON file, the filename must end with `block.json`.
  * @param array  $args           Optional. Array of block type arguments. Accepts any public property
  *                               of `WP_Block_Type`. See WP_Block_Type::__construct() for information
  *                               on accepted arguments. Default empty array.
