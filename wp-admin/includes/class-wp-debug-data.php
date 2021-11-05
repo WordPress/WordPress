@@ -234,13 +234,11 @@ class WP_Debug_Data {
 			$compress_css_debug = 'undefined';
 		}
 
-		// Check WP_LOCAL_DEV.
-		if ( defined( 'WP_LOCAL_DEV' ) ) {
-			$wp_local_dev       = WP_LOCAL_DEV ? __( 'Enabled' ) : __( 'Disabled' );
-			$wp_local_dev_debug = WP_LOCAL_DEV ? 'true' : 'false';
+		// Check WP_ENVIRONMENT_TYPE.
+		if ( defined( 'WP_ENVIRONMENT_TYPE' ) ) {
+			$wp_environment_type = WP_ENVIRONMENT_TYPE;
 		} else {
-			$wp_local_dev       = __( 'Undefined' );
-			$wp_local_dev_debug = 'undefined';
+			$wp_environment_type = __( 'Undefined' );
 		}
 
 		$info['wp-constants'] = array(
@@ -318,10 +316,10 @@ class WP_Debug_Data {
 					'value' => $compress_css,
 					'debug' => $compress_css_debug,
 				),
-				'WP_LOCAL_DEV'        => array(
-					'label' => 'WP_LOCAL_DEV',
-					'value' => $wp_local_dev,
-					'debug' => $wp_local_dev_debug,
+				'WP_ENVIRONMENT_TYPE' => array(
+					'label' => 'WP_ENVIRONMENT_TYPE',
+					'value' => $wp_environment_type,
+					'debug' => $wp_environment_type,
 				),
 				'DB_CHARSET'          => array(
 					'label' => 'DB_CHARSET',
