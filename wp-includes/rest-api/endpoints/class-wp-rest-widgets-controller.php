@@ -17,6 +17,14 @@
 class WP_REST_Widgets_Controller extends WP_REST_Controller {
 
 	/**
+	 * Tracks whether {@see retrieve_widgets()} has been called in the current request.
+	 *
+	 * @since 5.9.0
+	 * @var bool
+	 */
+	protected $widgets_retrieved = false;
+
+	/**
 	 * Widgets controller constructor.
 	 *
 	 * @since 5.8.0
@@ -97,6 +105,17 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 	 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
 	 */
 	public function get_items_permissions_check( $request ) {
+		$this->retrieve_widgets();
+		if ( isset( $request['sidebar'] ) && $this->check_read_sidebar_permission( $request['sidebar'] ) ) {
+			return true;
+		}
+
+		foreach ( wp_get_sidebars_widgets() as $sidebar_id => $widget_ids ) {
+			if ( $this->check_read_sidebar_permission( $sidebar_id ) ) {
+				return true;
+			}
+		}
+
 		return $this->permissions_check( $request );
 	}
 
@@ -109,12 +128,17 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function get_items( $request ) {
-		retrieve_widgets();
+		$this->retrieve_widgets();
 
-		$prepared = array();
+		$prepared          = array();
+		$permissions_check = $this->permissions_check( $request );
 
 		foreach ( wp_get_sidebars_widgets() as $sidebar_id => $widget_ids ) {
 			if ( isset( $request['sidebar'] ) && $sidebar_id !== $request['sidebar'] ) {
+				continue;
+			}
+
+			if ( is_wp_error( $permissions_check ) && ! $this->check_read_sidebar_permission( $sidebar_id ) ) {
 				continue;
 			}
 
@@ -139,7 +163,30 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 	 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
 	 */
 	public function get_item_permissions_check( $request ) {
+		$this->retrieve_widgets();
+
+		$widget_id  = $request['id'];
+		$sidebar_id = wp_find_widgets_sidebar( $widget_id );
+
+		if ( $sidebar_id && $this->check_read_sidebar_permission( $sidebar_id ) ) {
+			return true;
+		}
+
 		return $this->permissions_check( $request );
+	}
+
+	/**
+	 * Checks if a sidebar can be read publicly.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @param string $sidebar_id The sidebar id.
+	 * @return bool Whether the sidebar can be read.
+	 */
+	protected function check_read_sidebar_permission( $sidebar_id ) {
+		$sidebar = wp_get_sidebar( $sidebar_id );
+
+		return ! empty( $sidebar['show_in_rest'] );
 	}
 
 	/**
@@ -151,7 +198,7 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function get_item( $request ) {
-		retrieve_widgets();
+		$this->retrieve_widgets();
 
 		$widget_id  = $request['id'];
 		$sidebar_id = wp_find_widgets_sidebar( $widget_id );
@@ -247,8 +294,7 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 		 * See https://core.trac.wordpress.org/ticket/53657.
 		 */
 		wp_get_sidebars_widgets();
-
-		retrieve_widgets();
+		$this->retrieve_widgets();
 
 		$widget_id  = $request['id'];
 		$sidebar_id = wp_find_widgets_sidebar( $widget_id );
@@ -323,8 +369,7 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 		 * See https://core.trac.wordpress.org/ticket/53657.
 		 */
 		wp_get_sidebars_widgets();
-
-		retrieve_widgets();
+		$this->retrieve_widgets();
 
 		$widget_id  = $request['id'];
 		$sidebar_id = wp_find_widgets_sidebar( $widget_id );
@@ -437,6 +482,20 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Looks for "lost" widgets once per request.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @see retrieve_widgets()
+	 */
+	protected function retrieve_widgets() {
+		if ( ! $this->widgets_retrieved ) {
+			retrieve_widgets();
+			$this->widgets_retrieved = true;
+		}
 	}
 
 	/**
@@ -767,23 +826,23 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 				'instance'      => array(
 					'description' => __( 'Instance settings of the widget, if supported.' ),
 					'type'        => 'object',
-					'context'     => array( 'view', 'edit', 'embed' ),
+					'context'     => array( 'edit' ),
 					'default'     => null,
 					'properties'  => array(
 						'encoded' => array(
 							'description' => __( 'Base64 encoded representation of the instance settings.' ),
 							'type'        => 'string',
-							'context'     => array( 'view', 'edit', 'embed' ),
+							'context'     => array( 'edit' ),
 						),
 						'hash'    => array(
 							'description' => __( 'Cryptographic hash of the instance settings.' ),
 							'type'        => 'string',
-							'context'     => array( 'view', 'edit', 'embed' ),
+							'context'     => array( 'edit' ),
 						),
 						'raw'     => array(
 							'description' => __( 'Unencoded instance settings, if supported.' ),
 							'type'        => 'object',
-							'context'     => array( 'view', 'edit', 'embed' ),
+							'context'     => array( 'edit' ),
 						),
 					),
 				),
