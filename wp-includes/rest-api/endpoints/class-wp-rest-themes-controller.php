@@ -16,6 +16,8 @@
  */
 class WP_REST_Themes_Controller extends WP_REST_Controller {
 
+	const PATTERN = '[^.\/]+(?:\/[^.\/]+)?';
+
 	/**
 	 * Constructor.
 	 *
@@ -50,7 +52,7 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
 
 		register_rest_route(
 			$this->namespace,
-			'/' . $this->rest_base . '/(?P<stylesheet>[\w-]+)',
+			sprintf( '/%s/(?P<stylesheet>%s)', $this->rest_base, self::PATTERN ),
 			array(
 				'args'   => array(
 					'stylesheet' => array(
