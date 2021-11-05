@@ -200,7 +200,7 @@ if ( isset( $_GET['tab'] ) && ! empty( $_GET['tab'] ) ) {
 <div class="health-check-body health-check-status-tab hide-if-no-js">
 	<div class="site-status-all-clear hide">
 		<p class="icon">
-			<span class="dashicons dashicons-yes"></span>
+			<span class="dashicons dashicons-smiley" aria-hidden="true"></span>
 		</p>
 
 		<p class="encouragement">

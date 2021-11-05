@@ -250,12 +250,12 @@ are styled in the Privacy section of edit.css */
 	text-align: center;
 	height: 100%;
 	width: 100%;
-	margin-top: 0;
+	margin: 0 0 3rem;
 }
 
 @media all and (min-width: 784px) {
 	.site-status-all-clear {
-		margin: 5rem 0;
+		margin: 2rem 0 5rem;
 	}
 }
 
@@ -265,7 +265,8 @@ are styled in the Privacy section of edit.css */
 
 .site-status-all-clear .dashicons {
 	font-size: 150px;
-	height: 130px;
+	height: 150px;
+	margin-bottom: 2rem;
 	width: 150px;
 }
 
