@@ -363,8 +363,8 @@ if ( ! empty( $_GET['search'] ) ) {
  */
 
 foreach ( $themes as $theme ) :
-	$aria_action = esc_attr( $theme['id'] . '-action' );
-	$aria_name   = esc_attr( $theme['id'] . '-name' );
+	$aria_action = $theme['id'] . '-action';
+	$aria_name   = $theme['id'] . '-name';
 
 	$active_class = '';
 	if ( $theme['active'] ) {
@@ -374,7 +374,7 @@ foreach ( $themes as $theme ) :
 <div class="theme<?php echo $active_class; ?>">
 	<?php if ( ! empty( $theme['screenshot'][0] ) ) { ?>
 		<div class="theme-screenshot">
-			<img src="<?php echo $theme['screenshot'][0]; ?>" alt="" />
+			<img src="<?php echo esc_attr( $theme['screenshot'][0] ); ?>" alt="" />
 		</div>
 	<?php } else { ?>
 		<div class="theme-screenshot blank"></div>
@@ -508,7 +508,7 @@ foreach ( $themes as $theme ) :
 	/* translators: %s: Theme name. */
 	$details_aria_label = sprintf( _x( 'View Theme Details for %s', 'theme' ), $theme['name'] );
 	?>
-	<button type="button" aria-label="<?php echo esc_attr( $details_aria_label ); ?>" class="more-details" id="<?php echo $aria_action; ?>"><?php _e( 'Theme Details' ); ?></button>
+	<button type="button" aria-label="<?php echo esc_attr( $details_aria_label ); ?>" class="more-details" id="<?php echo esc_attr( $aria_action ); ?>"><?php _e( 'Theme Details' ); ?></button>
 	<div class="theme-author">
 		<?php
 		/* translators: %s: Theme author name. */
@@ -518,11 +518,11 @@ foreach ( $themes as $theme ) :
 
 	<div class="theme-id-container">
 		<?php if ( $theme['active'] ) { ?>
-			<h2 class="theme-name" id="<?php echo $aria_name; ?>">
+			<h2 class="theme-name" id="<?php echo esc_attr( $aria_name ); ?>">
 				<span><?php _ex( 'Active:', 'theme' ); ?></span> <?php echo $theme['name']; ?>
 			</h2>
 		<?php } else { ?>
-			<h2 class="theme-name" id="<?php echo $aria_name; ?>"><?php echo $theme['name']; ?></h2>
+			<h2 class="theme-name" id="<?php echo esc_attr( $aria_name ); ?>"><?php echo $theme['name']; ?></h2>
 		<?php } ?>
 
 		<div class="theme-actions">
@@ -899,7 +899,7 @@ function wp_theme_auto_update_setting_template() {
 					/* translators: %s: Theme name. */
 					$aria_label = sprintf( _x( 'Activate %s', 'theme' ), '{{ data.name }}' );
 					?>
-					<a class="button activate" href="{{{ data.actions.activate }}}" aria-label="<?php echo $aria_label; ?>"><?php _e( 'Activate' ); ?></a>
+					<a class="button activate" href="{{{ data.actions.activate }}}" aria-label="<?php echo esc_attr( $aria_label ); ?>"><?php _e( 'Activate' ); ?></a>
 					<?php
 					/* translators: %s: Theme name. */
 					$live_preview_aria_label = sprintf( _x( 'Live Preview %s', 'theme' ), '{{ data.name }}' );
@@ -1117,7 +1117,7 @@ function wp_theme_auto_update_setting_template() {
 					$aria_label = sprintf( _x( 'Activate %s', 'theme' ), '{{ data.name }}' );
 					?>
 					<# if ( data.actions.activate ) { #>
-						<a href="{{{ data.actions.activate }}}" class="button activate" aria-label="<?php echo $aria_label; ?>"><?php _e( 'Activate' ); ?></a>
+						<a href="{{{ data.actions.activate }}}" class="button activate" aria-label="<?php echo esc_attr( $aria_label ); ?>"><?php _e( 'Activate' ); ?></a>
 					<# } #>
 					<a href="{{{ data.actions.customize }}}" class="button button-primary load-customize hide-if-no-customize"><?php _e( 'Live Preview' ); ?></a>
 				<# } else { #>
@@ -1126,7 +1126,7 @@ function wp_theme_auto_update_setting_template() {
 					$aria_label = sprintf( _x( 'Cannot Activate %s', 'theme' ), '{{ data.name }}' );
 					?>
 					<# if ( data.actions.activate ) { #>
-						<a class="button disabled" aria-label="<?php echo $aria_label; ?>"><?php _ex( 'Cannot Activate', 'theme' ); ?></a>
+						<a class="button disabled" aria-label="<?php echo esc_attr( $aria_label ); ?>"><?php _ex( 'Cannot Activate', 'theme' ); ?></a>
 					<# } #>
 					<a class="button button-primary hide-if-no-customize disabled"><?php _e( 'Live Preview' ); ?></a>
 				<# } #>
@@ -1137,7 +1137,7 @@ function wp_theme_auto_update_setting_template() {
 				/* translators: %s: Theme name. */
 				$aria_label = sprintf( _x( 'Delete %s', 'theme' ), '{{ data.name }}' );
 				?>
-				<a href="{{{ data.actions['delete'] }}}" class="button delete-theme" aria-label="<?php echo $aria_label; ?>"><?php _e( 'Delete' ); ?></a>
+				<a href="{{{ data.actions['delete'] }}}" class="button delete-theme" aria-label="<?php echo esc_attr( $aria_label ); ?>"><?php _e( 'Delete' ); ?></a>
 			<# } #>
 		</div>
 	</div>
