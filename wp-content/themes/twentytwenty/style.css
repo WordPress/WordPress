@@ -4498,13 +4498,20 @@ ul.footer-social li {
 }
 
 .footer-copyright a,
+.privacy-policy a,
 .powered-by-wordpress a {
 	color: inherit;
 }
 
+.privacy-policy,
 .powered-by-wordpress,
 .to-the-top {
 	color: #6d6d6d;
+}
+
+a.to-the-top {
+	margin-left: 2.4rem;
+	white-space: nowrap;
 }
 
 a.to-the-top > * {
@@ -4519,6 +4526,10 @@ a.to-the-top > * {
 .powered-by-wordpress {
 	display: none;
 	margin: 0 0 0 2.4rem;
+}
+
+.privacy-policy {
+	margin: 1.2rem 0 0;
 }
 
 .to-the-top-long {
@@ -5632,14 +5643,15 @@ a.to-the-top > * {
 
 	.footer-credits {
 		display: flex;
+		flex-wrap: wrap;
 	}
 
 	.footer-copyright {
 		font-weight: 700;
 	}
 
-	.powered-by-wordpress {
-		display: block;
+	.privacy-policy {
+		margin: 0 0 0 2.4rem;
 	}
 
 	.to-the-top-long {
@@ -6117,6 +6129,10 @@ a.to-the-top > * {
 
 	.footer-menu li {
 		margin: 1.2rem 0 0 2.4rem;
+	}
+
+	.powered-by-wordpress {
+		display: block;
 	}
 }
 
