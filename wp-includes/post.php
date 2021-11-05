@@ -2086,6 +2086,7 @@ function set_post_type( $post_id = 0, $post_type = 'post' ) {
  * @since 4.4.0
  * @since 4.5.0 Added the ability to pass a post type name in addition to object.
  * @since 4.6.0 Converted the `$post_type` parameter to accept a `WP_Post_Type` object.
+ * @since 5.9.0 Added `is_post_type_viewable` hook to filter the result.
  *
  * @param string|WP_Post_Type $post_type Post type name or object.
  * @return bool Whether the post type should be considered viewable.
@@ -2102,7 +2103,24 @@ function is_post_type_viewable( $post_type ) {
 		return false;
 	}
 
-	return $post_type->publicly_queryable || ( $post_type->_builtin && $post_type->public );
+	$is_viewable = $post_type->publicly_queryable || ( $post_type->_builtin && $post_type->public );
+
+	/**
+	 * Filters whether a post type is considered "viewable".
+	 *
+	 * @since 5.9.0
+	 *
+	 * @param bool         $is_viewable Whether the post type is "viewable".
+	 * @param WP_Post_Type $post_type   Post type object.
+	 */
+	$is_viewable = apply_filters( 'is_post_type_viewable', $is_viewable, $post_type );
+
+	// Make sure the filtered value is a boolean type before returning it.
+	if ( ! is_bool( $is_viewable ) ) {
+		return false;
+	}
+
+	return $is_viewable;
 }
 
 /**
