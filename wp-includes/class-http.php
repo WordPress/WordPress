@@ -655,7 +655,7 @@ class WP_Http {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param string $strResponse The full response string.
+	 * @param string $str_response The full response string.
 	 * @return array {
 	 *     Array with response headers and body.
 	 *
@@ -663,12 +663,12 @@ class WP_Http {
 	 *     @type string $body    HTTP response body.
 	 * }
 	 */
-	public static function processResponse( $strResponse ) { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
-		$res = explode( "\r\n\r\n", $strResponse, 2 );
+	public static function processResponse( $str_response ) { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
+		$response = explode( "\r\n\r\n", $str_response, 2 );
 
 		return array(
-			'headers' => $res[0],
-			'body'    => isset( $res[1] ) ? $res[1] : '',
+			'headers' => $response[0],
+			'body'    => isset( $response[1] ) ? $response[1] : '',
 		);
 	}
 
