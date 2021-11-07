@@ -3549,7 +3549,7 @@ function wp_handle_comment_submission( $comment_data ) {
 
 	if ( get_option( 'require_name_email' ) && ! $user->exists() ) {
 		if ( '' == $comment_author_email || '' == $comment_author ) {
-			return new WP_Error( 'require_name_email', __( '<strong>Error</strong>: Please fill the required fields (name, email).' ), 200 );
+			return new WP_Error( 'require_name_email', __( '<strong>Error</strong>: Please fill the required fields.' ), 200 );
 		} elseif ( ! is_email( $comment_author_email ) ) {
 			return new WP_Error( 'require_valid_email', __( '<strong>Error</strong>: Please enter a valid email address.' ), 200 );
 		}

@@ -2350,9 +2350,15 @@ function comment_form( $args = array(), $post_id = null ) {
 		$args['format'] = current_theme_supports( 'html5', 'comment-form' ) ? 'html5' : 'xhtml';
 	}
 
-	$req      = get_option( 'require_name_email' );
-	$html_req = ( $req ? " required='required'" : '' );
-	$html5    = 'html5' === $args['format'];
+	$req   = get_option( 'require_name_email' );
+	$html5 = 'html5' === $args['format'];
+
+	// Define attributes in HTML5 or XHTML syntax.
+	$required_attribute = ( $html5 ? ' required' : ' required="required"' );
+	$checked_attribute  = ( $html5 ? ' checked' : ' checked="checked"' );
+
+	// Identify required fields visually.
+	$required_indicator = ' <span class="required" aria-hidden="true">*</span>';
 
 	$fields = array(
 		'author' => sprintf(
@@ -2360,12 +2366,12 @@ function comment_form( $args = array(), $post_id = null ) {
 			sprintf(
 				'<label for="author">%s%s</label>',
 				__( 'Name' ),
-				( $req ? ' <span class="required">*</span>' : '' )
+				( $req ? $required_indicator : '' )
 			),
 			sprintf(
 				'<input id="author" name="author" type="text" value="%s" size="30" maxlength="245"%s />',
 				esc_attr( $commenter['comment_author'] ),
-				$html_req
+				( $req ? $required_attribute : '' )
 			)
 		),
 		'email'  => sprintf(
@@ -2373,13 +2379,13 @@ function comment_form( $args = array(), $post_id = null ) {
 			sprintf(
 				'<label for="email">%s%s</label>',
 				__( 'Email' ),
-				( $req ? ' <span class="required">*</span>' : '' )
+				( $req ? $required_indicator : '' )
 			),
 			sprintf(
 				'<input id="email" name="email" %s value="%s" size="30" maxlength="100" aria-describedby="email-notes"%s />',
 				( $html5 ? 'type="email"' : 'type="text"' ),
 				esc_attr( $commenter['comment_author_email'] ),
-				$html_req
+				( $req ? $required_attribute : '' )
 			)
 		),
 		'url'    => sprintf(
@@ -2397,7 +2403,7 @@ function comment_form( $args = array(), $post_id = null ) {
 	);
 
 	if ( has_action( 'set_comment_cookies', 'wp_set_comment_cookies' ) && get_option( 'show_comments_cookies_opt_in' ) ) {
-		$consent = empty( $commenter['comment_author_email'] ) ? '' : ' checked="checked"';
+		$consent = empty( $commenter['comment_author_email'] ) ? '' : $checked_attribute;
 
 		$fields['cookies'] = sprintf(
 			'<p class="comment-form-cookies-consent">%s %s</p>',
@@ -2419,8 +2425,8 @@ function comment_form( $args = array(), $post_id = null ) {
 
 	$required_text = sprintf(
 		/* translators: %s: Asterisk symbol (*). */
-		' ' . __( 'Required fields are marked %s' ),
-		'<span class="required">*</span>'
+		' <span class="comment-required-message" aria-hidden="true">' . __( 'Required fields are marked %s' ) . '</span>',
+		trim( $required_indicator )
 	);
 
 	/**
@@ -2437,10 +2443,11 @@ function comment_form( $args = array(), $post_id = null ) {
 		'comment_field'        => sprintf(
 			'<p class="comment-form-comment">%s %s</p>',
 			sprintf(
-				'<label for="comment">%s</label>',
-				_x( 'Comment', 'noun' )
+				'<label for="comment">%s%s</label>',
+				_x( 'Comment', 'noun' ),
+				$required_indicator
 			),
-			'<textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" required="required"></textarea>'
+			'<textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525"' . $required_attribute . '></textarea>'
 		),
 		'must_log_in'          => sprintf(
 			'<p class="must-log-in">%s</p>',
@@ -2452,7 +2459,7 @@ function comment_form( $args = array(), $post_id = null ) {
 			)
 		),
 		'logged_in_as'         => sprintf(
-			'<p class="logged-in-as">%s</p>',
+			'<p class="logged-in-as">%s%s</p>',
 			sprintf(
 				/* translators: 1: Edit user link, 2: Accessibility text, 3: User name, 4: Logout URL. */
 				__( '<a href="%1$s" aria-label="%2$s">Logged in as %3$s</a>. <a href="%4$s">Log out?</a>' ),
@@ -2462,7 +2469,8 @@ function comment_form( $args = array(), $post_id = null ) {
 				$user_identity,
 				/** This filter is documented in wp-includes/link-template.php */
 				wp_logout_url( apply_filters( 'the_permalink', get_permalink( $post_id ), $post_id ) )
-			)
+			),
+			$required_text
 		),
 		'comment_notes_before' => sprintf(
 			'<p class="comment-notes">%s%s</p>',
@@ -2470,7 +2478,7 @@ function comment_form( $args = array(), $post_id = null ) {
 				'<span id="email-notes">%s</span>',
 				__( 'Your email address will not be published.' )
 			),
-			( $req ? $required_text : '' )
+			$required_text
 		),
 		'comment_notes_after'  => '',
 		'action'               => site_url( '/wp-comments-post.php' ),
