@@ -49,22 +49,28 @@ if ( $admin_title === $title ) {
 	/* translators: Admin screen title. %s: Admin screen name. */
 	$admin_title = sprintf( __( '%s &#8212; WordPress' ), $title );
 } else {
+	$screen_title = $title;
+
+	if ( 'post' === $current_screen->base && 'add' !== $current_screen->action ) {
+		$post_title = get_the_title();
+		if ( ! empty( $post_title ) ) {
+			$post_type_obj = get_post_type_object( $typenow );
+			$screen_title  = sprintf(
+				/* translators: Editor admin screen title. 1: "Edit item" text for the post type, 2: Post title. */
+				__( '%1$s &#8220;%2$s&#8221;' ),
+				$post_type_obj->labels->edit_item,
+				$post_title
+			);
+		}
+	}
+
 	/* translators: Admin screen title. 1: Admin screen name, 2: Network or site name. */
-	$admin_title = sprintf( __( '%1$s &lsaquo; %2$s &#8212; WordPress' ), $title, $admin_title );
+	$admin_title = sprintf( __( '%1$s &lsaquo; %2$s &#8212; WordPress' ), $screen_title, $admin_title );
 }
 
 if ( wp_is_recovery_mode() ) {
 	/* translators: %s: Admin screen title. */
 	$admin_title = sprintf( __( 'Recovery Mode &#8212; %s' ), $admin_title );
-}
-
-if ( 'post' === $current_screen->base && 'add' !== $current_screen->action ) {
-	$post_title = get_the_title();
-	if ( ! empty( $post_title ) ) {
-		$obj = get_post_type_object( $typenow );
-		/* translators: Editor admin screen title. 1: "Edit item" text for the post type, 2: Post title. */
-		$admin_title = sprintf( __( '%1$s &#8220;%2$s&#8221;' ), $obj->labels->edit_item, $post_title );
-	}
 }
 
 /**
