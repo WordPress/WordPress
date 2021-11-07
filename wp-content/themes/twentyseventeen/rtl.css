@@ -229,6 +229,10 @@ input[type="checkbox"] {
 	margin: 0;
 }
 
+.widget_rss .widget-title .rsswidget:first-child:not(.rss-widget-title) {
+	float: left;
+}
+
 .search-form .search-submit {
 	left: 3px;
 	right: auto;

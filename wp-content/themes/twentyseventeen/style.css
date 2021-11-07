@@ -2662,7 +2662,7 @@ h2.widget-title {
 
 /* RSS Widget */
 
-.widget_rss .widget-title .rsswidget:first-child {
+.widget_rss .widget-title .rsswidget:first-child:not(.rss-widget-title) {
 	float: right;
 }
 

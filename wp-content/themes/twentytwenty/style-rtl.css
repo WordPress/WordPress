@@ -4286,7 +4286,7 @@ div.comment:first-of-type {
 
 /* Widget: RSS ------------------------------- */
 
-.widget_rss .widget-title a.rsswidget:first-of-type {
+.widget_rss .widget-title a.rsswidget:first-of-type:not(.rss-widget-title) {
 	display: none;
 }
 
