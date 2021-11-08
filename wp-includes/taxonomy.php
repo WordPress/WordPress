@@ -175,7 +175,7 @@ function create_initial_taxonomies() {
 
 	register_taxonomy(
 		'wp_theme',
-		array( 'wp_template' ),
+		array( 'wp_template', 'wp_global_styles' ),
 		array(
 			'public'            => false,
 			'hierarchical'      => false,
