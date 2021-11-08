@@ -2303,31 +2303,7 @@ function wp_enqueue_global_styles() {
 		return;
 	}
 
-	$can_use_cache = (
-		( ! defined( 'WP_DEBUG' ) || ! WP_DEBUG ) &&
-		( ! defined( 'SCRIPT_DEBUG' ) || ! SCRIPT_DEBUG ) &&
-		( ! defined( 'REST_REQUEST' ) || ! REST_REQUEST ) &&
-		! is_admin()
-	);
-
-	$stylesheet     = null;
-	$transient_name = 'global_styles_' . get_stylesheet();
-
-	if ( $can_use_cache ) {
-		$cache = get_transient( $transient_name );
-		if ( $cache ) {
-			$stylesheet = $cache;
-		}
-	}
-
-	if ( null === $stylesheet ) {
-		$theme_json = WP_Theme_JSON_Resolver::get_merged_data();
-		$stylesheet = $theme_json->get_stylesheet();
-
-		if ( $can_use_cache ) {
-			set_transient( $transient_name, $stylesheet, MINUTE_IN_SECONDS );
-		}
-	}
+	$stylesheet = wp_get_global_stylesheet();
 
 	if ( empty( $stylesheet ) ) {
 		return;

@@ -303,21 +303,38 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
 		$custom_settings
 	);
 
-	$theme_json = WP_Theme_JSON_Resolver::get_merged_data();
-
-	if ( WP_Theme_JSON_Resolver::theme_has_support() ) {
-		$editor_settings['styles'][] = array(
-			'css'            => $theme_json->get_stylesheet( array( 'styles', 'presets' ) ),
-			'__unstableType' => 'globalStyles',
-		);
-		$editor_settings['styles'][] = array(
-			'css'                     => $theme_json->get_stylesheet( array( 'variables' ) ),
+	$presets = array(
+		array(
+			'css'                     => 'variables',
+			'__unstableType'          => 'presets',
 			'__experimentalNoWrapper' => true,
-			'__unstableType'          => 'globalStyles',
-		);
+		),
+		array(
+			'css'            => 'presets',
+			'__unstableType' => 'presets',
+		),
+	);
+	foreach ( $presets as $preset_style ) {
+		$actual_css = wp_get_global_stylesheet( array( $preset_style['css'] ) );
+		if ( '' !== $actual_css ) {
+			$preset_style['css']         = $actual_css;
+			$editor_settings['styles'][] = $preset_style;
+		}
 	}
 
-	$editor_settings['__experimentalFeatures'] = $theme_json->get_settings();
+	if ( WP_Theme_JSON_Resolver::theme_has_support() ) {
+		$block_classes = array(
+			'css'            => 'styles',
+			'__unstableType' => 'theme',
+		);
+		$actual_css    = wp_get_global_stylesheet( array( $block_classes['css'] ) );
+		if ( '' !== $actual_css ) {
+			$block_classes['css'] = $actual_css;
+			$editor_settings['styles'][] = $block_classes;
+		}
+	}
+
+	$editor_settings['__experimentalFeatures'] = wp_get_global_settings();
 	// These settings may need to be updated based on data coming from theme.json sources.
 	if ( isset( $editor_settings['__experimentalFeatures']['color']['palette'] ) ) {
 		$colors_by_origin          = $editor_settings['__experimentalFeatures']['color']['palette'];
