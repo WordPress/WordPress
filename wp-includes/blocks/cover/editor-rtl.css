@@ -41,6 +41,12 @@
  * These variables do not appear to be used anywhere else.
  */
 /**
+*  Converts a hex value into the rgb equivalent.
+*
+* @param {string} hex - the hexadecimal value to convert
+* @return {string} comma separated rgb values
+*/
+/**
  * Breakpoint mixins
  */
 /**
@@ -68,9 +74,27 @@
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
+.wp-block-cover {
+  /* Extra specificity needed because the reset.css applied in the editor context is overriding this rule. */
+}
+.editor-styles-wrapper .wp-block-cover {
+  box-sizing: border-box;
+}
 .wp-block-cover.is-placeholder {
   min-height: auto !important;
   padding: 0 !important;
+}
+.wp-block-cover.is-placeholder .block-library-cover__resize-container {
+  display: none;
+}
+.wp-block-cover.is-placeholder .components-placeholder.is-large {
+  min-height: 240px;
+  justify-content: flex-start;
+  z-index: 1;
+}
+.wp-block-cover.is-placeholder .components-placeholder.is-large + .block-library-cover__resize-container {
+  min-height: 240px;
+  display: block;
 }
 .wp-block-cover.components-placeholder h2 {
   color: inherit;
@@ -115,45 +139,15 @@
   right: 0;
   left: 0;
   bottom: 0;
+  min-height: 50px;
 }
 
 .block-library-cover__resize-container:not(.is-resizing) {
   height: auto !important;
 }
 
-.wp-block-cover > .components-drop-zone.is-active {
-  transition: 0.2s opacity, 0.2s border;
-}
-@media (prefers-reduced-motion: reduce) {
-  .wp-block-cover > .components-drop-zone.is-active {
-    transition-duration: 0s;
-    transition-delay: 0s;
-  }
-}
-.wp-block-cover > .components-drop-zone.is-dragging-over-element {
-  background-color: transparent;
-  border: 48px solid var(--wp-admin-theme-color);
-}
-.wp-block-cover > .components-drop-zone.is-dragging-over-element .components-drop-zone__content {
-  transform: none;
-}
 .wp-block-cover > .components-drop-zone .components-drop-zone__content {
-  display: flex;
-  align-items: center;
-  top: -36px;
-  right: -36px;
-  transform: none;
-}
-.wp-block-cover > .components-drop-zone .components-drop-zone__content-icon,
-.wp-block-cover > .components-drop-zone .components-drop-zone__content-text {
-  display: inline;
-}
-.wp-block-cover > .components-drop-zone .components-drop-zone__content-icon {
-  margin: 0;
-  margin-left: 8px;
-}
-.wp-block-cover > .components-drop-zone .components-drop-zone__content-text {
-  font-size: 13px;
+  opacity: 0.8 !important;
 }
 
 .block-editor-block-patterns-list__list-item .has-parallax.wp-block-cover {

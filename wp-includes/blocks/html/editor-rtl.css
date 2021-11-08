@@ -41,6 +41,12 @@
  * These variables do not appear to be used anywhere else.
  */
 /**
+*  Converts a hex value into the rgb equivalent.
+*
+* @param {string} hex - the hexadecimal value to convert
+* @return {string} comma separated rgb values
+*/
+/**
  * Breakpoint mixins
  */
 /**
@@ -68,9 +74,6 @@
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
-.block-library-html__edit {
-  margin-bottom: 28px;
-}
 .block-library-html__edit .block-library-html__preview-overlay {
   position: absolute;
   width: 100%;
@@ -79,20 +82,24 @@
   right: 0;
 }
 .block-library-html__edit .block-editor-plain-text {
-  font-family: Menlo, Consolas, monaco, monospace;
-  color: #1e1e1e;
-  padding: 0.8em 1em;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  font-family: Menlo, Consolas, monaco, monospace !important;
+  color: #1e1e1e !important;
+  background: #fff !important;
+  padding: 12px !important;
+  border: 1px solid #1e1e1e !important;
+  box-shadow: none !important;
+  border-radius: 2px !important;
   max-height: 250px;
   /* Fonts smaller than 16px causes mobile safari to zoom. */
-  font-size: 16px;
+  font-size: 16px !important;
 }
 @media (min-width: 600px) {
   .block-library-html__edit .block-editor-plain-text {
-    font-size: 13px;
+    font-size: 13px !important;
   }
 }
 .block-library-html__edit .block-editor-plain-text:focus {
-  box-shadow: none;
+  border-color: var(--wp-admin-theme-color) !important;
+  box-shadow: 0 0 0 1px var(--wp-admin-theme-color) !important;
+  outline: 2px solid transparent !important;
 }

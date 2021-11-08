@@ -185,11 +185,26 @@ function DefaultErrorResponsePlaceholder({
 }
 
 function DefaultLoadingResponsePlaceholder({
-  className
+  children,
+  showLoader
 }) {
-  return Object(external_wp_element_["createElement"])(external_wp_components_["Placeholder"], {
-    className: className
-  }, Object(external_wp_element_["createElement"])(external_wp_components_["Spinner"], null));
+  return Object(external_wp_element_["createElement"])("div", {
+    style: {
+      position: 'relative'
+    }
+  }, showLoader && Object(external_wp_element_["createElement"])("div", {
+    style: {
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      marginTop: '-9px',
+      marginLeft: '-9px'
+    }
+  }, Object(external_wp_element_["createElement"])(external_wp_components_["Spinner"], null)), Object(external_wp_element_["createElement"])("div", {
+    style: {
+      opacity: showLoader ? '0.3' : 1
+    }
+  }, children));
 }
 
 function ServerSideRender(props) {
@@ -204,18 +219,18 @@ function ServerSideRender(props) {
     LoadingResponsePlaceholder = DefaultLoadingResponsePlaceholder
   } = props;
   const isMountedRef = Object(external_wp_element_["useRef"])(true);
+  const [showLoader, setShowLoader] = Object(external_wp_element_["useState"])(false);
   const fetchRequestRef = Object(external_wp_element_["useRef"])();
   const [response, setResponse] = Object(external_wp_element_["useState"])(null);
   const prevProps = Object(external_wp_compose_["usePrevious"])(props);
+  const [isLoading, setIsLoading] = Object(external_wp_element_["useState"])(false);
 
   function fetchData() {
     if (!isMountedRef.current) {
       return;
     }
 
-    if (null !== response) {
-      setResponse(null);
-    }
+    setIsLoading(true);
 
     const sanitizedAttributes = attributes && Object(external_wp_blocks_["__experimentalSanitizeBlockAttributes"])(block, attributes); // If httpMethod is 'POST', send the attributes in the request body instead of the URL.
     // This allows sending a larger attributes object than in a GET request, where the attributes are in the URL.
@@ -244,6 +259,10 @@ function ServerSideRender(props) {
           errorMsg: error.message
         });
       }
+    }).finally(() => {
+      if (isMountedRef.current && fetchRequest === fetchRequestRef.current) {
+        setIsLoading(false);
+      }
     });
     return fetchRequest;
   }
@@ -263,15 +282,42 @@ function ServerSideRender(props) {
       debouncedFetchData();
     }
   });
+  /**
+   * Effect to handle showing the loading placeholder.
+   * Show it only if there is no previous response or
+   * the request takes more than one second.
+   */
 
-  if (response === '') {
+  Object(external_wp_element_["useEffect"])(() => {
+    if (!isLoading) {
+      return;
+    }
+
+    const timeout = setTimeout(() => {
+      setShowLoader(true);
+    }, 1000);
+    return () => clearTimeout(timeout);
+  }, [isLoading]);
+  const hasResponse = !!response;
+  const hasEmptyResponse = response === '';
+  const hasError = response === null || response === void 0 ? void 0 : response.error;
+
+  if (hasEmptyResponse || !hasResponse) {
     return Object(external_wp_element_["createElement"])(EmptyResponsePlaceholder, props);
-  } else if (!response) {
-    return Object(external_wp_element_["createElement"])(LoadingResponsePlaceholder, props);
-  } else if (response.error) {
+  }
+
+  if (hasError) {
     return Object(external_wp_element_["createElement"])(ErrorResponsePlaceholder, Object(esm_extends["a" /* default */])({
       response: response
     }, props));
+  }
+
+  if (isLoading) {
+    return Object(external_wp_element_["createElement"])(LoadingResponsePlaceholder, Object(esm_extends["a" /* default */])({}, props, {
+      showLoader: showLoader
+    }), hasResponse && Object(external_wp_element_["createElement"])(external_wp_element_["RawHTML"], {
+      className: className
+    }, response));
   }
 
   return Object(external_wp_element_["createElement"])(external_wp_element_["RawHTML"], {
@@ -300,6 +346,9 @@ function ServerSideRender(props) {
 
 const EMPTY_OBJECT = {};
 const ExportedServerSideRender = Object(external_wp_data_["withSelect"])(select => {
+  // FIXME: @wordpress/server-side-render should not depend on @wordpress/editor.
+  // It is used by blocks that can be loaded into a *non-post* block editor.
+  // eslint-disable-next-line @wordpress/data-no-store-string-literals
   const coreEditorSelect = select('core/editor');
 
   if (coreEditorSelect) {

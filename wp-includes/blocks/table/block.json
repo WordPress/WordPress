@@ -3,7 +3,7 @@
 	"name": "core/table",
 	"title": "Table",
 	"category": "text",
-	"description": "Insert a table — perfect for sharing charts and data.",
+	"description": "Create structured content in rows and columns to display information.",
 	"textdomain": "default",
 	"attributes": {
 		"hasFixedLayout": {
@@ -128,6 +128,17 @@
 		"color": {
 			"__experimentalSkipSerialization": true,
 			"gradients": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalFontWeight": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalTextTransform": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true
+			}
 		},
 		"__experimentalBorder": {
 			"__experimentalSkipSerialization": true,

@@ -41,6 +41,12 @@
  * These variables do not appear to be used anywhere else.
  */
 /**
+*  Converts a hex value into the rgb equivalent.
+*
+* @param {string} hex - the hexadecimal value to convert
+* @return {string} comma separated rgb values
+*/
+/**
  * Breakpoint mixins
  */
 /**
@@ -68,41 +74,45 @@
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
-.wp-block-rss.wp-block-rss {
+ul.wp-block-rss {
+  list-style: none;
+  padding: 0;
+}
+ul.wp-block-rss.wp-block-rss {
   box-sizing: border-box;
 }
-.wp-block-rss.alignleft {
+ul.wp-block-rss.alignleft {
   /*rtl:ignore*/
   margin-right: 2em;
 }
-.wp-block-rss.alignright {
+ul.wp-block-rss.alignright {
   /*rtl:ignore*/
   margin-left: 2em;
 }
-.wp-block-rss.is-grid {
+ul.wp-block-rss.is-grid {
   display: flex;
   flex-wrap: wrap;
   padding: 0;
   list-style: none;
 }
-.wp-block-rss.is-grid li {
+ul.wp-block-rss.is-grid li {
   margin: 0 1em 1em 0;
   width: 100%;
 }
 @media (min-width: 600px) {
-  .wp-block-rss.columns-2 li {
+  ul.wp-block-rss.columns-2 li {
     width: calc(( 100% / 2 ) - 1em);
   }
-  .wp-block-rss.columns-3 li {
+  ul.wp-block-rss.columns-3 li {
     width: calc(( 100% / 3 ) - 1em);
   }
-  .wp-block-rss.columns-4 li {
+  ul.wp-block-rss.columns-4 li {
     width: calc(( 100% / 4 ) - 1em);
   }
-  .wp-block-rss.columns-5 li {
+  ul.wp-block-rss.columns-5 li {
     width: calc(( 100% / 5 ) - 1em);
   }
-  .wp-block-rss.columns-6 li {
+  ul.wp-block-rss.columns-6 li {
     width: calc(( 100% / 6 ) - 1em);
   }
 }
@@ -110,6 +120,5 @@
 .wp-block-rss__item-publish-date,
 .wp-block-rss__item-author {
   display: block;
-  color: #555;
   font-size: 0.8125em;
 }

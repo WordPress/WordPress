@@ -41,6 +41,12 @@
  * These variables do not appear to be used anywhere else.
  */
 /**
+*  Converts a hex value into the rgb equivalent.
+*
+* @param {string} hex - the hexadecimal value to convert
+* @return {string} comma separated rgb values
+*/
+/**
  * Breakpoint mixins
  */
 /**
@@ -68,6 +74,20 @@
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
+.wp-block-media-text__media {
+  position: relative;
+}
+.wp-block-media-text__media.is-transient img {
+  opacity: 0.3;
+}
+.wp-block-media-text__media .components-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -9px;
+  margin-left: -9px;
+}
+
 .wp-block-media-text .__resizable_base__ {
   grid-column: 1/span 2;
   grid-row: 2;

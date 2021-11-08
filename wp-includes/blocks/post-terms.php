@@ -23,30 +23,25 @@ function render_block_core_post_terms( $attributes, $content, $block ) {
 	}
 
 	$post_terms = get_the_terms( $block->context['postId'], $attributes['term'] );
-	if ( is_wp_error( $post_terms ) ) {
-		return '';
-	}
-	if ( empty( $post_terms ) ) {
+	if ( is_wp_error( $post_terms ) || empty( $post_terms ) ) {
 		return '';
 	}
 
-	$align_class_name = empty( $attributes['textAlign'] ) ? '' : ' ' . "has-text-align-{$attributes['textAlign']}";
-
-	$terms_links = '';
-	foreach ( $post_terms as $term ) {
-		$terms_links .= sprintf(
-			'<a href="%1$s">%2$s</a> | ',
-			get_term_link( $term->term_id ),
-			esc_html( $term->name )
-		);
+	$classes = 'taxonomy-' . $attributes['term'];
+	if ( isset( $attributes['textAlign'] ) ) {
+		$classes .= ' has-text-align-' . $attributes['textAlign'];
 	}
-	$terms_links        = trim( $terms_links, ' | ' );
-	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => $align_class_name ) );
 
-	return sprintf(
-		'<div %1$s>%2$s</div>',
-		$wrapper_attributes,
-		$terms_links
+	$separator = empty( $attributes['separator'] ) ? ' ' : $attributes['separator'];
+
+	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => $classes ) );
+
+	return get_the_term_list(
+		$block->context['postId'],
+		$attributes['term'],
+		"<div $wrapper_attributes>",
+		'<span class="wp-block-post-terms__separator">' . $separator . '</span>',
+		'</div>'
 	);
 }
 

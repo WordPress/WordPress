@@ -207,33 +207,14 @@ const createRootURLMiddleware = rootURL => (options, next) => {
 
 /* harmony default export */ var root_url = (createRootURLMiddleware);
 
+// EXTERNAL MODULE: external ["wp","url"]
+var external_wp_url_ = __webpack_require__("Mmq9");
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/middlewares/preloading.js
 /**
- * Given a path, returns a normalized path where equal query parameter values
- * will be treated as identical, regardless of order they appear in the original
- * text.
- *
- * @param {string} path Original path.
- *
- * @return {string} Normalized path.
+ * WordPress dependencies
  */
-function getStablePath(path) {
-  const splitted = path.split('?');
-  const query = splitted[1];
-  const base = splitted[0];
 
-  if (!query) {
-    return base;
-  } // 'b=1&c=2&a=5'
-
-
-  return base + '?' + query // [ 'b=1', 'c=2', 'a=5' ]
-  .split('&') // [ [ 'b, '1' ], [ 'c', '2' ], [ 'a', '5' ] ]
-  .map(entry => entry.split('=')) // [ [ 'a', '5' ], [ 'b, '1' ], [ 'c', '2' ] ]
-  .sort((a, b) => a[0].localeCompare(b[0])) // [ 'a=5', 'b=1', 'c=2' ]
-  .map(pair => pair.join('=')) // 'a=5&b=1&c=2'
-  .join('&');
-}
 /**
  * @param {Record<string, any>} preloadedData
  * @return {import('../types').APIFetchMiddleware} Preloading middleware.
@@ -241,7 +222,7 @@ function getStablePath(path) {
 
 function createPreloadingMiddleware(preloadedData) {
   const cache = Object.keys(preloadedData).reduce((result, path) => {
-    result[getStablePath(path)] = preloadedData[path];
+    result[Object(external_wp_url_["normalizePath"])(path)] = preloadedData[path];
     return result;
   },
   /** @type {Record<string, any>} */
@@ -250,13 +231,24 @@ function createPreloadingMiddleware(preloadedData) {
     const {
       parse = true
     } = options;
+    /** @type {string | void} */
 
-    if (typeof options.path === 'string') {
+    let rawPath = options.path;
+
+    if (!rawPath && options.url) {
+      const pathFromQuery = Object(external_wp_url_["getQueryArg"])(options.url, 'rest_route');
+
+      if (typeof pathFromQuery === 'string') {
+        rawPath = pathFromQuery;
+      }
+    }
+
+    if (typeof rawPath === 'string') {
       const method = options.method || 'GET';
-      const path = getStablePath(options.path);
+      const path = Object(external_wp_url_["normalizePath"])(rawPath);
 
       if ('GET' === method && cache[path]) {
-        const cacheData = cache[path]; // Unsetting the cache key ensures that the data is only preloaded a single time
+        const cacheData = cache[path]; // Unsetting the cache key ensures that the data is only used a single time
 
         delete cache[path];
         return Promise.resolve(parse ? cacheData.body : new window.Response(JSON.stringify(cacheData.body), {
@@ -265,7 +257,10 @@ function createPreloadingMiddleware(preloadedData) {
           headers: cacheData.headers
         }));
       } else if ('OPTIONS' === method && cache[method] && cache[method][path]) {
-        return Promise.resolve(parse ? cache[method][path].body : cache[method][path]);
+        const cacheData = cache[method][path]; // Unsetting the cache key ensures that the data is only used a single time
+
+        delete cache[method][path];
+        return Promise.resolve(parse ? cacheData.body : cacheData);
       }
     }
 
@@ -274,9 +269,6 @@ function createPreloadingMiddleware(preloadedData) {
 }
 
 /* harmony default export */ var preloading = (createPreloadingMiddleware);
-
-// EXTERNAL MODULE: external ["wp","url"]
-var external_wp_url_ = __webpack_require__("Mmq9");
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/middlewares/fetch-all-middleware.js
 /**
@@ -292,7 +284,7 @@ var external_wp_url_ = __webpack_require__("Mmq9");
  * Apply query arguments to both URL and Path, whichever is present.
  *
  * @param {import('../types').APIFetchOptions} props
- * @param {Record<string, string | number>} queryArgs
+ * @param {Record<string, string | number>}    queryArgs
  * @return {import('../types').APIFetchOptions} The request with the modified query args
  */
 
@@ -554,7 +546,7 @@ const parseResponseAndNormalizeError = (response, shouldParseResponse = true) =>
  * Parses a response, throwing an error if parsing the response fails.
  *
  * @param {Response} response
- * @param {boolean} shouldParseResponse
+ * @param {boolean}  shouldParseResponse
  * @return {Promise<any>} Parsed response.
  */
 
@@ -583,15 +575,24 @@ function parseAndThrowError(response, shouldParseResponse = true) {
 
 
 /**
+ * @param {import('../types').APIFetchOptions} options
+ * @return {boolean} True if the request is for media upload.
+ */
+
+function isMediaUploadRequest(options) {
+  const isCreateMethod = !!options.method && options.method === 'POST';
+  const isMediaEndpoint = !!options.path && options.path.indexOf('/wp/v2/media') !== -1 || !!options.url && options.url.indexOf('/wp/v2/media') !== -1;
+  return isMediaEndpoint && isCreateMethod;
+}
+/**
  * Middleware handling media upload failures and retries.
  *
  * @type {import('../types').APIFetchMiddleware}
  */
 
-const mediaUploadMiddleware = (options, next) => {
-  const isMediaUploadRequest = options.path && options.path.indexOf('/wp/v2/media') !== -1 || options.url && options.url.indexOf('/wp/v2/media') !== -1;
 
-  if (!isMediaUploadRequest) {
+const mediaUploadMiddleware = (options, next) => {
+  if (!isMediaUploadRequest(options)) {
     return next(options);
   }
 
@@ -759,10 +760,14 @@ const defaultFetchHandler = nextOptions => {
     body,
     headers
   });
-  return responsePromise // Return early if fetch errors. If fetch error, there is most likely no
-  // network connection. Unfortunately fetch just throws a TypeError and
-  // the message might depend on the browser.
-  .then(value => Promise.resolve(value).then(checkStatus).catch(response => parseAndThrowError(response, parse)).then(response => parseResponseAndNormalizeError(response, parse)), () => {
+  return responsePromise.then(value => Promise.resolve(value).then(checkStatus).catch(response => parseAndThrowError(response, parse)).then(response => parseResponseAndNormalizeError(response, parse)), err => {
+    // Re-throw AbortError for the users to handle it themselves.
+    if (err && err.name === 'AbortError') {
+      throw err;
+    } // Otherwise, there is most likely no network connection.
+    // Unfortunately the message might depend on the browser.
+
+
     throw {
       code: 'fetch_error',
       message: Object(external_wp_i18n_["__"])('You are probably offline.')

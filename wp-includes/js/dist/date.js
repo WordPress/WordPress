@@ -474,9 +474,9 @@ __webpack_require__.r(__webpack_exports__);
 
 /**
  * @typedef FormatsConfig
- * @property {string} time Time format.
- * @property {string} date Date format.
- * @property {string} datetime Datetime format.
+ * @property {string} time                Time format.
+ * @property {string} date                Date format.
+ * @property {string} datetime            Datetime format.
  * @property {string} datetimeAbbreviated Abbreviated datetime format.
  */
 
@@ -484,28 +484,28 @@ __webpack_require__.r(__webpack_exports__);
  * @typedef TimezoneConfig
  * @property {string} offset Offset setting.
  * @property {string} string The timezone as a string (e.g., `'America/Los_Angeles'`).
- * @property {string} abbr Abbreviation for the timezone.
+ * @property {string} abbr   Abbreviation for the timezone.
  */
 
 /* eslint-disable jsdoc/valid-types */
 
 /**
  * @typedef L10nSettings
- * @property {string} locale Moment locale.
- * @property {MomentLocaleSpecification['months']} months Locale months.
- * @property {MomentLocaleSpecification['monthsShort']} monthsShort Locale months short.
- * @property {MomentLocaleSpecification['weekdays']} weekdays Locale weekdays.
+ * @property {string}                                     locale        Moment locale.
+ * @property {MomentLocaleSpecification['months']}        months        Locale months.
+ * @property {MomentLocaleSpecification['monthsShort']}   monthsShort   Locale months short.
+ * @property {MomentLocaleSpecification['weekdays']}      weekdays      Locale weekdays.
  * @property {MomentLocaleSpecification['weekdaysShort']} weekdaysShort Locale weekdays short.
- * @property {MeridiemConfig} meridiem Meridiem config.
- * @property {MomentLocaleSpecification['relativeTime']} relative Relative time config.
+ * @property {MeridiemConfig}                             meridiem      Meridiem config.
+ * @property {MomentLocaleSpecification['relativeTime']}  relative      Relative time config.
  */
 
 /* eslint-enable jsdoc/valid-types */
 
 /**
  * @typedef DateSettings
- * @property {L10nSettings} l10n Localization settings.
- * @property {FormatsConfig} formats Date/time formats config.
+ * @property {L10nSettings}   l10n     Localization settings.
+ * @property {FormatsConfig}  formats  Date/time formats config.
  * @property {TimezoneConfig} timezone Timezone settings.
  */
 
@@ -796,10 +796,10 @@ const formatMap = {
 /**
  * Formats a date. Does not alter the date's timezone.
  *
- * @param {string}                  dateFormat PHP-style formatting string.
- *                                             See php.net/date.
+ * @param {string}                             dateFormat PHP-style formatting string.
+ *                                                        See php.net/date.
  * @param {Moment | Date | string | undefined} dateValue  Date object or string,
- *                                             parsable by moment.js.
+ *                                                        parsable by moment.js.
  *
  * @return {string} Formatted date.
  */
@@ -843,13 +843,13 @@ function format(dateFormat, dateValue = new Date()) {
 /**
  * Formats a date (like `date()` in PHP).
  *
- * @param {string}                  dateFormat PHP-style formatting string.
- *                                             See php.net/date.
+ * @param {string}                             dateFormat PHP-style formatting string.
+ *                                                        See php.net/date.
  * @param {Moment | Date | string | undefined} dateValue  Date object or string, parsable
- *                                             by moment.js.
- * @param {string | undefined}      timezone   Timezone to output result in or a
- *                                             UTC offset. Defaults to timezone from
- *                                             site.
+ *                                                        by moment.js.
+ * @param {string | undefined}                 timezone   Timezone to output result in or a
+ *                                                        UTC offset. Defaults to timezone from
+ *                                                        site.
  *
  * @see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
  * @see https://en.wikipedia.org/wiki/ISO_8601#Time_offsets_from_UTC
@@ -864,10 +864,10 @@ function date(dateFormat, dateValue = new Date(), timezone) {
 /**
  * Formats a date (like `date()` in PHP), in the UTC timezone.
  *
- * @param {string}                  dateFormat PHP-style formatting string.
- *                                             See php.net/date.
+ * @param {string}                             dateFormat PHP-style formatting string.
+ *                                                        See php.net/date.
  * @param {Moment | Date | string | undefined} dateValue  Date object or string,
- *                                             parsable by moment.js.
+ *                                                        parsable by moment.js.
  *
  * @return {string} Formatted date in English.
  */
@@ -882,15 +882,15 @@ function gmdate(dateFormat, dateValue = new Date()) {
  * Backward Compatibility Notice: if `timezone` is set to `true`, the function
  * behaves like `gmdateI18n`.
  *
- * @param {string}                     dateFormat PHP-style formatting string.
- *                                                See php.net/date.
- * @param {Moment | Date | string | undefined}    dateValue  Date object or string, parsable by
- *                                                moment.js.
- * @param {string | boolean | undefined} timezone   Timezone to output result in or a
- *                                                UTC offset. Defaults to timezone from
- *                                                site. Notice: `boolean` is effectively
- *                                                deprecated, but still supported for
- *                                                backward compatibility reasons.
+ * @param {string}                             dateFormat PHP-style formatting string.
+ *                                                        See php.net/date.
+ * @param {Moment | Date | string | undefined} dateValue  Date object or string, parsable by
+ *                                                        moment.js.
+ * @param {string | boolean | undefined}       timezone   Timezone to output result in or a
+ *                                                        UTC offset. Defaults to timezone from
+ *                                                        site. Notice: `boolean` is effectively
+ *                                                        deprecated, but still supported for
+ *                                                        backward compatibility reasons.
  *
  * @see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
  * @see https://en.wikipedia.org/wiki/ISO_8601#Time_offsets_from_UTC
@@ -915,10 +915,10 @@ function dateI18n(dateFormat, dateValue = new Date(), timezone) {
  * Formats a date (like `wp_date()` in PHP), translating it into site's locale
  * and using the UTC timezone.
  *
- * @param {string}                  dateFormat PHP-style formatting string.
- *                                             See php.net/date.
+ * @param {string}                             dateFormat PHP-style formatting string.
+ *                                                        See php.net/date.
  * @param {Moment | Date | string | undefined} dateValue  Date object or string,
- *                                             parsable by moment.js.
+ *                                                        parsable by moment.js.
  *
  * @return {string} Formatted date.
  */
@@ -960,10 +960,10 @@ function getDate(dateString) {
  * Creates a moment instance using the given timezone or, if none is provided, using global settings.
  *
  * @param {Moment | Date | string | undefined} dateValue Date object or string, parsable
- *                                            by moment.js.
- * @param {string | undefined}      timezone  Timezone to output result in or a
- *                                            UTC offset. Defaults to timezone from
- *                                            site.
+ *                                                       by moment.js.
+ * @param {string | undefined}                 timezone  Timezone to output result in or a
+ *                                                       UTC offset. Defaults to timezone from
+ *                                                       site.
  *
  * @see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
  * @see https://en.wikipedia.org/wiki/ISO_8601#Time_offsets_from_UTC

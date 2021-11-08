@@ -41,6 +41,12 @@
  * These variables do not appear to be used anywhere else.
  */
 /**
+*  Converts a hex value into the rgb equivalent.
+*
+* @param {string} hex - the hexadecimal value to convert
+* @return {string} comma separated rgb values
+*/
+/**
  * Breakpoint mixins
  */
 /**
@@ -94,6 +100,10 @@
   font-style: normal;
 }
 
+p {
+  overflow-wrap: break-word;
+}
+
 p.has-drop-cap.has-background {
   overflow: hidden;
 }
@@ -102,6 +112,6 @@ p.has-background {
   padding: 1.25em 2.375em;
 }
 
-p.has-text-color a {
+:where(p.has-text-color:not(.has-link-color)) a {
   color: inherit;
 }

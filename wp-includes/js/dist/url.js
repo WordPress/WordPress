@@ -126,6 +126,8 @@ __webpack_require__.d(__webpack_exports__, "safeDecodeURI", function() { return 
 __webpack_require__.d(__webpack_exports__, "safeDecodeURIComponent", function() { return /* reexport */ safeDecodeURIComponent; });
 __webpack_require__.d(__webpack_exports__, "filterURLForDisplay", function() { return /* reexport */ filterURLForDisplay; });
 __webpack_require__.d(__webpack_exports__, "cleanForSlug", function() { return /* reexport */ cleanForSlug; });
+__webpack_require__.d(__webpack_exports__, "getFilename", function() { return /* reexport */ getFilename; });
+__webpack_require__.d(__webpack_exports__, "normalizePath", function() { return /* reexport */ normalizePath; });
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/is-url.js
 /**
@@ -582,9 +584,9 @@ function getQueryArgs(url) {
  * includes query arguments, the arguments are merged with (and take precedent
  * over) the existing set.
  *
- * @param {string} [url='']  URL to which arguments should be appended. If omitted,
- *                           only the resulting querystring is returned.
- * @param {Object} [args]    Query arguments to apply to URL.
+ * @param {string} [url=''] URL to which arguments should be appended. If omitted,
+ *                          only the resulting querystring is returned.
+ * @param {Object} [args]   Query arguments to apply to URL.
  *
  * @example
  * ```js
@@ -778,7 +780,7 @@ function safeDecodeURIComponent(uriComponent) {
 /**
  * Returns a URL for display.
  *
- * @param {string} url Original URL.
+ * @param {string}      url       Original URL.
  * @param {number|null} maxLength URL length.
  *
  * @example
@@ -852,7 +854,63 @@ function cleanForSlug(string) {
   return Object(external_lodash_["trim"])(Object(external_lodash_["deburr"])(string).replace(/[\s\./]+/g, '-').replace(/[^\w-]+/g, '').toLowerCase(), '-');
 }
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/get-filename.js
+/**
+ * Returns the filename part of the URL.
+ *
+ * @param {string} url The full URL.
+ *
+ * @example
+ * ```js
+ * const filename1 = getFilename( 'http://localhost:8080/this/is/a/test.jpg' ); // 'test.jpg'
+ * const filename2 = getFilename( '/this/is/a/test.png' ); // 'test.png'
+ * ```
+ *
+ * @return {string|void} The filename part of the URL.
+ */
+function getFilename(url) {
+  let filename;
+
+  try {
+    filename = new URL(url, 'http://example.com').pathname.split('/').pop();
+  } catch (error) {}
+
+  if (filename) {
+    return filename;
+  }
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/normalize-path.js
+/**
+ * Given a path, returns a normalized path where equal query parameter values
+ * will be treated as identical, regardless of order they appear in the original
+ * text.
+ *
+ * @param {string} path Original path.
+ *
+ * @return {string} Normalized path.
+ */
+function normalizePath(path) {
+  const splitted = path.split('?');
+  const query = splitted[1];
+  const base = splitted[0];
+
+  if (!query) {
+    return base;
+  } // 'b=1&c=2&a=5'
+
+
+  return base + '?' + query // [ 'b=1', 'c=2', 'a=5' ]
+  .split('&') // [ [ 'b, '1' ], [ 'c', '2' ], [ 'a', '5' ] ]
+  .map(entry => entry.split('=')) // [ [ 'a', '5' ], [ 'b, '1' ], [ 'c', '2' ] ]
+  .sort((a, b) => a[0].localeCompare(b[0])) // [ 'a=5', 'b=1', 'c=2' ]
+  .map(pair => pair.join('=')) // 'a=5&b=1&c=2'
+  .join('&');
+}
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/index.js
+
+
 
 
 

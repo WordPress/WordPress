@@ -109,15 +109,15 @@ __webpack_require__.d(__webpack_exports__, "DotTip", function() { return /* reex
 var actions_namespaceObject = {};
 __webpack_require__.r(actions_namespaceObject);
 __webpack_require__.d(actions_namespaceObject, "triggerGuide", function() { return triggerGuide; });
-__webpack_require__.d(actions_namespaceObject, "dismissTip", function() { return dismissTip; });
-__webpack_require__.d(actions_namespaceObject, "disableTips", function() { return disableTips; });
+__webpack_require__.d(actions_namespaceObject, "dismissTip", function() { return actions_dismissTip; });
+__webpack_require__.d(actions_namespaceObject, "disableTips", function() { return actions_disableTips; });
 __webpack_require__.d(actions_namespaceObject, "enableTips", function() { return enableTips; });
 
 // NAMESPACE OBJECT: ./node_modules/@wordpress/nux/build-module/store/selectors.js
 var selectors_namespaceObject = {};
 __webpack_require__.r(selectors_namespaceObject);
-__webpack_require__.d(selectors_namespaceObject, "getAssociatedGuide", function() { return getAssociatedGuide; });
-__webpack_require__.d(selectors_namespaceObject, "isTipVisible", function() { return isTipVisible; });
+__webpack_require__.d(selectors_namespaceObject, "getAssociatedGuide", function() { return selectors_getAssociatedGuide; });
+__webpack_require__.d(selectors_namespaceObject, "isTipVisible", function() { return selectors_isTipVisible; });
 __webpack_require__.d(selectors_namespaceObject, "areTipsEnabled", function() { return selectors_areTipsEnabled; });
 
 // EXTERNAL MODULE: external ["wp","deprecated"]
@@ -136,7 +136,7 @@ var external_wp_data_ = __webpack_require__("1ZqX");
  * Reducer that tracks which tips are in a guide. Each guide is represented by
  * an array which contains the tip identifiers contained within that guide.
  *
- * @param {Array} state  Current state.
+ * @param {Array}  state  Current state.
  * @param {Object} action Dispatched action.
  *
  * @return {Array} Updated state.
@@ -153,8 +153,8 @@ function guides(state = [], action) {
 /**
  * Reducer that tracks whether or not tips are globally enabled.
  *
- * @param {boolean} state Current state.
- * @param {Object} action Dispatched action.
+ * @param {boolean} state  Current state.
+ * @param {Object}  action Dispatched action.
  *
  * @return {boolean} Updated state.
  */
@@ -226,7 +226,7 @@ function triggerGuide(tipIds) {
  * @return {Object} Action object.
  */
 
-function dismissTip(id) {
+function actions_dismissTip(id) {
   return {
     type: 'DISMISS_TIP',
     id
@@ -239,7 +239,7 @@ function dismissTip(id) {
  * @return {Object} Action object.
  */
 
-function disableTips() {
+function actions_disableTips() {
   return {
     type: 'DISABLE_TIPS'
   };
@@ -287,7 +287,7 @@ var external_lodash_ = __webpack_require__("YLtl");
  * @return {?NUXGuideInfo} Information about the associated guide.
  */
 
-const getAssociatedGuide = Object(rememo["a" /* default */])((state, tipId) => {
+const selectors_getAssociatedGuide = Object(rememo["a" /* default */])((state, tipId) => {
   for (const tipIds of state.guides) {
     if (Object(external_lodash_["includes"])(tipIds, tipId)) {
       const nonDismissedTips = Object(external_lodash_["difference"])(tipIds, Object(external_lodash_["keys"])(state.preferences.dismissedTips));
@@ -313,7 +313,7 @@ const getAssociatedGuide = Object(rememo["a" /* default */])((state, tipId) => {
  * @return {boolean} Whether or not the given tip is showing.
  */
 
-function isTipVisible(state, tipId) {
+function selectors_isTipVisible(state, tipId) {
   if (!state.preferences.areTipsEnabled) {
     return false;
   }
@@ -322,7 +322,7 @@ function isTipVisible(state, tipId) {
     return false;
   }
 
-  const associatedGuide = getAssociatedGuide(state, tipId);
+  const associatedGuide = selectors_getAssociatedGuide(state, tipId);
 
   if (associatedGuide && associatedGuide.currentTipId !== tipId) {
     return false;
@@ -405,6 +405,11 @@ var library_close = __webpack_require__("w95h");
 
 
 
+/**
+ * Internal dependencies
+ */
+
+
 
 function onClick(event) {
   // Tips are often nested within buttons. We stop propagation so that clicking
@@ -448,7 +453,7 @@ function DotTip({
     onClick: onClick,
     onFocusOutside: onFocusOutsideCallback
   }, Object(external_wp_element_["createElement"])("p", null, children), Object(external_wp_element_["createElement"])("p", null, Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
-    isLink: true,
+    variant: "link",
     onClick: onDismiss
   }, hasNextTip ? Object(external_wp_i18n_["__"])('See next tip') : Object(external_wp_i18n_["__"])('Got it'))), Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
     className: "nux-dot-tip__disable",
@@ -463,7 +468,7 @@ function DotTip({
   const {
     isTipVisible,
     getAssociatedGuide
-  } = select('core/nux');
+  } = select(store);
   const associatedGuide = getAssociatedGuide(tipId);
   return {
     isVisible: isTipVisible(tipId),
@@ -475,7 +480,7 @@ function DotTip({
   const {
     dismissTip,
     disableTips
-  } = dispatch('core/nux');
+  } = dispatch(store);
   return {
     onDismiss() {
       dismissTip(tipId);

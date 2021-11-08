@@ -40,6 +40,10 @@ function render_block_core_archives( $attributes ) {
 
 		$archives = wp_get_archives( $dropdown_args );
 
+		$classnames = esc_attr( $class );
+
+		$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => $classnames ) );
+
 		switch ( $dropdown_args['type'] ) {
 			case 'yearly':
 				$label = __( 'Select Year' );
@@ -60,13 +64,13 @@ function render_block_core_archives( $attributes ) {
 
 		$label = esc_html( $label );
 
-		$block_content = '<label class="screen-reader-text" for="' . $dropdown_id . '">' . $title . '</label>
+		$block_content = '<label for="' . $dropdown_id . '">' . $title . '</label>
 	<select id="' . $dropdown_id . '" name="archive-dropdown" onchange="document.location.href=this.options[this.selectedIndex].value;">
 	<option value="">' . $label . '</option>' . $archives . '</select>';
 
 		return sprintf(
-			'<div class="%1$s">%2$s</div>',
-			esc_attr( $class ),
+			'<div %1$s>%2$s</div>',
+			$wrapper_attributes,
 			$block_content
 		);
 	}

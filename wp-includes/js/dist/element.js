@@ -191,17 +191,17 @@ const tokenizer = /<(\/)?(\w+)\s*(\/)?>/g;
  *
  * @typedef Frame
  *
- * @property {WPElement} element            A parent element which may still have
- * @property {number}    tokenStart         Offset at which parent element first
- *                                          appears.
- * @property {number}    tokenLength        Length of string marking start of parent
- *                                          element.
- * @property {number}    [prevOffset]       Running offset at which parsing should
- *                                          continue.
- * @property {number}    [leadingTextStart] Offset at which last closing element
- *                                          finished, used for finding text between
- *                                          elements.
- * @property {WPElement[]} children         Children.
+ * @property {WPElement}   element            A parent element which may still have
+ * @property {number}      tokenStart         Offset at which parent element first
+ *                                            appears.
+ * @property {number}      tokenLength        Length of string marking start of parent
+ *                                            element.
+ * @property {number}      [prevOffset]       Running offset at which parsing should
+ *                                            continue.
+ * @property {number}      [leadingTextStart] Offset at which last closing element
+ *                                            finished, used for finding text between
+ *                                            elements.
+ * @property {WPElement[]} children           Children.
  */
 
 /**
@@ -257,9 +257,9 @@ function createFrame(element, tokenStart, tokenLength, prevOffset, leadingTextSt
  * }
  * ```
  *
- * @param {string}  interpolatedString  The interpolation string to be parsed.
- * @param {Object}  conversionMap       The map used to convert the string to
- *                                      a react element.
+ * @param {string} interpolatedString The interpolation string to be parsed.
+ * @param {Object} conversionMap      The map used to convert the string to
+ *                                    a react element.
  * @throws {TypeError}
  * @return {WPElement}  A wp element.
  */
@@ -289,7 +289,7 @@ const createInterpolateElement = (interpolatedString, conversionMap) => {
  *
  * @private
  *
- * @param {Object} conversionMap  The map being validated.
+ * @param {Object} conversionMap The map being validated.
  *
  * @return {boolean}  True means the map is valid.
  */
@@ -435,8 +435,8 @@ function addText() {
  *
  * @private
  *
- * @param {Frame}    frame       The Frame containing the child element and it's
- *                               token information.
+ * @param {Frame} frame The Frame containing the child element and it's
+ *                      token information.
  */
 
 
@@ -735,9 +735,9 @@ var external_ReactDOM_ = __webpack_require__("faye");
  *
  * @see https://github.com/facebook/react/issues/10309#issuecomment-318433235
  *
- * @param {import('./react').WPElement}   child     Any renderable child, such as an element,
- *                                string, or fragment.
- * @param {HTMLElement} container DOM node into which element should be rendered.
+ * @param {import('./react').WPElement} child     Any renderable child, such as an element,
+ *                                                string, or fragment.
+ * @param {HTMLElement}                 container DOM node into which element should be rendered.
  */
 
 
@@ -751,8 +751,8 @@ var external_ReactDOM_ = __webpack_require__("faye");
 /**
  * Renders a given element into the target DOM node.
  *
- * @param {import('./react').WPElement}   element Element to render.
- * @param {HTMLElement} target  DOM node into which element should be rendered.
+ * @param {import('./react').WPElement} element Element to render.
+ * @param {HTMLElement}                 target  DOM node into which element should be rendered.
  */
 
 
@@ -799,7 +799,8 @@ const isEmptyElement = element => {
  */
 const Platform = {
   OS: 'web',
-  select: spec => 'web' in spec ? spec.web : spec.default
+  select: spec => 'web' in spec ? spec.web : spec.default,
+  isWeb: true
 };
 /**
  * Component used to detect the current Platform being used.
@@ -840,8 +841,9 @@ var external_wp_escapeHtml_ = __webpack_require__("Vx3V");
  * To preserve additional props, a `div` wrapper _will_ be created if any props
  * aside from `children` are passed.
  *
- * @param {RawHTMLProps} props Children should be a string of HTML. Other props
- *                             will be passed through to div wrapper.
+ * @param {RawHTMLProps} props Children should be a string of HTML or an array
+ *                             of strings. Other props will be passed through
+ *                             to the div wrapper.
  *
  * @return {JSX.Element} Dangerously-rendering component.
  */
@@ -850,11 +852,18 @@ function RawHTML({
   children,
   ...props
 }) {
-  // The DIV wrapper will be stripped by serializer, unless there are
-  // non-children props present.
+  let rawHtml = ''; // Cast children as an array, and concatenate each element if it is a string.
+
+  external_React_["Children"].toArray(children).forEach(child => {
+    if (typeof child === 'string' && child.trim() !== '') {
+      rawHtml += child;
+    }
+  }); // The `div` wrapper will be stripped by the `renderElement` serializer in
+  // `./serialize.js` unless there are non-children props present.
+
   return Object(external_React_["createElement"])('div', {
     dangerouslySetInnerHTML: {
-      __html: children
+      __html: rawHtml
     },
     ...props
   });

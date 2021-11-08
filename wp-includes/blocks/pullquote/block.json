@@ -20,31 +20,37 @@
 			"default": "",
 			"__experimentalRole": "content"
 		},
-		"mainColor": {
-			"type": "string"
-		},
-		"customMainColor": {
-			"type": "string"
-		},
-		"textColor": {
-			"type": "string"
-		},
-		"customTextColor": {
+		"textAlign": {
 			"type": "string"
 		}
 	},
 	"supports": {
 		"anchor": true,
-		"align": [ "left", "right", "wide", "full" ]
-	},
-	"styles": [
-		{
-			"name": "default",
-			"label": "Default",
-			"isDefault": true
+		"align": [ "left", "right", "wide", "full" ],
+		"color": {
+			"gradients": true,
+			"background": true,
+			"link": true
 		},
-		{ "name": "solid-color", "label": "Solid color" }
-	],
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalFontWeight": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalTextTransform": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true,
+				"fontAppearance": true
+			}
+		},
+		"__experimentalBorder": {
+			"color": true,
+			"radius": true,
+			"style": true,
+			"width": true
+		}
+	},
 	"editorStyle": "wp-block-pullquote-editor",
 	"style": "wp-block-pullquote"
 }

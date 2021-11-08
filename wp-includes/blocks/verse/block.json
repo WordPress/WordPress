@@ -27,7 +27,16 @@
 		},
 		"typography": {
 			"fontSize": true,
-			"__experimentalFontFamily": true
+			"__experimentalFontFamily": true,
+			"lineHeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalFontWeight": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalTextTransform": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true,
+				"fontAppearance": true
+			}
 		},
 		"spacing": {
 			"padding": true

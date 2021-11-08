@@ -41,6 +41,12 @@
  * These variables do not appear to be used anywhere else.
  */
 /**
+*  Converts a hex value into the rgb equivalent.
+*
+* @param {string} hex - the hexadecimal value to convert
+* @return {string} comma separated rgb values
+*/
+/**
  * Breakpoint mixins
  */
 /**
@@ -69,8 +75,6 @@
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
 .wp-block-social-links {
-  display: flex;
-  flex-wrap: wrap;
   padding-right: 0;
   padding-left: 0;
   text-indent: 0;
@@ -81,9 +85,6 @@
   text-decoration: none;
   border-bottom: 0;
   box-shadow: none;
-}
-.wp-block-social-links .wp-social-link.wp-social-link.wp-social-link {
-  margin: 4px 0 4px 8px;
 }
 .wp-block-social-links .wp-social-link a {
   padding: 0.25em;
@@ -303,7 +304,13 @@
 
 .wp-block-social-links.is-style-logos-only .wp-social-link {
   background: none;
-  padding: 4px;
+}
+.wp-block-social-links.is-style-logos-only .wp-social-link a {
+  padding: 0;
+}
+.wp-block-social-links.is-style-logos-only .wp-social-link svg {
+  width: 1.25em;
+  height: 1.25em;
 }
 .wp-block-social-links.is-style-logos-only .wp-social-link-amazon {
   color: #f90;

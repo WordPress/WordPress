@@ -6,6 +6,12 @@
 	"description": "A cloud of your most used tags.",
 	"textdomain": "default",
 	"attributes": {
+		"numberOfTags": {
+			"type": "number",
+			"default": 45,
+			"minimum": 1,
+			"maximum": 100
+		},
 		"taxonomy": {
 			"type": "string",
 			"default": "post_tag"

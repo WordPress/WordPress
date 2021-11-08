@@ -41,6 +41,12 @@
  * These variables do not appear to be used anywhere else.
  */
 /**
+*  Converts a hex value into the rgb equivalent.
+*
+* @param {string} hex - the hexadecimal value to convert
+* @return {string} comma separated rgb values
+*/
+/**
  * Breakpoint mixins
  */
 /**
@@ -88,7 +94,7 @@ figure.wp-block-image:not(.wp-block) {
   margin-top: -9px;
   margin-left: -9px;
 }
-.wp-block-image:not(.is-style-rounded) > div {
+.wp-block-image:not(.is-style-rounded) > div:not(.components-placeholder) {
   border-radius: inherit;
 }
 
@@ -115,6 +121,7 @@ figure.wp-block-image:not(.wp-block) {
 
 [data-align=wide] > .wp-block-image img,
 [data-align=full] > .wp-block-image img {
+  height: auto;
   width: 100%;
 }
 

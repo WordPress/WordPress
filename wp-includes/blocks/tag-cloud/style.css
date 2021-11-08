@@ -41,6 +41,12 @@
  * These variables do not appear to be used anywhere else.
  */
 /**
+*  Converts a hex value into the rgb equivalent.
+*
+* @param {string} hex - the hexadecimal value to convert
+* @return {string} comma separated rgb values
+*/
+/**
  * Breakpoint mixins
  */
 /**
@@ -74,4 +80,13 @@
 .wp-block-tag-cloud.alignfull {
   padding-left: 1em;
   padding-right: 1em;
+}
+.wp-block-tag-cloud a {
+  display: inline-block;
+  margin-right: 5px;
+}
+.wp-block-tag-cloud span {
+  display: inline-block;
+  margin-left: 5px;
+  text-decoration: none;
 }

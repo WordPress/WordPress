@@ -21,18 +21,31 @@ function render_block_core_site_title( $attributes ) {
 	$tag_name         = 'h1';
 	$align_class_name = empty( $attributes['textAlign'] ) ? '' : "has-text-align-{$attributes['textAlign']}";
 
+	$aria_current = is_home() || ( is_front_page() && 'page' === get_option( 'show_on_front' ) ) ? ' aria-current="page"' : '';
+
 	if ( isset( $attributes['level'] ) ) {
 		$tag_name = 0 === $attributes['level'] ? 'p' : 'h' . $attributes['level'];
 	}
 
-	$link               = sprintf( '<a href="%1$s" rel="home">%2$s</a>', get_bloginfo( 'url' ), $site_title );
+	if ( $attributes['isLink'] ) {
+		$link_attrs = array(
+			'href="' . get_bloginfo( 'url' ) . '"',
+			'rel="home"',
+			$aria_current,
+		);
+		if ( '_blank' === $attributes['linkTarget'] ) {
+			$link_attrs[] = 'target="_blank"';
+			$link_attrs[] = 'aria-label="' . esc_attr__( '(opens in a new tab)' ) . '"';
+		}
+		$site_title = sprintf( '<a %1$s>%2$s</a>', implode( ' ', $link_attrs ), $site_title );
+	}
 	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => $align_class_name ) );
 
 	return sprintf(
 		'<%1$s %2$s>%3$s</%1$s>',
 		$tag_name,
 		$wrapper_attributes,
-		$link
+		$site_title
 	);
 }
 

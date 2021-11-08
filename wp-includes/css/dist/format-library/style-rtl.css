@@ -41,6 +41,12 @@
  * These variables do not appear to be used anywhere else.
  */
 /**
+*  Converts a hex value into the rgb equivalent.
+*
+* @param {string} hex - the hexadecimal value to convert
+* @return {string} comma separated rgb values
+*/
+/**
  * Breakpoint mixins
  */
 /**
@@ -70,8 +76,11 @@
  */
 :root {
   --wp-admin-theme-color: #007cba;
+  --wp-admin-theme-color--rgb: 0, 124, 186;
   --wp-admin-theme-color-darker-10: #006ba1;
+  --wp-admin-theme-color-darker-10--rgb: 0, 107, 161;
   --wp-admin-theme-color-darker-20: #005a87;
+  --wp-admin-theme-color-darker-20--rgb: 0, 90, 135;
   --wp-admin-border-width-focus: 2px;
 }
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
@@ -128,19 +137,8 @@
   color: #cc1818;
 }
 
-.components-inline-color__indicator {
-  position: absolute;
-  background: #000;
-  height: 3px;
-  width: 20px;
-  bottom: 6px;
-  right: auto;
-  left: auto;
-  margin: 0 5px;
-}
-
-.components-inline-color-popover .components-popover__content > div {
-  padding: 20px 18px;
+.components-inline-color-popover .components-popover__content .components-tab-panel__tab-content {
+  padding: 16px;
 }
 .components-inline-color-popover .components-popover__content .components-color-palette {
   margin-top: 0.6rem;
@@ -153,16 +151,4 @@
 }
 .components-inline-color-popover .components-popover__content .component-color-indicator {
   vertical-align: text-bottom;
-}
-
-.format-library-text-color-button {
-  position: relative;
-}
-
-.format-library-text-color-button__indicator {
-  height: 4px;
-  width: 20px;
-  position: absolute;
-  bottom: 10px;
-  right: 8px;
 }

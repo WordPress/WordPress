@@ -6,7 +6,16 @@
 	"parent": [ "core/query" ],
 	"description": "Displays a paginated navigation to next/previous set of posts, when applicable.",
 	"textdomain": "default",
+	"attributes": {
+		"paginationArrow": {
+			"type": "string",
+			"default": "none"
+		}
+	},
 	"usesContext": [ "queryId", "query" ],
+	"providesContext": {
+		"paginationArrow": "paginationArrow"
+	},
 	"supports": {
 		"align": true,
 		"reusable": false,
@@ -14,6 +23,13 @@
 		"color": {
 			"gradients": true,
 			"link": true
+		},
+		"__experimentalLayout": {
+			"allowSwitching": false,
+			"allowInheriting": false,
+			"default": {
+				"type": "flex"
+			}
 		}
 	},
 	"editorStyle": "wp-block-query-pagination-editor",

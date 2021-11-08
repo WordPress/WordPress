@@ -11,6 +11,10 @@
 		},
 		"textAlign": {
 			"type": "string"
+		},
+		"separator": {
+			"type": "string",
+			"default": ", "
 		}
 	},
 	"usesContext": [ "postId", "postType" ],
@@ -22,7 +26,15 @@
 		},
 		"typography": {
 			"lineHeight": true,
-			"fontSize": true
+			"fontSize": true,
+			"__experimentalFontStyle": true,
+			"__experimentalFontWeight": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalTextTransform": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true
+			}
 		}
-	}
+	},
+	"style": "wp-block-post-terms"
 }

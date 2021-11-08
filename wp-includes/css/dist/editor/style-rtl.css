@@ -42,6 +42,12 @@
  * These variables do not appear to be used anywhere else.
  */
 /**
+*  Converts a hex value into the rgb equivalent.
+*
+* @param {string} hex - the hexadecimal value to convert
+* @return {string} comma separated rgb values
+*/
+/**
  * Breakpoint mixins
  */
 /**
@@ -71,8 +77,11 @@
  */
 :root {
   --wp-admin-theme-color: #007cba;
+  --wp-admin-theme-color--rgb: 0, 124, 186;
   --wp-admin-theme-color-darker-10: #006ba1;
+  --wp-admin-theme-color-darker-10--rgb: 0, 107, 161;
   --wp-admin-theme-color-darker-20: #005a87;
+  --wp-admin-theme-color-darker-20--rgb: 0, 90, 135;
   --wp-admin-border-width-focus: 2px;
 }
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
@@ -372,6 +381,7 @@
 }
 
 .editor-post-format__suggestion {
+  padding: 6px;
   text-align: left;
   font-size: 13px;
 }
@@ -564,6 +574,7 @@
   height: auto;
   justify-content: center;
   padding: 3px 10px 4px;
+  flex: 1;
   line-height: 1.6;
   text-align: center;
   white-space: normal;
@@ -572,14 +583,30 @@
   width: 100%;
 }
 
-.post-publish-panel__postpublish-post-address {
+.post-publish-panel__postpublish-post-address-container {
+  display: flex;
+  align-items: flex-end;
   margin-bottom: 16px;
 }
-.post-publish-panel__postpublish-post-address input[readonly] {
+.post-publish-panel__postpublish-post-address-container .components-base-control__field {
+  margin-bottom: 0;
+}
+.post-publish-panel__postpublish-post-address-container .post-publish-panel__postpublish-post-address {
+  flex: 1;
+}
+.post-publish-panel__postpublish-post-address-container input[readonly] {
   padding: 10px;
   background: #ddd;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.post-publish-panel__postpublish-post-address__copy-button-wrap {
+  flex-shrink: 0;
+  margin-right: 8px;
+}
+.post-publish-panel__postpublish-post-address__copy-button-wrap .components-button {
+  height: 38px;
 }
 
 .post-publish-panel__postpublish-header {
@@ -594,6 +621,11 @@
   color: #f0b849;
 }
 
+@media screen and (max-width: 782px) {
+  .post-publish-panel__postpublish-post-address__button-wrap .components-button {
+    height: 40px;
+  }
+}
 .editor-post-saved-state {
   display: flex;
   align-items: center;
@@ -602,6 +634,10 @@
   color: #757575;
   overflow: hidden;
   white-space: nowrap;
+}
+.editor-post-saved-state.is-saving[aria-disabled=true], .editor-post-saved-state.is-saving[aria-disabled=true]:hover, .editor-post-saved-state.is-saved[aria-disabled=true], .editor-post-saved-state.is-saved[aria-disabled=true]:hover {
+  background: transparent;
+  color: #757575;
 }
 .editor-post-saved-state svg {
   display: inline-block;
@@ -616,7 +652,7 @@
     text-indent: inherit;
   }
   .editor-post-saved-state svg {
-    margin-left: 4px;
+    margin-left: 0;
   }
 }
 
@@ -650,7 +686,6 @@
 
 .editor-post-taxonomies__hierarchical-terms-input {
   margin-top: 8px;
-  width: 100%;
 }
 
 .editor-post-taxonomies__hierarchical-terms-filter {
@@ -882,73 +917,17 @@
 .editor-post-title {
   position: relative;
 }
-.editor-post-title .editor-post-title__input {
-  display: block;
-  width: 100%;
-  margin: 0;
-  box-shadow: none;
-  background: transparent;
-  transition: border 0.1s ease-out, box-shadow 0.1s linear;
-  padding: 19px 0;
-  word-break: keep-all;
-  font-family: inherit;
-  color: inherit;
-  border: 1px solid transparent;
-  border-right-width: 0;
-  border-left-width: 0;
-  border-radius: 0;
-  outline: 1px solid transparent;
-  font-size: 2.44em;
-  font-weight: 800;
-  line-height: 1.4;
-}
-@media (prefers-reduced-motion: reduce) {
-  .editor-post-title .editor-post-title__input {
-    transition-duration: 0s;
-    transition-delay: 0s;
-  }
-}
-@media (min-width: 600px) {
-  .editor-post-title .editor-post-title__input {
-    border-width: 1px;
-  }
-}
-.editor-post-title .editor-post-title__input::-webkit-input-placeholder {
-  color: rgba(30, 30, 30, 0.62);
-}
-.editor-post-title .editor-post-title__input::-moz-placeholder {
-  color: rgba(30, 30, 30, 0.62);
-  opacity: 1;
-}
-.editor-post-title .editor-post-title__input:-ms-input-placeholder {
-  color: rgba(30, 30, 30, 0.62);
-}
-.is-dark-theme .editor-post-title .editor-post-title__input::-webkit-input-placeholder {
-  color: rgba(255, 255, 255, 0.65);
-}
-.is-dark-theme .editor-post-title .editor-post-title__input::-moz-placeholder {
-  opacity: 1;
-  color: rgba(255, 255, 255, 0.65);
-}
-.is-dark-theme .editor-post-title .editor-post-title__input:-ms-input-placeholder {
-  color: rgba(255, 255, 255, 0.65);
-}
-.editor-post-title .editor-post-title__input:focus {
-  border: 1px solid transparent;
-  outline: 1px solid transparent;
-  box-shadow: none;
-}
-.editor-post-title.is-focus-mode .editor-post-title__input {
+.editor-post-title.is-focus-mode {
   opacity: 0.5;
   transition: opacity 0.1s linear;
 }
 @media (prefers-reduced-motion: reduce) {
-  .editor-post-title.is-focus-mode .editor-post-title__input {
+  .editor-post-title.is-focus-mode {
     transition-duration: 0s;
     transition-delay: 0s;
   }
 }
-.editor-post-title.is-focus-mode .editor-post-title__input:focus {
+.editor-post-title.is-focus-mode:focus {
   opacity: 1;
 }
 

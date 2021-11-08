@@ -3,6 +3,7 @@
 	"name": "core/image",
 	"title": "Image",
 	"category": "media",
+	"usesContext": [ "allowResize", "imageCrop", "fixedHeight" ],
 	"description": "Insert an image to make a visual statement.",
 	"keywords": [ "img", "photo", "picture" ],
 	"textdomain": "default",

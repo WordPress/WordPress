@@ -150,8 +150,8 @@ const ANNOTATION_ATTRIBUTE_PREFIX = 'annotation-text-';
 /**
  * Applies given annotations to the given record.
  *
- * @param {Object} record The record to apply annotations to.
- * @param {Array} annotations The annotation to apply.
+ * @param {Object} record      The record to apply annotations to.
+ * @param {Array}  annotations The annotation to apply.
  * @return {Object} A record with the annotations applied.
  */
 
@@ -509,7 +509,7 @@ const EMPTY_ARRAY = [];
 /**
  * Returns the annotations for a specific client ID.
  *
- * @param {Object} state Editor state.
+ * @param {Object} state    Editor state.
  * @param {string} clientId The ID of the block to get the annotations for.
  *
  * @return {Array} The annotations applicable to this block.
@@ -653,8 +653,8 @@ function __experimentalRemoveAnnotation(annotationId) {
  * Updates the range of an annotation.
  *
  * @param {string} annotationId ID of the annotation to update.
- * @param {number} start The start of the new range.
- * @param {number} end The end of the new range.
+ * @param {number} start        The start of the new range.
+ * @param {number} end          The end of the new range.
  *
  * @return {Object} Action object.
  */

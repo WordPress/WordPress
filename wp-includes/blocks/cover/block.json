@@ -12,6 +12,13 @@
 		"id": {
 			"type": "number"
 		},
+		"alt": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "img",
+			"attribute": "alt",
+			"default": ""
+		},
 		"hasParallax": {
 			"type": "boolean",
 			"default": false
@@ -22,7 +29,7 @@
 		},
 		"dimRatio": {
 			"type": "number",
-			"default": 50
+			"default": 100
 		},
 		"overlayColor": {
 			"type": "string"
@@ -51,6 +58,17 @@
 		},
 		"contentPosition": {
 			"type": "string"
+		},
+		"isDark": {
+			"type": "boolean",
+			"default": true
+		},
+		"allowedBlocks": {
+			"type": "array"
+		},
+		"templateLock": {
+			"type": "string",
+			"enum": [ "all", "insert", false ]
 		}
 	},
 	"supports": {
@@ -58,7 +76,10 @@
 		"align": true,
 		"html": false,
 		"spacing": {
-			"padding": true
+			"padding": true,
+			"__experimentalDefaultControls": {
+				"padding": true
+			}
 		},
 		"color": {
 			"__experimentalDuotone": "> .wp-block-cover__image-background, > .wp-block-cover__video-background",

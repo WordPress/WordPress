@@ -41,6 +41,12 @@
  * These variables do not appear to be used anywhere else.
  */
 /**
+*  Converts a hex value into the rgb equivalent.
+*
+* @param {string} hex - the hexadecimal value to convert
+* @return {string} comma separated rgb values
+*/
+/**
  * Breakpoint mixins
  */
 /**
@@ -70,8 +76,11 @@
  */
 :root {
   --wp-admin-theme-color: #007cba;
+  --wp-admin-theme-color--rgb: 0, 124, 186;
   --wp-admin-theme-color-darker-10: #006ba1;
+  --wp-admin-theme-color-darker-10--rgb: 0, 107, 161;
   --wp-admin-theme-color-darker-20: #005a87;
+  --wp-admin-theme-color-darker-20--rgb: 0, 90, 135;
   --wp-admin-border-width-focus: 2px;
 }
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
@@ -230,4 +239,29 @@
 .wp-block-legacy-widget .components-select-control__input {
   padding: 0;
   font-family: system-ui;
+}
+
+.wp-block-widget-group.has-child-selected::after {
+  border-radius: 2px;
+  border: 1px solid var(--wp-admin-theme-color);
+  bottom: 0;
+  content: "";
+  right: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.wp-block-widget-group .widget-title {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.wp-block-widget-group__placeholder .block-editor-inserter {
+  width: 100%;
+}
+
+.is-dark-theme .wp-block-widget-group__placeholder .block-editor-button-block-appender {
+  box-shadow: inset 0 0 0 1px #1e1e1e;
+  color: #1e1e1e;
 }

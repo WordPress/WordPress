@@ -41,6 +41,12 @@
  * These variables do not appear to be used anywhere else.
  */
 /**
+*  Converts a hex value into the rgb equivalent.
+*
+* @param {string} hex - the hexadecimal value to convert
+* @return {string} comma separated rgb values
+*/
+/**
  * Breakpoint mixins
  */
 /**
@@ -69,33 +75,17 @@
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
 .wp-block-buttons {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  column-gap: 0.5em;
   /* stylelint-disable indentation */
 }
 .wp-block-buttons.is-vertical {
   flex-direction: column;
-}
-.wp-block-buttons.is-vertical > .wp-block-button {
-  /*rtl:ignore*/
-  margin-right: 0;
 }
 .wp-block-buttons.is-vertical > .wp-block-button:last-child {
   margin-bottom: 0;
 }
 .wp-block-buttons > .wp-block-button {
   display: inline-block;
-  /*rtl:ignore*/
-  margin-left: 0;
-  /*rtl:ignore*/
-  margin-right: 0.5em;
-  margin-bottom: 0.5em;
-}
-.wp-block-buttons > .wp-block-button:last-child {
-  /*rtl:ignore*/
-  margin-right: 0;
+  margin: 0;
 }
 .wp-block-buttons.is-content-justification-left {
   justify-content: flex-start;
@@ -112,16 +102,6 @@
 .wp-block-buttons.is-content-justification-right {
   justify-content: flex-end;
 }
-.wp-block-buttons.is-content-justification-right > .wp-block-button {
-  /*rtl:ignore*/
-  margin-left: 0.5em;
-  /*rtl:ignore*/
-  margin-right: 0;
-}
-.wp-block-buttons.is-content-justification-right > .wp-block-button:first-child {
-  /*rtl:ignore*/
-  margin-left: 0;
-}
 .wp-block-buttons.is-content-justification-right.is-vertical {
   align-items: flex-end;
 }
@@ -131,26 +111,6 @@
 .wp-block-buttons.aligncenter {
   text-align: center;
 }
-.wp-block-buttons.alignleft .wp-block-button {
-  /*rtl:ignore*/
-  margin-left: 0;
-  /*rtl:ignore*/
-  margin-right: 0.5em;
-}
-.wp-block-buttons.alignleft .wp-block-button:last-child {
-  /*rtl:ignore*/
-  margin-right: 0;
-}
-.wp-block-buttons.alignright .wp-block-button {
-  /*rtl:ignore*/
-  margin-right: 0;
-  /*rtl:ignore*/
-  margin-left: 0.5em;
-}
-.wp-block-buttons.alignright .wp-block-button:first-child {
-  /*rtl:ignore*/
-  margin-left: 0;
-}
 .wp-block-buttons:not(.is-content-justification-space-between,
 .is-content-justification-right,
 .is-content-justification-left,
@@ -158,7 +118,6 @@
   /* stylelint-enable indentation */
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 0.5em;
   width: 100%;
 }
 

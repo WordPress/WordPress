@@ -225,11 +225,11 @@ const DEFAULT_STATUS = 'info';
 /**
  * @typedef {Object} WPNoticeAction Object describing a user action option associated with a notice.
  *
- * @property {string}    label    Message to use as action label.
- * @property {?string}   url      Optional URL of resource if action incurs
- *                                browser navigation.
- * @property {?Function} onClick  Optional function to invoke when action is
- *                                triggered by user.
+ * @property {string}    label   Message to use as action label.
+ * @property {?string}   url     Optional URL of resource if action incurs
+ *                               browser navigation.
+ * @property {?Function} onClick Optional function to invoke when action is
+ *                               triggered by user.
  *
  */
 
@@ -275,7 +275,7 @@ function createNotice(status = DEFAULT_STATUS, content, options = {}) {
     __unstableHTML,
     icon = null,
     explicitDismiss = false,
-    onDismiss = null
+    onDismiss
   } = options; // The supported value shape of content is currently limited to plain text
   // strings. To avoid setting expectation that e.g. a WPElement could be
   // supported, cast to a string.
@@ -398,26 +398,26 @@ const DEFAULT_NOTICES = [];
 /**
  * @typedef {Object} WPNotice Notice object.
  *
- * @property {string}  id               Unique identifier of notice.
- * @property {string}  status           Status of notice, one of `success`,
- *                                      `info`, `error`, or `warning`. Defaults
- *                                      to `info`.
- * @property {string}  content          Notice message.
- * @property {string}  spokenMessage    Audibly announced message text used by
- *                                      assistive technologies.
- * @property {string}  __unstableHTML   Notice message as raw HTML. Intended to
- *                                      serve primarily for compatibility of
- *                                      server-rendered notices, and SHOULD NOT
- *                                      be used for notices. It is subject to
- *                                      removal without notice.
- * @property {boolean} isDismissible    Whether the notice can be dismissed by
- *                                      user. Defaults to `true`.
- * @property {string}  type             Type of notice, one of `default`,
- *                                      or `snackbar`. Defaults to `default`.
- * @property {boolean} speak            Whether the notice content should be
- *                                      announced to screen readers. Defaults to
- *                                      `true`.
- * @property {WPNoticeAction[]} actions User actions to present with notice.
+ * @property {string}           id             Unique identifier of notice.
+ * @property {string}           status         Status of notice, one of `success`,
+ *                                             `info`, `error`, or `warning`. Defaults
+ *                                             to `info`.
+ * @property {string}           content        Notice message.
+ * @property {string}           spokenMessage  Audibly announced message text used by
+ *                                             assistive technologies.
+ * @property {string}           __unstableHTML Notice message as raw HTML. Intended to
+ *                                             serve primarily for compatibility of
+ *                                             server-rendered notices, and SHOULD NOT
+ *                                             be used for notices. It is subject to
+ *                                             removal without notice.
+ * @property {boolean}          isDismissible  Whether the notice can be dismissed by
+ *                                             user. Defaults to `true`.
+ * @property {string}           type           Type of notice, one of `default`,
+ *                                             or `snackbar`. Defaults to `default`.
+ * @property {boolean}          speak          Whether the notice content should be
+ *                                             announced to screen readers. Defaults to
+ *                                             `true`.
+ * @property {WPNoticeAction[]} actions        User actions to present with notice.
  *
  */
 

@@ -9,12 +9,31 @@
 		"isLink": {
 			"type": "boolean",
 			"default": false
+		},
+		"width": {
+			"type": "string"
+		},
+		"height": {
+			"type": "string"
+		},
+		"scale": {
+			"type": "string",
+			"default": "cover"
 		}
 	},
 	"usesContext": [ "postId", "postType", "queryId" ],
 	"supports": {
 		"align": [ "left", "right", "center", "wide", "full" ],
-		"html": false
+		"color": {
+			"__experimentalDuotone": "img",
+			"text": false,
+			"background": false
+		},
+		"html": false,
+		"spacing": {
+			"margin": true,
+			"padding": true
+		}
 	},
 	"editorStyle": "wp-block-post-featured-image-editor",
 	"style": "wp-block-post-featured-image"

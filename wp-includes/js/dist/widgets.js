@@ -106,6 +106,7 @@ __webpack_require__.d(__webpack_exports__, "MoveToWidgetArea", function() { retu
 __webpack_require__.d(__webpack_exports__, "getWidgetIdFromBlock", function() { return /* reexport */ getWidgetIdFromBlock; });
 __webpack_require__.d(__webpack_exports__, "addWidgetIdToBlock", function() { return /* reexport */ addWidgetIdToBlock; });
 __webpack_require__.d(__webpack_exports__, "registerLegacyWidgetBlock", function() { return /* binding */ registerLegacyWidgetBlock; });
+__webpack_require__.d(__webpack_exports__, "registerWidgetGroupBlock", function() { return /* binding */ registerWidgetGroupBlock; });
 __webpack_require__.d(__webpack_exports__, "registerLegacyWidgetVariations", function() { return /* reexport */ registerLegacyWidgetVariations; });
 
 // NAMESPACE OBJECT: ./node_modules/@wordpress/widgets/build-module/blocks/legacy-widget/index.js
@@ -114,6 +115,13 @@ __webpack_require__.r(legacy_widget_namespaceObject);
 __webpack_require__.d(legacy_widget_namespaceObject, "metadata", function() { return legacy_widget_metadata; });
 __webpack_require__.d(legacy_widget_namespaceObject, "name", function() { return legacy_widget_name; });
 __webpack_require__.d(legacy_widget_namespaceObject, "settings", function() { return legacy_widget_settings; });
+
+// NAMESPACE OBJECT: ./node_modules/@wordpress/widgets/build-module/blocks/widget-group/index.js
+var widget_group_namespaceObject = {};
+__webpack_require__.r(widget_group_namespaceObject);
+__webpack_require__.d(widget_group_namespaceObject, "metadata", function() { return widget_group_metadata; });
+__webpack_require__.d(widget_group_namespaceObject, "name", function() { return widget_group_name; });
+__webpack_require__.d(widget_group_namespaceObject, "settings", function() { return widget_group_settings; });
 
 // EXTERNAL MODULE: external ["wp","blocks"]
 var external_wp_blocks_ = __webpack_require__("HSyU");
@@ -283,10 +291,10 @@ class control_Control {
    * Creates and loads a new control.
    *
    * @access public
-   * @param {Object} params
-   * @param {string} params.id
-   * @param {string} params.idBase
-   * @param {Object} params.instance
+   * @param {Object}   params
+   * @param {string}   params.id
+   * @param {string}   params.idBase
+   * @param {Object}   params.instance
    * @param {Function} params.onChangeInstance
    * @param {Function} params.onChangeHasPreview
    * @param {Function} params.onError
@@ -805,9 +813,6 @@ function Form({
   }, title));
 }
 
-// EXTERNAL MODULE: external ["wp","url"]
-var external_wp_url_ = __webpack_require__("Mmq9");
-
 // CONCATENATED MODULE: ./node_modules/@wordpress/widgets/build-module/blocks/legacy-widget/edit/preview.js
 
 
@@ -829,40 +834,70 @@ function Preview({
   instance,
   isVisible
 }) {
-  const [isLoaded, setIsLoaded] = Object(external_wp_element_["useState"])(false); // Resize the iframe on either the load event, or when the iframe becomes visible.
+  const [isLoaded, setIsLoaded] = Object(external_wp_element_["useState"])(false);
+  const [srcDoc, setSrcDoc] = Object(external_wp_element_["useState"])('');
+  Object(external_wp_element_["useEffect"])(() => {
+    const abortController = typeof window.AbortController === 'undefined' ? undefined : new window.AbortController();
+
+    async function fetchPreviewHTML() {
+      const restRoute = `/wp/v2/widget-types/${idBase}/render`;
+      return await external_wp_apiFetch_default()({
+        path: restRoute,
+        method: 'POST',
+        signal: abortController === null || abortController === void 0 ? void 0 : abortController.signal,
+        data: instance ? {
+          instance
+        } : {}
+      });
+    }
+
+    fetchPreviewHTML().then(response => {
+      setSrcDoc(response.preview);
+    }).catch(error => {
+      if ('AbortError' === error.name) {
+        // We don't want to log aborted requests.
+        return;
+      }
+
+      throw error;
+    });
+    return () => abortController === null || abortController === void 0 ? void 0 : abortController.abort();
+  }, [idBase, instance]); // Resize the iframe on either the load event, or when the iframe becomes visible.
 
   const ref = Object(external_wp_compose_["useRefEffect"])(iframe => {
     // Only set height if the iframe is loaded,
     // or it will grow to an unexpected large height in Safari if it's hidden initially.
-    if (isLoaded) {
-      // If the preview frame has another origin then this won't work.
-      // One possible solution is to add custom script to call `postMessage` in the preview frame.
-      // Or, better yet, we migrate away from iframe.
-      function setHeight() {
-        // Pick the maximum of these two values to account for margin collapsing.
-        const height = Math.max(iframe.contentDocument.documentElement.offsetHeight, iframe.contentDocument.body.offsetHeight);
-        iframe.style.height = `${height}px`;
-      }
+    if (!isLoaded) {
+      return;
+    } // If the preview frame has another origin then this won't work.
+    // One possible solution is to add custom script to call `postMessage` in the preview frame.
+    // Or, better yet, we migrate away from iframe.
 
-      const {
-        IntersectionObserver
-      } = iframe.ownerDocument.defaultView; // Observe for intersections that might cause a change in the height of
-      // the iframe, e.g. a Widget Area becoming expanded.
 
-      const intersectionObserver = new IntersectionObserver(([entry]) => {
-        if (entry.isIntersecting) {
-          setHeight();
-        }
-      }, {
-        threshold: 1
-      });
-      intersectionObserver.observe(iframe);
-      iframe.addEventListener('load', setHeight);
-      return () => {
-        intersectionObserver.disconnect();
-        iframe.removeEventListener('load', setHeight);
-      };
+    function setHeight() {
+      // Pick the maximum of these two values to account for margin collapsing.
+      const height = Math.max(iframe.contentDocument.documentElement.offsetHeight, iframe.contentDocument.body.offsetHeight);
+      iframe.style.height = `${height}px`;
     }
+
+    const {
+      IntersectionObserver
+    } = iframe.ownerDocument.defaultView; // Observe for intersections that might cause a change in the height of
+    // the iframe, e.g. a Widget Area becoming expanded.
+
+    const intersectionObserver = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setHeight();
+      }
+    }, {
+      threshold: 1
+    });
+    intersectionObserver.observe(iframe);
+    iframe.addEventListener('load', setHeight);
+    return () => {
+      intersectionObserver.disconnect();
+      iframe.removeEventListener('load', setHeight);
+    };
   }, [isLoaded]);
   return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, isVisible && !isLoaded && Object(external_wp_element_["createElement"])(external_wp_components_["Placeholder"], null, Object(external_wp_element_["createElement"])(external_wp_components_["Spinner"], null)), Object(external_wp_element_["createElement"])("div", {
     className: classnames_default()('wp-block-legacy-widget__edit-preview', {
@@ -871,16 +906,9 @@ function Preview({
   }, Object(external_wp_element_["createElement"])(external_wp_components_["Disabled"], null, Object(external_wp_element_["createElement"])("iframe", {
     ref: ref,
     className: "wp-block-legacy-widget__edit-preview-iframe",
-    title: Object(external_wp_i18n_["__"])('Legacy Widget Preview') // TODO: This chokes when the query param is too big.
-    // Ideally, we'd render a <ServerSideRender>. Maybe by
-    // rendering one in an iframe via a portal.
-    ,
-    src: Object(external_wp_url_["addQueryArgs"])('widgets.php', {
-      'legacy-widget-preview': {
-        idBase,
-        instance
-      }
-    }),
+    tabIndex: "-1",
+    title: Object(external_wp_i18n_["__"])('Legacy Widget Preview'),
+    srcDoc: srcDoc,
     onLoad: event => {
       // To hide the scrollbars of the preview frame for some edge cases,
       // such as negative margins in the Gallery Legacy Widget.
@@ -1363,6 +1391,159 @@ const legacy_widget_settings = {
   transforms: legacy_widget_transforms
 };
 
+// EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/group.js
+var group = __webpack_require__("u6za");
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/widgets/build-module/blocks/widget-group/edit.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+
+function edit_Edit(props) {
+  const {
+    clientId
+  } = props;
+  const {
+    innerBlocks
+  } = Object(external_wp_data_["useSelect"])(select => select(external_wp_blockEditor_["store"]).getBlock(clientId), [clientId]);
+  return Object(external_wp_element_["createElement"])("div", Object(external_wp_blockEditor_["useBlockProps"])({
+    className: 'widget'
+  }), innerBlocks.length === 0 ? Object(external_wp_element_["createElement"])(PlaceholderContent, props) : Object(external_wp_element_["createElement"])(PreviewContent, props));
+}
+
+function PlaceholderContent({
+  clientId
+}) {
+  return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(external_wp_components_["Placeholder"], {
+    className: "wp-block-widget-group__placeholder",
+    icon: Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockIcon"], {
+      icon: group["a" /* default */]
+    }),
+    label: Object(external_wp_i18n_["__"])('Widget Group')
+  }, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["ButtonBlockAppender"], {
+    rootClientId: clientId
+  })), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["InnerBlocks"], {
+    renderAppender: false
+  }));
+}
+
+function PreviewContent({
+  attributes,
+  setAttributes
+}) {
+  var _attributes$title;
+
+  return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["RichText"], {
+    tagName: "h2",
+    className: "widget-title",
+    allowedFormats: [],
+    placeholder: Object(external_wp_i18n_["__"])('Title'),
+    value: (_attributes$title = attributes.title) !== null && _attributes$title !== void 0 ? _attributes$title : '',
+    onChange: title => setAttributes({
+      title
+    })
+  }), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["InnerBlocks"], null));
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/widgets/build-module/blocks/widget-group/save.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+function save({
+  attributes
+}) {
+  return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["RichText"].Content, {
+    tagName: "h2",
+    className: "widget-title",
+    value: attributes.title
+  }), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["InnerBlocks"].Content, null));
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/widgets/build-module/blocks/widget-group/index.js
+/**
+ * WordPress dependencies
+ */
+
+
+
+/**
+ * Internal dependencies
+ */
+
+const widget_group_metadata = {
+  apiVersion: 2,
+  name: "core/widget-group",
+  category: "widgets",
+  attributes: {
+    title: {
+      type: "string"
+    }
+  },
+  supports: {
+    html: false,
+    inserter: true,
+    customClassName: true,
+    reusable: false
+  },
+  editorStyle: "wp-block-widget-group-editor",
+  style: "wp-block-widget-group"
+};
+
+
+const {
+  name: widget_group_name
+} = widget_group_metadata;
+
+const widget_group_settings = {
+  title: Object(external_wp_i18n_["__"])('Widget Group'),
+  description: Object(external_wp_i18n_["__"])('Create a classic widget layout with a title that’s styled by your theme for your widget areas.'),
+  icon: group["a" /* default */],
+  __experimentalLabel: ({
+    name: label
+  }) => label,
+  edit: edit_Edit,
+  save: save,
+  transforms: {
+    from: [{
+      type: 'block',
+      isMultiBlock: true,
+      blocks: ['*'],
+
+      isMatch(attributes, blocks) {
+        // Avoid transforming existing `widget-group` blocks.
+        return !blocks.some(block => block.name === 'core/widget-group');
+      },
+
+      __experimentalConvert(blocks) {
+        // Put the selected blocks inside the new Widget Group's innerBlocks.
+        let innerBlocks = [...blocks.map(block => {
+          return Object(external_wp_blocks_["createBlock"])(block.name, block.attributes, block.innerBlocks);
+        })]; // If the first block is a heading then assume this is intended
+        // to be the Widget's "title".
+
+        const firstHeadingBlock = innerBlocks[0].name === 'core/heading' ? innerBlocks[0] : null; // Remove the first heading block as we're copying
+        // it's content into the Widget Group's title attribute.
+
+        innerBlocks = innerBlocks.filter(block => block !== firstHeadingBlock);
+        return Object(external_wp_blocks_["createBlock"])('core/widget-group', { ...(firstHeadingBlock && {
+            title: firstHeadingBlock.attributes.content
+          })
+        }, innerBlocks);
+      }
+
+    }]
+  }
+};
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/move-to.js
 
 
@@ -1424,11 +1605,11 @@ function MoveToWidgetArea({
  * Get the internal widget id from block.
  *
  * @typedef  {Object} Attributes
- * @property {string} __internalWidgetId The internal widget id.
+ * @property {string}     __internalWidgetId The internal widget id.
  * @typedef  {Object} Block
- * @property {Attributes} attributes The attributes of the block.
+ * @property {Attributes} attributes         The attributes of the block.
  *
- * @param {Block} block The block.
+ * @param    {Block}      block              The block.
  * @return {string} The internal widget id.
  */
 function getWidgetIdFromBlock(block) {
@@ -1437,7 +1618,7 @@ function getWidgetIdFromBlock(block) {
 /**
  * Add internal widget id to block's attributes.
  *
- * @param {Block} block The block.
+ * @param {Block}  block    The block.
  * @param {string} widgetId The widget id.
  * @return {Block} The updated block.
  */
@@ -1495,6 +1676,7 @@ function registerLegacyWidgetVariations(settings) {
 
 
 
+
 /**
  * Registers the Legacy Widget block.
  *
@@ -1510,6 +1692,21 @@ function registerLegacyWidgetBlock() {
     settings,
     name
   } = legacy_widget_namespaceObject;
+  Object(external_wp_blocks_["registerBlockType"])({
+    name,
+    ...metadata
+  }, settings);
+}
+/**
+ * Registers the Widget Group block.
+ */
+
+function registerWidgetGroupBlock() {
+  const {
+    metadata,
+    settings,
+    name
+  } = widget_group_namespaceObject;
   Object(external_wp_blocks_["registerBlockType"])({
     name,
     ...metadata
@@ -1538,13 +1735,6 @@ function registerLegacyWidgetBlock() {
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["compose"]; }());
-
-/***/ }),
-
-/***/ "Mmq9":
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["wp"]["url"]; }());
 
 /***/ }),
 
@@ -1658,6 +1848,31 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["components"]; }());
+
+/***/ }),
+
+/***/ "u6za":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("GRId");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("Tqx9");
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__);
+
+
+/**
+ * WordPress dependencies
+ */
+
+const group = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["SVG"], {
+  viewBox: "0 0 24 24",
+  xmlns: "http://www.w3.org/2000/svg"
+}, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__["Path"], {
+  d: "M18 4h-7c-1.1 0-2 .9-2 2v3H6c-1.1 0-2 .9-2 2v7c0 1.1.9 2 2 2h7c1.1 0 2-.9 2-2v-3h3c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-4.5 14c0 .3-.2.5-.5.5H6c-.3 0-.5-.2-.5-.5v-7c0-.3.2-.5.5-.5h3V13c0 1.1.9 2 2 2h2.5v3zm0-4.5H11c-.3 0-.5-.2-.5-.5v-2.5H13c.3 0 .5.2.5.5v2.5zm5-.5c0 .3-.2.5-.5.5h-3V11c0-1.1-.9-2-2-2h-2.5V6c0-.3.2-.5.5-.5h7c.3 0 .5.2.5.5v7z"
+}));
+/* harmony default export */ __webpack_exports__["a"] = (group);
+
 
 /***/ }),
 

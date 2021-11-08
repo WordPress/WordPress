@@ -13,7 +13,11 @@
 		"width": {
 			"type": "string"
 		},
+		"allowedBlocks": {
+			"type": "array"
+		},
 		"templateLock": {
+			"type": "string",
 			"enum": [ "all", "insert", false ]
 		}
 	},
@@ -26,7 +30,10 @@
 			"link": true
 		},
 		"spacing": {
-			"padding": true
+			"padding": true,
+			"__experimentalDefaultControls": {
+				"padding": true
+			}
 		}
 	}
 }

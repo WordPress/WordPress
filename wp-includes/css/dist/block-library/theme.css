@@ -41,6 +41,12 @@
  * These variables do not appear to be used anywhere else.
  */
 /**
+*  Converts a hex value into the rgb equivalent.
+*
+* @param {string} hex - the hexadecimal value to convert
+* @return {string} comma separated rgb values
+*/
+/**
  * Breakpoint mixins
  */
 /**
@@ -68,10 +74,6 @@
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
-#start-resizable-editor-section {
-  display: none;
-}
-
 .wp-block-audio figcaption {
   color: #555;
   font-size: 13px;
@@ -152,7 +154,7 @@
   border: none;
   padding-left: 0;
 }
-.wp-block-quote.is-style-large, .wp-block-quote.is-large {
+.wp-block-quote.is-style-plain, .wp-block-quote.is-style-large, .wp-block-quote.is-large {
   border: none;
 }
 
@@ -160,10 +162,8 @@
   font-weight: bold;
 }
 
-.wp-block-group.has-background {
+.wp-block-group:where(.has-background) {
   padding: 1.25em 2.375em;
-  margin-top: 0;
-  margin-bottom: 0;
 }
 
 .wp-block-separator {
@@ -218,8 +218,4 @@
   padding: 1.25em 2.375em;
   margin-top: 0;
   margin-bottom: 0;
-}
-
-#end-resizable-editor-section {
-  display: none;
 }

@@ -3,7 +3,7 @@
 	"name": "core/site-logo",
 	"title": "Site Logo",
 	"category": "layout",
-	"description": "Useful for displaying a graphic mark, design, or symbol to represent the site. Once a site logo is set, it can be reused in different places and templates. It should not be confused with the site icon, which is the small image used in the dashboard, browser tabs, public search results, etc, to help recognize a site.",
+	"description": "Display a graphic to represent this site. Update the block, and the changes apply everywhere it’s used. This is different than the site icon, which is the smaller image visible in your dashboard, browser tabs, etc used to help others recognize this site.",
 	"textdomain": "default",
 	"attributes": {
 		"align": {
@@ -21,10 +21,21 @@
 			"default": "_self"
 		}
 	},
+	"example": {
+		"viewportWidth": 500,
+		"attributes": {
+			"width": 350
+		}
+	},
 	"supports": {
 		"html": false,
 		"align": true,
-		"alignWide": false
+		"alignWide": false,
+		"color": {
+			"__experimentalDuotone": "img",
+			"text": false,
+			"background": false
+		}
 	},
 	"styles": [
 		{

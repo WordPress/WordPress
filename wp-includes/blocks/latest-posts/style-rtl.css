@@ -41,6 +41,12 @@
  * These variables do not appear to be used anywhere else.
  */
 /**
+*  Converts a hex value into the rgb equivalent.
+*
+* @param {string} hex - the hexadecimal value to convert
+* @return {string} comma separated rgb values
+*/
+/**
  * Breakpoint mixins
  */
 /**
@@ -126,7 +132,6 @@
 .wp-block-latest-posts__post-date,
 .wp-block-latest-posts__post-author {
   display: block;
-  color: #555;
   font-size: 0.8125em;
 }
 

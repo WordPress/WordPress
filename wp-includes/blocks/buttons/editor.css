@@ -41,6 +41,12 @@
  * These variables do not appear to be used anywhere else.
  */
 /**
+*  Converts a hex value into the rgb equivalent.
+*
+* @param {string} hex - the hexadecimal value to convert
+* @return {string} comma separated rgb values
+*/
+/**
  * Breakpoint mixins
  */
 /**
@@ -68,18 +74,14 @@
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
-.wp-block > .wp-block-buttons {
-  display: flex;
-  flex-wrap: wrap;
-}
-
 .wp-block-buttons {
   /* stylelint-disable indentation */
 }
 .wp-block-buttons > .wp-block {
-  margin-left: 0;
-  margin-top: 0.5em;
-  margin-right: 0.5em;
+  margin: 0;
+}
+.wp-block-buttons > .wp-block-button.wp-block-button.wp-block-button.wp-block-button.wp-block-button {
+  margin: 0;
 }
 .wp-block-buttons > .block-list-appender {
   display: inline-flex;

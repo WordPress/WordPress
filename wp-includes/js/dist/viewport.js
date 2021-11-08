@@ -311,7 +311,7 @@ var external_wp_element_ = __webpack_require__("GRId");
  *
  * @see isViewportMatch
  *
- * @param {Object} queries  Object of prop name to viewport query.
+ * @param {Object} queries Object of prop name to viewport query.
  *
  * @example
  *

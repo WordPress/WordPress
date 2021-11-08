@@ -19,9 +19,13 @@ function render_block_core_query_pagination_previous( $attributes, $content, $bl
 	$page     = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ];
 
 	$wrapper_attributes = get_block_wrapper_attributes();
-	$default_label      = __( '&laquo; Previous Page' );
+	$default_label      = __( 'Previous Page' );
 	$label              = isset( $attributes['label'] ) && ! empty( $attributes['label'] ) ? $attributes['label'] : $default_label;
-	$content            = '';
+	$pagination_arrow   = get_query_pagination_arrow( $block, false );
+	if ( $pagination_arrow ) {
+		$label = $pagination_arrow . $label;
+	}
+	$content = '';
 	// Check if the pagination is for Query that inherits the global context
 	// and handle appropriately.
 	if ( isset( $block->context['query']['inherit'] ) && $block->context['query']['inherit'] ) {

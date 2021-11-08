@@ -58,6 +58,13 @@
 			},
 			"default": []
 		},
+		"shortCodeTransforms": {
+			"type": "array",
+			"default": [],
+			"items": {
+				"type": "object"
+			}
+		},
 		"columns": {
 			"type": "number",
 			"minimum": 1,
@@ -72,13 +79,29 @@
 			"type": "boolean",
 			"default": true
 		},
+		"fixedHeight": {
+			"type": "boolean",
+			"default": true
+		},
+		"linkTarget": {
+			"type": "string"
+		},
 		"linkTo": {
 			"type": "string"
 		},
 		"sizeSlug": {
 			"type": "string",
 			"default": "large"
+		},
+		"allowResize": {
+			"type": "boolean",
+			"default": false
 		}
+	},
+	"providesContext": {
+		"allowResize": "allowResize",
+		"imageCrop": "imageCrop",
+		"fixedHeight": "fixedHeight"
 	},
 	"supports": {
 		"anchor": true,

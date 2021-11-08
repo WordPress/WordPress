@@ -41,6 +41,12 @@
  * These variables do not appear to be used anywhere else.
  */
 /**
+*  Converts a hex value into the rgb equivalent.
+*
+* @param {string} hex - the hexadecimal value to convert
+* @return {string} comma separated rgb values
+*/
+/**
  * Breakpoint mixins
  */
 /**
@@ -68,38 +74,51 @@
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
-.wp-block-search .wp-block-search__button {
+.wp-block-search__button {
   background: #f7f7f7;
   border: 1px solid #ccc;
   padding: 0.375em 0.625em;
   color: #32373c;
   margin-right: 0.625em;
   word-break: normal;
+  font-size: inherit;
+  font-family: inherit;
+  line-height: inherit;
 }
-.wp-block-search .wp-block-search__button.has-icon {
+.wp-block-search__button.has-icon {
   line-height: 0;
 }
-.wp-block-search .wp-block-search__button svg {
+.wp-block-search__button svg {
   min-width: 1.5em;
   min-height: 1.5em;
+  fill: currentColor;
 }
-.wp-block-search .wp-block-search__inside-wrapper {
+
+.wp-block-search__inside-wrapper {
   display: flex;
   flex: auto;
   flex-wrap: nowrap;
   max-width: 100%;
 }
-.wp-block-search .wp-block-search__label {
+
+.wp-block-search__label {
   width: 100%;
 }
-.wp-block-search .wp-block-search__input {
+
+.wp-block-search__input {
+  padding: 8px;
   flex-grow: 1;
   min-width: 3em;
   border: 1px solid #949494;
+  font-size: inherit;
+  font-family: inherit;
+  line-height: inherit;
 }
+
 .wp-block-search.wp-block-search__button-only .wp-block-search__button {
   margin-right: 0;
 }
+
 .wp-block-search.wp-block-search__button-inside .wp-block-search__inside-wrapper {
   padding: 4px;
   border: 1px solid #949494;
@@ -115,6 +134,7 @@
 .wp-block-search.wp-block-search__button-inside .wp-block-search__inside-wrapper .wp-block-search__button {
   padding: 0.125em 0.5em;
 }
+
 .wp-block-search.aligncenter .wp-block-search__inside-wrapper {
   margin: auto;
 }

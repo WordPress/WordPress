@@ -41,6 +41,12 @@
  * These variables do not appear to be used anywhere else.
  */
 /**
+*  Converts a hex value into the rgb equivalent.
+*
+* @param {string} hex - the hexadecimal value to convert
+* @return {string} comma separated rgb values
+*/
+/**
  * Breakpoint mixins
  */
 /**
@@ -69,31 +75,10 @@
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
 .wp-block-navigation .wp-block-page-list {
-  display: flex;
+  display: contents;
   flex-wrap: wrap;
   background-color: inherit;
 }
-.wp-block-navigation .wp-block-pages-list__item {
+.wp-block-navigation .wp-block-navigation-item {
   background-color: inherit;
-}
-.wp-block-navigation .wp-block-page-list__submenu-icon {
-  display: none;
-}
-.wp-block-navigation .show-submenu-icons .wp-block-page-list__submenu-icon {
-  display: block;
-}
-
-.is-vertical .wp-block-navigation__container .wp-block-page-list,
-.is-open .wp-block-navigation__container .wp-block-page-list {
-  display: block;
-}
-
-@media (min-width: 480px) {
-  .is-open .wp-block-navigation__container .wp-block-page-list {
-    display: flex;
-  }
-}
-
-.items-justified-space-between .wp-block-page-list {
-  display: contents;
 }

@@ -133,6 +133,12 @@ add_filter( 'pre_set_theme_mod_custom_logo', '_sync_custom_logo_to_site_logo' );
  * @param array $value     Updated theme mod settings.
  */
 function _delete_site_logo_on_remove_custom_logo( $old_value, $value ) {
+	global $_ignore_site_logo_changes;
+
+	if ( $_ignore_site_logo_changes ) {
+		return;
+	}
+
 	// If the custom_logo is being unset, it's being removed from theme mods.
 	if ( isset( $old_value['custom_logo'] ) && ! isset( $value['custom_logo'] ) ) {
 		delete_option( 'site_logo' );
@@ -143,6 +149,12 @@ function _delete_site_logo_on_remove_custom_logo( $old_value, $value ) {
  * Deletes the site logo when all theme mods are being removed.
  */
 function _delete_site_logo_on_remove_theme_mods() {
+	global $_ignore_site_logo_changes;
+
+	if ( $_ignore_site_logo_changes ) {
+		return;
+	}
+
 	if ( false !== get_theme_support( 'custom-logo' ) ) {
 		delete_option( 'site_logo' );
 	}
@@ -160,3 +172,21 @@ function _delete_site_logo_on_remove_custom_logo_on_setup_theme() {
 	add_action( "delete_option_theme_mods_$theme", '_delete_site_logo_on_remove_theme_mods' );
 }
 add_action( 'setup_theme', '_delete_site_logo_on_remove_custom_logo_on_setup_theme', 11 );
+
+/**
+ * Removes the custom_logo theme-mod when the site_logo option gets deleted.
+ */
+function _delete_custom_logo_on_remove_site_logo() {
+	global $_ignore_site_logo_changes;
+
+	// Prevent _delete_site_logo_on_remove_custom_logo and
+	// _delete_site_logo_on_remove_theme_mods from firing and causing an
+	// infinite loop.
+	$_ignore_site_logo_changes = true;
+
+	// Remove the custom logo.
+	remove_theme_mod( 'custom_logo' );
+
+	$_ignore_site_logo_changes = false;
+}
+add_action( 'delete_option_site_logo', '_delete_custom_logo_on_remove_site_logo' );
