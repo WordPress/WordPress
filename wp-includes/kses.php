@@ -2082,6 +2082,31 @@ function wp_filter_post_kses( $data ) {
 }
 
 /**
+ * Sanitizes global styles user content removing unsafe rules.
+ *
+ * @param string $data Post content to filter.
+ * @return string Filtered post content with unsafe rules removed.
+ */
+function wp_filter_global_styles_post( $data ) {
+	$decoded_data        = json_decode( wp_unslash( $data ), true );
+	$json_decoding_error = json_last_error();
+	if (
+		JSON_ERROR_NONE === $json_decoding_error &&
+		is_array( $decoded_data ) &&
+		isset( $decoded_data['isGlobalStylesUserThemeJSON'] ) &&
+		$decoded_data['isGlobalStylesUserThemeJSON']
+	) {
+		unset( $decoded_data['isGlobalStylesUserThemeJSON'] );
+
+		$data_to_encode = WP_Theme_JSON::remove_insecure_properties( $decoded_data );
+
+		$data_to_encode['isGlobalStylesUserThemeJSON'] = true;
+		return wp_slash( wp_json_encode( $data_to_encode ) );
+	}
+	return $data;
+}
+
+/**
  * Sanitizes content for allowed HTML tags for post content.
  *
  * Post content refers to the page contents of the 'post' type and not `$_POST`
@@ -2151,8 +2176,10 @@ function kses_init_filters() {
 
 	// Post filtering.
 	add_filter( 'content_save_pre', 'wp_filter_post_kses' );
+	add_filter( 'content_save_pre', 'wp_filter_global_styles_post' );
 	add_filter( 'excerpt_save_pre', 'wp_filter_post_kses' );
 	add_filter( 'content_filtered_save_pre', 'wp_filter_post_kses' );
+	add_filter( 'content_filtered_save_pre', 'wp_filter_global_styles_post' );
 }
 
 /**
@@ -2177,8 +2204,10 @@ function kses_remove_filters() {
 
 	// Post filtering.
 	remove_filter( 'content_save_pre', 'wp_filter_post_kses' );
+	remove_filter( 'content_save_pre', 'wp_filter_global_styles_post' );
 	remove_filter( 'excerpt_save_pre', 'wp_filter_post_kses' );
 	remove_filter( 'content_filtered_save_pre', 'wp_filter_post_kses' );
+	remove_filter( 'content_filtered_save_pre', 'wp_filter_global_styles_post' );
 }
 
 /**
