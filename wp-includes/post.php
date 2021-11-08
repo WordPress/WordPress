@@ -2135,19 +2135,18 @@ function is_post_type_viewable( $post_type ) {
 	/**
 	 * Filters whether a post type is considered "viewable".
 	 *
+	 * The returned filtered value must be a boolean type to ensure
+	 * `is_post_type_viewable()` only returns a boolean. This strictness
+	 * is by design to maintain backwards-compatibility and guard against
+	 * potential type errors in PHP 8.1+. Non-boolean values (even falsey
+	 * and truthy values) will result in the function returning false.
+	 *
 	 * @since 5.9.0
 	 *
-	 * @param bool         $is_viewable Whether the post type is "viewable".
+	 * @param bool         $is_viewable Whether the post type is "viewable" (strict type).
 	 * @param WP_Post_Type $post_type   Post type object.
 	 */
-	$is_viewable = apply_filters( 'is_post_type_viewable', $is_viewable, $post_type );
-
-	// Make sure the filtered value is a boolean type before returning it.
-	if ( ! is_bool( $is_viewable ) ) {
-		return false;
-	}
-
-	return $is_viewable;
+	return true === apply_filters( 'is_post_type_viewable', $is_viewable, $post_type );
 }
 
 /**
