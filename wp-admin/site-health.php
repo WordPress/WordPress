@@ -81,7 +81,7 @@ get_current_screen()->add_help_tab(
 		'content' =>
 				'<p>' . __( 'This screen allows you to obtain a health diagnosis of your site, and displays an overall rating of the status of your installation.' ) . '</p>' .
 				'<p>' . __( 'In the Status tab, you can see critical information about your WordPress configuration, along with anything else that requires your attention.' ) . '</p>' .
-				'<p>' . __( 'In the Info tab, you will find all the details about the configuration of your WordPress site, server, and database. There is also an export feature that allows you to copy all of the information about your site to the clipboard, help solve problems on your site when obtaining support.' ) . '</p>'
+				'<p>' . __( 'In the Info tab, you will find all the details about the configuration of your WordPress site, server, and database. There is also an export feature that allows you to copy all of the information about your site to the clipboard, help solve problems on your site when obtaining support.' ) . '</p>',
 	)
 );
 

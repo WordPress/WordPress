@@ -35,7 +35,7 @@ get_current_screen()->add_help_tab(
 		'title'   => __( 'Overview' ),
 		'content' =>
 				'<p>' . __( 'The Privacy screen lets you either build a new privacy-policy page or choose one you already have to show.' ) . '</p>' .
-				'<p>' . __( 'This screen includes suggestions to help you write your own privacy policy. However, it is your responsibility to use these resources correctly, to provide the information required by your privacy policy, and to keep this information current and accurate.' ) . '</p>'
+				'<p>' . __( 'This screen includes suggestions to help you write your own privacy policy. However, it is your responsibility to use these resources correctly, to provide the information required by your privacy policy, and to keep this information current and accurate.' ) . '</p>',
 	)
 );
 
