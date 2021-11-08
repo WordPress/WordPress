@@ -314,7 +314,8 @@ function login_footer( $input_id = '' ) {
 	<?php
 	$languages = get_available_languages();
 
-	if ( ! empty( $languages ) && ! $interim_login ) { ?>
+	if ( ! empty( $languages ) && ! $interim_login ) {
+		?>
 
 		<div class="language-switcher">
 			<form id="language-switcher" action="" method="get">
@@ -325,23 +326,23 @@ function login_footer( $input_id = '' ) {
 				</label>
 
 				<?php
-					$args = array(
-						'id'                          => 'language-switcher-locales',
-						'name'                        => 'wp_lang',
-						'selected'                    => determine_locale(),
-						'show_available_translations' => false,
-						'explicit_option_en_us'       => true,
-						'languages'                   => $languages,
-					);
+				$args = array(
+					'id'                          => 'language-switcher-locales',
+					'name'                        => 'wp_lang',
+					'selected'                    => determine_locale(),
+					'show_available_translations' => false,
+					'explicit_option_en_us'       => true,
+					'languages'                   => $languages,
+				);
 
-					/**
-					 * Filters default arguments for the Languages select input on the login screen.
-					 *
-					 * @since 5.9.0
-					 *
-					 * @param array $args Arguments for the Languages select input on the login screen.
-					 */
-					wp_dropdown_languages( apply_filters( 'wp_login_language_switcher_args', $args ) );
+				/**
+				 * Filters default arguments for the Languages select input on the login screen.
+				 *
+				 * @since 5.9.0
+				 *
+				 * @param array $args Arguments for the Languages select input on the login screen.
+				 */
+				wp_dropdown_languages( apply_filters( 'wp_login_language_switcher_args', $args ) );
 				?>
 
 				<?php if ( $interim_login ) { ?>
