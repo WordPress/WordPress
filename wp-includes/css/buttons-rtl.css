@@ -134,6 +134,9 @@ TABLE OF CONTENTS:
 	color: #0a4b78;
 }
 
+/* Support focus state on label designed as button in media uploader. */
+.drag-drop-inside p.drag-drop-buttons:focus-within label.button,
+.uploader-inline-content div.browser-container:focus-within label.button,
 .wp-core-ui .button.focus,
 .wp-core-ui .button:focus,
 .wp-core-ui .button-secondary:focus {

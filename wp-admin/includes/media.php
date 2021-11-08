@@ -2246,7 +2246,7 @@ function media_upload_form( $errors = null ) {
 		<div class="drag-drop-inside">
 		<p class="drag-drop-info"><?php _e( 'Drop files to upload' ); ?></p>
 		<p><?php _ex( 'or', 'Uploader: Drop files here - or - Select Files' ); ?></p>
-		<p class="drag-drop-buttons"><input id="plupload-browse-button" type="button" value="<?php esc_attr_e( 'Select Files' ); ?>" class="button" /></p>
+		<p class="drag-drop-buttons"><label for="plupload-browse-button" id="plupload-browse-label" class="button button-hero"><?php esc_html_e( 'Select Files' ); ?></label><input id="plupload-browse-button" type="file" class="screen-reader-text" aria-labelledby="plupload-browse-label post-upload-info" /></p>
 		</div>
 	</div>
 	<?php
@@ -2288,7 +2288,7 @@ function media_upload_form( $errors = null ) {
 	?>
 	</div>
 
-<p class="max-upload-size">
+<p class="max-upload-size" id="post-upload-info">
 	<?php
 	/* translators: %s: Maximum allowed file size. */
 	printf( __( 'Maximum upload file size: %s.' ), esc_html( size_format( $max_upload_size ) ) );
