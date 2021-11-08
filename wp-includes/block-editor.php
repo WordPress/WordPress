@@ -329,7 +329,7 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
 		);
 		$actual_css    = wp_get_global_stylesheet( array( $block_classes['css'] ) );
 		if ( '' !== $actual_css ) {
-			$block_classes['css'] = $actual_css;
+			$block_classes['css']        = $actual_css;
 			$editor_settings['styles'][] = $block_classes;
 		}
 	}
