@@ -1234,7 +1234,7 @@ function get_header_image_tag( $attr = array() ) {
 		}
 	}
 
-	/*
+	/**
 	 * Filters the list of header image attributes.
 	 *
 	 * @since 5.9.0

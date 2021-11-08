@@ -363,7 +363,6 @@ abstract class WP_Image_Editor {
 		 * }
 		 * @param string $filename  Path to the image.
 		 * @param string $mime_type The source image mime type.
-		 * }
 		 */
 		$output_format = apply_filters( 'image_editor_output_format', array(), $filename, $mime_type );
 
