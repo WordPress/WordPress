@@ -2383,9 +2383,9 @@ function register_setting( $option_group, $option_name, $args = array() ) {
  * @global array $new_allowed_options
  * @global array $wp_registered_settings
  *
- * @param string          $option_group The settings group name used during registration.
- * @param string          $option_name  The name of the option to unregister.
- * @param callable|string $deprecated   Deprecated.
+ * @param string   $option_group The settings group name used during registration.
+ * @param string   $option_name  The name of the option to unregister.
+ * @param callable $deprecated   Optional. Deprecated.
  */
 function unregister_setting( $option_group, $option_name, $deprecated = '' ) {
 	global $new_allowed_options, $wp_registered_settings;

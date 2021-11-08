@@ -1299,14 +1299,14 @@ function uninstall_plugin( $plugin ) {
  * @param string   $menu_slug  The slug name to refer to this menu by. Should be unique for this menu page and only
  *                             include lowercase alphanumeric, dashes, and underscores characters to be compatible
  *                             with sanitize_key().
- * @param callable $function   The function to be called to output the content for this page.
- * @param string   $icon_url   The URL to the icon to be used for this menu.
+ * @param callable $function   Optional. The function to be called to output the content for this page.
+ * @param string   $icon_url   Optional. The URL to the icon to be used for this menu.
  *                             * Pass a base64-encoded SVG using a data URI, which will be colored to match
  *                               the color scheme. This should begin with 'data:image/svg+xml;base64,'.
  *                             * Pass the name of a Dashicons helper class to use a font icon,
  *                               e.g. 'dashicons-chart-pie'.
  *                             * Pass 'none' to leave div.wp-menu-image empty so an icon can be added via CSS.
- * @param int      $position   The position in the menu order this item should appear.
+ * @param int      $position   Optional. The position in the menu order this item should appear.
  * @return string The resulting page's hook_suffix.
  */
 function add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $function = '', $icon_url = '', $position = null ) {
@@ -1377,8 +1377,8 @@ function add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $func
  * @param string   $menu_slug   The slug name to refer to this menu by. Should be unique for this menu
  *                              and only include lowercase alphanumeric, dashes, and underscores characters
  *                              to be compatible with sanitize_key().
- * @param callable $function    The function to be called to output the content for this page.
- * @param int      $position    The position in the menu order this item should appear.
+ * @param callable $function    Optional. The function to be called to output the content for this page.
+ * @param int      $position    Optional. The position in the menu order this item should appear.
  * @return string|false The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
 function add_submenu_page( $parent_slug, $page_title, $menu_title, $capability, $menu_slug, $function = '', $position = null ) {
@@ -1489,8 +1489,8 @@ function add_submenu_page( $parent_slug, $page_title, $menu_title, $capability, 
  * @param string   $menu_title The text to be used for the menu.
  * @param string   $capability The capability required for this menu to be displayed to the user.
  * @param string   $menu_slug  The slug name to refer to this menu by (should be unique for this menu).
- * @param callable $function   The function to be called to output the content for this page.
- * @param int      $position   The position in the menu order this item should appear.
+ * @param callable $function   Optional. The function to be called to output the content for this page.
+ * @param int      $position   Optional. The position in the menu order this item should appear.
  * @return string|false The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
 function add_management_page( $page_title, $menu_title, $capability, $menu_slug, $function = '', $position = null ) {
@@ -1513,8 +1513,8 @@ function add_management_page( $page_title, $menu_title, $capability, $menu_slug,
  * @param string   $menu_title The text to be used for the menu.
  * @param string   $capability The capability required for this menu to be displayed to the user.
  * @param string   $menu_slug  The slug name to refer to this menu by (should be unique for this menu).
- * @param callable $function   The function to be called to output the content for this page.
- * @param int      $position   The position in the menu order this item should appear.
+ * @param callable $function   Optional. The function to be called to output the content for this page.
+ * @param int      $position   Optional. The position in the menu order this item should appear.
  * @return string|false The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
 function add_options_page( $page_title, $menu_title, $capability, $menu_slug, $function = '', $position = null ) {
@@ -1537,8 +1537,8 @@ function add_options_page( $page_title, $menu_title, $capability, $menu_slug, $f
  * @param string   $menu_title The text to be used for the menu.
  * @param string   $capability The capability required for this menu to be displayed to the user.
  * @param string   $menu_slug  The slug name to refer to this menu by (should be unique for this menu).
- * @param callable $function   The function to be called to output the content for this page.
- * @param int      $position   The position in the menu order this item should appear.
+ * @param callable $function   Optional. The function to be called to output the content for this page.
+ * @param int      $position   Optional. The position in the menu order this item should appear.
  * @return string|false The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
 function add_theme_page( $page_title, $menu_title, $capability, $menu_slug, $function = '', $position = null ) {
@@ -1561,8 +1561,8 @@ function add_theme_page( $page_title, $menu_title, $capability, $menu_slug, $fun
  * @param string   $menu_title The text to be used for the menu.
  * @param string   $capability The capability required for this menu to be displayed to the user.
  * @param string   $menu_slug  The slug name to refer to this menu by (should be unique for this menu).
- * @param callable $function   The function to be called to output the content for this page.
- * @param int      $position   The position in the menu order this item should appear.
+ * @param callable $function   Optional. The function to be called to output the content for this page.
+ * @param int      $position   Optional. The position in the menu order this item should appear.
  * @return string|false The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
 function add_plugins_page( $page_title, $menu_title, $capability, $menu_slug, $function = '', $position = null ) {
@@ -1585,8 +1585,8 @@ function add_plugins_page( $page_title, $menu_title, $capability, $menu_slug, $f
  * @param string   $menu_title The text to be used for the menu.
  * @param string   $capability The capability required for this menu to be displayed to the user.
  * @param string   $menu_slug  The slug name to refer to this menu by (should be unique for this menu).
- * @param callable $function   The function to be called to output the content for this page.
- * @param int      $position   The position in the menu order this item should appear.
+ * @param callable $function   Optional. The function to be called to output the content for this page.
+ * @param int      $position   Optional. The position in the menu order this item should appear.
  * @return string|false The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
 function add_users_page( $page_title, $menu_title, $capability, $menu_slug, $function = '', $position = null ) {
@@ -1614,8 +1614,8 @@ function add_users_page( $page_title, $menu_title, $capability, $menu_slug, $fun
  * @param string   $menu_title The text to be used for the menu.
  * @param string   $capability The capability required for this menu to be displayed to the user.
  * @param string   $menu_slug  The slug name to refer to this menu by (should be unique for this menu).
- * @param callable $function   The function to be called to output the content for this page.
- * @param int      $position   The position in the menu order this item should appear.
+ * @param callable $function   Optional. The function to be called to output the content for this page.
+ * @param int      $position   Optional. The position in the menu order this item should appear.
  * @return string|false The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
 function add_dashboard_page( $page_title, $menu_title, $capability, $menu_slug, $function = '', $position = null ) {
@@ -1638,8 +1638,8 @@ function add_dashboard_page( $page_title, $menu_title, $capability, $menu_slug, 
  * @param string   $menu_title The text to be used for the menu.
  * @param string   $capability The capability required for this menu to be displayed to the user.
  * @param string   $menu_slug  The slug name to refer to this menu by (should be unique for this menu).
- * @param callable $function   The function to be called to output the content for this page.
- * @param int      $position   The position in the menu order this item should appear.
+ * @param callable $function   Optional. The function to be called to output the content for this page.
+ * @param int      $position   Optional. The position in the menu order this item should appear.
  * @return string|false The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
 function add_posts_page( $page_title, $menu_title, $capability, $menu_slug, $function = '', $position = null ) {
@@ -1662,8 +1662,8 @@ function add_posts_page( $page_title, $menu_title, $capability, $menu_slug, $fun
  * @param string   $menu_title The text to be used for the menu.
  * @param string   $capability The capability required for this menu to be displayed to the user.
  * @param string   $menu_slug  The slug name to refer to this menu by (should be unique for this menu).
- * @param callable $function   The function to be called to output the content for this page.
- * @param int      $position   The position in the menu order this item should appear.
+ * @param callable $function   Optional. The function to be called to output the content for this page.
+ * @param int      $position   Optional. The position in the menu order this item should appear.
  * @return string|false The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
 function add_media_page( $page_title, $menu_title, $capability, $menu_slug, $function = '', $position = null ) {
@@ -1686,8 +1686,8 @@ function add_media_page( $page_title, $menu_title, $capability, $menu_slug, $fun
  * @param string   $menu_title The text to be used for the menu.
  * @param string   $capability The capability required for this menu to be displayed to the user.
  * @param string   $menu_slug  The slug name to refer to this menu by (should be unique for this menu).
- * @param callable $function   The function to be called to output the content for this page.
- * @param int      $position   The position in the menu order this item should appear.
+ * @param callable $function   Optional. The function to be called to output the content for this page.
+ * @param int      $position   Optional. The position in the menu order this item should appear.
  * @return string|false The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
 function add_links_page( $page_title, $menu_title, $capability, $menu_slug, $function = '', $position = null ) {
@@ -1710,8 +1710,8 @@ function add_links_page( $page_title, $menu_title, $capability, $menu_slug, $fun
  * @param string   $menu_title The text to be used for the menu.
  * @param string   $capability The capability required for this menu to be displayed to the user.
  * @param string   $menu_slug  The slug name to refer to this menu by (should be unique for this menu).
- * @param callable $function   The function to be called to output the content for this page.
- * @param int      $position   The position in the menu order this item should appear.
+ * @param callable $function   Optional. The function to be called to output the content for this page.
+ * @param int      $position   Optional. The position in the menu order this item should appear.
  * @return string|false The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
 function add_pages_page( $page_title, $menu_title, $capability, $menu_slug, $function = '', $position = null ) {
@@ -1734,8 +1734,8 @@ function add_pages_page( $page_title, $menu_title, $capability, $menu_slug, $fun
  * @param string   $menu_title The text to be used for the menu.
  * @param string   $capability The capability required for this menu to be displayed to the user.
  * @param string   $menu_slug  The slug name to refer to this menu by (should be unique for this menu).
- * @param callable $function   The function to be called to output the content for this page.
- * @param int      $position   The position in the menu order this item should appear.
+ * @param callable $function   Optional. The function to be called to output the content for this page.
+ * @param int      $position   Optional. The position in the menu order this item should appear.
  * @return string|false The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
 function add_comments_page( $page_title, $menu_title, $capability, $menu_slug, $function = '', $position = null ) {

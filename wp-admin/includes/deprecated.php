@@ -163,11 +163,11 @@ function wp_dropdown_cats( $currentcat = 0, $currentparent = 0, $parent = 0, $le
  * @deprecated 3.0.0 Use register_setting()
  * @see register_setting()
  *
- * @param string $option_group A settings group name. Should correspond to an allowed option key name.
- *                             Default allowed option key names include 'general', 'discussion', 'media',
- *                             'reading', 'writing', and 'options'.
- * @param string $option_name The name of an option to sanitize and save.
- * @param callable $sanitize_callback A callback function that sanitizes the option's value.
+ * @param string   $option_group      A settings group name. Should correspond to an allowed option key name.
+ *                                    Default allowed option key names include 'general', 'discussion', 'media',
+ *                                    'reading', 'writing', and 'options'.
+ * @param string   $option_name       The name of an option to sanitize and save.
+ * @param callable $sanitize_callback Optional. A callback function that sanitizes the option's value.
  */
 function add_option_update_handler( $option_group, $option_name, $sanitize_callback = '' ) {
 	_deprecated_function( __FUNCTION__, '3.0.0', 'register_setting()' );
@@ -181,9 +181,9 @@ function add_option_update_handler( $option_group, $option_name, $sanitize_callb
  * @deprecated 3.0.0 Use unregister_setting()
  * @see unregister_setting()
  *
- * @param string $option_group
- * @param string $option_name
- * @param callable $sanitize_callback
+ * @param string   $option_group      The settings group name used during registration.
+ * @param string   $option_name       The name of the option to unregister.
+ * @param callable $sanitize_callback Optional. Deprecated.
  */
 function remove_option_update_handler( $option_group, $option_name, $sanitize_callback = '' ) {
 	_deprecated_function( __FUNCTION__, '3.0.0', 'unregister_setting()' );
@@ -1426,8 +1426,8 @@ function _relocate_children( $old_ID, $new_ID ) {
  * @param string   $menu_title The text to be used for the menu.
  * @param string   $capability The capability required for this menu to be displayed to the user.
  * @param string   $menu_slug  The slug name to refer to this menu by (should be unique for this menu).
- * @param callable $function   The function to be called to output the content for this page.
- * @param string   $icon_url   The url to the icon to be used for this menu.
+ * @param callable $function   Optional. The function to be called to output the content for this page.
+ * @param string   $icon_url   Optional. The URL to the icon to be used for this menu.
  * @return string The resulting page's hook_suffix.
  */
 function add_object_page( $page_title, $menu_title, $capability, $menu_slug, $function = '', $icon_url = '') {
@@ -1459,8 +1459,8 @@ function add_object_page( $page_title, $menu_title, $capability, $menu_slug, $fu
  * @param string   $menu_title The text to be used for the menu.
  * @param string   $capability The capability required for this menu to be displayed to the user.
  * @param string   $menu_slug  The slug name to refer to this menu by (should be unique for this menu).
- * @param callable $function   The function to be called to output the content for this page.
- * @param string   $icon_url   The url to the icon to be used for this menu.
+ * @param callable $function   Optional. The function to be called to output the content for this page.
+ * @param string   $icon_url   Optional. The URL to the icon to be used for this menu.
  * @return string The resulting page's hook_suffix.
  */
 function add_utility_page( $page_title, $menu_title, $capability, $menu_slug, $function = '', $icon_url = '') {
