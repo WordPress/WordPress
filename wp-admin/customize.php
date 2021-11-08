@@ -233,9 +233,16 @@ do_action( 'customize_controls_head' );
 						<button type="button" class="customize-help-toggle dashicons dashicons-editor-help" aria-expanded="false"><span class="screen-reader-text"><?php _e( 'Help' ); ?></span></button>
 					</div>
 					<div class="customize-panel-description">
-					<?php
-						_e( 'The Customizer allows you to preview changes to your site before publishing them. You can navigate to different pages on your site within the preview. Edit shortcuts are shown for some editable elements.' );
-					?>
+						<p>
+							<?php
+							_e( 'The Customizer allows you to preview changes to your site before publishing them. You can navigate to different pages on your site within the preview. Edit shortcuts are shown for some editable elements.' );
+							?>
+						</p>
+						<p>
+							<?php
+							_e( '<a href="https://wordpress.org/support/article/appearance-customize-screen/">Documentation on Customizer</a>' );
+							?>
+						</p>
 					</div>
 				</div>
 
