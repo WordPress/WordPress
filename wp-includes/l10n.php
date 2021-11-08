@@ -144,8 +144,16 @@ function determine_locale() {
 		$determined_locale = get_user_locale();
 	}
 
-	if ( ! empty( $_GET['wp_lang'] ) && ! empty( $GLOBALS['pagenow'] ) && 'wp-login.php' === $GLOBALS['pagenow'] ) {
-		$determined_locale = sanitize_text_field( $_GET['wp_lang'] );
+	$wp_lang = '';
+
+	if ( ! empty( $_GET['wp_lang'] ) ) {
+		$wp_lang = sanitize_text_field( $_GET['wp_lang'] );
+	} elseif ( ! empty( $_COOKIE['wp_lang'] ) ) {
+		$wp_lang = sanitize_text_field( $_COOKIE['wp_lang'] );
+	}
+
+	if ( ! empty( $wp_lang ) && ! empty( $GLOBALS['pagenow'] ) && 'wp-login.php' === $GLOBALS['pagenow'] ) {
+		$determined_locale = $wp_lang;
 	}
 
 	/**
@@ -1480,6 +1488,7 @@ function wp_get_pomo_file_data( $po_file ) {
  * @since 4.3.0 Introduced the `echo` argument.
  * @since 4.7.0 Introduced the `show_option_site_default` argument.
  * @since 5.1.0 Introduced the `show_option_en_us` argument.
+ * @since 5.9.0 Introduced the `explicit_option_en_us` argument.
  *
  * @see get_available_languages()
  * @see wp_get_available_translations()
@@ -1499,6 +1508,8 @@ function wp_get_pomo_file_data( $po_file ) {
  *     @type bool     $show_available_translations  Whether to show available translations. Default true.
  *     @type bool     $show_option_site_default     Whether to show an option to fall back to the site's locale. Default false.
  *     @type bool     $show_option_en_us            Whether to show an option for English (United States). Default true.
+ *     @type bool     $explicit_option_en_us        Whether the English (United States) option uses an explict value of en_US
+ *                                                  instead of an empty value. Default false.
  * }
  * @return string HTML dropdown list of languages.
  */
@@ -1516,6 +1527,7 @@ function wp_dropdown_languages( $args = array() ) {
 			'show_available_translations' => true,
 			'show_option_site_default'    => false,
 			'show_option_en_us'           => true,
+			'explicit_option_en_us'       => false,
 		)
 	);
 
@@ -1525,7 +1537,7 @@ function wp_dropdown_languages( $args = array() ) {
 	}
 
 	// English (United States) uses an empty string for the value attribute.
-	if ( 'en_US' === $parsed_args['selected'] ) {
+	if ( 'en_US' === $parsed_args['selected'] && ! $parsed_args['explicit_option_en_us'] ) {
 		$parsed_args['selected'] = '';
 	}
 
@@ -1580,8 +1592,10 @@ function wp_dropdown_languages( $args = array() ) {
 	}
 
 	if ( $parsed_args['show_option_en_us'] ) {
+		$value = ( $parsed_args['explicit_option_en_us'] ) ? 'en_US' : '';
 		$structure[] = sprintf(
-			'<option value="" lang="en" data-installed="1"%s>English (United States)</option>',
+			'<option value="%s" lang="en" data-installed="1"%s>English (United States)</option>',
+			esc_attr( $value ),
 			selected( '', $parsed_args['selected'], false )
 		);
 	}
