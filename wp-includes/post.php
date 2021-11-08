@@ -2157,6 +2157,7 @@ function is_post_type_viewable( $post_type ) {
  * For all others, the 'publicly_queryable' value will be used.
  *
  * @since 5.7.0
+ * @since 5.9.0 Added `is_post_status_viewable` hook to filter the result.
  *
  * @param string|stdClass $post_status Post status name or object.
  * @return bool Whether the post status should be considered viewable.
@@ -2177,7 +2178,23 @@ function is_post_status_viewable( $post_status ) {
 		return false;
 	}
 
-	return $post_status->publicly_queryable || ( $post_status->_builtin && $post_status->public );
+	$is_viewable = $post_status->publicly_queryable || ( $post_status->_builtin && $post_status->public );
+
+	/**
+	 * Filters whether a post status is considered "viewable".
+	 *
+	 * The returned filtered value must be a boolean type to ensure
+	 * `is_post_status_viewable()` only returns a boolean. This strictness
+	 * is by design to maintain backwards-compatibility and guard against
+	 * potential type errors in PHP 8.1+. Non-boolean values (even falsey
+	 * and truthy values) will result in the function returning false.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @param bool     $is_viewable Whether the post status is "viewable" (strict type).
+	 * @param stdClass $post_status Post status object.
+	 */
+	return true === apply_filters( 'is_post_status_viewable', $is_viewable, $post_status );
 }
 
 /**
