@@ -2104,7 +2104,7 @@ input[type=reset]:disabled,
 
 .wp-block-cover .wp-block-cover__inner-container,
 .wp-block-cover-image .wp-block-cover__inner-container {
-	width: calc(100% - calc(2 * var(--global--spacing-vertical)));
+	width: calc(100% - 2 * var(--global--spacing-vertical));
 }
 
 .wp-block-cover .wp-block-cover__inner-container > *,
@@ -2266,8 +2266,8 @@ input[type=reset]:disabled,
 .wp-block-group.has-background .wp-block-group__inner-container > hr.wp-block-separator:not(.is-style-dots):not(.alignwide).alignfull,
 .wp-block-group.is-style-twentytwentyone-border .wp-block-group__inner-container > .alignfull,
 .wp-block-group.is-style-twentytwentyone-border .wp-block-group__inner-container > hr.wp-block-separator:not(.is-style-dots):not(.alignwide).alignfull {
-	max-width: calc(var(--responsive--alignfull-width) + (2 * var(--global--spacing-vertical)));
-	width: calc(var(--responsive--alignfull-width) + (2 * var(--global--spacing-vertical)));
+	max-width: calc(var(--responsive--alignfull-width) + 2 * var(--global--spacing-vertical));
+	width: calc(var(--responsive--alignfull-width) + 2 * var(--global--spacing-vertical));
 	margin-right: calc(-1 * var(--global--spacing-vertical));
 }
 
@@ -2592,23 +2592,23 @@ h6,
 @media screen and (min-width: 600px) {
 
 	.wp-block-latest-posts.is-style-twentytwentyone-latest-posts-dividers.is-grid.columns-2 li {
-		width: calc((100% / 2));
+		width: calc(100% / 2);
 	}
 
 	.wp-block-latest-posts.is-style-twentytwentyone-latest-posts-dividers.is-grid.columns-3 li {
-		width: calc((100% / 3));
+		width: calc(100% / 3);
 	}
 
 	.wp-block-latest-posts.is-style-twentytwentyone-latest-posts-dividers.is-grid.columns-4 li {
-		width: calc((100% / 4));
+		width: calc(100% / 4);
 	}
 
 	.wp-block-latest-posts.is-style-twentytwentyone-latest-posts-dividers.is-grid.columns-5 li {
-		width: calc((100% / 5));
+		width: calc(100% / 5);
 	}
 
 	.wp-block-latest-posts.is-style-twentytwentyone-latest-posts-dividers.is-grid.columns-6 li {
-		width: calc((100% / 6));
+		width: calc(100% / 6);
 	}
 }
 
@@ -3896,7 +3896,7 @@ table.wp-calendar-table caption {
 	}
 
 	.site-header.has-logo:not(.has-title-and-tagline).has-menu .site-logo img {
-		max-height: calc(var(--button--padding-vertical) - (0.25 * var(--global--spacing-unit)) + 1.7em);
+		max-height: calc(var(--button--padding-vertical) - 0.25 * var(--global--spacing-unit) + 1.7em);
 	}
 
 	.site-header.has-logo.has-title-and-tagline {
@@ -3927,7 +3927,7 @@ table.wp-calendar-table caption {
 	body:not(.primary-navigation-open) .site-header.has-logo.has-title-and-tagline .menu-button-container {
 		position: relative;
 		padding-top: 0;
-		margin-top: calc(0px - var(--button--padding-vertical) + (0.25 * var(--global--spacing-unit)));
+		margin-top: calc(0px - var(--button--padding-vertical) + 0.25 * var(--global--spacing-unit));
 	}
 
 	body:not(.primary-navigation-open) .site-header.has-logo.has-title-and-tagline .menu-button-container #primary-mobile-menu {
@@ -4571,7 +4571,7 @@ h1.page-title {
 .comment-form > p textarea {
 	display: block;
 	font-size: var(--global--font-size-sm);
-	margin-bottom: calc(.5 * var(--global--spacing-unit));
+	margin-bottom: calc(0.5 * var(--global--spacing-unit));
 	width: 100%;
 	font-weight: var(--form--label-weight);
 }
@@ -4609,7 +4609,7 @@ h1.page-title {
 .menu-button-container #primary-mobile-menu {
 	display: flex;
 	margin-right: auto;
-	padding: calc(var(--button--padding-vertical) - (0.25 * var(--global--spacing-unit))) calc(0.5 * var(--button--padding-horizontal));
+	padding: calc(var(--button--padding-vertical) - 0.25 * var(--global--spacing-unit)) calc(0.5 * var(--button--padding-horizontal));
 	font-size: var(--primary-nav--font-size-button);
 	font-weight: var(--primary-nav--font-weight-button);
 	background-color: transparent;
@@ -5185,7 +5185,7 @@ h1.page-title {
 		flex: 0 1 auto;
 		margin-bottom: inherit;
 		margin-top: inherit;
-		max-width: calc(50% - (0.5 * var(--global--spacing-unit)));
+		max-width: calc(50% - 0.5 * var(--global--spacing-unit));
 	}
 
 	.navigation .nav-links .nav-next {
@@ -5237,7 +5237,7 @@ h1.page-title {
 @media only screen and (min-width: 822px) {
 
 	.post-navigation .post-title {
-		margin: 5px calc(24px + (0.25 * var(--global--spacing-unit))) 0;
+		margin: 5px calc(24px + 0.25 * var(--global--spacing-unit)) 0;
 	}
 }
 @media only screen and (min-width: 482px) {

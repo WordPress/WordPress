@@ -16,11 +16,11 @@
 	"devDependencies": {
 		"@wordpress/browserslist-config": "^4.0.1",
 		"@wordpress/scripts": "^16.1.2",
-		"autoprefixer": "^10.2.6",
-		"concurrently": "^6.2.0",
-		"postcss-cli": "^8.3.1",
-		"postcss": "^8.3.0",
-		"rtlcss": "^3.2.0",
+		"autoprefixer": "^10.4.0",
+		"concurrently": "^6.3.0",
+		"postcss-cli": "^9.0.2",
+		"postcss": "^8.3.11",
+		"rtlcss": "^3.5.0",
 		"stylelint-a11y": "^1.2.3"
 	},
 	"browserslist": [
