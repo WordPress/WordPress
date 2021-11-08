@@ -316,6 +316,35 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
 
 		$response->add_links( $this->prepare_links( $theme ) );
 
+		if ( $theme->get_stylesheet() === wp_get_theme()->get_stylesheet() ) {
+			// This creates a record for the current theme if not existent.
+			$id = WP_Theme_JSON_Resolver::get_user_custom_post_type_id();
+		} else {
+			$wp_query_args       = array(
+				'post_status'    => 'publish',
+				'post_type'      => 'wp_global_styles',
+				'posts_per_page' => 1,
+				'no_found_rows'  => true,
+				'fields'         => 'ids',
+				'tax_query'      => array(
+					array(
+						'taxonomy' => 'wp_theme',
+						'field'    => 'name',
+						'terms'    => $theme->get_stylesheet(),
+					),
+				),
+			);
+			$global_styles_query = new WP_Query( $wp_query_args );
+			$id                  = ! empty( $global_styles_query->posts ) ? array_shift( $global_styles_query->posts ) : null;
+		}
+
+		if ( $id ) {
+			$response->add_link(
+				'https://api.w.org/user-global-styles',
+				rest_url( 'wp/v2/global-styles/' . $id )
+			);
+		}
+
 		/**
 		 * Filters theme data returned from the REST API.
 		 *
