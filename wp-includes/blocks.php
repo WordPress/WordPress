@@ -1154,6 +1154,8 @@ function build_query_vars_from_query_block( $block, $page ) {
  *
  * It's used in QueryPaginationNext and QueryPaginationPrevious blocks.
  *
+ * @since 5.9.0
+ *
  * @param WP_Block $block   Block instance.
  * @param boolean  $is_next Flag for hanlding `next/previous` blocks.
  *
