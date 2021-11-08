@@ -375,6 +375,48 @@ if ( ! function_exists( 'is_iterable' ) ) {
 	}
 }
 
+if ( ! function_exists( 'array_key_first' ) ) {
+	/**
+	 * Polyfill for array_key_first() function added in PHP 7.3.
+	 *
+	 * Get the first key of the given array without affecting
+	 * the internal array pointer.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @param array $arr An array.
+	 * @return string|int|null The first key of array if the array
+	 *                         is not empty; `null` otherwise.
+	 */
+	function array_key_first( array $arr ) {
+		foreach ( $arr as $key => $value ) {
+			return $key;
+		}
+	}
+}
+
+if ( ! function_exists( 'array_key_last' ) ) {
+	/**
+	 * Polyfill for `array_key_last()` function added in PHP 7.3.
+	 *
+	 * Get the last key of the given array without affecting the
+	 * internal array pointer.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @param array $arr An array.
+	 * @return string|int|null The last key of array if the array
+	 *.                        is not empty; `null` otherwise.
+	 */
+	function array_key_last( array $arr ) {
+		if ( empty( $arr ) ) {
+			return null;
+		}
+		end( $arr );
+		return key( $arr );
+	}
+}
+
 // IMAGETYPE_WEBP constant is only defined in PHP 7.1 or later.
 if ( ! defined( 'IMAGETYPE_WEBP' ) ) {
 	define( 'IMAGETYPE_WEBP', 18 );
