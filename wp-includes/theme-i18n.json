@@ -5,6 +5,11 @@
 					{
 						"name": "Font size name"
 					}
+				],
+				"fontFamilies": [
+					{
+						"name": "Font family name"
+					}
 				]
 		},
 		"color": {
@@ -31,6 +36,11 @@
 						{
 							"name": "Font size name"
 						}
+					],
+					"fontFamilies": [
+						{
+							"name": "Font family name"
+						}
 					]
 				},
 				"color": {
@@ -47,5 +57,15 @@
 				}
 			}
 		}
-	}
+	},
+	"customTemplates": [
+		{
+			"title": "Custom template name"
+		}
+	],
+	"templateParts": [
+		{
+			"title": "Template part name"
+		}
+	]
 }

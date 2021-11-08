@@ -2321,8 +2321,7 @@ function wp_enqueue_global_styles() {
 	}
 
 	if ( null === $stylesheet ) {
-		$settings   = get_default_block_editor_settings();
-		$theme_json = WP_Theme_JSON_Resolver::get_merged_data( $settings );
+		$theme_json = WP_Theme_JSON_Resolver::get_merged_data();
 		$stylesheet = $theme_json->get_stylesheet();
 
 		if ( $can_use_cache ) {

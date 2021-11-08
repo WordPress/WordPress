@@ -10,6 +10,10 @@
 /**
  * Class that encapsulates the processing of structures that adhere to the theme.json spec.
  *
+ * This class is for internal core usage and is not supposed to be used by extenders (plugins and/or themes).
+ * This is a low-level API that may need to do breaking changes. Please,
+ * use get_global_settings, get_global_styles, and get_global_stylesheet instead.
+ *
  * @access private
  */
 class WP_Theme_JSON {
@@ -70,119 +74,153 @@ class WP_Theme_JSON {
 	 *
 	 * This contains the necessary metadata to process them:
 	 *
-	 * - path          => where to find the preset within the settings section
-	 *
-	 * - value_key     => the key that represents the value
-	 *
-	 * - css_var_infix => infix to use in generating the CSS Custom Property. Example:
-	 *                   --wp--preset--<preset_infix>--<slug>: <preset_value>
-	 *
-	 * - classes      => array containing a structure with the classes to
-	 *                   generate for the presets. Each class should have
-	 *                   the class suffix and the property name. Example:
-	 *
-	 *                   .has-<slug>-<class_suffix> {
-	 *                       <property_name>: <preset_value>
-	 *                   }
+	 * - path       => where to find the preset within the settings section
+	 * - value_key  => the key that represents the value
+	 * - value_func => the callback to render the value (either value_key or value_func should be present)
+	 * - css_vars   => template string to use in generating the CSS Custom Property.
+	 *                 Example output: "--wp--preset--duotone--blue: <value>" will generate as many CSS Custom Properties as presets defined
+	 *                 substituting the $slug for the slug's value for each preset value.
+	 * - classes    => array containing a structure with the classes to generate for the presets.
+	 *                 Each key is a template string to resolve similarly to the css_vars and each value is the CSS property to use for that class.
+	 *                 Example output: ".has-blue-color { color: <value> }"
+	 * - properties  => a list of CSS properties to be used by kses to check the preset value is safe.
 	 *
 	 * @since 5.8.0
+	 * @since 5.9.0 Added new presets and simplified the metadata structure.
 	 * @var array
 	 */
 	const PRESETS_METADATA = array(
 		array(
-			'path'          => array( 'color', 'palette' ),
-			'value_key'     => 'color',
-			'css_var_infix' => 'color',
-			'classes'       => array(
-				array(
-					'class_suffix'  => 'color',
-					'property_name' => 'color',
-				),
-				array(
-					'class_suffix'  => 'background-color',
-					'property_name' => 'background-color',
-				),
+			'path'       => array( 'color', 'palette' ),
+			'value_key'  => 'color',
+			'css_vars'   => '--wp--preset--color--$slug',
+			'classes'    => array(
+				'.has-$slug-color'            => 'color',
+				'.has-$slug-background-color' => 'background-color',
+				'.has-$slug-border-color'     => 'border-color',
 			),
+			'properties' => array( 'color', 'background-color', 'border-color' ),
 		),
 		array(
-			'path'          => array( 'color', 'gradients' ),
-			'value_key'     => 'gradient',
-			'css_var_infix' => 'gradient',
-			'classes'       => array(
-				array(
-					'class_suffix'  => 'gradient-background',
-					'property_name' => 'background',
-				),
-			),
+			'path'       => array( 'color', 'gradients' ),
+			'value_key'  => 'gradient',
+			'css_vars'   => '--wp--preset--gradient--$slug',
+			'classes'    => array( '.has-$slug-gradient-background' => 'background' ),
+			'properties' => array( 'background' ),
 		),
 		array(
-			'path'          => array( 'typography', 'fontSizes' ),
-			'value_key'     => 'size',
-			'css_var_infix' => 'font-size',
-			'classes'       => array(
-				array(
-					'class_suffix'  => 'font-size',
-					'property_name' => 'font-size',
-				),
-			),
+			'path'       => array( 'color', 'duotone' ),
+			'value_func' => 'wp_render_duotone_filter_preset',
+			'css_vars'   => '--wp--preset--duotone--$slug',
+			'classes'    => array(),
+			'properties' => array( 'filter' ),
+		),
+		array(
+			'path'       => array( 'typography', 'fontSizes' ),
+			'value_key'  => 'size',
+			'css_vars'   => '--wp--preset--font-size--$slug',
+			'classes'    => array( '.has-$slug-font-size' => 'font-size' ),
+			'properties' => array( 'font-size' ),
+		),
+		array(
+			'path'       => array( 'typography', 'fontFamilies' ),
+			'value_key'  => 'fontFamily',
+			'css_vars'   => '--wp--preset--font-family--$slug',
+			'classes'    => array( '.has-$slug-font-family' => 'font-family' ),
+			'properties' => array( 'font-family' ),
 		),
 	);
 
 	/**
 	 * Metadata for style properties.
 	 *
-	 * Each property declares:
-	 *
-	 * - 'value': path to the value in theme.json and block attributes.
+	 * Each element is a direct mapping from the CSS property name to the
+	 * path to the value in theme.json & block attributes.
 	 *
 	 * @since 5.8.0
+	 * @since 5.9.0 Added new properties and simplified the metadata structure.
 	 * @var array
 	 */
 	const PROPERTIES_METADATA = array(
-		'background'       => array(
-			'value' => array( 'color', 'gradient' ),
-		),
-		'background-color' => array(
-			'value' => array( 'color', 'background' ),
-		),
-		'color'            => array(
-			'value' => array( 'color', 'text' ),
-		),
-		'font-size'        => array(
-			'value' => array( 'typography', 'fontSize' ),
-		),
-		'line-height'      => array(
-			'value' => array( 'typography', 'lineHeight' ),
-		),
-		'margin'           => array(
-			'value'      => array( 'spacing', 'margin' ),
-			'properties' => array( 'top', 'right', 'bottom', 'left' ),
-		),
-		'padding'          => array(
-			'value'      => array( 'spacing', 'padding' ),
-			'properties' => array( 'top', 'right', 'bottom', 'left' ),
-		),
+		'background'                 => array( 'color', 'gradient' ),
+		'background-color'           => array( 'color', 'background' ),
+		'border-radius'              => array( 'border', 'radius' ),
+		'border-top-left-radius'     => array( 'border', 'radius', 'topLeft' ),
+		'border-top-right-radius'    => array( 'border', 'radius', 'topRight' ),
+		'border-bottom-left-radius'  => array( 'border', 'radius', 'bottomLeft' ),
+		'border-bottom-right-radius' => array( 'border', 'radius', 'bottomRight' ),
+		'border-color'               => array( 'border', 'color' ),
+		'border-width'               => array( 'border', 'width' ),
+		'border-style'               => array( 'border', 'style' ),
+		'color'                      => array( 'color', 'text' ),
+		'font-family'                => array( 'typography', 'fontFamily' ),
+		'font-size'                  => array( 'typography', 'fontSize' ),
+		'font-style'                 => array( 'typography', 'fontStyle' ),
+		'font-weight'                => array( 'typography', 'fontWeight' ),
+		'letter-spacing'             => array( 'typography', 'letterSpacing' ),
+		'line-height'                => array( 'typography', 'lineHeight' ),
+		'margin'                     => array( 'spacing', 'margin' ),
+		'margin-top'                 => array( 'spacing', 'margin', 'top' ),
+		'margin-right'               => array( 'spacing', 'margin', 'right' ),
+		'margin-bottom'              => array( 'spacing', 'margin', 'bottom' ),
+		'margin-left'                => array( 'spacing', 'margin', 'left' ),
+		'padding'                    => array( 'spacing', 'padding' ),
+		'padding-top'                => array( 'spacing', 'padding', 'top' ),
+		'padding-right'              => array( 'spacing', 'padding', 'right' ),
+		'padding-bottom'             => array( 'spacing', 'padding', 'bottom' ),
+		'padding-left'               => array( 'spacing', 'padding', 'left' ),
+		'--wp--style--block-gap'     => array( 'spacing', 'blockGap' ),
+		'text-decoration'            => array( 'typography', 'textDecoration' ),
+		'text-transform'             => array( 'typography', 'textTransform' ),
+		'filter'                     => array( 'filter', 'duotone' ),
 	);
 
 	/**
+	 * Protected style properties.
+	 *
+	 * These style properties are only rendered if a setting enables it
+	 * via a value other than `null`.
+	 *
+	 * Each element maps the style property to the corresponding theme.json
+	 * setting key.
+	 *
+	 * @since 5.9.0
+	 */
+	const PROTECTED_PROPERTIES = array(
+		'spacing.blockGap' => array( 'spacing', 'blockGap' ),
+	);
+
+	/**
+	 * The top-level keys a theme.json can have.
+	 *
 	 * @since 5.8.0
+	 * @since 5.9.0 Renamed from ALLOWED_TOP_LEVEL_KEYS and added new values.
 	 * @var string[]
 	 */
-	const ALLOWED_TOP_LEVEL_KEYS = array(
+	const VALID_TOP_LEVEL_KEYS = array(
+		'customTemplates',
 		'settings',
 		'styles',
+		'templateParts',
 		'version',
 	);
 
 	/**
+	 * The valid properties under the settings key.
+	 *
 	 * @since 5.8.0
+	 * @since 5.9.0 Renamed from ALLOWED_SETTINGS, gained new properties, and renamed others according to the new schema.
 	 * @var array
 	 */
-	const ALLOWED_SETTINGS = array(
+	const VALID_SETTINGS = array(
 		'border'     => array(
-			'customRadius' => null,
+			'color'  => null,
+			'radius' => null,
+			'style'  => null,
+			'width'  => null,
 		),
 		'color'      => array(
+			'background'     => null,
 			'custom'         => null,
 			'customDuotone'  => null,
 			'customGradient' => null,
@@ -190,6 +228,7 @@ class WP_Theme_JSON {
 			'gradients'      => null,
 			'link'           => null,
 			'palette'        => null,
+			'text'           => null,
 		),
 		'custom'     => null,
 		'layout'     => array(
@@ -197,48 +236,61 @@ class WP_Theme_JSON {
 			'wideSize'    => null,
 		),
 		'spacing'    => array(
-			'customMargin'  => null,
-			'customPadding' => null,
-			'units'         => null,
+			'blockGap' => null,
+			'margin'   => null,
+			'padding'  => null,
+			'units'    => null,
 		),
 		'typography' => array(
-			'customFontSize'   => null,
-			'customLineHeight' => null,
-			'dropCap'          => null,
-			'fontSizes'        => null,
+			'customFontSize' => null,
+			'dropCap'        => null,
+			'fontFamilies'   => null,
+			'fontSizes'      => null,
+			'fontStyle'      => null,
+			'fontWeight'     => null,
+			'letterSpacing'  => null,
+			'lineHeight'     => null,
+			'textDecoration' => null,
+			'textTransform'  => null,
 		),
 	);
 
 	/**
+	 * The valid properties under the styles key.
+	 *
 	 * @since 5.8.0
+	 * @since 5.9.0 Renamed from ALLOWED_SETTINGS, gained new properties.
 	 * @var array
 	 */
-	const ALLOWED_STYLES = array(
+	const VALID_STYLES = array(
 		'border'     => array(
+			'color'  => null,
 			'radius' => null,
+			'style'  => null,
+			'width'  => null,
 		),
 		'color'      => array(
 			'background' => null,
 			'gradient'   => null,
 			'text'       => null,
 		),
+		'filter'     => array(
+			'duotone' => null,
+		),
 		'spacing'    => array(
-			'margin'  => array(
-				'top'    => null,
-				'right'  => null,
-				'bottom' => null,
-				'left'   => null,
-			),
-			'padding' => array(
-				'bottom' => null,
-				'left'   => null,
-				'right'  => null,
-				'top'    => null,
-			),
+			'margin'   => null,
+			'padding'  => null,
+			'blockGap' => null,
 		),
 		'typography' => array(
-			'fontSize'   => null,
-			'lineHeight' => null,
+			'fontFamily'     => null,
+			'fontSize'       => null,
+			'fontStyle'      => null,
+			'fontWeight'     => null,
+			'letterSpacing'  => null,
+			'lineHeight'     => null,
+			'textDecoration' => null,
+			'textTransform'  => null,
 		),
 	);
 
@@ -257,10 +309,13 @@ class WP_Theme_JSON {
 	);
 
 	/**
+	 * The latest version of the schema in use.
+	 *
 	 * @since 5.8.0
+	 * @since 5.9.0 Changed value.
 	 * @var int
 	 */
-	const LATEST_SCHEMA = 1;
+	const LATEST_SCHEMA = 2;
 
 	/**
 	 * Constructor.
@@ -276,18 +331,16 @@ class WP_Theme_JSON {
 			$origin = 'theme';
 		}
 
-		if ( ! isset( $theme_json['version'] ) || self::LATEST_SCHEMA !== $theme_json['version'] ) {
-			$this->theme_json = array();
-			return;
-		}
-
-		$this->theme_json = self::sanitize( $theme_json );
+		$this->theme_json    = WP_Theme_JSON_Schema::migrate( $theme_json );
+		$valid_block_names   = array_keys( self::get_blocks_metadata() );
+		$valid_element_names = array_keys( self::ELEMENTS );
+		$this->theme_json    = self::sanitize( $this->theme_json, $valid_block_names, $valid_element_names );
 
 		// Internally, presets are keyed by origin.
 		$nodes = self::get_setting_nodes( $this->theme_json );
 		foreach ( $nodes as $node ) {
-			foreach ( self::PRESETS_METADATA as $preset ) {
-				$path   = array_merge( $node['path'], $preset['path'] );
+			foreach ( self::PRESETS_METADATA as $preset_metadata ) {
+				$path   = array_merge( $node['path'], $preset_metadata['path'] );
 				$preset = _wp_array_get( $this->theme_json, $path, null );
 				if ( null !== $preset ) {
 					_wp_array_set( $this->theme_json, $path, array( $origin => $preset ) );
@@ -300,42 +353,39 @@ class WP_Theme_JSON {
 	 * Sanitizes the input according to the schemas.
 	 *
 	 * @since 5.8.0
+	 * @since 5.9.0 Has new parameters.
 	 *
 	 * @param array $input Structure to sanitize.
+	 * @param array $valid_block_names List of valid block names.
+	 * @param array $valid_element_names List of valid element names.
 	 * @return array The sanitized output.
 	 */
-	private static function sanitize( $input ) {
+	private static function sanitize( $input, $valid_block_names, $valid_element_names ) {
 		$output = array();
 
 		if ( ! is_array( $input ) ) {
 			return $output;
 		}
 
-		$allowed_top_level_keys = self::ALLOWED_TOP_LEVEL_KEYS;
-		$allowed_settings       = self::ALLOWED_SETTINGS;
-		$allowed_styles         = self::ALLOWED_STYLES;
-		$allowed_blocks         = array_keys( self::get_blocks_metadata() );
-		$allowed_elements       = array_keys( self::ELEMENTS );
+		$output = array_intersect_key( $input, array_flip( self::VALID_TOP_LEVEL_KEYS ) );
 
-		$output = array_intersect_key( $input, array_flip( $allowed_top_level_keys ) );
-
-		// Build the schema.
+		// Build the schema based on valid block & element names.
 		$schema                 = array();
 		$schema_styles_elements = array();
-		foreach ( $allowed_elements as $element ) {
-			$schema_styles_elements[ $element ] = $allowed_styles;
+		foreach ( $valid_element_names as $element ) {
+			$schema_styles_elements[ $element ] = self::VALID_STYLES;
 		}
 		$schema_styles_blocks   = array();
 		$schema_settings_blocks = array();
-		foreach ( $allowed_blocks as $block ) {
-			$schema_settings_blocks[ $block ]           = $allowed_settings;
-			$schema_styles_blocks[ $block ]             = $allowed_styles;
+		foreach ( $valid_block_names as $block ) {
+			$schema_settings_blocks[ $block ]           = self::VALID_SETTINGS;
+			$schema_styles_blocks[ $block ]             = self::VALID_STYLES;
 			$schema_styles_blocks[ $block ]['elements'] = $schema_styles_elements;
 		}
-		$schema['styles']             = $allowed_styles;
+		$schema['styles']             = self::VALID_STYLES;
 		$schema['styles']['blocks']   = $schema_styles_blocks;
 		$schema['styles']['elements'] = $schema_styles_elements;
-		$schema['settings']           = $allowed_settings;
+		$schema['settings']           = self::VALID_SETTINGS;
 		$schema['settings']['blocks'] = $schema_settings_blocks;
 
 		// Remove anything that's not present in the schema.
@@ -360,7 +410,6 @@ class WP_Theme_JSON {
 
 		return $output;
 	}
-
 	/**
 	 * Returns the metadata for each block.
 	 *
@@ -377,14 +426,16 @@ class WP_Theme_JSON {
 	 *       'core/heading': {
 	 *         'selector': 'h1',
 	 *         'elements': {}
-	 *       }
-	 *       'core/group': {
-	 *         'selector': '.wp-block-group',
+	 *       },
+	 *       'core/image': {
+	 *         'selector': '.wp-block-image',
+	 *         'duotone': 'img',
 	 *         'elements': {}
 	 *       }
 	 *     }
 	 *
 	 * @since 5.8.0
+	 * @since 5.9.0 Added duotone key with CSS selector.
 	 *
 	 * @return array Block metadata.
 	 */
@@ -407,11 +458,16 @@ class WP_Theme_JSON {
 				self::$blocks_metadata[ $block_name ]['selector'] = '.wp-block-' . str_replace( '/', '-', str_replace( 'core/', '', $block_name ) );
 			}
 
-			/*
-			 * Assign defaults, then overwrite those that the block sets by itself.
-			 * If the block selector is compounded, will append the element to each
-			 * individual block selector.
-			 */
+			if (
+				isset( $block_type->supports['color']['__experimentalDuotone'] ) &&
+				is_string( $block_type->supports['color']['__experimentalDuotone'] )
+			) {
+				self::$blocks_metadata[ $block_name ]['duotone'] = $block_type->supports['color']['__experimentalDuotone'];
+			}
+
+			// Assign defaults, then overwrite those that the block sets by itself.
+			// If the block selector is compounded, will append the element to each
+			// individual block selector.
 			$block_selectors = explode( ',', self::$blocks_metadata[ $block_name ]['selector'] );
 			foreach ( self::ELEMENTS as $el_name => $el_selector ) {
 				$element_selector = array();
@@ -493,25 +549,95 @@ class WP_Theme_JSON {
 	 * the theme.json structure this object represents.
 	 *
 	 * @since 5.8.0
+	 * @since 5.9.0 Changed the arguments passed to the function.
 	 *
-	 * @param string $type Optional. Type of stylesheet we want. Accepts 'all',
-	 *                     'block_styles', and 'css_variables'. Default 'all'.
+	 * @param array $types    Types of styles to load. Will load all by default. It accepts:
+	 *                         'variables': only the CSS Custom Properties for presets & custom ones.
+	 *                         'styles': only the styles section in theme.json.
+	 *                         'presets': only the classes for the presets.
+	 * @param array $origins A list of origins to include. By default it includes self::VALID_ORIGINS.
 	 * @return string Stylesheet.
 	 */
-	public function get_stylesheet( $type = 'all' ) {
+	public function get_stylesheet( $types = array( 'variables', 'styles', 'presets' ), $origins = self::VALID_ORIGINS ) {
+		if ( is_string( $types ) ) {
+			// Dispatch error and map old arguments to new ones.
+			_deprecated_argument( __FUNCTION__, '5.9' );
+			if ( 'block_styles' === $types ) {
+				$types = array( 'styles', 'presets' );
+			} elseif ( 'css_variables' === $types ) {
+				$types = array( 'variables' );
+			} else {
+				$types = array( 'variables', 'styles', 'presets' );
+			}
+		}
+
 		$blocks_metadata = self::get_blocks_metadata();
 		$style_nodes     = self::get_style_nodes( $this->theme_json, $blocks_metadata );
 		$setting_nodes   = self::get_setting_nodes( $this->theme_json, $blocks_metadata );
 
-		switch ( $type ) {
-			case 'block_styles':
-				return $this->get_block_styles( $style_nodes, $setting_nodes );
-			case 'css_variables':
-				return $this->get_css_variables( $setting_nodes );
-			default:
-				return $this->get_css_variables( $setting_nodes ) . $this->get_block_styles( $style_nodes, $setting_nodes );
+		$stylesheet = '';
+
+		if ( in_array( 'variables', $types, true ) ) {
+			$stylesheet .= $this->get_css_variables( $setting_nodes, $origins );
 		}
 
+		if ( in_array( 'styles', $types, true ) ) {
+			$stylesheet .= $this->get_block_classes( $style_nodes );
+		}
+
+		if ( in_array( 'presets', $types, true ) ) {
+			$stylesheet .= $this->get_preset_classes( $setting_nodes, $origins );
+		}
+
+		return $stylesheet;
+	}
+
+	/**
+	 * Returns the page templates of the current theme.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @return array
+	 */
+	public function get_custom_templates() {
+		$custom_templates = array();
+		if ( ! isset( $this->theme_json['customTemplates'] ) ) {
+			return $custom_templates;
+		}
+
+		foreach ( $this->theme_json['customTemplates'] as $item ) {
+			if ( isset( $item['name'] ) ) {
+				$custom_templates[ $item['name'] ] = array(
+					'title'     => isset( $item['title'] ) ? $item['title'] : '',
+					'postTypes' => isset( $item['postTypes'] ) ? $item['postTypes'] : array( 'page' ),
+				);
+			}
+		}
+		return $custom_templates;
+	}
+
+	/**
+	 * Returns the template part data of current theme.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @return array
+	 */
+	public function get_template_parts() {
+		$template_parts = array();
+		if ( ! isset( $this->theme_json['templateParts'] ) ) {
+			return $template_parts;
+		}
+
+		foreach ( $this->theme_json['templateParts'] as $item ) {
+			if ( isset( $item['name'] ) ) {
+				$template_parts[ $item['name'] ] = array(
+					'title' => isset( $item['title'] ) ? $item['title'] : '',
+					'area'  => isset( $item['area'] ) ? $item['area'] : '',
+				);
+			}
+		}
+		return $template_parts;
 	}
 
 	/**
@@ -526,37 +652,15 @@ class WP_Theme_JSON {
 	 *     style-property-one: value;
 	 *   }
 	 *
-	 * Additionally, it'll also create new rulesets
-	 * as classes for each preset value such as:
-	 *
-	 *     .has-value-color {
-	 *       color: value;
-	 *     }
-	 *
-	 *     .has-value-background-color {
-	 *       background-color: value;
-	 *     }
-	 *
-	 *     .has-value-font-size {
-	 *       font-size: value;
-	 *     }
-	 *
-	 *     .has-value-gradient-background {
-	 *       background: value;
-	 *     }
-	 *
-	 *     p.has-value-gradient-background {
-	 *       background: value;
-	 *     }
-	 *
 	 * @since 5.8.0
+	 * @since 5.9.0 Renamed to get_block_classes and no longer returns preset classes.
 	 *
-	 * @param array $style_nodes   Nodes with styles.
-	 * @param array $setting_nodes Nodes with settings.
+	 * @param array $style_nodes Nodes with styles.
 	 * @return string The new stylesheet.
 	 */
-	private function get_block_styles( $style_nodes, $setting_nodes ) {
+	private function get_block_classes( $style_nodes ) {
 		$block_rules = '';
+
 		foreach ( $style_nodes as $metadata ) {
 			if ( null === $metadata['selector'] ) {
 				continue;
@@ -564,11 +668,77 @@ class WP_Theme_JSON {
 
 			$node         = _wp_array_get( $this->theme_json, $metadata['path'], array() );
 			$selector     = $metadata['selector'];
-			$declarations = self::compute_style_properties( $node );
+			$settings     = _wp_array_get( $this->theme_json, array( 'settings' ) );
+			$declarations = self::compute_style_properties( $node, $settings );
+
+			// 1. Separate the ones who use the general selector
+			// and the ones who use the duotone selector.
+			$declarations_duotone = array();
+			foreach ( $declarations as $index => $declaration ) {
+				if ( 'filter' === $declaration['name'] ) {
+					unset( $declarations[ $index ] );
+					$declarations_duotone[] = $declaration;
+				}
+			}
+
+			// 2. Generate the rules that use the general selector.
 			$block_rules .= self::to_ruleset( $selector, $declarations );
+
+			// 3. Generate the rules that use the duotone selector.
+			if ( isset( $metadata['duotone'] ) && ! empty( $declarations_duotone ) ) {
+				$selector_duotone = self::scope_selector( $metadata['selector'], $metadata['duotone'] );
+				$block_rules     .= self::to_ruleset( $selector_duotone, $declarations_duotone );
+			}
+
+			if ( self::ROOT_BLOCK_SELECTOR === $selector ) {
+				$block_rules .= 'body { margin: 0; }';
+				$block_rules .= '.wp-site-blocks > .alignleft { float: left; margin-right: 2em; }';
+				$block_rules .= '.wp-site-blocks > .alignright { float: right; margin-left: 2em; }';
+				$block_rules .= '.wp-site-blocks > .aligncenter { justify-content: center; margin-left: auto; margin-right: auto; }';
+
+				$has_block_gap_support = _wp_array_get( $this->theme_json, array( 'settings', 'spacing', 'blockGap' ) ) !== null;
+				if ( $has_block_gap_support ) {
+					$block_rules .= '.wp-site-blocks > * { margin-top: 0; margin-bottom: 0; }';
+					$block_rules .= '.wp-site-blocks > * + * { margin-top: var( --wp--style--block-gap ); }';
+				}
+			}
 		}
 
+		return $block_rules;
+	}
+
+	/**
+	 * Creates new rulesets as classes for each preset value such as:
+	 *
+	 *   .has-value-color {
+	 *     color: value;
+	 *   }
+	 *
+	 *   .has-value-background-color {
+	 *     background-color: value;
+	 *   }
+	 *
+	 *   .has-value-font-size {
+	 *     font-size: value;
+	 *   }
+	 *
+	 *   .has-value-gradient-background {
+	 *     background: value;
+	 *   }
+	 *
+	 *   p.has-value-gradient-background {
+	 *     background: value;
+	 *   }
+	 *
+	 * @since 5.9.0
+	 *
+	 * @param array $setting_nodes Nodes with settings.
+	 * @param array $origins       List of origins to process presets from.
+	 * @return string The new stylesheet.
+	 */
+	private function get_preset_classes( $setting_nodes, $origins ) {
 		$preset_rules = '';
+
 		foreach ( $setting_nodes as $metadata ) {
 			if ( null === $metadata['selector'] ) {
 				continue;
@@ -576,10 +746,10 @@ class WP_Theme_JSON {
 
 			$selector      = $metadata['selector'];
 			$node          = _wp_array_get( $this->theme_json, $metadata['path'], array() );
-			$preset_rules .= self::compute_preset_classes( $node, $selector );
+			$preset_rules .= self::compute_preset_classes( $node, $selector, $origins );
 		}
 
-		return $block_rules . $preset_rules;
+		return $preset_rules;
 	}
 
 	/**
@@ -597,11 +767,13 @@ class WP_Theme_JSON {
 	 *     }
 	 *
 	 * @since 5.8.0
+	 * @since 5.9.0 Added origins parameter.
 	 *
 	 * @param array $nodes Nodes with settings.
+	 * @param array $origins List of origins to process.
 	 * @return string The new stylesheet.
 	 */
-	private function get_css_variables( $nodes ) {
+	private function get_css_variables( $nodes, $origins ) {
 		$stylesheet = '';
 		foreach ( $nodes as $metadata ) {
 			if ( null === $metadata['selector'] ) {
@@ -611,7 +783,7 @@ class WP_Theme_JSON {
 			$selector = $metadata['selector'];
 
 			$node         = _wp_array_get( $this->theme_json, $metadata['path'], array() );
-			$declarations = array_merge( self::compute_preset_vars( $node ), self::compute_theme_vars( $node ) );
+			$declarations = array_merge( self::compute_preset_vars( $node, $origins ), self::compute_theme_vars( $node ) );
 
 			$stylesheet .= self::to_ruleset( $selector, $declarations );
 		}
@@ -668,45 +840,18 @@ class WP_Theme_JSON {
 	}
 
 	/**
-	 * Given an array of presets keyed by origin and the value key of the preset,
-	 * it returns an array where each key is the preset slug and each value the preset value.
-	 *
-	 * @since 5.8.0
-	 *
-	 * @param array  $preset_per_origin Array of presets keyed by origin.
-	 * @param string $value_key         The property of the preset that contains its value.
-	 * @return array Array of presets where each key is a slug and each value is the preset value.
-	 */
-	private static function get_merged_preset_by_slug( $preset_per_origin, $value_key ) {
-		$result = array();
-		foreach ( self::VALID_ORIGINS as $origin ) {
-			if ( ! isset( $preset_per_origin[ $origin ] ) ) {
-				continue;
-			}
-			foreach ( $preset_per_origin[ $origin ] as $preset ) {
-				/*
-				 * We don't want to use kebabCase here,
-				 * see https://github.com/WordPress/gutenberg/issues/32347
-				 * However, we need to make sure the generated class or CSS variable
-				 * doesn't contain spaces.
-				 */
-				$result[ preg_replace( '/\s+/', '-', $preset['slug'] ) ] = $preset[ $value_key ];
-			}
-		}
-		return $result;
-	}
-
-	/**
 	 * Given a settings array, it returns the generated rulesets
 	 * for the preset classes.
 	 *
 	 * @since 5.8.0
+	 * @since 5.9.0 Added origins parameter.
 	 *
 	 * @param array  $settings Settings to process.
 	 * @param string $selector Selector wrapping the classes.
+	 * @param array  $origins  List of origins to process.
 	 * @return string The result of processing the presets.
 	 */
-	private static function compute_preset_classes( $settings, $selector ) {
+	private static function compute_preset_classes( $settings, $selector, $origins ) {
 		if ( self::ROOT_BLOCK_SELECTOR === $selector ) {
 			// Classes at the global level do not need any CSS prefixed,
 			// and we don't want to increase its specificity.
@@ -714,17 +859,18 @@ class WP_Theme_JSON {
 		}
 
 		$stylesheet = '';
-		foreach ( self::PRESETS_METADATA as $preset ) {
-			$preset_per_origin = _wp_array_get( $settings, $preset['path'], array() );
-			$preset_by_slug    = self::get_merged_preset_by_slug( $preset_per_origin, $preset['value_key'] );
-			foreach ( $preset['classes'] as $class ) {
-				foreach ( $preset_by_slug as $slug => $value ) {
+		foreach ( self::PRESETS_METADATA as $preset_metadata ) {
+			$slugs = self::get_settings_slugs( $settings, $preset_metadata, $origins );
+			foreach ( $preset_metadata['classes'] as $class => $property ) {
+				foreach ( $slugs as $slug ) {
+					$css_var     = self::replace_slug_in_string( $preset_metadata['css_vars'], $slug );
+					$class_name  = self::replace_slug_in_string( $class, $slug );
 					$stylesheet .= self::to_ruleset(
-						self::append_to_selector( $selector, '.has-' . _wp_to_kebab_case( $slug ) . '-' . $class['class_suffix'] ),
+						self::append_to_selector( $selector, $class_name ),
 						array(
 							array(
-								'name'  => $class['property_name'],
-								'value' => 'var(--wp--preset--' . $preset['css_var_infix'] . '--' . _wp_to_kebab_case( $slug ) . ') !important',
+								'name'  => $property,
+								'value' => 'var(' . $css_var . ') !important',
 							),
 						)
 					);
@@ -733,6 +879,147 @@ class WP_Theme_JSON {
 		}
 
 		return $stylesheet;
+	}
+
+	/**
+	 * Function that scopes a selector with another one. This works a bit like
+	 * SCSS nesting except the `&` operator isn't supported.
+	 *
+	 * <code>
+	 * $scope = '.a, .b .c';
+	 * $selector = '> .x, .y';
+	 * $merged = scope_selector( $scope, $selector );
+	 * // $merged is '.a > .x, .a .y, .b .c > .x, .b .c .y'
+	 * </code>
+	 *
+	 * @since 5.9.0
+	 *
+	 * @param string $scope    Selector to scope to.
+	 * @param string $selector Original selector.
+	 *
+	 * @return string Scoped selector.
+	 */
+	private static function scope_selector( $scope, $selector ) {
+		$scopes    = explode( ',', $scope );
+		$selectors = explode( ',', $selector );
+
+		$selectors_scoped = array();
+		foreach ( $scopes as $outer ) {
+			foreach ( $selectors as $inner ) {
+				$selectors_scoped[] = trim( $outer ) . ' ' . trim( $inner );
+			}
+		}
+
+		return implode( ', ', $selectors_scoped );
+	}
+
+	/**
+	 * Gets preset values keyed by slugs based on settings and metadata.
+	 *
+	 * <code>
+	 * $settings = array(
+	 *     'typography' => array(
+	 *         'fontFamilies' => array(
+	 *             array(
+	 *                 'slug'       => 'sansSerif',
+	 *                 'fontFamily' => '"Helvetica Neue", sans-serif',
+	 *             ),
+	 *             array(
+	 *                 'slug'   => 'serif',
+	 *                 'colors' => 'Georgia, serif',
+	 *             )
+	 *         ),
+	 *     ),
+	 * );
+	 * $meta = array(
+	 *    'path'      => array( 'typography', 'fontFamilies' ),
+	 *    'value_key' => 'fontFamily',
+	 * );
+	 * $values_by_slug = get_settings_values_by_slug();
+	 * // $values_by_slug === array(
+	 * //   'sans-serif' => '"Helvetica Neue", sans-serif',
+	 * //   'serif'      => 'Georgia, serif',
+	 * // );
+	 * </code>
+	 *
+	 * @since 5.9.0
+	 *
+	 * @param array $settings Settings to process.
+	 * @param array $preset_metadata One of the PRESETS_METADATA values.
+	 * @param array $origins List of origins to process.
+	 * @return array Array of presets where each key is a slug and each value is the preset value.
+	 */
+	private static function get_settings_values_by_slug( $settings, $preset_metadata, $origins ) {
+		$preset_per_origin = _wp_array_get( $settings, $preset_metadata['path'], array() );
+
+		$result = array();
+		foreach ( $origins as $origin ) {
+			if ( ! isset( $preset_per_origin[ $origin ] ) ) {
+				continue;
+			}
+			foreach ( $preset_per_origin[ $origin ] as $preset ) {
+				$slug = _wp_to_kebab_case( $preset['slug'] );
+
+				$value = '';
+				if ( isset( $preset_metadata['value_key'] ) ) {
+					$value_key = $preset_metadata['value_key'];
+					$value     = $preset[ $value_key ];
+				} elseif (
+					isset( $preset_metadata['value_func'] ) &&
+					is_callable( $preset_metadata['value_func'] )
+				) {
+					$value_func = $preset_metadata['value_func'];
+					$value      = call_user_func( $value_func, $preset );
+				} else {
+					// If we don't have a value, then don't add it to the result.
+					continue;
+				}
+
+				$result[ $slug ] = $value;
+			}
+		}
+		return $result;
+	}
+
+	/**
+	 * Similar to get_settings_values_by_slug, but doesn't compute the value.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @param array $settings Settings to process.
+	 * @param array $preset_metadata One of the PRESETS_METADATA values.
+	 * @param array $origins List of origins to process.
+	 * @return array Array of presets where the key and value are both the slug.
+	 */
+	private static function get_settings_slugs( $settings, $preset_metadata, $origins = self::VALID_ORIGINS ) {
+		$preset_per_origin = _wp_array_get( $settings, $preset_metadata['path'], array() );
+
+		$result = array();
+		foreach ( $origins as $origin ) {
+			if ( ! isset( $preset_per_origin[ $origin ] ) ) {
+				continue;
+			}
+			foreach ( $preset_per_origin[ $origin ] as $preset ) {
+				$slug = _wp_to_kebab_case( $preset['slug'] );
+
+				// Use the array as a set so we don't get duplicates.
+				$result[ $slug ] = $slug;
+			}
+		}
+		return $result;
+	}
+
+	/**
+	 * Transform a slug into a CSS Custom Property.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @param string $input String to replace.
+	 * @param string $slug The slug value to use to generate the custom property.
+	 * @return string The CSS Custom Property. Something along the lines of --wp--preset--color--black.
+	 */
+	private static function replace_slug_in_string( $input, $slug ) {
+		return strtr( $input, array( '$slug' => $slug ) );
 	}
 
 	/**
@@ -748,16 +1035,16 @@ class WP_Theme_JSON {
 	 * @since 5.8.0
 	 *
 	 * @param array $settings Settings to process.
+	 * @param array $origins  List of origins to process.
 	 * @return array Returns the modified $declarations.
 	 */
-	private static function compute_preset_vars( $settings ) {
+	private static function compute_preset_vars( $settings, $origins ) {
 		$declarations = array();
-		foreach ( self::PRESETS_METADATA as $preset ) {
-			$preset_per_origin = _wp_array_get( $settings, $preset['path'], array() );
-			$preset_by_slug    = self::get_merged_preset_by_slug( $preset_per_origin, $preset['value_key'] );
-			foreach ( $preset_by_slug as $slug => $value ) {
+		foreach ( self::PRESETS_METADATA as $preset_metadata ) {
+			$values_by_slug = self::get_settings_values_by_slug( $settings, $preset_metadata, $origins );
+			foreach ( $values_by_slug as $slug => $value ) {
 				$declarations[] = array(
-					'name'  => '--wp--preset--' . $preset['css_var_infix'] . '--' . _wp_to_kebab_case( $slug ),
+					'name'  => self::replace_slug_in_string( $preset_metadata['css_vars'], $slug ),
 					'value' => $value,
 				);
 			}
@@ -864,67 +1151,47 @@ class WP_Theme_JSON {
 	 *     )
 	 *
 	 * @since 5.8.0
+	 * @since 5.9.0 Added theme setting and properties parameters.
 	 *
 	 * @param array $styles Styles to process.
+	 * @param array $settings Theme settings.
+	 * @param array $properties Properties metadata.
 	 * @return array Returns the modified $declarations.
 	 */
-	private static function compute_style_properties( $styles ) {
+	private static function compute_style_properties( $styles, $settings = array(), $properties = self::PROPERTIES_METADATA ) {
 		$declarations = array();
 		if ( empty( $styles ) ) {
 			return $declarations;
 		}
 
-		$properties = array();
-		foreach ( self::PROPERTIES_METADATA as $name => $metadata ) {
-			/*
-			 * Some properties can be shorthand properties, meaning that
-			 * they contain multiple values instead of a single one.
-			 * An example of this is the padding property.
-			 */
-			if ( self::has_properties( $metadata ) ) {
-				foreach ( $metadata['properties'] as $property ) {
-					$properties[] = array(
-						'name'  => $name . '-' . $property,
-						'value' => array_merge( $metadata['value'], array( $property ) ),
-					);
-				}
-			} else {
-				$properties[] = array(
-					'name'  => $name,
-					'value' => $metadata['value'],
-				);
-			}
-		}
+		foreach ( $properties as $css_property => $value_path ) {
+			$value = self::get_property_value( $styles, $value_path );
 
-		foreach ( $properties as $prop ) {
-			$value = self::get_property_value( $styles, $prop['value'] );
-			if ( empty( $value ) ) {
+			// Look up protected properties, keyed by value path.
+			// Skip protected properties that are explicitly set to `null`.
+			if ( is_array( $value_path ) ) {
+				$path_string = implode( '.', $value_path );
+				if (
+					array_key_exists( $path_string, self::PROTECTED_PROPERTIES ) &&
+					_wp_array_get( $settings, self::PROTECTED_PROPERTIES[ $path_string ], null ) === null
+				) {
+					continue;
+				}
+			}
+
+			// Skip if empty and not "0" or value represents array of longhand values.
+			$has_missing_value = empty( $value ) && ! is_numeric( $value );
+			if ( $has_missing_value || is_array( $value ) ) {
 				continue;
 			}
 
 			$declarations[] = array(
-				'name'  => $prop['name'],
+				'name'  => $css_property,
 				'value' => $value,
 			);
 		}
 
 		return $declarations;
-	}
-
-	/**
-	 * Whether the metadata contains a key named properties.
-	 *
-	 * @since 5.8.0
-	 *
-	 * @param array $metadata Description of the style property.
-	 * @return bool True if properties exists, false otherwise.
-	 */
-	private static function has_properties( $metadata ) {
-		if ( array_key_exists( 'properties', $metadata ) ) {
-			return true;
-		}
-
-		return false;
 	}
 
 	/**
@@ -935,6 +1202,7 @@ class WP_Theme_JSON {
 	 * "--wp--preset--color--secondary".
 	 *
 	 * @since 5.8.0
+	 * @since 5.9.0 Consider $value that are arrays as well.
 	 *
 	 * @param array $styles Styles subtree.
 	 * @param array $path   Which property to process.
@@ -943,7 +1211,7 @@ class WP_Theme_JSON {
 	private static function get_property_value( $styles, $path ) {
 		$value = _wp_array_get( $styles, $path, '' );
 
-		if ( '' === $value ) {
+		if ( '' === $value || is_array( $value ) ) {
 			return $value;
 		}
 
@@ -1015,18 +1283,19 @@ class WP_Theme_JSON {
 		return $nodes;
 	}
 
-
 	/**
 	 * Builds metadata for the style nodes, which returns in the form of:
 	 *
 	 *     [
 	 *       [
 	 *         'path'     => [ 'path', 'to', 'some', 'node' ],
-	 *         'selector' => 'CSS selector for some node'
+	 *         'selector' => 'CSS selector for some node',
+	 *         'duotone'  => 'CSS selector for duotone for some node'
 	 *       ],
 	 *       [
 	 *         'path'     => ['path', 'to', 'other', 'node' ],
-	 *         'selector' => 'CSS selector for other node'
+	 *         'selector' => 'CSS selector for other node',
+	 *         'duotone'  => null
 	 *       ],
 	 *     ]
 	 *
@@ -1068,9 +1337,15 @@ class WP_Theme_JSON {
 				$selector = $selectors[ $name ]['selector'];
 			}
 
+			$duotone_selector = null;
+			if ( isset( $selectors[ $name ]['duotone'] ) ) {
+				$duotone_selector = $selectors[ $name ]['duotone'];
+			}
+
 			$nodes[] = array(
 				'path'     => array( 'styles', 'blocks', $name ),
 				'selector' => $selector,
+				'duotone'  => $duotone_selector,
 			);
 
 			if ( isset( $theme_json['styles']['blocks'][ $name ]['elements'] ) ) {
@@ -1090,6 +1365,7 @@ class WP_Theme_JSON {
 	 * Merge new incoming data.
 	 *
 	 * @since 5.8.0
+	 * @since 5.9.0 Duotone preset also has origins.
 	 *
 	 * @param WP_Theme_JSON $incoming Data to merge.
 	 */
@@ -1098,14 +1374,14 @@ class WP_Theme_JSON {
 		$this->theme_json = array_replace_recursive( $this->theme_json, $incoming_data );
 
 		/*
-		 * The array_replace_recursive() algorithm merges at the leaf level.
+		 * The array_replace_recursive algorithm merges at the leaf level.
 		 * For leaf values that are arrays it will use the numeric indexes for replacement.
 		 * In those cases, we want to replace the existing with the incoming value, if it exists.
 		 */
 		$to_replace   = array();
 		$to_replace[] = array( 'spacing', 'units' );
-		$to_replace[] = array( 'color', 'duotone' );
 		foreach ( self::VALID_ORIGINS as $origin ) {
+			$to_replace[] = array( 'color', 'duotone', $origin );
 			$to_replace[] = array( 'color', 'palette', $origin );
 			$to_replace[] = array( 'color', 'gradients', $origin );
 			$to_replace[] = array( 'typography', 'fontSizes', $origin );
@@ -1122,6 +1398,164 @@ class WP_Theme_JSON {
 				}
 			}
 		}
+
+	}
+
+	/**
+	 * Removes insecure data from theme.json.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @param array $theme_json Structure to sanitize.
+	 * @return array Sanitized structure.
+	 */
+	public static function remove_insecure_properties( $theme_json ) {
+		$sanitized = array();
+
+		$theme_json = WP_Theme_JSON_Schema::migrate( $theme_json );
+
+		$valid_block_names   = array_keys( self::get_blocks_metadata() );
+		$valid_element_names = array_keys( self::ELEMENTS );
+		$theme_json          = self::sanitize( $theme_json, $valid_block_names, $valid_element_names );
+
+		$blocks_metadata = self::get_blocks_metadata();
+		$style_nodes     = self::get_style_nodes( $theme_json, $blocks_metadata );
+		foreach ( $style_nodes as $metadata ) {
+			$input = _wp_array_get( $theme_json, $metadata['path'], array() );
+			if ( empty( $input ) ) {
+				continue;
+			}
+
+			$output = self::remove_insecure_styles( $input );
+			if ( ! empty( $output ) ) {
+				_wp_array_set( $sanitized, $metadata['path'], $output );
+			}
+		}
+
+		$setting_nodes = self::get_setting_nodes( $theme_json );
+		foreach ( $setting_nodes as $metadata ) {
+			$input = _wp_array_get( $theme_json, $metadata['path'], array() );
+			if ( empty( $input ) ) {
+				continue;
+			}
+
+			$output = self::remove_insecure_settings( $input );
+			if ( ! empty( $output ) ) {
+				_wp_array_set( $sanitized, $metadata['path'], $output );
+			}
+		}
+
+		if ( empty( $sanitized['styles'] ) ) {
+			unset( $theme_json['styles'] );
+		} else {
+			$theme_json['styles'] = $sanitized['styles'];
+		}
+
+		if ( empty( $sanitized['settings'] ) ) {
+			unset( $theme_json['settings'] );
+		} else {
+			$theme_json['settings'] = $sanitized['settings'];
+		}
+
+		return $theme_json;
+	}
+
+	/**
+	 * Processes a setting node and returns the same node
+	 * without the insecure settings.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @param array $input Node to process.
+	 * @return array
+	 */
+	private static function remove_insecure_settings( $input ) {
+		$output = array();
+		foreach ( self::PRESETS_METADATA as $preset_metadata ) {
+			$presets = _wp_array_get( $input, $preset_metadata['path'], null );
+			if ( null === $presets ) {
+				continue;
+			}
+
+			$escaped_preset = array();
+			foreach ( $presets as $preset ) {
+				if (
+					esc_attr( esc_html( $preset['name'] ) ) === $preset['name'] &&
+					sanitize_html_class( $preset['slug'] ) === $preset['slug']
+				) {
+					$value = null;
+					if ( isset( $preset_metadata['value_key'] ) ) {
+						$value = $preset[ $preset_metadata['value_key'] ];
+					} elseif (
+						isset( $preset_metadata['value_func'] ) &&
+						is_callable( $preset_metadata['value_func'] )
+					) {
+						$value = call_user_func( $preset_metadata['value_func'], $preset );
+					}
+
+					$preset_is_valid = true;
+					foreach ( $preset_metadata['properties'] as $property ) {
+						if ( ! self::is_safe_css_declaration( $property, $value ) ) {
+							$preset_is_valid = false;
+							break;
+						}
+					}
+
+					if ( $preset_is_valid ) {
+						$escaped_preset[] = $preset;
+					}
+				}
+			}
+
+			if ( ! empty( $escaped_preset ) ) {
+				_wp_array_set( $output, $preset_metadata['path'], $escaped_preset );
+			}
+		}
+
+		return $output;
+	}
+
+	/**
+	 * Processes a style node and returns the same node
+	 * without the insecure styles.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @param array $input Node to process.
+	 * @return array
+	 */
+	private static function remove_insecure_styles( $input ) {
+		$output       = array();
+		$declarations = self::compute_style_properties( $input );
+
+		foreach ( $declarations as $declaration ) {
+			if ( self::is_safe_css_declaration( $declaration['name'], $declaration['value'] ) ) {
+				$path = self::PROPERTIES_METADATA[ $declaration['name'] ];
+
+				// Check the value isn't an array before adding so as to not
+				// double up shorthand and longhand styles.
+				$value = _wp_array_get( $input, $path, array() );
+				if ( ! is_array( $value ) ) {
+					_wp_array_set( $output, $path, $value );
+				}
+			}
+		}
+		return $output;
+	}
+
+	/**
+	 * Checks that a declaration provided by the user is safe.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @param string $property_name Property name in a CSS declaration, i.e. the `color` in `color: red`.
+	 * @param string $property_value Value in a CSS declaration, i.e. the `red` in `color: red`.
+	 * @return boolean
+	 */
+	private static function is_safe_css_declaration( $property_name, $property_value ) {
+		$style_to_validate = $property_name . ': ' . $property_value;
+		$filtered          = esc_html( safecss_filter_attr( $style_to_validate ) );
+		return ! empty( trim( $filtered ) );
 	}
 
 	/**
@@ -1176,7 +1610,7 @@ class WP_Theme_JSON {
 			if ( ! isset( $theme_settings['settings']['typography'] ) ) {
 				$theme_settings['settings']['typography'] = array();
 			}
-			$theme_settings['settings']['typography']['customLineHeight'] = $settings['enableCustomLineHeight'];
+			$theme_settings['settings']['typography']['lineHeight'] = $settings['enableCustomLineHeight'];
 		}
 
 		if ( isset( $settings['enableCustomUnits'] ) ) {
@@ -1220,7 +1654,7 @@ class WP_Theme_JSON {
 			if ( ! isset( $theme_settings['settings']['spacing'] ) ) {
 				$theme_settings['settings']['spacing'] = array();
 			}
-			$theme_settings['settings']['spacing']['customPadding'] = $settings['enableCustomSpacing'];
+			$theme_settings['settings']['spacing']['padding'] = $settings['enableCustomSpacing'];
 		}
 
 		return $theme_settings;

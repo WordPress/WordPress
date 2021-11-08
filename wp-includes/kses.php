@@ -2260,6 +2260,8 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 			'border-bottom-color',
 			'border-bottom-style',
 			'border-bottom-width',
+			'border-bottom-right-radius',
+			'border-bottom-left-radius',
 			'border-left',
 			'border-left-color',
 			'border-left-style',
@@ -2268,6 +2270,8 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 			'border-top-color',
 			'border-top-style',
 			'border-top-width',
+			'border-top-left-radius',
+			'border-top-right-radius',
 
 			'border-spacing',
 			'border-collapse',
@@ -2282,6 +2286,7 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 			'column-width',
 
 			'color',
+			'filter',
 			'font',
 			'font-family',
 			'font-size',

@@ -303,15 +303,15 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
 		$custom_settings
 	);
 
-	$theme_json = WP_Theme_JSON_Resolver::get_merged_data( $editor_settings );
+	$theme_json = WP_Theme_JSON_Resolver::get_merged_data();
 
 	if ( WP_Theme_JSON_Resolver::theme_has_support() ) {
 		$editor_settings['styles'][] = array(
-			'css'            => $theme_json->get_stylesheet( 'block_styles' ),
+			'css'            => $theme_json->get_stylesheet( array( 'styles', 'presets' ) ),
 			'__unstableType' => 'globalStyles',
 		);
 		$editor_settings['styles'][] = array(
-			'css'                     => $theme_json->get_stylesheet( 'css_variables' ),
+			'css'                     => $theme_json->get_stylesheet( array( 'variables' ) ),
 			'__experimentalNoWrapper' => true,
 			'__unstableType'          => 'globalStyles',
 		);
@@ -358,17 +358,17 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
 		$editor_settings['disableCustomFontSizes'] = ! $editor_settings['__experimentalFeatures']['typography']['customFontSize'];
 		unset( $editor_settings['__experimentalFeatures']['typography']['customFontSize'] );
 	}
-	if ( isset( $editor_settings['__experimentalFeatures']['typography']['customLineHeight'] ) ) {
-		$editor_settings['enableCustomLineHeight'] = $editor_settings['__experimentalFeatures']['typography']['customLineHeight'];
-		unset( $editor_settings['__experimentalFeatures']['typography']['customLineHeight'] );
+	if ( isset( $editor_settings['__experimentalFeatures']['typography']['lineHeight'] ) ) {
+		$editor_settings['enableCustomLineHeight'] = $editor_settings['__experimentalFeatures']['typography']['lineHeight'];
+		unset( $editor_settings['__experimentalFeatures']['typography']['lineHeight'] );
 	}
 	if ( isset( $editor_settings['__experimentalFeatures']['spacing']['units'] ) ) {
 		$editor_settings['enableCustomUnits'] = $editor_settings['__experimentalFeatures']['spacing']['units'];
 		unset( $editor_settings['__experimentalFeatures']['spacing']['units'] );
 	}
-	if ( isset( $editor_settings['__experimentalFeatures']['spacing']['customPadding'] ) ) {
-		$editor_settings['enableCustomSpacing'] = $editor_settings['__experimentalFeatures']['spacing']['customPadding'];
-		unset( $editor_settings['__experimentalFeatures']['spacing']['customPadding'] );
+	if ( isset( $editor_settings['__experimentalFeatures']['spacing']['padding'] ) ) {
+		$editor_settings['enableCustomSpacing'] = $editor_settings['__experimentalFeatures']['spacing']['padding'];
+		unset( $editor_settings['__experimentalFeatures']['spacing']['padding'] );
 	}
 
 	/**
