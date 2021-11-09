@@ -1046,7 +1046,7 @@ function wp_get_attachment_image( $attachment_id, $size = 'thumbnail', $icon = f
 
 		// Add `loading` attribute.
 		if ( wp_lazy_loading_enabled( 'img', 'wp_get_attachment_image' ) ) {
-			$default_attr['loading'] = 'lazy';
+			$default_attr['loading'] = wp_get_loading_attr_default( 'wp_get_attachment_image' );
 		}
 
 		$attr = wp_parse_args( $attr, $default_attr );
@@ -1820,39 +1820,45 @@ function wp_filter_content_tags( $content, $context = null ) {
 		_prime_post_caches( $attachment_ids, false, true );
 	}
 
-	foreach ( $images as $image => $attachment_id ) {
-		$filtered_image = $image;
+	// Iterate through the matches in order of occurrence as it is relevant for whether or not to lazy-load.
+	foreach ( $matches as $match ) {
+		// Filter an image match.
+		if ( isset( $images[ $match[0] ] ) ) {
+			$filtered_image = $match[0];
+			$attachment_id  = $images[ $match[0] ];
 
-		// Add 'width' and 'height' attributes if applicable.
-		if ( $attachment_id > 0 && false === strpos( $filtered_image, ' width=' ) && false === strpos( $filtered_image, ' height=' ) ) {
-			$filtered_image = wp_img_tag_add_width_and_height_attr( $filtered_image, $context, $attachment_id );
+			// Add 'width' and 'height' attributes if applicable.
+			if ( $attachment_id > 0 && false === strpos( $filtered_image, ' width=' ) && false === strpos( $filtered_image, ' height=' ) ) {
+				$filtered_image = wp_img_tag_add_width_and_height_attr( $filtered_image, $context, $attachment_id );
+			}
+
+			// Add 'srcset' and 'sizes' attributes if applicable.
+			if ( $attachment_id > 0 && false === strpos( $filtered_image, ' srcset=' ) ) {
+				$filtered_image = wp_img_tag_add_srcset_and_sizes_attr( $filtered_image, $context, $attachment_id );
+			}
+
+			// Add 'loading' attribute if applicable.
+			if ( $add_img_loading_attr && false === strpos( $filtered_image, ' loading=' ) ) {
+				$filtered_image = wp_img_tag_add_loading_attr( $filtered_image, $context );
+			}
+
+			if ( $filtered_image !== $match[0] ) {
+				$content = str_replace( $match[0], $filtered_image, $content );
+			}
 		}
 
-		// Add 'srcset' and 'sizes' attributes if applicable.
-		if ( $attachment_id > 0 && false === strpos( $filtered_image, ' srcset=' ) ) {
-			$filtered_image = wp_img_tag_add_srcset_and_sizes_attr( $filtered_image, $context, $attachment_id );
-		}
+		// Filter an iframe match.
+		if ( isset( $iframes[ $match[0] ] ) ) {
+			$filtered_iframe = $match[0];
 
-		// Add 'loading' attribute if applicable.
-		if ( $add_img_loading_attr && false === strpos( $filtered_image, ' loading=' ) ) {
-			$filtered_image = wp_img_tag_add_loading_attr( $filtered_image, $context );
-		}
+			// Add 'loading' attribute if applicable.
+			if ( $add_iframe_loading_attr && false === strpos( $filtered_iframe, ' loading=' ) ) {
+				$filtered_iframe = wp_iframe_tag_add_loading_attr( $filtered_iframe, $context );
+			}
 
-		if ( $filtered_image !== $image ) {
-			$content = str_replace( $image, $filtered_image, $content );
-		}
-	}
-
-	foreach ( $iframes as $iframe => $attachment_id ) {
-		$filtered_iframe = $iframe;
-
-		// Add 'loading' attribute if applicable.
-		if ( $add_iframe_loading_attr && false === strpos( $filtered_iframe, ' loading=' ) ) {
-			$filtered_iframe = wp_iframe_tag_add_loading_attr( $filtered_iframe, $context );
-		}
-
-		if ( $filtered_iframe !== $iframe ) {
-			$content = str_replace( $iframe, $filtered_iframe, $content );
+			if ( $filtered_iframe !== $match[0] ) {
+				$content = str_replace( $match[0], $filtered_iframe, $content );
+			}
 		}
 	}
 
@@ -1869,6 +1875,10 @@ function wp_filter_content_tags( $content, $context = null ) {
  * @return string Converted `img` tag with `loading` attribute added.
  */
 function wp_img_tag_add_loading_attr( $image, $context ) {
+	// Get loading attribute value to use. This must occur before the conditional check below so that even images that
+	// are ineligible for being lazy-loaded are considered.
+	$value = wp_get_loading_attr_default( $context );
+
 	// Images should have source and dimension attributes for the `loading` attribute to be added.
 	if ( false === strpos( $image, ' src="' ) || false === strpos( $image, ' width="' ) || false === strpos( $image, ' height="' ) ) {
 		return $image;
@@ -1883,11 +1893,11 @@ function wp_img_tag_add_loading_attr( $image, $context ) {
 	 * @since 5.5.0
 	 *
 	 * @param string|bool $value   The `loading` attribute value. Returning a falsey value will result in
-	 *                             the attribute being omitted for the image. Default 'lazy'.
+	 *                             the attribute being omitted for the image.
 	 * @param string      $image   The HTML `img` tag to be filtered.
 	 * @param string      $context Additional context about how the function was called or where the img tag is.
 	 */
-	$value = apply_filters( 'wp_img_tag_add_loading_attr', 'lazy', $image, $context );
+	$value = apply_filters( 'wp_img_tag_add_loading_attr', $value, $image, $context );
 
 	if ( $value ) {
 		if ( ! in_array( $value, array( 'lazy', 'eager' ), true ) ) {
@@ -1995,6 +2005,10 @@ function wp_iframe_tag_add_loading_attr( $iframe, $context ) {
 		return $iframe;
 	}
 
+	// Get loading attribute value to use. This must occur before the conditional check below so that even iframes that
+	// are ineligible for being lazy-loaded are considered.
+	$value = wp_get_loading_attr_default( $context );
+
 	// Iframes should have source and dimension attributes for the `loading` attribute to be added.
 	if ( false === strpos( $iframe, ' src="' ) || false === strpos( $iframe, ' width="' ) || false === strpos( $iframe, ' height="' ) ) {
 		return $iframe;
@@ -2009,11 +2023,11 @@ function wp_iframe_tag_add_loading_attr( $iframe, $context ) {
 	 * @since 5.7.0
 	 *
 	 * @param string|bool $value   The `loading` attribute value. Returning a falsey value will result in
-	 *                             the attribute being omitted for the iframe. Default 'lazy'.
+	 *                             the attribute being omitted for the iframe.
 	 * @param string      $iframe  The HTML `iframe` tag to be filtered.
 	 * @param string      $context Additional context about how the function was called or where the iframe tag is.
 	 */
-	$value = apply_filters( 'wp_iframe_tag_add_loading_attr', 'lazy', $iframe, $context );
+	$value = apply_filters( 'wp_iframe_tag_add_loading_attr', $value, $iframe, $context );
 
 	if ( $value ) {
 		if ( ! in_array( $value, array( 'lazy', 'eager' ), true ) ) {
@@ -5176,4 +5190,98 @@ function wp_get_webp_info( $filename ) {
 	}
 
 	return compact( 'width', 'height', 'type' );
+}
+
+/**
+ * Gets the default value to use for a `loading` attribute on an element.
+ *
+ * This function should only be called for a tag and context if lazy-loading is generally enabled.
+ *
+ * The function usually returns 'lazy', but uses certain heuristics to guess whether the current element is likely to
+ * appear above the fold, in which case it returns a boolean `false`, which will lead to the `loading` attribute being
+ * omitted on the element. The purpose of this refinement is to avoid lazy-loading elements that are within the initial
+ * viewport, which can have a negative performance impact.
+ *
+ * Under the hood, the function uses {@see wp_increase_content_media_count()} every time it is called for an element
+ * within the main content. If the element is the very first content element, the `loading` attribute will be omitted.
+ * This default threshold of 1 content element to omit the `loading` attribute for can be customized using the
+ * {@see 'wp_omit_loading_attr_threshold'} filter.
+ *
+ * @since 5.9.0
+ *
+ * @param string $context Context for the element for which the `loading` attribute value is requested.
+ * @return string|bool The default `loading` attribute value. Either 'lazy', 'eager', or a boolean `false`, to indicate
+ *                     that the `loading` attribute should be skipped.
+ */
+function wp_get_loading_attr_default( $context ) {
+	// Only elements with 'the_content' or 'the_post_thumbnail' context have special handling.
+	if ( 'the_content' !== $context && 'the_post_thumbnail' !== $context ) {
+		return 'lazy';
+	}
+
+	// Only elements within the main query loop have special handling.
+	if ( is_admin() || ! in_the_loop() || ! is_main_query() ) {
+		return 'lazy';
+	}
+
+	// Increase the counter since this is a main query content element.
+	$content_media_count = wp_increase_content_media_count();
+
+	// If the count so far is below the threshold, return `false` so that the `loading` attribute is omitted.
+	if ( $content_media_count <= wp_omit_loading_attr_threshold() ) {
+		return false;
+	}
+
+	// For elements after the threshold, lazy-load them as usual.
+	return 'lazy';
+}
+
+/**
+ * Gets the threshold for how many of the first content media elements to not lazy-load.
+ *
+ * This function runs the {@see 'wp_omit_loading_attr_threshold'} filter, which uses a default threshold value of 1.
+ * The filter is only run once per page load, unless the `$force` parameter is used.
+ *
+ * @since 5.9.0
+ *
+ * @param bool $force Optional. If set to true, the filter will be (re-)applied even if it already has been before.
+ *                    Default false.
+ * @return int The number of content media elements to not lazy-load.
+ */
+function wp_omit_loading_attr_threshold( $force = false ) {
+	static $omit_threshold;
+
+	// This function may be called multiple times. Run the filter only once per page load.
+	if ( ! isset( $omit_threshold ) || $force ) {
+		/**
+		 * Filters the threshold for how many of the first content media elements to not lazy-load.
+		 *
+		 * For these first content media elements, the `loading` attribute will be omitted. By default, this is the case
+		 * for only the very first content media element.
+		 *
+		 * @since 5.9.0
+		 *
+		 * @param int $omit_threshold The number of media elements where the `loading` attribute will not be added. Default 1.
+		 */
+		$omit_threshold = apply_filters( 'wp_omit_loading_attr_threshold', 1 );
+	}
+
+	return $omit_threshold;
+}
+
+/**
+ * Increases an internal content media count variable.
+ *
+ * @since 5.9.0
+ * @access private
+ *
+ * @param int $amount Optional. Amount to increase by. Default 1.
+ * @return int The latest content media count, after the increase.
+ */
+function wp_increase_content_media_count( $amount = 1 ) {
+	static $content_media_count = 0;
+
+	$content_media_count += $amount;
+
+	return $content_media_count;
 }
