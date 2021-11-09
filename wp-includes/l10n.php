@@ -1592,7 +1592,7 @@ function wp_dropdown_languages( $args = array() ) {
 	}
 
 	if ( $parsed_args['show_option_en_us'] ) {
-		$value = ( $parsed_args['explicit_option_en_us'] ) ? 'en_US' : '';
+		$value       = ( $parsed_args['explicit_option_en_us'] ) ? 'en_US' : '';
 		$structure[] = sprintf(
 			'<option value="%s" lang="en" data-installed="1"%s>English (United States)</option>',
 			esc_attr( $value ),
