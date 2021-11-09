@@ -1403,12 +1403,16 @@ class WP_REST_Server {
 			'endpoints' => array(),
 		);
 
+		$allow_batch = false;
+
 		if ( isset( $this->route_options[ $route ] ) ) {
 			$options = $this->route_options[ $route ];
 
 			if ( isset( $options['namespace'] ) ) {
 				$data['namespace'] = $options['namespace'];
 			}
+
+			$allow_batch = isset( $options['allow_batch'] ) ? $options['allow_batch'] : false;
 
 			if ( isset( $options['schema'] ) && 'help' === $context ) {
 				$data['schema'] = call_user_func( $options['schema'] );
@@ -1429,6 +1433,12 @@ class WP_REST_Server {
 			$endpoint_data   = array(
 				'methods' => array_keys( $callback['methods'] ),
 			);
+
+			$callback_batch = isset( $callback['allow_batch'] ) ? $callback['allow_batch'] : $allow_batch;
+
+			if ( $callback_batch ) {
+				$endpoint_data['allow_batch'] = $callback_batch;
+			}
 
 			if ( isset( $callback['args'] ) ) {
 				$endpoint_data['args'] = array();

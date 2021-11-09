@@ -17,6 +17,14 @@
 class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 
 	/**
+	 * Whether the controller supports batching.
+	 *
+	 * @since 5.9.0
+	 * @var false
+	 */
+	protected $allow_batch = false;
+
+	/**
 	 * Registers the routes for attachments.
 	 *
 	 * @since 5.3.0
