@@ -3995,6 +3995,7 @@ table.wp-calendar-table caption {
 	font-size: var(--branding--title--font-size);
 }
 
+.site-footer > .site-info .privacy-policy,
 .site-footer > .site-info .powered-by {
 	margin-top: calc(0.5 * var(--global--spacing-vertical));
 }
@@ -4005,9 +4006,18 @@ table.wp-calendar-table caption {
 		align-items: center;
 	}
 
+	.site-footer > .site-info .site-name {
+		margin-right: calc(0.5 * var(--global--spacing-vertical));
+	}
+
+	.site-footer > .site-info .privacy-policy,
 	.site-footer > .site-info .powered-by {
 		margin-top: initial;
 		margin-left: auto;
+	}
+
+	.site-footer > .site-info .privacy-policy + .powered-by {
+		margin-left: calc(0.5 * var(--global--spacing-vertical));
 	}
 }
 

@@ -5573,6 +5573,10 @@ table.wp-calendar-table caption {
 	font-size: 1.5rem;
 }
 
+.site-footer > .site-info .privacy-policy {
+	margin-top: 15px;
+}
+
 .site-footer > .site-info .powered-by {
 	margin-top: 15px;
 }
@@ -5583,9 +5587,18 @@ table.wp-calendar-table caption {
 		align-items: center;
 	}
 
+	.site-footer > .site-info .site-name {
+		margin-right: 15px;
+	}
+
+	.site-footer > .site-info .privacy-policy,
 	.site-footer > .site-info .powered-by {
 		margin-top: initial;
 		margin-left: auto;
+	}
+
+	.site-footer > .site-info .privacy-policy + .powered-by {
+		margin-left: 15px;
 	}
 }
 
