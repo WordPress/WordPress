@@ -345,6 +345,10 @@ function create_initial_rest_routes() {
 	// URL Details.
 	$controller = new WP_REST_URL_Details_Controller();
 	$controller->register_routes();
+
+	// Menu Locations.
+	$controller = new WP_REST_Menu_Locations_Controller();
+	$controller->register_routes();
 }
 
 /**

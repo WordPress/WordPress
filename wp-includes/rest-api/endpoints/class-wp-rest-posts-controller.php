@@ -1551,7 +1551,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 				continue;
 			}
 
-			foreach ( $request[ $base ] as $term_id ) {
+			foreach ( (array) $request[ $base ] as $term_id ) {
 				// Invalid terms will be rejected later.
 				if ( ! get_term( $term_id, $taxonomy->name ) ) {
 					continue;

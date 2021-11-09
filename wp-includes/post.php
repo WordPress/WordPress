@@ -126,16 +126,39 @@ function create_initial_post_types() {
 	register_post_type(
 		'nav_menu_item',
 		array(
-			'labels'           => array(
+			'labels'                => array(
 				'name'          => __( 'Navigation Menu Items' ),
 				'singular_name' => __( 'Navigation Menu Item' ),
 			),
-			'public'           => false,
-			'_builtin'         => true, /* internal use only. don't use this when registering your own post type. */
-			'hierarchical'     => false,
-			'rewrite'          => false,
-			'delete_with_user' => false,
-			'query_var'        => false,
+			'public'                => false,
+			'_builtin'              => true, /* internal use only. don't use this when registering your own post type. */
+			'hierarchical'          => false,
+			'rewrite'               => false,
+			'delete_with_user'      => false,
+			'query_var'             => false,
+			'map_meta_cap'          => true,
+			'capability_type'       => array( 'edit_theme_options', 'edit_theme_options' ),
+			'capabilities'          => array(
+				// Meta Capabilities.
+				'edit_post'              => 'edit_post',
+				'read_post'              => 'read_post',
+				'delete_post'            => 'delete_post',
+				// Primitive Capabilities.
+				'edit_posts'             => 'edit_theme_options',
+				'edit_others_posts'      => 'edit_theme_options',
+				'delete_posts'           => 'edit_theme_options',
+				'publish_posts'          => 'edit_theme_options',
+				'read_private_posts'     => 'edit_theme_options',
+				'read'                   => 'read',
+				'delete_private_posts'   => 'edit_theme_options',
+				'delete_published_posts' => 'edit_theme_options',
+				'delete_others_posts'    => 'edit_theme_options',
+				'edit_private_posts'     => 'edit_theme_options',
+				'edit_published_posts'   => 'edit_theme_options',
+			),
+			'show_in_rest'          => true,
+			'rest_base'             => 'menu-items',
+			'rest_controller_class' => 'WP_REST_Menu_Items_Controller',
 		)
 	);
 
