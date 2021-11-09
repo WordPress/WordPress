@@ -4470,7 +4470,7 @@ function wp_send_user_request( $request_id ) {
 
 A request has been made to perform the following action on your account:
 
-	 ###DESCRIPTION###
+     ###DESCRIPTION###
 
 To confirm this, please click on the following link:
 ###CONFIRM_URL###
