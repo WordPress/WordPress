@@ -1040,10 +1040,13 @@ switch ( $action ) {
 		 * Filters the registration redirect URL.
 		 *
 		 * @since 3.0.0
+		 * @since 5.9.0 Added the `$errors` parameter.
 		 *
-		 * @param string $registration_redirect The redirect destination URL.
+		 * @param string       $registration_redirect The redirect destination URL.
+		 * @param int|WP_Error $errors                User id if registration was successful,
+		 *                                            WP_Error object otherwise.
 		 */
-		$redirect_to = apply_filters( 'registration_redirect', $registration_redirect );
+		$redirect_to = apply_filters( 'registration_redirect', $registration_redirect, $errors );
 
 		login_header( __( 'Registration Form' ), '<p class="message register">' . __( 'Register For This Site' ) . '</p>', $errors );
 
