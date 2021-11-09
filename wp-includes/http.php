@@ -593,7 +593,7 @@ function wp_http_validate_url( $url ) {
 	 * @param string $url           Requested URL.
 	 */
 	$allowed_ports = apply_filters( 'http_allowed_safe_ports', array( 80, 443, 8080 ), $host, $url );
-	if ( in_array( $port, $allowed_ports, true ) ) {
+	if ( is_array( $allowed_ports ) && in_array( $port, $allowed_ports, true ) ) {
 		return $url;
 	}
 
