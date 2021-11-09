@@ -5047,6 +5047,7 @@ function wp_filter_object_list( $list, $args = array(), $operator = 'and', $fiel
  *
  * @since 3.1.0
  * @since 4.7.0 Uses `WP_List_Util` class.
+ * @since 5.9.0 Converted into a wrapper for `wp_filter_object_list()`.
  *
  * @param array  $list     An array of objects to filter.
  * @param array  $args     Optional. An array of key => value arguments to match
@@ -5058,13 +5059,7 @@ function wp_filter_object_list( $list, $args = array(), $operator = 'and', $fiel
  * @return array Array of found values.
  */
 function wp_list_filter( $list, $args = array(), $operator = 'AND' ) {
-	if ( ! is_array( $list ) ) {
-		return array();
-	}
-
-	$util = new WP_List_Util( $list );
-
-	return $util->filter( $args, $operator );
+	return wp_filter_object_list( $list, $args, $operator );
 }
 
 /**

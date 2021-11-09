@@ -102,7 +102,8 @@ class WP_List_Util {
 		$operator = strtoupper( $operator );
 
 		if ( ! in_array( $operator, array( 'AND', 'OR', 'NOT' ), true ) ) {
-			return array();
+			$this->output = array();
+			return $this->output;
 		}
 
 		$count    = count( $args );
