@@ -31,6 +31,14 @@ $parent_file = 'themes.php';
 $current_screen = get_current_screen();
 $current_screen->is_block_editor( true );
 
+// Default to is-fullscreen-mode to avoid jumps in the UI.
+add_filter(
+	'admin_body_class',
+	static function( $classes ) {
+		return "$classes is-fullscreen-mode";
+	}
+);
+
 $block_editor_context = new WP_Block_Editor_Context();
 
 $active_global_styles_id = WP_Theme_JSON_Resolver::get_user_custom_post_type_id();
