@@ -514,6 +514,10 @@ function send_origin_headers() {
  * @return string|false URL or false on failure.
  */
 function wp_http_validate_url( $url ) {
+	if ( ! is_string( $url ) || '' === $url || is_numeric( $url ) ) {
+		return false;
+	}
+
 	$original_url = $url;
 	$url          = wp_kses_bad_protocol( $url, array( 'http', 'https' ) );
 	if ( ! $url || strtolower( $url ) !== strtolower( $original_url ) ) {
@@ -534,15 +538,10 @@ function wp_http_validate_url( $url ) {
 	}
 
 	$parsed_home = parse_url( get_option( 'home' ) );
-
-	if ( isset( $parsed_home['host'] ) ) {
-		$same_host = strtolower( $parsed_home['host'] ) === strtolower( $parsed_url['host'] );
-	} else {
-		$same_host = false;
-	}
+	$same_host   = isset( $parsed_home['host'] ) && strtolower( $parsed_home['host'] ) === strtolower( $parsed_url['host'] );
+	$host        = trim( $parsed_url['host'], '.' );
 
 	if ( ! $same_host ) {
-		$host = trim( $parsed_url['host'], '.' );
 		if ( preg_match( '#^(([1-9]?\d|1\d\d|25[0-5]|2[0-4]\d)\.){3}([1-9]?\d|1\d\d|25[0-5]|2[0-4]\d)$#', $host ) ) {
 			$ip = $host;
 		} else {
@@ -581,7 +580,20 @@ function wp_http_validate_url( $url ) {
 	}
 
 	$port = $parsed_url['port'];
-	if ( 80 === $port || 443 === $port || 8080 === $port ) {
+
+	/**
+	 * Controls the list of ports considered safe in HTTP API.
+	 *
+	 * Allows to change and allow external requests for the HTTP request.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @param array  $allowed_ports Array of integers for valid ports.
+	 * @param string $host          Host name of the requested URL.
+	 * @param string $url           Requested URL.
+	 */
+	$allowed_ports = apply_filters( 'http_allowed_safe_ports', array( 80, 443, 8080 ), $host, $url );
+	if ( in_array( $port, $allowed_ports, true ) ) {
 		return $url;
 	}
 
