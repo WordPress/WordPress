@@ -5284,11 +5284,13 @@ function wp_transition_post_status( $new_status, $old_status, $post ) {
 	 * transitioned to a status, use the {@see 'transition_post_status'} hook instead.
 	 *
 	 * @since 2.3.0
+	 * @since 5.9.0 Added `$old_status` parameter.
 	 *
-	 * @param int     $post_id Post ID.
-	 * @param WP_Post $post    Post object.
+	 * @param int     $post_id    Post ID.
+	 * @param WP_Post $post       Post object.
+	 * @param string  $old_status Old post status.
 	 */
-	do_action( "{$new_status}_{$post->post_type}", $post->ID, $post );
+	do_action( "{$new_status}_{$post->post_type}", $post->ID, $post, $old_status );
 }
 
 /**
