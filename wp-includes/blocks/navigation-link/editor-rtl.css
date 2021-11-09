@@ -1,0 +1,163 @@
+/**
+ * Colors
+ */
+/**
+ * Breakpoints & Media Queries
+ */
+/**
+ * SCSS Variables.
+ *
+ * Please use variables from this sheet to ensure consistency across the UI.
+ * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
+ * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
+ */
+/**
+ * Colors
+ */
+/**
+ * Fonts & basic variables.
+ */
+/**
+ * Grid System.
+ * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
+ */
+/**
+ * Dimensions.
+ */
+/**
+ * Shadows.
+ */
+/**
+ * Editor widths.
+ */
+/**
+ * Block & Editor UI.
+ */
+/**
+ * Block paddings.
+ */
+/**
+ * React Native specific.
+ * These variables do not appear to be used anywhere else.
+ */
+/**
+*  Converts a hex value into the rgb equivalent.
+*
+* @param {string} hex - the hexadecimal value to convert
+* @return {string} comma separated rgb values
+*/
+/**
+ * Breakpoint mixins
+ */
+/**
+ * Long content fade mixin
+ *
+ * Creates a fading overlay to signify that the content is longer
+ * than the space allows.
+ */
+/**
+ * Focus styles.
+ */
+/**
+ * Applies editor left position to the selector passed as argument
+ */
+/**
+ * Styles that are reused verbatim in a few places
+ */
+/**
+ * Allows users to opt-out of animations via OS-level preferences.
+ */
+/**
+ * Reset default styles for JavaScript UI based pages.
+ * This is a WP-admin agnostic reset
+ */
+/**
+ * Reset the WP Admin page styles for Gutenberg-like pages.
+ */
+/**
+* Submenus.
+*/
+.wp-block-navigation .has-child {
+  cursor: pointer;
+}
+.wp-block-navigation .has-child .wp-block-navigation__submenu-container {
+  z-index: 28;
+}
+.wp-block-navigation .has-child:hover .wp-block-navigation__submenu-container {
+  z-index: 29;
+}
+.wp-block-navigation .has-child.is-selected > .wp-block-navigation__submenu-container, .wp-block-navigation .has-child.has-child-selected > .wp-block-navigation__submenu-container {
+  visibility: visible !important;
+  opacity: 1 !important;
+  min-width: 200px !important;
+  height: auto !important;
+  width: auto !important;
+}
+
+/**
+ * Navigation Items.
+ */
+.wp-block-navigation-item .wp-block-navigation-item__content {
+  cursor: text;
+}
+.wp-block-navigation-item.is-editing, .wp-block-navigation-item.is-selected {
+  min-width: 20px;
+}
+.wp-block-navigation-item .block-list-appender {
+  margin-top: 16px;
+  margin-left: auto;
+  margin-bottom: 16px;
+  margin-right: 16px;
+}
+
+/**
+ * Menu item setup state. Is shown when a menu item has no URL configured.
+ */
+.wp-block-navigation-link__placeholder {
+  position: relative;
+  text-decoration: none !important;
+  box-shadow: none !important;
+  background-image: none !important;
+}
+.wp-block-navigation-link__placeholder .wp-block-navigation-link__placeholder-text span {
+  --wp-underline-color: var(--wp-admin-theme-color);
+  background-image: linear-gradient(-45deg, transparent 20%, var(--wp-underline-color) 30%, var(--wp-underline-color) 36%, transparent 46%), linear-gradient(-135deg, transparent 54%, var(--wp-underline-color) 64%, var(--wp-underline-color) 70%, transparent 80%);
+  background-position: 100% 100%;
+  background-size: 6px 3px;
+  background-repeat: repeat-x;
+  padding-bottom: 0.1em;
+}
+.is-dark-theme .wp-block-navigation-link__placeholder .wp-block-navigation-link__placeholder-text span {
+  --wp-underline-color: #fff;
+}
+.wp-block-navigation-link__placeholder.wp-block-navigation-item__content {
+  cursor: pointer;
+}
+
+/**
+* Link Control Transforms
+*/
+.link-control-transform {
+  border-top: 1px solid #ccc;
+  padding: 0 16px 8px 16px;
+}
+
+.link-control-transform__subheading {
+  font-size: 11px;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: #1e1e1e;
+  margin-bottom: 1.5em;
+}
+
+.link-control-transform__items {
+  display: flex;
+  justify-content: space-between;
+}
+
+.link-control-transform__item {
+  flex-basis: 33%;
+  flex-direction: column;
+  gap: 8px;
+  height: auto;
+}

@@ -1,0 +1,27 @@
+{
+	"apiVersion": 2,
+	"name": "core/navigation-area",
+	"title": "Navigation Area",
+	"category": "theme",
+	"description": "Define a navigation area for your theme. The navigation block associated with this area will be automatically displayed.",
+	"keywords": [
+		"menu",
+		"navigation",
+		"links",
+		"location"
+	],
+	"textdomain": "default",
+	"attributes": {
+		"area": {
+			"type": "string",
+			"default": "primary"
+		}
+	},
+	"providesContext": {
+		"navigationArea": "area"
+	},
+	"supports": {
+		"html": false,
+		"inserter": true
+	}
+}

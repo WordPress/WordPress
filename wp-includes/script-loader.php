@@ -103,8 +103,8 @@ function wp_default_packages_vendor( $scripts ) {
 	);
 
 	$vendor_scripts_versions = array(
-		'react'                       => '16.13.1',
-		'react-dom'                   => '16.13.1',
+		'react'                       => '17.0.1',
+		'react-dom'                   => '17.0.1',
 		'regenerator-runtime'         => '0.13.7',
 		'moment'                      => '2.29.1',
 		'lodash'                      => '4.17.19',
@@ -1598,6 +1598,11 @@ function wp_default_styles( $styles ) {
 			'wp-block-library',
 			'wp-reusable-blocks',
 		),
+		'edit-site'            => array(
+			'wp-components',
+			'wp-block-editor',
+			'wp-edit-blocks',
+		),
 	);
 
 	foreach ( $package_styles as $package => $dependencies ) {
@@ -1655,6 +1660,7 @@ function wp_default_styles( $styles ) {
 		'wp-components',
 		'wp-customize-widgets',
 		'wp-edit-post',
+		'wp-edit-site',
 		'wp-edit-widgets',
 		'wp-editor',
 		'wp-format-library',
@@ -2265,7 +2271,19 @@ function wp_common_block_scripts_and_styles() {
 	wp_enqueue_style( 'wp-block-library' );
 
 	if ( current_theme_supports( 'wp-block-styles' ) ) {
-		wp_enqueue_style( 'wp-block-library-theme' );
+		if ( wp_should_load_separate_core_block_assets() ) {
+			$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? 'css' : 'min.css';
+			$files  = glob( __DIR__ . "/blocks/**/theme.$suffix" );
+			foreach ( $files as $path ) {
+				$block_name = basename( dirname( $path ) );
+				if ( is_rtl() && file_exists( __DIR__ . "/blocks/$block_name/theme-rtl.$suffix" ) ) {
+					$path = __DIR__ . "/blocks/$block_name/theme-rtl.$suffix";
+				}
+				wp_add_inline_style( "wp-block-{$block_name}", file_get_contents( $path ) );
+			}
+		} else {
+			wp_enqueue_style( 'wp-block-library-theme' );
+		}
 	}
 
 	/**
@@ -2773,6 +2791,8 @@ function _wp_normalize_relative_css_links( $css, $stylesheet_url ) {
  * @since 5.8.0
  */
 function wp_add_iframed_editor_assets_html() {
+	global $pagenow;
+
 	if ( ! wp_should_load_block_editor_scripts_and_styles() ) {
 		return;
 	}
@@ -2784,6 +2804,11 @@ function wp_add_iframed_editor_assets_html() {
 		'wp-block-library-theme',
 		'wp-edit-blocks',
 	);
+
+	if ( 'widgets.php' === $pagenow || 'customize.php' === $pagenow ) {
+		$style_handles[] = 'wp-widgets';
+		$style_handles[] = 'wp-edit-widgets';
+	}
 
 	$block_registry = WP_Block_Type_Registry::get_instance();
 
@@ -2806,7 +2831,8 @@ function wp_add_iframed_editor_assets_html() {
 
 	ob_start();
 
-	wp_styles()->done = array();
+	// We do not need reset styles for the iframed editor.
+	wp_styles()->done = array( 'wp-reset-editor-styles' );
 	wp_styles()->do_items( $style_handles );
 	wp_styles()->done = $done;
 

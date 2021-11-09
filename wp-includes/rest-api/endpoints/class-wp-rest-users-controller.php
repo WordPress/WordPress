@@ -311,6 +311,12 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 			$prepared_args['has_published_posts'] = get_post_types( array( 'show_in_rest' => true ), 'names' );
 		}
 
+		if ( ! empty( $request['has_published_posts'] ) ) {
+			$prepared_args['has_published_posts'] = ( true === $request['has_published_posts'] )
+				? get_post_types( array( 'show_in_rest' => true ), 'names' )
+				: (array) $request['has_published_posts'];
+		}
+
 		if ( ! empty( $prepared_args['search'] ) ) {
 			$prepared_args['search'] = '*' . $prepared_args['search'] . '*';
 		}
@@ -1577,6 +1583,15 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 			'type'        => 'string',
 			'enum'        => array(
 				'authors',
+			),
+		);
+
+		$query_params['has_published_posts'] = array(
+			'description' => __( 'Limit result set to users who have published posts.' ),
+			'type'        => array( 'boolean', 'array' ),
+			'items'       => array(
+				'type' => 'string',
+				'enum' => get_post_types( array( 'show_in_rest' => true ), 'names' ),
 			),
 		);
 

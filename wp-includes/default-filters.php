@@ -581,6 +581,7 @@ add_action( 'wp_footer', 'wp_maybe_inline_styles', 1 ); // Run for late-loaded s
 
 add_action( 'admin_footer-post.php', 'wp_add_iframed_editor_assets_html' );
 add_action( 'admin_footer-post-new.php', 'wp_add_iframed_editor_assets_html' );
+add_action( 'admin_footer-widgets.php', 'wp_add_iframed_editor_assets_html' );
 
 // Taxonomy.
 add_action( 'init', 'create_initial_taxonomies', 0 ); // Highest priority.

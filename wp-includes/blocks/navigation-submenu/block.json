@@ -1,0 +1,65 @@
+{
+	"apiVersion": 2,
+	"name": "core/navigation-submenu",
+	"title": "Submenu",
+	"category": "design",
+	"parent": [
+		"core/navigation"
+	],
+	"description": "Add a submenu to your navigation.",
+	"textdomain": "default",
+	"attributes": {
+		"label": {
+			"type": "string"
+		},
+		"type": {
+			"type": "string"
+		},
+		"description": {
+			"type": "string"
+		},
+		"rel": {
+			"type": "string"
+		},
+		"id": {
+			"type": "number"
+		},
+		"opensInNewTab": {
+			"type": "boolean",
+			"default": false
+		},
+		"url": {
+			"type": "string"
+		},
+		"title": {
+			"type": "string"
+		},
+		"kind": {
+			"type": "string"
+		},
+		"isTopLevelItem": {
+			"type": "boolean"
+		}
+	},
+	"usesContext": [
+		"textColor",
+		"customTextColor",
+		"backgroundColor",
+		"customBackgroundColor",
+		"overlayTextColor",
+		"customOverlayTextColor",
+		"overlayBackgroundColor",
+		"customOverlayBackgroundColor",
+		"fontSize",
+		"customFontSize",
+		"showSubmenuIcon",
+		"openSubmenusOnClick",
+		"style"
+	],
+	"supports": {
+		"reusable": false,
+		"html": false
+	},
+	"editorStyle": "wp-block-navigation-submenu-editor",
+	"style": "wp-block-navigation-submenu"
+}

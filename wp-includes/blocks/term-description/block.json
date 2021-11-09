@@ -1,0 +1,28 @@
+{
+	"apiVersion": 2,
+	"name": "core/term-description",
+	"title": "Term Description",
+	"category": "theme",
+	"description": "Display the description of categories, tags and custom taxonomies when viewing an archive.",
+	"textdomain": "default",
+	"attributes": {
+		"textAlign": {
+			"type": "string"
+		}
+	},
+	"supports": {
+		"align": [ "wide", "full" ],
+		"html": false,
+		"color": {
+			"link": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true
+			}
+		}
+	},
+	"editorStyle": "wp-block-term-description-editor"
+}

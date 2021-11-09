@@ -1,0 +1,34 @@
+{
+	"apiVersion": 2,
+	"name": "core/post-comments",
+	"title": "Post Comments",
+	"category": "theme",
+	"description": "Display a post's comments.",
+	"textdomain": "default",
+	"attributes": {
+		"textAlign": {
+			"type": "string"
+		}
+	},
+	"usesContext": [ "postId", "postType" ],
+	"supports": {
+		"html": false,
+		"align": [ "wide", "full" ],
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalFontWeight": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalTextTransform": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true
+			}
+		},
+		"color": {
+			"gradients": true,
+			"link": true
+		}
+	},
+	"style": "wp-block-post-comments"
+}

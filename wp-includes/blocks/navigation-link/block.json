@@ -1,0 +1,65 @@
+{
+	"apiVersion": 2,
+	"name": "core/navigation-link",
+	"title": "Custom Link",
+	"category": "design",
+	"parent": [
+		"core/navigation"
+	],
+	"description": "Add a page, link, or another item to your navigation.",
+	"textdomain": "default",
+	"attributes": {
+		"label": {
+			"type": "string"
+		},
+		"type": {
+			"type": "string"
+		},
+		"description": {
+			"type": "string"
+		},
+		"rel": {
+			"type": "string"
+		},
+		"id": {
+			"type": "number"
+		},
+		"opensInNewTab": {
+			"type": "boolean",
+			"default": false
+		},
+		"url": {
+			"type": "string"
+		},
+		"title": {
+			"type": "string"
+		},
+		"kind": {
+			"type": "string"
+		},
+		"isTopLevelLink": {
+			"type": "boolean"
+		}
+	},
+	"usesContext": [
+		"textColor",
+		"customTextColor",
+		"backgroundColor",
+		"customBackgroundColor",
+		"overlayTextColor",
+		"customOverlayTextColor",
+		"overlayBackgroundColor",
+		"customOverlayBackgroundColor",
+		"fontSize",
+		"customFontSize",
+		"showSubmenuIcon",
+		"style"
+	],
+	"supports": {
+		"reusable": false,
+		"html": false,
+		"__experimentalSlashInserter": true
+	},
+	"editorStyle": "wp-block-navigation-link-editor",
+	"style": "wp-block-navigation-link"
+}
