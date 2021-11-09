@@ -436,7 +436,8 @@ function block_editor_rest_api_preload( array $preload_paths, $block_editor_cont
 	 *
 	 * @since 5.8.0
 	 *
-	 * @param string[] $preload_paths Array of paths to preload.
+	 * @param string[]                $preload_paths        Array of paths to preload.
+	 * @param WP_Block_Editor_Context $block_editor_context The current block editor context.
 	 */
 	$preload_paths = apply_filters( 'block_editor_rest_api_preload_paths', $preload_paths, $block_editor_context );
 	if ( ! empty( $block_editor_context->post ) ) {
