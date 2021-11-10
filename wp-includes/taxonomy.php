@@ -646,12 +646,16 @@ function get_taxonomy_labels( $tax ) {
 
 	$nohier_vs_hier_defaults = array(
 		'name'                       => array( _x( 'Tags', 'taxonomy general name' ), _x( 'Categories', 'taxonomy general name' ) ),
+		'name_description'           => array( __( 'The name is how it appears on your site.' ), __( 'The name is how it appears on your site.' ) ),
 		'singular_name'              => array( _x( 'Tag', 'taxonomy singular name' ), _x( 'Category', 'taxonomy singular name' ) ),
 		'search_items'               => array( __( 'Search Tags' ), __( 'Search Categories' ) ),
 		'popular_items'              => array( __( 'Popular Tags' ), null ),
 		'all_items'                  => array( __( 'All Tags' ), __( 'All Categories' ) ),
 		'parent_item'                => array( null, __( 'Parent Category' ) ),
 		'parent_item_colon'          => array( null, __( 'Parent Category:' ) ),
+		'parent_description'         => array( null, __( 'Assign a parent term to create a hierarchy. The term Jazz, for example, would be the parent of Bebop and Big Band.' ) ),
+		'slug_description'           => array( __( 'The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.' ), __( 'The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.' ) ),
+		'description_description'    => array( __( 'The description is not prominent by default; however, some themes may show it.' ), __( 'The description is not prominent by default; however, some themes may show it.' ) ),
 		'edit_item'                  => array( __( 'Edit Tag' ), __( 'Edit Category' ) ),
 		'view_item'                  => array( __( 'View Tag' ), __( 'View Category' ) ),
 		'update_item'                => array( __( 'Update Tag' ), __( 'Update Category' ) ),
