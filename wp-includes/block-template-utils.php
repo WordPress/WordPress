@@ -600,7 +600,7 @@ function get_block_templates( $query = array(), $template_type = 'wp_template' )
 		$wp_query_args['post_name__in'] = $query['slug__in'];
 	}
 
-	// This is only needed for the regular templates/template parts CPT listing and editor.
+	// This is only needed for the regular templates/template parts post type listing and editor.
 	if ( isset( $query['wp_id'] ) ) {
 		$wp_query_args['p'] = $query['wp_id'];
 	} else {

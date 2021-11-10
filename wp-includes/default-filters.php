@@ -662,7 +662,7 @@ add_filter( 'user_has_cap', 'wp_maybe_grant_install_languages_cap', 1 );
 add_filter( 'user_has_cap', 'wp_maybe_grant_resume_extensions_caps', 1 );
 add_filter( 'user_has_cap', 'wp_maybe_grant_site_health_caps', 1, 4 );
 
-// Block Templates CPT and Rendering
+// Block Templates post type and Rendering
 add_filter( 'render_block_context', '_block_template_render_without_post_block_context' );
 add_filter( 'pre_wp_unique_post_slug', 'wp_filter_wp_template_unique_post_slug', 10, 5 );
 add_action( 'save_post_wp_template_part', 'wp_set_unique_slug_on_create_template_part' );

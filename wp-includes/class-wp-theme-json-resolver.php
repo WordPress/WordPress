@@ -190,16 +190,16 @@ class WP_Theme_JSON_Resolver {
 	}
 
 	/**
-	 * Returns the CPT that contains the user's origin config
-	 * for the current theme or a void array if none found.
+	 * Returns the custom post type that contains the user's origin config
+	 * for the current theme or a void array if none are found.
 	 *
-	 * It can also create and return a new draft CPT.
+	 * This can also create and return a new draft custom post type.
 	 *
 	 * @since 5.9.0
 	 *
-	 * @param bool  $should_create_cpt  Optional. Whether a new CPT should be created if no one was found.
+	 * @param bool  $should_create_cpt  Optional. Whether a new custom post type should be created if none are found.
 	 *                                  False by default.
-	 * @param array $post_status_filter Filter Optional. CPT by post status.
+	 * @param array $post_status_filter Filter Optional. custom post type by post status.
 	 *                                   ['publish'] by default, so it only fetches published posts.
 	 *
 	 * @return array Custom Post Type for the user's origin config.
