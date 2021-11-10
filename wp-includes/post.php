@@ -450,7 +450,7 @@ function create_initial_post_types() {
 		'wp_global_styles',
 		array(
 			'label'        => __( 'Global Styles' ),
-			'description'  => 'CPT to store user design tokens',
+			'description'  => __( 'CPT to store user design tokens' ),
 			'public'       => false,
 			'_builtin'     => true, /* internal use only. don't use this when registering your own post type. */
 			'show_ui'      => false,
