@@ -991,6 +991,36 @@ function walkToBoundary(formats, initialIndex, targetFormatRef, formatIndex, dir
 const walkToStart = Object(external_lodash_["partialRight"])(walkToBoundary, 'backwards');
 const walkToEnd = Object(external_lodash_["partialRight"])(walkToBoundary, 'forwards');
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/format-library/build-module/link/use-link-instance-key.js
+// Weakly referenced map allows unused ids to be garbage collected.
+const weakMap = new WeakMap(); // Incrementing zero-based ID value
+
+let use_link_instance_key_id = -1;
+const prefix = 'link-control-instance';
+
+function getKey(_id) {
+  return `${prefix}-${_id}`;
+}
+/**
+ * Builds a unique link control key for the given object reference.
+ *
+ * @param {Object} instance an unique object reference specific to this link control instance.
+ * @return {string} the unique key to use for this link control.
+ */
+
+
+function useLinkInstanceKey(instance) {
+  if (weakMap.has(instance)) {
+    return getKey(weakMap.get(instance));
+  }
+
+  use_link_instance_key_id += 1;
+  weakMap.set(instance, use_link_instance_key_id);
+  return getKey(use_link_instance_key_id);
+}
+
+/* harmony default export */ var use_link_instance_key = (useLinkInstanceKey);
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/format-library/build-module/link/inline.js
 
 
@@ -1007,6 +1037,7 @@ const walkToEnd = Object(external_lodash_["partialRight"])(walkToBoundary, 'forw
 /**
  * Internal dependencies
  */
+
 
 
 
@@ -1150,7 +1181,12 @@ function InlineLinkUI({
     ref: contentRef,
     value,
     settings: link_link
-  }); // The focusOnMount prop shouldn't evolve during render of a Popover
+  }); // Generate a string based key that is unique to this anchor reference.
+  // This is used to force re-mount the LinkControl component to avoid
+  // potential stale state bugs caused by the component not being remounted
+  // See https://github.com/WordPress/gutenberg/pull/34742.
+
+  const forceRemountKey = use_link_instance_key(anchorRef); // The focusOnMount prop shouldn't evolve during render of a Popover
   // otherwise it causes a render of the content.
 
   const focusOnMount = Object(external_wp_element_["useRef"])(addingLink ? 'firstElement' : false);
@@ -1183,6 +1219,7 @@ function InlineLinkUI({
     onClose: stopAddingLink,
     position: "bottom center"
   }, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["__experimentalLinkControl"], {
+    key: forceRemountKey,
     value: linkValue,
     onChange: onChangeLink,
     onRemove: removeLink,

@@ -4039,17 +4039,20 @@ const migrateWithLayout = attributes => {
 
   const {
     contentJustification,
-    orientation
+    orientation,
+    ...updatedAttributes
   } = attributes;
-  const updatedAttributes = { ...attributes
-  };
 
   if (contentJustification || orientation) {
     Object.assign(updatedAttributes, {
       layout: {
         type: 'flex',
-        justifyContent: contentJustification || 'left',
-        orientation: orientation || 'horizontal'
+        ...(contentJustification && {
+          justifyContent: contentJustification
+        }),
+        ...(orientation && {
+          orientation
+        })
       }
     });
   }
@@ -4080,8 +4083,9 @@ const buttons_deprecated_deprecated = [{
     }
   },
   isEligible: ({
-    layout
-  }) => !layout,
+    contentJustification,
+    orientation
+  }) => !!contentJustification || !!orientation,
   migrate: migrateWithLayout,
 
   save({
@@ -4251,10 +4255,7 @@ function ButtonsEdit({
     __experimentalLayout: layout,
     templateInsertUpdatesSelection: true
   });
-  return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockControls"], {
-    group: "block",
-    __experimentalShareWithChildBlocks: true
-  }), Object(external_wp_element_["createElement"])("div", innerBlocksProps));
+  return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])("div", innerBlocksProps));
 }
 
 /* harmony default export */ var buttons_edit = (ButtonsEdit);
@@ -5545,7 +5546,7 @@ const column_metadata = {
       type: "array"
     },
     templateLock: {
-      type: "string",
+      type: ["string", "boolean"],
       "enum": ["all", "insert", false]
     }
   },
@@ -8298,7 +8299,7 @@ const cover_metadata = {
       type: "array"
     },
     templateLock: {
-      type: "string",
+      type: ["string", "boolean"],
       "enum": ["all", "insert", false]
     }
   },
@@ -11765,7 +11766,7 @@ var build_module = __webpack_require__("U60i");
 
 
 
-function useMobileWarning() {
+function useMobileWarning(newImages) {
   const {
     createWarningNotice
   } = Object(external_wp_data_["useDispatch"])(external_wp_notices_["store"]);
@@ -11779,7 +11780,7 @@ function useMobileWarning() {
     return isFeatureActive('core/edit-post', 'mobileGalleryWarning');
   }, []);
 
-  if (!isMobileWarningActive) {
+  if (!isMobileWarningActive || !newImages) {
     return;
   }
 
@@ -11869,7 +11870,6 @@ function GalleryEdit(props) {
     shortCodeTransforms,
     sizeSlug
   } = attributes;
-  useMobileWarning();
   const {
     __unstableMarkNextChangeAsNotPersistent,
     replaceInnerBlocks,
@@ -11907,6 +11907,7 @@ function GalleryEdit(props) {
   })), [innerBlockImages]);
   const imageData = useGetMedia(innerBlockImages);
   const newImages = useGetNewImages(images, imageData);
+  useMobileWarning(newImages);
   Object(external_wp_element_["useEffect"])(() => {
     newImages === null || newImages === void 0 ? void 0 : newImages.forEach(newImage => {
       updateBlockAttributes(newImage.clientId, { ...buildImageAttributes(false, newImage.attributes),
@@ -14208,7 +14209,7 @@ const group_metadata = {
       "default": "div"
     },
     templateLock: {
-      type: "string",
+      type: ["string", "boolean"],
       "enum": ["all", "insert", false]
     }
   },
@@ -20643,7 +20644,7 @@ const ExistingMenusDropdown = ({
   }, ({
     onClose
   }) => Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(external_wp_components_["MenuGroup"], {
-    label: "Menus"
+    label: Object(external_wp_i18n_["__"])('Menus')
   }, canSwitchNavigationMenu && navigationMenus.map(menu => {
     return Object(external_wp_element_["createElement"])(external_wp_components_["MenuItem"], {
       onClick: () => {
@@ -20654,7 +20655,7 @@ const ExistingMenusDropdown = ({
       key: menu.id
     }, menu.title.rendered);
   })), Object(external_wp_element_["createElement"])(external_wp_components_["MenuGroup"], {
-    label: "Classic Menus"
+    label: Object(external_wp_i18n_["__"])('Classic Menus')
   }, menus.map(menu => {
     return Object(external_wp_element_["createElement"])(external_wp_components_["MenuItem"], {
       onClick: () => {
@@ -20852,8 +20853,7 @@ function ResponsiveWrapper({
     height: "1.5"
   }))), Object(external_wp_element_["createElement"])("div", {
     className: responsiveContainerClasses,
-    id: modalId,
-    "aria-hidden": !isOpen
+    id: modalId
   }, Object(external_wp_element_["createElement"])("div", {
     className: "wp-block-navigation__responsive-close",
     tabIndex: "-1"
@@ -22275,7 +22275,8 @@ const navigation_metadata = {
       allowSwitching: false,
       allowInheriting: false,
       "default": {
-        type: "flex"
+        type: "flex",
+        setCascadingProperties: true
       }
     }
   },

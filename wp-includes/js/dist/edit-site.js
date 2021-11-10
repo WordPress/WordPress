@@ -390,7 +390,7 @@ var external_lodash_ = __webpack_require__("YLtl");
 const {
   Fill: ToolsMoreMenuGroup,
   Slot
-} = Object(external_wp_components_["createSlotFill"])('ToolsMoreMenuGroup');
+} = Object(external_wp_components_["createSlotFill"])('EditSiteToolsMoreMenuGroup');
 
 ToolsMoreMenuGroup.Slot = ({
   fillProps

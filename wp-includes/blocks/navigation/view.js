@@ -581,37 +581,39 @@ function toggleSubmenuOnClick(event) {
 
     buttonToggle.setAttribute('aria-expanded', 'true');
   }
-}
-
-const submenuButtons = document.querySelectorAll('.wp-block-navigation-submenu__toggle');
-submenuButtons.forEach(function (button) {
-  button.addEventListener('click', toggleSubmenuOnClick);
-}); // Close on click outside.
-
-document.addEventListener('click', function (event) {
-  const navigationBlocks = document.querySelectorAll('.wp-block-navigation');
-  navigationBlocks.forEach(function (block) {
-    if (!block.contains(event.target)) {
-      closeSubmenus(block);
-    }
-  });
-}); // Close on focus outside.
-
-document.addEventListener('keyup', function (event) {
-  const submenuBlocks = document.querySelectorAll('.wp-block-navigation-item.has-child');
-  submenuBlocks.forEach(function (block) {
-    if (!block.contains(event.target)) {
-      closeSubmenus(block);
-    }
-  });
-}); // Necessary for some themes such as TT1 Blocks, where
+} // Necessary for some themes such as TT1 Blocks, where
 // scripts could be loaded before the body.
 
-window.onload = () => micromodal_es.init({
-  onShow: navigationToggleModal,
-  onClose: navigationToggleModal,
-  openClass: 'is-menu-open'
-});
+
+window.onload = () => {
+  micromodal_es.init({
+    onShow: navigationToggleModal,
+    onClose: navigationToggleModal,
+    openClass: 'is-menu-open'
+  });
+  const submenuButtons = document.querySelectorAll('.wp-block-navigation-submenu__toggle');
+  submenuButtons.forEach(function (button) {
+    button.addEventListener('click', toggleSubmenuOnClick);
+  }); // Close on click outside.
+
+  document.addEventListener('click', function (event) {
+    const navigationBlocks = document.querySelectorAll('.wp-block-navigation');
+    navigationBlocks.forEach(function (block) {
+      if (!block.contains(event.target)) {
+        closeSubmenus(block);
+      }
+    });
+  }); // Close on focus outside.
+
+  document.addEventListener('keyup', function (event) {
+    const submenuBlocks = document.querySelectorAll('.wp-block-navigation-item.has-child');
+    submenuBlocks.forEach(function (block) {
+      if (!block.contains(event.target)) {
+        closeSubmenus(block);
+      }
+    });
+  });
+};
 
 
 /***/ })

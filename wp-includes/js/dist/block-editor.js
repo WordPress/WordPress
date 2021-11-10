@@ -25433,26 +25433,46 @@ const flexWrapOptions = ['wrap', 'nowrap'];
     layout
   }) {
     const {
-      orientation = 'horizontal'
+      orientation = 'horizontal',
+      setCascadingProperties = false
     } = layout;
     const blockGapSupport = Object(use_setting["a" /* default */])('spacing.blockGap');
     const hasBlockGapStylesSupport = blockGapSupport !== null;
     const justifyContent = justifyContentMap[layout.justifyContent] || justifyContentMap.left;
-    const flexWrap = flexWrapOptions.includes(layout.flexWrap) ? layout.flexWrap : 'wrap'; // --justification-setting allows children to inherit the value
-    // regardless or row or column direction.
-
-    const rowOrientation = `
+    const flexWrap = flexWrapOptions.includes(layout.flexWrap) ? layout.flexWrap : 'wrap';
+    let rowOrientation = `
 		flex-direction: row;
 		align-items: center;
 		justify-content: ${justifyContent};
-		--justification-setting: ${justifyContent};
 		`;
+
+    if (setCascadingProperties) {
+      // --layout-justification-setting allows children to inherit the value
+      // regardless or row or column direction.
+      rowOrientation += `
+			--layout-justification-setting: ${justifyContent};
+			--layout-direction: row;
+			--layout-wrap: ${flexWrap};
+			--layout-justify: ${justifyContent};
+			--layout-align: center;
+			`;
+    }
+
     const alignItems = alignItemsMap[layout.justifyContent] || alignItemsMap.left;
-    const columnOrientation = `
+    let columnOrientation = `
 		flex-direction: column;
 		align-items: ${alignItems};
-		--justification-setting: ${alignItems};
 		`;
+
+    if (setCascadingProperties) {
+      columnOrientation += `
+			--layout-justification-setting: ${alignItems};
+			--layout-direction: column;
+			--layout-justify: initial;
+			--layout-align: ${alignItems};
+			`;
+    }
+
     return Object(external_wp_element_["createElement"])("style", null, `
 				${appendSelectors(selector)} {
 					display: flex;

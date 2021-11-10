@@ -86,117 +86,6 @@ function block_core_navigation_build_css_font_sizes( $attributes ) {
 }
 
 /**
- * Returns the menu items for a WordPress menu location.
- *
- * @param string $location The menu location.
- * @return array Menu items for the location.
- */
-function gutenberg_get_menu_items_at_location( $location ) {
-	if ( empty( $location ) ) {
-		return;
-	}
-
-	// Build menu data. The following approximates the code in
-	// `wp_nav_menu()` and `gutenberg_output_block_nav_menu`.
-
-	// Find the location in the list of locations, returning early if the
-	// location can't be found.
-	$locations = get_nav_menu_locations();
-	if ( ! isset( $locations[ $location ] ) ) {
-		return;
-	}
-
-	// Get the menu from the location, returning early if there is no
-	// menu or there was an error.
-	$menu = wp_get_nav_menu_object( $locations[ $location ] );
-	if ( ! $menu || is_wp_error( $menu ) ) {
-		return;
-	}
-
-	$menu_items = wp_get_nav_menu_items( $menu->term_id, array( 'update_post_term_cache' => false ) );
-	_wp_menu_item_classes_by_context( $menu_items );
-
-	return $menu_items;
-}
-
-/**
- * Sorts a standard array of menu items into a nested structure keyed by the
- * id of the parent menu.
- *
- * @param array $menu_items Menu items to sort.
- * @return array An array keyed by the id of the parent menu where each element
- *               is an array of menu items that belong to that parent.
- */
-function gutenberg_sort_menu_items_by_parent_id( $menu_items ) {
-	$sorted_menu_items = array();
-	foreach ( (array) $menu_items as $menu_item ) {
-		$sorted_menu_items[ $menu_item->menu_order ] = $menu_item;
-	}
-	unset( $menu_items, $menu_item );
-
-	$menu_items_by_parent_id = array();
-	foreach ( $sorted_menu_items as $menu_item ) {
-		$menu_items_by_parent_id[ $menu_item->menu_item_parent ][] = $menu_item;
-	}
-
-	return $menu_items_by_parent_id;
-}
-
-/**
- * Turns menu item data into a nested array of parsed blocks
- *
- * @param array $menu_items               An array of menu items that represent
- *                                        an individual level of a menu.
- * @param array $menu_items_by_parent_id  An array keyed by the id of the
- *                                        parent menu where each element is an
- *                                        array of menu items that belong to
- *                                        that parent.
- * @return array An array of parsed block data.
- */
-function gutenberg_parse_blocks_from_menu_items( $menu_items, $menu_items_by_parent_id ) {
-	if ( empty( $menu_items ) ) {
-		return array();
-	}
-
-	$blocks = array();
-
-	foreach ( $menu_items as $menu_item ) {
-		$class_name       = ! empty( $menu_item->classes ) ? implode( ' ', (array) $menu_item->classes ) : null;
-		$id               = ( null !== $menu_item->object_id && 'custom' !== $menu_item->object ) ? $menu_item->object_id : null;
-		$opens_in_new_tab = null !== $menu_item->target && '_blank' === $menu_item->target;
-		$rel              = ( null !== $menu_item->xfn && '' !== $menu_item->xfn ) ? $menu_item->xfn : null;
-		$kind             = null !== $menu_item->type ? str_replace( '_', '-', $menu_item->type ) : 'custom';
-
-		$block = array(
-			'blockName' => 'core/navigation-link',
-			'attrs'     => array(
-				'className'     => $class_name,
-				'description'   => $menu_item->description,
-				'id'            => $id,
-				'kind'          => $kind,
-				'label'         => $menu_item->title,
-				'opensInNewTab' => $opens_in_new_tab,
-				'rel'           => $rel,
-				'title'         => $menu_item->attr_title,
-				'type'          => $menu_item->object,
-				'url'           => $menu_item->url,
-			),
-		);
-
-		$block['innerBlocks'] = gutenberg_parse_blocks_from_menu_items(
-			isset( $menu_items_by_parent_id[ $menu_item->ID ] )
-					? $menu_items_by_parent_id[ $menu_item->ID ]
-					: array(),
-			$menu_items_by_parent_id
-		);
-
-		$blocks[] = $block;
-	}
-
-	return $blocks;
-}
-
-/**
  * Returns the top-level submenu SVG chevron icon.
  *
  * @return string
@@ -354,7 +243,7 @@ function render_block_core_navigation( $attributes, $content, $block ) {
 
 	$responsive_container_markup = sprintf(
 		'<button aria-expanded="false" aria-haspopup="true" aria-label="%3$s" class="%6$s" data-micromodal-trigger="modal-%1$s"><svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-hidden="true" focusable="false"><rect x="4" y="7.5" width="16" height="1.5" /><rect x="4" y="15" width="16" height="1.5" /></svg></button>
-			<div class="%5$s" id="modal-%1$s" aria-hidden="true">
+			<div class="%5$s" id="modal-%1$s">
 				<div class="wp-block-navigation__responsive-close" tabindex="-1" data-micromodal-close>
 					<div class="wp-block-navigation__responsive-dialog" role="dialog" aria-modal="true" aria-labelledby="modal-%1$s-title" >
 							<button aria-label="%4$s" data-micromodal-close class="wp-block-navigation__responsive-container-close"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" role="img" aria-hidden="true" focusable="false"><path d="M13 11.8l6.1-6.3-1-1-6.1 6.2-6.1-6.2-1 1 6.1 6.3-6.5 6.7 1 1 6.5-6.6 6.5 6.6 1-1z"></path></svg></button>
