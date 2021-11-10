@@ -50,7 +50,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 						_n(
 							'<strong>Version %1$s</strong> addressed a security issue and fixed %2$s bug.',
 							'<strong>Version %1$s</strong> addressed a security issue and fixed %2$s bugs.',
-							60
+							2
 						),
 						'5.8.2',
 						number_format_i18n( 2 )
