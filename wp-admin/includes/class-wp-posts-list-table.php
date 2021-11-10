@@ -1636,7 +1636,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 							<label>
 								<span class="title"><?php _e( 'Slug' ); ?></span>
-								<span class="input-text-wrap"><input type="text" name="post_name" value="" /></span>
+								<span class="input-text-wrap"><input type="text" name="post_name" value="" autocomplete="off" spellcheck="false" /></span>
 							</label>
 
 						<?php endif; // is_post_type_viewable() ?>
