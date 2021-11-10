@@ -1330,7 +1330,7 @@ function get_terms( $args = array(), $deprecated = '' ) {
 	 * @since 4.6.0 Added the `$term_query` parameter.
 	 *
 	 * @param array         $terms      Array of found terms.
-	 * @param array         $taxonomies An array of taxonomies.
+	 * @param array|null    $taxonomies An array of taxonomies if known.
 	 * @param array         $args       An array of get_terms() arguments.
 	 * @param WP_Term_Query $term_query The WP_Term_Query object.
 	 */
