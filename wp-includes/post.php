@@ -452,6 +452,7 @@ function create_initial_post_types() {
 			'label'        => __( 'Global Styles' ),
 			'description'  => 'CPT to store user design tokens',
 			'public'       => false,
+			'_builtin'     => true, /* internal use only. don't use this when registering your own post type. */
 			'show_ui'      => false,
 			'show_in_rest' => false,
 			'rewrite'      => false,
