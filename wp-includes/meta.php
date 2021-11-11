@@ -110,7 +110,7 @@ function add_metadata( $meta_type, $object_id, $meta_key, $meta_value, $unique =
 	 *
 	 * @param int    $object_id   ID of the object metadata is for.
 	 * @param string $meta_key    Metadata key.
-	 * @param mixed  $_meta_value Metadata value. Serialized if non-scalar.
+	 * @param mixed  $_meta_value Metadata value.
 	 */
 	do_action( "add_{$meta_type}_meta", $object_id, $meta_key, $_meta_value );
 
@@ -149,7 +149,7 @@ function add_metadata( $meta_type, $object_id, $meta_key, $meta_value, $unique =
 	 * @param int    $mid         The meta ID after successful update.
 	 * @param int    $object_id   ID of the object metadata is for.
 	 * @param string $meta_key    Metadata key.
-	 * @param mixed  $_meta_value Metadata value. Serialized if non-scalar.
+	 * @param mixed  $_meta_value Metadata value.
 	 */
 	do_action( "added_{$meta_type}_meta", $mid, $object_id, $meta_key, $_meta_value );
 
@@ -283,7 +283,7 @@ function update_metadata( $meta_type, $object_id, $meta_key, $meta_value, $prev_
 		 * @param int    $meta_id     ID of the metadata entry to update.
 		 * @param int    $object_id   ID of the object metadata is for.
 		 * @param string $meta_key    Metadata key.
-		 * @param mixed  $_meta_value Metadata value. Serialized if non-scalar.
+		 * @param mixed  $_meta_value Metadata value.
 		 */
 		do_action( "update_{$meta_type}_meta", $meta_id, $object_id, $meta_key, $_meta_value );
 
@@ -329,7 +329,7 @@ function update_metadata( $meta_type, $object_id, $meta_key, $meta_value, $prev_
 		 * @param int    $meta_id     ID of updated metadata entry.
 		 * @param int    $object_id   ID of the object metadata is for.
 		 * @param string $meta_key    Metadata key.
-		 * @param mixed  $_meta_value Metadata value. Serialized if non-scalar.
+		 * @param mixed  $_meta_value Metadata value.
 		 */
 		do_action( "updated_{$meta_type}_meta", $meta_id, $object_id, $meta_key, $_meta_value );
 
@@ -471,7 +471,7 @@ function delete_metadata( $meta_type, $object_id, $meta_key, $meta_value = '', $
 	 * @param string[] $meta_ids    An array of metadata entry IDs to delete.
 	 * @param int      $object_id   ID of the object metadata is for.
 	 * @param string   $meta_key    Metadata key.
-	 * @param mixed    $_meta_value Metadata value. Serialized if non-scalar.
+	 * @param mixed    $_meta_value Metadata value.
 	 */
 	do_action( "delete_{$meta_type}_meta", $meta_ids, $object_id, $meta_key, $_meta_value );
 
@@ -521,7 +521,7 @@ function delete_metadata( $meta_type, $object_id, $meta_key, $meta_value = '', $
 	 * @param string[] $meta_ids    An array of metadata entry IDs to delete.
 	 * @param int      $object_id   ID of the object metadata is for.
 	 * @param string   $meta_key    Metadata key.
-	 * @param mixed    $_meta_value Metadata value. Serialized if non-scalar.
+	 * @param mixed    $_meta_value Metadata value.
 	 */
 	do_action( "deleted_{$meta_type}_meta", $meta_ids, $object_id, $meta_key, $_meta_value );
 
