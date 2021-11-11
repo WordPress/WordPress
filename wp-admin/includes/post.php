@@ -640,7 +640,9 @@ function bulk_edit_posts( $post_data = null ) {
 		// Prevent wp_insert_post() from overwriting post format with the old data.
 		unset( $post_data['tax_input']['post_format'] );
 
-		$updated[] = wp_update_post( $post_data );
+		$post_id = wp_update_post( $post_data );
+		update_post_meta( $post_id, '_edit_last', get_current_user_id() );
+		$updated[] = $post_id;
 
 		if ( isset( $post_data['sticky'] ) && current_user_can( $ptype->cap->edit_others_posts ) ) {
 			if ( 'sticky' === $post_data['sticky'] ) {
