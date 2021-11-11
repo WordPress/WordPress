@@ -20645,7 +20645,7 @@ const ExistingMenusDropdown = ({
     onClose
   }) => Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(external_wp_components_["MenuGroup"], {
     label: Object(external_wp_i18n_["__"])('Menus')
-  }, canSwitchNavigationMenu && navigationMenus.map(menu => {
+  }, canSwitchNavigationMenu && (navigationMenus === null || navigationMenus === void 0 ? void 0 : navigationMenus.map(menu => {
     return Object(external_wp_element_["createElement"])(external_wp_components_["MenuItem"], {
       onClick: () => {
         setSelectedMenu(menu.id);
@@ -20654,9 +20654,9 @@ const ExistingMenusDropdown = ({
       onClose: onClose,
       key: menu.id
     }, menu.title.rendered);
-  })), Object(external_wp_element_["createElement"])(external_wp_components_["MenuGroup"], {
+  }))), Object(external_wp_element_["createElement"])(external_wp_components_["MenuGroup"], {
     label: Object(external_wp_i18n_["__"])('Classic Menus')
-  }, menus.map(menu => {
+  }, menus === null || menus === void 0 ? void 0 : menus.map(menu => {
     return Object(external_wp_element_["createElement"])(external_wp_components_["MenuItem"], {
       onClick: () => {
         setSelectedMenu(menu.id);

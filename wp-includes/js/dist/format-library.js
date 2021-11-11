@@ -1010,6 +1010,10 @@ function getKey(_id) {
 
 
 function useLinkInstanceKey(instance) {
+  if (!instance) {
+    return;
+  }
+
   if (weakMap.has(instance)) {
     return getKey(weakMap.get(instance));
   }

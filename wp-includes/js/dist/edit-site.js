@@ -2285,6 +2285,38 @@ function TemplateDetails({
   Object(external_wp_i18n_["__"])('Browse all %s'), templateSubMenu.title)));
 }
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/main-dashboard-button/index.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+const slotName = '__experimentalMainDashboardButton';
+const {
+  Fill,
+  Slot: MainDashboardButtonSlot
+} = Object(external_wp_components_["createSlotFill"])(slotName);
+const MainDashboardButton = Fill;
+
+const main_dashboard_button_Slot = ({
+  children
+}) => {
+  const slot = Object(external_wp_components_["__experimentalUseSlot"])(slotName);
+  const hasFills = Boolean(slot.fills && slot.fills.length);
+
+  if (!hasFills) {
+    return children;
+  }
+
+  return Object(external_wp_element_["createElement"])(MainDashboardButtonSlot, {
+    bubblesVirtually: true
+  });
+};
+
+MainDashboardButton.Slot = main_dashboard_button_Slot;
+/* harmony default export */ var main_dashboard_button = (MainDashboardButton);
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/header/index.js
 
 
@@ -2305,6 +2337,7 @@ function TemplateDetails({
 /**
  * Internal dependencies
  */
+
 
 
 
@@ -2387,7 +2420,7 @@ function Header({
     className: "edit-site-header"
   }, Object(external_wp_element_["createElement"])("div", {
     className: "edit-site-header_start"
-  }, Object(external_wp_element_["createElement"])(navigation_link, null), Object(external_wp_element_["createElement"])("div", {
+  }, Object(external_wp_element_["createElement"])(main_dashboard_button.Slot, null, Object(external_wp_element_["createElement"])(navigation_link, null)), Object(external_wp_element_["createElement"])("div", {
     className: "edit-site-header__toolbar"
   }, Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
     ref: inserterButton,
@@ -6309,38 +6342,6 @@ function Editor({
 }
 
 /* harmony default export */ var editor = (Editor);
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/main-dashboard-button/index.js
-
-
-/**
- * WordPress dependencies
- */
-
-const slotName = '__experimentalMainDashboardButton';
-const {
-  Fill,
-  Slot: MainDashboardButtonSlot
-} = Object(external_wp_components_["createSlotFill"])(slotName);
-const MainDashboardButton = Fill;
-
-const main_dashboard_button_Slot = ({
-  children
-}) => {
-  const slot = Object(external_wp_components_["__experimentalUseSlot"])(slotName);
-  const hasFills = Boolean(slot.fills && slot.fills.length);
-
-  if (!hasFills) {
-    return children;
-  }
-
-  return Object(external_wp_element_["createElement"])(MainDashboardButtonSlot, {
-    bubblesVirtually: true
-  });
-};
-
-MainDashboardButton.Slot = main_dashboard_button_Slot;
-/* harmony default export */ var main_dashboard_button = (MainDashboardButton);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/navigation-sidebar/navigation-toggle/index.js
 

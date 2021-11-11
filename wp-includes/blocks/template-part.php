@@ -55,7 +55,10 @@ function render_block_core_template_part( $attributes ) {
 			// render the corresponding file content.
 			$template_part_file_path = get_theme_file_path( '/block-template-parts/' . $attributes['slug'] . '.html' );
 			if ( 0 === validate_file( $attributes['slug'] ) && file_exists( $template_part_file_path ) ) {
-				$content = _inject_theme_attribute_in_block_template_content( file_get_contents( $template_part_file_path ) );
+				$content = file_get_contents( $template_part_file_path );
+				$content = is_string( $content ) && '' !== $content
+						? _inject_theme_attribute_in_block_template_content( $content )
+						: '';
 			}
 		}
 	}

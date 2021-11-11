@@ -82,6 +82,7 @@
   max-width: 100%;
   vertical-align: bottom;
 }
+.wp-block-image:not(.is-style-rounded) > a,
 .wp-block-image:not(.is-style-rounded) img {
   border-radius: inherit;
 }

@@ -92,6 +92,7 @@
   min-width: 200px !important;
   height: auto !important;
   width: auto !important;
+  overflow: visible !important;
 }
 
 /**

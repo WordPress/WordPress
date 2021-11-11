@@ -220,7 +220,11 @@ add_filter( 'render_block', 'wp_render_layout_support_flag', 10, 2 );
  * @return string Filtered block content.
  */
 function wp_restore_group_inner_container( $block_content, $block ) {
-	$group_with_inner_container_regex = '/(^\s*<div\b[^>]*wp-block-group(\s|")[^>]*>)(\s*<div\b[^>]*wp-block-group__inner-container(\s|")[^>]*>)((.|\S|\s)*)/';
+	$tag_name                         = isset( $block['attrs']['tagName'] ) ? $block['attrs']['tagName'] : 'div';
+	$group_with_inner_container_regex = sprintf(
+		'/(^\s*<%1$s\b[^>]*wp-block-group(\s|")[^>]*>)(\s*<div\b[^>]*wp-block-group__inner-container(\s|")[^>]*>)((.|\S|\s)*)/',
+		preg_quote( $tag_name, '/' )
+	);
 
 	if (
 		'core/group' !== $block['blockName'] ||
@@ -231,7 +235,10 @@ function wp_restore_group_inner_container( $block_content, $block ) {
 		return $block_content;
 	}
 
-	$replace_regex   = '/(^\s*<div\b[^>]*wp-block-group[^>]*>)(.*)(<\/div>\s*$)/ms';
+	$replace_regex   = sprintf(
+		'/(^\s*<%1$s\b[^>]*wp-block-group[^>]*>)(.*)(<\/%1$s>\s*$)/ms',
+		preg_quote( $tag_name, '/' )
+	);
 	$updated_content = preg_replace_callback(
 		$replace_regex,
 		static function( $matches ) {

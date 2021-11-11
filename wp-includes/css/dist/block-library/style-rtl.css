@@ -1159,6 +1159,7 @@ h6.has-background {
   max-width: 100%;
   vertical-align: bottom;
 }
+.wp-block-image:not(.is-style-rounded) > a,
 .wp-block-image:not(.is-style-rounded) img {
   border-radius: inherit;
 }
@@ -1550,13 +1551,13 @@ ul.has-background {
   visibility: hidden;
   width: 0;
   height: 0;
+  overflow: hidden;
   right: -1px;
   top: 100%;
 }
 .wp-block-navigation .has-child :where(.wp-block-navigation__submenu-container) > .wp-block-navigation-item > .wp-block-navigation-item__content {
   display: flex;
   flex-grow: 1;
-  white-space: nowrap;
 }
 .wp-block-navigation .has-child :where(.wp-block-navigation__submenu-container) > .wp-block-navigation-item > .wp-block-navigation-item__content .wp-block-navigation__submenu-icon {
   margin-left: 0;
@@ -1585,6 +1586,7 @@ ul.has-background {
 }
 .wp-block-navigation .has-child:where(:not(.open-on-click)):hover > .wp-block-navigation__submenu-container {
   visibility: visible;
+  overflow: visible;
   opacity: 1;
   width: auto;
   height: auto;
@@ -1592,6 +1594,7 @@ ul.has-background {
 }
 .wp-block-navigation .has-child:where(:not(.open-on-click):not(.open-on-hover-click)):focus-within > .wp-block-navigation__submenu-container {
   visibility: visible;
+  overflow: visible;
   opacity: 1;
   width: auto;
   height: auto;
@@ -1599,6 +1602,7 @@ ul.has-background {
 }
 .wp-block-navigation .has-child .wp-block-navigation-submenu__toggle[aria-expanded=true] + .wp-block-navigation__submenu-container {
   visibility: visible;
+  overflow: visible;
   opacity: 1;
   width: auto;
   height: auto;
@@ -1851,6 +1855,7 @@ button.wp-block-navigation-item__content {
   color: currentColor;
   font-size: inherit;
   font-family: inherit;
+  line-height: inherit;
   text-align: right;
 }
 

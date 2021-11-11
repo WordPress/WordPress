@@ -98,6 +98,7 @@
 .wp-block-navigation__container.is-parent-of-selected-block {
   visibility: visible;
   opacity: 1;
+  overflow: visible;
 }
 
 .wp-block-navigation__container,

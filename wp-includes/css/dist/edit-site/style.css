@@ -1326,32 +1326,41 @@ html.wp-toolbar {
   background: #fff;
 }
 
-body.appearance_page_gutenberg-edit-site {
+body.appearance_page_gutenberg-edit-site,
+body.site-editor-php {
   background: #fff;
   /* We hide legacy notices in Gutenberg Based Pages, because they were not designed in a way that scaled well.
      Plugins can use Gutenberg notices if they need to pass on information to the user when they are editing. */
 }
-body.appearance_page_gutenberg-edit-site #wpcontent {
+body.appearance_page_gutenberg-edit-site #wpcontent,
+body.site-editor-php #wpcontent {
   padding-left: 0;
 }
-body.appearance_page_gutenberg-edit-site #wpbody-content {
+body.appearance_page_gutenberg-edit-site #wpbody-content,
+body.site-editor-php #wpbody-content {
   padding-bottom: 0;
 }
-body.appearance_page_gutenberg-edit-site #wpbody-content > div:not(.edit-site):not(#screen-meta) {
+body.appearance_page_gutenberg-edit-site #wpbody-content > div:not(.edit-site):not(#screen-meta),
+body.site-editor-php #wpbody-content > div:not(.edit-site):not(#screen-meta) {
   display: none;
 }
-body.appearance_page_gutenberg-edit-site #wpfooter {
+body.appearance_page_gutenberg-edit-site #wpfooter,
+body.site-editor-php #wpfooter {
   display: none;
 }
-body.appearance_page_gutenberg-edit-site .a11y-speak-region {
+body.appearance_page_gutenberg-edit-site .a11y-speak-region,
+body.site-editor-php .a11y-speak-region {
   left: -1px;
   top: -1px;
 }
 body.appearance_page_gutenberg-edit-site ul#adminmenu a.wp-has-current-submenu::after,
-body.appearance_page_gutenberg-edit-site ul#adminmenu > li.current > a.current::after {
+body.appearance_page_gutenberg-edit-site ul#adminmenu > li.current > a.current::after,
+body.site-editor-php ul#adminmenu a.wp-has-current-submenu::after,
+body.site-editor-php ul#adminmenu > li.current > a.current::after {
   border-right-color: #fff;
 }
-body.appearance_page_gutenberg-edit-site .media-frame select.attachment-filters:last-of-type {
+body.appearance_page_gutenberg-edit-site .media-frame select.attachment-filters:last-of-type,
+body.site-editor-php .media-frame select.attachment-filters:last-of-type {
   width: auto;
   max-width: 100%;
 }

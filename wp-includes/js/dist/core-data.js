@@ -1925,7 +1925,7 @@ const defaultEntities = [{
 }, {
   name: 'menu',
   kind: 'root',
-  baseURL: '/__experimental/menus',
+  baseURL: '/wp/v2/menus',
   baseURLParams: {
     context: 'edit'
   },
@@ -1934,7 +1934,7 @@ const defaultEntities = [{
 }, {
   name: 'menuItem',
   kind: 'root',
-  baseURL: '/__experimental/menu-items',
+  baseURL: '/wp/v2/menu-items',
   baseURLParams: {
     context: 'edit'
   },
@@ -1944,7 +1944,7 @@ const defaultEntities = [{
 }, {
   name: 'menuLocation',
   kind: 'root',
-  baseURL: '/__experimental/menu-locations',
+  baseURL: '/wp/v2/menu-locations',
   baseURLParams: {
     context: 'edit'
   },
@@ -1954,7 +1954,7 @@ const defaultEntities = [{
 }, {
   name: 'navigationArea',
   kind: 'root',
-  baseURL: '/__experimental/block-navigation-areas',
+  baseURL: '/wp/v2/block-navigation-areas',
   baseURLParams: {
     context: 'edit'
   },
@@ -4124,6 +4124,7 @@ const resolvers_getEntityRecord = (kind, name, key = '', query) => async ({
     dispatch.receiveEntityRecords(kind, name, record, query);
   } catch (error) {// We need a way to handle and access REST API errors in state
     // Until then, catching the error ensures the resolver is marked as resolved.
+    // See similar implementation in `getEntityRecords()`.
   } finally {
     dispatch.__unstableReleaseStoreLock(lock);
   }
@@ -4214,6 +4215,9 @@ const resolvers_getEntityRecords = (kind, name, query = {}) => async ({
         args: resolutionsArgs
       });
     }
+  } catch (error) {// We need a way to handle and access REST API errors in state
+    // Until then, catching the error ensures the resolver is marked as resolved.
+    // See similar implementation in `getEntityRecord()`.
   } finally {
     dispatch.__unstableReleaseStoreLock(lock);
   }
