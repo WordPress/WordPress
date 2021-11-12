@@ -2447,3 +2447,63 @@ function the_block_editor_meta_box_post_form_hidden_fields( $post ) {
 	 */
 	do_action( 'block_editor_meta_box_hidden_fields', $post );
 }
+
+/**
+ * Disable block editor for wp_navigation type posts so they can be managed via the UI.
+ *
+ * @since 5.9.0
+ * @access private
+ *
+ * @param bool   $value Whether the CPT supports block editor or not.
+ * @param string $post_type Post type.
+ *
+ * @return bool
+ */
+function _disable_block_editor_for_navigation_post_type( $value, $post_type ) {
+	if ( 'wp_navigation' === $post_type ) {
+		return false;
+	}
+
+	return $value;
+}
+
+/**
+ * This callback disables the content editor for wp_navigation type posts.
+ * Content editor cannot handle wp_navigation type posts correctly.
+ * We cannot disable the "editor" feature in the wp_navigation's CPT definition
+ * because it disables the ability to save navigation blocks via REST API.
+ *
+ * @since 5.9.0
+ * @access private
+ *
+ * @param WP_Post $post An instance of WP_Post class.
+ */
+function _disable_content_editor_for_navigation_post_type( $post ) {
+	$post_type = get_post_type( $post );
+	if ( 'wp_navigation' !== $post_type ) {
+		return;
+	}
+
+	remove_post_type_support( $post_type, 'editor' );
+}
+
+/**
+ * This callback enables content editor for wp_navigation type posts.
+ * We need to enable it back because we disable it to hide
+ * the content editor for wp_navigation type posts.
+ *
+ * @since 5.9.0
+ * @access private
+ *
+ * @see _disable_content_editor_for_navigation_post_type
+ *
+ * @param WP_Post $post An instance of WP_Post class.
+ */
+function _enable_content_editor_for_navigation_post_type( $post ) {
+	$post_type = get_post_type( $post );
+	if ( 'wp_navigation' !== $post_type ) {
+		return;
+	}
+
+	add_post_type_support( $post_type, 'editor' );
+}
