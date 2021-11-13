@@ -2232,14 +2232,20 @@ a.comment-reply-link > span {
 	resize: vertical;
 	width: 95%;
 }
-#respond .comment-form-author .required,
-#respond .comment-form-email .required {
+#respond .comment-form label .required,
+#respond .comment-form .comment-notes .required,
+#respond .comment-form .logged-in-as .required {
 	color: #bd3500;
 	font-size: 22px;
 	font-weight: bold;
-	left: 75%;
-	position: absolute;
-	z-index: 1;
+}
+#respond .comment-form label .required {
+	float: right;
+	margin-left: 4px;
+}
+#respond .comment-form .comment-notes .required,
+#respond .comment-form .logged-in-as .required {
+	vertical-align: middle;
 }
 #respond .comment-notes,
 #respond .logged-in-as {

@@ -444,10 +444,10 @@ section.recent-posts .other-recent-posts .comments-link > span {
 	-moz-box-shadow: -1px 2px 2px rgba(204,204,204,0.8);
 	box-shadow: -1px 2px 2px rgba(204,204,204,0.8);
 }
-#respond .comment-form-author .required,
-#respond .comment-form-email .required {
-	left: auto;
-	right: 75%;
+#respond .comment-form label .required {
+	float: left;
+	margin-left: 0;
+	margin-right: 4px;
 }
 #respond .form-submit {
 	float: left;
