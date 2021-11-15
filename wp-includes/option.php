@@ -66,15 +66,16 @@
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param string $option  Name of the option to retrieve. Expected to not be SQL-escaped.
- * @param mixed  $default Optional. Default value to return if the option does not exist.
+ * @param string  $option  Name of the option to retrieve. Expected to not be SQL-escaped.
+ * @param mixed   $default Optional. Default value to return if the option does not exist.
+ * @param boolean $use_db  Optional. Whether or not to use the database if the option isn't auto-loaded.
  * @return mixed Value of the option. A value of any type may be returned, including
  *               scalar (string, boolean, float, integer), null, array, object.
  *               Scalar and null values will be returned as strings as long as they originate
  *               from a database stored option value. If there is no option in the database,
  *               boolean `false` is returned.
  */
-function get_option( $option, $default = false ) {
+function get_option( $option, $default = false, $use_db = true ) {
 	global $wpdb;
 
 	if ( is_scalar( $option ) ) {
@@ -170,7 +171,7 @@ function get_option( $option, $default = false ) {
 		} else {
 			$value = wp_cache_get( $option, 'options' );
 
-			if ( false === $value ) {
+			if ( false === $value && $use_db ) {
 				$row = $wpdb->get_row( $wpdb->prepare( "SELECT option_value FROM $wpdb->options WHERE option_name = %s LIMIT 1", $option ) );
 
 				// Has to be get_row() instead of get_var() because of funkiness with 0, false, null values.
@@ -190,7 +191,7 @@ function get_option( $option, $default = false ) {
 				}
 			}
 		}
-	} else {
+	} elseif ( $use_db ) {
 		$suppress = $wpdb->suppress_errors();
 		$row      = $wpdb->get_row( $wpdb->prepare( "SELECT option_value FROM $wpdb->options WHERE option_name = %s LIMIT 1", $option ) );
 		$wpdb->suppress_errors( $suppress );
@@ -201,6 +202,9 @@ function get_option( $option, $default = false ) {
 			/** This filter is documented in wp-includes/option.php */
 			return apply_filters( "default_option_{$option}", $default, $option, $passed_default );
 		}
+	} else {
+		/** This filter is documented in wp-includes/option.php */
+		return apply_filters( "default_option_{$option}", $default, $option, $passed_default );
 	}
 
 	// If home is not set, use siteurl.
