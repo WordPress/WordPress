@@ -582,6 +582,7 @@ add_action( 'wp_footer', 'wp_maybe_inline_styles', 1 ); // Run for late-loaded s
 add_action( 'admin_footer-post.php', 'wp_add_iframed_editor_assets_html' );
 add_action( 'admin_footer-post-new.php', 'wp_add_iframed_editor_assets_html' );
 add_action( 'admin_footer-widgets.php', 'wp_add_iframed_editor_assets_html' );
+add_action( 'admin_footer-site-editor.php', 'wp_add_iframed_editor_assets_html' );
 
 add_action( 'use_block_editor_for_post_type', '_disable_block_editor_for_navigation_post_type', 10, 2 );
 add_action( 'edit_form_after_title', '_disable_content_editor_for_navigation_post_type' );
