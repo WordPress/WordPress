@@ -108,7 +108,7 @@ function _wp_migrate_menu_to_navigation_post( $new_name, WP_Theme $new_theme, WP
 		);
 
 		if ( ! empty( $matching_posts ) ) {
-			$navigation_post_id = $matching_posts[0]->ID;
+			$navigation_post_id = $matching_posts[0];
 		} else {
 			$menu_items_by_parent_id = _wp_sort_menu_items_by_parent_id( $menu_items );
 			$parsed_blocks           = _wp_parse_blocks_from_menu_items( $menu_items_by_parent_id[0], $menu_items_by_parent_id );
