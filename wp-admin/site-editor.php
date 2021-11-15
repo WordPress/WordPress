@@ -66,7 +66,7 @@ $areas        = get_option( 'fse_navigation_areas', array() );
 $active_areas = array_intersect_key( $areas, get_navigation_areas() );
 foreach ( $active_areas as $post_id ) {
 	if ( $post_id ) {
-		$preload_paths[] = add_query_args( 'context', 'edit', rest_get_route_for_post( $post_id ) );
+		$preload_paths[] = add_query_arg( 'context', 'edit', rest_get_route_for_post( $post_id ) );
 	}
 }
 
