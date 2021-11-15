@@ -998,15 +998,7 @@ body.is-fullscreen-mode .interface-interface-skeleton {
 
 .edit-post-layout__metaboxes {
   flex-shrink: 0;
-}
-
-.edit-post-layout__metaboxes:not(:empty) {
-  border-top: 1px solid #ddd;
-  padding: 10px 0 10px;
   clear: both;
-}
-.edit-post-layout__metaboxes:not(:empty) .edit-post-meta-boxes-area {
-  margin: auto 20px;
 }
 
 .edit-post-layout .components-editor-notices__snackbar {
@@ -1234,6 +1226,10 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar {
 .edit-post-meta-boxes-area input {
   box-sizing: border-box;
 }
+.edit-post-meta-boxes-area .postbox-header {
+  border-top: 1px solid #ddd;
+  border-bottom: 0;
+}
 .edit-post-meta-boxes-area #poststuff {
   margin: 0 auto;
   padding-top: 0;
@@ -1247,7 +1243,7 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar {
   color: inherit;
   font-weight: 600;
   outline: none;
-  padding: 15px;
+  padding: 0 24px;
   position: relative;
   width: 100%;
 }
@@ -1257,9 +1253,8 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar {
   margin-bottom: 0;
 }
 .edit-post-meta-boxes-area .postbox > .inside {
-  border-bottom: 1px solid #ddd;
   color: inherit;
-  padding: 0 14px 14px;
+  padding: 0 24px 24px;
   margin: 0;
 }
 .edit-post-meta-boxes-area .postbox .handlediv {

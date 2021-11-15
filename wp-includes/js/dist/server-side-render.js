@@ -155,7 +155,9 @@ var external_wp_blocks_ = __webpack_require__("HSyU");
 
 
 
-function rendererPath(block, attributes = null, urlQueryArgs = {}) {
+function rendererPath(block) {
+  let attributes = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+  let urlQueryArgs = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
   return Object(external_wp_url_["addQueryArgs"])(`/wp/v2/block-renderer/${block}`, {
     context: 'edit',
     ...(null !== attributes ? {
@@ -165,18 +167,20 @@ function rendererPath(block, attributes = null, urlQueryArgs = {}) {
   });
 }
 
-function DefaultEmptyResponsePlaceholder({
-  className
-}) {
+function DefaultEmptyResponsePlaceholder(_ref) {
+  let {
+    className
+  } = _ref;
   return Object(external_wp_element_["createElement"])(external_wp_components_["Placeholder"], {
     className: className
   }, Object(external_wp_i18n_["__"])('Block rendered as empty.'));
 }
 
-function DefaultErrorResponsePlaceholder({
-  response,
-  className
-}) {
+function DefaultErrorResponsePlaceholder(_ref2) {
+  let {
+    response,
+    className
+  } = _ref2;
   const errorMessage = Object(external_wp_i18n_["sprintf"])( // translators: %s: error message describing the problem
   Object(external_wp_i18n_["__"])('Error loading block: %s'), response.errorMsg);
   return Object(external_wp_element_["createElement"])(external_wp_components_["Placeholder"], {
@@ -184,10 +188,11 @@ function DefaultErrorResponsePlaceholder({
   }, errorMessage);
 }
 
-function DefaultLoadingResponsePlaceholder({
-  children,
-  showLoader
-}) {
+function DefaultLoadingResponsePlaceholder(_ref3) {
+  let {
+    children,
+    showLoader
+  } = _ref3;
   return Object(external_wp_element_["createElement"])("div", {
     style: {
       position: 'relative'
@@ -365,11 +370,12 @@ const ExportedServerSideRender = Object(external_wp_data_["withSelect"])(select 
   }
 
   return EMPTY_OBJECT;
-})(({
-  urlQueryArgs = EMPTY_OBJECT,
-  currentPostId,
-  ...props
-}) => {
+})(_ref => {
+  let {
+    urlQueryArgs = EMPTY_OBJECT,
+    currentPostId,
+    ...props
+  } = _ref;
   const newUrlQueryArgs = Object(external_wp_element_["useMemo"])(() => {
     if (!currentPostId) {
       return urlQueryArgs;

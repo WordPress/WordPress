@@ -555,11 +555,11 @@ function setPath(object, path, value) {
 
 
 function getQueryArgs(url) {
-  return (getQueryString(url) || ''). // Normalize space encoding, accounting for PHP URL encoding
+  return (getQueryString(url) || '' // Normalize space encoding, accounting for PHP URL encoding
   // corresponding to `application/x-www-form-urlencoded`.
   //
   // See: https://tools.ietf.org/html/rfc1866#section-8.2.1
-  replace(/\+/g, '%20').split('&').reduce((accumulator, keyValue) => {
+  ).replace(/\+/g, '%20').split('&').reduce((accumulator, keyValue) => {
     const [key, value = ''] = keyValue.split('=') // Filtering avoids decoding as `undefined` for value, where
     // default is restored in destructuring assignment.
     .filter(Boolean).map(decodeURIComponent);
@@ -596,7 +596,10 @@ function getQueryArgs(url) {
  * @return {string} URL with arguments applied.
  */
 
-function addQueryArgs(url = '', args) {
+function addQueryArgs() {
+  let url = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+  let args = arguments.length > 1 ? arguments[1] : undefined;
+
   // If no arguments are to be appended, return original URL.
   if (!args || !Object.keys(args).length) {
     return url;
@@ -690,7 +693,7 @@ function hasQueryArg(url, arg) {
  * @return {string} Updated URL.
  */
 
-function removeQueryArgs(url, ...args) {
+function removeQueryArgs(url) {
   const queryStringIndex = url.indexOf('?');
 
   if (queryStringIndex === -1) {
@@ -699,6 +702,11 @@ function removeQueryArgs(url, ...args) {
 
   const query = getQueryArgs(url);
   const baseURL = url.substr(0, queryStringIndex);
+
+  for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    args[_key - 1] = arguments[_key];
+  }
+
   args.forEach(arg => delete query[arg]);
   const queryString = buildQueryString(query);
   return queryString ? baseURL + '?' + queryString : baseURL;
@@ -791,7 +799,8 @@ function safeDecodeURIComponent(uriComponent) {
  *
  * @return {string} Displayed URL.
  */
-function filterURLForDisplay(url, maxLength = null) {
+function filterURLForDisplay(url) {
+  let maxLength = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
   // Remove protocol and www prefixes.
   let filteredURL = url.replace(/^(?:https?:)\/\/(?:www\.)?/, ''); // Ends with / and only has that single slash, strip it.
 

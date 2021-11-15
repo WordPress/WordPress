@@ -174,10 +174,11 @@ var external_wp_compose_ = __webpack_require__("K9lf");
 
 
 
-function CopyButton({
-  text,
-  children
-}) {
+function CopyButton(_ref) {
+  let {
+    text,
+    children
+  } = _ref;
   const ref = Object(external_wp_compose_["useCopyToClipboard"])(text);
   return Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
     variant: "secondary",
@@ -244,11 +245,12 @@ var esm_extends = __webpack_require__("wx14");
 
 
 
-function BlockInspectorButton({
-  inspector,
-  closeMenu,
-  ...props
-}) {
+function BlockInspectorButton(_ref) {
+  let {
+    inspector,
+    closeMenu,
+    ...props
+  } = _ref;
   const selectedBlockClientId = Object(external_wp_data_["useSelect"])(select => select(external_wp_blockEditor_["store"]).getSelectedBlockClientId(), []);
   const selectedBlock = Object(external_wp_element_["useMemo"])(() => document.getElementById(`block-${selectedBlockClientId}`), [selectedBlockClientId]);
   return Object(external_wp_element_["createElement"])(external_wp_components_["MenuItem"], Object(esm_extends["a" /* default */])({
@@ -296,7 +298,10 @@ var close_small = __webpack_require__("bWcr");
  * @param {Object}         action
  */
 
-function blockInserterPanel(state = false, action) {
+function blockInserterPanel() {
+  let state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+  let action = arguments.length > 1 ? arguments[1] : undefined;
+
   switch (action.type) {
     case 'SET_IS_INSERTER_OPENED':
       return action.value;
@@ -422,9 +427,10 @@ Object(external_wp_data_["registerStore"])(STORE_NAME, storeConfig);
 
 
 
-function Inserter({
-  setIsOpened
-}) {
+function Inserter(_ref) {
+  let {
+    setIsOpened
+  } = _ref;
   const inserterTitleId = Object(external_wp_compose_["useInstanceId"])(Inserter, 'customize-widget-layout__inserter-panel-title');
   const insertionPoint = Object(external_wp_data_["useSelect"])(select => select(store).__experimentalGetInsertionPoint(), []);
   return Object(external_wp_element_["createElement"])("div", {
@@ -506,10 +512,11 @@ const textFormattingShortcuts = [{
 
 
 
-function KeyCombination({
-  keyCombination,
-  forceAriaLabel
-}) {
+function KeyCombination(_ref) {
+  let {
+    keyCombination,
+    forceAriaLabel
+  } = _ref;
   const shortcut = keyCombination.modifier ? external_wp_keycodes_["displayShortcutList"][keyCombination.modifier](keyCombination.character) : keyCombination.character;
   const ariaLabel = keyCombination.modifier ? external_wp_keycodes_["shortcutAriaLabel"][keyCombination.modifier](keyCombination.character) : keyCombination.character;
   return Object(external_wp_element_["createElement"])("kbd", {
@@ -529,12 +536,13 @@ function KeyCombination({
   }));
 }
 
-function Shortcut({
-  description,
-  keyCombination,
-  aliases = [],
-  ariaLabel
-}) {
+function Shortcut(_ref2) {
+  let {
+    description,
+    keyCombination,
+    aliases = [],
+    ariaLabel
+  } = _ref2;
   return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])("div", {
     className: "customize-widgets-keyboard-shortcut-help-modal__shortcut-description"
   }, description), Object(external_wp_element_["createElement"])("div", {
@@ -565,9 +573,10 @@ function Shortcut({
 
 
 
-function DynamicShortcut({
-  name
-}) {
+function DynamicShortcut(_ref) {
+  let {
+    name
+  } = _ref;
   const {
     keyCombination,
     description,
@@ -622,44 +631,52 @@ function DynamicShortcut({
 
 
 
-const ShortcutList = ({
-  shortcuts
-}) =>
-/*
- * Disable reason: The `list` ARIA role is redundant but
- * Safari+VoiceOver won't announce the list otherwise.
- */
+const ShortcutList = _ref => {
+  let {
+    shortcuts
+  } = _ref;
+  return (
+    /*
+     * Disable reason: The `list` ARIA role is redundant but
+     * Safari+VoiceOver won't announce the list otherwise.
+     */
 
-/* eslint-disable jsx-a11y/no-redundant-roles */
-Object(external_wp_element_["createElement"])("ul", {
-  className: "customize-widgets-keyboard-shortcut-help-modal__shortcut-list",
-  role: "list"
-}, shortcuts.map((shortcut, index) => Object(external_wp_element_["createElement"])("li", {
-  className: "customize-widgets-keyboard-shortcut-help-modal__shortcut",
-  key: index
-}, Object(external_lodash_["isString"])(shortcut) ? Object(external_wp_element_["createElement"])(dynamic_shortcut, {
-  name: shortcut
-}) : Object(external_wp_element_["createElement"])(keyboard_shortcut_help_modal_shortcut, shortcut))))
-/* eslint-enable jsx-a11y/no-redundant-roles */
-;
+    /* eslint-disable jsx-a11y/no-redundant-roles */
+    Object(external_wp_element_["createElement"])("ul", {
+      className: "customize-widgets-keyboard-shortcut-help-modal__shortcut-list",
+      role: "list"
+    }, shortcuts.map((shortcut, index) => Object(external_wp_element_["createElement"])("li", {
+      className: "customize-widgets-keyboard-shortcut-help-modal__shortcut",
+      key: index
+    }, Object(external_lodash_["isString"])(shortcut) ? Object(external_wp_element_["createElement"])(dynamic_shortcut, {
+      name: shortcut
+    }) : Object(external_wp_element_["createElement"])(keyboard_shortcut_help_modal_shortcut, shortcut))))
+    /* eslint-enable jsx-a11y/no-redundant-roles */
 
-const ShortcutSection = ({
-  title,
-  shortcuts,
-  className
-}) => Object(external_wp_element_["createElement"])("section", {
-  className: classnames_default()('customize-widgets-keyboard-shortcut-help-modal__section', className)
-}, !!title && Object(external_wp_element_["createElement"])("h2", {
-  className: "customize-widgets-keyboard-shortcut-help-modal__section-title"
-}, title), Object(external_wp_element_["createElement"])(ShortcutList, {
-  shortcuts: shortcuts
-}));
+  );
+};
 
-const ShortcutCategorySection = ({
-  title,
-  categoryName,
-  additionalShortcuts = []
-}) => {
+const ShortcutSection = _ref2 => {
+  let {
+    title,
+    shortcuts,
+    className
+  } = _ref2;
+  return Object(external_wp_element_["createElement"])("section", {
+    className: classnames_default()('customize-widgets-keyboard-shortcut-help-modal__section', className)
+  }, !!title && Object(external_wp_element_["createElement"])("h2", {
+    className: "customize-widgets-keyboard-shortcut-help-modal__section-title"
+  }, title), Object(external_wp_element_["createElement"])(ShortcutList, {
+    shortcuts: shortcuts
+  }));
+};
+
+const ShortcutCategorySection = _ref3 => {
+  let {
+    title,
+    categoryName,
+    additionalShortcuts = []
+  } = _ref3;
   const categoryShortcuts = Object(external_wp_data_["useSelect"])(select => {
     return select(external_wp_keyboardShortcuts_["store"]).getCategoryShortcuts(categoryName);
   }, [categoryName]);
@@ -669,10 +686,11 @@ const ShortcutCategorySection = ({
   });
 };
 
-function KeyboardShortcutHelpModal({
-  isModalActive,
-  toggleModal
-}) {
+function KeyboardShortcutHelpModal(_ref4) {
+  let {
+    isModalActive,
+    toggleModal
+  } = _ref4;
   const {
     registerShortcut
   } = Object(external_wp_data_["useDispatch"])(external_wp_keyboardShortcuts_["store"]);
@@ -823,13 +841,14 @@ function MoreMenu() {
 
 
 
-function Header({
-  sidebar,
-  inserter,
-  isInserterOpened,
-  setIsInserterOpened,
-  isFixedToolbarActive
-}) {
+function Header(_ref) {
+  let {
+    sidebar,
+    inserter,
+    isInserterOpened,
+    setIsInserterOpened,
+    isFixedToolbarActive
+  } = _ref;
   const [[hasUndo, hasRedo], setUndoRedo] = Object(external_wp_element_["useState"])([sidebar.hasUndo(), sidebar.hasRedo()]);
   Object(external_wp_element_["useEffect"])(() => {
     return sidebar.subscribeHistory(() => {
@@ -960,7 +979,8 @@ function settingIdToWidgetId(settingId) {
  * @return {Object} The transformed widget.
  */
 
-function blockToWidget(block, existingWidget = null) {
+function blockToWidget(block) {
+  let existingWidget = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
   let widget;
   const isValidLegacyWidgetBlock = block.name === 'core/legacy-widget' && (block.attributes.id || block.attributes.instance);
 
@@ -1018,12 +1038,13 @@ function blockToWidget(block, existingWidget = null) {
  * @return {WPBlock} The transformed block.
  */
 
-function widgetToBlock({
-  id,
-  idBase,
-  number,
-  instance
-}) {
+function widgetToBlock(_ref) {
+  let {
+    id,
+    idBase,
+    number,
+    instance
+  } = _ref;
   let block;
   const {
     encoded_serialized_instance: encoded,
@@ -1167,11 +1188,12 @@ function useSidebarBlockEditor(sidebar) {
 
 
 const FocusControlContext = Object(external_wp_element_["createContext"])();
-function FocusControl({
-  api,
-  sidebarControls,
-  children
-}) {
+function FocusControl(_ref) {
+  let {
+    api,
+    sidebarControls,
+    children
+  } = _ref;
   const [focusedWidgetIdRef, setFocusedWidgetIdRef] = Object(external_wp_element_["useState"])({
     current: null
   });
@@ -1270,11 +1292,12 @@ function useBlocksFocusControl(blocks) {
 
 
 
-function SidebarEditorProvider({
-  sidebar,
-  settings,
-  children
-}) {
+function SidebarEditorProvider(_ref) {
+  let {
+    sidebar,
+    settings,
+    children
+  } = _ref;
   const [blocks, onInput, onChange] = useSidebarBlockEditor(sidebar);
   useBlocksFocusControl(blocks);
   return Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockEditorProvider"], {
@@ -1296,9 +1319,10 @@ function SidebarEditorProvider({
 
 
 
-function WelcomeGuide({
-  sidebar
-}) {
+function WelcomeGuide(_ref) {
+  let {
+    sidebar
+  } = _ref;
   const {
     toggleFeature
   } = Object(external_wp_data_["useDispatch"])(build_module["i" /* store */]);
@@ -1346,11 +1370,12 @@ function WelcomeGuide({
 
 
 
-function KeyboardShortcuts({
-  undo,
-  redo,
-  save
-}) {
+function KeyboardShortcuts(_ref) {
+  let {
+    undo,
+    redo,
+    save
+  } = _ref;
   Object(external_wp_keyboardShortcuts_["useShortcut"])('core/customize-widgets/undo', event => {
     undo();
     event.preventDefault();
@@ -1470,12 +1495,13 @@ function BlockAppender(props) {
 
 
 
-function SidebarBlockEditor({
-  blockEditorSettings,
-  sidebar,
-  inserter,
-  inspector
-}) {
+function SidebarBlockEditor(_ref) {
+  let {
+    blockEditorSettings,
+    sidebar,
+    inserter,
+    inspector
+  } = _ref;
   const [isInserterOpened, setIsInserterOpened] = useInserter(inserter);
   const {
     hasUploadPermissions,
@@ -1497,15 +1523,19 @@ function SidebarBlockEditor({
     let mediaUploadBlockEditor;
 
     if (hasUploadPermissions) {
-      mediaUploadBlockEditor = ({
-        onError,
-        ...argumentsObject
-      }) => {
+      mediaUploadBlockEditor = _ref2 => {
+        let {
+          onError,
+          ...argumentsObject
+        } = _ref2;
         Object(external_wp_mediaUtils_["uploadMedia"])({
           wpAllowedMimeTypes: blockEditorSettings.allowedMimeTypes,
-          onError: ({
-            message
-          }) => onError(message),
+          onError: _ref3 => {
+            let {
+              message
+            } = _ref3;
+            return onError(message);
+          },
           ...argumentsObject
         });
       };
@@ -1549,12 +1579,15 @@ function SidebarBlockEditor({
   // from submitting form when type="button" is not specified.
   Object(external_wp_element_["createElement"])("form", {
     onSubmit: event => event.preventDefault()
-  }, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockInspector"], null)), inspector.contentContainer[0])), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["__unstableBlockSettingsMenuFirstItem"], null, ({
-    onClose
-  }) => Object(external_wp_element_["createElement"])(block_inspector_button, {
-    inspector: inspector,
-    closeMenu: onClose
-  })));
+  }, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockInspector"], null)), inspector.contentContainer[0])), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["__unstableBlockSettingsMenuFirstItem"], null, _ref4 => {
+    let {
+      onClose
+    } = _ref4;
+    return Object(external_wp_element_["createElement"])(block_inspector_button, {
+      inspector: inspector,
+      closeMenu: onClose
+    });
+  }));
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/customize-widgets/build-module/components/sidebar-controls/index.js
@@ -1565,11 +1598,12 @@ function SidebarBlockEditor({
  */
 
 const SidebarControlsContext = Object(external_wp_element_["createContext"])();
-function SidebarControls({
-  sidebarControls,
-  activeSidebarControl,
-  children
-}) {
+function SidebarControls(_ref) {
+  let {
+    sidebarControls,
+    activeSidebarControl,
+    children
+  } = _ref;
   const context = Object(external_wp_element_["useMemo"])(() => ({
     sidebarControls,
     activeSidebarControl
@@ -1678,11 +1712,12 @@ function useClearSelectedBlock(sidebarControl, popoverRef) {
 
 
 
-function CustomizeWidgets({
-  api,
-  sidebarControls,
-  blockEditorSettings
-}) {
+function CustomizeWidgets(_ref) {
+  let {
+    api,
+    sidebarControls,
+    blockEditorSettings
+  } = _ref;
   const [activeSidebarControl, setActiveSidebarControl] = Object(external_wp_element_["useState"])(null);
   const parentContainer = document.getElementById('customize-theme-controls');
   const popoverRef = Object(external_wp_element_["useRef"])();
@@ -1773,9 +1808,10 @@ function getInspectorSection() {
       }
     }
 
-    open({
-      returnFocusWhenClose
-    } = {}) {
+    open() {
+      let {
+        returnFocusWhenClose
+      } = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
       this.isOpen = true;
       this.returnFocusWhenClose = returnFocusWhenClose;
       this.expand({
@@ -1952,7 +1988,11 @@ function debounce(leading, callback, timeout) {
   let isLeading = false;
   let timerID;
 
-  function debounced(...args) {
+  function debounced() {
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
     const result = (isLeading ? callback : leading).apply(this, args);
     isLeading = true;
     clearTimeout(timerID);
@@ -2000,9 +2040,9 @@ class sidebar_adapter_SidebarAdapter {
     return this.history[this.historyIndex];
   }
 
-  _emit(...args) {
+  _emit() {
     for (const callback of this.subscribers) {
-      callback(...args);
+      callback(...arguments);
     }
   }
 
@@ -2268,8 +2308,8 @@ function getInserterOuterSection() {
 
   customize.sectionConstructor.outer = customize.OuterSection;
   return class InserterOuterSection extends customize.OuterSection {
-    constructor(...args) {
-      super(...args); // This is necessary since we're creating a new class which is not identical to the original OuterSection.
+    constructor() {
+      super(...arguments); // This is necessary since we're creating a new class which is not identical to the original OuterSection.
       // @See https://github.com/WordPress/wordpress-develop/blob/42b05c397c50d9dc244083eff52991413909d4bd/src/js/_enqueues/wp/customize/controls.js#L1427-L1436
 
       this.params.type = 'outer';
@@ -2368,8 +2408,8 @@ function getSidebarControl() {
     }
   } = window;
   return class SidebarControl extends customize.Control {
-    constructor(...args) {
-      super(...args);
+    constructor() {
+      super(...arguments);
       this.subscribers = new Set();
     }
 
@@ -2956,12 +2996,15 @@ var external_lodash_ = __webpack_require__("YLtl");
  * @return {Object} Updated state.
  */
 
-function singleEnableItems(state = {}, {
-  type,
-  itemType,
-  scope,
-  item
-}) {
+function singleEnableItems() {
+  let state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  let {
+    type,
+    itemType,
+    scope,
+    item
+  } = arguments.length > 1 ? arguments[1] : undefined;
+
   if (type !== 'SET_SINGLE_ENABLE_ITEM' || !itemType || !scope) {
     return state;
   }
@@ -2986,13 +3029,16 @@ function singleEnableItems(state = {}, {
  * @return {Object} Updated state.
  */
 
-function multipleEnableItems(state = {}, {
-  type,
-  itemType,
-  scope,
-  item,
-  isEnable
-}) {
+function multipleEnableItems() {
+  let state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  let {
+    type,
+    itemType,
+    scope,
+    item,
+    isEnable
+  } = arguments.length > 1 ? arguments[1] : undefined;
+
   if (type !== 'SET_MULTIPLE_ENABLE_ITEM' || !itemType || !scope || !item || Object(external_lodash_["get"])(state, [itemType, scope, item]) === isEnable) {
     return state;
   }
@@ -3020,7 +3066,10 @@ function multipleEnableItems(state = {}, {
  */
 
 const preferenceDefaults = Object(external_wp_data_["combineReducers"])({
-  features(state = {}, action) {
+  features() {
+    let state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    let action = arguments.length > 1 ? arguments[1] : undefined;
+
     if (action.type === 'SET_FEATURE_DEFAULTS') {
       const {
         scope,
@@ -3047,7 +3096,10 @@ const preferenceDefaults = Object(external_wp_data_["combineReducers"])({
  */
 
 const preferences = Object(external_wp_data_["combineReducers"])({
-  features(state = {}, action) {
+  features() {
+    let state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    let action = arguments.length > 1 ? arguments[1] : undefined;
+
     if (action.type === 'SET_FEATURE_VALUE') {
       const {
         scope,
@@ -3170,10 +3222,11 @@ function actions_unpinItem(scope, itemId) {
  */
 
 function actions_toggleFeature(scope, featureName) {
-  return function ({
-    select,
-    dispatch
-  }) {
+  return function (_ref) {
+    let {
+      select,
+      dispatch
+    } = _ref;
     const currentValue = select.isFeatureActive(scope, featureName);
     dispatch.setFeatureValue(scope, featureName, !currentValue);
   };
@@ -3374,14 +3427,15 @@ var external_wp_plugins_ = __webpack_require__("TvNi");
 
 
 
-function ComplementaryAreaToggle({
-  as = external_wp_components_["Button"],
-  scope,
-  identifier,
-  icon,
-  selectedIcon,
-  ...props
-}) {
+function ComplementaryAreaToggle(_ref) {
+  let {
+    as = external_wp_components_["Button"],
+    scope,
+    identifier,
+    icon,
+    selectedIcon,
+    ...props
+  } = _ref;
   const ComponentToUse = as;
   const isSelected = Object(external_wp_data_["useSelect"])(select => select(store).getActiveComplementaryArea(scope) === identifier, [identifier]);
   const {
@@ -3421,12 +3475,13 @@ function ComplementaryAreaToggle({
 
 
 
-const ComplementaryAreaHeader = ({
-  smallScreenTitle,
-  children,
-  className,
-  toggleButtonProps
-}) => {
+const ComplementaryAreaHeader = _ref => {
+  let {
+    smallScreenTitle,
+    children,
+    className,
+    toggleButtonProps
+  } = _ref;
   const toggleButton = Object(external_wp_element_["createElement"])(complementary_area_toggle, Object(esm_extends["a" /* default */])({
     icon: close_small["a" /* default */]
   }, toggleButtonProps));
@@ -3457,13 +3512,14 @@ const ComplementaryAreaHeader = ({
 
 
 
-function ActionItemSlot({
-  name,
-  as: Component = external_wp_components_["ButtonGroup"],
-  fillProps = {},
-  bubblesVirtually,
-  ...props
-}) {
+function ActionItemSlot(_ref) {
+  let {
+    name,
+    as: Component = external_wp_components_["ButtonGroup"],
+    fillProps = {},
+    bubblesVirtually,
+    ...props
+  } = _ref;
   return Object(external_wp_element_["createElement"])(external_wp_components_["Slot"], {
     name: name,
     bubblesVirtually: bubblesVirtually,
@@ -3479,12 +3535,14 @@ function ActionItemSlot({
 
 
     const initializedByPlugins = [];
-    external_wp_element_["Children"].forEach(fills, ({
-      props: {
-        __unstableExplicitMenuItem,
-        __unstableTarget
-      }
-    }) => {
+    external_wp_element_["Children"].forEach(fills, _ref2 => {
+      let {
+        props: {
+          __unstableExplicitMenuItem,
+          __unstableTarget
+        }
+      } = _ref2;
+
       if (__unstableTarget && __unstableExplicitMenuItem) {
         initializedByPlugins.push(__unstableTarget);
       }
@@ -3500,21 +3558,23 @@ function ActionItemSlot({
   });
 }
 
-function ActionItem({
-  name,
-  as: Component = external_wp_components_["Button"],
-  onClick,
-  ...props
-}) {
+function ActionItem(_ref3) {
+  let {
+    name,
+    as: Component = external_wp_components_["Button"],
+    onClick,
+    ...props
+  } = _ref3;
   return Object(external_wp_element_["createElement"])(external_wp_components_["Fill"], {
     name: name
-  }, ({
-    onClick: fpOnClick
-  }) => {
+  }, _ref4 => {
+    let {
+      onClick: fpOnClick
+    } = _ref4;
     return Object(external_wp_element_["createElement"])(Component, Object(esm_extends["a" /* default */])({
-      onClick: onClick || fpOnClick ? (...args) => {
-        (onClick || external_lodash_["noop"])(...args);
-        (fpOnClick || external_lodash_["noop"])(...args);
+      onClick: onClick || fpOnClick ? function () {
+        (onClick || external_lodash_["noop"])(...arguments);
+        (fpOnClick || external_lodash_["noop"])(...arguments);
       } : undefined
     }, props));
   });
@@ -3549,12 +3609,13 @@ const PluginsMenuItem = props => // Menu item is marked with unstable prop for b
 // @see https://github.com/WordPress/gutenberg/issues/14457
 Object(external_wp_element_["createElement"])(external_wp_components_["MenuItem"], Object(external_lodash_["omit"])(props, ['__unstableExplicitMenuItem', '__unstableTarget']));
 
-function ComplementaryAreaMoreMenuItem({
-  scope,
-  target,
-  __unstableExplicitMenuItem,
-  ...props
-}) {
+function ComplementaryAreaMoreMenuItem(_ref) {
+  let {
+    scope,
+    target,
+    __unstableExplicitMenuItem,
+    ...props
+  } = _ref;
   return Object(external_wp_element_["createElement"])(complementary_area_toggle, Object(esm_extends["a" /* default */])({
     as: toggleProps => {
       return Object(external_wp_element_["createElement"])(action_item, Object(esm_extends["a" /* default */])({
@@ -3586,20 +3647,22 @@ function ComplementaryAreaMoreMenuItem({
 
 
 
-function PinnedItems({
-  scope,
-  ...props
-}) {
+function PinnedItems(_ref) {
+  let {
+    scope,
+    ...props
+  } = _ref;
   return Object(external_wp_element_["createElement"])(external_wp_components_["Fill"], Object(esm_extends["a" /* default */])({
     name: `PinnedItems/${scope}`
   }, props));
 }
 
-function PinnedItemsSlot({
-  scope,
-  className,
-  ...props
-}) {
+function PinnedItemsSlot(_ref2) {
+  let {
+    scope,
+    className,
+    ...props
+  } = _ref2;
   return Object(external_wp_element_["createElement"])(external_wp_components_["Slot"], Object(esm_extends["a" /* default */])({
     name: `PinnedItems/${scope}`
   }, props), fills => !Object(external_lodash_["isEmpty"])(fills) && Object(external_wp_element_["createElement"])("div", {
@@ -3639,20 +3702,22 @@ PinnedItems.Slot = PinnedItemsSlot;
 
 
 
-function ComplementaryAreaSlot({
-  scope,
-  ...props
-}) {
+function ComplementaryAreaSlot(_ref) {
+  let {
+    scope,
+    ...props
+  } = _ref;
   return Object(external_wp_element_["createElement"])(external_wp_components_["Slot"], Object(esm_extends["a" /* default */])({
     name: `ComplementaryArea/${scope}`
   }, props));
 }
 
-function ComplementaryAreaFill({
-  scope,
-  children,
-  className
-}) {
+function ComplementaryAreaFill(_ref2) {
+  let {
+    scope,
+    children,
+    className
+  } = _ref2;
   return Object(external_wp_element_["createElement"])(external_wp_components_["Fill"], {
     name: `ComplementaryArea/${scope}`
   }, Object(external_wp_element_["createElement"])("div", {
@@ -3693,24 +3758,25 @@ function useAdjustComplementaryListener(scope, identifier, activeArea, isActive,
   }, [isActive, isSmall, scope, identifier, activeArea]);
 }
 
-function ComplementaryArea({
-  children,
-  className,
-  closeLabel = Object(external_wp_i18n_["__"])('Close plugin'),
-  identifier,
-  header,
-  headerClassName,
-  icon,
-  isPinnable = true,
-  panelClassName,
-  scope,
-  name,
-  smallScreenTitle,
-  title,
-  toggleShortcut,
-  isActiveByDefault,
-  showIconLabels = false
-}) {
+function ComplementaryArea(_ref3) {
+  let {
+    children,
+    className,
+    closeLabel = Object(external_wp_i18n_["__"])('Close plugin'),
+    identifier,
+    header,
+    headerClassName,
+    icon,
+    isPinnable = true,
+    panelClassName,
+    scope,
+    name,
+    smallScreenTitle,
+    title,
+    toggleShortcut,
+    isActiveByDefault,
+    showIconLabels = false
+  } = _ref3;
   const {
     isActive,
     isPinned,
@@ -3796,9 +3862,10 @@ ComplementaryAreaWrapped.Slot = ComplementaryAreaSlot;
  */
 
 
-const FullscreenMode = ({
-  isActive
-}) => {
+const FullscreenMode = _ref => {
+  let {
+    isActive
+  } = _ref;
   Object(external_wp_element_["useEffect"])(() => {
     let isSticky = false; // `is-fullscreen-mode` is set in PHP as a body class by Gutenberg, and this causes
     // `sticky-menu` to be applied by WordPress and prevents the admin menu being scrolled
@@ -3873,19 +3940,20 @@ function useHTMLClass(className) {
   }, [className]);
 }
 
-function InterfaceSkeleton({
-  footer,
-  header,
-  sidebar,
-  secondarySidebar,
-  notices,
-  content,
-  drawer,
-  actions,
-  labels,
-  className,
-  shortcuts
-}, ref) {
+function InterfaceSkeleton(_ref, ref) {
+  let {
+    footer,
+    header,
+    sidebar,
+    secondarySidebar,
+    notices,
+    content,
+    drawer,
+    actions,
+    labels,
+    className,
+    shortcuts
+  } = _ref;
   const navigateRegionsProps = Object(external_wp_components_["__unstableUseNavigateRegions"])(shortcuts);
   useHTMLClass('interface-interface-skeleton__html-container');
   const defaultLabels = {
@@ -3978,16 +4046,17 @@ var more_vertical = __webpack_require__("VKE3");
 
 
 
-function MoreMenuDropdown({
-  as: DropdownComponent = external_wp_components_["DropdownMenu"],
-  className,
+function MoreMenuDropdown(_ref) {
+  let {
+    as: DropdownComponent = external_wp_components_["DropdownMenu"],
+    className,
 
-  /* translators: button label text should, if possible, be under 16 characters. */
-  label = Object(external_wp_i18n_["__"])('Options'),
-  popoverProps,
-  toggleProps,
-  children
-}) {
+    /* translators: button label text should, if possible, be under 16 characters. */
+    label = Object(external_wp_i18n_["__"])('Options'),
+    popoverProps,
+    toggleProps,
+    children
+  } = _ref;
   return Object(external_wp_element_["createElement"])(DropdownComponent, {
     className: classnames_default()('interface-more-menu-dropdown', className),
     icon: more_vertical["a" /* default */],
@@ -4023,15 +4092,16 @@ var external_wp_a11y_ = __webpack_require__("gdqT");
  */
 
 
-function MoreMenuFeatureToggle({
-  scope,
-  label,
-  info,
-  messageActivated,
-  messageDeactivated,
-  shortcut,
-  feature
-}) {
+function MoreMenuFeatureToggle(_ref) {
+  let {
+    scope,
+    label,
+    info,
+    messageActivated,
+    messageDeactivated,
+    shortcut,
+    feature
+  } = _ref;
   const isActive = Object(external_wp_data_["useSelect"])(select => select(store).isFeatureActive(scope, feature), [feature]);
   const {
     toggleFeature

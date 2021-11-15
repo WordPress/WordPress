@@ -155,7 +155,8 @@ const ANNOTATION_ATTRIBUTE_PREFIX = 'annotation-text-';
  * @return {Object} A record with the annotations applied.
  */
 
-function applyAnnotations(record, annotations = []) {
+function applyAnnotations(record) {
+  let annotations = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
   annotations.forEach(annotation => {
     let {
       start,
@@ -235,10 +236,11 @@ function retrieveAnnotationPositions(formats) {
  */
 
 
-function updateAnnotationsWithPositions(annotations, positions, {
-  removeAnnotation,
-  updateAnnotationRange
-}) {
+function updateAnnotationsWithPositions(annotations, positions, _ref) {
+  let {
+    removeAnnotation,
+    updateAnnotationRange
+  } = _ref;
   annotations.forEach(currentAnnotation => {
     const position = positions[currentAnnotation.id]; // If we cannot find an annotation, delete it.
 
@@ -274,18 +276,20 @@ const annotation_annotation = {
     return null;
   },
 
-  __experimentalGetPropsForEditableTreePreparation(select, {
-    richTextIdentifier,
-    blockClientId
-  }) {
+  __experimentalGetPropsForEditableTreePreparation(select, _ref2) {
+    let {
+      richTextIdentifier,
+      blockClientId
+    } = _ref2;
     return {
       annotations: select(STORE_NAME).__experimentalGetAnnotationsForRichText(blockClientId, richTextIdentifier)
     };
   },
 
-  __experimentalCreatePrepareEditableTree({
-    annotations
-  }) {
+  __experimentalCreatePrepareEditableTree(_ref3) {
+    let {
+      annotations
+    } = _ref3;
     return (formats, text) => {
       if (annotations.length === 0) {
         return formats;
@@ -365,10 +369,12 @@ var external_wp_data_ = __webpack_require__("1ZqX");
  */
 
 const addAnnotationClassName = OriginalComponent => {
-  return Object(external_wp_data_["withSelect"])((select, {
-    clientId,
-    className
-  }) => {
+  return Object(external_wp_data_["withSelect"])((select, _ref) => {
+    let {
+      clientId,
+      className
+    } = _ref;
+
     const annotations = select(STORE_NAME).__experimentalGetAnnotationsForBlock(clientId);
 
     return {
@@ -424,8 +430,11 @@ function isValidAnnotationRange(annotation) {
  */
 
 
-function reducer_annotations(state = {}, action) {
+function reducer_annotations() {
   var _state$blockClientId;
+
+  let state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  let action = arguments.length > 1 ? arguments[1] : undefined;
 
   switch (action.type) {
     case 'ANNOTATION_ADD':
@@ -612,14 +621,15 @@ var v4 = __webpack_require__("7Cbv");
  * @return {Object} Action object.
  */
 
-function __experimentalAddAnnotation({
-  blockClientId,
-  richTextIdentifier = null,
-  range = null,
-  selector = 'range',
-  source = 'default',
-  id = Object(v4["a" /* default */])()
-}) {
+function __experimentalAddAnnotation(_ref) {
+  let {
+    blockClientId,
+    richTextIdentifier = null,
+    range = null,
+    selector = 'range',
+    source = 'default',
+    id = Object(v4["a" /* default */])()
+  } = _ref;
   const action = {
     type: 'ANNOTATION_ADD',
     id,

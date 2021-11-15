@@ -680,7 +680,11 @@ var external_lodash_ = __webpack_require__("YLtl");
  * @return {Array} The concatenated value.
  */
 
-function concatChildren(...childrenArguments) {
+function concatChildren() {
+  for (var _len = arguments.length, childrenArguments = new Array(_len), _key = 0; _key < _len; _key++) {
+    childrenArguments[_key] = arguments[_key];
+  }
+
   return childrenArguments.reduce((accumulator, children, i) => {
     external_React_["Children"].forEach(children, (child, j) => {
       if (child && 'string' !== typeof child) {
@@ -848,10 +852,11 @@ var external_wp_escapeHtml_ = __webpack_require__("Vx3V");
  * @return {JSX.Element} Dangerously-rendering component.
  */
 
-function RawHTML({
-  children,
-  ...props
-}) {
+function RawHTML(_ref) {
+  let {
+    children,
+    ...props
+  } = _ref;
   let rawHtml = ''; // Cast children as an array, and concatenate each element if it is a string.
 
   external_React_["Children"].toArray(children).forEach(child => {
@@ -1110,7 +1115,9 @@ function getNormalStylePropertyValue(property, value) {
  */
 
 
-function renderElement(element, context, legacyContext = {}) {
+function renderElement(element, context) {
+  let legacyContext = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+
   if (null === element || undefined === element || false === element) {
     return '';
   }
@@ -1188,7 +1195,8 @@ function renderElement(element, context, legacyContext = {}) {
  * @return {string} Serialized element.
  */
 
-function renderNativeComponent(type, props, context, legacyContext = {}) {
+function renderNativeComponent(type, props, context) {
+  let legacyContext = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
   let content = '';
 
   if (type === 'textarea' && props.hasOwnProperty('value')) {
@@ -1229,7 +1237,8 @@ function renderNativeComponent(type, props, context, legacyContext = {}) {
  * @return {string} Serialized element
  */
 
-function renderComponent(Component, props, context, legacyContext = {}) {
+function renderComponent(Component, props, context) {
+  let legacyContext = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
   const instance = new
   /** @type {import('react').ComponentClass} */
   Component(props, legacyContext);
@@ -1257,7 +1266,8 @@ function renderComponent(Component, props, context, legacyContext = {}) {
  * @return {string} Serialized children.
  */
 
-function renderChildren(children, context, legacyContext = {}) {
+function renderChildren(children, context) {
+  let legacyContext = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
   let result = '';
   children = Object(external_lodash_["castArray"])(children);
 

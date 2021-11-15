@@ -301,14 +301,15 @@ const getAttachmentsCollection = ids => {
 };
 
 class media_upload_MediaUpload extends external_wp_element_["Component"] {
-  constructor({
-    allowedTypes,
-    gallery = false,
-    unstableFeaturedImageFlow = false,
-    modalClass,
-    multiple = false,
-    title = Object(external_wp_i18n_["__"])('Select or Upload Media')
-  }) {
+  constructor(_ref) {
+    let {
+      allowedTypes,
+      gallery = false,
+      unstableFeaturedImageFlow = false,
+      modalClass,
+      multiple = false,
+      title = Object(external_wp_i18n_["__"])('Select or Upload Media')
+    } = _ref;
     super(...arguments);
     this.openModal = this.openModal.bind(this);
     this.onOpen = this.onOpen.bind(this);
@@ -600,15 +601,16 @@ function getMimeTypesArray(wpMimeTypesObject) {
  * @param {?Object}  $0.wpAllowedMimeTypes List of allowed mime types and file extensions.
  */
 
-async function uploadMedia({
-  allowedTypes,
-  additionalData = {},
-  filesList,
-  maxUploadFileSize,
-  onError = external_lodash_["noop"],
-  onFileChange,
-  wpAllowedMimeTypes = null
-}) {
+async function uploadMedia(_ref) {
+  let {
+    allowedTypes,
+    additionalData = {},
+    filesList,
+    maxUploadFileSize,
+    onError = external_lodash_["noop"],
+    onFileChange,
+    wpAllowedMimeTypes = null
+  } = _ref;
   // Cast filesList to array
   const files = [...filesList];
   const filesSet = [];

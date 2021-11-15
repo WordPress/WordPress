@@ -226,9 +226,11 @@ function isValidFocusableArea(element) {
  */
 
 
-function find(context, {
-  sequential = false
-} = {}) {
+function find(context) {
+  let {
+    sequential = false
+  } = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
   /* eslint-disable jsdoc/no-undefined-types */
 
   /** @type {NodeListOf<HTMLElement>} */
@@ -480,9 +482,12 @@ function getRectangleFromRange(range) {
     } // Ignore tiny selection at the edge of a range.
 
 
-    const filteredRects = rects.filter(({
-      width
-    }) => width > 1); // If it's full of tiny selections, return browser default.
+    const filteredRects = rects.filter(_ref => {
+      let {
+        width
+      } = _ref;
+      return width > 1;
+    }); // If it's full of tiny selections, return browser default.
 
     if (filteredRects.length === 0) {
       return range.getBoundingClientRect();
@@ -980,12 +985,18 @@ function getRangeHeight(range) {
     return;
   }
 
-  const highestTop = Math.min(...rects.map(({
-    top
-  }) => top));
-  const lowestBottom = Math.max(...rects.map(({
-    bottom
-  }) => bottom));
+  const highestTop = Math.min(...rects.map(_ref => {
+    let {
+      top
+    } = _ref;
+    return top;
+  }));
+  const lowestBottom = Math.max(...rects.map(_ref2 => {
+    let {
+      bottom
+    } = _ref2;
+    return bottom;
+  }));
   return lowestBottom - highestTop;
 }
 
@@ -1140,7 +1151,9 @@ function hiddenCaretRangeFromPoint(doc, x, y, container) {
  * @return {boolean} True if at the edge, false if not.
  */
 
-function isEdge(container, isReverse, onlyVertical = false) {
+function isEdge(container, isReverse) {
+  let onlyVertical = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
   if (isInputOrTextArea(container) && typeof container.selectionStart === 'number') {
     if (container.selectionStart !== container.selectionEnd) {
       return false;
@@ -1859,9 +1872,9 @@ function isElement(node) {
  */
 
 function cleanNodeList(nodeList, doc, schema, inline) {
-  Array.from(nodeList).forEach(
+  Array.from(nodeList).forEach((
   /** @type {Node & { nextElementSibling?: unknown }} */
-  node => {
+  node) => {
     var _schema$tag$isMatch, _schema$tag;
 
     const tag = node.nodeName.toLowerCase(); // It's a valid child, if the tag exists in the schema without an isMatch
@@ -1885,9 +1898,11 @@ function cleanNodeList(nodeList, doc, schema, inline) {
 
         if (node.hasAttributes()) {
           // Strip invalid attributes.
-          Array.from(node.attributes).forEach(({
-            name
-          }) => {
+          Array.from(node.attributes).forEach(_ref => {
+            let {
+              name
+            } = _ref;
+
             if (name !== 'class' && !Object(external_lodash_["includes"])(attributes, name)) {
               node.removeAttribute(name);
             }
@@ -1899,14 +1914,12 @@ function cleanNodeList(nodeList, doc, schema, inline) {
             const mattchers = classes.map(item => {
               if (typeof item === 'string') {
                 return (
-                  /** @type {string} */
-                  className => className === item
-                );
+                /** @type {string} */
+                className) => className === item;
               } else if (item instanceof RegExp) {
                 return (
-                  /** @type {string} */
-                  className => item.test(className)
-                );
+                /** @type {string} */
+                className) => item.test(className);
               }
 
               return external_lodash_["noop"];
@@ -2031,11 +2044,14 @@ function getFilesFromDataTransfer(dataTransfer) {
   Array.from(dataTransfer.items).forEach(item => {
     const file = item.getAsFile();
 
-    if (file && !files.find(({
-      name,
-      type,
-      size
-    }) => name === file.name && type === file.type && size === file.size)) {
+    if (file && !files.find(_ref => {
+      let {
+        name,
+        type,
+        size
+      } = _ref;
+      return name === file.name && type === file.type && size === file.size;
+    })) {
       files.push(file);
     }
   });

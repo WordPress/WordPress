@@ -142,7 +142,10 @@ var external_wp_data_ = __webpack_require__("1ZqX");
  * @return {Array} Updated state.
  */
 
-function guides(state = [], action) {
+function guides() {
+  let state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  let action = arguments.length > 1 ? arguments[1] : undefined;
+
   switch (action.type) {
     case 'TRIGGER_GUIDE':
       return [...state, action.tipIds];
@@ -159,7 +162,10 @@ function guides(state = [], action) {
  * @return {boolean} Updated state.
  */
 
-function areTipsEnabled(state = true, action) {
+function areTipsEnabled() {
+  let state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+  let action = arguments.length > 1 ? arguments[1] : undefined;
+
   switch (action.type) {
     case 'DISABLE_TIPS':
       return false;
@@ -180,7 +186,10 @@ function areTipsEnabled(state = true, action) {
  * @return {Object} Updated state.
  */
 
-function dismissedTips(state = {}, action) {
+function dismissedTips() {
+  let state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  let action = arguments.length > 1 ? arguments[1] : undefined;
+
   switch (action.type) {
     case 'DISMISS_TIP':
       return { ...state,
@@ -417,14 +426,15 @@ function onClick(event) {
   event.stopPropagation();
 }
 
-function DotTip({
-  position = 'middle right',
-  children,
-  isVisible,
-  hasNextTip,
-  onDismiss,
-  onDisable
-}) {
+function DotTip(_ref) {
+  let {
+    position = 'middle right',
+    children,
+    isVisible,
+    hasNextTip,
+    onDismiss,
+    onDisable
+  } = _ref;
   const anchorParent = Object(external_wp_element_["useRef"])(null);
   const onFocusOutsideCallback = Object(external_wp_element_["useCallback"])(event => {
     if (!anchorParent.current) {
@@ -462,9 +472,10 @@ function DotTip({
     onClick: onDisable
   }));
 }
-/* harmony default export */ var dot_tip = (Object(external_wp_compose_["compose"])(Object(external_wp_data_["withSelect"])((select, {
-  tipId
-}) => {
+/* harmony default export */ var dot_tip = (Object(external_wp_compose_["compose"])(Object(external_wp_data_["withSelect"])((select, _ref2) => {
+  let {
+    tipId
+  } = _ref2;
   const {
     isTipVisible,
     getAssociatedGuide
@@ -474,9 +485,10 @@ function DotTip({
     isVisible: isTipVisible(tipId),
     hasNextTip: !!(associatedGuide && associatedGuide.nextTipId)
   };
-}), Object(external_wp_data_["withDispatch"])((dispatch, {
-  tipId
-}) => {
+}), Object(external_wp_data_["withDispatch"])((dispatch, _ref3) => {
+  let {
+    tipId
+  } = _ref3;
   const {
     dismissTip,
     disableTips

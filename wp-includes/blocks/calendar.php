@@ -107,47 +107,51 @@ function block_core_calendar_update_has_published_posts() {
 	return $has_published_posts;
 }
 
-// We only want to register these functions and actions when
-// we are on single sites. On multi sites we use `post_count` option.
-if ( ! is_multisite() ) {
-	/**
-	 * Handler for updating the has published posts flag when a post is deleted.
-	 *
-	 * @param int $post_id Deleted post ID.
-	 */
-	function block_core_calendar_update_has_published_post_on_delete( $post_id ) {
-		$post = get_post( $post_id );
-
-		if ( ! $post || 'publish' !== $post->post_status || 'post' !== $post->post_type ) {
-			return;
-		}
-
-		block_core_calendar_update_has_published_posts();
+/**
+ * Handler for updating the has published posts flag when a post is deleted.
+ *
+ * @param int $post_id Deleted post ID.
+ */
+function block_core_calendar_update_has_published_post_on_delete( $post_id ) {
+	if ( is_multisite() ) {
+		return;
 	}
 
-	/**
-	 * Handler for updating the has published posts flag when a post status changes.
-	 *
-	 * @param string  $new_status The status the post is changing to.
-	 * @param string  $old_status The status the post is changing from.
-	 * @param WP_Post $post       Post object.
-	 */
-	function block_core_calendar_update_has_published_post_on_transition_post_status( $new_status, $old_status, $post ) {
-		if ( $new_status === $old_status ) {
-			return;
-		}
+	$post = get_post( $post_id );
 
-		if ( 'post' !== get_post_type( $post ) ) {
-			return;
-		}
-
-		if ( 'publish' !== $new_status && 'publish' !== $old_status ) {
-			return;
-		}
-
-		block_core_calendar_update_has_published_posts();
+	if ( ! $post || 'publish' !== $post->post_status || 'post' !== $post->post_type ) {
+		return;
 	}
 
-	add_action( 'delete_post', 'block_core_calendar_update_has_published_post_on_delete' );
-	add_action( 'transition_post_status', 'block_core_calendar_update_has_published_post_on_transition_post_status', 10, 3 );
+	block_core_calendar_update_has_published_posts();
 }
+
+/**
+ * Handler for updating the has published posts flag when a post status changes.
+ *
+ * @param string  $new_status The status the post is changing to.
+ * @param string  $old_status The status the post is changing from.
+ * @param WP_Post $post       Post object.
+ */
+function block_core_calendar_update_has_published_post_on_transition_post_status( $new_status, $old_status, $post ) {
+	if ( is_multisite() ) {
+		return;
+	}
+
+	if ( $new_status === $old_status ) {
+		return;
+	}
+
+	if ( 'post' !== get_post_type( $post ) ) {
+		return;
+	}
+
+	if ( 'publish' !== $new_status && 'publish' !== $old_status ) {
+		return;
+	}
+
+	block_core_calendar_update_has_published_posts();
+}
+
+add_action( 'delete_post', 'block_core_calendar_update_has_published_post_on_delete' );
+add_action( 'transition_post_status', 'block_core_calendar_update_has_published_post_on_transition_post_status', 10, 3 );

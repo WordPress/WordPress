@@ -418,25 +418,32 @@ class import_form_ImportForm extends external_wp_element_["Component"] {
 
 
 
-function ImportDropdown({
-  onUpload
-}) {
+function ImportDropdown(_ref) {
+  let {
+    onUpload
+  } = _ref;
   return Object(external_wp_element_["createElement"])(external_wp_components_["Dropdown"], {
     position: "bottom right",
     contentClassName: "list-reusable-blocks-import-dropdown__content",
-    renderToggle: ({
-      isOpen,
-      onToggle
-    }) => Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
-      "aria-expanded": isOpen,
-      onClick: onToggle,
-      variant: "primary"
-    }, Object(external_wp_i18n_["__"])('Import from JSON')),
-    renderContent: ({
-      onClose
-    }) => Object(external_wp_element_["createElement"])(import_form, {
-      onUpload: Object(external_lodash_["flow"])(onClose, onUpload)
-    })
+    renderToggle: _ref2 => {
+      let {
+        isOpen,
+        onToggle
+      } = _ref2;
+      return Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
+        "aria-expanded": isOpen,
+        onClick: onToggle,
+        variant: "primary"
+      }, Object(external_wp_i18n_["__"])('Import from JSON'));
+    },
+    renderContent: _ref3 => {
+      let {
+        onClose
+      } = _ref3;
+      return Object(external_wp_element_["createElement"])(import_form, {
+        onUpload: Object(external_lodash_["flow"])(onClose, onUpload)
+      });
+    }
   });
 }
 

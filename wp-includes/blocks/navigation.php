@@ -147,7 +147,7 @@ function render_block_core_navigation( $attributes, $content, $block ) {
 
 	if ( ! empty( $block->context['navigationArea'] ) ) {
 		$area    = $block->context['navigationArea'];
-		$mapping = get_option( 'fse_navigation_areas', array() );
+		$mapping = get_option( 'wp_navigation_areas', array() );
 		if ( ! empty( $mapping[ $area ] ) ) {
 			$attributes['navigationMenuId'] = $mapping[ $area ];
 		}
@@ -179,12 +179,24 @@ function render_block_core_navigation( $attributes, $content, $block ) {
 	if ( empty( $inner_blocks ) ) {
 		return '';
 	}
+
+	// Restore legacy classnames for submenu positioning.
+	$layout_class = '';
+	if ( isset( $attributes['layout']['justifyContent'] ) ) {
+		if ( 'right' === $attributes['layout']['justifyContent'] ) {
+			$layout_class .= 'items-justified-right';
+		} elseif ( 'space-between' === $attributes['layout']['justifyContent'] ) {
+			$layout_class .= 'items-justified-space-between';
+		}
+	}
+
 	$colors     = block_core_navigation_build_css_colors( $attributes );
 	$font_sizes = block_core_navigation_build_css_font_sizes( $attributes );
 	$classes    = array_merge(
 		$colors['css_classes'],
 		$font_sizes['css_classes'],
-		$is_responsive_menu ? array( 'is-responsive' ) : array()
+		$is_responsive_menu ? array( 'is-responsive' ) : array(),
+		$layout_class ? array( $layout_class ) : array()
 	);
 
 	$inner_blocks_html = '';

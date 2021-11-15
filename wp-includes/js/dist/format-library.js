@@ -283,11 +283,12 @@ const keyboardReturn = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["c
  * @return {JSX.Element}  Icon component
  */
 
-function Icon({
-  icon,
-  size = 24,
-  ...props
-}) {
+function Icon(_ref) {
+  let {
+    icon,
+    size = 24,
+    ...props
+  } = _ref;
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["cloneElement"])(icon, {
     width: size,
     height: size,
@@ -403,12 +404,14 @@ const bold = {
   tagName: 'strong',
   className: null,
 
-  edit({
-    isActive,
-    value,
-    onChange,
-    onFocus
-  }) {
+  edit(_ref) {
+    let {
+      isActive,
+      value,
+      onChange,
+      onFocus
+    } = _ref;
+
     function onToggle() {
       onChange(Object(external_wp_richText_["toggleFormat"])(value, {
         type: bold_name,
@@ -500,12 +503,14 @@ const code_code = {
     return value;
   },
 
-  edit({
-    value,
-    onChange,
-    onFocus,
-    isActive
-  }) {
+  edit(_ref) {
+    let {
+      value,
+      onChange,
+      onFocus,
+      isActive
+    } = _ref;
+
     function onClick() {
       onChange(Object(external_wp_richText_["toggleFormat"])(value, {
         type: code_name,
@@ -564,12 +569,13 @@ const image_image = {
   edit: Edit
 };
 
-function InlineUI({
-  value,
-  onChange,
-  activeObjectAttributes,
-  contentRef
-}) {
+function InlineUI(_ref) {
+  let {
+    value,
+    onChange,
+    activeObjectAttributes,
+    contentRef
+  } = _ref;
   const {
     style
   } = activeObjectAttributes;
@@ -613,14 +619,15 @@ function InlineUI({
   })));
 }
 
-function Edit({
-  value,
-  onChange,
-  onFocus,
-  isObjectActive,
-  activeObjectAttributes,
-  contentRef
-}) {
+function Edit(_ref2) {
+  let {
+    value,
+    onChange,
+    onFocus,
+    isObjectActive,
+    activeObjectAttributes,
+    contentRef
+  } = _ref2;
   const [isModalOpen, setIsModalOpen] = Object(external_wp_element_["useState"])(false);
 
   function openModal() {
@@ -643,12 +650,13 @@ function Edit({
     isActive: isObjectActive
   }), isModalOpen && Object(external_wp_element_["createElement"])(external_wp_blockEditor_["MediaUpload"], {
     allowedTypes: ALLOWED_MEDIA_TYPES,
-    onSelect: ({
-      id,
-      url,
-      alt,
-      width: imgWidth
-    }) => {
+    onSelect: _ref3 => {
+      let {
+        id,
+        url,
+        alt,
+        width: imgWidth
+      } = _ref3;
       closeModal();
       onChange(Object(external_wp_richText_["insertObject"])(value, {
         type: image_name,
@@ -662,9 +670,10 @@ function Edit({
       onFocus();
     },
     onClose: closeModal,
-    render: ({
-      open
-    }) => {
+    render: _ref4 => {
+      let {
+        open
+      } = _ref4;
       open();
       return null;
     }
@@ -711,12 +720,14 @@ const italic = {
   tagName: 'em',
   className: null,
 
-  edit({
-    isActive,
-    value,
-    onChange,
-    onFocus
-  }) {
+  edit(_ref) {
+    let {
+      isActive,
+      value,
+      onChange,
+      onFocus
+    } = _ref;
+
     function onToggle() {
       onChange(Object(external_wp_richText_["toggleFormat"])(value, {
         type: italic_name,
@@ -859,12 +870,13 @@ function isValidHref(href) {
  * @return {Object} The final format object.
  */
 
-function createLinkFormat({
-  url,
-  type,
-  id,
-  opensInNewWindow
-}) {
+function createLinkFormat(_ref) {
+  let {
+    url,
+    type,
+    id,
+    opensInNewWindow
+  } = _ref;
   const format = {
     type: 'core/link',
     attributes: {
@@ -896,7 +908,9 @@ function createLinkFormat({
 
 /* eslint-enable jsdoc/no-undefined-types */
 
-function getFormatBoundary(value, format, startIndex = value.start, endIndex = value.end) {
+function getFormatBoundary(value, format) {
+  let startIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : value.start;
+  let endIndex = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : value.end;
   const EMPTY_BOUNDARIES = {
     start: null,
     end: null
@@ -1046,16 +1060,17 @@ function useLinkInstanceKey(instance) {
 
 
 
-function InlineLinkUI({
-  isActive,
-  activeAttributes,
-  addingLink,
-  value,
-  onChange,
-  speak,
-  stopAddingLink,
-  contentRef
-}) {
+function InlineLinkUI(_ref) {
+  let {
+    isActive,
+    activeAttributes,
+    addingLink,
+    value,
+    onChange,
+    speak,
+    stopAddingLink,
+    contentRef
+  } = _ref;
   const richLinkTextValue = getRichTextValueFromSelection(value, isActive); // Get the text content minus any HTML tags.
 
   const richTextText = richLinkTextValue.text;
@@ -1283,14 +1298,15 @@ const link_name = 'core/link';
 
 const link_title = Object(external_wp_i18n_["__"])('Link');
 
-function link_Edit({
-  isActive,
-  activeAttributes,
-  value,
-  onChange,
-  onFocus,
-  contentRef
-}) {
+function link_Edit(_ref) {
+  let {
+    isActive,
+    activeAttributes,
+    value,
+    onChange,
+    onFocus,
+    contentRef
+  } = _ref;
   const [addingLink, setAddingLink] = Object(external_wp_element_["useState"])(false);
 
   function addLink() {
@@ -1372,10 +1388,12 @@ const link_link = {
     target: 'target'
   },
 
-  __unstablePasteRule(value, {
-    html,
-    plainText
-  }) {
+  __unstablePasteRule(value, _ref2) {
+    let {
+      html,
+      plainText
+    } = _ref2;
+
     if (Object(external_wp_richText_["isCollapsed"])(value)) {
       return value;
     }
@@ -1422,12 +1440,14 @@ const strikethrough = {
   tagName: 's',
   className: null,
 
-  edit({
-    isActive,
-    value,
-    onChange,
-    onFocus
-  }) {
+  edit(_ref) {
+    let {
+      isActive,
+      value,
+      onChange,
+      onFocus
+    } = _ref;
+
     function onClick() {
       onChange(Object(external_wp_richText_["toggleFormat"])(value, {
         type: strikethrough_name,
@@ -1469,10 +1489,12 @@ const underline = {
     style: 'style'
   },
 
-  edit({
-    value,
-    onChange
-  }) {
+  edit(_ref) {
+    let {
+      value,
+      onChange
+    } = _ref;
+
     const onToggle = () => {
       onChange(Object(external_wp_richText_["toggleFormat"])(value, {
         type: underline_name,
@@ -1536,7 +1558,8 @@ const textColor = Object(external_wp_element_["createElement"])(external_wp_prim
 
 
 
-function parseCSS(css = '') {
+function parseCSS() {
+  let css = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
   return css.split(';').reduce((accumulator, rule) => {
     if (rule) {
       const [property, value] = rule.split(':');
@@ -1548,7 +1571,9 @@ function parseCSS(css = '') {
   }, {});
 }
 
-function parseClassName(className = '', colorSettings) {
+function parseClassName() {
+  let className = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+  let colorSettings = arguments.length > 1 ? arguments[1] : undefined;
   return className.split(' ').reduce((accumulator, name) => {
     const match = name.match(/^has-([^-]+)-color$/);
 
@@ -1615,12 +1640,13 @@ function setColors(value, name, colorSettings, colors) {
   });
 }
 
-function ColorPicker({
-  name,
-  property,
-  value,
-  onChange
-}) {
+function ColorPicker(_ref) {
+  let {
+    name,
+    property,
+    value,
+    onChange
+  } = _ref;
   const colors = Object(external_wp_data_["useSelect"])(select => {
     const {
       getSettings
@@ -1639,13 +1665,15 @@ function ColorPicker({
   });
 }
 
-function InlineColorUI({
-  name,
-  value,
-  onChange,
-  onClose,
-  contentRef
-}) {
+function InlineColorUI(_ref2) {
+  let {
+    name,
+    value,
+    onChange,
+    onClose,
+    contentRef
+  } = _ref2;
+
   /* 
    As you change the text color by typing a HEX value into a field,
    the return value of document.getSelection jumps to the field you're editing,
@@ -1722,10 +1750,12 @@ function getComputedStyleProperty(element, property) {
   return value;
 }
 
-function fillComputedColors(element, {
-  color,
-  backgroundColor
-}) {
+function fillComputedColors(element, _ref) {
+  let {
+    color,
+    backgroundColor
+  } = _ref;
+
   if (!color && !backgroundColor) {
     return;
   }
@@ -1736,13 +1766,14 @@ function fillComputedColors(element, {
   };
 }
 
-function TextColorEdit({
-  value,
-  onChange,
-  isActive,
-  activeAttributes,
-  contentRef
-}) {
+function TextColorEdit(_ref2) {
+  let {
+    value,
+    onChange,
+    isActive,
+    activeAttributes,
+    contentRef
+  } = _ref2;
   const allowCustomControl = Object(external_wp_blockEditor_["useSetting"])('color.custom');
   const colors = Object(external_wp_blockEditor_["useSetting"])('color.palette') || EMPTY_ARRAY;
   const [isAddingColor, setIsAddingColor] = Object(external_wp_element_["useState"])(false);
@@ -1843,12 +1874,14 @@ const subscript_subscript = {
   tagName: 'sub',
   className: null,
 
-  edit({
-    isActive,
-    value,
-    onChange,
-    onFocus
-  }) {
+  edit(_ref) {
+    let {
+      isActive,
+      value,
+      onChange,
+      onFocus
+    } = _ref;
+
     function onToggle() {
       onChange(Object(external_wp_richText_["toggleFormat"])(value, {
         type: subscript_name,
@@ -1907,12 +1940,14 @@ const superscript_superscript = {
   tagName: 'sup',
   className: null,
 
-  edit({
-    isActive,
-    value,
-    onChange,
-    onFocus
-  }) {
+  edit(_ref) {
+    let {
+      isActive,
+      value,
+      onChange,
+      onFocus
+    } = _ref;
+
     function onToggle() {
       onChange(Object(external_wp_richText_["toggleFormat"])(value, {
         type: superscript_name,
@@ -1959,12 +1994,14 @@ const keyboard = {
   tagName: 'kbd',
   className: null,
 
-  edit({
-    isActive,
-    value,
-    onChange,
-    onFocus
-  }) {
+  edit(_ref) {
+    let {
+      isActive,
+      value,
+      onChange,
+      onFocus
+    } = _ref;
+
     function onToggle() {
       onChange(Object(external_wp_richText_["toggleFormat"])(value, {
         type: keyboard_name,
@@ -2015,10 +2052,13 @@ const keyboard = {
  */
 
 
-default_formats.forEach(({
-  name,
-  ...settings
-}) => Object(external_wp_richText_["registerFormatType"])(name, settings));
+default_formats.forEach(_ref => {
+  let {
+    name,
+    ...settings
+  } = _ref;
+  return Object(external_wp_richText_["registerFormatType"])(name, settings);
+});
 
 
 /***/ }),

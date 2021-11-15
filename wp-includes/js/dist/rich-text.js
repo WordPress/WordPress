@@ -511,7 +511,10 @@ var external_lodash_ = __webpack_require__("YLtl");
  * @return {Object} Updated state.
  */
 
-function reducer_formatTypes(state = {}, action) {
+function reducer_formatTypes() {
+  let state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  let action = arguments.length > 1 ? arguments[1] : undefined;
+
   switch (action.type) {
     case 'ADD_FORMAT_TYPES':
       return { ...state,
@@ -569,10 +572,11 @@ function getFormatType(state, name) {
  */
 
 function getFormatTypeForBareElement(state, bareElementTagName) {
-  return Object(external_lodash_["find"])(getFormatTypes(state), ({
-    className,
-    tagName
-  }) => {
+  return Object(external_lodash_["find"])(getFormatTypes(state), _ref => {
+    let {
+      className,
+      tagName
+    } = _ref;
     return className === null && bareElementTagName === tagName;
   });
 }
@@ -586,9 +590,11 @@ function getFormatTypeForBareElement(state, bareElementTagName) {
  */
 
 function getFormatTypeForClassName(state, elementClassName) {
-  return Object(external_lodash_["find"])(getFormatTypes(state), ({
-    className
-  }) => {
+  return Object(external_lodash_["find"])(getFormatTypes(state), _ref2 => {
+    let {
+      className
+    } = _ref2;
+
     if (className === null) {
       return false;
     }
@@ -789,7 +795,9 @@ function replace(array, index, value) {
  */
 
 
-function applyFormat(value, format, startIndex = value.start, endIndex = value.end) {
+function applyFormat(value, format) {
+  let startIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : value.start;
+  let endIndex = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : value.end;
   const {
     formats,
     activeFormats
@@ -823,9 +831,12 @@ function applyFormat(value, format, startIndex = value.start, endIndex = value.e
 
     for (let index = startIndex; index < endIndex; index++) {
       if (newFormats[index]) {
-        newFormats[index] = newFormats[index].filter(({
-          type
-        }) => type !== format.type);
+        newFormats[index] = newFormats[index].filter(_ref => {
+          let {
+            type
+          } = _ref;
+          return type !== format.type;
+        });
         const length = newFormats[index].length;
 
         if (length < position) {
@@ -866,9 +877,11 @@ function applyFormat(value, format, startIndex = value.start, endIndex = value.e
  *
  * @return {HTMLBodyElement} Body element with parsed HTML.
  */
-function createElement({
-  implementation
-}, html) {
+function createElement(_ref, html) {
+  let {
+    implementation
+  } = _ref;
+
   // Because `createHTMLDocument` is an expensive operation, and with this
   // function being internal to `rich-text` (full control in avoiding a risk
   // of asynchronous operations on the shared reference), a single document
@@ -939,10 +952,11 @@ function createEmptyValue() {
   };
 }
 
-function toFormat({
-  type,
-  attributes
-}) {
+function toFormat(_ref) {
+  let {
+    type,
+    attributes
+  } = _ref;
   let formatType;
 
   if (attributes && attributes.class) {
@@ -1058,16 +1072,18 @@ function toFormat({
  */
 
 
-function create({
-  element,
-  text,
-  html,
-  range,
-  multilineTag,
-  multilineWrapperTags,
-  __unstableIsEditableTree: isEditableTree,
-  preserveWhiteSpace
-} = {}) {
+function create() {
+  let {
+    element,
+    text,
+    html,
+    range,
+    multilineTag,
+    multilineWrapperTags,
+    __unstableIsEditableTree: isEditableTree,
+    preserveWhiteSpace
+  } = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
   if (typeof text === 'string' && text.length > 0) {
     return {
       formats: Array(text.length),
@@ -1235,15 +1251,16 @@ function removeReservedCharacters(string) {
  * @return {RichTextValue} A rich text value.
  */
 
-function createFromElement({
-  element,
-  range,
-  multilineTag,
-  multilineWrapperTags,
-  currentWrapperTags = [],
-  isEditableTree,
-  preserveWhiteSpace
-}) {
+function createFromElement(_ref2) {
+  let {
+    element,
+    range,
+    multilineTag,
+    multilineWrapperTags,
+    currentWrapperTags = [],
+    isEditableTree,
+    preserveWhiteSpace
+  } = _ref2;
   const accumulator = createEmptyValue();
 
   if (!element) {
@@ -1404,15 +1421,16 @@ function createFromElement({
  */
 
 
-function createFromMultilineElement({
-  element,
-  range,
-  multilineTag,
-  multilineWrapperTags,
-  currentWrapperTags = [],
-  isEditableTree,
-  preserveWhiteSpace
-}) {
+function createFromMultilineElement(_ref3) {
+  let {
+    element,
+    range,
+    multilineTag,
+    multilineWrapperTags,
+    currentWrapperTags = [],
+    isEditableTree,
+    preserveWhiteSpace
+  } = _ref3;
   const accumulator = createEmptyValue();
 
   if (!element || !element.hasChildNodes()) {
@@ -1463,9 +1481,11 @@ function createFromMultilineElement({
  */
 
 
-function getAttributes({
-  element
-}) {
+function getAttributes(_ref4) {
+  let {
+    element
+  } = _ref4;
+
   if (!element.hasAttributes()) {
     return;
   }
@@ -1524,7 +1544,11 @@ function mergePair(a, b) {
  * @return {RichTextValue} A new value combining all given records.
  */
 
-function concat(...values) {
+function concat() {
+  for (var _len = arguments.length, values = new Array(_len), _key = 0; _key < _len; _key++) {
+    values[_key] = arguments[_key];
+  }
+
   return normaliseFormats(values.reduce(mergePair, create()));
 }
 
@@ -1542,12 +1566,15 @@ function concat(...values) {
  *
  * @return {RichTextFormatList} Active format objects.
  */
-function getActiveFormats({
-  formats,
-  start,
-  end,
-  activeFormats
-}, EMPTY_ACTIVE_FORMATS = []) {
+function getActiveFormats(_ref) {
+  let {
+    formats,
+    start,
+    end,
+    activeFormats
+  } = _ref;
+  let EMPTY_ACTIVE_FORMATS = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+
   if (start === undefined) {
     return EMPTY_ACTIVE_FORMATS;
   }
@@ -1623,12 +1650,14 @@ function getActiveFormat(value, formatType) {
  * @return {RichTextFormat|void} Active object, or undefined.
  */
 
-function getActiveObject({
-  start,
-  end,
-  replacements,
-  text
-}) {
+function getActiveObject(_ref) {
+  let {
+    start,
+    end,
+    replacements,
+    text
+  } = _ref;
+
   if (start + 1 !== end || text[start] !== OBJECT_REPLACEMENT_CHARACTER) {
     return;
   }
@@ -1652,9 +1681,10 @@ function getActiveObject({
  * @return {string} The text content.
  */
 
-function getTextContent({
-  text
-}) {
+function getTextContent(_ref) {
+  let {
+    text
+  } = _ref;
   return text.replace(new RegExp(OBJECT_REPLACEMENT_CHARACTER, 'g'), '').replace(new RegExp(LINE_SEPARATOR, 'g'), '\n');
 }
 
@@ -1677,10 +1707,12 @@ function getTextContent({
  * @return {number|void} The line index. Undefined if not found.
  */
 
-function getLineIndex({
-  start,
-  text
-}, startIndex = start) {
+function getLineIndex(_ref) {
+  let {
+    start,
+    text
+  } = _ref;
+  let startIndex = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : start;
   let index = startIndex;
 
   while (index--) {
@@ -1764,10 +1796,12 @@ function isActiveListType(value, type, rootType) {
  * @return {boolean|undefined} True if the selection is collapsed, false if not,
  *                             undefined if there is no selection.
  */
-function isCollapsed({
-  start,
-  end
-}) {
+function isCollapsed(_ref) {
+  let {
+    start,
+    end
+  } = _ref;
+
   if (start === undefined || end === undefined) {
     return;
   }
@@ -1791,9 +1825,10 @@ function isCollapsed({
  * @return {boolean} True if the value is empty, false if not.
  */
 
-function isEmpty({
-  text
-}) {
+function isEmpty(_ref) {
+  let {
+    text
+  } = _ref;
   return text.length === 0;
 }
 /**
@@ -1805,11 +1840,13 @@ function isEmpty({
  * @return {boolean} True if the line is empty, false if not.
  */
 
-function isEmptyLine({
-  text,
-  start,
-  end
-}) {
+function isEmptyLine(_ref2) {
+  let {
+    text,
+    start,
+    end
+  } = _ref2;
+
   if (start !== end) {
     return false;
   }
@@ -1848,22 +1885,27 @@ function isEmptyLine({
  * @return {RichTextValue} A new combined value.
  */
 
-function join(values, separator = '') {
+function join(values) {
+  let separator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+
   if (typeof separator === 'string') {
     separator = create({
       text: separator
     });
   }
 
-  return normaliseFormats(values.reduce((accumlator, {
-    formats,
-    replacements,
-    text
-  }) => ({
-    formats: accumlator.formats.concat(separator.formats, formats),
-    replacements: accumlator.replacements.concat(separator.replacements, replacements),
-    text: accumlator.text + separator.text + text
-  })));
+  return normaliseFormats(values.reduce((accumlator, _ref) => {
+    let {
+      formats,
+      replacements,
+      text
+    } = _ref;
+    return {
+      formats: accumlator.formats.concat(separator.formats, formats),
+      replacements: accumlator.replacements.concat(separator.replacements, replacements),
+      text: accumlator.text + separator.text + text
+    };
+  }));
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/register-format-type.js
@@ -1996,7 +2038,9 @@ function registerFormatType(name, settings) {
  * @return {RichTextValue} A new value with the format applied.
  */
 
-function removeFormat(value, formatType, startIndex = value.start, endIndex = value.end) {
+function removeFormat(value, formatType) {
+  let startIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : value.start;
+  let endIndex = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : value.end;
   const {
     formats,
     activeFormats
@@ -2039,9 +2083,12 @@ function removeFormat(value, formatType, startIndex = value.start, endIndex = va
 }
 
 function filterFormats(formats, index, formatType) {
-  const newFormats = formats[index].filter(({
-    type
-  }) => type !== formatType);
+  const newFormats = formats[index].filter(_ref => {
+    let {
+      type
+    } = _ref;
+    return type !== formatType;
+  });
 
   if (newFormats.length) {
     formats[index] = newFormats;
@@ -2072,7 +2119,9 @@ function filterFormats(formats, index, formatType) {
  * @return {RichTextValue} A new value with the value inserted.
  */
 
-function insert(value, valueToInsert, startIndex = value.start, endIndex = value.end) {
+function insert(value, valueToInsert) {
+  let startIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : value.start;
+  let endIndex = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : value.end;
   const {
     formats,
     replacements,
@@ -2142,14 +2191,19 @@ function remove_remove(value, startIndex, endIndex) {
  * @return {RichTextValue} A new value with replacements applied.
  */
 
-function replace_replace({
-  formats,
-  replacements,
-  text,
-  start,
-  end
-}, pattern, replacement) {
-  text = text.replace(pattern, (match, ...rest) => {
+function replace_replace(_ref, pattern, replacement) {
+  let {
+    formats,
+    replacements,
+    text,
+    start,
+    end
+  } = _ref;
+  text = text.replace(pattern, function (match) {
+    for (var _len = arguments.length, rest = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      rest[_key - 1] = arguments[_key];
+    }
+
     const offset = rest[rest.length - 2];
     let newText = replacement;
     let newFormats;
@@ -2210,7 +2264,9 @@ function replace_replace({
  * @return {RichTextValue} A new value with the value inserted.
  */
 
-function insertLineSeparator(value, startIndex = value.start, endIndex = value.end) {
+function insertLineSeparator(value) {
+  let startIndex = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : value.start;
+  let endIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : value.end;
   const beforeText = value.text.slice(0, startIndex);
   const previousLineSeparatorIndex = beforeText.lastIndexOf(LINE_SEPARATOR);
   const previousLineSeparatorFormats = value.replacements[previousLineSeparatorIndex];
@@ -2251,7 +2307,8 @@ function insertLineSeparator(value, startIndex = value.start, endIndex = value.e
  *                                   is found on the position.
  */
 
-function removeLineSeparator(value, backward = true) {
+function removeLineSeparator(value) {
+  let backward = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
   const {
     replacements,
     text,
@@ -2335,7 +2392,9 @@ function insertObject(value, formatToInsert, startIndex, endIndex) {
  *
  * @return {RichTextValue} A new extracted value.
  */
-function slice(value, startIndex = value.start, endIndex = value.end) {
+function slice(value) {
+  let startIndex = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : value.start;
+  let endIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : value.end;
   const {
     formats,
     replacements,
@@ -2372,13 +2431,15 @@ function slice(value, startIndex = value.start, endIndex = value.end) {
  * @return {Array<RichTextValue>|undefined} An array of new values.
  */
 
-function split({
-  formats,
-  replacements,
-  text,
-  start,
-  end
-}, string) {
+function split(_ref, string) {
+  let {
+    formats,
+    replacements,
+    text,
+    start,
+    end
+  } = _ref;
+
   if (typeof string !== 'string') {
     return splitAtSelection(...arguments);
   }
@@ -2411,13 +2472,17 @@ function split({
   });
 }
 
-function splitAtSelection({
-  formats,
-  replacements,
-  text,
-  start,
-  end
-}, startIndex = start, endIndex = end) {
+function splitAtSelection(_ref2) {
+  let {
+    formats,
+    replacements,
+    text,
+    start,
+    end
+  } = _ref2;
+  let startIndex = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : start;
+  let endIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : end;
+
   if (start === undefined || end === undefined) {
     return;
   }
@@ -2508,14 +2573,15 @@ function restoreOnAttributes(attributes, isEditableTree) {
  */
 
 
-function fromFormat({
-  type,
-  attributes,
-  unregisteredAttributes,
-  object,
-  boundaryClass,
-  isEditableTree
-}) {
+function fromFormat(_ref) {
+  let {
+    type,
+    attributes,
+    unregisteredAttributes,
+    object,
+    boundaryClass,
+    isEditableTree
+  } = _ref;
   const formatType = get_format_type_getFormatType(type);
   let elementAttributes = {};
 
@@ -2584,23 +2650,24 @@ function isEqualUntil(a, b, index) {
   return true;
 }
 
-function toTree({
-  value,
-  multilineTag,
-  preserveWhiteSpace,
-  createEmpty,
-  append,
-  getLastChild,
-  getParent,
-  isText,
-  getText,
-  remove,
-  appendText,
-  onStartIndex,
-  onEndIndex,
-  isEditableTree,
-  placeholder
-}) {
+function toTree(_ref2) {
+  let {
+    value,
+    multilineTag,
+    preserveWhiteSpace,
+    createEmpty,
+    append,
+    getLastChild,
+    getParent,
+    isText,
+    getText,
+    remove,
+    appendText,
+    onStartIndex,
+    onEndIndex,
+    isEditableTree,
+    placeholder
+  } = _ref2;
   const {
     formats,
     replacements,
@@ -2879,15 +2946,17 @@ function to_dom_appendText(node, text) {
   node.appendData(text);
 }
 
-function to_dom_getLastChild({
-  lastChild
-}) {
+function to_dom_getLastChild(_ref) {
+  let {
+    lastChild
+  } = _ref;
   return lastChild;
 }
 
-function to_dom_getParent({
-  parentNode
-}) {
+function to_dom_getParent(_ref2) {
+  let {
+    parentNode
+  } = _ref2;
   return parentNode;
 }
 
@@ -2895,9 +2964,10 @@ function to_dom_isText(node) {
   return node.nodeType === node.TEXT_NODE;
 }
 
-function to_dom_getText({
-  nodeValue
-}) {
+function to_dom_getText(_ref3) {
+  let {
+    nodeValue
+  } = _ref3;
   return nodeValue;
 }
 
@@ -2905,14 +2975,15 @@ function to_dom_remove(node) {
   return node.parentNode.removeChild(node);
 }
 
-function toDom({
-  value,
-  multilineTag,
-  prepareEditableTree,
-  isEditableTree = true,
-  placeholder,
-  doc = document
-}) {
+function toDom(_ref4) {
+  let {
+    value,
+    multilineTag,
+    prepareEditableTree,
+    isEditableTree = true,
+    placeholder,
+    doc = document
+  } = _ref4;
   let startPath = [];
   let endPath = [];
 
@@ -2980,14 +3051,15 @@ function toDom({
  * @param {string}        [$1.placeholder]         Placeholder text.
  */
 
-function apply({
-  value,
-  current,
-  multilineTag,
-  prepareEditableTree,
-  __unstableDomOnly,
-  placeholder
-}) {
+function apply(_ref5) {
+  let {
+    value,
+    current,
+    multilineTag,
+    prepareEditableTree,
+    __unstableDomOnly,
+    placeholder
+  } = _ref5;
   // Construct a new element tree in memory.
   const {
     body,
@@ -3078,10 +3150,11 @@ function isRangeEqual(a, b) {
   return a.startContainer === b.startContainer && a.startOffset === b.startOffset && a.endContainer === b.endContainer && a.endOffset === b.endOffset;
 }
 
-function applySelection({
-  startPath,
-  endPath
-}, current) {
+function applySelection(_ref6, current) {
+  let {
+    startPath,
+    endPath
+  } = _ref6;
   const {
     node: startContainer,
     offset: startOffset
@@ -3158,11 +3231,12 @@ var external_wp_escapeHtml_ = __webpack_require__("Vx3V");
  * @return {string} HTML string.
  */
 
-function toHTMLString({
-  value,
-  multilineTag,
-  preserveWhiteSpace
-}) {
+function toHTMLString(_ref) {
+  let {
+    value,
+    multilineTag,
+    preserveWhiteSpace
+  } = _ref;
   const tree = toTree({
     value,
     multilineTag,
@@ -3183,9 +3257,10 @@ function to_html_string_createEmpty() {
   return {};
 }
 
-function to_html_string_getLastChild({
-  children
-}) {
+function to_html_string_getLastChild(_ref2) {
+  let {
+    children
+  } = _ref2;
   return children && children[children.length - 1];
 }
 
@@ -3206,21 +3281,24 @@ function to_html_string_appendText(object, text) {
   object.text += text;
 }
 
-function to_html_string_getParent({
-  parent
-}) {
+function to_html_string_getParent(_ref3) {
+  let {
+    parent
+  } = _ref3;
   return parent;
 }
 
-function to_html_string_isText({
-  text
-}) {
+function to_html_string_isText(_ref4) {
+  let {
+    text
+  } = _ref4;
   return typeof text === 'string';
 }
 
-function to_html_string_getText({
-  text
-}) {
+function to_html_string_getText(_ref5) {
+  let {
+    text
+  } = _ref5;
   return text;
 }
 
@@ -3234,12 +3312,13 @@ function to_html_string_remove(object) {
   return object;
 }
 
-function createElementHTML({
-  type,
-  attributes,
-  object,
-  children
-}) {
+function createElementHTML(_ref6) {
+  let {
+    type,
+    attributes,
+    object,
+    children
+  } = _ref6;
   let attributeString = '';
 
   for (const key in attributes) {
@@ -3257,7 +3336,8 @@ function createElementHTML({
   return `<${type}${attributeString}>${createChildrenHTML(children)}</${type}>`;
 }
 
-function createChildrenHTML(children = []) {
+function createChildrenHTML() {
+  let children = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   return children.map(child => {
     if (child.html !== undefined) {
       return child.html;
@@ -3431,10 +3511,11 @@ function canOutdentListItems(value) {
  * @return {number|void} The line index.
  */
 
-function getTargetLevelLineIndex({
-  text,
-  replacements
-}, lineIndex) {
+function getTargetLevelLineIndex(_ref, lineIndex) {
+  let {
+    text,
+    replacements
+  } = _ref;
   const startFormats = replacements[lineIndex] || [];
   let index = lineIndex;
 
@@ -3518,10 +3599,11 @@ function indentListItems(value, rootFormat) {
  * @return {number|void} The parent list line index.
  */
 
-function getParentLineIndex({
-  text,
-  replacements
-}, lineIndex) {
+function getParentLineIndex(_ref, lineIndex) {
+  let {
+    text,
+    replacements
+  } = _ref;
   const startFormats = replacements[lineIndex] || [];
   let index = lineIndex;
 
@@ -3554,10 +3636,11 @@ function getParentLineIndex({
  * @return {number} The index of the last child.
  */
 
-function getLastChildIndex({
-  text,
-  replacements
-}, lineIndex) {
+function getLastChildIndex(_ref, lineIndex) {
+  let {
+    text,
+    replacements
+  } = _ref;
   const lineFormats = replacements[lineIndex] || []; // Use the given line index in case there are no next children.
 
   let childIndex = lineIndex; // `lineIndex` could be `undefined` if it's the first line.
@@ -3743,11 +3826,12 @@ var external_wp_element_ = __webpack_require__("GRId");
  * @return {Element|Range} The active element or selection range.
  */
 
-function useAnchorRef({
-  ref,
-  value,
-  settings = {}
-}) {
+function useAnchorRef(_ref) {
+  let {
+    ref,
+    value,
+    settings = {}
+  } = _ref;
   const {
     tagName,
     className,
@@ -3839,9 +3923,10 @@ function useDefaultStyle() {
  * change.
  */
 
-function useBoundaryStyle({
-  record
-}) {
+function useBoundaryStyle(_ref) {
+  let {
+    record
+  } = _ref;
   const ref = Object(external_wp_element_["useRef"])();
   const {
     activeFormats = []
@@ -4175,12 +4260,13 @@ function useIndentListItemOnSpace(props) {
  * @return {RichTextValue} Mutated value.
  */
 
-function updateFormats({
-  value,
-  start,
-  end,
-  formats
-}) {
+function updateFormats(_ref) {
+  let {
+    value,
+    start,
+    end,
+    formats
+  } = _ref;
   // Start and end may be switched in case of delete.
   const min = Math.min(start, end);
   const max = Math.max(start, end);
@@ -4627,22 +4713,23 @@ function useSpace() {
 
 
 
-function useRichText({
-  value = '',
-  selectionStart,
-  selectionEnd,
-  placeholder,
-  preserveWhiteSpace,
-  onSelectionChange,
-  onChange,
-  __unstableMultilineTag: multilineTag,
-  __unstableDisableFormats: disableFormats,
-  __unstableIsSelected: isSelected,
-  __unstableDependencies = [],
-  __unstableAfterParse,
-  __unstableBeforeSerialize,
-  __unstableAddInvisibleFormats
-}) {
+function useRichText(_ref) {
+  let {
+    value = '',
+    selectionStart,
+    selectionEnd,
+    placeholder,
+    preserveWhiteSpace,
+    onSelectionChange,
+    onChange,
+    __unstableMultilineTag: multilineTag,
+    __unstableDisableFormats: disableFormats,
+    __unstableIsSelected: isSelected,
+    __unstableDependencies = [],
+    __unstableAfterParse,
+    __unstableBeforeSerialize,
+    __unstableAddInvisibleFormats
+  } = _ref;
   const registry = Object(external_wp_data_["useRegistry"])();
   const [, forceRender] = Object(external_wp_element_["useReducer"])(() => ({}));
   const ref = Object(external_wp_element_["useRef"])();
@@ -4665,9 +4752,10 @@ function useRichText({
     });
   }
 
-  function applyRecord(newRecord, {
-    domOnly
-  } = {}) {
+  function applyRecord(newRecord) {
+    let {
+      domOnly
+    } = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     apply({
       value: newRecord,
       current: ref.current,
@@ -4862,13 +4950,14 @@ function __experimentalRichText() {}
  */
 
 
-function FormatEdit({
-  formatTypes,
-  onChange,
-  onFocus,
-  value,
-  forwardedRef
-}) {
+function FormatEdit(_ref) {
+  let {
+    formatTypes,
+    onChange,
+    onFocus,
+    value,
+    forwardedRef
+  } = _ref;
   return formatTypes.map(settings => {
     const {
       name,

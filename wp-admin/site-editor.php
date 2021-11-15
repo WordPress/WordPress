@@ -62,7 +62,7 @@ $preload_paths           = array(
 	'/wp/v2/block-navigation-areas?context=edit',
 );
 
-$areas        = get_option( 'fse_navigation_areas', array() );
+$areas        = get_option( 'wp_navigation_areas', array() );
 $active_areas = array_intersect_key( $areas, get_navigation_areas() );
 foreach ( $active_areas as $post_id ) {
 	if ( $post_id ) {

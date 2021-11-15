@@ -146,7 +146,10 @@ var external_wp_data_ = __webpack_require__("1ZqX");
  *
  * @return {Object} Updated state.
  */
-function reducer(state = {}, action) {
+function reducer() {
+  let state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  let action = arguments.length > 1 ? arguments[1] : undefined;
+
   switch (action.type) {
     case 'SET_IS_MATCHING':
       return action.values;

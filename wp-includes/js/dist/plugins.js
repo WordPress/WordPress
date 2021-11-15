@@ -663,11 +663,12 @@ class plugin_area_PluginArea extends external_wp_element_["Component"] {
 
   getCurrentPluginsState() {
     return {
-      plugins: Object(external_lodash_["map"])(getPlugins(this.props.scope), ({
-        icon,
-        name,
-        render
-      }) => {
+      plugins: Object(external_lodash_["map"])(getPlugins(this.props.scope), _ref => {
+        let {
+          icon,
+          name,
+          render
+        } = _ref;
         return {
           Plugin: render,
           context: this.memoizedContext(name, icon)
@@ -695,13 +696,16 @@ class plugin_area_PluginArea extends external_wp_element_["Component"] {
       style: {
         display: 'none'
       }
-    }, Object(external_lodash_["map"])(this.state.plugins, ({
-      context,
-      Plugin
-    }) => Object(external_wp_element_["createElement"])(Provider, {
-      key: context.name,
-      value: context
-    }, Object(external_wp_element_["createElement"])(Plugin, null))));
+    }, Object(external_lodash_["map"])(this.state.plugins, _ref2 => {
+      let {
+        context,
+        Plugin
+      } = _ref2;
+      return Object(external_wp_element_["createElement"])(Provider, {
+        key: context.name,
+        value: context
+      }, Object(external_wp_element_["createElement"])(Plugin, null));
+    }));
   }
 
 }

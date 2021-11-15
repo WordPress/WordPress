@@ -422,7 +422,9 @@ function withGlobalEvents(eventTypesToHandlers) {
       event) {
         const handler = eventTypesToHandlers[
         /** @type {keyof GlobalEventHandlersEventMap} */
-        event.type];
+        event.type
+        /* eslint-enable jsdoc/no-undefined-types */
+        ];
 
         if (typeof this.wrappedRef[handler] === 'function') {
           this.wrappedRef[handler](event);
@@ -495,7 +497,8 @@ function createId(object) {
  */
 
 
-function useInstanceId(object, prefix, preferredId = '') {
+function useInstanceId(object, prefix) {
+  let preferredId = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
   return Object(external_wp_element_["useMemo"])(() => {
     if (preferredId) return preferredId;
     const id = createId(object);
@@ -619,7 +622,8 @@ const withSafeTimeout = create_higher_order_component(OriginalComponent => {
  * @return {any} A higher order component wrapper accepting a component that takes the state props + its own props + `setState` and returning a component that only accepts the own props.
  */
 
-function withState(initialState = {}) {
+function withState() {
+  let initialState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   external_wp_deprecated_default()('wp.compose.withState', {
     alternative: 'wp.element.useState'
   });
@@ -724,9 +728,9 @@ function useRefEffect(callback, dependencies) {
  */
 
 function useConstrainedTabbing() {
-  return useRefEffect(
+  return useRefEffect((
   /** @type {HTMLElement} */
-  node => {
+  node) => {
     /** @type {number|undefined} */
     let timeoutId;
 
@@ -808,7 +812,9 @@ var clipboard_default = /*#__PURE__*/__webpack_require__.n(dist_clipboard);
  *                   timeout.
  */
 
-function useCopyOnClick(ref, text, timeout = 4000) {
+function useCopyOnClick(ref, text) {
+  let timeout = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 4000;
+
   /* eslint-enable jsdoc/no-undefined-types */
   external_wp_deprecated_default()('wp.compose.useCopyOnClick', {
     since: '10.3',
@@ -831,10 +837,11 @@ function useCopyOnClick(ref, text, timeout = 4000) {
     clipboard.current = new clipboard_default.a(ref.current, {
       text: () => typeof text === 'function' ? text() : text
     });
-    clipboard.current.on('success', ({
-      clearSelection,
-      trigger
-    }) => {
+    clipboard.current.on('success', _ref => {
+      let {
+        clearSelection,
+        trigger
+      } = _ref;
       // Clearing selection will move focus back to the triggering button,
       // ensuring that it is not reset to the body, and further that it is
       // kept within the rendered node.
@@ -913,9 +920,10 @@ function useCopyToClipboard(text, onSuccess) {
       }
 
     });
-    clipboard.on('success', ({
-      clearSelection
-    }) => {
+    clipboard.on('success', _ref => {
+      let {
+        clearSelection
+      } = _ref;
       // Clearing selection will move focus back to the triggering
       // button, ensuring that it is not reset to the body, and
       // further that it is kept within the rendered node.
@@ -962,7 +970,8 @@ function useCopyToClipboard(text, onSuccess) {
  * ```
  */
 
-function useFocusOnMount(focusOnMount = 'firstElement') {
+function useFocusOnMount() {
+  let focusOnMount = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'firstElement';
   const focusOnMountRef = Object(external_wp_element_["useRef"])(focusOnMount);
   Object(external_wp_element_["useEffect"])(() => {
     focusOnMountRef.current = focusOnMount;
@@ -1458,9 +1467,9 @@ function useDialog(options) {
       return;
     }
 
-    node.addEventListener('keydown',
+    node.addEventListener('keydown', (
     /** @type {KeyboardEvent} */
-    event => {
+    event) => {
       var _currentOptions$curre3;
 
       // Close on escape
@@ -1508,11 +1517,12 @@ const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? external_wp_el
  * @param {(e: MouseEvent) => void} props.onDragEnd
  */
 
-function useDragging({
-  onDragStart,
-  onDragMove,
-  onDragEnd
-}) {
+function useDragging(_ref) {
+  let {
+    onDragStart,
+    onDragMove,
+    onDragEnd
+  } = _ref;
   const [isDragging, setIsDragging] = Object(external_wp_element_["useState"])(false);
   const eventsRef = Object(external_wp_element_["useRef"])({
     onDragStart,
@@ -1524,12 +1534,12 @@ function useDragging({
     eventsRef.current.onDragMove = onDragMove;
     eventsRef.current.onDragEnd = onDragEnd;
   }, [onDragStart, onDragMove, onDragEnd]);
-  const onMouseMove = Object(external_wp_element_["useCallback"])(
+  const onMouseMove = Object(external_wp_element_["useCallback"])((
   /** @type {MouseEvent} */
-  event => eventsRef.current.onDragMove && eventsRef.current.onDragMove(event), []);
-  const endDrag = Object(external_wp_element_["useCallback"])(
+  event) => eventsRef.current.onDragMove && eventsRef.current.onDragMove(event), []);
+  const endDrag = Object(external_wp_element_["useCallback"])((
   /** @type {MouseEvent} */
-  event => {
+  event) => {
     if (eventsRef.current.onDragEnd) {
       eventsRef.current.onDragEnd(event);
     }
@@ -1538,9 +1548,9 @@ function useDragging({
     document.removeEventListener('mouseup', endDrag);
     setIsDragging(false);
   }, []);
-  const startDrag = Object(external_wp_element_["useCallback"])(
+  const startDrag = Object(external_wp_element_["useCallback"])((
   /** @type {MouseEvent} */
-  event => {
+  event) => {
     if (eventsRef.current.onDragStart) {
       eventsRef.current.onDragStart(event);
     }
@@ -1603,7 +1613,9 @@ var mousetrap_global_bind = __webpack_require__("VcSt");
  * @return {boolean} True if MacOS; false otherwise.
  */
 
-function isAppleOS(_window = window) {
+function isAppleOS() {
+  let _window = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : window;
+
   const {
     platform
   } = _window.navigator;
@@ -1624,13 +1636,14 @@ function isAppleOS(_window = window) {
 
 function useKeyboardShortcut(
 /* eslint-enable jsdoc/valid-types */
-shortcuts, callback, {
-  bindGlobal = false,
-  eventName = 'keydown',
-  isDisabled = false,
-  // This is important for performance considerations.
-  target
-} = {}) {
+shortcuts, callback) {
+  let {
+    bindGlobal = false,
+    eventName = 'keydown',
+    isDisabled = false,
+    // This is important for performance considerations.
+    target
+  } = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
   const currentCallback = Object(external_wp_element_["useRef"])(callback);
   Object(external_wp_element_["useEffect"])(() => {
     currentCallback.current = callback;
@@ -1663,13 +1676,12 @@ shortcuts, callback, {
 
       const bindFn = bindGlobal ? 'bindGlobal' : 'bind'; // @ts-ignore `bindGlobal` is an undocumented property
 
-      mousetrap[bindFn](shortcut, (
-      /* eslint-disable jsdoc/valid-types */
-
-      /** @type {[e: import('mousetrap').ExtendedKeyboardEvent, combo: string]} */
-      ...args) =>
-      /* eslint-enable jsdoc/valid-types */
-      currentCallback.current(...args), eventName);
+      mousetrap[bindFn](shortcut, function () {
+        return (
+          /* eslint-enable jsdoc/valid-types */
+          currentCallback.current(...arguments)
+        );
+      }, eventName);
     });
     return () => {
       mousetrap.reset();
@@ -1823,7 +1835,8 @@ null);
  * @return {boolean} Whether viewport matches query.
  */
 
-const useViewportMatch = (breakpoint, operator = '>=') => {
+const useViewportMatch = function (breakpoint) {
+  let operator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '>=';
   const simulatedWidth = Object(external_wp_element_["useContext"])(ViewportMatchWidthContext);
   const mediaQuery = !simulatedWidth && `(${CONDITIONS[operator]}: ${BREAKPOINTS[breakpoint]}px)`;
   const mediaQueryResult = useMediaQuery(mediaQuery || undefined);
@@ -1918,9 +1931,10 @@ function getFirstItemsPresentInState(list, state) {
  */
 
 
-function useAsyncList(list, config = {
-  step: 1
-}) {
+function useAsyncList(list) {
+  let config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {
+    step: 1
+  };
   const {
     step = 1
   } = config;
@@ -1983,9 +1997,12 @@ function useAsyncList(list, config = {
  * @param {string} prefix Just a prefix to show when console logging.
  */
 
-function useWarnOnChange(object, prefix = 'Change detection') {
+function useWarnOnChange(object) {
+  let prefix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'Change detection';
   const previousValues = usePrevious(object);
-  Object.entries(previousValues !== null && previousValues !== void 0 ? previousValues : []).forEach(([key, value]) => {
+  Object.entries(previousValues !== null && previousValues !== void 0 ? previousValues : []).forEach(_ref => {
+    let [key, value] = _ref;
+
     if (value !== object[
     /** @type {keyof typeof object} */
     key]) {
@@ -2125,15 +2142,16 @@ function useFreshRef(value) {
  */
 
 
-function useDropZone({
-  isDisabled,
-  onDrop: _onDrop,
-  onDragStart: _onDragStart,
-  onDragEnter: _onDragEnter,
-  onDragLeave: _onDragLeave,
-  onDragEnd: _onDragEnd,
-  onDragOver: _onDragOver
-}) {
+function useDropZone(_ref) {
+  let {
+    isDisabled,
+    onDrop: _onDrop,
+    onDragStart: _onDragStart,
+    onDragEnter: _onDragEnter,
+    onDragLeave: _onDragLeave,
+    onDragEnd: _onDragEnd,
+    onDragOver: _onDragOver
+  } = _ref;
   const onDropRef = useFreshRef(_onDrop);
   const onDragStartRef = useFreshRef(_onDragStart);
   const onDragEnterRef = useFreshRef(_onDragEnter);
@@ -2400,9 +2418,9 @@ function useFixedWindowList(elementRef, itemHeight, totalItems, options) {
     visibleItems: initWindowSize,
     start: 0,
     end: initWindowSize,
-    itemInView:
+    itemInView: (
     /** @type {number} */
-    index => {
+    index) => {
       return index >= 0 && index <= initWindowSize;
     }
   });
@@ -2415,9 +2433,9 @@ function useFixedWindowList(elementRef, itemHeight, totalItems, options) {
 
     const scrollContainer = Object(external_wp_dom_["getScrollContainer"])(elementRef.current);
 
-    const measureWindow =
+    const measureWindow = (
     /** @type {boolean | undefined} */
-    initRender => {
+    initRender) => {
       var _options$windowOversc;
 
       if (!scrollContainer) {
@@ -2435,9 +2453,9 @@ function useFixedWindowList(elementRef, itemHeight, totalItems, options) {
           visibleItems,
           start,
           end,
-          itemInView:
+          itemInView: (
           /** @type {number} */
-          index => {
+          index) => {
             return start <= index && index <= end;
           }
         };
@@ -2473,9 +2491,9 @@ function useFixedWindowList(elementRef, itemHeight, totalItems, options) {
 
     const scrollContainer = Object(external_wp_dom_["getScrollContainer"])(elementRef.current);
 
-    const handleKeyDown =
+    const handleKeyDown = (
     /** @type {KeyboardEvent} */
-    event => {
+    event) => {
       switch (event.keyCode) {
         case external_wp_keycodes_["HOME"]:
           {
