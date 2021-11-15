@@ -888,7 +888,7 @@ function get_super_admins() {
  * @return bool Whether the user is a site admin.
  */
 function is_super_admin( $user_id = false ) {
-	if ( ! $user_id || get_current_user_id() == $user_id ) {
+	if ( ! $user_id ) {
 		$user = wp_get_current_user();
 	} else {
 		$user = get_userdata( $user_id );
