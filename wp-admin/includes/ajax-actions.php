@@ -1102,9 +1102,19 @@ function wp_ajax_add_tag() {
 	$wp_list_table->single_row( $tag );
 	$parents = ob_get_clean();
 
+	require ABSPATH . 'wp-admin/includes/edit-tag-messages.php';
+
+	$message = '';
+	if ( isset( $messages[ $tax->name ][1] ) ) {
+		$message = $messages[ $tax->name ][1];
+	} elseif ( isset( $messages['_item'][1] ) ) {
+		$message = $messages['_item'][1];
+	}
+
 	$x->add(
 		array(
 			'what'         => 'taxonomy',
+			'data'         => $message,
 			'supplemental' => compact( 'parents', 'noparents' ),
 		)
 	);
