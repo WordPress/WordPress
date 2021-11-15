@@ -212,6 +212,12 @@ if ( wp_is_block_template_theme() ) {
 		'edit_theme_options',
 		'site-editor.php',
 	);
+
+	$submenu['themes.php'][7] = array(
+		__( 'Styles' ),
+		'edit_theme_options',
+		'site-editor.php?styles=open',
+	);
 }
 
 // Hide Customize link on block themes unless a plugin or theme is using

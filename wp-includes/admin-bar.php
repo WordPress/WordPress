@@ -409,6 +409,33 @@ function wp_admin_bar_site_menu( $wp_admin_bar ) {
 }
 
 /**
+ * Adds the "Edit site" link to the Toolbar.
+ *
+ * @since 5.9.0
+ *
+ * @param WP_Admin_Bar $wp_admin_bar The WP_Admin_Bar instance.
+ */
+function wp_admin_bar_edit_site_menu( $wp_admin_bar ) {
+	// Don't show if a block theme is not activated.
+	if ( ! wp_is_block_template_theme() ) {
+		return;
+	}
+
+	// Don't show for users who can't edit theme options or when in the admin.
+	if ( ! current_user_can( 'edit_theme_options' ) || is_admin() ) {
+		return;
+	}
+
+	$wp_admin_bar->add_node(
+		array(
+			'id'    => 'site-editor',
+			'title' => __( 'Edit site' ),
+			'href'  => admin_url( 'site-editor.php' ),
+		)
+	);
+}
+
+/**
  * Adds the "Customize" link to the Toolbar.
  *
  * @since 4.3.0
@@ -419,6 +446,11 @@ function wp_admin_bar_site_menu( $wp_admin_bar ) {
 function wp_admin_bar_customize_menu( $wp_admin_bar ) {
 	global $wp_customize;
 
+	// Don't show if a block theme is activated.
+	if ( wp_is_block_template_theme() ) {
+		return;
+	}
+
 	// Don't show for users who can't access the customizer or when in the admin.
 	if ( ! current_user_can( 'customize' ) || is_admin() ) {
 		return;
@@ -428,11 +460,6 @@ function wp_admin_bar_customize_menu( $wp_admin_bar ) {
 	if ( is_customize_preview() && $wp_customize->changeset_post_id()
 		&& ! current_user_can( get_post_type_object( 'customize_changeset' )->cap->edit_post, $wp_customize->changeset_post_id() )
 	) {
-		return;
-	}
-
-	// Don't show if a block theme is activated.
-	if ( wp_is_block_template_theme() ) {
 		return;
 	}
 
