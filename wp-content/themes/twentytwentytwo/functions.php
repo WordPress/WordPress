@@ -13,10 +13,7 @@
 if ( ! function_exists( 'twentytwentytwo_support' ) ) :
 
 	/**
-	 * Add support for core block visual styles.
-	 * Styles load in both the editor and the front end.
-	 *
-	 * @link https://developer.wordpress.org/block-editor/how-to-guides/themes/theme-support/#default-block-styles
+	 * Sets up theme defaults and registers support for various WordPress features.
 	 *
 	 * @since Twenty Twenty-Two 1.0
 	 *
@@ -24,7 +21,11 @@ if ( ! function_exists( 'twentytwentytwo_support' ) ) :
 	 */
 	function twentytwentytwo_support() {
 
+		// Add support for block styles.
 		add_theme_support( 'wp-block-styles' );
+
+		// Enqueue editor styles.
+		add_editor_style( 'style.css' );
 
 	}
 

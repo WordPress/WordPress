@@ -16,3 +16,55 @@ Tags: one-column, custom-colors, custom-menu, custom-logo, editor-style, feature
 Twenty Twenty-Two WordPress Theme, (C) 2021 WordPress.org
 Twenty Twenty-Two is distributed under the terms of the GNU GPL.
 */
+
+/*
+ * Font smoothing.
+ * This is a niche setting that will not be available via Global Styles.
+ * https://github.com/WordPress/gutenberg/issues/35934
+ */
+
+body {
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+}
+
+/*
+ * Text link styles.
+ * Necessary until the following issue is resolved in Gutenberg:
+ * https://github.com/WordPress/gutenberg/issues/27075
+ */
+
+a {
+	text-decoration-thickness: 1px;
+	text-underline-offset: 0.25ch;
+}
+
+a:hover,
+a:focus {
+	text-decoration-style: dashed;
+}
+
+a:active {
+	text-decoration: none;
+}
+
+/*
+ * Search and File Block button styles.
+ * Necessary until the following issues are resolved in Gutenberg:
+ * https://github.com/WordPress/gutenberg/issues/36444
+ * https://github.com/WordPress/gutenberg/issues/27760
+ */
+
+.wp-block-search__button,
+.wp-block-file .wp-block-file__button {
+	background-color: var(--wp--preset--color--primary);
+	border-radius: 0;
+	border: none;
+	color: var(--wp--preset--color--background);
+	font-size: var(--wp--preset--typography--font-size--normal);
+	padding: calc(.667em + 2px) calc(1.333em + 2px);
+}
+
+.wp-block-file a.wp-block-file__button:hover {
+	opacity: 1;
+}

@@ -1,6 +1,5 @@
 {
-	"$schema": "https://json.schemastore.org/theme-v1.json",
-	"version": 1,
+	"version": 2,
 	"customTemplates": [
 		{
 			"name": "blank",
@@ -158,8 +157,8 @@
 		},
 		"spacing": {
 			"blockGap": true,
-			"customMargin": true,
-			"customPadding": true,
+			"margin": true,
+			"padding": true,
 			"units": [
 				"%",
 				"px",
@@ -171,7 +170,7 @@
 		},
 		"typography": {
 			"dropCap": false,
-			"customLineHeight": true,
+			"lineHeight": true,
 			"fontFamilies": [
 				{
 					"fontFamily": "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,Oxygen-Sans,Ubuntu,Cantarell,\"Helvetica Neue\",sans-serif",
@@ -217,10 +216,10 @@
 			"wideSize": "1000px"
 		},
 		"border": {
-			"customColor": true,
-			"customRadius": true,
-			"customStyle": true,
-			"customWidth": true
+			"color": true,
+			"radius": true,
+			"style": true,
+			"width": true
 		}
 	},
 	"styles": {
