@@ -499,6 +499,13 @@ $nav_menus_l10n = array(
 	'menuItemDeletion'        => __( 'item %s' ),
 	/* translators: %s: Item name. */
 	'itemsDeleted'            => __( 'Deleted menu item: %s.' ),
+	'itemAdded'               => __( 'Menu item added' ),
+	'itemRemoved'             => __( 'Menu item removed' ),
+	'movedUp'                 => __( 'Menu item moved up' ),
+	'movedDown'               => __( 'Menu item moved down' ),
+	'movedTop'                => __( 'Menu item moved to the top' ),
+	'movedLeft'               => __( 'Menu item moved out of submenu' ),
+	'movedRight'              => __( 'Menu item is now a sub-item' ),
 );
 wp_localize_script( 'nav-menu', 'menus', $nav_menus_l10n );
 

@@ -311,7 +311,8 @@
 				nextItemDepth = parseInt( nextItem.menuItemDepth(), 10 ) + 1,
 				prevItem = thisItem.prev(),
 				prevItemDepth = parseInt( prevItem.menuItemDepth(), 10 ),
-				prevItemId = prevItem.getItemData()['menu-item-db-id'];
+				prevItemId = prevItem.getItemData()['menu-item-db-id'],
+				a11ySpeech = menus[ 'moved' + dir.charAt(0).toUpperCase() + dir.slice(1) ];
 
 			switch ( dir ) {
 			case 'up':
@@ -399,6 +400,10 @@
 			api.registerChange();
 			api.refreshKeyboardAccessibility();
 			api.refreshAdvancedAccessibility();
+
+			if ( a11ySpeech ) {
+				wp.a11y.speak( a11ySpeech );
+			}
 		},
 
 		initAccessibility : function() {
@@ -1224,6 +1229,7 @@
 			$menuMarkup.hideAdvancedMenuItemFields().appendTo( api.targetList );
 			api.refreshKeyboardAccessibility();
 			api.refreshAdvancedAccessibility();
+			wp.a11y.speak( menus.itemAdded );
 			$( document ).trigger( 'menu-item-added', [ $menuMarkup ] );
 		},
 
@@ -1239,6 +1245,7 @@
 			$menuMarkup.hideAdvancedMenuItemFields().prependTo( api.targetList );
 			api.refreshKeyboardAccessibility();
 			api.refreshAdvancedAccessibility();
+			wp.a11y.speak( menus.itemAdded );
 			$( document ).trigger( 'menu-item-added', [ $menuMarkup ] );
 		},
 
@@ -1513,6 +1520,7 @@
 						ins.removeClass( 'menu-instructions-inactive' );
 					}
 					api.refreshAdvancedAccessibility();
+					wp.a11y.speak( menus.itemRemoved );
 				});
 		},
 
