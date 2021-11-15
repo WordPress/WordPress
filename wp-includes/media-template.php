@@ -252,10 +252,7 @@ function wp_print_media_templates() {
 			<div class="upload-ui">
 				<h2 class="upload-instructions drop-instructions"><?php _e( 'Drop files to upload' ); ?></h2>
 				<p class="upload-instructions drop-instructions"><?php _ex( 'or', 'Uploader: Drop files here - or - Select Files' ); ?></p>
-				<div class="browser-container">
-					<label class="button button-hero"><?php esc_html_e( 'Select Files' ); ?></label>
-					<input type="file" class="browser screen-reader-text" aria-describedby="post-upload-info">
-				</div>
+				<button type="button" class="browser button button-hero" aria-labelledby="post-upload-info"><?php _e( 'Select Files' ); ?></button>
 			</div>
 
 			<div class="upload-inline-status"></div>

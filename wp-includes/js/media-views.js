@@ -2858,21 +2858,16 @@ UploaderInline = View.extend(/** @lends wp.media.view.UploaderInline.prototype *
 			$placeholder;
 
 		if ( this.controller.uploader ) {
-			$placeholder = this.$('.browser-container');
+			$placeholder = this.$('.browser');
 
 			// Check if we've already replaced the placeholder.
 			if ( $placeholder[0] === $browser[0] ) {
 				return;
 			}
 
-			var browserLabel = $placeholder.find( 'label' );
-			var browserInput = $placeholder.find( 'input' );
-
-			browserLabel.attr( 'for', $browser[0].id );
-			browserInput.attr( 'id', $browser[0].id );
-			$browser.removeAttr( 'id' );
-
-			$browser.append( browserLabel ).append( browserInput );
+			$browser.detach().text( $placeholder.text() );
+			$browser[0].className = $placeholder[0].className;
+			$browser[0].setAttribute( 'aria-labelledby', $browser[0].id + ' ' + $placeholder[0].getAttribute('aria-labelledby') );
 			$placeholder.replaceWith( $browser.show() );
 		}
 
@@ -6343,7 +6338,7 @@ UploaderWindow = wp.media.View.extend(/** @lends wp.media.view.UploaderWindow.pr
 	initialize: function() {
 		var uploader;
 
-		this.$browser = $( '<div class="browser-container">' ).hide().appendTo( 'body' );
+		this.$browser = $( '<button type="button" class="browser" />' ).hide().appendTo( 'body' );
 
 		uploader = this.options.uploader = _.defaults( this.options.uploader || {}, {
 			dropzone:  this.$el,
