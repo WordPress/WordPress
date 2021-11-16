@@ -338,6 +338,9 @@ if ( ! function_exists( 'twenty_twenty_one_setup' ) ) {
 		// Add support for custom units.
 		// This was removed in WordPress 5.6 but is still required to properly support WP 5.5.
 		add_theme_support( 'custom-units' );
+
+		// Remove feed icon link from legacy RSS widget.
+		add_filter( 'rss_widget_feed_link', '__return_false' );
 	}
 }
 add_action( 'after_setup_theme', 'twenty_twenty_one_setup' );
