@@ -164,7 +164,7 @@ class Walker_Category extends Walker {
 				$link .= '(';
 			}
 
-			$link .= '<a href="' . esc_url( get_term_feed_link( $category->term_id, $category->taxonomy, $args['feed_type'] ) ) . '"';
+			$link .= '<a href="' . esc_url( get_term_feed_link( $category, $category->taxonomy, $args['feed_type'] ) ) . '"';
 
 			if ( empty( $args['feed'] ) ) {
 				/* translators: %s: Category name. */

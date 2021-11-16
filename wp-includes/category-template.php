@@ -737,9 +737,9 @@ function wp_tag_cloud( $args = '' ) {
 
 	foreach ( $tags as $key => $tag ) {
 		if ( 'edit' === $args['link'] ) {
-			$link = get_edit_term_link( $tag->term_id, $tag->taxonomy, $args['post_type'] );
+			$link = get_edit_term_link( $tag, $tag->taxonomy, $args['post_type'] );
 		} else {
-			$link = get_term_link( (int) $tag->term_id, $tag->taxonomy );
+			$link = get_term_link( $tag, $tag->taxonomy );
 		}
 
 		if ( is_wp_error( $link ) ) {
