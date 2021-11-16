@@ -8,6 +8,10 @@
   16.1 - Manage Themes
 ------------------------------------------------------------------------------*/
 
+.themes-php {
+	overflow-y: scroll;
+}
+
 body.js .theme-browser.search-loading {
 	display: none;
 }
