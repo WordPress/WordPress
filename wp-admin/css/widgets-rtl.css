@@ -347,7 +347,8 @@
 	margin: 0;
 	padding: 8px 10px;
 	overflow: hidden;
-	white-space: nowrap;
+	white-space: normal;
+	line-height: 1.5;
 }
 
 .widgets-holder-wrap .description {
@@ -482,7 +483,7 @@ div#widgets-right .sidebar-description {
 
 div#widgets-right .sidebar-name h2,
 div#widgets-right .sidebar-name h3 {
-	padding: 15px 7px;
+	padding: 15px 7px 15px 15px;
 }
 
 div#widgets-right .widget-top {
@@ -507,6 +508,12 @@ div#widgets-right .closed .widgets-sortables {
 	position: relative;
 	top: -2px;
 	margin: -5px 5px;
+}
+
+.sidebar-name .spinner {
+	position: absolute;
+	top: 18px;
+	left: 30px;
 }
 
 /* Dragging a widget over a closed sidebar */
