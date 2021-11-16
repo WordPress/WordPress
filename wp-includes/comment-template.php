@@ -2538,11 +2538,13 @@ function comment_form( $args = array(), $post_id = null ) {
 
 		comment_form_title( $args['title_reply'], $args['title_reply_to'] );
 
-		echo $args['cancel_reply_before'];
+		if ( get_option( 'thread_comments' ) ) {
+			echo $args['cancel_reply_before'];
 
-		cancel_comment_reply_link( $args['cancel_reply_link'] );
+			cancel_comment_reply_link( $args['cancel_reply_link'] );
 
-		echo $args['cancel_reply_after'];
+			echo $args['cancel_reply_after'];
+		}
 
 		echo $args['title_reply_after'];
 
