@@ -365,7 +365,7 @@ class WP_Widget {
 		$this->_set( $widget_args['number'] );
 		$instances = $this->get_settings();
 
-		if ( array_key_exists( $this->number, $instances ) ) {
+		if ( isset( $instances[ $this->number ] ) ) {
 			$instance = $instances[ $this->number ];
 
 			/**
