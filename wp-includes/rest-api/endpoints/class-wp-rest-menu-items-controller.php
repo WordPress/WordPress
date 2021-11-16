@@ -339,7 +339,6 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller {
 				'menu-item-title'       => $menu_item_obj->title,
 				'menu-item-url'         => $menu_item_obj->url,
 				'menu-item-description' => $menu_item_obj->description,
-				'menu-item-content'     => $menu_item_obj->menu_item_content,
 				'menu-item-attr-title'  => $menu_item_obj->attr_title,
 				'menu-item-target'      => $menu_item_obj->target,
 				'menu-item-classes'     => $menu_item_obj->classes,
@@ -360,7 +359,6 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller {
 				'menu-item-title'       => '',
 				'menu-item-url'         => '',
 				'menu-item-description' => '',
-				'menu-item-content'     => '',
 				'menu-item-attr-title'  => '',
 				'menu-item-target'      => '',
 				'menu-item-classes'     => array(),
@@ -409,15 +407,6 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller {
 			}
 		}
 
-		// Nav menu content.
-		if ( ! empty( $schema['properties']['content'] ) && isset( $request['content'] ) ) {
-			if ( is_string( $request['content'] ) ) {
-				$prepared_nav_item['menu-item-content'] = $request['content'];
-			} elseif ( isset( $request['content']['raw'] ) ) {
-				$prepared_nav_item['menu-item-content'] = $request['content']['raw'];
-			}
-		}
-
 		$error = new WP_Error();
 
 		// Check if object id exists before saving.
@@ -458,11 +447,6 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller {
 			if ( empty( $prepared_nav_item['menu-item-url'] ) ) {
 				$error->add( 'rest_url_required', __( 'The url is required when using a custom menu item type.' ), array( 'status' => 400 ) );
 			}
-		}
-
-		// If menu item is type block, then content is required.
-		if ( 'block' === $prepared_nav_item['menu-item-type'] && empty( $prepared_nav_item['menu-item-content'] ) ) {
-			$error->add( 'rest_content_required', __( 'The content is required when using a block menu item type.' ), array( 'status' => 400 ) );
 		}
 
 		if ( $error->has_errors() ) {
@@ -564,23 +548,6 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller {
 		if ( rest_is_field_included( 'object_id', $fields ) ) {
 			// It is stored as a string, but should be exposed as an integer.
 			$data['object_id'] = absint( $menu_item->object_id );
-		}
-
-		if ( rest_is_field_included( 'content', $fields ) ) {
-			$data['content'] = array();
-		}
-
-		if ( rest_is_field_included( 'content.raw', $fields ) ) {
-			$data['content']['raw'] = $menu_item->menu_item_content;
-		}
-
-		if ( rest_is_field_included( 'content.rendered', $fields ) ) {
-			/** This filter is documented in wp-includes/post-template.php */
-			$data['content']['rendered'] = apply_filters( 'the_content', $menu_item->menu_item_content );
-		}
-
-		if ( rest_is_field_included( 'content.block_version', $fields ) ) {
-			$data['content']['block_version'] = block_version( $menu_item->menu_item_content );
 		}
 
 		if ( rest_is_field_included( 'parent', $fields ) ) {
@@ -781,7 +748,7 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller {
 		$schema['properties']['type'] = array(
 			'description' => __( 'The family of objects originally represented, such as "post_type" or "taxonomy".' ),
 			'type'        => 'string',
-			'enum'        => array( 'taxonomy', 'post_type', 'post_type_archive', 'custom', 'block' ),
+			'enum'        => array( 'taxonomy', 'post_type', 'post_type_archive', 'custom' ),
 			'context'     => array( 'view', 'edit', 'embed' ),
 			'default'     => 'custom',
 		);
@@ -857,31 +824,6 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller {
 			'type'        => 'integer',
 			'minimum'     => 0,
 			'default'     => 0,
-		);
-
-		$schema['properties']['content'] = array(
-			'description' => __( 'HTML content to display for this block menu item.' ),
-			'context'     => array( 'view', 'edit', 'embed' ),
-			'type'        => array( 'string', 'object' ),
-			'properties'  => array(
-				'raw'           => array(
-					'description' => __( 'HTML content, as it exists in the database.' ),
-					'type'        => 'string',
-					'context'     => array( 'edit' ),
-				),
-				'rendered'      => array(
-					'description' => __( 'HTML content, transformed for display.' ),
-					'type'        => 'string',
-					'context'     => array( 'view', 'edit' ),
-					'readonly'    => true,
-				),
-				'block_version' => array(
-					'description' => __( 'Version of the block format used in the HTML content.' ),
-					'type'        => 'integer',
-					'context'     => array( 'edit' ),
-					'readonly'    => true,
-				),
-			),
 		);
 
 		$schema['properties']['target'] = array(
