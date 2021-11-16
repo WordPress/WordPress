@@ -363,7 +363,10 @@ class WP_Theme_JSON_Resolver {
 	 */
 	public static function theme_has_support() {
 		if ( ! isset( self::$theme_has_support ) ) {
-			self::$theme_has_support = is_readable( self::get_file_path_from_theme( 'theme.json' ) );
+			self::$theme_has_support = (
+				is_readable( self::get_file_path_from_theme( 'theme.json' ) ) ||
+				is_readable( self::get_file_path_from_theme( 'theme.json', true ) )
+			);
 		}
 
 		return self::$theme_has_support;
