@@ -1398,9 +1398,6 @@ function update_core( $from, $to ) {
 	// Deactivate the REST API plugin if its version is 2.0 Beta 4 or lower.
 	_upgrade_440_force_deactivate_incompatible_plugins();
 
-	// Deactivate the Gutenberg plugin if its version is 10.7 or lower.
-	_upgrade_580_force_deactivate_incompatible_plugins();
-
 	// Deactivate the Gutenberg plugin if its version is 11.8 or lower.
 	_upgrade_590_force_deactivate_incompatible_plugins();
 
@@ -1690,48 +1687,24 @@ function _upgrade_440_force_deactivate_incompatible_plugins() {
 /**
  * @access private
  * @ignore
- * @since 5.8.0
- */
-function _upgrade_580_force_deactivate_incompatible_plugins() {
-	if ( defined( 'GUTENBERG_VERSION' ) && version_compare( GUTENBERG_VERSION, '10.7', '<=' ) ) {
-		_deactivate_gutenberg_when_incompatible_with_wp( '10.8' );
-	}
-}
-
-/**
- * @access private
- * @ignore
  * @since 5.9.0
  */
 function _upgrade_590_force_deactivate_incompatible_plugins() {
-	if ( defined( 'GUTENBERG_VERSION' ) && version_compare( GUTENBERG_VERSION, '11.8', '<=' ) ) {
-		_deactivate_gutenberg_when_incompatible_with_wp( '11.9' );
+	if ( defined( 'GUTENBERG_VERSION' ) && version_compare( GUTENBERG_VERSION, '11.9', '<' ) ) {
+		$deactivated_gutenberg['gutenberg'] = array(
+			'plugin_name'         => 'Gutenberg',
+			'version_deactivated' => GUTENBERG_VERSION,
+			'version_compatible'  => '11.9',
+		);
+		if ( is_plugin_active_for_network( 'gutenberg/gutenberg.php' ) ) {
+			$deactivated_plugins = get_site_option( 'wp_force_deactivated_plugins', array() );
+			$deactivated_plugins = array_merge( $deactivated_plugins, $deactivated_gutenberg );
+			update_site_option( 'wp_force_deactivated_plugins', $deactivated_plugins );
+		} else {
+			$deactivated_plugins = get_option( 'wp_force_deactivated_plugins', array() );
+			$deactivated_plugins = array_merge( $deactivated_plugins, $deactivated_gutenberg );
+			update_option( 'wp_force_deactivated_plugins', $deactivated_plugins );
+		}
+		deactivate_plugins( array( 'gutenberg/gutenberg.php' ), true );
 	}
-}
-
-/**
- * Deactivates the Gutenberg plugin when its version is incompatible.
- *
- * @access private
- * @ignore
- * @since 5.9.0
- *
- * @param string $compatible_version The version of Gutenberg plugin that is compatible.
- */
-function _deactivate_gutenberg_when_incompatible_with_wp( $compatible_version ) {
-	$deactivated_gutenberg['gutenberg'] = array(
-		'plugin_name'         => 'Gutenberg',
-		'version_deactivated' => GUTENBERG_VERSION,
-		'version_compatible'  => $compatible_version,
-	);
-	if ( is_plugin_active_for_network( 'gutenberg/gutenberg.php' ) ) {
-		$deactivated_plugins = get_site_option( 'wp_force_deactivated_plugins', array() );
-		$deactivated_plugins = array_merge( $deactivated_plugins, $deactivated_gutenberg );
-		update_site_option( 'wp_force_deactivated_plugins', $deactivated_plugins );
-	} else {
-		$deactivated_plugins = get_option( 'wp_force_deactivated_plugins', array() );
-		$deactivated_plugins = array_merge( $deactivated_plugins, $deactivated_gutenberg );
-		update_option( 'wp_force_deactivated_plugins', $deactivated_plugins );
-	}
-	deactivate_plugins( array( 'gutenberg/gutenberg.php' ), true );
 }
