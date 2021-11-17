@@ -43,6 +43,9 @@
 
 		// Once zxcvbn loads, passwords strength is known.
 		$( '#pw-weak-text-label' ).text( __( 'Confirm use of weak password' ) );
+
+		// Focus the password field.
+		$( $pass1 ).trigger( 'focus' );
 	}
 
 	function bindPass1() {

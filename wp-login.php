@@ -992,7 +992,7 @@ switch ( $action ) {
 		</p>
 		<?php
 
-		login_footer( 'user_pass' );
+		login_footer( 'pass1' );
 		break;
 
 	case 'register':
