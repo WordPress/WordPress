@@ -249,6 +249,9 @@ if ( ! function_exists( 'wp_install_defaults' ) ) :
 				'post_content_filtered' => '',
 			)
 		);
+
+		update_option( 'post_count', 1 );
+
 		$wpdb->insert(
 			$wpdb->term_relationships,
 			array(
