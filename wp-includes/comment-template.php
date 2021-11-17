@@ -2425,7 +2425,7 @@ function comment_form( $args = array(), $post_id = null ) {
 
 	$required_text = sprintf(
 		/* translators: %s: Asterisk symbol (*). */
-		' <span class="comment-required-message" aria-hidden="true">' . __( 'Required fields are marked %s' ) . '</span>',
+		' <span class="required-field-message" aria-hidden="true">' . __( 'Required fields are marked %s' ) . '</span>',
 		trim( $required_indicator )
 	);
 
