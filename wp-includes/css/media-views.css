@@ -1437,34 +1437,8 @@
 }
 
 .media-uploader-status .upload-dismiss-errors {
-	position: absolute;
-	top: -3px;
-	right: -5px;
-	padding: 5px;
-	border-radius: 50%;
 	transition: none;
 	text-decoration: none;
-}
-
-.uploader-inline .media-uploader-status .upload-dismiss-errors {
-	top: 2px;
-	right: 2px;
-}
-
-.media-uploader-status .upload-dismiss-errors::before {
-	content: "\f153";
-	display: block;
-	font: normal 16px/1 dashicons;
-	color: #787c82;
-}
-
-.uploader-inline .errors.media-uploader-status .upload-dismiss-errors::before {
-	color: #646970;
-}
-
-.errors.media-uploader-status .upload-dismiss-errors:hover::before,
-.errors.media-uploader-status .upload-dismiss-errors:focus::before {
-	color: #d63638;
 }
 
 .upload-errors .upload-error {

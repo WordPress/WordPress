@@ -320,7 +320,6 @@ function wp_print_media_templates() {
 	<?php // Template for the uploading status UI. ?>
 	<script type="text/html" id="tmpl-uploader-status">
 		<h2><?php _e( 'Uploading' ); ?></h2>
-		<button type="button" class="button-link upload-dismiss-errors"><span class="screen-reader-text"><?php _e( 'Dismiss Errors' ); ?></span></button>
 
 		<div class="media-progress-bar"><div></div></div>
 		<div class="upload-details">
@@ -331,6 +330,7 @@ function wp_print_media_templates() {
 			<span class="upload-filename"></span>
 		</div>
 		<div class="upload-errors"></div>
+		<button type="button" class="button upload-dismiss-errors"><?php _e( 'Dismiss errors' ); ?></button>
 	</script>
 
 	<?php // Template for the uploading status errors. ?>

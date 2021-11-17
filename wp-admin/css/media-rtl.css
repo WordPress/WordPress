@@ -508,24 +508,6 @@ border color while dragging a file over the uploader drop area */
 	background: none;
 }
 
-.upload-php .mode-grid .media-sidebar .media-uploader-status .upload-dismiss-errors {
-	top: -10px;
-	left: -14px;
-	padding: 10px;
-}
-
-.upload-php .mode-grid .media-sidebar .media-uploader-status .upload-dismiss-errors:before {
-	content: "\f153";
-	display: block;
-	font: normal 16px/1 dashicons;
-	color: #787c82;
-}
-
-.upload-php .mode-grid .media-sidebar .media-uploader-status .upload-dismiss-errors:focus:before,
-.upload-php .mode-grid .media-sidebar .media-uploader-status .upload-dismiss-errors:hover:before {
-	color: #d63638;
-}
-
 .upload-php .mode-grid .media-sidebar .media-uploader-status.errors h2 {
 	display: none;
 }
