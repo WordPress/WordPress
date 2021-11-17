@@ -3382,6 +3382,9 @@ p > object:only-child {
 }
 
 @media screen and (min-width: 48em) {
+	html {
+		scroll-padding-top: calc( var(--wp-admin--admin-bar--height, 0px) + 72px );
+	}
 
 	/* Typography */
 

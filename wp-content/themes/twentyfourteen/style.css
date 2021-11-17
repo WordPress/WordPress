@@ -95,6 +95,7 @@ html {
 	overflow-y: scroll;
 	-webkit-text-size-adjust: 100%;
 	-ms-text-size-adjust:     100%;
+	scroll-padding-top: calc( var(--wp-admin--admin-bar--height, 0px) + 48px );
 }
 
 body,
@@ -1304,10 +1305,6 @@ a.post-thumbnail:hover {
 	padding: 12px 10px 0;
 }
 
-.site-content .entry-content {
-	padding-top: 22px;
-}
-
 .page .entry-content {
 	padding-top: 0;
 }
@@ -1390,34 +1387,6 @@ a.post-thumbnail:hover {
 
 .entry-content .more-link {
 	white-space: nowrap;
-}
-
-.entry-content span[id^="more-"] {
-	display: block;
-	padding-top: 52px;
-	margin-top: -76px;
-}
-
-.admin-bar .entry-content span[id^="more-"] {
-	padding-top: 84px;
-	margin-top: -108px;
-}
-
-.entry-content span[id^="more-"] + blockquote,
-.entry-content span[id^="more-"] + div,
-.entry-content span[id^="more-"] + figure,
-.entry-content span[id^="more-"] + hr,
-.entry-content span[id^="more-"] + ol,
-.entry-content span[id^="more-"] + ul,
-.entry-content span[id^="more-"] + p,
-.entry-content span[id^="more-"] + pre {
-	margin-top: 24px;
-}
-
-.entry-content p span[id^="more-"] {
-	width: 1px;
-	height: 24px;
-	float: left;
 }
 
 /* Mediaelements */

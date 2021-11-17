@@ -2774,6 +2774,10 @@ p > video {
  */
 
 @media screen and (min-width: 44.375em) {
+	html {
+		scroll-padding-top: calc( var(--wp-admin--admin-bar--height, 0px) + 21px );
+	}
+
 	body:not(.custom-background-image):before,
 	body:not(.custom-background-image):after {
 		background: inherit;
