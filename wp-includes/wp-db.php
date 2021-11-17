@@ -1247,12 +1247,11 @@ class wpdb {
 			}
 		} else {
 			$class = get_class( $this );
-			if ( function_exists( '__' ) ) {
-				/* translators: %s: Database access abstraction class, usually wpdb or a class extending wpdb. */
-				_doing_it_wrong( $class, sprintf( __( '%s must set a database connection for use with escaping.' ), $class ), '3.6.0' );
-			} else {
-				_doing_it_wrong( $class, sprintf( '%s must set a database connection for use with escaping.', $class ), '3.6.0' );
-			}
+
+			wp_load_translations_early();
+			/* translators: %s: Database access abstraction class, usually wpdb or a class extending wpdb. */
+			_doing_it_wrong( $class, sprintf( __( '%s must set a database connection for use with escaping.' ), $class ), '3.6.0' );
+
 			$escaped = addslashes( $string );
 		}
 
