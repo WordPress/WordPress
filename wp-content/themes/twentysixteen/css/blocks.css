@@ -212,7 +212,6 @@ p.has-drop-cap:not(:focus)::first-letter {
 .wp-block-table td {
 	font-weight: normal;
 	padding: 0.4375em;
-	text-align: left;
 }
 
 .wp-block-table th {
@@ -222,11 +221,6 @@ p.has-drop-cap:not(:focus)::first-letter {
 
 .wp-block-table td {
 	border-width: 0 1px 1px 0;
-}
-
-.rtl .wp-block-table th,
-.rtl .wp-block-table td {
-	text-align: right;
 }
 
 /*--------------------------------------------------------------
