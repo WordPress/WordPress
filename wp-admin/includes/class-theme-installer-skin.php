@@ -282,9 +282,9 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param string $table              The output table with Name, Version, Author, RequiresWP, and RequiresPHP info.
-		 * @param array  $current_theme_data Array with current theme data.
-		 * @param array  $new_theme_data     Array with uploaded theme data.
+		 * @param string   $table              The output table with Name, Version, Author, RequiresWP, and RequiresPHP info.
+		 * @param WP_Theme $current_theme_data Current theme data.
+		 * @param array    $new_theme_data     Array with uploaded theme data.
 		 */
 		echo apply_filters( 'install_theme_overwrite_comparison', $table, $current_theme_data, $new_theme_data );
 

@@ -242,11 +242,11 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 				 *
 				 * @since 5.4.0
 				 *
-				 * @param int      $item_id           Menu item ID.
-				 * @param WP_Post  $menu_item         Menu item data object.
-				 * @param int      $depth             Depth of menu item. Used for padding.
-				 * @param stdClass $args              An object of menu item arguments.
-				 * @param int      $current_object_id Nav menu ID.
+				 * @param string        $item_id           Menu item ID as a numeric string.
+				 * @param WP_Post       $menu_item         Menu item data object.
+				 * @param int           $depth             Depth of menu item. Used for padding.
+				 * @param stdClass|null $args              An object of menu item arguments.
+				 * @param int           $current_object_id Nav menu ID.
 				 */
 				do_action( 'wp_nav_menu_item_custom_fields', $item_id, $menu_item, $depth, $args, $current_object_id );
 				?>

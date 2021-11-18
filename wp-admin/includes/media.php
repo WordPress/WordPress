@@ -3641,7 +3641,7 @@ function wp_read_video_metadata( $file ) {
 	 * @param array  $metadata       Filtered Video metadata.
 	 * @param string $file           Path to video file.
 	 * @param string $file_format    File format of video, as analyzed by getID3.
-	 * @param string $data           Raw metadata from getID3.
+	 * @param array  $data           Raw metadata from getID3.
 	 */
 	return apply_filters( 'wp_read_video_metadata', $metadata, $file, $file_format, $data );
 }

@@ -489,7 +489,7 @@ function wp_unregister_sidebar_widget( $id ) {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param int $id The widget ID.
+	 * @param int|string $id The widget ID.
 	 */
 	do_action( 'wp_unregister_sidebar_widget', $id );
 

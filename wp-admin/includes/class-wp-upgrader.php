@@ -405,7 +405,7 @@ class WP_Upgrader {
 	 * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
 	 *
 	 * @param string $remote_destination The location on the remote filesystem to be cleared.
-	 * @return bool|WP_Error True upon success, WP_Error on failure.
+	 * @return true|WP_Error True upon success, WP_Error on failure.
 	 */
 	public function clear_destination( $remote_destination ) {
 		global $wp_filesystem;

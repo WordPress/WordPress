@@ -984,8 +984,8 @@ function page_attributes_meta_box( $post ) {
 		 *
 		 * @since 4.4.0
 		 *
-		 * @param string  $template The template used for the current post.
-		 * @param WP_Post $post     The current post.
+		 * @param string|false $template The template used for the current post.
+		 * @param WP_Post      $post     The current post.
 		 */
 		do_action( 'page_attributes_meta_box_template', $template, $post );
 		?>

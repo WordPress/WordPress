@@ -1271,7 +1271,7 @@ function wpmu_activate_signup( $key ) {
 	 *
 	 * @param int    $blog_id       Blog ID.
 	 * @param int    $user_id       User ID.
-	 * @param int    $password      User password.
+	 * @param string $password      User password.
 	 * @param string $signup_title  Site title.
 	 * @param array  $meta          Signup meta data. By default, contains the requested privacy setting and lang_id.
 	 */

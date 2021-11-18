@@ -2892,7 +2892,7 @@ function wp_add_object_terms( $object_id, $terms, $taxonomy ) {
  *
  * @param int              $object_id The ID of the object from which the terms will be removed.
  * @param string|int|array $terms     The slug(s) or ID(s) of the term(s) to remove.
- * @param array|string     $taxonomy  Taxonomy name.
+ * @param string           $taxonomy  Taxonomy name.
  * @return bool|WP_Error True on success, false or WP_Error on failure.
  */
 function wp_remove_object_terms( $object_id, $terms, $taxonomy ) {

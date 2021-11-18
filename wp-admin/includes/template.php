@@ -96,8 +96,8 @@ function wp_terms_checklist( $post_id = 0, $args = array() ) {
 	 *
 	 * @see wp_terms_checklist()
 	 *
-	 * @param array $args    An array of arguments.
-	 * @param int   $post_id The post ID.
+	 * @param array|string $args    An array or string of arguments.
+	 * @param int          $post_id The post ID.
 	 */
 	$params = apply_filters( 'wp_terms_checklist_args', $args, $post_id );
 

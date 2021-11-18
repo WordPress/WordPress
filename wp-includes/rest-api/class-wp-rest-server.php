@@ -1397,11 +1397,11 @@ class WP_REST_Server {
 			}
 
 			/**
-			 * Filters the REST API endpoint data.
+			 * Filters the publicly-visible data for a single REST API route.
 			 *
 			 * @since 4.4.0
 			 *
-			 * @param WP_REST_Request $request Request data. The namespace is passed as the 'namespace' parameter.
+			 * @param array $data Publicly-visible data for the route.
 			 */
 			$available[ $route ] = apply_filters( 'rest_endpoints_description', $data );
 		}

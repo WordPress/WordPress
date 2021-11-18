@@ -1213,8 +1213,8 @@ final class WP_Theme implements ArrayAccess {
 	 * @since 4.7.0
 	 * @since 5.8.0 Include block templates.
 	 *
-	 * @return string[] Array of page templates, keyed by filename and post type,
-	 *                  with the value of the translated header name.
+	 * @return array[] Array of page template arrays, keyed by post type and filename,
+	 *                 with the value of the translated header name.
 	 */
 	public function get_post_templates() {
 		// If you screw up your current theme and we invalidate your parent, most things still work. Let it slide.

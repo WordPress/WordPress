@@ -460,10 +460,10 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 		 *
 		 * @since 5.8.0
 		 *
-		 * @param string           $widget_id  ID of the widget marked for deletion.
-		 * @param string           $sidebar_id ID of the sidebar the widget was deleted from.
-		 * @param WP_REST_Response $response   The response data.
-		 * @param WP_REST_Request  $request    The request sent to the API.
+		 * @param string                    $widget_id  ID of the widget marked for deletion.
+		 * @param string                    $sidebar_id ID of the sidebar the widget was deleted from.
+		 * @param WP_REST_Response|WP_Error $response   The response data, or WP_Error object on failure.
+		 * @param WP_REST_Request           $request    The request sent to the API.
 		 */
 		do_action( 'rest_delete_widget', $widget_id, $sidebar_id, $response, $request );
 
@@ -733,9 +733,9 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 		 *
 		 * @since 5.8.0
 		 *
-		 * @param WP_REST_Response $response The response object.
-		 * @param array            $widget   The registered widget data.
-		 * @param WP_REST_Request  $request  Request used to generate the response.
+		 * @param WP_REST_Response|WP_Error $response The response object, or WP_Error object on failure.
+		 * @param array                     $widget   The registered widget data.
+		 * @param WP_REST_Request           $request  Request used to generate the response.
 		 */
 		return apply_filters( 'rest_prepare_widget', $response, $widget, $request );
 	}

@@ -5923,7 +5923,7 @@ final class WP_Customize_Manager {
 		 * @see themes_api()
 		 * @see WP_Customize_Manager::__construct()
 		 *
-		 * @param array                $themes  Nested array of theme data.
+		 * @param array|stdClass       $themes  Nested array or object of theme data.
 		 * @param array                $args    List of arguments, such as page, search term, and tags to query for.
 		 * @param WP_Customize_Manager $manager Instance of Customize manager.
 		 */

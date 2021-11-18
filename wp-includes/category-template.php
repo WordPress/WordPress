@@ -661,9 +661,9 @@ function wp_list_categories( $args = '' ) {
 	 *
 	 * @since 2.1.0
 	 *
-	 * @param string $output HTML output.
-	 * @param array  $args   An array of taxonomy-listing arguments. See wp_list_categories()
-	 *                       for information on accepted arguments.
+	 * @param string       $output HTML output.
+	 * @param array|string $args   An array or query string of taxonomy-listing arguments. See
+	 *                             wp_list_categories() for information on accepted arguments.
 	 */
 	$html = apply_filters( 'wp_list_categories', $output, $args );
 

@@ -211,7 +211,7 @@ class WP_REST_Block_Navigation_Areas_Controller extends WP_REST_Controller {
 	 *
 	 * @param stdClass        $area    Post status data.
 	 * @param WP_REST_Request $request Full details about the request.
-	 * @return WP_REST_Response Post status data.
+	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function prepare_item_for_response( $area, $request ) {
 		$areas      = get_navigation_areas();
@@ -246,9 +246,9 @@ class WP_REST_Block_Navigation_Areas_Controller extends WP_REST_Controller {
 		 * Allows modification of the navigation area data right before it is
 		 * returned.
 		 *
-		 * @param WP_REST_Response $response The response object.
-		 * @param object           $area     The original status object.
-		 * @param WP_REST_Request  $request  Request used to generate the response.
+		 * @param WP_REST_Response\WP_Error $response The response object, or WP_Error object on failure.
+		 * @param object                    $area     The original status object.
+		 * @param WP_REST_Request           $request  Request used to generate the response.
 		 */
 		return apply_filters( 'rest_prepare_navigation_area', $response, $area, $request );
 	}
