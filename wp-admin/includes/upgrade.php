@@ -250,7 +250,9 @@ if ( ! function_exists( 'wp_install_defaults' ) ) :
 			)
 		);
 
-		update_option( 'post_count', 1 );
+		if ( is_multisite() ) {
+			update_posts_count();
+		}
 
 		$wpdb->insert(
 			$wpdb->term_relationships,
