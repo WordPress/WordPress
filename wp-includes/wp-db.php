@@ -1395,7 +1395,7 @@ class wpdb {
 
 		// If args were passed as an array (as in vsprintf), move them up.
 		$passed_as_array = false;
-		if ( is_array( $args[0] ) && count( $args ) === 1 ) {
+		if ( isset( $args[0] ) && is_array( $args[0] ) && 1 === count( $args ) ) {
 			$passed_as_array = true;
 			$args            = $args[0];
 		}
