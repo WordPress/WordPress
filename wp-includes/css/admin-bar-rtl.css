@@ -550,11 +550,15 @@ html:lang(he-il) .rtl #wpadminbar * {
 	top: 2px;
 }
 
+#wpadminbar #wp-admin-bar-site-editor > .ab-item:before {
+	content: "\f100";
+	top: 2px;
+}
+
 #wpadminbar #wp-admin-bar-customize > .ab-item:before {
 	content: "\f540";
 	top: 2px;
 }
-
 
 #wpadminbar #wp-admin-bar-edit > .ab-item:before {
 	content: "\f464";
@@ -844,6 +848,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 	/* My Sites and "Site Title" menu */
 	#wpadminbar #wp-admin-bar-my-sites > .ab-item,
 	#wpadminbar #wp-admin-bar-site-name > .ab-item,
+	#wpadminbar #wp-admin-bar-site-editor > .ab-item,
 	#wpadminbar #wp-admin-bar-customize > .ab-item,
 	#wpadminbar #wp-admin-bar-edit > .ab-item,
 	#wpadminbar #wp-admin-bar-my-account > .ab-item {
@@ -866,6 +871,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 	#wpadminbar #wp-admin-bar-edit > .ab-item:before,
 	#wpadminbar #wp-admin-bar-my-sites > .ab-item:before,
 	#wpadminbar #wp-admin-bar-site-name > .ab-item:before,
+	#wpadminbar #wp-admin-bar-site-editor > .ab-item:before,
 	#wpadminbar #wp-admin-bar-customize > .ab-item:before,
 	#wpadminbar #wp-admin-bar-my-account > .ab-item:before {
 		display: block;
@@ -980,6 +986,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 	#wpadminbar li#wp-admin-bar-my-sites,
 	#wpadminbar li#wp-admin-bar-updates,
 	#wpadminbar li#wp-admin-bar-site-name,
+	#wpadminbar li#wp-admin-bar-site-editor,
 	#wpadminbar li#wp-admin-bar-customize,
 	#wpadminbar li#wp-admin-bar-new-content,
 	#wpadminbar li#wp-admin-bar-edit,
