@@ -1628,7 +1628,7 @@ function edit_comment_link( $text = null, $before = '', $after = '' ) {
 	 * @since 2.3.0
 	 *
 	 * @param string $link       Anchor tag for the edit link.
-	 * @param int    $comment_id Comment ID.
+	 * @param string $comment_id Comment ID as a numeric string.
 	 * @param string $text       Anchor text.
 	 */
 	echo $before . apply_filters( 'edit_comment_link', $link, $comment->comment_ID, $text ) . $after;

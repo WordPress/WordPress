@@ -246,7 +246,7 @@ class WP_REST_Block_Navigation_Areas_Controller extends WP_REST_Controller {
 		 * Allows modification of the navigation area data right before it is
 		 * returned.
 		 *
-		 * @param WP_REST_Response\WP_Error $response The response object, or WP_Error object on failure.
+		 * @param WP_REST_Response|WP_Error $response The response object, or WP_Error object on failure.
 		 * @param object                    $area     The original status object.
 		 * @param WP_REST_Request           $request  Request used to generate the response.
 		 */
