@@ -20,9 +20,9 @@ if ( ! function_exists( 'wp_set_current_user' ) ) :
 	 *
 	 * @global WP_User $current_user The current user object which holds the user data.
 	 *
-	 * @param int    $id   User ID
-	 * @param string $name User's username
-	 * @return WP_User Current user User object
+	 * @param int|null $id   User ID.
+	 * @param string   $name User's username.
+	 * @return WP_User Current user User object.
 	 */
 	function wp_set_current_user( $id, $name = '' ) {
 		global $current_user;
