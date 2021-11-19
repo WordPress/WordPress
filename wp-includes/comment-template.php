@@ -1241,7 +1241,7 @@ function comments_open( $post_id = null ) {
 	$_post = get_post( $post_id );
 
 	$post_id = $_post ? $_post->ID : 0;
-	$open    = ( 'open' === $_post->comment_status );
+	$open    = ( $_post && ( 'open' === $_post->comment_status ) );
 
 	/**
 	 * Filters whether the current post is open for comments.
@@ -1271,7 +1271,7 @@ function pings_open( $post_id = null ) {
 	$_post = get_post( $post_id );
 
 	$post_id = $_post ? $_post->ID : 0;
-	$open    = ( 'open' === $_post->ping_status );
+	$open    = ( $_post && ( 'open' === $_post->ping_status ) );
 
 	/**
 	 * Filters whether the current post is open for pings.
