@@ -2017,11 +2017,9 @@ class wpdb {
 				$this->insert_id  = 0;
 				$this->last_query = $query;
 
-				if ( function_exists( '__' ) ) {
-					$this->last_error = __( 'WordPress database error: Could not perform query because it contains invalid data.' );
-				} else {
-					$this->last_error = 'WordPress database error: Could not perform query because it contains invalid data.';
-				}
+				wp_load_translations_early();
+
+				$this->last_error = __( 'WordPress database error: Could not perform query because it contains invalid data.' );
 
 				return false;
 			}
@@ -2550,23 +2548,21 @@ class wpdb {
 				}
 			}
 
-			if ( 1 === count( $problem_fields ) ) {
-				if ( function_exists( '__' ) ) {
-					/* translators: %s Database field where the error occurred. */
-					$message = __( 'WordPress database error: Processing the value for the following field failed: %s. The supplied value may be too long or contains invalid data.' );
-				} else {
-					$message = 'WordPress database error: Processing the value for the following field failed: %s. The supplied value may be too long or contains invalid data.';
-				}
-			} else {
-				if ( function_exists( '__' ) ) {
-					/* translators: %s Database fields where the error occurred. */
-					$message = __( 'WordPress database error: Processing the value for the following fields failed: %s. The supplied value may be too long or contains invalid data.' );
-				} else {
-					$message = 'WordPress database error: Processing the value for the following fields failed: %s. The supplied value may be too long or contains invalid data.';
-				}
-			}
+			wp_load_translations_early();
 
-			$this->last_error = sprintf( $message, implode( ', ', $problem_fields ) );
+			if ( 1 === count( $problem_fields ) ) {
+				$this->last_error = sprintf(
+					/* translators: %s: Database field where the error occurred. */
+					__( 'WordPress database error: Processing the value for the following field failed: %s. The supplied value may be too long or contains invalid data.' ),
+					reset( $problem_fields )
+				);
+			} else {
+				$this->last_error = sprintf(
+					/* translators: %s: Database fields where the error occurred. */
+					__( 'WordPress database error: Processing the values for the following fields failed: %s. The supplied values may be too long or contain invalid data.' ),
+					implode( ', ', $problem_fields )
+				);
+			}
 
 			return false;
 		}
