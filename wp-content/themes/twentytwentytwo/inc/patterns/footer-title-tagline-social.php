@@ -1,84 +1,26 @@
 <?php
 /**
- * Footer with title, tagline, and social links
+ * Footer with title, tagline, and social links on a dark background
  */
 return array(
-	'title'      => __( 'Footer with title, tagline, and social links', 'twentytwentytwo' ),
+	'title'      => __( 'Footer with title, tagline, and social links on a dark background', 'twentytwentytwo' ),
 	'categories' => array( 'twentytwentytwo-footers' ),
 	'blockTypes' => array( 'core/template-part/footer' ),
-	'content'    => '<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"max(1.25rem, 5vw)","right":"max(1.25rem, 5vw)","bottom":"max(1.25rem, 5vw)","left":"max(1.25rem, 5vw)"}}},"layout":{"inherit":true}} -->
-					<div class="wp-block-group alignfull" style="padding-top:max(1.25rem, 5vw);padding-right:max(1.25rem, 5vw);padding-bottom:max(1.25rem, 5vw);padding-left:max(1.25rem, 5vw)"><!-- wp:image {"align":"full","sizeSlug":"full","linkDestination":"none"} -->
-					<figure class="wp-block-image alignfull size-full"><img src="' . esc_url( get_stylesheet_directory_uri() ) . '/assets/images/flight-path-on-gray-b.jpg" alt="' . esc_html__( 'Illustration of a flying bird', 'twentytwentytwo' ) . '"/></figure>
-					<!-- /wp:image -->
+	'content'    => '<!-- wp:group {"align":"full","style":{"elements":{"link":{"color":{"text":"var:preset|color|background"}}}},"backgroundColor":"foreground","textColor":"background","layout":{"inherit":true}} -->
+					<div class="wp-block-group alignfull has-background-color has-foreground-background-color has-text-color has-background has-link-color"><!-- wp:group {"align":"wide","style":{"spacing":{"padding":{"top":"4rem","bottom":"4rem"}}},"layout":{"type":"flex","justifyContent":"space-between"}} -->
+					<div class="wp-block-group alignwide" style="padding-top:4rem;padding-bottom:4rem"><!-- wp:group -->
+					<div class="wp-block-group"><!-- wp:site-title {"style":{"spacing":{"margin":{"top":"0px","bottom":"0px"}},"typography":{"textTransform":"uppercase"}}} /-->
 
-					<!-- wp:spacer {"height":16} -->
-					<div style="height:16px" aria-hidden="true" class="wp-block-spacer"></div>
-					<!-- /wp:spacer -->
+					<!-- wp:site-tagline {"style":{"spacing":{"margin":{"top":"0.25em","bottom":"0px"}},"typography":{"fontStyle":"italic","fontWeight":"400"}},"fontSize":"small"} /--></div>
+					<!-- /wp:group -->
 
-					<!-- wp:columns {"align":"full"} -->
-					<div class="wp-block-columns alignfull"><!-- wp:column -->
-					<div class="wp-block-column"><!-- wp:buttons -->
-					<div class="wp-block-buttons"><!-- wp:button {"width":100} -->
-					<div class="wp-block-button has-custom-width wp-block-button__width-100"><a class="wp-block-button__link">' . esc_html__( 'Purchase my work', 'twentytwentytwo' ) . '</a></div>
-					<!-- /wp:button --></div>
-					<!-- /wp:buttons --></div>
-					<!-- /wp:column -->
+					<!-- wp:social-links {"iconBackgroundColor":"foreground","iconBackgroundColorValue":"var(--wp--preset--color--foreground)","layout":{"type":"flex","justifyContent":"right"}} -->
+					<ul class="wp-block-social-links has-icon-background-color"><!-- wp:social-link {"url":"#","service":"facebook"} /-->
 
-					<!-- wp:column -->
-					<div class="wp-block-column"><!-- wp:buttons -->
-					<div class="wp-block-buttons"><!-- wp:button {"width":100} -->
-					<div class="wp-block-button has-custom-width wp-block-button__width-100"><a class="wp-block-button__link">' . esc_html__( 'Support my studio', 'twentytwentytwo' ) . '</a></div>
-					<!-- /wp:button --></div>
-					<!-- /wp:buttons --></div>
-					<!-- /wp:column -->
+					<!-- wp:social-link {"url":"#","service":"twitter"} /-->
 
-					<!-- wp:column -->
-					<div class="wp-block-column"><!-- wp:buttons -->
-					<div class="wp-block-buttons"><!-- wp:button {"width":100} -->
-					<div class="wp-block-button has-custom-width wp-block-button__width-100"><a class="wp-block-button__link">' . esc_html__( 'Take a class', 'twentytwentytwo' ) . '</a></div>
-					<!-- /wp:button --></div>
-					<!-- /wp:buttons --></div>
-					<!-- /wp:column --></div>
-					<!-- /wp:columns -->
-
-					<!-- wp:columns {"align":"full"} -->
-					<div class="wp-block-columns alignfull"><!-- wp:column -->
-					<div class="wp-block-column"><!-- wp:buttons -->
-					<div class="wp-block-buttons"><!-- wp:button {"width":100} -->
-					<div class="wp-block-button has-custom-width wp-block-button__width-100"><a class="wp-block-button__link">' . esc_html__( 'Read about me', 'twentytwentytwo' ) . '</a></div>
-					<!-- /wp:button --></div>
-					<!-- /wp:buttons --></div>
-					<!-- /wp:column -->
-
-					<!-- wp:column -->
-					<div class="wp-block-column"><!-- wp:buttons -->
-					<div class="wp-block-buttons"><!-- wp:button {"width":100} -->
-					<div class="wp-block-button has-custom-width wp-block-button__width-100"><a class="wp-block-button__link">' . esc_html__( 'See my process', 'twentytwentytwo' ) . '</a></div>
-					<!-- /wp:button --></div>
-					<!-- /wp:buttons --></div>
-					<!-- /wp:column -->
-
-					<!-- wp:column -->
-					<div class="wp-block-column"><!-- wp:buttons -->
-					<div class="wp-block-buttons"><!-- wp:button {"width":100} -->
-					<div class="wp-block-button has-custom-width wp-block-button__width-100"><a class="wp-block-button__link">' . esc_html__( 'Join my mailing list', 'twentytwentytwo' ) . '</a></div>
-					<!-- /wp:button --></div>
-					<!-- /wp:buttons --></div>
-					<!-- /wp:column --></div>
-					<!-- /wp:columns -->
-
-					<!-- wp:spacer {"height":32} -->
-					<div style="height:32px" aria-hidden="true" class="wp-block-spacer"></div>
-					<!-- /wp:spacer -->
-
-					<!-- wp:social-links {"iconColor":"primary","iconColorValue":"var(--wp--custom--color--primary)","className":"is-style-logos-only","layout":{"type":"flex","justifyContent":"center"}} -->
-					<ul class="wp-block-social-links has-icon-color is-style-logos-only"><!-- wp:social-link {"url":"https://wordpress.org/","service":"wordpress"} /-->
-
-					<!-- wp:social-link {"url":"https://www.facebook.com/","service":"facebook"} /-->
-
-					<!-- wp:social-link {"url":"https://twitter.com/","service":"twitter"} /-->
-
-					<!-- wp:social-link {"url":"https://www.instagram.com/","service":"instagram"} /--></ul>
+					<!-- wp:social-link {"url":"#","service":"instagram"} /--></ul>
 					<!-- /wp:social-links --></div>
+					<!-- /wp:group --></div>
 					<!-- /wp:group -->',
 );

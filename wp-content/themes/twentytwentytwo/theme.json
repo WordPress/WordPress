@@ -10,8 +10,8 @@
 			]
 		},
 		{
-			"name": "page-home",
-			"title": "Homepage",
+			"name": "page-large-header",
+			"title": "Page (Large Header)",
 			"postTypes": [
 				"page"
 			]
@@ -140,7 +140,7 @@
 			"spacing": {
 				"small": "max(1.25rem, 5vw)",
 				"medium": "clamp(2rem, 8vw, calc(4 * var(--wp--style--block-gap)))",
-				"large": "8rem"
+				"large": "clamp(4rem, 10vw, 8rem)"
 			},
 			"typography": {
 				"font-size": {
@@ -356,7 +356,12 @@
 		},
 		{
 			"name": "header-large-dark",
-			"title": "Header — Dark",
+			"title": "Header (Dark, large)",
+			"area": "header"
+		},
+		{
+			"name": "header-small-dark",
+			"title": "Header (Dark, small)",
 			"area": "header"
 		},
 		{
