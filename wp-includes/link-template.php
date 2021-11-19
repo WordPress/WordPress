@@ -1113,7 +1113,7 @@ function get_edit_term_link( $term, $taxonomy = '', $object_type = '' ) {
 	 * @param string $location    The edit link.
 	 * @param int    $term_id     Term ID.
 	 * @param string $taxonomy    Taxonomy name.
-	 * @param string $object_type The object type (eg. the post type).
+	 * @param string $object_type The object type.
 	 */
 	return apply_filters( 'get_edit_term_link', $location, $term_id, $taxonomy, $object_type );
 }

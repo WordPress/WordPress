@@ -2700,7 +2700,7 @@ function wp_unique_filename( $dir, $filename, $unique_filename_callback = null )
 	 * @since 5.8.1 The `$alt_filenames` and `$number` parameters were added.
 	 *
 	 * @param string        $filename                 Unique file name.
-	 * @param string        $ext                      File extension, eg. ".png".
+	 * @param string        $ext                      File extension. Example: ".png".
 	 * @param string        $dir                      Directory path.
 	 * @param callable|null $unique_filename_callback Callback function that generates the unique file name.
 	 * @param string[]      $alt_filenames            Array of alternate file names that were checked for collisions.

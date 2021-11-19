@@ -25,7 +25,7 @@
  * <li>WP_PROXY_PASSWORD - Proxy password, if it requires authentication.</li>
  * <li>WP_PROXY_BYPASS_HOSTS - Will prevent the hosts in this list from going through the proxy.
  * You do not need to have localhost and the site host in this list, because they will not be passed
- * through the proxy. The list should be presented in a comma separated list, wildcards using * are supported, eg. *.wordpress.org</li>
+ * through the proxy. The list should be presented in a comma separated list, wildcards using * are supported. Example: *.wordpress.org</li>
  * </ol>
  *
  * An example can be as seen below.

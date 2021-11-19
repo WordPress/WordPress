@@ -209,7 +209,7 @@ class Walker {
 		/*
 		 * Need to display in hierarchical order.
 		 * Separate elements into two buckets: top level and children elements.
-		 * Children_elements is two dimensional array, eg.
+		 * Children_elements is two dimensional array. Example:
 		 * Children_elements[10][] contains all sub-elements whose parent is 10.
 		 */
 		$top_level_elements = array();

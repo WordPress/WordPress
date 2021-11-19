@@ -117,8 +117,8 @@ final class WP_Post_Type {
 	 * Where to show the post type in the admin menu.
 	 *
 	 * To work, $show_ui must be true. If true, the post type is shown in its own top level menu. If false, no menu is
-	 * shown. If a string of an existing top level menu (eg. 'tools.php' or 'edit.php?post_type=page'), the post type
-	 * will be placed as a sub-menu of that.
+	 * shown. If a string of an existing top level menu ('tools.php' or 'edit.php?post_type=page', for example), the
+	 * post type will be placed as a sub-menu of that.
 	 *
 	 * Default is the value of $show_ui.
 	 *

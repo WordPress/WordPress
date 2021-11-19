@@ -964,7 +964,7 @@ endif;
  * @global WP_Rewrite $wp_rewrite   WordPress rewrite component.
  *
  * @param int    $network_id        ID of network to populate.
- * @param string $domain            The domain name for the network (eg. "example.com").
+ * @param string $domain            The domain name for the network. Example: "example.com".
  * @param string $email             Email address for the network administrator.
  * @param string $site_name         The name of the network.
  * @param string $path              Optional. The path to append to the network's domain name. Default '/'.

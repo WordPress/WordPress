@@ -817,8 +817,8 @@ class WP_Posts_List_Table extends WP_List_Table {
 		}
 
 		/*
-		 * Arrange pages into two parts: top level pages and children_pages
-		 * children_pages is two dimensional array, eg.
+		 * Arrange pages into two parts: top level pages and children_pages.
+		 * children_pages is two dimensional array. Example:
 		 * children_pages[10][] contains all sub-pages whose parent is 10.
 		 * It only takes O( N ) to arrange this and it takes O( 1 ) for subsequent lookup operations
 		 * If searching, ignore hierarchy and treat everything as top level
