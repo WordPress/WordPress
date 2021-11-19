@@ -972,7 +972,7 @@ jQuery( function($) {
 	 * @return {void}
 	 */
 	function editPermalink() {
-		var i, slug_value,
+		var i, slug_value, slug_label,
 			$el, revert_e,
 			c = 0,
 			real_slug = $('#post_name'),
@@ -1048,8 +1048,9 @@ jQuery( function($) {
 				c++;
 		}
 		slug_value = ( c > full.length / 4 ) ? '' : full;
+		slug_label = __( 'URL Slug' );
 
-		$el.html( '<input type="text" id="new-post-slug" value="' + slug_value + '" autocomplete="off" />' ).children( 'input' ).on( 'keydown', function( e ) {
+		$el.html( '<label for="new-post-slug" class="screen-reader-text">' + slug_label + '</label><input type="text" id="new-post-slug" value="' + slug_value + '" autocomplete="off" spellcheck="false" />' ).children( 'input' ).on( 'keydown', function( e ) {
 			var key = e.which;
 			// On [Enter], just save the new slug, don't save the post.
 			if ( 13 === key ) {
