@@ -33,7 +33,11 @@ final class WP_Block_Pattern_Categories_Registry {
 	 * @since 5.5.0
 	 *
 	 * @param string $category_name       Pattern category name including namespace.
-	 * @param array  $category_properties Array containing the properties of the category: label.
+	 * @param array  $category_properties {
+	 *     List of properties for the block pattern category.
+	 *
+	 *     @type string $label Required. A human-readable label for the pattern category.
+	 * }
 	 * @return bool True if the pattern was registered with success and false otherwise.
 	 */
 	public function register( $category_name, $category_properties ) {
@@ -141,7 +145,9 @@ final class WP_Block_Pattern_Categories_Registry {
  * @since 5.5.0
  *
  * @param string $category_name       Pattern category name including namespace.
- * @param array  $category_properties Array containing the properties of the category.
+ * @param array  $category_properties List of properties for the block pattern.
+ *                                    See WP_Block_Pattern_Categories_Registry::register() for
+ *                                    accepted arguments.
  * @return bool True if the pattern category was registered with success and false otherwise.
  */
 function register_block_pattern_category( $category_name, $category_properties ) {

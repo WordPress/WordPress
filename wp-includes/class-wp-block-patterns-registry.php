@@ -35,8 +35,25 @@ final class WP_Block_Patterns_Registry {
 	 * @since 5.5.0
 	 *
 	 * @param string $pattern_name       Pattern name including namespace.
-	 * @param array  $pattern_properties Array containing the properties of the pattern: title,
-	 *                                   content, description, viewportWidth, categories, keywords.
+	 * @param array $pattern_properties  {
+	 *     List of properties for the block pattern.
+	 *
+	 *     @type string $title         Required. A human-readable title for the pattern.
+	 *     @type string $content       Required. Block HTML markup for the pattern.
+	 *     @type string $description   Visually hidden text used to describe the pattern in the
+	 *                                 inserter. A description is optional, but is strongly
+	 *                                 encouraged when the title does not fully describe what the
+	 *                                 pattern does. The description will help users discover the
+	 *                                 pattern while searching. Optional.
+	 *     @type int    $viewportWidth The intended width of the pattern to allow for a scaled
+	 *                                 preview within the pattern inserter. Optional.
+	 *     @type array  $categories    A list of registered pattern categories used to group block
+	 *                                 patterns. Block patterns can be shown on multiple categories.
+	 *                                 A category must be registered separately in order to be used
+	 *                                 here. Optional.
+	 *     @type array  $keywords      A list of aliases or keywords that help users discover the
+	 *                                 pattern while searching. Optional.
+	 * }
 	 * @return bool True if the pattern was registered with success and false otherwise.
 	 */
 	public function register( $pattern_name, $pattern_properties ) {
@@ -163,13 +180,13 @@ final class WP_Block_Patterns_Registry {
  * @since 5.5.0
  *
  * @param string $pattern_name       Pattern name including namespace.
- * @param array  $pattern_properties Array containing the properties of the pattern.
+ * @param array  $pattern_properties List of properties for the block pattern.
+ *                                   See WP_Block_Patterns_Registry::register() for accepted arguments.
  * @return bool True if the pattern was registered with success and false otherwise.
  */
 function register_block_pattern( $pattern_name, $pattern_properties ) {
 	return WP_Block_Patterns_Registry::get_instance()->register( $pattern_name, $pattern_properties );
 }
-
 /**
  * Unregisters a pattern.
  *
