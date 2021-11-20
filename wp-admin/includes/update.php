@@ -558,37 +558,24 @@ function wp_plugin_update_row( $file, $plugin_data ) {
 		 *
 		 * @since 2.8.0
 		 *
-		 * @param array  $plugin_data {
-		 *     An array of plugin metadata.
-		 *
-		 *     @type string $name        The human-readable name of the plugin.
-		 *     @type string $plugin_uri  Plugin URI.
-		 *     @type string $version     Plugin version.
-		 *     @type string $description Plugin description.
-		 *     @type string $author      Plugin author.
-		 *     @type string $author_uri  Plugin author URI.
-		 *     @type string $text_domain Plugin text domain.
-		 *     @type string $domain_path Relative path to the plugin's .mo file(s).
-		 *     @type bool   $network     Whether the plugin can only be activated network wide.
-		 *     @type string $title       The human-readable title of the plugin.
-		 *     @type string $author_name Plugin author's name.
-		 *     @type bool   $update      Whether there's an available update. Default null.
-		 * }
+		 * @param array  $plugin_data An array of plugin metadata. See get_plugin_data()
+		 *                            and the {@see 'plugin_row_meta'} filter for the list
+		 *                            of possible values.
 		 * @param object $response {
 		 *     An object of metadata about the available plugin update.
 		 *
-		 *     @type int    $id           Plugin ID.
-		 *     @type string $slug         Plugin slug.
-		 *     @type string $plugin       Plugin basename.
-		 *     @type string $new_version  New plugin version.
-		 *     @type string $url          Plugin URL.
-		 *     @type string $package      Plugin update package URL.
-		 *     @type array  $icons        An array of plugin icon URLs.
-		 *     @type array  $banners      An array of plugin banner URLs.
-		 *     @type array  $banners_rtl  An array of plugin RTL banner URLs.
-		 *     @type string $requires     The version of WordPress which the plugin requires.
-		 *     @type string $tested       The version of WordPress the plugin is tested against.
-		 *     @type string $requires_php The version of PHP which the plugin requires.
+		 *     @type string   $id           Plugin ID, e.g. `w.org/plugins/[plugin-name]`.
+		 *     @type string   $slug         Plugin slug.
+		 *     @type string   $plugin       Plugin basename.
+		 *     @type string   $new_version  New plugin version.
+		 *     @type string   $url          Plugin URL.
+		 *     @type string   $package      Plugin update package URL.
+		 *     @type string[] $icons        An array of plugin icon URLs.
+		 *     @type string[] $banners      An array of plugin banner URLs.
+		 *     @type string[] $banners_rtl  An array of plugin RTL banner URLs.
+		 *     @type string   $requires     The version of WordPress which the plugin requires.
+		 *     @type string   $tested       The version of WordPress the plugin is tested against.
+		 *     @type string   $requires_php The version of PHP which the plugin requires.
 		 * }
 		 */
 		do_action( "in_plugin_update_message-{$file}", $plugin_data, $response ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
