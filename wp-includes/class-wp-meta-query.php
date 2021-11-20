@@ -99,37 +99,68 @@ class WP_Meta_Query {
 	 *
 	 * @since 3.2.0
 	 * @since 4.2.0 Introduced support for naming query clauses by associative array keys.
-	 * @since 5.1.0 Introduced $compare_key clause parameter, which enables LIKE key matches.
-	 * @since 5.3.0 Increased the number of operators available to $compare_key. Introduced $type_key,
-	 *              which enables the $key to be cast to a new data type for comparisons.
+	 * @since 5.1.0 Introduced `$compare_key` clause parameter, which enables LIKE key matches.
+	 * @since 5.3.0 Increased the number of operators available to `$compare_key`. Introduced `$type_key`,
+	 *              which enables the `$key` to be cast to a new data type for comparisons.
 	 *
 	 * @param array $meta_query {
 	 *     Array of meta query clauses. When first-order clauses or sub-clauses use strings as
 	 *     their array keys, they may be referenced in the 'orderby' parameter of the parent query.
 	 *
-	 *     @type string $relation Optional. The MySQL keyword used to join
-	 *                            the clauses of the query. Accepts 'AND', or 'OR'. Default 'AND'.
+	 *     @type string $relation Optional. The MySQL keyword used to join the clauses of the query.
+	 *                            Accepts 'AND' or 'OR'. Default 'AND'.
 	 *     @type array  ...$0 {
 	 *         Optional. An array of first-order clause parameters, or another fully-formed meta query.
 	 *
-	 *         @type string $key         Meta key to filter by.
-	 *         @type string $compare_key MySQL operator used for comparing the $key. Accepts '=', '!='
-	 *                                   'LIKE', 'NOT LIKE', 'IN', 'NOT IN', 'REGEXP', 'NOT REGEXP', 'RLIKE',
-	 *                                   'EXISTS' (alias of '=') or 'NOT EXISTS' (alias of '!=').
-	 *                                   Default is 'IN' when `$key` is an array, '=' otherwise.
-	 *         @type string $type_key    MySQL data type that the meta_key column will be CAST to for
-	 *                                   comparisons. Accepts 'BINARY' for case-sensitive regular expression
-	 *                                   comparisons. Default is ''.
-	 *         @type string $value       Meta value to filter by.
-	 *         @type string $compare     MySQL operator used for comparing the $value. Accepts '=',
-	 *                                   '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE',
-	 *                                   'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN', 'REGEXP',
-	 *                                   'NOT REGEXP', 'RLIKE', 'EXISTS' or 'NOT EXISTS'.
-	 *                                   Default is 'IN' when `$value` is an array, '=' otherwise.
-	 *         @type string $type        MySQL data type that the meta_value column will be CAST to for
-	 *                                   comparisons. Accepts 'NUMERIC', 'BINARY', 'CHAR', 'DATE',
-	 *                                   'DATETIME', 'DECIMAL', 'SIGNED', 'TIME', or 'UNSIGNED'.
-	 *                                   Default is 'CHAR'.
+	 *         @type string|string[] $key         Meta key or keys to filter by.
+	 *         @type string          $compare_key MySQL operator used for comparing the $key. Accepts:
+	 *                                            - '='
+	 *                                            - '!='
+	 *                                            - 'LIKE'
+	 *                                            - 'NOT LIKE'
+	 *                                            - 'IN'
+	 *                                            - 'NOT IN'
+	 *                                            - 'REGEXP'
+	 *                                            - 'NOT REGEXP'
+	 *                                            - 'RLIKE',
+	 *                                            - 'EXISTS' (alias of '=')
+	 *                                            - 'NOT EXISTS' (alias of '!=')
+	 *                                            Default is 'IN' when `$key` is an array, '=' otherwise.
+	 *         @type string          $type_key    MySQL data type that the meta_key column will be CAST to for
+	 *                                            comparisons. Accepts 'BINARY' for case-sensitive regular expression
+	 *                                            comparisons. Default is ''.
+	 *         @type string|string[] $value       Meta value or values to filter by.
+	 *         @type string          $compare     MySQL operator used for comparing the $value. Accepts:
+	 *                                            - '=',
+	 *                                            - '!='
+	 *                                            - '>'
+	 *                                            - '>='
+	 *                                            - '<'
+	 *                                            - '<='
+	 *                                            - 'LIKE'
+	 *                                            - 'NOT LIKE'
+	 *                                            - 'IN'
+	 *                                            - 'NOT IN'
+	 *                                            - 'BETWEEN'
+	 *                                            - 'NOT BETWEEN'
+	 *                                            - 'REGEXP'
+	 *                                            - 'NOT REGEXP'
+	 *                                            - 'RLIKE'
+	 *                                            - 'EXISTS'
+	 *                                            - 'NOT EXISTS'
+	 *                                            Default is 'IN' when `$value` is an array, '=' otherwise.
+	 *         @type string          $type        MySQL data type that the meta_value column will be CAST to for
+	 *                                            comparisons. Accepts:
+	 *                                            - 'NUMERIC'
+	 *                                            - 'BINARY'
+	 *                                            - 'CHAR'
+	 *                                            - 'DATE'
+	 *                                            - 'DATETIME'
+	 *                                            - 'DECIMAL'
+	 *                                            - 'SIGNED'
+	 *                                            - 'TIME'
+	 *                                            - 'UNSIGNED'
+	 *                                            Default is 'CHAR'.
 	 *     }
 	 * }
 	 */
