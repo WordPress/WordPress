@@ -459,7 +459,7 @@ if ( ! CUSTOM_TAGS ) {
 	);
 
 	/**
-	 * @var string[] $allowedentitynames Array of KSES allowed HTML entitity names.
+	 * @var string[] $allowedentitynames Array of KSES allowed HTML entity names.
 	 * @since 1.0.0
 	 */
 	$allowedentitynames = array(
@@ -719,10 +719,10 @@ if ( ! CUSTOM_TAGS ) {
 	);
 
 	/**
-	 * @var string[] $allowedxmlentitynames Array of KSES allowed XML entitity names.
+	 * @var string[] $allowedxmlentitynames Array of KSES allowed XML entity names.
 	 * @since 5.5.0
 	 */
-	$allowedxmlnamedentities = array(
+	$allowedxmlentitynames = array(
 		'amp',
 		'lt',
 		'gt',
@@ -1906,7 +1906,7 @@ function wp_kses_named_entities( $matches ) {
  * @return string Correctly encoded entity.
  */
 function wp_kses_xml_named_entities( $matches ) {
-	global $allowedentitynames, $allowedxmlnamedentities;
+	global $allowedentitynames, $allowedxmlentitynames;
 
 	if ( empty( $matches[1] ) ) {
 		return '';
@@ -1914,7 +1914,7 @@ function wp_kses_xml_named_entities( $matches ) {
 
 	$i = $matches[1];
 
-	if ( in_array( $i, $allowedxmlnamedentities, true ) ) {
+	if ( in_array( $i, $allowedxmlentitynames, true ) ) {
 		return "&$i;";
 	} elseif ( in_array( $i, $allowedentitynames, true ) ) {
 		return html_entity_decode( "&$i;", ENT_HTML5 );
