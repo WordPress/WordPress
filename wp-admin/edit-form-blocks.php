@@ -86,7 +86,7 @@ if ( 'auto-draft' === $post->post_status ) {
 		$initial_edits['title'] = $post->post_title;
 	}
 
-	if ( post_type_supports( $post->post_type, 'content' ) ) {
+	if ( post_type_supports( $post->post_type, 'editor' ) ) {
 		$initial_edits['content'] = $post->post_content;
 	}
 
