@@ -97,7 +97,7 @@ class WP_Block_Template {
 	 * Whether a template is, or is based upon, an existing template file.
 	 *
 	 * @since 5.8.0
-	 * @var boolean
+	 * @var bool
 	 */
 	public $has_theme_file;
 
@@ -106,7 +106,7 @@ class WP_Block_Template {
 	 *
 	 * @since 5.9.0
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	public $is_custom = true;
 }

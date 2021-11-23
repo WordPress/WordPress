@@ -51,7 +51,7 @@ class WP_REST_Pattern_Directory_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Checks whether a given request has permission to view the local pattern directory.
+	 * Checks whether a given request has permission to view the local block pattern directory.
 	 *
 	 * @since 5.8.0
 	 *
@@ -196,7 +196,7 @@ class WP_REST_Pattern_Directory_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Prepare a raw pattern before it's output in an API response.
+	 * Prepare a raw block pattern before it gets output in a REST API response.
 	 *
 	 * @since 5.8.0
 	 * @since 5.9.0 Renamed `$raw_pattern` to `$item` to match parent class for PHP 8 named parameter support.
@@ -223,19 +223,19 @@ class WP_REST_Pattern_Directory_Controller extends WP_REST_Controller {
 		$response = new WP_REST_Response( $prepared_pattern );
 
 		/**
-		 * Filters the REST API response for a pattern.
+		 * Filters the REST API response for a block pattern.
 		 *
 		 * @since 5.8.0
 		 *
 		 * @param WP_REST_Response $response    The response object.
-		 * @param object           $raw_pattern The unprepared pattern.
+		 * @param object           $raw_pattern The unprepared block pattern.
 		 * @param WP_REST_Request  $request     The request object.
 		 */
 		return apply_filters( 'rest_prepare_block_pattern', $response, $raw_pattern, $request );
 	}
 
 	/**
-	 * Retrieves the pattern's schema, conforming to JSON Schema.
+	 * Retrieves the block pattern's schema, conforming to JSON Schema.
 	 *
 	 * @since 5.8.0
 	 *
@@ -307,7 +307,7 @@ class WP_REST_Pattern_Directory_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Retrieves the search params for the patterns collection.
+	 * Retrieves the search parameters for the block pattern's collection.
 	 *
 	 * @since 5.8.0
 	 *
@@ -336,7 +336,7 @@ class WP_REST_Pattern_Directory_Controller extends WP_REST_Controller {
 		);
 
 		/**
-		 * Filter collection parameters for the pattern directory controller.
+		 * Filter collection parameters for the block pattern directory controller.
 		 *
 		 * @since 5.8.0
 		 *

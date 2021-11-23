@@ -8,13 +8,13 @@
  */
 
 /**
- * Class used for interacting with patterns.
+ * Class used for interacting with block patterns.
  *
  * @since 5.5.0
  */
 final class WP_Block_Patterns_Registry {
 	/**
-	 * Registered patterns array.
+	 * Registered block patterns array.
 	 *
 	 * @since 5.5.0
 	 * @var array
@@ -30,29 +30,29 @@ final class WP_Block_Patterns_Registry {
 	private static $instance = null;
 
 	/**
-	 * Registers a pattern.
+	 * Registers a block pattern.
 	 *
 	 * @since 5.5.0
 	 *
-	 * @param string $pattern_name       Pattern name including namespace.
-	 * @param array $pattern_properties  {
+	 * @param string $pattern_name       Block pattern name including namespace.
+	 * @param array  $pattern_properties {
 	 *     List of properties for the block pattern.
 	 *
 	 *     @type string $title         Required. A human-readable title for the pattern.
 	 *     @type string $content       Required. Block HTML markup for the pattern.
-	 *     @type string $description   Visually hidden text used to describe the pattern in the
+	 *     @type string $description   Optional. Visually hidden text used to describe the pattern in the
 	 *                                 inserter. A description is optional, but is strongly
 	 *                                 encouraged when the title does not fully describe what the
 	 *                                 pattern does. The description will help users discover the
-	 *                                 pattern while searching. Optional.
-	 *     @type int    $viewportWidth The intended width of the pattern to allow for a scaled
-	 *                                 preview within the pattern inserter. Optional.
-	 *     @type array  $categories    A list of registered pattern categories used to group block
+	 *                                 pattern while searching.
+	 *     @type int    $viewportWidth Optional. The intended width of the pattern to allow for a scaled
+	 *                                 preview within the pattern inserter.
+	 *     @type array  $categories    Optional. A list of registered pattern categories used to group block
 	 *                                 patterns. Block patterns can be shown on multiple categories.
 	 *                                 A category must be registered separately in order to be used
-	 *                                 here. Optional.
-	 *     @type array  $keywords      A list of aliases or keywords that help users discover the
-	 *                                 pattern while searching. Optional.
+	 *                                 here.
+	 *     @type array  $keywords      Optional. A list of aliases or keywords that help users discover the
+	 *                                 pattern while searching.
 	 * }
 	 * @return bool True if the pattern was registered with success and false otherwise.
 	 */
@@ -93,11 +93,11 @@ final class WP_Block_Patterns_Registry {
 	}
 
 	/**
-	 * Unregisters a pattern.
+	 * Unregisters a block pattern.
 	 *
 	 * @since 5.5.0
 	 *
-	 * @param string $pattern_name Pattern name including namespace.
+	 * @param string $pattern_name Block pattern name including namespace.
 	 * @return bool True if the pattern was unregistered with success and false otherwise.
 	 */
 	public function unregister( $pattern_name ) {
@@ -117,11 +117,11 @@ final class WP_Block_Patterns_Registry {
 	}
 
 	/**
-	 * Retrieves an array containing the properties of a registered pattern.
+	 * Retrieves an array containing the properties of a registered block pattern.
 	 *
 	 * @since 5.5.0
 	 *
-	 * @param string $pattern_name Pattern name including namespace.
+	 * @param string $pattern_name Block pattern name including namespace.
 	 * @return array Registered pattern properties.
 	 */
 	public function get_registered( $pattern_name ) {
@@ -133,11 +133,11 @@ final class WP_Block_Patterns_Registry {
 	}
 
 	/**
-	 * Retrieves all registered patterns.
+	 * Retrieves all registered block patterns.
 	 *
 	 * @since 5.5.0
 	 *
-	 * @return array Array of arrays containing the registered patterns properties,
+	 * @return array Array of arrays containing the registered block patterns properties,
 	 *               and per style.
 	 */
 	public function get_all_registered() {
@@ -145,11 +145,11 @@ final class WP_Block_Patterns_Registry {
 	}
 
 	/**
-	 * Checks if a pattern is registered.
+	 * Checks if a block pattern is registered.
 	 *
 	 * @since 5.5.0
 	 *
-	 * @param string $pattern_name Pattern name including namespace.
+	 * @param string $pattern_name Block pattern name including namespace.
 	 * @return bool True if the pattern is registered, false otherwise.
 	 */
 	public function is_registered( $pattern_name ) {
@@ -175,11 +175,11 @@ final class WP_Block_Patterns_Registry {
 }
 
 /**
- * Registers a new pattern.
+ * Registers a new block pattern.
  *
  * @since 5.5.0
  *
- * @param string $pattern_name       Pattern name including namespace.
+ * @param string $pattern_name       Block pattern name including namespace.
  * @param array  $pattern_properties List of properties for the block pattern.
  *                                   See WP_Block_Patterns_Registry::register() for accepted arguments.
  * @return bool True if the pattern was registered with success and false otherwise.
@@ -187,12 +187,13 @@ final class WP_Block_Patterns_Registry {
 function register_block_pattern( $pattern_name, $pattern_properties ) {
 	return WP_Block_Patterns_Registry::get_instance()->register( $pattern_name, $pattern_properties );
 }
+
 /**
- * Unregisters a pattern.
+ * Unregisters a block pattern.
  *
  * @since 5.5.0
  *
- * @param string $pattern_name Pattern name including namespace.
+ * @param string $pattern_name Block pattern name including namespace.
  * @return bool True if the pattern was unregistered with success and false otherwise.
  */
 function unregister_block_pattern( $pattern_name ) {

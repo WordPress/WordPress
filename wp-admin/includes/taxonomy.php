@@ -115,8 +115,8 @@ function wp_create_categories( $categories, $post_id = '' ) {
  *     @type int|string $category_parent      Category parent ID. Default empty.
  * }
  * @param bool  $wp_error Optional. Default false.
- * @return int|object The ID number of the new or updated Category on success. Zero or a WP_Error on failure,
- *                    depending on param $wp_error.
+ * @return int|WP_Error The ID number of the new or updated Category on success. Zero or a WP_Error on failure,
+ *                      depending on param `$wp_error`.
  */
 function wp_insert_category( $catarr, $wp_error = false ) {
 	$cat_defaults = array(

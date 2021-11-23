@@ -17,7 +17,8 @@ final class WP_Block_Styles_Registry {
 	 * Registered block styles, as `$block_name => $block_style_name => $block_style_properties` multidimensional arrays.
 	 *
 	 * @since 5.3.0
-	 * @var array
+	 *
+	 * @var array[]
 	 */
 	private $registered_block_styles = array();
 
@@ -25,12 +26,13 @@ final class WP_Block_Styles_Registry {
 	 * Container for the main instance of the class.
 	 *
 	 * @since 5.3.0
+	 *
 	 * @var WP_Block_Styles_Registry|null
 	 */
 	private static $instance = null;
 
 	/**
-	 * Registers a block style.
+	 * Registers a block style for the given block type.
 	 *
 	 * @since 5.3.0
 	 *
@@ -71,7 +73,9 @@ final class WP_Block_Styles_Registry {
 	}
 
 	/**
-	 * Unregisters a block style.
+	 * Unregisters a block style of the given block type.
+	 *
+	 * @since 5.3.0
 	 *
 	 * @param string $block_name       Block type name including namespace.
 	 * @param string $block_style_name Block style name.
@@ -94,7 +98,7 @@ final class WP_Block_Styles_Registry {
 	}
 
 	/**
-	 * Retrieves an array containing the properties of a registered block style.
+	 * Retrieves the properties of a registered block style for the given block type.
 	 *
 	 * @since 5.3.0
 	 *
@@ -115,20 +119,19 @@ final class WP_Block_Styles_Registry {
 	 *
 	 * @since 5.3.0
 	 *
-	 * @return array Array of arrays containing the registered block styles properties grouped per block,
-	 *               and per style.
+	 * @return array[] Array of arrays containing the registered block styles properties grouped by block type.
 	 */
 	public function get_all_registered() {
 		return $this->registered_block_styles;
 	}
 
 	/**
-	 * Retrieves registered block styles for a specific block.
+	 * Retrieves registered block styles for a specific block type.
 	 *
 	 * @since 5.3.0
 	 *
 	 * @param string $block_name Block type name including namespace.
-	 * @return array Array whose keys are block style names and whose value are block style properties.
+	 * @return array[] Array whose keys are block style names and whose values are block style properties.
 	 */
 	public function get_registered_styles_for_block( $block_name ) {
 		if ( isset( $this->registered_block_styles[ $block_name ] ) ) {
@@ -138,7 +141,7 @@ final class WP_Block_Styles_Registry {
 	}
 
 	/**
-	 * Checks if a block style is registered.
+	 * Checks if a block style is registered for the given block type.
 	 *
 	 * @since 5.3.0
 	 *

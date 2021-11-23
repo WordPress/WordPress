@@ -338,12 +338,15 @@ class WP_Meta_Query {
 	 *
 	 * @since 3.2.0
 	 *
-	 * @param string $type              Type of meta, eg 'user', 'post'.
+	 * @param string $type              Type of meta. Possible values include but are not limited
+	 *                                  to 'post', 'comment', 'blog', 'term', and 'user'.
 	 * @param string $primary_table     Database table where the object being filtered is stored (eg wp_users).
 	 * @param string $primary_id_column ID column for the filtered object in $primary_table.
-	 * @param object $context           Optional. The main query object.
-	 * @return array|false {
-	 *     Array containing JOIN and WHERE SQL clauses to append to the main query.
+	 * @param object $context           Optional. The main query object that corresponds to the type, for
+	 *                                  example a `WP_Query`, `WP_User_Query`, or `WP_Site_Query`.
+	 * @return string[]|false {
+	 *     Array containing JOIN and WHERE SQL clauses to append to the main query,
+	 *     or false if no table exists for the requested meta type.
 	 *
 	 *     @type string $join  SQL fragment to append to the main JOIN clause.
 	 *     @type string $where SQL fragment to append to the main WHERE clause.
@@ -378,12 +381,14 @@ class WP_Meta_Query {
 		 *
 		 * @since 3.1.0
 		 *
-		 * @param array  $sql               Array containing the query's JOIN and WHERE clauses.
-		 * @param array  $queries           Array of meta queries.
-		 * @param string $type              Type of meta.
-		 * @param string $primary_table     Primary table.
-		 * @param string $primary_id_column Primary column ID.
-		 * @param object $context           The main query object.
+		 * @param string[] $sql               Array containing the query's JOIN and WHERE clauses.
+		 * @param array    $queries           Array of meta queries.
+		 * @param string   $type              Type of meta. Possible values include but are not limited
+		 *                                    to 'post', 'comment', 'blog', 'term', and 'user'.
+		 * @param string   $primary_table     Primary table.
+		 * @param string   $primary_id_column Primary column ID.
+		 * @param object   $context           The main query object that corresponds to the type, for
+		 *                                    example a `WP_Query`, `WP_User_Query`, or `WP_Site_Query`.
 		 */
 		return apply_filters_ref_array( 'get_meta_sql', array( $sql, $this->queries, $type, $primary_table, $primary_id_column, $context ) );
 	}
