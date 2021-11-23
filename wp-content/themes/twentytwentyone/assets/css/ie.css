@@ -7345,51 +7345,6 @@ h1.page-title {
 	}
 }
 
-.widget-area ul {
-	list-style-type: none;
-	padding: 0;
-}
-
-.widget-area ul li {
-	line-height: 1.9;
-}
-
-.widget-area ul.sub-menu {
-	margin-left: 13px;
-}
-
-.widget-area ul.children {
-	margin-left: 13px;
-}
-
-.widget-area ul .sub-menu-toggle {
-	display: none;
-}
-
-.widget-area a {
-	color: #28303d;
-	text-decoration: underline;
-	text-decoration-style: solid;
-	text-decoration-color: currentColor;
-}
-
-.widget-area a:link {
-	color: #28303d;
-}
-
-.widget-area a:visited {
-	color: #28303d;
-}
-
-.widget-area a:active {
-	color: #28303d;
-}
-
-.widget-area a:hover {
-	color: #28303d;
-	text-decoration-style: dotted;
-}
-
 .widget-area .wp-block-social-links.alignright {
 	margin-top: 30px;
 	justify-content: flex-end;
@@ -7457,6 +7412,51 @@ h1.page-title {
 
 .widget h6 {
 	font-size: 1rem;
+}
+
+.widget ul {
+	list-style-type: none;
+	padding: 0;
+}
+
+.widget ul li {
+	line-height: 1.9;
+}
+
+.widget ul.sub-menu {
+	margin-left: 13px;
+}
+
+.widget ul.children {
+	margin-left: 13px;
+}
+
+.widget ul .sub-menu-toggle {
+	display: none;
+}
+
+.widget a {
+	color: #28303d;
+	text-decoration: underline;
+	text-decoration-style: solid;
+	text-decoration-color: currentColor;
+}
+
+.widget a:link {
+	color: #28303d;
+}
+
+.widget a:visited {
+	color: #28303d;
+}
+
+.widget a:active {
+	color: #28303d;
+}
+
+.widget a:hover {
+	color: #28303d;
+	text-decoration-style: dotted;
 }
 
 .search-form {
