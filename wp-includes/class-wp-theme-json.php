@@ -51,7 +51,7 @@ class WP_Theme_JSON {
 	 * @var string[]
 	 */
 	const VALID_ORIGINS = array(
-		'core',
+		'default',
 		'theme',
 		'user',
 	);
@@ -220,15 +220,17 @@ class WP_Theme_JSON {
 			'width'  => null,
 		),
 		'color'      => array(
-			'background'     => null,
-			'custom'         => null,
-			'customDuotone'  => null,
-			'customGradient' => null,
-			'duotone'        => null,
-			'gradients'      => null,
-			'link'           => null,
-			'palette'        => null,
-			'text'           => null,
+			'background'       => null,
+			'custom'           => null,
+			'customDuotone'    => null,
+			'customGradient'   => null,
+			'defaultGradients' => null,
+			'defaultPalette'   => null,
+			'duotone'          => null,
+			'gradients'        => null,
+			'link'             => null,
+			'palette'          => null,
+			'text'             => null,
 		),
 		'custom'     => null,
 		'layout'     => array(
@@ -324,7 +326,7 @@ class WP_Theme_JSON {
 	 *
 	 * @param array $theme_json A structure that follows the theme.json schema.
 	 * @param string $origin    Optional. What source of data this object represents.
-	 *                          One of 'core', 'theme', or 'user'. Default 'theme'.
+	 *                          One of 'default', 'theme', or 'user'. Default 'theme'.
 	 */
 	public function __construct( $theme_json = array(), $origin = 'theme' ) {
 		if ( ! in_array( $origin, self::VALID_ORIGINS, true ) ) {
@@ -343,7 +345,9 @@ class WP_Theme_JSON {
 				$path   = array_merge( $node['path'], $preset_metadata['path'] );
 				$preset = _wp_array_get( $this->theme_json, $path, null );
 				if ( null !== $preset ) {
-					_wp_array_set( $this->theme_json, $path, array( $origin => $preset ) );
+					if ( 'user' !== $origin || isset( $preset[0] ) ) {
+						_wp_array_set( $this->theme_json, $path, array( $origin => $preset ) );
+					}
 				}
 			}
 		}
@@ -1472,46 +1476,48 @@ class WP_Theme_JSON {
 	private static function remove_insecure_settings( $input ) {
 		$output = array();
 		foreach ( self::PRESETS_METADATA as $preset_metadata ) {
-			$presets = _wp_array_get( $input, $preset_metadata['path'], null );
-			if ( null === $presets ) {
-				continue;
-			}
+			foreach ( self::VALID_ORIGINS as $origin ) {
+				$path_with_origin = array_merge( $preset_metadata['path'], array( $origin ) );
+				$presets          = _wp_array_get( $input, $path_with_origin, null );
+				if ( null === $presets ) {
+					continue;
+				}
 
-			$escaped_preset = array();
-			foreach ( $presets as $preset ) {
-				if (
-					esc_attr( esc_html( $preset['name'] ) ) === $preset['name'] &&
-					sanitize_html_class( $preset['slug'] ) === $preset['slug']
-				) {
-					$value = null;
-					if ( isset( $preset_metadata['value_key'] ) ) {
-						$value = $preset[ $preset_metadata['value_key'] ];
-					} elseif (
-						isset( $preset_metadata['value_func'] ) &&
-						is_callable( $preset_metadata['value_func'] )
+				$escaped_preset = array();
+				foreach ( $presets as $preset ) {
+					if (
+						esc_attr( esc_html( $preset['name'] ) ) === $preset['name'] &&
+						sanitize_html_class( $preset['slug'] ) === $preset['slug']
 					) {
-						$value = call_user_func( $preset_metadata['value_func'], $preset );
-					}
+						$value = null;
+						if ( isset( $preset_metadata['value_key'] ) ) {
+							$value = $preset[ $preset_metadata['value_key'] ];
+						} elseif (
+							isset( $preset_metadata['value_func'] ) &&
+							is_callable( $preset_metadata['value_func'] )
+						) {
+							$value = call_user_func( $preset_metadata['value_func'], $preset );
+						}
 
-					$preset_is_valid = true;
-					foreach ( $preset_metadata['properties'] as $property ) {
-						if ( ! self::is_safe_css_declaration( $property, $value ) ) {
-							$preset_is_valid = false;
-							break;
+						$preset_is_valid = true;
+						foreach ( $preset_metadata['properties'] as $property ) {
+							if ( ! self::is_safe_css_declaration( $property, $value ) ) {
+								$preset_is_valid = false;
+								break;
+							}
+						}
+
+						if ( $preset_is_valid ) {
+							$escaped_preset[] = $preset;
 						}
 					}
+				}
 
-					if ( $preset_is_valid ) {
-						$escaped_preset[] = $preset;
-					}
+				if ( ! empty( $escaped_preset ) ) {
+					_wp_array_set( $output, $path_with_origin, $escaped_preset );
 				}
 			}
-
-			if ( ! empty( $escaped_preset ) ) {
-				_wp_array_set( $output, $preset_metadata['path'], $escaped_preset );
-			}
 		}
-
 		return $output;
 	}
 

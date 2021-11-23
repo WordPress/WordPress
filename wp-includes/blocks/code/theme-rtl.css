@@ -74,7 +74,7 @@
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
-.wp-block-code {
+.wp-block-code > code {
   font-family: Menlo, Consolas, monaco, monospace;
   color: #1e1e1e;
   padding: 0.8em 1em;

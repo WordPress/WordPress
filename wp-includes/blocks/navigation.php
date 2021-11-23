@@ -2,7 +2,7 @@
 /**
  * Server-side rendering of the `core/navigation` block.
  *
- * @package gutenberg
+ * @package WordPress
  */
 
 /**
@@ -14,8 +14,10 @@
  */
 function block_core_navigation_build_css_colors( $attributes ) {
 	$colors = array(
-		'css_classes'   => array(),
-		'inline_styles' => '',
+		'css_classes'           => array(),
+		'inline_styles'         => '',
+		'overlay_css_classes'   => array(),
+		'overlay_inline_styles' => '',
 	);
 
 	// Text color.
@@ -52,6 +54,42 @@ function block_core_navigation_build_css_colors( $attributes ) {
 	} elseif ( $has_custom_background_color ) {
 		// Add the custom background-color inline style.
 		$colors['inline_styles'] .= sprintf( 'background-color: %s;', $attributes['customBackgroundColor'] );
+	}
+
+	// Overlay text color.
+	$has_named_overlay_text_color  = array_key_exists( 'overlayTextColor', $attributes );
+	$has_custom_overlay_text_color = array_key_exists( 'customOverlayTextColor', $attributes );
+
+	// If has overlay text color.
+	if ( $has_custom_overlay_text_color || $has_named_overlay_text_color ) {
+		// Add has-text-color class.
+		$colors['overlay_css_classes'][] = 'has-text-color';
+	}
+
+	if ( $has_named_overlay_text_color ) {
+		// Add the overlay color class.
+		$colors['overlay_css_classes'][] = sprintf( 'has-%s-color', $attributes['overlayTextColor'] );
+	} elseif ( $has_custom_overlay_text_color ) {
+		// Add the custom overlay color inline style.
+		$colors['overlay_inline_styles'] .= sprintf( 'color: %s;', $attributes['customOverlayTextColor'] );
+	}
+
+	// Overlay background color.
+	$has_named_overlay_background_color  = array_key_exists( 'overlayBackgroundColor', $attributes );
+	$has_custom_overlay_background_color = array_key_exists( 'customOverlayBackgroundColor', $attributes );
+
+	// If has overlay background color.
+	if ( $has_custom_overlay_background_color || $has_named_overlay_background_color ) {
+		// Add has-background class.
+		$colors['overlay_css_classes'][] = 'has-background';
+	}
+
+	if ( $has_named_overlay_background_color ) {
+		// Add the overlay background-color class.
+		$colors['overlay_css_classes'][] = sprintf( 'has-%s-background-color', $attributes['overlayBackgroundColor'] );
+	} elseif ( $has_custom_overlay_background_color ) {
+		// Add the custom overlay background-color inline style.
+		$colors['overlay_inline_styles'] .= sprintf( 'background-color: %s;', $attributes['customOverlayBackgroundColor'] );
 	}
 
 	return $colors;
@@ -247,6 +285,7 @@ function render_block_core_navigation( $attributes, $content, $block ) {
 	$responsive_container_classes = array(
 		'wp-block-navigation__responsive-container',
 		$is_hidden_by_default ? 'hidden-by-default' : '',
+		implode( ' ', $colors['overlay_css_classes'] ),
 	);
 	$open_button_classes          = array(
 		'wp-block-navigation__responsive-container-open',
@@ -255,7 +294,7 @@ function render_block_core_navigation( $attributes, $content, $block ) {
 
 	$responsive_container_markup = sprintf(
 		'<button aria-expanded="false" aria-haspopup="true" aria-label="%3$s" class="%6$s" data-micromodal-trigger="modal-%1$s"><svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-hidden="true" focusable="false"><rect x="4" y="7.5" width="16" height="1.5" /><rect x="4" y="15" width="16" height="1.5" /></svg></button>
-			<div class="%5$s" id="modal-%1$s">
+			<div class="%5$s" style="%7$s" id="modal-%1$s">
 				<div class="wp-block-navigation__responsive-close" tabindex="-1" data-micromodal-close>
 					<div class="wp-block-navigation__responsive-dialog" role="dialog" aria-modal="true" aria-labelledby="modal-%1$s-title" >
 							<button aria-label="%4$s" data-micromodal-close class="wp-block-navigation__responsive-container-close"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" role="img" aria-hidden="true" focusable="false"><path d="M13 11.8l6.1-6.3-1-1-6.1 6.2-6.1-6.2-1 1 6.1 6.3-6.5 6.7 1 1 6.5-6.6 6.5 6.6 1-1z"></path></svg></button>
@@ -270,7 +309,8 @@ function render_block_core_navigation( $attributes, $content, $block ) {
 		__( 'Open menu' ), // Open button label.
 		__( 'Close menu' ), // Close button label.
 		implode( ' ', $responsive_container_classes ),
-		implode( ' ', $open_button_classes )
+		implode( ' ', $open_button_classes ),
+		$colors['overlay_inline_styles']
 	);
 
 	return sprintf(

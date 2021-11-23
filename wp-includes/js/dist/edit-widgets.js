@@ -4924,7 +4924,8 @@ function InterfaceSkeleton(_ref, ref) {
   }), !!drawer && Object(external_wp_element_["createElement"])("div", {
     className: "interface-interface-skeleton__drawer",
     role: "region",
-    "aria-label": mergedLabels.drawer
+    "aria-label": mergedLabels.drawer,
+    tabIndex: "-1"
   }, drawer), Object(external_wp_element_["createElement"])("div", {
     className: "interface-interface-skeleton__editor"
   }, !!header && Object(external_wp_element_["createElement"])("div", {

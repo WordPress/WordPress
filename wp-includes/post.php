@@ -357,7 +357,7 @@ function create_initial_post_types() {
 			'_builtin'              => true, /* internal use only. don't use this when registering your own post type. */
 			'has_archive'           => false,
 			'show_ui'               => wp_is_block_template_theme(),
-			'show_in_menu'          => 'themes.php',
+			'show_in_menu'          => false,
 			'show_in_rest'          => true,
 			'rewrite'               => false,
 			'rest_base'             => 'templates',
@@ -416,7 +416,7 @@ function create_initial_post_types() {
 			'_builtin'              => true, /* internal use only. don't use this when registering your own post type. */
 			'has_archive'           => false,
 			'show_ui'               => wp_is_block_template_theme(),
-			'show_in_menu'          => 'themes.php',
+			'show_in_menu'          => false,
 			'show_in_rest'          => true,
 			'rewrite'               => false,
 			'rest_base'             => 'template-parts',

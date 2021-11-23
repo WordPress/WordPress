@@ -3152,7 +3152,8 @@ function InterfaceSkeleton(_ref, ref) {
   }), !!drawer && Object(external_wp_element_["createElement"])("div", {
     className: "interface-interface-skeleton__drawer",
     role: "region",
-    "aria-label": mergedLabels.drawer
+    "aria-label": mergedLabels.drawer,
+    tabIndex: "-1"
   }, drawer), Object(external_wp_element_["createElement"])("div", {
     className: "interface-interface-skeleton__editor"
   }, !!header && Object(external_wp_element_["createElement"])("div", {
@@ -8073,7 +8074,9 @@ function PostTemplateActions() {
   }, Object(external_wp_i18n_["__"])('Edit')), Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
     variant: "link",
     onClick: () => setIsModalOpen(true)
-  }, Object(external_wp_i18n_["__"])('New'))), isModalOpen && Object(external_wp_element_["createElement"])(external_wp_components_["Modal"], {
+  },
+  /* translators: button to create a new template */
+  Object(external_wp_i18n_["_x"])('New', 'action'))), isModalOpen && Object(external_wp_element_["createElement"])(external_wp_components_["Modal"], {
     title: Object(external_wp_i18n_["__"])('Create custom template'),
     closeLabel: Object(external_wp_i18n_["__"])('Close'),
     onRequestClose: () => {

@@ -728,35 +728,6 @@
   display: none;
 }
 
-.block-editor-block-list__block .block-list-appender {
-  align-self: center;
-  padding: 0;
-  list-style: none;
-  margin-bottom: revert;
-}
-.block-editor-block-list__block .block-list-appender.wp-block {
-  max-width: none;
-}
-.block-editor-block-list__block .block-list-appender .block-editor-default-block-appender {
-  margin: 8px 0;
-}
-.block-editor-block-list__block .block-list-appender .block-list-appender__toggle {
-  padding: 0;
-  opacity: 1;
-  transform: scale(1);
-  transition: all 0.1s ease;
-  margin-right: 8px;
-}
-@media (prefers-reduced-motion: reduce) {
-  .block-editor-block-list__block .block-list-appender .block-list-appender__toggle {
-    transition-duration: 0s;
-    transition-delay: 0s;
-  }
-}
-.block-editor-block-list__block .block-list-appender:first-of-type .block-list-appender__toggle {
-  margin-right: 0;
-}
-
 .is-vertical .block-list-appender {
   width: 24px;
   margin-left: auto;
@@ -1210,6 +1181,10 @@
 .block-editor-block-preview__container .block-editor-block-preview__content .block-editor-block-drop-zone,
 .block-editor-block-preview__container .block-editor-block-preview__content .reusable-block-indicator,
 .block-editor-block-preview__container .block-editor-block-preview__content .block-list-appender {
+  display: none;
+}
+
+.block-editor-block-preview__content-iframe .block-list-appender {
   display: none;
 }
 
@@ -1762,20 +1737,6 @@
 .block-editor-button-block-appender:active {
   color: #000;
 }
-.block-editor-button-block-appender.block-list-appender__toggle {
-  display: flex;
-  flex-direction: row;
-  box-shadow: none;
-  height: 24px;
-  width: 24px;
-}
-.block-editor-button-block-appender.block-list-appender__toggle > svg {
-  width: 24px;
-  background-color: #1e1e1e;
-  color: #fff;
-  border-radius: 2px;
-  flex: 1 0 auto;
-}
 
 .block-editor-color-gradient-control .block-editor-color-gradient-control__color-indicator {
   margin-bottom: 12px;
@@ -1805,6 +1766,14 @@
   margin: 0;
 }
 
+/**
+ * Default block appender.
+ *
+ * This component shows up in 3 places:
+ * - the black plus that sits at the end of the canvas, if the last block isn't a paragraph
+ * - on the right, inside empty paragraphs
+ * - absolute positioned and blue inside nesting containers
+ */
 .block-editor-default-block-appender {
   clear: both;
   margin-right: auto;
@@ -1821,32 +1790,72 @@
   display: none;
 }
 
-.block-editor-block-list__empty-block-inserter.block-editor-block-list__empty-block-inserter,
-.block-editor-default-block-appender .block-editor-inserter {
+.block-editor-default-block-appender .block-editor-inserter,
+.block-editor-block-list__empty-block-inserter.block-editor-block-list__empty-block-inserter {
   position: absolute;
   top: 0;
-  height: 32px;
+  left: 0;
+  line-height: 0;
 }
-.block-editor-block-list__empty-block-inserter.block-editor-block-list__empty-block-inserter .block-editor-inserter__toggle,
-.block-editor-default-block-appender .block-editor-inserter .block-editor-inserter__toggle {
-  margin-left: 0;
-}
-
-@media (min-width: 600px) {
-  .block-editor-block-list__empty-block-inserter,
-.block-editor-default-block-appender .block-editor-inserter {
-    display: flex;
-    height: 100%;
-  }
-}
-.block-editor-block-list__empty-block-inserter:disabled,
-.block-editor-default-block-appender .block-editor-inserter:disabled {
+.block-editor-default-block-appender .block-editor-inserter:disabled,
+.block-editor-block-list__empty-block-inserter.block-editor-block-list__empty-block-inserter:disabled {
   display: none;
 }
 
-.block-editor-default-block-appender.has-visible-prompt .block-editor-inserter,
-.block-editor-block-list__empty-block-inserter {
+/**
+ * Fixed position appender.
+ * These styles apply to all in-canvas inserters that exist inside nesting containers.
+ */
+.block-editor-block-list__block .block-list-appender {
+  position: absolute;
+  list-style: none;
+  padding: 0;
+  z-index: 2;
+  bottom: 0;
   left: 0;
+}
+.block-editor-block-list__block .block-list-appender.block-list-appender {
+  margin: 0;
+  line-height: 0;
+}
+.block-editor-block-list__block .block-list-appender .block-editor-default-block-appender {
+  height: 24px;
+}
+.block-editor-block-list__block .block-list-appender .block-editor-inserter__toggle.components-button.has-icon,
+.block-editor-block-list__block .block-list-appender .block-list-appender__toggle {
+  flex-direction: row;
+  box-shadow: none;
+  height: 24px;
+  width: 24px;
+  display: none;
+  padding: 0 !important;
+  background: #1e1e1e;
+  color: #fff;
+}
+.block-editor-block-list__block .block-list-appender .block-editor-inserter__toggle.components-button.has-icon:hover,
+.block-editor-block-list__block .block-list-appender .block-list-appender__toggle:hover {
+  color: #fff;
+  background: var(--wp-admin-theme-color);
+}
+.block-editor-block-list__block .block-list-appender .block-editor-default-block-appender__content {
+  display: none;
+}
+.block-editor-block-list__block .block-list-appender:only-child {
+  position: relative;
+  left: auto;
+  align-self: center;
+  list-style: none;
+  line-height: inherit;
+}
+.block-editor-block-list__block .block-list-appender:only-child .block-editor-default-block-appender__content {
+  display: block;
+}
+
+.block-editor-block-list__block.is-selected .block-editor-block-list__layout > .block-list-appender .block-editor-inserter__toggle.components-button.has-icon,
+.block-editor-block-list__block.is-selected .block-editor-block-list__layout > .block-list-appender .block-list-appender__toggle,
+.block-editor-block-list__block.is-selected > .block-list-appender .block-editor-inserter__toggle.components-button.has-icon,
+.block-editor-block-list__block.is-selected > .block-list-appender .block-list-appender__toggle {
+  display: flex;
 }
 
 .block-editor-duotone-control__popover > .components-popover__content > div {
@@ -2384,16 +2393,11 @@
 .block-editor-block-list__layout.has-overlay::after {
   content: "";
   position: absolute;
-  top: -14px;
-  left: -14px;
-  bottom: -14px;
-  right: -14px;
-  z-index: 60;
-}
-
-[data-align=full] .has-overlay::after {
+  top: 0;
   left: 0;
+  bottom: 0;
   right: 0;
+  z-index: 60;
 }
 
 .block-editor-block-types-list__list-item {

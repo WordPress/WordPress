@@ -342,7 +342,7 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
 			$colors_by_origin['user'] : (
 				isset( $colors_by_origin['theme'] ) ?
 					$colors_by_origin['theme'] :
-					$colors_by_origin['core']
+					$colors_by_origin['default']
 			);
 	}
 	if ( isset( $editor_settings['__experimentalFeatures']['color']['gradients'] ) ) {
@@ -351,7 +351,7 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
 			$gradients_by_origin['user'] : (
 				isset( $gradients_by_origin['theme'] ) ?
 					$gradients_by_origin['theme'] :
-					$gradients_by_origin['core']
+					$gradients_by_origin['default']
 			);
 	}
 	if ( isset( $editor_settings['__experimentalFeatures']['typography']['fontSizes'] ) ) {
@@ -360,7 +360,7 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
 			$font_sizes_by_origin['user'] : (
 				isset( $font_sizes_by_origin['theme'] ) ?
 					$font_sizes_by_origin['theme'] :
-					$font_sizes_by_origin['core']
+					$font_sizes_by_origin['default']
 			);
 	}
 	if ( isset( $editor_settings['__experimentalFeatures']['color']['custom'] ) ) {

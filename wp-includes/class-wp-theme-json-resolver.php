@@ -136,7 +136,7 @@ class WP_Theme_JSON_Resolver {
 
 		$config     = self::read_json_file( __DIR__ . '/theme.json' );
 		$config     = self::translate( $config );
-		self::$core = new WP_Theme_JSON( $config, 'core' );
+		self::$core = new WP_Theme_JSON( $config, 'default' );
 
 		return self::$core;
 	}
@@ -182,7 +182,32 @@ class WP_Theme_JSON_Resolver {
 		* So we take theme supports, transform it to theme.json shape
 		* and merge the self::$theme upon that.
 		*/
-		$theme_support_data  = WP_Theme_JSON::get_from_editor_settings( get_default_block_editor_settings() );
+		$theme_support_data = WP_Theme_JSON::get_from_editor_settings( get_default_block_editor_settings() );
+		if ( ! self::theme_has_support() ) {
+			if ( ! isset( $theme_support_data['settings']['color'] ) ) {
+				$theme_support_data['settings']['color'] = array();
+			}
+
+			$default_palette = false;
+			if ( current_theme_supports( 'default-color-palette' ) ) {
+				$default_palette = true;
+			}
+			if ( ! isset( $theme_support_data['settings']['color']['palette'] ) ) {
+				// If the theme does not have any palette, we still want to show the core one.
+				$default_palette = true;
+			}
+			$theme_support_data['settings']['color']['defaultPalette'] = $default_palette;
+
+			$default_gradients = false;
+			if ( current_theme_supports( 'default-gradient-presets' ) ) {
+				$default_gradients = true;
+			}
+			if ( ! isset( $theme_support_data['settings']['color']['gradients'] ) ) {
+				// If the theme does not have any gradients, we still want to show the core ones.
+				$default_gradients = true;
+			}
+			$theme_support_data['settings']['color']['defaultGradients'] = $default_gradients;
+		}
 		$with_theme_supports = new WP_Theme_JSON( $theme_support_data );
 		$with_theme_supports->merge( self::$theme );
 
@@ -293,7 +318,7 @@ class WP_Theme_JSON_Resolver {
 
 	/**
 	 * There are three sources of data (origins) for a site:
-	 * core, theme, and user. The user's has higher priority
+	 * default, theme, and user. The user's has higher priority
 	 * than the theme's, and the theme's higher than core's.
 	 *
 	 * Unlike the getters {@link get_core_data},

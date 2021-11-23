@@ -5368,7 +5368,10 @@ function EntitiesSavedStates(_ref) {
         saveEditedEntityRecord(kind, name, key);
       }
     });
-    saveSpecifiedEntityEdits('root', 'site', undefined, siteItemsToSave);
+
+    if (siteItemsToSave.length) {
+      saveSpecifiedEntityEdits('root', 'site', undefined, siteItemsToSave);
+    }
   }; // Explicitly define this with no argument passed.  Using `close` on
   // its own will use the event object in place of the expected saved entities.
 

@@ -105,14 +105,14 @@ function wp_get_global_stylesheet( $types = array() ) {
 		$types = array( 'variables', 'styles', 'presets' );
 	}
 
-	$origins = array( 'core', 'theme', 'user' );
+	$origins = array( 'default', 'theme', 'user' );
 	if ( ! $supports_theme_json && ! $supports_link_color ) {
 		// In this case we only enqueue the core presets (CSS Custom Properties + the classes).
-		$origins = array( 'core' );
+		$origins = array( 'default' );
 	} elseif ( ! $supports_theme_json && $supports_link_color ) {
 		// For the legacy link color feature to work, the CSS Custom Properties
 		// should be in scope (either the core or the theme ones).
-		$origins = array( 'core', 'theme' );
+		$origins = array( 'default', 'theme' );
 	}
 
 	$tree       = WP_Theme_JSON_Resolver::get_merged_data();
