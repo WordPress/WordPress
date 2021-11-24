@@ -28,6 +28,7 @@
 		"postcss-custom-media": "^8.0.0",
 		"postcss-discard-duplicates": "^5.0.1",
 		"postcss-focus-within": "^5.0.1",
+		"postcss-merge-rules": "^5.0.3",
 		"postcss-nested": "^5.0.6",
 		"rtlcss": "^3.5.0",
 		"sass": "^1.43.4",
