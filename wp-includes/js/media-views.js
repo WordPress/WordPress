@@ -8080,7 +8080,7 @@ Modal = wp.media.View.extend(/** @lends wp.media.view.Modal.prototype */{
 		// Enable page scrolling.
 		$( 'body' ).removeClass( 'modal-open' );
 
-		// Hide the modal element by adding display none.
+		// Hide the modal element by adding display:none.
 		this.$el.hide();
 
 		/*

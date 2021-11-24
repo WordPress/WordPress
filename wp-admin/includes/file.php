@@ -1194,8 +1194,10 @@ function download_url( $url, $timeout = 300, $signature_verification = false ) {
 			$tmpfname_disposition = '';
 		}
 
-		// Potential file name must be valid string
-		if ( $tmpfname_disposition && is_string( $tmpfname_disposition ) && ( 0 === validate_file( $tmpfname_disposition ) ) ) {
+		// Potential file name must be valid string.
+		if ( $tmpfname_disposition && is_string( $tmpfname_disposition )
+			&& ( 0 === validate_file( $tmpfname_disposition ) )
+		) {
 			if ( rename( $tmpfname, $tmpfname_disposition ) ) {
 				$tmpfname = $tmpfname_disposition;
 			}
