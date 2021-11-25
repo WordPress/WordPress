@@ -165,7 +165,7 @@ function the_block_template_skip_link() {
 	<script>
 	( function() {
 		var skipLinkTarget = document.querySelector( 'main' ),
-			parentEl,
+			sibling,
 			skipLinkTargetID,
 			skipLink;
 
@@ -176,10 +176,10 @@ function the_block_template_skip_link() {
 
 		// Get the site wrapper.
 		// The skip-link will be injected in the beginning of it.
-		parentEl = document.querySelector( '.wp-site-blocks' );
+		sibling = document.querySelector( '.wp-site-blocks' );
 
 		// Early exit if the root element was not found.
-		if ( ! parentEl ) {
+		if ( ! sibling ) {
 			return;
 		}
 
@@ -197,7 +197,7 @@ function the_block_template_skip_link() {
 		skipLink.innerHTML = '<?php esc_html_e( 'Skip to content' ); ?>';
 
 		// Inject the skip link.
-		parentEl.insertAdjacentElement( 'afterbegin', skipLink );
+		sibling.parentElement.insertBefore( skipLink, sibling );
 	}() );
 	</script>
 	<?php
