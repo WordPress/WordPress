@@ -7,13 +7,13 @@
  */
 
 /**
- * Rename $_POST data from form names to DB post columns.
+ * Renames $_POST data from form names to DB post columns.
  *
  * Manipulates $_POST directly.
  *
  * @since 2.6.0
  *
- * @param bool  $update    Are we updating a pre-existing post?
+ * @param bool  $update    Whether the post already exists.
  * @param array $post_data Array of post data. Defaults to the contents of $_POST.
  * @return array|WP_Error Array of post data on success, WP_Error on failure.
  */
@@ -204,7 +204,7 @@ function _wp_translate_postdata( $update = false, $post_data = null ) {
 }
 
 /**
- * Returns only allowed post data fields
+ * Returns only allowed post data fields.
  *
  * @since 5.0.1
  *
@@ -225,7 +225,7 @@ function _wp_get_allowed_postdata( $post_data = null ) {
 }
 
 /**
- * Update an existing post with values provided in $_POST.
+ * Updates an existing post with values provided in $_POST.
  *
  * If post data is passed as an argument, it is treated as an array of data
  * keyed appropriately for turning into a post object.
@@ -452,7 +452,7 @@ function edit_post( $post_data = null ) {
 }
 
 /**
- * Process the post data for the bulk editing of posts.
+ * Processes the post data for the bulk editing of posts.
  *
  * Updates all bulk edited posts/pages, adding (but not removing) tags and
  * categories. Skips pages when they would be their own parent or child.
@@ -461,7 +461,7 @@ function edit_post( $post_data = null ) {
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param array $post_data Optional, the array of post data to process if not provided will use $_POST superglobal.
+ * @param array $post_data Optional. The array of post data to process if not provided will use $_POST superglobal.
  * @return array
  */
 function bulk_edit_posts( $post_data = null ) {
@@ -661,7 +661,7 @@ function bulk_edit_posts( $post_data = null ) {
 }
 
 /**
- * Default post information to use when populating the "Write Post" form.
+ * Returns default post information to use when populating the "Write Post" form.
  *
  * @since 2.0.0
  *
@@ -770,10 +770,10 @@ function get_default_post_to_edit( $post_type = 'post', $create_in_db = false ) 
  * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $title   Post title.
- * @param string $content Optional post content.
- * @param string $date    Optional post date.
- * @param string $type    Optional post type.
- * @param string $status  Optional post status.
+ * @param string $content Optional. Post content.
+ * @param string $date    Optional. Post date.
+ * @param string $type    Optional. Post type.
+ * @param string $status  Optional. Post status.
  * @return int Post ID if post exists, 0 otherwise.
  */
 function post_exists( $title, $content = '', $date = '', $type = '', $status = '' ) {
@@ -919,7 +919,7 @@ function write_post() {
 //
 
 /**
- * Add post meta data defined in $_POST superglobal for post with given ID.
+ * Adds post meta data defined in $_POST superglobal for post with given ID.
  *
  * @since 1.2.0
  *
@@ -962,7 +962,7 @@ function add_meta( $post_ID ) {
 }
 
 /**
- * Delete post meta data by meta ID.
+ * Deletes post meta data by meta ID.
  *
  * @since 1.2.0
  *
@@ -974,7 +974,7 @@ function delete_meta( $mid ) {
 }
 
 /**
- * Get a list of previously defined keys.
+ * Returns a list of previously defined keys.
  *
  * @since 1.2.0
  *
@@ -997,7 +997,7 @@ function get_meta_keys() {
 }
 
 /**
- * Get post meta data by meta ID.
+ * Returns post meta data by meta ID.
  *
  * @since 2.1.0
  *
@@ -1009,7 +1009,7 @@ function get_post_meta_by_id( $mid ) {
 }
 
 /**
- * Get meta data for the given post ID.
+ * Returns meta data for the given post ID.
  *
  * @since 1.2.0
  *
@@ -1044,13 +1044,13 @@ function has_meta( $postid ) {
 }
 
 /**
- * Update post meta data by meta ID.
+ * Updates post meta data by meta ID.
  *
  * @since 1.2.0
  *
  * @param int    $meta_id
- * @param string $meta_key Expect Slashed
- * @param string $meta_value Expect Slashed
+ * @param string $meta_key   Expect Slashed.
+ * @param string $meta_value Expect Slashed.
  * @return bool
  */
 function update_meta( $meta_id, $meta_key, $meta_value ) {
@@ -1122,7 +1122,7 @@ function _fix_attachment_links( $post ) {
 }
 
 /**
- * Get all the possible statuses for a post_type
+ * Returns all the possible statuses for a post_type.
  *
  * @since 2.5.0
  *
@@ -1136,7 +1136,7 @@ function get_available_post_statuses( $type = 'post' ) {
 }
 
 /**
- * Run the wp query to fetch the posts for listing on the edit posts page
+ * Runs the wp query to fetch the posts for listing on the edit posts page
  *
  * @since 2.5.0
  *
@@ -1237,7 +1237,7 @@ function wp_edit_posts_query( $q = false ) {
 }
 
 /**
- * Get the query variables for the current attachments request.
+ * Returns the query variables for the current attachments request.
  *
  * @since 4.2.0
  *
@@ -1359,7 +1359,7 @@ function postbox_classes( $box_id, $screen_id ) {
 }
 
 /**
- * Get a sample permalink based off of the post name.
+ * Returns a sample permalink based on the post name.
  *
  * @since 2.5.0
  *
@@ -1441,10 +1441,10 @@ function get_sample_permalink( $id, $title = null, $name = null ) {
 	 *     @type string $0 The permalink with placeholder for the post name.
 	 *     @type string $1 The post name.
 	 * }
-	 * @param int     $post_id   Post ID.
-	 * @param string  $title     Post title.
-	 * @param string  $name      Post name (slug).
-	 * @param WP_Post $post      Post object.
+	 * @param int     $post_id Post ID.
+	 * @param string  $title   Post title.
+	 * @param string  $name    Post name (slug).
+	 * @param WP_Post $post    Post object.
 	 */
 	return apply_filters( 'get_sample_permalink', $permalink, $post->ID, $title, $name, $post );
 }
@@ -1609,7 +1609,7 @@ function _wp_post_thumbnail_html( $thumbnail_id = null, $post = null ) {
 }
 
 /**
- * Check to see if the post is currently being edited by another user.
+ * Determines whether the post is currently being edited by another user.
  *
  * @since 2.5.0
  *
@@ -1647,7 +1647,7 @@ function wp_check_post_lock( $post_id ) {
 }
 
 /**
- * Mark the post as currently being edited by the current user
+ * Marks the post as currently being edited by the current user.
  *
  * @since 2.5.0
  *
@@ -1962,7 +1962,7 @@ function post_preview() {
 }
 
 /**
- * Save a post submitted with XHR
+ * Saves a post submitted with XHR.
  *
  * Intended for use with heartbeat and autosave.js
  *
@@ -2013,7 +2013,7 @@ function wp_autosave( $post_data ) {
 }
 
 /**
- * Redirect to previous page.
+ * Redirects to previous page.
  *
  * @since 2.7.0
  *
@@ -2127,7 +2127,7 @@ function taxonomy_meta_box_sanitize_cb_input( $taxonomy, $terms ) {
 }
 
 /**
- * Return whether the post can be edited in the block editor.
+ * Returns whether the post can be edited in the block editor.
  *
  * @since 5.0.0
  *
@@ -2161,7 +2161,7 @@ function use_block_editor_for_post( $post ) {
 }
 
 /**
- * Return whether a post type is compatible with the block editor.
+ * Returns whether a post type is compatible with the block editor.
  *
  * The block editor depends on the REST API, and if the post type is not shown in the
  * REST API, then it won't work with the block editor.
@@ -2436,7 +2436,7 @@ function the_block_editor_meta_box_post_form_hidden_fields( $post ) {
 	wp_nonce_field( 'samplepermalink', 'samplepermalinknonce', false );
 
 	/**
-	 * Add hidden input fields to the meta box save form.
+	 * Adds hidden input fields to the meta box save form.
 	 *
 	 * Hook into this action to print `<input type="hidden" ... />` fields, which will be POSTed back to
 	 * the server when meta boxes are saved.
@@ -2449,7 +2449,7 @@ function the_block_editor_meta_box_post_form_hidden_fields( $post ) {
 }
 
 /**
- * Disable block editor for wp_navigation type posts so they can be managed via the UI.
+ * Disables block editor for wp_navigation type posts so they can be managed via the UI.
  *
  * @since 5.9.0
  * @access private
