@@ -3740,17 +3740,17 @@ function wp_get_media_creation_timestamp( $metadata ) {
 
 		case 'matroska':
 		case 'webm':
-			if ( isset( $metadata['matroska']['comments']['creation_time']['0'] ) ) {
-				$creation_date = strtotime( $metadata['matroska']['comments']['creation_time']['0'] );
-			} elseif ( isset( $metadata['matroska']['info']['0']['DateUTC_unix'] ) ) {
-				$creation_date = (int) $metadata['matroska']['info']['0']['DateUTC_unix'];
+			if ( isset( $metadata['matroska']['comments']['creation_time'][0] ) ) {
+				$creation_date = strtotime( $metadata['matroska']['comments']['creation_time'][0] );
+			} elseif ( isset( $metadata['matroska']['info'][0]['DateUTC_unix'] ) ) {
+				$creation_date = (int) $metadata['matroska']['info'][0]['DateUTC_unix'];
 			}
 			break;
 
 		case 'quicktime':
 		case 'mp4':
-			if ( isset( $metadata['quicktime']['moov']['subatoms']['0']['creation_time_unix'] ) ) {
-				$creation_date = (int) $metadata['quicktime']['moov']['subatoms']['0']['creation_time_unix'];
+			if ( isset( $metadata['quicktime']['moov']['subatoms'][0]['creation_time_unix'] ) ) {
+				$creation_date = (int) $metadata['quicktime']['moov']['subatoms'][0]['creation_time_unix'];
 			}
 			break;
 	}
