@@ -2,92 +2,116 @@
 /**
  * Case-insensitive dictionary, suitable for HTTP headers
  *
- * @package Requests
- * @subpackage Utilities
+ * @package Requests\Utilities
  */
+
+namespace WpOrg\Requests\Utility;
+
+use ArrayAccess;
+use ArrayIterator;
+use IteratorAggregate;
+use ReturnTypeWillChange;
+use WpOrg\Requests\Exception;
 
 /**
  * Case-insensitive dictionary, suitable for HTTP headers
  *
- * @package Requests
- * @subpackage Utilities
+ * @package Requests\Utilities
  */
-class Requests_Utility_CaseInsensitiveDictionary implements ArrayAccess, IteratorAggregate {
+class CaseInsensitiveDictionary implements ArrayAccess, IteratorAggregate {
 	/**
 	 * Actual item data
 	 *
 	 * @var array
 	 */
-	protected $data = array();
+	protected $data = [];
 
 	/**
 	 * Creates a case insensitive dictionary.
 	 *
 	 * @param array $data Dictionary/map to convert to case-insensitive
 	 */
-	public function __construct(array $data = array()) {
-		foreach ($data as $key => $value) {
-			$this->offsetSet($key, $value);
+	public function __construct(array $data = []) {
+		foreach ($data as $offset => $value) {
+			$this->offsetSet($offset, $value);
 		}
 	}
 
 	/**
 	 * Check if the given item exists
 	 *
-	 * @param string $key Item key
+	 * @param string $offset Item key
 	 * @return boolean Does the item exist?
 	 */
-	public function offsetExists($key) {
-		$key = strtolower($key);
-		return isset($this->data[$key]);
+	#[ReturnTypeWillChange]
+	public function offsetExists($offset) {
+		if (is_string($offset)) {
+			$offset = strtolower($offset);
+		}
+
+		return isset($this->data[$offset]);
 	}
 
 	/**
 	 * Get the value for the item
 	 *
-	 * @param string $key Item key
-	 * @return string|null Item value (null if offsetExists is false)
+	 * @param string $offset Item key
+	 * @return string|null Item value (null if the item key doesn't exist)
 	 */
-	public function offsetGet($key) {
-		$key = strtolower($key);
-		if (!isset($this->data[$key])) {
+	#[ReturnTypeWillChange]
+	public function offsetGet($offset) {
+		if (is_string($offset)) {
+			$offset = strtolower($offset);
+		}
+
+		if (!isset($this->data[$offset])) {
 			return null;
 		}
 
-		return $this->data[$key];
+		return $this->data[$offset];
 	}
 
 	/**
 	 * Set the given item
 	 *
-	 * @throws Requests_Exception On attempting to use dictionary as list (`invalidset`)
-	 *
-	 * @param string $key Item name
+	 * @param string $offset Item name
 	 * @param string $value Item value
+	 *
+	 * @throws \WpOrg\Requests\Exception On attempting to use dictionary as list (`invalidset`)
 	 */
-	public function offsetSet($key, $value) {
-		if ($key === null) {
-			throw new Requests_Exception('Object is a dictionary, not a list', 'invalidset');
+	#[ReturnTypeWillChange]
+	public function offsetSet($offset, $value) {
+		if ($offset === null) {
+			throw new Exception('Object is a dictionary, not a list', 'invalidset');
 		}
 
-		$key              = strtolower($key);
-		$this->data[$key] = $value;
+		if (is_string($offset)) {
+			$offset = strtolower($offset);
+		}
+
+		$this->data[$offset] = $value;
 	}
 
 	/**
 	 * Unset the given header
 	 *
-	 * @param string $key
+	 * @param string $offset
 	 */
-	public function offsetUnset($key) {
-		unset($this->data[strtolower($key)]);
+	#[ReturnTypeWillChange]
+	public function offsetUnset($offset) {
+		if (is_string($offset)) {
+			$offset = strtolower($offset);
+		}
+
+		unset($this->data[$offset]);
 	}
 
 	/**
 	 * Get an iterator for the data
 	 *
-	 * @return ArrayIterator
+	 * @return \ArrayIterator
 	 */
+	#[ReturnTypeWillChange]
 	public function getIterator() {
 		return new ArrayIterator($this->data);
 	}

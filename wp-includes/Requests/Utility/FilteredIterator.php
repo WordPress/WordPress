@@ -2,34 +2,60 @@
 /**
  * Iterator for arrays requiring filtered values
  *
- * @package Requests
- * @subpackage Utilities
+ * @package Requests\Utilities
  */
+
+namespace WpOrg\Requests\Utility;
+
+use ArrayIterator;
+use ReturnTypeWillChange;
+use WpOrg\Requests\Exception\InvalidArgument;
+use WpOrg\Requests\Utility\InputValidator;
 
 /**
  * Iterator for arrays requiring filtered values
  *
- * @package Requests
- * @subpackage Utilities
+ * @package Requests\Utilities
  */
-class Requests_Utility_FilteredIterator extends ArrayIterator {
+final class FilteredIterator extends ArrayIterator {
 	/**
 	 * Callback to run as a filter
 	 *
 	 * @var callable
 	 */
-	protected $callback;
+	private $callback;
 
 	/**
 	 * Create a new iterator
 	 *
 	 * @param array $data
 	 * @param callable $callback Callback to be called on each value
+	 *
+	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $data argument is not iterable.
 	 */
 	public function __construct($data, $callback) {
+		if (InputValidator::is_iterable($data) === false) {
+			throw InvalidArgument::create(1, '$data', 'iterable', gettype($data));
+		}
+
 		parent::__construct($data);
 
-		$this->callback = $callback;
+		if (is_callable($callback)) {
+			$this->callback = $callback;
+		}
+	}
+
+	/**
+	 * @inheritdoc
+	 *
+	 * @phpcs:disable PHPCompatibility.FunctionNameRestrictions.NewMagicMethods.__unserializeFound
+	 */
+	#[ReturnTypeWillChange]
+	public function __unserialize($data) {}
+	// phpcs:enable
+
+	public function __wakeup() {
+		unset($this->callback);
 	}
 
 	/**
@@ -37,6 +63,7 @@ class Requests_Utility_FilteredIterator extends ArrayIterator {
 	 *
 	 * @return string
 	 */
+	#[ReturnTypeWillChange]
 	public function current() {
 		$value = parent::current();
 
@@ -50,16 +77,6 @@ class Requests_Utility_FilteredIterator extends ArrayIterator {
 	/**
 	 * @inheritdoc
 	 */
-	public function unserialize($serialized) {}
-
-	/**
-	 * @inheritdoc
-	 *
-	 * @phpcs:disable PHPCompatibility.FunctionNameRestrictions.ReservedFunctionNames.MethodDoubleUnderscore,PHPCompatibility.FunctionNameRestrictions.NewMagicMethods.__unserializeFound
-	 */
-	public function __unserialize($serialized) {}
-
-	public function __wakeup() {
-		unset($this->callback);
-	}
+	#[ReturnTypeWillChange]
+	public function unserialize($data) {}
 }

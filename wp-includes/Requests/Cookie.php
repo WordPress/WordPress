@@ -2,17 +2,23 @@
 /**
  * Cookie storage object
  *
- * @package Requests
- * @subpackage Cookies
+ * @package Requests\Cookies
  */
+
+namespace WpOrg\Requests;
+
+use WpOrg\Requests\Exception\InvalidArgument;
+use WpOrg\Requests\Iri;
+use WpOrg\Requests\Response\Headers;
+use WpOrg\Requests\Utility\CaseInsensitiveDictionary;
+use WpOrg\Requests\Utility\InputValidator;
 
 /**
  * Cookie storage object
  *
- * @package Requests
- * @subpackage Cookies
+ * @package Requests\Cookies
  */
-class Requests_Cookie {
+class Cookie {
 	/**
 	 * Cookie name.
 	 *
@@ -33,9 +39,9 @@ class Requests_Cookie {
 	 * Valid keys are (currently) path, domain, expires, max-age, secure and
 	 * httponly.
 	 *
-	 * @var Requests_Utility_CaseInsensitiveDictionary|array Array-like object
+	 * @var \WpOrg\Requests\Utility\CaseInsensitiveDictionary|array Array-like object
 	 */
-	public $attributes = array();
+	public $attributes = [];
 
 	/**
 	 * Cookie flags
@@ -45,7 +51,7 @@ class Requests_Cookie {
 	 *
 	 * @var array
 	 */
-	public $flags = array();
+	public $flags = [];
 
 	/**
 	 * Reference time for relative calculations
@@ -62,18 +68,46 @@ class Requests_Cookie {
 	 *
 	 * @param string $name
 	 * @param string $value
-	 * @param array|Requests_Utility_CaseInsensitiveDictionary $attributes Associative array of attribute data
+	 * @param array|\WpOrg\Requests\Utility\CaseInsensitiveDictionary $attributes Associative array of attribute data
+	 * @param array $flags
+	 * @param int|null $reference_time
+	 *
+	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $name argument is not a string.
+	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $value argument is not a string.
+	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $attributes argument is not an array or iterable object with array access.
+	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $flags argument is not an array.
+	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $reference_time argument is not an integer or null.
 	 */
-	public function __construct($name, $value, $attributes = array(), $flags = array(), $reference_time = null) {
+	public function __construct($name, $value, $attributes = [], $flags = [], $reference_time = null) {
+		if (is_string($name) === false) {
+			throw InvalidArgument::create(1, '$name', 'string', gettype($name));
+		}
+
+		if (is_string($value) === false) {
+			throw InvalidArgument::create(2, '$value', 'string', gettype($value));
+		}
+
+		if (InputValidator::has_array_access($attributes) === false || InputValidator::is_iterable($attributes) === false) {
+			throw InvalidArgument::create(3, '$attributes', 'array|ArrayAccess&Traversable', gettype($attributes));
+		}
+
+		if (is_array($flags) === false) {
+			throw InvalidArgument::create(4, '$flags', 'array', gettype($flags));
+		}
+
+		if ($reference_time !== null && is_int($reference_time) === false) {
+			throw InvalidArgument::create(5, '$reference_time', 'integer|null', gettype($reference_time));
+		}
+
 		$this->name       = $name;
 		$this->value      = $value;
 		$this->attributes = $attributes;
-		$default_flags    = array(
+		$default_flags    = [
 			'creation'    => time(),
 			'last-access' => time(),
 			'persistent'  => false,
 			'host-only'   => true,
-		);
+		];
 		$this->flags      = array_merge($default_flags, $flags);
 
 		$this->reference_time = time();
@@ -82,6 +116,15 @@ class Requests_Cookie {
 		}
 
 		$this->normalize();
+	}
+
+	/**
+	 * Get the cookie value
+	 *
+	 * Attributes and other data can be accessed via methods.
+	 */
+	public function __toString() {
+		return $this->value;
 	}
 
 	/**
@@ -113,10 +156,10 @@ class Requests_Cookie {
 	/**
 	 * Check if a cookie is valid for a given URI
 	 *
-	 * @param Requests_IRI $uri URI to check
+	 * @param \WpOrg\Requests\Iri $uri URI to check
 	 * @return boolean Whether the cookie is valid for the given URI
 	 */
-	public function uri_matches(Requests_IRI $uri) {
+	public function uri_matches(Iri $uri) {
 		if (!$this->domain_matches($uri->host)) {
 			return false;
 		}
@@ -131,19 +174,23 @@ class Requests_Cookie {
 	/**
 	 * Check if a cookie is valid for a given domain
 	 *
-	 * @param string $string Domain to check
+	 * @param string $domain Domain to check
 	 * @return boolean Whether the cookie is valid for the given domain
 	 */
-	public function domain_matches($string) {
+	public function domain_matches($domain) {
+		if (is_string($domain) === false) {
+			return false;
+		}
+
 		if (!isset($this->attributes['domain'])) {
 			// Cookies created manually; cookies created by Requests will set
 			// the domain to the requested domain
 			return true;
 		}
 
-		$domain_string = $this->attributes['domain'];
-		if ($domain_string === $string) {
-			// The domain string and the string are identical.
+		$cookie_domain = $this->attributes['domain'];
+		if ($cookie_domain === $domain) {
+			// The cookie domain and the passed domain are identical.
 			return true;
 		}
 
@@ -153,26 +200,26 @@ class Requests_Cookie {
 			return false;
 		}
 
-		if (strlen($string) <= strlen($domain_string)) {
-			// For obvious reasons, the string cannot be a suffix if the domain
-			// is shorter than the domain string
+		if (strlen($domain) <= strlen($cookie_domain)) {
+			// For obvious reasons, the cookie domain cannot be a suffix if the passed domain
+			// is shorter than the cookie domain
 			return false;
 		}
 
-		if (substr($string, -1 * strlen($domain_string)) !== $domain_string) {
-			// The domain string should be a suffix of the string.
+		if (substr($domain, -1 * strlen($cookie_domain)) !== $cookie_domain) {
+			// The cookie domain should be a suffix of the passed domain.
 			return false;
 		}
 
-		$prefix = substr($string, 0, strlen($string) - strlen($domain_string));
+		$prefix = substr($domain, 0, strlen($domain) - strlen($cookie_domain));
 		if (substr($prefix, -1) !== '.') {
-			// The last character of the string that is not included in the
+			// The last character of the passed domain that is not included in the
 			// domain string should be a %x2E (".") character.
 			return false;
 		}
 
-		// The string should be a host name (i.e., not an IP address).
-		return !preg_match('#^(.+\.)\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$#', $string);
+		// The passed domain should be a host name (i.e., not an IP address).
+		return !preg_match('#^(.+\.)\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$#', $domain);
 	}
 
 	/**
@@ -193,6 +240,10 @@ class Requests_Cookie {
 			// Cookies created manually; cookies created by Requests will set
 			// the path to the requested path
 			return true;
+		}
+
+		if (is_scalar($request_path) === false) {
+			return false;
 		}
 
 		$cookie_path = $this->attributes['path'];
@@ -317,17 +368,6 @@ class Requests_Cookie {
 	}
 
 	/**
-	 * Format a cookie for a Cookie header
-	 *
-	 * @codeCoverageIgnore
-	 * @deprecated Use {@see Requests_Cookie::format_for_header}
-	 * @return string
-	 */
-	public function formatForHeader() {
-		return $this->format_for_header();
-	}
-
-	/**
 	 * Format a cookie for a Set-Cookie header
 	 *
 	 * This is used when sending cookies to clients. This isn't really
@@ -338,7 +378,7 @@ class Requests_Cookie {
 	public function format_for_set_cookie() {
 		$header_value = $this->format_for_header();
 		if (!empty($this->attributes)) {
-			$parts = array();
+			$parts = [];
 			foreach ($this->attributes as $key => $value) {
 				// Ignore non-associative attributes
 				if (is_numeric($key)) {
@@ -355,41 +395,34 @@ class Requests_Cookie {
 	}
 
 	/**
-	 * Format a cookie for a Set-Cookie header
-	 *
-	 * @codeCoverageIgnore
-	 * @deprecated Use {@see Requests_Cookie::format_for_set_cookie}
-	 * @return string
-	 */
-	public function formatForSetCookie() {
-		return $this->format_for_set_cookie();
-	}
-
-	/**
-	 * Get the cookie value
-	 *
-	 * Attributes and other data can be accessed via methods.
-	 */
-	public function __toString() {
-		return $this->value;
-	}
-
-	/**
 	 * Parse a cookie string into a cookie object
 	 *
 	 * Based on Mozilla's parsing code in Firefox and related projects, which
 	 * is an intentional deviation from RFC 2109 and RFC 2616. RFC 6265
 	 * specifies some of this handling, but not in a thorough manner.
 	 *
-	 * @param string Cookie header value (from a Set-Cookie header)
-	 * @return Requests_Cookie Parsed cookie object
+	 * @param string $cookie_header Cookie header value (from a Set-Cookie header)
+	 * @param string $name
+	 * @param int|null $reference_time
+	 * @return \WpOrg\Requests\Cookie Parsed cookie object
+	 *
+	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $cookie_header argument is not a string.
+	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $name argument is not a string.
 	 */
-	public static function parse($string, $name = '', $reference_time = null) {
-		$parts   = explode(';', $string);
+	public static function parse($cookie_header, $name = '', $reference_time = null) {
+		if (is_string($cookie_header) === false) {
+			throw InvalidArgument::create(1, '$cookie_header', 'string', gettype($cookie_header));
+		}
+
+		if (is_string($name) === false) {
+			throw InvalidArgument::create(2, '$name', 'string', gettype($name));
+		}
+
+		$parts   = explode(';', $cookie_header);
 		$kvparts = array_shift($parts);
 
 		if (!empty($name)) {
-			$value = $string;
+			$value = $cookie_header;
 		}
 		elseif (strpos($kvparts, '=') === false) {
 			// Some sites might only have a value without the equals separator.
@@ -406,8 +439,8 @@ class Requests_Cookie {
 		$name  = trim($name);
 		$value = trim($value);
 
-		// Attribute key are handled case-insensitively
-		$attributes = new Requests_Utility_CaseInsensitiveDictionary();
+		// Attribute keys are handled case-insensitively
+		$attributes = new CaseInsensitiveDictionary();
 
 		if (!empty($parts)) {
 			foreach ($parts as $part) {
@@ -425,24 +458,24 @@ class Requests_Cookie {
 			}
 		}
 
-		return new Requests_Cookie($name, $value, $attributes, array(), $reference_time);
+		return new static($name, $value, $attributes, [], $reference_time);
 	}
 
 	/**
 	 * Parse all Set-Cookie headers from request headers
 	 *
-	 * @param Requests_Response_Headers $headers Headers to parse from
-	 * @param Requests_IRI|null $origin URI for comparing cookie origins
+	 * @param \WpOrg\Requests\Response\Headers $headers Headers to parse from
+	 * @param \WpOrg\Requests\Iri|null $origin URI for comparing cookie origins
 	 * @param int|null $time Reference time for expiration calculation
 	 * @return array
 	 */
-	public static function parse_from_headers(Requests_Response_Headers $headers, Requests_IRI $origin = null, $time = null) {
+	public static function parse_from_headers(Headers $headers, Iri $origin = null, $time = null) {
 		$cookie_headers = $headers->getValues('Set-Cookie');
 		if (empty($cookie_headers)) {
-			return array();
+			return [];
 		}
 
-		$cookies = array();
+		$cookies = [];
 		foreach ($cookie_headers as $header) {
 			$parsed = self::parse($header, '', $time);
 
@@ -490,16 +523,5 @@ class Requests_Cookie {
 		}
 
 		return $cookies;
-	}
-
-	/**
-	 * Parse all Set-Cookie headers from request headers
-	 *
-	 * @codeCoverageIgnore
-	 * @deprecated Use {@see Requests_Cookie::parse_from_headers}
-	 * @return array
-	 */
-	public static function parseFromHeaders(Requests_Response_Headers $headers) {
-		return self::parse_from_headers($headers);
 	}
 }

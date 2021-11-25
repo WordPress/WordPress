@@ -2,9 +2,16 @@
 /**
  * Session handler for persistent requests and default parameters
  *
- * @package Requests
- * @subpackage Session Handler
+ * @package Requests\SessionHandler
  */
+
+namespace WpOrg\Requests;
+
+use WpOrg\Requests\Cookie\Jar;
+use WpOrg\Requests\Exception\InvalidArgument;
+use WpOrg\Requests\Iri;
+use WpOrg\Requests\Requests;
+use WpOrg\Requests\Utility\InputValidator;
 
 /**
  * Session handler for persistent requests and default parameters
@@ -14,10 +21,9 @@
  * with all subrequests resolved from this. Base options can be set (including
  * a shared cookie jar), then overridden for individual requests.
  *
- * @package Requests
- * @subpackage Session Handler
+ * @package Requests\SessionHandler
  */
-class Requests_Session {
+class Session {
 	/**
 	 * Base URL for requests
 	 *
@@ -32,7 +38,7 @@ class Requests_Session {
 	 *
 	 * @var array
 	 */
-	public $headers = array();
+	public $headers = [];
 
 	/**
 	 * Base data for requests
@@ -42,7 +48,7 @@ class Requests_Session {
 	 *
 	 * @var array
 	 */
-	public $data = array();
+	public $data = [];
 
 	/**
 	 * Base options for requests
@@ -55,36 +61,57 @@ class Requests_Session {
 	 *
 	 * @var array
 	 */
-	public $options = array();
+	public $options = [];
 
 	/**
 	 * Create a new session
 	 *
-	 * @param string|null $url Base URL for requests
+	 * @param string|Stringable|null $url Base URL for requests
 	 * @param array $headers Default headers for requests
 	 * @param array $data Default data for requests
 	 * @param array $options Default options for requests
+	 *
+	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $url argument is not a string, Stringable or null.
+	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $headers argument is not an array.
+	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $data argument is not an array.
+	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $options argument is not an array.
 	 */
-	public function __construct($url = null, $headers = array(), $data = array(), $options = array()) {
+	public function __construct($url = null, $headers = [], $data = [], $options = []) {
+		if ($url !== null && InputValidator::is_string_or_stringable($url) === false) {
+			throw InvalidArgument::create(1, '$url', 'string|Stringable|null', gettype($url));
+		}
+
+		if (is_array($headers) === false) {
+			throw InvalidArgument::create(2, '$headers', 'array', gettype($headers));
+		}
+
+		if (is_array($data) === false) {
+			throw InvalidArgument::create(3, '$data', 'array', gettype($data));
+		}
+
+		if (is_array($options) === false) {
+			throw InvalidArgument::create(4, '$options', 'array', gettype($options));
+		}
+
 		$this->url     = $url;
 		$this->headers = $headers;
 		$this->data    = $data;
 		$this->options = $options;
 
 		if (empty($this->options['cookies'])) {
-			$this->options['cookies'] = new Requests_Cookie_Jar();
+			$this->options['cookies'] = new Jar();
 		}
 	}
 
 	/**
 	 * Get a property's value
 	 *
-	 * @param string $key Property key
+	 * @param string $name Property name.
 	 * @return mixed|null Property value, null if none found
 	 */
-	public function __get($key) {
-		if (isset($this->options[$key])) {
-			return $this->options[$key];
+	public function __get($name) {
+		if (isset($this->options[$name])) {
+			return $this->options[$name];
 		}
 
 		return null;
@@ -93,93 +120,91 @@ class Requests_Session {
 	/**
 	 * Set a property's value
 	 *
-	 * @param string $key Property key
+	 * @param string $name Property name.
 	 * @param mixed $value Property value
 	 */
-	public function __set($key, $value) {
-		$this->options[$key] = $value;
+	public function __set($name, $value) {
+		$this->options[$name] = $value;
 	}
 
 	/**
 	 * Remove a property's value
 	 *
-	 * @param string $key Property key
+	 * @param string $name Property name.
 	 */
-	public function __isset($key) {
-		return isset($this->options[$key]);
+	public function __isset($name) {
+		return isset($this->options[$name]);
 	}
 
 	/**
 	 * Remove a property's value
 	 *
-	 * @param string $key Property key
+	 * @param string $name Property name.
 	 */
-	public function __unset($key) {
-		if (isset($this->options[$key])) {
-			unset($this->options[$key]);
-		}
+	public function __unset($name) {
+		unset($this->options[$name]);
 	}
 
 	/**#@+
-	 * @see request()
+	 * @see \WpOrg\Requests\Session::request()
 	 * @param string $url
 	 * @param array $headers
 	 * @param array $options
-	 * @return Requests_Response
+	 * @return \WpOrg\Requests\Response
 	 */
 	/**
 	 * Send a GET request
 	 */
-	public function get($url, $headers = array(), $options = array()) {
+	public function get($url, $headers = [], $options = []) {
 		return $this->request($url, $headers, null, Requests::GET, $options);
 	}
 
 	/**
 	 * Send a HEAD request
 	 */
-	public function head($url, $headers = array(), $options = array()) {
+	public function head($url, $headers = [], $options = []) {
 		return $this->request($url, $headers, null, Requests::HEAD, $options);
 	}
 
 	/**
 	 * Send a DELETE request
 	 */
-	public function delete($url, $headers = array(), $options = array()) {
+	public function delete($url, $headers = [], $options = []) {
 		return $this->request($url, $headers, null, Requests::DELETE, $options);
 	}
 	/**#@-*/
 
 	/**#@+
-	 * @see request()
+	 * @see \WpOrg\Requests\Session::request()
 	 * @param string $url
 	 * @param array $headers
 	 * @param array $data
 	 * @param array $options
-	 * @return Requests_Response
+	 * @return \WpOrg\Requests\Response
 	 */
 	/**
 	 * Send a POST request
 	 */
-	public function post($url, $headers = array(), $data = array(), $options = array()) {
+	public function post($url, $headers = [], $data = [], $options = []) {
 		return $this->request($url, $headers, $data, Requests::POST, $options);
 	}
 
 	/**
 	 * Send a PUT request
 	 */
-	public function put($url, $headers = array(), $data = array(), $options = array()) {
+	public function put($url, $headers = [], $data = [], $options = []) {
 		return $this->request($url, $headers, $data, Requests::PUT, $options);
 	}
 
 	/**
 	 * Send a PATCH request
 	 *
-	 * Note: Unlike {@see post} and {@see put}, `$headers` is required, as the
-	 * specification recommends that should send an ETag
+	 * Note: Unlike {@see \WpOrg\Requests\Session::post()} and {@see \WpOrg\Requests\Session::put()},
+	 * `$headers` is required, as the specification recommends that should send an ETag
 	 *
 	 * @link https://tools.ietf.org/html/rfc5789
 	 */
-	public function patch($url, $headers, $data = array(), $options = array()) {
+	public function patch($url, $headers, $data = [], $options = []) {
 		return $this->request($url, $headers, $data, Requests::PATCH, $options);
 	}
 	/**#@-*/
@@ -190,18 +215,18 @@ class Requests_Session {
 	 * This method initiates a request and sends it via a transport before
 	 * parsing.
 	 *
-	 * @see Requests::request()
-	 *
-	 * @throws Requests_Exception On invalid URLs (`nonhttp`)
+	 * @see \WpOrg\Requests\Requests::request()
 	 *
 	 * @param string $url URL to request
 	 * @param array $headers Extra headers to send with the request
 	 * @param array|null $data Data to send either as a query string for GET/HEAD requests, or in the body for POST requests
-	 * @param string $type HTTP request type (use Requests constants)
-	 * @param array $options Options for the request (see {@see Requests::request})
-	 * @return Requests_Response
+	 * @param string $type HTTP request type (use \WpOrg\Requests\Requests constants)
+	 * @param array $options Options for the request (see {@see \WpOrg\Requests\Requests::request()})
+	 * @return \WpOrg\Requests\Response
+	 *
+	 * @throws \WpOrg\Requests\Exception On invalid URLs (`nonhttp`)
 	 */
-	public function request($url, $headers = array(), $data = array(), $type = Requests::GET, $options = array()) {
+	public function request($url, $headers = [], $data = [], $type = Requests::GET, $options = []) {
 		$request = $this->merge_request(compact('url', 'headers', 'data', 'options'));
 
 		return Requests::request($request['url'], $request['headers'], $request['data'], $type, $request['options']);
@@ -210,13 +235,24 @@ class Requests_Session {
 	/**
 	 * Send multiple HTTP requests simultaneously
 	 *
-	 * @see Requests::request_multiple()
+	 * @see \WpOrg\Requests\Requests::request_multiple()
 	 *
-	 * @param array $requests Requests data (see {@see Requests::request_multiple})
-	 * @param array $options Global and default options (see {@see Requests::request})
-	 * @return array Responses (either Requests_Response or a Requests_Exception object)
+	 * @param array $requests Requests data (see {@see \WpOrg\Requests\Requests::request_multiple()})
+	 * @param array $options Global and default options (see {@see \WpOrg\Requests\Requests::request()})
+	 * @return array Responses (either \WpOrg\Requests\Response or a \WpOrg\Requests\Exception object)
+	 *
+	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $requests argument is not an array or iterable object with array access.
+	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $options argument is not an array.
 	 */
-	public function request_multiple($requests, $options = array()) {
+	public function request_multiple($requests, $options = []) {
+		if (InputValidator::has_array_access($requests) === false || InputValidator::is_iterable($requests) === false) {
+			throw InvalidArgument::create(1, '$requests', 'array|ArrayAccess&Traversable', gettype($requests));
+		}
+
+		if (is_array($options) === false) {
+			throw InvalidArgument::create(2, '$options', 'array', gettype($options));
+		}
+
 		foreach ($requests as $key => $request) {
 			$requests[$key] = $this->merge_request($request, false);
 		}
@@ -232,18 +268,18 @@ class Requests_Session {
 	/**
 	 * Merge a request's data with the default data
 	 *
-	 * @param array $request Request data (same form as {@see request_multiple})
+	 * @param array $request Request data (same form as {@see \WpOrg\Requests\Session::request_multiple()})
 	 * @param boolean $merge_options Should we merge options as well?
 	 * @return array Request data
 	 */
 	protected function merge_request($request, $merge_options = true) {
 		if ($this->url !== null) {
-			$request['url'] = Requests_IRI::absolutize($this->url, $request['url']);
+			$request['url'] = Iri::absolutize($this->url, $request['url']);
 			$request['url'] = $request['url']->uri;
 		}
 
 		if (empty($request['headers'])) {
-			$request['headers'] = array();
+			$request['headers'] = [];
 		}
 		$request['headers'] = array_merge($this->headers, $request['headers']);
 
@@ -256,7 +292,7 @@ class Requests_Session {
 			$request['data'] = array_merge($this->data, $request['data']);
 		}
 
-		if ($merge_options !== false) {
+		if ($merge_options === true) {
 			$request['options'] = array_merge($this->options, $request['options']);
 
 			// Disallow forcing the type, as that's a per request setting
