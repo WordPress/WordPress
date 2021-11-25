@@ -1128,7 +1128,7 @@ h6,
 
 /* Center image block by default in the editor */
 .wp-block-image,
-.wp-block-image > div {
+.wp-block-image > div:not(.components-placeholder) {
 	text-align: center;
 }
 
