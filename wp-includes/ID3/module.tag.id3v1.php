@@ -31,14 +31,22 @@ class getid3_id3v1 extends getid3_handler
 			return false;
 		}
 
-		$this->fseek(-256, SEEK_END);
-		$preid3v1 = $this->fread(128);
-		$id3v1tag = $this->fread(128);
+		if($info['filesize'] < 256) {
+			$this->fseek(-128, SEEK_END);
+			$preid3v1 = '';
+			$id3v1tag = $this->fread(128);
+		} else {
+			$this->fseek(-256, SEEK_END);
+			$preid3v1 = $this->fread(128);
+			$id3v1tag = $this->fread(128);
+		}
+
 
 		if (substr($id3v1tag, 0, 3) == 'TAG') {
 
 			$info['avdataend'] = $info['filesize'] - 128;
 
+			$ParsedID3v1            = array();
 			$ParsedID3v1['title']   = $this->cutfield(substr($id3v1tag,   3, 30));
 			$ParsedID3v1['artist']  = $this->cutfield(substr($id3v1tag,  33, 30));
 			$ParsedID3v1['album']   = $this->cutfield(substr($id3v1tag,  63, 30));
@@ -297,6 +305,50 @@ class getid3_id3v1 extends getid3_handler
 			145  => 'Anime',
 			146  => 'JPop',
 			147  => 'Synthpop',
+			148 => 'Abstract',
+			149 => 'Art Rock',
+			150 => 'Baroque',
+			151 => 'Bhangra',
+			152 => 'Big Beat',
+			153 => 'Breakbeat',
+			154 => 'Chillout',
+			155 => 'Downtempo',
+			156 => 'Dub',
+			157 => 'EBM',
+			158 => 'Eclectic',
+			159 => 'Electro',
+			160 => 'Electroclash',
+			161 => 'Emo',
+			162 => 'Experimental',
+			163 => 'Garage',
+			164 => 'Global',
+			165 => 'IDM',
+			166 => 'Illbient',
+			167 => 'Industro-Goth',
+			168 => 'Jam Band',
+			169 => 'Krautrock',
+			170 => 'Leftfield',
+			171 => 'Lounge',
+			172 => 'Math Rock',
+			173 => 'New Romantic',
+			174 => 'Nu-Breakz',
+			175 => 'Post-Punk',
+			176 => 'Post-Rock',
+			177 => 'Psytrance',
+			178 => 'Shoegaze',
+			179 => 'Space Rock',
+			180 => 'Trop Rock',
+			181 => 'World Music',
+			182 => 'Neoclassical',
+			183 => 'Audiobook',
+			184 => 'Audio Theatre',
+			185 => 'Neue Deutsche Welle',
+			186 => 'Podcast',
+			187 => 'Indie-Rock',
+			188 => 'G-Funk',
+			189 => 'Dubstep',
+			190 => 'Garage Rock',
+			191 => 'Psybient',
 
 			255  => 'Unknown',
 
