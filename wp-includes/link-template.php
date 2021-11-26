@@ -930,13 +930,12 @@ function get_category_feed_link( $cat, $feed = '' ) {
  */
 function get_term_feed_link( $term, $taxonomy = '', $feed = '' ) {
 	if ( ! is_object( $term ) ) {
-		$term     = (int) $term;
-		$taxonomy = 'category';
-	} elseif ( ! $term instanceof WP_Term ) {
-		$taxonomy = $term->taxonomy;
+		$term = (int) $term;
 	}
 
 	$term = get_term( $term, $taxonomy );
+
+	$taxonomy = $term->taxonomy;
 
 	if ( empty( $term ) || is_wp_error( $term ) ) {
 		return false;
