@@ -7,14 +7,15 @@
  */
 
 /**
- * Renames $_POST data from form names to DB post columns.
+ * Renames `$_POST` data from form names to DB post columns.
  *
- * Manipulates $_POST directly.
+ * Manipulates `$_POST` directly.
  *
  * @since 2.6.0
  *
- * @param bool  $update    Whether the post already exists.
- * @param array $post_data Array of post data. Defaults to the contents of $_POST.
+ * @param bool       $update    Whether the post already exists.
+ * @param array|null $post_data Optional. The array of post data to process.
+ *                              Defaults to the `$_POST` superglobal.
  * @return array|WP_Error Array of post data on success, WP_Error on failure.
  */
 function _wp_translate_postdata( $update = false, $post_data = null ) {
@@ -208,7 +209,8 @@ function _wp_translate_postdata( $update = false, $post_data = null ) {
  *
  * @since 5.0.1
  *
- * @param array $post_data Array of post data. Defaults to the contents of $_POST.
+ * @param array|null $post_data Optional. The array of post data to process.
+ *                              Defaults to the `$_POST` superglobal.
  * @return array|WP_Error Array of post data on success, WP_Error on failure.
  */
 function _wp_get_allowed_postdata( $post_data = null ) {
@@ -225,18 +227,19 @@ function _wp_get_allowed_postdata( $post_data = null ) {
 }
 
 /**
- * Updates an existing post with values provided in $_POST.
+ * Updates an existing post with values provided in `$_POST`.
  *
  * If post data is passed as an argument, it is treated as an array of data
  * keyed appropriately for turning into a post object.
  *
- * If post data is not passed, the $_POST global variable is used instead.
+ * If post data is not passed, the `$_POST` global variable is used instead.
  *
  * @since 1.5.0
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param array $post_data Optional. Defaults to the $_POST global.
+ * @param array|null $post_data Optional. The array of post data to process.
+ *                              Defaults to the `$_POST` superglobal.
  * @return int Post ID.
  */
 function edit_post( $post_data = null ) {
@@ -461,7 +464,8 @@ function edit_post( $post_data = null ) {
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param array $post_data Optional. The array of post data to process if not provided will use $_POST superglobal.
+ * @param array|null $post_data Optional. The array of post data to process.
+ *                              Defaults to the `$_POST` superglobal.
  * @return array
  */
 function bulk_edit_posts( $post_data = null ) {
@@ -821,7 +825,7 @@ function post_exists( $title, $content = '', $date = '', $type = '', $status = '
 }
 
 /**
- * Creates a new post from the "Write Post" form using $_POST information.
+ * Creates a new post from the "Write Post" form using `$_POST` information.
  *
  * @since 2.1.0
  *
@@ -919,7 +923,7 @@ function write_post() {
 //
 
 /**
- * Adds post meta data defined in $_POST superglobal for post with given ID.
+ * Adds post meta data defined in the `$_POST` superglobal for a post with given ID.
  *
  * @since 1.2.0
  *
@@ -1048,9 +1052,9 @@ function has_meta( $postid ) {
  *
  * @since 1.2.0
  *
- * @param int    $meta_id
- * @param string $meta_key   Expect Slashed.
- * @param string $meta_value Expect Slashed.
+ * @param int    $meta_id    Meta ID.
+ * @param string $meta_key   Meta key. Expect slashed.
+ * @param string $meta_value Meta value. Expect slashed.
  * @return bool
  */
 function update_meta( $meta_id, $meta_key, $meta_value ) {
@@ -1122,7 +1126,7 @@ function _fix_attachment_links( $post ) {
 }
 
 /**
- * Returns all the possible statuses for a post_type.
+ * Returns all the possible statuses for a post type.
  *
  * @since 2.5.0
  *
@@ -1136,11 +1140,12 @@ function get_available_post_statuses( $type = 'post' ) {
 }
 
 /**
- * Runs the wp query to fetch the posts for listing on the edit posts page
+ * Runs the query to fetch the posts for listing on the edit posts page.
  *
  * @since 2.5.0
  *
- * @param array|false $q Array of query variables to use to build the query or false to use $_GET superglobal.
+ * @param array|false $q Optional. Array of query variables to use to build the query.
+ *                       Defaults to the `$_GET` superglobal.
  * @return array
  */
 function wp_edit_posts_query( $q = false ) {
@@ -1241,8 +1246,8 @@ function wp_edit_posts_query( $q = false ) {
  *
  * @since 4.2.0
  *
- * @param array|false $q Optional. Array of query variables to use to build the query or false
- *                       to use $_GET superglobal. Default false.
+ * @param array|false $q Optional. Array of query variables to use to build the query.
+ *                       Defaults to the `$_GET` superglobal.
  * @return array The parsed query vars.
  */
 function wp_edit_attachments_query_vars( $q = false ) {
@@ -1309,7 +1314,8 @@ function wp_edit_attachments_query_vars( $q = false ) {
  *
  * @since 2.5.0
  *
- * @param array|false $q Array of query variables to use to build the query or false to use $_GET superglobal.
+ * @param array|false $q Optional. Array of query variables to use to build the query.
+ *                       Defaults to the `$_GET` superglobal.
  * @return array
  */
 function wp_edit_attachments_query( $q = false ) {
@@ -1364,8 +1370,9 @@ function postbox_classes( $box_id, $screen_id ) {
  * @since 2.5.0
  *
  * @param int|WP_Post $id    Post ID or post object.
- * @param string      $title Optional. Title to override the post's current title when generating the post name. Default null.
- * @param string      $name  Optional. Name to override the post name. Default null.
+ * @param string|null $title Optional. Title to override the post's current title
+ *                           when generating the post name. Default null.
+ * @param string|null $name  Optional. Name to override the post name. Default null.
  * @return array {
  *     Array containing the sample permalink with placeholder for the post name, and the post name.
  *
@@ -1454,9 +1461,9 @@ function get_sample_permalink( $id, $title = null, $name = null ) {
  *
  * @since 2.5.0
  *
- * @param int    $id        Post ID or post object.
- * @param string $new_title Optional. New title. Default null.
- * @param string $new_slug  Optional. New slug. Default null.
+ * @param int|WP_Post $id        Post ID or post object.
+ * @param string|null $new_title Optional. New title. Default null.
+ * @param string|null $new_slug  Optional. New slug. Default null.
  * @return string The HTML of the sample permalink slug editor.
  */
 function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
@@ -1540,8 +1547,9 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
  *
  * @since 2.9.0
  *
- * @param int         $thumbnail_id ID of the attachment used for thumbnail
- * @param int|WP_Post $post         Optional. The post ID or object associated with the thumbnail, defaults to global $post.
+ * @param int|null         $thumbnail_id Optional. Thumbnail attachment ID. Default null.
+ * @param int|WP_Post|null $post         Optional. The post ID or object associated
+ *                                       with the thumbnail. Defaults to global $post.
  * @return string The post thumbnail HTML.
  */
 function _wp_post_thumbnail_html( $thumbnail_id = null, $post = null ) {
@@ -1837,11 +1845,12 @@ function _admin_notice_post_locked() {
 }
 
 /**
- * Creates autosave data for the specified post from $_POST data.
+ * Creates autosave data for the specified post from `$_POST` data.
  *
  * @since 2.6.0
  *
- * @param array|int $post_data Associative array containing the post data or int post ID.
+ * @param array|int $post_data Associative array containing the post data, or integer post ID.
+ *                             If a numeric post ID is provided, will use the `$_POST` superglobal.
  * @return int|WP_Error The autosave revision ID. WP_Error or 0 on error.
  */
 function wp_create_post_autosave( $post_data ) {
