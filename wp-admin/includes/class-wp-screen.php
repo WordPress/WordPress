@@ -1008,9 +1008,6 @@ final class WP_Screen {
 		/**
 		 * Filters the screen settings text displayed in the Screen Options tab.
 		 *
-		 * This filter is currently only used on the Widgets screen to enable
-		 * accessibility mode.
-		 *
 		 * @since 3.0.0
 		 *
 		 * @param string    $screen_settings Screen settings.
