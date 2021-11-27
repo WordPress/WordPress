@@ -923,7 +923,6 @@ function get_category_feed_link( $cat, $feed = '' ) {
  *
  * @param int|WP_Term|object $term     The ID or term object whose feed link will be retrieved.
  * @param string             $taxonomy Optional. Taxonomy of `$term_id`.
- *                                     Defaults to 'category' if term ID or non WP_Term object is passed.
  * @param string             $feed     Optional. Feed type. Possible values include 'rss2', 'atom'.
  *                                     Default is the value of get_default_feed().
  * @return string|false Link to the feed for the term specified by $term_id and $taxonomy.
@@ -935,11 +934,11 @@ function get_term_feed_link( $term, $taxonomy = '', $feed = '' ) {
 
 	$term = get_term( $term, $taxonomy );
 
-	$taxonomy = $term->taxonomy;
-
 	if ( empty( $term ) || is_wp_error( $term ) ) {
 		return false;
 	}
+
+	$taxonomy = $term->taxonomy;
 
 	if ( empty( $feed ) ) {
 		$feed = get_default_feed();
