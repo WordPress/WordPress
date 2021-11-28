@@ -2115,12 +2115,16 @@
 .embed-link-settings,
 .embed-media-settings {
 	position: absolute;
-	top: 70px;
+	top: 82px;
 	right: 0;
 	left: 0;
 	bottom: 0;
 	padding: 0 16px;
 	overflow: auto;
+}
+
+.media-embed .embed-link-settings .link-text {
+	margin-top: 0;
 }
 
 /*
