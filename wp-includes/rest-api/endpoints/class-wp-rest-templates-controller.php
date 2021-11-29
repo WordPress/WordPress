@@ -267,6 +267,10 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
 
 		$request->set_param( 'context', 'edit' );
 
+		$post = get_post( $template->wp_id );
+		/** This action is documented in wp-includes/rest-api/endpoints/class-wp-rest-posts-controller.php */
+		do_action( "rest_after_insert_{$this->post_type}", $post, $request, false );
+
 		$response = $this->prepare_item_for_response( $template, $request );
 
 		return rest_ensure_response( $response );
@@ -310,11 +314,15 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
 			return new WP_Error( 'rest_template_insert_error', __( 'No templates exist with that id.' ), array( 'status' => 400 ) );
 		}
 		$id            = $posts[0]->id;
+		$post          = get_post( $post_id );
 		$template      = get_block_template( $id, $this->post_type );
 		$fields_update = $this->update_additional_fields_for_object( $template, $request );
 		if ( is_wp_error( $fields_update ) ) {
 			return $fields_update;
 		}
+
+		/** This action is documented in wp-includes/rest-api/endpoints/class-wp-rest-posts-controller.php */
+		do_action( "rest_after_insert_{$this->post_type}", $post, $request, true );
 
 		$response = $this->prepare_item_for_response( $template, $request );
 		$response = rest_ensure_response( $response );
