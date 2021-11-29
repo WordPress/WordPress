@@ -183,14 +183,6 @@ function render_block_core_navigation( $attributes, $content, $block ) {
 		$inner_blocks            = new WP_Block_List( $parsed_blocks, $attributes );
 	}
 
-	if ( ! empty( $block->context['navigationArea'] ) ) {
-		$area    = $block->context['navigationArea'];
-		$mapping = get_option( 'wp_navigation_areas', array() );
-		if ( ! empty( $mapping[ $area ] ) ) {
-			$attributes['navigationMenuId'] = $mapping[ $area ];
-		}
-	}
-
 	// Load inner blocks from the navigation post.
 	if ( array_key_exists( 'navigationMenuId', $attributes ) ) {
 		$navigation_post = get_post( $attributes['navigationMenuId'] );

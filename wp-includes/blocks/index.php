@@ -15,7 +15,6 @@ require ABSPATH . WPINC . '/blocks/latest-comments.php';
 require ABSPATH . WPINC . '/blocks/latest-posts.php';
 require ABSPATH . WPINC . '/blocks/legacy-widget.php';
 require ABSPATH . WPINC . '/blocks/loginout.php';
-require ABSPATH . WPINC . '/blocks/navigation-area.php';
 require ABSPATH . WPINC . '/blocks/navigation-link.php';
 require ABSPATH . WPINC . '/blocks/navigation-submenu.php';
 require ABSPATH . WPINC . '/blocks/navigation.php';
