@@ -147,6 +147,11 @@ body.post-new-php .submitbox .submitdelete {
 	margin-top: 3px;
 }
 
+body.post-type-wp_navigation div#minor-publishing,
+body.post-type-wp_navigation .inline-edit-status {
+	display: none;
+}
+
 /* Post Screen */
 
 /* Only highlight drop zones when dragging and only in the 2 columns layout. */
