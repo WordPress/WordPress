@@ -11,7 +11,7 @@
 	],
 	"textdomain": "default",
 	"attributes": {
-		"navigationMenuId": {
+		"ref": {
 			"type": "number"
 		},
 		"textColor": {

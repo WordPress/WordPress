@@ -222,35 +222,52 @@ class WP_Theme_JSON_Resolver {
 	 *
 	 * @since 5.9.0
 	 *
-	 * @param bool  $should_create_cpt  Optional. Whether a new custom post type should be created if none are found.
-	 *                                  False by default.
-	 * @param array $post_status_filter Filter Optional. custom post type by post status.
-	 *                                   ['publish'] by default, so it only fetches published posts.
-	 *
+	 * @param WP_Theme $theme              The theme object.  If empty, it
+	 *                                     defaults to the current theme.
+	 * @param bool     $should_create_cpt  Optional. Whether a new custom post
+	 *                                     type should be created if none are
+	 *                                     found.  False by default.
+	 * @param array    $post_status_filter Filter Optional. custom post type by
+	 *                                     post status.  ['publish'] by default,
+	 *                                     so it only fetches published posts.
 	 * @return array Custom Post Type for the user's origin config.
 	 */
-	private static function get_user_data_from_custom_post_type( $should_create_cpt = false, $post_status_filter = array( 'publish' ) ) {
+	public static function get_user_data_from_custom_post_type( $theme, $should_create_cpt = false, $post_status_filter = array( 'publish' ) ) {
+		if ( ! $theme instanceof WP_Theme ) {
+			$theme = wp_get_theme();
+		}
 		$user_cpt         = array();
 		$post_type_filter = 'wp_global_styles';
-		$query            = new WP_Query(
-			array(
-				'posts_per_page' => 1,
-				'orderby'        => 'date',
-				'order'          => 'desc',
-				'post_type'      => $post_type_filter,
-				'post_status'    => $post_status_filter,
-				'tax_query'      => array(
-					array(
-						'taxonomy' => 'wp_theme',
-						'field'    => 'name',
-						'terms'    => wp_get_theme()->get_stylesheet(),
-					),
+		$args             = array(
+			'numberposts' => 1,
+			'orderby'     => 'date',
+			'order'       => 'desc',
+			'post_type'   => $post_type_filter,
+			'post_status' => $post_status_filter,
+			'tax_query'   => array(
+				array(
+					'taxonomy' => 'wp_theme',
+					'field'    => 'name',
+					'terms'    => $theme->get_stylesheet(),
 				),
-			)
+			),
 		);
 
-		if ( is_array( $query->posts ) && ( 1 === $query->post_count ) ) {
-			$user_cpt = $query->posts[0]->to_array();
+		$cache_key = sprintf( 'wp_global_styles_%s', md5( serialize( $args ) ) );
+		$post_id   = wp_cache_get( $cache_key );
+
+		if ( (int) $post_id > 0 ) {
+			return get_post( $post_id, ARRAY_A );
+		}
+
+		// Special case: '-1' is a results not found.
+		if ( -1 === $post_id && ! $should_create_cpt ) {
+			return $user_cpt;
+		}
+
+		$recent_posts = wp_get_recent_posts( $args );
+		if ( is_array( $recent_posts ) && ( count( $recent_posts ) === 1 ) ) {
+			$user_cpt = $recent_posts[0];
 		} elseif ( $should_create_cpt ) {
 			$cpt_post_id = wp_insert_post(
 				array(
@@ -265,13 +282,10 @@ class WP_Theme_JSON_Resolver {
 				),
 				true
 			);
-
-			if ( is_wp_error( $cpt_post_id ) ) {
-				$user_cpt = array();
-			} else {
-				$user_cpt = get_post( $cpt_post_id, ARRAY_A );
-			}
+			$user_cpt    = get_post( $cpt_post_id, ARRAY_A );
 		}
+		$cache_expiration = $user_cpt ? DAY_IN_SECONDS : HOUR_IN_SECONDS;
+		wp_cache_set( $cache_key, $user_cpt ? $user_cpt['ID'] : -1, '', $cache_expiration );
 
 		return $user_cpt;
 	}
@@ -289,7 +303,7 @@ class WP_Theme_JSON_Resolver {
 		}
 
 		$config   = array();
-		$user_cpt = self::get_user_data_from_custom_post_type();
+		$user_cpt = self::get_user_data_from_custom_post_type( wp_get_theme() );
 
 		if ( array_key_exists( 'post_content', $user_cpt ) ) {
 			$decoded_data = json_decode( $user_cpt['post_content'], true );
@@ -297,7 +311,7 @@ class WP_Theme_JSON_Resolver {
 			$json_decoding_error = json_last_error();
 			if ( JSON_ERROR_NONE !== $json_decoding_error ) {
 				trigger_error( 'Error when decoding a theme.json schema for user data. ' . json_last_error_msg() );
-				return new WP_Theme_JSON( $config, 'user' );
+				return new WP_Theme_JSON( $config, 'custom' );
 			}
 
 			// Very important to verify if the flag isGlobalStylesUserThemeJSON is true.
@@ -311,15 +325,15 @@ class WP_Theme_JSON_Resolver {
 				$config = $decoded_data;
 			}
 		}
-		self::$user = new WP_Theme_JSON( $config, 'user' );
+		self::$user = new WP_Theme_JSON( $config, 'custom' );
 
 		return self::$user;
 	}
 
 	/**
 	 * There are three sources of data (origins) for a site:
-	 * default, theme, and user. The user's has higher priority
-	 * than the theme's, and the theme's higher than core's.
+	 * default, theme, and custom. The custom's has higher priority
+	 * than the theme's, and the theme's higher than default's.
 	 *
 	 * Unlike the getters {@link get_core_data},
 	 * {@link get_theme_data}, and {@link get_user_data},
@@ -336,11 +350,11 @@ class WP_Theme_JSON_Resolver {
 	 * @since 5.9.0 Add user data and change the arguments.
 	 *
 	 * @param string $origin Optional. To what level should we merge data.
-	 *                       Valid values are 'theme' or 'user'.
-	 *                       Default is 'user'.
+	 *                       Valid values are 'theme' or 'custom'.
+	 *                       Default is 'custom'.
 	 * @return WP_Theme_JSON
 	 */
-	public static function get_merged_data( $origin = 'user' ) {
+	public static function get_merged_data( $origin = 'custom' ) {
 		if ( is_array( $origin ) ) {
 			_deprecated_argument( __FUNCTION__, '5.9' );
 		}
@@ -349,7 +363,7 @@ class WP_Theme_JSON_Resolver {
 		$result->merge( self::get_core_data() );
 		$result->merge( self::get_theme_data() );
 
-		if ( 'user' === $origin ) {
+		if ( 'custom' === $origin ) {
 			$result->merge( self::get_user_data() );
 		}
 
@@ -369,7 +383,7 @@ class WP_Theme_JSON_Resolver {
 			return self::$user_custom_post_type_id;
 		}
 
-		$user_cpt = self::get_user_data_from_custom_post_type( true );
+		$user_cpt = self::get_user_data_from_custom_post_type( wp_get_theme(), true );
 
 		if ( array_key_exists( 'ID', $user_cpt ) ) {
 			self::$user_custom_post_type_id = $user_cpt['ID'];

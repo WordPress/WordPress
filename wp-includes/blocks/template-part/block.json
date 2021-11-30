@@ -29,7 +29,8 @@
 		"spacing": {
 			"padding": true
 		},
-		"__experimentalLayout": true
+		"__experimentalLayout": true,
+		"reusable": false
 	},
 	"editorStyle": "wp-block-template-part-editor"
 }

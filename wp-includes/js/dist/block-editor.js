@@ -14886,7 +14886,6 @@ var use_setting = __webpack_require__("v5LD");
 
 
 
-const DEFAULT_COLORS = [];
 /**
  * Higher order component factory for injecting the `colorsArray` argument as
  * the colors prop in the `withCustomColors` HOC.
@@ -14908,9 +14907,12 @@ const withCustomColorPalette = colorsArray => Object(external_wp_compose_["creat
 
 
 const withEditorColorPalette = () => Object(external_wp_compose_["createHigherOrderComponent"])(WrappedComponent => props => {
-  const colors = Object(use_setting["a" /* default */])('color.palette') || DEFAULT_COLORS;
+  const {
+    palette: colorPerOrigin
+  } = Object(use_setting["a" /* default */])('color') || {};
+  const allColors = Object(external_wp_element_["useMemo"])(() => [...((colorPerOrigin === null || colorPerOrigin === void 0 ? void 0 : colorPerOrigin.custom) || []), ...((colorPerOrigin === null || colorPerOrigin === void 0 ? void 0 : colorPerOrigin.theme) || []), ...((colorPerOrigin === null || colorPerOrigin === void 0 ? void 0 : colorPerOrigin.default) || [])], [colorPerOrigin]);
   return Object(external_wp_element_["createElement"])(WrappedComponent, Object(esm_extends["a" /* default */])({}, props, {
-    colors: colors
+    colors: allColors
   }));
 }, 'withEditorColorPalette');
 /**
@@ -20692,37 +20694,32 @@ const getInserterItems = Object(rememo["a" /* default */])(function (state) {
   };
 
   const blockTypeInserterItems = Object(external_wp_blocks_["getBlockTypes"])().filter(blockType => canIncludeBlockTypeInInserter(state, blockType, rootClientId)).map(buildBlockTypeInserterItem);
-  const reusableBlockInserterItems = canInsertBlockTypeUnmemoized(state, 'core/block', rootClientId) ? getReusableBlocks(state).map(buildReusableBlockInserterItem) : []; // Exclude any block type item that is to be replaced by a default
-  // variation.
-
-  const visibleBlockTypeInserterItems = blockTypeInserterItems.filter(_ref4 => {
-    let {
-      variations = []
-    } = _ref4;
-    return !variations.some(_ref5 => {
-      let {
-        isDefault
-      } = _ref5;
-      return isDefault;
-    });
-  });
-  const blockVariations = []; // Show all available blocks with variations
-
-  for (const item of blockTypeInserterItems) {
+  const reusableBlockInserterItems = canInsertBlockTypeUnmemoized(state, 'core/block', rootClientId) ? getReusableBlocks(state).map(buildReusableBlockInserterItem) : [];
+  const items = blockTypeInserterItems.reduce((accumulator, item) => {
     const {
       variations = []
-    } = item;
+    } = item; // Exclude any block type item that is to be replaced by a default variation
+
+    if (!variations.some(_ref4 => {
+      let {
+        isDefault
+      } = _ref4;
+      return isDefault;
+    })) {
+      accumulator.push(item);
+    }
 
     if (variations.length) {
       const variationMapper = getItemFromVariation(state, item);
-      blockVariations.push(...variations.map(variationMapper));
+      accumulator.push(...variations.map(variationMapper));
     }
-  } // Ensure core blocks are prioritized in the returned results,
+
+    return accumulator;
+  }, []); // Ensure core blocks are prioritized in the returned results,
   // because third party blocks can be registered earlier than
   // the core blocks (usually by using the `init` action),
   // thus affecting the display order.
   // We don't sort reusable blocks as they are handled differently.
-
 
   const groupByType = (blocks, block) => {
     const {
@@ -20734,15 +20731,14 @@ const getInserterItems = Object(rememo["a" /* default */])(function (state) {
     return blocks;
   };
 
-  const items = visibleBlockTypeInserterItems.reduce(groupByType, {
+  const {
+    core: coreItems,
+    noncore: nonCoreItems
+  } = items.reduce(groupByType, {
     core: [],
     noncore: []
   });
-  const variations = blockVariations.reduce(groupByType, {
-    core: [],
-    noncore: []
-  });
-  const sortedBlockTypes = [...items.core, ...variations.core, ...items.noncore, ...variations.noncore];
+  const sortedBlockTypes = [...coreItems, ...nonCoreItems];
   return [...sortedBlockTypes, ...reusableBlockInserterItems];
 }, (state, rootClientId) => [state.blockListSettings[rootClientId], state.blocks.byClientId, state.blocks.order, state.preferences.insertUsage, state.settings.allowedBlockTypes, state.settings.templateLock, getReusableBlocks(state), Object(external_wp_blocks_["getBlockTypes"])()]);
 /**
@@ -20777,10 +20773,10 @@ const getBlockTransformItems = Object(rememo["a" /* default */])(function (state
     buildScope: 'transform'
   });
   const blockTypeTransformItems = Object(external_wp_blocks_["getBlockTypes"])().filter(blockType => canIncludeBlockTypeInInserter(state, blockType, rootClientId)).map(buildBlockTypeTransformItem);
-  const itemsByName = Object(external_lodash_["mapKeys"])(blockTypeTransformItems, _ref6 => {
+  const itemsByName = Object(external_lodash_["mapKeys"])(blockTypeTransformItems, _ref5 => {
     let {
       name
-    } = _ref6;
+    } = _ref5;
     return name;
   });
   const possibleTransforms = Object(external_wp_blocks_["getPossibleBlockTransformations"])(blocks).reduce((accumulator, block) => {
@@ -20890,10 +20886,10 @@ const checkAllowListRecursive = (blocks, allowedBlockTypes) => {
 
 const __experimentalGetParsedPattern = Object(rememo["a" /* default */])((state, patternName) => {
   const patterns = state.settings.__experimentalBlockPatterns;
-  const pattern = patterns.find(_ref7 => {
+  const pattern = patterns.find(_ref6 => {
     let {
       name
-    } = _ref7;
+    } = _ref6;
     return name === patternName;
   });
 
@@ -20910,21 +20906,21 @@ const getAllAllowedPatterns = Object(rememo["a" /* default */])(state => {
   const {
     allowedBlockTypes
   } = getSettings(state);
-  const parsedPatterns = patterns.filter(_ref8 => {
+  const parsedPatterns = patterns.filter(_ref7 => {
     let {
       inserter = true
-    } = _ref8;
+    } = _ref7;
     return !!inserter;
-  }).map(_ref9 => {
+  }).map(_ref8 => {
     let {
       name
-    } = _ref9;
+    } = _ref8;
     return __experimentalGetParsedPattern(state, name);
   });
-  const allowedPatterns = parsedPatterns.filter(_ref10 => {
+  const allowedPatterns = parsedPatterns.filter(_ref9 => {
     let {
       blocks
-    } = _ref10;
+    } = _ref9;
     return checkAllowListRecursive(blocks, allowedBlockTypes);
   });
   return allowedPatterns;
@@ -20941,14 +20937,14 @@ const getAllAllowedPatterns = Object(rememo["a" /* default */])(state => {
 const __experimentalGetAllowedPatterns = Object(rememo["a" /* default */])(function (state) {
   let rootClientId = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
   const availableParsedPatterns = getAllAllowedPatterns(state);
-  const patternsAllowed = Object(external_lodash_["filter"])(availableParsedPatterns, _ref11 => {
+  const patternsAllowed = Object(external_lodash_["filter"])(availableParsedPatterns, _ref10 => {
     let {
       blocks
-    } = _ref11;
-    return blocks.every(_ref12 => {
+    } = _ref10;
+    return blocks.every(_ref11 => {
       let {
         name
-      } = _ref12;
+      } = _ref11;
       return canInsertBlockType(state, name, rootClientId);
     });
   });
@@ -21010,21 +21006,21 @@ const __experimentalGetPatternTransformItems = Object(rememo["a" /* default */])
    * to check for this case too.
    */
 
-  if (blocks.some(_ref13 => {
+  if (blocks.some(_ref12 => {
     let {
       clientId,
       innerBlocks
-    } = _ref13;
+    } = _ref12;
     return innerBlocks.length || areInnerBlocksControlled(state, clientId);
   })) {
     return EMPTY_ARRAY;
   } // Create a Set of the selected block names that is used in patterns filtering.
 
 
-  const selectedBlockNames = Array.from(new Set(blocks.map(_ref14 => {
+  const selectedBlockNames = Array.from(new Set(blocks.map(_ref13 => {
     let {
       name
-    } = _ref14;
+    } = _ref13;
     return name;
   })));
   /**
@@ -23075,7 +23071,6 @@ const layout = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createEle
 
 
 
-const EMPTY_ARRAY = [];
 function __experimentalGetGradientClass(gradientSlug) {
   if (!gradientSlug) {
     return undefined;
@@ -23121,7 +23116,10 @@ function __experimentalUseGradient() {
   const {
     clientId
   } = Object(_block_edit__WEBPACK_IMPORTED_MODULE_3__[/* useBlockEditContext */ "c"])();
-  const gradients = Object(_use_setting__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"])('color.gradients') || EMPTY_ARRAY;
+  const {
+    gradients: gradientsPerOrigin
+  } = Object(_use_setting__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"])('color') || {};
+  const allGradients = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useMemo"])(() => [...((gradientsPerOrigin === null || gradientsPerOrigin === void 0 ? void 0 : gradientsPerOrigin.custom) || []), ...((gradientsPerOrigin === null || gradientsPerOrigin === void 0 ? void 0 : gradientsPerOrigin.theme) || []), ...((gradientsPerOrigin === null || gradientsPerOrigin === void 0 ? void 0 : gradientsPerOrigin.default) || [])], [gradientsPerOrigin]);
   const {
     gradient,
     customGradient
@@ -23139,7 +23137,7 @@ function __experimentalUseGradient() {
     updateBlockAttributes
   } = Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__["useDispatch"])(_store__WEBPACK_IMPORTED_MODULE_5__[/* store */ "a"]);
   const setGradient = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useCallback"])(newGradientValue => {
-    const slug = getGradientSlugByValue(gradients, newGradientValue);
+    const slug = getGradientSlugByValue(allGradients, newGradientValue);
 
     if (slug) {
       updateBlockAttributes(clientId, {
@@ -23153,14 +23151,14 @@ function __experimentalUseGradient() {
       [gradientAttribute]: undefined,
       [customGradientAttribute]: newGradientValue
     });
-  }, [gradients, clientId, updateBlockAttributes]);
+  }, [allGradients, clientId, updateBlockAttributes]);
 
   const gradientClass = __experimentalGetGradientClass(gradient);
 
   let gradientValue;
 
   if (gradient) {
-    gradientValue = getGradientValueBySlug(gradients, gradient);
+    gradientValue = getGradientValueBySlug(allGradients, gradient);
   } else {
     gradientValue = customGradient;
   }
@@ -32029,7 +32027,8 @@ function ColorGradientControlInner(_ref) {
     colorValue,
     gradientValue,
     clearable,
-    showTitle = true
+    showTitle = true,
+    enableAlpha
   } = _ref;
   const canChooseAColor = onColorChange && (!Object(lodash__WEBPACK_IMPORTED_MODULE_3__["isEmpty"])(colors) || !disableCustomColors);
   const canChooseAGradient = onGradientChange && (!Object(lodash__WEBPACK_IMPORTED_MODULE_3__["isEmpty"])(gradients) || !disableCustomGradients);
@@ -32066,7 +32065,8 @@ function ColorGradientControlInner(_ref) {
     colors,
     disableCustomColors,
     __experimentalHasMultipleOrigins: __experimentalHasMultipleOrigins,
-    clearable: clearable
+    clearable: clearable,
+    enableAlpha: enableAlpha
   }), (currentTab === 'gradient' || !canChooseAColor) && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__["GradientPicker"], {
     value: gradientValue,
     onChange: canChooseAColor ? newGradient => {
@@ -42022,7 +42022,6 @@ function ColorPanel(_ref) {
 
 
 const COLOR_SUPPORT_KEY = 'color';
-const color_EMPTY_ARRAY = [];
 
 const hasColorSupport = blockType => {
   const colorSupport = Object(external_wp_blocks_["getBlockSupport"])(blockType, COLOR_SUPPORT_KEY);
@@ -42192,19 +42191,25 @@ function immutableSet(object, path, value) {
 
 
 function ColorEdit(props) {
-  var _style$color6, _style$color7, _style$color8, _style$elements2, _style$elements2$link, _style$elements2$link2, _style$elements3, _style$elements3$link, _style$elements3$link2;
+  var _solidsPerOrigin$them, _gradientsPerOrigin$t, _style$color6, _style$color7, _style$color8, _style$elements2, _style$elements2$link, _style$elements2$link2, _style$elements3, _style$elements3$link, _style$elements3$link2;
 
   const {
     name: blockName,
     attributes
   } = props;
-  const solids = Object(use_setting["a" /* default */])('color.palette') || color_EMPTY_ARRAY;
-  const gradients = Object(use_setting["a" /* default */])('color.gradients') || color_EMPTY_ARRAY;
-  const areCustomSolidsEnabled = Object(use_setting["a" /* default */])('color.custom');
-  const areCustomGradientsEnabled = Object(use_setting["a" /* default */])('color.customGradient');
-  const isLinkEnabled = Object(use_setting["a" /* default */])('color.link');
-  const isTextEnabled = Object(use_setting["a" /* default */])('color.text');
-  const isBackgroundEnabled = Object(use_setting["a" /* default */])('color.background'); // Shouldn't be needed but right now the ColorGradientsPanel
+  const {
+    palette: solidsPerOrigin,
+    gradients: gradientsPerOrigin,
+    customGradient: areCustomGradientsEnabled,
+    custom: areCustomSolidsEnabled,
+    text: isTextEnabled,
+    background: isBackgroundEnabled,
+    link: isLinkEnabled
+  } = Object(use_setting["a" /* default */])('color') || {};
+  const solidsEnabled = areCustomSolidsEnabled || !(solidsPerOrigin !== null && solidsPerOrigin !== void 0 && solidsPerOrigin.theme) || (solidsPerOrigin === null || solidsPerOrigin === void 0 ? void 0 : (_solidsPerOrigin$them = solidsPerOrigin.theme) === null || _solidsPerOrigin$them === void 0 ? void 0 : _solidsPerOrigin$them.length) > 0;
+  const gradientsEnabled = areCustomGradientsEnabled || !(gradientsPerOrigin !== null && gradientsPerOrigin !== void 0 && gradientsPerOrigin.theme) || (gradientsPerOrigin === null || gradientsPerOrigin === void 0 ? void 0 : (_gradientsPerOrigin$t = gradientsPerOrigin.theme) === null || _gradientsPerOrigin$t === void 0 ? void 0 : _gradientsPerOrigin$t.length) > 0;
+  const allSolids = Object(external_wp_element_["useMemo"])(() => [...((solidsPerOrigin === null || solidsPerOrigin === void 0 ? void 0 : solidsPerOrigin.custom) || []), ...((solidsPerOrigin === null || solidsPerOrigin === void 0 ? void 0 : solidsPerOrigin.theme) || []), ...((solidsPerOrigin === null || solidsPerOrigin === void 0 ? void 0 : solidsPerOrigin.default) || [])], [solidsPerOrigin]);
+  const allGradients = Object(external_wp_element_["useMemo"])(() => [...((gradientsPerOrigin === null || gradientsPerOrigin === void 0 ? void 0 : gradientsPerOrigin.custom) || []), ...((gradientsPerOrigin === null || gradientsPerOrigin === void 0 ? void 0 : gradientsPerOrigin.theme) || []), ...((gradientsPerOrigin === null || gradientsPerOrigin === void 0 ? void 0 : gradientsPerOrigin.default) || [])], [gradientsPerOrigin]); // Shouldn't be needed but right now the ColorGradientsPanel
   // can trigger both onChangeColor and onChangeBackground
   // synchronously causing our two callbacks to override changes
   // from each other.
@@ -42218,10 +42223,10 @@ function ColorEdit(props) {
     return null;
   }
 
-  const hasLinkColor = hasLinkColorSupport(blockName) && isLinkEnabled && (solids.length > 0 || areCustomSolidsEnabled);
-  const hasTextColor = hasTextColorSupport(blockName) && isTextEnabled && (solids.length > 0 || areCustomSolidsEnabled);
-  const hasBackgroundColor = hasBackgroundColorSupport(blockName) && isBackgroundEnabled && (solids.length > 0 || areCustomSolidsEnabled);
-  const hasGradientColor = hasGradientSupport(blockName) && (gradients.length > 0 || areCustomGradientsEnabled);
+  const hasLinkColor = hasLinkColorSupport(blockName) && isLinkEnabled && solidsEnabled;
+  const hasTextColor = hasTextColorSupport(blockName) && isTextEnabled && solidsEnabled;
+  const hasBackgroundColor = hasBackgroundColorSupport(blockName) && isBackgroundEnabled && solidsEnabled;
+  const hasGradientColor = hasGradientSupport(blockName) && gradientsEnabled;
 
   if (!hasLinkColor && !hasTextColor && !hasBackgroundColor && !hasGradientColor) {
     return null;
@@ -42236,7 +42241,7 @@ function ColorEdit(props) {
   let gradientValue;
 
   if (hasGradientColor && gradient) {
-    gradientValue = Object(use_gradient["e" /* getGradientValueBySlug */])(gradients, gradient);
+    gradientValue = Object(use_gradient["e" /* getGradientValueBySlug */])(allGradients, gradient);
   } else if (hasGradientColor) {
     var _style$color5;
 
@@ -42246,7 +42251,7 @@ function ColorEdit(props) {
   const onChangeColor = name => value => {
     var _localAttributes$curr, _localAttributes$curr2;
 
-    const colorObject = Object(utils["c" /* getColorObjectByColorValue */])(solids, value);
+    const colorObject = Object(utils["c" /* getColorObjectByColorValue */])(allSolids, value);
     const attributeName = name + 'Color';
     const newStyle = { ...localAttributes.current.style,
       color: { ...((_localAttributes$curr = localAttributes.current) === null || _localAttributes$curr === void 0 ? void 0 : (_localAttributes$curr2 = _localAttributes$curr.style) === null || _localAttributes$curr2 === void 0 ? void 0 : _localAttributes$curr2.color),
@@ -42265,7 +42270,7 @@ function ColorEdit(props) {
   };
 
   const onChangeGradient = value => {
-    const slug = Object(use_gradient["d" /* getGradientSlugByValue */])(gradients, value);
+    const slug = Object(use_gradient["d" /* getGradientSlugByValue */])(allGradients, value);
     let newAttributes;
 
     if (slug) {
@@ -42301,7 +42306,7 @@ function ColorEdit(props) {
   };
 
   const onChangeLinkColor = value => {
-    const colorObject = Object(utils["c" /* getColorObjectByColorValue */])(solids, value);
+    const colorObject = Object(utils["c" /* getColorObjectByColorValue */])(allSolids, value);
     const newLinkColorValue = colorObject !== null && colorObject !== void 0 && colorObject.slug ? `var:preset|color|${colorObject.slug}` : value;
     const newStyle = Object(hooks_utils["a" /* cleanEmptyObject */])(immutableSet(style, ['elements', 'link', 'color', 'text'], newLinkColorValue));
     props.setAttributes({
@@ -42316,17 +42321,17 @@ function ColorEdit(props) {
     settings: [...(hasTextColor ? [{
       label: Object(external_wp_i18n_["__"])('Text color'),
       onColorChange: onChangeColor('text'),
-      colorValue: Object(utils["b" /* getColorObjectByAttributeValues */])(solids, textColor, style === null || style === void 0 ? void 0 : (_style$color7 = style.color) === null || _style$color7 === void 0 ? void 0 : _style$color7.text).color
+      colorValue: Object(utils["b" /* getColorObjectByAttributeValues */])(allSolids, textColor, style === null || style === void 0 ? void 0 : (_style$color7 = style.color) === null || _style$color7 === void 0 ? void 0 : _style$color7.text).color
     }] : []), ...(hasBackgroundColor || hasGradientColor ? [{
       label: Object(external_wp_i18n_["__"])('Background color'),
       onColorChange: hasBackgroundColor ? onChangeColor('background') : undefined,
-      colorValue: Object(utils["b" /* getColorObjectByAttributeValues */])(solids, backgroundColor, style === null || style === void 0 ? void 0 : (_style$color8 = style.color) === null || _style$color8 === void 0 ? void 0 : _style$color8.background).color,
+      colorValue: Object(utils["b" /* getColorObjectByAttributeValues */])(allSolids, backgroundColor, style === null || style === void 0 ? void 0 : (_style$color8 = style.color) === null || _style$color8 === void 0 ? void 0 : _style$color8.background).color,
       gradientValue,
       onGradientChange: hasGradientColor ? onChangeGradient : undefined
     }] : []), ...(hasLinkColor ? [{
       label: Object(external_wp_i18n_["__"])('Link Color'),
       onColorChange: onChangeLinkColor,
-      colorValue: getLinkColorFromAttributeValue(solids, style === null || style === void 0 ? void 0 : (_style$elements2 = style.elements) === null || _style$elements2 === void 0 ? void 0 : (_style$elements2$link = _style$elements2.link) === null || _style$elements2$link === void 0 ? void 0 : (_style$elements2$link2 = _style$elements2$link.color) === null || _style$elements2$link2 === void 0 ? void 0 : _style$elements2$link2.text),
+      colorValue: getLinkColorFromAttributeValue(allSolids, style === null || style === void 0 ? void 0 : (_style$elements2 = style.elements) === null || _style$elements2 === void 0 ? void 0 : (_style$elements2$link = _style$elements2.link) === null || _style$elements2$link === void 0 ? void 0 : (_style$elements2$link2 = _style$elements2$link.color) === null || _style$elements2$link2 === void 0 ? void 0 : _style$elements2$link2.text),
       clearable: !!(style !== null && style !== void 0 && (_style$elements3 = style.elements) !== null && _style$elements3 !== void 0 && (_style$elements3$link = _style$elements3.link) !== null && _style$elements3$link !== void 0 && (_style$elements3$link2 = _style$elements3$link.color) !== null && _style$elements3$link2 !== void 0 && _style$elements3$link2.text)
     }] : [])]
   });
@@ -42351,7 +42356,10 @@ const withColorPaletteStyles = Object(external_wp_compose_["createHigherOrderCom
     backgroundColor,
     textColor
   } = attributes;
-  const colors = Object(use_setting["a" /* default */])('color.palette') || color_EMPTY_ARRAY;
+  const {
+    palette: solidsPerOrigin
+  } = Object(use_setting["a" /* default */])('color') || {};
+  const colors = Object(external_wp_element_["useMemo"])(() => [...((solidsPerOrigin === null || solidsPerOrigin === void 0 ? void 0 : solidsPerOrigin.custom) || []), ...((solidsPerOrigin === null || solidsPerOrigin === void 0 ? void 0 : solidsPerOrigin.theme) || []), ...((solidsPerOrigin === null || solidsPerOrigin === void 0 ? void 0 : solidsPerOrigin.default) || [])], [solidsPerOrigin]);
 
   if (!hasColorSupport(name) || color_shouldSkipSerialization(name)) {
     return Object(external_wp_element_["createElement"])(BlockListBlock, props);
@@ -43556,7 +43564,6 @@ function TypographyPanel(props) {
     panelId: clientId
   }, Object(external_wp_element_["createElement"])(LetterSpacingEdit, props)));
 }
-
 const hasTypographySupport = blockName => {
   return TYPOGRAPHY_SUPPORT_KEYS.some(key => Object(external_wp_blocks_["hasBlockSupport"])(blockName, key));
 };
@@ -44997,6 +45004,11 @@ function useBorderProps(attributes) {
  */
 
 /**
+ * WordPress dependencies
+ */
+
+
+/**
  * Internal dependencies
  */
 
@@ -45010,7 +45022,6 @@ function useBorderProps(attributes) {
 // block support is being skipped for a block but the color related CSS classes
 // & styles still need to be generated so they can be applied to inner elements.
 
-const use_color_props_EMPTY_ARRAY = [];
 /**
  * Provides the CSS class names and inline styles for a block's color support
  * attributes.
@@ -45072,8 +45083,12 @@ function useColorProps(attributes) {
     textColor,
     gradient
   } = attributes;
-  const colors = Object(use_setting["a" /* default */])('color.palette') || use_color_props_EMPTY_ARRAY;
-  const gradients = Object(use_setting["a" /* default */])('color.gradients') || use_color_props_EMPTY_ARRAY;
+  const {
+    palette: solidsPerOrigin,
+    gradients: gradientsPerOrigin
+  } = Object(use_setting["a" /* default */])('color') || {};
+  const colors = Object(external_wp_element_["useMemo"])(() => [...((solidsPerOrigin === null || solidsPerOrigin === void 0 ? void 0 : solidsPerOrigin.custom) || []), ...((solidsPerOrigin === null || solidsPerOrigin === void 0 ? void 0 : solidsPerOrigin.theme) || []), ...((solidsPerOrigin === null || solidsPerOrigin === void 0 ? void 0 : solidsPerOrigin.default) || [])], [solidsPerOrigin]);
+  const gradients = Object(external_wp_element_["useMemo"])(() => [...((gradientsPerOrigin === null || gradientsPerOrigin === void 0 ? void 0 : gradientsPerOrigin.custom) || []), ...((gradientsPerOrigin === null || gradientsPerOrigin === void 0 ? void 0 : gradientsPerOrigin.theme) || []), ...((gradientsPerOrigin === null || gradientsPerOrigin === void 0 ? void 0 : gradientsPerOrigin.default) || [])], [gradientsPerOrigin]);
   const colorProps = getColorClassesAndStyles(attributes); // Force inline styles to apply colors when themes do not load their color
   // stylesheets in the editor.
 
@@ -45401,7 +45416,7 @@ function useSetting(path) {
       if (_wordpress_blocks__WEBPACK_IMPORTED_MODULE_2__["__EXPERIMENTAL_PATHS_WITH_MERGE"][normalizedPath]) {
         var _ref, _experimentalFeatures;
 
-        return (_ref = (_experimentalFeatures = experimentalFeaturesResult.user) !== null && _experimentalFeatures !== void 0 ? _experimentalFeatures : experimentalFeaturesResult.theme) !== null && _ref !== void 0 ? _ref : experimentalFeaturesResult.default;
+        return (_ref = (_experimentalFeatures = experimentalFeaturesResult.custom) !== null && _experimentalFeatures !== void 0 ? _experimentalFeatures : experimentalFeaturesResult.theme) !== null && _ref !== void 0 ? _ref : experimentalFeaturesResult.default;
       }
 
       return experimentalFeaturesResult;
@@ -49487,6 +49502,7 @@ const PanelColorGradientSettingsInner = _ref3 => {
     title,
     showTitle = true,
     __experimentalHasMultipleOrigins,
+    enableAlpha,
     ...props
   } = _ref3;
 
@@ -49511,7 +49527,8 @@ const PanelColorGradientSettingsInner = _ref3 => {
     gradients,
     disableCustomColors,
     disableCustomGradients,
-    __experimentalHasMultipleOrigins
+    __experimentalHasMultipleOrigins,
+    enableAlpha
   }, setting))), children);
 };
 
@@ -49531,7 +49548,7 @@ const PanelColorGradientSettingsSingleSelect = props => {
 
 const PanelColorGradientSettingsMultipleSelect = props => {
   const colorGradientSettings = useCommonSingleMultipleSelects();
-  const customColors = Object(_use_setting__WEBPACK_IMPORTED_MODULE_9__[/* default */ "a"])('color.palette.user');
+  const customColors = Object(_use_setting__WEBPACK_IMPORTED_MODULE_9__[/* default */ "a"])('color.palette.custom');
   const themeColors = Object(_use_setting__WEBPACK_IMPORTED_MODULE_9__[/* default */ "a"])('color.palette.theme');
   const defaultColors = Object(_use_setting__WEBPACK_IMPORTED_MODULE_9__[/* default */ "a"])('color.palette.default');
   const shouldDisplayDefaultColors = Object(_use_setting__WEBPACK_IMPORTED_MODULE_9__[/* default */ "a"])('color.defaultPalette');
@@ -49561,7 +49578,7 @@ const PanelColorGradientSettingsMultipleSelect = props => {
 
     return result;
   }, [defaultColors, themeColors, customColors]);
-  const customGradients = Object(_use_setting__WEBPACK_IMPORTED_MODULE_9__[/* default */ "a"])('color.gradients.user');
+  const customGradients = Object(_use_setting__WEBPACK_IMPORTED_MODULE_9__[/* default */ "a"])('color.gradients.custom');
   const themeGradients = Object(_use_setting__WEBPACK_IMPORTED_MODULE_9__[/* default */ "a"])('color.gradients.theme');
   const defaultGradients = Object(_use_setting__WEBPACK_IMPORTED_MODULE_9__[/* default */ "a"])('color.gradients.default');
   const shouldDisplayDefaultGradients = Object(_use_setting__WEBPACK_IMPORTED_MODULE_9__[/* default */ "a"])('color.defaultGradients');

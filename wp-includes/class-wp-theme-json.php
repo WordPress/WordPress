@@ -53,7 +53,7 @@ class WP_Theme_JSON {
 	const VALID_ORIGINS = array(
 		'default',
 		'theme',
-		'user',
+		'custom',
 	);
 
 	/**
@@ -75,15 +75,28 @@ class WP_Theme_JSON {
 	 * This contains the necessary metadata to process them:
 	 *
 	 * - path       => where to find the preset within the settings section
+	 * - override   => whether a theme preset with the same slug as a default preset
+	 *                 can override it
 	 * - value_key  => the key that represents the value
-	 * - value_func => the callback to render the value (either value_key or value_func should be present)
+	 * - value_func => optionally, instead of value_key, a function to generate
+	 *                 the value that takes a preset as an argument
+	 *                 (either value_key or value_func should be present)
 	 * - css_vars   => template string to use in generating the CSS Custom Property.
 	 *                 Example output: "--wp--preset--duotone--blue: <value>" will generate as many CSS Custom Properties as presets defined
 	 *                 substituting the $slug for the slug's value for each preset value.
-	 * - classes    => array containing a structure with the classes to generate for the presets.
-	 *                 Each key is a template string to resolve similarly to the css_vars and each value is the CSS property to use for that class.
-	 *                 Example output: ".has-blue-color { color: <value> }"
-	 * - properties  => a list of CSS properties to be used by kses to check the preset value is safe.
+	 * - classes    => array containing a structure with the classes to
+	 *                 generate for the presets, where for each array item
+	 *                 the key is the class name and the value the property name.
+	 *                 The "$slug" substring will be replaced by the slug of each preset.
+	 *                 For example:
+	 *                 'classes' => array(
+	 *                   '.has-$slug-color'            => 'color',
+	 *                   '.has-$slug-background-color' => 'background-color',
+	 *                   '.has-$slug-border-color'     => 'border-color',
+	 *                 )
+	 * - properties => array of CSS properties to be used by kses to
+	 *                 validate the content of each preset
+	 *                 by means of the remove_insecure_properties method.
 	 *
 	 * @since 5.8.0
 	 * @since 5.9.0 Added new presets and simplified the metadata structure.
@@ -92,6 +105,7 @@ class WP_Theme_JSON {
 	const PRESETS_METADATA = array(
 		array(
 			'path'       => array( 'color', 'palette' ),
+			'override'   => false,
 			'value_key'  => 'color',
 			'css_vars'   => '--wp--preset--color--$slug',
 			'classes'    => array(
@@ -103,6 +117,7 @@ class WP_Theme_JSON {
 		),
 		array(
 			'path'       => array( 'color', 'gradients' ),
+			'override'   => false,
 			'value_key'  => 'gradient',
 			'css_vars'   => '--wp--preset--gradient--$slug',
 			'classes'    => array( '.has-$slug-gradient-background' => 'background' ),
@@ -110,6 +125,7 @@ class WP_Theme_JSON {
 		),
 		array(
 			'path'       => array( 'color', 'duotone' ),
+			'override'   => true,
 			'value_func' => 'wp_render_duotone_filter_preset',
 			'css_vars'   => '--wp--preset--duotone--$slug',
 			'classes'    => array(),
@@ -117,6 +133,7 @@ class WP_Theme_JSON {
 		),
 		array(
 			'path'       => array( 'typography', 'fontSizes' ),
+			'override'   => true,
 			'value_key'  => 'size',
 			'css_vars'   => '--wp--preset--font-size--$slug',
 			'classes'    => array( '.has-$slug-font-size' => 'font-size' ),
@@ -124,6 +141,7 @@ class WP_Theme_JSON {
 		),
 		array(
 			'path'       => array( 'typography', 'fontFamilies' ),
+			'override'   => true,
 			'value_key'  => 'fontFamily',
 			'css_vars'   => '--wp--preset--font-family--$slug',
 			'classes'    => array( '.has-$slug-font-family' => 'font-family' ),
@@ -213,13 +231,14 @@ class WP_Theme_JSON {
 	 * @var array
 	 */
 	const VALID_SETTINGS = array(
-		'border'     => array(
+		'appearanceTools' => null,
+		'border'          => array(
 			'color'  => null,
 			'radius' => null,
 			'style'  => null,
 			'width'  => null,
 		),
-		'color'      => array(
+		'color'           => array(
 			'background'       => null,
 			'custom'           => null,
 			'customDuotone'    => null,
@@ -232,18 +251,18 @@ class WP_Theme_JSON {
 			'palette'          => null,
 			'text'             => null,
 		),
-		'custom'     => null,
-		'layout'     => array(
+		'custom'          => null,
+		'layout'          => array(
 			'contentSize' => null,
 			'wideSize'    => null,
 		),
-		'spacing'    => array(
+		'spacing'         => array(
 			'blockGap' => null,
 			'margin'   => null,
 			'padding'  => null,
 			'units'    => null,
 		),
-		'typography' => array(
+		'typography'      => array(
 			'customFontSize' => null,
 			'dropCap'        => null,
 			'fontFamilies'   => null,
@@ -297,6 +316,8 @@ class WP_Theme_JSON {
 	);
 
 	/**
+	 * The valid elements that can be found under styles.
+	 *
 	 * @since 5.8.0
 	 * @var string[]
 	 */
@@ -326,7 +347,7 @@ class WP_Theme_JSON {
 	 *
 	 * @param array $theme_json A structure that follows the theme.json schema.
 	 * @param string $origin    Optional. What source of data this object represents.
-	 *                          One of 'default', 'theme', or 'user'. Default 'theme'.
+	 *                          One of 'default', 'theme', or 'custom'. Default 'theme'.
 	 */
 	public function __construct( $theme_json = array(), $origin = 'theme' ) {
 		if ( ! in_array( $origin, self::VALID_ORIGINS, true ) ) {
@@ -336,7 +357,8 @@ class WP_Theme_JSON {
 		$this->theme_json    = WP_Theme_JSON_Schema::migrate( $theme_json );
 		$valid_block_names   = array_keys( self::get_blocks_metadata() );
 		$valid_element_names = array_keys( self::ELEMENTS );
-		$this->theme_json    = self::sanitize( $this->theme_json, $valid_block_names, $valid_element_names );
+		$theme_json          = self::sanitize( $this->theme_json, $valid_block_names, $valid_element_names );
+		$this->theme_json    = self::maybe_opt_in_into_settings( $theme_json );
 
 		// Internally, presets are keyed by origin.
 		$nodes = self::get_setting_nodes( $this->theme_json );
@@ -345,12 +367,68 @@ class WP_Theme_JSON {
 				$path   = array_merge( $node['path'], $preset_metadata['path'] );
 				$preset = _wp_array_get( $this->theme_json, $path, null );
 				if ( null !== $preset ) {
-					if ( 'user' !== $origin || isset( $preset[0] ) ) {
+					// If the preset is not already keyed by origin.
+					if ( isset( $preset[0] ) || empty( $preset ) ) {
 						_wp_array_set( $this->theme_json, $path, array( $origin => $preset ) );
 					}
 				}
 			}
 		}
+	}
+
+	/**
+	 * Enables some opt-in settings if theme declared support.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @param array $theme_json A theme.json structure to modify.
+	 * @return array The modified theme.json structure.
+	 */
+	private static function maybe_opt_in_into_settings( $theme_json ) {
+		$new_theme_json = $theme_json;
+
+		if ( isset( $new_theme_json['settings']['appearanceTools'] ) ) {
+			self::do_opt_in_into_settings( $new_theme_json['settings'] );
+		}
+
+		if ( isset( $new_theme_json['settings']['blocks'] ) && is_array( $new_theme_json['settings']['blocks'] ) ) {
+			foreach ( $new_theme_json['settings']['blocks'] as &$block ) {
+				if ( isset( $block['appearanceTools'] ) ) {
+					self::do_opt_in_into_settings( $block );
+				}
+			}
+		}
+
+		return $new_theme_json;
+	}
+
+	/**
+	 * Enables some settings.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @param array $context The context to which the settings belong.
+	 */
+	private static function do_opt_in_into_settings( &$context ) {
+		$to_opt_in = array(
+			array( 'border', 'color' ),
+			array( 'border', 'radius' ),
+			array( 'border', 'style' ),
+			array( 'border', 'width' ),
+			array( 'color', 'link' ),
+			array( 'spacing', 'blockGap' ),
+			array( 'spacing', 'margin' ),
+			array( 'spacing', 'padding' ),
+			array( 'typography', 'lineHeight' ),
+		);
+
+		foreach ( $to_opt_in as $path ) {
+			if ( null === _wp_array_get( $context, $path, null ) ) {
+				_wp_array_set( $context, $path, true );
+			}
+		}
+
+		unset( $context['appearanceTools'] );
 	}
 
 	/**
@@ -414,6 +492,7 @@ class WP_Theme_JSON {
 
 		return $output;
 	}
+
 	/**
 	 * Returns the metadata for each block.
 	 *
@@ -1378,31 +1457,137 @@ class WP_Theme_JSON {
 		$this->theme_json = array_replace_recursive( $this->theme_json, $incoming_data );
 
 		/*
-		 * The array_replace_recursive algorithm merges at the leaf level.
-		 * For leaf values that are arrays it will use the numeric indexes for replacement.
-		 * In those cases, we want to replace the existing with the incoming value, if it exists.
+		 * The array_replace_recursive algorithm merges at the leaf level,
+		 * but we don't want leaf arrays to be merged, so we overwrite it.
+		 *
+		 * For leaf values that are sequential arrays it will use the numeric indexes for replacement.
+		 * We rather replace the existing with the incoming value, if it exists.
+		 * This is the case of spacing.units.
+		 *
+		 * For leaf values that are associative arrays it will merge them as expected.
+		 * This is also not the behavior we want for the current associative arrays (presets).
+		 * We rather replace the existing with the incoming value, if it exists.
+		 * This happens, for example, when we merge data from theme.json upon existing
+		 * theme supports or when we merge anything coming from the same source twice.
+		 * This is the case of color.palette, color.gradients, color.duotone,
+		 * typography.fontSizes, or typography.fontFamilies.
+		 *
+		 * Additionally, for some preset types, we also want to make sure the
+		 * values they introduce don't conflict with default values. We do so
+		 * by checking the incoming slugs for theme presets and compare them
+		 * with the equivalent dfefault presets: if a slug is present as a default
+		 * we remove it from the theme presets.
 		 */
-		$to_replace   = array();
-		$to_replace[] = array( 'spacing', 'units' );
-		foreach ( self::VALID_ORIGINS as $origin ) {
-			$to_replace[] = array( 'color', 'duotone', $origin );
-			$to_replace[] = array( 'color', 'palette', $origin );
-			$to_replace[] = array( 'color', 'gradients', $origin );
-			$to_replace[] = array( 'typography', 'fontSizes', $origin );
-			$to_replace[] = array( 'typography', 'fontFamilies', $origin );
-		}
+		$nodes        = self::get_setting_nodes( $incoming_data );
+		$slugs_global = self::get_slugs_not_to_override( $this->theme_json );
+		foreach ( $nodes as $node ) {
+			$slugs_node = self::get_slugs_not_to_override( $this->theme_json, $node['path'] );
+			$slugs      = array_merge_recursive( $slugs_global, $slugs_node );
 
-		$nodes = self::get_setting_nodes( $this->theme_json );
-		foreach ( $nodes as $metadata ) {
-			foreach ( $to_replace as $property_path ) {
-				$path = array_merge( $metadata['path'], $property_path );
-				$node = _wp_array_get( $incoming_data, $path, null );
-				if ( isset( $node ) ) {
-					_wp_array_set( $this->theme_json, $path, $node );
+			// Replace the spacing.units.
+			$path    = array_merge( $node['path'], array( 'spacing', 'units' ) );
+			$content = _wp_array_get( $incoming_data, $path, null );
+			if ( isset( $content ) ) {
+				_wp_array_set( $this->theme_json, $path, $content );
+			}
+
+			// Replace the presets.
+			foreach ( self::PRESETS_METADATA as $preset ) {
+				foreach ( self::VALID_ORIGINS as $origin ) {
+					$path    = array_merge( $node['path'], $preset['path'], array( $origin ) );
+					$content = _wp_array_get( $incoming_data, $path, null );
+					if ( ! isset( $content ) ) {
+						continue;
+					}
+
+					if (
+						( 'theme' !== $origin ) ||
+						( 'theme' === $origin && $preset['override'] )
+					) {
+						_wp_array_set( $this->theme_json, $path, $content );
+					}
+
+					if ( 'theme' === $origin && ! $preset['override'] ) {
+						$content = self::filter_slugs( $content, $preset['path'], $slugs );
+						_wp_array_set( $this->theme_json, $path, $content );
+					}
 				}
 			}
 		}
+	}
 
+	/**
+	 * Returns the slugs for all the presets that cannot be overriden
+	 * in the given path. It returns an associative array
+	 * whose keys are the preset paths and the leafs is the list of slugs.
+	 *
+	 * For example:
+	 *
+	 * array(
+	 *   'color' => array(
+	 *     'palette'   => array( 'slug-1', 'slug-2' ),
+	 *     'gradients' => array( 'slug-3', 'slug-4' ),
+	 *   ),
+	 * )
+	 *
+	 * @since 5.9.0
+	 *
+	 * @param array $data A theme.json like structure to inspect.
+	 * @param array $node_path The path to inspect. It's 'settings' by default.
+	 *
+	 * @return array An associative array containing the slugs for the given path.
+	 */
+	private static function get_slugs_not_to_override( $data, $node_path = array( 'settings' ) ) {
+		$slugs = array();
+		foreach ( self::PRESETS_METADATA as $metadata ) {
+			if ( $metadata['override'] ) {
+				continue;
+			}
+
+			$slugs_for_preset = array();
+			$path             = array_merge( $node_path, $metadata['path'], array( 'default' ) );
+			$preset           = _wp_array_get( $data, $path, null );
+			if ( ! isset( $preset ) ) {
+				continue;
+			}
+
+			$slugs_for_preset = array_map(
+				function( $value ) {
+					return isset( $value['slug'] ) ? $value['slug'] : null;
+				},
+				$preset
+			);
+			_wp_array_set( $slugs, $metadata['path'], $slugs_for_preset );
+		}
+
+		return $slugs;
+	}
+
+	/**
+	 * Removes the preset values whose slug is equal to any of given slugs.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @param array $node The node with the presets to validate.
+	 * @param array $path The path to the preset type to inspect.
+	 * @param array $slugs The slugs that should not be overriden.
+	 *
+	 * @return array The new node
+	 */
+	private static function filter_slugs( $node, $path, $slugs ) {
+		$slugs_for_preset = _wp_array_get( $slugs, $path, array() );
+		if ( empty( $slugs_for_preset ) ) {
+			return $node;
+		}
+
+		$new_node = array();
+		foreach ( $node as $value ) {
+			if ( isset( $value['slug'] ) && ! in_array( $value['slug'], $slugs_for_preset, true ) ) {
+				$new_node[] = $value;
+			}
+		}
+
+		return $new_node;
 	}
 
 	/**

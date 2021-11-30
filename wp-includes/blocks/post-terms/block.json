@@ -2,7 +2,7 @@
 	"apiVersion": 2,
 	"name": "core/post-terms",
 	"title": "Post Terms",
-	"category": "design",
+	"category": "theme",
 	"description": "Post terms.",
 	"textdomain": "default",
 	"attributes": {

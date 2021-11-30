@@ -10,25 +10,28 @@
  *
  * @since 5.9.0
  *
- * @param array  $path              Path to the specific setting to retrieve. Optional.
- *                                  If empty, will return all settings.
- * @param string $block_name        Which block to retrieve the settings from. Optional
- *                                  If empty, it'll return the settings for the global context.
- * @param string $origin            Which origin to take data from. Optional.
- *                                  It can be 'all' (core, theme, and user) or 'base' (core and theme).
- *                                  If empty or unknown, 'all' is used.
+ * @param array $path    Path to the specific setting to retrieve. Optional.
+ *                       If empty, will return all settings.
+ * @param array $context {
+ *     Metadata to know where to retrieve the $path from. Optional.
+ *
+ *     @type string $block_name Which block to retrieve the settings from.
+ *                              If empty, it'll return the settings for the global context.
+ *     @type string $origin     Which origin to take data from.
+ *                              Valid values are 'all' (core, theme, and user) or 'base' (core and theme).
+ *                              If empty or unknown, 'all' is used.
+ * }
  *
  * @return array The settings to retrieve.
  */
-function wp_get_global_settings( $path = array(), $block_name = '', $origin = 'all' ) {
-	if ( '' !== $block_name ) {
-		$path = array_merge( array( 'blocks', $block_name ), $path );
+function wp_get_global_settings( $path = array(), $context = array() ) {
+	if ( ! empty( $context['block_name'] ) ) {
+		$path = array_merge( array( 'blocks', $context['block_name'] ), $path );
 	}
 
-	if ( 'base' === $origin ) {
+	$origin = 'custom';
+	if ( isset( $context['origin'] ) && 'base' === $context['origin'] ) {
 		$origin = 'theme';
-	} else {
-		$origin = 'user';
 	}
 
 	$settings = WP_Theme_JSON_Resolver::get_merged_data( $origin )->get_settings();
@@ -41,25 +44,28 @@ function wp_get_global_settings( $path = array(), $block_name = '', $origin = 'a
  *
  * @since 5.9.0
  *
- * @param array  $path              Path to the specific style to retrieve. Optional.
- *                                  If empty, will return all styles.
- * @param string $block_name        Which block to retrieve the styles from. Optional.
- *                                  If empty, it'll return the styles for the global context.
- * @param string $origin            Which origin to take data from. Optional.
- *                                  It can be 'all' (core, theme, and user) or 'base' (core and theme).
- *                                  If empty or unknown, 'all' is used.
+ * @param array $path    Path to the specific style to retrieve. Optional.
+ *                       If empty, will return all styles.
+ * @param array $context {
+ *     Metadata to know where to retrieve the $path from. Optional.
+ *
+ *     @type string $block_name Which block to retrieve the styles from.
+ *                              If empty, it'll return the styles for the global context.
+ *     @type string $origin     Which origin to take data from.
+ *                              Valid values are 'all' (core, theme, and user) or 'base' (core and theme).
+ *                              If empty or unknown, 'all' is used.
+ * }
  *
  * @return array The styles to retrieve.
  */
-function wp_get_global_styles( $path = array(), $block_name = '', $origin = 'all' ) {
-	if ( '' !== $block_name ) {
-		$path = array_merge( array( 'blocks', $block_name ), $path );
+function wp_get_global_styles( $path = array(), $context = array() ) {
+	if ( ! empty( $context['block_name'] ) ) {
+		$path = array_merge( array( 'blocks', $context['block_name'] ), $path );
 	}
 
-	if ( 'base' === $origin ) {
+	$origin = 'custom';
+	if ( isset( $context['origin'] ) && 'base' === $context['origin'] ) {
 		$origin = 'theme';
-	} else {
-		$origin = 'user';
 	}
 
 	$styles = WP_Theme_JSON_Resolver::get_merged_data( $origin )->get_raw_data()['styles'];
@@ -105,7 +111,7 @@ function wp_get_global_stylesheet( $types = array() ) {
 		$types = array( 'variables', 'styles', 'presets' );
 	}
 
-	$origins = array( 'default', 'theme', 'user' );
+	$origins = array( 'default', 'theme', 'custom' );
 	if ( ! $supports_theme_json && ! $supports_link_color ) {
 		// In this case we only enqueue the core presets (CSS Custom Properties + the classes).
 		$origins = array( 'default' );

@@ -114,7 +114,7 @@
   bottom: 0;
   left: 0;
   border: 1px dashed currentColor;
-  opacity: 0.3;
+  opacity: 0.4;
   pointer-events: none;
   border-radius: inherit;
 }
@@ -159,7 +159,7 @@
   height: 100%;
   stroke: currentColor;
   stroke-dasharray: 3;
-  opacity: 0.3;
+  opacity: 0.4;
 }
 .wp-block-post-featured-image.wp-block-post-featured-image[style*=height] .components-placeholder {
   min-height: 48px;

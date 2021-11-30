@@ -2,7 +2,7 @@
 	"apiVersion": 2,
 	"name": "core/pattern",
 	"title": "Pattern",
-	"category": "design",
+	"category": "theme",
 	"description": "Show a block pattern.",
 	"supports": {
 		"html": false,

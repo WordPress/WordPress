@@ -2,7 +2,7 @@
 	"apiVersion": 2,
 	"name": "core/site-logo",
 	"title": "Site Logo",
-	"category": "layout",
+	"category": "theme",
 	"description": "Display a graphic to represent this site. Update the block, and the changes apply everywhere it’s used. This is different than the site icon, which is the smaller image visible in your dashboard, browser tabs, etc used to help others recognize this site.",
 	"textdomain": "default",
 	"attributes": {

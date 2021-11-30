@@ -7689,7 +7689,8 @@ function CoverEdit(_ref5) {
     overlayColor,
     setAttributes,
     setOverlayColor,
-    toggleSelection
+    toggleSelection,
+    markNextChangeAsNotPersistent
   } = _ref5;
   const {
     contentPosition,
@@ -7765,6 +7766,8 @@ function CoverEdit(_ref5) {
   const isDarkElement = Object(external_wp_element_["useRef"])();
   const isCoverDark = useCoverIsDark(url, dimRatio, overlayColor.color, isDarkElement);
   Object(external_wp_element_["useEffect"])(() => {
+    // This side-effect should not create an undo level.
+    markNextChangeAsNotPersistent();
     setAttributes({
       isDark: isCoverDark
     });
@@ -8026,10 +8029,12 @@ function CoverEdit(_ref5) {
 
 /* harmony default export */ var cover_edit = (Object(external_wp_compose_["compose"])([Object(external_wp_data_["withDispatch"])(dispatch => {
   const {
-    toggleSelection
+    toggleSelection,
+    __unstableMarkNextChangeAsNotPersistent
   } = dispatch(external_wp_blockEditor_["store"]);
   return {
-    toggleSelection
+    toggleSelection,
+    markNextChangeAsNotPersistent: __unstableMarkNextChangeAsNotPersistent
   };
 }), Object(external_wp_blockEditor_["withColors"])({
   overlayColor: 'background-color'
@@ -12341,7 +12346,7 @@ function GalleryEdit(props) {
     options: imageSizeOptions,
     onChange: updateImagesSize,
     hideCancelButton: true
-  }), external_wp_element_["Platform"].isWeb && !imageSizeOptions && Object(external_wp_element_["createElement"])(external_wp_components_["BaseControl"], {
+  }), external_wp_element_["Platform"].isWeb && !imageSizeOptions && hasImageIds && Object(external_wp_element_["createElement"])(external_wp_components_["BaseControl"], {
     className: 'gallery-image-sizes'
   }, Object(external_wp_element_["createElement"])(external_wp_components_["BaseControl"].VisualLabel, null, Object(external_wp_i18n_["__"])('Image size')), Object(external_wp_element_["createElement"])(external_wp_primitives_["View"], {
     className: 'gallery-image-sizes__loading'
@@ -12828,7 +12833,7 @@ const updateGallery = _ref => {
     }
 
     const innerBlocks = images.map(image => Object(external_wp_blocks_["createBlock"])('core/image', {
-      id: parseInt(image.id, 10),
+      id: image.id ? parseInt(image.id, 10) : null,
       url: image.url,
       alt: image.alt,
       caption: image.caption,
@@ -20511,30 +20516,41 @@ function useListViewModal(clientId, __experimentalFeatures) {
  */
 
 
-function useNavigationMenu(navigationMenuId) {
+function useNavigationMenu(ref) {
   return Object(external_wp_data_["useSelect"])(select => {
+    var _navigationMenu;
+
     const {
+      getEntityRecord,
       getEditedEntityRecord,
       getEntityRecords,
       hasFinishedResolution
     } = select(external_wp_coreData_["store"]);
-    const navigationMenuSingleArgs = ['postType', 'wp_navigation', navigationMenuId];
-    const navigationMenu = navigationMenuId ? getEditedEntityRecord(...navigationMenuSingleArgs) : null;
-    const hasResolvedNavigationMenu = navigationMenuId ? hasFinishedResolution('getEditedEntityRecord', navigationMenuSingleArgs) : false;
+    const navigationMenuSingleArgs = ['postType', 'wp_navigation', ref];
+    const rawNavigationMenu = ref ? getEntityRecord(...navigationMenuSingleArgs) : null;
+    let navigationMenu = ref ? getEditedEntityRecord(...navigationMenuSingleArgs) : null; // getEditedEntityRecord will return the post regardless of status.
+    // Therefore if the found post is not published then we should ignore it.
+
+    if (((_navigationMenu = navigationMenu) === null || _navigationMenu === void 0 ? void 0 : _navigationMenu.status) !== 'publish') {
+      navigationMenu = null;
+    }
+
+    const hasResolvedNavigationMenu = ref ? hasFinishedResolution('getEditedEntityRecord', navigationMenuSingleArgs) : false;
     const navigationMenuMultipleArgs = ['postType', 'wp_navigation', {
-      per_page: -1
+      per_page: -1,
+      status: 'publish'
     }];
     const navigationMenus = getEntityRecords(...navigationMenuMultipleArgs);
-    const canSwitchNavigationMenu = navigationMenuId ? (navigationMenus === null || navigationMenus === void 0 ? void 0 : navigationMenus.length) > 1 : (navigationMenus === null || navigationMenus === void 0 ? void 0 : navigationMenus.length) > 0;
+    const canSwitchNavigationMenu = ref ? (navigationMenus === null || navigationMenus === void 0 ? void 0 : navigationMenus.length) > 1 : (navigationMenus === null || navigationMenus === void 0 ? void 0 : navigationMenus.length) > 0;
     return {
       isNavigationMenuResolved: hasResolvedNavigationMenu,
-      isNavigationMenuMissing: !navigationMenuId || hasResolvedNavigationMenu && !navigationMenu,
+      isNavigationMenuMissing: !ref || hasResolvedNavigationMenu && !rawNavigationMenu,
       canSwitchNavigationMenu,
       hasResolvedNavigationMenus: hasFinishedResolution('getEntityRecords', navigationMenuMultipleArgs),
       navigationMenu,
       navigationMenus
     };
-  }, [navigationMenuId]);
+  }, [ref]);
 }
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/icon/index.js
@@ -20900,52 +20916,175 @@ function createDataTree(dataset) {
   return dataTree;
 }
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/navigation/edit/navigation-menu-name-modal.js
+// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/template-part/edit/utils/create-template-part-id.js
+/**
+ * Generates a template part Id based on slug and theme inputs.
+ *
+ * @param {string} theme the template part's theme.
+ * @param {string} slug  the template part's slug
+ * @return {string|null} the template part's Id.
+ */
+function createTemplatePartId(theme, slug) {
+  return theme && slug ? theme + '//' + slug : null;
+}
 
-
+// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/navigation/use-template-part-area-label.js
 /**
  * WordPress dependencies
  */
 
 
 
-function NavigationMenuNameModal(_ref) {
-  let {
-    title,
-    finishButtonText = Object(external_wp_i18n_["__"])('Create'),
-    onFinish,
-    onRequestClose,
-    value = ''
-  } = _ref;
-  const [name, setName] = Object(external_wp_element_["useState"])(value);
-  return Object(external_wp_element_["createElement"])(external_wp_components_["Modal"], {
-    title: title,
-    closeLabel: Object(external_wp_i18n_["__"])('Cancel'),
-    onRequestClose: onRequestClose,
-    overlayClassName: "wp-block-template-part__placeholder-create-new__title-form"
-  }, Object(external_wp_element_["createElement"])("form", {
-    onSubmit: event => {
-      event.preventDefault();
-      onFinish(name);
+/**
+ * Internal dependencies
+ */
+// TODO: this util should perhaps be refactored somewhere like core-data.
+
+
+function useTemplatePartAreaLabel(clientId) {
+  return Object(external_wp_data_["useSelect"])(select => {
+    // Use the lack of a clientId as an opportunity to bypass the rest
+    // of this hook.
+    if (!clientId) {
+      return;
     }
-  }, Object(external_wp_element_["createElement"])(external_wp_components_["TextControl"], {
-    label: Object(external_wp_i18n_["__"])('Name'),
-    value: name,
-    onChange: setName
-  }), Object(external_wp_element_["createElement"])(external_wp_components_["Flex"], {
-    className: "wp-block-template-part__placeholder-create-new__title-form-actions",
-    justify: "flex-end"
-  }, Object(external_wp_element_["createElement"])(external_wp_components_["FlexItem"], null, Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
-    variant: "secondary",
-    onClick: () => {
-      onRequestClose();
+
+    const {
+      getBlock,
+      getBlockParentsByBlockName
+    } = select(external_wp_blockEditor_["store"]);
+    const withAscendingResults = true;
+    const parentTemplatePartClientIds = getBlockParentsByBlockName(clientId, 'core/template-part', withAscendingResults);
+
+    if (!(parentTemplatePartClientIds !== null && parentTemplatePartClientIds !== void 0 && parentTemplatePartClientIds.length)) {
+      return;
+    } // FIXME: @wordpress/block-library should not depend on @wordpress/editor.
+    // Blocks can be loaded into a *non-post* block editor.
+    // This code is lifted from this file:
+    // packages/block-library/src/template-part/edit/advanced-controls.js
+    // eslint-disable-next-line @wordpress/data-no-store-string-literals
+
+
+    const definedAreas = select('core/editor').__experimentalGetDefaultTemplatePartAreas();
+
+    const {
+      getEditedEntityRecord
+    } = select(external_wp_coreData_["store"]);
+
+    for (const templatePartClientId of parentTemplatePartClientIds) {
+      const templatePartBlock = getBlock(templatePartClientId); // The 'area' usually isn't stored on the block, but instead
+      // on the entity.
+
+      const {
+        theme,
+        slug
+      } = templatePartBlock.attributes;
+      const templatePartEntityId = createTemplatePartId(theme, slug);
+      const templatePartEntity = getEditedEntityRecord('postType', 'wp_template_part', templatePartEntityId); // Look up the `label` for the area in the defined areas so
+      // that an internationalized label can be used.
+
+      if (templatePartEntity !== null && templatePartEntity !== void 0 && templatePartEntity.area) {
+        var _definedAreas$find;
+
+        return (_definedAreas$find = definedAreas.find(definedArea => definedArea.area !== 'uncategorized' && definedArea.area === templatePartEntity.area)) === null || _definedAreas$find === void 0 ? void 0 : _definedAreas$find.label;
+      }
     }
-  }, Object(external_wp_i18n_["__"])('Cancel'))), Object(external_wp_element_["createElement"])(external_wp_components_["FlexItem"], null, Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
-    variant: "primary",
-    type: "submit",
-    disabled: !name.length,
-    "aria-disabled": !name.length
-  }, finishButtonText)))));
+  }, [clientId]);
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/navigation/edit/use-generate-default-navigation-title.js
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+
+/**
+ * Internal dependencies
+ */
+
+
+const DRAFT_MENU_PARAMS = ['postType', 'wp_navigation', {
+  status: 'draft',
+  per_page: -1
+}];
+const PUBLISHED_MENU_PARAMS = ['postType', 'wp_navigation', {
+  per_page: -1,
+  status: 'publish'
+}];
+function useGenerateDefaultNavigationTitle(clientId) {
+  // The block will be disabled in a block preview, use this as a way of
+  // avoiding the side-effects of this component for block previews.
+  const isDisabled = Object(external_wp_element_["useContext"])(external_wp_components_["Disabled"].Context); // Because we can't conditionally call hooks, pass an undefined client id
+  // arg to bypass the expensive `useTemplateArea` code. The hook will return
+  // early.
+
+  const area = useTemplatePartAreaLabel(isDisabled ? undefined : clientId);
+  const registry = Object(external_wp_data_["useRegistry"])();
+  return Object(external_wp_element_["useCallback"])(async () => {
+    // Ensure other navigation menus have loaded so an
+    // accurate name can be created.
+    if (isDisabled) {
+      return '';
+    }
+
+    const {
+      getEntityRecords
+    } = registry.resolveSelect(external_wp_coreData_["store"]);
+    const [draftNavigationMenus, navigationMenus] = await Promise.all([getEntityRecords(...DRAFT_MENU_PARAMS), getEntityRecords(...PUBLISHED_MENU_PARAMS)]);
+    const title = area ? Object(external_wp_i18n_["sprintf"])( // translators: %s: the name of a menu (e.g. Header navigation).
+    Object(external_wp_i18n_["__"])('%s navigation'), area) : // translators: 'navigation' as in website navigation.
+    Object(external_wp_i18n_["__"])('Navigation'); // Determine how many menus start with the automatic title.
+
+    const matchingMenuTitleCount = [...draftNavigationMenus, ...navigationMenus].reduce((count, menu) => {
+      var _menu$title, _menu$title$raw;
+
+      return menu !== null && menu !== void 0 && (_menu$title = menu.title) !== null && _menu$title !== void 0 && (_menu$title$raw = _menu$title.raw) !== null && _menu$title$raw !== void 0 && _menu$title$raw.startsWith(title) ? count + 1 : count;
+    }, 0); // Append a number to the end of the title if a menu with
+    // the same name exists.
+
+    const titleWithCount = matchingMenuTitleCount > 0 ? `${title} ${matchingMenuTitleCount + 1}` : title;
+    return titleWithCount || '';
+  }, [isDisabled, area]);
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/navigation/edit/use-create-navigation-menu.js
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+/**
+ * Internal dependencies
+ */
+
+
+function useCreateNavigationMenu(clientId) {
+  const {
+    saveEntityRecord
+  } = Object(external_wp_data_["useDispatch"])(external_wp_coreData_["store"]);
+  const generateDefaultTitle = useGenerateDefaultNavigationTitle(clientId); // This callback uses data from the two placeholder steps and only creates
+  // a new navigation menu when the user completes the final step.
+
+  return Object(external_wp_element_["useCallback"])(async function () {
+    let title = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    let blocks = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+
+    if (!title) {
+      title = await generateDefaultTitle();
+    }
+
+    const record = {
+      title,
+      content: Object(external_wp_blocks_["serialize"])(blocks),
+      status: 'publish'
+    };
+    return await saveEntityRecord('postType', 'wp_navigation', record);
+  }, [external_wp_blocks_["serialize"], saveEntityRecord]);
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/navigation/edit/placeholder/index.js
@@ -20954,8 +21093,6 @@ function NavigationMenuNameModal(_ref) {
 /**
  * WordPress dependencies
  */
-
-
 
 
 
@@ -21025,6 +21162,7 @@ const ExistingMenusDropdown = _ref => {
 
 function NavigationPlaceholder(_ref3) {
   let {
+    clientId,
     onFinish,
     canSwitchNavigationMenu,
     hasResolvedNavigationMenus
@@ -21032,28 +21170,12 @@ function NavigationPlaceholder(_ref3) {
   const [selectedMenu, setSelectedMenu] = Object(external_wp_element_["useState"])();
   const [isCreatingFromMenu, setIsCreatingFromMenu] = Object(external_wp_element_["useState"])(false);
   const [menuName, setMenuName] = Object(external_wp_element_["useState"])('');
-  const [isNewMenuModalVisible, setIsNewMenuModalVisible] = Object(external_wp_element_["useState"])(false);
-  const [createEmpty, setCreateEmpty] = Object(external_wp_element_["useState"])(false);
-  const {
-    saveEntityRecord
-  } = Object(external_wp_data_["useDispatch"])(external_wp_coreData_["store"]); // This callback uses data from the two placeholder steps and only creates
-  // a new navigation menu when the user completes the final step.
+  const createNavigationMenu = useCreateNavigationMenu(clientId);
 
-  const createNavigationMenu = Object(external_wp_element_["useCallback"])(async function () {
-    let title = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : Object(external_wp_i18n_["__"])('Untitled Navigation Menu');
-    let blocks = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-    const record = {
-      title,
-      content: Object(external_wp_blocks_["serialize"])(blocks),
-      status: 'publish'
-    };
-    const navigationMenu = await saveEntityRecord('postType', 'wp_navigation', record);
-    return navigationMenu;
-  }, [external_wp_blocks_["serialize"], saveEntityRecord]);
-
-  const onFinishMenuCreation = async (navigationMenuTitle, blocks) => {
+  const onFinishMenuCreation = async function (blocks) {
+    let navigationMenuTitle = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
     const navigationMenu = await createNavigationMenu(navigationMenuTitle, blocks);
-    onFinish(navigationMenu);
+    onFinish(navigationMenu, blocks);
   };
 
   const {
@@ -21070,7 +21192,7 @@ function NavigationPlaceholder(_ref3) {
     const {
       innerBlocks: blocks
     } = menuItemsToBlocks(menuItems);
-    onFinishMenuCreation(name, blocks);
+    onFinishMenuCreation(blocks, name);
   }, [menuItems, menuItemsToBlocks, onFinish]);
 
   const onCreateFromMenu = name => {
@@ -21086,14 +21208,13 @@ function NavigationPlaceholder(_ref3) {
     setMenuName(name);
   };
 
-  const onCreateEmptyMenu = name => {
-    onFinishMenuCreation(name, []);
+  const onCreateEmptyMenu = () => {
+    onFinishMenuCreation([]);
   };
 
-  const onCreateAllPages = name => {
+  const onCreateAllPages = () => {
     const block = [Object(external_wp_blocks_["createBlock"])('core/page-list')];
-    onFinishMenuCreation(name, block);
-    setIsNewMenuModalVisible(true);
+    onFinishMenuCreation(block);
   };
 
   Object(external_wp_element_["useEffect"])(() => {
@@ -21128,23 +21249,11 @@ function NavigationPlaceholder(_ref3) {
     onCreateFromMenu: onCreateFromMenu
   }), Object(external_wp_element_["createElement"])("hr", null)) : undefined, hasPages ? Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
     variant: "tertiary",
-    onClick: () => {
-      setIsNewMenuModalVisible(true);
-      setCreateEmpty(false);
-    }
+    onClick: onCreateAllPages
   }, Object(external_wp_i18n_["__"])('Add all pages')), Object(external_wp_element_["createElement"])("hr", null)) : undefined, Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
     variant: "tertiary",
-    onClick: () => {
-      setIsNewMenuModalVisible(true);
-      setCreateEmpty(true);
-    }
-  }, Object(external_wp_i18n_["__"])('Start empty'))))), isNewMenuModalVisible && Object(external_wp_element_["createElement"])(NavigationMenuNameModal, {
-    title: Object(external_wp_i18n_["__"])('Create your new navigation menu'),
-    onRequestClose: () => {
-      setIsNewMenuModalVisible(false);
-    },
-    onFinish: createEmpty ? onCreateEmptyMenu : onCreateAllPages
-  }));
+    onClick: onCreateEmptyMenu
+  }, Object(external_wp_i18n_["__"])('Start empty'))))));
 }
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/close.js
@@ -21352,9 +21461,9 @@ function NavigationMenuSelector(_ref) {
   const {
     navigationMenus
   } = useNavigationMenu();
-  const navigationMenuId = Object(external_wp_coreData_["useEntityId"])('postType', 'wp_navigation');
+  const ref = Object(external_wp_coreData_["useEntityId"])('postType', 'wp_navigation');
   return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(external_wp_components_["MenuGroup"], null, Object(external_wp_element_["createElement"])(external_wp_components_["MenuItemsChoice"], {
-    value: navigationMenuId,
+    value: ref,
     onSelect: selectedId => onSelect(navigationMenus.find(post => post.id === selectedId)),
     choices: navigationMenus.map(_ref2 => {
       let {
@@ -21393,123 +21502,6 @@ function NavigationMenuNameControl() {
   });
 }
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/navigation/edit/navigation-menu-publish-button.js
-
-
-/**
- * WordPress dependencies
- */
-
-
-
-
-
-/**
- * Internal dependencies
- */
-
-
-function NavigationMenuPublishButton() {
-  const [isNameModalVisible, setIsNameModalVisible] = Object(external_wp_element_["useState"])(false);
-  const id = Object(external_wp_coreData_["useEntityId"])('postType', 'wp_navigation');
-  const [navigationMenuTitle] = Object(external_wp_coreData_["useEntityProp"])('postType', 'wp_navigation', 'title');
-  const {
-    editEntityRecord,
-    saveEditedEntityRecord
-  } = Object(external_wp_data_["useDispatch"])(external_wp_coreData_["store"]);
-  return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(external_wp_components_["ToolbarButton"], {
-    onClick: () => setIsNameModalVisible(true)
-  }, Object(external_wp_i18n_["__"])('Save as')), isNameModalVisible && Object(external_wp_element_["createElement"])(NavigationMenuNameModal, {
-    title: Object(external_wp_i18n_["__"])('Save your new navigation menu'),
-    value: navigationMenuTitle,
-    onRequestClose: () => setIsNameModalVisible(false),
-    finishButtonText: Object(external_wp_i18n_["__"])('Save'),
-    onFinish: updatedTitle => {
-      editEntityRecord('postType', 'wp_navigation', id, {
-        title: updatedTitle,
-        status: 'publish'
-      });
-      saveEditedEntityRecord('postType', 'wp_navigation', id);
-    }
-  }));
-}
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/template-part/edit/utils/create-template-part-id.js
-/**
- * Generates a template part Id based on slug and theme inputs.
- *
- * @param {string} theme the template part's theme.
- * @param {string} slug  the template part's slug
- * @return {string|null} the template part's Id.
- */
-function createTemplatePartId(theme, slug) {
-  return theme && slug ? theme + '//' + slug : null;
-}
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/navigation/use-template-part-area-label.js
-/**
- * WordPress dependencies
- */
-
-
-
-/**
- * Internal dependencies
- */
-// TODO: this util should perhaps be refactored somewhere like core-data.
-
-
-function useTemplatePartAreaLabel(clientId) {
-  return Object(external_wp_data_["useSelect"])(select => {
-    // Use the lack of a clientId as an opportunity to bypass the rest
-    // of this hook.
-    if (!clientId) {
-      return;
-    }
-
-    const {
-      getBlock,
-      getBlockParentsByBlockName
-    } = select(external_wp_blockEditor_["store"]);
-    const withAscendingResults = true;
-    const parentTemplatePartClientIds = getBlockParentsByBlockName(clientId, 'core/template-part', withAscendingResults);
-
-    if (!(parentTemplatePartClientIds !== null && parentTemplatePartClientIds !== void 0 && parentTemplatePartClientIds.length)) {
-      return;
-    } // FIXME: @wordpress/block-library should not depend on @wordpress/editor.
-    // Blocks can be loaded into a *non-post* block editor.
-    // This code is lifted from this file:
-    // packages/block-library/src/template-part/edit/advanced-controls.js
-    // eslint-disable-next-line @wordpress/data-no-store-string-literals
-
-
-    const definedAreas = select('core/editor').__experimentalGetDefaultTemplatePartAreas();
-
-    const {
-      getEditedEntityRecord
-    } = select(external_wp_coreData_["store"]);
-
-    for (const templatePartClientId of parentTemplatePartClientIds) {
-      const templatePartBlock = getBlock(templatePartClientId); // The 'area' usually isn't stored on the block, but instead
-      // on the entity.
-
-      const {
-        theme,
-        slug
-      } = templatePartBlock.attributes;
-      const templatePartEntityId = createTemplatePartId(theme, slug);
-      const templatePartEntity = getEditedEntityRecord('postType', 'wp_template_part', templatePartEntityId); // Look up the `label` for the area in the defined areas so
-      // that an internationalized label can be used.
-
-      if (templatePartEntity !== null && templatePartEntity !== void 0 && templatePartEntity.area) {
-        var _definedAreas$find;
-
-        return (_definedAreas$find = definedAreas.find(definedArea => definedArea.area !== 'uncategorized' && definedArea.area === templatePartEntity.area)) === null || _definedAreas$find === void 0 ? void 0 : _definedAreas$find.label;
-      }
-    }
-  }, [clientId]);
-}
-
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/navigation/edit/unsaved-inner-blocks.js
 
 
@@ -21526,8 +21518,6 @@ function useTemplatePartAreaLabel(clientId) {
 
 
 
-
-
 /**
  * Internal dependencies
  */
@@ -21538,7 +21528,7 @@ function useTemplatePartAreaLabel(clientId) {
 const NOOP = () => {};
 
 const EMPTY_OBJECT = {};
-const DRAFT_MENU_PARAMS = ['postType', 'wp_navigation', {
+const unsaved_inner_blocks_DRAFT_MENU_PARAMS = ['postType', 'wp_navigation', {
   status: 'draft',
   per_page: -1
 }];
@@ -21565,9 +21555,6 @@ function UnsavedInnerBlocks(_ref) {
     onInput: NOOP
   });
   const {
-    saveEntityRecord
-  } = Object(external_wp_data_["useDispatch"])(external_wp_coreData_["store"]);
-  const {
     isSaving,
     draftNavigationMenus,
     hasResolvedDraftNavigationMenus
@@ -21583,27 +21570,15 @@ function UnsavedInnerBlocks(_ref) {
     } = select(external_wp_coreData_["store"]);
     return {
       isSaving: isSavingEntityRecord('postType', 'wp_navigation'),
-      draftNavigationMenus: getEntityRecords(...DRAFT_MENU_PARAMS),
-      hasResolvedDraftNavigationMenus: hasFinishedResolution('getEntityRecords', DRAFT_MENU_PARAMS)
+      draftNavigationMenus: getEntityRecords(...unsaved_inner_blocks_DRAFT_MENU_PARAMS),
+      hasResolvedDraftNavigationMenus: hasFinishedResolution('getEntityRecords', unsaved_inner_blocks_DRAFT_MENU_PARAMS)
     };
   }, [isDisabled]);
   const {
     hasResolvedNavigationMenus,
     navigationMenus
   } = useNavigationMenu();
-  const createNavigationMenu = Object(external_wp_element_["useCallback"])(async title => {
-    const record = {
-      title,
-      content: Object(external_wp_blocks_["serialize"])(blocks),
-      status: 'draft'
-    };
-    const navigationMenu = await saveEntityRecord('postType', 'wp_navigation', record);
-    return navigationMenu;
-  }, [blocks, external_wp_blocks_["serialize"], saveEntityRecord]); // Because we can't conditionally call hooks, pass an undefined client id
-  // arg to bypass the expensive `useTemplateArea` code. The hook will return
-  // early.
-
-  const area = useTemplatePartAreaLabel(isDisabled ? undefined : clientId); // Automatically save the uncontrolled blocks.
+  const createNavigationMenu = useCreateNavigationMenu(clientId); // Automatically save the uncontrolled blocks.
 
   Object(external_wp_element_["useEffect"])(async () => {
     // The block will be disabled when used in a BlockPreview.
@@ -21623,22 +21598,10 @@ function UnsavedInnerBlocks(_ref) {
     }
 
     savingLock.current = true;
-    const title = area ? Object(external_wp_i18n_["sprintf"])( // translators: %s: the name of a menu (e.g. Header navigation).
-    Object(external_wp_i18n_["__"])('%s navigation'), area) : // translators: 'navigation' as in website navigation.
-    Object(external_wp_i18n_["__"])('Navigation'); // Determine how many menus start with the automatic title.
-
-    const matchingMenuTitleCount = [...draftNavigationMenus, ...navigationMenus].reduce((count, menu) => {
-      var _menu$title, _menu$title$raw;
-
-      return menu !== null && menu !== void 0 && (_menu$title = menu.title) !== null && _menu$title !== void 0 && (_menu$title$raw = _menu$title.raw) !== null && _menu$title$raw !== void 0 && _menu$title$raw.startsWith(title) ? count + 1 : count;
-    }, 0); // Append a number to the end of the title if a menu with
-    // the same name exists.
-
-    const titleWithCount = matchingMenuTitleCount > 0 ? `${title} ${matchingMenuTitleCount + 1}` : title;
-    const menu = await createNavigationMenu(titleWithCount);
+    const menu = await createNavigationMenu(null, blocks);
     onSave(menu);
     savingLock.current = false;
-  }, [isDisabled, isSaving, hasResolvedDraftNavigationMenus, hasResolvedNavigationMenus, draftNavigationMenus, navigationMenus, hasSelection, createNavigationMenu, area]);
+  }, [isDisabled, isSaving, hasResolvedDraftNavigationMenus, hasResolvedNavigationMenus, draftNavigationMenus, navigationMenus, hasSelection, createNavigationMenu, blocks]);
   return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])("nav", blockProps, Object(external_wp_element_["createElement"])("div", {
     className: "wp-block-navigation__unsaved-changes"
   }, Object(external_wp_element_["createElement"])(external_wp_components_["Disabled"], {
@@ -21732,7 +21695,6 @@ function NavigationMenuDeleteControl(_ref) {
 
 
 
-
 function getComputedStyle(node) {
   return node.ownerDocument.defaultView.getComputedStyle(node);
 }
@@ -21790,17 +21752,17 @@ function Navigation(_ref) {
   } = attributes;
   const [areaMenu, setAreaMenu] = Object(external_wp_coreData_["useEntityProp"])('root', 'navigationArea', 'navigation', navigationArea);
   const navigationAreaMenu = areaMenu === 0 ? undefined : areaMenu;
-  const navigationMenuId = navigationArea ? navigationAreaMenu : attributes.navigationMenuId;
-  const setNavigationMenuId = Object(external_wp_element_["useCallback"])(postId => {
+  const ref = navigationArea ? navigationAreaMenu : attributes.ref;
+  const setRef = Object(external_wp_element_["useCallback"])(postId => {
     setAttributes({
-      navigationMenuId: postId
+      ref: postId
     });
 
     if (navigationArea) {
       setAreaMenu(postId);
     }
   }, [navigationArea]);
-  const [hasAlreadyRendered, RecursionProvider] = Object(external_wp_blockEditor_["__experimentalUseNoRecursiveRenders"])(`navigationMenu/${navigationMenuId}`);
+  const [hasAlreadyRendered, RecursionProvider] = Object(external_wp_blockEditor_["__experimentalUseNoRecursiveRenders"])(`navigationMenu/${ref}`);
   const {
     innerBlocks,
     isInnerBlockSelected
@@ -21821,7 +21783,7 @@ function Navigation(_ref) {
     __unstableMarkNextChangeAsNotPersistent
   } = Object(external_wp_data_["useDispatch"])(external_wp_blockEditor_["store"]);
   const [hasSavedUnsavedInnerBlocks, setHasSavedUnsavedInnerBlocks] = Object(external_wp_element_["useState"])(false);
-  const isWithinUnassignedArea = navigationArea && !navigationMenuId;
+  const isWithinUnassignedArea = navigationArea && !ref;
   const [isPlaceholderShown, setIsPlaceholderShown] = Object(external_wp_element_["useState"])(!hasExistingNavItems || isWithinUnassignedArea);
   const [isResponsiveMenuOpen, setResponsiveMenuVisibility] = Object(external_wp_element_["useState"])(false);
   const {
@@ -21831,7 +21793,7 @@ function Navigation(_ref) {
     hasResolvedNavigationMenus,
     navigationMenus,
     navigationMenu
-  } = useNavigationMenu(navigationMenuId);
+  } = useNavigationMenu(ref);
   const navRef = Object(external_wp_element_["useRef"])();
   const isDraftNavigationMenu = (navigationMenu === null || navigationMenu === void 0 ? void 0 : navigationMenu.status) === 'draft';
   const {
@@ -21897,7 +21859,26 @@ function Navigation(_ref) {
 
   Object(external_wp_element_["useEffect"])(() => {
     setIsPlaceholderShown(!isEntityAvailable);
-  }, [isEntityAvailable]); // If the block has inner blocks, but no menu id, this was an older
+  }, [isEntityAvailable]); // If the ref no longer exists the reset the inner blocks
+  // to provide a clean slate.
+
+  Object(external_wp_element_["useEffect"])(() => {
+    if (ref === undefined && innerBlocks.length > 0) {
+      replaceInnerBlocks(clientId, []);
+    } // innerBlocks are intentionally not listed as deps. This function is only concerned
+    // with the snapshot from the time when ref became undefined.
+
+  }, [clientId, ref, innerBlocks]);
+  const startWithEmptyMenu = Object(external_wp_element_["useCallback"])(() => {
+    if (navigationArea) {
+      setAreaMenu(0);
+    }
+
+    setAttributes({
+      ref: undefined
+    });
+    setIsPlaceholderShown(true);
+  }, [clientId]); // If the block has inner blocks, but no menu id, this was an older
   // navigation block added before the block used a wp_navigation entity.
   // Either this block was saved in the content or inserted by a pattern.
   // Consider this 'unsaved'. Offer an uncontrolled version of inner blocks,
@@ -21916,15 +21897,18 @@ function Navigation(_ref) {
       onSave: post => {
         setHasSavedUnsavedInnerBlocks(true); // Switch to using the wp_navigation entity.
 
-        setNavigationMenuId(post.id);
+        setRef(post.id);
       }
     });
   } // Show a warning if the selected menu is no longer available.
   // TODO - the user should be able to select a new one?
 
 
-  if (navigationMenuId && isNavigationMenuMissing) {
-    return Object(external_wp_element_["createElement"])("div", blockProps, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["Warning"], null, Object(external_wp_i18n_["__"])('Navigation menu has been deleted or is unavailable')));
+  if (ref && isNavigationMenuMissing) {
+    return Object(external_wp_element_["createElement"])("div", blockProps, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["Warning"], null, Object(external_wp_i18n_["__"])('Navigation menu has been deleted or is unavailable. '), Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
+      onClick: startWithEmptyMenu,
+      variant: "link"
+    }, Object(external_wp_i18n_["__"])('Create a new menu?'))));
   }
 
   if (isEntityAvailable && hasAlreadyRendered) {
@@ -21935,7 +21919,7 @@ function Navigation(_ref) {
   return Object(external_wp_element_["createElement"])(external_wp_coreData_["EntityProvider"], {
     kind: "postType",
     type: "wp_navigation",
-    id: navigationMenuId
+    id: ref
   }, Object(external_wp_element_["createElement"])(RecursionProvider, null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockControls"], null, !isDraftNavigationMenu && isEntityAvailable && Object(external_wp_element_["createElement"])(external_wp_components_["ToolbarGroup"], null, Object(external_wp_element_["createElement"])(external_wp_components_["ToolbarDropdownMenu"], {
     label: Object(external_wp_i18n_["__"])('Select Menu'),
     text: Object(external_wp_i18n_["__"])('Select Menu'),
@@ -21949,21 +21933,12 @@ function Navigation(_ref) {
         let {
           id
         } = _ref3;
-        setNavigationMenuId(id);
+        setRef(id);
         onClose();
       },
-      onCreateNew: () => {
-        if (navigationArea) {
-          setAreaMenu(0);
-        }
-
-        setAttributes({
-          navigationMenuId: undefined
-        });
-        setIsPlaceholderShown(true);
-      }
+      onCreateNew: startWithEmptyMenu
     });
-  })), Object(external_wp_element_["createElement"])(external_wp_components_["ToolbarGroup"], null, listViewToolbarButton), isDraftNavigationMenu && Object(external_wp_element_["createElement"])(external_wp_components_["ToolbarGroup"], null, Object(external_wp_element_["createElement"])(NavigationMenuPublishButton, null))), listViewModal, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["InspectorControls"], null, hasSubmenuIndicatorSetting && Object(external_wp_element_["createElement"])(external_wp_components_["PanelBody"], {
+  })), Object(external_wp_element_["createElement"])(external_wp_components_["ToolbarGroup"], null, listViewToolbarButton)), listViewModal, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["InspectorControls"], null, hasSubmenuIndicatorSetting && Object(external_wp_element_["createElement"])(external_wp_components_["PanelBody"], {
     title: Object(external_wp_i18n_["__"])('Display')
   }, Object(external_wp_element_["createElement"])("h3", null, Object(external_wp_i18n_["__"])('Overlay Menu')), Object(external_wp_element_["createElement"])(external_wp_components_["__experimentalToggleGroupControl"], {
     label: Object(external_wp_i18n_["__"])('Configure overlay menu'),
@@ -22030,25 +22005,28 @@ function Navigation(_ref) {
     __experimentalGroup: "advanced"
   }, Object(external_wp_element_["createElement"])(NavigationMenuNameControl, null), Object(external_wp_element_["createElement"])(NavigationMenuDeleteControl, {
     onDelete: () => {
-      replaceInnerBlocks(clientId, []);
-
       if (navigationArea) {
         setAreaMenu(0);
       }
 
       setAttributes({
-        navigationMenuId: undefined
+        ref: undefined
       });
       setIsPlaceholderShown(true);
     }
-  })), Object(external_wp_element_["createElement"])("nav", blockProps, !isEntityAvailable && isPlaceholderShown && Object(external_wp_element_["createElement"])(PlaceholderComponent, {
+  })), Object(external_wp_element_["createElement"])("nav", blockProps, isPlaceholderShown && Object(external_wp_element_["createElement"])(PlaceholderComponent, {
     onFinish: post => {
       setIsPlaceholderShown(false);
-      setNavigationMenuId(post.id);
+
+      if (post) {
+        setRef(post.id);
+      }
+
       selectBlock(clientId);
     },
     canSwitchNavigationMenu: canSwitchNavigationMenu,
-    hasResolvedNavigationMenus: hasResolvedNavigationMenus
+    hasResolvedNavigationMenus: hasResolvedNavigationMenus,
+    clientId: clientId
   }), !isEntityAvailable && !isPlaceholderShown && Object(external_wp_element_["createElement"])(placeholder_preview, {
     isLoading: true
   }), !isPlaceholderShown && Object(external_wp_element_["createElement"])(ResponsiveWrapper, {
@@ -22090,8 +22068,8 @@ function navigation_save_save(_ref) {
     attributes
   } = _ref;
 
-  if (attributes.navigationMenuId) {
-    // Avoid rendering inner blocks when a navigationMenuId is defined.
+  if (attributes.ref) {
+    // Avoid rendering inner blocks when a ref is defined.
     // When this id is defined the inner blocks are loaded from the
     // `wp_navigation` entity rather than the hard-coded block html.
     return;
@@ -22125,6 +22103,16 @@ const TYPOGRAPHY_PRESET_DEPRECATION_MAP = {
   textTransform: 'var:preset|text-transform|'
 };
 
+const migrateIdToRef = _ref => {
+  let {
+    navigationMenuId,
+    ...attributes
+  } = _ref;
+  return { ...attributes,
+    ref: navigationMenuId
+  };
+};
+
 const deprecated_migrateWithLayout = attributes => {
   if (!!attributes.layout) {
     return attributes;
@@ -22152,6 +22140,103 @@ const deprecated_migrateWithLayout = attributes => {
   return updatedAttributes;
 };
 
+const deprecated_v6 = {
+  attributes: {
+    navigationMenuId: {
+      type: 'number'
+    },
+    textColor: {
+      type: 'string'
+    },
+    customTextColor: {
+      type: 'string'
+    },
+    rgbTextColor: {
+      type: 'string'
+    },
+    backgroundColor: {
+      type: 'string'
+    },
+    customBackgroundColor: {
+      type: 'string'
+    },
+    rgbBackgroundColor: {
+      type: 'string'
+    },
+    showSubmenuIcon: {
+      type: 'boolean',
+      default: true
+    },
+    openSubmenusOnClick: {
+      type: 'boolean',
+      default: false
+    },
+    overlayMenu: {
+      type: 'string',
+      default: 'mobile'
+    },
+    __unstableLocation: {
+      type: 'string'
+    },
+    overlayBackgroundColor: {
+      type: 'string'
+    },
+    customOverlayBackgroundColor: {
+      type: 'string'
+    },
+    overlayTextColor: {
+      type: 'string'
+    },
+    customOverlayTextColor: {
+      type: 'string'
+    }
+  },
+  supports: {
+    align: ['wide', 'full'],
+    anchor: true,
+    html: false,
+    inserter: true,
+    typography: {
+      fontSize: true,
+      lineHeight: true,
+      __experimentalFontStyle: true,
+      __experimentalFontWeight: true,
+      __experimentalTextTransform: true,
+      __experimentalFontFamily: true,
+      __experimentalTextDecoration: true,
+      __experimentalDefaultControls: {
+        fontSize: true
+      }
+    },
+    spacing: {
+      blockGap: true,
+      units: ['px', 'em', 'rem', 'vh', 'vw'],
+      __experimentalDefaultControls: {
+        blockGap: true
+      }
+    },
+    __experimentalLayout: {
+      allowSwitching: false,
+      allowInheriting: false,
+      default: {
+        type: 'flex',
+        setCascadingProperties: true
+      }
+    }
+  },
+
+  save() {
+    return Object(external_wp_element_["createElement"])(external_wp_blockEditor_["InnerBlocks"].Content, null);
+  },
+
+  isEligible: _ref2 => {
+    let {
+      navigationMenuId
+    } = _ref2;
+    return !!navigationMenuId;
+  },
+  migrate: migrateIdToRef
+};
 const deprecated_v5 = {
   attributes: {
     navigationMenuId: {
@@ -22240,14 +22325,14 @@ const deprecated_v5 = {
     return Object(external_wp_element_["createElement"])(external_wp_blockEditor_["InnerBlocks"].Content, null);
   },
 
-  isEligible: _ref => {
+  isEligible: _ref3 => {
     let {
       itemsJustification,
       orientation
-    } = _ref;
+    } = _ref3;
     return !!itemsJustification || !!orientation;
   },
-  migrate: deprecated_migrateWithLayout
+  migrate: Object(external_wp_compose_["compose"])(migrateIdToRef, deprecated_migrateWithLayout)
 };
 const deprecated_v4 = {
   attributes: {
@@ -22331,14 +22416,14 @@ const deprecated_v4 = {
     return Object(external_wp_element_["createElement"])(external_wp_blockEditor_["InnerBlocks"].Content, null);
   },
 
-  migrate: Object(external_wp_compose_["compose"])(deprecated_migrateWithLayout, migrate_font_family),
+  migrate: Object(external_wp_compose_["compose"])(migrateIdToRef, deprecated_migrateWithLayout, migrate_font_family),
 
-  isEligible(_ref2) {
+  isEligible(_ref4) {
     var _style$typography;
 
     let {
       style
-    } = _ref2;
+    } = _ref4;
     return style === null || style === void 0 ? void 0 : (_style$typography = style.typography) === null || _style$typography === void 0 ? void 0 : _style$typography.fontFamily;
   }
 
@@ -22373,7 +22458,7 @@ const migrateTypographyPresets = function (attributes) {
   };
 };
 
-const navigation_deprecated_deprecated = [deprecated_v5, deprecated_v4, // Remove `isResponsive` attribute.
+const navigation_deprecated_deprecated = [deprecated_v6, deprecated_v5, deprecated_v4, // Remove `isResponsive` attribute.
 {
   attributes: {
     orientation: {
@@ -22449,7 +22534,7 @@ const navigation_deprecated_deprecated = [deprecated_v5, deprecated_v4, // Remov
     return attributes.isResponsive;
   },
 
-  migrate: Object(external_wp_compose_["compose"])(deprecated_migrateWithLayout, migrate_font_family, migrateIsResponsive),
+  migrate: Object(external_wp_compose_["compose"])(migrateIdToRef, deprecated_migrateWithLayout, migrate_font_family, migrateIsResponsive),
 
   save() {
     return Object(external_wp_element_["createElement"])(external_wp_blockEditor_["InnerBlocks"].Content, null);
@@ -22520,7 +22605,7 @@ const navigation_deprecated_deprecated = [deprecated_v5, deprecated_v4, // Remov
     return false;
   },
 
-  migrate: Object(external_wp_compose_["compose"])(deprecated_migrateWithLayout, migrate_font_family, migrateTypographyPresets)
+  migrate: Object(external_wp_compose_["compose"])(migrateIdToRef, deprecated_migrateWithLayout, migrate_font_family, migrateTypographyPresets)
 }, {
   attributes: {
     className: {
@@ -22562,13 +22647,12 @@ const navigation_deprecated_deprecated = [deprecated_v5, deprecated_v4, // Remov
     html: false,
     inserter: true
   },
-
-  migrate(attributes) {
+  migrate: Object(external_wp_compose_["compose"])(migrateIdToRef, attributes => {
     return { ...Object(external_lodash_["omit"])(attributes, ['rgbTextColor', 'rgbBackgroundColor']),
       customTextColor: attributes.textColor ? undefined : attributes.rgbTextColor,
       customBackgroundColor: attributes.backgroundColor ? undefined : attributes.rgbBackgroundColor
     };
-  },
+  }),
 
   save() {
     return Object(external_wp_element_["createElement"])(external_wp_blockEditor_["InnerBlocks"].Content, null);
@@ -22596,7 +22680,7 @@ const navigation_metadata = {
   keywords: ["menu", "navigation", "links"],
   textdomain: "default",
   attributes: {
-    navigationMenuId: {
+    ref: {
       type: "number"
     },
     textColor: {
@@ -24901,7 +24985,7 @@ const pattern_metadata = {
   apiVersion: 2,
   name: "core/pattern",
   title: "Pattern",
-  category: "design",
+  category: "theme",
   description: "Show a block pattern.",
   supports: {
     html: false,
@@ -27193,11 +27277,10 @@ const placeholderIllustration = Object(external_wp_element_["createElement"])(ex
   fill: "none",
   xmlns: "http://www.w3.org/2000/svg",
   viewBox: "0 0 60 60",
-  preserveAspectRatio: "xMidYMid slice" // @todo: "slice" matches the "cover" behavior, "meet" could be used for "container" and "fill" values.
-
+  preserveAspectRatio: "none"
 }, Object(external_wp_element_["createElement"])(external_wp_primitives_["Path"], {
   vectorEffect: "non-scaling-stroke",
-  d: "m61 32.622-13.555-9.137-15.888 9.859a5 5 0 0 1-5.386-.073l-9.095-5.989L1 37.5"
+  d: "M60 60 0 0"
 }));
 const post_featured_image_edit_ALLOWED_MEDIA_TYPES = ['image'];
 const placeholderChip = Object(external_wp_element_["createElement"])("div", {
@@ -28008,7 +28091,7 @@ const post_terms_metadata = {
   apiVersion: 2,
   name: "core/post-terms",
   title: "Post Terms",
-  category: "design",
+  category: "theme",
   description: "Post terms.",
   textdomain: "default",
   attributes: {
@@ -28115,7 +28198,7 @@ function PostTitleEdit(_ref) {
       __experimentalVersion: 2
     }, blockProps)) : Object(external_wp_element_["createElement"])(TagName, blockProps, Object(external_wp_element_["createElement"])(external_wp_element_["RawHTML"], {
       key: "html"
-    }, fullTitle.rendered));
+    }, fullTitle === null || fullTitle === void 0 ? void 0 : fullTitle.rendered));
   }
 
   if (isLink && postType && postId) {
@@ -28135,7 +28218,7 @@ function PostTitleEdit(_ref) {
       onClick: event => event.preventDefault()
     }, Object(external_wp_element_["createElement"])(external_wp_element_["RawHTML"], {
       key: "html"
-    }, fullTitle.rendered)));
+    }, fullTitle === null || fullTitle === void 0 ? void 0 : fullTitle.rendered)));
   }
 
   return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockControls"], {
@@ -31219,7 +31302,7 @@ const query_title_metadata = {
   apiVersion: 2,
   name: "core/query-title",
   title: "Query Title",
-  category: "design",
+  category: "theme",
   description: "Display the query title.",
   textdomain: "default",
   attributes: {
@@ -33648,7 +33731,7 @@ const site_logo_metadata = {
   apiVersion: 2,
   name: "core/site-logo",
   title: "Site Logo",
-  category: "layout",
+  category: "theme",
   description: "Display a graphic to represent this site. Update the block, and the changes apply everywhere it\u2019s used. This is different than the site icon, which is the smaller image visible in your dashboard, browser tabs, etc used to help others recognize this site.",
   textdomain: "default",
   attributes: {
@@ -33852,7 +33935,7 @@ const site_tagline_metadata = {
   apiVersion: 2,
   name: "core/site-tagline",
   title: "Site Tagline",
-  category: "design",
+  category: "theme",
   description: "Describe in a few words what the website is about. The tagline can be used in search results or when sharing on social networks even if it's not displayed in the theme design.",
   keywords: ["description"],
   textdomain: "default",
@@ -34174,7 +34257,7 @@ const site_title_metadata = {
   apiVersion: 2,
   name: "core/site-title",
   title: "Site Title",
-  category: "design",
+  category: "theme",
   description: "Displays the name of this site. Update the block, and the changes apply everywhere it\u2019s used. This will also appear in the browser title bar and in search results.",
   textdomain: "default",
   attributes: {
@@ -38567,7 +38650,7 @@ function TemplatePartPlaceholder(_ref) {
     // block attributes.
     const record = {
       title,
-      slug: 'template-part',
+      slug: Object(external_lodash_["kebabCase"])(title),
       content: Object(external_wp_blocks_["serialize"])(startingBlocks),
       // `area` is filterable on the server and defaults to `UNCATEGORIZED`
       // if provided value is not allowed.
@@ -39094,7 +39177,8 @@ const template_part_metadata = {
     spacing: {
       padding: true
     },
-    __experimentalLayout: true
+    __experimentalLayout: true,
+    reusable: false
   },
   editorStyle: "wp-block-template-part-editor"
 };
@@ -40823,8 +40907,9 @@ const __experimentalGetCoreBlocks = () => [// Common blocks are grouped at the t
 // in various contexts — like the inserter and auto-complete components.
 build_module_paragraph_namespaceObject, build_module_image_namespaceObject, build_module_heading_namespaceObject, build_module_gallery_namespaceObject, build_module_list_namespaceObject, build_module_quote_namespaceObject, // Register all remaining core blocks.
 archives_namespaceObject, build_module_audio_namespaceObject, button_namespaceObject, build_module_buttons_namespaceObject, build_module_calendar_namespaceObject, categories_namespaceObject, window.wp && window.wp.oldEditor ? freeform_namespaceObject : null, // Only add the classic block in WP Context
-code_namespaceObject, build_module_column_namespaceObject, build_module_columns_namespaceObject, build_module_cover_namespaceObject, embed_namespaceObject, build_module_file_namespaceObject, group_namespaceObject, build_module_html_namespaceObject, latest_comments_namespaceObject, latest_posts_namespaceObject, loginout_namespaceObject, media_text_namespaceObject, missing_namespaceObject, build_module_more_namespaceObject, build_module_navigation_namespaceObject, navigation_link_namespaceObject, navigation_submenu_namespaceObject, nextpage_namespaceObject, page_list_namespaceObject, pattern_namespaceObject, build_module_post_author_namespaceObject, build_module_post_comments_namespaceObject, build_module_post_content_namespaceObject, build_module_post_date_namespaceObject, build_module_post_excerpt_namespaceObject, build_module_post_featured_image_namespaceObject, post_navigation_link_namespaceObject, post_template_namespaceObject, post_terms_namespaceObject, build_module_post_title_namespaceObject, build_module_preformatted_namespaceObject, build_module_pullquote_namespaceObject, query_namespaceObject, build_module_query_pagination_namespaceObject, build_module_query_pagination_next_namespaceObject, build_module_query_pagination_numbers_namespaceObject, build_module_query_pagination_previous_namespaceObject, query_title_namespaceObject, block_namespaceObject, build_module_rss_namespaceObject, search_namespaceObject, build_module_separator_namespaceObject, build_module_shortcode_namespaceObject, build_module_site_logo_namespaceObject, site_tagline_namespaceObject, site_title_namespaceObject, social_link_namespaceObject, social_links_namespaceObject, spacer_namespaceObject, build_module_table_namespaceObject, // tableOfContents,
-tag_cloud_namespaceObject, template_part_namespaceObject, build_module_term_description_namespaceObject, text_columns_namespaceObject, build_module_verse_namespaceObject, build_module_video_namespaceObject];
+code_namespaceObject, build_module_column_namespaceObject, build_module_columns_namespaceObject, build_module_cover_namespaceObject, embed_namespaceObject, build_module_file_namespaceObject, group_namespaceObject, build_module_html_namespaceObject, latest_comments_namespaceObject, latest_posts_namespaceObject, media_text_namespaceObject, missing_namespaceObject, build_module_more_namespaceObject, nextpage_namespaceObject, page_list_namespaceObject, pattern_namespaceObject, build_module_preformatted_namespaceObject, build_module_pullquote_namespaceObject, block_namespaceObject, build_module_rss_namespaceObject, search_namespaceObject, build_module_separator_namespaceObject, build_module_shortcode_namespaceObject, social_link_namespaceObject, social_links_namespaceObject, spacer_namespaceObject, build_module_table_namespaceObject, // tableOfContents,
+tag_cloud_namespaceObject, text_columns_namespaceObject, build_module_verse_namespaceObject, build_module_video_namespaceObject, // theme blocks
+build_module_navigation_namespaceObject, navigation_link_namespaceObject, navigation_submenu_namespaceObject, build_module_site_logo_namespaceObject, site_title_namespaceObject, site_tagline_namespaceObject, query_namespaceObject, template_part_namespaceObject, build_module_post_title_namespaceObject, build_module_post_excerpt_namespaceObject, build_module_post_featured_image_namespaceObject, build_module_post_content_namespaceObject, build_module_post_author_namespaceObject, build_module_post_date_namespaceObject, post_terms_namespaceObject, post_navigation_link_namespaceObject, post_template_namespaceObject, build_module_query_pagination_namespaceObject, build_module_query_pagination_next_namespaceObject, build_module_query_pagination_numbers_namespaceObject, build_module_query_pagination_previous_namespaceObject, build_module_post_comments_namespaceObject, loginout_namespaceObject, build_module_term_description_namespaceObject, query_title_namespaceObject];
 /**
  * Function to register core blocks provided by the block editor.
  *

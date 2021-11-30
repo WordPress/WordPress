@@ -2,7 +2,7 @@
 	"apiVersion": 2,
 	"name": "core/site-title",
 	"title": "Site Title",
-	"category": "design",
+	"category": "theme",
 	"description": "Displays the name of this site. Update the block, and the changes apply everywhere it’s used. This will also appear in the browser title bar and in search results.",
 	"textdomain": "default",
 	"attributes": {

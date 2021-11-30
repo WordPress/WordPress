@@ -53,7 +53,8 @@ function render_block_core_template_part( $attributes ) {
 		} else {
 			// Else, if the template part was provided by the active theme,
 			// render the corresponding file content.
-			$template_part_file_path = get_theme_file_path( '/block-template-parts/' . $attributes['slug'] . '.html' );
+			$theme_folders           = get_block_theme_folders();
+			$template_part_file_path = get_theme_file_path( '/' . $theme_folders['wp_template_part'] . '/' . $attributes['slug'] . '.html' );
 			if ( 0 === validate_file( $attributes['slug'] ) && file_exists( $template_part_file_path ) ) {
 				$content = file_get_contents( $template_part_file_path );
 				$content = is_string( $content ) && '' !== $content

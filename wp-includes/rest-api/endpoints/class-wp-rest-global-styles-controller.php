@@ -232,12 +232,16 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response $data
 	 */
 	public function prepare_item_for_response( $post, $request ) { // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
-		$config                           = json_decode( $post->post_content, true );
-		$is_global_styles_user_theme_json = isset( $config['isGlobalStylesUserThemeJSON'] ) && true === $config['isGlobalStylesUserThemeJSON'];
-		$fields                           = $this->get_fields_for_response( $request );
+		$raw_config                       = json_decode( $post->post_content, true );
+		$is_global_styles_user_theme_json = isset( $raw_config['isGlobalStylesUserThemeJSON'] ) && true === $raw_config['isGlobalStylesUserThemeJSON'];
+		$config                           = array();
+		if ( $is_global_styles_user_theme_json ) {
+			$config = ( new WP_Theme_JSON( $raw_config, 'custom' ) )->get_raw_data();
+		}
 
 		// Base fields for every post.
-		$data = array();
+		$data   = array();
+		$fields = $this->get_fields_for_response( $request );
 
 		if ( rest_is_field_included( 'id', $fields ) ) {
 			$data['id'] = $post->ID;

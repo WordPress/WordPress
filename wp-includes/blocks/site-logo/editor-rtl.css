@@ -154,7 +154,7 @@
   bottom: 0;
   right: 0;
   border: 1px dashed currentColor;
-  opacity: 0.3;
+  opacity: 0.4;
   pointer-events: none;
   border-radius: inherit;
 }
@@ -194,7 +194,7 @@
   height: 100%;
   stroke: currentColor;
   stroke-dasharray: 3;
-  opacity: 0.3;
+  opacity: 0.4;
 }
 .wp-block-site-logo.wp-block-site-logo.is-selected .components-button.components-button {
   background: var(--wp-admin-theme-color);

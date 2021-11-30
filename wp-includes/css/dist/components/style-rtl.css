@@ -754,11 +754,22 @@ svg.components-checkbox-control__checked {
 }
 
 @media (min-width: 782px) {
-  .components-color-edit__color-popover.components-popover .components-popover__content.components-popover__content.components-popover__content {
+  .components-palette-edit__popover.components-popover .components-popover__content.components-popover__content.components-popover__content {
     margin-left: 156px;
     margin-top: -49px;
   }
 }
+.components-palette-edit__popover .components-custom-gradient-picker__gradient-bar {
+  margin-top: 0;
+}
+.components-palette-edit__popover .components-custom-gradient-picker__ui-line {
+  margin-bottom: 0;
+}
+.components-palette-edit__popover .components-custom-gradient-picker {
+  width: 280px;
+  padding: 8px;
+}
+
 .component-color-indicator {
   width: 25px;
   height: 16px;

@@ -1,6 +1,7 @@
 {
 	"version": 2,
 	"settings": {
+		"appearanceTools": false,
 		"border": {
 			"color": false,
 			"radius": false,
@@ -8,12 +9,12 @@
 			"width": false
 		},
 		"color": {
+			"background": true,
 			"custom": true,
 			"customDuotone": true,
  			"customGradient": true,
- 			"link": false,
-			"background": true,
-			"text": true,
+			"defaultGradients": true,
+			"defaultPalette": true,
 			"duotone": [
 				{
 					"name":  "Dark grayscale" ,
@@ -118,6 +119,7 @@
 					"slug": "midnight"
 				}
 			],
+			"link": false,
 			"palette": [
 				{
 					"name": "Black",
@@ -179,7 +181,8 @@
 					"slug": "vivid-purple",
 					"color": "#9b51e0"
 				}
-			]
+			],
+			"text": true
 		},
 		"spacing": {
 			"blockGap": null,
@@ -190,12 +193,6 @@
 		"typography": {
 			"customFontSize": true,
 			"dropCap": true,
-			"fontStyle": true,
-			"fontWeight": true,
-			"letterSpacing": true,
-			"lineHeight": false,
-			"textDecoration": true,
-			"textTransform": true,
 			"fontSizes": [
 				{
 					"name": "Small",
@@ -222,7 +219,13 @@
 					"slug": "huge",
 					"size": "42px"
 				}
-			]
+			],
+			"fontStyle": true,
+			"fontWeight": true,
+			"letterSpacing": true,
+			"lineHeight": false,
+			"textDecoration": true,
+			"textTransform": true
 		},
 		"blocks": {
 			"core/button": {

@@ -384,6 +384,7 @@ function create_initial_post_types() {
 				'excerpt',
 				'editor',
 				'revisions',
+				'author',
 			),
 		)
 	);
@@ -442,6 +443,7 @@ function create_initial_post_types() {
 				'excerpt',
 				'editor',
 				'revisions',
+				'author',
 			),
 		)
 	);

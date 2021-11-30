@@ -2021,6 +2021,15 @@ const defaultEntities = [{
     context: 'edit'
   },
   key: 'stylesheet'
+}, {
+  label: Object(external_wp_i18n_["__"])('Plugins'),
+  name: 'plugin',
+  kind: 'root',
+  baseURL: '/wp/v2/plugins',
+  baseURLParams: {
+    context: 'edit'
+  },
+  key: 'plugin'
 }];
 const kinds = [{
   name: 'postType',

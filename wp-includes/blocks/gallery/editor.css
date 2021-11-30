@@ -173,6 +173,7 @@ figure.wp-block-gallery .components-spinner {
   bottom: 0;
   left: 0;
   z-index: 1;
+  pointer-events: none;
 }
 .blocks-gallery-item figure.is-transient img {
   opacity: 0.3;

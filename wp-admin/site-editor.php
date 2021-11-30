@@ -23,8 +23,6 @@ if ( ! wp_is_block_template_theme() ) {
 	wp_die( __( 'The theme you are currently using is not compatible with Full Site Editing.' ) );
 }
 
-// Used in the HTML title tag.
-$title       = __( 'Editor (beta)' );
 $parent_file = 'themes.php';
 
 // Flag that we're loading the block editor.
@@ -59,6 +57,9 @@ if ( isset( $_GET['postType'] ) && ! isset( $_GET['postId'] ) ) {
 		wp_die( __( 'Invalid post type.' ) );
 	}
 
+	// Used in the HTML title tag.
+	$title = $post_type->labels->name;
+
 	$preload_paths = array(
 		'/',
 		'/wp/v2/types/' . $post_type->name . '?context=edit',
@@ -80,6 +81,9 @@ if ( isset( $_GET['postType'] ) && ! isset( $_GET['postId'] ) ) {
 	);
 
 } else {
+
+	// Used in the HTML title tag.
+	$title = __( 'Editor (beta)' );
 
 	$active_global_styles_id = WP_Theme_JSON_Resolver::get_user_custom_post_type_id();
 	$active_theme            = wp_get_theme()->get_stylesheet();
