@@ -122,7 +122,7 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller {
 		}
 		$prepared_nav_item = (array) $prepared_nav_item;
 
-		$nav_menu_item_id = wp_update_nav_menu_item( $prepared_nav_item['menu-id'], $prepared_nav_item['menu-item-db-id'], wp_slash( $prepared_nav_item ) );
+		$nav_menu_item_id = wp_update_nav_menu_item( $prepared_nav_item['menu-id'], $prepared_nav_item['menu-item-db-id'], wp_slash( $prepared_nav_item ), false );
 		if ( is_wp_error( $nav_menu_item_id ) ) {
 			if ( 'db_insert_error' === $nav_menu_item_id->get_error_code() ) {
 				$nav_menu_item_id->add_data( array( 'status' => 500 ) );
@@ -181,7 +181,10 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller {
 		 */
 		do_action( 'rest_after_insert_nav_menu_item', $nav_menu_item, $request, true );
 
-		$response = $this->prepare_item_for_response( get_post( $nav_menu_item_id ), $request );
+		$post = get_post( $nav_menu_item_id );
+		wp_after_insert_post( $post, false, null );
+
+		$response = $this->prepare_item_for_response( $post, $request );
 		$response = rest_ensure_response( $response );
 
 		$response->set_status( 201 );
@@ -204,7 +207,7 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller {
 		if ( is_wp_error( $valid_check ) ) {
 			return $valid_check;
 		}
-
+		$post_before       = get_post( $request['id'] );
 		$prepared_nav_item = $this->prepare_item_for_database( $request );
 
 		if ( is_wp_error( $prepared_nav_item ) ) {
@@ -213,7 +216,7 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller {
 
 		$prepared_nav_item = (array) $prepared_nav_item;
 
-		$nav_menu_item_id = wp_update_nav_menu_item( $prepared_nav_item['menu-id'], $prepared_nav_item['menu-item-db-id'], wp_slash( $prepared_nav_item ) );
+		$nav_menu_item_id = wp_update_nav_menu_item( $prepared_nav_item['menu-id'], $prepared_nav_item['menu-item-db-id'], wp_slash( $prepared_nav_item ), false );
 
 		if ( is_wp_error( $nav_menu_item_id ) ) {
 			if ( 'db_update_error' === $nav_menu_item_id->get_error_code() ) {
@@ -245,6 +248,7 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller {
 			}
 		}
 
+		$post          = get_post( $nav_menu_item_id );
 		$nav_menu_item = $this->get_nav_menu_item( $nav_menu_item_id );
 		$fields_update = $this->update_additional_fields_for_object( $nav_menu_item, $request );
 
@@ -256,6 +260,8 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller {
 
 		/** This action is documented in wp-includes/rest-api/endpoints/class-wp-rest-menu-items-controller.php */
 		do_action( 'rest_after_insert_nav_menu_item', $nav_menu_item, $request, false );
+
+		wp_after_insert_post( $post, true, $post_before );
 
 		$response = $this->prepare_item_for_response( get_post( $nav_menu_item_id ), $request );
 

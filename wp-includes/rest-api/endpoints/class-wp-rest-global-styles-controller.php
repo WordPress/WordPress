@@ -146,13 +146,13 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function update_item( $request ) {
-		$post = get_post( $request['id'] );
-		if ( ! $post || 'wp_global_styles' !== $post->post_type ) {
+		$post_before = get_post( $request['id'] );
+		if ( ! $post_before || 'wp_global_styles' !== $post_before->post_type ) {
 			return new WP_Error( 'rest_global_styles_not_found', __( 'No global styles config exist with that id.' ), array( 'status' => 404 ) );
 		}
 
 		$changes = $this->prepare_item_for_database( $request );
-		$result  = wp_update_post( wp_slash( (array) $changes ), true );
+		$result  = wp_update_post( wp_slash( (array) $changes ), true, false );
 		if ( is_wp_error( $result ) ) {
 			return $result;
 		}
@@ -163,10 +163,11 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Controller {
 			return $fields_update;
 		}
 
-		return $this->prepare_item_for_response(
-			get_post( $request['id'] ),
-			$request
-		);
+		wp_after_insert_post( $post, true, $post_before );
+
+		$response = $this->prepare_item_for_response( $post, $request );
+
+		return rest_ensure_response( $response );
 	}
 
 	/**

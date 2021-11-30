@@ -266,6 +266,8 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
 			return new WP_Error( 'rest_template_not_found', __( 'No templates exist with that id.' ), array( 'status' => 404 ) );
 		}
 
+		$post_before = get_post( $template->wp_id );
+
 		if ( isset( $request['source'] ) && 'theme' === $request['source'] ) {
 			wp_delete_post( $template->wp_id, true );
 			$request->set_param( 'context', 'edit' );
@@ -283,9 +285,12 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
 		}
 
 		if ( 'custom' === $template->source ) {
-			$result = wp_update_post( wp_slash( (array) $changes ), true );
+			$update = true;
+			$result = wp_update_post( wp_slash( (array) $changes ), false );
 		} else {
-			$result = wp_insert_post( wp_slash( (array) $changes ), true );
+			$update      = false;
+			$post_before = null;
+			$result      = wp_insert_post( wp_slash( (array) $changes ), false );
 		}
 
 		if ( is_wp_error( $result ) ) {
@@ -308,6 +313,8 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
 		$post = get_post( $template->wp_id );
 		/** This action is documented in wp-includes/rest-api/endpoints/class-wp-rest-posts-controller.php */
 		do_action( "rest_after_insert_{$this->post_type}", $post, $request, false );
+
+		wp_after_insert_post( $post, $update, $post_before );
 
 		$response = $this->prepare_item_for_response( $template, $request );
 
@@ -366,6 +373,8 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
 
 		/** This action is documented in wp-includes/rest-api/endpoints/class-wp-rest-posts-controller.php */
 		do_action( "rest_after_insert_{$this->post_type}", $post, $request, true );
+
+		wp_after_insert_post( $post, false, null );
 
 		$response = $this->prepare_item_for_response( $template, $request );
 		$response = rest_ensure_response( $response );
