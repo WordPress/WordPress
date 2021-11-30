@@ -64,7 +64,7 @@ if ( isset( $_GET['postType'] ) && ! isset( $_GET['postId'] ) ) {
 		'/',
 		'/wp/v2/types/' . $post_type->name . '?context=edit',
 		'/wp/v2/types?context=edit',
-		'/wp/v2/' . $post_type->rest_base . '?context=edit',
+		add_query_arg( 'context', 'edit', rest_get_route_for_post_type_items( $post_type ) ),
 	);
 
 	block_editor_rest_api_preload( $preload_paths, $block_editor_context );
@@ -88,16 +88,16 @@ if ( isset( $_GET['postType'] ) && ! isset( $_GET['postId'] ) ) {
 	$active_global_styles_id = WP_Theme_JSON_Resolver::get_user_custom_post_type_id();
 	$active_theme            = wp_get_theme()->get_stylesheet();
 	$preload_paths           = array(
-		array( '/wp/v2/media', 'OPTIONS' ),
+		array( rest_get_route_for_post_type_items( 'attachment' ), 'OPTIONS' ),
 		'/',
 		'/wp/v2/types?context=edit',
 		'/wp/v2/taxonomies?context=edit',
-		'/wp/v2/pages?context=edit',
-		'/wp/v2/categories?context=edit',
-		'/wp/v2/posts?context=edit',
-		'/wp/v2/tags?context=edit',
-		'/wp/v2/templates?context=edit',
-		'/wp/v2/template-parts?context=edit',
+		add_query_arg( 'context', 'edit', rest_get_route_for_post_type_items( 'page' ) ),
+		add_query_arg( 'context', 'edit', rest_get_route_for_post_type_items( 'post' ) ),
+		add_query_arg( 'context', 'edit', rest_get_route_for_taxonomy_items( 'category' ) ),
+		add_query_arg( 'context', 'edit', rest_get_route_for_taxonomy_items( 'post_tag' ) ),
+		add_query_arg( 'context', 'edit', rest_get_route_for_post_type_items( 'wp_template' ) ),
+		add_query_arg( 'context', 'edit', rest_get_route_for_post_type_items( 'wp_template_part' ) ),
 		'/wp/v2/settings',
 		'/wp/v2/themes?context=edit&status=active',
 		'/wp/v2/global-styles/' . $active_global_styles_id . '?context=edit',
