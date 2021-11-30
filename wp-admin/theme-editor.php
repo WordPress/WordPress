@@ -196,7 +196,7 @@ if ( $file_description !== $file_show ) {
 	</div>
 <?php endif; ?>
 
-<?php if ( preg_match( '/\.css$/', $file ) ) : ?>
+<?php if ( preg_match( '/\.css$/', $file ) && ! wp_is_block_template_theme() && current_user_can( 'customize' ) ) : ?>
 	<div id="message" class="notice-info notice">
 		<p><strong><?php _e( 'Did you know?' ); ?></strong></p>
 		<p>
