@@ -17,7 +17,7 @@ return array(
 					<!-- /wp:group --></div>
 					<!-- /wp:group -->
 
-					<!-- wp:navigation {"itemsJustification":"right","isResponsive":true} -->
+					<!-- wp:navigation {"layout":{"type":"flex","setCascadingProperties":true,"justifyContent":"right"}} -->
 					<!-- wp:page-list {"isNavigationChild":true,"showSubmenuIcon":true,"openSubmenusOnClick":false} /-->
 					<!-- /wp:navigation --></div>
 					<!-- /wp:group -->',

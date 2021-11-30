@@ -14,7 +14,7 @@ return array(
 					<!-- wp:site-tagline {"style":{"typography":{"fontStyle":"italic","fontWeight":"400"}},"fontSize":"small"} /--></div>
 					<!-- /wp:group -->
 
-					<!-- wp:navigation {"itemsJustification":"right"} -->
+					<!-- wp:navigation {"layout":{"type":"flex","setCascadingProperties":true,"justifyContent":"right"}} -->
 					<!-- wp:page-list /-->
 					<!-- /wp:navigation --></div>
 					<!-- /wp:group --></div>

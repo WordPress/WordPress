@@ -32,6 +32,7 @@
 		}
 	],
 	"settings": {
+		"appearanceTools": true,
 		"color": {
 			"duotone": [
 				{
@@ -107,7 +108,6 @@
 					"name": "Diagonal background to tertiary"
 				}
 			],
-			"link": true,
 			"palette": [
 				{
 					"slug": "foreground",
@@ -156,9 +156,6 @@
 			}
 		},
 		"spacing": {
-			"blockGap": true,
-			"margin": true,
-			"padding": true,
 			"units": [
 				"%",
 				"px",
@@ -170,7 +167,6 @@
 		},
 		"typography": {
 			"dropCap": false,
-			"lineHeight": true,
 			"fontFamilies": [
 				{
 					"fontFamily": "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,Oxygen-Sans,Ubuntu,Cantarell,\"Helvetica Neue\",sans-serif",
@@ -214,12 +210,6 @@
 		"layout": {
 			"contentSize": "650px",
 			"wideSize": "1000px"
-		},
-		"border": {
-			"color": true,
-			"radius": true,
-			"style": true,
-			"width": true
 		}
 	},
 	"styles": {

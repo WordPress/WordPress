@@ -11,7 +11,7 @@ return array(
 					<div class="wp-block-group"><!-- wp:site-logo {"width":64} /--></div>
 					<!-- /wp:group -->
 
-					<!-- wp:navigation {"itemsJustification":"right","isResponsive":true} -->
+					<!-- wp:navigation {"layout":{"type":"flex","setCascadingProperties":true,"justifyContent":"right"}} -->
 					<!-- wp:page-list /-->
 					<!-- /wp:navigation --></div>
 					<!-- /wp:group -->
