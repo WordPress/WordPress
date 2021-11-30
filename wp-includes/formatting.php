@@ -4711,7 +4711,7 @@ function sanitize_option( $option, $value ) {
 	global $wpdb;
 
 	$original_value = $value;
-	$error          = '';
+	$error          = null;
 
 	switch ( $option ) {
 		case 'admin_email':
@@ -4919,7 +4919,9 @@ function sanitize_option( $option, $value ) {
 				$value = str_replace( 'http://', '', $value );
 			}
 
-			if ( 'permalink_structure' === $option && '' !== $value && ! preg_match( '/%[^\/%]+%/', $value ) ) {
+			if ( 'permalink_structure' === $option && null === $error
+				&& '' !== $value && ! preg_match( '/%[^\/%]+%/', $value )
+			) {
 				$error = sprintf(
 					/* translators: %s: Documentation URL. */
 					__( 'A structure tag is required when using custom permalinks. <a href="%s">Learn more</a>' ),
@@ -4948,7 +4950,12 @@ function sanitize_option( $option, $value ) {
 			break;
 	}
 
-	if ( ! empty( $error ) ) {
+	if ( null !== $error ) {
+		if ( '' === $error && is_wp_error( $value ) ) {
+			/* translators: 1: Option name, 2: Error code. */
+			$error = sprintf( __( 'Could not sanitize the %1$s option. Error code: %2$s' ), $option, $value->get_error_code() );
+		}
+
 		$value = get_option( $option );
 		if ( function_exists( 'add_settings_error' ) ) {
 			add_settings_error( $option, "invalid_{$option}", $error );

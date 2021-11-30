@@ -2885,7 +2885,7 @@ class wpdb {
 		$table       = '`' . implode( '`.`', $table_parts ) . '`';
 		$results     = $this->get_results( "SHOW FULL COLUMNS FROM $table" );
 		if ( ! $results ) {
-			return new WP_Error( 'wpdb_get_table_charset_failure' );
+			return new WP_Error( 'wpdb_get_table_charset_failure', __( 'Could not retrieve table charset.' ) );
 		}
 
 		foreach ( $results as $column ) {
@@ -3327,7 +3327,7 @@ class wpdb {
 			$this->check_current_query = false;
 			$row                       = $this->get_row( 'SELECT ' . implode( ', ', $sql ), ARRAY_A );
 			if ( ! $row ) {
-				return new WP_Error( 'wpdb_strip_invalid_text_failure' );
+				return new WP_Error( 'wpdb_strip_invalid_text_failure', __( 'Could not strip invalid text.' ) );
 			}
 
 			foreach ( array_keys( $data ) as $column ) {
