@@ -498,6 +498,12 @@ if ( ! function_exists( 'twentyfourteen_list_authors' ) ) :
 			'capability' => array( 'edit_posts' ),
 		);
 
+		// Capability queries were only introduced in WP 5.9.
+		if ( version_compare( $GLOBALS['wp_version'], '5.9-alpha', '<' ) ) {
+			$args['who'] = 'authors';
+			unset( $args['capability'] );
+		}
+
 		/**
 		 * Filters query arguments for listing authors.
 		 *
