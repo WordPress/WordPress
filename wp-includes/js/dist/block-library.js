@@ -22120,21 +22120,23 @@ const deprecated_migrateWithLayout = attributes => {
 
   const {
     itemsJustification,
-    orientation
+    orientation,
+    ...updatedAttributes
   } = attributes;
-  const updatedAttributes = { ...attributes
-  };
 
   if (itemsJustification || orientation) {
     Object.assign(updatedAttributes, {
       layout: {
         type: 'flex',
-        justifyContent: itemsJustification || 'left',
-        orientation: orientation || 'horizontal'
+        setCascadingProperties: 'true',
+        ...(itemsJustification && {
+          justifyContent: itemsJustification
+        }),
+        ...(orientation && {
+          orientation
+        })
       }
     });
-    delete updatedAttributes.itemsJustification;
-    delete updatedAttributes.orientation;
   }
 
   return updatedAttributes;
@@ -30882,7 +30884,7 @@ const query_pagination_next_metadata = {
     html: false,
     color: {
       gradients: true,
-      link: true
+      text: false
     },
     typography: {
       fontSize: true,
@@ -31093,7 +31095,7 @@ const query_pagination_previous_metadata = {
     html: false,
     color: {
       gradients: true,
-      link: true
+      text: false
     },
     typography: {
       fontSize: true,

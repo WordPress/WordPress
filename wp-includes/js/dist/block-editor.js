@@ -2422,6 +2422,105 @@ function JustifyToolbar(props) {
 
 /***/ }),
 
+/***/ "0LBR":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return useMultipleOriginColorsAndGradients; });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("GRId");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("l3Sj");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _use_setting__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("v5LD");
+/* harmony import */ var _use_common_single_multiple_selects__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("pY5h");
+/**
+ * WordPress dependencies
+ */
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+/**
+ * Retrieves color and gradient related settings.
+ *
+ * The arrays for colors and gradients are made up of color palettes from each
+ * origin i.e. "Core", "Theme", and "User".
+ *
+ * @return {Object} Color and gradient related settings.
+ */
+
+function useMultipleOriginColorsAndGradients() {
+  const colorGradientSettings = Object(_use_common_single_multiple_selects__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"])();
+  const customColors = Object(_use_setting__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"])('color.palette.custom');
+  const themeColors = Object(_use_setting__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"])('color.palette.theme');
+  const defaultColors = Object(_use_setting__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"])('color.palette.default');
+  const shouldDisplayDefaultColors = Object(_use_setting__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"])('color.defaultPalette');
+  colorGradientSettings.colors = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useMemo"])(() => {
+    const result = [];
+
+    if (themeColors && themeColors.length) {
+      result.push({
+        name: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["_x"])('Theme', 'Indicates this palette comes from the theme.'),
+        colors: themeColors
+      });
+    }
+
+    if (shouldDisplayDefaultColors && defaultColors && defaultColors.length) {
+      result.push({
+        name: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["_x"])('Default', 'Indicates this palette comes from WordPress.'),
+        colors: defaultColors
+      });
+    }
+
+    if (customColors && customColors.length) {
+      result.push({
+        name: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["_x"])('Custom', 'Indicates this palette comes from the theme.'),
+        colors: customColors
+      });
+    }
+
+    return result;
+  }, [defaultColors, themeColors, customColors]);
+  const customGradients = Object(_use_setting__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"])('color.gradients.custom');
+  const themeGradients = Object(_use_setting__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"])('color.gradients.theme');
+  const defaultGradients = Object(_use_setting__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"])('color.gradients.default');
+  const shouldDisplayDefaultGradients = Object(_use_setting__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"])('color.defaultGradients');
+  colorGradientSettings.gradients = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useMemo"])(() => {
+    const result = [];
+
+    if (themeGradients && themeGradients.length) {
+      result.push({
+        name: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["_x"])('Theme', 'Indicates this palette comes from the theme.'),
+        gradients: themeGradients
+      });
+    }
+
+    if (shouldDisplayDefaultGradients && defaultGradients && defaultGradients.length) {
+      result.push({
+        name: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["_x"])('Default', 'Indicates this palette comes from WordPress.'),
+        gradients: defaultGradients
+      });
+    }
+
+    if (customGradients && customGradients.length) {
+      result.push({
+        name: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["_x"])('Custom', 'Indicates this palette is created by the user.'),
+        gradients: customGradients
+      });
+    }
+
+    return result;
+  }, [customGradients, themeGradients, defaultGradients]);
+  return colorGradientSettings;
+}
+
+
+/***/ }),
+
 /***/ "14PQ":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -39683,6 +39782,26 @@ BlockSettingsMenuControls.Slot = BlockSettingsMenuControlsSlot;
 
 /***/ }),
 
+/***/ "pY5h":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return useCommonSingleMultipleSelects; });
+/* harmony import */ var _use_setting__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("v5LD");
+/**
+ * Internal dependencies
+ */
+
+function useCommonSingleMultipleSelects() {
+  return {
+    disableCustomColors: !Object(_use_setting__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])('color.custom'),
+    disableCustomGradients: !Object(_use_setting__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])('color.customGradient')
+  };
+}
+
+
+/***/ }),
+
 /***/ "plpT":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -41396,6 +41515,9 @@ var use_setting = __webpack_require__("v5LD");
 // EXTERNAL MODULE: ./node_modules/@wordpress/block-editor/build-module/components/colors-gradients/control.js
 var control = __webpack_require__("hMaJ");
 
+// EXTERNAL MODULE: ./node_modules/@wordpress/block-editor/build-module/components/colors-gradients/use-multiple-origin-colors-and-gradients.js
+var use_multiple_origin_colors_and_gradients = __webpack_require__("0LBR");
+
 // EXTERNAL MODULE: ./node_modules/@wordpress/block-editor/build-module/components/colors/utils.js
 var utils = __webpack_require__("bVpQ");
 
@@ -41421,6 +41543,7 @@ var hooks_utils = __webpack_require__("715p");
 /**
  * Internal dependencies
  */
+
 
 
 
@@ -41452,18 +41575,17 @@ function BorderColorEdit(props) {
     },
     setAttributes
   } = props;
-  const colors = Object(use_setting["a" /* default */])('color.palette') || EMPTY_ARRAY;
-  const disableCustomColors = !Object(use_setting["a" /* default */])('color.custom');
-  const disableCustomGradients = !Object(use_setting["a" /* default */])('color.customGradient');
+  const colorGradientSettings = Object(use_multiple_origin_colors_and_gradients["a" /* default */])();
+  const availableColors = colorGradientSettings.colors.reduce((colors, origin) => colors.concat(origin.colors), []);
   const [colorValue, setColorValue] = Object(external_wp_element_["useState"])(() => {
     var _getColorObjectByAttr, _style$border;
 
-    return (_getColorObjectByAttr = Object(utils["b" /* getColorObjectByAttributeValues */])(colors, borderColor, style === null || style === void 0 ? void 0 : (_style$border = style.border) === null || _style$border === void 0 ? void 0 : _style$border.color)) === null || _getColorObjectByAttr === void 0 ? void 0 : _getColorObjectByAttr.color;
+    return (_getColorObjectByAttr = Object(utils["b" /* getColorObjectByAttributeValues */])(availableColors, borderColor, style === null || style === void 0 ? void 0 : (_style$border = style.border) === null || _style$border === void 0 ? void 0 : _style$border.color)) === null || _getColorObjectByAttr === void 0 ? void 0 : _getColorObjectByAttr.color;
   });
 
   const onChangeColor = value => {
     setColorValue(value);
-    const colorObject = Object(utils["c" /* getColorObjectByColorValue */])(colors, value);
+    const colorObject = Object(utils["c" /* getColorObjectByColorValue */])(availableColors, value);
     const newStyle = { ...style,
       border: { ...(style === null || style === void 0 ? void 0 : style.border),
         color: colorObject !== null && colorObject !== void 0 && colorObject.slug ? undefined : value
@@ -41477,15 +41599,13 @@ function BorderColorEdit(props) {
     });
   };
 
-  return Object(external_wp_element_["createElement"])(control["a" /* default */], {
+  return Object(external_wp_element_["createElement"])(control["a" /* default */], Object(esm_extends["a" /* default */])({
     label: Object(external_wp_i18n_["__"])('Color'),
     colorValue: colorValue,
-    colors: colors,
-    gradients: undefined,
-    disableCustomColors: disableCustomColors,
-    disableCustomGradients: disableCustomGradients,
-    onColorChange: onChangeColor
-  });
+    onColorChange: onChangeColor,
+    clearable: false,
+    __experimentalHasMultipleOrigins: true
+  }, colorGradientSettings));
 }
 /**
  * Filters registered block settings, extending attributes to include
@@ -47842,7 +47962,8 @@ function BlockSelectionButton(_ref) {
     getSelectedBlockClientId,
     getMultiSelectedBlocksEndClientId,
     getPreviousBlockClientId,
-    getNextBlockClientId
+    getNextBlockClientId,
+    isNavigationMode
   } = Object(external_wp_data_["useSelect"])(store["a" /* store */]);
   const {
     selectBlock,
@@ -47898,6 +48019,11 @@ function BlockSelectionButton(_ref) {
     }
 
     const startingBlockClientId = hasBlockMovingClientId();
+
+    if (isEscape && isNavigationMode()) {
+      clearSelectedBlock();
+      event.preventDefault();
+    }
 
     if (isEscape && startingBlockClientId && !event.defaultPrevented) {
       setBlockMovingClientId(null);
@@ -49421,6 +49547,8 @@ function InserterListboxGroup(props, ref) {
 /* harmony import */ var _colors__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__("bVpQ");
 /* harmony import */ var _gradients__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__("Cn0l");
 /* harmony import */ var _use_setting__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__("v5LD");
+/* harmony import */ var _use_common_single_multiple_selects__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__("pY5h");
+/* harmony import */ var _use_multiple_origin_colors_and_gradients__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__("0LBR");
 
 
 
@@ -49435,10 +49563,11 @@ function InserterListboxGroup(props, ref) {
 
 
 
-
 /**
  * Internal dependencies
  */
+
+
 
 
 
@@ -49532,82 +49661,15 @@ const PanelColorGradientSettingsInner = _ref3 => {
   }, setting))), children);
 };
 
-function useCommonSingleMultipleSelects() {
-  return {
-    disableCustomColors: !Object(_use_setting__WEBPACK_IMPORTED_MODULE_9__[/* default */ "a"])('color.custom'),
-    disableCustomGradients: !Object(_use_setting__WEBPACK_IMPORTED_MODULE_9__[/* default */ "a"])('color.customGradient')
-  };
-}
-
 const PanelColorGradientSettingsSingleSelect = props => {
-  const colorGradientSettings = useCommonSingleMultipleSelects();
+  const colorGradientSettings = Object(_use_common_single_multiple_selects__WEBPACK_IMPORTED_MODULE_10__[/* default */ "a"])();
   colorGradientSettings.colors = Object(_use_setting__WEBPACK_IMPORTED_MODULE_9__[/* default */ "a"])('color.palette');
   colorGradientSettings.gradients = Object(_use_setting__WEBPACK_IMPORTED_MODULE_9__[/* default */ "a"])('color.gradients');
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(PanelColorGradientSettingsInner, Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])({}, colorGradientSettings, props));
 };
 
 const PanelColorGradientSettingsMultipleSelect = props => {
-  const colorGradientSettings = useCommonSingleMultipleSelects();
-  const customColors = Object(_use_setting__WEBPACK_IMPORTED_MODULE_9__[/* default */ "a"])('color.palette.custom');
-  const themeColors = Object(_use_setting__WEBPACK_IMPORTED_MODULE_9__[/* default */ "a"])('color.palette.theme');
-  const defaultColors = Object(_use_setting__WEBPACK_IMPORTED_MODULE_9__[/* default */ "a"])('color.palette.default');
-  const shouldDisplayDefaultColors = Object(_use_setting__WEBPACK_IMPORTED_MODULE_9__[/* default */ "a"])('color.defaultPalette');
-  colorGradientSettings.colors = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useMemo"])(() => {
-    const result = [];
-
-    if (themeColors && themeColors.length) {
-      result.push({
-        name: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__["_x"])('Theme', 'Indicates this palette comes from the theme.'),
-        colors: themeColors
-      });
-    }
-
-    if (shouldDisplayDefaultColors && defaultColors && defaultColors.length) {
-      result.push({
-        name: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__["_x"])('Default', 'Indicates this palette comes from WordPress.'),
-        colors: defaultColors
-      });
-    }
-
-    if (customColors && customColors.length) {
-      result.push({
-        name: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__["_x"])('Custom', 'Indicates this palette comes from the theme.'),
-        colors: customColors
-      });
-    }
-
-    return result;
-  }, [defaultColors, themeColors, customColors]);
-  const customGradients = Object(_use_setting__WEBPACK_IMPORTED_MODULE_9__[/* default */ "a"])('color.gradients.custom');
-  const themeGradients = Object(_use_setting__WEBPACK_IMPORTED_MODULE_9__[/* default */ "a"])('color.gradients.theme');
-  const defaultGradients = Object(_use_setting__WEBPACK_IMPORTED_MODULE_9__[/* default */ "a"])('color.gradients.default');
-  const shouldDisplayDefaultGradients = Object(_use_setting__WEBPACK_IMPORTED_MODULE_9__[/* default */ "a"])('color.defaultGradients');
-  colorGradientSettings.gradients = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useMemo"])(() => {
-    const result = [];
-
-    if (themeGradients && themeGradients.length) {
-      result.push({
-        name: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__["_x"])('Theme', 'Indicates this palette comes from the theme.'),
-        gradients: themeGradients
-      });
-    }
-
-    if (shouldDisplayDefaultGradients && defaultGradients && defaultGradients.length) {
-      result.push({
-        name: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__["_x"])('Default', 'Indicates this palette comes from WordPress.'),
-        gradients: defaultGradients
-      });
-    }
-
-    if (customGradients && customGradients.length) {
-      result.push({
-        name: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__["_x"])('Custom', 'Indicates this palette is created by the user.'),
-        gradients: customGradients
-      });
-    }
-
-    return result;
-  }, [customGradients, themeGradients, defaultGradients]);
+  const colorGradientSettings = Object(_use_multiple_origin_colors_and_gradients__WEBPACK_IMPORTED_MODULE_11__[/* default */ "a"])();
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(PanelColorGradientSettingsInner, Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])({}, colorGradientSettings, props));
 };
 

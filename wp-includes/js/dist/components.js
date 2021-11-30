@@ -41033,6 +41033,7 @@ function ColorPalette(_ref5) {
     spacing: 3,
     className: className
   }, !disableCustomColors && Object(external_wp_element_["createElement"])(Dropdown, {
+    contentClassName: "components-color-palette__custom-color-dropdown-content",
     renderContent: renderCustomColorPicker,
     renderToggle: _ref6 => {
       let {
@@ -48712,6 +48713,7 @@ function CustomDuotoneBar(_ref) {
 
 function DuotonePicker(_ref) {
   let {
+    clearable = true,
     colorPalette,
     duotonePalette,
     disableCustomColors,
@@ -48748,7 +48750,7 @@ function DuotonePicker(_ref) {
         }
       });
     }),
-    actions: Object(external_wp_element_["createElement"])(CircularOptionPicker.ButtonAction, {
+    actions: !!clearable && Object(external_wp_element_["createElement"])(CircularOptionPicker.ButtonAction, {
       onClick: () => onChange(undefined)
     }, Object(external_wp_i18n_["__"])('Clear'))
   }, !disableCustomColors && !disableCustomDuotone && Object(external_wp_element_["createElement"])(CustomDuotoneBar, {

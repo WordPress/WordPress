@@ -2286,6 +2286,30 @@ function TemplateAreas(_ref4) {
   }));
 }
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/template-details/edit-template-title.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+function EditTemplateTitle(_ref) {
+  let {
+    template
+  } = _ref;
+  const [title, setTitle] = Object(external_wp_coreData_["useEntityProp"])('postType', template.type, 'title', template.id);
+  return Object(external_wp_element_["createElement"])(external_wp_components_["TextControl"], {
+    label: Object(external_wp_i18n_["__"])('Title'),
+    value: title,
+    help: Object(external_wp_i18n_["__"])('Give the template a title that indicates its purpose, e.g. "Full Width".'),
+    onChange: newTitle => {
+      setTitle(newTitle || template.slug);
+    }
+  });
+}
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/template-details/index.js
 
 
@@ -2301,6 +2325,7 @@ function TemplateAreas(_ref4) {
 /**
  * Internal dependencies
  */
+
 
 
 
@@ -2347,7 +2372,9 @@ function TemplateDetails(_ref) {
     className: "edit-site-template-details"
   }, Object(external_wp_element_["createElement"])("div", {
     className: "edit-site-template-details__group"
-  }, Object(external_wp_element_["createElement"])(external_wp_components_["__experimentalHeading"], {
+  }, template.is_custom ? Object(external_wp_element_["createElement"])(EditTemplateTitle, {
+    template: template
+  }) : Object(external_wp_element_["createElement"])(external_wp_components_["__experimentalHeading"], {
     level: 4,
     weight: 600,
     className: "edit-site-template-details__title"
@@ -4103,8 +4130,13 @@ function ColorPalettePanel(_ref) {
 
 
 /**
+ * External dependencies
+ */
+
+/**
  * WordPress dependencies
  */
+
 
 
 /**
@@ -4122,10 +4154,19 @@ function GradientPalettePanel(_ref) {
   const [baseDefaultGradients] = useSetting('color.gradients.default', name, 'base');
   const [customGradients, setCustomGradients] = useSetting('color.gradients.custom', name);
   const [defaultPaletteEnabled] = useSetting('color.defaultGradients', name);
+  const [duotonePalette] = useSetting('color.duotone') || [];
   return Object(external_wp_element_["createElement"])(external_wp_components_["__experimentalVStack"], {
     className: "edit-site-global-styles-gradient-palette-panel",
     spacing: 10
-  }, !!themeGradients && !!themeGradients.length && Object(external_wp_element_["createElement"])(external_wp_components_["__experimentalPaletteEdit"], {
+  }, Object(external_wp_element_["createElement"])("div", null, Object(external_wp_element_["createElement"])(external_wp_components_["__experimentalHeading"], {
+    className: "edit-site-global-styles-gradient-palette-panel__duotone-heading"
+  }, Object(external_wp_i18n_["__"])('Duotone')), Object(external_wp_element_["createElement"])(external_wp_components_["DuotonePicker"], {
+    duotonePalette: duotonePalette,
+    disableCustomDuotone: true,
+    disableCustomColors: true,
+    clearable: false,
+    onChange: external_lodash_["noop"]
+  })), !!themeGradients && !!themeGradients.length && Object(external_wp_element_["createElement"])(external_wp_components_["__experimentalPaletteEdit"], {
     canReset: themeGradients !== baseThemeGradients,
     canOnlyChangeValues: true,
     gradients: themeGradients,

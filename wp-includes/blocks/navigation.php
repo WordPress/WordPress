@@ -284,14 +284,6 @@ function render_block_core_navigation( $attributes, $content, $block ) {
 		$inner_blocks            = new WP_Block_List( $parsed_blocks, $attributes );
 	}
 
-	if ( ! empty( $block->context['navigationArea'] ) ) {
-		$area    = $block->context['navigationArea'];
-		$mapping = get_option( 'wp_navigation_areas', array() );
-		if ( ! empty( $mapping[ $area ] ) ) {
-			$attributes['ref'] = $mapping[ $area ];
-		}
-	}
-
 	// Ensure that blocks saved with the legacy ref attribute name (navigationMenuId) continue to render.
 	if ( array_key_exists( 'navigationMenuId', $attributes ) ) {
 		$attributes['ref'] = $attributes['navigationMenuId'];

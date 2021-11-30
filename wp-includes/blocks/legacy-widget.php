@@ -108,6 +108,33 @@ function handle_legacy_widget_preview_iframe() {
 				padding: 0 !important;
 				margin: 0 !important;
 			}
+
+			/* Hide root level text nodes */
+			body {
+				font-size: 0 !important;
+			}
+
+			/* Hide non-widget elements */
+			body *:not(#page):not(#content):not(.widget):not(.widget *) {
+				display: none !important;
+				font-size: 0 !important;
+				height: 0 !important;
+				left: -9999px !important;
+				max-height: 0 !important;
+				max-width: 0 !important;
+				opacity: 0 !important;
+				pointer-events: none !important;
+				position: absolute !important;
+				top: -9999px !important;
+				transform: translate(-9999px, -9999px) !important;
+				visibility: hidden !important;
+				z-index: -999 !important;
+			}
+
+			/* Restore widget font-size */
+			.widget {
+				font-size: var(--global--font-size-base);
+			}
 		</style>
 	</head>
 	<body <?php body_class(); ?>>

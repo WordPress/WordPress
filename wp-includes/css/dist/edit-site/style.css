@@ -566,13 +566,13 @@ body.is-fullscreen-mode .interface-interface-skeleton {
   margin-left: 0;
   display: block;
   border-radius: 50%;
-  border: 0;
   height: 24px;
   width: 24px;
   padding: 0;
   background-image: repeating-linear-gradient(45deg, #e0e0e0 25%, transparent 25%, transparent 75%, #e0e0e0 75%, #e0e0e0), repeating-linear-gradient(45deg, #e0e0e0 25%, transparent 25%, transparent 75%, #e0e0e0 75%, #e0e0e0);
   background-position: 0 0, 25px 25px;
   background-size: calc(2 * 5px) calc(2 * 5px);
+  border: 1px solid #ddd;
 }
 
 .edit-site-global-styles-header__description {
@@ -592,6 +592,14 @@ body.is-fullscreen-mode .interface-interface-skeleton {
 }
 .edit-site-screen-color-palette-toggle.edit-site-screen-color-palette-toggle .components-toggle-group-control {
   min-height: 32px;
+}
+
+h2.edit-site-global-styles-gradient-palette-panel__duotone-heading.components-heading {
+  text-transform: uppercase;
+  line-height: 24px;
+  font-weight: 500;
+  font-size: 11px;
+  margin-bottom: 8px;
 }
 
 .edit-site-header {

@@ -1556,6 +1556,7 @@ ul.has-background {
   line-height: 0;
   display: inline-block;
   vertical-align: middle;
+  font-size: inherit;
   padding: 0;
   background-color: inherit;
   color: currentColor;

@@ -890,6 +890,15 @@ input.components-combobox-control__input[type=text]:focus {
   cursor: pointer;
 }
 
+.components-dropdown__content.components-color-palette__custom-color-dropdown-content .components-popover__content {
+  overflow: visible;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.05);
+  border: none;
+}
+.components-dropdown__content.components-color-palette__custom-color-dropdown-content .components-popover__content > div {
+  padding: 0;
+}
+
 .components-custom-gradient-picker__gradient-bar:not(.has-gradient) {
   opacity: 0.4;
 }

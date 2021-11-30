@@ -17,7 +17,7 @@
 		"html": false,
 		"color": {
 			"gradients": true,
-			"link": true
+			"text": false
 		},
 		"typography": {
 			"fontSize": true,
