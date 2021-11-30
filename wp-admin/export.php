@@ -27,7 +27,7 @@ $title = __( 'Export' );
 function export_add_js() {
 	?>
 <script type="text/javascript">
-	jQuery(document).ready(function($){
+	jQuery( function($) {
 		var form = $('#export-filters'),
 			filters = form.find('.export-filters');
 		filters.hide();
@@ -39,7 +39,7 @@ function export_add_js() {
 				case 'pages': $('#page-filters').slideDown(); break;
 			}
 		});
-	});
+	} );
 </script>
 	<?php
 }

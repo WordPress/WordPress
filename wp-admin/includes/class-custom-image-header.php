@@ -393,7 +393,7 @@ class Custom_Image_Header {
 		}
 	}
 
-	$(document).ready(function() {
+	$( function() {
 		var text_color = $('#text-color');
 		header_text_fields = $('.displaying-header-text');
 		text_color.wpColorPicker({
@@ -408,7 +408,7 @@ class Custom_Image_Header {
 		<?php if ( ! display_header_text() ) : ?>
 		toggle_text();
 		<?php endif; ?>
-	});
+	} );
 })(jQuery);
 </script>
 		<?php
@@ -430,7 +430,7 @@ class Custom_Image_Header {
 		jQuery( '#height' ).val(coords.h);
 	}
 
-	jQuery(document).ready(function() {
+	jQuery( function() {
 		var xinit = <?php echo absint( get_theme_support( 'custom-header', 'width' ) ); ?>;
 		var yinit = <?php echo absint( get_theme_support( 'custom-header', 'height' ) ); ?>;
 		var ratio = xinit / yinit;
@@ -485,7 +485,7 @@ class Custom_Image_Header {
 				jQuery('#height').val(c.height);
 			}
 		});
-	});
+	} );
 </script>
 		<?php
 	}

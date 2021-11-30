@@ -1010,7 +1010,7 @@ function confirm_delete_users( $users ) {
 function network_settings_add_js() {
 	?>
 <script type="text/javascript">
-jQuery(document).ready( function($) {
+jQuery( function($) {
 	var languageSelect = $( '#WPLANG' );
 	$( 'form' ).on( 'submit', function() {
 		// Don't show a spinner for English and installed languages,
@@ -1019,7 +1019,7 @@ jQuery(document).ready( function($) {
 			$( '#submit', this ).after( '<span class="spinner language-install-spinner is-active" />' );
 		}
 	});
-});
+} );
 </script>
 	<?php
 }

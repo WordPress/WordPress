@@ -1727,7 +1727,7 @@ $( function() {
 			self.trigger();
 			$document.on( 'wp-window-resized.wp-responsive', this.trigger.bind( this ) );
 
-			// This needs to run later as UI Sortable may be initialized later on $(document).ready().
+			// This needs to run later as UI Sortable may be initialized when the document is ready.
 			$window.on( 'load.wp-responsive', this.maybeDisableSortables );
 			$document.on( 'postbox-toggled', this.maybeDisableSortables );
 

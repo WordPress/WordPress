@@ -178,7 +178,7 @@
 	}
 
 	// Fire on document ready.
-	$( document ).ready( function() {
+	$( function() {
 
 		// If navigation menu is present on page, setNavProps and adjustScrollClass.
 		if ( $navigation.length ) {
@@ -218,7 +218,7 @@
 		if ( true === supportsFixedBackground() ) {
 			document.documentElement.className += ' background-fixed';
 		}
-	});
+	} );
 
 	// If navigation menu is present on page, adjust it on scroll and screen resize.
 	if ( $navigation.length ) {

@@ -140,7 +140,9 @@ final class WP_Internal_Pointers {
 			if ( options.position && options.position.defer_loading )
 				$(window).bind( 'load.wp-pointers', setup );
 			else
-				$(document).ready( setup );
+				$( function() {
+					setup();
+				} );
 
 		})( jQuery );
 		</script>

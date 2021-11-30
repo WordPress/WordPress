@@ -1507,7 +1507,7 @@ function post_form_autocomplete_off() {
 function options_permalink_add_js() {
 	?>
 	<script type="text/javascript">
-		jQuery(document).ready(function() {
+		jQuery( function() {
 			jQuery('.permalink-structure input:radio').change(function() {
 				if ( 'custom' == this.value )
 					return;
@@ -1516,7 +1516,7 @@ function options_permalink_add_js() {
 			jQuery( '#permalink_structure' ).on( 'click input', function() {
 				jQuery( '#custom_selection' ).prop( 'checked', true );
 			});
-		});
+		} );
 	</script>
 	<?php
 }

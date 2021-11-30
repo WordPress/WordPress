@@ -533,7 +533,7 @@ function wp_iframe( $content_func, ...$args ) {
 
 	?>
 	<script type="text/javascript">
-	addLoadEvent = function(func){if(typeof jQuery!=='undefined')jQuery(document).ready(func);else if(typeof wpOnload!=='function'){wpOnload=func;}else{var oldonload=wpOnload;wpOnload=function(){oldonload();func();}}};
+	addLoadEvent = function(func){if(typeof jQuery!=='undefined')jQuery(function(){func();});else if(typeof wpOnload!=='function'){wpOnload=func;}else{var oldonload=wpOnload;wpOnload=function(){oldonload();func();}}};
 	var ajaxurl = '<?php echo esc_js( admin_url( 'admin-ajax.php', 'relative' ) ); ?>', pagenow = 'media-upload-popup', adminpage = 'media-upload-popup',
 	isRtl = <?php echo (int) is_rtl(); ?>;
 	</script>
@@ -2501,11 +2501,11 @@ function media_upload_type_url_form( $type = null, $errors = null, $id = null ) 
 	}
 	};
 
-	jQuery(document).ready( function($) {
+	jQuery( function($) {
 		$('.media-types input').click( function() {
 			$('table.describe').toggleClass('not-image', $('#not-image').prop('checked') );
 		});
-	});
+	} );
 	</script>
 
 	<div id="media-items">

@@ -191,7 +191,7 @@
 		} );
 	}
 
-	$( document ).ready( function() {
+	$( function() {
 		body = $( document.body );
 
 		$( window )

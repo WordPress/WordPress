@@ -536,7 +536,7 @@ function default_password_nag() {
 function delete_users_add_js() {
 	?>
 <script>
-jQuery(document).ready( function($) {
+jQuery( function($) {
 	var submit = $('#submit').prop('disabled', true);
 	$('input[name="delete_option"]').one('change', function() {
 		submit.prop('disabled', false);
@@ -544,7 +544,7 @@ jQuery(document).ready( function($) {
 	$('#reassign_user').focus( function() {
 		$('#delete_option1').prop('checked', true).trigger('change');
 	});
-});
+} );
 </script>
 	<?php
 }

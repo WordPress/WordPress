@@ -1,5 +1,5 @@
 (function($) {
-	$(document).ready( function() {
+	$( function() {
 	    $('.feature-slider a').on( 'click', function(e) {
 	        $('.featured-posts section.featured-post').css({
 	            opacity: 0,
@@ -13,5 +13,5 @@
 	        $(this).addClass('active');
 	        e.preventDefault();
 	    });
-	});
+	} );
 })(jQuery);
