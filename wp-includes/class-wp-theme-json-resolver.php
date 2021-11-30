@@ -273,7 +273,7 @@ class WP_Theme_JSON_Resolver {
 				array(
 					'post_content' => '{"version": ' . WP_Theme_JSON::LATEST_SCHEMA . ', "isGlobalStylesUserThemeJSON": true }',
 					'post_status'  => 'publish',
-					'post_title'   => __( 'Custom Styles', 'default' ),
+					'post_title'   => 'Custom Styles',
 					'post_type'    => $post_type_filter,
 					'post_name'    => 'wp-global-styles-' . urlencode( wp_get_theme()->get_stylesheet() ),
 					'tax_input'    => array(
