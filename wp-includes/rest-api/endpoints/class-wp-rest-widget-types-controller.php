@@ -110,12 +110,12 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
 					'callback'            => array( $this, 'render' ),
 					'args'                => array(
 						'id'       => array(
-							'description' => __( 'The widget type id.', 'default' ),
+							'description' => __( 'The widget type id.' ),
 							'type'        => 'string',
 							'required'    => true,
 						),
 						'instance' => array(
-							'description' => __( 'Current instance settings of the widget.', 'default' ),
+							'description' => __( 'Current instance settings of the widget.' ),
 							'type'        => 'object',
 						),
 					),
