@@ -628,7 +628,7 @@ class WP_Upgrader {
 		}
 
 		// Move new version of item into place.
-		$result = move_dir( $source, $remote_destination );
+		$result = move_dir( $source, $remote_destination, $remote_source );
 		if ( is_wp_error( $result ) ) {
 			if ( $args['clear_working'] ) {
 				$wp_filesystem->delete( $remote_source, true );
@@ -636,7 +636,7 @@ class WP_Upgrader {
 			return $result;
 		}
 
-		// Clear the working folder?
+		// Clear the working directory?
 		if ( $args['clear_working'] ) {
 			$wp_filesystem->delete( $remote_source, true );
 		}
@@ -1047,7 +1047,7 @@ class WP_Upgrader {
 		}
 
 		// Move to the temp-backup directory.
-		if ( ! $wp_filesystem->move( $src, $dest, true ) ) {
+		if ( ! move_dir( $src, $dest ) ) {
 			return new WP_Error( 'fs_temp_backup_move', $this->strings['temp_backup_move_failed'] );
 		}
 
@@ -1081,7 +1081,7 @@ class WP_Upgrader {
 			}
 
 			// Move it.
-			if ( ! $wp_filesystem->move( $src, $dest, true ) ) {
+			if ( ! move_dir( $src, $dest ) ) {
 				return new WP_Error( 'fs_temp_backup_delete', $this->strings['temp_backup_restore_failed'] );
 			}
 		}
