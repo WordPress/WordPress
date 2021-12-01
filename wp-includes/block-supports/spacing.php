@@ -41,7 +41,6 @@ function wp_register_spacing_support( $block_type ) {
  *
  * @param WP_Block_Type $block_type       Block Type.
  * @param array         $block_attributes Block attributes.
- *
  * @return array Block spacing CSS classes and inline styles.
  */
 function wp_apply_spacing_support( $block_type, $block_attributes ) {
@@ -86,8 +85,7 @@ function wp_apply_spacing_support( $block_type, $block_attributes ) {
  * @access private
  *
  * @param WP_Block_Type $block_type Block type.
- *
- * @return boolean Whether to serialize spacing support styles & classes.
+ * @return bool Whether to serialize spacing support styles & classes.
  */
 function wp_skip_spacing_serialization( $block_type ) {
 	$spacing_support = _wp_array_get( $block_type->supports, array( 'spacing' ), false );
@@ -104,9 +102,9 @@ function wp_skip_spacing_serialization( $block_type ) {
  * @since 5.9.0
  * @access private
  *
- * @param  string $block_content Rendered block content.
- * @param  array  $block         Block object.
- * @return string                Filtered block content.
+ * @param string $block_content Rendered block content.
+ * @param array  $block         Block object.
+ * @return string Filtered block content.
  */
 function wp_render_spacing_gap_support( $block_content, $block ) {
 	$block_type      = WP_Block_Type_Registry::get_instance()->get_registered( $block['blockName'] );

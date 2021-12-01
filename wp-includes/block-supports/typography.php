@@ -60,16 +60,15 @@ function wp_register_typography_support( $block_type ) {
 }
 
 /**
- * Add CSS classes and inline styles for typography features such as font sizes
+ * Adds CSS classes and inline styles for typography features such as font sizes
  * to the incoming attributes array. This will be applied to the block markup in
  * the front-end.
  *
  * @since 5.6.0
  * @access private
  *
- * @param  WP_Block_Type $block_type       Block type.
- * @param  array         $block_attributes Block attributes.
- *
+ * @param WP_Block_Type $block_type       Block type.
+ * @param array         $block_attributes Block attributes.
  * @return array Typography CSS classes and inline styles.
  */
 function wp_apply_typography_support( $block_type, $block_attributes ) {
@@ -192,8 +191,7 @@ function wp_apply_typography_support( $block_type, $block_attributes ) {
  * @param array  $attributes   Block's attributes.
  * @param string $feature      Key for the feature within the typography styles.
  * @param string $css_property Slug for the CSS property the inline style sets.
- *
- * @return string              CSS inline style.
+ * @return string CSS inline style.
  */
 function wp_typography_get_css_variable_inline_style( $attributes, $feature, $css_property ) {
 	// Retrieve current attribute value or skip if not found.

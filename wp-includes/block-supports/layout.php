@@ -35,10 +35,10 @@ function wp_register_layout_support( $block_type ) {
  * @since 5.9.0
  * @access private
  *
- * @param string  $selector CSS selector.
- * @param array   $layout   Layout object. The one that is passed has already checked the existance of default block layout.
- * @param boolean $has_block_gap_support Whether the theme has support for the block gap.
- *
+ * @param string $selector              CSS selector.
+ * @param array  $layout                Layout object. The one that is passed has already checked
+ *                                      the existance of default block layout.
+ * @param bool   $has_block_gap_support Whether the theme has support for the block gap.
  * @return string CSS style.
  */
 function wp_get_layout_style( $selector, $layout, $has_block_gap_support = false ) {
@@ -216,7 +216,6 @@ add_filter( 'render_block', 'wp_render_layout_support_flag', 10, 2 );
  *
  * @param string $block_content Rendered block content.
  * @param array  $block         Block object.
- *
  * @return string Filtered block content.
  */
 function wp_restore_group_inner_container( $block_content, $block ) {

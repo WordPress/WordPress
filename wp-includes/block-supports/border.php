@@ -47,7 +47,6 @@ function wp_register_border_support( $block_type ) {
  *
  * @param WP_Block_Type $block_type       Block type.
  * @param array         $block_attributes Block attributes.
- *
  * @return array Border CSS classes and inline styles.
  */
 function wp_apply_border_support( $block_type, $block_attributes ) {
@@ -145,8 +144,8 @@ function wp_apply_border_support( $block_type, $block_attributes ) {
  * @access private
  *
  * @param WP_Block_Type $block_type Block type.
- *
- * @return bool
+ * @return bool Whether serialization of the current block's border properties
+ *              should occur.
  */
 function wp_skip_border_serialization( $block_type ) {
 	$border_support = _wp_array_get( $block_type->supports, array( '__experimentalBorder' ), false );

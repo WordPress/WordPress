@@ -40,7 +40,7 @@ function wp_register_dimensions_support( $block_type ) {
 }
 
 /**
- * Add CSS classes for block dimensions to the incoming attributes array.
+ * Adds CSS classes for block dimensions to the incoming attributes array.
  * This will be applied to the block markup in the front-end.
  *
  * @since 5.9.0
@@ -48,7 +48,6 @@ function wp_register_dimensions_support( $block_type ) {
  *
  * @param WP_Block_Type $block_type       Block Type.
  * @param array         $block_attributes Block attributes.
- *
  * @return array Block dimensions CSS classes and inline styles.
  */
 function wp_apply_dimensions_support( $block_type, $block_attributes ) { // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
@@ -72,8 +71,7 @@ function wp_apply_dimensions_support( $block_type, $block_attributes ) { // phpc
  * @access private
  *
  * @param WP_Block_type $block_type Block type.
- *
- * @return boolean Whether to serialize spacing support styles & classes.
+ * @return bool Whether to serialize spacing support styles & classes.
  */
 function wp_skip_dimensions_serialization( $block_type ) {
 	$dimensions_support = _wp_array_get( $block_type->supports, array( '__experimentalDimensions' ), false );
