@@ -1507,14 +1507,7 @@ final class WP_Theme implements ArrayAccess {
 			$path = $template_directory . '/' . $file;
 		}
 
-		/**
-		 * Filters the path to a file in the theme.
-		 *
-		 * @since 5.9.0
-		 *
-		 * @param string $path The file path.
-		 * @param string $file The requested file to search for.
-		 */
+		/** This filter is documented in wp-includes/link-template.php */
 		return apply_filters( 'theme_file_path', $path, $file );
 	}
 
