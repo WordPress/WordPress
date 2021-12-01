@@ -4224,7 +4224,7 @@ function wp_prepare_attachment_for_js( $attachment ) {
  * @param array $args {
  *     Arguments for enqueuing media scripts.
  *
- *     @type int|WP_Post A post object or ID.
+ *     @type int|WP_Post $post A post object or ID.
  * }
  */
 function wp_enqueue_media( $args = array() ) {

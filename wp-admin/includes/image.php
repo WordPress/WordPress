@@ -687,8 +687,8 @@ function wp_exif_frac2dec( $str ) {
  *
  * @since 2.5.0
  *
- * @param string $str
- * @return int
+ * @param string $str A date string expected to be in Exif format (Y:m:d H:i:s).
+ * @return int|false The unix timestamp, or false on failure.
  */
 function wp_exif_date2ts( $str ) {
 	list( $date, $time ) = explode( ' ', trim( $str ) );

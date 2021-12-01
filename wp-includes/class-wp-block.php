@@ -196,9 +196,9 @@ class WP_Block {
 	 * @since 5.5.0
 	 *
 	 * @param array $options {
-	 *   Optional options object.
+	 *     Optional options object.
 	 *
-	 *   @type bool $dynamic Defaults to 'true'. Optionally set to false to avoid using the block's render_callback.
+	 *     @type bool $dynamic Defaults to 'true'. Optionally set to false to avoid using the block's render_callback.
 	 * }
 	 * @return string Rendered block output.
 	 */

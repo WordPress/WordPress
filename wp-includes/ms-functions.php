@@ -1307,7 +1307,7 @@ function wp_delete_signup_on_user_delete( $id, $reassign, $user ) {
  * This function runs when a user self-registers as well as when
  * a Super Admin creates a new user. Hook to {@see 'wpmu_new_user'} for events
  * that should affect all new users, but only on Multisite (otherwise
- * use {@see'user_register'}).
+ * use {@see 'user_register'}).
  *
  * @since MU (3.0.0)
  *

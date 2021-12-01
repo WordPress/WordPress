@@ -4636,10 +4636,10 @@ function get_term_link( $term, $taxonomy = '' ) {
  *     Arguments about which post to use and how to format the output. Shares all of the arguments
  *     supported by get_the_taxonomies(), in addition to the following.
  *
- *     @type  int|WP_Post $post   Post ID or object to get taxonomies of. Default current post.
- *     @type  string      $before Displays before the taxonomies. Default empty string.
- *     @type  string      $sep    Separates each taxonomy. Default is a space.
- *     @type  string      $after  Displays after the taxonomies. Default empty string.
+ *     @type int|WP_Post $post   Post ID or object to get taxonomies of. Default current post.
+ *     @type string      $before Displays before the taxonomies. Default empty string.
+ *     @type string      $sep    Separates each taxonomy. Default is a space.
+ *     @type string      $after  Displays after the taxonomies. Default empty string.
  * }
  */
 function the_taxonomies( $args = array() ) {

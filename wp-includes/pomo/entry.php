@@ -16,7 +16,7 @@ if ( ! class_exists( 'Translation_Entry', false ) ) :
 		/**
 		 * Whether the entry contains a string and its plural form, default is false
 		 *
-		 * @var boolean
+		 * @var bool
 		 */
 		public $is_plural = false;
 

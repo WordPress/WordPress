@@ -366,7 +366,7 @@ function get_lastcommentmodified( $timezone = 'server' ) {
  *
  * @param int $post_id Optional. Restrict the comment counts to the given post. Default 0, which indicates that
  *                     comment counts for the whole site will be retrieved.
- * @return array() {
+ * @return array {
  *     The number of comments keyed by their status.
  *
  *     @type int $approved            The number of approved comments.

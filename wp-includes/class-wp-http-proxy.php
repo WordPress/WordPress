@@ -44,10 +44,12 @@ class WP_HTTP_Proxy {
 	/**
 	 * Whether proxy connection should be used.
 	 *
-	 * @since 2.8.0
+	 * Constants which control this behaviour:
 	 *
-	 * @use WP_PROXY_HOST
-	 * @use WP_PROXY_PORT
+	 * - `WP_PROXY_HOST`
+	 * - `WP_PROXY_PORT`
+	 *
+	 * @since 2.8.0
 	 *
 	 * @return bool
 	 */
@@ -58,10 +60,12 @@ class WP_HTTP_Proxy {
 	/**
 	 * Whether authentication should be used.
 	 *
-	 * @since 2.8.0
+	 * Constants which control this behaviour:
 	 *
-	 * @use WP_PROXY_USERNAME
-	 * @use WP_PROXY_PASSWORD
+	 * - `WP_PROXY_USERNAME`
+	 * - `WP_PROXY_PASSWORD`
+	 *
+	 * @since 2.8.0
 	 *
 	 * @return bool
 	 */

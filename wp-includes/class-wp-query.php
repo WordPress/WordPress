@@ -2826,7 +2826,7 @@ class WP_Query {
 			 * Filters all query clauses at once, for convenience.
 			 *
 			 * Covers the WHERE, GROUP BY, JOIN, ORDER BY, DISTINCT,
-			 * fields (SELECT), and LIMITS clauses.
+			 * fields (SELECT), and LIMIT clauses.
 			 *
 			 * @since 3.1.0
 			 *
@@ -2950,7 +2950,7 @@ class WP_Query {
 			 * For use by caching plugins.
 			 *
 			 * Covers the WHERE, GROUP BY, JOIN, ORDER BY, DISTINCT,
-			 * fields (SELECT), and LIMITS clauses.
+			 * fields (SELECT), and LIMIT clauses.
 			 *
 			 * @since 3.1.0
 			 *
