@@ -45,7 +45,6 @@
  *
  * @param mixed $n   Number of unknown type.
  * @param int   $max Upper value of the range to bound to.
- *
  * @return float Value in the range [0, 1].
  */
 function wp_tinycolor_bound01( $n, $max ) {
@@ -78,8 +77,8 @@ function wp_tinycolor_bound01( $n, $max ) {
  * @since 5.9.0
  * @access private
  *
- * @param  mixed $n   Number of unknown type.
- * @return float      Value in the range [0,1].
+ * @param mixed $n Number of unknown type.
+ * @return float Value in the range [0,1].
  */
 function _wp_tinycolor_bound_alpha( $n ) {
 	if ( is_numeric( $n ) ) {
@@ -92,7 +91,7 @@ function _wp_tinycolor_bound_alpha( $n ) {
 }
 
 /**
- * Round and convert values of an RGB object.
+ * Rounds and converts values of an RGB object.
  *
  * Direct port of TinyColor's function, lightly simplified to maintain
  * consistency with TinyColor.
@@ -103,7 +102,6 @@ function _wp_tinycolor_bound_alpha( $n ) {
  * @access private
  *
  * @param array $rgb_color RGB object.
- *
  * @return array Rounded and converted RGB object.
  */
 function wp_tinycolor_rgb_to_rgb( $rgb_color ) {
@@ -128,7 +126,6 @@ function wp_tinycolor_rgb_to_rgb( $rgb_color ) {
  * @param float $p first component.
  * @param float $q second component.
  * @param float $t third component.
- *
  * @return float R, G, or B component.
  */
 function wp_tinycolor_hue_to_rgb( $p, $q, $t ) {
@@ -151,7 +148,7 @@ function wp_tinycolor_hue_to_rgb( $p, $q, $t ) {
 }
 
 /**
- * Convert an HSL object to an RGB object with converted and rounded values.
+ * Converts an HSL object to an RGB object with converted and rounded values.
  *
  * Direct port of TinyColor's function, lightly simplified to maintain
  * consistency with TinyColor.
@@ -162,7 +159,6 @@ function wp_tinycolor_hue_to_rgb( $p, $q, $t ) {
  * @access private
  *
  * @param array $hsl_color HSL object.
- *
  * @return array Rounded and converted RGB object.
  */
 function wp_tinycolor_hsl_to_rgb( $hsl_color ) {
@@ -205,7 +201,6 @@ function wp_tinycolor_hsl_to_rgb( $hsl_color ) {
  * @access private
  *
  * @param string $color_str CSS color string.
- *
  * @return array RGB object.
  */
 function wp_tinycolor_string_to_rgb( $color_str ) {
@@ -393,7 +388,6 @@ function wp_register_duotone_support( $block_type ) {
  * @access private
 
  * @param array $preset Duotone preset value as seen in theme.json.
- *
  * @return string Duotone CSS filter property.
  */
 function wp_render_duotone_filter_preset( $preset ) {
@@ -483,7 +477,6 @@ function wp_render_duotone_filter_preset( $preset ) {
  *
  * @param string $block_content Rendered block content.
  * @param array  $block         Block object.
- *
  * @return string Filtered block content.
  */
 function wp_render_duotone_support( $block_content, $block ) {
