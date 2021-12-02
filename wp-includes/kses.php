@@ -272,7 +272,10 @@ if ( ! CUSTOM_TAGS ) {
 			'xml:lang' => true,
 		),
 		'object'     => array(
-			'data' => true,
+			'data' => array(
+				'required'       => true,
+				'value_callback' => '_wp_kses_allow_pdf_objects',
+			),
 			'type' => array(
 				'required' => true,
 				'values'   => array( 'application/pdf' ),
@@ -1661,6 +1664,17 @@ function wp_kses_check_attr_val( $value, $vless, $checkname, $checkvalue ) {
 				$ok = false;
 			}
 			break;
+
+		case 'value_callback':
+			/*
+			 * The value_callback check is used when you want to make sure that the attribute
+			 * value is accepted by the callback function.
+			 */
+
+			if ( ! call_user_func( $checkvalue, $value ) ) {
+				$ok = false;
+			}
+			break;
 	} // End switch.
 
 	return $ok;
@@ -2565,4 +2579,35 @@ function _wp_add_global_attributes( $value ) {
 	}
 
 	return $value;
+}
+
+/**
+ * Helper function to check if this is a safe PDF URL.
+ *
+ * @since 5.9.0
+ * @access private
+ * @ignore
+ *
+ * @param string $url The URL to check.
+ * @return bool True if the URL is safe, false otherwise.
+ */
+function _wp_kses_allow_pdf_objects( $value ) {
+	// We're not interested in URLs that contain query strings or fragments.
+	if ( strpos( $value, '?' ) !== false || strpos( $value, '#' ) !== false ) {
+		return false;
+	}
+
+	// If it doesn't have a PDF extension, it's not safe.
+	if ( 0 !== substr_compare( $value, '.pdf', -4, 4, true ) ) {
+		return false;
+	}
+
+	// If the URL host matches the current site's media URL, it's safe.
+	$upload_info = wp_upload_dir( null, false );
+	$upload_host = wp_parse_url( $upload_info['url'], PHP_URL_HOST );
+	if ( 0 === strpos( $value, "http://$upload_host/" ) || 0 === strpos( $value, "https://$upload_host/" ) ) {
+		return true;
+	}
+
+	return false;
 }
