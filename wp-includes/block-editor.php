@@ -468,6 +468,17 @@ function block_editor_rest_api_preload( array $preload_paths, $block_editor_cont
 	 */
 	$backup_global_post = ! empty( $post ) ? clone $post : $post;
 
+	foreach ( $preload_paths as &$path ) {
+		if ( is_string( $path ) && ! str_starts_with( $path, '/' ) ) {
+			$path = '/' . $path;
+			continue;
+		}
+
+		if ( is_array( $path ) && is_string( $path[0] ) && ! str_starts_with( $path[0], '/' ) ) {
+				$path[0] = '/' . $path[0];
+		}
+	}
+
 	$preload_data = array_reduce(
 		$preload_paths,
 		'rest_preload_api_request',
