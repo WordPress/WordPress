@@ -613,7 +613,7 @@ function get_block_templates( $query = array(), $template_type = 'wp_template' )
 	 *
 	 * Return a non-null value to bypass the WordPress queries.
 	 *
-	 * @since 5.9
+	 * @since 5.9.0
 	 *
 	 * @param WP_Block_Template[]|null $block_templates Return an array of block templates to short-circuit the default query,
 	 *                                                  or null to allow WP to run it's normal queries.
@@ -717,7 +717,7 @@ function get_block_templates( $query = array(), $template_type = 'wp_template' )
 	/**
 	 * Filters the array of queried block templates array after they've been fetched.
 	 *
-	 * @since 5.9
+	 * @since 5.9.0
 	 *
 	 * @param WP_Block_Template[] $query_result Array of found block templates.
 	 * @param array $query {
@@ -795,7 +795,7 @@ function get_block_template( $id, $template_type = 'wp_template' ) {
 	/**
 	 * Filters the array of queried block templates array after they've been fetched.
 	 *
-	 * @since 5.9
+	 * @since 5.9.0
 	 *
 	 * @param WP_Block_Template $block_template The found block template.
 	 * @param string            $id             Template unique identifier (example: theme_slug//template_slug).
