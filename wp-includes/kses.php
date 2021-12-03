@@ -2591,21 +2591,23 @@ function _wp_add_global_attributes( $value ) {
  * @param string $url The URL to check.
  * @return bool True if the URL is safe, false otherwise.
  */
-function _wp_kses_allow_pdf_objects( $value ) {
+function _wp_kses_allow_pdf_objects( $url ) {
 	// We're not interested in URLs that contain query strings or fragments.
-	if ( strpos( $value, '?' ) !== false || strpos( $value, '#' ) !== false ) {
+	if ( strpos( $url, '?' ) !== false || strpos( $url, '#' ) !== false ) {
 		return false;
 	}
 
 	// If it doesn't have a PDF extension, it's not safe.
-	if ( 0 !== substr_compare( $value, '.pdf', -4, 4, true ) ) {
+	if ( 0 !== substr_compare( $url, '.pdf', -4, 4, true ) ) {
 		return false;
 	}
 
 	// If the URL host matches the current site's media URL, it's safe.
 	$upload_info = wp_upload_dir( null, false );
-	$upload_host = wp_parse_url( $upload_info['url'], PHP_URL_HOST );
-	if ( 0 === strpos( $value, "http://$upload_host/" ) || 0 === strpos( $value, "https://$upload_host/" ) ) {
+	$parsed_url  = wp_parse_url( $upload_info['url'] );
+	$upload_host = isset( $parsed_url['host'] ) ? $parsed_url['host'] : '';
+	$upload_port = isset( $parsed_url['port'] ) ? ':' . $parsed_url['port'] : '';
+	if ( 0 === strpos( $url, "http://$upload_host$upload_port/" ) || 0 === strpos( $url, "https://$upload_host$upload_port/" ) ) {
 		return true;
 	}
 
