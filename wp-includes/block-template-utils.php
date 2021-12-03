@@ -92,7 +92,7 @@ function get_allowed_block_template_part_areas() {
 	 *
 	 * @since 5.9.0
 	 *
-	 * @param array $default_areas An array of supported area objects.
+	 * @param array $default_area_definitions An array of supported area objects.
 	 */
 	return apply_filters( 'default_wp_template_part_areas', $default_area_definitions );
 }
@@ -188,8 +188,8 @@ function get_default_block_template_types() {
  * Checks whether the input 'area' is a supported value.
  * Returns the input if supported, otherwise returns the 'uncategorized' value.
  *
- * @access private
  * @since 5.9.0
+ * @access private
  *
  * @param string $type Template part area name.
  *
@@ -219,8 +219,8 @@ function _filter_block_template_part_area( $type ) {
 /**
  * Finds all nested template part file paths in a theme's directory.
  *
- * @access private
  * @since 5.9.0
+ * @access private
  *
  * @param string $base_directory The theme's file path.
  * @return array $path_list A list of paths to all template part files.
@@ -240,11 +240,11 @@ function _get_block_templates_paths( $base_directory ) {
 /**
  * Retrieves the template file from the theme for a given slug.
  *
- * @access private
  * @since 5.9.0
+ * @access private
  *
- * @param string $template_type wp_template or wp_template_part.
- * @param string $slug template slug.
+ * @param string $template_type 'wp_template' or 'wp_template_part'.
+ * @param string $slug          Template slug.
  *
  * @return array|null Template.
  */
@@ -284,12 +284,12 @@ function _get_block_template_file( $template_type, $slug ) {
 }
 
 /**
- * Retrieves the template files from  the theme.
+ * Retrieves the template files from the theme.
  *
- * @access private
  * @since 5.9.0
+ * @access private
  *
- * @param string $template_type wp_template or wp_template_part.
+ * @param string $template_type 'wp_template' or 'wp_template_part'.
  *
  * @return array Template.
  */
@@ -338,11 +338,11 @@ function _get_block_templates_files( $template_type ) {
 /**
  * Attempts to add custom template information to the template item.
  *
- * @access private
  * @since 5.9.0
+ * @access private
  *
  * @param array $template_item Template to add information to (requires 'slug' field).
- * @return array Template
+ * @return array Template item.
  */
 function _add_block_template_info( $template_item ) {
 	if ( ! WP_Theme_JSON_Resolver::theme_has_support() ) {
@@ -361,12 +361,12 @@ function _add_block_template_info( $template_item ) {
 /**
  * Attempts to add the template part's area information to the input template.
  *
- * @access private
  * @since 5.9.0
+ * @access private
  *
  * @param array $template_info Template to add information to (requires 'type' and 'slug' fields).
  *
- * @return array Template.
+ * @return array Template info.
  */
 function _add_block_template_part_area_info( $template_info ) {
 	if ( WP_Theme_JSON_Resolver::theme_has_support() ) {
@@ -387,8 +387,8 @@ function _add_block_template_part_area_info( $template_info ) {
  * Returns an array containing the references of
  * the passed blocks and their inner blocks.
  *
- * @access private
  * @since 5.9.0
+ * @access private
  *
  * @param array $blocks array of blocks.
  *
@@ -420,12 +420,12 @@ function _flatten_blocks( &$blocks ) {
  * Parses wp_template content and injects the current theme's
  * stylesheet as a theme attribute into each wp_template_part
  *
- * @access private
  * @since 5.9.0
+ * @access private
  *
  * @param string $template_content serialized wp_template content.
  *
- * @return string Updated wp_template content.
+ * @return string Updated 'wp_template' content.
  */
 function _inject_theme_attribute_in_block_template_content( $template_content ) {
 	$has_updated_content = false;
@@ -457,8 +457,8 @@ function _inject_theme_attribute_in_block_template_content( $template_content ) 
 /**
  * Parses a block template and removes the theme attribute from each template part.
  *
- * @access private
  * @since 5.9.0
+ * @access private
  *
  * @param string $template_content Serialized block template content.
  * @return string Updated block template content.
@@ -490,11 +490,11 @@ function _remove_theme_attribute_in_block_template_content( $template_content ) 
 /**
  * Build a unified template object based on a theme file.
  *
- * @access private
  * @since 5.9.0
+ * @access private
  *
  * @param array $template_file Theme file.
- * @param array $template_type wp_template or wp_template_part.
+ * @param array $template_type 'wp_template' or 'wp_template_part'.
  *
  * @return WP_Block_Template Template.
  */
@@ -535,8 +535,8 @@ function _build_block_template_result_from_file( $template_file, $template_type 
 /**
  * Build a unified template object based a post Object.
  *
- * @access private
  * @since 5.9.0
+ * @access private
  *
  * @param WP_Post $post Template post.
  *
@@ -603,7 +603,7 @@ function _build_block_template_result_from_post( $post ) {
  *     @type string $area      A 'wp_template_part_area' taxonomy value to filter by (for wp_template_part template type only).
  *     @type string $post_type Post type to get the templates for.
  * }
- * @param array $template_type wp_template or wp_template_part.
+ * @param array $template_type 'wp_template' or 'wp_template_part'.
  *
  * @return array Templates.
  */
