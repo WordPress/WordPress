@@ -83,6 +83,7 @@ function get_block_categories( $post_or_block_editor_context ) {
 	 * @param WP_Block_Editor_Context $block_editor_context The current block editor context.
 	 */
 	$block_categories = apply_filters( 'block_categories_all', $block_categories, $block_editor_context );
+
 	if ( ! empty( $block_editor_context->post ) ) {
 		$post = $block_editor_context->post;
 
@@ -123,6 +124,7 @@ function get_allowed_block_types( $block_editor_context ) {
 	 * @param WP_Block_Editor_Context $block_editor_context The current block editor context.
 	 */
 	$allowed_block_types = apply_filters( 'allowed_block_types_all', $allowed_block_types, $block_editor_context );
+
 	if ( ! empty( $block_editor_context->post ) ) {
 		$post = $block_editor_context->post;
 
@@ -397,6 +399,7 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
 	 * @param WP_Block_Editor_Context $block_editor_context The current block editor context.
 	 */
 	$editor_settings = apply_filters( 'block_editor_settings_all', $editor_settings, $block_editor_context );
+
 	if ( ! empty( $block_editor_context->post ) ) {
 		$post = $block_editor_context->post;
 
@@ -440,6 +443,7 @@ function block_editor_rest_api_preload( array $preload_paths, $block_editor_cont
 	 * @param WP_Block_Editor_Context $block_editor_context The current block editor context.
 	 */
 	$preload_paths = apply_filters( 'block_editor_rest_api_preload_paths', $preload_paths, $block_editor_context );
+
 	if ( ! empty( $block_editor_context->post ) ) {
 		$selected_post = $block_editor_context->post;
 
@@ -478,6 +482,8 @@ function block_editor_rest_api_preload( array $preload_paths, $block_editor_cont
 				$path[0] = '/' . $path[0];
 		}
 	}
+
+	unset( $path );
 
 	$preload_data = array_reduce(
 		$preload_paths,
