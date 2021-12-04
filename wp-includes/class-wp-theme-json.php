@@ -216,8 +216,8 @@ class WP_Theme_JSON {
 	/**
 	 * The top-level keys a theme.json can have.
 	 *
-	 * @since 5.8.0
-	 * @since 5.9.0 Renamed from `ALLOWED_TOP_LEVEL_KEYS`,
+	 * @since 5.8.0 As `ALLOWED_TOP_LEVEL_KEYS`.
+	 * @since 5.9.0 Renamed from `ALLOWED_TOP_LEVEL_KEYS` to `VALID_TOP_LEVEL_KEYS`,
 	 *              added the `customTemplates` and `templateParts` values.
 	 * @var string[]
 	 */
@@ -232,10 +232,10 @@ class WP_Theme_JSON {
 	/**
 	 * The valid properties under the settings key.
 	 *
-	 * @since 5.8.0
-	 * @since 5.9.0 Renamed from `ALLOWED_SETTINGS`, added new properties
-	 *              for `border`, `color`, `spacing`, and `typography`,
-	 *              and renamed others according to the new schema.
+	 * @since 5.8.0 As `ALLOWED_SETTINGS`.
+	 * @since 5.9.0 Renamed from `ALLOWED_SETTINGS` to `VALID_SETTINGS`,
+	 *              added new properties for `border`, `color`, `spacing`,
+	 *              and `typography`, and renamed others according to the new schema.
 	 * @var array
 	 */
 	const VALID_SETTINGS = array(
@@ -287,9 +287,10 @@ class WP_Theme_JSON {
 	/**
 	 * The valid properties under the styles key.
 	 *
-	 * @since 5.8.0
-	 * @since 5.9.0 Renamed from `ALLOWED_SETTINGS`, added new properties
-	 *              for `border`, `filter`, `spacing`, and `typography`.
+	 * @since 5.8.0 As `ALLOWED_STYLES`.
+	 * @since 5.9.0 Renamed from `ALLOWED_STYLES` to `VALID_STYLES`,
+	 *              added new properties for `border`, `filter`, `spacing`,
+	 *              and `typography`.
 	 * @var array
 	 */
 	const VALID_STYLES = array(
@@ -744,9 +745,10 @@ class WP_Theme_JSON {
 	 *     style-property-one: value;
 	 *   }
 	 *
-	 * @since 5.8.0
+	 * @since 5.8.0 As `get_block_styles()`.
 	 * @since 5.9.0 Renamed from `get_block_styles()` to `get_block_classes()`
 	 *              and no longer returns preset classes.
+	 *              Removed the `$setting_nodes` parameter.
 	 *
 	 * @param array $style_nodes Nodes with styles.
 	 * @return string The new stylesheet.
@@ -1543,7 +1545,7 @@ class WP_Theme_JSON {
 	 * @since 5.9.0
 	 *
 	 * @param array $data      A theme.json like structure to inspect.
-	 * @param array $node_path The path to inspect. Default is 'settings'.
+	 * @param array $node_path The path to inspect. Default `array( 'settings' )`.
 	 * @return array An associative array containing the slugs for the given path.
 	 */
 	private static function get_slugs_not_to_override( $data, $node_path = array( 'settings' ) ) {

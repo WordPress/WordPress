@@ -63,8 +63,8 @@ class WP_Theme_JSON_Resolver {
 	/**
 	 * Container to keep loaded i18n schema for `theme.json`.
 	 *
-	 * @since 5.8.0
-	 * @since 5.9.0 Renamed from `$theme_json_i18n`.
+	 * @since 5.8.0 As `$theme_json_i18n`.
+	 * @since 5.9.0 Renamed from `$theme_json_i18n` to `$i18n_schema`.
 	 * @var array
 	 */
 	private static $i18n_schema = null;
@@ -223,13 +223,13 @@ class WP_Theme_JSON_Resolver {
 	 *
 	 * @since 5.9.0
 	 *
-	 * @param WP_Theme $theme              The theme object.  If empty, it
+	 * @param WP_Theme $theme              The theme object. If empty, it
 	 *                                     defaults to the current theme.
 	 * @param bool     $should_create_cpt  Optional. Whether a new custom post
 	 *                                     type should be created if none are
-	 *                                     found.  False by default.
-	 * @param array    $post_status_filter Filter Optional. custom post type by
-	 *                                     post status.  ['publish'] by default,
+	 *                                     found. Default false.
+	 * @param array    $post_status_filter Optional. Filter custom post type by
+	 *                                     post status. Default `array( 'publish' )`,
 	 *                                     so it only fetches published posts.
 	 * @return array Custom Post Type for the user's origin config.
 	 */
