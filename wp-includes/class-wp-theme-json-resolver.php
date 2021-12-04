@@ -56,7 +56,7 @@ class WP_Theme_JSON_Resolver {
 	 * that holds the user data.
 	 *
 	 * @since 5.9.0
-	 * @var integer
+	 * @var int
 	 */
 	private static $user_custom_post_type_id = null;
 
@@ -64,7 +64,7 @@ class WP_Theme_JSON_Resolver {
 	 * Container to keep loaded i18n schema for `theme.json`.
 	 *
 	 * @since 5.8.0
-	 * @since 5.9.0 Renamed from $theme_json_i18n
+	 * @since 5.9.0 Renamed from `$theme_json_i18n`.
 	 * @var array
 	 */
 	private static $i18n_schema = null;
@@ -150,13 +150,14 @@ class WP_Theme_JSON_Resolver {
 	 * the theme.json takes precendence.
 	 *
 	 * @since 5.8.0
-	 * @since 5.9.0 Theme supports have been inlined and the argument removed.
+	 * @since 5.9.0 Theme supports have been inlined and the `$theme_support_data` argument removed.
 	 *
+	 * @param array $deprecated Deprecated. Not used.
 	 * @return WP_Theme_JSON Entity that holds theme data.
 	 */
 	public static function get_theme_data( $deprecated = array() ) {
 		if ( ! empty( $deprecated ) ) {
-			_deprecated_argument( __METHOD__, '5.9' );
+			_deprecated_argument( __METHOD__, '5.9.0' );
 		}
 		if ( null === self::$theme ) {
 			$theme_json_data = self::read_json_file( self::get_file_path_from_theme( 'theme.json' ) );
@@ -347,16 +348,16 @@ class WP_Theme_JSON_Resolver {
 	 * the user preference wins.
 	 *
 	 * @since 5.8.0
-	 * @since 5.9.0 Add user data and change the arguments.
+	 * @since 5.9.0 Added user data, removed the `$settings` parameter,
+	 *              added the `$origin` parameter.
 	 *
 	 * @param string $origin Optional. To what level should we merge data.
-	 *                       Valid values are 'theme' or 'custom'.
-	 *                       Default is 'custom'.
+	 *                       Valid values are 'theme' or 'custom'. Default 'custom'.
 	 * @return WP_Theme_JSON
 	 */
 	public static function get_merged_data( $origin = 'custom' ) {
 		if ( is_array( $origin ) ) {
-			_deprecated_argument( __FUNCTION__, '5.9' );
+			_deprecated_argument( __FUNCTION__, '5.9.0' );
 		}
 
 		$result = new WP_Theme_JSON();
@@ -396,7 +397,7 @@ class WP_Theme_JSON_Resolver {
 	 * Whether the current theme has a theme.json file.
 	 *
 	 * @since 5.8.0
-	 * @since 5.9.0 Also check in the parent theme.
+	 * @since 5.9.0 Added a check in the parent theme.
 	 *
 	 * @return bool
 	 */
@@ -417,7 +418,7 @@ class WP_Theme_JSON_Resolver {
 	 * If it isn't, returns an empty string, otherwise returns the whole file path.
 	 *
 	 * @since 5.8.0
-	 * @since 5.9.0 Adapt to work with child themes.
+	 * @since 5.9.0 Adapted to work with child themes, added the `$template` argument.
 	 *
 	 * @param string $file_name Name of the file.
 	 * @param bool   $template  Optional. Use template theme directory. Default false.
@@ -434,7 +435,8 @@ class WP_Theme_JSON_Resolver {
 	 * Cleans the cached data so it can be recalculated.
 	 *
 	 * @since 5.8.0
-	 * @since 5.9.0 Added new variables to reset.
+	 * @since 5.9.0 Added the `$user`, `$user_custom_post_type_id`,
+	 *              and `$i18n_schema` variables to reset.
 	 */
 	public static function clean_cached_data() {
 		self::$core                     = null;
