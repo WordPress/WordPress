@@ -178,11 +178,11 @@ class WP_Theme_JSON_Resolver {
 		}
 
 		/*
-		* We want the presets and settings declared in theme.json
-		* to override the ones declared via theme supports.
-		* So we take theme supports, transform it to theme.json shape
-		* and merge the self::$theme upon that.
-		*/
+		 * We want the presets and settings declared in theme.json
+		 * to override the ones declared via theme supports.
+		 * So we take theme supports, transform it to theme.json shape
+		 * and merge the self::$theme upon that.
+		 */
 		$theme_support_data = WP_Theme_JSON::get_from_editor_settings( get_default_block_editor_settings() );
 		if ( ! self::theme_has_support() ) {
 			if ( ! isset( $theme_support_data['settings']['color'] ) ) {
@@ -315,8 +315,8 @@ class WP_Theme_JSON_Resolver {
 				return new WP_Theme_JSON( $config, 'custom' );
 			}
 
-			// Very important to verify if the flag isGlobalStylesUserThemeJSON is true.
-			// If is not true the content was not escaped and is not safe.
+			// Very important to verify that the flag isGlobalStylesUserThemeJSON is true.
+			// If it's not true then the content was not escaped and is not safe.
 			if (
 				is_array( $decoded_data ) &&
 				isset( $decoded_data['isGlobalStylesUserThemeJSON'] ) &&
@@ -332,6 +332,8 @@ class WP_Theme_JSON_Resolver {
 	}
 
 	/**
+	 * Returns the data merged from multiple origins.
+	 *
 	 * There are three sources of data (origins) for a site:
 	 * default, theme, and custom. The custom's has higher priority
 	 * than the theme's, and the theme's higher than default's.
