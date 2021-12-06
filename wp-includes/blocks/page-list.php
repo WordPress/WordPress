@@ -173,24 +173,20 @@ function block_core_page_list_render_nested_page_list( $open_submenus_on_click, 
 			}
 		}
 
+		$title = wp_kses( $page['title'], wp_kses_allowed_html( 'post' ) );
+
 		$markup .= '<li class="wp-block-pages-list__item' . $css_class . '"' . $style_attribute . '>';
 
 		if ( isset( $page['children'] ) && $is_navigation_child && $open_submenus_on_click ) {
-			$markup .= '<button class="' . $navigation_child_content_class . ' wp-block-navigation-submenu__toggle" aria-expanded="false">' . wp_kses(
-				$page['title'],
-				wp_kses_allowed_html( 'post' )
-			) . '<span class="wp-block-page-list__submenu-icon wp-block-navigation__submenu-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none" role="img" aria-hidden="true" focusable="false"><path d="M1.50002 4L6.00002 8L10.5 4" stroke-width="1.5"></path></svg></span>' .
+			$markup .= '<button aria-label="' . $title . ' ' . __( 'submenu', 'gutenberg' ) . '" class="' . $navigation_child_content_class . ' wp-block-navigation-submenu__toggle" aria-expanded="false">' . $title . '<span class="wp-block-page-list__submenu-icon wp-block-navigation__submenu-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none" role="img" aria-hidden="true" focusable="false"><path d="M1.50002 4L6.00002 8L10.5 4" stroke-width="1.5"></path></svg></span>' .
 			'</button>';
 		} else {
-			$markup .= '<a class="wp-block-pages-list__item__link' . $navigation_child_content_class . '" href="' . esc_url( $page['link'] ) . '"' . $aria_current . '>' . wp_kses(
-				$page['title'],
-				wp_kses_allowed_html( 'post' )
-			) . '</a>';
+			$markup .= '<a class="wp-block-pages-list__item__link' . $navigation_child_content_class . '" href="' . esc_url( $page['link'] ) . '"' . $aria_current . '>' . $title . '</a>';
 		}
 
 		if ( isset( $page['children'] ) ) {
 			if ( $is_navigation_child && $show_submenu_icons && ! $open_submenus_on_click ) {
-				$markup .= '<button class="wp-block-navigation__submenu-icon wp-block-navigation-submenu__toggle" aria-expanded="false">';
+				$markup .= '<button aria-label="' . $title . ' ' . __( 'submenu', 'gutenberg' ) . '" class="wp-block-navigation__submenu-icon wp-block-navigation-submenu__toggle" aria-expanded="false">';
 				$markup .= '<span class="wp-block-page-list__submenu-icon wp-block-navigation__submenu-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none" role="img" aria-hidden="true" focusable="false"><path d="M1.50002 4L6.00002 8L10.5 4" stroke-width="1.5"></path></svg></span>';
 				$markup .= '</button>';
 			}

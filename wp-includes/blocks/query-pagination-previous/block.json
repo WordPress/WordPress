@@ -1,7 +1,7 @@
 {
 	"apiVersion": 2,
 	"name": "core/query-pagination-previous",
-	"title": "Query Pagination Previous",
+	"title": "Previous Page",
 	"category": "design",
 	"parent": [ "core/query-pagination" ],
 	"description": "Displays the previous posts page link.",

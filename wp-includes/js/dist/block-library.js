@@ -7859,6 +7859,7 @@ function CoverEdit(_ref5) {
     })
   }, Object(external_wp_i18n_["__"])('Clear Media')))), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["__experimentalPanelColorGradientSettings"], {
     __experimentalHasMultipleOrigins: true,
+    __experimentalIsRenderedInSidebar: true,
     title: Object(external_wp_i18n_["__"])('Overlay'),
     initialOpen: true,
     settings: [{
@@ -10761,6 +10762,46 @@ const gallery = Object(external_wp_element_["createElement"])(external_wp_primit
 }));
 /* harmony default export */ var library_gallery = (gallery);
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/gallery/constants.js
+const LINK_DESTINATION_NONE = 'none';
+const LINK_DESTINATION_MEDIA = 'media';
+const LINK_DESTINATION_ATTACHMENT = 'attachment';
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/gallery/shared.js
+/**
+ * External dependencies
+ */
+
+function defaultColumnsNumber(imageCount) {
+  return imageCount ? Math.min(3, imageCount) : 3;
+}
+const pickRelevantMediaFiles = function (image) {
+  let sizeSlug = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'large';
+  const imageProps = Object(external_lodash_["pick"])(image, ['alt', 'id', 'link', 'caption']);
+  imageProps.url = Object(external_lodash_["get"])(image, ['sizes', sizeSlug, 'url']) || Object(external_lodash_["get"])(image, ['media_details', 'sizes', sizeSlug, 'source_url']) || image.url;
+  const fullUrl = Object(external_lodash_["get"])(image, ['sizes', 'full', 'url']) || Object(external_lodash_["get"])(image, ['media_details', 'sizes', 'full', 'source_url']);
+
+  if (fullUrl) {
+    imageProps.fullUrl = fullUrl;
+  }
+
+  return imageProps;
+};
+/**
+ * The new gallery block format is not compatible with the use_BalanceTags option
+ * in WP versions <= 5.8 https://core.trac.wordpress.org/ticket/54130. The
+ * window.wp.galleryBlockV2Enabled flag is set in lib/compat.php. This method
+ * can be removed when minimum supported WP version >=5.9.
+ */
+
+function isGalleryV2Enabled() {
+  // Only run the Gallery version compat check if the plugin is running, otherwise
+  // assume we are in 5.9 core and enable by default.
+  if (false) {}
+
+  return true;
+}
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/gallery/deprecated.js
 
 
@@ -10774,6 +10815,15 @@ const gallery = Object(external_wp_element_["createElement"])(external_wp_primit
  */
 
 
+
+/**
+ * Internal dependencies
+ */
+
+
+
+const DEPRECATED_LINK_DESTINATION_MEDIA = 'file';
+const DEPRECATED_LINK_DESTINATION_ATTACHMENT = 'post';
 /**
  * Original function to determine default number of columns from a block's
  * attributes.
@@ -10785,9 +10835,250 @@ const gallery = Object(external_wp_element_["createElement"])(external_wp_primit
  */
 
 function defaultColumnsNumberV1(attributes) {
-  return Math.min(3, attributes.images.length);
+  var _attributes$images;
+
+  return Math.min(3, attributes === null || attributes === void 0 ? void 0 : (_attributes$images = attributes.images) === null || _attributes$images === void 0 ? void 0 : _attributes$images.length);
 }
-const gallery_deprecated_deprecated = [{
+/**
+ * Original function to determine new href and linkDestination values for an image block from the
+ * supplied Gallery link destination.
+ *
+ * Used in deprecations: v1-6.
+ *
+ * @param {Object} image       Gallery image.
+ * @param {string} destination Gallery's selected link destination.
+ * @return {Object}            New attributes to assign to image block.
+ */
+
+function getHrefAndDestination(image, destination) {
+  // Need to determine the URL that the selected destination maps to.
+  // Gutenberg and WordPress use different constants so the new link
+  // destination also needs to be tweaked.
+  switch (destination) {
+    case DEPRECATED_LINK_DESTINATION_MEDIA:
+      return {
+        href: (image === null || image === void 0 ? void 0 : image.source_url) || (image === null || image === void 0 ? void 0 : image.url),
+        // eslint-disable-line camelcase
+        linkDestination: LINK_DESTINATION_MEDIA
+      };
+
+    case DEPRECATED_LINK_DESTINATION_ATTACHMENT:
+      return {
+        href: image === null || image === void 0 ? void 0 : image.link,
+        linkDestination: LINK_DESTINATION_ATTACHMENT
+      };
+
+    case LINK_DESTINATION_MEDIA:
+      return {
+        href: (image === null || image === void 0 ? void 0 : image.source_url) || (image === null || image === void 0 ? void 0 : image.url),
+        // eslint-disable-line camelcase
+        linkDestination: LINK_DESTINATION_MEDIA
+      };
+
+    case LINK_DESTINATION_ATTACHMENT:
+      return {
+        href: image === null || image === void 0 ? void 0 : image.link,
+        linkDestination: LINK_DESTINATION_ATTACHMENT
+      };
+
+    case LINK_DESTINATION_NONE:
+      return {
+        href: undefined,
+        linkDestination: LINK_DESTINATION_NONE
+      };
+  }
+
+  return {};
+}
+
+function runV2Migration(attributes) {
+  let linkTo = attributes.linkTo ? attributes.linkTo : 'none';
+
+  if (linkTo === 'post') {
+    linkTo = 'attachment';
+  } else if (linkTo === 'file') {
+    linkTo = 'media';
+  }
+
+  const imageBlocks = attributes.images.map(image => {
+    return getImageBlock(image, attributes.sizeSlug, linkTo);
+  });
+  return [{
+    caption: attributes.caption,
+    columns: attributes.columns,
+    imageCrop: attributes.imageCrop,
+    linkTo,
+    sizeSlug: attributes.sizeSlug,
+    allowResize: false
+  }, imageBlocks];
+}
+/**
+ * Gets an Image block from gallery image data
+ *
+ * Used to migrate Galleries to nested Image InnerBlocks.
+ *
+ * @param {Object} image    Image properties.
+ * @param {string} sizeSlug Gallery sizeSlug attribute.
+ * @param {string} linkTo   Gallery linkTo attribute.
+ * @return {Object}         Image block.
+ */
+
+
+function getImageBlock(image, sizeSlug, linkTo) {
+  return Object(external_wp_blocks_["createBlock"])('core/image', { ...(image.id && {
+      id: parseInt(image.id)
+    }),
+    url: image.url,
+    alt: image.alt,
+    caption: image.caption,
+    sizeSlug,
+    ...getHrefAndDestination(image, linkTo)
+  });
+}
+const deprecated_v6 = {
+  attributes: {
+    images: {
+      type: 'array',
+      default: [],
+      source: 'query',
+      selector: '.blocks-gallery-item',
+      query: {
+        url: {
+          type: 'string',
+          source: 'attribute',
+          selector: 'img',
+          attribute: 'src'
+        },
+        fullUrl: {
+          type: 'string',
+          source: 'attribute',
+          selector: 'img',
+          attribute: 'data-full-url'
+        },
+        link: {
+          type: 'string',
+          source: 'attribute',
+          selector: 'img',
+          attribute: 'data-link'
+        },
+        alt: {
+          type: 'string',
+          source: 'attribute',
+          selector: 'img',
+          attribute: 'alt',
+          default: ''
+        },
+        id: {
+          type: 'string',
+          source: 'attribute',
+          selector: 'img',
+          attribute: 'data-id'
+        },
+        caption: {
+          type: 'string',
+          source: 'html',
+          selector: '.blocks-gallery-item__caption'
+        }
+      }
+    },
+    ids: {
+      type: 'array',
+      items: {
+        type: 'number'
+      },
+      default: []
+    },
+    columns: {
+      type: 'number',
+      minimum: 1,
+      maximum: 8
+    },
+    caption: {
+      type: 'string',
+      source: 'html',
+      selector: '.blocks-gallery-caption'
+    },
+    imageCrop: {
+      type: 'boolean',
+      default: true
+    },
+    linkTo: {
+      type: 'string'
+    },
+    sizeSlug: {
+      type: 'string',
+      default: 'large'
+    }
+  },
+  supports: {
+    anchor: true,
+    align: true
+  },
+
+  save(_ref) {
+    let {
+      attributes
+    } = _ref;
+    const {
+      images,
+      columns = defaultColumnsNumberV1(attributes),
+      imageCrop,
+      caption,
+      linkTo
+    } = attributes;
+    const className = `columns-${columns} ${imageCrop ? 'is-cropped' : ''}`;
+    return Object(external_wp_element_["createElement"])("figure", external_wp_blockEditor_["useBlockProps"].save({
+      className
+    }), Object(external_wp_element_["createElement"])("ul", {
+      className: "blocks-gallery-grid"
+    }, images.map(image => {
+      let href;
+
+      switch (linkTo) {
+        case DEPRECATED_LINK_DESTINATION_MEDIA:
+          href = image.fullUrl || image.url;
+          break;
+
+        case DEPRECATED_LINK_DESTINATION_ATTACHMENT:
+          href = image.link;
+          break;
+      }
+
+      const img = Object(external_wp_element_["createElement"])("img", {
+        src: image.url,
+        alt: image.alt,
+        "data-id": image.id,
+        "data-full-url": image.fullUrl,
+        "data-link": image.link,
+        className: image.id ? `wp-image-${image.id}` : null
+      });
+      return Object(external_wp_element_["createElement"])("li", {
+        key: image.id || image.url,
+        className: "blocks-gallery-item"
+      }, Object(external_wp_element_["createElement"])("figure", null, href ? Object(external_wp_element_["createElement"])("a", {
+        href: href
+      }, img) : img, !external_wp_blockEditor_["RichText"].isEmpty(image.caption) && Object(external_wp_element_["createElement"])(external_wp_blockEditor_["RichText"].Content, {
+        tagName: "figcaption",
+        className: "blocks-gallery-item__caption",
+        value: image.caption
+      })));
+    })), !external_wp_blockEditor_["RichText"].isEmpty(caption) && Object(external_wp_element_["createElement"])(external_wp_blockEditor_["RichText"].Content, {
+      tagName: "figcaption",
+      className: "blocks-gallery-caption",
+      value: caption
+    }));
+  },
+
+  migrate(attributes) {
+    if (isGalleryV2Enabled()) {
+      return runV2Migration(attributes);
+    }
+
+    return attributes;
+  }
+
+};
+const deprecated_v5 = {
   attributes: {
     images: {
       type: 'array',
@@ -10867,14 +11158,18 @@ const gallery_deprecated_deprecated = [{
     align: true
   },
 
-  isEligible(_ref) {
+  isEligible(_ref2) {
     let {
       linkTo
-    } = _ref;
+    } = _ref2;
     return !linkTo || linkTo === 'attachment' || linkTo === 'media';
   },
 
   migrate(attributes) {
+    if (isGalleryV2Enabled()) {
+      return runV2Migration(attributes);
+    }
+
     let linkTo = attributes.linkTo;
 
     if (!attributes.linkTo) {
@@ -10890,10 +11185,10 @@ const gallery_deprecated_deprecated = [{
     };
   },
 
-  save(_ref2) {
+  save(_ref3) {
     let {
       attributes
-    } = _ref2;
+    } = _ref3;
     const {
       images,
       columns = defaultColumnsNumberV1(attributes),
@@ -10943,7 +11238,8 @@ const gallery_deprecated_deprecated = [{
     }));
   }
 
-}, {
+};
+const deprecated_v4 = {
   attributes: {
     images: {
       type: 'array',
@@ -11009,14 +11305,18 @@ const gallery_deprecated_deprecated = [{
     align: true
   },
 
-  isEligible(_ref3) {
+  isEligible(_ref4) {
     let {
       ids
-    } = _ref3;
+    } = _ref4;
     return ids && ids.some(id => typeof id === 'string');
   },
 
   migrate(attributes) {
+    if (isGalleryV2Enabled()) {
+      return runV2Migration(attributes);
+    }
+
     return { ...attributes,
       ids: Object(external_lodash_["map"])(attributes.ids, id => {
         const parsedId = parseInt(id, 10);
@@ -11025,10 +11325,10 @@ const gallery_deprecated_deprecated = [{
     };
   },
 
-  save(_ref4) {
+  save(_ref5) {
     let {
       attributes
-    } = _ref4;
+    } = _ref5;
     const {
       images,
       columns = defaultColumnsNumberV1(attributes),
@@ -11078,7 +11378,8 @@ const gallery_deprecated_deprecated = [{
     }));
   }
 
-}, {
+};
+const deprecated_v3 = {
   attributes: {
     images: {
       type: 'array',
@@ -11139,10 +11440,10 @@ const gallery_deprecated_deprecated = [{
     align: true
   },
 
-  save(_ref5) {
+  save(_ref6) {
     let {
       attributes
-    } = _ref5;
+    } = _ref6;
     const {
       images,
       columns = defaultColumnsNumberV1(attributes),
@@ -11182,9 +11483,18 @@ const gallery_deprecated_deprecated = [{
         value: image.caption
       })));
     }));
+  },
+
+  migrate(attributes) {
+    if (isGalleryV2Enabled()) {
+      return runV2Migration(attributes);
+    }
+
+    return attributes;
   }
 
-}, {
+};
+const deprecated_v2 = {
   attributes: {
     images: {
       type: 'array',
@@ -11233,11 +11543,11 @@ const gallery_deprecated_deprecated = [{
     }
   },
 
-  isEligible(_ref6) {
+  isEligible(_ref7) {
     let {
       images,
       ids
-    } = _ref6;
+    } = _ref7;
     return images && images.length > 0 && (!ids && images || ids && images && ids.length !== images.length || Object(external_lodash_["some"])(images, (id, index) => {
       if (!id && ids[index] !== null) {
         return true;
@@ -11248,11 +11558,15 @@ const gallery_deprecated_deprecated = [{
   },
 
   migrate(attributes) {
+    if (isGalleryV2Enabled()) {
+      return runV2Migration(attributes);
+    }
+
     return { ...attributes,
-      ids: Object(external_lodash_["map"])(attributes.images, _ref7 => {
+      ids: Object(external_lodash_["map"])(attributes.images, _ref8 => {
         let {
           id
-        } = _ref7;
+        } = _ref8;
 
         if (!id) {
           return null;
@@ -11267,10 +11581,10 @@ const gallery_deprecated_deprecated = [{
     align: true
   },
 
-  save(_ref8) {
+  save(_ref9) {
     let {
       attributes
-    } = _ref8;
+    } = _ref9;
     const {
       images,
       columns = defaultColumnsNumberV1(attributes),
@@ -11311,7 +11625,8 @@ const gallery_deprecated_deprecated = [{
     }));
   }
 
-}, {
+};
+const deprecated_v1 = {
   attributes: {
     images: {
       type: 'array',
@@ -11354,10 +11669,10 @@ const gallery_deprecated_deprecated = [{
     align: true
   },
 
-  save(_ref9) {
+  save(_ref10) {
     let {
       attributes
-    } = _ref9;
+    } = _ref10;
     const {
       images,
       columns = defaultColumnsNumberV1(attributes),
@@ -11396,10 +11711,18 @@ const gallery_deprecated_deprecated = [{
         href: href
       }, img) : img);
     }));
+  },
+
+  migrate(attributes) {
+    if (isGalleryV2Enabled()) {
+      return runV2Migration(attributes);
+    }
+
+    return attributes;
   }
 
-}];
-/* harmony default export */ var gallery_deprecated = (gallery_deprecated_deprecated);
+};
+/* harmony default export */ var gallery_deprecated = ([deprecated_v6, deprecated_v5, deprecated_v4, deprecated_v3, deprecated_v2, deprecated_v1]);
 
 // EXTERNAL MODULE: external ["wp","viewport"]
 var external_wp_viewport_ = __webpack_require__("KEfo");
@@ -11415,32 +11738,6 @@ var external_wp_viewport_ = __webpack_require__("KEfo");
 const sharedIcon = Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockIcon"], {
   icon: library_gallery
 });
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/gallery/shared.js
-/**
- * External dependencies
- */
-
-function defaultColumnsNumber(imageCount) {
-  return imageCount ? Math.min(3, imageCount) : 3;
-}
-const pickRelevantMediaFiles = function (image) {
-  let sizeSlug = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'large';
-  const imageProps = Object(external_lodash_["pick"])(image, ['alt', 'id', 'link', 'caption']);
-  imageProps.url = Object(external_lodash_["get"])(image, ['sizes', sizeSlug, 'url']) || Object(external_lodash_["get"])(image, ['media_details', 'sizes', sizeSlug, 'source_url']) || image.url;
-  const fullUrl = Object(external_lodash_["get"])(image, ['sizes', 'full', 'url']) || Object(external_lodash_["get"])(image, ['media_details', 'sizes', 'full', 'source_url']);
-
-  if (fullUrl) {
-    imageProps.fullUrl = fullUrl;
-  }
-
-  return imageProps;
-};
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/gallery/constants.js
-const LINK_DESTINATION_NONE = 'none';
-const LINK_DESTINATION_MEDIA = 'media';
-const LINK_DESTINATION_ATTACHMENT = 'attachment';
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/image/constants.js
 const MIN_SIZE = 20;
@@ -11467,7 +11764,7 @@ const MEDIA_ID_NO_FEATURED_IMAGE_SET = 0;
  * @return {Object}            New attributes to assign to image block.
  */
 
-function getHrefAndDestination(image, destination) {
+function utils_getHrefAndDestination(image, destination) {
   // Need to determine the URL that the selected destination maps to.
   // Gutenberg and WordPress use different constants so the new link
   // destination also needs to be tweaked.
@@ -11949,7 +12246,7 @@ function useMobileWarning(newImages) {
     return;
   }
 
-  createWarningNotice(Object(external_wp_i18n_["__"])('Editing this Gallery in the WordPress mobile app requires version 18.2 or higher.'), {
+  createWarningNotice(Object(external_wp_i18n_["__"])('If you want to edit the gallery you just added in the mobile app, to avoid losing any data please make sure you use version 18.2 of the app or above.'), {
     type: 'snackbar',
     explicitDismiss: true
   });
@@ -12075,7 +12372,7 @@ function GalleryEdit(props) {
   useMobileWarning(newImages);
   Object(external_wp_element_["useEffect"])(() => {
     newImages === null || newImages === void 0 ? void 0 : newImages.forEach(newImage => {
-      updateBlockAttributes(newImage.clientId, { ...buildImageAttributes(false, newImage.attributes),
+      updateBlockAttributes(newImage.clientId, { ...buildImageAttributes(newImage.attributes),
         id: newImage.id,
         align: undefined
       });
@@ -12102,26 +12399,24 @@ function GalleryEdit(props) {
    * it already existed in the gallery. If the image is in fact new, we need
    * to apply the gallery's current settings to the image.
    *
-   * @param {Object} existingBlock Existing Image block that still exists after gallery update.
-   * @param {Object} image         Media object for the actual image.
-   * @return {Object}               Attributes to set on the new image block.
+   * @param {Object} imageAttributes Media object for the actual image.
+   * @return {Object}                Attributes to set on the new image block.
    */
 
-  function buildImageAttributes(existingBlock, image) {
-    if (existingBlock) {
-      return existingBlock.attributes;
-    }
-
+  function buildImageAttributes(imageAttributes) {
+    const image = imageAttributes.id ? Object(external_lodash_["find"])(imageData, {
+      id: imageAttributes.id
+    }) : null;
     let newClassName;
 
-    if (image.className && image.className !== '') {
-      newClassName = image.className;
+    if (imageAttributes.className && imageAttributes.className !== '') {
+      newClassName = imageAttributes.className;
     } else {
       newClassName = preferredStyle ? `is-style-${preferredStyle}` : undefined;
     }
 
-    return { ...pickRelevantMediaFiles(image, sizeSlug),
-      ...getHrefAndDestination(image, linkTo),
+    return { ...pickRelevantMediaFiles(imageAttributes, sizeSlug),
+      ...utils_getHrefAndDestination(image, linkTo),
       ...getUpdatedLinkTargetSettings(linkTarget, attributes),
       className: newClassName,
       sizeSlug
@@ -12199,7 +12494,7 @@ function GalleryEdit(props) {
       const image = block.attributes.id ? Object(external_lodash_["find"])(imageData, {
         id: block.attributes.id
       }) : null;
-      changedAttributes[block.clientId] = getHrefAndDestination(image, value);
+      changedAttributes[block.clientId] = utils_getHrefAndDestination(image, value);
     });
     updateBlockAttributes(blocks, changedAttributes, true);
     const linkToText = [...linkOptions].find(linkType => linkType.value === value);
@@ -12785,104 +13080,6 @@ function gallery_RichTextVisibilityHelper(_ref) {
 
 /* harmony default export */ var v1_gallery = (gallery_Gallery);
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/gallery/v1/update-gallery-modal.js
-
-
-/**
- * WordPress dependencies
- */
-
-
-
-
-
-/**
- * Internal dependencies
- */
-
-
-const updateGallery = _ref => {
-  let {
-    clientId,
-    getBlock,
-    replaceBlocks
-  } = _ref;
-  return () => {
-    let link;
-    const {
-      attributes: {
-        sizeSlug,
-        linkTo,
-        images,
-        caption
-      }
-    } = getBlock(clientId);
-
-    switch (linkTo) {
-      case 'post':
-        link = v1_constants_LINK_DESTINATION_ATTACHMENT;
-        break;
-
-      case 'file':
-        link = v1_constants_LINK_DESTINATION_MEDIA;
-        break;
-
-      default:
-        link = v1_constants_LINK_DESTINATION_NONE;
-        break;
-    }
-
-    const innerBlocks = images.map(image => Object(external_wp_blocks_["createBlock"])('core/image', {
-      id: image.id ? parseInt(image.id, 10) : null,
-      url: image.url,
-      alt: image.alt,
-      caption: image.caption,
-      linkDestination: link
-    }));
-    replaceBlocks(clientId, Object(external_wp_blocks_["createBlock"])('core/gallery', {
-      sizeSlug,
-      linkTo: link,
-      caption
-    }, innerBlocks));
-  };
-};
-function UpdateGalleryModal(_ref2) {
-  let {
-    onClose,
-    clientId
-  } = _ref2;
-  const {
-    getBlock
-  } = Object(external_wp_data_["useSelect"])(external_wp_blockEditor_["store"]);
-  const {
-    replaceBlocks
-  } = Object(external_wp_data_["useDispatch"])(external_wp_blockEditor_["store"]);
-  return Object(external_wp_element_["createElement"])(external_wp_components_["Modal"], {
-    closeLabel: Object(external_wp_i18n_["__"])('Close'),
-    onRequestClose: onClose,
-    title: Object(external_wp_i18n_["__"])('Update gallery'),
-    className: 'wp-block-update-gallery-modal',
-    aria: {
-      describedby: 'wp-block-update-gallery-modal__description'
-    }
-  }, Object(external_wp_element_["createElement"])("p", {
-    id: 'wp-block-update-gallery-modal__description'
-  }, Object(external_wp_i18n_["__"])('Updating to the new format adds the ability to use custom links or styles on individual images in the gallery, and makes it easier to add or move them around.')), Object(external_wp_element_["createElement"])("div", {
-    className: "wp-block-update-gallery-modal-buttons"
-  }, Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
-    isTertiary: true,
-    onClick: onClose
-  }, Object(external_wp_i18n_["__"])('Cancel')), Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
-    isPrimary: true,
-    onClick: updateGallery({
-      replaceBlocks,
-      getBlock,
-      clientId,
-      createBlock: external_wp_blocks_["createBlock"]
-    })
-  }, Object(external_wp_i18n_["__"])('Update'))));
-}
-
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/gallery/v1/edit.js
 
 
@@ -12908,7 +13105,6 @@ function UpdateGalleryModal(_ref2) {
 /**
  * Internal dependencies
  */
-
 
 
 
@@ -12963,12 +13159,10 @@ function edit_GalleryEdit(props) {
     imageSizes,
     mediaUpload,
     getMedia,
-    wasBlockJustInserted,
-    __unstableGalleryWithImageBlocks
+    wasBlockJustInserted
   } = Object(external_wp_data_["useSelect"])(select => {
     const settings = select(external_wp_blockEditor_["store"]).getSettings();
     return {
-      __unstableGalleryWithImageBlocks: settings.__unstableGalleryWithImageBlocks,
       imageSizes: settings.imageSizes,
       mediaUpload: settings.mediaUpload,
       getMedia: select(external_wp_coreData_["store"]).getMedia,
@@ -13263,12 +13457,6 @@ function edit_GalleryEdit(props) {
     onFocus: onFocus,
     autoOpenMediaUpload: !hasImages && isSelected && wasBlockJustInserted
   });
-  const [isUpdateOpen, setUpdateOpen] = Object(external_wp_element_["useState"])(false);
-
-  const openUpdateModal = () => setUpdateOpen(true);
-
-  const closeUpdateModal = () => setUpdateOpen(false);
-
   const blockProps = Object(external_wp_blockEditor_["useBlockProps"])();
 
   if (!hasImages) {
@@ -13304,16 +13492,7 @@ function edit_GalleryEdit(props) {
     options: imageSizeOptions,
     onChange: updateImagesSize,
     hideCancelButton: true
-  }))), external_wp_element_["Platform"].isWeb && __unstableGalleryWithImageBlocks && Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockControls"], {
-    group: "other"
-  }, Object(external_wp_element_["createElement"])(external_wp_components_["ToolbarButton"], {
-    onClick: openUpdateModal,
-    title: Object(external_wp_i18n_["__"])('Update'),
-    label: Object(external_wp_i18n_["__"])('Update to the new gallery format')
-  }, Object(external_wp_i18n_["__"])('Update'))), external_wp_element_["Platform"].isWeb && isUpdateOpen && Object(external_wp_element_["createElement"])(UpdateGalleryModal, {
-    onClose: closeUpdateModal,
-    clientId: clientId
-  }), noticeUI, Object(external_wp_element_["createElement"])(v1_gallery, Object(esm_extends["a" /* default */])({}, props, {
+  }))), noticeUI, Object(external_wp_element_["createElement"])(v1_gallery, Object(esm_extends["a" /* default */])({}, props, {
     selectedImage: selectedImage,
     mediaPlaceholder: mediaPlaceholder,
     onMoveBackward: onMoveBackward,
@@ -13346,6 +13525,7 @@ function edit_GalleryEdit(props) {
 
 
 
+
 /*
  * Using a wrapper around the logic to load the edit for v1 of Gallery block
  * or the refactored version with InnerBlocks. This is to prevent conditional
@@ -13353,35 +13533,14 @@ function edit_GalleryEdit(props) {
  */
 
 function GalleryEditWrapper(props) {
-  var _attributes$ids, _attributes$images;
-
-  const {
-    attributes,
-    clientId
-  } = props;
-  const innerBlockImages = Object(external_wp_data_["useSelect"])(select => {
-    var _select$getBlock;
-
-    return (_select$getBlock = select(external_wp_blockEditor_["store"]).getBlock(clientId)) === null || _select$getBlock === void 0 ? void 0 : _select$getBlock.innerBlocks;
-  }, [clientId]);
-
-  const __unstableGalleryWithImageBlocks = Object(external_wp_data_["useSelect"])(select => {
-    const settings = select(external_wp_blockEditor_["store"]).getSettings();
-    return settings.__unstableGalleryWithImageBlocks;
-  }, []); // This logic is used to infer version information from content with higher
-  // precedence than the flag. New galleries (and existing empty galleries) will
-  // honor the flag.
-
-
-  const hasNewVersionContent = !!(innerBlockImages !== null && innerBlockImages !== void 0 && innerBlockImages.length);
-  const hasOldVersionContent = 0 < (attributes === null || attributes === void 0 ? void 0 : (_attributes$ids = attributes.ids) === null || _attributes$ids === void 0 ? void 0 : _attributes$ids.length) || 0 < (attributes === null || attributes === void 0 ? void 0 : (_attributes$images = attributes.images) === null || _attributes$images === void 0 ? void 0 : _attributes$images.length);
-
-  if (hasOldVersionContent || !hasNewVersionContent && !__unstableGalleryWithImageBlocks) {
+  if (!isGalleryV2Enabled()) {
     return Object(external_wp_element_["createElement"])(v1_edit, props);
   }
 
   return Object(external_wp_element_["createElement"])(gallery_edit, props);
 }
+
+/* harmony default export */ var edit_wrapper = (Object(external_wp_compose_["compose"])([external_wp_components_["withNotices"]])(GalleryEditWrapper));
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/gallery/v1/save.js
 
@@ -13467,14 +13626,13 @@ function saveV1(_ref) {
  */
 
 
-function saveWithInnerBlocks(_ref) {
-  var _attributes$ids, _attributes$images;
 
+function saveWithInnerBlocks(_ref) {
   let {
     attributes
   } = _ref;
 
-  if ((attributes === null || attributes === void 0 ? void 0 : (_attributes$ids = attributes.ids) === null || _attributes$ids === void 0 ? void 0 : _attributes$ids.length) > 0 || (attributes === null || attributes === void 0 ? void 0 : (_attributes$images = attributes.images) === null || _attributes$images === void 0 ? void 0 : _attributes$images.length) > 0) {
+  if (!isGalleryV2Enabled()) {
     return saveV1({
       attributes
     });
@@ -13516,8 +13674,6 @@ var external_wp_hooks_ = __webpack_require__("g56x");
 
 
 
-
-
 /**
  * Internal dependencies
  */
@@ -13552,9 +13708,7 @@ const parseShortcodeIds = ids => {
 function updateThirdPartyTransformToGallery(block) {
   var _block$attributes;
 
-  const settings = Object(external_wp_data_["select"])(external_wp_blockEditor_["store"]).getSettings();
-
-  if (settings.__unstableGalleryWithImageBlocks && block.name === 'core/gallery' && ((_block$attributes = block.attributes) === null || _block$attributes === void 0 ? void 0 : _block$attributes.images.length) > 0) {
+  if (isGalleryV2Enabled() && block.name === 'core/gallery' && ((_block$attributes = block.attributes) === null || _block$attributes === void 0 ? void 0 : _block$attributes.images.length) > 0) {
     const innerBlocks = block.attributes.images.map(_ref => {
       let {
         url,
@@ -13651,9 +13805,8 @@ const gallery_transforms_transforms = {
         } = _ref4;
         return url;
       });
-      const settings = Object(external_wp_data_["select"])(external_wp_blockEditor_["store"]).getSettings();
 
-      if (settings.__unstableGalleryWithImageBlocks) {
+      if (isGalleryV2Enabled()) {
         const innerBlocks = validImages.map(image => {
           return Object(external_wp_blocks_["createBlock"])('core/image', image);
         });
@@ -13700,9 +13853,8 @@ const gallery_transforms_transforms = {
               ids
             }
           } = _ref7;
-          const settings = Object(external_wp_data_["select"])(external_wp_blockEditor_["store"]).getSettings();
 
-          if (!settings.__unstableGalleryWithImageBlocks) {
+          if (!isGalleryV2Enabled()) {
             return parseShortcodeIds(ids).map(id => ({
               id: Object(external_lodash_["toString"])(id)
             }));
@@ -13717,9 +13869,8 @@ const gallery_transforms_transforms = {
               ids
             }
           } = _ref8;
-          const settings = Object(external_wp_data_["select"])(external_wp_blockEditor_["store"]).getSettings();
 
-          if (!settings.__unstableGalleryWithImageBlocks) {
+          if (!isGalleryV2Enabled()) {
             return parseShortcodeIds(ids);
           }
         }
@@ -13732,9 +13883,8 @@ const gallery_transforms_transforms = {
               ids
             }
           } = _ref9;
-          const settings = Object(external_wp_data_["select"])(external_wp_blockEditor_["store"]).getSettings();
 
-          if (settings.__unstableGalleryWithImageBlocks) {
+          if (isGalleryV2Enabled()) {
             return parseShortcodeIds(ids).map(id => ({
               id: parseInt(id)
             }));
@@ -13760,9 +13910,8 @@ const gallery_transforms_transforms = {
               link
             }
           } = _ref11;
-          const settings = Object(external_wp_data_["select"])(external_wp_blockEditor_["store"]).getSettings();
 
-          if (!settings.__unstableGalleryWithImageBlocks) {
+          if (!isGalleryV2Enabled()) {
             switch (link) {
               case 'post':
                 return v1_constants_LINK_DESTINATION_ATTACHMENT;
@@ -13810,9 +13959,7 @@ const gallery_transforms_transforms = {
     },
 
     transform(files) {
-      const settings = Object(external_wp_data_["select"])(external_wp_blockEditor_["store"]).getSettings();
-
-      if (settings.__unstableGalleryWithImageBlocks) {
+      if (isGalleryV2Enabled()) {
         const innerBlocks = files.map(file => Object(external_wp_blocks_["createBlock"])('core/image', {
           url: Object(external_wp_blob_["createBlobURL"])(file)
         }));
@@ -13838,9 +13985,8 @@ const gallery_transforms_transforms = {
         ids,
         sizeSlug
       } = _ref13;
-      const settings = Object(external_wp_data_["select"])(external_wp_blockEditor_["store"]).getSettings();
 
-      if (settings.__unstableGalleryWithImageBlocks) {
+      if (isGalleryV2Enabled()) {
         if (innerBlocks.length > 0) {
           return innerBlocks.map(_ref14 => {
             let {
@@ -14042,7 +14188,7 @@ const gallery_settings = {
     }]
   },
   transforms: gallery_transforms,
-  edit: GalleryEditWrapper,
+  edit: edit_wrapper,
   save: saveWithInnerBlocks,
   deprecated: gallery_deprecated
 };
@@ -17961,7 +18107,7 @@ const latest_posts_settings = {
  */
 
 
-const deprecated_v1 = {
+const list_deprecated_v1 = {
   attributes: {
     ordered: {
       type: 'boolean',
@@ -18049,7 +18195,7 @@ const deprecated_v1 = {
  * See block-deprecation.md
  */
 
-/* harmony default export */ var list_deprecated = ([deprecated_v1]);
+/* harmony default export */ var list_deprecated = ([list_deprecated_v1]);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/format-list-bullets-rtl.js
 
@@ -21420,10 +21566,6 @@ function NavigationInnerBlocks(_ref) {
     __experimentalDirectInsert: shouldDirectInsert,
     orientation,
     renderAppender: CustomAppender || appender,
-    // Ensure block toolbar is not too far removed from item
-    // being edited when in vertical mode.
-    // see: https://github.com/WordPress/gutenberg/pull/34615.
-    __experimentalCaptureToolbars: orientation !== 'vertical',
     // Template lock set to false here so that the Nav
     // Block on the experimental menus screen does not
     // inherit templateLock={ 'all' }.
@@ -21976,6 +22118,7 @@ function Navigation(_ref) {
     label: Object(external_wp_i18n_["__"])('Show icons')
   })), hasColorSettings && Object(external_wp_element_["createElement"])(external_wp_blockEditor_["PanelColorSettings"], {
     __experimentalHasMultipleOrigins: true,
+    __experimentalIsRenderedInSidebar: true,
     title: Object(external_wp_i18n_["__"])('Color'),
     initialOpen: false,
     colorSettings: [{
@@ -22142,7 +22285,7 @@ const deprecated_migrateWithLayout = attributes => {
   return updatedAttributes;
 };
 
-const deprecated_v6 = {
+const navigation_deprecated_v6 = {
   attributes: {
     navigationMenuId: {
       type: 'number'
@@ -22239,7 +22382,7 @@ const deprecated_v6 = {
   },
   migrate: migrateIdToRef
 };
-const deprecated_v5 = {
+const navigation_deprecated_v5 = {
   attributes: {
     navigationMenuId: {
       type: 'number'
@@ -22336,7 +22479,7 @@ const deprecated_v5 = {
   },
   migrate: Object(external_wp_compose_["compose"])(migrateIdToRef, deprecated_migrateWithLayout)
 };
-const deprecated_v4 = {
+const navigation_deprecated_v4 = {
   attributes: {
     orientation: {
       type: 'string',
@@ -22460,7 +22603,7 @@ const migrateTypographyPresets = function (attributes) {
   };
 };
 
-const navigation_deprecated_deprecated = [deprecated_v6, deprecated_v5, deprecated_v4, // Remove `isResponsive` attribute.
+const navigation_deprecated_deprecated = [navigation_deprecated_v6, navigation_deprecated_v5, navigation_deprecated_v4, // Remove `isResponsive` attribute.
 {
   attributes: {
     orientation: {
@@ -24576,6 +24719,10 @@ function NavigationSubmenuEdit(_ref) {
     allowedBlocks: navigation_submenu_edit_ALLOWED_BLOCKS,
     __experimentalDefaultBlock: edit_DEFAULT_BLOCK,
     __experimentalDirectInsert: true,
+    // Ensure block toolbar is not too far removed from item
+    // being edited.
+    // see: https://github.com/WordPress/gutenberg/pull/34615.
+    __experimentalCaptureToolbars: true,
     renderAppender: isSelected || isImmediateParentOfSelectedBlock && !selectedBlockHasDescendants || // Show the appender while dragging to allow inserting element between item and the appender.
     hasDescendants ? external_wp_blockEditor_["InnerBlocks"].DefaultAppender : false
   });
@@ -30735,7 +30882,7 @@ const query_pagination_deprecated_deprecated = [// Version with wrapper `div` el
 const query_pagination_metadata = {
   apiVersion: 2,
   name: "core/query-pagination",
-  title: "Query Pagination",
+  title: "Pagination",
   category: "design",
   parent: ["core/query"],
   description: "Displays a paginated navigation to next/previous set of posts, when applicable.",
@@ -30868,7 +31015,7 @@ function QueryPaginationNextEdit(_ref) {
 const query_pagination_next_metadata = {
   apiVersion: 2,
   name: "core/query-pagination-next",
-  title: "Query Pagination Next",
+  title: "Next Page",
   category: "design",
   parent: ["core/query-pagination"],
   description: "Displays the next posts page link.",
@@ -30970,7 +31117,7 @@ function QueryPaginationNumbersEdit() {
 const query_pagination_numbers_metadata = {
   apiVersion: 2,
   name: "core/query-pagination-numbers",
-  title: "Query Pagination Numbers",
+  title: "Page Numbers",
   category: "design",
   parent: ["core/query-pagination"],
   description: "Displays a list of page numbers for pagination",
@@ -31079,7 +31226,7 @@ function QueryPaginationPreviousEdit(_ref) {
 const query_pagination_previous_metadata = {
   apiVersion: 2,
   name: "core/query-pagination-previous",
-  title: "Query Pagination Previous",
+  title: "Previous Page",
   category: "design",
   parent: ["core/query-pagination"],
   description: "Displays the previous posts page link.",
@@ -32929,6 +33076,7 @@ const SeparatorSettings = _ref => {
   } = _ref;
   return Object(external_wp_element_["createElement"])(external_wp_blockEditor_["InspectorControls"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["PanelColorSettings"], {
     __experimentalHasMultipleOrigins: true,
+    __experimentalIsRenderedInSidebar: true,
     title: Object(external_wp_i18n_["__"])('Color'),
     colorSettings: [{
       value: color.color,
@@ -35862,6 +36010,7 @@ function SocialLinksEdit(props) {
     })
   })), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["PanelColorSettings"], {
     __experimentalHasMultipleOrigins: true,
+    __experimentalIsRenderedInSidebar: true,
     title: Object(external_wp_i18n_["__"])('Color'),
     colorSettings: [{
       // Use custom attribute as fallback to prevent loss of named color selection when
@@ -39592,7 +39741,7 @@ const verse_deprecated_v1 = {
   }
 
 };
-const deprecated_v2 = {
+const verse_deprecated_v2 = {
   attributes: {
     content: {
       type: 'string',
@@ -39660,7 +39809,7 @@ const deprecated_v2 = {
  * See block-deprecation.md
  */
 
-/* harmony default export */ var verse_deprecated = ([deprecated_v2, verse_deprecated_v1]);
+/* harmony default export */ var verse_deprecated = ([verse_deprecated_v2, verse_deprecated_v1]);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/verse/edit.js
 

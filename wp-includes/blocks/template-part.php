@@ -50,6 +50,17 @@ function render_block_core_template_part( $attributes ) {
 			if ( ! is_wp_error( $area_terms ) && false !== $area_terms ) {
 				$area = $area_terms[0]->name;
 			}
+			/**
+			 * Fires when a block template part is loaded from a template post stored in the database.
+			 *
+			 * @since 5.9.0
+			 *
+			 * @param string  $template_part_id   The requested template part namespaced to the theme.
+			 * @param array   $attributes         The block attributes.
+			 * @param WP_Post $template_part_post The template part post object.
+			 * @param string  $content            The template part content.
+			 */
+			do_action( 'render_block_core_template_part_post', $template_part_id, $attributes, $template_part_post, $content );
 		} else {
 			// Else, if the template part was provided by the active theme,
 			// render the corresponding file content.
@@ -60,6 +71,31 @@ function render_block_core_template_part( $attributes ) {
 				$content = is_string( $content ) && '' !== $content
 						? _inject_theme_attribute_in_block_template_content( $content )
 						: '';
+			}
+
+			if ( '' !== $content && null !== $content ) {
+				/**
+				 * Fires when a block template part is loaded from a template part in the theme.
+				 *
+				 * @since 5.9.0
+				 *
+				 * @param string $template_part_id        The requested template part namespaced to the theme.
+				 * @param array  $attributes              The block attributes.
+				 * @param string $template_part_file_path Absolute path to the template path.
+				 * @param string $content                 The template part content.
+				 */
+				do_action( 'render_block_core_template_part_file', $template_part_id, $attributes, $template_part_file_path, $content );
+			} else {
+				/**
+				 * Fires when a requested block template part does not exist in the database nor in the theme.
+				 *
+				 * @since 5.9.0
+				 *
+				 * @param string $template_part_id        The requested template part namespaced to the theme.
+				 * @param array  $attributes              The block attributes.
+				 * @param string $template_part_file_path Absolute path to the not found template path.
+				 */
+				do_action( 'render_block_core_template_part_none', $template_part_id, $attributes, $template_part_file_path );
 			}
 		}
 	}

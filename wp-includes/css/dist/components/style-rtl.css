@@ -636,6 +636,7 @@ svg.components-checkbox-control__checked {
 .components-circular-option-picker .components-circular-option-picker__custom-clear-wrapper {
   display: flex;
   justify-content: flex-end;
+  margin-top: 12px;
 }
 .components-circular-option-picker .components-circular-option-picker__swatches {
   display: flex;
@@ -894,11 +895,22 @@ input.components-combobox-control__input[type=text]:focus {
   overflow: visible;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.05);
   border: none;
+  border-radius: 2px;
 }
 .components-dropdown__content.components-color-palette__custom-color-dropdown-content .components-popover__content > div {
   padding: 0;
 }
+.components-dropdown__content.components-color-palette__custom-color-dropdown-content .components-popover__content .react-colorful__saturation {
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+}
 
+@media (min-width: 782px) {
+  .components-dropdown__content.components-color-palette__custom-color-dropdown-content.is-rendered-in-sidebar.is-from-top .components-popover__content {
+    margin-left: 156px;
+    margin-top: -60px;
+  }
+}
 .components-custom-gradient-picker__gradient-bar:not(.has-gradient) {
   opacity: 0.4;
 }

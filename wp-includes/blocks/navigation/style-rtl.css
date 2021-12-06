@@ -355,9 +355,12 @@ button.wp-block-navigation-item__content {
   display: flex;
   flex-direction: column;
   align-items: var(--layout-justification-setting, inherit);
-  justify-content: flex-start;
   overflow: auto;
   padding: 0;
+}
+.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-content,
+.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-content .wp-block-navigation__container {
+  justify-content: flex-start;
 }
 .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-content .wp-block-navigation__submenu-icon {
   display: none;

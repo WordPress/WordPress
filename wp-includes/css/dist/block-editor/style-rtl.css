@@ -2110,7 +2110,10 @@
   align-items: flex-start;
   margin-left: 8px;
   white-space: pre-wrap;
-  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+.block-editor-link-control__search-item .block-editor-link-control__search-item-header .block-editor-link-control__search-item-info {
+  word-break: break-all;
 }
 .block-editor-link-control__search-item.is-preview .block-editor-link-control__search-item-header {
   display: flex;

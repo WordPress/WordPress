@@ -15006,10 +15006,13 @@ const withCustomColorPalette = colorsArray => Object(external_wp_compose_["creat
 
 
 const withEditorColorPalette = () => Object(external_wp_compose_["createHigherOrderComponent"])(WrappedComponent => props => {
-  const {
-    palette: colorPerOrigin
-  } = Object(use_setting["a" /* default */])('color') || {};
-  const allColors = Object(external_wp_element_["useMemo"])(() => [...((colorPerOrigin === null || colorPerOrigin === void 0 ? void 0 : colorPerOrigin.custom) || []), ...((colorPerOrigin === null || colorPerOrigin === void 0 ? void 0 : colorPerOrigin.theme) || []), ...((colorPerOrigin === null || colorPerOrigin === void 0 ? void 0 : colorPerOrigin.default) || [])], [colorPerOrigin]);
+  // Some color settings have a special handling for deprecated flags in `useSetting`,
+  // so we can't unwrap them by doing const { ... } = useSetting('color')
+  // until https://github.com/WordPress/gutenberg/issues/37094 is fixed.
+  const userPalette = Object(use_setting["a" /* default */])('color.palette.custom');
+  const themePalette = Object(use_setting["a" /* default */])('color.palette.theme');
+  const defaultPalette = Object(use_setting["a" /* default */])('color.palette.default');
+  const allColors = Object(external_wp_element_["useMemo"])(() => [...(userPalette || []), ...(themePalette || []), ...(defaultPalette || [])], [userPalette, themePalette, defaultPalette]);
   return Object(external_wp_element_["createElement"])(WrappedComponent, Object(esm_extends["a" /* default */])({}, props, {
     colors: allColors
   }));
@@ -23207,6 +23210,7 @@ function getGradientSlugByValue(gradients, value) {
 
   return gradient && gradient.slug;
 }
+const EMPTY_OBJECT = {};
 function __experimentalUseGradient() {
   let {
     gradientAttribute = 'gradient',
@@ -23215,9 +23219,7 @@ function __experimentalUseGradient() {
   const {
     clientId
   } = Object(_block_edit__WEBPACK_IMPORTED_MODULE_3__[/* useBlockEditContext */ "c"])();
-  const {
-    gradients: gradientsPerOrigin
-  } = Object(_use_setting__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"])('color') || {};
+  const gradientsPerOrigin = Object(_use_setting__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"])('color.gradients') || EMPTY_OBJECT;
   const allGradients = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useMemo"])(() => [...((gradientsPerOrigin === null || gradientsPerOrigin === void 0 ? void 0 : gradientsPerOrigin.custom) || []), ...((gradientsPerOrigin === null || gradientsPerOrigin === void 0 ? void 0 : gradientsPerOrigin.theme) || []), ...((gradientsPerOrigin === null || gradientsPerOrigin === void 0 ? void 0 : gradientsPerOrigin.default) || [])], [gradientsPerOrigin]);
   const {
     gradient,
@@ -32119,6 +32121,7 @@ function ColorGradientControlInner(_ref) {
     disableCustomColors,
     disableCustomGradients,
     __experimentalHasMultipleOrigins,
+    __experimentalIsRenderedInSidebar,
     className,
     label,
     onColorChange,
@@ -32164,6 +32167,7 @@ function ColorGradientControlInner(_ref) {
     colors,
     disableCustomColors,
     __experimentalHasMultipleOrigins: __experimentalHasMultipleOrigins,
+    __experimentalIsRenderedInSidebar: __experimentalIsRenderedInSidebar,
     clearable: clearable,
     enableAlpha: enableAlpha
   }), (currentTab === 'gradient' || !canChooseAColor) && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__["GradientPicker"], {
@@ -41604,7 +41608,8 @@ function BorderColorEdit(props) {
     colorValue: colorValue,
     onColorChange: onChangeColor,
     clearable: false,
-    __experimentalHasMultipleOrigins: true
+    __experimentalHasMultipleOrigins: true,
+    __experimentalIsRenderedInSidebar: true
   }, colorGradientSettings));
 }
 /**
@@ -42107,7 +42112,8 @@ function ColorPanel(_ref) {
     initialOpen: false,
     settings: settings,
     showTitle: showTitle,
-    __experimentalHasMultipleOrigins: true
+    __experimentalHasMultipleOrigins: true,
+    __experimentalIsRenderedInSidebar: true
   }, enableContrastChecking && Object(external_wp_element_["createElement"])(contrast_checker["a" /* default */], {
     backgroundColor: detectedBackgroundColor,
     textColor: detectedColor
@@ -42142,6 +42148,7 @@ function ColorPanel(_ref) {
 
 
 const COLOR_SUPPORT_KEY = 'color';
+const EMPTY_OBJECT = {};
 
 const hasColorSupport = blockType => {
   const colorSupport = Object(external_wp_blocks_["getBlockSupport"])(blockType, COLOR_SUPPORT_KEY);
@@ -42311,24 +42318,27 @@ function immutableSet(object, path, value) {
 
 
 function ColorEdit(props) {
-  var _solidsPerOrigin$them, _gradientsPerOrigin$t, _style$color6, _style$color7, _style$color8, _style$elements2, _style$elements2$link, _style$elements2$link2, _style$elements3, _style$elements3$link, _style$elements3$link2;
+  var _gradientsPerOrigin$t, _style$color6, _style$color7, _style$color8, _style$elements2, _style$elements2$link, _style$elements2$link2, _style$elements3, _style$elements3$link, _style$elements3$link2;
 
   const {
     name: blockName,
     attributes
-  } = props;
-  const {
-    palette: solidsPerOrigin,
-    gradients: gradientsPerOrigin,
-    customGradient: areCustomGradientsEnabled,
-    custom: areCustomSolidsEnabled,
-    text: isTextEnabled,
-    background: isBackgroundEnabled,
-    link: isLinkEnabled
-  } = Object(use_setting["a" /* default */])('color') || {};
-  const solidsEnabled = areCustomSolidsEnabled || !(solidsPerOrigin !== null && solidsPerOrigin !== void 0 && solidsPerOrigin.theme) || (solidsPerOrigin === null || solidsPerOrigin === void 0 ? void 0 : (_solidsPerOrigin$them = solidsPerOrigin.theme) === null || _solidsPerOrigin$them === void 0 ? void 0 : _solidsPerOrigin$them.length) > 0;
+  } = props; // Some color settings have a special handling for deprecated flags in `useSetting`,
+  // so we can't unwrap them by doing const { ... } = useSetting('color')
+  // until https://github.com/WordPress/gutenberg/issues/37094 is fixed.
+
+  const userPalette = Object(use_setting["a" /* default */])('color.palette.custom');
+  const themePalette = Object(use_setting["a" /* default */])('color.palette.theme');
+  const defaultPalette = Object(use_setting["a" /* default */])('color.palette.default');
+  const allSolids = Object(external_wp_element_["useMemo"])(() => [...(userPalette || []), ...(themePalette || []), ...(defaultPalette || [])], [userPalette, themePalette, defaultPalette]);
+  const gradientsPerOrigin = Object(use_setting["a" /* default */])('color.gradients') || EMPTY_OBJECT;
+  const areCustomSolidsEnabled = Object(use_setting["a" /* default */])('color.custom');
+  const areCustomGradientsEnabled = Object(use_setting["a" /* default */])('color.customGradient');
+  const isBackgroundEnabled = Object(use_setting["a" /* default */])('color.background');
+  const isLinkEnabled = Object(use_setting["a" /* default */])('color.link');
+  const isTextEnabled = Object(use_setting["a" /* default */])('color.text');
+  const solidsEnabled = areCustomSolidsEnabled || !themePalette || (themePalette === null || themePalette === void 0 ? void 0 : themePalette.length) > 0;
   const gradientsEnabled = areCustomGradientsEnabled || !(gradientsPerOrigin !== null && gradientsPerOrigin !== void 0 && gradientsPerOrigin.theme) || (gradientsPerOrigin === null || gradientsPerOrigin === void 0 ? void 0 : (_gradientsPerOrigin$t = gradientsPerOrigin.theme) === null || _gradientsPerOrigin$t === void 0 ? void 0 : _gradientsPerOrigin$t.length) > 0;
-  const allSolids = Object(external_wp_element_["useMemo"])(() => [...((solidsPerOrigin === null || solidsPerOrigin === void 0 ? void 0 : solidsPerOrigin.custom) || []), ...((solidsPerOrigin === null || solidsPerOrigin === void 0 ? void 0 : solidsPerOrigin.theme) || []), ...((solidsPerOrigin === null || solidsPerOrigin === void 0 ? void 0 : solidsPerOrigin.default) || [])], [solidsPerOrigin]);
   const allGradients = Object(external_wp_element_["useMemo"])(() => [...((gradientsPerOrigin === null || gradientsPerOrigin === void 0 ? void 0 : gradientsPerOrigin.custom) || []), ...((gradientsPerOrigin === null || gradientsPerOrigin === void 0 ? void 0 : gradientsPerOrigin.theme) || []), ...((gradientsPerOrigin === null || gradientsPerOrigin === void 0 ? void 0 : gradientsPerOrigin.default) || [])], [gradientsPerOrigin]); // Shouldn't be needed but right now the ColorGradientsPanel
   // can trigger both onChangeColor and onChangeBackground
   // synchronously causing our two callbacks to override changes
@@ -42466,7 +42476,7 @@ function ColorEdit(props) {
  */
 
 const withColorPaletteStyles = Object(external_wp_compose_["createHigherOrderComponent"])(BlockListBlock => props => {
-  var _getColorObjectByAttr, _getColorObjectByAttr2, _props$wrapperProps;
+  var _props$wrapperProps;
 
   const {
     name,
@@ -42476,19 +42486,29 @@ const withColorPaletteStyles = Object(external_wp_compose_["createHigherOrderCom
     backgroundColor,
     textColor
   } = attributes;
-  const {
-    palette: solidsPerOrigin
-  } = Object(use_setting["a" /* default */])('color') || {};
-  const colors = Object(external_wp_element_["useMemo"])(() => [...((solidsPerOrigin === null || solidsPerOrigin === void 0 ? void 0 : solidsPerOrigin.custom) || []), ...((solidsPerOrigin === null || solidsPerOrigin === void 0 ? void 0 : solidsPerOrigin.theme) || []), ...((solidsPerOrigin === null || solidsPerOrigin === void 0 ? void 0 : solidsPerOrigin.default) || [])], [solidsPerOrigin]);
+  const userPalette = Object(use_setting["a" /* default */])('color.palette.custom') || [];
+  const themePalette = Object(use_setting["a" /* default */])('color.palette.theme') || [];
+  const defaultPalette = Object(use_setting["a" /* default */])('color.palette.default') || [];
+  const colors = Object(external_wp_element_["useMemo"])(() => [...(userPalette || []), ...(themePalette || []), ...(defaultPalette || [])], [userPalette, themePalette, defaultPalette]);
 
   if (!hasColorSupport(name) || color_shouldSkipSerialization(name)) {
     return Object(external_wp_element_["createElement"])(BlockListBlock, props);
   }
 
-  const extraStyles = {
-    color: textColor ? (_getColorObjectByAttr = Object(utils["b" /* getColorObjectByAttributeValues */])(colors, textColor)) === null || _getColorObjectByAttr === void 0 ? void 0 : _getColorObjectByAttr.color : undefined,
-    backgroundColor: backgroundColor ? (_getColorObjectByAttr2 = Object(utils["b" /* getColorObjectByAttributeValues */])(colors, backgroundColor)) === null || _getColorObjectByAttr2 === void 0 ? void 0 : _getColorObjectByAttr2.color : undefined
-  };
+  const extraStyles = {};
+
+  if (textColor) {
+    var _getColorObjectByAttr;
+
+    extraStyles.color = (_getColorObjectByAttr = Object(utils["b" /* getColorObjectByAttributeValues */])(colors, textColor)) === null || _getColorObjectByAttr === void 0 ? void 0 : _getColorObjectByAttr.color;
+  }
+
+  if (backgroundColor) {
+    var _getColorObjectByAttr2;
+
+    extraStyles.backgroundColor = (_getColorObjectByAttr2 = Object(utils["b" /* getColorObjectByAttributeValues */])(colors, backgroundColor)) === null || _getColorObjectByAttr2 === void 0 ? void 0 : _getColorObjectByAttr2.color;
+  }
+
   let wrapperProps = props.wrapperProps;
   wrapperProps = { ...props.wrapperProps,
     style: { ...extraStyles,
@@ -45185,6 +45205,7 @@ function getColorClassesAndStyles(attributes) {
     style: styleProp
   };
 }
+const use_color_props_EMPTY_OBJECT = {};
 /**
  * Determines the color related props for a block derived from its color block
  * support attributes.
@@ -45202,12 +45223,15 @@ function useColorProps(attributes) {
     backgroundColor,
     textColor,
     gradient
-  } = attributes;
-  const {
-    palette: solidsPerOrigin,
-    gradients: gradientsPerOrigin
-  } = Object(use_setting["a" /* default */])('color') || {};
-  const colors = Object(external_wp_element_["useMemo"])(() => [...((solidsPerOrigin === null || solidsPerOrigin === void 0 ? void 0 : solidsPerOrigin.custom) || []), ...((solidsPerOrigin === null || solidsPerOrigin === void 0 ? void 0 : solidsPerOrigin.theme) || []), ...((solidsPerOrigin === null || solidsPerOrigin === void 0 ? void 0 : solidsPerOrigin.default) || [])], [solidsPerOrigin]);
+  } = attributes; // Some color settings have a special handling for deprecated flags in `useSetting`,
+  // so we can't unwrap them by doing const { ... } = useSetting('color')
+  // until https://github.com/WordPress/gutenberg/issues/37094 is fixed.
+
+  const userPalette = Object(use_setting["a" /* default */])('color.palette.custom') || [];
+  const themePalette = Object(use_setting["a" /* default */])('color.palette.theme') || [];
+  const defaultPalette = Object(use_setting["a" /* default */])('color.palette.default') || [];
+  const gradientsPerOrigin = Object(use_setting["a" /* default */])('color.gradients') || use_color_props_EMPTY_OBJECT;
+  const colors = Object(external_wp_element_["useMemo"])(() => [...(userPalette || []), ...(themePalette || []), ...(defaultPalette || [])], [userPalette, themePalette, defaultPalette]);
   const gradients = Object(external_wp_element_["useMemo"])(() => [...((gradientsPerOrigin === null || gradientsPerOrigin === void 0 ? void 0 : gradientsPerOrigin.custom) || []), ...((gradientsPerOrigin === null || gradientsPerOrigin === void 0 ? void 0 : gradientsPerOrigin.theme) || []), ...((gradientsPerOrigin === null || gradientsPerOrigin === void 0 ? void 0 : gradientsPerOrigin.default) || [])], [gradientsPerOrigin]);
   const colorProps = getColorClassesAndStyles(attributes); // Force inline styles to apply colors when themes do not load their color
   // stylesheets in the editor.
@@ -49631,6 +49655,7 @@ const PanelColorGradientSettingsInner = _ref3 => {
     title,
     showTitle = true,
     __experimentalHasMultipleOrigins,
+    __experimentalIsRenderedInSidebar,
     enableAlpha,
     ...props
   } = _ref3;
@@ -49657,6 +49682,7 @@ const PanelColorGradientSettingsInner = _ref3 => {
     disableCustomColors,
     disableCustomGradients,
     __experimentalHasMultipleOrigins,
+    __experimentalIsRenderedInSidebar,
     enableAlpha
   }, setting))), children);
 };

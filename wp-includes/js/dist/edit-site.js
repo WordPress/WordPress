@@ -2209,7 +2209,7 @@ function TemplatePartItemMore(_ref) {
   }, Object(external_wp_i18n_["sprintf"])(
   /* translators: %s: template part title */
   Object(external_wp_i18n_["__"])('Edit %s'), (_templatePart$title = templatePart.title) === null || _templatePart$title === void 0 ? void 0 : _templatePart$title.rendered))), isTemplateRevertable(templatePart) && Object(external_wp_element_["createElement"])(external_wp_components_["MenuGroup"], null, Object(external_wp_element_["createElement"])(external_wp_components_["MenuItem"], {
-    info: Object(external_wp_i18n_["__"])('Restore template to theme default'),
+    info: Object(external_wp_i18n_["__"])('Restore template to default state'),
     onClick: clearCustomizations
   }, Object(external_wp_i18n_["__"])('Clear customizations'))));
 }
@@ -2388,7 +2388,7 @@ function TemplateDetails(_ref) {
     className: "edit-site-template-details__group edit-site-template-details__revert"
   }, Object(external_wp_element_["createElement"])(external_wp_components_["MenuItem"], {
     className: "edit-site-template-details__revert-button",
-    info: Object(external_wp_i18n_["__"])('Restore template to theme default'),
+    info: Object(external_wp_i18n_["__"])('Restore template to default state'),
     onClick: revert
   }, Object(external_wp_i18n_["__"])('Clear customizations'))), Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
     className: "edit-site-template-details__show-all-button",
@@ -4319,7 +4319,8 @@ function ScreenBackgroundColor(_ref) {
     disableCustomGradients: !areCustomGradientsEnabled,
     __experimentalHasMultipleOrigins: true,
     showTitle: false,
-    enableAlpha: true
+    enableAlpha: true,
+    __experimentalIsRenderedInSidebar: true
   }));
 }
 
@@ -4375,7 +4376,8 @@ function ScreenTextColor(_ref) {
     disableCustomColors: !areCustomSolidsEnabled,
     __experimentalHasMultipleOrigins: true,
     showTitle: false,
-    enableAlpha: true
+    enableAlpha: true,
+    __experimentalIsRenderedInSidebar: true
   }));
 }
 
@@ -4431,7 +4433,8 @@ function ScreenLinkColor(_ref) {
     disableCustomColors: !areCustomSolidsEnabled,
     __experimentalHasMultipleOrigins: true,
     showTitle: false,
-    enableAlpha: true
+    enableAlpha: true,
+    __experimentalIsRenderedInSidebar: true
   }));
 }
 
@@ -7795,7 +7798,7 @@ function Actions(_ref) {
         onClose();
       }
     }, Object(external_wp_i18n_["__"])('Delete template'))), isRevertable && Object(external_wp_element_["createElement"])(external_wp_components_["MenuItem"], {
-      info: Object(external_wp_i18n_["__"])('Restore template to theme default'),
+      info: Object(external_wp_i18n_["__"])('Restore template to default state'),
       onClick: () => {
         revertAndSaveTemplate();
         onClose();
@@ -8044,32 +8047,36 @@ function Table(_ref) {
     }, Object(external_wp_i18n_["__"])('Added by')), Object(external_wp_element_["createElement"])("th", {
       className: "edit-site-list-table-column",
       role: "columnheader"
-    }, Object(external_wp_element_["createElement"])(external_wp_components_["VisuallyHidden"], null, Object(external_wp_i18n_["__"])('Actions'))))), Object(external_wp_element_["createElement"])("tbody", null, templates.map(template => Object(external_wp_element_["createElement"])("tr", {
-      key: template.id,
-      className: "edit-site-list-table-row",
-      role: "row"
-    }, Object(external_wp_element_["createElement"])("td", {
-      className: "edit-site-list-table-column",
-      role: "cell"
-    }, Object(external_wp_element_["createElement"])(external_wp_components_["__experimentalHeading"], {
-      level: 4
-    }, Object(external_wp_element_["createElement"])("a", {
-      href: Object(external_wp_url_["addQueryArgs"])(window.location.href, {
-        postId: template.id,
-        postType: template.type
-      })
-    }, template.title.rendered)), template.description), Object(external_wp_element_["createElement"])("td", {
-      className: "edit-site-list-table-column",
-      role: "cell"
-    }, Object(external_wp_element_["createElement"])(AddedBy, {
-      templateType: templateType,
-      template: template
-    })), Object(external_wp_element_["createElement"])("td", {
-      className: "edit-site-list-table-column",
-      role: "cell"
-    }, Object(external_wp_element_["createElement"])(Actions, {
-      template: template
-    }))))))
+    }, Object(external_wp_element_["createElement"])(external_wp_components_["VisuallyHidden"], null, Object(external_wp_i18n_["__"])('Actions'))))), Object(external_wp_element_["createElement"])("tbody", null, templates.map(template => {
+      var _template$title;
+
+      return Object(external_wp_element_["createElement"])("tr", {
+        key: template.id,
+        className: "edit-site-list-table-row",
+        role: "row"
+      }, Object(external_wp_element_["createElement"])("td", {
+        className: "edit-site-list-table-column",
+        role: "cell"
+      }, Object(external_wp_element_["createElement"])(external_wp_components_["__experimentalHeading"], {
+        level: 4
+      }, Object(external_wp_element_["createElement"])("a", {
+        href: Object(external_wp_url_["addQueryArgs"])(window.location.href, {
+          postId: template.id,
+          postType: template.type
+        })
+      }, ((_template$title = template.title) === null || _template$title === void 0 ? void 0 : _template$title.rendered) || template.slug)), template.description), Object(external_wp_element_["createElement"])("td", {
+        className: "edit-site-list-table-column",
+        role: "cell"
+      }, Object(external_wp_element_["createElement"])(AddedBy, {
+        templateType: templateType,
+        template: template
+      })), Object(external_wp_element_["createElement"])("td", {
+        className: "edit-site-list-table-column",
+        role: "cell"
+      }, Object(external_wp_element_["createElement"])(Actions, {
+        template: template
+      })));
+    })))
   );
 }
 

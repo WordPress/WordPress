@@ -230,7 +230,7 @@ div[data-type="core/button"] {
     margin-left: var(--wp--style--block-gap, 2em);
   }
 }
-.block-editor-block-list__block.wp-block-column.wp-block-column {
+html :where(.wp-block-column) {
   margin-top: 0;
   margin-bottom: 0;
 }

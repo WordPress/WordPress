@@ -33087,11 +33087,15 @@ const borderless =  true ? {
   styles: "border:none"
 } : undefined;
 const styles_rounded = /*#__PURE__*/Object(emotion_react_browser_esm["a" /* css */])("border-radius:", config_values.cardBorderRadius, ";" + ( true ? "" : undefined),  true ? "" : undefined);
+const xSmallCardPadding = /*#__PURE__*/Object(emotion_react_browser_esm["a" /* css */])("padding:", config_values.cardPaddingXSmall, ";" + ( true ? "" : undefined),  true ? "" : undefined);
 const cardPaddings = {
   large: /*#__PURE__*/Object(emotion_react_browser_esm["a" /* css */])("padding:", config_values.cardPaddingLarge, ";" + ( true ? "" : undefined),  true ? "" : undefined),
   medium: /*#__PURE__*/Object(emotion_react_browser_esm["a" /* css */])("padding:", config_values.cardPaddingMedium, ";" + ( true ? "" : undefined),  true ? "" : undefined),
   small: /*#__PURE__*/Object(emotion_react_browser_esm["a" /* css */])("padding:", config_values.cardPaddingSmall, ";" + ( true ? "" : undefined),  true ? "" : undefined),
-  xSmall: /*#__PURE__*/Object(emotion_react_browser_esm["a" /* css */])("padding:", config_values.cardPaddingXSmall, ";" + ( true ? "" : undefined),  true ? "" : undefined)
+  xSmall: xSmallCardPadding,
+  // The `extraSmall` size is not officially documented, but the following styles
+  // are kept for legacy reasons to support older values of the `size` prop.
+  extraSmall: xSmallCardPadding
 };
 const shady = /*#__PURE__*/Object(emotion_react_browser_esm["a" /* css */])("background-color:", COLORS.lightGray[200], ";" + ( true ? "" : undefined),  true ? "" : undefined);
 
@@ -39121,6 +39125,47 @@ const Picker = _ref => {
   });
 };
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/utils/hooks/use-controlled-value.js
+/**
+ * WordPress dependencies
+ */
+
+
+/**
+ * Simplified and improved implementation of useControlledState.
+ *
+ * @param  props
+ * @param  props.defaultValue
+ * @param  props.value
+ * @param  props.onChange
+ * @return The controlled value and the value setter.
+ */
+function useControlledValue(_ref) {
+  let {
+    defaultValue,
+    onChange,
+    value: valueProp
+  } = _ref;
+  const hasValue = typeof valueProp !== 'undefined';
+  const initialValue = hasValue ? valueProp : defaultValue;
+  const [state, setState] = Object(external_wp_element_["useState"])(initialValue);
+  const value = hasValue ? valueProp : state;
+  let setValue;
+
+  if (hasValue && typeof onChange === 'function') {
+    setValue = onChange;
+  } else if (!hasValue && typeof onChange === 'function') {
+    setValue = nextValue => {
+      onChange(nextValue);
+      setState(nextValue);
+    };
+  } else {
+    setValue = setState;
+  }
+
+  return [value, setValue];
+}
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/color-picker/component.js
 
 
@@ -39139,9 +39184,11 @@ const Picker = _ref => {
 
 
 
+
 /**
  * Internal dependencies
  */
+
 
 
 
@@ -39165,19 +39212,25 @@ const component_options = [{
 const ColorPicker = (props, forwardedRef) => {
   const {
     enableAlpha = false,
-    color,
+    color: colorProp,
     onChange,
     defaultValue = '#fff',
     copyFormat,
     ...divProps
   } = Object(use_context_system["a" /* useContextSystem */])(props, 'ColorPicker'); // Use a safe default value for the color and remove the possibility of `undefined`.
 
+  const [color, setColor] = useControlledValue({
+    onChange,
+    value: colorProp,
+    defaultValue
+  });
   const safeColordColor = Object(external_wp_element_["useMemo"])(() => {
-    return color ? Object(colord["a" /* colord */])(color) : Object(colord["a" /* colord */])(defaultValue);
-  }, [color, defaultValue]);
+    return Object(colord["a" /* colord */])(color);
+  }, [color]);
+  const debouncedSetColor = Object(external_wp_compose_["useDebounce"])(setColor);
   const handleChange = Object(external_React_["useCallback"])(nextValue => {
-    onChange(nextValue.toHex());
-  }, [onChange]);
+    debouncedSetColor(nextValue.toHex());
+  }, [debouncedSetColor]);
   const [showInputs, setShowInputs] = Object(external_wp_element_["useState"])(false);
   const [colorType, setColorType] = Object(external_wp_element_["useState"])(copyFormat || 'hex');
   return Object(external_wp_element_["createElement"])(ColorfulWrapper, Object(esm_extends["a" /* default */])({
@@ -40889,7 +40942,7 @@ function GradientPicker(_ref5) {
     __experimentalHasMultipleOrigins
   } = _ref5;
   const clearGradient = Object(external_wp_element_["useCallback"])(() => onChange(undefined), [onChange]);
-  const Component = __experimentalHasMultipleOrigins ? MultipleOrigin : SingleOrigin;
+  const Component = __experimentalHasMultipleOrigins && gradients !== null && gradients !== void 0 && gradients.length ? MultipleOrigin : SingleOrigin;
   return Object(external_wp_element_["createElement"])(Component, {
     className: className,
     clearable: clearable,
@@ -40897,7 +40950,7 @@ function GradientPicker(_ref5) {
     gradients: gradients,
     onChange: onChange,
     value: value,
-    actions: clearable && Object(external_wp_element_["createElement"])(CircularOptionPicker.ButtonAction, {
+    actions: clearable && ((gradients === null || gradients === void 0 ? void 0 : gradients.length) || !disableCustomGradients) && Object(external_wp_element_["createElement"])(CircularOptionPicker.ButtonAction, {
       onClick: clearGradient
     }, Object(external_wp_i18n_["__"])('Clear')),
     content: !disableCustomGradients && Object(external_wp_element_["createElement"])(CustomGradientPicker, {
@@ -40916,6 +40969,7 @@ var a11y = __webpack_require__("7bKH");
 /**
  * External dependencies
  */
+
 
 
 
@@ -41018,7 +41072,8 @@ function ColorPalette(_ref5) {
     enableAlpha,
     onChange,
     value,
-    __experimentalHasMultipleOrigins = false
+    __experimentalHasMultipleOrigins = false,
+    __experimentalIsRenderedInSidebar = false
   } = _ref5;
   const clearColor = Object(external_wp_element_["useCallback"])(() => onChange(undefined), [onChange]);
   const Component = __experimentalHasMultipleOrigins ? MultiplePalettes : SinglePalette;
@@ -41033,7 +41088,9 @@ function ColorPalette(_ref5) {
     spacing: 3,
     className: className
   }, !disableCustomColors && Object(external_wp_element_["createElement"])(Dropdown, {
-    contentClassName: "components-color-palette__custom-color-dropdown-content",
+    contentClassName: classnames_default()('components-color-palette__custom-color-dropdown-content', {
+      'is-rendered-in-sidebar': __experimentalIsRenderedInSidebar
+    }),
     renderContent: renderCustomColorPicker,
     renderToggle: _ref6 => {
       let {
@@ -41801,7 +41858,8 @@ function PaletteEdit(_ref6) {
   const [isEditing, setIsEditing] = Object(external_wp_element_["useState"])(false);
   const [editingElement, setEditingElement] = Object(external_wp_element_["useState"])(null);
   const isAdding = isEditing && editingElement && elements[editingElement] && !elements[editingElement].slug;
-  const hasElements = elements.length > 0;
+  const elementsLength = elements.length;
+  const hasElements = elementsLength > 0;
   return Object(external_wp_element_["createElement"])(PaletteEditStyles, null, Object(external_wp_element_["createElement"])(PaletteHStackHeader, null, Object(external_wp_element_["createElement"])(PaletteHeading, null, paletteLabel), Object(external_wp_element_["createElement"])(PaletteActionsContainer, null, isEditing && Object(external_wp_element_["createElement"])(DoneButton, {
     isSmall: true,
     onClick: () => {
@@ -41814,12 +41872,15 @@ function PaletteEdit(_ref6) {
     icon: plus["a" /* default */],
     label: isGradient ? Object(external_wp_i18n_["__"])('Add gradient') : Object(external_wp_i18n_["__"])('Add color'),
     onClick: () => {
+      const tempOptionName = Object(external_wp_i18n_["sprintf"])(
+      /* translators: %s: is a temporary id for a custom color */
+      Object(external_wp_i18n_["__"])('Color %s '), elementsLength + 1);
       onChange([...elements, { ...(isGradient ? {
           gradient: DEFAULT_GRADIENT
         } : {
           color: '#000'
         }),
-        name: '',
+        name: tempOptionName,
         slug: ''
       }]);
       setIsEditing(true);
@@ -54892,8 +54953,9 @@ function NavigationItem(props) {
     return null;
   }
 
+  const isActive = item && activeItem === item;
   const classes = classnames_default()(className, {
-    'is-active': item && activeItem === item
+    'is-active': isActive
   });
 
   const onItemClick = event => {
@@ -54912,6 +54974,7 @@ function NavigationItem(props) {
     as: build_module_button["a" /* default */],
     href,
     onClick: onItemClick,
+    'aria-current': isActive ? 'page' : undefined,
     ...restProps
   };
   return Object(external_wp_element_["createElement"])(NavigationItemBase, Object(esm_extends["a" /* default */])({}, baseProps, {

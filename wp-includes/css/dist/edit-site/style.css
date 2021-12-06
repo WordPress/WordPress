@@ -569,10 +569,8 @@ body.is-fullscreen-mode .interface-interface-skeleton {
   height: 24px;
   width: 24px;
   padding: 0;
-  background-image: repeating-linear-gradient(45deg, #e0e0e0 25%, transparent 25%, transparent 75%, #e0e0e0 75%, #e0e0e0), repeating-linear-gradient(45deg, #e0e0e0 25%, transparent 25%, transparent 75%, #e0e0e0 75%, #e0e0e0);
-  background-position: 0 0, 25px 25px;
-  background-size: calc(2 * 5px) calc(2 * 5px);
   border: 1px solid #ddd;
+  background: linear-gradient(-45deg, transparent 48%, #ddd 48%, #ddd 52%, transparent 52%);
 }
 
 .edit-site-global-styles-header__description {
