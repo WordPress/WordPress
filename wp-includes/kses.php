@@ -2593,12 +2593,12 @@ function _wp_add_global_attributes( $value ) {
  */
 function _wp_kses_allow_pdf_objects( $url ) {
 	// We're not interested in URLs that contain query strings or fragments.
-	if ( strpos( $url, '?' ) !== false || strpos( $url, '#' ) !== false ) {
+	if ( str_contains( $url, '?' ) || str_contains( $url, '#' ) ) {
 		return false;
 	}
 
 	// If it doesn't have a PDF extension, it's not safe.
-	if ( 0 !== substr_compare( $url, '.pdf', -4, 4, true ) ) {
+	if ( ! str_ends_with( $url, '.pdf' ) ) {
 		return false;
 	}
 
@@ -2607,7 +2607,10 @@ function _wp_kses_allow_pdf_objects( $url ) {
 	$parsed_url  = wp_parse_url( $upload_info['url'] );
 	$upload_host = isset( $parsed_url['host'] ) ? $parsed_url['host'] : '';
 	$upload_port = isset( $parsed_url['port'] ) ? ':' . $parsed_url['port'] : '';
-	if ( 0 === strpos( $url, "http://$upload_host$upload_port/" ) || 0 === strpos( $url, "https://$upload_host$upload_port/" ) ) {
+
+	if ( str_starts_with( $url, "http://$upload_host$upload_port/" )
+		|| str_starts_with( $url, "https://$upload_host$upload_port/" )
+	) {
 		return true;
 	}
 
