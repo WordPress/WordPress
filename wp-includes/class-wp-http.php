@@ -378,7 +378,7 @@ class WP_Http {
 		// Check for proxies.
 		$proxy = new WP_HTTP_Proxy();
 		if ( $proxy->is_enabled() && $proxy->send_through_proxy( $url ) ) {
-			$options['proxy'] = new WpOrg\Requests\Proxy\Http( $proxy->host() . ':' . $proxy->port() );
+			$options['proxy'] = new WpOrg\Requests\Proxy\HTTP( $proxy->host() . ':' . $proxy->port() );
 
 			if ( $proxy->use_authentication() ) {
 				$options['proxy']->use_authentication = true;
