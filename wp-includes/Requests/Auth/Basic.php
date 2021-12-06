@@ -2,15 +2,9 @@
 /**
  * Basic Authentication provider
  *
- * @package Requests\Authentication
+ * @package Requests
+ * @subpackage Authentication
  */
-
-namespace WpOrg\Requests\Auth;
-
-use WpOrg\Requests\Auth;
-use WpOrg\Requests\Exception\ArgumentCount;
-use WpOrg\Requests\Exception\InvalidArgument;
-use WpOrg\Requests\Hooks;
 
 /**
  * Basic Authentication provider
@@ -18,9 +12,10 @@ use WpOrg\Requests\Hooks;
  * Provides a handler for Basic HTTP authentication via the Authorization
  * header.
  *
- * @package Requests\Authentication
+ * @package Requests
+ * @subpackage Authentication
  */
-class Basic implements Auth {
+class Requests_Auth_Basic implements Requests_Auth {
 	/**
 	 * Username
 	 *
@@ -38,45 +33,35 @@ class Basic implements Auth {
 	/**
 	 * Constructor
 	 *
-	 * @since 2.0 Throws an `InvalidArgument` exception.
-	 * @since 2.0 Throws an `ArgumentCount` exception instead of the Requests base `Exception.
-	 *
+	 * @throws Requests_Exception On incorrect number of arguments (`authbasicbadargs`)
 	 * @param array|null $args Array of user and password. Must have exactly two elements
-	 *
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed argument is not an array or null.
-	 * @throws \WpOrg\Requests\Exception\ArgumentCount   On incorrect number of array elements (`authbasicbadargs`).
 	 */
 	public function __construct($args = null) {
 		if (is_array($args)) {
 			if (count($args) !== 2) {
-				throw ArgumentCount::create('an array with exactly two elements', count($args), 'authbasicbadargs');
+				throw new Requests_Exception('Invalid number of arguments', 'authbasicbadargs');
 			}
 
 			list($this->user, $this->pass) = $args;
-			return;
-		}
-
-		if ($args !== null) {
-			throw InvalidArgument::create(1, '$args', 'array|null', gettype($args));
 		}
 	}
 
 	/**
 	 * Register the necessary callbacks
 	 *
-	 * @see \WpOrg\Requests\Auth\Basic::curl_before_send()
-	 * @see \WpOrg\Requests\Auth\Basic::fsockopen_header()
-	 * @param \WpOrg\Requests\Hooks $hooks Hook system
+	 * @see curl_before_send
+	 * @see fsockopen_header
+	 * @param Requests_Hooks $hooks Hook system
 	 */
-	public function register(Hooks $hooks) {
-		$hooks->register('curl.before_send', [$this, 'curl_before_send']);
-		$hooks->register('fsockopen.after_headers', [$this, 'fsockopen_header']);
+	public function register(Requests_Hooks $hooks) {
+		$hooks->register('curl.before_send', array($this, 'curl_before_send'));
+		$hooks->register('fsockopen.after_headers', array($this, 'fsockopen_header'));
 	}
 
 	/**
 	 * Set cURL parameters before the data is sent
 	 *
-	 * @param resource|\CurlHandle $handle cURL handle
+	 * @param resource $handle cURL resource
 	 */
 	public function curl_before_send(&$handle) {
 		curl_setopt($handle, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);

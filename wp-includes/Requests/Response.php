@@ -2,26 +2,24 @@
 /**
  * HTTP response class
  *
- * Contains a response from \WpOrg\Requests\Requests::request()
- *
+ * Contains a response from Requests::request()
  * @package Requests
  */
-
-namespace WpOrg\Requests;
-
-use WpOrg\Requests\Cookie\Jar;
-use WpOrg\Requests\Exception;
-use WpOrg\Requests\Exception\Http;
-use WpOrg\Requests\Response\Headers;
 
 /**
  * HTTP response class
  *
- * Contains a response from \WpOrg\Requests\Requests::request()
- *
+ * Contains a response from Requests::request()
  * @package Requests
  */
-class Response {
+class Requests_Response {
+	/**
+	 * Constructor
+	 */
+	public function __construct() {
+		$this->headers = new Requests_Response_Headers();
+		$this->cookies = new Requests_Cookie_Jar();
+	}
 
 	/**
 	 * Response body
@@ -40,9 +38,9 @@ class Response {
 	/**
 	 * Headers, as an associative array
 	 *
-	 * @var \WpOrg\Requests\Response\Headers Array-like object representing headers
+	 * @var Requests_Response_Headers Array-like object representing headers
 	 */
-	public $headers = [];
+	public $headers = array();
 
 	/**
 	 * Status code, false if non-blocking
@@ -82,24 +80,16 @@ class Response {
 	/**
 	 * Previous requests (from redirects)
 	 *
-	 * @var array Array of \WpOrg\Requests\Response objects
+	 * @var array Array of Requests_Response objects
 	 */
-	public $history = [];
+	public $history = array();
 
 	/**
 	 * Cookies from the request
 	 *
-	 * @var \WpOrg\Requests\Cookie\Jar Array-like object representing a cookie jar
+	 * @var Requests_Cookie_Jar Array-like object representing a cookie jar
 	 */
-	public $cookies = [];
-
-	/**
-	 * Constructor
-	 */
-	public function __construct() {
-		$this->headers = new Headers();
-		$this->cookies = new Jar();
-	}
+	public $cookies = array();
 
 	/**
 	 * Is the response a redirect?
@@ -108,59 +98,25 @@ class Response {
 	 */
 	public function is_redirect() {
 		$code = $this->status_code;
-		return in_array($code, [300, 301, 302, 303, 307], true) || $code > 307 && $code < 400;
+		return in_array($code, array(300, 301, 302, 303, 307), true) || $code > 307 && $code < 400;
 	}
 
 	/**
 	 * Throws an exception if the request was not successful
 	 *
+	 * @throws Requests_Exception If `$allow_redirects` is false, and code is 3xx (`response.no_redirects`)
+	 * @throws Requests_Exception_HTTP On non-successful status code. Exception class corresponds to code (e.g. {@see Requests_Exception_HTTP_404})
 	 * @param boolean $allow_redirects Set to false to throw on a 3xx as well
-	 *
-	 * @throws \WpOrg\Requests\Exception If `$allow_redirects` is false, and code is 3xx (`response.no_redirects`)
-	 * @throws \WpOrg\Requests\Exception\Http On non-successful status code. Exception class corresponds to "Status" + code (e.g. {@see \WpOrg\Requests\Exception\Http\Status404})
 	 */
 	public function throw_for_status($allow_redirects = true) {
 		if ($this->is_redirect()) {
-			if ($allow_redirects !== true) {
-				throw new Exception('Redirection not allowed', 'response.no_redirects', $this);
+			if (!$allow_redirects) {
+				throw new Requests_Exception('Redirection not allowed', 'response.no_redirects', $this);
 			}
 		}
 		elseif (!$this->success) {
-			$exception = Http::get_class($this->status_code);
+			$exception = Requests_Exception_HTTP::get_class($this->status_code);
 			throw new $exception(null, $this);
 		}
-	}
-
-	/**
-	 * JSON decode the response body.
-	 *
-	 * The method parameters are the same as those for the PHP native `json_decode()` function.
-	 *
-	 * @link https://php.net/json-decode
-	 *
-	 * @param ?bool $associative Optional. When `true`, JSON objects will be returned as associative arrays;
-	 *                           When `false`, JSON objects will be returned as objects.
-	 *                           When `null`, JSON objects will be returned as associative arrays
-	 *                           or objects depending on whether `JSON_OBJECT_AS_ARRAY` is set in the flags.
-	 *                           Defaults to `true` (in contrast to the PHP native default of `null`).
-	 * @param int   $depth       Optional. Maximum nesting depth of the structure being decoded.
-	 *                           Defaults to `512`.
-	 * @param int   $options     Optional. Bitmask of JSON_BIGINT_AS_STRING, JSON_INVALID_UTF8_IGNORE,
-	 *                           JSON_INVALID_UTF8_SUBSTITUTE, JSON_OBJECT_AS_ARRAY, JSON_THROW_ON_ERROR.
-	 *                           Defaults to `0` (no options set).
-	 *
-	 * @return array
-	 *
-	 * @throws \WpOrg\Requests\Exception If `$this->body` is not valid json.
-	 */
-	public function decode_body($associative = true, $depth = 512, $options = 0) {
-		$data = json_decode($this->body, $associative, $depth, $options);
-
-		if (json_last_error() !== JSON_ERROR_NONE) {
-			$last_error = json_last_error_msg();
-			throw new Exception('Unable to parse JSON data: ' . $last_error, 'response.invalid', $this);
-		}
-
-		return $data;
 	}
 }

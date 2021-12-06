@@ -1,17 +1,5 @@
 <?php
-/**
- * Transport Exception
- *
- * @package Requests\Exceptions
- */
 
-namespace WpOrg\Requests\Exception;
+class Requests_Exception_Transport extends Requests_Exception {
 
-use WpOrg\Requests\Exception;
-
-/**
- * Transport Exception
- *
- * @package Requests\Exceptions
- */
-class Transport extends Exception {}
+}

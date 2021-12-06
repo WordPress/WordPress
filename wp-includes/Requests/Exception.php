@@ -2,19 +2,15 @@
 /**
  * Exception for HTTP requests
  *
- * @package Requests\Exceptions
+ * @package Requests
  */
-
-namespace WpOrg\Requests;
-
-use Exception as PHPException;
 
 /**
  * Exception for HTTP requests
  *
- * @package Requests\Exceptions
+ * @package Requests
  */
-class Exception extends PHPException {
+class Requests_Exception extends Exception {
 	/**
 	 * Type of exception
 	 *
@@ -45,7 +41,7 @@ class Exception extends PHPException {
 	}
 
 	/**
-	 * Like {@see \Exception::getCode()}, but a string code.
+	 * Like {@see getCode()}, but a string code.
 	 *
 	 * @codeCoverageIgnore
 	 * @return string
