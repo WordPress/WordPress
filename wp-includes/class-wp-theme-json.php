@@ -355,9 +355,9 @@ class WP_Theme_JSON {
 	 *
 	 * @since 5.8.0
 	 *
-	 * @param array $theme_json A structure that follows the theme.json schema.
-	 * @param string $origin    Optional. What source of data this object represents.
-	 *                          One of 'default', 'theme', or 'custom'. Default 'theme'.
+	 * @param array  $theme_json A structure that follows the theme.json schema.
+	 * @param string $origin     Optional. What source of data this object represents.
+	 *                           One of 'default', 'theme', or 'custom'. Default 'theme'.
 	 */
 	public function __construct( $theme_json = array(), $origin = 'theme' ) {
 		if ( ! in_array( $origin, self::VALID_ORIGINS, true ) ) {
@@ -776,6 +776,18 @@ class WP_Theme_JSON {
 				}
 			}
 
+			/*
+			 * Reset default browser margin on the root body element.
+			 * This is set on the root selector **before** generating the ruleset
+			 * from the `theme.json`. This is to ensure that if the `theme.json` declares
+			 * `margin` in its `spacing` declaration for the `body` element then these
+			 * user-generated values take precedence in the CSS cascade.
+			 * @link https://github.com/WordPress/gutenberg/issues/36147.
+			 */
+			if ( self::ROOT_BLOCK_SELECTOR === $selector ) {
+				$block_rules .= 'body { margin: 0; }';
+			}
+
 			// 2. Generate the rules that use the general selector.
 			$block_rules .= self::to_ruleset( $selector, $declarations );
 
@@ -786,7 +798,6 @@ class WP_Theme_JSON {
 			}
 
 			if ( self::ROOT_BLOCK_SELECTOR === $selector ) {
-				$block_rules .= 'body { margin: 0; }';
 				$block_rules .= '.wp-site-blocks > .alignleft { float: left; margin-right: 2em; }';
 				$block_rules .= '.wp-site-blocks > .alignright { float: right; margin-left: 2em; }';
 				$block_rules .= '.wp-site-blocks > .aligncenter { justify-content: center; margin-left: auto; margin-right: auto; }';
