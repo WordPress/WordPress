@@ -5787,7 +5787,7 @@ function _print_emoji_detection_script() {
 	}
 
 	wp_print_inline_script_tag(
-		sprintf( 'window._wpemojiSettings = %s;', wp_json_encode( $settings ) ) .
+		sprintf( 'window._wpemojiSettings = %s;', wp_json_encode( $settings ) ) . "\n" .
 			file_get_contents( sprintf( ABSPATH . WPINC . '/js/wp-emoji-loader' . wp_scripts_get_suffix() . '.js' ) )
 	);
 }
