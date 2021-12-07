@@ -1025,6 +1025,17 @@ class WP_Upgrader {
 			return false;
 		}
 
+		/**
+		 * Skip any plugin that has "." as its slug.
+		 * A slug of "." will result in a `$src` value ending in a period.
+		 *
+		 * On Windows, this will cause the 'plugins' folder to be moved,
+		 * and will cause a failure when attempting to call `mkdir()`.
+		 */
+		if ( '.' === $args['slug'] ) {
+			return false;
+		}
+
 		$dest_dir = $wp_filesystem->wp_content_dir() . 'upgrade/temp-backup/';
 		// Create the temp-backup directory if it doesn't exist.
 		if ( (
