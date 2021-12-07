@@ -635,9 +635,9 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 		 *
 		 * @since 5.3.0
 		 *
-		 * @param array $site_states An array of site states. Default 'Main',
-		 *                           'Archived', 'Mature', 'Spam', 'Deleted'.
-		 * @param WP_Site $site The current site object.
+		 * @param string[] $site_states An array of site states. Default 'Main',
+		 *                              'Archived', 'Mature', 'Spam', 'Deleted'.
+		 * @param WP_Site  $site        The current site object.
 		 */
 		$site_states = apply_filters( 'display_site_states', $site_states, $_site );
 

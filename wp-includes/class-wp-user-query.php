@@ -147,7 +147,7 @@ class WP_User_Query {
 	 *     Optional. Array or string of Query parameters.
 	 *
 	 *     @type int             $blog_id             The site ID. Default is the current site.
-	 *     @type string|array    $role                An array or a comma-separated list of role names that users must match
+	 *     @type string|string[] $role                An array or a comma-separated list of role names that users must match
 	 *                                                to be included in results. Note that this is an inclusive list: users
 	 *                                                must match *each* role. Default empty.
 	 *     @type string[]        $role__in            An array of role names. Matched users must have at least one of these
@@ -221,7 +221,7 @@ class WP_User_Query {
 	 *     @type bool            $count_total         Whether to count the total number of users found. If pagination
 	 *                                                is not needed, setting this to false can improve performance.
 	 *                                                Default true.
-	 *     @type string|array    $fields              Which fields to return. Single or all fields (string), or array
+	 *     @type string|string[] $fields              Which fields to return. Single or all fields (string), or array
 	 *                                                of fields. Accepts:
 	 *                                                - 'ID'
 	 *                                                - 'display_name'
@@ -235,7 +235,7 @@ class WP_User_Query {
 	 *                                                Default 'all'.
 	 *     @type string          $who                 Type of users to query. Accepts 'authors'.
 	 *                                                Default empty (all users).
-	 *     @type bool|array      $has_published_posts Pass an array of post types to filter results to users who have
+	 *     @type bool|string[]   $has_published_posts Pass an array of post types to filter results to users who have
 	 *                                                published posts in those post types. `true` is an alias for all
 	 *                                                public post types.
 	 *     @type string          $nicename            The user nicename. Default empty.

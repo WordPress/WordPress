@@ -229,8 +229,7 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Controller {
 	 *
 	 * @param WP_Post         $post    Global Styles post object.
 	 * @param WP_REST_Request $request Request object.
-	 *
-	 * @return WP_REST_Response $data
+	 * @return WP_REST_Response Response object.
 	 */
 	public function prepare_item_for_response( $post, $request ) { // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
 		$raw_config                       = json_decode( $post->post_content, true );

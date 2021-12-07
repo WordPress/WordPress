@@ -75,7 +75,8 @@ function wp_crop_image( $src, $src_x, $src_y, $src_w, $src_h, $dst_w, $dst_h, $s
  * @since 5.3.0
  *
  * @param int $attachment_id The image attachment post ID.
- * @return array An array of the image sub-sizes that are currently defined but don't exist for this image.
+ * @return array[] Associative array of arrays of image sub-size information for
+ *                 missing image sizes, keyed by image size name.
  */
 function wp_get_missing_image_subsizes( $attachment_id ) {
 	if ( ! wp_attachment_is_image( $attachment_id ) ) {
@@ -131,9 +132,10 @@ function wp_get_missing_image_subsizes( $attachment_id ) {
 	 *
 	 * @since 5.3.0
 	 *
-	 * @param array $missing_sizes Array with the missing image sub-sizes.
-	 * @param array $image_meta    The image meta data.
-	 * @param int   $attachment_id The image attachment post ID.
+	 * @param array[] $missing_sizes Associative array of arrays of image sub-size information for
+	 *                               missing image sizes, keyed by image size name.
+	 * @param array   $image_meta    The image meta data.
+	 * @param int     $attachment_id The image attachment post ID.
 	 */
 	return apply_filters( 'wp_get_missing_image_subsizes', $missing_sizes, $image_meta, $attachment_id );
 }
@@ -814,7 +816,8 @@ function wp_read_image_metadata( $file ) {
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param array $image_types Image types to check for exif data.
+	 * @param int[] $image_types Array of image types to check for exif data. Each value
+	 *                           is usually one of the `IMAGETYPE_*` constants.
 	 */
 	$exif_image_types = apply_filters( 'wp_read_image_metadata_types', array( IMAGETYPE_JPEG, IMAGETYPE_TIFF_II, IMAGETYPE_TIFF_MM ) );
 

@@ -282,7 +282,7 @@ function media_send_to_editor( $html ) {
  *
  * @since 2.5.0
  *
- * @param string $file_id   Index of the `$_FILES` array that the file was sent. Required.
+ * @param string $file_id   Index of the `$_FILES` array that the file was sent.
  * @param int    $post_id   The post ID of a post to attach the media item to. Required, but can
  *                          be set to 0, creating a media item that has no relationship to a post.
  * @param array  $post_data Optional. Overwrite some of the attachment.

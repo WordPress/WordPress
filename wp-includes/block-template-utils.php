@@ -29,7 +29,12 @@ if ( ! defined( 'WP_TEMPLATE_PART_AREA_UNCATEGORIZED' ) ) {
  *
  * @param string $theme_stylesheet The stylesheet. Default is to leverage the main theme root.
  *
- * @return array Folder names used by block themes.
+ * @return string[] {
+ *     Folder names used by block themes.
+ *
+ *     @type string $wp_template      Theme-relative directory name for block templates.
+ *     @type string $wp_template_part Theme-relative directory name for block template parts.
+ * }
  */
 function get_block_theme_folders( $theme_stylesheet = null ) {
 	$theme_name = null === $theme_stylesheet ? get_stylesheet() : $theme_stylesheet;
@@ -223,7 +228,7 @@ function _filter_block_template_part_area( $type ) {
  * @access private
  *
  * @param string $base_directory The theme's file path.
- * @return array $path_list A list of paths to all template part files.
+ * @return array A list of paths to all template part files.
  */
 function _get_block_templates_paths( $base_directory ) {
 	$path_list = array();

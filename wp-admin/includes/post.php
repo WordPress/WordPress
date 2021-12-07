@@ -1020,7 +1020,7 @@ function get_post_meta_by_id( $mid ) {
  * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int $postid A post ID.
- * @return array {
+ * @return array[] {
  *     Array of meta data arrays for the given post ID.
  *
  *     @type array ...$0 {

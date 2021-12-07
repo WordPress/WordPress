@@ -94,8 +94,8 @@ class WP_Term_Query {
 	 * @param string|array $query {
 	 *     Optional. Array or query string of term query parameters. Default empty.
 	 *
-	 *     @type string|array    $taxonomy               Taxonomy name, or array of taxonomies, to which results should
-	 *                                                   be limited.
+	 *     @type string|string[] $taxonomy               Taxonomy name, or array of taxonomy names, to which results
+	 *                                                   should be limited.
 	 *     @type int|int[]       $object_ids             Object ID, or array of object IDs. Results will be
 	 *                                                   limited to terms associated with these objects.
 	 *     @type string          $orderby                Field(s) to order terms by. Accepts:
@@ -148,9 +148,9 @@ class WP_Term_Query {
 	 *                                                   Default 'all'.
 	 *     @type bool            $count                  Whether to return a term count. If true, will take precedence
 	 *                                                   over `$fields`. Default false.
-	 *     @type string|array    $name                   Name or array of names to return term(s) for.
+	 *     @type string|string[] $name                   Name or array of names to return term(s) for.
 	 *                                                   Default empty.
-	 *     @type string|array    $slug                   Slug or array of slugs to return term(s) for.
+	 *     @type string|string[] $slug                   Slug or array of slugs to return term(s) for.
 	 *                                                   Default empty.
 	 *     @type int|int[]       $term_taxonomy_id       Term taxonomy ID, or array of term taxonomy IDs,
 	 *                                                   to match when querying terms.

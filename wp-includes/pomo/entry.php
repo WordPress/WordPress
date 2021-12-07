@@ -30,15 +30,23 @@ if ( ! class_exists( 'Translation_Entry', false ) ) :
 		public $flags               = array();
 
 		/**
-		 * @param array $args associative array, support following keys:
-		 *  - singular (string) -- the string to translate, if omitted and empty entry will be created
-		 *  - plural (string) -- the plural form of the string, setting this will set {@link $is_plural} to true
-		 *  - translations (array) -- translations of the string and possibly -- its plural forms
-		 *  - context (string) -- a string differentiating two equal strings used in different contexts
-		 *  - translator_comments (string) -- comments left by translators
-		 *  - extracted_comments (string) -- comments left by developers
-		 *  - references (array) -- places in the code this strings is used, in relative_to_root_path/file.php:linenum form
-		 *  - flags (array) -- flags like php-format
+		 * @param array $args {
+		 *     Arguments array, supports the following keys:
+		 *
+		 *     @type string $singular            The string to translate, if omitted an
+		 *                                       empty entry will be created.
+		 *     @type string $plural              The plural form of the string, setting
+		 *                                       this will set {@link $is_plural} to true.
+		 *     @type array  $translations        Translations of the string and possibly
+		 *                                       its plural forms.
+		 *     @type string $context             A string differentiating two equal strings
+		 *                                       used in different contexts.
+		 *     @type string $translator_comments Comments left by translators.
+		 *     @type string $extracted_comments  Comments left by developers.
+		 *     @type array  $references          Places in the code this string is used, in
+		 *                                       relative_to_root_path/file.php:linenum form.
+		 *     @type array  $flags               Flags like php-format.
+		 * }
 		 */
 		public function __construct( $args = array() ) {
 			// If no singular -- empty object.

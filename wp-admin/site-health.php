@@ -19,14 +19,14 @@ $tabs = array(
 );
 
 /**
- * An associated array of extra tabs for the Site Health navigation bar.
+ * An associative array of extra tabs for the Site Health navigation bar.
  *
  * Add a custom page to the Site Health screen, based on a tab slug and label.
  * The label you provide will also be used as part of the site title.
  *
  * @since 5.8.0
  *
- * @param array $tabs An associated array of tab slugs and their label.
+ * @param string[] $tabs An associative array of tab labels keyed by their slug.
  */
 $tabs = apply_filters( 'site_health_navigation_tabs', $tabs );
 

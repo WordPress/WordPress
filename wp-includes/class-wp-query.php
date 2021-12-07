@@ -728,9 +728,9 @@ class WP_Query {
 	 *                                                    top-level pages.
 	 *     @type int[]           $post_parent__in         An array containing parent page IDs to query child pages from.
 	 *     @type int[]           $post_parent__not_in     An array containing parent page IDs not to query child pages from.
-	 *     @type string|array    $post_type               A post type slug (string) or array of post type slugs.
+	 *     @type string|string[] $post_type               A post type slug (string) or array of post type slugs.
 	 *                                                    Default 'any' if using 'tax_query'.
-	 *     @type string|array    $post_status             A post status (string) or array of post statuses.
+	 *     @type string|string[] $post_status             A post status (string) or array of post statuses.
 	 *     @type int             $posts_per_page          The number of posts to query for. Use -1 to request all posts.
 	 *     @type int             $posts_per_archive_page  The number of posts to query for by archive page. Overrides
 	 *                                                    'posts_per_page' when is_archive(), or is_search() are true.
@@ -2830,7 +2830,17 @@ class WP_Query {
 			 *
 			 * @since 3.1.0
 			 *
-			 * @param string[] $clauses Associative array of the clauses for the query.
+			 * @param string[] $clauses {
+			 *     Associative array of the clauses for the query.
+			 *
+			 *     @type string $where    The WHERE clause of the query.
+			 *     @type string $groupby  The GROUP BY clause of the query.
+			 *     @type string $join     The JOIN clause of the query.
+			 *     @type string $orderby  The ORDER BY clause of the query.
+			 *     @type string $distinct The DISTINCT clause of the query.
+			 *     @type string $fields   The SELECT clause of the query.
+			 *     @type string $limits   The LIMIT clause of the query.
+			 * }
 			 * @param WP_Query $query   The WP_Query instance (passed by reference).
 			 */
 			$clauses = (array) apply_filters_ref_array( 'posts_clauses', array( compact( $pieces ), &$this ) );
@@ -2954,7 +2964,17 @@ class WP_Query {
 			 *
 			 * @since 3.1.0
 			 *
-			 * @param string[] $pieces Associative array of the pieces of the query.
+			 * @param string[] $pieces {
+			 *     Associative array of the clauses for the query.
+			 *
+			 *     @type string $where    The WHERE clause of the query.
+			 *     @type string $groupby  The GROUP BY clause of the query.
+			 *     @type string $join     The JOIN clause of the query.
+			 *     @type string $orderby  The ORDER BY clause of the query.
+			 *     @type string $distinct The DISTINCT clause of the query.
+			 *     @type string $fields   The SELECT clause of the query.
+			 *     @type string $limits   The LIMIT clause of the query.
+			 * }
 			 * @param WP_Query $query  The WP_Query instance (passed by reference).
 			 */
 			$clauses = (array) apply_filters_ref_array( 'posts_clauses_request', array( compact( $pieces ), &$this ) );

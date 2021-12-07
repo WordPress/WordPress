@@ -882,7 +882,8 @@ function get_intermediate_image_sizes() {
  * @uses wp_get_additional_image_sizes()
  * @uses get_intermediate_image_sizes()
  *
- * @return array Associative array of the registered image sub-sizes.
+ * @return array[] Associative array of arrays of image sub-size information,
+ *                 keyed by image size name.
  */
 function wp_get_registered_image_subsizes() {
 	$additional_sizes = wp_get_additional_image_sizes();
@@ -5211,20 +5212,19 @@ function wp_getimagesize( $filename, array &$image_info = null ) {
 }
 
 /**
- * Extracts meta information about a webp file: width, height and type.
+ * Extracts meta information about a WebP file: width, height, and type.
  *
  * @since 5.8.0
  *
  * @param string $filename Path to a WebP file.
- * @return array $webp_info {
+ * @return array {
  *     An array of WebP image information.
  *
- *     @type array $size {
- *         @type int|false    $width  Image width on success, false on failure.
- *         @type int|false    $height Image height on success, false on failure.
- *         @type string|false $type   The WebP type: one of 'lossy', 'lossless' or 'animated-alpha'.
- *                                    False on failure.
- *     }
+ *     @type int|false    $width  Image width on success, false on failure.
+ *     @type int|false    $height Image height on success, false on failure.
+ *     @type string|false $type   The WebP type: one of 'lossy', 'lossless' or 'animated-alpha'.
+ *                                False on failure.
+ * }
  */
 function wp_get_webp_info( $filename ) {
 	$width  = false;

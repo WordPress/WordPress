@@ -553,7 +553,7 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
 	 *
 	 * @param WP_Block_Template $item    Template instance.
 	 * @param WP_REST_Request   $request Request object.
-	 * @return WP_REST_Response $data
+	 * @return WP_REST_Response Response object.
 	 */
 	public function prepare_item_for_response( $item, $request ) { // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
 		// Restores the more descriptive, specific name for use within this method.

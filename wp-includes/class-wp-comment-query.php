@@ -231,10 +231,10 @@ class WP_Comment_Query {
 	 *     @type int[]           $post__not_in              Array of post IDs to exclude affiliated comments for.
 	 *                                                      Default empty.
 	 *     @type int             $post_author               Post author ID to limit results by. Default empty.
-	 *     @type string|array    $post_status               Post status or array of post statuses to retrieve
+	 *     @type string|string[] $post_status               Post status or array of post statuses to retrieve
 	 *                                                      affiliated comments for. Pass 'any' to match any value.
 	 *                                                      Default empty.
-	 *     @type string|array    $post_type                 Post type or array of post types to retrieve affiliated
+	 *     @type string|string[] $post_type                 Post type or array of post types to retrieve affiliated
 	 *                                                      comments for. Pass 'any' to match any value. Default empty.
 	 *     @type string          $post_name                 Post name to retrieve affiliated comments for.
 	 *                                                      Default empty.
@@ -246,7 +246,7 @@ class WP_Comment_Query {
 	 *                                                      or space/comma-separated list of 'hold' (`comment_status=0`),
 	 *                                                      'approve' (`comment_status=1`), 'all', or a custom
 	 *                                                      comment status. Default 'all'.
-	 *     @type string|array    $type                      Include comments of a given type, or array of types.
+	 *     @type string|string[] $type                      Include comments of a given type, or array of types.
 	 *                                                      Accepts 'comment', 'pings' (includes 'pingback' and
 	 *                                                      'trackback'), or any custom type string. Default empty.
 	 *     @type string[]        $type__in                  Include comments from a given array of comment types.

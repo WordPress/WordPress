@@ -175,7 +175,7 @@ abstract class WP_Image_Editor {
 	 *
 	 * @since 3.5.0
 	 *
-	 * @return array {
+	 * @return int[] {
 	 *     Dimensions of the image.
 	 *
 	 *     @type int $width  The image width.

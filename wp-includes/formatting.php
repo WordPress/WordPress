@@ -2761,15 +2761,15 @@ function untrailingslashit( $string ) {
 }
 
 /**
- * Adds slashes to escape strings.
+ * Adds slashes to a string or recursively adds slashes to strings within an array.
  *
  * Slashes will first be removed if magic_quotes_gpc is set, see {@link
  * https://www.php.net/magic_quotes} for more details.
  *
  * @since 0.71
  *
- * @param string $gpc The string returned from HTTP request data.
- * @return string Returns a string escaped with slashes.
+ * @param string|array $gpc String or array of data to slash.
+ * @return string|array Slashed `$gpc`.
  */
 function addslashes_gpc( $gpc ) {
 	return wp_slash( $gpc );
@@ -5592,7 +5592,7 @@ function sanitize_trackback_urls( $to_ping ) {
  * @since 5.5.0 Non-string values are left untouched.
  *
  * @param string|array $value String or array of data to slash.
- * @return string|array Slashed $value.
+ * @return string|array Slashed `$value`.
  */
 function wp_slash( $value ) {
 	if ( is_array( $value ) ) {
@@ -5615,7 +5615,7 @@ function wp_slash( $value ) {
  * @since 3.6.0
  *
  * @param string|array $value String or array of data to unslash.
- * @return string|array Unslashed $value.
+ * @return string|array Unslashed `$value`.
  */
 function wp_unslash( $value ) {
 	return stripslashes_deep( $value );

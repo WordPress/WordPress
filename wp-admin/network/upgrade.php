@@ -108,7 +108,7 @@ switch ( $action ) {
 			 *
 			 * @since MU (3.0.0)
 			 *
-			 * @param array|WP_Error $response The upgrade response array or WP_Error on failure.
+			 * @param array $response The upgrade response array.
 			 */
 			do_action( 'after_mu_upgrade', $response );
 
