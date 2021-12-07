@@ -19,7 +19,7 @@ if ( ! current_user_can( 'edit_theme_options' ) ) {
 	);
 }
 
-if ( ! wp_is_block_template_theme() ) {
+if ( ! wp_is_block_theme() ) {
 	wp_die( __( 'The theme you are currently using is not compatible with Full Site Editing.' ) );
 }
 

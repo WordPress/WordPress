@@ -1993,11 +1993,11 @@ function wp_welcome_panel() {
 	$customize_url          = null;
 	$can_edit_theme_options = current_user_can( 'edit_theme_options' );
 	$can_customize          = current_user_can( 'customize' );
-	$is_block_based_theme   = wp_is_block_template_theme();
+	$is_block_theme         = wp_is_block_theme();
 
-	if ( $is_block_based_theme && $can_edit_theme_options ) {
+	if ( $is_block_theme && $can_edit_theme_options ) {
 		$customize_url = esc_url( admin_url( 'site-editor.php' ) );
-	} elseif ( ! $is_block_based_theme && $can_customize ) {
+	} elseif ( ! $is_block_theme && $can_customize ) {
 		$customize_url = wp_customize_url();
 	}
 	?>
@@ -2012,7 +2012,7 @@ function wp_welcome_panel() {
 		<?php endif; ?>
 		<a class="button button-primary button-hero hide-if-customize" href="<?php echo esc_url( admin_url( 'themes.php' ) ); ?>"><?php _e( 'Customize Your Site' ); ?></a>
 		<?php if ( current_user_can( 'install_themes' ) || ( current_user_can( 'switch_themes' ) && count( wp_get_themes( array( 'allowed' => true ) ) ) > 1 ) ) : ?>
-			<?php $themes_link = $can_customize && ! $is_block_based_theme ? add_query_arg( 'autofocus[panel]', 'themes', admin_url( 'customize.php' ) ) : admin_url( 'themes.php' ); ?>
+			<?php $themes_link = $can_customize && ! $is_block_theme ? add_query_arg( 'autofocus[panel]', 'themes', admin_url( 'customize.php' ) ) : admin_url( 'themes.php' ); ?>
 			<p class="hide-if-no-customize">
 				<?php
 					/* translators: %s: URL to Themes panel in Customizer or Themes screen. */

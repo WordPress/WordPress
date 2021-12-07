@@ -4090,7 +4090,6 @@ function create_initial_theme_features() {
  *
  * @return boolean Whether the current theme is a block-based theme or not.
  */
-function wp_is_block_template_theme() {
-	return is_readable( get_theme_file_path( '/block-templates/index.html' ) ) ||
-		is_readable( get_theme_file_path( '/templates/index.html' ) );
+function wp_is_block_theme() {
+	return wp_get_theme()->is_block_theme();
 }

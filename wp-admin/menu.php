@@ -202,7 +202,7 @@ if ( ! is_multisite() && current_user_can( 'update_themes' ) ) {
 	/* translators: %s: Number of available theme updates. */
 	$submenu['themes.php'][5] = array( sprintf( __( 'Themes %s' ), $count ), $appearance_cap, 'themes.php' );
 
-if ( wp_is_block_template_theme() ) {
+if ( wp_is_block_theme() ) {
 	$submenu['themes.php'][6] = array(
 		sprintf(
 			/* translators: %s: "beta" label */
@@ -216,9 +216,9 @@ if ( wp_is_block_template_theme() ) {
 
 // Hide Customize link on block themes unless a plugin or theme is using
 // customize_register to add a setting.
-if ( ! wp_is_block_template_theme() || has_action( 'customize_register' ) ) {
+if ( ! wp_is_block_theme() || has_action( 'customize_register' ) ) {
 	$customize_url = add_query_arg( 'return', urlencode( remove_query_arg( wp_removable_query_args(), wp_unslash( $_SERVER['REQUEST_URI'] ) ) ), 'customize.php' );
-	$position      = wp_is_block_template_theme() ? 7 : 6;
+	$position      = wp_is_block_theme() ? 7 : 6;
 
 	$submenu['themes.php'][ $position ] = array( __( 'Customize' ), 'customize', esc_url( $customize_url ), '', 'hide-if-no-customize' );
 }
@@ -255,7 +255,7 @@ if ( ! is_multisite() ) {
  */
 function _add_themes_utility_last() {
 	add_submenu_page(
-		wp_is_block_template_theme() ? 'tools.php' : 'themes.php',
+		wp_is_block_theme() ? 'tools.php' : 'themes.php',
 		__( 'Theme Editor' ),
 		__( 'Theme Editor' ),
 		'edit_themes',
