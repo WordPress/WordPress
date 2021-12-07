@@ -95,6 +95,15 @@ class WP_Dependencies {
 	private $all_queued_deps;
 
 	/**
+	 * List of assets enqueued before details were registered.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @var array
+	 */
+	private $queued_before_register = array();
+
+	/**
 	 * Processes the items and dependencies.
 	 *
 	 * Processes the items passed to it or the queue, and their dependencies.
@@ -248,6 +257,18 @@ class WP_Dependencies {
 			return false;
 		}
 		$this->registered[ $handle ] = new _WP_Dependency( $handle, $src, $deps, $ver, $args );
+
+		// If the item was enqueued before the details were registered, enqueue it now.
+		if ( array_key_exists( $handle, $this->queued_before_register ) ) {
+			if ( ! is_null( $this->queued_before_register[ $handle ] ) ) {
+				$this->enqueue( $handle . '?' . $this->queued_before_register[ $handle ] );
+			} else {
+				$this->enqueue( $handle );
+			}
+
+			unset( $this->queued_before_register[ $handle ] );
+		}
+
 		return true;
 	}
 
@@ -334,6 +355,12 @@ class WP_Dependencies {
 				if ( isset( $handle[1] ) ) {
 					$this->args[ $handle[0] ] = $handle[1];
 				}
+			} else if ( ! isset( $this->registered[ $handle[0] ] ) ) {
+				$this->queued_before_register[ $handle[0] ] = null; // $args
+
+				if ( isset( $handle[1] ) ) {
+					$this->queued_before_register[ $handle[0] ] = $handle[1];
+				}
 			}
 		}
 	}
@@ -360,6 +387,8 @@ class WP_Dependencies {
 
 				unset( $this->queue[ $key ] );
 				unset( $this->args[ $handle[0] ] );
+			} else if ( array_key_exists( $handle[0], $this->queued_before_register ) ) {
+				unset( $this->queued_before_register[ $handle[0] ] );
 			}
 		}
 	}
