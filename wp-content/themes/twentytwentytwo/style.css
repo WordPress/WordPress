@@ -65,6 +65,14 @@ a:active {
 	padding: calc(.667em + 2px) calc(1.333em + 2px);
 }
 
-.wp-block-file a.wp-block-file__button:hover {
-	opacity: 1;
-}
+/*
+ * Button hover styles.
+ * Necessary until the following issue is resolved in Gutenberg:
+ * https://github.com/WordPress/gutenberg/issues/27075
+ */
+
+.wp-block-search__button:hover,
+.wp-block-file .wp-block-file__button:hover,
+.wp-block-button__link:hover {
+	opacity: 0.90;
+} 
