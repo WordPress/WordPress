@@ -64,7 +64,7 @@ if ( isset( $_GET['postType'] ) && ! isset( $_GET['postId'] ) ) {
 		'/',
 		'/wp/v2/types/' . $post_type->name . '?context=edit',
 		'/wp/v2/types?context=edit',
-		add_query_arg( 'context', 'edit', rest_get_route_for_post_type_items( $post_type ) ),
+		add_query_arg( 'context', 'edit', rest_get_route_for_post_type_items( $post_type->name ) ),
 	);
 
 	block_editor_rest_api_preload( $preload_paths, $block_editor_context );
