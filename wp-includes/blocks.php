@@ -103,9 +103,9 @@ function register_block_script_handle( $metadata, $field_name ) {
 		return false;
 	}
 	// Path needs to be normalized to work in Windows env.
-	$wpinc_path_norm     = wp_normalize_path( ABSPATH . WPINC );
-	$script_path_norm    = wp_normalize_path( realpath( dirname( $metadata['file'] ) . '/' . $script_path ) );
-	$is_core_block       = isset( $metadata['file'] ) && 0 === strpos( $metadata['file'], $wpinc_path_norm );
+	$wpinc_path_norm  = wp_normalize_path( ABSPATH . WPINC );
+	$script_path_norm = wp_normalize_path( realpath( dirname( $metadata['file'] ) . '/' . $script_path ) );
+	$is_core_block    = isset( $metadata['file'] ) && 0 === strpos( $metadata['file'], $wpinc_path_norm );
 
 	$script_uri          = $is_core_block ?
 		includes_url( str_replace( $wpinc_path_norm, '', $script_path_norm ) ) :
