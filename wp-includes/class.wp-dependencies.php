@@ -355,7 +355,7 @@ class WP_Dependencies {
 				if ( isset( $handle[1] ) ) {
 					$this->args[ $handle[0] ] = $handle[1];
 				}
-			} else if ( ! isset( $this->registered[ $handle[0] ] ) ) {
+			} elseif ( ! isset( $this->registered[ $handle[0] ] ) ) {
 				$this->queued_before_register[ $handle[0] ] = null; // $args
 
 				if ( isset( $handle[1] ) ) {
@@ -387,7 +387,7 @@ class WP_Dependencies {
 
 				unset( $this->queue[ $key ] );
 				unset( $this->args[ $handle[0] ] );
-			} else if ( array_key_exists( $handle[0], $this->queued_before_register ) ) {
+			} elseif ( array_key_exists( $handle[0], $this->queued_before_register ) ) {
 				unset( $this->queued_before_register[ $handle[0] ] );
 			}
 		}
