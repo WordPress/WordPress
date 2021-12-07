@@ -54,8 +54,8 @@ class WP_REST_Edit_Site_Export_Controller extends WP_REST_Controller {
 	 */
 	public function permissions_check() {
 		if ( ! current_user_can( 'edit_theme_options' ) ) {
-			new WP_Error(
-				'rest_cannot_view_url_details',
+			return new WP_Error(
+				'rest_cannot_export_templates',
 				__( 'Sorry, you are not allowed to export templates and template parts.' ),
 				array( 'status' => rest_authorization_required_code() )
 			);
