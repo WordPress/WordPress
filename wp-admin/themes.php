@@ -900,7 +900,7 @@ function wp_theme_auto_update_setting_template() {
 					$aria_label = sprintf( _x( 'Activate %s', 'theme' ), '{{ data.name }}' );
 					?>
 					<a class="button activate" href="{{{ data.actions.activate }}}" aria-label="<?php echo esc_attr( $aria_label ); ?>"><?php _e( 'Activate' ); ?></a>
-					<# if ( ! data.block_theme ) { #>
+					<# if ( ! data.blockTheme ) { #>
 						<?php
 						/* translators: %s: Theme name. */
 						$live_preview_aria_label = sprintf( _x( 'Live Preview %s', 'theme' ), '{{ data.name }}' );
