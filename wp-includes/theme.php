@@ -1193,12 +1193,15 @@ function get_header_image_tag( $attr = array() ) {
 
 	$width  = absint( $header->width );
 	$height = absint( $header->height );
+	$alt    = '';
 
 	// Use alternative text assigned to the image, if available. Otherwise, leave it empty.
-	if ( ! empty( $header->attachment_id ) && is_string( get_post_meta( $header->attachment_id, '_wp_attachment_image_alt', true ) ) ) {
-		$alt = get_post_meta( $header->attachment_id, '_wp_attachment_image_alt', true );
-	} else {
-		$alt = '';
+	if ( ! empty( $header->attachment_id ) ) {
+		$image_alt = get_post_meta( $header->attachment_id, '_wp_attachment_image_alt', true );
+
+		if ( is_string( $image_alt ) ) {
+			$alt = $image_alt;
+		}
 	}
 
 	$attr = wp_parse_args(
@@ -1218,7 +1221,12 @@ function get_header_image_tag( $attr = array() ) {
 
 		if ( is_array( $image_meta ) ) {
 			$srcset = wp_calculate_image_srcset( $size_array, $header->url, $image_meta, $header->attachment_id );
-			$sizes  = ! empty( $attr['sizes'] ) ? $attr['sizes'] : wp_calculate_image_sizes( $size_array, $header->url, $image_meta, $header->attachment_id );
+
+			if ( ! empty( $attr['sizes'] ) ) {
+				$sizes = $attr['sizes'];
+			} else {
+				$sizes = wp_calculate_image_sizes( $size_array, $header->url, $image_meta, $header->attachment_id );
+			}
 
 			if ( $srcset && $sizes ) {
 				$attr['srcset'] = $srcset;
@@ -1281,10 +1289,10 @@ function the_header_image_tag( $attr = array() ) {
  * @return object
  */
 function _get_random_header_data() {
+	global $_wp_default_headers;
 	static $_wp_random_header = null;
 
 	if ( empty( $_wp_random_header ) ) {
-		global $_wp_default_headers;
 		$header_image_mod = get_theme_mod( 'header_image', '' );
 		$headers          = array();
 
@@ -1306,8 +1314,17 @@ function _get_random_header_data() {
 
 		$_wp_random_header = (object) $headers[ array_rand( $headers ) ];
 
-		$_wp_random_header->url           = sprintf( $_wp_random_header->url, get_template_directory_uri(), get_stylesheet_directory_uri() );
-		$_wp_random_header->thumbnail_url = sprintf( $_wp_random_header->thumbnail_url, get_template_directory_uri(), get_stylesheet_directory_uri() );
+		$_wp_random_header->url = sprintf(
+			$_wp_random_header->url,
+			get_template_directory_uri(),
+			get_stylesheet_directory_uri()
+		);
+
+		$_wp_random_header->thumbnail_url = sprintf(
+			$_wp_random_header->thumbnail_url,
+			get_template_directory_uri(),
+			get_stylesheet_directory_uri()
+		);
 	}
 
 	return $_wp_random_header;
@@ -1407,12 +1424,17 @@ function get_uploaded_header_images() {
 		$header_data  = wp_get_attachment_metadata( $header->ID );
 		$header_index = $header->ID;
 
-		$header_images[ $header_index ]                      = array();
-		$header_images[ $header_index ]['attachment_id']     = $header->ID;
-		$header_images[ $header_index ]['url']               = $url;
-		$header_images[ $header_index ]['thumbnail_url']     = $url;
-		$header_images[ $header_index ]['alt_text']          = get_post_meta( $header->ID, '_wp_attachment_image_alt', true );
-		$header_images[ $header_index ]['attachment_parent'] = isset( $header_data['attachment_parent'] ) ? $header_data['attachment_parent'] : '';
+		$header_images[ $header_index ]                  = array();
+		$header_images[ $header_index ]['attachment_id'] = $header->ID;
+		$header_images[ $header_index ]['url']           = $url;
+		$header_images[ $header_index ]['thumbnail_url'] = $url;
+		$header_images[ $header_index ]['alt_text']      = get_post_meta( $header->ID, '_wp_attachment_image_alt', true );
+
+		if ( isset( $header_data['attachment_parent'] ) ) {
+			$header_images[ $header_index ]['attachment_parent'] = $header_data['attachment_parent'];
+		} else {
+			$header_images[ $header_index ]['attachment_parent'] = '';
+		}
 
 		if ( isset( $header_data['width'] ) ) {
 			$header_images[ $header_index ]['width'] = $header_data['width'];
@@ -1503,6 +1525,7 @@ function register_default_headers( $headers ) {
  */
 function unregister_default_headers( $header ) {
 	global $_wp_default_headers;
+
 	if ( is_array( $header ) ) {
 		array_map( 'unregister_default_headers', $header );
 	} elseif ( isset( $_wp_default_headers[ $header ] ) ) {
@@ -1838,7 +1861,10 @@ function wp_custom_css_cb() {
 		$type_attr = current_theme_supports( 'html5', 'style' ) ? '' : ' type="text/css"';
 		?>
 		<style<?php echo $type_attr; ?> id="wp-custom-css">
-			<?php echo strip_tags( $styles ); // Note that esc_html() cannot be used because `div &gt; span` is not interpreted properly. ?>
+			<?php
+			// Note that esc_html() cannot be used because `div &gt; span` is not interpreted properly.
+			echo strip_tags( $styles );
+			?>
 		</style>
 		<?php
 	endif;
@@ -1939,8 +1965,10 @@ function wp_get_custom_css( $stylesheet = '' ) {
  * @param array  $args {
  *     Args.
  *
- *     @type string $preprocessed Pre-processed CSS, stored in `post_content_filtered`. Normally empty string. Optional.
- *     @type string $stylesheet   Stylesheet (child theme) to update. Optional, defaults to current theme/stylesheet.
+ *     @type string $preprocessed Optional. Pre-processed CSS, stored in `post_content_filtered`.
+ *                                Normally empty string.
+ *     @type string $stylesheet   Optional. Stylesheet (child theme) to update.
+ *                                Defaults to current theme/stylesheet.
  * }
  * @return WP_Post|WP_Error Post on success, error on failure.
  */
@@ -1959,7 +1987,8 @@ function wp_update_custom_css_post( $css, $args = array() ) {
 	);
 
 	/**
-	 * Filters the `css` (`post_content`) and `preprocessed` (`post_content_filtered`) args for a `custom_css` post being updated.
+	 * Filters the `css` (`post_content`) and `preprocessed` (`post_content_filtered`) args
+	 * for a `custom_css` post being updated.
 	 *
 	 * This filter can be used by plugin that offer CSS pre-processors, to store the original
 	 * pre-processed CSS in `post_content_filtered` and then store processed CSS in `post_content`.
@@ -1981,7 +2010,8 @@ function wp_update_custom_css_post( $css, $args = array() ) {
 	 *     Custom CSS data.
 	 *
 	 *     @type string $css          CSS stored in `post_content`.
-	 *     @type string $preprocessed Pre-processed CSS stored in `post_content_filtered`. Normally empty string.
+	 *     @type string $preprocessed Pre-processed CSS stored in `post_content_filtered`.
+	 *                                Normally empty string.
 	 * }
 	 * @param array $args {
 	 *     The args passed into `wp_update_custom_css_post()` merged with defaults.
@@ -2167,9 +2197,11 @@ function get_theme_starter_content() {
 						'',
 						array(
 							'<strong>' . _x( 'Address', 'Theme starter content' ) . "</strong>\n",
-							_x( '123 Main Street', 'Theme starter content' ) . "\n" . _x( 'New York, NY 10001', 'Theme starter content' ) . "\n\n",
+							_x( '123 Main Street', 'Theme starter content' ) . "\n",
+							_x( 'New York, NY 10001', 'Theme starter content' ) . "\n\n",
 							'<strong>' . _x( 'Hours', 'Theme starter content' ) . "</strong>\n",
-							_x( 'Monday&ndash;Friday: 9:00AM&ndash;5:00PM', 'Theme starter content' ) . "\n" . _x( 'Saturday &amp; Sunday: 11:00AM&ndash;3:00PM', 'Theme starter content' ),
+							_x( 'Monday&ndash;Friday: 9:00AM&ndash;5:00PM', 'Theme starter content' ) . "\n",
+							_x( 'Saturday &amp; Sunday: 11:00AM&ndash;3:00PM', 'Theme starter content' ),
 						)
 					),
 					'filter' => true,
@@ -2371,7 +2403,10 @@ function get_theme_starter_content() {
 							}
 
 							$content[ $type ][ $sidebar_id ][] = $widget;
-						} elseif ( is_string( $widget ) && ! empty( $core_content[ $type ] ) && ! empty( $core_content[ $type ][ $widget ] ) ) {
+						} elseif ( is_string( $widget )
+							&& ! empty( $core_content[ $type ] )
+							&& ! empty( $core_content[ $type ][ $widget ] )
+						) {
 							$content[ $type ][ $sidebar_id ][] = $core_content[ $type ][ $widget ];
 						}
 					}
@@ -2398,7 +2433,10 @@ function get_theme_starter_content() {
 							}
 
 							$content[ $type ][ $nav_menu_location ]['items'][] = $nav_menu_item;
-						} elseif ( is_string( $nav_menu_item ) && ! empty( $core_content[ $type ] ) && ! empty( $core_content[ $type ][ $nav_menu_item ] ) ) {
+						} elseif ( is_string( $nav_menu_item )
+							&& ! empty( $core_content[ $type ] )
+							&& ! empty( $core_content[ $type ][ $nav_menu_item ] )
+						) {
 							$content[ $type ][ $nav_menu_location ]['items'][] = $core_content[ $type ][ $nav_menu_item ];
 						}
 					}
@@ -2558,7 +2596,11 @@ function add_theme_support( $feature, ...$args ) {
 
 				$args[0] = array_intersect( $args[0], array_keys( $post_formats ) );
 			} else {
-				_doing_it_wrong( "add_theme_support( 'post-formats' )", __( 'You need to pass an array of post formats.' ), '5.6.0' );
+				_doing_it_wrong(
+					"add_theme_support( 'post-formats' )",
+					__( 'You need to pass an array of post formats.' ),
+					'5.6.0'
+				);
 				return false;
 			}
 			break;
@@ -2569,7 +2611,11 @@ function add_theme_support( $feature, ...$args ) {
 				// Build an array of types for back-compat.
 				$args = array( 0 => array( 'comment-list', 'comment-form', 'search-form' ) );
 			} elseif ( ! isset( $args[0] ) || ! is_array( $args[0] ) ) {
-				_doing_it_wrong( "add_theme_support( 'html5' )", __( 'You need to pass an array of types.' ), '3.6.1' );
+				_doing_it_wrong(
+					"add_theme_support( 'html5' )",
+					__( 'You need to pass an array of types.' ),
+					'3.6.1'
+				);
 				return false;
 			}
 
@@ -2810,7 +2856,10 @@ function _custom_header_background_just_in_time() {
  * @access private
  */
 function _custom_logo_header_styles() {
-	if ( ! current_theme_supports( 'custom-header', 'header-text' ) && get_theme_support( 'custom-logo', 'header-text' ) && ! get_theme_mod( 'header_text', true ) ) {
+	if ( ! current_theme_supports( 'custom-header', 'header-text' )
+		&& get_theme_support( 'custom-logo', 'header-text' )
+		&& ! get_theme_mod( 'header_text', true )
+	) {
 		$classes = (array) get_theme_support( 'custom-logo', 'header-text' );
 		$classes = array_map( 'sanitize_html_class', $classes );
 		$classes = '.' . implode( ', .', $classes );
@@ -2849,6 +2898,7 @@ function _custom_logo_header_styles() {
  */
 function get_theme_support( $feature, ...$args ) {
 	global $_wp_theme_features;
+
 	if ( ! isset( $_wp_theme_features[ $feature ] ) ) {
 		return false;
 	}
@@ -3166,7 +3216,9 @@ function register_theme_feature( $feature, $args = array() ) {
 	}
 
 	if ( is_array( $args['show_in_rest'] ) ) {
-		if ( isset( $args['show_in_rest']['prepare_callback'] ) && ! is_callable( $args['show_in_rest']['prepare_callback'] ) ) {
+		if ( isset( $args['show_in_rest']['prepare_callback'] )
+			&& ! is_callable( $args['show_in_rest']['prepare_callback'] )
+		) {
 			return new WP_Error(
 				'invalid_rest_prepare_callback',
 				sprintf(
@@ -3285,6 +3337,7 @@ function _delete_attachment_theme_mod( $id ) {
  */
 function check_theme_switched() {
 	$stylesheet = get_option( 'theme_switched' );
+
 	if ( $stylesheet ) {
 		$old_theme = wp_get_theme( $stylesheet );
 
@@ -3314,6 +3367,7 @@ function check_theme_switched() {
 			/** This action is documented in wp-includes/theme.php */
 			do_action( 'after_switch_theme', $stylesheet, $old_theme );
 		}
+
 		flush_rewrite_rules();
 
 		update_option( 'theme_switched', false );
@@ -3353,7 +3407,14 @@ function _wp_customize_include() {
 	 * called before wp_magic_quotes() gets called. Besides this fact, none of
 	 * the values should contain any characters needing slashes anyway.
 	 */
-	$keys       = array( 'changeset_uuid', 'customize_changeset_uuid', 'customize_theme', 'theme', 'customize_messenger_channel', 'customize_autosaved' );
+	$keys       = array(
+		'changeset_uuid',
+		'customize_changeset_uuid',
+		'customize_theme',
+		'theme',
+		'customize_messenger_channel',
+		'customize_autosaved',
+	);
 	$input_vars = array_merge(
 		wp_array_slice_assoc( $_GET, $keys ),
 		wp_array_slice_assoc( $_POST, $keys )
@@ -3409,7 +3470,16 @@ function _wp_customize_include() {
 	$settings_previewed       = ! $is_customize_save_action;
 
 	require_once ABSPATH . WPINC . '/class-wp-customize-manager.php';
-	$GLOBALS['wp_customize'] = new WP_Customize_Manager( compact( 'changeset_uuid', 'theme', 'messenger_channel', 'settings_previewed', 'autosaved', 'branching' ) );
+	$GLOBALS['wp_customize'] = new WP_Customize_Manager(
+		compact(
+			'changeset_uuid',
+			'theme',
+			'messenger_channel',
+			'settings_previewed',
+			'autosaved',
+			'branching',
+		)
+	);
 }
 
 /**
@@ -3621,7 +3691,8 @@ function is_customize_preview() {
 }
 
 /**
- * Makes sure that auto-draft posts get their post_date bumped or status changed to draft to prevent premature garbage-collection.
+ * Makes sure that auto-draft posts get their post_date bumped or status changed
+ * to draft to prevent premature garbage-collection.
  *
  * When a changeset is updated but remains an auto-draft, ensure the post_date
  * for the auto-draft posts remains the same so that it will be
