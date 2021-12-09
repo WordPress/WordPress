@@ -201,23 +201,25 @@ function get_default_block_editor_settings() {
 	}
 
 	$editor_settings = array(
-		'alignWide'              => get_theme_support( 'align-wide' ),
-		'allowedBlockTypes'      => true,
-		'allowedMimeTypes'       => get_allowed_mime_types(),
-		'defaultEditorStyles'    => $default_editor_styles,
-		'blockCategories'        => get_default_block_categories(),
-		'disableCustomColors'    => get_theme_support( 'disable-custom-colors' ),
-		'disableCustomFontSizes' => get_theme_support( 'disable-custom-font-sizes' ),
-		'disableCustomGradients' => get_theme_support( 'disable-custom-gradients' ),
-		'enableCustomLineHeight' => get_theme_support( 'custom-line-height' ),
-		'enableCustomSpacing'    => get_theme_support( 'custom-spacing' ),
-		'enableCustomUnits'      => get_theme_support( 'custom-units' ),
-		'isRTL'                  => is_rtl(),
-		'imageDefaultSize'       => $image_default_size,
-		'imageDimensions'        => $image_dimensions,
-		'imageEditing'           => true,
-		'imageSizes'             => $available_image_sizes,
-		'maxUploadFileSize'      => $max_upload_size,
+		'alignWide'                        => get_theme_support( 'align-wide' ),
+		'allowedBlockTypes'                => true,
+		'allowedMimeTypes'                 => get_allowed_mime_types(),
+		'defaultEditorStyles'              => $default_editor_styles,
+		'blockCategories'                  => get_default_block_categories(),
+		'disableCustomColors'              => get_theme_support( 'disable-custom-colors' ),
+		'disableCustomFontSizes'           => get_theme_support( 'disable-custom-font-sizes' ),
+		'disableCustomGradients'           => get_theme_support( 'disable-custom-gradients' ),
+		'enableCustomLineHeight'           => get_theme_support( 'custom-line-height' ),
+		'enableCustomSpacing'              => get_theme_support( 'custom-spacing' ),
+		'enableCustomUnits'                => get_theme_support( 'custom-units' ),
+		'isRTL'                            => is_rtl(),
+		'imageDefaultSize'                 => $image_default_size,
+		'imageDimensions'                  => $image_dimensions,
+		'imageEditing'                     => true,
+		'imageSizes'                       => $available_image_sizes,
+		'maxUploadFileSize'                => $max_upload_size,
+		// The following flag is required to enable the new Gallery block format on the mobile apps in 5.9.
+		'__unstableGalleryWithImageBlocks' => true,
 	);
 
 	// Theme settings.
