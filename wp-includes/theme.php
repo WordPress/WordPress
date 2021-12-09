@@ -3477,7 +3477,7 @@ function _wp_customize_include() {
 			'messenger_channel',
 			'settings_previewed',
 			'autosaved',
-			'branching',
+			'branching'
 		)
 	);
 }
