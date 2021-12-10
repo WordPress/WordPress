@@ -5,7 +5,7 @@
  * @package WordPress
  */
 
-/**
+/*
  * Get the template HTML.
  * This needs to run before <head> so that blocks can add scripts and styles in wp_head().
  */

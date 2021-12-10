@@ -346,7 +346,7 @@ final class WP_Customize_Manager {
 		 * @see WP_Customize_Manager::__construct()
 		 *
 		 * @param string[]             $components Array of core components to load.
-		 * @param WP_Customize_Manager $manager   WP_Customize_Manager instance.
+		 * @param WP_Customize_Manager $manager    WP_Customize_Manager instance.
 		 */
 		$components = apply_filters( 'customize_loaded_components', $this->components, $this );
 

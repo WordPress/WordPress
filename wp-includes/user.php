@@ -2158,7 +2158,7 @@ function wp_insert_user( $userdata ) {
 	 * It only includes data in the users table, not any user metadata.
 	 *
 	 * @since 4.9.0
-	 * @since 5.8.0 The $userdata parameter was added.
+	 * @since 5.8.0 The `$userdata` parameter was added.
 	 *
 	 * @param array    $data {
 	 *     Values and keys for the user.
@@ -2203,7 +2203,7 @@ function wp_insert_user( $userdata ) {
 	 * For custom meta fields, see the {@see 'insert_custom_user_meta'} filter.
 	 *
 	 * @since 4.4.0
-	 * @since 5.8.0 The $userdata parameter was added.
+	 * @since 5.8.0 The `$userdata` parameter was added.
 	 *
 	 * @param array $meta {
 	 *     Default meta values and keys for the user.
@@ -2274,7 +2274,7 @@ function wp_insert_user( $userdata ) {
 		 * Fires immediately after an existing user is updated.
 		 *
 		 * @since 2.0.0
-		 * @since 5.8.0 The $userdata parameter was added.
+		 * @since 5.8.0 The `$userdata` parameter was added.
 		 *
 		 * @param int     $user_id       User ID.
 		 * @param WP_User $old_user_data Object containing user's data prior to update.
@@ -2308,7 +2308,7 @@ function wp_insert_user( $userdata ) {
 		 * Fires immediately after a new user is registered.
 		 *
 		 * @since 1.5.0
-		 * @since 5.8.0 The $userdata parameter was added.
+		 * @since 5.8.0 The `$userdata` parameter was added.
 		 *
 		 * @param int   $user_id  User ID.
 		 * @param array $userdata The raw array of data passed to wp_insert_user().
