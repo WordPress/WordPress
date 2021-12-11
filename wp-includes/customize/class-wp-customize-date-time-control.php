@@ -28,7 +28,7 @@ class WP_Customize_Date_Time_Control extends WP_Customize_Control {
 	 * Minimum Year.
 	 *
 	 * @since 4.9.0
-	 * @var integer
+	 * @var int
 	 */
 	public $min_year = 1000;
 
@@ -36,7 +36,7 @@ class WP_Customize_Date_Time_Control extends WP_Customize_Control {
 	 * Maximum Year.
 	 *
 	 * @since 4.9.0
-	 * @var integer
+	 * @var int
 	 */
 	public $max_year = 9999;
 
@@ -44,7 +44,7 @@ class WP_Customize_Date_Time_Control extends WP_Customize_Control {
 	 * Allow past date, if set to false user can only select future date.
 	 *
 	 * @since 4.9.0
-	 * @var boolean
+	 * @var bool
 	 */
 	public $allow_past_date = true;
 
@@ -52,7 +52,7 @@ class WP_Customize_Date_Time_Control extends WP_Customize_Control {
 	 * Whether hours, minutes, and meridian should be shown.
 	 *
 	 * @since 4.9.0
-	 * @var boolean
+	 * @var bool
 	 */
 	public $include_time = true;
 
@@ -61,7 +61,7 @@ class WP_Customize_Date_Time_Control extends WP_Customize_Control {
 	 * the value will still be saved in Y-m-d H:i:s format.
 	 *
 	 * @since 4.9.0
-	 * @var boolean
+	 * @var bool
 	 */
 	public $twelve_hour_format = true;
 

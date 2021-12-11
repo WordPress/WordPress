@@ -91,7 +91,7 @@ class WP_Block_Template {
 	 * Post Id.
 	 *
 	 * @since 5.8.0
-	 * @var integer|null
+	 * @var int|null
 	 */
 	public $wp_id;
 

@@ -56,7 +56,7 @@ class WP_Customize_Section {
 	 * Priority of the section which informs load order of sections.
 	 *
 	 * @since 3.4.0
-	 * @var integer
+	 * @var int
 	 */
 	public $priority = 160;
 

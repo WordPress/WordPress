@@ -56,7 +56,7 @@ class WP_Customize_Panel {
 	 * Priority of the panel, defining the display order of panels and sections.
 	 *
 	 * @since 4.0.0
-	 * @var integer
+	 * @var int
 	 */
 	public $priority = 160;
 
