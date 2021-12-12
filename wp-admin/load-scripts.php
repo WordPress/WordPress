@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Disable error reporting
+ * Disable error reporting.
  *
  * Set this to error_reporting( -1 ) for debugging.
  */
