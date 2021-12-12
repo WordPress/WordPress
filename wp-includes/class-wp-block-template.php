@@ -38,7 +38,7 @@ class WP_Block_Template {
 	public $slug;
 
 	/**
-	 * Id.
+	 * ID.
 	 *
 	 * @since 5.8.0
 	 * @var string
@@ -88,7 +88,7 @@ class WP_Block_Template {
 	public $origin;
 
 	/**
-	 * Post Id.
+	 * Post ID.
 	 *
 	 * @since 5.8.0
 	 * @var int|null
