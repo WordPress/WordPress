@@ -2039,7 +2039,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 
 		if ( $post_type_obj->hierarchical && ! empty( $post->post_parent ) ) {
 			$links['up'] = array(
-				'href'       => rest_url( trailingslashit( $base ) . (int) $post->post_parent ),
+				'href'       => rest_url( rest_get_route_for_post( $post->post_parent ) ),
 				'embeddable' => true,
 			);
 		}
