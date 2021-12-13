@@ -519,7 +519,7 @@ function wp_unregister_sidebar_widget( $id ) {
  *     @type int        $width   Width of the fully expanded control form (but try hard to use the default width).
  *                               Default 250.
  *     @type int|string $id_base Required for multi-widgets, i.e widgets that allow multiple instances such as the
- *                               text widget. The widget id will end up looking like `{$id_base}-{$unique_number}`.
+ *                               text widget. The widget ID will end up looking like `{$id_base}-{$unique_number}`.
  * }
  * @param mixed      ...$params        Optional additional parameters to pass to the callback function when it's called.
  */
@@ -1916,8 +1916,8 @@ function wp_parse_widget_id( $id ) {
  *
  * @since 5.8.0
  *
- * @param string $widget_id The widget id to look for.
- * @return string|null The found sidebar's id, or null if it was not found.
+ * @param string $widget_id The widget ID to look for.
+ * @return string|null The found sidebar's ID, or null if it was not found.
  */
 function wp_find_widgets_sidebar( $widget_id ) {
 	foreach ( wp_get_sidebars_widgets() as $sidebar_id => $widget_ids ) {
@@ -1936,8 +1936,8 @@ function wp_find_widgets_sidebar( $widget_id ) {
  *
  * @since 5.8.0
  *
- * @param string $widget_id  The widget id to assign.
- * @param string $sidebar_id The sidebar id to assign to. If empty, the widget won't be added to any sidebar.
+ * @param string $widget_id  The widget ID to assign.
+ * @param string $sidebar_id The sidebar ID to assign to. If empty, the widget won't be added to any sidebar.
  */
 function wp_assign_widget_to_sidebar( $widget_id, $sidebar_id ) {
 	$sidebars = wp_get_sidebars_widgets();
@@ -1946,7 +1946,7 @@ function wp_assign_widget_to_sidebar( $widget_id, $sidebar_id ) {
 		foreach ( $widgets as $i => $maybe_widget_id ) {
 			if ( $widget_id === $maybe_widget_id && $sidebar_id !== $maybe_sidebar_id ) {
 				unset( $sidebars[ $maybe_sidebar_id ][ $i ] );
-				// We could technically break 2 here, but continue looping in case the id is duplicated.
+				// We could technically break 2 here, but continue looping in case the ID is duplicated.
 				continue 2;
 			}
 		}

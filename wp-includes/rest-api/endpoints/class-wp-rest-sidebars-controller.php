@@ -219,12 +219,12 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller {
 
 			foreach ( $sidebars as $sidebar_id => $widgets ) {
 				foreach ( $widgets as $i => $widget_id ) {
-					// This automatically removes the passed widget ids from any other sidebars in use.
+					// This automatically removes the passed widget IDs from any other sidebars in use.
 					if ( $sidebar_id !== $request['id'] && in_array( $widget_id, $request['widgets'], true ) ) {
 						unset( $sidebars[ $sidebar_id ][ $i ] );
 					}
 
-					// This automatically removes omitted widget ids to the inactive sidebar.
+					// This automatically removes omitted widget IDs to the inactive sidebar.
 					if ( $sidebar_id === $request['id'] && ! in_array( $widget_id, $request['widgets'], true ) ) {
 						$sidebars['wp_inactive_widgets'][] = $widget_id;
 					}
