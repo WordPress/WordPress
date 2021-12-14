@@ -132,16 +132,24 @@ class wpdb {
 	 *
 	 * @since 0.71
 	 *
-	 * @var array|null
+	 * @var stdClass[]|null
 	 */
 	public $last_result;
 
 	/**
-	 * MySQL result, which is either a resource or boolean.
+	 * MySQL query result.
+	 *
+	 * Possible values:
+	 *
+	 * - `null` if a query is yet to be made or if the result has since been flushed
+	 * - `mysqli_result` instance when the MySQLi driver is in use, or `resource` when the older
+	 *   MySQL driver is in use, for successful SELECT, SHOW, DESCRIBE, or EXPLAIN queries
+	 * - `true` for other query types that were successful
+	 * - `false` if the query returned an error
 	 *
 	 * @since 0.71
 	 *
-	 * @var mixed
+	 * @var mysqli_result|resource|bool|null
 	 */
 	protected $result;
 
@@ -279,7 +287,7 @@ class wpdb {
 	 * @since 2.5.0
 	 *
 	 * @see wpdb::tables()
-	 * @var array
+	 * @var string[]
 	 */
 	public $tables = array(
 		'posts',
@@ -302,7 +310,7 @@ class wpdb {
 	 * @since 2.9.0
 	 *
 	 * @see wpdb::tables()
-	 * @var array
+	 * @var string[]
 	 */
 	public $old_tables = array( 'categories', 'post2cat', 'link2cat' );
 
@@ -312,7 +320,7 @@ class wpdb {
 	 * @since 3.0.0
 	 *
 	 * @see wpdb::tables()
-	 * @var array
+	 * @var string[]
 	 */
 	public $global_tables = array( 'users', 'usermeta' );
 
@@ -322,7 +330,7 @@ class wpdb {
 	 * @since 3.0.0
 	 *
 	 * @see wpdb::tables()
-	 * @var array
+	 * @var string[]
 	 */
 	public $ms_global_tables = array(
 		'blogs',
@@ -581,11 +589,18 @@ class wpdb {
 	protected $dbhost;
 
 	/**
-	 * Database Handle.
+	 * Database handle.
+	 *
+	 * Possible values:
+	 *
+	 * - `null` if the connection is yet to be made or has been closed
+	 * - `mysqli` instance when the MySQLi driver is in use
+	 * - `resource` when the older MySQL driver is in use
+	 * - `false` if the connection has failed
 	 *
 	 * @since 0.71
 	 *
-	 * @var string
+	 * @var mysqli|resource|false|null
 	 */
 	protected $dbh;
 
@@ -617,7 +632,7 @@ class wpdb {
 	 *
 	 * @since 3.9.0
 	 *
-	 * @var array
+	 * @var string[]
 	 */
 	protected $incompatible_modes = array(
 		'NO_ZERO_DATE',
@@ -849,9 +864,9 @@ class wpdb {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param resource $dbh     The resource given by mysql_connect.
-	 * @param string   $charset Optional. The character set. Default null.
-	 * @param string   $collate Optional. The collation. Default null.
+	 * @param mysqli|resource $dbh     The connection returned by `mysqli_connect()` or `mysql_connect()`.
+	 * @param string          $charset Optional. The character set. Default null.
+	 * @param string          $collate Optional. The collation. Default null.
 	 */
 	public function set_charset( $dbh, $charset = null, $collate = null ) {
 		if ( ! isset( $charset ) ) {
@@ -1141,15 +1156,15 @@ class wpdb {
 	}
 
 	/**
-	 * Selects a database using the current database connection.
+	 * Selects a database using the current or provided database connection.
 	 *
 	 * The database name will be changed based on the current database connection.
 	 * On failure, the execution will bail and display a DB error.
 	 *
 	 * @since 0.71
 	 *
-	 * @param string        $db  MySQL database name.
-	 * @param resource|null $dbh Optional link identifier.
+	 * @param string          $db  MySQL database name.
+	 * @param mysqli|resource $dbh Optional database connection.
 	 */
 	public function select( $db, $dbh = null ) {
 		if ( is_null( $dbh ) ) {
