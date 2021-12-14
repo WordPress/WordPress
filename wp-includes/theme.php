@@ -4164,3 +4164,20 @@ function create_initial_theme_features() {
 function wp_is_block_theme() {
 	return wp_get_theme()->is_block_theme();
 }
+
+/**
+ * Adds default theme supports for block themes when the 'setup_theme' action fires.
+ *
+ * @since 5.9.0
+ * @access private
+ */
+function _add_default_theme_supports() {
+	if ( wp_is_block_theme() ) {
+		add_theme_support( 'post-thumbnails' );
+		add_theme_support( 'responsive-embeds' );
+		add_theme_support( 'editor-styles' );
+		add_theme_support( 'html5', array( 'comment-form', 'comment-list', 'style', 'script' ) );
+		add_theme_support( 'automatic-feed-links' );
+		add_filter( 'should_load_separate_core_block_assets', '__return_true' );
+	}
+}
