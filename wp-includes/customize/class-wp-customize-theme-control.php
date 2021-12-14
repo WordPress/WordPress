@@ -242,17 +242,47 @@ class WP_Customize_Theme_Control extends WP_Customize_Control {
 				</div>
 				<div class="notice notice-success notice-alt"><p><?php _ex( 'Installed', 'theme' ); ?></p></div>
 			<# } else if ( 'installed' === data.theme.type ) { #>
-				<div class="theme-id-container">
-					<h3 class="theme-name" id="{{ data.section }}-{{ data.theme.id }}-name">{{ data.theme.name }}</h3>
-					<div class="theme-actions">
-						<# if ( data.theme.compatibleWP && data.theme.compatiblePHP ) { #>
-							<button type="button" class="button button-primary preview-theme" aria-label="<?php echo esc_attr( $preview_label ); ?>" data-slug="{{ data.theme.id }}"><?php _e( 'Live Preview' ); ?></button>
-						<# } else { #>
-							<button type="button" class="button button-primary disabled" aria-label="<?php echo esc_attr( $preview_label ); ?>"><?php _e( 'Live Preview' ); ?></button>
-						<# } #>
+				<# if ( data.theme.blockTheme ) { #>
+					<div class="theme-id-container">
+						<h3 class="theme-name" id="{{ data.section }}-{{ data.theme.id }}-name">{{ data.theme.name }}</h3>
+						<div class="theme-actions">
+							<# if ( data.theme.actions.activate ) { #>
+								<?php
+									/* translators: %s: Theme name. */
+									$aria_label = sprintf( _x( 'Activate %s', 'theme' ), '{{ data.name }}' );
+								?>
+								<a href="{{{ data.theme.actions.activate }}}" class="button button-primary activate" aria-label="<?php echo esc_attr( $aria_label ); ?>"><?php _e( 'Activate' ); ?></a>
+							<# } #>
+						</div>
 					</div>
-				</div>
-				<div class="notice notice-success notice-alt"><p><?php _ex( 'Installed', 'theme' ); ?></p></div>
+					<div class="notice notice-error notice-alt"><p>
+					<?php
+						_e( 'This theme doesn\'t support Customizer.' );
+					?>
+					<# if ( data.theme.actions.activate ) { #>
+						<?php
+							echo ' ';
+							printf(
+								/* translators: %s: URL to the themes page (also it activates the theme). */
+								__( 'However, you can still <a href="%s">activate this theme</a>, and use the Site Editor to customize it.' ),
+								'{{{ data.theme.actions.activate }}}'
+							);
+						?>
+					<# } #>
+					</p></div>
+				<# } else { #>
+					<div class="theme-id-container">
+						<h3 class="theme-name" id="{{ data.section }}-{{ data.theme.id }}-name">{{ data.theme.name }}</h3>
+						<div class="theme-actions">
+							<# if ( data.theme.compatibleWP && data.theme.compatiblePHP ) { #>
+								<button type="button" class="button button-primary preview-theme" aria-label="<?php echo esc_attr( $preview_label ); ?>" data-slug="{{ data.theme.id }}"><?php _e( 'Live Preview' ); ?></button>
+							<# } else { #>
+								<button type="button" class="button button-primary disabled" aria-label="<?php echo esc_attr( $preview_label ); ?>"><?php _e( 'Live Preview' ); ?></button>
+							<# } #>
+						</div>
+					</div>
+					<div class="notice notice-success notice-alt"><p><?php _ex( 'Installed', 'theme' ); ?></p></div>
+				<# } #>
 			<# } else { #>
 				<div class="theme-id-container">
 					<h3 class="theme-name" id="{{ data.section }}-{{ data.theme.id }}-name">{{ data.theme.name }}</h3>
