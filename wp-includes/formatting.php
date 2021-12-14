@@ -2132,19 +2132,15 @@ function sanitize_user( $username, $strict = false ) {
  *
  * @since 3.0.0
  *
- * @param string $key String key
- * @return string Sanitized key
+ * @param string $key String key.
+ * @return string Sanitized key.
  */
 function sanitize_key( $key ) {
-	$raw_key = $key;
+	$sanitized_key = '';
 
-	if ( ! is_string( $key ) ) {
-		$key = '';
-	}
-
-	if ( '' !== $key ) {
-		$key = strtolower( $key );
-		$key = preg_replace( '/[^a-z0-9_\-]/', '', $key );
+	if ( is_scalar( $key ) ) {
+		$sanitized_key = strtolower( $key );
+		$sanitized_key = preg_replace( '/[^a-z0-9_\-]/', '', $sanitized_key );
 	}
 
 	/**
@@ -2152,10 +2148,10 @@ function sanitize_key( $key ) {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param string $key     Sanitized key.
-	 * @param string $raw_key The key prior to sanitization.
+	 * @param string $sanitized_key Sanitized key.
+	 * @param string $key           The key prior to sanitization.
 	 */
-	return apply_filters( 'sanitize_key', $key, $raw_key );
+	return apply_filters( 'sanitize_key', $sanitized_key, $key );
 }
 
 /**
