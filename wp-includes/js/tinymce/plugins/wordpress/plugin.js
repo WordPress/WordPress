@@ -758,7 +758,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 				tooltip = getTooltip( button.settings.tooltip );
 				button.settings.tooltip = tooltip;
 
-				// Override the aria label wiht the translated tooltip + shortcut.
+				// Override the aria label with the translated tooltip + shortcut.
 				if ( button._aria && button._aria.label ) {
 					button._aria.label = tooltip;
 				}
