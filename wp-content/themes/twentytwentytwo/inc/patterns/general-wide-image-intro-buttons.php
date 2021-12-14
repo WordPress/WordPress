@@ -4,7 +4,7 @@
  */
 return array(
 	'title'      => __( 'Wide image with introduction and buttons', 'twentytwentytwo' ),
-	'categories' => array( 'twentytwentytwo-general' ),
+	'categories' => array( 'featured', 'columns' ),
 	'content'    => '<!-- wp:group {"align":"wide"} -->
 				<div class="wp-block-group alignwide"><!-- wp:image {"sizeSlug":"large"} -->
 				<figure class="wp-block-image size-large"><img src="' . esc_url( get_template_directory_uri() ) . '/assets/images/flight-path-on-gray-a.jpg" alt="' . esc_attr__( 'Illustration of a bird flying.', 'twentytwentytwo' ) . '"/></figure>

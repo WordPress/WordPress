@@ -4,7 +4,7 @@
  */
 return array(
 	'title'      => __( 'Large list of names', 'twentytwentytwo' ),
-	'categories' => array( 'twentytwentytwo-general' ),
+	'categories' => array( 'featured', 'text' ),
 	'content'    => '<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"6rem","right":"max(1.25rem, 5vw)","bottom":"6rem","left":"max(1.25rem, 5vw)"}},"elements":{"link":{"color":{"text":"var:preset|color|primary"}}}},"backgroundColor":"tertiary","textColor":"primary","layout":{"inherit":true}} -->
 					<div class="wp-block-group alignfull has-primary-color has-tertiary-background-color has-text-color has-background has-link-color" style="padding-top:6rem;padding-right:max(1.25rem, 5vw);padding-bottom:6rem;padding-left:max(1.25rem, 5vw)"><!-- wp:group {"align":"wide"} -->
 					<div class="wp-block-group alignwide"><!-- wp:image {"width":175,"height":82,"sizeSlug":"full","linkDestination":"none"} -->

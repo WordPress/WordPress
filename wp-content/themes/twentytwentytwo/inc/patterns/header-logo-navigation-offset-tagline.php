@@ -4,7 +4,7 @@
  */
 return array(
 	'title'      => __( 'Logo, navigation, and offset tagline Header', 'twentytwentytwo' ),
-	'categories' => array( 'twentytwentytwo-headers' ),
+	'categories' => array( 'header' ),
 	'blockTypes' => array( 'core/template-part/header' ),
 	'content'    => '<!-- wp:group {"align":"wide","style":{"spacing":{"padding":{"bottom":"8rem"}}}} -->
 					<div class="wp-block-group alignwide" style="padding-bottom:8rem"><!-- wp:group {"align":"wide","style":{"spacing":{"padding":{"top":"max(1.25rem, 5vw)"}}},"layout":{"type":"flex","justifyContent":"space-between"}} -->

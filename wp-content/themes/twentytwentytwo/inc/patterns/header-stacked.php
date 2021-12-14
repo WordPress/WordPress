@@ -4,7 +4,7 @@
  */
 return array(
 	'title'      => __( 'Logo and navigation header', 'twentytwentytwo' ),
-	'categories' => array( 'twentytwentytwo-headers' ),
+	'categories' => array( 'header' ),
 	'blockTypes' => array( 'core/template-part/header' ),
 	'content'    => '<!-- wp:group {"align":"wide","style":{"spacing":{"padding":{"bottom":"8rem","top":"max(1.25rem, 5vw)"}}}} -->
 					<div class="wp-block-group alignwide" style="padding-top:max(1.25rem, 5vw);padding-bottom:8rem"><!-- wp:site-logo {"align":"center","width":128} /-->

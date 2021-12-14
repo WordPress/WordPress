@@ -4,12 +4,12 @@
  */
 return array(
 	'title'      => __( 'Default posts', 'twentytwentytwo' ),
-	'categories' => array( 'twentytwentytwo-query' ),
+	'categories' => array( 'query' ),
 	'blockTypes' => array( 'core/query' ),
 	'content'    => '<!-- wp:query {"query":{"perPage":10,"pages":0,"offset":0,"postType":"post","categoryIds":[],"tagIds":[],"order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":""},"align":"wide","layout":{"inherit":true}} -->
 					<div class="wp-block-query alignwide"><!-- wp:post-template {"align":"wide"} -->
 					<!-- wp:group {"layout":{"inherit":true}} -->
-					<div class="wp-block-group"><!-- wp:post-title {"isLink":true,"align":"wide","style":{"typography":{"fontStyle":"normal","fontWeight":"300"}},"fontSize":"huge"} /-->
+					<div class="wp-block-group"><!-- wp:post-title {"isLink":true,"align":"wide","fontSize":"huge"} /-->
 
 					<!-- wp:post-featured-image {"isLink":true,"align":"wide","style":{"spacing":{"margin":{"top":"calc(1.75 * var(--wp--style--block-gap))"}}}} /-->
 

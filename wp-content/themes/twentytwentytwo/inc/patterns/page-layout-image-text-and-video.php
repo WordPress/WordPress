@@ -4,10 +4,10 @@
  */
 return array(
 	'title'      => __( 'Page layout with image, text and video', 'twentytwentytwo' ),
-	'categories' => array( 'twentytwentytwo-pages' ),
+	'categories' => array( 'pages' ),
 	'content'    => '<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"8rem","bottom":"8rem","left":"0px","right":"0px"}}},"backgroundColor":"primary","textColor":"background"} -->
-					<div class="wp-block-group alignfull has-background-color has-primary-background-color has-text-color has-background" style="padding-top:8rem;padding-bottom:8rem;padding-left:0px;padding-right:0px"><!-- wp:group {"align":"full","layout":{"inherit":true},"style":{"spacing":{"padding":{"left":"max(1.25rem, 5vw)","right":"max(1.25rem, 5vw)"}}}} -->
-					<div class="wp-block-group alignfull" style="padding-left:max(1.25rem, 5vw);padding-right:max(1.25rem, 5vw)"><!-- wp:heading {"level":1,"align":"wide","style":{"typography":{"fontSize":"clamp(3rem, 6vw, 4.5rem)"}}} -->
+					<div class="wp-block-group alignfull has-background-color has-primary-background-color has-text-color has-background" style="padding-top:8rem;padding-bottom:8rem;padding-left:0px;padding-right:0px"><!-- wp:group {"layout":{"inherit":true},"style":{"spacing":{"padding":{"left":"max(1.25rem, 5vw)","right":"max(1.25rem, 5vw)"}}}} -->
+					<div class="wp-block-group" style="padding-left:max(1.25rem, 5vw);padding-right:max(1.25rem, 5vw)"><!-- wp:heading {"level":1,"align":"wide","style":{"typography":{"fontSize":"clamp(3rem, 6vw, 4.5rem)"}}} -->
 					<h1 class="alignwide" style="font-size:clamp(3rem, 6vw, 4.5rem)">' . wp_kses_post( __( '<em>Warble</em>, a film about <br>hobbyist bird watchers.', 'twentytwentytwo' ) ) . '</h1>
 					<!-- /wp:heading -->
 					
