@@ -333,8 +333,8 @@ function create_initial_post_types() {
 		'wp_template',
 		array(
 			'labels'                => array(
-				'name'                  => __( 'Templates' ),
-				'singular_name'         => __( 'Template' ),
+				'name'                  => _x( 'Templates', 'post type general name' ),
+				'singular_name'         => _x( 'Template', 'post type singular name' ),
 				'add_new'               => _x( 'Add New', 'Template' ),
 				'add_new_item'          => __( 'Add New Template' ),
 				'new_item'              => __( 'New Template' ),
@@ -393,8 +393,8 @@ function create_initial_post_types() {
 		'wp_template_part',
 		array(
 			'labels'                => array(
-				'name'                  => __( 'Template Parts' ),
-				'singular_name'         => __( 'Template Part' ),
+				'name'                  => _x( 'Template Parts', 'post type general name' ),
+				'singular_name'         => _x( 'Template Part', 'post type singular name' ),
 				'add_new'               => _x( 'Add New', 'Template Part' ),
 				'add_new_item'          => __( 'Add New Template Part' ),
 				'new_item'              => __( 'New Template Part' ),
@@ -480,8 +480,8 @@ function create_initial_post_types() {
 		'wp_navigation',
 		array(
 			'labels'                => array(
-				'name'                  => __( 'Navigation Menus' ),
-				'singular_name'         => __( 'Navigation Menu' ),
+				'name'                  => _x( 'Navigation Menus', 'post type general name' ),
+				'singular_name'         => _x( 'Navigation Menu', 'post type singular name' ),
 				'add_new'               => _x( 'Add New', 'Navigation Menu' ),
 				'add_new_item'          => __( 'Add New Navigation Menu' ),
 				'new_item'              => __( 'New Navigation Menu' ),
