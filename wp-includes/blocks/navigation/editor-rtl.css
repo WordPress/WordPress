@@ -137,6 +137,15 @@
   visibility: visible;
 }
 
+.is-editing > .wp-block-navigation__submenu-container > .block-list-appender {
+  display: block;
+  position: static;
+}
+
+.wp-block-navigation__submenu-container .block-list-appender {
+  display: none;
+}
+
 /**
  * Colors Selector component
  */

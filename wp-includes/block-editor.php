@@ -311,7 +311,6 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
 		array(
 			'css'                     => 'variables',
 			'__unstableType'          => 'presets',
-			'__experimentalNoWrapper' => true,
 		),
 		array(
 			'css'            => 'presets',

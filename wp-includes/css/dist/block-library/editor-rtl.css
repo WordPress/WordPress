@@ -1005,6 +1005,22 @@ figure.wp-block-image:not(.wp-block) {
   caption-side: bottom;
 }
 
+*:not([data-align]) > .wp-block-image {
+  display: grid;
+  grid-template-columns: [image] minmax(0, max-content) [placeholder] auto;
+}
+*:not([data-align]) > .wp-block-image .components-placeholder {
+  grid-column: placeholder;
+}
+*:not([data-align]) > .wp-block-image > div:not(.components-placeholder) {
+  grid-column: image;
+}
+*:not([data-align]) > .wp-block-image > figcaption {
+  grid-column: image;
+  display: table-caption;
+  caption-side: bottom;
+}
+
 .wp-block[data-align=left] > .wp-block-image {
   margin-left: 1em;
   margin-right: 0;
@@ -1217,6 +1233,15 @@ figure.wp-block-image:not(.wp-block) {
 }
 .is-dragging-components-draggable .wp-block-navigation-link > .wp-block-navigation__container .block-editor-block-draggable-chip-wrapper {
   visibility: visible;
+}
+
+.is-editing > .wp-block-navigation__submenu-container > .block-list-appender {
+  display: block;
+  position: static;
+}
+
+.wp-block-navigation__submenu-container .block-list-appender {
+  display: none;
 }
 
 /**

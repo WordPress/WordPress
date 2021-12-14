@@ -1564,7 +1564,7 @@ function parseCSS() {
     if (rule) {
       const [property, value] = rule.split(':');
       if (property === 'color') accumulator.color = value;
-      if (property === 'background-color') accumulator.backgroundColor = value;
+      if (property === 'background-color' && value !== transparentValue) accumulator.backgroundColor = value;
     }
 
     return accumulator;
@@ -1575,10 +1575,9 @@ function parseClassName() {
   let className = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
   let colorSettings = arguments.length > 1 ? arguments[1] : undefined;
   return className.split(' ').reduce((accumulator, name) => {
-    const match = name.match(/^has-([^-]+)-color$/);
-
-    if (match) {
-      const [, colorSlug] = name.match(/^has-([^-]+)-color$/);
+    // `colorSlug` could contain dashes, so simply match the start and end.
+    if (name.startsWith('has-') && name.endsWith('-color')) {
+      const colorSlug = name.replace(/^has-/, '').replace(/-color$/, '');
       const colorObject = Object(external_wp_blockEditor_["getColorObjectByAttributeValues"])(colorSettings, colorSlug);
       accumulator.color = colorObject.color;
     }
@@ -1619,7 +1618,7 @@ function setColors(value, name, colorSettings, colors) {
     styles.push(['background-color', backgroundColor].join(':'));
   } else {
     // Override default browser color for mark element.
-    styles.push(['background-color', 'rgba(0, 0, 0, 0)'].join(':'));
+    styles.push(['background-color', transparentValue].join(':'));
   }
 
   if (color) {
@@ -1727,6 +1726,7 @@ function InlineColorUI(_ref2) {
  */
 
 
+const transparentValue = 'rgba(0, 0, 0, 0)';
 const text_color_name = 'core/text-color';
 
 const text_color_title = Object(external_wp_i18n_["__"])('Highlight');
@@ -1743,7 +1743,7 @@ function getComputedStyleProperty(element, property) {
   const style = defaultView.getComputedStyle(element);
   const value = style.getPropertyValue(property);
 
-  if (property === 'background-color' && value === 'rgba(0, 0, 0, 0)' && element.parentElement) {
+  if (property === 'background-color' && value === transparentValue && element.parentElement) {
     return getComputedStyleProperty(element.parentElement, property);
   }
 
@@ -1762,7 +1762,7 @@ function fillComputedColors(element, _ref) {
 
   return {
     color: color || getComputedStyleProperty(element, 'color'),
-    backgroundColor: backgroundColor === 'rgba(0, 0, 0, 0)' ? getComputedStyleProperty(element, 'background-color') : backgroundColor
+    backgroundColor: backgroundColor === transparentValue ? getComputedStyleProperty(element, 'background-color') : backgroundColor
   };
 }
 
@@ -1830,7 +1830,7 @@ const text_color_textColor = {
     if (key !== 'style') return value; // We should not add a background-color if it's already set
 
     if (value && value.includes('background-color')) return value;
-    const addedCSS = ['background-color', 'rgba(0, 0, 0, 0)'].join(':'); // Prepend `addedCSS` to avoid a double `;;` as any the existing CSS
+    const addedCSS = ['background-color', transparentValue].join(':'); // Prepend `addedCSS` to avoid a double `;;` as any the existing CSS
     // rules will already include a `;`.
 
     return value ? [addedCSS, value].join(';') : addedCSS;

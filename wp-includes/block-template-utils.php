@@ -41,7 +41,7 @@ function get_block_theme_folders( $theme_stylesheet = null ) {
 	$root_dir   = get_theme_root( $theme_name );
 	$theme_dir  = "$root_dir/$theme_name";
 
-	if ( is_readable( $theme_dir . '/block-templates/index.html' ) ) {
+	if ( file_exists( $theme_dir . '/block-templates' ) || file_exists( $theme_dir . '/block-template-parts' ) ) {
 		return array(
 			'wp_template'      => 'block-templates',
 			'wp_template_part' => 'block-template-parts',

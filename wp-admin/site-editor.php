@@ -23,6 +23,8 @@ if ( ! wp_is_block_theme() ) {
 	wp_die( __( 'The theme you are currently using is not compatible with Full Site Editing.' ) );
 }
 
+// Used in the HTML title tag.
+$title       = __( 'Editor (beta)' );
 $parent_file = 'themes.php';
 
 // Flag that we're loading the block editor.
@@ -56,74 +58,45 @@ $custom_settings      = array(
 $editor_settings      = get_block_editor_settings( $custom_settings, $block_editor_context );
 
 if ( isset( $_GET['postType'] ) && ! isset( $_GET['postId'] ) ) {
-
 	$post_type = get_post_type_object( $_GET['postType'] );
-
 	if ( ! $post_type ) {
 		wp_die( __( 'Invalid post type.' ) );
 	}
-
-	// Used in the HTML title tag.
-	$title = $post_type->labels->name;
-
-	$preload_paths = array(
-		'/',
-		'/wp/v2/types/' . $post_type->name . '?context=edit',
-		'/wp/v2/types?context=edit',
-		add_query_arg( 'context', 'edit', rest_get_route_for_post_type_items( $post_type->name ) ),
-	);
-
-	block_editor_rest_api_preload( $preload_paths, $block_editor_context );
-
-	wp_add_inline_script(
-		'wp-edit-site',
-		sprintf(
-			'wp.domReady( function() {
-				wp.editSite.initializeList( "site-editor", "%s", %s );
-			} );',
-			$post_type->name,
-			wp_json_encode( $editor_settings )
-		)
-	);
-
-} else {
-
-	// Used in the HTML title tag.
-	$title = __( 'Editor (beta)' );
-
-	$active_global_styles_id = WP_Theme_JSON_Resolver::get_user_custom_post_type_id();
-	$active_theme            = wp_get_theme()->get_stylesheet();
-	$preload_paths           = array(
-		array( rest_get_route_for_post_type_items( 'attachment' ), 'OPTIONS' ),
-		'/',
-		'/wp/v2/types?context=edit',
-		'/wp/v2/taxonomies?context=edit',
-		add_query_arg( 'context', 'edit', rest_get_route_for_post_type_items( 'page' ) ),
-		add_query_arg( 'context', 'edit', rest_get_route_for_post_type_items( 'post' ) ),
-		add_query_arg( 'context', 'edit', rest_get_route_for_taxonomy_items( 'category' ) ),
-		add_query_arg( 'context', 'edit', rest_get_route_for_taxonomy_items( 'post_tag' ) ),
-		add_query_arg( 'context', 'edit', rest_get_route_for_post_type_items( 'wp_template' ) ),
-		add_query_arg( 'context', 'edit', rest_get_route_for_post_type_items( 'wp_template_part' ) ),
-		'/wp/v2/settings',
-		'/wp/v2/themes?context=edit&status=active',
-		'/wp/v2/global-styles/' . $active_global_styles_id . '?context=edit',
-		'/wp/v2/global-styles/' . $active_global_styles_id,
-		'/wp/v2/themes/' . $active_theme . '/global-styles',
-	);
-
-	block_editor_rest_api_preload( $preload_paths, $block_editor_context );
-
-	wp_add_inline_script(
-		'wp-edit-site',
-		sprintf(
-			'wp.domReady( function() {
-				wp.editSite.initializeEditor( "site-editor", %s );
-			} );',
-			wp_json_encode( $editor_settings )
-		)
-	);
-
 }
+
+$active_global_styles_id = WP_Theme_JSON_Resolver::get_user_custom_post_type_id();
+$active_theme            = wp_get_theme()->get_stylesheet();
+$preload_paths           = array(
+	array( '/wp/v2/media', 'OPTIONS' ),
+	'/',
+	'/wp/v2/types?context=edit',
+	'/wp/v2/types/wp_template?context=edit',
+	'/wp/v2/types/wp_template-part?context=edit',
+	'/wp/v2/taxonomies?context=edit',
+	'/wp/v2/pages?context=edit',
+	'/wp/v2/categories?context=edit',
+	'/wp/v2/posts?context=edit',
+	'/wp/v2/tags?context=edit',
+	'/wp/v2/templates?context=edit&per_page=-1',
+	'/wp/v2/template-parts?context=edit&per_page=-1',
+	'/wp/v2/settings',
+	'/wp/v2/themes?context=edit&status=active',
+	'/wp/v2/global-styles/' . $active_global_styles_id . '?context=edit',
+	'/wp/v2/global-styles/' . $active_global_styles_id,
+	'/wp/v2/global-styles/themes/' . $active_theme,
+);
+
+block_editor_rest_api_preload( $preload_paths, $block_editor_context );
+
+wp_add_inline_script(
+	'wp-edit-site',
+	sprintf(
+		'wp.domReady( function() {
+			wp.editSite.initializeEditor( "site-editor", %s );
+		} );',
+		wp_json_encode( $editor_settings )
+	)
+);
 
 // Preload server-registered block schemas.
 wp_add_inline_script(

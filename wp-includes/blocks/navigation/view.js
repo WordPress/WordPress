@@ -145,7 +145,7 @@ function toggleSubmenuOnClick(event) {
 // scripts could be loaded before the body.
 
 
-window.onload = () => {
+window.addEventListener('load', () => {
   micromodal_es.init({
     onShow: navigationToggleModal,
     onClose: navigationToggleModal,
@@ -173,7 +173,7 @@ window.onload = () => {
       }
     });
   });
-};
+});
 
 
 /***/ })

@@ -11,6 +11,8 @@ require ABSPATH . WPINC . '/blocks/block.php';
 require ABSPATH . WPINC . '/blocks/calendar.php';
 require ABSPATH . WPINC . '/blocks/categories.php';
 require ABSPATH . WPINC . '/blocks/file.php';
+require ABSPATH . WPINC . '/blocks/gallery.php';
+require ABSPATH . WPINC . '/blocks/image.php';
 require ABSPATH . WPINC . '/blocks/latest-comments.php';
 require ABSPATH . WPINC . '/blocks/latest-posts.php';
 require ABSPATH . WPINC . '/blocks/legacy-widget.php';
@@ -64,11 +66,9 @@ function register_core_block_types_from_metadata() {
 		'cover',
 		'embed',
 		'freeform',
-		'gallery',
 		'group',
 		'heading',
 		'html',
-		'image',
 		'list',
 		'media-text',
 		'missing',

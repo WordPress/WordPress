@@ -1698,8 +1698,9 @@
 }
 
 .components-border-style-control legend {
-  line-height: 1.2;
-  padding-bottom: 4px;
+  line-height: 1.4;
+  margin-bottom: 8px;
+  padding: 0;
 }
 .components-border-style-control .components-border-style-control__buttons {
   display: inline-flex;

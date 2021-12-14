@@ -1844,6 +1844,7 @@ const WP_EMBED_TYPE = 'wp-embed';
 
 // EXTERNAL MODULE: external "lodash"
 var external_lodash_ = __webpack_require__("YLtl");
+var external_lodash_default = /*#__PURE__*/__webpack_require__.n(external_lodash_);
 
 // EXTERNAL MODULE: ./node_modules/classnames/dedupe.js
 var dedupe = __webpack_require__("A/WM");
@@ -16070,6 +16071,8 @@ function useClientWidth(ref, dependencies) {
 
 
 function Image(_ref) {
+  var _imageRef$current3;
+
   let {
     temporaryURL,
     attributes: {
@@ -16099,6 +16102,7 @@ function Image(_ref) {
     context,
     clientId
   } = _ref;
+  const imageRef = Object(external_wp_element_["useRef"])();
   const captionRef = Object(external_wp_element_["useRef"])();
   const prevUrl = Object(external_wp_compose_["usePrevious"])(url);
   const {
@@ -16153,9 +16157,9 @@ function Image(_ref) {
   const isLargeViewport = Object(external_wp_compose_["useViewportMatch"])('medium');
   const isWideAligned = Object(external_lodash_["includes"])(['wide', 'full'], align);
   const [{
-    naturalWidth,
-    naturalHeight
-  }, setNaturalSize] = Object(external_wp_element_["useState"])({});
+    loadedNaturalWidth,
+    loadedNaturalHeight
+  }, setLoadedNaturalSize] = Object(external_wp_element_["useState"])({});
   const [isEditingImage, setIsEditingImage] = Object(external_wp_element_["useState"])(false);
   const [externalBlob, setExternalBlob] = Object(external_wp_element_["useState"])();
   const clientWidth = useClientWidth(containerRef, [align]);
@@ -16194,7 +16198,22 @@ function Image(_ref) {
     if (url && !prevUrl && isSelected) {
       captionRef.current.focus();
     }
-  }, [url, prevUrl]);
+  }, [url, prevUrl]); // Get naturalWidth and naturalHeight from image ref, and fall back to loaded natural
+  // width and height. This resolves an issue in Safari where the loaded natural
+  // witdth and height is otherwise lost when switching between alignments.
+  // See: https://github.com/WordPress/gutenberg/pull/37210.
+
+  const {
+    naturalWidth,
+    naturalHeight
+  } = Object(external_wp_element_["useMemo"])(() => {
+    var _imageRef$current, _imageRef$current2;
+
+    return {
+      naturalWidth: ((_imageRef$current = imageRef.current) === null || _imageRef$current === void 0 ? void 0 : _imageRef$current.naturalWidth) || loadedNaturalWidth || undefined,
+      naturalHeight: ((_imageRef$current2 = imageRef.current) === null || _imageRef$current2 === void 0 ? void 0 : _imageRef$current2.naturalHeight) || loadedNaturalHeight || undefined
+    };
+  }, [loadedNaturalWidth, loadedNaturalHeight, (_imageRef$current3 = imageRef.current) === null || _imageRef$current3 === void 0 ? void 0 : _imageRef$current3.complete]);
 
   function onResizeStart() {
     toggleSelection(false);
@@ -16388,8 +16407,14 @@ function Image(_ref) {
     alt: defaultedAlt,
     onError: () => onImageError(),
     onLoad: event => {
-      setNaturalSize(Object(external_lodash_["pick"])(event.target, ['naturalWidth', 'naturalHeight']));
-    }
+      var _event$target, _event$target2;
+
+      setLoadedNaturalSize({
+        loadedNaturalWidth: (_event$target = event.target) === null || _event$target === void 0 ? void 0 : _event$target.naturalWidth,
+        loadedNaturalHeight: (_event$target2 = event.target) === null || _event$target2 === void 0 ? void 0 : _event$target2.naturalHeight
+      });
+    },
+    ref: imageRef
   }), temporaryURL && Object(external_wp_element_["createElement"])(external_wp_components_["Spinner"], null))
   /* eslint-enable jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/click-events-have-key-events */
   ;
@@ -20873,6 +20898,7 @@ const PlaceholderPreview = _ref => {
  */
 
 
+
 /**
  * Convert a flat menu item structure to a nested blocks structure.
  *
@@ -20887,7 +20913,8 @@ function menuItemsToBlocks(menuItems) {
   }
 
   const menuTree = createDataTree(menuItems);
-  return mapMenuItemsToBlocks(menuTree);
+  const blocks = mapMenuItemsToBlocks(menuTree);
+  return Object(external_wp_hooks_["applyFilters"])('blocks.navigation.__unstableMenuItemsToBlocks', blocks, menuItems);
 }
 /**
  * A recursive function that maps menu item nodes to blocks.
@@ -21590,6 +21617,7 @@ function NavigationInnerBlocks(_ref) {
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -21623,7 +21651,11 @@ function NavigationMenuSelector(_ref) {
     })
   })), Object(external_wp_element_["createElement"])(external_wp_components_["MenuGroup"], null, Object(external_wp_element_["createElement"])(external_wp_components_["MenuItem"], {
     onClick: onCreateNew
-  }, Object(external_wp_i18n_["__"])('Create new menu'))));
+  }, Object(external_wp_i18n_["__"])('Create new menu')), Object(external_wp_element_["createElement"])(external_wp_components_["MenuItem"], {
+    href: Object(external_wp_url_["addQueryArgs"])('edit.php', {
+      post_type: 'wp_navigation'
+    })
+  }, Object(external_wp_i18n_["__"])('Manage menus'))));
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/navigation/edit/navigation-menu-name-control.js
@@ -21812,6 +21844,7 @@ function NavigationMenuDeleteControl(_ref) {
  * External dependencies
  */
 
+
 /**
  * WordPress dependencies
  */
@@ -21892,7 +21925,12 @@ function Navigation(_ref) {
       orientation = 'horizontal'
     } = {}
   } = attributes;
-  const [areaMenu, setAreaMenu] = Object(external_wp_coreData_["useEntityProp"])('root', 'navigationArea', 'navigation', navigationArea);
+  let areaMenu,
+      setAreaMenu = external_lodash_default.a; // Navigation areas are deprecated and on their way out. Let's not perform
+  // the request unless we're in an environment where the endpoint exists.
+
+  if (false) {}
+
   const navigationAreaMenu = areaMenu === 0 ? undefined : areaMenu;
   const ref = navigationArea ? navigationAreaMenu : attributes.ref;
   const setRef = Object(external_wp_element_["useCallback"])(postId => {
@@ -24724,7 +24762,7 @@ function NavigationSubmenuEdit(_ref) {
     // see: https://github.com/WordPress/gutenberg/pull/34615.
     __experimentalCaptureToolbars: true,
     renderAppender: isSelected || isImmediateParentOfSelectedBlock && !selectedBlockHasDescendants || // Show the appender while dragging to allow inserting element between item and the appender.
-    hasDescendants ? external_wp_blockEditor_["InnerBlocks"].DefaultAppender : false
+    hasDescendants ? external_wp_blockEditor_["InnerBlocks"].ButtonBlockAppender : false
   });
   const ParentElement = openSubmenusOnClick ? 'button' : 'a';
   return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockControls"], null, Object(external_wp_element_["createElement"])(external_wp_components_["ToolbarGroup"], null, !openSubmenusOnClick && Object(external_wp_element_["createElement"])(external_wp_components_["ToolbarButton"], {
@@ -26634,7 +26672,7 @@ const post_comments_metadata = {
       link: true
     }
   },
-  style: "wp-block-post-comments"
+  style: ["wp-block-post-comments", "wp-block-buttons", "wp-block-button"]
 };
 
 const {

@@ -1793,6 +1793,7 @@ button.wp-block-navigation-item__content {
   padding: 0;
 }
 .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-content,
+.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-content .wp-block-page-list,
 .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-content .wp-block-navigation__container {
   justify-content: flex-start;
 }
@@ -2077,7 +2078,9 @@ p.has-background {
   display: block;
   margin-bottom: 0.25em;
 }
-.wp-block-post-comments .comment-form-comment textarea {
+.wp-block-post-comments .comment-form textarea,
+.wp-block-post-comments .comment-form input:not([type=submit]):not([type=checkbox]) {
+  display: block;
   box-sizing: border-box;
   width: 100%;
 }
@@ -2142,12 +2145,12 @@ p.has-background {
 .wp-block-post-comments-form input:not([type=submit]):not([type=checkbox]) {
   padding: calc(0.667em + 2px);
 }
-.wp-block-post-comments-form .comment-form-comment textarea {
+.wp-block-post-comments-form .comment-form textarea,
+.wp-block-post-comments-form .comment-form input:not([type=submit]):not([type=checkbox]) {
   display: block;
   box-sizing: border-box;
   width: 100%;
 }
-.wp-block-post-comments-form .comment-form-comment label,
 .wp-block-post-comments-form .comment-form-author label,
 .wp-block-post-comments-form .comment-form-email label,
 .wp-block-post-comments-form .comment-form-url label {

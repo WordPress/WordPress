@@ -96,7 +96,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["components"] =
 var emotion_sheet_browser_esm = __webpack_require__("ep+1");
 
 // CONCATENATED MODULE: ./node_modules/stylis/dist/stylis.mjs
-var e="-ms-";var r="-moz-";var a="-webkit-";var c="comm";var n="rule";var t="decl";var s="@page";var u="@media";var i="@import";var f="@charset";var o="@viewport";var l="@supports";var v="@document";var h="@namespace";var p="@keyframes";var b="@font-face";var w="@counter-style";var $="@font-feature-values";var k=Math.abs;var d=String.fromCharCode;function m(e,r){return(((r<<2^z(e,0))<<2^z(e,1))<<2^z(e,2))<<2^z(e,3)}function g(e){return e.trim()}function x(e,r){return(e=r.exec(e))?e[0]:e}function y(e,r,a){return e.replace(r,a)}function j(e,r){return e.indexOf(r)}function z(e,r){return e.charCodeAt(r)|0}function C(e,r,a){return e.slice(r,a)}function A(e){return e.length}function M(e){return e.length}function O(e,r){return r.push(e),e}function S(e,r){return e.map(r).join("")}var q=1;var B=1;var D=0;var E=0;var F=0;var G="";function H(e,r,a,c,n,t,s){return{value:e,root:r,parent:a,type:c,props:n,children:t,line:q,column:B,length:s,return:""}}function I(e,r,a){return H(e,r.root,r.parent,a,r.props,r.children,0)}function J(){return F}function K(){F=E>0?z(G,--E):0;if(B--,F===10)B=1,q--;return F}function L(){F=E<D?z(G,E++):0;if(B++,F===10)B=1,q++;return F}function N(){return z(G,E)}function P(){return E}function Q(e,r){return C(G,e,r)}function R(e){switch(e){case 0:case 9:case 10:case 13:case 32:return 5;case 33:case 43:case 44:case 47:case 62:case 64:case 126:case 59:case 123:case 125:return 4;case 58:return 3;case 34:case 39:case 40:case 91:return 2;case 41:case 93:return 1}return 0}function T(e){return q=B=1,D=A(G=e),E=0,[]}function U(e){return G="",e}function V(e){return g(Q(E-1,_(e===91?e+2:e===40?e+1:e)))}function W(e){return U(Y(T(e)))}function X(e){while(F=N())if(F<33)L();else break;return R(e)>2||R(F)>3?"":" "}function Y(e){while(L())switch(R(F)){case 0:O(re(E-1),e);break;case 2:O(V(F),e);break;default:O(d(F),e)}return e}function Z(e,r){while(--r&&L())if(F<48||F>102||F>57&&F<65||F>70&&F<97)break;return Q(e,P()+(r<6&&N()==32&&L()==32))}function _(e){while(L())switch(F){case e:return E;case 34:case 39:return _(e===34||e===39?e:F);case 40:if(e===41)_(e);break;case 92:L();break}return E}function ee(e,r){while(L())if(e+F===47+10)break;else if(e+F===42+42&&N()===47)break;return"/*"+Q(r,E-1)+"*"+d(e===47?e:L())}function re(e){while(!R(N()))L();return Q(e,E)}function ae(e){return U(ce("",null,null,null,[""],e=T(e),0,[0],e))}function ce(e,r,a,c,n,t,s,u,i){var f=0;var o=0;var l=s;var v=0;var h=0;var p=0;var b=1;var w=1;var $=1;var k=0;var m="";var g=n;var x=t;var j=c;var z=m;while(w)switch(p=k,k=L()){case 34:case 39:case 91:case 40:z+=V(k);break;case 9:case 10:case 13:case 32:z+=X(p);break;case 92:z+=Z(P()-1,7);continue;case 47:switch(N()){case 42:case 47:O(te(ee(L(),P()),r,a),i);break;default:z+="/"}break;case 123*b:u[f++]=A(z)*$;case 125*b:case 59:case 0:switch(k){case 0:case 125:w=0;case 59+o:if(h>0&&A(z)-l)O(h>32?se(z+";",c,a,l-1):se(y(z," ","")+";",c,a,l-2),i);break;case 59:z+=";";default:O(j=ne(z,r,a,f,o,n,u,m,g=[],x=[],l),t);if(k===123)if(o===0)ce(z,r,j,j,g,t,l,u,x);else switch(v){case 100:case 109:case 115:ce(e,j,j,c&&O(ne(e,j,j,0,0,n,u,m,n,g=[],l),x),n,x,l,u,c?g:x);break;default:ce(z,j,j,j,[""],x,l,u,x)}}f=o=h=0,b=$=1,m=z="",l=s;break;case 58:l=1+A(z),h=p;default:if(b<1)if(k==123)--b;else if(k==125&&b++==0&&K()==125)continue;switch(z+=d(k),k*b){case 38:$=o>0?1:(z+="\f",-1);break;case 44:u[f++]=(A(z)-1)*$,$=1;break;case 64:if(N()===45)z+=V(L());v=N(),o=A(m=z+=re(P())),k++;break;case 45:if(p===45&&A(z)==2)b=0}}return t}function ne(e,r,a,c,t,s,u,i,f,o,l){var v=t-1;var h=t===0?s:[""];var p=M(h);for(var b=0,w=0,$=0;b<c;++b)for(var d=0,m=C(e,v+1,v=k(w=u[b])),x=e;d<p;++d)if(x=g(w>0?h[d]+" "+m:y(m,/&\f/g,h[d])))f[$++]=x;return H(e,r,a,t===0?n:i,f,o,l)}function te(e,r,a){return H(e,r,a,c,d(J()),C(e,2,-2),0)}function se(e,r,a,c){return H(e,r,a,t,C(e,0,c),C(e,c+1,-1),c)}function ue(c,n){switch(m(c,n)){case 5103:return a+"print-"+c+c;case 5737:case 4201:case 3177:case 3433:case 1641:case 4457:case 2921:case 5572:case 6356:case 5844:case 3191:case 6645:case 3005:case 6391:case 5879:case 5623:case 6135:case 4599:case 4855:case 4215:case 6389:case 5109:case 5365:case 5621:case 3829:return a+c+c;case 5349:case 4246:case 4810:case 6968:case 2756:return a+c+r+c+e+c+c;case 6828:case 4268:return a+c+e+c+c;case 6165:return a+c+e+"flex-"+c+c;case 5187:return a+c+y(c,/(\w+).+(:[^]+)/,a+"box-$1$2"+e+"flex-$1$2")+c;case 5443:return a+c+e+"flex-item-"+y(c,/flex-|-self/,"")+c;case 4675:return a+c+e+"flex-line-pack"+y(c,/align-content|flex-|-self/,"")+c;case 5548:return a+c+e+y(c,"shrink","negative")+c;case 5292:return a+c+e+y(c,"basis","preferred-size")+c;case 6060:return a+"box-"+y(c,"-grow","")+a+c+e+y(c,"grow","positive")+c;case 4554:return a+y(c,/([^-])(transform)/g,"$1"+a+"$2")+c;case 6187:return y(y(y(c,/(zoom-|grab)/,a+"$1"),/(image-set)/,a+"$1"),c,"")+c;case 5495:case 3959:return y(c,/(image-set\([^]*)/,a+"$1"+"$`$1");case 4968:return y(y(c,/(.+:)(flex-)?(.*)/,a+"box-pack:$3"+e+"flex-pack:$3"),/s.+-b[^;]+/,"justify")+a+c+c;case 4095:case 3583:case 4068:case 2532:return y(c,/(.+)-inline(.+)/,a+"$1$2")+c;case 8116:case 7059:case 5753:case 5535:case 5445:case 5701:case 4933:case 4677:case 5533:case 5789:case 5021:case 4765:if(A(c)-1-n>6)switch(z(c,n+1)){case 109:if(z(c,n+4)!==45)break;case 102:return y(c,/(.+:)(.+)-([^]+)/,"$1"+a+"$2-$3"+"$1"+r+(z(c,n+3)==108?"$3":"$2-$3"))+c;case 115:return~j(c,"stretch")?ue(y(c,"stretch","fill-available"),n)+c:c}break;case 4949:if(z(c,n+1)!==115)break;case 6444:switch(z(c,A(c)-3-(~j(c,"!important")&&10))){case 107:return y(c,":",":"+a)+c;case 101:return y(c,/(.+:)([^;!]+)(;|!.+)?/,"$1"+a+(z(c,14)===45?"inline-":"")+"box$3"+"$1"+a+"$2$3"+"$1"+e+"$2box$3")+c}break;case 5936:switch(z(c,n+11)){case 114:return a+c+e+y(c,/[svh]\w+-[tblr]{2}/,"tb")+c;case 108:return a+c+e+y(c,/[svh]\w+-[tblr]{2}/,"tb-rl")+c;case 45:return a+c+e+y(c,/[svh]\w+-[tblr]{2}/,"lr")+c}return a+c+e+c+c}return c}function ie(e,r){var a="";var c=M(e);for(var n=0;n<c;n++)a+=r(e[n],n,e,r)||"";return a}function fe(e,r,a,s){switch(e.type){case i:case t:return e.return=e.return||e.value;case c:return"";case n:e.value=e.props.join(",")}return A(a=ie(e.children,s))?e.return=e.value+"{"+a+"}":""}function oe(e){var r=M(e);return function(a,c,n,t){var s="";for(var u=0;u<r;u++)s+=e[u](a,c,n,t)||"";return s}}function le(e){return function(r){if(!r.root)if(r=r.return)e(r)}}function ve(c,s,u,i){if(!c.return)switch(c.type){case t:c.return=ue(c.value,c.length);break;case p:return ie([I(y(c.value,"@","@"+a),c,"")],i);case n:if(c.length)return S(c.props,(function(n){switch(x(n,/(::plac\w+|:read-\w+)/)){case":read-only":case":read-write":return ie([I(y(n,/:(read-\w+)/,":"+r+"$1"),c,"")],i);case"::placeholder":return ie([I(y(n,/:(plac\w+)/,":"+a+"input-$1"),c,""),I(y(n,/:(plac\w+)/,":"+r+"$1"),c,""),I(y(n,/:(plac\w+)/,e+"input-$1"),c,"")],i)}return""}))}}function he(e){switch(e.type){case n:e.props=e.props.map((function(r){return S(W(r),(function(r,a,c){switch(z(r,0)){case 12:return C(r,1,A(r));case 0:case 40:case 43:case 62:case 126:return r;case 58:if(c[++a]==="global")c[a]="",c[++a]="\f"+C(c[a],a=1,-1);case 32:return a===1?"":r;default:switch(a){case 0:e=r;return M(c)>1?"":r;case a=M(c)-1:case 2:return a===2?r+e+e:r+e;default:return r}}}))}))}}
+var e="-ms-";var r="-moz-";var a="-webkit-";var c="comm";var n="rule";var t="decl";var s="@page";var u="@media";var i="@import";var f="@charset";var o="@viewport";var l="@supports";var v="@document";var h="@namespace";var p="@keyframes";var b="@font-face";var w="@counter-style";var $="@font-feature-values";var k=Math.abs;var d=String.fromCharCode;var g=Object.assign;function m(e,r){return(((r<<2^z(e,0))<<2^z(e,1))<<2^z(e,2))<<2^z(e,3)}function x(e){return e.trim()}function y(e,r){return(e=r.exec(e))?e[0]:e}function j(e,r,a){return e.replace(r,a)}function C(e,r){return e.indexOf(r)}function z(e,r){return e.charCodeAt(r)|0}function A(e,r,a){return e.slice(r,a)}function O(e){return e.length}function M(e){return e.length}function S(e,r){return r.push(e),e}function q(e,r){return e.map(r).join("")}var B=1;var D=1;var E=0;var F=0;var G=0;var H="";function I(e,r,a,c,n,t,s){return{value:e,root:r,parent:a,type:c,props:n,children:t,line:B,column:D,length:s,return:""}}function J(e,r){return g(I("",null,null,"",null,null,0),e,{length:-e.length},r)}function K(){return G}function L(){G=F>0?z(H,--F):0;if(D--,G===10)D=1,B--;return G}function N(){G=F<E?z(H,F++):0;if(D++,G===10)D=1,B++;return G}function P(){return z(H,F)}function Q(){return F}function R(e,r){return A(H,e,r)}function T(e){switch(e){case 0:case 9:case 10:case 13:case 32:return 5;case 33:case 43:case 44:case 47:case 62:case 64:case 126:case 59:case 123:case 125:return 4;case 58:return 3;case 34:case 39:case 40:case 91:return 2;case 41:case 93:return 1}return 0}function U(e){return B=D=1,E=O(H=e),F=0,[]}function V(e){return H="",e}function W(e){return x(R(F-1,ee(e===91?e+2:e===40?e+1:e)))}function X(e){return V(Z(U(e)))}function Y(e){while(G=P())if(G<33)N();else break;return T(e)>2||T(G)>3?"":" "}function Z(e){while(N())switch(T(G)){case 0:S(ae(F-1),e);break;case 2:S(W(G),e);break;default:S(d(G),e)}return e}function _(e,r){while(--r&&N())if(G<48||G>102||G>57&&G<65||G>70&&G<97)break;return R(e,Q()+(r<6&&P()==32&&N()==32))}function ee(e){while(N())switch(G){case e:return F;case 34:case 39:if(e!==34&&e!==39)ee(G);break;case 40:if(e===41)ee(e);break;case 92:N();break}return F}function re(e,r){while(N())if(e+G===47+10)break;else if(e+G===42+42&&P()===47)break;return"/*"+R(r,F-1)+"*"+d(e===47?e:N())}function ae(e){while(!T(P()))N();return R(e,F)}function ce(e){return V(ne("",null,null,null,[""],e=U(e),0,[0],e))}function ne(e,r,a,c,n,t,s,u,i){var f=0;var o=0;var l=s;var v=0;var h=0;var p=0;var b=1;var w=1;var $=1;var k=0;var g="";var m=n;var x=t;var y=c;var z=g;while(w)switch(p=k,k=N()){case 40:if(p!=108&&z.charCodeAt(l-1)==58){if(C(z+=j(W(k),"&","&\f"),"&\f")!=-1)$=-1;break}case 34:case 39:case 91:z+=W(k);break;case 9:case 10:case 13:case 32:z+=Y(p);break;case 92:z+=_(Q()-1,7);continue;case 47:switch(P()){case 42:case 47:S(se(re(N(),Q()),r,a),i);break;default:z+="/"}break;case 123*b:u[f++]=O(z)*$;case 125*b:case 59:case 0:switch(k){case 0:case 125:w=0;case 59+o:if(h>0&&O(z)-l)S(h>32?ue(z+";",c,a,l-1):ue(j(z," ","")+";",c,a,l-2),i);break;case 59:z+=";";default:S(y=te(z,r,a,f,o,n,u,g,m=[],x=[],l),t);if(k===123)if(o===0)ne(z,r,y,y,m,t,l,u,x);else switch(v){case 100:case 109:case 115:ne(e,y,y,c&&S(te(e,y,y,0,0,n,u,g,n,m=[],l),x),n,x,l,u,c?m:x);break;default:ne(z,y,y,y,[""],x,0,u,x)}}f=o=h=0,b=$=1,g=z="",l=s;break;case 58:l=1+O(z),h=p;default:if(b<1)if(k==123)--b;else if(k==125&&b++==0&&L()==125)continue;switch(z+=d(k),k*b){case 38:$=o>0?1:(z+="\f",-1);break;case 44:u[f++]=(O(z)-1)*$,$=1;break;case 64:if(P()===45)z+=W(N());v=P(),o=l=O(g=z+=ae(Q())),k++;break;case 45:if(p===45&&O(z)==2)b=0}}return t}function te(e,r,a,c,t,s,u,i,f,o,l){var v=t-1;var h=t===0?s:[""];var p=M(h);for(var b=0,w=0,$=0;b<c;++b)for(var d=0,g=A(e,v+1,v=k(w=u[b])),m=e;d<p;++d)if(m=x(w>0?h[d]+" "+g:j(g,/&\f/g,h[d])))f[$++]=m;return I(e,r,a,t===0?n:i,f,o,l)}function se(e,r,a){return I(e,r,a,c,d(K()),A(e,2,-2),0)}function ue(e,r,a,c){return I(e,r,a,t,A(e,0,c),A(e,c+1,-1),c)}function ie(c,n){switch(m(c,n)){case 5103:return a+"print-"+c+c;case 5737:case 4201:case 3177:case 3433:case 1641:case 4457:case 2921:case 5572:case 6356:case 5844:case 3191:case 6645:case 3005:case 6391:case 5879:case 5623:case 6135:case 4599:case 4855:case 4215:case 6389:case 5109:case 5365:case 5621:case 3829:return a+c+c;case 5349:case 4246:case 4810:case 6968:case 2756:return a+c+r+c+e+c+c;case 6828:case 4268:return a+c+e+c+c;case 6165:return a+c+e+"flex-"+c+c;case 5187:return a+c+j(c,/(\w+).+(:[^]+)/,a+"box-$1$2"+e+"flex-$1$2")+c;case 5443:return a+c+e+"flex-item-"+j(c,/flex-|-self/,"")+c;case 4675:return a+c+e+"flex-line-pack"+j(c,/align-content|flex-|-self/,"")+c;case 5548:return a+c+e+j(c,"shrink","negative")+c;case 5292:return a+c+e+j(c,"basis","preferred-size")+c;case 6060:return a+"box-"+j(c,"-grow","")+a+c+e+j(c,"grow","positive")+c;case 4554:return a+j(c,/([^-])(transform)/g,"$1"+a+"$2")+c;case 6187:return j(j(j(c,/(zoom-|grab)/,a+"$1"),/(image-set)/,a+"$1"),c,"")+c;case 5495:case 3959:return j(c,/(image-set\([^]*)/,a+"$1"+"$`$1");case 4968:return j(j(c,/(.+:)(flex-)?(.*)/,a+"box-pack:$3"+e+"flex-pack:$3"),/s.+-b[^;]+/,"justify")+a+c+c;case 4095:case 3583:case 4068:case 2532:return j(c,/(.+)-inline(.+)/,a+"$1$2")+c;case 8116:case 7059:case 5753:case 5535:case 5445:case 5701:case 4933:case 4677:case 5533:case 5789:case 5021:case 4765:if(O(c)-1-n>6)switch(z(c,n+1)){case 109:if(z(c,n+4)!==45)break;case 102:return j(c,/(.+:)(.+)-([^]+)/,"$1"+a+"$2-$3"+"$1"+r+(z(c,n+3)==108?"$3":"$2-$3"))+c;case 115:return~C(c,"stretch")?ie(j(c,"stretch","fill-available"),n)+c:c}break;case 4949:if(z(c,n+1)!==115)break;case 6444:switch(z(c,O(c)-3-(~C(c,"!important")&&10))){case 107:return j(c,":",":"+a)+c;case 101:return j(c,/(.+:)([^;!]+)(;|!.+)?/,"$1"+a+(z(c,14)===45?"inline-":"")+"box$3"+"$1"+a+"$2$3"+"$1"+e+"$2box$3")+c}break;case 5936:switch(z(c,n+11)){case 114:return a+c+e+j(c,/[svh]\w+-[tblr]{2}/,"tb")+c;case 108:return a+c+e+j(c,/[svh]\w+-[tblr]{2}/,"tb-rl")+c;case 45:return a+c+e+j(c,/[svh]\w+-[tblr]{2}/,"lr")+c}return a+c+e+c+c}return c}function fe(e,r){var a="";var c=M(e);for(var n=0;n<c;n++)a+=r(e[n],n,e,r)||"";return a}function oe(e,r,a,s){switch(e.type){case i:case t:return e.return=e.return||e.value;case c:return"";case p:return e.return=e.value+"{"+fe(e.children,s)+"}";case n:e.value=e.props.join(",")}return O(a=fe(e.children,s))?e.return=e.value+"{"+a+"}":""}function le(e){var r=M(e);return function(a,c,n,t){var s="";for(var u=0;u<r;u++)s+=e[u](a,c,n,t)||"";return s}}function ve(e){return function(r){if(!r.root)if(r=r.return)e(r)}}function he(c,s,u,i){if(c.length>-1)if(!c.return)switch(c.type){case t:c.return=ie(c.value,c.length);break;case p:return fe([J(c,{value:j(c.value,"@","@"+a)})],i);case n:if(c.length)return q(c.props,(function(n){switch(y(n,/(::plac\w+|:read-\w+)/)){case":read-only":case":read-write":return fe([J(c,{props:[j(n,/:(read-\w+)/,":"+r+"$1")]})],i);case"::placeholder":return fe([J(c,{props:[j(n,/:(plac\w+)/,":"+a+"input-$1")]}),J(c,{props:[j(n,/:(plac\w+)/,":"+r+"$1")]}),J(c,{props:[j(n,/:(plac\w+)/,e+"input-$1")]})],i)}return""}))}}function pe(e){switch(e.type){case n:e.props=e.props.map((function(r){return q(X(r),(function(r,a,c){switch(z(r,0)){case 12:return A(r,1,O(r));case 0:case 40:case 43:case 62:case 126:return r;case 58:if(c[++a]==="global")c[a]="",c[++a]="\f"+A(c[a],a=1,-1);case 32:return a===1?"":r;default:switch(a){case 0:e=r;return M(c)>1?"":r;case a=M(c)-1:case 2:return a===2?r+e+e:r+e;default:return r}}}))}))}}
 //# sourceMappingURL=stylis.mjs.map
 
 // EXTERNAL MODULE: ./node_modules/@emotion/weak-memoize/dist/weak-memoize.browser.esm.js
@@ -122,20 +122,20 @@ var emotion_cache_browser_esm_identifierWithPointTracking = function identifierW
 
   while (true) {
     previous = character;
-    character = N(); // &\f
+    character = P(); // &\f
 
     if (previous === 38 && character === 12) {
       points[index] = 1;
     }
 
-    if (R(character)) {
+    if (T(character)) {
       break;
     }
 
-    L();
+    N();
   }
 
-  return Q(begin, E);
+  return R(begin, F);
 };
 
 var emotion_cache_browser_esm_toRules = function toRules(parsed, points) {
@@ -144,10 +144,10 @@ var emotion_cache_browser_esm_toRules = function toRules(parsed, points) {
   var character = 44;
 
   do {
-    switch (R(character)) {
+    switch (T(character)) {
       case 0:
         // &\f
-        if (character === 38 && N() === 12) {
+        if (character === 38 && P() === 12) {
           // this is not 100% correct, we don't account for literal sequences here - like for example quoted strings
           // stylis inserts \f after & to know when & where it should replace this sequence with the context selector
           // and when it should just concatenate the outer and inner selectors
@@ -155,18 +155,18 @@ var emotion_cache_browser_esm_toRules = function toRules(parsed, points) {
           points[index] = 1;
         }
 
-        parsed[index] += emotion_cache_browser_esm_identifierWithPointTracking(E - 1, points, index);
+        parsed[index] += emotion_cache_browser_esm_identifierWithPointTracking(F - 1, points, index);
         break;
 
       case 2:
-        parsed[index] += V(character);
+        parsed[index] += W(character);
         break;
 
       case 4:
         // comma
         if (character === 44) {
           // colon
-          parsed[++index] = N() === 58 ? '&\f' : '';
+          parsed[++index] = P() === 58 ? '&\f' : '';
           points[index] = parsed[index].length;
           break;
         }
@@ -176,20 +176,21 @@ var emotion_cache_browser_esm_toRules = function toRules(parsed, points) {
       default:
         parsed[index] += d(character);
     }
-  } while (character = L());
+  } while (character = N());
 
   return parsed;
 };
 
 var emotion_cache_browser_esm_getRules = function getRules(value, points) {
-  return U(emotion_cache_browser_esm_toRules(T(value), points));
+  return V(emotion_cache_browser_esm_toRules(U(value), points));
 }; // WeakSet would be more appropriate, but only WeakMap is supported in IE11
 
 
 var fixedElements = /* #__PURE__ */new WeakMap();
 var compat = function compat(element) {
-  if (element.type !== 'rule' || !element.parent || // .length indicates if this rule contains pseudo or not
-  !element.length) {
+  if (element.type !== 'rule' || !element.parent || // positive .length indicates that this rule contains pseudo
+  // negative .length indicates that this rule has been already prefixed
+  element.length < 1) {
     return;
   }
 
@@ -303,7 +304,7 @@ var incorrectImportAlarm = function incorrectImportAlarm(element, index, childre
   }
 };
 
-var defaultStylisPlugins = [ve];
+var defaultStylisPlugins = [he];
 
 var emotion_cache_browser_esm_createCache = function createCache(options) {
   var key = options.key;
@@ -365,13 +366,13 @@ var emotion_cache_browser_esm_createCache = function createCache(options) {
 
   {
     var currentSheet;
-    var finalizingPlugins = [fe,  false ? undefined : le(function (rule) {
+    var finalizingPlugins = [oe,  false ? undefined : ve(function (rule) {
       currentSheet.insert(rule);
     })];
-    var serializer = oe(omnipresentPlugins.concat(stylisPlugins, finalizingPlugins));
+    var serializer = le(omnipresentPlugins.concat(stylisPlugins, finalizingPlugins));
 
     var stylis = function stylis(styles) {
-      return ie(ae(styles), serializer);
+      return fe(ce(styles), serializer);
     };
 
     _insert = function insert(selector, serialized, sheet, shouldCache) {
@@ -5475,7 +5476,7 @@ function getCalendarDaySettings(day, ariaLabelFormat, daySize, modifiers, phrase
 
 var pkg = {
 	name: "@emotion/react",
-	version: "11.7.0",
+	version: "11.7.1",
 	main: "dist/emotion-react.cjs.js",
 	module: "dist/emotion-react.esm.js",
 	browser: {
@@ -5502,7 +5503,7 @@ var pkg = {
 	},
 	dependencies: {
 		"@babel/runtime": "^7.13.10",
-		"@emotion/cache": "^11.6.0",
+		"@emotion/cache": "^11.7.1",
 		"@emotion/serialize": "^1.0.2",
 		"@emotion/sheet": "^1.1.0",
 		"@emotion/utils": "^1.0.0",
@@ -5523,8 +5524,8 @@ var pkg = {
 	},
 	devDependencies: {
 		"@babel/core": "^7.13.10",
-		"@emotion/css": "11.5.0",
-		"@emotion/css-prettifier": "1.0.0",
+		"@emotion/css": "11.7.1",
+		"@emotion/css-prettifier": "1.0.1",
 		"@emotion/server": "11.4.0",
 		"@emotion/styled": "11.6.0",
 		"@types/react": "^16.9.11",
@@ -39768,11 +39769,274 @@ CircularOptionPicker.Option = Option;
 CircularOptionPicker.ButtonAction = ButtonAction;
 CircularOptionPicker.DropdownLinkAction = DropdownLinkAction;
 
+// EXTERNAL MODULE: ./node_modules/colord/plugins/a11y.mjs
+var a11y = __webpack_require__("7bKH");
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/heading/hook.js
+/**
+ * Internal dependencies
+ */
+
+
+
+
+function useHeading(props) {
+  const {
+    as: asProp,
+    level = 2,
+    ...otherProps
+  } = Object(use_context_system["a" /* useContextSystem */])(props, 'Heading');
+  const as = asProp || `h${level}`;
+  const a11yProps = {};
+
+  if (typeof as === 'string' && as[0] !== 'h') {
+    // if not a semantic `h` element, add a11y props:
+    a11yProps.role = 'heading';
+    a11yProps['aria-level'] = typeof level === 'string' ? parseInt(level) : level;
+  }
+
+  const textProps = useText({
+    color: COLORS.darkGray.heading,
+    size: getHeadingFontSize(level),
+    isBlock: true,
+    weight: config_values.fontWeightHeading,
+    ...otherProps
+  });
+  return { ...textProps,
+    ...a11yProps,
+    as
+  };
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/heading/component.js
+
+
+
+/**
+ * External dependencies
+ */
+// eslint-disable-next-line no-restricted-imports
+
+/**
+ * Internal dependencies
+ */
+
+
+
+
+function Heading(props, forwardedRef) {
+  const headerProps = useHeading(props);
+  return Object(external_wp_element_["createElement"])(view_component["a" /* default */], Object(esm_extends["a" /* default */])({}, headerProps, {
+    ref: forwardedRef
+  }));
+}
+/**
+ * `Heading` renders headings and titles using the library's typography system.
+ *
+ * @example
+ * ```jsx
+ * import { Heading } from `@wordpress/components`
+ *
+ * function Example() {
+ *   return <Heading>Code is Poetry</Heading>;
+ * }
+ * ```
+ */
+
+
+const ConnectedHeading = Object(context_connect["a" /* contextConnect */])(Heading, 'Heading');
+/* harmony default export */ var heading_component = (ConnectedHeading);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/color-palette/styles.js
+
+
+function color_palette_styles_EMOTION_STRINGIFIED_CSS_ERROR_() { return "You have tried to stringify object returned from `css` function. It isn't supposed to be used directly (e.g. as value of the `className` prop), but rather handed to emotion so it can handle it (e.g. as value of `css` prop)."; }
+
+/**
+ * External dependencies
+ */
+
+/**
+ * Internal dependencies
+ */
+
+const ColorHeading = /*#__PURE__*/Object(emotion_styled_base_browser_esm["a" /* default */])(heading_component,  true ? {
+  target: "e1uu5br00"
+} : undefined)( true ? {
+  name: "13lxv2o",
+  styles: "text-transform:uppercase;line-height:24px;font-weight:500;&&&{font-size:11px;margin-bottom:0;}"
+} : undefined);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/color-palette/index.js
+
+
+
+/**
+ * External dependencies
+ */
+
+
+
+
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+
+
+
+Object(colord["b" /* extend */])([names["a" /* default */], a11y["a" /* default */]]);
+
+function SinglePalette(_ref) {
+  let {
+    className,
+    clearColor,
+    colors,
+    onChange,
+    value,
+    actions
+  } = _ref;
+  const colorOptions = Object(external_wp_element_["useMemo"])(() => {
+    return Object(external_lodash_["map"])(colors, _ref2 => {
+      let {
+        color,
+        name
+      } = _ref2;
+      const colordColor = Object(colord["a" /* colord */])(color);
+      return Object(external_wp_element_["createElement"])(CircularOptionPicker.Option, {
+        key: color,
+        isSelected: value === color,
+        selectedIconProps: value === color ? {
+          fill: colordColor.contrast() > colordColor.contrast('#000') ? '#fff' : '#000'
+        } : {},
+        tooltipText: name || // translators: %s: color hex code e.g: "#f00".
+        Object(external_wp_i18n_["sprintf"])(Object(external_wp_i18n_["__"])('Color code: %s'), color),
+        style: {
+          backgroundColor: color,
+          color
+        },
+        onClick: value === color ? clearColor : () => onChange(color),
+        "aria-label": name ? // translators: %s: The name of the color e.g: "vivid red".
+        Object(external_wp_i18n_["sprintf"])(Object(external_wp_i18n_["__"])('Color: %s'), name) : // translators: %s: color hex code e.g: "#f00".
+        Object(external_wp_i18n_["sprintf"])(Object(external_wp_i18n_["__"])('Color code: %s'), color)
+      });
+    });
+  }, [colors, value, onChange, clearColor]);
+  return Object(external_wp_element_["createElement"])(CircularOptionPicker, {
+    className: className,
+    options: colorOptions,
+    actions: actions
+  });
+}
+
+function MultiplePalettes(_ref3) {
+  let {
+    className,
+    clearColor,
+    colors,
+    onChange,
+    value,
+    actions
+  } = _ref3;
+  return Object(external_wp_element_["createElement"])(v_stack_component, {
+    spacing: 3,
+    className: className
+  }, colors.map((_ref4, index) => {
+    let {
+      name,
+      colors: colorPalette
+    } = _ref4;
+    return Object(external_wp_element_["createElement"])(v_stack_component, {
+      spacing: 2,
+      key: index
+    }, Object(external_wp_element_["createElement"])(ColorHeading, null, name), Object(external_wp_element_["createElement"])(SinglePalette, {
+      clearColor: clearColor,
+      colors: colorPalette,
+      onChange: onChange,
+      value: value,
+      actions: colors.length === index + 1 ? actions : null
+    }));
+  }));
+}
+
+function CustomColorPickerDropdown(_ref5) {
+  let {
+    isRenderedInSidebar,
+    ...props
+  } = _ref5;
+  return Object(external_wp_element_["createElement"])(Dropdown, Object(esm_extends["a" /* default */])({
+    contentClassName: classnames_default()('components-color-palette__custom-color-dropdown-content', {
+      'is-rendered-in-sidebar': isRenderedInSidebar
+    })
+  }, props));
+}
+function ColorPalette(_ref6) {
+  let {
+    clearable = true,
+    className,
+    colors,
+    disableCustomColors = false,
+    enableAlpha,
+    onChange,
+    value,
+    __experimentalHasMultipleOrigins = false,
+    __experimentalIsRenderedInSidebar = false
+  } = _ref6;
+  const clearColor = Object(external_wp_element_["useCallback"])(() => onChange(undefined), [onChange]);
+  const Component = __experimentalHasMultipleOrigins ? MultiplePalettes : SinglePalette;
+
+  const renderCustomColorPicker = () => Object(external_wp_element_["createElement"])(LegacyAdapter, {
+    color: value,
+    onChange: color => onChange(color),
+    enableAlpha: enableAlpha
+  });
+
+  const colordColor = Object(colord["a" /* colord */])(value);
+  return Object(external_wp_element_["createElement"])(v_stack_component, {
+    spacing: 3,
+    className: className
+  }, !disableCustomColors && Object(external_wp_element_["createElement"])(CustomColorPickerDropdown, {
+    isRenderedInSidebar: __experimentalIsRenderedInSidebar,
+    renderContent: renderCustomColorPicker,
+    renderToggle: _ref7 => {
+      let {
+        isOpen,
+        onToggle
+      } = _ref7;
+      return Object(external_wp_element_["createElement"])("button", {
+        className: "components-color-palette__custom-color",
+        "aria-expanded": isOpen,
+        "aria-haspopup": "true",
+        onClick: onToggle,
+        "aria-label": Object(external_wp_i18n_["__"])('Custom color picker'),
+        style: {
+          background: value,
+          color: colordColor.contrast() > colordColor.contrast('#000') ? '#fff' : '#000'
+        }
+      }, value);
+    }
+  }), Object(external_wp_element_["createElement"])(Component, {
+    clearable: clearable,
+    clearColor: clearColor,
+    colors: colors,
+    onChange: onChange,
+    value: value,
+    actions: !!clearable && Object(external_wp_element_["createElement"])(CircularOptionPicker.ButtonAction, {
+      onClick: clearColor
+    }, Object(external_wp_i18n_["__"])('Clear'))
+  }));
+}
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/custom-gradient-bar/constants.js
-const COLOR_POPOVER_PROPS = {
-  className: 'components-custom-gradient-picker__color-picker-popover',
-  position: 'top'
-};
 const GRADIENT_MARKERS_WIDTH = 16;
 const INSERT_POINT_WIDTH = 16;
 const MINIMUM_ABSOLUTE_LEFT_POSITION = 5;
@@ -40017,7 +40281,33 @@ function ControlPointButton(_ref) {
   }, Object(external_wp_i18n_["__"])('Use your left or right arrow keys or drag and drop with the mouse to change the gradient position. Press the button to change the color or remove the control point.')));
 }
 
-function ControlPoints(_ref2) {
+function GradientColorPickerDropdown(_ref2) {
+  let {
+    isRenderedInSidebar,
+    gradientPickerDomRef,
+    ...props
+  } = _ref2;
+  const popoverProps = Object(external_wp_element_["useMemo"])(() => {
+    const result = {
+      className: 'components-custom-gradient-picker__color-picker-popover',
+      position: 'top'
+    };
+
+    if (isRenderedInSidebar) {
+      result.anchorRef = gradientPickerDomRef.current;
+      result.position = Object(external_wp_i18n_["isRTL"])() ? 'bottom right' : 'bottom left';
+      result.__unstableForcePosition = true;
+    }
+
+    return result;
+  }, [gradientPickerDomRef.current, isRenderedInSidebar]);
+  return Object(external_wp_element_["createElement"])(CustomColorPickerDropdown, Object(esm_extends["a" /* default */])({
+    isRenderedInSidebar: isRenderedInSidebar,
+    popoverProps: popoverProps
+  }, props));
+}
+
+function ControlPoints(_ref3) {
   let {
     disableRemove,
     disableAlpha,
@@ -40026,8 +40316,9 @@ function ControlPoints(_ref2) {
     value: controlPoints,
     onChange,
     onStartControlPointChange,
-    onStopControlPointChange
-  } = _ref2;
+    onStopControlPointChange,
+    __experimentalIsRenderedInSidebar
+  } = _ref3;
   const controlPointMoveState = Object(external_wp_element_["useRef"])();
 
   const onMouseMove = event => {
@@ -40061,14 +40352,16 @@ function ControlPoints(_ref2) {
   }, []);
   return controlPoints.map((point, index) => {
     const initialPosition = point === null || point === void 0 ? void 0 : point.position;
-    return ignoreMarkerPosition !== initialPosition && Object(external_wp_element_["createElement"])(Dropdown, {
+    return ignoreMarkerPosition !== initialPosition && Object(external_wp_element_["createElement"])(GradientColorPickerDropdown, {
+      gradientPickerDomRef: gradientPickerDomRef,
+      isRenderedInSidebar: __experimentalIsRenderedInSidebar,
       key: index,
       onClose: onStopControlPointChange,
-      renderToggle: _ref3 => {
+      renderToggle: _ref4 => {
         let {
           isOpen,
           onToggle
-        } = _ref3;
+        } = _ref4;
         return Object(external_wp_element_["createElement"])(ControlPointButton, {
           key: index,
           onClick: () => {
@@ -40115,17 +40408,17 @@ function ControlPoints(_ref2) {
           color: point.color
         });
       },
-      renderContent: _ref4 => {
+      renderContent: _ref5 => {
         let {
           onClose
-        } = _ref4;
+        } = _ref5;
         return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(LegacyAdapter, {
           enableAlpha: !disableAlpha,
           color: point.color,
           onChange: color => {
             onChange(updateControlPointColor(controlPoints, index, Object(colord["a" /* colord */])(color).toRgbString()));
           }
-        }), !disableRemove && Object(external_wp_element_["createElement"])(build_module_button["a" /* default */], {
+        }), !disableRemove && controlPoints.length > 2 && Object(external_wp_element_["createElement"])(build_module_button["a" /* default */], {
           className: "components-custom-gradient-picker__remove-control-point",
           onClick: () => {
             onChange(removeControlPoint(controlPoints, index));
@@ -40133,32 +40426,35 @@ function ControlPoints(_ref2) {
           },
           variant: "link"
         }, Object(external_wp_i18n_["__"])('Remove Control Point')));
-      },
-      popoverProps: COLOR_POPOVER_PROPS
+      }
     });
   });
 }
 
-function InsertPoint(_ref5) {
+function InsertPoint(_ref6) {
   let {
     value: controlPoints,
     onChange,
     onOpenInserter,
     onCloseInserter,
     insertPosition,
-    disableAlpha
-  } = _ref5;
+    disableAlpha,
+    __experimentalIsRenderedInSidebar,
+    gradientPickerDomRef
+  } = _ref6;
   const [alreadyInsertedPoint, setAlreadyInsertedPoint] = Object(external_wp_element_["useState"])(false);
-  return Object(external_wp_element_["createElement"])(Dropdown, {
+  return Object(external_wp_element_["createElement"])(GradientColorPickerDropdown, {
+    gradientPickerDomRef: gradientPickerDomRef,
+    isRenderedInSidebar: __experimentalIsRenderedInSidebar,
     className: "components-custom-gradient-picker__inserter",
     onClose: () => {
       onCloseInserter();
     },
-    renderToggle: _ref6 => {
+    renderToggle: _ref7 => {
       let {
         isOpen,
         onToggle
-      } = _ref6;
+      } = _ref7;
       return Object(external_wp_element_["createElement"])(build_module_button["a" /* default */], {
         "aria-expanded": isOpen,
         "aria-haspopup": "true",
@@ -40189,8 +40485,7 @@ function InsertPoint(_ref5) {
           onChange(updateControlPointColorByPosition(controlPoints, insertPosition, Object(colord["a" /* colord */])(color).toRgbString()));
         }
       }
-    }),
-    popoverProps: COLOR_POPOVER_PROPS
+    })
   });
 }
 
@@ -40290,7 +40585,8 @@ function CustomGradientBar(_ref) {
     value: controlPoints,
     onChange,
     disableInserter = false,
-    disableAlpha = false
+    disableAlpha = false,
+    __experimentalIsRenderedInSidebar
   } = _ref;
   const gradientPickerDomRef = Object(external_wp_element_["useRef"])();
   const [gradientBarState, gradientBarStateDispatch] = Object(external_wp_element_["useReducer"])(customGradientBarReducer, customGradientBarReducerInitialState);
@@ -40341,6 +40637,8 @@ function CustomGradientBar(_ref) {
   }, Object(external_wp_element_["createElement"])("div", {
     className: "components-custom-gradient-picker__markers-container"
   }, !disableInserter && (isMovingInserter || isInsertingControlPoint) && Object(external_wp_element_["createElement"])(control_points.InsertPoint, {
+    __experimentalIsRenderedInSidebar: __experimentalIsRenderedInSidebar,
+    gradientPickerDomRef: gradientPickerDomRef,
     disableAlpha: disableAlpha,
     insertPosition: gradientBarState.insertPosition,
     value: controlPoints,
@@ -40356,6 +40654,7 @@ function CustomGradientBar(_ref) {
       });
     }
   }), Object(external_wp_element_["createElement"])(control_points, {
+    __experimentalIsRenderedInSidebar: __experimentalIsRenderedInSidebar,
     disableAlpha: disableAlpha,
     disableRemove: disableInserter,
     gradientPickerDomRef: gradientPickerDomRef,
@@ -40703,7 +41002,8 @@ const GradientTypePicker = _ref2 => {
 function CustomGradientPicker(_ref3) {
   let {
     value,
-    onChange
+    onChange,
+    __experimentalIsRenderedInSidebar
   } = _ref3;
   const gradientAST = getGradientAstWithDefault(value); // On radial gradients the bar should display a linear gradient.
   // On radial gradients the bar represents a slice of the gradient from the center until the outside.
@@ -40720,6 +41020,7 @@ function CustomGradientPicker(_ref3) {
   return Object(external_wp_element_["createElement"])("div", {
     className: "components-custom-gradient-picker"
   }, Object(external_wp_element_["createElement"])(CustomGradientBar, {
+    __experimentalIsRenderedInSidebar: __experimentalIsRenderedInSidebar,
     background: background,
     hasGradient: hasGradient,
     value: controlPoints,
@@ -40739,101 +41040,6 @@ function CustomGradientPicker(_ref3) {
     onChange: onChange
   }))));
 }
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/heading/hook.js
-/**
- * Internal dependencies
- */
-
-
-
-
-function useHeading(props) {
-  const {
-    as: asProp,
-    level = 2,
-    ...otherProps
-  } = Object(use_context_system["a" /* useContextSystem */])(props, 'Heading');
-  const as = asProp || `h${level}`;
-  const a11yProps = {};
-
-  if (typeof as === 'string' && as[0] !== 'h') {
-    // if not a semantic `h` element, add a11y props:
-    a11yProps.role = 'heading';
-    a11yProps['aria-level'] = typeof level === 'string' ? parseInt(level) : level;
-  }
-
-  const textProps = useText({
-    color: COLORS.darkGray.heading,
-    size: getHeadingFontSize(level),
-    isBlock: true,
-    weight: config_values.fontWeightHeading,
-    ...otherProps
-  });
-  return { ...textProps,
-    ...a11yProps,
-    as
-  };
-}
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/heading/component.js
-
-
-
-/**
- * External dependencies
- */
-// eslint-disable-next-line no-restricted-imports
-
-/**
- * Internal dependencies
- */
-
-
-
-
-function Heading(props, forwardedRef) {
-  const headerProps = useHeading(props);
-  return Object(external_wp_element_["createElement"])(view_component["a" /* default */], Object(esm_extends["a" /* default */])({}, headerProps, {
-    ref: forwardedRef
-  }));
-}
-/**
- * `Heading` renders headings and titles using the library's typography system.
- *
- * @example
- * ```jsx
- * import { Heading } from `@wordpress/components`
- *
- * function Example() {
- *   return <Heading>Code is Poetry</Heading>;
- * }
- * ```
- */
-
-
-const ConnectedHeading = Object(context_connect["a" /* contextConnect */])(Heading, 'Heading');
-/* harmony default export */ var heading_component = (ConnectedHeading);
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/color-palette/styles.js
-
-
-function color_palette_styles_EMOTION_STRINGIFIED_CSS_ERROR_() { return "You have tried to stringify object returned from `css` function. It isn't supposed to be used directly (e.g. as value of the `className` prop), but rather handed to emotion so it can handle it (e.g. as value of `css` prop)."; }
-
-/**
- * External dependencies
- */
-
-/**
- * Internal dependencies
- */
-
-const ColorHeading = /*#__PURE__*/Object(emotion_styled_base_browser_esm["a" /* default */])(heading_component,  true ? {
-  target: "e1uu5br00"
-} : undefined)( true ? {
-  name: "13lxv2o",
-  styles: "text-transform:uppercase;line-height:24px;font-weight:500;&&&{font-size:11px;margin-bottom:0;}"
-} : undefined);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/gradient-picker/index.js
 
@@ -40939,7 +41145,8 @@ function GradientPicker(_ref5) {
     value,
     clearable = true,
     disableCustomGradients = false,
-    __experimentalHasMultipleOrigins
+    __experimentalHasMultipleOrigins,
+    __experimentalIsRenderedInSidebar
   } = _ref5;
   const clearGradient = Object(external_wp_element_["useCallback"])(() => onChange(undefined), [onChange]);
   const Component = __experimentalHasMultipleOrigins && gradients !== null && gradients !== void 0 && gradients.length ? MultipleOrigin : SingleOrigin;
@@ -40954,170 +41161,11 @@ function GradientPicker(_ref5) {
       onClick: clearGradient
     }, Object(external_wp_i18n_["__"])('Clear')),
     content: !disableCustomGradients && Object(external_wp_element_["createElement"])(CustomGradientPicker, {
+      __experimentalIsRenderedInSidebar: __experimentalIsRenderedInSidebar,
       value: value,
       onChange: onChange
     })
   });
-}
-
-// EXTERNAL MODULE: ./node_modules/colord/plugins/a11y.mjs
-var a11y = __webpack_require__("7bKH");
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/color-palette/index.js
-
-
-/**
- * External dependencies
- */
-
-
-
-
-
-/**
- * WordPress dependencies
- */
-
-
-
-/**
- * Internal dependencies
- */
-
-
-
-
-
-
-Object(colord["b" /* extend */])([names["a" /* default */], a11y["a" /* default */]]);
-
-function SinglePalette(_ref) {
-  let {
-    className,
-    clearColor,
-    colors,
-    onChange,
-    value,
-    actions
-  } = _ref;
-  const colorOptions = Object(external_wp_element_["useMemo"])(() => {
-    return Object(external_lodash_["map"])(colors, _ref2 => {
-      let {
-        color,
-        name
-      } = _ref2;
-      const colordColor = Object(colord["a" /* colord */])(color);
-      return Object(external_wp_element_["createElement"])(CircularOptionPicker.Option, {
-        key: color,
-        isSelected: value === color,
-        selectedIconProps: value === color ? {
-          fill: colordColor.contrast() > colordColor.contrast('#000') ? '#fff' : '#000'
-        } : {},
-        tooltipText: name || // translators: %s: color hex code e.g: "#f00".
-        Object(external_wp_i18n_["sprintf"])(Object(external_wp_i18n_["__"])('Color code: %s'), color),
-        style: {
-          backgroundColor: color,
-          color
-        },
-        onClick: value === color ? clearColor : () => onChange(color),
-        "aria-label": name ? // translators: %s: The name of the color e.g: "vivid red".
-        Object(external_wp_i18n_["sprintf"])(Object(external_wp_i18n_["__"])('Color: %s'), name) : // translators: %s: color hex code e.g: "#f00".
-        Object(external_wp_i18n_["sprintf"])(Object(external_wp_i18n_["__"])('Color code: %s'), color)
-      });
-    });
-  }, [colors, value, onChange, clearColor]);
-  return Object(external_wp_element_["createElement"])(CircularOptionPicker, {
-    className: className,
-    options: colorOptions,
-    actions: actions
-  });
-}
-
-function MultiplePalettes(_ref3) {
-  let {
-    className,
-    clearColor,
-    colors,
-    onChange,
-    value,
-    actions
-  } = _ref3;
-  return Object(external_wp_element_["createElement"])(v_stack_component, {
-    spacing: 3,
-    className: className
-  }, colors.map((_ref4, index) => {
-    let {
-      name,
-      colors: colorPalette
-    } = _ref4;
-    return Object(external_wp_element_["createElement"])(v_stack_component, {
-      spacing: 2,
-      key: index
-    }, Object(external_wp_element_["createElement"])(ColorHeading, null, name), Object(external_wp_element_["createElement"])(SinglePalette, {
-      clearColor: clearColor,
-      colors: colorPalette,
-      onChange: onChange,
-      value: value,
-      actions: colors.length === index + 1 ? actions : null
-    }));
-  }));
-}
-
-function ColorPalette(_ref5) {
-  let {
-    clearable = true,
-    className,
-    colors,
-    disableCustomColors = false,
-    enableAlpha,
-    onChange,
-    value,
-    __experimentalHasMultipleOrigins = false,
-    __experimentalIsRenderedInSidebar = false
-  } = _ref5;
-  const clearColor = Object(external_wp_element_["useCallback"])(() => onChange(undefined), [onChange]);
-  const Component = __experimentalHasMultipleOrigins ? MultiplePalettes : SinglePalette;
-
-  const renderCustomColorPicker = () => Object(external_wp_element_["createElement"])(LegacyAdapter, {
-    color: value,
-    onChange: color => onChange(color),
-    enableAlpha: enableAlpha
-  });
-
-  return Object(external_wp_element_["createElement"])(v_stack_component, {
-    spacing: 3,
-    className: className
-  }, !disableCustomColors && Object(external_wp_element_["createElement"])(Dropdown, {
-    contentClassName: classnames_default()('components-color-palette__custom-color-dropdown-content', {
-      'is-rendered-in-sidebar': __experimentalIsRenderedInSidebar
-    }),
-    renderContent: renderCustomColorPicker,
-    renderToggle: _ref6 => {
-      let {
-        isOpen,
-        onToggle
-      } = _ref6;
-      return Object(external_wp_element_["createElement"])("button", {
-        className: "components-color-palette__custom-color",
-        "aria-expanded": isOpen,
-        "aria-haspopup": "true",
-        onClick: onToggle,
-        "aria-label": Object(external_wp_i18n_["__"])('Custom color picker'),
-        style: {
-          background: value
-        }
-      }, value);
-    }
-  }), Object(external_wp_element_["createElement"])(Component, {
-    clearable: clearable,
-    clearColor: clearColor,
-    colors: colors,
-    onChange: onChange,
-    value: value,
-    actions: !!clearable && Object(external_wp_element_["createElement"])(CircularOptionPicker.ButtonAction, {
-      onClick: clearColor
-    }, Object(external_wp_i18n_["__"])('Clear'))
-  }));
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/menu.js
@@ -41756,6 +41804,7 @@ function palette_edit_Option(_ref2) {
       color: newColor
     })
   }), isGradient && Object(external_wp_element_["createElement"])(CustomGradientPicker, {
+    __experimentalIsRenderedInSidebar: true,
     value: value,
     onChange: newGradient => onChange({ ...element,
       gradient: newGradient
@@ -41886,15 +41935,7 @@ function PaletteEdit(_ref6) {
       setIsEditing(true);
       setEditingElement(elements.length);
     }
-  }), !isEditing && Object(external_wp_element_["createElement"])(build_module_button["a" /* default */], {
-    disabled: !hasElements,
-    isSmall: true,
-    icon: more_vertical["a" /* default */],
-    label: isGradient ? Object(external_wp_i18n_["__"])('Edit gradients') : Object(external_wp_i18n_["__"])('Edit colors'),
-    onClick: () => {
-      setIsEditing(true);
-    }
-  }), isEditing && (canReset || !canOnlyChangeValues) && Object(external_wp_element_["createElement"])(dropdown_menu, {
+  }), hasElements && (canReset || !canOnlyChangeValues) && Object(external_wp_element_["createElement"])(dropdown_menu, {
     icon: more_vertical["a" /* default */],
     label: isGradient ? Object(external_wp_i18n_["__"])('Gradient options') : Object(external_wp_i18n_["__"])('Color options'),
     toggleProps: {
@@ -41906,14 +41947,23 @@ function PaletteEdit(_ref6) {
     } = _ref7;
     return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(navigable_container_menu, {
       role: "menu"
-    }, !canOnlyChangeValues && Object(external_wp_element_["createElement"])(build_module_button["a" /* default */], {
+    }, Object(external_wp_element_["createElement"])(build_module_button["a" /* default */], {
+      variant: "tertiary",
+      disabled: isEditing,
+      onClick: () => {
+        setIsEditing(true);
+        onClose();
+      },
+      className: "components-palette-edit__menu-button"
+    }, Object(external_wp_i18n_["__"])('Edit custom colors')), !canOnlyChangeValues && Object(external_wp_element_["createElement"])(build_module_button["a" /* default */], {
       variant: "tertiary",
       onClick: () => {
         setEditingElement(null);
         setIsEditing(false);
         onChange();
         onClose();
-      }
+      },
+      className: "components-palette-edit__menu-button"
     }, isGradient ? Object(external_wp_i18n_["__"])('Remove all gradients') : Object(external_wp_i18n_["__"])('Remove all colors')), canReset && Object(external_wp_element_["createElement"])(build_module_button["a" /* default */], {
       variant: "tertiary",
       onClick: () => {
@@ -51954,7 +52004,7 @@ const labelBlock =  true ? {
   styles: "flex:1"
 } : undefined;
 const buttonView = /*#__PURE__*/Object(emotion_react_browser_esm["a" /* css */])("align-items:center;appearance:none;background:transparent;border:none;border-radius:", config_values.controlBorderRadius, ";color:", COLORS.gray[700], ";cursor:pointer;display:flex;height:100%;justify-content:center;line-height:100%;outline:none;padding:0 12px;position:relative;text-align:center;transition:background ", config_values.transitionDurationFast, " linear,color ", config_values.transitionDurationFast, " linear,font-weight 60ms linear;", reduceMotion('transition'), " user-select:none;width:100%;z-index:2;&::-moz-focus-inner{border:0;}&:active{background:", config_values.toggleGroupControlBackgroundColor, ";}" + ( true ? "" : undefined),  true ? "" : undefined);
-const buttonActive = /*#__PURE__*/Object(emotion_react_browser_esm["a" /* css */])("color:", COLORS.white, ";" + ( true ? "" : undefined),  true ? "" : undefined);
+const buttonActive = /*#__PURE__*/Object(emotion_react_browser_esm["a" /* css */])("color:", COLORS.white, ";&:active{background:transparent;}" + ( true ? "" : undefined),  true ? "" : undefined);
 const ButtonContentView = Object(emotion_styled_base_browser_esm["a" /* default */])("div",  true ? {
   target: "eu1cvm71"
 } : undefined)("font-size:", config_values.fontSize, ";line-height:1;position:absolute;top:50%;left:50%;transform:translate( -50%, -50% );" + ( true ? "" : undefined));

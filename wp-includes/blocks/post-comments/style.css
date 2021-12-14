@@ -125,7 +125,9 @@
   display: block;
   margin-bottom: 0.25em;
 }
-.wp-block-post-comments .comment-form-comment textarea {
+.wp-block-post-comments .comment-form textarea,
+.wp-block-post-comments .comment-form input:not([type=submit]):not([type=checkbox]) {
+  display: block;
   box-sizing: border-box;
   width: 100%;
 }

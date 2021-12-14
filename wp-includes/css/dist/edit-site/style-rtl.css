@@ -1122,16 +1122,11 @@ body.is-fullscreen-mode .edit-site-list-header {
 }
 .edit-site .edit-site-list .interface-interface-skeleton__content {
   background: #fff;
-}
-
-.edit-site-list-main {
-  display: flex;
   align-items: center;
-  justify-content: center;
   padding: 16px;
 }
 @media (min-width: 782px) {
-  .edit-site-list-main {
+  .edit-site .edit-site-list .interface-interface-skeleton__content {
     padding: 72px;
   }
 }

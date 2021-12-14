@@ -771,6 +771,10 @@ svg.components-checkbox-control__checked {
   padding: 8px;
 }
 
+.components-dropdown-menu__menu .components-palette-edit__menu-button {
+  width: 100%;
+}
+
 .component-color-indicator {
   width: 25px;
   height: 16px;
@@ -875,9 +879,9 @@ input.components-combobox-control__input[type=text]:focus {
 }
 
 .components-color-palette__custom-color {
+  position: relative;
   border: none;
   background: none;
-  outline: 0;
   display: block;
   border-radius: 2px;
   height: 48px;
@@ -889,6 +893,12 @@ input.components-combobox-control__input[type=text]:focus {
   box-sizing: border-box;
   color: #fff;
   cursor: pointer;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2);
+  outline: 1px solid transparent;
+}
+.components-color-palette__custom-color:focus {
+  box-shadow: inset 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
+  outline-width: 2px;
 }
 
 .components-dropdown__content.components-color-palette__custom-color-dropdown-content .components-popover__content {
