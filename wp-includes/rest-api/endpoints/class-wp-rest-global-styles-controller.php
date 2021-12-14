@@ -41,7 +41,7 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Controller {
 		// List themes global styles.
 		register_rest_route(
 			$this->namespace,
-			'/' . $this->rest_base . '/themes/(?P<stylesheet>[^.\/]+(?:\/[^.\/]+)?)',
+			'/' . $this->rest_base . '/themes/(?P<stylesheet>[\/\s%\w\.\(\)\[\]\@_\-]+)',
 			array(
 				array(
 					'methods'             => WP_REST_Server::READABLE,
@@ -49,18 +49,19 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Controller {
 					'permission_callback' => array( $this, 'get_theme_item_permissions_check' ),
 					'args'                => array(
 						'stylesheet' => array(
-							'description' => __( 'The theme identifier' ),
-							'type'        => 'string',
+							'description'       => __( 'The theme identifier' ),
+							'type'              => 'string',
+							'sanitize_callback' => array( $this, '_sanitize_global_styles_callback' ),
 						),
 					),
 				),
 			)
 		);
 
-		// Lists/updates a single gloval style variation based on the given id.
+		// Lists/updates a single global style variation based on the given id.
 		register_rest_route(
 			$this->namespace,
-			'/' . $this->rest_base . '/(?P<id>[\/\w-]+)',
+			'/' . $this->rest_base . '/(?P<id>[\/\s%\w\.\(\)\[\]\@_\-]+)',
 			array(
 				array(
 					'methods'             => WP_REST_Server::READABLE,
@@ -68,8 +69,9 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Controller {
 					'permission_callback' => array( $this, 'get_item_permissions_check' ),
 					'args'                => array(
 						'id' => array(
-							'description' => __( 'The id of a template' ),
-							'type'        => 'string',
+							'description'       => __( 'The id of a template' ),
+							'type'              => 'string',
+							'sanitize_callback' => array( $this, '_sanitize_global_styles_callback' ),
 						),
 					),
 				),
@@ -82,6 +84,20 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Controller {
 				'schema' => array( $this, 'get_public_item_schema' ),
 			)
 		);
+	}
+
+	/**
+	 * Sanitize the global styles ID or stylesheet to decode endpoint.
+	 * For example, `wp/v2/global-styles/templatetwentytwo%200.4.0`
+	 * would be decoded to `templatetwentytwo 0.4.0`.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @param string $id_or_stylesheet Global styles ID or stylesheet.
+	 * @return string Sanitized global styles ID or stylesheet.
+	 */
+	public function _sanitize_global_styles_callback( $id_or_stylesheet ) {
+		return urldecode( $id_or_stylesheet );
 	}
 
 	/**
@@ -519,7 +535,6 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Controller {
 	 * @since 5.9.0
 	 *
 	 * @param WP_REST_Request $request The request instance.
-	 *
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function get_theme_item( $request ) {
