@@ -1250,9 +1250,17 @@ final class WP_Theme implements ArrayAccess {
 			}
 
 			if ( current_theme_supports( 'block-templates' ) ) {
+				$block_templates = get_block_templates( array(), 'wp_template' );
 				foreach ( get_post_types( array( 'public' => true ) ) as $type ) {
-					$block_templates = get_block_templates( array( 'post_type' => $type ), 'wp_template' );
 					foreach ( $block_templates as $block_template ) {
+						if ( ! $block_template->is_custom ) {
+							continue;
+						}
+
+						if ( isset( $block_template->post_types ) && ! in_array( $type, $block_template->post_types, true ) ) {
+							continue;
+						}
+
 						$post_templates[ $type ][ $block_template->slug ] = $block_template->title;
 					}
 				}
