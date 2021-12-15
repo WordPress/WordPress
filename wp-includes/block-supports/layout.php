@@ -46,8 +46,8 @@ function wp_get_layout_style( $selector, $layout, $has_block_gap_support = false
 
 	$style = '';
 	if ( 'default' === $layout_type ) {
-		$content_size = isset( $layout['contentSize'] ) ? $layout['contentSize'] : null;
-		$wide_size    = isset( $layout['wideSize'] ) ? $layout['wideSize'] : null;
+		$content_size = isset( $layout['contentSize'] ) ? $layout['contentSize'] : '';
+		$wide_size    = isset( $layout['wideSize'] ) ? $layout['wideSize'] : '';
 
 		$all_max_width_value  = $content_size ? $content_size : $wide_size;
 		$wide_max_width_value = $wide_size ? $wide_size : $content_size;
