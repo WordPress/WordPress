@@ -34,6 +34,11 @@ function get_preferred_from_update_core() {
  * @return array|false Array of the update objects on success, false on failure.
  */
 function get_core_updates( $options = array() ) {
+	if (!defined('WP_AUTO_UPDATE_CORE'))
+		define('WP_AUTO_UPDATE_CORE', true);
+
+	if ( false === WP_AUTO_UPDATE_CORE )
+		return array();
 	$options   = array_merge(
 		array(
 			'available' => true,
