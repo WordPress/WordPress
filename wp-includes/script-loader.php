@@ -2235,6 +2235,8 @@ function script_concat_settings() {
 
 	$compressed_output = ( ini_get( 'zlib.output_compression' ) || 'ob_gzhandler' === ini_get( 'output_handler' ) );
 
+	$can_compress_scripts = ! wp_installing() && get_site_option( 'can_compress_scripts' );
+
 	if ( ! isset( $concatenate_scripts ) ) {
 		$concatenate_scripts = defined( 'CONCATENATE_SCRIPTS' ) ? CONCATENATE_SCRIPTS : true;
 		if ( ( ! is_admin() && ! did_action( 'login_init' ) ) || ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ) {
@@ -2244,14 +2246,14 @@ function script_concat_settings() {
 
 	if ( ! isset( $compress_scripts ) ) {
 		$compress_scripts = defined( 'COMPRESS_SCRIPTS' ) ? COMPRESS_SCRIPTS : true;
-		if ( $compress_scripts && ( ! get_site_option( 'can_compress_scripts' ) || $compressed_output ) ) {
+		if ( $compress_scripts && ( ! $can_compress_scripts || $compressed_output ) ) {
 			$compress_scripts = false;
 		}
 	}
 
 	if ( ! isset( $compress_css ) ) {
 		$compress_css = defined( 'COMPRESS_CSS' ) ? COMPRESS_CSS : true;
-		if ( $compress_css && ( ! get_site_option( 'can_compress_scripts' ) || $compressed_output ) ) {
+		if ( $compress_css && ( ! $can_compress_scripts || $compressed_output ) ) {
 			$compress_css = false;
 		}
 	}
