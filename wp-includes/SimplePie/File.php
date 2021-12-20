@@ -106,7 +106,7 @@ class SimplePie_File
 				curl_setopt($fp, CURLOPT_FAILONERROR, 1);
 				curl_setopt($fp, CURLOPT_TIMEOUT, $timeout);
 				curl_setopt($fp, CURLOPT_CONNECTTIMEOUT, $timeout);
-				curl_setopt($fp, CURLOPT_REFERER, $url);
+				curl_setopt($fp, CURLOPT_REFERER, SimplePie_Misc::url_remove_credentials($url));
 				curl_setopt($fp, CURLOPT_USERAGENT, $useragent);
 				curl_setopt($fp, CURLOPT_HTTPHEADER, $headers2);
 				foreach ($curl_options as $curl_param => $curl_value) {
@@ -119,6 +119,7 @@ class SimplePie_File
 					curl_setopt($fp, CURLOPT_ENCODING, 'none');
 					$this->headers = curl_exec($fp);
 				}
+				$this->status_code = curl_getinfo($fp, CURLINFO_HTTP_CODE);
 				if (curl_errno($fp))
 				{
 					$this->error = 'cURL error ' . curl_errno($fp) . ': ' . curl_error($fp);

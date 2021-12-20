@@ -71,6 +71,15 @@ class SimplePie_Sanitize
 	var $useragent = '';
 	var $force_fsockopen = false;
 	var $replace_url_attributes = null;
+	var $registry;
+
+	/**
+	 * List of domains for which to force HTTPS.
+	 * @see SimplePie_Sanitize::set_https_domains()
+	 * Array is a tree split at DNS levels. Example:
+	 * array('biz' => true, 'com' => array('example' => true), 'net' => array('example' => array('www' => true)))
+	 */
+	var $https_domains = array();
 
 	public function __construct()
 	{
@@ -239,6 +248,68 @@ class SimplePie_Sanitize
 			);
 		}
 		$this->replace_url_attributes = (array) $element_attribute;
+	}
+
+	/**
+	 * Set the list of domains for which to force HTTPS.
+	 * @see SimplePie_Misc::https_url()
+	 * Example array('biz', 'example.com', 'example.org', 'www.example.net');
+	 */
+	public function set_https_domains($domains)
+	{
+		$this->https_domains = array();
+		foreach ($domains as $domain)
+		{
+			$domain = trim($domain, ". \t\n\r\0\x0B");
+			$segments = array_reverse(explode('.', $domain));
+			$node =& $this->https_domains;
+			foreach ($segments as $segment)
+			{//Build a tree
+				if ($node === true)
+				{
+					break;
+				}
+				if (!isset($node[$segment]))
+				{
+					$node[$segment] = array();
+				}
+				$node =& $node[$segment];
+			}
+			$node = true;
+		}
+	}
+
+	/**
+	 * Check if the domain is in the list of forced HTTPS.
+	 */
+	protected function is_https_domain($domain)
+	{
+		$domain = trim($domain, '. ');
+		$segments = array_reverse(explode('.', $domain));
+		$node =& $this->https_domains;
+		foreach ($segments as $segment)
+		{//Explore the tree
+			if (isset($node[$segment]))
+			{
+				$node =& $node[$segment];
+			}
+			else
+			{
+				break;
+			}
+		}
+		return $node === true;
+	}
+
+	/**
+	 * Force HTTPS for selected Web sites.
+	 */
+	public function https_url($url)
+	{
+		return (strtolower(substr($url, 0, 7)) === 'http://') &&
+			$this->is_https_domain(parse_url($url, PHP_URL_HOST)) ?
+			substr_replace($url, 's', 4, 0) :	//Add the 's' to HTTPS
+			$url;
 	}
 
 	public function sanitize($data, $type, $base = '')
@@ -443,6 +514,7 @@ class SimplePie_Sanitize
 						$value = $this->registry->call('Misc', 'absolutize_url', array($element->getAttribute($attribute), $this->base));
 						if ($value !== false)
 						{
+							$value = $this->https_url($value);
 							$element->setAttribute($attribute, $value);
 						}
 					}

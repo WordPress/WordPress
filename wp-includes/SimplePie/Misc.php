@@ -2260,4 +2260,14 @@ function embed_wmedia(width, height, link) {
 	{
 		// No-op
 	}
+
+	/**
+	 * Sanitize a URL by removing HTTP credentials.
+	 * @param string $url the URL to sanitize.
+	 * @return string the same URL without HTTP credentials.
+	 */
+	public static function url_remove_credentials($url)
+	{
+		return preg_replace('#^(https?://)[^/:@]+:[^/:@]+@#i', '$1', $url);
+	}
 }
