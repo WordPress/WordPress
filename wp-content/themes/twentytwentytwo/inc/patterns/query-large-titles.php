@@ -14,7 +14,7 @@ return array(
 					<!-- /wp:column -->
 
 					<!-- wp:column {"verticalAlignment":"center","width":""} -->
-					<div class="wp-block-column is-vertically-aligned-center"><!-- wp:post-title {"isLink":true,"style":{"spacing":{"margin":{"top":"0px","bottom":"0px"}},"typography":{"fontSize":"clamp(3rem, 6vw, 4rem)"}}} /--></div>
+					<div class="wp-block-column is-vertically-aligned-center"><!-- wp:post-title {"isLink":true,"style":{"spacing":{"margin":{"top":"0px","bottom":"0px"}},"typography":{"fontSize":"clamp(2.75rem, 6vw, 3.25rem)"}}} /--></div>
 					<!-- /wp:column --></div>
 					<!-- /wp:columns -->
 

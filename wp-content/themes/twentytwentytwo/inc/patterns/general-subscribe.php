@@ -12,8 +12,8 @@ return array(
 					<!-- /wp:heading -->
 
 					<!-- wp:buttons -->
-					<div class="wp-block-buttons"><!-- wp:button {"fontSize":"normal"} -->
-					<div class="wp-block-button has-custom-font-size has-normal-font-size"><a class="wp-block-button__link">' . esc_html__( 'Join our mailing list', 'twentytwentytwo' ) . '</a></div>
+					<div class="wp-block-buttons"><!-- wp:button {"fontSize":"medium"} -->
+					<div class="wp-block-button has-custom-font-size has-medium-font-size"><a class="wp-block-button__link">' . esc_html__( 'Join our mailing list', 'twentytwentytwo' ) . '</a></div>
 					<!-- /wp:button --></div>
 					<!-- /wp:buttons --></div>
 					<!-- /wp:column -->

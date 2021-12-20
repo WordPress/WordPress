@@ -9,7 +9,7 @@ return array(
 	'content'    => '<!-- wp:query {"query":{"offset":0,"postType":"post","categoryIds":[],"tagIds":[],"order":"desc","orderBy":"date","author":"","search":"","sticky":"","perPage":12},"displayLayout":{"type":"flex","columns":3},"align":"wide","layout":{"inherit":true}} -->
 					<div class="wp-block-query alignwide"><!-- wp:post-template {"align":"wide"} -->
 
-					<!-- wp:post-title {"isLink":true,"fontSize":"large"} /-->
+					<!-- wp:post-title {"isLink":true,"fontSize":"x-large"} /-->
 
 					<!-- wp:post-excerpt /-->
 

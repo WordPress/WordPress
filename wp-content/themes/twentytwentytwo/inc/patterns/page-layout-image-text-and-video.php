@@ -17,8 +17,8 @@ return array(
 
 					<!-- wp:columns {"align":"wide"} -->
 					<div class="wp-block-columns alignwide"><!-- wp:column {"width":"33.33%"} -->
-					<div class="wp-block-column" style="flex-basis:33.33%"><!-- wp:heading {"fontSize":"large"} -->
-					<h2 class="has-large-font-size">' . esc_html__( 'Screening', 'twentytwentytwo' ) . '</h2>
+					<div class="wp-block-column" style="flex-basis:33.33%"><!-- wp:heading {"fontSize":"x-large"} -->
+					<h2 class="has-x-large-font-size">' . esc_html__( 'Screening', 'twentytwentytwo' ) . '</h2>
 					<!-- /wp:heading -->
 					
 					<!-- wp:paragraph -->
@@ -45,8 +45,8 @@ return array(
 					<!-- wp:group {"align":"full","layout":{"inherit":true},"style":{"spacing":{"padding":{"left":"max(1.25rem, 5vw)","right":"max(1.25rem, 5vw)"}}}} -->
 					<div class="wp-block-group alignfull" style="padding-left:max(1.25rem, 5vw);padding-right:max(1.25rem, 5vw)"><!-- wp:columns {"align":"wide"} -->
 					<div class="wp-block-columns alignwide"><!-- wp:column {"width":"33.33%"} -->
-					<div class="wp-block-column" style="flex-basis:33.33%"><!-- wp:heading {"fontSize":"large"} -->
-					<h2 class="has-large-font-size">' . esc_html__( 'Extended Trailer', 'twentytwentytwo' ) . '</h2>
+					<div class="wp-block-column" style="flex-basis:33.33%"><!-- wp:heading {"fontSize":"x-large"} -->
+					<h2 class="has-x-large-font-size">' . esc_html__( 'Extended Trailer', 'twentytwentytwo' ) . '</h2>
 					<!-- /wp:heading -->
 					
 					<!-- wp:paragraph -->

@@ -10,8 +10,8 @@ return array(
 					<div class="wp-block-cover alignfull is-light" style="min-height:80vh"><span aria-hidden="true" class="has-secondary-background-color has-background-dim-100 wp-block-cover__gradient-background has-background-dim"></span><div class="wp-block-cover__inner-container"><!-- wp:group {"layout":{"inherit":false,"contentSize":"400px"}} -->
 					<div class="wp-block-group"><!-- wp:spacer {"height":64} -->
 					<div style="height:64px" aria-hidden="true" class="wp-block-spacer"></div>
-					<!-- /wp:spacer --><!-- wp:heading {"style":{"typography":{"lineHeight":"1","textTransform":"uppercase","fontSize":"clamp(3rem, 6vw, 4rem)"}}} -->
-					<h2 id="edvard-smith" style="font-size:clamp(3rem, 6vw, 4rem);line-height:1;text-transform:uppercase">' . wp_kses_post( __( 'Edvard<br>Smith', 'twentytwentytwo' ) ) . '</h2>
+					<!-- /wp:spacer --><!-- wp:heading {"style":{"typography":{"lineHeight":"1","textTransform":"uppercase","fontSize":"clamp(2.75rem, 6vw, 3.25rem)"}}} -->
+					<h2 id="edvard-smith" style="font-size:clamp(2.75rem, 6vw, 3.25rem);line-height:1;text-transform:uppercase">' . wp_kses_post( __( 'Edvard<br>Smith', 'twentytwentytwo' ) ) . '</h2>
 					<!-- /wp:heading -->
 
 					<!-- wp:spacer {"height":8} -->

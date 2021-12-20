@@ -10,7 +10,7 @@ return array(
 					<div class="wp-block-query alignwide"><!-- wp:post-template {"align":"wide"} -->
 					<!-- wp:post-featured-image {"isLink":true,"width":"100%","height":"318px"} /-->
 
-					<!-- wp:post-title {"isLink":true,"fontSize":"large"} /-->
+					<!-- wp:post-title {"isLink":true,"fontSize":"x-large"} /-->
 
 					<!-- wp:post-excerpt /-->
 

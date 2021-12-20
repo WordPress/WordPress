@@ -14,7 +14,7 @@ return array(
 					<div class="wp-block-query"><!-- wp:post-template -->
 					<!-- wp:post-featured-image {"isLink":true,"width":"","height":"310px"} /-->
 
-					<!-- wp:post-title {"isLink":true,"fontSize":"medium"} /-->
+					<!-- wp:post-title {"isLink":true,"fontSize":"large"} /-->
 
 					<!-- wp:post-excerpt /-->
 

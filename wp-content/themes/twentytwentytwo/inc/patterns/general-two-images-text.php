@@ -21,8 +21,8 @@ return array(
 					<div style="height:30px" aria-hidden="true" class="wp-block-spacer"></div>
 					<!-- /wp:spacer -->
 
-					<!-- wp:heading {"fontSize":"large"} -->
-					<h2 class="has-large-font-size" id="screening">' . esc_html__( 'SCREENING', 'twentytwentytwo' ) . '</h2>
+					<!-- wp:heading {"fontSize":"x-large"} -->
+					<h2 class="has-x-large-font-size" id="screening">' . esc_html__( 'SCREENING', 'twentytwentytwo' ) . '</h2>
 					<!-- /wp:heading -->
 
 					<!-- wp:paragraph -->

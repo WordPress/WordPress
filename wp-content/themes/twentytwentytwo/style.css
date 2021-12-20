@@ -67,7 +67,7 @@ a:active {
 	border-radius: 0;
 	border: none;
 	color: var(--wp--preset--color--background);
-	font-size: var(--wp--preset--typography--font-size--normal);
+	font-size: var(--wp--preset--font-size--medium);
 	padding: calc(.667em + 2px) calc(1.333em + 2px);
 }
 
@@ -96,7 +96,7 @@ a:active {
  */
 
 .wp-site-blocks,
-.is-root-container,
+body > .is-root-container,
 .edit-post-visual-editor__post-title-wrapper,
 .wp-block-group.alignfull,
 .is-root-container .wp-block[data-align="full"] > .wp-block-group {

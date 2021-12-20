@@ -20,8 +20,8 @@ return array(
 					<!-- /wp:navigation --></div>
 					<!-- /wp:group -->
 
-					<!-- wp:heading {"align":"wide","style":{"typography":{"fontSize":"clamp(4rem, 8vw, 6.25rem)","lineHeight":"1.15"}}} -->
-					<h2 class="alignwide" style="font-size:clamp(4rem, 8vw, 6.25rem);line-height:1.15">' . wp_kses_post( __( '<em>The Hatchery</em>: a blog about my adventures in bird watching', 'twentytwentytwo' ) ) . '</h2>
+					<!-- wp:heading {"align":"wide","style":{"typography":{"fontSize":"clamp(3.25rem, 8vw, 6.25rem)","lineHeight":"1.15"}}} -->
+					<h2 class="alignwide" style="font-size:clamp(3.25rem, 8vw, 6.25rem);line-height:1.15">' . wp_kses_post( __( '<em>The Hatchery</em>: a blog about my adventures in bird watching', 'twentytwentytwo' ) ) . '</h2>
 					<!-- /wp:heading --></div>
 					<!-- /wp:group -->
 

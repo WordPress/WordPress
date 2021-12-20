@@ -9,14 +9,16 @@
  * Registers block patterns and categories.
  *
  * @since Twenty Twenty-Two 1.0
+ *
+ * @return void
  */
 function twentytwentytwo_register_block_patterns() {
 	$block_pattern_categories = array(
 		'featured' => array( 'label' => __( 'Featured', 'twentytwentytwo' ) ),
-		'footer' => array( 'label' => __( 'Footers', 'twentytwentytwo' ) ),
-		'header' => array( 'label' => __( 'Headers', 'twentytwentytwo' ) ),
-		'query'   => array( 'label' => __( 'Query', 'twentytwentytwo' ) ),
-		'pages'   => array( 'label' => __( 'Pages', 'twentytwentytwo' ) ),
+		'footer'   => array( 'label' => __( 'Footers', 'twentytwentytwo' ) ),
+		'header'   => array( 'label' => __( 'Headers', 'twentytwentytwo' ) ),
+		'query'    => array( 'label' => __( 'Query', 'twentytwentytwo' ) ),
+		'pages'    => array( 'label' => __( 'Pages', 'twentytwentytwo' ) ),
 	);
 
 	/**
@@ -117,7 +119,7 @@ function twentytwentytwo_register_block_patterns() {
 	 *
 	 * @since Twenty Twenty-Two 1.0
 	 *
-	 * @param $block_patterns array List of block patterns by name.
+	 * @param array $block_patterns List of block patterns by name.
 	 */
 	$block_patterns = apply_filters( 'twentytwentytwo_block_patterns', $block_patterns );
 

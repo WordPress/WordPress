@@ -36,8 +36,8 @@ return array(
 					<div style="height:16px" aria-hidden="true" class="wp-block-spacer"></div>
 					<!-- /wp:spacer -->
 
-					<!-- wp:heading {"level":3,"fontSize":"medium"} -->
-					<h3 class="has-medium-font-size"><em>' . esc_html__( 'Date', 'twentytwentytwo' ) . '</em></h3>
+					<!-- wp:heading {"level":3,"fontSize":"large"} -->
+					<h3 class="has-large-font-size"><em>' . esc_html__( 'Date', 'twentytwentytwo' ) . '</em></h3>
 					<!-- /wp:heading -->
 
 					<!-- wp:paragraph -->
@@ -48,8 +48,8 @@ return array(
 					<div style="height:16px" aria-hidden="true" class="wp-block-spacer"></div>
 					<!-- /wp:spacer -->
 
-					<!-- wp:heading {"level":3,"fontSize":"medium"} -->
-					<h3 class="has-medium-font-size"><em>' . esc_html__( 'Location', 'twentytwentytwo' ) . '</em></h3>
+					<!-- wp:heading {"level":3,"fontSize":"large"} -->
+					<h3 class="has-large-font-size"><em>' . esc_html__( 'Location', 'twentytwentytwo' ) . '</em></h3>
 					<!-- /wp:heading -->
 
 					<!-- wp:paragraph -->

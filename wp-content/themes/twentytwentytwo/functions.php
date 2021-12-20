@@ -43,13 +43,15 @@ if ( ! function_exists( 'twentytwentytwo_styles' ) ) :
 	 * @return void
 	 */
 	function twentytwentytwo_styles() {
-
 		// Register theme stylesheet.
+		$theme_version = wp_get_theme()->get( 'Version' );
+
+		$version_string = is_string( $theme_version ) ? $theme_version : false;
 		wp_register_style(
 			'twentytwentytwo-style',
 			get_template_directory_uri() . '/style.css',
 			array(),
-			wp_get_theme()->get( 'Version' )
+			$version_string
 		);
 
 		// Add styles inline.

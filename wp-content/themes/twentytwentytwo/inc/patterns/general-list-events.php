@@ -7,8 +7,8 @@ return array(
 	'categories' => array( 'featured', 'text' ),
 	'content'    => '<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"8rem","bottom":"8rem","left":"0px","right":"0px"}},"elements":{"link":{"color":{"text":"var:preset|color|background"}}}},"backgroundColor":"primary","textColor":"background"} -->
 					<div class="wp-block-group alignfull has-background-color has-primary-background-color has-text-color has-background has-link-color" style="padding-top:8rem;padding-right:0px;padding-bottom:8rem;padding-left:0px"><!-- wp:group {"align":"full","style":{"spacing":{"padding":{"left":"max(1.25rem, 5vw)","right":"max(1.25rem, 5vw)"}}},"layout":{"inherit":true}} -->
-					<div class="wp-block-group alignfull" style="padding-right:max(1.25rem, 5vw);padding-left:max(1.25rem, 5vw)"><!-- wp:heading {"align":"wide","style":{"typography":{"fontSize":"clamp(4rem, 8vw, 6.25rem)","lineHeight":"1.15"},"spacing":{"margin":{"bottom":"2rem"}}}} -->
-					<h2 class="alignwide" style="font-size:clamp(4rem, 8vw, 6.25rem);line-height:1.15;margin-bottom:2rem"><em>' . esc_html__( 'Speaker Series', 'twentytwentytwo' ) . '</em></h2>
+					<div class="wp-block-group alignfull" style="padding-right:max(1.25rem, 5vw);padding-left:max(1.25rem, 5vw)"><!-- wp:heading {"align":"wide","style":{"typography":{"fontSize":"clamp(3.25rem, 8vw, 6.25rem)","lineHeight":"1.15"},"spacing":{"margin":{"bottom":"2rem"}}}} -->
+					<h2 class="alignwide" style="font-size:clamp(3.25rem, 8vw, 6.25rem);line-height:1.15;margin-bottom:2rem"><em>' . esc_html__( 'Speaker Series', 'twentytwentytwo' ) . '</em></h2>
 					<!-- /wp:heading -->
 
 					<!-- wp:spacer {"height":32} -->
@@ -27,8 +27,8 @@ return array(
 					<!-- /wp:column -->
 
 					<!-- wp:column {"verticalAlignment":"center"} -->
-					<div class="wp-block-column is-vertically-aligned-center"><!-- wp:heading {"fontSize":"large"} -->
-					<h2 class="has-large-font-size" id="jesus-rodriguez">' . esc_html__( 'Jesús Rodriguez', 'twentytwentytwo' ) . '</h2>
+					<div class="wp-block-column is-vertically-aligned-center"><!-- wp:heading {"fontSize":"x-large"} -->
+					<h2 class="has-x-large-font-size" id="jesus-rodriguez">' . esc_html__( 'Jesús Rodriguez', 'twentytwentytwo' ) . '</h2>
 					<!-- /wp:heading --></div>
 					<!-- /wp:column -->
 
@@ -51,8 +51,8 @@ return array(
 					<!-- /wp:column -->
 
 					<!-- wp:column {"verticalAlignment":"center"} -->
-					<div class="wp-block-column is-vertically-aligned-center"><!-- wp:heading {"fontSize":"large"} -->
-					<h2 class="has-large-font-size" id="jesus-rodriguez">' . esc_html__( 'Doug Stilton', 'twentytwentytwo' ) . '</h2>
+					<div class="wp-block-column is-vertically-aligned-center"><!-- wp:heading {"fontSize":"x-large"} -->
+					<h2 class="has-x-large-font-size" id="jesus-rodriguez">' . esc_html__( 'Doug Stilton', 'twentytwentytwo' ) . '</h2>
 					<!-- /wp:heading --></div>
 					<!-- /wp:column -->
 
@@ -75,8 +75,8 @@ return array(
 					<!-- /wp:column -->
 
 					<!-- wp:column {"verticalAlignment":"center"} -->
-					<div class="wp-block-column is-vertically-aligned-center"><!-- wp:heading {"fontSize":"large"} -->
-					<h2 class="has-large-font-size" id="jesus-rodriguez">' . esc_html__( 'Amy Jensen', 'twentytwentytwo' ) . '</h2>
+					<div class="wp-block-column is-vertically-aligned-center"><!-- wp:heading {"fontSize":"x-large"} -->
+					<h2 class="has-x-large-font-size" id="jesus-rodriguez">' . esc_html__( 'Amy Jensen', 'twentytwentytwo' ) . '</h2>
 					<!-- /wp:heading --></div>
 					<!-- /wp:column -->
 
@@ -99,8 +99,8 @@ return array(
 					<!-- /wp:column -->
 
 					<!-- wp:column {"verticalAlignment":"center"} -->
-					<div class="wp-block-column is-vertically-aligned-center"><!-- wp:heading {"fontSize":"large"} -->
-					<h2 class="has-large-font-size" id="jesus-rodriguez">' . esc_html__( 'Emery Driscoll', 'twentytwentytwo' ) . '</h2>
+					<div class="wp-block-column is-vertically-aligned-center"><!-- wp:heading {"fontSize":"x-large"} -->
+					<h2 class="has-x-large-font-size" id="jesus-rodriguez">' . esc_html__( 'Emery Driscoll', 'twentytwentytwo' ) . '</h2>
 					<!-- /wp:heading --></div>
 					<!-- /wp:column -->
 

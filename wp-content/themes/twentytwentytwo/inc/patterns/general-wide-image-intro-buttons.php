@@ -12,8 +12,8 @@ return array(
 
 				<!-- wp:columns {"verticalAlignment":null} -->
 				<div class="wp-block-columns"><!-- wp:column {"verticalAlignment":"bottom"} -->
-				<div class="wp-block-column is-vertically-aligned-bottom"><!-- wp:heading {"style":{"typography":{"fontSize":"clamp(4rem, 8vw, 6.25rem)","lineHeight":"1.15"}}} -->
-				<h2 style="font-size:clamp(4rem, 8vw, 6.25rem);line-height:1.15"><em>' . wp_kses_post( __( 'Welcome to<br>the Aviary', 'twentytwentytwo' ) ) . '</em></h2>
+				<div class="wp-block-column is-vertically-aligned-bottom"><!-- wp:heading {"style":{"typography":{"fontSize":"clamp(3.25rem, 8vw, 6.25rem)","lineHeight":"1.15"}}} -->
+				<h2 style="font-size:clamp(3.25rem, 8vw, 6.25rem);line-height:1.15"><em>' . wp_kses_post( __( 'Welcome to<br>the Aviary', 'twentytwentytwo' ) ) . '</em></h2>
 				<!-- /wp:heading --></div>
 				<!-- /wp:column -->
 
