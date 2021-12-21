@@ -329,12 +329,12 @@ function login_footer( $input_id = '' ) {
 			?>
 			<div class="language-switcher">
 				<form id="language-switcher" action="" method="get">
-	
+
 					<label for="language-switcher-locales">
 						<span class="dashicons dashicons-translation" aria-hidden="true"></span>
 						<span class="screen-reader-text"><?php _e( 'Language' ); ?></span>
 					</label>
-	
+
 					<?php
 					$args = array(
 						'id'                          => 'language-switcher-locales',
@@ -344,7 +344,7 @@ function login_footer( $input_id = '' ) {
 						'explicit_option_en_us'       => true,
 						'languages'                   => $languages,
 					);
-	
+
 					/**
 					 * Filters default arguments for the Languages select input on the login screen.
 					 *
@@ -354,21 +354,21 @@ function login_footer( $input_id = '' ) {
 					 */
 					wp_dropdown_languages( apply_filters( 'wp_login_language_switcher_args', $args ) );
 					?>
-	
+
 					<?php if ( $interim_login ) { ?>
 						<input type="hidden" name="interim-login" value="1" />
 					<?php } ?>
-	
+
 					<?php if ( isset( $_GET['redirect_to'] ) && '' !== $_GET['redirect_to'] ) { ?>
 						<input type="hidden" name="redirect_to" value="<?php echo esc_url_raw( $_GET['redirect_to'] ); ?>" />
 					<?php } ?>
-	
+
 					<?php if ( isset( $_GET['action'] ) && '' !== $_GET['action'] ) { ?>
 						<input type="hidden" name="action" value="<?php echo esc_attr( $_GET['action'] ); ?>" />
 					<?php } ?>
-	
+
 						<input type="submit" class="button button-primary" value="<?php esc_attr_e( 'Change' ); ?>">
-	
+
 					</form>
 				</div>
 		<?php } ?>
