@@ -41,7 +41,14 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Controller {
 		// List themes global styles.
 		register_rest_route(
 			$this->namespace,
-			'/' . $this->rest_base . '/themes/(?P<stylesheet>[\/\s%\w\.\(\)\[\]\@_\-]+)',
+			// The route.
+			sprintf(
+				'/%s/themes/(?P<stylesheet>%s)',
+				$this->rest_base,
+				// Matches theme's directory: `/themes/<subdirectory>/<theme>/` or `/themes/<theme>/`.
+				// Excludes invalid directory name characters: `/:<>*?"|`.
+				'[^\/:<>\*\?"\|]+(?:\/[^\/:<>\*\?"\|]+)?'
+			),
 			array(
 				array(
 					'methods'             => WP_REST_Server::READABLE,
@@ -61,7 +68,7 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Controller {
 		// Lists/updates a single global style variation based on the given id.
 		register_rest_route(
 			$this->namespace,
-			'/' . $this->rest_base . '/(?P<id>[\/\s%\w\.\(\)\[\]\@_\-]+)',
+			'/' . $this->rest_base . '/(?P<id>[\/\w-]+)',
 			array(
 				array(
 					'methods'             => WP_REST_Server::READABLE,
@@ -88,8 +95,8 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Controller {
 
 	/**
 	 * Sanitize the global styles ID or stylesheet to decode endpoint.
-	 * For example, `wp/v2/global-styles/templatetwentytwo%200.4.0`
-	 * would be decoded to `templatetwentytwo 0.4.0`.
+	 * For example, `wp/v2/global-styles/twentytwentytwo%200.4.0`
+	 * would be decoded to `twentytwentytwo 0.4.0`.
 	 *
 	 * @since 5.9.0
 	 *
