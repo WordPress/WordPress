@@ -129,4 +129,20 @@ class WP_Block_Template {
 	 * @var int
 	 */
 	public $author;
+
+	/**
+	 * Post types.
+	 *
+	 * @since 5.9.0
+	 * @var array
+	 */
+	public $post_types;
+
+	/**
+	 * Area.
+	 *
+	 * @since 5.9.0
+	 * @var string
+	 */
+	public $area;
 }
