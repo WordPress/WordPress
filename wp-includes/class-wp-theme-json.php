@@ -101,8 +101,8 @@ class WP_Theme_JSON {
 	 *                        by means of the remove_insecure_properties method.
 	 *
 	 * @since 5.8.0
-	 * @since 5.9.0 Added the `color/duotone`, `typography/fontFamily`, and `use_default_names
-	 *              presets and simplified the metadata structure.
+	 * @since 5.9.0 Added the `color.duotone` and `typography.fontFamilies` presets,
+	 *              `use_default_names` preset key, and simplified the metadata structure.
 	 * @var array
 	 */
 	const PRESETS_METADATA = array(
