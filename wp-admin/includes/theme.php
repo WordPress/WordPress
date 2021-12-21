@@ -146,7 +146,7 @@ function get_page_templates( $post = null, $post_type = 'page' ) {
 }
 
 /**
- * Tidies a filename for url display by the theme editor.
+ * Tidies a filename for url display by the theme file editor.
  *
  * @since 2.9.0
  * @access private

@@ -1309,7 +1309,7 @@ $( function() {
 	});
 
 	/**
-	 * Handles tab keypresses in theme and plugin editor textareas.
+	 * Handles tab keypresses in theme and plugin file editor textareas.
 	 *
 	 * @param {Event} e The event object.
 	 *

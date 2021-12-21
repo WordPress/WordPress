@@ -309,7 +309,7 @@ function iis7_save_url_rewrite_rules() {
 }
 
 /**
- * Update the "recently-edited" file for the plugin or theme editor.
+ * Update the "recently-edited" file for the plugin or theme file editor.
  *
  * @since 1.5.0
  *
@@ -332,7 +332,7 @@ function update_recently_edited( $file ) {
 }
 
 /**
- * Makes a tree structure for the theme editor's file list.
+ * Makes a tree structure for the theme file editor's file list.
  *
  * @since 4.9.0
  * @access private
@@ -354,7 +354,7 @@ function wp_make_theme_file_tree( $allowed_files ) {
 }
 
 /**
- * Outputs the formatted file list for the theme editor.
+ * Outputs the formatted file list for the theme file editor.
  *
  * @since 4.9.0
  * @access private
@@ -425,7 +425,7 @@ function wp_print_theme_file_tree( $tree, $level = 2, $size = 1, $index = 1 ) {
 }
 
 /**
- * Makes a tree structure for the plugin editor's file list.
+ * Makes a tree structure for the plugin file editor's file list.
  *
  * @since 4.9.0
  * @access private
@@ -447,7 +447,7 @@ function wp_make_plugin_file_tree( $plugin_editable_files ) {
 }
 
 /**
- * Outputs the formatted file list for the plugin editor.
+ * Outputs the formatted file list for the plugin file editor.
  *
  * @since 4.9.0
  * @access private

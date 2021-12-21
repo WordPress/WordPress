@@ -3578,8 +3578,8 @@ function wp_enqueue_editor() {
  *
  *     @type string   $type       The MIME type of the file to be edited.
  *     @type string   $file       Filename to be edited. Extension is used to sniff the type. Can be supplied as alternative to `$type` param.
- *     @type WP_Theme $theme      Theme being edited when on theme editor.
- *     @type string   $plugin     Plugin being edited when on plugin editor.
+ *     @type WP_Theme $theme      Theme being edited when on the theme file editor.
+ *     @type string   $plugin     Plugin being edited when on the plugin file editor.
  *     @type array    $codemirror Additional CodeMirror setting overrides.
  *     @type array    $csslint    CSSLint rule overrides.
  *     @type array    $jshint     JSHint rule overrides.
@@ -3669,8 +3669,8 @@ function wp_enqueue_code_editor( $args ) {
  *
  *     @type string   $type       The MIME type of the file to be edited.
  *     @type string   $file       Filename to be edited. Extension is used to sniff the type. Can be supplied as alternative to `$type` param.
- *     @type WP_Theme $theme      Theme being edited when on theme editor.
- *     @type string   $plugin     Plugin being edited when on plugin editor.
+ *     @type WP_Theme $theme      Theme being edited when on the theme file editor.
+ *     @type string   $plugin     Plugin being edited when on the plugin file editor.
  *     @type array    $codemirror Additional CodeMirror setting overrides.
  *     @type array    $csslint    CSSLint rule overrides.
  *     @type array    $jshint     JSHint rule overrides.
@@ -4006,8 +4006,8 @@ function wp_get_code_editor_settings( $args ) {
 	 *
 	 *     @type string   $type       The MIME type of the file to be edited.
 	 *     @type string   $file       Filename being edited.
-	 *     @type WP_Theme $theme      Theme being edited when on theme editor.
-	 *     @type string   $plugin     Plugin being edited when on plugin editor.
+	 *     @type WP_Theme $theme      Theme being edited when on the theme file editor.
+	 *     @type string   $plugin     Plugin being edited when on the plugin file editor.
 	 *     @type array    $codemirror Additional CodeMirror setting overrides.
 	 *     @type array    $csslint    CSSLint rule overrides.
 	 *     @type array    $jshint     JSHint rule overrides.

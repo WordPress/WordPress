@@ -79,7 +79,7 @@ if ( current_user_can( 'update_themes' ) && $update_data['counts']['themes'] ) {
 }
 $submenu['themes.php'][5]  = array( __( 'Installed Themes' ), 'manage_network_themes', 'themes.php' );
 $submenu['themes.php'][10] = array( _x( 'Add New', 'theme' ), 'install_themes', 'theme-install.php' );
-$submenu['themes.php'][15] = array( __( 'Theme Editor' ), 'edit_themes', 'theme-editor.php' );
+$submenu['themes.php'][15] = array( __( 'Theme File Editor' ), 'edit_themes', 'theme-editor.php' );
 
 if ( current_user_can( 'update_plugins' ) && $update_data['counts']['plugins'] ) {
 	$menu[20] = array(
@@ -104,7 +104,7 @@ if ( current_user_can( 'update_plugins' ) && $update_data['counts']['plugins'] )
 }
 $submenu['plugins.php'][5]  = array( __( 'Installed Plugins' ), 'manage_network_plugins', 'plugins.php' );
 $submenu['plugins.php'][10] = array( _x( 'Add New', 'plugin' ), 'install_plugins', 'plugin-install.php' );
-$submenu['plugins.php'][15] = array( __( 'Plugin Editor' ), 'edit_plugins', 'plugin-editor.php' );
+$submenu['plugins.php'][15] = array( __( 'Plugin File Editor' ), 'edit_plugins', 'plugin-editor.php' );
 
 $menu[25] = array( __( 'Settings' ), 'manage_network_options', 'settings.php', '', 'menu-top menu-icon-settings', 'menu-settings', 'dashicons-admin-settings' );
 if ( defined( 'MULTISITE' ) && defined( 'WP_ALLOW_MULTISITE' ) && WP_ALLOW_MULTISITE ) {

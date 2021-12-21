@@ -223,7 +223,7 @@ function wp_get_plugin_file_editable_extensions( $plugin ) {
 	);
 
 	/**
-	 * Filters the list of file types allowed for editing in the plugin editor.
+	 * Filters the list of file types allowed for editing in the plugin file editor.
 	 *
 	 * @since 2.8.0
 	 * @since 4.9.0 Added the `$plugin` parameter.
@@ -282,7 +282,7 @@ function wp_get_theme_file_editable_extensions( $theme ) {
 	);
 
 	/**
-	 * Filters the list of file types allowed for editing in the theme editor.
+	 * Filters the list of file types allowed for editing in the theme file editor.
 	 *
 	 * @since 4.4.0
 	 *
