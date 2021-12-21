@@ -74,80 +74,86 @@ class WP_Theme_JSON {
 	 *
 	 * This contains the necessary metadata to process them:
 	 *
-	 * - path       => where to find the preset within the settings section
-	 * - override   => whether a theme preset with the same slug as a default preset
-	 *                 can override it
-	 * - value_key  => the key that represents the value
-	 * - value_func => optionally, instead of value_key, a function to generate
-	 *                 the value that takes a preset as an argument
-	 *                 (either value_key or value_func should be present)
-	 * - css_vars   => template string to use in generating the CSS Custom Property.
-	 *                 Example output: "--wp--preset--duotone--blue: <value>" will generate
-	 *                 as many CSS Custom Properties as presets defined
-	 *                 substituting the $slug for the slug's value for each preset value.
-	 * - classes    => array containing a structure with the classes to
-	 *                 generate for the presets, where for each array item
-	 *                 the key is the class name and the value the property name.
-	 *                 The "$slug" substring will be replaced by the slug of each preset.
-	 *                 For example:
-	 *                 'classes' => array(
-	 *                   '.has-$slug-color'            => 'color',
-	 *                   '.has-$slug-background-color' => 'background-color',
-	 *                   '.has-$slug-border-color'     => 'border-color',
-	 *                 )
-	 * - properties => array of CSS properties to be used by kses to
-	 *                 validate the content of each preset
-	 *                 by means of the remove_insecure_properties method.
+	 * - path              => where to find the preset within the settings section
+	 * - override          => whether a theme preset with the same slug as a default preset
+	 *                        can override it
+	 * - use_default_names => whether to use the default names
+	 * - value_key         => the key that represents the value
+	 * - value_func        => optionally, instead of value_key, a function to generate
+	 *                        the value that takes a preset as an argument
+	 *                        (either value_key or value_func should be present)
+	 * - css_vars          => template string to use in generating the CSS Custom Property.
+	 *                        Example output: "--wp--preset--duotone--blue: <value>" will generate
+	 *                        as many CSS Custom Properties as presets defined
+	 *                        substituting the $slug for the slug's value for each preset value.
+	 * - classes           => array containing a structure with the classes to
+	 *                        generate for the presets, where for each array item
+	 *                        the key is the class name and the value the property name.
+	 *                        The "$slug" substring will be replaced by the slug of each preset.
+	 *                        For example:
+	 *                        'classes' => array(
+	 *                           '.has-$slug-color'            => 'color',
+	 *                           '.has-$slug-background-color' => 'background-color',
+	 *                           '.has-$slug-border-color'     => 'border-color',
+	 *                        )
+	 * - properties        => array of CSS properties to be used by kses to
+	 *                        validate the content of each preset
+	 *                        by means of the remove_insecure_properties method.
 	 *
 	 * @since 5.8.0
-	 * @since 5.9.0 Added the `color/duotone` and `typography/fontFamily` presets,
-	 *              simplified the metadata structure.
+	 * @since 5.9.0 Added the `color/duotone`, `typography/fontFamily`, and `use_default_names
+	 *              presets and simplified the metadata structure.
 	 * @var array
 	 */
 	const PRESETS_METADATA = array(
 		array(
-			'path'       => array( 'color', 'palette' ),
-			'override'   => array( 'color', 'defaultPalette' ),
-			'value_key'  => 'color',
-			'css_vars'   => '--wp--preset--color--$slug',
-			'classes'    => array(
+			'path'              => array( 'color', 'palette' ),
+			'override'          => array( 'color', 'defaultPalette' ),
+			'use_default_names' => false,
+			'value_key'         => 'color',
+			'css_vars'          => '--wp--preset--color--$slug',
+			'classes'           => array(
 				'.has-$slug-color'            => 'color',
 				'.has-$slug-background-color' => 'background-color',
 				'.has-$slug-border-color'     => 'border-color',
 			),
-			'properties' => array( 'color', 'background-color', 'border-color' ),
+			'properties'        => array( 'color', 'background-color', 'border-color' ),
 		),
 		array(
-			'path'       => array( 'color', 'gradients' ),
-			'override'   => array( 'color', 'defaultGradients' ),
-			'value_key'  => 'gradient',
-			'css_vars'   => '--wp--preset--gradient--$slug',
-			'classes'    => array( '.has-$slug-gradient-background' => 'background' ),
-			'properties' => array( 'background' ),
+			'path'              => array( 'color', 'gradients' ),
+			'override'          => array( 'color', 'defaultGradients' ),
+			'use_default_names' => false,
+			'value_key'         => 'gradient',
+			'css_vars'          => '--wp--preset--gradient--$slug',
+			'classes'           => array( '.has-$slug-gradient-background' => 'background' ),
+			'properties'        => array( 'background' ),
 		),
 		array(
-			'path'       => array( 'color', 'duotone' ),
-			'override'   => true,
-			'value_func' => 'wp_render_duotone_filter_preset',
-			'css_vars'   => '--wp--preset--duotone--$slug',
-			'classes'    => array(),
-			'properties' => array( 'filter' ),
+			'path'              => array( 'color', 'duotone' ),
+			'override'          => true,
+			'use_default_names' => false,
+			'value_func'        => 'wp_render_duotone_filter_preset',
+			'css_vars'          => '--wp--preset--duotone--$slug',
+			'classes'           => array(),
+			'properties'        => array( 'filter' ),
 		),
 		array(
-			'path'       => array( 'typography', 'fontSizes' ),
-			'override'   => true,
-			'value_key'  => 'size',
-			'css_vars'   => '--wp--preset--font-size--$slug',
-			'classes'    => array( '.has-$slug-font-size' => 'font-size' ),
-			'properties' => array( 'font-size' ),
+			'path'              => array( 'typography', 'fontSizes' ),
+			'override'          => true,
+			'use_default_names' => true,
+			'value_key'         => 'size',
+			'css_vars'          => '--wp--preset--font-size--$slug',
+			'classes'           => array( '.has-$slug-font-size' => 'font-size' ),
+			'properties'        => array( 'font-size' ),
 		),
 		array(
-			'path'       => array( 'typography', 'fontFamilies' ),
-			'override'   => true,
-			'value_key'  => 'fontFamily',
-			'css_vars'   => '--wp--preset--font-family--$slug',
-			'classes'    => array( '.has-$slug-font-family' => 'font-family' ),
-			'properties' => array( 'font-family' ),
+			'path'              => array( 'typography', 'fontFamilies' ),
+			'override'          => true,
+			'use_default_names' => false,
+			'value_key'         => 'fontFamily',
+			'css_vars'          => '--wp--preset--font-family--$slug',
+			'classes'           => array( '.has-$slug-font-family' => 'font-family' ),
+			'properties'        => array( 'font-family' ),
 		),
 	);
 
@@ -1524,10 +1530,22 @@ class WP_Theme_JSON {
 				$override_preset = self::should_override_preset( $this->theme_json, $node['path'], $preset['override'] );
 
 				foreach ( self::VALID_ORIGINS as $origin ) {
-					$path    = array_merge( $node['path'], $preset['path'], array( $origin ) );
-					$content = _wp_array_get( $incoming_data, $path, null );
+					$base_path = array_merge( $node['path'], $preset['path'] );
+					$path      = array_merge( $base_path, array( $origin ) );
+					$content   = _wp_array_get( $incoming_data, $path, null );
 					if ( ! isset( $content ) ) {
 						continue;
+					}
+
+					if ( 'theme' === $origin && $preset['use_default_names'] ) {
+						foreach ( $content as &$item ) {
+							if ( ! array_key_exists( 'name', $item ) ) {
+								$name = self::get_name_from_defaults( $item['slug'], $base_path );
+								if ( null !== $name ) {
+									$item['name'] = $name;
+								}
+							}
+						}
 					}
 
 					if (
@@ -1628,6 +1646,29 @@ class WP_Theme_JSON {
 		}
 
 		return $slugs;
+	}
+
+	/**
+	 * Get a `default`'s preset name by a provided slug.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @param string $slug The slug we want to find a match from default presets.
+	 * @param array  $base_path The path to inspect. It's 'settings' by default.
+	 * @return string|null
+	 */
+	private function get_name_from_defaults( $slug, $base_path ) {
+		$path            = array_merge( $base_path, array( 'default' ) );
+		$default_content = _wp_array_get( $this->theme_json, $path, null );
+		if ( ! $default_content ) {
+			return null;
+		}
+		foreach ( $default_content as $item ) {
+			if ( $slug === $item['slug'] ) {
+				return $item['name'];
+			}
+		}
+		return null;
 	}
 
 	/**
