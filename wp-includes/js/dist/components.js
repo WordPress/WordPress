@@ -2445,11 +2445,24 @@ var weakRefDeref = hasWeakRef ? WeakRef.prototype.deref : null;
 var booleanValueOf = Boolean.prototype.valueOf;
 var objectToString = Object.prototype.toString;
 var functionToString = Function.prototype.toString;
-var match = String.prototype.match;
+var $match = String.prototype.match;
+var $slice = String.prototype.slice;
+var $replace = String.prototype.replace;
+var $toUpperCase = String.prototype.toUpperCase;
+var $toLowerCase = String.prototype.toLowerCase;
+var $test = RegExp.prototype.test;
+var $concat = Array.prototype.concat;
+var $join = Array.prototype.join;
+var $arrSlice = Array.prototype.slice;
+var $floor = Math.floor;
 var bigIntValueOf = typeof BigInt === 'function' ? BigInt.prototype.valueOf : null;
 var gOPS = Object.getOwnPropertySymbols;
 var symToString = typeof Symbol === 'function' && typeof Symbol.iterator === 'symbol' ? Symbol.prototype.toString : null;
 var hasShammedSymbols = typeof Symbol === 'function' && typeof Symbol.iterator === 'object';
+// ie, `has-tostringtag/shams
+var toStringTag = typeof Symbol === 'function' && Symbol.toStringTag && (typeof Symbol.toStringTag === hasShammedSymbols ? 'object' : 'symbol')
+    ? Symbol.toStringTag
+    : null;
 var isEnumerable = Object.prototype.propertyIsEnumerable;
 
 var gPO = (typeof Reflect === 'function' ? Reflect.getPrototypeOf : Object.getPrototypeOf) || (
@@ -2460,9 +2473,30 @@ var gPO = (typeof Reflect === 'function' ? Reflect.getPrototypeOf : Object.getPr
         : null
 );
 
+function addNumericSeparator(num, str) {
+    if (
+        num === Infinity
+        || num === -Infinity
+        || num !== num
+        || (num && num > -1000 && num < 1000)
+        || $test.call(/e/, str)
+    ) {
+        return str;
+    }
+    var sepRegex = /[0-9](?=(?:[0-9]{3})+(?![0-9]))/g;
+    if (typeof num === 'number') {
+        var int = num < 0 ? -$floor(-num) : $floor(num); // trunc(num)
+        if (int !== num) {
+            var intStr = String(int);
+            var dec = $slice.call(str, intStr.length + 1);
+            return $replace.call(intStr, sepRegex, '$&_') + '.' + $replace.call($replace.call(dec, /([0-9]{3})/g, '$&_'), /_$/, '');
+        }
+    }
+    return $replace.call(str, sepRegex, '$&_');
+}
+
 var inspectCustom = __webpack_require__(0).custom;
 var inspectSymbol = inspectCustom && isSymbol(inspectCustom) ? inspectCustom : null;
-var toStringTag = typeof Symbol === 'function' && typeof Symbol.toStringTag !== 'undefined' ? Symbol.toStringTag : null;
 
 module.exports = function inspect_(obj, options, depth, seen) {
     var opts = options || {};
@@ -2489,8 +2523,12 @@ module.exports = function inspect_(obj, options, depth, seen) {
         && opts.indent !== '\t'
         && !(parseInt(opts.indent, 10) === opts.indent && opts.indent > 0)
     ) {
-        throw new TypeError('options "indent" must be "\\t", an integer > 0, or `null`');
+        throw new TypeError('option "indent" must be "\\t", an integer > 0, or `null`');
     }
+    if (has(opts, 'numericSeparator') && typeof opts.numericSeparator !== 'boolean') {
+        throw new TypeError('option "numericSeparator", if provided, must be `true` or `false`');
+    }
+    var numericSeparator = opts.numericSeparator;
 
     if (typeof obj === 'undefined') {
         return 'undefined';
@@ -2509,10 +2547,12 @@ module.exports = function inspect_(obj, options, depth, seen) {
         if (obj === 0) {
             return Infinity / obj > 0 ? '0' : '-0';
         }
-        return String(obj);
+        var str = String(obj);
+        return numericSeparator ? addNumericSeparator(obj, str) : str;
     }
     if (typeof obj === 'bigint') {
-        return String(obj) + 'n';
+        var bigIntStr = String(obj) + 'n';
+        return numericSeparator ? addNumericSeparator(obj, bigIntStr) : bigIntStr;
     }
 
     var maxDepth = typeof opts.depth === 'undefined' ? 5 : opts.depth;
@@ -2531,7 +2571,7 @@ module.exports = function inspect_(obj, options, depth, seen) {
 
     function inspect(value, from, noIndent) {
         if (from) {
-            seen = seen.slice();
+            seen = $arrSlice.call(seen);
             seen.push(from);
         }
         if (noIndent) {
@@ -2549,21 +2589,21 @@ module.exports = function inspect_(obj, options, depth, seen) {
     if (typeof obj === 'function') {
         var name = nameOf(obj);
         var keys = arrObjKeys(obj, inspect);
-        return '[Function' + (name ? ': ' + name : ' (anonymous)') + ']' + (keys.length > 0 ? ' { ' + keys.join(', ') + ' }' : '');
+        return '[Function' + (name ? ': ' + name : ' (anonymous)') + ']' + (keys.length > 0 ? ' { ' + $join.call(keys, ', ') + ' }' : '');
     }
     if (isSymbol(obj)) {
-        var symString = hasShammedSymbols ? String(obj).replace(/^(Symbol\(.*\))_[^)]*$/, '$1') : symToString.call(obj);
+        var symString = hasShammedSymbols ? $replace.call(String(obj), /^(Symbol\(.*\))_[^)]*$/, '$1') : symToString.call(obj);
         return typeof obj === 'object' && !hasShammedSymbols ? markBoxed(symString) : symString;
     }
     if (isElement(obj)) {
-        var s = '<' + String(obj.nodeName).toLowerCase();
+        var s = '<' + $toLowerCase.call(String(obj.nodeName));
         var attrs = obj.attributes || [];
         for (var i = 0; i < attrs.length; i++) {
             s += ' ' + attrs[i].name + '=' + wrapQuotes(quote(attrs[i].value), 'double', opts);
         }
         s += '>';
         if (obj.childNodes && obj.childNodes.length) { s += '...'; }
-        s += '</' + String(obj.nodeName).toLowerCase() + '>';
+        s += '</' + $toLowerCase.call(String(obj.nodeName)) + '>';
         return s;
     }
     if (isArray(obj)) {
@@ -2572,12 +2612,15 @@ module.exports = function inspect_(obj, options, depth, seen) {
         if (indent && !singleLineValues(xs)) {
             return '[' + indentedJoin(xs, indent) + ']';
         }
-        return '[ ' + xs.join(', ') + ' ]';
+        return '[ ' + $join.call(xs, ', ') + ' ]';
     }
     if (isError(obj)) {
         var parts = arrObjKeys(obj, inspect);
+        if ('cause' in obj && !isEnumerable.call(obj, 'cause')) {
+            return '{ [' + String(obj) + '] ' + $join.call($concat.call('[cause]: ' + inspect(obj.cause), parts), ', ') + ' }';
+        }
         if (parts.length === 0) { return '[' + String(obj) + ']'; }
-        return '{ [' + String(obj) + '] ' + parts.join(', ') + ' }';
+        return '{ [' + String(obj) + '] ' + $join.call(parts, ', ') + ' }';
     }
     if (typeof obj === 'object' && customInspect) {
         if (inspectSymbol && typeof obj[inspectSymbol] === 'function') {
@@ -2625,14 +2668,14 @@ module.exports = function inspect_(obj, options, depth, seen) {
         var ys = arrObjKeys(obj, inspect);
         var isPlainObject = gPO ? gPO(obj) === Object.prototype : obj instanceof Object || obj.constructor === Object;
         var protoTag = obj instanceof Object ? '' : 'null prototype';
-        var stringTag = !isPlainObject && toStringTag && Object(obj) === obj && toStringTag in obj ? toStr(obj).slice(8, -1) : protoTag ? 'Object' : '';
+        var stringTag = !isPlainObject && toStringTag && Object(obj) === obj && toStringTag in obj ? $slice.call(toStr(obj), 8, -1) : protoTag ? 'Object' : '';
         var constructorTag = isPlainObject || typeof obj.constructor !== 'function' ? '' : obj.constructor.name ? obj.constructor.name + ' ' : '';
-        var tag = constructorTag + (stringTag || protoTag ? '[' + [].concat(stringTag || [], protoTag || []).join(': ') + '] ' : '');
+        var tag = constructorTag + (stringTag || protoTag ? '[' + $join.call($concat.call([], stringTag || [], protoTag || []), ': ') + '] ' : '');
         if (ys.length === 0) { return tag + '{}'; }
         if (indent) {
             return tag + '{' + indentedJoin(ys, indent) + '}';
         }
-        return tag + '{ ' + ys.join(', ') + ' }';
+        return tag + '{ ' + $join.call(ys, ', ') + ' }';
     }
     return String(obj);
 };
@@ -2643,7 +2686,7 @@ function wrapQuotes(s, defaultStyle, opts) {
 }
 
 function quote(s) {
-    return String(s).replace(/"/g, '&quot;');
+    return $replace.call(String(s), /"/g, '&quot;');
 }
 
 function isArray(obj) { return toStr(obj) === '[object Array]' && (!toStringTag || !(typeof obj === 'object' && toStringTag in obj)); }
@@ -2694,7 +2737,7 @@ function toStr(obj) {
 
 function nameOf(f) {
     if (f.name) { return f.name; }
-    var m = match.call(functionToString.call(f), /^function\s*([\w$]+)/);
+    var m = $match.call(functionToString.call(f), /^function\s*([\w$]+)/);
     if (m) { return m[1]; }
     return null;
 }
@@ -2794,10 +2837,10 @@ function inspectString(str, opts) {
     if (str.length > opts.maxStringLength) {
         var remaining = str.length - opts.maxStringLength;
         var trailer = '... ' + remaining + ' more character' + (remaining > 1 ? 's' : '');
-        return inspectString(str.slice(0, opts.maxStringLength), opts) + trailer;
+        return inspectString($slice.call(str, 0, opts.maxStringLength), opts) + trailer;
     }
     // eslint-disable-next-line no-control-regex
-    var s = str.replace(/(['\\])/g, '\\$1').replace(/[\x00-\x1f]/g, lowbyte);
+    var s = $replace.call($replace.call(str, /(['\\])/g, '\\$1'), /[\x00-\x1f]/g, lowbyte);
     return wrapQuotes(s, 'single', opts);
 }
 
@@ -2811,7 +2854,7 @@ function lowbyte(c) {
         13: 'r'
     }[n];
     if (x) { return '\\' + x; }
-    return '\\x' + (n < 0x10 ? '0' : '') + n.toString(16).toUpperCase();
+    return '\\x' + (n < 0x10 ? '0' : '') + $toUpperCase.call(n.toString(16));
 }
 
 function markBoxed(str) {
@@ -2823,7 +2866,7 @@ function weakCollectionOf(type) {
 }
 
 function collectionOf(type, size, entries, indent) {
-    var joinedEntries = indent ? indentedJoin(entries, indent) : entries.join(', ');
+    var joinedEntries = indent ? indentedJoin(entries, indent) : $join.call(entries, ', ');
     return type + ' (' + size + ') {' + joinedEntries + '}';
 }
 
@@ -2841,20 +2884,20 @@ function getIndent(opts, depth) {
     if (opts.indent === '\t') {
         baseIndent = '\t';
     } else if (typeof opts.indent === 'number' && opts.indent > 0) {
-        baseIndent = Array(opts.indent + 1).join(' ');
+        baseIndent = $join.call(Array(opts.indent + 1), ' ');
     } else {
         return null;
     }
     return {
         base: baseIndent,
-        prev: Array(depth + 1).join(baseIndent)
+        prev: $join.call(Array(depth + 1), baseIndent)
     };
 }
 
 function indentedJoin(xs, indent) {
     if (xs.length === 0) { return ''; }
     var lineJoiner = '\n' + indent.prev + indent.base;
-    return lineJoiner + xs.join(',' + lineJoiner) + '\n' + indent.prev;
+    return lineJoiner + $join.call(xs, ',' + lineJoiner) + '\n' + indent.prev;
 }
 
 function arrObjKeys(obj, inspect) {
@@ -2881,7 +2924,7 @@ function arrObjKeys(obj, inspect) {
         if (hasShammedSymbols && symMap['$' + key] instanceof Symbol) {
             // this is to prevent shammed Symbols, which are stored as strings, from being included in the string key section
             continue; // eslint-disable-line no-restricted-syntax, no-continue
-        } else if ((/[^\w$]/).test(key)) {
+        } else if ($test.call(/[^\w$]/, key)) {
             xs.push(inspect(key, obj) + ': ' + inspect(obj[key], obj));
         } else {
             xs.push(key + ': ' + inspect(obj[key], obj));
@@ -14920,7 +14963,7 @@ AlignmentMatrixControl.Icon = AlignmentMatrixControlIcon;
 // EXTERNAL MODULE: ./node_modules/@wordpress/components/build-module/animate/index.js
 var build_module_animate = __webpack_require__("L8Kx");
 
-// CONCATENATED MODULE: ./node_modules/framer-motion/node_modules/tslib/tslib.es6.js
+// CONCATENATED MODULE: ./node_modules/tslib/tslib.es6.js
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation.
 
@@ -15969,247 +16012,6 @@ var getValueAsType = function (value, type) {
 
 
 
-// CONCATENATED MODULE: ./node_modules/style-value-types/node_modules/tslib/tslib.es6.js
-/*! *****************************************************************************
-Copyright (c) Microsoft Corporation.
-
-Permission to use, copy, modify, and/or distribute this software for any
-purpose with or without fee is hereby granted.
-
-THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-PERFORMANCE OF THIS SOFTWARE.
-***************************************************************************** */
-/* global Reflect, Promise */
-
-var tslib_es6_extendStatics = function(d, b) {
-    tslib_es6_extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-    return tslib_es6_extendStatics(d, b);
-};
-
-function tslib_es6_extends(d, b) {
-    if (typeof b !== "function" && b !== null)
-        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-    tslib_es6_extendStatics(d, b);
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-}
-
-var tslib_es6_assign = function() {
-    tslib_es6_assign = Object.assign || function __assign(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-        }
-        return t;
-    }
-    return tslib_es6_assign.apply(this, arguments);
-}
-
-function tslib_es6_rest(s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-}
-
-function tslib_es6_decorate(decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-}
-
-function tslib_es6_param(paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-}
-
-function tslib_es6_metadata(metadataKey, metadataValue) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
-}
-
-function tslib_es6_awaiter(thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-}
-
-function tslib_es6_generator(thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-}
-
-var tslib_es6_createBinding = Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-});
-
-function tslib_es6_exportStar(m, o) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(o, p)) tslib_es6_createBinding(o, m, p);
-}
-
-function tslib_es6_values(o) {
-    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
-    if (m) return m.call(o);
-    if (o && typeof o.length === "number") return {
-        next: function () {
-            if (o && i >= o.length) o = void 0;
-            return { value: o && o[i++], done: !o };
-        }
-    };
-    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
-}
-
-function tslib_es6_read(o, n) {
-    var m = typeof Symbol === "function" && o[Symbol.iterator];
-    if (!m) return o;
-    var i = m.call(o), r, ar = [], e;
-    try {
-        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
-    }
-    catch (error) { e = { error: error }; }
-    finally {
-        try {
-            if (r && !r.done && (m = i["return"])) m.call(i);
-        }
-        finally { if (e) throw e.error; }
-    }
-    return ar;
-}
-
-/** @deprecated */
-function tslib_es6_spread() {
-    for (var ar = [], i = 0; i < arguments.length; i++)
-        ar = ar.concat(tslib_es6_read(arguments[i]));
-    return ar;
-}
-
-/** @deprecated */
-function tslib_es6_spreadArrays() {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
-}
-
-function tslib_es6_spreadArray(to, from, pack) {
-    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
-        if (ar || !(i in from)) {
-            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
-            ar[i] = from[i];
-        }
-    }
-    return to.concat(ar || Array.prototype.slice.call(from));
-}
-
-function tslib_es6_await(v) {
-    return this instanceof tslib_es6_await ? (this.v = v, this) : new tslib_es6_await(v);
-}
-
-function tslib_es6_asyncGenerator(thisArg, _arguments, generator) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var g = generator.apply(thisArg, _arguments || []), i, q = [];
-    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
-    function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
-    function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
-    function step(r) { r.value instanceof tslib_es6_await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
-    function fulfill(value) { resume("next", value); }
-    function reject(value) { resume("throw", value); }
-    function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
-}
-
-function tslib_es6_asyncDelegator(o) {
-    var i, p;
-    return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
-    function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: tslib_es6_await(o[n](v)), done: n === "return" } : f ? f(v) : v; } : f; }
-}
-
-function tslib_es6_asyncValues(o) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var m = o[Symbol.asyncIterator], i;
-    return m ? m.call(o) : (o = typeof tslib_es6_values === "function" ? tslib_es6_values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
-    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
-    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
-}
-
-function tslib_es6_makeTemplateObject(cooked, raw) {
-    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
-    return cooked;
-};
-
-var tslib_es6_setModuleDefault = Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-};
-
-function tslib_es6_importStar(mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) tslib_es6_createBinding(result, mod, k);
-    tslib_es6_setModuleDefault(result, mod);
-    return result;
-}
-
-function tslib_es6_importDefault(mod) {
-    return (mod && mod.__esModule) ? mod : { default: mod };
-}
-
-function tslib_es6_classPrivateFieldGet(receiver, state, kind, f) {
-    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
-    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
-    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
-}
-
-function tslib_es6_classPrivateFieldSet(receiver, state, value, kind, f) {
-    if (kind === "m") throw new TypeError("Private method is not writable");
-    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
-    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
-    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
-}
-
 // CONCATENATED MODULE: ./node_modules/style-value-types/dist/es/utils.js
 var clamp = function (min, max) { return function (v) {
     return Math.max(Math.min(v, max), min);
@@ -16240,7 +16042,7 @@ var percent = createUnitType('%');
 var px = createUnitType('px');
 var vh = createUnitType('vh');
 var vw = createUnitType('vw');
-var progressPercentage = tslib_es6_assign(tslib_es6_assign({}, percent), { parse: function (v) { return percent.parse(v) / 100; }, transform: function (v) { return percent.transform(v * 100); } });
+var progressPercentage = __assign(__assign({}, percent), { parse: function (v) { return percent.parse(v) / 100; }, transform: function (v) { return percent.transform(v * 100); } });
 
 
 
@@ -16253,8 +16055,8 @@ var numbers_number = {
     parse: parseFloat,
     transform: function (v) { return v; },
 };
-var numbers_alpha = tslib_es6_assign(tslib_es6_assign({}, numbers_number), { transform: clamp(0, 1) });
-var numbers_scale = tslib_es6_assign(tslib_es6_assign({}, numbers_number), { default: 1 });
+var numbers_alpha = __assign(__assign({}, numbers_number), { transform: clamp(0, 1) });
+var numbers_scale = __assign(__assign({}, numbers_number), { default: 1 });
 
 
 
@@ -17517,247 +17319,6 @@ function shallowCompare(next, prev) {
 
 
 
-// CONCATENATED MODULE: ./node_modules/popmotion/node_modules/tslib/tslib.es6.js
-/*! *****************************************************************************
-Copyright (c) Microsoft Corporation.
-
-Permission to use, copy, modify, and/or distribute this software for any
-purpose with or without fee is hereby granted.
-
-THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-PERFORMANCE OF THIS SOFTWARE.
-***************************************************************************** */
-/* global Reflect, Promise */
-
-var tslib_tslib_es6_extendStatics = function(d, b) {
-    tslib_tslib_es6_extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-    return tslib_tslib_es6_extendStatics(d, b);
-};
-
-function tslib_tslib_es6_extends(d, b) {
-    if (typeof b !== "function" && b !== null)
-        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-    tslib_tslib_es6_extendStatics(d, b);
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-}
-
-var tslib_tslib_es6_assign = function() {
-    tslib_tslib_es6_assign = Object.assign || function __assign(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-        }
-        return t;
-    }
-    return tslib_tslib_es6_assign.apply(this, arguments);
-}
-
-function tslib_tslib_es6_rest(s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-}
-
-function tslib_tslib_es6_decorate(decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-}
-
-function tslib_tslib_es6_param(paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-}
-
-function tslib_tslib_es6_metadata(metadataKey, metadataValue) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
-}
-
-function tslib_tslib_es6_awaiter(thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-}
-
-function tslib_tslib_es6_generator(thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-}
-
-var tslib_tslib_es6_createBinding = Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-});
-
-function tslib_tslib_es6_exportStar(m, o) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(o, p)) tslib_tslib_es6_createBinding(o, m, p);
-}
-
-function tslib_tslib_es6_values(o) {
-    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
-    if (m) return m.call(o);
-    if (o && typeof o.length === "number") return {
-        next: function () {
-            if (o && i >= o.length) o = void 0;
-            return { value: o && o[i++], done: !o };
-        }
-    };
-    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
-}
-
-function tslib_tslib_es6_read(o, n) {
-    var m = typeof Symbol === "function" && o[Symbol.iterator];
-    if (!m) return o;
-    var i = m.call(o), r, ar = [], e;
-    try {
-        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
-    }
-    catch (error) { e = { error: error }; }
-    finally {
-        try {
-            if (r && !r.done && (m = i["return"])) m.call(i);
-        }
-        finally { if (e) throw e.error; }
-    }
-    return ar;
-}
-
-/** @deprecated */
-function tslib_tslib_es6_spread() {
-    for (var ar = [], i = 0; i < arguments.length; i++)
-        ar = ar.concat(tslib_tslib_es6_read(arguments[i]));
-    return ar;
-}
-
-/** @deprecated */
-function tslib_tslib_es6_spreadArrays() {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
-}
-
-function tslib_tslib_es6_spreadArray(to, from, pack) {
-    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
-        if (ar || !(i in from)) {
-            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
-            ar[i] = from[i];
-        }
-    }
-    return to.concat(ar || Array.prototype.slice.call(from));
-}
-
-function tslib_tslib_es6_await(v) {
-    return this instanceof tslib_tslib_es6_await ? (this.v = v, this) : new tslib_tslib_es6_await(v);
-}
-
-function tslib_tslib_es6_asyncGenerator(thisArg, _arguments, generator) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var g = generator.apply(thisArg, _arguments || []), i, q = [];
-    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
-    function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
-    function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
-    function step(r) { r.value instanceof tslib_tslib_es6_await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
-    function fulfill(value) { resume("next", value); }
-    function reject(value) { resume("throw", value); }
-    function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
-}
-
-function tslib_tslib_es6_asyncDelegator(o) {
-    var i, p;
-    return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
-    function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: tslib_tslib_es6_await(o[n](v)), done: n === "return" } : f ? f(v) : v; } : f; }
-}
-
-function tslib_tslib_es6_asyncValues(o) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var m = o[Symbol.asyncIterator], i;
-    return m ? m.call(o) : (o = typeof tslib_tslib_es6_values === "function" ? tslib_tslib_es6_values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
-    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
-    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
-}
-
-function tslib_tslib_es6_makeTemplateObject(cooked, raw) {
-    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
-    return cooked;
-};
-
-var tslib_tslib_es6_setModuleDefault = Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-};
-
-function tslib_tslib_es6_importStar(mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) tslib_tslib_es6_createBinding(result, mod, k);
-    tslib_tslib_es6_setModuleDefault(result, mod);
-    return result;
-}
-
-function tslib_tslib_es6_importDefault(mod) {
-    return (mod && mod.__esModule) ? mod : { default: mod };
-}
-
-function tslib_tslib_es6_classPrivateFieldGet(receiver, state, kind, f) {
-    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
-    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
-    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
-}
-
-function tslib_tslib_es6_classPrivateFieldSet(receiver, state, value, kind, f) {
-    if (kind === "m") throw new TypeError("Private method is not writable");
-    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
-    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
-    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
-}
-
 // CONCATENATED MODULE: ./node_modules/popmotion/dist/es/utils/clamp.js
 var clamp_clamp = function (min, max, v) {
     return Math.min(Math.max(v, min), max);
@@ -17857,17 +17418,17 @@ function isSpringType(options, keys) {
     return keys.some(function (key) { return options[key] !== undefined; });
 }
 function getSpringOptions(options) {
-    var springOptions = tslib_tslib_es6_assign({ velocity: 0.0, stiffness: 100, damping: 10, mass: 1.0, isResolvedFromDuration: false }, options);
+    var springOptions = __assign({ velocity: 0.0, stiffness: 100, damping: 10, mass: 1.0, isResolvedFromDuration: false }, options);
     if (!isSpringType(options, physicsKeys) &&
         isSpringType(options, durationKeys)) {
         var derived = findSpring(options);
-        springOptions = tslib_tslib_es6_assign(tslib_tslib_es6_assign(tslib_tslib_es6_assign({}, springOptions), derived), { velocity: 0.0, mass: 1.0 });
+        springOptions = __assign(__assign(__assign({}, springOptions), derived), { velocity: 0.0, mass: 1.0 });
         springOptions.isResolvedFromDuration = true;
     }
     return springOptions;
 }
 function spring(_a) {
-    var _b = _a.from, from = _b === void 0 ? 0.0 : _b, _c = _a.to, to = _c === void 0 ? 1.0 : _c, _d = _a.restSpeed, restSpeed = _d === void 0 ? 2 : _d, restDelta = _a.restDelta, options = tslib_tslib_es6_rest(_a, ["from", "to", "restSpeed", "restDelta"]);
+    var _b = _a.from, from = _b === void 0 ? 0.0 : _b, _c = _a.to, to = _c === void 0 ? 1.0 : _c, _d = _a.restSpeed, restSpeed = _d === void 0 ? 2 : _d, restDelta = _a.restDelta, options = __rest(_a, ["from", "to", "restSpeed", "restDelta"]);
     var state = { done: false, value: from };
     var _e = getSpringOptions(options), stiffness = _e.stiffness, damping = _e.damping, mass = _e.mass, velocity = _e.velocity, duration = _e.duration, isResolvedFromDuration = _e.isResolvedFromDuration;
     var resolveSpring = zero;
@@ -18015,7 +17576,7 @@ var splitColor = function (aName, bName, cName) { return function (v) {
 
 
 var clampRgbUnit = clamp(0, 255);
-var rgbUnit = tslib_es6_assign(tslib_es6_assign({}, numbers_number), { transform: function (v) { return Math.round(clampRgbUnit(v)); } });
+var rgbUnit = __assign(__assign({}, numbers_number), { transform: function (v) { return Math.round(clampRgbUnit(v)); } });
 var rgba_rgba = {
     test: isColorString('rgb', 'red'),
     parse: splitColor('red', 'green', 'blue'),
@@ -18126,7 +17687,7 @@ var mixColor = function (from, to) {
     invariant(fromColorType.transform === toColorType.transform, "Both colors must be hex/RGBA, OR both must be HSLA.");
     var fromColor = fromColorType.parse(from);
     var toColor = toColorType.parse(to);
-    var blended = tslib_tslib_es6_assign({}, fromColor);
+    var blended = __assign({}, fromColor);
     var mixFunc = fromColorType === hsla ? mix : mixLinearColor;
     return function (v) {
         for (var key in blended) {
@@ -18257,7 +17818,7 @@ function getMixer(origin, target) {
     }
 }
 var mixArray = function (from, to) {
-    var output = tslib_tslib_es6_spreadArray([], from);
+    var output = __spreadArray([], from);
     var numValues = output.length;
     var blendValue = from.map(function (fromThis, i) { return getMixer(fromThis, to[i]); });
     return function (v) {
@@ -18268,7 +17829,7 @@ var mixArray = function (from, to) {
     };
 };
 var mixObject = function (origin, target) {
-    var output = tslib_tslib_es6_assign(tslib_tslib_es6_assign({}, origin), target);
+    var output = __assign(__assign({}, origin), target);
     var blendValue = {};
     for (var key in output) {
         if (origin[key] !== undefined && target[key] !== undefined) {
@@ -18745,7 +18306,7 @@ var framesync = function (update) {
 };
 function animations_animate(_a) {
     var _b, _c;
-    var from = _a.from, _d = _a.autoplay, autoplay = _d === void 0 ? true : _d, _e = _a.driver, driver = _e === void 0 ? framesync : _e, _f = _a.elapsed, elapsed = _f === void 0 ? 0 : _f, _g = _a.repeat, repeatMax = _g === void 0 ? 0 : _g, _h = _a.repeatType, repeatType = _h === void 0 ? "loop" : _h, _j = _a.repeatDelay, repeatDelay = _j === void 0 ? 0 : _j, onPlay = _a.onPlay, onStop = _a.onStop, onComplete = _a.onComplete, onRepeat = _a.onRepeat, onUpdate = _a.onUpdate, options = tslib_tslib_es6_rest(_a, ["from", "autoplay", "driver", "elapsed", "repeat", "repeatType", "repeatDelay", "onPlay", "onStop", "onComplete", "onRepeat", "onUpdate"]);
+    var from = _a.from, _d = _a.autoplay, autoplay = _d === void 0 ? true : _d, _e = _a.driver, driver = _e === void 0 ? framesync : _e, _f = _a.elapsed, elapsed = _f === void 0 ? 0 : _f, _g = _a.repeat, repeatMax = _g === void 0 ? 0 : _g, _h = _a.repeatType, repeatType = _h === void 0 ? "loop" : _h, _j = _a.repeatDelay, repeatDelay = _j === void 0 ? 0 : _j, onPlay = _a.onPlay, onStop = _a.onStop, onComplete = _a.onComplete, onRepeat = _a.onRepeat, onUpdate = _a.onUpdate, options = __rest(_a, ["from", "autoplay", "driver", "elapsed", "repeat", "repeatType", "repeatDelay", "onPlay", "onStop", "onComplete", "onRepeat", "onUpdate"]);
     var to = options.to;
     var driverControls;
     var repeatCount = 0;
@@ -18762,7 +18323,7 @@ function animations_animate(_a) {
         from = 0;
         to = 100;
     }
-    var animation = animator(tslib_tslib_es6_assign(tslib_tslib_es6_assign({}, options), { from: from, to: to }));
+    var animation = animator(__assign(__assign({}, options), { from: from, to: to }));
     function repeat() {
         repeatCount++;
         if (repeatType === "reverse") {
@@ -18848,14 +18409,14 @@ function inertia_inertia(_a) {
     }
     function startAnimation(options) {
         currentAnimation === null || currentAnimation === void 0 ? void 0 : currentAnimation.stop();
-        currentAnimation = animations_animate(tslib_tslib_es6_assign(tslib_tslib_es6_assign({}, options), { driver: driver, onUpdate: function (v) {
+        currentAnimation = animations_animate(__assign(__assign({}, options), { driver: driver, onUpdate: function (v) {
                 var _a;
                 onUpdate === null || onUpdate === void 0 ? void 0 : onUpdate(v);
                 (_a = options.onUpdate) === null || _a === void 0 ? void 0 : _a.call(options, v);
             }, onComplete: onComplete }));
     }
     function startSpring(options) {
-        startAnimation(tslib_tslib_es6_assign({ type: "spring", stiffness: bounceStiffness, damping: bounceDamping, restDelta: restDelta }, options));
+        startAnimation(__assign({ type: "spring", stiffness: bounceStiffness, damping: bounceDamping, restDelta: restDelta }, options));
     }
     if (isOutOfBounds(from)) {
         startSpring({ from: from, velocity: velocity, to: boundaryNearest(from) });
@@ -19139,7 +18700,7 @@ function applyDefaultFilter(v) {
     return name + '(' + defaultValue + unit + ')';
 }
 var functionRegex = /([a-z-]*)\(.*?\)/g;
-var filter = tslib_es6_assign(tslib_es6_assign({}, complex), { getAnimatableNone: function (v) {
+var filter = __assign(__assign({}, complex), { getAnimatableNone: function (v) {
         var functions = v.match(functionRegex);
         return functions ? functions.map(applyDefaultFilter).join(' ') : v;
     } });
@@ -41690,7 +41251,7 @@ const NameContainer = Object(emotion_styled_base_browser_esm["a" /* default */])
 } : undefined)("line-height:", space(8), ";margin-left:", space(2), ";margin-right:", space(2), ";white-space:nowrap;overflow:hidden;" + ( true ? "" : undefined));
 const PaletteHeading = /*#__PURE__*/Object(emotion_styled_base_browser_esm["a" /* default */])(heading_component,  true ? {
   target: "e5bw3225"
-} : undefined)("text-transform:uppercase;line-height:", space(6), ";font-weight:500;&&&{font-size:11px;margin-bottom:0;}" + ( true ? "" : undefined));
+} : undefined)("text-transform:uppercase;line-height:", space(6), ";&&&{margin-bottom:0;}" + ( true ? "" : undefined));
 const PaletteActionsContainer = /*#__PURE__*/Object(emotion_styled_base_browser_esm["a" /* default */])(view_component["a" /* default */],  true ? {
   target: "e5bw3224"
 } : undefined)("height:", space(6), ";display:flex;" + ( true ? "" : undefined));
@@ -41744,6 +41305,7 @@ const RemoveButton = /*#__PURE__*/Object(emotion_styled_base_browser_esm["a" /* 
 
 
 
+const DEFAULT_COLOR = '#000';
 
 function NameInput(_ref) {
   let {
@@ -41757,6 +41319,12 @@ function NameInput(_ref) {
     value: value,
     onChange: onChange
   });
+}
+
+function getNameForPosition(position) {
+  return Object(external_wp_i18n_["sprintf"])(
+  /* translators: %s: is a temporary id for a custom color */
+  Object(external_wp_i18n_["__"])('Color %s '), position + 1);
 }
 
 function palette_edit_Option(_ref2) {
@@ -41812,7 +41380,16 @@ function palette_edit_Option(_ref2) {
   })));
 }
 
-function PaletteEditListView(_ref3) {
+function isTemporaryElement(slugPrefix, _ref3, index) {
+  let {
+    slug,
+    color,
+    gradient
+  } = _ref3;
+  return slug === slugPrefix + Object(external_lodash_["kebabCase"])(getNameForPosition(index)) && (!!color && color === DEFAULT_COLOR || !!gradient && gradient === DEFAULT_GRADIENT);
+}
+
+function PaletteEditListView(_ref4) {
   let {
     elements,
     onChange,
@@ -41821,7 +41398,7 @@ function PaletteEditListView(_ref3) {
     canOnlyChangeValues,
     slugPrefix,
     isGradient
-  } = _ref3;
+  } = _ref4;
   // When unmounting the component if there are empty elements (the user did not complete the insertion) clean them.
   const elementsReference = Object(external_wp_element_["useRef"])();
   Object(external_wp_element_["useEffect"])(() => {
@@ -41829,18 +41406,8 @@ function PaletteEditListView(_ref3) {
   }, [elements]);
   Object(external_wp_element_["useEffect"])(() => {
     return () => {
-      if (elementsReference.current.some(_ref4 => {
-        let {
-          slug
-        } = _ref4;
-        return !slug;
-      })) {
-        const newElements = elementsReference.current.filter(_ref5 => {
-          let {
-            slug
-          } = _ref5;
-          return slug;
-        });
+      if (elementsReference.current.some((element, index) => isTemporaryElement(slugPrefix, element, index))) {
+        const newElements = elementsReference.current.filter((element, index) => !isTemporaryElement(slugPrefix, element, index));
         onChange(newElements.length ? newElements : undefined);
       }
     };
@@ -41891,7 +41458,7 @@ function PaletteEditListView(_ref3) {
 }
 
 const EMPTY_ARRAY = [];
-function PaletteEdit(_ref6) {
+function PaletteEdit(_ref5) {
   let {
     gradients,
     colors = EMPTY_ARRAY,
@@ -41901,7 +41468,7 @@ function PaletteEdit(_ref6) {
     canOnlyChangeValues,
     canReset,
     slugPrefix = ''
-  } = _ref6;
+  } = _ref5;
   const isGradient = !!gradients;
   const elements = isGradient ? gradients : colors;
   const [isEditing, setIsEditing] = Object(external_wp_element_["useState"])(false);
@@ -41921,41 +41488,38 @@ function PaletteEdit(_ref6) {
     icon: plus["a" /* default */],
     label: isGradient ? Object(external_wp_i18n_["__"])('Add gradient') : Object(external_wp_i18n_["__"])('Add color'),
     onClick: () => {
-      const tempOptionName = Object(external_wp_i18n_["sprintf"])(
-      /* translators: %s: is a temporary id for a custom color */
-      Object(external_wp_i18n_["__"])('Color %s '), elementsLength + 1);
+      const tempOptionName = getNameForPosition(elementsLength);
       onChange([...elements, { ...(isGradient ? {
           gradient: DEFAULT_GRADIENT
         } : {
-          color: '#000'
+          color: DEFAULT_COLOR
         }),
         name: tempOptionName,
-        slug: ''
+        slug: slugPrefix + Object(external_lodash_["kebabCase"])(tempOptionName)
       }]);
       setIsEditing(true);
       setEditingElement(elements.length);
     }
-  }), hasElements && (canReset || !canOnlyChangeValues) && Object(external_wp_element_["createElement"])(dropdown_menu, {
+  }), hasElements && (!isEditing || !canOnlyChangeValues || canReset) && Object(external_wp_element_["createElement"])(dropdown_menu, {
     icon: more_vertical["a" /* default */],
     label: isGradient ? Object(external_wp_i18n_["__"])('Gradient options') : Object(external_wp_i18n_["__"])('Color options'),
     toggleProps: {
       isSmall: true
     }
-  }, _ref7 => {
+  }, _ref6 => {
     let {
       onClose
-    } = _ref7;
+    } = _ref6;
     return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(navigable_container_menu, {
       role: "menu"
-    }, Object(external_wp_element_["createElement"])(build_module_button["a" /* default */], {
+    }, !isEditing && Object(external_wp_element_["createElement"])(build_module_button["a" /* default */], {
       variant: "tertiary",
-      disabled: isEditing,
       onClick: () => {
         setIsEditing(true);
         onClose();
       },
       className: "components-palette-edit__menu-button"
-    }, Object(external_wp_i18n_["__"])('Edit custom colors')), !canOnlyChangeValues && Object(external_wp_element_["createElement"])(build_module_button["a" /* default */], {
+    }, isGradient ? Object(external_wp_i18n_["__"])('Edit gradients') : Object(external_wp_i18n_["__"])('Edit colors')), !canOnlyChangeValues && Object(external_wp_element_["createElement"])(build_module_button["a" /* default */], {
       variant: "tertiary",
       onClick: () => {
         setEditingElement(null);
@@ -42531,247 +42095,6 @@ var react_is = __webpack_require__("cD2C");
 
 // CONCATENATED MODULE: ./node_modules/compute-scroll-into-view/dist/index.module.js
 function index_module_t(t){return"object"==typeof t&&null!=t&&1===t.nodeType}function dist_index_module_e(t,e){return(!e||"hidden"!==t)&&"visible"!==t&&"clip"!==t}function index_module_n(t,n){if(t.clientHeight<t.scrollHeight||t.clientWidth<t.scrollWidth){var r=getComputedStyle(t,null);return dist_index_module_e(r.overflowY,n)||dist_index_module_e(r.overflowX,n)||function(t){var e=function(t){if(!t.ownerDocument||!t.ownerDocument.defaultView)return null;try{return t.ownerDocument.defaultView.frameElement}catch(t){return null}}(t);return!!e&&(e.clientHeight<t.scrollHeight||e.clientWidth<t.scrollWidth)}(t)}return!1}function index_module_r(t,e,n,r,i,o,l,d){return o<t&&l>e||o>t&&l<e?0:o<=t&&d<=n||l>=e&&d>=n?o-t-r:l>e&&d<n||o<t&&d>n?l-e+i:0}/* harmony default export */ var index_module = (function(e,i){var o=window,l=i.scrollMode,d=i.block,u=i.inline,h=i.boundary,a=i.skipOverflowHiddenElements,c="function"==typeof h?h:function(t){return t!==h};if(!index_module_t(e))throw new TypeError("Invalid target");for(var f=document.scrollingElement||document.documentElement,s=[],p=e;index_module_t(p)&&c(p);){if((p=p.parentElement)===f){s.push(p);break}null!=p&&p===document.body&&index_module_n(p)&&!index_module_n(document.documentElement)||null!=p&&index_module_n(p,a)&&s.push(p)}for(var m=o.visualViewport?o.visualViewport.width:innerWidth,g=o.visualViewport?o.visualViewport.height:innerHeight,w=window.scrollX||pageXOffset,v=window.scrollY||pageYOffset,W=e.getBoundingClientRect(),b=W.height,H=W.width,y=W.top,E=W.right,M=W.bottom,V=W.left,x="start"===d||"nearest"===d?y:"end"===d?M:y+b/2,I="center"===u?V+H/2:"end"===u?E:V,C=[],T=0;T<s.length;T++){var k=s[T],B=k.getBoundingClientRect(),D=B.height,O=B.width,R=B.top,X=B.right,Y=B.bottom,L=B.left;if("if-needed"===l&&y>=0&&V>=0&&M<=g&&E<=m&&y>=R&&M<=Y&&V>=L&&E<=X)return C;var S=getComputedStyle(k),j=parseInt(S.borderLeftWidth,10),q=parseInt(S.borderTopWidth,10),z=parseInt(S.borderRightWidth,10),A=parseInt(S.borderBottomWidth,10),F=0,G=0,J="offsetWidth"in k?k.offsetWidth-k.clientWidth-j-z:0,K="offsetHeight"in k?k.offsetHeight-k.clientHeight-q-A:0;if(f===k)F="start"===d?x:"end"===d?x-g:"nearest"===d?index_module_r(v,v+g,g,q,A,v+x,v+x+b,b):x-g/2,G="start"===u?I:"center"===u?I-m/2:"end"===u?I-m:index_module_r(w,w+m,m,j,z,w+I,w+I+H,H),F=Math.max(0,F+v),G=Math.max(0,G+w);else{F="start"===d?x-R-q:"end"===d?x-Y+A+K:"nearest"===d?index_module_r(R,Y,D,q,A+K,x,x+b,b):x-(R+D/2)+K/2,G="start"===u?I-L-j:"center"===u?I-(L+O/2)+J/2:"end"===u?I-X+z+J:index_module_r(L,X,O,j,z+J,I,I+H,H);var N=k.scrollLeft,P=k.scrollTop;x+=P-(F=Math.max(0,Math.min(P+F,k.scrollHeight-D+K))),I+=N-(G=Math.max(0,Math.min(N+G,k.scrollWidth-O+J)))}C.push({el:k,top:F,left:G})}return C});
-
-// CONCATENATED MODULE: ./node_modules/downshift/node_modules/tslib/tslib.es6.js
-/*! *****************************************************************************
-Copyright (c) Microsoft Corporation.
-
-Permission to use, copy, modify, and/or distribute this software for any
-purpose with or without fee is hereby granted.
-
-THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-PERFORMANCE OF THIS SOFTWARE.
-***************************************************************************** */
-/* global Reflect, Promise */
-
-var node_modules_tslib_tslib_es6_extendStatics = function(d, b) {
-    node_modules_tslib_tslib_es6_extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-    return node_modules_tslib_tslib_es6_extendStatics(d, b);
-};
-
-function node_modules_tslib_tslib_es6_extends(d, b) {
-    if (typeof b !== "function" && b !== null)
-        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-    node_modules_tslib_tslib_es6_extendStatics(d, b);
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-}
-
-var node_modules_tslib_tslib_es6_assign = function() {
-    node_modules_tslib_tslib_es6_assign = Object.assign || function __assign(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-        }
-        return t;
-    }
-    return node_modules_tslib_tslib_es6_assign.apply(this, arguments);
-}
-
-function node_modules_tslib_tslib_es6_rest(s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-}
-
-function node_modules_tslib_tslib_es6_decorate(decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-}
-
-function node_modules_tslib_tslib_es6_param(paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-}
-
-function node_modules_tslib_tslib_es6_metadata(metadataKey, metadataValue) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
-}
-
-function node_modules_tslib_tslib_es6_awaiter(thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-}
-
-function node_modules_tslib_tslib_es6_generator(thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-}
-
-var node_modules_tslib_tslib_es6_createBinding = Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-});
-
-function node_modules_tslib_tslib_es6_exportStar(m, o) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(o, p)) node_modules_tslib_tslib_es6_createBinding(o, m, p);
-}
-
-function node_modules_tslib_tslib_es6_values(o) {
-    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
-    if (m) return m.call(o);
-    if (o && typeof o.length === "number") return {
-        next: function () {
-            if (o && i >= o.length) o = void 0;
-            return { value: o && o[i++], done: !o };
-        }
-    };
-    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
-}
-
-function node_modules_tslib_tslib_es6_read(o, n) {
-    var m = typeof Symbol === "function" && o[Symbol.iterator];
-    if (!m) return o;
-    var i = m.call(o), r, ar = [], e;
-    try {
-        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
-    }
-    catch (error) { e = { error: error }; }
-    finally {
-        try {
-            if (r && !r.done && (m = i["return"])) m.call(i);
-        }
-        finally { if (e) throw e.error; }
-    }
-    return ar;
-}
-
-/** @deprecated */
-function node_modules_tslib_tslib_es6_spread() {
-    for (var ar = [], i = 0; i < arguments.length; i++)
-        ar = ar.concat(node_modules_tslib_tslib_es6_read(arguments[i]));
-    return ar;
-}
-
-/** @deprecated */
-function node_modules_tslib_tslib_es6_spreadArrays() {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
-}
-
-function node_modules_tslib_tslib_es6_spreadArray(to, from, pack) {
-    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
-        if (ar || !(i in from)) {
-            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
-            ar[i] = from[i];
-        }
-    }
-    return to.concat(ar || Array.prototype.slice.call(from));
-}
-
-function node_modules_tslib_tslib_es6_await(v) {
-    return this instanceof node_modules_tslib_tslib_es6_await ? (this.v = v, this) : new node_modules_tslib_tslib_es6_await(v);
-}
-
-function node_modules_tslib_tslib_es6_asyncGenerator(thisArg, _arguments, generator) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var g = generator.apply(thisArg, _arguments || []), i, q = [];
-    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
-    function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
-    function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
-    function step(r) { r.value instanceof node_modules_tslib_tslib_es6_await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
-    function fulfill(value) { resume("next", value); }
-    function reject(value) { resume("throw", value); }
-    function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
-}
-
-function node_modules_tslib_tslib_es6_asyncDelegator(o) {
-    var i, p;
-    return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
-    function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: node_modules_tslib_tslib_es6_await(o[n](v)), done: n === "return" } : f ? f(v) : v; } : f; }
-}
-
-function node_modules_tslib_tslib_es6_asyncValues(o) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var m = o[Symbol.asyncIterator], i;
-    return m ? m.call(o) : (o = typeof node_modules_tslib_tslib_es6_values === "function" ? node_modules_tslib_tslib_es6_values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
-    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
-    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
-}
-
-function node_modules_tslib_tslib_es6_makeTemplateObject(cooked, raw) {
-    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
-    return cooked;
-};
-
-var node_modules_tslib_tslib_es6_setModuleDefault = Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-};
-
-function node_modules_tslib_tslib_es6_importStar(mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) node_modules_tslib_tslib_es6_createBinding(result, mod, k);
-    node_modules_tslib_tslib_es6_setModuleDefault(result, mod);
-    return result;
-}
-
-function node_modules_tslib_tslib_es6_importDefault(mod) {
-    return (mod && mod.__esModule) ? mod : { default: mod };
-}
-
-function node_modules_tslib_tslib_es6_classPrivateFieldGet(receiver, state, kind, f) {
-    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
-    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
-    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
-}
-
-function node_modules_tslib_tslib_es6_classPrivateFieldSet(receiver, state, value, kind, f) {
-    if (kind === "m") throw new TypeError("Private method is not writable");
-    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
-    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
-    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
-}
 
 // CONCATENATED MODULE: ./node_modules/downshift/dist/downshift.esm.js
 
@@ -44966,7 +44289,7 @@ function downshift_esm_getA11yStatusMessage(_a) {
     }
     return '';
 }
-var defaultProps$2 = node_modules_tslib_tslib_es6_assign(node_modules_tslib_tslib_es6_assign({}, defaultProps$3), { getA11yStatusMessage: downshift_esm_getA11yStatusMessage });
+var defaultProps$2 = __assign(__assign({}, defaultProps$3), { getA11yStatusMessage: downshift_esm_getA11yStatusMessage });
 // eslint-disable-next-line import/no-mutable-exports
 var validatePropTypes$2 = downshift_esm_noop;
 /* istanbul ignore next */
@@ -52144,6 +51467,15 @@ const CUSTOM_FONT_SIZE_OPTION = {
   name: Object(external_wp_i18n_["__"])('Custom')
 };
 /**
+ * In case we have at most five font sizes, where at least one the them
+ * contain a complex css value(clamp, var, etc..) show a incremental sequence
+ * of numbers as a label of the font size. We do this because complex css values
+ * cannot be caluclated properly and the incremental sequence of numbers as labels
+ * can help the user better mentally map the different available font sizes.
+ */
+
+const FONT_SIZES_ALIASES = ['1', '2', '3', '4', '5'];
+/**
  * Helper util to split a font size to its numeric value
  * and its `unit`, if exists.
  *
@@ -52175,18 +51507,19 @@ function isSimpleCssValue(value) {
  * Return font size options in the proper format depending
  * on the currently used control (select, toggle group).
  *
- * @param {boolean}  useSelectControl       Whether to use a select control.
- * @param {Object[]} optionsArray           Array of available font sizes objects.
- * @param {*}        disableCustomFontSizes Flag that indicates if custom font sizes are disabled.
+ * @param {boolean}  useSelectControl               Whether to use a select control.
+ * @param {Object[]} optionsArray                   Array of available font sizes objects.
+ * @param {*}        disableCustomFontSizes         Flag that indicates if custom font sizes are disabled.
+ * @param {boolean}  optionsContainComplexCssValues Whether font sizes contain at least one complex css value(clamp, var, etc..).
  * @return {Object[]|null} Array of font sizes in proper format for the used control.
  */
 
-function getFontSizeOptions(useSelectControl, optionsArray, disableCustomFontSizes) {
+function getFontSizeOptions(useSelectControl, optionsArray, disableCustomFontSizes, optionsContainComplexCssValues) {
   if (disableCustomFontSizes && !optionsArray.length) {
     return null;
   }
 
-  return useSelectControl ? getSelectOptions(optionsArray, disableCustomFontSizes) : getToggleGroupOptions(optionsArray);
+  return useSelectControl ? getSelectOptions(optionsArray, disableCustomFontSizes) : getToggleGroupOptions(optionsArray, optionsContainComplexCssValues);
 }
 
 function getSelectOptions(optionsArray, disableCustomFontSizes) {
@@ -52206,16 +51539,16 @@ function getSelectOptions(optionsArray, disableCustomFontSizes) {
   });
 }
 
-function getToggleGroupOptions(optionsArray) {
-  return optionsArray.map(_ref2 => {
+function getToggleGroupOptions(optionsArray, optionsContainComplexCssValues) {
+  return optionsArray.map((_ref2, index) => {
     let {
       slug,
       size,
       name
     } = _ref2;
-    let label = size;
+    let label = optionsContainComplexCssValues ? FONT_SIZES_ALIASES[index] : size;
 
-    if (typeof size === 'string') {
+    if (!optionsContainComplexCssValues && typeof size === 'string') {
       const [numericValue] = splitValueAndUnitFromSize(size);
       label = numericValue;
     }
@@ -52277,19 +51610,20 @@ function FontSizePicker(_ref, ref) {
   const isPixelValue = typeof value === 'number' || (value === null || value === void 0 ? void 0 : (_value$endsWith = value.endsWith) === null || _value$endsWith === void 0 ? void 0 : _value$endsWith.call(value, 'px'));
   const units = useCustomUnits({
     availableUnits: ['px', 'em', 'rem']
-  }); // The main font size UI displays a toggle group when the presets are less
-  // than six and a select control when they are more.
-  //
-  // A select control is also used when the value of a preset cannot be
-  // immediately computed (eg. 'calc', 'var').
+  });
+  /**
+   * The main font size UI displays a toggle group when the presets are less
+   * than six and a select control when they are more.
+   */
 
-  const shouldUseSelectControl = fontSizes.length > 5 || fontSizes.some(_ref2 => {
+  const fontSizesContainComplexValues = fontSizes.some(_ref2 => {
     let {
       size
     } = _ref2;
     return !isSimpleCssValue(size);
   });
-  const options = Object(external_wp_element_["useMemo"])(() => getFontSizeOptions(shouldUseSelectControl, fontSizes, disableCustomFontSizes), [shouldUseSelectControl, fontSizes, disableCustomFontSizes]);
+  const shouldUseSelectControl = fontSizes.length > 5;
+  const options = Object(external_wp_element_["useMemo"])(() => getFontSizeOptions(shouldUseSelectControl, fontSizes, disableCustomFontSizes, fontSizesContainComplexValues), [shouldUseSelectControl, fontSizes, disableCustomFontSizes, fontSizesContainComplexValues]);
   const selectedOption = getSelectedOption(fontSizes, value);
   const isCustomValue = selectedOption.slug === CUSTOM_FONT_SIZE;
   const [showCustomValueControl, setShowCustomValueControl] = Object(external_wp_element_["useState"])(!disableCustomFontSizes && isCustomValue);
@@ -52311,13 +51645,13 @@ function FontSizePicker(_ref, ref) {
 
     let hint = selectedOption.name;
 
-    if (typeof selectedOption.size === 'string') {
+    if (!fontSizesContainComplexValues && typeof selectedOption.size === 'string') {
       const [, unit] = splitValueAndUnitFromSize(selectedOption.size);
       hint += `(${unit})`;
     }
 
     return hint;
-  }, [showCustomValueControl, selectedOption === null || selectedOption === void 0 ? void 0 : selectedOption.slug, value, isCustomValue]);
+  }, [showCustomValueControl, selectedOption === null || selectedOption === void 0 ? void 0 : selectedOption.slug, value, isCustomValue, fontSizesContainComplexValues]);
 
   if (!options) {
     return null;
@@ -59776,11 +59110,13 @@ function useToolsPanelItem(props) {
     shouldRenderPlaceholderItems: shouldRenderPlaceholder
   } = useToolsPanelContext();
   const hasValueCallback = Object(external_wp_element_["useCallback"])(hasValue, [panelId]);
-  const resetAllFilterCallback = Object(external_wp_element_["useCallback"])(resetAllFilter, [panelId]); // Registering the panel item allows the panel to include it in its
+  const resetAllFilterCallback = Object(external_wp_element_["useCallback"])(resetAllFilter, [panelId]);
+  const previousPanelId = Object(external_wp_compose_["usePrevious"])(currentPanelId);
+  const hasMatchingPanel = currentPanelId === panelId || currentPanelId === null; // Registering the panel item allows the panel to include it in its
   // automatically generated menu and determine its initial checked status.
 
   Object(external_wp_element_["useEffect"])(() => {
-    if (currentPanelId === panelId) {
+    if (hasMatchingPanel && previousPanelId !== null) {
       registerPanelItem({
         hasValue: hasValueCallback,
         isShownByDefault,
@@ -59790,8 +59126,12 @@ function useToolsPanelItem(props) {
       });
     }
 
-    return () => deregisterPanelItem(label);
-  }, [currentPanelId, panelId, isShownByDefault, label, hasValueCallback, resetAllFilterCallback]);
+    return () => {
+      if (previousPanelId === null && !!currentPanelId || currentPanelId === panelId) {
+        deregisterPanelItem(label);
+      }
+    };
+  }, [currentPanelId, hasMatchingPanel, isShownByDefault, label, hasValueCallback, panelId, previousPanelId, resetAllFilterCallback]);
   const isValueSet = hasValue();
   const wasValueSet = Object(external_wp_compose_["usePrevious"])(isValueSet); // If this item represents a default control it will need to notify the
   // panel when a custom value has been set.
@@ -59809,7 +59149,7 @@ function useToolsPanelItem(props) {
   // trigger appropriate callback if it is.
 
   Object(external_wp_element_["useEffect"])(() => {
-    if (isResetting || currentPanelId !== panelId) {
+    if (isResetting || !hasMatchingPanel) {
       return;
     }
 
@@ -59820,7 +59160,7 @@ function useToolsPanelItem(props) {
     if (!isMenuItemChecked && wasMenuItemChecked) {
       onDeselect === null || onDeselect === void 0 ? void 0 : onDeselect();
     }
-  }, [currentPanelId, isMenuItemChecked, isResetting, isValueSet, panelId, wasMenuItemChecked]); // The item is shown if it is a default control regardless of whether it
+  }, [hasMatchingPanel, isMenuItemChecked, isResetting, isValueSet, wasMenuItemChecked]); // The item is shown if it is a default control regardless of whether it
   // has a value. Optional items are shown when they are checked or have
   // a value.
 
@@ -70668,14 +70008,11 @@ function _extends() {
     }
 
     return target;
-  };
-
-  module.exports["default"] = module.exports, module.exports.__esModule = true;
+  }, module.exports.__esModule = true, module.exports["default"] = module.exports;
   return _extends.apply(this, arguments);
 }
 
-module.exports = _extends;
-module.exports["default"] = module.exports, module.exports.__esModule = true;
+module.exports = _extends, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
 

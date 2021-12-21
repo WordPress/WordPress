@@ -6404,6 +6404,10 @@ function EditTemplateTitle() {
     updateEditorSettings
   } = Object(external_wp_data_["useDispatch"])(external_wp_editor_["store"]);
 
+  if (template.has_theme_file) {
+    return null;
+  }
+
   let templateTitle = Object(external_wp_i18n_["__"])('Default');
 
   if (template !== null && template !== void 0 && template.title) {
@@ -6450,12 +6454,14 @@ function EditTemplateTitle() {
 
 function TemplateDescription() {
   const {
-    description
+    description,
+    title
   } = Object(external_wp_data_["useSelect"])(select => {
     const {
       getEditedPostTemplate
     } = select(store["a" /* store */]);
     return {
+      title: getEditedPostTemplate().title,
       description: getEditedPostTemplate().description
     };
   }, []);
@@ -6464,9 +6470,17 @@ function TemplateDescription() {
     return null;
   }
 
-  return Object(external_wp_element_["createElement"])(external_wp_components_["__experimentalText"], {
-    size: "body"
-  }, description);
+  return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(external_wp_components_["__experimentalHeading"], {
+    level: 4,
+    weight: 600
+  }, title), Object(external_wp_element_["createElement"])(external_wp_components_["__experimentalText"], {
+    className: "edit-post-template-details__description",
+    size: "body",
+    as: "p",
+    style: {
+      marginTop: '12px'
+    }
+  }, description));
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/edit-post/build-module/components/header/template-title/index.js
@@ -6531,6 +6545,7 @@ function TemplateTitle() {
     templateTitle = template.slug;
   }
 
+  const hasOptions = !!(template.custom || template.wp_id || template.description);
   return Object(external_wp_element_["createElement"])("div", {
     className: "edit-post-template-top-area"
   }, Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
@@ -6544,7 +6559,7 @@ function TemplateTitle() {
       clearSelectedBlock();
       setIsEditingTemplate(false);
     }
-  }, title), Object(external_wp_element_["createElement"])(external_wp_components_["Dropdown"], {
+  }, title), hasOptions ? Object(external_wp_element_["createElement"])(external_wp_components_["Dropdown"], {
     position: "bottom center",
     contentClassName: "edit-post-template-top-area__popover",
     renderToggle: _ref => {
@@ -6560,8 +6575,14 @@ function TemplateTitle() {
         label: Object(external_wp_i18n_["__"])('Template Options')
       }, templateTitle);
     },
-    renderContent: () => Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, template.has_theme_file ? Object(external_wp_element_["createElement"])(TemplateDescription, null) : Object(external_wp_element_["createElement"])(EditTemplateTitle, null), Object(external_wp_element_["createElement"])(DeleteTemplate, null))
-  }));
+    renderContent: () => Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(EditTemplateTitle, null), Object(external_wp_element_["createElement"])(TemplateDescription, null), Object(external_wp_element_["createElement"])(DeleteTemplate, null))
+  }) : Object(external_wp_element_["createElement"])(external_wp_components_["__experimentalText"], {
+    className: "edit-post-template-title",
+    size: "body",
+    style: {
+      lineHeight: '24px'
+    }
+  }, templateTitle));
 }
 
 /* harmony default export */ var template_title = (TemplateTitle);

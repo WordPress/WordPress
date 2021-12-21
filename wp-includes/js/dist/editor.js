@@ -5091,12 +5091,16 @@ function EditorSnackbars() {
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/close.js
 var library_close = __webpack_require__("w95h");
 
+// EXTERNAL MODULE: external ["wp","htmlEntities"]
+var external_wp_htmlEntities_ = __webpack_require__("rmEH");
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/components/entities-saved-states/entity-record-item.js
 
 
 /**
  * WordPress dependencies
  */
+
 
 
 
@@ -5156,7 +5160,7 @@ function EntityRecordItem(_ref) {
     closePanel();
   }, [parentBlockId]);
   return Object(external_wp_element_["createElement"])(external_wp_components_["PanelRow"], null, Object(external_wp_element_["createElement"])(external_wp_components_["CheckboxControl"], {
-    label: Object(external_wp_element_["createElement"])("strong", null, entityRecordTitle || Object(external_wp_i18n_["__"])('Untitled')),
+    label: Object(external_wp_element_["createElement"])("strong", null, Object(external_wp_htmlEntities_["decodeEntities"])(entityRecordTitle) || Object(external_wp_i18n_["__"])('Untitled')),
     checked: checked,
     onChange: onChange
   }), parentBlockId ? Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
@@ -5253,6 +5257,7 @@ function EntityTypeList(_ref) {
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -5302,7 +5307,11 @@ function EntitiesSavedStates(_ref) {
     editEntityRecord,
     saveEditedEntityRecord,
     __experimentalSaveSpecifiedEntityEdits: saveSpecifiedEntityEdits
-  } = Object(external_wp_data_["useDispatch"])(external_wp_coreData_["store"]); // To group entities by type.
+  } = Object(external_wp_data_["useDispatch"])(external_wp_coreData_["store"]);
+  const {
+    createSuccessNotice,
+    createErrorNotice
+  } = Object(external_wp_data_["useDispatch"])(external_wp_notices_["store"]); // To group entities by type.
 
   const partitionedSavables = Object(external_lodash_["groupBy"])(dirtyEntityRecords, 'name'); // Sort entity groups.
 
@@ -5348,6 +5357,7 @@ function EntitiesSavedStates(_ref) {
     });
     close(entitiesToSave);
     const siteItemsToSave = [];
+    const pendingSavedRecords = [];
     entitiesToSave.forEach(_ref4 => {
       let {
         kind,
@@ -5365,13 +5375,23 @@ function EntitiesSavedStates(_ref) {
           });
         }
 
-        saveEditedEntityRecord(kind, name, key);
+        pendingSavedRecords.push(saveEditedEntityRecord(kind, name, key));
       }
     });
 
     if (siteItemsToSave.length) {
-      saveSpecifiedEntityEdits('root', 'site', undefined, siteItemsToSave);
+      pendingSavedRecords.push(saveSpecifiedEntityEdits('root', 'site', undefined, siteItemsToSave));
     }
+
+    Promise.all(pendingSavedRecords).then(values => {
+      if (values.some(value => typeof value === 'undefined')) {
+        createErrorNotice(Object(external_wp_i18n_["__"])('Saving failed.'));
+      } else {
+        createSuccessNotice(Object(external_wp_i18n_["__"])('Site updated.'), {
+          type: 'snackbar'
+        });
+      }
+    }).catch(error => createErrorNotice(`${Object(external_wp_i18n_["__"])('Saving failed.')} ${error}`));
   }; // Explicitly define this with no argument passed.  Using `close` on
   // its own will use the event object in place of the expected saved entities.
 
@@ -5859,9 +5879,6 @@ function PageAttributesOrderWithChecks(props) {
   }
 
 }))])(PageAttributesOrderWithChecks));
-
-// EXTERNAL MODULE: external ["wp","htmlEntities"]
-var external_wp_htmlEntities_ = __webpack_require__("rmEH");
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/utils/terms.js
 /**
@@ -7798,10 +7815,15 @@ class post_publish_button_PostPublishButton extends external_wp_element_["Compon
       }
 
       const {
-        hasNonPostEntityChanges
-      } = _this.props;
+        hasNonPostEntityChanges,
+        setEntitiesSavedStatesCallback
+      } = _this.props; // If a post with non-post entities is published, but the user
+      // elects to not save changes to the non-post entities, those
+      // entities will still be dirty when the Publish button is clicked.
+      // We also need to check that the `setEntitiesSavedStatesCallback`
+      // prop was passed. See https://github.com/WordPress/gutenberg/pull/37383
 
-      if (hasNonPostEntityChanges) {
+      if (hasNonPostEntityChanges && setEntitiesSavedStatesCallback) {
         // The modal for multiple entity saving will open,
         // hold the callback for saving/publishing the post
         // so that we can call it if the post entity is checked.
@@ -7813,8 +7835,7 @@ class post_publish_button_PostPublishButton extends external_wp_element_["Compon
         // function on its own will cause an error when called.
 
 
-        _this.props.setEntitiesSavedStatesCallback(() => _this.closeEntitiesSavedStates);
-
+        setEntitiesSavedStatesCallback(() => _this.closeEntitiesSavedStates);
         return external_lodash_["noop"];
       }
 

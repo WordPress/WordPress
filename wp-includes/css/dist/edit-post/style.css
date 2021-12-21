@@ -928,12 +928,16 @@ body.is-fullscreen-mode .interface-interface-skeleton {
 
 .edit-post-template-top-area__popover .components-popover__content {
   min-width: 280px;
+  padding: 8px;
+}
+.edit-post-template-top-area__popover .edit-post-template-details__description {
+  color: #757575;
 }
 
 .edit-post-template-top-area__second-menu-group {
-  margin-left: -12px;
-  margin-right: -12px;
-  padding: 12px;
+  margin-left: -16px;
+  margin-right: -16px;
+  padding: 16px;
   padding-bottom: 0;
   border-top: 1px solid #ddd;
 }
@@ -943,6 +947,7 @@ body.is-fullscreen-mode .interface-interface-skeleton {
 }
 .edit-post-template-top-area__second-menu-group .edit-post-template-top-area__delete-template-button .components-menu-item__item {
   margin-right: 0;
+  min-width: 0;
 }
 
 .edit-post-keyboard-shortcut-help-modal__section {

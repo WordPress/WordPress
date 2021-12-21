@@ -89,7 +89,9 @@
   border-radius: inherit;
 }
 .wp-block-site-logo.aligncenter {
-  display: table;
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center;
 }
 .wp-block-site-logo.is-style-rounded {
   border-radius: 9999px;

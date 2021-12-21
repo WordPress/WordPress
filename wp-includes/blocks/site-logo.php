@@ -48,10 +48,6 @@ function render_block_core_site_logo( $attributes ) {
 		$classnames[] = $attributes['className'];
 	}
 
-	if ( ! empty( $attributes['align'] ) && in_array( $attributes['align'], array( 'center', 'left', 'right' ), true ) ) {
-		$classnames[] = "align{$attributes['align']}";
-	}
-
 	if ( empty( $attributes['width'] ) ) {
 		$classnames[] = 'is-default-size';
 	}

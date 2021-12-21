@@ -200,11 +200,6 @@
 					"size": "13px"
 				},
 				{
-					"name": "Normal",
-					"slug": "normal",
-					"size": "16px"
-				},
-				{
 					"name": "Medium",
 					"slug": "medium",
 					"size": "20px"
@@ -215,8 +210,8 @@
 					"size": "36px"
 				},
 				{
-					"name": "Huge",
-					"slug": "huge",
+					"name": "Extra Large",
+					"slug": "x-large",
 					"size": "42px"
 				}
 			],

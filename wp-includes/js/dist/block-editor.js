@@ -2171,7 +2171,7 @@ function onBlockDrop(targetRootClientId, targetBlockIndex, getBlockIndex, getCli
 
 
     if (dropType === 'block') {
-      const sourceBlockIndex = getBlockIndex(sourceClientIds[0], sourceRootClientId); // If the user is dropping to the same position, return early.
+      const sourceBlockIndex = getBlockIndex(sourceClientIds[0]); // If the user is dropping to the same position, return early.
 
       if (sourceRootClientId === targetRootClientId && sourceBlockIndex === targetBlockIndex) {
         return;
@@ -2527,21 +2527,21 @@ function useMultipleOriginColorsAndGradients() {
 "use strict";
 
 // EXPORTS
-__webpack_require__.d(__webpack_exports__, "gc", function() { return /* reexport */ components_colors["b" /* getColorClassName */]; });
-__webpack_require__.d(__webpack_exports__, "hc", function() { return /* reexport */ components_colors["c" /* getColorObjectByAttributeValues */]; });
-__webpack_require__.d(__webpack_exports__, "ic", function() { return /* reexport */ components_colors["d" /* getColorObjectByColorValue */]; });
-__webpack_require__.d(__webpack_exports__, "fc", function() { return /* reexport */ components_colors["a" /* createCustomColorsHOC */]; });
-__webpack_require__.d(__webpack_exports__, "uc", function() { return /* reexport */ components_colors["e" /* withColors */]; });
+__webpack_require__.d(__webpack_exports__, "hc", function() { return /* reexport */ components_colors["b" /* getColorClassName */]; });
+__webpack_require__.d(__webpack_exports__, "ic", function() { return /* reexport */ components_colors["c" /* getColorObjectByAttributeValues */]; });
+__webpack_require__.d(__webpack_exports__, "jc", function() { return /* reexport */ components_colors["d" /* getColorObjectByColorValue */]; });
+__webpack_require__.d(__webpack_exports__, "gc", function() { return /* reexport */ components_colors["a" /* createCustomColorsHOC */]; });
+__webpack_require__.d(__webpack_exports__, "vc", function() { return /* reexport */ components_colors["e" /* withColors */]; });
 __webpack_require__.d(__webpack_exports__, "xb", function() { return /* reexport */ gradients["a" /* __experimentalGetGradientClass */]; });
-__webpack_require__.d(__webpack_exports__, "nc", function() { return /* reexport */ gradients["e" /* getGradientValueBySlug */]; });
+__webpack_require__.d(__webpack_exports__, "oc", function() { return /* reexport */ gradients["e" /* getGradientValueBySlug */]; });
 __webpack_require__.d(__webpack_exports__, "yb", function() { return /* reexport */ gradients["b" /* __experimentalGetGradientObjectByGradientValue */]; });
-__webpack_require__.d(__webpack_exports__, "mc", function() { return /* reexport */ gradients["d" /* getGradientSlugByValue */]; });
-__webpack_require__.d(__webpack_exports__, "Rb", function() { return /* reexport */ gradients["c" /* __experimentalUseGradient */]; });
-__webpack_require__.d(__webpack_exports__, "jc", function() { return /* reexport */ font_sizes["b" /* getFontSize */]; });
-__webpack_require__.d(__webpack_exports__, "kc", function() { return /* reexport */ font_sizes["c" /* getFontSizeClass */]; });
-__webpack_require__.d(__webpack_exports__, "lc", function() { return /* reexport */ font_sizes["d" /* getFontSizeObjectByValue */]; });
+__webpack_require__.d(__webpack_exports__, "nc", function() { return /* reexport */ gradients["d" /* getGradientSlugByValue */]; });
+__webpack_require__.d(__webpack_exports__, "Sb", function() { return /* reexport */ gradients["c" /* __experimentalUseGradient */]; });
+__webpack_require__.d(__webpack_exports__, "kc", function() { return /* reexport */ font_sizes["b" /* getFontSize */]; });
+__webpack_require__.d(__webpack_exports__, "lc", function() { return /* reexport */ font_sizes["c" /* getFontSizeClass */]; });
+__webpack_require__.d(__webpack_exports__, "mc", function() { return /* reexport */ font_sizes["d" /* getFontSizeObjectByValue */]; });
 __webpack_require__.d(__webpack_exports__, "I", function() { return /* reexport */ font_sizes["a" /* FontSizePicker */]; });
-__webpack_require__.d(__webpack_exports__, "vc", function() { return /* reexport */ font_sizes["e" /* withFontSizes */]; });
+__webpack_require__.d(__webpack_exports__, "wc", function() { return /* reexport */ font_sizes["e" /* withFontSizes */]; });
 __webpack_require__.d(__webpack_exports__, "a", function() { return /* reexport */ AlignmentControl; });
 __webpack_require__.d(__webpack_exports__, "b", function() { return /* reexport */ AlignmentToolbar; });
 __webpack_require__.d(__webpack_exports__, "c", function() { return /* reexport */ autocomplete; });
@@ -2556,7 +2556,7 @@ __webpack_require__.d(__webpack_exports__, "i", function() { return /* reexport 
 __webpack_require__.d(__webpack_exports__, "m", function() { return /* reexport */ block_controls["a" /* BlockFormatControls */]; });
 __webpack_require__.d(__webpack_exports__, "g", function() { return /* reexport */ color_style_selector; });
 __webpack_require__.d(__webpack_exports__, "j", function() { return /* reexport */ block_edit["a" /* default */]; });
-__webpack_require__.d(__webpack_exports__, "pc", function() { return /* reexport */ context["c" /* useBlockEditContext */]; });
+__webpack_require__.d(__webpack_exports__, "qc", function() { return /* reexport */ context["c" /* useBlockEditContext */]; });
 __webpack_require__.d(__webpack_exports__, "n", function() { return /* reexport */ block_icon["a" /* default */]; });
 __webpack_require__.d(__webpack_exports__, "r", function() { return /* reexport */ dropdown; });
 __webpack_require__.d(__webpack_exports__, "pb", function() { return /* reexport */ block_variation_picker; });
@@ -2583,7 +2583,7 @@ __webpack_require__.d(__webpack_exports__, "Ab", function() { return /* reexport
 __webpack_require__.d(__webpack_exports__, "zb", function() { return /* reexport */ ImageEditingProvider; });
 __webpack_require__.d(__webpack_exports__, "Bb", function() { return /* reexport */ ImageSizeControl; });
 __webpack_require__.d(__webpack_exports__, "J", function() { return /* reexport */ inner_blocks["a" /* default */]; });
-__webpack_require__.d(__webpack_exports__, "rc", function() { return /* reexport */ inner_blocks["b" /* useInnerBlocksProps */]; });
+__webpack_require__.d(__webpack_exports__, "sc", function() { return /* reexport */ inner_blocks["b" /* useInnerBlocksProps */]; });
 __webpack_require__.d(__webpack_exports__, "M", function() { return /* reexport */ inspector_controls["b" /* default */]; });
 __webpack_require__.d(__webpack_exports__, "L", function() { return /* reexport */ inspector_controls["a" /* InspectorAdvancedControls */]; });
 __webpack_require__.d(__webpack_exports__, "O", function() { return /* reexport */ justify_content_control["b" /* JustifyToolbar */]; });
@@ -2604,55 +2604,56 @@ __webpack_require__.d(__webpack_exports__, "Nb", function() { return /* reexport
 __webpack_require__.d(__webpack_exports__, "ab", function() { return /* reexport */ rich_text; });
 __webpack_require__.d(__webpack_exports__, "bb", function() { return /* reexport */ RichTextShortcut; });
 __webpack_require__.d(__webpack_exports__, "cb", function() { return /* reexport */ RichTextToolbarButton; });
-__webpack_require__.d(__webpack_exports__, "Yb", function() { return /* reexport */ __unstableRichTextInputEvent; });
+__webpack_require__.d(__webpack_exports__, "Zb", function() { return /* reexport */ __unstableRichTextInputEvent; });
 __webpack_require__.d(__webpack_exports__, "eb", function() { return /* reexport */ tool_selector; });
 __webpack_require__.d(__webpack_exports__, "Qb", function() { return /* reexport */ UnitControl; });
 __webpack_require__.d(__webpack_exports__, "gb", function() { return /* reexport */ url_input; });
 __webpack_require__.d(__webpack_exports__, "hb", function() { return /* reexport */ url_input_button; });
 __webpack_require__.d(__webpack_exports__, "ib", function() { return /* reexport */ url_popover; });
 __webpack_require__.d(__webpack_exports__, "Cb", function() { return /* reexport */ ImageURLInputUI; });
-__webpack_require__.d(__webpack_exports__, "tc", function() { return /* reexport */ with_color_context; });
-__webpack_require__.d(__webpack_exports__, "Ub", function() { return /* reexport */ block_settings_menu_first_item["a" /* default */]; });
-__webpack_require__.d(__webpack_exports__, "Xb", function() { return /* reexport */ inserter_menu_extension["a" /* default */]; });
+__webpack_require__.d(__webpack_exports__, "uc", function() { return /* reexport */ with_color_context; });
+__webpack_require__.d(__webpack_exports__, "Vb", function() { return /* reexport */ block_settings_menu_first_item["a" /* default */]; });
+__webpack_require__.d(__webpack_exports__, "Yb", function() { return /* reexport */ inserter_menu_extension["a" /* default */]; });
 __webpack_require__.d(__webpack_exports__, "Mb", function() { return /* reexport */ PreviewOptions; });
-__webpack_require__.d(__webpack_exports__, "Tb", function() { return /* reexport */ useResizeCanvas; });
+__webpack_require__.d(__webpack_exports__, "Ub", function() { return /* reexport */ useResizeCanvas; });
 __webpack_require__.d(__webpack_exports__, "o", function() { return /* reexport */ block_inspector; });
 __webpack_require__.d(__webpack_exports__, "p", function() { return /* reexport */ block_list["c" /* default */]; });
-__webpack_require__.d(__webpack_exports__, "qc", function() { return /* reexport */ use_block_props["a" /* useBlockProps */]; });
+__webpack_require__.d(__webpack_exports__, "rc", function() { return /* reexport */ use_block_props["a" /* useBlockProps */]; });
 __webpack_require__.d(__webpack_exports__, "Db", function() { return /* reexport */ block_list_layout["b" /* LayoutStyle */]; });
 __webpack_require__.d(__webpack_exports__, "q", function() { return /* reexport */ block_mover["a" /* default */]; });
 __webpack_require__.d(__webpack_exports__, "s", function() { return /* reexport */ block_preview["a" /* default */]; });
+__webpack_require__.d(__webpack_exports__, "Rb", function() { return /* reexport */ block_preview["b" /* useBlockPreview */]; });
 __webpack_require__.d(__webpack_exports__, "t", function() { return /* reexport */ block_selection_clearer["a" /* default */]; });
-__webpack_require__.d(__webpack_exports__, "Zb", function() { return /* reexport */ block_selection_clearer["b" /* useBlockSelectionClearer */]; });
+__webpack_require__.d(__webpack_exports__, "ac", function() { return /* reexport */ block_selection_clearer["b" /* useBlockSelectionClearer */]; });
 __webpack_require__.d(__webpack_exports__, "u", function() { return /* reexport */ block_settings_menu["a" /* default */]; });
 __webpack_require__.d(__webpack_exports__, "v", function() { return /* reexport */ block_settings_menu_controls["a" /* default */]; });
 __webpack_require__.d(__webpack_exports__, "w", function() { return /* reexport */ block_title["a" /* default */]; });
 __webpack_require__.d(__webpack_exports__, "x", function() { return /* reexport */ block_toolbar["a" /* default */]; });
 __webpack_require__.d(__webpack_exports__, "y", function() { return /* reexport */ BlockTools; });
 __webpack_require__.d(__webpack_exports__, "G", function() { return /* reexport */ copy_handler["a" /* default */]; });
-__webpack_require__.d(__webpack_exports__, "bc", function() { return /* reexport */ copy_handler["b" /* useClipboardHandler */]; });
+__webpack_require__.d(__webpack_exports__, "cc", function() { return /* reexport */ copy_handler["b" /* useClipboardHandler */]; });
 __webpack_require__.d(__webpack_exports__, "H", function() { return /* reexport */ default_block_appender["a" /* default */]; });
-__webpack_require__.d(__webpack_exports__, "Vb", function() { return /* reexport */ editor_styles["a" /* default */]; });
+__webpack_require__.d(__webpack_exports__, "Wb", function() { return /* reexport */ editor_styles["a" /* default */]; });
 __webpack_require__.d(__webpack_exports__, "K", function() { return /* reexport */ inserter["a" /* default */]; });
 __webpack_require__.d(__webpack_exports__, "Fb", function() { return /* reexport */ library; });
 __webpack_require__.d(__webpack_exports__, "k", function() { return /* reexport */ keyboard_shortcuts; });
 __webpack_require__.d(__webpack_exports__, "U", function() { return /* reexport */ MultiSelectScrollIntoView; });
 __webpack_require__.d(__webpack_exports__, "V", function() { return /* reexport */ navigable_toolbar["a" /* default */]; });
 __webpack_require__.d(__webpack_exports__, "W", function() { return /* reexport */ observe_typing; });
-__webpack_require__.d(__webpack_exports__, "ec", function() { return /* reexport */ useTypingObserver; });
-__webpack_require__.d(__webpack_exports__, "cc", function() { return /* reexport */ useMouseMoveTypingReset; });
+__webpack_require__.d(__webpack_exports__, "fc", function() { return /* reexport */ useTypingObserver; });
+__webpack_require__.d(__webpack_exports__, "dc", function() { return /* reexport */ useMouseMoveTypingReset; });
 __webpack_require__.d(__webpack_exports__, "Z", function() { return /* reexport */ PreserveScrollInReorder; });
 __webpack_require__.d(__webpack_exports__, "db", function() { return /* reexport */ skip_to_selected_block; });
 __webpack_require__.d(__webpack_exports__, "fb", function() { return /* reexport */ typewriter; });
-__webpack_require__.d(__webpack_exports__, "dc", function() { return /* reexport */ useTypewriter; });
+__webpack_require__.d(__webpack_exports__, "ec", function() { return /* reexport */ useTypewriter; });
 __webpack_require__.d(__webpack_exports__, "jb", function() { return /* reexport */ warning["a" /* default */]; });
 __webpack_require__.d(__webpack_exports__, "kb", function() { return /* reexport */ writing_flow["a" /* default */]; });
-__webpack_require__.d(__webpack_exports__, "ac", function() { return /* reexport */ useCanvasClickRedirect; });
-__webpack_require__.d(__webpack_exports__, "oc", function() { return /* reexport */ use_block_display_information["a" /* default */]; });
-__webpack_require__.d(__webpack_exports__, "Wb", function() { return /* reexport */ iframe["a" /* default */]; });
-__webpack_require__.d(__webpack_exports__, "Sb", function() { return /* reexport */ useNoRecursiveRenders; });
+__webpack_require__.d(__webpack_exports__, "bc", function() { return /* reexport */ useCanvasClickRedirect; });
+__webpack_require__.d(__webpack_exports__, "pc", function() { return /* reexport */ use_block_display_information["a" /* default */]; });
+__webpack_require__.d(__webpack_exports__, "Xb", function() { return /* reexport */ iframe["a" /* default */]; });
+__webpack_require__.d(__webpack_exports__, "Tb", function() { return /* reexport */ useNoRecursiveRenders; });
 __webpack_require__.d(__webpack_exports__, "l", function() { return /* reexport */ provider["a" /* default */]; });
-__webpack_require__.d(__webpack_exports__, "sc", function() { return /* reexport */ use_setting["a" /* default */]; });
+__webpack_require__.d(__webpack_exports__, "tc", function() { return /* reexport */ use_setting["a" /* default */]; });
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/block-editor/build-module/components/colors/index.js + 1 modules
 var components_colors = __webpack_require__("5gPN");
@@ -4424,7 +4425,7 @@ function useListViewDropZone() {
       return {
         clientId,
         rootClientId,
-        blockIndex: getBlockIndex(clientId, rootClientId),
+        blockIndex: getBlockIndex(clientId),
         element: blockElement,
         isDraggedBlock: isBlockDrag ? draggedBlockClientIds.includes(clientId) : false,
         innerBlockCount: getBlockCount(clientId),
@@ -12492,8 +12493,15 @@ const BlockInspector = _ref => {
   if (count > 1) {
     return Object(external_wp_element_["createElement"])("div", {
       className: "block-editor-block-inspector"
-    }, Object(external_wp_element_["createElement"])(multi_selection_inspector, null), Object(external_wp_element_["createElement"])(inspector_controls["b" /* default */].Slot, {
-      bubblesVirtually: bubblesVirtually
+    }, Object(external_wp_element_["createElement"])(multi_selection_inspector, null), Object(external_wp_element_["createElement"])(inspector_controls["b" /* default */].Slot, null), Object(external_wp_element_["createElement"])(inspector_controls["b" /* default */].Slot, {
+      __experimentalGroup: "typography",
+      label: Object(external_wp_i18n_["__"])('Typography')
+    }), Object(external_wp_element_["createElement"])(inspector_controls["b" /* default */].Slot, {
+      __experimentalGroup: "dimensions",
+      label: Object(external_wp_i18n_["__"])('Dimensions')
+    }), Object(external_wp_element_["createElement"])(inspector_controls["b" /* default */].Slot, {
+      __experimentalGroup: "border",
+      label: Object(external_wp_i18n_["__"])('Border')
     }));
   }
 
@@ -12549,6 +12557,9 @@ const BlockInspectorSingleBlock = _ref2 => {
     __experimentalGroup: "dimensions",
     bubblesVirtually: bubblesVirtually,
     label: Object(external_wp_i18n_["__"])('Dimensions')
+  }), Object(external_wp_element_["createElement"])(inspector_controls["b" /* default */].Slot, {
+    __experimentalGroup: "border",
+    label: Object(external_wp_i18n_["__"])('Border')
   }), Object(external_wp_element_["createElement"])("div", null, Object(external_wp_element_["createElement"])(AdvancedControls, {
     bubblesVirtually: bubblesVirtually
   })), Object(external_wp_element_["createElement"])(skip_to_selected_block, {
@@ -16471,8 +16482,8 @@ const BlockMoverButton = Object(external_wp_element_["forwardRef"])((_ref, ref) 
     const normalizedClientIds = Object(external_lodash_["castArray"])(clientIds);
     const firstClientId = Object(external_lodash_["first"])(normalizedClientIds);
     const blockRootClientId = getBlockRootClientId(firstClientId);
-    const firstBlockIndex = getBlockIndex(firstClientId, blockRootClientId);
-    const lastBlockIndex = getBlockIndex(Object(external_lodash_["last"])(normalizedClientIds), blockRootClientId);
+    const firstBlockIndex = getBlockIndex(firstClientId);
+    const lastBlockIndex = getBlockIndex(Object(external_lodash_["last"])(normalizedClientIds));
     const blockOrder = getBlockOrder(blockRootClientId);
     const block = getBlock(firstClientId);
     const isFirstBlock = firstBlockIndex === 0;
@@ -16801,10 +16812,10 @@ function useInsertionPoint(_ref) {
       _destinationIndex = insertionIndex;
     } else if (clientId) {
       // Insert after a specific client ID.
-      _destinationIndex = getBlockIndex(clientId, _destinationRootClientId);
+      _destinationIndex = getBlockIndex(clientId);
     } else if (!isAppender && selectedBlockClientId) {
       _destinationRootClientId = getBlockRootClientId(selectedBlockClientId);
-      _destinationIndex = getBlockIndex(selectedBlockClientId, _destinationRootClientId) + 1;
+      _destinationIndex = getBlockIndex(selectedBlockClientId) + 1;
     } else {
       // Insert at the end of the list.
       _destinationIndex = getBlockOrder(_destinationRootClientId).length;
@@ -18126,6 +18137,29 @@ const withSaveReusableBlock = reducer => (state, action) => {
   return reducer(state, action);
 };
 /**
+ * Higher-order reducer which removes blocks from state when switching parent block controlled state.
+ *
+ * @param {Function} reducer Original reducer function.
+ *
+ * @return {Function} Enhanced reducer function.
+ */
+
+
+const withResetControlledBlocks = reducer => (state, action) => {
+  if (action.type === 'SET_HAS_CONTROLLED_INNER_BLOCKS') {
+    // when switching a block from controlled to uncontrolled or inverse,
+    // we need to remove its content first.
+    const tempState = reducer(state, {
+      type: 'REPLACE_INNER_BLOCKS',
+      rootClientId: action.clientId,
+      blocks: []
+    });
+    return reducer(tempState, action);
+  }
+
+  return reducer(state, action);
+};
+/**
  * Reducer returning the blocks state.
  *
  * @param {Object} state  Current state.
@@ -18138,7 +18172,7 @@ const withSaveReusableBlock = reducer => (state, action) => {
 const reducer_blocks = Object(external_lodash_["flow"])(external_wp_data_["combineReducers"], withSaveReusableBlock, // needs to be before withBlockCache
 withBlockTree, // needs to be before withInnerBlocksRemoveCascade
 withInnerBlocksRemoveCascade, withReplaceInnerBlocks, // needs to be after withInnerBlocksRemoveCascade
-withBlockReset, withPersistentBlockChange, withIgnoredBlockChange)({
+withBlockReset, withPersistentBlockChange, withIgnoredBlockChange, withResetControlledBlocks)({
   byClientId() {
     let state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     let action = arguments.length > 1 ? arguments[1] : undefined;
@@ -19972,12 +20006,12 @@ function getBlockOrder(state, rootClientId) {
  *
  * @param {Object}  state        Editor state.
  * @param {string}  clientId     Block client ID.
- * @param {?string} rootClientId Optional root client ID of block list.
  *
  * @return {number} Index at which block exists in order.
  */
 
-function getBlockIndex(state, clientId, rootClientId) {
+function getBlockIndex(state, clientId) {
+  const rootClientId = getBlockRootClientId(state, clientId);
   return getBlockOrder(state, rootClientId).indexOf(clientId);
 }
 /**
@@ -22464,7 +22498,7 @@ const duplicateBlocks = function (clientIds) {
     }
 
     const rootClientId = select.getBlockRootClientId(clientIds[0]);
-    const lastSelectedIndex = select.getBlockIndex(Object(external_lodash_["last"])(Object(external_lodash_["castArray"])(clientIds)), rootClientId);
+    const lastSelectedIndex = select.getBlockIndex(Object(external_lodash_["last"])(Object(external_lodash_["castArray"])(clientIds)));
     const clonedBlocks = blocks.map(block => Object(external_wp_blocks_["__experimentalCloneSanitizedBlock"])(block));
     dispatch.insertBlocks(clonedBlocks, lastSelectedIndex + 1, rootClientId, updateSelection);
 
@@ -22498,7 +22532,7 @@ const insertBeforeBlock = clientId => _ref18 => {
     return;
   }
 
-  const firstSelectedIndex = select.getBlockIndex(clientId, rootClientId);
+  const firstSelectedIndex = select.getBlockIndex(clientId);
   return dispatch.insertDefaultBlock({}, rootClientId, firstSelectedIndex);
 };
 /**
@@ -22524,7 +22558,7 @@ const insertAfterBlock = clientId => _ref19 => {
     return;
   }
 
-  const firstSelectedIndex = select.getBlockIndex(clientId, rootClientId);
+  const firstSelectedIndex = select.getBlockIndex(clientId);
   return dispatch.insertDefaultBlock({}, rootClientId, firstSelectedIndex + 1);
 };
 /**
@@ -24545,6 +24579,9 @@ function useBlockSync(_ref) {
     getBlockName,
     getBlocks
   } = registry.select(_store__WEBPACK_IMPORTED_MODULE_4__[/* store */ "a"]);
+  const isControlled = Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__["useSelect"])(select => {
+    return !clientId || select(_store__WEBPACK_IMPORTED_MODULE_4__[/* store */ "a"]).areInnerBlocksControlled(clientId);
+  }, [clientId]);
   const pendingChanges = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useRef"])({
     incoming: null,
     outgoing: []
@@ -24562,17 +24599,22 @@ function useBlockSync(_ref) {
     __unstableMarkNextChangeAsNotPersistent();
 
     if (clientId) {
-      setHasControlledInnerBlocks(clientId, true);
+      // It is important to batch here because otherwise,
+      // as soon as `setHasControlledInnerBlocks` is called
+      // the effect to restore might be triggered
+      // before the actual blocks get set properly in state.
+      registry.batch(() => {
+        setHasControlledInnerBlocks(clientId, true);
+        const storeBlocks = controlledBlocks.map(block => Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__["cloneBlock"])(block));
 
-      __unstableMarkNextChangeAsNotPersistent();
+        if (subscribed.current) {
+          pendingChanges.current.incoming = storeBlocks;
+        }
 
-      const storeBlocks = controlledBlocks.map(block => Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__["cloneBlock"])(block));
+        __unstableMarkNextChangeAsNotPersistent();
 
-      if (subscribed.current) {
-        pendingChanges.current.incoming = storeBlocks;
-      }
-
-      replaceInnerBlocks(clientId, storeBlocks);
+        replaceInnerBlocks(clientId, storeBlocks);
+      });
     } else {
       if (subscribed.current) {
         pendingChanges.current.incoming = controlledBlocks;
@@ -24618,12 +24660,21 @@ function useBlockSync(_ref) {
     }
   }, [controlledBlocks, clientId]);
   Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(() => {
+    // When the block becomes uncontrolled, it means its inner state has been reset
+    // we need to take the blocks again from the external value property.
+    if (!isControlled) {
+      pendingChanges.current.outgoing = [];
+      setControlledBlocks();
+    }
+  }, [isControlled]);
+  Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(() => {
     const {
       getSelectionStart,
       getSelectionEnd,
       getSelectedBlocksInitialCaretPosition,
       isLastBlockChangePersistent,
-      __unstableIsLastBlockChangeIgnored
+      __unstableIsLastBlockChangeIgnored,
+      areInnerBlocksControlled
     } = registry.select(_store__WEBPACK_IMPORTED_MODULE_4__[/* store */ "a"]);
     let blocks = getBlocks(clientId);
     let isPersistent = isLastBlockChangePersistent();
@@ -24637,7 +24688,17 @@ function useBlockSync(_ref) {
       // the subscription is triggering for a block (`clientId !== null`)
       // and its block name can't be found because it's not on the list.
       // (`getBlockName( clientId ) === null`).
-      if (clientId !== null && getBlockName(clientId) === null) return;
+      if (clientId !== null && getBlockName(clientId) === null) return; // When RESET_BLOCKS on parent blocks get called, the controlled blocks
+      // can reset to uncontrolled, in these situations, it means we need to populate
+      // the blocks again from the external blocks (the value property here)
+      // and we should stop triggering onChange
+
+      const isStillControlled = !clientId || areInnerBlocksControlled(clientId);
+
+      if (!isStillControlled) {
+        return;
+      }
+
       const newIsPersistent = isLastBlockChangePersistent();
       const newBlocks = getBlocks(clientId);
       const areBlocksDifferent = newBlocks !== blocks;
@@ -25045,8 +25106,8 @@ function BlockMover(_ref) {
   const firstClientId = Object(lodash__WEBPACK_IMPORTED_MODULE_2__["first"])(normalizedClientIds);
   const block = getBlock(firstClientId);
   const rootClientId = getBlockRootClientId(Object(lodash__WEBPACK_IMPORTED_MODULE_2__["first"])(normalizedClientIds));
-  const firstIndex = getBlockIndex(firstClientId, rootClientId);
-  const lastIndex = getBlockIndex(Object(lodash__WEBPACK_IMPORTED_MODULE_2__["last"])(normalizedClientIds), rootClientId);
+  const firstIndex = getBlockIndex(firstClientId);
+  const lastIndex = getBlockIndex(Object(lodash__WEBPACK_IMPORTED_MODULE_2__["last"])(normalizedClientIds));
   const blockOrder = getBlockOrder(rootClientId);
   const isFirst = firstIndex === 0;
   const isLast = lastIndex === blockOrder.length - 1;
@@ -26034,46 +26095,22 @@ const flexWrapOptions = ['wrap', 'nowrap'];
       layout
     } = _ref3;
     const {
-      orientation = 'horizontal',
-      setCascadingProperties = false
+      orientation = 'horizontal'
     } = layout;
     const blockGapSupport = Object(use_setting["a" /* default */])('spacing.blockGap');
     const hasBlockGapStylesSupport = blockGapSupport !== null;
     const justifyContent = justifyContentMap[layout.justifyContent] || justifyContentMap.left;
     const flexWrap = flexWrapOptions.includes(layout.flexWrap) ? layout.flexWrap : 'wrap';
-    let rowOrientation = `
+    const rowOrientation = `
 		flex-direction: row;
 		align-items: center;
 		justify-content: ${justifyContent};
 		`;
-
-    if (setCascadingProperties) {
-      // --layout-justification-setting allows children to inherit the value
-      // regardless or row or column direction.
-      rowOrientation += `
-			--layout-justification-setting: ${justifyContent};
-			--layout-direction: row;
-			--layout-wrap: ${flexWrap};
-			--layout-justify: ${justifyContent};
-			--layout-align: center;
-			`;
-    }
-
     const alignItems = alignItemsMap[layout.justifyContent] || alignItemsMap.left;
-    let columnOrientation = `
+    const columnOrientation = `
 		flex-direction: column;
 		align-items: ${alignItems};
 		`;
-
-    if (setCascadingProperties) {
-      columnOrientation += `
-			--layout-justification-setting: ${alignItems};
-			--layout-direction: column;
-			--layout-justify: initial;
-			--layout-align: ${alignItems};
-			`;
-    }
-
     return Object(external_wp_element_["createElement"])("style", null, `
 				${appendSelectors(selector)} {
 					display: flex;
@@ -26979,6 +27016,9 @@ function FontSizePicker(props) {
 
 "use strict";
 
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "b", function() { return /* binding */ useBlockPreview; });
+
 // UNUSED EXPORTS: BlockPreview
 
 // EXTERNAL MODULE: external ["wp","element"]
@@ -26986,6 +27026,13 @@ var external_wp_element_ = __webpack_require__("GRId");
 
 // EXTERNAL MODULE: external "lodash"
 var external_lodash_ = __webpack_require__("YLtl");
+
+// EXTERNAL MODULE: ./node_modules/classnames/index.js
+var classnames = __webpack_require__("TSYQ");
+var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);
+
+// EXTERNAL MODULE: external ["wp","compose"]
+var external_wp_compose_ = __webpack_require__("K9lf");
 
 // EXTERNAL MODULE: external ["wp","data"]
 var external_wp_data_ = __webpack_require__("1ZqX");
@@ -27022,9 +27069,6 @@ function LiveBlockPreview(_ref) {
     onKeyPress: onClick
   }, Object(external_wp_element_["createElement"])(external_wp_components_["Disabled"], null, Object(external_wp_element_["createElement"])(block_list["c" /* default */], null)));
 }
-
-// EXTERNAL MODULE: external ["wp","compose"]
-var external_wp_compose_ = __webpack_require__("K9lf");
 
 // EXTERNAL MODULE: ./node_modules/@wordpress/block-editor/build-module/components/iframe/index.js
 var iframe = __webpack_require__("hHnB");
@@ -27117,15 +27161,18 @@ function AutoBlockPreview(_ref) {
  * External dependencies
  */
 
+
 /**
  * WordPress dependencies
  */
 
 
 
+
 /**
  * Internal dependencies
  */
+
 
 
 
@@ -27175,6 +27222,49 @@ function BlockPreview(_ref) {
  */
 
 /* harmony default export */ var block_preview = __webpack_exports__["a"] = (Object(external_wp_element_["memo"])(BlockPreview));
+/**
+ * This hook is used to lightly mark an element as a block preview wrapper
+ * element. Call this hook and pass the returned props to the element to mark as
+ * a block preview wrapper, automatically rendering inner blocks as children. If
+ * you define a ref for the element, it is important to pass the ref to this
+ * hook, which the hook in turn will pass to the component through the props it
+ * returns. Optionally, you can also pass any other props through this hook, and
+ * they will be merged and returned.
+ *
+ * @param {Object}    options                      Preview options.
+ * @param {WPBlock[]} options.blocks               Block objects.
+ * @param {Object}    options.props                Optional. Props to pass to the element. Must contain
+ *                                                 the ref if one is defined.
+ * @param {Object}    options.__experimentalLayout Layout settings to be used in the preview.
+ *
+ */
+
+function useBlockPreview(_ref2) {
+  let {
+    blocks,
+    props = {},
+    __experimentalLayout
+  } = _ref2;
+  const originalSettings = Object(external_wp_data_["useSelect"])(select => select(store["a" /* store */]).getSettings(), []);
+  const disabledRef = Object(external_wp_compose_["__experimentalUseDisabled"])();
+  const ref = Object(external_wp_compose_["useMergeRefs"])([props.ref, disabledRef]);
+  const settings = Object(external_wp_element_["useMemo"])(() => ({ ...originalSettings,
+    __experimentalBlockPatterns: []
+  }), [originalSettings]);
+  const renderedBlocks = Object(external_wp_element_["useMemo"])(() => Object(external_lodash_["castArray"])(blocks), [blocks]);
+  const children = Object(external_wp_element_["createElement"])(provider["a" /* default */], {
+    value: renderedBlocks,
+    settings: settings
+  }, Object(external_wp_element_["createElement"])(block_list["a" /* BlockListItems */], {
+    renderAppender: false,
+    __experimentalLayout: __experimentalLayout
+  }));
+  return { ...props,
+    ref,
+    className: classnames_default()(props.className, 'block-editor-block-preview__live-content', 'components-disabled'),
+    children: blocks !== null && blocks !== void 0 && blocks.length ? children : null
+  };
+}
 
 
 /***/ }),
@@ -28551,7 +28641,7 @@ function useInBetweenInserter() {
         return;
       }
 
-      const index = getBlockIndex(clientId, rootClientId); // Don't show the in-between inserter before the first block in
+      const index = getBlockIndex(clientId); // Don't show the in-between inserter before the first block in
       // the list (preserves the original behaviour).
 
       if (index === 0) {
@@ -30299,17 +30389,41 @@ function BlockSupportToolsPanel(_ref) {
     label
   } = _ref;
   const {
-    clientId,
-    attributes
+    attributes,
+    clientIds,
+    panelId
   } = Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__["useSelect"])(select => {
     const {
       getBlockAttributes,
-      getSelectedBlockClientId
-    } = select(_store__WEBPACK_IMPORTED_MODULE_3__[/* store */ "a"]);
+      getMultiSelectedBlockClientIds,
+      getSelectedBlockClientId,
+      hasMultiSelection
+    } = select(_store__WEBPACK_IMPORTED_MODULE_3__[/* store */ "a"]); // When we currently have a multi-selection, the value returned from
+    // `getSelectedBlockClientId()` is `null`. When a `null` value is used
+    // for the `panelId`, a `ToolsPanel` will still allow panel items to
+    // register themselves despite their panelIds not matching.
+
     const selectedBlockClientId = getSelectedBlockClientId();
+
+    if (hasMultiSelection()) {
+      const selectedBlockClientIds = getMultiSelectedBlockClientIds();
+      const selectedBlockAttributes = selectedBlockClientIds.reduce((blockAttributes, blockId) => {
+        blockAttributes[blockId] = getBlockAttributes(blockId);
+        return blockAttributes;
+      }, {});
+      return {
+        panelId: selectedBlockClientId,
+        clientIds: selectedBlockClientIds,
+        attributes: selectedBlockAttributes
+      };
+    }
+
     return {
-      clientId: selectedBlockClientId,
-      attributes: getBlockAttributes(selectedBlockClientId)
+      panelId: selectedBlockClientId,
+      clientIds: [selectedBlockClientId],
+      attributes: {
+        [selectedBlockClientId]: getBlockAttributes(selectedBlockClientId)
+      }
     };
   }, []);
   const {
@@ -30318,30 +30432,34 @@ function BlockSupportToolsPanel(_ref) {
 
   const resetAll = function () {
     let resetFilters = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-    const {
-      style
-    } = attributes;
-    let newAttributes = {
-      style
-    };
-    resetFilters.forEach(resetFilter => {
-      newAttributes = { ...newAttributes,
-        ...resetFilter(newAttributes)
+    const newAttributes = {};
+    clientIds.forEach(clientId => {
+      const {
+        style
+      } = attributes[clientId];
+      let newBlockAttributes = {
+        style
       };
-    }); // Enforce a cleaned style object.
+      resetFilters.forEach(resetFilter => {
+        newBlockAttributes = { ...newBlockAttributes,
+          ...resetFilter(newBlockAttributes)
+        };
+      }); // Enforce a cleaned style object.
 
-    newAttributes = { ...newAttributes,
-      style: Object(_hooks_utils__WEBPACK_IMPORTED_MODULE_4__[/* cleanEmptyObject */ "a"])(newAttributes.style)
-    };
-    updateBlockAttributes(clientId, newAttributes);
+      newBlockAttributes = { ...newBlockAttributes,
+        style: Object(_hooks_utils__WEBPACK_IMPORTED_MODULE_4__[/* cleanEmptyObject */ "a"])(newBlockAttributes.style)
+      };
+      newAttributes[clientId] = newBlockAttributes;
+    });
+    updateBlockAttributes(clientIds, newAttributes, true);
   };
 
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__["__experimentalToolsPanel"], {
     className: `${group}-block-support-panel`,
     label: label,
     resetAll: resetAll,
-    key: clientId,
-    panelId: clientId,
+    key: panelId,
+    panelId: panelId,
     hasInnerWrapper: true,
     shouldRenderPlaceholderItems: true // Required to maintain fills ordering.
 
@@ -33594,7 +33712,7 @@ const applyWithDispatch = Object(external_wp_data_["withDispatch"])((dispatch, o
       const {
         getBlockIndex
       } = select(store["a" /* store */]);
-      const index = getBlockIndex(clientId, rootClientId);
+      const index = getBlockIndex(clientId);
       insertBlocks(blocks, index + 1, rootClientId);
     },
 
@@ -38168,7 +38286,6 @@ function useBlockProps() {
     enableAnimation
   } = Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_5__["useSelect"])(select => {
     const {
-      getBlockRootClientId,
       getBlockIndex,
       getBlockMode,
       getBlockName,
@@ -38182,10 +38299,9 @@ function useBlockProps() {
     const isSelected = isBlockSelected(clientId);
     const isPartOfMultiSelection = isBlockMultiSelected(clientId) || isAncestorMultiSelected(clientId);
     const blockName = getBlockName(clientId);
-    const rootClientId = getBlockRootClientId(clientId);
     const blockType = Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__["getBlockType"])(blockName);
     return {
-      index: getBlockIndex(clientId, rootClientId),
+      index: getBlockIndex(clientId),
       mode: getBlockMode(clientId),
       name: blockName,
       blockApiVersion: (blockType === null || blockType === void 0 ? void 0 : blockType.apiVersion) || 1,
@@ -39928,7 +40044,7 @@ function QuickInserter(_ref) {
       getBlockIndex,
       getBlockCount
     } = select(store["a" /* store */]);
-    const index = getBlockIndex(clientId, rootClientId);
+    const index = getBlockIndex(clientId);
     return {
       setInserterIsOpened: getSettings().__experimentalSetIsInserterOpened,
       insertionIndex: index === -1 ? getBlockCount() : index
@@ -40251,14 +40367,14 @@ class inserter_Inserter extends external_wp_element_["Component"] {
         } = select(store["a" /* store */]); // If the clientId is defined, we insert at the position of the block.
 
         if (clientId) {
-          return getBlockIndex(clientId, rootClientId);
+          return getBlockIndex(clientId);
         } // If there a selected block, we insert after the selected block.
 
 
         const end = getBlockSelectionEnd();
 
         if (!isAppender && end && getBlockRootClientId(end) === rootClientId) {
-          return getBlockIndex(end, rootClientId) + 1;
+          return getBlockIndex(end) + 1;
         } // Otherwise, we insert at the end of the current rootClientId
 
 
@@ -40728,21 +40844,21 @@ __webpack_require__.d(__webpack_exports__, "__experimentalUseColorProps", functi
 __webpack_require__.d(__webpack_exports__, "__experimentalUseCustomSides", function() { return /* reexport */ useCustomSides; });
 __webpack_require__.d(__webpack_exports__, "__experimentalGetSpacingClassesAndStyles", function() { return /* reexport */ getSpacingClassesAndStyles; });
 __webpack_require__.d(__webpack_exports__, "useCachedTruthy", function() { return /* reexport */ useCachedTruthy; });
-__webpack_require__.d(__webpack_exports__, "getColorClassName", function() { return /* reexport */ components["gc" /* getColorClassName */]; });
-__webpack_require__.d(__webpack_exports__, "getColorObjectByAttributeValues", function() { return /* reexport */ components["hc" /* getColorObjectByAttributeValues */]; });
-__webpack_require__.d(__webpack_exports__, "getColorObjectByColorValue", function() { return /* reexport */ components["ic" /* getColorObjectByColorValue */]; });
-__webpack_require__.d(__webpack_exports__, "createCustomColorsHOC", function() { return /* reexport */ components["fc" /* createCustomColorsHOC */]; });
-__webpack_require__.d(__webpack_exports__, "withColors", function() { return /* reexport */ components["uc" /* withColors */]; });
+__webpack_require__.d(__webpack_exports__, "getColorClassName", function() { return /* reexport */ components["hc" /* getColorClassName */]; });
+__webpack_require__.d(__webpack_exports__, "getColorObjectByAttributeValues", function() { return /* reexport */ components["ic" /* getColorObjectByAttributeValues */]; });
+__webpack_require__.d(__webpack_exports__, "getColorObjectByColorValue", function() { return /* reexport */ components["jc" /* getColorObjectByColorValue */]; });
+__webpack_require__.d(__webpack_exports__, "createCustomColorsHOC", function() { return /* reexport */ components["gc" /* createCustomColorsHOC */]; });
+__webpack_require__.d(__webpack_exports__, "withColors", function() { return /* reexport */ components["vc" /* withColors */]; });
 __webpack_require__.d(__webpack_exports__, "__experimentalGetGradientClass", function() { return /* reexport */ components["xb" /* __experimentalGetGradientClass */]; });
-__webpack_require__.d(__webpack_exports__, "getGradientValueBySlug", function() { return /* reexport */ components["nc" /* getGradientValueBySlug */]; });
+__webpack_require__.d(__webpack_exports__, "getGradientValueBySlug", function() { return /* reexport */ components["oc" /* getGradientValueBySlug */]; });
 __webpack_require__.d(__webpack_exports__, "__experimentalGetGradientObjectByGradientValue", function() { return /* reexport */ components["yb" /* __experimentalGetGradientObjectByGradientValue */]; });
-__webpack_require__.d(__webpack_exports__, "getGradientSlugByValue", function() { return /* reexport */ components["mc" /* getGradientSlugByValue */]; });
-__webpack_require__.d(__webpack_exports__, "__experimentalUseGradient", function() { return /* reexport */ components["Rb" /* __experimentalUseGradient */]; });
-__webpack_require__.d(__webpack_exports__, "getFontSize", function() { return /* reexport */ components["jc" /* getFontSize */]; });
-__webpack_require__.d(__webpack_exports__, "getFontSizeClass", function() { return /* reexport */ components["kc" /* getFontSizeClass */]; });
-__webpack_require__.d(__webpack_exports__, "getFontSizeObjectByValue", function() { return /* reexport */ components["lc" /* getFontSizeObjectByValue */]; });
+__webpack_require__.d(__webpack_exports__, "getGradientSlugByValue", function() { return /* reexport */ components["nc" /* getGradientSlugByValue */]; });
+__webpack_require__.d(__webpack_exports__, "__experimentalUseGradient", function() { return /* reexport */ components["Sb" /* __experimentalUseGradient */]; });
+__webpack_require__.d(__webpack_exports__, "getFontSize", function() { return /* reexport */ components["kc" /* getFontSize */]; });
+__webpack_require__.d(__webpack_exports__, "getFontSizeClass", function() { return /* reexport */ components["lc" /* getFontSizeClass */]; });
+__webpack_require__.d(__webpack_exports__, "getFontSizeObjectByValue", function() { return /* reexport */ components["mc" /* getFontSizeObjectByValue */]; });
 __webpack_require__.d(__webpack_exports__, "FontSizePicker", function() { return /* reexport */ components["I" /* FontSizePicker */]; });
-__webpack_require__.d(__webpack_exports__, "withFontSizes", function() { return /* reexport */ components["vc" /* withFontSizes */]; });
+__webpack_require__.d(__webpack_exports__, "withFontSizes", function() { return /* reexport */ components["wc" /* withFontSizes */]; });
 __webpack_require__.d(__webpack_exports__, "AlignmentControl", function() { return /* reexport */ components["a" /* AlignmentControl */]; });
 __webpack_require__.d(__webpack_exports__, "AlignmentToolbar", function() { return /* reexport */ components["b" /* AlignmentToolbar */]; });
 __webpack_require__.d(__webpack_exports__, "Autocomplete", function() { return /* reexport */ components["c" /* Autocomplete */]; });
@@ -40757,7 +40873,7 @@ __webpack_require__.d(__webpack_exports__, "BlockControls", function() { return 
 __webpack_require__.d(__webpack_exports__, "BlockFormatControls", function() { return /* reexport */ components["m" /* BlockFormatControls */]; });
 __webpack_require__.d(__webpack_exports__, "BlockColorsStyleSelector", function() { return /* reexport */ components["g" /* BlockColorsStyleSelector */]; });
 __webpack_require__.d(__webpack_exports__, "BlockEdit", function() { return /* reexport */ components["j" /* BlockEdit */]; });
-__webpack_require__.d(__webpack_exports__, "useBlockEditContext", function() { return /* reexport */ components["pc" /* useBlockEditContext */]; });
+__webpack_require__.d(__webpack_exports__, "useBlockEditContext", function() { return /* reexport */ components["qc" /* useBlockEditContext */]; });
 __webpack_require__.d(__webpack_exports__, "BlockIcon", function() { return /* reexport */ components["n" /* BlockIcon */]; });
 __webpack_require__.d(__webpack_exports__, "BlockNavigationDropdown", function() { return /* reexport */ components["r" /* BlockNavigationDropdown */]; });
 __webpack_require__.d(__webpack_exports__, "__experimentalBlockVariationPicker", function() { return /* reexport */ components["pb" /* __experimentalBlockVariationPicker */]; });
@@ -40784,7 +40900,7 @@ __webpack_require__.d(__webpack_exports__, "__experimentalImageEditor", function
 __webpack_require__.d(__webpack_exports__, "__experimentalImageEditingProvider", function() { return /* reexport */ components["zb" /* __experimentalImageEditingProvider */]; });
 __webpack_require__.d(__webpack_exports__, "__experimentalImageSizeControl", function() { return /* reexport */ components["Bb" /* __experimentalImageSizeControl */]; });
 __webpack_require__.d(__webpack_exports__, "InnerBlocks", function() { return /* reexport */ components["J" /* InnerBlocks */]; });
-__webpack_require__.d(__webpack_exports__, "useInnerBlocksProps", function() { return /* reexport */ components["rc" /* useInnerBlocksProps */]; });
+__webpack_require__.d(__webpack_exports__, "useInnerBlocksProps", function() { return /* reexport */ components["sc" /* useInnerBlocksProps */]; });
 __webpack_require__.d(__webpack_exports__, "InspectorControls", function() { return /* reexport */ components["M" /* InspectorControls */]; });
 __webpack_require__.d(__webpack_exports__, "InspectorAdvancedControls", function() { return /* reexport */ components["L" /* InspectorAdvancedControls */]; });
 __webpack_require__.d(__webpack_exports__, "JustifyToolbar", function() { return /* reexport */ components["O" /* JustifyToolbar */]; });
@@ -40805,55 +40921,56 @@ __webpack_require__.d(__webpack_exports__, "__experimentalResponsiveBlockControl
 __webpack_require__.d(__webpack_exports__, "RichText", function() { return /* reexport */ components["ab" /* RichText */]; });
 __webpack_require__.d(__webpack_exports__, "RichTextShortcut", function() { return /* reexport */ components["bb" /* RichTextShortcut */]; });
 __webpack_require__.d(__webpack_exports__, "RichTextToolbarButton", function() { return /* reexport */ components["cb" /* RichTextToolbarButton */]; });
-__webpack_require__.d(__webpack_exports__, "__unstableRichTextInputEvent", function() { return /* reexport */ components["Yb" /* __unstableRichTextInputEvent */]; });
+__webpack_require__.d(__webpack_exports__, "__unstableRichTextInputEvent", function() { return /* reexport */ components["Zb" /* __unstableRichTextInputEvent */]; });
 __webpack_require__.d(__webpack_exports__, "ToolSelector", function() { return /* reexport */ components["eb" /* ToolSelector */]; });
 __webpack_require__.d(__webpack_exports__, "__experimentalUnitControl", function() { return /* reexport */ components["Qb" /* __experimentalUnitControl */]; });
 __webpack_require__.d(__webpack_exports__, "URLInput", function() { return /* reexport */ components["gb" /* URLInput */]; });
 __webpack_require__.d(__webpack_exports__, "URLInputButton", function() { return /* reexport */ components["hb" /* URLInputButton */]; });
 __webpack_require__.d(__webpack_exports__, "URLPopover", function() { return /* reexport */ components["ib" /* URLPopover */]; });
 __webpack_require__.d(__webpack_exports__, "__experimentalImageURLInputUI", function() { return /* reexport */ components["Cb" /* __experimentalImageURLInputUI */]; });
-__webpack_require__.d(__webpack_exports__, "withColorContext", function() { return /* reexport */ components["tc" /* withColorContext */]; });
-__webpack_require__.d(__webpack_exports__, "__unstableBlockSettingsMenuFirstItem", function() { return /* reexport */ components["Ub" /* __unstableBlockSettingsMenuFirstItem */]; });
-__webpack_require__.d(__webpack_exports__, "__unstableInserterMenuExtension", function() { return /* reexport */ components["Xb" /* __unstableInserterMenuExtension */]; });
+__webpack_require__.d(__webpack_exports__, "withColorContext", function() { return /* reexport */ components["uc" /* withColorContext */]; });
+__webpack_require__.d(__webpack_exports__, "__unstableBlockSettingsMenuFirstItem", function() { return /* reexport */ components["Vb" /* __unstableBlockSettingsMenuFirstItem */]; });
+__webpack_require__.d(__webpack_exports__, "__unstableInserterMenuExtension", function() { return /* reexport */ components["Yb" /* __unstableInserterMenuExtension */]; });
 __webpack_require__.d(__webpack_exports__, "__experimentalPreviewOptions", function() { return /* reexport */ components["Mb" /* __experimentalPreviewOptions */]; });
-__webpack_require__.d(__webpack_exports__, "__experimentalUseResizeCanvas", function() { return /* reexport */ components["Tb" /* __experimentalUseResizeCanvas */]; });
+__webpack_require__.d(__webpack_exports__, "__experimentalUseResizeCanvas", function() { return /* reexport */ components["Ub" /* __experimentalUseResizeCanvas */]; });
 __webpack_require__.d(__webpack_exports__, "BlockInspector", function() { return /* reexport */ components["o" /* BlockInspector */]; });
 __webpack_require__.d(__webpack_exports__, "BlockList", function() { return /* reexport */ components["p" /* BlockList */]; });
-__webpack_require__.d(__webpack_exports__, "useBlockProps", function() { return /* reexport */ components["qc" /* useBlockProps */]; });
+__webpack_require__.d(__webpack_exports__, "useBlockProps", function() { return /* reexport */ components["rc" /* useBlockProps */]; });
 __webpack_require__.d(__webpack_exports__, "__experimentalLayoutStyle", function() { return /* reexport */ components["Db" /* __experimentalLayoutStyle */]; });
 __webpack_require__.d(__webpack_exports__, "BlockMover", function() { return /* reexport */ components["q" /* BlockMover */]; });
 __webpack_require__.d(__webpack_exports__, "BlockPreview", function() { return /* reexport */ components["s" /* BlockPreview */]; });
+__webpack_require__.d(__webpack_exports__, "__experimentalUseBlockPreview", function() { return /* reexport */ components["Rb" /* __experimentalUseBlockPreview */]; });
 __webpack_require__.d(__webpack_exports__, "BlockSelectionClearer", function() { return /* reexport */ components["t" /* BlockSelectionClearer */]; });
-__webpack_require__.d(__webpack_exports__, "__unstableUseBlockSelectionClearer", function() { return /* reexport */ components["Zb" /* __unstableUseBlockSelectionClearer */]; });
+__webpack_require__.d(__webpack_exports__, "__unstableUseBlockSelectionClearer", function() { return /* reexport */ components["ac" /* __unstableUseBlockSelectionClearer */]; });
 __webpack_require__.d(__webpack_exports__, "BlockSettingsMenu", function() { return /* reexport */ components["u" /* BlockSettingsMenu */]; });
 __webpack_require__.d(__webpack_exports__, "BlockSettingsMenuControls", function() { return /* reexport */ components["v" /* BlockSettingsMenuControls */]; });
 __webpack_require__.d(__webpack_exports__, "BlockTitle", function() { return /* reexport */ components["w" /* BlockTitle */]; });
 __webpack_require__.d(__webpack_exports__, "BlockToolbar", function() { return /* reexport */ components["x" /* BlockToolbar */]; });
 __webpack_require__.d(__webpack_exports__, "BlockTools", function() { return /* reexport */ components["y" /* BlockTools */]; });
 __webpack_require__.d(__webpack_exports__, "CopyHandler", function() { return /* reexport */ components["G" /* CopyHandler */]; });
-__webpack_require__.d(__webpack_exports__, "__unstableUseClipboardHandler", function() { return /* reexport */ components["bc" /* __unstableUseClipboardHandler */]; });
+__webpack_require__.d(__webpack_exports__, "__unstableUseClipboardHandler", function() { return /* reexport */ components["cc" /* __unstableUseClipboardHandler */]; });
 __webpack_require__.d(__webpack_exports__, "DefaultBlockAppender", function() { return /* reexport */ components["H" /* DefaultBlockAppender */]; });
-__webpack_require__.d(__webpack_exports__, "__unstableEditorStyles", function() { return /* reexport */ components["Vb" /* __unstableEditorStyles */]; });
+__webpack_require__.d(__webpack_exports__, "__unstableEditorStyles", function() { return /* reexport */ components["Wb" /* __unstableEditorStyles */]; });
 __webpack_require__.d(__webpack_exports__, "Inserter", function() { return /* reexport */ components["K" /* Inserter */]; });
 __webpack_require__.d(__webpack_exports__, "__experimentalLibrary", function() { return /* reexport */ components["Fb" /* __experimentalLibrary */]; });
 __webpack_require__.d(__webpack_exports__, "BlockEditorKeyboardShortcuts", function() { return /* reexport */ components["k" /* BlockEditorKeyboardShortcuts */]; });
 __webpack_require__.d(__webpack_exports__, "MultiSelectScrollIntoView", function() { return /* reexport */ components["U" /* MultiSelectScrollIntoView */]; });
 __webpack_require__.d(__webpack_exports__, "NavigableToolbar", function() { return /* reexport */ components["V" /* NavigableToolbar */]; });
 __webpack_require__.d(__webpack_exports__, "ObserveTyping", function() { return /* reexport */ components["W" /* ObserveTyping */]; });
-__webpack_require__.d(__webpack_exports__, "__unstableUseTypingObserver", function() { return /* reexport */ components["ec" /* __unstableUseTypingObserver */]; });
-__webpack_require__.d(__webpack_exports__, "__unstableUseMouseMoveTypingReset", function() { return /* reexport */ components["cc" /* __unstableUseMouseMoveTypingReset */]; });
+__webpack_require__.d(__webpack_exports__, "__unstableUseTypingObserver", function() { return /* reexport */ components["fc" /* __unstableUseTypingObserver */]; });
+__webpack_require__.d(__webpack_exports__, "__unstableUseMouseMoveTypingReset", function() { return /* reexport */ components["dc" /* __unstableUseMouseMoveTypingReset */]; });
 __webpack_require__.d(__webpack_exports__, "PreserveScrollInReorder", function() { return /* reexport */ components["Z" /* PreserveScrollInReorder */]; });
 __webpack_require__.d(__webpack_exports__, "SkipToSelectedBlock", function() { return /* reexport */ components["db" /* SkipToSelectedBlock */]; });
 __webpack_require__.d(__webpack_exports__, "Typewriter", function() { return /* reexport */ components["fb" /* Typewriter */]; });
-__webpack_require__.d(__webpack_exports__, "__unstableUseTypewriter", function() { return /* reexport */ components["dc" /* __unstableUseTypewriter */]; });
+__webpack_require__.d(__webpack_exports__, "__unstableUseTypewriter", function() { return /* reexport */ components["ec" /* __unstableUseTypewriter */]; });
 __webpack_require__.d(__webpack_exports__, "Warning", function() { return /* reexport */ components["jb" /* Warning */]; });
 __webpack_require__.d(__webpack_exports__, "WritingFlow", function() { return /* reexport */ components["kb" /* WritingFlow */]; });
-__webpack_require__.d(__webpack_exports__, "__unstableUseCanvasClickRedirect", function() { return /* reexport */ components["ac" /* __unstableUseCanvasClickRedirect */]; });
-__webpack_require__.d(__webpack_exports__, "useBlockDisplayInformation", function() { return /* reexport */ components["oc" /* useBlockDisplayInformation */]; });
-__webpack_require__.d(__webpack_exports__, "__unstableIframe", function() { return /* reexport */ components["Wb" /* __unstableIframe */]; });
-__webpack_require__.d(__webpack_exports__, "__experimentalUseNoRecursiveRenders", function() { return /* reexport */ components["Sb" /* __experimentalUseNoRecursiveRenders */]; });
+__webpack_require__.d(__webpack_exports__, "__unstableUseCanvasClickRedirect", function() { return /* reexport */ components["bc" /* __unstableUseCanvasClickRedirect */]; });
+__webpack_require__.d(__webpack_exports__, "useBlockDisplayInformation", function() { return /* reexport */ components["pc" /* useBlockDisplayInformation */]; });
+__webpack_require__.d(__webpack_exports__, "__unstableIframe", function() { return /* reexport */ components["Xb" /* __unstableIframe */]; });
+__webpack_require__.d(__webpack_exports__, "__experimentalUseNoRecursiveRenders", function() { return /* reexport */ components["Tb" /* __experimentalUseNoRecursiveRenders */]; });
 __webpack_require__.d(__webpack_exports__, "BlockEditorProvider", function() { return /* reexport */ components["l" /* BlockEditorProvider */]; });
-__webpack_require__.d(__webpack_exports__, "useSetting", function() { return /* reexport */ components["sc" /* useSetting */]; });
+__webpack_require__.d(__webpack_exports__, "useSetting", function() { return /* reexport */ components["tc" /* useSetting */]; });
 __webpack_require__.d(__webpack_exports__, "transformStyles", function() { return /* reexport */ build_module_utils["c" /* transformStyles */]; });
 __webpack_require__.d(__webpack_exports__, "validateThemeColors", function() { return /* reexport */ build_module_utils["d" /* validateThemeColors */]; });
 __webpack_require__.d(__webpack_exports__, "validateThemeGradients", function() { return /* reexport */ build_module_utils["e" /* validateThemeGradients */]; });
@@ -45397,6 +45514,7 @@ function useBlockEditContext() {
 
 
 
+const blockedPaths = ['color', 'border', 'typography', 'spacing'];
 const deprecatedFlags = {
   'color.palette': settings => settings.colors === undefined ? undefined : settings.colors,
   'color.gradients': settings => settings.gradients === undefined ? undefined : settings.gradients,
@@ -45476,6 +45594,12 @@ function useSetting(path) {
   } = Object(_block_edit__WEBPACK_IMPORTED_MODULE_3__[/* useBlockEditContext */ "c"])();
   const setting = Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_1__["useSelect"])(select => {
     var _get;
+
+    if (blockedPaths.includes(path)) {
+      // eslint-disable-next-line no-console
+      console.warn('Top level useSetting paths are disabled. Please use a subpath to query the information needed.');
+      return undefined;
+    }
 
     const settings = select(_store__WEBPACK_IMPORTED_MODULE_4__[/* store */ "a"]).getSettings(); // 1 - Use __experimental features, if available.
     // We cascade to the all value if the block one is not available.
@@ -47873,7 +47997,7 @@ function BlockSelectionButton(_ref) {
       hasBlockMovingClientId,
       getBlockListSettings
     } = select(store["a" /* store */]);
-    const index = getBlockIndex(clientId, rootClientId);
+    const index = getBlockIndex(clientId);
     const {
       name,
       attributes
@@ -47985,8 +48109,8 @@ function BlockSelectionButton(_ref) {
     if ((isEnter || isSpace) && startingBlockClientId) {
       const sourceRoot = getBlockRootClientId(startingBlockClientId);
       const destRoot = getBlockRootClientId(selectedBlockClientId);
-      const sourceBlockIndex = getBlockIndex(startingBlockClientId, sourceRoot);
-      let destinationBlockIndex = getBlockIndex(selectedBlockClientId, destRoot);
+      const sourceBlockIndex = getBlockIndex(startingBlockClientId);
+      let destinationBlockIndex = getBlockIndex(selectedBlockClientId);
 
       if (sourceBlockIndex < destinationBlockIndex && sourceRoot === destRoot) {
         destinationBlockIndex -= 1;

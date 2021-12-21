@@ -96,6 +96,8 @@
    */
   /* stylelint-disable function-comma-space-after */
   /* stylelint-enable function-comma-space-after */
+  --wp--preset--font-size--normal: 16px;
+  --wp--preset--font-size--huge: 42px;
 }
 :root .has-very-light-gray-background-color {
   background-color: #eee;
@@ -137,6 +139,14 @@
 
 .has-larger-font-size {
   font-size: 2.625em;
+}
+
+.has-normal-font-size {
+  font-size: var(--wp--preset--font-size--normal) !important;
+}
+
+.has-huge-font-size {
+  font-size: var(--wp--preset--font-size--huge) !important;
 }
 
 .has-text-align-center {

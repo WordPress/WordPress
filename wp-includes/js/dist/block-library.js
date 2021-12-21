@@ -1844,7 +1844,6 @@ const WP_EMBED_TYPE = 'wp-embed';
 
 // EXTERNAL MODULE: external "lodash"
 var external_lodash_ = __webpack_require__("YLtl");
-var external_lodash_default = /*#__PURE__*/__webpack_require__.n(external_lodash_);
 
 // EXTERNAL MODULE: ./node_modules/classnames/dedupe.js
 var dedupe = __webpack_require__("A/WM");
@@ -14597,8 +14596,10 @@ const group_metadata = {
     },
     spacing: {
       padding: true,
+      blockGap: true,
       __experimentalDefaultControls: {
-        padding: true
+        padding: true,
+        blockGap: true
       }
     },
     __experimentalBorder: {
@@ -20695,7 +20696,8 @@ function useNavigationMenu(ref) {
       getEntityRecord,
       getEditedEntityRecord,
       getEntityRecords,
-      hasFinishedResolution
+      hasFinishedResolution,
+      canUser
     } = select(external_wp_coreData_["store"]);
     const navigationMenuSingleArgs = ['postType', 'wp_navigation', ref];
     const rawNavigationMenu = ref ? getEntityRecord(...navigationMenuSingleArgs) : null;
@@ -20719,7 +20721,13 @@ function useNavigationMenu(ref) {
       canSwitchNavigationMenu,
       hasResolvedNavigationMenus: hasFinishedResolution('getEntityRecords', navigationMenuMultipleArgs),
       navigationMenu,
-      navigationMenus
+      navigationMenus,
+      canUserUpdateNavigationEntity: ref ? canUser('update', 'navigation', ref) : undefined,
+      hasResolvedCanUserUpdateNavigationEntity: hasFinishedResolution('canUser', ['update', 'navigation', ref]),
+      canUserDeleteNavigationEntity: ref ? canUser('delete', 'navigation', ref) : undefined,
+      hasResolvedCanUserDeleteNavigationEntity: hasFinishedResolution('canUser', ['delete', 'navigation', ref]),
+      canUserCreateNavigation: canUser('create', 'navigation'),
+      hasResolvedCanUserCreateNavigation: hasFinishedResolution('canUser', ['create', 'navigation'])
     };
   }, [ref]);
 }
@@ -21289,7 +21297,8 @@ const ExistingMenusDropdown = _ref => {
     setSelectedMenu,
     onFinish,
     menus,
-    onCreateFromMenu
+    onCreateFromMenu,
+    showClassicMenus = false
   } = _ref;
   const toggleProps = {
     variant: 'tertiary',
@@ -21318,7 +21327,7 @@ const ExistingMenusDropdown = _ref => {
         onClose: onClose,
         key: menu.id
       }, Object(external_wp_htmlEntities_["decodeEntities"])(menu.title.rendered));
-    }))), Object(external_wp_element_["createElement"])(external_wp_components_["MenuGroup"], {
+    }))), showClassicMenus && Object(external_wp_element_["createElement"])(external_wp_components_["MenuGroup"], {
       label: Object(external_wp_i18n_["__"])('Classic Menus')
     }, menus === null || menus === void 0 ? void 0 : menus.map(menu => {
       return Object(external_wp_element_["createElement"])(external_wp_components_["MenuItem"], {
@@ -21338,7 +21347,8 @@ function NavigationPlaceholder(_ref3) {
     clientId,
     onFinish,
     canSwitchNavigationMenu,
-    hasResolvedNavigationMenus
+    hasResolvedNavigationMenus,
+    canUserCreateNavigation = false
   } = _ref3;
   const [selectedMenu, setSelectedMenu] = Object(external_wp_element_["useState"])();
   const [isCreatingFromMenu, setIsCreatingFromMenu] = Object(external_wp_element_["useState"])(false);
@@ -21347,6 +21357,11 @@ function NavigationPlaceholder(_ref3) {
 
   const onFinishMenuCreation = async function (blocks) {
     let navigationMenuTitle = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+    if (!canUserCreateNavigation) {
+      return;
+    }
+
     const navigationMenu = await createNavigationMenu(navigationMenuTitle, blocks);
     onFinish(navigationMenu, blocks);
   };
@@ -21413,17 +21428,18 @@ function NavigationPlaceholder(_ref3) {
     className: "wp-block-navigation-placeholder__actions__indicator"
   }, Object(external_wp_element_["createElement"])(build_module_icon["a" /* default */], {
     icon: library_navigation
-  }), ' ', Object(external_wp_i18n_["__"])('Navigation')), Object(external_wp_element_["createElement"])("hr", null), hasMenus || navigationMenus.length ? Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(ExistingMenusDropdown, {
+  }), ' ', Object(external_wp_i18n_["__"])('Navigation')), Object(external_wp_element_["createElement"])("hr", null), hasMenus || navigationMenus !== null && navigationMenus !== void 0 && navigationMenus.length ? Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(ExistingMenusDropdown, {
     canSwitchNavigationMenu: canSwitchNavigationMenu,
     navigationMenus: navigationMenus,
     setSelectedMenu: setSelectedMenu,
     onFinish: onFinish,
     menus: menus,
-    onCreateFromMenu: onCreateFromMenu
-  }), Object(external_wp_element_["createElement"])("hr", null)) : undefined, hasPages ? Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
+    onCreateFromMenu: onCreateFromMenu,
+    showClassicMenus: canUserCreateNavigation
+  }), Object(external_wp_element_["createElement"])("hr", null)) : undefined, canUserCreateNavigation && hasPages ? Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
     variant: "tertiary",
     onClick: onCreateAllPages
-  }, Object(external_wp_i18n_["__"])('Add all pages')), Object(external_wp_element_["createElement"])("hr", null)) : undefined, Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
+  }, Object(external_wp_i18n_["__"])('Add all pages')), Object(external_wp_element_["createElement"])("hr", null)) : undefined, canUserCreateNavigation && Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
     variant: "tertiary",
     onClick: onCreateEmptyMenu
   }, Object(external_wp_i18n_["__"])('Start empty'))))));
@@ -21471,9 +21487,16 @@ function ResponsiveWrapper(_ref) {
     'always-shown': isHiddenByDefault
   });
   const modalId = `${id}-modal`;
+  const dialogProps = {
+    className: 'wp-block-navigation__responsive-dialog',
+    ...(isOpen && {
+      role: 'dialog',
+      'aria-modal': true,
+      'aria-label': Object(external_wp_i18n_["__"])('Menu')
+    })
+  };
   return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, !isOpen && Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
     "aria-haspopup": "true",
-    "aria-expanded": isOpen,
     "aria-label": Object(external_wp_i18n_["__"])('Open menu'),
     className: openButtonClasses,
     onClick: () => onToggle(true)
@@ -21502,12 +21525,7 @@ function ResponsiveWrapper(_ref) {
   }, Object(external_wp_element_["createElement"])("div", {
     className: "wp-block-navigation__responsive-close",
     tabIndex: "-1"
-  }, Object(external_wp_element_["createElement"])("div", {
-    className: "wp-block-navigation__responsive-dialog",
-    role: "dialog",
-    "aria-modal": "true",
-    "aria-labelledby": `${modalId}-title`
-  }, Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
+  }, Object(external_wp_element_["createElement"])("div", dialogProps, Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
     className: "wp-block-navigation__responsive-container-close",
     "aria-label": Object(external_wp_i18n_["__"])('Close menu'),
     onClick: () => onToggle(false)
@@ -21626,7 +21644,8 @@ function NavigationInnerBlocks(_ref) {
 function NavigationMenuSelector(_ref) {
   let {
     onSelect,
-    onCreateNew
+    onCreateNew,
+    showCreate = false
   } = _ref;
   const {
     navigationMenus
@@ -21649,7 +21668,7 @@ function NavigationMenuSelector(_ref) {
         Object(external_wp_i18n_["__"])("Switch to '%s'"), label)
       };
     })
-  })), Object(external_wp_element_["createElement"])(external_wp_components_["MenuGroup"], null, Object(external_wp_element_["createElement"])(external_wp_components_["MenuItem"], {
+  })), showCreate && Object(external_wp_element_["createElement"])(external_wp_components_["MenuGroup"], null, Object(external_wp_element_["createElement"])(external_wp_components_["MenuItem"], {
     onClick: onCreateNew
   }, Object(external_wp_i18n_["__"])('Create new menu')), Object(external_wp_element_["createElement"])(external_wp_components_["MenuItem"], {
     href: Object(external_wp_url_["addQueryArgs"])('edit.php', {
@@ -21698,9 +21717,6 @@ function NavigationMenuNameControl() {
 
 
 
-
-const NOOP = () => {};
-
 const EMPTY_OBJECT = {};
 const unsaved_inner_blocks_DRAFT_MENU_PARAMS = ['postType', 'wp_navigation', {
   status: 'draft',
@@ -21720,13 +21736,7 @@ function UnsavedInnerBlocks(_ref) {
   const isDisabled = Object(external_wp_element_["useContext"])(external_wp_components_["Disabled"].Context);
   const savingLock = Object(external_wp_element_["useRef"])(false);
   const innerBlocksProps = Object(external_wp_blockEditor_["useInnerBlocksProps"])(blockProps, {
-    renderAppender: hasSelection ? undefined : false,
-    // Make the inner blocks 'controlled'. This allows the block to always
-    // work with controlled inner blocks, smoothing out the switch to using
-    // an entity.
-    value: blocks,
-    onChange: NOOP,
-    onInput: NOOP
+    renderAppender: hasSelection ? undefined : false
   });
   const {
     isSaving,
@@ -21776,13 +21786,13 @@ function UnsavedInnerBlocks(_ref) {
     onSave(menu);
     savingLock.current = false;
   }, [isDisabled, isSaving, hasResolvedDraftNavigationMenus, hasResolvedNavigationMenus, draftNavigationMenus, navigationMenus, hasSelection, createNavigationMenu, blocks]);
-  return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])("nav", blockProps, Object(external_wp_element_["createElement"])("div", {
+  return Object(external_wp_element_["createElement"])("div", {
     className: "wp-block-navigation__unsaved-changes"
   }, Object(external_wp_element_["createElement"])(external_wp_components_["Disabled"], {
     className: classnames_default()('wp-block-navigation__unsaved-changes-overlay', {
       'is-saving': hasSelection
     })
-  }, Object(external_wp_element_["createElement"])("div", innerBlocksProps)), hasSelection && Object(external_wp_element_["createElement"])(external_wp_components_["Spinner"], null))));
+  }, Object(external_wp_element_["createElement"])("div", innerBlocksProps)), hasSelection && Object(external_wp_element_["createElement"])(external_wp_components_["Spinner"], null));
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/navigation/edit/navigation-menu-delete-control.js
@@ -21837,6 +21847,51 @@ function NavigationMenuDeleteControl(_ref) {
   }, Object(external_wp_i18n_["__"])('Confirm'))))));
 }
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/navigation/edit/use-navigation-notice.js
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+function useNavigationNotice() {
+  let {
+    name,
+    message
+  } = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  const noticeRef = Object(external_wp_element_["useRef"])();
+  const {
+    createWarningNotice,
+    removeNotice
+  } = Object(external_wp_data_["useDispatch"])(external_wp_notices_["store"]);
+
+  const showNotice = () => {
+    if (noticeRef.current) {
+      return;
+    }
+
+    noticeRef.current = name;
+    createWarningNotice(message, {
+      id: noticeRef.current,
+      type: 'snackbar'
+    });
+  };
+
+  const hideNotice = () => {
+    if (!noticeRef.current) {
+      return;
+    }
+
+    removeNotice(noticeRef.current);
+    noticeRef.current = null;
+  };
+
+  return [showNotice, hideNotice];
+}
+
+/* harmony default export */ var use_navigation_notice = (useNavigationNotice);
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/navigation/edit/index.js
 
 
@@ -21869,6 +21924,8 @@ function NavigationMenuDeleteControl(_ref) {
 
 
 
+
+const EMPTY_ARRAY = [];
 
 function getComputedStyle(node) {
   return node.ownerDocument.defaultView.getComputedStyle(node);
@@ -21922,17 +21979,19 @@ function Navigation(_ref) {
     showSubmenuIcon,
     layout: {
       justifyContent,
-      orientation = 'horizontal'
+      orientation = 'horizontal',
+      flexWrap = 'wrap'
     } = {}
   } = attributes;
   let areaMenu,
-      setAreaMenu = external_lodash_default.a; // Navigation areas are deprecated and on their way out. Let's not perform
+      setAreaMenu = external_lodash_["noop"]; // Navigation areas are deprecated and on their way out. Let's not perform
   // the request unless we're in an environment where the endpoint exists.
 
   if (false) {}
 
   const navigationAreaMenu = areaMenu === 0 ? undefined : areaMenu;
   const ref = navigationArea ? navigationAreaMenu : attributes.ref;
+  const registry = Object(external_wp_data_["useRegistry"])();
   const setRef = Object(external_wp_element_["useCallback"])(postId => {
     setAttributes({
       ref: postId
@@ -21944,27 +22003,41 @@ function Navigation(_ref) {
   }, [navigationArea]);
   const [hasAlreadyRendered, RecursionProvider] = Object(external_wp_blockEditor_["__experimentalUseNoRecursiveRenders"])(`navigationMenu/${ref}`);
   const {
-    innerBlocks,
+    hasUncontrolledInnerBlocks,
+    uncontrolledInnerBlocks,
     isInnerBlockSelected
   } = Object(external_wp_data_["useSelect"])(select => {
     const {
+      getBlock,
       getBlocks,
       hasSelectedInnerBlock
-    } = select(external_wp_blockEditor_["store"]);
+    } = select(external_wp_blockEditor_["store"]); // This relies on the fact that `getBlock` won't return controlled
+    // inner blocks, while `getBlocks` does. It might be more stable to
+    // introduce a selector like `getUncontrolledInnerBlocks`, just in
+    // case `getBlock` is fixed.
+
+    const _uncontrolledInnerBlocks = getBlock(clientId).innerBlocks;
+
+    const _hasUncontrolledInnerBlocks = _uncontrolledInnerBlocks === null || _uncontrolledInnerBlocks === void 0 ? void 0 : _uncontrolledInnerBlocks.length;
+
+    const _controlledInnerBlocks = _hasUncontrolledInnerBlocks ? EMPTY_ARRAY : getBlocks(clientId);
+
+    const innerBlocks = _hasUncontrolledInnerBlocks ? _uncontrolledInnerBlocks : _controlledInnerBlocks;
     return {
-      innerBlocks: getBlocks(clientId),
+      hasSubmenus: !!innerBlocks.find(block => block.name === 'core/navigation-submenu'),
+      hasUncontrolledInnerBlocks: _hasUncontrolledInnerBlocks,
+      uncontrolledInnerBlocks: _uncontrolledInnerBlocks,
       isInnerBlockSelected: hasSelectedInnerBlock(clientId, true)
     };
   }, [clientId]);
-  const hasExistingNavItems = !!innerBlocks.length;
   const {
     replaceInnerBlocks,
     selectBlock,
     __unstableMarkNextChangeAsNotPersistent
   } = Object(external_wp_data_["useDispatch"])(external_wp_blockEditor_["store"]);
   const [hasSavedUnsavedInnerBlocks, setHasSavedUnsavedInnerBlocks] = Object(external_wp_element_["useState"])(false);
-  const isWithinUnassignedArea = navigationArea && !ref;
-  const [isPlaceholderShown, setIsPlaceholderShown] = Object(external_wp_element_["useState"])(!hasExistingNavItems || isWithinUnassignedArea);
+  const isWithinUnassignedArea = !!navigationArea && !ref;
+  const [isPlaceholderShown, setIsPlaceholderShown] = Object(external_wp_element_["useState"])(!hasUncontrolledInnerBlocks || isWithinUnassignedArea);
   const [isResponsiveMenuOpen, setResponsiveMenuVisibility] = Object(external_wp_element_["useState"])(false);
   const {
     isNavigationMenuResolved,
@@ -21972,7 +22045,13 @@ function Navigation(_ref) {
     canSwitchNavigationMenu,
     hasResolvedNavigationMenus,
     navigationMenus,
-    navigationMenu
+    navigationMenu,
+    canUserUpdateNavigationEntity,
+    hasResolvedCanUserUpdateNavigationEntity,
+    canUserDeleteNavigationEntity,
+    hasResolvedCanUserDeleteNavigationEntity,
+    canUserCreateNavigation,
+    hasResolvedCanUserCreateNavigation
   } = useNavigationMenu(ref);
   const navRef = Object(external_wp_element_["useRef"])();
   const isDraftNavigationMenu = (navigationMenu === null || navigationMenu === void 0 ? void 0 : navigationMenu.status) === 'draft';
@@ -21986,6 +22065,10 @@ function Navigation(_ref) {
     className: classnames_default()(className, {
       'items-justified-right': justifyContent === 'right',
       'items-justified-space-between': justifyContent === 'space-between',
+      'items-justified-left': justifyContent === 'left',
+      'items-justified-center': justifyContent === 'center',
+      'is-vertical': orientation === 'vertical',
+      'no-wrap': flexWrap === 'nowrap',
       'is-responsive': 'never' !== overlayMenu,
       'has-text-color': !!textColor.color || !!(textColor !== null && textColor !== void 0 && textColor.class),
       [Object(external_wp_blockEditor_["getColorClassName"])('color', textColor === null || textColor === void 0 ? void 0 : textColor.slug)]: !!(textColor !== null && textColor !== void 0 && textColor.slug),
@@ -22025,12 +22108,14 @@ function Navigation(_ref) {
     }
   }, [orientation]);
   Object(external_wp_element_["useEffect"])(() => {
+    var _navRef$current;
+
     if (!enableContrastChecking) {
       return;
     }
 
     detectColors(navRef.current, setDetectedColor, setDetectedBackgroundColor);
-    const subMenuElement = navRef.current.querySelector('[data-type="core/navigation-link"] [data-type="core/navigation-link"]');
+    const subMenuElement = (_navRef$current = navRef.current) === null || _navRef$current === void 0 ? void 0 : _navRef$current.querySelector('[data-type="core/navigation-link"] [data-type="core/navigation-link"]');
 
     if (subMenuElement) {
       detectColors(subMenuElement, setDetectedOverlayColor, setDetectedOverlayBackgroundColor);
@@ -22039,47 +22124,78 @@ function Navigation(_ref) {
 
   Object(external_wp_element_["useEffect"])(() => {
     setIsPlaceholderShown(!isEntityAvailable);
-  }, [isEntityAvailable]); // If the ref no longer exists the reset the inner blocks
-  // to provide a clean slate.
-
+  }, [isEntityAvailable]);
+  const [showCantEditNotice, hideCantEditNotice] = use_navigation_notice({
+    name: 'block-library/core/navigation/permissions/update',
+    message: Object(external_wp_i18n_["__"])('You do not have permission to edit this Menu. Any changes made will not be saved.')
+  });
+  const [showCantCreateNotice, hideCantCreateNotice] = use_navigation_notice({
+    name: 'block-library/core/navigation/permissions/create',
+    message: Object(external_wp_i18n_["__"])('You do not have permission to create Navigation Menus.')
+  });
   Object(external_wp_element_["useEffect"])(() => {
-    if (ref === undefined && innerBlocks.length > 0) {
-      replaceInnerBlocks(clientId, []);
-    } // innerBlocks are intentionally not listed as deps. This function is only concerned
-    // with the snapshot from the time when ref became undefined.
-
-  }, [clientId, ref, innerBlocks]);
-  const startWithEmptyMenu = Object(external_wp_element_["useCallback"])(() => {
-    if (navigationArea) {
-      setAreaMenu(0);
+    if (!isSelected && !isInnerBlockSelected) {
+      hideCantEditNotice();
+      hideCantCreateNotice();
     }
 
-    setAttributes({
-      ref: undefined
+    if (isSelected || isInnerBlockSelected) {
+      if (hasResolvedCanUserUpdateNavigationEntity && !canUserUpdateNavigationEntity) {
+        showCantEditNotice();
+      }
+
+      if (!ref && hasResolvedCanUserCreateNavigation && !canUserCreateNavigation) {
+        showCantCreateNotice();
+      }
+    }
+  }, [isSelected, isInnerBlockSelected, canUserUpdateNavigationEntity, hasResolvedCanUserUpdateNavigationEntity, canUserCreateNavigation, hasResolvedCanUserCreateNavigation, ref]);
+  const startWithEmptyMenu = Object(external_wp_element_["useCallback"])(() => {
+    registry.batch(() => {
+      if (navigationArea) {
+        setAreaMenu(0);
+      }
+
+      setAttributes({
+        ref: undefined
+      });
+
+      if (!ref) {
+        replaceInnerBlocks(clientId, []);
+      }
+
+      setIsPlaceholderShown(true);
     });
-    setIsPlaceholderShown(true);
-  }, [clientId]); // If the block has inner blocks, but no menu id, this was an older
+  }, [clientId, ref]); // If the block has inner blocks, but no menu id, this was an older
   // navigation block added before the block used a wp_navigation entity.
   // Either this block was saved in the content or inserted by a pattern.
   // Consider this 'unsaved'. Offer an uncontrolled version of inner blocks,
   // that automatically saves the menu.
 
-  const hasUnsavedBlocks = hasExistingNavItems && !isEntityAvailable && !isWithinUnassignedArea;
+  const hasUnsavedBlocks = hasUncontrolledInnerBlocks && !isEntityAvailable;
 
   if (hasUnsavedBlocks) {
-    return Object(external_wp_element_["createElement"])(UnsavedInnerBlocks, {
+    return Object(external_wp_element_["createElement"])("nav", blockProps, Object(external_wp_element_["createElement"])(ResponsiveWrapper, {
+      id: clientId,
+      onToggle: setResponsiveMenuVisibility,
+      isOpen: isResponsiveMenuOpen,
+      isResponsive: 'never' !== overlayMenu,
+      isHiddenByDefault: 'always' === overlayMenu,
+      classNames: overlayClassnames,
+      styles: overlayStyles
+    }, Object(external_wp_element_["createElement"])(UnsavedInnerBlocks, {
       blockProps: blockProps,
-      blocks: innerBlocks,
+      blocks: uncontrolledInnerBlocks,
       clientId: clientId,
       navigationMenus: navigationMenus,
       hasSelection: isSelected || isInnerBlockSelected,
       hasSavedUnsavedInnerBlocks: hasSavedUnsavedInnerBlocks,
       onSave: post => {
+        // Set some state used as a guard to prevent the creation of multiple posts.
         setHasSavedUnsavedInnerBlocks(true); // Switch to using the wp_navigation entity.
 
         setRef(post.id);
       }
-    });
+    })));
   } // Show a warning if the selected menu is no longer available.
   // TODO - the user should be able to select a new one?
 
@@ -22116,7 +22232,8 @@ function Navigation(_ref) {
         setRef(id);
         onClose();
       },
-      onCreateNew: startWithEmptyMenu
+      onCreateNew: startWithEmptyMenu,
+      showCreate: canUserCreateNavigation
     });
   })), Object(external_wp_element_["createElement"])(external_wp_components_["ToolbarGroup"], null, listViewToolbarButton)), listViewModal, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["InspectorControls"], null, hasSubmenuIndicatorSetting && Object(external_wp_element_["createElement"])(external_wp_components_["PanelBody"], {
     title: Object(external_wp_i18n_["__"])('Display')
@@ -22184,17 +22301,8 @@ function Navigation(_ref) {
     textColor: detectedOverlayColor
   })))), isEntityAvailable && Object(external_wp_element_["createElement"])(external_wp_blockEditor_["InspectorControls"], {
     __experimentalGroup: "advanced"
-  }, Object(external_wp_element_["createElement"])(NavigationMenuNameControl, null), Object(external_wp_element_["createElement"])(NavigationMenuDeleteControl, {
-    onDelete: () => {
-      if (navigationArea) {
-        setAreaMenu(0);
-      }
-
-      setAttributes({
-        ref: undefined
-      });
-      setIsPlaceholderShown(true);
-    }
+  }, hasResolvedCanUserUpdateNavigationEntity && canUserUpdateNavigationEntity && Object(external_wp_element_["createElement"])(NavigationMenuNameControl, null), hasResolvedCanUserDeleteNavigationEntity && canUserDeleteNavigationEntity && Object(external_wp_element_["createElement"])(NavigationMenuDeleteControl, {
+    onDelete: startWithEmptyMenu
   })), Object(external_wp_element_["createElement"])("nav", blockProps, isPlaceholderShown && Object(external_wp_element_["createElement"])(PlaceholderComponent, {
     onFinish: post => {
       setIsPlaceholderShown(false);
@@ -22207,8 +22315,9 @@ function Navigation(_ref) {
     },
     canSwitchNavigationMenu: canSwitchNavigationMenu,
     hasResolvedNavigationMenus: hasResolvedNavigationMenus,
-    clientId: clientId
-  }), !isEntityAvailable && !isPlaceholderShown && Object(external_wp_element_["createElement"])(placeholder_preview, {
+    clientId: clientId,
+    canUserCreateNavigation: canUserCreateNavigation
+  }), !hasResolvedCanUserCreateNavigation || !isEntityAvailable && !isPlaceholderShown && Object(external_wp_element_["createElement"])(placeholder_preview, {
     isLoading: true
   }), !isPlaceholderShown && Object(external_wp_element_["createElement"])(ResponsiveWrapper, {
     id: clientId,
@@ -22309,7 +22418,6 @@ const deprecated_migrateWithLayout = attributes => {
     Object.assign(updatedAttributes, {
       layout: {
         type: 'flex',
-        setCascadingProperties: 'true',
         ...(itemsJustification && {
           justifyContent: itemsJustification
         }),
@@ -22402,8 +22510,7 @@ const navigation_deprecated_v6 = {
       allowSwitching: false,
       allowInheriting: false,
       default: {
-        type: 'flex',
-        setCascadingProperties: true
+        type: 'flex'
       }
     }
   },
@@ -22957,8 +23064,7 @@ const navigation_metadata = {
       allowSwitching: false,
       allowInheriting: false,
       "default": {
-        type: "flex",
-        setCascadingProperties: true
+        type: "flex"
       }
     }
   },
@@ -27869,6 +27975,7 @@ var library_layout = __webpack_require__("Civd");
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/post-template/edit.js
 
 
+
 /**
  * External dependencies
  */
@@ -27892,7 +27999,36 @@ function PostTemplateInnerBlocks() {
   return Object(external_wp_element_["createElement"])("li", innerBlocksProps);
 }
 
-function PostTemplateEdit(_ref) {
+function PostTemplateBlockPreview(_ref) {
+  let {
+    blocks,
+    blockContextId,
+    isHidden,
+    setActiveBlockContextId
+  } = _ref;
+  const blockPreviewProps = Object(external_wp_blockEditor_["__experimentalUseBlockPreview"])({
+    blocks
+  });
+
+  const handleOnClick = () => {
+    setActiveBlockContextId(blockContextId);
+  };
+
+  const style = {
+    display: isHidden ? 'none' : undefined
+  };
+  return Object(external_wp_element_["createElement"])("li", Object(esm_extends["a" /* default */])({}, blockPreviewProps, {
+    tabIndex: 0 // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
+    ,
+    role: "button",
+    onClick: handleOnClick,
+    onKeyPress: handleOnClick,
+    style: style
+  }));
+}
+
+const MemoizedPostTemplateBlockPreview = Object(external_wp_element_["memo"])(PostTemplateBlockPreview);
+function PostTemplateEdit(_ref2) {
   let {
     clientId,
     context: {
@@ -27919,11 +28055,11 @@ function PostTemplateEdit(_ref) {
         columns = 1
       } = {}
     }
-  } = _ref;
+  } = _ref2;
   const [{
     page
   }] = queryContext;
-  const [activeBlockContext, setActiveBlockContext] = Object(external_wp_element_["useState"])();
+  const [activeBlockContextId, setActiveBlockContextId] = Object(external_wp_element_["useState"])();
   const {
     posts,
     blocks
@@ -27997,16 +28133,25 @@ function PostTemplateEdit(_ref) {
 
   if (!posts.length) {
     return Object(external_wp_element_["createElement"])("p", blockProps, " ", Object(external_wp_i18n_["__"])('No results found.'));
-  }
+  } // To avoid flicker when switching active block contexts, a preview is rendered
+  // for each block context, but the preview for the active block context is hidden.
+  // This ensures that when it is displayed again, the cached rendering of the
+  // block preview is used, instead of having to re-render the preview from scratch.
 
-  return Object(external_wp_element_["createElement"])("ul", blockProps, blockContexts && blockContexts.map(blockContext => Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockContextProvider"], {
-    key: blockContext.postId,
-    value: blockContext
-  }, blockContext === (activeBlockContext || blockContexts[0]) ? Object(external_wp_element_["createElement"])(PostTemplateInnerBlocks, null) : Object(external_wp_element_["createElement"])("li", null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockPreview"], {
-    blocks: blocks,
-    __experimentalLive: true,
-    __experimentalOnClick: () => setActiveBlockContext(blockContext)
-  })))));
+
+  return Object(external_wp_element_["createElement"])("ul", blockProps, blockContexts && blockContexts.map(blockContext => {
+    var _blockContexts$, _blockContexts$2;
+
+    return Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockContextProvider"], {
+      key: blockContext.postId,
+      value: blockContext
+    }, blockContext.postId === (activeBlockContextId || ((_blockContexts$ = blockContexts[0]) === null || _blockContexts$ === void 0 ? void 0 : _blockContexts$.postId)) ? Object(external_wp_element_["createElement"])(PostTemplateInnerBlocks, null) : null, Object(external_wp_element_["createElement"])(MemoizedPostTemplateBlockPreview, {
+      blocks: blocks,
+      blockContextId: blockContext.postId,
+      setActiveBlockContextId: setActiveBlockContextId,
+      isHidden: blockContext.postId === (activeBlockContextId || ((_blockContexts$2 = blockContexts[0]) === null || _blockContexts$2 === void 0 ? void 0 : _blockContexts$2.postId))
+    }));
+  }));
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/post-template/save.js
@@ -33588,9 +33733,12 @@ const SiteLogo = _ref => {
         height
       }
     }, imgWrapper);
-  }
+  } // Set the default width to a responsible size.
+  // Note that this width is also set in the attached frontend CSS file.
 
-  const currentWidth = width || imageWidthWithinContainer;
+
+  const defaultWidth = 120;
+  const currentWidth = width || defaultWidth;
   const ratio = naturalWidth / naturalHeight;
   const currentHeight = currentWidth / ratio;
   const minWidth = naturalWidth < naturalHeight ? MIN_SIZE : MIN_SIZE * ratio;
@@ -33604,10 +33752,7 @@ const SiteLogo = _ref => {
   // @todo It would be good to revisit this once a content-width variable
   // becomes available.
 
-  const maxWidthBuffer = maxWidth * 2.5; // Set the default width to a responsible size.
-  // Note that this width is also set in the attached CSS file.
-
-  const defaultWidth = 120;
+  const maxWidthBuffer = maxWidth * 2.5;
   let showRightHandle = false;
   let showLeftHandle = false;
   /* eslint-disable no-lonely-if */
@@ -33807,6 +33952,9 @@ function LogoEdit(_ref2) {
   const onRemoveLogo = () => {
     setLogo(null);
     setLogoUrl(undefined);
+    setAttributes({
+      width: undefined
+    });
   };
 
   const {
@@ -33923,9 +34071,6 @@ const site_logo_metadata = {
   description: "Display a graphic to represent this site. Update the block, and the changes apply everywhere it\u2019s used. This is different than the site icon, which is the smaller image visible in your dashboard, browser tabs, etc used to help others recognize this site.",
   textdomain: "default",
   attributes: {
-    align: {
-      type: "string"
-    },
     width: {
       type: "number"
     },
@@ -39038,8 +39183,13 @@ function TemplatePartInnerBlocks(_ref) {
 
 
 /**
+ * External dependencies
+ */
+
+/**
  * WordPress dependencies
  */
+
 
 
 
@@ -39116,7 +39266,7 @@ function TemplatePartEdit(_ref) {
     return {
       innerBlocks: getBlocks(clientId),
       isResolved: hasResolvedEntity,
-      isMissing: hasResolvedEntity && !entityRecord,
+      isMissing: hasResolvedEntity && Object(external_lodash_["isEmpty"])(entityRecord),
       defaultWrapper: defaultWrapperElement || 'div',
       area: _area,
       enableSelection: _enableSelection,

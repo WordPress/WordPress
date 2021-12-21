@@ -2964,7 +2964,7 @@ const useWidgetLibraryInsertionPoint = () => {
 
     return {
       rootClientId,
-      insertionIndex: getBlockIndex(clientId, rootClientId) + 1
+      insertionIndex: getBlockIndex(clientId) + 1
     };
   }, [firstRootId]);
 };

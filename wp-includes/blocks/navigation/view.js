@@ -103,14 +103,19 @@ function e(e,t){for(var o=0;o<t.length;o++){var n=t[o];n.enumerable=n.enumerable
  // Responsive navigation toggle.
 
 function navigationToggleModal(modal) {
-  const triggerButton = document.querySelector(`button[data-micromodal-trigger="${modal.id}"]`);
-  const closeButton = modal.querySelector('button[data-micromodal-close]'); // Use aria-hidden to determine the status of the modal, as this attribute is
-  // managed by micromodal.
-
+  const dialogContainer = document.querySelector(`.wp-block-navigation__responsive-dialog`);
   const isHidden = 'true' === modal.getAttribute('aria-hidden');
-  triggerButton.setAttribute('aria-expanded', !isHidden);
-  closeButton.setAttribute('aria-expanded', !isHidden);
-  modal.classList.toggle('has-modal-open', !isHidden); // Add a class to indicate the modal is open.
+  modal.classList.toggle('has-modal-open', !isHidden);
+  dialogContainer.toggleAttribute('aria-modal', !isHidden);
+
+  if (isHidden) {
+    dialogContainer.removeAttribute('role');
+    dialogContainer.removeAttribute('aria-modal');
+  } else {
+    dialogContainer.setAttribute('role', 'dialog');
+    dialogContainer.setAttribute('aria-modal', 'true');
+  } // Add a class to indicate the modal is open.
+
 
   const htmlElement = document.documentElement;
   htmlElement.classList.toggle('has-modal-open');

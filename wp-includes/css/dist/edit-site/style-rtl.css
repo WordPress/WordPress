@@ -600,6 +600,12 @@ h2.edit-site-global-styles-gradient-palette-panel__duotone-heading.components-he
   margin-bottom: 8px;
 }
 
+.edit-site-screen-text-color__control,
+.edit-site-screen-link-color__control,
+.edit-site-screen-background-color__control {
+  padding: 16px;
+}
+
 .edit-site-header {
   align-items: center;
   background-color: #fff;
