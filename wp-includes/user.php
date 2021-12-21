@@ -4658,18 +4658,30 @@ function wp_get_user_request( $request_id ) {
 }
 
 /**
+ * Checks if Application Passwords is supported.
+ *
+ * Application Passwords is supported only by sites using SSL or local environments
+ * but may be made available using the {@see 'wp_is_application_passwords_available'} filter.
+ *
+ * @since 5.9.0
+ *
+ * @return bool
+ */
+function wp_is_application_passwords_supported() {
+	return is_ssl() || 'local' === wp_get_environment_type();
+}
+
+/**
  * Checks if Application Passwords is globally available.
  *
  * By default, Application Passwords is available to all sites using SSL or to local environments.
- * Use {@see 'wp_is_application_passwords_available'} to adjust its availability.
+ * Use the {@see 'wp_is_application_passwords_available'} filter to adjust its availability.
  *
  * @since 5.6.0
  *
  * @return bool
  */
 function wp_is_application_passwords_available() {
-	$available = is_ssl() || 'local' === wp_get_environment_type();
-
 	/**
 	 * Filters whether Application Passwords is available.
 	 *
@@ -4677,7 +4689,7 @@ function wp_is_application_passwords_available() {
 	 *
 	 * @param bool $available True if available, false otherwise.
 	 */
-	return apply_filters( 'wp_is_application_passwords_available', $available );
+	return apply_filters( 'wp_is_application_passwords_available', wp_is_application_passwords_supported() );
 }
 
 /**

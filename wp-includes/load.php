@@ -191,7 +191,7 @@ function wp_check_php_mysql_versions() {
 function wp_get_environment_type() {
 	static $current_env = '';
 
-	if ( $current_env ) {
+	if ( ! defined( 'WP_RUN_CORE_TESTS' ) && $current_env ) {
 		return $current_env;
 	}
 
