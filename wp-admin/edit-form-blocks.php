@@ -229,6 +229,10 @@ if ( $is_new_post && ! isset( $editor_settings['template'] ) && 'post' === $post
 	}
 }
 
+if ( wp_is_block_theme() && $editor_settings['supportsTemplateMode'] ) {
+	$editor_settings['defaultTemplatePartAreas'] = get_allowed_block_template_part_areas();
+}
+
 /**
  * Scripts
  */
