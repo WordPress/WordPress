@@ -37,7 +37,7 @@ function wp_register_layout_support( $block_type ) {
  *
  * @param string $selector              CSS selector.
  * @param array  $layout                Layout object. The one that is passed has already checked
- *                                      the existance of default block layout.
+ *                                      the existence of default block layout.
  * @param bool   $has_block_gap_support Whether the theme has support for the block gap.
  * @return string CSS style.
  */
