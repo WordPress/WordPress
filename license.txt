@@ -33,7 +33,7 @@ and
   Copyright 2003-2010 by the contributors
 
   WordPress is released under the GPL
-
+HAPPY NEW YEAR
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
                     GNU GENERAL PUBLIC LICENSE
