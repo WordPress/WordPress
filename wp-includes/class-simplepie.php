@@ -68,7 +68,7 @@ spl_autoload_register( 'wp_simplepie_autoload' );
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package SimplePie
- * @version 1.5.6
+ * @version 1.5.8
  * @copyright 2004-2017 Ryan Parman, Sam Sneddon, Ryan McCue
  * @author Ryan Parman
  * @author Sam Sneddon
@@ -85,7 +85,7 @@ define('SIMPLEPIE_NAME', 'SimplePie');
 /**
  * SimplePie Version
  */
-define('SIMPLEPIE_VERSION', '1.5.6');
+define('SIMPLEPIE_VERSION', '1.5.8');
 
 /**
  * SimplePie Build
@@ -1820,7 +1820,7 @@ class SimplePie
 	}
 
 	/**
-	 * Get the error message for the occured error
+	 * Get the error message for the occurred error
 	 *
 	 * @return string|array Error message, or array of messages for multifeeds
 	 */
