@@ -5900,7 +5900,7 @@ function validate_file( $file, $allowed_files = array() ) {
 		return 1;
 	}
 
-	// More than one occurence of `../` is not allowed:
+	// More than one occurrence of `../` is not allowed:
 	if ( preg_match_all( '#\.\./#', $file, $matches, PREG_SET_ORDER ) && ( count( $matches ) > 1 ) ) {
 		return 1;
 	}
