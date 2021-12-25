@@ -367,7 +367,7 @@ function login_footer( $input_id = '' ) {
 						<input type="hidden" name="action" value="<?php echo esc_attr( $_GET['action'] ); ?>" />
 					<?php } ?>
 
-						<input type="submit" class="button button-primary" value="<?php esc_attr_e( 'Change' ); ?>">
+						<input type="submit" class="button" value="<?php esc_attr_e( 'Change' ); ?>">
 
 					</form>
 				</div>
