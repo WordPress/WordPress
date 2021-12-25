@@ -214,11 +214,12 @@ if ( wp_is_block_theme() ) {
 	);
 }
 
-// Hide Customize link on block themes unless a plugin or theme is using
-// customize_register to add a setting.
+$customize_url = add_query_arg( 'return', urlencode( remove_query_arg( wp_removable_query_args(), wp_unslash( $_SERVER['REQUEST_URI'] ) ) ), 'customize.php' );
+
+// Hide Customize link on block themes unless a plugin or theme
+// is using 'customize_register' to add a setting.
 if ( ! wp_is_block_theme() || has_action( 'customize_register' ) ) {
-	$customize_url = add_query_arg( 'return', urlencode( remove_query_arg( wp_removable_query_args(), wp_unslash( $_SERVER['REQUEST_URI'] ) ) ), 'customize.php' );
-	$position      = wp_is_block_theme() ? 7 : 6;
+	$position = wp_is_block_theme() ? 7 : 6;
 
 	$submenu['themes.php'][ $position ] = array( __( 'Customize' ), 'customize', esc_url( $customize_url ), '', 'hide-if-no-customize' );
 }
@@ -237,7 +238,7 @@ if ( current_theme_supports( 'custom-background' ) && current_user_can( 'customi
 	$submenu['themes.php'][20] = array( __( 'Background' ), $appearance_cap, esc_url( $customize_background_url ), '', 'hide-if-no-customize' );
 }
 
-	unset( $customize_url );
+unset( $customize_url );
 
 unset( $appearance_cap );
 
