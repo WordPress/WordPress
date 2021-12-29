@@ -521,7 +521,7 @@ function themes_api( $action, $args = array() ) {
 	/**
 	 * Filters whether to override the WordPress.org Themes API.
 	 *
-	 * Passing a non-false value will effectively short-circuit the WordPress.org API request.
+	 * Returning a non-false value will effectively short-circuit the WordPress.org API request.
 	 *
 	 * If `$action` is 'query_themes', 'theme_information', or 'feature_list', an object MUST
 	 * be passed. If `$action` is 'hot_tags', an array should be passed.

@@ -6399,7 +6399,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		/**
 		 * Filters whether to preempt the XML-RPC media upload.
 		 *
-		 * Passing a truthy value will effectively short-circuit the media upload,
+		 * Returning a truthy value will effectively short-circuit the media upload,
 		 * returning that value as a 500 error instead.
 		 *
 		 * @since 2.1.0

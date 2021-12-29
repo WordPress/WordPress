@@ -2876,7 +2876,7 @@ class wpdb {
 		/**
 		 * Filters the table charset value before the DB is checked.
 		 *
-		 * Passing a non-null value to the filter will effectively short-circuit
+		 * Returning a non-null value from the filter will effectively short-circuit
 		 * checking the DB for the charset, returning that value instead.
 		 *
 		 * @since 4.2.0

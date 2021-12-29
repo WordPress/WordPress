@@ -2720,7 +2720,7 @@ if ( ! function_exists( 'get_avatar' ) ) :
 		/**
 		 * Allows the HTML for a user's avatar to be returned early.
 		 *
-		 * Passing a non-null value will effectively short-circuit get_avatar(), passing
+		 * Returning a non-null value will effectively short-circuit get_avatar(), passing
 		 * the value through the {@see 'get_avatar'} filter and returning early.
 		 *
 		 * @since 4.2.0

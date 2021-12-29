@@ -75,7 +75,7 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider {
 		/**
 		 * Filters the posts URL list before it is generated.
 		 *
-		 * Passing a non-null value will effectively short-circuit the generation,
+		 * Returning a non-null value will effectively short-circuit the generation,
 		 * returning that value instead.
 		 *
 		 * @since 5.5.0

@@ -5106,7 +5106,7 @@ function wp_list_filter( $list, $args = array(), $operator = 'AND' ) {
 }
 
 /**
- * Pluck a certain field out of each object in a list.
+ * Plucks a certain field out of each object or array in an array.
  *
  * This has the same functionality and prototype of
  * array_column() (PHP 5.5) but also supports objects.
@@ -5130,7 +5130,7 @@ function wp_list_pluck( $list, $field, $index_key = null ) {
 }
 
 /**
- * Sorts a list of objects, based on one or more orderby arguments.
+ * Sorts an array of objects or arrays based on one or more orderby arguments.
  *
  * @since 4.7.0
  *

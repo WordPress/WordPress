@@ -9,7 +9,7 @@
 /**
  * List utility.
  *
- * Utility class to handle operations on an array of objects.
+ * Utility class to handle operations on an array of objects or arrays.
  *
  * @since 4.7.0
  */
@@ -140,15 +140,15 @@ class WP_List_Util {
 	}
 
 	/**
-	 * Plucks a certain field out of each object in the list.
+	 * Plucks a certain field out of each element in the input array.
 	 *
 	 * This has the same functionality and prototype of
 	 * array_column() (PHP 5.5) but also supports objects.
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param int|string $field     Field from the object to place instead of the entire object
-	 * @param int|string $index_key Optional. Field from the object to use as keys for the new array.
+	 * @param int|string $field     Field to fetch from the object or array.
+	 * @param int|string $index_key Optional. Field from the element to use as keys for the new array.
 	 *                              Default null.
 	 * @return array Array of found values. If `$index_key` is set, an array of found values with keys
 	 *               corresponding to `$index_key`. If `$index_key` is null, array keys from the original
@@ -201,7 +201,7 @@ class WP_List_Util {
 	}
 
 	/**
-	 * Sorts the list, based on one or more orderby arguments.
+	 * Sorts the input array based on one or more orderby arguments.
 	 *
 	 * @since 4.7.0
 	 *
@@ -239,7 +239,7 @@ class WP_List_Util {
 	}
 
 	/**
-	 * Callback to sort the list by specific fields.
+	 * Callback to sort an array by specific fields.
 	 *
 	 * @since 4.7.0
 	 *

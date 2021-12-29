@@ -191,6 +191,7 @@ else :
 	 *
 	 * By default the privacy options form displays a single checkbox to 'discourage' search
 	 * engines from indexing the site. Hooking to this action serves a dual purpose:
+	 *
 	 * 1. Disable the single checkbox in favor of a multiple-choice list of radio buttons.
 	 * 2. Open the door to adding additional radio button choices to the list.
 	 *

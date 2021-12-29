@@ -435,7 +435,7 @@ class WP_Http {
 		}
 
 		/**
-		 * Filters the HTTP API response immediately before the response is returned.
+		 * Filters a successful HTTP API response immediately before the response is returned.
 		 *
 		 * @since 2.9.0
 		 *
