@@ -5196,7 +5196,7 @@ function wp_getimagesize( $filename, array &$image_info = null ) {
 			return array(
 				$width,
 				$height,
-				IMAGETYPE_WEBP, // phpcs:ignore PHPCompatibility.Constants.NewConstants.imagetype_webpFound
+				IMAGETYPE_WEBP,
 				sprintf(
 					'width="%d" height="%d"',
 					$width,

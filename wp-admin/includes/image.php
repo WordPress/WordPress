@@ -947,7 +947,7 @@ function file_is_valid_image( $path ) {
  * @return bool True if suitable, false if not suitable.
  */
 function file_is_displayable_image( $path ) {
-	$displayable_image_types = array( IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_BMP, IMAGETYPE_ICO, IMAGETYPE_WEBP ); // phpcs:ignore PHPCompatibility.Constants.NewConstants.imagetype_webpFound
+	$displayable_image_types = array( IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_BMP, IMAGETYPE_ICO, IMAGETYPE_WEBP );
 
 	$info = wp_getimagesize( $path );
 	if ( empty( $info ) ) {

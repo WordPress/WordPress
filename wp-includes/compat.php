@@ -485,5 +485,5 @@ if ( ! defined( 'IMAGETYPE_WEBP' ) ) {
 
 // IMG_WEBP constant is only defined in PHP 7.0.10 or later.
 if ( ! defined( 'IMG_WEBP' ) ) {
-	define( 'IMG_WEBP', IMAGETYPE_WEBP ); // phpcs:ignore PHPCompatibility.Constants.NewConstants.imagetype_webpFound
+	define( 'IMG_WEBP', IMAGETYPE_WEBP );
 }

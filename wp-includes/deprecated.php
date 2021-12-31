@@ -3325,7 +3325,7 @@ function gd_edit_image_support($mime_type) {
 			case 'image/gif':
 				return (imagetypes() & IMG_GIF) != 0;
 			case 'image/webp':
-				return (imagetypes() & IMG_WEBP) != 0; // phpcs:ignore PHPCompatibility.Constants.NewConstants.img_webpFound
+				return (imagetypes() & IMG_WEBP) != 0;
 		}
 	} else {
 		switch( $mime_type ) {

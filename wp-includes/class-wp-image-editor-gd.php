@@ -70,7 +70,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 			case 'image/gif':
 				return ( $image_types & IMG_GIF ) != 0;
 			case 'image/webp':
-				return ( $image_types & IMG_WEBP ) != 0; // phpcs:ignore PHPCompatibility.Constants.NewConstants.img_webpFound
+				return ( $image_types & IMG_WEBP ) != 0;
 		}
 
 		return false;
