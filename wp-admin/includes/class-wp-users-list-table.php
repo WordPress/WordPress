@@ -362,7 +362,7 @@ class WP_Users_List_Table extends WP_List_Table {
 			'name'     => __( 'Name' ),
 			'email'    => __( 'Email' ),
 			'role'     => __( 'Role' ),
-			'posts'    => __( 'Posts' ),
+			'posts'    => _x( 'Posts', 'post type general name' ),
 		);
 
 		if ( $this->is_site_users ) {
