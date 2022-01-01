@@ -28,7 +28,7 @@ For more information about Twenty Sixteen please go to https://wordpress.org/sup
 
 == Copyright ==
 
-Twenty Sixteen WordPress Theme, Copyright 2014-2021 WordPress.org
+Twenty Sixteen WordPress Theme, Copyright 2014-2022 WordPress.org
 Twenty Sixteen is distributed under the terms of the GNU GPL
 
 This program is free software: you can redistribute it and/or modify

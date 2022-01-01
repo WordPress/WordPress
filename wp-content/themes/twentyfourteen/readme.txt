@@ -22,7 +22,7 @@ For more information about Twenty Fourteen please go to https://codex.wordpress.
 
 == Copyright ==
 
-Twenty Fourteen WordPress Theme, Copyright 2013-2021 WordPress.org & Automattic.com
+Twenty Fourteen WordPress Theme, Copyright 2013-2022 WordPress.org & Automattic.com
 Twenty Fourteen is Distributed under the terms of the GNU GPL
 
 This program is free software: you can redistribute it and/or modify
