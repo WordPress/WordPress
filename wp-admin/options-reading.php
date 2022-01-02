@@ -73,7 +73,7 @@ if ( ! in_array( get_option( 'blog_charset' ), array( 'utf8', 'utf-8', 'UTF8', '
 <input name="show_on_front" type="hidden" value="posts" />
 <table class="form-table" role="presentation">
 	<?php
-	if ( 'posts' != get_option( 'show_on_front' ) ) :
+	if ( 'posts' !== get_option( 'show_on_front' ) ) :
 		update_option( 'show_on_front', 'posts' );
 	endif;
 
