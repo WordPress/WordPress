@@ -5,13 +5,13 @@
 return array(
 	'title'      => __( 'About page with large image and buttons', 'twentytwentytwo' ),
 	'categories' => array( 'pages', 'buttons' ),
-	'content'    => '<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"max(1.25rem, 5vw)","right":"max(1.25rem, 5vw)","bottom":"max(1.25rem, 5vw)","left":"max(1.25rem, 5vw)"}}},"layout":{"inherit":true}} -->
-					<div class="wp-block-group alignfull" style="padding-top:max(1.25rem, 5vw);padding-right:max(1.25rem, 5vw);padding-bottom:max(1.25rem, 5vw);padding-left:max(1.25rem, 5vw)"><!-- wp:image {"align":"full","sizeSlug":"full","linkDestination":"none"} -->
-					<figure class="wp-block-image alignfull size-full"><img src="' . esc_url( get_template_directory_uri() ) . '/assets/images/flight-path-on-gray-b.jpg" alt=""/></figure>
+	'content'    => '<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"max(1.25rem, 5vw)","bottom":"max(1.25rem, 5vw)"}}},"layout":{"inherit":true}} -->
+					<div class="wp-block-group alignfull" style="padding-top:max(1.25rem, 5vw);padding-bottom:max(1.25rem, 5vw)"><!-- wp:image {"align":"wide","sizeSlug":"full","linkDestination":"none"} -->
+					<figure class="wp-block-image alignwide size-full"><img src="' . esc_url( get_template_directory_uri() ) . '/assets/images/flight-path-on-gray-b.jpg" alt=""/></figure>
 					<!-- /wp:image -->
 
-					<!-- wp:columns {"align":"full"} -->
-					<div class="wp-block-columns alignfull"><!-- wp:column -->
+					<!-- wp:columns {"align":"wide"} -->
+					<div class="wp-block-columns alignwide"><!-- wp:column -->
 					<div class="wp-block-column"><!-- wp:buttons -->
 					<div class="wp-block-buttons"><!-- wp:button {"width":100} -->
 					<div class="wp-block-button has-custom-width wp-block-button__width-100"><a class="wp-block-button__link">' . esc_html__( 'Purchase my work', 'twentytwentytwo' ) . '</a></div>
@@ -36,8 +36,8 @@ return array(
 					<!-- /wp:column --></div>
 					<!-- /wp:columns -->
 
-					<!-- wp:columns {"align":"full"} -->
-					<div class="wp-block-columns alignfull"><!-- wp:column -->
+					<!-- wp:columns {"align":"wide"} -->
+					<div class="wp-block-columns alignwide"><!-- wp:column -->
 					<div class="wp-block-column"><!-- wp:buttons -->
 					<div class="wp-block-buttons"><!-- wp:button {"width":100} -->
 					<div class="wp-block-button has-custom-width wp-block-button__width-100"><a class="wp-block-button__link">' . esc_html__( 'Read about me', 'twentytwentytwo' ) . '</a></div>

@@ -6,7 +6,8 @@ return array(
 	'title'      => __( 'Blog footer', 'twentytwentytwo' ),
 	'categories' => array( 'footer' ),
 	'blockTypes' => array( 'core/template-part/footer' ),
-	'content'    => '<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"8rem","bottom":"8rem"}}},"layout":{"inherit":true}} -->
+	'content'    => '<!-- wp:group {"align":"full","layout":{"inherit":true}} -->
+					<div class="wp-block-group alignfull"><!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"8rem","bottom":"8rem"}}},"layout":{"inherit":true}} -->
 					<div class="wp-block-group alignfull" style="padding-top:8rem;padding-bottom:8rem"><!-- wp:columns {"align":"wide"} -->
 					<div class="wp-block-columns alignwide"><!-- wp:column -->
 					<div class="wp-block-column"><!-- wp:paragraph {"style":{"typography":{"textTransform":"uppercase"}}} -->
@@ -50,6 +51,7 @@ return array(
 						'<a href="' . esc_url( __( 'https://wordpress.org', 'twentytwentytwo' ) ) . '" rel="nofollow">WordPress</a>'
 					) . '</p>
 					<!-- /wp:paragraph --></div>
+					<!-- /wp:group --></div>
 					<!-- /wp:group --></div>
 					<!-- /wp:group -->',
 );

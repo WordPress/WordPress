@@ -81,15 +81,15 @@ a:active {
 .wp-block-file .wp-block-file__button:hover,
 .wp-block-button__link:hover {
 	opacity: 0.90;
-} 
+}
 
 /*
  * Alignment styles.
- * These rules are temporary, and should not be relied on or 
- * modified too heavily by themes or plugins that build on 
- * Twenty Twenty-Two. These are meant to be a precursor to 
- * a global solution provided by the Block Editor. 
- * 
+ * These rules are temporary, and should not be relied on or
+ * modified too heavily by themes or plugins that build on
+ * Twenty Twenty-Two. These are meant to be a precursor to
+ * a global solution provided by the Block Editor.
+ *
  * Relevant issues:
  * https://github.com/WordPress/gutenberg/issues/35607
  * https://github.com/WordPress/gutenberg/issues/35884
@@ -99,7 +99,9 @@ a:active {
 body > .is-root-container,
 .edit-post-visual-editor__post-title-wrapper,
 .wp-block-group.alignfull,
-.is-root-container .wp-block[data-align="full"] > .wp-block-group {
+.wp-block-cover.alignfull,
+.is-root-container .wp-block[data-align="full"] > .wp-block-group,
+.is-root-container .wp-block[data-align="full"] > .wp-block-cover {
 	padding-left: var(--wp--custom--spacing--outer);
 	padding-right: var(--wp--custom--spacing--outer);
 }
@@ -121,3 +123,18 @@ body > .is-root-container,
 	margin-right: auto !important;
 	width: inherit;
 }
+
+/*
+ * Responsive menu container padding.
+ * This ensures the responsive container inherits the same
+ * spacing defined above. This behavior may be built into
+ * the Block Editor in the future.
+ */
+
+.wp-block-navigation__responsive-container.is-menu-open {
+	padding-top: var(--wp--custom--spacing--outer);
+	padding-bottom: var(--wp--custom--spacing--large);
+	padding-right: var(--wp--custom--spacing--outer);
+	padding-left: var(--wp--custom--spacing--outer);
+}
+

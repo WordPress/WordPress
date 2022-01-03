@@ -249,7 +249,7 @@
 			},
 			"core/quote": {
 				"border": {
-					"width": "0 0 0 1px"
+					"width": "1px"
 				}
 			},
 			"core/site-title": {
