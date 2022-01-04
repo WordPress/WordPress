@@ -29,7 +29,13 @@ $credits = wp_credits();
 		</div>
 
 		<div class="about__header-text">
-			<?php _e( 'WordPress 5.8 was created by a worldwide team of passionate individuals' ); ?>
+			<?php
+			printf(
+				/* translators: %s: Version number. */
+				__( 'WordPress %s was created by a worldwide team of passionate individuals' ),
+				$display_version
+			);
+			?>
 		</div>
 
 		<nav class="about__header-navigation nav-tab-wrapper wp-clearfix" aria-label="<?php esc_attr_e( 'Secondary menu' ); ?>">
