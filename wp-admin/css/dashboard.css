@@ -115,48 +115,62 @@
 	position: relative;
 	overflow: auto;
 	margin: 16px 0;
-	padding: 23px 10px 0;
-	border: 1px solid #c3c4c7;
-	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
-	background: #fff;
-	font-size: 13px;
-	line-height: 1.7;
+	background: #3858e9 url(../images/about-texture.png) center repeat;
+	background-size: 500px 500px;
+	background-blend-mode: overlay;
+	color: #fff;
+	font-size: 14px;
+	line-height: 1.3;
+}
+
+.welcome-panel::before {
+	content: "";
+	position: absolute;
+	top: -16px;
+	right: 96px;
+	z-index: 0;
+	width: 300px;
+	height: 382px;
+	background: url(../images/about-header-about.svg) no-repeat center;
+	background-size: contain;
 }
 
 .welcome-panel h2 {
 	margin: 0;
-	font-size: 21px;
-	font-weight: 400;
-	line-height: 1.2;
+	font-size: 48px;
+	font-weight: 600;
+	line-height: 1.25;
+	color: #fff;
 }
 
 .welcome-panel h3 {
-	margin: 1.33em 0 0;
-	font-size: 16px;
+	margin: 0;
+	font-size: 20px;
+	font-weight: 400;
+	line-height: 1.4;
+	color: #fff;
 }
 
-.welcome-panel li {
-	font-size: 14px;
+.welcome-panel a {
+	color: #fff;
 }
 
 .welcome-panel p {
-	color: #646970;
+	font-size: inherit;
+	line-height: inherit;
 }
 
-.welcome-panel li a {
-	text-decoration: none;
-}
-
-.welcome-panel .about-description {
-	font-size: 16px;
-	margin: 0;
+.welcome-panel-header p {
+	margin: 0.5em 0 0;
+	font-size: 20px;
+	line-height: 1.4;
 }
 
 .welcome-panel .welcome-panel-close {
 	position: absolute;
 	top: 10px;
 	right: 10px;
-	padding: 10px 15px 10px 21px;
+	padding: 10px 15px 10px 24px;
 	font-size: 13px;
 	line-height: 1.23076923; /* Chrome rounding, needs to be 16px equivalent */
 	text-decoration: none;
@@ -167,8 +181,19 @@
 	top: 8px;
 	left: 0;
 	transition: all .1s ease-in-out;
+	content: '\f335';
+	font-size: 24px;
+	color: #fff;
 }
 
+.welcome-panel .welcome-panel-close:hover,
+.welcome-panel .welcome-panel-close:focus,
+.welcome-panel .welcome-panel-close:hover::before,
+.welcome-panel .welcome-panel-close:focus::before {
+	color: #f5e6ab;
+}
+
+/* @deprecated 5.9.0 -- Button removed from panel. */
 .wp-core-ui .welcome-panel .button.button-hero {
 	margin: 15px 13px 3px 0;
 	padding: 12px 36px;
@@ -178,54 +203,99 @@
 }
 
 .welcome-panel-content {
-	margin-left: 13px;
+	min-height: 400px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.welcome-panel-header {
+	box-sizing: border-box;
+	margin-left: auto;
+	margin-right: auto;
 	max-width: 1500px;
+	width: 100%;
+	/* 408px = 300px (balloon width) + 96px (offset from edge) + 16px (spacing). */
+	padding: 48px 408px 48px 48px;
 }
 
 .welcome-panel .welcome-panel-column-container {
+	box-sizing: border-box;
+	width: 100%;
 	clear: both;
-	position: relative;
+	display: grid;
+	z-index: 1;
+	margin-top: 32px;
+	padding: 48px;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 32px;
+	align-self: flex-end;
+	background: #3858e9;
 }
 
-.welcome-panel .welcome-panel-column {
-	width: 32%;
-	min-width: 200px;
-	float: left;
+[class*="welcome-panel-icon"] {
+	height: 60px;
+	width: 60px;
+	background-color: #1d35b4;
+	background-position: center;
+	background-size: 24px 24px;
+	background-repeat: no-repeat;
+	border-radius: 100%;
 }
 
-.welcome-panel .welcome-panel-column:first-child {
-	width: 36%;
+.welcome-panel-column {
+	display: grid;
+	grid-template-columns: min-content 1fr;
+	gap: 24px;
 }
 
-.welcome-panel-column p.hide-if-no-customize {
-	margin-top: 10px;
+.welcome-panel-icon-pages {
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23fff' d='M7 13.8h6v-1.5H7v1.5zM18 16V4c0-1.1-.9-2-2-2H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2zM5.5 16V4c0-.3.2-.5.5-.5h10c.3 0 .5.2.5.5v12c0 .3-.2.5-.5.5H6c-.3 0-.5-.2-.5-.5zM7 10.5h8V9H7v1.5zm0-3.3h8V5.8H7v1.4zM20.2 6v13c0 .7-.6 1.2-1.2 1.2H8v1.5h11c1.5 0 2.7-1.2 2.7-2.8V6h-1.5z' /%3E%3C/svg%3E");
 }
 
-.welcome-panel-column p {
-	margin-top: 7px;
-	color: #3c434a;
+.welcome-panel-icon-layout {
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23fff' d='M18 5.5H6a.5.5 0 00-.5.5v3h13V6a.5.5 0 00-.5-.5zm.5 5H10v8h8a.5.5 0 00.5-.5v-7.5zm-10 0h-3V18a.5.5 0 00.5.5h2.5v-8zM6 4h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2z' /%3E%3C/svg%3E");
 }
 
+.welcome-panel-icon-styles {
+	background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23fff' d='M12 4c-4.4 0-8 3.6-8 8v.1c0 4.1 3.2 7.5 7.2 7.9h.8c4.4 0 8-3.6 8-8s-3.6-8-8-8zm0 15V5c3.9 0 7 3.1 7 7s-3.1 7-7 7z' /%3E%3C/svg%3E");
+}
+
+/* @deprecated 5.9.0 -- Section removed from welcome panel. */
 .welcome-panel .welcome-widgets-menus {
 	line-height: 1.14285714;
 }
 
+/* @deprecated 5.9.0 -- Lists removed from welcome panel. */
 .welcome-panel .welcome-panel-column ul {
 	margin: 0.8em 1em 1em 0;
 }
 
+/* @deprecated 5.9.0 -- Lists removed from welcome panel. */
+.welcome-panel li {
+	font-size: 14px;
+}
+
+/* @deprecated 5.9.0 -- Lists removed from welcome panel. */
+.welcome-panel li a {
+	text-decoration: none;
+}
+
+/* @deprecated 5.9.0 -- Lists removed from welcome panel. */
 .welcome-panel .welcome-panel-column li {
 	line-height: 1.14285714;
 	list-style-type: none;
 	padding: 0 0 8px;
 }
 
+/* @deprecated 5.9.0 -- Icons removed from welcome panel. */
 .welcome-panel .welcome-icon {
 	background: transparent !important;
 }
 
 /* Welcome Panel and Right Now common Icons style */
 
+/* @deprecated 5.9.0 -- Icons removed from welcome panel. */
 .welcome-panel .welcome-icon:before,
 #dashboard_right_now li a:before,
 #dashboard_right_now li span:before,
@@ -244,47 +314,56 @@
 
 /* Welcome Panel specific Icons styles */
 
+/* @deprecated 5.9.0 -- Icons removed from welcome panel. */
 .welcome-panel .welcome-write-blog:before,
 .welcome-panel .welcome-edit-page:before {
 	content: "\f119";
 	top: -3px;
 }
 
+/* @deprecated 5.9.0 -- Icons removed from welcome panel. */
 .welcome-panel .welcome-add-page:before {
 	content: "\f132";
 	top: -1px;
 }
 
+/* @deprecated 5.9.0 -- Icons removed from welcome panel. */
 .welcome-panel .welcome-setup-home:before {
 	content: "\f102";
 	top: -1px;
 }
 
+/* @deprecated 5.9.0 -- Icons removed from welcome panel. */
 .welcome-panel .welcome-view-site:before {
 	content: "\f115";
 	top: -2px;
 }
 
+/* @deprecated 5.9.0 -- Icons removed from welcome panel. */
 .welcome-panel .welcome-widgets-menus:before {
 	content: "\f116";
 	top: -2px;
 }
 
+/* @deprecated 5.9.0 -- Icons removed from welcome panel. */
 .welcome-panel .welcome-widgets:before {
 	content: "\f538";
 	top: -2px;
 }
 
+/* @deprecated 5.9.0 -- Icons removed from welcome panel. */
 .welcome-panel .welcome-menus:before {
 	content: "\f163";
 	top: -2px;
 }
 
+/* @deprecated 5.9.0 -- Icons removed from welcome panel. */
 .welcome-panel .welcome-comments:before {
 	content: "\f117";
 	top: -1px;
 }
 
+/* @deprecated 5.9.0 -- Icons removed from welcome panel. */
 .welcome-panel .welcome-learn-more:before {
 	content: "\f118";
 	top: -1px;
@@ -1102,6 +1181,18 @@ a.rsswidget {
 /* =Media Queries
 -------------------------------------------------------------- */
 
+@media only screen and (min-width: 1600px) {
+	.welcome-panel .welcome-panel-column-container {
+		display: flex;
+		justify-content: center;
+	}
+
+	.welcome-panel-column {
+		width: 100%;
+		max-width: 460px;
+	}
+}
+
 /* one column on the dash */
 @media only screen and (max-width: 799px) {
 	#wpbody-content #dashboard-widgets .postbox-container {
@@ -1213,25 +1304,69 @@ a.rsswidget {
 }
 
 @media screen and (max-width: 870px) {
-	.welcome-panel .welcome-panel-column,
-	.welcome-panel .welcome-panel-column:first-child {
-		display: block;
-		float: none;
-		width: 100%;
-	}
-
+	/* @deprecated 5.9.0 -- Lists removed from welcome panel. */
 	.welcome-panel .welcome-panel-column li {
 		display: inline-block;
 		margin-right: 13px;
 	}
 
+	/* @deprecated 5.9.0 -- Lists removed from welcome panel. */
 	.welcome-panel .welcome-panel-column ul {
 		margin: 0.4em 0 0;
 	}
 
 }
 
+@media screen and (max-width: 1180px) and (min-width: 783px) {
+	.welcome-panel-column {
+		grid-template-columns: 1fr;
+	}
+
+	[class*="welcome-panel-icon"] {
+		display: none;
+	}
+}
+
 @media screen and (max-width: 782px) {
+	.welcome-panel::before {
+		width: 240px;
+		height: 305px;
+		right: 32px;
+	}
+
+	.welcome-panel-header {
+		/* 288px = 240px (balloon width) + 32px (offset from edge) + 16px (spacing). */
+		padding: 32px 288px 32px 32px;
+	}
+
+	.welcome-panel .welcome-panel-column-container {
+		grid-template-columns: 1fr;
+		box-sizing: border-box;
+		padding: 32px;
+		width: 100%;
+	}
+
+	.welcome-panel .welcome-panel-column-content {
+		max-width: 520px;
+	}
+
+	/* Keep the close icon from overlapping the Welcome text. */
+	.welcome-panel .welcome-panel-close {
+		overflow: hidden;
+		text-indent: 40px;
+		white-space: nowrap;
+		width: 20px;
+		height: 20px;
+		padding: 5px;
+		top: 5px;
+		right: 5px;
+	}
+
+	.welcome-panel .welcome-panel-close::before {
+		top: 5px;
+		left: -35px;
+	}
+
 	#dashboard-widgets h2 {
 		padding: 12px;
 	}
@@ -1274,23 +1409,28 @@ a.rsswidget {
 
 /* Smartphone */
 @media screen and (max-width: 600px) {
-	/* Keep the close icon from overlapping the Welcome text. */
-	.welcome-panel .welcome-panel-close {
-		overflow: hidden;
-		text-indent: 40px;
-		white-space: nowrap;
-		width: 20px;
-		height: 20px;
-		padding: 5px;
-		top: 5px;
-		right: 5px;
+	.welcome-panel::before {
+		display: none;
 	}
 
-	/* Make the close icon larger for tappability. */
-	.welcome-panel .welcome-panel-close:before {
-		font-size: 20px;
-		top: 5px;
-		left: -35px;
+	.welcome-panel-header {
+		padding: 32px;
+	}
+}
+
+@media screen and (max-width: 480px) {
+	.welcome-panel-column {
+		gap: 16px;
+	}
+}
+
+@media screen and (max-width: 360px) {
+	.welcome-panel-column {
+		grid-template-columns: 1fr;
+	}
+
+	[class*="welcome-panel-icon"] {
+		display: none;
 	}
 }
 
