@@ -352,7 +352,7 @@ function login_footer( $input_id = '' ) {
 					 *
 					 * @param array $args Arguments for the Languages select input on the login screen.
 					 */
-					wp_dropdown_languages( apply_filters( 'login_language_switcher_args', $args ) );
+					wp_dropdown_languages( apply_filters( 'login_language_dropdown_args', $args ) );
 					?>
 
 					<?php if ( $interim_login ) { ?>
