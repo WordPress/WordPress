@@ -250,7 +250,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					<?php
 					printf(
 						/* translators: %s: Gallery Refactor dev note link. */
-						__( 'The changes to the Gallery block listed above are the result of a near-complete refactor. Have you built a plugin or theme on the Gallery block functionality? Be sure to read the <a href="%s">Gallery block compatibility dev note</a>.' ),
+						__( 'The changes to the Gallery block listed above are the result of a near-complete refactoring. Have you built a plugin or theme on the Gallery block functionality? Be sure to read the <a href="%s">Gallery block compatibility dev note</a>.' ),
 						'https://make.wordpress.org/core/2021/08/20/gallery-block-refactor-dev-note/'
 					);
 					?>
