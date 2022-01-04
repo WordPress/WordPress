@@ -580,7 +580,8 @@ body.is-fullscreen-mode .interface-interface-skeleton {
 .edit-site-global-styles-subtitle {
   margin-bottom: 0 !important;
   text-transform: uppercase;
-  font-weight: 500;
+  font-weight: 500 !important;
+  font-size: 11px !important;
 }
 
 .edit-site-screen-color-palette-toggle.edit-site-screen-color-palette-toggle {
@@ -914,10 +915,13 @@ body.is-navigation-sidebar-open .edit-site-header .edit-site-header_end .compone
 .edit-site-navigation-toggle__button.has-icon:focus::before {
   box-shadow: inset 0 0 0 var(--wp-admin-border-width-focus) rgba(255, 255, 255, 0.1), inset 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
 }
-
-.edit-site-navigation-toggle__site-icon {
+.edit-site-navigation-toggle__button .edit-site-navigation-toggle__site-icon {
   width: 36px;
+  height: 36px;
   border-radius: 2px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  margin-top: -1px;
 }
 
 .edit-site-navigation-panel {

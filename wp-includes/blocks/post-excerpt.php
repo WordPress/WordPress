@@ -18,7 +18,7 @@ function render_block_core_post_excerpt( $attributes, $content, $block ) {
 		return '';
 	}
 
-	$excerpt = get_the_excerpt( $block->context['postId'] );
+	$excerpt = get_the_excerpt();
 
 	if ( empty( $excerpt ) ) {
 		return '';

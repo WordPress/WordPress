@@ -20,7 +20,7 @@ function render_block_core_post_title( $attributes, $content, $block ) {
 	}
 
 	$post_ID = $block->context['postId'];
-	$title   = get_the_title( $post_ID );
+	$title   = get_the_title();
 
 	if ( ! $title ) {
 		return '';

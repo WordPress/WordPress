@@ -781,7 +781,7 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
 					'context'     => array( 'embed', 'view', 'edit' ),
 					'required'    => true,
 					'minLength'   => 1,
-					'pattern'     => '[a-zA-Z_\-]+',
+					'pattern'     => '[a-zA-Z0-9_\-]+',
 				),
 				'theme'          => array(
 					'description' => __( 'Theme identifier for the template.' ),

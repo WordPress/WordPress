@@ -5267,6 +5267,7 @@ const TRANSLATED_SITE_PROPERTIES = {
   title: Object(external_wp_i18n_["__"])('Title'),
   description: Object(external_wp_i18n_["__"])('Tagline'),
   site_logo: Object(external_wp_i18n_["__"])('Logo'),
+  site_icon: Object(external_wp_i18n_["__"])('Icon'),
   show_on_front: Object(external_wp_i18n_["__"])('Show on front'),
   page_on_front: Object(external_wp_i18n_["__"])('Page on front')
 };

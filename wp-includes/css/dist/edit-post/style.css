@@ -732,10 +732,13 @@ body.is-fullscreen-mode .interface-interface-skeleton {
     box-shadow: inset 0 0 0 var(--wp-admin-border-width-focus) rgba(255, 255, 255, 0.1), inset 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
   }
 }
-
-.edit-post-fullscreen-mode-close_site-icon {
+.edit-post-fullscreen-mode-close.has-icon .edit-post-fullscreen-mode-close_site-icon {
   width: 36px;
+  height: 36px;
   border-radius: 2px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  margin-top: -1px;
 }
 
 .edit-post-header-toolbar {

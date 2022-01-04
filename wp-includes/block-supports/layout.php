@@ -39,9 +39,10 @@ function wp_register_layout_support( $block_type ) {
  * @param array  $layout                Layout object. The one that is passed has already checked
  *                                      the existence of default block layout.
  * @param bool   $has_block_gap_support Whether the theme has support for the block gap.
+ * @param string $gap_value             The block gap value to apply.
  * @return string CSS style.
  */
-function wp_get_layout_style( $selector, $layout, $has_block_gap_support = false ) {
+function wp_get_layout_style( $selector, $layout, $has_block_gap_support = false, $gap_value = null ) {
 	$layout_type = isset( $layout['type'] ) ? $layout['type'] : 'default';
 
 	$style = '';
@@ -72,8 +73,9 @@ function wp_get_layout_style( $selector, $layout, $has_block_gap_support = false
 		$style .= "$selector .alignleft { float: left; margin-right: 2em; }";
 		$style .= "$selector .alignright { float: right; margin-left: 2em; }";
 		if ( $has_block_gap_support ) {
-			$style .= "$selector > * { margin-top: 0; margin-bottom: 0; }";
-			$style .= "$selector > * + * { margin-top: var( --wp--style--block-gap ); margin-bottom: 0; }";
+			$gap_style = $gap_value ? $gap_value : 'var( --wp--style--block-gap )';
+			$style    .= "$selector > * { margin-top: 0; margin-bottom: 0; }";
+			$style    .= "$selector > * + * { margin-top: $gap_style;  margin-bottom: 0; }";
 		}
 	} elseif ( 'flex' === $layout_type ) {
 		$layout_orientation = isset( $layout['orientation'] ) ? $layout['orientation'] : 'horizontal';
@@ -96,7 +98,8 @@ function wp_get_layout_style( $selector, $layout, $has_block_gap_support = false
 		$style  = "$selector {";
 		$style .= 'display: flex;';
 		if ( $has_block_gap_support ) {
-			$style .= 'gap: var( --wp--style--block-gap, 0.5em );';
+			$gap_style = $gap_value ? $gap_value : 'var( --wp--style--block-gap, 0.5em )';
+			$style    .= "gap: $gap_style;";
 		} else {
 			$style .= 'gap: 0.5em;';
 		}
@@ -156,8 +159,13 @@ function wp_render_layout_support_flag( $block_content, $block ) {
 		$used_layout = $default_layout;
 	}
 
-	$id    = uniqid();
-	$style = wp_get_layout_style( ".wp-container-$id", $used_layout, $has_block_gap_support );
+	$id        = uniqid();
+	$gap_value = _wp_array_get( $block, array( 'attrs', 'style', 'spacing', 'blockGap' ) );
+	// Skip if gap value contains unsupported characters.
+	// Regex for CSS value borrowed from `safecss_filter_attr`, and used here
+	// because we only want to match against the value, not the CSS attribute.
+	$gap_value = preg_match( '%[\\\(&=}]|/\*%', $gap_value ) ? null : $gap_value;
+	$style     = wp_get_layout_style( ".wp-container-$id", $used_layout, $has_block_gap_support, $gap_value );
 	// This assumes the hook only applies to blocks with a single wrapper.
 	// I think this is a reasonable limitation for that particular hook.
 	$content = preg_replace(

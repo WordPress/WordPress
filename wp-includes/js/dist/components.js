@@ -41251,7 +41251,7 @@ const NameContainer = Object(emotion_styled_base_browser_esm["a" /* default */])
 } : undefined)("line-height:", space(8), ";margin-left:", space(2), ";margin-right:", space(2), ";white-space:nowrap;overflow:hidden;" + ( true ? "" : undefined));
 const PaletteHeading = /*#__PURE__*/Object(emotion_styled_base_browser_esm["a" /* default */])(heading_component,  true ? {
   target: "e5bw3225"
-} : undefined)("text-transform:uppercase;line-height:", space(6), ";&&&{margin-bottom:0;}" + ( true ? "" : undefined));
+} : undefined)("text-transform:uppercase;line-height:", space(6), ";font-weight:500;&&&{font-size:11px;margin-bottom:0;}" + ( true ? "" : undefined));
 const PaletteActionsContainer = /*#__PURE__*/Object(emotion_styled_base_browser_esm["a" /* default */])(view_component["a" /* default */],  true ? {
   target: "e5bw3224"
 } : undefined)("height:", space(6), ";display:flex;" + ( true ? "" : undefined));
@@ -51484,12 +51484,13 @@ const FONT_SIZES_ALIASES = ['1', '2', '3', '4', '5'];
  */
 
 function splitValueAndUnitFromSize(size) {
-  /**
-   * The first matched result is ignored as it's the left
-   * hand side of the capturing group in the regex.
-   */
-  const [, numericValue, unit] = size.split(/(\d+)/);
-  return [numericValue, unit];
+  const [numericValue, unit] = `${size}`.match(/[\d\.]+|\D+/g);
+
+  if (!isNaN(parseFloat(numericValue)) && isFinite(numericValue)) {
+    return [numericValue, unit];
+  }
+
+  return [];
 }
 /**
  * Some themes use css vars for their font sizes, so until we
@@ -51500,7 +51501,7 @@ function splitValueAndUnitFromSize(size) {
  */
 
 function isSimpleCssValue(value) {
-  const sizeRegex = /^(?!0)\d+(px|em|rem|vw|vh|%)?$/i;
+  const sizeRegex = /^[\d\.]+(px|em|rem|vw|vh|%)?$/i;
   return sizeRegex.test(value);
 }
 /**
@@ -51534,7 +51535,7 @@ function getSelectOptions(optionsArray, disableCustomFontSizes) {
       key: slug,
       name,
       size,
-      __experimentalHint: size && isSimpleCssValue(size) && parseInt(size)
+      __experimentalHint: size && isSimpleCssValue(size) && parseFloat(size)
     };
   });
 }
@@ -58858,20 +58859,28 @@ const DEFAULT_COLUMNS = 2;
 const generateMenuItems = _ref => {
   let {
     panelItems,
-    shouldReset
+    shouldReset,
+    currentMenuItems
   } = _ref;
   const menuItems = {
     default: {},
     optional: {}
   };
   panelItems.forEach(_ref2 => {
+    var _currentMenuItems$gro;
+
     let {
       hasValue,
       isShownByDefault,
       label
     } = _ref2;
-    const group = isShownByDefault ? 'default' : 'optional';
-    menuItems[group][label] = shouldReset ? false : hasValue();
+    const group = isShownByDefault ? 'default' : 'optional'; // If a menu item for this label already exists, do not overwrite its value.
+    // This can cause default controls that have been flagged as customized to
+    // lose their value.
+
+    const existingItemValue = currentMenuItems === null || currentMenuItems === void 0 ? void 0 : (_currentMenuItems$gro = currentMenuItems[group]) === null || _currentMenuItems$gro === void 0 ? void 0 : _currentMenuItems$gro[label];
+    const value = existingItemValue !== undefined ? existingItemValue : hasValue();
+    menuItems[group][label] = shouldReset ? false : value;
   });
   return menuItems;
 };
@@ -58900,7 +58909,19 @@ function useToolsPanel(props) {
   const [panelItems, setPanelItems] = Object(external_wp_element_["useState"])([]);
 
   const registerPanelItem = item => {
-    setPanelItems(items => [...items, item]);
+    setPanelItems(items => {
+      const newItems = [...items]; // If an item with this label is already registered, remove it first.
+      // This can happen when an item is moved between the default and optional
+      // groups.
+
+      const existingIndex = newItems.findIndex(oldItem => oldItem.label === item.label);
+
+      if (existingIndex !== -1) {
+        newItems.splice(existingIndex, 1);
+      }
+
+      return [...newItems, item];
+    });
   }; // Panels need to deregister on unmount to avoid orphans in menu state.
   // This is an issue when panel items are being injected via SlotFills.
 
@@ -58910,11 +58931,16 @@ function useToolsPanel(props) {
     // controls, e.g. both panels have a "padding" control, the
     // deregistration of the first panel doesn't occur until after the
     // registration of the next.
-    const index = panelItems.findIndex(item => item.label === label);
+    setPanelItems(items => {
+      const newItems = [...items];
+      const index = newItems.findIndex(item => item.label === label);
 
-    if (index !== -1) {
-      setPanelItems(items => items.splice(index, 1));
-    }
+      if (index !== -1) {
+        newItems.splice(index, 1);
+      }
+
+      return newItems;
+    });
   }; // Manage and share display state of menu items representing child controls.
 
 
@@ -58924,22 +58950,28 @@ function useToolsPanel(props) {
   }); // Setup menuItems state as panel items register themselves.
 
   Object(external_wp_element_["useEffect"])(() => {
-    const items = generateMenuItems({
-      panelItems,
-      shouldReset: false
+    setMenuItems(prevState => {
+      const items = generateMenuItems({
+        panelItems,
+        shouldReset: false,
+        currentMenuItems: prevState
+      });
+      return items;
     });
-    setMenuItems(items);
   }, [panelItems]); // Force a menu item to be checked.
   // This is intended for use with default panel items. They are displayed
   // separately to optional items and have different display states,
-  //.we need to update that when their value is customized.
+  // we need to update that when their value is customized.
 
   const flagItemCustomization = function (label) {
     let group = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'default';
-    setMenuItems({ ...menuItems,
-      [group]: { ...menuItems[group],
-        [label]: true
-      }
+    setMenuItems(items => {
+      const newState = { ...items,
+        [group]: { ...items[group],
+          [label]: true
+        }
+      };
+      return newState;
     });
   }; // Whether all optional menu items are hidden or not must be tracked
   // in order to later determine if the panel display is empty and handle

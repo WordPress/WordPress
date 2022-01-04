@@ -6554,11 +6554,10 @@ const columns_metadata = {
       link: true
     },
     spacing: {
-      blockGap: true,
       margin: ["top", "bottom"],
       padding: true,
       __experimentalDefaultControls: {
-        blockGap: true
+        padding: true
       }
     }
   },
@@ -23054,11 +23053,7 @@ const navigation_metadata = {
       }
     },
     spacing: {
-      blockGap: true,
-      units: ["px", "em", "rem", "vh", "vw"],
-      __experimentalDefaultControls: {
-        blockGap: true
-      }
+      units: ["px", "em", "rem", "vh", "vw"]
     },
     __experimentalLayout: {
       allowSwitching: false,
@@ -26438,7 +26433,7 @@ function PostAuthorEdit(_ref) {
     attributes,
     setAttributes
   } = _ref;
-  const isDescendentOfQueryLoop = !!queryId;
+  const isDescendentOfQueryLoop = Number.isFinite(queryId);
   const {
     authorId,
     authorDetails,
@@ -26897,7 +26892,7 @@ function Content(props) {
       postId
     } = {}
   } = props;
-  const isDescendentOfQueryLoop = !!queryId;
+  const isDescendentOfQueryLoop = Number.isFinite(queryId);
   const userCanEdit = useCanEditEntity('postType', postType, postId);
   const isEditable = userCanEdit && !isDescendentOfQueryLoop;
   return isEditable ? Object(external_wp_element_["createElement"])(EditableContent, props) : Object(external_wp_element_["createElement"])(ReadOnlyContent, {
@@ -27025,7 +27020,7 @@ function PostDateEdit(_ref) {
     },
     setAttributes
   } = _ref;
-  const isDescendentOfQueryLoop = !!queryId;
+  const isDescendentOfQueryLoop = Number.isFinite(queryId);
   const [siteFormat] = Object(external_wp_coreData_["useEntityProp"])('root', 'site', 'date_format');
   const [date, setDate] = Object(external_wp_coreData_["useEntityProp"])('postType', postType, 'date', postId);
 
@@ -27300,7 +27295,7 @@ function PostExcerptEditor(_ref) {
       queryId
     }
   } = _ref;
-  const isDescendentOfQueryLoop = !!queryId;
+  const isDescendentOfQueryLoop = Number.isFinite(queryId);
   const userCanEdit = useCanEditEntity('postType', postType, postId);
   const isEditable = userCanEdit && !isDescendentOfQueryLoop;
   const [rawExcerpt, setExcerpt, {
@@ -27590,7 +27585,7 @@ function PostFeaturedImageDisplay(_ref) {
       queryId
     }
   } = _ref;
-  const isDescendentOfQueryLoop = !!queryId;
+  const isDescendentOfQueryLoop = Number.isFinite(queryId);
   const {
     isLink,
     height,
@@ -28510,7 +28505,7 @@ function PostTitleEdit(_ref) {
     }
   } = _ref;
   const TagName = 0 === level ? 'p' : 'h' + level;
-  const isDescendentOfQueryLoop = !!queryId;
+  const isDescendentOfQueryLoop = Number.isFinite(queryId);
   const userCanEdit = useCanEditEntity('postType', postType, postId);
   const [rawTitle = '', setTitle, fullTitle] = Object(external_wp_coreData_["useEntityProp"])('postType', postType, 'title', postId);
   const [link] = Object(external_wp_coreData_["useEntityProp"])('postType', postType, 'link', postId);
@@ -33641,7 +33636,8 @@ const SiteLogo = _ref => {
       width,
       height,
       isLink,
-      linkTarget
+      linkTarget,
+      shouldSyncIcon
     },
     containerRef,
     isSelected,
@@ -33649,7 +33645,10 @@ const SiteLogo = _ref => {
     setLogo,
     logoUrl,
     siteUrl,
-    logoId
+    logoId,
+    iconId,
+    setIcon,
+    canUserEdit
   } = _ref;
   const clientWidth = useClientWidth(containerRef, [align]);
   const isLargeViewport = Object(external_wp_compose_["useViewportMatch"])('medium');
@@ -33679,6 +33678,16 @@ const SiteLogo = _ref => {
       title: siteEntities.title,
       ...Object(external_lodash_["pick"])(getSettings(), ['imageEditing', 'maxWidth'])
     };
+  }, []);
+  Object(external_wp_element_["useEffect"])(() => {
+    // Turn the `Use as site icon` toggle off if it is on but the logo and icon have
+    // fallen out of sync. This can happen if the toggle is saved in the `on` position,
+    // but changes are later made to the site icon in the Customizer.
+    if (shouldSyncIcon && logoId !== iconId) {
+      setAttributes({
+        shouldSyncIcon: false
+      });
+    }
   }, []);
   Object(external_wp_element_["useEffect"])(() => {
     if (!isSelected) {
@@ -33828,6 +33837,14 @@ const SiteLogo = _ref => {
       });
     }
   }, imgWrapper);
+  const syncSiteIconHelpText = Object(external_wp_element_["createInterpolateElement"])(Object(external_wp_i18n_["__"])('Site Icons are what you see in browser tabs, bookmark bars, and within the WordPress mobile apps. To use a custom icon that is different from your site logo, use the <a>Site Icon settings</a>.'), {
+    a: // eslint-disable-next-line jsx-a11y/anchor-has-content
+    Object(external_wp_element_["createElement"])("a", {
+      href: siteUrl + '/wp-admin/customize.php?autofocus[section]=title_tagline',
+      target: "_blank",
+      rel: "noopener noreferrer"
+    })
+  });
   return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["InspectorControls"], null, Object(external_wp_element_["createElement"])(external_wp_components_["PanelBody"], {
     title: Object(external_wp_i18n_["__"])('Settings')
   }, Object(external_wp_element_["createElement"])(external_wp_components_["RangeControl"], {
@@ -33852,6 +33869,16 @@ const SiteLogo = _ref => {
       linkTarget: value ? '_blank' : '_self'
     }),
     checked: linkTarget === '_blank'
+  })), canUserEdit && Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(external_wp_components_["ToggleControl"], {
+    label: Object(external_wp_i18n_["__"])('Use as site icon'),
+    onChange: value => {
+      setAttributes({
+        shouldSyncIcon: value
+      });
+      setIcon(value ? logoId : undefined);
+    },
+    checked: !!shouldSyncIcon,
+    help: syncSiteIconHelpText
   })))), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockControls"], {
     group: "block"
   }, canEditImage && !isEditingImage && Object(external_wp_element_["createElement"])(external_wp_components_["ToolbarButton"], {
@@ -33869,7 +33896,9 @@ function LogoEdit(_ref2) {
     isSelected
   } = _ref2;
   const {
-    width
+    className: styleClass,
+    width,
+    shouldSyncIcon
   } = attributes;
   const [logoUrl, setLogoUrl] = Object(external_wp_element_["useState"])();
   const ref = Object(external_wp_element_["useRef"])();
@@ -33877,6 +33906,7 @@ function LogoEdit(_ref2) {
     siteLogoId,
     canUserEdit,
     url,
+    siteIconId,
     mediaItemData,
     isRequestingMediaItem
   } = Object(external_wp_data_["useSelect"])(select => {
@@ -33896,6 +33926,8 @@ function LogoEdit(_ref2) {
 
     const _siteLogoId = _canUserEdit ? _siteLogo : _readOnlyLogo;
 
+    const _siteIconId = siteSettings === null || siteSettings === void 0 ? void 0 : siteSettings.site_icon;
+
     const mediaItem = _siteLogoId && select(external_wp_coreData_["store"]).getMedia(_siteLogoId, {
       context: 'view'
     });
@@ -33913,15 +33945,54 @@ function LogoEdit(_ref2) {
         url: mediaItem.source_url,
         alt: mediaItem.alt_text
       },
-      isRequestingMediaItem: _isRequestingMediaItem
+      isRequestingMediaItem: _isRequestingMediaItem,
+      siteIconId: _siteIconId
     };
   }, []);
   const {
+    getGlobalBlockCount
+  } = Object(external_wp_data_["useSelect"])(external_wp_blockEditor_["store"]);
+  const {
     editEntityRecord
   } = Object(external_wp_data_["useDispatch"])(external_wp_coreData_["store"]);
+  Object(external_wp_element_["useEffect"])(() => {
+    // Cleanup function to discard unsaved changes to the icon and logo when
+    // the block is removed.
+    return () => {
+      // Do nothing if the block is being rendered in the styles preview or the
+      // block inserter.
+      if (styleClass !== null && styleClass !== void 0 && styleClass.includes('block-editor-block-types-list__site-logo-example') || styleClass !== null && styleClass !== void 0 && styleClass.includes('block-editor-block-styles__block-preview-container')) {
+        return;
+      }
 
-  const setLogo = newValue => editEntityRecord('root', 'site', undefined, {
-    site_logo: newValue
+      const logoBlockCount = getGlobalBlockCount('core/site-logo'); // Only discard unsaved changes if we are removing the last Site Logo block
+      // on the page.
+
+      if (logoBlockCount === 0) {
+        editEntityRecord('root', 'site', undefined, {
+          site_logo: undefined,
+          site_icon: undefined
+        });
+      }
+    };
+  }, []);
+
+  const setLogo = function (newValue) {
+    let shouldForceSync = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
+    // `shouldForceSync` is used to force syncing when the attribute
+    // may not have updated yet.
+    if (shouldSyncIcon || shouldForceSync) {
+      setIcon(newValue);
+    }
+
+    editEntityRecord('root', 'site', undefined, {
+      site_logo: newValue
+    });
+  };
+
+  const setIcon = newValue => editEntityRecord('root', 'site', undefined, {
+    site_icon: newValue
   });
 
   let alt = null;
@@ -33934,7 +34005,26 @@ function LogoEdit(_ref2) {
     }
   }
 
-  const onSelectLogo = media => {
+  const onInitialSelectLogo = media => {
+    // Initialize the syncSiteIcon toggle. If we currently have no Site logo and no
+    // site icon, automatically sync the logo to the icon.
+    if (shouldSyncIcon === undefined) {
+      const shouldForceSync = !siteIconId;
+      setAttributes({
+        shouldSyncIcon: shouldForceSync
+      }); // Because we cannot rely on the `shouldSyncIcon` attribute to have updated by
+      // the time `setLogo` is called, pass an argument to force the syncing.
+
+      onSelectLogo(media, shouldForceSync);
+      return;
+    }
+
+    onSelectLogo(media);
+  };
+
+  const onSelectLogo = function (media) {
+    let shouldForceSync = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
     if (!media) {
       return;
     }
@@ -33946,7 +34036,7 @@ function LogoEdit(_ref2) {
       return;
     }
 
-    setLogo(media.id);
+    setLogo(media.id, shouldForceSync);
   };
 
   const onRemoveLogo = () => {
@@ -33996,7 +34086,10 @@ function LogoEdit(_ref2) {
       logoUrl: logoUrl,
       setLogo: setLogo,
       logoId: (mediaItemData === null || mediaItemData === void 0 ? void 0 : mediaItemData.id) || siteLogoId,
-      siteUrl: url
+      siteUrl: url,
+      setIcon: setIcon,
+      iconId: siteIconId,
+      canUserEdit: canUserEdit
     });
   }
 
@@ -34031,7 +34124,7 @@ function LogoEdit(_ref2) {
   }, isLoading && Object(external_wp_element_["createElement"])("span", {
     className: "components-placeholder__preview"
   }, Object(external_wp_element_["createElement"])(external_wp_components_["Spinner"], null))), !logoUrl && canUserEdit && Object(external_wp_element_["createElement"])(external_wp_blockEditor_["MediaPlaceholder"], {
-    onSelect: onSelectLogo,
+    onSelect: onInitialSelectLogo,
     accept: ACCEPT_MEDIA_STRING,
     allowedTypes: site_logo_edit_ALLOWED_MEDIA_TYPES,
     onError: onUploadError,
@@ -34081,12 +34174,16 @@ const site_logo_metadata = {
     linkTarget: {
       type: "string",
       "default": "_self"
+    },
+    shouldSyncIcon: {
+      type: "boolean"
     }
   },
   example: {
     viewportWidth: 500,
     attributes: {
-      width: 350
+      width: 350,
+      className: "block-editor-block-types-list__site-logo-example"
     }
   },
   supports: {
@@ -39554,7 +39651,31 @@ const template_part_settings = {
   edit: TemplatePartEdit
 }; // Importing this file includes side effects. This is whitelisted in block-library/package.json under sideEffects
 
-Object(external_wp_hooks_["addFilter"])('blocks.registerBlockType', 'core/template-part', enhanceTemplatePartVariations);
+Object(external_wp_hooks_["addFilter"])('blocks.registerBlockType', 'core/template-part', enhanceTemplatePartVariations); // Prevent adding template parts inside post templates.
+
+const DISALLOWED_PARENTS = ['core/post-template', 'core/post-content'];
+Object(external_wp_hooks_["addFilter"])('blockEditor.__unstableCanInsertBlockType', 'removeTemplatePartsFromPostTemplates', (can, blockType, rootClientId, _ref2) => {
+  let {
+    getBlock,
+    getBlockParentsByBlockName
+  } = _ref2;
+
+  if (blockType.name !== 'core/template-part') {
+    return can;
+  }
+
+  for (const disallowedParentType of DISALLOWED_PARENTS) {
+    var _getBlock;
+
+    const hasDisallowedParent = ((_getBlock = getBlock(rootClientId)) === null || _getBlock === void 0 ? void 0 : _getBlock.name) === disallowedParentType || getBlockParentsByBlockName(rootClientId, disallowedParentType).length;
+
+    if (hasDisallowedParent) {
+      return false;
+    }
+  }
+
+  return true;
+});
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/term-description.js
 

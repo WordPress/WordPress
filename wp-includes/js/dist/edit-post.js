@@ -3746,11 +3746,11 @@ var external_wp_blockLibrary_ = __webpack_require__("QyPg");
 // EXTERNAL MODULE: external ["wp","data"]
 var external_wp_data_ = __webpack_require__("1ZqX");
 
-// EXTERNAL MODULE: ./node_modules/@wordpress/interface/build-module/index.js + 17 modules
-var build_module = __webpack_require__("U60i");
-
 // EXTERNAL MODULE: external ["wp","hooks"]
 var external_wp_hooks_ = __webpack_require__("g56x");
+
+// EXTERNAL MODULE: ./node_modules/@wordpress/interface/build-module/index.js + 17 modules
+var build_module = __webpack_require__("U60i");
 
 // EXTERNAL MODULE: external ["wp","mediaUtils"]
 var external_wp_mediaUtils_ = __webpack_require__("6aBm");
@@ -5918,16 +5918,22 @@ function ModeSwitcher() {
     shortcut,
     isRichEditingEnabled,
     isCodeEditingEnabled,
+    isEditingTemplate,
     mode
   } = Object(external_wp_data_["useSelect"])(select => ({
     shortcut: select(external_wp_keyboardShortcuts_["store"]).getShortcutRepresentation('core/edit-post/toggle-mode'),
     isRichEditingEnabled: select(external_wp_editor_["store"]).getEditorSettings().richEditingEnabled,
     isCodeEditingEnabled: select(external_wp_editor_["store"]).getEditorSettings().codeEditingEnabled,
+    isEditingTemplate: select(store["a" /* store */]).isEditingTemplate(),
     mode: select(store["a" /* store */]).getEditorMode()
   }), []);
   const {
     switchEditorMode
   } = Object(external_wp_data_["useDispatch"])(store["a" /* store */]);
+
+  if (isEditingTemplate) {
+    return null;
+  }
 
   if (!isRichEditingEnabled || !isCodeEditingEnabled) {
     return null;
@@ -9571,9 +9577,11 @@ function PluginSidebarMoreMenuItem(props) {
 
 
 
+
 /**
  * Internal dependencies
  */
+
 
 
 
@@ -9617,6 +9625,15 @@ function reinitializeEditor(postType, postId, target, settings, initialEdits) {
  */
 
 function initializeEditor(id, postType, postId, settings, initialEdits) {
+  // Prevent adding template part in the post editor.
+  // Only add the filter when the post editor is initialized, not imported.
+  Object(external_wp_hooks_["addFilter"])('blockEditor.__unstableCanInsertBlockType', 'removeTemplatePartsFromInserter', (can, blockType) => {
+    if (!Object(external_wp_data_["select"])(store["a" /* store */]).isEditingTemplate() && blockType.name === 'core/template-part') {
+      return false;
+    }
+
+    return can;
+  });
   const target = document.getElementById(id);
   const reboot = reinitializeEditor.bind(null, postType, postId, target, settings, initialEdits);
   Object(external_wp_data_["dispatch"])(build_module["i" /* store */]).setFeatureDefaults('core/edit-post', {

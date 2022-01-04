@@ -16,12 +16,16 @@
 		"linkTarget": {
 			"type": "string",
 			"default": "_self"
+		},
+		"shouldSyncIcon": {
+			"type": "boolean"
 		}
 	},
 	"example": {
 		"viewportWidth": 500,
 		"attributes": {
-			"width": 350
+			"width": 350,
+			"className": "block-editor-block-types-list__site-logo-example"
 		}
 	},
 	"supports": {

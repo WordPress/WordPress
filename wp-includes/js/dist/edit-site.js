@@ -488,7 +488,7 @@ function SiteExport() {
     icon: library_download,
     onClick: handleExport,
     info: Object(external_wp_i18n_["__"])('Download your templates and template parts.')
-  }, Object(external_wp_i18n_["__"])('Export'));
+  }, Object(external_wp_i18n_["_x"])('Export', 'site exporter menu item'));
 }
 
 // EXTERNAL MODULE: external ["wp","dataControls"]
@@ -530,23 +530,18 @@ const TEMPLATES_TOP_LEVEL = [...TEMPLATES_PRIMARY, ...TEMPLATES_SECONDARY];
 const TEMPLATES_GENERAL = ['page-home'];
 const TEMPLATES_POSTS_PREFIXES = ['post-', 'author-', 'single-post-', 'tag-'];
 const TEMPLATES_PAGES_PREFIXES = ['page-'];
-const TEMPLATES_NEW_OPTIONS = ['front-page', 'single-post', 'page', 'archive', 'search', '404', 'index'];
 const TEMPLATE_OVERRIDES = {
   singular: ['single', 'page'],
   index: ['archive', '404', 'search', 'singular', 'home'],
   home: ['front-page']
 };
 const MENU_ROOT = 'root';
-const MENU_CONTENT_CATEGORIES = 'content-categories';
-const MENU_CONTENT_PAGES = 'content-pages';
-const MENU_CONTENT_POSTS = 'content-posts';
 const MENU_TEMPLATE_PARTS = 'template-parts';
 const MENU_TEMPLATES = 'templates';
 const MENU_TEMPLATES_GENERAL = 'templates-general';
 const MENU_TEMPLATES_PAGES = 'templates-pages';
 const MENU_TEMPLATES_POSTS = 'templates-posts';
 const MENU_TEMPLATES_UNUSED = 'templates-unused';
-const SEARCH_DEBOUNCE_IN_MS = 75;
 const MENU_TEMPLATE_PARTS_HEADERS = 'template-parts-headers';
 const MENU_TEMPLATE_PARTS_FOOTERS = 'template-parts-footers';
 const MENU_TEMPLATE_PARTS_SIDEBARS = 'template-parts-sidebars';
@@ -6264,14 +6259,41 @@ function ResizableEditor(_ref) {
       return;
     }
 
-    const resizeObserver = new iframe.contentWindow.ResizeObserver(() => {
-      setHeight(iframe.contentDocument.querySelector(`.edit-site-block-editor__block-list`).offsetHeight);
-    }); // Observing the <html> rather than the <body> because the latter
-    // gets destroyed and remounted after initialization in <Iframe>.
+    let animationFrame = null;
 
-    resizeObserver.observe(iframe.contentDocument.documentElement);
+    function resizeHeight() {
+      if (!animationFrame) {
+        // Throttle the updates on animation frame.
+        animationFrame = iframe.contentWindow.requestAnimationFrame(() => {
+          setHeight(iframe.contentDocument.documentElement.scrollHeight);
+          animationFrame = null;
+        });
+      }
+    }
+
+    let resizeObserver;
+
+    function registerObserver() {
+      var _resizeObserver;
+
+      (_resizeObserver = resizeObserver) === null || _resizeObserver === void 0 ? void 0 : _resizeObserver.disconnect();
+      resizeObserver = new iframe.contentWindow.ResizeObserver(resizeHeight); // Observing the <html> rather than the <body> because the latter
+      // gets destroyed and remounted after initialization in <Iframe>.
+
+      resizeObserver.observe(iframe.contentDocument.documentElement);
+      resizeHeight();
+    } // This is only required in Firefox for some unknown reasons.
+
+
+    iframe.addEventListener('load', registerObserver); // This is required in Chrome and Safari.
+
+    registerObserver();
     return () => {
-      resizeObserver.disconnect();
+      var _iframe$contentWindow, _resizeObserver2;
+
+      (_iframe$contentWindow = iframe.contentWindow) === null || _iframe$contentWindow === void 0 ? void 0 : _iframe$contentWindow.cancelAnimationFrame(animationFrame);
+      (_resizeObserver2 = resizeObserver) === null || _resizeObserver2 === void 0 ? void 0 : _resizeObserver2.disconnect();
+      iframe.removeEventListener('load', registerObserver);
     };
   }, [enableResizing]);
   const resizeWidthBy = Object(external_wp_element_["useCallback"])(deltaPixels => {
@@ -6320,7 +6342,10 @@ function ResizableEditor(_ref) {
       styles: settings.styles
     }), Object(external_wp_element_["createElement"])("style", null, // Forming a "block formatting context" to prevent margin collapsing.
     // @see https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Block_formatting_context
-    `.edit-site-block-editor__block-list { display: flow-root; }`)),
+    `.is-root-container { display: flow-root; }`), enableResizing && Object(external_wp_element_["createElement"])("style", null, // Force the <html> and <body>'s heights to fit the content.
+    `html, body { height: -moz-fit-content !important; height: fit-content !important; min-height: 0 !important; }`, // Some themes will have `min-height: 100vh` for the root container,
+    // which isn't a requirement in auto resize mode.
+    `.is-root-container { min-height: 0 !important; }`)),
     ref: ref,
     name: "editor-canvas",
     className: "edit-site-visual-editor__editor-canvas"
@@ -6418,7 +6443,7 @@ function BlockEditor(_ref) {
         clearSelectedBlock();
       }
     }
-  }, Object(external_wp_element_["createElement"])(back_button, null), Object(external_wp_element_["createElement"])(resizable_editor // Reinitialize the editor and reset the states when the template changes.
+  }, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["BlockEditorKeyboardShortcuts"].Register, null), Object(external_wp_element_["createElement"])(back_button, null), Object(external_wp_element_["createElement"])(resizable_editor // Reinitialize the editor and reset the states when the template changes.
   , {
     key: templateId,
     enableResizing: isTemplatePart && // Disable resizing in mobile viewport.
