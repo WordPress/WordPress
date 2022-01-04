@@ -4183,7 +4183,7 @@ function _add_default_theme_supports() {
 	add_theme_support( 'editor-styles' );
 	/*
 	 * Makes block themes support HTML5 by default for the comment block and search form
-	 * (which use default template functions) and `[caption]` and `[gallery]` shortcodes. 
+	 * (which use default template functions) and `[caption]` and `[gallery]` shortcodes.
 	 * Other blocks contain their own HTML5 markup.
 	 */
 	add_theme_support( 'html5', array( 'comment-form', 'comment-list', 'search-form', 'gallery', 'caption', 'style', 'script' ) );
