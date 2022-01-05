@@ -979,7 +979,7 @@ switch ( $action ) {
 			?>
 			<input type="hidden" name="rp_key" value="<?php echo esc_attr( $rp_key ); ?>" />
 			<p class="submit reset-pass-submit">
-				<button type="button" class="button wp-generate-pw hide-if-no-js" aria-expanded="true"><?php _e( 'Generate Password' ); ?></button>
+				<button type="button" class="button wp-generate-pw hide-if-no-js skip-aria-expanded"><?php _e( 'Generate Password' ); ?></button>
 				<input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php esc_attr_e( 'Save Password' ); ?>" />
 			</p>
 		</form>
