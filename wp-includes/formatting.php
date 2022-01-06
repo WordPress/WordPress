@@ -1138,12 +1138,14 @@ function wp_check_invalid_utf8( $string, $strip = false ) {
  * Encode the Unicode values to be used in the URI.
  *
  * @since 1.5.0
+ * @since 5.8.3 Added the `encode_ascii_characters` parameter.
  *
- * @param string $utf8_string
- * @param int    $length Max  length of the string
+ * @param string $utf8_string             String to encode.
+ * @param int    $length                  Max length of the string
+ * @param bool   $encode_ascii_characters Whether to encode ascii characters such as < " '
  * @return string String with Unicode encoded for URI.
  */
-function utf8_uri_encode( $utf8_string, $length = 0 ) {
+function utf8_uri_encode( $utf8_string, $length = 0, $encode_ascii_characters = false ) {
 	$unicode        = '';
 	$values         = array();
 	$num_octets     = 1;
@@ -1158,11 +1160,14 @@ function utf8_uri_encode( $utf8_string, $length = 0 ) {
 		$value = ord( $utf8_string[ $i ] );
 
 		if ( $value < 128 ) {
-			if ( $length && ( $unicode_length >= $length ) ) {
+			$char                = chr( $value );
+			$encoded_char        = $encode_ascii_characters ? rawurlencode( $char ) : $char;
+			$encoded_char_length = strlen( $encoded_char );
+			if ( $length && ( $unicode_length + $encoded_char_length ) > $length ) {
 				break;
 			}
-			$unicode .= chr( $value );
-			$unicode_length++;
+			$unicode        .= $encoded_char;
+			$unicode_length += $encoded_char_length;
 		} else {
 			if ( count( $values ) == 0 ) {
 				if ( $value < 224 ) {

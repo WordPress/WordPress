@@ -4924,7 +4924,7 @@ function _truncate_post_slug( $slug, $length = 200 ) {
 		if ( $decoded_slug === $slug ) {
 			$slug = substr( $slug, 0, $length );
 		} else {
-			$slug = utf8_uri_encode( $decoded_slug, $length );
+			$slug = utf8_uri_encode( $decoded_slug, $length, true );
 		}
 	}
 
