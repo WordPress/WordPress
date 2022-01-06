@@ -527,7 +527,7 @@ class WP_Tax_Query {
 
 			// The sibling must both have compatible operator to share its alias.
 			if ( in_array( strtoupper( $sibling['operator'] ), $compatible_operators, true ) ) {
-				$alias = $sibling['alias'];
+				$alias = preg_replace( '/\W/', '_', $sibling['alias'] );
 				break;
 			}
 		}
@@ -556,7 +556,11 @@ class WP_Tax_Query {
 			return;
 		}
 
-		$query['terms'] = array_unique( (array) $query['terms'] );
+		if ( 'slug' === $query['field'] || 'name' === $query['field'] ) {
+			$query['terms'] = array_unique( (array) $query['terms'] );
+		} else {
+			$query['terms'] = wp_parse_id_list( $query['terms'] );
+		}
 
 		if ( is_taxonomy_hierarchical( $query['taxonomy'] ) && $query['include_children'] ) {
 			$this->transform_query( $query, 'term_id' );
