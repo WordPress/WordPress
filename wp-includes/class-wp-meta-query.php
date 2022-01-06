@@ -717,7 +717,7 @@ class WP_Meta_Query {
 			$clause_compare  = strtoupper( $clause['compare'] );
 			$sibling_compare = strtoupper( $sibling['compare'] );
 			if ( in_array( $clause_compare, $compatible_compares ) && in_array( $sibling_compare, $compatible_compares ) ) {
-				$alias = $sibling['alias'];
+				$alias = preg_replace( '/\W/', '_', $sibling['alias'] );
 				break;
 			}
 		}
