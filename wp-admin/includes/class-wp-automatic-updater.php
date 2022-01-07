@@ -419,9 +419,10 @@ class WP_Automatic_Updater {
 				return false;
 			}
 
-			// Core doesn't output this, so let's append it so we don't get confused.
+			// Core doesn't output this, so let's append it, so we don't get confused.
 			if ( is_wp_error( $upgrade_result ) ) {
-				$skin->error( __( 'Installation failed.' ), $upgrade_result );
+				$upgrade_result->add( 'installation_failed', __( 'Installation failed.' ) );
+				$skin->error( $upgrade_result );
 			} else {
 				$skin->feedback( __( 'WordPress updated successfully.' ) );
 			}
