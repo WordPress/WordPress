@@ -694,7 +694,7 @@ function get_taxonomy_labels( $tax ) {
 		'back_to_items'              => array( __( '&larr; Go to Tags' ), __( '&larr; Go to Categories' ) ),
 		'item_link'                  => array(
 			_x( 'Tag Link', 'navigation link block title' ),
-			_x( 'Category Link', 'navigation link block description' ),
+			_x( 'Category Link', 'navigation link block title' ),
 		),
 		'item_link_description'      => array(
 			_x( 'A link to a tag.', 'navigation link block description' ),

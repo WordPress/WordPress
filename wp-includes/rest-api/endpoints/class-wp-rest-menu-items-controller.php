@@ -816,7 +816,7 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller {
 		);
 
 		$schema['properties']['object'] = array(
-			'description' => __( 'The type of object originally represented, such as "category," "post", or "attachment."' ),
+			'description' => __( 'The type of object originally represented, such as "category", "post", or "attachment".' ),
 			'context'     => array( 'view', 'edit', 'embed' ),
 			'type'        => 'string',
 			'arg_options' => array(

@@ -52,7 +52,7 @@ $title       = __( 'Add Plugins' );
 $parent_file = 'plugins.php';
 
 wp_enqueue_script( 'plugin-install' );
-if ( 'plugin-information' != $tab ) {
+if ( 'plugin-information' !== $tab ) {
 	add_thickbox();
 }
 
