@@ -74,7 +74,7 @@ if ( current_user_can( 'switch_themes' ) && isset( $_GET['action'] ) ) {
 		}
 
 		$active = wp_get_theme();
-		if ( $active->get( 'Template' ) == $_GET['stylesheet'] ) {
+		if ( $active->get( 'Template' ) === $_GET['stylesheet'] ) {
 			wp_redirect( admin_url( 'themes.php?delete-active-child=true' ) );
 		} else {
 			delete_theme( $_GET['stylesheet'] );
@@ -320,13 +320,18 @@ if ( is_array( $submenu ) && isset( $submenu['themes.php'] ) ) {
 		if ( in_array( $item[2], $forbidden_paths, true ) || str_starts_with( $item[2], 'customize.php' ) ) {
 			continue;
 		}
+
 		// 0 = name, 1 = capability, 2 = file.
-		if ( ( strcmp( $self, $item[2] ) == 0 && empty( $parent_file ) ) || ( $parent_file && ( $item[2] == $parent_file ) ) ) {
+		if ( 0 === strcmp( $self, $item[2] ) && empty( $parent_file )
+			|| $parent_file && $item[2] === $parent_file
+		) {
 			$class = ' current';
 		}
+
 		if ( ! empty( $submenu[ $item[2] ] ) ) {
 			$submenu[ $item[2] ] = array_values( $submenu[ $item[2] ] ); // Re-index.
 			$menu_hook           = get_plugin_page_hook( $submenu[ $item[2] ][0][2], $item[2] );
+
 			if ( file_exists( WP_PLUGIN_DIR . "/{$submenu[$item[2]][0][2]}" ) || ! empty( $menu_hook ) ) {
 				$current_theme_actions[] = "<a class='button$class' href='admin.php?page={$submenu[$item[2]][0][2]}'>{$item[0]}</a>";
 			} else {
