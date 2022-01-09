@@ -124,7 +124,7 @@ if ( current_user_can( 'switch_themes' ) && isset( $_GET['action'] ) ) {
 }
 
 // Used in the HTML title tag.
-$title       = __( 'Manage Themes' );
+$title       = __( 'Themes' );
 $parent_file = 'themes.php';
 
 // Help tab: Overview.
@@ -205,6 +205,7 @@ if ( current_user_can( 'update_themes' ) && wp_is_auto_update_enabled_for_type( 
 get_current_screen()->set_help_sidebar(
 	'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
 	'<p>' . __( '<a href="https://wordpress.org/support/article/using-themes/">Documentation on Using Themes</a>' ) . '</p>' .
+	'<p>' . __( '<a href="https://wordpress.org/support/article/appearance-themes-screen/">Documentation on the Appearance Themes Screen</a>' ) . '</p>' .
 	$help_sidebar_autoupdates .
 	'<p>' . __( '<a href="https://wordpress.org/support/">Support</a>' ) . '</p>'
 );
