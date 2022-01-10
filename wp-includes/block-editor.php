@@ -309,8 +309,8 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
 
 	$presets = array(
 		array(
-			'css'                     => 'variables',
-			'__unstableType'          => 'presets',
+			'css'            => 'variables',
+			'__unstableType' => 'presets',
 		),
 		array(
 			'css'            => 'presets',
