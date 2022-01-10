@@ -2307,10 +2307,6 @@ function wp_common_block_scripts_and_styles() {
  * @since 5.8.0
  */
 function wp_enqueue_global_styles() {
-	if ( ! WP_Theme_JSON_Resolver::theme_has_support() ) {
-		return;
-	}
-
 	$separate_assets = wp_should_load_separate_core_block_assets();
 
 	/*
