@@ -4672,10 +4672,36 @@ function useSpace() {
         keyCode,
         altKey,
         metaKey,
-        ctrlKey
+        ctrlKey,
+        key
       } = event; // Only consider the space key without modifiers pressed.
 
       if (keyCode !== external_wp_keycodes_["SPACE"] || altKey || metaKey || ctrlKey) {
+        return;
+      } // Disregard character composition that involves the Space key.
+      //
+      // @see https://github.com/WordPress/gutenberg/issues/35086
+      //
+      // For example, to input a standalone diacritic (like ´ or `) using a
+      // keyboard with dead keys, one must first press the dead key and then
+      // press the Space key.
+      //
+      // Many operating systems handle this in such a way that the second
+      // KeyboardEvent contains the property `keyCode: 229`. According to the
+      // spec, 229 allows the system to indicate that an Input Method Editor
+      // (IDE) is processing some key input.
+      //
+      // However, Windows doesn't use `keyCode: 229` for dead key composition,
+      // instead emitting an event with values `keyCode: SPACE` and `key: '´'`.
+      // That is why checking the `key` property for values other than `SPACE`
+      // is important.
+      //
+      // This should serve as a reminder that the `KeyboardEvent.keyCode`
+      // attribute is officially deprecated and that we should consider more
+      // consistent interfaces.
+
+
+      if (key !== ' ') {
         return;
       }
 

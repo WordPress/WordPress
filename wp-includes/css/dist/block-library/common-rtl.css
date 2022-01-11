@@ -142,11 +142,11 @@
 }
 
 .has-normal-font-size {
-  font-size: var(--wp--preset--font-size--normal) !important;
+  font-size: var(--wp--preset--font-size--normal);
 }
 
 .has-huge-font-size {
-  font-size: var(--wp--preset--font-size--huge) !important;
+  font-size: var(--wp--preset--font-size--huge);
 }
 
 .has-text-align-center {

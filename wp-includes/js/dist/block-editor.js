@@ -37308,7 +37308,7 @@ __webpack_require__.d(__webpack_exports__, "B", function() { return /* binding *
 __webpack_require__.d(__webpack_exports__, "C", function() { return /* binding */ useOnce; });
 __webpack_require__.d(__webpack_exports__, "D", function() { return /* binding */ usePrev; });
 
-// UNUSED EXPORTS: callFluidObserver, colorToRgba, hex3, hex4, hex6, hex8, hsl, hsla, rgb, rgba, setFluidGetter
+// UNUSED EXPORTS: callFluidObserver, colorToRgba, hex3, hex4, hex6, hex8, hsl, hsla, isSSR, rgb, rgba, setFluidGetter
 
 // CONCATENATED MODULE: ./node_modules/@react-spring/rafz/dist/react-spring-rafz.esm.js
 let updateQueue = makeQueue();
@@ -37590,6 +37590,7 @@ function flush(queue, iterator) {
   }
 }
 const flushCalls = (queue, ...args) => flush(queue, fn => fn(...args));
+const isSSR = () => typeof window === 'undefined' || !window.navigator || /ServerSideRendering|^Deno\//.test(window.navigator.userAgent);
 
 let createStringInterpolator$1;
 let to;
@@ -38138,7 +38139,7 @@ const cssVariableRegex = /var\((--[a-zA-Z0-9-_]+),? ?([a-zA-Z0-9 ()%#.,-]+)?\)/;
 const variableToRgba = input => {
   const [token, fallback] = parseCSSVariable(input);
 
-  if (!token) {
+  if (!token || isSSR()) {
     return input;
   }
 
@@ -38227,7 +38228,7 @@ function deprecateDirectCall() {
 }
 
 function isAnimatedString(value) {
-  return is.str(value) && (value[0] == '#' || /\d/.test(value) || cssVariableRegex.test(value) || value in (colors$1 || {}));
+  return is.str(value) && (value[0] == '#' || /\d/.test(value) || !isSSR() && cssVariableRegex.test(value) || value in (colors$1 || {}));
 }
 
 const useOnce = effect => Object(external_React_["useEffect"])(effect, emptyDeps);

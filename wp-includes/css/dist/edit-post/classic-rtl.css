@@ -94,6 +94,14 @@
   margin-left: auto;
 }
 
+html :where(.editor-styles-wrapper) {
+  padding: 8px;
+}
+html :where(.editor-styles-wrapper) .block-editor-block-list__layout.is-root-container > .wp-block[data-align=full] {
+  margin-right: -8px;
+  margin-left: -8px;
+}
+
 html :where(.wp-block) {
   max-width: 840px;
   margin-top: 28px;
