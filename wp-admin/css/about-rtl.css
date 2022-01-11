@@ -142,8 +142,7 @@
 }
 
 .about__section .column:not(.is-edge-to-edge) {
-	padding-right: var(--gap);
-	padding-left: var(--gap);
+	padding: var(--gap);
 }
 
 .about__section + .about__section .is-section-header {
@@ -210,7 +209,8 @@
 }
 
 .about__section.has-gutters {
-	gap: calc(var(--gap) / 2);
+	gap: var(--gap);
+	margin-bottom: calc(var(--gap) * 2);
 }
 
 .about__section.has-2-columns {
@@ -332,14 +332,16 @@
 		padding-bottom: var(--gap);
 	}
 
-	.about__section .column:not(.is-edge-to-edge) + .column {
-		padding-top: 0;
+	.about__section.has-2-columns.has-gutters.is-wider-right,
+	.about__section.has-2-columns.has-gutters.is-wider-left,
+	.about__section.has-3-columns.has-gutters {
+		margin-bottom: calc(var(--gap) * 2);
 	}
 
 	.about__section.has-2-columns.has-gutters .column,
 	.about__section.has-2-columns.has-gutters .column,
 	.about__section.has-3-columns.has-gutters .column {
-		margin-bottom: calc(var(--gap) / 2);
+		margin-bottom: var(--gap);
 	}
 
 	.about__section.has-2-columns.has-gutters .column:last-child,
@@ -398,20 +400,24 @@
 @media screen and (max-width: 600px) {
 	.about__section.has-2-columns {
 		display: block;
+		margin-bottom: var(--gap);
+	}
+
+	.about__section.has-2-columns:not(.has-gutters) .column:nth-of-type(n) {
+		padding-top: calc(var(--gap) / 2);
 		padding-bottom: calc(var(--gap) / 2);
 	}
 
+	.about__section.has-2-columns.has-gutters {
+		margin-bottom: calc(var(--gap) * 2);
+	}
+
 	.about__section.has-2-columns.has-gutters .column {
-		margin-bottom: calc(var(--gap) / 2);
+		margin-bottom: var(--gap);
 	}
 
 	.about__section.has-2-columns.has-gutters .column:last-child {
 		margin-bottom: 0;
-	}
-
-	.about__section.has-2-columns .column:nth-of-type(n) {
-		padding-top: calc(var(--gap) / 2);
-		padding-bottom: calc(var(--gap) / 2);
 	}
 }
 
@@ -611,8 +617,8 @@
 }
 
 .freedoms-php .about__header::before {
-	top: 32px;
-	left: 0;
+	top: calc(50% - 182px);
+	left: 32px;
 	width: 375px;
 	height: 300px;
 	background-image: url('../images/about-header-freedoms.svg');
@@ -620,8 +626,7 @@
 
 .privacy-php .about__header::before {
 	top: auto;
-	bottom: 70px;
-	height: 245px;
+	bottom: -16px;
 	background-image: url('../images/about-header-privacy.svg');
 }
 
@@ -655,8 +660,8 @@
 
 .freedoms-php .about__header-title,
 .freedoms-php .about__header-text {
-	/* 391px = 375px (balloon width) + 16px (spacing). */
-	padding-left: 391px;
+	/* 423px = 375px (balloon width) + 32px (offset from edge) + 16px (spacing). */
+	padding-left: 423px;
 	margin-left: 0;
 }
 
@@ -722,12 +727,14 @@
 	}
 
 	.freedoms-php .about__header::before {
+		top: calc(50% - 132px);
 		height: 192px;
 		width: 240px;
 	}
 
 	.privacy-php .about__header::before {
-		height: 196px;
+		bottom: 0;
+		height: 280px;
 	}
 
 	.about__container .about__header-text {
