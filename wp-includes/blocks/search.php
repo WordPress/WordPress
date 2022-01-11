@@ -46,13 +46,13 @@ function render_block_core_search( $attributes ) {
 	$label_markup = sprintf(
 		'<label for="%1$s" class="wp-block-search__label screen-reader-text">%2$s</label>',
 		$input_id,
-		empty( $attributes['label'] ) ? __( 'Search' ) : $attributes['label']
+		empty( $attributes['label'] ) ? __( 'Search' ) : esc_html( $attributes['label'] )
 	);
 	if ( $show_label && ! empty( $attributes['label'] ) ) {
 		$label_markup = sprintf(
 			'<label for="%1$s" class="wp-block-search__label">%2$s</label>',
 			$input_id,
-			$attributes['label']
+			esc_html( $attributes['label'] )
 		);
 	}
 
@@ -61,7 +61,7 @@ function render_block_core_search( $attributes ) {
 		$input_markup  = sprintf(
 			'<input type="search" id="%s" class="wp-block-search__input %s" name="s" value="%s" placeholder="%s" %s required />',
 			$input_id,
-			$input_classes,
+			esc_attr( $input_classes ),
 			esc_attr( get_search_query() ),
 			esc_attr( $attributes['placeholder'] ),
 			$inline_styles['input']
@@ -77,7 +77,7 @@ function render_block_core_search( $attributes ) {
 		}
 		if ( ! $use_icon_button ) {
 			if ( ! empty( $attributes['buttonText'] ) ) {
-				$button_internal_markup = $attributes['buttonText'];
+				$button_internal_markup = esc_html( $attributes['buttonText'] );
 			}
 		} else {
 			$button_classes        .= ' has-icon';
@@ -89,7 +89,7 @@ function render_block_core_search( $attributes ) {
 
 		$button_markup = sprintf(
 			'<button type="submit" class="wp-block-search__button %s" %s>%s</button>',
-			$button_classes,
+			esc_attr( $button_classes ),
 			$inline_styles['button'],
 			$button_internal_markup
 		);
@@ -98,7 +98,7 @@ function render_block_core_search( $attributes ) {
 	$field_markup_classes = $is_button_inside ? $border_color_classes : '';
 	$field_markup         = sprintf(
 		'<div class="wp-block-search__inside-wrapper %s" %s>%s</div>',
-		$field_markup_classes,
+		esc_attr( $field_markup_classes ),
 		$inline_styles['wrapper'],
 		$input_markup . $button_markup
 	);
@@ -285,9 +285,9 @@ function styles_for_block_core_search( $attributes ) {
 	}
 
 	return array(
-		'input'   => ! empty( $input_styles ) ? sprintf( ' style="%s"', implode( ' ', $input_styles ) ) : '',
-		'button'  => ! empty( $button_styles ) ? sprintf( ' style="%s"', implode( ' ', $button_styles ) ) : '',
-		'wrapper' => ! empty( $wrapper_styles ) ? sprintf( ' style="%s"', implode( ' ', $wrapper_styles ) ) : '',
+		'input'   => ! empty( $input_styles ) ? sprintf( ' style="%s"', safecss_filter_attr( implode( ' ', $input_styles ) ) ) : '',
+		'button'  => ! empty( $button_styles ) ? sprintf( ' style="%s"', safecss_filter_attr( implode( ' ', $button_styles ) ) ) : '',
+		'wrapper' => ! empty( $wrapper_styles ) ? sprintf( ' style="%s"', safecss_filter_attr( implode( ' ', $wrapper_styles ) ) ) : '',
 	);
 }
 

@@ -145,6 +145,7 @@
 .wp-block-navigation.is-vertical {
   --navigation-layout-direction: column;
   --navigation-layout-justify: initial;
+  --navigation-layout-align: flex-start;
 }
 .wp-block-navigation.no-wrap {
   --navigation-layout-wrap: nowrap;

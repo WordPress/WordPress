@@ -177,7 +177,7 @@ function block_core_page_list_render_nested_page_list( $open_submenus_on_click, 
 		$aria_label = sprintf(
 			/* translators: Accessibility text. %s: Parent page title. */
 			__( '%s submenu' ),
-			$title
+			wp_strip_all_tags( $title )
 		);
 
 		$markup .= '<li class="wp-block-pages-list__item' . $css_class . '"' . $style_attribute . '>';

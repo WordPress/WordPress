@@ -2658,11 +2658,11 @@ div[data-type="core/post-featured-image"] img {
 }
 
 .editor-styles-wrapper .has-normal-font-size {
-  font-size: var(--wp--preset--font-size--normal) !important;
+  font-size: var(--wp--preset--font-size--normal);
 }
 
 .editor-styles-wrapper .has-huge-font-size {
-  font-size: var(--wp--preset--font-size--huge) !important;
+  font-size: var(--wp--preset--font-size--huge);
 }
 
 /**
