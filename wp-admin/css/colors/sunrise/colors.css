@@ -703,3 +703,12 @@ div#wp-responsive-toggle a:before {
   border-bottom-color: #dd823b;
   color: #0073aa;
 }
+
+/* Welcome Panel */
+.welcome-panel {
+  background-color: #dd823b;
+}
+
+[class*=welcome-panel-icon] {
+  background-color: #cf4944;
+}

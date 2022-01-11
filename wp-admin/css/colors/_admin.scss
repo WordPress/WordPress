@@ -781,3 +781,17 @@ div#wp-responsive-toggle a:before {
 		color: $link;
 	}
 }
+
+/* Welcome Panel */
+
+.welcome-panel {
+	background-color: $highlight-color;
+}
+
+[class*="welcome-panel-icon"] {
+	@if ( $scheme-name == "light" ) {
+		background-color: $icon-color;
+	} @else {
+		background-color: $base-color;
+	}
+}
