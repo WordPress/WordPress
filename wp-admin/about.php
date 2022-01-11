@@ -52,11 +52,11 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 
 		<hr />
 
-		<div class="about__section has-2-columns is-wider-left">
+		<div class="about__section has-2-columns has-gutters is-wider-left">
 			<div class="column about__image is-vertically-aligned-center is-edge-to-edge">
 				<img src="https://s.w.org/images/core/5.9/twenty-twenty-two.png" alt="" />
 			</div>
-			<div class="column">
+			<div class="column is-edge-to-edge">
 				<h3>
 					<?php _e( 'Say hello to Twenty Twenty&#8209;Two' ); ?>
 				</h3>
@@ -80,8 +80,8 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			</div>
 		</div>
 
-		<div class="about__section has-2-columns is-wider-right">
-			<div class="column">
+		<div class="about__section has-2-columns has-gutters is-wider-right">
+			<div class="column is-edge-to-edge">
 				<h3>
 					<?php _e( 'Your personal paintbox awaits' ); ?>
 				</h3>
@@ -97,11 +97,11 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			</div>
 		</div>
 
-		<div class="about__section has-2-columns is-wider-left">
+		<div class="about__section has-2-columns has-gutters is-wider-left">
 			<div class="column about__image is-vertically-aligned-center is-edge-to-edge">
 				<img src="https://s.w.org/images/core/5.9/navigation-block.png" alt="" />
 			</div>
-			<div class="column">
+			<div class="column is-edge-to-edge">
 				<h3>
 					<?php _e( 'The Navigation block' ); ?>
 				</h3>
@@ -127,11 +127,11 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 
 		<hr />
 
-		<div class="about__section has-2-columns is-wider-left">
+		<div class="about__section has-2-columns has-gutters is-wider-left">
 			<div class="column about__image is-vertically-aligned-center is-edge-to-edge">
 				<img src="https://s.w.org/images/core/5.9/block-controls.png" alt="" />
 			</div>
-			<div class="column">
+			<div class="column is-edge-to-edge">
 				<h3>
 					<?php _e( 'Better block controls' ); ?>
 				</h3>
@@ -141,8 +141,8 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			</div>
 		</div>
 
-		<div class="about__section has-2-columns is-wider-right">
-			<div class="column">
+		<div class="about__section has-2-columns has-gutters is-wider-right">
+			<div class="column is-edge-to-edge">
 				<h3>
 					<?php _e( 'The power of patterns' ); ?>
 				</h3>
@@ -158,11 +158,11 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			</div>
 		</div>
 
-		<div class="about__section has-2-columns is-wider-left">
+		<div class="about__section has-2-columns has-gutters is-wider-left">
 			<div class="column about__image is-vertically-aligned-center is-edge-to-edge">
 				<img src="https://s.w.org/images/core/5.9/list-view.png" alt="" />
 			</div>
-			<div class="column">
+			<div class="column is-edge-to-edge">
 				<h3>
 					<?php _e( 'A revamped List View' ); ?>
 				</h3>
@@ -172,8 +172,8 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			</div>
 		</div>
 
-		<div class="about__section has-2-columns is-wider-right">
-			<div class="column">
+		<div class="about__section has-2-columns has-gutters is-wider-right">
+			<div class="column is-edge-to-edge">
 				<h3>
 					<?php _e( 'A better Gallery block' ); ?>
 				</h3>
@@ -203,8 +203,8 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			</h2>
 		</div>
 
-		<div class="about__section has-2-columns">
-			<div class="column">
+		<div class="about__section has-gutters has-2-columns">
+			<div class="column is-edge-to-edge">
 				<h3>
 					<?php _e( 'Introducing block themes' ); ?>
 				</h3>
@@ -218,7 +218,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					?>
 				</p>
 			</div>
-			<div class="column">
+			<div class="column is-edge-to-edge">
 				<h3>
 					<?php _e( 'Multiple stylesheets for a block' ); ?>
 				</h3>
@@ -233,8 +233,8 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 				</p>
 			</div>
 		</div>
-		<div class="about__section has-2-columns">
-			<div class="column">
+		<div class="about__section has-gutters has-2-columns">
+			<div class="column is-edge-to-edge">
 				<h3>
 					<?php _e( 'Block&#8209;level locking' ); ?>
 				</h3>
@@ -242,7 +242,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					<?php _e( 'Now you can lock any block (or a few of them) in a pattern, just by adding a lock attribute to its settings in block.json &#8212; leaving the rest of the pattern free for site editors to adapt to their content.' ); ?>
 				</p>
 			</div>
-			<div class="column">
+			<div class="column is-edge-to-edge">
 				<h3>
 					<?php _e( 'A refactored Gallery block' ); ?>
 				</h3>
@@ -288,7 +288,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					printf(
 						/* translators: %s: WordPress 5.9 Field Guide link. */
 						__( 'Check out the latest version of the WordPress Field Guide. It highlights developer notes for each change you may want to be aware of. <a href="%s">WordPress 5.9 Field Guide.</a>' ),
-						'https://make.wordpress.org/core/2022/01/04/wordpress-5-9-field-guide/'
+						'https://make.wordpress.org/core/2022/01/10/wordpress-5-9-field-guide/'
 					);
 					?>
 				</p>
