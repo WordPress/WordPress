@@ -119,7 +119,7 @@ function get_default_block_template_types() {
 		),
 		'home'           => array(
 			'title'       => _x( 'Home', 'Template name' ),
-			'description' => __( 'Displays as the site\'s home page, or as the Posts page when a static home page it set.' ),
+			'description' => __( 'Displays as the site\'s home page, or as the Posts page when a static home page isn\'t set.' ),
 		),
 		'front-page'     => array(
 			'title'       => _x( 'Front Page', 'Template name' ),
