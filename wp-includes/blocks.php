@@ -1238,7 +1238,7 @@ function wp_enqueue_block_style( $block_name, $args ) {
 
 			// Add RTL stylesheet.
 			if ( file_exists( $rtl_file_path ) ) {
-				wp_style_add_data( $args['hanle'], 'rtl', 'replace' );
+				wp_style_add_data( $args['handle'], 'rtl', 'replace' );
 
 				if ( is_rtl() ) {
 					wp_style_add_data( $args['handle'], 'path', $rtl_file_path );
