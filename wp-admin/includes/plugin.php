@@ -1333,7 +1333,7 @@ function add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $func
 			_doing_it_wrong(
 				__FUNCTION__,
 				sprintf(
-				/* translators: %s: add_submenu_page() */
+					/* translators: %s: add_menu_page() */
 					__( 'The seventh parameter passed to %s should be an integer representing menu position.' ),
 					'<code>add_menu_page()</code>'
 				),
