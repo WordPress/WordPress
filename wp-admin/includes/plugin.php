@@ -1329,6 +1329,21 @@ function add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $func
 		$position            = $position + substr( base_convert( md5( $menu_slug . $menu_title ), 16, 10 ), -5 ) * 0.00001;
 		$menu[ "$position" ] = $new_menu;
 	} else {
+		if ( ! is_int( $position ) ) {
+			_doing_it_wrong(
+				__FUNCTION__,
+				sprintf(
+				/* translators: %s: add_submenu_page() */
+					__( 'The seventh parameter passed to %s should be an integer representing menu position.' ),
+					'<code>add_menu_page()</code>'
+				),
+				'6.0.0'
+			);
+			// If the position is not a string (i.e. float), convert it to string.
+			if ( ! is_string( $position ) ) {
+				$position = (string) $position;
+			}
+		}
 		$menu[ $position ] = $new_menu;
 	}
 
