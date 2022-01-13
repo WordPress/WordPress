@@ -240,7 +240,7 @@ function wp_remote_retrieve_header( $response, $header ) {
 /**
  * Retrieve only the response code from the raw response.
  *
- * Will return an empty array if incorrect parameter value is given.
+ * Will return an empty string if incorrect parameter value is given.
  *
  * @since 2.7.0
  *
@@ -258,7 +258,7 @@ function wp_remote_retrieve_response_code( $response ) {
 /**
  * Retrieve only the response message from the raw response.
  *
- * Will return an empty array if incorrect parameter value is given.
+ * Will return an empty string if incorrect parameter value is given.
  *
  * @since 2.7.0
  *
