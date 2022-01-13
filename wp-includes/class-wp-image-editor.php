@@ -485,7 +485,7 @@ abstract class WP_Image_Editor {
 		}
 
 		/**
-		 * Filters the `$orientation` value to correct it before rotating or to prevemnt rotating the image.
+		 * Filters the `$orientation` value to correct it before rotating or to prevent rotating the image.
 		 *
 		 * @since 5.3.0
 		 *
