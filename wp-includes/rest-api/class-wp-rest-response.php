@@ -144,7 +144,7 @@ class WP_REST_Response extends WP_HTTP_Response {
 	 *
 	 * @param string $rel   Link relation. Either an IANA registered type, or an absolute URL.
 	 * @param string $link  Target IRI for the link.
-	 * @param array  $other Optional. Other parameters to send, as an assocative array.
+	 * @param array  $other Optional. Other parameters to send, as an associative array.
 	 *                      Default empty array.
 	 */
 	public function link_header( $rel, $link, $other = array() ) {
