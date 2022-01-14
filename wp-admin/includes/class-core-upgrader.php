@@ -126,7 +126,7 @@ class Core_Upgrader extends WP_Upgrader {
 		// Allow for signature soft-fail.
 		// WARNING: This may be removed in the future.
 		if ( is_wp_error( $download ) && $download->get_error_data( 'softfail-filename' ) ) {
-			// Outout the failure error as a normal feedback, and not as an error:
+			// Output the failure error as a normal feedback, and not as an error:
 			/** This filter is documented in wp-admin/includes/update-core.php */
 			apply_filters( 'update_feedback', $download->get_error_message() );
 
