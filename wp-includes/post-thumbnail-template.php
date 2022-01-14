@@ -195,7 +195,7 @@ function get_the_post_thumbnail( $post = null, $size = 'post-thumbnail', $attr =
 			$attr = array( 'loading' => $loading );
 		} elseif ( is_array( $attr ) && ! array_key_exists( 'loading', $attr ) ) {
 			$attr['loading'] = $loading;
-		} elseif ( is_string( $attr ) && ! preg_match( '/(^|&)loading=', $attr ) ) {
+		} elseif ( is_string( $attr ) && ! preg_match( '/(^|&)loading=/', $attr ) ) {
 			$attr .= '&loading=' . $loading;
 		}
 
