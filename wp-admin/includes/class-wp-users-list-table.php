@@ -447,7 +447,13 @@ class WP_Users_List_Table extends WP_List_Table {
 		// Check if the user for this row is editable.
 		if ( current_user_can( 'list_users' ) ) {
 			// Set up the user editing link.
-			$edit_link = esc_url( add_query_arg( 'wp_http_referer', urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ), get_edit_user_link( $user_object->ID ) ) );
+			$edit_link = esc_url(
+				add_query_arg(
+					'wp_http_referer',
+					urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ),
+					get_edit_user_link( $user_object->ID )
+				)
+			);
 
 			if ( current_user_can( 'edit_user', $user_object->ID ) ) {
 				$edit            = "<strong><a href=\"{$edit_link}\">{$user_object->user_login}</a>{$super_admin}</strong><br />";
@@ -456,10 +462,16 @@ class WP_Users_List_Table extends WP_List_Table {
 				$edit = "<strong>{$user_object->user_login}{$super_admin}</strong><br />";
 			}
 
-			if ( ! is_multisite() && get_current_user_id() != $user_object->ID && current_user_can( 'delete_user', $user_object->ID ) ) {
+			if ( ! is_multisite()
+				&& get_current_user_id() !== $user_object->ID
+				&& current_user_can( 'delete_user', $user_object->ID )
+			) {
 				$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url( "users.php?action=delete&amp;user=$user_object->ID", 'bulk-users' ) . "'>" . __( 'Delete' ) . '</a>';
 			}
-			if ( is_multisite() && current_user_can( 'remove_user', $user_object->ID ) ) {
+
+			if ( is_multisite()
+				&& current_user_can( 'remove_user', $user_object->ID )
+			) {
 				$actions['remove'] = "<a class='submitdelete' href='" . wp_nonce_url( $url . "action=remove&amp;user=$user_object->ID", 'bulk-users' ) . "'>" . __( 'Remove' ) . '</a>';
 			}
 
@@ -476,7 +488,9 @@ class WP_Users_List_Table extends WP_List_Table {
 			}
 
 			// Add a link to send the user a reset password link by email.
-			if ( get_current_user_id() !== $user_object->ID && current_user_can( 'edit_user', $user_object->ID ) ) {
+			if ( get_current_user_id() !== $user_object->ID
+				&& current_user_can( 'edit_user', $user_object->ID )
+			) {
 				$actions['resetpassword'] = "<a class='resetpassword' href='" . wp_nonce_url( "users.php?action=resetpassword&amp;users=$user_object->ID", 'bulk-users' ) . "'>" . __( 'Send password reset' ) . '</a>';
 			}
 
