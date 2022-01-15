@@ -106,7 +106,7 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Parse block metadata for a block, and prepare it for an API repsonse.
+	 * Parse block metadata for a block, and prepare it for an API response.
 	 *
 	 * @since 5.5.0
 	 * @since 5.9.0 Renamed `$plugin` to `$item` to match parent class for PHP 8 named parameter support.
