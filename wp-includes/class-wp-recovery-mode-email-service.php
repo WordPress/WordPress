@@ -338,7 +338,7 @@ When seeking help with this issue, you may be asked for some of the following in
 			),
 			'theme' => sprintf(
 				/* translators: 1: Current active theme name. 2: Current active theme version. */
-				__( 'Current theme: %1$s (version %2$s)' ),
+				__( 'Active theme: %1$s (version %2$s)' ),
 				$theme->get( 'Name' ),
 				$theme->get( 'Version' )
 			),

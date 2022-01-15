@@ -232,7 +232,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 					<label for="edit-menu-item-description-<?php echo $item_id; ?>">
 						<?php _e( 'Description' ); ?><br />
 						<textarea id="edit-menu-item-description-<?php echo $item_id; ?>" class="widefat edit-menu-item-description" rows="3" cols="20" name="menu-item-description[<?php echo $item_id; ?>]"><?php echo esc_html( $menu_item->description ); // textarea_escaped ?></textarea>
-						<span class="description"><?php _e( 'The description will be displayed in the menu if the current theme supports it.' ); ?></span>
+						<span class="description"><?php _e( 'The description will be displayed in the menu if the active theme supports it.' ); ?></span>
 					</label>
 				</p>
 

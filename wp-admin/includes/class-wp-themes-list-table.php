@@ -129,7 +129,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 		// Fallthrough.
 		printf(
 			/* translators: %s: Network title. */
-			__( 'Only the current theme is available to you. Contact the %s administrator for information about accessing additional themes.' ),
+			__( 'Only the active theme is available to you. Contact the %s administrator for information about accessing additional themes.' ),
 			get_site_option( 'site_name' )
 		);
 	}
