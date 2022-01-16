@@ -400,16 +400,16 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 			$actions['edit'] = '<a href="' . esc_url( network_admin_url( 'site-info.php?id=' . $val->userblog_id ) ) . '">' . __( 'Edit' ) . '</a>';
 
 			$class = '';
-			if ( 1 == $val->spam ) {
+			if ( 1 === (int) $val->spam ) {
 				$class .= 'site-spammed ';
 			}
-			if ( 1 == $val->mature ) {
+			if ( 1 === (int) $val->mature ) {
 				$class .= 'site-mature ';
 			}
-			if ( 1 == $val->deleted ) {
+			if ( 1 === (int) $val->deleted ) {
 				$class .= 'site-deleted ';
 			}
-			if ( 1 == $val->archived ) {
+			if ( 1 === (int) $val->archived ) {
 				$class .= 'site-archived ';
 			}
 
