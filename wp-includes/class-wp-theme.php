@@ -982,7 +982,7 @@ final class WP_Theme implements ArrayAccess {
 						'white'             => __( 'White' ),
 						'yellow'            => __( 'Yellow' ),
 						'dark'              => __( 'Dark' ),
-						'light'             => __( 'Light' ),
+						'light'             => _x( 'Light', 'color' ),
 						'fixed-layout'      => __( 'Fixed Layout' ),
 						'fluid-layout'      => __( 'Fluid Layout' ),
 						'responsive-layout' => __( 'Responsive Layout' ),
