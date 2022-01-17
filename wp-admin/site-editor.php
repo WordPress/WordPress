@@ -31,6 +31,10 @@ $parent_file = 'themes.php';
 $current_screen = get_current_screen();
 $current_screen->is_block_editor( true );
 
+// Load block patterns from w.org.
+_load_remote_block_patterns();
+_load_remote_featured_patterns();
+
 // Default to is-fullscreen-mode to avoid jumps in the UI.
 add_filter(
 	'admin_body_class',
