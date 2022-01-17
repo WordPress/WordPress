@@ -48,12 +48,17 @@ function _register_core_block_patterns_and_categories() {
  * Register Core's official patterns from wordpress.org/patterns.
  *
  * @since 5.8.0
+ * @since 5.9.0 The $current_screen argument was removed.
  *
- * @param WP_Screen $current_screen The screen that the current request was triggered from.
+ * @param WP_Screen $deprecated Unused. Formerly the screen that the current request was triggered from.
  */
-function _load_remote_block_patterns( $current_screen ) {
-	if ( ! $current_screen->is_block_editor ) {
-		return;
+function _load_remote_block_patterns( $deprecated = null ) {
+	if ( ! empty( $deprecated ) ) {
+		_deprecated_argument( __FUNCTION__, '5.9.0' );
+		$current_screen = $deprecated;
+		if ( ! $current_screen->is_block_editor ) {
+			return;
+		}
 	}
 
 	$supports_core_patterns = get_theme_support( 'core-block-patterns' );
@@ -88,14 +93,8 @@ function _load_remote_block_patterns( $current_screen ) {
  * Register `Featured` (category) patterns from wordpress.org/patterns.
  *
  * @since 5.9.0
- *
- * @param WP_Screen $current_screen The screen that the current request was triggered from.
  */
-function _load_remote_featured_patterns( $current_screen ) {
-	if ( ! $current_screen->is_block_editor ) {
-		return;
-	}
-
+function _load_remote_featured_patterns() {
 	$supports_core_patterns = get_theme_support( 'core-block-patterns' );
 
 	/** This filter is documented in wp-includes/block-patterns.php */
