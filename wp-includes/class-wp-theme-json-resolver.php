@@ -147,7 +147,7 @@ class WP_Theme_JSON_Resolver {
 	 * Data from theme.json will be backfilled from existing
 	 * theme supports, if any. Note that if the same data
 	 * is present in theme.json and in theme supports,
-	 * the theme.json takes precendence.
+	 * the theme.json takes precedence.
 	 *
 	 * @since 5.8.0
 	 * @since 5.9.0 Theme supports have been inlined and the `$theme_support_data` argument removed.

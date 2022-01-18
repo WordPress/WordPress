@@ -138,7 +138,7 @@ class WP_Locale {
 
 		// Abbreviations for each day.
 		$this->weekday_abbrev[ __( 'Sunday' ) ]    = /* translators: Three-letter abbreviation of the weekday. */ __( 'Sun' );
-		$this->weekday_abbrev[ __( 'Monday' ) ]    = /* translators: Ttree-letter abbreviation of the weekday. */ __( 'Mon' );
+		$this->weekday_abbrev[ __( 'Monday' ) ]    = /* translators: Three-letter abbreviation of the weekday. */ __( 'Mon' );
 		$this->weekday_abbrev[ __( 'Tuesday' ) ]   = /* translators: Three-letter abbreviation of the weekday. */ __( 'Tue' );
 		$this->weekday_abbrev[ __( 'Wednesday' ) ] = /* translators: Three-letter abbreviation of the weekday. */ __( 'Wed' );
 		$this->weekday_abbrev[ __( 'Thursday' ) ]  = /* translators: Three-letter abbreviation of the weekday. */ __( 'Thu' );

@@ -1520,7 +1520,7 @@ class WP_Theme_JSON {
 		 * Additionally, for some preset types, we also want to make sure the
 		 * values they introduce don't conflict with default values. We do so
 		 * by checking the incoming slugs for theme presets and compare them
-		 * with the equivalent dfefault presets: if a slug is present as a default
+		 * with the equivalent default presets: if a slug is present as a default
 		 * we remove it from the theme presets.
 		 */
 		$nodes        = self::get_setting_nodes( $incoming_data );

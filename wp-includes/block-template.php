@@ -66,7 +66,7 @@ function locate_block_template( $template, $type, array $templates ) {
 		);
 		$index                  = array_search( $relative_template_path, $templates, true );
 
-		// If the template hiearchy algorithm has successfully located a PHP template file,
+		// If the template hierarchy algorithm has successfully located a PHP template file,
 		// we will only consider block templates with higher or equal specificity.
 		$templates = array_slice( $templates, 0, $index + 1 );
 	}

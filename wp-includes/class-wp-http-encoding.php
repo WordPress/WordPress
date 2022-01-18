@@ -88,7 +88,7 @@ class WP_Http_Encoding {
 	 *
 	 * Warning: Magic numbers within. Due to the potential different formats that the compressed
 	 * data may be returned in, some "magic offsets" are needed to ensure proper decompression
-	 * takes place. For a simple progmatic way to determine the magic offset in use, see:
+	 * takes place. For a simple pragmatic way to determine the magic offset in use, see:
 	 * https://core.trac.wordpress.org/ticket/18273
 	 *
 	 * @since 2.8.1

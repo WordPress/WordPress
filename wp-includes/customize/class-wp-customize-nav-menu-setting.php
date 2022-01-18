@@ -595,7 +595,7 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 	 * @param array $nav_menu_options Array as returned by get_option( 'nav_menu_options' ).
 	 * @param int   $menu_id          The term ID for the given menu.
 	 * @param bool  $auto_add         Whether to auto-add or not.
-	 * @return array (Maybe) modified nav_menu_otions array.
+	 * @return array (Maybe) modified nav_menu_options array.
 	 */
 	protected function filter_nav_menu_options_value( $nav_menu_options, $menu_id, $auto_add ) {
 		$nav_menu_options = (array) $nav_menu_options;

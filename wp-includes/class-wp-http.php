@@ -136,7 +136,7 @@ class WP_Http {
 	 *     @type string       $sslcertificates     Absolute path to an SSL certificate .crt file.
 	 *                                             Default ABSPATH . WPINC . '/certificates/ca-bundle.crt'.
 	 *     @type bool         $stream              Whether to stream to a file. If set to true and no filename was
-	 *                                             given, it will be droped it in the WP temp dir and its name will
+	 *                                             given, it will be dropped it in the WP temp dir and its name will
 	 *                                             be set using the basename of the URL. Default false.
 	 *     @type string       $filename            Filename of the file to write to when streaming. $stream must be
 	 *                                             set to true. Default null.

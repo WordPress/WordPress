@@ -1164,7 +1164,7 @@ function build_query_vars_from_query_block( $block, $page ) {
  * @since 5.9.0
  *
  * @param WP_Block $block   Block instance.
- * @param boolean  $is_next Flag for hanlding `next/previous` blocks.
+ * @param boolean  $is_next Flag for handling `next/previous` blocks.
  *
  * @return string|null Returns the constructed WP_Query arguments.
  */
