@@ -309,7 +309,7 @@ function wp_default_packages_inline_scripts( $scripts ) {
 			array(
 				sprintf(
 					'wp.apiFetch.nonceMiddleware = wp.apiFetch.createNonceMiddleware( "%s" );',
-					( wp_installing() && ! is_multisite() ) ? '' : wp_create_nonce( 'wp_rest' )
+					wp_installing() ? '' : wp_create_nonce( 'wp_rest' )
 				),
 				'wp.apiFetch.use( wp.apiFetch.nonceMiddleware );',
 				'wp.apiFetch.use( wp.apiFetch.mediaUploadMiddleware );',
@@ -711,7 +711,7 @@ function wp_default_scripts( $scripts ) {
 		'wpApiSettings',
 		array(
 			'root'          => esc_url_raw( get_rest_url() ),
-			'nonce'         => ( wp_installing() && ! is_multisite() ) ? '' : wp_create_nonce( 'wp_rest' ),
+			'nonce'         => wp_installing() ? '' : wp_create_nonce( 'wp_rest' ),
 			'versionString' => 'wp/v2/',
 		)
 	);
@@ -1109,7 +1109,7 @@ function wp_default_scripts( $scripts ) {
 		'userProfileL10n',
 		array(
 			'user_id' => $user_id,
-			'nonce'   => ( wp_installing() && ! is_multisite() ) ? '' : wp_create_nonce( 'reset-password-for-' . $user_id ),
+			'nonce'   => wp_installing() ? '' : wp_create_nonce( 'reset-password-for-' . $user_id ),
 		)
 	);
 
@@ -1335,7 +1335,7 @@ function wp_default_scripts( $scripts ) {
 			'updates',
 			'_wpUpdatesSettings',
 			array(
-				'ajax_nonce' => wp_create_nonce( 'updates' ),
+				'ajax_nonce' => wp_installing() ? '' : wp_create_nonce( 'updates' ),
 			)
 		);
 
