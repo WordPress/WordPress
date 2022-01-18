@@ -1455,6 +1455,7 @@ module.exports = function() {
   // Keep this list in sync with production version in `./factoryWithTypeCheckers.js`.
   var ReactPropTypes = {
     array: shim,
+    bigint: shim,
     bool: shim,
     func: shim,
     number: shim,
@@ -46229,6 +46230,7 @@ function useMultipleSelection(userProps) {
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -46320,7 +46322,13 @@ function CustomSelectControl(_ref3) {
   const menuProps = getMenuProps({
     className: 'components-custom-select-control__menu',
     'aria-hidden': !isOpen
-  }); // We need this here, because the null active descendant is not fully ARIA compliant.
+  });
+  const onKeyDownHandler = Object(external_wp_element_["useCallback"])(e => {
+    var _menuProps$onKeyDown;
+
+    e.stopPropagation();
+    menuProps === null || menuProps === void 0 ? void 0 : (_menuProps$onKeyDown = menuProps.onKeyDown) === null || _menuProps$onKeyDown === void 0 ? void 0 : _menuProps$onKeyDown.call(menuProps, e);
+  }, [menuProps]); // We need this here, because the null active descendant is not fully ARIA compliant.
 
   if ((_menuProps$ariaActiv = menuProps['aria-activedescendant']) !== null && _menuProps$ariaActiv !== void 0 && _menuProps$ariaActiv.startsWith('downshift-null')) {
     delete menuProps['aria-activedescendant'];
@@ -46344,7 +46352,9 @@ function CustomSelectControl(_ref3) {
   }), custom_select_control_itemToString(selectedItem), Object(external_wp_element_["createElement"])(build_module_icon["a" /* default */], {
     icon: chevron_down["a" /* default */],
     className: "components-custom-select-control__button-icon"
-  })), Object(external_wp_element_["createElement"])("ul", menuProps, isOpen && items.map((item, index) => // eslint-disable-next-line react/jsx-key
+  })), Object(external_wp_element_["createElement"])("ul", Object(esm_extends["a" /* default */])({}, menuProps, {
+    onKeyDown: onKeyDownHandler
+  }), isOpen && items.map((item, index) => // eslint-disable-next-line react/jsx-key
   Object(external_wp_element_["createElement"])("li", getItemProps({
     item,
     index,

@@ -103,7 +103,7 @@ function e(e,t){for(var o=0;o<t.length;o++){var n=t[o];n.enumerable=n.enumerable
  // Responsive navigation toggle.
 
 function navigationToggleModal(modal) {
-  const dialogContainer = document.querySelector(`.wp-block-navigation__responsive-dialog`);
+  const dialogContainer = modal.querySelector(`.wp-block-navigation__responsive-dialog`);
   const isHidden = 'true' === modal.getAttribute('aria-hidden');
   modal.classList.toggle('has-modal-open', !isHidden);
   dialogContainer.toggleAttribute('aria-modal', !isHidden);

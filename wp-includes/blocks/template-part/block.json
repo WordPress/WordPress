@@ -22,14 +22,6 @@
 	"supports": {
 		"align": true,
 		"html": false,
-		"color": {
-			"gradients": true,
-			"link": true
-		},
-		"spacing": {
-			"padding": true
-		},
-		"__experimentalLayout": true,
 		"reusable": false
 	},
 	"editorStyle": "wp-block-template-part-editor"
