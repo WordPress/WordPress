@@ -3214,10 +3214,11 @@ function Interface(_ref) {
       closeGeneralSidebar();
     }
   }, [isInserterOpened, isListViewOpened, isHugeViewport]);
+  const hasSecondarySidebar = isListViewOpened || isInserterOpened;
   return Object(external_wp_element_["createElement"])(build_module["e" /* InterfaceSkeleton */], {
     labels: interfaceLabels,
     header: Object(external_wp_element_["createElement"])(header, null),
-    secondarySidebar: Object(external_wp_element_["createElement"])(SecondarySidebar, null),
+    secondarySidebar: hasSecondarySidebar && Object(external_wp_element_["createElement"])(SecondarySidebar, null),
     sidebar: hasSidebarEnabled && Object(external_wp_element_["createElement"])(build_module["b" /* ComplementaryArea */].Slot, {
       scope: "core/edit-widgets"
     }),

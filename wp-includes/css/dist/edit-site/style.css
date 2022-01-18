@@ -467,6 +467,9 @@ body.is-fullscreen-mode .interface-interface-skeleton {
 .edit-site-visual-editor.is-focus-mode .edit-site-visual-editor__editor-canvas {
   border-radius: 2px;
 }
+.edit-site-visual-editor.is-focus-mode .components-resizable-box__container {
+  overflow: visible;
+}
 
 .edit-site-visual-editor__editor-canvas {
   border-radius: 2px 2px 0 0;
@@ -484,6 +487,7 @@ body.is-fullscreen-mode .interface-interface-skeleton {
 
 .components-resizable-box__container {
   margin: 0 auto;
+  overflow: auto;
 }
 
 .resizable-editor__drag-handle {
@@ -1510,7 +1514,6 @@ html.wp-toolbar {
   position: relative;
   height: 100%;
   display: block;
-  overflow: hidden;
 }
 .edit-site-visual-editor iframe {
   display: block;

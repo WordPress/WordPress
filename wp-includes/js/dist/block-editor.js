@@ -13755,6 +13755,7 @@ module.exports = function() {
   // Keep this list in sync with production version in `./factoryWithTypeCheckers.js`.
   var ReactPropTypes = {
     array: shim,
+    bigint: shim,
     bool: shim,
     func: shim,
     number: shim,
@@ -22703,38 +22704,38 @@ Object(external_wp_data_["registerStore"])(constants["a" /* STORE_NAME */], { ..
 
 
 const FONT_STYLES = [{
-  name: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])('Regular'),
+  name: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["_x"])('Regular', 'font style'),
   value: 'normal'
 }, {
-  name: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])('Italic'),
+  name: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["_x"])('Italic', 'font style'),
   value: 'italic'
 }];
 const FONT_WEIGHTS = [{
-  name: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])('Thin'),
+  name: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["_x"])('Thin', 'font weight'),
   value: '100'
 }, {
-  name: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])('Extra Light'),
+  name: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["_x"])('Extra Light', 'font weight'),
   value: '200'
 }, {
-  name: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])('Light'),
+  name: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["_x"])('Light', 'font weight'),
   value: '300'
 }, {
-  name: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])('Regular'),
+  name: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["_x"])('Regular', 'font weight'),
   value: '400'
 }, {
-  name: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])('Medium'),
+  name: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["_x"])('Medium', 'font weight'),
   value: '500'
 }, {
-  name: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])('Semi Bold'),
+  name: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["_x"])('Semi Bold', 'font weight'),
   value: '600'
 }, {
-  name: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])('Bold'),
+  name: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["_x"])('Bold', 'font weight'),
   value: '700'
 }, {
-  name: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])('Extra Bold'),
+  name: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["_x"])('Extra Bold', 'font weight'),
   value: '800'
 }, {
-  name: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])('Black'),
+  name: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["_x"])('Black', 'font weight'),
   value: '900'
 }];
 /**
@@ -31951,10 +31952,8 @@ function styleSheetsCompat(doc) {
     });
 
     if (isMatch && !doc.getElementById(ownerNode.id)) {
-      // eslint-disable-next-line no-console
-      console.warn(`Stylesheet ${ownerNode.id} was not properly added.
-For blocks, use the block API's style (https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/#style) or editorStyle (https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/#editor-style).
-For themes, use add_editor_style (https://developer.wordpress.org/block-editor/how-to-guides/themes/theme-support/#editor-styles).`, ownerNode.outerHTML);
+      // Display warning once we have a way to add style dependencies to the editor.
+      // See: https://github.com/WordPress/gutenberg/pull/37466.
       doc.head.appendChild(ownerNode.cloneNode(true)); // Add inline styles belonging to the stylesheet.
 
       const inlineCssId = ownerNode.id.replace('-css', '-inline-css');

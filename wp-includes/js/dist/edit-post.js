@@ -9639,7 +9639,6 @@ function initializeEditor(id, postType, postId, settings, initialEdits) {
   Object(external_wp_data_["dispatch"])(build_module["i" /* store */]).setFeatureDefaults('core/edit-post', {
     fixedToolbar: false,
     welcomeGuide: true,
-    mobileGalleryWarning: true,
     fullscreenMode: true,
     showIconLabels: false,
     themeStyles: true,
