@@ -2939,11 +2939,11 @@ function retrieve_password( $user_login = null ) {
 	}
 
 	/**
-	 * Filter whether to send the retrieve password email.
+	 * Filters whether to send the retrieve password email.
 	 *
 	 * @since 6.0.0
 	 *
-	 * @param bool $send False to prevent sending. Default: true
+	 * @param bool $send False to prevent sending. Default true.
 	 */
 	if ( ! apply_filters( 'send_retrieve_password_email', true ) ) {
 		return true;
@@ -3039,7 +3039,7 @@ function retrieve_password( $user_login = null ) {
 	$data = compact( 'key', 'user_login', 'user_data' );
 
 	/**
-	 * Filter the contents of the reset password notification email sent to the user.
+	 * Filters the contents of the reset password notification email sent to the user.
 	 *
 	 * @since 6.0.0
 	 *
