@@ -3030,7 +3030,10 @@ function retrieve_password( $user_login = null ) {
 		return true;
 	}
 
-	// Wrap the single notification email arguments in an array to pass them to the retrieve_password_notification_email filter.
+	/*
+	 * Wrap the single notification email arguments in an array
+	 * to pass them to the retrieve_password_notification_email filter.
+	 */
 	$defaults = array(
 		'to'      => $user_email,
 		'subject' => $title,
@@ -3045,7 +3048,7 @@ function retrieve_password( $user_login = null ) {
 	 *
 	 * @since 6.0.0
 	 *
-	 * @param array $notification_email {
+	 * @param array $defaults {
 	 *     The default notification email arguments. Used to build wp_mail().
 	 *
 	 *     @type string $to      The intended recipient - user email address.
@@ -3061,7 +3064,7 @@ function retrieve_password( $user_login = null ) {
 	 *     @type WP_User $user_data  WP_User object.
 	 * }
 	 */
-	$notification_email = apply_filters( 'retrieve_password_notification_email', $notification_email, $data );
+	$notification_email = apply_filters( 'retrieve_password_notification_email', $defaults, $data );
 
 	if ( $switched_locale ) {
 		restore_previous_locale();
