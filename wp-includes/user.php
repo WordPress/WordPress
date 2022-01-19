@@ -2938,6 +2938,17 @@ function retrieve_password( $user_login = null ) {
 		return $errors;
 	}
 
+	/**
+	 * Filter whether to send the retrieve password email.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param bool $send False to prevent sending. Default: true
+	 */
+	if ( ! apply_filters( 'send_retrieve_password_email', true ) ) {
+		return true;
+	}
+
 	// Redefining user_login ensures we return the right case in the email.
 	$user_login = $user_data->user_login;
 	$user_email = $user_data->user_email;
@@ -3012,11 +3023,60 @@ function retrieve_password( $user_login = null ) {
 	 */
 	$message = apply_filters( 'retrieve_password_message', $message, $key, $user_login, $user_data );
 
+	// Short-circuit on falsey $message value for backwards compatibility.
+	if ( ! $message ) {
+		return true;
+	}
+
+	// Wrap the single notification email arguments in an array to pass them to the retrieve_password_notification_email filter.
+	$defaults = array(
+		'to'      => $user_email,
+		'subject' => $title,
+		'message' => $message,
+		'headers' => '',
+	);
+
+	$data = compact( 'key', 'user_login', 'user_data' );
+
+	/**
+	 * Filter the contents of the reset password notification email sent to the user.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param array $defaults {
+	 *     The default notification email arguments. Used to build wp_mail().
+	 *
+	 *     @type string $to      The intended recipient - user email address.
+	 *     @type string $subject The subject of the email.
+	 *     @type string $message The body of the email.
+	 *     @type string $headers The headers of the email.
+	 * }
+	 * @param array $data {
+	 *     Additional information for extenders.
+	 *
+	 *     @type string  $key        The activation key.
+	 *     @type string  $user_login The username for the user.
+	 *     @type WP_User $user_data  WP_User object.
+	 * }
+	 */
+	$notification_email = apply_filters( 'retrieve_password_notification_email', $defaults, $data );
+
 	if ( $switched_locale ) {
 		restore_previous_locale();
 	}
 
-	if ( $message && ! wp_mail( $user_email, wp_specialchars_decode( $title ), $message ) ) {
+	if ( is_array( $notification_email ) ) {
+		// Force key order and merge defaults in case any value is missing in the filtered array.
+		$notification_email = array_merge( $defaults, $notification_email );
+	} else {
+		$notification_email = $defaults;
+	}
+
+	list( $to, $subject, $message, $headers ) = array_values( $notification_email );
+
+	$subject = wp_specialchars_decode( $subject );
+
+	if ( ! wp_mail( $to, $subject, $message, $headers ) ) {
 		$errors->add(
 			'retrieve_password_email_failure',
 			sprintf(
