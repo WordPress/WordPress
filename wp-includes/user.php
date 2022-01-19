@@ -2941,9 +2941,11 @@ function retrieve_password( $user_login = null ) {
 	/**
 	 * Filters whether to send the retrieve password email.
 	 *
+	 * Return false to disable sending the email.
+	 *
 	 * @since 6.0.0
 	 *
-	 * @param bool $send False to prevent sending. Default true.
+	 * @param bool $send Whether to send the email.
 	 */
 	if ( ! apply_filters( 'send_retrieve_password_email', true ) ) {
 		return true;
@@ -3043,7 +3045,7 @@ function retrieve_password( $user_login = null ) {
 	 *
 	 * @since 6.0.0
 	 *
-	 * @param array $defaults {
+	 * @param array $notification_email {
 	 *     The default notification email arguments. Used to build wp_mail().
 	 *
 	 *     @type string $to      The intended recipient - user email address.
@@ -3059,7 +3061,7 @@ function retrieve_password( $user_login = null ) {
 	 *     @type WP_User $user_data  WP_User object.
 	 * }
 	 */
-	$notification_email = apply_filters( 'retrieve_password_notification_email', $defaults, $data );
+	$notification_email = apply_filters( 'retrieve_password_notification_email', $notification_email, $data );
 
 	if ( $switched_locale ) {
 		restore_previous_locale();
