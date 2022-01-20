@@ -287,7 +287,7 @@ function wp_get_theme_file_editable_extensions( $theme ) {
 	 * @since 4.4.0
 	 *
 	 * @param string[] $default_types An array of editable theme file extensions.
-	 * @param WP_Theme $theme         The current theme object.
+	 * @param WP_Theme $theme         The active theme object.
 	 */
 	$file_types = apply_filters( 'wp_theme_editor_filetypes', $default_types, $theme );
 

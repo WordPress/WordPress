@@ -653,7 +653,7 @@ function wp_prepare_themes_for_js( $themes = null ) {
 	 *
 	 * @param array           $prepared_themes An associative array of theme data. Default empty array.
 	 * @param WP_Theme[]|null $themes          An array of theme objects to prepare, if any.
-	 * @param string          $current_theme   The current theme slug.
+	 * @param string          $current_theme   The active theme slug.
 	 */
 	$prepared_themes = (array) apply_filters( 'pre_prepare_themes_for_js', array(), $themes, $current_theme );
 
@@ -661,7 +661,7 @@ function wp_prepare_themes_for_js( $themes = null ) {
 		return $prepared_themes;
 	}
 
-	// Make sure the current theme is listed first.
+	// Make sure the active theme is listed first.
 	$prepared_themes[ $current_theme ] = array();
 
 	if ( null === $themes ) {

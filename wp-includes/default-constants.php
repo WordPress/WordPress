@@ -402,7 +402,7 @@ function wp_templating_constants() {
 	/**
 	 * Slug of the default theme for this installation.
 	 * Used as the default theme when installing new sites.
-	 * It will be used as the fallback if the current theme doesn't exist.
+	 * It will be used as the fallback if the active theme doesn't exist.
 	 *
 	 * @since 3.0.0
 	 *

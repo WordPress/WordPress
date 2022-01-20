@@ -708,7 +708,7 @@ class WP_Theme_JSON {
 	}
 
 	/**
-	 * Returns the page templates of the current theme.
+	 * Returns the page templates of the active theme.
 	 *
 	 * @since 5.9.0
 	 *
@@ -732,7 +732,7 @@ class WP_Theme_JSON {
 	}
 
 	/**
-	 * Returns the template part data of current theme.
+	 * Returns the template part data of active theme.
 	 *
 	 * @since 5.9.0
 	 *

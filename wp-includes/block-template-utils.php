@@ -422,7 +422,7 @@ function _flatten_blocks( &$blocks ) {
 }
 
 /**
- * Parses wp_template content and injects the current theme's
+ * Parses wp_template content and injects the active theme's
  * stylesheet as a theme attribute into each wp_template_part
  *
  * @since 5.9.0

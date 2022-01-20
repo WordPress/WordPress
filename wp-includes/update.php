@@ -568,7 +568,7 @@ function wp_update_themes( $extra_stats = array() ) {
 	$checked = array();
 	$request = array();
 
-	// Put slug of current theme into request.
+	// Put slug of active theme into request.
 	$request['active'] = get_option( 'stylesheet' );
 
 	foreach ( $installed_themes as $theme ) {

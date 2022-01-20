@@ -223,7 +223,7 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 
 		echo '<h2 class="update-from-upload-heading">' . esc_html__( 'This theme is already installed.' ) . '</h2>';
 
-		// Check errors for current theme.
+		// Check errors for active theme.
 		if ( is_wp_error( $current_theme_data->errors() ) ) {
 			$this->feedback( 'current_theme_has_errors', $current_theme_data->errors()->get_error_message() );
 		}
@@ -283,7 +283,7 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 		 * @since 5.5.0
 		 *
 		 * @param string   $table              The output table with Name, Version, Author, RequiresWP, and RequiresPHP info.
-		 * @param WP_Theme $current_theme_data Current theme data.
+		 * @param WP_Theme $current_theme_data Active theme data.
 		 * @param array    $new_theme_data     Array with uploaded theme data.
 		 */
 		echo apply_filters( 'install_theme_overwrite_comparison', $table, $current_theme_data, $new_theme_data );

@@ -609,7 +609,7 @@ class Theme_Upgrader extends WP_Upgrader {
 	}
 
 	/**
-	 * Turn on maintenance mode before attempting to upgrade the current theme.
+	 * Turn on maintenance mode before attempting to upgrade the active theme.
 	 *
 	 * Hooked to the {@see 'upgrader_pre_install'} filter by Theme_Upgrader::upgrade() and
 	 * Theme_Upgrader::bulk_upgrade().
@@ -627,7 +627,7 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		$theme = isset( $theme['theme'] ) ? $theme['theme'] : '';
 
-		// Only run if current theme
+		// Only run if active theme
 		if ( get_stylesheet() !== $theme ) {
 			return $return;
 		}
@@ -641,7 +641,7 @@ class Theme_Upgrader extends WP_Upgrader {
 	}
 
 	/**
-	 * Turn off maintenance mode after upgrading the current theme.
+	 * Turn off maintenance mode after upgrading the active theme.
 	 *
 	 * Hooked to the {@see 'upgrader_post_install'} filter by Theme_Upgrader::upgrade()
 	 * and Theme_Upgrader::bulk_upgrade().
@@ -659,7 +659,7 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		$theme = isset( $theme['theme'] ) ? $theme['theme'] : '';
 
-		// Only run if current theme.
+		// Only run if active theme.
 		if ( get_stylesheet() !== $theme ) {
 			return $return;
 		}

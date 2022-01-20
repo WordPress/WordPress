@@ -485,7 +485,7 @@ function post_format_meta_box( $post, $box ) {
 			if ( ! $post_format ) {
 				$post_format = '0';
 			}
-			// Add in the current one if it isn't there yet, in case the current theme doesn't support it.
+			// Add in the current one if it isn't there yet, in case the active theme doesn't support it.
 			if ( $post_format && ! in_array( $post_format, $post_formats[0], true ) ) {
 				$post_formats[0][] = $post_format;
 			}

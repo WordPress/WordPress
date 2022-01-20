@@ -217,14 +217,14 @@ class WP_Theme_JSON_Resolver {
 
 	/**
 	 * Returns the custom post type that contains the user's origin config
-	 * for the current theme or a void array if none are found.
+	 * for the active theme or a void array if none are found.
 	 *
 	 * This can also create and return a new draft custom post type.
 	 *
 	 * @since 5.9.0
 	 *
 	 * @param WP_Theme $theme              The theme object. If empty, it
-	 *                                     defaults to the current theme.
+	 *                                     defaults to the active theme.
 	 * @param bool     $create_post        Optional. Whether a new custom post
 	 *                                     type should be created if none are
 	 *                                     found. Default false.
@@ -396,7 +396,7 @@ class WP_Theme_JSON_Resolver {
 	}
 
 	/**
-	 * Whether the current theme has a theme.json file.
+	 * Whether the active theme has a theme.json file.
 	 *
 	 * @since 5.8.0
 	 * @since 5.9.0 Added a check in the parent theme.

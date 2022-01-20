@@ -1455,7 +1455,7 @@ endif;
 
 	/**
 	 * Given an attachment ID for a header image, unsets it as a user-uploaded
-	 * header image for the current theme.
+	 * header image for the active theme.
 	 *
 	 * Triggered when the user clicks the overlay "X" button next to each image
 	 * choice in the Customizer's Header tool.

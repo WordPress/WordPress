@@ -27,7 +27,7 @@ class WP_Customize_Themes_Panel extends WP_Customize_Panel {
 	/**
 	 * An Underscore (JS) template for rendering this panel's container.
 	 *
-	 * The themes panel renders a custom panel heading with the current theme and a switch themes button.
+	 * The themes panel renders a custom panel heading with the active theme and a switch themes button.
 	 *
 	 * @see WP_Customize_Panel::print_template()
 	 *

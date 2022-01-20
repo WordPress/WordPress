@@ -698,7 +698,7 @@ final class WP_Theme implements ArrayAccess {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @return WP_Theme|false Parent theme, or false if the current theme is not a child theme.
+	 * @return WP_Theme|false Parent theme, or false if the active theme is not a child theme.
 	 */
 	public function parent() {
 		return isset( $this->parent ) ? $this->parent : false;
@@ -1217,7 +1217,7 @@ final class WP_Theme implements ArrayAccess {
 	 *                 with the value of the translated header name.
 	 */
 	public function get_post_templates() {
-		// If you screw up your current theme and we invalidate your parent, most things still work. Let it slide.
+		// If you screw up your active theme and we invalidate your parent, most things still work. Let it slide.
 		if ( $this->errors() && $this->errors()->get_error_codes() !== array( 'theme_parent_invalid' ) ) {
 			return array();
 		}

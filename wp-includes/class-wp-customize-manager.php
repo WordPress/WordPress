@@ -496,7 +496,7 @@ final class WP_Customize_Manager {
 	/**
 	 * Start preview and customize theme.
 	 *
-	 * Check if customize query variable exist. Init filters to filter the current theme.
+	 * Check if customize query variable exist. Init filters to filter the active theme.
 	 *
 	 * @since 3.4.0
 	 *
@@ -699,7 +699,7 @@ final class WP_Customize_Manager {
 	/**
 	 * Stop previewing the selected theme.
 	 *
-	 * Removes filters to change the current theme.
+	 * Removes filters to change the active theme.
 	 *
 	 * @since 3.4.0
 	 */
@@ -1769,7 +1769,7 @@ final class WP_Customize_Manager {
 				}
 				if ( isset( $setting_params['type'] ) && 'theme_mod' === $setting_params['type'] ) {
 
-					// Ensure that theme mods values are only used if they were saved under the current theme.
+					// Ensure that theme mods values are only used if they were saved under the active theme.
 					$namespace_pattern = '/^(?P<stylesheet>.+?)::(?P<setting_id>.+)$/';
 					if ( preg_match( $namespace_pattern, $setting_id, $matches ) && $this->get_stylesheet() === $matches['stylesheet'] ) {
 						$values[ $matches['setting_id'] ] = $setting_params['value'];
@@ -2297,7 +2297,7 @@ final class WP_Customize_Manager {
 	}
 
 	/**
-	 * Filters the current theme and return the name of the previewed theme.
+	 * Filters the active theme and return the name of the previewed theme.
 	 *
 	 * @since 3.4.0
 	 *
