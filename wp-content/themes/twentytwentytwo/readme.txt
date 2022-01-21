@@ -20,6 +20,8 @@ Whether you’re building a single-page website, a blog, a business website, or 
 = 1.0 =
 * Released: January 25, 2022
 
+https://wordpress.org/support/article/twenty-twenty-two-changelog#Version_1.0
+
 == Copyright ==
 
 Twenty Twenty-Two WordPress Theme, 2021-2022 WordPress.org
