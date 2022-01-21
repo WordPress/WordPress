@@ -2854,21 +2854,21 @@ h2.entry-title {
 /* Block Font Sizes -------------------------- */
 
 .entry-content .has-small-font-size {
-	--wp--preset--font-size--small: 0.842em;
+	font-size: 0.842em;
 }
 
 .entry-content .has-normal-font-size,
 .entry-content .has-regular-font-size {
-	--wp--preset--font-size--normal: 1em;
+	font-size: 1em;
 }
 
 .entry-content .has-medium-font-size {
-	--wp--preset--font-size--medium: 1.1em;
+	font-size: 1.1em;
 	line-height: 1.45;
 }
 
 .entry-content .has-large-font-size {
-	--wp--preset--font-size--large: 1.25em;
+	font-size: 1.25em;
 	line-height: 1.4;
 }
 
