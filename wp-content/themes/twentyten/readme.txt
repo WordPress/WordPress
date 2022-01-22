@@ -1,7 +1,7 @@
 === Twenty Ten ===
 Contributors: wordpressdotorg
 Tested up to: 5.9
-Stable tag: 3.5
+Stable tag: 3.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: blog, two-columns, custom-header, custom-background, threaded-comments, sticky-post, translation-ready, microformats, rtl-language-support, editor-style, custom-menu, flexible-header, featured-images, footer-widgets, featured-image-header, block-patterns
@@ -41,6 +41,11 @@ Images
 “Old Barn Photo” by Bonnie Moreland. CC0. https://stocksnap.io/photo/old-barn-4HMJ2KQVX9
 
 == Changelog ==
+
+= 3.6 =
+* Released: January 25, 2022
+
+https://codex.wordpress.org/Twenty_Ten_Theme_Changelog#Version_3.6
 
 = 3.5 =
 * Released: July 26, 2021

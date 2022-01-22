@@ -52,6 +52,11 @@ Toroidal Colony: https://www.flickr.com/photos/nasacommons/13889485757/in/album-
 
 == Changelog ==
 
+= 3.5 =
+* Released: January 25, 2022
+
+https://codex.wordpress.org/Twenty_Thirteen_Theme_Changelog#Version_3.5
+
 = 3.4 =
 * Released: July 20, 2021
 
