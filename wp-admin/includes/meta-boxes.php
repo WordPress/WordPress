@@ -1364,12 +1364,12 @@ function link_advanced_meta_box( $link ) {
 		<th scope="row"><label for="link_rating"><?php _e( 'Rating' ); ?></label></th>
 		<td><select name="link_rating" id="link_rating" size="1">
 		<?php
-		for ( $parsed_args = 0; $parsed_args <= 10; $parsed_args++ ) {
-			echo '<option value="' . $parsed_args . '"';
-			if ( isset( $link->link_rating ) && $link->link_rating == $parsed_args ) {
+		for ( $rating = 0; $rating <= 10; $rating++ ) {
+			echo '<option value="' . $rating . '"';
+			if ( isset( $link->link_rating ) && $link->link_rating == $rating ) {
 				echo ' selected="selected"';
 			}
-			echo( '>' . $parsed_args . '</option>' );
+			echo '>' . $rating . '</option>';
 		}
 		?>
 		</select>&nbsp;<?php _e( '(Leave at 0 for no rating.)' ); ?>
