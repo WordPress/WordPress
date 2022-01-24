@@ -7373,6 +7373,9 @@ function Editor(_ref) {
     setPage,
     setIsInserterOpened
   } = Object(external_wp_data_["useDispatch"])(store);
+  const {
+    enableComplementaryArea
+  } = Object(external_wp_data_["useDispatch"])(build_module["i" /* store */]);
   const [isEntitiesSavedStatesOpen, setIsEntitiesSavedStatesOpen] = Object(external_wp_element_["useState"])(false);
   const openEntitiesSavedStates = Object(external_wp_element_["useCallback"])(() => setIsEntitiesSavedStatesOpen(true), []);
   const closeEntitiesSavedStates = Object(external_wp_element_["useCallback"])(() => {
@@ -7395,7 +7398,14 @@ function Editor(_ref) {
     } else {
       document.body.classList.remove('is-navigation-sidebar-open');
     }
-  }, [isNavigationOpen]); // Don't render the Editor until the settings are set and loaded
+  }, [isNavigationOpen]);
+  Object(external_wp_element_["useEffect"])(function openGlobalStylesOnLoad() {
+    const searchParams = new URLSearchParams(window.location.search);
+
+    if (searchParams.get('styles') === 'open') {
+      enableComplementaryArea('core/edit-site', 'edit-site/global-styles');
+    }
+  }, [enableComplementaryArea]); // Don't render the Editor until the settings are set and loaded
 
   const isReady = (settings === null || settings === void 0 ? void 0 : settings.siteUrl) && templateType !== undefined && entityId !== undefined;
 
