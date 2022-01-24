@@ -27127,6 +27127,7 @@ var store = __webpack_require__("BhPs");
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -27137,6 +27138,7 @@ var store = __webpack_require__("BhPs");
  // This is used to avoid rendering the block list if the sizes change.
 
 let MemoizedBlockList;
+const MAX_HEIGHT = 2000;
 
 function AutoBlockPreview(_ref) {
   let {
@@ -27151,7 +27153,18 @@ function AutoBlockPreview(_ref) {
   }] = Object(external_wp_compose_["useResizeObserver"])();
   const styles = Object(external_wp_data_["useSelect"])(select => {
     return select(store["a" /* store */]).getSettings().styles;
-  }, []); // Initialize on render instead of module top level, to avoid circular dependency issues.
+  }, []); // Avoid scrollbars for pattern previews.
+
+  const editorStyles = Object(external_wp_element_["useMemo"])(() => {
+    if (styles) {
+      return [...styles, {
+        css: 'body{height:auto;overflow:hidden;}',
+        __unstableType: 'presets'
+      }];
+    }
+
+    return styles;
+  }, [styles]); // Initialize on render instead of module top level, to avoid circular dependency issues.
 
   MemoizedBlockList = MemoizedBlockList || Object(external_wp_compose_["pure"])(block_list["c" /* default */]);
   const scale = containerWidth / viewportWidth;
@@ -27161,11 +27174,12 @@ function AutoBlockPreview(_ref) {
     className: "block-editor-block-preview__content",
     style: {
       transform: `scale(${scale})`,
-      height: contentHeight * scale
+      height: contentHeight * scale,
+      maxHeight: contentHeight > MAX_HEIGHT ? MAX_HEIGHT * scale : undefined
     }
   }, Object(external_wp_element_["createElement"])(iframe["a" /* default */], {
     head: Object(external_wp_element_["createElement"])(editor_styles["a" /* default */], {
-      styles: styles
+      styles: editorStyles
     }),
     contentRef: Object(external_wp_compose_["useRefEffect"])(bodyElement => {
       const {
@@ -27184,7 +27198,10 @@ function AutoBlockPreview(_ref) {
       position: 'absolute',
       width: viewportWidth,
       height: contentHeight,
-      pointerEvents: 'none'
+      pointerEvents: 'none',
+      // This is a catch-all max-height for patterns.
+      // See: https://github.com/WordPress/gutenberg/pull/38175.
+      maxHeight: MAX_HEIGHT
     }
   }, contentResizeListener, Object(external_wp_element_["createElement"])(MemoizedBlockList, {
     renderAppender: false
