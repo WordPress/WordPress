@@ -20685,12 +20685,6 @@ function useNavigationMenu(ref) {
   }, [ref]);
 }
 
-// EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/icon/index.js
-var build_module_icon = __webpack_require__("iClF");
-
-// EXTERNAL MODULE: external ["wp","htmlEntities"]
-var external_wp_htmlEntities_ = __webpack_require__("rmEH");
-
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/navigation/use-navigation-entities.js
 /**
  * WordPress dependencies
@@ -20810,6 +20804,12 @@ function usePageEntities() {
   };
 }
 
+// EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/icon/index.js
+var build_module_icon = __webpack_require__("iClF");
+
+// EXTERNAL MODULE: external ["wp","htmlEntities"]
+var external_wp_htmlEntities_ = __webpack_require__("rmEH");
+
 // EXTERNAL MODULE: ./node_modules/@wordpress/icons/build-module/library/search.js
 var library_search = __webpack_require__("cGtP");
 
@@ -20848,6 +20848,177 @@ const PlaceholderPreview = _ref => {
 };
 
 /* harmony default export */ var placeholder_preview = (PlaceholderPreview);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/template-part/edit/utils/create-template-part-id.js
+/**
+ * Generates a template part Id based on slug and theme inputs.
+ *
+ * @param {string} theme the template part's theme.
+ * @param {string} slug  the template part's slug
+ * @return {string|null} the template part's Id.
+ */
+function createTemplatePartId(theme, slug) {
+  return theme && slug ? theme + '//' + slug : null;
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/navigation/use-template-part-area-label.js
+/**
+ * WordPress dependencies
+ */
+
+
+
+/**
+ * Internal dependencies
+ */
+// TODO: this util should perhaps be refactored somewhere like core-data.
+
+
+function useTemplatePartAreaLabel(clientId) {
+  return Object(external_wp_data_["useSelect"])(select => {
+    // Use the lack of a clientId as an opportunity to bypass the rest
+    // of this hook.
+    if (!clientId) {
+      return;
+    }
+
+    const {
+      getBlock,
+      getBlockParentsByBlockName
+    } = select(external_wp_blockEditor_["store"]);
+    const withAscendingResults = true;
+    const parentTemplatePartClientIds = getBlockParentsByBlockName(clientId, 'core/template-part', withAscendingResults);
+
+    if (!(parentTemplatePartClientIds !== null && parentTemplatePartClientIds !== void 0 && parentTemplatePartClientIds.length)) {
+      return;
+    } // FIXME: @wordpress/block-library should not depend on @wordpress/editor.
+    // Blocks can be loaded into a *non-post* block editor.
+    // This code is lifted from this file:
+    // packages/block-library/src/template-part/edit/advanced-controls.js
+    // eslint-disable-next-line @wordpress/data-no-store-string-literals
+
+
+    const definedAreas = select('core/editor').__experimentalGetDefaultTemplatePartAreas();
+
+    const {
+      getEditedEntityRecord
+    } = select(external_wp_coreData_["store"]);
+
+    for (const templatePartClientId of parentTemplatePartClientIds) {
+      const templatePartBlock = getBlock(templatePartClientId); // The 'area' usually isn't stored on the block, but instead
+      // on the entity.
+
+      const {
+        theme,
+        slug
+      } = templatePartBlock.attributes;
+      const templatePartEntityId = createTemplatePartId(theme, slug);
+      const templatePartEntity = getEditedEntityRecord('postType', 'wp_template_part', templatePartEntityId); // Look up the `label` for the area in the defined areas so
+      // that an internationalized label can be used.
+
+      if (templatePartEntity !== null && templatePartEntity !== void 0 && templatePartEntity.area) {
+        var _definedAreas$find;
+
+        return (_definedAreas$find = definedAreas.find(definedArea => definedArea.area !== 'uncategorized' && definedArea.area === templatePartEntity.area)) === null || _definedAreas$find === void 0 ? void 0 : _definedAreas$find.label;
+      }
+    }
+  }, [clientId]);
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/navigation/edit/use-generate-default-navigation-title.js
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+
+/**
+ * Internal dependencies
+ */
+
+
+const DRAFT_MENU_PARAMS = ['postType', 'wp_navigation', {
+  status: 'draft',
+  per_page: -1
+}];
+const PUBLISHED_MENU_PARAMS = ['postType', 'wp_navigation', {
+  per_page: -1,
+  status: 'publish'
+}];
+function useGenerateDefaultNavigationTitle(clientId) {
+  // The block will be disabled in a block preview, use this as a way of
+  // avoiding the side-effects of this component for block previews.
+  const isDisabled = Object(external_wp_element_["useContext"])(external_wp_components_["Disabled"].Context); // Because we can't conditionally call hooks, pass an undefined client id
+  // arg to bypass the expensive `useTemplateArea` code. The hook will return
+  // early.
+
+  const area = useTemplatePartAreaLabel(isDisabled ? undefined : clientId);
+  const registry = Object(external_wp_data_["useRegistry"])();
+  return Object(external_wp_element_["useCallback"])(async () => {
+    // Ensure other navigation menus have loaded so an
+    // accurate name can be created.
+    if (isDisabled) {
+      return '';
+    }
+
+    const {
+      getEntityRecords
+    } = registry.resolveSelect(external_wp_coreData_["store"]);
+    const [draftNavigationMenus, navigationMenus] = await Promise.all([getEntityRecords(...DRAFT_MENU_PARAMS), getEntityRecords(...PUBLISHED_MENU_PARAMS)]);
+    const title = area ? Object(external_wp_i18n_["sprintf"])( // translators: %s: the name of a menu (e.g. Header navigation).
+    Object(external_wp_i18n_["__"])('%s navigation'), area) : // translators: 'navigation' as in website navigation.
+    Object(external_wp_i18n_["__"])('Navigation'); // Determine how many menus start with the automatic title.
+
+    const matchingMenuTitleCount = [...draftNavigationMenus, ...navigationMenus].reduce((count, menu) => {
+      var _menu$title, _menu$title$raw;
+
+      return menu !== null && menu !== void 0 && (_menu$title = menu.title) !== null && _menu$title !== void 0 && (_menu$title$raw = _menu$title.raw) !== null && _menu$title$raw !== void 0 && _menu$title$raw.startsWith(title) ? count + 1 : count;
+    }, 0); // Append a number to the end of the title if a menu with
+    // the same name exists.
+
+    const titleWithCount = matchingMenuTitleCount > 0 ? `${title} ${matchingMenuTitleCount + 1}` : title;
+    return titleWithCount || '';
+  }, [isDisabled, area]);
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/navigation/edit/use-create-navigation-menu.js
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+/**
+ * Internal dependencies
+ */
+
+
+function useCreateNavigationMenu(clientId) {
+  const {
+    saveEntityRecord
+  } = Object(external_wp_data_["useDispatch"])(external_wp_coreData_["store"]);
+  const generateDefaultTitle = useGenerateDefaultNavigationTitle(clientId); // This callback uses data from the two placeholder steps and only creates
+  // a new navigation menu when the user completes the final step.
+
+  return Object(external_wp_element_["useCallback"])(async function () {
+    let title = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    let blocks = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+
+    if (!title) {
+      title = await generateDefaultTitle();
+    }
+
+    const record = {
+      title,
+      content: Object(external_wp_blocks_["serialize"])(blocks),
+      status: 'publish'
+    };
+    return await saveEntityRecord('postType', 'wp_navigation', record);
+  }, [external_wp_blocks_["serialize"], saveEntityRecord]);
+}
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/navigation/menu-items-to-blocks.js
 /**
@@ -21050,175 +21221,52 @@ function createDataTree(dataset) {
   return dataTree;
 }
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/template-part/edit/utils/create-template-part-id.js
-/**
- * Generates a template part Id based on slug and theme inputs.
- *
- * @param {string} theme the template part's theme.
- * @param {string} slug  the template part's slug
- * @return {string|null} the template part's Id.
- */
-function createTemplatePartId(theme, slug) {
-  return theme && slug ? theme + '//' + slug : null;
-}
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/navigation/use-template-part-area-label.js
+// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/navigation/use-convert-classic-menu.js
 /**
  * WordPress dependencies
  */
-
-
-
-/**
- * Internal dependencies
- */
-// TODO: this util should perhaps be refactored somewhere like core-data.
-
-
-function useTemplatePartAreaLabel(clientId) {
-  return Object(external_wp_data_["useSelect"])(select => {
-    // Use the lack of a clientId as an opportunity to bypass the rest
-    // of this hook.
-    if (!clientId) {
-      return;
-    }
-
-    const {
-      getBlock,
-      getBlockParentsByBlockName
-    } = select(external_wp_blockEditor_["store"]);
-    const withAscendingResults = true;
-    const parentTemplatePartClientIds = getBlockParentsByBlockName(clientId, 'core/template-part', withAscendingResults);
-
-    if (!(parentTemplatePartClientIds !== null && parentTemplatePartClientIds !== void 0 && parentTemplatePartClientIds.length)) {
-      return;
-    } // FIXME: @wordpress/block-library should not depend on @wordpress/editor.
-    // Blocks can be loaded into a *non-post* block editor.
-    // This code is lifted from this file:
-    // packages/block-library/src/template-part/edit/advanced-controls.js
-    // eslint-disable-next-line @wordpress/data-no-store-string-literals
-
-
-    const definedAreas = select('core/editor').__experimentalGetDefaultTemplatePartAreas();
-
-    const {
-      getEditedEntityRecord
-    } = select(external_wp_coreData_["store"]);
-
-    for (const templatePartClientId of parentTemplatePartClientIds) {
-      const templatePartBlock = getBlock(templatePartClientId); // The 'area' usually isn't stored on the block, but instead
-      // on the entity.
-
-      const {
-        theme,
-        slug
-      } = templatePartBlock.attributes;
-      const templatePartEntityId = createTemplatePartId(theme, slug);
-      const templatePartEntity = getEditedEntityRecord('postType', 'wp_template_part', templatePartEntityId); // Look up the `label` for the area in the defined areas so
-      // that an internationalized label can be used.
-
-      if (templatePartEntity !== null && templatePartEntity !== void 0 && templatePartEntity.area) {
-        var _definedAreas$find;
-
-        return (_definedAreas$find = definedAreas.find(definedArea => definedArea.area !== 'uncategorized' && definedArea.area === templatePartEntity.area)) === null || _definedAreas$find === void 0 ? void 0 : _definedAreas$find.label;
-      }
-    }
-  }, [clientId]);
-}
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/navigation/edit/use-generate-default-navigation-title.js
-/**
- * WordPress dependencies
- */
-
-
-
-
 
 /**
  * Internal dependencies
  */
 
 
-const DRAFT_MENU_PARAMS = ['postType', 'wp_navigation', {
-  status: 'draft',
-  per_page: -1
-}];
-const PUBLISHED_MENU_PARAMS = ['postType', 'wp_navigation', {
-  per_page: -1,
-  status: 'publish'
-}];
-function useGenerateDefaultNavigationTitle(clientId) {
-  // The block will be disabled in a block preview, use this as a way of
-  // avoiding the side-effects of this component for block previews.
-  const isDisabled = Object(external_wp_element_["useContext"])(external_wp_components_["Disabled"].Context); // Because we can't conditionally call hooks, pass an undefined client id
-  // arg to bypass the expensive `useTemplateArea` code. The hook will return
-  // early.
 
-  const area = useTemplatePartAreaLabel(isDisabled ? undefined : clientId);
-  const registry = Object(external_wp_data_["useRegistry"])();
-  return Object(external_wp_element_["useCallback"])(async () => {
-    // Ensure other navigation menus have loaded so an
-    // accurate name can be created.
-    if (isDisabled) {
-      return '';
-    }
-
-    const {
-      getEntityRecords
-    } = registry.resolveSelect(external_wp_coreData_["store"]);
-    const [draftNavigationMenus, navigationMenus] = await Promise.all([getEntityRecords(...DRAFT_MENU_PARAMS), getEntityRecords(...PUBLISHED_MENU_PARAMS)]);
-    const title = area ? Object(external_wp_i18n_["sprintf"])( // translators: %s: the name of a menu (e.g. Header navigation).
-    Object(external_wp_i18n_["__"])('%s navigation'), area) : // translators: 'navigation' as in website navigation.
-    Object(external_wp_i18n_["__"])('Navigation'); // Determine how many menus start with the automatic title.
-
-    const matchingMenuTitleCount = [...draftNavigationMenus, ...navigationMenus].reduce((count, menu) => {
-      var _menu$title, _menu$title$raw;
-
-      return menu !== null && menu !== void 0 && (_menu$title = menu.title) !== null && _menu$title !== void 0 && (_menu$title$raw = _menu$title.raw) !== null && _menu$title$raw !== void 0 && _menu$title$raw.startsWith(title) ? count + 1 : count;
-    }, 0); // Append a number to the end of the title if a menu with
-    // the same name exists.
-
-    const titleWithCount = matchingMenuTitleCount > 0 ? `${title} ${matchingMenuTitleCount + 1}` : title;
-    return titleWithCount || '';
-  }, [isDisabled, area]);
-}
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/navigation/edit/use-create-navigation-menu.js
-/**
- * WordPress dependencies
- */
-
-
-
-
-/**
- * Internal dependencies
- */
-
-
-function useCreateNavigationMenu(clientId) {
+function useConvertClassicMenu(onFinish) {
+  const [selectedMenu, setSelectedMenu] = Object(external_wp_element_["useState"])();
+  const [isAwaitingMenuItemResolution, setIsAwaitingMenuItemResolution] = Object(external_wp_element_["useState"])(false);
+  const [menuName, setMenuName] = Object(external_wp_element_["useState"])('');
   const {
-    saveEntityRecord
-  } = Object(external_wp_data_["useDispatch"])(external_wp_coreData_["store"]);
-  const generateDefaultTitle = useGenerateDefaultNavigationTitle(clientId); // This callback uses data from the two placeholder steps and only creates
-  // a new navigation menu when the user completes the final step.
-
-  return Object(external_wp_element_["useCallback"])(async function () {
-    let title = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-    let blocks = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-
-    if (!title) {
-      title = await generateDefaultTitle();
+    menuItems,
+    hasResolvedMenuItems
+  } = useNavigationEntities(selectedMenu);
+  const createFromMenu = Object(external_wp_element_["useCallback"])(name => {
+    const {
+      innerBlocks: blocks
+    } = menuItemsToBlocks(menuItems);
+    onFinish(blocks, name);
+  }, [menuItems, menuItemsToBlocks, onFinish]);
+  Object(external_wp_element_["useEffect"])(() => {
+    // If the user selected a menu but we had to wait for menu items to
+    // finish resolving, then create the block once resolution finishes.
+    if (isAwaitingMenuItemResolution && hasResolvedMenuItems) {
+      createFromMenu(menuName);
+      setIsAwaitingMenuItemResolution(false);
     }
+  }, [isAwaitingMenuItemResolution, hasResolvedMenuItems, menuName]);
+  return Object(external_wp_element_["useCallback"])((id, name) => {
+    setSelectedMenu(id); // If we have menu items, create the block right away.
 
-    const record = {
-      title,
-      content: Object(external_wp_blocks_["serialize"])(blocks),
-      status: 'publish'
-    };
-    return await saveEntityRecord('postType', 'wp_navigation', record);
-  }, [external_wp_blocks_["serialize"], saveEntityRecord]);
+    if (hasResolvedMenuItems) {
+      createFromMenu(name);
+      return;
+    } // Otherwise, create the block when resolution finishes.
+
+
+    setIsAwaitingMenuItemResolution(true); // Store the name to use later.
+
+    setMenuName(name);
+  }, [hasResolvedMenuItems, createFromMenu]);
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/navigation/edit/placeholder/index.js
@@ -21227,7 +21275,6 @@ function useCreateNavigationMenu(clientId) {
 /**
  * WordPress dependencies
  */
-
 
 
 
@@ -21247,7 +21294,6 @@ const ExistingMenusDropdown = _ref => {
   let {
     canSwitchNavigationMenu,
     navigationMenus,
-    setSelectedMenu,
     onFinish,
     menus,
     onCreateFromMenu,
@@ -21274,7 +21320,6 @@ const ExistingMenusDropdown = _ref => {
     }, canSwitchNavigationMenu && (navigationMenus === null || navigationMenus === void 0 ? void 0 : navigationMenus.map(menu => {
       return Object(external_wp_element_["createElement"])(external_wp_components_["MenuItem"], {
         onClick: () => {
-          setSelectedMenu(menu.id);
           onFinish(menu);
         },
         onClose: onClose,
@@ -21285,8 +21330,7 @@ const ExistingMenusDropdown = _ref => {
     }, menus === null || menus === void 0 ? void 0 : menus.map(menu => {
       return Object(external_wp_element_["createElement"])(external_wp_components_["MenuItem"], {
         onClick: () => {
-          setSelectedMenu(menu.id);
-          onCreateFromMenu(menu.name);
+          onCreateFromMenu(menu.id, menu.name);
         },
         onClose: onClose,
         key: menu.id
@@ -21303,9 +21347,6 @@ function NavigationPlaceholder(_ref3) {
     hasResolvedNavigationMenus,
     canUserCreateNavigation = false
   } = _ref3;
-  const [selectedMenu, setSelectedMenu] = Object(external_wp_element_["useState"])();
-  const [isCreatingFromMenu, setIsCreatingFromMenu] = Object(external_wp_element_["useState"])(false);
-  const [menuName, setMenuName] = Object(external_wp_element_["useState"])('');
   const createNavigationMenu = useCreateNavigationMenu(clientId);
 
   const onFinishMenuCreation = async function (blocks) {
@@ -21319,35 +21360,15 @@ function NavigationPlaceholder(_ref3) {
     onFinish(navigationMenu, blocks);
   };
 
+  const convertClassicMenu = useConvertClassicMenu(onFinishMenuCreation);
   const {
     isResolvingPages,
     menus,
     isResolvingMenus,
-    menuItems,
-    hasResolvedMenuItems,
     hasPages,
     hasMenus
-  } = useNavigationEntities(selectedMenu);
+  } = useNavigationEntities();
   const isStillLoading = isResolvingPages || isResolvingMenus;
-  const createFromMenu = Object(external_wp_element_["useCallback"])(name => {
-    const {
-      innerBlocks: blocks
-    } = menuItemsToBlocks(menuItems);
-    onFinishMenuCreation(blocks, name);
-  }, [menuItems, menuItemsToBlocks, onFinish]);
-
-  const onCreateFromMenu = name => {
-    // If we have menu items, create the block right away.
-    if (hasResolvedMenuItems) {
-      createFromMenu(name);
-      return;
-    } // Otherwise, create the block when resolution finishes.
-
-
-    setIsCreatingFromMenu(true); // Store the name to use later.
-
-    setMenuName(name);
-  };
 
   const onCreateEmptyMenu = () => {
     onFinishMenuCreation([]);
@@ -21358,14 +21379,6 @@ function NavigationPlaceholder(_ref3) {
     onFinishMenuCreation(block);
   };
 
-  Object(external_wp_element_["useEffect"])(() => {
-    // If the user selected a menu but we had to wait for menu items to
-    // finish resolving, then create the block once resolution finishes.
-    if (isCreatingFromMenu && hasResolvedMenuItems) {
-      createFromMenu(menuName);
-      setIsCreatingFromMenu(false);
-    }
-  }, [isCreatingFromMenu, hasResolvedMenuItems, menuName]);
   const {
     navigationMenus
   } = useNavigationMenu();
@@ -21384,10 +21397,9 @@ function NavigationPlaceholder(_ref3) {
   }), ' ', Object(external_wp_i18n_["__"])('Navigation')), Object(external_wp_element_["createElement"])("hr", null), hasMenus || navigationMenus !== null && navigationMenus !== void 0 && navigationMenus.length ? Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(ExistingMenusDropdown, {
     canSwitchNavigationMenu: canSwitchNavigationMenu,
     navigationMenus: navigationMenus,
-    setSelectedMenu: setSelectedMenu,
     onFinish: onFinish,
     menus: menus,
-    onCreateFromMenu: onCreateFromMenu,
+    onCreateFromMenu: convertClassicMenu,
     showClassicMenus: canUserCreateNavigation
   }), Object(external_wp_element_["createElement"])("hr", null)) : undefined, canUserCreateNavigation && hasPages ? Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(external_wp_components_["Button"], {
     variant: "tertiary",
@@ -21594,17 +21606,41 @@ function NavigationInnerBlocks(_ref) {
  */
 
 
+
+
+
 function NavigationMenuSelector(_ref) {
   let {
+    clientId,
     onSelect,
     onCreateNew,
-    showCreate = false
+    canUserCreateNavigation = false
   } = _ref;
+  const {
+    menus: classicMenus,
+    hasMenus: hasClassicMenus
+  } = useNavigationEntities();
   const {
     navigationMenus
   } = useNavigationMenu();
   const ref = Object(external_wp_coreData_["useEntityId"])('postType', 'wp_navigation');
-  return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(external_wp_components_["MenuGroup"], null, Object(external_wp_element_["createElement"])(external_wp_components_["MenuItemsChoice"], {
+  const createNavigationMenu = useCreateNavigationMenu(clientId);
+
+  const onFinishMenuCreation = async function (blocks) {
+    let navigationMenuTitle = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+    if (!canUserCreateNavigation) {
+      return;
+    }
+
+    const navigationMenu = await createNavigationMenu(navigationMenuTitle, blocks);
+    onSelect(navigationMenu);
+  };
+
+  const convertClassicMenuToBlocks = useConvertClassicMenu(onFinishMenuCreation);
+  return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(external_wp_components_["MenuGroup"], {
+    label: Object(external_wp_i18n_["__"])('Menus')
+  }, Object(external_wp_element_["createElement"])(external_wp_components_["MenuItemsChoice"], {
     value: ref,
     onSelect: selectedId => onSelect(navigationMenus.find(post => post.id === selectedId)),
     choices: navigationMenus.map(_ref2 => {
@@ -21621,13 +21657,24 @@ function NavigationMenuSelector(_ref) {
         Object(external_wp_i18n_["__"])("Switch to '%s'"), label)
       };
     })
-  })), showCreate && Object(external_wp_element_["createElement"])(external_wp_components_["MenuGroup"], null, Object(external_wp_element_["createElement"])(external_wp_components_["MenuItem"], {
+  })), canUserCreateNavigation && Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, hasClassicMenus && Object(external_wp_element_["createElement"])(external_wp_components_["MenuGroup"], {
+    label: Object(external_wp_i18n_["__"])('Classic Menus')
+  }, classicMenus.map(menu => {
+    return Object(external_wp_element_["createElement"])(external_wp_components_["MenuItem"], {
+      onClick: () => {
+        convertClassicMenuToBlocks(menu.id, menu.name);
+      },
+      key: menu.id
+    }, Object(external_wp_htmlEntities_["decodeEntities"])(menu.name));
+  })), Object(external_wp_element_["createElement"])(external_wp_components_["MenuGroup"], {
+    label: Object(external_wp_i18n_["__"])('Tools')
+  }, Object(external_wp_element_["createElement"])(external_wp_components_["MenuItem"], {
     onClick: onCreateNew
   }, Object(external_wp_i18n_["__"])('Create new menu')), Object(external_wp_element_["createElement"])(external_wp_components_["MenuItem"], {
     href: Object(external_wp_url_["addQueryArgs"])('edit.php', {
       post_type: 'wp_navigation'
     })
-  }, Object(external_wp_i18n_["__"])('Manage menus'))));
+  }, Object(external_wp_i18n_["__"])('Manage menus')))));
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/navigation/edit/navigation-menu-name-control.js
@@ -21878,6 +21925,7 @@ function useNavigationNotice() {
 
 
 
+
 const EMPTY_ARRAY = [];
 
 function getComputedStyle(node) {
@@ -21954,7 +22002,10 @@ function Navigation(_ref) {
       setAreaMenu(postId);
     }
   }, [navigationArea]);
-  const [hasAlreadyRendered, RecursionProvider] = Object(external_wp_blockEditor_["__experimentalUseNoRecursiveRenders"])(`navigationMenu/${ref}`);
+  const [hasAlreadyRendered, RecursionProvider] = Object(external_wp_blockEditor_["__experimentalUseNoRecursiveRenders"])(`navigationMenu/${ref}`); // Preload classic menus, so that they don't suddenly pop-in when viewing
+  // the Select Menu dropdown.
+
+  useNavigationEntities();
   const {
     hasUncontrolledInnerBlocks,
     uncontrolledInnerBlocks,
@@ -22178,6 +22229,7 @@ function Navigation(_ref) {
       onClose
     } = _ref2;
     return Object(external_wp_element_["createElement"])(NavigationMenuSelector, {
+      clientId: clientId,
       onSelect: _ref3 => {
         let {
           id
@@ -22186,7 +22238,7 @@ function Navigation(_ref) {
         onClose();
       },
       onCreateNew: startWithEmptyMenu,
-      showCreate: canUserCreateNavigation
+      canUserCreateNavigation: canUserCreateNavigation
     });
   })), Object(external_wp_element_["createElement"])(external_wp_components_["ToolbarGroup"], null, listViewToolbarButton)), listViewModal, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["InspectorControls"], null, hasSubmenuIndicatorSetting && Object(external_wp_element_["createElement"])(external_wp_components_["PanelBody"], {
     title: Object(external_wp_i18n_["__"])('Display')

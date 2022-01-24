@@ -470,6 +470,10 @@ body.is-fullscreen-mode .interface-interface-skeleton {
 .edit-site-visual-editor.is-focus-mode .components-resizable-box__container {
   overflow: visible;
 }
+.edit-site-visual-editor .components-resizable-box__container {
+  margin: 0 auto;
+  overflow: auto;
+}
 
 .edit-site-visual-editor__editor-canvas {
   border-radius: 2px 2px 0 0;
@@ -483,11 +487,6 @@ body.is-fullscreen-mode .interface-interface-skeleton {
 }
 .edit-site-visual-editor__back-button:active:not([aria-disabled=true]), .edit-site-visual-editor__back-button:focus:not([aria-disabled=true]), .edit-site-visual-editor__back-button:hover {
   color: #f0f0f0;
-}
-
-.components-resizable-box__container {
-  margin: 0 auto;
-  overflow: auto;
 }
 
 .resizable-editor__drag-handle {

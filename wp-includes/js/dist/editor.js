@@ -5259,6 +5259,7 @@ function EntityTypeList(_ref) {
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -5313,7 +5314,10 @@ function EntitiesSavedStates(_ref) {
   const {
     createSuccessNotice,
     createErrorNotice
-  } = Object(external_wp_data_["useDispatch"])(external_wp_notices_["store"]); // To group entities by type.
+  } = Object(external_wp_data_["useDispatch"])(external_wp_notices_["store"]);
+  const {
+    __unstableMarkLastChangeAsPersistent
+  } = Object(external_wp_data_["useDispatch"])(external_wp_blockEditor_["store"]); // To group entities by type.
 
   const partitionedSavables = Object(external_lodash_["groupBy"])(dirtyEntityRecords, 'name'); // Sort entity groups.
 
@@ -5394,6 +5398,8 @@ function EntitiesSavedStates(_ref) {
         });
       }
     }).catch(error => createErrorNotice(`${Object(external_wp_i18n_["__"])('Saving failed.')} ${error}`));
+
+    __unstableMarkLastChangeAsPersistent();
   }; // Explicitly define this with no argument passed.  Using `close` on
   // its own will use the event object in place of the expected saved entities.
 
