@@ -98,4 +98,27 @@ class WP_Customize_Nav_Menus_Panel extends WP_Customize_Panel {
 		<li class="customize-control-title customize-section-title-nav_menus-heading"><?php _e( 'Menus' ); ?></li>
 		<?php
 	}
+
+	/**
+	 * Checks required user capabilities and whether the theme has the
+	 * feature support required by the panel.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @return bool False if theme doesn't support the panel or the user doesn't have the capability.
+	 */
+	public function check_capabilities() {
+		/*
+		 * WP_Customize_Panel::$theme_supports only supports checking one
+		 * theme_supports, so instead we override check_capabilities().
+		 */
+		if (
+			! current_theme_supports( 'menus' ) &&
+			! current_theme_supports( 'widgets' )
+		) {
+			return false;
+		}
+
+		return parent::check_capabilities();
+	}
 }
