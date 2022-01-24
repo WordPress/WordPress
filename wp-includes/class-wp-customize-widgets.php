@@ -420,6 +420,7 @@ final class WP_Customize_Widgets {
 				'priority'                 => 110,
 				'active_callback'          => array( $this, 'is_panel_active' ),
 				'auto_expand_sole_section' => true,
+				'theme_supports'           => 'widgets',
 			)
 		);
 
