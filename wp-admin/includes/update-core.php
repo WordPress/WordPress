@@ -826,6 +826,23 @@ $_old_files = array(
 	'wp-includes/css/dist/editor/editor-styles.min.css',
 	'wp-includes/css/dist/editor/editor-styles-rtl.css',
 	'wp-includes/css/dist/editor/editor-styles-rtl.min.css',
+	// 5.9
+	'wp-includes/blocks/heading/editor.css',
+	'wp-includes/blocks/heading/editor.min.css',
+	'wp-includes/blocks/heading/editor-rtl.css',
+	'wp-includes/blocks/heading/editor-rtl.min.css',
+	'wp-includes/blocks/post-content/editor.css',
+	'wp-includes/blocks/post-content/editor.min.css',
+	'wp-includes/blocks/post-content/editor-rtl.css',
+	'wp-includes/blocks/post-content/editor-rtl.min.css',
+	'wp-includes/blocks/query-title/editor.css',
+	'wp-includes/blocks/query-title/editor.min.css',
+	'wp-includes/blocks/query-title/editor-rtl.css',
+	'wp-includes/blocks/query-title/editor-rtl.min.css',
+	'wp-includes/blocks/tag-cloud/editor.css',
+	'wp-includes/blocks/tag-cloud/editor.min.css',
+	'wp-includes/blocks/tag-cloud/editor-rtl.css',
+	'wp-includes/blocks/tag-cloud/editor-rtl.min.css',
 );
 
 /**
