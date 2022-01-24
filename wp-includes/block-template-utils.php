@@ -498,8 +498,8 @@ function _remove_theme_attribute_in_block_template_content( $template_content ) 
  * @since 5.9.0
  * @access private
  *
- * @param array $template_file Theme file.
- * @param array $template_type 'wp_template' or 'wp_template_part'.
+ * @param array  $template_file Theme file.
+ * @param string $template_type 'wp_template' or 'wp_template_part'.
  *
  * @return WP_Block_Template Template.
  */
@@ -600,7 +600,7 @@ function _build_block_template_result_from_post( $post ) {
  *
  * @since 5.8.0
  *
- * @param array $query {
+ * @param array  $query {
  *     Optional. Arguments to retrieve templates.
  *
  *     @type array  $slug__in  List of slugs to include.
@@ -608,7 +608,7 @@ function _build_block_template_result_from_post( $post ) {
  *     @type string $area      A 'wp_template_part_area' taxonomy value to filter by (for wp_template_part template type only).
  *     @type string $post_type Post type to get the templates for.
  * }
- * @param array $template_type 'wp_template' or 'wp_template_part'.
+ * @param string $template_type 'wp_template' or 'wp_template_part'.
  *
  * @return array Templates.
  */
@@ -622,14 +622,14 @@ function get_block_templates( $query = array(), $template_type = 'wp_template' )
 	 *
 	 * @param WP_Block_Template[]|null $block_templates Return an array of block templates to short-circuit the default query,
 	 *                                                  or null to allow WP to run it's normal queries.
-	 * @param array $query {
+	 * @param array  $query {
 	 *     Optional. Arguments to retrieve templates.
 	 *
 	 *     @type array  $slug__in List of slugs to include.
 	 *     @type int    $wp_id Post ID of customized template.
 	 *     @type string $post_type Post type to get the templates for.
 	 * }
-	 * @param array $template_type wp_template or wp_template_part.
+	 * @param string $template_type wp_template or wp_template_part.
 	 */
 	$templates = apply_filters( 'pre_get_block_templates', null, $query, $template_type );
 	if ( ! is_null( $templates ) ) {
@@ -725,13 +725,13 @@ function get_block_templates( $query = array(), $template_type = 'wp_template' )
 	 * @since 5.9.0
 	 *
 	 * @param WP_Block_Template[] $query_result Array of found block templates.
-	 * @param array $query {
+	 * @param array  $query {
 	 *     Optional. Arguments to retrieve templates.
 	 *
 	 *     @type array  $slug__in List of slugs to include.
 	 *     @type int    $wp_id Post ID of customized template.
 	 * }
-	 * @param array $template_type wp_template or wp_template_part.
+	 * @param string $template_type wp_template or wp_template_part.
 	 */
 	return apply_filters( 'get_block_templates', $query_result, $query, $template_type );
 }
@@ -742,7 +742,7 @@ function get_block_templates( $query = array(), $template_type = 'wp_template' )
  * @since 5.8.0
  *
  * @param string $id            Template unique identifier (example: theme_slug//template_slug).
- * @param array  $template_type Optional. Template type: `'wp_template'` or '`wp_template_part'`.
+ * @param string $template_type Optional. Template type: `'wp_template'` or '`wp_template_part'`.
  *                              Default `'wp_template'`.
  *
  * @return WP_Block_Template|null Template.
@@ -757,8 +757,8 @@ function get_block_template( $id, $template_type = 'wp_template' ) {
 	 *
 	 * @param WP_Block_Template|null $block_template Return block template object to short-circuit the default query,
 	 *                                               or null to allow WP to run its normal queries.
-	 * @param string $id                             Template unique identifier (example: theme_slug//template_slug).
-	 * @param array  $template_type                  Template type: `'wp_template'` or '`wp_template_part'`.
+	 * @param string                 $id             Template unique identifier (example: theme_slug//template_slug).
+	 * @param string                 $template_type  Template type: `'wp_template'` or '`wp_template_part'`.
 	 */
 	$block_template = apply_filters( 'pre_get_block_template', null, $id, $template_type );
 	if ( ! is_null( $block_template ) ) {
@@ -804,7 +804,7 @@ function get_block_template( $id, $template_type = 'wp_template' ) {
 	 *
 	 * @param WP_Block_Template|null $block_template The found block template, or null if there isn't one.
 	 * @param string                 $id             Template unique identifier (example: theme_slug//template_slug).
-	 * @param array                  $template_type  Template type: `'wp_template'` or '`wp_template_part'`.
+	 * @param string                 $template_type  Template type: `'wp_template'` or '`wp_template_part'`.
 	 */
 	return apply_filters( 'get_block_template', $block_template, $id, $template_type );
 }
@@ -815,8 +815,9 @@ function get_block_template( $id, $template_type = 'wp_template' ) {
  * @since 5.9.0
  *
  * @param string $id            Template unique identifier (example: theme_slug//template_slug).
- * @param array  $template_type Optional. Template type: `'wp_template'` or '`wp_template_part'`.
+ * @param string $template_type Optional. Template type: `'wp_template'` or '`wp_template_part'`.
  *                              Default `'wp_template'`.
+ * @return WP_Block_Template|null The found block template, or null if there isn't one.
  */
 function get_block_file_template( $id, $template_type = 'wp_template' ) {
 	/**
@@ -824,13 +825,12 @@ function get_block_file_template( $id, $template_type = 'wp_template' ) {
 	 *
 	 * Return a non-null value to bypass the WordPress queries.
 	 *
-	 *
 	 * @since 5.9.0
 	 *
 	 * @param WP_Block_Template|null $block_template Return block template object to short-circuit the default query,
 	 *                                               or null to allow WP to run its normal queries.
-	 * @param string $id                             Template unique identifier (example: theme_slug//template_slug).
-	 * @param array  $template_type                  Template type: `'wp_template'` or '`wp_template_part'`.
+	 * @param string                 $id             Template unique identifier (example: theme_slug//template_slug).
+	 * @param string                 $template_type  Template type: `'wp_template'` or '`wp_template_part'`.
 	 */
 	$block_template = apply_filters( 'pre_get_block_file_template', null, $id, $template_type );
 	if ( ! is_null( $block_template ) ) {
@@ -839,19 +839,19 @@ function get_block_file_template( $id, $template_type = 'wp_template' ) {
 
 	$parts = explode( '//', $id, 2 );
 	if ( count( $parts ) < 2 ) {
-		/** This filter is documented at the end of this function */
+		/** This filter is documented in wp-includes/block-template-utils.php */
 		return apply_filters( 'get_block_file_template', null, $id, $template_type );
 	}
 	list( $theme, $slug ) = $parts;
 
 	if ( wp_get_theme()->get_stylesheet() !== $theme ) {
-		/** This filter is documented at the end of this function */
+		/** This filter is documented in wp-includes/block-template-utils.php */
 		return apply_filters( 'get_block_file_template', null, $id, $template_type );
 	}
 
 	$template_file = _get_block_template_file( $template_type, $slug );
 	if ( null === $template_file ) {
-		/** This filter is documented at the end of this function */
+		/** This filter is documented in wp-includes/block-template-utils.php */
 		return apply_filters( 'get_block_file_template', null, $id, $template_type );
 	}
 
@@ -862,9 +862,9 @@ function get_block_file_template( $id, $template_type = 'wp_template' ) {
 	 *
 	 * @since 5.9.0
 	 *
-	 * @param WP_Block_Template $block_template The found block template.
-	 * @param string            $id             Template unique identifier (example: theme_slug//template_slug).
-	 * @param array             $template_type  Template type: `'wp_template'` or '`wp_template_part'`.
+	 * @param WP_Block_Template|null $block_template The found block template, or null if there is none.
+	 * @param string                 $id             Template unique identifier (example: theme_slug//template_slug).
+	 * @param string                 $template_type  Template type: `'wp_template'` or '`wp_template_part'`.
 	 */
 	return apply_filters( 'get_block_file_template', $block_template, $id, $template_type );
 }
