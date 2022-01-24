@@ -232,10 +232,11 @@ class WP_Customize_Panel {
 	 * feature support required by the panel.
 	 *
 	 * @since 4.0.0
+	 * @since 5.9.0 Method was marked non-final.
 	 *
 	 * @return bool False if theme doesn't support the panel or the user doesn't have the capability.
 	 */
-	final public function check_capabilities() {
+	public function check_capabilities() {
 		if ( $this->capability && ! current_user_can( $this->capability ) ) {
 			return false;
 		}
