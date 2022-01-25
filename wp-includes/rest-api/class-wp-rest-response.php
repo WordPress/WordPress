@@ -278,7 +278,7 @@ class WP_REST_Response extends WP_HTTP_Response {
 		 * `http://w.org/{rel}` would transform a `http://w.org/term` relation
 		 * into `example:term`.
 		 *
-		 * Well-behaved clients should expand and normalise these back to their
+		 * Well-behaved clients should expand and normalize these back to their
 		 * full URI relation, however some naive clients may not resolve these
 		 * correctly, so adding new CURIEs may break backward compatibility.
 		 *

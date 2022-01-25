@@ -171,7 +171,7 @@ if ( ! class_exists( 'PO', false ) ) :
 				}
 			}
 
-			// Standardise the line endings on imported content, technically PO files shouldn't contain \r.
+			// Standardize the line endings on imported content, technically PO files shouldn't contain \r.
 			$unpoified = str_replace( array( "\r\n", "\r" ), "\n", $unpoified );
 
 			return $unpoified;

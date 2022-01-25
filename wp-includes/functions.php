@@ -2140,7 +2140,7 @@ function wp_normalize_path( $path ) {
 		$wrapper .= '://';
 	}
 
-	// Standardise all paths to use '/'.
+	// Standardize all paths to use '/'.
 	$path = str_replace( '\\', '/', $path );
 
 	// Replace multiple slashes down to a singular, allowing for network shares having two slashes.

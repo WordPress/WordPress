@@ -1173,7 +1173,7 @@ class WP_Rewrite {
 
 					// Not matching a permalink so this is a lot simpler.
 				} else {
-					// Close the match and finalise the query.
+					// Close the match and finalize the query.
 					$match .= '?$';
 					$query  = $index . '?' . $query;
 				}

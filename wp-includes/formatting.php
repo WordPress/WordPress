@@ -4695,7 +4695,7 @@ function wp_make_link_relative( $link ) {
 }
 
 /**
- * Sanitises various option values based on the nature of the option.
+ * Sanitizes various option values based on the nature of the option.
  *
  * This is basically a switch statement which will pass $value through a number
  * of functions depending on the $option.

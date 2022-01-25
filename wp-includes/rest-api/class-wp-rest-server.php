@@ -849,7 +849,7 @@ class WP_REST_Server {
 		 */
 		$endpoints = apply_filters( 'rest_endpoints', $endpoints );
 
-		// Normalise the endpoints.
+		// Normalize the endpoints.
 		$defaults = array(
 			'methods'       => '',
 			'accept_json'   => false,
