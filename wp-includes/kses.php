@@ -1925,7 +1925,7 @@ function wp_kses_named_entities( $matches ) {
  * @since 5.5.0
  *
  * @global array $allowedentitynames
- * @global array $allowedxmlnamedentities
+ * @global array $allowedxmlentitynames
  *
  * @param array $matches preg_replace_callback() matches array.
  * @return string Correctly encoded entity.
