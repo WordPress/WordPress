@@ -206,18 +206,26 @@ function dismissed_updates() {
 			'available' => false,
 		)
 	);
-	if ( $dismissed ) {
 
+	if ( $dismissed ) {
 		$show_text = esc_js( __( 'Show hidden updates' ) );
 		$hide_text = esc_js( __( 'Hide hidden updates' ) );
 		?>
-	<script type="text/javascript">
-		jQuery(function( $ ) {
-			$( 'dismissed-updates' ).show();
-			$( '#show-dismissed' ).toggle( function() { $( this ).text( '<?php echo $hide_text; ?>' ).attr( 'aria-expanded', 'true' ); }, function() { $( this ).text( '<?php echo $show_text; ?>' ).attr( 'aria-expanded', 'false' ); } );
-			$( '#show-dismissed' ).click( function() { $( '#dismissed-updates' ).toggle( 'fast' ); } );
-		});
-	</script>
+		<script type="text/javascript">
+			jQuery( function( $ ) {
+				$( '#show-dismissed' ).on( 'click', function() {
+					var isExpanded = ( 'true' === $( this ).attr( 'aria-expanded' ) );
+
+					if ( isExpanded ) {
+						$( this ).text( '<?php echo $show_text; ?>' ).attr( 'aria-expanded', 'false' );
+					} else {
+						$( this ).text( '<?php echo $hide_text; ?>' ).attr( 'aria-expanded', 'true' );
+					}
+
+					$( '#dismissed-updates' ).toggle( 'fast' );
+				});
+			});
+		</script>
 		<?php
 		echo '<p class="hide-if-no-js"><button type="button" class="button" id="show-dismissed" aria-expanded="false">' . __( 'Show hidden updates' ) . '</button></p>';
 		echo '<ul id="dismissed-updates" class="core-updates dismissed">';
