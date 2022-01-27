@@ -104,7 +104,6 @@ function wp_get_global_stylesheet( $types = array() ) {
 	}
 
 	$supports_theme_json = WP_Theme_JSON_Resolver::theme_has_support();
-	$supports_link_color = get_theme_support( 'experimental-link-color' );
 	if ( empty( $types ) && ! $supports_theme_json ) {
 		$types = array( 'variables', 'presets' );
 	} elseif ( empty( $types ) ) {
@@ -112,12 +111,8 @@ function wp_get_global_stylesheet( $types = array() ) {
 	}
 
 	$origins = array( 'default', 'theme', 'custom' );
-	if ( ! $supports_theme_json && ! $supports_link_color ) {
-		// In this case we only enqueue the core presets (CSS Custom Properties + the classes).
-		$origins = array( 'default' );
-	} elseif ( ! $supports_theme_json && $supports_link_color ) {
-		// For the legacy link color feature to work, the CSS Custom Properties
-		// should be in scope (either the core or the theme ones).
+	if ( ! $supports_theme_json ) {
+		// For themes without theme.json ensure theme variables are merged with default.
 		$origins = array( 'default', 'theme' );
 	}
 
