@@ -239,6 +239,18 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		}
 
 		$api = plugins_api( 'query_plugins', $args );
+		
+		/**
+		 * Filter the API response to recreate the api response
+		 * 
+		 * The dynamic portion of the hook name, `$tab`, refers to the plugin install tabs.
+		 * 
+		 * @since 6.0-alpha-52644
+		 * 
+		 * @param mixed $api response plugin_api
+		 */
+		
+		$api = apply_filters( "install_plugins_recreate_response_api_{$tab}", $api );
 
 		if ( is_wp_error( $api ) ) {
 			$this->error = $api;
