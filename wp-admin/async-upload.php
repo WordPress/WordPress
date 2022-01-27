@@ -74,7 +74,7 @@ if ( isset( $_REQUEST['attachment_id'] ) && (int) $_REQUEST['attachment_id'] && 
 					</span>
 					<?php
 					if ( current_user_can( 'edit_post', $id ) ) {
-						echo '<a class="edit-attachment" href="' . esc_url( get_edit_post_link( $id ) ) . '" target="_blank">' . _x( 'Edit', 'media item' ) . '</a>';
+						echo '<a class="edit-attachment" href="' . esc_url( get_edit_post_link( $id ) ) . '">' . _x( 'Edit', 'media item' ) . '</a>';
 					} else {
 						echo '<span class="edit-attachment">' . _x( 'Success', 'media item' ) . '</span>';
 					}
