@@ -1,4 +1,4 @@
-/*! jQuery UI - v1.13.0 - 2021-10-07
+/*! jQuery UI - v1.13.1 - 2022-01-20
 * http://jqueryui.com
 * Includes: data.js, disable-selection.js, escape-selector.js, focusable.js, form-reset-mixin.js, form.js, ie.js, jquery-1-7.js, keycode.js, labels.js, plugin.js, position.js, safe-active-element.js, safe-blur.js, scroll-parent.js, tabbable.js, unique-id.js, version.js, widget.js
 * Copyright jQuery Foundation and other contributors; Licensed  */
@@ -20,11 +20,11 @@
 // Source: version.js
 $.ui = $.ui || {};
 
-$.ui.version = "1.13.0";
+$.ui.version = "1.13.1";
 
 // Source: data.js
 /*!
- * jQuery UI :data 1.13.0
+ * jQuery UI :data 1.13.1
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -53,7 +53,7 @@ $.extend( $.expr.pseudos, {
 
 // Source: disable-selection.js
 /*!
- * jQuery UI Disable Selection 1.13.0
+ * jQuery UI Disable Selection 1.13.1
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -87,7 +87,7 @@ $.fn.extend( {
 
 // Source: focusable.js
 /*!
- * jQuery UI Focusable 1.13.0
+ * jQuery UI Focusable 1.13.1
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -155,7 +155,6 @@ $.extend( $.expr.pseudos, {
 	}
 } );
 
-// Source: form.js
 // Support: IE8 Only
 // IE8 does not support the form attribute and when it is supplied. It overwrites the form prop
 // with a string, so we need to find the proper form.
@@ -165,7 +164,7 @@ $.fn._form = function() {
 
 // Source: form-reset-mixin.js
 /*!
- * jQuery UI Form Reset Mixin 1.13.0
+ * jQuery UI Form Reset Mixin 1.13.1
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -304,7 +303,7 @@ if ( !$.fn.even || !$.fn.odd ) {
 
 // Source: keycode.js
 /*!
- * jQuery UI Keycode 1.13.0
+ * jQuery UI Keycode 1.13.1
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -338,7 +337,7 @@ $.ui.keyCode = {
 
 // Source: labels.js
 /*!
- * jQuery UI Labels 1.13.0
+ * jQuery UI Labels 1.13.1
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -410,7 +409,7 @@ $.ui.plugin = {
 		}
 
 		if ( !allowDisconnected && ( !instance.element[ 0 ].parentNode ||
-				instance.element[ 0 ].parentNode.nodeType === 11 ) ) {
+			instance.element[ 0 ].parentNode.nodeType === 11 ) ) {
 			return;
 		}
 
@@ -424,7 +423,7 @@ $.ui.plugin = {
 
 // Source: position.js
 /*!
- * jQuery UI Position 1.13.0
+ * jQuery UI Position 1.13.1
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -957,7 +956,7 @@ $.ui.safeBlur = function( element ) {
 
 // Source: scroll-parent.js
 /*!
- * jQuery UI Scroll Parent 1.13.0
+ * jQuery UI Scroll Parent 1.13.1
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -990,7 +989,7 @@ $.fn.scrollParent = function( includeHidden ) {
 
 // Source: tabbable.js
 /*!
- * jQuery UI Tabbable 1.13.0
+ * jQuery UI Tabbable 1.13.1
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -1013,7 +1012,7 @@ $.extend( $.expr.pseudos, {
 
 // Source: unique-id.js
 /*!
- * jQuery UI Unique ID 1.13.0
+ * jQuery UI Unique ID 1.13.1
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -1050,7 +1049,7 @@ $.fn.extend( {
 
 // Source: widget.js
 /*!
- * jQuery UI Widget 1.13.0
+ * jQuery UI Widget 1.13.1
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -1113,7 +1112,7 @@ $.widget = function( name, base, prototype ) {
 	constructor = $[ namespace ][ name ] = function( options, element ) {
 
 		// Allow instantiation without "new" keyword
-		if ( !this._createWidget ) {
+		if ( !this || !this._createWidget ) {
 			return new constructor( options, element );
 		}
 
@@ -1233,7 +1232,7 @@ $.widget.extend = function( target ) {
 						// Don't extend strings, arrays, etc. with objects
 						$.widget.extend( {}, value );
 
-				// Copy everything else by reference
+					// Copy everything else by reference
 				} else {
 					target[ key ] = value;
 				}
@@ -1482,8 +1481,8 @@ $.Widget.prototype = {
 		for ( classKey in value ) {
 			currentElements = this.classesElementLookup[ classKey ];
 			if ( value[ classKey ] === this.options.classes[ classKey ] ||
-					!currentElements ||
-					!currentElements.length ) {
+				!currentElements ||
+				!currentElements.length ) {
 				continue;
 			}
 
@@ -1535,6 +1534,8 @@ $.Widget.prototype = {
 		}, options );
 
 		function bindRemoveEvent() {
+			var nodesToBind = [];
+
 			options.element.each( function( _, element ) {
 				var isTracked = $.map( that.classesElementLookup, function( elements ) {
 					return elements;
@@ -1544,10 +1545,12 @@ $.Widget.prototype = {
 					} );
 
 				if ( !isTracked ) {
-					that._on( $( element ), {
-						remove: "_untrackClassesElement"
-					} );
+					nodesToBind.push( element );
 				}
+			} );
+
+			that._on( $( nodesToBind ), {
+				remove: "_untrackClassesElement"
 			} );
 		}
 
@@ -1639,7 +1642,7 @@ $.Widget.prototype = {
 				// - disabled as an array instead of boolean
 				// - disabled class as method for disabling individual parts
 				if ( !suppressDisabledCheck &&
-						( instance.options.disabled === true ||
+					( instance.options.disabled === true ||
 						$( this ).hasClass( "ui-state-disabled" ) ) ) {
 					return;
 				}
