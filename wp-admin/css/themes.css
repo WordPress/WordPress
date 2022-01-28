@@ -1805,7 +1805,7 @@ body.full-overlay-active {
 #customize-container iframe,
 .theme-install-overlay iframe {
 	height: 100%;
-	width: 100%;
+	width: 100vw;
 	z-index: 20;
 	transition: opacity 0.3s;
 }
