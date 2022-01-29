@@ -2043,6 +2043,10 @@ function wp_insert_user( $userdata ) {
 	 */
 	$user_url = apply_filters( 'pre_user_url', $raw_user_url );
 
+	if ( mb_strlen( $user_url ) > 100 ) {
+		return new WP_Error( 'user_url_too_long', __( 'User URL may not be longer than 100 characters.' ) );
+	}
+
 	$user_registered = empty( $userdata['user_registered'] ) ? gmdate( 'Y-m-d H:i:s' ) : $userdata['user_registered'];
 
 	$user_activation_key = empty( $userdata['user_activation_key'] ) ? '' : $userdata['user_activation_key'];
