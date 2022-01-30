@@ -79,7 +79,7 @@ class WP_Block_Type {
 	 * in search interfaces.
 	 *
 	 * @since 5.5.0
-	 * @var array
+	 * @var string[]
 	 */
 	public $keywords = array();
 
@@ -223,7 +223,7 @@ class WP_Block_Type {
 	 *                                           available when nested within the specified blocks.
 	 *     @type string|null   $icon             Block type icon.
 	 *     @type string        $description      A detailed block type description.
-	 *     @type array         $keywords         Additional keywords to produce block type as
+	 *     @type string[]      $keywords         Additional keywords to produce block type as
 	 *                                           result in search interfaces.
 	 *     @type string|null   $textdomain       The translation textdomain.
 	 *     @type array         $styles           Alternative block styles.

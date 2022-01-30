@@ -92,6 +92,7 @@ final class WP_Post_Type {
 	 * Whether queries can be performed on the front end for the post type as part of `parse_request()`.
 	 *
 	 * Endpoints would include:
+	 *
 	 * - `?post_type={post_type_key}`
 	 * - `?{post_type_key}={single_post_slug}`
 	 * - `?{post_type_query_var}={single_post_slug}`

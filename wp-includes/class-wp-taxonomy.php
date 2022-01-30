@@ -144,7 +144,7 @@ final class WP_Taxonomy {
 	 * An array of object types this taxonomy is registered for.
 	 *
 	 * @since 4.7.0
-	 * @var array
+	 * @var string[]
 	 */
 	public $object_type = null;
 
@@ -289,8 +289,8 @@ final class WP_Taxonomy {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param array|string $object_type Name of the object type for the taxonomy object.
-	 * @param array|string $args        Array or query string of arguments for registering a taxonomy.
+	 * @param string|string[] $object_type Name or array of names of the object types for the taxonomy.
+	 * @param array|string    $args        Array or query string of arguments for registering a taxonomy.
 	 */
 	public function set_props( $object_type, $args ) {
 		$args = wp_parse_args( $args );

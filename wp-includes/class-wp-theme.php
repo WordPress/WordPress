@@ -23,7 +23,7 @@ final class WP_Theme implements ArrayAccess {
 	 *
 	 * @since 3.4.0
 	 * @since 5.4.0 Added `Requires at least` and `Requires PHP` headers.
-	 * @var array
+	 * @var string[]
 	 */
 	private static $file_headers = array(
 		'Name'        => 'Theme Name',
@@ -54,7 +54,7 @@ final class WP_Theme implements ArrayAccess {
 	 * @since 5.0.0 Added the Twenty Nineteen theme.
 	 * @since 5.3.0 Added the Twenty Twenty theme.
 	 * @since 5.6.0 Added the Twenty Twenty-One theme.
-	 * @var array
+	 * @var string[]
 	 */
 	private static $default_themes = array(
 		'classic'         => 'WordPress Classic',
@@ -77,7 +77,7 @@ final class WP_Theme implements ArrayAccess {
 	 * Renamed theme tags.
 	 *
 	 * @since 3.8.0
-	 * @var array
+	 * @var string[]
 	 */
 	private static $tag_map = array(
 		'fixed-width'    => 'fixed-layout',

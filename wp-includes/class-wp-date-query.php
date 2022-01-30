@@ -53,7 +53,7 @@ class WP_Date_Query {
 	 * Supported time-related parameter keys.
 	 *
 	 * @since 4.1.0
-	 * @var array
+	 * @var string[]
 	 */
 	public $time_keys = array( 'after', 'before', 'year', 'month', 'monthnum', 'week', 'w', 'dayofyear', 'day', 'dayofweek', 'dayofweek_iso', 'hour', 'minute', 'second' );
 
