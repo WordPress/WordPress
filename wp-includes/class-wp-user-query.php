@@ -166,7 +166,7 @@ class WP_User_Query {
 	 *                                                See WP_Meta_Query::__construct for accepted values and default value.
 	 *     @type array           $meta_query          An associative array of WP_Meta_Query arguments.
 	 *                                                See WP_Meta_Query::__construct for accepted values.
-	 *     @type string          $capability          An array or a comma-separated list of capability names that users must match
+	 *     @type string|string[] $capability          An array or a comma-separated list of capability names that users must match
 	 *                                                to be included in results. Note that this is an inclusive list: users
 	 *                                                must match *each* capability.
 	 *                                                Does NOT work for capabilities not in the database or filtered via {@see 'map_meta_cap'}.
