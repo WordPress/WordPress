@@ -682,7 +682,7 @@ function wpmu_validate_blog_signup( $blogname, $blog_title, $user = '' ) {
 		$errors->add( 'blogname', sprintf( _n( 'Site name must be at least %s character.', 'Site name must be at least %s characters.', $minimum_site_name_length ), number_format_i18n( $minimum_site_name_length ) ) );
 	}
 
-	// Do not allow users to create a blog that conflicts with a page on the main blog.
+	// Do not allow users to create a site that conflicts with a page on the main blog.
 	if ( ! is_subdomain_install() && $wpdb->get_var( $wpdb->prepare( 'SELECT post_name FROM ' . $wpdb->get_blog_prefix( $current_network->site_id ) . "posts WHERE post_type = 'page' AND post_name = %s", $blogname ) ) ) {
 		$errors->add( 'blogname', __( 'Sorry, you may not use that site name.' ) );
 	}
@@ -722,6 +722,10 @@ function wpmu_validate_blog_signup( $blogname, $blog_title, $user = '' ) {
 		$errors->add( 'blogname', __( 'Sorry, that site already exists!' ) );
 	}
 
+	/*
+	 * Do not allow users to create a site that matches an existing user's login name,
+	 * unless it's the user's own username.
+	 */
 	if ( username_exists( $blogname ) ) {
 		if ( ! is_object( $user ) || ( is_object( $user ) && ( $user->user_login != $blogname ) ) ) {
 			$errors->add( 'blogname', __( 'Sorry, that site is reserved!' ) );
