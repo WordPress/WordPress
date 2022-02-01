@@ -2475,7 +2475,7 @@ function add_post_meta( $post_id, $meta_key, $meta_value, $unique = false ) {
  * @return bool True on success, false on failure.
  */
 function delete_post_meta( $post_id, $meta_key, $meta_value = '' ) {
-	// Make sure meta is added to the post, not a revision.
+	// Make sure meta is deleted from the post, not from a revision.
 	$the_post = wp_is_post_revision( $post_id );
 	if ( $the_post ) {
 		$post_id = $the_post;
@@ -2527,7 +2527,7 @@ function get_post_meta( $post_id, $key = '', $single = false ) {
  *                  is the same as the one that is already in the database.
  */
 function update_post_meta( $post_id, $meta_key, $meta_value, $prev_value = '' ) {
-	// Make sure meta is added to the post, not a revision.
+	// Make sure meta is updated for the post, not for a revision.
 	$the_post = wp_is_post_revision( $post_id );
 	if ( $the_post ) {
 		$post_id = $the_post;
