@@ -74,7 +74,7 @@ body#tinymce.wp-editor.content ol,
 body#tinymce.wp-editor.content ul,
 body#tinymce.wp-editor.content dl,
 body#tinymce.wp-editor.content dt {
-	font-family: NonBreakingSpaceOverride, "Hoefler Text", Garamond, "Times New Roman", serif;
+	font-family: NonBreakingSpaceOverride, "Hoefler Text", "Noto Serif", Garamond, "Times New Roman", serif;
 	letter-spacing: normal;
 }
 
