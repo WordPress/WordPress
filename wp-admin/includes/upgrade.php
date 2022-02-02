@@ -2269,9 +2269,12 @@ function upgrade_590() {
 
 	if ( $wp_current_db_version < 51917 ) {
 		$crons = _get_cron_array();
-		// Remove errant `false` values, see #53950.
-		$crons = array_filter( $crons );
-		_set_cron_array( $crons );
+
+		if ( $crons && is_array( $crons ) ) {
+			// Remove errant `false` values, see #53950, #54906.
+			$crons = array_filter( $crons );
+			_set_cron_array( $crons );
+		}
 	}
 }
 
