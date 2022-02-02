@@ -2275,7 +2275,7 @@ function upgrade_590() {
 		$crons = _get_cron_array();
 
 		if ( $crons && is_array( $crons ) ) {
-			// Remove errant `false` values, see #53950.
+			// Remove errant `false` values, see #53950, #54906.
 			$crons = array_filter( $crons );
 			_set_cron_array( $crons );
 		}
