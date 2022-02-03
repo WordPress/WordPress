@@ -1,5 +1,5 @@
 /*!
- * jQuery UI Sortable 1.13.0
+ * jQuery UI Sortable 1.13.1
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -34,7 +34,7 @@
 "use strict";
 
 return $.widget( "ui.sortable", $.ui.mouse, {
-	version: "1.13.0",
+	version: "1.13.1",
 	widgetEventPrefix: "sort",
 	ready: false,
 	options: {
@@ -196,8 +196,8 @@ return $.widget( "ui.sortable", $.ui.mouse, {
 
 		//Prepare the dragged items parent
 		this.appendTo = $( o.appendTo !== "parent" ?
-				o.appendTo :
-				this.currentItem.parent() );
+			o.appendTo :
+			this.currentItem.parent() );
 
 		//Create and append the visible helper
 		this.helper = this._createHelper( event );
@@ -299,7 +299,7 @@ return $.widget( "ui.sortable", $.ui.mouse, {
 
 		//Prepare scrolling
 		if ( this.scrollParent[ 0 ] !== this.document[ 0 ] &&
-				this.scrollParent[ 0 ].tagName !== "HTML" ) {
+			this.scrollParent[ 0 ].tagName !== "HTML" ) {
 			this.overflowOffset = this.scrollParent.offset();
 		}
 
@@ -356,10 +356,10 @@ return $.widget( "ui.sortable", $.ui.mouse, {
 			scrolled = false;
 
 		if ( this.scrollParent[ 0 ] !== this.document[ 0 ] &&
-				this.scrollParent[ 0 ].tagName !== "HTML" ) {
+			this.scrollParent[ 0 ].tagName !== "HTML" ) {
 
 			if ( ( this.overflowOffset.top + this.scrollParent[ 0 ].offsetHeight ) -
-					event.pageY < o.scrollSensitivity ) {
+				event.pageY < o.scrollSensitivity ) {
 				this.scrollParent[ 0 ].scrollTop =
 					scrolled = this.scrollParent[ 0 ].scrollTop + o.scrollSpeed;
 			} else if ( event.pageY - this.overflowOffset.top < o.scrollSensitivity ) {
@@ -368,7 +368,7 @@ return $.widget( "ui.sortable", $.ui.mouse, {
 			}
 
 			if ( ( this.overflowOffset.left + this.scrollParent[ 0 ].offsetWidth ) -
-					event.pageX < o.scrollSensitivity ) {
+				event.pageX < o.scrollSensitivity ) {
 				this.scrollParent[ 0 ].scrollLeft = scrolled =
 					this.scrollParent[ 0 ].scrollLeft + o.scrollSpeed;
 			} else if ( event.pageX - this.overflowOffset.left < o.scrollSensitivity ) {
@@ -381,7 +381,7 @@ return $.widget( "ui.sortable", $.ui.mouse, {
 			if ( event.pageY - this.document.scrollTop() < o.scrollSensitivity ) {
 				scrolled = this.document.scrollTop( this.document.scrollTop() - o.scrollSpeed );
 			} else if ( this.window.height() - ( event.pageY - this.document.scrollTop() ) <
-					o.scrollSensitivity ) {
+				o.scrollSensitivity ) {
 				scrolled = this.document.scrollTop( this.document.scrollTop() + o.scrollSpeed );
 			}
 
@@ -390,7 +390,7 @@ return $.widget( "ui.sortable", $.ui.mouse, {
 					this.document.scrollLeft() - o.scrollSpeed
 				);
 			} else if ( this.window.width() - ( event.pageX - this.document.scrollLeft() ) <
-					o.scrollSensitivity ) {
+				o.scrollSensitivity ) {
 				scrolled = this.document.scrollLeft(
 					this.document.scrollLeft() + o.scrollSpeed
 				);
@@ -417,78 +417,75 @@ return $.widget( "ui.sortable", $.ui.mouse, {
 			this.helper[ 0 ].style.top = this.position.top + "px";
 		}
 
-		//Post events to containers
-		this._contactContainers( event );
+		//Do scrolling
+		if ( o.scroll ) {
+			if ( this._scroll( event ) !== false ) {
 
-		if ( this.innermostContainer !== null ) {
+				//Update item positions used in position checks
+				this._refreshItemPositions( true );
 
-			//Do scrolling
-			if ( o.scroll ) {
-				if ( this._scroll( event ) !== false ) {
-
-					//Update item positions used in position checks
-					this._refreshItemPositions( true );
-
-					if ( $.ui.ddmanager && !o.dropBehaviour ) {
-						$.ui.ddmanager.prepareOffsets( this, event );
-					}
-				}
-			}
-
-			this.dragDirection = {
-				vertical: this._getDragVerticalDirection(),
-				horizontal: this._getDragHorizontalDirection()
-			};
-
-			//Rearrange
-			for ( i = this.items.length - 1; i >= 0; i-- ) {
-
-				//Cache variables and intersection, continue if no intersection
-				item = this.items[ i ];
-				itemElement = item.item[ 0 ];
-				intersection = this._intersectsWithPointer( item );
-				if ( !intersection ) {
-					continue;
-				}
-
-				// Only put the placeholder inside the current Container, skip all
-				// items from other containers. This works because when moving
-				// an item from one container to another the
-				// currentContainer is switched before the placeholder is moved.
-				//
-				// Without this, moving items in "sub-sortables" can cause
-				// the placeholder to jitter between the outer and inner container.
-				if ( item.instance !== this.currentContainer ) {
-					continue;
-				}
-
-				// Cannot intersect with itself
-				// no useless actions that have been done before
-				// no action if the item moved is the parent of the item checked
-				if ( itemElement !== this.currentItem[ 0 ] &&
-					this.placeholder[ intersection === 1 ?
-					"next" : "prev" ]()[ 0 ] !== itemElement &&
-					!$.contains( this.placeholder[ 0 ], itemElement ) &&
-					( this.options.type === "semi-dynamic" ?
-						!$.contains( this.element[ 0 ], itemElement ) :
-						true
-					)
-				) {
-
-					this.direction = intersection === 1 ? "down" : "up";
-
-					if ( this.options.tolerance === "pointer" ||
-							this._intersectsWithSides( item ) ) {
-						this._rearrange( event, item );
-					} else {
-						break;
-					}
-
-					this._trigger( "change", event, this._uiHash() );
-					break;
+				if ( $.ui.ddmanager && !o.dropBehaviour ) {
+					$.ui.ddmanager.prepareOffsets( this, event );
 				}
 			}
 		}
+
+		this.dragDirection = {
+			vertical: this._getDragVerticalDirection(),
+			horizontal: this._getDragHorizontalDirection()
+		};
+
+		//Rearrange
+		for ( i = this.items.length - 1; i >= 0; i-- ) {
+
+			//Cache variables and intersection, continue if no intersection
+			item = this.items[ i ];
+			itemElement = item.item[ 0 ];
+			intersection = this._intersectsWithPointer( item );
+			if ( !intersection ) {
+				continue;
+			}
+
+			// Only put the placeholder inside the current Container, skip all
+			// items from other containers. This works because when moving
+			// an item from one container to another the
+			// currentContainer is switched before the placeholder is moved.
+			//
+			// Without this, moving items in "sub-sortables" can cause
+			// the placeholder to jitter between the outer and inner container.
+			if ( item.instance !== this.currentContainer ) {
+				continue;
+			}
+
+			// Cannot intersect with itself
+			// no useless actions that have been done before
+			// no action if the item moved is the parent of the item checked
+			if ( itemElement !== this.currentItem[ 0 ] &&
+				this.placeholder[ intersection === 1 ?
+					"next" : "prev" ]()[ 0 ] !== itemElement &&
+				!$.contains( this.placeholder[ 0 ], itemElement ) &&
+				( this.options.type === "semi-dynamic" ?
+						!$.contains( this.element[ 0 ], itemElement ) :
+						true
+				)
+			) {
+
+				this.direction = intersection === 1 ? "down" : "up";
+
+				if ( this.options.tolerance === "pointer" ||
+					this._intersectsWithSides( item ) ) {
+					this._rearrange( event, item );
+				} else {
+					break;
+				}
+
+				this._trigger( "change", event, this._uiHash() );
+				break;
+			}
+		}
+
+		//Post events to containers
+		this._contactContainers( event );
 
 		//Interconnect with droppables
 		if ( $.ui.ddmanager ) {
@@ -523,15 +520,15 @@ return $.widget( "ui.sortable", $.ui.mouse, {
 			if ( !axis || axis === "x" ) {
 				animation.left = cur.left - this.offset.parent.left - this.margins.left +
 					( this.offsetParent[ 0 ] === this.document[ 0 ].body ?
-						0 :
-						this.offsetParent[ 0 ].scrollLeft
+							0 :
+							this.offsetParent[ 0 ].scrollLeft
 					);
 			}
 			if ( !axis || axis === "y" ) {
 				animation.top = cur.top - this.offset.parent.top - this.margins.top +
 					( this.offsetParent[ 0 ] === this.document[ 0 ].body ?
-						0 :
-						this.offsetParent[ 0 ].scrollTop
+							0 :
+							this.offsetParent[ 0 ].scrollTop
 					);
 			}
 			this.reverting = true;
@@ -582,7 +579,7 @@ return $.widget( "ui.sortable", $.ui.mouse, {
 				this.placeholder[ 0 ].parentNode.removeChild( this.placeholder[ 0 ] );
 			}
 			if ( this.options.helper !== "original" && this.helper &&
-					this.helper[ 0 ].parentNode ) {
+				this.helper[ 0 ].parentNode ) {
 				this.helper.remove();
 			}
 
@@ -858,7 +855,7 @@ return $.widget( "ui.sortable", $.ui.mouse, {
 
 			//We ignore calculating positions of all connected containers when we're not over them
 			if ( this.currentContainer && item.instance !== this.currentContainer &&
-					item.item[ 0 ] !== this.currentItem[ 0 ] ) {
+				item.item[ 0 ] !== this.currentItem[ 0 ] ) {
 				continue;
 			}
 
@@ -884,9 +881,13 @@ return $.widget( "ui.sortable", $.ui.mouse, {
 			this.options.axis === "x" || this._isFloating( this.items[ 0 ].item ) :
 			false;
 
-		if ( this.innermostContainer !== null ) {
-			this._refreshItemPositions( fast );
+		// This has to be redone because due to the item being moved out/into the offsetParent,
+		// the offsetParent's position will change
+		if ( this.offsetParent && this.helper ) {
+			this.offset.parent = this._getParentOffset();
 		}
+
+		this._refreshItemPositions( fast );
 
 		var i, p;
 
@@ -921,7 +922,7 @@ return $.widget( "ui.sortable", $.ui.mouse, {
 					var element = $( "<" + nodeName + ">", that.document[ 0 ] );
 
 					that._addClass( element, "ui-sortable-placeholder",
-							className || that.currentItem[ 0 ].className )
+						className || that.currentItem[ 0 ].className )
 						._removeClass( element, "ui-sortable-helper" );
 
 					if ( nodeName === "tbody" ) {
@@ -959,7 +960,7 @@ return $.widget( "ui.sortable", $.ui.mouse, {
 					// always assign the height of the dragged item given forcePlaceholderSize
 					// is true.
 					if ( !p.height() || ( o.forcePlaceholderSize &&
-							( nodeName === "tbody" || nodeName === "tr" ) ) ) {
+						( nodeName === "tbody" || nodeName === "tr" ) ) ) {
 						p.height(
 							that.currentItem.innerHeight() -
 							parseInt( that.currentItem.css( "paddingTop" ) || 0, 10 ) -
@@ -1014,9 +1015,9 @@ return $.widget( "ui.sortable", $.ui.mouse, {
 
 				// If we've already found a container and it's more "inner" than this, then continue
 				if ( innermostContainer &&
-						$.contains(
-							this.containers[ i ].element[ 0 ],
-							innermostContainer.element[ 0 ] ) ) {
+					$.contains(
+						this.containers[ i ].element[ 0 ],
+						innermostContainer.element[ 0 ] ) ) {
 					continue;
 				}
 
@@ -1033,8 +1034,6 @@ return $.widget( "ui.sortable", $.ui.mouse, {
 			}
 
 		}
-
-		this.innermostContainer = innermostContainer;
 
 		// If no intersecting containers found, return
 		if ( !innermostContainer ) {
@@ -1060,7 +1059,7 @@ return $.widget( "ui.sortable", $.ui.mouse, {
 
 			for ( j = this.items.length - 1; j >= 0; j-- ) {
 				if ( !$.contains(
-						this.containers[ innermostIndex ].element[ 0 ], this.items[ j ].item[ 0 ] )
+					this.containers[ innermostIndex ].element[ 0 ], this.items[ j ].item[ 0 ] )
 				) {
 					continue;
 				}
@@ -1111,7 +1110,7 @@ return $.widget( "ui.sortable", $.ui.mouse, {
 
 			//Update overflowOffset
 			if ( this.scrollParent[ 0 ] !== this.document[ 0 ] &&
-					this.scrollParent[ 0 ].tagName !== "HTML" ) {
+				this.scrollParent[ 0 ].tagName !== "HTML" ) {
 				this.overflowOffset = this.scrollParent.offset();
 			}
 
@@ -1189,7 +1188,7 @@ return $.widget( "ui.sortable", $.ui.mouse, {
 		// the document, which means that the scroll is included in the initial calculation of the
 		// offset of the parent, and never recalculated upon drag
 		if ( this.cssPosition === "absolute" && this.scrollParent[ 0 ] !== this.document[ 0 ] &&
-				$.contains( this.scrollParent[ 0 ], this.offsetParent[ 0 ] ) ) {
+			$.contains( this.scrollParent[ 0 ], this.offsetParent[ 0 ] ) ) {
 			po.left += this.scrollParent.scrollLeft();
 			po.top += this.scrollParent.scrollTop();
 		}
@@ -1197,7 +1196,7 @@ return $.widget( "ui.sortable", $.ui.mouse, {
 		// This needs to be actually done for all browsers, since pageX/pageY includes this
 		// information with an ugly IE fix
 		if ( this.offsetParent[ 0 ] === this.document[ 0 ].body ||
-				( this.offsetParent[ 0 ].tagName &&
+			( this.offsetParent[ 0 ].tagName &&
 				this.offsetParent[ 0 ].tagName.toLowerCase() === "html" && $.ui.ie ) ) {
 			po = { top: 0, left: 0 };
 		}
@@ -1254,8 +1253,8 @@ return $.widget( "ui.sortable", $.ui.mouse, {
 					this.document.width() :
 					this.window.width() - this.helperProportions.width - this.margins.left,
 				( o.containment === "document" ?
-					( this.document.height() || document.body.parentNode.scrollHeight ) :
-					this.window.height() || this.document[ 0 ].body.parentNode.scrollHeight
+						( this.document.height() || document.body.parentNode.scrollHeight ) :
+						this.window.height() || this.document[ 0 ].body.parentNode.scrollHeight
 				) - this.helperProportions.height - this.margins.top
 			];
 		}
@@ -1267,17 +1266,17 @@ return $.widget( "ui.sortable", $.ui.mouse, {
 
 			this.containment = [
 				co.left + ( parseInt( $( ce ).css( "borderLeftWidth" ), 10 ) || 0 ) +
-					( parseInt( $( ce ).css( "paddingLeft" ), 10 ) || 0 ) - this.margins.left,
+				( parseInt( $( ce ).css( "paddingLeft" ), 10 ) || 0 ) - this.margins.left,
 				co.top + ( parseInt( $( ce ).css( "borderTopWidth" ), 10 ) || 0 ) +
-					( parseInt( $( ce ).css( "paddingTop" ), 10 ) || 0 ) - this.margins.top,
+				( parseInt( $( ce ).css( "paddingTop" ), 10 ) || 0 ) - this.margins.top,
 				co.left + ( over ? Math.max( ce.scrollWidth, ce.offsetWidth ) : ce.offsetWidth ) -
-					( parseInt( $( ce ).css( "borderLeftWidth" ), 10 ) || 0 ) -
-					( parseInt( $( ce ).css( "paddingRight" ), 10 ) || 0 ) -
-					this.helperProportions.width - this.margins.left,
+				( parseInt( $( ce ).css( "borderLeftWidth" ), 10 ) || 0 ) -
+				( parseInt( $( ce ).css( "paddingRight" ), 10 ) || 0 ) -
+				this.helperProportions.width - this.margins.left,
 				co.top + ( over ? Math.max( ce.scrollHeight, ce.offsetHeight ) : ce.offsetHeight ) -
-					( parseInt( $( ce ).css( "borderTopWidth" ), 10 ) || 0 ) -
-					( parseInt( $( ce ).css( "paddingBottom" ), 10 ) || 0 ) -
-					this.helperProportions.height - this.margins.top
+				( parseInt( $( ce ).css( "borderTopWidth" ), 10 ) || 0 ) -
+				( parseInt( $( ce ).css( "paddingBottom" ), 10 ) || 0 ) -
+				this.helperProportions.height - this.margins.top
 			];
 		}
 
@@ -1290,10 +1289,10 @@ return $.widget( "ui.sortable", $.ui.mouse, {
 		}
 		var mod = d === "absolute" ? 1 : -1,
 			scroll = this.cssPosition === "absolute" &&
-				!( this.scrollParent[ 0 ] !== this.document[ 0 ] &&
+			!( this.scrollParent[ 0 ] !== this.document[ 0 ] &&
 				$.contains( this.scrollParent[ 0 ], this.offsetParent[ 0 ] ) ) ?
-					this.offsetParent :
-					this.scrollParent,
+				this.offsetParent :
+				this.scrollParent,
 			scrollIsRootNode = ( /(html|body)/i ).test( scroll[ 0 ].tagName );
 
 		return {
@@ -1323,7 +1322,7 @@ return $.widget( "ui.sortable", $.ui.mouse, {
 				this.offset.parent.left * mod	-
 				( ( this.cssPosition === "fixed" ?
 					-this.scrollParent.scrollLeft() : scrollIsRootNode ? 0 :
-					scroll.scrollLeft() ) * mod )
+						scroll.scrollLeft() ) * mod )
 			)
 		};
 
@@ -1336,18 +1335,18 @@ return $.widget( "ui.sortable", $.ui.mouse, {
 			pageX = event.pageX,
 			pageY = event.pageY,
 			scroll = this.cssPosition === "absolute" &&
-				!( this.scrollParent[ 0 ] !== this.document[ 0 ] &&
+			!( this.scrollParent[ 0 ] !== this.document[ 0 ] &&
 				$.contains( this.scrollParent[ 0 ], this.offsetParent[ 0 ] ) ) ?
-					this.offsetParent :
-					this.scrollParent,
-				scrollIsRootNode = ( /(html|body)/i ).test( scroll[ 0 ].tagName );
+				this.offsetParent :
+				this.scrollParent,
+			scrollIsRootNode = ( /(html|body)/i ).test( scroll[ 0 ].tagName );
 
 		// This is another very weird special case that only happens for relative elements:
 		// 1. If the css position is relative
 		// 2. and the scroll parent is the document or similar to the offset parent
 		// we have to refresh the relative offset during the scroll so there are no jumps
 		if ( this.cssPosition === "relative" && !( this.scrollParent[ 0 ] !== this.document[ 0 ] &&
-				this.scrollParent[ 0 ] !== this.offsetParent[ 0 ] ) ) {
+			this.scrollParent[ 0 ] !== this.offsetParent[ 0 ] ) ) {
 			this.offset.relative = this._getRelativeOffset();
 		}
 
@@ -1379,20 +1378,20 @@ return $.widget( "ui.sortable", $.ui.mouse, {
 				pageY = this.containment ?
 					( ( top - this.offset.click.top >= this.containment[ 1 ] &&
 						top - this.offset.click.top <= this.containment[ 3 ] ) ?
-							top :
-							( ( top - this.offset.click.top >= this.containment[ 1 ] ) ?
-								top - o.grid[ 1 ] : top + o.grid[ 1 ] ) ) :
-								top;
+						top :
+						( ( top - this.offset.click.top >= this.containment[ 1 ] ) ?
+							top - o.grid[ 1 ] : top + o.grid[ 1 ] ) ) :
+					top;
 
 				left = this.originalPageX + Math.round( ( pageX - this.originalPageX ) /
 					o.grid[ 0 ] ) * o.grid[ 0 ];
 				pageX = this.containment ?
 					( ( left - this.offset.click.left >= this.containment[ 0 ] &&
 						left - this.offset.click.left <= this.containment[ 2 ] ) ?
-							left :
-							( ( left - this.offset.click.left >= this.containment[ 0 ] ) ?
-								left - o.grid[ 0 ] : left + o.grid[ 0 ] ) ) :
-								left;
+						left :
+						( ( left - this.offset.click.left >= this.containment[ 0 ] ) ?
+							left - o.grid[ 0 ] : left + o.grid[ 0 ] ) ) :
+					left;
 			}
 
 		}
@@ -1499,9 +1498,9 @@ return $.widget( "ui.sortable", $.ui.mouse, {
 			} );
 		}
 		if ( ( this.fromOutside ||
-				this.domPosition.prev !==
-				this.currentItem.prev().not( ".ui-sortable-helper" )[ 0 ] ||
-				this.domPosition.parent !== this.currentItem.parent()[ 0 ] ) && !noPropagation ) {
+			this.domPosition.prev !==
+			this.currentItem.prev().not( ".ui-sortable-helper" )[ 0 ] ||
+			this.domPosition.parent !== this.currentItem.parent()[ 0 ] ) && !noPropagation ) {
 
 			// Trigger update callback if the DOM position has changed
 			delayedTriggers.push( function( event ) {

@@ -1,5 +1,5 @@
 /*!
- * jQuery UI Resizable 1.13.0
+ * jQuery UI Resizable 1.13.1
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -36,7 +36,7 @@
 "use strict";
 
 $.widget( "ui.resizable", $.ui.mouse, {
-	version: "1.13.0",
+	version: "1.13.1",
 	widgetEventPrefix: "resize",
 	options: {
 		alsoResize: false,
@@ -228,15 +228,15 @@ $.widget( "ui.resizable", $.ui.mouse, {
 		this._super( key, value );
 
 		switch ( key ) {
-		case "handles":
-			this._removeHandles();
-			this._setupHandles();
-			break;
-		case "aspectRatio":
-			this._aspectRatio = !!value;
-			break;
-		default:
-			break;
+			case "handles":
+				this._removeHandles();
+				this._setupHandles();
+				break;
+			case "aspectRatio":
+				this._aspectRatio = !!value;
+				break;
+			default:
+				break;
 		}
 	},
 
@@ -300,9 +300,9 @@ $.widget( "ui.resizable", $.ui.mouse, {
 				}
 
 				if ( this.elementIsWrapper &&
-						this.originalElement[ 0 ]
-							.nodeName
-							.match( /^(textarea|input|select|button)$/i ) ) {
+					this.originalElement[ 0 ]
+						.nodeName
+						.match( /^(textarea|input|select|button)$/i ) ) {
 					axis = $( this.handles[ i ], this.element );
 
 					padWrapper = /sw|ne|nw|se|n|s/.test( i ) ?
@@ -311,8 +311,8 @@ $.widget( "ui.resizable", $.ui.mouse, {
 
 					padPos = [ "padding",
 						/ne|nw|n/.test( i ) ? "Top" :
-						/se|sw|s/.test( i ) ? "Bottom" :
-						/^e$/.test( i ) ? "Right" : "Left" ].join( "" );
+							/se|sw|s/.test( i ) ? "Bottom" :
+								/^e$/.test( i ) ? "Right" : "Left" ].join( "" );
 
 					target.css( padPos, padWrapper );
 
@@ -384,20 +384,20 @@ $.widget( "ui.resizable", $.ui.mouse, {
 		this.position = { left: curleft, top: curtop };
 
 		this.size = this._helper ? {
-				width: this.helper.width(),
-				height: this.helper.height()
-			} : {
-				width: el.width(),
-				height: el.height()
-			};
+			width: this.helper.width(),
+			height: this.helper.height()
+		} : {
+			width: el.width(),
+			height: el.height()
+		};
 
 		this.originalSize = this._helper ? {
-				width: el.outerWidth(),
-				height: el.outerHeight()
-			} : {
-				width: el.width(),
-				height: el.height()
-			};
+			width: el.outerWidth(),
+			height: el.outerHeight()
+		} : {
+			width: el.width(),
+			height: el.height()
+		};
 
 		this.sizeDiff = {
 			width: el.outerWidth() - el.width(),
@@ -1063,21 +1063,21 @@ $.ui.plugin.add( "resizable", "alsoResize", {
 				left: ( that.position.left - op.left ) || 0
 			};
 
-			$( o.alsoResize ).each( function() {
-				var el = $( this ), start = $( this ).data( "ui-resizable-alsoresize" ), style = {},
-					css = el.parents( ui.originalElement[ 0 ] ).length ?
-							[ "width", "height" ] :
-							[ "width", "height", "top", "left" ];
+		$( o.alsoResize ).each( function() {
+			var el = $( this ), start = $( this ).data( "ui-resizable-alsoresize" ), style = {},
+				css = el.parents( ui.originalElement[ 0 ] ).length ?
+					[ "width", "height" ] :
+					[ "width", "height", "top", "left" ];
 
-				$.each( css, function( i, prop ) {
-					var sum = ( start[ prop ] || 0 ) + ( delta[ prop ] || 0 );
-					if ( sum && sum >= 0 ) {
-						style[ prop ] = sum || null;
-					}
-				} );
-
-				el.css( style );
+			$.each( css, function( i, prop ) {
+				var sum = ( start[ prop ] || 0 ) + ( delta[ prop ] || 0 );
+				if ( sum && sum >= 0 ) {
+					style[ prop ] = sum || null;
+				}
 			} );
+
+			el.css( style );
+		} );
 	},
 
 	stop: function() {
