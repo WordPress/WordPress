@@ -3518,6 +3518,8 @@ function clean_object_term_cache( $object_ids, $object_type ) {
 		}
 	}
 
+	wp_cache_delete( 'last_changed', 'terms' );
+
 	/**
 	 * Fires after the object term cache has been cleaned.
 	 *
@@ -3610,6 +3612,7 @@ function clean_term_cache( $ids, $taxonomy = '', $clean_taxonomy = true ) {
 function clean_taxonomy_cache( $taxonomy ) {
 	wp_cache_delete( 'all_ids', $taxonomy );
 	wp_cache_delete( 'get', $taxonomy );
+	wp_cache_delete( 'last_changed', 'terms' );
 
 	// Regenerate cached hierarchy.
 	delete_option( "{$taxonomy}_children" );
