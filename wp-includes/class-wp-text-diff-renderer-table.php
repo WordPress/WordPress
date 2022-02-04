@@ -255,7 +255,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 		 * - match is numeric: an index in other column.
 		 * - match is 'X': no match. It is a new row.
 		 * *_rows are column vectors for the orig column and the final column.
-		 * - row >= 0: an indix of the $orig or $final array.
+		 * - row >= 0: an index of the $orig or $final array.
 		 * - row < 0: a blank row for that column.
 		 */
 		list($orig_matches, $final_matches, $orig_rows, $final_rows) = $this->interleave_changed_lines( $orig, $final );

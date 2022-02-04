@@ -416,7 +416,7 @@ class WP_Http_Streams {
 	 *
 	 * @param resource $stream The PHP Stream which the SSL request is being made over
 	 * @param string   $host   The hostname being requested
-	 * @return bool If the cerficiate presented in $stream is valid for $host
+	 * @return bool If the certificate presented in $stream is valid for $host
 	 */
 	public static function verify_ssl_certificate( $stream, $host ) {
 		$context_options = stream_context_get_options( $stream );
