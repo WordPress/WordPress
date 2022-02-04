@@ -103,26 +103,40 @@ function wp_get_global_stylesheet( $types = array() ) {
 		}
 	}
 
+	$tree = WP_Theme_JSON_Resolver::get_merged_data();
+
 	$supports_theme_json = WP_Theme_JSON_Resolver::theme_has_support();
-	$supports_link_color = get_theme_support( 'experimental-link-color' );
 	if ( empty( $types ) && ! $supports_theme_json ) {
 		$types = array( 'variables', 'presets' );
 	} elseif ( empty( $types ) ) {
 		$types = array( 'variables', 'styles', 'presets' );
 	}
 
-	$origins = array( 'default', 'theme', 'custom' );
-	if ( ! $supports_theme_json && ! $supports_link_color ) {
-		// In this case we only enqueue the core presets (CSS Custom Properties + the classes).
-		$origins = array( 'default' );
-	} elseif ( ! $supports_theme_json && $supports_link_color ) {
-		// For the legacy link color feature to work, the CSS Custom Properties
-		// should be in scope (either the core or the theme ones).
-		$origins = array( 'default', 'theme' );
+	// If variables are part of the stylesheet,
+	// we add them for all origins (default, theme, user).
+	// This is so themes without a theme.json still work as before 5.9:
+	// they can override the default presets.
+	// See https://core.trac.wordpress.org/ticket/54782
+	$styles_variables = '';
+	if ( in_array( 'variables', $types ) ) {
+		$styles_variables = $tree->get_stylesheet( array( 'variables' ) );
+		$types            = array_diff( $types, array( 'variables' ) );
 	}
 
-	$tree       = WP_Theme_JSON_Resolver::get_merged_data();
-	$stylesheet = $tree->get_stylesheet( $types, $origins );
+	// For the remaining types (presets, styles), we do consider origins:
+	//
+	// - themes without theme.json: only the classes for the presets defined by core
+	// - themes with theme.json: the presets and styles classes, both from core and the theme
+	$styles_rest = '';
+	if ( ! empty( $types ) ) {
+		$origins = array( 'default', 'theme', 'custom' );
+		if ( ! $supports_theme_json ) {
+			$origins = array( 'default' );
+		}
+		$styles_rest = $tree->get_stylesheet( $types, $origins );
+	}
+
+	$stylesheet = $styles_variables . $styles_rest;
 
 	if ( $can_use_cached ) {
 		// Cache for a minute.
