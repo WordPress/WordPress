@@ -112,21 +112,25 @@ function wp_get_global_stylesheet( $types = array() ) {
 		$types = array( 'variables', 'styles', 'presets' );
 	}
 
-	// If variables are part of the stylesheet,
-	// we add them for all origins (default, theme, user).
-	// This is so themes without a theme.json still work as before 5.9:
-	// they can override the default presets.
-	// See https://core.trac.wordpress.org/ticket/54782
+	/*
+	 * If variables are part of the stylesheet,
+	 * we add them for all origins (default, theme, user).
+	 * This is so themes without a theme.json still work as before 5.9:
+	 * they can override the default presets.
+	 * See https://core.trac.wordpress.org/ticket/54782
+	 */
 	$styles_variables = '';
-	if ( in_array( 'variables', $types ) ) {
+	if ( in_array( 'variables', $types, true ) ) {
 		$styles_variables = $tree->get_stylesheet( array( 'variables' ) );
 		$types            = array_diff( $types, array( 'variables' ) );
 	}
 
-	// For the remaining types (presets, styles), we do consider origins:
-	//
-	// - themes without theme.json: only the classes for the presets defined by core
-	// - themes with theme.json: the presets and styles classes, both from core and the theme
+	/*
+	 * For the remaining types (presets, styles), we do consider origins:
+	 *
+	 * - themes without theme.json: only the classes for the presets defined by core
+	 * - themes with theme.json: the presets and styles classes, both from core and the theme
+	 */
 	$styles_rest = '';
 	if ( ! empty( $types ) ) {
 		$origins = array( 'default', 'theme', 'custom' );
