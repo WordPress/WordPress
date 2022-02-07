@@ -13,8 +13,9 @@ wp_reset_vars( array( 'action', 'user_id', 'wp_http_referer' ) );
 
 $user_id      = (int) $user_id;
 $current_user = wp_get_current_user();
+
 if ( ! defined( 'IS_PROFILE_PAGE' ) ) {
-	define( 'IS_PROFILE_PAGE', ( $user_id == $current_user->ID ) );
+	define( 'IS_PROFILE_PAGE', ( $user_id === $current_user->ID ) );
 }
 
 if ( ! $user_id && IS_PROFILE_PAGE ) {
@@ -93,7 +94,7 @@ $user_can_edit = current_user_can( 'edit_posts' ) || current_user_can( 'edit_pag
  */
 if ( is_multisite()
 	&& ! current_user_can( 'manage_network_users' )
-	&& $user_id != $current_user->ID
+	&& $user_id !== $current_user->ID
 	&& ! apply_filters( 'enable_edit_any_user_configuration', true )
 ) {
 	wp_die( __( 'Sorry, you are not allowed to edit this user.' ) );
@@ -166,7 +167,10 @@ switch ( $action ) {
 		$errors = edit_user( $user_id );
 
 		// Grant or revoke super admin status if requested.
-		if ( is_multisite() && is_network_admin() && ! IS_PROFILE_PAGE && current_user_can( 'manage_network_options' ) && ! isset( $super_admins ) && empty( $_POST['super_admin'] ) == is_super_admin( $user_id ) ) {
+		if ( is_multisite() && is_network_admin()
+			&& ! IS_PROFILE_PAGE && current_user_can( 'manage_network_options' )
+			&& ! isset( $super_admins ) && empty( $_POST['super_admin'] ) === is_super_admin( $user_id )
+		) {
 			empty( $_POST['super_admin'] ) ? revoke_super_admin( $user_id ) : grant_super_admin( $user_id );
 		}
 
@@ -508,7 +512,7 @@ endif;
 		<th><label for="email"><?php _e( 'Email' ); ?> <span class="description"><?php _e( '(required)' ); ?></span></label></th>
 		<td><input type="email" name="email" id="email" aria-describedby="email-description" value="<?php echo esc_attr( $profileuser->user_email ); ?>" class="regular-text ltr" />
 		<?php
-		if ( $profileuser->ID == $current_user->ID ) :
+		if ( $profileuser->ID === $current_user->ID ) :
 			?>
 		<p class="description" id="email-description">
 			<?php _e( 'If you change this, we will send you an email at your new address to confirm it. <strong>The new address will not become active until confirmed.</strong>' ); ?>
@@ -517,7 +521,7 @@ endif;
 		endif;
 
 		$new_email = get_user_meta( $current_user->ID, '_new_email', true );
-		if ( $new_email && $new_email['newemail'] != $current_user->user_email && $profileuser->ID == $current_user->ID ) :
+		if ( $new_email && $new_email['newemail'] !== $current_user->user_email && $profileuser->ID === $current_user->ID ) :
 			?>
 		<div class="updated inline">
 		<p>
@@ -862,7 +866,7 @@ endif;
 			$output = '';
 			foreach ( $profileuser->caps as $cap => $value ) {
 				if ( ! $wp_roles->is_role( $cap ) ) {
-					if ( '' != $output ) {
+					if ( '' !== $output ) {
 						$output .= ', ';
 					}
 
