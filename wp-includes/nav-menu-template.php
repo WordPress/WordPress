@@ -599,13 +599,13 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
  *
  * @param array    $items The menu items, sorted by each menu item's menu order.
  * @param int      $depth Depth of the item in reference to parents.
- * @param stdClass $r     An object containing wp_nav_menu() arguments.
+ * @param stdClass $args  An object containing wp_nav_menu() arguments.
  * @return string The HTML list content for the menu items.
  */
-function walk_nav_menu_tree( $items, $depth, $r ) {
-	$walker = ( empty( $r->walker ) ) ? new Walker_Nav_Menu : $r->walker;
+function walk_nav_menu_tree( $items, $depth, $args ) {
+	$walker = ( empty( $args->walker ) ) ? new Walker_Nav_Menu : $args->walker;
 
-	return $walker->walk( $items, $depth, $r );
+	return $walker->walk( $items, $depth, $args );
 }
 
 /**
