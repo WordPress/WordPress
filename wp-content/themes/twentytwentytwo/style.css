@@ -99,6 +99,7 @@ a:active {
 body > .is-root-container,
 .edit-post-visual-editor__post-title-wrapper,
 .wp-block-group.alignfull,
+.wp-block-group.has-background,
 .wp-block-cover.alignfull,
 .is-root-container .wp-block[data-align="full"] > .wp-block-group,
 .is-root-container .wp-block[data-align="full"] > .wp-block-cover {
