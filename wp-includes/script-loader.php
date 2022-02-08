@@ -2770,6 +2770,11 @@ function _wp_normalize_relative_css_links( $css, $stylesheet_url ) {
 				continue;
 			}
 
+			// Skip if the URL is an HTML ID.
+			if ( str_starts_with( $src_result, '#' ) ) {
+				continue;
+			}
+
 			// Build the absolute URL.
 			$absolute_url = dirname( $stylesheet_url ) . '/' . $src_result;
 			$absolute_url = str_replace( '/./', '/', $absolute_url );
