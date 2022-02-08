@@ -4364,27 +4364,31 @@ function wp_insert_post( $postarr, $wp_error = false, $fire_after_hooks = true )
 		 * Filters attachment post data before it is updated in or added to the database.
 		 *
 		 * @since 3.9.0
-		 * @since 5.4.1 `$unsanitized_postarr` argument added.
+		 * @since 5.4.1 The `$unsanitized_postarr` parameter was added.
+		 * @since 6.0.0 The `$update` parameter was added.
 		 *
 		 * @param array $data                An array of slashed, sanitized, and processed attachment post data.
 		 * @param array $postarr             An array of slashed and sanitized attachment post data, but not processed.
 		 * @param array $unsanitized_postarr An array of slashed yet *unsanitized* and unprocessed attachment post data
 		 *                                   as originally passed to wp_insert_post().
+		 * @param bool  $update              Whether this is an existing attachment post being updated.
 		 */
-		$data = apply_filters( 'wp_insert_attachment_data', $data, $postarr, $unsanitized_postarr );
+		$data = apply_filters( 'wp_insert_attachment_data', $data, $postarr, $unsanitized_postarr, $update );
 	} else {
 		/**
 		 * Filters slashed post data just before it is inserted into the database.
 		 *
 		 * @since 2.7.0
-		 * @since 5.4.1 `$unsanitized_postarr` argument added.
+		 * @since 5.4.1 The `$unsanitized_postarr` parameter was added.
+		 * @since 6.0.0 The `$update` parameter was added.
 		 *
 		 * @param array $data                An array of slashed, sanitized, and processed post data.
 		 * @param array $postarr             An array of sanitized (and slashed) but otherwise unmodified post data.
 		 * @param array $unsanitized_postarr An array of slashed yet *unsanitized* and unprocessed post data as
 		 *                                   originally passed to wp_insert_post().
+		 * @param bool  $update              Whether this is an existing post being updated.
 		 */
-		$data = apply_filters( 'wp_insert_post_data', $data, $postarr, $unsanitized_postarr );
+		$data = apply_filters( 'wp_insert_post_data', $data, $postarr, $unsanitized_postarr, $update );
 	}
 
 	$data  = wp_unslash( $data );
