@@ -48,6 +48,10 @@ function _add_template_loader_filters() {
 function locate_block_template( $template, $type, array $templates ) {
 	global $_wp_current_template_content;
 
+	if ( ! current_theme_supports( 'block-templates' ) ) {
+		return $template;
+	}
+
 	if ( $template ) {
 		/*
 		 * locate_template() has found a PHP template at the path specified by $template.
