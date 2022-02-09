@@ -217,11 +217,7 @@ if ( ! class_exists( 'POMO_FileReader', false ) ) :
 		 * @return string
 		 */
 		public function read_all() {
-			$all = '';
-			while ( ! $this->feof() ) {
-				$all .= $this->read( 4096 );
-			}
-			return $all;
+			return stream_get_contents( $this->_f );
 		}
 	}
 endif;
