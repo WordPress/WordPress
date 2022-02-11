@@ -338,7 +338,7 @@ function wp_cache_add_non_persistent_groups( $groups ) {
  * during unit tests, consider using wp_cache_init(). wp_cache_init() is not
  * recommended outside of unit tests as the performance penalty for using it is high.
  *
- * @since 2.6.0
+ * @since 3.0.0
  * @deprecated 3.5.0 WP_Object_Cache::reset()
  * @see WP_Object_Cache::reset()
  *
