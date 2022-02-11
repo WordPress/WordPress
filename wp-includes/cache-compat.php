@@ -8,61 +8,6 @@
  * @subpackage Cache
  */
 
-if ( ! function_exists( 'wp_cache_get_multiple' ) ) :
-	/**
-	 * Retrieves multiple values from the cache in one call.
-	 *
-	 * Compat function to mimic wp_cache_get_multiple().
-	 *
-	 * @ignore
-	 * @since 5.5.0
-	 *
-	 * @see wp_cache_get_multiple()
-	 *
-	 * @param array  $keys  Array of keys under which the cache contents are stored.
-	 * @param string $group Optional. Where the cache contents are grouped. Default empty.
-	 * @param bool   $force Optional. Whether to force an update of the local cache
-	 *                      from the persistent cache. Default false.
-	 * @return array Array of values organized into groups.
-	 */
-	function wp_cache_get_multiple( $keys, $group = '', $force = false ) {
-		$values = array();
-
-		foreach ( $keys as $key ) {
-			$values[ $key ] = wp_cache_get( $key, $group, $force );
-		}
-
-		return $values;
-	}
-endif;
-
-if ( ! function_exists( 'wp_cache_delete_multiple' ) ) :
-	/**
-	 * Deletes multiple values from the cache in one call.
-	 *
-	 * Compat function to mimic wp_cache_delete_multiple().
-	 *
-	 * @ignore
-	 * @since 6.0.0
-	 *
-	 * @see wp_cache_delete_multiple()
-	 *
-	 * @param array  $keys  Array of keys under which the cache to deleted.
-	 * @param string $group Optional. Where the cache contents are grouped. Default empty.
-	 * @return array Array of return values.
-	 */
-	function wp_cache_delete_multiple( array $keys, $group = '' ) {
-		$values = array();
-
-		foreach ( $keys as $key ) {
-			$values[ $key ] = wp_cache_delete( $key, $group );
-		}
-
-		return $values;
-	}
-endif;
-
-
 if ( ! function_exists( 'wp_cache_add_multiple' ) ) :
 	/**
 	 * Adds multiple values to the cache in one call, if the cache keys don't already exist.
@@ -115,6 +60,60 @@ if ( ! function_exists( 'wp_cache_set_multiple' ) ) :
 
 		foreach ( $data as $key => $value ) {
 			$values[ $key ] = wp_cache_set( $key, $value, $group, $expire );
+		}
+
+		return $values;
+	}
+endif;
+
+if ( ! function_exists( 'wp_cache_get_multiple' ) ) :
+	/**
+	 * Retrieves multiple values from the cache in one call.
+	 *
+	 * Compat function to mimic wp_cache_get_multiple().
+	 *
+	 * @ignore
+	 * @since 5.5.0
+	 *
+	 * @see wp_cache_get_multiple()
+	 *
+	 * @param array  $keys  Array of keys under which the cache contents are stored.
+	 * @param string $group Optional. Where the cache contents are grouped. Default empty.
+	 * @param bool   $force Optional. Whether to force an update of the local cache
+	 *                      from the persistent cache. Default false.
+	 * @return array Array of values organized into groups.
+	 */
+	function wp_cache_get_multiple( $keys, $group = '', $force = false ) {
+		$values = array();
+
+		foreach ( $keys as $key ) {
+			$values[ $key ] = wp_cache_get( $key, $group, $force );
+		}
+
+		return $values;
+	}
+endif;
+
+if ( ! function_exists( 'wp_cache_delete_multiple' ) ) :
+	/**
+	 * Deletes multiple values from the cache in one call.
+	 *
+	 * Compat function to mimic wp_cache_delete_multiple().
+	 *
+	 * @ignore
+	 * @since 6.0.0
+	 *
+	 * @see wp_cache_delete_multiple()
+	 *
+	 * @param array  $keys  Array of keys under which the cache to deleted.
+	 * @param string $group Optional. Where the cache contents are grouped. Default empty.
+	 * @return array Array of return values.
+	 */
+	function wp_cache_delete_multiple( array $keys, $group = '' ) {
+		$values = array();
+
+		foreach ( $keys as $key ) {
+			$values[ $key ] = wp_cache_delete( $key, $group );
 		}
 
 		return $values;
