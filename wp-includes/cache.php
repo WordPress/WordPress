@@ -339,13 +339,13 @@ function wp_cache_add_non_persistent_groups( $groups ) {
  * recommended outside of unit tests as the performance penalty for using it is high.
  *
  * @since 3.0.0
- * @deprecated 3.5.0 WP_Object_Cache::reset()
+ * @deprecated 3.5.0 Use wp_cache_switch_to_blog()
  * @see WP_Object_Cache::reset()
  *
  * @global WP_Object_Cache $wp_object_cache Object cache global instance.
  */
 function wp_cache_reset() {
-	_deprecated_function( __FUNCTION__, '3.5.0', 'WP_Object_Cache::reset()' );
+	_deprecated_function( __FUNCTION__, '3.5.0', 'wp_cache_switch_to_blog()' );
 
 	global $wp_object_cache;
 

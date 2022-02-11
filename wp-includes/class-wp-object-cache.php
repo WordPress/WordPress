@@ -461,11 +461,11 @@ class WP_Object_Cache {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @deprecated 3.5.0 Use switch_to_blog()
+	 * @deprecated 3.5.0 Use WP_Object_Cache::switch_to_blog()
 	 * @see switch_to_blog()
 	 */
 	public function reset() {
-		_deprecated_function( __FUNCTION__, '3.5.0', 'switch_to_blog()' );
+		_deprecated_function( __FUNCTION__, '3.5.0', 'WP_Object_Cache::switch_to_blog()' );
 
 		// Clear out non-global caches since the blog ID has changed.
 		foreach ( array_keys( $this->cache ) as $group ) {
