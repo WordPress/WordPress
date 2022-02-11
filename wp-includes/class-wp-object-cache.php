@@ -188,7 +188,8 @@ class WP_Object_Cache {
 	 * @param string $group  Optional. Where the cache contents are grouped. Default empty.
 	 * @param int    $expire Optional. When to expire the cache contents, in seconds.
 	 *                       Default 0 (no expiration).
-	 * @return array Array of return values.
+	 * @return bool[] Array of return values, grouped by key. Each value is either
+	 *                true on success, or false if cache key and group already exist.
 	 */
 	public function add_multiple( array $data, $group = '', $expire = 0 ) {
 		$values = array();
@@ -277,7 +278,7 @@ class WP_Object_Cache {
 	 * @param string $group  Optional. Where the cache contents are grouped. Default empty.
 	 * @param int    $expire Optional. When to expire the cache contents, in seconds.
 	 *                       Default 0 (no expiration).
-	 * @return array Array of return values.
+	 * @return bool[] Array of return values, grouped by key. Each value is always true.
 	 */
 	public function set_multiple( array $data, $group = '', $expire = 0 ) {
 		$values = array();
@@ -341,7 +342,8 @@ class WP_Object_Cache {
 	 * @param string $group Optional. Where the cache contents are grouped. Default 'default'.
 	 * @param bool   $force Optional. Whether to force an update of the local cache
 	 *                      from the persistent cache. Default false.
-	 * @return array Array of values organized into groups.
+	 * @return array Array of return values, grouped by key. Each value is either
+	 *               the cache contents on success, or false on failure.
 	 */
 	public function get_multiple( $keys, $group = 'default', $force = false ) {
 		$values = array();
@@ -389,7 +391,8 @@ class WP_Object_Cache {
 	 *
 	 * @param array  $keys  Array of keys to be deleted.
 	 * @param string $group Optional. Where the cache contents are grouped. Default empty.
-	 * @return array Array of return values.
+	 * @return bool[] Array of return values, grouped by key. Each value is either
+	 *                true on success, or false if the contents were not deleted.
 	 */
 	public function delete_multiple( array $keys, $group = '' ) {
 		$values = array();

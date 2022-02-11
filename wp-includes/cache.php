@@ -56,7 +56,8 @@ function wp_cache_add( $key, $data, $group = '', $expire = 0 ) {
  * @param string $group  Optional. Where the cache contents are grouped. Default empty.
  * @param int    $expire Optional. When to expire the cache contents, in seconds.
  *                       Default 0 (no expiration).
- * @return array Array of return values.
+ * @return bool[] Array of return values, grouped by key. Each value is either
+ *                true on success, or false if cache key and group already exist.
  */
 function wp_cache_add_multiple( array $data, $group = '', $expire = 0 ) {
 	global $wp_object_cache;
@@ -122,7 +123,8 @@ function wp_cache_set( $key, $data, $group = '', $expire = 0 ) {
  * @param string $group  Optional. Where the cache contents are grouped. Default empty.
  * @param int    $expire Optional. When to expire the cache contents, in seconds.
  *                       Default 0 (no expiration).
- * @return array Array of return values.
+ * @return bool[] Array of return values, grouped by key. Each value is either
+ *                true on success, or false on failure.
  */
 function wp_cache_set_multiple( array $data, $group = '', $expire = 0 ) {
 	global $wp_object_cache;
@@ -164,7 +166,8 @@ function wp_cache_get( $key, $group = '', $force = false, &$found = null ) {
  * @param string $group Optional. Where the cache contents are grouped. Default empty.
  * @param bool   $force Optional. Whether to force an update of the local cache
  *                      from the persistent cache. Default false.
- * @return array Array of values organized into groups.
+ * @return array Array of return values, grouped by key. Each value is either
+ *               the cache contents on success, or false on failure.
  */
 function wp_cache_get_multiple( $keys, $group = '', $force = false ) {
 	global $wp_object_cache;
@@ -200,7 +203,8 @@ function wp_cache_delete( $key, $group = '' ) {
  *
  * @param array  $keys  Array of keys under which the cache to deleted.
  * @param string $group Optional. Where the cache contents are grouped. Default empty.
- * @return array Array of return values.
+ * @return bool[] Array of return values, grouped by key. Each value is either
+ *                true on success, or false if the contents were not deleted.
  */
 function wp_cache_delete_multiple( array $keys, $group = '' ) {
 	global $wp_object_cache;
