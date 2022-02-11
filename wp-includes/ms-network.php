@@ -82,9 +82,10 @@ function clean_network_cache( $ids ) {
 		return;
 	}
 
-	foreach ( (array) $ids as $id ) {
-		wp_cache_delete( $id, 'networks' );
+	$network_ids = (array) $ids;
+	wp_cache_delete_multiple( $network_ids, 'networks' );
 
+	foreach ( $network_ids as $id ) {
 		/**
 		 * Fires immediately after a network has been removed from the object cache.
 		 *
@@ -110,9 +111,11 @@ function clean_network_cache( $ids ) {
  * @param array $networks Array of network row objects.
  */
 function update_network_cache( $networks ) {
+	$data = array();
 	foreach ( (array) $networks as $network ) {
-		wp_cache_add( $network->id, $network, 'networks' );
+		$data[ $network->id ] = $network;
 	}
+	wp_cache_add_multiple( $data, 'networks' );
 }
 
 /**

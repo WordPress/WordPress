@@ -1058,10 +1058,12 @@ class WP_Comment_Query {
 					$child_ids[]                                    = $level_comment->comment_ID;
 				}
 
+				$data = array();
 				foreach ( $parent_map as $parent_id => $children ) {
-					$cache_key = "get_comment_child_ids:$parent_id:$key:$last_changed";
-					wp_cache_set( $cache_key, $children, 'comment' );
+					$cache_key          = "get_comment_child_ids:$parent_id:$key:$last_changed";
+					$data[ $cache_key ] = $children;
 				}
+				wp_cache_set_multiple( $data, 'comment' );
 			}
 
 			$level++;

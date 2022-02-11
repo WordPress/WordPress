@@ -7368,9 +7368,11 @@ function update_post_cache( &$posts ) {
 		return;
 	}
 
+	$data = array();
 	foreach ( $posts as $post ) {
-		wp_cache_add( $post->ID, $post, 'posts' );
+		$data[ $post->ID ] = $post;
 	}
+	wp_cache_add_multiple( $data, 'posts' );
 }
 
 /**
