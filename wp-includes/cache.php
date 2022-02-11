@@ -59,7 +59,8 @@ function wp_cache_close() {
  * @global WP_Object_Cache $wp_object_cache Object cache global instance.
  *
  * @param int|string $key    The cache key to decrement.
- * @param int        $offset Optional. The amount by which to decrement the item's value. Default 1.
+ * @param int        $offset Optional. The amount by which to decrement the item's value.
+ *                           Default 1.
  * @param string     $group  Optional. The group the key is in. Default empty.
  * @return int|false The item's new value on success, false on failure.
  */
@@ -145,9 +146,8 @@ function wp_cache_get_multiple( $keys, $group = '', $force = false ) {
 	return $wp_object_cache->get_multiple( $keys, $group, $force );
 }
 
-
 /**
- * Delete multiple values from the cache in one call.
+ * Deletes multiple values from the cache in one call.
  *
  * @since 6.0.0
  *
@@ -156,7 +156,7 @@ function wp_cache_get_multiple( $keys, $group = '', $force = false ) {
  *
  * @param array  $keys  Array of keys under which the cache to deleted.
  * @param string $group Optional. Where the cache contents are grouped. Default empty.
- * @return array Array of return values organized into groups.
+ * @return array Array of return values.
  */
 function wp_cache_delete_multiple( array $keys, $group = '' ) {
 	global $wp_object_cache;
@@ -165,17 +165,17 @@ function wp_cache_delete_multiple( array $keys, $group = '' ) {
 }
 
 /**
- * Add multiple values to the cache in one call.
+ * Adds multiple values to the cache in one call.
  *
  * @since 6.0.0
  *
  * @see WP_Object_Cache::add_multiple()
  * @global WP_Object_Cache $wp_object_cache Object cache global instance.
  *
- * @param array  $data  Array of key and value to be set.
- * @param string $group Optional. Where the cache contents are grouped. Default empty.
+ * @param array  $data   Array of keys and values to be set.
+ * @param string $group  Optional. Where the cache contents are grouped. Default empty.
  * @param int    $expire Optional. When to expire the cache contents, in seconds.
- *                           Default 0 (no expiration).
+ *                       Default 0 (no expiration).
  * @return array Array of return values.
  */
 function wp_cache_add_multiple( array $data, $group = '', $expire = 0 ) {
@@ -185,17 +185,17 @@ function wp_cache_add_multiple( array $data, $group = '', $expire = 0 ) {
 }
 
 /**
- * Set multiple values to the cache in one call.
+ * Sets multiple values to the cache in one call.
  *
  * @since 6.0.0
  *
  * @see WP_Object_Cache::set_multiple()
  * @global WP_Object_Cache $wp_object_cache Object cache global instance.
  *
- * @param array  $data  Array of key and value to be set.
- * @param string $group Optional. Where the cache contents are grouped. Default empty.
+ * @param array  $data   Array of keys and values to be set.
+ * @param string $group  Optional. Where the cache contents are grouped. Default empty.
  * @param int    $expire Optional. When to expire the cache contents, in seconds.
- *                           Default 0 (no expiration).
+ *                       Default 0 (no expiration).
  * @return array Array of return values.
  */
 function wp_cache_set_multiple( array $data, $group = '', $expire = 0 ) {
@@ -205,7 +205,7 @@ function wp_cache_set_multiple( array $data, $group = '', $expire = 0 ) {
 }
 
 /**
- * Increment numeric cache item's value
+ * Increments numeric cache item's value.
  *
  * @since 3.3.0
  *
@@ -213,7 +213,8 @@ function wp_cache_set_multiple( array $data, $group = '', $expire = 0 ) {
  * @global WP_Object_Cache $wp_object_cache Object cache global instance.
  *
  * @param int|string $key    The key for the cache contents that should be incremented.
- * @param int        $offset Optional. The amount by which to increment the item's value. Default 1.
+ * @param int        $offset Optional. The amount by which to increment the item's value.
+ *                           Default 1.
  * @param string     $group  Optional. The group the key is in. Default empty.
  * @return int|false The item's new value on success, false on failure.
  */
@@ -248,7 +249,7 @@ function wp_cache_init() {
  *                           Default empty.
  * @param int        $expire Optional. When to expire the cache contents, in seconds.
  *                           Default 0 (no expiration).
- * @return bool False if original value does not exist, true if contents were replaced
+ * @return bool True if contents were replaced, false if original value does not exist.
  */
 function wp_cache_replace( $key, $data, $group = '', $expire = 0 ) {
 	global $wp_object_cache;
@@ -335,8 +336,7 @@ function wp_cache_add_non_persistent_groups( $groups ) {
  * This function is deprecated. Use wp_cache_switch_to_blog() instead of this
  * function when preparing the cache for a blog switch. For clearing the cache
  * during unit tests, consider using wp_cache_init(). wp_cache_init() is not
- * recommended outside of unit tests as the performance penalty for using it is
- * high.
+ * recommended outside of unit tests as the performance penalty for using it is high.
  *
  * @since 2.6.0
  * @deprecated 3.5.0 WP_Object_Cache::reset()
