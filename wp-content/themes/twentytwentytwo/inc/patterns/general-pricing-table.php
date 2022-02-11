@@ -43,8 +43,8 @@ return array(
 					<h2 id="2" style="font-size:clamp(2.75rem, 6vw, 3.25rem);line-height:0.5">' . esc_html( _x( '2', 'Second item in a numbered list.', 'twentytwentytwo' ) ) . '</h2>
 					<!-- /wp:heading -->
 
-					<!-- wp:heading {"fontSize":"x-large"} -->
-					<h2 class="has-x-large-font-size" id="sparrow"><meta charset="utf-8"><em>' . esc_html__( 'Sparrow', 'twentytwentytwo' ) . '</em></h2>
+					<!-- wp:heading {"level":3,"fontSize":"x-large"} -->
+					<h3 class="has-x-large-font-size" id="sparrow"><meta charset="utf-8"><em>' . esc_html__( 'Sparrow', 'twentytwentytwo' ) . '</em></h3>
 					<!-- /wp:heading -->
 
 					<!-- wp:paragraph -->
@@ -71,8 +71,8 @@ return array(
 					<h2 id="3" style="font-size:clamp(2.75rem, 6vw, 3.25rem);line-height:0.5">' . esc_html( _x( '3', 'Third item in a numbered list.', 'twentytwentytwo' ) ) . '</h2>
 					<!-- /wp:heading -->
 
-					<!-- wp:heading {"fontSize":"x-large"} -->
-					<h2 class="has-x-large-font-size" id="falcon"><meta charset="utf-8"><em>' . esc_html__( 'Falcon', 'twentytwentytwo' ) . '</em></h2>
+					<!-- wp:heading {"level":3,"fontSize":"x-large"} -->
+					<h3 class="has-x-large-font-size" id="falcon"><meta charset="utf-8"><em>' . esc_html__( 'Falcon', 'twentytwentytwo' ) . '</em></h3>
 					<!-- /wp:heading -->
 
 					<!-- wp:paragraph -->
