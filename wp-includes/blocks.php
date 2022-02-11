@@ -20,10 +20,14 @@ function remove_block_asset_path_prefix( $asset_handle_or_path ) {
 	if ( 0 !== strpos( $asset_handle_or_path, $path_prefix ) ) {
 		return $asset_handle_or_path;
 	}
-	return substr(
+	$path = substr(
 		$asset_handle_or_path,
 		strlen( $path_prefix )
 	);
+	if ( strpos( $path, './' ) === 0 ) {
+		$path = substr( $path, 2 );
+	}
+	return $path;
 }
 
 /**
