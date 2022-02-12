@@ -3237,7 +3237,7 @@ function wp_check_filetype_and_ext( $file, $filename, $mimes = null ) {
 function wp_get_image_mime( $file ) {
 	/*
 	 * Use exif_imagetype() to check the mimetype if available or fall back to
-	 * getimagesize() if exif isn't avaialbe. If either function throws an Exception
+	 * getimagesize() if exif isn't available. If either function throws an Exception
 	 * we assume the file could not be validated.
 	 */
 	try {
