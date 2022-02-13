@@ -250,6 +250,73 @@ if ( ! function_exists( 'twentyfifteen_setup' ) ) :
 			)
 		);
 
+		// Add support for custom color scheme.
+		add_theme_support(
+			'editor-gradient-presets',
+			array(
+				array(
+					'name'     => __( 'Dark Gray Gradient', 'twentyfifteen' ),
+					'slug'     => 'dark-gray-gradient-gradient',
+					'gradient' => 'linear-gradient(90deg, rgba(17,17,17,1) 0%, rgba(42,42,42,1) 100%)',
+				),
+				array(
+					'name'     => __( 'Light Gray Gradient', 'twentyfifteen' ),
+					'slug'     => 'light-gray-gradient',
+					'gradient' => 'linear-gradient(90deg, rgba(241,241,241,1) 0%, rgba(215,215,215,1) 100%)',
+				),
+				array(
+					'name'     => __( 'White Gradient', 'twentyfifteen' ),
+					'slug'     => 'white-gradient',
+					'gradient' => 'linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(230,230,230,1) 100%)',
+				),
+				array(
+					'name'     => __( 'Yellow Gradient', 'twentyfifteen' ),
+					'slug'     => 'yellow-gradient',
+					'gradient' => 'linear-gradient(90deg, rgba(244,202,22,1) 0%, rgba(205,168,10,1) 100%)',
+				),
+				array(
+					'name'     => __( 'Dark Brown Gradient', 'twentyfifteen' ),
+					'slug'     => 'dark-brown-gradient',
+					'gradient' => 'linear-gradient(90deg, rgba(53,39,18,1) 0%, rgba(91,67,31,1) 100%)',
+				),
+				array(
+					'name'     => __( 'Medium Pink Gradient', 'twentyfifteen' ),
+					'slug'     => 'medium-pink-gradient',
+					'gradient' => 'linear-gradient(90deg, rgba(229,59,81,1) 0%, rgba(209,28,51,1) 100%)',
+				),
+				array(
+					'name'     => __( 'Light Pink Gradient', 'twentyfifteen' ),
+					'slug'     => 'light-pink-gradient',
+					'gradient' => 'linear-gradient(90deg, rgba(255,229,209,1) 0%, rgba(255,200,158,1) 100%)',
+				),
+				array(
+					'name'     => __( 'Dark Purple Gradient', 'twentyfifteen' ),
+					'slug'     => 'dark-purple-gradient',
+					'gradient' => 'linear-gradient(90deg, rgba(46,34,86,1) 0%, rgba(66,48,123,1) 100%)',
+				),
+				array(
+					'name'     => __( 'Purple Gradient', 'twentyfifteen' ),
+					'slug'     => 'purple-gradient',
+					'gradient' => 'linear-gradient(90deg, rgba(103,73,112,1) 0%, rgba(131,93,143,1) 100%)',
+				),
+				array(
+					'name'     => __( 'Blue Gray Gradient', 'twentyfifteen' ),
+					'slug'     => 'blue-gray-gradient',
+					'gradient' => 'linear-gradient(90deg, rgba(34,49,63,1) 0%, rgba(52,75,96,1) 100%)',
+				),
+				array(
+					'name'     => __( 'Bright Blue Gradient', 'twentyfifteen' ),
+					'slug'     => 'bright-blue-gradient',
+					'gradient' => 'linear-gradient(90deg, rgba(85,195,220,1) 0%, rgba(43,180,211,1) 100%)',
+				),
+				array(
+					'name'     => __( 'Light Blue Gradient', 'twentyfifteen' ),
+					'slug'     => 'light-blue-gradient',
+					'gradient' => 'linear-gradient(90deg, rgba(233,242,249,1) 0%, rgba(193,218,238,1) 100%)',
+				),
+			)
+		);
+
 		// Indicate widget sidebars can use selective refresh in the Customizer.
 		add_theme_support( 'customize-selective-refresh-widgets' );
 	}
