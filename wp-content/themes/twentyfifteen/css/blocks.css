@@ -660,3 +660,51 @@ p.has-drop-cap:not(:focus)::first-letter {
 .has-light-blue-background-color {
 	background-color: #e9f2f9;
 }
+
+.has-dark-gray-gradient-background {
+	background-image: linear-gradient(90deg, rgba(17,17,17,1) 0%, rgba(42,42,42,1) 100%);
+}
+
+.has-light-gray-gradient-background {
+	background-image: linear-gradient(90deg, rgba(241,241,241,1) 0%, rgba(215,215,215,1) 100%);
+}
+
+.has-white-gradient-background {
+	background-image: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(230,230,230,1) 100%);
+}
+
+.has-yellow-gradient-background {
+	background-image: linear-gradient(90deg, rgba(244,202,22,1) 0%, rgba(205,168,10,1) 100%);
+}
+
+.has-dark-brown-gradient-background {
+	background-image: linear-gradient(90deg, rgba(53,39,18,1) 0%, rgba(91,67,31,1) 100%);
+}
+
+.has-medium-pink-gradient-background {
+	background-image: linear-gradient(90deg, rgba(229,59,81,1) 0%, rgba(209,28,51,1) 100%);
+}
+
+.has-light-pink-gradient-background {
+	background-image: linear-gradient(90deg, rgba(255,229,209,1) 0%, rgba(255,200,158,1) 100%);
+}
+
+.has-dark-purple-gradient-background {
+	background-image: linear-gradient(90deg, rgba(46,34,86,1) 0%, rgba(66,48,123,1) 100%);
+}
+
+.has-purple-gradient-background {
+	background-image: linear-gradient(90deg, rgba(103,73,112,1) 0%, rgba(131,93,143,1) 100%);
+}
+
+.has-blue-gray-gradient-background {
+	background-image: linear-gradient(90deg, rgba(34,49,63,1) 0%, rgba(52,75,96,1) 100%);
+}
+
+.has-bright-blue-gradient-background {
+	background-image: linear-gradient(90deg, rgba(85,195,220,1) 0%, rgba(43,180,211,1) 100%);
+}
+
+.has-light-blue-gradient-background {
+	background-image: linear-gradient(90deg, rgba(233,242,249,1) 0%, rgba(193,218,238,1) 100%);
+}
