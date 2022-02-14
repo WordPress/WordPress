@@ -7,21 +7,6 @@
  * Block Options
  */
 
-// The parent container does not need outer margins applied.
-// The children should all have top and bottom margins.
-[data-block].wp-block-buttons {
-	margin-top: 0;
-	margin-bottom: 0;
-
-	.wp-block-button:first-child {
-		margin-top: var(--global--spacing-vertical);
-	}
-
-	.wp-block-button:last-child {
-		margin-bottom: var(--global--spacing-vertical);
-	}
-}
-
 .wp-block-button {
 
 	// Target the default and filled button states.
