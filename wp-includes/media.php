@@ -4482,6 +4482,7 @@ function wp_enqueue_media( $args = array() ) {
 		'trashSelected'               => __( 'Move to Trash' ),
 		'restoreSelected'             => __( 'Restore from Trash' ),
 		'deletePermanently'           => __( 'Delete permanently' ),
+		'errorDeleting'               => __( 'Error in deleting the attachment.' ),
 		'apply'                       => __( 'Apply' ),
 		'filterByDate'                => __( 'Filter by date' ),
 		'filterByType'                => __( 'Filter by type' ),
