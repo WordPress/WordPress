@@ -27,16 +27,16 @@ if ( empty( $wp ) ) {
 function trackback_response( $error = 0, $error_message = '' ) {
 	header( 'Content-Type: text/xml; charset=' . get_option( 'blog_charset' ) );
 	if ( $error ) {
-		echo '<?xml version="1.0" encoding="utf-8"?' . ">\n";
-		echo "<response>\n";
-		echo "<error>1</error>\n";
-		echo "<message>$error_message</message>\n";
-		echo '</response>';
+        echo '<?xml version="1.0" encoding="utf-8">' . PHP_EOL;
+        echo '<response>' . PHP_EOL;
+        echo '<error>1</error>' . PHP_EOL;
+        echo '<message>' . $error_message . '</message>' . PHP_EOL;
+        echo '</response>';
 		die();
 	} else {
-		echo '<?xml version="1.0" encoding="utf-8"?' . ">\n";
-		echo "<response>\n";
-		echo "<error>0</error>\n";
+		echo '<?xml version="1.0" encoding="utf-8"?>' . PHP_EOL;
+		echo '<response>' . PHP_EOL;
+		echo '<error>0</error>' . PHP_EOL;
 		echo '</response>';
 	}
 }
@@ -122,7 +122,7 @@ if ( ! empty( $tb_url ) && ! empty( $title ) ) {
 	$comment_author       = $blog_name;
 	$comment_author_email = '';
 	$comment_author_url   = $tb_url;
-	$comment_content      = "<strong>$title</strong>\n\n$excerpt";
+	$comment_content      = '<strong>' . $title . '</strong>' . PHP_EOL . PHP_EOL . $excerpt;
 	$comment_type         = 'trackback';
 
 	$dupe = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->comments WHERE comment_post_ID = %d AND comment_author_url = %s", $comment_post_ID, $comment_author_url ) );
