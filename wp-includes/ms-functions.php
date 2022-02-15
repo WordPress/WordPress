@@ -280,7 +280,6 @@ function remove_user_from_blog( $user_id, $blog_id = 0, $reassign = 0 ) {
 		update_user_meta( $user_id, 'source_domain', $new_domain );
 	}
 
-	// wp_revoke_user( $user_id );
 	$user = get_userdata( $user_id );
 	if ( ! $user ) {
 		restore_current_blog();
