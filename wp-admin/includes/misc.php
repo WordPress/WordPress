@@ -910,40 +910,40 @@ function iis7_add_rewrite_rule( $filename, $rewrite_rule ) {
 	}
 
 	// Check the XPath to the rewrite rule and create XML nodes if they do not exist.
-	$xmlnodes = $xpath->query( '/configuration/system.webServer/rewrite/rules' );
+	$xml_nodes = $xpath->query( '/configuration/system.webServer/rewrite/rules' );
 
-	if ( $xmlnodes->length > 0 ) {
-		$rules_node = $xmlnodes->item( 0 );
+	if ( $xml_nodes->length > 0 ) {
+		$rules_node = $xml_nodes->item( 0 );
 	} else {
 		$rules_node = $doc->createElement( 'rules' );
 
-		$xmlnodes = $xpath->query( '/configuration/system.webServer/rewrite' );
+		$xml_nodes = $xpath->query( '/configuration/system.webServer/rewrite' );
 
-		if ( $xmlnodes->length > 0 ) {
-			$rewrite_node = $xmlnodes->item( 0 );
+		if ( $xml_nodes->length > 0 ) {
+			$rewrite_node = $xml_nodes->item( 0 );
 			$rewrite_node->appendChild( $rules_node );
 		} else {
 			$rewrite_node = $doc->createElement( 'rewrite' );
 			$rewrite_node->appendChild( $rules_node );
 
-			$xmlnodes = $xpath->query( '/configuration/system.webServer' );
+			$xml_nodes = $xpath->query( '/configuration/system.webServer' );
 
-			if ( $xmlnodes->length > 0 ) {
-				$system_webserver_node = $xmlnodes->item( 0 );
-				$system_webserver_node->appendChild( $rewrite_node );
+			if ( $xml_nodes->length > 0 ) {
+				$system_web_server_node = $xml_nodes->item( 0 );
+				$system_web_server_node->appendChild( $rewrite_node );
 			} else {
-				$system_webserver_node = $doc->createElement( 'system.webServer' );
-				$system_webserver_node->appendChild( $rewrite_node );
+				$system_web_server_node = $doc->createElement( 'system.webServer' );
+				$system_web_server_node->appendChild( $rewrite_node );
 
-				$xmlnodes = $xpath->query( '/configuration' );
+				$xml_nodes = $xpath->query( '/configuration' );
 
-				if ( $xmlnodes->length > 0 ) {
-					$config_node = $xmlnodes->item( 0 );
-					$config_node->appendChild( $system_webserver_node );
+				if ( $xml_nodes->length > 0 ) {
+					$config_node = $xml_nodes->item( 0 );
+					$config_node->appendChild( $system_web_server_node );
 				} else {
 					$config_node = $doc->createElement( 'configuration' );
 					$doc->appendChild( $config_node );
-					$config_node->appendChild( $system_webserver_node );
+					$config_node->appendChild( $system_web_server_node );
 				}
 			}
 		}
