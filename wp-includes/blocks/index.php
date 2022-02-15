@@ -48,6 +48,7 @@ require ABSPATH . WPINC . '/blocks/social-link.php';
 require ABSPATH . WPINC . '/blocks/tag-cloud.php';
 require ABSPATH . WPINC . '/blocks/template-part.php';
 require ABSPATH . WPINC . '/blocks/term-description.php';
+require ABSPATH . WPINC . '/blocks/widget-group.php';
 
 /**
  * Registers core block types using metadata files.
