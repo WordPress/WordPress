@@ -1332,29 +1332,3 @@ function _wp_multiple_block_styles( $metadata ) {
 	return $metadata;
 }
 add_filter( 'block_type_metadata', '_wp_multiple_block_styles' );
-
-/**
- * This function takes care of adding inline styles
- * in the proper place, depending on the theme in use.
- *
- * For block themes, it's loaded in the head.
- * For classic ones, it's loaded in the body
- * because the wp_head action (and wp_enqueue_scripts)
- * happens before the render_block.
- *
- * See https://core.trac.wordpress.org/ticket/53494.
- *
- * @param string $style String containing the CSS styles to be added.
- */
-function wp_enqueue_block_support( $style ) {
-	$action_hook_name = 'wp_footer';
-	if ( wp_is_block_theme() ) {
-		$action_hook_name = 'wp_enqueue_scripts';
-	}
-	add_action(
-		$action_hook_name,
-		function () use ( $style ) {
-			echo "<style>$style</style>\n";
-		}
-	);
-}
