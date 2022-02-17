@@ -574,6 +574,10 @@ add_action( 'admin_head', 'wp_check_widget_editor_deps' );
 add_action( 'wp_enqueue_scripts', 'wp_enqueue_global_styles' );
 add_action( 'wp_footer', 'wp_enqueue_global_styles', 1 );
 
+// SVG filters like duotone have to be loaded at the beginning of the body in both admin and the front-end.
+add_action( 'wp_body_open', 'wp_global_styles_render_svg_filters' );
+add_action( 'in_admin_header', 'wp_global_styles_render_svg_filters' );
+
 add_action( 'wp_default_styles', 'wp_default_styles' );
 add_filter( 'style_loader_src', 'wp_style_loader_src', 10, 2 );
 
