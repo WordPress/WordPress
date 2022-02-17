@@ -563,7 +563,10 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Controller {
 		}
 
 		if ( rest_is_field_included( 'styles', $fields ) ) {
-			$data['styles'] = $theme->get_raw_data()['styles'];
+			$raw_data = $theme->get_raw_data();
+			if ( isset( $raw_data['styles'] ) ) {
+				$data['styles'] = $raw_data['styles'];
+			}
 		}
 
 		$context = ! empty( $request['context'] ) ? $request['context'] : 'view';
