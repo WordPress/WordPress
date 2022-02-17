@@ -307,7 +307,8 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
 		$custom_settings
 	);
 
-	$presets = array(
+	$global_styles = array();
+	$presets       = array(
 		array(
 			'css'            => 'variables',
 			'__unstableType' => 'presets',
@@ -320,8 +321,8 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
 	foreach ( $presets as $preset_style ) {
 		$actual_css = wp_get_global_stylesheet( array( $preset_style['css'] ) );
 		if ( '' !== $actual_css ) {
-			$preset_style['css']         = $actual_css;
-			$editor_settings['styles'][] = $preset_style;
+			$preset_style['css'] = $actual_css;
+			$global_styles[]     = $preset_style;
 		}
 	}
 
@@ -332,10 +333,12 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
 		);
 		$actual_css    = wp_get_global_stylesheet( array( $block_classes['css'] ) );
 		if ( '' !== $actual_css ) {
-			$block_classes['css']        = $actual_css;
-			$editor_settings['styles'][] = $block_classes;
+			$block_classes['css'] = $actual_css;
+			$global_styles[]      = $block_classes;
 		}
 	}
+
+	$editor_settings['styles'] = array_merge( $global_styles, get_block_editor_theme_styles() );
 
 	$editor_settings['__experimentalFeatures'] = wp_get_global_settings();
 	// These settings may need to be updated based on data coming from theme.json sources.
