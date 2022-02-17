@@ -1587,7 +1587,7 @@ class WP_Theme_JSON {
 	}
 
 	/**
-	 * Returns whether a presets should be overriden or not.
+	 * Returns whether a presets should be overridden or not.
 	 *
 	 * @since 5.9.0
 	 *
@@ -1605,8 +1605,8 @@ class WP_Theme_JSON {
 		 * The relationship between whether to override the defaults
 		 * and whether the defaults are enabled is inverse:
 		 *
-		 * - If defaults are enabled  => theme presets should not be overriden
-		 * - If defaults are disabled => theme presets should be overriden
+		 * - If defaults are enabled  => theme presets should not be overridden
+		 * - If defaults are disabled => theme presets should be overridden
 		 *
 		 * For example, a theme sets defaultPalette to false,
 		 * making the default palette hidden from the user.
@@ -1700,7 +1700,7 @@ class WP_Theme_JSON {
 	 * @since 5.9.0
 	 *
 	 * @param array $node  The node with the presets to validate.
-	 * @param array $slugs The slugs that should not be overriden.
+	 * @param array $slugs The slugs that should not be overridden.
 	 * @return array The new node.
 	 */
 	protected static function filter_slugs( $node, $slugs ) {
