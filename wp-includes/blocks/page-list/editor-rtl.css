@@ -119,3 +119,7 @@
   height: auto;
   min-width: 200px;
 }
+
+.wp-block-page-list .components-notice {
+  margin-right: 0;
+}

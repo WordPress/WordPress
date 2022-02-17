@@ -1776,6 +1776,44 @@
 .block-editor-block-inspector .block-editor-panel-color-gradient-settings .components-base-control {
   margin-bottom: inherit;
 }
+.block-editor-panel-color-gradient-settings .block-editor-panel-color-gradient-settings__dropdown {
+  display: block;
+}
+
+.block-editor-panel-color-gradient-settings__dropdown {
+  width: 100%;
+}
+
+.block-editor-panel-color-gradient-settings__dropdown-content .components-popover__content > div {
+  width: 280px;
+}
+
+@media (min-width: 782px) {
+  .block-editor-panel-color-gradient-settings__dropdown-content .components-popover__content {
+    margin-left: 156px !important;
+  }
+  .block-editor-panel-color-gradient-settings__dropdown-content.is-from-top .components-popover__content {
+    margin-top: -60px !important;
+  }
+  .block-editor-panel-color-gradient-settings__dropdown-content.is-from-bottom .components-popover__content {
+    margin-bottom: -60px !important;
+  }
+}
+.block-editor-panel-color-gradient-settings__dropdown:last-child > div {
+  border-bottom-width: 0;
+}
+
+.block-editor-panel-color-gradient-settings__item {
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+}
+.block-editor-panel-color-gradient-settings__item .block-editor-panel-color-gradient-settings__color-indicator {
+  background: linear-gradient(45deg, transparent 48%, #ddd 48%, #ddd 52%, transparent 52%);
+}
+.block-editor-panel-color-gradient-settings__item.is-open {
+  background: #f0f0f0;
+  color: var(--wp-admin-theme-color);
+}
 
 .block-editor-contrast-checker > .components-notice {
   margin: 0;
@@ -3540,6 +3578,10 @@ figcaption.block-editor-rich-text__editable [data-rich-text-placeholder]::before
 }
 .block-editor-hooks__border-controls .components-unit-control-wrapper:last-child {
   margin-bottom: 8px;
+}
+
+.dimensions-block-support-panel .single-column {
+  grid-column: span 1;
 }
 
 .typography-block-support-panel .components-font-appearance-control,

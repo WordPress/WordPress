@@ -78,8 +78,6 @@
   margin: 0 0 1em 0;
 }
 .wp-block-image img {
-  height: auto;
-  max-width: 100%;
   vertical-align: bottom;
 }
 .wp-block-image:not(.is-style-rounded) > a,

@@ -181,10 +181,3 @@ div[data-type="core/post-featured-image"] img {
   height: auto;
   display: block;
 }
-
-.block-library-post-featured-image-dimension-controls {
-  margin-bottom: 8px;
-}
-.block-library-post-featured-image-dimension-controls.scale-control-is-visible {
-  margin-bottom: 16px;
-}
