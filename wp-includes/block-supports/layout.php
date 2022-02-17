@@ -175,7 +175,7 @@ function wp_render_layout_support_flag( $block_content, $block ) {
 		1
 	);
 
-	wp_enqueue_block_support( $style );
+	wp_enqueue_block_support_styles( $style );
 
 	return $content;
 }

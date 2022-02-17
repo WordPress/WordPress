@@ -2883,3 +2883,31 @@ function wp_enqueue_global_styles_css_custom_properties() {
 	wp_add_inline_style( 'global-styles-css-custom-properties', wp_get_global_stylesheet( array( 'variables' ) ) );
 	wp_enqueue_style( 'global-styles-css-custom-properties' );
 }
+
+/**
+ * This function takes care of adding inline styles
+ * in the proper place, depending on the theme in use.
+ *
+ * @since 5.9.1
+ *
+ * For block themes, it's loaded in the head.
+ * For classic ones, it's loaded in the body
+ * because the wp_head action (and wp_enqueue_scripts)
+ * happens before the render_block.
+ *
+ * @link https://core.trac.wordpress.org/ticket/53494.
+ *
+ * @param string $style String containing the CSS styles to be added.
+ */
+function wp_enqueue_block_support_styles( $style ) {
+	$action_hook_name = 'wp_footer';
+	if ( wp_is_block_theme() ) {
+		$action_hook_name = 'wp_enqueue_scripts';
+	}
+	add_action(
+		$action_hook_name,
+		static function () use ( $style ) {
+			echo "<style>$style</style>\n";
+		}
+	);
+}
