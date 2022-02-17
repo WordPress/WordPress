@@ -584,21 +584,3 @@ WP_Block_Supports::get_instance()->register(
 	)
 );
 add_filter( 'render_block', 'wp_render_duotone_support', 10, 2 );
-
-/**
- * Render the SVG filters supplied by theme.json.
- *
- * Note that this doesn't render the per-block user-defined
- * filters which are handled by wp_render_duotone_support,
- * but it should be rendered in the same location as those to satisfy
- * Safari's rendering quirks.
- *
- * @since 5.9.1
- */
-function wp_global_styles_render_svg_filters() {
-	$filters = wp_get_global_styles_svg_filters();
-	if ( ! empty( $filters ) ) {
-		echo $filters;
-	}
-}
-add_action( 'wp_body_open', 'wp_global_styles_render_svg_filters' );
