@@ -35,7 +35,7 @@ class SMTP
      *
      * @var string
      */
-    const VERSION = '6.5.3';
+    const VERSION = '6.5.4';
 
     /**
      * SMTP line break constant.
@@ -187,6 +187,7 @@ class SMTP
         'SendGrid' => '/[\d]{3} Ok: queued as (.*)/',
         'CampaignMonitor' => '/[\d]{3} 2.0.0 OK:([a-zA-Z\d]{48})/',
         'Haraka' => '/[\d]{3} Message Queued \((.*)\)/',
+        'Mailjet' => '/[\d]{3} OK queued as (.*)/',
     ];
 
     /**
