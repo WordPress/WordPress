@@ -132,7 +132,7 @@ class WP_Theme_JSON {
 			'path'              => array( 'color', 'duotone' ),
 			'override'          => true,
 			'use_default_names' => false,
-			'value_func'        => 'wp_render_duotone_filter_preset',
+			'value_func'        => 'wp_get_duotone_filter_property',
 			'css_vars'          => '--wp--preset--duotone--$slug',
 			'classes'           => array(),
 			'properties'        => array( 'filter' ),
@@ -1584,6 +1584,40 @@ class WP_Theme_JSON {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Converts all filter (duotone) presets into SVGs.
+	 *
+	 * @since 5.9.1
+	 *
+	 * @param array $origins List of origins to process.
+	 * @return string SVG filters.
+	 */
+	public function get_svg_filters( $origins ) {
+		$blocks_metadata = static::get_blocks_metadata();
+		$setting_nodes   = static::get_setting_nodes( $this->theme_json, $blocks_metadata );
+
+		foreach ( $setting_nodes as $metadata ) {
+			$node = _wp_array_get( $this->theme_json, $metadata['path'], array() );
+			if ( empty( $node['color']['duotone'] ) ) {
+				continue;
+			}
+
+			$duotone_presets = $node['color']['duotone'];
+
+			$filters = '';
+			foreach ( $origins as $origin ) {
+				if ( ! isset( $duotone_presets[ $origin ] ) ) {
+					continue;
+				}
+				foreach ( $duotone_presets[ $origin ] as $duotone_preset ) {
+					$filters .= wp_get_duotone_filter_svg( $duotone_preset );
+				}
+			}
+		}
+
+		return $filters;
 	}
 
 	/**
