@@ -25,7 +25,7 @@ class WP_Theme_JSON_Resolver {
 	 * @since 5.8.0
 	 * @var WP_Theme_JSON
 	 */
-	private static $core = null;
+	protected static $core = null;
 
 	/**
 	 * Container for data coming from the theme.
@@ -33,7 +33,7 @@ class WP_Theme_JSON_Resolver {
 	 * @since 5.8.0
 	 * @var WP_Theme_JSON
 	 */
-	private static $theme = null;
+	protected static $theme = null;
 
 	/**
 	 * Whether or not the theme supports theme.json.
@@ -41,7 +41,7 @@ class WP_Theme_JSON_Resolver {
 	 * @since 5.8.0
 	 * @var bool
 	 */
-	private static $theme_has_support = null;
+	protected static $theme_has_support = null;
 
 	/**
 	 * Container for data coming from the user.
@@ -49,7 +49,7 @@ class WP_Theme_JSON_Resolver {
 	 * @since 5.9.0
 	 * @var WP_Theme_JSON
 	 */
-	private static $user = null;
+	protected static $user = null;
 
 	/**
 	 * Stores the ID of the custom post type
@@ -58,7 +58,7 @@ class WP_Theme_JSON_Resolver {
 	 * @since 5.9.0
 	 * @var int
 	 */
-	private static $user_custom_post_type_id = null;
+	protected static $user_custom_post_type_id = null;
 
 	/**
 	 * Container to keep loaded i18n schema for `theme.json`.
@@ -67,7 +67,7 @@ class WP_Theme_JSON_Resolver {
 	 * @since 5.9.0 Renamed from `$theme_json_i18n` to `$i18n_schema`.
 	 * @var array
 	 */
-	private static $i18n_schema = null;
+	protected static $i18n_schema = null;
 
 	/**
 	 * Processes a file that adheres to the theme.json schema
@@ -78,7 +78,7 @@ class WP_Theme_JSON_Resolver {
 	 * @param string $file_path Path to file. Empty if no file.
 	 * @return array Contents that adhere to the theme.json schema.
 	 */
-	private static function read_json_file( $file_path ) {
+	protected static function read_json_file( $file_path ) {
 		$config = array();
 		if ( $file_path ) {
 			$decoded_file = wp_json_file_decode( $file_path, array( 'associative' => true ) );
@@ -113,13 +113,13 @@ class WP_Theme_JSON_Resolver {
 	 *                           Default 'default'.
 	 * @return array Returns the modified $theme_json_structure.
 	 */
-	private static function translate( $theme_json, $domain = 'default' ) {
-		if ( null === self::$i18n_schema ) {
-			$i18n_schema       = wp_json_file_decode( __DIR__ . '/theme-i18n.json' );
-			self::$i18n_schema = null === $i18n_schema ? array() : $i18n_schema;
+	protected static function translate( $theme_json, $domain = 'default' ) {
+		if ( null === static::$i18n_schema ) {
+			$i18n_schema         = wp_json_file_decode( __DIR__ . '/theme-i18n.json' );
+			static::$i18n_schema = null === $i18n_schema ? array() : $i18n_schema;
 		}
 
-		return translate_settings_using_i18n_schema( self::$i18n_schema, $theme_json, $domain );
+		return translate_settings_using_i18n_schema( static::$i18n_schema, $theme_json, $domain );
 	}
 
 	/**
@@ -130,15 +130,15 @@ class WP_Theme_JSON_Resolver {
 	 * @return WP_Theme_JSON Entity that holds core data.
 	 */
 	public static function get_core_data() {
-		if ( null !== self::$core ) {
-			return self::$core;
+		if ( null !== static::$core ) {
+			return static::$core;
 		}
 
-		$config     = self::read_json_file( __DIR__ . '/theme.json' );
-		$config     = self::translate( $config );
-		self::$core = new WP_Theme_JSON( $config, 'default' );
+		$config       = static::read_json_file( __DIR__ . '/theme.json' );
+		$config       = static::translate( $config );
+		static::$core = new WP_Theme_JSON( $config, 'default' );
 
-		return self::$core;
+		return static::$core;
 	}
 
 	/**
@@ -159,21 +159,21 @@ class WP_Theme_JSON_Resolver {
 		if ( ! empty( $deprecated ) ) {
 			_deprecated_argument( __METHOD__, '5.9.0' );
 		}
-		if ( null === self::$theme ) {
-			$theme_json_data = self::read_json_file( self::get_file_path_from_theme( 'theme.json' ) );
-			$theme_json_data = self::translate( $theme_json_data, wp_get_theme()->get( 'TextDomain' ) );
-			self::$theme     = new WP_Theme_JSON( $theme_json_data );
+		if ( null === static::$theme ) {
+			$theme_json_data = static::read_json_file( static::get_file_path_from_theme( 'theme.json' ) );
+			$theme_json_data = static::translate( $theme_json_data, wp_get_theme()->get( 'TextDomain' ) );
+			static::$theme   = new WP_Theme_JSON( $theme_json_data );
 
 			if ( wp_get_theme()->parent() ) {
 				// Get parent theme.json.
-				$parent_theme_json_data = self::read_json_file( self::get_file_path_from_theme( 'theme.json', true ) );
-				$parent_theme_json_data = self::translate( $parent_theme_json_data, wp_get_theme()->parent()->get( 'TextDomain' ) );
+				$parent_theme_json_data = static::read_json_file( static::get_file_path_from_theme( 'theme.json', true ) );
+				$parent_theme_json_data = static::translate( $parent_theme_json_data, wp_get_theme()->parent()->get( 'TextDomain' ) );
 				$parent_theme           = new WP_Theme_JSON( $parent_theme_json_data );
 
 				// Merge the child theme.json into the parent theme.json.
 				// The child theme takes precedence over the parent.
-				$parent_theme->merge( self::$theme );
-				self::$theme = $parent_theme;
+				$parent_theme->merge( static::$theme );
+				static::$theme = $parent_theme;
 			}
 		}
 
@@ -181,10 +181,10 @@ class WP_Theme_JSON_Resolver {
 		 * We want the presets and settings declared in theme.json
 		 * to override the ones declared via theme supports.
 		 * So we take theme supports, transform it to theme.json shape
-		 * and merge the self::$theme upon that.
+		 * and merge the static::$theme upon that.
 		 */
 		$theme_support_data = WP_Theme_JSON::get_from_editor_settings( get_default_block_editor_settings() );
-		if ( ! self::theme_has_support() ) {
+		if ( ! static::theme_has_support() ) {
 			if ( ! isset( $theme_support_data['settings']['color'] ) ) {
 				$theme_support_data['settings']['color'] = array();
 			}
@@ -210,7 +210,7 @@ class WP_Theme_JSON_Resolver {
 			$theme_support_data['settings']['color']['defaultGradients'] = $default_gradients;
 		}
 		$with_theme_supports = new WP_Theme_JSON( $theme_support_data );
-		$with_theme_supports->merge( self::$theme );
+		$with_theme_supports->merge( static::$theme );
 
 		return $with_theme_supports;
 	}
@@ -299,12 +299,12 @@ class WP_Theme_JSON_Resolver {
 	 * @return WP_Theme_JSON Entity that holds styles for user data.
 	 */
 	public static function get_user_data() {
-		if ( null !== self::$user ) {
-			return self::$user;
+		if ( null !== static::$user ) {
+			return static::$user;
 		}
 
 		$config   = array();
-		$user_cpt = self::get_user_data_from_wp_global_styles( wp_get_theme() );
+		$user_cpt = static::get_user_data_from_wp_global_styles( wp_get_theme() );
 
 		if ( array_key_exists( 'post_content', $user_cpt ) ) {
 			$decoded_data = json_decode( $user_cpt['post_content'], true );
@@ -326,9 +326,9 @@ class WP_Theme_JSON_Resolver {
 				$config = $decoded_data;
 			}
 		}
-		self::$user = new WP_Theme_JSON( $config, 'custom' );
+		static::$user = new WP_Theme_JSON( $config, 'custom' );
 
-		return self::$user;
+		return static::$user;
 	}
 
 	/**
@@ -363,11 +363,11 @@ class WP_Theme_JSON_Resolver {
 		}
 
 		$result = new WP_Theme_JSON();
-		$result->merge( self::get_core_data() );
-		$result->merge( self::get_theme_data() );
+		$result->merge( static::get_core_data() );
+		$result->merge( static::get_theme_data() );
 
 		if ( 'custom' === $origin ) {
-			$result->merge( self::get_user_data() );
+			$result->merge( static::get_user_data() );
 		}
 
 		return $result;
@@ -382,17 +382,17 @@ class WP_Theme_JSON_Resolver {
 	 * @return integer|null
 	 */
 	public static function get_user_global_styles_post_id() {
-		if ( null !== self::$user_custom_post_type_id ) {
-			return self::$user_custom_post_type_id;
+		if ( null !== static::$user_custom_post_type_id ) {
+			return static::$user_custom_post_type_id;
 		}
 
-		$user_cpt = self::get_user_data_from_wp_global_styles( wp_get_theme(), true );
+		$user_cpt = static::get_user_data_from_wp_global_styles( wp_get_theme(), true );
 
 		if ( array_key_exists( 'ID', $user_cpt ) ) {
-			self::$user_custom_post_type_id = $user_cpt['ID'];
+			static::$user_custom_post_type_id = $user_cpt['ID'];
 		}
 
-		return self::$user_custom_post_type_id;
+		return static::$user_custom_post_type_id;
 	}
 
 	/**
@@ -404,14 +404,14 @@ class WP_Theme_JSON_Resolver {
 	 * @return bool
 	 */
 	public static function theme_has_support() {
-		if ( ! isset( self::$theme_has_support ) ) {
-			self::$theme_has_support = (
-				is_readable( self::get_file_path_from_theme( 'theme.json' ) ) ||
-				is_readable( self::get_file_path_from_theme( 'theme.json', true ) )
+		if ( ! isset( static::$theme_has_support ) ) {
+			static::$theme_has_support = (
+				is_readable( static::get_file_path_from_theme( 'theme.json' ) ) ||
+				is_readable( static::get_file_path_from_theme( 'theme.json', true ) )
 			);
 		}
 
-		return self::$theme_has_support;
+		return static::$theme_has_support;
 	}
 
 	/**
@@ -426,7 +426,7 @@ class WP_Theme_JSON_Resolver {
 	 * @param bool   $template  Optional. Use template theme directory. Default false.
 	 * @return string The whole file path or empty if the file doesn't exist.
 	 */
-	private static function get_file_path_from_theme( $file_name, $template = false ) {
+	protected static function get_file_path_from_theme( $file_name, $template = false ) {
 		$path      = $template ? get_template_directory() : get_stylesheet_directory();
 		$candidate = $path . '/' . $file_name;
 
@@ -441,12 +441,12 @@ class WP_Theme_JSON_Resolver {
 	 *              and `$i18n_schema` variables to reset.
 	 */
 	public static function clean_cached_data() {
-		self::$core                     = null;
-		self::$theme                    = null;
-		self::$user                     = null;
-		self::$user_custom_post_type_id = null;
-		self::$theme_has_support        = null;
-		self::$i18n_schema              = null;
+		static::$core                     = null;
+		static::$theme                    = null;
+		static::$user                     = null;
+		static::$user_custom_post_type_id = null;
+		static::$theme_has_support        = null;
+		static::$i18n_schema              = null;
 	}
 
 }
