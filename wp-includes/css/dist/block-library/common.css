@@ -218,3 +218,11 @@
   width: auto;
   z-index: 100000;
 }
+
+/**
+ * Provide baseline responsiveness for images.
+ */
+html :where(img) {
+  height: auto;
+  max-width: 100%;
+}

@@ -39581,11 +39581,18 @@ function ColorPalette(_ref6) {
     enableAlpha: enableAlpha
   });
 
+  let dropdownPosition;
+
+  if (__experimentalIsRenderedInSidebar) {
+    dropdownPosition = 'bottom left';
+  }
+
   const colordColor = Object(colord["a" /* colord */])(value);
   return Object(external_wp_element_["createElement"])(v_stack_component, {
     spacing: 3,
     className: className
   }, !disableCustomColors && Object(external_wp_element_["createElement"])(CustomColorPickerDropdown, {
+    position: dropdownPosition,
     isRenderedInSidebar: __experimentalIsRenderedInSidebar,
     renderContent: renderCustomColorPicker,
     renderToggle: _ref7 => {
@@ -39876,8 +39883,7 @@ function GradientColorPickerDropdown(_ref2) {
 
     if (isRenderedInSidebar) {
       result.anchorRef = gradientPickerDomRef.current;
-      result.position = Object(external_wp_i18n_["isRTL"])() ? 'bottom right' : 'bottom left';
-      result.__unstableForcePosition = true;
+      result.position = 'bottom left';
     }
 
     return result;
@@ -50991,26 +50997,37 @@ function ToggleGroupControlBackdrop(_ref) {
       return;
     }
 
-    const {
-      x: parentX
-    } = containerNode.getBoundingClientRect();
-    const {
-      width: offsetWidth,
-      x
-    } = targetNode.getBoundingClientRect();
-    const borderWidth = 1;
-    const offsetLeft = x - parentX - borderWidth;
-    setLeft(offsetLeft);
-    setWidth(offsetWidth);
-    let requestId;
+    const computeDimensions = () => {
+      const {
+        width: offsetWidth,
+        x
+      } = targetNode.getBoundingClientRect();
+      const {
+        x: parentX
+      } = containerNode.getBoundingClientRect();
+      const borderWidth = 1;
+      const offsetLeft = x - parentX - borderWidth;
+      setLeft(offsetLeft);
+      setWidth(offsetWidth);
+    }; // Fix to make the component appear as expected inside popovers.
+    // If the targetNode width is 0 it means the element was not yet rendered we should allow
+    // some time for the render to happen.
+    // requestAnimationFrame instead of setTimeout with a small time does not seems to work.
+
+
+    const dimensionsRequestId = window.setTimeout(computeDimensions, 100);
+    let animationRequestId;
 
     if (!canAnimate) {
-      requestId = window.requestAnimationFrame(() => {
+      animationRequestId = window.requestAnimationFrame(() => {
         setCanAnimate(true);
       });
     }
 
-    return () => window.cancelAnimationFrame(requestId);
+    return () => {
+      window.clearTimeout(dimensionsRequestId);
+      window.cancelAnimationFrame(animationRequestId);
+    };
   }, [canAnimate, containerRef, containerWidth, state, isAdaptiveWidth]);
 
   if (!renderBackdrop) {
@@ -59435,7 +59452,7 @@ function TreeGrid(_ref, ref) {
 
           // Left:
           // If a row is focused, and it is expanded, collapses the current row.
-          if ((activeRow === null || activeRow === void 0 ? void 0 : activeRow.ariaExpanded) === 'true') {
+          if (activeRow.getAttribute('aria-expanded') === 'true') {
             onCollapseRow(activeRow);
             event.preventDefault();
             return;
@@ -59455,10 +59472,12 @@ function TreeGrid(_ref, ref) {
           }
 
           (_getRowFocusables = getRowFocusables(parentRow)) === null || _getRowFocusables === void 0 ? void 0 : (_getRowFocusables$ = _getRowFocusables[0]) === null || _getRowFocusables$ === void 0 ? void 0 : _getRowFocusables$.focus();
-        } else {
+        }
+
+        if (keyCode === external_wp_keycodes_["RIGHT"]) {
           // Right:
           // If a row is focused, and it is collapsed, expands the current row.
-          if ((activeRow === null || activeRow === void 0 ? void 0 : activeRow.ariaExpanded) === 'false') {
+          if (activeRow.getAttribute('aria-expanded') === 'false') {
             onExpandRow(activeRow);
             event.preventDefault();
             return;
@@ -59525,7 +59544,7 @@ function TreeGrid(_ref, ref) {
 
       event.preventDefault();
     }
-  }, []);
+  }, [onExpandRow, onCollapseRow]);
   /* Disable reason: A treegrid is implemented using a table element. */
 
   /* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */

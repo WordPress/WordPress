@@ -82,6 +82,10 @@
   list-style: none;
   padding: 0;
 }
+.wp-block-post-template.wp-block-post-template,
+.wp-block-query-loop.wp-block-post-template {
+  background: none;
+}
 .wp-block-post-template.is-flex-container,
 .wp-block-query-loop.is-flex-container {
   flex-direction: row;

@@ -97,6 +97,10 @@
 .block-library-spacer__resize-container {
   clear: both;
 }
+.block-library-spacer__resize-container:not(.is-resizing) {
+  height: 100% !important;
+  width: 100% !important;
+}
 .block-library-spacer__resize-container .components-resizable-box__handle::before {
   content: none;
 }

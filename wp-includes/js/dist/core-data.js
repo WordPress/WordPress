@@ -3003,7 +3003,18 @@ function reducer_undo() {
           // to continue as if we were creating an explicit undo level. This
           // will result in an extra undo level being appended with the flattened
           // undo values.
+          // We also have to take into account if the `lastEditAction` had opted out
+          // of being tracked in undo history, like the action that persists the latest
+          // content right before saving. In that case we have to update the `lastEditAction`
+          // to avoid returning early before applying the existing flattened undos.
           isCreateUndoLevel = true;
+
+          if (!lastEditAction.meta.undo) {
+            lastEditAction.meta.undo = {
+              edits: {}
+            };
+          }
+
           action = lastEditAction;
         } else {
           return nextState;

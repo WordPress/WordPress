@@ -35,7 +35,6 @@ function render_block_core_site_title( $attributes ) {
 		);
 		if ( '_blank' === $attributes['linkTarget'] ) {
 			$link_attrs[] = 'target="_blank"';
-			$link_attrs[] = 'aria-label="' . esc_attr__( '(opens in a new tab)' ) . '"';
 		}
 		$site_title = sprintf( '<a %1$s>%2$s</a>', implode( ' ', $link_attrs ), $site_title );
 	}

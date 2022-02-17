@@ -14,7 +14,7 @@
  */
 function render_block_core_site_logo( $attributes ) {
 	$adjust_width_height_filter = function ( $image ) use ( $attributes ) {
-		if ( empty( $attributes['width'] ) || empty( $image ) ) {
+		if ( empty( $attributes['width'] ) || empty( $image ) || ! $image[1] || ! $image[2] ) {
 			return $image;
 		}
 		$height = (float) $attributes['width'] / ( (float) $image[1] / (float) $image[2] );

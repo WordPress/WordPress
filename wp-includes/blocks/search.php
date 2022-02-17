@@ -43,16 +43,18 @@ function render_block_core_search( $attributes ) {
 	// Border color classes need to be applied to the elements that have a border color.
 	$border_color_classes = get_border_color_classes_for_block_core_search( $attributes );
 
+	$label_inner_html = empty( $attributes['label'] ) ? __( 'Search' ) : wp_kses_post( $attributes['label'] );
+
 	$label_markup = sprintf(
 		'<label for="%1$s" class="wp-block-search__label screen-reader-text">%2$s</label>',
-		$input_id,
-		empty( $attributes['label'] ) ? __( 'Search' ) : esc_html( $attributes['label'] )
+		esc_attr( $input_id ),
+		$label_inner_html
 	);
 	if ( $show_label && ! empty( $attributes['label'] ) ) {
 		$label_markup = sprintf(
 			'<label for="%1$s" class="wp-block-search__label">%2$s</label>',
 			$input_id,
-			esc_html( $attributes['label'] )
+			$label_inner_html
 		);
 	}
 
@@ -77,7 +79,7 @@ function render_block_core_search( $attributes ) {
 		}
 		if ( ! $use_icon_button ) {
 			if ( ! empty( $attributes['buttonText'] ) ) {
-				$button_internal_markup = esc_html( $attributes['buttonText'] );
+				$button_internal_markup = wp_kses_post( $attributes['buttonText'] );
 			}
 		} else {
 			$button_classes        .= ' has-icon';

@@ -10765,6 +10765,8 @@ const gallery = Object(external_wp_element_["createElement"])(external_wp_primit
 const LINK_DESTINATION_NONE = 'none';
 const LINK_DESTINATION_MEDIA = 'media';
 const LINK_DESTINATION_ATTACHMENT = 'attachment';
+const LINK_DESTINATION_MEDIA_WP_CORE = 'file';
+const LINK_DESTINATION_ATTACHMENT_WP_CORE = 'post';
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/gallery/shared.js
 /**
@@ -11760,10 +11762,10 @@ const MEDIA_ID_NO_FEATURED_IMAGE_SET = 0;
  */
 
 function utils_getHrefAndDestination(image, destination) {
-  // Need to determine the URL that the selected destination maps to.
-  // Gutenberg and WordPress use different constants so the new link
-  // destination also needs to be tweaked.
+  // Gutenberg and WordPress use different constants so if image_default_link_type
+  // option is set we need to map from the WP Core values.
   switch (destination) {
+    case LINK_DESTINATION_MEDIA_WP_CORE:
     case LINK_DESTINATION_MEDIA:
       return {
         href: (image === null || image === void 0 ? void 0 : image.source_url) || (image === null || image === void 0 ? void 0 : image.url),
@@ -11771,6 +11773,7 @@ function utils_getHrefAndDestination(image, destination) {
         linkDestination: constants_LINK_DESTINATION_MEDIA
       };
 
+    case LINK_DESTINATION_ATTACHMENT_WP_CORE:
     case LINK_DESTINATION_ATTACHMENT:
       return {
         href: image === null || image === void 0 ? void 0 : image.link,
@@ -13948,7 +13951,10 @@ const gallery_transforms_transforms = {
                 url,
                 alt,
                 caption,
-                imageSizeSlug
+                sizeSlug: imageSizeSlug,
+                linkDestination,
+                href,
+                linkTarget
               }
             } = _ref14;
             return Object(external_wp_blocks_["createBlock"])('core/image', {
@@ -13957,7 +13963,10 @@ const gallery_transforms_transforms = {
               alt,
               caption,
               sizeSlug: imageSizeSlug,
-              align
+              align,
+              linkDestination,
+              href,
+              linkTarget
             });
           });
         }
@@ -15167,11 +15176,23 @@ function HeadingEdit(_ref) {
     style
   });
   const {
+    canGenerateAnchors
+  } = Object(external_wp_data_["useSelect"])(select => {
+    const settings = select(external_wp_blockEditor_["store"]).getSettings();
+    return {
+      canGenerateAnchors: !!settings.__experimentalGenerateAnchors
+    };
+  }, []);
+  const {
     __unstableMarkNextChangeAsNotPersistent
   } = Object(external_wp_data_["useDispatch"])(external_wp_blockEditor_["store"]); // Initially set anchor for headings that have content but no anchor set.
   // This is used when transforming a block to heading, or for legacy anchors.
 
   Object(external_wp_element_["useEffect"])(() => {
+    if (!canGenerateAnchors) {
+      return;
+    }
+
     if (!anchor && content) {
       // This side-effect should not create an undo level.
       __unstableMarkNextChangeAsNotPersistent();
@@ -15184,14 +15205,14 @@ function HeadingEdit(_ref) {
     setAnchor(clientId, anchor); // Remove anchor map when block unmounts.
 
     return () => setAnchor(clientId, null);
-  }, [content, anchor]);
+  }, [anchor, content, clientId, canGenerateAnchors]);
 
   const onContentChange = value => {
     const newAttrs = {
       content: value
     };
 
-    if (!anchor || !value || generateAnchor(clientId, content) === anchor) {
+    if (canGenerateAnchors && (!anchor || !value || generateAnchor(clientId, content) === anchor)) {
       newAttrs.anchor = generateAnchor(clientId, value);
     }
 
@@ -25509,8 +25530,9 @@ function PageListEdit(_ref) {
   } = _ref;
   const {
     pagesByParentId,
-    totalPages
-  } = usePagesByParentId();
+    totalPages,
+    hasResolvedPages
+  } = usePageData();
   const isNavigationChild = ('showSubmenuIcon' in context);
   const allowConvertToLinks = isNavigationChild && totalPages <= edit_MAX_PAGE_COUNT;
   const [isOpen, setOpen] = Object(external_wp_element_["useState"])(false);
@@ -25537,18 +25559,33 @@ function PageListEdit(_ref) {
   }, Object(external_wp_i18n_["__"])('Edit'))), allowConvertToLinks && isOpen && Object(external_wp_element_["createElement"])(ConvertToLinksModal, {
     onClose: closeModal,
     clientId: clientId
-  }), totalPages === undefined && Object(external_wp_element_["createElement"])("div", blockProps, Object(external_wp_element_["createElement"])(external_wp_components_["Placeholder"], null, Object(external_wp_element_["createElement"])(external_wp_components_["Spinner"], null))), totalPages === 0 && Object(external_wp_element_["createElement"])("div", blockProps, Object(external_wp_element_["createElement"])("span", null, Object(external_wp_i18n_["__"])('Page List: No pages to show.'))), totalPages > 0 && Object(external_wp_element_["createElement"])("ul", blockProps, Object(external_wp_element_["createElement"])(edit_PageItems, {
+  }), !hasResolvedPages && Object(external_wp_element_["createElement"])("div", blockProps, Object(external_wp_element_["createElement"])(external_wp_components_["Placeholder"], null, Object(external_wp_element_["createElement"])(external_wp_components_["Spinner"], null))), hasResolvedPages && totalPages === null && Object(external_wp_element_["createElement"])("div", blockProps, Object(external_wp_element_["createElement"])("div", blockProps, Object(external_wp_element_["createElement"])(external_wp_components_["Notice"], {
+    status: 'warning',
+    isDismissible: false
+  }, Object(external_wp_i18n_["__"])('Page List: Cannot retrieve Pages.')))), totalPages === 0 && Object(external_wp_element_["createElement"])("div", blockProps, Object(external_wp_element_["createElement"])(external_wp_components_["Notice"], {
+    status: 'info',
+    isDismissible: false
+  }, Object(external_wp_i18n_["__"])('Page List: Cannot retrieve Pages.'))), totalPages > 0 && Object(external_wp_element_["createElement"])("ul", blockProps, Object(external_wp_element_["createElement"])(edit_PageItems, {
     context: context,
     pagesByParentId: pagesByParentId
   })));
 }
 
-function usePagesByParentId() {
+function useFrontPageId() {
+  return Object(external_wp_data_["useSelect"])(select => {
+    const site = select(external_wp_coreData_["store"]).getEntityRecord('root', 'site');
+    return (site === null || site === void 0 ? void 0 : site.show_on_front) === 'page' && (site === null || site === void 0 ? void 0 : site.page_on_front);
+  }, []);
+}
+
+function usePageData() {
   const {
-    pages
+    pages,
+    hasResolvedPages
   } = Object(external_wp_data_["useSelect"])(select => {
     const {
-      getEntityRecords
+      getEntityRecords,
+      hasFinishedResolution
     } = select(external_wp_coreData_["store"]);
     return {
       pages: getEntityRecords('postType', 'page', {
@@ -25556,10 +25593,18 @@ function usePagesByParentId() {
         order: 'asc',
         _fields: ['id', 'link', 'parent', 'title', 'menu_order'],
         per_page: -1
-      })
+      }),
+      hasResolvedPages: hasFinishedResolution('getEntityRecords', ['postType', 'page', {
+        orderby: 'menu_order',
+        order: 'asc',
+        _fields: ['id', 'link', 'parent', 'title', 'menu_order'],
+        per_page: -1
+      }])
     };
   }, []);
   return Object(external_wp_element_["useMemo"])(() => {
+    var _pages$length;
+
     // TODO: Once the REST API supports passing multiple values to
     // 'orderby', this can be removed.
     // https://core.trac.wordpress.org/ticket/39037
@@ -25579,9 +25624,10 @@ function usePagesByParentId() {
     }, new Map());
     return {
       pagesByParentId,
-      totalPages: pages === null || pages === void 0 ? void 0 : pages.length
+      hasResolvedPages,
+      totalPages: (_pages$length = pages === null || pages === void 0 ? void 0 : pages.length) !== null && _pages$length !== void 0 ? _pages$length : null
     };
-  }, [pages]);
+  }, [pages, hasResolvedPages]);
 }
 
 const edit_PageItems = Object(external_wp_element_["memo"])(function PageItems(_ref2) {
@@ -25592,6 +25638,7 @@ const edit_PageItems = Object(external_wp_element_["memo"])(function PageItems(_
     depth = 0
   } = _ref2;
   const pages = pagesByParentId.get(parentId);
+  const frontPageId = useFrontPageId();
 
   if (!(pages !== null && pages !== void 0 && pages.length)) {
     return [];
@@ -25608,7 +25655,8 @@ const edit_PageItems = Object(external_wp_element_["memo"])(function PageItems(_
         'has-child': hasChildren,
         'wp-block-navigation-item': isNavigationChild,
         'open-on-click': context.openSubmenusOnClick,
-        'open-on-hover-click': !context.openSubmenusOnClick && context.showSubmenuIcon
+        'open-on-hover-click': !context.openSubmenusOnClick && context.showSubmenuIcon,
+        'menu-item-home': page.id === frontPageId
       })
     }, hasChildren && context.openSubmenusOnClick ? Object(external_wp_element_["createElement"])(ItemSubmenuToggle, {
       title: (_page$title = page.title) === null || _page$title === void 0 ? void 0 : _page$title.rendered
@@ -27452,13 +27500,8 @@ const postFeaturedImage = Object(external_wp_element_["createElement"])(external
 
 
 /**
- * External dependencies
- */
-
-/**
  * WordPress dependencies
  */
-
 
 
 
@@ -27472,6 +27515,7 @@ const SCALE_OPTIONS = Object(external_wp_element_["createElement"])(external_wp_
   value: "fill",
   label: Object(external_wp_i18n_["_x"])('Fill', 'Scale option for Image dimension control')
 }));
+const DEFAULT_SCALE = 'cover';
 const scaleHelp = {
   cover: Object(external_wp_i18n_["__"])('Image is scaled and cropped to fill the entire space without being distorted.'),
   contain: Object(external_wp_i18n_["__"])('Image is scaled to fill the space without clipping nor distorting.'),
@@ -27480,6 +27524,7 @@ const scaleHelp = {
 
 const DimensionControls = _ref => {
   let {
+    clientId,
     attributes: {
       width,
       height,
@@ -27508,40 +27553,66 @@ const DimensionControls = _ref => {
 
   const scaleLabel = Object(external_wp_i18n_["_x"])('Scale', 'Image scaling options');
 
-  return Object(external_wp_element_["createElement"])(external_wp_components_["PanelBody"], {
-    title: Object(external_wp_i18n_["__"])('Dimensions')
-  }, Object(external_wp_element_["createElement"])(external_wp_components_["Flex"], {
-    justify: "space-between",
-    className: classnames_default()('block-library-post-featured-image-dimension-controls', {
-      'scale-control-is-visible': !!height
-    })
-  }, Object(external_wp_element_["createElement"])(external_wp_components_["FlexItem"], null, Object(external_wp_element_["createElement"])(external_wp_components_["__experimentalUnitControl"], {
+  return Object(external_wp_element_["createElement"])(external_wp_blockEditor_["InspectorControls"], {
+    __experimentalGroup: "dimensions"
+  }, Object(external_wp_element_["createElement"])(external_wp_components_["__experimentalToolsPanelItem"], {
+    className: "single-column",
+    hasValue: () => !!height,
+    label: Object(external_wp_i18n_["__"])('Height'),
+    onDeselect: () => setAttributes({
+      height: undefined
+    }),
+    resetAllFilter: () => ({
+      height: undefined
+    }),
+    isShownByDefault: true,
+    panelId: clientId
+  }, Object(external_wp_element_["createElement"])(external_wp_components_["__experimentalUnitControl"], {
     label: Object(external_wp_i18n_["__"])('Height'),
     labelPosition: "top",
     value: height || '',
-    onChange: nextHeight => {
-      onDimensionChange('height', nextHeight);
-    },
+    min: 0,
+    onChange: nextHeight => onDimensionChange('height', nextHeight),
     units: units
-  })), Object(external_wp_element_["createElement"])(external_wp_components_["FlexItem"], null, Object(external_wp_element_["createElement"])(external_wp_components_["__experimentalUnitControl"], {
+  })), Object(external_wp_element_["createElement"])(external_wp_components_["__experimentalToolsPanelItem"], {
+    className: "single-column",
+    hasValue: () => !!width,
+    label: Object(external_wp_i18n_["__"])('Width'),
+    onDeselect: () => setAttributes({
+      width: undefined
+    }),
+    resetAllFilter: () => ({
+      width: undefined
+    }),
+    isShownByDefault: true,
+    panelId: clientId
+  }, Object(external_wp_element_["createElement"])(external_wp_components_["__experimentalUnitControl"], {
     label: Object(external_wp_i18n_["__"])('Width'),
     labelPosition: "top",
     value: width || '',
-    onChange: nextWidth => {
-      onDimensionChange('width', nextWidth);
-    },
+    min: 0,
+    onChange: nextWidth => onDimensionChange('width', nextWidth),
     units: units
-  }))), !!height && Object(external_wp_element_["createElement"])(external_wp_components_["__experimentalToggleGroupControl"], {
+  })), !!height && Object(external_wp_element_["createElement"])(external_wp_components_["__experimentalToolsPanelItem"], {
+    hasValue: () => !!scale && scale !== DEFAULT_SCALE,
+    label: scaleLabel,
+    onDeselect: () => setAttributes({
+      scale: DEFAULT_SCALE
+    }),
+    resetAllFilter: () => ({
+      scale: DEFAULT_SCALE
+    }),
+    isShownByDefault: true,
+    panelId: clientId
+  }, Object(external_wp_element_["createElement"])(external_wp_components_["__experimentalToggleGroupControl"], {
     label: scaleLabel,
     value: scale,
     help: scaleHelp[scale],
-    onChange: value => {
-      setAttributes({
-        scale: value
-      });
-    },
+    onChange: value => setAttributes({
+      scale: value
+    }),
     isBlock: true
-  }, SCALE_OPTIONS));
+  }, SCALE_OPTIONS)));
 };
 
 /* harmony default export */ var dimension_controls = (DimensionControls);
@@ -27582,6 +27653,7 @@ const placeholderChip = Object(external_wp_element_["createElement"])("div", {
 
 function PostFeaturedImageDisplay(_ref) {
   let {
+    clientId,
     attributes,
     setAttributes,
     context: {
@@ -27673,10 +27745,11 @@ function PostFeaturedImageDisplay(_ref) {
     });
   }
 
-  return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(external_wp_blockEditor_["InspectorControls"], null, Object(external_wp_element_["createElement"])(dimension_controls, {
+  return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(dimension_controls, {
+    clientId: clientId,
     attributes: attributes,
     setAttributes: setAttributes
-  }), Object(external_wp_element_["createElement"])(external_wp_components_["PanelBody"], {
+  }), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["InspectorControls"], null, Object(external_wp_element_["createElement"])(external_wp_components_["PanelBody"], {
     title: Object(external_wp_i18n_["__"])('Link settings')
   }, Object(external_wp_element_["createElement"])(external_wp_components_["ToggleControl"], {
     label: Object(external_wp_i18n_["sprintf"])( // translators: %s: Name of the post type e.g: "post".
@@ -33901,7 +33974,6 @@ function LogoEdit(_ref2) {
     isSelected
   } = _ref2;
   const {
-    className: styleClass,
     width,
     shouldSyncIcon
   } = attributes;
@@ -33955,32 +34027,8 @@ function LogoEdit(_ref2) {
     };
   }, []);
   const {
-    getGlobalBlockCount
-  } = Object(external_wp_data_["useSelect"])(external_wp_blockEditor_["store"]);
-  const {
     editEntityRecord
   } = Object(external_wp_data_["useDispatch"])(external_wp_coreData_["store"]);
-  Object(external_wp_element_["useEffect"])(() => {
-    // Cleanup function to discard unsaved changes to the icon and logo when
-    // the block is removed.
-    return () => {
-      // Do nothing if the block is being rendered in the styles preview or the
-      // block inserter.
-      if (styleClass !== null && styleClass !== void 0 && styleClass.includes('block-editor-block-types-list__site-logo-example') || styleClass !== null && styleClass !== void 0 && styleClass.includes('block-editor-block-styles__block-preview-container')) {
-        return;
-      }
-
-      const logoBlockCount = getGlobalBlockCount('core/site-logo'); // Only discard unsaved changes if we are removing the last Site Logo block
-      // on the page.
-
-      if (logoBlockCount === 0) {
-        editEntityRecord('root', 'site', undefined, {
-          site_logo: undefined,
-          site_icon: undefined
-        });
-      }
-    };
-  }, []);
 
   const setLogo = function (newValue) {
     let shouldForceSync = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
@@ -36029,68 +36077,7 @@ const social_links_deprecated_migrateWithLayout = attributes => {
 }; // Social Links block deprecations.
 
 
-const social_links_deprecated_deprecated = [// Implement `flex` layout.
-{
-  attributes: {
-    iconColor: {
-      type: 'string'
-    },
-    customIconColor: {
-      type: 'string'
-    },
-    iconColorValue: {
-      type: 'string'
-    },
-    iconBackgroundColor: {
-      type: 'string'
-    },
-    customIconBackgroundColor: {
-      type: 'string'
-    },
-    iconBackgroundColorValue: {
-      type: 'string'
-    },
-    openInNewTab: {
-      type: 'boolean',
-      default: false
-    },
-    size: {
-      type: 'string'
-    }
-  },
-  supports: {
-    align: ['left', 'center', 'right'],
-    anchor: true,
-    __experimentalExposeControlsToChildren: true
-  },
-  isEligible: _ref => {
-    let {
-      layout
-    } = _ref;
-    return !layout;
-  },
-  migrate: social_links_deprecated_migrateWithLayout,
-
-  save(props) {
-    const {
-      attributes: {
-        iconBackgroundColorValue,
-        iconColorValue,
-        itemsJustification,
-        size
-      }
-    } = props;
-    const className = classnames_default()(size, {
-      'has-icon-color': iconColorValue,
-      'has-icon-background-color': iconBackgroundColorValue,
-      [`items-justified-${itemsJustification}`]: itemsJustification
-    });
-    return Object(external_wp_element_["createElement"])("ul", external_wp_blockEditor_["useBlockProps"].save({
-      className
-    }), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["InnerBlocks"].Content, null));
-  }
-
-}, // V1. Remove CSS variable use for colors.
+const social_links_deprecated_deprecated = [// V1. Remove CSS variable use for colors.
 {
   attributes: {
     iconColor: {
@@ -36318,7 +36305,7 @@ function SocialLinksEdit(props) {
           iconBackgroundColorValue: colorValue
         });
       },
-      label: Object(external_wp_i18n_["__"])('Icon background color')
+      label: Object(external_wp_i18n_["__"])('Icon background')
     }]
   }), !logosOnly && Object(external_wp_element_["createElement"])(external_wp_blockEditor_["ContrastChecker"], {
     textColor: iconColorValue,
@@ -36496,7 +36483,155 @@ const resizeCornerNE = Object(external_wp_element_["createElement"])(external_wp
 }));
 /* harmony default export */ var resize_corner_n_e = (resizeCornerNE);
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/spacer/deprecated.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+const spacer_deprecated_deprecated = [{
+  attributes: {
+    height: {
+      type: 'number',
+      default: 100
+    },
+    width: {
+      type: 'number'
+    }
+  },
+
+  migrate(attributes) {
+    const {
+      height,
+      width
+    } = attributes;
+    return { ...attributes,
+      width: width !== undefined ? `${width}px` : undefined,
+      height: height !== undefined ? `${height}px` : undefined
+    };
+  },
+
+  save(_ref) {
+    let {
+      attributes
+    } = _ref;
+    return Object(external_wp_element_["createElement"])("div", external_wp_blockEditor_["useBlockProps"].save({
+      style: {
+        height: attributes.height,
+        width: attributes.width
+      },
+      'aria-hidden': true
+    }));
+  }
+
+}];
+/* harmony default export */ var spacer_deprecated = (spacer_deprecated_deprecated);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/spacer/controls.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+function DimensionInput(_ref) {
+  var _ref2;
+
+  let {
+    label,
+    onChange,
+    isResizing,
+    value = ''
+  } = _ref;
+  const [temporaryInput, setTemporaryInput] = Object(external_wp_element_["useState"])(null);
+  const inputId = Object(external_wp_compose_["useInstanceId"])(external_wp_components_["__experimentalUnitControl"], 'block-spacer-height-input'); // In most contexts the spacer size cannot meaningfully be set to a
+  // percentage, since this is relative to the parent container. This
+  // unit is disabled from the UI.
+
+  const availableUnitSettings = (_ref2 = Object(external_wp_blockEditor_["useSetting"])('spacing.units') || undefined) === null || _ref2 === void 0 ? void 0 : _ref2.filter(availableUnit => availableUnit !== '%');
+  const units = Object(external_wp_components_["__experimentalUseCustomUnits"])({
+    availableUnits: availableUnitSettings || ['px', 'em', 'rem', 'vw', 'vh'],
+    defaultValues: {
+      px: '100',
+      em: '10',
+      rem: '10',
+      vw: '10',
+      vh: '25'
+    }
+  });
+
+  const handleOnChange = unprocessedValue => {
+    setTemporaryInput(null);
+    onChange(unprocessedValue);
+  };
+
+  const handleOnBlur = () => {
+    if (temporaryInput !== null) {
+      setTemporaryInput(null);
+    }
+  };
+
+  const inputValue = temporaryInput !== null ? temporaryInput : value;
+  return Object(external_wp_element_["createElement"])(external_wp_components_["BaseControl"], {
+    label: label,
+    id: inputId
+  }, Object(external_wp_element_["createElement"])(external_wp_components_["__experimentalUnitControl"], {
+    id: inputId,
+    isResetValueOnUnitChange: true,
+    min: 0,
+    max: MAX_SPACER_SIZE,
+    onBlur: handleOnBlur,
+    onChange: handleOnChange,
+    style: {
+      maxWidth: 80
+    },
+    value: inputValue,
+    units: units // Force the unit to update to `px` when the Spacer is being resized.
+    ,
+    unit: isResizing ? 'px' : undefined
+  }));
+}
+
+function SpacerControls(_ref3) {
+  let {
+    setAttributes,
+    orientation,
+    height,
+    width,
+    isResizing
+  } = _ref3;
+  return Object(external_wp_element_["createElement"])(external_wp_blockEditor_["InspectorControls"], null, Object(external_wp_element_["createElement"])(external_wp_components_["PanelBody"], {
+    title: Object(external_wp_i18n_["__"])('Spacer settings')
+  }, orientation === 'horizontal' && Object(external_wp_element_["createElement"])(DimensionInput, {
+    label: Object(external_wp_i18n_["__"])('Width'),
+    value: width,
+    onChange: nextWidth => setAttributes({
+      width: nextWidth
+    }),
+    isResizing: isResizing
+  }), orientation !== 'horizontal' && Object(external_wp_element_["createElement"])(DimensionInput, {
+    label: Object(external_wp_i18n_["__"])('Height'),
+    value: height,
+    onChange: nextHeight => setAttributes({
+      height: nextHeight
+    }),
+    isResizing: isResizing
+  })));
+}
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/spacer/edit.js
+
 
 
 /**
@@ -36513,13 +36648,68 @@ const resizeCornerNE = Object(external_wp_element_["createElement"])(external_wp
 
 
 
+/**
+ * Internal dependencies
+ */
 
-const MIN_SPACER_HEIGHT = 1;
-const MAX_SPACER_HEIGHT = 500;
-const MIN_SPACER_WIDTH = 1;
-const MAX_SPACER_WIDTH = 500;
 
-const SpacerEdit = _ref => {
+const MIN_SPACER_SIZE = 1;
+const MAX_SPACER_SIZE = 500;
+
+const ResizableSpacer = _ref => {
+  let {
+    orientation,
+    onResizeStart,
+    onResize,
+    onResizeStop,
+    isSelected,
+    isResizing,
+    setIsResizing,
+    ...props
+  } = _ref;
+
+  const getCurrentSize = elt => {
+    return orientation === 'horizontal' ? elt.clientWidth : elt.clientHeight;
+  };
+
+  const getNextVal = elt => {
+    return `${getCurrentSize(elt)}px`;
+  };
+
+  return Object(external_wp_element_["createElement"])(external_wp_components_["ResizableBox"], Object(esm_extends["a" /* default */])({
+    className: classnames_default()('block-library-spacer__resize-container', {
+      'resize-horizontal': orientation === 'horizontal',
+      'is-resizing': isResizing,
+      'is-selected': isSelected
+    }),
+    onResizeStart: (_event, _direction, elt) => {
+      const nextVal = getNextVal(elt);
+      onResizeStart(nextVal);
+      onResize(nextVal);
+    },
+    onResize: (_event, _direction, elt) => {
+      onResize(getNextVal(elt));
+
+      if (!isResizing) {
+        setIsResizing(true);
+      }
+    },
+    onResizeStop: (_event, _direction, elt) => {
+      const nextVal = Math.min(MAX_SPACER_SIZE, getCurrentSize(elt));
+      onResizeStop(`${nextVal}px`);
+      setIsResizing(false);
+    },
+    __experimentalShowTooltip: true,
+    __experimentalTooltipProps: {
+      axis: orientation === 'horizontal' ? 'x' : 'y',
+      position: 'corner',
+      isVisible: isResizing
+    },
+    showHandle: isSelected
+  }, props));
+};
+
+const SpacerEdit = _ref2 => {
   let {
     attributes,
     isSelected,
@@ -36527,58 +36717,43 @@ const SpacerEdit = _ref => {
     onResizeStart,
     onResizeStop,
     context
-  } = _ref;
+  } = _ref2;
   const {
     orientation
   } = context;
-  const [isResizing, setIsResizing] = Object(external_wp_element_["useState"])(false);
   const {
     height,
     width
   } = attributes;
+  const [isResizing, setIsResizing] = Object(external_wp_element_["useState"])(false);
+  const [temporaryHeight, setTemporaryHeight] = Object(external_wp_element_["useState"])(null);
+  const [temporaryWidth, setTemporaryWidth] = Object(external_wp_element_["useState"])(null);
 
-  const updateHeight = value => {
-    setAttributes({
-      height: value
-    });
-  };
-
-  const updateWidth = value => {
-    setAttributes({
-      width: value
-    });
-  };
-
-  const handleOnResizeStart = function () {
-    onResizeStart(...arguments);
-    setIsResizing(true);
-  };
-
-  const handleOnVerticalResizeStop = (event, direction, elt, delta) => {
+  const handleOnVerticalResizeStop = newHeight => {
     onResizeStop();
-    const spacerHeight = Math.min(parseInt(height + delta.height, 10), MAX_SPACER_HEIGHT);
-    updateHeight(spacerHeight);
-    setIsResizing(false);
+    setAttributes({
+      height: newHeight
+    });
+    setTemporaryHeight(null);
   };
 
-  const handleOnHorizontalResizeStop = (event, direction, elt, delta) => {
+  const handleOnHorizontalResizeStop = newWidth => {
     onResizeStop();
-    const spacerWidth = Math.min(parseInt(width + delta.width, 10), MAX_SPACER_WIDTH);
-    updateWidth(spacerWidth);
-    setIsResizing(false);
+    setAttributes({
+      width: newWidth
+    });
+    setTemporaryWidth(null);
+  };
+
+  const style = {
+    height: orientation === 'horizontal' ? 24 : temporaryHeight || height || undefined,
+    width: orientation === 'horizontal' ? temporaryWidth || width || undefined : undefined
   };
 
   const resizableBoxWithOrientation = blockOrientation => {
     if (blockOrientation === 'horizontal') {
-      return Object(external_wp_element_["createElement"])(external_wp_components_["ResizableBox"], {
-        className: classnames_default()('block-library-spacer__resize-container', 'resize-horizontal', {
-          'is-selected': isSelected
-        }),
-        size: {
-          width,
-          height: 24
-        },
-        minWidth: MIN_SPACER_WIDTH,
+      return Object(external_wp_element_["createElement"])(ResizableSpacer, {
+        minWidth: MIN_SPACER_SIZE,
         enable: {
           top: false,
           right: true,
@@ -36589,26 +36764,17 @@ const SpacerEdit = _ref => {
           bottomLeft: false,
           topLeft: false
         },
-        onResizeStart: handleOnResizeStart,
+        orientation: blockOrientation,
+        onResizeStart: onResizeStart,
+        onResize: setTemporaryWidth,
         onResizeStop: handleOnHorizontalResizeStop,
-        showHandle: isSelected,
-        __experimentalShowTooltip: true,
-        __experimentalTooltipProps: {
-          axis: 'x',
-          position: 'corner',
-          isVisible: isResizing
-        }
+        isSelected: isSelected,
+        isResizing: isResizing,
+        setIsResizing: setIsResizing
       });
     }
 
-    return Object(external_wp_element_["createElement"])(external_wp_components_["ResizableBox"], {
-      className: classnames_default()('block-library-spacer__resize-container', {
-        'is-selected': isSelected
-      }),
-      size: {
-        height
-      },
-      minHeight: MIN_SPACER_HEIGHT,
+    return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(ResizableSpacer, {
       enable: {
         top: false,
         right: false,
@@ -36619,39 +36785,33 @@ const SpacerEdit = _ref => {
         bottomLeft: false,
         topLeft: false
       },
-      onResizeStart: handleOnResizeStart,
+      orientation: blockOrientation,
+      onResizeStart: onResizeStart,
+      onResize: setTemporaryHeight,
       onResizeStop: handleOnVerticalResizeStop,
-      showHandle: isSelected,
-      __experimentalShowTooltip: true,
-      __experimentalTooltipProps: {
-        axis: 'y',
-        position: 'bottom',
-        isVisible: isResizing
-      }
-    });
+      isSelected: isSelected,
+      isResizing: isResizing,
+      setIsResizing: setIsResizing
+    }));
   };
 
   Object(external_wp_element_["useEffect"])(() => {
     if (orientation === 'horizontal' && !width) {
-      updateWidth(72);
-      updateHeight(0);
+      setAttributes({
+        height: '0px',
+        width: '72px'
+      });
     }
   }, []);
-  return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(external_wp_primitives_["View"], Object(external_wp_blockEditor_["useBlockProps"])(), resizableBoxWithOrientation(orientation)), Object(external_wp_element_["createElement"])(external_wp_blockEditor_["InspectorControls"], null, Object(external_wp_element_["createElement"])(external_wp_components_["PanelBody"], {
-    title: Object(external_wp_i18n_["__"])('Spacer settings')
-  }, orientation === 'horizontal' && Object(external_wp_element_["createElement"])(external_wp_components_["RangeControl"], {
-    label: Object(external_wp_i18n_["__"])('Width in pixels'),
-    min: MIN_SPACER_WIDTH,
-    max: Math.max(MAX_SPACER_WIDTH, width),
-    value: width,
-    onChange: updateWidth
-  }), orientation !== 'horizontal' && Object(external_wp_element_["createElement"])(external_wp_components_["RangeControl"], {
-    label: Object(external_wp_i18n_["__"])('Height in pixels'),
-    min: MIN_SPACER_HEIGHT,
-    max: Math.max(MAX_SPACER_HEIGHT, height),
-    value: height,
-    onChange: updateHeight
-  }))));
+  return Object(external_wp_element_["createElement"])(external_wp_element_["Fragment"], null, Object(external_wp_element_["createElement"])(external_wp_primitives_["View"], Object(external_wp_blockEditor_["useBlockProps"])({
+    style
+  }), resizableBoxWithOrientation(orientation)), Object(external_wp_element_["createElement"])(SpacerControls, {
+    setAttributes: setAttributes,
+    height: temporaryHeight || height,
+    width: temporaryWidth || width,
+    orientation: orientation,
+    isResizing: isResizing
+  }));
 };
 
 /* harmony default export */ var spacer_edit = (Object(external_wp_compose_["compose"])([Object(external_wp_data_["withDispatch"])(dispatch => {
@@ -36673,12 +36833,15 @@ const SpacerEdit = _ref => {
 
 function spacer_save_save(_ref) {
   let {
-    attributes
+    attributes: {
+      height,
+      width
+    }
   } = _ref;
   return Object(external_wp_element_["createElement"])("div", external_wp_blockEditor_["useBlockProps"].save({
     style: {
-      height: attributes.height,
-      width: attributes.width
+      height,
+      width
     },
     'aria-hidden': true
   }));
@@ -36694,6 +36857,7 @@ function spacer_save_save(_ref) {
  */
 
 
+
 const spacer_metadata = {
   apiVersion: 2,
   name: "core/spacer",
@@ -36703,11 +36867,11 @@ const spacer_metadata = {
   textdomain: "default",
   attributes: {
     height: {
-      type: "number",
-      "default": 100
+      type: "string",
+      "default": "100px"
     },
     width: {
-      type: "number"
+      type: "string"
     }
   },
   usesContext: ["orientation"],
@@ -36725,7 +36889,8 @@ const {
 const spacer_settings = {
   icon: resize_corner_n_e,
   edit: spacer_edit,
-  save: spacer_save_save
+  save: spacer_save_save,
+  deprecated: spacer_deprecated
 };
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/block-table.js
