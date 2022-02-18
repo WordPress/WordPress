@@ -123,3 +123,21 @@ if ( ! function_exists( 'wp_cache_delete_multiple' ) ) :
 		return $values;
 	}
 endif;
+
+if ( ! function_exists( 'wp_cache_flush_runtime' ) ) :
+	/**
+	 * Removes all cache items from the in-memory runtime cache.
+	 *
+	 * Compat function to mimic wp_cache_flush_runtime().
+	 *
+	 * @ignore
+	 * @since 6.0.0
+	 *
+	 * @see wp_cache_flush_runtime()
+	 *
+	 * @return bool True on success, false on failure.
+	 */
+	function wp_cache_flush_runtime() {
+		return wp_using_ext_object_cache() ? false : wp_cache_flush();
+	}
+endif;

@@ -269,6 +269,19 @@ function wp_cache_flush() {
 }
 
 /**
+ * Removes all cache items from the in-memory runtime cache.
+ *
+ * @since 6.0.0
+ *
+ * @see WP_Object_Cache::flush()
+ *
+ * @return bool True on success, false on failure.
+ */
+function wp_cache_flush_runtime() {
+	return wp_cache_flush();
+}
+
+/**
  * Closes the cache.
  *
  * This function has ceased to do anything since WordPress 2.5. The
