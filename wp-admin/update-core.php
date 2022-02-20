@@ -272,7 +272,7 @@ function core_upgrade_preamble() {
 	} elseif ( $is_development_version ) {
 		echo '<h2 class="response">' . __( 'You are using a development version of WordPress.' ) . '</h2>';
 	} else {
-		echo '<h2 class="response">' . __( 'You have the latest version of WordPress.' ) . '</h2>';
+		echo '<h2 class="response">' . __( 'You have the latest and greatest version of WordPress.' ) . '</h2>';
 	}
 
 	echo '<ul class="core-updates">';
