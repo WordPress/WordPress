@@ -270,6 +270,7 @@ a:active {
 
 a:focus,
 a:focus .media-icon img,
+a:focus .plugin-icon,
 .wp-person a:focus .gravatar {
 	color: #043959;
 	box-shadow:
