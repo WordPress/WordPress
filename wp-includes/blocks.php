@@ -203,7 +203,7 @@ function register_block_style_handle( $metadata, $field_name ) {
  *
  * @since 5.9.0
  *
- * @return array The schema for block's metadata.
+ * @return object The schema for block's metadata.
  */
 function get_block_metadata_i18n_schema() {
 	static $i18n_block_schema;
