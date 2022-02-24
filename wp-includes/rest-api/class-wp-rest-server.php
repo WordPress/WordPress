@@ -1239,10 +1239,12 @@ class WP_REST_Server {
 		 * available on the API, and a small amount of data about the site.
 		 *
 		 * @since 4.4.0
+		 * @since 6.0.0 Added `$request` parameter.
 		 *
 		 * @param WP_REST_Response $response Response data.
+		 * @param WP_REST_Request  $request  Request data.
 		 */
-		return apply_filters( 'rest_index', $response );
+		return apply_filters( 'rest_index', $response, $request );
 	}
 
 	/**
