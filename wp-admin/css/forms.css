@@ -1528,8 +1528,8 @@ table.form-table td .updated p {
 		margin: 0 3px;
 	}
 
-	.form-table input[type='text']#mailserver_port.small-text {
-		margin-top: 3px;
+	.form-table .regular-text ~ input[type="text"].small-text {
+		margin-top: 5px;
 	}
 
 	#pass-strength-result {
