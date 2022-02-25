@@ -378,12 +378,16 @@ if ( ! function_exists( 'wp_mail' ) ) :
 		 */
 		if ( ! isset( $from_email ) ) {
 			// Get the site domain and get rid of www.
-			$sitename = wp_parse_url( network_home_url(), PHP_URL_HOST );
-			if ( 'www.' === substr( $sitename, 0, 4 ) ) {
-				$sitename = substr( $sitename, 4 );
-			}
+			$sitename   = wp_parse_url( network_home_url(), PHP_URL_HOST );
+			$from_email = 'wordpress@';
 
-			$from_email = 'wordpress@' . $sitename;
+			if ( null !== $sitename ) {
+				if ( 'www.' === substr( $sitename, 0, 4 ) ) {
+					$sitename = substr( $sitename, 4 );
+				}
+
+				$from_email .= $sitename;
+			}
 		}
 
 		/**
