@@ -40,7 +40,7 @@ class WP {
 	 * @since 2.0.0
 	 * @var array
 	 */
-	public $query_vars;
+	public $query_vars = array();
 
 	/**
 	 * String parsed to set the query variables.
@@ -48,7 +48,7 @@ class WP {
 	 * @since 2.0.0
 	 * @var string
 	 */
-	public $query_string;
+	public $query_string = '';
 
 	/**
 	 * The request path, e.g. 2015/05/06.
@@ -56,7 +56,7 @@ class WP {
 	 * @since 2.0.0
 	 * @var string
 	 */
-	public $request;
+	public $request = '';
 
 	/**
 	 * Rewrite rule the request matched.
@@ -64,7 +64,7 @@ class WP {
 	 * @since 2.0.0
 	 * @var string
 	 */
-	public $matched_rule;
+	public $matched_rule = '';
 
 	/**
 	 * Rewrite query the request matched.
@@ -72,7 +72,7 @@ class WP {
 	 * @since 2.0.0
 	 * @var string
 	 */
-	public $matched_query;
+	public $matched_query = '';
 
 	/**
 	 * Whether already did the permalink.
