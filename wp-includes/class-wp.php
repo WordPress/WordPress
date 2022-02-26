@@ -252,7 +252,7 @@ class WP {
 				}
 			}
 
-			if ( isset( $this->matched_rule ) ) {
+			if ( ! empty( $this->matched_rule ) ) {
 				// Trim the query of everything up to the '?'.
 				$query = preg_replace( '!^.+\?!', '', $query );
 
