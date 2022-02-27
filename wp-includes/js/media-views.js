@@ -2116,7 +2116,7 @@ AttachmentsBrowser = View.extend(/** @lends wp.media.view.AttachmentsBrowser.pro
 			mediaFoundHasMoreResultsMessage = __( 'Number of media items displayed: %d. Scroll the page for more results.' );
 		}
 
-		if ( this.collection.hasOwnProperty('mirroring') && this.collection.mirroring.args.s ) {
+		if ( this.collection.mirroring && this.collection.mirroring.args.s ) {
 			count = this.collection.length;
 
 			if ( 0 === count ) {
