@@ -367,11 +367,11 @@ printf( __( 'If you like, you may enter custom structures for your category and 
 <p id="iis-description-a">
 				<?php
 				printf(
-					/* translators: 1: web.config, 2: Documentation URL, 3: CTRL + a, 4: Element code. */
+					/* translators: 1: web.config, 2: Documentation URL, 3: Ctrl + A, 4: Element code. */
 					__( 'If your %1$s file was <a href="%2$s">writable</a>, we could do this automatically, but it isn&#8217;t so this is the url rewrite rule you should have in your %1$s file. Click in the field and press %3$s to select all. Then insert this rule inside of the %4$s element in %1$s file.' ),
 					'<code>web.config</code>',
 					__( 'https://wordpress.org/support/article/changing-file-permissions/' ),
-					'<kbd>CTRL + a</kbd>',
+					'<kbd>Ctrl + A</kbd>',
 					'<code>/&lt;configuration&gt;/&lt;system.webServer&gt;/&lt;rewrite&gt;/&lt;rules&gt;</code>'
 				);
 				?>
@@ -393,11 +393,11 @@ printf( __( 'If you like, you may enter custom structures for your category and 
 <p id="iis-description-b">
 			<?php
 			printf(
-				/* translators: 1: Documentation URL, 2: web.config, 3: CTRL + a */
+				/* translators: 1: Documentation URL, 2: web.config, 3: Ctrl + A */
 				__( 'If the root directory of your site was <a href="%1$s">writable</a>, we could do this automatically, but it isn&#8217;t so this is the url rewrite rule you should have in your %2$s file. Create a new file, called %2$s in the root directory of your site. Click in the field and press %3$s to select all. Then insert this code into the %2$s file.' ),
 				__( 'https://wordpress.org/support/article/changing-file-permissions/' ),
 				'<code>web.config</code>',
-				'<kbd>CTRL + a</kbd>'
+				'<kbd>Ctrl + A</kbd>'
 			);
 			?>
 </p>
@@ -423,11 +423,11 @@ else :
 <p id="htaccess-description">
 		<?php
 		printf(
-			/* translators: 1: .htaccess, 2: Documentation URL, 3: CTRL + a */
+			/* translators: 1: .htaccess, 2: Documentation URL, 3: Ctrl + A */
 			__( 'If your %1$s file was <a href="%2$s">writable</a>, we could do this automatically, but it isn&#8217;t so these are the mod_rewrite rules you should have in your %1$s file. Click in the field and press %3$s to select all.' ),
 			'<code>.htaccess</code>',
 			__( 'https://wordpress.org/support/article/changing-file-permissions/' ),
-			'<kbd>CTRL + a</kbd>'
+			'<kbd>Ctrl + A</kbd>'
 		);
 		?>
 </p>

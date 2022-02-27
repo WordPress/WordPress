@@ -152,9 +152,9 @@
 			plaintext_mode: "Paste is now in plain text mode. Click again to toggle back to regular paste mode."
 		},
 		paste_dlg: {
-			text_title: "Use CTRL + V on your keyboard to paste the text into the window.",
+			text_title: "Use Ctrl + V on your keyboard to paste the text into the window.",
 			text_linebreaks: "Keep linebreaks",
-			word_title: "Use CTRL + V on your keyboard to paste the text into the window."
+			word_title: "Use Ctrl + V on your keyboard to paste the text into the window."
 		},
 		table: {
 			desc: "Inserts a new table",
