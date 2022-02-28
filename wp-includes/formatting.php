@@ -371,8 +371,8 @@ function wptexturize_primes( $haystack, $needle, $prime, $open_quote, $close_quo
 }
 
 /**
- * Search for disabled element tags. Push element to stack on tag open and pop
- * on tag close.
+ * Searches for disabled element tags. Pushes element to stack on tag open
+ * and pops on tag close.
  *
  * Assumes first char of $text is tag opening and last char is tag closing.
  * Assumes second char of $text is optionally '/' to indicate closing as in </html>.
@@ -601,7 +601,7 @@ function wpautop( $text, $br = true ) {
 }
 
 /**
- * Separate HTML elements and comments from the text.
+ * Separates HTML elements and comments from the text.
  *
  * @since 4.2.4
  *
@@ -613,7 +613,7 @@ function wp_html_split( $input ) {
 }
 
 /**
- * Retrieve the regular expression for an HTML element.
+ * Retrieves the regular expression for an HTML element.
  *
  * @since 4.4.0
  *
@@ -669,14 +669,14 @@ function get_html_split_regex() {
 }
 
 /**
- * Retrieve the combined regular expression for HTML and shortcodes.
+ * Retrieves the combined regular expression for HTML and shortcodes.
  *
  * @access private
  * @ignore
  * @internal This function will be removed in 4.5.0 per Shortcode API Roadmap.
  * @since 4.4.0
  *
- * @param string $shortcode_regex The result from _get_wptexturize_shortcode_regex(). Optional.
+ * @param string $shortcode_regex Optional. The result from _get_wptexturize_shortcode_regex().
  * @return string The regular expression
  */
 function _get_wptexturize_split_regex( $shortcode_regex = '' ) {
@@ -712,7 +712,7 @@ function _get_wptexturize_split_regex( $shortcode_regex = '' ) {
 }
 
 /**
- * Retrieve the regular expression for shortcodes.
+ * Retrieves the regular expression for shortcodes.
  *
  * @access private
  * @ignore
@@ -742,7 +742,7 @@ function _get_wptexturize_shortcode_regex( $tagnames ) {
 }
 
 /**
- * Replace characters or phrases within HTML elements only.
+ * Replaces characters or phrases within HTML elements only.
  *
  * @since 4.2.3
  *
@@ -793,7 +793,7 @@ function wp_replace_in_html_tags( $haystack, $replace_pairs ) {
 }
 
 /**
- * Newline preservation help function for wpautop
+ * Newline preservation help function for wpautop().
  *
  * @since 3.1.0
  * @access private
@@ -806,7 +806,7 @@ function _autop_newline_preservation_helper( $matches ) {
 }
 
 /**
- * Don't auto-p wrap shortcodes that stand alone
+ * Don't auto-p wrap shortcodes that stand alone.
  *
  * Ensures that shortcodes are not wrapped in `<p>...</p>`.
  *
@@ -1135,7 +1135,7 @@ function wp_check_invalid_utf8( $string, $strip = false ) {
 }
 
 /**
- * Encode the Unicode values to be used in the URI.
+ * Encodes the Unicode values to be used in the URI.
  *
  * @since 1.5.0
  * @since 5.8.3 Added the `encode_ascii_characters` parameter.
@@ -1934,7 +1934,7 @@ function remove_accents( $string, $locale = '' ) {
 		/*
 		 * German has various locales (de_DE, de_CH, de_AT, ...) with formal and informal variants.
 		 * There is no 3-letter locale like 'def', so checking for 'de' instead of 'de_' is safe,
-		 * since 'de' itself would be a valid locale too).
+		 * since 'de' itself would be a valid locale too.
 		 */
 		if ( str_starts_with( $locale, 'de' ) ) {
 			$chars['Ä'] = 'Ae';
@@ -2984,7 +2984,7 @@ function _make_email_clickable_cb( $matches ) {
 }
 
 /**
- * Convert plaintext URI to HTML links.
+ * Converts plaintext URI to HTML links.
  *
  * Converts URI, www and ftp, and email addresses. Finishes by fixing links
  * within links.
@@ -3056,6 +3056,7 @@ function make_clickable( $text ) {
 
 /**
  * Breaks a string into chunks by splitting at whitespace characters.
+ *
  * The length of each returned chunk is as close to the specified length goal as possible,
  * with the caveat that each chunk includes its trailing delimiter.
  * Chunks longer than the goal are guaranteed to not have any inner whitespace.
@@ -3345,7 +3346,7 @@ function wp_remove_targeted_link_rel_filters() {
 }
 
 /**
- * Convert one smiley code to the icon graphic file equivalent.
+ * Converts one smiley code to the icon graphic file equivalent.
  *
  * Callback handler for convert_smilies().
  *
@@ -3393,7 +3394,7 @@ function translate_smiley( $matches ) {
 }
 
 /**
- * Convert text equivalent of smilies to images.
+ * Converts text equivalent of smilies to images.
  *
  * Will only convert smilies if the option 'use_smilies' is true and the global
  * used in the function isn't empty.
@@ -3537,12 +3538,12 @@ function is_email( $email, $deprecated = false ) {
 }
 
 /**
- * Convert to ASCII from email subjects.
+ * Converts to ASCII from email subjects.
  *
  * @since 1.2.0
  *
- * @param string $string Subject line
- * @return string Converted string to ASCII
+ * @param string $string Subject line.
+ * @return string Converted string to ASCII.
  */
 function wp_iso_descrambler( $string ) {
 	/* this may only work with iso-8859-1, I'm afraid */
@@ -3555,13 +3556,13 @@ function wp_iso_descrambler( $string ) {
 }
 
 /**
- * Helper function to convert hex encoded chars to ASCII
+ * Helper function to convert hex encoded chars to ASCII.
  *
  * @since 3.1.0
  * @access private
  *
- * @param array $match The preg_replace_callback matches array
- * @return string Converted chars
+ * @param array $match The preg_replace_callback matches array.
+ * @return string Converted chars.
  */
 function _wp_iso_convert( $match ) {
 	return chr( hexdec( strtolower( $match[1] ) ) );
@@ -4292,7 +4293,7 @@ function format_for_editor( $text, $default_editor = null ) {
 }
 
 /**
- * Perform a deep string replace operation to ensure the values in $search are no longer present
+ * Performs a deep string replace operation to ensure the values in $search are no longer present.
  *
  * Repeats the replacement operation until it no longer replaces anything so as to remove "nested" values
  * e.g. $subject = '%0%0%0DDD', $search ='%0D', $result ='' rather than the '%0%0DD' that
@@ -4493,7 +4494,7 @@ function sanitize_url( $url, $protocols = null ) {
 }
 
 /**
- * Convert entities, while preserving already-encoded entities.
+ * Converts entities, while preserving already-encoded entities.
  *
  * @link https://www.php.net/htmlentities Borrowed from the PHP Manual user notes.
  *
@@ -4509,7 +4510,7 @@ function htmlentities2( $myHTML ) {
 }
 
 /**
- * Escape single quotes, htmlspecialchar " < > &, and fix line endings.
+ * Escapes single quotes, htmlspecialchar " < > &, and fixes line endings.
  *
  * Escapes text strings for echoing in JS. It is intended to be used for inline JS
  * (in a tag attribute, for example onclick="..."). Note that the strings have to
@@ -4669,7 +4670,7 @@ EOF;
 }
 
 /**
- * Escape an HTML tag name.
+ * Escapes an HTML tag name.
  *
  * @since 2.5.0
  *
@@ -4690,7 +4691,7 @@ function tag_escape( $tag_name ) {
 }
 
 /**
- * Convert full URL paths to absolute paths.
+ * Converts full URL paths to absolute paths.
  *
  * Removes the http or https protocols and the domain. Keeps the path '/' at the
  * beginning, so it isn't a true relative link, but from the web root base.
@@ -5037,7 +5038,7 @@ function wp_parse_str( $string, &$array ) {
 }
 
 /**
- * Convert lone less than signs.
+ * Converts lone less than signs.
  *
  * KSES already converts lone greater than signs.
  *
@@ -5066,7 +5067,7 @@ function wp_pre_kses_less_than_callback( $matches ) {
 }
 
 /**
- * Remove non-allowable HTML from parsed block attribute values when filtering
+ * Removes non-allowable HTML from parsed block attribute values when filtering
  * in the post context.
  *
  * @since 5.3.1
@@ -5168,7 +5169,7 @@ function wp_sprintf( $pattern, ...$args ) {
 }
 
 /**
- * Localize list items before the rest of the content.
+ * Localizes list items before the rest of the content.
  *
  * The '%l' must be at the first characters can then contain the rest of the
  * content. The list items will have ', ', ', and', and ' and ' added depending
@@ -5267,7 +5268,7 @@ function wp_html_excerpt( $str, $count, $more = null ) {
 }
 
 /**
- * Add a Base url to relative links in passed content.
+ * Adds a base URL to relative links in passed content.
  *
  * By default it supports the 'src' and 'href' attributes. However this can be
  * changed via the 3rd param.
@@ -5289,7 +5290,7 @@ function links_add_base_url( $content, $base, $attrs = array( 'src', 'href' ) ) 
 }
 
 /**
- * Callback to add a base url to relative links in passed content.
+ * Callback to add a base URL to relative links in passed content.
  *
  * @since 2.7.0
  * @access private
@@ -5353,7 +5354,7 @@ function _links_add_target( $m ) {
 }
 
 /**
- * Normalize EOL characters and strip duplicate whitespace.
+ * Normalizes EOL characters and strips duplicate whitespace.
  *
  * @since 2.7.0
  *
@@ -5368,7 +5369,7 @@ function normalize_whitespace( $str ) {
 }
 
 /**
- * Properly strip all HTML tags including script and style
+ * Properly strips all HTML tags including script and style
  *
  * This differs from strip_tags() because it removes the contents of
  * the `<script>` and `<style>` tags. E.g. `strip_tags( '<script>something</script>' )`
@@ -5452,7 +5453,7 @@ function sanitize_textarea_field( $str ) {
 }
 
 /**
- * Internal helper function to sanitize a string from user input or from the db
+ * Internal helper function to sanitize a string from user input or from the database.
  *
  * @since 4.7.0
  * @access private
@@ -5500,7 +5501,7 @@ function _sanitize_text_fields( $str, $keep_newlines = false ) {
 }
 
 /**
- * i18n friendly version of basename()
+ * i18n-friendly version of basename().
  *
  * @since 3.1.0
  *
@@ -5543,12 +5544,12 @@ function capital_P_dangit( $text ) {
 // phpcs:enable
 
 /**
- * Sanitize a mime type
+ * Sanitizes a mime type
  *
  * @since 3.1.3
  *
- * @param string $mime_type Mime type
- * @return string Sanitized mime type
+ * @param string $mime_type Mime type.
+ * @return string Sanitized mime type.
  */
 function sanitize_mime_type( $mime_type ) {
 	$sani_mime_type = preg_replace( '/[^-+*.a-zA-Z0-9\/]/', '', $mime_type );
@@ -5564,7 +5565,7 @@ function sanitize_mime_type( $mime_type ) {
 }
 
 /**
- * Sanitize space or carriage return separated URLs that are used to send trackbacks.
+ * Sanitizes space or carriage return separated URLs that are used to send trackbacks.
  *
  * @since 3.4.0
  *
@@ -5634,7 +5635,7 @@ function wp_unslash( $value ) {
 }
 
 /**
- * Extract and return the first URL from passed content.
+ * Extracts and returns the first URL from passed content.
  *
  * @since 3.6.0
  *
@@ -5687,7 +5688,7 @@ function wp_spaces_regexp() {
 }
 
 /**
- * Print the important emoji-related styles.
+ * Prints the important emoji-related styles.
  *
  * @since 4.2.0
  */
@@ -5720,7 +5721,7 @@ img.emoji {
 }
 
 /**
- * Print the inline Emoji detection script if it is not already printed.
+ * Prints the inline Emoji detection script if it is not already printed.
  *
  * @since 4.2.0
  */
@@ -5805,7 +5806,7 @@ function _print_emoji_detection_script() {
 }
 
 /**
- * Convert emoji characters to their equivalent HTML entity.
+ * Converts emoji characters to their equivalent HTML entity.
  *
  * This allows us to store emoji in a DB using the utf8 character set.
  *
@@ -5828,7 +5829,7 @@ function wp_encode_emoji( $content ) {
 }
 
 /**
- * Convert emoji to a static img element.
+ * Converts emoji to a static img element.
  *
  * @since 4.2.0
  *
@@ -5923,7 +5924,7 @@ function wp_staticize_emoji( $text ) {
 }
 
 /**
- * Convert emoji in emails into static images.
+ * Converts emoji in emails into static images.
  *
  * @since 4.2.0
  *
@@ -6017,7 +6018,7 @@ function _wp_emoji_list( $type = 'entities' ) {
 }
 
 /**
- * Shorten a URL, to be used as link text.
+ * Shortens a URL, to be used as link text.
  *
  * @since 1.2.0
  * @since 4.4.0 Moved to wp-includes/formatting.php from wp-admin/includes/misc.php and added $length param.
