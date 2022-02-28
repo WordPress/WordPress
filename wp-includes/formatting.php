@@ -1583,11 +1583,15 @@ function utf8_uri_encode( $utf8_string, $length = 0, $encode_ascii_characters = 
  * @since 4.7.0 Added locale support for `sr_RS`.
  * @since 4.8.0 Added locale support for `bs_BA`.
  * @since 5.7.0 Added locale support for `de_AT`.
+ * @since 6.0.0 Added the `$locale` parameter.
  *
- * @param string $string Text that might have accent characters
+ * @param string $string Text that might have accent characters.
+ * @param string $locale Optional. The locale to use for accent removal. Some character
+ *                       replacements depend on the locale being used (e.g. 'de_DE').
+ *                       Defaults to the current locale.
  * @return string Filtered string with replaced "nice" characters.
  */
-function remove_accents( $string ) {
+function remove_accents( $string, $locale = '' ) {
 	if ( ! preg_match( '/[\x80-\xff]/', $string ) ) {
 		return $string;
 	}
@@ -1923,9 +1927,16 @@ function remove_accents( $string ) {
 		);
 
 		// Used for locale-specific rules.
-		$locale = get_locale();
+		if ( empty( $locale ) ) {
+			$locale = get_locale();
+		}
 
-		if ( in_array( $locale, array( 'de_DE', 'de_DE_formal', 'de_CH', 'de_CH_informal', 'de_AT' ), true ) ) {
+		/*
+		 * German has various locales (de_DE, de_CH, de_AT, ...) with formal and informal variants.
+		 * There is no 3-letter locale like 'def', so checking for 'de' instead of 'de_' is safe,
+		 * since 'de' itself would be a valid locale too).
+		 */
+		if ( str_starts_with( $locale, 'de' ) ) {
 			$chars['Ä'] = 'Ae';
 			$chars['ä'] = 'ae';
 			$chars['Ö'] = 'Oe';
