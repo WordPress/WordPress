@@ -358,9 +358,9 @@ class PHPMailer
     public $AuthType = '';
 
     /**
-     * An instance of the PHPMailer OAuth class.
+     * An implementation of the PHPMailer OAuthTokenProvider interface.
      *
-     * @var OAuth
+     * @var OAuthTokenProvider
      */
     protected $oauth;
 
@@ -750,7 +750,7 @@ class PHPMailer
      *
      * @var string
      */
-    const VERSION = '6.5.4';
+    const VERSION = '6.6.0';
 
     /**
      * Error severity: message only, continue processing.
@@ -2163,7 +2163,8 @@ class PHPMailer
                     }
                     if ($tls) {
                         if (!$this->smtp->startTLS()) {
-                            throw new Exception($this->lang('connect_host'));
+                            $message = $this->getSmtpErrorMessage('connect_host');
+                            throw new Exception($message);
                         }
                         //We must resend EHLO after TLS negotiation
                         $this->smtp->hello($hello);
@@ -2193,6 +2194,10 @@ class PHPMailer
         //As we've caught all exceptions, just report whatever the last one was
         if ($this->exceptions && null !== $lastexception) {
             throw $lastexception;
+        } elseif ($this->exceptions) {
+            // no exception was thrown, likely $this->smtp->connect() failed
+            $message = $this->getSmtpErrorMessage('connect_host');
+            throw new Exception($message);
         }
 
         return false;
@@ -4130,6 +4135,26 @@ class PHPMailer
     }
 
     /**
+     * Build an error message starting with a generic one and adding details if possible.
+     *
+     * @param string $base_key
+     * @return string
+     */
+    private function getSmtpErrorMessage($base_key)
+    {
+        $message = $this->lang($base_key);
+        $error = $this->smtp->getError();
+        if (!empty($error['error'])) {
+            $message .= ' ' . $error['error'];
+            if (!empty($error['detail'])) {
+                $message .= ' ' . $error['detail'];
+            }
+        }
+
+        return $message;
+    }
+
+    /**
      * Check if an error occurred.
      *
      * @return bool True if an error did occur
@@ -5029,9 +5054,9 @@ class PHPMailer
     }
 
     /**
-     * Get the OAuth instance.
+     * Get the OAuthTokenProvider instance.
      *
-     * @return OAuth
+     * @return OAuthTokenProvider
      */
     public function getOAuth()
     {
@@ -5039,9 +5064,9 @@ class PHPMailer
     }
 
     /**
-     * Set an OAuth instance.
+     * Set an OAuthTokenProvider instance.
      */
-    public function setOAuth(OAuth $oauth)
+    public function setOAuth(OAuthTokenProvider $oauth)
     {
         $this->oauth = $oauth;
     }
