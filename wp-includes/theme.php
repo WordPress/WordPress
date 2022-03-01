@@ -3037,9 +3037,10 @@ function current_theme_supports( $feature, ...$args ) {
 		return false;
 	}
 
-	// If no args passed then no extra checks need be performed.
+	// If no args passed then no extra checks need to be performed.
 	if ( ! $args ) {
-		return true;
+		/** This filter is documented in wp-includes/theme.php */
+		return apply_filters( "current_theme_supports-{$feature}", true, $args, $_wp_theme_features[ $feature ] ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 	}
 
 	switch ( $feature ) {
