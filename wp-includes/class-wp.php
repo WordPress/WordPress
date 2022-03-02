@@ -129,6 +129,7 @@ class WP {
 	 * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
 	 *
 	 * @param array|string $extra_query_vars Set the extra query variables.
+	 * @return bool Whether the request was parsed.
 	 */
 	public function parse_request( $extra_query_vars = '' ) {
 		global $wp_rewrite;
@@ -143,7 +144,7 @@ class WP {
 		 * @param array|string $extra_query_vars Extra passed query variables.
 		 */
 		if ( ! apply_filters( 'do_parse_request', true, $this, $extra_query_vars ) ) {
-			return;
+			return false;
 		}
 
 		$this->query_vars     = array();
@@ -394,6 +395,8 @@ class WP {
 		 * @param WP $wp Current WordPress environment instance (passed by reference).
 		 */
 		do_action_ref_array( 'parse_request', array( &$this ) );
+
+		return true;
 	}
 
 	/**
@@ -755,12 +758,13 @@ class WP {
 	 */
 	public function main( $query_args = '' ) {
 		$this->init();
-		$this->parse_request( $query_args );
+		$parsed = $this->parse_request( $query_args );
 		$this->send_headers();
-		$this->query_posts();
-		$this->handle_404();
-		$this->register_globals();
-
+		if ( $parsed ) {
+			$this->query_posts();
+			$this->handle_404();
+			$this->register_globals();
+		}
 		/**
 		 * Fires once the WordPress environment has been set up.
 		 *
