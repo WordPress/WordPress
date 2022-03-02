@@ -125,6 +125,7 @@ class WP {
 	 * filters and actions that can be used to further manipulate the result.
 	 *
 	 * @since 2.0.0
+	 * @since 6.0.0 A return value was added.
 	 *
 	 * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
 	 *
@@ -758,13 +759,17 @@ class WP {
 	 */
 	public function main( $query_args = '' ) {
 		$this->init();
+
 		$parsed = $this->parse_request( $query_args );
+
 		$this->send_headers();
+
 		if ( $parsed ) {
 			$this->query_posts();
 			$this->handle_404();
 			$this->register_globals();
 		}
+
 		/**
 		 * Fires once the WordPress environment has been set up.
 		 *
