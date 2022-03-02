@@ -27,8 +27,8 @@ send_origin_headers();
 header( 'Content-Type: text/html; charset=' . get_option( 'blog_charset' ) );
 header( 'X-Robots-Tag: noindex' );
 
-// Require an action parameter.
-if ( empty( $_REQUEST['action'] ) ) {
+// Require a valid action parameter.
+if ( empty( $_REQUEST['action'] ) || ! is_scalar( $_REQUEST['action'] ) ) {
 	wp_die( '0', 400 );
 }
 
@@ -168,7 +168,7 @@ add_action( 'wp_ajax_nopriv_generate-password', 'wp_ajax_nopriv_generate_passwor
 
 add_action( 'wp_ajax_nopriv_heartbeat', 'wp_ajax_nopriv_heartbeat', 1 );
 
-$action = ( isset( $_REQUEST['action'] ) ) ? $_REQUEST['action'] : '';
+$action = $_REQUEST['action'];
 
 if ( is_user_logged_in() ) {
 	// If no action is registered, return a Bad Request response.
@@ -201,5 +201,6 @@ if ( is_user_logged_in() ) {
 	 */
 	do_action( "wp_ajax_nopriv_{$action}" );
 }
+
 // Default status.
 wp_die( '0' );
