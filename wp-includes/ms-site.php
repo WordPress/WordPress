@@ -136,7 +136,7 @@ function wp_insert_site( array $data ) {
 			'wpmu_new_blog',
 			array( $new_site->id, $user_id, $new_site->domain, $new_site->path, $new_site->network_id, $meta ),
 			'5.1.0',
-			'wp_insert_site'
+			'wp_initialize_site'
 		);
 	}
 
