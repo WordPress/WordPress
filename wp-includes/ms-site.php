@@ -123,7 +123,7 @@ function wp_insert_site( array $data ) {
 		 * Fires immediately after a new site is created.
 		 *
 		 * @since MU (3.0.0)
-		 * @deprecated 5.1.0 Use {@see 'wp_insert_site'} instead.
+		 * @deprecated 5.1.0 Use {@see 'wp_initialize_site'} instead.
 		 *
 		 * @param int    $site_id    Site ID.
 		 * @param int    $user_id    User ID.
