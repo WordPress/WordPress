@@ -2308,17 +2308,17 @@ function sanitize_title_with_dashes( $title, $raw_title = '', $context = 'displa
 				'%cc%84',
 				'%cc%8c',
 				// Non-visible characters that display without a width.
-				'%e2%80%8b',
-				'%e2%80%8c',
-				'%e2%80%8d',
-				'%e2%80%8e',
-				'%e2%80%8f',
-				'%e2%80%aa',
-				'%e2%80%ab',
-				'%e2%80%ac',
-				'%e2%80%ad',
-				'%e2%80%ae',
-				'%ef%bb%bf',
+				'%e2%80%8b', // Zero width space.
+				'%e2%80%8c', // Zero width non-joiner.
+				'%e2%80%8d', // Zero width joiner.
+				'%e2%80%8e', // Left-to-right mark.
+				'%e2%80%8f', // Right-to-left mark.
+				'%e2%80%aa', // Left-to-right embedding.
+				'%e2%80%ab', // Right-to-left embedding.
+				'%e2%80%ac', // Pop directional formatting.
+				'%e2%80%ad', // Left-to-right override.
+				'%e2%80%ae', // Right-to-left override.
+				'%ef%bb%bf', // Byte order mark.
 			),
 			'',
 			$title
@@ -2327,20 +2327,20 @@ function sanitize_title_with_dashes( $title, $raw_title = '', $context = 'displa
 		// Convert non-visible characters that display with a width to hyphen.
 		$title = str_replace(
 			array(
-				'%e2%80%80',
-				'%e2%80%81',
-				'%e2%80%82',
-				'%e2%80%83',
-				'%e2%80%84',
-				'%e2%80%85',
-				'%e2%80%86',
-				'%e2%80%87',
-				'%e2%80%88',
-				'%e2%80%89',
-				'%e2%80%8a',
-				'%e2%80%a8',
-				'%e2%80%a9',
-				'%e2%80%af',
+				'%e2%80%80', // En quad.
+				'%e2%80%81', // Em quad.
+				'%e2%80%82', // En space.
+				'%e2%80%83', // Em space.
+				'%e2%80%84', // Three-per-em space.
+				'%e2%80%85', // Four-per-em space.
+				'%e2%80%86', // Six-per-em space.
+				'%e2%80%87', // Figure space.
+				'%e2%80%88', // Punctuation space.
+				'%e2%80%89', // Thin space.
+				'%e2%80%8a', // Hair space.
+				'%e2%80%a8', // Line separator.
+				'%e2%80%a9', // Paragraph separator.
+				'%e2%80%af', // Narrow no-break space.
 			),
 			'-',
 			$title
