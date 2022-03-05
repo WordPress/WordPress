@@ -3563,16 +3563,22 @@ class WP_Query {
 
 		if ( $this->is_category || $this->is_tag || $this->is_tax ) {
 			if ( $this->is_category ) {
-				if ( $this->get( 'cat' ) ) {
-					$term = get_term( $this->get( 'cat' ), 'category' );
-				} elseif ( $this->get( 'category_name' ) ) {
-					$term = get_term_by( 'slug', $this->get( 'category_name' ), 'category' );
+				$cat           = $this->get( 'cat' );
+				$category_name = $this->get( 'category_name' );
+
+				if ( $cat ) {
+					$term = get_term( $cat, 'category' );
+				} elseif ( $category_name ) {
+					$term = get_term_by( 'slug', $category_name, 'category' );
 				}
 			} elseif ( $this->is_tag ) {
-				if ( $this->get( 'tag_id' ) ) {
-					$term = get_term( $this->get( 'tag_id' ), 'post_tag' );
-				} elseif ( $this->get( 'tag' ) ) {
-					$term = get_term_by( 'slug', $this->get( 'tag' ), 'post_tag' );
+				$tag_id = $this->get( 'tag_id' );
+				$tag    = $this->get( 'tag' );
+
+				if ( $tag_id ) {
+					$term = get_term( $tag_id, 'post_tag' );
+				} elseif ( $tag ) {
+					$term = get_term_by( 'slug', $tag, 'post_tag' );
 				}
 			} else {
 				// For other tax queries, grab the first term from the first clause.
@@ -3601,20 +3607,35 @@ class WP_Query {
 			}
 		} elseif ( $this->is_post_type_archive ) {
 			$post_type = $this->get( 'post_type' );
+
 			if ( is_array( $post_type ) ) {
 				$post_type = reset( $post_type );
 			}
+
 			$this->queried_object = get_post_type_object( $post_type );
 		} elseif ( $this->is_posts_page ) {
-			$page_for_posts          = get_option( 'page_for_posts' );
+			$page_for_posts = get_option( 'page_for_posts' );
+
 			$this->queried_object    = get_post( $page_for_posts );
 			$this->queried_object_id = (int) $this->queried_object->ID;
 		} elseif ( $this->is_singular && ! empty( $this->post ) ) {
 			$this->queried_object    = $this->post;
 			$this->queried_object_id = (int) $this->post->ID;
 		} elseif ( $this->is_author ) {
-			$this->queried_object_id = (int) $this->get( 'author' );
-			$this->queried_object    = get_userdata( $this->queried_object_id );
+			$author      = (int) $this->get( 'author' );
+			$author_name = $this->get( 'author_name' );
+
+			if ( $author ) {
+				$this->queried_object_id = $author;
+			} elseif ( $author_name ) {
+				$user = get_user_by( 'slug', $author_name );
+
+				if ( $user ) {
+					$this->queried_object_id = $user->ID;
+				}
+			}
+
+			$this->queried_object = get_userdata( $this->queried_object_id );
 		}
 
 		return $this->queried_object;
