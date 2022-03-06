@@ -542,6 +542,10 @@ class WP_User {
 			return;
 		}
 
+		if ( in_array( $role, $this->roles, true ) ) {
+			return;
+		}
+
 		$this->caps[ $role ] = true;
 		update_user_meta( $this->ID, $this->cap_key, $this->caps );
 		$this->get_role_caps();
@@ -569,6 +573,7 @@ class WP_User {
 		if ( ! in_array( $role, $this->roles, true ) ) {
 			return;
 		}
+
 		unset( $this->caps[ $role ] );
 		update_user_meta( $this->ID, $this->cap_key, $this->caps );
 		$this->get_role_caps();
@@ -606,15 +611,31 @@ class WP_User {
 		}
 
 		$old_roles = $this->roles;
+
 		if ( ! empty( $role ) ) {
 			$this->caps[ $role ] = true;
 			$this->roles         = array( $role => true );
 		} else {
-			$this->roles = false;
+			$this->roles = array();
 		}
+
 		update_user_meta( $this->ID, $this->cap_key, $this->caps );
 		$this->get_role_caps();
 		$this->update_user_level_from_caps();
+
+		foreach ( $old_roles as $old_role ) {
+			if ( ! $old_role || $old_role === $role ) {
+				continue;
+			}
+
+			/** This action is documented in wp-includes/class-wp-user.php */
+			do_action( 'remove_user_role', $this->ID, $old_role );
+		}
+
+		if ( $role && ! in_array( $role, $old_roles, true ) ) {
+			/** This action is documented in wp-includes/class-wp-user.php */
+			do_action( 'add_user_role', $this->ID, $role );
+		}
 
 		/**
 		 * Fires after the user's role has changed.
