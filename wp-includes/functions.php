@@ -2981,8 +2981,9 @@ function wp_get_default_extension_for_mime_type( $mime_type ) {
  * You can optionally define the mime array, if needed.
  *
  * @since 2.0.4
+ * @since 6.0.0 URLs are now supported.
  *
- * @param string   $filename File name or path.
+ * @param string   $filename File name, path, or URL.
  * @param string[] $mimes    Optional. Array of allowed mime types keyed by their file extension regex.
  * @return array {
  *     Values for the extension and mime type.
@@ -2997,6 +2998,15 @@ function wp_check_filetype( $filename, $mimes = null ) {
 	}
 	$type = false;
 	$ext  = false;
+
+	// Strip query args and fragment from filename to reveal extension.
+	$query_pos = strpos( $filename, '?' );
+
+	if ( false !== $query_pos ) {
+		$filename = substr_replace( $filename, '', $query_pos );
+	}
+
+	$filename = strip_fragment_from_url( $filename );
 
 	foreach ( $mimes as $ext_preg => $mime_match ) {
 		$ext_preg = '!\.(' . $ext_preg . ')$!i';
