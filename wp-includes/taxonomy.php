@@ -2937,8 +2937,8 @@ function wp_remove_object_terms( $object_id, $terms, $taxonomy ) {
 		 * @since 2.9.0
 		 * @since 4.7.0 Added the `$taxonomy` parameter.
 		 *
-		 * @param int   $object_id Object ID.
-		 * @param array $tt_ids    An array of term taxonomy IDs.
+		 * @param int    $object_id Object ID.
+		 * @param array  $tt_ids    An array of term taxonomy IDs.
 		 * @param string $taxonomy  Taxonomy slug.
 		 */
 		do_action( 'delete_term_relationships', $object_id, $tt_ids, $taxonomy );
