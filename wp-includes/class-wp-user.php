@@ -178,7 +178,7 @@ class WP_User {
 	}
 
 	/**
-	 * Return only the main user fields
+	 * Returns only the main user fields.
 	 *
 	 * @since 3.3.0
 	 * @since 4.4.0 Added 'ID' as an alias of 'id' for the `$field` parameter.
@@ -186,8 +186,8 @@ class WP_User {
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @param string     $field The field to query against: 'id', 'ID', 'slug', 'email' or 'login'.
-	 * @param string|int $value The field value
-	 * @return object|false Raw user object
+	 * @param string|int $value The field value.
+	 * @return object|false Raw user object.
 	 */
 	public static function get_data_by( $field, $value ) {
 		global $wpdb;
@@ -389,7 +389,7 @@ class WP_User {
 	}
 
 	/**
-	 * Determine whether the user exists in the database.
+	 * Determines whether the user exists in the database.
 	 *
 	 * @since 3.4.0
 	 *
@@ -400,7 +400,7 @@ class WP_User {
 	}
 
 	/**
-	 * Retrieve the value of a property or meta key.
+	 * Retrieves the value of a property or meta key.
 	 *
 	 * Retrieves from the users and usermeta table.
 	 *
@@ -414,13 +414,13 @@ class WP_User {
 	}
 
 	/**
-	 * Determine whether a property or meta key is set
+	 * Determines whether a property or meta key is set.
 	 *
 	 * Consults the users and usermeta tables.
 	 *
 	 * @since 3.3.0
 	 *
-	 * @param string $key Property
+	 * @param string $key Property.
 	 * @return bool
 	 */
 	public function has_prop( $key ) {
@@ -428,7 +428,7 @@ class WP_User {
 	}
 
 	/**
-	 * Return an array representation.
+	 * Returns an array representation.
 	 *
 	 * @since 3.5.0
 	 *
@@ -455,7 +455,7 @@ class WP_User {
 	}
 
 	/**
-	 * Set up capability object properties.
+	 * Sets up capability object properties.
 	 *
 	 * Will set the value for the 'cap_key' property to current database table
 	 * prefix, followed by 'capabilities'. Will then check to see if the
@@ -529,7 +529,7 @@ class WP_User {
 	}
 
 	/**
-	 * Add role to user.
+	 * Adds role to user.
 	 *
 	 * Updates the user's meta data option with capabilities and roles.
 	 *
@@ -563,7 +563,7 @@ class WP_User {
 	}
 
 	/**
-	 * Remove role from user.
+	 * Removes role from user.
 	 *
 	 * @since 2.0.0
 	 *
@@ -591,7 +591,7 @@ class WP_User {
 	}
 
 	/**
-	 * Set the role of the user.
+	 * Sets the role of the user.
 	 *
 	 * This will remove the previous roles of the user and assign the user the
 	 * new one. You can set the role to an empty string and it will remove all
@@ -651,7 +651,7 @@ class WP_User {
 	}
 
 	/**
-	 * Choose the maximum level the user has.
+	 * Chooses the maximum level the user has.
 	 *
 	 * Will compare the level from the $item parameter against the $max
 	 * parameter. If the item is incorrect, then just the $max parameter value
@@ -678,7 +678,7 @@ class WP_User {
 	}
 
 	/**
-	 * Update the maximum user level for the user.
+	 * Updates the maximum user level for the user.
 	 *
 	 * Updates the 'user_level' user metadata (includes prefix that is the
 	 * database table prefix) with the maximum user level. Gets the value from
@@ -695,7 +695,7 @@ class WP_User {
 	}
 
 	/**
-	 * Add capability and grant or deny access to capability.
+	 * Adds capability and grant or deny access to capability.
 	 *
 	 * @since 2.0.0
 	 *
@@ -710,7 +710,7 @@ class WP_User {
 	}
 
 	/**
-	 * Remove capability from user.
+	 * Removes capability from user.
 	 *
 	 * @since 2.0.0
 	 *
@@ -727,7 +727,7 @@ class WP_User {
 	}
 
 	/**
-	 * Remove all of the capabilities of the user.
+	 * Removes all of the capabilities of the user.
 	 *
 	 * @since 2.1.0
 	 *
@@ -824,7 +824,7 @@ class WP_User {
 	}
 
 	/**
-	 * Convert numeric level to level capability name.
+	 * Converts numeric level to level capability name.
 	 *
 	 * Prepends 'level_' to level number.
 	 *
@@ -838,7 +838,7 @@ class WP_User {
 	}
 
 	/**
-	 * Set the site to operate on. Defaults to the current site.
+	 * Sets the site to operate on. Defaults to the current site.
 	 *
 	 * @since 3.0.0
 	 * @deprecated 4.9.0 Use WP_User::for_site()
