@@ -368,7 +368,7 @@ class WP_REST_Post_Types_Controller extends WP_REST_Controller {
 							'type'        => 'boolean',
 						),
 						'show_in_nav_menus' => array(
-							'description' => __( 'Whether to make the post type is available for selection in navigation menus.' ),
+							'description' => __( 'Whether to make the post type available for selection in navigation menus.' ),
 							'type'        => 'boolean',
 						),
 					),
