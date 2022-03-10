@@ -517,9 +517,10 @@ function setPath(object, path, value) {
       // If key is empty string and next value is array, derive key from
       // the current length of the array.
       key = object.length.toString();
-    } // If the next key in the path is numeric (or empty string), it will be
-    // created as an array. Otherwise, it will be created as an object.
+    }
 
+    key = ['__proto__', 'constructor', 'prototype'].includes(key) ? key.toUpperCase() : key; // If the next key in the path is numeric (or empty string), it will be
+    // created as an array. Otherwise, it will be created as an object.
 
     const isNextKeyArrayIndex = !isNaN(Number(path[i + 1]));
     object[key] = i === lastIndex ? // If at end of path, assign the intended value.
@@ -570,7 +571,7 @@ function getQueryArgs(url) {
     }
 
     return accumulator;
-  }, {});
+  }, Object.create(null));
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/add-query-args.js
