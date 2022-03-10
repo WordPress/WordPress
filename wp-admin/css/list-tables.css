@@ -384,6 +384,23 @@ table.media .column-title .filename {
 	margin-bottom: 0.2em;
 }
 
+/* Media Copy to clipboard row action */
+.media .row-actions .copy-to-clipboard-container {
+	display: inline;
+	position: relative;
+}
+
+.media .row-actions .copy-to-clipboard-container .success {
+	position: absolute;
+	left: 50%;
+	transform: translate(-50%, -100%);
+	background: #000;
+	color: #fff;
+	border-radius: 5px;
+	margin: 0;
+	padding: 2px 5px;
+}
+
 /* @todo: pick a consistent list table selector */
 .wp-list-table a {
 	transition: none;
