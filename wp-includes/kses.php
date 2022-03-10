@@ -2201,12 +2201,14 @@ function kses_init_filters() {
 		add_filter( 'pre_comment_content', 'wp_filter_kses' );
 	}
 
+	// Global Styles filtering: Global Styles filters should be executed before normal post_kses HTML filters.
+	add_filter( 'content_save_pre', 'wp_filter_global_styles_post', 9 );
+	add_filter( 'content_filtered_save_pre', 'wp_filter_global_styles_post', 9 );
+
 	// Post filtering.
 	add_filter( 'content_save_pre', 'wp_filter_post_kses' );
-	add_filter( 'content_save_pre', 'wp_filter_global_styles_post' );
 	add_filter( 'excerpt_save_pre', 'wp_filter_post_kses' );
 	add_filter( 'content_filtered_save_pre', 'wp_filter_post_kses' );
-	add_filter( 'content_filtered_save_pre', 'wp_filter_global_styles_post' );
 }
 
 /**
@@ -2229,12 +2231,14 @@ function kses_remove_filters() {
 	remove_filter( 'pre_comment_content', 'wp_filter_post_kses' );
 	remove_filter( 'pre_comment_content', 'wp_filter_kses' );
 
+	// Global Styles filtering.
+	remove_filter( 'content_save_pre', 'wp_filter_global_styles_post', 9 );
+	remove_filter( 'content_filtered_save_pre', 'wp_filter_global_styles_post', 9 );
+
 	// Post filtering.
 	remove_filter( 'content_save_pre', 'wp_filter_post_kses' );
-	remove_filter( 'content_save_pre', 'wp_filter_global_styles_post' );
 	remove_filter( 'excerpt_save_pre', 'wp_filter_post_kses' );
 	remove_filter( 'content_filtered_save_pre', 'wp_filter_post_kses' );
-	remove_filter( 'content_filtered_save_pre', 'wp_filter_global_styles_post' );
 }
 
 /**
