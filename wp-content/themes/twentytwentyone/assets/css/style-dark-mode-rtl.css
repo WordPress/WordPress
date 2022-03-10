@@ -49,7 +49,6 @@
 		position: fixed;
 		bottom: 5px;
 		left: 5px;
-		transition: bottom 0.5s;
 	}
 
 	#dark-mode-toggler.fixed-bottom.hide:not(:focus) {
@@ -104,5 +103,11 @@
 
 	.is-IE #dark-mode-toggler {
 		display: none;
+	}
+}
+@media only screen and (prefers-reduced-motion: no-preference) {
+
+	#dark-mode-toggler.fixed-bottom {
+		transition: bottom 0.5s;
 	}
 }

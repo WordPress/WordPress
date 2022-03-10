@@ -46,9 +46,8 @@
 
 		&.fixed-bottom {
 			position: fixed;
-			bottom: 5px;
+			bottom: 5px; // The bottom property has transition (see below).
 			right: 5px;
-			transition: bottom 0.5s;
 
 			&.hide:not(:focus) {
 				bottom: -80px;
@@ -96,6 +95,12 @@
 
 		.is-IE & {
 			display: none;
+		}
+
+		&.fixed-bottom {
+			@media (prefers-reduced-motion: no-preference) {
+				transition: bottom 0.5s;
+			}
 		}
 	}
 }
