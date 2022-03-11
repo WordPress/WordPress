@@ -162,7 +162,7 @@ function get_default_block_template_types() {
 			'description' => __( 'Displays latest posts with a single post tag.' ),
 		),
 		'attachment'     => array(
-			'title'       => __( 'Media' ),
+			'title'       => __( 'Attachment' ),
 			'description' => __( 'Displays individual media items or attachments.' ),
 		),
 		'search'         => array(
