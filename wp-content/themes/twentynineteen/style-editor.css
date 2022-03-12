@@ -605,6 +605,7 @@ body .wp-block.aligncenter {
 }
 
 @media only screen and (min-width: 768px) {
+  body.block-editor-writing-flow,
   body .block-editor-writing-flow {
     max-width: 80%;
     margin: 0 10%;

@@ -36,6 +36,7 @@ body {
 
 	@include media(tablet) {
 
+		&.block-editor-writing-flow,
 		.block-editor-writing-flow {
 			max-width: 80%;
 			margin: 0 10%;
