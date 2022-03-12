@@ -5859,13 +5859,19 @@ body.page .main-navigation {
 }
 
 @media only screen and (min-width: 768px) {
-  .entry .entry-content .wp-block-image:not(.alignwide):not(.alignfull) > img {
+  .entry .entry-content .wp-block-image:not(.alignwide):not(.alignfull) > img,
+  .entry .entry-content .wp-block-image:not(.alignwide):not(.alignfull) > a > img,
+  .entry .entry-content .wp-block-image:not(.alignwide):not(.alignfull) > img + figcaption,
+  .entry .entry-content .wp-block-image:not(.alignwide):not(.alignfull) > a + figcaption {
     max-width: calc(8 * (100vw / 12) - 28px);
   }
 }
 
 @media only screen and (min-width: 1168px) {
-  .entry .entry-content .wp-block-image:not(.alignwide):not(.alignfull) > img {
+  .entry .entry-content .wp-block-image:not(.alignwide):not(.alignfull) > img,
+  .entry .entry-content .wp-block-image:not(.alignwide):not(.alignfull) > a > img,
+  .entry .entry-content .wp-block-image:not(.alignwide):not(.alignfull) > img + figcaption,
+  .entry .entry-content .wp-block-image:not(.alignwide):not(.alignfull) > a + figcaption {
     max-width: calc(6 * (100vw / 12) - 28px);
   }
 }
@@ -6193,6 +6199,8 @@ body.page .main-navigation {
 }
 
 @media only screen and (min-width: 768px) {
+  .entry .entry-content .wp-block-columns .wp-block-image:not(.alignwide):not(.alignfull) > img,
+  .entry .entry-content .wp-block-columns .wp-block-image:not(.alignwide):not(.alignfull) > a > img,
   .entry .entry-content .wp-block-columns .wp-block-image > img:not(.alignwide):not(.alignfull),
   .entry .entry-content .wp-block-columns .wp-block-image > figure {
     max-width: 100%;
@@ -6200,6 +6208,8 @@ body.page .main-navigation {
 }
 
 @media only screen and (min-width: 1168px) {
+  .entry .entry-content .wp-block-columns .wp-block-image:not(.alignwide):not(.alignfull) > img,
+  .entry .entry-content .wp-block-columns .wp-block-image:not(.alignwide):not(.alignfull) > a > img,
   .entry .entry-content .wp-block-columns .wp-block-image > img:not(.alignwide):not(.alignfull),
   .entry .entry-content .wp-block-columns .wp-block-image > figure {
     max-width: 100%;
