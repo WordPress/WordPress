@@ -924,8 +924,7 @@ final class WP_Theme implements ArrayAccess {
 			case 'Tags':
 				static $comma = null;
 				if ( ! isset( $comma ) ) {
-					/* translators: Used between list items, there is a space after the comma. */
-					$comma = __( ', ' );
+					$comma = wp_get_list_item_separator();
 				}
 				$value = implode( $comma, $value );
 				break;

@@ -82,8 +82,7 @@ if ( ! function_exists( 'twentynineteen_entry_footer' ) ) :
 			// Posted on.
 			twentynineteen_posted_on();
 
-			/* translators: Used between list items, there is a space after the comma. */
-			$categories_list = get_the_category_list( __( ', ', 'twentynineteen' ) );
+			$categories_list = get_the_category_list( wp_get_list_item_separator() );
 			if ( $categories_list ) {
 				printf(
 					/* translators: 1: SVG icon. 2: Posted in label, only visible to screen readers. 3: List of categories. */
@@ -94,8 +93,7 @@ if ( ! function_exists( 'twentynineteen_entry_footer' ) ) :
 				); // WPCS: XSS OK.
 			}
 
-			/* translators: Used between list items, there is a space after the comma. */
-			$tags_list = get_the_tag_list( '', __( ', ', 'twentynineteen' ) );
+			$tags_list = get_the_tag_list( '', wp_get_list_item_separator() );
 			if ( $tags_list && ! is_wp_error( $tags_list ) ) {
 				printf(
 					/* translators: 1: SVG icon. 2: Posted in label, only visible to screen readers. 3: List of tags. */

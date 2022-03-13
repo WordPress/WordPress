@@ -1294,8 +1294,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 				 */
 				$term_links = apply_filters( 'post_column_taxonomy_links', $term_links, $taxonomy, $terms );
 
-				/* translators: Used between list items, there is a space after the comma. */
-				echo implode( __( ', ' ), $term_links );
+				echo implode( wp_get_list_item_separator(), $term_links );
 			} else {
 				echo '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">' . $taxonomy_object->labels->no_terms . '</span>';
 			}

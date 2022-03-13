@@ -96,6 +96,14 @@ class WP_Locale {
 	public $number_format;
 
 	/**
+	 * The separator string used for localizing list item separator.
+	 *
+	 * @since 6.0.0
+	 * @var string
+	 */
+	public $list_item_separator;
+
+	/**
 	 * Constructor which calls helper methods to set up object variables.
 	 *
 	 * @since 2.1.0
@@ -208,6 +216,9 @@ class WP_Locale {
 		$decimal_point = __( 'number_format_decimal_point' );
 
 		$this->number_format['decimal_point'] = ( 'number_format_decimal_point' === $decimal_point ) ? '.' : $decimal_point;
+
+		/* translators: used between list items, there is a space after the comma */
+		$this->list_item_separator = __( ', ' );
 
 		// Set text direction.
 		if ( isset( $GLOBALS['text_direction'] ) ) {
@@ -365,5 +376,16 @@ class WP_Locale {
 		__( 'g:i a' );
 		/* translators: Localized date and time format, see https://www.php.net/manual/datetime.format.php */
 		__( 'F j, Y g:i a' );
+	}
+
+	/**
+	 * Retrieve the localized list item separator.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @return string Localized list item separator.
+	 */
+	public function get_list_item_separator() {
+		return $this->list_item_separator;
 	}
 }

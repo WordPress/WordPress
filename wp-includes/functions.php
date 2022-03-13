@@ -8371,3 +8371,17 @@ function is_php_version_compatible( $required ) {
 function wp_fuzzy_number_match( $expected, $actual, $precision = 1 ) {
 	return abs( (float) $expected - (float) $actual ) <= $precision;
 }
+
+/**
+ * Retrieves the list item separator based on the locale.
+ *
+ * @since 6.0.0
+ *
+ * @global WP_Locale $wp_locale WordPress date and time locale object.
+ *
+ * @return string Locale specific list item separator.
+ */
+function wp_get_list_item_separator() {
+	global $wp_locale;
+	return $wp_locale->get_list_item_separator();
+}
