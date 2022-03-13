@@ -231,7 +231,7 @@ class WP_Locale {
 	}
 
 	/**
-	 * Retrieve the full translated weekday word.
+	 * Retrieves the full translated weekday word.
 	 *
 	 * Week starts on translated Sunday and can be fetched
 	 * by using 0 (zero). So the week starts with 0 (zero)
@@ -247,7 +247,7 @@ class WP_Locale {
 	}
 
 	/**
-	 * Retrieve the translated weekday initial.
+	 * Retrieves the translated weekday initial.
 	 *
 	 * The weekday initial is retrieved by the translated
 	 * full weekday word. When translating the weekday initial
@@ -264,7 +264,7 @@ class WP_Locale {
 	}
 
 	/**
-	 * Retrieve the translated weekday abbreviation.
+	 * Retrieves the translated weekday abbreviation.
 	 *
 	 * The weekday abbreviation is retrieved by the translated
 	 * full weekday word.
@@ -279,7 +279,7 @@ class WP_Locale {
 	}
 
 	/**
-	 * Retrieve the full translated month by month number.
+	 * Retrieves the full translated month by month number.
 	 *
 	 * The $month_number parameter has to be a string
 	 * because it must have the '0' in front of any number
@@ -299,7 +299,7 @@ class WP_Locale {
 	}
 
 	/**
-	 * Retrieve translated version of month abbreviation string.
+	 * Retrieves translated version of month abbreviation string.
 	 *
 	 * The $month_name parameter is expected to be the translated or
 	 * translatable version of the month.
@@ -314,7 +314,7 @@ class WP_Locale {
 	}
 
 	/**
-	 * Retrieve translated version of meridiem string.
+	 * Retrieves translated version of meridiem string.
 	 *
 	 * The $meridiem parameter is expected to not be translated.
 	 *
@@ -361,7 +361,7 @@ class WP_Locale {
 	}
 
 	/**
-	 * Register date/time format strings for general POT.
+	 * Registers date/time format strings for general POT.
 	 *
 	 * Private, unused method to add some date/time formats translated
 	 * on wp-admin/options-general.php to the general POT that would
@@ -379,7 +379,7 @@ class WP_Locale {
 	}
 
 	/**
-	 * Retrieve the localized list item separator.
+	 * Retrieves the localized list item separator.
 	 *
 	 * @since 6.0.0
 	 *
