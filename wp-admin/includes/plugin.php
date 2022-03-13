@@ -215,7 +215,7 @@ function _get_plugin_data_markup_translate( $plugin_file, $plugin_data, $markup 
 }
 
 /**
- * Get a list of a plugin's files.
+ * Gets a list of a plugin's files.
  *
  * @since 2.8.0
  *
@@ -250,7 +250,7 @@ function get_plugin_files( $plugin ) {
 }
 
 /**
- * Check the plugins directory and retrieve all plugin files with plugin data.
+ * Checks the plugins directory and retrieve all plugin files with plugin data.
  *
  * WordPress only supports plugin files in the base plugins directory
  * (wp-content/plugins) and in one directory above the plugins directory
@@ -350,7 +350,7 @@ function get_plugins( $plugin_folder = '' ) {
 }
 
 /**
- * Check the mu-plugins directory and retrieve all mu-plugin files with any plugin data.
+ * Checks the mu-plugins directory and retrieve all mu-plugin files with any plugin data.
  *
  * WordPress only includes mu-plugin files in the base mu-plugins directory (wp-content/mu-plugins).
  *
@@ -409,7 +409,7 @@ function get_mu_plugins() {
 }
 
 /**
- * Callback to sort array by a 'Name' key.
+ * Declares a callback to sort array by a 'Name' key.
  *
  * @since 3.1.0
  *
@@ -424,7 +424,7 @@ function _sort_uname_callback( $a, $b ) {
 }
 
 /**
- * Check the wp-content directory and retrieve all drop-ins with any plugin data.
+ * Checks the wp-content directory and retrieve all drop-ins with any plugin data.
  *
  * @since 3.0.0
  * @return array[] Array of arrays of dropin plugin data, keyed by plugin file name. See `get_plugin_data()`.
@@ -728,7 +728,7 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false, $silen
 }
 
 /**
- * Deactivate a single plugin or multiple plugins.
+ * Deactivates a single plugin or multiple plugins.
  *
  * The deactivation hook is disabled by the plugin upgrader by using the $silent
  * parameter.
@@ -836,7 +836,7 @@ function deactivate_plugins( $plugins, $silent = false, $network_wide = null ) {
 }
 
 /**
- * Activate multiple plugins.
+ * Activates multiple plugins.
  *
  * When WP_Error is returned, it does not mean that one of the plugins had
  * errors. It means that one or more of the plugin file paths were invalid.
@@ -876,7 +876,7 @@ function activate_plugins( $plugins, $redirect = '', $network_wide = false, $sil
 }
 
 /**
- * Remove directory and files of a plugin for a list of plugins.
+ * Removes directory and files of a plugin for a list of plugins.
  *
  * @since 2.6.0
  *
@@ -1041,7 +1041,7 @@ function delete_plugins( $plugins, $deprecated = '' ) {
 }
 
 /**
- * Validate active plugins
+ * Validates active plugins.
  *
  * Validate all active plugins, deactivates invalid and
  * returns an array of deactivated ones.
@@ -1080,7 +1080,7 @@ function validate_active_plugins() {
 }
 
 /**
- * Validate the plugin path.
+ * Validates the plugin path.
  *
  * Checks that the main plugin file exists and is a valid plugin. See validate_file().
  *
@@ -1182,7 +1182,7 @@ function validate_plugin_requirements( $plugin ) {
 }
 
 /**
- * Whether the plugin can be uninstalled.
+ * Determines whether the plugin can be uninstalled.
  *
  * @since 2.7.0
  *
@@ -1201,7 +1201,7 @@ function is_uninstallable_plugin( $plugin ) {
 }
 
 /**
- * Uninstall a single plugin.
+ * Uninstalls a single plugin.
  *
  * Calls the uninstall hook, if it is available.
  *
@@ -2259,7 +2259,7 @@ function remove_allowed_options( $del_options, $options = '' ) {
 }
 
 /**
- * Output nonce, action, and option_page fields for a settings page.
+ * Outputs nonce, action, and option_page fields for a settings page.
  *
  * @since 2.7.0
  *
@@ -2287,7 +2287,7 @@ function wp_clean_plugins_cache( $clear_update_cache = true ) {
 }
 
 /**
- * Load a given plugin attempt to generate errors.
+ * Loads a given plugin attempt to generate errors.
  *
  * @since 3.0.0
  * @since 4.4.0 Function was moved into the `wp-admin/includes/plugin.php` file.
@@ -2304,7 +2304,7 @@ function plugin_sandbox_scrape( $plugin ) {
 }
 
 /**
- * Helper function for adding content to the Privacy Policy Guide.
+ * Declares an helper function for adding content to the Privacy Policy Guide.
  *
  * Plugins and themes should suggest text for inclusion in the site's privacy policy.
  * The suggested text should contain information about any functionality that affects user privacy,

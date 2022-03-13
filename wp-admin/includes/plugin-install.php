@@ -235,7 +235,7 @@ function plugins_api( $action, $args = array() ) {
 }
 
 /**
- * Retrieve popular WordPress plugin tags.
+ * Retrieves popular WordPress plugin tags.
  *
  * @since 2.7.0
  *
@@ -261,6 +261,8 @@ function install_popular_tags( $args = array() ) {
 }
 
 /**
+ * Displays plugin install dashboard.
+ *
  * @since 2.7.0
  */
 function install_dashboard() {
@@ -342,7 +344,7 @@ function install_search_form( $deprecated = true ) {
 }
 
 /**
- * Upload from zip
+ * Displays a form to upload plugins from zip files.
  *
  * @since 2.8.0
  */
@@ -361,7 +363,7 @@ function install_plugins_upload() {
 }
 
 /**
- * Show a username form for the favorites page
+ * Shows a username form for the favorites page.
  *
  * @since 3.5.0
  */
@@ -383,7 +385,7 @@ function install_plugins_favorites_form() {
 }
 
 /**
- * Display plugin content based on plugin list.
+ * Displays plugin content based on plugin list.
  *
  * @since 2.7.0
  *
@@ -418,7 +420,7 @@ function display_plugins_table() {
 }
 
 /**
- * Determine the status we can perform on a plugin.
+ * Determines the status we can perform on a plugin.
  *
  * @since 3.0.0
  *
@@ -508,7 +510,7 @@ function install_plugin_install_status( $api, $loop = false ) {
 }
 
 /**
- * Display plugin information in dialog box form.
+ * Displays plugin information in dialog box form.
  *
  * @since 2.7.0
  *
