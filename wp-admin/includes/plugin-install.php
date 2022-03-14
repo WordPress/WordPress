@@ -261,7 +261,7 @@ function install_popular_tags( $args = array() ) {
 }
 
 /**
- * Displays plugin install dashboard.
+ * Displays the Featured tab of Add Plugins screen.
  *
  * @since 2.7.0
  */

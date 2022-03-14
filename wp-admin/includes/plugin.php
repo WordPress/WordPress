@@ -2304,7 +2304,7 @@ function plugin_sandbox_scrape( $plugin ) {
 }
 
 /**
- * Declares an helper function for adding content to the Privacy Policy Guide.
+ * Declares a helper function for adding content to the Privacy Policy Guide.
  *
  * Plugins and themes should suggest text for inclusion in the site's privacy policy.
  * The suggested text should contain information about any functionality that affects user privacy,
