@@ -39,7 +39,7 @@ function has_post_thumbnail( $post = null ) {
 }
 
 /**
- * Retrieve post thumbnail ID.
+ * Retrieves the post thumbnail ID.
  *
  * @since 2.9.0
  * @since 4.4.0 `$post` can be a post ID or WP_Post object.
@@ -60,7 +60,7 @@ function get_post_thumbnail_id( $post = null ) {
 	$thumbnail_id = (int) get_post_meta( $post->ID, '_thumbnail_id', true );
 
 	/**
-	 * Filters post thumbnail ID.
+	 * Filters the post thumbnail ID.
 	 *
 	 * @since 5.9.0
 	 *
@@ -71,7 +71,7 @@ function get_post_thumbnail_id( $post = null ) {
 }
 
 /**
- * Display the post thumbnail.
+ * Displays the post thumbnail.
  *
  * When a theme adds 'post-thumbnail' support, a special 'post-thumbnail' image size
  * is registered, which differs from the 'thumbnail' image size managed via the
@@ -93,7 +93,7 @@ function the_post_thumbnail( $size = 'post-thumbnail', $attr = '' ) {
 }
 
 /**
- * Update cache for thumbnails in the current loop.
+ * Updates cache for thumbnails in the current loop.
  *
  * @since 3.2.0
  *
@@ -127,7 +127,7 @@ function update_post_thumbnail_cache( $wp_query = null ) {
 }
 
 /**
- * Retrieve the post thumbnail.
+ * Retrieves the post thumbnail.
  *
  * When a theme adds 'post-thumbnail' support, a special 'post-thumbnail' image size
  * is registered, which differs from the 'thumbnail' image size managed via the
@@ -233,7 +233,7 @@ function get_the_post_thumbnail( $post = null, $size = 'post-thumbnail', $attr =
 }
 
 /**
- * Return the post thumbnail URL.
+ * Returns the post thumbnail URL.
  *
  * @since 4.4.0
  *
@@ -266,7 +266,7 @@ function get_the_post_thumbnail_url( $post = null, $size = 'post-thumbnail' ) {
 }
 
 /**
- * Display the post thumbnail URL.
+ * Displays the post thumbnail URL.
  *
  * @since 4.4.0
  *

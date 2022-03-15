@@ -9,7 +9,7 @@
  */
 
 /**
- * Display the ID of the current item in the WordPress Loop.
+ * Displays the ID of the current item in the WordPress Loop.
  *
  * @since 0.71
  */
@@ -18,7 +18,7 @@ function the_ID() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionNam
 }
 
 /**
- * Retrieve the ID of the current item in the WordPress Loop.
+ * Retrieves the ID of the current item in the WordPress Loop.
  *
  * @since 2.1.0
  *
@@ -30,7 +30,7 @@ function get_the_ID() { // phpcs:ignore WordPress.NamingConventions.ValidFunctio
 }
 
 /**
- * Display or retrieve the current post title with optional markup.
+ * Displays or retrieves the current post title with optional markup.
  *
  * @since 0.71
  *
@@ -56,7 +56,7 @@ function the_title( $before = '', $after = '', $echo = true ) {
 }
 
 /**
- * Sanitize the current title when retrieving or displaying.
+ * Sanitizes the current title when retrieving or displaying.
  *
  * Works like the_title(), except the parameters can be in a string or
  * an array. See the function for what can be override in the $args parameter.
@@ -103,11 +103,11 @@ function the_title_attribute( $args = '' ) {
 }
 
 /**
- * Retrieve post title.
+ * Retrieves the post title.
  *
  * If the post is protected and the visitor is not an admin, then "Protected"
- * will be displayed before the post title. If the post is private, then
- * "Private" will be located before the post title.
+ * will be inserted before the post title. If the post is private, then
+ * "Private" will be inserted before the post title.
  *
  * @since 0.71
  *
@@ -172,7 +172,7 @@ function get_the_title( $post = 0 ) {
 }
 
 /**
- * Display the Post Global Unique Identifier (guid).
+ * Displays the Post Global Unique Identifier (guid).
  *
  * The guid will appear to be a link, but should not be used as a link to the
  * post. The reason you should not use it as a link, is because of moving the
@@ -204,7 +204,7 @@ function the_guid( $post = 0 ) {
 }
 
 /**
- * Retrieve the Post Global Unique Identifier (guid).
+ * Retrieves the Post Global Unique Identifier (guid).
  *
  * The guid will appear to be a link, but should not be used as an link to the
  * post. The reason you should not use it as a link, is because of moving the
@@ -233,7 +233,7 @@ function get_the_guid( $post = 0 ) {
 }
 
 /**
- * Display the post content.
+ * Displays the post content.
  *
  * @since 0.71
  *
@@ -256,7 +256,7 @@ function the_content( $more_link_text = null, $strip_teaser = false ) {
 }
 
 /**
- * Retrieve the post content.
+ * Retrieves the post content.
  *
  * @since 0.71
  * @since 5.2.0 Added the `$post` parameter.
@@ -376,7 +376,7 @@ function get_the_content( $more_link_text = null, $strip_teaser = false, $post =
 }
 
 /**
- * Display the post excerpt.
+ * Displays the post excerpt.
  *
  * @since 0.71
  */
@@ -839,7 +839,7 @@ function get_body_class( $class = '' ) {
 }
 
 /**
- * Whether post requires password and correct password has been provided.
+ * Determines whether the post requires password and whether a correct password has been provided.
  *
  * @since 2.7.0
  *
@@ -1063,7 +1063,7 @@ function _wp_link_page( $i ) {
 //
 
 /**
- * Retrieve post custom meta data field.
+ * Retrieves post custom meta data field.
  *
  * @since 1.5.0
  *
@@ -1084,7 +1084,7 @@ function post_custom( $key = '' ) {
 }
 
 /**
- * Display a list of post custom fields.
+ * Displays a list of post custom fields.
  *
  * @since 1.2.0
  *
@@ -1133,7 +1133,7 @@ function the_meta() {
 //
 
 /**
- * Retrieve or display a list of pages as a dropdown (select list).
+ * Retrieves or displays a list of pages as a dropdown (select list).
  *
  * @since 2.1.0
  * @since 4.2.0 The `$value_field` argument was added.
@@ -1224,7 +1224,7 @@ function wp_dropdown_pages( $args = '' ) {
 }
 
 /**
- * Retrieve or display a list of pages (or hierarchical post type items) in list (li) format.
+ * Retrieves or displays a list of pages (or hierarchical post type items) in list (li) format.
  *
  * @since 1.5.0
  * @since 4.7.0 Added the `item_spacing` argument.
@@ -1513,7 +1513,7 @@ function wp_page_menu( $args = array() ) {
 //
 
 /**
- * Retrieve HTML list content for page list.
+ * Retrieves HTML list content for page list.
  *
  * @uses Walker_Page to create HTML list content.
  * @since 2.1.0
@@ -1544,7 +1544,7 @@ function walk_page_tree( $pages, $depth, $current_page, $args ) {
 }
 
 /**
- * Retrieve HTML dropdown (select) content for page list.
+ * Retrieves HTML dropdown (select) content for page list.
  *
  * @since 2.1.0
  * @since 5.3.0 Formalized the existing `...$args` parameter by adding it
@@ -1574,7 +1574,7 @@ function walk_page_dropdown_tree( ...$args ) {
 //
 
 /**
- * Display an attachment page link using an image or icon.
+ * Displays an attachment page link using an image or icon.
  *
  * @since 2.0.0
  *
@@ -1596,7 +1596,7 @@ function the_attachment_link( $id = 0, $fullsize = false, $deprecated = false, $
 }
 
 /**
- * Retrieve an attachment page link using an image or icon, if possible.
+ * Retrieves an attachment page link using an image or icon, if possible.
  *
  * @since 2.5.0
  * @since 4.4.0 The `$id` parameter can now accept either a post ID or `WP_Post` object.
@@ -1658,7 +1658,7 @@ function wp_get_attachment_link( $id = 0, $size = 'thumbnail', $permalink = fals
 }
 
 /**
- * Wrap attachment in paragraph tag before content.
+ * Wraps attachment in paragraph tag before content.
  *
  * @since 2.0.0
  *
@@ -1711,7 +1711,7 @@ function prepend_attachment( $content ) {
 //
 
 /**
- * Retrieve protected post password form content.
+ * Retrieves protected post password form content.
  *
  * @since 1.0.0
  *
@@ -1743,7 +1743,7 @@ function get_the_password_form( $post = 0 ) {
 }
 
 /**
- * Determines whether currently in a page template.
+ * Determines whether the current post uses a page template.
  *
  * This template tag allows you to determine if you are in a page template.
  * You can optionally provide a template filename or array of template filenames
@@ -1787,7 +1787,7 @@ function is_page_template( $template = '' ) {
 }
 
 /**
- * Get the specific template filename for a given post.
+ * Gets the specific template filename for a given post.
  *
  * @since 3.4.0
  * @since 4.7.0 Now works with any post type, not just pages.
@@ -1813,7 +1813,7 @@ function get_page_template_slug( $post = null ) {
 }
 
 /**
- * Retrieve formatted date timestamp of a revision (linked to that revisions's page).
+ * Retrieves formatted date timestamp of a revision (linked to that revisions's page).
  *
  * @since 2.6.0
  *
@@ -1854,7 +1854,7 @@ function wp_post_revision_title( $revision, $link = true ) {
 }
 
 /**
- * Retrieve formatted date timestamp of a revision (linked to that revisions's page).
+ * Retrieves formatted date timestamp of a revision (linked to that revisions's page).
  *
  * @since 3.6.0
  *
@@ -1918,7 +1918,7 @@ function wp_post_revision_title_expanded( $revision, $link = true ) {
 }
 
 /**
- * Display a list of a post's revisions.
+ * Displays a list of a post's revisions.
  *
  * Can output either a UL with edit links or a TABLE with diff interface, and
  * restore action links.
