@@ -599,8 +599,7 @@ class WP_Scripts extends WP_Dependencies {
 		$json_translations = load_script_textdomain( $handle, $domain, $path );
 
 		if ( ! $json_translations ) {
-			// Register empty locale data object to ensure the domain still exists.
-			$json_translations = '{ "locale_data": { "messages": { "": {} } } }';
+			return false;
 		}
 
 		$output = <<<JS
