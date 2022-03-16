@@ -338,10 +338,15 @@ final class WP_Theme implements ArrayAccess {
 
 		if ( ! $this->template ) {
 			$this->template = $this->stylesheet;
-			if ( ! file_exists( $this->theme_root . '/' . $this->stylesheet . '/index.php' ) ) {
+			$theme_path     = $this->theme_root . '/' . $this->stylesheet;
+
+			if ( ! file_exists( $theme_path . '/templates/index.html' )
+				&& ! file_exists( $theme_path . '/index.php' )
+			) {
 				$error_message = sprintf(
-					/* translators: 1: index.php, 2: Documentation URL, 3: style.css */
-					__( 'Template is missing. Standalone themes need to have a %1$s template file. <a href="%2$s">Child themes</a> need to have a Template header in the %3$s stylesheet.' ),
+					/* translators: 1: templates/index.html, 2: index.php, 3: Documentation URL, 4: style.css */
+					__( 'Template is missing. Standalone themes need to have a %1$s or %2$s template file. <a href="%3$s">Child themes</a> need to have a Template header in the %4$s stylesheet.' ),
+					'<code>templates/index.html</code>',
 					'<code>index.php</code>',
 					__( 'https://developer.wordpress.org/themes/advanced-topics/child-themes/' ),
 					'<code>style.css</code>'

@@ -830,7 +830,10 @@ function switch_theme( $stylesheet ) {
 }
 
 /**
- * Checks that the active theme has 'index.php' and 'style.css' files.
+ * Checks that the active theme has the required files.
+ *
+ * Standalone themes need to have a `templates/index.html` or `index.php` template file.
+ * Child themes need to have a `Template` header in the `style.css` stylesheet.
  *
  * Does not initially check the default theme, which is the fallback and should always exist.
  * But if it doesn't exist, it'll fall back to the latest core default theme that does exist.
@@ -840,6 +843,7 @@ function switch_theme( $stylesheet ) {
  * this functionality.
  *
  * @since 1.5.0
+ * @since 6.0.0 Removed the requirement for block themes to have an `index.php` template.
  *
  * @see WP_DEFAULT_THEME
  *
@@ -857,7 +861,9 @@ function validate_current_theme() {
 		return true;
 	}
 
-	if ( ! file_exists( get_template_directory() . '/index.php' ) ) {
+	if ( ! file_exists( get_template_directory() . '/templates/index.html' )
+		&& ! file_exists( get_template_directory() . '/index.php' )
+	) {
 		// Invalid.
 	} elseif ( ! file_exists( get_template_directory() . '/style.css' ) ) {
 		// Invalid.
