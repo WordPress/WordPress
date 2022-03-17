@@ -422,10 +422,7 @@ function wp_login_viewport_meta() {
 	<?php
 }
 
-//
-// Main.
-//
-
+// Check request and redirect.
 $action = isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : 'login';
 $errors = new WP_Error();
 
@@ -1276,8 +1273,10 @@ switch ( $action ) {
 			if ( is_a( $user, 'WP_User' ) && $user->exists() && $user->has_cap( 'manage_options' ) ) {
 				$admin_email_lifespan = (int) get_option( 'admin_email_lifespan' );
 
-				// If `0` (or anything "falsey" as it is cast to int) is returned, the user will not be redirected
-				// to the admin email confirmation screen.
+				/*
+				 * If `0` (or anything "falsey" as it is cast to int) is returned, the user will not be redirected
+				 * to the admin email confirmation screen.
+				 */
 				/** This filter is documented in wp-login.php */
 				$admin_email_check_interval = (int) apply_filters( 'admin_email_check_interval', 6 * MONTH_IN_SECONDS );
 
