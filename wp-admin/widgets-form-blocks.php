@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 $current_screen = get_current_screen();
 $current_screen->is_block_editor( true );
 
-$block_editor_context = new WP_Block_Editor_Context();
+$block_editor_context = new WP_Block_Editor_Context( array( 'name' => 'core/edit-widgets' ) );
 
 $preload_paths = array(
 	array( rest_get_route_for_post_type_items( 'attachment' ), 'OPTIONS' ),

@@ -49,7 +49,7 @@ foreach ( get_default_block_template_types() as $slug => $template_type ) {
 	$indexed_template_types[] = $template_type;
 }
 
-$block_editor_context = new WP_Block_Editor_Context();
+$block_editor_context = new WP_Block_Editor_Context( array( 'name' => 'core/edit-site' ) );
 $custom_settings      = array(
 	'siteUrl'                              => site_url(),
 	'postsPerPage'                         => get_option( 'posts_per_page' ),
