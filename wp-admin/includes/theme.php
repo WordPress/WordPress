@@ -823,7 +823,7 @@ function customize_themes_print_templates() {
 			<div class="theme-about wp-clearfix">
 				<div class="theme-screenshots">
 				<# if ( data.screenshot && data.screenshot[0] ) { #>
-					<div class="screenshot"><img src="{{ data.screenshot[0] }}" alt="" /></div>
+					<div class="screenshot"><img src="{{ data.screenshot[0] }}?ver={{ data.version }}" alt="" /></div>
 				<# } else { #>
 					<div class="screenshot blank"></div>
 				<# } #>

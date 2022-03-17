@@ -74,7 +74,7 @@ class WP_Customize_Theme_Control extends WP_Customize_Control {
 
 			<# if ( data.theme.screenshot && data.theme.screenshot[0] ) { #>
 				<div class="theme-screenshot">
-					<img data-src="{{ data.theme.screenshot[0] }}" alt="" />
+					<img data-src="{{ data.theme.screenshot[0] }}?ver={{ data.theme.version }}" alt="" />
 				</div>
 			<# } else { #>
 				<div class="theme-screenshot blank"></div>

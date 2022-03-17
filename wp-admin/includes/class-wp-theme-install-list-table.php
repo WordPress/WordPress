@@ -359,7 +359,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 
 		?>
 		<a class="screenshot install-theme-preview" href="<?php echo esc_url( $preview_url ); ?>" title="<?php echo esc_attr( $preview_title ); ?>">
-			<img src="<?php echo esc_url( $theme->screenshot_url ); ?>" width="150" alt="" />
+			<img src="<?php echo esc_url( $theme->screenshot_url . '?ver=' . $theme->version ); ?>" width="150" alt="" />
 		</a>
 
 		<h3><?php echo $name; ?></h3>
@@ -502,7 +502,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 			?>
 			</span>
 			<?php if ( isset( $theme->screenshot_url ) ) : ?>
-				<img class="theme-screenshot" src="<?php echo esc_url( $theme->screenshot_url ); ?>" alt="" />
+				<img class="theme-screenshot" src="<?php echo esc_url( $theme->screenshot_url . '?ver=' . $theme->version ); ?>" alt="" />
 			<?php endif; ?>
 			<div class="theme-details">
 				<?php
