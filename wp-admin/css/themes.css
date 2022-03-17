@@ -172,6 +172,7 @@ body.js .theme-browser.search-loading {
 	border-radius: 3px;
 	border: none;
 	transition: opacity 0.1s ease-in-out;
+	cursor: pointer;
 }
 
 .theme-browser .theme .more-details:focus {
