@@ -388,7 +388,7 @@ foreach ( $themes as $theme ) :
 <div class="theme<?php echo $active_class; ?>">
 	<?php if ( ! empty( $theme['screenshot'][0] ) ) { ?>
 		<div class="theme-screenshot">
-			<img src="<?php echo esc_attr( $theme['screenshot'][0] . '?ver=' . $theme['version'] ); ?>" alt="" />
+			<img src="<?php echo esc_url( $theme['screenshot'][0] . '?ver=' . $theme['version'] ); ?>" alt="" />
 		</div>
 	<?php } else { ?>
 		<div class="theme-screenshot blank"></div>
