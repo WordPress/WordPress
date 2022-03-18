@@ -1977,9 +1977,6 @@ function wp_insert_user( $userdata ) {
 	 */
 	if ( ! empty( $userdata['user_nicename'] ) ) {
 		$user_nicename = sanitize_user( $userdata['user_nicename'], true );
-		if ( mb_strlen( $user_nicename ) > 50 ) {
-			return new WP_Error( 'user_nicename_too_long', __( 'Nicename may not be longer than 50 characters.' ) );
-		}
 	} else {
 		$user_nicename = mb_substr( $user_login, 0, 50 );
 	}
@@ -1994,6 +1991,10 @@ function wp_insert_user( $userdata ) {
 	 * @param string $user_nicename The user's nicename.
 	 */
 	$user_nicename = apply_filters( 'pre_user_nicename', $user_nicename );
+
+	if ( mb_strlen( $user_nicename ) > 50 ) {
+		return new WP_Error( 'user_nicename_too_long', __( 'Nicename may not be longer than 50 characters.' ) );
+	}
 
 	$user_nicename_check = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->users WHERE user_nicename = %s AND user_login != %s LIMIT 1", $user_nicename, $user_login ) );
 
