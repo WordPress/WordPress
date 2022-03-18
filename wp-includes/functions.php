@@ -441,11 +441,11 @@ function number_format_i18n( $number, $decimals = 0 ) {
 }
 
 /**
- * Convert number of bytes largest unit bytes will fit into.
+ * Converts a number of bytes to the largest unit the bytes will fit into.
  *
  * It is easier to read 1 KB than 1024 bytes and 1 MB than 1048576 bytes. Converts
  * number of bytes to human readable number by taking the number of that unit
- * that the bytes will go into it. Supports TB value.
+ * that the bytes will go into it. Supports YB value.
  *
  * Please note that integers in PHP are limited to 32 bits, unless they are on
  * 64 bit architecture, then they have 64 bit size. If you need to place the
@@ -455,6 +455,7 @@ function number_format_i18n( $number, $decimals = 0 ) {
  * Technically the correct unit names for powers of 1024 are KiB, MiB etc.
  *
  * @since 2.3.0
+ * @since 6.0.0 Support for PB, EB, ZB, and YB was added.
  *
  * @param int|string $bytes    Number of bytes. Note max integer size for integers.
  * @param int        $decimals Optional. Precision of number of decimal places. Default 0.
@@ -462,6 +463,14 @@ function number_format_i18n( $number, $decimals = 0 ) {
  */
 function size_format( $bytes, $decimals = 0 ) {
 	$quant = array(
+		/* translators: Unit symbol for yottabyte. */
+		_x( 'YB', 'unit symbol' ) => YB_IN_BYTES,
+		/* translators: Unit symbol for zettabyte. */
+		_x( 'ZB', 'unit symbol' ) => ZB_IN_BYTES,
+		/* translators: Unit symbol for exabyte. */
+		_x( 'EB', 'unit symbol' ) => EB_IN_BYTES,
+		/* translators: Unit symbol for petabyte. */
+		_x( 'PB', 'unit symbol' ) => PB_IN_BYTES,
 		/* translators: Unit symbol for terabyte. */
 		_x( 'TB', 'unit symbol' ) => TB_IN_BYTES,
 		/* translators: Unit symbol for gigabyte. */
