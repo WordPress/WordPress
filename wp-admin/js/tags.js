@@ -155,7 +155,7 @@ jQuery( function($) {
 				form.find( 'select#parent option:selected' ).after( '<option value="' + term.term_id + '">' + indent + term.name + '</option>' );
 			}
 
-			$('input[type="text"]:visible, textarea:visible', form).val('');
+			$('input:not([type="checkbox"]):not([type="radio"]):visible, textarea:visible', form).val('');
 		});
 
 		return false;
