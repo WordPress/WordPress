@@ -651,21 +651,19 @@ class Custom_Image_Header {
 			<?php submit_button( __( 'Upload' ), '', 'submit', false ); ?>
 	</p>
 			<?php
-				$modal_update_href = esc_url(
-					add_query_arg(
-						array(
-							'page' => 'custom-header',
-							'step' => 2,
-							'_wpnonce-custom-header-upload' => wp_create_nonce( 'custom-header-upload' ),
-						),
-						admin_url( 'themes.php' )
-					)
-				);
+			$modal_update_href = add_query_arg(
+				array(
+					'page'                          => 'custom-header',
+					'step'                          => 2,
+					'_wpnonce-custom-header-upload' => wp_create_nonce( 'custom-header-upload' ),
+				),
+				admin_url( 'themes.php' )
+			);
 			?>
 	<p>
 		<label for="choose-from-library-link"><?php _e( 'Or choose an image from your media library:' ); ?></label><br />
 		<button id="choose-from-library-link" class="button"
-			data-update-link="<?php echo esc_attr( $modal_update_href ); ?>"
+			data-update-link="<?php echo esc_url( $modal_update_href ); ?>"
 			data-choose="<?php esc_attr_e( 'Choose a Custom Header' ); ?>"
 			data-update="<?php esc_attr_e( 'Set as header' ); ?>"><?php _e( 'Choose Image' ); ?></button>
 	</p>

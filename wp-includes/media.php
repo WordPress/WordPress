@@ -393,7 +393,7 @@ function get_image_tag( $id, $alt, $title, $align, $size = 'medium' ) {
 	 */
 	$class = apply_filters( 'get_image_tag_class', $class, $id, $align, $size );
 
-	$html = '<img src="' . esc_attr( $img_src ) . '" alt="' . esc_attr( $alt ) . '" ' . $title . $hwstring . 'class="' . $class . '" />';
+	$html = '<img src="' . esc_url( $img_src ) . '" alt="' . esc_attr( $alt ) . '" ' . $title . $hwstring . 'class="' . $class . '" />';
 
 	/**
 	 * Filters the HTML content for the image tag.
