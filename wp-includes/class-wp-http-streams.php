@@ -206,12 +206,12 @@ class WP_Http_Streams {
 		stream_set_timeout( $handle, $timeout, $utimeout );
 
 		if ( $proxy->is_enabled() && $proxy->send_through_proxy( $url ) ) { // Some proxies require full URL in this field.
-			$requestPath = $url;
+			$request_path = $url;
 		} else {
-			$requestPath = $parsed_url['path'] . ( isset( $parsed_url['query'] ) ? '?' . $parsed_url['query'] : '' );
+			$request_path = $parsed_url['path'] . ( isset( $parsed_url['query'] ) ? '?' . $parsed_url['query'] : '' );
 		}
 
-		$strHeaders = strtoupper( $parsed_args['method'] ) . ' ' . $requestPath . ' HTTP/' . $parsed_args['httpversion'] . "\r\n";
+		$strHeaders = strtoupper( $parsed_args['method'] ) . ' ' . $request_path . ' HTTP/' . $parsed_args['httpversion'] . "\r\n";
 
 		$include_port_in_host_header = (
 			( $proxy->is_enabled() && $proxy->send_through_proxy( $url ) )
