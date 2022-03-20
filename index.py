@@ -14,7 +14,9 @@
  * @var bool
  */
 """
+define( "WP_USE_THEMS", true )
 const WP_USE_THEMS = True
 
 # /** Loads the WordPress Environment and Template */
-require __DIR__ . '/wp-blog-header.php';
+from . import wp_blog_header
+# require __DIR__ . '/wp-blog-header.php'
