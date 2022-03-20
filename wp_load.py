@@ -17,6 +17,7 @@
  * @package WordPress
  */
 """
+import os
 from pathlib import Path
 
 # /** Define ABSPATH as this file's directory */
@@ -53,11 +54,10 @@ if "error_reporting" in globals():
  */
 """
 
-if ( file_exists( ABSPATH . 'wp-config.php' ) ) {
-
-	/** The config file resides in ABSPATH */
-	require_once ABSPATH . 'wp-config.php';
-
+# if ( file_exists( ABSPATH . 'wp-config.php' ) ) {
+if os.path.isfile(ABSPATH, "/wp_config.py"):
+	# /** The config file resides in ABSPATH */
+	from ABSPATH import wp_config
 } elseif ( @file_exists( dirname( ABSPATH ) . '/wp-config.php' ) && ! @file_exists( dirname( ABSPATH ) . '/wp-settings.php' ) ) {
 
 	/** The config file resides one level above ABSPATH but is not part of another installation */
