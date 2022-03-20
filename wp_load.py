@@ -1,3 +1,4 @@
+"""
 <?php
 /**
  * Bootstrap file for setting the ABSPATH constant
@@ -15,11 +16,13 @@
  *
  * @package WordPress
  */
+"""
+from pathlib import Path
 
-/** Define ABSPATH as this file's directory */
-if ( ! defined( 'ABSPATH' ) ) {
-	define( 'ABSPATH', __DIR__ . '/' );
-}
+# /** Define ABSPATH as this file's directory */
+
+
+if not ABSPATH:ABSPATH = Path(__file__).resolve().parent
 
 /*
  * The error_reporting() function can be disabled in php.ini. On systems where that is the case,
