@@ -103,12 +103,12 @@ function get_the_category( $post_id = false ) {
  *
  * @since 0.71
  *
- * @param int $cat_ID Category ID.
+ * @param int $cat_id Category ID.
  * @return string|WP_Error Category name on success, WP_Error on failure.
  */
-function get_the_category_by_ID( $cat_ID ) { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
-	$cat_ID   = (int) $cat_ID;
-	$category = get_term( $cat_ID );
+function get_the_category_by_ID( $cat_id ) { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
+	$cat_id   = (int) $cat_id;
+	$category = get_term( $cat_id );
 
 	if ( is_wp_error( $category ) ) {
 		return $category;
