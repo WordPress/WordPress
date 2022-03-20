@@ -211,7 +211,7 @@ class WP_Http_Streams {
 			$request_path = $parsed_url['path'] . ( isset( $parsed_url['query'] ) ? '?' . $parsed_url['query'] : '' );
 		}
 
-		$strHeaders = strtoupper( $parsed_args['method'] ) . ' ' . $request_path . ' HTTP/' . $parsed_args['httpversion'] . "\r\n";
+		$headers = strtoupper( $parsed_args['method'] ) . ' ' . $request_path . ' HTTP/' . $parsed_args['httpversion'] . "\r\n";
 
 		$include_port_in_host_header = (
 			( $proxy->is_enabled() && $proxy->send_through_proxy( $url ) )
@@ -220,34 +220,34 @@ class WP_Http_Streams {
 		);
 
 		if ( $include_port_in_host_header ) {
-			$strHeaders .= 'Host: ' . $parsed_url['host'] . ':' . $parsed_url['port'] . "\r\n";
+			$headers .= 'Host: ' . $parsed_url['host'] . ':' . $parsed_url['port'] . "\r\n";
 		} else {
-			$strHeaders .= 'Host: ' . $parsed_url['host'] . "\r\n";
+			$headers .= 'Host: ' . $parsed_url['host'] . "\r\n";
 		}
 
 		if ( isset( $parsed_args['user-agent'] ) ) {
-			$strHeaders .= 'User-agent: ' . $parsed_args['user-agent'] . "\r\n";
+			$headers .= 'User-agent: ' . $parsed_args['user-agent'] . "\r\n";
 		}
 
 		if ( is_array( $parsed_args['headers'] ) ) {
 			foreach ( (array) $parsed_args['headers'] as $header => $headerValue ) {
-				$strHeaders .= $header . ': ' . $headerValue . "\r\n";
+				$headers .= $header . ': ' . $headerValue . "\r\n";
 			}
 		} else {
-			$strHeaders .= $parsed_args['headers'];
+			$headers .= $parsed_args['headers'];
 		}
 
 		if ( $proxy->use_authentication() ) {
-			$strHeaders .= $proxy->authentication_header() . "\r\n";
+			$headers .= $proxy->authentication_header() . "\r\n";
 		}
 
-		$strHeaders .= "\r\n";
+		$headers .= "\r\n";
 
 		if ( ! is_null( $parsed_args['body'] ) ) {
-			$strHeaders .= $parsed_args['body'];
+			$headers .= $parsed_args['body'];
 		}
 
-		fwrite( $handle, $strHeaders );
+		fwrite( $handle, $headers );
 
 		if ( ! $parsed_args['blocking'] ) {
 			stream_set_blocking( $handle, 0 );
