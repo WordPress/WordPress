@@ -264,7 +264,7 @@ class WP_Http_Streams {
 		}
 
 		$strResponse  = '';
-		$bodyStarted  = false;
+		$body_started = false;
 		$keep_reading = true;
 		$block_size   = 4096;
 
@@ -296,11 +296,11 @@ class WP_Http_Streams {
 
 			while ( ! feof( $handle ) && $keep_reading ) {
 				$block = fread( $handle, $block_size );
-				if ( ! $bodyStarted ) {
+				if ( ! $body_started ) {
 					$strResponse .= $block;
 					if ( strpos( $strResponse, "\r\n\r\n" ) ) {
 						$processed_response = WP_Http::processResponse( $strResponse );
-						$bodyStarted        = true;
+						$body_started       = true;
 						$block              = $processed_response['body'];
 						unset( $strResponse );
 						$processed_response['body'] = '';
@@ -341,13 +341,13 @@ class WP_Http_Streams {
 				$block        = fread( $handle, $block_size );
 				$strResponse .= $block;
 
-				if ( ! $bodyStarted && strpos( $strResponse, "\r\n\r\n" ) ) {
+				if ( ! $body_started && strpos( $strResponse, "\r\n\r\n" ) ) {
 					$header_length = strpos( $strResponse, "\r\n\r\n" ) + 4;
-					$bodyStarted   = true;
+					$body_started  = true;
 				}
 
 				$keep_reading = (
-					! $bodyStarted
+					! $body_started
 					|| ! isset( $parsed_args['limit_response_size'] )
 					|| strlen( $strResponse ) < ( $header_length + $parsed_args['limit_response_size'] )
 				);
