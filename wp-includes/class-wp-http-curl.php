@@ -268,9 +268,9 @@ class WP_Http_Curl {
 		$curl_error = curl_errno( $handle );
 
 		// If an error occurred, or, no response.
-		if ( $curl_error || ( 0 == strlen( $body ) && empty( $processed_headers['headers'] ) ) ) {
-			if ( CURLE_WRITE_ERROR /* 23 */ == $curl_error ) {
-				if ( ! $this->max_body_length || $this->max_body_length != $bytes_written_total ) {
+		if ( $curl_error || ( 0 === strlen( $body ) && empty( $processed_headers['headers'] ) ) ) {
+			if ( CURLE_WRITE_ERROR /* 23 */ === $curl_error ) {
+				if ( ! $this->max_body_length || $this->max_body_length !== $bytes_written_total ) {
 					if ( $parsed_args['stream'] ) {
 						curl_close( $handle );
 						fclose( $this->stream_handle );
