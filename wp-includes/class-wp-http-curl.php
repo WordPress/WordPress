@@ -258,7 +258,7 @@ class WP_Http_Curl {
 		curl_exec( $handle );
 
 		$processed_headers   = WP_Http::processHeaders( $this->headers, $url );
-		$theBody             = $this->body;
+		$body                = $this->body;
 		$bytes_written_total = $this->bytes_written_total;
 
 		$this->headers             = '';
@@ -268,7 +268,7 @@ class WP_Http_Curl {
 		$curl_error = curl_errno( $handle );
 
 		// If an error occurred, or, no response.
-		if ( $curl_error || ( 0 == strlen( $theBody ) && empty( $processed_headers['headers'] ) ) ) {
+		if ( $curl_error || ( 0 == strlen( $body ) && empty( $processed_headers['headers'] ) ) ) {
 			if ( CURLE_WRITE_ERROR /* 23 */ == $curl_error ) {
 				if ( ! $this->max_body_length || $this->max_body_length != $bytes_written_total ) {
 					if ( $parsed_args['stream'] ) {
@@ -316,10 +316,10 @@ class WP_Http_Curl {
 		if ( true === $parsed_args['decompress']
 			&& true === WP_Http_Encoding::should_decode( $processed_headers['headers'] )
 		) {
-			$theBody = WP_Http_Encoding::decompress( $theBody );
+			$body = WP_Http_Encoding::decompress( $body );
 		}
 
-		$response['body'] = $theBody;
+		$response['body'] = $body;
 
 		return $response;
 	}
