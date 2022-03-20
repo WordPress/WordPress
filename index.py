@@ -14,8 +14,8 @@
  * @var bool
  */
 """
-define( "WP_USE_THEMS", true )
-const WP_USE_THEMS = True
+define( "WP_USE_THEMES", true )
+const WP_USE_THEMES = True
 
 # /** Loads the WordPress Environment and Template */
 from . import wp_blog_header
