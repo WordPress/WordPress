@@ -230,8 +230,8 @@ class WP_Http_Streams {
 		}
 
 		if ( is_array( $parsed_args['headers'] ) ) {
-			foreach ( (array) $parsed_args['headers'] as $header => $headerValue ) {
-				$headers .= $header . ': ' . $headerValue . "\r\n";
+			foreach ( (array) $parsed_args['headers'] as $header => $header_value ) {
+				$headers .= $header . ': ' . $header_value . "\r\n";
 			}
 		} else {
 			$headers .= $parsed_args['headers'];
