@@ -685,7 +685,7 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 	if ( $comment->comment_post_ID > 0 ) {
 		$comment_post_title = _draft_or_post_title( $comment->comment_post_ID );
 		$comment_post_url   = get_the_permalink( $comment->comment_post_ID );
-		$comment_post_link  = "<a href='$comment_post_url'>$comment_post_title</a>";
+		$comment_post_link  = '<a href="' . esc_url( $comment_post_url ) . '">' . $comment_post_title . '</a>';
 	} else {
 		$comment_post_link = '';
 	}
