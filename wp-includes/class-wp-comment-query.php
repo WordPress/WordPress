@@ -917,16 +917,17 @@ class WP_Comment_Query {
 
 		$where = implode( ' AND ', $this->sql_clauses['where'] );
 
-		$pieces = array( 'fields', 'join', 'where', 'orderby', 'limits', 'groupby' );
+		$clauses = compact( 'fields', 'join', 'where', 'orderby', 'limits', 'groupby' );
+
 		/**
 		 * Filters the comment query clauses.
 		 *
 		 * @since 3.1.0
 		 *
-		 * @param string[]         $pieces An associative array of comment query clauses.
-		 * @param WP_Comment_Query $query  Current instance of WP_Comment_Query (passed by reference).
+		 * @param string[]         $clauses An associative array of comment query clauses.
+		 * @param WP_Comment_Query $query   Current instance of WP_Comment_Query (passed by reference).
 		 */
-		$clauses = apply_filters_ref_array( 'comments_clauses', array( compact( $pieces ), &$this ) );
+		$clauses = apply_filters_ref_array( 'comments_clauses', array( $clauses, &$this ) );
 
 		$fields  = isset( $clauses['fields'] ) ? $clauses['fields'] : '';
 		$join    = isset( $clauses['join'] ) ? $clauses['join'] : '';

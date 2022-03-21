@@ -641,17 +641,17 @@ class WP_Site_Query {
 
 		$where = implode( ' AND ', $this->sql_clauses['where'] );
 
-		$pieces = array( 'fields', 'join', 'where', 'orderby', 'limits', 'groupby' );
+		$clauses = compact( 'fields', 'join', 'where', 'orderby', 'limits', 'groupby' );
 
 		/**
 		 * Filters the site query clauses.
 		 *
 		 * @since 4.6.0
 		 *
-		 * @param string[]      $pieces An associative array of site query clauses.
-		 * @param WP_Site_Query $query  Current instance of WP_Site_Query (passed by reference).
+		 * @param string[]      $clauses An associative array of site query clauses.
+		 * @param WP_Site_Query $query   Current instance of WP_Site_Query (passed by reference).
 		 */
-		$clauses = apply_filters_ref_array( 'sites_clauses', array( compact( $pieces ), &$this ) );
+		$clauses = apply_filters_ref_array( 'sites_clauses', array( $clauses, &$this ) );
 
 		$fields  = isset( $clauses['fields'] ) ? $clauses['fields'] : '';
 		$join    = isset( $clauses['join'] ) ? $clauses['join'] : '';

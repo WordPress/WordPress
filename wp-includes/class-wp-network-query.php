@@ -438,17 +438,17 @@ class WP_Network_Query {
 
 		$groupby = '';
 
-		$pieces = array( 'fields', 'join', 'where', 'orderby', 'limits', 'groupby' );
+		$clauses = compact( 'fields', 'join', 'where', 'orderby', 'limits', 'groupby' );
 
 		/**
 		 * Filters the network query clauses.
 		 *
 		 * @since 4.6.0
 		 *
-		 * @param string[]         $pieces An associative array of network query clauses.
-		 * @param WP_Network_Query $query  Current instance of WP_Network_Query (passed by reference).
+		 * @param string[]         $clauses An associative array of network query clauses.
+		 * @param WP_Network_Query $query   Current instance of WP_Network_Query (passed by reference).
 		 */
-		$clauses = apply_filters_ref_array( 'networks_clauses', array( compact( $pieces ), &$this ) );
+		$clauses = apply_filters_ref_array( 'networks_clauses', array( $clauses, &$this ) );
 
 		$fields  = isset( $clauses['fields'] ) ? $clauses['fields'] : '';
 		$join    = isset( $clauses['join'] ) ? $clauses['join'] : '';
