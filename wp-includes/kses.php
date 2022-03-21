@@ -249,6 +249,11 @@ if ( ! CUSTOM_TAGS ) {
 		'q'          => array(
 			'cite' => true,
 		),
+		'rb'         => array(),
+		'rp'         => array(),
+		'rt'         => array(),
+		'rtc'        => array(),
+		'ruby'       => array(),
 		's'          => array(),
 		'samp'       => array(),
 		'span'       => array(
