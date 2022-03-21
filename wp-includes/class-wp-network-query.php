@@ -480,7 +480,17 @@ class WP_Network_Query {
 		$this->sql_clauses['orderby'] = $orderby;
 		$this->sql_clauses['limits']  = $limits;
 
-		$this->request = "{$this->sql_clauses['select']} {$this->sql_clauses['from']} {$where} {$this->sql_clauses['groupby']} {$this->sql_clauses['orderby']} {$this->sql_clauses['limits']}";
+		$this->request = implode(
+			' ',
+			array(
+				$this->sql_clauses['select'],
+				$this->sql_clauses['from'],
+				$where,
+				$this->sql_clauses['groupby'],
+				$this->sql_clauses['orderby'],
+				$this->sql_clauses['limits'],
+			)
+		);
 
 		if ( $this->query_vars['count'] ) {
 			return (int) $wpdb->get_var( $this->request );
