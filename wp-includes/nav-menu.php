@@ -716,49 +716,31 @@ function wp_get_nav_menu_items( $menu, $args = array() ) {
 		$items = array();
 	}
 
-	// Get all posts and terms at once to prime the caches.
-	if ( empty( $fetched[ $menu->term_id ] ) && ! wp_using_ext_object_cache() ) {
+	// Prime posts and terms caches.
+	if ( empty( $fetched[ $menu->term_id ] ) ) {
 		$fetched[ $menu->term_id ] = true;
-		$posts                     = array();
-		$terms                     = array();
+		$post_ids                  = array();
+		$term_ids                  = array();
 		foreach ( $items as $item ) {
 			$object_id = get_post_meta( $item->ID, '_menu_item_object_id', true );
-			$object    = get_post_meta( $item->ID, '_menu_item_object', true );
 			$type      = get_post_meta( $item->ID, '_menu_item_type', true );
 
 			if ( 'post_type' === $type ) {
-				$posts[ $object ][] = $object_id;
+				$post_ids[] = (int) $object_id;
 			} elseif ( 'taxonomy' === $type ) {
-				$terms[ $object ][] = $object_id;
+				$term_ids[] = (int) $object_id;
 			}
 		}
 
-		if ( ! empty( $posts ) ) {
-			foreach ( array_keys( $posts ) as $post_type ) {
-				get_posts(
-					array(
-						'post__in'               => $posts[ $post_type ],
-						'post_type'              => $post_type,
-						'nopaging'               => true,
-						'update_post_term_cache' => false,
-					)
-				);
-			}
+		if ( ! empty( $post_ids ) ) {
+			_prime_post_caches( $post_ids, false );
 		}
-		unset( $posts );
+		unset( $post_ids );
 
-		if ( ! empty( $terms ) ) {
-			foreach ( array_keys( $terms ) as $taxonomy ) {
-				get_terms(
-					array(
-						'taxonomy'     => $taxonomy,
-						'include'      => $terms[ $taxonomy ],
-						'hierarchical' => false,
-					)
-				);
-			}
+		if ( ! empty( $term_ids ) ) {
+			_prime_term_caches( $term_ids );
 		}
-		unset( $terms );
+		unset( $term_ids );
 	}
 
 	$items = array_map( 'wp_setup_nav_menu_item', $items );
