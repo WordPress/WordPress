@@ -21,7 +21,7 @@ if ( ! current_user_can( 'edit_theme_options' ) ) {
 }
 
 if ( ! current_theme_supports( 'widgets' ) ) {
-	wp_die( __( 'The theme you are currently using isn&#8217;t widget-aware, meaning that it has no sidebars that you are able to change. For information on making your theme widget-aware, please <a href="https://developer.wordpress.org/themes/functionality/widgets/">follow these instructions</a>.' ) );
+	wp_die( __( 'The theme you are currently using is not widget-aware, meaning that it has no sidebars that you are able to change. For information on making your theme widget-aware, please <a href="https://developer.wordpress.org/themes/functionality/widgets/">follow these instructions</a>.' ) );
 }
 
 // Used in the HTML title tag.

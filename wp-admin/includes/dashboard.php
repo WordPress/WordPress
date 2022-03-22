@@ -2040,7 +2040,7 @@ function wp_welcome_panel() {
 				<a href="<?php echo esc_url( admin_url( 'site-editor.php?styles=open' ) ); ?>"><?php _e( 'Edit styles' ); ?></a>
 			<?php else : ?>
 				<h3><?php _e( 'Discover a new way to build your site.' ); ?></h3>
-				<p><?php _e( 'There&#8217;s a new kind of WordPress theme, called a block theme, that lets you build the site you&#8217;ve always wanted &#8212; with blocks and styles.' ); ?></p>
+				<p><?php _e( 'There is a new kind of WordPress theme, called a block theme, that lets you build the site you&#8217;ve always wanted &#8212; with blocks and styles.' ); ?></p>
 				<a href="<?php echo esc_url( __( 'https://wordpress.org/support/article/block-themes/' ) ); ?>"><?php _e( 'Learn about block themes' ); ?></a>
 			<?php endif; ?>
 			</div>
