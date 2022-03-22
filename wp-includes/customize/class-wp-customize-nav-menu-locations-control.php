@@ -61,7 +61,7 @@ class WP_Customize_Nav_Menu_Locations_Control extends WP_Customize_Control {
 							?>
 						</p>
 					<# } else { #>
-						<p><?php echo _x( 'Here&#8217;s where this menu appears. If you&#8217;d like to change that, pick another location.', 'menu locations' ); ?></p>
+						<p><?php echo _x( 'Here&#8217;s where this menu appears. If you would like to change that, pick another location.', 'menu locations' ); ?></p>
 					<# } #>
 				</li>
 

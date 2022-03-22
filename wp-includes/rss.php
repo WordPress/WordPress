@@ -761,7 +761,7 @@ class RSSCache {
 
 		if ( ! $rss = get_transient( $cache_option ) ) {
 			$this->debug(
-				"Cache doesn't contain: $url (cache option: $cache_option)"
+				"Cache does not contain: $url (cache option: $cache_option)"
 			);
 			return 0;
 		}

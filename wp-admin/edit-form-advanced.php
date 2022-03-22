@@ -297,7 +297,7 @@ if ( 'post' === $post_type ) {
 	$title_and_editor .= '<p>' . __( 'You can enable distraction-free writing mode using the icon to the right. This feature is not available for old browsers or devices with small screens, and requires that the full-height editor be enabled in Screen Options.' ) . '</p>';
 	$title_and_editor .= '<p>' . sprintf(
 		/* translators: %s: Alt + F10 */
-		__( 'Keyboard users: When you&#8217;re working in the visual editor, you can use %s to access the toolbar.' ),
+		__( 'Keyboard users: When you are working in the visual editor, you can use %s to access the toolbar.' ),
 		'<kbd>Alt + F10</kbd>'
 	) . '</p>';
 
@@ -447,8 +447,8 @@ if ( isset( $post_new_file ) && current_user_can( $post_type_object->cap->create
 <div id="message" class="updated notice notice-success is-dismissible"><p><?php echo $message; ?></p></div>
 <?php endif; ?>
 <div id="lost-connection-notice" class="error hidden">
-	<p><span class="spinner"></span> <?php _e( '<strong>Connection lost.</strong> Saving has been disabled until you&#8217;re reconnected.' ); ?>
-	<span class="hide-if-no-sessionstorage"><?php _e( 'We&#8217;re backing up this post in your browser, just in case.' ); ?></span>
+	<p><span class="spinner"></span> <?php _e( '<strong>Connection lost.</strong> Saving has been disabled until you are reconnected.' ); ?>
+	<span class="hide-if-no-sessionstorage"><?php _e( 'We are backing up this post in your browser, just in case.' ); ?></span>
 	</p>
 </div>
 <form name="post" action="post.php" method="post" id="post"

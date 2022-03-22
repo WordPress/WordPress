@@ -560,7 +560,7 @@ class Theme_Upgrader extends WP_Upgrader {
 				$this->strings['incompatible_archive'],
 				sprintf(
 					/* translators: %s: style.css */
-					__( 'The %s stylesheet doesn&#8217;t contain a valid theme header.' ),
+					__( 'The %s stylesheet does not contain a valid theme header.' ),
 					'<code>style.css</code>'
 				)
 			);

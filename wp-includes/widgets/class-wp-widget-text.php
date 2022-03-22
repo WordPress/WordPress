@@ -496,7 +496,7 @@ class WP_Widget_Text extends WP_Widget {
 				<?php if ( ! isset( $instance['visual'] ) ) : ?>
 					<p><?php _e( 'This widget may contain code that may work better in the &#8220;Custom HTML&#8221; widget. How about trying that widget instead?' ); ?></p>
 				<?php else : ?>
-					<p><?php _e( 'This widget may have contained code that may work better in the &#8220;Custom HTML&#8221; widget. If you haven&#8217;t yet, how about trying that widget instead?' ); ?></p>
+					<p><?php _e( 'This widget may have contained code that may work better in the &#8220;Custom HTML&#8221; widget. If you have not yet, how about trying that widget instead?' ); ?></p>
 				<?php endif; ?>
 			</div>
 			<p>

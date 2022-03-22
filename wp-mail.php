@@ -62,7 +62,7 @@ if ( false === $count ) {
 
 if ( 0 === $count ) {
 	$pop3->quit();
-	wp_die( __( 'There doesn&#8217;t seem to be any new mail.' ) );
+	wp_die( __( 'There does not seem to be any new mail.' ) );
 }
 
 for ( $i = 1; $i <= $count; $i++ ) {

@@ -43,7 +43,7 @@ if ( isset( $_REQUEST['c'] ) ) {
 	// Prevent actions on a comment associated with a trashed post.
 	if ( $comment && 'trash' === get_post_status( $comment->comment_post_ID ) ) {
 		wp_die(
-			__( 'You can&#8217;t edit this comment because the associated post is in the Trash. Please restore the post first, then try again.' )
+			__( 'You cannot edit this comment because the associated post is in the Trash. Please restore the post first, then try again.' )
 		);
 	}
 } else {

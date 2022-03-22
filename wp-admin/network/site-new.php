@@ -37,7 +37,7 @@ if ( isset( $_REQUEST['action'] ) && 'add-site' === $_REQUEST['action'] ) {
 	check_admin_referer( 'add-blog', '_wpnonce_add-blog' );
 
 	if ( ! is_array( $_POST['blog'] ) ) {
-		wp_die( __( 'Can&#8217;t create an empty site.' ) );
+		wp_die( __( 'Cannot create an empty site.' ) );
 	}
 
 	$blog   = $_POST['blog'];

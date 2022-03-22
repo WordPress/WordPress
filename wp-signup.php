@@ -373,7 +373,7 @@ function signup_another_blog( $blogname = '', $blog_title = '', $errors = '' ) {
 			</ul>
 	<?php } ?>
 
-	<p><?php _e( 'If you&#8217;re not going to use a great site domain, leave it for a new user. Now have at it!' ); ?></p>
+	<p><?php _e( 'If you are not going to use a great site domain, leave it for a new user. Now have at it!' ); ?></p>
 	<form id="setupform" method="post" action="wp-signup.php">
 		<input type="hidden" name="stage" value="gimmeanotherblog" />
 		<?php
@@ -842,7 +842,7 @@ function confirm_blog_signup( $domain, $path, $blog_title, $user_name = '', $use
 	<p><?php _e( 'If you do not activate your site within two days, you will have to sign up again.' ); ?></p>
 	<h2><?php _e( 'Still waiting for your email?' ); ?></h2>
 	<p>
-		<?php _e( 'If you haven&#8217;t received your email yet, there are a number of things you can do:' ); ?>
+		<?php _e( 'If you have not received your email yet, there are a number of things you can do:' ); ?>
 		<ul id="noemail-tips">
 			<li><p><strong><?php _e( 'Wait a little longer. Sometimes delivery of email can be delayed by processes outside of our control.' ); ?></strong></p></li>
 			<li><p><?php _e( 'Check the junk or spam folder of your email client. Sometime emails wind up there by mistake.' ); ?></p></li>

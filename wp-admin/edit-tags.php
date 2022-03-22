@@ -157,7 +157,7 @@ switch ( $wp_list_table->current_action() ) {
 		$term    = get_term( $term_id );
 
 		if ( ! $term instanceof WP_Term ) {
-			wp_die( __( 'You attempted to edit an item that doesn&#8217;t exist. Perhaps it was deleted?' ) );
+			wp_die( __( 'You attempted to edit an item that does not exist. Perhaps it was deleted?' ) );
 		}
 
 		wp_redirect( esc_url_raw( get_edit_term_link( $term_id, $taxonomy, $post_type ) ) );
@@ -177,7 +177,7 @@ switch ( $wp_list_table->current_action() ) {
 
 		$tag = get_term( $tag_ID, $taxonomy );
 		if ( ! $tag ) {
-			wp_die( __( 'You attempted to edit an item that doesn&#8217;t exist. Perhaps it was deleted?' ) );
+			wp_die( __( 'You attempted to edit an item that does not exist. Perhaps it was deleted?' ) );
 		}
 
 		$ret = wp_update_term( $tag_ID, $taxonomy, $_POST );
@@ -253,7 +253,7 @@ if ( 'category' === $taxonomy || 'link_category' === $taxonomy || 'post_tag' ===
 	} elseif ( 'link_category' === $taxonomy ) {
 		$help = '<p>' . __( 'You can create groups of links by using Link Categories. Link Category names must be unique and Link Categories are separate from the categories you use for posts.' ) . '</p>';
 	} else {
-		$help = '<p>' . __( 'You can assign keywords to your posts using <strong>tags</strong>. Unlike categories, tags have no hierarchy, meaning there&#8217;s no relationship from one tag to another.' ) . '</p>';
+		$help = '<p>' . __( 'You can assign keywords to your posts using <strong>tags</strong>. Unlike categories, tags have no hierarchy, meaning there is no relationship from one tag to another.' ) . '</p>';
 	}
 
 	if ( 'link_category' === $taxonomy ) {

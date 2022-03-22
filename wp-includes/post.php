@@ -1713,7 +1713,7 @@ function register_post_type( $post_type, $args = array() ) {
 /**
  * Unregisters a post type.
  *
- * Can not be used to unregister built-in post types.
+ * Cannot be used to unregister built-in post types.
  *
  * @since 4.5.0
  *

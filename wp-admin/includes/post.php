@@ -2337,7 +2337,7 @@ function the_block_editor_meta_boxes() {
 	}
 
 	/**
-	 * Sadly we probably can not add this data directly into editor settings.
+	 * Sadly we probably cannot add this data directly into editor settings.
 	 *
 	 * Some meta boxes need admin_head to fire for meta box registry.
 	 * admin_head fires after admin_enqueue_scripts, which is where we create our

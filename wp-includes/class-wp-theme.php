@@ -282,7 +282,7 @@ final class WP_Theme implements ArrayAccess {
 				)
 			);
 			if ( ! file_exists( $this->theme_root ) ) { // Don't cache this one.
-				$this->errors->add( 'theme_root_missing', __( 'Error: The themes directory is either empty or doesn&#8217;t exist. Please check your installation.' ) );
+				$this->errors->add( 'theme_root_missing', __( 'Error: The themes directory is either empty or does not exist. Please check your installation.' ) );
 			}
 			return;
 		} elseif ( ! is_readable( $this->theme_root . '/' . $theme_file ) ) {

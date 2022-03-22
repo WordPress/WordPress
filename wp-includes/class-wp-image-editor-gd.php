@@ -89,7 +89,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 		}
 
 		if ( ! is_file( $this->file ) && ! preg_match( '|^https?://|', $this->file ) ) {
-			return new WP_Error( 'error_loading_image', __( 'File doesn&#8217;t exist?' ), $this->file );
+			return new WP_Error( 'error_loading_image', __( 'File does not exist?' ), $this->file );
 		}
 
 		// Set artificially high because GD uses uncompressed images in memory.
@@ -98,7 +98,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 		$file_contents = @file_get_contents( $this->file );
 
 		if ( ! $file_contents ) {
-			return new WP_Error( 'error_loading_image', __( 'File doesn&#8217;t exist?' ), $this->file );
+			return new WP_Error( 'error_loading_image', __( 'File does not exist?' ), $this->file );
 		}
 
 		// WebP may not work with imagecreatefromstring().

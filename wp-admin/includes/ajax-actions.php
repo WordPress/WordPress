@@ -1281,7 +1281,7 @@ function wp_ajax_replyto_comment( $action ) {
 	if ( empty( $post->post_status ) ) {
 		wp_die( 1 );
 	} elseif ( in_array( $post->post_status, array( 'draft', 'pending', 'trash' ), true ) ) {
-		wp_die( __( 'Error: You can&#8217;t reply to a comment on a draft post.' ) );
+		wp_die( __( 'Error: You cannot reply to a comment on a draft post.' ) );
 	}
 
 	$user = wp_get_current_user();

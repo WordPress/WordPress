@@ -3192,7 +3192,7 @@ function wp_load_image( $file ) {
 
 	if ( ! is_file( $file ) ) {
 		/* translators: %s: File name. */
-		return sprintf( __( 'File &#8220;%s&#8221; doesn&#8217;t exist?' ), $file );
+		return sprintf( __( 'File &#8220;%s&#8221; does not exist?' ), $file );
 	}
 
 	if ( ! function_exists('imagecreatefromstring') )

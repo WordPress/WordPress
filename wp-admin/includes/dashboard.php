@@ -1414,7 +1414,7 @@ function wp_print_community_events_templates() {
 			 * that they match the expected location before including them.
 			 * Use endonyms (native locale names) whenever possible.
 			 */
-			__( 'We couldn&#8217;t locate %s. Please try another nearby city. For example: Kansas City; Springfield; Portland.' ),
+			__( 'We could not locate %s. Please try another nearby city. For example: Kansas City; Springfield; Portland.' ),
 			'<em>{{data.unknownCity}}</em>'
 		);
 		?>
@@ -1462,7 +1462,7 @@ function wp_print_community_events_templates() {
 				<?php
 				printf(
 					/* translators: 1: The city the user searched for, 2: Meetup organization documentation URL. */
-					__( 'There aren&#8217;t any events scheduled near %1$s at the moment. Would you like to <a href="%2$s">organize a WordPress event</a>?' ),
+					__( 'There are not any events scheduled near %1$s at the moment. Would you like to <a href="%2$s">organize a WordPress event</a>?' ),
 					'{{ data.location.description }}',
 					__( 'https://make.wordpress.org/community/handbook/meetup-organizer/welcome/' )
 				);
@@ -1472,7 +1472,7 @@ function wp_print_community_events_templates() {
 				<?php
 				printf(
 					/* translators: %s: Meetup organization documentation URL. */
-					__( 'There aren&#8217;t any events scheduled near you at the moment. Would you like to <a href="%s">organize a WordPress event</a>?' ),
+					__( 'There are not any events scheduled near you at the moment. Would you like to <a href="%s">organize a WordPress event</a>?' ),
 					__( 'https://make.wordpress.org/community/handbook/meetup-organizer/welcome/' )
 				);
 				?>

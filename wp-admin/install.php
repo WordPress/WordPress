@@ -358,7 +358,7 @@ switch ( $step ) {
 <p><?php _e( 'Welcome to the famous five-minute WordPress installation process! Just fill in the information below and you&#8217;ll be on your way to using the most extendable and powerful personal publishing platform in the world.' ); ?></p>
 
 <h2><?php _e( 'Information needed' ); ?></h2>
-<p><?php _e( 'Please provide the following information. Don&#8217;t worry, you can always change these settings later.' ); ?></p>
+<p><?php _e( 'Please provide the following information. Do not worry, you can always change these settings later.' ); ?></p>
 
 		<?php
 		display_setup_form();
@@ -405,7 +405,7 @@ switch ( $step ) {
 			$error = true;
 		} elseif ( ! is_email( $admin_email ) ) {
 			// TODO: Poka-yoke.
-			display_setup_form( __( 'Sorry, that isn&#8217;t a valid email address. Email addresses look like <code>username@example.com</code>.' ) );
+			display_setup_form( __( 'Sorry, that is not a valid email address. Email addresses look like <code>username@example.com</code>.' ) );
 			$error = true;
 		}
 

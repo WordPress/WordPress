@@ -287,7 +287,7 @@ function post_submit_meta_box( $post, $args = array() ) {
 					<?php
 					printf(
 						/* translators: %s: URL to the Customizer. */
-						__( 'This draft comes from your <a href="%s">unpublished customization changes</a>. You can edit, but there&#8217;s no need to publish now. It will be published automatically with those changes.' ),
+						__( 'This draft comes from your <a href="%s">unpublished customization changes</a>. You can edit, but there is no need to publish now. It will be published automatically with those changes.' ),
 						esc_url(
 							add_query_arg(
 								'changeset_uuid',
