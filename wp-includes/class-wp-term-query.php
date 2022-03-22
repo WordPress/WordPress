@@ -722,16 +722,13 @@ class WP_Term_Query {
 		$this->sql_clauses['orderby'] = $orderby ? "$orderby $order" : '';
 		$this->sql_clauses['limits']  = $limits;
 
-		$this->request = implode(
-			' ',
-			array(
-				$this->sql_clauses['select'],
-				$this->sql_clauses['from'],
-				$where,
-				$this->sql_clauses['orderby'],
-				$this->sql_clauses['limits'],
-			)
-		);
+		$this->request = "
+			{$this->sql_clauses['select']}
+			{$this->sql_clauses['from']}
+			{$where}
+			{$this->sql_clauses['orderby']}
+			{$this->sql_clauses['limits']}
+		";
 
 		$this->terms = null;
 

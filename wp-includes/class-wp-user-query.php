@@ -770,16 +770,13 @@ class WP_User_Query {
 		$this->results = apply_filters_ref_array( 'users_pre_query', array( null, &$this ) );
 
 		if ( null === $this->results ) {
-			$this->request = implode(
-				' ',
-				array(
-					"SELECT {$this->query_fields}",
-					$this->query_from,
-					$this->query_where,
-					$this->query_orderby,
-					$this->query_limit,
-				)
-			);
+			$this->request = "
+				SELECT {$this->query_fields}
+				{$this->query_from}
+				{$this->query_where}
+				{$this->query_orderby}
+				{$this->query_limit}
+			";
 
 			if ( is_array( $qv['fields'] ) || 'all' === $qv['fields'] ) {
 				$this->results = $wpdb->get_results( $this->request );
