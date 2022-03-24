@@ -61,4 +61,27 @@ class ParagonIE_Sodium_Core32_XChaCha20 extends ParagonIE_Sodium_Core32_HChaCha2
             $message
         );
     }
+
+    /**
+     * @internal You should not use this directly from another application
+     *
+     * @param string $message
+     * @param string $nonce
+     * @param string $key
+     * @param string $ic
+     * @return string
+     * @throws SodiumException
+     * @throws TypeError
+     */
+    public static function ietfStreamXorIc($message, $nonce = '', $key = '', $ic = '')
+    {
+        return self::encryptBytes(
+            new ParagonIE_Sodium_Core32_ChaCha20_IetfCtx(
+                self::hChaCha20(self::substr($nonce, 0, 16), $key),
+                "\x00\x00\x00\x00" . self::substr($nonce, 16, 8),
+                $ic
+            ),
+            $message
+        );
+    }
 }
