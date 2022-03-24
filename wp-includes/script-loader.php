@@ -865,7 +865,8 @@ function wp_default_scripts( $scripts ) {
 		)
 	);
 
-	$scripts->add( 'jcrop', '/wp-includes/js/jcrop/jquery.Jcrop.min.js', array( 'jquery' ), '0.9.12' );
+	// Not used in core, replaced by imgAreaSelect.
+	$scripts->add( 'jcrop', '/wp-includes/js/jcrop/jquery.Jcrop.min.js', array( 'jquery' ), '0.9.15' );
 
 	$scripts->add( 'swfobject', '/wp-includes/js/swfobject.js', array(), '2.2-20120417' );
 
@@ -1499,7 +1500,7 @@ function wp_default_styles( $styles ) {
 	// Deprecated CSS.
 	$styles->add( 'deprecated-media', "/wp-admin/css/deprecated-media$suffix.css" );
 	$styles->add( 'farbtastic', "/wp-admin/css/farbtastic$suffix.css", array(), '1.3u1' );
-	$styles->add( 'jcrop', '/wp-includes/js/jcrop/jquery.Jcrop.min.css', array(), '0.9.12' );
+	$styles->add( 'jcrop', '/wp-includes/js/jcrop/jquery.Jcrop.min.css', array(), '0.9.15' );
 	$styles->add( 'colors-fresh', false, array( 'wp-admin', 'buttons' ) ); // Old handle.
 	$styles->add( 'open-sans', $open_sans_font_url ); // No longer used in core as of 4.6.
 
