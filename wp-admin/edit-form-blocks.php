@@ -57,16 +57,16 @@ $rest_path = rest_get_route_for_post( $post );
 
 // Preload common data.
 $preload_paths = array(
-	'/',
 	'/wp/v2/types?context=edit',
-	'/wp/v2/taxonomies?per_page=-1&context=edit',
+	'/wp/v2/taxonomies?context=edit',
 	'/wp/v2/themes?status=active',
 	add_query_arg( 'context', 'edit', $rest_path ),
 	sprintf( '/wp/v2/types/%s?context=edit', $post_type ),
-	sprintf( '/wp/v2/users/me?post_type=%s&context=edit', $post_type ),
+	'/wp/v2/users/me',
 	array( rest_get_route_for_post_type_items( 'attachment' ), 'OPTIONS' ),
 	array( rest_get_route_for_post_type_items( 'wp_block' ), 'OPTIONS' ),
 	sprintf( '%s/autosaves?context=edit', $rest_path ),
+	'/wp/v2/settings',
 );
 
 block_editor_rest_api_preload( $preload_paths, $block_editor_context );
