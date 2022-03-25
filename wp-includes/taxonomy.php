@@ -1560,14 +1560,16 @@ function term_exists( $term, $taxonomy = '', $parent = null ) {
 	}
 
 	/**
-	 * Filters default arguments for checking if term exists.
+	 * Filters default query arguments for checking if a term exists.
 	 *
 	 * @since 6.0.0
 	 *
-	 * @param array      $defaults An array of arguments for term_exists.
+	 * @param array      $defaults An array of arguments passed to get_terms().
 	 * @param int|string $term     The term to check. Accepts term ID, slug, or name.
-	 * @param string     $taxonomy The taxonomy name to use. An empty string indicates the search is against all taxonomies.
-	 * @param int|null   $parent   ID of parent term under which to confine the exists search. Null indicates the search is unconfined.
+	 * @param string     $taxonomy The taxonomy name to use. An empty string indicates
+	 *                             the search is against all taxonomies.
+	 * @param int|null   $parent   ID of parent term under which to confine the exists search.
+	 *                             Null indicates the search is unconfined.
 	 */
 	$defaults = apply_filters( 'term_exists_default_query_args', $defaults, $term, $taxonomy, $parent );
 
