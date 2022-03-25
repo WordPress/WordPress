@@ -61,7 +61,7 @@ $discussion = twentynineteen_get_discussion_data();
 			get_template_part( 'template-parts/post/discussion', 'meta' );
 		}
 		?>
-	</div><!-- .comments-title-flex -->
+	</div><!-- .comments-title-wrap -->
 	<?php
 	if ( have_comments() ) :
 
@@ -101,10 +101,9 @@ $discussion = twentynineteen_get_discussion_data();
 		// Show comment form at bottom if showing newest comments at the bottom.
 		if ( comments_open() && 'asc' === strtolower( get_option( 'comment_order', 'asc' ) ) ) :
 			?>
-			<div class="comment-form-flex">
-				<span class="screen-reader-text"><?php _e( 'Leave a comment', 'twentynineteen' ); ?></span>
+			<div class="comment-form-flex comment-form-wrapper">
+				<h2 class="comments-title"><?php _e( 'Leave a comment', 'twentynineteen' ); ?></h2>
 				<?php twentynineteen_comment_form( 'asc' ); ?>
-				<h2 class="comments-title" aria-hidden="true"><?php _e( 'Leave a comment', 'twentynineteen' ); ?></h2>
 			</div>
 			<?php
 		endif;

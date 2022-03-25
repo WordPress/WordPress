@@ -114,6 +114,11 @@
 	}
 }
 
+.comment-form-wrapper,
+.comment-form-wrapper .comments-title {
+	display: block;
+}
+
 .comment-list {
 	list-style: none;
 	padding: 0;
