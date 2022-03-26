@@ -792,7 +792,7 @@ class ftp_base {
 		return false;
 	}
 
-	function glob_pattern_match($pattern,$string) {
+	function glob_pattern_match($pattern,$subject) {
 		$out=null;
 		$chunks=explode(';',$pattern);
 		foreach($chunks as $pattern) {
@@ -807,19 +807,20 @@ class ftp_base {
 						str_replace('?','.{1,1}',$pattern))));
 			$out[]=$pattern;
 		}
-		if(count($out)==1) return($this->glob_regexp("^$out[0]$",$string));
+		if(count($out)==1) return($this->glob_regexp("^$out[0]$",$subject));
 		else {
 			foreach($out as $tester)
-				if($this->my_regexp("^$tester$",$string)) return true;
+				// TODO: This should probably be glob_regexp(), but needs tests.
+				if($this->my_regexp("^$tester$",$subject)) return true;
 		}
 		return false;
 	}
 
-	function glob_regexp($pattern,$probe) {
+	function glob_regexp($pattern,$subject) {
 		$sensitive=(PHP_OS!='WIN32');
 		return ($sensitive?
-			preg_match( '/' . preg_quote( $pattern, '/' ) . '/', $probe ) :
-			preg_match( '/' . preg_quote( $pattern, '/' ) . '/i', $probe )
+			preg_match( '/' . preg_quote( $pattern, '/' ) . '/', $subject ) :
+			preg_match( '/' . preg_quote( $pattern, '/' ) . '/i', $subject )
 		);
 	}
 
