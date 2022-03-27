@@ -477,14 +477,14 @@ class WP_Upgrader {
 		$this->skin->feedback( 'installing_package' );
 
 		/**
-		 * Filters the install response before the installation has started.
+		 * Filters the installation response before the installation has started.
 		 *
 		 * Returning a value that could be evaluated as a `WP_Error` will effectively
 		 * short-circuit the installation, returning that value instead.
 		 *
 		 * @since 2.8.0
 		 *
-		 * @param bool|WP_Error $response   Response.
+		 * @param bool|WP_Error $response   Installation response.
 		 * @param array         $hook_extra Extra arguments passed to hooked filters.
 		 */
 		$res = apply_filters( 'upgrader_pre_install', true, $args['hook_extra'] );

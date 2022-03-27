@@ -505,19 +505,19 @@ class Plugin_Upgrader extends WP_Upgrader {
 	 * @since 2.8.0
 	 * @since 4.1.0 Added a return value.
 	 *
-	 * @param bool|WP_Error $return Upgrade offer return.
-	 * @param array         $plugin Plugin package arguments.
-	 * @return bool|WP_Error The passed in $return param or WP_Error.
+	 * @param bool|WP_Error $response The installation response before the installation has started.
+	 * @param array         $plugin   Plugin package arguments.
+	 * @return bool|WP_Error The original `$response` parameter or WP_Error.
 	 */
-	public function deactivate_plugin_before_upgrade( $return, $plugin ) {
+	public function deactivate_plugin_before_upgrade( $response, $plugin ) {
 
-		if ( is_wp_error( $return ) ) { // Bypass.
-			return $return;
+		if ( is_wp_error( $response ) ) { // Bypass.
+			return $response;
 		}
 
 		// When in cron (background updates) don't deactivate the plugin, as we require a browser to reactivate it.
 		if ( wp_doing_cron() ) {
-			return $return;
+			return $response;
 		}
 
 		$plugin = isset( $plugin['plugin'] ) ? $plugin['plugin'] : '';
@@ -530,7 +530,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 			deactivate_plugins( $plugin, true );
 		}
 
-		return $return;
+		return $response;
 	}
 
 	/**
@@ -540,25 +540,25 @@ class Plugin_Upgrader extends WP_Upgrader {
 	 *
 	 * @since 5.4.0
 	 *
-	 * @param bool|WP_Error $return Upgrade offer return.
-	 * @param array         $plugin Plugin package arguments.
-	 * @return bool|WP_Error The passed in $return param or WP_Error.
+	 * @param bool|WP_Error $response The installation response before the installation has started.
+	 * @param array         $plugin   Plugin package arguments.
+	 * @return bool|WP_Error The original `$response` parameter or WP_Error.
 	 */
-	public function active_before( $return, $plugin ) {
-		if ( is_wp_error( $return ) ) {
-			return $return;
+	public function active_before( $response, $plugin ) {
+		if ( is_wp_error( $response ) ) {
+			return $response;
 		}
 
 		// Only enable maintenance mode when in cron (background update).
 		if ( ! wp_doing_cron() ) {
-			return $return;
+			return $response;
 		}
 
 		$plugin = isset( $plugin['plugin'] ) ? $plugin['plugin'] : '';
 
 		// Only run if plugin is active.
 		if ( ! is_plugin_active( $plugin ) ) {
-			return $return;
+			return $response;
 		}
 
 		// Change to maintenance mode. Bulk edit handles this separately.
@@ -566,7 +566,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 			$this->maintenance_mode( true );
 		}
 
-		return $return;
+		return $response;
 	}
 
 	/**
@@ -576,25 +576,25 @@ class Plugin_Upgrader extends WP_Upgrader {
 	 *
 	 * @since 5.4.0
 	 *
-	 * @param bool|WP_Error $return Upgrade offer return.
-	 * @param array         $plugin Plugin package arguments.
-	 * @return bool|WP_Error The passed in $return param or WP_Error.
+	 * @param bool|WP_Error $response The installation response after the installation has finished.
+	 * @param array         $plugin   Plugin package arguments.
+	 * @return bool|WP_Error The original `$response` parameter or WP_Error.
 	 */
-	public function active_after( $return, $plugin ) {
-		if ( is_wp_error( $return ) ) {
-			return $return;
+	public function active_after( $response, $plugin ) {
+		if ( is_wp_error( $response ) ) {
+			return $response;
 		}
 
 		// Only disable maintenance mode when in cron (background update).
 		if ( ! wp_doing_cron() ) {
-			return $return;
+			return $response;
 		}
 
 		$plugin = isset( $plugin['plugin'] ) ? $plugin['plugin'] : '';
 
-		// Only run if plugin is active
+		// Only run if plugin is active.
 		if ( ! is_plugin_active( $plugin ) ) {
-			return $return;
+			return $response;
 		}
 
 		// Time to remove maintenance mode. Bulk edit handles this separately.
@@ -602,7 +602,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 			$this->maintenance_mode( false );
 		}
 
-		return $return;
+		return $response;
 	}
 
 	/**
