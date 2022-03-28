@@ -72,7 +72,6 @@ $active_global_styles_id = WP_Theme_JSON_Resolver::get_user_global_styles_post_i
 $active_theme            = wp_get_theme()->get_stylesheet();
 $preload_paths           = array(
 	array( '/wp/v2/media', 'OPTIONS' ),
-	'/',
 	'/wp/v2/types?context=edit',
 	'/wp/v2/types/wp_template?context=edit',
 	'/wp/v2/types/wp_template-part?context=edit',
