@@ -1471,20 +1471,20 @@ class WP_Debug_Data {
 	}
 
 	/**
-	 * Returns the value of a MySQL variable.
+	 * Returns the value of a MySQL system variable.
 	 *
 	 * @since 5.9.0
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
-	 * @param string $var Name of the MySQL variable.
+	 * @param string $mysql_var Name of the MySQL system variable.
 	 * @return string|null The variable value on success. Null if the variable does not exist.
 	 */
-	public static function get_mysql_var( $var ) {
+	public static function get_mysql_var( $mysql_var ) {
 		global $wpdb;
 
 		$result = $wpdb->get_row(
-			$wpdb->prepare( 'SHOW VARIABLES LIKE %s', $var ),
+			$wpdb->prepare( 'SHOW VARIABLES LIKE %s', $mysql_var ),
 			ARRAY_A
 		);
 
@@ -1500,11 +1500,11 @@ class WP_Debug_Data {
 	 *
 	 * @since 5.2.0
 	 *
-	 * @param array  $info_array Information gathered from the `WP_Debug_Data::debug_data` function.
-	 * @param string $type       The data type to return, either 'info' or 'debug'.
+	 * @param array  $info_array Information gathered from the `WP_Debug_Data::debug_data()` function.
+	 * @param string $data_type  The data type to return, either 'info' or 'debug'.
 	 * @return string The formatted data.
 	 */
-	public static function format( $info_array, $type ) {
+	public static function format( $info_array, $data_type ) {
 		$return = "`\n";
 
 		foreach ( $info_array as $section => $details ) {
@@ -1513,7 +1513,7 @@ class WP_Debug_Data {
 				continue;
 			}
 
-			$section_label = 'debug' === $type ? $section : $details['label'];
+			$section_label = 'debug' === $data_type ? $section : $details['label'];
 
 			$return .= sprintf(
 				"### %s%s ###\n\n",
@@ -1526,7 +1526,7 @@ class WP_Debug_Data {
 					continue;
 				}
 
-				if ( 'debug' === $type && isset( $field['debug'] ) ) {
+				if ( 'debug' === $data_type && isset( $field['debug'] ) ) {
 					$debug_data = $field['debug'];
 				} else {
 					$debug_data = $field['value'];
@@ -1547,7 +1547,7 @@ class WP_Debug_Data {
 					$value = $debug_data;
 				}
 
-				if ( 'debug' === $type ) {
+				if ( 'debug' === $data_type ) {
 					$label = $field_name;
 				} else {
 					$label = $field['label'];
