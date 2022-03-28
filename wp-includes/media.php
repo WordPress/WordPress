@@ -4779,9 +4779,12 @@ function get_post_galleries( $post, $html = true ) {
 				continue;
 			}
 
-			// All blocks nested inside non-Gallery blocks should be in the root array.
-			if ( $has_inner_blocks && 'core/gallery' !== $block['blockName'] ) {
-				array_push( $post_blocks, ...$block['innerBlocks'] );
+			// Skip non-Gallery blocks.
+			if ( 'core/gallery' !== $block['blockName'] ) {
+				// Move inner blocks into the root array before skipping.
+				if ( $has_inner_blocks ) {
+					array_push( $post_blocks, ...$block['innerBlocks'] );
+				}
 				continue;
 			}
 
