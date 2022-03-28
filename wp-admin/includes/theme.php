@@ -7,7 +7,7 @@
  */
 
 /**
- * Remove a theme
+ * Removes a theme.
  *
  * @since 2.8.0
  *
@@ -175,7 +175,7 @@ function theme_update_available( $theme ) {
 }
 
 /**
- * Retrieve the update link if there is a theme update available.
+ * Retrieves the update link if there is a theme update available.
  *
  * Will return a link if there is an update available.
  *
@@ -271,7 +271,7 @@ function get_theme_update_available( $theme ) {
 }
 
 /**
- * Retrieve list of WordPress theme features (aka theme tags).
+ * Retrieves list of WordPress theme features (aka theme tags).
  *
  * @since 3.1.0
  * @since 3.2.0 Added 'Gray' color and 'Featured Image Header', 'Featured Images',
@@ -631,7 +631,7 @@ function themes_api( $action, $args = array() ) {
 }
 
 /**
- * Prepare themes for JavaScript.
+ * Prepares themes for JavaScript.
  *
  * @since 3.8.0
  *
@@ -806,7 +806,7 @@ function wp_prepare_themes_for_js( $themes = null ) {
 }
 
 /**
- * Print JS templates for the theme-browsing UI in the Customizer.
+ * Prints JS templates for the theme-browsing UI in the Customizer.
  *
  * @since 4.2.0
  */
