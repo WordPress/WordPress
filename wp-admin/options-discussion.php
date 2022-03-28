@@ -218,7 +218,7 @@ printf(
 
 <h2 class="title"><?php _e( 'Avatars' ); ?></h2>
 
-<p><?php _e( 'An avatar is an image that follows you from weblog to weblog appearing beside your name when you comment on avatar enabled sites. Here you can enable the display of avatars for people who comment on your site.' ); ?></p>
+<p><?php _e( 'An avatar is an image that can be associated with a user across multiple websites. In this area, you can choose to display avatars of users who interact with the site.' ); ?></p>
 
 <?php
 // The above would be a good place to link to the documentation on the Gravatar functions, for putting it in themes. Anything like that?
