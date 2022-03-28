@@ -2555,7 +2555,7 @@ function the_date( $format = '', $before = '', $after = '', $echo = true ) {
  *
  * @param string      $format Optional. PHP date format. Defaults to the 'date_format' option.
  * @param int|WP_Post $post   Optional. Post ID or WP_Post object. Default current post.
- * @return string|false Date the current post was written. False on failure.
+ * @return string|int|false Date the current post was written. False on failure.
  */
 function get_the_date( $format = '', $post = null ) {
 	$post = get_post( $post );
@@ -2573,9 +2573,9 @@ function get_the_date( $format = '', $post = null ) {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param string      $the_date The formatted date.
+	 * @param string|int  $the_date Formatted date string or Unix timestamp if `$format` is 'U' or 'G'.
 	 * @param string      $format   PHP date format.
-	 * @param int|WP_Post $post     The post object or ID.
+	 * @param WP_Post     $post     The post object.
 	 */
 	return apply_filters( 'get_the_date', $the_date, $format, $post );
 }
@@ -2699,10 +2699,10 @@ function get_the_time( $format = '', $post = null ) {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param string      $the_time The formatted time.
+	 * @param string|int  $the_time Formatted date string or Unix timestamp if `$format` is 'U' or 'G'.
 	 * @param string      $format   Format to use for retrieving the time the post
 	 *                              was written. Accepts 'G', 'U', or PHP date format.
-	 * @param int|WP_Post $post     WP_Post object or ID.
+	 * @param WP_Post     $post     Post object.
 	 */
 	return apply_filters( 'get_the_time', $the_time, $format, $post );
 }
@@ -2756,10 +2756,10 @@ function get_post_time( $format = 'U', $gmt = false, $post = null, $translate = 
 	 *
 	 * @since 2.6.0
 	 *
-	 * @param string $time   The formatted time.
-	 * @param string $format Format to use for retrieving the time the post was written.
-	 *                       Accepts 'G', 'U', or PHP date format. Default 'U'.
-	 * @param bool   $gmt    Whether to retrieve the GMT time. Default false.
+	 * @param string|int $time   Formatted date string or Unix timestamp if `$format` is 'U' or 'G'.
+	 * @param string     $format Format to use for retrieving the time the post was written.
+	 *                           Accepts 'G', 'U', or PHP date format.
+	 * @param bool       $gmt    Whether to retrieve the GMT time.
 	 */
 	return apply_filters( 'get_post_time', $time, $format, $gmt );
 }
