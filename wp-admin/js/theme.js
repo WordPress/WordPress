@@ -622,6 +622,9 @@ themes.view.Theme = wp.Backbone.View.extend({
 			if ( _this.model.get( 'id' ) === response.slug ) {
 				_this.model.set( { 'installed': true } );
 			}
+			if ( response.blockTheme ) {
+				_this.model.set( { 'block_theme': true } );
+			}
 		} );
 
 		wp.updates.installTheme( {
