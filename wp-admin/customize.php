@@ -222,7 +222,7 @@ do_action( 'customize_controls_head' );
 				<ul></ul>
 			</div>
 			<div class="wp-full-overlay-sidebar-content" tabindex="-1">
-				<div id="customize-info" class="accordion-section customize-info">
+				<div id="customize-info" class="accordion-section customize-info" data-block-theme="<?php echo (int) wp_is_block_theme(); ?>">
 					<div class="accordion-section-title">
 						<span class="preview-notice">
 						<?php
@@ -235,7 +235,7 @@ do_action( 'customize_controls_head' );
 					<div class="customize-panel-description">
 						<p>
 							<?php
-							_e( 'The Customizer allows you to preview changes to your site before publishing them. You can navigate to different pages on your site within the preview. Edit shortcuts are shown for some editable elements.' );
+							_e( 'The Customizer allows you to preview changes to your site before publishing them. You can navigate to different pages on your site within the preview. Edit shortcuts are shown for some editable elements. The Customizer is intended for use with non-block themes.' );
 							?>
 						</p>
 						<p>

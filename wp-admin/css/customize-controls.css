@@ -1733,6 +1733,12 @@ p.customize-section-description {
 	font-weight: 400;
 }
 
+#customize-notifications-area .notification-message button.switch-to-editor {
+	display: block;
+	margin-top: 6px;
+	font-weight: 400;
+}
+
 #customize-theme-controls .control-panel-themes > .accordion-section-title:after {
 	display: none;
 }
