@@ -1154,7 +1154,6 @@ function wp_default_scripts( $scripts ) {
 	$scripts->add( 'customize-models', '/wp-includes/js/customize-models.js', array( 'underscore', 'backbone' ), false, 1 );
 	$scripts->add( 'customize-views', '/wp-includes/js/customize-views.js', array( 'jquery', 'underscore', 'imgareaselect', 'customize-models', 'media-editor', 'media-views' ), false, 1 );
 	$scripts->add( 'customize-controls', "/wp-admin/js/customize-controls$suffix.js", array( 'customize-base', 'wp-a11y', 'wp-util', 'jquery-ui-core' ), false, 1 );
-	$switch_to_site_editor_label = __( 'Use Site Editor' );
 	did_action( 'init' ) && $scripts->localize(
 		'customize-controls',
 		'_wpCustomizeControlsL10n',
@@ -1223,15 +1222,13 @@ function wp_default_scripts( $scripts ) {
 			'invalidDate'             => __( 'Invalid date.' ),
 			'invalidValue'            => __( 'Invalid value.' ),
 			'blockThemeNotification'  => sprintf(
-				/* translators: 1. %s: URL to the localized version of https://wordpress.org/support/article/site-editor/, 2: HTML Button. */
-				__( 'Hurray! Your theme supports Full Site Editing with blocks. <a href="%1$s" target="_blank">Tell me more</a>. %2$s' ),
+				/* translators: 1: Link to Site Editor documentation on HelpHub, 2: HTML button. */
+				__( 'Hurray! Your theme supports Full Site Editing with blocks. <a href="%1$s">Tell me more</a>. %2$s' ),
 				__( 'https://wordpress.org/support/article/site-editor/' ),
 				sprintf(
-					/* translators: 1: URL to the Site Editor admin screen, 2: Button label, 3: Button text. */
-					'<button type="button" data-action="%1$s" class="button switch-to-editor" aria-label="%2$s">%3$s</button>',
+					'<button type="button" data-action="%1$s" class="button switch-to-editor">%2$s</button>',
 					esc_url( admin_url( 'site-editor.php' ) ),
-					$switch_to_site_editor_label,
-					$switch_to_site_editor_label
+					__( 'Use Site Editor' )
 				)
 			),
 		)
