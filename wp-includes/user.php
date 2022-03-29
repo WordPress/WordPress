@@ -1305,6 +1305,150 @@ function count_users( $strategy = 'time', $site_id = null ) {
 	return $result;
 }
 
+/**
+ * Returns the number of active users in your installation.
+ *
+ * Note that on a large site the count may be cached and only updated twice daily.
+ *
+ * @since MU (3.0.0)
+ * @since 4.8.0 The `$network_id` parameter has been added.
+ * @since 6.0.0 Moved to wp-includes/user.php.
+ *
+ * @param int|null $network_id ID of the network. Defaults to the current network.
+ * @return int Number of active users on the network.
+ */
+function get_user_count( $network_id = null ) {
+	if ( ! is_multisite() && null !== $network_id ) {
+		_doing_it_wrong(
+			__FUNCTION__,
+			sprintf(
+				/* translators: %s: $network_id */
+				__( 'Unable to pass %s if not using multisite.' ),
+				'<code>$network_id</code>'
+			),
+			'6.0.0'
+		);
+	}
+
+	return (int) get_network_option( $network_id, 'user_count', -1 );
+}
+
+/**
+ * Updates the total count of users on the site if live user counting is enabled.
+ *
+ * @since 6.0.0
+ *
+ * @param int|null $network_id ID of the network. Defaults to the current network.
+ * @return bool Whether the update was successful.
+ */
+function wp_maybe_update_user_counts( $network_id = null ) {
+	if ( ! is_multisite() && null !== $network_id ) {
+		_doing_it_wrong(
+			__FUNCTION__,
+			sprintf(
+				/* translators: %s: $network_id */
+				__( 'Unable to pass %s if not using multisite.' ),
+				'<code>$network_id</code>'
+			),
+			'6.0.0'
+		);
+	}
+
+	$is_small_network = ! wp_is_large_user_count( $network_id );
+	/** This filter is documented in wp-includes/ms-functions.php */
+	if ( ! apply_filters( 'enable_live_network_counts', $is_small_network, 'users' ) ) {
+		return false;
+	}
+
+	return wp_update_user_counts( $network_id );
+}
+
+/**
+ * Updates the total count of users on the site.
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
+ * @since 6.0.0
+ *
+ * @param int|null $network_id ID of the network. Defaults to the current network.
+ * @return bool Whether the update was successful.
+ */
+function wp_update_user_counts( $network_id = null ) {
+	global $wpdb;
+
+	if ( ! is_multisite() && null !== $network_id ) {
+		_doing_it_wrong(
+			__FUNCTION__,
+			sprintf(
+				/* translators: %s: $network_id */
+				__( 'Unable to pass %s if not using multisite.' ),
+				'<code>$network_id</code>'
+			),
+			'6.0.0'
+		);
+	}
+
+	$query = "SELECT COUNT(ID) as c FROM $wpdb->users";
+	if ( is_multisite() ) {
+		$query .= " WHERE spam = '0' AND deleted = '0'";
+	}
+
+	$count = $wpdb->get_var( $query );
+
+	return update_network_option( $network_id, 'user_count', $count );
+}
+
+/**
+ * Schedules a recurring recalculation of the total count of users.
+ *
+ * @since 6.0.0
+ */
+function wp_schedule_update_user_counts() {
+	if ( ! is_main_site() ) {
+		return;
+	}
+
+	if ( ! wp_next_scheduled( 'wp_update_user_counts' ) && ! wp_installing() ) {
+		wp_schedule_event( time(), 'twicedaily', 'wp_update_user_counts' );
+	}
+}
+
+/**
+ * Determines whether the site has a large number of users.
+ *
+ * The default criteria for a large site is more than 10,000 users.
+ *
+ * @since 6.0.0
+ *
+ * @param int|null $network_id ID of the network. Defaults to the current network.
+ * @return bool Whether the site has a large number of users.
+ */
+function wp_is_large_user_count( $network_id = null ) {
+	if ( ! is_multisite() && null !== $network_id ) {
+		_doing_it_wrong(
+			__FUNCTION__,
+			sprintf(
+				/* translators: %s: $network_id */
+				__( 'Unable to pass %s if not using multisite.' ),
+				'<code>$network_id</code>'
+			),
+			'6.0.0'
+		);
+	}
+
+	$count = get_user_count( $network_id );
+
+	/**
+	 * Filters whether the site is considered large, based on its number of users.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param bool     $is_large_user_count Whether the site has a large number of users.
+	 * @param int      $count               The total number of users.
+	 * @param int|null $network_id          ID of the network. `null` represents the current network.
+	 */
+	return apply_filters( 'wp_is_large_user_count', $count > 10000, $count, $network_id );
+}
+
 //
 // Private helper functions.
 //
