@@ -2007,14 +2007,17 @@ class WP_Posts_List_Table extends WP_List_Table {
 			?>
 
 			<div class="submit inline-edit-save">
-				<button type="button" class="button cancel alignleft"><?php _e( 'Cancel' ); ?></button>
-
 				<?php if ( ! $bulk ) : ?>
 					<?php wp_nonce_field( 'inlineeditnonce', '_inline_edit', false ); ?>
-					<button type="button" class="button button-primary save alignright"><?php _e( 'Update' ); ?></button>
-					<span class="spinner"></span>
+					<button type="button" class="button button-primary save"><?php _e( 'Update' ); ?></button>
 				<?php else : ?>
-					<?php submit_button( __( 'Update' ), 'primary alignright', 'bulk_edit', false ); ?>
+					<?php submit_button( __( 'Update' ), 'primary', 'bulk_edit', false ); ?>
+				<?php endif; ?>
+
+				<button type="button" class="button cancel"><?php _e( 'Cancel' ); ?></button>
+
+				<?php if ( ! $bulk ) : ?>
+					<span class="spinner"></span>
 				<?php endif; ?>
 
 				<input type="hidden" name="post_view" value="<?php echo esc_attr( $m ); ?>" />
@@ -2022,7 +2025,6 @@ class WP_Posts_List_Table extends WP_List_Table {
 				<?php if ( ! $bulk && ! post_type_supports( $screen->post_type, 'author' ) ) : ?>
 					<input type="hidden" name="post_author" value="<?php echo esc_attr( $post->post_author ); ?>" />
 				<?php endif; ?>
-				<br class="clear" />
 
 				<div class="notice notice-error notice-alt inline hidden">
 					<p class="error"></p>
