@@ -2926,8 +2926,8 @@ function wp_enqueue_global_styles_css_custom_properties() {
  *
  * For block themes, it's loaded in the head.
  * For classic ones, it's loaded in the body
- * because the wp_head action (and wp_enqueue_scripts)
- * happens before the render_block.
+ * because the wp_head action happens before
+ * the render_block.
  *
  * @link https://core.trac.wordpress.org/ticket/53494.
  *
@@ -2936,7 +2936,7 @@ function wp_enqueue_global_styles_css_custom_properties() {
 function wp_enqueue_block_support_styles( $style ) {
 	$action_hook_name = 'wp_footer';
 	if ( wp_is_block_theme() ) {
-		$action_hook_name = 'wp_enqueue_scripts';
+		$action_hook_name = 'wp_head';
 	}
 	add_action(
 		$action_hook_name,
