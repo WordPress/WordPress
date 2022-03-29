@@ -101,21 +101,6 @@ function get_active_blog_for_user( $user_id ) {
 }
 
 /**
- * The number of active users in your installation.
- *
- * The count is cached and updated twice daily. This is not a live count.
- *
- * @since MU (3.0.0)
- * @since 4.8.0 The `$network_id` parameter has been added.
- *
- * @param int|null $network_id ID of the network. Default is the current network.
- * @return int Number of active users on the network.
- */
-function get_user_count( $network_id = null ) {
-	return get_network_option( $network_id, 'user_count' );
-}
-
-/**
  * The number of active sites on your installation.
  *
  * The count is cached and updated twice daily. This is not a live count.
@@ -2611,16 +2596,12 @@ function wp_update_network_site_counts( $network_id = null ) {
  *
  * @since 3.7.0
  * @since 4.8.0 The `$network_id` parameter has been added.
- *
- * @global wpdb $wpdb WordPress database abstraction object.
+ * @since 6.0.0 This function is now a wrapper for wp_update_user_counts().
  *
  * @param int|null $network_id ID of the network. Default is the current network.
  */
 function wp_update_network_user_counts( $network_id = null ) {
-	global $wpdb;
-
-	$count = $wpdb->get_var( "SELECT COUNT(ID) as c FROM $wpdb->users WHERE spam = '0' AND deleted = '0'" );
-	update_network_option( $network_id, 'user_count', $count );
+	wp_update_user_counts( $network_id );
 }
 
 /**
@@ -2754,6 +2735,9 @@ function wp_is_large_network( $using = 'sites', $network_id = null ) {
 
 	if ( 'users' === $using ) {
 		$count = get_user_count( $network_id );
+
+		$is_large_network = wp_is_large_user_count( $network_id );
+
 		/**
 		 * Filters whether the network is considered large.
 		 *
@@ -2765,7 +2749,7 @@ function wp_is_large_network( $using = 'sites', $network_id = null ) {
 		 * @param int    $count            The count of items for the component.
 		 * @param int    $network_id       The ID of the network being checked.
 		 */
-		return apply_filters( 'wp_is_large_network', $count > 10000, 'users', $count, $network_id );
+		return apply_filters( 'wp_is_large_network', $is_large_network, 'users', $count, $network_id );
 	}
 
 	$count = get_blog_count( $network_id );
