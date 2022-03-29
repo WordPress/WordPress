@@ -8433,8 +8433,17 @@ function wp_fuzzy_number_match( $expected, $actual, $precision = 1 ) {
  */
 function get_user_count( $network_id = null ) {
 	if ( ! is_multisite() && null !== $network_id ) {
-		_doing_it_wrong( __FUNCTION__, __( 'Unable to pass $network_id if not using multisite.' ), '6.0.0' );
+		_doing_it_wrong(
+			__FUNCTION__,
+			sprintf(
+				/* translators: %s: $network_id */
+				__( 'Unable to pass %s if not using multisite.' ),
+				'<code>$network_id</code>'
+			),
+			'6.0.0'
+		);
 	}
+
 	return (int) get_network_option( $network_id, 'user_count', -1 );
 }
 
@@ -8448,7 +8457,15 @@ function get_user_count( $network_id = null ) {
  */
 function wp_maybe_update_user_counts( $network_id = null ) {
 	if ( ! is_multisite() && null !== $network_id ) {
-		_doing_it_wrong( __FUNCTION__, __( 'Unable to pass $network_id if not using multisite.' ), '6.0.0' );
+		_doing_it_wrong(
+			__FUNCTION__,
+			sprintf(
+				/* translators: %s: $network_id */
+				__( 'Unable to pass %s if not using multisite.' ),
+				'<code>$network_id</code>'
+			),
+			'6.0.0'
+		);
 	}
 
 	$is_small_network = ! wp_is_large_user_count( $network_id );
@@ -8473,7 +8490,15 @@ function wp_update_user_counts( $network_id = null ) {
 	global $wpdb;
 
 	if ( ! is_multisite() && null !== $network_id ) {
-		_doing_it_wrong( __FUNCTION__, __( 'Unable to pass $network_id if not using multisite.' ), '6.0.0' );
+		_doing_it_wrong(
+			__FUNCTION__,
+			sprintf(
+				/* translators: %s: $network_id */
+				__( 'Unable to pass %s if not using multisite.' ),
+				'<code>$network_id</code>'
+			),
+			'6.0.0'
+		);
 	}
 
 	$query = "SELECT COUNT(ID) as c FROM $wpdb->users";
@@ -8513,8 +8538,17 @@ function wp_schedule_update_user_counts() {
  */
 function wp_is_large_user_count( $network_id = null ) {
 	if ( ! is_multisite() && null !== $network_id ) {
-		_doing_it_wrong( __FUNCTION__, __( 'Unable to pass $network_id if not using multisite.' ), '6.0.0' );
+		_doing_it_wrong(
+			__FUNCTION__,
+			sprintf(
+				/* translators: %s: $network_id */
+				__( 'Unable to pass %s if not using multisite.' ),
+				'<code>$network_id</code>'
+			),
+			'6.0.0'
+		);
 	}
+
 	$count = get_user_count( $network_id );
 
 	/**
