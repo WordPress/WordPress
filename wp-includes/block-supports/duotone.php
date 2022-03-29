@@ -520,7 +520,7 @@ function wp_render_duotone_support( $block_content, $block ) {
 	}
 
 	$filter_preset   = array(
-		'slug'   => uniqid(),
+		'slug'   => wp_unique_id( sanitize_key( implode( '-', $block['attrs']['style']['color']['duotone'] ) . '-' ) ),
 		'colors' => $block['attrs']['style']['color']['duotone'],
 	);
 	$filter_property = wp_get_duotone_filter_property( $filter_preset );
