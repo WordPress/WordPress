@@ -693,12 +693,11 @@ function wp_get_nav_menu_items( $menu, $args = array() ) {
 
 	static $fetched = array();
 
-	$items = get_objects_in_term( $menu->term_id, 'nav_menu' );
-	if ( is_wp_error( $items ) ) {
+	if ( ! taxonomy_exists( 'nav_menu' ) ) {
 		return false;
 	}
 
-	$defaults        = array(
+	$defaults = array(
 		'order'       => 'ASC',
 		'orderby'     => 'menu_order',
 		'post_type'   => 'nav_menu_item',
@@ -706,11 +705,16 @@ function wp_get_nav_menu_items( $menu, $args = array() ) {
 		'output'      => ARRAY_A,
 		'output_key'  => 'menu_order',
 		'nopaging'    => true,
+		'tax_query'   => array(
+			array(
+				'taxonomy' => 'nav_menu',
+				'field'    => 'term_taxonomy_id',
+				'terms'    => $menu->term_taxonomy_id,
+			),
+		),
 	);
-	$args            = wp_parse_args( $args, $defaults );
-	$args['include'] = $items;
-
-	if ( ! empty( $items ) ) {
+	$args     = wp_parse_args( $args, $defaults );
+	if ( $menu->count > 0 ) {
 		$items = get_posts( $args );
 	} else {
 		$items = array();
