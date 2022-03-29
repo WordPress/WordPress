@@ -1598,6 +1598,7 @@ class WP_Theme_JSON {
 		$blocks_metadata = static::get_blocks_metadata();
 		$setting_nodes   = static::get_setting_nodes( $this->theme_json, $blocks_metadata );
 
+		$filters = '';
 		foreach ( $setting_nodes as $metadata ) {
 			$node = _wp_array_get( $this->theme_json, $metadata['path'], array() );
 			if ( empty( $node['color']['duotone'] ) ) {
@@ -1606,7 +1607,6 @@ class WP_Theme_JSON {
 
 			$duotone_presets = $node['color']['duotone'];
 
-			$filters = '';
 			foreach ( $origins as $origin ) {
 				if ( ! isset( $duotone_presets[ $origin ] ) ) {
 					continue;
