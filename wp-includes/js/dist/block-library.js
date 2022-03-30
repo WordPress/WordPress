@@ -37140,7 +37140,7 @@ const table_deprecated_deprecated = [// Deprecation migrating table block to use
     }));
   },
   isEligible: attributes => {
-    return attributes.backgroundColor && !attributes.style;
+    return attributes.backgroundColor && attributes.backgroundColor in oldColors && !attributes.style;
   },
   // This version is the first to introduce the style attribute to the
   // table block. As a result, we'll explicitly override that.

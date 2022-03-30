@@ -124,18 +124,20 @@
 .wp-block-cover .has-background-dim:not([class*=-background-color]) {
   background-color: #000;
 }
+.wp-block-cover-image .has-background-dim.has-background-gradient,
+.wp-block-cover .has-background-dim.has-background-gradient {
+  background-color: transparent;
+}
 .wp-block-cover-image.has-background-dim::before,
-.wp-block-cover-image .has-background-dim::before,
-.wp-block-cover.has-background-dim::before,
-.wp-block-cover .has-background-dim::before {
+.wp-block-cover.has-background-dim::before {
   content: "";
   background-color: inherit;
 }
 .wp-block-cover-image.has-background-dim:not(.has-background-gradient)::before,
-.wp-block-cover-image .has-background-dim:not(.has-background-gradient)::before,
+.wp-block-cover-image .wp-block-cover__background,
 .wp-block-cover-image .wp-block-cover__gradient-background,
 .wp-block-cover.has-background-dim:not(.has-background-gradient)::before,
-.wp-block-cover .has-background-dim:not(.has-background-gradient)::before,
+.wp-block-cover .wp-block-cover__background,
 .wp-block-cover .wp-block-cover__gradient-background {
   position: absolute;
   top: 0;

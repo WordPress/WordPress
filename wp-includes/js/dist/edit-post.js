@@ -9280,7 +9280,7 @@ function Editor(_ref) {
   const styles = Object(external_wp_element_["useMemo"])(() => {
     const themeStyles = [];
     const presetStyles = [];
-    settings.styles.forEach(style => {
+    Object(external_lodash_["forEach"])(settings.styles, style => {
       if (!style.__unstableType || style.__unstableType === 'theme') {
         themeStyles.push(style);
       } else {
