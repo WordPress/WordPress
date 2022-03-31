@@ -820,6 +820,10 @@ function wp_kses_allowed_html( $context = '' ) {
 		/**
 		 * Filters the HTML tags that are allowed for a given context.
 		 *
+		 * HTML tags and attribute names are case-insensitive in HTML but must be
+		 * added to the KSES allow list in lowercase. An item added to the allow list
+		 * in upper or mixed case will not recognized as permitted by KSES.
+		 *
 		 * @since 3.5.0
 		 *
 		 * @param array[] $html    Allowed HTML tags.
