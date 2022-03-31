@@ -824,13 +824,13 @@ class WP_List_Table {
 	 * @since 3.1.0
 	 *
 	 * @param string $option
-	 * @param int    $default
+	 * @param int    $default_value
 	 * @return int
 	 */
-	protected function get_items_per_page( $option, $default = 20 ) {
+	protected function get_items_per_page( $option, $default_value = 20 ) {
 		$per_page = (int) get_user_option( $option );
 		if ( empty( $per_page ) || $per_page < 1 ) {
-			$per_page = $default;
+			$per_page = $default_value;
 		}
 
 		/**
