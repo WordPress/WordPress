@@ -118,10 +118,10 @@ function show_blog_form( $blogname = '', $blog_title = '', $errors = '' ) {
 	}
 
 	if ( ! is_subdomain_install() ) {
-		echo '<span class="prefix_address">' . $current_network->domain . $current_network->path . '</span><input name="blogname" type="text" id="blogname" value="' . esc_attr( $blogname ) . '" maxlength="60" /><br />';
+		echo '<span class="prefix_address">' . $current_network->domain . $current_network->path . '</span><input name="blogname" type="text" id="blogname" value="' . esc_attr( $blogname ) . '" maxlength="60" autocomplete="off" /><br />';
 	} else {
 		$site_domain = preg_replace( '|^www\.|', '', $current_network->domain );
-		echo '<input name="blogname" type="text" id="blogname" value="' . esc_attr( $blogname ) . '" maxlength="60" /><span class="suffix_address">.' . esc_html( $site_domain ) . '</span><br />';
+		echo '<input name="blogname" type="text" id="blogname" value="' . esc_attr( $blogname ) . '" maxlength="60" autocomplete="off" /><span class="suffix_address">.' . esc_html( $site_domain ) . '</span><br />';
 	}
 
 	if ( ! is_user_logged_in() ) {
@@ -149,7 +149,7 @@ function show_blog_form( $blogname = '', $blog_title = '', $errors = '' ) {
 		<p class="error"><?php echo $errmsg; ?></p>
 		<?php
 	}
-	echo '<input name="blog_title" type="text" id="blog_title" value="' . esc_attr( $blog_title ) . '" />';
+	echo '<input name="blog_title" type="text" id="blog_title" value="' . esc_attr( $blog_title ) . '" autocomplete="off" />';
 	?>
 
 	<?php
@@ -260,7 +260,7 @@ function show_user_form( $user_name = '', $user_email = '', $errors = '' ) {
 	if ( $errmsg ) {
 		echo '<p class="error">' . $errmsg . '</p>';
 	}
-	echo '<input name="user_name" type="text" id="user_name" value="' . esc_attr( $user_name ) . '" autocapitalize="none" autocorrect="off" maxlength="60" /><br />';
+	echo '<input name="user_name" type="text" id="user_name" value="' . esc_attr( $user_name ) . '" autocapitalize="none" autocorrect="off" maxlength="60" autocomplete="username" /><br />';
 	_e( '(Must be at least 4 characters, letters and numbers only.)' );
 	?>
 
@@ -271,7 +271,7 @@ function show_user_form( $user_name = '', $user_email = '', $errors = '' ) {
 		?>
 		<p class="error"><?php echo $errmsg; ?></p>
 	<?php } ?>
-	<input name="user_email" type="email" id="user_email" value="<?php echo esc_attr( $user_email ); ?>" maxlength="200" /><br /><?php _e( 'We send your registration email to this address. (Double-check your email address before continuing.)' ); ?>
+	<input name="user_email" type="email" id="user_email" value="<?php echo esc_attr( $user_email ); ?>" maxlength="200" autocomplete="email" /><br /><?php _e( 'We send your registration email to this address. (Double-check your email address before continuing.)' ); ?>
 	<?php
 	$errmsg = $errors->get_error_message( 'generic' );
 	if ( $errmsg ) {
