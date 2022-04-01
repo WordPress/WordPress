@@ -47,7 +47,7 @@ class WP_Embed {
 	}
 
 	/**
-	 * Process the [embed] shortcode.
+	 * Processes the [embed] shortcode.
 	 *
 	 * Since the [embed] shortcode needs to be run earlier than other shortcodes,
 	 * this function removes all existing shortcodes, registers the [embed] shortcode,
@@ -55,8 +55,8 @@ class WP_Embed {
 	 *
 	 * @global array $shortcode_tags
 	 *
-	 * @param string $content Content to parse
-	 * @return string Content with shortcode parsed
+	 * @param string $content Content to parse.
+	 * @return string Content with shortcode parsed.
 	 */
 	public function run_shortcode( $content ) {
 		global $shortcode_tags;
@@ -376,7 +376,7 @@ class WP_Embed {
 	}
 
 	/**
-	 * Delete all oEmbed caches. Unused by core as of 4.0.0.
+	 * Deletes all oEmbed caches. Unused by core as of 4.0.0.
 	 *
 	 * @param int $post_ID Post ID to delete the caches for.
 	 */
@@ -491,7 +491,7 @@ class WP_Embed {
 	}
 
 	/**
-	 * Find the oEmbed cache post ID for a given cache key.
+	 * Finds the oEmbed cache post ID for a given cache key.
 	 *
 	 * @since 4.9.0
 	 *
