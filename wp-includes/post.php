@@ -7374,6 +7374,9 @@ function update_post_cache( &$posts ) {
 
 	$data = array();
 	foreach ( $posts as $post ) {
+		if ( empty( $post->filter ) || 'raw' !== $post->filter ) {
+			$post = sanitize_post( $post, 'raw' );
+		}
 		$data[ $post->ID ] = $post;
 	}
 	wp_cache_add_multiple( $data, 'posts' );
