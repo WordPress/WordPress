@@ -8,7 +8,7 @@
  */
 
 ?>
-<div class="search-modal cover-modal header-footer-group" data-modal-target-string=".search-modal">
+<div class="search-modal cover-modal header-footer-group" data-modal-target-string=".search-modal" role="dialog" aria-modal="true" aria-label="<?php esc_attr_e( 'Search', 'twentytwenty' ); ?>">
 
 	<div class="search-modal-inner modal-inner">
 
