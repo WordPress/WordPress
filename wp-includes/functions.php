@@ -5176,6 +5176,10 @@ function wp_list_filter( $list, $args = array(), $operator = 'AND' ) {
  *               `$list` will be preserved in the results.
  */
 function wp_list_pluck( $list, $field, $index_key = null ) {
+	if ( ! is_array( $list ) ) {
+		return array();
+	}
+
 	$util = new WP_List_Util( $list );
 
 	return $util->pluck( $field, $index_key );
