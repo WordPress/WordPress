@@ -1748,7 +1748,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 				<div class="inline-edit-col">
 
 				<?php
-				if ( post_type_supports( $screen->post_type, 'author' ) && $bulk ) {
+				if ( post_type_supports( $screen->post_type, 'author' ) && ! wp_is_large_user_count() && $bulk ) {
 					echo $authors_dropdown;
 				}
 				?>
