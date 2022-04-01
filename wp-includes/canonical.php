@@ -957,8 +957,9 @@ function redirect_guess_404_permalink() {
 			$where .= $wpdb->prepare( ' AND DAYOFMONTH(post_date) = %d', get_query_var( 'day' ) );
 		}
 
+		$publicly_viewable_statuses = array_filter( get_post_stati(), 'is_post_status_viewable' );
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$post_id = $wpdb->get_var( "SELECT ID FROM $wpdb->posts WHERE $where AND post_status = 'publish'" );
+		$post_id = $wpdb->get_var( "SELECT ID FROM $wpdb->posts WHERE $where AND post_status IN ('" . implode( "', '", esc_sql( $publicly_viewable_statuses ) ) . "')" );
 
 		if ( ! $post_id ) {
 			return false;
