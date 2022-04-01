@@ -124,7 +124,7 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Retrieves the contents of the `<title>` tag from the HTML response.
+	 * Retrieves the contents of the title tag from the HTML response.
 	 *
 	 * @since 5.9.0
 	 *
@@ -188,7 +188,7 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Checks whether a given request has permission to read remote urls.
+	 * Checks whether a given request has permission to read remote URLs.
 	 *
 	 * @since 5.9.0
 	 *
@@ -207,7 +207,7 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller {
 
 		return new WP_Error(
 			'rest_cannot_view_url_details',
-			__( 'Sorry, you are not allowed to process remote urls.' ),
+			__( 'Sorry, you are not allowed to process remote URLs.' ),
 			array( 'status' => rest_authorization_required_code() )
 		);
 	}
@@ -242,7 +242,7 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller {
 		/**
 		 * Filters the HTTP request args for URL data retrieval.
 		 *
-		 * Can be used to adjust response size limit and other WP_Http::request args.
+		 * Can be used to adjust response size limit and other WP_Http::request() args.
 		 *
 		 * @since 5.9.0
 		 *
@@ -276,7 +276,7 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Parses the `<title>` contents from the provided HTML.
+	 * Parses the title tag contents from the provided HTML.
 	 *
 	 * @since 5.9.0
 	 *
@@ -482,7 +482,7 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Retrieves the `<head>` section.
+	 * Retrieves the head tag section.
 	 *
 	 * @since 5.9.0
 	 *
@@ -519,7 +519,7 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Gets all the `<meta>` elements that have a `content` attribute.
+	 * Gets all the meta tag elements that have a 'content' attribute.
 	 *
 	 * @since 5.9.0
 	 *
