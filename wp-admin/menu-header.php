@@ -123,13 +123,13 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 		 * as special cases.
 		 */
 		if ( ! empty( $item[6] ) ) {
-			$img = '<img src="' . $item[6] . '" alt="" />';
+			$img = '<img src="' . esc_url( $item[6] ) . '" alt="" />';
 
 			if ( 'none' === $item[6] || 'div' === $item[6] ) {
 				$img = '<br />';
 			} elseif ( 0 === strpos( $item[6], 'data:image/svg+xml;base64,' ) ) {
 				$img       = '<br />';
-				$img_style = ' style="background-image:url(\'' . esc_attr( $item[6] ) . '\')"';
+				$img_style = ' style="background-image:url(\'' . esc_url( $item[6] ) . '\')"';
 				$img_class = ' svg';
 			} elseif ( 0 === strpos( $item[6], 'dashicons-' ) ) {
 				$img       = '<br />';
