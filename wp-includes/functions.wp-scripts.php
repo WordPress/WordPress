@@ -166,7 +166,7 @@ function wp_add_inline_script( $handle, $data, $position = 'after' ) {
  *                                    as a query string for cache busting purposes. If version is set to false, a version
  *                                    number is automatically added equal to current installed WordPress version.
  *                                    If set to null, no version is added.
- * @param bool             $in_footer Optional. Whether to enqueue the script before </body> instead of in the <head>.
+ * @param bool             $in_footer Optional. Whether to enqueue the script before `</body>` instead of in the `<head>`.
  *                                    Default 'false'.
  * @return bool Whether the script has been registered. True on success, false on failure.
  */
@@ -340,7 +340,7 @@ function wp_deregister_script( $handle ) {
  *                                    as a query string for cache busting purposes. If version is set to false, a version
  *                                    number is automatically added equal to current installed WordPress version.
  *                                    If set to null, no version is added.
- * @param bool             $in_footer Optional. Whether to enqueue the script before </body> instead of in the <head>.
+ * @param bool             $in_footer Optional. Whether to enqueue the script before `</body>` instead of in the `<head>`.
  *                                    Default 'false'.
  */
 function wp_enqueue_script( $handle, $src = '', $deps = array(), $ver = false, $in_footer = false ) {

@@ -1948,7 +1948,7 @@ function wp_get_custom_css( $stylesheet = '' ) {
 	}
 
 	/**
-	 * Filters the Custom CSS Output into the <head>.
+	 * Filters the custom CSS output into the head element.
 	 *
 	 * @since 4.7.0
 	 *

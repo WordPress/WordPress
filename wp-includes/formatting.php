@@ -374,8 +374,8 @@ function wptexturize_primes( $haystack, $needle, $prime, $open_quote, $close_quo
  * Searches for disabled element tags. Pushes element to stack on tag open
  * and pops on tag close.
  *
- * Assumes first char of $text is tag opening and last char is tag closing.
- * Assumes second char of $text is optionally '/' to indicate closing as in </html>.
+ * Assumes first char of `$text` is tag opening and last char is tag closing.
+ * Assumes second char of `$text` is optionally `/` to indicate closing as in `</html>`.
  *
  * @since 2.9.0
  * @access private
@@ -429,7 +429,7 @@ function _wptexturize_pushpop_element( $text, &$stack, $disabled_elements ) {
  *
  * A group of regex replaces used to identify text formatted with newlines and
  * replace double line breaks with HTML paragraph tags. The remaining line breaks
- * after conversion become <<br />> tags, unless $br is set to '0' or 'false'.
+ * after conversion become `<br />` tags, unless `$br` is set to '0' or 'false'.
  *
  * @since 0.71
  *
@@ -909,10 +909,10 @@ function seems_utf8( $str ) {
 /**
  * Converts a number of special characters into their HTML entities.
  *
- * Specifically deals with: &, <, >, ", and '.
+ * Specifically deals with: `&`, `<`, `>`, `"`, and `'`.
  *
- * $quote_style can be set to ENT_COMPAT to encode " to
- * &quot;, or ENT_QUOTES to do both. Default is ENT_NOQUOTES where no quotes are encoded.
+ * `$quote_style` can be set to ENT_COMPAT to encode `"` to
+ * `&quot;`, or ENT_QUOTES to do both. Default is ENT_NOQUOTES where no quotes are encoded.
  *
  * @since 1.2.2
  * @since 5.5.0 `$quote_style` also accepts `ENT_XML1`.
@@ -994,10 +994,10 @@ function _wp_specialchars( $string, $quote_style = ENT_NOQUOTES, $charset = fals
 /**
  * Converts a number of HTML entities into their special characters.
  *
- * Specifically deals with: &, <, >, ", and '.
+ * Specifically deals with: `&`, `<`, `>`, `"`, and `'`.
  *
- * $quote_style can be set to ENT_COMPAT to decode " entities,
- * or ENT_QUOTES to do both " and '. Default is ENT_NOQUOTES where no quotes are decoded.
+ * `$quote_style` can be set to ENT_COMPAT to decode `"` entities,
+ * or ENT_QUOTES to do both `"` and `'`. Default is ENT_NOQUOTES where no quotes are decoded.
  *
  * @since 2.8.0
  *
@@ -4510,10 +4510,10 @@ function htmlentities2( $myHTML ) {
 }
 
 /**
- * Escapes single quotes, htmlspecialchar " < > &, and fixes line endings.
+ * Escapes single quotes, `"`, `<`, `>`, `&`, and fixes line endings.
  *
  * Escapes text strings for echoing in JS. It is intended to be used for inline JS
- * (in a tag attribute, for example onclick="..."). Note that the strings have to
+ * (in a tag attribute, for example `onclick="..."`). Note that the strings have to
  * be in single quotes. The {@see 'js_escape'} filter is also applied here.
  *
  * @since 2.8.0

@@ -482,7 +482,7 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Retrieves the head tag section.
+	 * Retrieves the head element section.
 	 *
 	 * @since 5.9.0
 	 *
