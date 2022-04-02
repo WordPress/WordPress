@@ -476,7 +476,7 @@ final class WP_Customize_Nav_Menus {
 	}
 
 	/**
-	 * Enqueue scripts and styles for Customizer pane.
+	 * Enqueues scripts and styles for Customizer pane.
 	 *
 	 * @since 4.3.0
 	 */
@@ -598,7 +598,7 @@ final class WP_Customize_Nav_Menus {
 	}
 
 	/**
-	 * Allow non-statically created settings to be constructed with custom WP_Customize_Setting subclass.
+	 * Allows non-statically created settings to be constructed with custom WP_Customize_Setting subclass.
 	 *
 	 * @since 4.3.0
 	 *
@@ -619,7 +619,7 @@ final class WP_Customize_Nav_Menus {
 	}
 
 	/**
-	 * Add the customizer settings and controls.
+	 * Adds the customizer settings and controls.
 	 *
 	 * @since 4.3.0
 	 */
@@ -863,7 +863,7 @@ final class WP_Customize_Nav_Menus {
 	}
 
 	/**
-	 * Get the base10 intval.
+	 * Gets the base10 intval.
 	 *
 	 * This is used as a setting's sanitize_callback; we can't use just plain
 	 * intval because the second argument is not what intval() expects.
@@ -878,7 +878,7 @@ final class WP_Customize_Nav_Menus {
 	}
 
 	/**
-	 * Return an array of all the available item types.
+	 * Returns an array of all the available item types.
 	 *
 	 * @since 4.3.0
 	 * @since 4.7.0  Each array item now includes a `$type_label` in addition to `$title`, `$type`, and `$object`.
@@ -929,7 +929,7 @@ final class WP_Customize_Nav_Menus {
 	}
 
 	/**
-	 * Add a new `auto-draft` post.
+	 * Adds a new `auto-draft` post.
 	 *
 	 * @since 4.7.0
 	 *
@@ -1056,7 +1056,7 @@ final class WP_Customize_Nav_Menus {
 	}
 
 	/**
-	 * Print the JavaScript templates used to render Menu Customizer components.
+	 * Prints the JavaScript templates used to render Menu Customizer components.
 	 *
 	 * Templates are imported into the JS use wp.template.
 	 *
@@ -1134,7 +1134,7 @@ final class WP_Customize_Nav_Menus {
 	}
 
 	/**
-	 * Print the HTML template used to render the add-menu-item frame.
+	 * Prints the HTML template used to render the add-menu-item frame.
 	 *
 	 * @since 4.3.0
 	 */
@@ -1192,7 +1192,7 @@ final class WP_Customize_Nav_Menus {
 	}
 
 	/**
-	 * Print the markup for new menu items.
+	 * Prints the markup for new menu items.
 	 *
 	 * To be used in the template #available-menu-items.
 	 *
@@ -1237,7 +1237,7 @@ final class WP_Customize_Nav_Menus {
 	}
 
 	/**
-	 * Print the markup for available menu item custom links.
+	 * Prints the markup for available menu item custom links.
 	 *
 	 * @since 4.7.0
 	 *
@@ -1317,7 +1317,7 @@ final class WP_Customize_Nav_Menus {
 	}
 
 	/**
-	 * Add hooks for the Customizer preview.
+	 * Adds hooks for the Customizer preview.
 	 *
 	 * @since 4.3.0
 	 */
@@ -1330,7 +1330,7 @@ final class WP_Customize_Nav_Menus {
 	}
 
 	/**
-	 * Make the auto-draft status protected so that it can be queried.
+	 * Makes the auto-draft status protected so that it can be queried.
 	 *
 	 * @since 4.7.0
 	 *
@@ -1342,7 +1342,7 @@ final class WP_Customize_Nav_Menus {
 	}
 
 	/**
-	 * Sanitize post IDs for posts created for nav menu items to be published.
+	 * Sanitizes post IDs for posts created for nav menu items to be published.
 	 *
 	 * @since 4.7.0
 	 *
@@ -1372,7 +1372,7 @@ final class WP_Customize_Nav_Menus {
 	}
 
 	/**
-	 * Publish the auto-draft posts that were created for nav menu items.
+	 * Publishes the auto-draft posts that were created for nav menu items.
 	 *
 	 * The post IDs will have been sanitized by already by
 	 * `WP_Customize_Nav_Menu_Items::sanitize_nav_menus_created_posts()` to
@@ -1413,7 +1413,7 @@ final class WP_Customize_Nav_Menus {
 	}
 
 	/**
-	 * Keep track of the arguments that are being passed to wp_nav_menu().
+	 * Keeps track of the arguments that are being passed to wp_nav_menu().
 	 *
 	 * @since 4.3.0
 	 *
@@ -1517,7 +1517,7 @@ final class WP_Customize_Nav_Menus {
 	}
 
 	/**
-	 * Enqueue scripts for the Customizer preview.
+	 * Enqueues scripts for the Customizer preview.
 	 *
 	 * @since 4.3.0
 	 */
@@ -1540,7 +1540,7 @@ final class WP_Customize_Nav_Menus {
 	}
 
 	/**
-	 * Export any wp_nav_menu() calls during the rendering of any partials.
+	 * Exports any wp_nav_menu() calls during the rendering of any partials.
 	 *
 	 * @since 4.5.0
 	 *
@@ -1553,7 +1553,7 @@ final class WP_Customize_Nav_Menus {
 	}
 
 	/**
-	 * Render a specific menu via wp_nav_menu() using the supplied arguments.
+	 * Renders a specific menu via wp_nav_menu() using the supplied arguments.
 	 *
 	 * @since 4.3.0
 	 *
