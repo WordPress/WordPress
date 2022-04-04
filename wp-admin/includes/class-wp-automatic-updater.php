@@ -23,7 +23,7 @@ class WP_Automatic_Updater {
 	protected $update_results = array();
 
 	/**
-	 * Whether the entire automatic updater is disabled.
+	 * Determines whether the entire automatic updater is disabled.
 	 *
 	 * @since 3.7.0
 	 */
@@ -56,7 +56,7 @@ class WP_Automatic_Updater {
 	}
 
 	/**
-	 * Check for version control checkouts.
+	 * Checks for version control checkouts.
 	 *
 	 * Checks for Subversion, Git, Mercurial, and Bazaar. It recursively looks up the
 	 * filesystem to the top of the drive, erring on the side of detecting a VCS
@@ -295,7 +295,7 @@ class WP_Automatic_Updater {
 	}
 
 	/**
-	 * Update an item, if appropriate.
+	 * Updates an item, if appropriate.
 	 *
 	 * @since 3.7.0
 	 *
