@@ -1233,7 +1233,7 @@ function show_admin_bar( $show ) {
  * @since 3.1.0
  *
  * @global bool   $show_admin_bar
- * @global string $pagenow
+ * @global string $pagenow        The filename of the current screen.
  *
  * @return bool Whether the admin bar should be showing.
  */

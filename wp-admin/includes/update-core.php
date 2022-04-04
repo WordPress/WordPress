@@ -1554,7 +1554,7 @@ function _copy_dir( $from, $to, $skip_list = array() ) {
  * @since 3.3.0
  *
  * @global string $wp_version The WordPress version string.
- * @global string $pagenow
+ * @global string $pagenow    The filename of the current screen.
  * @global string $action
  *
  * @param string $new_version

@@ -327,7 +327,7 @@ function wp_update_link( $linkdata ) {
  * @since 3.5.0
  * @access private
  *
- * @global string $pagenow
+ * @global string $pagenow The filename of the current screen.
  */
 function wp_link_manager_disabled_message() {
 	global $pagenow;

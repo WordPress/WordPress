@@ -116,11 +116,11 @@ $time_format = __( 'g:i a' );
 wp_enqueue_script( 'common' );
 
 /**
- * $pagenow is set in vars.php
- * $wp_importers is sometimes set in wp-admin/includes/import.php
- * The remaining variables are imported as globals elsewhere, declared as globals here
+ * $pagenow is set in vars.php.
+ * $wp_importers is sometimes set in wp-admin/includes/import.php.
+ * The remaining variables are imported as globals elsewhere, declared as globals here.
  *
- * @global string $pagenow
+ * @global string $pagenow      The filename of the current screen.
  * @global array  $wp_importers
  * @global string $hook_suffix
  * @global string $plugin_page
@@ -376,7 +376,7 @@ if ( isset( $plugin_page ) ) {
 	 * The load-* hook fires in a number of contexts. This hook is for core screens.
 	 *
 	 * The dynamic portion of the hook name, `$pagenow`, is a global variable
-	 * referring to the filename of the current page, such as 'admin.php',
+	 * referring to the filename of the current screen, such as 'admin.php',
 	 * 'post-new.php' etc. A complete hook for the latter would be
 	 * 'load-post-new.php'.
 	 *

@@ -114,7 +114,7 @@ function get_user_locale( $user_id = 0 ) {
  *
  * @since 5.0.0
  *
- * @global string $pagenow
+ * @global string $pagenow The filename of the current screen.
  *
  * @return string The determined locale.
  */

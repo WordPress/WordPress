@@ -500,7 +500,7 @@ final class WP_Customize_Manager {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @global string $pagenow
+	 * @global string $pagenow The filename of the current screen.
 	 */
 	public function setup_theme() {
 		global $pagenow;
@@ -607,7 +607,7 @@ final class WP_Customize_Manager {
 	 *
 	 * @since 4.9.0
 	 *
-	 * @global string $pagenow
+	 * @global string $pagenow The filename of the current screen.
 	 */
 	public function establish_loaded_changeset() {
 		global $pagenow;
@@ -3285,7 +3285,7 @@ final class WP_Customize_Manager {
 	 *
 	 * @since 4.9.0
 	 *
-	 * @global string $pagenow
+	 * @global string $pagenow The filename of the current screen.
 	 *
 	 * @param array $settings Current settings to filter.
 	 * @return array Heartbeat settings.

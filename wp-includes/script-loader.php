@@ -2847,6 +2847,8 @@ function _wp_normalize_relative_css_links( $css, $stylesheet_url ) {
  * Inject the block editor assets that need to be loaded into the editor's iframe as an inline script.
  *
  * @since 5.8.0
+ *
+ * @global string $pagenow The filename of the current screen.
  */
 function wp_add_iframed_editor_assets_html() {
 	global $pagenow;

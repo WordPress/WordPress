@@ -277,15 +277,15 @@ function core_update_footer( $msg = '' ) {
 /**
  * @since 2.3.0
  *
- * @global string $pagenow
+ * @global string $pagenow The filename of the current screen.
  * @return void|false
  */
 function update_nag() {
+	global $pagenow;
+
 	if ( is_multisite() && ! current_user_can( 'update_core' ) ) {
 		return false;
 	}
-
-	global $pagenow;
 
 	if ( 'update-core.php' === $pagenow ) {
 		return;

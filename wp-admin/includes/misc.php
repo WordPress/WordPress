@@ -1276,7 +1276,7 @@ function wp_refresh_heartbeat_nonces( $response ) {
  *
  * @since 3.8.0
  *
- * @global string $pagenow
+ * @global string $pagenow The filename of the current screen.
  *
  * @param array $settings An array of Heartbeat settings.
  * @return array Filtered Heartbeat settings.

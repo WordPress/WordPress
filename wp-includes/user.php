@@ -3712,7 +3712,7 @@ All at ###SITENAME###
  * @since 3.0.0
  * @since 4.9.0 This function was moved from wp-admin/includes/ms.php so it's no longer Multisite specific.
  *
- * @global string $pagenow
+ * @global string $pagenow The filename of the current screen.
  */
 function new_user_email_admin_notice() {
 	global $pagenow;

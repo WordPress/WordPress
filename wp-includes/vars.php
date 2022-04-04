@@ -2,8 +2,8 @@
 /**
  * Creates common globals for the rest of WordPress
  *
- * Sets $pagenow global which is the current page. Checks
- * for the browser to set which one is currently being used.
+ * Sets $pagenow global which is the filename of the current screen.
+ * Checks for the browser to set which one is currently being used.
  *
  * Detects which user environment WordPress is being used on.
  * Only attempts to check for Apache, Nginx and IIS -- three web

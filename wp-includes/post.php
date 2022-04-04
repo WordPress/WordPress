@@ -6577,7 +6577,7 @@ function wp_update_attachment_metadata( $attachment_id, $data ) {
  *
  * @since 2.1.0
  *
- * @global string $pagenow
+ * @global string $pagenow The filename of the current screen.
  *
  * @param int $attachment_id Optional. Attachment post ID. Defaults to global $post.
  * @return string|false Attachment URL, otherwise false.

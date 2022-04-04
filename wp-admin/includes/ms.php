@@ -692,7 +692,7 @@ function mu_dropdown_languages( $lang_files = array(), $current = '' ) {
  * @since 3.0.0
  *
  * @global int    $wp_db_version WordPress database version.
- * @global string $pagenow
+ * @global string $pagenow       The filename of the current screen.
  *
  * @return void|false Void on success. False if the current user is not a super admin.
  */
@@ -1029,7 +1029,7 @@ jQuery( function($) {
  *
  * @since 4.6.0
  *
- * @global string $pagenow
+ * @global string $pagenow The filename of the current screen.
  *
  * @param array $args {
  *     Optional. Array or string of Query parameters. Default empty array.

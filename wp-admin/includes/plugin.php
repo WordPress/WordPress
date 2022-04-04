@@ -1858,7 +1858,7 @@ function menu_page_url( $menu_slug, $echo = true ) {
  * @global string $parent_file
  * @global array  $menu
  * @global array  $submenu
- * @global string $pagenow
+ * @global string $pagenow              The filename of the current screen.
  * @global string $typenow
  * @global string $plugin_page
  * @global array  $_wp_real_parent_file
@@ -1949,7 +1949,7 @@ function get_admin_page_parent( $parent = '' ) {
  * @global string $title
  * @global array $menu
  * @global array $submenu
- * @global string $pagenow
+ * @global string $pagenow     The filename of the current screen.
  * @global string $plugin_page
  * @global string $typenow
  *
@@ -2084,7 +2084,7 @@ function get_plugin_page_hookname( $plugin_page, $parent_page ) {
  *
  * @since 1.5.0
  *
- * @global string $pagenow
+ * @global string $pagenow            The filename of the current screen.
  * @global array  $menu
  * @global array  $submenu
  * @global array  $_wp_menu_nopriv
@@ -2467,7 +2467,7 @@ function resume_plugin( $plugin, $redirect = '' ) {
  *
  * @since 5.2.0
  *
- * @global string $pagenow
+ * @global string $pagenow The filename of the current screen.
  */
 function paused_plugins_notice() {
 	if ( 'plugins.php' === $GLOBALS['pagenow'] ) {
@@ -2500,8 +2500,8 @@ function paused_plugins_notice() {
  * @since 5.8.0
  * @access private
  *
- * @global string $pagenow
- * @global string $wp_version
+ * @global string $pagenow    The filename of the current screen.
+ * @global string $wp_version The WordPress version string.
  */
 function deactivated_plugins_notice() {
 	if ( 'plugins.php' === $GLOBALS['pagenow'] ) {
