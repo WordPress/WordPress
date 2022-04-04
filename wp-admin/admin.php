@@ -124,7 +124,7 @@ wp_enqueue_script( 'common' );
  * @global array  $wp_importers
  * @global string $hook_suffix
  * @global string $plugin_page
- * @global string $typenow
+ * @global string $typenow      The post type of the current screen.
  * @global string $taxnow
  */
 global $pagenow, $wp_importers, $hook_suffix, $plugin_page, $typenow, $taxnow;

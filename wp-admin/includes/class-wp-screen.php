@@ -402,14 +402,15 @@ final class WP_Screen {
 	 * @since 3.3.0
 	 *
 	 * @global WP_Screen $current_screen WordPress current screen object.
+	 * @global string    $typenow        The post type of the current screen.
 	 * @global string    $taxnow
-	 * @global string    $typenow
 	 */
 	public function set_current_screen() {
 		global $current_screen, $taxnow, $typenow;
+
 		$current_screen = $this;
-		$taxnow         = $this->taxonomy;
 		$typenow        = $this->post_type;
+		$taxnow         = $this->taxonomy;
 
 		/**
 		 * Fires after the current screen has been set.

@@ -59,7 +59,7 @@ get_admin_page_parent();
  * @global string $parent_file
  * @global string $submenu_file
  * @global string $plugin_page
- * @global string $typenow
+ * @global string $typenow      The post type of the current screen.
  *
  * @param array $menu
  * @param array $submenu

@@ -22,7 +22,7 @@ if ( ! defined( 'WP_ADMIN' ) ) {
  * @global string    $update_title
  * @global int       $total_update_count
  * @global string    $parent_file
- * @global string    $typenow
+ * @global string    $typenow            The post type of the current screen.
  */
 global $title, $hook_suffix, $current_screen, $wp_locale, $pagenow,
 	$update_title, $total_update_count, $parent_file, $typenow;

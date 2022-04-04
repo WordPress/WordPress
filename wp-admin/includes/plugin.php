@@ -1859,7 +1859,7 @@ function menu_page_url( $menu_slug, $echo = true ) {
  * @global array  $menu
  * @global array  $submenu
  * @global string $pagenow              The filename of the current screen.
- * @global string $typenow
+ * @global string $typenow              The post type of the current screen.
  * @global string $plugin_page
  * @global array  $_wp_real_parent_file
  * @global array  $_wp_menu_nopriv
@@ -1947,16 +1947,16 @@ function get_admin_page_parent( $parent = '' ) {
  * @since 1.5.0
  *
  * @global string $title
- * @global array $menu
- * @global array $submenu
+ * @global array  $menu
+ * @global array  $submenu
  * @global string $pagenow     The filename of the current screen.
+ * @global string $typenow     The post type of the current screen.
  * @global string $plugin_page
- * @global string $typenow
  *
  * @return string The title of the current admin page.
  */
 function get_admin_page_title() {
-	global $title, $menu, $submenu, $pagenow, $plugin_page, $typenow;
+	global $title, $menu, $submenu, $pagenow, $typenow, $plugin_page;
 
 	if ( ! empty( $title ) ) {
 		return $title;
