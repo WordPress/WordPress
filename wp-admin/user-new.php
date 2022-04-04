@@ -112,6 +112,12 @@ if ( isset( $_REQUEST['action'] ) && 'adduser' === $_REQUEST['action'] ) {
 
 			$switched_locale = switch_to_locale( get_user_locale( $user_details ) );
 
+			if ( '' !== get_option( 'blogname' ) ) {
+				$site_title = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
+			} else {
+				$site_title = parse_url( home_url(), PHP_URL_HOST );
+			}
+
 			/* translators: 1: Site title, 2: Site URL, 3: User role, 4: Activation URL. */
 			$message = __(
 				'Hi,
@@ -127,7 +133,7 @@ Please click the following link to confirm the invite:
 			$new_user_email['subject'] = sprintf(
 				/* translators: Joining confirmation notification email subject. %s: Site title. */
 				__( '[%s] Joining Confirmation' ),
-				wp_specialchars_decode( get_option( 'blogname' ) )
+				$site_title
 			);
 			$new_user_email['message'] = sprintf(
 				$message,

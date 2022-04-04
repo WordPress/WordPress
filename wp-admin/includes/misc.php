@@ -1472,12 +1472,18 @@ All at ###SITENAME###
 	$content      = str_replace( '###SITENAME###', wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ), $content );
 	$content      = str_replace( '###SITEURL###', home_url(), $content );
 
+	if ( '' !== get_option( 'blogname' ) ) {
+		$site_title = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
+	} else {
+		$site_title = parse_url( home_url(), PHP_URL_HOST );
+	}
+
 	wp_mail(
 		$value,
 		sprintf(
 			/* translators: New admin email address notification email subject. %s: Site title. */
 			__( '[%s] New Admin Email Address' ),
-			wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES )
+			$site_title
 		),
 		$content
 	);
