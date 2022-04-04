@@ -45,6 +45,14 @@ final class WP_Post_Type {
 	public $labels;
 
 	/**
+	 * Default labels.
+	 *
+	 * @since 6.0.0
+	 * @var (string|null)[][] $default_labels
+	 */
+	protected static $default_labels = array();
+
+	/**
 	 * A short descriptive summary of what the post type is.
 	 *
 	 * Default empty.
@@ -784,5 +792,70 @@ final class WP_Post_Type {
 		}
 
 		return $this->rest_controller;
+	}
+
+	/**
+	 * Returns the default labels for post types.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @return (string|null)[][] The default labels for post types.
+	 */
+	public static function get_default_labels() {
+		if ( ! empty( self::$default_labels ) ) {
+			return self::$default_labels;
+		}
+
+		self::$default_labels = array(
+			'name'                     => array( _x( 'Posts', 'post type general name' ), _x( 'Pages', 'post type general name' ) ),
+			'singular_name'            => array( _x( 'Post', 'post type singular name' ), _x( 'Page', 'post type singular name' ) ),
+			'add_new'                  => array( _x( 'Add New', 'post' ), _x( 'Add New', 'page' ) ),
+			'add_new_item'             => array( __( 'Add New Post' ), __( 'Add New Page' ) ),
+			'edit_item'                => array( __( 'Edit Post' ), __( 'Edit Page' ) ),
+			'new_item'                 => array( __( 'New Post' ), __( 'New Page' ) ),
+			'view_item'                => array( __( 'View Post' ), __( 'View Page' ) ),
+			'view_items'               => array( __( 'View Posts' ), __( 'View Pages' ) ),
+			'search_items'             => array( __( 'Search Posts' ), __( 'Search Pages' ) ),
+			'not_found'                => array( __( 'No posts found.' ), __( 'No pages found.' ) ),
+			'not_found_in_trash'       => array( __( 'No posts found in Trash.' ), __( 'No pages found in Trash.' ) ),
+			'parent_item_colon'        => array( null, __( 'Parent Page:' ) ),
+			'all_items'                => array( __( 'All Posts' ), __( 'All Pages' ) ),
+			'archives'                 => array( __( 'Post Archives' ), __( 'Page Archives' ) ),
+			'attributes'               => array( __( 'Post Attributes' ), __( 'Page Attributes' ) ),
+			'insert_into_item'         => array( __( 'Insert into post' ), __( 'Insert into page' ) ),
+			'uploaded_to_this_item'    => array( __( 'Uploaded to this post' ), __( 'Uploaded to this page' ) ),
+			'featured_image'           => array( _x( 'Featured image', 'post' ), _x( 'Featured image', 'page' ) ),
+			'set_featured_image'       => array( _x( 'Set featured image', 'post' ), _x( 'Set featured image', 'page' ) ),
+			'remove_featured_image'    => array( _x( 'Remove featured image', 'post' ), _x( 'Remove featured image', 'page' ) ),
+			'use_featured_image'       => array( _x( 'Use as featured image', 'post' ), _x( 'Use as featured image', 'page' ) ),
+			'filter_items_list'        => array( __( 'Filter posts list' ), __( 'Filter pages list' ) ),
+			'filter_by_date'           => array( __( 'Filter by date' ), __( 'Filter by date' ) ),
+			'items_list_navigation'    => array( __( 'Posts list navigation' ), __( 'Pages list navigation' ) ),
+			'items_list'               => array( __( 'Posts list' ), __( 'Pages list' ) ),
+			'item_published'           => array( __( 'Post published.' ), __( 'Page published.' ) ),
+			'item_published_privately' => array( __( 'Post published privately.' ), __( 'Page published privately.' ) ),
+			'item_reverted_to_draft'   => array( __( 'Post reverted to draft.' ), __( 'Page reverted to draft.' ) ),
+			'item_scheduled'           => array( __( 'Post scheduled.' ), __( 'Page scheduled.' ) ),
+			'item_updated'             => array( __( 'Post updated.' ), __( 'Page updated.' ) ),
+			'item_link'                => array(
+				_x( 'Post Link', 'navigation link block title' ),
+				_x( 'Page Link', 'navigation link block title' ),
+			),
+			'item_link_description'    => array(
+				_x( 'A link to a post.', 'navigation link block description' ),
+				_x( 'A link to a page.', 'navigation link block description' ),
+			),
+		);
+
+		return self::$default_labels;
+	}
+
+	/**
+	 * Resets the cache for the default labels.
+	 *
+	 * @since 6.0.0
+	 */
+	public static function reset_default_labels() {
+		self::$default_labels = array();
 	}
 }

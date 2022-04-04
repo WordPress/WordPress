@@ -25,6 +25,8 @@
 function create_initial_taxonomies() {
 	global $wp_rewrite;
 
+	WP_Taxonomy::reset_default_labels();
+
 	if ( ! did_action( 'init' ) ) {
 		$rewrite = array(
 			'category'    => false,
@@ -659,48 +661,7 @@ function get_taxonomy_labels( $tax ) {
 		$tax->labels['not_found'] = $tax->no_tagcloud;
 	}
 
-	$name_field_description   = __( 'The name is how it appears on your site.' );
-	$slug_field_description   = __( 'The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.' );
-	$parent_field_description = __( 'Assign a parent term to create a hierarchy. The term Jazz, for example, would be the parent of Bebop and Big Band.' );
-	$desc_field_description   = __( 'The description is not prominent by default; however, some themes may show it.' );
-
-	$nohier_vs_hier_defaults = array(
-		'name'                       => array( _x( 'Tags', 'taxonomy general name' ), _x( 'Categories', 'taxonomy general name' ) ),
-		'singular_name'              => array( _x( 'Tag', 'taxonomy singular name' ), _x( 'Category', 'taxonomy singular name' ) ),
-		'search_items'               => array( __( 'Search Tags' ), __( 'Search Categories' ) ),
-		'popular_items'              => array( __( 'Popular Tags' ), null ),
-		'all_items'                  => array( __( 'All Tags' ), __( 'All Categories' ) ),
-		'parent_item'                => array( null, __( 'Parent Category' ) ),
-		'parent_item_colon'          => array( null, __( 'Parent Category:' ) ),
-		'name_field_description'     => array( $name_field_description, $name_field_description ),
-		'slug_field_description'     => array( $slug_field_description, $slug_field_description ),
-		'parent_field_description'   => array( null, $parent_field_description ),
-		'desc_field_description'     => array( $desc_field_description, $desc_field_description ),
-		'edit_item'                  => array( __( 'Edit Tag' ), __( 'Edit Category' ) ),
-		'view_item'                  => array( __( 'View Tag' ), __( 'View Category' ) ),
-		'update_item'                => array( __( 'Update Tag' ), __( 'Update Category' ) ),
-		'add_new_item'               => array( __( 'Add New Tag' ), __( 'Add New Category' ) ),
-		'new_item_name'              => array( __( 'New Tag Name' ), __( 'New Category Name' ) ),
-		'separate_items_with_commas' => array( __( 'Separate tags with commas' ), null ),
-		'add_or_remove_items'        => array( __( 'Add or remove tags' ), null ),
-		'choose_from_most_used'      => array( __( 'Choose from the most used tags' ), null ),
-		'not_found'                  => array( __( 'No tags found.' ), __( 'No categories found.' ) ),
-		'no_terms'                   => array( __( 'No tags' ), __( 'No categories' ) ),
-		'filter_by_item'             => array( null, __( 'Filter by category' ) ),
-		'items_list_navigation'      => array( __( 'Tags list navigation' ), __( 'Categories list navigation' ) ),
-		'items_list'                 => array( __( 'Tags list' ), __( 'Categories list' ) ),
-		/* translators: Tab heading when selecting from the most used terms. */
-		'most_used'                  => array( _x( 'Most Used', 'tags' ), _x( 'Most Used', 'categories' ) ),
-		'back_to_items'              => array( __( '&larr; Go to Tags' ), __( '&larr; Go to Categories' ) ),
-		'item_link'                  => array(
-			_x( 'Tag Link', 'navigation link block title' ),
-			_x( 'Category Link', 'navigation link block title' ),
-		),
-		'item_link_description'      => array(
-			_x( 'A link to a tag.', 'navigation link block description' ),
-			_x( 'A link to a category.', 'navigation link block description' ),
-		),
-	);
+	$nohier_vs_hier_defaults = WP_Taxonomy::get_default_labels();
 
 	$nohier_vs_hier_defaults['menu_name'] = $nohier_vs_hier_defaults['name'];
 
