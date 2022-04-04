@@ -3266,6 +3266,7 @@ final class WP_Customize_Manager {
 		if ( ! $changeset_post_id ) {
 			return;
 		}
+
 		$lock = get_post_meta( $changeset_post_id, '_edit_lock', true );
 		$lock = explode( ':', $lock );
 
@@ -3283,14 +3284,19 @@ final class WP_Customize_Manager {
 	 * Filters heartbeat settings for the Customizer.
 	 *
 	 * @since 4.9.0
+	 *
+	 * @global string $pagenow
+	 *
 	 * @param array $settings Current settings to filter.
 	 * @return array Heartbeat settings.
 	 */
 	public function add_customize_screen_to_heartbeat_settings( $settings ) {
 		global $pagenow;
+
 		if ( 'customize.php' === $pagenow ) {
 			$settings['screenId'] = 'customize';
 		}
+
 		return $settings;
 	}
 
@@ -3306,10 +3312,13 @@ final class WP_Customize_Manager {
 		if ( ! $user_id ) {
 			return null;
 		}
+
 		$lock_user = get_userdata( $user_id );
+
 		if ( ! $lock_user ) {
 			return null;
 		}
+
 		return array(
 			'id'     => $lock_user->ID,
 			'name'   => $lock_user->display_name,
