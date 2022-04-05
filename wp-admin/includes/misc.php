@@ -1137,6 +1137,7 @@ function wp_check_locked_posts( $response, $data, $screen_id ) {
 
 				if ( $user && current_user_can( 'edit_post', $post_id ) ) {
 					$send = array(
+						'name' => $user->display_name,
 						/* translators: %s: User's display name. */
 						'text' => sprintf( __( '%s is currently editing' ), $user->display_name ),
 					);

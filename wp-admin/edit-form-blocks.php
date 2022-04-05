@@ -151,9 +151,9 @@ if ( $user_id ) {
 	if ( $locked ) {
 		$user         = get_userdata( $user_id );
 		$user_details = array(
-			'name' => $user->display_name,
+			'avatar' => get_avatar_url( $user_id, array( 'size' => 128 ) ),
+			'name'   => $user->display_name,
 		);
-		$avatar       = get_avatar_url( $user_id, array( 'size' => 64 ) );
 	}
 
 	$lock_details = array(
