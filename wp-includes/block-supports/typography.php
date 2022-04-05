@@ -81,8 +81,7 @@ function wp_apply_typography_support( $block_type, $block_attributes ) {
 		return array();
 	}
 
-	$skip_typography_serialization = _wp_array_get( $typography_supports, array( '__experimentalSkipSerialization' ), false );
-	if ( $skip_typography_serialization ) {
+	if ( wp_should_skip_block_supports_serialization( $block_type, 'typography' ) ) {
 		return array();
 	}
 
@@ -99,7 +98,7 @@ function wp_apply_typography_support( $block_type, $block_attributes ) {
 	$has_text_decoration_support = _wp_array_get( $typography_supports, array( '__experimentalTextDecoration' ), false );
 	$has_text_transform_support  = _wp_array_get( $typography_supports, array( '__experimentalTextTransform' ), false );
 
-	if ( $has_font_size_support ) {
+	if ( $has_font_size_support && ! wp_should_skip_block_supports_serialization( $block_type, 'typography', 'fontSize' ) ) {
 		$has_named_font_size  = array_key_exists( 'fontSize', $block_attributes );
 		$has_custom_font_size = isset( $block_attributes['style']['typography']['fontSize'] );
 
@@ -110,7 +109,7 @@ function wp_apply_typography_support( $block_type, $block_attributes ) {
 		}
 	}
 
-	if ( $has_font_family_support ) {
+	if ( $has_font_family_support && ! wp_should_skip_block_supports_serialization( $block_type, 'typography', 'fontFamily' ) ) {
 		$has_named_font_family  = array_key_exists( 'fontFamily', $block_attributes );
 		$has_custom_font_family = isset( $block_attributes['style']['typography']['fontFamily'] );
 
@@ -129,42 +128,42 @@ function wp_apply_typography_support( $block_type, $block_attributes ) {
 		}
 	}
 
-	if ( $has_font_style_support ) {
+	if ( $has_font_style_support && ! wp_should_skip_block_supports_serialization( $block_type, 'typography', 'fontStyle' ) ) {
 		$font_style = wp_typography_get_css_variable_inline_style( $block_attributes, 'fontStyle', 'font-style' );
 		if ( $font_style ) {
 			$styles[] = $font_style;
 		}
 	}
 
-	if ( $has_font_weight_support ) {
+	if ( $has_font_weight_support && ! wp_should_skip_block_supports_serialization( $block_type, 'typography', 'fontWeight' ) ) {
 		$font_weight = wp_typography_get_css_variable_inline_style( $block_attributes, 'fontWeight', 'font-weight' );
 		if ( $font_weight ) {
 			$styles[] = $font_weight;
 		}
 	}
 
-	if ( $has_line_height_support ) {
+	if ( $has_line_height_support && ! wp_should_skip_block_supports_serialization( $block_type, 'typography', 'lineHeight' ) ) {
 		$has_line_height = isset( $block_attributes['style']['typography']['lineHeight'] );
 		if ( $has_line_height ) {
 			$styles[] = sprintf( 'line-height: %s;', $block_attributes['style']['typography']['lineHeight'] );
 		}
 	}
 
-	if ( $has_text_decoration_support ) {
+	if ( $has_text_decoration_support && ! wp_should_skip_block_supports_serialization( $block_type, 'typography', 'textDecoration' ) ) {
 		$text_decoration_style = wp_typography_get_css_variable_inline_style( $block_attributes, 'textDecoration', 'text-decoration' );
 		if ( $text_decoration_style ) {
 			$styles[] = $text_decoration_style;
 		}
 	}
 
-	if ( $has_text_transform_support ) {
+	if ( $has_text_transform_support && ! wp_should_skip_block_supports_serialization( $block_type, 'typography', 'textTransform' ) ) {
 		$text_transform_style = wp_typography_get_css_variable_inline_style( $block_attributes, 'textTransform', 'text-transform' );
 		if ( $text_transform_style ) {
 			$styles[] = $text_transform_style;
 		}
 	}
 
-	if ( $has_letter_spacing_support ) {
+	if ( $has_letter_spacing_support && ! wp_should_skip_block_supports_serialization( $block_type, 'typography', 'letterSpacing' ) ) {
 		$letter_spacing_style = wp_typography_get_css_variable_inline_style( $block_attributes, 'letterSpacing', 'letter-spacing' );
 		if ( $letter_spacing_style ) {
 			$styles[] = $letter_spacing_style;
