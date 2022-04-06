@@ -59,6 +59,15 @@ class WP_Block_Type {
 	public $parent = null;
 
 	/**
+	 * Setting ancestor makes a block available only inside the specified
+	 * block types at any position of the ancestor's block subtree.
+	 *
+	 * @since 6.0.0
+	 * @var array|null
+	 */
+	public $ancestor = null;
+
+	/**
 	 * Block type icon.
 	 *
 	 * @since 5.5.0
@@ -207,6 +216,7 @@ class WP_Block_Type {
 	 * @since 5.6.0 Added the `api_version` property.
 	 * @since 5.8.0 Added the `variations` property.
 	 * @since 5.9.0 Added the `view_script` property.
+	 * @since 6.0.0 Added the `ancestor` property.
 	 *
 	 * @see register_block_type()
 	 *
@@ -221,6 +231,8 @@ class WP_Block_Type {
 	 *                                           search interfaces to arrange block types by category.
 	 *     @type array|null    $parent           Setting parent lets a block require that it is only
 	 *                                           available when nested within the specified blocks.
+	 *     @type array|null    $ancestor         Setting ancestor makes a block available only inside the specified
+	 *                                           block types at any position of the ancestor's block subtree.
 	 *     @type string|null   $icon             Block type icon.
 	 *     @type string        $description      A detailed block type description.
 	 *     @type string[]      $keywords         Additional keywords to produce block type as

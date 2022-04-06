@@ -2232,6 +2232,7 @@ function get_block_editor_server_block_settings() {
 		'styles'           => 'styles',
 		'textdomain'       => 'textdomain',
 		'parent'           => 'parent',
+		'ancestor'         => 'ancestor',
 		'keywords'         => 'keywords',
 		'example'          => 'example',
 		'variations'       => 'variations',

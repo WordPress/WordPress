@@ -266,6 +266,7 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller {
 			'category',
 			'keywords',
 			'parent',
+			'ancestor',
 			'provides_context',
 			'uses_context',
 			'supports',
@@ -637,6 +638,16 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller {
 				),
 				'parent'           => array(
 					'description' => __( 'Parent blocks.' ),
+					'type'        => array( 'array', 'null' ),
+					'items'       => array(
+						'type' => 'string',
+					),
+					'default'     => null,
+					'context'     => array( 'embed', 'view', 'edit' ),
+					'readonly'    => true,
+				),
+				'ancestor'           => array(
+					'description' => __( 'Ancestor blocks.' ),
 					'type'        => array( 'array', 'null' ),
 					'items'       => array(
 						'type' => 'string',
