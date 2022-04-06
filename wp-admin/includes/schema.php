@@ -1173,8 +1173,6 @@ function populate_network_meta( $network_id, array $meta = array() ) {
 		wp_cache_delete( $network_id, 'networks' );
 	}
 
-	wp_cache_delete( 'networks_have_paths', 'site-options' );
-
 	if ( ! is_multisite() ) {
 		$site_admins = array( $site_user->user_login );
 		$users       = get_users(
