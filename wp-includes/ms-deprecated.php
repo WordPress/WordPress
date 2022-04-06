@@ -559,7 +559,7 @@ function is_user_option_local( $key, $user_id = 0, $blog_id = 0 ) {
  * the new blog's ID. It is the first step in creating a new blog.
  *
  * @since MU (3.0.0)
- * @deprecated 5.1.0 Use `wp_insert_site()`
+ * @deprecated 5.1.0 Use wp_insert_site()
  * @see wp_insert_site()
  *
  * @param string $domain  The domain of the new site.

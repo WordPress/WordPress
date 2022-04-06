@@ -549,7 +549,7 @@ function wpmu_current_site() {
  * Retrieve an object containing information about the requested network.
  *
  * @since 3.9.0
- * @deprecated 4.7.0 Use `get_network()`
+ * @deprecated 4.7.0 Use get_network()
  * @see get_network()
  *
  * @internal In 4.6.0, converted to use get_network()

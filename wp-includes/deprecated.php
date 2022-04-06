@@ -4182,6 +4182,8 @@ function wp_no_robots() {
  * @since 5.0.1
  * @deprecated 5.7.0 Use wp_robots_sensitive_page() instead on 'wp_robots' filter
  *                   and wp_strict_cross_origin_referrer() on 'wp_head' action.
+ *
+ * @see wp_robots_sensitive_page()
  */
 function wp_sensitive_page_meta() {
 	_deprecated_function( __FUNCTION__, '5.7.0', 'wp_robots_sensitive_page()' );
@@ -4196,9 +4198,10 @@ function wp_sensitive_page_meta() {
  * Render inner blocks from the `core/columns` block for generating an excerpt.
  *
  * @since 5.2.0
- * @deprecated 5.8.0
- *
  * @access private
+ * @deprecated 5.8.0 Use _excerpt_render_inner_blocks() introduced in 5.8.0.
+ *
+ * @see _excerpt_render_inner_blocks()
  *
  * @param array $columns        The parsed columns block.
  * @param array $allowed_blocks The list of allowed inner blocks.
@@ -4206,6 +4209,7 @@ function wp_sensitive_page_meta() {
  */
 function _excerpt_render_inner_columns_blocks( $columns, $allowed_blocks ) {
 	_deprecated_function( __FUNCTION__, '5.8.0', '_excerpt_render_inner_blocks()' );
+
 	return _excerpt_render_inner_blocks( $columns, $allowed_blocks );
 }
 
@@ -4214,7 +4218,7 @@ function _excerpt_render_inner_columns_blocks( $columns, $allowed_blocks ) {
  * reference the rendered SVG.
  *
  * @since 5.9.0
- * @deprecated 5.9.1 Use `wp_get_duotone_filter_property` introduced in 5.9.1.
+ * @deprecated 5.9.1 Use wp_get_duotone_filter_property() introduced in 5.9.1.
  *
  * @see wp_get_duotone_filter_property()
  *
@@ -4223,16 +4227,18 @@ function _excerpt_render_inner_columns_blocks( $columns, $allowed_blocks ) {
  */
 function wp_render_duotone_filter_preset( $preset ) {
 	_deprecated_function( __FUNCTION__, '5.9.1', 'wp_get_duotone_filter_property()' );
+
 	return wp_get_duotone_filter_property( $preset );
 }
 
 /**
- * Checks whether serialization of the current block's border properties should
- * occur.
+ * Checks whether serialization of the current block's border properties should occur.
  *
  * @since 5.8.0
  * @access private
- * @deprecated 6.0.0 Use `wp_should_skip_block_supports_serialization` introduced in 6.0.0.
+ * @deprecated 6.0.0 Use wp_should_skip_block_supports_serialization() introduced in 6.0.0.
+ *
+ * @see wp_should_skip_block_supports_serialization()
  *
  * @param WP_Block_Type $block_type Block type.
  * @return bool Whether serialization of the current block's border properties
@@ -4240,6 +4246,7 @@ function wp_render_duotone_filter_preset( $preset ) {
  */
 function wp_skip_border_serialization( $block_type ) {
 	_deprecated_function( __FUNCTION__, '6.0.0', 'wp_should_skip_block_supports_serialization()' );
+
 	$border_support = _wp_array_get( $block_type->supports, array( '__experimentalBorder' ), false );
 
 	return is_array( $border_support ) &&
@@ -4248,37 +4255,42 @@ function wp_skip_border_serialization( $block_type ) {
 }
 
 /**
- * Checks whether serialization of the current block's dimensions properties
- * should occur.
+ * Checks whether serialization of the current block's dimensions properties should occur.
  *
  * @since 5.9.0
  * @access private
- * @deprecated 6.0.0 Use `wp_should_skip_block_supports_serialization` introduced in 6.0.0.
+ * @deprecated 6.0.0 Use wp_should_skip_block_supports_serialization() introduced in 6.0.0.
+ *
+ * @see wp_should_skip_block_supports_serialization()
  *
  * @param WP_Block_type $block_type Block type.
  * @return bool Whether to serialize spacing support styles & classes.
  */
 function wp_skip_dimensions_serialization( $block_type ) {
 	_deprecated_function( __FUNCTION__, '6.0.0', 'wp_should_skip_block_supports_serialization()' );
+
 	$dimensions_support = _wp_array_get( $block_type->supports, array( '__experimentalDimensions' ), false );
+
 	return is_array( $dimensions_support ) &&
 		array_key_exists( '__experimentalSkipSerialization', $dimensions_support ) &&
 		$dimensions_support['__experimentalSkipSerialization'];
 }
 
 /**
- * Checks whether serialization of the current block's spacing properties should
- * occur.
+ * Checks whether serialization of the current block's spacing properties should occur.
  *
  * @since 5.9.0
  * @access private
- * @deprecated 6.0.0 Use `wp_should_skip_block_supports_serialization` introduced in 6.0.0.
+ * @deprecated 6.0.0 Use wp_should_skip_block_supports_serialization() introduced in 6.0.0.
+ *
+ * @see wp_should_skip_block_supports_serialization()
  *
  * @param WP_Block_Type $block_type Block type.
  * @return bool Whether to serialize spacing support styles & classes.
  */
 function wp_skip_spacing_serialization( $block_type ) {
 	_deprecated_function( __FUNCTION__, '6.0.0', 'wp_should_skip_block_supports_serialization()' );
+
 	$spacing_support = _wp_array_get( $block_type->supports, array( 'spacing' ), false );
 
 	return is_array( $spacing_support ) &&

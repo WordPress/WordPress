@@ -20,7 +20,7 @@
  * This function is deprecated, and cannot be used on PHP >= 8.1.
  *
  * @since 4.9.0
- * @deprecated 5.9.0 Use `wp_readonly` introduced in 5.9.0.
+ * @deprecated 5.9.0 Use wp_readonly() introduced in 5.9.0.
  *
  * @see wp_readonly()
  *
