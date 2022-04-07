@@ -394,6 +394,8 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
 		unset( $editor_settings['__experimentalFeatures']['spacing']['padding'] );
 	}
 
+	$editor_settings['localAutosaveInterval'] = 15;
+
 	/**
 	 * Filters the settings to pass to the block editor for all editor type.
 	 *
