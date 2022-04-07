@@ -611,14 +611,27 @@ function wp_admin_bar_my_sites_menu( $wp_admin_bar ) {
 		)
 	);
 
+	/**
+	 * Filters whether to show the site icons in toolbar.
+	 *
+	 * Returning false to this hook is the recommended way to hide site icons in the toolbar.
+	 * A truthy return may have negative performance impact on large multisites.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param bool $show_site_icons Whether site icons should be shown in the toolbar. Default true.
+	 */
+	$show_site_icons = apply_filters( 'wp_admin_bar_show_site_icons', true );
+
 	foreach ( (array) $wp_admin_bar->user->blogs as $blog ) {
 		switch_to_blog( $blog->userblog_id );
 
-		if ( has_site_icon() ) {
+		if ( true === $show_site_icons && has_site_icon() ) {
 			$blavatar = sprintf(
-				'<img class="blavatar" src="%s" srcset="%s 2x" alt="" width="16" height="16" />',
+				'<img class="blavatar" src="%s" srcset="%s 2x" alt="" width="16" height="16"%s />',
 				esc_url( get_site_icon_url( 16 ) ),
-				esc_url( get_site_icon_url( 32 ) )
+				esc_url( get_site_icon_url( 32 ) ),
+				( wp_lazy_loading_enabled( 'img', 'site_icon_in_toolbar' ) ? ' loading="lazy"' : '' )
 			);
 		} else {
 			$blavatar = '<div class="blavatar"></div>';
