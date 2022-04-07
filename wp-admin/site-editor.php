@@ -23,6 +23,20 @@ if ( ! wp_is_block_theme() ) {
 	wp_die( __( 'The theme you are currently using is not compatible with Full Site Editing.' ) );
 }
 
+/**
+ * Do a server-side redirection if missing `postType` and `postId`
+ * query args when visiting Site Editor.
+ */
+$home_template = _resolve_home_block_template();
+if ( $home_template && empty( $_GET['postType'] ) && empty( $_GET['postId'] ) ) {
+	$redirect_url = add_query_arg(
+		$home_template,
+		admin_url( 'site-editor.php' )
+	);
+	wp_safe_redirect( $redirect_url );
+	exit;
+}
+
 // Used in the HTML title tag.
 $title       = __( 'Editor (beta)' );
 $parent_file = 'themes.php';
@@ -56,6 +70,7 @@ $custom_settings      = array(
 	'styles'                               => get_block_editor_theme_styles(),
 	'defaultTemplateTypes'                 => $indexed_template_types,
 	'defaultTemplatePartAreas'             => get_allowed_block_template_part_areas(),
+	'__unstableHomeTemplate'               => $home_template,
 	'__experimentalBlockPatterns'          => WP_Block_Patterns_Registry::get_instance()->get_all_registered(),
 	'__experimentalBlockPatternCategories' => WP_Block_Pattern_Categories_Registry::get_instance()->get_all_registered(),
 );
