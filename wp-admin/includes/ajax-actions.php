@@ -158,6 +158,7 @@ function wp_ajax_ajax_tag_search() {
 			'name__like' => $s,
 			'fields'     => 'names',
 			'hide_empty' => false,
+			'number'     => isset( $_GET['number'] ) ? (int) $_GET['number'] : 0,
 		)
 	);
 
