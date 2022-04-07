@@ -108,12 +108,20 @@ function register_block_script_handle( $metadata, $field_name ) {
 	}
 	// Path needs to be normalized to work in Windows env.
 	$wpinc_path_norm  = wp_normalize_path( realpath( ABSPATH . WPINC ) );
+	$theme_path_norm  = wp_normalize_path( get_theme_file_path() );
 	$script_path_norm = wp_normalize_path( realpath( dirname( $metadata['file'] ) . '/' . $script_path ) );
 	$is_core_block    = isset( $metadata['file'] ) && 0 === strpos( $metadata['file'], $wpinc_path_norm );
+	$is_theme_block   = 0 === strpos( $script_path_norm, $theme_path_norm );
 
-	$script_uri          = $is_core_block ?
-		includes_url( str_replace( $wpinc_path_norm, '', $script_path_norm ) ) :
-		plugins_url( $script_path, $metadata['file'] );
+	$script_uri;
+	if ( $is_core_block ) {
+		$script_uri = includes_url( str_replace( $wpinc_path_norm, '', $script_path_norm ) );
+	} elseif ( $is_theme_block ) {
+		$script_uri = get_theme_file_uri( str_replace( $theme_path_norm, '', $script_path_norm ) );
+	} else {
+		$script_uri = plugins_url( $script_path, $metadata['file'] );
+	}
+
 	$script_asset        = require $script_asset_path;
 	$script_dependencies = isset( $script_asset['dependencies'] ) ? $script_asset['dependencies'] : array();
 	$result              = wp_register_script(
@@ -150,6 +158,7 @@ function register_block_style_handle( $metadata, $field_name ) {
 		return false;
 	}
 	$wpinc_path_norm = wp_normalize_path( realpath( ABSPATH . WPINC ) );
+	$theme_path_norm = wp_normalize_path( get_theme_file_path() );
 	$is_core_block   = isset( $metadata['file'] ) && 0 === strpos( $metadata['file'], $wpinc_path_norm );
 	if ( $is_core_block && ! wp_should_load_separate_core_block_assets() ) {
 		return false;
@@ -169,6 +178,13 @@ function register_block_style_handle( $metadata, $field_name ) {
 	if ( $is_core_block ) {
 		$style_path = "style$suffix.css";
 		$style_uri  = includes_url( 'blocks/' . str_replace( 'core/', '', $metadata['name'] ) . "/style$suffix.css" );
+	}
+
+	$style_path_norm = wp_normalize_path( realpath( dirname( $metadata['file'] ) . '/' . $style_path ) );
+	$is_theme_block  = 0 === strpos( $style_path_norm, $theme_path_norm );
+
+	if ( $is_theme_block ) {
+		$style_uri = get_theme_file_uri( str_replace( $theme_path_norm, '', $style_path_norm ) );
 	}
 
 	$style_handle   = generate_block_asset_handle( $metadata['name'], $field_name );
@@ -1315,10 +1331,20 @@ function _wp_multiple_block_styles( $metadata ) {
 			foreach ( $metadata[ $key ] as $handle ) {
 				$args = array( 'handle' => $handle );
 				if ( 0 === strpos( $handle, 'file:' ) && isset( $metadata['file'] ) ) {
-					$style_path = remove_block_asset_path_prefix( $handle );
+					$style_path      = remove_block_asset_path_prefix( $handle );
+					$theme_path_norm = wp_normalize_path( get_theme_file_path() );
+					$style_path_norm = wp_normalize_path( realpath( dirname( $metadata['file'] ) . '/' . $style_path ) );
+					$is_theme_block  = isset( $metadata['file'] ) && 0 === strpos( $metadata['file'], $theme_path_norm );
+
+					$style_uri = plugins_url( $style_path, $metadata['file'] );
+
+					if ( $is_theme_block ) {
+						$style_uri = get_theme_file_uri( str_replace( $theme_path_norm, '', $style_path_norm ) );
+					}
+
 					$args       = array(
 						'handle' => sanitize_key( "{$metadata['name']}-{$style_path}" ),
-						'src'    => plugins_url( $style_path, $metadata['file'] ),
+						'src'    => $style_uri,
 					);
 				}
 
