@@ -87,17 +87,11 @@ $active_global_styles_id = WP_Theme_JSON_Resolver::get_user_global_styles_post_i
 $active_theme            = wp_get_theme()->get_stylesheet();
 $preload_paths           = array(
 	array( '/wp/v2/media', 'OPTIONS' ),
-	'/wp/v2/types?context=edit',
+	'/wp/v2/types?context=view',
 	'/wp/v2/types/wp_template?context=edit',
 	'/wp/v2/types/wp_template-part?context=edit',
-	'/wp/v2/taxonomies?context=edit',
-	'/wp/v2/pages?context=edit',
-	'/wp/v2/categories?context=edit',
-	'/wp/v2/posts?context=edit',
-	'/wp/v2/tags?context=edit',
 	'/wp/v2/templates?context=edit&per_page=-1',
 	'/wp/v2/template-parts?context=edit&per_page=-1',
-	'/wp/v2/settings',
 	'/wp/v2/themes?context=edit&status=active',
 	'/wp/v2/global-styles/' . $active_global_styles_id . '?context=edit',
 	'/wp/v2/global-styles/' . $active_global_styles_id,

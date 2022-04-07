@@ -19,6 +19,7 @@ $block_editor_context = new WP_Block_Editor_Context( array( 'name' => 'core/edit
 
 $preload_paths = array(
 	array( rest_get_route_for_post_type_items( 'attachment' ), 'OPTIONS' ),
+	'/wp/v2/widget-types?context=edit&per_page=-1',
 	'/wp/v2/sidebars?context=edit&per_page=-1',
 	'/wp/v2/widgets?context=edit&per_page=-1&_embed=about',
 );
