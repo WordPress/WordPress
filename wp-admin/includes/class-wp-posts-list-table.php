@@ -1611,9 +1611,9 @@ class WP_Posts_List_Table extends WP_List_Table {
 			?>
 			<tr id="<?php echo $bulk ? 'bulk-edit' : 'inline-edit'; ?>" class="<?php echo $classes; ?>" style="display: none">
 			<td colspan="<?php echo $this->get_column_count(); ?>" class="colspanchange">
-
+			<div class="inline-edit-wrapper" role="region" aria-labelledby="inline-edit-legend">
 			<fieldset class="inline-edit-col-left">
-				<legend class="inline-edit-legend"><?php echo $bulk ? __( 'Bulk Edit' ) : __( 'Quick Edit' ); ?></legend>
+				<legend class="inline-edit-legend" id="inline-edit-legend"><?php echo $bulk ? __( 'Bulk Edit' ) : __( 'Quick Edit' ); ?></legend>
 				<div class="inline-edit-col">
 
 				<?php if ( post_type_supports( $screen->post_type, 'title' ) ) : ?>
@@ -1828,12 +1828,13 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 						<?php if ( current_user_can( $taxonomy->cap->assign_terms ) ) : ?>
 							<?php $taxonomy_name = esc_attr( $taxonomy->name ); ?>
-
+							<div class="inline-edit-tags-wrap">
 							<label class="inline-edit-tags">
 								<span class="title"><?php echo esc_html( $taxonomy->labels->name ); ?></span>
-								<textarea data-wp-taxonomy="<?php echo $taxonomy_name; ?>" cols="22" rows="1" name="tax_input[<?php echo $taxonomy_name; ?>]" class="tax_input_<?php echo $taxonomy_name; ?>"></textarea>
+								<textarea data-wp-taxonomy="<?php echo $taxonomy_name; ?>" cols="22" rows="1" name="tax_input[<?php echo esc_attr( $taxonomy->name ); ?>]" class="tax_input_<?php echo esc_attr( $taxonomy->name ); ?>" aria-describedby="inline-edit-<?php echo esc_attr( $taxonomy->name ); ?>-desc"></textarea>
 							</label>
-
+							<p class="howto" id="inline-edit-<?php echo esc_attr( $taxonomy->name ); ?>-desc"><?php echo esc_html( $taxonomy->labels->separate_items_with_commas ); ?></p>
+							</div>
 						<?php endif; // current_user_can( 'assign_terms' ) ?>
 
 					<?php endforeach; // $flat_taxonomies as $taxonomy ?>
@@ -2030,6 +2031,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 					<p class="error"></p>
 				</div>
 			</div>
+		</div> <!-- end of .inline-edit-wrapper -->
 
 			</td></tr>
 

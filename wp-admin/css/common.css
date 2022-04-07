@@ -789,7 +789,7 @@ img.emoji {
 /* @todo can we combine these into a class or use an existing dashicon one? */
 .welcome-panel .welcome-panel-close:before,
 .tagchecklist .ntdelbutton .remove-tag-icon:before,
-#bulk-titles div a:before,
+#bulk-titles .ntdelbutton:before,
 .notice-dismiss:before {
 	background: none;
 	color: #787c82;
@@ -808,10 +808,6 @@ img.emoji {
 	margin: 0;
 }
 
-#bulk-titles div a:before {
-	margin: 1px 0;
-}
-
 .tagchecklist .ntdelbutton .remove-tag-icon:before {
 	margin-left: 2px;
 	border-radius: 50%;
@@ -826,8 +822,8 @@ img.emoji {
 
 .tagchecklist .ntdelbutton:hover .remove-tag-icon:before,
 .tagchecklist .ntdelbutton:focus .remove-tag-icon:before,
-#bulk-titles div a:hover:before,
-#bulk-titles div a:focus:before {
+#bulk-titles .ntdelbutton:hover:before,
+#bulk-titles .ntdelbutton:focus:before {
 	color: #d63638;
 }
 
