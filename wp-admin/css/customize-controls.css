@@ -990,7 +990,7 @@ p.customize-section-description {
 
 .customize-section-description a.external-link:after {
 	font: 16px/11px dashicons;
-	content: "\f310";
+	content: "\f504";
 	top: 3px;
 	position: relative;
 	padding-left: 3px;
