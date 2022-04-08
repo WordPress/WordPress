@@ -742,25 +742,29 @@ switch ( $action ) {
 								if ( is_multisite() ) :
 									$blogs       = get_blogs_of_user( $user_id, true );
 									$blogs_count = count( $blogs );
+
 									if ( $blogs_count > 1 ) :
 										?>
 										<p>
 											<?php
 											/* translators: 1: URL to my-sites.php, 2: Number of sites the user has. */
-											$msg_fmt = _n(
+											$message = _n(
 												'Application passwords grant access to <a href="%1$s">the %2$s site in this installation that you have permissions on</a>.',
 												'Application passwords grant access to <a href="%1$s">all %2$s sites in this installation that you have permissions on</a>.',
 												$blogs_count
 											);
+
 											if ( is_super_admin( $user_id ) ) {
-												$msg_fmt = _n(
+												/* translators: 1: URL to my-sites.php, 2: Number of sites the user has. */
+												$message = _n(
 													'Application passwords grant access to <a href="%1$s">the %2$s site on the network as you have Super Admin rights</a>.',
 													'Application passwords grant access to <a href="%1$s">all %2$s sites on the network as you have Super Admin rights</a>.',
 													$blogs_count
 												);
 											}
+
 											printf(
-												$msg_fmt,
+												$message,
 												admin_url( 'my-sites.php' ),
 												number_format_i18n( $blogs_count )
 											);
