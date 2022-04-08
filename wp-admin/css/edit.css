@@ -1969,11 +1969,6 @@ table.links-table {
 		padding: 20px 10px;
 	}
 
-	.misc-pub-section > a {
-		float: right;
-		font-size: 16px;
-	}
-
 	#delete-action,
 	#publishing-action {
 		line-height: 3.61538461;
