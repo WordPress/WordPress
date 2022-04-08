@@ -1653,43 +1653,49 @@ class WP_Posts_List_Table extends WP_List_Table {
 				<?php endif; // $bulk ?>
 
 				<?php
-				if ( post_type_supports( $screen->post_type, 'author' ) && ! wp_is_large_user_count() ) {
+				if ( post_type_supports( $screen->post_type, 'author' ) ) {
 					$authors_dropdown = '';
 
 					if ( current_user_can( $post_type_object->cap->edit_others_posts ) ) {
-						$users_opt = array(
-							'hide_if_only_one_author' => false,
-							'capability'              => array( $post_type_object->cap->edit_posts ),
-							'name'                    => 'post_author',
-							'class'                   => 'authors',
-							'multi'                   => 1,
-							'echo'                    => 0,
-							'show'                    => 'display_name_with_login',
-						);
+						$dropdown_name  = 'post_author';
+						$dropdown_class = 'authors';
+						if ( wp_is_large_user_count() ) {
+							$authors_dropdown = sprintf( '<select name="%s" class="%s hidden"></select>', esc_attr( $dropdown_name ), esc_attr( $dropdown_class ) );
+						} else {
+							$users_opt = array(
+								'hide_if_only_one_author' => false,
+								'capability'              => array( $post_type_object->cap->edit_posts ),
+								'name'                    => $dropdown_name,
+								'class'                   => $dropdown_class,
+								'multi'                   => 1,
+								'echo'                    => 0,
+								'show'                    => 'display_name_with_login',
+							);
 
-						if ( $bulk ) {
-							$users_opt['show_option_none'] = __( '&mdash; No Change &mdash;' );
-						}
+							if ( $bulk ) {
+								$users_opt['show_option_none'] = __( '&mdash; No Change &mdash;' );
+							}
 
-						/**
-						 * Filters the arguments used to generate the Quick Edit authors drop-down.
-						 *
-						 * @since 5.6.0
-						 *
-						 * @see wp_dropdown_users()
-						 *
-						 * @param array $users_opt An array of arguments passed to wp_dropdown_users().
-						 * @param bool  $bulk      A flag to denote if it's a bulk action.
-						 */
-						$users_opt = apply_filters( 'quick_edit_dropdown_authors_args', $users_opt, $bulk );
+							/**
+							 * Filters the arguments used to generate the Quick Edit authors drop-down.
+							 *
+							 * @since 5.6.0
+							 *
+							 * @see wp_dropdown_users()
+							 *
+							 * @param array $users_opt An array of arguments passed to wp_dropdown_users().
+							 * @param bool $bulk A flag to denote if it's a bulk action.
+							 */
+							$users_opt = apply_filters( 'quick_edit_dropdown_authors_args', $users_opt, $bulk );
 
-						$authors = wp_dropdown_users( $users_opt );
+							$authors = wp_dropdown_users( $users_opt );
 
-						if ( $authors ) {
-							$authors_dropdown  = '<label class="inline-edit-author">';
-							$authors_dropdown .= '<span class="title">' . __( 'Author' ) . '</span>';
-							$authors_dropdown .= $authors;
-							$authors_dropdown .= '</label>';
+							if ( $authors ) {
+								$authors_dropdown  = '<label class="inline-edit-author">';
+								$authors_dropdown .= '<span class="title">' . __( 'Author' ) . '</span>';
+								$authors_dropdown .= $authors;
+								$authors_dropdown .= '</label>';
+							}
 						}
 					} // current_user_can( 'edit_others_posts' )
 
@@ -1748,7 +1754,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 				<div class="inline-edit-col">
 
 				<?php
-				if ( post_type_supports( $screen->post_type, 'author' ) && ! wp_is_large_user_count() && $bulk ) {
+				if ( post_type_supports( $screen->post_type, 'author' ) && $bulk ) {
 					echo $authors_dropdown;
 				}
 				?>
