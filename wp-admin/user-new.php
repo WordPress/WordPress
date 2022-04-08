@@ -512,7 +512,7 @@ if ( current_user_can( 'create_users' ) ) {
 <table class="form-table" role="presentation">
 	<tr class="form-field form-required">
 		<th scope="row"><label for="user_login"><?php _e( 'Username' ); ?> <span class="description"><?php _e( '(required)' ); ?></span></label></th>
-		<td><input name="user_login" type="text" id="user_login" value="<?php echo esc_attr( $new_user_login ); ?>" aria-required="true" autocapitalize="none" autocorrect="off" maxlength="60" /></td>
+		<td><input name="user_login" type="text" id="user_login" value="<?php echo esc_attr( $new_user_login ); ?>" aria-required="true" autocapitalize="none" autocorrect="off" autocomplete="off" maxlength="60" /></td>
 	</tr>
 	<tr class="form-field form-required">
 		<th scope="row"><label for="email"><?php _e( 'Email' ); ?> <span class="description"><?php _e( '(required)' ); ?></span></label></th>
@@ -571,7 +571,7 @@ if ( current_user_can( 'create_users' ) ) {
 			<div class="wp-pwd">
 				<?php $initial_password = wp_generate_password( 24 ); ?>
 				<span class="password-input-wrapper">
-					<input type="password" name="pass1" id="pass1" class="regular-text" autocomplete="off" data-reveal="1" data-pw="<?php echo esc_attr( $initial_password ); ?>" aria-describedby="pass-strength-result" />
+					<input type="password" name="pass1" id="pass1" class="regular-text" autocomplete="new-password" data-reveal="1" data-pw="<?php echo esc_attr( $initial_password ); ?>" aria-describedby="pass-strength-result" />
 				</span>
 				<button type="button" class="button wp-hide-pw hide-if-no-js" data-toggle="0" aria-label="<?php esc_attr_e( 'Hide password' ); ?>">
 					<span class="dashicons dashicons-hidden" aria-hidden="true"></span>
@@ -584,7 +584,7 @@ if ( current_user_can( 'create_users' ) ) {
 	<tr class="form-field form-required user-pass2-wrap hide-if-js">
 		<th scope="row"><label for="pass2"><?php _e( 'Repeat Password' ); ?> <span class="description"><?php _e( '(required)' ); ?></span></label></th>
 		<td>
-		<input name="pass2" type="password" id="pass2" autocomplete="off" aria-describedby="pass2-desc" />
+		<input name="pass2" type="password" id="pass2" autocomplete="new-password" aria-describedby="pass2-desc" />
 		<p class="description" id="pass2-desc"><?php _e( 'Type the password again.' ); ?></p>
 		</td>
 	</tr>
