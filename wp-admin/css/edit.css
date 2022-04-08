@@ -97,6 +97,12 @@ input#link_url {
 	color: #646970;
 }
 
+#sample-permalink {
+	display: inline-block;
+	max-width: 100%;
+	word-wrap: break-word;
+}
+
 #edit-slug-box .cancel {
 	margin-right: 10px;
 	padding: 0;
