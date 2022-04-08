@@ -656,6 +656,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 
 			<tr id="inline-edit" class="inline-edit-row" style="display: none">
 			<td colspan="<?php echo $this->get_column_count(); ?>" class="colspanchange">
+			<div class="inline-edit-wrapper">
 
 			<fieldset>
 				<legend class="inline-edit-legend"><?php _e( 'Quick Edit' ); ?></legend>
@@ -707,6 +708,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 				<div class="notice notice-error notice-alt inline hidden">
 					<p class="error"></p>
 				</div>
+			</div>
 			</div>
 
 			</td></tr>
