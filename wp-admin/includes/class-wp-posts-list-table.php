@@ -251,24 +251,24 @@ class WP_Posts_List_Table extends WP_List_Table {
 	 *
 	 * @since 4.4.0
 	 *
-	 * @param string[] $args  Associative array of URL parameters for the link.
-	 * @param string   $label Link text.
-	 * @param string   $class Optional. Class attribute. Default empty string.
+	 * @param string[] $args      Associative array of URL parameters for the link.
+	 * @param string   $link_text Link text.
+	 * @param string   $css_class Optional. Class attribute. Default empty string.
 	 * @return string The formatted link string.
 	 */
-	protected function get_edit_link( $args, $label, $class = '' ) {
+	protected function get_edit_link( $args, $link_text, $css_class = '' ) {
 		$url = add_query_arg( $args, 'edit.php' );
 
 		$class_html   = '';
 		$aria_current = '';
 
-		if ( ! empty( $class ) ) {
+		if ( ! empty( $css_class ) ) {
 			$class_html = sprintf(
 				' class="%s"',
-				esc_attr( $class )
+				esc_attr( $css_class )
 			);
 
-			if ( 'current' === $class ) {
+			if ( 'current' === $css_class ) {
 				$aria_current = ' aria-current="page"';
 			}
 		}
@@ -278,7 +278,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			esc_url( $url ),
 			$class_html,
 			$aria_current,
-			$label
+			$link_text
 		);
 	}
 
@@ -905,21 +905,21 @@ class WP_Posts_List_Table extends WP_List_Table {
 	 *
 	 * @param array $children_pages
 	 * @param int   $count
-	 * @param int   $parent
+	 * @param int   $parent_page
 	 * @param int   $level
 	 * @param int   $pagenum
 	 * @param int   $per_page
 	 * @param array $to_display List of pages to be displayed. Passed by reference.
 	 */
-	private function _page_rows( &$children_pages, &$count, $parent, $level, $pagenum, $per_page, &$to_display ) {
-		if ( ! isset( $children_pages[ $parent ] ) ) {
+	private function _page_rows( &$children_pages, &$count, $parent_page, $level, $pagenum, $per_page, &$to_display ) {
+		if ( ! isset( $children_pages[ $parent_page ] ) ) {
 			return;
 		}
 
 		$start = ( $pagenum - 1 ) * $per_page;
 		$end   = $start + $per_page;
 
-		foreach ( $children_pages[ $parent ] as $page ) {
+		foreach ( $children_pages[ $parent_page ] as $page ) {
 			if ( $count >= $end ) {
 				break;
 			}
@@ -964,7 +964,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			$this->_page_rows( $children_pages, $count, $page->ID, $level + 1, $pagenum, $per_page, $to_display );
 		}
 
-		unset( $children_pages[ $parent ] ); // Required in order to keep track of orphans.
+		unset( $children_pages[ $parent_page ] ); // Required in order to keep track of orphans.
 	}
 
 	/**
