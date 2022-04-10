@@ -797,6 +797,10 @@ textarea {
 	width: 100%;
 }
 
+input[type="number"] {
+	padding-right: 0.5rem;
+}
+
 select {
 	font-size: 1em;
 }
