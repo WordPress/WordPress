@@ -1835,6 +1835,7 @@ p.auto-update-status {
 
 .metabox-prefs .screen-options .screen-per-page {
 	margin-left: 15px;
+	padding-left: 0;
 }
 
 .metabox-prefs .screen-options label {
