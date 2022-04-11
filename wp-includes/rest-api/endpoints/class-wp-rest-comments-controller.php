@@ -1196,8 +1196,8 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			$rest_url = add_query_arg( $args, rest_url( $this->namespace . '/' . $this->rest_base ) );
 
 			$links['children'] = array(
-				'href'     => $rest_url,
-				'embedded' => true,
+				'href'       => $rest_url,
+				'embeddable' => true,
 			);
 		}
 
