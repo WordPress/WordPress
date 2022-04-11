@@ -1606,7 +1606,6 @@ p.customize-section-description {
 	font-family: Consolas, Monaco, monospace;
 	font-size: 12px;
 	padding: 6px 8px;
-	-moz-tab-size: 2;
 	-o-tab-size: 2;
 	tab-size: 2;
 }
