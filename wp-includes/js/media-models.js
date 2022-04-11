@@ -1,93 +1,8 @@
-/******/ (function(modules) { // webpackBootstrap
-/******/ 	// The module cache
-/******/ 	var installedModules = {};
-/******/
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/
-/******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId]) {
-/******/ 			return installedModules[moduleId].exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = installedModules[moduleId] = {
-/******/ 			i: moduleId,
-/******/ 			l: false,
-/******/ 			exports: {}
-/******/ 		};
-/******/
-/******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/
-/******/ 		// Flag the module as loaded
-/******/ 		module.l = true;
-/******/
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/
-/******/
-/******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__webpack_require__.m = modules;
-/******/
-/******/ 	// expose the module cache
-/******/ 	__webpack_require__.c = installedModules;
-/******/
-/******/ 	// define getter function for harmony exports
-/******/ 	__webpack_require__.d = function(exports, name, getter) {
-/******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
-/******/ 		}
-/******/ 	};
-/******/
-/******/ 	// define __esModule on exports
-/******/ 	__webpack_require__.r = function(exports) {
-/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 		}
-/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 	};
-/******/
-/******/ 	// create a fake namespace object
-/******/ 	// mode & 1: value is a module id, require it
-/******/ 	// mode & 2: merge all properties of value into the ns
-/******/ 	// mode & 4: return value when already ns object
-/******/ 	// mode & 8|1: behave like require
-/******/ 	__webpack_require__.t = function(value, mode) {
-/******/ 		if(mode & 1) value = __webpack_require__(value);
-/******/ 		if(mode & 8) return value;
-/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
-/******/ 		var ns = Object.create(null);
-/******/ 		__webpack_require__.r(ns);
-/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
-/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
-/******/ 		return ns;
-/******/ 	};
-/******/
-/******/ 	// getDefaultExport function for compatibility with non-harmony modules
-/******/ 	__webpack_require__.n = function(module) {
-/******/ 		var getter = module && module.__esModule ?
-/******/ 			function getDefault() { return module['default']; } :
-/******/ 			function getModuleExports() { return module; };
-/******/ 		__webpack_require__.d(getter, 'a', getter);
-/******/ 		return getter;
-/******/ 	};
-/******/
-/******/ 	// Object.prototype.hasOwnProperty.call
-/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
-/******/
-/******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
-/******/
-/******/
-/******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
-/******/ })
-/************************************************************************/
-/******/ ({
+/******/ (function() { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
 
-/***/ "0Ym0":
-/***/ (function(module, exports) {
+/***/ 7727:
+/***/ (function(module) {
 
 var $ = Backbone.$,
 	Attachment;
@@ -262,120 +177,8 @@ module.exports = Attachment;
 
 /***/ }),
 
-/***/ 2:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__("dx5j");
-
-
-/***/ }),
-
-/***/ "Io+g":
-/***/ (function(module, exports) {
-
-var Attachments = wp.media.model.Attachments,
-	Selection;
-
-/**
- * wp.media.model.Selection
- *
- * A selection of attachments.
- *
- * @memberOf wp.media.model
- *
- * @class
- * @augments wp.media.model.Attachments
- * @augments Backbone.Collection
- */
-Selection = Attachments.extend(/** @lends wp.media.model.Selection.prototype */{
-	/**
-	 * Refresh the `single` model whenever the selection changes.
-	 * Binds `single` instead of using the context argument to ensure
-	 * it receives no parameters.
-	 *
-	 * @param {Array} [models=[]] Array of models used to populate the collection.
-	 * @param {Object} [options={}]
-	 */
-	initialize: function( models, options ) {
-		/**
-		 * call 'initialize' directly on the parent class
-		 */
-		Attachments.prototype.initialize.apply( this, arguments );
-		this.multiple = options && options.multiple;
-
-		this.on( 'add remove reset', _.bind( this.single, this, false ) );
-	},
-
-	/**
-	 * If the workflow does not support multi-select, clear out the selection
-	 * before adding a new attachment to it.
-	 *
-	 * @param {Array} models
-	 * @param {Object} options
-	 * @return {wp.media.model.Attachment[]}
-	 */
-	add: function( models, options ) {
-		if ( ! this.multiple ) {
-			this.remove( this.models );
-		}
-		/**
-		 * call 'add' directly on the parent class
-		 */
-		return Attachments.prototype.add.call( this, models, options );
-	},
-
-	/**
-	 * Fired when toggling (clicking on) an attachment in the modal.
-	 *
-	 * @param {undefined|boolean|wp.media.model.Attachment} model
-	 *
-	 * @fires wp.media.model.Selection#selection:single
-	 * @fires wp.media.model.Selection#selection:unsingle
-	 *
-	 * @return {Backbone.Model}
-	 */
-	single: function( model ) {
-		var previous = this._single;
-
-		// If a `model` is provided, use it as the single model.
-		if ( model ) {
-			this._single = model;
-		}
-		// If the single model isn't in the selection, remove it.
-		if ( this._single && ! this.get( this._single.cid ) ) {
-			delete this._single;
-		}
-
-		this._single = this._single || this.last();
-
-		// If single has changed, fire an event.
-		if ( this._single !== previous ) {
-			if ( previous ) {
-				previous.trigger( 'selection:unsingle', previous, this );
-
-				// If the model was already removed, trigger the collection
-				// event manually.
-				if ( ! this.get( previous.cid ) ) {
-					this.trigger( 'selection:unsingle', previous, this );
-				}
-			}
-			if ( this._single ) {
-				this._single.trigger( 'selection:single', this._single, this );
-			}
-		}
-
-		// Return the single model, or the last model as a fallback.
-		return this._single;
-	}
-});
-
-module.exports = Selection;
-
-
-/***/ }),
-
-/***/ "K0z/":
-/***/ (function(module, exports) {
+/***/ 6940:
+/***/ (function(module) {
 
 /**
  * wp.media.model.Attachments
@@ -982,259 +785,169 @@ module.exports = Attachments;
 
 /***/ }),
 
-/***/ "dx5j":
-/***/ (function(module, exports, __webpack_require__) {
+/***/ 5927:
+/***/ (function(module) {
 
 /**
- * @output wp-includes/js/media-models.js
- */
-
-var $ = jQuery,
-	Attachment, Attachments, l10n, media;
-
-/** @namespace wp */
-window.wp = window.wp || {};
-
-/**
- * Create and return a media frame.
+ * wp.media.model.PostImage
  *
- * Handles the default media experience.
+ * An instance of an image that's been embedded into a post.
  *
- * @alias wp.media
- * @memberOf wp
- * @namespace
+ * Used in the embedded image attachment display settings modal - @see wp.media.view.MediaFrame.ImageDetails.
  *
- * @param {Object} attributes The properties passed to the main media controller.
- * @return {wp.media.view.MediaFrame} A media workflow.
- */
-media = wp.media = function( attributes ) {
-	var MediaFrame = media.view.MediaFrame,
-		frame;
-
-	if ( ! MediaFrame ) {
-		return;
-	}
-
-	attributes = _.defaults( attributes || {}, {
-		frame: 'select'
-	});
-
-	if ( 'select' === attributes.frame && MediaFrame.Select ) {
-		frame = new MediaFrame.Select( attributes );
-	} else if ( 'post' === attributes.frame && MediaFrame.Post ) {
-		frame = new MediaFrame.Post( attributes );
-	} else if ( 'manage' === attributes.frame && MediaFrame.Manage ) {
-		frame = new MediaFrame.Manage( attributes );
-	} else if ( 'image' === attributes.frame && MediaFrame.ImageDetails ) {
-		frame = new MediaFrame.ImageDetails( attributes );
-	} else if ( 'audio' === attributes.frame && MediaFrame.AudioDetails ) {
-		frame = new MediaFrame.AudioDetails( attributes );
-	} else if ( 'video' === attributes.frame && MediaFrame.VideoDetails ) {
-		frame = new MediaFrame.VideoDetails( attributes );
-	} else if ( 'edit-attachments' === attributes.frame && MediaFrame.EditAttachments ) {
-		frame = new MediaFrame.EditAttachments( attributes );
-	}
-
-	delete attributes.frame;
-
-	media.frame = frame;
-
-	return frame;
-};
-
-/** @namespace wp.media.model */
-/** @namespace wp.media.view */
-/** @namespace wp.media.controller */
-/** @namespace wp.media.frames */
-_.extend( media, { model: {}, view: {}, controller: {}, frames: {} });
-
-// Link any localized strings.
-l10n = media.model.l10n = window._wpMediaModelsL10n || {};
-
-// Link any settings.
-media.model.settings = l10n.settings || {};
-delete l10n.settings;
-
-Attachment = media.model.Attachment = __webpack_require__( "0Ym0" );
-Attachments = media.model.Attachments = __webpack_require__( "K0z/" );
-
-media.model.Query = __webpack_require__( "efdO" );
-media.model.PostImage = __webpack_require__( "r1z7" );
-media.model.Selection = __webpack_require__( "Io+g" );
-
-/**
- * ========================================================================
- * UTILITIES
- * ========================================================================
- */
-
-/**
- * A basic equality comparator for Backbone models.
+ * @memberOf wp.media.model
  *
- * Used to order models within a collection - @see wp.media.model.Attachments.comparator().
+ * @class
+ * @augments Backbone.Model
  *
- * @param {mixed}  a  The primary parameter to compare.
- * @param {mixed}  b  The primary parameter to compare.
- * @param {string} ac The fallback parameter to compare, a's cid.
- * @param {string} bc The fallback parameter to compare, b's cid.
- * @return {number} -1: a should come before b.
- *                   0: a and b are of the same rank.
- *                   1: b should come before a.
- */
-media.compare = function( a, b, ac, bc ) {
-	if ( _.isEqual( a, b ) ) {
-		return ac === bc ? 0 : (ac > bc ? -1 : 1);
-	} else {
-		return a > b ? -1 : 1;
-	}
-};
+ * @param {int} [attributes]               Initial model attributes.
+ * @param {int} [attributes.attachment_id] ID of the attachment.
+ **/
+var PostImage = Backbone.Model.extend(/** @lends wp.media.model.PostImage.prototype */{
 
-_.extend( media, /** @lends wp.media */{
-	/**
-	 * media.template( id )
-	 *
-	 * Fetch a JavaScript template for an id, and return a templating function for it.
-	 *
-	 * See wp.template() in `wp-includes/js/wp-util.js`.
-	 *
-	 * @borrows wp.template as template
-	 */
-	template: wp.template,
+	initialize: function( attributes ) {
+		var Attachment = wp.media.model.Attachment;
+		this.attachment = false;
 
-	/**
-	 * media.post( [action], [data] )
-	 *
-	 * Sends a POST request to WordPress.
-	 * See wp.ajax.post() in `wp-includes/js/wp-util.js`.
-	 *
-	 * @borrows wp.ajax.post as post
-	 */
-	post: wp.ajax.post,
-
-	/**
-	 * media.ajax( [action], [options] )
-	 *
-	 * Sends an XHR request to WordPress.
-	 * See wp.ajax.send() in `wp-includes/js/wp-util.js`.
-	 *
-	 * @borrows wp.ajax.send as ajax
-	 */
-	ajax: wp.ajax.send,
-
-	/**
-	 * Scales a set of dimensions to fit within bounding dimensions.
-	 *
-	 * @param {Object} dimensions
-	 * @return {Object}
-	 */
-	fit: function( dimensions ) {
-		var width     = dimensions.width,
-			height    = dimensions.height,
-			maxWidth  = dimensions.maxWidth,
-			maxHeight = dimensions.maxHeight,
-			constraint;
-
-		/*
-		 * Compare ratios between the two values to determine
-		 * which max to constrain by. If a max value doesn't exist,
-		 * then the opposite side is the constraint.
-		 */
-		if ( ! _.isUndefined( maxWidth ) && ! _.isUndefined( maxHeight ) ) {
-			constraint = ( width / height > maxWidth / maxHeight ) ? 'width' : 'height';
-		} else if ( _.isUndefined( maxHeight ) ) {
-			constraint = 'width';
-		} else if (  _.isUndefined( maxWidth ) && height > maxHeight ) {
-			constraint = 'height';
+		if ( attributes.attachment_id ) {
+			this.attachment = Attachment.get( attributes.attachment_id );
+			if ( this.attachment.get( 'url' ) ) {
+				this.dfd = jQuery.Deferred();
+				this.dfd.resolve();
+			} else {
+				this.dfd = this.attachment.fetch();
+			}
+			this.bindAttachmentListeners();
 		}
 
-		// If the value of the constrained side is larger than the max,
-		// then scale the values. Otherwise return the originals; they fit.
-		if ( 'width' === constraint && width > maxWidth ) {
-			return {
-				width : maxWidth,
-				height: Math.round( maxWidth * height / width )
-			};
-		} else if ( 'height' === constraint && height > maxHeight ) {
-			return {
-				width : Math.round( maxHeight * width / height ),
-				height: maxHeight
-			};
+		// Keep URL in sync with changes to the type of link.
+		this.on( 'change:link', this.updateLinkUrl, this );
+		this.on( 'change:size', this.updateSize, this );
+
+		this.setLinkTypeFromUrl();
+		this.setAspectRatio();
+
+		this.set( 'originalUrl', attributes.url );
+	},
+
+	bindAttachmentListeners: function() {
+		this.listenTo( this.attachment, 'sync', this.setLinkTypeFromUrl );
+		this.listenTo( this.attachment, 'sync', this.setAspectRatio );
+		this.listenTo( this.attachment, 'change', this.updateSize );
+	},
+
+	changeAttachment: function( attachment, props ) {
+		this.stopListening( this.attachment );
+		this.attachment = attachment;
+		this.bindAttachmentListeners();
+
+		this.set( 'attachment_id', this.attachment.get( 'id' ) );
+		this.set( 'caption', this.attachment.get( 'caption' ) );
+		this.set( 'alt', this.attachment.get( 'alt' ) );
+		this.set( 'size', props.get( 'size' ) );
+		this.set( 'align', props.get( 'align' ) );
+		this.set( 'link', props.get( 'link' ) );
+		this.updateLinkUrl();
+		this.updateSize();
+	},
+
+	setLinkTypeFromUrl: function() {
+		var linkUrl = this.get( 'linkUrl' ),
+			type;
+
+		if ( ! linkUrl ) {
+			this.set( 'link', 'none' );
+			return;
+		}
+
+		// Default to custom if there is a linkUrl.
+		type = 'custom';
+
+		if ( this.attachment ) {
+			if ( this.attachment.get( 'url' ) === linkUrl ) {
+				type = 'file';
+			} else if ( this.attachment.get( 'link' ) === linkUrl ) {
+				type = 'post';
+			}
 		} else {
-			return {
-				width : width,
-				height: height
-			};
+			if ( this.get( 'url' ) === linkUrl ) {
+				type = 'file';
+			}
+		}
+
+		this.set( 'link', type );
+	},
+
+	updateLinkUrl: function() {
+		var link = this.get( 'link' ),
+			url;
+
+		switch( link ) {
+			case 'file':
+				if ( this.attachment ) {
+					url = this.attachment.get( 'url' );
+				} else {
+					url = this.get( 'url' );
+				}
+				this.set( 'linkUrl', url );
+				break;
+			case 'post':
+				this.set( 'linkUrl', this.attachment.get( 'link' ) );
+				break;
+			case 'none':
+				this.set( 'linkUrl', '' );
+				break;
 		}
 	},
-	/**
-	 * Truncates a string by injecting an ellipsis into the middle.
-	 * Useful for filenames.
-	 *
-	 * @param {string} string
-	 * @param {number} [length=30]
-	 * @param {string} [replacement=&hellip;]
-	 * @return {string} The string, unless length is greater than string.length.
-	 */
-	truncate: function( string, length, replacement ) {
-		length = length || 30;
-		replacement = replacement || '&hellip;';
 
-		if ( string.length <= length ) {
-			return string;
+	updateSize: function() {
+		var size;
+
+		if ( ! this.attachment ) {
+			return;
 		}
 
-		return string.substr( 0, length / 2 ) + replacement + string.substr( -1 * length / 2 );
+		if ( this.get( 'size' ) === 'custom' ) {
+			this.set( 'width', this.get( 'customWidth' ) );
+			this.set( 'height', this.get( 'customHeight' ) );
+			this.set( 'url', this.get( 'originalUrl' ) );
+			return;
+		}
+
+		size = this.attachment.get( 'sizes' )[ this.get( 'size' ) ];
+
+		if ( ! size ) {
+			return;
+		}
+
+		this.set( 'url', size.url );
+		this.set( 'width', size.width );
+		this.set( 'height', size.height );
+	},
+
+	setAspectRatio: function() {
+		var full;
+
+		if ( this.attachment && this.attachment.get( 'sizes' ) ) {
+			full = this.attachment.get( 'sizes' ).full;
+
+			if ( full ) {
+				this.set( 'aspectRatio', full.width / full.height );
+				return;
+			}
+		}
+
+		this.set( 'aspectRatio', this.get( 'customWidth' ) / this.get( 'customHeight' ) );
 	}
 });
 
-/**
- * ========================================================================
- * MODELS
- * ========================================================================
- */
-/**
- * wp.media.attachment
- *
- * @static
- * @param {string} id A string used to identify a model.
- * @return {wp.media.model.Attachment}
- */
-media.attachment = function( id ) {
-	return Attachment.get( id );
-};
-
-/**
- * A collection of all attachments that have been fetched from the server.
- *
- * @static
- * @member {wp.media.model.Attachments}
- */
-Attachments.all = new Attachments();
-
-/**
- * wp.media.query
- *
- * Shorthand for creating a new Attachments Query.
- *
- * @param {Object} [props]
- * @return {wp.media.model.Attachments}
- */
-media.query = function( props ) {
-	return new Attachments( null, {
-		props: _.extend( _.defaults( props || {}, { orderby: 'date' } ), { query: true } )
-	});
-};
-
-// Clean up. Prevents mobile browsers caching.
-$(window).on('unload', function(){
-	window.wp = null;
-});
+module.exports = PostImage;
 
 
 /***/ }),
 
-/***/ "efdO":
-/***/ (function(module, exports) {
+/***/ 4009:
+/***/ (function(module) {
 
 var Attachments = wp.media.model.Attachments,
 	Query;
@@ -1544,165 +1257,385 @@ module.exports = Query;
 
 /***/ }),
 
-/***/ "r1z7":
-/***/ (function(module, exports) {
+/***/ 6584:
+/***/ (function(module) {
+
+var Attachments = wp.media.model.Attachments,
+	Selection;
 
 /**
- * wp.media.model.PostImage
+ * wp.media.model.Selection
  *
- * An instance of an image that's been embedded into a post.
- *
- * Used in the embedded image attachment display settings modal - @see wp.media.view.MediaFrame.ImageDetails.
+ * A selection of attachments.
  *
  * @memberOf wp.media.model
  *
  * @class
- * @augments Backbone.Model
- *
- * @param {int} [attributes]               Initial model attributes.
- * @param {int} [attributes.attachment_id] ID of the attachment.
- **/
-var PostImage = Backbone.Model.extend(/** @lends wp.media.model.PostImage.prototype */{
+ * @augments wp.media.model.Attachments
+ * @augments Backbone.Collection
+ */
+Selection = Attachments.extend(/** @lends wp.media.model.Selection.prototype */{
+	/**
+	 * Refresh the `single` model whenever the selection changes.
+	 * Binds `single` instead of using the context argument to ensure
+	 * it receives no parameters.
+	 *
+	 * @param {Array} [models=[]] Array of models used to populate the collection.
+	 * @param {Object} [options={}]
+	 */
+	initialize: function( models, options ) {
+		/**
+		 * call 'initialize' directly on the parent class
+		 */
+		Attachments.prototype.initialize.apply( this, arguments );
+		this.multiple = options && options.multiple;
 
-	initialize: function( attributes ) {
-		var Attachment = wp.media.model.Attachment;
-		this.attachment = false;
+		this.on( 'add remove reset', _.bind( this.single, this, false ) );
+	},
 
-		if ( attributes.attachment_id ) {
-			this.attachment = Attachment.get( attributes.attachment_id );
-			if ( this.attachment.get( 'url' ) ) {
-				this.dfd = jQuery.Deferred();
-				this.dfd.resolve();
-			} else {
-				this.dfd = this.attachment.fetch();
-			}
-			this.bindAttachmentListeners();
+	/**
+	 * If the workflow does not support multi-select, clear out the selection
+	 * before adding a new attachment to it.
+	 *
+	 * @param {Array} models
+	 * @param {Object} options
+	 * @return {wp.media.model.Attachment[]}
+	 */
+	add: function( models, options ) {
+		if ( ! this.multiple ) {
+			this.remove( this.models );
+		}
+		/**
+		 * call 'add' directly on the parent class
+		 */
+		return Attachments.prototype.add.call( this, models, options );
+	},
+
+	/**
+	 * Fired when toggling (clicking on) an attachment in the modal.
+	 *
+	 * @param {undefined|boolean|wp.media.model.Attachment} model
+	 *
+	 * @fires wp.media.model.Selection#selection:single
+	 * @fires wp.media.model.Selection#selection:unsingle
+	 *
+	 * @return {Backbone.Model}
+	 */
+	single: function( model ) {
+		var previous = this._single;
+
+		// If a `model` is provided, use it as the single model.
+		if ( model ) {
+			this._single = model;
+		}
+		// If the single model isn't in the selection, remove it.
+		if ( this._single && ! this.get( this._single.cid ) ) {
+			delete this._single;
 		}
 
-		// Keep URL in sync with changes to the type of link.
-		this.on( 'change:link', this.updateLinkUrl, this );
-		this.on( 'change:size', this.updateSize, this );
+		this._single = this._single || this.last();
 
-		this.setLinkTypeFromUrl();
-		this.setAspectRatio();
+		// If single has changed, fire an event.
+		if ( this._single !== previous ) {
+			if ( previous ) {
+				previous.trigger( 'selection:unsingle', previous, this );
 
-		this.set( 'originalUrl', attributes.url );
-	},
-
-	bindAttachmentListeners: function() {
-		this.listenTo( this.attachment, 'sync', this.setLinkTypeFromUrl );
-		this.listenTo( this.attachment, 'sync', this.setAspectRatio );
-		this.listenTo( this.attachment, 'change', this.updateSize );
-	},
-
-	changeAttachment: function( attachment, props ) {
-		this.stopListening( this.attachment );
-		this.attachment = attachment;
-		this.bindAttachmentListeners();
-
-		this.set( 'attachment_id', this.attachment.get( 'id' ) );
-		this.set( 'caption', this.attachment.get( 'caption' ) );
-		this.set( 'alt', this.attachment.get( 'alt' ) );
-		this.set( 'size', props.get( 'size' ) );
-		this.set( 'align', props.get( 'align' ) );
-		this.set( 'link', props.get( 'link' ) );
-		this.updateLinkUrl();
-		this.updateSize();
-	},
-
-	setLinkTypeFromUrl: function() {
-		var linkUrl = this.get( 'linkUrl' ),
-			type;
-
-		if ( ! linkUrl ) {
-			this.set( 'link', 'none' );
-			return;
-		}
-
-		// Default to custom if there is a linkUrl.
-		type = 'custom';
-
-		if ( this.attachment ) {
-			if ( this.attachment.get( 'url' ) === linkUrl ) {
-				type = 'file';
-			} else if ( this.attachment.get( 'link' ) === linkUrl ) {
-				type = 'post';
-			}
-		} else {
-			if ( this.get( 'url' ) === linkUrl ) {
-				type = 'file';
-			}
-		}
-
-		this.set( 'link', type );
-	},
-
-	updateLinkUrl: function() {
-		var link = this.get( 'link' ),
-			url;
-
-		switch( link ) {
-			case 'file':
-				if ( this.attachment ) {
-					url = this.attachment.get( 'url' );
-				} else {
-					url = this.get( 'url' );
+				// If the model was already removed, trigger the collection
+				// event manually.
+				if ( ! this.get( previous.cid ) ) {
+					this.trigger( 'selection:unsingle', previous, this );
 				}
-				this.set( 'linkUrl', url );
-				break;
-			case 'post':
-				this.set( 'linkUrl', this.attachment.get( 'link' ) );
-				break;
-			case 'none':
-				this.set( 'linkUrl', '' );
-				break;
-		}
-	},
-
-	updateSize: function() {
-		var size;
-
-		if ( ! this.attachment ) {
-			return;
-		}
-
-		if ( this.get( 'size' ) === 'custom' ) {
-			this.set( 'width', this.get( 'customWidth' ) );
-			this.set( 'height', this.get( 'customHeight' ) );
-			this.set( 'url', this.get( 'originalUrl' ) );
-			return;
-		}
-
-		size = this.attachment.get( 'sizes' )[ this.get( 'size' ) ];
-
-		if ( ! size ) {
-			return;
-		}
-
-		this.set( 'url', size.url );
-		this.set( 'width', size.width );
-		this.set( 'height', size.height );
-	},
-
-	setAspectRatio: function() {
-		var full;
-
-		if ( this.attachment && this.attachment.get( 'sizes' ) ) {
-			full = this.attachment.get( 'sizes' ).full;
-
-			if ( full ) {
-				this.set( 'aspectRatio', full.width / full.height );
-				return;
+			}
+			if ( this._single ) {
+				this._single.trigger( 'selection:single', this._single, this );
 			}
 		}
 
-		this.set( 'aspectRatio', this.get( 'customWidth' ) / this.get( 'customHeight' ) );
+		// Return the single model, or the last model as a fallback.
+		return this._single;
 	}
 });
 
-module.exports = PostImage;
+module.exports = Selection;
 
 
 /***/ })
 
-/******/ });
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
+!function() {
+/**
+ * @output wp-includes/js/media-models.js
+ */
+
+var $ = jQuery,
+	Attachment, Attachments, l10n, media;
+
+/** @namespace wp */
+window.wp = window.wp || {};
+
+/**
+ * Create and return a media frame.
+ *
+ * Handles the default media experience.
+ *
+ * @alias wp.media
+ * @memberOf wp
+ * @namespace
+ *
+ * @param {Object} attributes The properties passed to the main media controller.
+ * @return {wp.media.view.MediaFrame} A media workflow.
+ */
+media = wp.media = function( attributes ) {
+	var MediaFrame = media.view.MediaFrame,
+		frame;
+
+	if ( ! MediaFrame ) {
+		return;
+	}
+
+	attributes = _.defaults( attributes || {}, {
+		frame: 'select'
+	});
+
+	if ( 'select' === attributes.frame && MediaFrame.Select ) {
+		frame = new MediaFrame.Select( attributes );
+	} else if ( 'post' === attributes.frame && MediaFrame.Post ) {
+		frame = new MediaFrame.Post( attributes );
+	} else if ( 'manage' === attributes.frame && MediaFrame.Manage ) {
+		frame = new MediaFrame.Manage( attributes );
+	} else if ( 'image' === attributes.frame && MediaFrame.ImageDetails ) {
+		frame = new MediaFrame.ImageDetails( attributes );
+	} else if ( 'audio' === attributes.frame && MediaFrame.AudioDetails ) {
+		frame = new MediaFrame.AudioDetails( attributes );
+	} else if ( 'video' === attributes.frame && MediaFrame.VideoDetails ) {
+		frame = new MediaFrame.VideoDetails( attributes );
+	} else if ( 'edit-attachments' === attributes.frame && MediaFrame.EditAttachments ) {
+		frame = new MediaFrame.EditAttachments( attributes );
+	}
+
+	delete attributes.frame;
+
+	media.frame = frame;
+
+	return frame;
+};
+
+/** @namespace wp.media.model */
+/** @namespace wp.media.view */
+/** @namespace wp.media.controller */
+/** @namespace wp.media.frames */
+_.extend( media, { model: {}, view: {}, controller: {}, frames: {} });
+
+// Link any localized strings.
+l10n = media.model.l10n = window._wpMediaModelsL10n || {};
+
+// Link any settings.
+media.model.settings = l10n.settings || {};
+delete l10n.settings;
+
+Attachment = media.model.Attachment = __webpack_require__( 7727 );
+Attachments = media.model.Attachments = __webpack_require__( 6940 );
+
+media.model.Query = __webpack_require__( 4009 );
+media.model.PostImage = __webpack_require__( 5927 );
+media.model.Selection = __webpack_require__( 6584 );
+
+/**
+ * ========================================================================
+ * UTILITIES
+ * ========================================================================
+ */
+
+/**
+ * A basic equality comparator for Backbone models.
+ *
+ * Used to order models within a collection - @see wp.media.model.Attachments.comparator().
+ *
+ * @param {mixed}  a  The primary parameter to compare.
+ * @param {mixed}  b  The primary parameter to compare.
+ * @param {string} ac The fallback parameter to compare, a's cid.
+ * @param {string} bc The fallback parameter to compare, b's cid.
+ * @return {number} -1: a should come before b.
+ *                   0: a and b are of the same rank.
+ *                   1: b should come before a.
+ */
+media.compare = function( a, b, ac, bc ) {
+	if ( _.isEqual( a, b ) ) {
+		return ac === bc ? 0 : (ac > bc ? -1 : 1);
+	} else {
+		return a > b ? -1 : 1;
+	}
+};
+
+_.extend( media, /** @lends wp.media */{
+	/**
+	 * media.template( id )
+	 *
+	 * Fetch a JavaScript template for an id, and return a templating function for it.
+	 *
+	 * See wp.template() in `wp-includes/js/wp-util.js`.
+	 *
+	 * @borrows wp.template as template
+	 */
+	template: wp.template,
+
+	/**
+	 * media.post( [action], [data] )
+	 *
+	 * Sends a POST request to WordPress.
+	 * See wp.ajax.post() in `wp-includes/js/wp-util.js`.
+	 *
+	 * @borrows wp.ajax.post as post
+	 */
+	post: wp.ajax.post,
+
+	/**
+	 * media.ajax( [action], [options] )
+	 *
+	 * Sends an XHR request to WordPress.
+	 * See wp.ajax.send() in `wp-includes/js/wp-util.js`.
+	 *
+	 * @borrows wp.ajax.send as ajax
+	 */
+	ajax: wp.ajax.send,
+
+	/**
+	 * Scales a set of dimensions to fit within bounding dimensions.
+	 *
+	 * @param {Object} dimensions
+	 * @return {Object}
+	 */
+	fit: function( dimensions ) {
+		var width     = dimensions.width,
+			height    = dimensions.height,
+			maxWidth  = dimensions.maxWidth,
+			maxHeight = dimensions.maxHeight,
+			constraint;
+
+		/*
+		 * Compare ratios between the two values to determine
+		 * which max to constrain by. If a max value doesn't exist,
+		 * then the opposite side is the constraint.
+		 */
+		if ( ! _.isUndefined( maxWidth ) && ! _.isUndefined( maxHeight ) ) {
+			constraint = ( width / height > maxWidth / maxHeight ) ? 'width' : 'height';
+		} else if ( _.isUndefined( maxHeight ) ) {
+			constraint = 'width';
+		} else if (  _.isUndefined( maxWidth ) && height > maxHeight ) {
+			constraint = 'height';
+		}
+
+		// If the value of the constrained side is larger than the max,
+		// then scale the values. Otherwise return the originals; they fit.
+		if ( 'width' === constraint && width > maxWidth ) {
+			return {
+				width : maxWidth,
+				height: Math.round( maxWidth * height / width )
+			};
+		} else if ( 'height' === constraint && height > maxHeight ) {
+			return {
+				width : Math.round( maxHeight * width / height ),
+				height: maxHeight
+			};
+		} else {
+			return {
+				width : width,
+				height: height
+			};
+		}
+	},
+	/**
+	 * Truncates a string by injecting an ellipsis into the middle.
+	 * Useful for filenames.
+	 *
+	 * @param {string} string
+	 * @param {number} [length=30]
+	 * @param {string} [replacement=&hellip;]
+	 * @return {string} The string, unless length is greater than string.length.
+	 */
+	truncate: function( string, length, replacement ) {
+		length = length || 30;
+		replacement = replacement || '&hellip;';
+
+		if ( string.length <= length ) {
+			return string;
+		}
+
+		return string.substr( 0, length / 2 ) + replacement + string.substr( -1 * length / 2 );
+	}
+});
+
+/**
+ * ========================================================================
+ * MODELS
+ * ========================================================================
+ */
+/**
+ * wp.media.attachment
+ *
+ * @static
+ * @param {string} id A string used to identify a model.
+ * @return {wp.media.model.Attachment}
+ */
+media.attachment = function( id ) {
+	return Attachment.get( id );
+};
+
+/**
+ * A collection of all attachments that have been fetched from the server.
+ *
+ * @static
+ * @member {wp.media.model.Attachments}
+ */
+Attachments.all = new Attachments();
+
+/**
+ * wp.media.query
+ *
+ * Shorthand for creating a new Attachments Query.
+ *
+ * @param {Object} [props]
+ * @return {wp.media.model.Attachments}
+ */
+media.query = function( props ) {
+	return new Attachments( null, {
+		props: _.extend( _.defaults( props || {}, { orderby: 'date' } ), { query: true } )
+	});
+};
+
+// Clean up. Prevents mobile browsers caching.
+$(window).on('unload', function(){
+	window.wp = null;
+});
+
+}();
+/******/ })()
+;

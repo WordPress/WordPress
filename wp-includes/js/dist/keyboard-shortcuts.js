@@ -1,157 +1,76 @@
-this["wp"] = this["wp"] || {}; this["wp"]["keyboardShortcuts"] =
-/******/ (function(modules) { // webpackBootstrap
-/******/ 	// The module cache
-/******/ 	var installedModules = {};
-/******/
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/
-/******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId]) {
-/******/ 			return installedModules[moduleId].exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = installedModules[moduleId] = {
-/******/ 			i: moduleId,
-/******/ 			l: false,
-/******/ 			exports: {}
-/******/ 		};
-/******/
-/******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/
-/******/ 		// Flag the module as loaded
-/******/ 		module.l = true;
-/******/
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/
-/******/
-/******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__webpack_require__.m = modules;
-/******/
-/******/ 	// expose the module cache
-/******/ 	__webpack_require__.c = installedModules;
-/******/
-/******/ 	// define getter function for harmony exports
-/******/ 	__webpack_require__.d = function(exports, name, getter) {
-/******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
-/******/ 		}
-/******/ 	};
-/******/
-/******/ 	// define __esModule on exports
-/******/ 	__webpack_require__.r = function(exports) {
-/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 		}
-/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 	};
-/******/
-/******/ 	// create a fake namespace object
-/******/ 	// mode & 1: value is a module id, require it
-/******/ 	// mode & 2: merge all properties of value into the ns
-/******/ 	// mode & 4: return value when already ns object
-/******/ 	// mode & 8|1: behave like require
-/******/ 	__webpack_require__.t = function(value, mode) {
-/******/ 		if(mode & 1) value = __webpack_require__(value);
-/******/ 		if(mode & 8) return value;
-/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
-/******/ 		var ns = Object.create(null);
-/******/ 		__webpack_require__.r(ns);
-/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
-/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
-/******/ 		return ns;
-/******/ 	};
-/******/
-/******/ 	// getDefaultExport function for compatibility with non-harmony modules
-/******/ 	__webpack_require__.n = function(module) {
-/******/ 		var getter = module && module.__esModule ?
-/******/ 			function getDefault() { return module['default']; } :
-/******/ 			function getModuleExports() { return module; };
-/******/ 		__webpack_require__.d(getter, 'a', getter);
-/******/ 		return getter;
-/******/ 	};
-/******/
-/******/ 	// Object.prototype.hasOwnProperty.call
-/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
-/******/
-/******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
-/******/
-/******/
-/******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "cFS5");
-/******/ })
+/******/ (function() { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	// The require scope
+/******/ 	var __webpack_require__ = {};
+/******/ 	
 /************************************************************************/
-/******/ ({
-
-/***/ "1ZqX":
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["wp"]["data"]; }());
-
-/***/ }),
-
-/***/ "GRId":
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["wp"]["element"]; }());
-
-/***/ }),
-
-/***/ "RxS6":
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["wp"]["keycodes"]; }());
-
-/***/ }),
-
-/***/ "YLtl":
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["lodash"]; }());
-
-/***/ }),
-
-/***/ "cFS5":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	!function() {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = function(exports, definition) {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	!function() {
+/******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	!function() {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = function(exports) {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/************************************************************************/
+var __webpack_exports__ = {};
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
-__webpack_require__.d(__webpack_exports__, "store", function() { return /* reexport */ store; });
-__webpack_require__.d(__webpack_exports__, "useShortcut", function() { return /* reexport */ useShortcut; });
-__webpack_require__.d(__webpack_exports__, "ShortcutProvider", function() { return /* reexport */ ShortcutProvider; });
-__webpack_require__.d(__webpack_exports__, "__unstableUseShortcutEventMatch", function() { return /* reexport */ useShortcutEventMatch; });
+__webpack_require__.d(__webpack_exports__, {
+  "ShortcutProvider": function() { return /* reexport */ ShortcutProvider; },
+  "__unstableUseShortcutEventMatch": function() { return /* reexport */ useShortcutEventMatch; },
+  "store": function() { return /* reexport */ store; },
+  "useShortcut": function() { return /* reexport */ useShortcut; }
+});
 
 // NAMESPACE OBJECT: ./node_modules/@wordpress/keyboard-shortcuts/build-module/store/actions.js
 var actions_namespaceObject = {};
 __webpack_require__.r(actions_namespaceObject);
-__webpack_require__.d(actions_namespaceObject, "registerShortcut", function() { return registerShortcut; });
-__webpack_require__.d(actions_namespaceObject, "unregisterShortcut", function() { return unregisterShortcut; });
+__webpack_require__.d(actions_namespaceObject, {
+  "registerShortcut": function() { return registerShortcut; },
+  "unregisterShortcut": function() { return unregisterShortcut; }
+});
 
 // NAMESPACE OBJECT: ./node_modules/@wordpress/keyboard-shortcuts/build-module/store/selectors.js
 var selectors_namespaceObject = {};
 __webpack_require__.r(selectors_namespaceObject);
-__webpack_require__.d(selectors_namespaceObject, "getShortcutKeyCombination", function() { return getShortcutKeyCombination; });
-__webpack_require__.d(selectors_namespaceObject, "getShortcutRepresentation", function() { return getShortcutRepresentation; });
-__webpack_require__.d(selectors_namespaceObject, "getShortcutDescription", function() { return getShortcutDescription; });
-__webpack_require__.d(selectors_namespaceObject, "getShortcutAliases", function() { return getShortcutAliases; });
-__webpack_require__.d(selectors_namespaceObject, "getAllShortcutKeyCombinations", function() { return selectors_getAllShortcutKeyCombinations; });
-__webpack_require__.d(selectors_namespaceObject, "getAllShortcutRawKeyCombinations", function() { return getAllShortcutRawKeyCombinations; });
-__webpack_require__.d(selectors_namespaceObject, "getCategoryShortcuts", function() { return getCategoryShortcuts; });
+__webpack_require__.d(selectors_namespaceObject, {
+  "getAllShortcutKeyCombinations": function() { return getAllShortcutKeyCombinations; },
+  "getAllShortcutRawKeyCombinations": function() { return getAllShortcutRawKeyCombinations; },
+  "getCategoryShortcuts": function() { return getCategoryShortcuts; },
+  "getShortcutAliases": function() { return getShortcutAliases; },
+  "getShortcutDescription": function() { return getShortcutDescription; },
+  "getShortcutKeyCombination": function() { return getShortcutKeyCombination; },
+  "getShortcutRepresentation": function() { return getShortcutRepresentation; }
+});
 
-// EXTERNAL MODULE: external ["wp","data"]
-var external_wp_data_ = __webpack_require__("1ZqX");
-
-// EXTERNAL MODULE: external "lodash"
-var external_lodash_ = __webpack_require__("YLtl");
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/keyboard-shortcuts/build-module/store/reducer.js
+;// CONCATENATED MODULE: external ["wp","data"]
+var external_wp_data_namespaceObject = window["wp"]["data"];
+;// CONCATENATED MODULE: external "lodash"
+var external_lodash_namespaceObject = window["lodash"];
+;// CONCATENATED MODULE: ./node_modules/@wordpress/keyboard-shortcuts/build-module/store/reducer.js
 /**
  * External dependencies
  */
@@ -181,7 +100,7 @@ function reducer() {
       };
 
     case 'UNREGISTER_SHORTCUT':
-      return Object(external_lodash_["omit"])(state, action.name);
+      return (0,external_lodash_namespaceObject.omit)(state, action.name);
   }
 
   return state;
@@ -189,7 +108,7 @@ function reducer() {
 
 /* harmony default export */ var store_reducer = (reducer);
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/keyboard-shortcuts/build-module/store/actions.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/keyboard-shortcuts/build-module/store/actions.js
 /** @typedef {import('@wordpress/keycodes').WPKeycodeModifier} WPKeycodeModifier */
 
 /**
@@ -252,342 +171,7 @@ function unregisterShortcut(name) {
   };
 }
 
-// EXTERNAL MODULE: ./node_modules/rememo/es/rememo.js
-var rememo = __webpack_require__("pPDe");
-
-// EXTERNAL MODULE: external ["wp","keycodes"]
-var external_wp_keycodes_ = __webpack_require__("RxS6");
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/keyboard-shortcuts/build-module/store/selectors.js
-/**
- * External dependencies
- */
-
-
-/**
- * WordPress dependencies
- */
-
-
-/** @typedef {import('./actions').WPShortcutKeyCombination} WPShortcutKeyCombination */
-
-/** @typedef {import('@wordpress/keycodes').WPKeycodeHandlerByModifier} WPKeycodeHandlerByModifier */
-
-/**
- * Shared reference to an empty array for cases where it is important to avoid
- * returning a new array reference on every invocation.
- *
- * @type {Array<any>}
- */
-
-const EMPTY_ARRAY = [];
-/**
- * Shortcut formatting methods.
- *
- * @property {WPKeycodeHandlerByModifier} display     Display formatting.
- * @property {WPKeycodeHandlerByModifier} rawShortcut Raw shortcut formatting.
- * @property {WPKeycodeHandlerByModifier} ariaLabel   ARIA label formatting.
- */
-
-const FORMATTING_METHODS = {
-  display: external_wp_keycodes_["displayShortcut"],
-  raw: external_wp_keycodes_["rawShortcut"],
-  ariaLabel: external_wp_keycodes_["shortcutAriaLabel"]
-};
-/**
- * Returns a string representing the key combination.
- *
- * @param {?WPShortcutKeyCombination} shortcut       Key combination.
- * @param {keyof FORMATTING_METHODS}  representation Type of representation
- *                                                   (display, raw, ariaLabel).
- *
- * @return {string?} Shortcut representation.
- */
-
-function getKeyCombinationRepresentation(shortcut, representation) {
-  if (!shortcut) {
-    return null;
-  }
-
-  return shortcut.modifier ? FORMATTING_METHODS[representation][shortcut.modifier](shortcut.character) : shortcut.character;
-}
-/**
- * Returns the main key combination for a given shortcut name.
- *
- * @param {Object} state Global state.
- * @param {string} name  Shortcut name.
- *
- * @return {WPShortcutKeyCombination?} Key combination.
- */
-
-
-function getShortcutKeyCombination(state, name) {
-  return state[name] ? state[name].keyCombination : null;
-}
-/**
- * Returns a string representing the main key combination for a given shortcut name.
- *
- * @param {Object}                   state          Global state.
- * @param {string}                   name           Shortcut name.
- * @param {keyof FORMATTING_METHODS} representation Type of representation
- *                                                  (display, raw, ariaLabel).
- *
- * @return {string?} Shortcut representation.
- */
-
-function getShortcutRepresentation(state, name) {
-  let representation = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'display';
-  const shortcut = getShortcutKeyCombination(state, name);
-  return getKeyCombinationRepresentation(shortcut, representation);
-}
-/**
- * Returns the shortcut description given its name.
- *
- * @param {Object} state Global state.
- * @param {string} name  Shortcut name.
- *
- * @return {string?} Shortcut description.
- */
-
-function getShortcutDescription(state, name) {
-  return state[name] ? state[name].description : null;
-}
-/**
- * Returns the aliases for a given shortcut name.
- *
- * @param {Object} state Global state.
- * @param {string} name  Shortcut name.
- *
- * @return {WPShortcutKeyCombination[]} Key combinations.
- */
-
-function getShortcutAliases(state, name) {
-  return state[name] && state[name].aliases ? state[name].aliases : EMPTY_ARRAY;
-}
-const selectors_getAllShortcutKeyCombinations = Object(rememo["a" /* default */])((state, name) => {
-  return Object(external_lodash_["compact"])([getShortcutKeyCombination(state, name), ...getShortcutAliases(state, name)]);
-}, (state, name) => [state[name]]);
-/**
- * Returns the raw representation of all the keyboard combinations of a given shortcut name.
- *
- * @param {Object} state Global state.
- * @param {string} name  Shortcut name.
- *
- * @return {string[]} Shortcuts.
- */
-
-const getAllShortcutRawKeyCombinations = Object(rememo["a" /* default */])((state, name) => {
-  return selectors_getAllShortcutKeyCombinations(state, name).map(combination => getKeyCombinationRepresentation(combination, 'raw'));
-}, (state, name) => [state[name]]);
-/**
- * Returns the shortcut names list for a given category name.
- *
- * @param {Object} state Global state.
- * @param {string} name  Category name.
- *
- * @return {string[]} Shortcut names.
- */
-
-const getCategoryShortcuts = Object(rememo["a" /* default */])((state, categoryName) => {
-  return Object.entries(state).filter(_ref => {
-    let [, shortcut] = _ref;
-    return shortcut.category === categoryName;
-  }).map(_ref2 => {
-    let [name] = _ref2;
-    return name;
-  });
-}, state => [state]);
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/keyboard-shortcuts/build-module/store/index.js
-/**
- * WordPress dependencies
- */
-
-/**
- * Internal dependencies
- */
-
-
-
-
-const STORE_NAME = 'core/keyboard-shortcuts';
-/**
- * Store definition for the keyboard shortcuts namespace.
- *
- * @see https://github.com/WordPress/gutenberg/blob/HEAD/packages/data/README.md#createReduxStore
- *
- * @type {Object}
- */
-
-const store = Object(external_wp_data_["createReduxStore"])(STORE_NAME, {
-  reducer: store_reducer,
-  actions: actions_namespaceObject,
-  selectors: selectors_namespaceObject
-});
-Object(external_wp_data_["register"])(store);
-
-// EXTERNAL MODULE: external ["wp","element"]
-var external_wp_element_ = __webpack_require__("GRId");
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/keyboard-shortcuts/build-module/hooks/use-shortcut-event-match.js
-/**
- * WordPress dependencies
- */
-
-
-/**
- * Internal dependencies
- */
-
-
-/**
- * Returns a function to check if a keyboard event matches a shortcut name.
- *
- * @return {Function} A function to to check if a keyboard event matches a
- *                    predefined shortcut combination.
- */
-
-function useShortcutEventMatch() {
-  const {
-    getAllShortcutKeyCombinations
-  } = Object(external_wp_data_["useSelect"])(store);
-  /**
-   * A function to check if a keyboard event matches a predefined shortcut
-   * combination.
-   *
-   * @param {string}        name  Shortcut name.
-   * @param {KeyboardEvent} event Event to check.
-   *
-   * @return {boolean} True if the event matches any shortcuts, false if not.
-   */
-
-  function isMatch(name, event) {
-    return getAllShortcutKeyCombinations(name).some(_ref => {
-      let {
-        modifier,
-        character
-      } = _ref;
-      return external_wp_keycodes_["isKeyboardEvent"][modifier](event, character);
-    });
-  }
-
-  return isMatch;
-}
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/keyboard-shortcuts/build-module/context.js
-/**
- * WordPress dependencies
- */
-
-const context = Object(external_wp_element_["createContext"])();
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/keyboard-shortcuts/build-module/hooks/use-shortcut.js
-/**
- * WordPress dependencies
- */
-
-/**
- * Internal dependencies
- */
-
-
-
-/**
- * Attach a keyboard shortcut handler.
- *
- * @param {string}   name               Shortcut name.
- * @param {Function} callback           Shortcut callback.
- * @param {Object}   options            Shortcut options.
- * @param {boolean}  options.isDisabled Whether to disable to shortut.
- */
-
-function useShortcut(name, callback) {
-  let {
-    isDisabled
-  } = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-  const shortcuts = Object(external_wp_element_["useContext"])(context);
-  const isMatch = useShortcutEventMatch();
-  const callbackRef = Object(external_wp_element_["useRef"])();
-  callbackRef.current = callback;
-  Object(external_wp_element_["useEffect"])(() => {
-    if (isDisabled) {
-      return;
-    }
-
-    function _callback(event) {
-      if (isMatch(name, event)) {
-        callbackRef.current(event);
-      }
-    }
-
-    shortcuts.current.add(_callback);
-    return () => {
-      shortcuts.current.delete(_callback);
-    };
-  }, [name, isDisabled]);
-}
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
-var esm_extends = __webpack_require__("wx14");
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/keyboard-shortcuts/build-module/components/shortcut-provider.js
-
-
-
-/**
- * WordPress dependencies
- */
-
-/**
- * Internal dependencies
- */
-
-
-const {
-  Provider
-} = context;
-/**
- * Handles callbacks added to context by `useShortcut`.
- *
- * @param {Object} props Props to pass to `div`.
- *
- * @return {import('@wordpress/element').WPElement} Component.
- */
-
-function ShortcutProvider(props) {
-  const keyboardShortcuts = Object(external_wp_element_["useRef"])(new Set());
-
-  function onKeyDown(event) {
-    if (props.onKeyDown) props.onKeyDown(event);
-
-    for (const keyboardShortcut of keyboardShortcuts.current) {
-      keyboardShortcut(event);
-    }
-  }
-  /* eslint-disable jsx-a11y/no-static-element-interactions */
-
-
-  return Object(external_wp_element_["createElement"])(Provider, {
-    value: keyboardShortcuts
-  }, Object(external_wp_element_["createElement"])("div", Object(esm_extends["a" /* default */])({}, props, {
-    onKeyDown: onKeyDown
-  })));
-  /* eslint-enable jsx-a11y/no-static-element-interactions */
-}
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/keyboard-shortcuts/build-module/index.js
-
-
-
-
-
-
-/***/ }),
-
-/***/ "pPDe":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
+;// CONCATENATED MODULE: ./node_modules/rememo/es/rememo.js
 
 
 var LEAF_KEY, hasWeakMap;
@@ -685,7 +269,7 @@ function isShallowEqual( a, b, fromIndex ) {
  *
  * @return {Function} Memoized selector.
  */
-/* harmony default export */ __webpack_exports__["a"] = (function( selector, getDependants ) {
+/* harmony default export */ function rememo(selector, getDependants ) {
 	var rootCache, getCache;
 
 	// Use object source as dependant if getter not provided
@@ -861,16 +445,279 @@ function isShallowEqual( a, b, fromIndex ) {
 	clear();
 
 	return callSelector;
+}
+
+;// CONCATENATED MODULE: external ["wp","keycodes"]
+var external_wp_keycodes_namespaceObject = window["wp"]["keycodes"];
+;// CONCATENATED MODULE: ./node_modules/@wordpress/keyboard-shortcuts/build-module/store/selectors.js
+/**
+ * External dependencies
+ */
+
+
+/**
+ * WordPress dependencies
+ */
+
+
+/** @typedef {import('./actions').WPShortcutKeyCombination} WPShortcutKeyCombination */
+
+/** @typedef {import('@wordpress/keycodes').WPKeycodeHandlerByModifier} WPKeycodeHandlerByModifier */
+
+/**
+ * Shared reference to an empty array for cases where it is important to avoid
+ * returning a new array reference on every invocation.
+ *
+ * @type {Array<any>}
+ */
+
+const EMPTY_ARRAY = [];
+/**
+ * Shortcut formatting methods.
+ *
+ * @property {WPKeycodeHandlerByModifier} display     Display formatting.
+ * @property {WPKeycodeHandlerByModifier} rawShortcut Raw shortcut formatting.
+ * @property {WPKeycodeHandlerByModifier} ariaLabel   ARIA label formatting.
+ */
+
+const FORMATTING_METHODS = {
+  display: external_wp_keycodes_namespaceObject.displayShortcut,
+  raw: external_wp_keycodes_namespaceObject.rawShortcut,
+  ariaLabel: external_wp_keycodes_namespaceObject.shortcutAriaLabel
+};
+/**
+ * Returns a string representing the key combination.
+ *
+ * @param {?WPShortcutKeyCombination} shortcut       Key combination.
+ * @param {keyof FORMATTING_METHODS}  representation Type of representation
+ *                                                   (display, raw, ariaLabel).
+ *
+ * @return {string?} Shortcut representation.
+ */
+
+function getKeyCombinationRepresentation(shortcut, representation) {
+  if (!shortcut) {
+    return null;
+  }
+
+  return shortcut.modifier ? FORMATTING_METHODS[representation][shortcut.modifier](shortcut.character) : shortcut.character;
+}
+/**
+ * Returns the main key combination for a given shortcut name.
+ *
+ * @param {Object} state Global state.
+ * @param {string} name  Shortcut name.
+ *
+ * @return {WPShortcutKeyCombination?} Key combination.
+ */
+
+
+function getShortcutKeyCombination(state, name) {
+  return state[name] ? state[name].keyCombination : null;
+}
+/**
+ * Returns a string representing the main key combination for a given shortcut name.
+ *
+ * @param {Object}                   state          Global state.
+ * @param {string}                   name           Shortcut name.
+ * @param {keyof FORMATTING_METHODS} representation Type of representation
+ *                                                  (display, raw, ariaLabel).
+ *
+ * @return {string?} Shortcut representation.
+ */
+
+function getShortcutRepresentation(state, name) {
+  let representation = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'display';
+  const shortcut = getShortcutKeyCombination(state, name);
+  return getKeyCombinationRepresentation(shortcut, representation);
+}
+/**
+ * Returns the shortcut description given its name.
+ *
+ * @param {Object} state Global state.
+ * @param {string} name  Shortcut name.
+ *
+ * @return {string?} Shortcut description.
+ */
+
+function getShortcutDescription(state, name) {
+  return state[name] ? state[name].description : null;
+}
+/**
+ * Returns the aliases for a given shortcut name.
+ *
+ * @param {Object} state Global state.
+ * @param {string} name  Shortcut name.
+ *
+ * @return {WPShortcutKeyCombination[]} Key combinations.
+ */
+
+function getShortcutAliases(state, name) {
+  return state[name] && state[name].aliases ? state[name].aliases : EMPTY_ARRAY;
+}
+const getAllShortcutKeyCombinations = rememo((state, name) => {
+  return (0,external_lodash_namespaceObject.compact)([getShortcutKeyCombination(state, name), ...getShortcutAliases(state, name)]);
+}, (state, name) => [state[name]]);
+/**
+ * Returns the raw representation of all the keyboard combinations of a given shortcut name.
+ *
+ * @param {Object} state Global state.
+ * @param {string} name  Shortcut name.
+ *
+ * @return {string[]} Shortcuts.
+ */
+
+const getAllShortcutRawKeyCombinations = rememo((state, name) => {
+  return getAllShortcutKeyCombinations(state, name).map(combination => getKeyCombinationRepresentation(combination, 'raw'));
+}, (state, name) => [state[name]]);
+/**
+ * Returns the shortcut names list for a given category name.
+ *
+ * @param {Object} state Global state.
+ * @param {string} name  Category name.
+ *
+ * @return {string[]} Shortcut names.
+ */
+
+const getCategoryShortcuts = rememo((state, categoryName) => {
+  return Object.entries(state).filter(_ref => {
+    let [, shortcut] = _ref;
+    return shortcut.category === categoryName;
+  }).map(_ref2 => {
+    let [name] = _ref2;
+    return name;
+  });
+}, state => [state]);
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/keyboard-shortcuts/build-module/store/index.js
+/**
+ * WordPress dependencies
+ */
+
+/**
+ * Internal dependencies
+ */
+
+
+
+
+const STORE_NAME = 'core/keyboard-shortcuts';
+/**
+ * Store definition for the keyboard shortcuts namespace.
+ *
+ * @see https://github.com/WordPress/gutenberg/blob/HEAD/packages/data/README.md#createReduxStore
+ *
+ * @type {Object}
+ */
+
+const store = (0,external_wp_data_namespaceObject.createReduxStore)(STORE_NAME, {
+  reducer: store_reducer,
+  actions: actions_namespaceObject,
+  selectors: selectors_namespaceObject
 });
+(0,external_wp_data_namespaceObject.register)(store);
+
+;// CONCATENATED MODULE: external ["wp","element"]
+var external_wp_element_namespaceObject = window["wp"]["element"];
+;// CONCATENATED MODULE: ./node_modules/@wordpress/keyboard-shortcuts/build-module/hooks/use-shortcut-event-match.js
+/**
+ * WordPress dependencies
+ */
 
 
-/***/ }),
+/**
+ * Internal dependencies
+ */
 
-/***/ "wx14":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _extends; });
+/**
+ * Returns a function to check if a keyboard event matches a shortcut name.
+ *
+ * @return {Function} A function to to check if a keyboard event matches a
+ *                    predefined shortcut combination.
+ */
+
+function useShortcutEventMatch() {
+  const {
+    getAllShortcutKeyCombinations
+  } = (0,external_wp_data_namespaceObject.useSelect)(store);
+  /**
+   * A function to check if a keyboard event matches a predefined shortcut
+   * combination.
+   *
+   * @param {string}        name  Shortcut name.
+   * @param {KeyboardEvent} event Event to check.
+   *
+   * @return {boolean} True if the event matches any shortcuts, false if not.
+   */
+
+  function isMatch(name, event) {
+    return getAllShortcutKeyCombinations(name).some(_ref => {
+      let {
+        modifier,
+        character
+      } = _ref;
+      return external_wp_keycodes_namespaceObject.isKeyboardEvent[modifier](event, character);
+    });
+  }
+
+  return isMatch;
+}
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/keyboard-shortcuts/build-module/context.js
+/**
+ * WordPress dependencies
+ */
+
+const context = (0,external_wp_element_namespaceObject.createContext)();
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/keyboard-shortcuts/build-module/hooks/use-shortcut.js
+/**
+ * WordPress dependencies
+ */
+
+/**
+ * Internal dependencies
+ */
+
+
+
+/**
+ * Attach a keyboard shortcut handler.
+ *
+ * @param {string}   name               Shortcut name.
+ * @param {Function} callback           Shortcut callback.
+ * @param {Object}   options            Shortcut options.
+ * @param {boolean}  options.isDisabled Whether to disable to shortut.
+ */
+
+function useShortcut(name, callback) {
+  let {
+    isDisabled
+  } = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+  const shortcuts = (0,external_wp_element_namespaceObject.useContext)(context);
+  const isMatch = useShortcutEventMatch();
+  const callbackRef = (0,external_wp_element_namespaceObject.useRef)();
+  callbackRef.current = callback;
+  (0,external_wp_element_namespaceObject.useEffect)(() => {
+    if (isDisabled) {
+      return;
+    }
+
+    function _callback(event) {
+      if (isMatch(name, event)) {
+        callbackRef.current(event);
+      }
+    }
+
+    shortcuts.current.add(_callback);
+    return () => {
+      shortcuts.current.delete(_callback);
+    };
+  }, [name, isDisabled]);
+}
+
+;// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
 function _extends() {
   _extends = Object.assign || function (target) {
     for (var i = 1; i < arguments.length; i++) {
@@ -888,7 +735,57 @@ function _extends() {
 
   return _extends.apply(this, arguments);
 }
+;// CONCATENATED MODULE: ./node_modules/@wordpress/keyboard-shortcuts/build-module/components/shortcut-provider.js
 
-/***/ })
 
-/******/ });
+
+/**
+ * WordPress dependencies
+ */
+
+/**
+ * Internal dependencies
+ */
+
+
+const {
+  Provider
+} = context;
+/**
+ * Handles callbacks added to context by `useShortcut`.
+ *
+ * @param {Object} props Props to pass to `div`.
+ *
+ * @return {import('@wordpress/element').WPElement} Component.
+ */
+
+function ShortcutProvider(props) {
+  const keyboardShortcuts = (0,external_wp_element_namespaceObject.useRef)(new Set());
+
+  function onKeyDown(event) {
+    if (props.onKeyDown) props.onKeyDown(event);
+
+    for (const keyboardShortcut of keyboardShortcuts.current) {
+      keyboardShortcut(event);
+    }
+  }
+  /* eslint-disable jsx-a11y/no-static-element-interactions */
+
+
+  return (0,external_wp_element_namespaceObject.createElement)(Provider, {
+    value: keyboardShortcuts
+  }, (0,external_wp_element_namespaceObject.createElement)("div", _extends({}, props, {
+    onKeyDown: onKeyDown
+  })));
+  /* eslint-enable jsx-a11y/no-static-element-interactions */
+}
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/keyboard-shortcuts/build-module/index.js
+
+
+
+
+
+(window.wp = window.wp || {}).keyboardShortcuts = __webpack_exports__;
+/******/ })()
+;

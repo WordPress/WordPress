@@ -1,462 +1,8 @@
-this["wp"] = this["wp"] || {}; this["wp"]["shortcode"] =
-/******/ (function(modules) { // webpackBootstrap
-/******/ 	// The module cache
-/******/ 	var installedModules = {};
-/******/
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/
-/******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId]) {
-/******/ 			return installedModules[moduleId].exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = installedModules[moduleId] = {
-/******/ 			i: moduleId,
-/******/ 			l: false,
-/******/ 			exports: {}
-/******/ 		};
-/******/
-/******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/
-/******/ 		// Flag the module as loaded
-/******/ 		module.l = true;
-/******/
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/
-/******/
-/******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__webpack_require__.m = modules;
-/******/
-/******/ 	// expose the module cache
-/******/ 	__webpack_require__.c = installedModules;
-/******/
-/******/ 	// define getter function for harmony exports
-/******/ 	__webpack_require__.d = function(exports, name, getter) {
-/******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
-/******/ 		}
-/******/ 	};
-/******/
-/******/ 	// define __esModule on exports
-/******/ 	__webpack_require__.r = function(exports) {
-/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 		}
-/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 	};
-/******/
-/******/ 	// create a fake namespace object
-/******/ 	// mode & 1: value is a module id, require it
-/******/ 	// mode & 2: merge all properties of value into the ns
-/******/ 	// mode & 4: return value when already ns object
-/******/ 	// mode & 8|1: behave like require
-/******/ 	__webpack_require__.t = function(value, mode) {
-/******/ 		if(mode & 1) value = __webpack_require__(value);
-/******/ 		if(mode & 8) return value;
-/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
-/******/ 		var ns = Object.create(null);
-/******/ 		__webpack_require__.r(ns);
-/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
-/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
-/******/ 		return ns;
-/******/ 	};
-/******/
-/******/ 	// getDefaultExport function for compatibility with non-harmony modules
-/******/ 	__webpack_require__.n = function(module) {
-/******/ 		var getter = module && module.__esModule ?
-/******/ 			function getDefault() { return module['default']; } :
-/******/ 			function getModuleExports() { return module; };
-/******/ 		__webpack_require__.d(getter, 'a', getter);
-/******/ 		return getter;
-/******/ 	};
-/******/
-/******/ 	// Object.prototype.hasOwnProperty.call
-/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
-/******/
-/******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
-/******/
-/******/
-/******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "/2FX");
-/******/ })
-/************************************************************************/
-/******/ ({
+/******/ (function() { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
 
-/***/ "/2FX":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "next", function() { return next; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "replace", function() { return replace; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "string", function() { return string; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "regexp", function() { return regexp; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "attrs", function() { return attrs; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromMatch", function() { return fromMatch; });
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("YLtl");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var memize__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("4eJC");
-/* harmony import */ var memize__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(memize__WEBPACK_IMPORTED_MODULE_1__);
-/**
- * External dependencies
- */
-
-
-/**
- * Shortcode attributes object.
- *
- * @typedef {Object} WPShortcodeAttrs
- *
- * @property {Object} named   Object with named attributes.
- * @property {Array}  numeric Array with numeric attributes.
- */
-
-/**
- * Shortcode object.
- *
- * @typedef {Object} WPShortcode
- *
- * @property {string}           tag     Shortcode tag.
- * @property {WPShortcodeAttrs} attrs   Shortcode attributes.
- * @property {string}           content Shortcode content.
- * @property {string}           type    Shortcode type: `self-closing`,
- *                                      `closed`, or `single`.
- */
-
-/**
- * @typedef {Object} WPShortcodeMatch
- *
- * @property {number}      index     Index the shortcode is found at.
- * @property {string}      content   Matched content.
- * @property {WPShortcode} shortcode Shortcode instance of the match.
- */
-
-/**
- * Find the next matching shortcode.
- *
- * @param {string} tag   Shortcode tag.
- * @param {string} text  Text to search.
- * @param {number} index Index to start search from.
- *
- * @return {?WPShortcodeMatch} Matched information.
- */
-
-function next(tag, text) {
-  let index = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-  const re = regexp(tag);
-  re.lastIndex = index;
-  const match = re.exec(text);
-
-  if (!match) {
-    return;
-  } // If we matched an escaped shortcode, try again.
-
-
-  if ('[' === match[1] && ']' === match[7]) {
-    return next(tag, text, re.lastIndex);
-  }
-
-  const result = {
-    index: match.index,
-    content: match[0],
-    shortcode: fromMatch(match)
-  }; // If we matched a leading `[`, strip it from the match and increment the
-  // index accordingly.
-
-  if (match[1]) {
-    result.content = result.content.slice(1);
-    result.index++;
-  } // If we matched a trailing `]`, strip it from the match.
-
-
-  if (match[7]) {
-    result.content = result.content.slice(0, -1);
-  }
-
-  return result;
-}
-/**
- * Replace matching shortcodes in a block of text.
- *
- * @param {string}   tag      Shortcode tag.
- * @param {string}   text     Text to search.
- * @param {Function} callback Function to process the match and return
- *                            replacement string.
- *
- * @return {string} Text with shortcodes replaced.
- */
-
-function replace(tag, text, callback) {
-  return text.replace(regexp(tag), function (match, left, $3, attrs, slash, content, closing, right) {
-    // If both extra brackets exist, the shortcode has been properly
-    // escaped.
-    if (left === '[' && right === ']') {
-      return match;
-    } // Create the match object and pass it through the callback.
-
-
-    const result = callback(fromMatch(arguments)); // Make sure to return any of the extra brackets if they weren't used to
-    // escape the shortcode.
-
-    return result || result === '' ? left + result + right : match;
-  });
-}
-/**
- * Generate a string from shortcode parameters.
- *
- * Creates a shortcode instance and returns a string.
- *
- * Accepts the same `options` as the `shortcode()` constructor, containing a
- * `tag` string, a string or object of `attrs`, a boolean indicating whether to
- * format the shortcode using a `single` tag, and a `content` string.
- *
- * @param {Object} options
- *
- * @return {string} String representation of the shortcode.
- */
-
-function string(options) {
-  return new shortcode(options).string();
-}
-/**
- * Generate a RegExp to identify a shortcode.
- *
- * The base regex is functionally equivalent to the one found in
- * `get_shortcode_regex()` in `wp-includes/shortcodes.php`.
- *
- * Capture groups:
- *
- * 1. An extra `[` to allow for escaping shortcodes with double `[[]]`
- * 2. The shortcode name
- * 3. The shortcode argument list
- * 4. The self closing `/`
- * 5. The content of a shortcode when it wraps some content.
- * 6. The closing tag.
- * 7. An extra `]` to allow for escaping shortcodes with double `[[]]`
- *
- * @param {string} tag Shortcode tag.
- *
- * @return {RegExp} Shortcode RegExp.
- */
-
-function regexp(tag) {
-  return new RegExp('\\[(\\[?)(' + tag + ')(?![\\w-])([^\\]\\/]*(?:\\/(?!\\])[^\\]\\/]*)*?)(?:(\\/)\\]|\\](?:([^\\[]*(?:\\[(?!\\/\\2\\])[^\\[]*)*)(\\[\\/\\2\\]))?)(\\]?)', 'g');
-}
-/**
- * Parse shortcode attributes.
- *
- * Shortcodes accept many types of attributes. These can chiefly be divided into
- * named and numeric attributes:
- *
- * Named attributes are assigned on a key/value basis, while numeric attributes
- * are treated as an array.
- *
- * Named attributes can be formatted as either `name="value"`, `name='value'`,
- * or `name=value`. Numeric attributes can be formatted as `"value"` or just
- * `value`.
- *
- * @param {string} text Serialised shortcode attributes.
- *
- * @return {WPShortcodeAttrs} Parsed shortcode attributes.
- */
-
-const attrs = memize__WEBPACK_IMPORTED_MODULE_1___default()(text => {
-  const named = {};
-  const numeric = []; // This regular expression is reused from `shortcode_parse_atts()` in
-  // `wp-includes/shortcodes.php`.
-  //
-  // Capture groups:
-  //
-  // 1. An attribute name, that corresponds to...
-  // 2. a value in double quotes.
-  // 3. An attribute name, that corresponds to...
-  // 4. a value in single quotes.
-  // 5. An attribute name, that corresponds to...
-  // 6. an unquoted value.
-  // 7. A numeric attribute in double quotes.
-  // 8. A numeric attribute in single quotes.
-  // 9. An unquoted numeric attribute.
-
-  const pattern = /([\w-]+)\s*=\s*"([^"]*)"(?:\s|$)|([\w-]+)\s*=\s*'([^']*)'(?:\s|$)|([\w-]+)\s*=\s*([^\s'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|'([^']*)'(?:\s|$)|(\S+)(?:\s|$)/g; // Map zero-width spaces to actual spaces.
-
-  text = text.replace(/[\u00a0\u200b]/g, ' ');
-  let match; // Match and normalize attributes.
-
-  while (match = pattern.exec(text)) {
-    if (match[1]) {
-      named[match[1].toLowerCase()] = match[2];
-    } else if (match[3]) {
-      named[match[3].toLowerCase()] = match[4];
-    } else if (match[5]) {
-      named[match[5].toLowerCase()] = match[6];
-    } else if (match[7]) {
-      numeric.push(match[7]);
-    } else if (match[8]) {
-      numeric.push(match[8]);
-    } else if (match[9]) {
-      numeric.push(match[9]);
-    }
-  }
-
-  return {
-    named,
-    numeric
-  };
-});
-/**
- * Generate a Shortcode Object from a RegExp match.
- *
- * Accepts a `match` object from calling `regexp.exec()` on a `RegExp` generated
- * by `regexp()`. `match` can also be set to the `arguments` from a callback
- * passed to `regexp.replace()`.
- *
- * @param {Array} match Match array.
- *
- * @return {WPShortcode} Shortcode instance.
- */
-
-function fromMatch(match) {
-  let type;
-
-  if (match[4]) {
-    type = 'self-closing';
-  } else if (match[6]) {
-    type = 'closed';
-  } else {
-    type = 'single';
-  }
-
-  return new shortcode({
-    tag: match[2],
-    attrs: match[3],
-    type,
-    content: match[5]
-  });
-}
-/**
- * Creates a shortcode instance.
- *
- * To access a raw representation of a shortcode, pass an `options` object,
- * containing a `tag` string, a string or object of `attrs`, a string indicating
- * the `type` of the shortcode ('single', 'self-closing', or 'closed'), and a
- * `content` string.
- *
- * @param {Object} options Options as described.
- *
- * @return {WPShortcode} Shortcode instance.
- */
-
-const shortcode = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["extend"])(function (options) {
-  Object(lodash__WEBPACK_IMPORTED_MODULE_0__["extend"])(this, Object(lodash__WEBPACK_IMPORTED_MODULE_0__["pick"])(options || {}, 'tag', 'attrs', 'type', 'content'));
-  const attributes = this.attrs; // Ensure we have a correctly formatted `attrs` object.
-
-  this.attrs = {
-    named: {},
-    numeric: []
-  };
-
-  if (!attributes) {
-    return;
-  } // Parse a string of attributes.
-
-
-  if (Object(lodash__WEBPACK_IMPORTED_MODULE_0__["isString"])(attributes)) {
-    this.attrs = attrs(attributes); // Identify a correctly formatted `attrs` object.
-  } else if (Object(lodash__WEBPACK_IMPORTED_MODULE_0__["isEqual"])(Object.keys(attributes), ['named', 'numeric'])) {
-    this.attrs = attributes; // Handle a flat object of attributes.
-  } else {
-    Object(lodash__WEBPACK_IMPORTED_MODULE_0__["forEach"])(attributes, (value, key) => {
-      this.set(key, value);
-    });
-  }
-}, {
-  next,
-  replace,
-  string,
-  regexp,
-  attrs,
-  fromMatch
-});
-Object(lodash__WEBPACK_IMPORTED_MODULE_0__["extend"])(shortcode.prototype, {
-  /**
-   * Get a shortcode attribute.
-   *
-   * Automatically detects whether `attr` is named or numeric and routes it
-   * accordingly.
-   *
-   * @param {(number|string)} attr Attribute key.
-   *
-   * @return {string} Attribute value.
-   */
-  get(attr) {
-    return this.attrs[Object(lodash__WEBPACK_IMPORTED_MODULE_0__["isNumber"])(attr) ? 'numeric' : 'named'][attr];
-  },
-
-  /**
-   * Set a shortcode attribute.
-   *
-   * Automatically detects whether `attr` is named or numeric and routes it
-   * accordingly.
-   *
-   * @param {(number|string)} attr  Attribute key.
-   * @param {string}          value Attribute value.
-   *
-   * @return {WPShortcode} Shortcode instance.
-   */
-  set(attr, value) {
-    this.attrs[Object(lodash__WEBPACK_IMPORTED_MODULE_0__["isNumber"])(attr) ? 'numeric' : 'named'][attr] = value;
-    return this;
-  },
-
-  /**
-   * Transform the shortcode into a string.
-   *
-   * @return {string} String representation of the shortcode.
-   */
-  string() {
-    let text = '[' + this.tag;
-    Object(lodash__WEBPACK_IMPORTED_MODULE_0__["forEach"])(this.attrs.numeric, value => {
-      if (/\s/.test(value)) {
-        text += ' "' + value + '"';
-      } else {
-        text += ' ' + value;
-      }
-    });
-    Object(lodash__WEBPACK_IMPORTED_MODULE_0__["forEach"])(this.attrs.named, (value, name) => {
-      text += ' ' + name + '="' + value + '"';
-    }); // If the tag is marked as `single` or `self-closing`, close the tag and
-    // ignore any additional content.
-
-    if ('single' === this.type) {
-      return text + ']';
-    } else if ('self-closing' === this.type) {
-      return text + ' /]';
-    } // Complete the opening tag.
-
-
-    text += ']';
-
-    if (this.content) {
-      text += this.content;
-    } // Add the closing tag.
-
-
-    return text + '[/' + this.tag + ']';
-  }
-
-});
-/* harmony default export */ __webpack_exports__["default"] = (shortcode);
-
-
-/***/ }),
-
-/***/ "4eJC":
-/***/ (function(module, exports, __webpack_require__) {
+/***/ 9756:
+/***/ (function(module) {
 
 /**
  * Memize options object.
@@ -621,13 +167,434 @@ function memize( fn, options ) {
 module.exports = memize;
 
 
-/***/ }),
-
-/***/ "YLtl":
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["lodash"]; }());
-
 /***/ })
 
-/******/ })["default"];
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	!function() {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = function(module) {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				function() { return module['default']; } :
+/******/ 				function() { return module; };
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	!function() {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = function(exports, definition) {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	!function() {
+/******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
+/******/ 	}();
+/******/ 	
+/************************************************************************/
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
+!function() {
+"use strict";
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, {
+  "default": function() { return /* binding */ build_module; }
+});
+
+// UNUSED EXPORTS: attrs, fromMatch, next, regexp, replace, string
+
+;// CONCATENATED MODULE: external "lodash"
+var external_lodash_namespaceObject = window["lodash"];
+// EXTERNAL MODULE: ./node_modules/memize/index.js
+var memize = __webpack_require__(9756);
+var memize_default = /*#__PURE__*/__webpack_require__.n(memize);
+;// CONCATENATED MODULE: ./node_modules/@wordpress/shortcode/build-module/index.js
+/**
+ * External dependencies
+ */
+
+
+/**
+ * Shortcode attributes object.
+ *
+ * @typedef {Object} WPShortcodeAttrs
+ *
+ * @property {Object} named   Object with named attributes.
+ * @property {Array}  numeric Array with numeric attributes.
+ */
+
+/**
+ * Shortcode object.
+ *
+ * @typedef {Object} WPShortcode
+ *
+ * @property {string}           tag     Shortcode tag.
+ * @property {WPShortcodeAttrs} attrs   Shortcode attributes.
+ * @property {string}           content Shortcode content.
+ * @property {string}           type    Shortcode type: `self-closing`,
+ *                                      `closed`, or `single`.
+ */
+
+/**
+ * @typedef {Object} WPShortcodeMatch
+ *
+ * @property {number}      index     Index the shortcode is found at.
+ * @property {string}      content   Matched content.
+ * @property {WPShortcode} shortcode Shortcode instance of the match.
+ */
+
+/**
+ * Find the next matching shortcode.
+ *
+ * @param {string} tag   Shortcode tag.
+ * @param {string} text  Text to search.
+ * @param {number} index Index to start search from.
+ *
+ * @return {?WPShortcodeMatch} Matched information.
+ */
+
+function next(tag, text) {
+  let index = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+  const re = regexp(tag);
+  re.lastIndex = index;
+  const match = re.exec(text);
+
+  if (!match) {
+    return;
+  } // If we matched an escaped shortcode, try again.
+
+
+  if ('[' === match[1] && ']' === match[7]) {
+    return next(tag, text, re.lastIndex);
+  }
+
+  const result = {
+    index: match.index,
+    content: match[0],
+    shortcode: fromMatch(match)
+  }; // If we matched a leading `[`, strip it from the match and increment the
+  // index accordingly.
+
+  if (match[1]) {
+    result.content = result.content.slice(1);
+    result.index++;
+  } // If we matched a trailing `]`, strip it from the match.
+
+
+  if (match[7]) {
+    result.content = result.content.slice(0, -1);
+  }
+
+  return result;
+}
+/**
+ * Replace matching shortcodes in a block of text.
+ *
+ * @param {string}   tag      Shortcode tag.
+ * @param {string}   text     Text to search.
+ * @param {Function} callback Function to process the match and return
+ *                            replacement string.
+ *
+ * @return {string} Text with shortcodes replaced.
+ */
+
+function replace(tag, text, callback) {
+  return text.replace(regexp(tag), function (match, left, $3, attrs, slash, content, closing, right) {
+    // If both extra brackets exist, the shortcode has been properly
+    // escaped.
+    if (left === '[' && right === ']') {
+      return match;
+    } // Create the match object and pass it through the callback.
+
+
+    const result = callback(fromMatch(arguments)); // Make sure to return any of the extra brackets if they weren't used to
+    // escape the shortcode.
+
+    return result || result === '' ? left + result + right : match;
+  });
+}
+/**
+ * Generate a string from shortcode parameters.
+ *
+ * Creates a shortcode instance and returns a string.
+ *
+ * Accepts the same `options` as the `shortcode()` constructor, containing a
+ * `tag` string, a string or object of `attrs`, a boolean indicating whether to
+ * format the shortcode using a `single` tag, and a `content` string.
+ *
+ * @param {Object} options
+ *
+ * @return {string} String representation of the shortcode.
+ */
+
+function string(options) {
+  return new shortcode(options).string();
+}
+/**
+ * Generate a RegExp to identify a shortcode.
+ *
+ * The base regex is functionally equivalent to the one found in
+ * `get_shortcode_regex()` in `wp-includes/shortcodes.php`.
+ *
+ * Capture groups:
+ *
+ * 1. An extra `[` to allow for escaping shortcodes with double `[[]]`
+ * 2. The shortcode name
+ * 3. The shortcode argument list
+ * 4. The self closing `/`
+ * 5. The content of a shortcode when it wraps some content.
+ * 6. The closing tag.
+ * 7. An extra `]` to allow for escaping shortcodes with double `[[]]`
+ *
+ * @param {string} tag Shortcode tag.
+ *
+ * @return {RegExp} Shortcode RegExp.
+ */
+
+function regexp(tag) {
+  return new RegExp('\\[(\\[?)(' + tag + ')(?![\\w-])([^\\]\\/]*(?:\\/(?!\\])[^\\]\\/]*)*?)(?:(\\/)\\]|\\](?:([^\\[]*(?:\\[(?!\\/\\2\\])[^\\[]*)*)(\\[\\/\\2\\]))?)(\\]?)', 'g');
+}
+/**
+ * Parse shortcode attributes.
+ *
+ * Shortcodes accept many types of attributes. These can chiefly be divided into
+ * named and numeric attributes:
+ *
+ * Named attributes are assigned on a key/value basis, while numeric attributes
+ * are treated as an array.
+ *
+ * Named attributes can be formatted as either `name="value"`, `name='value'`,
+ * or `name=value`. Numeric attributes can be formatted as `"value"` or just
+ * `value`.
+ *
+ * @param {string} text Serialised shortcode attributes.
+ *
+ * @return {WPShortcodeAttrs} Parsed shortcode attributes.
+ */
+
+const attrs = memize_default()(text => {
+  const named = {};
+  const numeric = []; // This regular expression is reused from `shortcode_parse_atts()` in
+  // `wp-includes/shortcodes.php`.
+  //
+  // Capture groups:
+  //
+  // 1. An attribute name, that corresponds to...
+  // 2. a value in double quotes.
+  // 3. An attribute name, that corresponds to...
+  // 4. a value in single quotes.
+  // 5. An attribute name, that corresponds to...
+  // 6. an unquoted value.
+  // 7. A numeric attribute in double quotes.
+  // 8. A numeric attribute in single quotes.
+  // 9. An unquoted numeric attribute.
+
+  const pattern = /([\w-]+)\s*=\s*"([^"]*)"(?:\s|$)|([\w-]+)\s*=\s*'([^']*)'(?:\s|$)|([\w-]+)\s*=\s*([^\s'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|'([^']*)'(?:\s|$)|(\S+)(?:\s|$)/g; // Map zero-width spaces to actual spaces.
+
+  text = text.replace(/[\u00a0\u200b]/g, ' ');
+  let match; // Match and normalize attributes.
+
+  while (match = pattern.exec(text)) {
+    if (match[1]) {
+      named[match[1].toLowerCase()] = match[2];
+    } else if (match[3]) {
+      named[match[3].toLowerCase()] = match[4];
+    } else if (match[5]) {
+      named[match[5].toLowerCase()] = match[6];
+    } else if (match[7]) {
+      numeric.push(match[7]);
+    } else if (match[8]) {
+      numeric.push(match[8]);
+    } else if (match[9]) {
+      numeric.push(match[9]);
+    }
+  }
+
+  return {
+    named,
+    numeric
+  };
+});
+/**
+ * Generate a Shortcode Object from a RegExp match.
+ *
+ * Accepts a `match` object from calling `regexp.exec()` on a `RegExp` generated
+ * by `regexp()`. `match` can also be set to the `arguments` from a callback
+ * passed to `regexp.replace()`.
+ *
+ * @param {Array} match Match array.
+ *
+ * @return {WPShortcode} Shortcode instance.
+ */
+
+function fromMatch(match) {
+  let type;
+
+  if (match[4]) {
+    type = 'self-closing';
+  } else if (match[6]) {
+    type = 'closed';
+  } else {
+    type = 'single';
+  }
+
+  return new shortcode({
+    tag: match[2],
+    attrs: match[3],
+    type,
+    content: match[5]
+  });
+}
+/**
+ * Creates a shortcode instance.
+ *
+ * To access a raw representation of a shortcode, pass an `options` object,
+ * containing a `tag` string, a string or object of `attrs`, a string indicating
+ * the `type` of the shortcode ('single', 'self-closing', or 'closed'), and a
+ * `content` string.
+ *
+ * @param {Object} options Options as described.
+ *
+ * @return {WPShortcode} Shortcode instance.
+ */
+
+const shortcode = (0,external_lodash_namespaceObject.extend)(function (options) {
+  (0,external_lodash_namespaceObject.extend)(this, (0,external_lodash_namespaceObject.pick)(options || {}, 'tag', 'attrs', 'type', 'content'));
+  const attributes = this.attrs; // Ensure we have a correctly formatted `attrs` object.
+
+  this.attrs = {
+    named: {},
+    numeric: []
+  };
+
+  if (!attributes) {
+    return;
+  } // Parse a string of attributes.
+
+
+  if ((0,external_lodash_namespaceObject.isString)(attributes)) {
+    this.attrs = attrs(attributes); // Identify a correctly formatted `attrs` object.
+  } else if ((0,external_lodash_namespaceObject.isEqual)(Object.keys(attributes), ['named', 'numeric'])) {
+    this.attrs = attributes; // Handle a flat object of attributes.
+  } else {
+    (0,external_lodash_namespaceObject.forEach)(attributes, (value, key) => {
+      this.set(key, value);
+    });
+  }
+}, {
+  next,
+  replace,
+  string,
+  regexp,
+  attrs,
+  fromMatch
+});
+(0,external_lodash_namespaceObject.extend)(shortcode.prototype, {
+  /**
+   * Get a shortcode attribute.
+   *
+   * Automatically detects whether `attr` is named or numeric and routes it
+   * accordingly.
+   *
+   * @param {(number|string)} attr Attribute key.
+   *
+   * @return {string} Attribute value.
+   */
+  get(attr) {
+    return this.attrs[(0,external_lodash_namespaceObject.isNumber)(attr) ? 'numeric' : 'named'][attr];
+  },
+
+  /**
+   * Set a shortcode attribute.
+   *
+   * Automatically detects whether `attr` is named or numeric and routes it
+   * accordingly.
+   *
+   * @param {(number|string)} attr  Attribute key.
+   * @param {string}          value Attribute value.
+   *
+   * @return {WPShortcode} Shortcode instance.
+   */
+  set(attr, value) {
+    this.attrs[(0,external_lodash_namespaceObject.isNumber)(attr) ? 'numeric' : 'named'][attr] = value;
+    return this;
+  },
+
+  /**
+   * Transform the shortcode into a string.
+   *
+   * @return {string} String representation of the shortcode.
+   */
+  string() {
+    let text = '[' + this.tag;
+    (0,external_lodash_namespaceObject.forEach)(this.attrs.numeric, value => {
+      if (/\s/.test(value)) {
+        text += ' "' + value + '"';
+      } else {
+        text += ' ' + value;
+      }
+    });
+    (0,external_lodash_namespaceObject.forEach)(this.attrs.named, (value, name) => {
+      text += ' ' + name + '="' + value + '"';
+    }); // If the tag is marked as `single` or `self-closing`, close the tag and
+    // ignore any additional content.
+
+    if ('single' === this.type) {
+      return text + ']';
+    } else if ('self-closing' === this.type) {
+      return text + ' /]';
+    } // Complete the opening tag.
+
+
+    text += ']';
+
+    if (this.content) {
+      text += this.content;
+    } // Add the closing tag.
+
+
+    return text + '[/' + this.tag + ']';
+  }
+
+});
+/* harmony default export */ var build_module = (shortcode);
+
+}();
+(window.wp = window.wp || {}).shortcode = __webpack_exports__["default"];
+/******/ })()
+;

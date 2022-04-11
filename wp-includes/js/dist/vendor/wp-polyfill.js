@@ -2,7 +2,7 @@
  * core-js 3.19.1
  * https://github.com/zloirock/core-js
  * License: http://rock.mit-license.org
- * © 2021 Denis Pushkarev (zloirock.ru)
+ * © 2022 Denis Pushkarev (zloirock.ru)
  */
 !function (undefined) { 'use strict'; /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache

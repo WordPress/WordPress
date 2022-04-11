@@ -1,135 +1,73 @@
-this["wp"] = this["wp"] || {}; this["wp"]["url"] =
-/******/ (function(modules) { // webpackBootstrap
-/******/ 	// The module cache
-/******/ 	var installedModules = {};
-/******/
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/
-/******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId]) {
-/******/ 			return installedModules[moduleId].exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = installedModules[moduleId] = {
-/******/ 			i: moduleId,
-/******/ 			l: false,
-/******/ 			exports: {}
-/******/ 		};
-/******/
-/******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/
-/******/ 		// Flag the module as loaded
-/******/ 		module.l = true;
-/******/
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/
-/******/
-/******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__webpack_require__.m = modules;
-/******/
-/******/ 	// expose the module cache
-/******/ 	__webpack_require__.c = installedModules;
-/******/
-/******/ 	// define getter function for harmony exports
-/******/ 	__webpack_require__.d = function(exports, name, getter) {
-/******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
-/******/ 		}
-/******/ 	};
-/******/
-/******/ 	// define __esModule on exports
-/******/ 	__webpack_require__.r = function(exports) {
-/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 		}
-/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 	};
-/******/
-/******/ 	// create a fake namespace object
-/******/ 	// mode & 1: value is a module id, require it
-/******/ 	// mode & 2: merge all properties of value into the ns
-/******/ 	// mode & 4: return value when already ns object
-/******/ 	// mode & 8|1: behave like require
-/******/ 	__webpack_require__.t = function(value, mode) {
-/******/ 		if(mode & 1) value = __webpack_require__(value);
-/******/ 		if(mode & 8) return value;
-/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
-/******/ 		var ns = Object.create(null);
-/******/ 		__webpack_require__.r(ns);
-/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
-/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
-/******/ 		return ns;
-/******/ 	};
-/******/
-/******/ 	// getDefaultExport function for compatibility with non-harmony modules
-/******/ 	__webpack_require__.n = function(module) {
-/******/ 		var getter = module && module.__esModule ?
-/******/ 			function getDefault() { return module['default']; } :
-/******/ 			function getModuleExports() { return module; };
-/******/ 		__webpack_require__.d(getter, 'a', getter);
-/******/ 		return getter;
-/******/ 	};
-/******/
-/******/ 	// Object.prototype.hasOwnProperty.call
-/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
-/******/
-/******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
-/******/
-/******/
-/******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "lbya");
-/******/ })
+/******/ (function() { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	// The require scope
+/******/ 	var __webpack_require__ = {};
+/******/ 	
 /************************************************************************/
-/******/ ({
-
-/***/ "YLtl":
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["lodash"]; }());
-
-/***/ }),
-
-/***/ "lbya":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	!function() {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = function(exports, definition) {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	!function() {
+/******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	!function() {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = function(exports) {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/************************************************************************/
+var __webpack_exports__ = {};
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
-__webpack_require__.d(__webpack_exports__, "isURL", function() { return /* reexport */ isURL; });
-__webpack_require__.d(__webpack_exports__, "isEmail", function() { return /* reexport */ isEmail; });
-__webpack_require__.d(__webpack_exports__, "getProtocol", function() { return /* reexport */ getProtocol; });
-__webpack_require__.d(__webpack_exports__, "isValidProtocol", function() { return /* reexport */ isValidProtocol; });
-__webpack_require__.d(__webpack_exports__, "getAuthority", function() { return /* reexport */ getAuthority; });
-__webpack_require__.d(__webpack_exports__, "isValidAuthority", function() { return /* reexport */ isValidAuthority; });
-__webpack_require__.d(__webpack_exports__, "getPath", function() { return /* reexport */ getPath; });
-__webpack_require__.d(__webpack_exports__, "isValidPath", function() { return /* reexport */ isValidPath; });
-__webpack_require__.d(__webpack_exports__, "getQueryString", function() { return /* reexport */ getQueryString; });
-__webpack_require__.d(__webpack_exports__, "buildQueryString", function() { return /* reexport */ buildQueryString; });
-__webpack_require__.d(__webpack_exports__, "isValidQueryString", function() { return /* reexport */ isValidQueryString; });
-__webpack_require__.d(__webpack_exports__, "getPathAndQueryString", function() { return /* reexport */ getPathAndQueryString; });
-__webpack_require__.d(__webpack_exports__, "getFragment", function() { return /* reexport */ getFragment; });
-__webpack_require__.d(__webpack_exports__, "isValidFragment", function() { return /* reexport */ isValidFragment; });
-__webpack_require__.d(__webpack_exports__, "addQueryArgs", function() { return /* reexport */ addQueryArgs; });
-__webpack_require__.d(__webpack_exports__, "getQueryArg", function() { return /* reexport */ getQueryArg; });
-__webpack_require__.d(__webpack_exports__, "getQueryArgs", function() { return /* reexport */ getQueryArgs; });
-__webpack_require__.d(__webpack_exports__, "hasQueryArg", function() { return /* reexport */ hasQueryArg; });
-__webpack_require__.d(__webpack_exports__, "removeQueryArgs", function() { return /* reexport */ removeQueryArgs; });
-__webpack_require__.d(__webpack_exports__, "prependHTTP", function() { return /* reexport */ prependHTTP; });
-__webpack_require__.d(__webpack_exports__, "safeDecodeURI", function() { return /* reexport */ safeDecodeURI; });
-__webpack_require__.d(__webpack_exports__, "safeDecodeURIComponent", function() { return /* reexport */ safeDecodeURIComponent; });
-__webpack_require__.d(__webpack_exports__, "filterURLForDisplay", function() { return /* reexport */ filterURLForDisplay; });
-__webpack_require__.d(__webpack_exports__, "cleanForSlug", function() { return /* reexport */ cleanForSlug; });
-__webpack_require__.d(__webpack_exports__, "getFilename", function() { return /* reexport */ getFilename; });
-__webpack_require__.d(__webpack_exports__, "normalizePath", function() { return /* reexport */ normalizePath; });
+__webpack_require__.d(__webpack_exports__, {
+  "addQueryArgs": function() { return /* reexport */ addQueryArgs; },
+  "buildQueryString": function() { return /* reexport */ buildQueryString; },
+  "cleanForSlug": function() { return /* reexport */ cleanForSlug; },
+  "filterURLForDisplay": function() { return /* reexport */ filterURLForDisplay; },
+  "getAuthority": function() { return /* reexport */ getAuthority; },
+  "getFilename": function() { return /* reexport */ getFilename; },
+  "getFragment": function() { return /* reexport */ getFragment; },
+  "getPath": function() { return /* reexport */ getPath; },
+  "getPathAndQueryString": function() { return /* reexport */ getPathAndQueryString; },
+  "getProtocol": function() { return /* reexport */ getProtocol; },
+  "getQueryArg": function() { return /* reexport */ getQueryArg; },
+  "getQueryArgs": function() { return /* reexport */ getQueryArgs; },
+  "getQueryString": function() { return /* reexport */ getQueryString; },
+  "hasQueryArg": function() { return /* reexport */ hasQueryArg; },
+  "isEmail": function() { return /* reexport */ isEmail; },
+  "isURL": function() { return /* reexport */ isURL; },
+  "isValidAuthority": function() { return /* reexport */ isValidAuthority; },
+  "isValidFragment": function() { return /* reexport */ isValidFragment; },
+  "isValidPath": function() { return /* reexport */ isValidPath; },
+  "isValidProtocol": function() { return /* reexport */ isValidProtocol; },
+  "isValidQueryString": function() { return /* reexport */ isValidQueryString; },
+  "normalizePath": function() { return /* reexport */ normalizePath; },
+  "prependHTTP": function() { return /* reexport */ prependHTTP; },
+  "removeQueryArgs": function() { return /* reexport */ removeQueryArgs; },
+  "safeDecodeURI": function() { return /* reexport */ safeDecodeURI; },
+  "safeDecodeURIComponent": function() { return /* reexport */ safeDecodeURIComponent; }
+});
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/is-url.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/is-url.js
 /**
  * Determines whether the given string looks like a URL.
  *
@@ -156,7 +94,7 @@ function isURL(url) {
   }
 }
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/is-email.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/is-email.js
 const EMAIL_REGEXP = /^(mailto:)?[a-z0-9._%+-]+@[a-z0-9][a-z0-9.-]*\.[a-z]{2,63}$/i;
 /**
  * Determines whether the given string looks like an email.
@@ -175,7 +113,7 @@ function isEmail(email) {
   return EMAIL_REGEXP.test(email);
 }
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/get-protocol.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/get-protocol.js
 /**
  * Returns the protocol part of the URL.
  *
@@ -197,7 +135,7 @@ function getProtocol(url) {
   }
 }
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/is-valid-protocol.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/is-valid-protocol.js
 /**
  * Tests if a url protocol is valid.
  *
@@ -219,7 +157,7 @@ function isValidProtocol(protocol) {
   return /^[a-z\-.\+]+[0-9]*:$/i.test(protocol);
 }
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/get-authority.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/get-authority.js
 /**
  * Returns the authority part of the URL.
  *
@@ -241,7 +179,7 @@ function getAuthority(url) {
   }
 }
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/is-valid-authority.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/is-valid-authority.js
 /**
  * Checks for invalid characters within the provided authority.
  *
@@ -263,7 +201,7 @@ function isValidAuthority(authority) {
   return /^[^\s#?]+$/.test(authority);
 }
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/get-path.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/get-path.js
 /**
  * Returns the path part of the URL.
  *
@@ -285,7 +223,7 @@ function getPath(url) {
   }
 }
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/is-valid-path.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/is-valid-path.js
 /**
  * Checks for invalid characters within the provided path.
  *
@@ -307,7 +245,7 @@ function isValidPath(path) {
   return /^[^\s#?]+$/.test(path);
 }
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/get-query-string.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/get-query-string.js
 /**
  * Returns the query string part of the URL.
  *
@@ -332,7 +270,7 @@ function getQueryString(url) {
   }
 }
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/build-query-string.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/build-query-string.js
 /**
  * Generates URL-encoded query string using input query data.
  *
@@ -392,7 +330,7 @@ function buildQueryString(data) {
   return string.substr(1);
 }
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/is-valid-query-string.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/is-valid-query-string.js
 /**
  * Checks for invalid characters within the provided query string.
  *
@@ -414,7 +352,7 @@ function isValidQueryString(queryString) {
   return /^[^\s#?\/]+$/.test(queryString);
 }
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/get-path-and-query-string.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/get-path-and-query-string.js
 /**
  * Internal dependencies
  */
@@ -442,7 +380,7 @@ function getPathAndQueryString(url) {
   return value;
 }
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/get-fragment.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/get-fragment.js
 /**
  * Returns the fragment part of the URL.
  *
@@ -464,7 +402,7 @@ function getFragment(url) {
   }
 }
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/is-valid-fragment.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/is-valid-fragment.js
 /**
  * Checks for invalid characters within the provided fragment.
  *
@@ -486,7 +424,7 @@ function isValidFragment(fragment) {
   return /^#[^\s#?\/]*$/.test(fragment);
 }
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/get-query-args.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/get-query-args.js
 /**
  * Internal dependencies
  */
@@ -573,7 +511,7 @@ function getQueryArgs(url) {
   }, {});
 }
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/add-query-args.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/add-query-args.js
 /**
  * Internal dependencies
  */
@@ -619,7 +557,7 @@ function addQueryArgs() {
   return baseUrl + '?' + buildQueryString(args);
 }
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/get-query-arg.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/get-query-arg.js
 /**
  * Internal dependencies
  */
@@ -650,7 +588,7 @@ function getQueryArg(url, arg) {
   return getQueryArgs(url)[arg];
 }
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/has-query-arg.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/has-query-arg.js
 /**
  * Internal dependencies
  */
@@ -673,7 +611,7 @@ function hasQueryArg(url, arg) {
   return getQueryArg(url, arg) !== undefined;
 }
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/remove-query-args.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/remove-query-args.js
 /**
  * Internal dependencies
  */
@@ -712,7 +650,7 @@ function removeQueryArgs(url) {
   return queryString ? baseURL + '?' + queryString : baseURL;
 }
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/prepend-http.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/prepend-http.js
 /**
  * Internal dependencies
  */
@@ -745,7 +683,7 @@ function prependHTTP(url) {
   return url;
 }
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/safe-decode-uri.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/safe-decode-uri.js
 /**
  * Safely decodes a URI with `decodeURI`. Returns the URI unmodified if
  * `decodeURI` throws an error.
@@ -767,7 +705,7 @@ function safeDecodeURI(uri) {
   }
 }
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/safe-decode-uri-component.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/safe-decode-uri-component.js
 /**
  * Safely decodes a URI component with `decodeURIComponent`. Returns the URI component unmodified if
  * `decodeURIComponent` throws an error.
@@ -784,7 +722,7 @@ function safeDecodeURIComponent(uriComponent) {
   }
 }
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/filter-url-for-display.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/filter-url-for-display.js
 /**
  * Returns a URL for display.
  *
@@ -830,10 +768,9 @@ function filterURLForDisplay(url) {
   return file.slice(0, maxLength - truncatedFile.length - 1) + '…' + truncatedFile;
 }
 
-// EXTERNAL MODULE: external "lodash"
-var external_lodash_ = __webpack_require__("YLtl");
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/clean-for-slug.js
+;// CONCATENATED MODULE: external "lodash"
+var external_lodash_namespaceObject = window["lodash"];
+;// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/clean-for-slug.js
 /**
  * External dependencies
  */
@@ -860,10 +797,10 @@ function cleanForSlug(string) {
     return '';
   }
 
-  return Object(external_lodash_["trim"])(Object(external_lodash_["deburr"])(string).replace(/[\s\./]+/g, '-').replace(/[^\w-]+/g, '').toLowerCase(), '-');
+  return (0,external_lodash_namespaceObject.trim)((0,external_lodash_namespaceObject.deburr)(string).replace(/[\s\./]+/g, '-').replace(/[^\w-]+/g, '').toLowerCase(), '-');
 }
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/get-filename.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/get-filename.js
 /**
  * Returns the filename part of the URL.
  *
@@ -889,7 +826,7 @@ function getFilename(url) {
   }
 }
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/normalize-path.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/normalize-path.js
 /**
  * Given a path, returns a normalized path where equal query parameter values
  * will be treated as identical, regardless of order they appear in the original
@@ -917,7 +854,7 @@ function normalizePath(path) {
   .join('&');
 }
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/index.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/index.js
 
 
 
@@ -945,7 +882,6 @@ function normalizePath(path) {
 
 
 
-
-/***/ })
-
-/******/ });
+(window.wp = window.wp || {}).url = __webpack_exports__;
+/******/ })()
+;
