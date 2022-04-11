@@ -6963,7 +6963,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		preg_match( '|<title>([^<]*?)</title>|is', $remote_source, $matchtitle );
 		$title = isset( $matchtitle[1] ) ? $matchtitle[1] : '';
 		if ( empty( $title ) ) {
-			return $this->pingback_error( 32, __( 'A title on that page can not be found.' ) );
+			return $this->pingback_error( 32, __( 'A title on that page cannot be found.' ) );
 		}
 
 		// Remove all script and style tags including their content.
