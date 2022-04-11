@@ -224,18 +224,36 @@ function the_author_meta( $field = '', $user_id = false ) {
  *
  * @since 3.0.0
  *
+ * @global WP_User $authordata The current author's data.
+ *
  * @return string|null An HTML link if the author's url exist in user meta,
  *                     else the result of get_the_author().
  */
 function get_the_author_link() {
 	if ( get_the_author_meta( 'url' ) ) {
-		return sprintf(
+		global $authordata;
+
+		$author_url          = get_the_author_meta( 'url' );
+		$author_display_name = get_the_author();
+
+		$link = sprintf(
 			'<a href="%1$s" title="%2$s" rel="author external">%3$s</a>',
-			esc_url( get_the_author_meta( 'url' ) ),
+			esc_url( $author_url ),
 			/* translators: %s: Author's display name. */
-			esc_attr( sprintf( __( 'Visit %s&#8217;s website' ), get_the_author() ) ),
-			get_the_author()
+			esc_attr( sprintf( __( 'Visit %s&#8217;s website' ), $author_display_name ) ),
+			$author_display_name
 		);
+
+		/**
+		 * Filters the author URL link HTML.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param string  $link       The default rendered author HTML link.
+		 * @param string  $author_url Author's URL.
+		 * @param WP_User $authordata Author user data.
+		 */
+		return apply_filters( 'the_author_link', $link, $author_url, $authordata );
 	} else {
 		return get_the_author();
 	}
