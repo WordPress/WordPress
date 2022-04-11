@@ -32,6 +32,13 @@
 			showOrHideWeakPasswordCheckbox();
 		}
 
+		/*
+		 * This works around a race condition when zxcvbn loads quickly and
+		 * causes `generatePassword()` to run prior to the toggle button being
+		 * bound.
+		 */
+		bindToggleButton();
+
 		// Install screen.
 		if ( 1 !== parseInt( $toggleButton.data( 'start-masked' ), 10 ) ) {
 			// Show the password not masked if admin_password hasn't been posted yet.
@@ -82,6 +89,10 @@
 	}
 
 	function bindToggleButton() {
+		if ( !! $toggleButton ) {
+			// Do not rebind.
+			return;
+		}
 		$toggleButton = $pass1Row.find('.wp-hide-pw');
 		$toggleButton.show().on( 'click', function () {
 			if ( 'password' === $pass1.attr( 'type' ) ) {
