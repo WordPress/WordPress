@@ -315,6 +315,22 @@ final class WP_Taxonomy {
 		 */
 		$args = apply_filters( 'register_taxonomy_args', $args, $this->name, (array) $object_type );
 
+		$taxonomy = $this->name;
+
+		/**
+		 * Filters the arguments for registering a specific taxonomy.
+		 *
+		 * The dynamic portion of the filter name, `$this->name`, refers to the taxonomy key.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param array    $args        Array of arguments for registering a taxonomy.
+		 *                              See the register_taxonomy() function for accepted arguments.
+		 * @param string   $taxonomy    Taxonomy key.
+		 * @param string[] $object_type Array of names of object types for the taxonomy.
+		 */
+		$args = apply_filters( "register_{$taxonomy}_taxonomy_args", $args, $this->name, (array) $object_type );
+
 		$defaults = array(
 			'labels'                => array(),
 			'description'           => '',

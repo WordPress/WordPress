@@ -529,6 +529,19 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 	 */
 	do_action( 'registered_taxonomy', $taxonomy, $object_type, (array) $taxonomy_object );
 
+	/**
+	 * Fires after a specific taxonomy is registered.
+	 *
+	 * The dynamic portion of the filter name, `$taxonomy`, refers to the taxonomy key.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param string       $taxonomy    Taxonomy slug.
+	 * @param array|string $object_type Object type or array of object types.
+	 * @param array        $args        Array of taxonomy registration arguments.
+	 */
+	do_action( "registered_taxonomy_{$taxonomy}", $taxonomy, $object_type, (array) $taxonomy_object );
+
 	return $taxonomy_object;
 }
 
