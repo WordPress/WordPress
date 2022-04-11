@@ -329,7 +329,7 @@ function iis7_save_url_rewrite_rules() {
 }
 
 /**
- * Update the "recently-edited" file for the plugin or theme file editor.
+ * Updates the "recently-edited" file for the plugin or theme file editor.
  *
  * @since 1.5.0
  *
@@ -566,7 +566,7 @@ function update_home_siteurl( $old_value, $value ) {
 
 
 /**
- * Resets global variables based on $_GET and $_POST
+ * Resets global variables based on $_GET and $_POST.
  *
  * This function resets global variables based on the names passed
  * in the $vars array to the value of $_POST[$var] or $_GET[$var] or ''
@@ -801,11 +801,11 @@ function set_screen_options() {
 }
 
 /**
- * Check if rewrite rule for WordPress already exists in the IIS 7+ configuration file
+ * Checks if rewrite rule for WordPress already exists in the IIS 7+ configuration file.
  *
  * @since 2.8.0
  *
- * @param string $filename The file path to the configuration file
+ * @param string $filename The file path to the configuration file.
  * @return bool
  */
 function iis7_rewrite_rule_exists( $filename ) {
@@ -834,11 +834,11 @@ function iis7_rewrite_rule_exists( $filename ) {
 }
 
 /**
- * Delete WordPress rewrite rule from web.config file if it exists there
+ * Deletes WordPress rewrite rule from web.config file if it exists there.
  *
  * @since 2.8.0
  *
- * @param string $filename Name of the configuration file
+ * @param string $filename Name of the configuration file.
  * @return bool
  */
 function iis7_delete_rewrite_rule( $filename ) {
@@ -873,12 +873,12 @@ function iis7_delete_rewrite_rule( $filename ) {
 }
 
 /**
- * Add WordPress rewrite rule to the IIS 7+ configuration file.
+ * Adds WordPress rewrite rule to the IIS 7+ configuration file.
  *
  * @since 2.8.0
  *
- * @param string $filename The file path to the configuration file
- * @param string $rewrite_rule The XML fragment with URL Rewrite rule
+ * @param string $filename     The file path to the configuration file.
+ * @param string $rewrite_rule The XML fragment with URL Rewrite rule.
  * @return bool
  */
 function iis7_add_rewrite_rule( $filename, $rewrite_rule ) {
@@ -961,7 +961,7 @@ function iis7_add_rewrite_rule( $filename, $rewrite_rule ) {
 }
 
 /**
- * Saves the XML document into a file
+ * Saves the XML document into a file.
  *
  * @since 2.8.0
  *
@@ -978,7 +978,7 @@ function saveDomDocument( $doc, $filename ) { // phpcs:ignore WordPress.NamingCo
 }
 
 /**
- * Display the default admin color scheme picker (Used in user-edit.php)
+ * Displays the default admin color scheme picker (Used in user-edit.php).
  *
  * @since 3.0.0
  *
@@ -1110,7 +1110,7 @@ function _customizer_mobile_viewport_meta( $viewport_meta ) {
 }
 
 /**
- * Check lock status for posts displayed on the Posts screen
+ * Checks lock status for posts displayed on the Posts screen.
  *
  * @since 3.6.0
  *
@@ -1161,7 +1161,7 @@ function wp_check_locked_posts( $response, $data, $screen_id ) {
 }
 
 /**
- * Check lock status on the New/Edit Post screen and refresh the lock
+ * Checks lock status on the New/Edit Post screen and refresh the lock.
  *
  * @since 3.6.0
  *
@@ -1215,7 +1215,7 @@ function wp_refresh_post_lock( $response, $data, $screen_id ) {
 }
 
 /**
- * Check nonce expiration on the New/Edit Post screen and refresh if needed
+ * Checks nonce expiration on the New/Edit Post screen and refresh if needed.
  *
  * @since 3.6.0
  *
@@ -1255,7 +1255,7 @@ function wp_refresh_post_nonces( $response, $data, $screen_id ) {
 }
 
 /**
- * Add the latest Heartbeat and REST-API nonce to the Heartbeat response.
+ * Adds the latest Heartbeat and REST-API nonce to the Heartbeat response.
  *
  * @since 5.0.0
  *
@@ -1273,7 +1273,7 @@ function wp_refresh_heartbeat_nonces( $response ) {
 }
 
 /**
- * Disable suspension of Heartbeat on the Add/Edit Post screens.
+ * Disables suspension of Heartbeat on the Add/Edit Post screens.
  *
  * @since 3.8.0
  *
@@ -1293,7 +1293,7 @@ function wp_heartbeat_set_suspension( $settings ) {
 }
 
 /**
- * Autosave with heartbeat
+ * Performs autosave with heartbeat.
  *
  * @since 3.9.0
  *
@@ -1330,9 +1330,9 @@ function heartbeat_autosave( $response, $data ) {
 }
 
 /**
- * Remove single-use URL parameters and create canonical link based on new URL.
+ * Removes single-use URL parameters and create canonical link based on new URL.
  *
- * Remove specific query string parameters from a URL, create the canonical link,
+ * Removes specific query string parameters from a URL, create the canonical link,
  * put it in the admin header, and change the current URL to match.
  *
  * @since 4.2.0
@@ -1358,7 +1358,7 @@ function wp_admin_canonical_url() {
 }
 
 /**
- * Send a referrer policy header so referrers are not sent externally from administration screens.
+ * Sends a referrer policy header so referrers are not sent externally from administration screens.
  *
  * @since 4.9.0
  */
@@ -1399,7 +1399,7 @@ function wp_page_reload_on_back_button_js() {
 }
 
 /**
- * Send a confirmation request email when a change of site admin email address is attempted.
+ * Sends a confirmation request email when a change of site admin email address is attempted.
  *
  * The new site admin address will not become active until confirmed.
  *
