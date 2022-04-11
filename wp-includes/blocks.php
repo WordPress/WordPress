@@ -1392,24 +1392,25 @@ function build_comment_query_vars_from_block( $block ) {
 		$comment_args['hierarchical'] = false;
 	}
 
-	$per_page     = get_option( 'comments_per_page' );
-	$default_page = get_option( 'default_comments_page' );
+	if ( get_option( 'page_comments' ) === '1' || get_option( 'page_comments' ) === true ) {
+		$per_page     = get_option( 'comments_per_page' );
+		$default_page = get_option( 'default_comments_page' );
+		if ( $per_page > 0 ) {
+			$comment_args['number'] = $per_page;
 
-	if ( $per_page > 0 ) {
-		$comment_args['number'] = $per_page;
-
-		$page = (int) get_query_var( 'cpage' );
-		if ( $page ) {
-			$comment_args['paged'] = $page;
-		} elseif ( 'oldest' === $default_page ) {
-			$comment_args['paged'] = 1;
-		} elseif ( 'newest' === $default_page ) {
-			$comment_args['paged'] = (int) ( new WP_Comment_Query( $comment_args ) )->max_num_pages;
-		}
-		// Set the `cpage` query var to ensure the previous and next pagination links are correct
-		// when inheriting the Discussion Settings.
-		if ( 0 === $page && isset( $comment_args['paged'] ) && $comment_args['paged'] > 0 ) {
-			set_query_var( 'cpage', $comment_args['paged'] );
+			$page = (int) get_query_var( 'cpage' );
+			if ( $page ) {
+				$comment_args['paged'] = $page;
+			} elseif ( 'oldest' === $default_page ) {
+				$comment_args['paged'] = 1;
+			} elseif ( 'newest' === $default_page ) {
+				$comment_args['paged'] = (int) ( new WP_Comment_Query( $comment_args ) )->max_num_pages;
+			}
+			// Set the `cpage` query var to ensure the previous and next pagination links are correct
+			// when inheriting the Discussion Settings.
+			if ( 0 === $page && isset( $comment_args['paged'] ) && $comment_args['paged'] > 0 ) {
+				set_query_var( 'cpage', $comment_args['paged'] );
+			}
 		}
 	}
 
