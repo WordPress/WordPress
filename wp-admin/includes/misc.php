@@ -1427,10 +1427,11 @@ function update_option_new_admin_email( $old_value, $value ) {
 	$email_text = __(
 		'Howdy ###USERNAME###,
 
-You recently requested to have the administration email address on
-your site changed.
+Someone with administrator capabilities recently requested to have the
+administration email address changed on this site:
+###SITEURL###
 
-If this is correct, please click on the following link to change it:
+To confirm this change, please click on the following link:
 ###ADMIN_URL###
 
 You can safely ignore and delete this email if you do not want to
