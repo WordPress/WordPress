@@ -92,7 +92,7 @@ if ( file_exists( ABSPATH . 'wp-config.php' ) ) {
 	) . '</p>';
 	$die .= '<p>' . sprintf(
 		/* translators: %s: Documentation URL. */
-		__( "Need more help? <a href='%s'>We got it</a>." ),
+		__( "Need more help? <a href='%s'>Read the support article on wp-config.php</a>." ),
 		__( 'https://wordpress.org/support/article/editing-wp-config-php/' )
 	) . '</p>';
 	$die .= '<p>' . sprintf(

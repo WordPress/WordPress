@@ -127,7 +127,7 @@ if ( ! empty( $tb_url ) && ! empty( $title ) ) {
 
 	$dupe = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->comments WHERE comment_post_ID = %d AND comment_author_url = %s", $comment_post_ID, $comment_author_url ) );
 	if ( $dupe ) {
-		trackback_response( 1, __( 'We already have a ping from that URL for this post.' ) );
+		trackback_response( 1, __( 'There is already a ping from that URL for this post.' ) );
 	}
 
 	$commentdata = compact( 'comment_post_ID', 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_content', 'comment_type' );

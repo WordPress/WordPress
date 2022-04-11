@@ -41,14 +41,14 @@ class WP_Widget_Media_Video extends WP_Widget_Media {
 				'edit_media'                 => _x( 'Edit Video', 'label for button in the video widget; should preferably not be longer than ~13 characters long' ),
 				'missing_attachment'         => sprintf(
 					/* translators: %s: URL to media library. */
-					__( 'We cannot find that video. Check your <a href="%s">media library</a> and make sure it was not deleted.' ),
+					__( 'That video can not be found. Check your <a href="%s">media library</a> and make sure it was not deleted.' ),
 					esc_url( admin_url( 'upload.php' ) )
 				),
 				/* translators: %d: Widget count. */
 				'media_library_state_multi'  => _n_noop( 'Video Widget (%d)', 'Video Widget (%d)' ),
 				'media_library_state_single' => __( 'Video Widget' ),
 				/* translators: %s: A list of valid video file extensions. */
-				'unsupported_file_type'      => sprintf( __( 'Sorry, we cannot load the video at the supplied URL. Please check that the URL is for a supported video file (%s) or stream (e.g. YouTube and Vimeo).' ), '<code>.' . implode( '</code>, <code>.', wp_get_video_extensions() ) . '</code>' ),
+				'unsupported_file_type'      => sprintf( __( 'Sorry, the video at the supplied URL can not be loaded. Please check that the URL is for a supported video file (%s) or stream (e.g. YouTube and Vimeo).' ), '<code>.' . implode( '</code>, <code>.', wp_get_video_extensions() ) . '</code>' ),
 			)
 		);
 	}

@@ -74,7 +74,7 @@ abstract class WP_Widget_Media extends WP_Widget {
 			'add_to_widget'              => __( 'Add to Widget' ),
 			'missing_attachment'         => sprintf(
 				/* translators: %s: URL to media library. */
-				__( 'We cannot find that file. Check your <a href="%s">media library</a> and make sure it was not deleted.' ),
+				__( 'That file can not be found. Check your <a href="%s">media library</a> and make sure it was not deleted.' ),
 				esc_url( admin_url( 'upload.php' ) )
 			),
 			/* translators: %d: Widget count. */

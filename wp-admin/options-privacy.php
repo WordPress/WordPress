@@ -189,8 +189,8 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 		<?php _e( 'However, it is your responsibility to use those resources correctly, to provide the information that your Privacy Policy requires, and to keep that information current and accurate.' ); ?>
 	</p>
 	<p>
-		<?php _e( 'After your Privacy Policy page is set, we suggest that you edit it.' ); ?>
-		<?php _e( 'We would also suggest reviewing your Privacy Policy from time to time, especially after installing or updating any themes or plugins. There may be changes or new suggested information for you to consider adding to your policy.' ); ?>
+		<?php _e( 'After your Privacy Policy page is set, you should edit it.' ); ?>
+		<?php _e( 'It is also suggested that you should review your Privacy Policy from time to time, especially after installing or updating any themes or plugins. There may be changes or new suggested information for you to consider adding to your policy.' ); ?>
 	</p>
 	<p>
 		<?php

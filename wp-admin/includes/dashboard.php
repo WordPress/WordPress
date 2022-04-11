@@ -1414,7 +1414,7 @@ function wp_print_community_events_templates() {
 			 * that they match the expected location before including them.
 			 * Use endonyms (native locale names) whenever possible.
 			 */
-			__( 'We could not locate %s. Please try another nearby city. For example: Kansas City; Springfield; Portland.' ),
+			__( '%s could not be located. Please try another nearby city. For example: Kansas City; Springfield; Portland.' ),
 			'<em>{{data.unknownCity}}</em>'
 		);
 		?>

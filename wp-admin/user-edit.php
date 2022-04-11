@@ -514,7 +514,7 @@ switch ( $action ) {
 							<input type="email" name="email" id="email" aria-describedby="email-description" value="<?php echo esc_attr( $profile_user->user_email ); ?>" class="regular-text ltr" />
 							<?php if ( $profile_user->ID === $current_user->ID ) : ?>
 								<p class="description" id="email-description">
-									<?php _e( 'If you change this, we will send you an email at your new address to confirm it. <strong>The new address will not become active until confirmed.</strong>' ); ?>
+									<?php _e( 'If you change this, an email will be sent at your new address to confirm it. <strong>The new address will not become active until confirmed.</strong>' ); ?>
 								</p>
 							<?php endif; ?>
 

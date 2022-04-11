@@ -994,7 +994,7 @@ function update_core( $from, $to ) {
 
 		return new WP_Error(
 			'copy_failed_for_version_file',
-			__( 'The update cannot be installed because we will be unable to copy some files. This is usually due to inconsistent file permissions.' ),
+			__( 'The update can not be installed because some files could not be copied. This is usually due to inconsistent file permissions.' ),
 			'wp-includes/version.php'
 		);
 	}
