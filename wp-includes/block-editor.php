@@ -396,6 +396,23 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
 
 	$editor_settings['localAutosaveInterval'] = 15;
 
+	$editor_settings['__experimentalDiscussionSettings'] = array(
+		'commentOrder'        => get_option( 'comment_order' ),
+		'commentsPerPage'     => get_option( 'comments_per_page' ),
+		'defaultCommentsPage' => get_option( 'default_comments_page' ),
+		'pageComments'        => get_option( 'page_comments' ),
+		'threadComments'      => get_option( 'thread_comments' ),
+		'threadCommentsDepth' => get_option( 'thread_comments_depth' ),
+		'avatarURL'           => get_avatar_url(
+			'',
+			array(
+				'size'          => 96,
+				'force_default' => true,
+				'default'       => get_option( 'avatar_default' ),
+			)
+		),
+	);
+
 	/**
 	 * Filters the settings to pass to the block editor for all editor type.
 	 *
