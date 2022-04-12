@@ -80,6 +80,7 @@ class WP_REST_Pattern_Directory_Controller extends WP_REST_Controller {
 	 * Search and retrieve block patterns metadata
 	 *
 	 * @since 5.8.0
+	 * @since 6.0.0 Added 'slug' to request.
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
@@ -100,6 +101,7 @@ class WP_REST_Pattern_Directory_Controller extends WP_REST_Controller {
 		$category_id = $request['category'];
 		$keyword_id  = $request['keyword'];
 		$search_term = $request['search'];
+		$slug        = $request['slug'];
 
 		if ( $category_id ) {
 			$query_args['pattern-categories'] = $category_id;
@@ -111,6 +113,10 @@ class WP_REST_Pattern_Directory_Controller extends WP_REST_Controller {
 
 		if ( $search_term ) {
 			$query_args['search'] = $search_term;
+		}
+
+		if ( $slug ) {
+			$query_args['slug'] = $slug;
 		}
 
 		/*
@@ -159,7 +165,7 @@ class WP_REST_Pattern_Directory_Controller extends WP_REST_Controller {
 				$raw_patterns = new WP_Error(
 					'pattern_api_failed',
 					sprintf(
-					/* translators: %s: Support forums URL. */
+						/* translators: %s: Support forums URL. */
 						__( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.' ),
 						__( 'https://wordpress.org/support/forums/' )
 					),
@@ -255,21 +261,21 @@ class WP_REST_Pattern_Directory_Controller extends WP_REST_Controller {
 					'description' => __( 'The pattern ID.' ),
 					'type'        => 'integer',
 					'minimum'     => 1,
-					'context'     => array( 'view', 'embed' ),
+					'context'     => array( 'view', 'edit', 'embed' ),
 				),
 
 				'title'          => array(
 					'description' => __( 'The pattern title, in human readable format.' ),
 					'type'        => 'string',
 					'minLength'   => 1,
-					'context'     => array( 'view', 'embed' ),
+					'context'     => array( 'view', 'edit', 'embed' ),
 				),
 
 				'content'        => array(
 					'description' => __( 'The pattern content.' ),
 					'type'        => 'string',
 					'minLength'   => 1,
-					'context'     => array( 'view', 'embed' ),
+					'context'     => array( 'view', 'edit', 'embed' ),
 				),
 
 				'categories'     => array(
@@ -277,7 +283,7 @@ class WP_REST_Pattern_Directory_Controller extends WP_REST_Controller {
 					'type'        => 'array',
 					'uniqueItems' => true,
 					'items'       => array( 'type' => 'string' ),
-					'context'     => array( 'view', 'embed' ),
+					'context'     => array( 'view', 'edit', 'embed' ),
 				),
 
 				'keywords'       => array(
@@ -285,20 +291,20 @@ class WP_REST_Pattern_Directory_Controller extends WP_REST_Controller {
 					'type'        => 'array',
 					'uniqueItems' => true,
 					'items'       => array( 'type' => 'string' ),
-					'context'     => array( 'view', 'embed' ),
+					'context'     => array( 'view', 'edit', 'embed' ),
 				),
 
 				'description'    => array(
 					'description' => __( 'A description of the pattern.' ),
 					'type'        => 'string',
 					'minLength'   => 1,
-					'context'     => array( 'view', 'embed' ),
+					'context'     => array( 'view', 'edit', 'embed' ),
 				),
 
 				'viewport_width' => array(
 					'description' => __( 'The preferred width of the viewport when previewing a pattern, in pixels.' ),
 					'type'        => 'integer',
-					'context'     => array( 'view', 'embed' ),
+					'context'     => array( 'view', 'edit', 'embed' ),
 				),
 			),
 		);

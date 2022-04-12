@@ -955,9 +955,8 @@ function do_blocks( $content ) {
  * If do_blocks() needs to remove wpautop() from the `the_content` filter, this re-adds it afterwards,
  * for subsequent `the_content` usage.
  *
- * @access private
- *
  * @since 5.0.0
+ * @access private
  *
  * @param string $content The post content running through this filter.
  * @return string The unmodified content.
@@ -1142,15 +1141,36 @@ function build_query_vars_from_query_block( $block, $page ) {
 			$query['offset']         = ( $per_page * ( $page - 1 ) ) + $offset;
 			$query['posts_per_page'] = $per_page;
 		}
-		if ( ! empty( $block->context['query']['categoryIds'] ) ) {
-			$term_ids              = array_map( 'intval', $block->context['query']['categoryIds'] );
-			$term_ids              = array_filter( $term_ids );
-			$query['category__in'] = $term_ids;
+		// Migrate `categoryIds` and `tagIds` to `tax_query` for backwards compatibility.
+		if ( ! empty( $block->context['query']['categoryIds'] ) || ! empty( $block->context['query']['tagIds'] ) ) {
+			$tax_query = array();
+			if ( ! empty( $block->context['query']['categoryIds'] ) ) {
+				$tax_query[] = array(
+					'taxonomy'         => 'category',
+					'terms'            => array_filter( array_map( 'intval', $block->context['query']['categoryIds'] ) ),
+					'include_children' => false,
+				);
+			}
+			if ( ! empty( $block->context['query']['tagIds'] ) ) {
+				$tax_query[] = array(
+					'taxonomy'         => 'post_tag',
+					'terms'            => array_filter( array_map( 'intval', $block->context['query']['tagIds'] ) ),
+					'include_children' => false,
+				);
+			}
+			$query['tax_query'] = $tax_query;
 		}
-		if ( ! empty( $block->context['query']['tagIds'] ) ) {
-			$term_ids         = array_map( 'intval', $block->context['query']['tagIds'] );
-			$term_ids         = array_filter( $term_ids );
-			$query['tag__in'] = $term_ids;
+		if ( ! empty( $block->context['query']['taxQuery'] ) ) {
+			$query['tax_query'] = array();
+			foreach ( $block->context['query']['taxQuery'] as $taxonomy => $terms ) {
+				if ( is_taxonomy_viewable( $taxonomy ) && ! empty( $terms ) ) {
+					$query['tax_query'][] = array(
+						'taxonomy'         => $taxonomy,
+						'terms'            => array_filter( array_map( 'intval', $terms ) ),
+						'include_children' => false,
+					);
+				}
+			}
 		}
 		if (
 			isset( $block->context['query']['order'] ) &&

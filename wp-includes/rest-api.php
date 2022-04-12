@@ -337,6 +337,14 @@ function create_initial_rest_routes() {
 	$controller = new WP_REST_Pattern_Directory_Controller();
 	$controller->register_routes();
 
+	// Block Patterns.
+	$controller = new WP_REST_Block_Patterns_Controller();
+	$controller->register_routes();
+
+	// Block Pattern Categories.
+	$controller = new WP_REST_Block_Pattern_Categories_Controller();
+	$controller->register_routes();
+
 	// Site Health.
 	$site_health = WP_Site_Health::get_instance();
 	$controller  = new WP_REST_Site_Health_Controller( $site_health );
