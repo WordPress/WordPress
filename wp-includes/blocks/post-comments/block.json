@@ -1,9 +1,10 @@
 {
+	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 2,
 	"name": "core/post-comments",
-	"title": "Post Comments",
+	"title": "Post Comments (deprecated)",
 	"category": "theme",
-	"description": "Display a post's comments.",
+	"description": "This block is deprecated. Please use the Comments Query Loop block instead.",
 	"textdomain": "default",
 	"attributes": {
 		"textAlign": {
@@ -27,8 +28,13 @@
 		},
 		"color": {
 			"gradients": true,
-			"link": true
-		}
+			"link": true,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true
+			}
+		},
+		"inserter": false
 	},
 	"style": [
 		"wp-block-post-comments",

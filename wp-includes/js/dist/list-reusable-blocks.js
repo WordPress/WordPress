@@ -216,63 +216,47 @@ async function importReusableBlock(file) {
 
 
 
-class ImportForm extends external_wp_element_namespaceObject.Component {
-  constructor() {
-    super(...arguments);
-    this.state = {
-      isLoading: false,
-      error: null,
-      file: null
-    };
-    this.isStillMounted = true;
-    this.onChangeFile = this.onChangeFile.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-  }
+function ImportForm(_ref) {
+  let {
+    instanceId,
+    onUpload
+  } = _ref;
+  const inputId = 'list-reusable-blocks-import-form-' + instanceId;
+  const formRef = (0,external_wp_element_namespaceObject.useRef)();
+  const [isLoading, setIsLoading] = (0,external_wp_element_namespaceObject.useState)(false);
+  const [error, setError] = (0,external_wp_element_namespaceObject.useState)(null);
+  const [file, setFile] = (0,external_wp_element_namespaceObject.useState)(null);
 
-  componentWillUnmount() {
-    this.isStillMounted = false;
-  }
+  const onChangeFile = event => {
+    setFile(event.target.files[0]);
+    setError(null);
+  };
 
-  onChangeFile(event) {
-    this.setState({
-      file: event.target.files[0],
-      error: null
-    });
-  }
-
-  onSubmit(event) {
+  const onSubmit = event => {
     event.preventDefault();
-    const {
-      file
-    } = this.state;
-    const {
-      onUpload
-    } = this.props;
 
     if (!file) {
       return;
     }
 
-    this.setState({
+    setIsLoading({
       isLoading: true
     });
     utils_import(file).then(reusableBlock => {
-      if (!this.isStillMounted) {
+      if (!formRef) {
         return;
       }
 
-      this.setState({
-        isLoading: false
-      });
+      setIsLoading(false);
       onUpload(reusableBlock);
-    }).catch(error => {
-      if (!this.isStillMounted) {
+    }).catch(errors => {
+      if (!formRef) {
         return;
       }
 
       let uiMessage;
 
-      switch (error.message) {
+      switch (errors.message) {
         case 'Invalid JSON file':
           uiMessage = (0,external_wp_i18n_namespaceObject.__)('Invalid JSON file');
           break;
@@ -285,51 +269,36 @@ class ImportForm extends external_wp_element_namespaceObject.Component {
           uiMessage = (0,external_wp_i18n_namespaceObject.__)('Unknown error');
       }
 
-      this.setState({
-        isLoading: false,
-        error: uiMessage
-      });
+      setIsLoading(false);
+      setError(uiMessage);
     });
-  }
+  };
 
-  onDismissError() {
-    this.setState({
-      error: null
-    });
-  }
+  const onDismissError = () => {
+    setError(null);
+  };
 
-  render() {
-    const {
-      instanceId
-    } = this.props;
-    const {
-      file,
-      isLoading,
-      error
-    } = this.state;
-    const inputId = 'list-reusable-blocks-import-form-' + instanceId;
-    return (0,external_wp_element_namespaceObject.createElement)("form", {
-      className: "list-reusable-blocks-import-form",
-      onSubmit: this.onSubmit
-    }, error && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Notice, {
-      status: "error",
-      onRemove: () => this.onDismissError()
-    }, error), (0,external_wp_element_namespaceObject.createElement)("label", {
-      htmlFor: inputId,
-      className: "list-reusable-blocks-import-form__label"
-    }, (0,external_wp_i18n_namespaceObject.__)('File')), (0,external_wp_element_namespaceObject.createElement)("input", {
-      id: inputId,
-      type: "file",
-      onChange: this.onChangeFile
-    }), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
-      type: "submit",
-      isBusy: isLoading,
-      disabled: !file || isLoading,
-      variant: "secondary",
-      className: "list-reusable-blocks-import-form__button"
-    }, (0,external_wp_i18n_namespaceObject._x)('Import', 'button label')));
-  }
-
+  return (0,external_wp_element_namespaceObject.createElement)("form", {
+    className: "list-reusable-blocks-import-form",
+    onSubmit: onSubmit,
+    ref: formRef
+  }, error && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Notice, {
+    status: "error",
+    onRemove: () => onDismissError()
+  }, error), (0,external_wp_element_namespaceObject.createElement)("label", {
+    htmlFor: inputId,
+    className: "list-reusable-blocks-import-form__label"
+  }, (0,external_wp_i18n_namespaceObject.__)('File')), (0,external_wp_element_namespaceObject.createElement)("input", {
+    id: inputId,
+    type: "file",
+    onChange: onChangeFile
+  }), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
+    type: "submit",
+    isBusy: isLoading,
+    disabled: !file || isLoading,
+    variant: "secondary",
+    className: "list-reusable-blocks-import-form__button"
+  }, (0,external_wp_i18n_namespaceObject._x)('Import', 'button label')));
 }
 
 /* harmony default export */ var import_form = ((0,external_wp_compose_namespaceObject.withInstanceId)(ImportForm));
@@ -397,7 +366,7 @@ function ImportDropdown(_ref) {
  */
 
 
- // Setup Export Links
+ // Setup Export Links.
 
 document.body.addEventListener('click', event => {
   if (!event.target.classList.contains('wp-list-reusable-blocks__export')) {
@@ -406,7 +375,7 @@ document.body.addEventListener('click', event => {
 
   event.preventDefault();
   utils_export(event.target.dataset.id);
-}); // Setup Import Form
+}); // Setup Import Form.
 
 document.addEventListener('DOMContentLoaded', () => {
   const button = document.querySelector('.page-title-action');

@@ -88,9 +88,6 @@
   position: relative;
   cursor: text;
 }
-.wp-block-button:not(.has-text-color):not(.is-style-outline) [data-rich-text-placeholder]::after {
-  color: #fff;
-}
 .wp-block-button:focus {
   box-shadow: 0 0 0 1px #fff, 0 0 0 3px var(--wp-admin-theme-color);
   outline: 2px solid transparent;

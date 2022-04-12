@@ -76,7 +76,7 @@
  */
 ol,
 ul {
-  overflow-wrap: break-word;
+  box-sizing: border-box;
 }
 ol.has-background,
 ul.has-background {

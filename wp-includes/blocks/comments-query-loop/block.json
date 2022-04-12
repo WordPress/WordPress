@@ -1,0 +1,29 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "core/comments-query-loop",
+	"title": "Comments Query Loop",
+	"category": "theme",
+	"description": "An advanced block that allows displaying post comments using different visual configurations.",
+	"textdomain": "default",
+	"attributes": {
+		"tagName": {
+			"type": "string",
+			"default": "div"
+		}
+	},
+	"supports": {
+		"align": [ "wide", "full" ],
+		"html": false,
+		"color": {
+			"gradients": true,
+			"link": true,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true,
+				"link": true
+			}
+		}
+	},
+	"editorStyle": "wp-block-comments-editor"
+}

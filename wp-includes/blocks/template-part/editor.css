@@ -74,65 +74,19 @@
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
-.wp-block-template-part__placeholder-preview-dropdown-content .components-popover__content,
-.wp-block-template-part__preview-dropdown-content .components-popover__content {
-  min-width: 320px;
-  padding: 0;
+@media (min-width: 600px) {
+  .block-editor-template-part__selection-modal {
+    width: calc(100% - 32px);
+    height: calc(100% - 120px);
+  }
 }
-
-.wp-block-template-part__selection-preview-search-form {
-  border-bottom: 1px solid #ddd;
+@media (min-width: 782px) {
+  .block-editor-template-part__selection-modal {
+    width: 750px;
+  }
 }
-
-.wp-block-template-part__selection-preview-container {
-  background: #fff;
-  padding-bottom: 16px;
-}
-.wp-block-template-part__selection-preview-container .wp-block-template-part__selection-preview-item {
-  border-radius: 2px;
-  cursor: pointer;
-  margin-top: 16px;
-  transition: all 0.05s ease-in-out;
-  border: 1px solid #ddd;
-  width: 100%;
-  background-color: #fff;
-}
-.wp-block-template-part__selection-preview-container .wp-block-template-part__selection-preview-item:hover {
-  border: 1px solid var(--wp-admin-theme-color);
-}
-.wp-block-template-part__selection-preview-container .wp-block-template-part__selection-preview-item:focus {
-  box-shadow: inset 0 0 0 1px #fff, 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
-  outline: 2px solid transparent;
-}
-.wp-block-template-part__selection-preview-container .wp-block-template-part__selection-preview-item.is-placeholder {
-  min-height: 100px;
-}
-.wp-block-template-part__selection-preview-container .wp-block-template-part__selection-preview-item .block-editor-block-preview__container {
-  border-bottom: 1px solid #ddd;
-}
-.wp-block-template-part__selection-preview-container .wp-block-template-part__selection-preview-item-title {
-  padding: 4px;
-  font-size: 12px;
-  text-align: left;
-}
-.wp-block-template-part__selection-preview-container .wp-block-template-part__selection-panel-group-header {
-  padding: 16px 16px 0;
-}
-.wp-block-template-part__selection-preview-container .wp-block-template-part__selection-panel-group-content {
-  padding: 0 16px;
-}
-.wp-block-template-part__selection-preview-container .wp-block-template-part__selection-panel-group-title {
-  color: var(--wp-admin-theme-color);
-  text-transform: uppercase;
-  font-size: 11px;
-  font-weight: 500;
-}
-
-.wp-block-template-part__placeholder-create-new__title-form .wp-block-template-part__placeholder-create-new__title-form-actions {
-  padding-top: 12px;
-  display: flex;
-  justify-content: flex-end;
-}
-.wp-block-template-part__placeholder-create-new__title-form .wp-block-template-part__placeholder-create-new__title-form-actions .components-flex-item {
-  margin-left: 12px;
+@media (min-width: 960px) {
+  .block-editor-template-part__selection-modal {
+    height: 70%;
+  }
 }

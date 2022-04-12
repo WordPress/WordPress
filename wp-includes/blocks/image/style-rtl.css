@@ -78,6 +78,8 @@
   margin: 0 0 1em 0;
 }
 .wp-block-image img {
+  height: auto;
+  max-width: 100%;
   vertical-align: bottom;
 }
 .wp-block-image:not(.is-style-rounded) > a,
@@ -91,11 +93,13 @@
   height: auto;
   width: 100%;
 }
+.wp-block-image.alignleft, .wp-block-image.alignright, .wp-block-image.aligncenter,
 .wp-block-image .alignleft,
 .wp-block-image .alignright,
 .wp-block-image .aligncenter {
   display: table;
 }
+.wp-block-image.alignleft > figcaption, .wp-block-image.alignright > figcaption, .wp-block-image.aligncenter > figcaption,
 .wp-block-image .alignleft > figcaption,
 .wp-block-image .alignright > figcaption,
 .wp-block-image .aligncenter > figcaption {
@@ -124,7 +128,8 @@
   margin-top: 0.5em;
   margin-bottom: 1em;
 }
-.wp-block-image.is-style-rounded img {
+.wp-block-image.is-style-rounded img,
+.wp-block-image .is-style-rounded img {
   border-radius: 9999px;
 }
 .wp-block-image.is-style-circle-mask img {

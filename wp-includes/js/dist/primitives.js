@@ -255,7 +255,6 @@ const SVG = _ref => {
     className: classnames_default()(className, {
       'is-pressed': isPressed
     }) || undefined,
-    role: 'img',
     'aria-hidden': true,
     focusable: false
   }; // Disable reason: We need to have a way to render HTML tag for web.

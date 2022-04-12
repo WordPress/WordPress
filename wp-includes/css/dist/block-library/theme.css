@@ -83,12 +83,11 @@
   color: rgba(255, 255, 255, 0.65);
 }
 
-.wp-block-code > code {
-  font-family: Menlo, Consolas, monaco, monospace;
-  color: #1e1e1e;
-  padding: 0.8em 1em;
-  border: 1px solid #ddd;
+.wp-block-code {
+  border: 1px solid #ccc;
   border-radius: 4px;
+  font-family: Menlo, Consolas, monaco, monospace;
+  padding: 0.8em 1em;
 }
 
 .wp-block-embed figcaption {
@@ -162,8 +161,12 @@
   font-weight: bold;
 }
 
-.wp-block-group:where(.has-background) {
+:where(.wp-block-group.has-background) {
   padding: 1.25em 2.375em;
+}
+
+.wp-block-separator.has-css-opacity {
+  opacity: 0.4;
 }
 
 .wp-block-separator {
@@ -171,7 +174,9 @@
   border-bottom: 2px solid currentColor;
   margin-left: auto;
   margin-right: auto;
-  opacity: 0.4;
+}
+.wp-block-separator.has-alpha-channel-opacity {
+  opacity: initial;
 }
 .wp-block-separator:not(.is-style-wide):not(.is-style-dots) {
   width: 100px;

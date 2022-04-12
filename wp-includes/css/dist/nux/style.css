@@ -180,11 +180,11 @@
   /*!rtl:ignore*/
   margin-right: 0;
 }
-.nux-dot-tip.components-popover.edit-post-more-menu__content:not([data-y-axis=middle])[data-y-axis=right] .components-popover__content {
+.nux-dot-tip.components-popover.interface-more-menu-dropdown__content:not([data-y-axis=middle])[data-y-axis=right] .components-popover__content {
   /*!rtl:ignore*/
   margin-left: -12px;
 }
-.nux-dot-tip.components-popover.edit-post-more-menu__content:not([data-y-axis=middle])[data-y-axis=left] .components-popover__content {
+.nux-dot-tip.components-popover.interface-more-menu-dropdown__content:not([data-y-axis=middle])[data-y-axis=left] .components-popover__content {
   /*!rtl:ignore*/
   margin-right: -12px;
 }

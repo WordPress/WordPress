@@ -2210,14 +2210,14 @@ var external_lodash_namespaceObject = window["lodash"];
 /**
  * External dependencies
  */
- // eslint-disable-next-line no-restricted-imports
+
 
 /**
  * Given a function mapping a component to an enhanced component and modifier
  * name, returns the enhanced component augmented with a generated displayName.
  *
- * @param  mapComponentToEnhancedComponent Function mapping component to enhanced component.
- * @param  modifierName                    Seed name from which to generated display name.
+ * @param  mapComponent Function mapping component to enhanced component.
+ * @param  modifierName Seed name from which to generated display name.
  *
  * @return Component class with generated display name assigned.
  */
@@ -2257,7 +2257,6 @@ var external_wp_element_namespaceObject = window["wp"]["element"];
  * Internal dependencies
  */
 
-
 /**
  * Higher-order component creator, creating a new component which renders if
  * the given condition is satisfied or with the given optional prop name.
@@ -2275,6 +2274,7 @@ var external_wp_element_namespaceObject = window["wp"]["element"];
  *
  * @return Higher-order component.
  */
+
 const ifCondition = predicate => create_higher_order_component(WrappedComponent => props => {
   if (!predicate(props)) {
     return null;
@@ -2301,10 +2301,13 @@ var external_wp_isShallowEqual_default = /*#__PURE__*/__webpack_require__.n(exte
  */
 
 
+/**
+ * External dependencies
+ */
 
 /**
  * Given a component returns the enhanced component augmented with a component
- * only rerendering when its props/state change
+ * only re-rendering when its props/state change
  */
 const pure = create_higher_order_component(Wrapped => {
   if (Wrapped.prototype instanceof external_wp_element_namespaceObject.Component) {
@@ -2459,7 +2462,8 @@ function withGlobalEvents(eventTypesToHandlers) {
   external_wp_deprecated_default()('wp.compose.withGlobalEvents', {
     since: '5.7',
     alternative: 'useEffect'
-  });
+  }); // @ts-ignore We don't need to fix the type-related issues because this is deprecated.
+
   return create_higher_order_component(WrappedComponent => {
     class Wrapper extends external_wp_element_namespaceObject.Component {
       constructor(
@@ -2577,11 +2581,6 @@ function useInstanceId(object, prefix) {
 
 
 /**
- * External dependencies
- */
-// eslint-disable-next-line no-restricted-imports
-
-/**
  * Internal dependencies
  */
 
@@ -2593,7 +2592,8 @@ function useInstanceId(object, prefix) {
 
 const withInstanceId = create_higher_order_component(WrappedComponent => {
   return props => {
-    const instanceId = useInstanceId(WrappedComponent);
+    const instanceId = useInstanceId(WrappedComponent); // @ts-ignore
+
     return (0,external_wp_element_namespaceObject.createElement)(WrappedComponent, _extends({}, props, {
       instanceId: instanceId
     }));
@@ -2607,7 +2607,7 @@ const withInstanceId = create_higher_order_component(WrappedComponent => {
 /**
  * External dependencies
  */
- // eslint-disable-next-line no-restricted-imports
+
 
 /**
  * WordPress dependencies
@@ -2618,6 +2618,14 @@ const withInstanceId = create_higher_order_component(WrappedComponent => {
  */
 
 
+/**
+ * We cannot use the `Window['setTimeout']` and `Window['clearTimeout']`
+ * types here because those functions include functionality that is not handled
+ * by this component, like the ability to pass extra arguments.
+ *
+ * In the case of this component, we only handle the simplest case where
+ * `setTimeout` only accepts a function (not a string) and an optional delay.
+ */
 
 /**
  * A higher-order component used to provide and manage delayed function calls
@@ -2690,6 +2698,7 @@ const withSafeTimeout = create_higher_order_component(OriginalComponent => {
 function withState() {
   let initialState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   external_wp_deprecated_default()('wp.compose.withState', {
+    since: '5.8',
     alternative: 'wp.element.useState'
   });
   return create_higher_order_component(OriginalComponent => {
@@ -2720,7 +2729,6 @@ var external_wp_dom_namespaceObject = window["wp"]["dom"];
 /**
  * External dependencies
  */
-// eslint-disable-next-line no-restricted-imports
 
 /**
  * WordPress dependencies
@@ -2879,8 +2887,7 @@ function useCopyOnClick(ref, text) {
 
   /* eslint-enable jsdoc/no-undefined-types */
   external_wp_deprecated_default()('wp.compose.useCopyOnClick', {
-    since: '10.3',
-    plugin: 'Gutenberg',
+    since: '5.8',
     alternative: 'wp.compose.useCopyToClipboard'
   });
   /** @type {import('react').MutableRefObject<Clipboard | undefined>} */
@@ -3163,7 +3170,7 @@ const INPUT_BUTTON_TYPES = ['button', 'submit'];
 /**
  * @typedef {HTMLButtonElement | HTMLLinkElement | HTMLInputElement} FocusNormalizedButton
  */
-// Disable reason: Rule doesn't support predicate return types
+// Disable reason: Rule doesn't support predicate return types.
 
 /* eslint-disable jsdoc/valid-types */
 
@@ -3534,7 +3541,7 @@ function useDialog(options) {
     event) => {
       var _currentOptions$curre3;
 
-      // Close on escape
+      // Close on escape.
       if (event.keyCode === external_wp_keycodes_namespaceObject.ESCAPE && !event.defaultPrevented && (_currentOptions$curre3 = currentOptions.current) !== null && _currentOptions$curre3 !== void 0 && _currentOptions$curre3.onClose) {
         event.preventDefault();
         currentOptions.current.onClose();
@@ -3820,7 +3827,7 @@ shortcuts, callback) {
 
     const mousetrap = new (mousetrap_default())(target && target.current ? target.current : // We were passing `document` here previously, so to successfully cast it to Element we must cast it first to `unknown`.
     // Not sure if this is a mistake but it was the behavior previous to the addition of types so we're just doing what's
-    // necessary to maintain the existing behavior
+    // necessary to maintain the existing behavior.
 
     /** @type {Element} */
 
@@ -4314,7 +4321,7 @@ function useThrottle(fn, wait, options) {
 /**
  * @template T
  * @param {T} value
- * @return {import('react').MutableRefObject<T>} A ref with the value.
+ * @return {import('react').MutableRefObject<T|null>} A ref with the value.
  */
 
 function useFreshRef(value) {
@@ -4526,6 +4533,12 @@ function useDropZone(_ref) {
 
     ownerDocument.addEventListener('dragenter', maybeDragStart);
     return () => {
+      onDropRef.current = null;
+      onDragStartRef.current = null;
+      onDragEnterRef.current = null;
+      onDragLeaveRef.current = null;
+      onDragEndRef.current = null;
+      onDragOverRef.current = null;
       delete element.dataset.isDropZone;
       element.removeEventListener('drop', onDrop);
       element.removeEventListener('dragenter', onDragEnter);
@@ -4651,7 +4664,7 @@ function useFixedWindowList(elementRef, itemHeight, totalItems, options) {
         return;
       }
 
-      const visibleItems = Math.ceil(scrollContainer.clientHeight / itemHeight); // Aim to keep opening list view fast, afterward we can optimize for scrolling
+      const visibleItems = Math.ceil(scrollContainer.clientHeight / itemHeight); // Aim to keep opening list view fast, afterward we can optimize for scrolling.
 
       const windowOverscan = initRender ? visibleItems : (_options$windowOversc = options === null || options === void 0 ? void 0 : options.windowOverscan) !== null && _options$windowOversc !== void 0 ? _options$windowOversc : visibleItems;
       const firstViewableIndex = Math.floor(scrollContainer.scrollTop / itemHeight);
@@ -4745,17 +4758,17 @@ function useFixedWindowList(elementRef, itemHeight, totalItems, options) {
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/compose/build-module/index.js
-// Utils
+// Utils.
  // Compose helper (aliased flowRight from Lodash)
 
- // Higher-order components
+ // Higher-order components.
 
 
 
 
 
 
- // Hooks
+ // Hooks.
 
 
 

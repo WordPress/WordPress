@@ -80,16 +80,6 @@
   margin-right: 0;
 }
 
-@media (min-width: 600px) {
-  .editor-styles-wrapper .block-editor-block-list__block.wp-block-column:nth-child(even) {
-    margin-left: var(--wp--style--block-gap, 2em);
-  }
-}
-@media (min-width: 782px) {
-  .editor-styles-wrapper .block-editor-block-list__block.wp-block-column:not(:first-child) {
-    margin-left: var(--wp--style--block-gap, 2em);
-  }
-}
 html :where(.wp-block-column) {
   margin-top: 0;
   margin-bottom: 0;

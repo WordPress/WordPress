@@ -1,0 +1,17 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "core/comment-template",
+	"title": "Comment Template",
+	"category": "design",
+	"parent": [ "core/comments-query-loop" ],
+	"description": "Contains the block elements used to display a comment, like the title, date, author, avatar and more.",
+	"textdomain": "default",
+	"usesContext": [ "postId" ],
+	"supports": {
+		"reusable": false,
+		"html": false,
+		"align": true
+	},
+	"style": "wp-block-comment-template"
+}

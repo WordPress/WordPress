@@ -218,9 +218,28 @@
 }
 
 /**
+ * The following provide a simple means of applying a default border style when
+ * a user first makes a selection in the border block support panel.
+ * This prevents issues such as where the user could set a border width
+ * and see no border due there being no border style set.
+ *
+ * This is intended to be removed once intelligent defaults can be set while
+ * making border selections via the block support.
+ *
+ * See: https://github.com/WordPress/gutenberg/pull/33743
+ */
+html :where(.has-border-color) {
+  border-style: solid;
+}
+
+html :where([style*="border-width"]) {
+  border-style: solid;
+}
+
+/**
  * Provide baseline responsiveness for images.
  */
-html :where(img) {
+html :where(img[class*="wp-image-"]) {
   height: auto;
   max-width: 100%;
 }

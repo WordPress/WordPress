@@ -117,7 +117,7 @@
 }
 @media (min-width: 782px) {
   .customize-widgets-header {
-    margin-bottom: 76px;
+    margin-bottom: 44px;
   }
 }
 .customize-widgets-header.is-fixed-toolbar-active {
@@ -230,39 +230,6 @@
 }
 .customize-widgets-keyboard-shortcut-help-modal__shortcut-key:last-child {
   margin: 0 0 0 0.2rem;
-}
-
-.customize-widgets-more-menu {
-  margin-left: -4px;
-}
-.customize-widgets-more-menu .components-button {
-  width: auto;
-  padding: 0 2px;
-}
-@media (min-width: 600px) {
-  .customize-widgets-more-menu {
-    margin-left: 0;
-  }
-  .customize-widgets-more-menu .components-button {
-    padding: 0 4px;
-  }
-}
-
-.customize-widgets-more-menu__content .components-popover__content {
-  min-width: 280px;
-}
-@media (min-width: 480px) {
-  .customize-widgets-more-menu__content .components-popover__content {
-    width: auto;
-    max-width: 480px;
-  }
-}
-.customize-widgets-more-menu__content .components-popover__content .components-dropdown-menu__menu {
-  padding: 0;
-}
-
-.components-popover.customize-widgets-more-menu__content {
-  z-index: 99998;
 }
 
 .block-editor-block-contextual-toolbar.is-fixed {

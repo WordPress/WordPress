@@ -1,6 +1,174 @@
 /******/ (function() { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ 9756:
+/***/ (function(module) {
+
+/**
+ * Memize options object.
+ *
+ * @typedef MemizeOptions
+ *
+ * @property {number} [maxSize] Maximum size of the cache.
+ */
+
+/**
+ * Internal cache entry.
+ *
+ * @typedef MemizeCacheNode
+ *
+ * @property {?MemizeCacheNode|undefined} [prev] Previous node.
+ * @property {?MemizeCacheNode|undefined} [next] Next node.
+ * @property {Array<*>}                   args   Function arguments for cache
+ *                                               entry.
+ * @property {*}                          val    Function result.
+ */
+
+/**
+ * Properties of the enhanced function for controlling cache.
+ *
+ * @typedef MemizeMemoizedFunction
+ *
+ * @property {()=>void} clear Clear the cache.
+ */
+
+/**
+ * Accepts a function to be memoized, and returns a new memoized function, with
+ * optional options.
+ *
+ * @template {Function} F
+ *
+ * @param {F}             fn        Function to memoize.
+ * @param {MemizeOptions} [options] Options object.
+ *
+ * @return {F & MemizeMemoizedFunction} Memoized function.
+ */
+function memize( fn, options ) {
+	var size = 0;
+
+	/** @type {?MemizeCacheNode|undefined} */
+	var head;
+
+	/** @type {?MemizeCacheNode|undefined} */
+	var tail;
+
+	options = options || {};
+
+	function memoized( /* ...args */ ) {
+		var node = head,
+			len = arguments.length,
+			args, i;
+
+		searchCache: while ( node ) {
+			// Perform a shallow equality test to confirm that whether the node
+			// under test is a candidate for the arguments passed. Two arrays
+			// are shallowly equal if their length matches and each entry is
+			// strictly equal between the two sets. Avoid abstracting to a
+			// function which could incur an arguments leaking deoptimization.
+
+			// Check whether node arguments match arguments length
+			if ( node.args.length !== arguments.length ) {
+				node = node.next;
+				continue;
+			}
+
+			// Check whether node arguments match arguments values
+			for ( i = 0; i < len; i++ ) {
+				if ( node.args[ i ] !== arguments[ i ] ) {
+					node = node.next;
+					continue searchCache;
+				}
+			}
+
+			// At this point we can assume we've found a match
+
+			// Surface matched node to head if not already
+			if ( node !== head ) {
+				// As tail, shift to previous. Must only shift if not also
+				// head, since if both head and tail, there is no previous.
+				if ( node === tail ) {
+					tail = node.prev;
+				}
+
+				// Adjust siblings to point to each other. If node was tail,
+				// this also handles new tail's empty `next` assignment.
+				/** @type {MemizeCacheNode} */ ( node.prev ).next = node.next;
+				if ( node.next ) {
+					node.next.prev = node.prev;
+				}
+
+				node.next = head;
+				node.prev = null;
+				/** @type {MemizeCacheNode} */ ( head ).prev = node;
+				head = node;
+			}
+
+			// Return immediately
+			return node.val;
+		}
+
+		// No cached value found. Continue to insertion phase:
+
+		// Create a copy of arguments (avoid leaking deoptimization)
+		args = new Array( len );
+		for ( i = 0; i < len; i++ ) {
+			args[ i ] = arguments[ i ];
+		}
+
+		node = {
+			args: args,
+
+			// Generate the result from original function
+			val: fn.apply( null, args ),
+		};
+
+		// Don't need to check whether node is already head, since it would
+		// have been returned above already if it was
+
+		// Shift existing head down list
+		if ( head ) {
+			head.prev = node;
+			node.next = head;
+		} else {
+			// If no head, follows that there's no tail (at initial or reset)
+			tail = node;
+		}
+
+		// Trim tail if we're reached max size and are pending cache insertion
+		if ( size === /** @type {MemizeOptions} */ ( options ).maxSize ) {
+			tail = /** @type {MemizeCacheNode} */ ( tail ).prev;
+			/** @type {MemizeCacheNode} */ ( tail ).next = null;
+		} else {
+			size++;
+		}
+
+		head = node;
+
+		return node.val;
+	}
+
+	memoized.clear = function() {
+		head = null;
+		tail = null;
+		size = 0;
+	};
+
+	if ( false ) {}
+
+	// Ignore reason: There's not a clear solution to create an intersection of
+	// the function with additional properties, where the goal is to retain the
+	// function signature of the incoming argument and add control properties
+	// on the return value.
+
+	// @ts-ignore
+	return memoized;
+}
+
+module.exports = memize;
+
+
+/***/ }),
+
 /***/ 7308:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5279,6 +5447,7 @@ __webpack_require__.d(__webpack_exports__, {
   "registerBlockType": function() { return /* reexport */ registerBlockType; },
   "registerBlockVariation": function() { return /* reexport */ registerBlockVariation; },
   "serialize": function() { return /* reexport */ serializer_serialize; },
+  "serializeRawBlock": function() { return /* reexport */ serializeRawBlock; },
   "setCategories": function() { return /* reexport */ categories_setCategories; },
   "setDefaultBlockName": function() { return /* reexport */ setDefaultBlockName; },
   "setFreeformContentHandlerName": function() { return /* reexport */ setFreeformContentHandlerName; },
@@ -5292,6 +5461,7 @@ __webpack_require__.d(__webpack_exports__, {
   "unregisterBlockVariation": function() { return /* reexport */ unregisterBlockVariation; },
   "unstable__bootstrapServerSideBlockDefinitions": function() { return /* reexport */ unstable__bootstrapServerSideBlockDefinitions; },
   "updateCategory": function() { return /* reexport */ categories_updateCategory; },
+  "validateBlock": function() { return /* reexport */ validateBlock; },
   "withBlockContentContext": function() { return /* reexport */ withBlockContentContext; }
 });
 
@@ -6202,7 +6372,7 @@ function isMatchingSearchTerm(state, nameOrType, searchTerm) {
   term => term.trim()]);
   const normalizedSearchTerm = getNormalizedSearchTerm(searchTerm);
   const isSearchMatch = (0,external_lodash_namespaceObject.flow)([getNormalizedSearchTerm, normalizedCandidate => (0,external_lodash_namespaceObject.includes)(normalizedCandidate, normalizedSearchTerm)]);
-  return isSearchMatch(blockType.title) || (0,external_lodash_namespaceObject.some)(blockType.keywords, isSearchMatch) || isSearchMatch(blockType.category);
+  return isSearchMatch(blockType.title) || (0,external_lodash_namespaceObject.some)(blockType.keywords, isSearchMatch) || isSearchMatch(blockType.category) || isSearchMatch(blockType.description);
 }
 /**
  * Returns a boolean indicating if a block has child blocks or not.
@@ -6234,9 +6404,6 @@ const hasChildBlocksWithInserterSupport = (state, blockName) => {
 
 ;// CONCATENATED MODULE: external ["wp","hooks"]
 var external_wp_hooks_namespaceObject = window["wp"]["hooks"];
-;// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/store/constants.js
-const STORE_NAME = 'core/blocks';
-
 ;// CONCATENATED MODULE: ./node_modules/colord/index.mjs
 var r={grad:.9,turn:360,rad:360/(2*Math.PI)},t=function(r){return"string"==typeof r?r.length>0:"number"==typeof r},n=function(r,t,n){return void 0===t&&(t=0),void 0===n&&(n=Math.pow(10,t)),Math.round(n*r)/n+0},e=function(r,t,n){return void 0===t&&(t=0),void 0===n&&(n=1),r>n?n:r>t?r:t},u=function(r){return(r=isFinite(r)?r%360:0)>0?r:r+360},a=function(r){return{r:e(r.r,0,255),g:e(r.g,0,255),b:e(r.b,0,255),a:e(r.a)}},o=function(r){return{r:n(r.r),g:n(r.g),b:n(r.b),a:n(r.a,3)}},i=/^#([0-9a-f]{3,8})$/i,s=function(r){var t=r.toString(16);return t.length<2?"0"+t:t},h=function(r){var t=r.r,n=r.g,e=r.b,u=r.a,a=Math.max(t,n,e),o=a-Math.min(t,n,e),i=o?a===t?(n-e)/o:a===n?2+(e-t)/o:4+(t-n)/o:0;return{h:60*(i<0?i+6:i),s:a?o/a*100:0,v:a/255*100,a:u}},b=function(r){var t=r.h,n=r.s,e=r.v,u=r.a;t=t/360*6,n/=100,e/=100;var a=Math.floor(t),o=e*(1-n),i=e*(1-(t-a)*n),s=e*(1-(1-t+a)*n),h=a%6;return{r:255*[e,i,o,o,s,e][h],g:255*[s,e,e,i,o,o][h],b:255*[o,o,s,e,e,i][h],a:u}},g=function(r){return{h:u(r.h),s:e(r.s,0,100),l:e(r.l,0,100),a:e(r.a)}},d=function(r){return{h:n(r.h),s:n(r.s),l:n(r.l),a:n(r.a,3)}},f=function(r){return b((n=(t=r).s,{h:t.h,s:(n*=((e=t.l)<50?e:100-e)/100)>0?2*n/(e+n)*100:0,v:e+n,a:t.a}));var t,n,e},c=function(r){return{h:(t=h(r)).h,s:(u=(200-(n=t.s))*(e=t.v)/100)>0&&u<200?n*e/100/(u<=100?u:200-u)*100:0,l:u/2,a:t.a};var t,n,e,u},l=/^hsla?\(\s*([+-]?\d*\.?\d+)(deg|rad|grad|turn)?\s*,\s*([+-]?\d*\.?\d+)%\s*,\s*([+-]?\d*\.?\d+)%\s*(?:,\s*([+-]?\d*\.?\d+)(%)?\s*)?\)$/i,p=/^hsla?\(\s*([+-]?\d*\.?\d+)(deg|rad|grad|turn)?\s+([+-]?\d*\.?\d+)%\s+([+-]?\d*\.?\d+)%\s*(?:\/\s*([+-]?\d*\.?\d+)(%)?\s*)?\)$/i,v=/^rgba?\(\s*([+-]?\d*\.?\d+)(%)?\s*,\s*([+-]?\d*\.?\d+)(%)?\s*,\s*([+-]?\d*\.?\d+)(%)?\s*(?:,\s*([+-]?\d*\.?\d+)(%)?\s*)?\)$/i,m=/^rgba?\(\s*([+-]?\d*\.?\d+)(%)?\s+([+-]?\d*\.?\d+)(%)?\s+([+-]?\d*\.?\d+)(%)?\s*(?:\/\s*([+-]?\d*\.?\d+)(%)?\s*)?\)$/i,y={string:[[function(r){var t=i.exec(r);return t?(r=t[1]).length<=4?{r:parseInt(r[0]+r[0],16),g:parseInt(r[1]+r[1],16),b:parseInt(r[2]+r[2],16),a:4===r.length?n(parseInt(r[3]+r[3],16)/255,2):1}:6===r.length||8===r.length?{r:parseInt(r.substr(0,2),16),g:parseInt(r.substr(2,2),16),b:parseInt(r.substr(4,2),16),a:8===r.length?n(parseInt(r.substr(6,2),16)/255,2):1}:null:null},"hex"],[function(r){var t=v.exec(r)||m.exec(r);return t?t[2]!==t[4]||t[4]!==t[6]?null:a({r:Number(t[1])/(t[2]?100/255:1),g:Number(t[3])/(t[4]?100/255:1),b:Number(t[5])/(t[6]?100/255:1),a:void 0===t[7]?1:Number(t[7])/(t[8]?100:1)}):null},"rgb"],[function(t){var n=l.exec(t)||p.exec(t);if(!n)return null;var e,u,a=g({h:(e=n[1],u=n[2],void 0===u&&(u="deg"),Number(e)*(r[u]||1)),s:Number(n[3]),l:Number(n[4]),a:void 0===n[5]?1:Number(n[5])/(n[6]?100:1)});return f(a)},"hsl"]],object:[[function(r){var n=r.r,e=r.g,u=r.b,o=r.a,i=void 0===o?1:o;return t(n)&&t(e)&&t(u)?a({r:Number(n),g:Number(e),b:Number(u),a:Number(i)}):null},"rgb"],[function(r){var n=r.h,e=r.s,u=r.l,a=r.a,o=void 0===a?1:a;if(!t(n)||!t(e)||!t(u))return null;var i=g({h:Number(n),s:Number(e),l:Number(u),a:Number(o)});return f(i)},"hsl"],[function(r){var n=r.h,a=r.s,o=r.v,i=r.a,s=void 0===i?1:i;if(!t(n)||!t(a)||!t(o))return null;var h=function(r){return{h:u(r.h),s:e(r.s,0,100),v:e(r.v,0,100),a:e(r.a)}}({h:Number(n),s:Number(a),v:Number(o),a:Number(s)});return b(h)},"hsv"]]},N=function(r,t){for(var n=0;n<t.length;n++){var e=t[n][0](r);if(e)return[e,t[n][1]]}return[null,void 0]},x=function(r){return"string"==typeof r?N(r.trim(),y.string):"object"==typeof r&&null!==r?N(r,y.object):[null,void 0]},I=function(r){return x(r)[1]},M=function(r,t){var n=c(r);return{h:n.h,s:e(n.s+100*t,0,100),l:n.l,a:n.a}},H=function(r){return(299*r.r+587*r.g+114*r.b)/1e3/255},$=function(r,t){var n=c(r);return{h:n.h,s:n.s,l:e(n.l+100*t,0,100),a:n.a}},j=function(){function r(r){this.parsed=x(r)[0],this.rgba=this.parsed||{r:0,g:0,b:0,a:1}}return r.prototype.isValid=function(){return null!==this.parsed},r.prototype.brightness=function(){return n(H(this.rgba),2)},r.prototype.isDark=function(){return H(this.rgba)<.5},r.prototype.isLight=function(){return H(this.rgba)>=.5},r.prototype.toHex=function(){return r=o(this.rgba),t=r.r,e=r.g,u=r.b,i=(a=r.a)<1?s(n(255*a)):"","#"+s(t)+s(e)+s(u)+i;var r,t,e,u,a,i},r.prototype.toRgb=function(){return o(this.rgba)},r.prototype.toRgbString=function(){return r=o(this.rgba),t=r.r,n=r.g,e=r.b,(u=r.a)<1?"rgba("+t+", "+n+", "+e+", "+u+")":"rgb("+t+", "+n+", "+e+")";var r,t,n,e,u},r.prototype.toHsl=function(){return d(c(this.rgba))},r.prototype.toHslString=function(){return r=d(c(this.rgba)),t=r.h,n=r.s,e=r.l,(u=r.a)<1?"hsla("+t+", "+n+"%, "+e+"%, "+u+")":"hsl("+t+", "+n+"%, "+e+"%)";var r,t,n,e,u},r.prototype.toHsv=function(){return r=h(this.rgba),{h:n(r.h),s:n(r.s),v:n(r.v),a:n(r.a,3)};var r},r.prototype.invert=function(){return w({r:255-(r=this.rgba).r,g:255-r.g,b:255-r.b,a:r.a});var r},r.prototype.saturate=function(r){return void 0===r&&(r=.1),w(M(this.rgba,r))},r.prototype.desaturate=function(r){return void 0===r&&(r=.1),w(M(this.rgba,-r))},r.prototype.grayscale=function(){return w(M(this.rgba,-1))},r.prototype.lighten=function(r){return void 0===r&&(r=.1),w($(this.rgba,r))},r.prototype.darken=function(r){return void 0===r&&(r=.1),w($(this.rgba,-r))},r.prototype.rotate=function(r){return void 0===r&&(r=15),this.hue(this.hue()+r)},r.prototype.alpha=function(r){return"number"==typeof r?w({r:(t=this.rgba).r,g:t.g,b:t.b,a:r}):n(this.rgba.a,3);var t},r.prototype.hue=function(r){var t=c(this.rgba);return"number"==typeof r?w({h:r,s:t.s,l:t.l,a:t.a}):n(t.h)},r.prototype.isEqual=function(r){return this.toHex()===w(r).toHex()},r}(),w=function(r){return r instanceof j?r:new j(r)},S=[],k=function(r){r.forEach(function(r){S.indexOf(r)<0&&(r(j,y),S.push(r))})},E=function(){return new j({r:255*Math.random(),g:255*Math.random(),b:255*Math.random()})};
 
@@ -6260,7 +6427,7 @@ const BLOCK_ICON_DEFAULT = 'block-default';
 
 const DEPRECATED_ENTRY_KEYS = ['attributes', 'supports', 'save', 'migrate', 'isEligible', 'apiVersion'];
 const __EXPERIMENTAL_STYLE_PROPERTY = {
-  //kept for back-compatibility purposes.
+  // Kept for back-compatibility purposes.
   '--wp--style--color--link': {
     value: ['color', 'link'],
     support: ['color', 'link']
@@ -6333,7 +6500,8 @@ const __EXPERIMENTAL_STYLE_PROPERTY = {
       marginRight: 'right',
       marginBottom: 'bottom',
       marginLeft: 'left'
-    }
+    },
+    useEngine: true
   },
   padding: {
     value: ['spacing', 'padding'],
@@ -6343,7 +6511,8 @@ const __EXPERIMENTAL_STYLE_PROPERTY = {
       paddingRight: 'right',
       paddingBottom: 'bottom',
       paddingLeft: 'left'
-    }
+    },
+    useEngine: true
   },
   textDecoration: {
     value: ['typography', 'textDecoration'],
@@ -6541,6 +6710,13 @@ function unstable__bootstrapServerSideBlockDefinitions(definitions) {
       // @see https://github.com/WordPress/gutenberg/pull/29279
       if (serverSideBlockDefinitions[blockName].apiVersion === undefined && definitions[blockName].apiVersion) {
         serverSideBlockDefinitions[blockName].apiVersion = definitions[blockName].apiVersion;
+      } // The `ancestor` prop is not included in the definitions shared
+      // from the server yet, so it needs to be polyfilled as well.
+      // @see https://github.com/WordPress/gutenberg/pull/39894
+
+
+      if (serverSideBlockDefinitions[blockName].ancestor === undefined && definitions[blockName].ancestor) {
+        serverSideBlockDefinitions[blockName].ancestor = definitions[blockName].ancestor;
       }
 
       continue;
@@ -6563,7 +6739,7 @@ function getBlockSettingsFromMetadata(_ref) {
     textdomain,
     ...metadata
   } = _ref;
-  const allowedFields = ['apiVersion', 'title', 'category', 'parent', 'icon', 'description', 'keywords', 'attributes', 'providesContext', 'usesContext', 'supports', 'styles', 'example', 'variations'];
+  const allowedFields = ['apiVersion', 'title', 'category', 'parent', 'ancestor', 'icon', 'description', 'keywords', 'attributes', 'providesContext', 'usesContext', 'supports', 'styles', 'example', 'variations'];
   const settings = (0,external_lodash_namespaceObject.pick)(metadata, allowedFields);
 
   if (textdomain) {
@@ -7175,7 +7351,7 @@ const isPossibleTransformForSource = (transform, direction, blocks) => {
   if (!isValidForMultiBlocks) {
     return false;
   } // Check non-wildcard transforms to ensure that transform is valid
-  // for a block selection of multiple blocks of different types
+  // for a block selection of multiple blocks of different types.
 
 
   if (!isWildcardBlockTransform(transform) && !(0,external_lodash_namespaceObject.every)(blocks, {
@@ -7272,7 +7448,7 @@ const getBlockTypesForPossibleToTransforms = blocks => {
 
   const blockNames = (0,external_lodash_namespaceObject.flatMap)(possibleTransforms, transformation => transformation.blocks); // Map block names to block types.
 
-  return blockNames.map(name => registration_getBlockType(name));
+  return blockNames.map(name => name === '*' ? name : registration_getBlockType(name));
 };
 /**
  * Determines whether transform is a "block" type
@@ -7453,14 +7629,14 @@ function switchToBlockType(blocks, name) {
     return null;
   }
 
-  const hasSwitchedBlock = (0,external_lodash_namespaceObject.some)(transformationResults, result => result.name === name); // Ensure that at least one block object returned by the transformation has
+  const hasSwitchedBlock = name === '*' || (0,external_lodash_namespaceObject.some)(transformationResults, result => result.name === name); // Ensure that at least one block object returned by the transformation has
   // the expected "destination" block type.
 
   if (!hasSwitchedBlock) {
     return null;
   }
 
-  const ret = transformationResults.map(result => {
+  const ret = transformationResults.map((result, index, results) => {
     /**
      * Filters an individual transform result from block transformation.
      * All of the original blocks are passed, since transformations are
@@ -7468,8 +7644,10 @@ function switchToBlockType(blocks, name) {
      *
      * @param {Object}   transformedBlock The transformed block.
      * @param {Object[]} blocks           Original blocks transformed.
+     * @param {Object[]} index            Index of the transformed block on the array of results.
+     * @param {Object[]} results          An array all the blocks that resulted from the transformation.
      */
-    return (0,external_wp_hooks_namespaceObject.applyFilters)('blocks.switchToBlockType.transformedBlock', result, blocks);
+    return (0,external_wp_hooks_namespaceObject.applyFilters)('blocks.switchToBlockType.transformedBlock', result, blocks, index, results);
   });
   return ret;
 }
@@ -7760,11 +7938,9 @@ function __experimentalGetBlockAttributesNamesByRole(name, role) {
  */
 
 
-
 /**
  * Internal dependencies
  */
-
 
 
 
@@ -7790,12 +7966,17 @@ const LEGACY_CATEGORY_MAPPING = {
  * Takes the unprocessed block type data and applies all the existing filters for the registered block type.
  * Next, it validates all the settings and performs additional processing to the block type definition.
  *
- * @param {WPBlockType} blockType Unprocessed block type settings.
+ * @param {WPBlockType} blockType        Unprocessed block type settings.
+ * @param {Object}      thunkArgs        Argument object for the thunk middleware.
+ * @param {Function}    thunkArgs.select Function to select from the store.
  *
  * @return {?WPBlockType} The block, if it has been successfully registered; otherwise `undefined`.
  */
 
-function processBlockType(blockType) {
+const processBlockType = (blockType, _ref) => {
+  let {
+    select
+  } = _ref;
   const {
     name
   } = blockType;
@@ -7834,7 +8015,7 @@ function processBlockType(blockType) {
     settings.category = LEGACY_CATEGORY_MAPPING[settings.category];
   }
 
-  if ('category' in settings && !(0,external_lodash_namespaceObject.some)((0,external_wp_data_namespaceObject.select)(STORE_NAME).getCategories(), {
+  if ('category' in settings && !(0,external_lodash_namespaceObject.some)(select.getCategories(), {
     slug: settings.category
   })) {
     warn('The block "' + name + '" is registered with an invalid category "' + settings.category + '".');
@@ -7859,7 +8040,7 @@ function processBlockType(blockType) {
   }
 
   return settings;
-}
+};
 /**
  * Returns an action object used in signalling that block types have been added.
  *
@@ -7876,28 +8057,32 @@ function addBlockTypes(blockTypes) {
   };
 }
 /**
- * Yields action objects signaling that the passed block type's settings should be stored in the state.
+ * Signals that the passed block type's settings should be stored in the state.
  *
  * @param {WPBlockType} blockType Unprocessed block type settings.
- *
- * @yield {Object} Action object.
  */
 
-function* __experimentalRegisterBlockType(blockType) {
-  yield {
+const __experimentalRegisterBlockType = blockType => _ref2 => {
+  let {
+    dispatch,
+    select
+  } = _ref2;
+  dispatch({
     type: 'ADD_UNPROCESSED_BLOCK_TYPE',
     blockType
-  };
-  const processedBlockType = processBlockType(blockType);
+  });
+  const processedBlockType = processBlockType(blockType, {
+    select
+  });
 
   if (!processedBlockType) {
     return;
   }
 
-  yield addBlockTypes(processedBlockType);
-}
+  dispatch.addBlockTypes(processedBlockType);
+};
 /**
- * Yields an action object signaling that all block types should be computed again.
+ * Signals that all block types should be computed again.
  * It uses stored unprocessed block types and all the most recent list of registered filters.
  *
  * It addresses the issue where third party block filters get registered after third party blocks. A sample sequence:
@@ -7909,15 +8094,20 @@ function* __experimentalRegisterBlockType(blockType) {
  *   6. Block F.
  *   7. Filter G.
  * In this scenario some filters would not get applied for all blocks because they are registered too late.
- *
- * @yield {Object} Action object.
  */
 
-function* __experimentalReapplyBlockTypeFilters() {
-  const unprocessedBlockTypes = (0,external_wp_data_namespaceObject.select)(STORE_NAME).__experimentalGetUnprocessedBlockTypes();
+const __experimentalReapplyBlockTypeFilters = () => _ref3 => {
+  let {
+    dispatch,
+    select
+  } = _ref3;
+
+  const unprocessedBlockTypes = select.__experimentalGetUnprocessedBlockTypes();
 
   const processedBlockTypes = Object.keys(unprocessedBlockTypes).reduce((accumulator, blockName) => {
-    const result = processBlockType(unprocessedBlockTypes[blockName]);
+    const result = processBlockType(unprocessedBlockTypes[blockName], {
+      select
+    });
 
     if (result) {
       accumulator.push(result);
@@ -7930,8 +8120,8 @@ function* __experimentalReapplyBlockTypeFilters() {
     return;
   }
 
-  yield addBlockTypes(processedBlockTypes);
-}
+  dispatch.addBlockTypes(processedBlockTypes);
+};
 /**
  * Returns an action object used to remove a registered block type.
  *
@@ -8133,6 +8323,9 @@ function removeBlockCollection(namespace) {
   };
 }
 
+;// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/store/constants.js
+const STORE_NAME = 'core/blocks';
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/store/index.js
 /**
  * WordPress dependencies
@@ -8168,6 +8361,56 @@ var external_wp_autop_namespaceObject = window["wp"]["autop"];
 ;// CONCATENATED MODULE: external ["wp","isShallowEqual"]
 var external_wp_isShallowEqual_namespaceObject = window["wp"]["isShallowEqual"];
 var external_wp_isShallowEqual_default = /*#__PURE__*/__webpack_require__.n(external_wp_isShallowEqual_namespaceObject);
+;// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/parser/serialize-raw-block.js
+/**
+ * Internal dependencies
+ */
+
+/**
+ * @typedef {Object}   Options                   Serialization options.
+ * @property {boolean} [isCommentDelimited=true] Whether to output HTML comments around blocks.
+ */
+
+/** @typedef {import("./").WPRawBlock} WPRawBlock */
+
+/**
+ * Serializes a block node into the native HTML-comment-powered block format.
+ * CAVEAT: This function is intended for re-serializing blocks as parsed by
+ * valid parsers and skips any validation steps. This is NOT a generic
+ * serialization function for in-memory blocks. For most purposes, see the
+ * following functions available in the `@wordpress/blocks` package:
+ *
+ * @see serializeBlock
+ * @see serialize
+ *
+ * For more on the format of block nodes as returned by valid parsers:
+ *
+ * @see `@wordpress/block-serialization-default-parser` package
+ * @see `@wordpress/block-serialization-spec-parser` package
+ *
+ * @param {WPRawBlock} rawBlock     A block node as returned by a valid parser.
+ * @param {Options}    [options={}] Serialization options.
+ *
+ * @return {string} An HTML string representing a block.
+ */
+
+function serializeRawBlock(rawBlock) {
+  let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  const {
+    isCommentDelimited = true
+  } = options;
+  const {
+    blockName,
+    attrs = {},
+    innerBlocks = [],
+    innerContent = []
+  } = rawBlock;
+  let childIndex = 0;
+  const content = innerContent.map(item => // `null` denotes a nested block, otherwise we have an HTML fragment.
+  item !== null ? item : serializeRawBlock(innerBlocks[childIndex++], options)).join('\n').replace(/\n+/g, '\n').trim();
+  return isCommentDelimited ? getCommentDelimitedContent(blockName, attrs, content) : content;
+}
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/serializer.js
 
 
@@ -8188,6 +8431,9 @@ var external_wp_isShallowEqual_default = /*#__PURE__*/__webpack_require__.n(exte
  */
 
 
+
+
+/** @typedef {import('./parser').WPBlock} WPBlock */
 
 /**
  * @typedef {Object} WPBlockSerializationOptions Serialization Options.
@@ -8250,7 +8496,7 @@ function getInnerBlocksProps() {
   let props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   const {
     innerBlocks
-  } = innerBlocksPropsProvider; // Value is an array of blocks, so defer to block serializer
+  } = innerBlocksPropsProvider; // Value is an array of blocks, so defer to block serializer.
 
   const html = serializer_serialize(innerBlocks, {
     isInnerBlocks: true
@@ -8445,8 +8691,8 @@ function getCommentDelimitedContent(rawBlockName, attributes, content) {
  * Returns the content of a block, including comment delimiters, determining
  * serialized attributes and content form from the current state of the block.
  *
- * @param {Object}                      block   Block instance.
- * @param {WPBlockSerializationOptions} options Serialization options.
+ * @param {WPBlock}                      block   Block instance.
+ * @param {WPBlockSerializationOptions}  options Serialization options.
  *
  * @return {string} Serialized block.
  */
@@ -8455,6 +8701,11 @@ function serializeBlock(block) {
   let {
     isInnerBlocks = false
   } = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+  if (!block.isValid && block.__unstableBlockSource) {
+    return serializeRawBlock(block.__unstableBlockSource);
+  }
+
   const blockName = block.name;
   const saveContent = getBlockInnerHTML(block);
 
@@ -9397,9 +9648,17 @@ function tokenize(input, options) {
 
 
 
+;// CONCATENATED MODULE: external ["wp","deprecated"]
+var external_wp_deprecated_namespaceObject = window["wp"]["deprecated"];
+var external_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external_wp_deprecated_namespaceObject);
 ;// CONCATENATED MODULE: external ["wp","htmlEntities"]
 var external_wp_htmlEntities_namespaceObject = window["wp"]["htmlEntities"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/validation/logger.js
+/**
+ * @typedef LoggerItem
+ * @property {Function}   log  Which logger recorded the message
+ * @property {Array<any>} args White arguments were supplied to the logger
+ */
 function createLogger() {
   /**
    * Creates a log handler with block validation prefix.
@@ -9442,7 +9701,7 @@ function createQueuedLogger() {
   /**
    * The list of enqueued log actions to print.
    *
-   * @type {Array}
+   * @type {Array<LoggerItem>}
    */
   const queue = [];
   const logger = createLogger();
@@ -9487,6 +9746,7 @@ function createQueuedLogger() {
  */
 
 
+
 /**
  * Internal dependencies
  */
@@ -9494,6 +9754,12 @@ function createQueuedLogger() {
 
 
 
+
+/** @typedef {import('../parser').WPBlock} WPBlock */
+
+/** @typedef {import('../registration').WPBlockType} WPBlockType */
+
+/** @typedef {import('./logger').LoggerItem} LoggerItem */
 
 /**
  * Globally matches any consecutive whitespace
@@ -9767,7 +10033,7 @@ function getNormalizedStyleValue(value) {
   const textPieces = getTextPiecesSplitOnWhitespace(value);
   const normalizedPieces = textPieces.map(getNormalizedLength);
   const result = normalizedPieces.join(' ');
-  return result // Normalize URL type to omit whitespace or quotes
+  return result // Normalize URL type to omit whitespace or quotes.
   .replace(REGEXP_STYLE_URL_TYPE, 'url($1)');
 }
 /**
@@ -9780,10 +10046,10 @@ function getNormalizedStyleValue(value) {
 
 function getStyleProperties(text) {
   const pairs = text // Trim ending semicolon (avoid including in split)
-  .replace(/;?\s*$/, '') // Split on property assignment
+  .replace(/;?\s*$/, '') // Split on property assignment.
   .split(';') // For each property assignment...
   .map(style => {
-    // ...split further into key-value pairs
+    // ...split further into key-value pairs.
     const [key, ...valueParts] = style.split(':');
     const value = valueParts.join(':');
     return [key.trim(), getNormalizedStyleValue(value.trim())];
@@ -9842,7 +10108,7 @@ function isEqualTagAttributePairs(actual, expected) {
 
   for (let i = 0; i < actual.length; i++) {
     const [name, actualValue] = actual[i];
-    const nameLower = name.toLowerCase(); // As noted above, if missing member in B, assume different
+    const nameLower = name.toLowerCase(); // As noted above, if missing member in B, assume different.
 
     if (!expectedAttributes.hasOwnProperty(nameLower)) {
       logger.warning('Encountered unexpected attribute `%s`.', name);
@@ -9853,13 +10119,13 @@ function isEqualTagAttributePairs(actual, expected) {
     const isEqualAttributes = isEqualAttributesOfName[nameLower];
 
     if (isEqualAttributes) {
-      // Defer custom attribute equality handling
+      // Defer custom attribute equality handling.
       if (!isEqualAttributes(actualValue, expectedValue)) {
         logger.warning('Expected attribute `%s` of value `%s`, saw `%s`.', name, expectedValue, actualValue);
         return false;
       }
     } else if (actualValue !== expectedValue) {
-      // Otherwise strict inequality should bail
+      // Otherwise strict inequality should bail.
       logger.warning('Expected attribute `%s` of value `%s`, saw `%s`.', name, expectedValue, actualValue);
       return false;
     }
@@ -9946,10 +10212,10 @@ function getHTMLTokens(html) {
 
 
 function isClosedByToken(currentToken, nextToken) {
-  // Ensure this is a self closed token
+  // Ensure this is a self closed token.
   if (!currentToken.selfClosing) {
     return false;
-  } // Check token names and determine if nextToken is the closing tag for currentToken
+  } // Check token names and determine if nextToken is the closing tag for currentToken.
 
 
   if (nextToken && nextToken.tagName === currentToken.tagName && nextToken.type === 'EndTag') {
@@ -9976,10 +10242,10 @@ function isEquivalentHTML(actual, expected) {
   // Short-circuit if markup is identical.
   if (actual === expected) {
     return true;
-  } // Tokenize input content and reserialized save content
+  } // Tokenize input content and reserialized save content.
 
 
-  const [actualTokens, expectedTokens] = [actual, expected].map(html => getHTMLTokens(html, logger)); // If either is malformed then stop comparing - the strings are not equivalent
+  const [actualTokens, expectedTokens] = [actual, expected].map(html => getHTMLTokens(html, logger)); // If either is malformed then stop comparing - the strings are not equivalent.
 
   if (!actualTokens || !expectedTokens) {
     return false;
@@ -9988,19 +10254,19 @@ function isEquivalentHTML(actual, expected) {
   let actualToken, expectedToken;
 
   while (actualToken = getNextNonWhitespaceToken(actualTokens)) {
-    expectedToken = getNextNonWhitespaceToken(expectedTokens); // Inequal if exhausted all expected tokens
+    expectedToken = getNextNonWhitespaceToken(expectedTokens); // Inequal if exhausted all expected tokens.
 
     if (!expectedToken) {
       logger.warning('Expected end of content, instead saw %o.', actualToken);
       return false;
-    } // Inequal if next non-whitespace token of each set are not same type
+    } // Inequal if next non-whitespace token of each set are not same type.
 
 
     if (actualToken.type !== expectedToken.type) {
       logger.warning('Expected token of type `%s` (%o), instead saw `%s` (%o).', expectedToken.type, expectedToken, actualToken.type, actualToken);
       return false;
     } // Defer custom token type equality handling, otherwise continue and
-    // assume as equal
+    // assume as equal.
 
 
     const isEqualTokens = isEqualTokensOfType[actualToken.type];
@@ -10008,23 +10274,23 @@ function isEquivalentHTML(actual, expected) {
     if (isEqualTokens && !isEqualTokens(actualToken, expectedToken, logger)) {
       return false;
     } // Peek at the next tokens (actual and expected) to see if they close
-    // a self-closing tag
+    // a self-closing tag.
 
 
     if (isClosedByToken(actualToken, expectedTokens[0])) {
       // Consume the next expected token that closes the current actual
-      // self-closing token
+      // self-closing token.
       getNextNonWhitespaceToken(expectedTokens);
     } else if (isClosedByToken(expectedToken, actualTokens[0])) {
       // Consume the next actual token that closes the current expected
-      // self-closing token
+      // self-closing token.
       getNextNonWhitespaceToken(actualTokens);
     }
   }
 
   if (expectedToken = getNextNonWhitespaceToken(expectedTokens)) {
     // If any non-whitespace tokens remain in expected token set, this
-    // indicates inequality
+    // indicates inequality.
     logger.warning('Expected %o, instead saw end of content.', expectedToken);
     return false;
   }
@@ -10051,17 +10317,18 @@ function isEquivalentHTML(actual, expected) {
  * with assumed attributes, the content matches the original value. If block is
  * invalid, this function returns all validations issues as well.
  *
- * @param {import('../parser').WPBlock}           block           block object.
- * @param {import('../registration').WPBlockType} blockTypeOrName Block type or name.
+ * @param {WPBlock}            block                          block object.
+ * @param {WPBlockType|string} [blockTypeOrName = block.name] Block type or name, inferred from block if not given.
  *
- * @return {[boolean,Object]} validation results.
+ * @return {[boolean,Array<LoggerItem>]} validation results.
  */
 
-function validateBlock(block, blockTypeOrName) {
+function validateBlock(block) {
+  let blockTypeOrName = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : block.name;
   const isFallbackBlock = block.name === getFreeformContentHandlerName() || block.name === getUnregisteredTypeHandlerName(); // Shortcut to avoid costly validation.
 
   if (isFallbackBlock) {
-    return [true];
+    return [true, []];
   }
 
   const logger = createQueuedLogger();
@@ -10090,6 +10357,8 @@ function validateBlock(block, blockTypeOrName) {
  *
  * Logs to console in development environments when invalid.
  *
+ * @deprecated Use validateBlock instead to avoid data loss.
+ *
  * @param {string|Object} blockTypeOrName      Block type.
  * @param {Object}        attributes           Parsed block attributes.
  * @param {string}        originalBlockContent Original block content.
@@ -10098,6 +10367,11 @@ function validateBlock(block, blockTypeOrName) {
  */
 
 function isValidBlockContent(blockTypeOrName, attributes, originalBlockContent) {
+  external_wp_deprecated_default()('isValidBlockContent introduces opportunity for data loss', {
+    since: '12.6',
+    plugin: 'Gutenberg',
+    alternative: 'validateBlock'
+  });
   const blockType = normalizeBlockType(blockTypeOrName);
   const block = {
     name: blockType.name,
@@ -10150,8 +10424,8 @@ function convertLegacyBlockNameAndAttributes(name, attributes) {
       speaker: 'speaker-deck',
       polldaddy: 'crowdsignal'
     };
-    newAttributes.providerNameSlug = providerSlug in deprecated ? deprecated[providerSlug] : providerSlug; // this is needed as the `responsive` attribute was passed
-    // in a different way before the refactoring to block variations
+    newAttributes.providerNameSlug = providerSlug in deprecated ? deprecated[providerSlug] : providerSlug; // This is needed as the `responsive` attribute was passed
+    // in a different way before the refactoring to block variations.
 
     if (!['amazon-kindle', 'wordpress'].includes(providerSlug)) {
       newAttributes.responsive = true;
@@ -10181,50 +10455,6 @@ function convertLegacyBlockNameAndAttributes(name, attributes) {
   }
 
   return [name, newAttributes];
-}
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/parser/serialize-raw-block.js
-/**
- * Internal dependencies
- */
-
-/**
- * Serializes a block node into the native HTML-comment-powered block format.
- * CAVEAT: This function is intended for reserializing blocks as parsed by
- * valid parsers and skips any validation steps. This is NOT a generic
- * serialization function for in-memory blocks. For most purposes, see the
- * following functions available in the `@wordpress/blocks` package:
- *
- * @see serializeBlock
- * @see serialize
- *
- * For more on the format of block nodes as returned by valid parsers:
- *
- * @see `@wordpress/block-serialization-default-parser` package
- * @see `@wordpress/block-serialization-spec-parser` package
- *
- * @param {import(".").WPRawBlock} rawBlock                   A block node as returned by a valid parser.
- * @param {?Object}                options                    Serialization options.
- * @param {?boolean}               options.isCommentDelimited Whether to output HTML comments around blocks.
- *
- * @return {string} An HTML string representing a block.
- */
-
-function serializeRawBlock(rawBlock) {
-  let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  const {
-    isCommentDelimited = true
-  } = options;
-  const {
-    blockName,
-    attrs = {},
-    innerBlocks = [],
-    innerContent = []
-  } = rawBlock;
-  let childIndex = 0;
-  const content = innerContent.map(item => // `null` denotes a nested block, otherwise we have an HTML fragment.
-  item !== null ? item : serializeRawBlock(innerBlocks[childIndex++], options)).join('\n').replace(/\n+/g, '\n').trim();
-  return isCommentDelimited ? getCommentDelimitedContent(blockName, attrs, content) : content;
 }
 
 ;// CONCATENATED MODULE: ./node_modules/hpq/es/get-path.js
@@ -10406,6 +10636,9 @@ function query(selector, matchers) {
     });
   };
 }
+// EXTERNAL MODULE: ./node_modules/memize/index.js
+var memize = __webpack_require__(9756);
+var memize_default = /*#__PURE__*/__webpack_require__.n(memize);
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/matchers.js
 /**
  * External dependencies
@@ -10750,6 +10983,7 @@ function children_matcher(selector) {
  */
 
 
+
 /**
  * WordPress dependencies
  */
@@ -10842,19 +11076,15 @@ function isOfTypes(value, types) {
  * commentAttributes returns the attribute value depending on its source
  * definition of the given attribute key.
  *
- * @param {string} attributeKey      Attribute key.
- * @param {Object} attributeSchema   Attribute's schema.
- * @param {string} innerHTML         Block's raw content.
- * @param {Object} commentAttributes Block's comment attributes.
+ * @param {string}      attributeKey      Attribute key.
+ * @param {Object}      attributeSchema   Attribute's schema.
+ * @param {string|Node} innerHTML         Block's raw content.
+ * @param {Object}      commentAttributes Block's comment attributes.
  *
  * @return {*} Attribute value.
  */
 
 function getBlockAttribute(attributeKey, attributeSchema, innerHTML, commentAttributes) {
-  const {
-    type,
-    enum: enumSet
-  } = attributeSchema;
   let value;
 
   switch (attributeSchema.source) {
@@ -10876,14 +11106,14 @@ function getBlockAttribute(attributeKey, attributeSchema, innerHTML, commentAttr
       break;
   }
 
-  if (!isValidByType(value, type) || !isValidByEnum(value, enumSet)) {
+  if (!isValidByType(value, attributeSchema.type) || !isValidByEnum(value, attributeSchema.enum)) {
     // Reject the value if it is not valid. Reverting to the undefined
     // value ensures the default is respected, if applicable.
     value = undefined;
   }
 
   if (value === undefined) {
-    return attributeSchema.default;
+    value = attributeSchema.default;
   }
 
   return value;
@@ -10926,7 +11156,7 @@ function isValidByEnum(value, enumSet) {
  * @return {Function} A hpq Matcher.
  */
 
-function matcherFromSource(sourceConfig) {
+const matcherFromSource = memize_default()(sourceConfig => {
   switch (sourceConfig.source) {
     case 'attribute':
       let matcher = attr(sourceConfig.selector, sourceConfig.attribute);
@@ -10960,25 +11190,37 @@ function matcherFromSource(sourceConfig) {
       // eslint-disable-next-line no-console
       console.error(`Unknown source type "${sourceConfig.source}"`);
   }
+});
+/**
+ * Parse a HTML string into DOM tree.
+ *
+ * @param {string|Node} innerHTML HTML string or already parsed DOM node.
+ *
+ * @return {Node} Parsed DOM node.
+ */
+
+function parseHtml(innerHTML) {
+  return parse(innerHTML, h => h);
 }
 /**
  * Given a block's raw content and an attribute's schema returns the attribute's
  * value depending on its source.
  *
- * @param {string} innerHTML       Block's raw content.
- * @param {Object} attributeSchema Attribute's schema.
+ * @param {string|Node} innerHTML       Block's raw content.
+ * @param {Object}      attributeSchema Attribute's schema.
  *
  * @return {*} Attribute value.
  */
 
+
 function parseWithAttributeSchema(innerHTML, attributeSchema) {
-  return parse(innerHTML, matcherFromSource(attributeSchema));
+  return matcherFromSource(attributeSchema)(parseHtml(innerHTML));
 }
 /**
  * Returns the block attributes of a registered block node given its type.
  *
  * @param {string|Object} blockTypeOrName Block type or name.
- * @param {string}        innerHTML       Raw block content.
+ * @param {string|Node}   innerHTML       Raw block content.
  * @param {?Object}       attributes      Known block attributes (from delimiters).
  *
  * @return {Object} All block attributes.
@@ -10986,10 +11228,9 @@ function parseWithAttributeSchema(innerHTML, attributeSchema) {
 
 function getBlockAttributes(blockTypeOrName, innerHTML) {
   let attributes = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+  const doc = parseHtml(innerHTML);
   const blockType = normalizeBlockType(blockTypeOrName);
-  const blockAttributes = (0,external_lodash_namespaceObject.mapValues)(blockType.attributes, (attributeSchema, attributeKey) => {
-    return getBlockAttribute(attributeKey, attributeSchema, innerHTML, attributes);
-  });
+  const blockAttributes = (0,external_lodash_namespaceObject.mapValues)(blockType.attributes, (schema, key) => getBlockAttribute(key, schema, doc, attributes));
   return (0,external_wp_hooks_namespaceObject.applyFilters)('blocks.getBlockAttributes', blockAttributes, blockType, innerHTML, attributes);
 }
 
@@ -11005,6 +11246,12 @@ function getBlockAttributes(blockTypeOrName, innerHTML) {
 
 
 
+const CLASS_ATTR_SCHEMA = {
+  type: 'string',
+  source: 'attribute',
+  selector: '[data-custom-class-name] > *',
+  attribute: 'class'
+};
 /**
  * Given an HTML string, returns an array of class names assigned to the root
  * element in the markup.
@@ -11015,13 +11262,7 @@ function getBlockAttributes(blockTypeOrName, innerHTML) {
  */
 
 function getHTMLRootElementClasses(innerHTML) {
-  innerHTML = `<div data-custom-class-name>${innerHTML}</div>`;
-  const parsed = parseWithAttributeSchema(innerHTML, {
-    type: 'string',
-    source: 'attribute',
-    selector: '[data-custom-class-name] > *',
-    attribute: 'class'
-  });
+  const parsed = parseWithAttributeSchema(`<div data-custom-class-name>${innerHTML}</div>`, CLASS_ATTR_SCHEMA);
   return parsed ? parsed.trim().split(/\s+/) : [];
 }
 /**
@@ -11146,13 +11387,13 @@ function applyBlockDeprecatedVersions(block, rawBlock, blockType) {
       attributes: getBlockAttributes(deprecatedBlockType, block.originalContent, parsedAttributes)
     }; // Ignore the deprecation if it produces a block which is not valid.
 
-    let [isValid] = validateBlock(migratedBlock, deprecatedBlockType); // If the migrated block is not valid intiailly, try the built-in fixes.
+    let [isValid] = validateBlock(migratedBlock, deprecatedBlockType); // If the migrated block is not valid initially, try the built-in fixes.
 
     if (!isValid) {
       migratedBlock = applyBuiltInValidationFixes(migratedBlock, deprecatedBlockType);
       [isValid] = validateBlock(migratedBlock, deprecatedBlockType);
     } // An invalid block does not imply incorrect HTML but the fact block
-    // source information could be lost on reserialization.
+    // source information could be lost on re-serialization.
 
 
     if (!isValid) {
@@ -11221,12 +11462,18 @@ function applyBlockDeprecatedVersions(block, rawBlock, blockType) {
  *
  * @typedef WPBlock
  *
- * @property {string}    name             Block name
- * @property {Object }   attributes       Block raw or comment attributes.
- * @property {WPBlock[]} innerBlocks      Inner Blocks.
- * @property {string}    originalContent  Original content of the block before validation fixes.
- * @property {boolean}   isValid          Whether the block is valid.
- * @property {Object[]}  validationIssues Validation issues.
+ * @property {string}     name                    Block name
+ * @property {Object}     attributes              Block raw or comment attributes.
+ * @property {WPBlock[]}  innerBlocks             Inner Blocks.
+ * @property {string}     originalContent         Original content of the block before validation fixes.
+ * @property {boolean}    isValid                 Whether the block is valid.
+ * @property {Object[]}   validationIssues        Validation issues.
+ * @property {WPRawBlock} [__unstableBlockSource] Un-processed original copy of block if created through parser.
+ */
+
+/**
+ * @typedef  {Object}  ParseOptions
+ * @property {boolean} __unstableSkipMigrationLogs If a block is migrated from a deprecated version, skip logging the migration details.
  */
 
 /**
@@ -11311,15 +11558,48 @@ function createMissingBlockType(rawBlock) {
   };
 }
 /**
+ * Validates a block and wraps with validation meta.
+ *
+ * The name here is regrettable but `validateBlock` is already taken.
+ *
+ * @param {WPBlock}                               unvalidatedBlock
+ * @param {import('../registration').WPBlockType} blockType
+ * @return {WPBlock}                              validated block, with auto-fixes if initially invalid
+ */
+
+
+function applyBlockValidation(unvalidatedBlock, blockType) {
+  // Attempt to validate the block.
+  const [isValid] = validateBlock(unvalidatedBlock, blockType);
+
+  if (isValid) {
+    return { ...unvalidatedBlock,
+      isValid,
+      validationIssues: []
+    };
+  } // If the block is invalid, attempt some built-in fixes
+  // like custom classNames handling.
+
+
+  const fixedBlock = applyBuiltInValidationFixes(unvalidatedBlock, blockType); // Attempt to validate the block once again after the built-in fixes.
+
+  const [isFixedValid, validationIssues] = validateBlock(unvalidatedBlock, blockType);
+  return { ...fixedBlock,
+    isValid: isFixedValid,
+    validationIssues
+  };
+}
+/**
  * Given a raw block returned by grammar parsing, returns a fully parsed block.
  *
- * @param {WPRawBlock} rawBlock The raw block object.
+ * @param {WPRawBlock}   rawBlock The raw block object.
+ * @param {ParseOptions} options  Extra options for handling block parsing.
  *
  * @return {WPBlock} Fully parsed block.
  */
 
 
-function parseRawBlock(rawBlock) {
+function parseRawBlock(rawBlock, options) {
   let normalizedBlock = normalizeRawBlock(rawBlock); // During the lifecycle of the project, we renamed some old blocks
   // and transformed others to new blocks. To avoid breaking existing content,
   // we added this function to properly parse the old content.
@@ -11345,48 +11625,48 @@ function parseRawBlock(rawBlock) {
   } // Parse inner blocks recursively.
 
 
-  const parsedInnerBlocks = normalizedBlock.innerBlocks.map(parseRawBlock) // See https://github.com/WordPress/gutenberg/pull/17164.
+  const parsedInnerBlocks = normalizedBlock.innerBlocks.map(innerBlock => parseRawBlock(innerBlock, options)) // See https://github.com/WordPress/gutenberg/pull/17164.
   .filter(innerBlock => !!innerBlock); // Get the fully parsed block.
 
-  let parsedBlock = createBlock(normalizedBlock.blockName, getBlockAttributes(blockType, normalizedBlock.innerHTML, normalizedBlock.attrs), parsedInnerBlocks);
-  parsedBlock.originalContent = normalizedBlock.innerHTML; // Attempt to validate the block.
-
-  let [isValid, validationIssues] = validateBlock(parsedBlock, blockType); // If the block is invalid, attempt some built-in fixes
-  // like custom classNames handling.
-
-  if (!isValid) {
-    parsedBlock = applyBuiltInValidationFixes(parsedBlock, blockType); // Attempt to validate the block once again after the built-in fixes.
-
-    [isValid, validationIssues] = validateBlock(parsedBlock, blockType);
-  }
-
-  parsedBlock.isValid = isValid;
-  parsedBlock.validationIssues = validationIssues; // Run the block deprecation and migrations.
+  const parsedBlock = createBlock(normalizedBlock.blockName, getBlockAttributes(blockType, normalizedBlock.innerHTML, normalizedBlock.attrs), parsedInnerBlocks);
+  parsedBlock.originalContent = normalizedBlock.innerHTML;
+  const validatedBlock = applyBlockValidation(parsedBlock, blockType);
+  const {
+    validationIssues
+  } = validatedBlock; // Run the block deprecation and migrations.
   // This is performed on both invalid and valid blocks because
   // migration using the `migrate` functions should run even
   // if the output is deemed valid.
 
-  parsedBlock = applyBlockDeprecatedVersions(parsedBlock, normalizedBlock, blockType);
+  const updatedBlock = applyBlockDeprecatedVersions(validatedBlock, normalizedBlock, blockType);
 
-  if (validationIssues && validationIssues.length > 0) {
-    if (parsedBlock.isValid) {
-      /* eslint-disable no-console */
-      console.groupCollapsed('Updated Block: %s', blockType.name);
-      console.info('Block successfully updated for `%s` (%o).\n\nNew content generated by `save` function:\n\n%s\n\nContent retrieved from post body:\n\n%s', blockType.name, blockType, getSaveContent(blockType, parsedBlock.attributes), parsedBlock.originalContent);
-      console.groupEnd();
-      /* eslint-enable no-console */
-    } else {
-      validationIssues.forEach(_ref => {
-        let {
-          log,
-          args
-        } = _ref;
-        return log(...args);
-      });
-    }
+  if (!updatedBlock.isValid) {
+    // Preserve the original unprocessed version of the block
+    // that we received (no fixes, no deprecations) so that
+    // we can save it as close to exactly the same way as
+    // we loaded it. This is important to avoid corruption
+    // and data loss caused by block implementations trying
+    // to process data that isn't fully recognized.
+    updatedBlock.__unstableBlockSource = rawBlock;
   }
 
-  return parsedBlock;
+  if (!validatedBlock.isValid && updatedBlock.isValid && !(options !== null && options !== void 0 && options.__unstableSkipMigrationLogs)) {
+    /* eslint-disable no-console */
+    console.groupCollapsed('Updated Block: %s', blockType.name);
+    console.info('Block successfully updated for `%s` (%o).\n\nNew content generated by `save` function:\n\n%s\n\nContent retrieved from post body:\n\n%s', blockType.name, blockType, getSaveContent(blockType, updatedBlock.attributes), updatedBlock.originalContent);
+    console.groupEnd();
+    /* eslint-enable no-console */
+  } else if (!validatedBlock.isValid && !updatedBlock.isValid) {
+    validationIssues.forEach(_ref => {
+      let {
+        log,
+        args
+      } = _ref;
+      return log(...args);
+    });
+  }
+
+  return updatedBlock;
 }
 /**
  * Utilizes an optimized token-driven parser based on the Gutenberg grammar spec
@@ -11404,14 +11684,15 @@ function parseRawBlock(rawBlock) {
  * @see
  * https://developer.wordpress.org/block-editor/packages/packages-block-serialization-default-parser/
  *
- * @param {string} content The post content.
+ * @param {string}       content The post content.
+ * @param {ParseOptions} options Extra options for handling block parsing.
  *
  * @return {Array} Block list.
  */
 
-function parser_parse(content) {
+function parser_parse(content, options) {
   return (0,external_wp_blockSerializationDefaultParser_namespaceObject.parse)(content).reduce((accumulator, rawBlock) => {
-    const block = parseRawBlock(rawBlock);
+    const block = parseRawBlock(rawBlock, options);
 
     if (block) {
       accumulator.push(block);
@@ -11421,9 +11702,6 @@ function parser_parse(content) {
   }, []);
 }
 
-;// CONCATENATED MODULE: external ["wp","deprecated"]
-var external_wp_deprecated_namespaceObject = window["wp"]["deprecated"];
-var external_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external_wp_deprecated_namespaceObject);
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/raw-handling/get-raw-transforms.js
 /**
  * External dependencies
@@ -11619,7 +11897,7 @@ function createMore(customText, noTeaser, doc) {
   }
 
   if (noTeaser) {
-    // "Boolean" data attribute
+    // "Boolean" data attribute.
     node.dataset.noTeaser = '';
   }
 
@@ -12342,7 +12620,7 @@ function msListConverter(node, doc) {
   const listItem = doc.createElement('li');
   let receivingNode = listNode; // Remove the first span with list info.
 
-  node.removeChild(node.firstElementChild); // Add content.
+  node.removeChild(node.firstChild); // Add content.
 
   while (node.firstChild) {
     listItem.appendChild(node.firstChild);
@@ -12350,10 +12628,10 @@ function msListConverter(node, doc) {
 
 
   while (level--) {
-    receivingNode = receivingNode.lastElementChild || receivingNode; // If it's a list, move pointer to the last item.
+    receivingNode = receivingNode.lastChild || receivingNode; // If it's a list, move pointer to the last item.
 
     if (ms_list_converter_isList(receivingNode)) {
-      receivingNode = receivingNode.lastElementChild || receivingNode;
+      receivingNode = receivingNode.lastChild || receivingNode;
     }
   } // Make sure we append to a list.
 
@@ -12428,6 +12706,19 @@ function imageCorrector(node) {
   if (node.height === 1 || node.width === 1) {
     node.parentNode.removeChild(node);
   }
+}
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/raw-handling/div-normaliser.js
+/**
+ * Internal dependencies
+ */
+
+function divNormaliser(node) {
+  if (node.nodeName !== 'DIV') {
+    return;
+  }
+
+  node.innerHTML = normaliseBlocks(node.innerHTML);
 }
 
 // EXTERNAL MODULE: ./node_modules/showdown/dist/showdown.js
@@ -12653,6 +12944,7 @@ function emptyParagraphRemover(node) {
 
 
 
+
 /**
  * Browser dependencies
  */
@@ -12778,7 +13070,7 @@ function pasteHandler(_ref) {
       return piece;
     }
 
-    const filters = [googleDocsUIdRemover, msListConverter, headRemover, listReducer, imageCorrector, phrasingContentReducer, specialCommentConverter, commentRemover, iframeRemover, figureContentReducer, blockquoteNormaliser];
+    const filters = [googleDocsUIdRemover, msListConverter, headRemover, listReducer, imageCorrector, phrasingContentReducer, specialCommentConverter, commentRemover, iframeRemover, figureContentReducer, blockquoteNormaliser, divNormaliser];
     const schema = { ...blockContentSchema,
       // Keep top-level phrasing content, normalised by `normaliseBlocks`.
       ...phrasingContentSchema
@@ -12949,7 +13241,18 @@ function synchronizeBlocksWithTemplate() {
     };
 
     const normalizedAttributes = normalizeAttributes((0,external_lodash_namespaceObject.get)(blockType, ['attributes'], {}), attributes);
-    const [blockName, blockAttributes] = convertLegacyBlockNameAndAttributes(name, normalizedAttributes);
+    let [blockName, blockAttributes] = convertLegacyBlockNameAndAttributes(name, normalizedAttributes); // If a Block is undefined at this point, use the core/missing block as
+    // a placeholder for a better user experience.
+
+    if (undefined === registration_getBlockType(blockName)) {
+      blockAttributes = {
+        originalName: name,
+        originalContent: '',
+        originalUndelimitedContent: ''
+      };
+      blockName = 'core/missing';
+    }
+
     return createBlock(blockName, blockAttributes, synchronizeBlocksWithTemplate([], innerBlocksTemplate));
   });
 }
@@ -12978,6 +13281,7 @@ function synchronizeBlocksWithTemplate() {
 // block. For composition, it also means inner blocks can effectively be child
 // components whose mechanisms can be shielded from the `edit` implementation
 // and just passed along.
+
 
 
  // While block transformations account for a specific surface of the API, there
@@ -13112,7 +13416,7 @@ const BlockContentProvider = _ref => {
   } = _ref;
 
   const BlockContent = () => {
-    // Value is an array of blocks, so defer to block serializer
+    // Value is an array of blocks, so defer to block serializer.
     const html = serialize(innerBlocks, {
       isInnerBlocks: true
     }); // Use special-cased raw HTML tag to avoid default escaping

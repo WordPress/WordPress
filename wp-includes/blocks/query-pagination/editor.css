@@ -85,10 +85,6 @@
   margin: 0;
 }
 
-.block-library-query-pagination-toolbar__popover .components-popover__content {
-  min-width: 230px;
-}
-
 .wp-block-query-pagination > .wp-block-query-pagination-next,
 .wp-block-query-pagination > .wp-block-query-pagination-previous,
 .wp-block-query-pagination > .wp-block-query-pagination-numbers {

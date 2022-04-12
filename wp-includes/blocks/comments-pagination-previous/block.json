@@ -1,0 +1,38 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "core/comments-pagination-previous",
+	"title": "Previous Page",
+	"category": "theme",
+	"parent": [ "core/comments-pagination" ],
+	"description": "Displays the previous comment's page link.",
+	"textdomain": "default",
+	"attributes": {
+		"label": {
+			"type": "string"
+		}
+	},
+	"usesContext": [ "postId", "comments/paginationArrow" ],
+	"supports": {
+		"reusable": false,
+		"html": false,
+		"color": {
+			"gradients": true,
+			"text": false,
+			"__experimentalDefaultControls": {
+				"background": true
+			}
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalFontWeight": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalTextTransform": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true
+			}
+		}
+	}
+}

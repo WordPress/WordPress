@@ -53,6 +53,7 @@ __webpack_require__.d(__webpack_exports__, {
   "insertAfter": function() { return /* reexport */ insertAfter; },
   "isEmpty": function() { return /* reexport */ isEmpty; },
   "isEntirelySelected": function() { return /* reexport */ isEntirelySelected; },
+  "isFormElement": function() { return /* reexport */ isFormElement; },
   "isHorizontalEdge": function() { return /* reexport */ isHorizontalEdge; },
   "isNumberInput": function() { return /* reexport */ isNumberInput; },
   "isPhrasingContent": function() { return /* reexport */ isPhrasingContent; },
@@ -376,11 +377,18 @@ function tabbable_find(context) {
  *
  * @param {Element} element The focusable element before which to look. Defaults
  *                          to the active element.
+ *
+ * @return {Element|undefined} Preceding tabbable element.
  */
 
 function findPrevious(element) {
   const focusables = find(element.ownerDocument.body);
-  const index = focusables.indexOf(element); // Remove all focusables after and including `element`.
+  const index = focusables.indexOf(element);
+
+  if (index === -1) {
+    return undefined;
+  } // Remove all focusables after and including `element`.
+
 
   focusables.length = index;
   return (0,external_lodash_namespaceObject.last)(filterTabbable(focusables));
@@ -749,7 +757,7 @@ function getScrollContainer(node) {
     if (/(auto|scroll)/.test(overflowY)) {
       return node;
     }
-  } // Continue traversing
+  } // Continue traversing.
 
 
   return getScrollContainer(
@@ -797,7 +805,7 @@ function getOffsetParent(node) {
   /** @type {Element} */
   closestElement).position !== 'static') {
     return closestElement;
-  } // offsetParent is undocumented/draft
+  } // offsetParent is undocumented/draft.
 
 
   return (
@@ -899,6 +907,28 @@ function isDeepChild(query, container, propName) {
   } while (candidate);
 
   return false;
+}
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/dom/is-form-element.js
+/**
+ * Internal dependencies
+ */
+
+/**
+ *
+ * Detects if element is a form element.
+ *
+ * @param {Element} element The element to check.
+ *
+ * @return {boolean} True if form element and false otherwise.
+ */
+
+function isFormElement(element) {
+  const {
+    tagName
+  } = element;
+  const checkForInputTextarea = isInputOrTextArea(element);
+  return checkForInputTextarea || tagName === 'BUTTON' || tagName === 'SELECT';
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/dom/is-rtl.js
@@ -1953,6 +1983,7 @@ function removeInvalidHTML(HTML, schema, inline) {
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/dom/index.js
+
 
 
 

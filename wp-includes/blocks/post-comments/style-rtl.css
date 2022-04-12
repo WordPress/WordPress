@@ -87,9 +87,9 @@
   padding-right: 3.25em;
 }
 .wp-block-post-comments .commentlist .comment p {
-  font-size: 0.875em;
+  font-size: 1em;
   line-height: 1.8;
-  margin: 0.36em 0 1.4em;
+  margin: 1em 0;
 }
 .wp-block-post-comments .commentlist .children {
   list-style: none;
@@ -104,6 +104,7 @@
   display: block;
   float: right;
   height: 2.5em;
+  margin-top: 0.5em;
   margin-left: 0.75em;
   width: 2.5em;
 }
@@ -111,11 +112,15 @@
   font-style: normal;
 }
 .wp-block-post-comments .comment-meta {
+  font-size: 0.875em;
   line-height: 1.5;
   margin-right: -3.25em;
 }
+.wp-block-post-comments .comment-meta b {
+  font-weight: normal;
+}
 .wp-block-post-comments .comment-body .commentmetadata {
-  font-size: 0.75em;
+  font-size: 0.875em;
 }
 .wp-block-post-comments .comment-form-comment label,
 .wp-block-post-comments .comment-form-author label,
@@ -138,7 +143,7 @@
   margin-top: 0.35em;
 }
 .wp-block-post-comments .reply {
-  font-size: 0.75em;
+  font-size: 0.875em;
   margin-bottom: 1.4em;
 }
 .wp-block-post-comments textarea,

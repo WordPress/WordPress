@@ -1,0 +1,53 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "core/comment-author-name",
+	"title": "Comment Author Name",
+	"category": "theme",
+	"ancestor": [ "core/comment-template" ],
+	"description": "Displays the name of the author of the comment.",
+	"textdomain": "default",
+	"attributes": {
+		"isLink": {
+			"type": "boolean",
+			"default": true
+		},
+		"linkTarget": {
+			"type": "string",
+			"default": "_self"
+		},
+		"textAlign": {
+			"type": "string"
+		},
+		"fontSize": {
+			"type": "string",
+			"default": "small"
+		}
+	},
+	"usesContext": [ "commentId" ],
+	"supports": {
+		"html": false,
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"color": {
+			"gradients": true,
+			"link": true,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true,
+				"link": true
+			}
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalTextTransform": true,
+			"__experimentalLetterSpacing": true
+		}
+	}
+}

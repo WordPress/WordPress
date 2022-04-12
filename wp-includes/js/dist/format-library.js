@@ -663,7 +663,7 @@ function getFormatBoundary(value, format) {
 
   startIndex = walkToStart(...walkingArgs); // Walk the endIndex "forwards" until the trailing "edge" of the matching format.
 
-  endIndex = walkToEnd(...walkingArgs); // Safe guard: start index cannot be less than 0
+  endIndex = walkToEnd(...walkingArgs); // Safe guard: start index cannot be less than 0.
 
   startIndex = startIndex < 0 ? 0 : startIndex; // // Return the indicies of the "edges" as the boundaries.
 
@@ -710,7 +710,7 @@ const walkToEnd = (0,external_lodash_namespaceObject.partialRight)(walkToBoundar
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/format-library/build-module/link/use-link-instance-key.js
 // Weakly referenced map allows unused ids to be garbage collected.
-const weakMap = new WeakMap(); // Incrementing zero-based ID value
+const weakMap = new WeakMap(); // Incrementing zero-based ID value.
 
 let id = -1;
 const prefix = 'link-control-instance';
@@ -855,11 +855,11 @@ function InlineLinkUI(_ref) {
       }), linkFormat, 0, newText.length);
       onChange((0,external_wp_richText_namespaceObject.insert)(value, toInsert));
     } else {
-      // Scenario: we have any active text selection or an active format
+      // Scenario: we have any active text selection or an active format.
       let newValue;
 
       if (newText === richTextText) {
-        // If we're not updating the text then ignore
+        // If we're not updating the text then ignore.
         newValue = (0,external_wp_richText_namespaceObject.applyFormat)(value, linkFormat);
       } else {
         // Create new RichText value for the new text in order that we
@@ -1101,7 +1101,7 @@ const build_module_link_link = {
       return value;
     }
 
-    const pastedText = (html || plainText).replace(/<[^>]+>/g, '').trim(); // A URL was pasted, turn the selection into a link
+    const pastedText = (html || plainText).replace(/<[^>]+>/g, '').trim(); // A URL was pasted, turn the selection into a link.
 
     if (!(0,external_wp_url_namespaceObject.isURL)(pastedText)) {
       return value;
@@ -1329,7 +1329,6 @@ function parseClassName() {
     return accumulator;
   }, {});
 }
-
 function getActiveColors(value, name, colorSettings) {
   const activeColorFormat = (0,external_wp_richText_namespaceObject.getActiveFormat)(value, name);
 
@@ -1537,7 +1536,7 @@ function TextColorEdit(_ref2) {
       icon: text_color,
       style: colorIndicatorStyle
     }),
-    title: text_color_title // If has no colors to choose but a color is active remove the color onClick
+    title: text_color_title // If has no colors to choose but a color is active remove the color onClick.
     ,
     onClick: hasColorsToChoose ? enableIsAddingColor : () => onChange((0,external_wp_richText_namespaceObject.removeFormat)(value, text_color_name)),
     role: "menuitemcheckbox"
@@ -1571,7 +1570,7 @@ const text_color_textColor = {
    * @see https://github.com/WordPress/gutenberg/pull/35516
    */
   __unstableFilterAttributeValue(key, value) {
-    if (key !== 'style') return value; // We should not add a background-color if it's already set
+    if (key !== 'style') return value; // We should not add a background-color if it's already set.
 
     if (value && value.includes('background-color')) return value;
     const addedCSS = ['background-color', transparentValue].join(':'); // Prepend `addedCSS` to avoid a double `;;` as any the existing CSS

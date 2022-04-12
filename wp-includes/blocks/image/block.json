@@ -1,4 +1,5 @@
 {
+	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 2,
 	"name": "core/image",
 	"title": "Image",
@@ -83,7 +84,10 @@
 			"background": false
 		},
 		"__experimentalBorder": {
-			"radius": true
+			"radius": true,
+			"__experimentalDefaultControls": {
+				"radius": true
+			}
 		}
 	},
 	"styles": [

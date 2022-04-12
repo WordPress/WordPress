@@ -204,13 +204,13 @@ const parse = doc => {
 function proceed() {
   const next = nextToken();
   const [tokenType, blockName, attrs, startOffset, tokenLength] = next;
-  const stackDepth = stack.length; // we may have some HTML soup before the next block
+  const stackDepth = stack.length; // We may have some HTML soup before the next block.
 
   const leadingHtmlStart = startOffset > offset ? offset : null;
 
   switch (tokenType) {
     case 'no-more-tokens':
-      // if not in a block then flush output
+      // If not in a block then flush output.
       if (0 === stackDepth) {
         addFreeform();
         return false;
@@ -219,15 +219,15 @@ function proceed() {
       // we have options
       //  - treat it all as freeform text
       //  - assume an implicit closer (easiest when not nesting)
-      // for the easy case we'll assume an implicit closer
+      // For the easy case we'll assume an implicit closer.
 
 
       if (1 === stackDepth) {
         addBlockFromStack();
         return false;
-      } // for the nested case where it's more difficult we'll
+      } // For the nested case where it's more difficult we'll
       // have to assume that multiple closers are missing
-      // and so we'll collapse the whole stack piecewise
+      // and so we'll collapse the whole stack piecewise.
 
 
       while (0 < stack.length) {
@@ -238,7 +238,7 @@ function proceed() {
 
     case 'void-block':
       // easy case is if we stumbled upon a void block
-      // in the top-level of the document
+      // in the top-level of the document.
       if (0 === stackDepth) {
         if (null !== leadingHtmlStart) {
           output.push(Freeform(document.substr(leadingHtmlStart, startOffset - leadingHtmlStart)));
@@ -247,7 +247,7 @@ function proceed() {
         output.push(Block(blockName, attrs, [], '', []));
         offset = startOffset + tokenLength;
         return true;
-      } // otherwise we found an inner block
+      } // Otherwise we found an inner block.
 
 
       addInnerBlock(Block(blockName, attrs, [], '', []), startOffset, tokenLength);
@@ -255,30 +255,30 @@ function proceed() {
       return true;
 
     case 'block-opener':
-      // track all newly-opened blocks on the stack
+      // Track all newly-opened blocks on the stack.
       stack.push(Frame(Block(blockName, attrs, [], '', []), startOffset, tokenLength, startOffset + tokenLength, leadingHtmlStart));
       offset = startOffset + tokenLength;
       return true;
 
     case 'block-closer':
-      // if we're missing an opener we're in trouble
-      // This is an error
+      // If we're missing an opener we're in trouble
+      // This is an error.
       if (0 === stackDepth) {
-        // we have options
+        // We have options
         //  - assume an implicit opener
         //  - assume _this_ is the opener
-        //  - give up and close out the document
+        // - give up and close out the document.
         addFreeform();
         return false;
-      } // if we're not nesting then this is easy - close the block
+      } // If we're not nesting then this is easy - close the block.
 
 
       if (1 === stackDepth) {
         addBlockFromStack(startOffset);
         offset = startOffset + tokenLength;
         return true;
-      } // otherwise we're nested and we have to close out the current
-      // block and add it as a innerBlock to the parent
+      } // Otherwise we're nested and we have to close out the current
+      // block and add it as a innerBlock to the parent.
 
 
       const stackTop = stack.pop();
@@ -291,7 +291,7 @@ function proceed() {
       return true;
 
     default:
-      // This is an error
+      // This is an error.
       addFreeform();
       return false;
   }
@@ -317,13 +317,13 @@ function parseJSON(input) {
 }
 
 function nextToken() {
-  // aye the magic
+  // Aye the magic
   // we're using a single RegExp to tokenize the block comment delimiters
   // we're also using a trick here because the only difference between a
   // block opener and a block closer is the leading `/` before `wp:` (and
   // a closer has no attributes). we can trap them both and process the
   // match back in JavaScript to see which one it was.
-  const matches = tokenizer.exec(document); // we have no more tokens
+  const matches = tokenizer.exec(document); // We have no more tokens.
 
   if (null === matches) {
     return ['no-more-tokens'];
@@ -331,7 +331,7 @@ function nextToken() {
 
   const startedAt = matches.index;
   const [match, closerMatch, namespaceMatch, nameMatch, attrsMatch
-  /* internal/unused */
+  /* Internal/unused. */
   ,, voidMatch] = matches;
   const length = match.length;
   const isCloser = !!closerMatch;
@@ -340,10 +340,10 @@ function nextToken() {
   const name = namespace + nameMatch;
   const hasAttrs = !!attrsMatch;
   const attrs = hasAttrs ? parseJSON(attrsMatch) : {}; // This state isn't allowed
-  // This is an error
+  // This is an error.
 
-  if (isCloser && (isVoid || hasAttrs)) {// we can ignore them since they don't hurt anything
-    // we may warn against this at some point or reject it
+  if (isCloser && (isVoid || hasAttrs)) {// We can ignore them since they don't hurt anything
+    // we may warn against this at some point or reject it.
   }
 
   if (isVoid) {

@@ -132,11 +132,11 @@ const __experimentalDeleteReusableBlock = id => async _ref3 => {
   let {
     registry
   } = _ref3;
-  const reusableBlock = registry.select('core').getEditedEntityRecord('postType', 'wp_block', id); // Don't allow a reusable block with a temporary ID to be deleted
+  const reusableBlock = registry.select('core').getEditedEntityRecord('postType', 'wp_block', id); // Don't allow a reusable block with a temporary ID to be deleted.
 
   if (!reusableBlock) {
     return;
-  } // Remove any other blocks that reference this reusable block
+  } // Remove any other blocks that reference this reusable block.
 
 
   const allBlocks = registry.select(external_wp_blockEditor_namespaceObject.store).getBlocks();
@@ -222,8 +222,7 @@ const STORE_NAME = 'core/reusable-blocks';
 const store = (0,external_wp_data_namespaceObject.createReduxStore)(STORE_NAME, {
   actions: actions_namespaceObject,
   reducer: reducer,
-  selectors: selectors_namespaceObject,
-  __experimentalUseThunks: true
+  selectors: selectors_namespaceObject
 });
 (0,external_wp_data_namespaceObject.register)(store);
 
@@ -233,20 +232,20 @@ var external_wp_element_namespaceObject = window["wp"]["element"];
 var external_wp_components_namespaceObject = window["wp"]["components"];
 ;// CONCATENATED MODULE: external ["wp","primitives"]
 var external_wp_primitives_namespaceObject = window["wp"]["primitives"];
-;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/reusable-block.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/symbol.js
 
 
 /**
  * WordPress dependencies
  */
 
-const reusableBlock = (0,external_wp_element_namespaceObject.createElement)(external_wp_primitives_namespaceObject.SVG, {
+const symbol = (0,external_wp_element_namespaceObject.createElement)(external_wp_primitives_namespaceObject.SVG, {
   xmlns: "http://www.w3.org/2000/svg",
   viewBox: "0 0 24 24"
 }, (0,external_wp_element_namespaceObject.createElement)(external_wp_primitives_namespaceObject.Path, {
-  d: "M7 7.2h8.2L13.5 9l1.1 1.1 3.6-3.6-3.5-4-1.1 1 1.9 2.3H7c-.9 0-1.7.3-2.3.9-1.4 1.5-1.4 4.2-1.4 5.6v.2h1.5v-.3c0-1.1 0-3.5 1-4.5.3-.3.7-.5 1.2-.5zm13.8 4V11h-1.5v.3c0 1.1 0 3.5-1 4.5-.3.3-.7.5-1.3.5H8.8l1.7-1.7-1.1-1.1L5.9 17l3.5 4 1.1-1-1.9-2.3H17c.9 0 1.7-.3 2.3-.9 1.5-1.4 1.5-4.2 1.5-5.6z"
+  d: "M21.3 10.8l-5.6-5.6c-.7-.7-1.8-.7-2.5 0l-5.6 5.6c-.7.7-.7 1.8 0 2.5l5.6 5.6c.3.3.8.5 1.2.5s.9-.2 1.2-.5l5.6-5.6c.8-.7.8-1.9.1-2.5zm-1 1.4l-5.6 5.6c-.1.1-.3.1-.4 0l-5.6-5.6c-.1-.1-.1-.3 0-.4l5.6-5.6s.1-.1.2-.1.1 0 .2.1l5.6 5.6c.1.1.1.3 0 .4zm-16.6-.4L10 5.5l-1-1-6.3 6.3c-.7.7-.7 1.8 0 2.5L9 19.5l1.1-1.1-6.3-6.3c-.2 0-.2-.2-.1-.3z"
 }));
-/* harmony default export */ var reusable_block = (reusableBlock);
+/* harmony default export */ var library_symbol = (symbol);
 
 ;// CONCATENATED MODULE: external ["wp","notices"]
 var external_wp_notices_namespaceObject = window["wp"]["notices"];
@@ -340,7 +339,7 @@ function ReusableBlockConvertButton(_ref) {
       onClose
     } = _ref2;
     return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuItem, {
-      icon: reusable_block,
+      icon: library_symbol,
       onClick: () => {
         setIsModalOpen(true);
       }
@@ -368,7 +367,7 @@ function ReusableBlockConvertButton(_ref) {
       className: "reusable-blocks-menu-items__convert-modal-actions",
       justify: "flex-end"
     }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.FlexItem, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
-      variant: "secondary",
+      variant: "tertiary",
       onClick: () => {
         setIsModalOpen(false);
         setTitle('');
@@ -406,16 +405,19 @@ function ReusableBlocksManageButton(_ref) {
     clientId
   } = _ref;
   const {
+    canRemove,
     isVisible
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
-      getBlock
+      getBlock,
+      canRemoveBlock
     } = select(external_wp_blockEditor_namespaceObject.store);
     const {
       canUser
     } = select(external_wp_coreData_namespaceObject.store);
     const reusableBlock = getBlock(clientId);
     return {
+      canRemove: canRemoveBlock(clientId),
       isVisible: !!reusableBlock && (0,external_wp_blocks_namespaceObject.isReusableBlock)(reusableBlock) && !!canUser('update', 'blocks', reusableBlock.attributes.ref)
     };
   }, [clientId]);
@@ -431,7 +433,7 @@ function ReusableBlocksManageButton(_ref) {
     href: (0,external_wp_url_namespaceObject.addQueryArgs)('edit.php', {
       post_type: 'wp_block'
     })
-  }, (0,external_wp_i18n_namespaceObject.__)('Manage Reusable blocks')), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuItem, {
+  }, (0,external_wp_i18n_namespaceObject.__)('Manage Reusable blocks')), canRemove && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuItem, {
     onClick: () => convertBlockToStatic(clientId)
   }, (0,external_wp_i18n_namespaceObject.__)('Convert to regular blocks')));
 }

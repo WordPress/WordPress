@@ -74,7 +74,8 @@
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
-.wp-block[data-align=center] > .wp-block-site-logo {
+.wp-block[data-align=center] > .wp-block-site-logo,
+.wp-block-site-logo.aligncenter > div {
   display: table;
   margin-right: auto;
   margin-left: auto;
@@ -107,6 +108,7 @@
   width: 120px;
 }
 .wp-block-site-logo.wp-block-site-logo .components-placeholder {
+  display: flex;
   justify-content: center;
   align-items: center;
   box-shadow: none;

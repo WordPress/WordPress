@@ -1,4 +1,5 @@
 {
+	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 2,
 	"name": "core/cover",
 	"title": "Cover",
@@ -8,6 +9,10 @@
 	"attributes": {
 		"url": {
 			"type": "string"
+		},
+		"useFeaturedImage": {
+			"type": "boolean",
+			"default": false
 		},
 		"id": {
 			"type": "number"
@@ -71,6 +76,7 @@
 			"enum": [ "all", "insert", false ]
 		}
 	},
+	"usesContext": [ "postId", "postType" ],
 	"supports": {
 		"anchor": true,
 		"align": true,

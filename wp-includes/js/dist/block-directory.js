@@ -376,6 +376,8 @@ var external_wp_apiFetch_namespaceObject = window["wp"]["apiFetch"];
 var external_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_wp_apiFetch_namespaceObject);
 ;// CONCATENATED MODULE: external ["wp","notices"]
 var external_wp_notices_namespaceObject = window["wp"]["notices"];
+;// CONCATENATED MODULE: external ["wp","url"]
+var external_wp_url_namespaceObject = window["wp"]["url"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-directory/build-module/store/load-assets.js
 /**
  * WordPress dependencies
@@ -473,8 +475,14 @@ function getPluginUrl(block) {
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-directory/build-module/store/actions.js
 /**
+ * External dependencies
+ */
+
+/**
  * WordPress dependencies
  */
+
+
 
 
 
@@ -531,7 +539,8 @@ const installBlockType = block => async _ref => {
     dispatch
   } = _ref;
   const {
-    id
+    id,
+    name
   } = block;
   let success = false;
   dispatch.clearErrorNotice(id);
@@ -567,11 +576,27 @@ const installBlockType = block => async _ref => {
       links: { ...block.links,
         ...links
       }
+    }); // Ensures that the block metadata is propagated to the editor when registered on the server.
+
+    const metadataFields = ['api_version', 'title', 'category', 'parent', 'icon', 'description', 'keywords', 'attributes', 'provides_context', 'uses_context', 'supports', 'styles', 'example', 'variations'];
+    await external_wp_apiFetch_default()({
+      path: (0,external_wp_url_namespaceObject.addQueryArgs)(`/wp/v2/block-types/${name}`, {
+        _fields: metadataFields
+      })
+    }) // Ignore when the block is not registered on the server.
+    .catch(() => {}).then(response => {
+      if (!response) {
+        return;
+      }
+
+      (0,external_wp_blocks_namespaceObject.unstable__bootstrapServerSideBlockDefinitions)({
+        [name]: (0,external_lodash_namespaceObject.pick)(response, metadataFields)
+      });
     });
     await loadAssets();
     const registeredBlocks = registry.select(external_wp_blocks_namespaceObject.store).getBlockTypes();
 
-    if (!registeredBlocks.some(i => i.name === block.name)) {
+    if (!registeredBlocks.some(i => i.name === name)) {
       throw new Error((0,external_wp_i18n_namespaceObject.__)('Error registering block. Try reloading the page.'));
     }
 
@@ -582,10 +607,10 @@ const installBlockType = block => async _ref => {
     });
     success = true;
   } catch (error) {
-    let message = error.message || (0,external_wp_i18n_namespaceObject.__)('An error occurred.'); // Errors we throw are fatal
+    let message = error.message || (0,external_wp_i18n_namespaceObject.__)('An error occurred.'); // Errors we throw are fatal.
 
 
-    let isFatal = error instanceof Error; // Specific API errors that are fatal
+    let isFatal = error instanceof Error; // Specific API errors that are fatal.
 
     const fatalAPIErrors = {
       folder_exists: (0,external_wp_i18n_namespaceObject.__)('This block is already installed. Try reloading the page.'),
@@ -781,8 +806,7 @@ const storeConfig = {
   reducer: reducer,
   selectors: selectors_namespaceObject,
   actions: actions_namespaceObject,
-  resolvers: resolvers_namespaceObject,
-  __experimentalUseThunks: true
+  resolvers: resolvers_namespaceObject
 };
 /**
  * Store definition for the block directory namespace.

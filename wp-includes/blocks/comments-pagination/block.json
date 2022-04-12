@@ -1,0 +1,42 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "core/comments-pagination",
+	"title": "Comments Pagination",
+	"category": "theme",
+	"parent": [ "core/comments-query-loop" ],
+	"description": "Displays a paginated navigation to next/previous set of comments, when applicable.",
+	"textdomain": "default",
+	"attributes": {
+		"paginationArrow": {
+			"type": "string",
+			"default": "none"
+		}
+	},
+	"providesContext": {
+		"comments/paginationArrow": "paginationArrow"
+	},
+	"supports": {
+		"align": true,
+		"reusable": false,
+		"html": false,
+		"color": {
+			"gradients": true,
+			"link": true,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true,
+				"link": true
+			}
+		},
+		"__experimentalLayout": {
+			"allowSwitching": false,
+			"allowInheriting": false,
+			"default": {
+				"type": "flex"
+			}
+		}
+	},
+	"editorStyle": "wp-block-comments-pagination-editor",
+	"style": "wp-block-comments-pagination"
+}

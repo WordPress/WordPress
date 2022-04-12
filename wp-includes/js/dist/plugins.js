@@ -315,6 +315,46 @@ const withPluginContext = mapContextToProps => (0,external_wp_compose_namespaceO
   return props => (0,external_wp_element_namespaceObject.createElement)(Consumer, null, context => (0,external_wp_element_namespaceObject.createElement)(OriginalComponent, _extends({}, props, mapContextToProps(context, props))));
 }, 'withPluginContext');
 
+;// CONCATENATED MODULE: ./node_modules/@wordpress/plugins/build-module/components/plugin-error-boundary/index.js
+/**
+ * WordPress dependencies
+ */
+
+class PluginErrorBoundary extends external_wp_element_namespaceObject.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      hasError: false
+    };
+  }
+
+  static getDerivedStateFromError() {
+    return {
+      hasError: true
+    };
+  }
+
+  componentDidCatch(error) {
+    const {
+      name,
+      onError
+    } = this.props;
+
+    if (onError) {
+      onError(name, error);
+    }
+  }
+
+  render() {
+    if (!this.state.hasError) {
+      return this.props.children;
+    }
+
+    return null;
+  }
+
+}
+
 ;// CONCATENATED MODULE: external ["wp","primitives"]
 var external_wp_primitives_namespaceObject = window["wp"]["primitives"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/plugins.js
@@ -578,6 +618,7 @@ function getPlugins(scope) {
 
 
 
+
 /**
  * A component that renders all plugin fills in a hidden div.
  *
@@ -669,7 +710,10 @@ class PluginArea extends external_wp_element_namespaceObject.Component {
       return (0,external_wp_element_namespaceObject.createElement)(Provider, {
         key: context.name,
         value: context
-      }, (0,external_wp_element_namespaceObject.createElement)(Plugin, null));
+      }, (0,external_wp_element_namespaceObject.createElement)(PluginErrorBoundary, {
+        name: context.name,
+        onError: this.props.onError
+      }, (0,external_wp_element_namespaceObject.createElement)(Plugin, null)));
     }));
   }
 

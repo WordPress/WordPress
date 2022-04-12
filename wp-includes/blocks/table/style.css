@@ -154,4 +154,5 @@
 .wp-block-table table[style*=border-width] th,
 .wp-block-table table[style*=border-width] td {
   border-width: inherit;
+  border-style: inherit;
 }

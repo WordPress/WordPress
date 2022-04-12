@@ -78,6 +78,9 @@
   display: inline-block;
   margin-left: 8px;
 }
+.wp-block-social-links.wp-block-social-links {
+  background: none;
+}
 
 .wp-social-link:hover {
   transform: none;

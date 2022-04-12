@@ -1,0 +1,48 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "core/comment-date",
+	"title": "Comment Date",
+	"category": "theme",
+	"ancestor": [ "core/comment-template" ],
+	"description": "Displays the date on which the comment was posted.",
+	"textdomain": "default",
+	"attributes": {
+		"format": {
+			"type": "string"
+		},
+		"isLink": {
+			"type": "boolean",
+			"default": true
+		},
+		"fontSize": {
+			"type": "string",
+			"default": "small"
+		}
+	},
+	"usesContext": [ "commentId" ],
+	"supports": {
+		"html": false,
+		"color": {
+			"gradients": true,
+			"link": true,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true,
+				"link": true
+			}
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalTextTransform": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true
+			}
+		}
+	}
+}

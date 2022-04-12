@@ -13,11 +13,17 @@
  * @return string Returns the tag cloud for selected taxonomy.
  */
 function render_block_core_tag_cloud( $attributes ) {
+	$smallest_font_size = $attributes['smallestFontSize'];
+	$unit               = ( preg_match( '/^[0-9.]+(?P<unit>[a-z%]+)$/i', $smallest_font_size, $m ) ? $m['unit'] : 'pt' );
+
 	$args      = array(
 		'echo'       => false,
+		'unit'       => $unit,
 		'taxonomy'   => $attributes['taxonomy'],
 		'show_count' => $attributes['showTagCounts'],
 		'number'     => $attributes['numberOfTags'],
+		'smallest'   => floatVal( $attributes['smallestFontSize'] ),
+		'largest'    => floatVal( $attributes['largestFontSize'] ),
 	);
 	$tag_cloud = wp_tag_cloud( $args );
 

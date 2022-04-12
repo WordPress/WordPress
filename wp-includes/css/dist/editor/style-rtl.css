@@ -266,16 +266,6 @@
   padding-left: 8px;
   height: 61px;
   border-bottom: 1px solid #ddd;
-  display: flex;
-  align-items: center;
-  align-content: space-between;
-}
-.entities-saved-states__panel .entities-saved-states__panel-header .editor-entities-saved-states__save-button {
-  margin: auto;
-}
-.entities-saved-states__panel .entities-saved-states__panel-header .components-button.has-icon {
-  position: absolute;
-  left: 8px;
 }
 .entities-saved-states__panel .entities-saved-states__text-prompt {
   padding: 16px;
@@ -405,31 +395,23 @@
   border-radius: 0;
 }
 
-.editor-post-locked-modal {
-  height: auto;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 10px;
-  max-width: 480px;
-}
-.editor-post-locked-modal .components-modal__header {
-  height: 36px;
+@media (min-width: 600px) {
+  .editor-post-locked-modal {
+    max-width: 480px;
+  }
 }
 .editor-post-locked-modal .components-modal__content {
-  height: auto;
+  display: flex;
 }
 
 .editor-post-locked-modal__buttons {
-  margin-top: 10px;
-}
-.editor-post-locked-modal__buttons .components-button {
-  margin-left: 5px;
+  margin-top: 24px;
 }
 
 .editor-post-locked-modal__avatar {
-  float: right;
-  margin: 5px;
-  margin-left: 15px;
+  border-radius: 2px;
+  margin-top: 16px;
+  margin-left: 24px;
 }
 
 .editor-post-publish-button__button.has-changes-dot::before {

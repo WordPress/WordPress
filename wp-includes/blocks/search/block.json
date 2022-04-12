@@ -1,4 +1,5 @@
 {
+	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 2,
 	"name": "core/search",
 	"title": "Search",
@@ -43,12 +44,22 @@
 		"align": [ "left", "center", "right" ],
 		"color": {
 			"gradients": true,
-			"__experimentalSkipSerialization": true
+			"__experimentalSkipSerialization": true,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true
+			}
 		},
 		"__experimentalBorder": {
 			"color": true,
 			"radius": true,
-			"__experimentalSkipSerialization": true
+			"width": true,
+			"__experimentalSkipSerialization": true,
+			"__experimentalDefaultControls": {
+				"color": true,
+				"radius": true,
+				"width": true
+			}
 		},
 		"html": false
 	},

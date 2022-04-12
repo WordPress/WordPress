@@ -1,8 +1,9 @@
 {
+	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 2,
 	"name": "core/query-pagination-previous",
 	"title": "Previous Page",
-	"category": "design",
+	"category": "theme",
 	"parent": [ "core/query-pagination" ],
 	"description": "Displays the previous posts page link.",
 	"textdomain": "default",
@@ -17,7 +18,10 @@
 		"html": false,
 		"color": {
 			"gradients": true,
-			"text": false
+			"text": false,
+			"__experimentalDefaultControls": {
+				"background": true
+			}
 		},
 		"typography": {
 			"fontSize": true,

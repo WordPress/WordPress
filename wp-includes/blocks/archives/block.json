@@ -1,9 +1,10 @@
 {
+	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 2,
 	"name": "core/archives",
 	"title": "Archives",
 	"category": "widgets",
-	"description": "Display a monthly archive of your posts.",
+	"description": "Display a date archive of your posts.",
 	"textdomain": "default",
 	"attributes": {
 		"displayAsDropdown": {
@@ -13,6 +14,10 @@
 		"showPostCounts": {
 			"type": "boolean",
 			"default": false
+		},
+		"type": {
+			"type": "string",
+			"default": "monthly"
 		}
 	},
 	"supports": {

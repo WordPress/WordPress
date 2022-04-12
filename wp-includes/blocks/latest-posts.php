@@ -60,6 +60,11 @@ function render_block_core_latest_posts( $attributes ) {
 
 	foreach ( $recent_posts as $post ) {
 		$post_link = esc_url( get_permalink( $post ) );
+		$title     = get_the_title( $post );
+
+		if ( ! $title ) {
+			$title = __( '(no title)' );
+		}
 
 		$list_items_markup .= '<li>';
 
@@ -81,30 +86,27 @@ function render_block_core_latest_posts( $attributes ) {
 				$post,
 				$attributes['featuredImageSizeSlug'],
 				array(
-					'style' => $image_style,
+					'style' => esc_attr( $image_style ),
 				)
 			);
 			if ( $attributes['addLinkToFeaturedImage'] ) {
 				$featured_image = sprintf(
-					'<a href="%1$s">%2$s</a>',
-					$post_link,
+					'<a href="%1$s" aria-label="%2$s">%3$s</a>',
+					esc_url( $post_link ),
+					esc_attr( $title ),
 					$featured_image
 				);
 			}
 			$list_items_markup .= sprintf(
 				'<div class="%1$s">%2$s</div>',
-				$image_classes,
+				esc_attr( $image_classes ),
 				$featured_image
 			);
 		}
 
-		$title = get_the_title( $post );
-		if ( ! $title ) {
-			$title = __( '(no title)' );
-		}
 		$list_items_markup .= sprintf(
-			'<a href="%1$s">%2$s</a>',
-			$post_link,
+			'<a class="wp-block-latest-posts__post-title" href="%1$s">%2$s</a>',
+			esc_url( $post_link ),
 			$title
 		);
 
@@ -117,7 +119,7 @@ function render_block_core_latest_posts( $attributes ) {
 			if ( ! empty( $author_display_name ) ) {
 				$list_items_markup .= sprintf(
 					'<div class="wp-block-latest-posts__post-author">%1$s</div>',
-					esc_html( $byline )
+					$byline
 				);
 			}
 		}
@@ -126,7 +128,7 @@ function render_block_core_latest_posts( $attributes ) {
 			$list_items_markup .= sprintf(
 				'<time datetime="%1$s" class="wp-block-latest-posts__post-date">%2$s</time>',
 				esc_attr( get_the_date( 'c', $post ) ),
-				esc_html( get_the_date( '', $post ) )
+				get_the_date( '', $post )
 			);
 		}
 
@@ -148,7 +150,7 @@ function render_block_core_latest_posts( $attributes ) {
 		if ( isset( $attributes['displayPostContent'] ) && $attributes['displayPostContent']
 			&& isset( $attributes['displayPostContentRadio'] ) && 'full_post' === $attributes['displayPostContentRadio'] ) {
 
-			$post_content = wp_kses_post( html_entity_decode( $post->post_content, ENT_QUOTES, get_option( 'blog_charset' ) ) );
+			$post_content = html_entity_decode( $post->post_content, ENT_QUOTES, get_option( 'blog_charset' ) );
 
 			if ( post_password_required( $post ) ) {
 				$post_content = __( 'This content is password protected.' );
@@ -156,7 +158,7 @@ function render_block_core_latest_posts( $attributes ) {
 
 			$list_items_markup .= sprintf(
 				'<div class="wp-block-latest-posts__post-full-content">%1$s</div>',
-				$post_content
+				wp_kses_post( $post_content )
 			);
 		}
 

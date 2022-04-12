@@ -748,7 +748,8 @@ function DotTip(_ref) {
 
 external_wp_deprecated_default()('wp.nux', {
   since: '5.4',
-  hint: 'wp.components.Guide can be used to show a user guide.'
+  hint: 'wp.components.Guide can be used to show a user guide.',
+  version: '6.2'
 });
 
 (window.wp = window.wp || {}).nux = __webpack_exports__;

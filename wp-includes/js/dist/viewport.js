@@ -203,7 +203,7 @@ const addDimensionsEventListener = (breakpoints, operators) => {
     });
     return result;
   }, {});
-  window.addEventListener('orientationchange', setIsMatching); // Set initial values
+  window.addEventListener('orientationchange', setIsMatching); // Set initial values.
 
   setIsMatching();
   setIsMatching.flush();

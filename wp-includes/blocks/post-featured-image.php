@@ -19,7 +19,9 @@ function render_block_core_post_featured_image( $attributes, $content, $block ) 
 	}
 	$post_ID = $block->context['postId'];
 
-	$featured_image = get_the_post_thumbnail( $post_ID );
+	$size_slug      = isset( $attributes['sizeSlug'] ) ? $attributes['sizeSlug'] : 'post-thumbnail';
+	$post_title     = trim( strip_tags( get_the_title( $post_ID ) ) );
+	$featured_image = get_the_post_thumbnail( $post_ID, $size_slug, array( 'alt' => $post_title ) );
 	if ( ! $featured_image ) {
 		return '';
 	}
@@ -43,7 +45,7 @@ function render_block_core_post_featured_image( $attributes, $content, $block ) 
 		if ( ! empty( $attributes['scale'] ) ) {
 			$image_styles .= "object-fit:{$attributes['scale']};";
 		}
-		$featured_image = str_replace( 'src=', "style='$image_styles' src=", $featured_image );
+		$featured_image = str_replace( 'src=', 'style="' . esc_attr( $image_styles ) . '" src=', $featured_image );
 	}
 
 	return "<figure $wrapper_attributes>$featured_image</figure>";

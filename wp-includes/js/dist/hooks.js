@@ -268,7 +268,7 @@ function createRemoveHook(hooks, storeKey) {
 
     if (!removeAll && !build_module_validateNamespace(namespace)) {
       return;
-    } // Bail if no hooks exist by this name
+    } // Bail if no hooks exist by this name.
 
 
     if (!hooksStore[hookName]) {

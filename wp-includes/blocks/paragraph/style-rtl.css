@@ -100,10 +100,6 @@
   font-style: normal;
 }
 
-p {
-  overflow-wrap: break-word;
-}
-
 p.has-drop-cap.has-background {
   overflow: hidden;
 }

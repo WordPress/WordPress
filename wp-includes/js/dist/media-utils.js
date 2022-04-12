@@ -227,8 +227,8 @@ const getGalleryDetailsMediaFrame = () => {
       }), new wp.media.controller.GalleryAdd()]);
     }
   });
-}; // the media library image object contains numerous attributes
-// we only need this set to display the image in the library
+}; // The media library image object contains numerous attributes
+// we only need this set to display the image in the library.
 
 
 const slimImageObject = img => {
@@ -402,7 +402,7 @@ class MediaUpload extends external_wp_element_namespaceObject.Component {
     const {
       onSelect,
       multiple = false
-    } = this.props; // Get media attachment details from the frame state
+    } = this.props; // Get media attachment details from the frame state.
 
     const attachment = this.frame.state().get('selection').toJSON();
     onSelect(multiple ? attachment : attachment[0]);
@@ -455,11 +455,11 @@ class MediaUpload extends external_wp_element_namespaceObject.Component {
     const frameContent = this.frame.content.get();
 
     if (frameContent && frameContent.collection) {
-      const collection = frameContent.collection; // clean all attachments we have in memory.
+      const collection = frameContent.collection; // Clean all attachments we have in memory.
 
-      collection.toArray().forEach(model => model.trigger('destroy', model)); // reset has more flag, if library had small amount of items all items may have been loaded before.
+      collection.toArray().forEach(model => model.trigger('destroy', model)); // Reset has more flag, if library had small amount of items all items may have been loaded before.
 
-      collection.mirroring._hasMore = true; // request items
+      collection.mirroring._hasMore = true; // Request items.
 
       collection.more();
     }
@@ -556,7 +556,7 @@ async function uploadMedia(_ref) {
     onFileChange,
     wpAllowedMimeTypes = null
   } = _ref;
-  // Cast filesList to array
+  // Cast filesList to array.
   const files = [...filesList];
   const filesSet = [];
 
@@ -564,7 +564,7 @@ async function uploadMedia(_ref) {
     (0,external_wp_blob_namespaceObject.revokeBlobURL)((0,external_lodash_namespaceObject.get)(filesSet, [idx, 'url']));
     filesSet[idx] = value;
     onFileChange((0,external_lodash_namespaceObject.compact)(filesSet));
-  }; // Allowed type specified by consumer
+  }; // Allowed type specified by consumer.
 
 
   const isAllowedType = fileType => {
@@ -581,14 +581,14 @@ async function uploadMedia(_ref) {
 
       return (0,external_lodash_namespaceObject.startsWith)(fileType, `${allowedType}/`);
     });
-  }; // Allowed types for the current WP_User
+  }; // Allowed types for the current WP_User.
 
 
   const allowedMimeTypesForUser = getMimeTypesArray(wpAllowedMimeTypes);
 
   const isAllowedMimeTypeForUser = fileType => {
     return (0,external_lodash_namespaceObject.includes)(allowedMimeTypesForUser, fileType);
-  }; // Build the error message including the filename
+  }; // Build the error message including the filename.
 
 
   const triggerError = error => {
@@ -621,7 +621,7 @@ async function uploadMedia(_ref) {
         file: mediaFile
       });
       continue;
-    } // verify if file is greater than the maximum file upload size allowed for the site.
+    } // Verify if file is greater than the maximum file upload size allowed for the site.
 
 
     if (maxUploadFileSize && mediaFile.size > maxUploadFileSize) {
@@ -644,7 +644,7 @@ async function uploadMedia(_ref) {
     }
 
     validFiles.push(mediaFile); // Set temporary URL to create placeholder media file, this is replaced
-    // with final file from media gallery when upload is `done` below
+    // with final file from media gallery when upload is `done` below.
 
     filesSet.push({
       url: (0,external_wp_blob_namespaceObject.createBlobURL)(mediaFile)
@@ -692,7 +692,7 @@ async function uploadMedia(_ref) {
  */
 
 function createMediaFromFile(file, additionalData) {
-  // Create upload payload
+  // Create upload payload.
   const data = new window.FormData();
   data.append('file', file, file.name || file.type.replace('/', '.'));
   (0,external_lodash_namespaceObject.forEach)(additionalData, (value, key) => data.append(key, value));

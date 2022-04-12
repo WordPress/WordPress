@@ -1117,18 +1117,12 @@ function NotEmpty(_ref3) {
     isWide = false
   } = _ref3;
   const [hasPreview, setHasPreview] = (0,external_wp_element_namespaceObject.useState)(null);
+  const widgetTypeId = id !== null && id !== void 0 ? id : idBase;
   const {
-    widgetType,
-    hasResolvedWidgetType,
-    isNavigationMode
-  } = (0,external_wp_data_namespaceObject.useSelect)(select => {
-    const widgetTypeId = id !== null && id !== void 0 ? id : idBase;
-    return {
-      widgetType: select(external_wp_coreData_namespaceObject.store).getWidgetType(widgetTypeId),
-      hasResolvedWidgetType: select(external_wp_coreData_namespaceObject.store).hasFinishedResolution('getWidgetType', [widgetTypeId]),
-      isNavigationMode: select(external_wp_blockEditor_namespaceObject.store).isNavigationMode()
-    };
-  }, [id, idBase]);
+    record: widgetType,
+    hasResolved: hasResolvedWidgetType
+  } = (0,external_wp_coreData_namespaceObject.__experimentalUseEntityRecord)('root', 'widgetType', widgetTypeId);
+  const isNavigationMode = (0,external_wp_data_namespaceObject.useSelect)(select => select(external_wp_blockEditor_namespaceObject.store).isNavigationMode(), []);
   const setInstance = (0,external_wp_element_namespaceObject.useCallback)(nextInstance => {
     setAttributes({
       instance: nextInstance
@@ -1545,8 +1539,44 @@ function save(_ref) {
     tagName: "h2",
     className: "widget-title",
     value: attributes.title
-  }), (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.InnerBlocks.Content, null));
+  }), (0,external_wp_element_namespaceObject.createElement)("div", {
+    className: "wp-widget-group__inner-blocks"
+  }, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.InnerBlocks.Content, null)));
 }
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/widgets/build-module/blocks/widget-group/deprecated.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+const v1 = {
+  attributes: {
+    title: {
+      type: 'string'
+    }
+  },
+  supports: {
+    html: false,
+    inserter: true,
+    customClassName: true,
+    reusable: false
+  },
+
+  save(_ref) {
+    let {
+      attributes
+    } = _ref;
+    return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.RichText.Content, {
+      tagName: "h2",
+      className: "widget-title",
+      value: attributes.title
+    }), (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.InnerBlocks.Content, null));
+  }
+
+};
+/* harmony default export */ var deprecated = ([v1]);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/widgets/build-module/blocks/widget-group/index.js
 /**
@@ -1577,6 +1607,7 @@ const widget_group_metadata = {
   editorStyle: "wp-block-widget-group-editor",
   style: "wp-block-widget-group"
 };
+
 
 
 const {
@@ -1624,7 +1655,8 @@ const widget_group_settings = {
       }
 
     }]
-  }
+  },
+  deprecated: deprecated
 };
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/move-to.js

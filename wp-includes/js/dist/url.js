@@ -455,9 +455,10 @@ function setPath(object, path, value) {
       // If key is empty string and next value is array, derive key from
       // the current length of the array.
       key = object.length.toString();
-    } // If the next key in the path is numeric (or empty string), it will be
-    // created as an array. Otherwise, it will be created as an object.
+    }
 
+    key = ['__proto__', 'constructor', 'prototype'].includes(key) ? key.toUpperCase() : key; // If the next key in the path is numeric (or empty string), it will be
+    // created as an array. Otherwise, it will be created as an object.
 
     const isNextKeyArrayIndex = !isNaN(Number(path[i + 1]));
     object[key] = i === lastIndex ? // If at end of path, assign the intended value.
@@ -508,7 +509,7 @@ function getQueryArgs(url) {
     }
 
     return accumulator;
-  }, {});
+  }, Object.create(null));
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/add-query-args.js
@@ -797,7 +798,7 @@ function cleanForSlug(string) {
     return '';
   }
 
-  return (0,external_lodash_namespaceObject.trim)((0,external_lodash_namespaceObject.deburr)(string).replace(/[\s\./]+/g, '-').replace(/[^\w-]+/g, '').toLowerCase(), '-');
+  return (0,external_lodash_namespaceObject.trim)((0,external_lodash_namespaceObject.deburr)(string).replace(/[\s\./]+/g, '-').replace(/[^\p{L}\p{N}_-]+/gu, '').toLowerCase(), '-');
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/url/build-module/get-filename.js
@@ -843,14 +844,16 @@ function normalizePath(path) {
 
   if (!query) {
     return base;
-  } // 'b=1&c=2&a=5'
+  } // 'b=1%2C2&c=2&a=5'
 
 
-  return base + '?' + query // [ 'b=1', 'c=2', 'a=5' ]
-  .split('&') // [ [ 'b, '1' ], [ 'c', '2' ], [ 'a', '5' ] ]
-  .map(entry => entry.split('=')) // [ [ 'a', '5' ], [ 'b, '1' ], [ 'c', '2' ] ]
-  .sort((a, b) => a[0].localeCompare(b[0])) // [ 'a=5', 'b=1', 'c=2' ]
-  .map(pair => pair.join('=')) // 'a=5&b=1&c=2'
+  return base + '?' + query // [ 'b=1%2C2', 'c=2', 'a=5' ]
+  .split('&') // [ [ 'b, '1%2C2' ], [ 'c', '2' ], [ 'a', '5' ] ]
+  .map(entry => entry.split('=')) // [ [ 'b', '1,2' ], [ 'c', '2' ], [ 'a', '5' ] ]
+  .map(pair => pair.map(decodeURIComponent)) // [ [ 'a', '5' ], [ 'b, '1,2' ], [ 'c', '2' ] ]
+  .sort((a, b) => a[0].localeCompare(b[0])) // [ [ 'a', '5' ], [ 'b, '1%2C2' ], [ 'c', '2' ] ]
+  .map(pair => pair.map(encodeURIComponent)) // [ 'a=5', 'b=1%2C2', 'c=2' ]
+  .map(pair => pair.join('=')) // 'a=5&b=1%2C2&c=2'
   .join('&');
 }
 

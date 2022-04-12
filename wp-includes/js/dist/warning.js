@@ -83,7 +83,7 @@ function warning(message) {
 
   try {
     throw Error(message);
-  } catch (x) {// do nothing
+  } catch (x) {// Do nothing.
   }
 
   logged.add(message);

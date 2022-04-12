@@ -1,0 +1,20 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "core/query-no-results",
+	"title": "No results",
+	"category": "theme",
+	"description": "Contains the block elements used to render content when no query results are found.",
+	"parent": [ "core/query" ],
+	"textdomain": "default",
+	"usesContext": [ "queryId", "query" ],
+	"supports": {
+		"align": true,
+		"reusable": false,
+		"html": false,
+		"color": {
+			"gradients": true,
+			"link": true
+		}
+	}
+}

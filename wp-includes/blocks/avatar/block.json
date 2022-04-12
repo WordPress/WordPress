@@ -1,0 +1,53 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "core/avatar",
+	"title": "Avatar",
+	"category": "theme",
+	"description": "Add a user's avatar.",
+	"textdomain": "default",
+	"attributes": {
+		"userId": {
+			"type": "number"
+		},
+		"size": {
+			"type": "number",
+			"default": 96
+		},
+		"isLink": {
+			"type": "boolean",
+			"default": false
+		},
+		"linkTarget": {
+			"type": "string",
+			"default": "_self"
+		}
+
+	},
+	"usesContext": [ "postType", "postId", "commentId" ],
+	"supports": {
+		"html": false,
+		"align": true,
+		"alignWide": false,
+		"spacing": {
+			"margin": true
+		},
+		"__experimentalBorder": {
+			"__experimentalSkipSerialization": true,
+			"radius": true,
+			"width": true,
+			"color": true,
+			"style": true,
+			"__experimentalDefaultControls": {
+				"radius": true
+			}
+		},
+		"color": {
+			"text": false,
+			"background": false,
+			"__experimentalDuotone": "img"
+		}
+	},
+	"editorStyle": "wp-block-avatar",
+	"style": "wp-block-avatar"
+}

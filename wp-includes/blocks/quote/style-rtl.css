@@ -75,20 +75,21 @@
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
 .wp-block-quote {
+  box-sizing: border-box;
   overflow-wrap: break-word;
 }
-.wp-block-quote.is-style-large, .wp-block-quote.is-large {
+.wp-block-quote.is-style-large:not(.is-style-plain), .wp-block-quote.is-large:not(.is-style-plain) {
   margin-bottom: 1em;
   padding: 0 1em;
 }
-.wp-block-quote.is-style-large p, .wp-block-quote.is-large p {
+.wp-block-quote.is-style-large:not(.is-style-plain) p, .wp-block-quote.is-large:not(.is-style-plain) p {
   font-size: 1.5em;
   font-style: italic;
   line-height: 1.6;
 }
-.wp-block-quote.is-style-large cite,
-.wp-block-quote.is-style-large footer, .wp-block-quote.is-large cite,
-.wp-block-quote.is-large footer {
+.wp-block-quote.is-style-large:not(.is-style-plain) cite,
+.wp-block-quote.is-style-large:not(.is-style-plain) footer, .wp-block-quote.is-large:not(.is-style-plain) cite,
+.wp-block-quote.is-large:not(.is-style-plain) footer {
   font-size: 1.125em;
   text-align: left;
 }

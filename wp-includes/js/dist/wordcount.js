@@ -88,7 +88,7 @@ const defaultSettings = {
   HTMLcommentRegExp: /<!--[\s\S]*?-->/g,
   spaceRegExp: /&nbsp;|&#160;/gi,
   HTMLEntityRegExp: /&\S+?;/g,
-  // \u2014 = em-dash
+  // \u2014 = em-dash.
   connectorRegExp: /--|\u2014/g,
   // Characters to be removed from input text.
   removeRegExp: new RegExp(['[', // Basic Latin (extract)
@@ -121,7 +121,7 @@ const defaultSettings = {
    * Supplemental Mathematical Operators
    * Miscellaneous Symbols and Arrows
    */
-  '\u2000-\u2BFF', // Supplemental Punctuation
+  '\u2000-\u2BFF', // Supplemental Punctuation.
   '\u2E00-\u2E7F', ']'].join(''), 'g'),
   // Remove UTF-16 surrogate points, see https://en.wikipedia.org/wiki/UTF-16#U.2BD800_to_U.2BDFFF
   astralRegExp: /[\uD800-\uDBFF][\uDC00-\uDFFF]/g,

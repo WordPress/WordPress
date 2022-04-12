@@ -1,0 +1,15 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "core/comments-pagination-numbers",
+	"title": "Page Numbers",
+	"category": "theme",
+	"parent": [ "core/comments-pagination" ],
+	"description": "Displays a list of page numbers for comments pagination.",
+	"textdomain": "default",
+	"usesContext": [ "postId" ],
+	"supports": {
+		"reusable": false,
+		"html": false
+	}
+}

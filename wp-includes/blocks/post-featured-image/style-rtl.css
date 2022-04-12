@@ -79,7 +79,7 @@
   margin-left: 0;
 }
 .wp-block-post-featured-image a {
-  display: inline-block;
+  display: block;
 }
 .wp-block-post-featured-image img {
   max-width: 100%;

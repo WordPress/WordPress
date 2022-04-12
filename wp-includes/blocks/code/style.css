@@ -76,6 +76,7 @@
  */
 .wp-block-code code {
   display: block;
-  white-space: pre-wrap;
+  font-family: inherit;
   overflow-wrap: break-word;
+  white-space: pre-wrap;
 }

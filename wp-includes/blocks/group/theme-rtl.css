@@ -74,6 +74,6 @@
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
-.wp-block-group:where(.has-background) {
+:where(.wp-block-group.has-background) {
   padding: 1.25em 2.375em;
 }

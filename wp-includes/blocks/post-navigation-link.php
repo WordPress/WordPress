@@ -18,7 +18,7 @@ function render_block_core_post_navigation_link( $attributes, $content ) {
 		return '';
 	}
 
-	// Get the nagigation type to show the proper link. Available options are `next|previous`.
+	// Get the navigation type to show the proper link. Available options are `next|previous`.
 	$navigation_type = isset( $attributes['type'] ) ? $attributes['type'] : 'next';
 	// Allow only `next` and `previous` in `$navigation_type`.
 	if ( ! in_array( $navigation_type, array( 'next', 'previous' ), true ) ) {
@@ -49,13 +49,13 @@ function render_block_core_post_navigation_link( $attributes, $content ) {
 		 */
 		if ( ! $attributes['linkLabel'] ) {
 			if ( $label ) {
-				$format = '<span class="post-navigation-link__label">' . $label . '</span> %link';
+				$format = '<span class="post-navigation-link__label">' . wp_kses_post( $label ) . '</span> %link';
 			}
 			$link = '%title';
 		} elseif ( isset( $attributes['linkLabel'] ) && $attributes['linkLabel'] ) {
 			// If the label link option is enabled and there is a custom label, display it before the title.
 			if ( $label ) {
-				$link = '<span class="post-navigation-link__label">' . $label . '</span> <span class="post-navigation-link__title">%title</title>';
+				$link = '<span class="post-navigation-link__label">' . wp_kses_post( $label ) . '</span> <span class="post-navigation-link__title">%title</span>';
 			} else {
 				/*
 				 * If the label link option is enabled and there is no custom label,
@@ -64,7 +64,7 @@ function render_block_core_post_navigation_link( $attributes, $content ) {
 				$label = 'next' === $navigation_type ? _x( 'Next:', 'label before the title of the next post' ) : _x( 'Previous:', 'label before the title of the previous post' );
 				$link  = sprintf(
 					'<span class="post-navigation-link__label">%1$s</span> <span class="post-navigation-link__title">%2$s</span>',
-					$label,
+					wp_kses_post( $label ),
 					'%title'
 				);
 			}

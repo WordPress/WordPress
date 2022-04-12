@@ -1,1 +1,1 @@
-ol,ul{overflow-wrap:break-word}ol.has-background,ul.has-background{padding:1.25em 2.375em}
+ol,ul{box-sizing:border-box}ol.has-background,ul.has-background{padding:1.25em 2.375em}

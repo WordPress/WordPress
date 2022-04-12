@@ -78,3 +78,6 @@
   word-break: normal;
   overflow-wrap: break-word;
 }
+.wp-block-navigation .wp-block-navigation-item__description {
+  display: none;
+}

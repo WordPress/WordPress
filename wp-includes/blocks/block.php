@@ -42,9 +42,14 @@ function render_block_core_block( $attributes ) {
 
 	$seen_refs[ $attributes['ref'] ] = true;
 
-	$result = do_blocks( $reusable_block->post_content );
+	// Handle embeds for reusable blocks.
+	global $wp_embed;
+	$content = $wp_embed->run_shortcode( $reusable_block->post_content );
+	$content = $wp_embed->autoembed( $content );
+
+	$content = do_blocks( $content );
 	unset( $seen_refs[ $attributes['ref'] ] );
-	return $result;
+	return $content;
 }
 
 /**
