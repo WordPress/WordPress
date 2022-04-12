@@ -1269,6 +1269,25 @@ audio, video {
 	.copy-to-clipboard-container .success {
 		font-size: 14px;
 	}
+
+	/* Restructure image editor on narrow viewports. */
+	.imgedit-crop-wrap img{
+		width: 100%;
+	}
+
+	.media-modal .imgedit-wrap .imgedit-panel-content,
+	.media-modal .imgedit-wrap .imgedit-settings {
+		position: initial !important;
+	}
+
+	.media-modal .imgedit-wrap .imgedit-settings {
+		box-sizing: border-box;
+		width: 100% !important;
+	}
+
+	.imgedit-settings .imgedit-scale-button-wrapper {
+		display: inline-block;
+	}
 }
 
 @media only screen and (max-width: 600px) {
