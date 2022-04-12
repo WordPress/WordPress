@@ -630,6 +630,7 @@ add_filter( 'nav_menu_item_id', '_nav_menu_item_id_use_once', 10, 2 );
 // Widgets.
 add_action( 'after_setup_theme', 'wp_setup_widgets_block_editor', 1 );
 add_action( 'init', 'wp_widgets_init', 1 );
+add_action( 'change_locale', array( 'WP_Widget_Media', 'reset_default_labels' ) );
 
 // Admin Bar.
 // Don't remove. Wrong way to disable.
