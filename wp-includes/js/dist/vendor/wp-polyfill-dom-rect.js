@@ -4,7 +4,7 @@
 	function number(v) {
 		return v === undefined ? 0 : Number(v);
 	}
-	
+
 	function different(u, v) {
 		return u !== v && !(isNaN(u) && isNaN(v));
 	}
@@ -96,6 +96,6 @@
 			}
 		});
 	}
-	
+
 	global.DOMRect = DOMRect;
 }(self));
