@@ -43,7 +43,15 @@ function wp_image_editor( $post_id, $msg = false ) {
 			$note = "<div class='notice notice-success' tabindex='-1' role='alert'><p>$msg->msg</p></div>";
 		}
 	}
-
+	$edit_custom_sizes = false;
+	/**
+	 * Filters whether custom sizes are available options for image editing.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param bool|array $edit_custom_sizes True if custom sizes can be edited or array of custom sizes.
+	 */
+	$edit_custom_sizes = apply_filters( 'edit_custom_thumbnail_sizes', $edit_custom_sizes );
 	?>
 	<div class="imgedit-wrap wp-clearfix">
 	<div id="imgedit-panel-<?php echo $post_id; ?>">
@@ -239,6 +247,26 @@ function wp_image_editor( $post_id, $msg = false ) {
 			<input type="radio" id="imgedit-target-nothumb" name="imgedit-target-<?php echo $post_id; ?>" value="nothumb" />
 			<label for="imgedit-target-nothumb"><?php _e( 'All sizes except thumbnail' ); ?></label>
 		</span>
+		<?php
+		if ( $edit_custom_sizes ) {
+			if ( ! is_array( $edit_custom_sizes ) ) {
+				$edit_custom_sizes = get_intermediate_image_sizes();
+			}
+			foreach ( array_unique( $edit_custom_sizes ) as $key => $size ) {
+				if ( array_key_exists( $size, $meta['sizes'] ) ) {
+					if ( 'thumbnail' === $size ) {
+						continue;
+					}
+					?>
+					<span class="imgedit-label">
+						<input type="radio" id="imgedit-target-custom<?php echo esc_attr( $key ); ?>" name="imgedit-target-<?php echo $post_id; ?>" value="<?php echo esc_attr( $size ); ?>" />
+						<label for="imgedit-target-custom<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $size ); ?></label>
+					</span>
+					<?php
+				}
+			}
+		}
+		?>
 	</fieldset>
 	</div>
 	</div>
@@ -905,10 +933,14 @@ function wp_save_image( $post_id ) {
 		$meta['width']  = $size['width'];
 		$meta['height'] = $size['height'];
 
-		if ( $success && ( 'nothumb' === $target || 'all' === $target ) ) {
+		if ( $success ) {
 			$sizes = get_intermediate_image_sizes();
-			if ( 'nothumb' === $target ) {
-				$sizes = array_diff( $sizes, array( 'thumbnail' ) );
+			if ( 'nothumb' === $target || 'all' === $target ) {
+				if ( 'nothumb' === $target ) {
+					$sizes = array_diff( $sizes, array( 'thumbnail' ) );
+				}
+			} elseif ( 'thumbnail' !== $target ) {
+				$sizes = array_diff( $sizes, array( $target ) );
 			}
 		}
 
@@ -919,6 +951,11 @@ function wp_save_image( $post_id ) {
 		$success = true;
 		$delete  = true;
 		$nocrop  = true;
+	} else {
+		$sizes   = array( $target );
+		$success = true;
+		$delete  = true;
+		$nocrop  = $_wp_additional_image_sizes[ $size ]['crop'];
 	}
 
 	/*
