@@ -190,7 +190,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 	</p>
 	<p>
 		<?php _e( 'After your Privacy Policy page is set, you should edit it.' ); ?>
-		<?php _e( 'It is also suggested that you should review your Privacy Policy from time to time, especially after installing or updating any themes or plugins. There may be changes or new suggested information for you to consider adding to your policy.' ); ?>
+		<?php _e( 'You should also review your Privacy Policy from time to time, especially after installing or updating any themes or plugins. There may be changes or new suggested information for you to consider adding to your policy.' ); ?>
 	</p>
 	<p>
 		<?php
