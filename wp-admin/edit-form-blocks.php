@@ -202,8 +202,6 @@ $editor_settings = array(
 		'ajaxUrl'     => admin_url( 'admin-ajax.php' ),
 	),
 	'supportsLayout'                       => WP_Theme_JSON_Resolver::theme_has_support(),
-	'__experimentalBlockPatterns'          => WP_Block_Patterns_Registry::get_instance()->get_all_registered(),
-	'__experimentalBlockPatternCategories' => WP_Block_Pattern_Categories_Registry::get_instance()->get_all_registered(),
 	'supportsTemplateMode'                 => current_theme_supports( 'block-templates' ),
 
 	// Whether or not to load the 'postcustom' meta box is stored as a user meta
