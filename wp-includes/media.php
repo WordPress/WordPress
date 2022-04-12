@@ -1857,6 +1857,12 @@ function wp_filter_content_tags( $content, $context = null ) {
 			if ( $filtered_image !== $match[0] ) {
 				$content = str_replace( $match[0], $filtered_image, $content );
 			}
+
+			/*
+			 * Unset image lookup to not run the same logic again unnecessarily if the same image tag is used more than
+			 * once in the same blob of content.
+			 */
+			unset( $images[ $match[0] ] );
 		}
 
 		// Filter an iframe match.
@@ -1871,6 +1877,12 @@ function wp_filter_content_tags( $content, $context = null ) {
 			if ( $filtered_iframe !== $match[0] ) {
 				$content = str_replace( $match[0], $filtered_iframe, $content );
 			}
+
+			/*
+			 * Unset iframe lookup to not run the same logic again unnecessarily if the same iframe tag is used more
+			 * than once in the same blob of content.
+			 */
+			unset( $iframes[ $match[0] ] );
 		}
 	}
 
