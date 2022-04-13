@@ -732,7 +732,7 @@ function wp_default_scripts( $scripts ) {
 
 	$scripts->add( 'editor', "/wp-admin/js/editor$suffix.js", array( 'utils', 'jquery' ), false, 1 );
 
-	$scripts->add( 'clipboard', "/wp-includes/js/clipboard$suffix.js", array(), false, 1 );
+	$scripts->add( 'clipboard', "/wp-includes/js/clipboard$suffix.js", array(), '2.0.10', 1 );
 
 	$scripts->add( 'wp-ajax-response', "/wp-includes/js/wp-ajax-response$suffix.js", array( 'jquery', 'wp-a11y' ), false, 1 );
 	did_action( 'init' ) && $scripts->localize(
