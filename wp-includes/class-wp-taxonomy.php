@@ -320,7 +320,12 @@ final class WP_Taxonomy {
 		/**
 		 * Filters the arguments for registering a specific taxonomy.
 		 *
-		 * The dynamic portion of the filter name, `$this->name`, refers to the taxonomy key.
+		 * The dynamic portion of the filter name, `$taxonomy`, refers to the taxonomy key.
+		 *
+		 * Possible hook names include:
+		 *
+		 *  - `register_category_taxonomy_args`
+		 *  - `register_post_tag_taxonomy_args`
 		 *
 		 * @since 6.0.0
 		 *

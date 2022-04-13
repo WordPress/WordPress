@@ -534,6 +534,11 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 	 *
 	 * The dynamic portion of the filter name, `$taxonomy`, refers to the taxonomy key.
 	 *
+	 * Possible hook names include:
+	 *
+	 *  - `registered_taxonomy_category`
+	 *  - `registered_taxonomy_post_tag`
+	 *
 	 * @since 6.0.0
 	 *
 	 * @param string       $taxonomy    Taxonomy slug.
