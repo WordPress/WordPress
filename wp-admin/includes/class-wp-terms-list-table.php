@@ -262,10 +262,10 @@ class WP_Terms_List_Table extends WP_List_Table {
 	 * @param int    $start
 	 * @param int    $per_page
 	 * @param int    $count
-	 * @param int    $parent
+	 * @param int    $parent_term
 	 * @param int    $level
 	 */
-	private function _rows( $taxonomy, $terms, &$children, $start, $per_page, &$count, $parent = 0, $level = 0 ) {
+	private function _rows( $taxonomy, $terms, &$children, $start, $per_page, &$count, $parent_term = 0, $level = 0 ) {
 
 		$end = $start + $per_page;
 
@@ -275,7 +275,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 				break;
 			}
 
-			if ( $term->parent !== $parent && empty( $_REQUEST['s'] ) ) {
+			if ( $term->parent !== $parent_term && empty( $_REQUEST['s'] ) ) {
 				continue;
 			}
 
