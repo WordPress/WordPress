@@ -160,13 +160,13 @@ class WP_REST_Block_Patterns_Controller extends WP_REST_Controller {
 					'readonly'    => true,
 					'context'     => array( 'view', 'edit', 'embed' ),
 				),
-				'viewport_Width' => array(
+				'viewport_width' => array(
 					'description' => __( 'The pattern viewport width for inserter preview.' ),
 					'type'        => 'number',
 					'readonly'    => true,
 					'context'     => array( 'view', 'edit', 'embed' ),
 				),
-				'block_Types'    => array(
+				'block_types'    => array(
 					'description' => __( 'Block types that the pattern is intended to be used with.' ),
 					'type'        => 'array',
 					'readonly'    => true,
