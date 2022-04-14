@@ -123,7 +123,7 @@ class WP_Theme_JSON_Resolver {
 	}
 
 	/**
-	 * Return core's origin config.
+	 * Returns core's origin config.
 	 *
 	 * @since 5.8.0
 	 *
@@ -409,7 +409,7 @@ class WP_Theme_JSON_Resolver {
 	}
 
 	/**
-	 * Whether the active theme has a theme.json file.
+	 * Determines whether the active theme has a theme.json file.
 	 *
 	 * @since 5.8.0
 	 * @since 5.9.0 Added a check in the parent theme.
