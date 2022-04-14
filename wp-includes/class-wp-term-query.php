@@ -692,7 +692,7 @@ class WP_Term_Query {
 
 		$where = implode( ' AND ', $this->sql_clauses['where'] );
 
-		$clauses = compact( 'fields', 'join', 'where', 'distinct', 'orderby', 'order', 'limits' );
+		$clauses = array( 'fields', 'join', 'where', 'distinct', 'orderby', 'order', 'limits' );
 
 		/**
 		 * Filters the terms query SQL clauses.
@@ -703,7 +703,7 @@ class WP_Term_Query {
 		 * @param string[] $taxonomies An array of taxonomy names.
 		 * @param array    $args       An array of term query arguments.
 		 */
-		$clauses = apply_filters( 'terms_clauses', $clauses, $taxonomies, $args );
+		$clauses = apply_filters( 'terms_clauses', compact( $clauses ), $taxonomies, $args );
 
 		$fields   = isset( $clauses['fields'] ) ? $clauses['fields'] : '';
 		$join     = isset( $clauses['join'] ) ? $clauses['join'] : '';

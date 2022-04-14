@@ -2753,7 +2753,7 @@ class WP_Query {
 			}
 		}
 
-		$clauses = compact( 'where', 'groupby', 'join', 'orderby', 'distinct', 'fields', 'limits' );
+		$clauses = array( 'where', 'groupby', 'join', 'orderby', 'distinct', 'fields', 'limits' );
 
 		/*
 		 * Apply post-paging filters on where and join. Only plugins that
@@ -2855,7 +2855,7 @@ class WP_Query {
 			 * }
 			 * @param WP_Query $query   The WP_Query instance (passed by reference).
 			 */
-			$clauses = (array) apply_filters_ref_array( 'posts_clauses', array( $clauses, &$this ) );
+			$clauses = (array) apply_filters_ref_array( 'posts_clauses', array( compact( $clauses ), &$this ) );
 
 			$where    = isset( $clauses['where'] ) ? $clauses['where'] : '';
 			$groupby  = isset( $clauses['groupby'] ) ? $clauses['groupby'] : '';

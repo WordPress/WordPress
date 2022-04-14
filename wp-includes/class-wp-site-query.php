@@ -646,7 +646,7 @@ class WP_Site_Query {
 
 		$where = implode( ' AND ', $this->sql_clauses['where'] );
 
-		$clauses = compact( 'fields', 'join', 'where', 'orderby', 'limits', 'groupby' );
+		$clauses = array( 'fields', 'join', 'where', 'orderby', 'limits', 'groupby' );
 
 		/**
 		 * Filters the site query clauses.
@@ -656,7 +656,7 @@ class WP_Site_Query {
 		 * @param string[]      $clauses An associative array of site query clauses.
 		 * @param WP_Site_Query $query   Current instance of WP_Site_Query (passed by reference).
 		 */
-		$clauses = apply_filters_ref_array( 'sites_clauses', array( $clauses, &$this ) );
+		$clauses = apply_filters_ref_array( 'sites_clauses', array( compact( $clauses ), &$this ) );
 
 		$fields  = isset( $clauses['fields'] ) ? $clauses['fields'] : '';
 		$join    = isset( $clauses['join'] ) ? $clauses['join'] : '';
