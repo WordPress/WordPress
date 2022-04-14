@@ -3094,9 +3094,11 @@ function retrieve_password( $user_login = null ) {
 	 *
 	 * @since 6.0.0
 	 *
-	 * @param bool $send Whether to send the email.
+	 * @param bool    $send       Whether to send the email.
+	 * @param string  $user_login The username for the user.
+	 * @param WP_User $user_data  WP_User object.
 	 */
-	if ( ! apply_filters( 'send_retrieve_password_email', true ) ) {
+	if ( ! apply_filters( 'send_retrieve_password_email', true, $user_login, $user_data ) ) {
 		return true;
 	}
 
@@ -3190,8 +3192,6 @@ function retrieve_password( $user_login = null ) {
 		'headers' => '',
 	);
 
-	$data = compact( 'key', 'user_login', 'user_data' );
-
 	/**
 	 * Filters the contents of the reset password notification email sent to the user.
 	 *
@@ -3205,15 +3205,11 @@ function retrieve_password( $user_login = null ) {
 	 *     @type string $message The body of the email.
 	 *     @type string $headers The headers of the email.
 	 * }
-	 * @param array $data {
-	 *     Additional information for extenders.
-	 *
-	 *     @type string  $key        The activation key.
-	 *     @type string  $user_login The username for the user.
-	 *     @type WP_User $user_data  WP_User object.
-	 * }
+	 * @type string  $key        The activation key.
+	 * @type string  $user_login The username for the user.
+	 * @type WP_User $user_data  WP_User object.
 	 */
-	$notification_email = apply_filters( 'retrieve_password_notification_email', $defaults, $data );
+	$notification_email = apply_filters( 'retrieve_password_notification_email', $defaults, $key, $user_login, $user_data );
 
 	if ( $switched_locale ) {
 		restore_previous_locale();
