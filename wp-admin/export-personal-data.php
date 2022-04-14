@@ -19,10 +19,10 @@ get_current_screen()->add_help_tab(
 		'id'      => 'overview',
 		'title'   => __( 'Overview' ),
 		'content' =>
-					'<p>' . __( 'This screen allows you to manage requests for an export of personal data.' ) . '</p>' .
-					'<p>' . __( 'Providing an export of all data that a business or website has collected about an individual is a requirement of many Privacy Laws around the world, and is sometimes referred to as the "Right To Data Portability".' ) . '</p>' .
-					'<p>' . __( 'The tool associates data stored in WordPress by a supplied email address, including profile data and comments.' ) . '</p>' .
-					'<p><strong>' . __( 'Note: As this tool only gathers data from WordPress and participating plugins, you may need to do more to comply with export requests. You should also send the requestor any data collected by or stored with any 3rd party services used by your business or site.' ) . '</strong></p>',
+					'<p>' . __( 'This screen is where you manage requests for an export of personal data.' ) . '</p>' .
+					'<p>' . __( 'Privacy Laws around the world require businesses and online services to provide an export of some of the data they collect about an individual, and to deliver that export on request. The rights those laws enshrine are sometimes called the "Right of Data Portability". It allows individuals to obtain and reuse their personal data for their own purposes across different services. It allows them to move, copy or transfer personal data easily from one IT environment to another.' ) . '</p>' .
+					'<p>' . __( 'The tool associates data stored in WordPress with a supplied email address, including profile data and comments.' ) . '</p>' .
+					'<p><strong>' . __( 'Note: Since this tool only gathers data from WordPress and participating plugins, you may need to do more to comply with export requests. For example, you should also send the requester some of the data collected from or stored with the 3rd party services your organization uses.' ) . '</strong></p>',
 	)
 );
 
@@ -31,12 +31,12 @@ get_current_screen()->add_help_tab(
 		'id'      => 'default-data',
 		'title'   => __( 'Default Data' ),
 		'content' =>
-					'<p>' . __( 'Personal data that is collected by WordPress and is displayed in the export files include:' ) . '</p>' .
+					'<p>' . __( 'WordPress collects (but <em>never</em> publishes) a limited amount of data from registered users who have logged in to the site. Generally, these users are people who contribute to the site in some way -- content, store management, and so on. With rare exceptions, these users do not include occasional visitors who might have registered to comment on articles or buy products. The data WordPress retains can include:' ) . '</p>' .
 					'<p>' . __( '<strong>Profile Information</strong> &mdash; user email address, username, display name, nickname, first name, last name, description/bio, and registration date.' ) . '</p>' .
-					'<p>' . __( '<strong>Community Events Location</strong> &mdash; The IP Address of the user used for the Upcoming Community Events shown in the dashboard widget.' ) . '</p>' .
+					'<p>' . __( '<strong>Community Events Location</strong> &mdash; The IP Address of the user, which populates the Upcoming Community Events dashboard widget with relevant information.' ) . '</p>' .
 					'<p>' . __( '<strong>Session Tokens</strong> &mdash; User login information, IP Addresses, Expiration Date, User Agent (Browser/OS), and Last Login.' ) . '</p>' .
-					'<p>' . __( '<strong>Comments</strong> &mdash; For any comments made by the user, Email Address, IP Address, User Agent (Browser/OS), Date/Time, Comment Content, and Content URL.' ) . '</p>' .
-					'<p>' . __( '<strong>Media</strong> &mdash; A list of URLs for all media file uploads made by the user.' ) . '</p>',
+					'<p>' . __( '<strong>Comments</strong> &mdash; For user comments, Email Address, IP Address, User Agent (Browser/OS), Date/Time, Comment Content, and Content URL.' ) . '</p>' .
+					'<p>' . __( '<strong>Media</strong> &mdash; A list of URLs for media files the user uploads.' ) . '</p>',
 	)
 );
 
