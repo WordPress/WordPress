@@ -103,8 +103,8 @@ function wp_import_handle_upload() {
 		return $upload;
 	}
 
-	// Construct the object array.
-	$object = array(
+	// Construct the attachment array.
+	$attachment = array(
 		'post_title'     => wp_basename( $upload['file'] ),
 		'post_content'   => $upload['url'],
 		'post_mime_type' => $upload['type'],
@@ -114,7 +114,7 @@ function wp_import_handle_upload() {
 	);
 
 	// Save the data.
-	$id = wp_insert_attachment( $object, $upload['file'] );
+	$id = wp_insert_attachment( $attachment, $upload['file'] );
 
 	/*
 	 * Schedule a cleanup for one day from now in case of failed

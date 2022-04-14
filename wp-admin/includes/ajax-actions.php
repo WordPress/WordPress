@@ -3950,13 +3950,13 @@ function wp_ajax_crop_image() {
 			}
 
 			/** This filter is documented in wp-admin/includes/class-custom-image-header.php */
-			$cropped = apply_filters( 'wp_create_file_in_uploads', $cropped, $attachment_id ); // For replication.
-			$object  = $wp_site_icon->create_attachment_object( $cropped, $attachment_id );
-			unset( $object['ID'] );
+			$cropped    = apply_filters( 'wp_create_file_in_uploads', $cropped, $attachment_id ); // For replication.
+			$attachment = $wp_site_icon->create_attachment_object( $cropped, $attachment_id );
+			unset( $attachment['ID'] );
 
 			// Update the attachment.
 			add_filter( 'intermediate_image_sizes_advanced', array( $wp_site_icon, 'additional_sizes' ) );
-			$attachment_id = $wp_site_icon->insert_attachment( $object, $cropped );
+			$attachment_id = $wp_site_icon->insert_attachment( $attachment, $cropped );
 			remove_filter( 'intermediate_image_sizes_advanced', array( $wp_site_icon, 'additional_sizes' ) );
 
 			// Additional sizes in wp_prepare_attachment_for_js().
@@ -3988,9 +3988,9 @@ function wp_ajax_crop_image() {
 			$image_type = ( $size ) ? $size['mime'] : 'image/jpeg';
 
 			// Get the original image's post to pre-populate the cropped image.
-			$original_attachment      = get_post( $attachment_id );
-			$sanitized_post_title     = sanitize_file_name( $original_attachment->post_title );
-			$use_original_title       = (
+			$original_attachment  = get_post( $attachment_id );
+			$sanitized_post_title = sanitize_file_name( $original_attachment->post_title );
+			$use_original_title   = (
 				( '' !== trim( $original_attachment->post_title ) ) &&
 				/*
 				 * Check if the original image has a title other than the "filename" default,
@@ -4001,7 +4001,7 @@ function wp_ajax_crop_image() {
 			);
 			$use_original_description = ( '' !== trim( $original_attachment->post_content ) );
 
-			$object = array(
+			$attachment = array(
 				'post_title'     => $use_original_title ? $original_attachment->post_title : wp_basename( $cropped ),
 				'post_content'   => $use_original_description ? $original_attachment->post_content : $url,
 				'post_mime_type' => $image_type,
@@ -4011,17 +4011,17 @@ function wp_ajax_crop_image() {
 
 			// Copy the image caption attribute (post_excerpt field) from the original image.
 			if ( '' !== trim( $original_attachment->post_excerpt ) ) {
-				$object['post_excerpt'] = $original_attachment->post_excerpt;
+				$attachment['post_excerpt'] = $original_attachment->post_excerpt;
 			}
 
 			// Copy the image alt text attribute from the original image.
 			if ( '' !== trim( $original_attachment->_wp_attachment_image_alt ) ) {
-				$object['meta_input'] = array(
+				$attachment['meta_input'] = array(
 					'_wp_attachment_image_alt' => wp_slash( $original_attachment->_wp_attachment_image_alt ),
 				);
 			}
 
-			$attachment_id = wp_insert_attachment( $object, $cropped );
+			$attachment_id = wp_insert_attachment( $attachment, $cropped );
 			$metadata      = wp_generate_attachment_metadata( $attachment_id, $cropped );
 
 			/**

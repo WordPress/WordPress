@@ -510,8 +510,8 @@ class Custom_Background {
 		$file     = $file['file'];
 		$filename = wp_basename( $file );
 
-		// Construct the object array.
-		$object = array(
+		// Construct the attachment array.
+		$attachment = array(
 			'post_title'     => $filename,
 			'post_content'   => $url,
 			'post_mime_type' => $type,
@@ -520,7 +520,7 @@ class Custom_Background {
 		);
 
 		// Save the data.
-		$id = wp_insert_attachment( $object, $file );
+		$id = wp_insert_attachment( $attachment, $file );
 
 		// Add the metadata.
 		wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $file ) );

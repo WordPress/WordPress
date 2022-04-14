@@ -973,7 +973,7 @@ endif;
 		$file     = $file['file'];
 		$filename = wp_basename( $file );
 
-		// Construct the array with attachment object data.
+		// Construct the attachment array.
 		$attachment = array(
 			'post_title'     => $filename,
 			'post_content'   => $url,

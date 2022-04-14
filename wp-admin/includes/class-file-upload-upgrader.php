@@ -71,8 +71,8 @@ class File_Upload_Upgrader {
 			$this->filename = $_FILES[ $form ]['name'];
 			$this->package  = $file['file'];
 
-			// Construct the object array.
-			$object = array(
+			// Construct the attachment array.
+			$attachment = array(
 				'post_title'     => $this->filename,
 				'post_content'   => $file['url'],
 				'post_mime_type' => $file['type'],
@@ -82,7 +82,7 @@ class File_Upload_Upgrader {
 			);
 
 			// Save the data.
-			$this->id = wp_insert_attachment( $object, $file['file'] );
+			$this->id = wp_insert_attachment( $attachment, $file['file'] );
 
 			// Schedule a cleanup for 2 hours from now in case of failed installation.
 			wp_schedule_single_event( time() + 2 * HOUR_IN_SECONDS, 'upgrader_scheduled_cleanup', array( $this->id ) );
