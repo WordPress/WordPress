@@ -77,11 +77,11 @@ function get_udims( $width, $height ) {
  *
  * @global int $post_ID
  *
- * @param int $default       Unused.
- * @param int $parent        Unused.
- * @param array $popular_ids Unused.
+ * @param int   $default_category Unused.
+ * @param int   $parent_category  Unused.
+ * @param array $popular_ids      Unused.
  */
-function dropdown_categories( $default = 0, $parent = 0, $popular_ids = array() ) {
+function dropdown_categories( $default_category = 0, $parent_category = 0, $popular_ids = array() ) {
 	_deprecated_function( __FUNCTION__, '2.6.0', 'wp_category_checklist()' );
 	global $post_ID;
 	wp_category_checklist( $post_ID );
@@ -96,9 +96,9 @@ function dropdown_categories( $default = 0, $parent = 0, $popular_ids = array() 
  *
  * @global int $link_id
  *
- * @param int $default Unused.
+ * @param int $default_link_category Unused.
  */
-function dropdown_link_categories( $default = 0 ) {
+function dropdown_link_categories( $default_link_category = 0 ) {
 	_deprecated_function( __FUNCTION__, '2.6.0', 'wp_link_category_checklist()' );
 	global $link_id;
 	wp_link_category_checklist( $link_id );
@@ -127,28 +127,28 @@ function get_real_file_to_edit( $file ) {
  * @deprecated 3.0.0 Use wp_dropdown_categories()
  * @see wp_dropdown_categories()
  *
- * @param int $currentcat    Optional. ID of the current category. Default 0.
- * @param int $currentparent Optional. Current parent category ID. Default 0.
- * @param int $parent        Optional. Parent ID to retrieve categories for. Default 0.
- * @param int $level         Optional. Number of levels deep to display. Default 0.
- * @param array $categories  Optional. Categories to include in the control. Default 0.
+ * @param int $current_cat    Optional. ID of the current category. Default 0.
+ * @param int $current_parent Optional. Current parent category ID. Default 0.
+ * @param int $parent_cat     Optional. Parent ID to retrieve categories for. Default 0.
+ * @param int $level          Optional. Number of levels deep to display. Default 0.
+ * @param array $categories   Optional. Categories to include in the control. Default 0.
  * @return void|false Void on success, false if no categories were found.
  */
-function wp_dropdown_cats( $currentcat = 0, $currentparent = 0, $parent = 0, $level = 0, $categories = 0 ) {
+function wp_dropdown_cats( $current_cat = 0, $current_parent = 0, $parent_cat = 0, $level = 0, $categories = 0 ) {
 	_deprecated_function( __FUNCTION__, '3.0.0', 'wp_dropdown_categories()' );
 	if (!$categories )
 		$categories = get_categories( array('hide_empty' => 0) );
 
 	if ( $categories ) {
 		foreach ( $categories as $category ) {
-			if ( $currentcat != $category->term_id && $parent == $category->parent) {
+			if ( $current_cat != $category->term_id && $parent_cat == $category->parent) {
 				$pad = str_repeat( '&#8211; ', $level );
 				$category->name = esc_html( $category->name );
 				echo "\n\t<option value='$category->term_id'";
-				if ( $currentparent == $category->term_id )
+				if ( $current_parent == $category->term_id )
 					echo " selected='selected'";
 				echo ">$pad$category->name</option>";
-				wp_dropdown_cats( $currentcat, $currentparent, $category->term_id, $level +1, $categories );
+				wp_dropdown_cats( $current_cat, $current_parent, $category->term_id, $level +1, $categories );
 			}
 		}
 	} else {
@@ -1426,18 +1426,18 @@ function _relocate_children( $old_ID, $new_ID ) {
  * @param string   $menu_title The text to be used for the menu.
  * @param string   $capability The capability required for this menu to be displayed to the user.
  * @param string   $menu_slug  The slug name to refer to this menu by (should be unique for this menu).
- * @param callable $function   Optional. The function to be called to output the content for this page.
+ * @param callable $callback   Optional. The function to be called to output the content for this page.
  * @param string   $icon_url   Optional. The URL to the icon to be used for this menu.
  * @return string The resulting page's hook_suffix.
  */
-function add_object_page( $page_title, $menu_title, $capability, $menu_slug, $function = '', $icon_url = '') {
+function add_object_page( $page_title, $menu_title, $capability, $menu_slug, $callback = '', $icon_url = '') {
 	_deprecated_function( __FUNCTION__, '4.5.0', 'add_menu_page()' );
 
 	global $_wp_last_object_menu;
 
 	$_wp_last_object_menu++;
 
-	return add_menu_page($page_title, $menu_title, $capability, $menu_slug, $function, $icon_url, $_wp_last_object_menu);
+	return add_menu_page($page_title, $menu_title, $capability, $menu_slug, $callback, $icon_url, $_wp_last_object_menu);
 }
 
 /**
@@ -1459,18 +1459,18 @@ function add_object_page( $page_title, $menu_title, $capability, $menu_slug, $fu
  * @param string   $menu_title The text to be used for the menu.
  * @param string   $capability The capability required for this menu to be displayed to the user.
  * @param string   $menu_slug  The slug name to refer to this menu by (should be unique for this menu).
- * @param callable $function   Optional. The function to be called to output the content for this page.
+ * @param callable $callback   Optional. The function to be called to output the content for this page.
  * @param string   $icon_url   Optional. The URL to the icon to be used for this menu.
  * @return string The resulting page's hook_suffix.
  */
-function add_utility_page( $page_title, $menu_title, $capability, $menu_slug, $function = '', $icon_url = '') {
+function add_utility_page( $page_title, $menu_title, $capability, $menu_slug, $callback = '', $icon_url = '') {
 	_deprecated_function( __FUNCTION__, '4.5.0', 'add_menu_page()' );
 
 	global $_wp_last_utility_menu;
 
 	$_wp_last_utility_menu++;
 
-	return add_menu_page($page_title, $menu_title, $capability, $menu_slug, $function, $icon_url, $_wp_last_utility_menu);
+	return add_menu_page($page_title, $menu_title, $capability, $menu_slug, $callback, $icon_url, $_wp_last_utility_menu);
 }
 
 /**
