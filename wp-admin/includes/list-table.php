@@ -15,11 +15,11 @@
  *
  * @global string $hook_suffix
  *
- * @param string $class The type of the list table, which is the class name.
- * @param array  $args  Optional. Arguments to pass to the class. Accepts 'screen'.
+ * @param string $class_name The type of the list table, which is the class name.
+ * @param array  $args       Optional. Arguments to pass to the class. Accepts 'screen'.
  * @return WP_List_Table|false List table object on success, false if the class does not exist.
  */
-function _get_list_table( $class, $args = array() ) {
+function _get_list_table( $class_name, $args = array() ) {
 	$core_classes = array(
 		// Site Admin.
 		'WP_Posts_List_Table'                         => 'posts',
@@ -45,8 +45,8 @@ function _get_list_table( $class, $args = array() ) {
 		'WP_Privacy_Data_Removal_Requests_List_Table' => 'privacy-data-removal-requests',
 	);
 
-	if ( isset( $core_classes[ $class ] ) ) {
-		foreach ( (array) $core_classes[ $class ] as $required ) {
+	if ( isset( $core_classes[ $class_name ] ) ) {
+		foreach ( (array) $core_classes[ $class_name ] as $required ) {
 			require_once ABSPATH . 'wp-admin/includes/class-wp-' . $required . '-list-table.php';
 		}
 
@@ -58,7 +58,7 @@ function _get_list_table( $class, $args = array() ) {
 			$args['screen'] = null;
 		}
 
-		return new $class( $args );
+		return new $class_name( $args );
 	}
 
 	return false;
