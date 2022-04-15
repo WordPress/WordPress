@@ -86,7 +86,7 @@ function the_author( $deprecated = '', $deprecated_echo = true ) {
  *
  * @since 2.8.0
  *
- * @return string|void The author's display name, empty string if unkown.
+ * @return string|void The author's display name, empty string if unknown.
  */
 function get_the_modified_author() {
 	$last_id = get_post_meta( get_post()->ID, '_edit_last', true );
@@ -99,7 +99,7 @@ function get_the_modified_author() {
 		 *
 		 * @since 2.8.0
 		 *
-		 * @param string $display_name The author's display name, empty string if unkown.
+		 * @param string $display_name The author's display name, empty string if unknown.
 		 */
 		return apply_filters( 'the_modified_author', $last_user ? $last_user->display_name : '' );
 	}
