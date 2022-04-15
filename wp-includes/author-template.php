@@ -11,7 +11,7 @@
  */
 
 /**
- * Retrieve the author of the current post.
+ * Retrieves the author of the current post.
  *
  * @since 1.5.0
  *
@@ -38,7 +38,7 @@ function get_the_author( $deprecated = '' ) {
 }
 
 /**
- * Display the name of the author of the current post.
+ * Displays the name of the author of the current post.
  *
  * The behavior of this function is based off of old functionality predating
  * get_the_author(). This function is not deprecated, but is designed to echo
@@ -82,7 +82,7 @@ function the_author( $deprecated = '', $deprecated_echo = true ) {
 }
 
 /**
- * Retrieve the author who last edited the current post.
+ * Retrieves the author who last edited the current post.
  *
  * @since 2.8.0
  *
@@ -106,7 +106,7 @@ function get_the_modified_author() {
 }
 
 /**
- * Display the name of the author who last edited the current post,
+ * Displays the name of the author who last edited the current post,
  * if the author's ID is available.
  *
  * @since 2.8.0
@@ -204,7 +204,7 @@ function the_author_meta( $field = '', $user_id = false ) {
 	$author_meta = get_the_author_meta( $field, $user_id );
 
 	/**
-	 * The value of the requested user metadata.
+	 * Filters the value of the requested user metadata.
 	 *
 	 * The filter name is dynamic and depends on the $field parameter of the function.
 	 *
@@ -217,7 +217,7 @@ function the_author_meta( $field = '', $user_id = false ) {
 }
 
 /**
- * Retrieve either author's link or author's name.
+ * Retrieves either author's link or author's name.
  *
  * If the author has a home page set, return an HTML link, otherwise just return the
  * author's name.
@@ -260,7 +260,7 @@ function get_the_author_link() {
 }
 
 /**
- * Display either author's link or author's name.
+ * Displays either author's link or author's name.
  *
  * If the author has a home page set, echo an HTML link, otherwise just echo the
  * author's name.
@@ -274,7 +274,7 @@ function the_author_link() {
 }
 
 /**
- * Retrieve the number of posts by the author of the current post.
+ * Retrieves the number of posts by the author of the current post.
  *
  * @since 1.5.0
  *
@@ -289,7 +289,7 @@ function get_the_author_posts() {
 }
 
 /**
- * Display the number of posts by the author of the current post.
+ * Displays the number of posts by the author of the current post.
  *
  * @link https://developer.wordpress.org/reference/functions/the_author_posts/
  * @since 0.71
@@ -349,7 +349,7 @@ function the_author_posts_link( $deprecated = '' ) {
 }
 
 /**
- * Retrieve the URL to the author page for the user with the ID provided.
+ * Retrieves the URL to the author page for the user with the ID provided.
  *
  * @since 2.1.0
  *
@@ -394,7 +394,7 @@ function get_author_posts_url( $author_id, $author_nicename = '' ) {
 }
 
 /**
- * List all the authors of the site, with several options available.
+ * Lists all the authors of the site, with several options available.
  *
  * @link https://developer.wordpress.org/reference/functions/wp_list_authors/
  *
