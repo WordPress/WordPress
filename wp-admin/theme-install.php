@@ -456,7 +456,9 @@ if ( $tab ) {
 						?>
 					</span>
 
-					<img class="theme-screenshot" src="{{ data.screenshot_url }}?ver={{ data.version }}" alt="" />
+					<div class="theme-screenshot">
+						<img class="theme-screenshot" src="{{ data.screenshot_url }}?ver={{ data.version }}" alt="" />
+					</div>
 
 					<div class="theme-details">
 						<# if ( data.rating ) { #>

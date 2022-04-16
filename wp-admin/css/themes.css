@@ -1852,6 +1852,22 @@ body.full-overlay-active {
 	margin: 15px 0;
 	width: 258px;
 	border: 1px solid #c3c4c7;
+	position: relative;
+	overflow: hidden;
+}
+
+.install-theme-info .theme-screenshot > img {
+	width: 100%;
+	height: auto;
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+
+.install-theme-info .theme-screenshot:after {
+	content: "";
+	display: block;
+	padding-top: 66.66666666%;
 }
 
 .install-theme-info .theme-details {
