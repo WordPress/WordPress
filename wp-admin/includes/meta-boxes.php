@@ -1186,11 +1186,11 @@ function link_target_meta_box( $link ) {
  *
  * @global object $link
  *
- * @param string $class
- * @param string $value
+ * @param string $xfn_relationship
+ * @param string $xfn_value
  * @param mixed  $deprecated Never used.
  */
-function xfn_check( $class, $value = '', $deprecated = '' ) {
+function xfn_check( $xfn_relationship, $xfn_value = '', $deprecated = '' ) {
 	global $link;
 
 	if ( ! empty( $deprecated ) ) {
@@ -1200,21 +1200,38 @@ function xfn_check( $class, $value = '', $deprecated = '' ) {
 	$link_rel = isset( $link->link_rel ) ? $link->link_rel : ''; // In PHP 5.3: $link_rel = $link->link_rel ?: '';
 	$rels     = preg_split( '/\s+/', $link_rel );
 
-	if ( '' !== $value && in_array( $value, $rels, true ) ) {
+	if ( '' !== $xfn_value && in_array( $xfn_value, $rels, true ) ) {
 		echo ' checked="checked"';
 	}
 
-	if ( '' === $value ) {
-		if ( 'family' === $class && strpos( $link_rel, 'child' ) === false && strpos( $link_rel, 'parent' ) === false && strpos( $link_rel, 'sibling' ) === false && strpos( $link_rel, 'spouse' ) === false && strpos( $link_rel, 'kin' ) === false ) {
+	if ( '' === $xfn_value ) {
+		if ( 'family' === $xfn_relationship
+			&& strpos( $link_rel, 'child' ) === false
+			&& strpos( $link_rel, 'parent' ) === false
+			&& strpos( $link_rel, 'sibling' ) === false
+			&& strpos( $link_rel, 'spouse' ) === false
+			&& strpos( $link_rel, 'kin' ) === false
+		) {
 			echo ' checked="checked"';
 		}
-		if ( 'friendship' === $class && strpos( $link_rel, 'friend' ) === false && strpos( $link_rel, 'acquaintance' ) === false && strpos( $link_rel, 'contact' ) === false ) {
+
+		if ( 'friendship' === $xfn_relationship
+			&& strpos( $link_rel, 'friend' ) === false
+			&& strpos( $link_rel, 'acquaintance' ) === false
+			&& strpos( $link_rel, 'contact' ) === false ) {
 			echo ' checked="checked"';
 		}
-		if ( 'geographical' === $class && strpos( $link_rel, 'co-resident' ) === false && strpos( $link_rel, 'neighbor' ) === false ) {
+
+		if ( 'geographical' === $xfn_relationship
+			&& strpos( $link_rel, 'co-resident' ) === false
+			&& strpos( $link_rel, 'neighbor' ) === false
+		) {
 			echo ' checked="checked"';
 		}
-		if ( 'identity' === $class && in_array( 'me', $rels, true ) ) {
+
+		if ( 'identity' === $xfn_relationship
+			&& in_array( 'me', $rels, true )
+		) {
 			echo ' checked="checked"';
 		}
 	}
