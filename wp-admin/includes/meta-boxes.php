@@ -1188,7 +1188,7 @@ function link_target_meta_box( $link ) {
  *
  * @param string $xfn_relationship
  * @param string $xfn_value
- * @param mixed  $deprecated Never used.
+ * @param mixed  $deprecated       Never used.
  */
 function xfn_check( $xfn_relationship, $xfn_value = '', $deprecated = '' ) {
 	global $link;
@@ -1197,40 +1197,37 @@ function xfn_check( $xfn_relationship, $xfn_value = '', $deprecated = '' ) {
 		_deprecated_argument( __FUNCTION__, '2.5.0' ); // Never implemented.
 	}
 
-	$link_rel = isset( $link->link_rel ) ? $link->link_rel : ''; // In PHP 5.3: $link_rel = $link->link_rel ?: '';
-	$rels     = preg_split( '/\s+/', $link_rel );
+	$link_rel  = isset( $link->link_rel ) ? $link->link_rel : ''; // In PHP 5.3: $link_rel = $link->link_rel ?: '';
+	$link_rels = preg_split( '/\s+/', $link_rel );
 
-	if ( '' !== $xfn_value && in_array( $xfn_value, $rels, true ) ) {
+	// Mark the specified value as checked if it matches the link relationship.
+	if ( '' !== $xfn_value && in_array( $xfn_value, $link_rels, true ) ) {
 		echo ' checked="checked"';
 	}
 
 	if ( '' === $xfn_value ) {
+		// Mark the 'none' value as checked if the link does not match the specified relationship.
 		if ( 'family' === $xfn_relationship
-			&& strpos( $link_rel, 'child' ) === false
-			&& strpos( $link_rel, 'parent' ) === false
-			&& strpos( $link_rel, 'sibling' ) === false
-			&& strpos( $link_rel, 'spouse' ) === false
-			&& strpos( $link_rel, 'kin' ) === false
+			&& ! array_intersect( $link_rels, array( 'child', 'parent', 'sibling', 'spouse', 'kin' ) )
 		) {
 			echo ' checked="checked"';
 		}
 
 		if ( 'friendship' === $xfn_relationship
-			&& strpos( $link_rel, 'friend' ) === false
-			&& strpos( $link_rel, 'acquaintance' ) === false
-			&& strpos( $link_rel, 'contact' ) === false ) {
-			echo ' checked="checked"';
-		}
-
-		if ( 'geographical' === $xfn_relationship
-			&& strpos( $link_rel, 'co-resident' ) === false
-			&& strpos( $link_rel, 'neighbor' ) === false
+			&& ! array_intersect( $link_rels, array( 'friend', 'acquaintance', 'contact' ) )
 		) {
 			echo ' checked="checked"';
 		}
 
+		if ( 'geographical' === $xfn_relationship
+			&& ! array_intersect( $link_rels, array( 'co-resident', 'neighbor' ) )
+		) {
+			echo ' checked="checked"';
+		}
+
+		// Mark the 'me' value as checked if it matches the link relationship.
 		if ( 'identity' === $xfn_relationship
-			&& in_array( 'me', $rels, true )
+			&& in_array( 'me', $link_rels, true )
 		) {
 			echo ' checked="checked"';
 		}
