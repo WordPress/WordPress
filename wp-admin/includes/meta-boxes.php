@@ -382,7 +382,7 @@ function post_submit_meta_box( $post, $args = array() ) {
 }
 
 /**
- * Display attachment submit form fields.
+ * Displays attachment submit form fields.
  *
  * @since 3.5.0
  *
@@ -462,7 +462,7 @@ function attachment_submit_meta_box( $post ) {
 }
 
 /**
- * Display post format form elements.
+ * Displays post format form elements.
  *
  * @since 3.1.0
  *
@@ -505,7 +505,7 @@ endif;
 }
 
 /**
- * Display post tags form fields.
+ * Displays post tags form fields.
  *
  * @since 2.6.0
  *
@@ -568,7 +568,7 @@ function post_tags_meta_box( $post, $box ) {
 }
 
 /**
- * Display post categories form fields.
+ * Displays post categories form fields.
  *
  * @since 2.6.0
  *
@@ -692,7 +692,7 @@ function post_categories_meta_box( $post, $box ) {
 }
 
 /**
- * Display post excerpt form fields.
+ * Displays post excerpt form fields.
  *
  * @since 2.6.0
  *
@@ -714,7 +714,7 @@ function post_excerpt_meta_box( $post ) {
 }
 
 /**
- * Display trackback links form fields.
+ * Displays trackback links form fields.
  *
  * @since 2.6.0
  *
@@ -755,7 +755,7 @@ function post_trackback_meta_box( $post ) {
 }
 
 /**
- * Display custom fields form fields.
+ * Displays custom fields form fields.
  *
  * @since 2.6.0
  *
@@ -789,7 +789,7 @@ function post_custom_meta_box( $post ) {
 }
 
 /**
- * Display comments status form fields.
+ * Displays comments status form fields.
  *
  * @since 2.6.0
  *
@@ -824,7 +824,7 @@ function post_comment_status_meta_box( $post ) {
 }
 
 /**
- * Display comments for post table header
+ * Displays comments for post table header
  *
  * @since 3.0.0
  *
@@ -837,7 +837,7 @@ function post_comment_meta_box_thead( $result ) {
 }
 
 /**
- * Display comments for post.
+ * Displays comments for post.
  *
  * @since 2.8.0
  *
@@ -878,7 +878,7 @@ function post_comment_meta_box( $post ) {
 }
 
 /**
- * Display slug form fields.
+ * Displays slug form fields.
  *
  * @since 2.6.0
  *
@@ -893,7 +893,7 @@ function post_slug_meta_box( $post ) {
 }
 
 /**
- * Display form field with list of authors.
+ * Displays form field with list of authors.
  *
  * @since 2.6.0
  *
@@ -920,7 +920,7 @@ function post_author_meta_box( $post ) {
 }
 
 /**
- * Display list of revisions.
+ * Displays list of revisions.
  *
  * @since 2.6.0
  *
@@ -935,7 +935,7 @@ function post_revisions_meta_box( $post ) {
 //
 
 /**
- * Display page attributes form fields.
+ * Displays page attributes form fields.
  *
  * @since 2.7.0
  *
@@ -1032,7 +1032,7 @@ function page_attributes_meta_box( $post ) {
 //
 
 /**
- * Display link create form fields.
+ * Displays link create form fields.
  *
  * @since 2.7.0
  *
@@ -1108,7 +1108,7 @@ function link_submit_meta_box( $link ) {
 }
 
 /**
- * Display link categories form fields.
+ * Displays link categories form fields.
  *
  * @since 2.6.0
  *
@@ -1155,7 +1155,7 @@ function link_categories_meta_box( $link ) {
 }
 
 /**
- * Display form fields for changing link target.
+ * Displays form fields for changing link target.
  *
  * @since 2.6.0
  *
@@ -1180,7 +1180,7 @@ function link_target_meta_box( $link ) {
 }
 
 /**
- * Display checked checkboxes attribute for xfn microformat options.
+ * Displays 'checked' checkboxes attribute for XFN microformat options.
  *
  * @since 1.0.1
  *
@@ -1191,6 +1191,7 @@ function link_target_meta_box( $link ) {
  *                                 'geographical', 'family', 'romantic', 'identity'.
  * @param string $xfn_value        Optional. The XFN value to mark as checked
  *                                 if it matches the current link's relationship.
+ *                                 Default empty string.
  * @param mixed  $deprecated       Deprecated. Not used.
  */
 function xfn_check( $xfn_relationship, $xfn_value = '', $deprecated = '' ) {
@@ -1238,7 +1239,7 @@ function xfn_check( $xfn_relationship, $xfn_value = '', $deprecated = '' ) {
 }
 
 /**
- * Display xfn form fields.
+ * Displays XFN form fields.
  *
  * @since 2.6.0
  *
@@ -1356,7 +1357,7 @@ function link_xfn_meta_box( $link ) {
 }
 
 /**
- * Display advanced link options form fields.
+ * Displays advanced link options form fields.
  *
  * @since 2.6.0
  *
@@ -1397,7 +1398,7 @@ function link_advanced_meta_box( $link ) {
 }
 
 /**
- * Display post thumbnail meta box.
+ * Displays post thumbnail meta box.
  *
  * @since 2.9.0
  *
@@ -1409,7 +1410,7 @@ function post_thumbnail_meta_box( $post ) {
 }
 
 /**
- * Display fields for ID3 data
+ * Displays fields for ID3 data.
  *
  * @since 3.9.0
  *
