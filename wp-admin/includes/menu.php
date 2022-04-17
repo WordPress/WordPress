@@ -187,13 +187,16 @@ foreach ( $menu as $id => $data ) {
 unset( $id, $data, $subs, $first_sub );
 
 /**
- * @param string $add
- * @param string $class
+ * @param string $class_to_add
+ * @param string $classes
  * @return string
  */
-function add_cssclass( $add, $class ) {
-	$class = empty( $class ) ? $add : $class .= ' ' . $add;
-	return $class;
+function add_cssclass( $class_to_add, $classes ) {
+	if ( empty( $classes ) ) {
+		return $class_to_add;
+	}
+
+	return $classes . ' ' . $class_to_add;
 }
 
 /**
@@ -351,3 +354,4 @@ if ( ! user_can_access_admin_page() ) {
 }
 
 $menu = add_menu_classes( $menu );
+                		
