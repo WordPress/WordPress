@@ -214,38 +214,39 @@ function add_cssclass( $class_to_add, $classes ) {
  * @return array The array of administration menu items with the CSS classes added.
  */
 function add_menu_classes( $menu ) {
-	$first     = false;
-	$lastorder = false;
-	$i         = 0;
-	$mc        = count( $menu );
+	$first_item  = false;
+	$last_order  = false;
+	$items_count = count( $menu );
+	$i           = 0;
+
 	foreach ( $menu as $order => $top ) {
 		$i++;
 
 		if ( 0 == $order ) { // Dashboard is always shown/single.
 			$menu[0][4] = add_cssclass( 'menu-top-first', $top[4] );
-			$lastorder  = 0;
+			$last_order = 0;
 			continue;
 		}
 
-		if ( 0 === strpos( $top[2], 'separator' ) && false !== $lastorder ) { // If separator.
-			$first                 = true;
-			$c                     = $menu[ $lastorder ][4];
-			$menu[ $lastorder ][4] = add_cssclass( 'menu-top-last', $c );
+		if ( 0 === strpos( $top[2], 'separator' ) && false !== $last_order ) { // If separator.
+			$first_item             = true;
+			$classes                = $menu[ $last_order ][4];
+			$menu[ $last_order ][4] = add_cssclass( 'menu-top-last', $classes );
 			continue;
 		}
 
-		if ( $first ) {
-			$c                 = $menu[ $order ][4];
-			$menu[ $order ][4] = add_cssclass( 'menu-top-first', $c );
-			$first             = false;
+		if ( $first_item ) {
+			$classes           = $menu[ $order ][4];
+			$menu[ $order ][4] = add_cssclass( 'menu-top-first', $classes );
+			$first_item        = false;
 		}
 
-		if ( $mc == $i ) { // Last item.
-			$c                 = $menu[ $order ][4];
-			$menu[ $order ][4] = add_cssclass( 'menu-top-last', $c );
+		if ( $i == items_count ) { // Last item.
+			$classes           = $menu[ $order ][4];
+			$menu[ $order ][4] = add_cssclass( 'menu-top-last', $classes );
 		}
 
-		$lastorder = $order;
+		$last_order = $order;
 	}
 
 	/**
