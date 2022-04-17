@@ -1362,7 +1362,7 @@ function _wp_multiple_block_styles( $metadata ) {
 						$style_uri = get_theme_file_uri( str_replace( $theme_path_norm, '', $style_path_norm ) );
 					}
 
-					$args       = array(
+					$args = array(
 						'handle' => sanitize_key( "{$metadata['name']}-{$style_path}" ),
 						'src'    => $style_uri,
 					);

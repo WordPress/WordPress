@@ -646,7 +646,7 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller {
 					'context'     => array( 'embed', 'view', 'edit' ),
 					'readonly'    => true,
 				),
-				'ancestor'           => array(
+				'ancestor'         => array(
 					'description' => __( 'Ancestor blocks.' ),
 					'type'        => array( 'array', 'null' ),
 					'items'       => array(
