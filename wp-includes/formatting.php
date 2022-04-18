@@ -2549,7 +2549,7 @@ function force_balance_tags( $text ) {
 	 * REPL like `php -a`.
 	 *
 	 * @see https://html.spec.whatwg.org/#elements-2
-	 * @see https://w3c.github.io/webcomponents/spec/custom/#valid-custom-element-name
+	 * @see https://html.spec.whatwg.org/multipage/custom-elements.html#valid-custom-element-name
 	 *
 	 * @example
 	 * ~# php -a
