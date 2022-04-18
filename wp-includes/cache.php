@@ -2,7 +2,7 @@
 /**
  * Object Cache API
  *
- * @link https://codex.wordpress.org/Class_Reference/WP_Object_Cache
+ * @link https://developer.wordpress.org/reference/classes/wp_object_cache/
  *
  * @package WordPress
  * @subpackage Cache
