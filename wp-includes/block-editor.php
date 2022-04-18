@@ -383,10 +383,12 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
 		array(
 			'css'            => 'variables',
 			'__unstableType' => 'presets',
+			'isGlobalStyles' => true,
 		),
 		array(
 			'css'            => 'presets',
 			'__unstableType' => 'presets',
+			'isGlobalStyles' => true,
 		),
 	);
 	foreach ( $presets as $preset_style ) {
@@ -401,6 +403,7 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
 		$block_classes = array(
 			'css'            => 'styles',
 			'__unstableType' => 'theme',
+			'isGlobalStyles' => true,
 		);
 		$actual_css    = wp_get_global_stylesheet( array( $block_classes['css'] ) );
 		if ( '' !== $actual_css ) {
@@ -628,6 +631,7 @@ function get_block_editor_theme_styles() {
 					$styles[] = array(
 						'css'            => wp_remote_retrieve_body( $response ),
 						'__unstableType' => 'theme',
+						'isGlobalStyles' => false,
 					);
 				}
 			} else {
@@ -637,6 +641,7 @@ function get_block_editor_theme_styles() {
 						'css'            => file_get_contents( $file ),
 						'baseURL'        => get_theme_file_uri( $style ),
 						'__unstableType' => 'theme',
+						'isGlobalStyles' => false,
 					);
 				}
 			}
