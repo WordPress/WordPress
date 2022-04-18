@@ -217,10 +217,11 @@ function wpmu_delete_user( $id ) {
  *
  * @since MU (3.0.0)
  *
- * @param bool $echo Optional. If $echo is set and the quota is exceeded, a warning message is echoed. Default is true.
+ * @param bool $display_message Optional. If set to true and the quota is exceeded,
+ *                              a warning message is displayed. Default true.
  * @return bool True if user is over upload space quota, otherwise false.
  */
-function upload_is_user_over_quota( $echo = true ) {
+function upload_is_user_over_quota( $display_message = true ) {
 	if ( get_site_option( 'upload_space_check_disabled' ) ) {
 		return false;
 	}
@@ -232,7 +233,7 @@ function upload_is_user_over_quota( $echo = true ) {
 	$space_used = get_space_used();
 
 	if ( ( $space_allowed - $space_used ) < 0 ) {
-		if ( $echo ) {
+		if ( $display_message ) {
 			printf(
 				/* translators: %s: Allowed space allocation. */
 				__( 'Sorry, you have used your space allocation of %s. Please delete some files to upload more files.' ),
