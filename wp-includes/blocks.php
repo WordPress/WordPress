@@ -1397,7 +1397,6 @@ function build_comment_query_vars_from_block( $block ) {
 		'order'                     => 'ASC',
 		'status'                    => 'approve',
 		'no_found_rows'             => false,
-		'update_comment_meta_cache' => false, // We lazy-load comment meta for performance.
 	);
 
 	if ( ! empty( $block->context['postId'] ) ) {
