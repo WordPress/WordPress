@@ -17,12 +17,12 @@
  *
  * @see term_exists()
  *
- * @param int|string $cat_name Category name.
- * @param int        $parent   Optional. ID of parent term.
+ * @param int|string $cat_name        Category name.
+ * @param int        $category_parent Optional. ID of parent category.
  * @return string|null Returns the category ID as a numeric string if the pairing exists, null if not.
  */
-function category_exists( $cat_name, $parent = null ) {
-	$id = term_exists( $cat_name, 'category', $parent );
+function category_exists( $cat_name, $category_parent = null ) {
+	$id = term_exists( $cat_name, 'category', $category_parent );
 	if ( is_array( $id ) ) {
 		$id = $id['term_id'];
 	}
@@ -48,12 +48,12 @@ function get_category_to_edit( $id ) {
  *
  * @since 2.0.0
  *
- * @param int|string $cat_name
- * @param int        $parent
+ * @param int|string $cat_name        Category name.
+ * @param int        $category_parent Optional. ID of parent category.
  * @return int|WP_Error
  */
-function wp_create_category( $cat_name, $parent = 0 ) {
-	$id = category_exists( $cat_name, $parent );
+function wp_create_category( $cat_name, $category_parent = 0 ) {
+	$id = category_exists( $cat_name, $category_parent );
 	if ( $id ) {
 		return $id;
 	}
@@ -61,7 +61,7 @@ function wp_create_category( $cat_name, $parent = 0 ) {
 	return wp_insert_category(
 		array(
 			'cat_name'        => $cat_name,
-			'category_parent' => $parent,
+			'category_parent' => $category_parent,
 		)
 	);
 }

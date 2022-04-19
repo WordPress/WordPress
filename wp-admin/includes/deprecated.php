@@ -78,10 +78,10 @@ function get_udims( $width, $height ) {
  * @global int $post_ID
  *
  * @param int   $default_category Unused.
- * @param int   $parent_category  Unused.
+ * @param int   $category_parent  Unused.
  * @param array $popular_ids      Unused.
  */
-function dropdown_categories( $default_category = 0, $parent_category = 0, $popular_ids = array() ) {
+function dropdown_categories( $default_category = 0, $category_parent = 0, $popular_ids = array() ) {
 	_deprecated_function( __FUNCTION__, '2.6.0', 'wp_category_checklist()' );
 	global $post_ID;
 	wp_category_checklist( $post_ID );
@@ -127,21 +127,21 @@ function get_real_file_to_edit( $file ) {
  * @deprecated 3.0.0 Use wp_dropdown_categories()
  * @see wp_dropdown_categories()
  *
- * @param int $current_cat    Optional. ID of the current category. Default 0.
- * @param int $current_parent Optional. Current parent category ID. Default 0.
- * @param int $parent_cat     Optional. Parent ID to retrieve categories for. Default 0.
- * @param int $level          Optional. Number of levels deep to display. Default 0.
- * @param array $categories   Optional. Categories to include in the control. Default 0.
+ * @param int $current_cat     Optional. ID of the current category. Default 0.
+ * @param int $current_parent  Optional. Current parent category ID. Default 0.
+ * @param int $category_parent Optional. Parent ID to retrieve categories for. Default 0.
+ * @param int $level           Optional. Number of levels deep to display. Default 0.
+ * @param array $categories    Optional. Categories to include in the control. Default 0.
  * @return void|false Void on success, false if no categories were found.
  */
-function wp_dropdown_cats( $current_cat = 0, $current_parent = 0, $parent_cat = 0, $level = 0, $categories = 0 ) {
+function wp_dropdown_cats( $current_cat = 0, $current_parent = 0, $category_parent = 0, $level = 0, $categories = 0 ) {
 	_deprecated_function( __FUNCTION__, '3.0.0', 'wp_dropdown_categories()' );
 	if (!$categories )
 		$categories = get_categories( array('hide_empty' => 0) );
 
 	if ( $categories ) {
 		foreach ( $categories as $category ) {
-			if ( $current_cat != $category->term_id && $parent_cat == $category->parent) {
+			if ( $current_cat != $category->term_id && $category_parent == $category->parent) {
 				$pad = str_repeat( '&#8211; ', $level );
 				$category->name = esc_html( $category->name );
 				echo "\n\t<option value='$category->term_id'";
