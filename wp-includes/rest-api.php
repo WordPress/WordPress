@@ -2868,12 +2868,12 @@ function rest_preload_api_request( $memo, $path ) {
 	$response = rest_do_request( $request );
 	if ( 200 === $response->status ) {
 		$server = rest_get_server();
+		/** This filter is documented in wp-includes/rest-api/class-wp-rest-server.php */
+		$response = apply_filters( 'rest_post_dispatch', rest_ensure_response( $response ), $server, $request );
 		$embed  = $request->has_param( '_embed' ) ? rest_parse_embed_param( $request['_embed'] ) : false;
 		$data   = (array) $server->response_to_data( $response, $embed );
 
 		if ( 'OPTIONS' === $method ) {
-			$response = rest_send_allow_header( $response, $server, $request );
-
 			$memo[ $method ][ $path ] = array(
 				'body'    => $data,
 				'headers' => $response->headers,
