@@ -25,8 +25,8 @@ class WP_REST_Pattern_Directory_Controller extends WP_REST_Controller {
 	 * @since 5.8.0
 	 */
 	public function __construct() {
-		$this->namespace     = 'wp/v2';
-			$this->rest_base = 'pattern-directory';
+		$this->namespace = 'wp/v2';
+		$this->rest_base = 'pattern-directory';
 	}
 
 	/**
@@ -137,11 +137,7 @@ class WP_REST_Pattern_Directory_Controller extends WP_REST_Controller {
 		$raw_patterns = get_site_transient( $transient_key );
 
 		if ( ! $raw_patterns ) {
-			$api_url = add_query_arg(
-				array_map( 'rawurlencode', $query_args ),
-				'http://api.wordpress.org/patterns/1.0/'
-			);
-
+			$api_url = 'http://api.wordpress.org/patterns/1.0/?' . build_query( $query_args );
 			if ( wp_http_supports( array( 'ssl' ) ) ) {
 				$api_url = set_url_scheme( $api_url, 'https' );
 			}

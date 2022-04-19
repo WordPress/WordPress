@@ -155,7 +155,7 @@ function _register_remote_theme_patterns() {
 	}
 
 	$request         = new WP_REST_Request( 'GET', '/wp/v2/pattern-directory/patterns' );
-	$request['slug'] = implode( ',', $pattern_settings );
+	$request['slug'] = $pattern_settings;
 	$response        = rest_do_request( $request );
 	if ( $response->is_error() ) {
 		return;
