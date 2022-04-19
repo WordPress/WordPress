@@ -127,6 +127,7 @@ class WP_REST_Block_Patterns_Controller extends WP_REST_Controller {
 			'categories'    => 'categories',
 			'keywords'      => 'keywords',
 			'content'       => 'content',
+			'inserter'      => 'inserter',
 		);
 		$data   = array();
 		foreach ( $keys as $item_key => $rest_key ) {
@@ -199,6 +200,12 @@ class WP_REST_Block_Patterns_Controller extends WP_REST_Controller {
 				'content'        => array(
 					'description' => __( 'The pattern content.' ),
 					'type'        => 'string',
+					'readonly'    => true,
+					'context'     => array( 'view', 'edit', 'embed' ),
+				),
+				'inserter'       => array(
+					'description' => __( 'Determines whether the pattern is visible in inserter.' ),
+					'type'        => 'boolean',
 					'readonly'    => true,
 					'context'     => array( 'view', 'edit', 'embed' ),
 				),
