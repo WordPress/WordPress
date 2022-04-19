@@ -2912,8 +2912,10 @@ __webpack_require__.d(selectors_namespaceObject, {
   "__unstableGetBlockWithoutInnerBlocks": function() { return __unstableGetBlockWithoutInnerBlocks; },
   "__unstableGetClientIdWithClientIdsTree": function() { return __unstableGetClientIdWithClientIdsTree; },
   "__unstableGetClientIdsTree": function() { return __unstableGetClientIdsTree; },
+  "__unstableGetSelectedBlocksWithPartialSelection": function() { return __unstableGetSelectedBlocksWithPartialSelection; },
   "__unstableIsFullySelected": function() { return __unstableIsFullySelected; },
   "__unstableIsLastBlockChangeIgnored": function() { return __unstableIsLastBlockChangeIgnored; },
+  "__unstableIsSelectionCollapsed": function() { return __unstableIsSelectionCollapsed; },
   "__unstableIsSelectionMergeable": function() { return __unstableIsSelectionMergeable; },
   "areInnerBlocksControlled": function() { return areInnerBlocksControlled; },
   "canEditBlock": function() { return canEditBlock; },
@@ -5361,6 +5363,29 @@ const symbol = (0,external_wp_element_namespaceObject.createElement)(external_wp
 }));
 /* harmony default export */ var library_symbol = (symbol);
 
+;// CONCATENATED MODULE: external ["wp","richText"]
+var external_wp_richText_namespaceObject = window["wp"]["richText"];
+;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/store/utils.js
+/**
+ * Helper function that maps attribute definition properties to the
+ * ones used by RichText utils like `create, toHTMLString, etc..`.
+ *
+ * @param {Object} attributeDefinition A block's attribute definition object.
+ * @return {Object} The mapped object.
+ */
+function mapRichTextSettings(attributeDefinition) {
+  const {
+    multiline: multilineTag,
+    __unstableMultilineWrapperTags: multilineWrapperTags,
+    __unstablePreserveWhiteSpace: preserveWhiteSpace
+  } = attributeDefinition;
+  return {
+    multilineTag,
+    multilineWrapperTags,
+    preserveWhiteSpace
+  };
+}
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/store/selectors.js
 /**
  * External dependencies
@@ -5374,6 +5399,12 @@ const symbol = (0,external_wp_element_namespaceObject.createElement)(external_wp
 
 
 
+
+
+
+/**
+ * Internal dependencies
+ */
 
 
 /**
@@ -6218,6 +6249,19 @@ function __unstableIsFullySelected(state) {
   return !selectionAnchor.attributeKey && !selectionFocus.attributeKey && typeof selectionAnchor.offset === 'undefined' && typeof selectionFocus.offset === 'undefined';
 }
 /**
+ * Returns true if the selection is collapsed.
+ *
+ * @param {Object} state Editor state.
+ *
+ * @return {boolean} Whether the selection is collapsed.
+ */
+
+function __unstableIsSelectionCollapsed(state) {
+  const selectionAnchor = getSelectionStart(state);
+  const selectionFocus = getSelectionEnd(state);
+  return !!selectionAnchor && !!selectionFocus && selectionAnchor.clientId === selectionFocus.clientId && selectionAnchor.attributeKey === selectionFocus.attributeKey && selectionAnchor.offset === selectionFocus.offset;
+}
+/**
  * Check whether the selection is mergeable.
  *
  * @param {Object}  state     Editor state.
@@ -6268,6 +6312,75 @@ function __unstableIsSelectionMergeable(state, isForward) {
   const blocksToMerge = (0,external_wp_blocks_namespaceObject.switchToBlockType)(blockToMerge, targetBlock.name);
   return blocksToMerge && blocksToMerge.length;
 }
+/**
+ * Get partial selected blocks with their content updated
+ * based on the selection.
+ *
+ * @param {Object} state Editor state.
+ *
+ * @return {Object[]} Updated partial selected blocks.
+ */
+
+const __unstableGetSelectedBlocksWithPartialSelection = state => {
+  const selectionAnchor = getSelectionStart(state);
+  const selectionFocus = getSelectionEnd(state);
+
+  if (selectionAnchor.clientId === selectionFocus.clientId) {
+    return EMPTY_ARRAY;
+  } // Can't split if the selection is not set.
+
+
+  if (!selectionAnchor.attributeKey || !selectionFocus.attributeKey || typeof selectionAnchor.offset === 'undefined' || typeof selectionFocus.offset === 'undefined') {
+    return EMPTY_ARRAY;
+  }
+
+  const anchorRootClientId = getBlockRootClientId(state, selectionAnchor.clientId);
+  const focusRootClientId = getBlockRootClientId(state, selectionFocus.clientId); // It's not splittable if the selection doesn't start and end in the same
+  // block list. Maybe in the future it should be allowed.
+
+  if (anchorRootClientId !== focusRootClientId) {
+    return EMPTY_ARRAY;
+  }
+
+  const blockOrder = getBlockOrder(state, anchorRootClientId);
+  const anchorIndex = blockOrder.indexOf(selectionAnchor.clientId);
+  const focusIndex = blockOrder.indexOf(selectionFocus.clientId); // Reassign selection start and end based on order.
+
+  const [selectionStart, selectionEnd] = anchorIndex > focusIndex ? [selectionFocus, selectionAnchor] : [selectionAnchor, selectionFocus];
+  const blockA = getBlock(state, selectionStart.clientId);
+  const blockAType = (0,external_wp_blocks_namespaceObject.getBlockType)(blockA.name);
+  const blockB = getBlock(state, selectionEnd.clientId);
+  const blockBType = (0,external_wp_blocks_namespaceObject.getBlockType)(blockB.name);
+  const htmlA = blockA.attributes[selectionStart.attributeKey];
+  const htmlB = blockB.attributes[selectionEnd.attributeKey];
+  const attributeDefinitionA = blockAType.attributes[selectionStart.attributeKey];
+  const attributeDefinitionB = blockBType.attributes[selectionEnd.attributeKey];
+  let valueA = (0,external_wp_richText_namespaceObject.create)({
+    html: htmlA,
+    ...mapRichTextSettings(attributeDefinitionA)
+  });
+  let valueB = (0,external_wp_richText_namespaceObject.create)({
+    html: htmlB,
+    ...mapRichTextSettings(attributeDefinitionB)
+  });
+  valueA = (0,external_wp_richText_namespaceObject.remove)(valueA, 0, selectionStart.offset);
+  valueB = (0,external_wp_richText_namespaceObject.remove)(valueB, selectionEnd.offset, valueB.text.length);
+  return [{ ...blockA,
+    attributes: { ...blockA.attributes,
+      [selectionStart.attributeKey]: (0,external_wp_richText_namespaceObject.toHTMLString)({
+        value: valueA,
+        ...mapRichTextSettings(attributeDefinitionA)
+      })
+    }
+  }, { ...blockB,
+    attributes: { ...blockB.attributes,
+      [selectionEnd.attributeKey]: (0,external_wp_richText_namespaceObject.toHTMLString)({
+        value: valueB,
+        ...mapRichTextSettings(attributeDefinitionB)
+      })
+    }
+  }];
+};
 /**
  * Returns an array containing all block client IDs in the editor in the order
  * they appear. Optionally accepts a root client ID of the block list for which
@@ -7695,8 +7808,6 @@ function wasBlockJustInserted(state, clientId, source) {
 
 ;// CONCATENATED MODULE: external ["wp","a11y"]
 var external_wp_a11y_namespaceObject = window["wp"]["a11y"];
-;// CONCATENATED MODULE: external ["wp","richText"]
-var external_wp_richText_namespaceObject = window["wp"]["richText"];
 ;// CONCATENATED MODULE: external ["wp","deprecated"]
 var external_wp_deprecated_namespaceObject = window["wp"]["deprecated"];
 var external_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external_wp_deprecated_namespaceObject);
@@ -7712,6 +7823,11 @@ var external_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external
 
 
 
+
+
+/**
+ * Internal dependencies
+ */
 
 
 /**
@@ -8369,25 +8485,11 @@ const synchronizeTemplate = () => _ref11 => {
   const updatedBlockList = (0,external_wp_blocks_namespaceObject.synchronizeBlocksWithTemplate)(blocks, template);
   dispatch.resetBlocks(updatedBlockList);
 };
-
-function mapRichTextSettings(attributeDefinition) {
-  const {
-    multiline: multilineTag,
-    __unstableMultilineWrapperTags: multilineWrapperTags,
-    __unstablePreserveWhiteSpace: preserveWhiteSpace
-  } = attributeDefinition;
-  return {
-    multilineTag,
-    multilineWrapperTags,
-    preserveWhiteSpace
-  };
-}
 /**
  * Delete the current selection.
  *
  * @param {boolean} isForward
  */
-
 
 const __unstableDeleteSelection = isForward => _ref12 => {
   let {
@@ -11929,7 +12031,7 @@ function useAvailableAlignments() {
 const ui_BLOCK_ALIGNMENTS_CONTROLS = {
   none: {
     icon: align_none,
-    title: (0,external_wp_i18n_namespaceObject.__)('None')
+    title: (0,external_wp_i18n_namespaceObject._x)('None', 'Alignment option')
   },
   left: {
     icon: position_left,
@@ -28567,12 +28669,18 @@ function useClipboardHandler() {
     getBlocksByClientId,
     getSelectedBlockClientIds,
     hasMultiSelection,
-    getSettings
+    getSettings,
+    __unstableIsFullySelected,
+    __unstableIsSelectionCollapsed,
+    __unstableIsSelectionMergeable,
+    __unstableGetSelectedBlocksWithPartialSelection
   } = (0,external_wp_data_namespaceObject.useSelect)(store);
   const {
     flashBlock,
     removeBlocks,
-    replaceBlocks
+    replaceBlocks,
+    __unstableDeleteSelection,
+    __unstableExpandSelection
   } = (0,external_wp_data_namespaceObject.useDispatch)(store);
   const notifyCopy = useNotifyCopy();
   return (0,external_wp_compose_namespaceObject.useRefEffect)(node => {
@@ -28607,20 +28715,49 @@ function useClipboardHandler() {
       const eventDefaultPrevented = event.defaultPrevented;
       event.preventDefault();
 
+      const isSelectionMergeable = __unstableIsSelectionMergeable();
+
+      const shouldHandleWholeBlocks = __unstableIsSelectionCollapsed() || __unstableIsFullySelected();
+
+      const expandSelectionIsNeeded = !shouldHandleWholeBlocks && !isSelectionMergeable;
+
       if (event.type === 'copy' || event.type === 'cut') {
         if (selectedBlockClientIds.length === 1) {
           flashBlock(selectedBlockClientIds[0]);
-        }
+        } // If we have a partial selection that is not mergeable, just
+        // expand the selection to the whole blocks.
 
-        notifyCopy(event.type, selectedBlockClientIds);
-        const blocks = getBlocksByClientId(selectedBlockClientIds);
-        const serialized = (0,external_wp_blocks_namespaceObject.serialize)(blocks);
-        event.clipboardData.setData('text/plain', serialized);
-        event.clipboardData.setData('text/html', serialized);
+
+        if (expandSelectionIsNeeded) {
+          __unstableExpandSelection();
+        } else {
+          notifyCopy(event.type, selectedBlockClientIds);
+          let blocks; // Check if we have partial selection.
+
+          if (shouldHandleWholeBlocks) {
+            blocks = getBlocksByClientId(selectedBlockClientIds);
+          } else {
+            const [head, tail] = __unstableGetSelectedBlocksWithPartialSelection();
+
+            const inBetweenBlocks = getBlocksByClientId(selectedBlockClientIds.slice(1, selectedBlockClientIds.length - 1));
+            blocks = [head, ...inBetweenBlocks, tail];
+          }
+
+          const serialized = (0,external_wp_blocks_namespaceObject.serialize)(blocks);
+          event.clipboardData.setData('text/plain', serialized);
+          event.clipboardData.setData('text/html', serialized);
+        }
       }
 
       if (event.type === 'cut') {
-        removeBlocks(selectedBlockClientIds);
+        // We need to also check if at the start we needed to
+        // expand the selection, as in this point we might have
+        // programmatically fully selected the blocks above.
+        if (shouldHandleWholeBlocks && !expandSelectionIsNeeded) {
+          removeBlocks(selectedBlockClientIds);
+        } else {
+          __unstableDeleteSelection();
+        }
       } else if (event.type === 'paste') {
         if (eventDefaultPrevented) {
           // This was likely already handled in rich-text/use-paste-handler.js.
@@ -29139,15 +29276,12 @@ const lock = (0,external_wp_element_namespaceObject.createElement)(external_wp_p
 /**
  * Return details about the block lock status.
  *
- * @param {string}  clientId    The block client Id.
- * @param {boolean} checkParent Optional. The status is derived from the parent `templateLock`
- *                              when the current block's lock state isn't defined.
+ * @param {string} clientId The block client Id.
  *
  * @return {Object} Block lock status
  */
 
 function useBlockLock(clientId) {
-  let checkParent = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
   return (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
       canEditBlock,
@@ -29157,7 +29291,7 @@ function useBlockLock(clientId) {
       getBlockName,
       getBlockRootClientId
     } = select(store);
-    const rootClientId = checkParent ? getBlockRootClientId(clientId) : null;
+    const rootClientId = getBlockRootClientId(clientId);
     const canEdit = canEditBlock(clientId);
     const canMove = canMoveBlock(clientId, rootClientId);
     const canRemove = canRemoveBlock(clientId, rootClientId);
@@ -29168,7 +29302,7 @@ function useBlockLock(clientId) {
       canLock: canLockBlockType(getBlockName(clientId)),
       isLocked: !canEdit || !canMove || !canRemove
     };
-  }, [clientId, checkParent]);
+  }, [clientId]);
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/block-lock/modal.js
@@ -29204,7 +29338,7 @@ function BlockLockModal(_ref) {
     canEdit,
     canMove,
     canRemove
-  } = useBlockLock(clientId, true);
+  } = useBlockLock(clientId);
   const {
     isReusable
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
@@ -29333,7 +29467,7 @@ function BlockLockMenuItem(_ref) {
   const {
     canLock,
     isLocked
-  } = useBlockLock(clientId, true);
+  } = useBlockLock(clientId);
   const [isModalOpen, toggleModal] = (0,external_wp_element_namespaceObject.useReducer)(isActive => !isActive, false);
 
   if (!canLock) {
@@ -38624,6 +38758,7 @@ function getCommonDepthClientIds(startId, endId, startParents, endParents) {
 
 
 
+
 function ListViewBlock(_ref) {
   let {
     block,
@@ -38652,11 +38787,21 @@ function ListViewBlock(_ref) {
     toggleBlockHighlight
   } = (0,external_wp_data_namespaceObject.useDispatch)(store);
   const blockInformation = useBlockDisplayInformation(clientId);
+  const {
+    isLocked
+  } = useBlockLock(clientId);
   const instanceId = (0,external_wp_compose_namespaceObject.useInstanceId)(ListViewBlock);
   const descriptionId = `list-view-block-select-button__${instanceId}`;
   const blockPositionDescription = getBlockPositionDescription(position, siblingBlockCount, level);
-  const blockAriaLabel = blockInformation ? (0,external_wp_i18n_namespaceObject.sprintf)( // translators: %s: The title of the block. This string indicates a link to select the block.
-  (0,external_wp_i18n_namespaceObject.__)('%s link'), blockInformation.title) : (0,external_wp_i18n_namespaceObject.__)('Link');
+
+  let blockAriaLabel = (0,external_wp_i18n_namespaceObject.__)('Link');
+
+  if (blockInformation) {
+    blockAriaLabel = isLocked ? (0,external_wp_i18n_namespaceObject.sprintf)( // translators: %s: The title of the block. This string indicates a link to select the locked block.
+    (0,external_wp_i18n_namespaceObject.__)('%s link (locked)'), blockInformation.title) : (0,external_wp_i18n_namespaceObject.sprintf)( // translators: %s: The title of the block. This string indicates a link to select the block.
+    (0,external_wp_i18n_namespaceObject.__)('%s link'), blockInformation.title);
+  }
+
   const settingsAriaLabel = blockInformation ? (0,external_wp_i18n_namespaceObject.sprintf)( // translators: %s: The title of the block.
   (0,external_wp_i18n_namespaceObject.__)('Options for %s block'), blockInformation.title) : (0,external_wp_i18n_namespaceObject.__)('Options');
   const {
@@ -44267,6 +44412,11 @@ function LinkControl(_ref) {
   const [isEditingLink, setIsEditingLink] = (0,external_wp_element_namespaceObject.useState)(forceIsEditingLink !== undefined ? forceIsEditingLink : !value || !value.url);
   const isEndingEditWithFocus = (0,external_wp_element_namespaceObject.useRef)(false);
   const currentInputIsEmpty = !(currentInputValue !== null && currentInputValue !== void 0 && (_currentInputValue$tr = currentInputValue.trim()) !== null && _currentInputValue$tr !== void 0 && _currentInputValue$tr.length);
+  const {
+    createPage,
+    isCreatingPage,
+    errorMessage
+  } = useCreatePage(createSuggestion);
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     if (forceIsEditingLink !== undefined && forceIsEditingLink !== isEditingLink) {
       setIsEditingLink(forceIsEditingLink);
@@ -44295,7 +44445,7 @@ function LinkControl(_ref) {
     const nextFocusTarget = external_wp_dom_namespaceObject.focus.focusable.find(wrapperNode.current)[whichFocusTargetIndex] || wrapperNode.current;
     nextFocusTarget.focus();
     isEndingEditWithFocus.current = false;
-  }, [isEditingLink]);
+  }, [isEditingLink, isCreatingPage]);
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     /**
      * If the value's `text` property changes then sync this
@@ -44325,12 +44475,6 @@ function LinkControl(_ref) {
     isEndingEditWithFocus.current = !!((_wrapperNode$current = wrapperNode.current) !== null && _wrapperNode$current !== void 0 && _wrapperNode$current.contains(wrapperNode.current.ownerDocument.activeElement));
     setIsEditingLink(false);
   }
-
-  const {
-    createPage,
-    isCreatingPage,
-    errorMessage
-  } = useCreatePage(createSuggestion);
 
   const handleSelectSuggestion = updatedValue => {
     onChange({ ...updatedValue,

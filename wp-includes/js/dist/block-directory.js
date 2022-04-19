@@ -1186,6 +1186,7 @@ function DownloadableBlockListItem(_ref3) {
   }
 
   return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__unstableCompositeItem, _extends({
+    __experimentalIsFocusable: true,
     role: "option",
     as: external_wp_components_namespaceObject.Button
   }, composite, {

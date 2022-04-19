@@ -5384,13 +5384,13 @@ function EntityRecordItem(_ref) {
 
 
 
-function getEntityDescription(entity, length) {
+function getEntityDescription(entity, count) {
   switch (entity) {
     case 'site':
-      return (0,external_wp_i18n_namespaceObject._n)('This change will affect your whole site.', 'These changes will affect your whole site.', length);
+      return 1 === count ? (0,external_wp_i18n_namespaceObject.__)('This change will affect your whole site.') : (0,external_wp_i18n_namespaceObject.__)('These changes will affect your whole site.');
 
     case 'wp_template':
-      return (0,external_wp_i18n_namespaceObject._n)('This change will affect pages and posts that use this template.', 'These changes will affect pages and posts that use these templates.', length);
+      return (0,external_wp_i18n_namespaceObject.__)('This change will affect pages and posts that use this template.');
 
     case 'page':
     case 'post':
@@ -5405,14 +5405,20 @@ function EntityTypeList(_ref) {
     setUnselectedEntities,
     closePanel
   } = _ref;
+  const count = list.length;
   const firstRecord = list[0];
   const entityConfig = (0,external_wp_data_namespaceObject.useSelect)(select => select(external_wp_coreData_namespaceObject.store).getEntityConfig(firstRecord.kind, firstRecord.name), [firstRecord.kind, firstRecord.name]);
   const {
     name
   } = firstRecord;
-  const entityLabel = name === 'wp_template_part' ? (0,external_wp_i18n_namespaceObject._n)('Template Part', 'Template Parts', list.length) : entityConfig.label; // Set description based on type of entity.
+  let entityLabel = entityConfig.label;
 
-  const description = getEntityDescription(name, list.length);
+  if (name === 'wp_template_part') {
+    entityLabel = 1 === count ? (0,external_wp_i18n_namespaceObject.__)('Template Part') : (0,external_wp_i18n_namespaceObject.__)('Template Parts');
+  } // Set description based on type of entity.
+
+
+  const description = getEntityDescription(name, count);
   return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.PanelBody, {
     title: entityLabel,
     initialOpen: true

@@ -855,8 +855,7 @@
   padding-left: 0 !important;
 }
 .block-editor-block-lock-toolbar .components-button.has-icon:focus::before {
-  left: 0 !important;
-  right: 12px !important;
+  right: 8px !important;
 }
 
 .block-editor-block-breadcrumb {

@@ -1300,15 +1300,21 @@ module.exports = function getPolyfill() {
 
 
 var define = __webpack_require__(9170);
+var shimUnscopables = __webpack_require__(2505);
+
 var getPolyfill = __webpack_require__(616);
 
 module.exports = function shimFlat() {
 	var polyfill = getPolyfill();
+
 	define(
 		Array.prototype,
 		{ flat: polyfill },
 		{ flat: function () { return Array.prototype.flat !== polyfill; } }
 	);
+
+	shimUnscopables('flat');
+
 	return polyfill;
 };
 
@@ -2471,6 +2477,35 @@ if (true) {
 
 /***/ }),
 
+/***/ 2505:
+/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+
+"use strict";
+
+
+var has = __webpack_require__(9284);
+
+var hasUnscopables = typeof Symbol === 'function' && typeof Symbol.unscopables === 'symbol';
+
+var map = hasUnscopables && Array.prototype[Symbol.unscopables];
+
+var $TypeError = TypeError;
+
+module.exports = function shimUnscopables(method) {
+	if (typeof method !== 'string' || !method) {
+		throw new $TypeError('method must be a non-empty string');
+	}
+	if (!has(Array.prototype, method)) {
+		throw new $TypeError('method must be on Array.prototype');
+	}
+	if (hasUnscopables) {
+		map[method] = true;
+	}
+};
+
+
+/***/ }),
+
 /***/ 5249:
 /***/ (function(module, __unused_webpack_exports, __webpack_require__) {
 
@@ -2549,59 +2584,6 @@ module.exports = function ToPrimitive(input) {
 		hint = 'string';
 	}
 	return ordinaryToPrimitive(input, hint === 'default' ? 'number' : hint);
-};
-
-
-/***/ }),
-
-/***/ 8023:
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
-
-"use strict";
-
-
-var toStr = Object.prototype.toString;
-
-var isPrimitive = __webpack_require__(3777);
-
-var isCallable = __webpack_require__(5443);
-
-// http://ecma-international.org/ecma-262/5.1/#sec-8.12.8
-var ES5internalSlots = {
-	'[[DefaultValue]]': function (O) {
-		var actualHint;
-		if (arguments.length > 1) {
-			actualHint = arguments[1];
-		} else {
-			actualHint = toStr.call(O) === '[object Date]' ? String : Number;
-		}
-
-		if (actualHint === String || actualHint === Number) {
-			var methods = actualHint === String ? ['toString', 'valueOf'] : ['valueOf', 'toString'];
-			var value, i;
-			for (i = 0; i < methods.length; ++i) {
-				if (isCallable(O[methods[i]])) {
-					value = O[methods[i]]();
-					if (isPrimitive(value)) {
-						return value;
-					}
-				}
-			}
-			throw new TypeError('No default value');
-		}
-		throw new TypeError('invalid [[DefaultValue]] hint supplied');
-	}
-};
-
-// http://ecma-international.org/ecma-262/5.1/#sec-9.1
-module.exports = function ToPrimitive(input) {
-	if (isPrimitive(input)) {
-		return input;
-	}
-	if (arguments.length > 1) {
-		return ES5internalSlots['[[DefaultValue]]'](input, arguments[1]);
-	}
-	return ES5internalSlots['[[DefaultValue]]'](input);
 };
 
 
@@ -14417,13 +14399,13 @@ module.exports = function ArrayCreate(length) {
 		A.length = length;
 	}
 	/* step 6, the above as a shortcut for the below
-    OrdinaryDefineOwnProperty(A, 'length', {
-        '[[Configurable]]': false,
-        '[[Enumerable]]': false,
-        '[[Value]]': length,
-        '[[Writable]]': true
-    });
-    */
+	OrdinaryDefineOwnProperty(A, 'length', {
+		'[[Configurable]]': false,
+		'[[Enumerable]]': false,
+		'[[Value]]': length,
+		'[[Writable]]': true
+	});
+	*/
 	return A;
 };
 
@@ -14545,8 +14527,8 @@ module.exports = function CreateDataProperty(O, P, V) {
 	}
 	var oldDesc = OrdinaryGetOwnProperty(O, P);
 	var extensible = !oldDesc || IsExtensible(O);
-	var immutable = oldDesc && (!oldDesc['[[Writable]]'] || !oldDesc['[[Configurable]]']);
-	if (immutable || !extensible) {
+	var nonConfigurable = oldDesc && !oldDesc['[[Configurable]]'];
+	if (nonConfigurable || !extensible) {
 		return false;
 	}
 	return DefineOwnProperty(
@@ -14783,12 +14765,7 @@ var inspect = __webpack_require__(3205);
 var IsPropertyKey = __webpack_require__(3290);
 var Type = __webpack_require__(9747);
 
-/**
- * 7.3.1 Get (O, P) - https://ecma-international.org/ecma-262/6.0/#sec-get-o-p
- * 1. Assert: Type(O) is Object.
- * 2. Assert: IsPropertyKey(P) is true.
- * 3. Return O.[[Get]](P, O).
- */
+// https://ecma-international.org/ecma-262/6.0/#sec-get-o-p
 
 module.exports = function Get(O, P) {
 	// 7.3.1.1
@@ -14987,12 +14964,10 @@ module.exports = function IsDataDescriptor(Desc) {
 
 var GetIntrinsic = __webpack_require__(4219);
 
-var $Object = GetIntrinsic('%Object%');
+var $preventExtensions = GetIntrinsic('%Object.preventExtensions%', true);
+var $isExtensible = GetIntrinsic('%Object.isExtensible%', true);
 
 var isPrimitive = __webpack_require__(5019);
-
-var $preventExtensions = $Object.preventExtensions;
-var $isExtensible = $Object.isExtensible;
 
 // https://ecma-international.org/ecma-262/6.0/#sec-isextensible-o
 
@@ -15211,18 +15186,21 @@ module.exports = function ToBoolean(value) { return !!value; };
 "use strict";
 
 
-var ES5ToInteger = __webpack_require__(8537);
-
+var abs = __webpack_require__(13);
+var floor = __webpack_require__(5127);
 var ToNumber = __webpack_require__(5541);
 
-// https://www.ecma-international.org/ecma-262/11.0/#sec-tointeger
+var $isNaN = __webpack_require__(3234);
+var $isFinite = __webpack_require__(7061);
+var $sign = __webpack_require__(2163);
 
-module.exports = function ToInteger(value) {
+// https://262.ecma-international.org/12.0/#sec-tointegerorinfinity
+
+module.exports = function ToIntegerOrInfinity(value) {
 	var number = ToNumber(value);
-	if (number !== 0) {
-		number = ES5ToInteger(number);
-	}
-	return number === 0 ? 0 : number;
+	if ($isNaN(number) || number === 0) { return 0; }
+	if (!$isFinite(number)) { return number; }
+	return $sign(number) * floor(abs(number));
 };
 
 
@@ -15526,73 +15504,6 @@ module.exports = function CheckObjectCoercible(value, optMessage) {
 
 /***/ }),
 
-/***/ 8537:
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
-
-"use strict";
-
-
-var abs = __webpack_require__(6195);
-var floor = __webpack_require__(7914);
-var ToNumber = __webpack_require__(4018);
-
-var $isNaN = __webpack_require__(3234);
-var $isFinite = __webpack_require__(7061);
-var $sign = __webpack_require__(2163);
-
-// http://262.ecma-international.org/5.1/#sec-9.4
-
-module.exports = function ToInteger(value) {
-	var number = ToNumber(value);
-	if ($isNaN(number)) { return 0; }
-	if (number === 0 || !$isFinite(number)) { return number; }
-	return $sign(number) * floor(abs(number));
-};
-
-
-/***/ }),
-
-/***/ 4018:
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
-
-"use strict";
-
-
-var ToPrimitive = __webpack_require__(583);
-
-// http://262.ecma-international.org/5.1/#sec-9.3
-
-module.exports = function ToNumber(value) {
-	var prim = ToPrimitive(value, Number);
-	if (typeof prim !== 'string') {
-		return +prim; // eslint-disable-line no-implicit-coercion
-	}
-
-	// eslint-disable-next-line no-control-regex
-	var trimmed = prim.replace(/^[ \t\x0b\f\xa0\ufeff\n\r\u2028\u2029\u1680\u180e\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u202f\u205f\u3000\u0085]+|[ \t\x0b\f\xa0\ufeff\n\r\u2028\u2029\u1680\u180e\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u202f\u205f\u3000\u0085]+$/g, '');
-	if ((/^0[ob]|^[+-]0x/).test(trimmed)) {
-		return NaN;
-	}
-
-	return +trimmed; // eslint-disable-line no-implicit-coercion
-};
-
-
-/***/ }),
-
-/***/ 583:
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
-
-"use strict";
-
-
-// http://262.ecma-international.org/5.1/#sec-9.1
-
-module.exports = __webpack_require__(8023);
-
-
-/***/ }),
-
 /***/ 290:
 /***/ (function(module) {
 
@@ -15620,44 +15531,6 @@ module.exports = function Type(x) {
 	if (typeof x === 'string') {
 		return 'String';
 	}
-};
-
-
-/***/ }),
-
-/***/ 6195:
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
-
-"use strict";
-
-
-var GetIntrinsic = __webpack_require__(4219);
-
-var $abs = GetIntrinsic('%Math.abs%');
-
-// http://262.ecma-international.org/5.1/#sec-5.2
-
-module.exports = function abs(x) {
-	return $abs(x);
-};
-
-
-/***/ }),
-
-/***/ 7914:
-/***/ (function(module) {
-
-"use strict";
-
-
-// var modulo = require('./modulo');
-var $floor = Math.floor;
-
-// http://262.ecma-international.org/5.1/#sec-5.2
-
-module.exports = function floor(x) {
-	// return x - modulo(x, 1);
-	return $floor(x);
 };
 
 
@@ -15696,7 +15569,13 @@ if ($defineProperty) {
 }
 
 // node v0.6 has a bug where array lengths can be Set but not Defined
-var hasArrayLengthDefineBug = Object.defineProperty && Object.defineProperty([], 'length', { value: 1 }).length === 0;
+var hasArrayLengthDefineBug;
+try {
+	hasArrayLengthDefineBug = $defineProperty && $defineProperty([], 'length', { value: 1 }).length === 0;
+} catch (e) {
+	// In Firefox 4-22, defining length on an array throws an exception.
+	hasArrayLengthDefineBug = true;
+}
 
 // eslint-disable-next-line global-require
 var isArray = hasArrayLengthDefineBug && __webpack_require__(7472); // this does not depend on any other AOs.
@@ -15926,14 +15805,12 @@ module.exports = $Number.MAX_SAFE_INTEGER || $Math.pow(2, 53) - 1;
 "use strict";
 
 
-var GetIntrinsic = __webpack_require__(4219);
+var callBound = __webpack_require__(9630);
 
-var $test = GetIntrinsic('RegExp.prototype.test');
-
-var callBind = __webpack_require__(9961);
+var $exec = callBound('RegExp.prototype.exec');
 
 module.exports = function regexTester(regex) {
-	return callBind($test, regex);
+	return function test(s) { return $exec(regex, s) !== null; };
 };
 
 
@@ -30352,7 +30229,7 @@ function createProjectionNode(_a) {
                     }
                     // TODO: Check here if an animation exists
                     var layoutTransition = (_c = (_b = _this.options.transition) !== null && _b !== void 0 ? _b : visualElement.getDefaultTransition()) !== null && _c !== void 0 ? _c : defaultLayoutTransition;
-                    var onLayoutAnimationComplete = visualElement.getProps().onLayoutAnimationComplete;
+                    var _g = visualElement.getProps(), onLayoutAnimationStart = _g.onLayoutAnimationStart, onLayoutAnimationComplete = _g.onLayoutAnimationComplete;
                     /**
                      * The target layout of the element might stay the same,
                      * but its position relative to its parent has changed.
@@ -30375,7 +30252,7 @@ function createProjectionNode(_a) {
                             _this.resumingFrom.resumingFrom = undefined;
                         }
                         _this.setAnimationOrigin(delta, hasOnlyRelativeTargetChanged);
-                        var animationOptions = __assign(__assign({}, getValueTransition(layoutTransition, "layout")), { onComplete: onLayoutAnimationComplete });
+                        var animationOptions = __assign(__assign({}, getValueTransition(layoutTransition, "layout")), { onPlay: onLayoutAnimationStart, onComplete: onLayoutAnimationComplete });
                         if (visualElement.shouldReduceMotion) {
                             animationOptions.delay = 0;
                             animationOptions.type = false;
@@ -30908,6 +30785,7 @@ function createProjectionNode(_a) {
         ProjectionNode.prototype.startAnimation = function (options) {
             var _this = this;
             var _a, _b;
+            this.notifyListeners("animationStart");
             (_a = this.currentAnimation) === null || _a === void 0 ? void 0 : _a.stop();
             if (this.resumingFrom) {
                 (_b = this.resumingFrom.currentAnimation) === null || _b === void 0 ? void 0 : _b.stop();
@@ -31915,6 +31793,7 @@ var validMotionProps = new Set([
     "layout",
     "layoutId",
     "layoutDependency",
+    "onLayoutAnimationStart",
     "onLayoutAnimationComplete",
     "onLayoutMeasure",
     "onBeforeLayoutMeasure",
@@ -34723,6 +34602,7 @@ var lifecycles_names = [
     "AnimationComplete",
     "LayoutAnimationComplete",
     "AnimationStart",
+    "LayoutAnimationStart",
     "SetAxisTarget",
     "Unmount",
 ];
@@ -66502,41 +66382,6 @@ function PageControl(_ref) {
   }))));
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/guide/finish-button.js
-
-
-
-/**
- * WordPress dependencies
- */
-
-/**
- * Internal dependencies
- */
-
-
-function FinishButton(props) {
-  const ref = (0,external_wp_element_namespaceObject.useRef)(); // Focus the button on mount if nothing else is focused. This prevents a
-  // focus loss when the 'Next' button is swapped out.
-
-  (0,external_wp_element_namespaceObject.useLayoutEffect)(() => {
-    const {
-      ownerDocument
-    } = ref.current;
-    const {
-      activeElement,
-      body
-    } = ownerDocument;
-
-    if (!activeElement || activeElement === body) {
-      ref.current.focus();
-    }
-  }, []);
-  return (0,external_wp_element_namespaceObject.createElement)(build_module_button, extends_extends({}, props, {
-    ref: ref
-  }));
-}
-
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/guide/index.js
 
 
@@ -66552,10 +66397,10 @@ function FinishButton(props) {
 
 
 
+
 /**
  * Internal dependencies
  */
-
 
 
 
@@ -66569,6 +66414,7 @@ function Guide(_ref) {
     onFinish,
     pages = []
   } = _ref;
+  const guideContainer = (0,external_wp_element_namespaceObject.useRef)();
   const [currentPage, setCurrentPage] = (0,external_wp_element_namespaceObject.useState)(0);
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     if (external_wp_element_namespaceObject.Children.count(children)) {
@@ -66578,6 +66424,13 @@ function Guide(_ref) {
       });
     }
   }, [children]);
+  (0,external_wp_element_namespaceObject.useEffect)(() => {
+    var _focus$tabbable$find, _focus$tabbable$find$;
+
+    // Each time we change the current page, start from the first element of the page.
+    // This also solves any focus loss that can happen.
+    (_focus$tabbable$find = external_wp_dom_namespaceObject.focus.tabbable.find(guideContainer.current)) === null || _focus$tabbable$find === void 0 ? void 0 : (_focus$tabbable$find$ = _focus$tabbable$find[0]) === null || _focus$tabbable$find$ === void 0 ? void 0 : _focus$tabbable$find$.focus();
+  }, [currentPage]);
 
   if (external_wp_element_namespaceObject.Children.count(children)) {
     pages = external_wp_element_namespaceObject.Children.map(children, child => ({
@@ -66614,7 +66467,8 @@ function Guide(_ref) {
       } else if (event.keyCode === external_wp_keycodes_namespaceObject.RIGHT) {
         goForward();
       }
-    }
+    },
+    ref: guideContainer
   }, (0,external_wp_element_namespaceObject.createElement)("div", {
     className: "components-guide__container"
   }, (0,external_wp_element_namespaceObject.createElement)("div", {
@@ -66623,10 +66477,7 @@ function Guide(_ref) {
     currentPage: currentPage,
     numberOfPages: pages.length,
     setCurrentPage: setCurrentPage
-  }), pages[currentPage].content, !canGoForward && (0,external_wp_element_namespaceObject.createElement)(FinishButton, {
-    className: "components-guide__inline-finish-button",
-    onClick: onFinish
-  }, finishButtonText || (0,external_wp_i18n_namespaceObject.__)('Finish'))), (0,external_wp_element_namespaceObject.createElement)("div", {
+  }), pages[currentPage].content), (0,external_wp_element_namespaceObject.createElement)("div", {
     className: "components-guide__footer"
   }, canGoBack && (0,external_wp_element_namespaceObject.createElement)(build_module_button, {
     className: "components-guide__back-button",
@@ -66634,7 +66485,7 @@ function Guide(_ref) {
   }, (0,external_wp_i18n_namespaceObject.__)('Previous')), canGoForward && (0,external_wp_element_namespaceObject.createElement)(build_module_button, {
     className: "components-guide__forward-button",
     onClick: goForward
-  }, (0,external_wp_i18n_namespaceObject.__)('Next')), !canGoForward && (0,external_wp_element_namespaceObject.createElement)(FinishButton, {
+  }, (0,external_wp_i18n_namespaceObject.__)('Next')), !canGoForward && (0,external_wp_element_namespaceObject.createElement)(build_module_button, {
     className: "components-guide__finish-button",
     onClick: onFinish
   }, finishButtonText || (0,external_wp_i18n_namespaceObject.__)('Finish')))));

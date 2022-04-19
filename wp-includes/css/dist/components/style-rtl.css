@@ -3036,9 +3036,6 @@ body.is-dragging-components-draggable {
 .components-button.components-guide__finish-button {
   left: 32px;
 }
-.components-button.components-guide__inline-finish-button {
-  display: none;
-}
 
 [role=region] {
   position: relative;

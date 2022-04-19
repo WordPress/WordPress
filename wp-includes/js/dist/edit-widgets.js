@@ -4308,9 +4308,12 @@ function Interface(_ref) {
       closeGeneralSidebar();
     }
   }, [isInserterOpened, isListViewOpened, isHugeViewport]);
+  const secondarySidebarLabel = isListViewOpened ? (0,external_wp_i18n_namespaceObject.__)('List View') : (0,external_wp_i18n_namespaceObject.__)('Block Library');
   const hasSecondarySidebar = isListViewOpened || isInserterOpened;
   return (0,external_wp_element_namespaceObject.createElement)(interface_skeleton, {
-    labels: interfaceLabels,
+    labels: { ...interfaceLabels,
+      secondarySidebar: secondarySidebarLabel
+    },
     header: (0,external_wp_element_namespaceObject.createElement)(header, null),
     secondarySidebar: hasSecondarySidebar && (0,external_wp_element_namespaceObject.createElement)(SecondarySidebar, null),
     sidebar: hasSidebarEnabled && (0,external_wp_element_namespaceObject.createElement)(complementary_area.Slot, {

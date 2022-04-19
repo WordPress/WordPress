@@ -8653,8 +8653,6 @@ function StartPageOptions() {
 
 
 const interfaceLabels = {
-  secondarySidebar: (0,external_wp_i18n_namespaceObject.__)('Block library'),
-
   /* translators: accessibility text for the editor top bar landmark region. */
   header: (0,external_wp_i18n_namespaceObject.__)('Editor top bar'),
 
@@ -8758,6 +8756,7 @@ function Layout(_ref) {
 
     setEntitiesSavedStatesCallback(false);
   }, [entitiesSavedStatesCallback]);
+  const secondarySidebarLabel = isListViewOpened ? (0,external_wp_i18n_namespaceObject.__)('List View') : (0,external_wp_i18n_namespaceObject.__)('Block Library');
 
   const secondarySidebar = () => {
     if (mode === 'visual' && isInserterOpened) {
@@ -8781,7 +8780,9 @@ function Layout(_ref) {
     isActive: isFullscreenActive
   }), (0,external_wp_element_namespaceObject.createElement)(browser_url, null), (0,external_wp_element_namespaceObject.createElement)(external_wp_editor_namespaceObject.UnsavedChangesWarning, null), (0,external_wp_element_namespaceObject.createElement)(external_wp_editor_namespaceObject.AutosaveMonitor, null), (0,external_wp_element_namespaceObject.createElement)(external_wp_editor_namespaceObject.LocalAutosaveMonitor, null), (0,external_wp_element_namespaceObject.createElement)(keyboard_shortcuts, null), (0,external_wp_element_namespaceObject.createElement)(external_wp_editor_namespaceObject.EditorKeyboardShortcutsRegister, null), (0,external_wp_element_namespaceObject.createElement)(settings_sidebar, null), (0,external_wp_element_namespaceObject.createElement)(interface_skeleton, {
     className: className,
-    labels: interfaceLabels,
+    labels: { ...interfaceLabels,
+      secondarySidebar: secondarySidebarLabel
+    },
     header: (0,external_wp_element_namespaceObject.createElement)(header, {
       setEntitiesSavedStatesCallback: setEntitiesSavedStatesCallback
     }),

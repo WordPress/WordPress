@@ -12021,7 +12021,6 @@ function useTitle(title) {
 
 
 const interfaceLabels = {
-  secondarySidebar: (0,external_wp_i18n_namespaceObject.__)('Block Library'),
   drawer: (0,external_wp_i18n_namespaceObject.__)('Navigation Sidebar')
 };
 
@@ -12118,13 +12117,14 @@ function Editor(_ref) {
   }, [enableComplementaryArea]); // Don't render the Editor until the settings are set and loaded.
 
   const isReady = (settings === null || settings === void 0 ? void 0 : settings.siteUrl) && templateType !== undefined && entityId !== undefined;
+  const secondarySidebarLabel = isListViewOpen ? (0,external_wp_i18n_namespaceObject.__)('List View') : (0,external_wp_i18n_namespaceObject.__)('Block Library');
 
   const secondarySidebar = () => {
-    if (isInserterOpen) {
+    if (editorMode === 'visual' && isInserterOpen) {
       return (0,external_wp_element_namespaceObject.createElement)(InserterSidebar, null);
     }
 
-    if (isListViewOpen) {
+    if (editorMode === 'visual' && isListViewOpen) {
       return (0,external_wp_element_namespaceObject.createElement)(ListViewSidebar, null);
     }
 
@@ -12146,7 +12146,9 @@ function Editor(_ref) {
   }, (0,external_wp_element_namespaceObject.createElement)(GlobalStylesRenderer, null), (0,external_wp_element_namespaceObject.createElement)(ErrorBoundary, {
     onError: onError
   }, (0,external_wp_element_namespaceObject.createElement)(keyboard_shortcuts.Register, null), (0,external_wp_element_namespaceObject.createElement)(SidebarComplementaryAreaFills, null), (0,external_wp_element_namespaceObject.createElement)(interface_skeleton, {
-    labels: interfaceLabels,
+    labels: { ...interfaceLabels,
+      secondarySidebar: secondarySidebarLabel
+    },
     className: showIconLabels && 'show-icon-labels',
     secondarySidebar: secondarySidebar(),
     sidebar: sidebarIsOpened && (0,external_wp_element_namespaceObject.createElement)(complementary_area.Slot, {
