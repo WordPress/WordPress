@@ -21,6 +21,7 @@ require ABSPATH . WPINC . '/blocks/comments-pagination-next.php';
 require ABSPATH . WPINC . '/blocks/comments-pagination-numbers.php';
 require ABSPATH . WPINC . '/blocks/comments-pagination-previous.php';
 require ABSPATH . WPINC . '/blocks/comments-pagination.php';
+require ABSPATH . WPINC . '/blocks/cover.php';
 require ABSPATH . WPINC . '/blocks/file.php';
 require ABSPATH . WPINC . '/blocks/gallery.php';
 require ABSPATH . WPINC . '/blocks/home-link.php';
@@ -79,7 +80,6 @@ function register_core_block_types_from_metadata() {
 		'code',
 		'column',
 		'columns',
-		'cover',
 		'embed',
 		'freeform',
 		'group',
