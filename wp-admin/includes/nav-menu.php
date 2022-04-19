@@ -325,7 +325,7 @@ function wp_nav_menu_item_link_meta_box() {
  * @global int        $_nav_menu_placeholder
  * @global int|string $nav_menu_selected_id
  *
- * @param string $item_object Not used.
+ * @param string $data_object Not used.
  * @param array  $box {
  *     Post type menu item meta box arguments.
  *
@@ -335,7 +335,7 @@ function wp_nav_menu_item_link_meta_box() {
  *     @type WP_Post_Type $args     Extra meta box arguments (the post type object for this meta box).
  * }
  */
-function wp_nav_menu_item_post_type_meta_box( $item_object, $box ) {
+function wp_nav_menu_item_post_type_meta_box( $data_object, $box ) {
 	global $_nav_menu_placeholder, $nav_menu_selected_id;
 
 	$post_type_name = $box['args']->name;
@@ -689,7 +689,7 @@ function wp_nav_menu_item_post_type_meta_box( $item_object, $box ) {
  *
  * @global int|string $nav_menu_selected_id
  *
- * @param string $item_object Not used.
+ * @param string $data_object Not used.
  * @param array  $box {
  *     Taxonomy menu item meta box arguments.
  *
@@ -699,7 +699,7 @@ function wp_nav_menu_item_post_type_meta_box( $item_object, $box ) {
  *     @type object   $args     Extra meta box arguments (the taxonomy object for this meta box).
  * }
  */
-function wp_nav_menu_item_taxonomy_meta_box( $item_object, $box ) {
+function wp_nav_menu_item_taxonomy_meta_box( $data_object, $box ) {
 	global $nav_menu_selected_id;
 
 	$taxonomy_name = $box['args']->name;
@@ -989,40 +989,40 @@ function wp_save_nav_menu_items( $menu_id = 0, $menu_data = array() ) {
  *
  * @access private
  *
- * @param object $item_object The post type or taxonomy meta-object.
+ * @param object $data_object The post type or taxonomy meta-object.
  * @return object The post type or taxonomy object.
  */
 function _wp_nav_menu_meta_box_object( $item_object = null ) {
-	if ( isset( $item_object->name ) ) {
+	if ( isset( $data_object->name ) ) {
 
-		if ( 'page' === $item_object->name ) {
-			$item_object->_default_query = array(
+		if ( 'page' === $data_object->name ) {
+			$data_object->_default_query = array(
 				'orderby'     => 'menu_order title',
 				'post_status' => 'publish',
 			);
 
 			// Posts should show only published items.
-		} elseif ( 'post' === $item_object->name ) {
-			$item_object->_default_query = array(
+		} elseif ( 'post' === $data_object->name ) {
+			$data_object->_default_query = array(
 				'post_status' => 'publish',
 			);
 
 			// Categories should be in reverse chronological order.
-		} elseif ( 'category' === $item_object->name ) {
-			$item_object->_default_query = array(
+		} elseif ( 'category' === $data_object->name ) {
+			$data_object->_default_query = array(
 				'orderby' => 'id',
 				'order'   => 'DESC',
 			);
 
 			// Custom post types should show only published items.
 		} else {
-			$item_object->_default_query = array(
+			$data_object->_default_query = array(
 				'post_status' => 'publish',
 			);
 		}
 	}
 
-	return $item_object;
+	return $data_object;
 }
 
 /**
