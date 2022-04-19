@@ -992,7 +992,7 @@ function wp_save_nav_menu_items( $menu_id = 0, $menu_data = array() ) {
  * @param object $data_object The post type or taxonomy meta-object.
  * @return object The post type or taxonomy object.
  */
-function _wp_nav_menu_meta_box_object( $item_object = null ) {
+function _wp_nav_menu_meta_box_object( $data_object = null ) {
 	if ( isset( $data_object->name ) ) {
 
 		if ( 'page' === $data_object->name ) {
