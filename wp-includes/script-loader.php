@@ -647,7 +647,7 @@ function wp_scripts_get_suffix( $type = '' ) {
 }
 
 /**
- * Register all WordPress scripts.
+ * Registers all WordPress scripts.
  *
  * Localizes some of them.
  * args order: `$scripts->add( 'handle', 'url', 'dependencies', 'query-string', 1 );`
@@ -1427,7 +1427,7 @@ function wp_default_scripts( $scripts ) {
 }
 
 /**
- * Assign default styles to $styles object.
+ * Assigns default styles to $styles object.
  *
  * Nothing is returned, because the $styles parameter is passed by reference.
  * Meaning that whatever object is passed will be updated without having to
@@ -1733,7 +1733,7 @@ function wp_default_styles( $styles ) {
 }
 
 /**
- * Reorder JavaScript scripts array to place prototype before jQuery.
+ * Reorders JavaScript scripts array to place prototype before jQuery.
  *
  * @since 2.3.1
  *
@@ -1765,7 +1765,7 @@ function wp_prototype_before_jquery( $js_array ) {
 }
 
 /**
- * Load localized data on print rather than initialization.
+ * Loads localized data on print rather than initialization.
  *
  * These localizations require information that may not be loaded even by init.
  *
@@ -2045,7 +2045,7 @@ function print_footer_scripts() {
 }
 
 /**
- * Print scripts (internal use only)
+ * Prints scripts (internal use only)
  *
  * @ignore
  *
@@ -2226,7 +2226,7 @@ function print_late_styles() {
 }
 
 /**
- * Print styles (internal use only)
+ * Prints styles (internal use only).
  *
  * @ignore
  * @since 3.3.0
@@ -2273,7 +2273,7 @@ function _print_styles() {
 }
 
 /**
- * Determine the concatenation and compression settings for scripts and styles.
+ * Determines the concatenation and compression settings for scripts and styles.
  *
  * @since 2.8.0
  *
@@ -2388,7 +2388,7 @@ function wp_enqueue_global_styles() {
 }
 
 /**
- * Render the SVG filters supplied by theme.json.
+ * Renders the SVG filters supplied by theme.json.
  *
  * Note that this doesn't render the per-block user-defined
  * filters which are handled by wp_render_duotone_support,
@@ -2835,7 +2835,7 @@ function wp_maybe_inline_styles() {
 }
 
 /**
- * Make URLs relative to the WordPress installation.
+ * Makes URLs relative to the WordPress installation.
  *
  * @since 5.9.0
  * @access private

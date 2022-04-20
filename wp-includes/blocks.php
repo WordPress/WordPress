@@ -407,7 +407,7 @@ function unregister_block_type( $name ) {
 }
 
 /**
- * Determine whether a post or content string has blocks.
+ * Determines whether a post or content string has blocks.
  *
  * This test optimizes for performance rather than strict accuracy, detecting
  * the pattern of a block but not validating its structure. For strict accuracy,
@@ -433,7 +433,7 @@ function has_blocks( $post = null ) {
 }
 
 /**
- * Determine whether a $post or a string contains a specific block type.
+ * Determines whether a $post or a string contains a specific block type.
  *
  * This test optimizes for performance rather than strict accuracy, detecting
  * whether the block type exists but not validating its structure and not checking
@@ -1229,7 +1229,7 @@ function get_query_pagination_arrow( $block, $is_next ) {
 }
 
 /**
- * Allow multiple block styles.
+ * Allows multiple block styles.
  *
  * @since 5.9.0
  *
