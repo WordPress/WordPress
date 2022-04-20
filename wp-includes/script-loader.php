@@ -2921,3 +2921,109 @@ function wp_enqueue_block_support_styles( $style ) {
 		}
 	);
 }
+
+/**
+ * Enqueues a stylesheet for a specific block.
+ *
+ * If the theme has opted-in to separate-styles loading,
+ * then the stylesheet will be enqueued on-render,
+ * otherwise when the block inits.
+ *
+ * @since 5.9.0
+ *
+ * @param string $block_name The block-name, including namespace.
+ * @param array  $args       An array of arguments [handle,src,deps,ver,media].
+ * @return void
+ */
+function wp_enqueue_block_style( $block_name, $args ) {
+	$args = wp_parse_args(
+		$args,
+		array(
+			'handle' => '',
+			'src'    => '',
+			'deps'   => array(),
+			'ver'    => false,
+			'media'  => 'all',
+		)
+	);
+
+	/**
+	 * Callback function to register and enqueue styles.
+	 *
+	 * @param string $content When the callback is used for the render_block filter,
+	 *                        the content needs to be returned so the function parameter
+	 *                        is to ensure the content exists.
+	 * @return string Block content.
+	 */
+	$callback = static function( $content ) use ( $args ) {
+		// Register the stylesheet.
+		if ( ! empty( $args['src'] ) ) {
+			wp_register_style( $args['handle'], $args['src'], $args['deps'], $args['ver'], $args['media'] );
+		}
+
+		// Add `path` data if provided.
+		if ( isset( $args['path'] ) ) {
+			wp_style_add_data( $args['handle'], 'path', $args['path'] );
+
+			// Get the RTL file path.
+			$rtl_file_path = str_replace( '.css', '-rtl.css', $args['path'] );
+
+			// Add RTL stylesheet.
+			if ( file_exists( $rtl_file_path ) ) {
+				wp_style_add_data( $args['handle'], 'rtl', 'replace' );
+
+				if ( is_rtl() ) {
+					wp_style_add_data( $args['handle'], 'path', $rtl_file_path );
+				}
+			}
+		}
+
+		// Enqueue the stylesheet.
+		wp_enqueue_style( $args['handle'] );
+
+		return $content;
+	};
+
+	$hook = did_action( 'wp_enqueue_scripts' ) ? 'wp_footer' : 'wp_enqueue_scripts';
+	if ( wp_should_load_separate_core_block_assets() ) {
+		/**
+		 * Callback function to register and enqueue styles.
+		 *
+		 * @param string $content The block content.
+		 * @param array  $block   The full block, including name and attributes.
+		 * @return string Block content.
+		 */
+		$callback_separate = static function( $content, $block ) use ( $block_name, $callback ) {
+			if ( ! empty( $block['blockName'] ) && $block_name === $block['blockName'] ) {
+				return $callback( $content );
+			}
+			return $content;
+		};
+
+		/*
+		 * The filter's callback here is an anonymous function because
+		 * using a named function in this case is not possible.
+		 *
+		 * The function cannot be unhooked, however, users are still able
+		 * to dequeue the stylesheets registered/enqueued by the callback
+		 * which is why in this case, using an anonymous function
+		 * was deemed acceptable.
+		 */
+		add_filter( 'render_block', $callback_separate, 10, 2 );
+		return;
+	}
+
+	/*
+	 * The filter's callback here is an anonymous function because
+	 * using a named function in this case is not possible.
+	 *
+	 * The function cannot be unhooked, however, users are still able
+	 * to dequeue the stylesheets registered/enqueued by the callback
+	 * which is why in this case, using an anonymous function
+	 * was deemed acceptable.
+	 */
+	add_filter( $hook, $callback );
+
+	// Enqueue assets in the editor.
+	add_action( 'enqueue_block_assets', $callback );
+}
