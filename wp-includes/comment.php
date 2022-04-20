@@ -358,11 +358,7 @@ function get_lastcommentmodified( $timezone = 'server' ) {
 /**
  * Retrieves the total comment counts for the whole site or a single post.
  *
- * Unlike wp_count_comments(), this function always returns the live comment counts without caching.
- *
  * @since 2.0.0
- *
- * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int $post_id Optional. Restrict the comment counts to the given post. Default 0, which indicates that
  *                     comment counts for the whole site will be retrieved.
@@ -379,8 +375,6 @@ function get_lastcommentmodified( $timezone = 'server' ) {
  * }
  */
 function get_comment_count( $post_id = 0 ) {
-	global $wpdb;
-
 	$post_id = (int) $post_id;
 
 	$comment_count = array(
