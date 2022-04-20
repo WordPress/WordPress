@@ -162,16 +162,16 @@ function maybe_drop_column( $table_name, $column_name, $drop_ddl ) {
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param string $table_name Database table name.
- * @param string $col_name   Table column name.
- * @param string $col_type   Table column type.
- * @param bool   $is_null    Optional. Check is null.
- * @param mixed  $key        Optional. Key info.
- * @param mixed  $default    Optional. Default value.
- * @param mixed  $extra      Optional. Extra value.
+ * @param string $table_name    Database table name.
+ * @param string $col_name      Table column name.
+ * @param string $col_type      Table column type.
+ * @param bool   $is_null       Optional. Check is null.
+ * @param mixed  $key           Optional. Key info.
+ * @param mixed  $default_value Optional. Default value.
+ * @param mixed  $extra         Optional. Extra value.
  * @return bool True, if matches. False, if not matching.
  */
-function check_column( $table_name, $col_name, $col_type, $is_null = null, $key = null, $default = null, $extra = null ) {
+function check_column( $table_name, $col_name, $col_type, $is_null = null, $key = null, $default_value = null, $extra = null ) {
 	global $wpdb;
 
 	$diffs   = 0;
@@ -191,7 +191,7 @@ function check_column( $table_name, $col_name, $col_type, $is_null = null, $key 
 			if ( ( null !== $key ) && ( $row->Key !== $key ) ) {
 				++$diffs;
 			}
-			if ( ( null !== $default ) && ( $row->Default !== $default ) ) {
+			if ( ( null !== $default_value ) && ( $row->Default !== $default_value ) ) {
 				++$diffs;
 			}
 			if ( ( null !== $extra ) && ( $row->Extra !== $extra ) ) {
