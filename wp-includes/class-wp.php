@@ -413,6 +413,7 @@ class WP {
 		$headers       = array();
 		$status        = null;
 		$exit_required = false;
+		$date_format   = 'D, d M Y H:i:s';
 
 		if ( is_user_logged_in() ) {
 			$headers = array_merge( $headers, wp_get_nocache_headers() );
@@ -420,7 +421,7 @@ class WP {
 			// Unmoderated comments are only visible for 10 minutes via the moderation hash.
 			$expires = 10 * MINUTE_IN_SECONDS;
 
-			$headers['Expires']       = gmdate( 'D, d M Y H:i:s', time() + $expires );
+			$headers['Expires']       = gmdate( $date_format, time() + $expires );
 			$headers['Cache-Control'] = sprintf(
 				'max-age=%d, must-revalidate',
 				$expires
@@ -459,13 +460,19 @@ class WP {
 					)
 				)
 			) {
-				$wp_last_modified = mysql2date( 'D, d M Y H:i:s', get_lastcommentmodified( 'GMT' ), false );
+				$wp_last_modified_post    = mysql2date( $date_format, get_lastpostmodified( 'GMT' ), false );
+				$wp_last_modified_comment = mysql2date( $date_format, get_lastcommentmodified( 'GMT' ), false );
+				if ( strtotime( $wp_last_modified_post ) > strtotime( $wp_last_modified_comment ) ) {
+					$wp_last_modified = $wp_last_modified_post;
+				} else {
+					$wp_last_modified = $wp_last_modified_comment;
+				}
 			} else {
-				$wp_last_modified = mysql2date( 'D, d M Y H:i:s', get_lastpostmodified( 'GMT' ), false );
+				$wp_last_modified = mysql2date( $date_format, get_lastpostmodified( 'GMT' ), false );
 			}
 
 			if ( ! $wp_last_modified ) {
-				$wp_last_modified = gmdate( 'D, d M Y H:i:s' );
+				$wp_last_modified = gmdate( $date_format );
 			}
 
 			$wp_last_modified .= ' GMT';
