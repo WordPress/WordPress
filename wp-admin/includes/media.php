@@ -1322,31 +1322,6 @@ function media_post_single_attachment_fields_to_edit( $form_fields, $post ) {
 }
 
 /**
- * Filters input from media_upload_form_handler() and assigns a default
- * post_title from the file name if none supplied.
- *
- * Illustrates the use of the {@see 'attachment_fields_to_save'} filter
- * which can be used to add default values to any field before saving to DB.
- *
- * @since 2.5.0
- *
- * @param array $post       The WP_Post attachment object converted to an array.
- * @param array $attachment An array of attachment metadata.
- * @return array Filtered attachment post object.
- */
-function image_attachment_fields_to_save( $post, $attachment ) {
-	if ( 'image' === substr( $post['post_mime_type'], 0, 5 ) ) {
-		if ( strlen( trim( $post['post_title'] ) ) == 0 ) {
-			$attachment_url                           = ( isset( $post['attachment_url'] ) ) ? $post['attachment_url'] : $post['guid'];
-			$post['post_title']                       = preg_replace( '/\.\w+$/', '', wp_basename( $attachment_url ) );
-			$post['errors']['post_title']['errors'][] = __( 'Empty Title filled from filename.' );
-		}
-	}
-
-	return $post;
-}
-
-/**
  * Retrieves the media element HTML to send to the editor.
  *
  * @since 2.5.0

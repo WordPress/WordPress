@@ -31,8 +31,6 @@ add_filter( 'async_upload_audio', 'get_media_item', 10, 2 );
 add_filter( 'async_upload_video', 'get_media_item', 10, 2 );
 add_filter( 'async_upload_file', 'get_media_item', 10, 2 );
 
-add_filter( 'attachment_fields_to_save', 'image_attachment_fields_to_save', 10, 2 );
-
 add_filter( 'media_upload_gallery', 'media_upload_gallery' );
 add_filter( 'media_upload_library', 'media_upload_library' );
 
