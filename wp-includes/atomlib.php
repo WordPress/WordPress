@@ -388,10 +388,10 @@ class AtomParser {
         return false;
     }
 
-    function xml_escape($string)
+    function xml_escape($content)
     {
              return str_replace(array('&','"',"'",'<','>'),
                 array('&amp;','&quot;','&apos;','&lt;','&gt;'),
-                $string );
+                $content );
     }
 }
