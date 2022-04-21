@@ -2895,7 +2895,7 @@ function stick_post( $post_id ) {
 	$updated  = false;
 
 	if ( ! is_array( $stickies ) ) {
-		$stickies = array( $post_id );
+		$stickies = array();
 	} else {
 		$stickies = array_unique( array_map( 'intval', $stickies ) );
 	}
