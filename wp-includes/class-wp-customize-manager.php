@@ -2235,8 +2235,9 @@ final class WP_Customize_Manager {
 	 * @since 3.4.0
 	 * @deprecated 4.7.0
 	 *
-	 * @param mixed $callback Value passed through for {@see 'wp_die_handler'} filter.
-	 * @return mixed Value passed through for {@see 'wp_die_handler'} filter.
+	 * @param callable|null $callback Optional. Value passed through for {@see 'wp_die_handler'} filter.
+	 *                                Default null.
+	 * @return callable|null Value passed through for {@see 'wp_die_handler'} filter.
 	 */
 	public function remove_preview_signature( $callback = null ) {
 		_deprecated_function( __METHOD__, '4.7.0' );
