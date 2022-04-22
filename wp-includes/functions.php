@@ -3656,36 +3656,36 @@ function wp_die( $message = '', $title = '', $args = array() ) {
 		 *
 		 * @since 3.4.0
 		 *
-		 * @param callable $function Callback function name.
+		 * @param callable $callback Callback function name.
 		 */
-		$function = apply_filters( 'wp_die_ajax_handler', '_ajax_wp_die_handler' );
+		$callback = apply_filters( 'wp_die_ajax_handler', '_ajax_wp_die_handler' );
 	} elseif ( wp_is_json_request() ) {
 		/**
 		 * Filters the callback for killing WordPress execution for JSON requests.
 		 *
 		 * @since 5.1.0
 		 *
-		 * @param callable $function Callback function name.
+		 * @param callable $callback Callback function name.
 		 */
-		$function = apply_filters( 'wp_die_json_handler', '_json_wp_die_handler' );
+		$callback = apply_filters( 'wp_die_json_handler', '_json_wp_die_handler' );
 	} elseif ( defined( 'REST_REQUEST' ) && REST_REQUEST && wp_is_jsonp_request() ) {
 		/**
 		 * Filters the callback for killing WordPress execution for JSONP REST requests.
 		 *
 		 * @since 5.2.0
 		 *
-		 * @param callable $function Callback function name.
+		 * @param callable $callback Callback function name.
 		 */
-		$function = apply_filters( 'wp_die_jsonp_handler', '_jsonp_wp_die_handler' );
+		$callback = apply_filters( 'wp_die_jsonp_handler', '_jsonp_wp_die_handler' );
 	} elseif ( defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST ) {
 		/**
 		 * Filters the callback for killing WordPress execution for XML-RPC requests.
 		 *
 		 * @since 3.4.0
 		 *
-		 * @param callable $function Callback function name.
+		 * @param callable $callback Callback function name.
 		 */
-		$function = apply_filters( 'wp_die_xmlrpc_handler', '_xmlrpc_wp_die_handler' );
+		$callback = apply_filters( 'wp_die_xmlrpc_handler', '_xmlrpc_wp_die_handler' );
 	} elseif ( wp_is_xml_request()
 		|| isset( $wp_query ) &&
 			( function_exists( 'is_feed' ) && is_feed()
@@ -3696,21 +3696,21 @@ function wp_die( $message = '', $title = '', $args = array() ) {
 		 *
 		 * @since 5.2.0
 		 *
-		 * @param callable $function Callback function name.
+		 * @param callable $callback Callback function name.
 		 */
-		$function = apply_filters( 'wp_die_xml_handler', '_xml_wp_die_handler' );
+		$callback = apply_filters( 'wp_die_xml_handler', '_xml_wp_die_handler' );
 	} else {
 		/**
 		 * Filters the callback for killing WordPress execution for all non-Ajax, non-JSON, non-XML requests.
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param callable $function Callback function name.
+		 * @param callable $callback Callback function name.
 		 */
-		$function = apply_filters( 'wp_die_handler', '_default_wp_die_handler' );
+		$callback = apply_filters( 'wp_die_handler', '_default_wp_die_handler' );
 	}
 
-	call_user_func( $function, $message, $title, $args );
+	call_user_func( $callback, $message, $title, $args );
 }
 
 /**
