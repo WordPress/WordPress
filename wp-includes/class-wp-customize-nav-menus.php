@@ -131,17 +131,17 @@ final class WP_Customize_Nav_Menus {
 	 *
 	 * @since 4.3.0
 	 *
-	 * @param string $type   Optional. Accepts any custom object type and has built-in support for
-	 *                         'post_type' and 'taxonomy'. Default is 'post_type'.
-	 * @param string $object Optional. Accepts any registered taxonomy or post type name. Default is 'page'.
-	 * @param int    $page   Optional. The page number used to generate the query offset. Default is '0'.
+	 * @param string $object_type Optional. Accepts any custom object type and has built-in support for
+	 *                            'post_type' and 'taxonomy'. Default is 'post_type'.
+	 * @param string $object_name Optional. Accepts any registered taxonomy or post type name. Default is 'page'.
+	 * @param int    $page        Optional. The page number used to generate the query offset. Default is '0'.
 	 * @return array|WP_Error An array of menu items on success, a WP_Error object on failure.
 	 */
-	public function load_available_items_query( $type = 'post_type', $object = 'page', $page = 0 ) {
+	public function load_available_items_query( $object_type = 'post_type', $object_name = 'page', $page = 0 ) {
 		$items = array();
 
-		if ( 'post_type' === $type ) {
-			$post_type = get_post_type_object( $object );
+		if ( 'post_type' === $object_type ) {
+			$post_type = get_post_type_object( $object_name );
 			if ( ! $post_type ) {
 				return new WP_Error( 'nav_menus_invalid_post_type' );
 			}
@@ -152,7 +152,7 @@ final class WP_Customize_Nav_Menus {
 			 */
 			$important_pages   = array();
 			$suppress_page_ids = array();
-			if ( 0 === $page && 'page' === $object ) {
+			if ( 0 === $page && 'page' === $object_name ) {
 				// Insert Front Page or custom "Home" link.
 				$front_page = 'page' === get_option( 'show_on_front' ) ? (int) get_option( 'page_on_front' ) : 0;
 				if ( ! empty( $front_page ) ) {
@@ -188,15 +188,15 @@ final class WP_Customize_Nav_Menus {
 						$suppress_page_ids[] = $privacy_policy_page->ID;
 					}
 				}
-			} elseif ( 'post' !== $object && 0 === $page && $post_type->has_archive ) {
+			} elseif ( 'post' !== $object_name && 0 === $page && $post_type->has_archive ) {
 				// Add a post type archive link.
 				$items[] = array(
-					'id'         => $object . '-archive',
+					'id'         => $object_name . '-archive',
 					'title'      => $post_type->labels->archives,
 					'type'       => 'post_type_archive',
 					'type_label' => __( 'Post Type Archive' ),
-					'object'     => $object,
-					'url'        => get_post_type_archive_link( $object ),
+					'object'     => $object_name,
+					'url'        => get_post_type_archive_link( $object_name ),
 				);
 			}
 
@@ -216,7 +216,7 @@ final class WP_Customize_Nav_Menus {
 				'offset'      => 10 * $page,
 				'orderby'     => 'date',
 				'order'       => 'DESC',
-				'post_type'   => $object,
+				'post_type'   => $object_name,
 			);
 
 			// Add suppression array to arguments for get_posts.
@@ -253,10 +253,10 @@ final class WP_Customize_Nav_Menus {
 					'url'        => get_permalink( (int) $post->ID ),
 				);
 			}
-		} elseif ( 'taxonomy' === $type ) {
+		} elseif ( 'taxonomy' === $object_type ) {
 			$terms = get_terms(
 				array(
-					'taxonomy'     => $object,
+					'taxonomy'     => $object_name,
 					'child_of'     => 0,
 					'exclude'      => '',
 					'hide_empty'   => false,
@@ -292,12 +292,12 @@ final class WP_Customize_Nav_Menus {
 		 *
 		 * @since 4.3.0
 		 *
-		 * @param array  $items  The array of menu items.
-		 * @param string $type   The object type.
-		 * @param string $object The object name.
+		 * @param array  $items       The array of menu items.
+		 * @param string $object_type The object type.
+		 * @param string $object_name The object name.
 		 * @param int    $page   The current page number.
 		 */
-		$items = apply_filters( 'customize_nav_menu_available_items', $items, $type, $object, $page );
+		$items = apply_filters( 'customize_nav_menu_available_items', $items, $object_type, $object_name, $page );
 
 		return $items;
 	}
