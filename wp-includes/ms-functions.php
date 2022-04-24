@@ -29,7 +29,7 @@ function get_sitestats() {
 }
 
 /**
- * Get one of a user's active blogs
+ * Gets one of a user's active blogs.
  *
  * Returns the user's primary blog, if they have one and
  * it is active. If it's inactive, function returns another
@@ -101,7 +101,7 @@ function get_active_blog_for_user( $user_id ) {
 }
 
 /**
- * The number of active sites on your installation.
+ * Gets the number of active sites on the installation.
  *
  * The count is cached and updated twice daily. This is not a live count.
  *
@@ -210,7 +210,7 @@ function add_user_to_blog( $blog_id, $user_id, $role ) {
 }
 
 /**
- * Remove a user from a blog.
+ * Removes a user from a blog.
  *
  * Use the {@see 'remove_user_from_blog'} action to fire an event when
  * users are removed from a blog.
@@ -301,7 +301,7 @@ function remove_user_from_blog( $user_id, $blog_id = 0, $reassign = 0 ) {
 }
 
 /**
- * Get the permalink for a post on another blog.
+ * Gets the permalink for a post on another blog.
  *
  * @since MU (3.0.0) 1.0
  *
@@ -318,7 +318,7 @@ function get_blog_permalink( $blog_id, $post_id ) {
 }
 
 /**
- * Get a blog's numeric ID from its URL.
+ * Gets a blog's numeric ID from its URL.
  *
  * On a subdirectory installation like example.com/blog1/,
  * $domain will be the root 'example.com' and $path the
@@ -425,7 +425,7 @@ function is_email_address_unsafe( $user_email ) {
 }
 
 /**
- * Sanitize and validate data required for a user sign-up.
+ * Sanitizes and validates data required for a user sign-up.
  *
  * Verifies the validity and uniqueness of user names and user email addresses,
  * and checks email addresses against allowed and disallowed domains provided by
@@ -764,7 +764,7 @@ function wpmu_validate_blog_signup( $blogname, $blog_title, $user = '' ) {
 }
 
 /**
- * Record site signup information for future activation.
+ * Records site signup information for future activation.
  *
  * @since MU (3.0.0)
  *
@@ -830,7 +830,7 @@ function wpmu_signup_blog( $domain, $path, $title, $user, $user_email, $meta = a
 }
 
 /**
- * Record user signup information for future activation.
+ * Records user signup information for future activation.
  *
  * This function is used when user registration is open but
  * new site registration is not.
@@ -893,7 +893,7 @@ function wpmu_signup_user( $user, $user_email, $meta = array() ) {
 }
 
 /**
- * Send a confirmation request email to a user when they sign up for a new site. The new site will not become active
+ * Sends a confirmation request email to a user when they sign up for a new site. The new site will not become active
  * until the confirmation link is clicked.
  *
  * This is the notification function used when site registration
@@ -1031,7 +1031,7 @@ function wpmu_signup_blog_notification( $domain, $path, $title, $user_login, $us
 }
 
 /**
- * Send a confirmation request email to a user when they sign up for a new user account (without signing up for a site
+ * Sends a confirmation request email to a user when they sign up for a new user account (without signing up for a site
  * at the same time). The user account will not become active until the confirmation link is clicked.
  *
  * This is the notification function used when no new site has
@@ -1140,7 +1140,7 @@ function wpmu_signup_user_notification( $user_login, $user_email, $key, $meta = 
 }
 
 /**
- * Activate a signup.
+ * Activates a signup.
  *
  * Hook to {@see 'wpmu_activate_user'} or {@see 'wpmu_activate_blog'} for events
  * that should happen only when users or sites are self-created (since
@@ -1290,7 +1290,7 @@ function wp_delete_signup_on_user_delete( $id, $reassign, $user ) {
 }
 
 /**
- * Create a user.
+ * Creates a user.
  *
  * This function runs when a user self-registers as well as when
  * a Super Admin creates a new user. Hook to {@see 'wpmu_new_user'} for events
@@ -1329,7 +1329,7 @@ function wpmu_create_user( $user_name, $password, $email ) {
 }
 
 /**
- * Create a site.
+ * Creates a site.
  *
  * This function runs when a user self-registers a new site as well
  * as when a Super Admin creates a new site. Hook to {@see 'wpmu_new_blog'}
@@ -1805,7 +1805,7 @@ Name: %3$s'
 }
 
 /**
- * Notify a user that their account activation has been successful.
+ * Notifies a user that their account activation has been successful.
  *
  * Filter {@see 'wpmu_welcome_user_notification'} to disable or bypass.
  *
@@ -1897,7 +1897,7 @@ function wpmu_welcome_user_notification( $user_id, $password, $meta = array() ) 
 }
 
 /**
- * Get the current network.
+ * Gets the current network.
  *
  * Returns an object containing the 'id', 'domain', 'path', and 'site_name'
  * properties of the network being viewed.
@@ -1916,7 +1916,7 @@ function get_current_site() {
 }
 
 /**
- * Get a user's most recent post.
+ * Gets a user's most recent post.
  *
  * Walks through each of a user's blogs to find the post with
  * the most recent post_date_gmt.
@@ -1968,7 +1968,7 @@ function get_most_recent_post_of_user( $user_id ) {
 //
 
 /**
- * Check an array of MIME types against a list of allowed types.
+ * Checks an array of MIME types against a list of allowed types.
  *
  * WordPress ships with a set of allowed upload filetypes,
  * which is defined in wp-includes/functions.php in
@@ -1995,7 +1995,7 @@ function check_upload_mimes( $mimes ) {
 }
 
 /**
- * Update a blog's post count.
+ * Updates a blog's post count.
  *
  * WordPress MS stores a blog's post count as an option so as
  * to avoid extraneous COUNTs when a blog's details are fetched
@@ -2141,7 +2141,7 @@ function global_terms( $term_id, $deprecated = '' ) {
 }
 
 /**
- * Ensure that the current site's domain is listed in the allowed redirect host list.
+ * Ensures that the current site's domain is listed in the allowed redirect host list.
  *
  * @see wp_validate_redirect()
  * @since MU (3.0.0)
@@ -2158,7 +2158,7 @@ function redirect_this_site( $deprecated = '' ) {
 }
 
 /**
- * Check whether an upload is too big.
+ * Checks whether an upload is too big.
  *
  * @since MU (3.0.0)
  *
@@ -2181,7 +2181,7 @@ function upload_is_file_too_big( $upload ) {
 }
 
 /**
- * Add a nonce field to the signup page.
+ * Adds a nonce field to the signup page.
  *
  * @since MU (3.0.0)
  */
@@ -2192,7 +2192,7 @@ function signup_nonce_fields() {
 }
 
 /**
- * Process the signup nonce created in signup_nonce_fields().
+ * Processes the signup nonce created in signup_nonce_fields().
  *
  * @since MU (3.0.0)
  *
@@ -2212,7 +2212,7 @@ function signup_nonce_check( $result ) {
 }
 
 /**
- * Correct 404 redirects when NOBLOGREDIRECT is defined.
+ * Corrects 404 redirects when NOBLOGREDIRECT is defined.
  *
  * @since MU (3.0.0)
  */
@@ -2241,7 +2241,7 @@ function maybe_redirect_404() {
 }
 
 /**
- * Add a new user to a blog by visiting /newbloguser/{key}/.
+ * Adds a new user to a blog by visiting /newbloguser/{key}/.
  *
  * This will only work when the user's details are saved as an option
  * keyed as 'new_user_{key}', where '{key}' is a hash generated for the user to be
@@ -2289,7 +2289,7 @@ function maybe_add_existing_user_to_blog() {
 }
 
 /**
- * Add a user to a blog based on details from maybe_add_existing_user_to_blog().
+ * Adds a user to a blog based on details from maybe_add_existing_user_to_blog().
  *
  * @since MU (3.0.0)
  *
@@ -2351,7 +2351,7 @@ function add_new_user_to_blog( $user_id, $password, $meta ) {
 }
 
 /**
- * Correct From host on outgoing mail to match the site domain
+ * Corrects From host on outgoing mail to match the site domain
  *
  * @since MU (3.0.0)
  *
@@ -2362,7 +2362,7 @@ function fix_phpmailer_messageid( $phpmailer ) {
 }
 
 /**
- * Check to see whether a user is marked as a spammer, based on user login.
+ * Determines whether a user is marked as a spammer, based on user login.
  *
  * @since MU (3.0.0)
  *
@@ -2383,7 +2383,7 @@ function is_user_spammy( $user = null ) {
 }
 
 /**
- * Update this blog's 'public' setting in the global blogs table.
+ * Updates this blog's 'public' setting in the global blogs table.
  *
  * Public blogs have a setting of 1, private blogs are 0.
  *
@@ -2397,7 +2397,7 @@ function update_blog_public( $old_value, $value ) {
 }
 
 /**
- * Check whether users can self-register, based on Network settings.
+ * Determines whether users can self-register, based on Network settings.
  *
  * @since MU (3.0.0)
  *
@@ -2409,7 +2409,7 @@ function users_can_register_signup_filter() {
 }
 
 /**
- * Ensure that the welcome message is not empty. Currently unused.
+ * Ensures that the welcome message is not empty. Currently unused.
  *
  * @since MU (3.0.0)
  *
@@ -2441,7 +2441,7 @@ Thanks!
 }
 
 /**
- * Whether to force SSL on content.
+ * Determines whether to force SSL on content.
  *
  * @since 2.8.5
  *
@@ -2483,7 +2483,7 @@ function filter_SSL( $url ) {  // phpcs:ignore WordPress.NamingConventions.Valid
 }
 
 /**
- * Schedule update of the network-wide counts for the current network.
+ * Schedules update of the network-wide counts for the current network.
  *
  * @since 3.1.0
  */
@@ -2498,7 +2498,7 @@ function wp_schedule_update_network_counts() {
 }
 
 /**
- * Update the network-wide counts for the current network.
+ * Updates the network-wide counts for the current network.
  *
  * @since 3.1.0
  * @since 4.8.0 The `$network_id` parameter has been added.
@@ -2511,7 +2511,7 @@ function wp_update_network_counts( $network_id = null ) {
 }
 
 /**
- * Update the count of sites for the current network.
+ * Updates the count of sites for the current network.
  *
  * If enabled through the {@see 'enable_live_network_counts'} filter, update the sites count
  * on a network when a site is created or its status is updated.
@@ -2542,7 +2542,7 @@ function wp_maybe_update_network_site_counts( $network_id = null ) {
 }
 
 /**
- * Update the network-wide users count.
+ * Updates the network-wide users count.
  *
  * If enabled through the {@see 'enable_live_network_counts'} filter, update the users count
  * on a network when a user is created or its status is updated.
@@ -2564,7 +2564,7 @@ function wp_maybe_update_network_user_counts( $network_id = null ) {
 }
 
 /**
- * Update the network-wide site count.
+ * Updates the network-wide site count.
  *
  * @since 3.7.0
  * @since 4.8.0 The `$network_id` parameter has been added.
@@ -2592,7 +2592,7 @@ function wp_update_network_site_counts( $network_id = null ) {
 }
 
 /**
- * Update the network-wide user count.
+ * Updates the network-wide user count.
  *
  * @since 3.7.0
  * @since 4.8.0 The `$network_id` parameter has been added.
@@ -2715,7 +2715,7 @@ function upload_size_limit_filter( $size ) {
 }
 
 /**
- * Whether or not we have a large network.
+ * Determines whether or not we have a large network.
  *
  * The default criteria for a large network is either more than 10,000 users or more than 10,000 sites.
  * Plugins can alter this criteria using the {@see 'wp_is_large_network'} filter.
@@ -2792,7 +2792,7 @@ function get_subdirectory_reserved_names() {
 }
 
 /**
- * Send a confirmation request email when a change of network admin email address is attempted.
+ * Sends a confirmation request email when a change of network admin email address is attempted.
  *
  * The new network admin address will not become active until confirmed.
  *
@@ -2880,7 +2880,7 @@ All at ###SITENAME###
 }
 
 /**
- * Send an email to the old network admin email address when the network admin email address changes.
+ * Sends an email to the old network admin email address when the network admin email address changes.
  *
  * @since 4.9.0
  *
