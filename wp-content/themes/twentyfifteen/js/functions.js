@@ -99,9 +99,9 @@
 		var windowPos = $window.scrollTop(),
 			windowHeight = $window.height(),
 			sidebarHeight = $sidebar.height(),
-			bodyHeight = $body.height();
+			pageHeight = $( '#page' ).height();
 
-		if( 955 < $window.width() && bodyHeight > sidebarHeight && ( windowPos + windowHeight ) >= sidebarHeight ) {
+		if ( 955 < $window.width() && pageHeight > sidebarHeight && ( windowPos + windowHeight ) >= sidebarHeight ) {
 			$sidebar.css({
 				position: 'fixed',
 				bottom: sidebarHeight > windowHeight ? 0 : 'auto'
