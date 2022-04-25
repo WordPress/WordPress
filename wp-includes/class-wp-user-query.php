@@ -274,6 +274,16 @@ class WP_User_Query {
 		$qv =& $this->query_vars;
 		$qv = $this->fill_query_vars( $qv );
 
+		$allowed_fields = array(
+			'ID',
+			'display_name',
+			'user_login',
+			'user_nicename',
+			'user_email',
+			'user_url',
+			'user_registered',
+		);
+
 		if ( is_array( $qv['fields'] ) ) {
 			$qv['fields'] = array_unique( $qv['fields'] );
 
@@ -283,10 +293,11 @@ class WP_User_Query {
 				$this->query_fields[] = "$wpdb->users.$field";
 			}
 			$this->query_fields = implode( ',', $this->query_fields );
-		} elseif ( 'all' === $qv['fields'] ) {
+		} elseif ( ! in_array( $qv['fields'], $allowed_fields, true ) ) {
 			$this->query_fields = "$wpdb->users.*";
 		} else {
-			$this->query_fields = "$wpdb->users.ID";
+			$field              = 'ID' === $qv['fields'] ? 'ID' : sanitize_key( $qv['fields'] );
+			$this->query_fields = "$wpdb->users.$field";
 		}
 
 		if ( isset( $qv['count_total'] ) && $qv['count_total'] ) {
