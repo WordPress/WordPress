@@ -127,7 +127,7 @@ function ms_site_check() {
 }
 
 /**
- * Retrieve the closest matching network for a domain and path.
+ * Retrieves the closest matching network for a domain and path.
  *
  * @since 3.9.0
  *
@@ -190,7 +190,7 @@ function get_site_by_path( $domain, $path, $segments = null ) {
 	$paths[] = '/';
 
 	/**
-	 * Determine a site by its domain and path.
+	 * Determines a site by its domain and path.
 	 *
 	 * This allows one to short-circuit the default logic, perhaps by
 	 * replacing it with a routine that is more optimal for your setup.
@@ -546,7 +546,7 @@ function wpmu_current_site() {
 }
 
 /**
- * Retrieve an object containing information about the requested network.
+ * Retrieves an object containing information about the requested network.
  *
  * @since 3.9.0
  * @deprecated 4.7.0 Use get_network()
