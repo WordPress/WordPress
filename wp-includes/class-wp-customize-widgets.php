@@ -238,13 +238,13 @@ final class WP_Customize_Widgets {
 	 *
 	 * @since 3.9.0
 	 *
-	 * @param string $name    Post value.
-	 * @param mixed  $default Default post value.
+	 * @param string $name          Post value.
+	 * @param mixed  $default_value Default post value.
 	 * @return mixed Unslashed post value or default value.
 	 */
-	protected function get_post_value( $name, $default = null ) {
+	protected function get_post_value( $name, $default_value = null ) {
 		if ( ! isset( $_POST[ $name ] ) ) {
-			return $default;
+			return $default_value;
 		}
 
 		return wp_unslash( $_POST[ $name ] );
@@ -2057,15 +2057,15 @@ final class WP_Customize_Widgets {
 	 *
 	 * @since 4.2.0
 	 *
-	 * @param string $option_name Option name.
-	 * @param mixed  $default     Optional. Default value to return if the option does not exist. Default false.
+	 * @param string $option_name   Option name.
+	 * @param mixed  $default_value Optional. Default value to return if the option does not exist. Default false.
 	 * @return mixed Value set for the option.
 	 */
-	protected function get_captured_option( $option_name, $default = false ) {
+	protected function get_captured_option( $option_name, $default_value = false ) {
 		if ( array_key_exists( $option_name, $this->_captured_options ) ) {
 			$value = $this->_captured_options[ $option_name ];
 		} else {
-			$value = $default;
+			$value = $default_value;
 		}
 		return $value;
 	}
