@@ -471,13 +471,14 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
 	$editor_settings['__unstableResolvedAssets']         = _wp_get_iframed_editor_assets();
 	$editor_settings['localAutosaveInterval']            = 15;
 	$editor_settings['__experimentalDiscussionSettings'] = array(
-		'commentOrder'        => get_option( 'comment_order' ),
-		'commentsPerPage'     => get_option( 'comments_per_page' ),
-		'defaultCommentsPage' => get_option( 'default_comments_page' ),
-		'pageComments'        => get_option( 'page_comments' ),
-		'threadComments'      => get_option( 'thread_comments' ),
-		'threadCommentsDepth' => get_option( 'thread_comments_depth' ),
-		'avatarURL'           => get_avatar_url(
+		'commentOrder'         => get_option( 'comment_order' ),
+		'commentsPerPage'      => get_option( 'comments_per_page' ),
+		'defaultCommentsPage'  => get_option( 'default_comments_page' ),
+		'pageComments'         => get_option( 'page_comments' ),
+		'threadComments'       => get_option( 'thread_comments' ),
+		'threadCommentsDepth'  => get_option( 'thread_comments_depth' ),
+		'defaultCommentStatus' => get_option( 'default_comment_status' ),
+		'avatarURL'            => get_avatar_url(
 			'',
 			array(
 				'size'          => 96,
