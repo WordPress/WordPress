@@ -50,7 +50,7 @@ function wp_get_nav_menu_object( $menu ) {
 }
 
 /**
- * Check if the given ID is a navigation menu.
+ * Determines whether the given ID is a navigation menu.
  *
  * Returns true if it is; false otherwise.
  *
@@ -255,7 +255,7 @@ function wp_create_nav_menu( $menu_name ) {
 }
 
 /**
- * Delete a Navigation Menu.
+ * Deletes a navigation menu.
  *
  * @since 3.0.0
  *
@@ -302,7 +302,7 @@ function wp_delete_nav_menu( $menu ) {
 }
 
 /**
- * Save the properties of a menu or create a new menu with those properties.
+ * Saves the properties of a menu or create a new menu with those properties.
  *
  * Note that `$menu_data` is expected to be pre-slashed.
  *
@@ -404,7 +404,7 @@ function wp_update_nav_menu_object( $menu_id = 0, $menu_data = array() ) {
 }
 
 /**
- * Save the properties of a menu item or create a new one.
+ * Saves the properties of a menu item or create a new one.
  *
  * The menu-item-title, menu-item-description and menu-item-attr-title are expected
  * to be pre-slashed since they are passed directly to APIs that expect slashed data.
@@ -641,7 +641,7 @@ function wp_get_nav_menus( $args = array() ) {
 }
 
 /**
- * Return if a menu item is valid.
+ * Determines whether a menu item is valid.
  *
  * @link https://core.trac.wordpress.org/ticket/13958
  *
@@ -988,7 +988,7 @@ function wp_setup_nav_menu_item( $menu_item ) {
 }
 
 /**
- * Get the menu items associated with a particular object.
+ * Returns the menu items associated with a particular object.
  *
  * @since 3.0.0
  *
@@ -1120,7 +1120,7 @@ function _wp_auto_add_pages_to_menu( $new_status, $old_status, $post ) {
 }
 
 /**
- * Delete auto-draft posts associated with the supplied changeset.
+ * Deletes auto-draft posts associated with the supplied changeset.
  *
  * @since 4.8.0
  * @access private
@@ -1154,7 +1154,7 @@ function _wp_delete_customize_changeset_dependent_auto_drafts( $post_id ) {
 }
 
 /**
- * Handle menu config after theme change.
+ * Handles menu config after theme change.
  *
  * @access private
  * @since 4.9.0
