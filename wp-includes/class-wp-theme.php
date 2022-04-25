@@ -687,7 +687,7 @@ final class WP_Theme implements ArrayAccess {
 	}
 
 	/**
-	 * Whether the theme exists.
+	 * Determines whether the theme exists.
 	 *
 	 * A theme with errors exists. A theme with the error of 'theme_not_found',
 	 * meaning that the theme's directory was not found, does not exist.
@@ -761,7 +761,7 @@ final class WP_Theme implements ArrayAccess {
 	}
 
 	/**
-	 * Get a raw, unformatted theme header.
+	 * Gets a raw, unformatted theme header.
 	 *
 	 * The header is sanitized, but is not translated, and is not marked up for display.
 	 * To get a theme header for display, use the display() method.
@@ -838,7 +838,7 @@ final class WP_Theme implements ArrayAccess {
 	}
 
 	/**
-	 * Sanitize a theme header.
+	 * Sanitizes a theme header.
 	 *
 	 * @since 3.4.0
 	 * @since 5.4.0 Added support for `Requires at least` and `Requires PHP` headers.
@@ -902,7 +902,7 @@ final class WP_Theme implements ArrayAccess {
 	}
 
 	/**
-	 * Mark up a theme header.
+	 * Marks up a theme header.
 	 *
 	 * @since 3.4.0
 	 *
@@ -945,7 +945,7 @@ final class WP_Theme implements ArrayAccess {
 	}
 
 	/**
-	 * Translate a theme header.
+	 * Translates a theme header.
 	 *
 	 * @since 3.4.0
 	 *
@@ -1022,7 +1022,7 @@ final class WP_Theme implements ArrayAccess {
 	}
 
 	/**
-	 * The directory name of the theme's "stylesheet" files, inside the theme root.
+	 * Returns the directory name of the theme's "stylesheet" files, inside the theme root.
 	 *
 	 * In the case of a child theme, this is directory name of the child theme.
 	 * Otherwise, get_stylesheet() is the same as get_template().
@@ -1036,7 +1036,7 @@ final class WP_Theme implements ArrayAccess {
 	}
 
 	/**
-	 * The directory name of the theme's "template" files, inside the theme root.
+	 * Returns the directory name of the theme's "template" files, inside the theme root.
 	 *
 	 * In the case of a child theme, this is the directory name of the parent theme.
 	 * Otherwise, the get_template() is the same as get_stylesheet().
@@ -1122,7 +1122,7 @@ final class WP_Theme implements ArrayAccess {
 	}
 
 	/**
-	 * The absolute path to the directory of the theme root.
+	 * Returns the absolute path to the directory of the theme root.
 	 *
 	 * This is typically the absolute path to wp-content/themes.
 	 *
@@ -1191,7 +1191,7 @@ final class WP_Theme implements ArrayAccess {
 	}
 
 	/**
-	 * Return files in the theme's directory.
+	 * Returns files in the theme's directory.
 	 *
 	 * @since 3.4.0
 	 *
@@ -1443,7 +1443,7 @@ final class WP_Theme implements ArrayAccess {
 	}
 
 	/**
-	 * Whether the theme is allowed (multisite only).
+	 * Determines whether the theme is allowed (multisite only).
 	 *
 	 * @since 3.4.0
 	 *
