@@ -1275,7 +1275,7 @@ function wpmu_activate_signup( $key ) {
 }
 
 /**
- * Deletes am associated signup entry when a user is deleted from the database.
+ * Deletes an associated signup entry when a user is deleted from the database.
  *
  * @since 5.5.0
  *
