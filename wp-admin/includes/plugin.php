@@ -1325,6 +1325,19 @@ function add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $call
 
 	$new_menu = array( $menu_title, $capability, $menu_slug, $page_title, 'menu-top ' . $icon_class . $hookname, $hookname, $icon_url );
 
+	if ( null !== $position && ! is_numeric( $position ) ) {
+		_doing_it_wrong(
+			__FUNCTION__,
+			sprintf(
+				/* translators: %s: add_menu_page() */
+				__( 'The seventh parameter passed to %s should be numeric representing menu position.' ),
+				'<code>add_menu_page()</code>'
+			),
+			'6.0.0'
+		);
+		$position = null;
+	}
+
 	if ( null === $position || ! is_numeric( $position ) ) {
 		$menu[] = $new_menu;
 	} elseif ( isset( $menu[ (string) $position ] ) ) {
@@ -1421,7 +1434,7 @@ function add_submenu_page( $parent_slug, $page_title, $menu_title, $capability, 
 			__FUNCTION__,
 			sprintf(
 				/* translators: %s: add_submenu_page() */
-				__( 'The seventh parameter passed to %s should be an integer representing menu position.' ),
+				__( 'The seventh parameter passed to %s should be numeric representing menu position.' ),
 				'<code>add_submenu_page()</code>'
 			),
 			'5.3.0'
