@@ -205,6 +205,16 @@ class WP_Block_Type {
 	public $style = null;
 
 	/**
+	 * Attributes supported by every block.
+	 *
+	 * @since 6.0.0
+	 * @var array
+	 */
+	const GLOBAL_ATTRIBUTES = array(
+		'lock' => array( 'type' => 'object' ),
+	);
+
+	/**
 	 * Constructor.
 	 *
 	 * Will populate object properties from the provided arguments.
@@ -354,6 +364,18 @@ class WP_Block_Type {
 		);
 
 		$args['name'] = $this->name;
+
+		// Setup attributes if needed.
+		if ( ! isset( $args['attributes'] ) || ! is_array( $args['attributes'] ) ) {
+			$args['attributes'] = array();
+		}
+
+		// Register core attributes.
+		foreach ( static::GLOBAL_ATTRIBUTES as $attr_key => $attr_schema ) {
+			if ( ! array_key_exists( $attr_key, $args['attributes'] ) ) {
+				$args['attributes'][ $attr_key ] = $attr_schema;
+			}
+		}
 
 		/**
 		 * Filters the arguments for registering a block type.
