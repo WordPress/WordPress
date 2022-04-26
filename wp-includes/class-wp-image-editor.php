@@ -549,11 +549,11 @@ abstract class WP_Image_Editor {
 	 * @since 3.5.0
 	 *
 	 * @param string   $filename
-	 * @param callable $function
+	 * @param callable $callback
 	 * @param array    $arguments
 	 * @return bool
 	 */
-	protected function make_image( $filename, $function, $arguments ) {
+	protected function make_image( $filename, $callback, $arguments ) {
 		$stream = wp_is_stream( $filename );
 		if ( $stream ) {
 			ob_start();
@@ -562,7 +562,7 @@ abstract class WP_Image_Editor {
 			wp_mkdir_p( dirname( $filename ) );
 		}
 
-		$result = call_user_func_array( $function, $arguments );
+		$result = call_user_func_array( $callback, $arguments );
 
 		if ( $result && $stream ) {
 			$contents = ob_get_contents();
