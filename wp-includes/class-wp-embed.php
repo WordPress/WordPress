@@ -454,16 +454,16 @@ class WP_Embed {
 	/**
 	 * Callback function for WP_Embed::autoembed().
 	 *
-	 * @param array $match A regex match array.
+	 * @param array $matches A regex match array.
 	 * @return string The embed HTML on success, otherwise the original URL.
 	 */
-	public function autoembed_callback( $match ) {
+	public function autoembed_callback( $matches ) {
 		$oldval              = $this->linkifunknown;
 		$this->linkifunknown = false;
-		$return              = $this->shortcode( array(), $match[2] );
+		$return              = $this->shortcode( array(), $matches[2] );
 		$this->linkifunknown = $oldval;
 
-		return $match[1] . $return . $match[3];
+		return $matches[1] . $return . $matches[3];
 	}
 
 	/**
