@@ -1068,8 +1068,8 @@ class WP_Term_Query {
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
-	 * @param string $search
-	 * @return string
+	 * @param string $search Search string.
+	 * @return string Search SQL.
 	 */
 	protected function get_search_sql( $search ) {
 		global $wpdb;
