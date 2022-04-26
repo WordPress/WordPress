@@ -423,22 +423,22 @@ function comment_author_url_link( $linktext = '', $before = '', $after = '', $co
  * @since 2.7.0
  * @since 4.4.0 Added the ability for `$comment` to also accept a WP_Comment object.
  *
- * @param string|string[] $class    Optional. One or more classes to add to the class list.
- *                                  Default empty.
- * @param int|WP_Comment  $comment  Comment ID or WP_Comment object. Default current comment.
- * @param int|WP_Post     $post_id  Post ID or WP_Post object. Default current post.
- * @param bool            $echo     Optional. Whether to echo or return the output.
- *                                  Default true.
- * @return void|string Void if `$echo` argument is true, comment classes if `$echo` is false.
+ * @param string|string[] $css_class Optional. One or more classes to add to the class list.
+ *                                   Default empty.
+ * @param int|WP_Comment  $comment   Comment ID or WP_Comment object. Default current comment.
+ * @param int|WP_Post     $post_id   Post ID or WP_Post object. Default current post.
+ * @param bool            $display   Optional. Whether to print or return the output.
+ *                                   Default true.
+ * @return void|string Void if `$display` argument is true, comment classes if `$display` is false.
  */
-function comment_class( $class = '', $comment = null, $post_id = null, $echo = true ) {
+function comment_class( $css_class = '', $comment = null, $post_id = null, $display = true ) {
 	// Separates classes with a single space, collates classes for comment DIV.
-	$class = 'class="' . implode( ' ', get_comment_class( $class, $comment, $post_id ) ) . '"';
+	$css_class = 'class="' . implode( ' ', get_comment_class( $css_class, $comment, $post_id ) ) . '"';
 
-	if ( $echo ) {
-		echo $class;
+	if ( $display ) {
+		echo $css_class;
 	} else {
-		return $class;
+		return $css_class;
 	}
 }
 
@@ -452,12 +452,12 @@ function comment_class( $class = '', $comment = null, $post_id = null, $echo = t
  * @global int $comment_depth
  * @global int $comment_thread_alt
  *
- * @param string|string[] $class      Optional. One or more classes to add to the class list. Default empty.
+ * @param string|string[] $css_class  Optional. One or more classes to add to the class list. Default empty.
  * @param int|WP_Comment  $comment_id Comment ID or WP_Comment object. Default current comment.
  * @param int|WP_Post     $post_id    Post ID or WP_Post object. Default current post.
  * @return string[] An array of classes.
  */
-function get_comment_class( $class = '', $comment_id = null, $post_id = null ) {
+function get_comment_class( $css_class = '', $comment_id = null, $post_id = null ) {
 	global $comment_alt, $comment_depth, $comment_thread_alt;
 
 	$classes = array();
@@ -516,11 +516,11 @@ function get_comment_class( $class = '', $comment_id = null, $post_id = null ) {
 
 	$classes[] = "depth-$comment_depth";
 
-	if ( ! empty( $class ) ) {
-		if ( ! is_array( $class ) ) {
-			$class = preg_split( '#\s+#', $class );
+	if ( ! empty( $css_class ) ) {
+		if ( ! is_array( $css_class ) ) {
+			$css_class = preg_split( '#\s+#', $css_class );
 		}
-		$classes = array_merge( $classes, $class );
+		$classes = array_merge( $classes, $css_class );
 	}
 
 	$classes = array_map( 'esc_attr', $classes );
@@ -531,12 +531,12 @@ function get_comment_class( $class = '', $comment_id = null, $post_id = null ) {
 	 * @since 2.7.0
 	 *
 	 * @param string[]    $classes    An array of comment classes.
-	 * @param string[]    $class      An array of additional classes added to the list.
+	 * @param string[]    $css_class  An array of additional classes added to the list.
 	 * @param string      $comment_id The comment ID as a numeric string.
 	 * @param WP_Comment  $comment    The comment object.
 	 * @param int|WP_Post $post_id    The post ID or WP_Post object.
 	 */
-	return apply_filters( 'comment_class', $classes, $class, $comment->comment_ID, $comment, $post_id );
+	return apply_filters( 'comment_class', $classes, $css_class, $comment->comment_ID, $comment, $post_id );
 }
 
 /**
