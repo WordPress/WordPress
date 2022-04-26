@@ -324,13 +324,13 @@ class WP_Styles extends WP_Dependencies {
 	 *
 	 * @since 3.3.0
 	 *
-	 * @param string $handle The style's registered handle.
-	 * @param bool   $echo   Optional. Whether to echo the inline style
-	 *                       instead of just returning it. Default true.
-	 * @return string|bool False if no data exists, inline styles if `$echo` is true,
+	 * @param string $handle  The style's registered handle.
+	 * @param bool   $display Optional. Whether to print the inline style
+	 *                        instead of just returning it. Default true.
+	 * @return string|bool False if no data exists, inline styles if `$display` is true,
 	 *                     true otherwise.
 	 */
-	public function print_inline_style( $handle, $echo = true ) {
+	public function print_inline_style( $handle, $display = true ) {
 		$output = $this->get_data( $handle, 'after' );
 
 		if ( empty( $output ) ) {
@@ -339,7 +339,7 @@ class WP_Styles extends WP_Dependencies {
 
 		$output = implode( "\n", $output );
 
-		if ( ! $echo ) {
+		if ( ! $display ) {
 			return $output;
 		}
 

@@ -19,7 +19,7 @@ if ( ! function_exists( 'twentytwenty_generate_css' ) ) {
 	 * @param string $value    The CSS value.
 	 * @param string $prefix   The CSS prefix.
 	 * @param string $suffix   The CSS suffix.
-	 * @param bool   $display  Output the styles.
+	 * @param bool   $display  Print the styles.
 	 */
 	function twentytwenty_generate_css( $selector, $style, $value, $prefix = '', $suffix = '', $display = true ) {
 
