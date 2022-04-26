@@ -2864,6 +2864,7 @@ __webpack_require__.d(__webpack_exports__, {
   "__unstableEditorStyles": function() { return /* reexport */ EditorStyles; },
   "__unstableIframe": function() { return /* reexport */ iframe; },
   "__unstableInserterMenuExtension": function() { return /* reexport */ inserter_menu_extension; },
+  "__unstablePresetDuotoneFilter": function() { return /* reexport */ PresetDuotoneFilter; },
   "__unstableRichTextInputEvent": function() { return /* reexport */ __unstableRichTextInputEvent; },
   "__unstableUseBlockSelectionClearer": function() { return /* reexport */ useBlockSelectionClearer; },
   "__unstableUseClipboardHandler": function() { return /* reexport */ useClipboardHandler; },
@@ -20354,7 +20355,13 @@ function useSelectionObserver() {
       }
 
       const clientId = getBlockClientId(extractSelectionStartNode(selection));
-      const endClientId = getBlockClientId(extractSelectionEndNode(selection));
+      const endClientId = getBlockClientId(extractSelectionEndNode(selection)); // If the selection did not involve a block, return early.
+
+      if (clientId === undefined && endClientId === undefined) {
+        use_selection_observer_setContentEditableWrapper(node, false);
+        return;
+      }
+
       const isSingularSelection = clientId === endClientId;
 
       if (isSingularSelection) {
@@ -36477,28 +36484,44 @@ function getValuesFromColors() {
  */
 
 /**
- * SVG and stylesheet needed for rendering the duotone filter.
+ * Stylesheet for rendering the duotone filter.
  *
  * @param {Object} props          Duotone props.
  * @param {string} props.selector Selector to apply the filter to.
  * @param {string} props.id       Unique id for this duotone filter.
- * @param {Values} props.values   R, G, B, and A values to filter with.
  *
  * @return {WPElement} Duotone element.
  */
 
-function DuotoneFilter(_ref) {
+function DuotoneStylesheet(_ref) {
   let {
     selector,
-    id,
-    values
+    id
   } = _ref;
-  const stylesheet = `
+  const css = `
 ${selector} {
 	filter: url( #${id} );
 }
 `;
-  return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.SVG, {
+  return (0,external_wp_element_namespaceObject.createElement)("style", null, css);
+}
+/**
+ * SVG for rendering the duotone filter.
+ *
+ * @param {Object} props        Duotone props.
+ * @param {string} props.id     Unique id for this duotone filter.
+ * @param {Values} props.values R, G, B, and A values to filter with.
+ *
+ * @return {WPElement} Duotone element.
+ */
+
+
+function DuotoneFilter(_ref2) {
+  let {
+    id,
+    values
+  } = _ref2;
+  return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.SVG, {
     xmlnsXlink: "http://www.w3.org/1999/xlink",
     viewBox: "0 0 0 0",
     width: "0",
@@ -36538,18 +36561,40 @@ ${selector} {
     // Re-mask the image with the original transparency since the feColorMatrix above loses that information.
     in2: "SourceGraphic",
     operator: "in"
-  })))), (0,external_wp_element_namespaceObject.createElement)("style", {
-    dangerouslySetInnerHTML: {
-      __html: stylesheet
-    }
+  }))));
+}
+/**
+ * SVG and stylesheet needed for rendering the duotone filter.
+ *
+ * @param {Object} props          Duotone props.
+ * @param {string} props.selector Selector to apply the filter to.
+ * @param {string} props.id       Unique id for this duotone filter.
+ * @param {Values} props.values   R, G, B, and A values to filter with.
+ *
+ * @return {WPElement} Duotone element.
+ */
+
+
+function InlineDuotone(_ref3) {
+  let {
+    selector,
+    id,
+    values
+  } = _ref3;
+  return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)(DuotoneFilter, {
+    id: id,
+    values: values
+  }), (0,external_wp_element_namespaceObject.createElement)(DuotoneStylesheet, {
+    id: id,
+    selector: selector
   }));
 }
 
-function useMultiOriginPresets(_ref2) {
+function useMultiOriginPresets(_ref4) {
   let {
     presetSetting,
     defaultSetting
-  } = _ref2;
+  } = _ref4;
   const disableDefault = !useSetting(defaultSetting);
   const userPresets = useSetting(`${presetSetting}.custom`) || duotone_EMPTY_ARRAY;
   const themePresets = useSetting(`${presetSetting}.theme`) || duotone_EMPTY_ARRAY;
@@ -36557,13 +36602,13 @@ function useMultiOriginPresets(_ref2) {
   return (0,external_wp_element_namespaceObject.useMemo)(() => [...userPresets, ...themePresets, ...(disableDefault ? duotone_EMPTY_ARRAY : defaultPresets)], [disableDefault, userPresets, themePresets, defaultPresets]);
 }
 
-function DuotonePanel(_ref3) {
+function DuotonePanel(_ref5) {
   var _style$color;
 
   let {
     attributes,
     setAttributes
-  } = _ref3;
+  } = _ref5;
   const style = attributes === null || attributes === void 0 ? void 0 : attributes.style;
   const duotone = style === null || style === void 0 ? void 0 : (_style$color = style.color) === null || _style$color === void 0 ? void 0 : _style$color.duotone;
   const duotonePalette = useMultiOriginPresets({
@@ -36698,7 +36743,7 @@ const withDuotoneStyles = (0,external_wp_compose_namespaceObject.createHigherOrd
   const selectorsGroup = scopeSelector(`.editor-styles-wrapper .${id}`, duotoneSupport);
   const className = classnames_default()(props === null || props === void 0 ? void 0 : props.className, id);
   const element = (0,external_wp_element_namespaceObject.useContext)(BlockList.__unstableElementContext);
-  return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, element && (0,external_wp_element_namespaceObject.createPortal)((0,external_wp_element_namespaceObject.createElement)(DuotoneFilter, {
+  return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, element && (0,external_wp_element_namespaceObject.createPortal)((0,external_wp_element_namespaceObject.createElement)(InlineDuotone, {
     selector: selectorsGroup,
     id: id,
     values: getValuesFromColors(values)
@@ -36706,6 +36751,15 @@ const withDuotoneStyles = (0,external_wp_compose_namespaceObject.createHigherOrd
     className: className
   })));
 }, 'withDuotoneStyles');
+function PresetDuotoneFilter(_ref6) {
+  let {
+    preset
+  } = _ref6;
+  return (0,external_wp_element_namespaceObject.createElement)(DuotoneFilter, {
+    id: `wp-duotone-${preset.slug}`,
+    values: getValuesFromColors(preset.colors)
+  });
+}
 (0,external_wp_hooks_namespaceObject.addFilter)('blocks.registerBlockType', 'core/editor/duotone/add-attributes', addDuotoneAttributes);
 (0,external_wp_hooks_namespaceObject.addFilter)('editor.BlockEdit', 'core/editor/duotone/with-editor-controls', withDuotoneControls);
 (0,external_wp_hooks_namespaceObject.addFilter)('editor.BlockListBlock', 'core/editor/duotone/with-styles', withDuotoneStyles);
@@ -37169,6 +37223,7 @@ function useCachedTruthy(value) {
 /**
  * Internal dependencies
  */
+
 
 
 

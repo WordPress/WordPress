@@ -10541,7 +10541,13 @@ function PostTaxonomies(_ref) {
     taxonomyWrapper = external_lodash_namespaceObject.identity
   } = _ref;
   const availableTaxonomies = (0,external_lodash_namespaceObject.filter)(taxonomies, taxonomy => (0,external_lodash_namespaceObject.includes)(taxonomy.types, postType));
-  const visibleTaxonomies = (0,external_lodash_namespaceObject.filter)(availableTaxonomies, taxonomy => taxonomy.visibility.show_ui);
+  const visibleTaxonomies = (0,external_lodash_namespaceObject.filter)(availableTaxonomies, // In some circumstances .visibility can end up as undefined so optional chaining operator required.
+  // https://github.com/WordPress/gutenberg/issues/40326
+  taxonomy => {
+    var _taxonomy$visibility;
+
+    return (_taxonomy$visibility = taxonomy.visibility) === null || _taxonomy$visibility === void 0 ? void 0 : _taxonomy$visibility.show_ui;
+  });
   return visibleTaxonomies.map(taxonomy => {
     const TaxonomyComponent = taxonomy.hierarchical ? hierarchical_term_selector : flat_term_selector;
     return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, {

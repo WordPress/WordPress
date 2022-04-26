@@ -1,10 +1,10 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 2,
-	"name": "core/post-comments",
-	"title": "Post Comments (deprecated)",
+	"name": "core/post-comments-form",
+	"title": "Post Comments Form",
 	"category": "theme",
-	"description": "This block is deprecated. Please use the Comments Query Loop block instead.",
+	"description": "Display a post's comments form.",
 	"textdomain": "default",
 	"attributes": {
 		"textAlign": {
@@ -14,7 +14,14 @@
 	"usesContext": [ "postId", "postType" ],
 	"supports": {
 		"html": false,
-		"align": [ "wide", "full" ],
+		"color": {
+			"gradients": true,
+			"link": true,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true
+			}
+		},
 		"typography": {
 			"fontSize": true,
 			"lineHeight": true,
@@ -25,21 +32,12 @@
 			"__experimentalDefaultControls": {
 				"fontSize": true
 			}
-		},
-		"color": {
-			"gradients": true,
-			"link": true,
-			"__experimentalDefaultControls": {
-				"background": true,
-				"text": true
-			}
-		},
-		"inserter": false
+		}
 	},
+	"editorStyle": "wp-block-post-comments-form-editor",
 	"style": [
-		"wp-block-post-comments",
+		"wp-block-post-comments-form",
 		"wp-block-buttons",
 		"wp-block-button"
-	],
-	"editorStyle": "wp-block-post-comments-editor"
+	]
 }

@@ -291,6 +291,10 @@ html :where(.wp-block-column) {
   margin-right: 0;
 }
 
+.wp-block-comments-title.has-background {
+  padding: inherit;
+}
+
 .wp-block-cover {
   /* Extra specificity needed because the reset.css applied in the editor context is overriding this rule. */
 }
@@ -2699,6 +2703,14 @@ div[data-type="core/post-featured-image"] img {
   max-width: 100%;
   height: auto;
   display: block;
+}
+
+.wp-block-post-comments__placeholder * {
+  pointer-events: none;
+}
+
+.wp-block-post-comments-form * {
+  pointer-events: none;
 }
 
 :root .editor-styles-wrapper {

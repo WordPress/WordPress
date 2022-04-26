@@ -2602,157 +2602,6 @@ module.exports = function isPrimitive(value) {
 
 /***/ }),
 
-/***/ 2920:
-/***/ (function(module) {
-
-//
-// Main
-//
-
-function memoize (fn, options) {
-  var cache = options && options.cache
-    ? options.cache
-    : cacheDefault
-
-  var serializer = options && options.serializer
-    ? options.serializer
-    : serializerDefault
-
-  var strategy = options && options.strategy
-    ? options.strategy
-    : strategyDefault
-
-  return strategy(fn, {
-    cache: cache,
-    serializer: serializer
-  })
-}
-
-//
-// Strategy
-//
-
-function isPrimitive (value) {
-  return value == null || typeof value === 'number' || typeof value === 'boolean' // || typeof value === "string" 'unsafe' primitive for our needs
-}
-
-function monadic (fn, cache, serializer, arg) {
-  var cacheKey = isPrimitive(arg) ? arg : serializer(arg)
-
-  var computedValue = cache.get(cacheKey)
-  if (typeof computedValue === 'undefined') {
-    computedValue = fn.call(this, arg)
-    cache.set(cacheKey, computedValue)
-  }
-
-  return computedValue
-}
-
-function variadic (fn, cache, serializer) {
-  var args = Array.prototype.slice.call(arguments, 3)
-  var cacheKey = serializer(args)
-
-  var computedValue = cache.get(cacheKey)
-  if (typeof computedValue === 'undefined') {
-    computedValue = fn.apply(this, args)
-    cache.set(cacheKey, computedValue)
-  }
-
-  return computedValue
-}
-
-function assemble (fn, context, strategy, cache, serialize) {
-  return strategy.bind(
-    context,
-    fn,
-    cache,
-    serialize
-  )
-}
-
-function strategyDefault (fn, options) {
-  var strategy = fn.length === 1 ? monadic : variadic
-
-  return assemble(
-    fn,
-    this,
-    strategy,
-    options.cache.create(),
-    options.serializer
-  )
-}
-
-function strategyVariadic (fn, options) {
-  var strategy = variadic
-
-  return assemble(
-    fn,
-    this,
-    strategy,
-    options.cache.create(),
-    options.serializer
-  )
-}
-
-function strategyMonadic (fn, options) {
-  var strategy = monadic
-
-  return assemble(
-    fn,
-    this,
-    strategy,
-    options.cache.create(),
-    options.serializer
-  )
-}
-
-//
-// Serializer
-//
-
-function serializerDefault () {
-  return JSON.stringify(arguments)
-}
-
-//
-// Cache
-//
-
-function ObjectWithoutPrototypeCache () {
-  this.cache = Object.create(null)
-}
-
-ObjectWithoutPrototypeCache.prototype.has = function (key) {
-  return (key in this.cache)
-}
-
-ObjectWithoutPrototypeCache.prototype.get = function (key) {
-  return this.cache[key]
-}
-
-ObjectWithoutPrototypeCache.prototype.set = function (key, value) {
-  this.cache[key] = value
-}
-
-var cacheDefault = {
-  create: function create () {
-    return new ObjectWithoutPrototypeCache()
-  }
-}
-
-//
-// API
-//
-
-module.exports = memoize
-module.exports.strategies = {
-  variadic: strategyVariadic,
-  monadic: strategyMonadic
-}
-
-
-/***/ }),
-
 /***/ 9930:
 /***/ (function(module) {
 
@@ -26789,7 +26638,7 @@ var PresenceContext_PresenceContext = (0,external_React_.createContext)(null);
 
 
 ;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/utils/is-browser.mjs
-var is_browser_isBrowser = typeof window !== "undefined";
+var is_browser_isBrowser = typeof document !== "undefined";
 
 
 
@@ -26806,12 +26655,13 @@ var useIsomorphicLayoutEffect = is_browser_isBrowser ? external_React_.useLayout
 
 
 
+
 // Does this device prefer reduced motion? Returns `null` server-side.
 var prefersReducedMotion = { current: null };
 var hasDetected = false;
 function initPrefersReducedMotion() {
     hasDetected = true;
-    if (typeof window === "undefined")
+    if (!is_browser_isBrowser)
         return;
     if (window.matchMedia) {
         var motionMediaQuery_1 = window.matchMedia("(prefers-reduced-motion)");
@@ -54775,6 +54625,7 @@ function PaletteEditListView(_ref4) {
       }
     };
   }, []);
+  const debounceOnChange = (0,external_wp_compose_namespaceObject.useDebounce)(onChange, 100);
   return (0,external_wp_element_namespaceObject.createElement)(v_stack_component, {
     spacing: 3
   }, (0,external_wp_element_namespaceObject.createElement)(item_group_component, {
@@ -54790,7 +54641,7 @@ function PaletteEditListView(_ref4) {
       }
     },
     onChange: newElement => {
-      onChange(elements.map((currentElement, currentIndex) => {
+      debounceOnChange(elements.map((currentElement, currentIndex) => {
         if (currentIndex === index) {
           return newElement;
         }
@@ -69493,67 +69344,34 @@ var resizer_assign = (undefined && undefined.__assign) || function () {
     return resizer_assign.apply(this, arguments);
 };
 
+var rowSizeBase = {
+    width: '100%',
+    height: '10px',
+    top: '0px',
+    left: '0px',
+    cursor: 'row-resize',
+};
+var colSizeBase = {
+    width: '10px',
+    height: '100%',
+    top: '0px',
+    left: '0px',
+    cursor: 'col-resize',
+};
+var edgeBase = {
+    width: '20px',
+    height: '20px',
+    position: 'absolute',
+};
 var styles = {
-    top: {
-        width: '100%',
-        height: '10px',
-        top: '-5px',
-        left: '0px',
-        cursor: 'row-resize',
-    },
-    right: {
-        width: '10px',
-        height: '100%',
-        top: '0px',
-        right: '-5px',
-        cursor: 'col-resize',
-    },
-    bottom: {
-        width: '100%',
-        height: '10px',
-        bottom: '-5px',
-        left: '0px',
-        cursor: 'row-resize',
-    },
-    left: {
-        width: '10px',
-        height: '100%',
-        top: '0px',
-        left: '-5px',
-        cursor: 'col-resize',
-    },
-    topRight: {
-        width: '20px',
-        height: '20px',
-        position: 'absolute',
-        right: '-10px',
-        top: '-10px',
-        cursor: 'ne-resize',
-    },
-    bottomRight: {
-        width: '20px',
-        height: '20px',
-        position: 'absolute',
-        right: '-10px',
-        bottom: '-10px',
-        cursor: 'se-resize',
-    },
-    bottomLeft: {
-        width: '20px',
-        height: '20px',
-        position: 'absolute',
-        left: '-10px',
-        bottom: '-10px',
-        cursor: 'sw-resize',
-    },
-    topLeft: {
-        width: '20px',
-        height: '20px',
-        position: 'absolute',
-        left: '-10px',
-        top: '-10px',
-        cursor: 'nw-resize',
-    },
+    top: resizer_assign(resizer_assign({}, rowSizeBase), { top: '-5px' }),
+    right: resizer_assign(resizer_assign({}, colSizeBase), { left: undefined, right: '-5px' }),
+    bottom: resizer_assign(resizer_assign({}, rowSizeBase), { top: undefined, bottom: '-5px' }),
+    left: resizer_assign(resizer_assign({}, colSizeBase), { left: '-5px' }),
+    topRight: resizer_assign(resizer_assign({}, edgeBase), { right: '-10px', top: '-10px', cursor: 'ne-resize' }),
+    bottomRight: resizer_assign(resizer_assign({}, edgeBase), { right: '-10px', bottom: '-10px', cursor: 'se-resize' }),
+    bottomLeft: resizer_assign(resizer_assign({}, edgeBase), { left: '-10px', bottom: '-10px', cursor: 'sw-resize' }),
+    topLeft: resizer_assign(resizer_assign({}, edgeBase), { left: '-10px', top: '-10px', cursor: 'nw-resize' }),
 };
 var Resizer = /** @class */ (function (_super) {
     resizer_extends(Resizer, _super);
@@ -69574,9 +69392,6 @@ var Resizer = /** @class */ (function (_super) {
 }(external_React_.PureComponent));
 
 
-// EXTERNAL MODULE: ./node_modules/fast-memoize/src/index.js
-var src = __webpack_require__(2920);
-var src_default = /*#__PURE__*/__webpack_require__.n(src);
 ;// CONCATENATED MODULE: ./node_modules/re-resizable/lib/index.js
 var lib_extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -69609,11 +69424,11 @@ var DEFAULT_SIZE = {
     width: 'auto',
     height: 'auto',
 };
-var lib_clamp = src_default()(function (n, min, max) { return Math.max(Math.min(n, max), min); });
-var snap = src_default()(function (n, size) { return Math.round(n / size) * size; });
-var hasDirection = src_default()(function (dir, target) {
+var lib_clamp = function (n, min, max) { return Math.max(Math.min(n, max), min); };
+var snap = function (n, size) { return Math.round(n / size) * size; };
+var hasDirection = function (dir, target) {
     return new RegExp(dir, 'i').test(target);
-});
+};
 // INFO: In case of window is a Proxy and does not porxy Events correctly, use isTouchEvent & isMouseEvent to distinguish event type instead of `instanceof`.
 var lib_isTouchEvent = function (event) {
     return Boolean(event.touches && event.touches.length);
@@ -69622,61 +69437,58 @@ var lib_isMouseEvent = function (event) {
     return Boolean((event.clientX || event.clientX === 0) &&
         (event.clientY || event.clientY === 0));
 };
-var findClosestSnap = src_default()(function (n, snapArray, snapGap) {
+var findClosestSnap = function (n, snapArray, snapGap) {
     if (snapGap === void 0) { snapGap = 0; }
     var closestGapIndex = snapArray.reduce(function (prev, curr, index) { return (Math.abs(curr - n) < Math.abs(snapArray[prev] - n) ? index : prev); }, 0);
     var gap = Math.abs(snapArray[closestGapIndex] - n);
     return snapGap === 0 || gap < snapGap ? snapArray[closestGapIndex] : n;
-});
-var endsWith = src_default()(function (str, searchStr) {
-    return str.substr(str.length - searchStr.length, searchStr.length) === searchStr;
-});
-var getStringSize = src_default()(function (n) {
+};
+var getStringSize = function (n) {
     n = n.toString();
     if (n === 'auto') {
         return n;
     }
-    if (endsWith(n, 'px')) {
+    if (n.endsWith('px')) {
         return n;
     }
-    if (endsWith(n, '%')) {
+    if (n.endsWith('%')) {
         return n;
     }
-    if (endsWith(n, 'vh')) {
+    if (n.endsWith('vh')) {
         return n;
     }
-    if (endsWith(n, 'vw')) {
+    if (n.endsWith('vw')) {
         return n;
     }
-    if (endsWith(n, 'vmax')) {
+    if (n.endsWith('vmax')) {
         return n;
     }
-    if (endsWith(n, 'vmin')) {
+    if (n.endsWith('vmin')) {
         return n;
     }
     return n + "px";
-});
+};
 var getPixelSize = function (size, parentSize, innerWidth, innerHeight) {
     if (size && typeof size === 'string') {
-        if (endsWith(size, 'px')) {
+        if (size.endsWith('px')) {
             return Number(size.replace('px', ''));
         }
-        if (endsWith(size, '%')) {
+        if (size.endsWith('%')) {
             var ratio = Number(size.replace('%', '')) / 100;
             return parentSize * ratio;
         }
-        if (endsWith(size, 'vw')) {
+        if (size.endsWith('vw')) {
             var ratio = Number(size.replace('vw', '')) / 100;
             return innerWidth * ratio;
         }
-        if (endsWith(size, 'vh')) {
+        if (size.endsWith('vh')) {
             var ratio = Number(size.replace('vh', '')) / 100;
             return innerHeight * ratio;
         }
     }
     return size;
 };
-var calculateNewMax = src_default()(function (parentSize, innerWidth, innerHeight, maxWidth, maxHeight, minWidth, minHeight) {
+var calculateNewMax = function (parentSize, innerWidth, innerHeight, maxWidth, maxHeight, minWidth, minHeight) {
     maxWidth = getPixelSize(maxWidth, parentSize.width, innerWidth, innerHeight);
     maxHeight = getPixelSize(maxHeight, parentSize.height, innerWidth, innerHeight);
     minWidth = getPixelSize(minWidth, parentSize.width, innerWidth, innerHeight);
@@ -69687,7 +69499,7 @@ var calculateNewMax = src_default()(function (parentSize, innerWidth, innerHeigh
         minWidth: typeof minWidth === 'undefined' ? undefined : Number(minWidth),
         minHeight: typeof minHeight === 'undefined' ? undefined : Number(minHeight),
     };
-});
+};
 var definedProps = [
     'as',
     'style',
@@ -69871,8 +69683,8 @@ var Resizable = /** @class */ (function (_super) {
                 if (typeof _this.state[key] === 'undefined' || _this.state[key] === 'auto') {
                     return 'auto';
                 }
-                if (_this.propsSize && _this.propsSize[key] && endsWith(_this.propsSize[key].toString(), '%')) {
-                    if (endsWith(_this.state[key].toString(), '%')) {
+                if (_this.propsSize && _this.propsSize[key] && _this.propsSize[key].toString().endsWith('%')) {
+                    if (_this.state[key].toString().endsWith('%')) {
                         return _this.state[key].toString();
                     }
                     var parentSize = _this.getParentSize();
@@ -70158,6 +69970,7 @@ var Resizable = /** @class */ (function (_super) {
         this.setState(state);
     };
     Resizable.prototype.onMouseMove = function (event) {
+        var _this = this;
         if (!this.state.isResizing || !this.resizable || !this.window) {
             return;
         }
@@ -70206,29 +70019,29 @@ var Resizable = /** @class */ (function (_super) {
             height: newHeight - original.height,
         };
         if (width && typeof width === 'string') {
-            if (endsWith(width, '%')) {
+            if (width.endsWith('%')) {
                 var percent = (newWidth / parentSize.width) * 100;
                 newWidth = percent + "%";
             }
-            else if (endsWith(width, 'vw')) {
+            else if (width.endsWith('vw')) {
                 var vw = (newWidth / this.window.innerWidth) * 100;
                 newWidth = vw + "vw";
             }
-            else if (endsWith(width, 'vh')) {
+            else if (width.endsWith('vh')) {
                 var vh = (newWidth / this.window.innerHeight) * 100;
                 newWidth = vh + "vh";
             }
         }
         if (height && typeof height === 'string') {
-            if (endsWith(height, '%')) {
+            if (height.endsWith('%')) {
                 var percent = (newHeight / parentSize.height) * 100;
                 newHeight = percent + "%";
             }
-            else if (endsWith(height, 'vw')) {
+            else if (height.endsWith('vw')) {
                 var vw = (newHeight / this.window.innerWidth) * 100;
                 newHeight = vw + "vw";
             }
-            else if (endsWith(height, 'vh')) {
+            else if (height.endsWith('vh')) {
                 var vh = (newHeight / this.window.innerHeight) * 100;
                 newHeight = vh + "vh";
             }
@@ -70243,7 +70056,10 @@ var Resizable = /** @class */ (function (_super) {
         else if (this.flexDir === 'column') {
             newState.flexBasis = newState.height;
         }
-        this.setState(newState);
+        // For v18, update state sync
+        (0,external_ReactDOM_namespaceObject.flushSync)(function () {
+            _this.setState(newState);
+        });
         if (this.props.onResize) {
             this.props.onResize(event, direction, this.resizable, delta);
         }

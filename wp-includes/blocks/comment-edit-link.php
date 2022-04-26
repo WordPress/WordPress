@@ -29,10 +29,7 @@ function render_block_core_comment_edit_link( $attributes, $content, $block ) {
 
 	$classes = '';
 	if ( isset( $attributes['textAlign'] ) ) {
-		$classes .= 'has-text-align-' . esc_attr( $attributes['textAlign'] );
-	}
-	if ( isset( $attributes['fontSize'] ) ) {
-		$classes .= 'has-' . esc_attr( $attributes['fontSize'] ) . '-font-size';
+		$classes .= 'has-text-align-' . $attributes['textAlign'];
 	}
 
 	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => $classes ) );

@@ -1018,7 +1018,6 @@
   border: none;
   border-radius: 2px;
   z-index: 10;
-  pointer-events: none;
 }
 .block-editor-block-content-overlay:hover:not(.is-dragging-blocks).overlay-active::before, .block-editor-block-content-overlay.parent-highlighted.overlay-active::before {
   background: rgba(var(--wp-admin-theme-color--rgb), 0.1);

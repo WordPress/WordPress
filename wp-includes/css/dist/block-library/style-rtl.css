@@ -2099,10 +2099,8 @@ p.has-background {
   margin: 0;
 }
 
-.wp-block-post-comments > h3:first-of-type {
-  margin-top: 0;
-}
 .wp-block-post-comments .commentlist {
+  clear: both;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -2239,6 +2237,15 @@ p.has-background {
 }
 .wp-block-post-comments-form .comment-form-cookies-consent #wp-comment-cookies-consent {
   margin-top: 0.35em;
+}
+.wp-block-post-comments-form .comment-reply-title {
+  align-items: baseline;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0;
+}
+.wp-block-post-comments-form .comment-reply-title :where(small) {
+  font-size: var(--wp--preset--font-size--medium, smaller);
 }
 
 .wp-block-post-excerpt__more-link {
