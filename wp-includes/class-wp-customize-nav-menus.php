@@ -295,7 +295,7 @@ final class WP_Customize_Nav_Menus {
 		 * @param array  $items       The array of menu items.
 		 * @param string $object_type The object type.
 		 * @param string $object_name The object name.
-		 * @param int    $page   The current page number.
+		 * @param int    $page        The current page number.
 		 */
 		$items = apply_filters( 'customize_nav_menu_available_items', $items, $object_type, $object_name, $page );
 
