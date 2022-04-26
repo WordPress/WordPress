@@ -256,7 +256,7 @@ function comment_author_link( $comment_ID = 0 ) {
 }
 
 /**
- * Retrieve the IP address of the author of the current comment.
+ * Retrieves the IP address of the author of the current comment.
  *
  * @since 1.5.0
  * @since 4.4.0 Added the ability for `$comment_ID` to also accept a WP_Comment object.

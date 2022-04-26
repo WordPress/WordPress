@@ -7,7 +7,7 @@
  */
 
 /**
- * Check whether a comment passes internal checks to be allowed to add.
+ * Checks whether a comment passes internal checks to be allowed to add.
  *
  * If manual comment moderation is set in the administration, then all checks,
  * regardless of their type and substance, will fail and the function will
@@ -149,7 +149,7 @@ function check_comment( $author, $email, $url, $comment, $user_ip, $user_agent, 
 }
 
 /**
- * Retrieve the approved comments for post $post_id.
+ * Retrieves the approved comments for post $post_id.
  *
  * @since 2.0.0
  * @since 4.1.0 Refactored to leverage WP_Comment_Query over a direct query.
@@ -229,7 +229,7 @@ function get_comment( $comment = null, $output = OBJECT ) {
 }
 
 /**
- * Retrieve a list of comments.
+ * Retrieves a list of comments.
  *
  * The comment list can be for the blog as a whole or for an individual post.
  *
@@ -245,7 +245,7 @@ function get_comments( $args = '' ) {
 }
 
 /**
- * Retrieve all of the WordPress supported comment statuses.
+ * Retrieves all of the WordPress supported comment statuses.
  *
  * Comments have a limited set of valid status values, this provides the comment
  * status values and descriptions.
@@ -310,7 +310,7 @@ function get_default_comment_status( $post_type = 'post', $comment_type = 'comme
 }
 
 /**
- * The date the last comment was modified.
+ * Retrieves the date the last comment was modified.
  *
  * @since 1.5.0
  * @since 4.7.0 Replaced caching the modified date in a local static variable
@@ -417,7 +417,7 @@ function get_comment_count( $post_id = 0 ) {
 //
 
 /**
- * Add meta data field to a comment.
+ * Adds meta data field to a comment.
  *
  * @since 2.9.0
  *
@@ -435,7 +435,7 @@ function add_comment_meta( $comment_id, $meta_key, $meta_value, $unique = false 
 }
 
 /**
- * Remove metadata matching criteria from a comment.
+ * Removes metadata matching criteria from a comment.
  *
  * You can match based on the key, or key and value. Removing based on key and
  * value, will keep from removing duplicate metadata with the same key. It also
@@ -457,7 +457,7 @@ function delete_comment_meta( $comment_id, $meta_key, $meta_value = '' ) {
 }
 
 /**
- * Retrieve comment meta field for a comment.
+ * Retrieves comment meta field for a comment.
  *
  * @since 2.9.0
  *
@@ -479,7 +479,7 @@ function get_comment_meta( $comment_id, $key = '', $single = false ) {
 }
 
 /**
- * Update comment meta field based on comment ID.
+ * Updates comment meta field based on comment ID.
  *
  * Use the $prev_value parameter to differentiate between meta fields with the
  * same key and comment ID.
@@ -977,7 +977,7 @@ function separate_comments( &$comments ) {
 }
 
 /**
- * Calculate the total number of comment pages.
+ * Calculates the total number of comment pages.
  *
  * @since 2.7.0
  *
@@ -1034,7 +1034,7 @@ function get_comment_pages_count( $comments = null, $per_page = null, $threaded 
 }
 
 /**
- * Calculate what page number a comment will appear on for comment paging.
+ * Calculates what page number a comment will appear on for comment paging.
  *
  * @since 2.7.0
  *
@@ -1616,7 +1616,7 @@ function wp_untrash_comment( $comment_id ) {
 }
 
 /**
- * Marks a comment as Spam
+ * Marks a comment as Spam.
  *
  * @since 2.9.0
  *
@@ -1664,7 +1664,7 @@ function wp_spam_comment( $comment_id ) {
 }
 
 /**
- * Removes a comment from the Spam
+ * Removes a comment from the Spam.
  *
  * @since 2.9.0
  *
@@ -1715,7 +1715,7 @@ function wp_unspam_comment( $comment_id ) {
 }
 
 /**
- * The status of a comment by ID.
+ * Retrieves the status of a comment by comment ID.
  *
  * @since 1.0.0
  *
@@ -1746,7 +1746,7 @@ function wp_get_comment_status( $comment_id ) {
 }
 
 /**
- * Call hooks for when a comment status transition occurs.
+ * Calls hooks for when a comment status transition occurs.
  *
  * Calls hooks for comment status transitions. If the new comment status is not the same
  * as the previous comment status, then two hooks will be ran, the first is
@@ -1844,7 +1844,7 @@ function wp_transition_comment_status( $new_status, $old_status, $comment ) {
 }
 
 /**
- * Clear the lastcommentmodified cached value when a comment status is changed.
+ * Clears the lastcommentmodified cached value when a comment status is changed.
  *
  * Deletes the lastcommentmodified cache key when a comment enters or leaves
  * 'approved' status.
@@ -1866,7 +1866,7 @@ function _clear_modified_cache_on_transition_comment_status( $new_status, $old_s
 }
 
 /**
- * Get current commenter's name, email, and URL.
+ * Gets current commenter's name, email, and URL.
  *
  * Expects cookies content to already be sanitized. User of this function might
  * wish to recheck the returned array for validity.
@@ -1918,7 +1918,7 @@ function wp_get_current_commenter() {
 }
 
 /**
- * Get unapproved comment author's email.
+ * Gets unapproved comment author's email.
  *
  * Used to allow the commenter to see their pending comment.
  *
@@ -2117,7 +2117,7 @@ function wp_filter_comment( $commentdata ) {
 }
 
 /**
- * Whether a comment should be blocked because of comment flood.
+ * Determines whether a comment should be blocked because of comment flood.
  *
  * @since 2.1.0
  *
@@ -2287,7 +2287,7 @@ function wp_new_comment( $commentdata, $wp_error = false ) {
 }
 
 /**
- * Send a comment moderation notification to the comment moderator.
+ * Sends a comment moderation notification to the comment moderator.
  *
  * @since 4.4.0
  *
@@ -2311,7 +2311,7 @@ function wp_new_comment_notify_moderator( $comment_ID ) {
 }
 
 /**
- * Send a notification of a new comment to the post author.
+ * Sends a notification of a new comment to the post author.
  *
  * @since 4.4.0
  *
@@ -2567,7 +2567,7 @@ function wp_update_comment( $commentarr, $wp_error = false ) {
 }
 
 /**
- * Whether to defer comment counting.
+ * Determines whether to defer comment counting.
  *
  * When setting $defer to true, all post comment counts will not be updated
  * until $defer is set to false. When $defer is set to false, then all
@@ -2802,7 +2802,7 @@ function discover_pingback_server_uri( $url, $deprecated = '' ) {
 }
 
 /**
- * Perform all pingbacks, enclosures, trackbacks, and send to pingback services.
+ * Performs all pingbacks, enclosures, trackbacks, and sends to pingback services.
  *
  * @since 2.1.0
  * @since 5.6.0 Introduced `do_all_pings` action hook for individual services.
@@ -2817,7 +2817,7 @@ function do_all_pings() {
 }
 
 /**
- * Perform all pingbacks.
+ * Performs all pingbacks.
  *
  * @since 5.6.0
  */
@@ -2839,7 +2839,7 @@ function do_all_pingbacks() {
 }
 
 /**
- * Perform all enclosures.
+ * Performs all enclosures.
  *
  * @since 5.6.0
  */
@@ -2861,7 +2861,7 @@ function do_all_enclosures() {
 }
 
 /**
- * Perform all trackbacks.
+ * Performs all trackbacks.
  *
  * @since 5.6.0
  */
@@ -2883,7 +2883,7 @@ function do_all_trackbacks() {
 }
 
 /**
- * Perform trackbacks.
+ * Performs trackbacks.
  *
  * @since 1.5.0
  * @since 4.7.0 `$post_id` can be a WP_Post object.
@@ -3071,7 +3071,7 @@ function pingback( $content, $post_id ) {
 }
 
 /**
- * Check whether blog is public before returning sites.
+ * Checks whether blog is public before returning sites.
  *
  * @since 2.1.0
  *
@@ -3087,7 +3087,7 @@ function privacy_ping_filter( $sites ) {
 }
 
 /**
- * Send a Trackback.
+ * Sends a Trackback.
  *
  * Updates database when sending trackback to prevent duplicates.
  *
@@ -3128,7 +3128,7 @@ function trackback( $trackback_url, $title, $excerpt, $ID ) {
 }
 
 /**
- * Send a pingback.
+ * Sends a pingback.
  *
  * @since 1.2.0
  *
@@ -3153,7 +3153,7 @@ function weblog_ping( $server = '', $path = '' ) {
 }
 
 /**
- * Default filter attached to pingback_ping_source_uri to validate the pingback's Source URI
+ * Default filter attached to pingback_ping_source_uri to validate the pingback's Source URI.
  *
  * @since 3.5.1
  *
@@ -3272,7 +3272,7 @@ function _prime_comment_caches( $comment_ids, $update_meta_cache = true ) {
 //
 
 /**
- * Close comments on old posts on the fly, without any extra DB queries. Hooked to the_posts.
+ * Closes comments on old posts on the fly, without any extra DB queries. Hooked to the_posts.
  *
  * @since 2.7.0
  * @access private
@@ -3312,7 +3312,7 @@ function _close_comments_for_old_posts( $posts, $query ) {
 }
 
 /**
- * Close comments on an old post. Hooked to comments_open and pings_open.
+ * Closes comments on an old post. Hooked to comments_open and pings_open.
  *
  * @since 2.7.0
  * @access private
