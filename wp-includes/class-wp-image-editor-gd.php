@@ -537,15 +537,15 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	 * @since 3.5.0
 	 *
 	 * @param string   $filename
-	 * @param callable $function
+	 * @param callable $callback
 	 * @param array    $arguments
 	 * @return bool
 	 */
-	protected function make_image( $filename, $function, $arguments ) {
+	protected function make_image( $filename, $callback, $arguments ) {
 		if ( wp_is_stream( $filename ) ) {
 			$arguments[1] = null;
 		}
 
-		return parent::make_image( $filename, $function, $arguments );
+		return parent::make_image( $filename, $callback, $arguments );
 	}
 }
