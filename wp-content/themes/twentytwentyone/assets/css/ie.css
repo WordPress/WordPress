@@ -898,7 +898,7 @@ template {
 	.entry-content > .alignleft {
 
 		/*rtl:ignore*/
-		margin-left: calc(50vw - min(calc(100vw - 4 * 25px), 610px) *1);
+		margin-left: calc((100vw - min(calc(100vw - 4 * 25px), 610px)) *1);
 
 		/*rtl:ignore*/
 		margin-right: 25px;
@@ -906,13 +906,13 @@ template {
 	@media only screen and (min-width: 482px) {
 
 		.entry-content > .alignleft {
-			margin-left: calc(50vw - min(calc(100vw - 4 * 25px), 610px) *1);
+			margin-left: calc((100vw - min(calc(100vw - 4 * 25px), 610px)) *1);
 		}
 	}
 	@media only screen and (min-width: 822px) {
 
 		.entry-content > .alignleft {
-			margin-left: calc(50vw - min(calc(100vw - 4 * 25px), 610px) *1);
+			margin-left: calc((100vw - min(calc(100vw - 4 * 25px), 610px)) *1);
 		}
 	}
 }
@@ -924,18 +924,18 @@ template {
 		margin-left: 25px;
 
 		/*rtl:ignore*/
-		margin-right: calc(50vw - min(calc(100vw - 4 * 25px), 610px) *1);
+		margin-right: calc((100vw - min(calc(100vw - 4 * 25px), 610px)) *1);
 	}
 	@media only screen and (min-width: 482px) {
 
 		.entry-content > .alignright {
-			margin-right: calc(50vw - min(calc(100vw - 4 * 25px), 610px) *1);
+			margin-right: calc((100vw - min(calc(100vw - 4 * 25px), 610px)) *1);
 		}
 	}
 	@media only screen and (min-width: 822px) {
 
 		.entry-content > .alignright {
-			margin-right: calc(50vw - min(calc(100vw - 4 * 25px), 610px) *1);
+			margin-right: calc((100vw - min(calc(100vw - 4 * 25px), 610px)) *1);
 		}
 	}
 }
@@ -4774,20 +4774,20 @@ table.wp-calendar-table caption {
 	}
 
 	.entry-content > .alignleft {
-		max-width: calc(50% - 50vw + min(calc(100vw - 4 * 25px), 610px) *1);
+		max-width: calc(50% - (100vw - min(calc(100vw - 4 * 25px), 610px)) *1);
 	}
 
 	@media only screen and (min-width: 482px) {
 
 		.entry-content > .alignleft {
-			max-width: calc(50% - 50vw + min(calc(100vw - 4 * 25px), 610px) *1);
+			max-width: calc(50% - (100vw - min(calc(100vw - 4 * 25px), 610px)) *1);
 		}
 	}
 
 	@media only screen and (min-width: 822px) {
 
 		.entry-content > .alignleft {
-			max-width: calc(50% - 50vw + min(calc(100vw - 4 * 25px), 610px) *1);
+			max-width: calc(50% - (100vw - min(calc(100vw - 4 * 25px), 610px)) *1);
 		}
 	}
 }
@@ -4842,20 +4842,20 @@ table.wp-calendar-table caption {
 	}
 
 	.entry-content > .alignright {
-		max-width: calc(50% - 50vw + min(calc(100vw - 4 * 25px), 610px) *1);
+		max-width: calc(50% - (100vw - min(calc(100vw - 4 * 25px), 610px)) *1);
 	}
 
 	@media only screen and (min-width: 482px) {
 
 		.entry-content > .alignright {
-			max-width: calc(50% - 50vw + min(calc(100vw - 4 * 25px), 610px) *1);
+			max-width: calc(50% - (100vw - min(calc(100vw - 4 * 25px), 610px)) *1);
 		}
 	}
 
 	@media only screen and (min-width: 822px) {
 
 		.entry-content > .alignright {
-			max-width: calc(50% - 50vw + min(calc(100vw - 4 * 25px), 610px) *1);
+			max-width: calc(50% - (100vw - min(calc(100vw - 4 * 25px), 610px)) *1);
 		}
 	}
 }
