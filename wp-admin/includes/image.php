@@ -63,6 +63,10 @@ function wp_crop_image( $src, $src_x, $src_y, $src_w, $src_h, $dst_w, $dst_h, $s
 		return $result;
 	}
 
+	if ( ! empty( $result['path'] ) ) {
+		return $result['path'];
+	}
+
 	return $dst_file;
 }
 
