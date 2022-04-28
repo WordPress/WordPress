@@ -17,7 +17,7 @@ final class WP_Block_Patterns_Registry {
 	 * Registered block patterns array.
 	 *
 	 * @since 5.5.0
-	 * @var array
+	 * @var array[]
 	 */
 	private $registered_patterns = array();
 
@@ -145,8 +145,8 @@ final class WP_Block_Patterns_Registry {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @return array Array of arrays containing the registered block patterns properties,
-	 *               and per style.
+	 * @return array[] Array of arrays containing the registered block patterns properties,
+	 *                 and per style.
 	 */
 	public function get_all_registered() {
 		return array_values( $this->registered_patterns );

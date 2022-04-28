@@ -15,7 +15,7 @@ final class WP_Block_Pattern_Categories_Registry {
 	 * Registered block pattern categories array.
 	 *
 	 * @since 5.5.0
-	 * @var array
+	 * @var array[]
 	 */
 	private $registered_categories = array();
 
@@ -103,7 +103,7 @@ final class WP_Block_Pattern_Categories_Registry {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @return array Array of arrays containing the registered pattern categories properties.
+	 * @return array[] Array of arrays containing the registered pattern categories properties.
 	 */
 	public function get_all_registered() {
 		return array_values( $this->registered_categories );

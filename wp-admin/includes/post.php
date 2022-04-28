@@ -1661,8 +1661,13 @@ function wp_check_post_lock( $post_id ) {
  * @since 2.5.0
  *
  * @param int|WP_Post $post_id ID or object of the post being edited.
- * @return array|false Array of the lock time and user ID. False if the post does not exist, or
- *                     there is no current user.
+ * @return array|false {
+ *     Array of the lock time and user ID. False if the post does not exist, or there
+ *     is no current user.
+ *
+ *     @type int $0 The current time as a Unix timestamp.
+ *     @type int $1 The ID of the current user.
+ * }
  */
 function wp_set_post_lock( $post_id ) {
 	$post = get_post( $post_id );

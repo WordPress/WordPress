@@ -93,7 +93,7 @@ class WP_Comment_Query {
 	 * List of comments located by the query.
 	 *
 	 * @since 4.0.0
-	 * @var array
+	 * @var int[]|WP_Comment[]
 	 */
 	public $comments;
 
@@ -374,7 +374,7 @@ class WP_Comment_Query {
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
-	 * @return int|array List of comments or number of found comments if `$count` argument is true.
+	 * @return int|int[]|WP_Comment[] List of comments or number of found comments if `$count` argument is true.
 	 */
 	public function get_comments() {
 		global $wpdb;

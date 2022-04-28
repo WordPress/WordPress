@@ -103,7 +103,7 @@ class WP_Error {
 	 * @since 2.1.0
 	 *
 	 * @param string|int $code Optional. Retrieve messages matching code, if exists.
-	 * @return array Error strings on success, or empty array if there are none.
+	 * @return string[] Error strings on success, or empty array if there are none.
 	 */
 	public function get_error_messages( $code = '' ) {
 		// Return all messages if no code specified.

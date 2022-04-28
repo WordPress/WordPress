@@ -6918,7 +6918,7 @@ function wp_allowed_protocols() {
 }
 
 /**
- * Return a comma-separated string of functions that have been called to get
+ * Returns a comma-separated string or array of functions that have been called to get
  * to the current point in code.
  *
  * @since 3.4.0
@@ -6929,8 +6929,8 @@ function wp_allowed_protocols() {
  *                             when you want to just give info about the callee. Default null.
  * @param int    $skip_frames  Optional. A number of stack frames to skip - useful for unwinding
  *                             back to the source of the issue. Default 0.
- * @param bool   $pretty       Optional. Whether or not you want a comma separated string or raw
- *                             array returned. Default true.
+ * @param bool   $pretty       Optional. Whether you want a comma separated string instead of
+ *                             the raw array returned. Default true.
  * @return string|array Either a string containing a reversed comma separated trace or an array
  *                      of individual calls.
  */

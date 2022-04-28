@@ -109,7 +109,7 @@ function get_block_categories( $post_or_block_editor_context ) {
  *
  * @param WP_Block_Editor_Context $block_editor_context The current block editor context.
  *
- * @return bool|array Array of block type slugs, or boolean to enable/disable all.
+ * @return bool|string[] Array of block type slugs, or boolean to enable/disable all.
  */
 function get_allowed_block_types( $block_editor_context ) {
 	$allowed_block_types = true;
@@ -119,7 +119,7 @@ function get_allowed_block_types( $block_editor_context ) {
 	 *
 	 * @since 5.8.0
 	 *
-	 * @param bool|array              $allowed_block_types  Array of block type slugs, or boolean to enable/disable all.
+	 * @param bool|string[]           $allowed_block_types  Array of block type slugs, or boolean to enable/disable all.
 	 *                                                      Default true (all registered block types supported).
 	 * @param WP_Block_Editor_Context $block_editor_context The current block editor context.
 	 */
@@ -134,9 +134,9 @@ function get_allowed_block_types( $block_editor_context ) {
 		 * @since 5.0.0
 		 * @deprecated 5.8.0 Use the {@see 'allowed_block_types_all'} filter instead.
 		 *
-		 * @param bool|array $allowed_block_types Array of block type slugs, or boolean to enable/disable all.
-		 *                                        Default true (all registered block types supported)
-		 * @param WP_Post    $post                The post resource data.
+		 * @param bool|string[] $allowed_block_types Array of block type slugs, or boolean to enable/disable all.
+		 *                                           Default true (all registered block types supported)
+		 * @param WP_Post       $post                The post resource data.
 		 */
 		$allowed_block_types = apply_filters_deprecated( 'allowed_block_types', array( $allowed_block_types, $post ), '5.8.0', 'allowed_block_types_all' );
 	}

@@ -1851,9 +1851,16 @@ class wpdb {
 	 * @since 4.9.0
 	 *
 	 * @param string $host The DB_HOST setting to parse.
-	 * @return array|false Array containing the host, the port, the socket and
-	 *                     whether it is an IPv6 address, in that order.
-	 *                     False if $host couldn't be parsed.
+	 * @return array|false {
+	 *     Array containing the host, the port, the socket and
+	 *     whether it is an IPv6 address, in that order.
+	 *     False if the host couldn't be parsed.
+	 *
+	 *     @type string      $0 Host name.
+	 *     @type string|null $1 Port.
+	 *     @type string|null $2 Socket.
+	 *     @type bool        $3 Whether it is an IPv6 address.
+	 * }
 	 */
 	public function parse_db_host( $host ) {
 		$port    = null;
@@ -3043,9 +3050,12 @@ class wpdb {
 	 *
 	 * @param string $table  Table name.
 	 * @param string $column Column name.
-	 * @return array|false|WP_Error array( 'length' => (int), 'type' => 'byte' | 'char' ).
-	 *                              False if the column has no length (for example, numeric column).
-	 *                              WP_Error object if there was an error.
+	 * @return array|false|WP_Error {
+	 *     Array of column length information, false if the column has no length (for
+	 *     example, numeric column), WP_Error object if there was an error.
+	 *
+	 *     @type int    $length The column length.
+	 *     @type string $type   One of 'byte' or 'char'.
 	 */
 	public function get_col_length( $table, $column ) {
 		$tablekey  = strtolower( $table );
