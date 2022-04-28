@@ -38,12 +38,14 @@ add_filter( 'media_upload_library', 'media_upload_library' );
 add_filter( 'media_upload_tabs', 'update_gallery_tab' );
 
 // Admin color schemes.
+add_action( 'admin_init', 'register_admin_color_schemes', 1 );
 add_action( 'admin_head', 'wp_color_scheme_settings' );
 add_action( 'admin_color_scheme_picker', 'admin_color_scheme_picker' );
 
 // Misc hooks.
 add_action( 'admin_init', 'wp_admin_headers' );
 add_action( 'login_init', 'wp_admin_headers' );
+add_action( 'admin_init', 'send_frame_options_header', 10, 0 );
 add_action( 'admin_head', 'wp_admin_canonical_url' );
 add_action( 'admin_head', 'wp_site_icon' );
 add_action( 'admin_head', 'wp_admin_viewport_meta' );
@@ -55,6 +57,13 @@ if ( ! is_customize_preview() ) {
 	add_filter( 'admin_print_styles', 'wp_resource_hints', 1 );
 }
 
+add_action( 'admin_print_scripts', 'print_emoji_detection_script' );
+add_action( 'admin_print_scripts', 'print_head_scripts', 20 );
+add_action( 'admin_print_footer_scripts', '_wp_footer_scripts' );
+add_action( 'admin_print_styles', 'print_emoji_styles' );
+add_action( 'admin_print_styles', 'print_admin_styles', 20 );
+
+add_action( 'admin_print_scripts-index.php', 'wp_localize_community_events' );
 add_action( 'admin_print_scripts-post.php', 'wp_page_reload_on_back_button_js' );
 add_action( 'admin_print_scripts-post-new.php', 'wp_page_reload_on_back_button_js' );
 

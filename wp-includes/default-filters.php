@@ -4,11 +4,10 @@
  * of the WordPress hooks.
  *
  * If you need to remove a default hook, this file will
- * give you the priority for which to use to remove the
- * hook.
+ * give you the priority to use for removing the hook.
  *
  * Not all of the default hooks are found in this file.
- * For instance, administration related hooks are located in
+ * For instance, administration-related hooks are located in
  * wp-admin/includes/admin-filters.php.
  *
  * If a hook should only be called from a specific context
@@ -403,11 +402,6 @@ add_action( 'do_robots', 'do_robots' );
 add_action( 'do_favicon', 'do_favicon' );
 add_action( 'set_comment_cookies', 'wp_set_comment_cookies', 10, 3 );
 add_action( 'sanitize_comment_cookies', 'sanitize_comment_cookies' );
-add_action( 'admin_print_scripts', 'print_emoji_detection_script' );
-add_action( 'admin_print_scripts', 'print_head_scripts', 20 );
-add_action( 'admin_print_footer_scripts', '_wp_footer_scripts' );
-add_action( 'admin_print_styles', 'print_emoji_styles' );
-add_action( 'admin_print_styles', 'print_admin_styles', 20 );
 add_action( 'init', 'smilies_init', 5 );
 add_action( 'plugins_loaded', 'wp_maybe_load_widgets', 0 );
 add_action( 'plugins_loaded', 'wp_maybe_load_embeds', 0 );
@@ -418,7 +412,6 @@ add_action( 'publish_post', '_publish_post_hook', 5, 1 );
 add_action( 'transition_post_status', '_transition_post_status', 5, 3 );
 add_action( 'transition_post_status', '_update_term_count_on_transition_post_status', 10, 3 );
 add_action( 'comment_form', 'wp_comment_form_unfiltered_html_nonce' );
-add_action( 'admin_init', 'send_frame_options_header', 10, 0 );
 
 // Privacy.
 add_action( 'user_request_action_confirmed', '_wp_privacy_account_request_confirmed' );
@@ -464,9 +457,6 @@ add_action( 'wp_head', 'wp_post_preview_js', 1 );
 
 // Timezone.
 add_filter( 'pre_option_gmt_offset', 'wp_timezone_override_offset' );
-
-// Admin color schemes.
-add_action( 'admin_init', 'register_admin_color_schemes', 1 );
 
 // If the upgrade hasn't run yet, assume link manager is used.
 add_filter( 'default_option_link_manager_enabled', '__return_true' );
@@ -575,7 +565,6 @@ add_action( 'enqueue_block_editor_assets', 'enqueue_editor_block_styles_assets' 
 add_action( 'enqueue_block_editor_assets', 'wp_enqueue_editor_block_directory_assets' );
 add_action( 'enqueue_block_editor_assets', 'wp_enqueue_editor_format_library_assets' );
 add_action( 'enqueue_block_editor_assets', 'wp_enqueue_global_styles_css_custom_properties' );
-add_action( 'admin_print_scripts-index.php', 'wp_localize_community_events' );
 add_filter( 'wp_print_scripts', 'wp_just_in_time_script_localization' );
 add_filter( 'print_scripts_array', 'wp_prototype_before_jquery' );
 add_filter( 'customize_controls_print_styles', 'wp_resource_hints', 1 );
