@@ -112,7 +112,7 @@ class WP_REST_Block_Patterns_Controller extends WP_REST_Controller {
 	 *
 	 * @since 6.0.0
 	 *
-	 * @param object          $item    Raw pattern as registered, before any changes.
+	 * @param array           $item    Raw pattern as registered, before any changes.
 	 * @param WP_REST_Request $request Request object.
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */

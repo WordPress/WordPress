@@ -49,7 +49,7 @@ function wp_image_editor( $post_id, $msg = false ) {
 	 *
 	 * @since 6.0.0
 	 *
-	 * @param bool|array $edit_custom_sizes True if custom sizes can be edited or array of custom sizes.
+	 * @param bool|string[] $edit_custom_sizes True if custom sizes can be edited or array of custom size names.
 	 */
 	$edit_custom_sizes = apply_filters( 'edit_custom_thumbnail_sizes', $edit_custom_sizes );
 	?>

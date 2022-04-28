@@ -951,7 +951,7 @@ class WP_Term_Query {
 	 * @since 6.0.0
 	 *
 	 * @param WP_Term[] $term_objects Array of term objects.
-	 * @param string $_fields Field to format.
+	 * @param string    $_fields      Field to format.
 	 *
 	 * @return WP_Term[]|int[]|string[] Array of terms / strings / ints depending on field requested.
 	 */

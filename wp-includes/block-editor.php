@@ -295,7 +295,12 @@ function get_legacy_widget_block_editor_settings() {
  *
  * @global string $pagenow The filename of the current screen.
  *
- * @return array The block editor assets: styles and scripts.
+ * @return array {
+ *     The block editor assets.
+ *
+ *     @type string|false $styles  String containing the HTML for styles.
+ *     @type string|false $scripts String containing the HTML for scripts.
+ * }
  */
 function _wp_get_iframed_editor_assets() {
 	global $pagenow;

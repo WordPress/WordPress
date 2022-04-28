@@ -509,12 +509,12 @@ class WP_Media_List_Table extends WP_List_Table {
 		}
 
 		/**
-		 * Filters the published time of the post.
+		 * Filters the published time of an attachment displayed in the Media list table.
 		 *
 		 * @since 6.0.0
 		 *
 		 * @param string  $h_time      The published time.
-		 * @param WP_Post $post        Post object.
+		 * @param WP_Post $post        Attachment object.
 		 * @param string  $column_name The column name.
 		 */
 		echo apply_filters( 'media_date_column_time', $h_time, $post, 'date' );

@@ -151,10 +151,14 @@ class WP_Theme_JSON_Resolver {
 	 *
 	 * @since 5.8.0
 	 * @since 5.9.0 Theme supports have been inlined and the `$theme_support_data` argument removed.
-	 * @since 6.0.0 Adds a second parameter to allow the theme data to be returned without theme supports.
+	 * @since 6.0.0 Added an `$options` parameter to allow the theme data to be returned without theme supports.
 	 *
 	 * @param array $deprecated Deprecated. Not used.
-	 * @param array $options Contains a key called with_supports to determine whether to include theme supports in the data.
+	 * @param array $options {
+	 *     Options arguments.
+	 *
+	 *     @type bool $with_supports Whether to include theme supports in the data. Default true.
+	 * }
 	 * @return WP_Theme_JSON Entity that holds theme data.
 	 */
 	public static function get_theme_data( $deprecated = array(), $options = array() ) {

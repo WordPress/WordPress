@@ -467,7 +467,7 @@ abstract class WP_Widget_Media extends WP_Widget {
 	 *
 	 * @since 6.0.0
 	 *
-	 * @var string
+	 * @return string
 	 */
 	protected static function get_default_description() {
 		if ( self::$default_description ) {
@@ -483,7 +483,7 @@ abstract class WP_Widget_Media extends WP_Widget {
 	 *
 	 * @since 6.0.0
 	 *
-	 * @return string[]
+	 * @return (string|array)[]
 	 */
 	protected static function get_l10n_defaults() {
 		if ( ! empty( self::$l10n_defaults ) ) {
