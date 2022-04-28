@@ -447,7 +447,7 @@ function wp_restore_post_revision( $revision_id, $fields = null ) {
  * @since 2.6.0
  *
  * @param int|WP_Post $revision_id Revision ID or revision object.
- * @return array|false|WP_Post|WP_Error|null Null or WP_Error if error, deleted post if success.
+ * @return WP_Post|false|null Null or false if error, deleted post object if success.
  */
 function wp_delete_post_revision( $revision_id ) {
 	$revision = wp_get_post_revision( $revision_id );
