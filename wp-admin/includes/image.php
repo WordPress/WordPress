@@ -776,6 +776,10 @@ function wp_read_image_metadata( $file ) {
 				$iptc = @iptcparse( $info['APP13'] );
 			}
 
+			if ( ! is_array( $iptc ) ) {
+				$iptc = array();
+			}
+
 			// Headline, "A brief synopsis of the caption".
 			if ( ! empty( $iptc['2#105'][0] ) ) {
 				$meta['title'] = trim( $iptc['2#105'][0] );
@@ -843,6 +847,10 @@ function wp_read_image_metadata( $file ) {
 		} else {
 			// phpcs:ignore WordPress.PHP.NoSilencedErrors -- Silencing notice and warning is intentional. See https://core.trac.wordpress.org/ticket/42480
 			$exif = @exif_read_data( $file );
+		}
+
+		if ( ! is_array( $exif ) ) {
+			$exif = array();
 		}
 
 		if ( ! empty( $exif['ImageDescription'] ) ) {
