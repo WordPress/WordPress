@@ -548,15 +548,23 @@ if ( ! function_exists( 'wp_mail' ) ) :
 			$send = $phpmailer->send();
 
 			/**
-			 * Fires after PHPMailer has successfully sent a mail.
+			 * Fires after PHPMailer has successfully sent an email.
 			 *
-			 * The firing of this action does not necessarily mean that the recipient received the
+			 * The firing of this action does not necessarily mean that the recipient(s) received the
 			 * email successfully. It only means that the `send` method above was able to
 			 * process the request without any errors.
 			 *
 			 * @since 5.9.0
 			 *
-			 * @param array $mail_data An array containing the mail recipient, subject, message, headers, and attachments.
+			 * @param array $mail_data {
+			 *     An array containing the email recipient(s), subject, message, headers, and attachments.
+			 *
+			 *     @type string[] $to          Email addresses to send message.
+			 *     @type string   $subject     Email subject.
+			 *     @type string   $message     Message contents.
+			 *     @type string[] $headers     Additional headers.
+			 *     @type string[] $attachments Paths to files to attach.
+			 * }
 			 */
 			do_action( 'wp_mail_succeeded', $mail_data );
 
@@ -717,7 +725,16 @@ if ( ! function_exists( 'wp_validate_auth_cookie' ) ) :
 			 *
 			 * @since 2.7.0
 			 *
-			 * @param string[] $cookie_elements An array of data for the authentication cookie.
+			 * @param string[] $cookie_elements {
+			 *     Authentication cookie components. None of the components should be assumed
+			 *     to be valid as they come directly from a client-provided cookie value.
+			 *
+			 *     @type string $username   User's username.
+			 *     @type string $expiration The time the cookie expires as a UNIX timestamp.
+			 *     @type string $token      User's session token used.
+			 *     @type string $hmac       The security hash for the cookie.
+			 *     @type string $scheme     The cookie scheme to use.
+			 * }
 			 */
 			do_action( 'auth_cookie_expired', $cookie_elements );
 			return false;
@@ -730,7 +747,16 @@ if ( ! function_exists( 'wp_validate_auth_cookie' ) ) :
 			 *
 			 * @since 2.7.0
 			 *
-			 * @param string[] $cookie_elements An array of data for the authentication cookie.
+			 * @param string[] $cookie_elements {
+			 *     Authentication cookie components. None of the components should be assumed
+			 *     to be valid as they come directly from a client-provided cookie value.
+			 *
+			 *     @type string $username   User's username.
+			 *     @type string $expiration The time the cookie expires as a UNIX timestamp.
+			 *     @type string $token      User's session token used.
+			 *     @type string $hmac       The security hash for the cookie.
+			 *     @type string $scheme     The cookie scheme to use.
+			 * }
 			 */
 			do_action( 'auth_cookie_bad_username', $cookie_elements );
 			return false;
@@ -750,7 +776,16 @@ if ( ! function_exists( 'wp_validate_auth_cookie' ) ) :
 			 *
 			 * @since 2.7.0
 			 *
-			 * @param string[] $cookie_elements An array of data for the authentication cookie.
+			 * @param string[] $cookie_elements {
+			 *     Authentication cookie components. None of the components should be assumed
+			 *     to be valid as they come directly from a client-provided cookie value.
+			 *
+			 *     @type string $username   User's username.
+			 *     @type string $expiration The time the cookie expires as a UNIX timestamp.
+			 *     @type string $token      User's session token used.
+			 *     @type string $hmac       The security hash for the cookie.
+			 *     @type string $scheme     The cookie scheme to use.
+			 * }
 			 */
 			do_action( 'auth_cookie_bad_hash', $cookie_elements );
 			return false;
@@ -763,7 +798,16 @@ if ( ! function_exists( 'wp_validate_auth_cookie' ) ) :
 			 *
 			 * @since 4.0.0
 			 *
-			 * @param string[] $cookie_elements An array of data for the authentication cookie.
+			 * @param string[] $cookie_elements {
+			 *     Authentication cookie components. None of the components should be assumed
+			 *     to be valid as they come directly from a client-provided cookie value.
+			 *
+			 *     @type string $username   User's username.
+			 *     @type string $expiration The time the cookie expires as a UNIX timestamp.
+			 *     @type string $token      User's session token used.
+			 *     @type string $hmac       The security hash for the cookie.
+			 *     @type string $scheme     The cookie scheme to use.
+			 * }
 			 */
 			do_action( 'auth_cookie_bad_session_token', $cookie_elements );
 			return false;
@@ -779,7 +823,15 @@ if ( ! function_exists( 'wp_validate_auth_cookie' ) ) :
 		 *
 		 * @since 2.7.0
 		 *
-		 * @param string[] $cookie_elements An array of data for the authentication cookie.
+		 * @param string[] $cookie_elements {
+		 *     Authentication cookie components.
+		 *
+		 *     @type string $username   User's username.
+		 *     @type string $expiration The time the cookie expires as a UNIX timestamp.
+		 *     @type string $token      User's session token used.
+		 *     @type string $hmac       The security hash for the cookie.
+		 *     @type string $scheme     The cookie scheme to use.
+		 * }
 		 * @param WP_User  $user            User object.
 		 */
 		do_action( 'auth_cookie_valid', $cookie_elements, $user );
@@ -847,7 +899,17 @@ if ( ! function_exists( 'wp_parse_auth_cookie' ) ) :
 	 *
 	 * @param string $cookie Authentication cookie.
 	 * @param string $scheme Optional. The cookie scheme to use: 'auth', 'secure_auth', or 'logged_in'.
-	 * @return string[]|false Authentication cookie components.
+	 * @return string[]|false {
+	 *     Authentication cookie components. None of the components should be assumed
+	 *     to be valid as they come directly from a client-provided cookie value. If
+	 *     the cookie value is malformed, false is returned.
+	 *
+	 *     @type string $username   User's username.
+	 *     @type string $expiration The time the cookie expires as a UNIX timestamp.
+	 *     @type string $token      User's session token used.
+	 *     @type string $hmac       The security hash for the cookie.
+	 *     @type string $scheme     The cookie scheme to use.
+	 * }
 	 */
 	function wp_parse_auth_cookie( $cookie = '', $scheme = '' ) {
 		if ( empty( $cookie ) ) {
