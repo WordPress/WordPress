@@ -66,7 +66,8 @@ class WP_Fatal_Error_Handler {
 	 *
 	 * @since 5.2.0
 	 *
-	 * @return array|null Error that was triggered, or null if no error received or if the error should not be handled.
+	 * @return array|null Error information returned by `error_get_last()`, or null
+	 *                    if none was recorded or the error should not be handled.
 	 */
 	protected function detect_error() {
 		$error = error_get_last();
@@ -90,7 +91,7 @@ class WP_Fatal_Error_Handler {
 	 *
 	 * @since 5.2.0
 	 *
-	 * @param array $error Error information retrieved from error_get_last().
+	 * @param array $error Error information retrieved from `error_get_last()`.
 	 * @return bool Whether WordPress should handle this error.
 	 */
 	protected function should_handle_error( $error ) {
@@ -116,7 +117,7 @@ class WP_Fatal_Error_Handler {
 		 * @since 5.2.0
 		 *
 		 * @param bool  $should_handle_error Whether the error should be handled by the fatal error handler.
-		 * @param array $error               Error information retrieved from error_get_last().
+		 * @param array $error               Error information retrieved from `error_get_last()`.
 		 */
 		return (bool) apply_filters( 'wp_should_handle_php_error', false, $error );
 	}
