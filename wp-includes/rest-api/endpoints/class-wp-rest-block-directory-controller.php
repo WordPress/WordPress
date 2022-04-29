@@ -239,7 +239,7 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller {
 				),
 				'rating'              => array(
 					'description' => __( 'The star rating of the block.' ),
-					'type'        => 'integer',
+					'type'        => 'number',
 					'context'     => array( 'view' ),
 				),
 				'rating_count'        => array(
@@ -249,12 +249,12 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller {
 				),
 				'active_installs'     => array(
 					'description' => __( 'The number sites that have activated this block.' ),
-					'type'        => 'string',
+					'type'        => 'integer',
 					'context'     => array( 'view' ),
 				),
 				'author_block_rating' => array(
 					'description' => __( 'The average rating of blocks published by the same author.' ),
-					'type'        => 'integer',
+					'type'        => 'number',
 					'context'     => array( 'view' ),
 				),
 				'author_block_count'  => array(
