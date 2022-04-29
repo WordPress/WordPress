@@ -68,8 +68,8 @@ function wp_category_checklist( $post_id = 0, $descendants_and_self = 0, $select
  *     @type int[]  $selected_cats        Array of category IDs to mark as checked. Default false.
  *     @type int[]  $popular_cats         Array of category IDs to receive the "popular-category" class.
  *                                        Default false.
- *     @type Walker $walker               Walker object to use to build the output.
- *                                        Default is a Walker_Category_Checklist instance.
+ *     @type Walker $walker               Walker object to use to build the output. Default empty which
+ *                                        results in a Walker_Category_Checklist instance being used.
  *     @type string $taxonomy             Taxonomy to generate the checklist for. Default 'category'.
  *     @type bool   $checked_ontop        Whether to move checked items out of the hierarchy and to
  *                                        the top of the list. Default true.

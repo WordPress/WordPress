@@ -331,6 +331,8 @@ function category_description( $category = 0 ) {
  *                                           Default false (create select element even if no categories are found).
  *     @type bool         $required          Whether the `<select>` element should have the HTML5 'required' attribute.
  *                                           Default false.
+ *     @type Walker       $walker            Walker object to use to build the output. Default empty which results in a
+ *                                           Walker_CategoryDropdown instance being used.
  * }
  * @return string HTML dropdown list of categories.
  */
@@ -518,6 +520,8 @@ function wp_dropdown_categories( $args = '' ) {
  *                                               to disable. Default 'Categories'.
  *     @type bool|int     $use_desc_for_title    Whether to use the category description as the title attribute.
  *                                               Accepts 0, 1, or their bool equivalents. Default 1.
+ *     @type Walker       $walker                Walker object to use to build the output. Default empty which results
+ *                                               in a Walker_Category instance being used.
  * }
  * @return void|string|false Void if 'echo' argument is true, HTML list of categories if 'echo' is false.
  *                           False if the taxonomy does not exist.
