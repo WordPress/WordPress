@@ -4515,8 +4515,8 @@ function wp_check_jsonp_callback( $callback ) {
  * @param array  $options  {
  *     Optional. Options to be used with `json_decode()`.
  *
- *     @type bool associative Optional. When `true`, JSON objects will be returned as associative arrays.
- *                            When `false`, JSON objects will be returned as objects.
+ *     @type bool $associative Optional. When `true`, JSON objects will be returned as associative arrays.
+ *                             When `false`, JSON objects will be returned as objects.
  * }
  *
  * @return mixed Returns the value encoded in JSON in appropriate PHP type.

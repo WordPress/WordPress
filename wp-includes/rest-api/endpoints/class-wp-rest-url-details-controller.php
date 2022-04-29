@@ -349,9 +349,9 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller {
 	 * @param array $meta_elements {
 	 *     A multi-dimensional indexed array on success, else empty array.
 	 *
-	 *     @type string[] 0 Meta elements with a content attribute.
-	 *     @type string[] 1 Content attribute's opening quotation mark.
-	 *     @type string[] 2 Content attribute's value for each meta element.
+	 *     @type string[] $0 Meta elements with a content attribute.
+	 *     @type string[] $1 Content attribute's opening quotation mark.
+	 *     @type string[] $2 Content attribute's value for each meta element.
 	 * }
 	 * @return string The meta description contents on success. Empty string if not found.
 	 */
@@ -385,9 +385,9 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller {
 	 * @param array  $meta_elements {
 	 *     A multi-dimensional indexed array on success, else empty array.
 	 *
-	 *     @type string[] 0 Meta elements with a content attribute.
-	 *     @type string[] 1 Content attribute's opening quotation mark.
-	 *     @type string[] 2 Content attribute's value for each meta element.
+	 *     @type string[] $0 Meta elements with a content attribute.
+	 *     @type string[] $1 Content attribute's opening quotation mark.
+	 *     @type string[] $2 Content attribute's value for each meta element.
 	 * }
 	 * @param string $url The target website URL.
 	 * @return string The OG image on success. Empty string if not found.
@@ -527,9 +527,9 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller {
 	 * @return array {
 	 *     A multi-dimensional indexed array on success, else empty array.
 	 *
-	 *     @type string[] 0 Meta elements with a content attribute.
-	 *     @type string[] 1 Content attribute's opening quotation mark.
-	 *     @type string[] 2 Content attribute's value for each meta element.
+	 *     @type string[] $0 Meta elements with a content attribute.
+	 *     @type string[] $1 Content attribute's opening quotation mark.
+	 *     @type string[] $2 Content attribute's value for each meta element.
 	 * }
 	 */
 	private function get_meta_with_content_elements( $html ) {
@@ -607,9 +607,9 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller {
 	 * @param array  $meta_elements {
 	 *     A multi-dimensional indexed array on success, else empty array.
 	 *
-	 *     @type string[] 0 Meta elements with a content attribute.
-	 *     @type string[] 1 Content attribute's opening quotation mark.
-	 *     @type string[] 2 Content attribute's value for each meta element.
+	 *     @type string[] $0 Meta elements with a content attribute.
+	 *     @type string[] $1 Content attribute's opening quotation mark.
+	 *     @type string[] $2 Content attribute's value for each meta element.
 	 * }
 	 * @param string $attr       Attribute that identifies the element with the target metadata.
 	 * @param string $attr_value The attribute's value that identifies the element with the target metadata.

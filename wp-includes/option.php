@@ -28,10 +28,11 @@
  * as string equivalents.
  *
  * Exceptions:
+ *
  * 1. When the option has not been saved in the database, the `$default` value
  *    is returned if provided. If not, boolean `false` is returned.
- * 2. When one of the Options API filters is used: {@see 'pre_option_{$option}'},
- *    {@see 'default_option_{$option}'}, or {@see 'option_{$option}'}, the returned
+ * 2. When one of the Options API filters is used: {@see 'pre_option_$option'},
+ *    {@see 'default_option_$option'}, or {@see 'option_$option'}, the returned
  *    value may not match the expected type.
  * 3. When the option has just been saved in the database, and get_option()
  *    is used right after, non-string scalar and null values are not converted to
@@ -39,28 +40,28 @@
  *
  * Examples:
  *
- * When adding options like this: `add_option( 'my_option_name', 'value' );`
- * and then retrieving them with `get_option( 'my_option_name' );`, the returned
+ * When adding options like this: `add_option( 'my_option_name', 'value' )`
+ * and then retrieving them with `get_option( 'my_option_name' )`, the returned
  * values will be:
  *
- * `false` returns `string(0) ""`
- * `true`  returns `string(1) "1"`
- * `0`     returns `string(1) "0"`
- * `1`     returns `string(1) "1"`
- * `'0'`   returns `string(1) "0"`
- * `'1'`   returns `string(1) "1"`
- * `null`  returns `string(0) ""`
+ *   - `false` returns `string(0) ""`
+ *   - `true`  returns `string(1) "1"`
+ *   - `0`     returns `string(1) "0"`
+ *   - `1`     returns `string(1) "1"`
+ *   - `'0'`   returns `string(1) "0"`
+ *   - `'1'`   returns `string(1) "1"`
+ *   - `null`  returns `string(0) ""`
  *
  * When adding options with non-scalar values like
- * `add_option( 'my_array', array( false, 'str', null ) );`, the returned value
+ * `add_option( 'my_array', array( false, 'str', null ) )`, the returned value
  * will be identical to the original as it is serialized before saving
  * it in the database:
  *
- *    array(3) {
- *        [0] => bool(false)
- *        [1] => string(3) "str"
- *        [2] => NULL
- *    }
+ *     array(3) {
+ *         [0] => bool(false)
+ *         [1] => string(3) "str"
+ *         [2] => NULL
+ *     }
  *
  * @since 1.5.0
  *

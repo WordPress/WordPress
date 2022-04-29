@@ -109,7 +109,7 @@ abstract class WP_Image_Editor {
 	 * @param array $sizes {
 	 *     An array of image size arrays. Default sizes are 'small', 'medium', 'large'.
 	 *
-	 *     @type array $size {
+	 *     @type array ...$0 {
 	 *         @type int  $width  Image width.
 	 *         @type int  $height Image height.
 	 *         @type bool $crop   Optional. Whether to crop the image. Default false.
