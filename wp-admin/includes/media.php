@@ -361,12 +361,21 @@ function media_handle_upload( $file_id, $post_id, $post_data = array(), $overrid
 		if ( ! empty( $meta['track_number'] ) ) {
 			$track_number = explode( '/', $meta['track_number'] );
 
-			if ( isset( $track_number[1] ) ) {
-				/* translators: Audio file track information. 1: Audio track number, 2: Total audio tracks. */
-				$content .= ' ' . sprintf( __( 'Track %1$s of %2$s.' ), number_format_i18n( $track_number[0] ), number_format_i18n( $track_number[1] ) );
-			} else {
-				/* translators: Audio file track information. %s: Audio track number. */
-				$content .= ' ' . sprintf( __( 'Track %s.' ), number_format_i18n( $track_number[0] ) );
+			if ( is_numeric( $track_number[0] ) ) {
+				if ( isset( $track_number[1] ) && is_numeric( $track_number[1] ) ) {
+					$content .= ' ' . sprintf(
+						/* translators: Audio file track information. 1: Audio track number, 2: Total audio tracks. */
+						__( 'Track %1$s of %2$s.' ),
+						number_format_i18n( $track_number[0] ),
+						number_format_i18n( $track_number[1] )
+					);
+				} else {
+					$content .= ' ' . sprintf(
+						/* translators: Audio file track information. %s: Audio track number. */
+						__( 'Track %s.' ),
+						number_format_i18n( $track_number[0] )
+					);
+				}
 			}
 		}
 
