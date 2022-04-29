@@ -38,6 +38,7 @@ function _register_core_block_patterns_and_categories() {
 
 	register_block_pattern_category( 'buttons', array( 'label' => _x( 'Buttons', 'Block pattern category' ) ) );
 	register_block_pattern_category( 'columns', array( 'label' => _x( 'Columns', 'Block pattern category' ) ) );
+	register_block_pattern_category( 'featured', array( 'label' => _x( 'Featured', 'Block pattern category' ) ) );
 	register_block_pattern_category( 'gallery', array( 'label' => _x( 'Gallery', 'Block pattern category' ) ) );
 	register_block_pattern_category( 'header', array( 'label' => _x( 'Headers', 'Block pattern category' ) ) );
 	register_block_pattern_category( 'text', array( 'label' => _x( 'Text', 'Block pattern category' ) ) );
@@ -102,10 +103,6 @@ function _load_remote_featured_patterns() {
 
 	if ( ! $should_load_remote || ! $supports_core_patterns ) {
 		return;
-	}
-
-	if ( ! WP_Block_Pattern_Categories_Registry::get_instance()->is_registered( 'featured' ) ) {
-		register_block_pattern_category( 'featured', array( 'label' => __( 'Featured' ) ) );
 	}
 
 	$request         = new WP_REST_Request( 'GET', '/wp/v2/pattern-directory/patterns' );
