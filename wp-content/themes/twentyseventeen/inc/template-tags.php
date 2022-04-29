@@ -112,7 +112,7 @@ if ( ! function_exists( 'twentyseventeen_edit_link' ) ) :
 	function twentyseventeen_edit_link() {
 		edit_post_link(
 			sprintf(
-				/* translators: %s: Post title. */
+				/* translators: %s: Post title. Only visible to screen readers. */
 				__( 'Edit<span class="screen-reader-text"> "%s"</span>', 'twentyseventeen' ),
 				get_the_title()
 			),
