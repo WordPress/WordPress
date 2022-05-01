@@ -29,7 +29,7 @@ class Walker {
 	public $db_fields;
 
 	/**
-	 * Max number of pages walked by the paged walker
+	 * Max number of pages walked by the paged walker.
 	 *
 	 * @since 2.7.0
 	 * @var int
@@ -77,10 +77,10 @@ class Walker {
 	public function end_lvl( &$output, $depth = 0, $args = array() ) {}
 
 	/**
-	 * Start the element output.
+	 * Starts the element output.
 	 *
 	 * The $args parameter holds additional values that may be used with the child
-	 * class methods. Includes the element output also.
+	 * class methods. Also includes the element output.
 	 *
 	 * @since 2.1.0
 	 * @since 5.9.0 Renamed `$object` (a PHP reserved keyword) to `$data_object` for PHP 8 named parameter support.
@@ -111,7 +111,7 @@ class Walker {
 	public function end_el( &$output, $data_object, $depth = 0, $args = array() ) {}
 
 	/**
-	 * Traverse elements to create list from elements.
+	 * Traverses elements to create list from elements.
 	 *
 	 * Display one element if the element doesn't have any children otherwise,
 	 * display the element and its children. Will only traverse up to the max
@@ -170,7 +170,7 @@ class Walker {
 	}
 
 	/**
-	 * Display array of elements hierarchically.
+	 * Displays array of elements hierarchically.
 	 *
 	 * Does not assume any existing order of elements.
 	 *
@@ -263,7 +263,7 @@ class Walker {
 	}
 
 	/**
-	 * paged_walk() - produce a page of nested elements
+	 * Produces a page of nested elements.
 	 *
 	 * Given an array of hierarchical elements, the maximum depth, a specific page number,
 	 * and number of elements per page, this function first determines all top level root elements
@@ -281,7 +281,7 @@ class Walker {
 	 * @param int   $page_num  The specific page number, beginning with 1.
 	 * @param int   $per_page  Number of elements per page.
 	 * @param mixed ...$args   Optional additional arguments.
-	 * @return string XHTML of the specified page of elements
+	 * @return string XHTML of the specified page of elements.
 	 */
 	public function paged_walk( $elements, $max_depth, $page_num, $per_page, ...$args ) {
 		if ( empty( $elements ) || $max_depth < -1 ) {
@@ -422,7 +422,7 @@ class Walker {
 	}
 
 	/**
-	 * Unset all the children for a given top level element.
+	 * Unsets all the children for a given top level element.
 	 *
 	 * @since 2.7.0
 	 *
