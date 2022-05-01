@@ -426,16 +426,16 @@ class Walker {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param object $e
-	 * @param array  $children_elements
+	 * @param object $element           The top level element.
+	 * @param array  $children_elements The children elements.
 	 */
-	public function unset_children( $e, &$children_elements ) {
-		if ( ! $e || ! $children_elements ) {
+	public function unset_children( $element, &$children_elements ) {
+		if ( ! $element || ! $children_elements ) {
 			return;
 		}
 
 		$id_field = $this->db_fields['id'];
-		$id       = $e->$id_field;
+		$id       = $element->$id_field;
 
 		if ( ! empty( $children_elements[ $id ] ) && is_array( $children_elements[ $id ] ) ) {
 			foreach ( (array) $children_elements[ $id ] as $child ) {
