@@ -595,7 +595,7 @@ function get_comment_delimited_block_content( $block_name, $block_attributes, $b
  *
  * @since 5.3.1
  *
- * @param WP_Block_Parser_Block $block A single parsed block object.
+ * @param array $block A representative array of a single parsed block object. See WP_Block_Parser_Block.
  * @return string String of rendered HTML.
  */
 function serialize_block( $block ) {
@@ -623,7 +623,7 @@ function serialize_block( $block ) {
  *
  * @since 5.3.1
  *
- * @param WP_Block_Parser_Block[] $blocks Parsed block objects.
+ * @param array[] $blocks An array of representative arrays of parsed block objects. See serialize_block().
  * @return string String of rendered HTML.
  */
 function serialize_blocks( $blocks ) {
