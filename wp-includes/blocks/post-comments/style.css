@@ -112,10 +112,14 @@
 .wp-block-post-comments .comment-meta {
   font-size: 0.875em;
   line-height: 1.5;
-  margin-left: -3.25em;
 }
 .wp-block-post-comments .comment-meta b {
   font-weight: normal;
+}
+.wp-block-post-comments .comment-meta .comment-awaiting-moderation {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  display: block;
 }
 .wp-block-post-comments .comment-body .commentmetadata {
   font-size: 0.875em;

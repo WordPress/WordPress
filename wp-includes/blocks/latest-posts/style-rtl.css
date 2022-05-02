@@ -150,9 +150,11 @@
 }
 .wp-block-latest-posts__featured-image.alignleft {
   margin-right: 1em;
+  float: left;
 }
 .wp-block-latest-posts__featured-image.alignright {
   margin-left: 1em;
+  float: right;
 }
 .wp-block-latest-posts__featured-image.aligncenter {
   margin-bottom: 1em;

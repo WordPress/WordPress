@@ -4297,10 +4297,17 @@ function useInputAndSelection(props) {
         createRecord,
         isSelected,
         onSelectionChange
-      } = propsRef.current; // If the selection changes where the active element is a parent of
+      } = propsRef.current; // Check if the implementor disabled editing. `contentEditable`
+      // does disable input, but not text selection, so we must ignore
+      // selection changes.
+
+      if (element.contentEditable !== 'true') {
+        return;
+      } // If the selection changes where the active element is a parent of
       // the rich text instance (writing flow), call `onSelectionChange`
       // for the rich text instance that contains the start or end of the
       // selection.
+
 
       if (ownerDocument.activeElement !== element) {
         if (!ownerDocument.activeElement.contains(element)) {
@@ -4396,7 +4403,7 @@ function useInputAndSelection(props) {
 
     function onCompositionStart() {
       isComposing = true; // Do not update the selection when characters are being composed as
-      // this rerenders the component and might distroy internal browser
+      // this rerenders the component and might destroy internal browser
       // editing state.
 
       ownerDocument.removeEventListener('selectionchange', handleSelectionChange);

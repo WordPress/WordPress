@@ -101,7 +101,7 @@
 .wp-block-cover.has-parallax {
   background-attachment: fixed;
 }
-@supports (-webkit-overflow-scrolling: touch) {
+@supports (-webkit-touch-callout: inherit) {
   .wp-block-cover-image.has-parallax,
 .wp-block-cover.has-parallax {
     background-attachment: scroll;

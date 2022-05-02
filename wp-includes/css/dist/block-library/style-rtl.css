@@ -417,7 +417,7 @@
 .wp-block-cover.has-parallax {
   background-attachment: fixed;
 }
-@supports (-webkit-overflow-scrolling: touch) {
+@supports (-webkit-touch-callout: inherit) {
   .wp-block-cover-image.has-parallax,
 .wp-block-cover.has-parallax {
     background-attachment: scroll;
@@ -1435,9 +1435,11 @@ ol.wp-block-latest-comments {
 }
 .wp-block-latest-posts__featured-image.alignleft {
   margin-right: 1em;
+  float: left;
 }
 .wp-block-latest-posts__featured-image.alignright {
   margin-left: 1em;
+  float: right;
 }
 .wp-block-latest-posts__featured-image.aligncenter {
   margin-bottom: 1em;
@@ -2137,10 +2139,14 @@ p.has-background {
 .wp-block-post-comments .comment-meta {
   font-size: 0.875em;
   line-height: 1.5;
-  margin-right: -3.25em;
 }
 .wp-block-post-comments .comment-meta b {
   font-weight: normal;
+}
+.wp-block-post-comments .comment-meta .comment-awaiting-moderation {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  display: block;
 }
 .wp-block-post-comments .comment-body .commentmetadata {
   font-size: 0.875em;

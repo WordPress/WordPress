@@ -153,10 +153,14 @@
 .wp-block-latest-posts__featured-image.alignleft {
   /*rtl:ignore*/
   margin-right: 1em;
+  /*rtl:ignore*/
+  float: left;
 }
 .wp-block-latest-posts__featured-image.alignright {
   /*rtl:ignore*/
   margin-left: 1em;
+  /*rtl:ignore*/
+  float: right;
 }
 .wp-block-latest-posts__featured-image.aligncenter {
   margin-bottom: 1em;

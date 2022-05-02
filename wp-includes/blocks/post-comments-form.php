@@ -25,9 +25,13 @@ function render_block_core_post_comments_form( $attributes, $content, $block ) {
 
 	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => $classes ) );
 
+	add_filter( 'comment_form_defaults', 'post_comments_form_block_form_defaults' );
+
 	ob_start();
 	comment_form( array(), $block->context['postId'] );
 	$form = ob_get_clean();
+
+	remove_filter( 'comment_form_defaults', 'post_comments_form_block_form_defaults' );
 
 	// We use the outermost wrapping `<div />` returned by `comment_form()`
 	// which is identified by its default classname `comment-respond` to inject
@@ -70,4 +74,3 @@ function post_comments_form_block_form_defaults( $fields ) {
 
 	return $fields;
 }
-add_filter( 'comment_form_defaults', 'post_comments_form_block_form_defaults' );

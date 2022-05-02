@@ -8544,11 +8544,6 @@ function PatternSelection(_ref) {
   const {
     resetEditorBlocks
   } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_editor_namespaceObject.store);
-  (0,external_wp_element_namespaceObject.useEffect)(() => {
-    if (blockPatterns.length <= 1) {
-      onChoosePattern();
-    }
-  }, [blockPatterns.length]);
   return (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.__experimentalBlockPatternsList, {
     blockPatterns: blockPatterns,
     shownPatterns: shownBlockPatterns,

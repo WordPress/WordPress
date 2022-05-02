@@ -9607,12 +9607,14 @@ function comments_title_edit_Edit(_ref) {
   })));
   const postTitle = isSiteEditor ? (0,external_wp_i18n_namespaceObject.__)('"Post Title"') : `"${rawTitle}"`;
   const singlePlaceholder = showPostTitle ? (0,external_wp_i18n_namespaceObject.__)('One response to ') : (0,external_wp_i18n_namespaceObject.__)('One response');
-  const multiplePlaceholder = showPostTitle ? (0,external_wp_i18n_namespaceObject.__)('Responses to ') : (0,external_wp_i18n_namespaceObject.__)('Responses');
+  const singlePlaceholderNoCount = showPostTitle ? (0,external_wp_i18n_namespaceObject.__)('Response to ') : (0,external_wp_i18n_namespaceObject.__)('Response');
+  const multiplePlaceholder = showPostTitle ? (0,external_wp_i18n_namespaceObject.__)('responses to ') : (0,external_wp_i18n_namespaceObject.__)('responses');
+  const multiplePlaceholderNoCount = showPostTitle ? (0,external_wp_i18n_namespaceObject.__)('Responses to ') : (0,external_wp_i18n_namespaceObject.__)('Responses');
   return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, blockControls, inspectorControls, (0,external_wp_element_namespaceObject.createElement)(TagName, blockProps, editingMode === 'singular' || commentsCount === 1 ? (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.PlainText, {
     __experimentalVersion: 2,
     tagName: "span",
-    "aria-label": singlePlaceholder,
-    placeholder: singlePlaceholder,
+    "aria-label": showCommentsCount ? singlePlaceholder : singlePlaceholderNoCount,
+    placeholder: showCommentsCount ? singlePlaceholder : singlePlaceholderNoCount,
     value: singleCommentLabel,
     onChange: newLabel => setAttributes({
       singleCommentLabel: newLabel
@@ -9620,8 +9622,8 @@ function comments_title_edit_Edit(_ref) {
   }), showPostTitle ? postTitle : null) : (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, showCommentsCount ? commentsCount : null, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.PlainText, {
     __experimentalVersion: 2,
     tagName: "span",
-    "aria-label": showCommentsCount ? ` ${multiplePlaceholder}` : multiplePlaceholder,
-    placeholder: showCommentsCount ? ` ${multiplePlaceholder}` : multiplePlaceholder,
+    "aria-label": showCommentsCount ? ` ${multiplePlaceholder}` : multiplePlaceholderNoCount,
+    placeholder: showCommentsCount ? ` ${multiplePlaceholder}` : multiplePlaceholderNoCount,
     value: multipleCommentsLabel,
     onChange: newLabel => setAttributes({
       multipleCommentsLabel: newLabel
@@ -25106,20 +25108,18 @@ function NavigationInnerBlocks(_ref) {
   } = _ref;
   const {
     isImmediateParentOfSelectedBlock,
-    selectedBlockHasDescendants,
+    selectedBlockHasChildren,
     isSelected
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
-    var _getClientIdsOfDescen;
-
     const {
-      getClientIdsOfDescendants,
+      getBlockCount,
       hasSelectedInnerBlock,
       getSelectedBlockClientId
     } = select(external_wp_blockEditor_namespaceObject.store);
     const selectedBlockId = getSelectedBlockClientId();
     return {
       isImmediateParentOfSelectedBlock: hasSelectedInnerBlock(clientId, false),
-      selectedBlockHasDescendants: !!((_getClientIdsOfDescen = getClientIdsOfDescendants([selectedBlockId])) !== null && _getClientIdsOfDescen !== void 0 && _getClientIdsOfDescen.length),
+      selectedBlockHasChildren: !!getBlockCount(selectedBlockId),
       // This prop is already available but computing it here ensures it's
       // fresh compared to isImmediateParentOfSelectedBlock.
       isSelected: selectedBlockId === clientId
@@ -25135,7 +25135,7 @@ function NavigationInnerBlocks(_ref) {
   // doesn't itself have children, show the standard appender. Else show no
   // appender.
 
-  const parentOrChildHasSelection = isSelected || isImmediateParentOfSelectedBlock && !selectedBlockHasDescendants;
+  const parentOrChildHasSelection = isSelected || isImmediateParentOfSelectedBlock && !selectedBlockHasChildren;
   const placeholder = (0,external_wp_element_namespaceObject.useMemo)(() => (0,external_wp_element_namespaceObject.createElement)(placeholder_preview, null), []);
   const hasMenuItems = !!(blocks !== null && blocks !== void 0 && blocks.length); // If there is a `ref` attribute pointing to a `wp_navigation` but
   // that menu has no **items** (i.e. empty) then show a placeholder.
@@ -25158,7 +25158,7 @@ function NavigationInnerBlocks(_ref) {
     // This should be a temporary fix, to be replaced by improvements to
     // the sibling inserter.
     // See https://github.com/WordPress/gutenberg/issues/37572.
-    renderAppender: isSelected || isImmediateParentOfSelectedBlock && !selectedBlockHasDescendants || // Show the appender while dragging to allow inserting element between item and the appender.
+    renderAppender: isSelected || isImmediateParentOfSelectedBlock && !selectedBlockHasChildren || // Show the appender while dragging to allow inserting element between item and the appender.
     parentOrChildHasSelection ? external_wp_blockEditor_namespaceObject.InnerBlocks.ButtonBlockAppender : false,
     // Template lock set to false here so that the Nav
     // Block on the experimental menus screen does not
@@ -27736,10 +27736,27 @@ function navStripHTML(html) {
 
 function LinkControlTransforms(_ref) {
   let {
-    block,
-    transforms,
+    clientId,
     replace
   } = _ref;
+  const {
+    getBlock,
+    blockTransforms
+  } = (0,external_wp_data_namespaceObject.useSelect)(select => {
+    const {
+      getBlock: _getBlock,
+      getBlockRootClientId,
+      getBlockTransformItems
+    } = select(external_wp_blockEditor_namespaceObject.store);
+    return {
+      getBlock: _getBlock,
+      blockTransforms: getBlockTransformItems([_getBlock(clientId)], getBlockRootClientId(clientId))
+    };
+  }, [clientId]);
+  const featuredBlocks = ['core/site-logo', 'core/social-links', 'core/search'];
+  const transforms = blockTransforms.filter(item => {
+    return featuredBlocks.includes(item.name);
+  });
 
   if (!(transforms !== null && transforms !== void 0 && transforms.length)) {
     return null;
@@ -27754,7 +27771,7 @@ function LinkControlTransforms(_ref) {
   }, transforms.map((item, index) => {
     return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
       key: `transform-${index}`,
-      onClick: () => replace(block.clientId, (0,external_wp_blocks_namespaceObject.switchToBlockType)(block, item.name)),
+      onClick: () => replace(clientId, (0,external_wp_blocks_namespaceObject.switchToBlockType)(getBlock(clientId), item.name)),
       className: "link-control-transform__item"
     }, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockIcon, {
       icon: item.icon
@@ -27813,39 +27830,26 @@ function NavigationLinkEdit(_ref2) {
     isAtMaxNesting,
     isTopLevelLink,
     isParentOfSelectedBlock,
-    hasDescendants,
+    hasChildren,
     userCanCreatePages,
-    userCanCreatePosts,
-    thisBlock,
-    blockTransforms
+    userCanCreatePosts
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
-    var _getClientIdsOfDescen;
-
     const {
-      getBlock,
       getBlocks,
+      getBlockCount,
       getBlockName,
       getBlockRootClientId,
-      getClientIdsOfDescendants,
       hasSelectedInnerBlock,
-      getSelectedBlockClientId,
-      getBlockParentsByBlockName,
-      getBlockTransformItems
+      getBlockParentsByBlockName
     } = select(external_wp_blockEditor_namespaceObject.store);
-    const selectedBlockId = getSelectedBlockClientId();
-    const descendants = getClientIdsOfDescendants([clientId]).length;
     return {
       innerBlocks: getBlocks(clientId),
       isAtMaxNesting: getBlockParentsByBlockName(clientId, [edit_name, 'core/navigation-submenu']).length >= maxNestingLevel,
       isTopLevelLink: getBlockName(getBlockRootClientId(clientId)) === 'core/navigation',
       isParentOfSelectedBlock: hasSelectedInnerBlock(clientId, true),
-      isImmediateParentOfSelectedBlock: hasSelectedInnerBlock(clientId, false),
-      hasDescendants: !!descendants,
-      selectedBlockHasDescendants: !!((_getClientIdsOfDescen = getClientIdsOfDescendants([selectedBlockId])) !== null && _getClientIdsOfDescen !== void 0 && _getClientIdsOfDescen.length),
+      hasChildren: !!getBlockCount(clientId),
       userCanCreatePages: select(external_wp_coreData_namespaceObject.store).canUser('create', 'pages'),
-      userCanCreatePosts: select(external_wp_coreData_namespaceObject.store).canUser('create', 'posts'),
-      thisBlock: getBlock(clientId),
-      blockTransforms: getBlockTransformItems([getBlock(clientId)], getBlockRootClientId(clientId))
+      userCanCreatePosts: select(external_wp_coreData_namespaceObject.store).canUser('create', 'posts')
     };
   }, [clientId]);
   (0,external_wp_element_namespaceObject.useEffect)(() => {
@@ -27868,10 +27872,6 @@ function NavigationLinkEdit(_ref2) {
     replaceBlock(clientId, newSubmenu);
   }
 
-  const featuredBlocks = ['core/site-logo', 'core/social-links', 'core/search'];
-  const featuredTransforms = blockTransforms.filter(item => {
-    return featuredBlocks.includes(item.name);
-  });
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     // Show the LinkControl on mount if the URL is empty
     // ( When adding a new menu item)
@@ -27882,7 +27882,7 @@ function NavigationLinkEdit(_ref2) {
     } // If block has inner blocks, transform to Submenu.
 
 
-    if (hasDescendants) {
+    if (hasChildren) {
       transformToSubmenu();
     }
   }, []);
@@ -27988,7 +27988,7 @@ function NavigationLinkEdit(_ref2) {
       'is-editing': isSelected || isParentOfSelectedBlock,
       'is-dragging-within': isDraggingWithin,
       'has-link': !!url,
-      'has-child': hasDescendants,
+      'has-child': hasChildren,
       'has-text-color': !!textColor || !!customTextColor,
       [(0,external_wp_blockEditor_namespaceObject.getColorClassName)('color', textColor)]: !!textColor,
       'has-background': !!backgroundColor || customBackgroundColor,
@@ -28130,8 +28130,7 @@ function NavigationLinkEdit(_ref2) {
     onChange: updatedValue => updateNavigationLinkBlockAttributes(updatedValue, setAttributes, attributes),
     onRemove: removeLink,
     renderControlBottom: !url ? () => (0,external_wp_element_namespaceObject.createElement)(LinkControlTransforms, {
-      block: thisBlock,
-      transforms: featuredTransforms,
+      clientId: clientId,
       replace: replaceBlock
     }) : null
   })))));
@@ -28975,32 +28974,32 @@ function NavigationSubmenuEdit(_ref) {
     isTopLevelItem,
     isParentOfSelectedBlock,
     isImmediateParentOfSelectedBlock,
-    hasDescendants,
-    selectedBlockHasDescendants,
+    hasChildren,
+    selectedBlockHasChildren,
     userCanCreatePages,
     userCanCreatePosts,
     onlyDescendantIsEmptyLink
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
-      getClientIdsOfDescendants,
       hasSelectedInnerBlock,
       getSelectedBlockClientId,
       getBlockParentsByBlockName,
-      getBlock
+      getBlock,
+      getBlockCount,
+      getBlockOrder
     } = select(external_wp_blockEditor_namespaceObject.store);
 
     let _onlyDescendantIsEmptyLink;
 
     const selectedBlockId = getSelectedBlockClientId();
-    const descendants = getClientIdsOfDescendants([clientId]).length;
-    const selectedBlockDescendants = getClientIdsOfDescendants([selectedBlockId]); // Check for a single descendant in the submenu. If that block
+    const selectedBlockChildren = getBlockOrder(selectedBlockId); // Check for a single descendant in the submenu. If that block
     // is a link block in a "placeholder" state with no label then
     // we can consider as an "empty" link.
 
-    if ((selectedBlockDescendants === null || selectedBlockDescendants === void 0 ? void 0 : selectedBlockDescendants.length) === 1) {
+    if ((selectedBlockChildren === null || selectedBlockChildren === void 0 ? void 0 : selectedBlockChildren.length) === 1) {
       var _singleBlock$attribut;
 
-      const singleBlock = getBlock(selectedBlockDescendants[0]);
+      const singleBlock = getBlock(selectedBlockChildren[0]);
       _onlyDescendantIsEmptyLink = (singleBlock === null || singleBlock === void 0 ? void 0 : singleBlock.name) === 'core/navigation-link' && !(singleBlock !== null && singleBlock !== void 0 && (_singleBlock$attribut = singleBlock.attributes) !== null && _singleBlock$attribut !== void 0 && _singleBlock$attribut.label);
     }
 
@@ -29009,8 +29008,8 @@ function NavigationSubmenuEdit(_ref) {
       isTopLevelItem: getBlockParentsByBlockName(clientId, navigation_submenu_edit_name).length === 0,
       isParentOfSelectedBlock: hasSelectedInnerBlock(clientId, true),
       isImmediateParentOfSelectedBlock: hasSelectedInnerBlock(clientId, false),
-      hasDescendants: !!descendants,
-      selectedBlockHasDescendants: !!(selectedBlockDescendants !== null && selectedBlockDescendants !== void 0 && selectedBlockDescendants.length),
+      hasChildren: !!getBlockCount(clientId),
+      selectedBlockHasChildren: !!(selectedBlockChildren !== null && selectedBlockChildren !== void 0 && selectedBlockChildren.length),
       userCanCreatePages: select(external_wp_coreData_namespaceObject.store).canUser('create', 'pages'),
       userCanCreatePosts: select(external_wp_coreData_namespaceObject.store).canUser('create', 'posts'),
       onlyDescendantIsEmptyLink: _onlyDescendantIsEmptyLink
@@ -29122,7 +29121,7 @@ function NavigationSubmenuEdit(_ref) {
       'is-editing': isSelected || isParentOfSelectedBlock,
       'is-dragging-within': isDraggingWithin,
       'has-link': !!url,
-      'has-child': hasDescendants,
+      'has-child': hasChildren,
       'has-text-color': !!textColor || !!customTextColor,
       [(0,external_wp_blockEditor_namespaceObject.getColorClassName)('color', textColor)]: !!textColor,
       'has-background': !!backgroundColor || customBackgroundColor,
@@ -29158,8 +29157,8 @@ function NavigationSubmenuEdit(_ref) {
     // being edited.
     // see: https://github.com/WordPress/gutenberg/pull/34615.
     __experimentalCaptureToolbars: true,
-    renderAppender: isSelected || isImmediateParentOfSelectedBlock && !selectedBlockHasDescendants || // Show the appender while dragging to allow inserting element between item and the appender.
-    hasDescendants ? external_wp_blockEditor_namespaceObject.InnerBlocks.ButtonBlockAppender : false
+    renderAppender: isSelected || isImmediateParentOfSelectedBlock && !selectedBlockHasChildren || // Show the appender while dragging to allow inserting element between item and the appender.
+    hasChildren ? external_wp_blockEditor_namespaceObject.InnerBlocks.ButtonBlockAppender : false
   });
   const ParentElement = openSubmenusOnClick ? 'button' : 'a';
 
@@ -29168,7 +29167,7 @@ function NavigationSubmenuEdit(_ref) {
     replaceBlock(clientId, newLinkBlock);
   }
 
-  const canConvertToLink = !selectedBlockHasDescendants || onlyDescendantIsEmptyLink;
+  const canConvertToLink = !selectedBlockHasChildren || onlyDescendantIsEmptyLink;
   return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockControls, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.ToolbarGroup, null, !openSubmenusOnClick && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.ToolbarButton, {
     name: "link",
     icon: library_link,
@@ -31609,7 +31608,7 @@ function Content(props) {
 
 function edit_Placeholder() {
   const blockProps = (0,external_wp_blockEditor_namespaceObject.useBlockProps)();
-  return (0,external_wp_element_namespaceObject.createElement)("div", blockProps, (0,external_wp_element_namespaceObject.createElement)("p", null, (0,external_wp_i18n_namespaceObject.__)('Post Content')));
+  return (0,external_wp_element_namespaceObject.createElement)("div", blockProps, (0,external_wp_element_namespaceObject.createElement)("p", null, (0,external_wp_i18n_namespaceObject.__)('This is the Post Content block, it will display all the blocks in any single post or page.')), (0,external_wp_element_namespaceObject.createElement)("p", null, (0,external_wp_i18n_namespaceObject.__)('That might be a simple arrangement like consecutive paragraphs in a blog post, or a more elaborate composition that includes image galleries, videos, tables, columns, and any other block types.')), (0,external_wp_element_namespaceObject.createElement)("p", null, (0,external_wp_i18n_namespaceObject.__)('If there are any Custom Post Types registered at your site, the Post Content block can display the contents of those entries as well.')));
 }
 
 function RecursionError() {
@@ -32004,7 +32003,7 @@ function PostExcerptEditor(_ref) {
   }, [renderedExcerpt]);
 
   if (!postType || !postId) {
-    return (0,external_wp_element_namespaceObject.createElement)("div", blockProps, (0,external_wp_i18n_namespaceObject.__)('Post Excerpt'));
+    return (0,external_wp_element_namespaceObject.createElement)("div", blockProps, (0,external_wp_element_namespaceObject.createElement)("p", null, (0,external_wp_i18n_namespaceObject.__)('This is the Post Excerpt block, it will display the excerpt from single posts.')), (0,external_wp_element_namespaceObject.createElement)("p", null, (0,external_wp_i18n_namespaceObject.__)('If there are any Custom Post Types with support for excerpts, the Post Excerpt block can display the excerpts of those entries as well.')));
   }
 
   if (isProtected && !userCanEdit) {

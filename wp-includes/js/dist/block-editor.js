@@ -2919,7 +2919,6 @@ __webpack_require__.d(selectors_namespaceObject, {
   "__unstableIsSelectionCollapsed": function() { return __unstableIsSelectionCollapsed; },
   "__unstableIsSelectionMergeable": function() { return __unstableIsSelectionMergeable; },
   "areInnerBlocksControlled": function() { return areInnerBlocksControlled; },
-  "canEditBlock": function() { return canEditBlock; },
   "canInsertBlockType": function() { return canInsertBlockType; },
   "canInsertBlocks": function() { return canInsertBlocks; },
   "canLockBlockType": function() { return canLockBlockType; },
@@ -6923,28 +6922,6 @@ function canMoveBlock(state, clientId) {
 function canMoveBlocks(state, clientIds) {
   let rootClientId = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
   return clientIds.every(clientId => canMoveBlock(state, clientId, rootClientId));
-}
-/**
- * Determines if the given block is allowed to be edited.
- *
- * @param {Object} state    Editor state.
- * @param {string} clientId The block client Id.
- *
- * @return {boolean} Whether the given block is allowed to be edited.
- */
-
-function canEditBlock(state, clientId) {
-  const attributes = getBlockAttributes(state, clientId);
-
-  if (attributes === null) {
-    return true;
-  }
-
-  const {
-    lock
-  } = attributes; // When the edit is true, we cannot edit the block.
-
-  return !(lock !== null && lock !== void 0 && lock.edit);
 }
 /**
  * Determines if the given block type can be locked/unlocked by a user.
@@ -20335,7 +20312,8 @@ function useSelectionObserver() {
     selectionChange
   } = (0,external_wp_data_namespaceObject.useDispatch)(store);
   const {
-    getBlockParents
+    getBlockParents,
+    getBlockSelectionStart
   } = (0,external_wp_data_namespaceObject.useSelect)(store);
   return (0,external_wp_compose_namespaceObject.useRefEffect)(node => {
     const {
@@ -20345,29 +20323,63 @@ function useSelectionObserver() {
       defaultView
     } = ownerDocument;
 
-    function onSelectionChange() {
+    function onSelectionChange(event) {
       const selection = defaultView.getSelection(); // If no selection is found, end multi selection and disable the
       // contentEditable wrapper.
 
-      if (!selection.rangeCount || selection.isCollapsed) {
+      if (!selection.rangeCount) {
+        use_selection_observer_setContentEditableWrapper(node, false);
+        return;
+      } // If selection is collapsed and we haven't used `shift+click`,
+      // end multi selection and disable the contentEditable wrapper.
+      // We have to check about `shift+click` case because elements
+      // that don't support text selection might be involved, and we might
+      // update the clientIds to multi-select blocks.
+      // For now we check if the event is a `mouse` event.
+
+
+      const isClickShift = event.shiftKey && event.type === 'mouseup';
+
+      if (selection.isCollapsed && !isClickShift) {
         use_selection_observer_setContentEditableWrapper(node, false);
         return;
       }
 
-      const clientId = getBlockClientId(extractSelectionStartNode(selection));
-      const endClientId = getBlockClientId(extractSelectionEndNode(selection)); // If the selection did not involve a block, return early.
+      let startClientId = getBlockClientId(extractSelectionStartNode(selection));
+      let endClientId = getBlockClientId(extractSelectionEndNode(selection)); // If the selection has changed and we had pressed `shift+click`,
+      // we need to check if in an element that doesn't support
+      // text selection has been clicked.
 
-      if (clientId === undefined && endClientId === undefined) {
+      if (isClickShift) {
+        const selectedClientId = getBlockSelectionStart();
+        const clickedClientId = getBlockClientId(event.target); // `endClientId` is not defined if we end the selection by clicking a non-selectable block.
+        // We need to check if there was already a selection with a non-selectable focusNode.
+
+        const focusNodeIsNonSelectable = clickedClientId !== endClientId;
+
+        if (startClientId === endClientId && selection.isCollapsed || !endClientId || focusNodeIsNonSelectable) {
+          endClientId = clickedClientId;
+        } // Handle the case when we have a non-selectable block
+        // selected and click another one.
+
+
+        if (startClientId !== selectedClientId) {
+          startClientId = selectedClientId;
+        }
+      } // If the selection did not involve a block, return.
+
+
+      if (startClientId === undefined && endClientId === undefined) {
         use_selection_observer_setContentEditableWrapper(node, false);
         return;
       }
 
-      const isSingularSelection = clientId === endClientId;
+      const isSingularSelection = startClientId === endClientId;
 
       if (isSingularSelection) {
-        selectBlock(clientId);
+        selectBlock(startClientId);
       } else {
-        const startPath = [...getBlockParents(clientId), clientId];
+        const startPath = [...getBlockParents(startClientId), startClientId];
         const endPath = [...getBlockParents(endClientId), endClientId];
         const depth = findDepth(startPath, endPath);
         multiSelect(startPath[depth], endPath[depth]);
@@ -20415,12 +20427,10 @@ function useSelectionObserver() {
 
 function useClickSelection() {
   const {
-    multiSelect,
     selectBlock
   } = (0,external_wp_data_namespaceObject.useDispatch)(store);
   const {
     isSelectionEnabled,
-    getBlockParents,
     getBlockSelectionStart,
     hasMultiSelection
   } = (0,external_wp_data_namespaceObject.useSelect)(store);
@@ -20456,7 +20466,7 @@ function useClickSelection() {
     return () => {
       node.removeEventListener('mousedown', onMouseDown);
     };
-  }, [multiSelect, selectBlock, isSelectionEnabled, getBlockParents, getBlockSelectionStart, hasMultiSelection]);
+  }, [selectBlock, isSelectionEnabled, getBlockSelectionStart, hasMultiSelection]);
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/writing-flow/use-input.js
@@ -24734,7 +24744,8 @@ function QuickInserter(_ref) {
     onSelect,
     rootClientId,
     clientId,
-    isAppender
+    isAppender,
+    prioritizePatterns
   } = _ref;
   const [filterValue, setFilterValue] = (0,external_wp_element_namespaceObject.useState)('');
   const [destinationRootClientId, onInsertBlocks] = use_insertion_point({
@@ -24747,8 +24758,7 @@ function QuickInserter(_ref) {
   const [patterns] = use_patterns_state(onInsertBlocks, destinationRootClientId);
   const {
     setInserterIsOpened,
-    insertionIndex,
-    prioritizePatterns
+    insertionIndex
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
       getSettings,
@@ -24760,10 +24770,9 @@ function QuickInserter(_ref) {
     const blockCount = getBlockCount();
     return {
       setInserterIsOpened: settings.__experimentalSetIsInserterOpened,
-      prioritizePatterns: settings.__experimentalPreferPatternsOnRoot && !rootClientId && index > 0 && (index < blockCount || blockCount === 0),
       insertionIndex: index === -1 ? blockCount : index
     };
-  }, [clientId, rootClientId]);
+  }, [clientId]);
   const showPatterns = patterns.length && (!!filterValue || prioritizePatterns);
   const showSearch = showPatterns && patterns.length > SEARCH_THRESHOLD || blockTypes.length > SEARCH_THRESHOLD;
   (0,external_wp_element_namespaceObject.useEffect)(() => {
@@ -24855,13 +24864,16 @@ const defaultRenderToggle = _ref => {
     isOpen,
     blockTitle,
     hasSingleBlockType,
-    toggleProps = {}
+    toggleProps = {},
+    prioritizePatterns
   } = _ref;
   let label;
 
   if (hasSingleBlockType) {
     label = (0,external_wp_i18n_namespaceObject.sprintf)( // translators: %s: the name of the block when there is only one
     (0,external_wp_i18n_namespaceObject._x)('Add %s', 'directly add the only allowed block'), blockTitle);
+  } else if (prioritizePatterns) {
+    label = (0,external_wp_i18n_namespaceObject.__)('Add pattern');
   } else {
     label = (0,external_wp_i18n_namespaceObject._x)('Add block', 'Generic label for block inserter button');
   }
@@ -24934,7 +24946,8 @@ class Inserter extends external_wp_element_namespaceObject.Component {
       directInsertBlock,
       toggleProps,
       hasItems,
-      renderToggle = defaultRenderToggle
+      renderToggle = defaultRenderToggle,
+      prioritizePatterns
     } = this.props;
     return renderToggle({
       onToggle,
@@ -24943,7 +24956,8 @@ class Inserter extends external_wp_element_namespaceObject.Component {
       blockTitle,
       hasSingleBlockType,
       directInsertBlock,
-      toggleProps
+      toggleProps,
+      prioritizePatterns
     });
   }
   /**
@@ -24968,7 +24982,8 @@ class Inserter extends external_wp_element_namespaceObject.Component {
       showInserterHelpPanel,
       // This prop is experimental to give some time for the quick inserter to mature
       // Feel free to make them stable after a few releases.
-      __experimentalIsQuick: isQuick
+      __experimentalIsQuick: isQuick,
+      prioritizePatterns
     } = this.props;
 
     if (isQuick) {
@@ -24978,7 +24993,8 @@ class Inserter extends external_wp_element_namespaceObject.Component {
         },
         rootClientId: rootClientId,
         clientId: clientId,
-        isAppender: isAppender
+        isAppender: isAppender,
+        prioritizePatterns: prioritizePatterns
       });
     }
 
@@ -25035,7 +25051,10 @@ class Inserter extends external_wp_element_namespaceObject.Component {
     getBlockRootClientId,
     hasInserterItems,
     __experimentalGetAllowedBlocks,
-    __experimentalGetDirectInsertBlock
+    __experimentalGetDirectInsertBlock,
+    getBlockIndex,
+    getBlockCount,
+    getSettings
   } = select(store);
   const {
     getBlockVariations
@@ -25046,6 +25065,9 @@ class Inserter extends external_wp_element_namespaceObject.Component {
 
   const directInsertBlock = __experimentalGetDirectInsertBlock(rootClientId);
 
+  const index = getBlockIndex(clientId);
+  const blockCount = getBlockCount();
+  const settings = getSettings();
   const hasSingleBlockType = (0,external_lodash_namespaceObject.size)(allowedBlocks) === 1 && (0,external_lodash_namespaceObject.size)(getBlockVariations(allowedBlocks[0].name, 'inserter')) === 0;
   let allowedBlockType = false;
 
@@ -25059,7 +25081,8 @@ class Inserter extends external_wp_element_namespaceObject.Component {
     blockTitle: allowedBlockType ? allowedBlockType.title : '',
     allowedBlockType,
     directInsertBlock,
-    rootClientId
+    rootClientId,
+    prioritizePatterns: settings.__experimentalPreferPatternsOnRoot && !rootClientId && index > 0 && (index < blockCount || blockCount === 0)
   };
 }), (0,external_wp_data_namespaceObject.withDispatch)((dispatch, ownProps, _ref5) => {
   let {
@@ -29291,7 +29314,6 @@ const lock = (0,external_wp_element_namespaceObject.createElement)(external_wp_p
 function useBlockLock(clientId) {
   return (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
-      canEditBlock,
       canMoveBlock,
       canRemoveBlock,
       canLockBlockType,
@@ -29299,15 +29321,13 @@ function useBlockLock(clientId) {
       getBlockRootClientId
     } = select(store);
     const rootClientId = getBlockRootClientId(clientId);
-    const canEdit = canEditBlock(clientId);
     const canMove = canMoveBlock(clientId, rootClientId);
     const canRemove = canRemoveBlock(clientId, rootClientId);
     return {
-      canEdit,
       canMove,
       canRemove,
       canLock: canLockBlockType(getBlockName(clientId)),
-      isLocked: !canEdit || !canMove || !canRemove
+      isLocked: !canMove || !canRemove
     };
   }, [clientId]);
 }
@@ -29318,7 +29338,6 @@ function useBlockLock(clientId) {
 /**
  * WordPress dependencies
  */
-
 
 
 
@@ -29342,21 +29361,9 @@ function BlockLockModal(_ref) {
     remove: false
   });
   const {
-    canEdit,
     canMove,
     canRemove
   } = useBlockLock(clientId);
-  const {
-    isReusable
-  } = (0,external_wp_data_namespaceObject.useSelect)(select => {
-    const {
-      getBlockName
-    } = select(store);
-    const blockName = getBlockName(clientId);
-    return {
-      isReusable: (0,external_wp_blocks_namespaceObject.isReusableBlock)((0,external_wp_blocks_namespaceObject.getBlockType)(blockName))
-    };
-  }, [clientId]);
   const {
     updateBlockAttributes
   } = (0,external_wp_data_namespaceObject.useDispatch)(store);
@@ -29365,12 +29372,9 @@ function BlockLockModal(_ref) {
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     setLock({
       move: !canMove,
-      remove: !canRemove,
-      ...(isReusable ? {
-        edit: !canEdit
-      } : {})
+      remove: !canRemove
     });
-  }, [canEdit, canMove, canRemove, isReusable]);
+  }, [canMove, canRemove]);
   const isAllChecked = Object.values(lock).every(Boolean);
   const isMixed = Object.values(lock).some(Boolean) && !isAllChecked;
   return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Modal, {
@@ -29401,24 +29405,11 @@ function BlockLockModal(_ref) {
     indeterminate: isMixed,
     onChange: newValue => setLock({
       move: newValue,
-      remove: newValue,
-      ...(isReusable ? {
-        edit: newValue
-      } : {})
+      remove: newValue
     })
   }), (0,external_wp_element_namespaceObject.createElement)("ul", {
     className: "block-editor-block-lock-modal__checklist"
-  }, isReusable && (0,external_wp_element_namespaceObject.createElement)("li", {
-    className: "block-editor-block-lock-modal__checklist-item"
-  }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.CheckboxControl, {
-    label: (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_i18n_namespaceObject.__)('Restrict editing'), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Icon, {
-      icon: lock.edit ? library_lock : library_unlock
-    })),
-    checked: !!lock.edit,
-    onChange: edit => setLock(prevLock => ({ ...prevLock,
-      edit
-    }))
-  })), (0,external_wp_element_namespaceObject.createElement)("li", {
+  }, (0,external_wp_element_namespaceObject.createElement)("li", {
     className: "block-editor-block-lock-modal__checklist-item"
   }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.CheckboxControl, {
     label: (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_i18n_namespaceObject.__)('Disable movement'), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Icon, {
@@ -29854,7 +29845,6 @@ function BlockLockToolbar(_ref) {
   } = _ref;
   const blockInformation = useBlockDisplayInformation(clientId);
   const {
-    canEdit,
     canMove,
     canRemove,
     canLock
@@ -29865,7 +29855,7 @@ function BlockLockToolbar(_ref) {
     return null;
   }
 
-  if (canEdit && canMove && canRemove) {
+  if (canMove && canRemove) {
     return null;
   }
 
@@ -38292,7 +38282,6 @@ function BlockContentOverlay(_ref) {
   const [isOverlayActive, setIsOverlayActive] = (0,external_wp_element_namespaceObject.useState)(true);
   const [isHovered, setIsHovered] = (0,external_wp_element_namespaceObject.useState)(false);
   const {
-    canEdit,
     isParentSelected,
     hasChildSelected,
     isDraggingBlocks,
@@ -38302,11 +38291,9 @@ function BlockContentOverlay(_ref) {
       isBlockSelected,
       hasSelectedInnerBlock,
       isDraggingBlocks: _isDraggingBlocks,
-      isBlockHighlighted,
-      canEditBlock
+      isBlockHighlighted
     } = select(store);
     return {
-      canEdit: canEditBlock(clientId),
       isParentSelected: isBlockSelected(clientId),
       hasChildSelected: hasSelectedInnerBlock(clientId, true),
       isDraggingBlocks: _isDraggingBlocks(),
@@ -38319,13 +38306,7 @@ function BlockContentOverlay(_ref) {
     'is-dragging-blocks': isDraggingBlocks
   });
   (0,external_wp_element_namespaceObject.useEffect)(() => {
-    // The overlay is always active when editing is locked.
-    if (!canEdit) {
-      setIsOverlayActive(true);
-      return;
-    } // Reenable when blocks are not in use.
-
-
+    // Reenable when blocks are not in use.
     if (!isParentSelected && !hasChildSelected && !isOverlayActive) {
       setIsOverlayActive(true);
     } // Disable if parent selected by another means (such as list view).
@@ -38343,7 +38324,7 @@ function BlockContentOverlay(_ref) {
     if (hasChildSelected && isOverlayActive) {
       setIsOverlayActive(false);
     }
-  }, [isParentSelected, hasChildSelected, isOverlayActive, isHovered, canEdit]); // Disabled because the overlay div doesn't actually have a role or functionality
+  }, [isParentSelected, hasChildSelected, isOverlayActive, isHovered]); // Disabled because the overlay div doesn't actually have a role or functionality
   // as far as the a11y is concerned. We're just catching the first click so that
   // the block can be selected without interacting with its contents.
 
@@ -38353,7 +38334,7 @@ function BlockContentOverlay(_ref) {
     className: classes,
     onMouseEnter: () => setIsHovered(true),
     onMouseLeave: () => setIsHovered(false),
-    onMouseUp: isOverlayActive && canEdit ? () => setIsOverlayActive(false) : undefined
+    onMouseUp: isOverlayActive ? () => setIsOverlayActive(false) : undefined
   }), wrapperProps === null || wrapperProps === void 0 ? void 0 : wrapperProps.children);
 }
 /* eslint-enable jsx-a11y/no-static-element-interactions */
