@@ -533,8 +533,6 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
  *
  * @param string[]                $preload_paths        List of paths to preload.
  * @param WP_Block_Editor_Context $block_editor_context The current block editor context.
- *
- * @return void
  */
 function block_editor_rest_api_preload( array $preload_paths, $block_editor_context ) {
 	global $post, $wp_scripts, $wp_styles;

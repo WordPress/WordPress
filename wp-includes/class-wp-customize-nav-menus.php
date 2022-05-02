@@ -1199,7 +1199,6 @@ final class WP_Customize_Nav_Menus {
 	 * @since 4.7.0
 	 *
 	 * @param array $available_item_type Menu item data to output, including title, type, and label.
-	 * @return void
 	 */
 	protected function print_post_type_container( $available_item_type ) {
 		$id = sprintf( 'available-menu-items-%s-%s', $available_item_type['type'], $available_item_type['object'] );
@@ -1240,8 +1239,6 @@ final class WP_Customize_Nav_Menus {
 	 * Prints the markup for available menu item custom links.
 	 *
 	 * @since 4.7.0
-	 *
-	 * @return void
 	 */
 	protected function print_custom_links_available_menu_item() {
 		?>

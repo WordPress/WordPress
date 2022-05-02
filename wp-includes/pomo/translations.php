@@ -159,7 +159,6 @@ if ( ! class_exists( 'Translations', false ) ) :
 		 * Merge $other in the current object.
 		 *
 		 * @param Object $other Another Translation object, whose translations will be merged in this one (passed by reference).
-		 * @return void
 		 */
 		public function merge_with( &$other ) {
 			foreach ( $other->entries as $entry ) {

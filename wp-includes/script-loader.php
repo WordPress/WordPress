@@ -2933,7 +2933,6 @@ function wp_enqueue_block_support_styles( $style ) {
  *
  * @param string $block_name The block-name, including namespace.
  * @param array  $args       An array of arguments [handle,src,deps,ver,media].
- * @return void
  */
 function wp_enqueue_block_style( $block_name, $args ) {
 	$args = wp_parse_args(

@@ -105,8 +105,6 @@ function wp_filter_wp_template_unique_post_slug( $override_slug, $slug, $post_ID
  * @since 5.8.0
  *
  * @global string $_wp_current_template_content
- *
- * @return void
  */
 function the_block_template_skip_link() {
 	global $_wp_current_template_content;
