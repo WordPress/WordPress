@@ -40,7 +40,7 @@ function render_block_core_cover( $attributes, $content ) {
 		$object_position = '';
 		if ( isset( $attributes['focalPoint'] ) ) {
 			$object_position = round( $attributes['focalPoint']['x'] * 100 ) . '%' . ' ' .
-			round( $attributes['focalPoint']['x'] * 100 ) . '%';
+			round( $attributes['focalPoint']['y'] * 100 ) . '%';
 		}
 
 		$image_template = '<img

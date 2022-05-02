@@ -671,8 +671,9 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			 *
 			 * @since 2.7.0
 			 *
-			 * @param string[] $action_links An array of plugin action links. Defaults are links to Details and Install Now.
-			 * @param array    $plugin       An array of plugin data. See the {@see 'plugin_row_meta'} filter
+			 * @param string[] $action_links An array of plugin action links.
+			 *                               Defaults are links to Details and Install Now.
+			 * @param array    $plugin       An array of plugin data. See {@see plugins_api()}
 			 *                               for the list of possible values.
 			 */
 			$action_links = apply_filters( 'plugin_install_action_links', $action_links, $plugin );
