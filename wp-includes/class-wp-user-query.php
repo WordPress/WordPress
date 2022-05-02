@@ -285,7 +285,11 @@ class WP_User_Query {
 		);
 
 		if ( is_array( $qv['fields'] ) ) {
-			$qv['fields'] = array_unique( $qv['fields'] );
+			$qv['fields'] = array_intersect( array_unique( $qv['fields'] ), $allowed_fields );
+
+			if ( empty( $qv['fields'] ) ) {
+				$qv['fields'] = array( 'ID' );
+			}
 
 			$this->query_fields = array();
 			foreach ( $qv['fields'] as $field ) {
@@ -293,8 +297,10 @@ class WP_User_Query {
 				$this->query_fields[] = "$wpdb->users.$field";
 			}
 			$this->query_fields = implode( ',', $this->query_fields );
-		} elseif ( ! in_array( $qv['fields'], $allowed_fields, true ) ) {
+		} elseif ( 'all' === $qv['fields'] ) {
 			$this->query_fields = "$wpdb->users.*";
+		} elseif ( ! in_array( $qv['fields'], $allowed_fields, true ) ) {
+			$this->query_fields = "$wpdb->users.ID";
 		} else {
 			$field              = 'ID' === $qv['fields'] ? 'ID' : sanitize_key( $qv['fields'] );
 			$this->query_fields = "$wpdb->users.$field";
