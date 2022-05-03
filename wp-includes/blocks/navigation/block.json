@@ -65,7 +65,6 @@
 			"default": 5
 		}
 	},
-	"usesContext": [ "navigationArea" ],
 	"providesContext": {
 		"textColor": "textColor",
 		"customTextColor": "customTextColor",

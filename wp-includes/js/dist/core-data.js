@@ -2145,17 +2145,6 @@ const rootEntitiesConfig = [{
   label: (0,external_wp_i18n_namespaceObject.__)('Menu Location'),
   key: 'name'
 }, {
-  name: 'navigationArea',
-  kind: 'root',
-  baseURL: '/wp/v2/block-navigation-areas',
-  baseURLParams: {
-    context: 'edit'
-  },
-  plural: 'navigationAreas',
-  label: (0,external_wp_i18n_namespaceObject.__)('Navigation Area'),
-  key: 'name',
-  getTitle: record => record === null || record === void 0 ? void 0 : record.description
-}, {
   label: (0,external_wp_i18n_namespaceObject.__)('Global Styles'),
   name: 'globalStyles',
   kind: 'root',

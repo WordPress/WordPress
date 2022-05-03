@@ -40412,15 +40412,12 @@ function AngleCircle(_ref) {
     const {
       x: centerX,
       y: centerY
-    } = angleCircleCenter.current;
-    const {
-      ownerDocument
-    } = angleCircleRef.current; // Prevent (drag) mouse events from selecting and accidentally
+    } = angleCircleCenter.current; // Prevent (drag) mouse events from selecting and accidentally
     // triggering actions from other elements.
 
-    event.preventDefault(); // Ensure the input isn't focused as preventDefault would leave it.
+    event.preventDefault(); // Input control needs to lose focus and by preventDefault above, it doesn't.
 
-    ownerDocument.activeElement.blur();
+    event.target.focus();
     onChange(getAngle(centerX, centerY, event.clientX, event.clientY));
   };
 
@@ -40460,7 +40457,8 @@ function AngleCircle(_ref) {
       style: value ? {
         transform: `rotate(${value}deg)`
       } : undefined,
-      className: "components-angle-picker-control__angle-circle-indicator-wrapper"
+      className: "components-angle-picker-control__angle-circle-indicator-wrapper",
+      tabIndex: -1
     }, (0,external_wp_element_namespaceObject.createElement)(CircleIndicator, {
       className: "components-angle-picker-control__angle-circle-indicator"
     })))

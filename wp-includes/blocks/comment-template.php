@@ -79,6 +79,10 @@ function render_block_core_comment_template( $attributes, $content, $block ) {
 		return '';
 	}
 
+	if ( post_password_required( $block->context['postId'] ) ) {
+		return;
+	}
+
 	$comment_query = new WP_Comment_Query(
 		build_comment_query_vars_from_block( $block )
 	);

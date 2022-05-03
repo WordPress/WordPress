@@ -25944,7 +25944,6 @@ function useConvertClassicToBlockMenu(clientId) {
  * External dependencies
  */
 
-
 /**
  * WordPress dependencies
  */
@@ -26013,9 +26012,6 @@ function Navigation(_ref) {
     setOverlayBackgroundColor,
     overlayTextColor,
     setOverlayTextColor,
-    context: {
-      navigationArea
-    },
     // These props are used by the navigation editor to override specific
     // navigation block settings.
     hasSubmenuIndicatorSetting = true,
@@ -26033,24 +26029,15 @@ function Navigation(_ref) {
     } = {},
     hasIcon
   } = attributes;
-  let areaMenu,
-      setAreaMenu = external_lodash_namespaceObject.noop; // Navigation areas are deprecated and on their way out. Let's not perform
-  // the request unless we're in an environment where the endpoint exists.
-
-  if (false) {}
-
-  const navigationAreaMenu = areaMenu === 0 ? undefined : areaMenu;
-  const ref = navigationArea ? navigationAreaMenu : attributes.ref;
+  const ref = attributes.ref;
   const registry = (0,external_wp_data_namespaceObject.useRegistry)();
-  const setRef = (0,external_wp_element_namespaceObject.useCallback)(postId => {
+
+  const setRef = postId => {
     setAttributes({
       ref: postId
     });
+  };
 
-    if (navigationArea) {
-      setAreaMenu(postId);
-    }
-  }, [navigationArea]);
   const [hasAlreadyRendered, RecursionProvider] = (0,external_wp_blockEditor_namespaceObject.__experimentalUseNoRecursiveRenders)(`navigationMenu/${ref}`); // Preload classic menus, so that they don't suddenly pop-in when viewing
   // the Select Menu dropdown.
 
@@ -26120,7 +26107,6 @@ function Navigation(_ref) {
     __unstableMarkNextChangeAsNotPersistent
   } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_blockEditor_namespaceObject.store);
   const [hasSavedUnsavedInnerBlocks, setHasSavedUnsavedInnerBlocks] = (0,external_wp_element_namespaceObject.useState)(false);
-  const isWithinUnassignedArea = !!navigationArea && !ref;
   const [isResponsiveMenuOpen, setResponsiveMenuVisibility] = (0,external_wp_element_namespaceObject.useState)(false);
   const [overlayMenuPreview, setOverlayMenuPreview] = (0,external_wp_element_namespaceObject.useState)(false);
   const {
@@ -26162,9 +26148,8 @@ function Navigation(_ref) {
   // - there is no classic menu conversion process in progress.
   // - there is no menu creation process in progress.
   // - there are no uncontrolled blocks.
-  // - (legacy) there is a Navigation Area without a ref attribute pointing to a Navigation Post.
 
-  const isPlaceholder = !ref && !isCreatingNavigationMenu && !isConvertingClassicMenu && hasResolvedNavigationMenus && (!hasUncontrolledInnerBlocks || isWithinUnassignedArea);
+  const isPlaceholder = !ref && !isCreatingNavigationMenu && !isConvertingClassicMenu && hasResolvedNavigationMenus && !hasUncontrolledInnerBlocks;
   const isEntityAvailable = !isNavigationMenuMissing && isNavigationMenuResolved; // "loading" state:
   // - there is a menu creation process in progress.
   // - there is a classic menu conversion process in progress.
@@ -26315,10 +26300,6 @@ function Navigation(_ref) {
   }, [isDraftNavigationMenu, isEntityAvailable, shouldFocusNavigationSelector]);
   const resetToEmptyBlock = (0,external_wp_element_namespaceObject.useCallback)(() => {
     registry.batch(() => {
-      if (navigationArea) {
-        setAreaMenu(0);
-      }
-
       setAttributes({
         ref: undefined
       });
@@ -27210,7 +27191,6 @@ const navigation_metadata = {
       "default": 5
     }
   },
-  usesContext: ["navigationArea"],
   providesContext: {
     textColor: "textColor",
     customTextColor: "customTextColor",
@@ -46883,7 +46863,6 @@ const video_settings = {
 /**
  * Internal dependencies
  */
-
 
 
 

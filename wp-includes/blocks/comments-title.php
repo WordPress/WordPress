@@ -14,6 +14,10 @@
  */
 function render_block_core_comments_title( $attributes ) {
 
+	if ( post_password_required() ) {
+		return;
+	}
+
 	$align_class_name    = empty( $attributes['textAlign'] ) ? '' : "has-text-align-{$attributes['textAlign']}";
 	$show_post_title     = ! empty( $attributes['showPostTitle'] ) && $attributes['showPostTitle'];
 	$show_comments_count = ! empty( $attributes['showCommentsCount'] ) && $attributes['showCommentsCount'];

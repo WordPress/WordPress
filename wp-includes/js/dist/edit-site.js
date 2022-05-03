@@ -9953,7 +9953,7 @@ function SidebarComplementaryAreaFills() {
   // See https://github.com/WordPress/gutenberg/blob/trunk/docs/how-to-guides/feature-flags.md#dead-code-elimination.
 
 
-  let MaybeNavigationMenuSidebar = 'Fragment';
+  let MaybeNavigationMenuSidebar = external_wp_element_namespaceObject.Fragment;
 
   if (false) {}
 
@@ -11133,7 +11133,7 @@ function BlockEditor(_ref) {
   // See https://github.com/WordPress/gutenberg/blob/trunk/docs/how-to-guides/feature-flags.md#dead-code-elimination.
 
 
-  let MaybeNavMenuSidebarToggle = 'Fragment';
+  let MaybeNavMenuSidebarToggle = external_wp_element_namespaceObject.Fragment;
 
   if (false) {}
 
