@@ -2309,7 +2309,6 @@ function sanitize_title_with_dashes( $title, $raw_title = '', $context = 'displa
 				'%cc%8c',
 				// Non-visible characters that display without a width.
 				'%e2%80%8b', // Zero width space.
-				'%e2%80%8c', // Zero width non-joiner.
 				'%e2%80%8d', // Zero width joiner.
 				'%e2%80%8e', // Left-to-right mark.
 				'%e2%80%8f', // Right-to-left mark.
