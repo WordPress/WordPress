@@ -381,10 +381,9 @@ class WP_Site_Health {
 		$plugins        = get_plugins();
 		$plugin_updates = get_plugin_updates();
 
-		$plugins_have_updates = false;
-		$plugins_active       = 0;
-		$plugins_total        = 0;
-		$plugins_need_update  = 0;
+		$plugins_active      = 0;
+		$plugins_total       = 0;
+		$plugins_need_update = 0;
 
 		// Loop over the available plugins and check their versions and active state.
 		foreach ( $plugins as $plugin_path => $plugin ) {
@@ -394,11 +393,8 @@ class WP_Site_Health {
 				$plugins_active++;
 			}
 
-			$plugin_version = $plugin['Version'];
-
 			if ( array_key_exists( $plugin_path, $plugin_updates ) ) {
 				$plugins_need_update++;
-				$plugins_have_updates = true;
 			}
 		}
 
