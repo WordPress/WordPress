@@ -294,6 +294,10 @@ window.wp = window.wp || {};
 		editRow = $('#inline-edit').clone(true);
 		$( 'td', editRow ).attr( 'colspan', $( 'th:visible, td:visible', '.widefat:first thead' ).length );
 
+		// Remove the ID from the copied row and let the `for` attribute reference the hidden ID.
+		$( 'td', editRow ).find('#quick-edit-legend').removeAttr('id');
+		$( 'td', editRow ).find('p[id^="quick-edit-"]').removeAttr('id');
+
 		$(t.what+id).removeClass('is-expanded').hide().after(editRow).after('<tr class="hidden"></tr>');
 
 		// Populate fields in the quick edit window.
