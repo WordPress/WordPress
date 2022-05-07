@@ -230,6 +230,11 @@ class WP_User_Query {
 	 *                                                - 'user_email'
 	 *                                                - 'user_url'
 	 *                                                - 'user_registered'
+	 *                                                - 'user_pass'
+	 *                                                - 'user_activation_key'
+	 *                                                - 'user_status'
+	 *                                                - 'spam' (only available on multisite installs)
+	 *                                                - 'deleted' (only available on multisite installs)
 	 *                                                - 'all' for all fields
 	 *                                                - 'all_with_meta' to include meta fields.
 	 *                                                Default 'all'.
@@ -275,25 +280,33 @@ class WP_User_Query {
 		$qv = $this->fill_query_vars( $qv );
 
 		$allowed_fields = array(
-			'ID',
-			'display_name',
+			'id',
 			'user_login',
+			'user_pass',
 			'user_nicename',
 			'user_email',
 			'user_url',
 			'user_registered',
+			'user_activation_key',
+			'user_status',
+			'display_name',
 		);
+		if ( is_multisite() ) {
+			$allowed_fields[] = 'spam';
+			$allowed_fields[] = 'deleted';
+		}
 
 		if ( is_array( $qv['fields'] ) ) {
+			$qv['fields'] = array_map( 'strtolower', $qv['fields'] );
 			$qv['fields'] = array_intersect( array_unique( $qv['fields'] ), $allowed_fields );
 
 			if ( empty( $qv['fields'] ) ) {
-				$qv['fields'] = array( 'ID' );
+				$qv['fields'] = array( 'id' );
 			}
 
 			$this->query_fields = array();
 			foreach ( $qv['fields'] as $field ) {
-				$field                = 'ID' === $field ? 'ID' : sanitize_key( $field );
+				$field                = 'id' === $field ? 'ID' : sanitize_key( $field );
 				$this->query_fields[] = "$wpdb->users.$field";
 			}
 			$this->query_fields = implode( ',', $this->query_fields );
@@ -302,7 +315,7 @@ class WP_User_Query {
 		} elseif ( ! in_array( $qv['fields'], $allowed_fields, true ) ) {
 			$this->query_fields = "$wpdb->users.ID";
 		} else {
-			$field              = 'ID' === $qv['fields'] ? 'ID' : sanitize_key( $qv['fields'] );
+			$field              = 'id' === strtolower( $qv['fields'] ) ? 'ID' : sanitize_key( $qv['fields'] );
 			$this->query_fields = "$wpdb->users.$field";
 		}
 
@@ -822,8 +835,14 @@ class WP_User_Query {
 		if ( ! $this->results ) {
 			return;
 		}
-
-		if ( 'all_with_meta' === $qv['fields'] ) {
+		if (
+			is_array( $qv['fields'] ) &&
+			isset( $this->results[0]->ID )
+		) {
+			foreach ( $this->results as $result ) {
+				$result->id = $result->ID;
+			}
+		} elseif ( 'all_with_meta' === $qv['fields'] ) {
 			cache_users( $this->results );
 
 			$r = array();
