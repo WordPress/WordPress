@@ -153,7 +153,8 @@ $core_actions_post_deprecated = array(
 	'health-check-background-updates',
 	'health-check-loopback-requests',
 );
-$core_actions_post            = array_merge( $core_actions_post, $core_actions_post_deprecated );
+
+$core_actions_post = array_merge( $core_actions_post, $core_actions_post_deprecated );
 
 // Register core Ajax calls.
 if ( ! empty( $_GET['action'] ) && in_array( $_GET['action'], $core_actions_get, true ) ) {
