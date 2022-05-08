@@ -311,6 +311,10 @@ class WP_Scripts extends WP_Dependencies {
 			$inline_script_tag = '';
 		}
 
+		/*
+		 * Prevent concatenation of scripts if the text domain is defined
+		 * to ensure the dependency order is respected.
+		 */
 		$translations_stop_concat = ! empty( $obj->textdomain );
 
 		$translations = $this->print_translations( $handle, false );
