@@ -311,6 +311,12 @@ class WP_Scripts extends WP_Dependencies {
 			$inline_script_tag = '';
 		}
 
+		/*
+		 * Prevent concatenation of scripts if the text domain is defined
+		 * to ensure the dependency order is respected.
+		 */
+		$translations_stop_concat = ! empty( $obj->textdomain );
+
 		$translations = $this->print_translations( $handle, false );
 		if ( $translations ) {
 			$translations = sprintf( "<script%s id='%s-js-translations'>\n%s\n</script>\n", $this->type_attr, esc_attr( $handle ), $translations );
@@ -327,7 +333,7 @@ class WP_Scripts extends WP_Dependencies {
 			 */
 			$srce = apply_filters( 'script_loader_src', $src, $handle );
 
-			if ( $this->in_default_dir( $srce ) && ( $before_handle || $after_handle || $translations ) ) {
+			if ( $this->in_default_dir( $srce ) && ( $before_handle || $after_handle || $translations_stop_concat ) ) {
 				$this->do_concat = false;
 
 				// Have to print the so-far concatenated scripts right away to maintain the right order.
