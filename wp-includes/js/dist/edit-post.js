@@ -909,9 +909,9 @@ function toggleFeature(scope, featureName) {
     let {
       registry
     } = _ref5;
-    external_wp_deprecated_default()(`wp.dispatch( 'core/interface' ).toggleFeature`, {
+    external_wp_deprecated_default()(`dispatch( 'core/interface' ).toggleFeature`, {
       since: '6.0',
-      alternative: `wp.dispatch( 'core/preferences' ).toggle`
+      alternative: `dispatch( 'core/preferences' ).toggle`
     });
     registry.dispatch(external_wp_preferences_namespaceObject.store).toggle(scope, featureName);
   };
@@ -932,9 +932,9 @@ function setFeatureValue(scope, featureName, value) {
     let {
       registry
     } = _ref6;
-    external_wp_deprecated_default()(`wp.dispatch( 'core/interface' ).setFeatureValue`, {
+    external_wp_deprecated_default()(`dispatch( 'core/interface' ).setFeatureValue`, {
       since: '6.0',
-      alternative: `wp.dispatch( 'core/preferences' ).set`
+      alternative: `dispatch( 'core/preferences' ).set`
     });
     registry.dispatch(external_wp_preferences_namespaceObject.store).set(scope, featureName, !!value);
   };
@@ -953,9 +953,9 @@ function setFeatureDefaults(scope, defaults) {
     let {
       registry
     } = _ref7;
-    external_wp_deprecated_default()(`wp.dispatch( 'core/interface' ).setFeatureDefaults`, {
+    external_wp_deprecated_default()(`dispatch( 'core/interface' ).setFeatureDefaults`, {
       since: '6.0',
-      alternative: `wp.dispatch( 'core/preferences' ).setDefaults`
+      alternative: `dispatch( 'core/preferences' ).setDefaults`
     });
     registry.dispatch(external_wp_preferences_namespaceObject.store).setDefaults(scope, defaults);
   };
@@ -1008,9 +1008,9 @@ const isItemPinned = (0,external_wp_data_namespaceObject.createRegistrySelector)
  */
 
 const isFeatureActive = (0,external_wp_data_namespaceObject.createRegistrySelector)(select => (state, scope, featureName) => {
-  external_wp_deprecated_default()(`wp.select( 'core/interface' ).isFeatureActive( scope, featureName )`, {
+  external_wp_deprecated_default()(`select( 'core/interface' ).isFeatureActive( scope, featureName )`, {
     since: '6.0',
-    alternative: `!! wp.select( 'core/preferences' ).isFeatureActive( scope, featureName )`
+    alternative: `select( 'core/preferences' ).get( scope, featureName )`
   });
   return !!select(external_wp_preferences_namespaceObject.store).get(scope, featureName);
 });
@@ -2959,9 +2959,9 @@ function convertPanelsToOldFormat(inactivePanels, openPanels) {
 
 
 const getPreferences = (0,external_wp_data_namespaceObject.createRegistrySelector)(select => () => {
-  external_wp_deprecated_default()(`wp.data.select( 'core/edit-post' ).getPreferences`, {
+  external_wp_deprecated_default()(`select( 'core/edit-post' ).getPreferences`, {
     since: '6.0',
-    alternative: `wp.data.select( 'core/preferences' ).get`
+    alternative: `select( 'core/preferences' ).get`
   }); // These preferences now exist in the preferences store.
   // Fetch them so that they can be merged into the post
   // editor preferences.
@@ -2993,9 +2993,9 @@ const getPreferences = (0,external_wp_data_namespaceObject.createRegistrySelecto
  */
 
 function getPreference(state, preferenceKey, defaultValue) {
-  external_wp_deprecated_default()(`wp.data.select( 'core/edit-post' ).getPreference`, {
+  external_wp_deprecated_default()(`select( 'core/edit-post' ).getPreference`, {
     since: '6.0',
-    alternative: `wp.data.select( 'core/preferences' ).get`
+    alternative: `select( 'core/preferences' ).get`
   }); // Avoid using the `getPreferences` registry selector where possible.
 
   const preferences = getPreferences(state);
@@ -5885,9 +5885,9 @@ function EditTemplateTitle() {
   } = (0,external_wp_data_namespaceObject.useSelect)(external_wp_editor_namespaceObject.store);
   const {
     updateEditorSettings
-  } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_editor_namespaceObject.store);
+  } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_editor_namespaceObject.store); // Only user-created and non-default templates can change the name.
 
-  if (template.has_theme_file) {
+  if (!template.is_custom || template.has_theme_file) {
     return null;
   }
 

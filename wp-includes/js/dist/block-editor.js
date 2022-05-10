@@ -14327,28 +14327,27 @@ function isAnimatedString(value) {
   return react_spring_shared_esm_is.str(value) && (value[0] == '#' || /\d/.test(value) || !isSSR() && cssVariableRegex.test(value) || value in (colors$1 || {}));
 }
 
-const react_spring_shared_esm_useOnce = effect => (0,external_React_.useEffect)(effect, emptyDeps);
-const emptyDeps = [];
+const react_spring_shared_esm_useLayoutEffect = typeof window !== 'undefined' && window.document && window.document.createElement ? external_React_.useLayoutEffect : external_React_.useEffect;
+
+const useIsMounted = () => {
+  const isMounted = (0,external_React_.useRef)(false);
+  react_spring_shared_esm_useLayoutEffect(() => {
+    isMounted.current = true;
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
+  return isMounted;
+};
 
 function react_spring_shared_esm_useForceUpdate() {
   const update = (0,external_React_.useState)()[1];
-  const mounted = (0,external_React_.useState)(makeMountedRef)[0];
-  react_spring_shared_esm_useOnce(mounted.unmount);
+  const isMounted = useIsMounted();
   return () => {
-    if (mounted.current) {
-      update({});
+    if (isMounted.current) {
+      update(Math.random());
     }
   };
-}
-
-function makeMountedRef() {
-  const mounted = {
-    current: true,
-    unmount: () => () => {
-      mounted.current = false;
-    }
-  };
-  return mounted;
 }
 
 function useMemoOne(getResult, inputs) {
@@ -14397,6 +14396,9 @@ function areInputsEqual(next, prev) {
   return true;
 }
 
+const react_spring_shared_esm_useOnce = effect => (0,external_React_.useEffect)(effect, emptyDeps);
+const emptyDeps = [];
+
 function react_spring_shared_esm_usePrev(value) {
   const prevRef = (0,external_React_.useRef)();
   (0,external_React_.useEffect)(() => {
@@ -14404,8 +14406,6 @@ function react_spring_shared_esm_usePrev(value) {
   });
   return prevRef.current;
 }
-
-const react_spring_shared_esm_useLayoutEffect = typeof window !== 'undefined' && window.document && window.document.createElement ? external_React_.useLayoutEffect : external_React_.useEffect;
 
 
 
@@ -14685,14 +14685,14 @@ const withAnimated = (Component, host) => {
     const observer = new PropsObserver(callback, deps);
     const observerRef = (0,external_React_.useRef)();
     react_spring_shared_esm_useLayoutEffect(() => {
-      const lastObserver = observerRef.current;
       observerRef.current = observer;
       react_spring_shared_esm_each(deps, dep => addFluidObserver(dep, observer));
-
-      if (lastObserver) {
-        react_spring_shared_esm_each(lastObserver.deps, dep => removeFluidObserver(dep, lastObserver));
-        raf.cancel(lastObserver.update);
-      }
+      return () => {
+        if (observerRef.current) {
+          react_spring_shared_esm_each(observerRef.current.deps, dep => removeFluidObserver(dep, observerRef.current));
+          raf.cancel(observerRef.current.update);
+        }
+      };
     });
     (0,external_React_.useEffect)(callback, []);
     react_spring_shared_esm_useOnce(() => () => {
@@ -16920,15 +16920,27 @@ function useTransition(data, props, deps) {
   useLayoutEffect(() => {
     usedTransitions.current = transitions;
   });
-  useOnce(() => () => {
+  useOnce(() => {
     each(usedTransitions.current, t => {
-      if (t.expired) {
-        clearTimeout(t.expirationId);
-      }
+      var _t$ctrl$ref;
 
-      detachRefs(t.ctrl, ref);
-      t.ctrl.stop(true);
+      (_t$ctrl$ref = t.ctrl.ref) == null ? void 0 : _t$ctrl$ref.add(t.ctrl);
+      const change = changes.get(t);
+
+      if (change) {
+        t.ctrl.start(change.payload);
+      }
     });
+    return () => {
+      each(usedTransitions.current, t => {
+        if (t.expired) {
+          clearTimeout(t.expirationId);
+        }
+
+        detachRefs(t.ctrl, ref);
+        t.ctrl.stop(true);
+      });
+    };
   });
   const keys = getKeys(items, propsFn ? propsFn() : props, prevTransitions);
   const expired = reset && usedTransitions.current || [];
@@ -20674,63 +20686,63 @@ const BLOCK_PREFIX = 'wp-block';
  *
  * Ideally, this hook should be removed in the future and styles should be added
  * explicitly as editor styles.
- *
- * @param {Document} doc The document to append cloned stylesheets to.
  */
 
-function styleSheetsCompat(doc) {
-  // Search the document for stylesheets targetting the editor canvas.
-  Array.from(document.styleSheets).forEach(styleSheet => {
-    try {
-      // May fail for external styles.
-      // eslint-disable-next-line no-unused-expressions
-      styleSheet.cssRules;
-    } catch (e) {
-      return;
-    }
-
-    const {
-      ownerNode,
-      cssRules
-    } = styleSheet;
-
-    if (!cssRules) {
-      return;
-    } // Generally, ignore inline styles. We add inline styles belonging to a
-    // stylesheet later, which may or may not match the selectors.
-
-
-    if (ownerNode.tagName !== 'LINK') {
-      return;
-    } // Don't try to add the reset styles, which were removed as a dependency
-    // from `edit-blocks` for the iframe since we don't need to reset admin
-    // styles.
-
-
-    if (ownerNode.id === 'wp-reset-editor-styles-css') {
-      return;
-    }
-
-    const isMatch = Array.from(cssRules).find(_ref => {
-      let {
-        selectorText
-      } = _ref;
-      return selectorText && (selectorText.includes(`.${BODY_CLASS_NAME}`) || selectorText.includes(`.${BLOCK_PREFIX}`));
-    });
-
-    if (isMatch && !doc.getElementById(ownerNode.id)) {
-      // Display warning once we have a way to add style dependencies to the editor.
-      // See: https://github.com/WordPress/gutenberg/pull/37466.
-      doc.head.appendChild(ownerNode.cloneNode(true)); // Add inline styles belonging to the stylesheet.
-
-      const inlineCssId = ownerNode.id.replace('-css', '-inline-css');
-      const inlineCssElement = document.getElementById(inlineCssId);
-
-      if (inlineCssElement) {
-        doc.head.appendChild(inlineCssElement.cloneNode(true));
+function useStylesCompatibility() {
+  return (0,external_wp_compose_namespaceObject.useRefEffect)(node => {
+    // Search the document for stylesheets targetting the editor canvas.
+    Array.from(document.styleSheets).forEach(styleSheet => {
+      try {
+        // May fail for external styles.
+        // eslint-disable-next-line no-unused-expressions
+        styleSheet.cssRules;
+      } catch (e) {
+        return;
       }
-    }
-  });
+
+      const {
+        ownerNode,
+        cssRules
+      } = styleSheet;
+
+      if (!cssRules) {
+        return;
+      } // Generally, ignore inline styles. We add inline styles belonging to a
+      // stylesheet later, which may or may not match the selectors.
+
+
+      if (ownerNode.tagName !== 'LINK') {
+        return;
+      } // Don't try to add the reset styles, which were removed as a dependency
+      // from `edit-blocks` for the iframe since we don't need to reset admin
+      // styles.
+
+
+      if (ownerNode.id === 'wp-reset-editor-styles-css') {
+        return;
+      }
+
+      const isMatch = Array.from(cssRules).find(_ref => {
+        let {
+          selectorText
+        } = _ref;
+        return selectorText && (selectorText.includes(`.${BODY_CLASS_NAME}`) || selectorText.includes(`.${BLOCK_PREFIX}`));
+      });
+
+      if (isMatch && !node.ownerDocument.getElementById(ownerNode.id)) {
+        // Display warning once we have a way to add style dependencies to the editor.
+        // See: https://github.com/WordPress/gutenberg/pull/37466.
+        node.appendChild(ownerNode.cloneNode(true)); // Add inline styles belonging to the stylesheet.
+
+        const inlineCssId = ownerNode.id.replace('-css', '-inline-css');
+        const inlineCssElement = document.getElementById(inlineCssId);
+
+        if (inlineCssElement) {
+          node.appendChild(inlineCssElement.cloneNode(true));
+        }
+      }
+    });
+  }, []);
 }
 /**
  * Bubbles some event types (keydown, keypress, and dragover) to parent document
@@ -20870,11 +20882,7 @@ function Iframe(_ref3, ref) {
     });
   }, []);
   const bodyRef = (0,external_wp_compose_namespaceObject.useMergeRefs)([contentRef, clearerRef, writingFlowRef]);
-  (0,external_wp_element_namespaceObject.useEffect)(() => {
-    if (iframeDocument) {
-      styleSheetsCompat(iframeDocument);
-    }
-  }, [iframeDocument]);
+  const styleCompatibilityRef = useStylesCompatibility();
   head = (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)("style", null, 'body{margin:0}'), styles.map(_ref4 => {
     let {
       tagName,
@@ -20912,7 +20920,12 @@ function Iframe(_ref3, ref) {
   }, head), (0,external_wp_element_namespaceObject.createElement)("body", {
     ref: bodyRef,
     className: classnames_default()(BODY_CLASS_NAME, ...bodyClasses)
-  }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalStyleProvider, {
+  }, (0,external_wp_element_namespaceObject.createElement)("div", {
+    style: {
+      display: 'none'
+    },
+    ref: styleCompatibilityRef
+  }), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalStyleProvider, {
     document: iframeDocument
   }, children))), iframeDocument.documentElement)), tabIndex >= 0 && after);
 }

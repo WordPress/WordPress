@@ -9522,8 +9522,6 @@ function comments_title_edit_Edit(_ref) {
   let {
     attributes: {
       textAlign,
-      singleCommentLabel,
-      multipleCommentsLabel,
       showPostTitle,
       showCommentsCount,
       level
@@ -9536,7 +9534,6 @@ function comments_title_edit_Edit(_ref) {
   } = _ref;
   const TagName = 'h' + level;
   const [commentsCount, setCommentsCount] = (0,external_wp_element_namespaceObject.useState)();
-  const [editingMode, setEditingMode] = (0,external_wp_element_namespaceObject.useState)('plural');
   const [rawTitle] = (0,external_wp_coreData_namespaceObject.useEntityProp)('postType', postType, 'title', postId);
   const isSiteEditor = typeof postId === 'undefined';
   const blockProps = (0,external_wp_blockEditor_namespaceObject.useBlockProps)({
@@ -9582,17 +9579,7 @@ function comments_title_edit_Edit(_ref) {
   }));
   const inspectorControls = (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.InspectorControls, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.PanelBody, {
     title: (0,external_wp_i18n_namespaceObject.__)('Settings')
-  }, isSiteEditor && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalToggleGroupControl, {
-    label: (0,external_wp_i18n_namespaceObject.__)('Editing mode'),
-    onChange: setEditingMode,
-    value: editingMode
-  }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalToggleGroupControlOption, {
-    label: (0,external_wp_i18n_namespaceObject.__)('Singular'),
-    value: "singular"
-  }), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalToggleGroupControlOption, {
-    label: (0,external_wp_i18n_namespaceObject.__)('Plural'),
-    value: "plural"
-  })), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.ToggleControl, {
+  }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.ToggleControl, {
     label: (0,external_wp_i18n_namespaceObject.__)('Show post title'),
     checked: showPostTitle,
     onChange: value => setAttributes({
@@ -9606,30 +9593,144 @@ function comments_title_edit_Edit(_ref) {
     })
   })));
   const postTitle = isSiteEditor ? (0,external_wp_i18n_namespaceObject.__)('"Post Title"') : `"${rawTitle}"`;
-  const singlePlaceholder = showPostTitle ? (0,external_wp_i18n_namespaceObject.__)('One response to ') : (0,external_wp_i18n_namespaceObject.__)('One response');
-  const singlePlaceholderNoCount = showPostTitle ? (0,external_wp_i18n_namespaceObject.__)('Response to ') : (0,external_wp_i18n_namespaceObject.__)('Response');
-  const multiplePlaceholder = showPostTitle ? (0,external_wp_i18n_namespaceObject.__)('responses to ') : (0,external_wp_i18n_namespaceObject.__)('responses');
-  const multiplePlaceholderNoCount = showPostTitle ? (0,external_wp_i18n_namespaceObject.__)('Responses to ') : (0,external_wp_i18n_namespaceObject.__)('Responses');
-  return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, blockControls, inspectorControls, (0,external_wp_element_namespaceObject.createElement)(TagName, blockProps, editingMode === 'singular' || commentsCount === 1 ? (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.PlainText, {
-    __experimentalVersion: 2,
-    tagName: "span",
-    "aria-label": showCommentsCount ? singlePlaceholder : singlePlaceholderNoCount,
-    placeholder: showCommentsCount ? singlePlaceholder : singlePlaceholderNoCount,
-    value: singleCommentLabel,
-    onChange: newLabel => setAttributes({
-      singleCommentLabel: newLabel
-    })
-  }), showPostTitle ? postTitle : null) : (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, showCommentsCount ? commentsCount : null, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.PlainText, {
-    __experimentalVersion: 2,
-    tagName: "span",
-    "aria-label": showCommentsCount ? ` ${multiplePlaceholder}` : multiplePlaceholderNoCount,
-    placeholder: showCommentsCount ? ` ${multiplePlaceholder}` : multiplePlaceholderNoCount,
-    value: multipleCommentsLabel,
-    onChange: newLabel => setAttributes({
-      multipleCommentsLabel: newLabel
-    })
-  }), showPostTitle ? postTitle : null)));
+  let placeholder;
+
+  if (showCommentsCount && commentsCount !== undefined) {
+    if (showPostTitle) {
+      if (commentsCount === 1) {
+        /* translators: %s: Post title. */
+        placeholder = (0,external_wp_i18n_namespaceObject.sprintf)((0,external_wp_i18n_namespaceObject.__)('One response to %s'), postTitle);
+      } else {
+        placeholder = (0,external_wp_i18n_namespaceObject.sprintf)(
+        /* translators: 1: Number of comments, 2: Post title. */
+        (0,external_wp_i18n_namespaceObject._n)('%1$s response to %2$s', '%1$s responses to %2$s', commentsCount), commentsCount, postTitle);
+      }
+    } else if (commentsCount === 1) {
+      placeholder = (0,external_wp_i18n_namespaceObject.__)('One response');
+    } else {
+      placeholder = (0,external_wp_i18n_namespaceObject.sprintf)(
+      /* translators: %s: Number of comments. */
+      (0,external_wp_i18n_namespaceObject._n)('%s responses', '%s responses', commentsCount), commentsCount);
+    }
+  } else if (showPostTitle) {
+    if (commentsCount === 1) {
+      /* translators: %s: Post title. */
+      placeholder = (0,external_wp_i18n_namespaceObject.sprintf)((0,external_wp_i18n_namespaceObject.__)('Response to %s'), postTitle);
+    } else {
+      /* translators: %s: Post title. */
+      placeholder = (0,external_wp_i18n_namespaceObject.sprintf)((0,external_wp_i18n_namespaceObject.__)('Responses to %s'), postTitle);
+    }
+  } else if (commentsCount === 1) {
+    placeholder = (0,external_wp_i18n_namespaceObject.__)('Response');
+  } else {
+    placeholder = (0,external_wp_i18n_namespaceObject.__)('Responses');
+  }
+
+  return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, blockControls, inspectorControls, (0,external_wp_element_namespaceObject.createElement)(TagName, blockProps, placeholder));
 }
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/comments-title/deprecated.js
+/**
+ * Internal dependencies
+ */
+const deprecated_metadata = {
+  $schema: "https://schemas.wp.org/trunk/block.json",
+  apiVersion: 2,
+  name: "core/comments-title",
+  title: "Comments Title",
+  category: "theme",
+  ancestor: ["core/comments-query-loop"],
+  description: "Displays a title with the number of comments",
+  textdomain: "default",
+  usesContext: ["postId", "postType"],
+  attributes: {
+    textAlign: {
+      type: "string"
+    },
+    showPostTitle: {
+      type: "boolean",
+      "default": true
+    },
+    showCommentsCount: {
+      type: "boolean",
+      "default": true
+    },
+    level: {
+      type: "number",
+      "default": 2
+    }
+  },
+  supports: {
+    anchor: false,
+    align: true,
+    html: false,
+    __experimentalBorder: {
+      radius: true,
+      color: true,
+      width: true,
+      style: true
+    },
+    color: {
+      gradients: true,
+      __experimentalDefaultControls: {
+        background: true,
+        text: true
+      }
+    },
+    spacing: {
+      margin: true,
+      padding: true
+    },
+    typography: {
+      fontSize: true,
+      lineHeight: true,
+      __experimentalFontStyle: true,
+      __experimentalFontWeight: true,
+      __experimentalFontFamily: true,
+      __experimentalTextTransform: true,
+      __experimentalDefaultControls: {
+        fontSize: true,
+        __experimentalFontFamily: true,
+        __experimentalFontStyle: true,
+        __experimentalFontWeight: true
+      }
+    }
+  }
+};
+const {
+  attributes,
+  supports
+} = deprecated_metadata;
+/* harmony default export */ var comments_title_deprecated = ([{
+  attributes: { ...attributes,
+    singleCommentLabel: {
+      type: 'string'
+    },
+    multipleCommentsLabel: {
+      type: 'string'
+    }
+  },
+  supports,
+  migrate: oldAttributes => {
+    /* eslint-disable no-unused-vars */
+    const {
+      singleCommentLabel,
+      multipleCommentsLabel,
+      ...newAttributes
+    } = oldAttributes;
+    /* eslint-enable no-unused-vars */
+
+    return newAttributes;
+  },
+  isEligible: _ref => {
+    let {
+      multipleCommentsLabel,
+      singleCommentLabel
+    } = _ref;
+    return multipleCommentsLabel || singleCommentLabel;
+  },
+  save: () => null
+}]);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/comments-title/index.js
 /**
@@ -9652,12 +9753,6 @@ const comments_title_metadata = {
   usesContext: ["postId", "postType"],
   attributes: {
     textAlign: {
-      type: "string"
-    },
-    singleCommentLabel: {
-      type: "string"
-    },
-    multipleCommentsLabel: {
       type: "string"
     },
     showPostTitle: {
@@ -9711,13 +9806,15 @@ const comments_title_metadata = {
   }
 };
 
+
 const {
   name: comments_title_name
 } = comments_title_metadata;
 
 const comments_title_settings = {
   icon: comment_title,
-  edit: comments_title_edit_Edit
+  edit: comments_title_edit_Edit,
+  deprecated: comments_title_deprecated
 };
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/cover.js
@@ -11220,8 +11317,11 @@ function CoverEdit(_ref5) {
 
   const toggleUseFeaturedImage = () => {
     setAttributes({
+      id: undefined,
+      url: undefined,
       useFeaturedImage: !useFeaturedImage,
-      dimRatio: dimRatio === 100 ? 50 : dimRatio
+      dimRatio: dimRatio === 100 ? 50 : dimRatio,
+      backgroundType: useFeaturedImage ? IMAGE_BACKGROUND_TYPE : undefined
     });
   };
 
@@ -13252,7 +13352,7 @@ variations_variations.forEach(variation => {
  * Internal dependencies
  */
 
-const deprecated_metadata = {
+const embed_deprecated_metadata = {
   $schema: "https://schemas.wp.org/trunk/block.json",
   apiVersion: 2,
   name: "core/embed",
@@ -13301,7 +13401,7 @@ const deprecated_metadata = {
 
 const {
   attributes: embed_deprecated_blockAttributes
-} = deprecated_metadata;
+} = embed_deprecated_metadata;
 const embed_deprecated_deprecated = [{
   attributes: embed_deprecated_blockAttributes,
 
@@ -21495,10 +21595,10 @@ const latest_posts_deprecated_metadata = {
   style: "wp-block-latest-posts"
 };
 const {
-  attributes
+  attributes: deprecated_attributes
 } = latest_posts_deprecated_metadata;
 /* harmony default export */ var latest_posts_deprecated = ([{
-  attributes: { ...attributes,
+  attributes: { ...deprecated_attributes,
     categories: {
       type: 'string'
     }
@@ -29997,7 +30097,7 @@ const paragraph = (0,external_wp_element_namespaceObject.createElement)(external
 
 
 
-const supports = {
+const deprecated_supports = {
   className: false
 };
 const paragraph_deprecated_blockAttributes = {
@@ -30066,7 +30166,7 @@ const migrateCustomColorsAndFontSizes = attributes => {
 };
 
 const paragraph_deprecated_deprecated = [{
-  supports,
+  supports: deprecated_supports,
   attributes: { ...(0,external_lodash_namespaceObject.omit)(paragraph_deprecated_blockAttributes, ['style']),
     customTextColor: {
       type: 'string'
@@ -30123,7 +30223,7 @@ const paragraph_deprecated_deprecated = [{
   }
 
 }, {
-  supports,
+  supports: deprecated_supports,
   attributes: { ...(0,external_lodash_namespaceObject.omit)(paragraph_deprecated_blockAttributes, ['style']),
     customTextColor: {
       type: 'string'
@@ -30180,7 +30280,7 @@ const paragraph_deprecated_deprecated = [{
   }
 
 }, {
-  supports,
+  supports: deprecated_supports,
   attributes: { ...(0,external_lodash_namespaceObject.omit)(paragraph_deprecated_blockAttributes, ['style']),
     customTextColor: {
       type: 'string'
@@ -30239,7 +30339,7 @@ const paragraph_deprecated_deprecated = [{
   }
 
 }, {
-  supports,
+  supports: deprecated_supports,
   attributes: (0,external_lodash_namespaceObject.omit)({ ...paragraph_deprecated_blockAttributes,
     fontSize: {
       type: 'number'
@@ -30285,7 +30385,7 @@ const paragraph_deprecated_deprecated = [{
   }
 
 }, {
-  supports,
+  supports: deprecated_supports,
   attributes: { ...paragraph_deprecated_blockAttributes,
     content: {
       type: 'string',
@@ -31107,6 +31207,7 @@ const post_author_biography_settings = {
 
 
 
+
 function PostCommentsEdit(_ref) {
   let {
     attributes: {
@@ -31172,7 +31273,9 @@ function PostCommentsEdit(_ref) {
   })), (0,external_wp_element_namespaceObject.createElement)("div", blockProps, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.Warning, null, warning), showPlacholder && (0,external_wp_element_namespaceObject.createElement)("div", {
     className: "wp-block-post-comments__placeholder",
     ref: disabledRef
-  }, (0,external_wp_element_namespaceObject.createElement)("h3", null, (0,external_wp_i18n_namespaceObject.__)('One response to'), " \u201C", postTitle, "\u201D"), (0,external_wp_element_namespaceObject.createElement)("div", {
+  }, (0,external_wp_element_namespaceObject.createElement)("h3", null,
+  /* translators: %s: Post title. */
+  (0,external_wp_i18n_namespaceObject.sprintf)((0,external_wp_i18n_namespaceObject.__)('One response to %s'), postTitle)), (0,external_wp_element_namespaceObject.createElement)("div", {
     className: "navigation"
   }, (0,external_wp_element_namespaceObject.createElement)("div", {
     className: "alignleft"
@@ -31199,34 +31302,50 @@ function PostCommentsEdit(_ref) {
     height: "32",
     width: "32",
     loading: "lazy"
-  }), (0,external_wp_element_namespaceObject.createElement)("b", {
-    className: "fn"
-  }, (0,external_wp_element_namespaceObject.createElement)("a", {
-    href: "#top",
-    className: "url"
-  }, (0,external_wp_i18n_namespaceObject.__)('A WordPress Commenter'))), ' ', (0,external_wp_element_namespaceObject.createElement)("span", {
-    className: "says"
-  }, (0,external_wp_i18n_namespaceObject.__)('says'), ":")), (0,external_wp_element_namespaceObject.createElement)("div", {
+  }), (0,external_wp_element_namespaceObject.createInterpolateElement)((0,external_wp_i18n_namespaceObject.sprintf)(
+  /* translators: %s: Comment author link. */
+  (0,external_wp_i18n_namespaceObject.__)('%s <span>says:</span>'), (0,external_wp_i18n_namespaceObject.sprintf)('<cite><a>%s</a></cite>', (0,external_wp_i18n_namespaceObject.__)('A WordPress Commenter'))), {
+    span: (0,external_wp_element_namespaceObject.createElement)("span", {
+      className: "says"
+    }),
+    a:
+    /* eslint-disable jsx-a11y/anchor-has-content */
+    (0,external_wp_element_namespaceObject.createElement)("a", {
+      href: "#top",
+      className: "url"
+    })
+    /* eslint-enable jsx-a11y/anchor-has-content */
+    ,
+    cite: (0,external_wp_element_namespaceObject.createElement)("cite", {
+      className: "fn"
+    })
+  })), (0,external_wp_element_namespaceObject.createElement)("div", {
     className: "comment-metadata"
   }, (0,external_wp_element_namespaceObject.createElement)("a", {
     href: "#top"
   }, (0,external_wp_element_namespaceObject.createElement)("time", {
-    dateTime: "2000-01-01T00:00:00+00:00"
-  }, (0,external_wp_i18n_namespaceObject.__)('January 1, 2000 at 00:00 am'))), ' ', (0,external_wp_element_namespaceObject.createElement)("span", {
+    dateTime: "2000-01-01T12:00:00+00:00"
+  }, (0,external_wp_i18n_namespaceObject.__)('January 1, 2000 at 12:00 am'))), ' ', (0,external_wp_element_namespaceObject.createElement)("span", {
     className: "edit-link"
   }, (0,external_wp_element_namespaceObject.createElement)("a", {
     className: "comment-edit-link",
     href: "#top"
   }, (0,external_wp_i18n_namespaceObject.__)('Edit'))))), (0,external_wp_element_namespaceObject.createElement)("div", {
     className: "comment-content"
-  }, (0,external_wp_element_namespaceObject.createElement)("p", null, (0,external_wp_i18n_namespaceObject.__)('Hi, this is a comment.'), (0,external_wp_element_namespaceObject.createElement)("br", null), (0,external_wp_i18n_namespaceObject.__)('To get started with moderating, editing, and deleting comments, please visit the Comments screen in the dashboard.'), (0,external_wp_element_namespaceObject.createElement)("br", null), (0,external_wp_i18n_namespaceObject.__)('Commenter avatars come from'), ' ', (0,external_wp_element_namespaceObject.createElement)("a", {
-    href: "https://gravatar.com/"
-  }, "Gravatar"), ".")), (0,external_wp_element_namespaceObject.createElement)("div", {
+  }, (0,external_wp_element_namespaceObject.createElement)("p", null, (0,external_wp_i18n_namespaceObject.__)('Hi, this is a comment.'), (0,external_wp_element_namespaceObject.createElement)("br", null), (0,external_wp_i18n_namespaceObject.__)('To get started with moderating, editing, and deleting comments, please visit the Comments screen in the dashboard.'), (0,external_wp_element_namespaceObject.createElement)("br", null), (0,external_wp_element_namespaceObject.createInterpolateElement)((0,external_wp_i18n_namespaceObject.__)('Commenter avatars come from <a>Gravatar</a>'), {
+    a:
+    /* eslint-disable-next-line jsx-a11y/anchor-has-content */
+    (0,external_wp_element_namespaceObject.createElement)("a", {
+      href: "https://gravatar.com/"
+    })
+  }))), (0,external_wp_element_namespaceObject.createElement)("div", {
     className: "reply"
   }, (0,external_wp_element_namespaceObject.createElement)("a", {
     className: "comment-reply-link",
     href: "#top",
-    "aria-label": "Reply to A WordPress Commenter"
+    "aria-label": (0,external_wp_i18n_namespaceObject.sprintf)(
+    /* translators: Comment reply button text. %s: Comment author name. */
+    (0,external_wp_i18n_namespaceObject.__)('Reply to %s'), (0,external_wp_i18n_namespaceObject.__)('A WordPress Commenter'))
   }, (0,external_wp_i18n_namespaceObject.__)('Reply')))))), (0,external_wp_element_namespaceObject.createElement)("div", {
     className: "navigation"
   }, (0,external_wp_element_namespaceObject.createElement)("div", {
@@ -42419,7 +42538,7 @@ const blockTable = (0,external_wp_element_namespaceObject.createElement)(externa
  */
 
 
-const deprecated_supports = {
+const table_deprecated_supports = {
   align: true
 }; // As the previous arbitrary colors won't match theme color palettes, the hex
 // value will be mapped to the style.color.background attribute as if it was
@@ -42753,7 +42872,7 @@ const table_deprecated_deprecated = [// Deprecation migrating table block to use
       }
     }
   },
-  supports: deprecated_supports,
+  supports: table_deprecated_supports,
 
   save(_ref5) {
     let {

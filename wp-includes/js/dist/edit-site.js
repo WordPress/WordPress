@@ -1604,9 +1604,9 @@ function toggleFeature(scope, featureName) {
     let {
       registry
     } = _ref5;
-    external_wp_deprecated_default()(`wp.dispatch( 'core/interface' ).toggleFeature`, {
+    external_wp_deprecated_default()(`dispatch( 'core/interface' ).toggleFeature`, {
       since: '6.0',
-      alternative: `wp.dispatch( 'core/preferences' ).toggle`
+      alternative: `dispatch( 'core/preferences' ).toggle`
     });
     registry.dispatch(external_wp_preferences_namespaceObject.store).toggle(scope, featureName);
   };
@@ -1627,9 +1627,9 @@ function setFeatureValue(scope, featureName, value) {
     let {
       registry
     } = _ref6;
-    external_wp_deprecated_default()(`wp.dispatch( 'core/interface' ).setFeatureValue`, {
+    external_wp_deprecated_default()(`dispatch( 'core/interface' ).setFeatureValue`, {
       since: '6.0',
-      alternative: `wp.dispatch( 'core/preferences' ).set`
+      alternative: `dispatch( 'core/preferences' ).set`
     });
     registry.dispatch(external_wp_preferences_namespaceObject.store).set(scope, featureName, !!value);
   };
@@ -1648,9 +1648,9 @@ function setFeatureDefaults(scope, defaults) {
     let {
       registry
     } = _ref7;
-    external_wp_deprecated_default()(`wp.dispatch( 'core/interface' ).setFeatureDefaults`, {
+    external_wp_deprecated_default()(`dispatch( 'core/interface' ).setFeatureDefaults`, {
       since: '6.0',
-      alternative: `wp.dispatch( 'core/preferences' ).setDefaults`
+      alternative: `dispatch( 'core/preferences' ).setDefaults`
     });
     registry.dispatch(external_wp_preferences_namespaceObject.store).setDefaults(scope, defaults);
   };
@@ -1703,9 +1703,9 @@ const isItemPinned = (0,external_wp_data_namespaceObject.createRegistrySelector)
  */
 
 const isFeatureActive = (0,external_wp_data_namespaceObject.createRegistrySelector)(select => (state, scope, featureName) => {
-  external_wp_deprecated_default()(`wp.select( 'core/interface' ).isFeatureActive( scope, featureName )`, {
+  external_wp_deprecated_default()(`select( 'core/interface' ).isFeatureActive( scope, featureName )`, {
     since: '6.0',
-    alternative: `!! wp.select( 'core/preferences' ).isFeatureActive( scope, featureName )`
+    alternative: `select( 'core/preferences' ).get( scope, featureName )`
   });
   return !!select(external_wp_preferences_namespaceObject.store).get(scope, featureName);
 });
@@ -5965,7 +5965,9 @@ function TemplateDetails(_ref) {
     // TODO: We should update this to filter by template part's areas as well.
     postType: template.type,
     postId: undefined
-  });
+  }); // Only user-created and non-default templates can change the name.
+
+  const canEditTitle = template.is_custom && !template.has_theme_file;
 
   if (!template) {
     return null;
@@ -5980,7 +5982,7 @@ function TemplateDetails(_ref) {
     className: "edit-site-template-details"
   }, (0,external_wp_element_namespaceObject.createElement)("div", {
     className: "edit-site-template-details__group"
-  }, template.is_custom ? (0,external_wp_element_namespaceObject.createElement)(EditTemplateTitle, {
+  }, canEditTitle ? (0,external_wp_element_namespaceObject.createElement)(EditTemplateTitle, {
     template: template
   }) : (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalHeading, {
     level: 4,
@@ -6574,8 +6576,8 @@ const GlobalStylesContext = (0,external_wp_element_namespaceObject.createContext
 
 
 const EMPTY_CONFIG = {
-  isGlobalStylesUserThemeJSON: true,
-  version: 1
+  settings: {},
+  styles: {}
 };
 const useGlobalStylesReset = () => {
   const {
@@ -9437,12 +9439,10 @@ function GlobalStylesSidebar() {
     }, (0,external_wp_i18n_namespaceObject.__)('Beta'))), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.FlexItem, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.DropdownMenu, {
       icon: more_vertical,
       label: (0,external_wp_i18n_namespaceObject.__)('More Global Styles Actions'),
-      toggleProps: {
-        disabled: !canReset
-      },
       controls: [{
         title: (0,external_wp_i18n_namespaceObject.__)('Reset to defaults'),
-        onClick: onReset
+        onClick: onReset,
+        isDisabled: !canReset
       }, {
         title: (0,external_wp_i18n_namespaceObject.__)('Welcome Guide'),
         onClick: () => toggle('core/edit-site', 'welcomeGuideStyles')
@@ -12521,6 +12521,7 @@ const media = (0,external_wp_element_namespaceObject.createElement)(external_wp_
  */
 
 
+
 const DEFAULT_TEMPLATE_SLUGS = ['front-page', 'single-post', 'page', 'index', 'archive', 'author', 'category', 'date', 'tag', 'taxonomy', 'search', '404'];
 const TEMPLATE_ICONS = {
   'front-page': library_home,
@@ -12557,6 +12558,9 @@ function NewTemplate(_ref) {
   const {
     createErrorNotice
   } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_notices_namespaceObject.store);
+  const {
+    setTemplate
+  } = (0,external_wp_data_namespaceObject.useDispatch)(store_store);
 
   async function createTemplate(_ref2) {
     let {
@@ -12578,7 +12582,9 @@ function NewTemplate(_ref) {
         title
       }, {
         throwOnError: true
-      }); // Navigate to the created template editor.
+      }); // Set template before navigating away to avoid initial stale value.
+
+      setTemplate(template.id, template.slug); // Navigate to the created template editor.
 
       history.push({
         postId: template.id,

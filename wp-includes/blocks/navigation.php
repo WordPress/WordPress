@@ -351,6 +351,41 @@ function block_core_navigation_get_fallback_blocks() {
 }
 
 /**
+ * Iterate through all inner blocks recursively and get navigation link block's post IDs.
+ *
+ * @param WP_Block_List $inner_blocks Block list class instance.
+ *
+ * @return array Array of post IDs.
+ */
+function block_core_navigation_get_post_ids( $inner_blocks ) {
+	$post_ids = array_map( 'block_core_navigation_from_block_get_post_ids', iterator_to_array( $inner_blocks ) );
+	return array_unique( array_merge( ...$post_ids ) );
+}
+
+/**
+ * Get post IDs from a navigation link block instance.
+ *
+ * @param WP_Block $block Instance of a block.
+ *
+ * @return array Array of post IDs.
+ */
+function block_core_navigation_from_block_get_post_ids( $block ) {
+	$post_ids = array();
+
+	if ( $block->inner_blocks ) {
+		$post_ids = block_core_navigation_get_post_ids( $block->inner_blocks );
+	}
+
+	if ( 'core/navigation-link' === $block->name || 'core/navigation-submenu' === $block->name ) {
+		if ( $block->attributes && isset( $block->attributes['kind'] ) && 'post-type' === $block->attributes['kind'] ) {
+			$post_ids[] = $block->attributes['id'];
+		}
+	}
+
+	return $post_ids;
+}
+
+/**
  * Renders the `core/navigation` block on server.
  *
  * @param array    $attributes The block attributes.
@@ -500,6 +535,11 @@ function render_block_core_navigation( $attributes, $content, $block ) {
 		$is_fallback ? array( 'is-fallback' ) : array(),
 		$text_decoration ? array( $text_decoration_class ) : array()
 	);
+
+	$post_ids = block_core_navigation_get_post_ids( $inner_blocks );
+	if ( $post_ids ) {
+		_prime_post_caches( $post_ids, false, false );
+	}
 
 	$inner_blocks_html = '';
 	$is_list_open      = false;
