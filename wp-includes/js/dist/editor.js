@@ -10639,6 +10639,7 @@ function PostTextEditor() {
   const [value, setValue] = (0,external_wp_element_namespaceObject.useState)(postContent);
   const [isDirty, setIsDirty] = (0,external_wp_element_namespaceObject.useState)(false);
   const instanceId = (0,external_wp_compose_namespaceObject.useInstanceId)(PostTextEditor);
+  const valueRef = (0,external_wp_element_namespaceObject.useRef)();
 
   if (!isDirty && value !== postContent) {
     setValue(postContent);
@@ -10679,6 +10680,16 @@ function PostTextEditor() {
     }
   };
 
+  (0,external_wp_element_namespaceObject.useEffect)(() => {
+    valueRef.current = value;
+  }, [value]); // Ensure changes aren't lost when component unmounts.
+
+  (0,external_wp_element_namespaceObject.useEffect)(() => {
+    return () => {
+      const blocks = (0,external_wp_blocks_namespaceObject.parse)(valueRef.current);
+      resetEditorBlocks(blocks);
+    };
+  }, []);
   return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.VisuallyHidden, {
     as: "label",
     htmlFor: `post-content-${instanceId}`

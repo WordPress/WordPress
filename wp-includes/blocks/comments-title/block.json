@@ -12,12 +12,6 @@
 		"textAlign": {
 			"type": "string"
 		},
-		"singleCommentLabel": {
-			"type": "string"
-		},
-		"multipleCommentsLabel": {
-			"type": "string"
-		},
 		"showPostTitle": {
 			"type": "boolean",
 			"default": true

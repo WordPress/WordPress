@@ -144,6 +144,13 @@
 .wp-block-post-comments .comment-form-cookies-consent #wp-comment-cookies-consent {
   margin-top: 0.35em;
 }
+.wp-block-post-comments .comment-reply-title {
+  margin-bottom: 0;
+}
+.wp-block-post-comments .comment-reply-title :where(small) {
+  font-size: var(--wp--preset--font-size--medium, smaller);
+  margin-left: 0.5em;
+}
 .wp-block-post-comments .reply {
   font-size: 0.875em;
   margin-bottom: 1.4em;
