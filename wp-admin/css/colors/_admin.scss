@@ -783,15 +783,18 @@ div#wp-responsive-toggle a:before {
 }
 
 /* Welcome Panel */
-
 .welcome-panel {
-	background-color: $highlight-color;
+	background-color: mix($dashboard-accent-1, white, 12%);
+}
+
+.welcome-panel-header-image .about-six {
+	fill: $dashboard-accent-1;
+}
+
+.welcome-panel-header-image .about-zero {
+	fill: $dashboard-accent-2;
 }
 
 [class*="welcome-panel-icon"] {
-	@if ( $scheme-name == "light" ) {
-		background-color: $icon-color;
-	} @else {
-		background-color: $base-color;
-	}
+	background-color: $dashboard-icon-background;
 }

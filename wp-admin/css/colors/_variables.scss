@@ -63,4 +63,10 @@ $adminbar-recovery-exit-background-alt: mix(black, $adminbar-recovery-exit-backg
 
 $menu-customizer-text: mix( $base-color, $text-color, 40% ) !default;
 
+// Dashboard Colors
+
+$dashboard-accent-1: $highlight-color !default;
+$dashboard-accent-2: $base-color !default;
+$dashboard-icon-background: $dashboard-accent-2 !default;
+
 $low-contrast-theme: "false" !default;

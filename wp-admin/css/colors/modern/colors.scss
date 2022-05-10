@@ -7,4 +7,8 @@ $notification-color: $highlight-color;
 $link: $highlight-color;
 $link-focus: darken($highlight-color, 10%);
 
+$dashboard-accent-1: #3858e9;
+$dashboard-accent-2: #1b8362;
+$dashboard-icon-background: #1d2327;
+
 @import "../_admin.scss";
