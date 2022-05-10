@@ -2754,6 +2754,8 @@ class WP_Query {
 			}
 		}
 
+		$pieces = array( 'where', 'groupby', 'join', 'orderby', 'distinct', 'fields', 'limits' );
+
 		/*
 		 * Apply post-paging filters on where and join. Only plugins that
 		 * manipulate paging queries should use these hooks.
@@ -2833,8 +2835,6 @@ class WP_Query {
 			 */
 			$fields = apply_filters_ref_array( 'posts_fields', array( $fields, &$this ) );
 
-			$clauses = array( 'where', 'groupby', 'join', 'orderby', 'distinct', 'fields', 'limits' );
-
 			/**
 			 * Filters all query clauses at once, for convenience.
 			 *
@@ -2856,7 +2856,7 @@ class WP_Query {
 			 * }
 			 * @param WP_Query $query   The WP_Query instance (passed by reference).
 			 */
-			$clauses = (array) apply_filters_ref_array( 'posts_clauses', array( compact( $clauses ), &$this ) );
+			$clauses = (array) apply_filters_ref_array( 'posts_clauses', array( compact( $pieces ), &$this ) );
 
 			$where    = isset( $clauses['where'] ) ? $clauses['where'] : '';
 			$groupby  = isset( $clauses['groupby'] ) ? $clauses['groupby'] : '';
@@ -2967,8 +2967,6 @@ class WP_Query {
 			 */
 			$limits = apply_filters_ref_array( 'post_limits_request', array( $limits, &$this ) );
 
-			$clauses = array( 'where', 'groupby', 'join', 'orderby', 'distinct', 'fields', 'limits' );
-
 			/**
 			 * Filters all query clauses at once, for convenience.
 			 *
@@ -2992,7 +2990,7 @@ class WP_Query {
 			 * }
 			 * @param WP_Query $query  The WP_Query instance (passed by reference).
 			 */
-			$clauses = (array) apply_filters_ref_array( 'posts_clauses_request', array( compact( $clauses ), &$this ) );
+			$clauses = (array) apply_filters_ref_array( 'posts_clauses_request', array( compact( $pieces ), &$this ) );
 
 			$where    = isset( $clauses['where'] ) ? $clauses['where'] : '';
 			$groupby  = isset( $clauses['groupby'] ) ? $clauses['groupby'] : '';
