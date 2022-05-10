@@ -462,18 +462,18 @@
 .about__container h3.is-larger-heading {
 	margin-top: 0;
 	margin-bottom: 0.5em;
-	font-size: 2em;
-	line-height: 1.2;
+	font-size: 2rem;
 	font-weight: 700;
+	line-height: 1.16;
 }
 
 .about__container h3,
 .about__container h1.is-smaller-heading,
 .about__container h2.is-smaller-heading {
 	margin-top: 0;
-	font-size: 1.6em;
-	line-height: 1.3;
-	font-weight: 400;
+	font-size: 1.625rem;
+	font-weight: 700;
+	line-height: 1.4;
 }
 
 .about__container p {
@@ -483,7 +483,9 @@
 
 .about__container p.is-subheading {
 	margin-top: 0;
-	font-size: 1.5em;
+	font-size: 1.5rem;
+	font-weight: 300;
+	line-height: 160%;
 }
 
 .about__section a {
@@ -511,6 +513,10 @@
 .about__container ul {
 	list-style: disc;
 	margin-right: calc(var(--gap) / 2);
+}
+
+.about__container li {
+	margin-bottom: 0.75rem;
 }
 
 .about__container img {
@@ -569,7 +575,8 @@
 }
 
 .about__section {
-	font-size: 1.2em;
+	font-size: 1.125rem;
+	line-height: 1.55;
 }
 
 .about__section.is-feature {
@@ -606,29 +613,30 @@
 }
 
 .credits-php .about__header {
-	--about-header-image-width: 390px;
-	--about-header-image-height: 325px;
-	--about-header-bg-offset-inline: var(--gap);
+	--about-header-image-width: 477px;
+	--about-header-image-height: 470px;
+	--about-header-bg-offset-inline: calc(var(--gap) * -4);
 
 	background-image: url('../images/about-header-credits.svg');
 	background-position: left var(--about-header-bg-offset-inline) top var(--gap);
 }
 
 .freedoms-php .about__header {
-	--about-header-image-width: 380px;
-	--about-header-image-height: 278px;
+	--about-header-image-width: 411px;
+	--about-header-image-height: 498px;
 	--about-header-bg-offset-inline: var(--gap);
 
 	background-image: url('../images/about-header-freedoms.svg');
-	background-position: left var(--about-header-bg-offset-inline) bottom;
+	background-position: left var(--about-header-bg-offset-inline) top calc(var(--gap) * 4);
 }
 
 .privacy-php .about__header {
-	--about-header-image-width: 503px;
-	--about-header-image-height: 553px;
-	--about-header-bg-offset-inline: calc(var(--gap) * -2);
+	--about-header-image-width: 277px;
+	--about-header-image-height: 361px;
+	--about-header-bg-offset-inline: var(--gap);
 
 	background-image: url('../images/about-header-privacy.svg');
+	background-position: left var(--about-header-bg-offset-inline) top var(--gap);
 }
 
 .about__header-image {
