@@ -5673,7 +5673,7 @@ final class WP_Customize_Manager {
 		$section_description .= __( 'Add your own CSS code here to customize the appearance and layout of your site.' );
 		$section_description .= sprintf(
 			' <a href="%1$s" class="external-link" target="_blank">%2$s<span class="screen-reader-text"> %3$s</span></a>',
-			esc_url( __( 'https://codex.wordpress.org/CSS' ) ),
+			esc_url( __( 'https://wordpress.org/support/article/css/' ) ),
 			__( 'Learn more about CSS' ),
 			/* translators: Accessibility text. */
 			__( '(opens in a new tab)' )
