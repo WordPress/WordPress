@@ -901,6 +901,11 @@ function is_embed() {
 function is_main_query() {
 	global $wp_query;
 
+	if ( ! isset( $wp_query ) ) {
+		_doing_it_wrong( __FUNCTION__, __( 'Conditional query tags do not work before the query is run. Before then, they always return false.' ), '6.1.0' );
+		return false;
+	}
+
 	if ( 'pre_get_posts' === current_filter() ) {
 		_doing_it_wrong(
 			__FUNCTION__,
