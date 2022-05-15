@@ -82,7 +82,7 @@ class WP_Network {
 	public $site_name = '';
 
 	/**
-	 * Retrieve a network from the database by its ID.
+	 * Retrieves a network from the database by its ID.
 	 *
 	 * @since 4.4.0
 	 *
@@ -119,7 +119,7 @@ class WP_Network {
 	}
 
 	/**
-	 * Create a new WP_Network object.
+	 * Creates a new WP_Network object.
 	 *
 	 * Will populate object properties from the object provided and assign other
 	 * default properties based on that information.
@@ -279,7 +279,7 @@ class WP_Network {
 	}
 
 	/**
-	 * Set the site name assigned to the network if one has not been populated.
+	 * Sets the site name assigned to the network if one has not been populated.
 	 *
 	 * @since 4.4.0
 	 */
@@ -293,7 +293,7 @@ class WP_Network {
 	}
 
 	/**
-	 * Set the cookie domain based on the network domain if one has
+	 * Sets the cookie domain based on the network domain if one has
 	 * not been populated.
 	 *
 	 * @todo What if the domain of the network doesn't match the current site?
@@ -312,7 +312,7 @@ class WP_Network {
 	}
 
 	/**
-	 * Retrieve the closest matching network for a domain and path.
+	 * Retrieves the closest matching network for a domain and path.
 	 *
 	 * This will not necessarily return an exact match for a domain and path. Instead, it
 	 * breaks the domain and path into pieces that are then used to match the closest
@@ -392,7 +392,7 @@ class WP_Network {
 		}
 
 		/**
-		 * Determine a network by its domain and path.
+		 * Determines a network by its domain and path.
 		 *
 		 * This allows one to short-circuit the default logic, perhaps by
 		 * replacing it with a routine that is more optimal for your setup.
