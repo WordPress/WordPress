@@ -203,7 +203,7 @@ if ( ! function_exists( 'twenty_twenty_one_post_thumbnail' ) ) {
 				<?php if ( wp_get_attachment_caption( get_post_thumbnail_id() ) ) : ?>
 					<figcaption class="wp-caption-text"><?php echo wp_kses_post( wp_get_attachment_caption( get_post_thumbnail_id() ) ); ?></figcaption>
 				<?php endif; ?>
-			</figure>
+			</figure><!-- .post-thumbnail -->
 
 		<?php endif; ?>
 		<?php
