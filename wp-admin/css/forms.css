@@ -1643,6 +1643,10 @@ table.form-table td .updated p {
 		right: 2.5rem;
 	}
 
+	body.user-new-php .wp-pwd button.wp-hide-pw {
+		right: 0;
+	}
+
 	.wp-pwd button.button:hover,
 	.wp-pwd button.button:focus {
 		background: transparent;
@@ -1662,6 +1666,11 @@ table.form-table td .updated p {
 	.wp-pwd [type="password"] {
 		line-height: 2;
 		padding-right: 5rem;
+	}
+
+	body.user-new-php .wp-pwd [type="text"],
+	body.user-new-php .wp-pwd [type="password"] {
+		padding-right: 2.5rem;
 	}
 
 	.wp-cancel-pw .dashicons-no {
