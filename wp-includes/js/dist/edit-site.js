@@ -11033,6 +11033,7 @@ function ResizableEditor(_ref) {
  * External dependencies
  */
 
+
 /**
  * WordPress dependencies
  */
@@ -11065,46 +11066,49 @@ const LAYOUT = {
   alignments: []
 };
 function BlockEditor(_ref) {
+  var _storedSettings$__exp, _storedSettings$__exp2;
+
   let {
     setIsInserterOpen
   } = _ref;
   const {
-    settings
-  } = (0,external_wp_data_namespaceObject.useSelect)(select => {
-    let storedSettings = select(store_store).getSettings(setIsInserterOpen);
-
-    if (!storedSettings.__experimentalBlockPatterns) {
-      storedSettings = { ...storedSettings,
-        __experimentalBlockPatterns: select(external_wp_coreData_namespaceObject.store).getBlockPatterns()
-      };
-    }
-
-    if (!storedSettings.__experimentalBlockPatternCategories) {
-      storedSettings = { ...storedSettings,
-        __experimentalBlockPatternCategories: select(external_wp_coreData_namespaceObject.store).getBlockPatternCategories()
-      };
-    }
-
-    return {
-      settings: storedSettings
-    };
-  }, [setIsInserterOpen]);
-  const {
+    storedSettings,
     templateType,
     templateId,
     page
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
+      getSettings,
       getEditedPostType,
       getEditedPostId,
       getPage
     } = select(store_store);
     return {
+      storedSettings: getSettings(setIsInserterOpen),
       templateType: getEditedPostType(),
       templateId: getEditedPostId(),
       page: getPage()
     };
   }, [setIsInserterOpen]);
+  const settingsBlockPatterns = (_storedSettings$__exp = storedSettings.__experimentalAdditionalBlockPatterns) !== null && _storedSettings$__exp !== void 0 ? _storedSettings$__exp : // WP 6.0
+  storedSettings.__experimentalBlockPatterns; // WP 5.9
+
+  const settingsBlockPatternCategories = (_storedSettings$__exp2 = storedSettings.__experimentalAdditionalBlockPatternCategories) !== null && _storedSettings$__exp2 !== void 0 ? _storedSettings$__exp2 : // WP 6.0
+  storedSettings.__experimentalBlockPatternCategories; // WP 5.9
+
+  const {
+    restBlockPatterns,
+    restBlockPatternCategories
+  } = (0,external_wp_data_namespaceObject.useSelect)(select => ({
+    restBlockPatterns: select(external_wp_coreData_namespaceObject.store).getBlockPatterns(),
+    restBlockPatternCategories: select(external_wp_coreData_namespaceObject.store).getBlockPatternCategories()
+  }), []);
+  const blockPatterns = (0,external_wp_element_namespaceObject.useMemo)(() => (0,external_lodash_namespaceObject.unionBy)(settingsBlockPatterns, restBlockPatterns, 'name'), [settingsBlockPatterns, restBlockPatterns]);
+  const blockPatternCategories = (0,external_wp_element_namespaceObject.useMemo)(() => (0,external_lodash_namespaceObject.unionBy)(settingsBlockPatternCategories, restBlockPatternCategories, 'name'), [settingsBlockPatternCategories, restBlockPatternCategories]);
+  const settings = (0,external_wp_element_namespaceObject.useMemo)(() => ({ ...(0,external_lodash_namespaceObject.omit)(storedSettings, ['__experimentalAdditionalBlockPatterns', '__experimentalAdditionalBlockPatternCategories']),
+    __experimentalBlockPatterns: blockPatterns,
+    __experimentalBlockPatternCategories: blockPatternCategories
+  }), [storedSettings, blockPatterns, blockPatternCategories]);
   const [blocks, onInput, onChange] = (0,external_wp_coreData_namespaceObject.useEntityBlockEditor)('postType', templateType);
   const {
     setPage
@@ -11122,6 +11126,7 @@ function BlockEditor(_ref) {
     clearSelectedBlock
   } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_blockEditor_namespaceObject.store);
   const isTemplatePart = templateType === 'wp_template_part';
+  const hasBlocks = blocks.length !== 0;
 
   const NavMenuSidebarToggle = () => (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.ToolbarGroup, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.ToolbarButton, {
     className: "components-toolbar__control",
@@ -11167,7 +11172,7 @@ function BlockEditor(_ref) {
   }, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockList, {
     className: "edit-site-block-editor__block-list wp-site-blocks",
     __experimentalLayout: LAYOUT,
-    renderAppender: isTemplatePart ? false : undefined
+    renderAppender: isTemplatePart && hasBlocks ? false : undefined
   })), (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.__unstableBlockSettingsMenuFirstItem, null, _ref2 => {
     let {
       onClose

@@ -2101,6 +2101,21 @@ p.has-background {
   margin: 0;
 }
 
+.wp-block-post-comments {
+  /* utility classes */
+  /* end utility classes */
+}
+.wp-block-post-comments .alignleft {
+  float: right;
+}
+.wp-block-post-comments .alignright {
+  float: left;
+}
+.wp-block-post-comments .navigation::after {
+  content: "";
+  display: table;
+  clear: both;
+}
 .wp-block-post-comments .commentlist {
   clear: both;
   list-style: none;
