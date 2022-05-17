@@ -937,7 +937,7 @@ function wp_generate_block_templates_export_file() {
 	}
 
 	$obscura    = wp_generate_password( 12, false, false );
-	$theme_name = wp_get_theme()->get( 'TextDomain' );
+	$theme_name = basename( get_stylesheet() );
 	$filename   = get_temp_dir() . $theme_name . $obscura . '.zip';
 
 	$zip = new ZipArchive();
