@@ -496,8 +496,13 @@ function url_to_postid( $url ) {
 	 * @param string $url The URL to derive the post ID from.
 	 */
 	$url = apply_filters( 'url_to_postid', $url );
-
-	$url_host      = str_replace( 'www.', '', parse_url( $url, PHP_URL_HOST ) );
+	$parse_url = parse_url( $url, PHP_URL_HOST );
+	if( $parse_url ) {
+		$url_host = str_replace( 'www.', '', $parse_url );
+	} else {
+		$url_host = '';
+	}
+	
 	$home_url_host = str_replace( 'www.', '', parse_url( home_url(), PHP_URL_HOST ) );
 
 	// Bail early if the URL does not belong to this site.
