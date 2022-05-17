@@ -82,7 +82,7 @@ class WP_REST_Edit_Site_Export_Controller extends WP_REST_Controller {
 			return $filename;
 		}
 
-		$theme_name = wp_get_theme()->get( 'TextDomain' );
+		$theme_name = basename( get_stylesheet() );
 		header( 'Content-Type: application/zip' );
 		header( 'Content-Disposition: attachment; filename=' . $theme_name . '.zip' );
 		header( 'Content-Length: ' . filesize( $filename ) );

@@ -14557,28 +14557,6 @@ module.exports = window["moment"];
 
 /***/ }),
 
-/***/ 7472:
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
-
-"use strict";
-
-
-var GetIntrinsic = __webpack_require__(4219);
-
-var $Array = GetIntrinsic('%Array%');
-
-// eslint-disable-next-line global-require
-var toStr = !$Array.isArray && __webpack_require__(9630)('Object.prototype.toString');
-
-// https://ecma-international.org/ecma-262/6.0/#sec-isarray
-
-module.exports = $Array.isArray || function IsArray(argument) {
-	return toStr(argument) === '[object Array]';
-};
-
-
-/***/ }),
-
 /***/ 3665:
 /***/ (function(module, __unused_webpack_exports, __webpack_require__) {
 
@@ -15056,18 +15034,8 @@ module.exports = function IsAccessorDescriptor(Desc) {
 "use strict";
 
 
-var GetIntrinsic = __webpack_require__(4219);
-
-var $Array = GetIntrinsic('%Array%');
-
-// eslint-disable-next-line global-require
-var toStr = !$Array.isArray && __webpack_require__(9630)('Object.prototype.toString');
-
 // https://ecma-international.org/ecma-262/6.0/#sec-isarray
-
-module.exports = $Array.isArray || function IsArray(argument) {
-	return toStr(argument) === '[object Array]';
-};
+module.exports = __webpack_require__(4351);
 
 
 /***/ }),
@@ -15772,7 +15740,7 @@ var $defineProperty = hasPropertyDescriptors() && GetIntrinsic('%Object.definePr
 var hasArrayLengthDefineBug = hasPropertyDescriptors.hasArrayLengthDefineBug();
 
 // eslint-disable-next-line global-require
-var isArray = hasArrayLengthDefineBug && __webpack_require__(7472); // this does not depend on any other AOs.
+var isArray = hasArrayLengthDefineBug && __webpack_require__(4351);
 
 var callBound = __webpack_require__(9630);
 
@@ -15815,6 +15783,26 @@ module.exports = function DefineOwnProperty(IsDataDescriptor, SameValue, FromPro
 
 	$defineProperty(O, P, FromPropertyDescriptor(desc));
 	return true;
+};
+
+
+/***/ }),
+
+/***/ 4351:
+/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+
+"use strict";
+
+
+var GetIntrinsic = __webpack_require__(4219);
+
+var $Array = GetIntrinsic('%Array%');
+
+// eslint-disable-next-line global-require
+var toStr = !$Array.isArray && __webpack_require__(9630)('Object.prototype.toString');
+
+module.exports = $Array.isArray || function IsArray(argument) {
+	return toStr(argument) === '[object Array]';
 };
 
 
@@ -38024,10 +38012,10 @@ function computeRubberband(bounds, [Vx, Vy], [Rx, Ry]) {
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@use-gesture/core/dist/actions-8e12537b.esm.js
+;// CONCATENATED MODULE: ./node_modules/@use-gesture/core/dist/actions-e2a59bb9.esm.js
 
 
-function actions_8e12537b_esm_defineProperty(obj, key, value) {
+function actions_e2a59bb9_esm_defineProperty(obj, key, value) {
   if (key in obj) {
     Object.defineProperty(obj, key, {
       value: value,
@@ -38042,7 +38030,7 @@ function actions_8e12537b_esm_defineProperty(obj, key, value) {
   return obj;
 }
 
-function actions_8e12537b_esm_ownKeys(object, enumerableOnly) {
+function actions_e2a59bb9_esm_ownKeys(object, enumerableOnly) {
   var keys = Object.keys(object);
 
   if (Object.getOwnPropertySymbols) {
@@ -38055,12 +38043,12 @@ function actions_8e12537b_esm_ownKeys(object, enumerableOnly) {
   return keys;
 }
 
-function actions_8e12537b_esm_objectSpread2(target) {
+function actions_e2a59bb9_esm_objectSpread2(target) {
   for (var i = 1; i < arguments.length; i++) {
     var source = null != arguments[i] ? arguments[i] : {};
-    i % 2 ? actions_8e12537b_esm_ownKeys(Object(source), !0).forEach(function (key) {
-      actions_8e12537b_esm_defineProperty(target, key, source[key]);
-    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : actions_8e12537b_esm_ownKeys(Object(source)).forEach(function (key) {
+    i % 2 ? actions_e2a59bb9_esm_ownKeys(Object(source), !0).forEach(function (key) {
+      actions_e2a59bb9_esm_defineProperty(target, key, source[key]);
+    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : actions_e2a59bb9_esm_ownKeys(Object(source)).forEach(function (key) {
       Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
     });
   }
@@ -38096,10 +38084,16 @@ function capitalize(string) {
   return string[0].toUpperCase() + string.slice(1);
 }
 
+const actionsWithoutCaptureSupported = ['enter', 'leave'];
+
+function hasCapture(capture = false, actionKey) {
+  return capture && !actionsWithoutCaptureSupported.includes(actionKey);
+}
+
 function toHandlerProp(device, action = '', capture = false) {
   const deviceProps = EVENT_TYPE_MAP[device];
   const actionKey = deviceProps ? deviceProps[action] || action : action;
-  return 'on' + capitalize(device) + capitalize(actionKey) + (capture ? 'Capture' : '');
+  return 'on' + capitalize(device) + capitalize(actionKey) + (hasCapture(capture, actionKey) ? 'Capture' : '');
 }
 const pointerCaptureEvents = ['gotpointercapture', 'lostpointercapture'];
 function parseProp(prop) {
@@ -38463,7 +38457,7 @@ class Engine {
     const config = this.config;
     if (!state._active) this.clean();
     if ((state._blocked || !state.intentional) && !state._force && !config.triggerAllEvents) return;
-    const memo = this.handler(actions_8e12537b_esm_objectSpread2(actions_8e12537b_esm_objectSpread2(actions_8e12537b_esm_objectSpread2({}, shared), state), {}, {
+    const memo = this.handler(actions_e2a59bb9_esm_objectSpread2(actions_e2a59bb9_esm_objectSpread2(actions_e2a59bb9_esm_objectSpread2({}, shared), state), {}, {
       [this.aliasKey]: state.values
     }));
     if (memo !== undefined) state.memo = memo;
@@ -38495,7 +38489,7 @@ class CoordinatesEngine extends Engine {
   constructor(...args) {
     super(...args);
 
-    actions_8e12537b_esm_defineProperty(this, "aliasKey", 'xy');
+    actions_e2a59bb9_esm_defineProperty(this, "aliasKey", 'xy');
   }
 
   reset() {
@@ -38551,6 +38545,10 @@ const commonConfigResolver = {
     return value;
   },
 
+  eventOptions(value, _k, config) {
+    return actions_e2a59bb9_esm_objectSpread2(actions_e2a59bb9_esm_objectSpread2({}, config.shared.eventOptions), value);
+  },
+
   preventDefault(value = false) {
     return value;
   },
@@ -38595,7 +38593,7 @@ const commonConfigResolver = {
 if (false) {}
 
 const DEFAULT_AXIS_THRESHOLD = 0;
-const coordinatesConfigResolver = actions_8e12537b_esm_objectSpread2(actions_8e12537b_esm_objectSpread2({}, commonConfigResolver), {}, {
+const coordinatesConfigResolver = actions_e2a59bb9_esm_objectSpread2(actions_e2a59bb9_esm_objectSpread2({}, commonConfigResolver), {}, {
   axis(_v, _k, {
     axis
   }) {
@@ -38642,7 +38640,7 @@ class DragEngine extends CoordinatesEngine {
   constructor(...args) {
     super(...args);
 
-    actions_8e12537b_esm_defineProperty(this, "ingKey", 'dragging');
+    actions_e2a59bb9_esm_defineProperty(this, "ingKey", 'dragging');
   }
 
   reset() {
@@ -38702,13 +38700,13 @@ class DragEngine extends CoordinatesEngine {
     const config = this.config;
     const state = this.state;
     if (event.buttons != null && (Array.isArray(config.pointerButtons) ? !config.pointerButtons.includes(event.buttons) : config.pointerButtons !== -1 && config.pointerButtons !== event.buttons)) return;
-    this.ctrl.setEventIds(event);
+    const ctrlIds = this.ctrl.setEventIds(event);
 
     if (config.pointerCapture) {
       event.target.setPointerCapture(event.pointerId);
     }
 
-    if (state._pointerActive) return;
+    if (ctrlIds && ctrlIds.size > 1 && state._pointerActive) return;
     this.start(event);
     this.setupPointer(event);
     state._pointerId = pointerId(event);
@@ -38866,11 +38864,11 @@ class DragEngine extends CoordinatesEngine {
 
   setupScrollPrevention(event) {
     persistEvent(event);
-    this.eventStore.add(this.sharedConfig.window, 'touch', 'change', this.preventScroll.bind(this), {
+    const remove = this.eventStore.add(this.sharedConfig.window, 'touch', 'change', this.preventScroll.bind(this), {
       passive: false
     });
-    this.eventStore.add(this.sharedConfig.window, 'touch', 'end', this.clean.bind(this));
-    this.eventStore.add(this.sharedConfig.window, 'touch', 'cancel', this.clean.bind(this));
+    this.eventStore.add(this.sharedConfig.window, 'touch', 'end', remove);
+    this.eventStore.add(this.sharedConfig.window, 'touch', 'cancel', remove);
     this.timeoutStore.add('startPointerDrag', this.startPointerDrag.bind(this), this.config.preventScrollDelay, event);
   }
 
@@ -38888,8 +38886,8 @@ class DragEngine extends CoordinatesEngine {
     if (deltaFn) {
       const state = this.state;
       const factor = event.shiftKey ? 10 : event.altKey ? 0.1 : 1;
-      state._delta = deltaFn(factor);
       this.start(event);
+      state._delta = deltaFn(factor);
       state._keyboardActive = true;
       V.addTo(state._movement, state._delta);
       this.compute(event);
@@ -38933,22 +38931,22 @@ function persistEvent(event) {
   'persist' in event && typeof event.persist === 'function' && event.persist();
 }
 
-const actions_8e12537b_esm_isBrowser = typeof window !== 'undefined' && window.document && window.document.createElement;
+const actions_e2a59bb9_esm_isBrowser = typeof window !== 'undefined' && window.document && window.document.createElement;
 
-function actions_8e12537b_esm_supportsTouchEvents() {
-  return actions_8e12537b_esm_isBrowser && 'ontouchstart' in window;
+function actions_e2a59bb9_esm_supportsTouchEvents() {
+  return actions_e2a59bb9_esm_isBrowser && 'ontouchstart' in window;
 }
 
 function isTouchScreen() {
-  return actions_8e12537b_esm_supportsTouchEvents() || actions_8e12537b_esm_isBrowser && window.navigator.maxTouchPoints > 1;
+  return actions_e2a59bb9_esm_supportsTouchEvents() || actions_e2a59bb9_esm_isBrowser && window.navigator.maxTouchPoints > 1;
 }
 
-function actions_8e12537b_esm_supportsPointerEvents() {
-  return actions_8e12537b_esm_isBrowser && 'onpointerdown' in window;
+function actions_e2a59bb9_esm_supportsPointerEvents() {
+  return actions_e2a59bb9_esm_isBrowser && 'onpointerdown' in window;
 }
 
 function supportsPointerLock() {
-  return actions_8e12537b_esm_isBrowser && 'exitPointerLock' in window.document;
+  return actions_e2a59bb9_esm_isBrowser && 'exitPointerLock' in window.document;
 }
 
 function supportsGestureEvents() {
@@ -38960,11 +38958,11 @@ function supportsGestureEvents() {
 }
 
 const SUPPORT = {
-  isBrowser: actions_8e12537b_esm_isBrowser,
+  isBrowser: actions_e2a59bb9_esm_isBrowser,
   gesture: supportsGestureEvents(),
   touch: isTouchScreen(),
   touchscreen: isTouchScreen(),
-  pointer: actions_8e12537b_esm_supportsPointerEvents(),
+  pointer: actions_e2a59bb9_esm_supportsPointerEvents(),
   pointerLock: supportsPointerLock()
 };
 
@@ -38978,7 +38976,7 @@ const DEFAULT_DRAG_AXIS_THRESHOLD = {
   touch: 0,
   pen: 8
 };
-const dragConfigResolver = actions_8e12537b_esm_objectSpread2(actions_8e12537b_esm_objectSpread2({}, coordinatesConfigResolver), {}, {
+const dragConfigResolver = actions_e2a59bb9_esm_objectSpread2(actions_e2a59bb9_esm_objectSpread2({}, coordinatesConfigResolver), {}, {
   device(_v, _k, {
     pointer: {
       touch = false,
@@ -39050,7 +39048,7 @@ const dragConfigResolver = actions_8e12537b_esm_objectSpread2(actions_8e12537b_e
 
   axisThreshold(value) {
     if (!value) return DEFAULT_DRAG_AXIS_THRESHOLD;
-    return actions_8e12537b_esm_objectSpread2(actions_8e12537b_esm_objectSpread2({}, DEFAULT_DRAG_AXIS_THRESHOLD), value);
+    return actions_e2a59bb9_esm_objectSpread2(actions_e2a59bb9_esm_objectSpread2({}, DEFAULT_DRAG_AXIS_THRESHOLD), value);
   }
 
 });
@@ -39063,9 +39061,9 @@ class PinchEngine extends Engine {
   constructor(...args) {
     super(...args);
 
-    actions_8e12537b_esm_defineProperty(this, "ingKey", 'pinching');
+    actions_e2a59bb9_esm_defineProperty(this, "ingKey", 'pinching');
 
-    actions_8e12537b_esm_defineProperty(this, "aliasKey", 'da');
+    actions_e2a59bb9_esm_defineProperty(this, "aliasKey", 'da');
   }
 
   init() {
@@ -39329,7 +39327,7 @@ class PinchEngine extends Engine {
 
 }
 
-const pinchConfigResolver = actions_8e12537b_esm_objectSpread2(actions_8e12537b_esm_objectSpread2({}, commonConfigResolver), {}, {
+const pinchConfigResolver = actions_e2a59bb9_esm_objectSpread2(actions_e2a59bb9_esm_objectSpread2({}, commonConfigResolver), {}, {
   device(_v, _k, {
     shared,
     pointer: {
@@ -39387,7 +39385,7 @@ class MoveEngine extends CoordinatesEngine {
   constructor(...args) {
     super(...args);
 
-    actions_8e12537b_esm_defineProperty(this, "ingKey", 'moving');
+    actions_e2a59bb9_esm_defineProperty(this, "ingKey", 'moving');
   }
 
   move(event) {
@@ -39429,7 +39427,7 @@ class MoveEngine extends CoordinatesEngine {
 
 }
 
-const moveConfigResolver = actions_8e12537b_esm_objectSpread2(actions_8e12537b_esm_objectSpread2({}, coordinatesConfigResolver), {}, {
+const moveConfigResolver = actions_e2a59bb9_esm_objectSpread2(actions_e2a59bb9_esm_objectSpread2({}, coordinatesConfigResolver), {}, {
   mouseOnly: (value = true) => value
 });
 
@@ -39437,7 +39435,7 @@ class ScrollEngine extends CoordinatesEngine {
   constructor(...args) {
     super(...args);
 
-    actions_8e12537b_esm_defineProperty(this, "ingKey", 'scrolling');
+    actions_e2a59bb9_esm_defineProperty(this, "ingKey", 'scrolling');
   }
 
   scroll(event) {
@@ -39476,7 +39474,7 @@ class WheelEngine extends CoordinatesEngine {
   constructor(...args) {
     super(...args);
 
-    actions_8e12537b_esm_defineProperty(this, "ingKey", 'wheeling');
+    actions_e2a59bb9_esm_defineProperty(this, "ingKey", 'wheeling');
   }
 
   wheel(event) {
@@ -39524,7 +39522,7 @@ class HoverEngine extends CoordinatesEngine {
   constructor(...args) {
     super(...args);
 
-    actions_8e12537b_esm_defineProperty(this, "ingKey", 'hovering');
+    actions_e2a59bb9_esm_defineProperty(this, "ingKey", 'hovering');
   }
 
   enter(event) {
@@ -39555,42 +39553,42 @@ class HoverEngine extends CoordinatesEngine {
 
 }
 
-const hoverConfigResolver = actions_8e12537b_esm_objectSpread2(actions_8e12537b_esm_objectSpread2({}, coordinatesConfigResolver), {}, {
+const hoverConfigResolver = actions_e2a59bb9_esm_objectSpread2(actions_e2a59bb9_esm_objectSpread2({}, coordinatesConfigResolver), {}, {
   mouseOnly: (value = true) => value
 });
 
-const actions_8e12537b_esm_EngineMap = new Map();
+const actions_e2a59bb9_esm_EngineMap = new Map();
 const ConfigResolverMap = new Map();
-function actions_8e12537b_esm_registerAction(action) {
-  actions_8e12537b_esm_EngineMap.set(action.key, action.engine);
+function actions_e2a59bb9_esm_registerAction(action) {
+  actions_e2a59bb9_esm_EngineMap.set(action.key, action.engine);
   ConfigResolverMap.set(action.key, action.resolver);
 }
-const actions_8e12537b_esm_dragAction = {
+const actions_e2a59bb9_esm_dragAction = {
   key: 'drag',
   engine: DragEngine,
   resolver: dragConfigResolver
 };
-const actions_8e12537b_esm_hoverAction = {
+const actions_e2a59bb9_esm_hoverAction = {
   key: 'hover',
   engine: HoverEngine,
   resolver: hoverConfigResolver
 };
-const actions_8e12537b_esm_moveAction = {
+const actions_e2a59bb9_esm_moveAction = {
   key: 'move',
   engine: MoveEngine,
   resolver: moveConfigResolver
 };
-const actions_8e12537b_esm_pinchAction = {
+const actions_e2a59bb9_esm_pinchAction = {
   key: 'pinch',
   engine: PinchEngine,
   resolver: pinchConfigResolver
 };
-const actions_8e12537b_esm_scrollAction = {
+const actions_e2a59bb9_esm_scrollAction = {
   key: 'scroll',
   engine: ScrollEngine,
   resolver: scrollConfigResolver
 };
-const actions_8e12537b_esm_wheelAction = {
+const actions_e2a59bb9_esm_wheelAction = {
   key: 'wheel',
   engine: WheelEngine,
   resolver: wheelConfigResolver
@@ -39717,7 +39715,7 @@ function use_gesture_core_esm_parse(config, gestureKey) {
 
   if (gestureKey) {
     const resolver = ConfigResolverMap.get(gestureKey);
-    _config[gestureKey] = resolveWith(actions_8e12537b_esm_objectSpread2({
+    _config[gestureKey] = resolveWith(actions_e2a59bb9_esm_objectSpread2({
       shared: _config.shared
     }, rest), resolver);
   } else {
@@ -39725,7 +39723,7 @@ function use_gesture_core_esm_parse(config, gestureKey) {
       const resolver = ConfigResolverMap.get(key);
 
       if (resolver) {
-        _config[key] = resolveWith(actions_8e12537b_esm_objectSpread2({
+        _config[key] = resolveWith(actions_e2a59bb9_esm_objectSpread2({
           shared: _config.shared
         }, rest[key]), resolver);
       } else if (false) {}
@@ -39736,33 +39734,43 @@ function use_gesture_core_esm_parse(config, gestureKey) {
 }
 
 class EventStore {
-  constructor(ctrl) {
-    actions_8e12537b_esm_defineProperty(this, "_listeners", []);
+  constructor(ctrl, gestureKey) {
+    actions_e2a59bb9_esm_defineProperty(this, "_listeners", new Set());
 
     this._ctrl = ctrl;
+    this._gestureKey = gestureKey;
   }
 
   add(element, device, action, handler, options) {
+    const listeners = this._listeners;
     const type = toDomEventType(device, action);
 
-    const eventOptions = actions_8e12537b_esm_objectSpread2(actions_8e12537b_esm_objectSpread2({}, this._ctrl.config.shared.eventOptions), options);
+    const _options = this._gestureKey ? this._ctrl.config[this._gestureKey].eventOptions : {};
+
+    const eventOptions = actions_e2a59bb9_esm_objectSpread2(actions_e2a59bb9_esm_objectSpread2({}, _options), options);
 
     element.addEventListener(type, handler, eventOptions);
 
-    this._listeners.push(() => element.removeEventListener(type, handler, eventOptions));
+    const remove = () => {
+      element.removeEventListener(type, handler, eventOptions);
+      listeners.delete(remove);
+    };
+
+    listeners.add(remove);
+    return remove;
   }
 
   clean() {
     this._listeners.forEach(remove => remove());
 
-    this._listeners = [];
+    this._listeners.clear();
   }
 
 }
 
 class TimeoutStore {
   constructor() {
-    actions_8e12537b_esm_defineProperty(this, "_timeouts", new Map());
+    actions_e2a59bb9_esm_defineProperty(this, "_timeouts", new Map());
   }
 
   add(key, callback, ms = 140, ...args) {
@@ -39787,23 +39795,23 @@ class TimeoutStore {
 
 class Controller {
   constructor(handlers) {
-    actions_8e12537b_esm_defineProperty(this, "gestures", new Set());
+    actions_e2a59bb9_esm_defineProperty(this, "gestures", new Set());
 
-    actions_8e12537b_esm_defineProperty(this, "_targetEventStore", new EventStore(this));
+    actions_e2a59bb9_esm_defineProperty(this, "_targetEventStore", new EventStore(this));
 
-    actions_8e12537b_esm_defineProperty(this, "gestureEventStores", {});
+    actions_e2a59bb9_esm_defineProperty(this, "gestureEventStores", {});
 
-    actions_8e12537b_esm_defineProperty(this, "gestureTimeoutStores", {});
+    actions_e2a59bb9_esm_defineProperty(this, "gestureTimeoutStores", {});
 
-    actions_8e12537b_esm_defineProperty(this, "handlers", {});
+    actions_e2a59bb9_esm_defineProperty(this, "handlers", {});
 
-    actions_8e12537b_esm_defineProperty(this, "config", {});
+    actions_e2a59bb9_esm_defineProperty(this, "config", {});
 
-    actions_8e12537b_esm_defineProperty(this, "pointerIds", new Set());
+    actions_e2a59bb9_esm_defineProperty(this, "pointerIds", new Set());
 
-    actions_8e12537b_esm_defineProperty(this, "touchIds", new Set());
+    actions_e2a59bb9_esm_defineProperty(this, "touchIds", new Set());
 
-    actions_8e12537b_esm_defineProperty(this, "state", {
+    actions_e2a59bb9_esm_defineProperty(this, "state", {
       shared: {
         shiftKey: false,
         metaKey: false,
@@ -39818,8 +39826,10 @@ class Controller {
   setEventIds(event) {
     if (isTouch(event)) {
       this.touchIds = new Set(touchIds(event));
+      return this.touchIds;
     } else if ('pointerId' in event) {
       if (event.type === 'pointerup' || event.type === 'pointercancel') this.pointerIds.delete(event.pointerId);else if (event.type === 'pointerdown') this.pointerIds.add(event.pointerId);
+      return this.pointerIds;
     }
   }
 
@@ -39848,7 +39858,6 @@ class Controller {
 
   bind(...args) {
     const sharedConfig = this.config.shared;
-    const eventOptions = sharedConfig.eventOptions;
     const props = {};
     let target;
 
@@ -39857,18 +39866,21 @@ class Controller {
       if (!target) return;
     }
 
-    const bindFunction = bindToProps(props, eventOptions, !!target);
-
     if (sharedConfig.enabled) {
       for (const gestureKey of this.gestures) {
-        if (this.config[gestureKey].enabled) {
-          const Engine = actions_8e12537b_esm_EngineMap.get(gestureKey);
+        const gestureConfig = this.config[gestureKey];
+        const bindFunction = bindToProps(props, gestureConfig.eventOptions, !!target);
+
+        if (gestureConfig.enabled) {
+          const Engine = actions_e2a59bb9_esm_EngineMap.get(gestureKey);
           new Engine(this, args, gestureKey).bind(bindFunction);
         }
       }
 
+      const nativeBindFunction = bindToProps(props, sharedConfig.eventOptions, !!target);
+
       for (const eventKey in this.nativeHandlers) {
-        bindFunction(eventKey, '', event => this.nativeHandlers[eventKey](actions_8e12537b_esm_objectSpread2(actions_8e12537b_esm_objectSpread2({}, this.state.shared), {}, {
+        nativeBindFunction(eventKey, '', event => this.nativeHandlers[eventKey](actions_e2a59bb9_esm_objectSpread2(actions_e2a59bb9_esm_objectSpread2({}, this.state.shared), {}, {
           event,
           args
         })), undefined, true);
@@ -39899,7 +39911,7 @@ class Controller {
 
 function setupGesture(ctrl, gestureKey) {
   ctrl.gestures.add(gestureKey);
-  ctrl.gestureEventStores[gestureKey] = new EventStore(ctrl);
+  ctrl.gestureEventStores[gestureKey] = new EventStore(ctrl, gestureKey);
   ctrl.gestureTimeoutStores[gestureKey] = new TimeoutStore();
 }
 
@@ -40009,7 +40021,7 @@ function useRecognizers(handlers, config = {}, gestureKey, nativeHandlers) {
 }
 
 function use_gesture_react_esm_useDrag(handler, config) {
-  actions_8e12537b_esm_registerAction(actions_8e12537b_esm_dragAction);
+  actions_e2a59bb9_esm_registerAction(actions_e2a59bb9_esm_dragAction);
   return useRecognizers({
     drag: handler
   }, config || {}, 'drag');
@@ -40044,7 +40056,7 @@ function useMove(handler, config) {
 }
 
 function useHover(handler, config) {
-  actions_8e12537b_esm_registerAction(actions_8e12537b_esm_hoverAction);
+  actions_e2a59bb9_esm_registerAction(actions_e2a59bb9_esm_hoverAction);
   return useRecognizers({
     hover: handler
   }, config || {}, 'hover');

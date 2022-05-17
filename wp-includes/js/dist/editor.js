@@ -8826,7 +8826,7 @@ function FlatTermSelector(_ref) {
 
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     if (hasResolvedTerms) {
-      const newValues = terms.map(term => unescapeString(term.name));
+      const newValues = (terms !== null && terms !== void 0 ? terms : []).map(term => unescapeString(term.name));
       setValues(newValues);
     }
   }, [terms, hasResolvedTerms]);
@@ -8848,7 +8848,7 @@ function FlatTermSelector(_ref) {
   }
 
   function onChange(termNames) {
-    const availableTerms = [...terms, ...(searchResults !== null && searchResults !== void 0 ? searchResults : [])];
+    const availableTerms = [...(terms !== null && terms !== void 0 ? terms : []), ...(searchResults !== null && searchResults !== void 0 ? searchResults : [])];
     const uniqueTerms = (0,external_lodash_namespaceObject.uniqBy)(termNames, term => term.toLowerCase());
     const newTermNames = uniqueTerms.filter(termName => !(0,external_lodash_namespaceObject.find)(availableTerms, term => isSameTermName(term.name, termName))); // Optimistically update term values.
     // The selector will always re-fetch terms later.
@@ -11462,6 +11462,8 @@ function mediaUpload(_ref) {
  */
 
 function useBlockEditorSettings(settings, hasTemplate) {
+  var _settings$__experimen, _settings$__experimen2;
+
   const {
     reusableBlocks,
     hasUploadPermissions,
@@ -11489,17 +11491,21 @@ function useBlockEditorSettings(settings, hasTemplate) {
       pageOnFront: siteSettings === null || siteSettings === void 0 ? void 0 : siteSettings.page_on_front
     };
   }, []);
+  const settingsBlockPatterns = (_settings$__experimen = settings.__experimentalAdditionalBlockPatterns) !== null && _settings$__experimen !== void 0 ? _settings$__experimen : // WP 6.0
+  settings.__experimentalBlockPatterns; // WP 5.9
+
+  const settingsBlockPatternCategories = (_settings$__experimen2 = settings.__experimentalAdditionalBlockPatternCategories) !== null && _settings$__experimen2 !== void 0 ? _settings$__experimen2 : // WP 6.0
+  settings.__experimentalBlockPatternCategories; // WP 5.9
+
   const {
-    __experimentalBlockPatterns: settingsBlockPatterns,
-    __experimentalBlockPatternCategories: settingsBlockPatternCategories
-  } = settings;
-  const {
-    blockPatterns,
-    blockPatternCategories
+    restBlockPatterns,
+    restBlockPatternCategories
   } = (0,external_wp_data_namespaceObject.useSelect)(select => ({
-    blockPatterns: settingsBlockPatterns !== null && settingsBlockPatterns !== void 0 ? settingsBlockPatterns : select(external_wp_coreData_namespaceObject.store).getBlockPatterns(),
-    blockPatternCategories: settingsBlockPatternCategories !== null && settingsBlockPatternCategories !== void 0 ? settingsBlockPatternCategories : select(external_wp_coreData_namespaceObject.store).getBlockPatternCategories()
-  }), [settingsBlockPatterns, settingsBlockPatternCategories]);
+    restBlockPatterns: select(external_wp_coreData_namespaceObject.store).getBlockPatterns(),
+    restBlockPatternCategories: select(external_wp_coreData_namespaceObject.store).getBlockPatternCategories()
+  }), []);
+  const blockPatterns = (0,external_wp_element_namespaceObject.useMemo)(() => (0,external_lodash_namespaceObject.unionBy)(settingsBlockPatterns, restBlockPatterns, 'name'), [settingsBlockPatterns, restBlockPatterns]);
+  const blockPatternCategories = (0,external_wp_element_namespaceObject.useMemo)(() => (0,external_lodash_namespaceObject.unionBy)(settingsBlockPatternCategories, restBlockPatternCategories, 'name'), [settingsBlockPatternCategories, restBlockPatternCategories]);
   const {
     undo
   } = (0,external_wp_data_namespaceObject.useDispatch)(store_store);

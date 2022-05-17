@@ -13019,6 +13019,11 @@ function Warning(_ref) {
     secondaryActions
   } = _ref;
   return (0,external_wp_element_namespaceObject.createElement)("div", {
+    style: {
+      display: 'contents',
+      all: 'initial'
+    }
+  }, (0,external_wp_element_namespaceObject.createElement)("div", {
     className: classnames_default()(className, 'block-editor-warning')
   }, (0,external_wp_element_namespaceObject.createElement)("div", {
     className: "block-editor-warning__contents"
@@ -13041,7 +13046,7 @@ function Warning(_ref) {
   }, () => (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuGroup, null, secondaryActions.map((item, pos) => (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuItem, {
     onClick: item.onClick,
     key: pos
-  }, item.title)))))));
+  }, item.title))))))));
 }
 /**
  * @see https://github.com/WordPress/gutenberg/blob/HEAD/packages/block-editor/src/components/warning/README.md

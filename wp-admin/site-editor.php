@@ -68,6 +68,11 @@ $custom_settings      = array(
 	'defaultTemplatePartAreas' => get_allowed_block_template_part_areas(),
 	'__unstableHomeTemplate'   => $home_template,
 );
+
+// Add additional back-compat patterns registered by `current_screen` et al.
+$custom_settings['__experimentalAdditionalBlockPatterns']          = WP_Block_Patterns_Registry::get_instance()->get_all_registered( true );
+$custom_settings['__experimentalAdditionalBlockPatternCategories'] = WP_Block_Pattern_Categories_Registry::get_instance()->get_all_registered( true );
+
 $editor_settings      = get_block_editor_settings( $custom_settings, $block_editor_context );
 
 if ( isset( $_GET['postType'] ) && ! isset( $_GET['postId'] ) ) {
