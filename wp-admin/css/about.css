@@ -606,7 +606,7 @@
 	position: relative;
 	margin-bottom: var(--gap);
 	padding-top: 0;
-	background: var(--subtle-background) url('../images/about-header-about.svg') no-repeat;
+	background: var(--subtle-background) url('../images/about-header-about.svg?ver=6.0') no-repeat;
 	background-size: var(--about-header-bg-width) var(--about-header-bg-height);
 	background-position: right var(--about-header-bg-offset-inline) center;
 }
@@ -616,7 +616,7 @@
 	--about-header-image-height: 470px;
 	--about-header-bg-offset-inline: calc(var(--gap) * -4);
 
-	background-image: url('../images/about-header-credits.svg');
+	background-image: url('../images/about-header-credits.svg?ver=6.0');
 	background-position: right var(--about-header-bg-offset-inline) top var(--gap);
 }
 
@@ -625,7 +625,7 @@
 	--about-header-image-height: 498px;
 	--about-header-bg-offset-inline: var(--gap);
 
-	background-image: url('../images/about-header-freedoms.svg');
+	background-image: url('../images/about-header-freedoms.svg?ver=6.0');
 	background-position: right var(--about-header-bg-offset-inline) top calc(var(--gap) * 4);
 }
 
@@ -634,7 +634,7 @@
 	--about-header-image-height: 361px;
 	--about-header-bg-offset-inline: var(--gap);
 
-	background-image: url('../images/about-header-privacy.svg');
+	background-image: url('../images/about-header-privacy.svg?ver=6.0');
 	background-position: right var(--about-header-bg-offset-inline) top var(--gap);
 }
 
