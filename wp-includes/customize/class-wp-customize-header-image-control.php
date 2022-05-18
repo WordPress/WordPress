@@ -15,6 +15,7 @@
  * @see WP_Customize_Image_Control
  */
 class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
+
 	/**
 	 * Customize control type.
 	 *
