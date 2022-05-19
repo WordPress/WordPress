@@ -350,8 +350,13 @@ class WP_Media_List_Table extends WP_List_Table {
 		/* translators: Column name. */
 		if ( ! $this->detached ) {
 			$posts_columns['parent'] = _x( 'Uploaded to', 'column name' );
+
 			if ( post_type_supports( 'attachment', 'comments' ) ) {
-				$posts_columns['comments'] = '<span class="vers comment-grey-bubble" title="' . esc_attr__( 'Comments' ) . '"><span class="screen-reader-text">' . __( 'Comments' ) . '</span></span>';
+				$posts_columns['comments'] = sprintf(
+					'<span class="vers comment-grey-bubble" title="%1$s" aria-hidden="true"></span><span class="screen-reader-text">%2$s</span>',
+					esc_attr__( 'Comments' ),
+					__( 'Comments' )
+				);
 			}
 		}
 

@@ -691,7 +691,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			&& ! in_array( $post_status, array( 'pending', 'draft', 'future' ), true )
 		) {
 			$posts_columns['comments'] = sprintf(
-				'<span class="vers comment-grey-bubble" title="%1$s"><span class="screen-reader-text">%2$s</span></span>',
+				'<span class="vers comment-grey-bubble" title="%1$s" aria-hidden="true"></span><span class="screen-reader-text">%2$s</span>',
 				esc_attr__( 'Comments' ),
 				__( 'Comments' )
 			);
