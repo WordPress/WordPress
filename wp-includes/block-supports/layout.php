@@ -43,7 +43,7 @@ function wp_register_layout_support( $block_type ) {
  * @param boolean $should_skip_gap_serialization Whether to skip applying the user-defined value set in the editor.
  * @return string CSS style.
  */
-function wp_get_layout_style( $selector, $layout, $has_block_gap_support = false, $gap_value = null, $should_skip_gap_serialization = false ) {
+function wp_get_layout_style( $selector, $layout, $has_block_gap_support = false, $gap_value = null, $should_skip_gap_serialization = false, $fallback_gap_value = '0.5em' ) {
 	$layout_type = isset( $layout['type'] ) ? $layout['type'] : 'default';
 
 	$style = '';
@@ -102,14 +102,14 @@ function wp_get_layout_style( $selector, $layout, $has_block_gap_support = false
 		$style .= 'display: flex;';
 		if ( $has_block_gap_support ) {
 			if ( is_array( $gap_value ) ) {
-				$gap_row    = isset( $gap_value['top'] ) ? $gap_value['top'] : '0.5em';
-				$gap_column = isset( $gap_value['left'] ) ? $gap_value['left'] : '0.5em';
+				$gap_row    = isset( $gap_value['top'] ) ? $gap_value['top'] : $fallback_gap_value;
+				$gap_column = isset( $gap_value['left'] ) ? $gap_value['left'] : $fallback_gap_value;
 				$gap_value  = $gap_row === $gap_column ? $gap_row : $gap_row . ' ' . $gap_column;
 			}
-			$gap_style = $gap_value && ! $should_skip_gap_serialization ? $gap_value : 'var( --wp--style--block-gap, 0.5em )';
+			$gap_style = $gap_value && ! $should_skip_gap_serialization ? $gap_value : "var( --wp--style--block-gap, $fallback_gap_value )";
 			$style    .= "gap: $gap_style;";
 		} else {
-			$style .= 'gap: 0.5em;';
+			$style .= "gap: $fallback_gap_value;";
 		}
 
 		$style .= "flex-wrap: $flex_wrap;";
@@ -182,10 +182,12 @@ function wp_render_layout_support_flag( $block_content, $block ) {
 		$gap_value = $gap_value && preg_match( '%[\\\(&=}]|/\*%', $gap_value ) ? null : $gap_value;
 	}
 
+	$fallback_gap_value = _wp_array_get( $block_type->supports, array( 'spacing', 'blockGap', '__experimentalDefault' ), '0.5em' );
+
 	// If a block's block.json skips serialization for spacing or spacing.blockGap,
 	// don't apply the user-defined value to the styles.
 	$should_skip_gap_serialization = wp_should_skip_block_supports_serialization( $block_type, 'spacing', 'blockGap' );
-	$style                         = wp_get_layout_style( ".$class_name", $used_layout, $has_block_gap_support, $gap_value, $should_skip_gap_serialization );
+	$style                         = wp_get_layout_style( ".$class_name", $used_layout, $has_block_gap_support, $gap_value, $should_skip_gap_serialization, $fallback_gap_value );
 	// This assumes the hook only applies to blocks with a single wrapper.
 	// I think this is a reasonable limitation for that particular hook.
 	$content = preg_replace(

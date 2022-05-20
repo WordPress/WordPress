@@ -7198,7 +7198,9 @@ const columns_metadata = {
       }
     },
     spacing: {
-      blockGap: true,
+      blockGap: {
+        __experimentalDefault: "2em"
+      },
       margin: ["top", "bottom"],
       padding: true,
       __experimentalDefaultControls: {
@@ -15846,10 +15848,20 @@ function GapStyles(_ref) {
   const styleElement = (0,external_wp_element_namespaceObject.useContext)(external_wp_blockEditor_namespaceObject.BlockList.__unstableElementContext); // --gallery-block--gutter-size is deprecated. --wp--style--gallery-gap-default should be used by themes that want to set a default
   // gap on the gallery.
 
-  const gapValue = blockGap ? blockGap : `var( --wp--style--gallery-gap-default, var( --gallery-block--gutter-size, var( --wp--style--block-gap, 0.5em ) ) )`;
-  const gap = `#block-${clientId} { 
-		--wp--style--unstable-gallery-gap: ${gapValue};
-		gap: ${gapValue} 
+  const fallbackValue = `var( --wp--style--gallery-gap-default, var( --gallery-block--gutter-size, var( --wp--style--block-gap, 0.5em ) ) )`;
+  let gapValue = fallbackValue;
+  let column = fallbackValue;
+  let row; // Check for the possibility of split block gap values. See: https://github.com/WordPress/gutenberg/pull/37736
+
+  if (!!blockGap) {
+    row = typeof blockGap === 'string' ? blockGap : (blockGap === null || blockGap === void 0 ? void 0 : blockGap.top) || fallbackValue;
+    column = typeof blockGap === 'string' ? blockGap : (blockGap === null || blockGap === void 0 ? void 0 : blockGap.left) || fallbackValue;
+    gapValue = row === column ? row : `${row} ${column}`;
+  }
+
+  const gap = `#block-${clientId} {
+		--wp--style--unstable-gallery-gap: ${column};
+		gap: ${gapValue}
 	}`;
 
   const GapStyle = () => {
@@ -20059,14 +20071,12 @@ function Image(_ref) {
     isSelected,
     insertBlocksAfter,
     onReplace,
-    onCloseModal,
     onSelectImage,
     onSelectURL,
     onUploadError,
     containerRef,
     context,
-    clientId,
-    onImageLoadError
+    clientId
   } = _ref;
   const imageRef = (0,external_wp_element_namespaceObject.useRef)();
   const captionRef = (0,external_wp_element_namespaceObject.useRef)();
@@ -20192,20 +20202,16 @@ function Image(_ref) {
   }
 
   function onImageError() {
-    // Check if there's an embed block that handles this URL, e.g., instagram URL.
-    // See: https://github.com/WordPress/gutenberg/pull/11472
+    // Check if there's an embed block that handles this URL.
     const embedBlock = createUpgradedEmbedBlock({
       attributes: {
         url
       }
     });
-    const shouldReplace = undefined !== embedBlock;
 
-    if (shouldReplace) {
+    if (undefined !== embedBlock) {
       onReplace(embedBlock);
     }
-
-    onImageLoadError(shouldReplace);
   }
 
   function onSetHref(props) {
@@ -20284,10 +20290,6 @@ function Image(_ref) {
     if (!isSelected) {
       setIsEditingImage(false);
     }
-
-    if (isSelected && isMediaDestroyed(id)) {
-      onImageLoadError();
-    }
   }, [isSelected]);
   const canEditImage = id && naturalWidth && naturalHeight && imageEditing;
   const allowCrop = !multiImageSelection && canEditImage && !isEditingImage;
@@ -20331,8 +20333,7 @@ function Image(_ref) {
     accept: "image/*",
     onSelect: onSelectImage,
     onSelectURL: onSelectURL,
-    onError: onUploadError,
-    onCloseModal: onCloseModal
+    onError: onUploadError
   })), (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.InspectorControls, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.PanelBody, {
     title: (0,external_wp_i18n_namespaceObject.__)('Image settings')
   }, !multiImageSelection && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.TextareaControl, {
@@ -20590,23 +20591,7 @@ const isExternalImage = (id, url) => url && !id && !(0,external_wp_blob_namespac
 function hasDefaultSize(image, defaultSize) {
   return (0,external_lodash_namespaceObject.has)(image, ['sizes', defaultSize, 'url']) || (0,external_lodash_namespaceObject.has)(image, ['media_details', 'sizes', defaultSize, 'source_url']);
 }
-/**
- * Checks if a media attachment object has been "destroyed",
- * that is, removed from the media library. The core Media Library
- * adds a `destroyed` property to a deleted attachment object in the media collection.
- *
- * @param {number} id The attachment id.
- *
- * @return {boolean} Whether the image has been destroyed.
- */
 
-
-function isMediaDestroyed(id) {
-  var _wp, _wp$media;
-
-  const attachment = ((_wp = wp) === null || _wp === void 0 ? void 0 : (_wp$media = _wp.media) === null || _wp$media === void 0 ? void 0 : _wp$media.attachment(id)) || {};
-  return attachment.destroyed;
-}
 function ImageEdit(_ref) {
   let {
     attributes,
@@ -20648,36 +20633,7 @@ function ImageEdit(_ref) {
       getSettings
     } = select(external_wp_blockEditor_namespaceObject.store);
     return (0,external_lodash_namespaceObject.pick)(getSettings(), ['imageDefaultSize', 'mediaUpload']);
-  }, []); // A callback passed to MediaUpload,
-  // fired when the media modal closes.
-
-  function onCloseModal() {
-    if (isMediaDestroyed(attributes === null || attributes === void 0 ? void 0 : attributes.id)) {
-      setAttributes({
-        url: undefined,
-        id: undefined
-      });
-    }
-  }
-  /*
-  	 Runs an error callback if the image does not load.
-  	 If the error callback is triggered, we infer that that image
-  	 has been deleted.
-  */
-
-
-  function onImageError() {
-    let isReplaced = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-
-    // If the image block was not replaced with an embed,
-    // clear the attributes and trigger the placeholder.
-    if (!isReplaced) {
-      setAttributes({
-        url: undefined,
-        id: undefined
-      });
-    }
-  }
+  }, []);
 
   function onUploadError(message) {
     noticeOperations.removeAllNotices();
@@ -20691,7 +20647,7 @@ function ImageEdit(_ref) {
   }
 
   function onSelectImage(media) {
-    var _wp2, _wp2$media, _wp2$media$view, _wp2$media$view$setti, _wp2$media$view$setti2;
+    var _wp, _wp$media, _wp$media$view, _wp$media$view$settin, _wp$media$view$settin2;
 
     if (!media || !media.url) {
       setAttributes({
@@ -20742,7 +20698,7 @@ function ImageEdit(_ref) {
       // Use the WordPress option to determine the proper default.
       // The constants used in Gutenberg do not match WP options so a little more complicated than ideal.
       // TODO: fix this in a follow up PR, requires updating media-text and ui component.
-      switch (((_wp2 = wp) === null || _wp2 === void 0 ? void 0 : (_wp2$media = _wp2.media) === null || _wp2$media === void 0 ? void 0 : (_wp2$media$view = _wp2$media.view) === null || _wp2$media$view === void 0 ? void 0 : (_wp2$media$view$setti = _wp2$media$view.settings) === null || _wp2$media$view$setti === void 0 ? void 0 : (_wp2$media$view$setti2 = _wp2$media$view$setti.defaultProps) === null || _wp2$media$view$setti2 === void 0 ? void 0 : _wp2$media$view$setti2.link) || constants_LINK_DESTINATION_NONE) {
+      switch (((_wp = wp) === null || _wp === void 0 ? void 0 : (_wp$media = _wp.media) === null || _wp$media === void 0 ? void 0 : (_wp$media$view = _wp$media.view) === null || _wp$media$view === void 0 ? void 0 : (_wp$media$view$settin = _wp$media$view.settings) === null || _wp$media$view$settin === void 0 ? void 0 : (_wp$media$view$settin2 = _wp$media$view$settin.defaultProps) === null || _wp$media$view$settin2 === void 0 ? void 0 : _wp$media$view$settin2.link) || constants_LINK_DESTINATION_NONE) {
         case 'file':
         case constants_LINK_DESTINATION_MEDIA:
           linkDestination = constants_LINK_DESTINATION_MEDIA;
@@ -20868,9 +20824,7 @@ function ImageEdit(_ref) {
     onUploadError: onUploadError,
     containerRef: ref,
     context: context,
-    clientId: clientId,
-    onCloseModal: onCloseModal,
-    onImageLoadError: onImageError
+    clientId: clientId
   }), !url && (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockControls, {
     group: "block"
   }, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockAlignmentControl, {
@@ -20884,7 +20838,6 @@ function ImageEdit(_ref) {
     onSelectURL: onSelectURL,
     notices: noticeUI,
     onError: onUploadError,
-    onClose: onCloseModal,
     accept: "image/*",
     allowedTypes: constants_ALLOWED_MEDIA_TYPES,
     value: {
@@ -26408,89 +26361,12 @@ function Navigation(_ref) {
         replaceInnerBlocks(clientId, []);
       }
     });
-  }, [clientId, ref]); // If the block has inner blocks, but no menu id, then these blocks are either:
-  // - inserted via a pattern.
-  // - inserted directly via Code View (or otherwise).
-  // - from an older version of navigation block added before the block used a wp_navigation entity.
-  // Consider this state as 'unsaved' and offer an uncontrolled version of inner blocks,
-  // that automatically saves the menu as an entity when changes are made to the inner blocks.
-
-  const hasUnsavedBlocks = hasUncontrolledInnerBlocks && !isEntityAvailable;
-
-  if (hasUnsavedBlocks) {
-    return (0,external_wp_element_namespaceObject.createElement)(TagName, blockProps, (0,external_wp_element_namespaceObject.createElement)(ResponsiveWrapper, {
-      id: clientId,
-      onToggle: setResponsiveMenuVisibility,
-      isOpen: isResponsiveMenuOpen,
-      isResponsive: 'never' !== overlayMenu,
-      isHiddenByDefault: 'always' === overlayMenu,
-      classNames: overlayClassnames,
-      styles: overlayStyles
-    }, (0,external_wp_element_namespaceObject.createElement)(UnsavedInnerBlocks, {
-      blockProps: blockProps,
-      blocks: uncontrolledInnerBlocks,
-      clientId: clientId,
-      navigationMenus: navigationMenus,
-      hasSelection: isSelected || isInnerBlockSelected,
-      hasSavedUnsavedInnerBlocks: hasSavedUnsavedInnerBlocks,
-      onSave: post => {
-        // Set some state used as a guard to prevent the creation of multiple posts.
-        setHasSavedUnsavedInnerBlocks(true); // Switch to using the wp_navigation entity.
-
-        setRef(post.id);
-        showNavigationMenuCreateNotice((0,external_wp_i18n_namespaceObject.__)(`New Navigation Menu created.`));
-      }
-    })));
-  } // Show a warning if the selected menu is no longer available.
-  // TODO - the user should be able to select a new one?
-
-
-  if (ref && isNavigationMenuMissing) {
-    return (0,external_wp_element_namespaceObject.createElement)("div", blockProps, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.Warning, null, (0,external_wp_i18n_namespaceObject.__)('Navigation menu has been deleted or is unavailable. '), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
-      onClick: resetToEmptyBlock,
-      variant: "link"
-    }, (0,external_wp_i18n_namespaceObject.__)('Create a new menu?'))));
-  }
-
-  if (isEntityAvailable && hasAlreadyRendered) {
-    return (0,external_wp_element_namespaceObject.createElement)("div", blockProps, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.Warning, null, (0,external_wp_i18n_namespaceObject.__)('Block cannot be rendered inside itself.')));
-  }
-
-  const PlaceholderComponent = CustomPlaceholder ? CustomPlaceholder : NavigationPlaceholder;
+  }, [clientId, ref]);
   const isResponsive = 'never' !== overlayMenu;
   const overlayMenuPreviewClasses = classnames_default()('wp-block-navigation__overlay-menu-preview', {
     open: overlayMenuPreview
   });
-
-  if (isPlaceholder) {
-    return (0,external_wp_element_namespaceObject.createElement)(TagName, blockProps, (0,external_wp_element_namespaceObject.createElement)(PlaceholderComponent, {
-      isSelected: isSelected,
-      currentMenuId: ref,
-      clientId: clientId,
-      canUserCreateNavigationMenu: canUserCreateNavigationMenu,
-      isResolvingCanUserCreateNavigationMenu: isResolvingCanUserCreateNavigationMenu,
-      onFinish: handleSelectNavigation,
-      onCreateEmpty: () => createNavigationMenu('', [])
-    }));
-  }
-
-  return (0,external_wp_element_namespaceObject.createElement)(external_wp_coreData_namespaceObject.EntityProvider, {
-    kind: "postType",
-    type: "wp_navigation",
-    id: ref
-  }, (0,external_wp_element_namespaceObject.createElement)(RecursionProvider, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockControls, null, !isDraftNavigationMenu && isEntityAvailable && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.ToolbarGroup, {
-    className: "wp-block-navigation__toolbar-menu-selector"
-  }, (0,external_wp_element_namespaceObject.createElement)(navigation_menu_selector, {
-    ref: navigationSelectorRef,
-    currentMenuId: ref,
-    clientId: clientId,
-    onSelect: handleSelectNavigation,
-    onCreateNew: resetToEmptyBlock
-    /* translators: %s: The name of a menu. */
-    ,
-    actionLabel: (0,external_wp_i18n_namespaceObject.__)("Switch to '%s'"),
-    showManageActions: true
-  }))), (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.InspectorControls, null, hasSubmenuIndicatorSetting && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.PanelBody, {
+  const stylingInspectorControls = (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.InspectorControls, null, hasSubmenuIndicatorSetting && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.PanelBody, {
     title: (0,external_wp_i18n_namespaceObject.__)('Display')
   }, isResponsive && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
     className: overlayMenuPreviewClasses,
@@ -26571,7 +26447,85 @@ function Navigation(_ref) {
   }), (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.ContrastChecker, {
     backgroundColor: detectedOverlayBackgroundColor,
     textColor: detectedOverlayColor
-  })))), isEntityAvailable && (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.InspectorControls, {
+  })))); // If the block has inner blocks, but no menu id, then these blocks are either:
+  // - inserted via a pattern.
+  // - inserted directly via Code View (or otherwise).
+  // - from an older version of navigation block added before the block used a wp_navigation entity.
+  // Consider this state as 'unsaved' and offer an uncontrolled version of inner blocks,
+  // that automatically saves the menu as an entity when changes are made to the inner blocks.
+
+  const hasUnsavedBlocks = hasUncontrolledInnerBlocks && !isEntityAvailable;
+
+  if (hasUnsavedBlocks) {
+    return (0,external_wp_element_namespaceObject.createElement)(TagName, blockProps, stylingInspectorControls, (0,external_wp_element_namespaceObject.createElement)(ResponsiveWrapper, {
+      id: clientId,
+      onToggle: setResponsiveMenuVisibility,
+      isOpen: isResponsiveMenuOpen,
+      isResponsive: 'never' !== overlayMenu,
+      isHiddenByDefault: 'always' === overlayMenu,
+      classNames: overlayClassnames,
+      styles: overlayStyles
+    }, (0,external_wp_element_namespaceObject.createElement)(UnsavedInnerBlocks, {
+      blockProps: blockProps,
+      blocks: uncontrolledInnerBlocks,
+      clientId: clientId,
+      navigationMenus: navigationMenus,
+      hasSelection: isSelected || isInnerBlockSelected,
+      hasSavedUnsavedInnerBlocks: hasSavedUnsavedInnerBlocks,
+      onSave: post => {
+        // Set some state used as a guard to prevent the creation of multiple posts.
+        setHasSavedUnsavedInnerBlocks(true); // Switch to using the wp_navigation entity.
+
+        setRef(post.id);
+        showNavigationMenuCreateNotice((0,external_wp_i18n_namespaceObject.__)(`New Navigation Menu created.`));
+      }
+    })));
+  } // Show a warning if the selected menu is no longer available.
+  // TODO - the user should be able to select a new one?
+
+
+  if (ref && isNavigationMenuMissing) {
+    return (0,external_wp_element_namespaceObject.createElement)("div", blockProps, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.Warning, null, (0,external_wp_i18n_namespaceObject.__)('Navigation menu has been deleted or is unavailable. '), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
+      onClick: resetToEmptyBlock,
+      variant: "link"
+    }, (0,external_wp_i18n_namespaceObject.__)('Create a new menu?'))));
+  }
+
+  if (isEntityAvailable && hasAlreadyRendered) {
+    return (0,external_wp_element_namespaceObject.createElement)("div", blockProps, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.Warning, null, (0,external_wp_i18n_namespaceObject.__)('Block cannot be rendered inside itself.')));
+  }
+
+  const PlaceholderComponent = CustomPlaceholder ? CustomPlaceholder : NavigationPlaceholder;
+
+  if (isPlaceholder) {
+    return (0,external_wp_element_namespaceObject.createElement)(TagName, blockProps, (0,external_wp_element_namespaceObject.createElement)(PlaceholderComponent, {
+      isSelected: isSelected,
+      currentMenuId: ref,
+      clientId: clientId,
+      canUserCreateNavigationMenu: canUserCreateNavigationMenu,
+      isResolvingCanUserCreateNavigationMenu: isResolvingCanUserCreateNavigationMenu,
+      onFinish: handleSelectNavigation,
+      onCreateEmpty: () => createNavigationMenu('', [])
+    }));
+  }
+
+  return (0,external_wp_element_namespaceObject.createElement)(external_wp_coreData_namespaceObject.EntityProvider, {
+    kind: "postType",
+    type: "wp_navigation",
+    id: ref
+  }, (0,external_wp_element_namespaceObject.createElement)(RecursionProvider, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockControls, null, !isDraftNavigationMenu && isEntityAvailable && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.ToolbarGroup, {
+    className: "wp-block-navigation__toolbar-menu-selector"
+  }, (0,external_wp_element_namespaceObject.createElement)(navigation_menu_selector, {
+    ref: navigationSelectorRef,
+    currentMenuId: ref,
+    clientId: clientId,
+    onSelect: handleSelectNavigation,
+    onCreateNew: resetToEmptyBlock
+    /* translators: %s: The name of a menu. */
+    ,
+    actionLabel: (0,external_wp_i18n_namespaceObject.__)("Switch to '%s'"),
+    showManageActions: true
+  }))), stylingInspectorControls, isEntityAvailable && (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.InspectorControls, {
     __experimentalGroup: "advanced"
   }, hasResolvedCanUserUpdateNavigationMenu && canUserUpdateNavigationMenu && (0,external_wp_element_namespaceObject.createElement)(NavigationMenuNameControl, null), hasResolvedCanUserDeleteNavigationMenu && canUserDeleteNavigationMenu && (0,external_wp_element_namespaceObject.createElement)(NavigationMenuDeleteControl, {
     onDelete: function () {

@@ -10770,7 +10770,7 @@ const useIsDimensionsDisabled = function () {
   return gapDisabled && paddingDisabled && marginDisabled;
 };
 /**
- * Custom hook to retrieve which padding/margin is supported
+ * Custom hook to retrieve which padding/margin/blockGap is supported
  * e.g. top, right, bottom or left.
  *
  * Sides are opted into by default. It is only if a specific side is set to
@@ -10779,18 +10779,28 @@ const useIsDimensionsDisabled = function () {
  * @param {string} blockName Block name.
  * @param {string} feature   The feature custom sides relate to e.g. padding or margins.
  *
- * @return {Object} Sides supporting custom margin.
+ * @return {?string[]} Strings representing the custom sides available.
  */
 
 
 function useCustomSides(blockName, feature) {
+  var _support$feature;
+
   const support = (0,external_wp_blocks_namespaceObject.getBlockSupport)(blockName, SPACING_SUPPORT_KEY); // Skip when setting is boolean as theme isn't setting arbitrary sides.
 
   if (!support || typeof support[feature] === 'boolean') {
     return;
-  }
+  } // Return if the setting is an array of sides (e.g. `[ 'top', 'bottom' ]`).
 
-  return support[feature];
+
+  if (Array.isArray(support[feature])) {
+    return support[feature];
+  } // Finally, attempt to return `.sides` if the setting is an object.
+
+
+  if ((_support$feature = support[feature]) !== null && _support$feature !== void 0 && _support$feature.sides) {
+    return support[feature].sides;
+  }
 }
 /**
  * Custom hook to determine whether the sides configured in the
@@ -11266,6 +11276,7 @@ const JustifyToolbar = props => {
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -11357,10 +11368,11 @@ const flexWrapOptions = ['wrap', 'nowrap'];
       orientation = 'horizontal'
     } = layout;
     const blockGapSupport = useSetting('spacing.blockGap');
+    const fallbackValue = (0,external_wp_blocks_namespaceObject.getBlockSupport)(blockName, ['spacing', 'blockGap', '__experimentalDefault']) || '0.5em';
     const hasBlockGapStylesSupport = blockGapSupport !== null; // If a block's block.json skips serialization for spacing or spacing.blockGap,
     // don't apply the user-defined value to the styles.
 
-    const blockGapValue = style !== null && style !== void 0 && (_style$spacing = style.spacing) !== null && _style$spacing !== void 0 && _style$spacing.blockGap && !shouldSkipSerialization(blockName, 'spacing', 'blockGap') ? getGapCSSValue(style === null || style === void 0 ? void 0 : (_style$spacing2 = style.spacing) === null || _style$spacing2 === void 0 ? void 0 : _style$spacing2.blockGap, '0.5em') : 'var( --wp--style--block-gap, 0.5em )';
+    const blockGapValue = style !== null && style !== void 0 && (_style$spacing = style.spacing) !== null && _style$spacing !== void 0 && _style$spacing.blockGap && !shouldSkipSerialization(blockName, 'spacing', 'blockGap') ? getGapCSSValue(style === null || style === void 0 ? void 0 : (_style$spacing2 = style.spacing) === null || _style$spacing2 === void 0 ? void 0 : _style$spacing2.blockGap, fallbackValue) : `var( --wp--style--block-gap, ${fallbackValue} )`;
     const justifyContent = justifyContentMap[layout.justifyContent] || justifyContentMap.left;
     const flexWrap = flexWrapOptions.includes(layout.flexWrap) ? layout.flexWrap : 'wrap';
     const verticalAlignment = verticalAlignmentMap[layout.verticalAlignment] || verticalAlignmentMap.center;
@@ -11378,7 +11390,7 @@ const flexWrapOptions = ['wrap', 'nowrap'];
 				${appendSelectors(selector)} {
 					display: flex;
 					flex-wrap: ${flexWrap};
-					gap: ${hasBlockGapStylesSupport ? blockGapValue : '0.5em'};
+					gap: ${hasBlockGapStylesSupport ? blockGapValue : fallbackValue};
 					${orientation === 'horizontal' ? rowOrientation : columnOrientation}
 				}
 
@@ -44754,7 +44766,6 @@ const MediaReplaceFlow = _ref => {
     onSelect,
     onSelectURL,
     onFilesUpload = external_lodash_namespaceObject.noop,
-    onCloseModal = external_lodash_namespaceObject.noop,
     name = (0,external_wp_i18n_namespaceObject.__)('Replace'),
     createNotice,
     removeNotice,
@@ -44870,7 +44881,6 @@ const MediaReplaceFlow = _ref => {
         value: multiple ? mediaIds : mediaId,
         onSelect: media => selectMedia(media, onClose),
         allowedTypes: allowedTypes,
-        onClose: onCloseModal,
         render: _ref5 => {
           let {
             open
@@ -45191,7 +45201,6 @@ function MediaPlaceholder(_ref2) {
     onDoubleClick,
     onFilesPreUpload = external_lodash_namespaceObject.noop,
     onHTMLDrop = external_lodash_namespaceObject.noop,
-    onClose = external_lodash_namespaceObject.noop,
     children,
     mediaLibraryButton,
     placeholder,
@@ -45431,7 +45440,6 @@ function MediaPlaceholder(_ref2) {
       gallery: multiple && onlyAllowsImages(),
       multiple: multiple,
       onSelect: onSelect,
-      onClose: onClose,
       allowedTypes: allowedTypes,
       value: Array.isArray(value) ? value.map(_ref7 => {
         let {
