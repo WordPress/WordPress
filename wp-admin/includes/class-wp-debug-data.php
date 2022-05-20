@@ -677,23 +677,18 @@ class WP_Debug_Data {
 			$server_architecture = 'unknown';
 		}
 
-		if ( function_exists( 'phpversion' ) ) {
-			$php_version_debug = phpversion();
-			// Whether PHP supports 64-bit.
-			$php64bit = ( PHP_INT_SIZE * 8 === 64 );
+		$php_version_debug = PHP_VERSION;
+		// Whether PHP supports 64-bit.
+		$php64bit = ( PHP_INT_SIZE * 8 === 64 );
 
-			$php_version = sprintf(
-				'%s %s',
-				$php_version_debug,
-				( $php64bit ? __( '(Supports 64bit values)' ) : __( '(Does not support 64bit values)' ) )
-			);
+		$php_version = sprintf(
+			'%s %s',
+			$php_version_debug,
+			( $php64bit ? __( '(Supports 64bit values)' ) : __( '(Does not support 64bit values)' ) )
+		);
 
-			if ( $php64bit ) {
-				$php_version_debug .= ' 64bit';
-			}
-		} else {
-			$php_version       = __( 'Unable to determine PHP version' );
-			$php_version_debug = 'unknown';
+		if ( $php64bit ) {
+			$php_version_debug .= ' 64bit';
 		}
 
 		if ( function_exists( 'php_sapi_name' ) ) {

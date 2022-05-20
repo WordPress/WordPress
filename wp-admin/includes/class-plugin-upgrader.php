@@ -447,7 +447,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 			$error = sprintf(
 				/* translators: 1: Current PHP version, 2: Version required by the uploaded plugin. */
 				__( 'The PHP version on your server is %1$s, however the uploaded plugin requires %2$s.' ),
-				phpversion(),
+				PHP_VERSION,
 				$requires_php
 			);
 

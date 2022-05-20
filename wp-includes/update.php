@@ -32,7 +32,7 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
 
 	// Include an unmodified $wp_version.
 	require ABSPATH . WPINC . '/version.php';
-	$php_version = phpversion();
+	$php_version = PHP_VERSION;
 
 	$current      = get_site_transient( 'update_core' );
 	$translations = wp_get_installed_translations( 'core' );

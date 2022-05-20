@@ -1150,7 +1150,7 @@ function validate_plugin_requirements( $plugin ) {
 				/* translators: 1: Current WordPress version, 2: Current PHP version, 3: Plugin name, 4: Required WordPress version, 5: Required PHP version. */
 				_x( '<strong>Error:</strong> Current versions of WordPress (%1$s) and PHP (%2$s) do not meet minimum requirements for %3$s. The plugin requires WordPress %4$s and PHP %5$s.', 'plugin' ),
 				get_bloginfo( 'version' ),
-				phpversion(),
+				PHP_VERSION,
 				$plugin_headers['Name'],
 				$requirements['requires'],
 				$requirements['requires_php']
@@ -1162,7 +1162,7 @@ function validate_plugin_requirements( $plugin ) {
 			'<p>' . sprintf(
 				/* translators: 1: Current PHP version, 2: Plugin name, 3: Required PHP version. */
 				_x( '<strong>Error:</strong> Current PHP version (%1$s) does not meet minimum requirements for %2$s. The plugin requires PHP %3$s.', 'plugin' ),
-				phpversion(),
+				PHP_VERSION,
 				$plugin_headers['Name'],
 				$requirements['requires_php']
 			) . $php_update_message . '</p>'

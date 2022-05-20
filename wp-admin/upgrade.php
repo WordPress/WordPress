@@ -44,7 +44,7 @@ global $wp_version, $required_php_version, $required_mysql_version;
 
 $step = (int) $step;
 
-$php_version   = phpversion();
+$php_version   = PHP_VERSION;
 $mysql_version = $wpdb->db_version();
 $php_compat    = version_compare( $php_version, $required_php_version, '>=' );
 if ( file_exists( WP_CONTENT_DIR . '/db.php' ) && empty( $wpdb->is_mysql ) ) {

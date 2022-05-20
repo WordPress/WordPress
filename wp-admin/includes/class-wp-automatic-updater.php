@@ -222,7 +222,7 @@ class WP_Automatic_Updater {
 		if ( 'core' === $type ) {
 			global $wpdb;
 
-			$php_compat = version_compare( phpversion(), $item->php_version, '>=' );
+			$php_compat = version_compare( PHP_VERSION, $item->php_version, '>=' );
 			if ( file_exists( WP_CONTENT_DIR . '/db.php' ) && empty( $wpdb->is_mysql ) ) {
 				$mysql_compat = true;
 			} else {
@@ -236,7 +236,7 @@ class WP_Automatic_Updater {
 
 		// If updating a plugin or theme, ensure the minimum PHP version requirements are satisfied.
 		if ( in_array( $type, array( 'plugin', 'theme' ), true ) ) {
-			if ( ! empty( $item->requires_php ) && version_compare( phpversion(), $item->requires_php, '<' ) ) {
+			if ( ! empty( $item->requires_php ) && version_compare( PHP_VERSION, $item->requires_php, '<' ) ) {
 				return false;
 			}
 		}

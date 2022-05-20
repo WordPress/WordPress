@@ -59,7 +59,7 @@ function list_core_update( $update ) {
 
 	$message       = '';
 	$form_action   = 'update-core.php?action=do-core-upgrade';
-	$php_version   = phpversion();
+	$php_version   = PHP_VERSION;
 	$mysql_version = $wpdb->db_version();
 	$show_buttons  = true;
 
