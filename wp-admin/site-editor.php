@@ -29,6 +29,9 @@ if ( ! wp_is_block_theme() ) {
  */
 $home_template = _resolve_home_block_template();
 if ( $home_template && empty( $_GET['postType'] ) && empty( $_GET['postId'] ) ) {
+	if ( ! empty( $_GET['styles'] ) ) {
+		$home_template['styles'] = sanitize_key( $_GET['styles'] );
+	}
 	$redirect_url = add_query_arg(
 		$home_template,
 		admin_url( 'site-editor.php' )
