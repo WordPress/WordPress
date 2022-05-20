@@ -7940,11 +7940,22 @@ const StylesPreview = _ref => {
       color
     } = _ref2;
     return color !== backgroundColor && color !== headingColor;
-  }).slice(0, 2);
+  }).slice(0, 2); // Reset leaked styles from WP common.css.
+
+  const editorStyles = (0,external_wp_element_namespaceObject.useMemo)(() => {
+    if (styles) {
+      return [...styles, {
+        css: 'body{min-width: 0;}',
+        isGlobalStyles: true
+      }];
+    }
+
+    return styles;
+  }, [styles]);
   return (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.__unstableIframe, {
     className: "edit-site-global-styles-preview__iframe",
     head: (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.__unstableEditorStyles, {
-      styles: styles
+      styles: editorStyles
     }),
     style: {
       height: normalizedHeight * ratio,

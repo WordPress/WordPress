@@ -28,7 +28,9 @@
 			}
 		},
 		"spacing": {
-			"blockGap": true,
+			"blockGap": {
+				"__experimentalDefault": "2em"
+			},
 			"margin": [ "top", "bottom" ],
 			"padding": true,
 			"__experimentalDefaultControls": {
