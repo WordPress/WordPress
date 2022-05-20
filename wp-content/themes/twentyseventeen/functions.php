@@ -457,7 +457,7 @@ function twentyseventeen_scripts() {
 	wp_enqueue_style( 'twentyseventeen-style', get_stylesheet_uri(), array(), '20201208' );
 
 	// Theme block stylesheet.
-	wp_enqueue_style( 'twentyseventeen-block-style', get_theme_file_uri( '/assets/css/blocks.css' ), array( 'twentyseventeen-style' ), '20190105' );
+	wp_enqueue_style( 'twentyseventeen-block-style', get_theme_file_uri( '/assets/css/blocks.css' ), array( 'twentyseventeen-style' ), '20220524' );
 
 	// Load the dark colorscheme.
 	if ( 'dark' === get_theme_mod( 'colorscheme', 'light' ) || is_customize_preview() ) {
