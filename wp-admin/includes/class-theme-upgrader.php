@@ -566,15 +566,28 @@ class Theme_Upgrader extends WP_Upgrader {
 			);
 		}
 
-		// If it's not a child theme, it must have at least an index.php to be legit.
-		if ( empty( $info['Template'] ) && ! file_exists( $working_directory . 'index.php' ) ) {
+		/*
+		 * Parent themes must contain an index file:
+		 * - classic themes require /index.php
+		 * - block themes require /templates/index.html or block-templates/index.html (deprecated 5.9.0).
+		 */
+		if (
+			empty( $info['Template'] ) &&
+			! file_exists( $working_directory . 'index.php' ) &&
+			! file_exists( $working_directory . 'templates/index.html' ) &&
+			! file_exists( $working_directory . 'block-templates/index.html' )
+		) {
 			return new WP_Error(
 				'incompatible_archive_theme_no_index',
 				$this->strings['incompatible_archive'],
 				sprintf(
-					/* translators: %s: index.php */
-					__( 'The theme is missing the %s file.' ),
-					'<code>index.php</code>'
+					/* translators: 1: templates/index.html, 2: index.php, 3: Documentation URL, 4: Template, 5: style.css */
+					__( 'Template is missing. Standalone themes need to have a %1$s or %2$s template file. <a href="%3$s">Child themes</a> need to have a %4$s header in the %5$s stylesheet.' ),
+					'<code>templates/index.html</code>',
+					'<code>index.php</code>',
+					__( 'https://developer.wordpress.org/themes/advanced-topics/child-themes/' ),
+					'<code>Template</code>',
+					'<code>style.css</code>'
 				)
 			);
 		}
