@@ -843,6 +843,8 @@ $_old_files = array(
 	'wp-includes/blocks/tag-cloud/editor.min.css',
 	'wp-includes/blocks/tag-cloud/editor-rtl.css',
 	'wp-includes/blocks/tag-cloud/editor-rtl.min.css',
+	// 6.0
+	'wp-content/themes/twentytwentytwo/assets/fonts/LICENSE.md',
 );
 
 /**
