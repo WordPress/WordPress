@@ -156,7 +156,9 @@
 
 .welcome-panel-header-image {
 	position: absolute;
-	inset: -1rem var(--about-header-bg-offset-inline) 0 auto;
+	top: -1rem;
+	left: var(--about-header-bg-offset-inline);
+	bottom: 0;
 	width: var(--about-header-bg-width);
 	height: auto;
 }
