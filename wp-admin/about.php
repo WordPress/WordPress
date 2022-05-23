@@ -255,7 +255,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 
 		<div class="about__section has-2-columns is-wider-right">
 			<div class="column about__image is-vertically-aligned-top">
-				<a href="#">
+				<a href="https://www.youtube.com/watch?v=oe452WcY7fA">
 					<img src="https://s.w.org/images/core/6.0/about-60-video.png" alt="<?php echo esc_attr( __( 'Exploring WordPress 6.0 video' ) ); ?>" />
 				</a>
 			</div>
@@ -274,7 +274,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					printf(
 						/* translators: %s: 6.0 overview video link. */
 						__( 'See WordPress 6.0 in action! <a href="%s">Watch a brief overview video</a> highlighting some of the major features debuting in WordPress 6.0.' ),
-						'#'
+						'https://www.youtube.com/watch?v=oe452WcY7fA'
 					);
 					?>
 				</p>
@@ -311,7 +311,11 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					printf(
 						/* translators: %s: WordPress 6.0 Release Notes link. */
 						__( '<a href="%s">Read the WordPress 6.0 Release Notes</a> for more information on the included enhancements and issues fixed, installation information, developer notes and resources, release contributors, and the list of file changes in this release.' ),
-						'#'
+						sprintf(
+							/* translators: %s: WordPress version. */
+							esc_url( __( 'https://wordpress.org/support/wordpress-version/version-%s/' ) ),
+							'6-0'
+						)
 					);
 					?>
 				</p>
