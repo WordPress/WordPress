@@ -1020,12 +1020,13 @@ function get_role( $role ) {
  * @param string $display_name Display name for role.
  * @param bool[] $capabilities List of capabilities keyed by the capability name,
  *                             e.g. array( 'edit_posts' => true, 'delete_posts' => false ).
- * @return WP_Role|null WP_Role object if role is added, null if already exists.
+ * @return WP_Role|void WP_Role object, if the role is added.
  */
 function add_role( $role, $display_name, $capabilities = array() ) {
 	if ( empty( $role ) ) {
 		return;
 	}
+
 	return wp_roles()->add_role( $role, $display_name, $capabilities );
 }
 
