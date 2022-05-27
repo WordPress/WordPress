@@ -597,8 +597,14 @@ function bulk_edit_posts( $post_data = null ) {
 
 		$post      = get_post( $post_ID );
 		$tax_names = get_object_taxonomies( $post );
+
 		foreach ( $tax_names as $tax_name ) {
 			$taxonomy_obj = get_taxonomy( $tax_name );
+
+			if ( ! $taxonomy_obj->show_in_quick_edit ) {
+				continue;
+			}
+
 			if ( isset( $tax_input[ $tax_name ] ) && current_user_can( $taxonomy_obj->cap->assign_terms ) ) {
 				$new_terms = $tax_input[ $tax_name ];
 			} else {
