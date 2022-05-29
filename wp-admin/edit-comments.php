@@ -25,6 +25,11 @@ if ( $doaction ) {
 	check_admin_referer( 'bulk-comments' );
 
 	if ( 'delete_all' === $doaction && ! empty( $_REQUEST['pagegen_timestamp'] ) ) {
+		/**
+		 * @global wpdb $wpdb WordPress database abstraction object.
+		 */
+		global $wpdb;
+
 		$comment_status = wp_unslash( $_REQUEST['comment_status'] );
 		$delete_time    = wp_unslash( $_REQUEST['pagegen_timestamp'] );
 		$comment_ids    = $wpdb->get_col( $wpdb->prepare( "SELECT comment_ID FROM $wpdb->comments WHERE comment_approved = %s AND %s > comment_date_gmt", $comment_status, $delete_time ) );
@@ -134,6 +139,11 @@ $wp_list_table->prepare_items();
 
 wp_enqueue_script( 'admin-comments' );
 enqueue_comment_hotkeys_js();
+
+/**
+ * @global int $post_id
+ */
+global $post_id;
 
 if ( $post_id ) {
 	$comments_count      = wp_count_comments( $post_id );
