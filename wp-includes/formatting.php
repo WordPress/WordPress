@@ -4458,9 +4458,30 @@ function esc_url( $url, $protocols = null, $_context = 'display' ) {
 }
 
 /**
- * Performs esc_url() for database or redirect usage.
+ * Sanitizes a URL for database or redirect usage.
+ *
+ * This function is an alias for sanitize_url().
  *
  * @since 2.8.0
+ * @since 6.1.0 Turned into an alias for sanitize_url().
+ *
+ * @see sanitize_url()
+ *
+ * @param string   $url       The URL to be cleaned.
+ * @param string[] $protocols Optional. An array of acceptable protocols.
+ *                            Defaults to return value of wp_allowed_protocols().
+ * @return string The cleaned URL after sanitize_url() is run.
+ */
+function esc_url_raw( $url, $protocols = null ) {
+	return sanitize_url( $url, $protocols );
+}
+
+/**
+ * Sanitizes a URL for database or redirect usage.
+ *
+ * @since 2.3.1
+ * @since 2.8.0 Deprecated in favor of esc_url_raw().
+ * @since 5.9.0 Restored (un-deprecated).
  *
  * @see esc_url()
  *
@@ -4469,28 +4490,8 @@ function esc_url( $url, $protocols = null, $_context = 'display' ) {
  *                            Defaults to return value of wp_allowed_protocols().
  * @return string The cleaned URL after esc_url() is run with the 'db' context.
  */
-function esc_url_raw( $url, $protocols = null ) {
-	return esc_url( $url, $protocols, 'db' );
-}
-
-/**
- * Performs esc_url() for database or redirect usage.
- *
- * This function is an alias for esc_url_raw().
- *
- * @since 2.3.1
- * @since 2.8.0 Deprecated in favor of esc_url_raw().
- * @since 5.9.0 Restored (un-deprecated).
- *
- * @see esc_url_raw()
- *
- * @param string   $url       The URL to be cleaned.
- * @param string[] $protocols Optional. An array of acceptable protocols.
- *                            Defaults to return value of wp_allowed_protocols().
- * @return string The cleaned URL after esc_url() is run with the 'db' context.
- */
 function sanitize_url( $url, $protocols = null ) {
-	return esc_url_raw( $url, $protocols );
+	return esc_url( $url, $protocols, 'db' );
 }
 
 /**
