@@ -4158,8 +4158,8 @@ All at ###SITENAME###
 	$content = str_replace( '###SITENAME###', $email_data['sitename'], $content );
 	$content = str_replace( '###USER_EMAIL###', $email_data['user_email'], $content );
 	$content = str_replace( '###DESCRIPTION###', $email_data['description'], $content );
-	$content = str_replace( '###MANAGE_URL###', esc_url_raw( $email_data['manage_url'] ), $content );
-	$content = str_replace( '###SITEURL###', esc_url_raw( $email_data['siteurl'] ), $content );
+	$content = str_replace( '###MANAGE_URL###', sanitize_url( $email_data['manage_url'] ), $content );
+	$content = str_replace( '###SITEURL###', sanitize_url( $email_data['siteurl'] ), $content );
 
 	$headers = '';
 
@@ -4399,7 +4399,7 @@ All at ###SITENAME###
 
 	$content = str_replace( '###SITENAME###', $email_data['sitename'], $content );
 	$content = str_replace( '###PRIVACY_POLICY_URL###', $email_data['privacy_policy_url'], $content );
-	$content = str_replace( '###SITEURL###', esc_url_raw( $email_data['siteurl'] ), $content );
+	$content = str_replace( '###SITEURL###', sanitize_url( $email_data['siteurl'] ), $content );
 
 	$headers = '';
 
@@ -4720,10 +4720,10 @@ All at ###SITENAME###
 	$content = apply_filters( 'user_request_action_email_content', $content, $email_data );
 
 	$content = str_replace( '###DESCRIPTION###', $email_data['description'], $content );
-	$content = str_replace( '###CONFIRM_URL###', esc_url_raw( $email_data['confirm_url'] ), $content );
+	$content = str_replace( '###CONFIRM_URL###', sanitize_url( $email_data['confirm_url'] ), $content );
 	$content = str_replace( '###EMAIL###', $email_data['email'], $content );
 	$content = str_replace( '###SITENAME###', $email_data['sitename'], $content );
-	$content = str_replace( '###SITEURL###', esc_url_raw( $email_data['siteurl'] ), $content );
+	$content = str_replace( '###SITEURL###', sanitize_url( $email_data['siteurl'] ), $content );
 
 	$headers = '';
 

@@ -860,7 +860,7 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller {
 						return true;
 					}
 
-					if ( esc_url_raw( $url ) ) {
+					if ( sanitize_url( $url ) ) {
 						return true;
 					}
 

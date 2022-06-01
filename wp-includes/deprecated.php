@@ -2041,7 +2041,7 @@ function get_link( $bookmark_id, $output = OBJECT, $filter = 'raw' ) {
  */
 function clean_url( $url, $protocols = null, $context = 'display' ) {
 	if ( $context == 'db' )
-		_deprecated_function( 'clean_url( $context = \'db\' )', '3.0.0', 'esc_url_raw()' );
+		_deprecated_function( 'clean_url( $context = \'db\' )', '3.0.0', 'sanitize_url()' );
 	else
 		_deprecated_function( __FUNCTION__, '3.0.0', 'esc_url()' );
 	return esc_url( $url, $protocols, $context );

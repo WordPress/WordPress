@@ -133,7 +133,7 @@ else :
 		case 0:
 			$goback = wp_get_referer();
 			if ( $goback ) {
-				$goback = esc_url_raw( $goback );
+				$goback = sanitize_url( $goback );
 				$goback = urlencode( $goback );
 			}
 			?>

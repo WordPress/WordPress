@@ -888,7 +888,7 @@ final class WP_Theme implements ArrayAccess {
 				break;
 			case 'ThemeURI':
 			case 'AuthorURI':
-				$value = esc_url_raw( $value );
+				$value = sanitize_url( $value );
 				break;
 			case 'Tags':
 				$value = array_filter( array_map( 'trim', explode( ',', strip_tags( $value ) ) ) );

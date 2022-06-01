@@ -337,7 +337,7 @@ function wp_default_packages_inline_scripts( $scripts ) {
 		'wp-api-fetch',
 		sprintf(
 			'wp.apiFetch.use( wp.apiFetch.createRootURLMiddleware( "%s" ) );',
-			esc_url_raw( get_rest_url() )
+			sanitize_url( get_rest_url() )
 		),
 		'after'
 	);
@@ -750,7 +750,7 @@ function wp_default_scripts( $scripts ) {
 		'wp-api-request',
 		'wpApiSettings',
 		array(
-			'root'          => esc_url_raw( get_rest_url() ),
+			'root'          => sanitize_url( get_rest_url() ),
 			'nonce'         => wp_installing() ? '' : wp_create_nonce( 'wp_rest' ),
 			'versionString' => 'wp/v2/',
 		)

@@ -1179,7 +1179,7 @@ function get_header_image() {
 		$url = get_random_header_image();
 	}
 
-	return esc_url_raw( set_url_scheme( $url ) );
+	return sanitize_url( set_url_scheme( $url ) );
 }
 
 /**
@@ -1428,7 +1428,7 @@ function get_uploaded_header_images() {
 	}
 
 	foreach ( (array) $headers as $header ) {
-		$url          = esc_url_raw( wp_get_attachment_url( $header->ID ) );
+		$url          = sanitize_url( wp_get_attachment_url( $header->ID ) );
 		$header_data  = wp_get_attachment_metadata( $header->ID );
 		$header_index = $header->ID;
 
@@ -1589,7 +1589,7 @@ function get_header_video_url() {
 		return false;
 	}
 
-	return esc_url_raw( set_url_scheme( $url ) );
+	return sanitize_url( set_url_scheme( $url ) );
 }
 
 /**
@@ -1806,7 +1806,7 @@ function _custom_background_cb() {
 	$style = $color ? "background-color: #$color;" : '';
 
 	if ( $background ) {
-		$image = ' background-image: url("' . esc_url_raw( $background ) . '");';
+		$image = ' background-image: url("' . sanitize_url( $background ) . '");';
 
 		// Background Position.
 		$position_x = get_theme_mod( 'background_position_x', get_theme_support( 'custom-background', 'default-position-x' ) );
@@ -2146,7 +2146,7 @@ function get_editor_stylesheets() {
 		// Support externally referenced styles (like, say, fonts).
 		foreach ( $editor_styles as $key => $file ) {
 			if ( preg_match( '~^(https?:)?//~', $file ) ) {
-				$stylesheets[] = esc_url_raw( $file );
+				$stylesheets[] = sanitize_url( $file );
 				unset( $editor_styles[ $key ] );
 			}
 		}

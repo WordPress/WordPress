@@ -4354,7 +4354,7 @@ function esc_sql( $data ) {
  * @param string   $url       The URL to be cleaned.
  * @param string[] $protocols Optional. An array of acceptable protocols.
  *                            Defaults to return value of wp_allowed_protocols().
- * @param string   $_context  Private. Use esc_url_raw() for database usage.
+ * @param string   $_context  Private. Use sanitize_url() for database usage.
  * @return string The cleaned URL after the {@see 'clean_url'} filter is applied.
  *                An empty string is returned if `$url` specifies a protocol other than
  *                those in `$protocols`, or if `$url` contains an empty string.
@@ -4830,7 +4830,7 @@ function sanitize_option( $option, $value ) {
 		case 'ping_sites':
 			$value = explode( "\n", $value );
 			$value = array_filter( array_map( 'trim', $value ) );
-			$value = array_filter( array_map( 'esc_url_raw', $value ) );
+			$value = array_filter( array_map( 'sanitize_url', $value ) );
 			$value = implode( "\n", $value );
 			break;
 
@@ -4844,7 +4844,7 @@ function sanitize_option( $option, $value ) {
 				$error = $value->get_error_message();
 			} else {
 				if ( preg_match( '#http(s?)://(.+)#i', $value ) ) {
-					$value = esc_url_raw( $value );
+					$value = sanitize_url( $value );
 				} else {
 					$error = __( 'The WordPress address you entered did not appear to be a valid URL. Please enter a valid URL.' );
 				}
@@ -4857,7 +4857,7 @@ function sanitize_option( $option, $value ) {
 				$error = $value->get_error_message();
 			} else {
 				if ( preg_match( '#http(s?)://(.+)#i', $value ) ) {
-					$value = esc_url_raw( $value );
+					$value = sanitize_url( $value );
 				} else {
 					$error = __( 'The Site address you entered did not appear to be a valid URL. Please enter a valid URL.' );
 				}
@@ -4929,7 +4929,7 @@ function sanitize_option( $option, $value ) {
 			if ( is_wp_error( $value ) ) {
 				$error = $value->get_error_message();
 			} else {
-				$value = esc_url_raw( $value );
+				$value = sanitize_url( $value );
 				$value = str_replace( 'http://', '', $value );
 			}
 
@@ -5580,7 +5580,7 @@ function sanitize_trackback_urls( $to_ping ) {
 			unset( $urls_to_ping[ $k ] );
 		}
 	}
-	$urls_to_ping = array_map( 'esc_url_raw', $urls_to_ping );
+	$urls_to_ping = array_map( 'sanitize_url', $urls_to_ping );
 	$urls_to_ping = implode( "\n", $urls_to_ping );
 	/**
 	 * Filters a list of trackback URLs following sanitization.
@@ -5649,7 +5649,7 @@ function get_url_in_content( $content ) {
 	}
 
 	if ( preg_match( '/<a\s[^>]*?href=([\'"])(.+?)\1/is', $content, $matches ) ) {
-		return esc_url_raw( $matches[2] );
+		return sanitize_url( $matches[2] );
 	}
 
 	return false;

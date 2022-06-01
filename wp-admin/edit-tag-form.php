@@ -83,7 +83,7 @@ if ( $message ) {
 <div id="message" class="notice notice-<?php echo $class; ?>">
 	<p><strong><?php echo $message; ?></strong></p>
 	<?php if ( $wp_http_referer ) { ?>
-	<p><a href="<?php echo esc_url( wp_validate_redirect( esc_url_raw( $wp_http_referer ), admin_url( 'term.php?taxonomy=' . $taxonomy ) ) ); ?>">
+	<p><a href="<?php echo esc_url( wp_validate_redirect( sanitize_url( $wp_http_referer ), admin_url( 'term.php?taxonomy=' . $taxonomy ) ) ); ?>">
 		<?php echo esc_html( $tax->labels->back_to_items ); ?>
 	</a></p>
 	<?php } ?>

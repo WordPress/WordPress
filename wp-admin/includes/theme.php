@@ -712,7 +712,7 @@ function wp_prepare_themes_for_js( $themes = null ) {
 			$customize_action = esc_url(
 				add_query_arg(
 					array(
-						'return' => urlencode( esc_url_raw( remove_query_arg( wp_removable_query_args(), wp_unslash( $_SERVER['REQUEST_URI'] ) ) ) ),
+						'return' => urlencode( sanitize_url( remove_query_arg( wp_removable_query_args(), wp_unslash( $_SERVER['REQUEST_URI'] ) ) ) ),
 					),
 					wp_customize_url( $slug )
 				)

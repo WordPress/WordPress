@@ -426,7 +426,7 @@ function get_post_embed_url( $post = null ) {
 	 * @param string  $embed_url The post embed URL.
 	 * @param WP_Post $post      The corresponding post object.
 	 */
-	return esc_url_raw( apply_filters( 'post_embed_url', $embed_url, $post ) );
+	return sanitize_url( apply_filters( 'post_embed_url', $embed_url, $post ) );
 }
 
 /**

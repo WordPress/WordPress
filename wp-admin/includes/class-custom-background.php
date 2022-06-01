@@ -526,10 +526,10 @@ class Custom_Background {
 		wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $file ) );
 		update_post_meta( $id, '_wp_attachment_is_custom_background', get_option( 'stylesheet' ) );
 
-		set_theme_mod( 'background_image', esc_url_raw( $url ) );
+		set_theme_mod( 'background_image', sanitize_url( $url ) );
 
 		$thumbnail = wp_get_attachment_image_src( $id, 'thumbnail' );
-		set_theme_mod( 'background_image_thumb', esc_url_raw( $thumbnail[0] ) );
+		set_theme_mod( 'background_image_thumb', sanitize_url( $thumbnail[0] ) );
 
 		/** This action is documented in wp-admin/includes/class-custom-image-header.php */
 		do_action( 'wp_create_file_in_uploads', $file, $id ); // For replication.
@@ -618,8 +618,8 @@ class Custom_Background {
 
 		$url       = wp_get_attachment_image_src( $attachment_id, $size );
 		$thumbnail = wp_get_attachment_image_src( $attachment_id, 'thumbnail' );
-		set_theme_mod( 'background_image', esc_url_raw( $url[0] ) );
-		set_theme_mod( 'background_image_thumb', esc_url_raw( $thumbnail[0] ) );
+		set_theme_mod( 'background_image', sanitize_url( $url[0] ) );
+		set_theme_mod( 'background_image_thumb', sanitize_url( $thumbnail[0] ) );
 		exit;
 	}
 }

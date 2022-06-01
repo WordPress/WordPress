@@ -72,7 +72,7 @@ foreach ( array(
 	'pre_post_guid',
 ) as $filter ) {
 	add_filter( $filter, 'wp_strip_all_tags' );
-	add_filter( $filter, 'esc_url_raw' );
+	add_filter( $filter, 'sanitize_url' );
 	add_filter( $filter, 'wp_filter_kses' );
 }
 

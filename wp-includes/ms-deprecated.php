@@ -378,7 +378,7 @@ function get_blogaddress_by_domain( $domain, $path ) {
 			$url = 'http://' . $domain . $path;
 		}
 	}
-	return esc_url_raw( $url );
+	return sanitize_url( $url );
 }
 
 /**

@@ -706,10 +706,10 @@ All at ###SITENAME###
 	$content = apply_filters( 'wp_privacy_personal_data_email_content', $email_text, $request_id, $email_data );
 
 	$content = str_replace( '###EXPIRATION###', $expiration_date, $content );
-	$content = str_replace( '###LINK###', esc_url_raw( $export_file_url ), $content );
+	$content = str_replace( '###LINK###', sanitize_url( $export_file_url ), $content );
 	$content = str_replace( '###EMAIL###', $request_email, $content );
 	$content = str_replace( '###SITENAME###', $site_name, $content );
-	$content = str_replace( '###SITEURL###', esc_url_raw( $site_url ), $content );
+	$content = str_replace( '###SITEURL###', sanitize_url( $site_url ), $content );
 
 	$headers = '';
 

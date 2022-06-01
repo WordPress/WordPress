@@ -284,7 +284,7 @@ class WP_REST_Server {
 
 		$api_root = get_rest_url();
 		if ( ! empty( $api_root ) ) {
-			$this->send_header( 'Link', '<' . esc_url_raw( $api_root ) . '>; rel="https://api.w.org/"' );
+			$this->send_header( 'Link', '<' . sanitize_url( $api_root ) . '>; rel="https://api.w.org/"' );
 		}
 
 		/*

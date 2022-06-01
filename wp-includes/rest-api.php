@@ -710,7 +710,7 @@ function rest_send_cors_headers( $value ) {
 	if ( $origin ) {
 		// Requests from file:// and data: URLs send "Origin: null".
 		if ( 'null' !== $origin ) {
-			$origin = esc_url_raw( $origin );
+			$origin = sanitize_url( $origin );
 		}
 		header( 'Access-Control-Allow-Origin: ' . $origin );
 		header( 'Access-Control-Allow-Methods: OPTIONS, GET, POST, PUT, PATCH, DELETE' );
@@ -993,12 +993,12 @@ function rest_output_link_header() {
 		return;
 	}
 
-	header( sprintf( 'Link: <%s>; rel="https://api.w.org/"', esc_url_raw( $api_root ) ), false );
+	header( sprintf( 'Link: <%s>; rel="https://api.w.org/"', sanitize_url( $api_root ) ), false );
 
 	$resource = rest_get_queried_resource_route();
 
 	if ( $resource ) {
-		header( sprintf( 'Link: <%s>; rel="alternate"; type="application/json"', esc_url_raw( rest_url( $resource ) ) ), false );
+		header( sprintf( 'Link: <%s>; rel="alternate"; type="application/json"', sanitize_url( rest_url( $resource ) ) ), false );
 	}
 }
 
@@ -2795,7 +2795,7 @@ function rest_sanitize_value_from_schema( $value, $args, $param = '' ) {
 				return sanitize_text_field( $value );
 
 			case 'uri':
-				return esc_url_raw( $value );
+				return sanitize_url( $value );
 
 			case 'ip':
 				return sanitize_text_field( $value );

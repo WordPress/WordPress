@@ -160,7 +160,7 @@ switch ( $wp_list_table->current_action() ) {
 			wp_die( __( 'You attempted to edit an item that does not exist. Perhaps it was deleted?' ) );
 		}
 
-		wp_redirect( esc_url_raw( get_edit_term_link( $term_id, $taxonomy, $post_type ) ) );
+		wp_redirect( sanitize_url( get_edit_term_link( $term_id, $taxonomy, $post_type ) ) );
 		exit;
 
 	case 'editedtag':

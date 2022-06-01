@@ -45,7 +45,7 @@ class WP_REST_URL_Details_Controller extends WP_REST_Controller {
 							'required'          => true,
 							'description'       => __( 'The URL to process.' ),
 							'validate_callback' => 'wp_http_validate_url',
-							'sanitize_callback' => 'esc_url_raw',
+							'sanitize_callback' => 'sanitize_url',
 							'type'              => 'string',
 							'format'            => 'uri',
 						),

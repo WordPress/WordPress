@@ -917,7 +917,7 @@ function wp_media_upload_handler() {
 			 * @param string $src   Media source URL.
 			 * @param string $title Media title.
 			 */
-			$html = apply_filters( "{$type}_send_to_editor_url", $html, esc_url_raw( $src ), $title );
+			$html = apply_filters( "{$type}_send_to_editor_url", $html, sanitize_url( $src ), $title );
 		} else {
 			$align = '';
 			$alt   = esc_attr( wp_unslash( $_POST['alt'] ) );
@@ -942,7 +942,7 @@ function wp_media_upload_handler() {
 			 * @param string $align The image alignment. Default 'alignnone'. Possible values include
 			 *                      'alignleft', 'aligncenter', 'alignright', 'alignnone'.
 			 */
-			$html = apply_filters( 'image_send_to_editor_url', $html, esc_url_raw( $src ), $alt, $align );
+			$html = apply_filters( 'image_send_to_editor_url', $html, sanitize_url( $src ), $alt, $align );
 		}
 
 		return media_send_to_editor( $html );

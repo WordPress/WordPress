@@ -360,7 +360,7 @@ function login_footer( $input_id = '' ) {
 					<?php } ?>
 
 					<?php if ( isset( $_GET['redirect_to'] ) && '' !== $_GET['redirect_to'] ) { ?>
-						<input type="hidden" name="redirect_to" value="<?php echo esc_url_raw( $_GET['redirect_to'] ); ?>" />
+						<input type="hidden" name="redirect_to" value="<?php echo sanitize_url( $_GET['redirect_to'] ); ?>" />
 					<?php } ?>
 
 					<?php if ( isset( $_GET['action'] ) && '' !== $_GET['action'] ) { ?>
