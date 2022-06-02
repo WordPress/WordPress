@@ -1392,8 +1392,8 @@ hr.wp-block-separator.is-style-dots::before {
 	}
 
 	hr.wp-block-separator.is-style-wide {
-		margin-right: -70px;
-		margin-left: -70px;
+		margin-right: auto;
+		margin-left: auto;
 	}
 
 
@@ -1430,8 +1430,8 @@ hr.wp-block-separator.is-style-dots::before {
 	/* BLOCK: SEPARATOR */
 
 	hr.wp-block-separator.is-style-wide {
-		margin-right: -150px;
-		margin-left: -150px;
+		margin-right: auto;
+		margin-left: auto;
 	}
 
 }
@@ -1465,8 +1465,8 @@ hr.wp-block-separator.is-style-dots::before {
 	/* BLOCK: SEPARATOR */
 
 	hr.wp-block-separator.is-style-wide {
-		margin-right: -200px;
-		margin-left: -200px;
+		margin-right: auto;
+		margin-left: auto;
 	}
 
 
