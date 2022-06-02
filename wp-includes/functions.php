@@ -2132,7 +2132,7 @@ function path_join( $base, $path ) {
 		return $path;
 	}
 
-	return rtrim( $base, '/' ) . '/' . ltrim( $path, '/' );
+	return rtrim( $base, '/' ) . '/' . $path;
 }
 
 /**
