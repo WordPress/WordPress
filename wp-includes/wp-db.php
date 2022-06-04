@@ -2501,7 +2501,7 @@ class wpdb {
 	 *                                   A format is one of '%d', '%f', '%s' (integer, float, string).
 	 *                                   If omitted, all values in $data will be treated as strings unless otherwise
 	 *                                   specified in wpdb::$field_types.
-	 * @return int|false The number of rows updated, or false on error.
+	 * @return int|false The number of rows deleted, or false on error.
 	 */
 	public function delete( $table, $where, $where_format = null ) {
 		if ( ! is_array( $where ) ) {
