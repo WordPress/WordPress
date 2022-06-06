@@ -2806,6 +2806,8 @@ h2.entry-title {
 }
 
 .has-text-align-right {
+
+	/*rtl:ignore*/
 	text-align: right;
 }
 

@@ -2788,7 +2788,7 @@ h2.entry-title {
 }
 
 .has-text-align-right {
-	text-align: left;
+	text-align: right;
 }
 
 .has-drop-cap:not(:focus)::first-letter {
