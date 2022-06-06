@@ -168,15 +168,15 @@ class WP_Comment_Query {
 	 *     @type string|string[] $meta_key                  Meta key or keys to filter by.
 	 *     @type string|string[] $meta_value                Meta value or values to filter by.
 	 *     @type string          $meta_compare              MySQL operator used for comparing the meta value.
-	 *                                                      See WP_Meta_Query::__construct for accepted values and default value.
+	 *                                                      See WP_Meta_Query::__construct() for accepted values and default value.
 	 *     @type string          $meta_compare_key          MySQL operator used for comparing the meta key.
-	 *                                                      See WP_Meta_Query::__construct for accepted values and default value.
+	 *                                                      See WP_Meta_Query::__construct() for accepted values and default value.
 	 *     @type string          $meta_type                 MySQL data type that the meta_value column will be CAST to for comparisons.
-	 *                                                      See WP_Meta_Query::__construct for accepted values and default value.
+	 *                                                      See WP_Meta_Query::__construct() for accepted values and default value.
 	 *     @type string          $meta_type_key             MySQL data type that the meta_key column will be CAST to for comparisons.
-	 *                                                      See WP_Meta_Query::__construct for accepted values and default value.
+	 *                                                      See WP_Meta_Query::__construct() for accepted values and default value.
 	 *     @type array           $meta_query                An associative array of WP_Meta_Query arguments.
-	 *                                                      See WP_Meta_Query::__construct for accepted values.
+	 *                                                      See WP_Meta_Query::__construct() for accepted values.
 	 *     @type int             $number                    Maximum number of comments to retrieve.
 	 *                                                      Default empty (no limit).
 	 *     @type int             $paged                     When used with `$number`, defines the page of results to return.

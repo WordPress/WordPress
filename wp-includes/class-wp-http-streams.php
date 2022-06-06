@@ -17,7 +17,7 @@ class WP_Http_Streams {
 	/**
 	 * Send a HTTP request to a URI using PHP Streams.
 	 *
-	 * @see WP_Http::request For default options descriptions.
+	 * @see WP_Http::request() For default options descriptions.
 	 *
 	 * @since 2.7.0
 	 * @since 3.7.0 Combined with the fsockopen transport and switched to stream_socket_client().

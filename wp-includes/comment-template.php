@@ -2033,7 +2033,7 @@ function comment_form_title( $no_reply_text = false, $reply_text = false, $link_
  *
  * @since 2.7.0
  *
- * @see WP_Query->comments
+ * @see WP_Query::$comments
  *
  * @global WP_Query $wp_query           WordPress Query object.
  * @global int      $comment_alt

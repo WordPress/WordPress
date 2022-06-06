@@ -4559,7 +4559,7 @@ function register_admin_color_schemes() {
 /**
  * Displays the URL of a WordPress admin CSS file.
  *
- * @see WP_Styles::_css_href and its {@see 'style_loader_src'} filter.
+ * @see WP_Styles::_css_href() and its {@see 'style_loader_src'} filter.
  *
  * @since 2.3.0
  *
