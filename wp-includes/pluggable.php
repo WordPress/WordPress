@@ -2596,19 +2596,30 @@ if ( ! function_exists( 'wp_rand' ) ) :
 	 *
 	 * @since 2.6.2
 	 * @since 4.4.0 Uses PHP7 random_int() or the random_compat library if available.
+	 * @since 6.1.0 Returns zero instead of a random number if both `$min` and `$max` are zero.
 	 *
 	 * @global string $rnd_value
 	 *
-	 * @param int $min Lower limit for the generated number.
-	 * @param int $max Upper limit for the generated number.
+	 * @param int $min Optional. Lower limit for the generated number.
+	 *                 Accepts positive integers or zero. Defaults to 0.
+	 * @param int $max Optional. Upper limit for the generated number.
+	 *                 Accepts positive integers. Defaults to 4294967295.
 	 * @return int A random number between min and max.
 	 */
-	function wp_rand( $min = 0, $max = 0 ) {
+	function wp_rand( $min = null, $max = null ) {
 		global $rnd_value;
 
 		// Some misconfigured 32-bit environments (Entropy PHP, for example)
 		// truncate integers larger than PHP_INT_MAX to PHP_INT_MAX rather than overflowing them to floats.
 		$max_random_number = 3000000000 === 2147483647 ? (float) '4294967295' : 4294967295; // 4294967295 = 0xffffffff
+
+		if ( null === $min ) {
+			$min = 0;
+		}
+
+		if ( null === $max ) {
+			$max = $max_random_number;
+		}
 
 		// We only handle ints, floats are truncated to their integer value.
 		$min = (int) $min;
@@ -2618,10 +2629,9 @@ if ( ! function_exists( 'wp_rand' ) ) :
 		static $use_random_int_functionality = true;
 		if ( $use_random_int_functionality ) {
 			try {
-				$_max = ( 0 != $max ) ? $max : $max_random_number;
 				// wp_rand() can accept arguments in either order, PHP cannot.
-				$_max = max( $min, $_max );
-				$_min = min( $min, $_max );
+				$_max = max( $min, $max );
+				$_min = min( $min, $max );
 				$val  = random_int( $_min, $_max );
 				if ( false !== $val ) {
 					return absint( $val );
@@ -2661,9 +2671,7 @@ if ( ! function_exists( 'wp_rand' ) ) :
 		$value = abs( hexdec( $value ) );
 
 		// Reduce the value to be within the min - max range.
-		if ( 0 != $max ) {
-			$value = $min + ( $max - $min + 1 ) * $value / ( $max_random_number + 1 );
-		}
+		$value = $min + ( $max - $min + 1 ) * $value / ( $max_random_number + 1 );
 
 		return abs( (int) $value );
 	}
