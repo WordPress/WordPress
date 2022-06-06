@@ -658,6 +658,10 @@ hr.wp-block-separator.is-style-dots::before {
 	line-height: 1.25;
 }
 
+.editor-styles-wrapper .wp-block-quote cite {
+	font-style: normal;
+}
+
 .editor-styles-wrapper .wp-block-quote p {
 	color: inherit;
 	font-weight: 400;
