@@ -6274,7 +6274,7 @@ a.to-the-top > * {
 
 	.wp-block-separator.is-style-wide {
 		max-width: 120rem;
-		width: 120rem;
+		width: 100%;
 	}
 
 	/* Entry Content ------------------------- */
