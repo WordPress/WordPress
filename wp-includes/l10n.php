@@ -110,7 +110,7 @@ function get_user_locale( $user_id = 0 ) {
 }
 
 /**
- * Determine the current locale desired for the request.
+ * Determines the current locale desired for the request.
  *
  * @since 5.0.0
  *
@@ -167,7 +167,7 @@ function determine_locale() {
 }
 
 /**
- * Retrieve the translation of $text.
+ * Retrieves the translation of $text.
  *
  * If there is no translation, or the text domain isn't loaded, the original text is returned.
  *
@@ -213,7 +213,7 @@ function translate( $text, $domain = 'default' ) {
 }
 
 /**
- * Remove last item on a pipe-delimited string.
+ * Removes last item on a pipe-delimited string.
  *
  * Meant for removing the last item in a string, such as 'Role name|User role'. The original
  * string will be returned if no pipe '|' characters are found in the string.
@@ -233,7 +233,7 @@ function before_last_bar( $string ) {
 }
 
 /**
- * Retrieve the translation of $text in the context defined in $context.
+ * Retrieves the translation of $text in the context defined in $context.
  *
  * If there is no translation, or the text domain isn't loaded, the original text is returned.
  *
@@ -282,7 +282,7 @@ function translate_with_gettext_context( $text, $context, $domain = 'default' ) 
 }
 
 /**
- * Retrieve the translation of $text.
+ * Retrieves the translation of $text.
  *
  * If there is no translation, or the text domain isn't loaded, the original text is returned.
  *
@@ -298,7 +298,7 @@ function __( $text, $domain = 'default' ) {
 }
 
 /**
- * Retrieve the translation of $text and escapes it for safe use in an attribute.
+ * Retrieves the translation of $text and escapes it for safe use in an attribute.
  *
  * If there is no translation, or the text domain isn't loaded, the original text is returned.
  *
@@ -314,7 +314,7 @@ function esc_attr__( $text, $domain = 'default' ) {
 }
 
 /**
- * Retrieve the translation of $text and escapes it for safe use in HTML output.
+ * Retrieves the translation of $text and escapes it for safe use in HTML output.
  *
  * If there is no translation, or the text domain isn't loaded, the original text
  * is escaped and returned.
@@ -331,7 +331,7 @@ function esc_html__( $text, $domain = 'default' ) {
 }
 
 /**
- * Display translated text.
+ * Displays translated text.
  *
  * @since 1.2.0
  *
@@ -344,7 +344,7 @@ function _e( $text, $domain = 'default' ) {
 }
 
 /**
- * Display translated text that has been escaped for safe use in an attribute.
+ * Displays translated text that has been escaped for safe use in an attribute.
  *
  * Encodes `< > & " '` (less than, greater than, ampersand, double quote, single quote).
  * Will never double encode entities.
@@ -362,7 +362,7 @@ function esc_attr_e( $text, $domain = 'default' ) {
 }
 
 /**
- * Display translated text that has been escaped for safe use in HTML output.
+ * Displays translated text that has been escaped for safe use in HTML output.
  *
  * If there is no translation, or the text domain isn't loaded, the original text
  * is escaped and displayed.
@@ -380,7 +380,7 @@ function esc_html_e( $text, $domain = 'default' ) {
 }
 
 /**
- * Retrieve translated string with gettext context.
+ * Retrieves translated string with gettext context.
  *
  * Quite a few times, there will be collisions with similar translatable text
  * found in more than two places, but with different translated context.
@@ -401,7 +401,7 @@ function _x( $text, $context, $domain = 'default' ) {
 }
 
 /**
- * Display translated string with gettext context.
+ * Displays translated string with gettext context.
  *
  * @since 3.0.0
  *
@@ -415,7 +415,7 @@ function _ex( $text, $context, $domain = 'default' ) {
 }
 
 /**
- * Translate string with gettext context, and escapes it for safe use in an attribute.
+ * Translates string with gettext context, and escapes it for safe use in an attribute.
  *
  * If there is no translation, or the text domain isn't loaded, the original text
  * is escaped and returned.
@@ -433,7 +433,7 @@ function esc_attr_x( $text, $context, $domain = 'default' ) {
 }
 
 /**
- * Translate string with gettext context, and escapes it for safe use in HTML output.
+ * Translates string with gettext context, and escapes it for safe use in HTML output.
  *
  * If there is no translation, or the text domain isn't loaded, the original text
  * is escaped and returned.
@@ -686,7 +686,7 @@ function translate_nooped_plural( $nooped_plural, $count, $domain = 'default' ) 
 }
 
 /**
- * Load a .mo file into the text domain $domain.
+ * Loads a .mo file into the text domain $domain.
  *
  * If the text domain already exists, the translations will be merged. If both
  * sets have the same string, the translation from the original value will be taken.
@@ -766,7 +766,7 @@ function load_textdomain( $domain, $mofile ) {
 }
 
 /**
- * Unload translations for a text domain.
+ * Unloads translations for a text domain.
  *
  * @since 3.0.0
  *
@@ -818,7 +818,7 @@ function unload_textdomain( $domain ) {
 }
 
 /**
- * Load default translated strings based on locale.
+ * Loads default translated strings based on locale.
  *
  * Loads the .mo file in WP_LANG_DIR constant path from WordPress root.
  * The translated (.mo) file is named based on the locale.
@@ -904,7 +904,7 @@ function load_plugin_textdomain( $domain, $deprecated = false, $plugin_rel_path 
 }
 
 /**
- * Load the translated strings for a plugin residing in the mu-plugins directory.
+ * Loads the translated strings for a plugin residing in the mu-plugins directory.
  *
  * @since 3.0.0
  * @since 4.6.0 The function now tries to load the .mo file from the languages directory first.
@@ -931,7 +931,7 @@ function load_muplugin_textdomain( $domain, $mu_plugin_rel_path = '' ) {
 }
 
 /**
- * Load the theme's translated strings.
+ * Loads the theme's translated strings.
  *
  * If the current locale exists as a .mo file in the theme's root directory, it
  * will be included in the translated strings by the $domain.
@@ -972,7 +972,7 @@ function load_theme_textdomain( $domain, $path = false ) {
 }
 
 /**
- * Load the child themes translated strings.
+ * Loads the child themes translated strings.
  *
  * If the current locale exists as a .mo file in the child themes
  * root directory, it will be included in the translated strings by the $domain.
@@ -1299,7 +1299,7 @@ function _get_path_to_translation_from_lang_dir( $domain ) {
 }
 
 /**
- * Return the Translations instance for a text domain.
+ * Returns the Translations instance for a text domain.
  *
  * If there isn't one, returns empty Translations instance.
  *
@@ -1325,7 +1325,7 @@ function get_translations_for_domain( $domain ) {
 }
 
 /**
- * Whether there are translations for the text domain.
+ * Determines whether there are translations for the text domain.
  *
  * @since 3.0.0
  *
@@ -1364,7 +1364,7 @@ function translate_user_role( $name, $domain = 'default' ) {
 }
 
 /**
- * Get all available languages based on the presence of *.mo files in a given directory.
+ * Gets all available languages based on the presence of *.mo files in a given directory.
  *
  * The default directory is WP_LANG_DIR.
  *
@@ -1401,7 +1401,7 @@ function get_available_languages( $dir = null ) {
 }
 
 /**
- * Get installed translations.
+ * Gets installed translations.
  *
  * Looks in the wp-content/languages directory for translations of
  * plugins or themes.
@@ -1457,7 +1457,7 @@ function wp_get_installed_translations( $type ) {
 }
 
 /**
- * Extract headers from a PO file.
+ * Extracts headers from a PO file.
  *
  * @since 3.7.0
  *
@@ -1482,7 +1482,7 @@ function wp_get_pomo_file_data( $po_file ) {
 }
 
 /**
- * Language selector.
+ * Displays or returns a Language selector.
  *
  * @since 4.0.0
  * @since 4.3.0 Introduced the `echo` argument.
@@ -1712,7 +1712,7 @@ function restore_current_locale() {
 }
 
 /**
- * Whether switch_to_locale() is in effect.
+ * Determines whether switch_to_locale() is in effect.
  *
  * @since 4.7.0
  *
