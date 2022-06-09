@@ -1011,16 +1011,18 @@ function wp_get_attachment_image_src( $attachment_id, $size = 'thumbnail', $icon
  * @param string|array $attr {
  *     Optional. Attributes for the image markup.
  *
- *     @type string       $src     Image attachment URL.
- *     @type string       $class   CSS class name or space-separated list of classes.
- *                                 Default `attachment-$size_class size-$size_class`,
- *                                 where `$size_class` is the image size being requested.
- *     @type string       $alt     Image description for the alt attribute.
- *     @type string       $srcset  The 'srcset' attribute value.
- *     @type string       $sizes   The 'sizes' attribute value.
- *     @type string|false $loading The 'loading' attribute value. Passing a value of false
- *                                 will result in the attribute being omitted for the image.
- *                                 Defaults to 'lazy', depending on wp_lazy_loading_enabled().
+ *     @type string       $src      Image attachment URL.
+ *     @type string       $class    CSS class name or space-separated list of classes.
+ *                                  Default `attachment-$size_class size-$size_class`,
+ *                                  where `$size_class` is the image size being requested.
+ *     @type string       $alt      Image description for the alt attribute.
+ *     @type string       $srcset   The 'srcset' attribute value.
+ *     @type string       $sizes    The 'sizes' attribute value.
+ *     @type string|false $loading  The 'loading' attribute value. Passing a value of false
+ *                                  will result in the attribute being omitted for the image.
+ *                                  Defaults to 'lazy', depending on wp_lazy_loading_enabled().
+ *     @type string       $decoding The 'decoding' attribute value. Possible values are
+ *                                  'async' (default), 'sync', or 'auto'.
  * }
  * @return string HTML img element or empty string on failure.
  */
@@ -1040,9 +1042,10 @@ function wp_get_attachment_image( $attachment_id, $size = 'thumbnail', $icon = f
 		}
 
 		$default_attr = array(
-			'src'   => $src,
-			'class' => "attachment-$size_class size-$size_class",
-			'alt'   => trim( strip_tags( get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ) ) ),
+			'src'      => $src,
+			'class'    => "attachment-$size_class size-$size_class",
+			'alt'      => trim( strip_tags( get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ) ) ),
+			'decoding' => 'async',
 		);
 
 		// Add `loading` attribute.
@@ -1843,6 +1846,11 @@ function wp_filter_content_tags( $content, $context = null ) {
 				$filtered_image = wp_img_tag_add_loading_attr( $filtered_image, $context );
 			}
 
+			// Add 'decoding=async' attribute unless a 'decoding' attribute is already present.
+			if ( ! str_contains( $filtered_image, ' decoding=' ) ) {
+				$filtered_image = wp_img_tag_add_decoding_attr( $filtered_image, $context );
+			}
+
 			/**
 			 * Filters an img tag within the content for a given context.
 			 *
@@ -1929,6 +1937,46 @@ function wp_img_tag_add_loading_attr( $image, $context ) {
 		}
 
 		return str_replace( '<img', '<img loading="' . esc_attr( $value ) . '"', $image );
+	}
+
+	return $image;
+}
+
+/**
+ * Add `decoding` attribute to an `img` HTML tag.
+ *
+ * The `decoding` attribute allows developers to indicate whether the
+ * browser can decode the image off the main thread (`async`), on the
+ * main thread (`sync`) or as determined by the browser (`auto`).
+ *
+ * By default WordPress adds `decoding="async"` to images but developers
+ * can use the {@see 'wp_img_tag_add_decoding_attr'} filter to modify this
+ * to remove the attribute or set it to another accepted value.
+ *
+ * @since 6.1.0
+ *
+ * @param string $image   The HTML `img` tag where the attribute should be added.
+ * @param string $context Additional context to pass to the filters.
+ *
+ * @return string Converted `img` tag with `decoding` attribute added.
+ */
+function wp_img_tag_add_decoding_attr( $image, $context ) {
+	/**
+	 * Filters the `decoding` attribute value to add to an image. Default `async`.
+	 *
+	 * Returning a falsey value will omit the attribute.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @param string|false|null $value   The `decoding` attribute value. Returning a falsey value will result in
+	 *                                   the attribute being omitted for the image. Otherwise, it may be:
+	 *                                   'async' (default), 'sync', or 'auto'.
+	 * @param string            $image   The HTML `img` tag to be filtered.
+	 * @param string            $context Additional context about how the function was called or where the img tag is.
+	 */
+	$value = apply_filters( 'wp_img_tag_add_decoding_attr', 'async', $image, $context );
+	if ( in_array( $value, array( 'async', 'sync', 'auto' ), true ) ) {
+		$image = str_replace( '<img ', '<img decoding="' . esc_attr( $value ) . '" ', $image );
 	}
 
 	return $image;
