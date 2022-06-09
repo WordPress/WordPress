@@ -1003,6 +1003,7 @@ function wp_get_attachment_image_src( $attachment_id, $size = 'thumbnail', $icon
  * @since 2.5.0
  * @since 4.4.0 The `$srcset` and `$sizes` attributes were added.
  * @since 5.5.0 The `$loading` attribute was added.
+ * @since 6.1.0 The `$decoding` attribute was added.
  *
  * @param int          $attachment_id Image attachment ID.
  * @param string|int[] $size          Optional. Image size. Accepts any registered image size name, or an array
@@ -1943,7 +1944,7 @@ function wp_img_tag_add_loading_attr( $image, $context ) {
 }
 
 /**
- * Add `decoding` attribute to an `img` HTML tag.
+ * Adds `decoding` attribute to an `img` HTML tag.
  *
  * The `decoding` attribute allows developers to indicate whether the
  * browser can decode the image off the main thread (`async`), on the
@@ -1968,13 +1969,15 @@ function wp_img_tag_add_decoding_attr( $image, $context ) {
 	 *
 	 * @since 6.1.0
 	 *
-	 * @param string|false|null $value   The `decoding` attribute value. Returning a falsey value will result in
-	 *                                   the attribute being omitted for the image. Otherwise, it may be:
-	 *                                   'async' (default), 'sync', or 'auto'.
+	 * @param string|false|null $value   The `decoding` attribute value. Returning a falsey value
+	 *                                   will result in the attribute being omitted for the image.
+	 *                                   Otherwise, it may be: 'async' (default), 'sync', or 'auto'.
 	 * @param string            $image   The HTML `img` tag to be filtered.
-	 * @param string            $context Additional context about how the function was called or where the img tag is.
+	 * @param string            $context Additional context about how the function was called
+	 *                                   or where the img tag is.
 	 */
 	$value = apply_filters( 'wp_img_tag_add_decoding_attr', 'async', $image, $context );
+
 	if ( in_array( $value, array( 'async', 'sync', 'auto' ), true ) ) {
 		$image = str_replace( '<img ', '<img decoding="' . esc_attr( $value ) . '" ', $image );
 	}
