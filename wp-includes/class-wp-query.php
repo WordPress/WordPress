@@ -3434,9 +3434,11 @@ class WP_Query {
 	 */
 	public function the_post() {
 		global $post;
+
 		if ( ! $this->in_the_loop ) {
 			update_post_author_caches( $this->posts );
 		}
+
 		$this->in_the_loop = true;
 
 		if ( -1 == $this->current_post ) { // Loop has just started.

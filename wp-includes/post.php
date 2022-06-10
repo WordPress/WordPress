@@ -7424,11 +7424,11 @@ function clean_post_cache( $post ) {
 }
 
 /**
- * Calls major cache updating functions for list of Post objects.
+ * Updates post, term, and metadata caches for a list of post objects.
  *
  * @since 1.5.0
  *
- * @param WP_Post[] $posts             Array of Post objects
+ * @param WP_Post[] $posts             Array of post objects (passed by reference).
  * @param string    $post_type         Optional. Post type. Default 'post'.
  * @param bool      $update_term_cache Optional. Whether to update the term cache. Default true.
  * @param bool      $update_meta_cache Optional. Whether to update the meta cache. Default true.
@@ -7475,21 +7475,22 @@ function update_post_caches( &$posts, $post_type = 'post', $update_term_cache = 
 }
 
 /**
- * Prime post author user caches.
+ * Updates post author user caches for a list of post objects.
  *
  * @since 6.1.0
  *
- * @param WP_Post[] $posts Array of Post objects
+ * @param WP_Post[] $posts Array of post objects.
  */
 function update_post_author_caches( $posts ) {
 	$author_ids = wp_list_pluck( $posts, 'post_author' );
 	$author_ids = array_map( 'absint', $author_ids );
 	$author_ids = array_unique( array_filter( $author_ids ) );
+
 	cache_users( $author_ids );
 }
 
 /**
- * Updates metadata cache for list of post IDs.
+ * Updates metadata cache for a list of post IDs.
  *
  * Performs SQL query to retrieve the metadata for the post IDs and updates the
  * metadata cache for the posts. Therefore, the functions, which call this
