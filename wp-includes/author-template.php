@@ -476,7 +476,20 @@ function wp_list_authors( $args = '' ) {
 		}
 
 		if ( $args['show_fullname'] && $author->first_name && $author->last_name ) {
-			$name = "$author->first_name $author->last_name";
+
+			$full_name = $author->first_name . ' ' . $author->last_name;
+
+			/**
+			 * Filters the author's full name.
+			 *
+			 * @since 6.1.0
+			 *
+			 * @param string $full_name Full Name of the author. Default: The author's first name
+			 *                          and last name, separated by a space.
+			 * @param object $author    Author object.
+			 */
+			 $name = apply_filters( 'wp_list_author_full_name', $full_name, $author );
+
 		} else {
 			$name = $author->display_name;
 		}
