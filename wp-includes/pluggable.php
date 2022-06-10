@@ -132,6 +132,8 @@ if ( ! function_exists( 'cache_users' ) ) :
 	function cache_users( $user_ids ) {
 		global $wpdb;
 
+		update_meta_cache( 'user', $user_ids );
+
 		$clean = _get_non_cached_ids( $user_ids, 'users' );
 
 		if ( empty( $clean ) ) {
@@ -141,13 +143,9 @@ if ( ! function_exists( 'cache_users' ) ) :
 		$list = implode( ',', $clean );
 
 		$users = $wpdb->get_results( "SELECT * FROM $wpdb->users WHERE ID IN ($list)" );
-
-		$ids = array();
 		foreach ( $users as $user ) {
 			update_user_caches( $user );
-			$ids[] = $user->ID;
 		}
-		update_meta_cache( 'user', $ids );
 	}
 endif;
 
