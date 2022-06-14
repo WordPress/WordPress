@@ -911,7 +911,9 @@ class WP_Comment_Query {
 		}
 
 		if ( ! empty( $this->query_vars['date_query'] ) && is_array( $this->query_vars['date_query'] ) ) {
-			$this->date_query                         = new WP_Date_Query( $this->query_vars['date_query'], 'comment_date' );
+			$this->date_query = new WP_Date_Query( $this->query_vars['date_query'], 'comment_date' );
+
+			// Strip leading 'AND'.
 			$this->sql_clauses['where']['date_query'] = preg_replace( '/^\s*AND\s*/', '', $this->date_query->get_sql() );
 		}
 

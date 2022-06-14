@@ -626,7 +626,9 @@ class WP_Site_Query {
 
 		$date_query = $this->query_vars['date_query'];
 		if ( ! empty( $date_query ) && is_array( $date_query ) ) {
-			$this->date_query                         = new WP_Date_Query( $date_query, 'registered' );
+			$this->date_query = new WP_Date_Query( $date_query, 'registered' );
+
+			// Strip leading 'AND'.
 			$this->sql_clauses['where']['date_query'] = preg_replace( '/^\s*AND\s*/', '', $this->date_query->get_sql() );
 		}
 
