@@ -600,7 +600,7 @@ class WP_List_Table {
 		}
 
 		/**
-		 * Filters to short-circuit performing the months dropdown query.
+		 * Filters whether to short-circuit performing the months dropdown query.
 		 *
 		 * @since 5.7.0
 		 *
