@@ -388,7 +388,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		$page        = (int) $query_args['paged'];
 		$total_posts = $posts_query->found_posts;
 
-		if ( $total_posts < 1 ) {
+		if ( $total_posts < 1 && $page > 1 ) {
 			// Out-of-bounds, run the query again without LIMIT for total count.
 			unset( $query_args['paged'] );
 
