@@ -770,7 +770,7 @@ class WP_Term_Query {
 		// $args can be anything. Only use the args defined in defaults to compute the key.
 		$cache_args = wp_array_slice_assoc( $args, array_keys( $this->query_var_defaults ) );
 
-		unset( $cache_args['pad_counts'], $cache_args['update_term_meta_cache'] );
+		unset( $cache_args['update_term_meta_cache'] );
 
 		if ( 'count' !== $_fields && 'all_with_object_id' !== $_fields ) {
 			$cache_args['fields'] = 'all';
@@ -783,10 +783,13 @@ class WP_Term_Query {
 
 		if ( false !== $cache ) {
 			if ( 'ids' === $_fields ) {
-				$term_ids = wp_list_pluck( $cache, 'term_id' );
-				$cache    = array_map( 'intval', $term_ids );
+				$cache = array_map( 'intval', $cache );
 			} elseif ( 'count' !== $_fields ) {
-				$term_ids = wp_list_pluck( $cache, 'term_id' );
+				if ( ( 'all_with_object_id' === $_fields && ! empty( $args['object_ids'] ) ) || ( 'all' === $_fields && $args['pad_counts'] ) ) {
+					$term_ids = wp_list_pluck( $cache, 'term_id' );
+				} else {
+					$term_ids = array_map( 'intval', $cache );
+				}
 				_prime_term_caches( $term_ids, $args['update_term_meta_cache'] );
 				$term_objects = $this->populate_terms( $cache );
 				$cache        = $this->format_terms( $term_objects, $_fields );
@@ -849,34 +852,11 @@ class WP_Term_Query {
 			}
 		}
 
-		/*
-		 * When querying for terms connected to objects, we may get
-		 * duplicate results. The duplicates should be preserved if
-		 * `$fields` is 'all_with_object_id', but should otherwise be
-		 * removed.
-		 */
-		if ( ! empty( $args['object_ids'] ) && 'all_with_object_id' !== $_fields ) {
-			$_tt_ids = array();
-			$_terms  = array();
-			foreach ( $terms as $term ) {
-				if ( isset( $_tt_ids[ $term->term_id ] ) ) {
-					continue;
-				}
-
-				$_tt_ids[ $term->term_id ] = 1;
-				$_terms[]                  = $term;
-			}
-
-			$terms = $_terms;
-		}
-
 		// Hierarchical queries are not limited, so 'offset' and 'number' must be handled now.
-		if ( $hierarchical && $number && is_array( $terms ) ) {
-			if ( $offset >= count( $terms ) ) {
-				$terms        = array();
+		if ( $hierarchical && $number && is_array( $term_objects ) ) {
+			if ( $offset >= count( $term_objects ) ) {
 				$term_objects = array();
 			} else {
-				$terms        = array_slice( $terms, $offset, $number, true );
 				$term_objects = array_slice( $term_objects, $offset, $number, true );
 			}
 		}
@@ -887,10 +867,28 @@ class WP_Term_Query {
 			update_termmeta_cache( $term_ids );
 		}
 
-		wp_cache_add( $cache_key, $terms, 'terms' );
-		$terms = $this->format_terms( $term_objects, $_fields );
+		if ( 'all_with_object_id' === $_fields && ! empty( $args['object_ids'] ) ) {
+			$term_cache = array();
+			foreach ( $term_objects as $term ) {
+				$object            = new stdClass();
+				$object->term_id   = $term->term_id;
+				$object->object_id = $term->object_id;
+				$term_cache[]      = $object;
+			}
+		} elseif ( 'all' === $_fields && $args['pad_counts'] ) {
+			$term_cache = array();
+			foreach ( $term_objects as $term ) {
+				$object          = new stdClass();
+				$object->term_id = $term->term_id;
+				$object->count   = $term->count;
+				$term_cache[]    = $object;
+			}
+		} else {
+			$term_cache = wp_list_pluck( $term_objects, 'term_id' );
+		}
+		wp_cache_add( $cache_key, $term_cache, 'terms' );
+		$this->terms = $this->format_terms( $term_objects, $_fields );
 
-		$this->terms = $terms;
 		return $this->terms;
 	}
 
@@ -1118,6 +1116,9 @@ class WP_Term_Query {
 				$term = get_term( $term_data->term_id );
 				if ( property_exists( $term_data, 'object_id' ) ) {
 					$term->object_id = (int) $term_data->object_id;
+				}
+				if ( property_exists( $term_data, 'count' ) ) {
+					$term->count = (int) $term_data->count;
 				}
 			} else {
 				$term = get_term( $term_data );
