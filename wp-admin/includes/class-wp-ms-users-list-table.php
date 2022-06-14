@@ -302,7 +302,12 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 	 */
 	public function column_name( $user ) {
 		if ( $user->first_name && $user->last_name ) {
-			echo "$user->first_name $user->last_name";
+			printf(
+				/* translators: 1: User's first name, 2: Last name. */
+				_x( '%1$s %2$s', 'Display name based on first name and last name' ),
+				$user->first_name,
+				$user->last_name
+			);
 		} elseif ( $user->first_name ) {
 			echo $user->first_name;
 		} elseif ( $user->last_name ) {

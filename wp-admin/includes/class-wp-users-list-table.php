@@ -568,7 +568,12 @@ class WP_Users_List_Table extends WP_List_Table {
 						break;
 					case 'name':
 						if ( $user_object->first_name && $user_object->last_name ) {
-							$r .= "$user_object->first_name $user_object->last_name";
+							$r .= sprintf(
+								/* translators: 1: User's first name, 2: Last name. */
+								_x( '%1$s %2$s', 'Display name based on first name and last name' ),
+								$user_object->first_name,
+								$user_object->last_name
+							);
 						} elseif ( $user_object->first_name ) {
 							$r .= $user_object->first_name;
 						} elseif ( $user_object->last_name ) {

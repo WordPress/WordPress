@@ -827,7 +827,12 @@ function wp_list_users( $args = array() ) {
 		}
 
 		if ( $args['show_fullname'] && '' !== $user->first_name && '' !== $user->last_name ) {
-			$name = "$user->first_name $user->last_name";
+			$name = sprintf(
+				/* translators: 1: User's first name, 2: Last name. */
+				_x( '%1$s %2$s', 'Display name based on first name and last name' ),
+				$user->first_name,
+				$user->last_name
+			);
 		} else {
 			$name = $user->display_name;
 		}
@@ -2242,8 +2247,12 @@ function wp_insert_user( $userdata ) {
 		if ( $update ) {
 			$display_name = $user_login;
 		} elseif ( $meta['first_name'] && $meta['last_name'] ) {
-			/* translators: 1: User's first name, 2: Last name. */
-			$display_name = sprintf( _x( '%1$s %2$s', 'Display name based on first name and last name' ), $meta['first_name'], $meta['last_name'] );
+			$display_name = sprintf(
+				/* translators: 1: User's first name, 2: Last name. */
+				_x( '%1$s %2$s', 'Display name based on first name and last name' ),
+				$meta['first_name'],
+				$meta['last_name']
+			);
 		} elseif ( $meta['first_name'] ) {
 			$display_name = $meta['first_name'];
 		} elseif ( $meta['last_name'] ) {
