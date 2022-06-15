@@ -691,21 +691,20 @@ function wp_get_nav_menu_items( $menu, $args = array() ) {
 		return false;
 	}
 
-	static $fetched = array();
-
 	if ( ! taxonomy_exists( 'nav_menu' ) ) {
 		return false;
 	}
 
 	$defaults = array(
-		'order'       => 'ASC',
-		'orderby'     => 'menu_order',
-		'post_type'   => 'nav_menu_item',
-		'post_status' => 'publish',
-		'output'      => ARRAY_A,
-		'output_key'  => 'menu_order',
-		'nopaging'    => true,
-		'tax_query'   => array(
+		'order'                  => 'ASC',
+		'orderby'                => 'menu_order',
+		'post_type'              => 'nav_menu_item',
+		'post_status'            => 'publish',
+		'output'                 => ARRAY_A,
+		'output_key'             => 'menu_order',
+		'nopaging'               => true,
+		'update_menu_item_cache' => true,
+		'tax_query'              => array(
 			array(
 				'taxonomy' => 'nav_menu',
 				'field'    => 'term_taxonomy_id',
@@ -718,33 +717,6 @@ function wp_get_nav_menu_items( $menu, $args = array() ) {
 		$items = get_posts( $args );
 	} else {
 		$items = array();
-	}
-
-	// Prime posts and terms caches.
-	if ( empty( $fetched[ $menu->term_id ] ) ) {
-		$fetched[ $menu->term_id ] = true;
-		$post_ids                  = array();
-		$term_ids                  = array();
-		foreach ( $items as $item ) {
-			$object_id = get_post_meta( $item->ID, '_menu_item_object_id', true );
-			$type      = get_post_meta( $item->ID, '_menu_item_type', true );
-
-			if ( 'post_type' === $type ) {
-				$post_ids[] = (int) $object_id;
-			} elseif ( 'taxonomy' === $type ) {
-				$term_ids[] = (int) $object_id;
-			}
-		}
-
-		if ( ! empty( $post_ids ) ) {
-			_prime_post_caches( $post_ids, false );
-		}
-		unset( $post_ids );
-
-		if ( ! empty( $term_ids ) ) {
-			_prime_term_caches( $term_ids );
-		}
-		unset( $term_ids );
 	}
 
 	$items = array_map( 'wp_setup_nav_menu_item', $items );
@@ -778,6 +750,40 @@ function wp_get_nav_menu_items( $menu, $args = array() ) {
 	 * @param array  $args  An array of arguments used to retrieve menu item objects.
 	 */
 	return apply_filters( 'wp_get_nav_menu_items', $items, $menu, $args );
+}
+
+/**
+ * Prime all linked objects to menu items.
+ *
+ * @since 6.1.0
+ *
+ * @param WP_Post[] $menu_items Array post objects of menu items.
+ */
+function update_menu_item_cache( $menu_items ) {
+	$post_ids = array();
+	$term_ids = array();
+
+	foreach ( $menu_items as $menu_item ) {
+		if ( 'nav_menu_item' !== $menu_item->post_type ) {
+			continue;
+		}
+		$object_id = get_post_meta( $menu_item->ID, '_menu_item_object_id', true );
+		$type      = get_post_meta( $menu_item->ID, '_menu_item_type', true );
+
+		if ( 'post_type' === $type ) {
+			$post_ids[] = (int) $object_id;
+		} elseif ( 'taxonomy' === $type ) {
+			$term_ids[] = (int) $object_id;
+		}
+	}
+
+	if ( ! empty( $post_ids ) ) {
+		_prime_post_caches( $post_ids, false );
+	}
+
+	if ( ! empty( $term_ids ) ) {
+		_prime_term_caches( $term_ids );
+	}
 }
 
 /**
