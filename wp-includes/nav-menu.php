@@ -753,11 +753,11 @@ function wp_get_nav_menu_items( $menu, $args = array() ) {
 }
 
 /**
- * Prime all linked objects to menu items.
+ * Updates post and term caches for all linked objects for a list of menu items.
  *
  * @since 6.1.0
  *
- * @param WP_Post[] $menu_items Array post objects of menu items.
+ * @param WP_Post[] $menu_items Array of menu item post objects.
  */
 function update_menu_item_cache( $menu_items ) {
 	$post_ids = array();
@@ -767,6 +767,7 @@ function update_menu_item_cache( $menu_items ) {
 		if ( 'nav_menu_item' !== $menu_item->post_type ) {
 			continue;
 		}
+
 		$object_id = get_post_meta( $menu_item->ID, '_menu_item_object_id', true );
 		$type      = get_post_meta( $menu_item->ID, '_menu_item_type', true );
 

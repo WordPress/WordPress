@@ -627,6 +627,7 @@ class WP_Query {
 	 * @since 4.9.0 Introduced the `$comment_count` parameter.
 	 * @since 5.1.0 Introduced the `$meta_compare_key` parameter.
 	 * @since 5.3.0 Introduced the `$meta_type_key` parameter.
+	 * @since 6.1.0 Introduced the `$update_menu_item_cache` parameter.
 	 *
 	 * @param string|array $query {
 	 *     Optional. Array or string of Query parameters.
