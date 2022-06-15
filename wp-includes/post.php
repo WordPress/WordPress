@@ -7490,6 +7490,22 @@ function update_post_author_caches( $posts ) {
 }
 
 /**
+ * Prime post parent post caches.
+ *
+ * @since 6.1.0
+ *
+ * @param WP_Post[] $posts Array of Post objects.
+ */
+function update_post_parent_caches( $posts ) {
+	$parent_ids = wp_list_pluck( $posts, 'post_parent' );
+	$parent_ids = array_map( 'absint', $parent_ids );
+	$parent_ids = array_unique( array_filter( $parent_ids ) );
+	if ( ! empty( $parent_ids ) ) {
+		_prime_post_caches( $parent_ids, false );
+	}
+}
+
+/**
  * Updates metadata cache for a list of post IDs.
  *
  * Performs SQL query to retrieve the metadata for the post IDs and updates the
