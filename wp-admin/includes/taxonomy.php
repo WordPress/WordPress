@@ -11,7 +11,7 @@
 //
 
 /**
- * Check whether a category exists.
+ * Checks whether a category exists.
  *
  * @since 2.0.0
  *
@@ -30,7 +30,7 @@ function category_exists( $cat_name, $category_parent = null ) {
 }
 
 /**
- * Get category object for given ID and 'edit' filter context.
+ * Gets category object for given ID and 'edit' filter context.
  *
  * @since 2.0.0
  *
@@ -44,7 +44,7 @@ function get_category_to_edit( $id ) {
 }
 
 /**
- * Add a new category to the database if it does not already exist.
+ * Adds a new category to the database if it does not already exist.
  *
  * @since 2.0.0
  *
@@ -67,7 +67,7 @@ function wp_create_category( $cat_name, $category_parent = 0 ) {
 }
 
 /**
- * Create categories for the given post.
+ * Creates categories for the given post.
  *
  * @since 2.0.0
  *
@@ -210,7 +210,7 @@ function wp_update_category( $catarr ) {
 //
 
 /**
- * Check whether a post tag with a given name exists.
+ * Checks whether a post tag with a given name exists.
  *
  * @since 2.3.0
  *
@@ -224,7 +224,7 @@ function tag_exists( $tag_name ) {
 }
 
 /**
- * Add a new tag to the database if it does not already exist.
+ * Adds a new tag to the database if it does not already exist.
  *
  * @since 2.3.0
  *
@@ -236,7 +236,7 @@ function wp_create_tag( $tag_name ) {
 }
 
 /**
- * Get comma-separated list of tags available to edit.
+ * Gets comma-separated list of tags available to edit.
  *
  * @since 2.3.0
  *
@@ -249,7 +249,7 @@ function get_tags_to_edit( $post_id, $taxonomy = 'post_tag' ) {
 }
 
 /**
- * Get comma-separated list of terms available to edit for the given post ID.
+ * Gets comma-separated list of terms available to edit for the given post ID.
  *
  * @since 2.8.0
  *
@@ -298,7 +298,7 @@ function get_terms_to_edit( $post_id, $taxonomy = 'post_tag' ) {
 }
 
 /**
- * Add a new term to the database if it does not already exist.
+ * Adds a new term to the database if it does not already exist.
  *
  * @since 2.8.0
  *
