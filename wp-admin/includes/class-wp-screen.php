@@ -430,7 +430,7 @@ final class WP_Screen {
 	private function __construct() {}
 
 	/**
-	 * Indicates whether the screen is in a particular admin
+	 * Indicates whether the screen is in a particular admin.
 	 *
 	 * @since 3.5.0
 	 *
@@ -475,7 +475,7 @@ final class WP_Screen {
 	}
 
 	/**
-	 * Set the parent information for the screen.
+	 * Sets the parent information for the screen.
 	 *
 	 * This is called in admin-header.php after the menu parent for the screen has been determined.
 	 *
@@ -505,7 +505,7 @@ final class WP_Screen {
 	}
 
 	/**
-	 * Remove an option from the screen.
+	 * Removes an option from the screen.
 	 *
 	 * @since 3.8.0
 	 *
@@ -516,7 +516,7 @@ final class WP_Screen {
 	}
 
 	/**
-	 * Remove all options from the screen.
+	 * Removes all options from the screen.
 	 *
 	 * @since 3.8.0
 	 */
@@ -525,7 +525,7 @@ final class WP_Screen {
 	}
 
 	/**
-	 * Get the options registered for the screen.
+	 * Gets the options registered for the screen.
 	 *
 	 * @since 3.8.0
 	 *
@@ -606,7 +606,7 @@ final class WP_Screen {
 	}
 
 	/**
-	 * Add a help tab to the contextual help for the screen.
+	 * Adds a help tab to the contextual help for the screen.
 	 *
 	 * Call this on the `load-$pagenow` hook for the relevant screen,
 	 * or fetch the `$current_screen` object, or use get_current_screen()
@@ -682,7 +682,7 @@ final class WP_Screen {
 	}
 
 	/**
-	 * Add a sidebar to the contextual help for the screen.
+	 * Adds a sidebar to the contextual help for the screen.
 	 *
 	 * Call this in template files after admin.php is loaded and before admin-header.php is loaded
 	 * to add a sidebar to the contextual help.
@@ -713,7 +713,7 @@ final class WP_Screen {
 	}
 
 	/**
-	 * Get the accessible hidden headings and text used in the screen.
+	 * Gets the accessible hidden headings and text used in the screen.
 	 *
 	 * @since 4.4.0
 	 *
@@ -726,7 +726,7 @@ final class WP_Screen {
 	}
 
 	/**
-	 * Get a screen reader text string.
+	 * Gets a screen reader text string.
 	 *
 	 * @since 4.4.0
 	 *
@@ -741,7 +741,7 @@ final class WP_Screen {
 	}
 
 	/**
-	 * Add accessible hidden headings and text for the screen.
+	 * Adds accessible hidden headings and text for the screen.
 	 *
 	 * @since 4.4.0
 	 *
@@ -768,7 +768,7 @@ final class WP_Screen {
 	}
 
 	/**
-	 * Remove all the accessible hidden headings and text for the screen.
+	 * Removes all the accessible hidden headings and text for the screen.
 	 *
 	 * @since 4.4.0
 	 */
@@ -777,7 +777,7 @@ final class WP_Screen {
 	}
 
 	/**
-	 * Render the screen's help section.
+	 * Renders the screen's help section.
 	 *
 	 * This will trigger the deprecated filters for backward compatibility.
 	 *
@@ -1034,7 +1034,7 @@ final class WP_Screen {
 	}
 
 	/**
-	 * Render the screen options tab.
+	 * Renders the screen options tab.
 	 *
 	 * @since 3.3.0
 	 *
@@ -1097,7 +1097,7 @@ final class WP_Screen {
 	}
 
 	/**
-	 * Render the meta boxes preferences.
+	 * Renders the meta boxes preferences.
 	 *
 	 * @since 4.4.0
 	 *
@@ -1140,7 +1140,7 @@ final class WP_Screen {
 	}
 
 	/**
-	 * Render the list table columns preferences.
+	 * Renders the list table columns preferences.
 	 *
 	 * @since 4.4.0
 	 */
@@ -1188,7 +1188,7 @@ final class WP_Screen {
 	}
 
 	/**
-	 * Render the option for number of columns on the page
+	 * Renders the option for number of columns on the page.
 	 *
 	 * @since 3.3.0
 	 */
@@ -1220,7 +1220,7 @@ final class WP_Screen {
 	}
 
 	/**
-	 * Render the items per page option
+	 * Renders the items per page option.
 	 *
 	 * @since 3.3.0
 	 */
@@ -1284,7 +1284,7 @@ final class WP_Screen {
 	}
 
 	/**
-	 * Render the list table view mode preferences.
+	 * Renders the list table view mode preferences.
 	 *
 	 * @since 4.4.0
 	 *
@@ -1338,7 +1338,7 @@ final class WP_Screen {
 	}
 
 	/**
-	 * Render screen reader text.
+	 * Renders screen reader text.
 	 *
 	 * @since 4.4.0
 	 *
