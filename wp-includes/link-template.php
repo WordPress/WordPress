@@ -2765,10 +2765,12 @@ function the_post_navigation( $args = array() ) {
  * @return string Markup for posts links.
  */
 function get_the_posts_navigation( $args = array() ) {
+	global $wp_query;
+
 	$navigation = '';
 
 	// Don't print empty markup if there's only one page.
-	if ( $GLOBALS['wp_query']->max_num_pages > 1 ) {
+	if ( $wp_query->max_num_pages > 1 ) {
 		// Make sure the nav element has an aria-label attribute: fallback to the screen reader text.
 		if ( ! empty( $args['screen_reader_text'] ) && empty( $args['aria_label'] ) ) {
 			$args['aria_label'] = $args['screen_reader_text'];
@@ -2821,6 +2823,8 @@ function the_posts_navigation( $args = array() ) {
  * @since 5.3.0 Added the `aria_label` parameter.
  * @since 5.5.0 Added the `class` parameter.
  *
+ * @global WP_Query $wp_query WordPress Query object.
+ *
  * @param array $args {
  *     Optional. Default pagination arguments, see paginate_links().
  *
@@ -2832,10 +2836,12 @@ function the_posts_navigation( $args = array() ) {
  * @return string Markup for pagination links.
  */
 function get_the_posts_pagination( $args = array() ) {
+	global $wp_query;
+
 	$navigation = '';
 
 	// Don't print empty markup if there's only one page.
-	if ( $GLOBALS['wp_query']->max_num_pages > 1 ) {
+	if ( $wp_query->max_num_pages > 1 ) {
 		// Make sure the nav element has an aria-label attribute: fallback to the screen reader text.
 		if ( ! empty( $args['screen_reader_text'] ) && empty( $args['aria_label'] ) ) {
 			$args['aria_label'] = $args['screen_reader_text'];
