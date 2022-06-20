@@ -587,12 +587,12 @@ function _nx( $single, $plural, $number, $context, $domain = 'default' ) {
  * @return array {
  *     Array of translation information for the strings.
  *
- *     @type string $0        Singular form to be localized. No longer used.
- *     @type string $1        Plural form to be localized. No longer used.
- *     @type string $singular Singular form to be localized.
- *     @type string $plural   Plural form to be localized.
- *     @type null   $context  Context information for the translators.
- *     @type string $domain   Text domain.
+ *     @type string      $0        Singular form to be localized. No longer used.
+ *     @type string      $1        Plural form to be localized. No longer used.
+ *     @type string      $singular Singular form to be localized.
+ *     @type string      $plural   Plural form to be localized.
+ *     @type null        $context  Context information for the translators.
+ *     @type string|null $domain   Text domain.
  * }
  */
 function _n_noop( $singular, $plural, $domain = null ) {
@@ -654,7 +654,7 @@ function _nx_noop( $singular, $plural, $context, $domain = null ) {
 }
 
 /**
- * Translates and retrieves the singular or plural form of a string that's been registered
+ * Translates and returns the singular or plural form of a string that's been registered
  * with _n_noop() or _nx_noop().
  *
  * Used when you want to use a translatable plural string once the number is known.
@@ -667,11 +667,18 @@ function _nx_noop( $singular, $plural, $context, $domain = null ) {
  *
  * @since 3.1.0
  *
- * @param array  $nooped_plural Array with singular, plural, and context keys, usually the result of _n_noop() or _nx_noop().
+ * @param array  $nooped_plural {
+ *     Array that is usually a return value from _n_noop() or _nx_noop().
+ *
+ *     @type string      $singular Singular form to be localized.
+ *     @type string      $plural   Plural form to be localized.
+ *     @type string|null $context  Context information for the translators.
+ *     @type string|null $domain   Text domain.
+ * }
  * @param int    $count         Number of objects.
  * @param string $domain        Optional. Text domain. Unique identifier for retrieving translated strings. If $nooped_plural contains
  *                              a text domain passed to _n_noop() or _nx_noop(), it will override this value. Default 'default'.
- * @return string Either $single or $plural translated text.
+ * @return string Either $singular or $plural translated text.
  */
 function translate_nooped_plural( $nooped_plural, $count, $domain = 'default' ) {
 	if ( $nooped_plural['domain'] ) {
