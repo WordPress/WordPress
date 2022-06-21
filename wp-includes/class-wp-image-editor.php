@@ -75,11 +75,21 @@ abstract class WP_Image_Editor {
 	 * Saves current image to file.
 	 *
 	 * @since 3.5.0
+	 * @since 6.0.0 The `$filesize` value was added to the returned array.
 	 * @abstract
 	 *
 	 * @param string $destfilename Optional. Destination filename. Default null.
 	 * @param string $mime_type    Optional. The mime-type. Default null.
-	 * @return array|WP_Error {'path'=>string, 'file'=>string, 'width'=>int, 'height'=>int, 'mime-type'=>string}
+	 * @return array|WP_Error {
+	 *     Array on success or WP_Error if the file failed to save.
+	 *
+	 *     @type string $path      Path to the image file.
+	 *     @type string $file      Name of the image file.
+	 *     @type int    $width     Image width.
+	 *     @type int    $height    Image height.
+	 *     @type string $mime-type The mime type of the image.
+	 *     @type int    $filesize  File size of the image.
+	 * }
 	 */
 	abstract public function save( $destfilename = null, $mime_type = null );
 

@@ -190,6 +190,7 @@ function wp_update_image_subsizes( $attachment_id ) {
  * Updates the attached file and image meta data when the original image was edited.
  *
  * @since 5.3.0
+ * @since 6.0.0 The `$filesize` value was added to the returned array.
  * @access private
  *
  * @param array  $saved_data    The data returned from WP_Image_Editor after successfully saving an image.
@@ -211,11 +212,11 @@ function _wp_image_meta_replace_original( $saved_data, $original_file, $image_me
 	// Make the file path relative to the upload dir.
 	$image_meta['file'] = _wp_relative_upload_path( $new_file );
 
-	// Store the original image file name in image_meta.
-	$image_meta['original_image'] = wp_basename( $original_file );
-
 	// Add image file size.
 	$image_meta['filesize'] = wp_filesize( $new_file );
+
+	// Store the original image file name in image_meta.
+	$image_meta['original_image'] = wp_basename( $original_file );
 
 	return $image_meta;
 }
@@ -477,6 +478,7 @@ function _wp_make_subsizes( $new_sizes, $file, $image_meta, $attachment_id ) {
  * Generate attachment meta data and create image sub-sizes for images.
  *
  * @since 2.1.0
+ * @since 6.0.0 The `$filesize` value was added to the returned array.
  *
  * @param int    $attachment_id Attachment ID to process.
  * @param string $file          Filepath of the attached image.
