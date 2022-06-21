@@ -193,6 +193,7 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider {
 	 * Returns the query args for retrieving posts to list in the sitemap.
 	 *
 	 * @since 5.5.0
+	 * @since 6.1.0 Added `ignore_sticky_posts` default parameter.
 	 *
 	 * @param string $post_type Post type name.
 	 * @return array Array of WP_Query arguments.
@@ -204,6 +205,7 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider {
 		 * @see WP_Query for a full list of arguments.
 		 *
 		 * @since 5.5.0
+		 * @since 6.1.0 Added `ignore_sticky_posts` default parameter.
 		 *
 		 * @param array  $args      Array of WP_Query arguments.
 		 * @param string $post_type Post type name.
