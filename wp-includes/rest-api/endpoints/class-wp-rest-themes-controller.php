@@ -333,21 +333,6 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
 
 		$response->add_links( $this->prepare_links( $theme ) );
 
-		if ( $theme->get_stylesheet() === wp_get_theme()->get_stylesheet() ) {
-			// This creates a record for the active theme if not existent.
-			$id = WP_Theme_JSON_Resolver::get_user_global_styles_post_id();
-		} else {
-			$user_cpt = WP_Theme_JSON_Resolver::get_user_data_from_wp_global_styles( $theme );
-			$id       = isset( $user_cpt['ID'] ) ? $user_cpt['ID'] : null;
-		}
-
-		if ( $id ) {
-			$response->add_link(
-				'https://api.w.org/user-global-styles',
-				rest_url( 'wp/v2/global-styles/' . $id )
-			);
-		}
-
 		/**
 		 * Filters theme data returned from the REST API.
 		 *
@@ -369,7 +354,7 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
 	 * @return array Links for the given block type.
 	 */
 	protected function prepare_links( $theme ) {
-		return array(
+		$links = array(
 			'self'       => array(
 				'href' => rest_url( sprintf( '%s/%s/%s', $this->namespace, $this->rest_base, $theme->get_stylesheet() ) ),
 			),
@@ -377,6 +362,22 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
 				'href' => rest_url( sprintf( '%s/%s', $this->namespace, $this->rest_base ) ),
 			),
 		);
+
+		if ( $this->is_same_theme( $theme, wp_get_theme() ) ) {
+			// This creates a record for the active theme if not existent.
+			$id = WP_Theme_JSON_Resolver::get_user_global_styles_post_id();
+		} else {
+			$user_cpt = WP_Theme_JSON_Resolver::get_user_data_from_wp_global_styles( $theme );
+			$id       = isset( $user_cpt['ID'] ) ? $user_cpt['ID'] : null;
+		}
+
+		if ( $id ) {
+			$links['https://api.w.org/user-global-styles'] = array(
+				'href' => rest_url( 'wp/v2/global-styles/' . $id ),
+			);
+		}
+
+		return $links;
 	}
 
 	/**
