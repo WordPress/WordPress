@@ -1150,7 +1150,16 @@ function _find_post_by_old_slug( $post_type ) {
 		$query .= $wpdb->prepare( ' AND DAYOFMONTH(post_date) = %d', get_query_var( 'day' ) );
 	}
 
-	$id = (int) $wpdb->get_var( $query );
+	$key          = md5( $query );
+	$last_changed = wp_cache_get_last_changed( 'posts' );
+	$cache_key    = "find_post_by_old_slug:$key:$last_changed";
+	$cache        = wp_cache_get( $cache_key, 'posts' );
+	if ( false !== $cache ) {
+		$id = $cache;
+	} else {
+		$id = (int) $wpdb->get_var( $query );
+		wp_cache_set( $cache_key, $id, 'posts' );
+	}
 
 	return $id;
 }
@@ -1183,11 +1192,20 @@ function _find_post_by_old_date( $post_type ) {
 
 	$id = 0;
 	if ( $date_query ) {
-		$id = (int) $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM $wpdb->postmeta AS pm_date, $wpdb->posts WHERE ID = post_id AND post_type = %s AND meta_key = '_wp_old_date' AND post_name = %s" . $date_query, $post_type, get_query_var( 'name' ) ) );
-
-		if ( ! $id ) {
-			// Check to see if an old slug matches the old date.
-			$id = (int) $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts, $wpdb->postmeta AS pm_slug, $wpdb->postmeta AS pm_date WHERE ID = pm_slug.post_id AND ID = pm_date.post_id AND post_type = %s AND pm_slug.meta_key = '_wp_old_slug' AND pm_slug.meta_value = %s AND pm_date.meta_key = '_wp_old_date'" . $date_query, $post_type, get_query_var( 'name' ) ) );
+		$query        = $wpdb->prepare( "SELECT post_id FROM $wpdb->postmeta AS pm_date, $wpdb->posts WHERE ID = post_id AND post_type = %s AND meta_key = '_wp_old_date' AND post_name = %s" . $date_query, $post_type, get_query_var( 'name' ) );
+		$key          = md5( $query );
+		$last_changed = wp_cache_get_last_changed( 'posts' );
+		$cache_key    = "find_post_by_old_date:$key:$last_changed";
+		$cache        = wp_cache_get( $cache_key, 'posts' );
+		if ( false !== $cache ) {
+			$id = $cache;
+		} else {
+			$id = (int) $wpdb->get_var( $query );
+			if ( ! $id ) {
+				// Check to see if an old slug matches the old date.
+				$id = (int) $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts, $wpdb->postmeta AS pm_slug, $wpdb->postmeta AS pm_date WHERE ID = pm_slug.post_id AND ID = pm_date.post_id AND post_type = %s AND pm_slug.meta_key = '_wp_old_slug' AND pm_slug.meta_value = %s AND pm_date.meta_key = '_wp_old_date'" . $date_query, $post_type, get_query_var( 'name' ) ) );
+			}
+			wp_cache_set( $cache_key, $id, 'posts' );
 		}
 	}
 
