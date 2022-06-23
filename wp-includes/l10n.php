@@ -715,7 +715,7 @@ function load_textdomain_from_cache( $domain ) {
 /**
  * Cache a .mo file to the local storage as previously processed by 
  * the {@link https://developer.wordpress.org/reference/functions/load_textdomain/
- * load_textdomain() function}.
+ * load_textdomain() function}. Requires writing rights to the instance's document root.
  * 
  * @param string $domain Text domain. Unique identifier for retrieving translated strings.
  * @param string $moobject A MO object

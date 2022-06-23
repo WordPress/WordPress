@@ -178,6 +178,31 @@ if ( ! class_exists( 'Translations', false ) ) :
 				}
 			}
 		}
+
+		/**
+		 * The Translations object can be serialized as it happens for its descendant class `MO`
+		 * (class for working with MO files). In case something has to be done before the serialization
+		 * that's the best place to do that.
+		 *
+		 * @return void
+		 */
+		public function __sleep()
+		{
+
+		}
+
+		/**
+		 * The Translations object can be unserialized as it happens for its descendant class `MO`
+		 * (class for working with MO files). In case something has to be done before the unserialization
+		 * that's the best place to do that.
+		 * 
+		 * @return void
+		 */
+		public function __wakeup()
+		{
+
+		}
+
 	}
 
 	class Gettext_Translations extends Translations {
