@@ -1454,6 +1454,7 @@ function add_submenu_page( $parent_slug, $page_title, $menu_title, $capability, 
 			// For negative or `0` positions, prepend the submenu.
 			array_unshift( $submenu[ $parent_slug ], $new_sub_menu );
 		} else {
+			$position = absint( $position );
 			// Grab all of the items before the insertion point.
 			$before_items = array_slice( $submenu[ $parent_slug ], 0, $position, true );
 			// Grab all of the items after the insertion point.
