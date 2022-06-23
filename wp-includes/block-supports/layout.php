@@ -170,8 +170,27 @@ function wp_render_layout_support_flag( $block_content, $block ) {
 		$used_layout = $default_layout;
 	}
 
-	$class_name = wp_unique_id( 'wp-container-' );
-	$gap_value  = _wp_array_get( $block, array( 'attrs', 'style', 'spacing', 'blockGap' ) );
+	$class_names     = array();
+	$container_class = wp_unique_id( 'wp-container-' );
+	$class_names[]   = $container_class;
+
+	// The following section was added to reintroduce a small set of layout classnames that were
+	// removed in the 5.9 release (https://github.com/WordPress/gutenberg/issues/38719). It is
+	// not intended to provide an extended set of classes to match all block layout attributes
+	// here.
+	if ( ! empty( $block['attrs']['layout']['orientation'] ) ) {
+		$class_names[] = 'is-' . sanitize_title( $block['attrs']['layout']['orientation'] );
+	}
+
+	if ( ! empty( $block['attrs']['layout']['justifyContent'] ) ) {
+		$class_names[] = 'is-content-justification-' . sanitize_title( $block['attrs']['layout']['justifyContent'] );
+	}
+
+	if ( ! empty( $block['attrs']['layout']['flexWrap'] ) && 'nowrap' === $block['attrs']['layout']['flexWrap'] ) {
+		$class_names[] = 'is-nowrap';
+	}
+
+	$gap_value = _wp_array_get( $block, array( 'attrs', 'style', 'spacing', 'blockGap' ) );
 	// Skip if gap value contains unsupported characters.
 	// Regex for CSS value borrowed from `safecss_filter_attr`, and used here
 	// because we only want to match against the value, not the CSS attribute.
@@ -188,12 +207,12 @@ function wp_render_layout_support_flag( $block_content, $block ) {
 	// If a block's block.json skips serialization for spacing or spacing.blockGap,
 	// don't apply the user-defined value to the styles.
 	$should_skip_gap_serialization = wp_should_skip_block_supports_serialization( $block_type, 'spacing', 'blockGap' );
-	$style                         = wp_get_layout_style( ".$class_name", $used_layout, $has_block_gap_support, $gap_value, $should_skip_gap_serialization, $fallback_gap_value );
+	$style                         = wp_get_layout_style( ".$container_class", $used_layout, $has_block_gap_support, $gap_value, $should_skip_gap_serialization, $fallback_gap_value );
 	// This assumes the hook only applies to blocks with a single wrapper.
 	// I think this is a reasonable limitation for that particular hook.
 	$content = preg_replace(
 		'/' . preg_quote( 'class="', '/' ) . '/',
-		'class="' . esc_attr( $class_name ) . ' ',
+		'class="' . esc_attr( implode( ' ', $class_names ) ) . ' ',
 		$block_content,
 		1
 	);
