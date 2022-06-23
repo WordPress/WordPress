@@ -1,6 +1,6 @@
 <?php
 /**
- * Bookmark Template Functions for usage in Themes
+ * Bookmark Template Functions for usage in Themes.
  *
  * @package WordPress
  * @subpackage Template
@@ -164,7 +164,7 @@ function _walk_bookmarks( $bookmarks, $args = '' ) {
 }
 
 /**
- * Retrieve or echo all of the bookmarks.
+ * Retrieves or echoes all of the bookmarks.
  *
  * List of default arguments are as follows:
  *

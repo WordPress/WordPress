@@ -7,7 +7,7 @@
  */
 
 /**
- * Retrieve Bookmark data
+ * Retrieves bookmark data.
  *
  * @since 2.1.0
  *
@@ -65,7 +65,7 @@ function get_bookmark( $bookmark, $output = OBJECT, $filter = 'raw' ) {
 }
 
 /**
- * Retrieve single bookmark data item or field.
+ * Retrieves single bookmark data item or field.
  *
  * @since 2.3.0
  *
@@ -94,7 +94,7 @@ function get_bookmark_field( $field, $bookmark, $context = 'display' ) {
 }
 
 /**
- * Retrieves the list of bookmarks
+ * Retrieves the list of bookmarks.
  *
  * Attempts to retrieve from the cache first based on MD5 hash of arguments. If
  * that fails, then the query will be built from the arguments and executed. The
