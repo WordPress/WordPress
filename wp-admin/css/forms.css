@@ -885,6 +885,7 @@ table.form-table td .updated p {
 #application-passwords-section .notice {
 	margin-top: 20px;
 	margin-bottom: 0;
+	word-wrap: break-word;
 }
 
 .application-password-display input.code {
