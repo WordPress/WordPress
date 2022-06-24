@@ -2371,7 +2371,7 @@ function comment_form( $args = array(), $post_id = null ) {
 				( $req ? $required_indicator : '' )
 			),
 			sprintf(
-				'<input id="author" name="author" type="text" value="%s" size="30" maxlength="245"%s />',
+				'<input id="author" name="author" type="text" value="%s" size="30" maxlength="245" autocomplete="name"%s />',
 				esc_attr( $commenter['comment_author'] ),
 				( $req ? $required_attribute : '' )
 			)
@@ -2384,7 +2384,7 @@ function comment_form( $args = array(), $post_id = null ) {
 				( $req ? $required_indicator : '' )
 			),
 			sprintf(
-				'<input id="email" name="email" %s value="%s" size="30" maxlength="100" aria-describedby="email-notes"%s />',
+				'<input id="email" name="email" %s value="%s" size="30" maxlength="100" aria-describedby="email-notes" autocomplete="email"%s />',
 				( $html5 ? 'type="email"' : 'type="text"' ),
 				esc_attr( $commenter['comment_author_email'] ),
 				( $req ? $required_attribute : '' )
@@ -2397,7 +2397,7 @@ function comment_form( $args = array(), $post_id = null ) {
 				__( 'Website' )
 			),
 			sprintf(
-				'<input id="url" name="url" %s value="%s" size="30" maxlength="200" />',
+				'<input id="url" name="url" %s value="%s" size="30" maxlength="200" autocomplete="url" />',
 				( $html5 ? 'type="url"' : 'type="text"' ),
 				esc_attr( $commenter['comment_author_url'] )
 			)
