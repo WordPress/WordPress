@@ -593,7 +593,23 @@ class WP_Upgrader {
 		}
 
 		// Copy new version of item into place.
-		$result = copy_dir( $source, $remote_destination );
+		if ( class_exists( 'Rollback_Update_Failure\WP_Upgrader' )
+			&& function_exists( '\Rollback_Update_Failure\move_dir' )
+		) {
+			/*
+			 * If the {@link https://wordpress.org/plugins/rollback-update-failure/ Rollback Update Failure}
+			 * feature plugin is installed, use the move_dir() function from there for better performance.
+			 * Instead of copying a directory from one location to another, it uses the rename() PHP function
+			 * to speed up the process. If the renaming failed, it falls back to copy_dir().
+			 *
+			 * This condition aims to facilitate broader testing of the Rollbacks (temp backups) feature project.
+			 * It is temporary, until the plugin is merged into core.
+			 */
+			$result = \Rollback_Update_Failure\move_dir( $source, $remote_destination );
+		} else {
+			$result = copy_dir( $source, $remote_destination );
+		}
+
 		if ( is_wp_error( $result ) ) {
 			if ( $args['clear_working'] ) {
 				$wp_filesystem->delete( $remote_source, true );
