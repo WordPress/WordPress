@@ -2236,7 +2236,7 @@ function register_initial_settings() {
 		'page_on_front',
 		array(
 			'show_in_rest' => true,
-			'type'         => 'number',
+			'type'         => 'integer',
 			'description'  => __( 'The ID of the page that should be displayed on the front page' ),
 		)
 	);
@@ -2246,7 +2246,7 @@ function register_initial_settings() {
 		'page_for_posts',
 		array(
 			'show_in_rest' => true,
-			'type'         => 'number',
+			'type'         => 'integer',
 			'description'  => __( 'The ID of the page that should display the latest posts' ),
 		)
 	);
