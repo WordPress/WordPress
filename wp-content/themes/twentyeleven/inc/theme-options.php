@@ -339,10 +339,9 @@ function twentyeleven_settings_field_layout() {
  * @since Twenty Eleven 1.2
  */
 function twentyeleven_theme_options_render_page() {
+	$theme_name = function_exists( 'wp_get_theme' ) ? wp_get_theme()->display( 'Name' ) : get_option( 'current_theme' );
 	?>
 	<div class="wrap">
-		<?php screen_icon(); ?>
-		<?php $theme_name = function_exists( 'wp_get_theme' ) ? wp_get_theme() : get_current_theme(); ?>
 		<h2>
 		<?php
 		/* translators: %s: Theme name. */
