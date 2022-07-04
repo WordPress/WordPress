@@ -202,8 +202,8 @@ class WP_oEmbed {
 		 * | Instagram TV | instagram.com        | 5.1.0     | 5.5.2     |
 		 * | Instagram TV | instagr.am           | 5.1.0     | 5.5.2     |
 		 * | Facebook     | facebook.com         | 4.7.0     | 5.5.2     |
-		 * | Meetup.com   | meetup.com           | 3.9.0     | 6.1.0     |
-		 * | Meetup.com   | meetu.ps             | 3.9.0     | 6.1.0     |
+		 * | Meetup.com   | meetup.com           | 3.9.0     | 6.0.1     |
+		 * | Meetup.com   | meetu.ps             | 3.9.0     | 6.0.1     |
 		 *
 		 * @see wp_oembed_add_provider()
 		 *

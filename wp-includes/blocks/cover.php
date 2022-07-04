@@ -32,12 +32,15 @@ function render_block_core_cover( $attributes, $content ) {
 
 		$image = get_the_post_thumbnail( null, 'post-thumbnail', $attr );
 
-		$content = str_replace(
-			'</span><div',
-			'</span>' . $image . '<div',
-			$content
-		);
-
+		/*
+		 * Inserts the featured image between the (1st) cover 'background' `span` and 'inner_container' `div`,
+		 * and removes eventual withespace characters between the two (typically introduced at template level)
+		 */
+		$inner_container_start = '/<div\b[^>]+wp-block-cover__inner-container[\s|"][^>]*>/U';
+		if ( 1 === preg_match( $inner_container_start, $content, $matches, PREG_OFFSET_CAPTURE ) ) {
+			$offset  = $matches[0][1];
+			$content = substr( $content, 0, $offset ) . $image . substr( $content, $offset );
+		}
 	} else {
 		if ( in_the_loop() ) {
 			update_post_thumbnail_cache();
