@@ -19162,6 +19162,7 @@ function createStyleElement(options) {
 }
 
 var StyleSheet = /*#__PURE__*/function () {
+  // Using Node instead of HTMLElement since container may be a ShadowRoot
   function StyleSheet(options) {
     var _this = this;
 
@@ -20329,8 +20330,7 @@ var createCache = function createCache(options) {
 
   if (false) {}
 
-  var inserted = {}; // $FlowFixMe
-
+  var inserted = {};
   var container;
   var nodesToHydrate = [];
 
@@ -20568,6 +20568,8 @@ var processStyleValue = function processStyleValue(key, value) {
 };
 
 if (false) { var hyphenatedCache, hyphenPattern, msPattern, oldProcessStyleValue, contentValues, contentValuePattern; }
+
+var noComponentSelectorMessage = (/* unused pure expression or super */ null && ('Component selectors can only be used in conjunction with ' + '@emotion/babel-plugin, the swc Emotion plugin, or another Emotion-aware ' + 'compiler transform.'));
 
 function handleInterpolation(mergedProps, registered, interpolation) {
   if (interpolation == null) {
@@ -23777,7 +23779,7 @@ var hoist_non_react_statics_cjs = __webpack_require__(1281);
 
 var pkg = {
 	name: "@emotion/react",
-	version: "11.9.0",
+	version: "11.9.3",
 	main: "dist/emotion-react.cjs.js",
 	module: "dist/emotion-react.esm.js",
 	browser: {
@@ -23805,8 +23807,8 @@ var pkg = {
 	dependencies: {
 		"@babel/runtime": "^7.13.10",
 		"@emotion/babel-plugin": "^11.7.1",
-		"@emotion/cache": "^11.7.1",
-		"@emotion/serialize": "^1.0.3",
+		"@emotion/cache": "^11.9.3",
+		"@emotion/serialize": "^1.0.4",
 		"@emotion/utils": "^1.1.0",
 		"@emotion/weak-memoize": "^0.2.5",
 		"hoist-non-react-statics": "^3.3.1"
@@ -23825,12 +23827,11 @@ var pkg = {
 	},
 	devDependencies: {
 		"@babel/core": "^7.13.10",
+		"@definitelytyped/dtslint": "0.0.112",
 		"@emotion/css": "11.9.0",
 		"@emotion/css-prettifier": "1.0.1",
 		"@emotion/server": "11.4.0",
-		"@emotion/styled": "11.8.1",
-		"@types/react": "^16.9.11",
-		dtslint: "^4.2.1",
+		"@emotion/styled": "11.9.3",
 		"html-tag-names": "^1.1.2",
 		react: "16.14.0",
 		"svg-tag-names": "^1.1.1",
@@ -26507,6 +26508,17 @@ function __classPrivateFieldSet(receiver, state, value, kind, f) {
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 }
 
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/utils/process.mjs
+/**
+ * Browser-safe usage of process
+ */
+var defaultEnvironment = "production";
+var env = typeof process === "undefined" || process.env === undefined
+    ? defaultEnvironment
+    : "production" || 0;
+
+
+
 ;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/motion/features/definitions.mjs
 var createDefinition = function (propNames) { return ({
     isEnabled: function (props) { return propNames.some(function (name) { return !!props[name]; }); },
@@ -26555,6 +26567,13 @@ function loadFeatures(features) {
 
 
 
+;// CONCATENATED MODULE: ./node_modules/hey-listen/dist/hey-listen.es.js
+var warning = function () { };
+var invariant = function () { };
+if (false) {}
+
+
+
 ;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/context/LazyContext.mjs
 
 
@@ -26585,7 +26604,9 @@ function useFeatures(props, visualElement, preloadedFeatures) {
      * If we're in development mode, check to make sure we're not rendering a motion component
      * as a child of LazyMotion, as this will break the file-size benefits of using it.
      */
-    if (false) {}
+    if (env !== "production" && preloadedFeatures && lazyContext.strict) {
+        invariant(false, "You have rendered a `motion` component within a `LazyMotion` component. This will break tree shaking. Import and render a `m` component instead.");
+    }
     for (var i = 0; i < numFeatures; i++) {
         var name_1 = featureNames[i];
         var _a = featureDefinitions[name_1], isEnabled = _a.isEnabled, Component = _a.Component;
@@ -27185,6 +27206,11 @@ var MotionValue = /** @class */ (function () {
     function MotionValue(init) {
         var _this = this;
         /**
+         * This will be replaced by the build step with the latest version number.
+         * When MotionValues are provided to motion components, warn if versions are mixed.
+         */
+        this.version = "6.3.16";
+        /**
          * Duration, in milliseconds, since last updating frame.
          *
          * @internal
@@ -27310,7 +27336,7 @@ var MotionValue = /** @class */ (function () {
      * }
      * ```
      *
-     * @internalremarks
+     * @privateRemarks
      *
      * We could look into a `useOnChange` hook if the above lifecycle management proves confusing.
      *
@@ -27462,9 +27488,6 @@ var MotionValue = /** @class */ (function () {
     };
     return MotionValue;
 }());
-/**
- * @internal
- */
 function motionValue(init) {
     return new MotionValue(init);
 }
@@ -27475,13 +27498,6 @@ function motionValue(init) {
 var isMotionValue = function (value) {
     return Boolean(value !== null && typeof value === "object" && value.getVelocity);
 };
-
-
-
-;// CONCATENATED MODULE: ./node_modules/hey-listen/dist/hey-listen.es.js
-var warning = function () { };
-var invariant = function () { };
-if (false) {}
 
 
 
@@ -29103,8 +29119,6 @@ function getValueTransition(transition, key) {
 /**
  * Start animation on a MotionValue. This function is an interface between
  * Framer Motion and Popmotion
- *
- * @internal
  */
 function startAnimation(key, value, target, transition) {
     if (transition === void 0) { transition = {}; }
@@ -29728,7 +29742,7 @@ function addScaleCorrector(correctors) {
 
 
 ;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/projection/styles/transform.mjs
-var identityProjection = "translate3d(0px, 0px, 0) scale(1, 1)";
+var identityProjection = "translate3d(0px, 0px, 0) scale(1, 1) scale(1, 1)";
 function buildProjectionTransform(delta, treeScale, latestTransform) {
     /**
      * The translations we use to calculate are always relative to the viewport coordinate space.
@@ -29739,6 +29753,11 @@ function buildProjectionTransform(delta, treeScale, latestTransform) {
     var xTranslate = delta.x.translate / treeScale.x;
     var yTranslate = delta.y.translate / treeScale.y;
     var transform = "translate3d(".concat(xTranslate, "px, ").concat(yTranslate, "px, 0) ");
+    /**
+     * Apply scale correction for the tree transform.
+     * This will apply scale to the screen-orientated axes.
+     */
+    transform += "scale(".concat(1 / treeScale.x, ", ").concat(1 / treeScale.y, ") ");
     if (latestTransform) {
         var rotate = latestTransform.rotate, rotateX = latestTransform.rotateX, rotateY = latestTransform.rotateY;
         if (rotate)
@@ -29748,7 +29767,13 @@ function buildProjectionTransform(delta, treeScale, latestTransform) {
         if (rotateY)
             transform += "rotateY(".concat(rotateY, "deg) ");
     }
-    transform += "scale(".concat(delta.x.scale, ", ").concat(delta.y.scale, ")");
+    /**
+     * Apply scale to match the size of the element to the size we want it.
+     * This will apply scale to the element-orientated axes.
+     */
+    var elementScaleX = delta.x.scale * treeScale.x;
+    var elementScaleY = delta.y.scale * treeScale.y;
+    transform += "scale(".concat(elementScaleX, ", ").concat(elementScaleY, ")");
     return transform === identityProjection ? "none" : transform;
 }
 
@@ -29846,8 +29871,6 @@ var FlatTree = /** @class */ (function () {
  * If the provided value is a MotionValue, this returns the actual value, otherwise just the value itself
  *
  * TODO: Remove and move to library
- *
- * @internal
  */
 function resolveMotionValue(value) {
     var unwrappedValue = isMotionValue(value) ? value.get() : value;
@@ -29904,7 +29927,7 @@ var globalProjectionState = {
     hasEverUpdated: false,
 };
 function createProjectionNode(_a) {
-    var attachResizeListener = _a.attachResizeListener, defaultParent = _a.defaultParent, measureScroll = _a.measureScroll, resetTransform = _a.resetTransform;
+    var attachResizeListener = _a.attachResizeListener, defaultParent = _a.defaultParent, measureScroll = _a.measureScroll, checkIsScrollRoot = _a.checkIsScrollRoot, resetTransform = _a.resetTransform;
     return /** @class */ (function () {
         function ProjectionNode(id, latestValues, parent) {
             var _this = this;
@@ -30307,6 +30330,7 @@ function createProjectionNode(_a) {
         };
         ProjectionNode.prototype.updateScroll = function () {
             if (this.options.layoutScroll && this.instance) {
+                this.isScrollRoot = checkIsScrollRoot(this.instance);
                 this.scroll = measureScroll(this.instance);
             }
         };
@@ -30350,8 +30374,24 @@ function createProjectionNode(_a) {
              */
             for (var i = 0; i < this.path.length; i++) {
                 var node = this.path[i];
-                var scroll_1 = node.scroll, options = node.options;
+                var scroll_1 = node.scroll, options = node.options, isScrollRoot = node.isScrollRoot;
                 if (node !== this.root && scroll_1 && options.layoutScroll) {
+                    /**
+                     * If this is a new scroll root, we want to remove all previous scrolls
+                     * from the viewport box.
+                     */
+                    if (isScrollRoot) {
+                        copyBoxInto(boxWithoutScroll, box);
+                        var rootScroll = this.root.scroll;
+                        /**
+                         * Undo the application of page scroll that was originally added
+                         * to the measured bounding box.
+                         */
+                        if (rootScroll) {
+                            translateAxis(boxWithoutScroll.x, -rootScroll.x);
+                            translateAxis(boxWithoutScroll.y, -rootScroll.y);
+                        }
+                    }
                     translateAxis(boxWithoutScroll.x, scroll_1.x);
                     translateAxis(boxWithoutScroll.y, scroll_1.y);
                 }
@@ -31084,9 +31124,6 @@ function useProjectionId() {
 ;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/context/LayoutGroupContext.mjs
 
 
-/**
- * @internal
- */
 var LayoutGroupContext = (0,external_React_.createContext)({});
 
 
@@ -31095,7 +31132,7 @@ var LayoutGroupContext = (0,external_React_.createContext)({});
 
 
 /**
- * @internal
+ * Internal, exported only for usage in Framer
  */
 var SwitchLayoutGroupContext = (0,external_React_.createContext)({});
 
@@ -31192,8 +31229,6 @@ var VisualElementHandler = /** @class */ (function (_super) {
  *
  * Alongside this is a config option which provides a way of rendering the provided
  * component "offline", or outside the React render cycle.
- *
- * @internal
  */
 function motion_createMotionComponent(_a) {
     var preloadedFeatures = _a.preloadedFeatures, createVisualElement = _a.createVisualElement, projectionNodeConstructor = _a.projectionNodeConstructor, useRender = _a.useRender, useVisualState = _a.useVisualState, Component = _a.Component;
@@ -31626,7 +31661,7 @@ function useHTMLProps(props, visualState, isStatic) {
 /**
  * A list of all valid MotionProps.
  *
- * @internalremarks
+ * @privateRemarks
  * This doesn't throw if a `MotionProp` name is missing - it should.
  */
 var validMotionProps = new Set([
@@ -32192,8 +32227,9 @@ var AnimationType;
 
 
 function addDomEvent(target, eventName, handler, options) {
+    if (options === void 0) { options = { passive: true }; }
     target.addEventListener(eventName, handler, options);
-    return function () { return target.removeEventListener(eventName, handler, options); };
+    return function () { return target.removeEventListener(eventName, handler); };
 }
 /**
  * Attaches an event listener directly to the provided DOM element.
@@ -32457,10 +32493,10 @@ function useHoverGesture(_a) {
     var onHoverStart = _a.onHoverStart, onHoverEnd = _a.onHoverEnd, whileHover = _a.whileHover, visualElement = _a.visualElement;
     usePointerEvent(visualElement, "pointerenter", onHoverStart || whileHover
         ? createHoverEvent(visualElement, true, onHoverStart)
-        : undefined);
+        : undefined, { passive: !onHoverStart });
     usePointerEvent(visualElement, "pointerleave", onHoverEnd || whileHover
         ? createHoverEvent(visualElement, false, onHoverEnd)
-        : undefined);
+        : undefined, { passive: !onHoverEnd });
 }
 
 
@@ -32514,6 +32550,12 @@ function useTapGesture(_a) {
     var hasPressListeners = onTap || onTapStart || onTapCancel || whileTap;
     var isPressing = (0,external_React_.useRef)(false);
     var cancelPointerEndListeners = (0,external_React_.useRef)(null);
+    /**
+     * Only set listener to passive if there are no external listeners.
+     */
+    var eventOptions = {
+        passive: !(onTapStart || onTap || onTapCancel || onPointerDown),
+    };
     function removePointerEndListener() {
         var _a;
         (_a = cancelPointerEndListeners.current) === null || _a === void 0 ? void 0 : _a.call(cancelPointerEndListeners);
@@ -32548,15 +32590,28 @@ function useTapGesture(_a) {
         if (isPressing.current)
             return;
         isPressing.current = true;
-        cancelPointerEndListeners.current = pipe(addPointerEvent(window, "pointerup", onPointerUp), addPointerEvent(window, "pointercancel", onPointerCancel));
+        cancelPointerEndListeners.current = pipe(addPointerEvent(window, "pointerup", onPointerUp, eventOptions), addPointerEvent(window, "pointercancel", onPointerCancel, eventOptions));
         /**
          * Ensure we trigger animations before firing event callback
          */
         (_a = visualElement.animationState) === null || _a === void 0 ? void 0 : _a.setActive(AnimationType.Tap, true);
         onTapStart === null || onTapStart === void 0 ? void 0 : onTapStart(event, info);
     }
-    usePointerEvent(visualElement, "pointerdown", hasPressListeners ? onPointerDown : undefined);
+    usePointerEvent(visualElement, "pointerdown", hasPressListeners ? onPointerDown : undefined, eventOptions);
     useUnmountEffect(removePointerEndListener);
+}
+
+
+
+;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/utils/warn-once.mjs
+var warned = new Set();
+function warnOnce(condition, message, element) {
+    if (condition || warned.has(message))
+        return;
+    console.warn(message);
+    if (element)
+        console.warn(element);
+    warned.add(message);
 }
 
 
@@ -32693,7 +32748,9 @@ function useMissingIntersectionObserver(shouldObserve, state, visualElement, _a)
     (0,external_React_.useEffect)(function () {
         if (!shouldObserve || !fallback)
             return;
-        if (false) {}
+        if (env !== "production") {
+            warnOnce(false, "IntersectionObserver not available on this device. whileInView animations will trigger on mount.");
+        }
         /**
          * Fire this in an rAF because, at this point, the animation state
          * won't have flushed for the first time and there's certain logic in
@@ -33035,9 +33092,6 @@ function getOrigin(target, transition, visualElement) {
 
 
 
-/**
- * @internal
- */
 function animateVisualElement(visualElement, definition, options) {
     if (options === void 0) { options = {}; }
     visualElement.notifyAnimationStart(definition);
@@ -34297,7 +34351,7 @@ var VisualElementDragControls = /** @class */ (function () {
          * constraints as the window resizes.
          */
         var stopResizeListener = addDomEvent(window, "resize", function () {
-            _this.scalePositionWithinConstraints();
+            return _this.scalePositionWithinConstraints();
         });
         /**
          * If the element's layout changes, calculate the delta and apply that to
@@ -34388,7 +34442,7 @@ function useDrag(props) {
  * @param handlers -
  * @param ref -
  *
- * @internalremarks
+ * @privateRemarks
  * Currently this sets new pan gesture functions every render. The memo route has been explored
  * in the past but ultimately we're still creating new functions every render. An optimisation
  * to explore is creating the pan gestures and loading them into a `ref`.
@@ -34493,6 +34547,7 @@ function createLifecycles() {
 
 
 
+
 function updateMotionValuesFromProps(element, next, prev) {
     var _a;
     for (var key in next) {
@@ -34504,6 +34559,11 @@ function updateMotionValuesFromProps(element, next, prev) {
              * to our visual element's motion value map.
              */
             element.addValue(key, nextValue);
+            /**
+             * Check the version of the incoming motion value with this version
+             * and warn against mismatches.
+             */
+            if (false) {}
         }
         else if (isMotionValue(prevValue)) {
             /**
@@ -35262,6 +35322,9 @@ var checkAndConvertChangedValueTypes = function (visualElement, target, origin, 
         }
     });
     if (changedValueTypeKeys.length) {
+        var scrollY_1 = changedValueTypeKeys.indexOf("height") >= 0
+            ? window.pageYOffset
+            : null;
         var convertedTarget = convertChangedValueTypes(target, visualElement, changedValueTypeKeys);
         // If we removed transform values, reapply them before the next render
         if (removedTransformValues.length) {
@@ -35272,6 +35335,9 @@ var checkAndConvertChangedValueTypes = function (visualElement, target, origin, 
         }
         // Reapply original values
         visualElement.syncRender();
+        // Restore scroll position
+        if (scrollY_1 !== null)
+            window.scrollTo({ top: scrollY_1 });
         return { target: convertedTarget, transitionEnd: transitionEnd };
     }
     else {
@@ -35710,15 +35776,14 @@ var layoutFeatures = {
 ;// CONCATENATED MODULE: ./node_modules/framer-motion/dist/es/projection/node/DocumentProjectionNode.mjs
 
 
+
 var DocumentProjectionNode = createProjectionNode({
-    attachResizeListener: function (ref, notify) {
-        ref.addEventListener("resize", notify, { passive: true });
-        return function () { return ref.removeEventListener("resize", notify); };
-    },
+    attachResizeListener: function (ref, notify) { return addDomEvent(ref, "resize", notify); },
     measureScroll: function () { return ({
         x: document.documentElement.scrollLeft || document.body.scrollLeft,
         y: document.documentElement.scrollTop || document.body.scrollTop,
     }); },
+    checkIsScrollRoot: function () { return true; },
 });
 
 
@@ -35746,6 +35811,9 @@ var HTMLProjectionNode_HTMLProjectionNode = createProjectionNode({
     },
     resetTransform: function (instance, value) {
         instance.style.transform = value !== null && value !== void 0 ? value : "none";
+    },
+    checkIsScrollRoot: function (instance) {
+        return Boolean(window.getComputedStyle(instance).position === "fixed");
     },
 });
 
@@ -37619,10 +37687,10 @@ function computeRubberband(bounds, [Vx, Vy], [Rx, Ry]) {
 
 
 
-;// CONCATENATED MODULE: ./node_modules/@use-gesture/core/dist/actions-8e12537b.esm.js
+;// CONCATENATED MODULE: ./node_modules/@use-gesture/core/dist/actions-1416bf77.esm.js
 
 
-function actions_8e12537b_esm_defineProperty(obj, key, value) {
+function actions_1416bf77_esm_defineProperty(obj, key, value) {
   if (key in obj) {
     Object.defineProperty(obj, key, {
       value: value,
@@ -37637,7 +37705,7 @@ function actions_8e12537b_esm_defineProperty(obj, key, value) {
   return obj;
 }
 
-function actions_8e12537b_esm_ownKeys(object, enumerableOnly) {
+function actions_1416bf77_esm_ownKeys(object, enumerableOnly) {
   var keys = Object.keys(object);
 
   if (Object.getOwnPropertySymbols) {
@@ -37650,12 +37718,12 @@ function actions_8e12537b_esm_ownKeys(object, enumerableOnly) {
   return keys;
 }
 
-function actions_8e12537b_esm_objectSpread2(target) {
+function actions_1416bf77_esm_objectSpread2(target) {
   for (var i = 1; i < arguments.length; i++) {
     var source = null != arguments[i] ? arguments[i] : {};
-    i % 2 ? actions_8e12537b_esm_ownKeys(Object(source), !0).forEach(function (key) {
-      actions_8e12537b_esm_defineProperty(target, key, source[key]);
-    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : actions_8e12537b_esm_ownKeys(Object(source)).forEach(function (key) {
+    i % 2 ? actions_1416bf77_esm_ownKeys(Object(source), !0).forEach(function (key) {
+      actions_1416bf77_esm_defineProperty(target, key, source[key]);
+    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : actions_1416bf77_esm_ownKeys(Object(source)).forEach(function (key) {
       Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
     });
   }
@@ -37691,10 +37759,16 @@ function capitalize(string) {
   return string[0].toUpperCase() + string.slice(1);
 }
 
+const actionsWithoutCaptureSupported = ['enter', 'leave'];
+
+function hasCapture(capture = false, actionKey) {
+  return capture && !actionsWithoutCaptureSupported.includes(actionKey);
+}
+
 function toHandlerProp(device, action = '', capture = false) {
   const deviceProps = EVENT_TYPE_MAP[device];
   const actionKey = deviceProps ? deviceProps[action] || action : action;
-  return 'on' + capitalize(device) + capitalize(actionKey) + (capture ? 'Capture' : '');
+  return 'on' + capitalize(device) + capitalize(actionKey) + (hasCapture(capture, actionKey) ? 'Capture' : '');
 }
 const pointerCaptureEvents = ['gotpointercapture', 'lostpointercapture'];
 function parseProp(prop) {
@@ -38058,7 +38132,7 @@ class Engine {
     const config = this.config;
     if (!state._active) this.clean();
     if ((state._blocked || !state.intentional) && !state._force && !config.triggerAllEvents) return;
-    const memo = this.handler(actions_8e12537b_esm_objectSpread2(actions_8e12537b_esm_objectSpread2(actions_8e12537b_esm_objectSpread2({}, shared), state), {}, {
+    const memo = this.handler(actions_1416bf77_esm_objectSpread2(actions_1416bf77_esm_objectSpread2(actions_1416bf77_esm_objectSpread2({}, shared), state), {}, {
       [this.aliasKey]: state.values
     }));
     if (memo !== undefined) state.memo = memo;
@@ -38090,7 +38164,7 @@ class CoordinatesEngine extends Engine {
   constructor(...args) {
     super(...args);
 
-    actions_8e12537b_esm_defineProperty(this, "aliasKey", 'xy');
+    actions_1416bf77_esm_defineProperty(this, "aliasKey", 'xy');
   }
 
   reset() {
@@ -38146,6 +38220,10 @@ const commonConfigResolver = {
     return value;
   },
 
+  eventOptions(value, _k, config) {
+    return actions_1416bf77_esm_objectSpread2(actions_1416bf77_esm_objectSpread2({}, config.shared.eventOptions), value);
+  },
+
   preventDefault(value = false) {
     return value;
   },
@@ -38190,7 +38268,7 @@ const commonConfigResolver = {
 if (false) {}
 
 const DEFAULT_AXIS_THRESHOLD = 0;
-const coordinatesConfigResolver = actions_8e12537b_esm_objectSpread2(actions_8e12537b_esm_objectSpread2({}, commonConfigResolver), {}, {
+const coordinatesConfigResolver = actions_1416bf77_esm_objectSpread2(actions_1416bf77_esm_objectSpread2({}, commonConfigResolver), {}, {
   axis(_v, _k, {
     axis
   }) {
@@ -38237,7 +38315,7 @@ class DragEngine extends CoordinatesEngine {
   constructor(...args) {
     super(...args);
 
-    actions_8e12537b_esm_defineProperty(this, "ingKey", 'dragging');
+    actions_1416bf77_esm_defineProperty(this, "ingKey", 'dragging');
   }
 
   reset() {
@@ -38297,13 +38375,13 @@ class DragEngine extends CoordinatesEngine {
     const config = this.config;
     const state = this.state;
     if (event.buttons != null && (Array.isArray(config.pointerButtons) ? !config.pointerButtons.includes(event.buttons) : config.pointerButtons !== -1 && config.pointerButtons !== event.buttons)) return;
-    this.ctrl.setEventIds(event);
+    const ctrlIds = this.ctrl.setEventIds(event);
 
     if (config.pointerCapture) {
       event.target.setPointerCapture(event.pointerId);
     }
 
-    if (state._pointerActive) return;
+    if (ctrlIds && ctrlIds.size > 1 && state._pointerActive) return;
     this.start(event);
     this.setupPointer(event);
     state._pointerId = pointerId(event);
@@ -38460,12 +38538,13 @@ class DragEngine extends CoordinatesEngine {
   }
 
   setupScrollPrevention(event) {
+    this.state._preventScroll = false;
     persistEvent(event);
-    this.eventStore.add(this.sharedConfig.window, 'touch', 'change', this.preventScroll.bind(this), {
+    const remove = this.eventStore.add(this.sharedConfig.window, 'touch', 'change', this.preventScroll.bind(this), {
       passive: false
     });
-    this.eventStore.add(this.sharedConfig.window, 'touch', 'end', this.clean.bind(this));
-    this.eventStore.add(this.sharedConfig.window, 'touch', 'cancel', this.clean.bind(this));
+    this.eventStore.add(this.sharedConfig.window, 'touch', 'end', remove);
+    this.eventStore.add(this.sharedConfig.window, 'touch', 'cancel', remove);
     this.timeoutStore.add('startPointerDrag', this.startPointerDrag.bind(this), this.config.preventScrollDelay, event);
   }
 
@@ -38483,8 +38562,8 @@ class DragEngine extends CoordinatesEngine {
     if (deltaFn) {
       const state = this.state;
       const factor = event.shiftKey ? 10 : event.altKey ? 0.1 : 1;
-      state._delta = deltaFn(factor);
       this.start(event);
+      state._delta = deltaFn(factor);
       state._keyboardActive = true;
       V.addTo(state._movement, state._delta);
       this.compute(event);
@@ -38528,22 +38607,22 @@ function persistEvent(event) {
   'persist' in event && typeof event.persist === 'function' && event.persist();
 }
 
-const actions_8e12537b_esm_isBrowser = typeof window !== 'undefined' && window.document && window.document.createElement;
+const actions_1416bf77_esm_isBrowser = typeof window !== 'undefined' && window.document && window.document.createElement;
 
-function actions_8e12537b_esm_supportsTouchEvents() {
-  return actions_8e12537b_esm_isBrowser && 'ontouchstart' in window;
+function actions_1416bf77_esm_supportsTouchEvents() {
+  return actions_1416bf77_esm_isBrowser && 'ontouchstart' in window;
 }
 
 function isTouchScreen() {
-  return actions_8e12537b_esm_supportsTouchEvents() || actions_8e12537b_esm_isBrowser && window.navigator.maxTouchPoints > 1;
+  return actions_1416bf77_esm_supportsTouchEvents() || actions_1416bf77_esm_isBrowser && window.navigator.maxTouchPoints > 1;
 }
 
-function actions_8e12537b_esm_supportsPointerEvents() {
-  return actions_8e12537b_esm_isBrowser && 'onpointerdown' in window;
+function actions_1416bf77_esm_supportsPointerEvents() {
+  return actions_1416bf77_esm_isBrowser && 'onpointerdown' in window;
 }
 
 function supportsPointerLock() {
-  return actions_8e12537b_esm_isBrowser && 'exitPointerLock' in window.document;
+  return actions_1416bf77_esm_isBrowser && 'exitPointerLock' in window.document;
 }
 
 function supportsGestureEvents() {
@@ -38555,11 +38634,11 @@ function supportsGestureEvents() {
 }
 
 const SUPPORT = {
-  isBrowser: actions_8e12537b_esm_isBrowser,
+  isBrowser: actions_1416bf77_esm_isBrowser,
   gesture: supportsGestureEvents(),
   touch: isTouchScreen(),
   touchscreen: isTouchScreen(),
-  pointer: actions_8e12537b_esm_supportsPointerEvents(),
+  pointer: actions_1416bf77_esm_supportsPointerEvents(),
   pointerLock: supportsPointerLock()
 };
 
@@ -38573,7 +38652,7 @@ const DEFAULT_DRAG_AXIS_THRESHOLD = {
   touch: 0,
   pen: 8
 };
-const dragConfigResolver = actions_8e12537b_esm_objectSpread2(actions_8e12537b_esm_objectSpread2({}, coordinatesConfigResolver), {}, {
+const dragConfigResolver = actions_1416bf77_esm_objectSpread2(actions_1416bf77_esm_objectSpread2({}, coordinatesConfigResolver), {}, {
   device(_v, _k, {
     pointer: {
       touch = false,
@@ -38645,7 +38724,7 @@ const dragConfigResolver = actions_8e12537b_esm_objectSpread2(actions_8e12537b_e
 
   axisThreshold(value) {
     if (!value) return DEFAULT_DRAG_AXIS_THRESHOLD;
-    return actions_8e12537b_esm_objectSpread2(actions_8e12537b_esm_objectSpread2({}, DEFAULT_DRAG_AXIS_THRESHOLD), value);
+    return actions_1416bf77_esm_objectSpread2(actions_1416bf77_esm_objectSpread2({}, DEFAULT_DRAG_AXIS_THRESHOLD), value);
   }
 
 });
@@ -38658,9 +38737,9 @@ class PinchEngine extends Engine {
   constructor(...args) {
     super(...args);
 
-    actions_8e12537b_esm_defineProperty(this, "ingKey", 'pinching');
+    actions_1416bf77_esm_defineProperty(this, "ingKey", 'pinching');
 
-    actions_8e12537b_esm_defineProperty(this, "aliasKey", 'da');
+    actions_1416bf77_esm_defineProperty(this, "aliasKey", 'da');
   }
 
   init() {
@@ -38924,7 +39003,7 @@ class PinchEngine extends Engine {
 
 }
 
-const pinchConfigResolver = actions_8e12537b_esm_objectSpread2(actions_8e12537b_esm_objectSpread2({}, commonConfigResolver), {}, {
+const pinchConfigResolver = actions_1416bf77_esm_objectSpread2(actions_1416bf77_esm_objectSpread2({}, commonConfigResolver), {}, {
   device(_v, _k, {
     shared,
     pointer: {
@@ -38982,7 +39061,7 @@ class MoveEngine extends CoordinatesEngine {
   constructor(...args) {
     super(...args);
 
-    actions_8e12537b_esm_defineProperty(this, "ingKey", 'moving');
+    actions_1416bf77_esm_defineProperty(this, "ingKey", 'moving');
   }
 
   move(event) {
@@ -39024,7 +39103,7 @@ class MoveEngine extends CoordinatesEngine {
 
 }
 
-const moveConfigResolver = actions_8e12537b_esm_objectSpread2(actions_8e12537b_esm_objectSpread2({}, coordinatesConfigResolver), {}, {
+const moveConfigResolver = actions_1416bf77_esm_objectSpread2(actions_1416bf77_esm_objectSpread2({}, coordinatesConfigResolver), {}, {
   mouseOnly: (value = true) => value
 });
 
@@ -39032,7 +39111,7 @@ class ScrollEngine extends CoordinatesEngine {
   constructor(...args) {
     super(...args);
 
-    actions_8e12537b_esm_defineProperty(this, "ingKey", 'scrolling');
+    actions_1416bf77_esm_defineProperty(this, "ingKey", 'scrolling');
   }
 
   scroll(event) {
@@ -39071,7 +39150,7 @@ class WheelEngine extends CoordinatesEngine {
   constructor(...args) {
     super(...args);
 
-    actions_8e12537b_esm_defineProperty(this, "ingKey", 'wheeling');
+    actions_1416bf77_esm_defineProperty(this, "ingKey", 'wheeling');
   }
 
   wheel(event) {
@@ -39119,7 +39198,7 @@ class HoverEngine extends CoordinatesEngine {
   constructor(...args) {
     super(...args);
 
-    actions_8e12537b_esm_defineProperty(this, "ingKey", 'hovering');
+    actions_1416bf77_esm_defineProperty(this, "ingKey", 'hovering');
   }
 
   enter(event) {
@@ -39150,42 +39229,42 @@ class HoverEngine extends CoordinatesEngine {
 
 }
 
-const hoverConfigResolver = actions_8e12537b_esm_objectSpread2(actions_8e12537b_esm_objectSpread2({}, coordinatesConfigResolver), {}, {
+const hoverConfigResolver = actions_1416bf77_esm_objectSpread2(actions_1416bf77_esm_objectSpread2({}, coordinatesConfigResolver), {}, {
   mouseOnly: (value = true) => value
 });
 
-const actions_8e12537b_esm_EngineMap = new Map();
+const actions_1416bf77_esm_EngineMap = new Map();
 const ConfigResolverMap = new Map();
-function actions_8e12537b_esm_registerAction(action) {
-  actions_8e12537b_esm_EngineMap.set(action.key, action.engine);
+function actions_1416bf77_esm_registerAction(action) {
+  actions_1416bf77_esm_EngineMap.set(action.key, action.engine);
   ConfigResolverMap.set(action.key, action.resolver);
 }
-const actions_8e12537b_esm_dragAction = {
+const actions_1416bf77_esm_dragAction = {
   key: 'drag',
   engine: DragEngine,
   resolver: dragConfigResolver
 };
-const actions_8e12537b_esm_hoverAction = {
+const actions_1416bf77_esm_hoverAction = {
   key: 'hover',
   engine: HoverEngine,
   resolver: hoverConfigResolver
 };
-const actions_8e12537b_esm_moveAction = {
+const actions_1416bf77_esm_moveAction = {
   key: 'move',
   engine: MoveEngine,
   resolver: moveConfigResolver
 };
-const actions_8e12537b_esm_pinchAction = {
+const actions_1416bf77_esm_pinchAction = {
   key: 'pinch',
   engine: PinchEngine,
   resolver: pinchConfigResolver
 };
-const actions_8e12537b_esm_scrollAction = {
+const actions_1416bf77_esm_scrollAction = {
   key: 'scroll',
   engine: ScrollEngine,
   resolver: scrollConfigResolver
 };
-const actions_8e12537b_esm_wheelAction = {
+const actions_1416bf77_esm_wheelAction = {
   key: 'wheel',
   engine: WheelEngine,
   resolver: wheelConfigResolver
@@ -39312,7 +39391,7 @@ function use_gesture_core_esm_parse(config, gestureKey) {
 
   if (gestureKey) {
     const resolver = ConfigResolverMap.get(gestureKey);
-    _config[gestureKey] = resolveWith(actions_8e12537b_esm_objectSpread2({
+    _config[gestureKey] = resolveWith(actions_1416bf77_esm_objectSpread2({
       shared: _config.shared
     }, rest), resolver);
   } else {
@@ -39320,7 +39399,7 @@ function use_gesture_core_esm_parse(config, gestureKey) {
       const resolver = ConfigResolverMap.get(key);
 
       if (resolver) {
-        _config[key] = resolveWith(actions_8e12537b_esm_objectSpread2({
+        _config[key] = resolveWith(actions_1416bf77_esm_objectSpread2({
           shared: _config.shared
         }, rest[key]), resolver);
       } else if (false) {}
@@ -39331,33 +39410,43 @@ function use_gesture_core_esm_parse(config, gestureKey) {
 }
 
 class EventStore {
-  constructor(ctrl) {
-    actions_8e12537b_esm_defineProperty(this, "_listeners", []);
+  constructor(ctrl, gestureKey) {
+    actions_1416bf77_esm_defineProperty(this, "_listeners", new Set());
 
     this._ctrl = ctrl;
+    this._gestureKey = gestureKey;
   }
 
   add(element, device, action, handler, options) {
+    const listeners = this._listeners;
     const type = toDomEventType(device, action);
 
-    const eventOptions = actions_8e12537b_esm_objectSpread2(actions_8e12537b_esm_objectSpread2({}, this._ctrl.config.shared.eventOptions), options);
+    const _options = this._gestureKey ? this._ctrl.config[this._gestureKey].eventOptions : {};
+
+    const eventOptions = actions_1416bf77_esm_objectSpread2(actions_1416bf77_esm_objectSpread2({}, _options), options);
 
     element.addEventListener(type, handler, eventOptions);
 
-    this._listeners.push(() => element.removeEventListener(type, handler, eventOptions));
+    const remove = () => {
+      element.removeEventListener(type, handler, eventOptions);
+      listeners.delete(remove);
+    };
+
+    listeners.add(remove);
+    return remove;
   }
 
   clean() {
     this._listeners.forEach(remove => remove());
 
-    this._listeners = [];
+    this._listeners.clear();
   }
 
 }
 
 class TimeoutStore {
   constructor() {
-    actions_8e12537b_esm_defineProperty(this, "_timeouts", new Map());
+    actions_1416bf77_esm_defineProperty(this, "_timeouts", new Map());
   }
 
   add(key, callback, ms = 140, ...args) {
@@ -39382,23 +39471,23 @@ class TimeoutStore {
 
 class Controller {
   constructor(handlers) {
-    actions_8e12537b_esm_defineProperty(this, "gestures", new Set());
+    actions_1416bf77_esm_defineProperty(this, "gestures", new Set());
 
-    actions_8e12537b_esm_defineProperty(this, "_targetEventStore", new EventStore(this));
+    actions_1416bf77_esm_defineProperty(this, "_targetEventStore", new EventStore(this));
 
-    actions_8e12537b_esm_defineProperty(this, "gestureEventStores", {});
+    actions_1416bf77_esm_defineProperty(this, "gestureEventStores", {});
 
-    actions_8e12537b_esm_defineProperty(this, "gestureTimeoutStores", {});
+    actions_1416bf77_esm_defineProperty(this, "gestureTimeoutStores", {});
 
-    actions_8e12537b_esm_defineProperty(this, "handlers", {});
+    actions_1416bf77_esm_defineProperty(this, "handlers", {});
 
-    actions_8e12537b_esm_defineProperty(this, "config", {});
+    actions_1416bf77_esm_defineProperty(this, "config", {});
 
-    actions_8e12537b_esm_defineProperty(this, "pointerIds", new Set());
+    actions_1416bf77_esm_defineProperty(this, "pointerIds", new Set());
 
-    actions_8e12537b_esm_defineProperty(this, "touchIds", new Set());
+    actions_1416bf77_esm_defineProperty(this, "touchIds", new Set());
 
-    actions_8e12537b_esm_defineProperty(this, "state", {
+    actions_1416bf77_esm_defineProperty(this, "state", {
       shared: {
         shiftKey: false,
         metaKey: false,
@@ -39413,8 +39502,10 @@ class Controller {
   setEventIds(event) {
     if (isTouch(event)) {
       this.touchIds = new Set(touchIds(event));
+      return this.touchIds;
     } else if ('pointerId' in event) {
       if (event.type === 'pointerup' || event.type === 'pointercancel') this.pointerIds.delete(event.pointerId);else if (event.type === 'pointerdown') this.pointerIds.add(event.pointerId);
+      return this.pointerIds;
     }
   }
 
@@ -39443,7 +39534,6 @@ class Controller {
 
   bind(...args) {
     const sharedConfig = this.config.shared;
-    const eventOptions = sharedConfig.eventOptions;
     const props = {};
     let target;
 
@@ -39452,18 +39542,21 @@ class Controller {
       if (!target) return;
     }
 
-    const bindFunction = bindToProps(props, eventOptions, !!target);
-
     if (sharedConfig.enabled) {
       for (const gestureKey of this.gestures) {
-        if (this.config[gestureKey].enabled) {
-          const Engine = actions_8e12537b_esm_EngineMap.get(gestureKey);
+        const gestureConfig = this.config[gestureKey];
+        const bindFunction = bindToProps(props, gestureConfig.eventOptions, !!target);
+
+        if (gestureConfig.enabled) {
+          const Engine = actions_1416bf77_esm_EngineMap.get(gestureKey);
           new Engine(this, args, gestureKey).bind(bindFunction);
         }
       }
 
+      const nativeBindFunction = bindToProps(props, sharedConfig.eventOptions, !!target);
+
       for (const eventKey in this.nativeHandlers) {
-        bindFunction(eventKey, '', event => this.nativeHandlers[eventKey](actions_8e12537b_esm_objectSpread2(actions_8e12537b_esm_objectSpread2({}, this.state.shared), {}, {
+        nativeBindFunction(eventKey, '', event => this.nativeHandlers[eventKey](actions_1416bf77_esm_objectSpread2(actions_1416bf77_esm_objectSpread2({}, this.state.shared), {}, {
           event,
           args
         })), undefined, true);
@@ -39494,7 +39587,7 @@ class Controller {
 
 function setupGesture(ctrl, gestureKey) {
   ctrl.gestures.add(gestureKey);
-  ctrl.gestureEventStores[gestureKey] = new EventStore(ctrl);
+  ctrl.gestureEventStores[gestureKey] = new EventStore(ctrl, gestureKey);
   ctrl.gestureTimeoutStores[gestureKey] = new TimeoutStore();
 }
 
@@ -39604,7 +39697,7 @@ function useRecognizers(handlers, config = {}, gestureKey, nativeHandlers) {
 }
 
 function use_gesture_react_esm_useDrag(handler, config) {
-  actions_8e12537b_esm_registerAction(actions_8e12537b_esm_dragAction);
+  actions_1416bf77_esm_registerAction(actions_1416bf77_esm_dragAction);
   return useRecognizers({
     drag: handler
   }, config || {}, 'drag');
@@ -39639,7 +39732,7 @@ function useMove(handler, config) {
 }
 
 function useHover(handler, config) {
-  actions_8e12537b_esm_registerAction(actions_8e12537b_esm_hoverAction);
+  actions_1416bf77_esm_registerAction(actions_1416bf77_esm_hoverAction);
   return useRecognizers({
     hover: handler
   }, config || {}, 'hover');
@@ -61046,15 +61139,9 @@ function newChildrenMap() {
 
 
 var getChildKey = function (child) { return child.key || ""; };
-var isDev = "production" !== "production";
 function updateChildLookup(children, allChildren) {
-    var seenChildren = isDev ? new Set() : null;
     children.forEach(function (child) {
         var key = getChildKey(child);
-        if (isDev && seenChildren && seenChildren.has(key)) {
-            console.warn("Children of AnimatePresence require unique keys. \"".concat(key, "\" is a duplicate."));
-            seenChildren.add(key);
-        }
         allChildren.set(key, child);
     });
 }
@@ -61186,7 +61273,11 @@ var AnimatePresence = function (_a) {
         var key = child.key;
         return exiting.has(key) ? (child) : (external_React_.createElement(PresenceChild, { key: getChildKey(child), isPresent: true, presenceAffectsLayout: presenceAffectsLayout }, child));
     });
-    if (false) {}
+    if (env !== "production" &&
+        exitBeforeEnter &&
+        childrenToRender.length > 1) {
+        console.warn("You're attempting to animate multiple children within AnimatePresence, but its exitBeforeEnter prop is set to true. This will lead to odd visual behaviour.");
+    }
     return (external_React_.createElement(external_React_.Fragment, null, exiting.size
         ? childrenToRender
         : childrenToRender.map(function (child) { return (0,external_React_.cloneElement)(child); })));

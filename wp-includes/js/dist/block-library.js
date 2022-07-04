@@ -1939,8 +1939,8 @@ function useUserAvatar(_ref2) {
       authorDetails: _authorId ? getUser(_authorId) : null
     };
   }, [postType, postId, userId]);
-  const avatarUrls = authorDetails ? Object.values(authorDetails.avatar_urls) : null;
-  const sizes = authorDetails ? Object.keys(authorDetails.avatar_urls) : null;
+  const avatarUrls = authorDetails && authorDetails !== null && authorDetails !== void 0 && authorDetails.avatar_urls ? Object.values(authorDetails.avatar_urls) : null;
+  const sizes = authorDetails && authorDetails !== null && authorDetails !== void 0 && authorDetails.avatar_urls ? Object.keys(authorDetails.avatar_urls) : null;
   const {
     minSize,
     maxSize
@@ -7363,7 +7363,7 @@ function edit_Edit(_ref) {
       [`has-text-align-${textAlign}`]: textAlign
     })
   });
-  const displayName = (0,external_wp_data_namespaceObject.useSelect)(select => {
+  let displayName = (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
       getEntityRecord
     } = select(external_wp_coreData_namespaceObject.store);
@@ -7404,13 +7404,13 @@ function edit_Edit(_ref) {
   })));
 
   if (!commentId || !displayName) {
-    return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, inspectorControls, blockControls, (0,external_wp_element_namespaceObject.createElement)("div", blockProps, (0,external_wp_element_namespaceObject.createElement)("p", null, (0,external_wp_i18n_namespaceObject._x)('Comment Author', 'block title'))));
+    displayName = (0,external_wp_i18n_namespaceObject._x)('Comment Author', 'block title');
   }
 
   const displayAuthor = isLink ? (0,external_wp_element_namespaceObject.createElement)("a", {
     href: "#comment-author-pseudo-link",
     onClick: event => event.preventDefault()
-  }, displayName) : (0,external_wp_element_namespaceObject.createElement)("p", null, displayName);
+  }, displayName) : displayName;
   return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, inspectorControls, blockControls, (0,external_wp_element_namespaceObject.createElement)("div", blockProps, displayAuthor));
 }
 
@@ -7503,10 +7503,6 @@ const comment_author_name_metadata = {
     },
     textAlign: {
       type: "string"
-    },
-    fontSize: {
-      type: "string",
-      "default": "small"
     }
   },
   usesContext: ["commentId"],
@@ -7745,7 +7741,7 @@ function comment_date_edit_Edit(_ref) {
     setAttributes
   } = _ref;
   const blockProps = (0,external_wp_blockEditor_namespaceObject.useBlockProps)();
-  const [date] = (0,external_wp_coreData_namespaceObject.useEntityProp)('root', 'comment', 'date', commentId);
+  let [date] = (0,external_wp_coreData_namespaceObject.useEntityProp)('root', 'comment', 'date', commentId);
   const [siteFormat = (0,external_wp_date_namespaceObject.__experimentalGetSettings)().formats.date] = (0,external_wp_coreData_namespaceObject.useEntityProp)('root', 'site', 'date_format');
   const inspectorControls = (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.InspectorControls, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.PanelBody, {
     title: (0,external_wp_i18n_namespaceObject.__)('Settings')
@@ -7764,12 +7760,12 @@ function comment_date_edit_Edit(_ref) {
   })));
 
   if (!commentId || !date) {
-    return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, inspectorControls, (0,external_wp_element_namespaceObject.createElement)("div", blockProps, (0,external_wp_element_namespaceObject.createElement)("p", null, (0,external_wp_i18n_namespaceObject._x)('Comment Date', 'block title'))));
+    date = (0,external_wp_i18n_namespaceObject._x)('Comment Date', 'block title');
   }
 
-  let commentDate = (0,external_wp_element_namespaceObject.createElement)("time", {
+  let commentDate = date instanceof Date ? (0,external_wp_element_namespaceObject.createElement)("time", {
     dateTime: (0,external_wp_date_namespaceObject.dateI18n)('c', date)
-  }, (0,external_wp_date_namespaceObject.dateI18n)(format || siteFormat, date));
+  }, (0,external_wp_date_namespaceObject.dateI18n)(format || siteFormat, date)) : (0,external_wp_element_namespaceObject.createElement)("time", null, date);
 
   if (isLink) {
     commentDate = (0,external_wp_element_namespaceObject.createElement)("a", {
@@ -7865,10 +7861,6 @@ const comment_date_metadata = {
     isLink: {
       type: "boolean",
       "default": true
-    },
-    fontSize: {
-      type: "string",
-      "default": "small"
     }
   },
   usesContext: ["commentId"],
@@ -8002,10 +7994,6 @@ const comment_edit_link_metadata = {
     },
     textAlign: {
       type: "string"
-    },
-    fontSize: {
-      type: "string",
-      "default": "small"
     }
   },
   supports: {
@@ -8131,10 +8119,6 @@ const comment_reply_link_metadata = {
   attributes: {
     textAlign: {
       type: "string"
-    },
-    fontSize: {
-      type: "string",
-      "default": "small"
     }
   },
   supports: {
@@ -8852,7 +8836,9 @@ const edit_TEMPLATE = [['core/comments-title'], ['core/comment-template', {}, [[
       radius: '20px'
     }
   }
-}]]], ['core/column', {}, [['core/comment-author-name'], ['core/group', {
+}]]], ['core/column', {}, [['core/comment-author-name', {
+  fontSize: 'small'
+}], ['core/group', {
   layout: {
     type: 'flex'
   },
@@ -8864,7 +8850,13 @@ const edit_TEMPLATE = [['core/comments-title'], ['core/comment-template', {}, [[
       }
     }
   }
-}, [['core/comment-date'], ['core/comment-edit-link']]], ['core/comment-content'], ['core/comment-reply-link']]]]]]], ['core/comments-pagination'], ['core/post-comments-form']];
+}, [['core/comment-date', {
+  fontSize: 'small'
+}], ['core/comment-edit-link', {
+  fontSize: 'small'
+}]]], ['core/comment-content'], ['core/comment-reply-link', {
+  fontSize: 'small'
+}]]]]]]], ['core/comments-pagination'], ['core/post-comments-form']];
 function CommentsQueryLoopEdit(_ref) {
   let {
     attributes,
@@ -21633,6 +21625,8 @@ const MAX_POSTS_COLUMNS = 6;
 
 
 
+
+
 /**
  * Internal dependencies
  */
@@ -21669,6 +21663,7 @@ function LatestPostsEdit(_ref) {
     attributes,
     setAttributes
   } = _ref;
+  const instanceId = (0,external_wp_compose_namespaceObject.useInstanceId)(LatestPostsEdit);
   const {
     postsToShow,
     order,
@@ -21719,7 +21714,25 @@ function LatestPostsEdit(_ref) {
       categoriesList: getEntityRecords('taxonomy', 'category', CATEGORIES_LIST_QUERY),
       authorList: getUsers(USERS_LIST_QUERY)
     };
-  }, [featuredImageSizeSlug, postsToShow, order, orderBy, categories, selectedAuthor]);
+  }, [featuredImageSizeSlug, postsToShow, order, orderBy, categories, selectedAuthor]); // If a user clicks to a link prevent redirection and show a warning.
+
+  const {
+    createWarningNotice,
+    removeNotice
+  } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_notices_namespaceObject.store);
+  let noticeId;
+
+  const showRedirectionPreventedNotice = event => {
+    event.preventDefault(); // Remove previous warning if any, to show one at a time per block.
+
+    removeNotice(noticeId);
+    noticeId = `block-library/core/latest-posts/redirection-prevented/${instanceId}`;
+    createWarningNotice((0,external_wp_i18n_namespaceObject.__)('Links are disabled in the editor.'), {
+      id: noticeId,
+      type: 'snackbar'
+    });
+  };
+
   const imageSizeOptions = imageSizes.filter(_ref2 => {
     let {
       slug
@@ -21953,7 +21966,8 @@ function LatestPostsEdit(_ref) {
     const needsReadMore = excerptLength < excerpt.trim().split(' ').length && post.excerpt.raw === '';
     const postExcerpt = needsReadMore ? (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, excerpt.trim().split(' ', excerptLength).join(' '), (0,external_wp_i18n_namespaceObject.__)(' … '), (0,external_wp_element_namespaceObject.createElement)("a", {
       href: post.link,
-      rel: "noopener noreferrer"
+      rel: "noopener noreferrer",
+      onClick: showRedirectionPreventedNotice
     }, (0,external_wp_i18n_namespaceObject.__)('Read more'))) : excerpt;
     return (0,external_wp_element_namespaceObject.createElement)("li", {
       key: i
@@ -21962,13 +21976,15 @@ function LatestPostsEdit(_ref) {
     }, addLinkToFeaturedImage ? (0,external_wp_element_namespaceObject.createElement)("a", {
       className: "wp-block-latest-posts__post-title",
       href: post.link,
-      rel: "noreferrer noopener"
+      rel: "noreferrer noopener",
+      onClick: showRedirectionPreventedNotice
     }, featuredImage) : featuredImage), (0,external_wp_element_namespaceObject.createElement)("a", {
       href: post.link,
       rel: "noreferrer noopener",
       dangerouslySetInnerHTML: !!titleTrimmed ? {
         __html: titleTrimmed
-      } : undefined
+      } : undefined,
+      onClick: showRedirectionPreventedNotice
     }, !titleTrimmed ? (0,external_wp_i18n_namespaceObject.__)('(no title)') : null), displayAuthor && currentAuthor && (0,external_wp_element_namespaceObject.createElement)("div", {
       className: "wp-block-latest-posts__post-author"
     }, (0,external_wp_i18n_namespaceObject.sprintf)(
@@ -23608,7 +23624,6 @@ const DEFAULT_MEDIA_SIZE_SLUG = 'full';
  */
 
 const media_text_edit_TEMPLATE = [['core/paragraph', {
-  fontSize: 'large',
   placeholder: (0,external_wp_i18n_namespaceObject._x)('Content…', 'content placeholder')
 }]]; // this limits the resize to a safe zone to avoid making broken layouts
 
@@ -31145,6 +31160,46 @@ const post_author_biography_settings = {
   edit: post_author_biography_edit
 };
 
+;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/post-comments-form/form.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+const CommentsForm = () => {
+  const disabledFormRef = (0,external_wp_compose_namespaceObject.__experimentalUseDisabled)();
+  const instanceId = (0,external_wp_compose_namespaceObject.useInstanceId)(CommentsForm);
+  return (0,external_wp_element_namespaceObject.createElement)("div", {
+    className: "comment-respond"
+  }, (0,external_wp_element_namespaceObject.createElement)("h3", {
+    className: "comment-reply-title"
+  }, (0,external_wp_i18n_namespaceObject.__)('Leave a Reply')), (0,external_wp_element_namespaceObject.createElement)("form", {
+    noValidate: true,
+    className: "comment-form",
+    ref: disabledFormRef
+  }, (0,external_wp_element_namespaceObject.createElement)("p", null, (0,external_wp_element_namespaceObject.createElement)("label", {
+    htmlFor: `comment-${instanceId}`
+  }, (0,external_wp_i18n_namespaceObject.__)('Comment')), (0,external_wp_element_namespaceObject.createElement)("textarea", {
+    id: `comment-${instanceId}`,
+    name: "comment",
+    cols: "45",
+    rows: "8"
+  })), (0,external_wp_element_namespaceObject.createElement)("p", {
+    className: "form-submit wp-block-button"
+  }, (0,external_wp_element_namespaceObject.createElement)("input", {
+    name: "submit",
+    type: "submit",
+    className: "submit wp-block-button__link",
+    label: (0,external_wp_i18n_namespaceObject.__)('Post Comment'),
+    value: (0,external_wp_i18n_namespaceObject.__)('Post Comment')
+  }))));
+};
+
+/* harmony default export */ var post_comments_form_form = (CommentsForm);
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/post-comments/edit.js
 
 
@@ -31160,6 +31215,11 @@ const post_author_biography_settings = {
 
 
 
+
+
+/**
+ * Internal dependencies
+ */
 
 
 function PostCommentsEdit(_ref) {
@@ -31189,22 +31249,22 @@ function PostCommentsEdit(_ref) {
 
   let warning = (0,external_wp_i18n_namespaceObject.__)('Post Comments block: This is just a placeholder, not a real comment. The final styling may differ because it also depends on the current theme. For better compatibility with the Block Editor, please consider replacing this block with the "Comments Query Loop" block.');
 
-  let showPlacholder = true;
+  let showPlaceholder = true;
 
   if (!isSiteEditor && 'open' !== commentStatus) {
     if ('closed' === commentStatus) {
       warning = (0,external_wp_i18n_namespaceObject.sprintf)(
       /* translators: 1: Post type (i.e. "post", "page") */
       (0,external_wp_i18n_namespaceObject.__)('Post Comments block: Comments to this %s are not allowed.'), postType);
-      showPlacholder = false;
+      showPlaceholder = false;
     } else if (!postTypeSupportsComments) {
       warning = (0,external_wp_i18n_namespaceObject.sprintf)(
       /* translators: 1: Post type (i.e. "post", "page") */
       (0,external_wp_i18n_namespaceObject.__)('Post Comments block: Comments for this post type (%s) are not enabled.'), postType);
-      showPlacholder = false;
+      showPlaceholder = false;
     } else if ('open' !== defaultCommentStatus) {
       warning = (0,external_wp_i18n_namespaceObject.__)('Post Comments block: Comments are not enabled.');
-      showPlacholder = false;
+      showPlaceholder = false;
     }
   }
 
@@ -31214,7 +31274,6 @@ function PostCommentsEdit(_ref) {
     })
   });
   const disabledRef = (0,external_wp_compose_namespaceObject.__experimentalUseDisabled)();
-  const textareaId = (0,external_wp_compose_namespaceObject.useInstanceId)(PostCommentsEdit);
   return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockControls, {
     group: "block"
   }, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.AlignmentControl, {
@@ -31224,7 +31283,7 @@ function PostCommentsEdit(_ref) {
         textAlign: nextAlign
       });
     }
-  })), (0,external_wp_element_namespaceObject.createElement)("div", blockProps, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.Warning, null, warning), showPlacholder && (0,external_wp_element_namespaceObject.createElement)("div", {
+  })), (0,external_wp_element_namespaceObject.createElement)("div", blockProps, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.Warning, null, warning), showPlaceholder && (0,external_wp_element_namespaceObject.createElement)("div", {
     className: "wp-block-post-comments__placeholder",
     ref: disabledRef
   }, (0,external_wp_element_namespaceObject.createElement)("h3", null,
@@ -31310,33 +31369,7 @@ function PostCommentsEdit(_ref) {
     className: "alignright"
   }, (0,external_wp_element_namespaceObject.createElement)("a", {
     href: "#top"
-  }, (0,external_wp_i18n_namespaceObject.__)('Newer Comments'), " \xBB"))), (0,external_wp_element_namespaceObject.createElement)("div", {
-    className: "comment-respond"
-  }, (0,external_wp_element_namespaceObject.createElement)("h3", {
-    className: "comment-reply-title"
-  }, (0,external_wp_i18n_namespaceObject.__)('Leave a Reply')), (0,external_wp_element_namespaceObject.createElement)("form", {
-    className: "comment-form",
-    noValidate: true
-  }, (0,external_wp_element_namespaceObject.createElement)("p", {
-    className: "comment-form-comment"
-  }, (0,external_wp_element_namespaceObject.createElement)("label", {
-    htmlFor: `comment-${textareaId}`
-  }, (0,external_wp_i18n_namespaceObject.__)('Comment'), ' ', (0,external_wp_element_namespaceObject.createElement)("span", {
-    className: "required"
-  }, "*")), (0,external_wp_element_namespaceObject.createElement)("textarea", {
-    id: `comment-${textareaId}`,
-    name: "comment",
-    cols: "45",
-    rows: "8",
-    required: true
-  })), (0,external_wp_element_namespaceObject.createElement)("p", {
-    className: "form-submit wp-block-button"
-  }, (0,external_wp_element_namespaceObject.createElement)("input", {
-    name: "submit",
-    type: "submit",
-    className: "submit wp-block-button__link",
-    value: (0,external_wp_i18n_namespaceObject.__)('Post Comment')
-  })))))));
+  }, (0,external_wp_i18n_namespaceObject.__)('Newer Comments'), " \xBB"))), (0,external_wp_element_namespaceObject.createElement)(post_comments_form_form, null))));
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/post-comments/index.js
@@ -31429,6 +31462,12 @@ const postCommentsForm = (0,external_wp_element_namespaceObject.createElement)(e
 
 
 
+
+/**
+ * Internal dependencies
+ */
+
+
 function PostCommentsFormEdit(_ref) {
   let {
     attributes,
@@ -31442,15 +31481,47 @@ function PostCommentsFormEdit(_ref) {
     postId,
     postType
   } = context;
-  const [commentStatus] = (0,external_wp_coreData_namespaceObject.useEntityProp)('postType', postType, 'comment_status', postId);
+  const [commentStatus, setCommentStatus] = (0,external_wp_coreData_namespaceObject.useEntityProp)('postType', postType, 'comment_status', postId);
   const blockProps = (0,external_wp_blockEditor_namespaceObject.useBlockProps)({
     className: classnames_default()({
       [`has-text-align-${textAlign}`]: textAlign
     })
   });
-  const isInSiteEditor = postType === undefined || postId === undefined;
-  const disabledFormRef = (0,external_wp_compose_namespaceObject.__experimentalUseDisabled)();
-  const instanceId = (0,external_wp_compose_namespaceObject.useInstanceId)(PostCommentsFormEdit);
+  const isSiteEditor = postType === undefined || postId === undefined;
+  const {
+    defaultCommentStatus
+  } = (0,external_wp_data_namespaceObject.useSelect)(select => select(external_wp_blockEditor_namespaceObject.store).getSettings().__experimentalDiscussionSettings);
+  const postTypeSupportsComments = (0,external_wp_data_namespaceObject.useSelect)(select => {
+    var _select$getPostType;
+
+    return postType ? !!((_select$getPostType = select(external_wp_coreData_namespaceObject.store).getPostType(postType)) !== null && _select$getPostType !== void 0 && _select$getPostType.supports.comments) : false;
+  });
+  let warning = false;
+  let actions;
+  let showPlaceholder = true;
+
+  if (!isSiteEditor && 'open' !== commentStatus) {
+    if ('closed' === commentStatus) {
+      warning = (0,external_wp_i18n_namespaceObject.sprintf)(
+      /* translators: 1: Post type (i.e. "post", "page") */
+      (0,external_wp_i18n_namespaceObject.__)('Post Comments Form block: Comments on this %s are not allowed.'), postType);
+      actions = [(0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
+        key: "enableComments",
+        onClick: () => setCommentStatus('open'),
+        variant: "primary"
+      }, (0,external_wp_i18n_namespaceObject._x)('Enable comments', 'action that affects the current post'))];
+      showPlaceholder = false;
+    } else if (!postTypeSupportsComments) {
+      warning = (0,external_wp_i18n_namespaceObject.sprintf)(
+      /* translators: 1: Post type (i.e. "post", "page") */
+      (0,external_wp_i18n_namespaceObject.__)('Post Comments Form block: Comments for this post type (%s) are not enabled.'), postType);
+      showPlaceholder = false;
+    } else if ('open' !== defaultCommentStatus) {
+      warning = (0,external_wp_i18n_namespaceObject.__)('Post Comments Form block: Comments are not enabled.');
+      showPlaceholder = false;
+    }
+  }
+
   return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockControls, {
     group: "block"
   }, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.AlignmentControl, {
@@ -31460,26 +31531,9 @@ function PostCommentsFormEdit(_ref) {
         textAlign: nextAlign
       });
     }
-  })), (0,external_wp_element_namespaceObject.createElement)("div", blockProps, !commentStatus && !isInSiteEditor && (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.Warning, null, (0,external_wp_i18n_namespaceObject.__)('Post Comments Form block: comments are not enabled for this post type.')), 'open' !== commentStatus && !isInSiteEditor && (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.Warning, null, (0,external_wp_i18n_namespaceObject.sprintf)(
-  /* translators: 1: Post type (i.e. "post", "page") */
-  (0,external_wp_i18n_namespaceObject.__)('Post Comments Form block: comments to this %s are not allowed.'), postType)), ('open' === commentStatus || isInSiteEditor) && (0,external_wp_element_namespaceObject.createElement)("div", null, (0,external_wp_element_namespaceObject.createElement)("h3", null, (0,external_wp_i18n_namespaceObject.__)('Leave a Reply')), (0,external_wp_element_namespaceObject.createElement)("form", {
-    noValidate: true,
-    className: "comment-form",
-    ref: disabledFormRef
-  }, (0,external_wp_element_namespaceObject.createElement)("p", null, (0,external_wp_element_namespaceObject.createElement)("label", {
-    htmlFor: `comment-${instanceId}`
-  }, (0,external_wp_i18n_namespaceObject.__)('Comment')), (0,external_wp_element_namespaceObject.createElement)("textarea", {
-    id: `comment-${instanceId}`,
-    name: "comment",
-    cols: "45",
-    rows: "8"
-  })), (0,external_wp_element_namespaceObject.createElement)("p", null, (0,external_wp_element_namespaceObject.createElement)("input", {
-    name: "submit",
-    className: "submit wp-block-button__link",
-    label: (0,external_wp_i18n_namespaceObject.__)('Post Comment'),
-    value: (0,external_wp_i18n_namespaceObject.__)('Post Comment'),
-    readOnly: true
-  }))))));
+  })), (0,external_wp_element_namespaceObject.createElement)("div", blockProps, warning && (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.Warning, {
+    actions: actions
+  }, warning), showPlaceholder ? (0,external_wp_element_namespaceObject.createElement)(post_comments_form_form, null) : null));
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/post-comments-form/index.js
