@@ -3085,7 +3085,7 @@ function migrateLightBlockWrapper(settings) {
 
 ;// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
 function _extends() {
-  _extends = Object.assign || function (target) {
+  _extends = Object.assign ? Object.assign.bind() : function (target) {
     for (var i = 1; i < arguments.length; i++) {
       var source = arguments[i];
 
@@ -3098,7 +3098,6 @@ function _extends() {
 
     return target;
   };
-
   return _extends.apply(this, arguments);
 }
 ;// CONCATENATED MODULE: external ["wp","element"]
@@ -36815,6 +36814,42 @@ function PresetDuotoneFilter(_ref6) {
 
 
 const layoutBlockSupportKey = '__experimentalLayout';
+/**
+ * Generates the utility classnames for the given blocks layout attributes.
+ * This method was primarily added to reintroduce classnames that were removed
+ * in the 5.9 release (https://github.com/WordPress/gutenberg/issues/38719), rather
+ * than providing an extensive list of all possible layout classes. The plan is to
+ * have the style engine generate a more extensive list of utility classnames which
+ * will then replace this method.
+ *
+ * @param { Array } attributes Array of block attributes.
+ *
+ * @return { Array } Array of CSS classname strings.
+ */
+
+function getLayoutClasses(attributes) {
+  var _attributes$layout, _attributes$layout2, _attributes$layout3;
+
+  const layoutClassnames = [];
+
+  if (!attributes.layout) {
+    return layoutClassnames;
+  }
+
+  if (attributes !== null && attributes !== void 0 && (_attributes$layout = attributes.layout) !== null && _attributes$layout !== void 0 && _attributes$layout.orientation) {
+    layoutClassnames.push(`is-${(0,external_lodash_namespaceObject.kebabCase)(attributes.layout.orientation)}`);
+  }
+
+  if (attributes !== null && attributes !== void 0 && (_attributes$layout2 = attributes.layout) !== null && _attributes$layout2 !== void 0 && _attributes$layout2.justifyContent) {
+    layoutClassnames.push(`is-content-justification-${(0,external_lodash_namespaceObject.kebabCase)(attributes.layout.justifyContent)}`);
+  }
+
+  if (attributes !== null && attributes !== void 0 && (_attributes$layout3 = attributes.layout) !== null && _attributes$layout3 !== void 0 && _attributes$layout3.flexWrap && attributes.layout.flexWrap === 'nowrap') {
+    layoutClassnames.push('is-nowrap');
+  }
+
+  return layoutClassnames;
+}
 
 function LayoutPanel(_ref) {
   let {
@@ -36983,9 +37018,10 @@ const withLayoutStyles = (0,external_wp_compose_namespaceObject.createHigherOrde
     default: defaultBlockLayout
   } = (0,external_wp_blocks_namespaceObject.getBlockSupport)(name, layoutBlockSupportKey) || {};
   const usedLayout = layout !== null && layout !== void 0 && layout.inherit ? defaultThemeLayout : layout || defaultBlockLayout || {};
+  const layoutClasses = shouldRenderLayoutStyles ? getLayoutClasses(attributes) : null;
   const className = classnames_default()(props === null || props === void 0 ? void 0 : props.className, {
     [`wp-container-${id}`]: shouldRenderLayoutStyles
-  });
+  }, layoutClasses);
   return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, shouldRenderLayoutStyles && element && (0,external_wp_element_namespaceObject.createPortal)((0,external_wp_element_namespaceObject.createElement)(LayoutStyle, {
     blockName: name,
     selector: `.wp-container-${id}`,
@@ -40727,6 +40763,11 @@ function __experimentalBlockVariationTransforms(_ref4) {
 
   const hasUniqueIcons = (0,external_wp_element_namespaceObject.useMemo)(() => {
     const variationIcons = new Set();
+
+    if (!variations) {
+      return false;
+    }
+
     variations.forEach(variation => {
       if (variation.icon) {
         variationIcons.add(variation.icon);
@@ -46177,17 +46218,32 @@ function usePasteHandler(props) {
   }, []);
 }
 /**
- * Normalizes a given string of HTML to remove the Windows specific "Fragment" comments
- * and any preceeding and trailing whitespace.
+ * Normalizes a given string of HTML to remove the Windows-specific "Fragment"
+ * comments and any preceeding and trailing content.
  *
  * @param {string} html the html to be normalized
  * @return {string} the normalized html
  */
 
 function removeWindowsFragments(html) {
-  const startReg = /.*<!--StartFragment-->/s;
-  const endReg = /<!--EndFragment-->.*/s;
-  return html.replace(startReg, '').replace(endReg, '');
+  const startStr = '<!--StartFragment-->';
+  const startIdx = html.indexOf(startStr);
+
+  if (startIdx > -1) {
+    html = html.substring(startIdx + startStr.length);
+  } else {
+    // No point looking for EndFragment
+    return html;
+  }
+
+  const endStr = '<!--EndFragment-->';
+  const endIdx = html.indexOf(endStr);
+
+  if (endIdx > -1) {
+    html = html.substring(0, endIdx);
+  }
+
+  return html;
 }
 /**
  * Removes the charset meta tag inserted by Chromium.

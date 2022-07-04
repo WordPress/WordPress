@@ -82,17 +82,29 @@ function render_block_core_post_template( $attributes, $content, $block ) {
 	$content = '';
 	while ( $query->have_posts() ) {
 		$query->the_post();
+
+		// Get an instance of the current Post Template block.
+		$block_instance = $block->parsed_block;
+
+		// Set the block name to one that does not correspond to an existing registered block.
+		// This ensures that for the inner instances of the Post Template block, we do not render any block supports.
+		$block_instance['blockName'] = 'core/null';
+
+		// Render the inner blocks of the Post Template block with `dynamic` set to `false` to prevent calling
+		// `render_callback` and ensure that no wrapper markup is included.
 		$block_content = (
 			new WP_Block(
-				$block->parsed_block,
+				$block_instance,
 				array(
 					'postType' => get_post_type(),
 					'postId'   => get_the_ID(),
 				)
 			)
 		)->render( array( 'dynamic' => false ) );
-		$post_classes  = implode( ' ', get_post_class( 'wp-block-post' ) );
-		$content      .= '<li class="' . esc_attr( $post_classes ) . '">' . $block_content . '</li>';
+
+		// Wrap the render inner blocks in a `li` element with the appropriate post classes.
+		$post_classes = implode( ' ', get_post_class( 'wp-block-post' ) );
+		$content     .= '<li class="' . esc_attr( $post_classes ) . '">' . $block_content . '</li>';
 	}
 
 	wp_reset_postdata();

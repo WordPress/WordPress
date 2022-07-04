@@ -1753,6 +1753,9 @@ button.wp-block-navigation-item__content {
   font-size: inherit;
   font-family: inherit;
   line-height: inherit;
+  font-style: inherit;
+  font-weight: inherit;
+  text-transform: inherit;
   text-align: right;
 }
 

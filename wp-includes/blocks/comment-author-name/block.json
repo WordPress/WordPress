@@ -18,10 +18,6 @@
 		},
 		"textAlign": {
 			"type": "string"
-		},
-		"fontSize": {
-			"type": "string",
-			"default": "small"
 		}
 	},
 	"usesContext": [ "commentId" ],
