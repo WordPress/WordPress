@@ -18,14 +18,16 @@
 
 ignore_user_abort( true );
 
+if ( ! headers_sent() ) {
+	header( 'Expires: Wed, 11 Jan 1984 05:00:00 GMT' );
+	header( 'Cache-Control: no-cache, must-revalidate, max-age=0' );
+}
+
 /* Don't make the request block till we finish, if possible. */
 if ( PHP_VERSION_ID >= 70016 && function_exists( 'fastcgi_finish_request' ) ) {
-	if ( ! headers_sent() ) {
-		header( 'Expires: Wed, 11 Jan 1984 05:00:00 GMT' );
-		header( 'Cache-Control: no-cache, must-revalidate, max-age=0' );
-	}
-
 	fastcgi_finish_request();
+} elseif ( function_exists( 'litespeed_finish_request' ) ) {
+	litespeed_finish_request();
 }
 
 if ( ! empty( $_POST ) || defined( 'DOING_AJAX' ) || defined( 'DOING_CRON' ) ) {
