@@ -60,6 +60,10 @@ if ( is_multisite() ) {
 	$help .= '<li>' . __( '<strong>Delete</strong> brings you to the Delete Users screen for confirmation, where you can permanently remove a user from your site and delete their content. You can also delete multiple users at once by using bulk actions.' ) . '</li>';
 }
 
+if ( current_user_can( 'edit_users' ) ) {
+	$help .= '<li>' . __( '<strong>Send password reset</strong> sends the user an email with a link to set a new password.' ) . '</li>';
+}
+
 $help .= '</ul>';
 
 get_current_screen()->add_help_tab(
