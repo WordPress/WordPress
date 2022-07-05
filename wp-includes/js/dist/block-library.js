@@ -31501,9 +31501,7 @@ function PostCommentsFormEdit(_ref) {
 
   if (!isSiteEditor && 'open' !== commentStatus) {
     if ('closed' === commentStatus) {
-      warning = (0,external_wp_i18n_namespaceObject.sprintf)(
-      /* translators: 1: Post type (i.e. "post", "page") */
-      (0,external_wp_i18n_namespaceObject.__)('Post Comments Form block: Comments on this %s are not allowed.'), postType);
+      warning = (0,external_wp_i18n_namespaceObject.__)('Post Comments Form block: Comments are not enabled for this item.');
       actions = [(0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
         key: "enableComments",
         onClick: () => setCommentStatus('open'),
@@ -31513,7 +31511,7 @@ function PostCommentsFormEdit(_ref) {
     } else if (!postTypeSupportsComments) {
       warning = (0,external_wp_i18n_namespaceObject.sprintf)(
       /* translators: 1: Post type (i.e. "post", "page") */
-      (0,external_wp_i18n_namespaceObject.__)('Post Comments Form block: Comments for this post type (%s) are not enabled.'), postType);
+      (0,external_wp_i18n_namespaceObject.__)('Post Comments Form block: Comments are not enabled for this post type (%s).'), postType);
       showPlaceholder = false;
     } else if ('open' !== defaultCommentStatus) {
       warning = (0,external_wp_i18n_namespaceObject.__)('Post Comments Form block: Comments are not enabled.');
