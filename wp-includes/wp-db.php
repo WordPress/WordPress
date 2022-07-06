@@ -2041,7 +2041,6 @@ class wpdb {
 	 * }
 	 */
 	public function parse_db_host( $host ) {
-		$port    = null;
 		$socket  = null;
 		$is_ipv6 = false;
 
@@ -2070,15 +2069,9 @@ class wpdb {
 			return false;
 		}
 
-		$host = '';
-		foreach ( array( 'host', 'port' ) as $component ) {
-			if ( ! empty( $matches[ $component ] ) ) {
-				$$component = $matches[ $component ];
-			}
-		}
-
+		$host = ! empty( $matches['host'] ) ? $matches['host'] : '';
 		// MySQLi port cannot be a string; must be null or an integer.
-		$port = $port ? absint( $port ) : null;
+		$port = ! empty( $matches['port'] ) ? absint( $matches['port'] ) : null;
 
 		return array( $host, $port, $socket, $is_ipv6 );
 	}
