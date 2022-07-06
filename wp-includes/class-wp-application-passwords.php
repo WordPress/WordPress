@@ -23,7 +23,7 @@ class WP_Application_Passwords {
 	const USERMETA_KEY_APPLICATION_PASSWORDS = '_application_passwords';
 
 	/**
-	 * The option name used to store whether application passwords is in use.
+	 * The option name used to store whether application passwords are in use.
 	 *
 	 * @since 5.6.0
 	 *
