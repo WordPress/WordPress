@@ -41,9 +41,9 @@ class WP_Application_Passwords {
 	const PW_LENGTH = 24;
 
 	/**
-	 * Checks if Application Passwords are being used by the site.
+	 * Checks if application passwords are being used by the site.
 	 *
-	 * This returns true if at least one Application Password has ever been created.
+	 * This returns true if at least one application password has ever been created.
 	 *
 	 * @since 5.6.0
 	 *
@@ -312,7 +312,7 @@ class WP_Application_Passwords {
 			return true;
 		}
 
-		// Specified Application Password not found!
+		// Specified application password not found!
 		return new WP_Error( 'application_password_not_found', __( 'Could not find an application password with that id.' ) );
 	}
 
