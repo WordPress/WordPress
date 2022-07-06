@@ -580,11 +580,6 @@ function unregister_taxonomy( $taxonomy ) {
 	$taxonomy_object->remove_rewrite_rules();
 	$taxonomy_object->remove_hooks();
 
-	// Remove custom taxonomy default term option.
-	if ( ! empty( $taxonomy_object->default_term ) ) {
-		delete_option( 'default_term_' . $taxonomy_object->name );
-	}
-
 	// Remove the taxonomy.
 	unset( $wp_taxonomies[ $taxonomy ] );
 
