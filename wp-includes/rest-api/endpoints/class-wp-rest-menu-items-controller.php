@@ -17,7 +17,7 @@
 class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller {
 
 	/**
-	 * Get the nav menu item, if the ID is valid.
+	 * Gets the nav menu item, if the ID is valid.
 	 *
 	 * @since 5.9.0
 	 *
@@ -107,7 +107,6 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller {
 	 * @since 5.9.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
-	 *
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function create_item( $request ) {
@@ -199,7 +198,6 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller {
 	 * @since 5.9.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
-	 *
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function update_item( $request ) {
@@ -488,7 +486,7 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller {
 	 *
 	 * @since 5.9.0
 	 *
-	 * @param WP_Post          $item   Post object.
+	 * @param WP_Post         $item    Post object.
 	 * @param WP_REST_Request $request Request object.
 	 * @return WP_REST_Response Response object.
 	 */
@@ -676,7 +674,7 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller {
 	}
 
 	/**
-	 * Retrieve Link Description Objects that should be added to the Schema for the posts collection.
+	 * Retrieves Link Description Objects that should be added to the Schema for the posts collection.
 	 *
 	 * @since 5.9.0
 	 *
