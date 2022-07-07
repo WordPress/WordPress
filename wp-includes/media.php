@@ -238,20 +238,20 @@ function image_downsize( $id, $size = 'medium' ) {
 		$width           = $intermediate['width'];
 		$height          = $intermediate['height'];
 		$is_intermediate = true;
-	} elseif ( 'thumbnail' === $size ) {
+	} elseif ( 'thumbnail' === $size && ! empty( $meta['thumb'] ) && is_string( $meta['thumb'] ) ) {
 		// Fall back to the old thumbnail.
-		$thumb_file = wp_get_attachment_thumb_file( $id );
-		$info       = null;
+		$imagefile = get_attached_file( $id );
+		$thumbfile = str_replace( wp_basename( $imagefile ), wp_basename( $meta['thumb'] ), $imagefile );
 
-		if ( $thumb_file ) {
-			$info = wp_getimagesize( $thumb_file );
-		}
+		if ( file_exists( $thumbfile ) ) {
+			$info = wp_getimagesize( $thumbfile );
 
-		if ( $thumb_file && $info ) {
-			$img_url         = str_replace( $img_url_basename, wp_basename( $thumb_file ), $img_url );
-			$width           = $info[0];
-			$height          = $info[1];
-			$is_intermediate = true;
+			if ( $info ) {
+				$img_url         = str_replace( $img_url_basename, wp_basename( $thumbfile ), $img_url );
+				$width           = $info[0];
+				$height          = $info[1];
+				$is_intermediate = true;
+			}
 		}
 	}
 

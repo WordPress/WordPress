@@ -4311,3 +4311,52 @@ function wp_skip_spacing_serialization( $block_type ) {
 function wp_add_iframed_editor_assets_html() {
 	_deprecated_function( __FUNCTION__, '6.0.0' );
 }
+
+/**
+ * Retrieves thumbnail for an attachment.
+ * Note that this works only for the (very) old image metadata style where 'thumb' was set,
+ * and the 'sizes' array did not exist. This function returns false for the newer image metadata style
+ * despite that 'thumbnail' is present in the 'sizes' array.
+ *
+ * @since 2.1.0
+ * @deprecated 6.1.0
+ *
+ * @param int $post_id Optional. Attachment ID. Default is the ID of the global `$post`.
+ * @return string|false Thumbnail file path on success, false on failure.
+ */
+function wp_get_attachment_thumb_file( $post_id = 0 ) {
+	_deprecated_function( __FUNCTION__, '6.1.0' );
+
+	$post_id = (int) $post_id;
+	$post    = get_post( $post_id );
+
+	if ( ! $post ) {
+		return false;
+	}
+
+	// Use $post->ID rather than $post_id as get_post() may have used the global $post object.
+	$imagedata = wp_get_attachment_metadata( $post->ID );
+
+	if ( ! is_array( $imagedata ) ) {
+		return false;
+	}
+
+	$file = get_attached_file( $post->ID );
+
+	if ( ! empty( $imagedata['thumb'] ) ) {
+		$thumbfile = str_replace( wp_basename( $file ), $imagedata['thumb'], $file );
+		if ( file_exists( $thumbfile ) ) {
+			/**
+			 * Filters the attachment thumbnail file path.
+			 *
+			 * @since 2.1.0
+			 *
+			 * @param string $thumbfile File path to the attachment thumbnail.
+			 * @param int    $post_id   Attachment ID.
+			 */
+			return apply_filters( 'wp_get_attachment_thumb_file', $thumbfile, $post->ID );
+		}
+	}
+
+	return false;
+}
