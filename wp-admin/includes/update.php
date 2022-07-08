@@ -220,6 +220,8 @@ function find_core_update( $version, $locale ) {
 }
 
 /**
+ * Returns Core update footer message.
+ *
  * @since 2.3.0
  *
  * @param string $msg
@@ -275,6 +277,8 @@ function core_update_footer( $msg = '' ) {
 }
 
 /**
+ * Returns Core update notification message.
+ *
  * @since 2.3.0
  *
  * @global string $pagenow The filename of the current screen.
@@ -370,6 +374,8 @@ function update_right_now_message() {
 }
 
 /**
+ * Retrieves plugins waiting for an update.
+ *
  * @since 2.9.0
  *
  * @return array
@@ -389,6 +395,8 @@ function get_plugin_updates() {
 }
 
 /**
+ * Hooks after_plugin_row_{$plugin_file} on each plugin row.
+ *
  * @since 2.9.0
  */
 function wp_plugin_update_rows() {
@@ -585,6 +593,8 @@ function wp_plugin_update_row( $file, $plugin_data ) {
 }
 
 /**
+ * Retrieves themes waiting for an update.
+ *
  * @since 2.9.0
  *
  * @return array
@@ -606,6 +616,8 @@ function get_theme_updates() {
 }
 
 /**
+ * Hooks after_theme_row_{$theme} on each theme row.
+ *
  * @since 3.1.0
  */
 function wp_theme_update_rows() {
@@ -801,6 +813,8 @@ function wp_theme_update_row( $theme_key, $theme ) {
 }
 
 /**
+ * Displays maintenance nag HTML message.
+ *
  * @since 2.7.0
  *
  * @global int $upgrading
@@ -849,6 +863,8 @@ function maintenance_nag() {
 /**
  * Prints the JavaScript templates for update admin notices.
  *
+ * @since 4.6.0
+ *
  * Template takes one argument with four values:
  *
  *     param {object} data {
@@ -859,8 +875,6 @@ function maintenance_nag() {
  *         @type string message   The notice's message.
  *         @type string type      The type of update the notice is for. Either 'plugin' or 'theme'.
  *     }
- *
- * @since 4.6.0
  */
 function wp_print_admin_notice_templates() {
 	?>
@@ -930,6 +944,8 @@ function wp_print_admin_notice_templates() {
 /**
  * Prints the JavaScript templates for update and deletion rows in list tables.
  *
+ * @since 4.6.0
+ *
  * The update template takes one argument with four values:
  *
  *     param {object} data {
@@ -951,8 +967,6 @@ function wp_print_admin_notice_templates() {
  *         @type string name    Plugin name.
  *         @type string colspan The number of table columns this row spans.
  *     }
- *
- * @since 4.6.0
  */
 function wp_print_update_row_templates() {
 	?>
