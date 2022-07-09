@@ -220,7 +220,7 @@ function find_core_update( $version, $locale ) {
 }
 
 /**
- * Returns Core update footer message.
+ * Returns core update footer message.
  *
  * @since 2.3.0
  *
@@ -277,7 +277,7 @@ function core_update_footer( $msg = '' ) {
 }
 
 /**
- * Returns Core update notification message.
+ * Returns core update notification message.
  *
  * @since 2.3.0
  *
@@ -374,7 +374,7 @@ function update_right_now_message() {
 }
 
 /**
- * Retrieves plugins waiting for an update.
+ * Retrieves plugins with updates available.
  *
  * @since 2.9.0
  *
@@ -395,7 +395,7 @@ function get_plugin_updates() {
 }
 
 /**
- * Hooks after_plugin_row_{$plugin_file} on each plugin row.
+ * Adds a callback to display update information for plugins with updates available.
  *
  * @since 2.9.0
  */
@@ -593,7 +593,7 @@ function wp_plugin_update_row( $file, $plugin_data ) {
 }
 
 /**
- * Retrieves themes waiting for an update.
+ * Retrieves themes with updates available.
  *
  * @since 2.9.0
  *
@@ -616,7 +616,7 @@ function get_theme_updates() {
 }
 
 /**
- * Hooks after_theme_row_{$theme} on each theme row.
+ * Adds a callback to display update information for themes with updates available.
  *
  * @since 3.1.0
  */
