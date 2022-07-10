@@ -482,7 +482,7 @@ function _n( $single, $plural, $number, $domain = 'default' ) {
 	 * @param string $translation Translated text.
 	 * @param string $single      The text to be used if the number is singular.
 	 * @param string $plural      The text to be used if the number is plural.
-	 * @param string $number      The number to compare against to use either the singular or plural form.
+	 * @param int    $number      The number to compare against to use either the singular or plural form.
 	 * @param string $domain      Text domain. Unique identifier for retrieving translated strings.
 	 */
 	$translation = apply_filters( 'ngettext', $translation, $single, $plural, $number, $domain );
@@ -497,7 +497,7 @@ function _n( $single, $plural, $number, $domain = 'default' ) {
 	 * @param string $translation Translated text.
 	 * @param string $single      The text to be used if the number is singular.
 	 * @param string $plural      The text to be used if the number is plural.
-	 * @param string $number      The number to compare against to use either the singular or plural form.
+	 * @param int    $number      The number to compare against to use either the singular or plural form.
 	 * @param string $domain      Text domain. Unique identifier for retrieving translated strings.
 	 */
 	$translation = apply_filters( "ngettext_{$domain}", $translation, $single, $plural, $number, $domain );
@@ -541,7 +541,7 @@ function _nx( $single, $plural, $number, $context, $domain = 'default' ) {
 	 * @param string $translation Translated text.
 	 * @param string $single      The text to be used if the number is singular.
 	 * @param string $plural      The text to be used if the number is plural.
-	 * @param string $number      The number to compare against to use either the singular or plural form.
+	 * @param int    $number      The number to compare against to use either the singular or plural form.
 	 * @param string $context     Context information for the translators.
 	 * @param string $domain      Text domain. Unique identifier for retrieving translated strings.
 	 */
@@ -557,7 +557,7 @@ function _nx( $single, $plural, $number, $context, $domain = 'default' ) {
 	 * @param string $translation Translated text.
 	 * @param string $single      The text to be used if the number is singular.
 	 * @param string $plural      The text to be used if the number is plural.
-	 * @param string $number      The number to compare against to use either the singular or plural form.
+	 * @param int    $number      The number to compare against to use either the singular or plural form.
 	 * @param string $context     Context information for the translators.
 	 * @param string $domain      Text domain. Unique identifier for retrieving translated strings.
 	 */
