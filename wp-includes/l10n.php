@@ -88,24 +88,26 @@ function get_locale() {
  *
  * @since 4.7.0
  *
- * @param int|WP_User $user_id User's ID or a WP_User object. Defaults to current user.
+ * @param int|WP_User $user User's ID or a WP_User object. Defaults to current user.
  * @return string The locale of the user.
  */
-function get_user_locale( $user_id = 0 ) {
-	$user = false;
-	if ( 0 === $user_id && function_exists( 'wp_get_current_user' ) ) {
-		$user = wp_get_current_user();
-	} elseif ( $user_id instanceof WP_User ) {
-		$user = $user_id;
-	} elseif ( $user_id && is_numeric( $user_id ) ) {
-		$user = get_user_by( 'id', $user_id );
+function get_user_locale( $user = 0 ) {
+	$user_object = false;
+
+	if ( 0 === $user && function_exists( 'wp_get_current_user' ) ) {
+		$user_object = wp_get_current_user();
+	} elseif ( $user instanceof WP_User ) {
+		$user_object = $user;
+	} elseif ( $user && is_numeric( $user ) ) {
+		$user_object = get_user_by( 'id', $user );
 	}
 
-	if ( ! $user ) {
+	if ( ! $user_object ) {
 		return get_locale();
 	}
 
-	$locale = $user->locale;
+	$locale = $user_object->locale;
+
 	return $locale ? $locale : get_locale();
 }
 
