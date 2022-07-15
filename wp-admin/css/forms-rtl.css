@@ -1071,9 +1071,32 @@ table.form-table td .updated p {
 	vertical-align: middle;
 }
 
+.form-table.permalink-structure .available-structure-tags {
+	margin-top: 8px;
+}
+
 .form-table.permalink-structure .available-structure-tags li {
 	float: right;
 	margin-left: 5px;
+}
+
+.form-table.permalink-structure .structure-selection .row {
+	margin-bottom: 16px;
+}
+
+.form-table.permalink-structure .structure-selection .row > div {
+	max-width: calc(100% - 24px);
+	margin-right: 4px;
+	display: inline-flex;
+	flex-direction: column;
+}
+
+.form-table.permalink-structure .structure-selection .row label {
+	font-weight: 600;
+}
+
+.form-table.permalink-structure .structure-selection .row p {
+	margin-top: 0;
 }
 
 /*------------------------------------------------------------------------------
@@ -1578,14 +1601,20 @@ table.form-table td .updated p {
 	}
 
 	.form-table.permalink-structure td code {
-		margin-right: 32px;
 		display: inline-block;
 	}
 
+	.form-table.permalink-structure .structure-selection {
+		margin-top: 8px;
+	}
+
+	.form-table.permalink-structure .structure-selection .row > div {
+		max-width: calc(100% - 36px);
+		width: 100%;
+	}
+
 	.form-table.permalink-structure td input[type="text"] {
-		margin-right: 32px;
 		margin-top: 4px;
-		width: 96%;
 	}
 
 	.form-table input.regular-text {
