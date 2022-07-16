@@ -1086,7 +1086,6 @@ table.form-table td .updated p {
 
 .form-table.permalink-structure .structure-selection .row > div {
 	max-width: calc(100% - 24px);
-	margin-right: 4px;
 	display: inline-flex;
 	flex-direction: column;
 }
