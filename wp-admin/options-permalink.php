@@ -320,6 +320,15 @@ $tag_added = __( '%s added to permalink structure' );
 $tag_already_used = __( '%s (already used in permalink structure)' );
 ?>
 <h2 class="title"><?php _e( 'Common Settings' ); ?></h2>
+<p>
+<?php
+printf(
+	/* translators: %s: %postname% */
+	__( 'Select the permalink structure for your website. Including the %s tag makes links easy to understand, and can help your posts rank higher in search engines.' ),
+	'<code>%postname%</code>'
+);
+?>
+</p>
 <table class="form-table permalink-structure" role="presentation">
 <tbody>
 <tr>
