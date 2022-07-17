@@ -246,13 +246,13 @@ $default_structures = array(
 	4 => $index_php_prefix . '/%postname%/',
 );
 
-$url_base = get_option( 'home' ) . $blog_prefix . $index_php_prefix;
+$url_base = home_url( $blog_prefix . $index_php_prefix );
 
 $default_structure_inputs = array(
 	0 => array(
 		'id'      => 'plain',
 		'label'   => __( 'Plain' ),
-		'example' => get_option( 'home' ) . '/?p=123',
+		'example' => home_url( '/?p=123' ),
 		'value'   => $default_structures[0],
 	),
 	1 => array(
