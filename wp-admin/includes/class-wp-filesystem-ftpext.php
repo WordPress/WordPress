@@ -40,7 +40,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 
 		// This class uses the timeout on a per-connection basis, others use it on a per-action basis.
 		if ( ! defined( 'FS_TIMEOUT' ) ) {
-			define( 'FS_TIMEOUT', 240 );
+			define( 'FS_TIMEOUT', 4 * MINUTE_IN_SECONDS );
 		}
 
 		if ( empty( $opt['port'] ) ) {

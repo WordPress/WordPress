@@ -203,7 +203,7 @@ if ( $structure_updated ) {
 		add_settings_error( 'general', 'settings_updated', $message, 'success' );
 	}
 
-	set_transient( 'settings_errors', get_settings_errors(), 30 );
+	set_transient( 'settings_errors', get_settings_errors(), MINUTE_IN_SECONDS / 2 );
 
 	wp_redirect( admin_url( 'options-permalink.php?settings-updated=true' ) );
 	exit;
