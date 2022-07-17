@@ -238,48 +238,42 @@ if ( is_multisite() && ! is_subdomain_install() && is_main_site()
 	$tag_base            = preg_replace( '|^/?blog|', '', $tag_base );
 }
 
-$default_structures = array(
-	0 => '',
-	1 => $index_php_prefix . '/%year%/%monthnum%/%day%/%postname%/',
-	2 => $index_php_prefix . '/%year%/%monthnum%/%postname%/',
-	3 => $index_php_prefix . '/' . _x( 'archives', 'sample permalink base' ) . '/%post_id%',
-	4 => $index_php_prefix . '/%postname%/',
-);
-
 $url_base = home_url( $blog_prefix . $index_php_prefix );
 
-$default_structure_inputs = array(
-	0 => array(
+$default_structures = array(
+	array(
 		'id'      => 'plain',
 		'label'   => __( 'Plain' ),
+		'value'   => '',
 		'example' => home_url( '/?p=123' ),
-		'value'   => $default_structures[0],
 	),
-	1 => array(
+	array(
 		'id'      => 'day-name',
 		'label'   => __( 'Day and name' ),
+		'value'   => $index_php_prefix . '/%year%/%monthnum%/%day%/%postname%/',
 		'example' => $url_base . '/' . gmdate( 'Y/m/d' ) . '/' . _x( 'sample-post', 'sample permalink structure' ) . '/',
-		'value'   => $default_structures[1],
 	),
-	2 => array(
+	array(
 		'id'      => 'month-name',
 		'label'   => __( 'Month and name' ),
+		'value'   => $index_php_prefix . '/%year%/%monthnum%/%postname%/',
 		'example' => $url_base . '/' . gmdate( 'Y/m' ) . '/' . _x( 'sample-post', 'sample permalink structure' ) . '/',
-		'value'   => $default_structures[2],
 	),
-	3 => array(
-		'id'      => 'day-numeric',
+	array(
+		'id'      => 'numeric',
 		'label'   => __( 'Numeric' ),
+		'value'   => $index_php_prefix . '/' . _x( 'archives', 'sample permalink base' ) . '/%post_id%',
 		'example' => $url_base . '/' . _x( 'archives', 'sample permalink base' ) . '/123',
-		'value'   => $default_structures[3],
 	),
-	4 => array(
+	array(
 		'id'      => 'post-name',
 		'label'   => __( 'Post name' ),
+		'value'   => $index_php_prefix . '/%postname%/',
 		'example' => $url_base . '/' . _x( 'sample-post', 'sample permalink structure' ) . '/',
-		'value'   => $default_structures[4],
 	),
 );
+
+$default_structure_values = wp_list_pluck( $default_structures, 'value' );
 
 $available_tags = array(
 	/* translators: %s: Permalink structure tag. */
@@ -336,7 +330,7 @@ printf(
 	<td>
 		<fieldset class="structure-selection">
 			<legend class="screen-reader-text"><?php _e( 'Permalink structure' ); ?></legend>
-			<?php foreach ( $default_structure_inputs as $input ) : ?>
+			<?php foreach ( $default_structures as $input ) : ?>
 			<div class="row">
 				<input id="permalink-input-<?php echo $input['id']; ?>"
 					name="selection" aria-describedby="permalink-<?php echo $input['id']; ?>"
@@ -355,7 +349,7 @@ printf(
 			<div class="row">
 				<input id="custom_selection"
 					name="selection" type="radio" value="custom"
-					<?php checked( ! in_array( $permalink_structure, $default_structures, true ) ); ?>
+					<?php checked( ! in_array( $permalink_structure, $default_structure_values, true ) ); ?>
 				/>
 				<div>
 					<label for="custom_selection"><?php _e( 'Custom Structure' ); ?></label>
