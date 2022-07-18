@@ -1144,6 +1144,7 @@ function get_post_status( $post = null ) {
 		} elseif ( 'trash' === get_post_status( $post->post_parent ) ) {
 			// Get parent status prior to trashing.
 			$post_status = get_post_meta( $post->post_parent, '_wp_trash_meta_status', true );
+
 			if ( ! $post_status ) {
 				// Assume publish as above.
 				$post_status = 'publish';
@@ -2243,6 +2244,7 @@ function set_post_type( $post_id = 0, $post_type = 'post' ) {
 function is_post_type_viewable( $post_type ) {
 	if ( is_scalar( $post_type ) ) {
 		$post_type = get_post_type_object( $post_type );
+
 		if ( ! $post_type ) {
 			return false;
 		}
@@ -2286,6 +2288,7 @@ function is_post_type_viewable( $post_type ) {
 function is_post_status_viewable( $post_status ) {
 	if ( is_scalar( $post_status ) ) {
 		$post_status = get_post_status_object( $post_status );
+
 		if ( ! $post_status ) {
 			return false;
 		}
@@ -2579,6 +2582,7 @@ function unregister_post_meta( $post_type, $meta_key ) {
  */
 function get_post_custom( $post_id = 0 ) {
 	$post_id = absint( $post_id );
+
 	if ( ! $post_id ) {
 		$post_id = get_the_ID();
 	}
@@ -4189,6 +4193,7 @@ function wp_insert_post( $postarr, $wp_error = false, $fire_after_hooks = true )
 	 * if none are provided, the date will be set to now.
 	 */
 	$post_date = wp_resolve_post_date( $postarr['post_date'], $postarr['post_date_gmt'] );
+
 	if ( ! $post_date ) {
 		if ( $wp_error ) {
 			return new WP_Error( 'invalid_date', __( 'Invalid date.' ) );
@@ -4862,10 +4867,10 @@ function wp_publish_post( $post ) {
  *
  * @since 2.5.0
  *
- * @param int|WP_Post $post_id Post ID or post object.
+ * @param int|WP_Post $post Post ID or post object.
  */
-function check_and_publish_future_post( $post_id ) {
-	$post = get_post( $post_id );
+function check_and_publish_future_post( $post ) {
+	$post = get_post( $post );
 
 	if ( ! $post ) {
 		return;
@@ -4879,13 +4884,13 @@ function check_and_publish_future_post( $post_id ) {
 
 	// Uh oh, someone jumped the gun!
 	if ( $time > time() ) {
-		wp_clear_scheduled_hook( 'publish_future_post', array( $post_id ) ); // Clear anything else in the system.
-		wp_schedule_single_event( $time, 'publish_future_post', array( $post_id ) );
+		wp_clear_scheduled_hook( 'publish_future_post', array( $post->ID ) ); // Clear anything else in the system.
+		wp_schedule_single_event( $time, 'publish_future_post', array( $post->ID ) );
 		return;
 	}
 
 	// wp_publish_post() returns no meaningful value.
-	wp_publish_post( $post_id );
+	wp_publish_post( $post->ID );
 }
 
 /**
@@ -5375,6 +5380,7 @@ function wp_transition_post_status( $new_status, $old_status, $post ) {
  */
 function wp_after_insert_post( $post, $update, $post_before ) {
 	$post = get_post( $post );
+
 	if ( ! $post ) {
 		return;
 	}
@@ -5403,19 +5409,19 @@ function wp_after_insert_post( $post, $update, $post_before ) {
  * Adds a URL to those already pinged.
  *
  * @since 1.5.0
- * @since 4.7.0 `$post_id` can be a WP_Post object.
+ * @since 4.7.0 `$post` can be a WP_Post object.
  * @since 4.7.0 `$uri` can be an array of URIs.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param int|WP_Post  $post_id Post object or ID.
- * @param string|array $uri     Ping URI or array of URIs.
+ * @param int|WP_Post  $post Post ID or post object.
+ * @param string|array $uri  Ping URI or array of URIs.
  * @return int|false How many rows were updated.
  */
-function add_ping( $post_id, $uri ) {
+function add_ping( $post, $uri ) {
 	global $wpdb;
 
-	$post = get_post( $post_id );
+	$post = get_post( $post );
 
 	if ( ! $post ) {
 		return false;
@@ -5486,13 +5492,13 @@ function get_enclosed( $post_id ) {
  *
  * @since 1.5.0
  *
- * @since 4.7.0 `$post_id` can be a WP_Post object.
+ * @since 4.7.0 `$post` can be a WP_Post object.
  *
- * @param int|WP_Post $post_id Post ID or object.
+ * @param int|WP_Post $post Post ID or object.
  * @return string[]|false Array of URLs already pinged for the given post, false if the post is not found.
  */
-function get_pung( $post_id ) {
-	$post = get_post( $post_id );
+function get_pung( $post ) {
+	$post = get_post( $post );
 
 	if ( ! $post ) {
 		return false;
@@ -5515,13 +5521,13 @@ function get_pung( $post_id ) {
  * Retrieves URLs that need to be pinged.
  *
  * @since 1.5.0
- * @since 4.7.0 `$post_id` can be a WP_Post object.
+ * @since 4.7.0 `$post` can be a WP_Post object.
  *
- * @param int|WP_Post $post_id Post Object or ID
+ * @param int|WP_Post $post Post ID or post object.
  * @return string[]|false List of URLs yet to ping.
  */
-function get_to_ping( $post_id ) {
-	$post = get_post( $post_id );
+function get_to_ping( $post ) {
+	$post = get_post( $post );
 
 	if ( ! $post ) {
 		return false;
@@ -7078,6 +7084,7 @@ function get_posts_by_author_sql( $post_type, $full = true, $post_author = null,
 	$post_type_clauses = array();
 	foreach ( $post_types as $post_type ) {
 		$post_type_obj = get_post_type_object( $post_type );
+
 		if ( ! $post_type_obj ) {
 			continue;
 		}
@@ -7092,12 +7099,14 @@ function get_posts_by_author_sql( $post_type, $full = true, $post_author = null,
 		 * @param string $cap Capability.
 		 */
 		$cap = apply_filters_deprecated( 'pub_priv_sql_capability', array( '' ), '3.2.0' );
+
 		if ( ! $cap ) {
 			$cap = current_user_can( $post_type_obj->cap->read_private_posts );
 		}
 
 		// Only need to check the cap if $public_only is false.
 		$post_status_sql = "post_status = 'publish'";
+
 		if ( false === $public_only ) {
 			if ( $cap ) {
 				// Does the user have the capability to view private posts? Guess so.
@@ -7639,9 +7648,11 @@ function _publish_post_hook( $post_id ) {
  */
 function wp_get_post_parent_id( $post = null ) {
 	$post = get_post( $post );
+
 	if ( ! $post || is_wp_error( $post ) ) {
 		return false;
 	}
+
 	return (int) $post->post_parent;
 }
 

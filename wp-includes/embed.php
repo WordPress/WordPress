@@ -537,7 +537,7 @@ function get_post_embed_html( $width, $height, $post = null ) {
  *
  * @since 4.4.0
  *
- * @param WP_Post|int $post  Post object or ID.
+ * @param WP_Post|int $post  Post ID or post object.
  * @param int         $width The requested width.
  * @return array|false Response data on success, false if post doesn't exist
  *                     or is not publicly viewable.

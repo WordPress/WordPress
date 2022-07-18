@@ -311,15 +311,15 @@ function get_permalink( $post = 0, $leavename = false ) {
  *
  * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
- * @param int|WP_Post $id        Optional. Post ID or post object. Default is the global `$post`.
+ * @param int|WP_Post $post      Optional. Post ID or post object. Default is the global `$post`.
  * @param bool        $leavename Optional. Whether to keep post name. Default false.
  * @param bool        $sample    Optional. Is it a sample permalink. Default false.
  * @return string|WP_Error The post permalink.
  */
-function get_post_permalink( $id = 0, $leavename = false, $sample = false ) {
+function get_post_permalink( $post = 0, $leavename = false, $sample = false ) {
 	global $wp_rewrite;
 
-	$post = get_post( $id );
+	$post = get_post( $post );
 
 	if ( is_wp_error( $post ) ) {
 		return $post;
@@ -1298,6 +1298,7 @@ function get_post_type_archive_link( $post_type ) {
 	global $wp_rewrite;
 
 	$post_type_obj = get_post_type_object( $post_type );
+
 	if ( ! $post_type_obj ) {
 		return false;
 	}
@@ -1402,6 +1403,7 @@ function get_post_type_archive_feed_link( $post_type, $feed = '' ) {
  */
 function get_preview_post_link( $post = null, $query_args = array(), $preview_link = '' ) {
 	$post = get_post( $post );
+
 	if ( ! $post ) {
 		return;
 	}
@@ -1436,13 +1438,14 @@ function get_preview_post_link( $post = null, $query_args = array(), $preview_li
  *
  * @since 2.3.0
  *
- * @param int|WP_Post $id      Optional. Post ID or post object. Default is the global `$post`.
+ * @param int|WP_Post $post    Optional. Post ID or post object. Default is the global `$post`.
  * @param string      $context Optional. How to output the '&' character. Default '&amp;'.
  * @return string|null The edit post link for the given post. Null if the post type does not exist
  *                     or does not allow an editing UI.
  */
-function get_edit_post_link( $id = 0, $context = 'display' ) {
-	$post = get_post( $id );
+function get_edit_post_link( $post = 0, $context = 'display' ) {
+	$post = get_post( $post );
+
 	if ( ! $post ) {
 		return;
 	}
@@ -1456,6 +1459,7 @@ function get_edit_post_link( $id = 0, $context = 'display' ) {
 	}
 
 	$post_type_object = get_post_type_object( $post->post_type );
+
 	if ( ! $post_type_object ) {
 		return;
 	}
@@ -1492,16 +1496,18 @@ function get_edit_post_link( $id = 0, $context = 'display' ) {
  * @param string      $text   Optional. Anchor text. If null, default is 'Edit This'. Default null.
  * @param string      $before Optional. Display before edit link. Default empty.
  * @param string      $after  Optional. Display after edit link. Default empty.
- * @param int|WP_Post $id     Optional. Post ID or post object. Default is the global `$post`.
+ * @param int|WP_Post $post   Optional. Post ID or post object. Default is the global `$post`.
  * @param string      $class  Optional. Add custom class to link. Default 'post-edit-link'.
  */
-function edit_post_link( $text = null, $before = '', $after = '', $id = 0, $class = 'post-edit-link' ) {
-	$post = get_post( $id );
+function edit_post_link( $text = null, $before = '', $after = '', $post = 0, $class = 'post-edit-link' ) {
+	$post = get_post( $post );
+
 	if ( ! $post ) {
 		return;
 	}
 
 	$url = get_edit_post_link( $post->ID );
+
 	if ( ! $url ) {
 		return;
 	}
@@ -1531,22 +1537,24 @@ function edit_post_link( $text = null, $before = '', $after = '', $id = 0, $clas
  *
  * @since 2.9.0
  *
- * @param int|WP_Post $id           Optional. Post ID or post object. Default is the global `$post`.
+ * @param int|WP_Post $post         Optional. Post ID or post object. Default is the global `$post`.
  * @param string      $deprecated   Not used.
  * @param bool        $force_delete Optional. Whether to bypass Trash and force deletion. Default false.
  * @return string|void The delete post link URL for the given post.
  */
-function get_delete_post_link( $id = 0, $deprecated = '', $force_delete = false ) {
+function get_delete_post_link( $post = 0, $deprecated = '', $force_delete = false ) {
 	if ( ! empty( $deprecated ) ) {
 		_deprecated_argument( __FUNCTION__, '3.0.0' );
 	}
 
-	$post = get_post( $id );
+	$post = get_post( $post );
+
 	if ( ! $post ) {
 		return;
 	}
 
 	$post_type_object = get_post_type_object( $post->post_type );
+
 	if ( ! $post_type_object ) {
 		return;
 	}
@@ -1788,6 +1796,7 @@ function get_adjacent_post( $in_same_term = false, $excluded_terms = '', $previo
 	global $wpdb;
 
 	$post = get_post();
+
 	if ( ! $post || ! taxonomy_exists( $taxonomy ) ) {
 		return null;
 	}
@@ -2132,6 +2141,7 @@ function prev_post_rel_link( $title = '%title', $in_same_term = false, $excluded
  */
 function get_boundary_post( $in_same_term = false, $excluded_terms = '', $start = true, $taxonomy = 'category' ) {
 	$post = get_post();
+
 	if ( ! $post || ! is_single() || is_attachment() || ! taxonomy_exists( $taxonomy ) ) {
 		return null;
 	}

@@ -149,7 +149,7 @@ function check_comment( $author, $email, $url, $comment, $user_ip, $user_agent, 
 }
 
 /**
- * Retrieves the approved comments for post $post_id.
+ * Retrieves the approved comments for a post.
  *
  * @since 2.0.0
  * @since 4.1.0 Refactored to leverage WP_Comment_Query over a direct query.
@@ -859,7 +859,6 @@ function check_comment_flood_db() {
  * @return bool Whether comment flooding is occurring.
  */
 function wp_check_comment_flood( $is_flood, $ip, $email, $date, $avoid_die = false ) {
-
 	global $wpdb;
 
 	// Another callback has declared a flood. Trust it.
@@ -1447,6 +1446,7 @@ function wp_count_comments( $post_id = 0 ) {
  */
 function wp_delete_comment( $comment_id, $force_delete = false ) {
 	global $wpdb;
+
 	$comment = get_comment( $comment_id );
 	if ( ! $comment ) {
 		return false;
@@ -1991,6 +1991,7 @@ function wp_get_unapproved_comment_author_email() {
  */
 function wp_insert_comment( $commentdata ) {
 	global $wpdb;
+
 	$data = wp_unslash( $commentdata );
 
 	$comment_author       = ! isset( $data['comment_author'] ) ? '' : $data['comment_author'];
@@ -2651,7 +2652,9 @@ function wp_update_comment_count( $post_id, $do_deferred = false ) {
  */
 function wp_update_comment_count_now( $post_id ) {
 	global $wpdb;
+
 	$post_id = (int) $post_id;
+
 	if ( ! $post_id ) {
 		return false;
 	}
@@ -2660,6 +2663,7 @@ function wp_update_comment_count_now( $post_id ) {
 	wp_cache_delete( "comments-{$post_id}", 'counts' );
 
 	$post = get_post( $post_id );
+
 	if ( ! $post ) {
 		return false;
 	}
@@ -2886,21 +2890,24 @@ function do_all_trackbacks() {
  * Performs trackbacks.
  *
  * @since 1.5.0
- * @since 4.7.0 `$post_id` can be a WP_Post object.
+ * @since 4.7.0 `$post` can be a WP_Post object.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param int|WP_Post $post_id Post object or ID to do trackbacks on.
+ * @param int|WP_Post $post Post ID or object to do trackbacks on.
  */
-function do_trackbacks( $post_id ) {
+function do_trackbacks( $post ) {
 	global $wpdb;
-	$post = get_post( $post_id );
+
+	$post = get_post( $post );
+
 	if ( ! $post ) {
 		return false;
 	}
 
 	$to_ping = get_to_ping( $post );
 	$pinged  = get_pung( $post );
+
 	if ( empty( $to_ping ) ) {
 		$wpdb->update( $wpdb->posts, array( 'to_ping' => '' ), array( 'ID' => $post->ID ) );
 		return;
@@ -2947,7 +2954,7 @@ function do_trackbacks( $post_id ) {
  * @since 1.2.0
  *
  * @param int $post_id Post ID.
- * @return int Same as Post ID from parameter
+ * @return int Same post ID as provided.
  */
 function generic_ping( $post_id = 0 ) {
 	$services = get_option( 'ping_sites' );
@@ -2967,19 +2974,20 @@ function generic_ping( $post_id = 0 ) {
  * Pings back the links found in a post.
  *
  * @since 0.71
- * @since 4.7.0 `$post_id` can be a WP_Post object.
+ * @since 4.7.0 `$post` can be a WP_Post object.
  *
  * @param string      $content Post content to check for links. If empty will retrieve from post.
- * @param int|WP_Post $post_id Post Object or ID.
+ * @param int|WP_Post $post    Post ID or object.
  */
-function pingback( $content, $post_id ) {
+function pingback( $content, $post ) {
 	include_once ABSPATH . WPINC . '/class-IXR.php';
 	include_once ABSPATH . WPINC . '/class-wp-http-ixr-client.php';
 
 	// Original code by Mort (http://mort.mine.nu:8080).
 	$post_links = array();
 
-	$post = get_post( $post_id );
+	$post = get_post( $post );
+
 	if ( ! $post ) {
 		return;
 	}
@@ -3032,7 +3040,7 @@ function pingback( $content, $post_id ) {
 	 *
 	 * @param string[] $post_links Array of link URLs to be checked (passed by reference).
 	 * @param string[] $pung       Array of link URLs already pinged (passed by reference).
-	 * @param int      $post_ID    The post ID.
+	 * @param int      $post_id    The post ID.
 	 */
 	do_action_ref_array( 'pre_ping', array( &$post_links, &$pung, $post->ID ) );
 

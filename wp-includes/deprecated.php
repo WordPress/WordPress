@@ -3631,13 +3631,13 @@ function wp_htmledit_pre($output) {
  * @deprecated 4.4.0 Use get_permalink()
  * @see get_permalink()
  *
- * @param int|WP_Post $post_id Optional. Post ID or WP_Post object. Default is global $post.
+ * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global $post.
  * @return string|false
  */
-function post_permalink( $post_id = 0 ) {
+function post_permalink( $post = 0 ) {
 	_deprecated_function( __FUNCTION__, '4.4.0', 'get_permalink()' );
 
-	return get_permalink( $post_id );
+	return get_permalink( $post );
 }
 
 /**

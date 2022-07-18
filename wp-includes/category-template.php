@@ -90,10 +90,10 @@ function get_the_category( $post_id = false ) {
 	 * Filters the array of categories to return for a post.
 	 *
 	 * @since 3.1.0
-	 * @since 4.4.0 Added `$post_id` parameter.
+	 * @since 4.4.0 Added the `$post_id` parameter.
 	 *
 	 * @param WP_Term[] $categories An array of categories to return for the post.
-	 * @param int|false $post_id    ID of the post.
+	 * @param int|false $post_id    The post ID.
 	 */
 	return apply_filters( 'get_the_categories', $categories, $post_id );
 }
@@ -133,8 +133,9 @@ function get_the_category_by_ID( $cat_id ) { // phpcs:ignore WordPress.NamingCon
  *
  * @param string $separator Optional. Separator between the categories. By default, the links are placed
  *                          in an unordered list. An empty string will result in the default behavior.
- * @param string $parents   Optional. How to display the parents.
- * @param int    $post_id   Optional. Post ID to retrieve categories.
+ * @param string $parents   Optional. How to display the parents. Accepts 'multiple', 'single', or empty.
+ *                          Default empty string.
+ * @param int    $post_id   Optional. ID of the post to retrieve categories for. Defaults to the current post.
  * @return string Category list for a post.
  */
 function get_the_category_list( $separator = '', $parents = '', $post_id = false ) {
@@ -151,8 +152,8 @@ function get_the_category_list( $separator = '', $parents = '', $post_id = false
 	 * @since 4.4.0
 	 *
 	 * @param WP_Term[] $categories An array of the post's categories.
-	 * @param int|bool  $post_id    ID of the post we're retrieving categories for.
-	 *                              When `false`, we assume the current post in the loop.
+	 * @param int|false $post_id    ID of the post to retrieve categories for.
+	 *                              When `false`, defaults to the current post in the loop.
 	 */
 	$categories = apply_filters( 'the_category_list', get_the_category( $post_id ), $post_id );
 
@@ -250,7 +251,7 @@ function get_the_category_list( $separator = '', $parents = '', $post_id = false
  *
  * @param int|string|int[]|string[] $category Category ID, name, slug, or array of such
  *                                            to check against.
- * @param int|object                $post     Optional. Post to check instead of the current post.
+ * @param int|WP_Post               $post     Optional. Post to check. Defaults to the current post.
  * @return bool True if the current post is in any of the given categories.
  */
 function in_category( $category, $post = null ) {
@@ -268,8 +269,9 @@ function in_category( $category, $post = null ) {
  *
  * @param string $separator Optional. Separator between the categories. By default, the links are placed
  *                          in an unordered list. An empty string will result in the default behavior.
- * @param string $parents   Optional. How to display the parents.
- * @param int    $post_id   Optional. Post ID to retrieve categories.
+ * @param string $parents   Optional. How to display the parents. Accepts 'multiple', 'single', or empty.
+ *                          Default empty string.
+ * @param int    $post_id   Optional. ID of the post to retrieve categories for. Defaults to the current post.
  */
 function the_category( $separator = '', $parents = '', $post_id = false ) {
 	echo get_the_category_list( $separator, $parents, $post_id );
@@ -1161,12 +1163,12 @@ function get_tag_link( $tag ) {
  *
  * @since 2.3.0
  *
- * @param int|WP_Post $post_id Post ID or object.
+ * @param int|WP_Post $post Post ID or object.
  * @return WP_Term[]|false|WP_Error Array of WP_Term objects on success, false if there are no terms
  *                                  or the post does not exist, WP_Error on failure.
  */
-function get_the_tags( $post_id = 0 ) {
-	$terms = get_the_terms( $post_id, 'post_tag' );
+function get_the_tags( $post = 0 ) {
+	$terms = get_the_terms( $post, 'post_tag' );
 
 	/**
 	 * Filters the array of tags for the given post.
@@ -1278,11 +1280,13 @@ function term_description( $term = 0, $deprecated = null ) {
  */
 function get_the_terms( $post, $taxonomy ) {
 	$post = get_post( $post );
+
 	if ( ! $post ) {
 		return false;
 	}
 
 	$terms = get_object_term_cache( $post->ID, $taxonomy );
+
 	if ( false === $terms ) {
 		$terms = wp_get_object_terms( $post->ID, $taxonomy );
 		if ( ! is_wp_error( $terms ) ) {
@@ -1476,7 +1480,7 @@ function the_terms( $post_id, $taxonomy, $before = '', $sep = ', ', $after = '' 
  *
  * @param string|int|array $category Optional. The category name/term_id/slug,
  *                                   or an array of them to check for. Default empty.
- * @param int|object       $post     Optional. Post to check instead of the current post.
+ * @param int|WP_Post      $post     Optional. Post to check. Defaults to the current post.
  * @return bool True if the current post has any of the given categories
  *              (or any category, if no category specified). False otherwise.
  */
@@ -1503,7 +1507,7 @@ function has_category( $category = '', $post = null ) {
  *
  * @param string|int|array $tag  Optional. The tag name/term_id/slug,
  *                               or an array of them to check for. Default empty.
- * @param int|object       $post Optional. Post to check instead of the current post.
+ * @param int|WP_Post      $post Optional. Post to check. Defaults to the current post.
  * @return bool True if the current post has any of the given tags
  *              (or any tag, if no tag specified). False otherwise.
  */
@@ -1524,7 +1528,7 @@ function has_tag( $tag = '', $post = null ) {
  * @param string|int|array $term     Optional. The term name/term_id/slug,
  *                                   or an array of them to check for. Default empty.
  * @param string           $taxonomy Optional. Taxonomy name. Default empty.
- * @param int|WP_Post      $post     Optional. Post to check instead of the current post.
+ * @param int|WP_Post      $post     Optional. Post to check. Defaults to the current post.
  * @return bool True if the current post has any of the given terms
  *              (or any term, if no term specified). False otherwise.
  */

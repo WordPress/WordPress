@@ -426,14 +426,14 @@ function comment_author_url_link( $linktext = '', $before = '', $after = '', $co
  * @param string|string[] $css_class Optional. One or more classes to add to the class list.
  *                                   Default empty.
  * @param int|WP_Comment  $comment   Comment ID or WP_Comment object. Default current comment.
- * @param int|WP_Post     $post_id   Post ID or WP_Post object. Default current post.
+ * @param int|WP_Post     $post      Post ID or WP_Post object. Default current post.
  * @param bool            $display   Optional. Whether to print or return the output.
  *                                   Default true.
  * @return void|string Void if `$display` argument is true, comment classes if `$display` is false.
  */
-function comment_class( $css_class = '', $comment = null, $post_id = null, $display = true ) {
+function comment_class( $css_class = '', $comment = null, $post = null, $display = true ) {
 	// Separates classes with a single space, collates classes for comment DIV.
-	$css_class = 'class="' . implode( ' ', get_comment_class( $css_class, $comment, $post_id ) ) . '"';
+	$css_class = 'class="' . implode( ' ', get_comment_class( $css_class, $comment, $post ) ) . '"';
 
 	if ( $display ) {
 		echo $css_class;
@@ -454,10 +454,10 @@ function comment_class( $css_class = '', $comment = null, $post_id = null, $disp
  *
  * @param string|string[] $css_class  Optional. One or more classes to add to the class list. Default empty.
  * @param int|WP_Comment  $comment_id Comment ID or WP_Comment object. Default current comment.
- * @param int|WP_Post     $post_id    Post ID or WP_Post object. Default current post.
+ * @param int|WP_Post     $post       Post ID or WP_Post object. Default current post.
  * @return string[] An array of classes.
  */
-function get_comment_class( $css_class = '', $comment_id = null, $post_id = null ) {
+function get_comment_class( $css_class = '', $comment_id = null, $post = null ) {
 	global $comment_alt, $comment_depth, $comment_thread_alt;
 
 	$classes = array();
@@ -476,9 +476,9 @@ function get_comment_class( $css_class = '', $comment_id = null, $post_id = null
 		$classes[] = 'byuser';
 		$classes[] = 'comment-author-' . sanitize_html_class( $user->user_nicename, $comment->user_id );
 		// For comment authors who are the author of the post.
-		$post = get_post( $post_id );
-		if ( $post ) {
-			if ( $comment->user_id === $post->post_author ) {
+		$_post = get_post( $post );
+		if ( $_post ) {
+			if ( $comment->user_id === $_post->post_author ) {
 				$classes[] = 'bypostauthor';
 			}
 		}
@@ -534,9 +534,9 @@ function get_comment_class( $css_class = '', $comment_id = null, $post_id = null
 	 * @param string[]    $css_class  An array of additional classes added to the list.
 	 * @param string      $comment_id The comment ID as a numeric string.
 	 * @param WP_Comment  $comment    The comment object.
-	 * @param int|WP_Post $post_id    The post ID or WP_Post object.
+	 * @param int|WP_Post $post       The post ID or WP_Post object.
 	 */
-	return apply_filters( 'comment_class', $classes, $css_class, $comment->comment_ID, $comment, $post_id );
+	return apply_filters( 'comment_class', $classes, $css_class, $comment->comment_ID, $comment, $post );
 }
 
 /**
@@ -808,12 +808,12 @@ function get_comment_link( $comment = null, $args = array() ) {
  *
  * @since 1.5.0
  *
- * @param int|WP_Post $post_id Optional. Post ID or WP_Post object. Default is global $post.
+ * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global $post.
  * @return string The link to the comments.
  */
-function get_comments_link( $post_id = 0 ) {
-	$hash          = get_comments_number( $post_id ) ? '#comments' : '#respond';
-	$comments_link = get_permalink( $post_id ) . $hash;
+function get_comments_link( $post = 0 ) {
+	$hash          = get_comments_number( $post ) ? '#comments' : '#respond';
+	$comments_link = get_permalink( $post ) . $hash;
 
 	/**
 	 * Filters the returned post comments permalink.
@@ -821,9 +821,9 @@ function get_comments_link( $post_id = 0 ) {
 	 * @since 3.6.0
 	 *
 	 * @param string      $comments_link Post comments permalink with '#comments' appended.
-	 * @param int|WP_Post $post_id       Post ID or WP_Post object.
+	 * @param int|WP_Post $post          Post ID or WP_Post object.
 	 */
-	return apply_filters( 'get_comments_link', $comments_link, $post_id );
+	return apply_filters( 'get_comments_link', $comments_link, $post );
 }
 
 /**
@@ -849,19 +849,15 @@ function comments_link( $deprecated = '', $deprecated_2 = '' ) {
  *
  * @since 1.5.0
  *
- * @param int|WP_Post $post_id Optional. Post ID or WP_Post object. Default is the global `$post`.
+ * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is the global `$post`.
  * @return string|int If the post exists, a numeric string representing the number of comments
  *                    the post has, otherwise 0.
  */
-function get_comments_number( $post_id = 0 ) {
-	$post = get_post( $post_id );
+function get_comments_number( $post = 0 ) {
+	$post = get_post( $post );
 
-	if ( ! $post ) {
-		$count = 0;
-	} else {
-		$count   = $post->comment_count;
-		$post_id = $post->ID;
-	}
+	$count   = $post ? $post->comment_count : 0;
+	$post_id = $post ? $post->ID : 0;
 
 	/**
 	 * Filters the returned comment count for a post.
@@ -878,31 +874,31 @@ function get_comments_number( $post_id = 0 ) {
  * Displays the language string for the number of comments the current post has.
  *
  * @since 0.71
- * @since 5.4.0 The `$deprecated` parameter was changed to `$post_id`.
+ * @since 5.4.0 The `$deprecated` parameter was changed to `$post`.
  *
- * @param string|false $zero    Optional. Text for no comments. Default false.
- * @param string|false $one     Optional. Text for one comment. Default false.
- * @param string|false $more    Optional. Text for more than one comment. Default false.
- * @param int|WP_Post  $post_id Optional. Post ID or WP_Post object. Default is the global `$post`.
+ * @param string|false $zero Optional. Text for no comments. Default false.
+ * @param string|false $one  Optional. Text for one comment. Default false.
+ * @param string|false $more Optional. Text for more than one comment. Default false.
+ * @param int|WP_Post  $post Optional. Post ID or WP_Post object. Default is the global `$post`.
  */
-function comments_number( $zero = false, $one = false, $more = false, $post_id = 0 ) {
-	echo get_comments_number_text( $zero, $one, $more, $post_id );
+function comments_number( $zero = false, $one = false, $more = false, $post = 0 ) {
+	echo get_comments_number_text( $zero, $one, $more, $post );
 }
 
 /**
  * Displays the language string for the number of comments the current post has.
  *
  * @since 4.0.0
- * @since 5.4.0 Added the `$post_id` parameter to allow using the function outside of the loop.
+ * @since 5.4.0 Added the `$post` parameter to allow using the function outside of the loop.
  *
- * @param string      $zero    Optional. Text for no comments. Default false.
- * @param string      $one     Optional. Text for one comment. Default false.
- * @param string      $more    Optional. Text for more than one comment. Default false.
- * @param int|WP_Post $post_id Optional. Post ID or WP_Post object. Default is the global `$post`.
+ * @param string      $zero Optional. Text for no comments. Default false.
+ * @param string      $one  Optional. Text for one comment. Default false.
+ * @param string      $more Optional. Text for more than one comment. Default false.
+ * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is the global `$post`.
  * @return string Language string for the number of comments a post has.
  */
-function get_comments_number_text( $zero = false, $one = false, $more = false, $post_id = 0 ) {
-	$number = get_comments_number( $post_id );
+function get_comments_number_text( $zero = false, $one = false, $more = false, $post = 0 ) {
+	$number = get_comments_number( $post );
 
 	if ( $number > 1 ) {
 		if ( false === $more ) {
@@ -1235,12 +1231,11 @@ function trackback_rdf( $deprecated = '' ) {
  *
  * @since 1.5.0
  *
- * @param int|WP_Post $post_id Post ID or WP_Post object. Default current post.
+ * @param int|WP_Post $post Post ID or WP_Post object. Default current post.
  * @return bool True if the comments are open.
  */
-function comments_open( $post_id = null ) {
-
-	$_post = get_post( $post_id );
+function comments_open( $post = null ) {
+	$_post = get_post( $post );
 
 	$post_id = $_post ? $_post->ID : 0;
 	$open    = ( $_post && ( 'open' === $_post->comment_status ) );
@@ -1265,12 +1260,11 @@ function comments_open( $post_id = null ) {
  *
  * @since 1.5.0
  *
- * @param int|WP_Post $post_id Post ID or WP_Post object. Default current post.
+ * @param int|WP_Post $post Post ID or WP_Post object. Default current post.
  * @return bool True if pings are accepted
  */
-function pings_open( $post_id = null ) {
-
-	$_post = get_post( $post_id );
+function pings_open( $post = null ) {
+	$_post = get_post( $post );
 
 	$post_id = $_post ? $_post->ID : 0;
 	$open    = ( $_post && ( 'open' === $_post->ping_status ) );
@@ -1515,7 +1509,7 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 	 * @since 2.1.0
 	 *
 	 * @param array $comments Array of comments supplied to the comments template.
-	 * @param int   $post_ID  Post ID.
+	 * @param int   $post_id  Post ID.
 	 */
 	$wp_query->comments = apply_filters( 'comments_array', $comments_flat, $post->ID );
 
@@ -2324,12 +2318,12 @@ function wp_list_comments( $args = array(), $comments = null ) {
  *                                        submit button markup and %2$s is the comment hidden fields.
  *     @type string $format               The comment form format. Default 'xhtml'. Accepts 'xhtml', 'html5'.
  * }
- * @param int|WP_Post $post_id Post ID or WP_Post object to generate the form for. Default current post.
+ * @param int|WP_Post $post Post ID or WP_Post object to generate the form for. Default current post.
  */
-function comment_form( $args = array(), $post_id = null ) {
-	if ( null === $post_id ) {
-		$post_id = get_the_ID();
-	}
+function comment_form( $args = array(), $post = null ) {
+	$post = get_post( $post );
+
+	$post_id = $post ? $post->ID : get_the_ID();
 
 	// Exit the function when comments for the post are closed.
 	if ( ! comments_open( $post_id ) ) {
