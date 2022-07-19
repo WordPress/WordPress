@@ -244,16 +244,7 @@ class WP_REST_Post_Types_Controller extends WP_REST_Controller {
 		// Wrap the data in a response object.
 		$response = rest_ensure_response( $data );
 
-		$response->add_links(
-			array(
-				'collection'              => array(
-					'href' => rest_url( sprintf( '%s/%s', $this->namespace, $this->rest_base ) ),
-				),
-				'https://api.w.org/items' => array(
-					'href' => rest_url( rest_get_route_for_post_type_items( $post_type->name ) ),
-				),
-			)
-		);
+		$response->add_links( $this->prepare_links( $post_type ) );
 
 		/**
 		 * Filters a post type returned from the REST API.
@@ -394,4 +385,22 @@ class WP_REST_Post_Types_Controller extends WP_REST_Controller {
 		);
 	}
 
+	/**
+	 * Prepares links for the request.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @param WP_Post_Type $post_type The post type.
+	 * @return array Links for the given post type.
+	 */
+	protected function prepare_links( $post_type ) {
+		return array(
+			'collection'              => array(
+				'href' => rest_url( sprintf( '%s/%s', $this->namespace, $this->rest_base ) ),
+			),
+			'https://api.w.org/items' => array(
+				'href' => rest_url( rest_get_route_for_post_type_items( $post_type->name ) ),
+			),
+		);
+	}
 }
