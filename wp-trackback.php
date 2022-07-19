@@ -42,9 +42,6 @@ function trackback_response( $error = 0, $error_message = '' ) {
 	}
 }
 
-// Trackback is done by a POST.
-$request_array = 'HTTP_POST_VARS';
-
 if ( ! isset( $_GET['tb_id'] ) || ! $_GET['tb_id'] ) {
 	$post_id = explode( '/', $_SERVER['REQUEST_URI'] );
 	$post_id = (int) $post_id[ count( $post_id ) - 1 ];
