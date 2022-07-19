@@ -1146,9 +1146,9 @@ function comment_type( $commenttxt = false, $trackbacktxt = false, $pingbacktxt 
  */
 function get_trackback_url() {
 	if ( get_option( 'permalink_structure' ) ) {
-		$tb_url = trailingslashit( get_permalink() ) . user_trailingslashit( 'trackback', 'single_trackback' );
+		$trackback_url = trailingslashit( get_permalink() ) . user_trailingslashit( 'trackback', 'single_trackback' );
 	} else {
-		$tb_url = get_option( 'siteurl' ) . '/wp-trackback.php?p=' . get_the_ID();
+		$trackback_url = get_option( 'siteurl' ) . '/wp-trackback.php?p=' . get_the_ID();
 	}
 
 	/**
@@ -1156,9 +1156,9 @@ function get_trackback_url() {
 	 *
 	 * @since 2.2.0
 	 *
-	 * @param string $tb_url The trackback URL.
+	 * @param string $trackback_url The trackback URL.
 	 */
-	return apply_filters( 'trackback_url', $tb_url );
+	return apply_filters( 'trackback_url', $trackback_url );
 }
 
 /**
