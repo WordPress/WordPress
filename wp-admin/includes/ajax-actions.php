@@ -1277,14 +1277,14 @@ function wp_ajax_replyto_comment( $action ) {
 
 	check_ajax_referer( $action, '_ajax_nonce-replyto-comment' );
 
-	$comment_post_ID = (int) $_POST['comment_post_ID'];
-	$post            = get_post( $comment_post_ID );
+	$comment_post_id = (int) $_POST['comment_post_ID'];
+	$post            = get_post( $comment_post_id );
 
 	if ( ! $post ) {
 		wp_die( -1 );
 	}
 
-	if ( ! current_user_can( 'edit_post', $comment_post_ID ) ) {
+	if ( ! current_user_can( 'edit_post', $comment_post_id ) ) {
 		wp_die( -1 );
 	}
 
@@ -1331,13 +1331,26 @@ function wp_ajax_replyto_comment( $action ) {
 	}
 
 	$comment_auto_approved = false;
-	$commentdata           = compact( 'comment_post_ID', 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_content', 'comment_type', 'comment_parent', 'user_ID' );
+
+	$commentdata = array(
+		'comment_post_ID' => $comment_post_id,
+	);
+
+	$commentdata += compact(
+		'comment_author',
+		'comment_author_email',
+		'comment_author_url',
+		'comment_content',
+		'comment_type',
+		'comment_parent',
+		'user_ID'
+	);
 
 	// Automatically approve parent comment.
 	if ( ! empty( $_POST['approve_parent'] ) ) {
 		$parent = get_comment( $comment_parent );
 
-		if ( $parent && '0' === $parent->comment_approved && $parent->comment_post_ID == $comment_post_ID ) {
+		if ( $parent && '0' === $parent->comment_approved && $parent->comment_post_ID == $comment_post_id ) {
 			if ( ! current_user_can( 'edit_comment', $parent->comment_ID ) ) {
 				wp_die( -1 );
 			}

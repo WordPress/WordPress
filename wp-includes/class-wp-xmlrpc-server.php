@@ -7013,7 +7013,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$context        = '[&#8230;] ' . esc_html( $excerpt ) . ' [&#8230;]';
 		$pagelinkedfrom = $this->escape( $pagelinkedfrom );
 
-		$comment_post_ID      = (int) $post_ID;
+		$comment_post_id      = (int) $post_ID;
 		$comment_author       = $title;
 		$comment_author_email = '';
 		$this->escape( $comment_author );
@@ -7022,8 +7022,11 @@ class wp_xmlrpc_server extends IXR_Server {
 		$this->escape( $comment_content );
 		$comment_type = 'pingback';
 
-		$commentdata = compact(
-			'comment_post_ID',
+		$commentdata = array(
+			'comment_post_ID' => $comment_post_id,
+		);
+
+		$commentdata += compact(
 			'comment_author',
 			'comment_author_url',
 			'comment_author_email',
