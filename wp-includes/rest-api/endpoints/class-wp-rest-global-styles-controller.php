@@ -126,6 +126,34 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Controller {
 	}
 
 	/**
+	 * Get the post, if the ID is valid.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @param int $id Supplied ID.
+	 * @return WP_Post|WP_Error Post object if ID is valid, WP_Error otherwise.
+	 */
+	protected function get_post( $id ) {
+		$error = new WP_Error(
+			'rest_global_styles_not_found',
+			__( 'No global styles config exist with that id.' ),
+			array( 'status' => 404 )
+		);
+
+		$id = (int) $id;
+		if ( $id <= 0 ) {
+			return $error;
+		}
+
+		$post = get_post( $id );
+		if ( empty( $post ) || empty( $post->ID ) || $this->post_type !== $post->post_type ) {
+			return $error;
+		}
+
+		return $post;
+	}
+
+	/**
 	 * Checks if a given request has access to read a single global style.
 	 *
 	 * @since 5.9.0
@@ -376,35 +404,6 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Controller {
 
 		return $response;
 	}
-
-	/**
-	 * Get the post, if the ID is valid.
-	 *
-	 * @since 5.9.0
-	 *
-	 * @param int $id Supplied ID.
-	 * @return WP_Post|WP_Error Post object if ID is valid, WP_Error otherwise.
-	 */
-	protected function get_post( $id ) {
-		$error = new WP_Error(
-			'rest_global_styles_not_found',
-			__( 'No global styles config exist with that id.' ),
-			array( 'status' => 404 )
-		);
-
-		$id = (int) $id;
-		if ( $id <= 0 ) {
-			return $error;
-		}
-
-		$post = get_post( $id );
-		if ( empty( $post ) || empty( $post->ID ) || $this->post_type !== $post->post_type ) {
-			return $error;
-		}
-
-		return $post;
-	}
-
 
 	/**
 	 * Prepares links for the request.

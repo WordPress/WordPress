@@ -289,6 +289,25 @@ class WP_REST_Taxonomies_Controller extends WP_REST_Controller {
 	}
 
 	/**
+	 * Prepares links for the request.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @param @param WP_Taxonomy $taxonomy The taxonomy.
+	 * @return array Links for the given taxonomy.
+	 */
+	protected function prepare_links( $taxonomy ) {
+		return array(
+			'collection'              => array(
+				'href' => rest_url( sprintf( '%s/%s', $this->namespace, $this->rest_base ) ),
+			),
+			'https://api.w.org/items' => array(
+				'href' => rest_url( rest_get_route_for_taxonomy_items( $taxonomy->name ) ),
+			),
+		);
+	}
+
+	/**
 	 * Retrieves the taxonomy's schema, conforming to JSON Schema.
 	 *
 	 * @since 4.7.0
@@ -427,24 +446,4 @@ class WP_REST_Taxonomies_Controller extends WP_REST_Controller {
 		);
 		return $new_params;
 	}
-
-	/**
-	 * Prepares links for the request.
-	 *
-	 * @since 6.1.0
-	 *
-	 * @param @param WP_Taxonomy $taxonomy The taxonomy.
-	 * @return array Links for the given taxonomy.
-	 */
-	protected function prepare_links( $taxonomy ) {
-		return array(
-			'collection'              => array(
-				'href' => rest_url( sprintf( '%s/%s', $this->namespace, $this->rest_base ) ),
-			),
-			'https://api.w.org/items' => array(
-				'href' => rest_url( rest_get_route_for_taxonomy_items( $taxonomy->name ) ),
-			),
-		);
-	}
-
 }

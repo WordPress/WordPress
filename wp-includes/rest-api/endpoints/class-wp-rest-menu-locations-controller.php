@@ -208,6 +208,44 @@ class WP_REST_Menu_Locations_Controller extends WP_REST_Controller {
 	}
 
 	/**
+	 * Prepares links for the request.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @param stdClass $location Menu location.
+	 * @return array Links for the given menu location.
+	 */
+	protected function prepare_links( $location ) {
+		$base = sprintf( '%s/%s', $this->namespace, $this->rest_base );
+
+		// Entity meta.
+		$links = array(
+			'self'       => array(
+				'href' => rest_url( trailingslashit( $base ) . $location->name ),
+			),
+			'collection' => array(
+				'href' => rest_url( $base ),
+			),
+		);
+
+		$locations = get_nav_menu_locations();
+		$menu      = isset( $locations[ $location->name ] ) ? $locations[ $location->name ] : 0;
+		if ( $menu ) {
+			$path = rest_get_route_for_term( $menu );
+			if ( $path ) {
+				$url = rest_url( $path );
+
+				$links['https://api.w.org/menu'][] = array(
+					'href'       => $url,
+					'embeddable' => true,
+				);
+			}
+		}
+
+		return $links;
+	}
+
+	/**
 	 * Retrieves the menu location's schema, conforming to JSON Schema.
 	 *
 	 * @since 5.9.0
@@ -259,43 +297,5 @@ class WP_REST_Menu_Locations_Controller extends WP_REST_Controller {
 		return array(
 			'context' => $this->get_context_param( array( 'default' => 'view' ) ),
 		);
-	}
-
-	/**
-	 * Prepares links for the request.
-	 *
-	 * @since 5.9.0
-	 *
-	 * @param stdClass $location Menu location.
-	 * @return array Links for the given menu location.
-	 */
-	protected function prepare_links( $location ) {
-		$base = sprintf( '%s/%s', $this->namespace, $this->rest_base );
-
-		// Entity meta.
-		$links = array(
-			'self'       => array(
-				'href' => rest_url( trailingslashit( $base ) . $location->name ),
-			),
-			'collection' => array(
-				'href' => rest_url( $base ),
-			),
-		);
-
-		$locations = get_nav_menu_locations();
-		$menu      = isset( $locations[ $location->name ] ) ? $locations[ $location->name ] : 0;
-		if ( $menu ) {
-			$path = rest_get_route_for_term( $menu );
-			if ( $path ) {
-				$url = rest_url( $path );
-
-				$links['https://api.w.org/menu'][] = array(
-					'href'       => $url,
-					'embeddable' => true,
-				);
-			}
-		}
-
-		return $links;
 	}
 }

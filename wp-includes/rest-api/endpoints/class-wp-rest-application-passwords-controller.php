@@ -653,7 +653,14 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller {
 	protected function prepare_links( WP_User $user, $item ) {
 		return array(
 			'self' => array(
-				'href' => rest_url( sprintf( '%s/users/%d/application-passwords/%s', $this->namespace, $user->ID, $item['uuid'] ) ),
+				'href' => rest_url(
+					sprintf(
+						'%s/users/%d/application-passwords/%s',
+						$this->namespace,
+						$user->ID,
+						$item['uuid']
+					)
+				),
 			),
 		);
 	}

@@ -625,7 +625,14 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
 	protected function prepare_links( $item ) {
 		return array(
 			'self' => array(
-				'href' => rest_url( sprintf( '%s/%s/%s', $this->namespace, $this->rest_base, substr( $item['_file'], 0, - 4 ) ) ),
+				'href' => rest_url(
+					sprintf(
+						'%s/%s/%s',
+						$this->namespace,
+						$this->rest_base,
+						substr( $item['_file'], 0, - 4 )
+					)
+				),
 			),
 		);
 	}

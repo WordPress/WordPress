@@ -261,6 +261,25 @@ class WP_REST_Post_Types_Controller extends WP_REST_Controller {
 	}
 
 	/**
+	 * Prepares links for the request.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @param WP_Post_Type $post_type The post type.
+	 * @return array Links for the given post type.
+	 */
+	protected function prepare_links( $post_type ) {
+		return array(
+			'collection'              => array(
+				'href' => rest_url( sprintf( '%s/%s', $this->namespace, $this->rest_base ) ),
+			),
+			'https://api.w.org/items' => array(
+				'href' => rest_url( rest_get_route_for_post_type_items( $post_type->name ) ),
+			),
+		);
+	}
+
+	/**
 	 * Retrieves the post type's schema, conforming to JSON Schema.
 	 *
 	 * @since 4.7.0
@@ -382,25 +401,6 @@ class WP_REST_Post_Types_Controller extends WP_REST_Controller {
 	public function get_collection_params() {
 		return array(
 			'context' => $this->get_context_param( array( 'default' => 'view' ) ),
-		);
-	}
-
-	/**
-	 * Prepares links for the request.
-	 *
-	 * @since 6.1.0
-	 *
-	 * @param WP_Post_Type $post_type The post type.
-	 * @return array Links for the given post type.
-	 */
-	protected function prepare_links( $post_type ) {
-		return array(
-			'collection'              => array(
-				'href' => rest_url( sprintf( '%s/%s', $this->namespace, $this->rest_base ) ),
-			),
-			'https://api.w.org/items' => array(
-				'href' => rest_url( rest_get_route_for_post_type_items( $post_type->name ) ),
-			),
 		);
 	}
 }

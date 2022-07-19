@@ -347,7 +347,11 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller {
 
 		if ( $block_type->is_dynamic() ) {
 			$links['https://api.w.org/render-block'] = array(
-				'href' => add_query_arg( 'context', 'edit', rest_url( sprintf( '%s/%s/%s', 'wp/v2', 'block-renderer', $block_type->name ) ) ),
+				'href' => add_query_arg(
+					'context',
+					'edit',
+					rest_url( sprintf( '%s/%s/%s', 'wp/v2', 'block-renderer', $block_type->name ) )
+				),
 			);
 		}
 
