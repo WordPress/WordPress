@@ -197,6 +197,8 @@ function floated_admin_avatar( $name ) {
 }
 
 /**
+ * Enqueues comment shortcuts jQuery script.
+ *
  * @since 2.7.0
  */
 function enqueue_comment_hotkeys_js() {
