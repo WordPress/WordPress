@@ -3596,7 +3596,7 @@ function wp_handle_comment_submission( $comment_data ) {
 		'comment_author_url',
 		'comment_content',
 		'comment_type',
-		'comment_parent',
+		'comment_parent'
 	);
 
 	/**
