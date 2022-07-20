@@ -487,7 +487,7 @@ function _remove_theme_attribute_in_block_template_content( $template_content ) 
 }
 
 /**
- * Build a unified template object based on a theme file.
+ * Builds a unified template object based on a theme file.
  *
  * @since 5.9.0
  * @access private
@@ -531,7 +531,7 @@ function _build_block_template_result_from_file( $template_file, $template_type 
 }
 
 /**
- * Build a unified template object based a post Object.
+ * Builds a unified template object based a post Object.
  *
  * @since 5.9.0
  * @access private
@@ -860,7 +860,7 @@ function get_block_file_template( $id, $template_type = 'wp_template' ) {
 }
 
 /**
- * Print a template-part.
+ * Prints a template-part.
  *
  * @since 5.9.0
  *
@@ -875,7 +875,7 @@ function block_template_part( $part ) {
 }
 
 /**
- * Print the header template-part.
+ * Prints the header template-part.
  *
  * @since 5.9.0
  */
@@ -884,7 +884,7 @@ function block_header_area() {
 }
 
 /**
- * Print the footer template-part.
+ * Prints the footer template-part.
  *
  * @since 5.9.0
  */

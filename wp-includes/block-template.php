@@ -32,7 +32,7 @@ function _add_template_loader_filters() {
 }
 
 /**
- * Find a block template with equal or higher specificity than a given PHP template file.
+ * Finds a block template with equal or higher specificity than a given PHP template file.
  *
  * Internally, this communicates the block content that needs to be used by the template canvas through a global variable.
  *
@@ -118,7 +118,7 @@ function locate_block_template( $template, $type, array $templates ) {
 }
 
 /**
- * Return the correct 'wp_template' to render for the request template type.
+ * Returns the correct 'wp_template' to render for the request template type.
  *
  * @access private
  * @since 5.8.0
