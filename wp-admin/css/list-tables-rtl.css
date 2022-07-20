@@ -1345,7 +1345,7 @@ ul.cat-checklist {
 }
 
 .plugins tr.paused th.check-column {
-	border-right: 4px solid #d63638;
+	border-right: 4px solid #b32d2e;
 }
 
 .plugins tr.paused th,
@@ -1355,7 +1355,7 @@ ul.cat-checklist {
 
 .plugins tr.paused .plugin-title,
 .plugins .paused .dashicons-warning {
-	color: #d63638;
+	color: #b32d2e;
 }
 
 .plugins .paused .error-display p,
@@ -1365,7 +1365,7 @@ ul.cat-checklist {
 }
 
 .plugins .resume-link {
-	color: #d63638;
+	color: #b32d2e;
 }
 
 .plugin-card .update-now:before {
