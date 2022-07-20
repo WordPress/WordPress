@@ -1297,7 +1297,7 @@ function wp_ajax_replyto_comment( $action ) {
 	$user = wp_get_current_user();
 
 	if ( $user->exists() ) {
-		$user_ID              = $user->ID;
+		$user_id              = $user->ID;
 		$comment_author       = wp_slash( $user->display_name );
 		$comment_author_email = wp_slash( $user->user_email );
 		$comment_author_url   = wp_slash( $user->user_url );
@@ -1343,7 +1343,7 @@ function wp_ajax_replyto_comment( $action ) {
 		'comment_content',
 		'comment_type',
 		'comment_parent',
-		'user_ID'
+		'user_id'
 	);
 
 	// Automatically approve parent comment.

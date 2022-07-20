@@ -3950,7 +3950,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			$comment['comment_author']       = $this->escape( $display_name );
 			$comment['comment_author_email'] = $this->escape( $user_email );
 			$comment['comment_author_url']   = $this->escape( $user_url );
-			$comment['user_ID']              = $user->ID;
+			$comment['user_id']              = $user->ID;
 		} else {
 			$comment['comment_author'] = '';
 			if ( isset( $content_struct['author'] ) ) {
@@ -3967,7 +3967,7 @@ class wp_xmlrpc_server extends IXR_Server {
 				$comment['comment_author_url'] = $content_struct['author_url'];
 			}
 
-			$comment['user_ID'] = 0;
+			$comment['user_id'] = 0;
 
 			if ( get_option( 'require_name_email' ) ) {
 				if ( strlen( $comment['comment_author_email'] ) < 6 || '' === $comment['comment_author'] ) {

@@ -2089,12 +2089,12 @@ function wp_filter_comment( $commentdata ) {
 		/**
 		 * Filters the comment author's user ID before it is set.
 		 *
-		 * The first time this filter is evaluated, 'user_ID' is checked
-		 * (for back-compat), followed by the standard 'user_id' value.
+		 * The first time this filter is evaluated, `user_ID` is checked
+		 * (for back-compat), followed by the standard `user_id` value.
 		 *
 		 * @since 1.5.0
 		 *
-		 * @param int $user_ID The comment author's user ID.
+		 * @param int $user_id The comment author's user ID.
 		 */
 		$commentdata['user_id'] = apply_filters( 'pre_user_id', $commentdata['user_ID'] );
 	} elseif ( isset( $commentdata['user_id'] ) ) {
@@ -2132,7 +2132,9 @@ function wp_filter_comment( $commentdata ) {
 	$commentdata['comment_author_url'] = apply_filters( 'pre_comment_author_url', $commentdata['comment_author_url'] );
 	/** This filter is documented in wp-includes/comment.php */
 	$commentdata['comment_author_email'] = apply_filters( 'pre_comment_author_email', $commentdata['comment_author_email'] );
-	$commentdata['filtered']             = true;
+
+	$commentdata['filtered'] = true;
+
 	return $commentdata;
 }
 
@@ -2265,11 +2267,13 @@ function wp_new_comment( $commentdata, $wp_error = false ) {
 	$commentdata = wp_filter_comment( $commentdata );
 
 	$commentdata['comment_approved'] = wp_allow_comment( $commentdata, $wp_error );
+
 	if ( is_wp_error( $commentdata['comment_approved'] ) ) {
 		return $commentdata['comment_approved'];
 	}
 
 	$comment_ID = wp_insert_comment( $commentdata );
+
 	if ( ! $comment_ID ) {
 		$fields = array( 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_content' );
 
@@ -2468,6 +2472,7 @@ function wp_update_comment( $commentarr, $wp_error = false ) {
 
 	// First, get all of the original fields.
 	$comment = get_comment( $commentarr['comment_ID'], ARRAY_A );
+
 	if ( empty( $comment ) ) {
 		if ( $wp_error ) {
 			return new WP_Error( 'invalid_comment_id', __( 'Invalid comment ID.' ) );
@@ -3421,14 +3426,13 @@ function _close_comments_for_old_post( $open, $post_id ) {
  * @return WP_Comment|WP_Error A WP_Comment object on success, a WP_Error object on failure.
  */
 function wp_handle_comment_submission( $comment_data ) {
-
 	$comment_post_id      = 0;
-	$comment_parent       = 0;
-	$user_ID              = 0;
 	$comment_author       = null;
 	$comment_author_email = null;
 	$comment_author_url   = null;
 	$comment_content      = null;
+	$comment_parent       = 0;
+	$user_id              = 0;
 
 	if ( isset( $comment_data['comment_post_ID'] ) ) {
 		$comment_post_id = (int) $comment_data['comment_post_ID'];
@@ -3553,7 +3557,7 @@ function wp_handle_comment_submission( $comment_data ) {
 		$comment_author       = $user->display_name;
 		$comment_author_email = $user->user_email;
 		$comment_author_url   = $user->user_url;
-		$user_ID              = $user->ID;
+		$user_id              = $user->ID;
 
 		if ( current_user_can( 'unfiltered_html' ) ) {
 			if ( ! isset( $comment_data['_wp_unfiltered_html_comment'] )
@@ -3583,6 +3587,7 @@ function wp_handle_comment_submission( $comment_data ) {
 
 	$commentdata = array(
 		'comment_post_ID' => $comment_post_id,
+		'user_ID'         => $user_id,
 	);
 
 	$commentdata += compact(
@@ -3592,7 +3597,6 @@ function wp_handle_comment_submission( $comment_data ) {
 		'comment_content',
 		'comment_type',
 		'comment_parent',
-		'user_ID'
 	);
 
 	/**
