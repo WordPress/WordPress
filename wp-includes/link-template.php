@@ -308,6 +308,7 @@ function get_permalink( $post = 0, $leavename = false ) {
  * Retrieves the permalink for a post of a custom post type.
  *
  * @since 3.0.0
+ * @since 6.1.0 Returns false if the post does not exist.
  *
  * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
