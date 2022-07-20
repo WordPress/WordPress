@@ -1657,7 +1657,7 @@ pre.wp-block-preformatted {
 }
 
 .wp-block-quote .wp-block-quote__citation {
-	color: #28303d;
+	color: currentColor;
 	font-size: 1rem;
 	font-style: normal;
 }
