@@ -1179,6 +1179,20 @@ function get_header_image() {
 		$url = get_random_header_image();
 	}
 
+	/**
+	 * Filters the header image URL.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @param string $url Header image URL.
+	 */
+	$url = apply_filters( 'get_header_image', $url );
+
+	if ( ! is_string( $url ) ) {
+		return false;
+	}
+
+	$url = trim( $url );
 	return sanitize_url( set_url_scheme( $url ) );
 }
 
