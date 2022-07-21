@@ -962,7 +962,7 @@ function wp_dropdown_roles( $selected = '' ) {
 }
 
 /**
- * Outputs the form used by the importers to accept the data to be imported
+ * Outputs the form used by the importers to accept the data to be imported.
  *
  * @since 2.0.0
  *
@@ -1680,7 +1680,7 @@ function add_settings_field( $id, $title, $callback, $page, $section = 'default'
 }
 
 /**
- * Prints out all settings sections added to a particular settings page
+ * Prints out all settings sections added to a particular settings page.
  *
  * Part of the Settings API. Use this in a settings page callback function
  * to output all the sections and fields that were added to that $page with
@@ -2539,6 +2539,8 @@ function get_submit_button( $text = '', $type = 'primary large', $name = 'submit
 }
 
 /**
+ * Prints out the beginning of the admin HTML header.
+ *
  * @global bool $is_IE
  */
 function _wp_admin_html_begin() {
@@ -2600,7 +2602,7 @@ function convert_to_screen( $hook_name ) {
 }
 
 /**
- * Output the HTML for restoring the post data from DOM storage
+ * Outputs the HTML for restoring the post data from DOM storage
  *
  * @since 3.6.0
  * @access private
