@@ -1130,6 +1130,11 @@ table.form-table td .updated p {
 	max-width: 60%;
 }
 
+.configuration-rules-label {
+	font-weight: 600;
+	margin-bottom: 4px;
+}
+
 /*------------------------------------------------------------------------------
    Credentials check dialog for Install and Updates
 ------------------------------------------------------------------------------*/

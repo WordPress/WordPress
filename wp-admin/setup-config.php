@@ -393,13 +393,13 @@ switch ( $step ) {
 		if ( ! is_writable( ABSPATH ) ) :
 			setup_config_display_header();
 			?>
-	<p>
+<p>
 			<?php
 			/* translators: %s: wp-config.php */
 			printf( __( 'Unable to write to %s file.' ), '<code>wp-config.php</code>' );
 			?>
 </p>
-<p>
+<p id="wp-config-description">
 			<?php
 			/* translators: %s: wp-config.php */
 			printf( __( 'You can create the %s file manually and paste the following text into it.' ), '<code>wp-config.php</code>' );
@@ -411,7 +411,13 @@ switch ( $step ) {
 			}
 			?>
 </p>
-<textarea id="wp-config" cols="98" rows="15" class="code" readonly="readonly"><?php echo $config_text; ?></textarea>
+<p class="configuration-rules-label"><label for="wp-config">
+			<?php
+			/* translators: %s: wp-config.php */
+			printf( __( 'Configuration rules for %s:' ), '<code>wp-config.php</code>' );
+			?>
+	</label></p>
+<textarea id="wp-config" cols="98" rows="15" class="code" readonly="readonly" aria-describedby="wp-config-description"><?php echo $config_text; ?></textarea>
 <p><?php _e( 'After you&#8217;ve done that, click &#8220;Run the installation&#8221;.' ); ?></p>
 <p class="step"><a href="<?php echo $install; ?>" class="button button-large"><?php _e( 'Run the installation' ); ?></a></p>
 <script>

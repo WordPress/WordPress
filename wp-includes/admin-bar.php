@@ -724,7 +724,7 @@ function wp_admin_bar_shortlink_menu( $wp_admin_bar ) {
 		return;
 	}
 
-	$html = '<input class="shortlink-input" type="text" readonly="readonly" value="' . esc_attr( $short ) . '" />';
+	$html = '<input class="shortlink-input" type="text" readonly="readonly" value="' . esc_attr( $short ) . '" aria-label="' . __( 'Shortlink' ) . '" />';
 
 	$wp_admin_bar->add_node(
 		array(
