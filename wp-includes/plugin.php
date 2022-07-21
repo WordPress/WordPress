@@ -424,7 +424,7 @@ function add_action( $hook_name, $callback, $priority = 10, $accepted_args = 1 )
  *      *
  *      * - 'example_action' is the action hook.
  *      * - $arg1 and $arg2 are the additional arguments passed to the callback.
- *     $value = do_action( 'example_action', $arg1, $arg2 );
+ *     do_action( 'example_action', $arg1, $arg2 );
  *
  * @since 1.2.0
  * @since 5.3.0 Formalized the existing and already documented `...$arg` parameter
