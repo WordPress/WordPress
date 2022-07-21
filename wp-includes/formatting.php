@@ -1584,6 +1584,7 @@ function utf8_uri_encode( $utf8_string, $length = 0, $encode_ascii_characters = 
  * @since 4.8.0 Added locale support for `bs_BA`.
  * @since 5.7.0 Added locale support for `de_AT`.
  * @since 6.0.0 Added the `$locale` parameter.
+ * @since 6.1.0 Added Unicode NFC encoding normalization support.
  *
  * @param string $string Text that might have accent characters.
  * @param string $locale Optional. The locale to use for accent removal. Some character
@@ -1597,6 +1598,15 @@ function remove_accents( $string, $locale = '' ) {
 	}
 
 	if ( seems_utf8( $string ) ) {
+
+		// Unicode sequence normalization from NFD (Normalization Form Decomposed)
+		// to NFC (Normalization Form [Pre]Composed), the encoding used in this function.
+		if ( function_exists( 'normalizer_normalize' ) ) {
+			if ( ! normalizer_is_normalized( $string, Normalizer::FORM_C ) ) {
+				$string = normalizer_normalize( $string, Normalizer::FORM_C );
+			}
+		}
+
 		$chars = array(
 			// Decompositions for Latin-1 Supplement.
 			'ª' => 'a',
