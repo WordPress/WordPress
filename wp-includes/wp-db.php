@@ -14,4 +14,4 @@ if ( function_exists( '_deprecated_file' ) ) {
 }
 
 /** wpdb class */
-require_once ABSPATH . 'wp-includes/class-wpdb.php';
+require_once __DIR__ . '/class-wpdb.php';
