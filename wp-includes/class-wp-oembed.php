@@ -104,6 +104,7 @@ class WP_oEmbed {
 			'#https?://(www\.)?tiktok\.com/.*/video/.*#i'  => array( 'https://www.tiktok.com/oembed', true ),
 			'#https?://([a-z]{2}|www)\.pinterest\.com(\.(au|mx))?/.*#i' => array( 'https://www.pinterest.com/oembed.json', true ),
 			'#https?://(www\.)?wolframcloud\.com/obj/.+#i' => array( 'https://www.wolframcloud.com/oembed', true ),
+			'#https?://pca\.st/.+#i'                       => array( 'https://pca.st/oembed.json', true ),
 		);
 
 		if ( ! empty( self::$early_providers['add'] ) ) {
@@ -181,6 +182,7 @@ class WP_oEmbed {
 		 * | TikTok       | tiktok.com                                | 5.4.0   |
 		 * | Pinterest    | pinterest.com                             | 5.9.0   |
 		 * | WolframCloud | wolframcloud.com                          | 5.9.0   |
+		 * | Pocket Casts | pocketcasts.com                           | 6.1.0   |
 		 *
 		 * No longer supported providers:
 		 *
