@@ -816,7 +816,7 @@ switch ( $action ) {
 									printf(
 										/* translators: %s: Documentation URL. */
 										__( 'If this is a development website you can <a href="%s" target="_blank">set the environment type accordingly</a> to enable application passwords.' ),
-										__( 'https://wordpress.org/support/article/editing-wp-config-php/#wp_environment_type' )
+										__( 'https://developer.wordpress.org/apis/wp-config-php/#wp-environment-type' )
 									);
 									?>
 								</p>
