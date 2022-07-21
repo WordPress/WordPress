@@ -486,7 +486,7 @@ jQuery( document ).ready( function( $ ) {
 
 		times = tryAgainCount[ file.id ];
 
-		if ( times && times > 4 ) {
+		if ( times && times > 8 ) {
 			/*
 			 * The file may have been uploaded and attachment post created,
 			 * but post-processing and resizing failed...

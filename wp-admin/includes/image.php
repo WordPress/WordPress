@@ -77,14 +77,21 @@ function wp_crop_image( $src, $src_x, $src_y, $src_w, $src_h, $dst_w, $dst_h, $s
  * Registered sub-sizes that are larger than the image are skipped.
  *
  * @since 5.3.0
+ * @since 6.1.0 The $mime_type parameter was added.
  *
- * @param int $attachment_id The image attachment post ID.
+ * @param int    $attachment_id The image attachment post ID.
+ * @param string $mime_type     Optional. The mime type to check for missing sizes. Default is the primary image mime.
  * @return array[] Associative array of arrays of image sub-size information for
  *                 missing image sizes, keyed by image size name.
  */
-function wp_get_missing_image_subsizes( $attachment_id ) {
+function wp_get_missing_image_subsizes( $attachment_id, $mime_type = '' ) {
 	if ( ! wp_attachment_is_image( $attachment_id ) ) {
 		return array();
+	}
+
+	$primary_mime_type = get_post_mime_type( get_post( $attachment_id ) );
+	if ( ! $mime_type ) {
+		$mime_type = $primary_mime_type;
 	}
 
 	$registered_sizes = wp_get_registered_image_subsizes();
@@ -129,19 +136,38 @@ function wp_get_missing_image_subsizes( $attachment_id ) {
 	 * However we keep the old sub-sizes with the previous dimensions
 	 * as the image may have been used in an older post.
 	 */
-	$missing_sizes = array_diff_key( $possible_sizes, $image_meta['sizes'] );
+	$missing_sizes = array();
+	foreach ( $possible_sizes as $size_name => $size_data ) {
+		if ( ! isset( $image_meta['sizes'][ $size_name ] ) ) {
+			$missing_sizes[ $size_name ] = $size_data;
+			continue;
+		}
+
+		if ( ( isset( $size_data['mime-type'] ) && $size_data['mime-type'] === $mime_type ) || isset( $size_data['sources'][ $mime_type ] ) ) {
+			continue;
+		}
+
+		$missing_sizes[ $size_name ] = $size_data;
+	}
+
+	// Filter secondary mime types to those sizes that are enabled.
+	if ( $primary_mime_type !== $mime_type ) {
+		$missing_sizes = _wp_filter_image_sizes_additional_mime_type_support( $missing_sizes, $attachment_id );
+	}
 
 	/**
 	 * Filters the array of missing image sub-sizes for an uploaded image.
 	 *
 	 * @since 5.3.0
+	 * @since 6.1.0 The $mime_type filter parameter was added.
 	 *
 	 * @param array[] $missing_sizes Associative array of arrays of image sub-size information for
 	 *                               missing image sizes, keyed by image size name.
 	 * @param array   $image_meta    The image meta data.
 	 * @param int     $attachment_id The image attachment post ID.
+	 * @param string  $mime_type     The image mime type to get missing sizes for.
 	 */
-	return apply_filters( 'wp_get_missing_image_subsizes', $missing_sizes, $image_meta, $attachment_id );
+	return apply_filters( 'wp_get_missing_image_subsizes', $missing_sizes, $image_meta, $attachment_id, $mime_type );
 }
 
 /**
@@ -149,6 +175,7 @@ function wp_get_missing_image_subsizes( $attachment_id ) {
  * create them and update the image meta data.
  *
  * @since 5.3.0
+ * @since 6.1.0 Now supports additional mime types, creating the additional sub-sizes and 'full' sized images.
  *
  * @param int $attachment_id The image attachment post ID.
  * @return array|WP_Error The updated image meta data array or WP_Error object
@@ -167,14 +194,33 @@ function wp_update_image_subsizes( $attachment_id ) {
 			return new WP_Error( 'invalid_attachment', __( 'The attached file cannot be found.' ) );
 		}
 	} else {
-		$missing_sizes = wp_get_missing_image_subsizes( $attachment_id );
+		// Get the primary and additional mime types to generate.
+		list( $primary_mime_type, $additional_mime_types ) = _wp_get_primary_and_additional_mime_types( $image_file, $attachment_id );
 
-		if ( empty( $missing_sizes ) ) {
-			return $image_meta;
+		// Generate missing 'full' image files for additional mime types.
+		if ( ! empty( $additional_mime_types ) ) {
+			if ( isset( $image_meta['sources'] ) ) {
+				$missing_mime_types = array_diff( $additional_mime_types, array_keys( $image_meta['sources'] ) );
+			} else {
+				$missing_mime_types = $additional_mime_types;
+			}
+			if ( ! empty( $missing_mime_types ) ) {
+				$image_meta = _wp_make_additional_mime_types( $missing_mime_types, $image_file, $image_meta, $attachment_id );
+			}
 		}
 
-		// This also updates the image meta.
-		$image_meta = _wp_make_subsizes( $missing_sizes, $image_file, $image_meta, $attachment_id );
+		// Generate missing image sub-sizes for each mime type.
+		$all_mime_types = array_merge( array( $primary_mime_type ), $additional_mime_types );
+		foreach ( $all_mime_types as $mime_type ) {
+			$missing_sizes = wp_get_missing_image_subsizes( $attachment_id, $mime_type );
+
+			if ( empty( $missing_sizes ) ) {
+				continue;
+			}
+
+			// This also updates the image meta.
+			$image_meta = _wp_make_subsizes( $missing_sizes, $image_file, $image_meta, $attachment_id, $mime_type );
+		}
 	}
 
 	/** This filter is documented in wp-admin/includes/image.php */
@@ -222,12 +268,13 @@ function _wp_image_meta_replace_original( $saved_data, $original_file, $image_me
 }
 
 /**
- * Creates image sub-sizes, adds the new data to the image meta `sizes` array, and updates the image metadata.
+ * Creates image mime variations and sub-sizes, adds the new data to the image meta `sizes` array, and updates the image metadata.
  *
  * Intended for use after an image is uploaded. Saves/updates the image metadata after each
  * sub-size is created. If there was an error, it is added to the returned image metadata array.
  *
  * @since 5.3.0
+ * @since 6.1.0 Generates sub-sizes in alternate mime types based on the `wp_image_mime_transforms` filter.
  *
  * @param string $file          Full path to the image file.
  * @param int    $attachment_id Attachment ID to process.
@@ -248,6 +295,7 @@ function wp_create_image_subsizes( $file, $attachment_id ) {
 		'file'     => _wp_relative_upload_path( $file ),
 		'filesize' => wp_filesize( $file ),
 		'sizes'    => array(),
+		'sources'  => array(),
 	);
 
 	// Fetch additional metadata from EXIF/IPTC.
@@ -257,9 +305,112 @@ function wp_create_image_subsizes( $file, $attachment_id ) {
 		$image_meta['image_meta'] = $exif_meta;
 	}
 
-	// Do not scale (large) PNG images. May result in sub-sizes that have greater file size than the original. See #48736.
-	if ( 'image/png' !== $imagesize['mime'] ) {
+	// Get the primary and additional mime types to generate.
+	list( $primary_mime_type, $additional_mime_types ) = _wp_get_primary_and_additional_mime_types( $file, $attachment_id );
 
+	list( $editor, $resized, $rotated ) = _wp_maybe_scale_and_rotate_image( $file, $attachment_id, $imagesize, $exif_meta, $primary_mime_type );
+	if ( is_wp_error( $editor ) ) {
+		return $image_meta;
+	}
+	$suffix = _wp_get_image_suffix( $resized, $rotated );
+
+	// Save image only if either it was modified or if the primary mime type is different from the original.
+	if ( ! empty( $suffix ) || $primary_mime_type !== $imagesize['mime'] ) {
+		$saved = $editor->save( $editor->generate_filename( $suffix ) );
+
+		if ( ! is_wp_error( $saved ) ) {
+			$image_meta = _wp_image_meta_replace_original( $saved, $file, $image_meta, $attachment_id );
+
+			// If the image was rotated update the stored EXIF data.
+			if ( true === $rotated && ! empty( $image_meta['image_meta']['orientation'] ) ) {
+				$image_meta['image_meta']['orientation'] = 1;
+			}
+		} else {
+			// TODO: Log errors.
+		}
+	}
+
+	// Set 'sources' for the primary mime type.
+	$image_meta['sources'][ $primary_mime_type ] = _wp_get_sources_from_meta( $image_meta );
+
+	/*
+	 * Initial save of the new metadata.
+	 * At this point the file was uploaded and moved to the uploads directory
+	 * but the image sub-sizes haven't been created yet and the `sizes` array is empty.
+	 */
+	wp_update_attachment_metadata( $attachment_id, $image_meta );
+
+	if ( ! empty( $additional_mime_types ) ) {
+		// Use the original file's exif_meta orientation information for secondary mime generation.
+		$saved_orientation                       = $image_meta['image_meta']['orientation'];
+		$image_meta['image_meta']['orientation'] = $exif_meta['orientation'];
+		$image_meta                              = _wp_make_additional_mime_types( $additional_mime_types, $file, $image_meta, $attachment_id );
+		$image_meta['image_meta']['orientation'] = $saved_orientation;
+
+	}
+
+	$new_sizes = wp_get_registered_image_subsizes();
+
+	/**
+	 * Filters the image sizes automatically generated when uploading an image.
+	 *
+	 * @since 2.9.0
+	 * @since 4.4.0 Added the `$image_meta` argument.
+	 * @since 5.3.0 Added the `$attachment_id` argument.
+	 *
+	 * @param array $new_sizes     Associative array of image sizes to be created.
+	 * @param array $image_meta    The image meta data: width, height, file, sizes, etc.
+	 * @param int   $attachment_id The attachment post ID for the image.
+	 */
+	$new_sizes = apply_filters( 'intermediate_image_sizes_advanced', $new_sizes, $image_meta, $attachment_id );
+
+	$image_meta = _wp_make_subsizes( $new_sizes, $file, $image_meta, $attachment_id, $primary_mime_type );
+
+	// Filter secondary mime types to those sizes that are enabled.
+	$new_sizes = _wp_filter_image_sizes_additional_mime_type_support( $new_sizes, $attachment_id );
+
+	foreach ( $additional_mime_types as $additional_mime_type ) {
+		$image_meta = _wp_make_subsizes( $new_sizes, $file, $image_meta, $attachment_id, $additional_mime_type );
+	}
+
+	return $image_meta;
+}
+
+/**
+ * Returns a WP_Image_Editor instance where the image file has been scaled and rotated as necessary.
+ *
+ * @since 6.1.0
+ * @access private
+ *
+ * @param string     $file          Full path to the image file.
+ * @param int        $attachment_id Attachment ID.
+ * @param array      $imagesize     {
+ *     Indexed array of the image width and height in pixels.
+ *
+ *     @type int $0 The image width.
+ *     @type int $1 The image height.
+ * }
+ * @param array|null $exif_meta EXIF metadata if extracted from the image file.
+ * @param string     $mime_type Output mime type.
+ * @return array Array with three entries: The WP_Image_Editor instance, whether the image was resized, and whether the
+ *               image was rotated (booleans). Each entry can alternatively be a WP_Error in case something went wrong.
+ */
+function _wp_maybe_scale_and_rotate_image( $file, $attachment_id, $imagesize, $exif_meta, $mime_type ) {
+	$resized = false;
+	$rotated = false;
+
+	$editor = wp_get_image_editor( $file, array( 'mime_type' => $mime_type ) );
+	if ( is_wp_error( $editor ) ) {
+		// This image cannot be edited.
+		return array( $editor, $resized, $rotated );
+	}
+
+	if ( ! empty( $mime_type ) ) {
+		$editor->set_output_mime_type( $mime_type );
+	}
+
+	// Do not scale (large) PNG images. May result in sub-sizes that have greater file size than the original. See #48736.
+	if ( 'image/png' !== $mime_type ) {
 		/**
 		 * Filters the "BIG image" threshold value.
 		 *
@@ -285,96 +436,65 @@ function wp_create_image_subsizes( $file, $attachment_id ) {
 
 		// If the original image's dimensions are over the threshold,
 		// scale the image and use it as the "full" size.
-		if ( $threshold && ( $image_meta['width'] > $threshold || $image_meta['height'] > $threshold ) ) {
-			$editor = wp_get_image_editor( $file );
-
-			if ( is_wp_error( $editor ) ) {
-				// This image cannot be edited.
-				return $image_meta;
-			}
-
+		if ( $threshold && ( $imagesize[0] > $threshold || $imagesize[1] > $threshold ) ) {
 			// Resize the image.
 			$resized = $editor->resize( $threshold, $threshold );
-			$rotated = null;
 
 			// If there is EXIF data, rotate according to EXIF Orientation.
 			if ( ! is_wp_error( $resized ) && is_array( $exif_meta ) ) {
-				$resized = $editor->maybe_exif_rotate();
-				$rotated = $resized;
-			}
-
-			if ( ! is_wp_error( $resized ) ) {
-				// Append "-scaled" to the image file name. It will look like "my_image-scaled.jpg".
-				// This doesn't affect the sub-sizes names as they are generated from the original image (for best quality).
-				$saved = $editor->save( $editor->generate_filename( 'scaled' ) );
-
-				if ( ! is_wp_error( $saved ) ) {
-					$image_meta = _wp_image_meta_replace_original( $saved, $file, $image_meta, $attachment_id );
-
-					// If the image was rotated update the stored EXIF data.
-					if ( true === $rotated && ! empty( $image_meta['image_meta']['orientation'] ) ) {
-						$image_meta['image_meta']['orientation'] = 1;
-					}
-				} else {
-					// TODO: Log errors.
-				}
-			} else {
-				// TODO: Log errors.
+				$rotated = $editor->maybe_exif_rotate();
 			}
 		} elseif ( ! empty( $exif_meta['orientation'] ) && 1 !== (int) $exif_meta['orientation'] ) {
 			// Rotate the whole original image if there is EXIF data and "orientation" is not 1.
-
-			$editor = wp_get_image_editor( $file );
-
-			if ( is_wp_error( $editor ) ) {
-				// This image cannot be edited.
-				return $image_meta;
-			}
-
-			// Rotate the image.
 			$rotated = $editor->maybe_exif_rotate();
-
-			if ( true === $rotated ) {
-				// Append `-rotated` to the image file name.
-				$saved = $editor->save( $editor->generate_filename( 'rotated' ) );
-
-				if ( ! is_wp_error( $saved ) ) {
-					$image_meta = _wp_image_meta_replace_original( $saved, $file, $image_meta, $attachment_id );
-
-					// Update the stored EXIF data.
-					if ( ! empty( $image_meta['image_meta']['orientation'] ) ) {
-						$image_meta['image_meta']['orientation'] = 1;
-					}
-				} else {
-					// TODO: Log errors.
-				}
-			}
 		}
 	}
 
-	/*
-	 * Initial save of the new metadata.
-	 * At this point the file was uploaded and moved to the uploads directory
-	 * but the image sub-sizes haven't been created yet and the `sizes` array is empty.
-	 */
-	wp_update_attachment_metadata( $attachment_id, $image_meta );
+	return array( $editor, $resized, $rotated );
+}
 
-	$new_sizes = wp_get_registered_image_subsizes();
+/**
+ * Gets the suffix to use for image files based on resizing and rotating.
+ *
+ * @since 6.1.0
+ * @access private
+ *
+ * @param bool|WP_Error Whether the image was resized, or an error if resizing failed.
+ * @param bool|WP_Error Whether the image was rotated, or an error if rotating failed.
+ * @return string The suffix to use for the file name, or empty string if none.
+ */
+function _wp_get_image_suffix( $resized, $rotated ) {
+	if ( $resized && ! is_wp_error( $resized ) ) {
+		// Append "-scaled" to the image file name. It will look like "my_image-scaled.jpg".
+		// This doesn't affect the sub-sizes names as they are generated from the original image (for best quality).
+		return 'scaled';
+	}
 
-	/**
-	 * Filters the image sizes automatically generated when uploading an image.
-	 *
-	 * @since 2.9.0
-	 * @since 4.4.0 Added the `$image_meta` argument.
-	 * @since 5.3.0 Added the `$attachment_id` argument.
-	 *
-	 * @param array $new_sizes     Associative array of image sizes to be created.
-	 * @param array $image_meta    The image meta data: width, height, file, sizes, etc.
-	 * @param int   $attachment_id The attachment post ID for the image.
-	 */
-	$new_sizes = apply_filters( 'intermediate_image_sizes_advanced', $new_sizes, $image_meta, $attachment_id );
+	if ( true === $rotated ) {
+		// Append `-rotated` to the image file name.
+		return 'rotated';
+	}
 
-	return _wp_make_subsizes( $new_sizes, $file, $image_meta, $attachment_id );
+	if ( is_wp_error( $resized ) || is_wp_error( $rotated ) ) {
+		// TODO: Log errors.
+	}
+	return '';
+}
+
+/**
+ * Gets a sources array element from a meta.
+ *
+ * @since 6.1.0
+ * @access private
+ *
+ * @param array $meta The meta to get the source from.
+ * @return array The source array element.
+ */
+function _wp_get_sources_from_meta( $meta ) {
+	return array(
+		'file'     => isset( $meta['file'] ) ? wp_basename( $meta['file'] ) : '',
+		'filesize' => isset( $meta['filesize'] ) ? $meta['filesize'] : wp_filesize( $meta['path'] ),
+	);
 }
 
 /**
@@ -384,18 +504,24 @@ function wp_create_image_subsizes( $file, $attachment_id ) {
  * Errors are stored in the returned image metadata array.
  *
  * @since 5.3.0
+ * @since 6.1.0 The $mime_type parameter was added.
  * @access private
  *
- * @param array  $new_sizes     Array defining what sizes to create.
- * @param string $file          Full path to the image file.
- * @param array  $image_meta    The attachment meta data array.
- * @param int    $attachment_id Attachment ID to process.
+ * @param array  $new_sizes       Array defining what sizes to create.
+ * @param string $file            Full path to the image file.
+ * @param array  $image_meta      The attachment meta data array.
+ * @param int    $attachment_id   Attachment ID to process.
+ * @param string $mime_type       Optional. The mime type to check for missing sizes. Default is the image mime of $file.
  * @return array The attachment meta data with updated `sizes` array. Includes an array of errors encountered while resizing.
  */
-function _wp_make_subsizes( $new_sizes, $file, $image_meta, $attachment_id ) {
+function _wp_make_subsizes( $new_sizes, $file, $image_meta, $attachment_id, $mime_type = '' ) {
 	if ( empty( $image_meta ) || ! is_array( $image_meta ) ) {
 		// Not an image attachment.
 		return array();
+	}
+
+	if ( ! $mime_type ) {
+		$mime_type = wp_get_image_mime( $file );
 	}
 
 	// Check if any of the new sizes already exist.
@@ -407,7 +533,11 @@ function _wp_make_subsizes( $new_sizes, $file, $image_meta, $attachment_id ) {
 			 * To change the behavior, unset changed/mismatched sizes in the `sizes` array in image meta.
 			 */
 			if ( array_key_exists( $size_name, $new_sizes ) ) {
-				unset( $new_sizes[ $size_name ] );
+				// Unset the size if it is either the required mime type already exists either as main mime type or
+				// within sources.
+				if ( $size_meta['mime-type'] === $mime_type || isset( $size_meta['sources'][ $mime_type ] ) ) {
+					unset( $new_sizes[ $size_name ] );
+				}
 			}
 		}
 	} else {
@@ -433,12 +563,14 @@ function _wp_make_subsizes( $new_sizes, $file, $image_meta, $attachment_id ) {
 
 	$new_sizes = array_filter( array_merge( $priority, $new_sizes ) );
 
-	$editor = wp_get_image_editor( $file );
+	$editor = wp_get_image_editor( $file, array( 'mime_type' => $mime_type ) );
 
 	if ( is_wp_error( $editor ) ) {
 		// The image cannot be edited.
 		return $image_meta;
 	}
+
+	$editor->set_output_mime_type( $mime_type );
 
 	// If stored EXIF data exists, rotate the source image before creating sub-sizes.
 	if ( ! empty( $image_meta['image_meta'] ) ) {
@@ -457,7 +589,22 @@ function _wp_make_subsizes( $new_sizes, $file, $image_meta, $attachment_id ) {
 				// TODO: Log errors.
 			} else {
 				// Save the size meta value.
-				$image_meta['sizes'][ $new_size_name ] = $new_size_meta;
+				if ( ! isset( $image_meta['sizes'][ $new_size_name ] ) ) {
+					$image_meta['sizes'][ $new_size_name ] = $new_size_meta;
+				} else {
+					// Remove any newly generated images that are larger than the primary mime type.
+					$new_size     = isset( $new_size_meta['filesize'] ) ? $new_size_meta['filesize'] : 0;
+					$primary_size = isset( $image_meta['sizes'][ $new_size_name ]['filesize'] ) ? $image_meta['sizes'][ $new_size_name ]['filesize'] : 0;
+
+					if ( $new_size && $primary_size && $new_size >= $primary_size ) {
+						wp_delete_file( dirname( $file ) . '/' . $new_size_meta['file'] );
+						continue;
+					}
+				}
+				if ( ! isset( $image_meta['sizes'][ $new_size_name ]['sources'] ) ) {
+					$image_meta['sizes'][ $new_size_name ]['sources'] = array();
+				}
+				$image_meta['sizes'][ $new_size_name ]['sources'][ $mime_type ] = _wp_get_sources_from_meta( $new_size_meta );
 				wp_update_attachment_metadata( $attachment_id, $image_meta );
 			}
 		}
@@ -466,12 +613,150 @@ function _wp_make_subsizes( $new_sizes, $file, $image_meta, $attachment_id ) {
 		$created_sizes = $editor->multi_resize( $new_sizes );
 
 		if ( ! empty( $created_sizes ) ) {
-			$image_meta['sizes'] = array_merge( $image_meta['sizes'], $created_sizes );
+			foreach ( $created_sizes as $created_size_name => $created_size_meta ) {
+
+				// Primary mime type is set in 'sizes' array.
+				if ( ! isset( $image_meta['sizes'][ $created_size_name ] ) ) {
+					$image_meta['sizes'][ $created_size_name ] = $created_size_meta;
+				} else {
+					// Remove any newly generated images that are larger than the primary mime type.
+					$new_size     = isset( $created_size_meta['filesize'] ) ? $created_size_meta['filesize'] : 0;
+					$primary_size = isset( $image_meta['sizes'][ $created_size_name ]['filesize'] ) ? $image_meta['sizes'][ $created_size_name ]['filesize'] : 0;
+
+					if ( $new_size && $primary_size && $new_size >= $primary_size ) {
+						wp_delete_file( dirname( $file ) . '/' . $created_size_meta['file'] );
+						continue;
+					}
+				}
+				if ( ! isset( $image_meta['sizes'][ $created_size_name ]['sources'] ) ) {
+					$image_meta['sizes'][ $created_size_name ]['sources'] = array();
+				}
+				$image_meta['sizes'][ $created_size_name ]['sources'][ $mime_type ] = _wp_get_sources_from_meta( $new_size_meta );
+			}
 			wp_update_attachment_metadata( $attachment_id, $image_meta );
 		}
 	}
 
 	return $image_meta;
+}
+
+/**
+ * Filters the list of image size objects that support secondary mime type output.
+ *
+ * @since 6.1.0
+ *
+ * @param array $sizes         Associative array of image sizes.
+ * @param int   $attachment_id Attachment ID.
+ * @return array $sizes Filtered $sizes with only those that support secondary mime type output.
+ */
+function _wp_filter_image_sizes_additional_mime_type_support( $sizes, $attachment_id ) {
+
+	// Include only the core sizes that do not rely on add_image_size(). Additional image sizes are opt-in.
+	$enabled_sizes = array(
+		'thumbnail'      => true,
+		'medium'         => true,
+		'medium_large'   => true,
+		'large'          => true,
+		'post-thumbnail' => true,
+	);
+
+	/**
+	 * Filter the sizes that support secondary mime type output. Developers can use this
+	 * to control the output of additional mime type sub-sized images.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @param array $enabled_sizes Map of size names and whether they support secondary mime type output.
+	 * @param int   $attachment_id Attachment ID.
+	 */
+	$enabled_sizes = apply_filters( 'wp_image_sizes_with_additional_mime_type_support', $enabled_sizes, $attachment_id );
+
+	// Filter supported sizes to only include enabled sizes.
+	return array_intersect_key( $sizes, array_filter( $enabled_sizes ) );
+}
+
+/**
+ * Low-level function to create full-size images in additional mime types.
+ *
+ * Updates the image meta after each mime type image is created.
+ *
+ * @since 6.1.0
+ * @access private
+ *
+ * @param array  $new_mime_types Array defining what mime types to create.
+ * @param string $file           Full path to the image file.
+ * @param array  $image_meta     The attachment meta data array.
+ * @param int    $attachment_id  Attachment ID to process.
+ * @return array The attachment meta data with updated `sizes` array. Includes an array of errors encountered while resizing.
+ */
+function _wp_make_additional_mime_types( $new_mime_types, $file, $image_meta, $attachment_id ) {
+	$imagesize          = array(
+		$image_meta['width'],
+		$image_meta['height'],
+	);
+	$exif_meta          = isset( $image_meta['image_meta'] ) ? $image_meta['image_meta'] : null;
+	$original_file_size = isset( $image_meta['filesize'] ) ? $image_meta['filesize'] : wp_filesize( $file );
+
+	foreach ( $new_mime_types as $mime_type ) {
+		list( $editor, $resized, $rotated ) = _wp_maybe_scale_and_rotate_image( $file, $attachment_id, $imagesize, $exif_meta, $mime_type );
+		if ( is_wp_error( $editor ) ) {
+			// The image cannot be edited.
+			continue;
+		}
+
+		$suffix    = _wp_get_image_suffix( $resized, $rotated );
+		$extension = wp_get_default_extension_for_mime_type( $mime_type );
+
+		$saved = $editor->save( $editor->generate_filename( $suffix, null, $extension ) );
+
+		if ( is_wp_error( $saved ) ) {
+			// TODO: Log errors.
+		} else {
+			// If the saved image is larger than the original, discard it.
+			$filesize = isset( $saved['filesize'] ) ? $saved['filesize'] : wp_filesize( $saved['path'] );
+			if ( $filesize && $original_file_size && $filesize > $original_file_size ) {
+				wp_delete_file( $saved['path'] );
+				continue;
+			}
+			$image_meta['sources'][ $mime_type ] = _wp_get_sources_from_meta( $saved );
+			wp_update_attachment_metadata( $attachment_id, $image_meta );
+		}
+	}
+
+	return $image_meta;
+}
+
+
+/**
+ * Check if an image belongs to an attachment.
+ *
+ * @since 6.1.0
+ * @access private
+ *
+ * @param string $filename     Full path to the image file.
+ * @param int   $attachment_id Attachment ID to check.
+ * @return bool True if the image belongs to the attachment, false otherwise.
+ */
+function _wp_image_belongs_to_attachment( $filename, $attachment_id ) {
+	$meta_data = wp_get_attachment_metadata( $attachment_id );
+
+	if ( ! isset( $image_meta['sizes'] ) ) {
+		return false;
+	}
+	$sizes = $image_meta['sizes'];
+	foreach ( $sizes as $size ) {
+		if ( $size['file'] === $filename ) {
+			return true;
+		}
+		if ( isset( $size['sources'] ) && is_array( $size['sources'] ) ) {
+			foreach ( $size['sources'] as $source ) {
+				if ( $source['file'] === $filename ) {
+					return true;
+				}
+			}
+		}
+	}
+	return false;
 }
 
 /**
@@ -630,7 +915,7 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 					wp_update_attachment_metadata( $attachment_id, $metadata );
 
 					// Create sub-sizes saving the image meta after each.
-					$metadata = _wp_make_subsizes( $merged_sizes, $image_file, $metadata, $attachment_id );
+					$metadata = _wp_make_subsizes( $merged_sizes, $image_file, $metadata, $attachment_id, '' );
 				}
 			}
 		}
@@ -1156,4 +1441,98 @@ function _copy_image_file( $attachment_id ) {
 	}
 
 	return $dst_file;
+}
+
+/**
+ * Returns an array with the list of valid mime types that a specific mime type should be converted into.
+ * For example an `image/jpeg` should be converted into an `image/jpeg` and `image/webp`. The first type
+ * is considered the primary output type for this image.
+ *
+ * Called for each uploaded image to determine the list of mime types that should be converted into. Then,
+ * called again for each image size as they are generated to check if the image should be converted into the mime type
+ * for that size.
+ *
+ * @since 6.1.0
+ *
+ * @param int    $attachment_id  The attachment ID.
+ * @return array An array of valid mime types, where the key is the source file mime type and the list of mime types to
+ *               generate.
+ */
+function wp_upload_image_mime_transforms( $attachment_id ) {
+	$default_image_mime_transforms = array(
+		'image/jpeg' => array( 'image/jpeg', 'image/webp' ),
+		'image/webp' => array( 'image/webp', 'image/jpeg' ),
+	);
+	$image_mime_transforms         = $default_image_mime_transforms;
+
+	/**
+	 * Filter the output mime types for a given input mime type and image size.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @param array  $image_mime_transforms A map with the valid mime transforms where the key is the source file mime type
+	 *                                      and the value is one or more mime file types to generate.
+	 * @param int    $attachment_id         The ID of the attachment where the hook was dispatched.
+	 */
+	$image_mime_transforms = apply_filters( 'wp_upload_image_mime_transforms', $image_mime_transforms, $attachment_id );
+
+	if ( ! is_array( $image_mime_transforms ) ) {
+		return $default_image_mime_transforms;
+	}
+
+	return array_map(
+		function( $transforms_list ) {
+			return (array) $transforms_list;
+		},
+		$image_mime_transforms
+	);
+}
+
+/**
+ * Extract the primary and additional mime output types for an image from the $image_mime_transforms.
+ *
+ * @since 6.1.0
+ * @access private
+ *
+ * @param string $file          Full path to the image file.
+ * @param int    $attachment_id Attachment ID to process.
+ * @return array An array with two entries, the primary mime type and the list of additional mime types.
+ */
+function _wp_get_primary_and_additional_mime_types( $file, $attachment_id ) {
+	$image_mime_transforms = wp_upload_image_mime_transforms( $attachment_id );
+	$original_mime_type    = wp_get_image_mime( $file );
+	$output_mime_types     = isset( $image_mime_transforms[ $original_mime_type ] ) ? $image_mime_transforms[ $original_mime_type ] : array( $original_mime_type );
+
+	// Exclude any output mime types that the system doesn't support.
+	$output_mime_types = array_values(
+		array_filter(
+			$output_mime_types,
+			function( $mime_type ) {
+				return wp_image_editor_supports(
+					array(
+						'mime_type' => $mime_type,
+					)
+				);
+			}
+		)
+	);
+
+	// Handle an empty value for $output_mime_types: only output the original type.
+	if ( empty( $output_mime_types ) ) {
+		return array( $original_mime_type, array() );
+	}
+
+	// Use original mime type as primary mime type, or alternatively the first one.
+	$primary_mime_type_key = array_search( $original_mime_type, $output_mime_types, true );
+	if ( false === $primary_mime_type_key ) {
+		$primary_mime_type_key = 0;
+	}
+	// Split output mime types into primary mime type and additional mime types.
+	$additional_mime_types     = $output_mime_types;
+	list( $primary_mime_type ) = array_splice( $additional_mime_types, $primary_mime_type_key, 1 );
+
+	return array(
+		$primary_mime_type,
+		$additional_mime_types,
+	);
 }
