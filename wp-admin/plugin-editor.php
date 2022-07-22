@@ -167,10 +167,12 @@ if ( '.php' === substr( $real_file, strrpos( $real_file, '.' ) ) ) {
 
 	if ( ! empty( $functions ) ) {
 		$docs_select  = '<select name="docs-list" id="docs-list">';
-		$docs_select .= '<option value="">' . __( 'Function Name&hellip;' ) . '</option>';
+		$docs_select .= '<option value="">' . esc_html__( 'Function Name&hellip;' ) . '</option>';
+
 		foreach ( $functions as $function ) {
 			$docs_select .= '<option value="' . esc_attr( $function ) . '">' . esc_html( $function ) . '()</option>';
 		}
+
 		$docs_select .= '</select>';
 	}
 }
