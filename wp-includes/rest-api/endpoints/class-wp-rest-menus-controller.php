@@ -134,7 +134,10 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller {
 		$data    = $this->filter_response_by_context( $data, $context );
 
 		$response = rest_ensure_response( $data );
-		$response->add_links( $this->prepare_links( $term ) );
+
+		if ( rest_is_field_included( '_links', $fields ) || rest_is_field_included( '_embedded', $fields ) ) {
+			$response->add_links( $this->prepare_links( $term ) );
+		}
 
 		/** This action is documented in wp-includes/rest-api/endpoints/class-wp-rest-terms-controller.php */
 		return apply_filters( "rest_prepare_{$this->taxonomy}", $response, $term, $request );

@@ -306,7 +306,9 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller {
 
 		$response = rest_ensure_response( $data );
 
-		$response->add_links( $this->prepare_links( $block_type ) );
+		if ( rest_is_field_included( '_links', $fields ) || rest_is_field_included( '_embedded', $fields ) ) {
+			$response->add_links( $this->prepare_links( $block_type ) );
+		}
 
 		/**
 		 * Filters a block type returned from the REST API.

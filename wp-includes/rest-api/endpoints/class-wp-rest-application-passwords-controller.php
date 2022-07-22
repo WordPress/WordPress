@@ -610,6 +610,8 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller {
 			return $user;
 		}
 
+		$fields = $this->get_fields_for_response( $request );
+
 		$prepared = array(
 			'uuid'      => $item['uuid'],
 			'app_id'    => empty( $item['app_id'] ) ? '' : $item['app_id'],
@@ -627,7 +629,10 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller {
 		$prepared = $this->filter_response_by_context( $prepared, $request['context'] );
 
 		$response = new WP_REST_Response( $prepared );
-		$response->add_links( $this->prepare_links( $user, $item ) );
+
+		if ( rest_is_field_included( '_links', $fields ) || rest_is_field_included( '_embedded', $fields ) ) {
+			$response->add_links( $this->prepare_links( $user, $item ) );
+		}
 
 		/**
 		 * Filters the REST API response for an application password.

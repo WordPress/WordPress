@@ -662,13 +662,15 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
 		// Wrap the data in a response object.
 		$response = rest_ensure_response( $data );
 
-		$links = $this->prepare_links( $template->id );
-		$response->add_links( $links );
-		if ( ! empty( $links['self']['href'] ) ) {
-			$actions = $this->get_available_actions();
-			$self    = $links['self']['href'];
-			foreach ( $actions as $rel ) {
-				$response->add_link( $rel, $self );
+		if ( rest_is_field_included( '_links', $fields ) || rest_is_field_included( '_embedded', $fields ) ) {
+			$links = $this->prepare_links( $template->id );
+			$response->add_links( $links );
+			if ( ! empty( $links['self']['href'] ) ) {
+				$actions = $this->get_available_actions();
+				$self    = $links['self']['href'];
+				foreach ( $actions as $rel ) {
+					$response->add_link( $rel, $self );
+				}
 			}
 		}
 

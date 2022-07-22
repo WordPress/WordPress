@@ -1933,16 +1933,18 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		// Wrap the data in a response object.
 		$response = rest_ensure_response( $data );
 
-		$links = $this->prepare_links( $post );
-		$response->add_links( $links );
+		if ( rest_is_field_included( '_links', $fields ) || rest_is_field_included( '_embedded', $fields ) ) {
+			$links = $this->prepare_links( $post );
+			$response->add_links( $links );
 
-		if ( ! empty( $links['self']['href'] ) ) {
-			$actions = $this->get_available_actions( $post, $request );
+			if ( ! empty( $links['self']['href'] ) ) {
+				$actions = $this->get_available_actions( $post, $request );
 
-			$self = $links['self']['href'];
+				$self = $links['self']['href'];
 
-			foreach ( $actions as $rel ) {
-				$response->add_link( $rel, $self );
+				foreach ( $actions as $rel ) {
+					$response->add_link( $rel, $self );
+				}
 			}
 		}
 

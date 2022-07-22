@@ -610,16 +610,18 @@ class WP_REST_Menu_Items_Controller extends WP_REST_Posts_Controller {
 		// Wrap the data in a response object.
 		$response = rest_ensure_response( $data );
 
-		$links = $this->prepare_links( $item );
-		$response->add_links( $links );
+		if ( rest_is_field_included( '_links', $fields ) || rest_is_field_included( '_embedded', $fields ) ) {
+			$links = $this->prepare_links( $item );
+			$response->add_links( $links );
 
-		if ( ! empty( $links['self']['href'] ) ) {
-			$actions = $this->get_available_actions( $item, $request );
+			if ( ! empty( $links['self']['href'] ) ) {
+				$actions = $this->get_available_actions( $item, $request );
 
-			$self = $links['self']['href'];
+				$self = $links['self']['href'];
 
-			foreach ( $actions as $rel ) {
-				$response->add_link( $rel, $self );
+				foreach ( $actions as $rel ) {
+					$response->add_link( $rel, $self );
+				}
 			}
 		}
 

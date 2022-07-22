@@ -581,6 +581,18 @@ abstract class WP_REST_Controller {
 
 		$fields = array_keys( $properties );
 
+		/*
+		 * '_links' and '_embedded' are not typically part of the item schema,
+		 * but they can be specified in '_fields', so they are added here as a
+		 * convenience for checking with rest_is_field_included().
+		 */
+		$fields[] = '_links';
+		if ( $request->has_param( '_embed' ) ) {
+			$fields[] = '_embedded';
+		}
+
+		$fields = array_unique( $fields );
+
 		if ( ! isset( $request['_fields'] ) ) {
 			return $fields;
 		}

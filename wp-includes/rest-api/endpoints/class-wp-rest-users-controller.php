@@ -1072,7 +1072,9 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 		// Wrap the data in a response object.
 		$response = rest_ensure_response( $data );
 
-		$response->add_links( $this->prepare_links( $user ) );
+		if ( rest_is_field_included( '_links', $fields ) || rest_is_field_included( '_embedded', $fields ) ) {
+			$response->add_links( $this->prepare_links( $user ) );
+		}
 
 		/**
 		 * Filters user data returned from the REST API.
