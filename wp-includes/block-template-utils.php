@@ -893,7 +893,7 @@ function block_footer_area() {
 }
 
 /**
- * Filters theme directories that should be ignored during export.
+ * Determines whether a theme directory should be ignored during export.
  *
  * @since 6.0.0
  *
