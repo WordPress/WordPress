@@ -23,6 +23,19 @@ function wp_cache_init() {
 }
 
 /**
+ * Whether the object cache implementation supports flushing individual cache groups.
+ *
+ * @since 6.1.0
+ *
+ * @see WP_Object_Cache::flush_group()
+ *
+ * @return bool True if group flushing is supported, false otherwise.
+ */
+function wp_cache_supports_group_flush() {
+	return true;
+}
+
+/**
  * Adds data to the cache, if the cache key doesn't already exist.
  *
  * @since 2.0.0
@@ -279,6 +292,25 @@ function wp_cache_flush() {
  */
 function wp_cache_flush_runtime() {
 	return wp_cache_flush();
+}
+
+/**
+ * Removes all cache items in a group, if the object cache implementation supports it.
+ * Before calling this method, always check for group flushing support using the
+ * `wp_cache_supports_group_flush()` method.
+ *
+ * @since 6.1.0
+ *
+ * @see WP_Object_Cache::flush_group()
+ * @global WP_Object_Cache $wp_object_cache Object cache global instance.
+ *
+ * @param string $group Name of group to remove from cache.
+ * @return bool True if group was flushed, false otherwise.
+ */
+function wp_cache_flush_group( $group ) {
+	global $wp_object_cache;
+
+	return $wp_object_cache->flush_group( $group );
 }
 
 /**
