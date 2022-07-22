@@ -167,19 +167,11 @@ Twenty Twenty-One is distributed under the terms of the GNU GPL.
 	--global--color-white: #fff;
 	--global--color-white-50: rgba(255, 255, 255, 0.5);
 	--global--color-white-90: rgba(255, 255, 255, 0.9);
-	--global--color-primary: var(--global--color-dark-gray);
-
-	/* Body text color, site title, footer text color. */
-	--global--color-secondary: var(--global--color-gray);
-
-	/* Headings */
+	--global--color-primary: var(--global--color-dark-gray); /* Body text color, site title, footer text color. */
+	--global--color-secondary: var(--global--color-gray); /* Headings */
 	--global--color-primary-hover: var(--global--color-primary);
-	--global--color-background: var(--global--color-green);
-
-	/* Mint, default body background */
-	--global--color-border: var(--global--color-primary);
-
-	/* Used for borders (separators) */
+	--global--color-background: var(--global--color-green); /* Mint, default body background */
+	--global--color-border: var(--global--color-primary); /* Used for borders (separators) */
 
 	/* Spacing */
 	--global--spacing-unit: 20px;
@@ -351,12 +343,8 @@ Twenty Twenty-One is distributed under the terms of the GNU GPL.
  * 2. Prevent adjustments of font size after orientation changes in iOS.
  */
 html {
-	line-height: 1.15;
-
-	/* 1 */
-	-webkit-text-size-adjust: 100%;
-
-	/* 2 */
+	line-height: 1.15; /* 1 */
+	-webkit-text-size-adjust: 100%; /* 2 */
 }
 
 /* Sections
@@ -393,15 +381,9 @@ h1 {
  * 2. Show the overflow in Edge and IE.
  */
 hr {
-	box-sizing: content-box;
-
-	/* 1 */
-	height: 0;
-
-	/* 1 */
-	overflow: visible;
-
-	/* 2 */
+	box-sizing: content-box; /* 1 */
+	height: 0; /* 1 */
+	overflow: visible; /* 2 */
 }
 
 /**
@@ -409,12 +391,8 @@ hr {
  * 2. Correct the odd `em` font sizing in all browsers.
  */
 pre {
-	font-family: monospace;
-
-	/* 1 */
-	font-size: 1em;
-
-	/* 2 */
+	font-family: monospace; /* 1 */
+	font-size: 1em; /* 2 */
 }
 
 /* Text-level semantics
@@ -433,15 +411,9 @@ a {
  * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.
  */
 abbr[title] {
-	border-bottom: none;
-
-	/* 1 */
-	text-decoration: underline;
-
-	/* 2 */
-	text-decoration-style: dotted;
-
-	/* 2 */
+	border-bottom: none; /* 1 */
+	text-decoration: underline; /* 2 */
+	text-decoration-style: dotted; /* 2 */
 }
 
 /**
@@ -459,12 +431,8 @@ strong {
 code,
 kbd,
 samp {
-	font-family: monospace;
-
-	/* 1 */
-	font-size: 1em;
-
-	/* 2 */
+	font-family: monospace; /* 1 */
+	font-size: 1em; /* 2 */
 }
 
 /**
@@ -516,18 +484,10 @@ input,
 optgroup,
 select,
 textarea {
-	font-family: inherit;
-
-	/* 1 */
-	font-size: 100%;
-
-	/* 1 */
-	line-height: 1.15;
-
-	/* 1 */
-	margin: 0;
-
-	/* 2 */
+	font-family: inherit; /* 1 */
+	font-size: 100%; /* 1 */
+	line-height: 1.15; /* 1 */
+	margin: 0; /* 2 */
 }
 
 /**
@@ -535,9 +495,7 @@ textarea {
  * 1. Show the overflow in Edge.
  */
 button,
-input {
-
-	/* 1 */
+input { /* 1 */
 	overflow: visible;
 }
 
@@ -546,9 +504,7 @@ input {
  * 1. Remove the inheritance of text transform in Firefox.
  */
 button,
-select {
-
-	/* 1 */
+select { /* 1 */
 	text-transform: none;
 }
 
@@ -597,24 +553,12 @@ fieldset {
  *    `fieldset` elements in all browsers.
  */
 legend {
-	box-sizing: border-box;
-
-	/* 1 */
-	color: inherit;
-
-	/* 2 */
-	display: table;
-
-	/* 1 */
-	max-width: 100%;
-
-	/* 1 */
-	padding: 0;
-
-	/* 3 */
-	white-space: normal;
-
-	/* 1 */
+	box-sizing: border-box; /* 1 */
+	color: inherit; /* 2 */
+	display: table; /* 1 */
+	max-width: 100%; /* 1 */
+	padding: 0; /* 3 */
+	white-space: normal; /* 1 */
 }
 
 /**
@@ -637,12 +581,8 @@ textarea {
  */
 [type=checkbox],
 [type=radio] {
-	box-sizing: border-box;
-
-	/* 1 */
-	padding: 0;
-
-	/* 2 */
+	box-sizing: border-box; /* 1 */
+	padding: 0; /* 2 */
 }
 
 /**
@@ -658,12 +598,8 @@ textarea {
  * 2. Correct the outline style in Safari.
  */
 [type=search] {
-	-webkit-appearance: textfield;
-
-	/* 1 */
-	outline-offset: -2px;
-
-	/* 2 */
+	-webkit-appearance: textfield; /* 1 */
+	outline-offset: -2px; /* 2 */
 }
 
 /**
@@ -678,12 +614,8 @@ textarea {
  * 2. Change font properties to `inherit` in Safari.
  */
 ::-webkit-file-upload-button {
-	-webkit-appearance: button;
-
-	/* 1 */
-	font: inherit;
-
-	/* 2 */
+	-webkit-appearance: button; /* 1 */
+	font: inherit; /* 2 */
 }
 
 /* Interactive
@@ -1436,12 +1368,8 @@ input[type=radio] + label {
 @supports (-webkit-appearance: none) or (-moz-appearance: none) {
 
 	input[type=range] {
-		-webkit-appearance: none;
-
-		/* Hides the slider so that custom slider can be made */
-		width: 100%;
-
-		/* Specific width is required for Firefox. */
+		-webkit-appearance: none; /* Hides the slider so that custom slider can be made */
+		width: 100%; /* Specific width is required for Firefox. */
 		height: 6px;
 		background: var(--form--color-ranged);
 		border-radius: 6px;
