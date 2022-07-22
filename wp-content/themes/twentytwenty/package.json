@@ -16,10 +16,10 @@
 	"devDependencies": {
 		"@wordpress/browserslist-config": "^4.1.2",
 		"@wordpress/scripts": "^16.1.5",
-		"autoprefixer": "^10.4.5",
-		"concurrently": "^6.5.1",
-		"postcss": "^8.4.12",
-		"postcss-cli": "^9.1.0",
+		"autoprefixer": "^10.4.7",
+		"concurrently": "^7.3.0",
+		"postcss": "^8.4.14",
+		"postcss-cli": "^10.0.0",
 		"rtlcss": "^3.5.0",
 		"stylelint-a11y": "^1.2.3"
 	},
