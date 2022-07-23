@@ -291,20 +291,6 @@ class WP_Object_Cache {
 	}
 
 	/**
-	 * Removes all cache items in a group.
-	 *
-	 * @since 6.1.0
-	 *
-	 * @param string $group Name of group to remove from cache.
-	 * @return true Always returns true.
-	 */
-	public function flush_group( $group ) {
-		unset( $this->cache[ $group ] );
-
-		return true;
-	}
-
-	/**
 	 * Retrieves the cache contents, if it exists.
 	 *
 	 * The contents will be first attempted to be retrieved by searching by the
@@ -505,6 +491,20 @@ class WP_Object_Cache {
 	 */
 	public function flush() {
 		$this->cache = array();
+
+		return true;
+	}
+
+	/**
+	 * Removes all cache items in a group.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @param string $group Name of group to remove from cache.
+	 * @return true Always returns true.
+	 */
+	public function flush_group( $group ) {
+		unset( $this->cache[ $group ] );
 
 		return true;
 	}

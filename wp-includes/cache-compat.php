@@ -145,8 +145,9 @@ endif;
 if ( ! function_exists( 'wp_cache_flush_group' ) ) :
 	/**
 	 * Removes all cache items in a group, if the object cache implementation supports it.
-	 * Before calling this method, always check for group flushing support using the
-	 * `wp_cache_supports_group_flush()` method.
+	 *
+	 * Before calling this function, always check for group flushing support using the
+	 * `wp_cache_supports_group_flush()` function.
 	 *
 	 * @since 6.1.0
 	 *
@@ -175,7 +176,7 @@ endif;
 
 if ( ! function_exists( 'wp_cache_supports_group_flush' ) ) :
 	/**
-	 * Whether the object cache implementation supports flushing individual cache groups.
+	 * Determines whether the object cache implementation supports flushing individual cache groups.
 	 *
 	 * @since 6.1.0
 	 *
