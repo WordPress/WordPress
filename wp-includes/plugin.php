@@ -363,7 +363,7 @@ function current_filter() {
  * @see did_action()
  * @global string[] $wp_current_filter Current filter.
  *
- * @param null|string $hook_name Optional. Filter hook to check. Defaults to null,
+ * @param string|null $hook_name Optional. Filter hook to check. Defaults to null,
  *                               which checks if any filter is currently being run.
  * @return bool Whether the filter is currently in the stack.
  */

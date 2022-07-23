@@ -448,7 +448,7 @@ function get_allowed_http_origins() {
  *
  * @since 3.4.0
  *
- * @param null|string $origin Origin URL. If not provided, the value of get_http_origin() is used.
+ * @param string|null $origin Origin URL. If not provided, the value of get_http_origin() is used.
  * @return string Origin URL if allowed, empty string if not.
  */
 function is_allowed_http_origin( $origin = null ) {

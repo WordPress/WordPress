@@ -584,7 +584,7 @@ function wp_get_last_revision_id_and_total_count( $post = 0 ) {
  * @since 5.9.0
  *
  * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global `$post`.
- * @return null|string The URL for editing revisions on the given post, otherwise null.
+ * @return string|null The URL for editing revisions on the given post, otherwise null.
  */
 function wp_get_post_revisions_url( $post = 0 ) {
 	$post = get_post( $post );
