@@ -3625,10 +3625,10 @@ function wp_read_video_metadata( $file ) {
 	 *
 	 * @since 4.9.0
 	 *
-	 * @param array  $metadata       Filtered Video metadata.
-	 * @param string $file           Path to video file.
-	 * @param string $file_format    File format of video, as analyzed by getID3.
-	 * @param array  $data           Raw metadata from getID3.
+	 * @param array  $metadata    Filtered video metadata.
+	 * @param string $file        Path to video file.
+	 * @param string $file_format File format of video, as analyzed by getID3.
+	 * @param array  $data        Raw metadata from getID3.
 	 */
 	return apply_filters( 'wp_read_video_metadata', $metadata, $file, $file_format, $data );
 }
@@ -3707,10 +3707,10 @@ function wp_read_audio_metadata( $file ) {
 	 *
 	 * @since 6.1.0
 	 *
-	 * @param array  $metadata       Filtered Audio metadata.
-	 * @param string $file           Path to audio file.
-	 * @param string $file_format    File format of audio, as analyzed by getID3.
-	 * @param array  $data           Raw metadata from getID3.
+	 * @param array  $metadata    Filtered audio metadata.
+	 * @param string $file        Path to audio file.
+	 * @param string $file_format File format of audio, as analyzed by getID3.
+	 * @param array  $data        Raw metadata from getID3.
 	 */
 	return apply_filters( 'wp_read_audio_metadata', $metadata, $file, $file_format, $data );
 }
