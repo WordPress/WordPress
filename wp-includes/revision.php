@@ -528,27 +528,27 @@ function wp_get_post_revisions( $post = 0, $args = null ) {
 }
 
 /**
- * Get latest revision and count of revisions for a post.
+ * Returns the latest revision ID and count of revisions for a post.
  *
  * @since 6.1.0
  *
- * @param int|WP_Post|null $post Optional. Post ID or WP_Post object. Default is global $post.
+ * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global $post.
  * @return WP_Error|array {
- *     Returns associative array with last revision and total count.
+ *     Returns associative array with last revision ID and total count.
  *
- *     @type int $revision The last revision post id or 0 if non existing.
- *     @type int $count The total count of revisions for $post_id.
+ *     @type int $revision The last revision post ID or 0 if no revisions exist.
+ *     @type int $count    The total count of revisions for the given post.
  * }
  */
-function wp_get_lastest_revision_id_and_total_count( $post = null ) {
+function wp_get_last_revision_id_and_total_count( $post = 0 ) {
 	$post = get_post( $post );
 
 	if ( ! $post ) {
-		return new WP_Error( 'revision_error', __( 'Invalid post.' ) );
+		return new WP_Error( 'invalid_post', __( 'Invalid post.' ) );
 	}
 
 	if ( ! wp_revisions_enabled( $post ) ) {
-		return new WP_Error( 'revision_error', __( 'Revisions not enabled.' ) );
+		return new WP_Error( 'revisions_not_enabled', __( 'Revisions not enabled.' ) );
 	}
 
 	$args = array(

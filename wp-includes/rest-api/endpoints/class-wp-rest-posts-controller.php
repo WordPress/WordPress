@@ -2026,7 +2026,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		}
 
 		if ( in_array( $post->post_type, array( 'post', 'page' ), true ) || post_type_supports( $post->post_type, 'revisions' ) ) {
-			$revision        = wp_get_lastest_revision_id_and_total_count( $post->ID );
+			$revision        = wp_get_last_revision_id_and_total_count( $post->ID );
 			$revisions_count = ! is_wp_error( $revision ) ? $revision['count'] : 0;
 
 			$links['version-history'] = array(
@@ -2035,7 +2035,8 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			);
 
 			if ( $revisions_count > 0 ) {
-				$last_revision                = $revision['revision'];
+				$last_revision = $revision['revision'];
+
 				$links['predecessor-version'] = array(
 					'href' => rest_url( trailingslashit( $base ) . $post->ID . '/revisions/' . $last_revision ),
 					'id'   => $last_revision,
