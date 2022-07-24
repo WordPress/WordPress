@@ -406,6 +406,10 @@ table.media .column-title .filename {
 	transition: none;
 }
 
+#the-list {
+  display: flex;
+  flex-wrap: wrap;
+}
 #the-list tr:last-child td,
 #the-list tr:last-child th {
 	border-bottom: none !important;
@@ -1428,6 +1432,9 @@ ul.cat-checklist {
 	background-color: #fff;
 	border: 1px solid #dcdcde;
 	box-sizing: border-box;
+	display: flex;
+  	flex-direction: column;
+  	justify-content: space-between;
 }
 
 .plugin-card:nth-child(odd) {
