@@ -4159,12 +4159,14 @@ function wp_insert_post( $postarr, $wp_error = false, $fire_after_hooks = true )
 	 *
 	 * For new posts check the primitive capability, for updates check the meta capability.
 	 */
-	$post_type_object = get_post_type_object( $post_type );
+	if ( 'pending' === $post_status ) {
+		$post_type_object = get_post_type_object( $post_type );
 
-	if ( ! $update && 'pending' === $post_status && ! current_user_can( $post_type_object->cap->publish_posts ) ) {
-		$post_name = '';
-	} elseif ( $update && 'pending' === $post_status && ! current_user_can( 'publish_post', $post_ID ) ) {
-		$post_name = '';
+		if ( ! $update && $post_type_object && ! current_user_can( $post_type_object->cap->publish_posts ) ) {
+			$post_name = '';
+		} elseif ( $update && ! current_user_can( 'publish_post', $post_ID ) ) {
+			$post_name = '';
+		}
 	}
 
 	/*
