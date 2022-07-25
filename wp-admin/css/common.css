@@ -949,6 +949,7 @@ a#remove-post-thumbnail:hover,
 	padding: 6px 10px 8px;
 }
 
+.word-wrap-break-word,
 .misc-pub-filename {
 	word-wrap: break-word;
 }

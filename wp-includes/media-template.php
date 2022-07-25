@@ -438,8 +438,10 @@ function wp_print_media_templates() {
 					<# } #>
 
 					<# if ( data.originalImageURL && data.originalImageName ) { #>
-						<?php _e( 'Original image:' ); ?>
-						<a href="{{ data.originalImageURL }}">{{data.originalImageName}}</a>
+						<div class="word-wrap-break-word">
+							<?php _e( 'Original image:' ); ?>
+							<a href="{{ data.originalImageURL }}">{{data.originalImageName}}</a>
+						</div>
 					<# } #>
 				<# } #>
 
@@ -661,8 +663,10 @@ function wp_print_media_templates() {
 					<# } #>
 
 					<# if ( data.originalImageURL && data.originalImageName ) { #>
-						<?php _e( 'Original image:' ); ?>
-						<a href="{{ data.originalImageURL }}">{{data.originalImageName}}</a>
+						<div class="word-wrap-break-word">
+							<?php _e( 'Original image:' ); ?>
+							<a href="{{ data.originalImageURL }}">{{data.originalImageName}}</a>
+						</div>
 					<# } #>
 
 					<# if ( data.can.save && data.sizes ) { #>
