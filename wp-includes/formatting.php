@@ -4344,8 +4344,8 @@ function _deep_replace( $search, $subject ) {
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param string|array $data Unescaped data
- * @return string|array Escaped data
+ * @param string|array $data Unescaped data.
+ * @return string|array Escaped data, in the same type as supplied.
  */
 function esc_sql( $data ) {
 	global $wpdb;
@@ -5616,7 +5616,7 @@ function sanitize_trackback_urls( $to_ping ) {
  * @since 5.5.0 Non-string values are left untouched.
  *
  * @param string|array $value String or array of data to slash.
- * @return string|array Slashed `$value`.
+ * @return string|array Slashed `$value`, in the same type as supplied.
  */
 function wp_slash( $value ) {
 	if ( is_array( $value ) ) {
@@ -5639,7 +5639,7 @@ function wp_slash( $value ) {
  * @since 3.6.0
  *
  * @param string|array $value String or array of data to unslash.
- * @return string|array Unslashed `$value`.
+ * @return string|array Unslashed `$value`, in the same type as supplied.
  */
 function wp_unslash( $value ) {
 	return stripslashes_deep( $value );
