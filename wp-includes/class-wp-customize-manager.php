@@ -3427,12 +3427,12 @@ final class WP_Customize_Manager {
 	 * @since 4.7.0
 	 *
 	 * @param bool    $post_has_changed Whether the post has changed.
-	 * @param WP_Post $last_revision    The last revision post object.
+	 * @param WP_Post $latest_revision  The latest revision post object.
 	 * @param WP_Post $post             The post object.
 	 * @return bool Whether a revision should be made.
 	 */
-	public function _filter_revision_post_has_changed( $post_has_changed, $last_revision, $post ) {
-		unset( $last_revision );
+	public function _filter_revision_post_has_changed( $post_has_changed, $latest_revision, $post ) {
+		unset( $latest_revision );
 		if ( 'customize_changeset' === $post->post_type ) {
 			$post_has_changed = $this->store_changeset_revision;
 		}
