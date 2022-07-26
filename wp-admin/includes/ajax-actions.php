@@ -162,6 +162,17 @@ function wp_ajax_ajax_tag_search() {
 		)
 	);
 
+	/**
+	 * Filters the Ajax term search results.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @param string[]    $results Array of term names.
+	 * @param WP_Taxonomy $tax     The taxonomy object.
+	 * @param string      $s       The search term.
+	 */
+	$results = apply_filters( 'ajax_term_search_results', $results, $tax, $s );
+
 	echo implode( "\n", $results );
 	wp_die();
 }
