@@ -6,7 +6,7 @@
  * @subpackage Administration
  */
 
-global $post, $editor_styles;
+global $editor_styles;
 
 /** WordPress Administration Bootstrap */
 require_once __DIR__ . '/admin.php';
@@ -120,7 +120,7 @@ wp_add_inline_script(
 
 wp_add_inline_script(
 	'wp-blocks',
-	sprintf( 'wp.blocks.setCategories( %s );', wp_json_encode( get_block_categories( $post ) ) ),
+	sprintf( 'wp.blocks.setCategories( %s );', wp_json_encode( isset( $editor_settings['blockCategories'] ) ? $editor_settings['blockCategories'] : array() ) ),
 	'after'
 );
 
