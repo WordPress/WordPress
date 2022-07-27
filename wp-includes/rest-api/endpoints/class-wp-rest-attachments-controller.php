@@ -783,6 +783,15 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 					}
 
 					$size_data['source_url'] = $image_src[0];
+
+					if ( empty( $size_data['sources'] ) || ! is_array( $size_data['sources'] ) ) {
+						continue;
+					}
+
+					$image_url_basename = wp_basename( $image_src[0] );
+					foreach ( $size_data['sources'] as $mime => &$mime_details ) {
+						$mime_details['source_url'] = str_replace( $image_url_basename, $mime_details['file'], $image_src[0] );
+					}
 				}
 
 				$full_src = wp_get_attachment_image_src( $post->ID, 'full' );
@@ -795,6 +804,15 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 						'mime_type'  => $post->post_mime_type,
 						'source_url' => $full_src[0],
 					);
+
+					if ( ! empty( $data['media_details']['sources'] ) ) {
+						$full_url_basename = wp_basename( $full_src[0] );
+						foreach ( $data['media_details']['sources'] as $mime => &$mime_details ) {
+							$mime_details['source_url'] = str_replace( $full_url_basename, $mime_details['file'], $full_src[0] );
+						}
+						$data['media_details']['sizes']['full']['sources'] = $data['media_details']['sources'];
+						unset( $data['media_details']['sources'] );
+					}
 				}
 			} else {
 				$data['media_details']['sizes'] = new stdClass;
