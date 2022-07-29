@@ -2288,7 +2288,8 @@ function wp_list_comments( $args = array(), $comments = null ) {
  *     }
  *     @type string $comment_field        The comment textarea field HTML.
  *     @type string $must_log_in          HTML element for a 'must be logged in to comment' message.
- *     @type string $logged_in_as         HTML element for a 'logged in as [user]' message.
+ *     @type string $logged_in_as         The HTML for the 'logged in as [user]' message, the Edit profile link,
+ *                                        and the Log out link.
  *     @type string $comment_notes_before HTML element for a message displayed before the comment fields
  *                                        if the user is not logged in.
  *                                        Default 'Your email address will not be published.'.
@@ -2457,12 +2458,10 @@ function comment_form( $args = array(), $post = null ) {
 		'logged_in_as'         => sprintf(
 			'<p class="logged-in-as">%s%s</p>',
 			sprintf(
-				/* translators: 1: Edit user link, 2: Accessibility text, 3: User name, 4: Logout URL. */
-				__( '<a href="%1$s" aria-label="%2$s">Logged in as %3$s</a>. <a href="%4$s">Log out?</a>' ),
-				get_edit_user_link(),
-				/* translators: %s: User name. */
-				esc_attr( sprintf( __( 'Logged in as %s. Edit your profile.' ), $user_identity ) ),
+				/* translators: 1: User name, 2: Edit user link, 3: Logout URL. */
+				__( 'Logged in as %1$s. <a href="%2$s">Edit your profile</a>. <a href="%3$s">Log out?</a>' ),
 				$user_identity,
+				get_edit_user_link(),
 				/** This filter is documented in wp-includes/link-template.php */
 				wp_logout_url( apply_filters( 'the_permalink', get_permalink( $post_id ), $post_id ) )
 			),
@@ -2578,7 +2577,8 @@ function comment_form( $args = array(), $post = null ) {
 				 *
 				 * @since 3.0.0
 				 *
-				 * @param string $args_logged_in The logged-in-as HTML-formatted message.
+				 * @param string $args_logged_in The HTML for the 'logged in as [user]' message,
+				 *                               the Edit profile link, and the Log out link.
 				 * @param array  $commenter      An array containing the comment author's
 				 *                               username, email, and URL.
 				 * @param string $user_identity  If the commenter is a registered user,
