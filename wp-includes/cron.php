@@ -119,9 +119,6 @@ function wp_schedule_single_event( $timestamp, $hook, $args = array(), $wp_error
 	 * are considered duplicates.
 	 */
 	$crons = _get_cron_array();
-	if ( ! is_array( $crons ) ) {
-		$crons = array();
-	}
 
 	$key       = md5( serialize( $event->args ) );
 	$duplicate = false;
@@ -306,9 +303,6 @@ function wp_schedule_event( $timestamp, $recurrence, $hook, $args = array(), $wp
 	$key = md5( serialize( $event->args ) );
 
 	$crons = _get_cron_array();
-	if ( ! is_array( $crons ) ) {
-		$crons = array();
-	}
 
 	$crons[ $event->timestamp ][ $event->hook ][ $key ] = array(
 		'schedule' => $event->schedule,
@@ -1133,9 +1127,6 @@ function wp_get_ready_cron_jobs() {
 	}
 
 	$crons = _get_cron_array();
-	if ( ! is_array( $crons ) ) {
-		return array();
-	}
 
 	$gmt_time = microtime( true );
 	$keys     = array_keys( $crons );
@@ -1162,14 +1153,15 @@ function wp_get_ready_cron_jobs() {
  * Retrieve cron info array option.
  *
  * @since 2.1.0
+ * @since 6.1.0 Return type modified to consistenty return an array.
  * @access private
  *
- * @return array[]|false Array of cron info arrays on success, false on failure.
+ * @return array[] Array of cron events.
  */
 function _get_cron_array() {
 	$cron = get_option( 'cron' );
 	if ( ! is_array( $cron ) ) {
-		return false;
+		return array();
 	}
 
 	if ( ! isset( $cron['version'] ) ) {
