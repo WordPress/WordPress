@@ -7,7 +7,7 @@
  */
 
 /**
- * Retrieve list of importers.
+ * Retrieves the list of importers.
  *
  * @since 2.0.0
  *
@@ -23,7 +23,7 @@ function get_importers() {
 }
 
 /**
- * Sorts a multidimensional array by first member of each top level member
+ * Sorts a multidimensional array by first member of each top level member.
  *
  * Used by uasort() as a callback, should not be used directly.
  *
@@ -39,7 +39,7 @@ function _usort_by_first_member( $a, $b ) {
 }
 
 /**
- * Register importer for WordPress.
+ * Registers importer for WordPress.
  *
  * @since 2.0.0
  *
@@ -73,11 +73,11 @@ function wp_import_cleanup( $id ) {
 }
 
 /**
- * Handle importer uploading and add attachment.
+ * Handles importer uploading and adds attachment.
  *
  * @since 2.0.0
  *
- * @return array Uploaded file's details on success, error message on failure
+ * @return array Uploaded file's details on success, error message on failure.
  */
 function wp_import_handle_upload() {
 	if ( ! isset( $_FILES['import'] ) ) {
