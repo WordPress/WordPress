@@ -3933,19 +3933,6 @@ div.comment:first-of-type {
 	text-align: center;
 }
 
-.comment-respond .comment-notes a,
-.comment-respond .logged-in-as a {
-	color: inherit;
-	text-decoration: none;
-}
-
-.comment-respond .comment-notes a:focus,
-.comment-respond .comment-notes a:hover,
-.comment-respond .logged-in-as a:focus,
-.comment-respond .logged-in-as a:hover {
-	text-decoration: underline;
-}
-
 .comment-respond p {
 	line-height: 1.1;
 	margin-bottom: 2rem;
