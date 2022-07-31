@@ -30,6 +30,9 @@ global $wp_filter;
 /** @var int[] $wp_actions */
 global $wp_actions;
 
+/** @var int[] $wp_filters */
+global $wp_filters;
+
 /** @var string[] $wp_current_filter */
 global $wp_current_filter;
 
@@ -41,6 +44,10 @@ if ( $wp_filter ) {
 
 if ( ! isset( $wp_actions ) ) {
 	$wp_actions = array();
+}
+
+if ( ! isset( $wp_filters ) ) {
+	$wp_filters = array();
 }
 
 if ( ! isset( $wp_current_filter ) ) {
@@ -155,6 +162,7 @@ function add_filter( $hook_name, $callback, $priority = 10, $accepted_args = 1 )
  *              by adding it to the function signature.
  *
  * @global WP_Hook[] $wp_filter         Stores all of the filters and actions.
+ * @global int[]     $wp_filters        Stores the number of times each filter was triggered.
  * @global string[]  $wp_current_filter Stores the list of current filters with the current one last.
  *
  * @param string $hook_name The name of the filter hook.
@@ -163,7 +171,13 @@ function add_filter( $hook_name, $callback, $priority = 10, $accepted_args = 1 )
  * @return mixed The filtered value after all hooked functions are applied to it.
  */
 function apply_filters( $hook_name, $value, ...$args ) {
-	global $wp_filter, $wp_current_filter;
+	global $wp_filter, $wp_filters, $wp_current_filter;
+
+	if ( ! isset( $wp_filters[ $hook_name ] ) ) {
+		$wp_filters[ $hook_name ] = 1;
+	} else {
+		++$wp_filters[ $hook_name ];
+	}
 
 	// Do 'all' actions first.
 	if ( isset( $wp_filter['all'] ) ) {
@@ -204,6 +218,7 @@ function apply_filters( $hook_name, $value, ...$args ) {
  *                      functions hooked to `$hook_name` are supplied using an array.
  *
  * @global WP_Hook[] $wp_filter         Stores all of the filters and actions.
+ * @global int[]     $wp_filters        Stores the number of times each filter was triggered.
  * @global string[]  $wp_current_filter Stores the list of current filters with the current one last.
  *
  * @param string $hook_name The name of the filter hook.
@@ -211,7 +226,13 @@ function apply_filters( $hook_name, $value, ...$args ) {
  * @return mixed The filtered value after all hooked functions are applied to it.
  */
 function apply_filters_ref_array( $hook_name, $args ) {
-	global $wp_filter, $wp_current_filter;
+	global $wp_filter, $wp_filters, $wp_current_filter;
+
+	if ( ! isset( $wp_filters[ $hook_name ] ) ) {
+		$wp_filters[ $hook_name ] = 1;
+	} else {
+		++$wp_filters[ $hook_name ];
+	}
 
 	// Do 'all' actions first.
 	if ( isset( $wp_filter['all'] ) ) {
@@ -375,6 +396,26 @@ function doing_filter( $hook_name = null ) {
 	}
 
 	return in_array( $hook_name, $wp_current_filter, true );
+}
+
+/**
+ * Retrieves the number of times a filter has been applied during the current request.
+ *
+ * @since 6.1.0
+ *
+ * @global int[] $wp_filters Stores the number of times each filter was triggered.
+ *
+ * @param string $hook_name The name of the filter hook.
+ * @return int The number of times the filter hook has been applied.
+ */
+function did_filter( $hook_name ) {
+	global $wp_filters;
+
+	if ( ! isset( $wp_filters[ $hook_name ] ) ) {
+		return 0;
+	}
+
+	return $wp_filters[ $hook_name ];
 }
 
 /**
