@@ -370,9 +370,9 @@ function current_filter() {
 /**
  * Returns whether or not a filter hook is currently being processed.
  *
- * The function current_filter() only returns the most recent filter or action
- * being executed. did_action() returns true once the action is initially
- * processed.
+ * The function current_filter() only returns the most recent filter being executed.
+ * did_filter() returns the number of times a filter has been applied during
+ * the current request.
  *
  * This function allows detection for any filter currently being executed
  * (regardless of whether it's the most recent filter to fire, in the case of
@@ -381,7 +381,7 @@ function current_filter() {
  * @since 3.9.0
  *
  * @see current_filter()
- * @see did_action()
+ * @see did_filter()
  * @global string[] $wp_current_filter Current filter.
  *
  * @param string|null $hook_name Optional. Filter hook to check. Defaults to null,
@@ -641,7 +641,18 @@ function current_action() {
 /**
  * Returns whether or not an action hook is currently being processed.
  *
+ * The function current_action() only returns the most recent action being executed.
+ * did_action() returns the number of times an action has been fired during
+ * the current request.
+ *
+ * This function allows detection for any action currently being executed
+ * (regardless of whether it's the most recent action to fire, in the case of
+ * hooks called from hook callbacks) to be verified.
+ *
  * @since 3.9.0
+ *
+ * @see current_action()
+ * @see did_action()
  *
  * @param string|null $hook_name Optional. Action hook to check. Defaults to null,
  *                               which checks if any action is currently being run.
