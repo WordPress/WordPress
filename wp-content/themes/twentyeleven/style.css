@@ -2240,7 +2240,10 @@ a.comment-reply-link > span {
 	font-size: 22px;
 	font-weight: bold;
 }
-#respond .comment-form label .required {
+#respond .comment-form-author .required,
+#respond .comment-form-email .required,
+#respond .comment-form-url .required,
+#respond .comment-form-comment .required {
 	float: right;
 	margin-left: 4px;
 }
@@ -2615,10 +2618,6 @@ p.comment-form-comment {
 	/* Use the available space in the smaller comment form */
 	#respond input[type="text"] {
 		width: 95%;
-	}
-	#respond .comment-form-author .required,
-	#respond .comment-form-email .required {
-		left: 95%;
 	}
 	#content .gallery-columns-3 .gallery-item {
 		width: 31%;
