@@ -428,7 +428,7 @@ class WP_Site_Health {
 					'<p>%s</p>',
 					__( 'Your site has 1 active plugin, and it is up to date.' )
 				);
-			} else {
+			} elseif ( $plugins_active > 0 )  {
 				$result['description'] .= sprintf(
 					'<p>%s</p>',
 					sprintf(
@@ -440,6 +440,11 @@ class WP_Site_Health {
 						),
 						$plugins_active
 					)
+				);
+			} else {
+				$result['description'] .= sprintf(
+					'<p>%s</p>',
+					__( 'Your site does not have any active plugins.' )
 				);
 			}
 		}
@@ -591,7 +596,7 @@ class WP_Site_Health {
 					'<p>%s</p>',
 					__( 'Your site has 1 installed theme, and it is up to date.' )
 				);
-			} else {
+			} elseif ( $themes_total > 0 )  {
 				$result['description'] .= sprintf(
 					'<p>%s</p>',
 					sprintf(
@@ -603,6 +608,11 @@ class WP_Site_Health {
 						),
 						$themes_total
 					)
+				);
+			} else {
+				$result['description'] .= sprintf(
+					'<p>%s</p>',
+					__( 'Your site does not have any installed themes.' )
 				);
 			}
 		}
