@@ -66,9 +66,17 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 <td><input name="blogname" type="text" id="blogname" value="<?php form_option( 'blogname' ); ?>" class="regular-text" /></td>
 </tr>
 
+<?php
+/* translators: Site tagline. */
+$sample_tagline = __( 'Just another WordPress site' );
+if ( is_multisite() ) {
+	/* translators: %s: Network title. */
+	$sample_tagline = sprintf( __( 'Just another %s site' ), get_network()->site_name );
+}
+?>
 <tr>
 <th scope="row"><label for="blogdescription"><?php _e( 'Tagline' ); ?></label></th>
-<td><input name="blogdescription" type="text" id="blogdescription" aria-describedby="tagline-description" value="<?php form_option( 'blogdescription' ); ?>" class="regular-text" />
+<td><input name="blogdescription" type="text" id="blogdescription" aria-describedby="tagline-description" value="<?php form_option( 'blogdescription' ); ?>" class="regular-text" placeholder="<?php echo $sample_tagline; ?>" />
 <p class="description" id="tagline-description"><?php _e( 'In a few words, explain what this site is about.' ); ?></p></td>
 </tr>
 
