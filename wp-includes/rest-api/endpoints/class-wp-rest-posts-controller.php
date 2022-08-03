@@ -167,7 +167,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Override the result of the post password check for REST requested posts.
+	 * Overrides the result of the post password check for REST requested posts.
 	 *
 	 * Allow users to read the content of password protected posts if they have
 	 * previously passed a permission check or if they have the `edit_post` capability
@@ -441,7 +441,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Get the post, if the ID is valid.
+	 * Gets the post, if the ID is valid.
 	 *
 	 * @since 4.7.2
 	 *
@@ -1492,7 +1492,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Check whether the template is valid for the given post.
+	 * Checks whether the template is valid for the given post.
 	 *
 	 * @since 4.9.0
 	 *
@@ -2141,7 +2141,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Get the link relations available for the post and current user.
+	 * Gets the link relations available for the post and current user.
 	 *
 	 * @since 4.9.8
 	 *
@@ -2629,7 +2629,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Retrieve Link Description Objects that should be added to the Schema for the posts collection.
+	 * Retrieves Link Description Objects that should be added to the Schema for the posts collection.
 	 *
 	 * @since 4.9.8
 	 *
