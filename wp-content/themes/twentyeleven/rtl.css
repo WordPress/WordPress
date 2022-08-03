@@ -547,7 +547,6 @@ section.recent-posts .other-recent-posts .comments-link > span {
 		left: auto;
 		right: 2.2em;
 	}
-	/* Use the available space in the smaller comment form */
 	#content .gallery-columns-3 .gallery-item {
 		padding-right: 0;
 		padding-left:2%;
