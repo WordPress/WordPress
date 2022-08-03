@@ -428,7 +428,7 @@ class WP_Site_Health {
 					'<p>%s</p>',
 					__( 'Your site has 1 active plugin, and it is up to date.' )
 				);
-			} elseif ( $plugins_active > 0 )  {
+			} elseif ( $plugins_active > 0 ) {
 				$result['description'] .= sprintf(
 					'<p>%s</p>',
 					sprintf(
@@ -596,7 +596,7 @@ class WP_Site_Health {
 					'<p>%s</p>',
 					__( 'Your site has 1 installed theme, and it is up to date.' )
 				);
-			} elseif ( $themes_total > 0 )  {
+			} elseif ( $themes_total > 0 ) {
 				$result['description'] .= sprintf(
 					'<p>%s</p>',
 					sprintf(
