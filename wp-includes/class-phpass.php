@@ -241,10 +241,14 @@ class PasswordHash {
 		if ($hash[0] === '*')
 			$hash = crypt($password, $stored_hash);
 
-		# This is not constant-time.  In order to keep the code simple,
-		# for timing safety we currently rely on the salts being
-		# unpredictable, which they are at least in the non-fallback
-		# cases (that is, when we use /dev/urandom and bcrypt).
-		return $hash === $stored_hash;
+		if(PHP_VERSION_ID >= 50600){
+			return hash_equals($stored_hash, $hash);
+		} else {
+			# This is not constant-time.  In order to keep the code simple,
+			# for timing safety we currently rely on the salts being
+			# unpredictable, which they are at least in the non-fallback
+			# cases (that is, when we use /dev/urandom and bcrypt).
+			return $hash === $stored_hash;
+		}
 	}
 }
