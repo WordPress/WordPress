@@ -731,7 +731,28 @@ function wp_start_object_cache() {
 	}
 
 	if ( function_exists( 'wp_cache_add_global_groups' ) ) {
-		wp_cache_add_global_groups( array( 'users', 'userlogins', 'usermeta', 'user_meta', 'useremail', 'userslugs', 'site-transient', 'site-options', 'blog-lookup', 'blog-details', 'site-details', 'rss', 'global-posts', 'blog-id-cache', 'networks', 'sites', 'blog_meta' ) );
+		wp_cache_add_global_groups(
+			array(
+				'users',
+				'userlogins',
+				'usermeta',
+				'user_meta',
+				'useremail',
+				'userslugs',
+				'site-transient',
+				'site-options',
+				'blog-lookup',
+				'blog-details',
+				'rss',
+				'global-posts',
+				'blog-id-cache',
+				'networks',
+				'sites',
+				'site-details',
+				'blog_meta',
+			)
+		);
+
 		wp_cache_add_non_persistent_groups( array( 'counts', 'plugins' ) );
 	}
 
