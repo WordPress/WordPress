@@ -250,8 +250,8 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 				 *     The array of request data. All arguments are optional and may be empty.
 				 *
 				 *     @type string $app_name    The suggested name of the application.
-				 *     @type string $success_url The url the user will be redirected to after approving the application.
-				 *     @type string $reject_url  The url the user will be redirected to after rejecting the application.
+				 *     @type string $success_url The URL the user will be redirected to after approving the application.
+				 *     @type string $reject_url  The URL the user will be redirected to after rejecting the application.
 				 * }
 				 * @param WP_User $user The user authorizing the application.
 				 */

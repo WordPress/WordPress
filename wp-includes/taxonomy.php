@@ -3105,8 +3105,8 @@ function wp_unique_term_slug( $slug, $term ) {
  *
  * @param int          $term_id  The ID of the term.
  * @param string       $taxonomy The taxonomy of the term.
- * @param array|string $args {
- *     Optional. Array or string of arguments for updating a term.
+ * @param array        $args {
+ *     Optional. Array of arguments for updating a term.
  *
  *     @type string $alias_of    Slug of the term to make this term an alias of.
  *                               Default empty string. Accepts a term slug.

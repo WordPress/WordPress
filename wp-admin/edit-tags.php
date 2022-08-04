@@ -486,7 +486,7 @@ if ( $can_edit_terms ) {
 		 * @param array  $dropdown_args {
 		 *     An array of taxonomy parent drop-down arguments.
 		 *
-		 *     @type int|bool $hide_empty       Whether to hide terms not attached to any posts. Default 0|false.
+		 *     @type int|bool $hide_empty       Whether to hide terms not attached to any posts. Default 0.
 		 *     @type bool     $hide_if_empty    Whether to hide the drop-down if no terms exist. Default false.
 		 *     @type string   $taxonomy         The taxonomy slug.
 		 *     @type string   $name             Value of the name attribute to use for the drop-down select element.

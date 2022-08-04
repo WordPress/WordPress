@@ -4016,7 +4016,7 @@ function wp_get_shortlink( $id = 0, $context = 'post', $allow_slugs = true ) {
 	/**
 	 * Filters whether to preempt generating a shortlink for the given post.
 	 *
-	 * Returning a truthy value from the filter will effectively short-circuit
+	 * Returning a value other than false from the filter will short-circuit
 	 * the shortlink generation process, returning that value instead.
 	 *
 	 * @since 3.0.0

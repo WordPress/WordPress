@@ -665,7 +665,7 @@ class WP_Query {
 	 *                                                    excludes stickies from 'post__in'. Accepts 1|true, 0|false.
 	 *                                                    Default false.
 	 *     @type int             $m                       Combination YearMonth. Accepts any four-digit year and month
-	 *                                                    numbers 1-12. Default empty.
+	 *                                                    numbers 01-12. Default empty.
 	 *     @type string|string[] $meta_key                Meta key or keys to filter by.
 	 *     @type string|string[] $meta_value              Meta value or values to filter by.
 	 *     @type string          $meta_compare            MySQL operator used for comparing the meta value.

@@ -687,8 +687,8 @@ class WP_Http {
 	 *     then a numbered array is returned as the value of that header-key.
 	 *
 	 *     @type array            $response {
-	 *          @type int    $code    The response status code. Default 0.
-	 *          @type string $message The response message. Default empty.
+	 *         @type int    $code    The response status code. Default 0.
+	 *         @type string $message The response message. Default empty.
 	 *     }
 	 *     @type array            $newheaders The processed header data as a multidimensional array.
 	 *     @type WP_Http_Cookie[] $cookies    If the original headers contain the 'Set-Cookie' key,

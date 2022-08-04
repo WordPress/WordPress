@@ -895,6 +895,7 @@ if ( ! function_exists( 'wp_parse_auth_cookie' ) ) :
 	 * Parses a cookie into its components.
 	 *
 	 * @since 2.7.0
+	 * @since 4.0.0 The `$token` element was added to the return value.
 	 *
 	 * @param string $cookie Authentication cookie.
 	 * @param string $scheme Optional. The cookie scheme to use: 'auth', 'secure_auth', or 'logged_in'.

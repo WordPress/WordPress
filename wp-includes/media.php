@@ -4535,9 +4535,8 @@ function wp_enqueue_media( $args = array() ) {
 	 *
 	 * @link https://core.trac.wordpress.org/ticket/31071
 	 *
-	 * @param array|null $months An array of objects with `month` and `year`
-	 *                           properties, or `null` (or any other non-array value)
-	 *                           for default behavior.
+	 * @param stdClass[]|null $months An array of objects with `month` and `year`
+	 *                                properties, or `null` for default behavior.
 	 */
 	$months = apply_filters( 'media_library_months_with_files', null );
 	if ( ! is_array( $months ) ) {
