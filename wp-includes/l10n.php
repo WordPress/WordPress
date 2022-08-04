@@ -1,4 +1,7 @@
 <?php
+
+define( 'WP_l10n_CACHE_PREFIX', 'wp_l10n_' );
+
 /**
  * Core Translation API
  *
@@ -695,6 +698,31 @@ function translate_nooped_plural( $nooped_plural, $count, $domain = 'default' ) 
 }
 
 /**
+ * Load a .mo file from file previously processed by 
+ * the {@link https://developer.wordpress.org/reference/functions/load_textdomain/
+ * load_textdomain() function}.
+ * 
+ * @param string $domain Text domain. Unique identifier for retrieving translated strings.
+ * @return bool True on success, false on failure.
+ */
+function load_textdomain_from_cache( $domain ) {
+	return get_transient( WP_l10n_CACHE_PREFIX . $domain );
+}
+
+/**
+ * Cache a .mo file via transient API as previously processed by 
+ * the {@link https://developer.wordpress.org/reference/functions/load_textdomain/
+ * load_textdomain() function}.
+ * 
+ * @param string $domain Text domain. Unique identifier for retrieving translated strings.
+ * @param string $moobject A MO object
+ * @return bool True on success, false on failure.
+ */
+function cache_textdomain( $domain, $moobject ) {
+	return set_transient( WP_l10n_CACHE_PREFIX . $domain, $moobject, DAY_IN_SECONDS );
+}
+
+/**
  * Loads a .mo file into the text domain $domain.
  *
  * If the text domain already exists, the translations will be merged. If both
@@ -715,6 +743,14 @@ function translate_nooped_plural( $nooped_plural, $count, $domain = 'default' ) 
 function load_textdomain( $domain, $mofile ) {
 	global $l10n, $l10n_unloaded;
 
+	/**
+	 * Loads cached MO object for the given domain
+	 */
+	if ( $l10n_cached = load_textdomain_from_cache( $domain ) ) {
+		$l10n[ $domain ] = $l10n_cached;
+		return true;
+	}
+	
 	$l10n_unloaded = (array) $l10n_unloaded;
 
 	/**
@@ -771,6 +807,13 @@ function load_textdomain( $domain, $mofile ) {
 
 	$l10n[ $domain ] = &$mo;
 
+	/**
+	 * Caches the processed MO file so that it doesn't have to be processed by each request
+	 * @param string $domain Text domain. Unique identifier for retrieving translated strings.
+	 * @param string $mo MO object.
+	 */
+	cache_textdomain( $domain, $mo );
+	
 	return true;
 }
 
