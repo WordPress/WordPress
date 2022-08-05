@@ -2068,7 +2068,8 @@ function wp_update_custom_css_post( $css, $args = array() ) {
 			}
 
 			// Trigger creation of a revision. This should be removed once #30854 is resolved.
-			if ( 0 === count( wp_get_post_revisions( $r ) ) ) {
+			$revisions = wp_get_latest_revision_id_and_total_count( $r );
+			if ( ! is_wp_error( $revisions ) && 0 === $revisions['count'] ) {
 				wp_save_post_revision( $r );
 			}
 		}

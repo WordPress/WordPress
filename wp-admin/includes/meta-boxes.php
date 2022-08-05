@@ -1459,13 +1459,13 @@ function register_and_do_post_meta_boxes( $post ) {
 	$publish_callback_args = array( '__back_compat_meta_box' => true );
 
 	if ( post_type_supports( $post_type, 'revisions' ) && 'auto-draft' !== $post->post_status ) {
-		$revisions = wp_get_post_revisions( $post->ID, array( 'fields' => 'ids' ) );
+		$revisions = wp_get_latest_revision_id_and_total_count( $post->ID );
 
 		// We should aim to show the revisions meta box only when there are revisions.
-		if ( count( $revisions ) > 1 ) {
+		if ( ! is_wp_error( $revisions ) && $revisions['count'] > 1 ) {
 			$publish_callback_args = array(
-				'revisions_count'        => count( $revisions ),
-				'revision_id'            => reset( $revisions ),
+				'revisions_count'        => $revisions['count'],
+				'revision_id'            => $revisions['latest_id'],
 				'__back_compat_meta_box' => true,
 			);
 
