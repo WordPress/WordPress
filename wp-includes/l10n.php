@@ -743,13 +743,30 @@ function cache_textdomain( $domain, $moobject ) {
 function load_textdomain( $domain, $mofile ) {
 	global $l10n, $l10n_unloaded;
 
+
 	/**
-	 * Loads cached MO object for the given domain
+	 * Filters whether to use The Transients API to cache the locale. Caching can be disabled
+	 * by a plugin along with the filter load_textdomain_from_cache returning false
+	 *
+	 * @since 6.1.0
+	 *
 	 */
-	if ( $l10n_cached = load_textdomain_from_cache( $domain ) ) {
-		$l10n[ $domain ] = $l10n_cached;
-		return true;
+	if ( 
+		( 	has_filter( 'load_textdomain_from_cache' ) && 
+			apply_filters( 'load_textdomain_from_cache', true ) !== false 
+		) || 
+			has_filter( 'load_textdomain_from_cache' ) === false 
+		) 
+	{
+		/**
+		 * Loads cached MO object for the given domain
+		 */
+		if ( $l10n_cached = load_textdomain_from_cache( $domain ) ) {
+			$l10n[ $domain ] = $l10n_cached;
+			return true;
+		}
 	}
+
 	
 	$l10n_unloaded = (array) $l10n_unloaded;
 
