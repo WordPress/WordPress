@@ -533,11 +533,12 @@ function wp_get_post_revisions( $post = 0, $args = null ) {
  * @since 6.1.0
  *
  * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global $post.
- * @return WP_Error|array {
- *     Returns associative array with latest revision ID and total count.
+ * @return array|WP_Error {
+ *     Returns associative array with latest revision ID and total count,
+ *     or a WP_Error if the post does not exist or revisions are not enabled.
  *
- *     @type int $revision The latest revision post ID or 0 if no revisions exist.
- *     @type int $count    The total count of revisions for the given post.
+ *     @type int $latest_id The latest revision post ID or 0 if no revisions exist.
+ *     @type int $count     The total count of revisions for the given post.
  * }
  */
 function wp_get_latest_revision_id_and_total_count( $post = 0 ) {
@@ -567,14 +568,14 @@ function wp_get_latest_revision_id_and_total_count( $post = 0 ) {
 
 	if ( ! $revisions ) {
 		return array(
-			'revision' => 0,
-			'count'    => 0,
+			'latest_id' => 0,
+			'count'     => 0,
 		);
 	}
 
 	return array(
-		'revision' => $revisions[0],
-		'count'    => $revision_query->found_posts,
+		'latest_id' => $revisions[0],
+		'count'     => $revision_query->found_posts,
 	);
 }
 
