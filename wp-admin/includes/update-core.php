@@ -1306,6 +1306,20 @@ function update_core( $from, $to ) {
 						$result->get_error_message(),
 						substr( $result->get_error_data(), strlen( $wp_lang_dir ) )
 					);
+				} else {
+
+					/**
+					 * Fires after languages have been successfully updated by the 'update_core'.
+					 *
+					 * @since 6.1.0
+					 *
+					 * @param array The source and destinated directory which contains the files being updated
+					 */
+					do_action( 'languages_updated', [
+						'from' => $from . $distro . 'wp-content/languages/',
+						'to' => $wp_lang_dir
+					] );
+					
 				}
 			}
 		}

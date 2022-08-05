@@ -723,6 +723,16 @@ function cache_textdomain( $domain, $moobject ) {
 }
 
 /**
+ * Deletes cached l10n content for the given domain
+ * 
+ * @param string $domain Text domain. Unique identifier for retrieving translated strings.
+ * @return bool True on success, false on failure.
+ */
+function delete_cached_textdomain( $domain ) {
+	return set_transient( WP_l10n_CACHE_PREFIX . $domain );
+}
+
+/**
  * Loads a .mo file into the text domain $domain.
  *
  * If the text domain already exists, the translations will be merged. If both
