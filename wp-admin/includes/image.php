@@ -631,7 +631,7 @@ function _wp_make_subsizes( $new_sizes, $file, $image_meta, $attachment_id, $mim
 				if ( ! isset( $image_meta['sizes'][ $created_size_name ]['sources'] ) ) {
 					$image_meta['sizes'][ $created_size_name ]['sources'] = array();
 				}
-				$image_meta['sizes'][ $created_size_name ]['sources'][ $mime_type ] = _wp_get_sources_from_meta( $new_size_meta );
+				$image_meta['sizes'][ $created_size_name ]['sources'][ $mime_type ] = _wp_get_sources_from_meta( $created_size_meta );
 			}
 			wp_update_attachment_metadata( $attachment_id, $image_meta );
 		}
