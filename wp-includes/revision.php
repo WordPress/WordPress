@@ -603,14 +603,13 @@ function wp_get_post_revisions_url( $post = 0 ) {
 		return null;
 	}
 
-	$revisions = wp_get_post_revisions( $post->ID, array( 'posts_per_page' => 1 ) );
+	$revisions = wp_get_latest_revision_id_and_total_count( $post->ID );
 
-	if ( 0 === count( $revisions ) ) {
+	if ( is_wp_error( $revisions ) || 0 === $revisions['count'] ) {
 		return null;
 	}
 
-	$revision = reset( $revisions );
-	return get_edit_post_link( $revision );
+	return get_edit_post_link( $revisions['latest_id'] );
 }
 
 /**
