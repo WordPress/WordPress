@@ -2535,7 +2535,7 @@
 
 			data = {
 				_ajax_nonce: wp.updates.ajaxNonce,
-				s:           event.target.value,
+				s:           encodeURIComponent( event.target.value ),
 				tab:         'search',
 				type:        $( '#typeselector' ).val(),
 				pagenow:     pagenow
@@ -2612,7 +2612,7 @@
 		$pluginSearch.on( 'keyup input', _.debounce( function( event ) {
 			var data = {
 				_ajax_nonce:   wp.updates.ajaxNonce,
-				s:             event.target.value,
+				s:             encodeURIComponent( event.target.value ),
 				pagenow:       pagenow,
 				plugin_status: 'all'
 			},
