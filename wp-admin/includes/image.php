@@ -341,11 +341,26 @@ function wp_create_image_subsizes( $file, $attachment_id ) {
 	wp_update_attachment_metadata( $attachment_id, $image_meta );
 
 	if ( ! empty( $additional_mime_types ) ) {
-		// Use the original file's exif_meta orientation information for secondary mime generation.
-		$saved_orientation                       = $image_meta['image_meta']['orientation'];
+		// Use the original file's exif_meta orientation and size information for secondary mime generation to ensure
+		// sub-sized images are correctly scaled and rotated.
+
+		// Save data.
+		$saved_meta                = array();
+		$saved_meta['orientation'] = $image_meta['image_meta']['orientation'];
+		$saved_meta['width']       = $image_meta['width'];
+		$saved_meta['height']      = $image_meta['height'];
+
+		// Temporarily set the image meta to the original file's meta.
 		$image_meta['image_meta']['orientation'] = $exif_meta['orientation'];
-		$image_meta                              = _wp_make_additional_mime_types( $additional_mime_types, $file, $image_meta, $attachment_id );
-		$image_meta['image_meta']['orientation'] = $saved_orientation;
+		$image_meta['width']                     = $imagesize[0];
+		$image_meta['height']                    = $imagesize[1];
+
+		$image_meta = _wp_make_additional_mime_types( $additional_mime_types, $file, $image_meta, $attachment_id );
+
+		// Restore the saved meta data.
+		$image_meta['image_meta']['orientation'] = $saved_meta['orientation'];
+		$image_meta['width']                     = $saved_meta['width'];
+		$image_meta['height']                    = $saved_meta['height'];
 
 	}
 
