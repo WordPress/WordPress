@@ -3,6 +3,16 @@
 define( 'WP_l10n_CACHE_PREFIX', 'wp_l10n_' );
 
 /**
+ * Fires after the core update, plugin or theme.
+ *
+ * @todo Not sure whether this is a correct place for calling the hooks, advice needed
+ * @since 6.1.0
+ *
+ */
+add_action( 'languages_updated', 'delete_cached_textdomains' );
+add_action( 'upgrader_process_complete', 'delete_cached_textdomains' );
+
+/**
  * Core Translation API
  *
  * @package WordPress
