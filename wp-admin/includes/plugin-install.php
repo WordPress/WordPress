@@ -827,7 +827,7 @@ function install_plugin_information() {
 			printf(
 				/* translators: %s: URL to WordPress Updates screen. */
 				' ' . __( '<a href="%s" target="_parent">Click here to update WordPress</a>.' ),
-				self_admin_url( 'update-core.php' )
+				esc_url( self_admin_url( 'update-core.php' ) )
 			);
 		}
 		echo '</p></div>';
