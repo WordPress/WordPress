@@ -3424,6 +3424,120 @@ function wp_resource_hints() {
 }
 
 /**
+ * Prints resource preloads directives to browsers.
+ *
+ * Gives directive to browsers to preload specific resources that website will
+ * need very soon, this ensures that they are available earlier and are less
+ * likely to block the page's render. Preload directives should not be used for
+ * non-render-blocking elements, as then they would compete with the
+ * render-blocking ones, slowing down the render.
+ *
+ * These performance improving indicators work by using `<link rel="preload">`.
+ *
+ * @link https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types/preload
+ * @link https://web.dev/preload-responsive-images/
+ *
+ * @since 6.1.0
+ */
+function wp_preload_resources() {
+	/**
+	 * Filters domains and URLs for resource preloads.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @param array  $preload_resources {
+	 *     Array of resources and their attributes, or URLs to print for resource preloads.
+	 *
+	 *     @type array ...$0 {
+	 *         Array of resource attributes.
+	 *
+	 *         @type string $href        URL to include in resource preloads. Required.
+	 *         @type string $as          How the browser should treat the resource
+	 *                                   (`script`, `style`, `image`, `document`, etc).
+	 *         @type string $crossorigin Indicates the CORS policy of the specified resource.
+	 *         @type string $type        Type of the resource (`text/html`, `text/css`, etc).
+	 *         @type string $media       Accepts media types or media queries. Allows responsive preloading.
+	 *         @type string $imagesizes  Responsive source size to the source Set.
+	 *         @type string $imagesrcset Responsive image sources to the source set.
+	 *     }
+	 * }
+	 */
+	$preload_resources = apply_filters( 'wp_preload_resources', array() );
+
+	if ( ! is_array( $preload_resources ) ) {
+		return;
+	}
+
+	$unique_resources = array();
+
+	// Parse the complete resource list and extract unique resources.
+	foreach ( $preload_resources as $resource ) {
+		if ( ! is_array( $resource ) ) {
+			continue;
+		}
+
+		$attributes = $resource;
+		if ( isset( $resource['href'] ) ) {
+			$href = $resource['href'];
+			if ( isset( $unique_resources[ $href ] ) ) {
+				continue;
+			}
+			$unique_resources[ $href ] = $attributes;
+			// Media can use imagesrcset and not href.
+		} elseif ( ( 'image' === $resource['as'] ) &&
+			( isset( $resource['imagesrcset'] ) || isset( $resource['imagesizes'] ) )
+		) {
+			if ( isset( $unique_resources[ $resource['imagesrcset'] ] ) ) {
+				continue;
+			}
+			$unique_resources[ $resource['imagesrcset'] ] = $attributes;
+		} else {
+			continue;
+		}
+	}
+
+	// Build and output the HTML for each unique resource.
+	foreach ( $unique_resources as $unique_resource ) {
+		$html = '';
+
+		foreach ( $unique_resource as $resource_key => $resource_value ) {
+			if ( ! is_scalar( $resource_value ) ) {
+				continue;
+			}
+
+			// Ignore non-supported attributes.
+			$non_supported_attributes = array( 'as', 'crossorigin', 'href', 'imagesrcset', 'imagesizes', 'type', 'media' );
+			if ( ! in_array( $resource_key, $non_supported_attributes, true ) && ! is_numeric( $resource_key ) ) {
+				continue;
+			}
+
+			// imagesrcset only usable when preloading image, ignore otherwise.
+			if ( ( 'imagesrcset' === $resource_key ) && ( ! isset( $unique_resource['as'] ) || ( 'image' !== $unique_resource['as'] ) ) ) {
+				continue;
+			}
+
+			// imagesizes only usable when preloading image and imagesrcset present, ignore otherwise.
+			if ( ( 'imagesizes' === $resource_key ) &&
+				( ! isset( $unique_resource['as'] ) || ( 'image' !== $unique_resource['as'] ) || ! isset( $unique_resource['imagesrcset'] ) )
+			) {
+				continue;
+			}
+
+			$resource_value = ( 'href' === $resource_key ) ? esc_url( $resource_value, array( 'http', 'https' ) ) : esc_attr( $resource_value );
+
+			if ( ! is_string( $resource_key ) ) {
+				$html .= " $resource_value";
+			} else {
+				$html .= " $resource_key='$resource_value'";
+			}
+		}
+		$html = trim( $html );
+
+		printf( "<link rel='preload' %s />\n", $html );
+	}
+}
+
+/**
  * Retrieves a list of unique hosts of all enqueued scripts and styles.
  *
  * @since 4.6.0
