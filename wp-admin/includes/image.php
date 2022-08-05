@@ -71,8 +71,8 @@ function wp_crop_image( $src, $src_x, $src_y, $src_w, $src_h, $dst_w, $dst_h, $s
 }
 
 /**
- * Compare the existing image sub-sizes (as saved in the attachment meta)
- * to the currently registered image sub-sizes, and return the difference.
+ * Compares the existing image sub-sizes (as saved in the attachment meta)
+ * to the currently registered image sub-sizes, and returns the difference.
  *
  * Registered sub-sizes that are larger than the image are skipped.
  *
@@ -728,13 +728,13 @@ function _wp_make_additional_mime_types( $new_mime_types, $file, $image_meta, $a
 
 
 /**
- * Check if an image belongs to an attachment.
+ * Checks if an image belongs to an attachment.
  *
  * @since 6.1.0
  * @access private
  *
- * @param string $filename     Full path to the image file.
- * @param int   $attachment_id Attachment ID to check.
+ * @param string $filename      Full path to the image file.
+ * @param int    $attachment_id Attachment ID to check.
  * @return bool True if the image belongs to the attachment, false otherwise.
  */
 function _wp_image_belongs_to_attachment( $filename, $attachment_id ) {
@@ -760,7 +760,7 @@ function _wp_image_belongs_to_attachment( $filename, $attachment_id ) {
 }
 
 /**
- * Generate attachment meta data and create image sub-sizes for images.
+ * Generates attachment meta data and create image sub-sizes for images.
  *
  * @since 2.1.0
  * @since 6.0.0 The `$filesize` value was added to the returned array.
@@ -845,9 +845,9 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 				 * @param array $uploaded         {
 				 *     Information about the newly-uploaded file.
 				 *
-				 *     @type string $file  Filename of the newly-uploaded file.
-				 *     @type string $url   URL of the uploaded file.
-				 *     @type string $type  File type.
+				 *     @type string $file Filename of the newly-uploaded file.
+				 *     @type string $url  URL of the uploaded file.
+				 *     @type string $type File type.
 				 * }
 				 */
 				$image_attachment = apply_filters( 'attachment_thumbnail_args', $image_attachment, $metadata, $uploaded );
@@ -944,7 +944,7 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 }
 
 /**
- * Convert a fraction string to a decimal.
+ * Converts a fraction string to a decimal.
  *
  * @since 2.5.0
  *
@@ -985,7 +985,7 @@ function wp_exif_frac2dec( $str ) {
 }
 
 /**
- * Convert the exif date format to a unix timestamp.
+ * Converts the exif date format to a unix timestamp.
  *
  * @since 2.5.0
  *
@@ -1000,7 +1000,7 @@ function wp_exif_date2ts( $str ) {
 }
 
 /**
- * Get extended image metadata, exif or iptc as available.
+ * Gets extended image metadata, exif or iptc as available.
  *
  * Retrieves the EXIF metadata aperture, credit, camera, caption, copyright, iso
  * created_timestamp, focal_length, shutter_speed, and title.
@@ -1234,7 +1234,7 @@ function wp_read_image_metadata( $file ) {
 }
 
 /**
- * Validate that file is an image.
+ * Validates that file is an image.
  *
  * @since 2.5.0
  *
@@ -1247,7 +1247,7 @@ function file_is_valid_image( $path ) {
 }
 
 /**
- * Validate that file is suitable for displaying within a web page.
+ * Validates that file is suitable for displaying within a web page.
  *
  * @since 2.5.0
  *
@@ -1278,7 +1278,7 @@ function file_is_displayable_image( $path ) {
 }
 
 /**
- * Load an image resource for editing.
+ * Loads an image resource for editing.
  *
  * @since 2.9.0
  *
@@ -1339,7 +1339,7 @@ function load_image_to_edit( $attachment_id, $mime_type, $size = 'full' ) {
 }
 
 /**
- * Retrieve the path or URL of an attachment's attached file.
+ * Retrieves the path or URL of an attachment's attached file.
  *
  * If the attached file is not present on the local filesystem (usually due to replication plugins),
  * then the URL of the file is returned if `allow_url_fopen` is supported.
@@ -1407,7 +1407,7 @@ function _load_image_to_edit_path( $attachment_id, $size = 'full' ) {
 }
 
 /**
- * Copy an existing image file.
+ * Copies an existing image file.
  *
  * @since 3.4.0
  * @access private
@@ -1454,7 +1454,7 @@ function _copy_image_file( $attachment_id ) {
  *
  * @since 6.1.0
  *
- * @param int    $attachment_id  The attachment ID.
+ * @param int    $attachment_id The attachment ID.
  * @return array An array of valid mime types, where the key is the source file mime type and the list of mime types to
  *               generate.
  */
@@ -1466,13 +1466,13 @@ function wp_upload_image_mime_transforms( $attachment_id ) {
 	$image_mime_transforms         = $default_image_mime_transforms;
 
 	/**
-	 * Filter the output mime types for a given input mime type and image size.
+	 * Filters the output mime types for a given input mime type and image size.
 	 *
 	 * @since 6.1.0
 	 *
-	 * @param array  $image_mime_transforms A map with the valid mime transforms where the key is the source file mime type
+	 * @param array $image_mime_transforms A map with the valid mime transforms where the key is the source file mime type
 	 *                                      and the value is one or more mime file types to generate.
-	 * @param int    $attachment_id         The ID of the attachment where the hook was dispatched.
+	 * @param int   $attachment_id         The ID of the attachment where the hook was dispatched.
 	 */
 	$image_mime_transforms = apply_filters( 'wp_upload_image_mime_transforms', $image_mime_transforms, $attachment_id );
 
@@ -1489,7 +1489,7 @@ function wp_upload_image_mime_transforms( $attachment_id ) {
 }
 
 /**
- * Extract the primary and additional mime output types for an image from the $image_mime_transforms.
+ * Extracts the primary and additional mime output types for an image from the $image_mime_transforms.
  *
  * @since 6.1.0
  * @access private
