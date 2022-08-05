@@ -719,17 +719,39 @@ function load_textdomain_from_cache( $domain ) {
  * @return bool True on success, false on failure.
  */
 function cache_textdomain( $domain, $moobject ) {
-	return set_transient( WP_l10n_CACHE_PREFIX . $domain, $moobject, DAY_IN_SECONDS );
+	
+	$option_name = WP_l10n_CACHE_PREFIX . 'domains_cached';
+	$key = WP_l10n_CACHE_PREFIX . $domain;
+	$keys = get_option( $option_name, [] );
+
+	// Save the domain cached so that it can be retrieved for clear_cache function
+	if ( in_array( $key, $keys ) === false ) {
+		if ( set_transient( WP_l10n_CACHE_PREFIX . $domain, $moobject, DAY_IN_SECONDS ) ) {
+			$keys[] = $key;
+			update_option( $option_name, $keys );
+		} else {
+			return false;
+		}
+	}
+
+	return true;
 }
 
 /**
- * Deletes cached l10n content for the given domain
+ * Deletes cached l10n content for all domains
  * 
- * @param string $domain Text domain. Unique identifier for retrieving translated strings.
- * @return bool True on success, false on failure.
+ * @return bool True on success, false if nothing to delete.
  */
-function delete_cached_textdomain( $domain ) {
-	return set_transient( WP_l10n_CACHE_PREFIX . $domain );
+function delete_cached_textdomains() {
+
+	$is_transient_cleared = false;
+	foreach ( get_option( WP_l10n_CACHE_PREFIX . 'domains_cached', [] ) as $key ) {
+		if ( delete_transient( $key ) ) {
+			$is_transient_cleared = true;
+		}
+	}
+
+	return $is_transient_cleared;
 }
 
 /**

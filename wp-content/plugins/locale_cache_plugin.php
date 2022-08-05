@@ -14,5 +14,5 @@ Author URI: http://itma.pl/
 
 
 add_filter( 'load_textdomain_from_cache', function() {
-    return false;
+    return true;
 }, 10 );
