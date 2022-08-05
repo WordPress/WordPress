@@ -726,39 +726,6 @@ function _wp_make_additional_mime_types( $new_mime_types, $file, $image_meta, $a
 	return $image_meta;
 }
 
-
-/**
- * Checks if an image belongs to an attachment.
- *
- * @since 6.1.0
- * @access private
- *
- * @param string $filename      Full path to the image file.
- * @param int    $attachment_id Attachment ID to check.
- * @return bool True if the image belongs to the attachment, false otherwise.
- */
-function _wp_image_belongs_to_attachment( $filename, $attachment_id ) {
-	$meta_data = wp_get_attachment_metadata( $attachment_id );
-
-	if ( ! isset( $image_meta['sizes'] ) ) {
-		return false;
-	}
-	$sizes = $image_meta['sizes'];
-	foreach ( $sizes as $size ) {
-		if ( $size['file'] === $filename ) {
-			return true;
-		}
-		if ( isset( $size['sources'] ) && is_array( $size['sources'] ) ) {
-			foreach ( $size['sources'] as $source ) {
-				if ( $source['file'] === $filename ) {
-					return true;
-				}
-			}
-		}
-	}
-	return false;
-}
-
 /**
  * Generates attachment meta data and create image sub-sizes for images.
  *
