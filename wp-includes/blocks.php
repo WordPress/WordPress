@@ -425,9 +425,12 @@ function unregister_block_type( $name ) {
 function has_blocks( $post = null ) {
 	if ( ! is_string( $post ) ) {
 		$wp_post = get_post( $post );
-		if ( $wp_post instanceof WP_Post ) {
-			$post = $wp_post->post_content;
+
+		if ( ! $wp_post instanceof WP_Post ) {
+			return false;
 		}
+
+		$post = $wp_post->post_content;
 	}
 
 	return false !== strpos( (string) $post, '<!-- wp:' );
