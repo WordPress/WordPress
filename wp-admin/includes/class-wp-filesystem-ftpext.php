@@ -412,8 +412,8 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	 * Checks if a file or directory exists.
 	 *
 	 * @since 2.5.0
-	 * @since 6.1.0 Rewrite using ftp_rawlist, uses 'LIST' on FTP server
-	 *              takes file path or directory path as parameter.
+	 * @since 6.1.0 Uses WP_Filesystem_FTPext::is_dir() to check for directory existence
+	 *              and ftp_rawlist() to check for file existence.
 	 *
 	 * @param string $file Path to file or directory.
 	 * @return bool Whether $file exists or not.
@@ -510,7 +510,8 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	 * Gets the file size (in bytes).
 	 *
 	 * @since 2.5.0
-	 * @since 6.1.0 Update for proper return values.
+	 * @since 6.1.0 Corrected the return value: while WP_Filesystem_Base::size()
+	 *              is documented to return false on failure, ftp_size() returns -1.
 	 *
 	 * @param string $file Path to file.
 	 * @return int Size of the file in bytes on success, -1 on failure.

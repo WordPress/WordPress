@@ -414,7 +414,8 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 	 * Checks if a file or directory exists.
 	 *
 	 * @since 2.5.0
-	 * @since 6.1.0 Rewrite using file size.
+	 * @since 6.1.0 Uses WP_Filesystem_ftpsockets::is_dir() to check for directory existence
+	 *              and file size to check for file existence.
 	 *
 	 * @param string $file Path to file or directory.
 	 * @return bool Whether $file exists or not.
