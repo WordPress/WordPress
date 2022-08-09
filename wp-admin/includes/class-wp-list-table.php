@@ -1108,7 +1108,10 @@ class WP_List_Table {
 	 */
 	protected function get_column_info() {
 		// $_column_headers is already set / cached.
-		if ( isset( $this->_column_headers ) && is_array( $this->_column_headers ) ) {
+		if (
+			isset( $this->_column_headers ) &&
+			is_array( $this->_column_headers )
+		) {
 			/*
 			 * Backward compatibility for `$_column_headers` format prior to WordPress 4.3.
 			 *
@@ -1116,12 +1119,18 @@ class WP_List_Table {
 			 * column headers property. This ensures the primary column name is included
 			 * in plugins setting the property directly in the three item format.
 			 */
+			if ( 4 === count( $this->_column_headers ) ) {
+				return $this->_column_headers;
+			}
+
 			$column_headers = array( array(), array(), array(), $this->get_primary_column_name() );
 			foreach ( $this->_column_headers as $key => $value ) {
 				$column_headers[ $key ] = $value;
 			}
 
-			return $column_headers;
+			$this->_column_headers = $column_headers;
+
+			return $this->_column_headers;
 		}
 
 		$columns = get_column_headers( $this->screen );
