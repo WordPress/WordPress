@@ -415,15 +415,15 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	 * @since 6.1.0 Uses WP_Filesystem_FTPext::is_dir() to check for directory existence
 	 *              and ftp_rawlist() to check for file existence.
 	 *
-	 * @param string $file Path to file or directory.
-	 * @return bool Whether $file exists or not.
+	 * @param string $path Path to file or directory.
+	 * @return bool Whether $path exists or not.
 	 */
-	public function exists( $file ) {
-		if ( $this->is_dir( $file ) ) {
+	public function exists( $path ) {
+		if ( $this->is_dir( $path ) ) {
 			return true;
 		}
 
-		return ! empty( ftp_rawlist( $this->link, $file ) );
+		return ! empty( ftp_rawlist( $this->link, $path ) );
 	}
 
 	/**
@@ -475,10 +475,10 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param string $file Path to file or directory.
-	 * @return bool Whether $file is writable.
+	 * @param string $path Path to file or directory.
+	 * @return bool Whether $path is writable.
 	 */
-	public function is_writable( $file ) {
+	public function is_writable( $path ) {
 		return true;
 	}
 
