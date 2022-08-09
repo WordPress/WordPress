@@ -1841,7 +1841,7 @@ function get_adjacent_post( $in_same_term = false, $excluded_terms = '', $previo
 	 *
 	 * @since 4.4.0
 	 *
-	 * @param array|string $excluded_terms Array of excluded term IDs. Empty string if none were provided.
+	 * @param int[]|string $excluded_terms Array of excluded term IDs. Empty string if none were provided.
 	 */
 	$excluded_terms = apply_filters( "get_{$adjacent}_post_excluded_terms", $excluded_terms );
 
@@ -1918,11 +1918,11 @@ function get_adjacent_post( $in_same_term = false, $excluded_terms = '', $previo
 	 * @since 2.5.0
 	 * @since 4.4.0 Added the `$taxonomy` and `$post` parameters.
 	 *
-	 * @param string  $join           The JOIN clause in the SQL.
-	 * @param bool    $in_same_term   Whether post should be in a same taxonomy term.
-	 * @param array   $excluded_terms Array of excluded term IDs.
-	 * @param string  $taxonomy       Taxonomy. Used to identify the term used when `$in_same_term` is true.
-	 * @param WP_Post $post           WP_Post object.
+	 * @param string       $join           The JOIN clause in the SQL.
+	 * @param bool         $in_same_term   Whether post should be in a same taxonomy term.
+	 * @param int[]|string $excluded_terms Array of excluded term IDs. Empty string if none were provided.
+	 * @param string       $taxonomy       Taxonomy. Used to identify the term used when `$in_same_term` is true.
+	 * @param WP_Post      $post           WP_Post object.
 	 */
 	$join = apply_filters( "get_{$adjacent}_post_join", $join, $in_same_term, $excluded_terms, $taxonomy, $post );
 
@@ -1940,11 +1940,11 @@ function get_adjacent_post( $in_same_term = false, $excluded_terms = '', $previo
 	 * @since 2.5.0
 	 * @since 4.4.0 Added the `$taxonomy` and `$post` parameters.
 	 *
-	 * @param string  $where          The `WHERE` clause in the SQL.
-	 * @param bool    $in_same_term   Whether post should be in a same taxonomy term.
-	 * @param array   $excluded_terms Array of excluded term IDs.
-	 * @param string  $taxonomy       Taxonomy. Used to identify the term used when `$in_same_term` is true.
-	 * @param WP_Post $post           WP_Post object.
+	 * @param string       $where          The `WHERE` clause in the SQL.
+	 * @param bool         $in_same_term   Whether post should be in a same taxonomy term.
+	 * @param int[]|string $excluded_terms Array of excluded term IDs. Empty string if none were provided.
+	 * @param string       $taxonomy       Taxonomy. Used to identify the term used when `$in_same_term` is true.
+	 * @param WP_Post      $post           WP_Post object.
 	 */
 	$where = apply_filters( "get_{$adjacent}_post_where", $wpdb->prepare( "WHERE p.post_date $op %s AND p.post_type = %s $where", $current_post_date, $post->post_type ), $in_same_term, $excluded_terms, $taxonomy, $post );
 
