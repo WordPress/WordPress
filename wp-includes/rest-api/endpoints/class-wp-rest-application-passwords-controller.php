@@ -719,7 +719,7 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller {
 			return $error;
 		}
 
-		if ( is_multisite() && ! is_user_member_of_blog( $user->ID ) ) {
+		if ( is_multisite() && ! user_can( $user->ID, 'manage_sites' ) && ! is_user_member_of_blog( $user->ID ) ) {
 			return $error;
 		}
 
