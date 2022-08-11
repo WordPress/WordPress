@@ -1141,6 +1141,19 @@ function wp_clone( $object ) {
 }
 
 /**
+ * Determines whether the current request is for the login screen.
+ *
+ * @since 6.1.0
+ *
+ * @see wp_login_url()
+ *
+ * @return bool True if inside WordPress login screen, false otherwise.
+ */
+function is_login_screen() {
+	return false !== stripos( wp_login_url(), $_SERVER['SCRIPT_NAME'] );
+}
+
+/**
  * Determines whether the current request is for an administrative interface page.
  *
  * Does not check if the user is an administrator; use current_user_can()
