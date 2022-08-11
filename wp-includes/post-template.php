@@ -1144,7 +1144,7 @@ function the_meta() {
  * @see get_pages()
  *
  * @param array|string $args {
- *     Optional. Array or string of arguments to generate a page dropdown. See `get_pages()` for additional arguments.
+ *     Optional. Array or string of arguments to generate a page dropdown. See get_pages() for additional arguments.
  *
  *     @type int          $depth                 Maximum depth. Default 0.
  *     @type int          $child_of              Page ID to retrieve child pages of. Default 0.
@@ -1236,7 +1236,7 @@ function wp_dropdown_pages( $args = '' ) {
  * @global WP_Query $wp_query WordPress Query object.
  *
  * @param array|string $args {
- *     Optional. Array or string of arguments to generate a list of pages. See `get_pages()` for additional arguments.
+ *     Optional. Array or string of arguments to generate a list of pages. See get_pages() for additional arguments.
  *
  *     @type int          $child_of     Display only the sub-pages of a single page by ID. Default 0 (all pages).
  *     @type string       $authors      Comma-separated list of author IDs. Default empty (all authors).
@@ -1367,7 +1367,7 @@ function wp_list_pages( $args = '' ) {
  * @since 4.7.0 Added the `item_spacing` argument.
  *
  * @param array|string $args {
- *     Optional. Array or string of arguments to generate a page menu. See `wp_list_pages()` for additional arguments.
+ *     Optional. Array or string of arguments to generate a page menu. See wp_list_pages() for additional arguments.
  *
  *     @type string          $sort_column  How to sort the list of pages. Accepts post column names.
  *                                         Default 'menu_order, post_title'.

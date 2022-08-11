@@ -127,7 +127,7 @@ function get_plugin_data( $plugin_file, $markup = true, $translate = true ) {
  * @access private
  *
  * @param string $plugin_file Path to the main plugin file.
- * @param array  $plugin_data An array of plugin data. See `get_plugin_data()`.
+ * @param array  $plugin_data An array of plugin data. See get_plugin_data().
  * @param bool   $markup      Optional. If the returned data should have HTML markup applied.
  *                            Default true.
  * @param bool   $translate   Optional. If the returned data should be translated. Default true.
@@ -269,7 +269,7 @@ function get_plugin_files( $plugin ) {
  * @since 1.5.0
  *
  * @param string $plugin_folder Optional. Relative path to single plugin folder.
- * @return array[] Array of arrays of plugin data, keyed by plugin file name. See `get_plugin_data()`.
+ * @return array[] Array of arrays of plugin data, keyed by plugin file name. See get_plugin_data().
  */
 function get_plugins( $plugin_folder = '' ) {
 
@@ -357,7 +357,7 @@ function get_plugins( $plugin_folder = '' ) {
  * WordPress only includes mu-plugin files in the base mu-plugins directory (wp-content/mu-plugins).
  *
  * @since 3.0.0
- * @return array[] Array of arrays of mu-plugin data, keyed by plugin file name. See `get_plugin_data()`.
+ * @return array[] Array of arrays of mu-plugin data, keyed by plugin file name. See get_plugin_data().
  */
 function get_mu_plugins() {
 	$wp_plugins   = array();
@@ -429,7 +429,7 @@ function _sort_uname_callback( $a, $b ) {
  * Checks the wp-content directory and retrieve all drop-ins with any plugin data.
  *
  * @since 3.0.0
- * @return array[] Array of arrays of dropin plugin data, keyed by plugin file name. See `get_plugin_data()`.
+ * @return array[] Array of arrays of dropin plugin data, keyed by plugin file name. See get_plugin_data().
  */
 function get_dropins() {
 	$dropins      = array();
