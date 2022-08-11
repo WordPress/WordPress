@@ -1213,10 +1213,10 @@ function count_users( $strategy = 'time', $site_id = null ) {
 	 *
 	 * @since 5.1.0
 	 *
-	 * @param null|string $result   The value to return instead. Default null to continue with the query.
-	 * @param string      $strategy Optional. The computational strategy to use when counting the users.
-	 *                              Accepts either 'time' or 'memory'. Default 'time'.
-	 * @param int|null    $site_id  Optional. The site ID to count users for. Defaults to the current site.
+	 * @param null|array $result   The value to return instead. Default null to continue with the query.
+	 * @param string     $strategy Optional. The computational strategy to use when counting the users.
+	 *                             Accepts either 'time' or 'memory'. Default 'time'.
+	 * @param int        $site_id  The site ID to count users for.
 	 */
 	$pre = apply_filters( 'pre_count_users', null, $strategy, $site_id );
 
@@ -3743,7 +3743,7 @@ function new_user_email_admin_notice() {
  * @since 4.9.6
  * @access private
  *
- * @return array List of core privacy action types.
+ * @return string[] List of core privacy action types.
  */
 function _wp_privacy_action_request_types() {
 	return array(
@@ -3757,8 +3757,8 @@ function _wp_privacy_action_request_types() {
  *
  * @since 4.9.6
  *
- * @param array $exporters  An array of personal data exporters.
- * @return array An array of personal data exporters.
+ * @param array[] $exporters An array of personal data exporters.
+ * @return array[] An array of personal data exporters.
  */
 function wp_register_user_personal_data_exporter( $exporters ) {
 	$exporters['wordpress-user'] = array(

@@ -159,9 +159,9 @@ function render_block_core_template_part( $attributes ) {
 }
 
 /**
- * Returns an array of variation objects for the template part block.
+ * Returns an array of variation arrays for the template part block.
  *
- * @return array Array containing the block variation objects.
+ * @return array[] Array containing the block variation data in an array.
  */
 function build_template_part_block_variations() {
 	$variations    = array();

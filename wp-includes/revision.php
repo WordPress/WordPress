@@ -17,7 +17,7 @@
  * @param array|WP_Post $post       Optional. A post array or a WP_Post object being processed
  *                                  for insertion as a post revision. Default empty array.
  * @param bool          $deprecated Not used.
- * @return array Array of fields that can be versioned.
+ * @return string[] Array of fields that can be versioned.
  */
 function _wp_post_revision_fields( $post = array(), $deprecated = false ) {
 	static $fields = null;
@@ -47,9 +47,9 @@ function _wp_post_revision_fields( $post = array(), $deprecated = false ) {
 	 * @since 2.6.0
 	 * @since 4.5.0 The `$post` parameter was added.
 	 *
-	 * @param array $fields List of fields to revision. Contains 'post_title',
-	 *                      'post_content', and 'post_excerpt' by default.
-	 * @param array $post   A post array being processed for insertion as a post revision.
+	 * @param string[] $fields List of fields to revision. Contains 'post_title',
+	 *                         'post_content', and 'post_excerpt' by default.
+	 * @param array    $post   A post array being processed for insertion as a post revision.
 	 */
 	$fields = apply_filters( '_wp_post_revision_fields', $fields, $post );
 
@@ -489,7 +489,7 @@ function wp_delete_post_revision( $revision ) {
  *
  * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global `$post`.
  * @param array|null  $args Optional. Arguments for retrieving post revisions. Default null.
- * @return array An array of revisions, or an empty array if none.
+ * @return WP_Post[]|int[] Array of revision objects or IDs, or an empty array if none.
  */
 function wp_get_post_revisions( $post = 0, $args = null ) {
 	$post = get_post( $post );

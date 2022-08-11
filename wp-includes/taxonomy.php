@@ -1856,8 +1856,8 @@ function sanitize_term_field( $field, $value, $term_id, $taxonomy, $context ) {
  *
  * @internal The `$deprecated` parameter is parsed for backward compatibility only.
  *
- * @param array|string $args       Optional. Array of arguments that get passed to get_terms().
- *                                 Default empty array.
+ * @param array|string $args       Optional. Array or string of arguments. See WP_Term_Query::__construct()
+ *                                 for information on accepted arguments. Default empty array.
  * @param array|string $deprecated Optional. Argument array, when using the legacy function parameter format.
  *                                 If present, this parameter will be interpreted as `$args`, and the first
  *                                 function parameter will be parsed as a taxonomy or array of taxonomies.
@@ -4700,7 +4700,7 @@ function the_taxonomies( $args = array() ) {
  *     @type string $term_template Template for displaying a single term in the list. Default is the term name
  *                                 linked to its archive.
  * }
- * @return array List of taxonomies.
+ * @return string[] List of taxonomies.
  */
 function get_the_taxonomies( $post = 0, $args = array() ) {
 	$post = get_post( $post );

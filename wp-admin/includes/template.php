@@ -1776,7 +1776,7 @@ function do_settings_fields( $page, $section ) {
  * @since 3.0.0
  * @since 5.3.0 Added `warning` and `info` as possible values for `$type`.
  *
- * @global array $wp_settings_errors Storage array of errors registered during this pageload
+ * @global array[] $wp_settings_errors Storage array of errors registered during this pageload
  *
  * @param string $setting Slug title of the setting to which this error applies.
  * @param string $code    Slug-name to identify the error. Used as part of 'id' attribute in HTML output.
@@ -1813,7 +1813,7 @@ function add_settings_error( $setting, $code, $message, $type = 'error' ) {
  *
  * @since 3.0.0
  *
- * @global array $wp_settings_errors Storage array of errors registered during this pageload
+ * @global array[] $wp_settings_errors Storage array of errors registered during this pageload
  *
  * @param string $setting  Optional. Slug title of a specific setting whose errors you want.
  * @param bool   $sanitize Optional. Whether to re-sanitize the setting value before returning errors.

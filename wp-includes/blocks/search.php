@@ -180,7 +180,7 @@ function classnames_for_block_core_search( $attributes ) {
  *
  * @param  array $attributes The block attributes.
  *
- * @return array Style HTML attribute.
+ * @return string[] Style HTML attributes.
  */
 function styles_for_block_core_search( $attributes ) {
 	$wrapper_styles   = array();

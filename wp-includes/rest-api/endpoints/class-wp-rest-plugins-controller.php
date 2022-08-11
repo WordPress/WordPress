@@ -571,7 +571,7 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @param mixed           $item    Unmarked up and untranslated plugin data from {@see get_plugin_data()}.
+	 * @param array           $item    Unmarked up and untranslated plugin data from {@see get_plugin_data()}.
 	 * @param WP_REST_Request $request Request object.
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */

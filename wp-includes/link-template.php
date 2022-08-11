@@ -4239,9 +4239,9 @@ function is_avatar_comment_type( $comment_type ) {
  * @return array {
  *     Along with the arguments passed in `$args`, this will contain a couple of extra arguments.
  *
- *     @type bool   $found_avatar True if we were able to find an avatar for this user,
- *                                false or not set if we couldn't.
- *     @type string $url          The URL of the avatar we found.
+ *     @type bool         $found_avatar True if an avatar was found for this user,
+ *                                      false or not set if none was found.
+ *     @type string|false $url          The URL of the avatar that was found, or false.
  * }
  */
 function get_avatar_data( $id_or_email, $args = null ) {
