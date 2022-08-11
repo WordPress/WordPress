@@ -1205,15 +1205,15 @@ function _set_cron_array( $cron, $wp_error = false ) {
 }
 
 /**
- * Upgrade a Cron info array.
+ * Upgrade a cron info array.
  *
- * This function upgrades the Cron info array to version 2.
+ * This function upgrades the cron info array to version 2.
  *
  * @since 2.1.0
  * @access private
  *
  * @param array $cron Cron info array from _get_cron_array().
- * @return array An upgraded Cron info array.
+ * @return array An upgraded cron info array.
  */
 function _upgrade_cron_array( $cron ) {
 	if ( isset( $cron['version'] ) && 2 == $cron['version'] ) {

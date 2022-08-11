@@ -72,6 +72,8 @@ class WP_Block_Supports {
 	 *
 	 * @since 5.6.0
 	 *
+	 * @link https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/
+	 *
 	 * @param string $block_support_name   Block support name.
 	 * @param array  $block_support_config Array containing the properties of the block support.
 	 */

@@ -4894,8 +4894,8 @@ function wp_array_slice_assoc( $array, $keys ) {
  *
  * @param array $array   An array from which we want to retrieve some information.
  * @param array $path    An array of keys describing the path with which to retrieve information.
- * @param mixed $default The return value if the path does not exist within the array,
- *                       or if `$array` or `$path` are not arrays.
+ * @param mixed $default Optional. The return value if the path does not exist within the array,
+ *                       or if `$array` or `$path` are not arrays. Default null.
  * @return mixed The value from the path specified.
  */
 function _wp_array_get( $array, $path, $default = null ) {
