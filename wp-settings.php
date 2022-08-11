@@ -152,6 +152,7 @@ if ( SHORTINIT ) {
 
 // Load the L10n library.
 require_once ABSPATH . WPINC . '/l10n.php';
+require_once ABSPATH . WPINC . '/class-wp-textdomain-registry.php';
 require_once ABSPATH . WPINC . '/class-wp-locale.php';
 require_once ABSPATH . WPINC . '/class-wp-locale-switcher.php';
 
@@ -333,6 +334,17 @@ require ABSPATH . WPINC . '/block-supports/spacing.php';
 require ABSPATH . WPINC . '/block-supports/typography.php';
 
 $GLOBALS['wp_embed'] = new WP_Embed();
+
+/**
+ * WordPress Textdomain Registry object.
+ *
+ * Used to support just-in-time translations for manually loaded text domains.
+ *
+ * @since 6.1.0
+ *
+ * @global WP_Textdomain_Registry $wp_textdomain_registry WordPress Textdomain Registry.
+ */
+$GLOBALS['wp_textdomain_registry'] = new WP_Textdomain_Registry();
 
 // Load multisite-specific files.
 if ( is_multisite() ) {

@@ -196,11 +196,14 @@ class WP_Locale_Switcher {
 		load_default_textdomain( $locale );
 
 		foreach ( $domains as $domain ) {
+			// The default text domain is handled by `load_default_textdomain()`.
 			if ( 'default' === $domain ) {
 				continue;
 			}
 
-			unload_textdomain( $domain );
+			// Unload current text domain but allow them to be reloaded
+			// after switching back or to another locale.
+			unload_textdomain( $domain, true );
 			get_translations_for_domain( $domain );
 		}
 	}
@@ -218,12 +221,11 @@ class WP_Locale_Switcher {
 	 * @param string $locale The locale to change to.
 	 */
 	private function change_locale( $locale ) {
-		// Reset translation availability information.
-		_get_path_to_translation( null, true );
+		global $wp_locale;
 
 		$this->load_translations( $locale );
 
-		$GLOBALS['wp_locale'] = new WP_Locale();
+		$wp_locale = new WP_Locale();
 
 		/**
 		 * Fires when the locale is switched to or restored.
