@@ -2354,8 +2354,9 @@ function comment_form( $args = array(), $post = null ) {
 	$required_attribute = ( $html5 ? ' required' : ' required="required"' );
 	$checked_attribute  = ( $html5 ? ' checked' : ' checked="checked"' );
 
-	// Identify required fields visually.
-	$required_indicator = ' <span class="required" aria-hidden="true">*</span>';
+	// Identify required fields visually and create a message about the indicator.
+	$required_indicator = ' ' . wp_required_field_indicator();
+	$required_text      = ' ' . wp_required_field_message();
 
 	$fields = array(
 		'author' => sprintf(
@@ -2419,12 +2420,6 @@ function comment_form( $args = array(), $post = null ) {
 			$args['fields']['cookies'] = $fields['cookies'];
 		}
 	}
-
-	$required_text = sprintf(
-		/* translators: %s: Asterisk symbol (*). */
-		' <span class="required-field-message" aria-hidden="true">' . __( 'Required fields are marked %s' ) . '</span>',
-		trim( $required_indicator )
-	);
 
 	/**
 	 * Filters the default comment form fields.

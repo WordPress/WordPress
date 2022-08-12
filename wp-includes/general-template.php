@@ -5022,6 +5022,38 @@ function __checked_selected_helper( $helper, $current, $echo, $type ) { // phpcs
 }
 
 /**
+ * Assigns a visual indicator for required form fields.
+ *
+ * @since 6.1.0
+ *
+ * @return string Indicator glyph wrapped in a `span` tag.
+ */
+function wp_required_field_indicator() {
+	/* translators: Character to identify required form fields. */
+	$glyph     = __( '*' );
+	$indicator = '<span class="required" aria-hidden="true">' . esc_html( $glyph ) . '</span>';
+
+	return $indicator;
+}
+
+/**
+ * Creates a message to explain required form fields.
+ *
+ * @since 6.1.0
+ *
+ * @return string Message text and glyph wrapped in a `span` tag.
+ */
+function wp_required_field_message() {
+	$message = sprintf(
+		'<span class="required-field-message" aria-hidden="true">%s</span>',
+		/* translators: %s: Asterisk symbol (*). */
+		sprintf( __( 'Required fields are marked %s' ), wp_required_field_indicator() )
+	);
+
+	return $message;
+}
+
+/**
  * Default settings for heartbeat.
  *
  * Outputs the nonce used in the heartbeat XHR.
