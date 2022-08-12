@@ -8,7 +8,7 @@
 require ABSPATH . WPINC . '/option.php';
 
 /**
- * Convert given MySQL date string into a different format.
+ * Converts given MySQL date string into a different format.
  *
  *  - `$format` should be a PHP date format string.
  *  - 'U' and 'G' formats will return an integer sum of timestamp with timezone offset.
@@ -408,7 +408,7 @@ function wp_maybe_decline_date( $date, $format = '' ) {
 }
 
 /**
- * Convert float number to format based on the locale.
+ * Converts float number to format based on the locale.
  *
  * @since 2.3.0
  *
@@ -498,7 +498,7 @@ function size_format( $bytes, $decimals = 0 ) {
 }
 
 /**
- * Convert a duration to human readable format.
+ * Converts a duration to human readable format.
  *
  * @since 5.1.0
  *
@@ -568,7 +568,7 @@ function human_readable_duration( $duration = '' ) {
 }
 
 /**
- * Get the week start and end from the datetime or date string from MySQL.
+ * Gets the week start and end from the datetime or date string from MySQL.
  *
  * @since 0.71
  *
@@ -614,7 +614,7 @@ function get_weekstartend( $mysqlstring, $start_of_week = '' ) {
 }
 
 /**
- * Serialize data, if needed.
+ * Serializes data, if needed.
  *
  * @since 2.0.5
  *
@@ -639,7 +639,7 @@ function maybe_serialize( $data ) {
 }
 
 /**
- * Unserialize data only if it was serialized.
+ * Unserializes data only if it was serialized.
  *
  * @since 2.0.0
  *
@@ -655,7 +655,7 @@ function maybe_unserialize( $data ) {
 }
 
 /**
- * Check value to find if it was serialized.
+ * Checks value to find if it was serialized.
  *
  * If $data is not a string, then returned value will always be false.
  * Serialized data is always a string.
@@ -727,7 +727,7 @@ function is_serialized( $data, $strict = true ) {
 }
 
 /**
- * Check whether serialized data is of string type.
+ * Checks whether serialized data is of string type.
  *
  * @since 2.0.5
  *
@@ -756,7 +756,7 @@ function is_serialized_string( $data ) {
 }
 
 /**
- * Retrieve post title from XMLRPC XML.
+ * Retrieves post title from XMLRPC XML.
  *
  * If the title element is not part of the XML, then the default post title from
  * the $post_default_title will be used instead.
@@ -779,7 +779,7 @@ function xmlrpc_getposttitle( $content ) {
 }
 
 /**
- * Retrieve the post category or categories from XMLRPC XML.
+ * Retrieves the post category or categories from XMLRPC XML.
  *
  * If the category element is not found, then the default post category will be
  * used. The return type then would be what $post_default_category. If the
@@ -819,7 +819,7 @@ function xmlrpc_removepostdata( $content ) {
 }
 
 /**
- * Use RegEx to extract URLs from arbitrary content.
+ * Uses RegEx to extract URLs from arbitrary content.
  *
  * @since 3.7.0
  * @since 6.0.0 Fixes support for HTML entities (Trac 30580).
@@ -861,7 +861,7 @@ function wp_extract_urls( $content ) {
 }
 
 /**
- * Check content for video and audio links to add as enclosures.
+ * Checks content for video and audio links to add as enclosures.
  *
  * Will not add enclosures that have already been added and will
  * remove enclosures that are no longer in the post. This is called as
@@ -972,7 +972,7 @@ function do_enclose( $content, $post ) {
 }
 
 /**
- * Retrieve HTTP Headers from URL.
+ * Retrieves HTTP Headers from URL.
  *
  * @since 1.5.1
  *
@@ -1020,7 +1020,7 @@ function is_new_day() {
 }
 
 /**
- * Build URL query based on an associative and, or indexed array.
+ * Builds URL query based on an associative and, or indexed array.
  *
  * This is a convenient function for easily building url queries. It sets the
  * separator to '&' and uses _http_build_query() function.
@@ -1316,7 +1316,7 @@ function wp_remote_fopen( $uri ) {
 }
 
 /**
- * Set up the WordPress query.
+ * Sets up the WordPress query.
  *
  * @since 2.0.0
  *
@@ -1337,7 +1337,7 @@ function wp( $query_vars = '' ) {
 }
 
 /**
- * Retrieve the description for the HTTP status.
+ * Retrieves the description for the HTTP status.
  *
  * @since 2.3.0
  * @since 3.9.0 Added status codes 418, 428, 429, 431, and 511.
@@ -1431,7 +1431,7 @@ function get_status_header_desc( $code ) {
 }
 
 /**
- * Set HTTP status header.
+ * Sets HTTP status header.
  *
  * @since 2.0.0
  * @since 4.4.0 Added the `$description` parameter.
@@ -1473,7 +1473,7 @@ function status_header( $code, $description = '' ) {
 }
 
 /**
- * Get the header information to prevent caching.
+ * Gets the header information to prevent caching.
  *
  * The several different headers cover the different ways cache prevention
  * is handled by different browsers
@@ -1510,7 +1510,7 @@ function wp_get_nocache_headers() {
 }
 
 /**
- * Set the headers to prevent caching for the different browsers.
+ * Sets the headers to prevent caching for the different browsers.
  *
  * Different browsers support different nocache headers, so several
  * headers must be sent so that all of them get the point that no
@@ -1537,7 +1537,7 @@ function nocache_headers() {
 }
 
 /**
- * Set the headers for caching for 10 days with JavaScript content type.
+ * Sets the headers for caching for 10 days with JavaScript content type.
  *
  * @since 2.1.0
  */
@@ -1550,7 +1550,7 @@ function cache_javascript_headers() {
 }
 
 /**
- * Retrieve the number of database queries during the WordPress execution.
+ * Retrieves the number of database queries during the WordPress execution.
  *
  * @since 2.0.0
  *
@@ -1564,7 +1564,7 @@ function get_num_queries() {
 }
 
 /**
- * Whether input is yes or no.
+ * Determines whether input is yes or no.
  *
  * Must be 'y' to be true.
  *
@@ -1578,7 +1578,7 @@ function bool_from_yn( $yn ) {
 }
 
 /**
- * Load the feed template from the use of an action hook.
+ * Loads the feed template from the use of an action hook.
  *
  * If the feed action does not have a hook, then the function will die with a
  * message telling the visitor that the feed is not valid.
@@ -1627,7 +1627,7 @@ function do_feed() {
 }
 
 /**
- * Load the RDF RSS 0.91 Feed template.
+ * Loads the RDF RSS 0.91 Feed template.
  *
  * @since 2.1.0
  *
@@ -1638,7 +1638,7 @@ function do_feed_rdf() {
 }
 
 /**
- * Load the RSS 1.0 Feed Template.
+ * Loads the RSS 1.0 Feed Template.
  *
  * @since 2.1.0
  *
@@ -1649,7 +1649,7 @@ function do_feed_rss() {
 }
 
 /**
- * Load either the RSS2 comment feed or the RSS2 posts feed.
+ * Loads either the RSS2 comment feed or the RSS2 posts feed.
  *
  * @since 2.1.0
  *
@@ -1666,7 +1666,7 @@ function do_feed_rss2( $for_comments ) {
 }
 
 /**
- * Load either Atom comment feed or Atom posts feed.
+ * Loads either Atom comment feed or Atom posts feed.
  *
  * @since 2.1.0
  *
@@ -1720,7 +1720,7 @@ function do_robots() {
 }
 
 /**
- * Display the favicon.ico file content.
+ * Displays the favicon.ico file content.
  *
  * @since 5.4.0
  */
@@ -1837,7 +1837,7 @@ function is_blog_installed() {
 }
 
 /**
- * Retrieve URL with nonce added to URL query.
+ * Retrieves URL with nonce added to URL query.
  *
  * @since 2.0.4
  *
@@ -1852,7 +1852,7 @@ function wp_nonce_url( $actionurl, $action = -1, $name = '_wpnonce' ) {
 }
 
 /**
- * Retrieve or display nonce hidden field for forms.
+ * Retrieves or display nonce hidden field for forms.
  *
  * The nonce field is used to validate that the contents of the form came from
  * the location on the current site and not somewhere else. The nonce does not
@@ -1893,7 +1893,7 @@ function wp_nonce_field( $action = -1, $name = '_wpnonce', $referer = true, $ech
 }
 
 /**
- * Retrieve or display referer hidden field for forms.
+ * Retrieves or displays referer hidden field for forms.
  *
  * The referer link is the current Request URI from the server super global. The
  * input name is '_wp_http_referer', in case you wanted to check manually.
@@ -1914,7 +1914,7 @@ function wp_referer_field( $echo = true ) {
 }
 
 /**
- * Retrieve or display original referer hidden field for forms.
+ * Retrieves or displays original referer hidden field for forms.
  *
  * The input name is '_wp_original_http_referer' and will be either the same
  * value of wp_referer_field(), if that was posted already or it will be the
@@ -1944,7 +1944,7 @@ function wp_original_referer_field( $echo = true, $jump_back_to = 'current' ) {
 }
 
 /**
- * Retrieve referer from '_wp_http_referer' or HTTP referer.
+ * Retrieves referer from '_wp_http_referer' or HTTP referer.
  *
  * If it's the same as the current request URL, will return false.
  *
@@ -1986,7 +1986,7 @@ function wp_get_raw_referer() {
 }
 
 /**
- * Retrieve original referer that was posted, if it exists.
+ * Retrieves original referer that was posted, if it exists.
  *
  * @since 2.0.4
  *
@@ -2078,7 +2078,7 @@ function wp_mkdir_p( $target ) {
 }
 
 /**
- * Test if a given filesystem path is absolute.
+ * Tests if a given filesystem path is absolute.
  *
  * For example, '/foo/bar', or 'c:\windows'.
  *
@@ -2118,7 +2118,7 @@ function path_is_absolute( $path ) {
 }
 
 /**
- * Join two filesystem paths together.
+ * Joins two filesystem paths together.
  *
  * For example, 'give me $path relative to $base'. If the $path is absolute,
  * then it the full path is returned.
@@ -2138,7 +2138,7 @@ function path_join( $base, $path ) {
 }
 
 /**
- * Normalize a filesystem path.
+ * Normalizes a filesystem path.
  *
  * On windows systems, replaces backslashes with forward slashes
  * and forces upper-case drive letters.
@@ -2177,7 +2177,7 @@ function wp_normalize_path( $path ) {
 }
 
 /**
- * Determine a writable directory for temporary files.
+ * Determines a writable directory for temporary files.
  *
  * Function's preference is the return value of sys_get_temp_dir(),
  * followed by your PHP temporary upload directory, followed by WP_CONTENT_DIR,
@@ -2221,7 +2221,7 @@ function get_temp_dir() {
 }
 
 /**
- * Determine if a directory is writable.
+ * Determines if a directory is writable.
  *
  * This function is used to work around certain ACL issues in PHP primarily
  * affecting Windows Servers.
@@ -2504,7 +2504,7 @@ function _wp_upload_dir( $time = null ) {
 }
 
 /**
- * Get a filename that is sanitized and unique for the given directory.
+ * Gets a filename that is sanitized and unique for the given directory.
  *
  * If the filename is not unique, then a number will be added to the filename
  * before the extension, and will continue adding numbers until the filename
@@ -2829,7 +2829,7 @@ function _wp_check_existing_file_names( $filename, $files ) {
 }
 
 /**
- * Create a file in the upload folder with given content.
+ * Creates a file in the upload folder with given content.
  *
  * If there is an error, then the key 'error' will exist with the error message.
  * If success, then the key 'file' will have the unique file path, the 'url' key
@@ -2959,7 +2959,7 @@ function wp_upload_bits( $name, $deprecated, $bits, $time = null ) {
 }
 
 /**
- * Retrieve the file type based on the extension name.
+ * Retrieves the file type based on the extension name.
  *
  * @since 2.5.0
  *
@@ -2998,7 +2998,7 @@ function wp_get_default_extension_for_mime_type( $mime_type ) {
 }
 
 /**
- * Retrieve the file type from the file name.
+ * Retrieves the file type from the file name.
  *
  * You can optionally define the mime array, if needed.
  *
@@ -3033,7 +3033,7 @@ function wp_check_filetype( $filename, $mimes = null ) {
 }
 
 /**
- * Attempt to determine the real file type of a file.
+ * Attempts to determine the real file type of a file.
  *
  * If unable to, the file name extension will be used to determine type.
  *
@@ -3315,7 +3315,7 @@ function wp_get_image_mime( $file ) {
 }
 
 /**
- * Retrieve list of mime types and file extensions.
+ * Retrieves the list of mime types and file extensions.
  *
  * @since 3.5.0
  * @since 4.2.0 Support was added for GIMP (.xcf) files.
@@ -3519,7 +3519,7 @@ function wp_filesize( $path ) {
 }
 
 /**
- * Retrieve list of allowed mime types and file extensions.
+ * Retrieves the list of allowed mime types and file extensions.
  *
  * @since 2.8.6
  *
@@ -3540,7 +3540,7 @@ function get_allowed_mime_types( $user = null ) {
 	}
 
 	/**
-	 * Filters list of allowed mime types and file extensions.
+	 * Filters the list of allowed mime types and file extensions.
 	 *
 	 * @since 2.0.0
 	 *
@@ -3551,7 +3551,7 @@ function get_allowed_mime_types( $user = null ) {
 }
 
 /**
- * Display "Are You Sure" message to confirm the action being taken.
+ * Displays "Are You Sure" message to confirm the action being taken.
  *
  * If the action has the nonce explain message, then it will be displayed
  * along with the "Are you sure?" message.
@@ -4234,7 +4234,7 @@ function _wp_die_process_input( $message, $title = '', $args = array() ) {
 }
 
 /**
- * Encode a variable into JSON, with some sanity checks.
+ * Encodes a variable into JSON, with some sanity checks.
  *
  * @since 4.1.0
  * @since 5.3.0 No longer handles support for PHP < 5.6.
@@ -4263,7 +4263,7 @@ function wp_json_encode( $data, $options = 0, $depth = 512 ) {
 }
 
 /**
- * Perform sanity checks on data that shall be encoded to JSON.
+ * Performs sanity checks on data that shall be encoded to JSON.
  *
  * @ignore
  * @since 4.1.0
@@ -4328,7 +4328,7 @@ function _wp_json_sanity_check( $data, $depth ) {
 }
 
 /**
- * Convert a string to UTF-8, so that it can be safely encoded to JSON.
+ * Converts a string to UTF-8, so that it can be safely encoded to JSON.
  *
  * @ignore
  * @since 4.1.0
@@ -4377,7 +4377,7 @@ function _wp_json_prepare_data( $data ) {
 }
 
 /**
- * Send a JSON response back to an Ajax request.
+ * Sends a JSON response back to an Ajax request.
  *
  * @since 3.5.0
  * @since 4.7.0 The `$status_code` parameter was added.
@@ -4425,7 +4425,7 @@ function wp_send_json( $response, $status_code = null, $options = 0 ) {
 }
 
 /**
- * Send a JSON response back to an Ajax request, indicating success.
+ * Sends a JSON response back to an Ajax request, indicating success.
  *
  * @since 3.5.0
  * @since 4.7.0 The `$status_code` parameter was added.
@@ -4446,7 +4446,7 @@ function wp_send_json_success( $data = null, $status_code = null, $options = 0 )
 }
 
 /**
- * Send a JSON response back to an Ajax request, indicating failure.
+ * Sends a JSON response back to an Ajax request, indicating failure.
  *
  * If the `$data` parameter is a WP_Error object, the errors
  * within the object are processed and output as an array of error
@@ -4557,7 +4557,7 @@ function wp_json_file_decode( $filename, $options = array() ) {
 }
 
 /**
- * Retrieve the WordPress home page URL.
+ * Retrieves the WordPress home page URL.
  *
  * If the constant named 'WP_HOME' exists, then it will be used and returned
  * by the function. This can be used to counter the redirection on your local
@@ -4579,7 +4579,7 @@ function _config_wp_home( $url = '' ) {
 }
 
 /**
- * Retrieve the WordPress site URL.
+ * Retrieves the WordPress site URL.
  *
  * If the constant named 'WP_SITEURL' is defined, then the value in that
  * constant will always be returned. This can be used for debugging a site
@@ -4601,7 +4601,7 @@ function _config_wp_siteurl( $url = '' ) {
 }
 
 /**
- * Delete the fresh site option.
+ * Deletes the fresh site option.
  *
  * @since 4.7.0
  * @access private
@@ -4611,7 +4611,7 @@ function _delete_option_fresh_site() {
 }
 
 /**
- * Set the localized direction for MCE plugin.
+ * Sets the localized direction for MCE plugin.
  *
  * Will only set the direction to 'rtl', if the WordPress locale has
  * the text direction set to 'rtl'.
@@ -4646,7 +4646,7 @@ function _mce_set_direction( $mce_init ) {
 
 
 /**
- * Convert smiley code to the icon graphic file equivalent.
+ * Converts smiley code to the icon graphic file equivalent.
  *
  * You can turn off smilies, by going to the write setting screen and unchecking
  * the box, or by setting 'use_smilies' option to false or removing the option.
@@ -4852,7 +4852,7 @@ function wp_parse_slug_list( $list ) {
 }
 
 /**
- * Extract a slice of an array, given a list of keys.
+ * Extracts a slice of an array, given a list of keys.
  *
  * @since 3.1.0
  *
@@ -5240,7 +5240,7 @@ function wp_maybe_load_widgets() {
 }
 
 /**
- * Append the Widgets menu to the themes main menu.
+ * Appends the Widgets menu to the themes main menu.
  *
  * @since 2.2.0
  * @since 5.9.3 Don't specify menu order when the active theme is a block theme.
@@ -5265,7 +5265,7 @@ function wp_widgets_add_menu() {
 }
 
 /**
- * Flush all output buffers for PHP 5.2.
+ * Flushes all output buffers for PHP 5.2.
  *
  * Make sure all output buffers are flushed before our singletons are destroyed.
  *
@@ -5279,7 +5279,7 @@ function wp_ob_end_flush_all() {
 }
 
 /**
- * Load custom DB error or display WordPress DB error.
+ * Loads custom DB error or display WordPress DB error.
  *
  * If a file exists in the wp-content directory named db-error.php, then it will
  * be loaded instead of displaying the WordPress DB error. If it is not found,
@@ -5317,7 +5317,7 @@ function dead_db() {
 }
 
 /**
- * Convert a value to non-negative integer.
+ * Converts a value to non-negative integer.
  *
  * @since 2.5.0
  *
@@ -5329,7 +5329,7 @@ function absint( $maybeint ) {
 }
 
 /**
- * Mark a function as deprecated and inform when it has been used.
+ * Marks a function as deprecated and inform when it has been used.
  *
  * There is a {@see 'hook deprecated_function_run'} that will be called that can be used
  * to get the backtrace up to what file and function called the deprecated
@@ -5514,7 +5514,7 @@ function _deprecated_constructor( $class, $version, $parent_class = '' ) {
 }
 
 /**
- * Mark a file as deprecated and inform when it has been used.
+ * Marks a file as deprecated and inform when it has been used.
  *
  * There is a hook {@see 'deprecated_file_included'} that will be called that can be used
  * to get the backtrace up to what file and function included the deprecated
@@ -5606,7 +5606,7 @@ function _deprecated_file( $file, $version, $replacement = '', $message = '' ) {
 	}
 }
 /**
- * Mark a function argument as deprecated and inform when it has been used.
+ * Marks a function argument as deprecated and inform when it has been used.
  *
  * This function is to be used whenever a deprecated function argument is used.
  * Before this function is called, the argument must be checked for whether it was
@@ -5770,7 +5770,7 @@ function _deprecated_hook( $hook, $version, $replacement = '', $message = '' ) {
 }
 
 /**
- * Mark something as being incorrectly called.
+ * Marks something as being incorrectly called.
  *
  * There is a hook {@see 'doing_it_wrong_run'} that will be called that can be used
  * to get the backtrace up to what file and function called the deprecated
@@ -5856,7 +5856,7 @@ function _doing_it_wrong( $function, $message, $version ) {
 }
 
 /**
- * Is the server running earlier than 1.5.0 version of lighttpd?
+ * Determines whether the server is running an earlier than 1.5.0 version of lighttpd.
  *
  * @since 2.5.0
  *
@@ -5870,7 +5870,7 @@ function is_lighttpd_before_150() {
 }
 
 /**
- * Does the specified module exist in the Apache config?
+ * Determines whether the specified module exist in the Apache config.
  *
  * @since 2.5.0
  *
@@ -5905,7 +5905,7 @@ function apache_mod_loaded( $mod, $default = false ) {
 }
 
 /**
- * Check if IIS 7+ supports pretty permalinks.
+ * Checks if IIS 7+ supports pretty permalinks.
  *
  * @since 2.8.0
  *
@@ -5989,7 +5989,7 @@ function validate_file( $file, $allowed_files = array() ) {
 }
 
 /**
- * Whether to force SSL used for the Administration Screens.
+ * Determines whether to force SSL used for the Administration Screens.
  *
  * @since 2.6.0
  *
@@ -6009,7 +6009,7 @@ function force_ssl_admin( $force = null ) {
 }
 
 /**
- * Guess the URL for the site.
+ * Guesses the URL for the site.
  *
  * Will remove wp-admin links to retrieve only return URLs not in the wp-admin
  * directory.
@@ -6058,7 +6058,7 @@ function wp_guess_url() {
 }
 
 /**
- * Temporarily suspend cache additions.
+ * Temporarily suspends cache additions.
  *
  * Stops more data being added to the cache, but still allows cache retrieval.
  * This is useful for actions, such as imports, when a lot of data would otherwise
@@ -6083,7 +6083,7 @@ function wp_suspend_cache_addition( $suspend = null ) {
 }
 
 /**
- * Suspend cache invalidation.
+ * Suspends cache invalidation.
  *
  * Turns cache invalidation on and off. Useful during imports where you don't want to do
  * invalidations every time a post is inserted. Callers must be sure that what they are
@@ -6105,7 +6105,7 @@ function wp_suspend_cache_invalidation( $suspend = true ) {
 }
 
 /**
- * Determine whether a site is the main site of the current network.
+ * Determines whether a site is the main site of the current network.
  *
  * @since 3.0.0
  * @since 4.9.0 The `$network_id` parameter was added.
@@ -6153,7 +6153,7 @@ function get_main_site_id( $network_id = null ) {
 }
 
 /**
- * Determine whether a network is the main network of the Multisite installation.
+ * Determines whether a network is the main network of the Multisite installation.
  *
  * @since 3.7.0
  *
@@ -6175,7 +6175,7 @@ function is_main_network( $network_id = null ) {
 }
 
 /**
- * Get the main network ID.
+ * Gets the main network ID.
  *
  * @since 4.3.0
  *
@@ -6214,7 +6214,7 @@ function get_main_network_id() {
 }
 
 /**
- * Determine whether global terms are enabled.
+ * Determines whether global terms are enabled.
  *
  * @since 3.0.0
  *
@@ -6281,7 +6281,7 @@ function is_site_meta_supported() {
 }
 
 /**
- * gmt_offset modification for smart timezone handling.
+ * Modifies gmt_offset for smart timezone handling.
  *
  * Overrides the gmt_offset option if we have a timezone_string available.
  *
@@ -6544,7 +6544,7 @@ function wp_timezone_choice( $selected_zone, $locale = null ) {
 }
 
 /**
- * Strip close comment and close php tags from file headers used by WP.
+ * Strips close comment and close php tags from file headers used by WP.
  *
  * @since 2.8.0
  * @access private
@@ -6559,7 +6559,7 @@ function _cleanup_header_comment( $str ) {
 }
 
 /**
- * Permanently delete comments or posts of any type that have held a status
+ * Permanently deletes comments or posts of any type that have held a status
  * of 'trash' for the number of days defined in EMPTY_TRASH_DAYS.
  *
  * The default value of `EMPTY_TRASH_DAYS` is 30 (days).
@@ -6611,7 +6611,7 @@ function wp_scheduled_delete() {
 }
 
 /**
- * Retrieve metadata from a file.
+ * Retrieves metadata from a file.
  *
  * Searches for metadata in the first 8 KB of a file, such as a plugin or theme.
  * Each piece of metadata must be on its own line. Fields can not span multiple
@@ -6755,7 +6755,7 @@ function __return_empty_string() { // phpcs:ignore WordPress.NamingConventions.V
 }
 
 /**
- * Send a HTTP header to disable content type sniffing in browsers which support it.
+ * Sends a HTTP header to disable content type sniffing in browsers which support it.
  *
  * @since 3.0.0
  *
@@ -6767,7 +6767,7 @@ function send_nosniff_header() {
 }
 
 /**
- * Return a MySQL expression for selecting the week number based on the start_of_week option.
+ * Returns a MySQL expression for selecting the week number based on the start_of_week option.
  *
  * @ignore
  * @since 3.0.0
@@ -6793,7 +6793,7 @@ function _wp_mysql_week( $column ) {
 }
 
 /**
- * Find hierarchy loops using a callback function that maps object IDs to parent IDs.
+ * Finds hierarchy loops using a callback function that maps object IDs to parent IDs.
  *
  * @since 3.1.0
  * @access private
@@ -6817,7 +6817,7 @@ function wp_find_hierarchy_loop( $callback, $start, $start_parent, $callback_arg
 }
 
 /**
- * Use the "The Tortoise and the Hare" algorithm to detect loops.
+ * Uses the "The Tortoise and the Hare" algorithm to detect loops.
  *
  * For every step of the algorithm, the hare takes two steps and the tortoise one.
  * If the hare ever laps the tortoise, there must be a loop.
@@ -6870,7 +6870,7 @@ function wp_find_hierarchy_loop_tortoise_hare( $callback, $start, $override = ar
 }
 
 /**
- * Send a HTTP header to limit rendering of pages to same origin iframes.
+ * Sends a HTTP header to limit rendering of pages to same origin iframes.
  *
  * @since 3.1.3
  *
@@ -6881,7 +6881,7 @@ function send_frame_options_header() {
 }
 
 /**
- * Retrieve a list of protocols to allow in HTML attributes.
+ * Retrieves a list of protocols to allow in HTML attributes.
  *
  * @since 3.3.0
  * @since 4.3.0 Added 'webcal' to the protocols array.
@@ -6979,7 +6979,7 @@ function wp_debug_backtrace_summary( $ignore_class = null, $skip_frames = 0, $pr
 }
 
 /**
- * Retrieve IDs that are not already present in the cache.
+ * Retrieves IDs that are not already present in the cache.
  *
  * @since 3.4.0
  * @access private
@@ -7002,7 +7002,7 @@ function _get_non_cached_ids( $object_ids, $cache_key ) {
 }
 
 /**
- * Test if the current device has the capability to upload files.
+ * Tests if the current device has the capability to upload files.
  *
  * @since 3.4.0
  * @access private
@@ -7026,7 +7026,7 @@ function _device_can_upload() {
 }
 
 /**
- * Test if a given path is a stream URL
+ * Tests if a given path is a stream URL
  *
  * @since 3.5.0
  *
@@ -7047,7 +7047,7 @@ function wp_is_stream( $path ) {
 }
 
 /**
- * Test if the supplied date is valid for the Gregorian calendar.
+ * Tests if the supplied date is valid for the Gregorian calendar.
  *
  * @since 3.5.0
  *
@@ -7072,7 +7072,7 @@ function wp_checkdate( $month, $day, $year, $source_date ) {
 }
 
 /**
- * Load the auth check for monitoring whether the user is still logged in.
+ * Loads the auth check for monitoring whether the user is still logged in.
  *
  * Can be disabled with remove_action( 'admin_enqueue_scripts', 'wp_auth_check_load' );
  *
@@ -7116,7 +7116,7 @@ function wp_auth_check_load() {
 }
 
 /**
- * Output the HTML that shows the wp-login dialog when the user is no longer logged in.
+ * Outputs the HTML that shows the wp-login dialog when the user is no longer logged in.
  *
  * @since 3.6.0
  */
@@ -7167,7 +7167,7 @@ function wp_auth_check_html() {
 }
 
 /**
- * Check whether a user is still logged in, for the heartbeat.
+ * Checks whether a user is still logged in, for the heartbeat.
  *
  * Send a result that shows a log-in box if the user is no longer logged in,
  * or if their cookie is within the grace period.
@@ -7185,7 +7185,7 @@ function wp_auth_check( $response ) {
 }
 
 /**
- * Return RegEx body to liberally match an opening HTML tag.
+ * Returns RegEx body to liberally match an opening HTML tag.
  *
  * Matches an opening HTML tag that:
  * 1. Is self-closing or
@@ -7208,7 +7208,7 @@ function get_tag_regex( $tag ) {
 }
 
 /**
- * Retrieve a canonical form of the provided charset appropriate for passing to PHP
+ * Retrieves a canonical form of the provided charset appropriate for passing to PHP
  * functions such as htmlspecialchars() and charset HTML attributes.
  *
  * @since 3.6.0
@@ -7234,7 +7234,7 @@ function _canonical_charset( $charset ) {
 }
 
 /**
- * Set the mbstring internal encoding to a binary safe encoding when func_overload
+ * Sets the mbstring internal encoding to a binary safe encoding when func_overload
  * is enabled.
  *
  * When mbstring.func_overload is in use for multi-byte encodings, the results from
@@ -7287,7 +7287,7 @@ function mbstring_binary_safe_encoding( $reset = false ) {
 }
 
 /**
- * Reset the mbstring internal encoding to a users previously set encoding.
+ * Resets the mbstring internal encoding to a users previously set encoding.
  *
  * @see mbstring_binary_safe_encoding()
  *
@@ -7298,7 +7298,7 @@ function reset_mbstring_encoding() {
 }
 
 /**
- * Filter/validate a variable as a boolean.
+ * Filters/validates a variable as a boolean.
  *
  * Alternative to `filter_var( $var, FILTER_VALIDATE_BOOLEAN )`.
  *
@@ -7320,7 +7320,7 @@ function wp_validate_boolean( $var ) {
 }
 
 /**
- * Delete a file
+ * Deletes a file.
  *
  * @since 4.2.0
  *
@@ -7537,7 +7537,7 @@ function wp_raise_memory_limit( $context = 'admin' ) {
 }
 
 /**
- * Generate a random UUID (version 4).
+ * Generates a random UUID (version 4).
  *
  * @since 4.7.0
  *
@@ -7624,7 +7624,7 @@ function wp_cache_get_last_changed( $group ) {
 }
 
 /**
- * Send an email to the old site admin email address when the site admin email address changes.
+ * Sends an email to the old site admin email address when the site admin email address changes.
  *
  * @since 4.9.0
  *
@@ -7721,7 +7721,7 @@ All at ###SITENAME###
 }
 
 /**
- * Return an anonymized IPv4 or IPv6 address.
+ * Returns an anonymized IPv4 or IPv6 address.
  *
  * @since 4.9.6 Abstracted from `WP_Community_Events::get_unsafe_client_ip()`.
  *
@@ -7795,7 +7795,7 @@ function wp_privacy_anonymize_ip( $ip_addr, $ipv6_fallback = false ) {
 }
 
 /**
- * Return uniform "anonymous" data by type.
+ * Returns uniform "anonymous" data by type.
  *
  * @since 4.9.6
  *
@@ -7894,7 +7894,7 @@ function wp_privacy_exports_url() {
 }
 
 /**
- * Schedule a `WP_Cron` job to delete expired export files.
+ * Schedules a `WP_Cron` job to delete expired export files.
  *
  * @since 4.9.6
  */
@@ -8082,7 +8082,7 @@ function wp_get_direct_php_update_url() {
 }
 
 /**
- * Display a button directly linking to a PHP update process.
+ * Displays a button directly linking to a PHP update process.
  *
  * This provides hosts with a way for users to be sent directly to their PHP update process.
  *
@@ -8194,7 +8194,7 @@ function wp_get_direct_update_https_url() {
 }
 
 /**
- * Get the size of a directory.
+ * Gets the size of a directory.
  *
  * A helper function that is used primarily to check whether
  * a blog has exceeded its allowed upload space.
@@ -8221,7 +8221,7 @@ function get_dirsize( $directory, $max_execution_time = null ) {
 }
 
 /**
- * Get the size of a directory recursively.
+ * Gets the size of a directory recursively.
  *
  * Used by get_dirsize() to get a directory size when it contains other directories.
  *
@@ -8237,7 +8237,6 @@ function get_dirsize( $directory, $max_execution_time = null ) {
  *                                            The timeout is global and is measured from the moment
  *                                            WordPress started to load.
  * @param array           $directory_cache    Optional. Array of cached directory paths.
- *
  * @return int|false|null Size in bytes if a valid directory. False if not. Null if timeout.
  */
 function recurse_dirsize( $directory, $exclude = null, $max_execution_time = null, &$directory_cache = null ) {
