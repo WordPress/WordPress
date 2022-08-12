@@ -657,10 +657,11 @@ function maybe_unserialize( $data ) {
 /**
  * Check value to find if it was serialized.
  *
- * If $data is not an string, then returned value will always be false.
+ * If $data is not a string, then returned value will always be false.
  * Serialized data is always a string.
  *
  * @since 2.0.5
+ * @since 6.1.0 Added Enum support.
  *
  * @param string $data   Value to check to see if was serialized.
  * @param bool   $strict Optional. Whether to be strict about the end of the string. Default true.
@@ -714,6 +715,7 @@ function is_serialized( $data, $strict = true ) {
 			// Or else fall through.
 		case 'a':
 		case 'O':
+		case 'E':
 			return (bool) preg_match( "/^{$token}:[0-9]+:/s", $data );
 		case 'b':
 		case 'i':
