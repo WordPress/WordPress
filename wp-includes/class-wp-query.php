@@ -792,29 +792,41 @@ class WP_Query {
 			$qv['p'] = (int) $qv['p'];
 		}
 
-		$qv['page_id']  = absint( $qv['page_id'] );
-		$qv['year']     = absint( $qv['year'] );
-		$qv['monthnum'] = absint( $qv['monthnum'] );
-		$qv['day']      = absint( $qv['day'] );
-		$qv['w']        = absint( $qv['w'] );
+		$qv['page_id']  = is_scalar( $qv['page_id'] ) ? absint( $qv['page_id'] ) : 0;
+		$qv['year']     = is_scalar( $qv['year'] ) ? absint( $qv['year'] ) : 0;
+		$qv['monthnum'] = is_scalar( $qv['monthnum'] ) ? absint( $qv['monthnum'] ) : 0;
+		$qv['day']      = is_scalar( $qv['day'] ) ? absint( $qv['day'] ) : 0;
+		$qv['w']        = is_scalar( $qv['w'] ) ? absint( $qv['w'] ) : 0;
 		$qv['m']        = is_scalar( $qv['m'] ) ? preg_replace( '|[^0-9]|', '', $qv['m'] ) : '';
-		$qv['paged']    = absint( $qv['paged'] );
-		$qv['cat']      = preg_replace( '|[^0-9,-]|', '', $qv['cat'] );    // Comma-separated list of positive or negative integers.
-		$qv['author']   = preg_replace( '|[^0-9,-]|', '', $qv['author'] ); // Comma-separated list of positive or negative integers.
-		$qv['pagename'] = trim( $qv['pagename'] );
-		$qv['name']     = trim( $qv['name'] );
-		$qv['title']    = trim( $qv['title'] );
-		if ( '' !== $qv['hour'] ) {
+		$qv['paged']    = is_scalar( $qv['paged'] ) ? absint( $qv['paged'] ) : 0;
+		$qv['cat']      = preg_replace( '|[^0-9,-]|', '', $qv['cat'] ); // Array or comma-separated list of positive or negative integers.
+		$qv['author']   = is_scalar( $qv['author'] ) ? preg_replace( '|[^0-9,-]|', '', $qv['author'] ) : ''; // Comma-separated list of positive or negative integers.
+		$qv['pagename'] = is_scalar( $qv['pagename'] ) ? trim( $qv['pagename'] ) : '';
+		$qv['name']     = is_scalar( $qv['name'] ) ? trim( $qv['name'] ) : '';
+		$qv['title']    = is_scalar( $qv['title'] ) ? trim( $qv['title'] ) : '';
+
+		if ( is_scalar( $qv['hour'] ) && '' !== $qv['hour'] ) {
 			$qv['hour'] = absint( $qv['hour'] );
+		} else {
+			$qv['hour'] = '';
 		}
-		if ( '' !== $qv['minute'] ) {
+
+		if ( is_scalar( $qv['minute'] ) && '' !== $qv['minute'] ) {
 			$qv['minute'] = absint( $qv['minute'] );
+		} else {
+			$qv['minute'] = '';
 		}
-		if ( '' !== $qv['second'] ) {
+
+		if ( is_scalar( $qv['second'] ) && '' !== $qv['second'] ) {
 			$qv['second'] = absint( $qv['second'] );
+		} else {
+			$qv['second'] = '';
 		}
-		if ( '' !== $qv['menu_order'] ) {
+
+		if ( is_scalar( $qv['menu_order'] ) && '' !== $qv['menu_order'] ) {
 			$qv['menu_order'] = absint( $qv['menu_order'] );
+		} else {
+			$qv['menu_order'] = '';
 		}
 
 		// Fairly large, potentially too large, upper bound for search string lengths.
@@ -823,14 +835,14 @@ class WP_Query {
 		}
 
 		// Compat. Map subpost to attachment.
-		if ( '' != $qv['subpost'] ) {
+		if ( is_scalar( $qv['subpost'] ) && '' != $qv['subpost'] ) {
 			$qv['attachment'] = $qv['subpost'];
 		}
-		if ( '' != $qv['subpost_id'] ) {
+		if ( is_scalar( $qv['subpost_id'] ) && '' != $qv['subpost_id'] ) {
 			$qv['attachment_id'] = $qv['subpost_id'];
 		}
 
-		$qv['attachment_id'] = absint( $qv['attachment_id'] );
+		$qv['attachment_id'] = is_scalar( $qv['attachment_id'] ) ? absint( $qv['attachment_id'] ) : 0;
 
 		if ( ( '' !== $qv['attachment'] ) || ! empty( $qv['attachment_id'] ) ) {
 			$this->is_single     = true;
