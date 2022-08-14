@@ -2891,27 +2891,29 @@ function dbDelta( $queries = '', $execute = true ) { // phpcs:ignore WordPress.N
 					// Normalize columns.
 					foreach ( $index_columns as $id => &$index_column ) {
 						// Extract column name and number of indexed characters (sub_part).
+						// phpcs:disable Squiz.Strings.ConcatenationSpacing.PaddingFound -- don't remove regex indentation
 						preg_match(
 							'/'
-							. '`?'                      // Name can be escaped with a backtick.
-							. '(?P<column_name>'    // 1) Name of the column.
-							. '(?:[0-9a-zA-Z$_-]|[\xC2-\xDF][\x80-\xBF])+'
-							. ')'
-							. '`?'                      // Name can be escaped with a backtick.
-							. '(?:'                     // Optional sub part.
-							. '\s*'                 // Optional white space character between name and opening bracket.
-							. '\('                  // Opening bracket for the sub part.
-							. '\s*'             // Optional white space character after opening bracket.
-							. '(?P<sub_part>'
-							. '\d+'         // 2) Number of indexed characters.
-							. ')'
-							. '\s*'             // Optional white space character before closing bracket.
-							. '\)'                 // Closing bracket for the sub part.
-							. ')?'
+							.   '`?'                      // Name can be escaped with a backtick.
+							.       '(?P<column_name>'    // 1) Name of the column.
+							.           '(?:[0-9a-zA-Z$_-]|[\xC2-\xDF][\x80-\xBF])+'
+							.       ')'
+							.   '`?'                      // Name can be escaped with a backtick.
+							.   '(?:'                     // Optional sub part.
+							.       '\s*'                 // Optional white space character between name and opening bracket.
+							.       '\('                  // Opening bracket for the sub part.
+							.           '\s*'             // Optional white space character after opening bracket.
+							.           '(?P<sub_part>'
+							.               '\d+'         // 2) Number of indexed characters.
+							.           ')'
+							.           '\s*'             // Optional white space character before closing bracket.
+							.       '\)'                  // Closing bracket for the sub part.
+							.   ')?'
 							. '/',
 							$index_column,
 							$index_column_matches
 						);
+						// phpcs:enable
 
 						// Escape the column name with backticks.
 						$index_column = '`' . $index_column_matches['column_name'] . '`';
