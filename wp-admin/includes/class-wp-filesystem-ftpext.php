@@ -510,14 +510,14 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	 * Gets the file size (in bytes).
 	 *
 	 * @since 2.5.0
-	 * @since 6.1.0 Corrected the return value: while WP_Filesystem_Base::size()
-	 *              is documented to return false on failure, ftp_size() returns -1.
 	 *
 	 * @param string $file Path to file.
-	 * @return int Size of the file in bytes on success, -1 on failure.
+	 * @return int|false Size of the file in bytes on success, false on failure.
 	 */
 	public function size( $file ) {
-		return ftp_size( $this->link, $file );
+		$size = ftp_size( $this->link, $file );
+
+		return ( $size > -1 ) ? $size : false;
 	}
 
 	/**
