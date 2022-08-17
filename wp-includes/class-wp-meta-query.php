@@ -679,11 +679,13 @@ class WP_Meta_Query {
 					case 'REGEXP':
 						$operator = $meta_compare_key;
 						if ( isset( $clause['type_key'] ) && 'BINARY' === strtoupper( $clause['type_key'] ) ) {
-							$cast = 'BINARY';
+							$cast     = 'BINARY';
+							$meta_key = "CAST($alias.meta_key AS BINARY)";
 						} else {
-							$cast = '';
+							$cast     = '';
+							$meta_key = "$alias.meta_key";
 						}
-						$where = $wpdb->prepare( "$alias.meta_key $operator $cast %s", trim( $clause['key'] ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+						$where = $wpdb->prepare( "$meta_key $operator $cast %s", trim( $clause['key'] ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 						break;
 
 					case '!=':
@@ -705,12 +707,14 @@ class WP_Meta_Query {
 					case 'NOT REGEXP':
 						$operator = $meta_compare_key;
 						if ( isset( $clause['type_key'] ) && 'BINARY' === strtoupper( $clause['type_key'] ) ) {
-							$cast = 'BINARY';
+							$cast     = 'BINARY';
+							$meta_key = "CAST($subquery_alias.meta_key AS BINARY)";
 						} else {
-							$cast = '';
+							$cast     = '';
+							$meta_key = "$subquery_alias.meta_key";
 						}
 
-						$meta_compare_string = $meta_compare_string_start . "AND $subquery_alias.meta_key REGEXP $cast %s " . $meta_compare_string_end;
+						$meta_compare_string = $meta_compare_string_start . "AND $meta_key REGEXP $cast %s " . $meta_compare_string_end;
 						$where               = $wpdb->prepare( $meta_compare_string, $clause['key'] ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 						break;
 				}
