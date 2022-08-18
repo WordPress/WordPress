@@ -122,7 +122,7 @@ class WP_Tax_Query {
 	}
 
 	/**
-	 * Ensure the 'tax_query' argument passed to the class constructor is well-formed.
+	 * Ensures the 'tax_query' argument passed to the class constructor is well-formed.
 	 *
 	 * Ensures that each query-level clause has a 'relation' key, and that
 	 * each first-order clause contains all the necessary keys from `$defaults`.
@@ -196,7 +196,7 @@ class WP_Tax_Query {
 	}
 
 	/**
-	 * Sanitize a 'relation' operator.
+	 * Sanitizes a 'relation' operator.
 	 *
 	 * @since 4.1.0
 	 *
@@ -212,7 +212,7 @@ class WP_Tax_Query {
 	}
 
 	/**
-	 * Determine whether a clause is first-order.
+	 * Determines whether a clause is first-order.
 	 *
 	 * A "first-order" clause is one that contains any of the first-order
 	 * clause keys ('terms', 'taxonomy', 'include_children', 'field',
@@ -251,7 +251,7 @@ class WP_Tax_Query {
 	}
 
 	/**
-	 * Generate SQL clauses to be appended to a main query.
+	 * Generates SQL clauses to be appended to a main query.
 	 *
 	 * Called by the public WP_Tax_Query::get_sql(), this method
 	 * is abstracted out to maintain parity with the other Query classes.
@@ -281,7 +281,7 @@ class WP_Tax_Query {
 	}
 
 	/**
-	 * Generate SQL clauses for a single query array.
+	 * Generates SQL clauses for a single query array.
 	 *
 	 * If nested subqueries are found, this method recurses the tree to
 	 * produce the properly nested SQL.
@@ -365,7 +365,7 @@ class WP_Tax_Query {
 	}
 
 	/**
-	 * Generate SQL JOIN and WHERE clauses for a "first-order" query clause.
+	 * Generates SQL JOIN and WHERE clauses for a "first-order" query clause.
 	 *
 	 * @since 4.1.0
 	 *
@@ -483,7 +483,7 @@ class WP_Tax_Query {
 	}
 
 	/**
-	 * Identify an existing table alias that is compatible with the current query clause.
+	 * Identifies an existing table alias that is compatible with the current query clause.
 	 *
 	 * We avoid unnecessary table joins by allowing each clause to look for
 	 * an existing table alias that is compatible with the query that it
