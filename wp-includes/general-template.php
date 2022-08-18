@@ -3317,13 +3317,6 @@ function wp_resource_hints() {
 		'prerender'    => array(),
 	);
 
-	/*
-	 * Add DNS prefetch for the Emoji CDN.
-	 * The path is removed in the foreach loop below.
-	 */
-	/** This filter is documented in wp-includes/formatting.php */
-	$hints['dns-prefetch'][] = apply_filters( 'emoji_svg_url', 'https://s.w.org/images/core/emoji/13.0.0/svg/' );
-
 	foreach ( $hints as $relation_type => $urls ) {
 		$unique_urls = array();
 
