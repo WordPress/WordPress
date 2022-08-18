@@ -90,16 +90,16 @@ if ( $tab ) {
 	 *
 	 * Possible hook names include:
 	 *
+	 *  - `install_themes_pre_blockthemes`
 	 *  - `install_themes_pre_dashboard`
 	 *  - `install_themes_pre_featured`
 	 *  - `install_themes_pre_new`
 	 *  - `install_themes_pre_search`
 	 *  - `install_themes_pre_updated`
 	 *  - `install_themes_pre_upload`
-	 *  - `install_themes_pre_blockthemes`
 	 *
 	 * @since 2.8.0
-	 * @since 6.1.0 Added `install_themes_pre_blockthemes`.
+	 * @since 6.1.0 Added `install_themes_pre_blockthemes` hook name.
 	 */
 	do_action( "install_themes_pre_{$tab}" );
 }
@@ -266,16 +266,16 @@ if ( $tab ) {
 	 *
 	 * Possible hook names include:
 	 *
+	 *  - `install_themes_blockthemes`
 	 *  - `install_themes_dashboard`
 	 *  - `install_themes_featured`
 	 *  - `install_themes_new`
 	 *  - `install_themes_search`
 	 *  - `install_themes_updated`
 	 *  - `install_themes_upload`
-	 *  - `install_themes_blockthemes`
 	 *
 	 * @since 2.8.0
-	 * @since 6.1.0 Added `install_themes_blockthemes`.
+	 * @since 6.1.0 Added `install_themes_blockthemes` hook name.
 	 *
 	 * @param int $paged Number of the current page of results being viewed.
 	 */
