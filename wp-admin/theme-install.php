@@ -96,8 +96,10 @@ if ( $tab ) {
 	 *  - `install_themes_pre_search`
 	 *  - `install_themes_pre_updated`
 	 *  - `install_themes_pre_upload`
+	 *  - `install_themes_pre_blockthemes`
 	 *
 	 * @since 2.8.0
+	 * @since 6.1.0 Added `install_themes_pre_blockthemes`.
 	 */
 	do_action( "install_themes_pre_{$tab}" );
 }
@@ -185,6 +187,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 		<ul class="filter-links">
 			<li><a href="#" data-sort="popular"><?php _ex( 'Popular', 'themes' ); ?></a></li>
 			<li><a href="#" data-sort="new"><?php _ex( 'Latest', 'themes' ); ?></a></li>
+			<li><a href="#" data-sort="blockthemes"><?php _ex( 'Block Themes', 'themes' ); ?></a></li>
 			<li><a href="#" data-sort="favorites"><?php _ex( 'Favorites', 'themes' ); ?></a></li>
 		</ul>
 
@@ -269,8 +272,10 @@ if ( $tab ) {
 	 *  - `install_themes_search`
 	 *  - `install_themes_updated`
 	 *  - `install_themes_upload`
+	 *  - `install_themes_blockthemes`
 	 *
 	 * @since 2.8.0
+	 * @since 6.1.0 Added `install_themes_blockthemes`.
 	 *
 	 * @param int $paged Number of the current page of results being viewed.
 	 */
