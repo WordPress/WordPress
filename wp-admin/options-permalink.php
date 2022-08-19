@@ -309,7 +309,8 @@ $available_tags = apply_filters( 'available_permalink_structure_tags', $availabl
 
 /* translators: %s: Permalink structure tag. */
 $tag_added = __( '%s added to permalink structure' );
-
+/* translators: %s: Permalink structure tag. */
+$tag_removed = __( '%s removed from permalink structure' );
 /* translators: %s: Permalink structure tag. */
 $tag_already_used = __( '%s (already used in permalink structure)' );
 ?>
@@ -378,6 +379,7 @@ printf(
 										class="button button-secondary"
 										aria-label="<?php echo esc_attr( sprintf( $explanation, $tag ) ); ?>"
 										data-added="<?php echo esc_attr( sprintf( $tag_added, $tag ) ); ?>"
+										data-removed="<?php echo esc_attr( sprintf( $tag_removed, $tag ) ); ?>"
 										data-used="<?php echo esc_attr( sprintf( $tag_already_used, $tag ) ); ?>">
 										<?php echo '%' . $tag . '%'; ?>
 									</button>
