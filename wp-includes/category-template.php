@@ -300,6 +300,7 @@ function category_description( $category = 0 ) {
  * @since 2.1.0
  * @since 4.2.0 Introduced the `value_field` argument.
  * @since 4.6.0 Introduced the `required` argument.
+ * @since 6.1.0 Introduced the `aria_describedby` argument.
  *
  * @param array|string $args {
  *     Optional. Array or string of arguments to generate a categories drop-down element. See WP_Term_Query::__construct()
@@ -335,6 +336,8 @@ function category_description( $category = 0 ) {
  *                                           Default false.
  *     @type Walker       $walker            Walker object to use to build the output. Default empty which results in a
  *                                           Walker_CategoryDropdown instance being used.
+ *     @type string       $aria_describedby  The 'id' of an element that contains descriptive text for the select.
+ *                                           Default empty string.
  * }
  * @return string HTML dropdown list of categories.
  */
@@ -361,6 +364,7 @@ function wp_dropdown_categories( $args = '' ) {
 		'option_none_value' => -1,
 		'value_field'       => 'term_id',
 		'required'          => false,
+		'aria_describedby'  => '',
 	);
 
 	$defaults['selected'] = ( is_category() ) ? get_query_var( 'cat' ) : 0;
@@ -406,8 +410,10 @@ function wp_dropdown_categories( $args = '' ) {
 	$id       = $parsed_args['id'] ? esc_attr( $parsed_args['id'] ) : $name;
 	$required = $parsed_args['required'] ? 'required' : '';
 
+	$aria_describedby_attribute = $parsed_args['aria_describedby'] ? ' aria-describedby="' . esc_attr( $parsed_args['aria_describedby'] ) . '"' : '';
+
 	if ( ! $parsed_args['hide_if_empty'] || ! empty( $categories ) ) {
-		$output = "<select $required name='$name' id='$id' class='$class' $tab_index_attribute>\n";
+		$output = "<select $required name='$name' id='$id' class='$class'$tab_index_attribute$aria_describedby_attribute>\n";
 	} else {
 		$output = '';
 	}

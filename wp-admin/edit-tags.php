@@ -453,14 +453,14 @@ if ( $can_edit_terms ) {
 
 <div class="form-field form-required term-name-wrap">
 	<label for="tag-name"><?php _ex( 'Name', 'term name' ); ?></label>
-	<input name="tag-name" id="tag-name" type="text" value="" size="40" aria-required="true" />
-	<p><?php echo $tax->labels->name_field_description; ?></p>
+	<input name="tag-name" id="tag-name" type="text" value="" size="40" aria-required="true" aria-describedby="name-description" />
+	<p id="name-description"><?php echo $tax->labels->name_field_description; ?></p>
 </div>
 	<?php if ( ! global_terms_enabled() ) : ?>
 <div class="form-field term-slug-wrap">
 	<label for="tag-slug"><?php _e( 'Slug' ); ?></label>
-	<input name="slug" id="tag-slug" type="text" value="" size="40" />
-	<p><?php echo $tax->labels->slug_field_description; ?></p>
+	<input name="slug" id="tag-slug" type="text" value="" size="40" aria-describedby="slug-description" />
+	<p id="slug-description"><?php echo $tax->labels->slug_field_description; ?></p>
 </div>
 <?php endif; // global_terms_enabled() ?>
 	<?php if ( is_taxonomy_hierarchical( $taxonomy ) ) : ?>
@@ -500,19 +500,21 @@ if ( $can_edit_terms ) {
 		 */
 		$dropdown_args = apply_filters( 'taxonomy_parent_dropdown_args', $dropdown_args, $taxonomy, 'new' );
 
+		$dropdown_args['aria_describedby'] = 'parent-description';
+
 		wp_dropdown_categories( $dropdown_args );
 		?>
 		<?php if ( 'category' === $taxonomy ) : ?>
-		<p><?php _e( 'Categories, unlike tags, can have a hierarchy. You might have a Jazz category, and under that have children categories for Bebop and Big Band. Totally optional.' ); ?></p>
+		<p id="parent-description"><?php _e( 'Categories, unlike tags, can have a hierarchy. You might have a Jazz category, and under that have children categories for Bebop and Big Band. Totally optional.' ); ?></p>
 	<?php else : ?>
-		<p><?php echo $tax->labels->parent_field_description; ?></p>
+		<p id="parent-description"><?php echo $tax->labels->parent_field_description; ?></p>
 	<?php endif; ?>
 </div>
 	<?php endif; // is_taxonomy_hierarchical() ?>
 <div class="form-field term-description-wrap">
 	<label for="tag-description"><?php _e( 'Description' ); ?></label>
-	<textarea name="description" id="tag-description" rows="5" cols="40"></textarea>
-	<p><?php echo $tax->labels->desc_field_description; ?></p>
+	<textarea name="description" id="tag-description" rows="5" cols="40" aria-describedby="description-description"></textarea>
+	<p id="description-description"><?php echo $tax->labels->desc_field_description; ?></p>
 </div>
 
 	<?php
