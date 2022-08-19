@@ -1694,7 +1694,7 @@ themes.view.Installer = themes.view.Appearance.extend({
 	browse: function( section ) {
 		// Create a new collection with the proper theme data
 		// for each section.
-		if ( 'blockthemes' === section ) {
+		if ( 'block-themes' === section ) {
 			// Get the themes by sending Ajax POST request to api.wordpress.org/themes
 			// or searching the local cache.
 			this.collection.query( { tag: 'full-site-editing' } );
