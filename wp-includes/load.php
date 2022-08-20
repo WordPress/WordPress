@@ -768,23 +768,23 @@ function wp_start_object_cache() {
  * @access private
  */
 function wp_not_installed() {
-	if ( is_multisite() ) {
-		if ( ! is_blog_installed() && ! wp_installing() ) {
-			nocache_headers();
-
-			wp_die( __( 'The site you have requested is not installed properly. Please contact the system administrator.' ) );
-		}
-	} elseif ( ! is_blog_installed() && ! wp_installing() ) {
-		nocache_headers();
-
-		require ABSPATH . WPINC . '/kses.php';
-		require ABSPATH . WPINC . '/pluggable.php';
-
-		$link = wp_guess_url() . '/wp-admin/install.php';
-
-		wp_redirect( $link );
-		die();
+	if ( is_blog_installed() || wp_installing() ) {
+		return;
 	}
+
+	nocache_headers();
+
+	if ( is_multisite() ) {
+		wp_die( __( 'The site you have requested is not installed properly. Please contact the system administrator.' ) );
+	}
+
+	require ABSPATH . WPINC . '/kses.php';
+	require ABSPATH . WPINC . '/pluggable.php';
+
+	$link = wp_guess_url() . '/wp-admin/install.php';
+
+	wp_redirect( $link );
+	die();
 }
 
 /**
