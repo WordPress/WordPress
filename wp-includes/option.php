@@ -95,7 +95,7 @@ function get_option( $option, $default = false ) {
 		'comment_whitelist' => 'comment_previously_approved',
 	);
 
-	if ( ! wp_installing() && isset( $deprecated_keys[ $option ] ) ) {
+	if ( isset( $deprecated_keys[ $option ] ) && ! wp_installing() ) {
 		_deprecated_argument(
 			__FUNCTION__,
 			'5.5.0',
@@ -401,7 +401,7 @@ function update_option( $option, $value, $autoload = null ) {
 		'comment_whitelist' => 'comment_previously_approved',
 	);
 
-	if ( ! wp_installing() && isset( $deprecated_keys[ $option ] ) ) {
+	if ( isset( $deprecated_keys[ $option ] ) && ! wp_installing() ) {
 		_deprecated_argument(
 			__FUNCTION__,
 			'5.5.0',
@@ -591,7 +591,7 @@ function add_option( $option, $value = '', $deprecated = '', $autoload = 'yes' )
 		'comment_whitelist' => 'comment_previously_approved',
 	);
 
-	if ( ! wp_installing() && isset( $deprecated_keys[ $option ] ) ) {
+	if ( isset( $deprecated_keys[ $option ] ) && ! wp_installing() ) {
 		_deprecated_argument(
 			__FUNCTION__,
 			'5.5.0',
