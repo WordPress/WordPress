@@ -3376,12 +3376,21 @@ class wpdb {
 		}
 
 		// If any of the columns don't have one of these collations, it needs more sanity checking.
+		$safe_collations = array(
+			'utf8_bin',
+			'utf8_general_ci',
+			'utf8mb3_bin',
+			'utf8mb3_general_ci',
+			'utf8mb4_bin',
+			'utf8mb4_general_ci',
+		);
+
 		foreach ( $this->col_meta[ $table ] as $col ) {
 			if ( empty( $col->Collation ) ) {
 				continue;
 			}
 
-			if ( ! in_array( $col->Collation, array( 'utf8_general_ci', 'utf8_bin', 'utf8mb4_general_ci', 'utf8mb4_bin' ), true ) ) {
+			if ( ! in_array( $col->Collation, $safe_collations, true ) ) {
 				return false;
 			}
 		}
