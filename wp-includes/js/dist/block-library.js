@@ -35328,6 +35328,38 @@ function TaxonomyControls(_ref) {
 
 /* harmony default export */ var taxonomy_controls = (TaxonomyControls);
 
+;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/query/edit/inspector-controls/sticky-control.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+
+const stickyOptions = [{
+  label: (0,external_wp_i18n_namespaceObject.__)('Include'),
+  value: ''
+}, {
+  label: (0,external_wp_i18n_namespaceObject.__)('Exclude'),
+  value: 'exclude'
+}, {
+  label: (0,external_wp_i18n_namespaceObject.__)('Only'),
+  value: 'only'
+}];
+function StickyControl(_ref) {
+  let {
+    value,
+    onChange
+  } = _ref;
+  return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.SelectControl, {
+    label: (0,external_wp_i18n_namespaceObject.__)('Sticky posts'),
+    options: stickyOptions,
+    value: value,
+    onChange: onChange,
+    help: (0,external_wp_i18n_namespaceObject.__)('Blog posts can be "stickied", a feature that places them at the top of the front page of posts, keeping it there until new sticky posts are published.')
+  });
+}
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/query/edit/inspector-controls/index.js
 
 
@@ -35351,16 +35383,7 @@ function TaxonomyControls(_ref) {
 
 
 
-const stickyOptions = [{
-  label: (0,external_wp_i18n_namespaceObject.__)('Include'),
-  value: ''
-}, {
-  label: (0,external_wp_i18n_namespaceObject.__)('Exclude'),
-  value: 'exclude'
-}, {
-  label: (0,external_wp_i18n_namespaceObject.__)('Only'),
-  value: 'only'
-}];
+
 function QueryInspectorControls(_ref) {
   let {
     attributes: {
@@ -35455,14 +35478,11 @@ function QueryInspectorControls(_ref) {
     order,
     orderBy,
     onChange: setQuery
-  }), showSticky && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.SelectControl, {
-    label: (0,external_wp_i18n_namespaceObject.__)('Sticky posts'),
-    options: stickyOptions,
+  }), !inherit && showSticky && (0,external_wp_element_namespaceObject.createElement)(StickyControl, {
     value: sticky,
     onChange: value => setQuery({
       sticky: value
-    }),
-    help: (0,external_wp_i18n_namespaceObject.__)('Blog posts can be "stickied", a feature that places them at the top of the front page of posts, keeping it there until new sticky posts are published.')
+    })
   })), !inherit && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.PanelBody, {
     title: (0,external_wp_i18n_namespaceObject.__)('Filters')
   }, (0,external_wp_element_namespaceObject.createElement)(taxonomy_controls, {

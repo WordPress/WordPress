@@ -13468,9 +13468,9 @@ let findTimeout = time => ~(~timeouts.findIndex(t => t.time > time) || ~timeouts
 raf.cancel = fn => {
   onStartQueue.delete(fn);
   onFrameQueue.delete(fn);
+  onFinishQueue.delete(fn);
   updateQueue.delete(fn);
   writeQueue.delete(fn);
-  onFinishQueue.delete(fn);
 };
 
 raf.sync = fn => {
@@ -13569,15 +13569,16 @@ function update() {
     pendingCount -= count;
   }
 
+  if (!pendingCount) {
+    stop();
+    return;
+  }
+
   onStartQueue.flush();
   updateQueue.flush(prevTs ? Math.min(64, ts - prevTs) : 16.667);
   onFrameQueue.flush();
   writeQueue.flush();
   onFinishQueue.flush();
-
-  if (!pendingCount) {
-    stop();
-  }
 }
 
 function makeQueue() {
@@ -13645,7 +13646,6 @@ const __raf = {
 var external_React_ = __webpack_require__(9196);
 var external_React_default = /*#__PURE__*/__webpack_require__.n(external_React_);
 ;// CONCATENATED MODULE: ./node_modules/@react-spring/shared/dist/react-spring-shared.esm.js
-
 
 
 
@@ -14343,11 +14343,11 @@ function isAnimatedString(value) {
   return react_spring_shared_esm_is.str(value) && (value[0] == '#' || /\d/.test(value) || !isSSR() && cssVariableRegex.test(value) || value in (colors$1 || {}));
 }
 
-const react_spring_shared_esm_useLayoutEffect = typeof window !== 'undefined' && window.document && window.document.createElement ? external_React_.useLayoutEffect : external_React_.useEffect;
+const react_spring_shared_esm_useIsomorphicLayoutEffect = isSSR() ? external_React_.useEffect : external_React_.useLayoutEffect;
 
 const useIsMounted = () => {
   const isMounted = (0,external_React_.useRef)(false);
-  react_spring_shared_esm_useLayoutEffect(() => {
+  react_spring_shared_esm_useIsomorphicLayoutEffect(() => {
     isMounted.current = true;
     return () => {
       isMounted.current = false;
@@ -14422,6 +14422,27 @@ function react_spring_shared_esm_usePrev(value) {
   });
   return prevRef.current;
 }
+
+const useReducedMotion = () => {
+  const [reducedMotion, setReducedMotion] = useState(null);
+  react_spring_shared_esm_useIsomorphicLayoutEffect(() => {
+    const mql = window.matchMedia('(prefers-reduced-motion)');
+
+    const handleMediaChange = e => {
+      setReducedMotion(e.matches);
+      react_spring_shared_esm_assign({
+        skipAnimation: e.matches
+      });
+    };
+
+    handleMediaChange(mql);
+    mql.addEventListener('change', handleMediaChange);
+    return () => {
+      mql.removeEventListener('change', handleMediaChange);
+    };
+  }, []);
+  return reducedMotion;
+};
 
 
 
@@ -14700,7 +14721,7 @@ const withAnimated = (Component, host) => {
 
     const observer = new PropsObserver(callback, deps);
     const observerRef = (0,external_React_.useRef)();
-    react_spring_shared_esm_useLayoutEffect(() => {
+    react_spring_shared_esm_useIsomorphicLayoutEffect(() => {
       observerRef.current = observer;
       react_spring_shared_esm_each(deps, dep => addFluidObserver(dep, observer));
       return () => {
@@ -14948,7 +14969,7 @@ function replaceRef(ctrl, ref) {
 }
 
 function useChain(refs, timeSteps, timeFrame = 1000) {
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (timeSteps) {
       let prevDelay = 0;
       each(refs, (ref, i) => {
@@ -16794,7 +16815,7 @@ function useSprings(length, props, deps) {
   const context = (0,external_React_.useContext)(SpringContext);
   const prevContext = react_spring_shared_esm_usePrev(context);
   const hasContext = context !== prevContext && hasProps(context);
-  react_spring_shared_esm_useLayoutEffect(() => {
+  react_spring_shared_esm_useIsomorphicLayoutEffect(() => {
     layoutId.current++;
     state.ctrls = ctrls.current;
     const {
@@ -16859,7 +16880,7 @@ function useTrail(length, propsArg, deps) {
     return props;
   }, deps || [{}]);
   const ref = (_passedRef = passedRef) != null ? _passedRef : result[1];
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     each(ref.current, (ctrl, i) => {
       const parent = ref.current[i + (reverse ? 1 : -1)];
 
@@ -16933,19 +16954,13 @@ function useTransition(data, props, deps) {
   const transitions = [];
   const usedTransitions = useRef(null);
   const prevTransitions = reset ? null : usedTransitions.current;
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     usedTransitions.current = transitions;
   });
   useOnce(() => {
-    each(usedTransitions.current, t => {
-      var _t$ctrl$ref;
-
-      (_t$ctrl$ref = t.ctrl.ref) == null ? void 0 : _t$ctrl$ref.add(t.ctrl);
-      const change = changes.get(t);
-
-      if (change) {
-        t.ctrl.start(change.payload);
-      }
+    each(transitions, t => {
+      ref == null ? void 0 : ref.add(t.ctrl);
+      t.ctrl.ref = ref;
     });
     return () => {
       each(usedTransitions.current, t => {
@@ -16960,7 +16975,7 @@ function useTransition(data, props, deps) {
   });
   const keys = getKeys(items, propsFn ? propsFn() : props, prevTransitions);
   const expired = reset && usedTransitions.current || [];
-  useLayoutEffect(() => each(expired, ({
+  useIsomorphicLayoutEffect(() => each(expired, ({
     ctrl,
     item,
     key
@@ -17134,7 +17149,7 @@ function useTransition(data, props, deps) {
   const context = useContext(SpringContext);
   const prevContext = usePrev(context);
   const hasContext = context !== prevContext && hasProps(context);
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (hasContext) {
       each(transitions, t => {
         t.ctrl.start({
@@ -17149,7 +17164,7 @@ function useTransition(data, props, deps) {
       transitions.splice(ind, 1);
     }
   });
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     each(exitingTransitions.current.size ? exitingTransitions.current : changes, ({
       phase,
       payload
@@ -17169,7 +17184,7 @@ function useTransition(data, props, deps) {
       if (payload) {
         replaceRef(ctrl, payload.ref);
 
-        if (ctrl.ref && !forceChange.current) {
+        if ((ctrl.ref || ref) && !forceChange.current) {
           ctrl.update(payload);
         } else {
           ctrl.start(payload);
@@ -40224,12 +40239,9 @@ function BlockStyles(_ref3) {
       onClick: () => onSelectStylePreview(style),
       role: "button",
       tabIndex: "0"
-    }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalText, {
-      as: "span",
-      limit: 12,
-      ellipsizeMode: "tail",
-      className: "block-editor-block-styles__item-text",
-      truncate: true
+    }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalTruncate, {
+      numberOfLines: 1,
+      className: "block-editor-block-styles__item-text"
     }, buttonText));
   })), hoveredStyle && !isMobileViewport && (0,external_wp_element_namespaceObject.createElement)(BlockStylesPreviewPanelFill, {
     scope: scope,

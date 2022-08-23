@@ -44,23 +44,15 @@ function render_block_core_post_template( $attributes, $content, $block ) {
 	$page_key = isset( $block->context['queryId'] ) ? 'query-' . $block->context['queryId'] . '-page' : 'query-page';
 	$page     = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ];
 
-	$query_args = build_query_vars_from_query_block( $block, $page );
-	// Override the custom query with the global query if needed.
+	// Use global query if needed.
 	$use_global_query = ( isset( $block->context['query']['inherit'] ) && $block->context['query']['inherit'] );
 	if ( $use_global_query ) {
 		global $wp_query;
-		if ( $wp_query && isset( $wp_query->query_vars ) && is_array( $wp_query->query_vars ) ) {
-			// Unset `offset` because if is set, $wp_query overrides/ignores the paged parameter and breaks pagination.
-			unset( $query_args['offset'] );
-			$query_args = wp_parse_args( $wp_query->query_vars, $query_args );
-
-			if ( empty( $query_args['post_type'] ) && is_singular() ) {
-				$query_args['post_type'] = get_post_type( get_the_ID() );
-			}
-		}
+		$query = clone $wp_query;
+	} else {
+		$query_args = build_query_vars_from_query_block( $block, $page );
+		$query      = new WP_Query( $query_args );
 	}
-
-	$query = new WP_Query( $query_args );
 
 	if ( ! $query->have_posts() ) {
 		return '';
@@ -107,6 +99,11 @@ function render_block_core_post_template( $attributes, $content, $block ) {
 		$content     .= '<li class="' . esc_attr( $post_classes ) . '">' . $block_content . '</li>';
 	}
 
+	/*
+	 * Use this function to restore the context of the template tags
+	 * from a secondary query loop back to the main query loop.
+	 * Since we use two custom loops, it's safest to always restore.
+	*/
 	wp_reset_postdata();
 
 	return sprintf(
