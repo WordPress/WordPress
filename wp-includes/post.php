@@ -724,10 +724,11 @@ function get_attached_file( $attachment_id, $unfiltered = false ) {
 	$file = get_post_meta( $attachment_id, '_wp_attached_file', true );
 
 	// If the file is relative, prepend upload dir.
-	if ( $file && 0 !== strpos( $file, '/' ) && ! preg_match( '|^.:\\\|', $file ) ) {
+	if ( $file ) {
 		$uploads = wp_get_upload_dir();
+
 		if ( false === $uploads['error'] ) {
-			$file = $uploads['basedir'] . "/$file";
+			$file = path_join( $uploads['basedir'], $file );
 		}
 	}
 
