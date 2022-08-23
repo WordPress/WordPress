@@ -505,7 +505,7 @@ function wp_update_plugins( $extra_stats = array() ) {
 		 * }
 		 * @param array       $plugin_data      Plugin headers.
 		 * @param string      $plugin_file      Plugin filename.
-		 * @param array       $locales          Installed locales to look translations for.
+		 * @param array       $locales          Installed locales to look up translations for.
 		 */
 		$update = apply_filters( "update_plugins_{$hostname}", false, $plugin_data, $plugin_file, $locales );
 
@@ -613,6 +613,7 @@ function wp_update_themes( $extra_stats = array() ) {
 			'Version'    => $theme->get( 'Version' ),
 			'Author'     => $theme->get( 'Author' ),
 			'Author URI' => $theme->get( 'AuthorURI' ),
+			'UpdateURI'  => $theme->get( 'UpdateURI' ),
 			'Template'   => $theme->get_template(),
 			'Stylesheet' => $theme->get_stylesheet(),
 		);
@@ -742,6 +743,92 @@ function wp_update_themes( $extra_stats = array() ) {
 		$new_update->response     = $response['themes'];
 		$new_update->no_update    = $response['no_update'];
 		$new_update->translations = $response['translations'];
+	}
+
+	// Support updates for any themes using the `Update URI` header field.
+	foreach ( $themes as $theme_stylesheet => $theme_data ) {
+		if ( ! $theme_data['UpdateURI'] || isset( $new_update->response[ $theme_stylesheet ] ) ) {
+			continue;
+		}
+
+		$hostname = wp_parse_url( esc_url_raw( $theme_data['UpdateURI'] ), PHP_URL_HOST );
+
+		/**
+		 * Filters the update response for a given theme hostname.
+		 *
+		 * The dynamic portion of the hook name, `$hostname`, refers to the hostname
+		 * of the URI specified in the `Update URI` header field.
+		 *
+		 * @since 6.1.0
+		 *
+		 * @param array|false $update {
+		 *     The theme update data with the latest details. Default false.
+		 *
+		 *     @type string $id           Optional. ID of the theme for update purposes, should be a URI
+		 *                                specified in the `Update URI` header field.
+		 *     @type string $theme        Directory name of the theme.
+		 *     @type string $version      The version of the theme.
+		 *     @type string $url          The URL for details of the theme.
+		 *     @type string $package      Optional. The update ZIP for the theme.
+		 *     @type string $tested       Optional. The version of WordPress the theme is tested against.
+		 *     @type string $requires_php Optional. The version of PHP which the theme requires.
+		 *     @type bool   $autoupdate   Optional. Whether the theme should automatically update.
+		 *     @type array  $translations {
+		 *         Optional. List of translation updates for the theme.
+		 *
+		 *         @type string $language   The language the translation update is for.
+		 *         @type string $version    The version of the theme this translation is for.
+		 *                                  This is not the version of the language file.
+		 *         @type string $updated    The update timestamp of the translation file.
+		 *                                  Should be a date in the `YYYY-MM-DD HH:MM:SS` format.
+		 *         @type string $package    The ZIP location containing the translation update.
+		 *         @type string $autoupdate Whether the translation should be automatically installed.
+		 *     }
+		 * }
+		 * @param array       $theme_data       Theme headers.
+		 * @param string      $theme_stylesheet Theme stylesheet.
+		 * @param array       $locales          Installed locales to look up translations for.
+		 */
+		$update = apply_filters( "update_themes_{$hostname}", false, $theme_data, $theme_stylesheet, $locales );
+
+		if ( ! $update ) {
+			continue;
+		}
+
+		$update = (object) $update;
+
+		// Is it valid? We require at least a version.
+		if ( ! isset( $update->version ) ) {
+			continue;
+		}
+
+		// This should remain constant.
+		$update->id = $theme_data['UpdateURI'];
+
+		// WordPress needs the version field specified as 'new_version'.
+		if ( ! isset( $update->new_version ) ) {
+			$update->new_version = $update->version;
+		}
+
+		// Handle any translation updates.
+		if ( ! empty( $update->translations ) ) {
+			foreach ( $update->translations as $translation ) {
+				if ( isset( $translation['language'], $translation['package'] ) ) {
+					$translation['type'] = 'theme';
+					$translation['slug'] = isset( $update->theme ) ? $update->theme : $update->id;
+
+					$new_update->translations[] = $translation;
+				}
+			}
+		}
+
+		unset( $new_update->no_update[ $theme_stylesheet ], $new_update->response[ $theme_stylesheet ] );
+
+		if ( version_compare( $update->new_version, $theme_data['Version'], '>' ) ) {
+			$new_update->response[ $theme_stylesheet ] = (array) $update;
+		} else {
+			$new_update->no_update[ $theme_stylesheet ] = (array) $update;
+		}
 	}
 
 	set_site_transient( 'update_themes', $new_update );
