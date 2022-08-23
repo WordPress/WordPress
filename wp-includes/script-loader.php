@@ -106,7 +106,7 @@ function wp_default_packages_vendor( $scripts ) {
 		'react'                       => '17.0.1',
 		'react-dom'                   => '17.0.1',
 		'regenerator-runtime'         => '0.13.9',
-		'moment'                      => '2.29.2',
+		'moment'                      => '2.29.4',
 		'lodash'                      => '4.17.19',
 		'wp-polyfill-fetch'           => '3.6.2',
 		'wp-polyfill-formdata'        => '4.0.10',
