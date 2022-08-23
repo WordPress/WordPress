@@ -206,10 +206,10 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			</div>
 			<div class="column">
 				<div class="about__image aligncenter">
-					<svg width="41" height="40" viewBox="0 0 41 40" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-						<circle cx="20.5" cy="20" r="12" fill="#fff"/>
-						<circle cx="20.5" cy="20" r="12" fill="url(#a)"/>
-						<circle cx="20.5" cy="20" r="12" stroke="#1E1E1E" stroke-width="2"/>
+					<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+						<circle cx="16" cy="16" r="12" fill="#fff"/>
+						<circle cx="16" cy="16" r="12" fill="url(#a)"/>
+						<circle cx="16" cy="16" r="12" stroke="#1E1E1E" stroke-width="2"/>
 						<defs>
 							<pattern id="a" patternContentUnits="objectBoundingBox" width=".385" height=".385">
 								<use xlink:href="#b" transform="scale(.01923)"/>
