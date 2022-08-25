@@ -1874,11 +1874,7 @@ class WP_Query {
 		}
 
 		if ( ! isset( $q['cache_results'] ) ) {
-			if ( wp_using_ext_object_cache() ) {
-				$q['cache_results'] = false;
-			} else {
-				$q['cache_results'] = true;
-			}
+			$q['cache_results'] = true;
 		}
 
 		if ( ! isset( $q['update_post_term_cache'] ) ) {
@@ -3072,6 +3068,77 @@ class WP_Query {
 		 */
 		$this->posts = apply_filters_ref_array( 'posts_pre_query', array( null, &$this ) );
 
+		/*
+		 * Ensure the ID database query is able to be cached.
+		 *
+		 * Random queries are expected to have unpredictable results and
+		 * cannot be cached. Note the space before `RAND` in the string
+		 * search, that to ensure against a collision with another
+		 * function.
+		 */
+		$id_query_is_cacheable = ! str_contains( strtoupper( $orderby ), ' RAND(' );
+		if ( $q['cache_results'] && $id_query_is_cacheable ) {
+			$cache_args = $q;
+
+			unset(
+				$cache_args['suppress_filters'],
+				$cache_args['cache_results'],
+				$cache_args['fields'],
+				$cache_args['update_post_meta_cache'],
+				$cache_args['update_post_term_cache'],
+				$cache_args['lazy_load_term_meta'],
+				$cache_args['update_menu_item_cache']
+			);
+
+			$new_request = str_replace( $fields, "{$wpdb->posts}.*", $this->request );
+			$key         = md5( serialize( $cache_args ) . $new_request );
+
+			$last_changed = wp_cache_get_last_changed( 'posts' );
+			if ( ! empty( $this->tax_query->queried_terms ) ) {
+				$last_changed .= wp_cache_get_last_changed( 'terms' );
+			}
+
+			$cache_key = "wp_query:$key:$last_changed";
+
+			if ( null === $this->posts ) {
+				$cached_results = wp_cache_get( $cache_key, 'posts' );
+
+				if ( $cached_results ) {
+					if ( 'ids' === $q['fields'] ) {
+						/** @var int[] */
+						$this->posts = array_map( 'intval', $cached_results['posts'] );
+					} else {
+						_prime_post_caches( $cached_results['posts'], $q['update_post_term_cache'], $q['update_post_meta_cache'] );
+						/** @var WP_Post[] */
+						$this->posts = array_map( 'get_post', $cached_results['posts'] );
+					}
+
+					$this->post_count    = count( $this->posts );
+					$this->found_posts   = $cached_results['found_posts'];
+					$this->max_num_pages = $cached_results['max_num_pages'];
+
+					if ( 'ids' === $q['fields'] ) {
+						return $this->posts;
+					} elseif ( 'id=>parent' === $q['fields'] ) {
+						/** @var int[] */
+						$post_parents = array();
+
+						foreach ( $this->posts as $key => $post ) {
+							$obj              = new stdClass();
+							$obj->ID          = (int) $post->ID;
+							$obj->post_parent = (int) $post->post_parent;
+
+							$this->posts[ $key ] = $obj;
+
+							$post_parents[ $obj->ID ] = $obj->post_parent;
+						}
+
+						return $post_parents;
+					}
+				}
+			}
+		}
+
 		if ( 'ids' === $q['fields'] ) {
 			if ( null === $this->posts ) {
 				$this->posts = $wpdb->get_col( $this->request );
@@ -3081,6 +3148,16 @@ class WP_Query {
 			$this->posts      = array_map( 'intval', $this->posts );
 			$this->post_count = count( $this->posts );
 			$this->set_found_posts( $q, $limits );
+
+			if ( $q['cache_results'] && $id_query_is_cacheable ) {
+				$cache_value = array(
+					'posts'         => $this->posts,
+					'found_posts'   => $this->found_posts,
+					'max_num_pages' => $this->max_num_pages,
+				);
+
+				wp_cache_set( $cache_key, $cache_value, 'posts' );
+			}
 
 			return $this->posts;
 		}
@@ -3094,15 +3171,28 @@ class WP_Query {
 			$this->set_found_posts( $q, $limits );
 
 			/** @var int[] */
-			$r = array();
+			$post_parents = array();
+			$post_ids     = array();
+
 			foreach ( $this->posts as $key => $post ) {
 				$this->posts[ $key ]->ID          = (int) $post->ID;
 				$this->posts[ $key ]->post_parent = (int) $post->post_parent;
 
-				$r[ (int) $post->ID ] = (int) $post->post_parent;
+				$post_parents[ (int) $post->ID ] = (int) $post->post_parent;
+				$post_ids[]                      = (int) $post->ID;
 			}
 
-			return $r;
+			if ( $q['cache_results'] && $id_query_is_cacheable ) {
+				$cache_value = array(
+					'posts'         => $post_ids,
+					'found_posts'   => $this->found_posts,
+					'max_num_pages' => $this->max_num_pages,
+				);
+
+				wp_cache_set( $cache_key, $cache_value, 'posts' );
+			}
+
+			return $post_parents;
 		}
 
 		if ( null === $this->posts ) {
@@ -3144,12 +3234,12 @@ class WP_Query {
 				 */
 				$this->request = apply_filters( 'posts_request_ids', $this->request, $this );
 
-				$ids = $wpdb->get_col( $this->request );
+				$post_ids = $wpdb->get_col( $this->request );
 
-				if ( $ids ) {
-					$this->posts = $ids;
+				if ( $post_ids ) {
+					$this->posts = $post_ids;
 					$this->set_found_posts( $q, $limits );
-					_prime_post_caches( $ids, $q['update_post_term_cache'], $q['update_post_meta_cache'] );
+					_prime_post_caches( $post_ids, $q['update_post_term_cache'], $q['update_post_meta_cache'] );
 				} else {
 					$this->posts = array();
 				}
@@ -3163,6 +3253,18 @@ class WP_Query {
 		if ( $this->posts ) {
 			/** @var WP_Post[] */
 			$this->posts = array_map( 'get_post', $this->posts );
+		}
+
+		if ( $q['cache_results'] && $id_query_is_cacheable ) {
+			$post_ids = wp_list_pluck( $this->posts, 'ID' );
+
+			$cache_value = array(
+				'posts'         => $post_ids,
+				'found_posts'   => $this->found_posts,
+				'max_num_pages' => $this->max_num_pages,
+			);
+
+			wp_cache_set( $cache_key, $cache_value, 'posts' );
 		}
 
 		if ( ! empty( $this->posts ) && $q['update_menu_item_cache'] ) {
@@ -3201,14 +3303,14 @@ class WP_Query {
 
 			$comments_request = "SELECT {$wpdb->comments}.comment_ID FROM {$wpdb->comments} $cjoin $cwhere $cgroupby $corderby $climits";
 
-			$key          = md5( $comments_request );
-			$last_changed = wp_cache_get_last_changed( 'comment' );
+			$comment_key          = md5( $comments_request );
+			$comment_last_changed = wp_cache_get_last_changed( 'comment' );
 
-			$cache_key   = "comment_feed:$key:$last_changed";
-			$comment_ids = wp_cache_get( $cache_key, 'comment' );
+			$comment_cache_key = "comment_feed:$comment_key:$comment_last_changed";
+			$comment_ids       = wp_cache_get( $comment_cache_key, 'comment' );
 			if ( false === $comment_ids ) {
 				$comment_ids = $wpdb->get_col( $comments_request );
-				wp_cache_add( $cache_key, $comment_ids, 'comment' );
+				wp_cache_add( $comment_cache_key, $comment_ids, 'comment' );
 			}
 			_prime_comment_caches( $comment_ids, false );
 
