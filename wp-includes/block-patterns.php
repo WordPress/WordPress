@@ -39,6 +39,7 @@ function _register_core_block_patterns_and_categories() {
 	register_block_pattern_category( 'buttons', array( 'label' => _x( 'Buttons', 'Block pattern category' ) ) );
 	register_block_pattern_category( 'columns', array( 'label' => _x( 'Columns', 'Block pattern category' ) ) );
 	register_block_pattern_category( 'featured', array( 'label' => _x( 'Featured', 'Block pattern category' ) ) );
+	register_block_pattern_category( 'footer', array( 'label' => _x( 'Footers', 'Block pattern category' ) ) );
 	register_block_pattern_category( 'gallery', array( 'label' => _x( 'Gallery', 'Block pattern category' ) ) );
 	register_block_pattern_category( 'header', array( 'label' => _x( 'Headers', 'Block pattern category' ) ) );
 	register_block_pattern_category( 'text', array( 'label' => _x( 'Text', 'Block pattern category' ) ) );
