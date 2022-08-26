@@ -7905,7 +7905,7 @@ function _update_term_count_on_transition_post_status( $new_status, $old_status,
  * Adds any posts from the given IDs to the cache that do not already exist in cache.
  *
  * @since 3.4.0
- * @access private
+ * @since 6.1.0 This function is no longer marked as "private".
  *
  * @see update_post_caches()
  *

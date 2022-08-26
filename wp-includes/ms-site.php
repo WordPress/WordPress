@@ -339,7 +339,7 @@ function get_site( $site = null ) {
  *
  * @since 4.6.0
  * @since 5.1.0 Introduced the `$update_meta_cache` parameter.
- * @access private
+ * @since 6.1.0 This function is no longer marked as "private".
  *
  * @see update_site_cache()
  * @global wpdb $wpdb WordPress database abstraction object.

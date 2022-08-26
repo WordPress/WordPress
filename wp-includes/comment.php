@@ -3297,7 +3297,7 @@ function update_comment_cache( $comments, $update_meta_cache = true ) {
  * Adds any comments from the given IDs to the cache that do not already exist in cache.
  *
  * @since 4.4.0
- * @access private
+ * @since 6.1.0 This function is no longer marked as "private".
  *
  * @see update_comment_cache()
  * @global wpdb $wpdb WordPress database abstraction object.
