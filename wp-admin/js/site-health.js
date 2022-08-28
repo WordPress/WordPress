@@ -168,6 +168,13 @@ jQuery( function( $ ) {
 			$( '.site-health-issue-count-title', issueWrapper ).html( heading );
 		}
 
+		if ( 0 < parseInt( SiteHealth.site_status.issues.critical, 0 ) ) {
+			$( '#health-check-issues-critical' ).removeClass( 'hidden' );
+		}
+		if ( 0 < parseInt( SiteHealth.site_status.issues.recommended, 0 ) ) {
+			$( '#health-check-issues-recommended' ).removeClass( 'hidden' );
+		}
+
 		$( '.issues', '#health-check-issues-' + issue.status ).append( template( issue ) );
 	}
 
@@ -209,14 +216,6 @@ jQuery( function( $ ) {
 		pct = ( ( 100 - val ) / 100 ) * c + 'px';
 
 		$circle.css( { strokeDashoffset: pct } );
-
-		if ( 1 > parseInt( SiteHealth.site_status.issues.critical, 0 ) ) {
-			$( '#health-check-issues-critical' ).addClass( 'hidden' );
-		}
-
-		if ( 1 > parseInt( SiteHealth.site_status.issues.recommended, 0 ) ) {
-			$( '#health-check-issues-recommended' ).addClass( 'hidden' );
-		}
 
 		if ( 80 <= val && 0 === parseInt( SiteHealth.site_status.issues.critical, 0 ) ) {
 			$wrapper.addClass( 'green' ).removeClass( 'orange' );
