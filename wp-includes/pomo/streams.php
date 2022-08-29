@@ -12,7 +12,8 @@ if ( ! class_exists( 'POMO_Reader', false ) ) :
 	class POMO_Reader {
 
 		public $endian = 'little';
-		public $_post  = '';
+		public $_pos;
+		public $is_overloaded;
 
 		/**
 		 * PHP5 constructor.
@@ -151,6 +152,13 @@ endif;
 
 if ( ! class_exists( 'POMO_FileReader', false ) ) :
 	class POMO_FileReader extends POMO_Reader {
+
+		/**
+		 * File pointer resource.
+		 *
+		 * @var resource|false
+		 */
+		public $_f;
 
 		/**
 		 * @param string $filename
