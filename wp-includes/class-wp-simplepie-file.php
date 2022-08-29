@@ -20,6 +20,13 @@
 class WP_SimplePie_File extends SimplePie_File {
 
 	/**
+	 * Timeout.
+	 *
+	 * @var int How long the connection should stay open in seconds.
+	 */
+	public $timeout = 10;
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 2.8.0
