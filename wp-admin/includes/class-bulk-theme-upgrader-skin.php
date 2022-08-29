@@ -16,7 +16,17 @@
  * @see Bulk_Upgrader_Skin
  */
 class Bulk_Theme_Upgrader_Skin extends Bulk_Upgrader_Skin {
-	public $theme_info = array(); // Theme_Upgrader::bulk_upgrade() will fill this in.
+
+	/**
+	 * Theme info.
+	 *
+	 * The Theme_Upgrader::bulk_upgrade() method will fill this in
+	 * with info retrieved from the Theme_Upgrader::theme_info() method,
+	 * which in turn calls the wp_get_theme() function.
+	 *
+	 * @var WP_Theme|false The theme's info object, or false.
+	 */
+	public $theme_info = false;
 
 	public function add_strings() {
 		parent::add_strings();
