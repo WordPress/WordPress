@@ -994,10 +994,10 @@ function post_custom( $key = '' ) {
  *
  * @since 1.2.0
  *
- * @internal This will probably change at some point...
- *
+ * @deprecated 6.0.2 Use get_post_meta() to retrieve post meta and render manually.
  */
 function the_meta() {
+	_deprecated_function( __FUNCTION__, '6.0.2', 'get_post_meta()' );
 	if ( $keys = get_post_custom_keys() ) {
 		echo "<ul class='post-meta'>\n";
 		foreach ( (array) $keys as $key ) {
@@ -1016,7 +1016,7 @@ function the_meta() {
 			 * @param string $key   Meta key.
 			 * @param string $value Meta value.
 			 */
-			echo apply_filters( 'the_meta_key', "<li><span class='post-meta-key'>$key:</span> $value</li>\n", $key, $value );
+			echo apply_filters( 'the_meta_key', "<li><span class='post-meta-key'>" . esc_html( $key ) . ":</span>" . esc_html( $value ) . "</li>\n", $key, $value );
 		}
 		echo "</ul>\n";
 	}

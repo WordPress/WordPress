@@ -282,7 +282,7 @@ function get_bookmarks( $args = '' ) {
 	$query .= " $exclusions $inclusions $search";
 	$query .= " ORDER BY $orderby $order";
 	if ( $r['limit'] != -1 ) {
-		$query .= ' LIMIT ' . $r['limit'];
+		$query .= ' LIMIT ' . absint( $r['limit'] );
 	}
 
 	$results = $wpdb->get_results( $query );
