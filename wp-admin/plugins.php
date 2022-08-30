@@ -376,7 +376,7 @@ require_once(ABSPATH . 'wp-admin/admin-header.php');
 $invalid = validate_active_plugins();
 if ( !empty($invalid) )
 	foreach ( $invalid as $plugin_file => $error )
-		echo '<div id="message" class="error"><p>' . sprintf(__('The plugin <code>%s</code> has been <strong>deactivated</strong> due to an error: %s'), esc_html($plugin_file), $error->get_error_message()) . '</p></div>';
+		echo '<div id="message" class="error"><p>' . sprintf(__('The plugin <code>%s</code> has been <strong>deactivated</strong> due to an error: %s'), esc_html($plugin_file), esc_html( $error->get_error_message() ) ) . '</p></div>';
 ?>
 
 <?php if ( isset($_GET['error']) ) :
@@ -402,7 +402,7 @@ if ( !empty($invalid) )
 		delete_transient( 'plugins_delete_result_' . $user_ID );
 
 		if ( is_wp_error($delete_result) ) : ?>
-		<div id="message" class="error"><p><?php printf( __('Plugin could not be deleted due to an error: %s'), $delete_result->get_error_message() ); ?></p></div>
+		<div id="message" class="error"><p><?php printf( __('Plugin could not be deleted due to an error: %s'), esc_html( $delete_result->get_error_message() ) ); ?></p></div>
 		<?php else : ?>
 		<div id="message" class="updated"><p><?php _e('The selected plugins have been <strong>deleted</strong>.'); ?></p></div>
 		<?php endif; ?>
