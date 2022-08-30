@@ -486,7 +486,7 @@ if ( ! empty( $invalid ) ) {
 			/* translators: 1: plugin file, 2: error message */
 			__( 'The plugin %1$s has been <strong>deactivated</strong> due to an error: %2$s' ),
 			'<code>' . esc_html( $plugin_file ) . '</code>',
-			$error->get_error_message()
+			esc_html( $error->get_error_message() )
 		);
 		echo '</p></div>';
 	}
@@ -539,7 +539,7 @@ elseif ( isset( $_GET['deleted'] ) ) :
 
 	if ( is_wp_error( $delete_result ) ) :
 		?>
-		<div id="message" class="error notice is-dismissible"><p><?php printf( __( 'Plugin could not be deleted due to an error: %s' ), $delete_result->get_error_message() ); ?></p></div>
+		<div id="message" class="error notice is-dismissible"><p><?php printf( __( 'Plugin could not be deleted due to an error: %s' ), esc_html( $delete_result->get_error_message() ) ); ?></p></div>
 		<?php else : ?>
 		<div id="message" class="updated notice is-dismissible">
 			<p>
