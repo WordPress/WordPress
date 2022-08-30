@@ -181,6 +181,21 @@ if ( ! class_exists( 'Translations', false ) ) :
 	}
 
 	class Gettext_Translations extends Translations {
+
+		/**
+		 * Number of plural forms.
+		 *
+		 * @var int
+		 */
+		public $_nplurals;
+
+		/**
+		 * Callback to retrieve the plural form.
+		 *
+		 * @var callable
+		 */
+		public $_gettext_select_plural_form;
+
 		/**
 		 * The gettext implementation of select_plural_form.
 		 *

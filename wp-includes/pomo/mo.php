@@ -13,6 +13,11 @@ require_once __DIR__ . '/streams.php';
 if ( ! class_exists( 'MO', false ) ) :
 	class MO extends Gettext_Translations {
 
+		/**
+		 * Number of plural forms.
+		 *
+		 * @var int
+		 */
 		public $_nplurals = 2;
 
 		/**
