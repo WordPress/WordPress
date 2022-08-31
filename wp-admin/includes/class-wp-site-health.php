@@ -2283,7 +2283,7 @@ class WP_Site_Health {
 		$action_url = apply_filters(
 			'site_status_persistent_object_cache_url',
 			/* translators: Localized Support reference. */
-			__( 'https://wordpress.org/support/article/optimization/#object-caching' )
+			__( 'https://wordpress.org/support/article/optimization/#persistent-object-cache' )
 		);
 
 		$result = array(
