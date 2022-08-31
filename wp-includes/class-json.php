@@ -122,6 +122,13 @@ define('SERVICES_JSON_USE_TO_JSON', 64);
 class Services_JSON
 {
    /**
+    * Object behavior flags.
+    *
+    * @var int
+    */
+   public $use;
+
+   /**
     * constructs a new JSON instance
     *
     * @deprecated 5.3.0 Use the PHP native JSON extension instead.
