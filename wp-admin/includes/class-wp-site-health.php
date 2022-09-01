@@ -351,7 +351,7 @@ class WP_Site_Health {
 	/**
 	 * Test if plugins are outdated, or unnecessary.
 	 *
-	 * The tests checks if your plugins are up to date, and encourages you to remove any
+	 * The test checks if your plugins are up to date, and encourages you to remove any
 	 * that are not in use.
 	 *
 	 * @since 5.2.0
@@ -1667,120 +1667,6 @@ class WP_Site_Health {
 	}
 
 	/**
-	 * Tests if a full page cache is available.
-	 *
-	 * @since 6.1.0
-	 *
-	 * @return array The test result.
-	 */
-	public function get_test_page_cache() {
-		$description  = '<p>' . __( 'Page cache enhances the speed and performance of your site by saving and serving static pages instead of calling for a page every time a user visits.' ) . '</p>';
-		$description .= '<p>' . __( 'Page cache is detected by looking for an active page cache plugin as well as making three requests to the homepage and looking for one or more of the following HTTP client caching response headers:' ) . '</p>';
-		$description .= '<code>' . implode( '</code>, <code>', array_keys( $this->get_page_cache_headers() ) ) . '.</code>';
-
-		$result = array(
-			'badge'       => array(
-				'label' => __( 'Performance' ),
-				'color' => 'blue',
-			),
-			'description' => wp_kses_post( $description ),
-			'test'        => 'page_cache',
-			'status'      => 'good',
-			'label'       => '',
-			'actions'     => sprintf(
-				'<p><a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s <span class="screen-reader-text">%3$s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
-				__( 'https://wordpress.org/support/article/optimization/#Caching' ),
-				__( 'Learn more about page cache' ),
-				/* translators: Accessibility text. */
-				__( '(opens in a new tab)' )
-			),
-		);
-
-		$page_cache_detail = $this->get_page_cache_detail();
-
-		if ( is_wp_error( $page_cache_detail ) ) {
-			$result['label']  = __( 'Unable to detect the presence of page cache' );
-			$result['status'] = 'recommended';
-			$error_info       = sprintf(
-			/* translators: 1: Error message, 2: Error code. */
-				__( 'Unable to detect page cache due to possible loopback request problem. Please verify that the loopback request test is passing. Error: %1$s (Code: %2$s)' ),
-				$page_cache_detail->get_error_message(),
-				$page_cache_detail->get_error_code()
-			);
-			$result['description'] = wp_kses_post( "<p>$error_info</p>" ) . $result['description'];
-			return $result;
-		}
-
-		$result['status'] = $page_cache_detail['status'];
-
-		switch ( $page_cache_detail['status'] ) {
-			case 'recommended':
-				$result['label'] = __( 'Page cache is not detected but the server response time is OK' );
-				break;
-			case 'good':
-				$result['label'] = __( 'Page cache is detected and the server response time is good' );
-				break;
-			default:
-				if ( empty( $page_cache_detail['headers'] ) && ! $page_cache_detail['advanced_cache_present'] ) {
-					$result['label'] = __( 'Page cache is not detected and the server response time is slow' );
-				} else {
-					$result['label'] = __( 'Page cache is detected but the server response time is still slow' );
-				}
-		}
-
-		$page_cache_test_summary = array();
-
-		if ( empty( $page_cache_detail['response_time'] ) ) {
-			$page_cache_test_summary[] = '<span class="dashicons dashicons-dismiss"></span> ' . __( 'Server response time could not be determined. Verify that loopback requests are working.' );
-		} else {
-
-			$threshold = $this->get_good_response_time_threshold();
-			if ( $page_cache_detail['response_time'] < $threshold ) {
-				$page_cache_test_summary[] = '<span class="dashicons dashicons-yes-alt"></span> ' . sprintf(
-					/* translators: 1: The response time in milliseconds, 2: The recommended threshold in milliseconds. */
-					__( 'Median server response time was %1$s milliseconds. This is less than the recommended %2$s milliseconds threshold.' ),
-					number_format_i18n( $page_cache_detail['response_time'] ),
-					number_format_i18n( $threshold )
-				);
-			} else {
-				$page_cache_test_summary[] = '<span class="dashicons dashicons-warning"></span> ' . sprintf(
-					/* translators: 1: The response time in milliseconds, 2: The recommended threshold in milliseconds. */
-					__( 'Median server response time was %1$s milliseconds. It should be less than the recommended %2$s milliseconds threshold.' ),
-					number_format_i18n( $page_cache_detail['response_time'] ),
-					number_format_i18n( $threshold )
-				);
-			}
-
-			if ( empty( $page_cache_detail['headers'] ) ) {
-				$page_cache_test_summary[] = '<span class="dashicons dashicons-warning"></span> ' . __( 'No client caching response headers were detected.' );
-			} else {
-				$headers_summary  = '<span class="dashicons dashicons-yes-alt"></span>';
-				$headers_summary .= ' ' . sprintf(
-					/* translators: %d: Number of caching headers. */
-					_n(
-						'There was %d client caching response header detected:',
-						'There were %d client caching response headers detected:',
-						count( $page_cache_detail['headers'] )
-					),
-					count( $page_cache_detail['headers'] )
-				);
-				$headers_summary          .= ' <code>' . implode( '</code>, <code>', $page_cache_detail['headers'] ) . '</code>.';
-				$page_cache_test_summary[] = $headers_summary;
-			}
-		}
-
-		if ( $page_cache_detail['advanced_cache_present'] ) {
-			$page_cache_test_summary[] = '<span class="dashicons dashicons-yes-alt"></span> ' . __( 'A page cache plugin was detected.' );
-		} elseif ( ! ( is_array( $page_cache_detail ) && ! empty( $page_cache_detail['headers'] ) ) ) {
-			// Note: This message is not shown if client caching response headers were present since an external caching layer may be employed.
-			$page_cache_test_summary[] = '<span class="dashicons dashicons-warning"></span> ' . __( 'A page cache plugin was not detected.' );
-		}
-
-		$result['description'] .= '<ul><li>' . implode( '</li><li>', $page_cache_test_summary ) . '</li></ul>';
-		return $result;
-	}
-
-	/**
 	 * Check if the HTTP API can handle SSL/TLS requests.
 	 *
 	 * @since 5.2.0
@@ -2378,9 +2264,121 @@ class WP_Site_Health {
 	}
 
 	/**
-	 * Tests if sites uses persistent object cache.
+	 * Tests if a full page cache is available.
 	 *
-	 * Checks if site uses persistent object cache or recommends to use it if not.
+	 * @since 6.1.0
+	 *
+	 * @return array The test result.
+	 */
+	public function get_test_page_cache() {
+		$description  = '<p>' . __( 'Page cache enhances the speed and performance of your site by saving and serving static pages instead of calling for a page every time a user visits.' ) . '</p>';
+		$description .= '<p>' . __( 'Page cache is detected by looking for an active page cache plugin as well as making three requests to the homepage and looking for one or more of the following HTTP client caching response headers:' ) . '</p>';
+		$description .= '<code>' . implode( '</code>, <code>', array_keys( $this->get_page_cache_headers() ) ) . '.</code>';
+
+		$result = array(
+			'badge'       => array(
+				'label' => __( 'Performance' ),
+				'color' => 'blue',
+			),
+			'description' => wp_kses_post( $description ),
+			'test'        => 'page_cache',
+			'status'      => 'good',
+			'label'       => '',
+			'actions'     => sprintf(
+				'<p><a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s <span class="screen-reader-text">%3$s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
+				__( 'https://wordpress.org/support/article/optimization/#Caching' ),
+				__( 'Learn more about page cache' ),
+				/* translators: Accessibility text. */
+				__( '(opens in a new tab)' )
+			),
+		);
+
+		$page_cache_detail = $this->get_page_cache_detail();
+
+		if ( is_wp_error( $page_cache_detail ) ) {
+			$result['label']  = __( 'Unable to detect the presence of page cache' );
+			$result['status'] = 'recommended';
+			$error_info       = sprintf(
+			/* translators: 1: Error message, 2: Error code. */
+				__( 'Unable to detect page cache due to possible loopback request problem. Please verify that the loopback request test is passing. Error: %1$s (Code: %2$s)' ),
+				$page_cache_detail->get_error_message(),
+				$page_cache_detail->get_error_code()
+			);
+			$result['description'] = wp_kses_post( "<p>$error_info</p>" ) . $result['description'];
+			return $result;
+		}
+
+		$result['status'] = $page_cache_detail['status'];
+
+		switch ( $page_cache_detail['status'] ) {
+			case 'recommended':
+				$result['label'] = __( 'Page cache is not detected but the server response time is OK' );
+				break;
+			case 'good':
+				$result['label'] = __( 'Page cache is detected and the server response time is good' );
+				break;
+			default:
+				if ( empty( $page_cache_detail['headers'] ) && ! $page_cache_detail['advanced_cache_present'] ) {
+					$result['label'] = __( 'Page cache is not detected and the server response time is slow' );
+				} else {
+					$result['label'] = __( 'Page cache is detected but the server response time is still slow' );
+				}
+		}
+
+		$page_cache_test_summary = array();
+
+		if ( empty( $page_cache_detail['response_time'] ) ) {
+			$page_cache_test_summary[] = '<span class="dashicons dashicons-dismiss"></span> ' . __( 'Server response time could not be determined. Verify that loopback requests are working.' );
+		} else {
+
+			$threshold = $this->get_good_response_time_threshold();
+			if ( $page_cache_detail['response_time'] < $threshold ) {
+				$page_cache_test_summary[] = '<span class="dashicons dashicons-yes-alt"></span> ' . sprintf(
+					/* translators: 1: The response time in milliseconds, 2: The recommended threshold in milliseconds. */
+					__( 'Median server response time was %1$s milliseconds. This is less than the recommended %2$s milliseconds threshold.' ),
+					number_format_i18n( $page_cache_detail['response_time'] ),
+					number_format_i18n( $threshold )
+				);
+			} else {
+				$page_cache_test_summary[] = '<span class="dashicons dashicons-warning"></span> ' . sprintf(
+					/* translators: 1: The response time in milliseconds, 2: The recommended threshold in milliseconds. */
+					__( 'Median server response time was %1$s milliseconds. It should be less than the recommended %2$s milliseconds threshold.' ),
+					number_format_i18n( $page_cache_detail['response_time'] ),
+					number_format_i18n( $threshold )
+				);
+			}
+
+			if ( empty( $page_cache_detail['headers'] ) ) {
+				$page_cache_test_summary[] = '<span class="dashicons dashicons-warning"></span> ' . __( 'No client caching response headers were detected.' );
+			} else {
+				$headers_summary  = '<span class="dashicons dashicons-yes-alt"></span>';
+				$headers_summary .= ' ' . sprintf(
+					/* translators: %d: Number of caching headers. */
+					_n(
+						'There was %d client caching response header detected:',
+						'There were %d client caching response headers detected:',
+						count( $page_cache_detail['headers'] )
+					),
+					count( $page_cache_detail['headers'] )
+				);
+				$headers_summary          .= ' <code>' . implode( '</code>, <code>', $page_cache_detail['headers'] ) . '</code>.';
+				$page_cache_test_summary[] = $headers_summary;
+			}
+		}
+
+		if ( $page_cache_detail['advanced_cache_present'] ) {
+			$page_cache_test_summary[] = '<span class="dashicons dashicons-yes-alt"></span> ' . __( 'A page cache plugin was detected.' );
+		} elseif ( ! ( is_array( $page_cache_detail ) && ! empty( $page_cache_detail['headers'] ) ) ) {
+			// Note: This message is not shown if client caching response headers were present since an external caching layer may be employed.
+			$page_cache_test_summary[] = '<span class="dashicons dashicons-warning"></span> ' . __( 'A page cache plugin was not detected.' );
+		}
+
+		$result['description'] .= '<ul><li>' . implode( '</li><li>', $page_cache_test_summary ) . '</li></ul>';
+		return $result;
+	}
+
+	/**
+	 * Tests if the site uses persistent object cache and recommends to use it if not.
 	 *
 	 * @since 6.1.0
 	 *
