@@ -2895,21 +2895,20 @@ function wp_enqueue_global_styles_css_custom_properties() {
 }
 
 /**
- * This function takes care of adding inline styles
- * in the proper place, depending on the theme in use.
+ * Hooks inline styles in the proper place, depending on the active theme.
  *
  * @since 5.9.1
+ * @since 6.1.0 Added the `$priority` parameter.
  *
- * For block themes, it's loaded in the head.
- * For classic ones, it's loaded in the body
- * because the wp_head action happens before
- * the render_block.
+ * For block themes, styles are loaded in the head.
+ * For classic ones, styles are loaded in the body because the wp_head action happens before render_block.
  *
  * @link https://core.trac.wordpress.org/ticket/53494.
  *
- * @param string $style String containing the CSS styles to be added.
+ * @param string $style    String containing the CSS styles to be added.
+ * @param int    $priority To set the priority for the add_action.
  */
-function wp_enqueue_block_support_styles( $style ) {
+function wp_enqueue_block_support_styles( $style, $priority = 10 ) {
 	$action_hook_name = 'wp_footer';
 	if ( wp_is_block_theme() ) {
 		$action_hook_name = 'wp_head';
@@ -2918,7 +2917,8 @@ function wp_enqueue_block_support_styles( $style ) {
 		$action_hook_name,
 		static function () use ( $style ) {
 			echo "<style>$style</style>\n";
-		}
+		},
+		$priority
 	);
 }
 
