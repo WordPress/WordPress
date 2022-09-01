@@ -3933,6 +3933,10 @@ div.comment:first-of-type {
 	text-align: center;
 }
 
+.comment-respond .required-field-message {
+	display: inline-block;
+}
+
 .comment-respond p {
 	line-height: 1.1;
 	margin-bottom: 2rem;
