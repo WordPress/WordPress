@@ -1702,7 +1702,7 @@ class WP_Site_Health {
 			$result['label']  = __( 'Unable to detect the presence of page cache' );
 			$result['status'] = 'recommended';
 			$error_info       = sprintf(
-			/* translators: 1 is error message, 2 is error code */
+			/* translators: 1: Error message, 2: Error code. */
 				__( 'Unable to detect page cache due to possible loopback request problem. Please verify that the loopback request test is passing. Error: %1$s (Code: %2$s)' ),
 				$page_cache_detail->get_error_message(),
 				$page_cache_detail->get_error_code()
@@ -1737,14 +1737,14 @@ class WP_Site_Health {
 			$threshold = $this->get_good_response_time_threshold();
 			if ( $page_cache_detail['response_time'] < $threshold ) {
 				$page_cache_test_summary[] = '<span class="dashicons dashicons-yes-alt"></span> ' . sprintf(
-					/* translators: 1: The response time in milliseconds. 2: The recommended threshold milliseconds. */
+					/* translators: 1: The response time in milliseconds, 2: The recommended threshold in milliseconds. */
 					__( 'Median server response time was %1$s milliseconds. This is less than the recommended %2$s milliseconds threshold.' ),
 					number_format_i18n( $page_cache_detail['response_time'] ),
 					number_format_i18n( $threshold )
 				);
 			} else {
 				$page_cache_test_summary[] = '<span class="dashicons dashicons-warning"></span> ' . sprintf(
-					/* translators: 1: The response time in milliseconds. 2: The recommended threshold milliseconds. */
+					/* translators: 1: The response time in milliseconds, 2: The recommended threshold in milliseconds. */
 					__( 'Median server response time was %1$s milliseconds. It should be less than the recommended %2$s milliseconds threshold.' ),
 					number_format_i18n( $page_cache_detail['response_time'] ),
 					number_format_i18n( $threshold )
@@ -1755,16 +1755,16 @@ class WP_Site_Health {
 				$page_cache_test_summary[] = '<span class="dashicons dashicons-warning"></span> ' . __( 'No client caching response headers were detected.' );
 			} else {
 				$headers_summary  = '<span class="dashicons dashicons-yes-alt"></span>';
-				$headers_summary .= sprintf(
-				/* translators: Placeholder is number of caching headers */
+				$headers_summary .= ' ' . sprintf(
+					/* translators: %d: Number of caching headers. */
 					_n(
-						' There was %d client caching response header detected: ',
-						' There were %d client caching response headers detected: ',
+						'There was %d client caching response header detected:',
+						'There were %d client caching response headers detected:',
 						count( $page_cache_detail['headers'] )
 					),
 					count( $page_cache_detail['headers'] )
 				);
-				$headers_summary          .= '<code>' . implode( '</code>, <code>', $page_cache_detail['headers'] ) . '</code>.';
+				$headers_summary          .= ' <code>' . implode( '</code>, <code>', $page_cache_detail['headers'] ) . '</code>.';
 				$page_cache_test_summary[] = $headers_summary;
 			}
 		}
@@ -2410,7 +2410,7 @@ class WP_Site_Health {
 			'label'       => __( 'A persistent object cache is being used' ),
 			'description' => sprintf(
 				'<p>%s</p>',
-				__( "A persistent object cache makes your site's database more efficient, resulting in faster load times because WordPress can retrieve your site's content and settings much more quickly." )
+				__( 'A persistent object cache makes your site&#8217;s database more efficient, resulting in faster load times because WordPress can retrieve your site&#8217;s content and settings much more quickly.' )
 			),
 			'actions'     => sprintf(
 				'<p><a href="%s" target="_blank" rel="noopener">%s <span class="screen-reader-text">%s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
