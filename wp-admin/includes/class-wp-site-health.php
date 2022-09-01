@@ -3290,10 +3290,6 @@ class WP_Site_Health {
 	public function should_suggest_persistent_object_cache() {
 		global $wpdb;
 
-		if ( is_multisite() ) {
-			return true;
-		}
-
 		/**
 		 * Filters whether to suggest use of a persistent object cache and bypass default threshold checks.
 		 *
@@ -3307,6 +3303,10 @@ class WP_Site_Health {
 		$short_circuit = apply_filters( 'site_status_should_suggest_persistent_object_cache', null );
 		if ( is_bool( $short_circuit ) ) {
 			return $short_circuit;
+		}
+
+		if ( is_multisite() ) {
+			return true;
 		}
 
 		/**
