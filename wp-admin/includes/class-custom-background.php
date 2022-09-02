@@ -38,7 +38,7 @@ class Custom_Background {
 	private $updated;
 
 	/**
-	 * Constructor - Register administration header callback.
+	 * Constructor - Registers administration header callback.
 	 *
 	 * @since 3.0.0
 	 * @param callable $admin_header_callback
@@ -57,7 +57,7 @@ class Custom_Background {
 	}
 
 	/**
-	 * Set up the hooks for the Custom Background admin page.
+	 * Sets up the hooks for the Custom Background admin page.
 	 *
 	 * @since 3.0.0
 	 */
@@ -77,7 +77,7 @@ class Custom_Background {
 	}
 
 	/**
-	 * Set up the enqueue for the CSS & JavaScript files.
+	 * Sets up the enqueue for the CSS & JavaScript files.
 	 *
 	 * @since 3.0.0
 	 */
@@ -106,7 +106,7 @@ class Custom_Background {
 	}
 
 	/**
-	 * Execute custom background modification.
+	 * Executes custom background modification.
 	 *
 	 * @since 3.0.0
 	 */
@@ -222,7 +222,7 @@ class Custom_Background {
 	}
 
 	/**
-	 * Display the custom background page.
+	 * Displays the custom background page.
 	 *
 	 * @since 3.0.0
 	 */
@@ -480,7 +480,7 @@ class Custom_Background {
 	}
 
 	/**
-	 * Handle an Image upload for the background image.
+	 * Handles an Image upload for the background image.
 	 *
 	 * @since 3.0.0
 	 */
@@ -537,7 +537,7 @@ class Custom_Background {
 	}
 
 	/**
-	 * Ajax handler for adding custom background context to an attachment.
+	 * Handles Ajax request for adding custom background context to an attachment.
 	 *
 	 * Triggers when the user adds a new background image from the
 	 * Media Manager.

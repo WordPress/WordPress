@@ -80,7 +80,7 @@ function display_header( $body_classes = '' ) {
 } // End display_header().
 
 /**
- * Display installer setup form.
+ * Displays installer setup form.
  *
  * @since 2.8.0
  *

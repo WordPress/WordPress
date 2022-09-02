@@ -67,7 +67,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Return a list of slugs of installed plugins, if known.
+	 * Returns a list of slugs of installed plugins, if known.
 	 *
 	 * Uses the transient data from the updates API to determine the slugs of
 	 * known installed plugins. This might be better elsewhere, perhaps even
@@ -321,7 +321,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Override parent views so we can use the filter bar display.
+	 * Overrides parent views so we can use the filter bar display.
 	 */
 	public function views() {
 		$views = $this->get_views();

@@ -187,7 +187,7 @@ else :
 	<p class="description"><?php _e( 'Note: Neither of these options blocks access to your site &mdash; it is up to search engines to honor your request.' ); ?></p>
 	<?php
 	/**
-	 * Enable the legacy 'Site visibility' privacy options.
+	 * Enables the legacy 'Site visibility' privacy options.
 	 *
 	 * By default the privacy options form displays a single checkbox to 'discourage' search
 	 * engines from indexing the site. Hooking to this action serves a dual purpose:
