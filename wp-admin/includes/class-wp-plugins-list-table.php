@@ -752,7 +752,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			$plugin_name = $plugin_file;
 
 			if ( $plugin_file !== $plugin_data['Name'] ) {
-				$plugin_name .= '<br/>' . $plugin_data['Name'];
+				$plugin_name .= '<br />' . $plugin_data['Name'];
 			}
 
 			if ( true === ( $dropins[ $plugin_file ][1] ) ) { // Doesn't require a constant.

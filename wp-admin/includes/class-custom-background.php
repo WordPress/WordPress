@@ -306,7 +306,7 @@ class Custom_Background {
 <td>
 <form method="post">
 			<?php wp_nonce_field( 'custom-background-remove', '_wpnonce-custom-background-remove' ); ?>
-			<?php submit_button( __( 'Remove Background Image' ), '', 'remove-background', false ); ?><br/>
+			<?php submit_button( __( 'Remove Background Image' ), '', 'remove-background', false ); ?><br />
 			<?php _e( 'This will remove the background image. You will not be able to restore any customizations.' ); ?>
 </form>
 </td>
@@ -320,7 +320,7 @@ class Custom_Background {
 <td>
 <form method="post">
 			<?php wp_nonce_field( 'custom-background-reset', '_wpnonce-custom-background-reset' ); ?>
-			<?php submit_button( __( 'Restore Original Image' ), '', 'reset-background', false ); ?><br/>
+			<?php submit_button( __( 'Restore Original Image' ), '', 'reset-background', false ); ?><br />
 			<?php _e( 'This will restore the original background image. You will not be able to restore any customizations.' ); ?>
 </form>
 </td>

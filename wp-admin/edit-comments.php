@@ -345,7 +345,7 @@ if ( isset( $_REQUEST['approved'] ) || isset( $_REQUEST['deleted'] ) || isset( $
 			}
 		}
 
-		echo '<div id="moderated" class="updated notice is-dismissible"><p>' . implode( "<br/>\n", $messages ) . '</p></div>';
+		echo '<div id="moderated" class="updated notice is-dismissible"><p>' . implode( "<br />\n", $messages ) . '</p></div>';
 	}
 }
 ?>

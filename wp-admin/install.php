@@ -187,7 +187,7 @@ function display_setup_form( $error = null ) {
 					if ( has_action( 'blog_privacy_selector' ) ) {
 						?>
 						<input id="blog-public" type="radio" name="blog_public" value="1" <?php checked( 1, $blog_public ); ?> />
-						<label for="blog-public"><?php _e( 'Allow search engines to index this site' ); ?></label><br/>
+						<label for="blog-public"><?php _e( 'Allow search engines to index this site' ); ?></label><br />
 						<input id="blog-norobots" type="radio" name="blog_public" value="0" <?php checked( 0, $blog_public ); ?> />
 						<label for="blog-norobots"><?php _e( 'Discourage search engines from indexing this site' ); ?></label>
 						<p class="description"><?php _e( 'Note: Neither of these options blocks access to your site &mdash; it is up to search engines to honor your request.' ); ?></p>

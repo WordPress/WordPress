@@ -443,7 +443,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 				echo "<span class='$action'>$link$sep</span>";
 			}
 
-			echo '</small></span><br/>';
+			echo '</small></span><br />';
 		}
 	}
 

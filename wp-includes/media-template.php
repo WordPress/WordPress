@@ -1438,7 +1438,7 @@ function wp_print_media_templates() {
 							);
 						?>
 						</span>
-						<button type="button" class="button-link remove-setting remove-track"><?php _ex( 'Remove video track', 'media' ); ?></button><br/>
+						<button type="button" class="button-link remove-setting remove-track"><?php _ex( 'Remove video track', 'media' ); ?></button><br />
 						<# } ); #>
 					<# } else { #>
 					<span class="name"><?php _e( 'Tracks (subtitles, captions, descriptions, chapters, or metadata)' ); ?></span><br />
@@ -1470,7 +1470,7 @@ function wp_print_media_templates() {
 						<# } #>
 					</dl>
 					<# if ( index % data.columns === data.columns - 1 ) { #>
-						<br style="clear: both;">
+						<br style="clear: both;" />
 					<# } #>
 				<# } ); #>
 			</div>
