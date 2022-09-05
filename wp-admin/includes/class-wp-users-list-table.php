@@ -365,7 +365,7 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * @return string[] Array of column titles keyed by their column name.
 	 */
 	public function get_columns() {
-		$c = array(
+		$columns = array(
 			'cb'       => '<input type="checkbox" />',
 			'username' => __( 'Username' ),
 			'name'     => __( 'Name' ),
@@ -375,10 +375,10 @@ class WP_Users_List_Table extends WP_List_Table {
 		);
 
 		if ( $this->is_site_users ) {
-			unset( $c['posts'] );
+			unset( $columns['posts'] );
 		}
 
-		return $c;
+		return $columns;
 	}
 
 	/**
@@ -389,12 +389,12 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * @return array Array of sortable columns.
 	 */
 	protected function get_sortable_columns() {
-		$c = array(
+		$columns = array(
 			'username' => 'login',
 			'email'    => 'email',
 		);
 
-		return $c;
+		return $columns;
 	}
 
 	/**
@@ -537,7 +537,7 @@ class WP_Users_List_Table extends WP_List_Table {
 		// Comma-separated list of user roles.
 		$roles_list = implode( ', ', $user_roles );
 
-		$r = "<tr id='user-$user_object->ID'>";
+		$row = "<tr id='user-$user_object->ID'>";
 
 		list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
 
@@ -559,41 +559,41 @@ class WP_Users_List_Table extends WP_List_Table {
 			$attributes = "class='$classes' $data";
 
 			if ( 'cb' === $column_name ) {
-				$r .= "<th scope='row' class='check-column'>$checkbox</th>";
+				$row .= "<th scope='row' class='check-column'>$checkbox</th>";
 			} else {
-				$r .= "<td $attributes>";
+				$row .= "<td $attributes>";
 				switch ( $column_name ) {
 					case 'username':
-						$r .= "$avatar $edit";
+						$row .= "$avatar $edit";
 						break;
 					case 'name':
 						if ( $user_object->first_name && $user_object->last_name ) {
-							$r .= sprintf(
+							$row .= sprintf(
 								/* translators: 1: User's first name, 2: Last name. */
 								_x( '%1$s %2$s', 'Display name based on first name and last name' ),
 								$user_object->first_name,
 								$user_object->last_name
 							);
 						} elseif ( $user_object->first_name ) {
-							$r .= $user_object->first_name;
+							$row .= $user_object->first_name;
 						} elseif ( $user_object->last_name ) {
-							$r .= $user_object->last_name;
+							$row .= $user_object->last_name;
 						} else {
-							$r .= sprintf(
+							$row .= sprintf(
 								'<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">%s</span>',
 								_x( 'Unknown', 'name' )
 							);
 						}
 						break;
 					case 'email':
-						$r .= "<a href='" . esc_url( "mailto:$email" ) . "'>$email</a>";
+						$row .= "<a href='" . esc_url( "mailto:$email" ) . "'>$email</a>";
 						break;
 					case 'role':
-						$r .= esc_html( $roles_list );
+						$row .= esc_html( $roles_list );
 						break;
 					case 'posts':
 						if ( $numposts > 0 ) {
-							$r .= sprintf(
+							$row .= sprintf(
 								'<a href="%s" class="edit"><span aria-hidden="true">%s</span><span class="screen-reader-text">%s</span></a>',
 								"edit.php?author={$user_object->ID}",
 								$numposts,
@@ -604,7 +604,7 @@ class WP_Users_List_Table extends WP_List_Table {
 								)
 							);
 						} else {
-							$r .= 0;
+							$row .= 0;
 						}
 						break;
 					default:
@@ -617,18 +617,18 @@ class WP_Users_List_Table extends WP_List_Table {
 						 * @param string $column_name Column name.
 						 * @param int    $user_id     ID of the currently-listed user.
 						 */
-						$r .= apply_filters( 'manage_users_custom_column', '', $column_name, $user_object->ID );
+						$row .= apply_filters( 'manage_users_custom_column', '', $column_name, $user_object->ID );
 				}
 
 				if ( $primary === $column_name ) {
-					$r .= $this->row_actions( $actions );
+					$row .= $this->row_actions( $actions );
 				}
-				$r .= '</td>';
+				$row .= '</td>';
 			}
 		}
-		$r .= '</tr>';
+		$row .= '</tr>';
 
-		return $r;
+		return $row;
 	}
 
 	/**
