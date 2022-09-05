@@ -547,6 +547,21 @@ function get_post_class( $class = '', $post = null ) {
 
 	// All public taxonomies.
 	$taxonomies = get_taxonomies( array( 'public' => true ) );
+
+	/**
+	 * Filters the taxonomies to generate classes for each individual term.
+	 *
+	 * Default is all public taxonomies registered to the post type.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @param array    $taxonomies List of all public taxonomies to generate classes for.
+	 * @param int      $post_id    The post ID.
+	 * @param string[] $classes    An array of post class names.
+	 * @param string[] $class      An array of additional class names added to the post.
+	*/
+	$taxonomies = apply_filters( 'wp_post_class_taxonomies', $taxonomies, $post->ID, $classes, $class );
+
 	foreach ( (array) $taxonomies as $taxonomy ) {
 		if ( is_object_in_taxonomy( $post->post_type, $taxonomy ) ) {
 			foreach ( (array) get_the_terms( $post->ID, $taxonomy ) as $term ) {
