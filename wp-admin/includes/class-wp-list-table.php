@@ -555,23 +555,23 @@ class WP_List_Table {
 			$always_visible = true;
 		}
 
-		$out = '<div class="' . ( $always_visible ? 'row-actions visible' : 'row-actions' ) . '">';
+		$output = '<div class="' . ( $always_visible ? 'row-actions visible' : 'row-actions' ) . '">';
 
 		$i = 0;
 
 		foreach ( $actions as $action => $link ) {
 			++$i;
 
-			$sep = ( $i < $action_count ) ? ' | ' : '';
+			$separator = ( $i < $action_count ) ? ' | ' : '';
 
-			$out .= "<span class='$action'>$link$sep</span>";
+			$output .= "<span class='$action'>{$link}{$separator}</span>";
 		}
 
-		$out .= '</div>';
+		$output .= '</div>';
 
-		$out .= '<button type="button" class="toggle-row"><span class="screen-reader-text">' . __( 'Show more details' ) . '</span></button>';
+		$output .= '<button type="button" class="toggle-row"><span class="screen-reader-text">' . __( 'Show more details' ) . '</span></button>';
 
-		return $out;
+		return $output;
 	}
 
 	/**

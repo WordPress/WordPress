@@ -663,17 +663,17 @@ function wp_doc_link_parse( $content ) {
 
 	$ignore_functions = array_unique( $ignore_functions );
 
-	$out = array();
+	$output = array();
 
 	foreach ( $functions as $function ) {
 		if ( in_array( $function, $ignore_functions, true ) ) {
 			continue;
 		}
 
-		$out[] = $function;
+		$output[] = $function;
 	}
 
-	return $out;
+	return $output;
 }
 
 /**

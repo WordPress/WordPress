@@ -651,9 +651,9 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 			foreach ( $site_states as $state ) {
 				++$i;
 
-				$sep = ( $i < $state_count ) ? ', ' : '';
+				$separator = ( $i < $state_count ) ? ', ' : '';
 
-				echo "<span class='post-state'>{$state}{$sep}</span>";
+				echo "<span class='post-state'>{$state}{$separator}</span>";
 			}
 		}
 	}

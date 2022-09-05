@@ -635,19 +635,21 @@ class WP_Media_List_Table extends WP_List_Table {
 			$terms = get_the_terms( $post->ID, $taxonomy );
 
 			if ( is_array( $terms ) ) {
-				$out = array();
+				$output = array();
+
 				foreach ( $terms as $t ) {
 					$posts_in_term_qv             = array();
 					$posts_in_term_qv['taxonomy'] = $taxonomy;
 					$posts_in_term_qv['term']     = $t->slug;
 
-					$out[] = sprintf(
+					$output[] = sprintf(
 						'<a href="%s">%s</a>',
 						esc_url( add_query_arg( $posts_in_term_qv, 'upload.php' ) ),
 						esc_html( sanitize_term_field( 'name', $t->name, $t->term_id, $taxonomy, 'display' ) )
 					);
 				}
-				echo implode( wp_get_list_item_separator(), $out );
+
+				echo implode( wp_get_list_item_separator(), $output );
 			} else {
 				echo '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">' . get_taxonomy( $taxonomy )->labels->no_terms . '</span>';
 			}

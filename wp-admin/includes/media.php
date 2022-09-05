@@ -1155,16 +1155,16 @@ function image_align_input_fields( $post, $checked = '' ) {
 		$checked = 'none';
 	}
 
-	$out = array();
+	$output = array();
 
 	foreach ( $alignments as $name => $label ) {
-		$name  = esc_attr( $name );
-		$out[] = "<input type='radio' name='attachments[{$post->ID}][align]' id='image-align-{$name}-{$post->ID}' value='$name'" .
+		$name     = esc_attr( $name );
+		$output[] = "<input type='radio' name='attachments[{$post->ID}][align]' id='image-align-{$name}-{$post->ID}' value='$name'" .
 			( $checked == $name ? " checked='checked'" : '' ) .
 			" /><label for='image-align-{$name}-{$post->ID}' class='align image-align-{$name}-label'>$label</label>";
 	}
 
-	return implode( "\n", $out );
+	return implode( "\n", $output );
 }
 
 /**
@@ -1199,7 +1199,7 @@ function image_size_input_fields( $post, $check = '' ) {
 		$check = get_user_setting( 'imgsize', 'medium' );
 	}
 
-	$out = array();
+	$output = array();
 
 	foreach ( $size_names as $size => $label ) {
 		$downsize = image_downsize( $post->ID, $size );
@@ -1235,13 +1235,13 @@ function image_size_input_fields( $post, $check = '' ) {
 		}
 		$html .= '</div>';
 
-		$out[] = $html;
+		$output[] = $html;
 	}
 
 	return array(
 		'label' => __( 'Size' ),
 		'input' => 'html',
-		'html'  => implode( "\n", $out ),
+		'html'  => implode( "\n", $output ),
 	);
 }
 

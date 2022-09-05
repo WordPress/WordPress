@@ -677,7 +677,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 		$comment            = $item;
 		$the_comment_status = wp_get_comment_status( $comment );
 
-		$out = '';
+		$output = '';
 
 		$del_nonce     = esc_html( '_wpnonce=' . wp_create_nonce( "delete-comment_$comment->comment_ID" ) );
 		$approve_nonce = esc_html( '_wpnonce=' . wp_create_nonce( "approve-comment_$comment->comment_ID" ) );
@@ -832,7 +832,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 			$always_visible = true;
 		}
 
-		$out .= '<div class="' . ( $always_visible ? 'row-actions visible' : 'row-actions' ) . '">';
+		$output .= '<div class="' . ( $always_visible ? 'row-actions visible' : 'row-actions' ) . '">';
 
 		$i = 0;
 
@@ -842,9 +842,9 @@ class WP_Comments_List_Table extends WP_List_Table {
 			if ( ( ( 'approve' === $action || 'unapprove' === $action ) && 2 === $i )
 				|| 1 === $i
 			) {
-				$sep = '';
+				$separator = '';
 			} else {
-				$sep = ' | ';
+				$separator = ' | ';
 			}
 
 			// Reply and quickedit need a hide-if-no-js span when not added with Ajax.
@@ -860,14 +860,14 @@ class WP_Comments_List_Table extends WP_List_Table {
 				}
 			}
 
-			$out .= "<span class='$action'>$sep$link</span>";
+			$output .= "<span class='$action'>{$separator}{$link}</span>";
 		}
 
-		$out .= '</div>';
+		$output .= '</div>';
 
-		$out .= '<button type="button" class="toggle-row"><span class="screen-reader-text">' . __( 'Show more details' ) . '</span></button>';
+		$output .= '<button type="button" class="toggle-row"><span class="screen-reader-text">' . __( 'Show more details' ) . '</span></button>';
 
-		return $out;
+		return $output;
 	}
 
 	/**

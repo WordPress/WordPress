@@ -2168,9 +2168,9 @@ function _post_states( $post, $display = true ) {
 		foreach ( $post_states as $state ) {
 			++$i;
 
-			$sep = ( $i < $state_count ) ? ', ' : '';
+			$separator = ( $i < $state_count ) ? ', ' : '';
 
-			$post_states_string .= "<span class='post-state'>$state$sep</span>";
+			$post_states_string .= "<span class='post-state'>{$state}{$separator}</span>";
 		}
 	}
 
@@ -2282,9 +2282,9 @@ function _media_states( $post, $display = true ) {
 		foreach ( $media_states as $state ) {
 			++$i;
 
-			$sep = ( $i < $state_count ) ? ', ' : '';
+			$separator = ( $i < $state_count ) ? ', ' : '';
 
-			$media_states_string .= "<span class='post-state'>$state$sep</span>";
+			$media_states_string .= "<span class='post-state'>{$state}{$separator}</span>";
 		}
 	}
 
