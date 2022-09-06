@@ -85,6 +85,7 @@ class WP_Network_Query {
 	 * Sets up the network query, based on the query vars passed.
 	 *
 	 * @since 4.6.0
+	 * @since 6.1.0 Introduced the 'update_network_meta_cache' parameter.
 	 *
 	 * @param string|array $query {
 	 *     Optional. Array or query string of network query parameters. Default empty.
