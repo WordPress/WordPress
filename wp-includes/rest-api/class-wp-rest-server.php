@@ -1308,6 +1308,8 @@ class WP_REST_Server {
 		$site_icon_id = get_option( 'site_icon', 0 );
 
 		$this->add_image_to_index( $response, $site_icon_id, 'site_icon' );
+
+		$response->data['site_icon_url'] = get_site_icon_url();
 	}
 
 	/**
