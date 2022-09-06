@@ -84,6 +84,7 @@ function clean_network_cache( $ids ) {
 
 	$network_ids = (array) $ids;
 	wp_cache_delete_multiple( $network_ids, 'networks' );
+	wp_cache_delete_multiple( $network_ids, 'site_meta' );
 
 	foreach ( $network_ids as $id ) {
 		/**
@@ -107,35 +108,44 @@ function clean_network_cache( $ids ) {
  * cache using the network group with the key using the ID of the networks.
  *
  * @since 4.6.0
+ * @since 6.1.0 Introduced the `$update_meta_cache` parameter.
  *
- * @param array $networks Array of network row objects.
+ * @param array $networks          Array of network row objects.
+ * @param bool  $update_meta_cache Whether to update site meta cache. Default true.
  */
-function update_network_cache( $networks ) {
+function update_network_cache( $networks, $update_meta_cache = true ) {
 	$data = array();
 	foreach ( (array) $networks as $network ) {
 		$data[ $network->id ] = $network;
 	}
+
 	wp_cache_add_multiple( $data, 'networks' );
+	if ( $update_meta_cache ) {
+		$network_ids = array_keys( $data );
+		update_meta_cache( 'site', $network_ids );
+	}
 }
 
 /**
  * Adds any networks from the given IDs to the cache that do not already exist in cache.
  *
  * @since 4.6.0
+ * @since 6.1.0 Introduced the `$update_meta_cache` parameter.
  * @since 6.1.0 This function is no longer marked as "private".
  *
  * @see update_network_cache()
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param array $network_ids Array of network IDs.
+ * @param array $network_ids       Array of network IDs.
+ * @param bool  $update_meta_cache Whether to update site meta cache. Default true.
  */
-function _prime_network_caches( $network_ids ) {
+function _prime_network_caches( $network_ids, $update_meta_cache = true ) {
 	global $wpdb;
 
 	$non_cached_ids = _get_non_cached_ids( $network_ids, 'networks' );
 	if ( ! empty( $non_cached_ids ) ) {
 		$fresh_networks = $wpdb->get_results( sprintf( "SELECT $wpdb->site.* FROM $wpdb->site WHERE id IN (%s)", implode( ',', array_map( 'intval', $non_cached_ids ) ) ) ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 
-		update_network_cache( $fresh_networks );
+		update_network_cache( $fresh_networks, $update_meta_cache );
 	}
 }
