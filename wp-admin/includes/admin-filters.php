@@ -37,6 +37,8 @@ add_filter( 'media_upload_library', 'media_upload_library' );
 
 add_filter( 'media_upload_tabs', 'update_gallery_tab' );
 
+add_filter( 'image_editor_output_format', 'wp_default_image_output_mapping' );
+
 // Admin color schemes.
 add_action( 'admin_init', 'register_admin_color_schemes', 1 );
 add_action( 'admin_head', 'wp_color_scheme_settings' );
