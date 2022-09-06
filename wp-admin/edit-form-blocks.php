@@ -68,8 +68,10 @@ $preload_paths = array(
 	array( rest_get_route_for_post_type_items( 'attachment' ), 'OPTIONS' ),
 	array( rest_get_route_for_post_type_items( 'page' ), 'OPTIONS' ),
 	array( rest_get_route_for_post_type_items( 'wp_block' ), 'OPTIONS' ),
+	array( rest_get_route_for_post_type_items( 'wp_template' ), 'OPTIONS' ),
 	sprintf( '%s/autosaves?context=edit', $rest_path ),
 	'/wp/v2/settings',
+	array( '/wp/v2/settings', 'OPTIONS' ),
 );
 
 block_editor_rest_api_preload( $preload_paths, $block_editor_context );
