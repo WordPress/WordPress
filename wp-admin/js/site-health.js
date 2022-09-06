@@ -34,10 +34,6 @@ jQuery( function( $ ) {
 		// Hide success visual feedback after 3 seconds since last success.
 		successTimeout = setTimeout( function() {
 			successElement.addClass( 'hidden' );
-			// Remove the visually hidden textarea so that it isn't perceived by assistive technologies.
-			if ( clipboard.clipboardAction.fakeElem && clipboard.clipboardAction.removeFake ) {
-				clipboard.clipboardAction.removeFake();
-			}
 		}, 3000 );
 
 		// Handle success audible feedback.
