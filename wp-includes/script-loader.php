@@ -404,6 +404,7 @@ function wp_default_packages_inline_scripts( $scripts ) {
 							/* translators: %s: Duration. */
 							'past'   => __( '%s ago' ),
 						),
+						'startOfWeek'   => (int) get_option( 'start_of_week', 0 ),
 					),
 					'formats'  => array(
 						/* translators: Time format, see https://www.php.net/manual/datetime.format.php */
