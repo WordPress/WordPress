@@ -2690,7 +2690,7 @@ function wp_unique_filename( $dir, $filename, $unique_filename_callback = null )
 		 */
 		if ( $is_image ) {
 			/** This filter is documented in wp-includes/class-wp-image-editor.php */
-			$output_formats = apply_filters( 'image_editor_output_format', array(), $_dir . $filename, $mime_type );
+			$output_formats = apply_filters( 'image_editor_output_format', array(), $_dir . $filename, $mime_type, '' );
 			$alt_types      = array();
 
 			if ( ! empty( $output_formats[ $mime_type ] ) ) {

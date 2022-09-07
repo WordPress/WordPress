@@ -632,7 +632,7 @@ add_action( 'media_buttons', 'media_buttons' );
 add_filter( 'image_send_to_editor', 'image_add_caption', 20, 8 );
 add_filter( 'media_send_to_editor', 'image_media_send_to_editor', 10, 3 );
 
-add_filter( 'image_editor_output_format', 'wp_default_image_output_mapping' );
+add_filter( 'image_editor_output_format', 'wp_default_image_output_mapping', 10, 4 );
 
 // Embeds.
 add_action( 'rest_api_init', 'wp_oembed_register_route' );

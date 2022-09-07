@@ -14,6 +14,7 @@
 abstract class WP_Image_Editor {
 	protected $file              = null;
 	protected $size              = null;
+	protected $size_name         = '';
 	protected $mime_type         = null;
 	protected $output_mime_type  = null;
 	protected $default_mime_type = 'image/jpeg';
@@ -117,7 +118,7 @@ abstract class WP_Image_Editor {
 	 * @abstract
 	 *
 	 * @param array $sizes {
-	 *     An array of image size arrays. Default sizes are 'small', 'medium', 'large'.
+	 *     Associative array of image size names and their data. Default sizes are 'small', 'medium', 'large'.
 	 *
 	 *     @type array ...$0 {
 	 *         @type int  $width  Image width.
@@ -185,7 +186,7 @@ abstract class WP_Image_Editor {
 	 *
 	 * @since 3.5.0
 	 *
-	 * @return int[] {
+	 * @return array {
 	 *     Dimensions of the image.
 	 *
 	 *     @type int $width  The image width.
@@ -201,9 +202,9 @@ abstract class WP_Image_Editor {
 	 *
 	 * @since 3.5.0
 	 *
-	 * @param int $width
-	 * @param int $height
-	 * @return true
+	 * @param int $width  The image width.
+	 * @param int $height The image height.
+	 * @return true True on success, false on failure.
 	 */
 	protected function update_size( $width = null, $height = null ) {
 		$this->size = array(
@@ -211,6 +212,28 @@ abstract class WP_Image_Editor {
 			'height' => (int) $height,
 		);
 		return true;
+	}
+
+	/**
+	 * Gets the current image size name.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @return string Image size name, or empty string if none set.
+	 */
+	public function get_size_name() {
+		return $this->size_name;
+	}
+
+	/**
+	 * Sets the current image size name.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @param string $size_name The image size name.
+	 */
+	protected function update_size_name( $size_name ) {
+		$this->size_name = (string) $size_name;
 	}
 
 	/**
@@ -364,6 +387,7 @@ abstract class WP_Image_Editor {
 		 * @see WP_Image_Editor::get_output_format()
 		 *
 		 * @since 5.8.0
+		 * @since 6.1.0 The $size_name parameter was added.
 		 *
 		 * @param string[] $output_format {
 		 *     An array of mime type mappings. Maps a source mime type to a new
@@ -373,8 +397,9 @@ abstract class WP_Image_Editor {
 		 * }
 		 * @param string $filename  Path to the image.
 		 * @param string $mime_type The source image mime type.
+		 * @param string $size_name The image size name to create, or empty string if not set.
 		 */
-		$output_format = apply_filters( 'image_editor_output_format', array(), $filename, $mime_type );
+		$output_format = apply_filters( 'image_editor_output_format', array(), $filename, $mime_type, $this->size_name );
 
 		if ( isset( $output_format[ $mime_type ] )
 			&& $this->supports_mime_type( $output_format[ $mime_type ] )
