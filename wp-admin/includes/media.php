@@ -3843,18 +3843,3 @@ function wp_media_attach_action( $parent_id, $action = 'attach' ) {
 		exit;
 	}
 }
-
-/**
- * Filters the default image output mapping.
- *
- * With this filter callback, WebP image files will be generated for certain JPEG source files.
- *
- * @since 6.1.0
- *
- * @param array $output_mapping Map of mime type to output format.
- * @retun array The adjusted default output mapping.
- */
-function wp_default_image_output_mapping( $output_mapping ) {
-	$output_mapping['image/jpeg'] = 'image/webp';
-	return $output_mapping;
-}
