@@ -347,16 +347,22 @@ class WP_Theme_JSON {
 	 * The valid elements that can be found under styles.
 	 *
 	 * @since 5.8.0
+	 * @since 6.1.0 Added `heading`, `button`, and `caption` to the elements.
 	 * @var string[]
 	 */
 	const ELEMENTS = array(
-		'link' => 'a',
-		'h1'   => 'h1',
-		'h2'   => 'h2',
-		'h3'   => 'h3',
-		'h4'   => 'h4',
-		'h5'   => 'h5',
-		'h6'   => 'h6',
+		'link'    => 'a',
+		'heading' => 'h1, h2, h3, h4, h5, h6',
+		'h1'      => 'h1',
+		'h2'      => 'h2',
+		'h3'      => 'h3',
+		'h4'      => 'h4',
+		'h5'      => 'h5',
+		'h6'      => 'h6',
+		// We have the .wp-block-button__link class so that this will target older buttons that have been serialized.
+		'button'  => '.wp-element-button, .wp-block-button__link',
+		// The block classes are necessary to target older content that won't use the new class names.
+		'caption' => '.wp-element-caption, .wp-block-audio figcaption, .wp-block-embed figcaption, .wp-block-gallery figcaption, .wp-block-image figcaption, .wp-block-table figcaption, .wp-block-video figcaption',
 	);
 
 	/**
@@ -1476,7 +1482,10 @@ class WP_Theme_JSON {
 		);
 
 		if ( isset( $theme_json['styles']['elements'] ) ) {
-			foreach ( $theme_json['styles']['elements'] as $element => $node ) {
+			foreach ( self::ELEMENTS as $element => $selector ) {
+				if ( ! isset( $theme_json['styles']['elements'][ $element ] ) ) {
+					continue;
+				}
 				$nodes[] = array(
 					'path'     => array( 'styles', 'elements', $element ),
 					'selector' => static::ELEMENTS[ $element ],
