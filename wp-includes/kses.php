@@ -2224,12 +2224,14 @@ function kses_init() {
  * @since 5.1.0 Added support for `text-transform`.
  * @since 5.2.0 Added support for `background-position` and `grid-template-columns`.
  * @since 5.3.0 Added support for `grid`, `flex` and `column` layout properties.
- *              Extend `background-*` support of individual properties.
+ *              Extended `background-*` support for individual properties.
  * @since 5.3.1 Added support for gradient backgrounds.
  * @since 5.7.1 Added support for `object-position`.
  * @since 5.8.0 Added support for `calc()` and `var()` values.
  * @since 6.1.0 Added support for `min()`, `max()`, `minmax()`, `clamp()`,
  *              and nested `var()` values.
+ *              Added support for `gap`, `column-gap`, `row-gap`, and `flex-wrap`.
+ *              Extended `margin-*` and `padding-*` support for logical properties.
  *
  * @param string $css        A string of CSS rules.
  * @param string $deprecated Not used.
@@ -2335,12 +2337,20 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 			'margin-bottom',
 			'margin-left',
 			'margin-top',
+			'margin-block-start',
+			'margin-block-end',
+			'margin-inline-start',
+			'margin-inline-end',
 
 			'padding',
 			'padding-right',
 			'padding-bottom',
 			'padding-left',
 			'padding-top',
+			'padding-block-start',
+			'padding-block-end',
+			'padding-inline-start',
+			'padding-inline-end',
 
 			'flex',
 			'flex-basis',
@@ -2348,6 +2358,11 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 			'flex-flow',
 			'flex-grow',
 			'flex-shrink',
+			'flex-wrap',
+
+			'gap',
+			'column-gap',
+			'row-gap',
 
 			'grid-template-columns',
 			'grid-auto-columns',
