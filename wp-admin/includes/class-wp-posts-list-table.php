@@ -790,6 +790,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 		if ( post_type_supports( $post_type, 'comments' ) ) {
 			$this->comment_pending_count = get_pending_comments_num( $post_ids );
 		}
+		update_post_author_caches( $posts );
 
 		foreach ( $posts as $post ) {
 			$this->single_row( $post, $level );
@@ -885,6 +886,8 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 		$ids = array_keys( $to_display );
 		_prime_post_caches( $ids );
+		$_posts = array_map( 'get_post', $ids );
+		update_post_author_caches( $_posts );
 
 		if ( ! isset( $GLOBALS['post'] ) ) {
 			$GLOBALS['post'] = reset( $ids );
