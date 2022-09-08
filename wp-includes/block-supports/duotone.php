@@ -373,12 +373,16 @@ function wp_get_duotone_filter_id( $preset ) {
  * Returns the CSS filter property url to reference the rendered SVG.
  *
  * @since 5.9.0
+ * @since 6.1.0 Allow unset for preset colors.
  * @access private
  *
  * @param array $preset Duotone preset value as seen in theme.json.
  * @return string Duotone CSS filter property url value.
  */
 function wp_get_duotone_filter_property( $preset ) {
+	if ( isset( $preset['colors'] ) && 'unset' === $preset['colors'] ) {
+		return 'none';
+	}
 	$filter_id = wp_get_duotone_filter_id( $preset );
 	return "url('#" . $filter_id . "')";
 }
@@ -458,7 +462,7 @@ function wp_get_duotone_filter_svg( $preset ) {
 	if ( ! defined( 'SCRIPT_DEBUG' ) || ! SCRIPT_DEBUG ) {
 		// Clean up the whitespace.
 		$svg = preg_replace( "/[\r\n\t ]+/", ' ', $svg );
-		$svg = preg_replace( '/> </', '><', $svg );
+		$svg = str_replace( '> <', '><', $svg );
 		$svg = trim( $svg );
 	}
 
@@ -496,6 +500,7 @@ function wp_register_duotone_support( $block_type ) {
  * Render out the duotone stylesheet and SVG.
  *
  * @since 5.8.0
+ * @since 6.1.0 Allow unset for preset colors.
  * @access private
  *
  * @param string $block_content Rendered block content.
@@ -519,13 +524,14 @@ function wp_render_duotone_support( $block_content, $block ) {
 		return $block_content;
 	}
 
+	$colors          = $block['attrs']['style']['color']['duotone'];
+	$filter_key      = is_array( $colors ) ? implode( '-', $colors ) : $colors;
 	$filter_preset   = array(
-		'slug'   => wp_unique_id( sanitize_key( implode( '-', $block['attrs']['style']['color']['duotone'] ) . '-' ) ),
-		'colors' => $block['attrs']['style']['color']['duotone'],
+		'slug'   => wp_unique_id( sanitize_key( $filter_key . '-' ) ),
+		'colors' => $colors,
 	);
 	$filter_property = wp_get_duotone_filter_property( $filter_preset );
 	$filter_id       = wp_get_duotone_filter_id( $filter_preset );
-	$filter_svg      = wp_get_duotone_filter_svg( $filter_preset );
 
 	$scope     = '.' . $filter_id;
 	$selectors = explode( ',', $duotone_support );
@@ -545,27 +551,32 @@ function wp_render_duotone_support( $block_content, $block ) {
 	wp_add_inline_style( $filter_id, $filter_style );
 	wp_enqueue_style( $filter_id );
 
-	add_action(
-		'wp_footer',
-		static function () use ( $filter_svg, $selector ) {
-			echo $filter_svg;
+	if ( 'unset' !== $colors ) {
+		$filter_svg = wp_get_duotone_filter_svg( $filter_preset );
+		add_action(
+			'wp_footer',
+			static function () use ( $filter_svg, $selector ) {
+				echo $filter_svg;
 
-			/*
-			 * Safari renders elements incorrectly on first paint when the SVG
-			 * filter comes after the content that it is filtering, so we force
-			 * a repaint with a WebKit hack which solves the issue.
-			 */
-			global $is_safari;
-			if ( $is_safari ) {
-				printf(
-					// Simply accessing el.offsetHeight flushes layout and style
-					// changes in WebKit without having to wait for setTimeout.
-					'<script>( function() { var el = document.querySelector( %s ); var display = el.style.display; el.style.display = "none"; el.offsetHeight; el.style.display = display; } )();</script>',
-					wp_json_encode( $selector )
-				);
+				/*
+				 * Safari renders elements incorrectly on first paint when the
+				 * SVG filter comes after the content that it is filtering, so
+				 * we force a repaint with a WebKit hack which solves the issue.
+				 */
+				global $is_safari;
+				if ( $is_safari ) {
+					/*
+					 * Simply accessing el.offsetHeight flushes layout and style
+					 * changes in WebKit without having to wait for setTimeout.
+					 */
+					printf(
+						'<script>( function() { var el = document.querySelector( %s ); var display = el.style.display; el.style.display = "none"; el.offsetHeight; el.style.display = display; } )();</script>',
+						wp_json_encode( $selector )
+					);
+				}
 			}
-		}
-	);
+		);
+	}
 
 	// Like the layout hook, this assumes the hook only applies to blocks with a single wrapper.
 	return preg_replace(
