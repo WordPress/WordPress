@@ -111,6 +111,8 @@ class WP_Media_List_Table extends WP_List_Table {
 				'per_page'    => $wp_query->query_vars['posts_per_page'],
 			)
 		);
+
+		update_post_parent_caches( $wp_query->posts );
 	}
 
 	/**
