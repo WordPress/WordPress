@@ -130,8 +130,8 @@ function get_default_block_template_types() {
 			'description' => __( 'Displays a single post or page.' ),
 		),
 		'single'         => array(
-			'title'       => _x( 'Single Post', 'Template name' ),
-			'description' => __( 'Displays a single post.' ),
+			'title'       => _x( 'Single', 'Template name' ),
+			'description' => __( 'The default template for displaying any single post or attachment.' ),
 		),
 		'page'           => array(
 			'title'       => _x( 'Page', 'Template name' ),
