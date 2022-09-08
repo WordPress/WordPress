@@ -69,7 +69,13 @@ h4 {
 	line-height: 1.4;
 }
 
-h5,
+h5 {
+	font-size: 18px;
+	letter-spacing: 0.1em;
+	line-height: 1.3333;
+	text-transform: uppercase;
+}
+
 h6 {
 	font-size: 17px;
 	letter-spacing: 0.1em;
