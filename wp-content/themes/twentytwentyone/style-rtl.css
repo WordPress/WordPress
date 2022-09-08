@@ -66,7 +66,6 @@ Twenty Twenty-One is distributed under the terms of the GNU GPL.
  * Quote................Specific styles for the quote block.
  * Search...............Specific styles for the search block.
  * Separator............Specific styles for the separator block.
- * Spacer...............Specific styles for the spacer block.
  * Table................Specific styles for the table block.
  * Verse................Specific styles for the verse block.
  * Video................Specific styles for the video block.
@@ -3373,18 +3372,6 @@ hr.wp-block-separator.is-style-dots:before {
 .wp-block-social-links.is-style-twentytwentyone-social-icons-color .wp-social-link,
 .wp-block-social-links.is-style-twentytwentyone-social-icons-color.has-icon-background-color.has-icon-background-color .wp-social-link {
 	background: none;
-}
-
-.wp-block-spacer {
-	display: block;
-	margin-bottom: 0 !important;
-	margin-top: 0 !important;
-}
-@media only screen and (max-width: 481px) {
-
-	.wp-block-spacer[style] {
-		height: var(--global--spacing-unit) !important;
-	}
 }
 
 table,
