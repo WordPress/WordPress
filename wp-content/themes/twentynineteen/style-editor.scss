@@ -94,6 +94,8 @@ body {
 /** === Base Typography === */
 
 body {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 	font-size: $font__size_base;
 	@include font-family( $font__body );
 	line-height: $font__line-height-body;

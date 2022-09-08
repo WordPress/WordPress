@@ -659,6 +659,8 @@ body .wp-block.aligncenter {
 
 /** === Base Typography === */
 body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   font-size: 22px;
   font-family: "NonBreakingSpaceOverride", "Hoefler Text", Garamond, "Times New Roman", serif;
   line-height: 1.8;
