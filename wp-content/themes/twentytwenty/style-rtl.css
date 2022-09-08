@@ -3019,6 +3019,7 @@ h2.entry-title {
 }
 
 .is-style-outline .wp-block-button__link {
+	border: 2px solid;
 	padding: calc(1.1em - 0.2rem) calc(1.44em - 0.2rem);
 }
 
