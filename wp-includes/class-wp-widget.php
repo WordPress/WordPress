@@ -612,12 +612,16 @@ class WP_Widget {
 		$settings = get_option( $this->option_name );
 
 		if ( false === $settings ) {
+			$settings = array();
 			if ( isset( $this->alt_option_name ) ) {
-				$settings = get_option( $this->alt_option_name );
-			} else {
-				// Save an option so it can be autoloaded next time.
-				$this->save_settings( array() );
+				// Get settings from alternative (legacy) option.
+				$settings = get_option( $this->alt_option_name, array() );
+
+				// Delete the alternative (legacy) option as the new option will be created using `$this->option_name`.
+				delete_option( $this->alt_option_name );
 			}
+			// Save an option so it can be autoloaded next time.
+			$this->save_settings( $settings );
 		}
 
 		if ( ! is_array( $settings ) && ! ( $settings instanceof ArrayObject || $settings instanceof ArrayIterator ) ) {
