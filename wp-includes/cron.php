@@ -1122,23 +1122,20 @@ function wp_get_ready_cron_jobs() {
 	 *                          to continue using results from _get_cron_array().
 	 */
 	$pre = apply_filters( 'pre_get_ready_cron_jobs', null );
+
 	if ( null !== $pre ) {
 		return $pre;
 	}
 
 	$crons = _get_cron_array();
-
 	$gmt_time = microtime( true );
-	$keys     = array_keys( $crons );
-	if ( isset( $keys[0] ) && $keys[0] > $gmt_time ) {
-		return array();
-	}
-
 	$results = array();
+
 	foreach ( $crons as $timestamp => $cronhooks ) {
 		if ( $timestamp > $gmt_time ) {
 			break;
 		}
+
 		$results[ $timestamp ] = $cronhooks;
 	}
 
