@@ -1,13 +1,13 @@
 <?php
 /**
- * A simple set of functions to check our version 1.0 update service.
+ * A simple set of functions to check our Version Update service.
  *
  * @package WordPress
  * @since 2.3.0
  */
 
 /**
- * Check WordPress version against the newest version.
+ * Checks WordPress version against the newest version.
  *
  * The WordPress version, PHP version, and locale is sent.
  *
@@ -21,7 +21,8 @@
  * @global string $wp_local_package Locale code of the package.
  *
  * @param array $extra_stats Extra statistics to report to the WordPress.org API.
- * @param bool  $force_check Whether to bypass the transient cache and force a fresh update check. Defaults to false, true if $extra_stats is set.
+ * @param bool  $force_check Whether to bypass the transient cache and force a fresh update check.
+ *                           Defaults to false, true if $extra_stats is set.
  */
 function wp_version_check( $extra_stats = array(), $force_check = false ) {
 	global $wpdb, $wp_local_package;
@@ -880,7 +881,7 @@ function wp_get_translation_updates() {
 }
 
 /**
- * Collect counts and UI strings for available updates
+ * Collects counts and UI strings for available updates.
  *
  * @since 3.3.0
  *
@@ -998,7 +999,7 @@ function _maybe_update_core() {
 	wp_version_check();
 }
 /**
- * Check the last time plugins were run before checking plugin versions.
+ * Checks the last time plugins were run before checking plugin versions.
  *
  * This might have been backported to WordPress 2.6.1 for performance reasons.
  * This is used for the wp-admin to check only so often instead of every page
@@ -1020,7 +1021,7 @@ function _maybe_update_plugins() {
 }
 
 /**
- * Check themes versions only after a duration of time.
+ * Checks themes versions only after a duration of time.
  *
  * This is for performance reasons to make sure that on the theme version
  * checker is not run on every page load.
@@ -1041,7 +1042,7 @@ function _maybe_update_themes() {
 }
 
 /**
- * Schedule core, theme, and plugin update checks.
+ * Schedules core, theme, and plugin update checks.
  *
  * @since 3.1.0
  */
@@ -1060,7 +1061,7 @@ function wp_schedule_update_checks() {
 }
 
 /**
- * Clear existing update caches for plugins, themes, and core.
+ * Clears existing update caches for plugins, themes, and core.
  *
  * @since 4.1.0
  */
