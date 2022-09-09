@@ -1,6 +1,6 @@
 <?php
 /**
- * A simple set of functions to check our Version Update service.
+ * A simple set of functions to check the WordPress.org Version Update service.
  *
  * @package WordPress
  * @since 2.3.0
