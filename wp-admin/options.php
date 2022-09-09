@@ -345,7 +345,7 @@ if ( 'update' === $action ) { // We are saving settings sent from a settings pag
 		add_settings_error( 'general', 'settings_updated', __( 'Settings saved.' ), 'success' );
 	}
 
-	set_transient( 'settings_errors', get_settings_errors(), MINUTE_IN_SECONDS / 2 );
+	set_transient( 'settings_errors', get_settings_errors(), 30 ); // 30 seconds.
 
 	// Redirect back to the settings page that was submitted.
 	$goback = add_query_arg( 'settings-updated', 'true', wp_get_referer() );

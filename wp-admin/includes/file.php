@@ -539,10 +539,10 @@ function wp_edit_theme_plugin_file( $args ) {
 		}
 
 		// Make sure PHP process doesn't die before loopback requests complete.
-		set_time_limit( 300 );
+		set_time_limit( 5 * MINUTE_IN_SECONDS );
 
 		// Time to wait for loopback requests to finish.
-		$timeout = 100;
+		$timeout = 100; // 100 seconds.
 
 		$needle_start = "###### wp_scraping_result_start:$scrape_key ######";
 		$needle_end   = "###### wp_scraping_result_end:$scrape_key ######";
@@ -2007,10 +2007,10 @@ function WP_Filesystem( $args = false, $context = false, $allow_relaxed_file_own
 	 * to allow for per-transport overriding of the default.
 	 */
 	if ( ! defined( 'FS_CONNECT_TIMEOUT' ) ) {
-		define( 'FS_CONNECT_TIMEOUT', MINUTE_IN_SECONDS / 2 );
+		define( 'FS_CONNECT_TIMEOUT', 30 ); // 30 seconds.
 	}
 	if ( ! defined( 'FS_TIMEOUT' ) ) {
-		define( 'FS_TIMEOUT', MINUTE_IN_SECONDS / 2 );
+		define( 'FS_TIMEOUT', 30 ); // 30 seconds.
 	}
 
 	if ( is_wp_error( $wp_filesystem->errors ) && $wp_filesystem->errors->has_errors() ) {

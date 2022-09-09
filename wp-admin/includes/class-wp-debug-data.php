@@ -1597,7 +1597,7 @@ class WP_Debug_Data {
 		// The max_execution_time defaults to 0 when PHP runs from cli.
 		// We still want to limit it below.
 		if ( empty( $max_execution_time ) ) {
-			$max_execution_time = 30;
+			$max_execution_time = 30; // 30 seconds.
 		}
 
 		if ( $max_execution_time > 20 ) {

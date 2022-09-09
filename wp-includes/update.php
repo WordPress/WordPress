@@ -405,7 +405,7 @@ function wp_update_plugins( $extra_stats = array() ) {
 	$locales = array_unique( $locales );
 
 	if ( $doing_cron ) {
-		$timeout = 30;
+		$timeout = 30; // 30 seconds.
 	} else {
 		// Three seconds, plus one extra second for every 10 plugins.
 		$timeout = 3 + (int) ( count( $plugins ) / 10 );
@@ -687,7 +687,7 @@ function wp_update_themes( $extra_stats = array() ) {
 	$locales = array_unique( $locales );
 
 	if ( $doing_cron ) {
-		$timeout = 30;
+		$timeout = 30; // 30 seconds.
 	} else {
 		// Three seconds, plus one extra second for every 10 themes.
 		$timeout = 3 + (int) ( count( $themes ) / 10 );

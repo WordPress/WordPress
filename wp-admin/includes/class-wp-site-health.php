@@ -2029,7 +2029,7 @@ class WP_Site_Health {
 		);
 
 		$cookies = wp_unslash( $_COOKIE );
-		$timeout = 10;
+		$timeout = 10; // 10 seconds.
 		$headers = array(
 			'Cache-Control' => 'no-cache',
 			'X-WP-Nonce'    => wp_create_nonce( 'wp_rest' ),
@@ -2885,7 +2885,7 @@ class WP_Site_Health {
 	public function can_perform_loopback() {
 		$body    = array( 'site-health' => 'loopback-test' );
 		$cookies = wp_unslash( $_COOKIE );
-		$timeout = 10;
+		$timeout = 10; // 10 seconds.
 		$headers = array(
 			'Cache-Control' => 'no-cache',
 		);
