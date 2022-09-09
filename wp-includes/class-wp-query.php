@@ -3094,7 +3094,7 @@ class WP_Query {
 			$key         = md5( serialize( $cache_args ) . $new_request );
 
 			$last_changed = wp_cache_get_last_changed( 'posts' );
-			if ( ! empty( $this->tax_query->queried_terms ) ) {
+			if ( ! empty( $this->tax_query->queries ) ) {
 				$last_changed .= wp_cache_get_last_changed( 'terms' );
 			}
 
