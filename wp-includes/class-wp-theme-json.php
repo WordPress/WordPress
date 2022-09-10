@@ -344,14 +344,26 @@ class WP_Theme_JSON {
 	);
 
 	/**
+	 * Defines which pseudo selectors are enabled for which elements.
+	 *
+	 * Note: this will affect both top-level and block-level elements.
+	 *
+	 * @since 6.1.0
+	 */
+	const VALID_ELEMENT_PSEUDO_SELECTORS = array(
+		'link'   => array( ':hover', ':focus', ':active', ':visited' ),
+		'button' => array( ':hover', ':focus', ':active', ':visited' ),
+	);
+
+	/**
 	 * The valid elements that can be found under styles.
 	 *
 	 * @since 5.8.0
-	 * @since 6.1.0 Added `heading`, `button`, and `caption` to the elements.
+	 * @since 6.1.0 Added `heading`, `button`. and `caption` elements.
 	 * @var string[]
 	 */
 	const ELEMENTS = array(
-		'link'    => 'a',
+		'link'    => 'a:where(:not(.wp-element-button))', // The `where` is needed to lower the specificity.
 		'heading' => 'h1, h2, h3, h4, h5, h6',
 		'h1'      => 'h1',
 		'h2'      => 'h2',
@@ -364,6 +376,29 @@ class WP_Theme_JSON {
 		// The block classes are necessary to target older content that won't use the new class names.
 		'caption' => '.wp-element-caption, .wp-block-audio figcaption, .wp-block-embed figcaption, .wp-block-gallery figcaption, .wp-block-image figcaption, .wp-block-table figcaption, .wp-block-video figcaption',
 	);
+
+	const __EXPERIMENTAL_ELEMENT_CLASS_NAMES = array(
+		'button'  => 'wp-element-button',
+		'caption' => 'wp-element-caption',
+	);
+
+	/**
+	 * Returns a class name by an element name.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @param string $element The name of the element.
+	 * @return string The name of the class.
+	 */
+	public static function get_element_class_name( $element ) {
+		$class_name = '';
+
+		if ( array_key_exists( $element, static::__EXPERIMENTAL_ELEMENT_CLASS_NAMES ) ) {
+			$class_name = static::__EXPERIMENTAL_ELEMENT_CLASS_NAMES[ $element ];
+		}
+
+		return $class_name;
+	}
 
 	/**
 	 * Options that settings.appearanceTools enables.
@@ -488,16 +523,21 @@ class WP_Theme_JSON {
 	 * @return array The sanitized output.
 	 */
 	protected static function sanitize( $input, $valid_block_names, $valid_element_names ) {
+
 		$output = array();
 
 		if ( ! is_array( $input ) ) {
 			return $output;
 		}
 
+		// Preserve only the top most level keys.
 		$output = array_intersect_key( $input, array_flip( static::VALID_TOP_LEVEL_KEYS ) );
 
-		// Some styles are only meant to be available at the top-level (e.g.: blockGap),
-		// hence, the schema for blocks & elements should not have them.
+		/*
+		 * Remove any rules that are annotated as "top" in VALID_STYLES constant.
+		 * Some styles are only meant to be available at the top-level (e.g.: blockGap),
+		 * hence, the schema for blocks & elements should not have them.
+		 */
 		$styles_non_top_level = static::VALID_STYLES;
 		foreach ( array_keys( $styles_non_top_level ) as $section ) {
 			foreach ( array_keys( $styles_non_top_level[ $section ] ) as $prop ) {
@@ -510,9 +550,24 @@ class WP_Theme_JSON {
 		// Build the schema based on valid block & element names.
 		$schema                 = array();
 		$schema_styles_elements = array();
+
+		/*
+		 * Set allowed element pseudo selectors based on per element allow list.
+		 * Target data structure in schema:
+		 * e.g.
+		 * - top level elements: `$schema['styles']['elements']['link'][':hover']`.
+		 * - block level elements: `$schema['styles']['blocks']['core/button']['elements']['link'][':hover']`.
+		 */
 		foreach ( $valid_element_names as $element ) {
 			$schema_styles_elements[ $element ] = $styles_non_top_level;
+
+			if ( array_key_exists( $element, static::VALID_ELEMENT_PSEUDO_SELECTORS ) ) {
+				foreach ( static::VALID_ELEMENT_PSEUDO_SELECTORS[ $element ] as $pseudo_selector ) {
+					$schema_styles_elements[ $element ][ $pseudo_selector ] = $styles_non_top_level;
+				}
+			}
 		}
+
 		$schema_styles_blocks   = array();
 		$schema_settings_blocks = array();
 		foreach ( $valid_block_names as $block ) {
@@ -520,6 +575,7 @@ class WP_Theme_JSON {
 			$schema_styles_blocks[ $block ]             = $styles_non_top_level;
 			$schema_styles_blocks[ $block ]['elements'] = $schema_styles_elements;
 		}
+
 		$schema['styles']             = static::VALID_STYLES;
 		$schema['styles']['blocks']   = $schema_styles_blocks;
 		$schema['styles']['elements'] = $schema_styles_elements;
@@ -547,6 +603,30 @@ class WP_Theme_JSON {
 		}
 
 		return $output;
+	}
+
+	/**
+	 * Appends a sub-selector to an existing one.
+	 *
+	 * Given the compounded $selector "h1, h2, h3"
+	 * and the $to_append selector ".some-class" the result will be
+	 * "h1.some-class, h2.some-class, h3.some-class".
+	 *
+	 * @since 5.8.0
+	 * @since 6.1.0 Added append position.
+	 *
+	 * @param string $selector  Original selector.
+	 * @param string $to_append Selector to append.
+	 * @param string $position  A position sub-selector should be appended. Default 'right'.
+	 * @return string
+	 */
+	protected static function append_to_selector( $selector, $to_append, $position = 'right' ) {
+		$new_selectors = array();
+		$selectors     = explode( ',', $selector );
+		foreach ( $selectors as $sel ) {
+			$new_selectors[] = 'right' === $position ? $sel . $to_append : $to_append . $sel;
+		}
+		return implode( ',', $new_selectors );
 	}
 
 	/**
@@ -611,7 +691,11 @@ class WP_Theme_JSON {
 			foreach ( static::ELEMENTS as $el_name => $el_selector ) {
 				$element_selector = array();
 				foreach ( $block_selectors as $selector ) {
-					$element_selector[] = $selector . ' ' . $el_selector;
+					if ( $selector === $el_selector ) {
+						$element_selector = array( $el_selector );
+						break;
+					}
+					$element_selector[] = static::append_to_selector( $el_selector, $selector . ' ', 'left' );
 				}
 				static::$blocks_metadata[ $block_name ]['elements'][ $el_name ] = implode( ',', $element_selector );
 			}
@@ -810,54 +894,7 @@ class WP_Theme_JSON {
 			if ( null === $metadata['selector'] ) {
 				continue;
 			}
-
-			$node         = _wp_array_get( $this->theme_json, $metadata['path'], array() );
-			$selector     = $metadata['selector'];
-			$settings     = _wp_array_get( $this->theme_json, array( 'settings' ) );
-			$declarations = static::compute_style_properties( $node, $settings );
-
-			// 1. Separate the ones who use the general selector
-			// and the ones who use the duotone selector.
-			$declarations_duotone = array();
-			foreach ( $declarations as $index => $declaration ) {
-				if ( 'filter' === $declaration['name'] ) {
-					unset( $declarations[ $index ] );
-					$declarations_duotone[] = $declaration;
-				}
-			}
-
-			/*
-			 * Reset default browser margin on the root body element.
-			 * This is set on the root selector **before** generating the ruleset
-			 * from the `theme.json`. This is to ensure that if the `theme.json` declares
-			 * `margin` in its `spacing` declaration for the `body` element then these
-			 * user-generated values take precedence in the CSS cascade.
-			 * @link https://github.com/WordPress/gutenberg/issues/36147.
-			 */
-			if ( static::ROOT_BLOCK_SELECTOR === $selector ) {
-				$block_rules .= 'body { margin: 0; }';
-			}
-
-			// 2. Generate the rules that use the general selector.
-			$block_rules .= static::to_ruleset( $selector, $declarations );
-
-			// 3. Generate the rules that use the duotone selector.
-			if ( isset( $metadata['duotone'] ) && ! empty( $declarations_duotone ) ) {
-				$selector_duotone = static::scope_selector( $metadata['selector'], $metadata['duotone'] );
-				$block_rules     .= static::to_ruleset( $selector_duotone, $declarations_duotone );
-			}
-
-			if ( static::ROOT_BLOCK_SELECTOR === $selector ) {
-				$block_rules .= '.wp-site-blocks > .alignleft { float: left; margin-right: 2em; }';
-				$block_rules .= '.wp-site-blocks > .alignright { float: right; margin-left: 2em; }';
-				$block_rules .= '.wp-site-blocks > .aligncenter { justify-content: center; margin-left: auto; margin-right: auto; }';
-
-				$has_block_gap_support = _wp_array_get( $this->theme_json, array( 'settings', 'spacing', 'blockGap' ) ) !== null;
-				if ( $has_block_gap_support ) {
-					$block_rules .= '.wp-site-blocks > * { margin-block-start: 0; margin-block-end: 0; }';
-					$block_rules .= '.wp-site-blocks > * + * { margin-block-start: var( --wp--style--block-gap ); }';
-				}
-			}
+			$block_rules .= static::get_styles_for_block( $metadata );
 		}
 
 		return $block_rules;
@@ -970,29 +1007,6 @@ class WP_Theme_JSON {
 		);
 
 		return $selector . '{' . $declaration_block . '}';
-	}
-
-	/**
-	 * Function that appends a sub-selector to a existing one.
-	 *
-	 * Given the compounded $selector "h1, h2, h3"
-	 * and the $to_append selector ".some-class" the result will be
-	 * "h1.some-class, h2.some-class, h3.some-class".
-	 *
-	 * @since 5.8.0
-	 *
-	 * @param string $selector  Original selector.
-	 * @param string $to_append Selector to append.
-	 * @return string
-	 */
-	protected static function append_to_selector( $selector, $to_append ) {
-		$new_selectors = array();
-		$selectors     = explode( ',', $selector );
-		foreach ( $selectors as $sel ) {
-			$new_selectors[] = $sel . $to_append;
-		}
-
-		return implode( ',', $new_selectors );
 	}
 
 	/**
@@ -1312,13 +1326,15 @@ class WP_Theme_JSON {
 	 *
 	 * @since 5.8.0
 	 * @since 5.9.0 Added the `$settings` and `$properties` parameters.
+	 * @since 6.1.0 Added the `$theme_json` parameter.
 	 *
 	 * @param array $styles    Styles to process.
 	 * @param array $settings  Theme settings.
 	 * @param array $properties Properties metadata.
+	 * @param array $theme_json Theme JSON array.
 	 * @return array Returns the modified $declarations.
 	 */
-	protected static function compute_style_properties( $styles, $settings = array(), $properties = null ) {
+	protected static function compute_style_properties( $styles, $settings = array(), $properties = null, $theme_json = null ) {
 		if ( null === $properties ) {
 			$properties = static::PROPERTIES_METADATA;
 		}
@@ -1329,7 +1345,7 @@ class WP_Theme_JSON {
 		}
 
 		foreach ( $properties as $css_property => $value_path ) {
-			$value = static::get_property_value( $styles, $value_path );
+			$value = static::get_property_value( $styles, $value_path, $theme_json );
 
 			// Look up protected properties, keyed by value path.
 			// Skip protected properties that are explicitly set to `null`.
@@ -1365,20 +1381,58 @@ class WP_Theme_JSON {
 	 * "var:preset|color|secondary" to the form
 	 * "--wp--preset--color--secondary".
 	 *
+	 * It also converts references to a path to the value
+	 * stored at that location, e.g.
+	 * { "ref": "style.color.background" } => "#fff".
+	 *
 	 * @since 5.8.0
 	 * @since 5.9.0 Added support for values of array type, which are returned as is.
+	 * @since 6.1.0 Added the `$theme_json` parameter.
 	 *
 	 * @param array $styles Styles subtree.
 	 * @param array $path   Which property to process.
+	 * @param array $theme_json Theme JSON array.
 	 * @return string|array Style property value.
 	 */
-	protected static function get_property_value( $styles, $path ) {
+	protected static function get_property_value( $styles, $path, $theme_json = null ) {
 		$value = _wp_array_get( $styles, $path, '' );
+
+		/*
+		 * This converts references to a path to the value at that path
+		 * where the values is an array with a "ref" key, pointing to a path.
+		 * For example: { "ref": "style.color.background" } => "#fff".
+		 */
+		if ( is_array( $value ) && array_key_exists( 'ref', $value ) ) {
+			$value_path = explode( '.', $value['ref'] );
+			$ref_value  = _wp_array_get( $theme_json, $value_path );
+			// Only use the ref value if we find anything.
+			if ( ! empty( $ref_value ) && is_string( $ref_value ) ) {
+				$value = $ref_value;
+			}
+
+			if ( is_array( $ref_value ) && array_key_exists( 'ref', $ref_value ) ) {
+				$path_string      = json_encode( $path );
+				$ref_value_string = json_encode( $ref_value );
+				_doing_it_wrong(
+					'get_property_value',
+					sprintf(
+						/* translators: 1: theme.json, 2: Value name, 3: Value path, 4: Another value name. */
+						__( 'Your %1$s file uses a dynamic value (%2$s) for the path at %3$s. However, the value at %3$s is also a dynamic value (pointing to %4$s) and pointing to another dynamic value is not supported. Please update %3$s to point directly to %4$s.' ),
+						'theme.json',
+						$ref_value_string,
+						$path_string,
+						$ref_value['ref']
+					),
+					'6.1.0'
+				);
+			}
+		}
 
 		if ( '' === $value || is_array( $value ) ) {
 			return $value;
 		}
 
+		// Convert custom CSS properties.
 		$prefix     = 'var:';
 		$prefix_len = strlen( $prefix );
 		$token_in   = '|';
@@ -1490,7 +1544,65 @@ class WP_Theme_JSON {
 					'path'     => array( 'styles', 'elements', $element ),
 					'selector' => static::ELEMENTS[ $element ],
 				);
+
+				// Handle any pseudo selectors for the element.
+				if ( array_key_exists( $element, static::VALID_ELEMENT_PSEUDO_SELECTORS ) ) {
+					foreach ( static::VALID_ELEMENT_PSEUDO_SELECTORS[ $element ] as $pseudo_selector ) {
+
+						if ( isset( $theme_json['styles']['elements'][ $element ][ $pseudo_selector ] ) ) {
+							$nodes[] = array(
+								'path'     => array( 'styles', 'elements', $element ),
+								'selector' => static::append_to_selector( static::ELEMENTS[ $element ], $pseudo_selector ),
+							);
+						}
+					}
+				}
 			}
+		}
+
+		// Blocks.
+		if ( ! isset( $theme_json['styles']['blocks'] ) ) {
+			return $nodes;
+		}
+
+		$nodes = array_merge( $nodes, static::get_block_nodes( $theme_json ) );
+
+		/**
+		 * Filters the list of style nodes with metadata.
+		 *
+		 * This allows for things like loading block CSS independently.
+		 *
+		 * @since 6.1.0
+		 *
+		 * @param array $nodes Style nodes with metadata.
+		 */
+		return apply_filters( 'get_style_nodes', $nodes );
+	}
+
+	/**
+	 * A public helper to get the block nodes from a theme.json file.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @return array The block nodes in theme.json.
+	 */
+	public function get_styles_block_nodes() {
+		return static::get_block_nodes( $this->theme_json );
+	}
+
+	/**
+	 * An internal method to get the block nodes from a theme.json file.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @param array $theme_json The theme.json converted to an array.
+	 * @return array The block nodes in theme.json.
+	 */
+	private static function get_block_nodes( $theme_json ) {
+		$selectors = static::get_blocks_metadata();
+		$nodes     = array();
+		if ( ! isset( $theme_json['styles'] ) ) {
+			return $nodes;
 		}
 
 		// Blocks.
@@ -1510,6 +1622,7 @@ class WP_Theme_JSON {
 			}
 
 			$nodes[] = array(
+				'name'     => $name,
 				'path'     => array( 'styles', 'blocks', $name ),
 				'selector' => $selector,
 				'duotone'  => $duotone_selector,
@@ -1521,11 +1634,133 @@ class WP_Theme_JSON {
 						'path'     => array( 'styles', 'blocks', $name, 'elements', $element ),
 						'selector' => $selectors[ $name ]['elements'][ $element ],
 					);
+
+					// Handle any pseudo selectors for the element.
+					if ( array_key_exists( $element, static::VALID_ELEMENT_PSEUDO_SELECTORS ) ) {
+						foreach ( static::VALID_ELEMENT_PSEUDO_SELECTORS[ $element ] as $pseudo_selector ) {
+							if ( isset( $theme_json['styles']['blocks'][ $name ]['elements'][ $element ][ $pseudo_selector ] ) ) {
+								$nodes[] = array(
+									'path'     => array( 'styles', 'blocks', $name, 'elements', $element ),
+									'selector' => static::append_to_selector( $selectors[ $name ]['elements'][ $element ], $pseudo_selector ),
+								);
+							}
+						}
+					}
 				}
 			}
 		}
 
 		return $nodes;
+	}
+
+	/**
+	 * Gets the CSS rules for a particular block from theme.json.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @param array $block_metadata Meta data about the block to get styles for.
+	 * @return array Styles for the block.
+	 */
+	public function get_styles_for_block( $block_metadata ) {
+
+		$node = _wp_array_get( $this->theme_json, $block_metadata['path'], array() );
+
+		$selector = $block_metadata['selector'];
+		$settings = _wp_array_get( $this->theme_json, array( 'settings' ) );
+
+		/*
+		 * Get a reference to element name from path.
+		 * $block_metadata['path'] = array( 'styles','elements','link' );
+		 * Make sure that $block_metadata['path'] describes an element node, like [ 'styles', 'element', 'link' ].
+		 * Skip non-element paths like just ['styles'].
+		 */
+		$is_processing_element = in_array( 'elements', $block_metadata['path'], true );
+
+		$current_element = $is_processing_element ? $block_metadata['path'][ count( $block_metadata['path'] ) - 1 ] : null;
+
+		$element_pseudo_allowed = array();
+
+		if ( array_key_exists( $current_element, static::VALID_ELEMENT_PSEUDO_SELECTORS ) ) {
+			$element_pseudo_allowed = static::VALID_ELEMENT_PSEUDO_SELECTORS[ $current_element ];
+		}
+
+		/*
+		 * Check for allowed pseudo classes (e.g. ":hover") from the $selector ("a:hover").
+		 * This also resets the array keys.
+		 */
+		$pseudo_matches = array_values(
+			array_filter(
+				$element_pseudo_allowed,
+				function( $pseudo_selector ) use ( $selector ) {
+					return str_contains( $selector, $pseudo_selector );
+				}
+			)
+		);
+
+		$pseudo_selector = isset( $pseudo_matches[0] ) ? $pseudo_matches[0] : null;
+
+		/*
+		 * If the current selector is a pseudo selector that's defined in the allow list for the current
+		 * element then compute the style properties for it.
+		 * Otherwise just compute the styles for the default selector as normal.
+		 */
+		if ( $pseudo_selector && isset( $node[ $pseudo_selector ] ) &&
+			array_key_exists( $current_element, static::VALID_ELEMENT_PSEUDO_SELECTORS )
+			&& in_array( $pseudo_selector, static::VALID_ELEMENT_PSEUDO_SELECTORS[ $current_element ], true )
+		) {
+			$declarations = static::compute_style_properties( $node[ $pseudo_selector ], $settings, null, $this->theme_json );
+		} else {
+			$declarations = static::compute_style_properties( $node, $settings, null, $this->theme_json );
+		}
+
+		$block_rules = '';
+
+		/*
+		 * 1. Separate the declarations that use the general selector
+		 * from the ones using the duotone selector.
+		 */
+		$declarations_duotone = array();
+		foreach ( $declarations as $index => $declaration ) {
+			if ( 'filter' === $declaration['name'] ) {
+				unset( $declarations[ $index ] );
+				$declarations_duotone[] = $declaration;
+			}
+		}
+
+		/*
+		 * Reset default browser margin on the root body element.
+		 * This is set on the root selector **before** generating the ruleset
+		 * from the `theme.json`. This is to ensure that if the `theme.json` declares
+		 * `margin` in its `spacing` declaration for the `body` element then these
+		 * user-generated values take precedence in the CSS cascade.
+		 * @link https://github.com/WordPress/gutenberg/issues/36147.
+		 */
+		if ( static::ROOT_BLOCK_SELECTOR === $selector ) {
+			$block_rules .= 'body { margin: 0; }';
+		}
+
+		// 2. Generate and append the rules that use the general selector.
+		$block_rules .= static::to_ruleset( $selector, $declarations );
+
+		// 3. Generate and append the rules that use the duotone selector.
+		if ( isset( $block_metadata['duotone'] ) && ! empty( $declarations_duotone ) ) {
+			$selector_duotone = static::scope_selector( $block_metadata['selector'], $block_metadata['duotone'] );
+			$block_rules     .= static::to_ruleset( $selector_duotone, $declarations_duotone );
+		}
+
+		if ( static::ROOT_BLOCK_SELECTOR === $selector ) {
+			$block_rules .= '.wp-site-blocks > .alignleft { float: left; margin-right: 2em; }';
+			$block_rules .= '.wp-site-blocks > .alignright { float: right; margin-left: 2em; }';
+			$block_rules .= '.wp-site-blocks > .aligncenter { justify-content: center; margin-left: auto; margin-right: auto; }';
+
+			$has_block_gap_support = _wp_array_get( $this->theme_json, array( 'settings', 'spacing', 'blockGap' ) ) !== null;
+			if ( $has_block_gap_support ) {
+				$block_rules .= '.wp-site-blocks > * { margin-block-start: 0; margin-block-end: 0; }';
+				$block_rules .= '.wp-site-blocks > * + * { margin-block-start: var( --wp--style--block-gap ); }';
+			}
+		}
+
+		return $block_rules;
 	}
 
 	/**
@@ -1837,10 +2072,12 @@ class WP_Theme_JSON {
 
 		$valid_block_names   = array_keys( static::get_blocks_metadata() );
 		$valid_element_names = array_keys( static::ELEMENTS );
-		$theme_json          = static::sanitize( $theme_json, $valid_block_names, $valid_element_names );
+
+		$theme_json = static::sanitize( $theme_json, $valid_block_names, $valid_element_names );
 
 		$blocks_metadata = static::get_blocks_metadata();
 		$style_nodes     = static::get_style_nodes( $theme_json, $blocks_metadata );
+
 		foreach ( $style_nodes as $metadata ) {
 			$input = _wp_array_get( $theme_json, $metadata['path'], array() );
 			if ( empty( $input ) ) {
@@ -1848,6 +2085,25 @@ class WP_Theme_JSON {
 			}
 
 			$output = static::remove_insecure_styles( $input );
+
+			/*
+			 * Get a reference to element name from path.
+			 * $metadata['path'] = array( 'styles', 'elements', 'link' );
+			 */
+			$current_element = $metadata['path'][ count( $metadata['path'] ) - 1 ];
+
+			/*
+			 * $output is stripped of pseudo selectors. Re-add and process them
+			 * or insecure styles here.
+			 */
+			if ( array_key_exists( $current_element, static::VALID_ELEMENT_PSEUDO_SELECTORS ) ) {
+				foreach ( static::VALID_ELEMENT_PSEUDO_SELECTORS[ $current_element ] as $pseudo_selector ) {
+					if ( isset( $input[ $pseudo_selector ] ) ) {
+						$output[ $pseudo_selector ] = static::remove_insecure_styles( $input[ $pseudo_selector ] );
+					}
+				}
+			}
+
 			if ( ! empty( $output ) ) {
 				_wp_array_set( $sanitized, $metadata['path'], $output );
 			}

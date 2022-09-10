@@ -2354,6 +2354,30 @@ function wp_common_block_scripts_and_styles() {
 }
 
 /**
+ * Applies a filter to the list of style nodes that comes from WP_Theme_JSON::get_style_nodes().
+ *
+ * This particular filter removes all of the blocks from the array.
+ *
+ * We want WP_Theme_JSON to be ignorant of the implementation details of how the CSS is being used.
+ * This filter allows us to modify the output of WP_Theme_JSON depending on whether or not we are
+ * loading separate assets, without making the class aware of that detail.
+ *
+ * @since 6.1.0
+ *
+ * @param array $nodes The nodes to filter.
+ * @return array A filtered array of style nodes.
+ */
+function wp_filter_out_block_nodes( $nodes ) {
+	return array_filter(
+		$nodes,
+		function( $node ) {
+			return ! in_array( 'blocks', $node['path'], true );
+		},
+		ARRAY_FILTER_USE_BOTH
+	);
+}
+
+/**
  * Enqueues the global styles defined via theme.json.
  *
  * @since 5.8.0
@@ -2375,6 +2399,16 @@ function wp_enqueue_global_styles() {
 		( $is_classic_theme && doing_action( 'wp_enqueue_scripts' ) && $separate_assets )
 	) {
 		return;
+	}
+
+	/*
+	 * If we are loading CSS for each block separately, then we can load the theme.json CSS conditionally.
+	 * This removes the CSS from the global-styles stylesheet and adds it to the inline CSS for each block.
+	 */
+	if ( $separate_assets ) {
+		add_filter( 'get_style_nodes', 'wp_filter_out_block_nodes' );
+		// Add each block as an inline css.
+		wp_add_global_styles_for_blocks();
 	}
 
 	$stylesheet = wp_get_global_stylesheet();
