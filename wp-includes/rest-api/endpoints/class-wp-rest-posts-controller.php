@@ -418,7 +418,8 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		$response->header( 'X-WP-TotalPages', (int) $max_pages );
 
 		$request_params = $request->get_query_params();
-		$base           = add_query_arg( urlencode_deep( $request_params ), rest_url( sprintf( '%s/%s', $this->namespace, $this->rest_base ) ) );
+		$collection_url = rest_url( rest_get_route_for_post_type_items( $this->post_type ) );
+		$base           = add_query_arg( urlencode_deep( $request_params ), $collection_url );
 
 		if ( $page > 1 ) {
 			$prev_page = $page - 1;
@@ -777,7 +778,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		$response = rest_ensure_response( $response );
 
 		$response->set_status( 201 );
-		$response->header( 'Location', rest_url( sprintf( '%s/%s/%d', $this->namespace, $this->rest_base, $post_id ) ) );
+		$response->header( 'Location', rest_url( rest_get_route_for_post( $post ) ) );
 
 		return $response;
 	}
@@ -2030,15 +2031,13 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 	 * @return array Links for the given post.
 	 */
 	protected function prepare_links( $post ) {
-		$base = sprintf( '%s/%s', $this->namespace, $this->rest_base );
-
 		// Entity meta.
 		$links = array(
 			'self'       => array(
-				'href' => rest_url( trailingslashit( $base ) . $post->ID ),
+				'href' => rest_url( rest_get_route_for_post( $post->ID ) ),
 			),
 			'collection' => array(
-				'href' => rest_url( $base ),
+				'href' => rest_url( rest_get_route_for_post_type_items( $this->post_type ) ),
 			),
 			'about'      => array(
 				'href' => rest_url( 'wp/v2/types/' . $this->post_type ),
@@ -2066,15 +2065,16 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		if ( in_array( $post->post_type, array( 'post', 'page' ), true ) || post_type_supports( $post->post_type, 'revisions' ) ) {
 			$revisions       = wp_get_latest_revision_id_and_total_count( $post->ID );
 			$revisions_count = ! is_wp_error( $revisions ) ? $revisions['count'] : 0;
+			$revisions_base  = sprintf( '/%s/%s/%d/revisions', $this->namespace, $this->rest_base, $post->ID );
 
 			$links['version-history'] = array(
-				'href'  => rest_url( trailingslashit( $base ) . $post->ID . '/revisions' ),
+				'href'  => rest_url( $revisions_base ),
 				'count' => $revisions_count,
 			);
 
 			if ( $revisions_count > 0 ) {
 				$links['predecessor-version'] = array(
-					'href' => rest_url( trailingslashit( $base ) . $post->ID . '/revisions/' . $revisions['latest_id'] ),
+					'href' => rest_url( $revisions_base . '/' . $revisions['latest_id'] ),
 					'id'   => $revisions['latest_id'],
 				);
 			}
