@@ -140,8 +140,8 @@ class WP_User_Query {
 	 * @since 5.3.0 Introduced the 'meta_type_key' parameter.
 	 * @since 5.9.0 Added 'capability', 'capability__in', and 'capability__not_in' parameters.
 	 *
-	 * @global wpdb $wpdb WordPress database abstraction object.
-	 * @global int  $blog_id
+	 * @global wpdb     $wpdb     WordPress database abstraction object.
+	 * @global WP_Roles $wp_roles WordPress role management object.
 	 *
 	 * @param string|array $query {
 	 *     Optional. Array or string of Query parameters.
@@ -256,7 +256,7 @@ class WP_User_Query {
 	 * }
 	 */
 	public function prepare_query( $query = array() ) {
-		global $wpdb;
+		global $wpdb, $wp_roles;
 
 		if ( empty( $this->query_vars ) || ! empty( $query ) ) {
 			$this->query_limit = null;
@@ -448,8 +448,6 @@ class WP_User_Query {
 		$available_roles = array();
 
 		if ( ! empty( $qv['capability'] ) || ! empty( $qv['capability__in'] ) || ! empty( $qv['capability__not_in'] ) ) {
-			global $wp_roles;
-
 			$wp_roles->for_site( $blog_id );
 			$available_roles = $wp_roles->roles;
 		}
