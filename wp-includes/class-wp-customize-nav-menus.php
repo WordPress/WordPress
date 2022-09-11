@@ -1322,7 +1322,7 @@ final class WP_Customize_Nav_Menus {
 		add_action( 'wp_enqueue_scripts', array( $this, 'customize_preview_enqueue_deps' ) );
 		add_filter( 'wp_nav_menu_args', array( $this, 'filter_wp_nav_menu_args' ), 1000 );
 		add_filter( 'wp_nav_menu', array( $this, 'filter_wp_nav_menu' ), 10, 2 );
-		add_filter( 'wp_footer', array( $this, 'export_preview_data' ), 1 );
+		add_action( 'wp_footer', array( $this, 'export_preview_data' ), 1 );
 		add_filter( 'customize_render_partials_response', array( $this, 'export_partial_rendered_nav_menu_instances' ) );
 	}
 
