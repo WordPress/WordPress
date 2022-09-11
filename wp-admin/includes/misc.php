@@ -1256,6 +1256,41 @@ function wp_refresh_post_nonces( $response, $data, $screen_id ) {
 }
 
 /**
+ * Refresh nonces used with meta boxes in the block editor.
+ *
+ * @since 6.1.0
+ *
+ * @param array  $response  The Heartbeat response.
+ * @param array  $data      The $_POST data sent.
+ * @return array The Heartbeat response.
+ */
+function wp_refresh_metabox_loader_nonces( $response, $data ) {
+	if ( empty( $data['wp-refresh-metabox-loader-nonces'] ) ) {
+		return $response;
+	}
+
+	$received = $data['wp-refresh-metabox-loader-nonces'];
+	$post_id  = (int) $received['post_id'];
+
+	if ( ! $post_id ) {
+		return $response;
+	}
+
+	if ( ! current_user_can( 'edit_post', $post_id ) ) {
+		return $response;
+	}
+
+	$response['wp-refresh-metabox-loader-nonces'] = array(
+		'replace' => array(
+			'metabox_loader_nonce' => wp_create_nonce( 'meta-box-loader' ),
+			'_wpnonce'             => wp_create_nonce( 'update-post_' . $post_id ),
+		),
+	);
+
+	return $response;
+}
+
+/**
  * Adds the latest Heartbeat and REST-API nonce to the Heartbeat response.
  *
  * @since 5.0.0
