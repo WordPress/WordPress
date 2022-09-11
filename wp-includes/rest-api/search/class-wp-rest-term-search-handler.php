@@ -70,6 +70,14 @@ class WP_REST_Term_Search_Handler extends WP_REST_Search_Handler {
 			$query_args['search'] = $request['search'];
 		}
 
+		if ( ! empty( $request['exclude'] ) ) {
+			$query_args['exclude'] = $request['exclude'];
+		}
+
+		if ( ! empty( $request['include'] ) ) {
+			$query_args['include'] = $request['include'];
+		}
+
 		/**
 		 * Filters the query arguments for a REST API search request.
 		 *

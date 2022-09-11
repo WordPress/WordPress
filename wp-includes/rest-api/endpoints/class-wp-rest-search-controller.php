@@ -331,6 +331,24 @@ class WP_REST_Search_Controller extends WP_REST_Controller {
 			'sanitize_callback' => array( $this, 'sanitize_subtypes' ),
 		);
 
+		$query_params['exclude'] = array(
+			'description' => __( 'Ensure result set excludes specific IDs.' ),
+			'type'        => 'array',
+			'items'       => array(
+				'type' => 'integer',
+			),
+			'default'     => array(),
+		);
+
+		$query_params['include'] = array(
+			'description' => __( 'Limit result set to specific IDs.' ),
+			'type'        => 'array',
+			'items'       => array(
+				'type' => 'integer',
+			),
+			'default'     => array(),
+		);
+
 		return $query_params;
 	}
 
