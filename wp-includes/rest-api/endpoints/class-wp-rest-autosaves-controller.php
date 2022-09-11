@@ -220,7 +220,15 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller {
 		$prepared_post->ID = $post->ID;
 		$user_id           = get_current_user_id();
 
-		if ( ( 'draft' === $post->post_status || 'auto-draft' === $post->post_status ) && $post->post_author == $user_id ) {
+		// We need to check post lock to ensure the original author didn't leave their browser tab open.
+		if ( ! function_exists( 'wp_check_post_lock' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/post.php';
+		}
+
+		$post_lock = wp_check_post_lock( $post->ID );
+		$is_draft  = 'draft' === $post->post_status || 'auto-draft' === $post->post_status;
+
+		if ( $is_draft && (int) $post->post_author === $user_id && ! $post_lock ) {
 			// Draft posts for the same author: autosaving updates the post and does not create a revision.
 			// Convert the post object to an array and add slashes, wp_update_post() expects escaped array.
 			$autosave_id = wp_update_post( wp_slash( (array) $prepared_post ), true );
