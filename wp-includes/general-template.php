@@ -5024,7 +5024,7 @@ function __checked_selected_helper( $helper, $current, $echo, $type ) { // phpcs
 function wp_required_field_indicator() {
 	/* translators: Character to identify required form fields. */
 	$glyph     = __( '*' );
-	$indicator = '<span class="required" aria-hidden="true">' . esc_html( $glyph ) . '</span>';
+	$indicator = '<span class="required">' . esc_html( $glyph ) . '</span>';
 
 	return $indicator;
 }
@@ -5038,7 +5038,7 @@ function wp_required_field_indicator() {
  */
 function wp_required_field_message() {
 	$message = sprintf(
-		'<span class="required-field-message" aria-hidden="true">%s</span>',
+		'<span class="required-field-message">%s</span>',
 		/* translators: %s: Asterisk symbol (*). */
 		sprintf( __( 'Required fields are marked %s' ), wp_required_field_indicator() )
 	);
