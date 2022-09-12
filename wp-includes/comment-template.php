@@ -1738,7 +1738,7 @@ function get_comment_reply_link( $args = array(), $comment = null, $post = null 
 		$data_attribute_string = '';
 
 		foreach ( $data_attributes as $name => $value ) {
-			$data_attribute_string .= " data-${name}=\"" . esc_attr( $value ) . '"';
+			$data_attribute_string .= " data-{$name}=\"" . esc_attr( $value ) . '"';
 		}
 
 		$data_attribute_string = trim( $data_attribute_string );
