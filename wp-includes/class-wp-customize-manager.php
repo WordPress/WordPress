@@ -4686,27 +4686,27 @@ final class WP_Customize_Manager {
 
 		if ( $this->return_url ) {
 			$return_url = $this->return_url;
+
+			$return_url_basename = wp_basename( parse_url( $this->return_url, PHP_URL_PATH ) );
+			$return_url_query    = parse_url( $this->return_url, PHP_URL_QUERY );
+
+			if ( 'themes.php' === $return_url_basename && $return_url_query ) {
+				parse_str( $return_url_query, $query_vars );
+
+				/*
+				 * If the return URL is a page added by a theme to the Appearance menu via add_submenu_page(),
+				 * verify that it belongs to the active theme, otherwise fall back to the Themes screen.
+				 */
+				if ( isset( $query_vars['page'] ) && ! isset( $_registered_pages[ "appearance_page_{$query_vars['page']}" ] ) ) {
+					$return_url = admin_url( 'themes.php' );
+				}
+			}
 		} elseif ( $referer && ! in_array( wp_basename( parse_url( $referer, PHP_URL_PATH ) ), $excluded_referer_basenames, true ) ) {
 			$return_url = $referer;
 		} elseif ( $this->preview_url ) {
 			$return_url = $this->preview_url;
 		} else {
 			$return_url = home_url( '/' );
-		}
-
-		$return_url_basename = wp_basename( parse_url( $this->return_url, PHP_URL_PATH ) );
-		$return_url_query    = parse_url( $this->return_url, PHP_URL_QUERY );
-
-		if ( 'themes.php' === $return_url_basename && $return_url_query ) {
-			parse_str( $return_url_query, $query_vars );
-
-			/*
-			 * If the return URL is a page added by a theme to the Appearance menu via add_submenu_page(),
-			 * verify that it belongs to the active theme, otherwise fall back to the Themes screen.
-			 */
-			if ( isset( $query_vars['page'] ) && ! isset( $_registered_pages[ "appearance_page_{$query_vars['page']}" ] ) ) {
-				$return_url = admin_url( 'themes.php' );
-			}
 		}
 
 		return $return_url;
