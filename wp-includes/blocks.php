@@ -1256,7 +1256,7 @@ function get_query_pagination_arrow( $block, $is_next ) {
 		$arrow_attribute = $block->context['paginationArrow'];
 		$arrow           = $arrow_map[ $block->context['paginationArrow'] ][ $pagination_type ];
 		$arrow_classes   = "wp-block-query-pagination-$pagination_type-arrow is-arrow-$arrow_attribute";
-		return "<span class='$arrow_classes'>$arrow</span>";
+		return "<span class='$arrow_classes' aria-hidden='true'>$arrow</span>";
 	}
 	return null;
 }
@@ -1405,7 +1405,7 @@ function get_comments_pagination_arrow( $block, $pagination_type = 'next' ) {
 		$arrow_attribute = $block->context['comments/paginationArrow'];
 		$arrow           = $arrow_map[ $block->context['comments/paginationArrow'] ][ $pagination_type ];
 		$arrow_classes   = "wp-block-comments-pagination-$pagination_type-arrow is-arrow-$arrow_attribute";
-		return "<span class='$arrow_classes'>$arrow</span>";
+		return "<span class='$arrow_classes' aria-hidden='true'>$arrow</span>";
 	}
 	return null;
 }
