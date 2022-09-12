@@ -5026,7 +5026,14 @@ function wp_required_field_indicator() {
 	$glyph     = __( '*' );
 	$indicator = '<span class="required">' . esc_html( $glyph ) . '</span>';
 
-	return $indicator;
+	/**
+	 * Filters the markup for a visual indicator of required form fields.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @param string $indicator Markup for the indicator element.
+	 */
+	return apply_filters( 'wp_required_field_indicator', $indicator );
 }
 
 /**
@@ -5043,7 +5050,14 @@ function wp_required_field_message() {
 		sprintf( __( 'Required fields are marked %s' ), wp_required_field_indicator() )
 	);
 
-	return $message;
+	/**
+	 * Filters the message to explain required form fields.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @param string $message Message text and glyph wrapped in a `span` tag.
+	 */
+	return apply_filters( 'wp_required_field_message', $message );
 }
 
 /**
