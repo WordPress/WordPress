@@ -16,6 +16,7 @@
  *
  * @since 5.2.0
  */
+#[AllowDynamicProperties]
 class WP_Fatal_Error_Handler {
 
 	/**

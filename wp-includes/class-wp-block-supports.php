@@ -14,6 +14,7 @@
  *
  * @access private
  */
+#[AllowDynamicProperties]
 class WP_Block_Supports {
 
 	/**

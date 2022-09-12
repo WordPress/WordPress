@@ -17,6 +17,7 @@
  *
  * @access private
  */
+#[AllowDynamicProperties]
 class WP_Theme_JSON_Resolver {
 
 	/**

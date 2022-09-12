@@ -14,6 +14,7 @@
  *
  * @since 5.5.0
  */
+#[AllowDynamicProperties]
 abstract class WP_Sitemaps_Provider {
 	/**
 	 * Provider name.

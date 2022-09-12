@@ -13,6 +13,7 @@
  * @since 2.8.0
  * @since 4.6.0 Moved to its own file from wp-admin/includes/class-wp-upgrader-skins.php.
  */
+#[AllowDynamicProperties]
 class WP_Upgrader_Skin {
 
 	/**

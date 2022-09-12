@@ -25,6 +25,7 @@ if ( ! class_exists( 'Requests' ) ) {
  *
  * @since 2.7.0
  */
+#[AllowDynamicProperties]
 class WP_Http {
 
 	// Aliases for HTTP response codes.

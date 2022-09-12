@@ -6,6 +6,7 @@
  * @subpackage Theme
  * @since 3.4.0
  */
+#[AllowDynamicProperties]
 final class WP_Theme implements ArrayAccess {
 
 	/**

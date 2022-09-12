@@ -14,6 +14,7 @@
  *
  * @see WP_User_Query::prepare_query() for information on accepted arguments.
  */
+#[AllowDynamicProperties]
 class WP_User_Query {
 
 	/**

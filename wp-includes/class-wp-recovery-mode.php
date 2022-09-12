@@ -11,6 +11,7 @@
  *
  * @since 5.2.0
  */
+#[AllowDynamicProperties]
 class WP_Recovery_Mode {
 
 	const EXIT_ACTION = 'exit_recovery_mode';

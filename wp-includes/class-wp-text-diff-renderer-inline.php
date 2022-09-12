@@ -13,6 +13,7 @@
  * @since 2.6.0
  * @uses Text_Diff_Renderer_inline Extends
  */
+#[AllowDynamicProperties]
 class WP_Text_Diff_Renderer_inline extends Text_Diff_Renderer_inline {
 
 	/**

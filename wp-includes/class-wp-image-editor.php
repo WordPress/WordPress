@@ -11,6 +11,7 @@
  *
  * @since 3.5.0
  */
+#[AllowDynamicProperties]
 abstract class WP_Image_Editor {
 	protected $file              = null;
 	protected $size              = null;

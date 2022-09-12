@@ -13,6 +13,7 @@
  * @since 3.1.0
  * @access private
  */
+#[AllowDynamicProperties]
 class WP_List_Table {
 
 	/**

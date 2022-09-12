@@ -21,6 +21,7 @@
  * @property int $id
  * @property int $site_id
  */
+#[AllowDynamicProperties]
 class WP_Network {
 
 	/**

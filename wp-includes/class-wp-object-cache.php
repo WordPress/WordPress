@@ -21,6 +21,7 @@
  *
  * @since 2.0.0
  */
+#[AllowDynamicProperties]
 class WP_Object_Cache {
 
 	/**

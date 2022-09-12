@@ -12,6 +12,7 @@
  *
  * @since 4.0.0
  */
+#[AllowDynamicProperties]
 abstract class WP_Session_Tokens {
 
 	/**

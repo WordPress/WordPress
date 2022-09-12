@@ -12,6 +12,7 @@
  *
  * @since 6.1.0
  */
+#[AllowDynamicProperties]
 class WP_Textdomain_Registry {
 	/**
 	 * List of domains and all their language directory paths for each locale.

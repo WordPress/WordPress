@@ -11,6 +11,7 @@
  * @package WordPress
  * @abstract
  */
+#[AllowDynamicProperties]
 class Walker {
 	/**
 	 * What the class handles.

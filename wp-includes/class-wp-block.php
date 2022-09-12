@@ -12,6 +12,7 @@
  * @since 5.5.0
  * @property array $attributes
  */
+#[AllowDynamicProperties]
 class WP_Block {
 
 	/**

@@ -12,6 +12,7 @@
  *
  * @since 4.7.0
  */
+#[AllowDynamicProperties]
 class WP_Locale_Switcher {
 	/**
 	 * Locale stack.

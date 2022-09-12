@@ -14,6 +14,7 @@
  *
  * @see WP_Site_Query::__construct() for accepted arguments.
  */
+#[AllowDynamicProperties]
 class WP_Site_Query {
 
 	/**

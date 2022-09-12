@@ -12,6 +12,7 @@
  *
  * @since 4.3.0
  */
+#[AllowDynamicProperties]
 class WP_Site_Icon {
 
 	/**

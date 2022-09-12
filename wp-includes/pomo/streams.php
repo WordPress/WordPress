@@ -9,6 +9,7 @@
  */
 
 if ( ! class_exists( 'POMO_Reader', false ) ) :
+	#[AllowDynamicProperties]
 	class POMO_Reader {
 
 		public $endian = 'little';

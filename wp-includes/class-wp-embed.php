@@ -6,6 +6,7 @@
  * @subpackage Embed
  * @since 2.9.0
  */
+#[AllowDynamicProperties]
 class WP_Embed {
 	public $handlers = array();
 	public $post_ID;

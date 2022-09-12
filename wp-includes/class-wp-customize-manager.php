@@ -20,6 +20,7 @@
  *
  * @since 3.4.0
  */
+#[AllowDynamicProperties]
 final class WP_Customize_Manager {
 	/**
 	 * An instance of the theme being previewed.

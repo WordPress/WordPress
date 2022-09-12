@@ -12,6 +12,7 @@
  *
  * @since 5.5.0
  */
+#[AllowDynamicProperties]
 final class WP_Block_Patterns_Registry {
 	/**
 	 * Registered block patterns array.

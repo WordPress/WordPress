@@ -11,6 +11,7 @@
  *
  * @since 5.2.0
  */
+#[AllowDynamicProperties]
 final class WP_Recovery_Mode_Email_Service {
 
 	const RATE_LIMIT_OPTION = 'recovery_mode_email_last_sent';

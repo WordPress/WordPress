@@ -5,6 +5,7 @@
  * @package WordPress
  * @since 2.0.0
  */
+#[AllowDynamicProperties]
 class WP {
 	/**
 	 * Public query variables.

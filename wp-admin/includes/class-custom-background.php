@@ -11,6 +11,7 @@
  *
  * @since 3.0.0
  */
+#[AllowDynamicProperties]
 class Custom_Background {
 
 	/**

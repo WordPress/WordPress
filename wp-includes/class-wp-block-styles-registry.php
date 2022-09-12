@@ -12,6 +12,7 @@
  *
  * @since 5.3.0
  */
+#[AllowDynamicProperties]
 final class WP_Block_Styles_Registry {
 	/**
 	 * Registered block styles, as `$block_name => $block_style_name => $block_style_properties` multidimensional arrays.

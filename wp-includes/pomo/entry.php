@@ -11,6 +11,7 @@ if ( ! class_exists( 'Translation_Entry', false ) ) :
 	/**
 	 * Translation_Entry class encapsulates a translatable string.
 	 */
+	#[AllowDynamicProperties]
 	class Translation_Entry {
 
 		/**

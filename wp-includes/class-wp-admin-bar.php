@@ -12,6 +12,7 @@
  *
  * @since 3.1.0
  */
+#[AllowDynamicProperties]
 class WP_Admin_Bar {
 	private $nodes = array();
 	private $bound = false;

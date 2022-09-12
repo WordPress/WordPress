@@ -19,6 +19,7 @@
  *
  * @since 3.2.0
  */
+#[AllowDynamicProperties]
 class WP_Meta_Query {
 	/**
 	 * Array of metadata queries.

@@ -51,6 +51,7 @@ define( 'ARRAY_N', 'ARRAY_N' );
  *
  * @since 0.71
  */
+#[AllowDynamicProperties]
 class wpdb {
 
 	/**

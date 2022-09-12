@@ -15,6 +15,7 @@
  * @since 1.5.0
  * @since 4.5.0 Removed the `$comments_popup` property.
  */
+#[AllowDynamicProperties]
 class WP_Query {
 
 	/**

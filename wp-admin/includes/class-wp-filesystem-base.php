@@ -11,6 +11,7 @@
  *
  * @since 2.5.0
  */
+#[AllowDynamicProperties]
 class WP_Filesystem_Base {
 
 	/**

@@ -14,6 +14,7 @@
  *
  * @see WP_Comment_Query::__construct() for accepted arguments.
  */
+#[AllowDynamicProperties]
 class WP_Comment_Query {
 
 	/**

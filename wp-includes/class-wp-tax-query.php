@@ -19,6 +19,7 @@
  *
  * @since 3.1.0
  */
+#[AllowDynamicProperties]
 class WP_Tax_Query {
 
 	/**

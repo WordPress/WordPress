@@ -12,6 +12,7 @@
  *
  * @since 3.4.0
  */
+#[AllowDynamicProperties]
 class WP_Customize_Control {
 
 	/**

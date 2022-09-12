@@ -12,6 +12,7 @@
  *
  * @since 3.3.0
  */
+#[AllowDynamicProperties]
 final class WP_Screen {
 	/**
 	 * Any action associated with the screen.

@@ -11,6 +11,7 @@
  *
  * @since 2.1.0
  */
+#[AllowDynamicProperties]
 class Custom_Image_Header {
 
 	/**

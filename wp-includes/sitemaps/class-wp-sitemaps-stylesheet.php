@@ -14,6 +14,7 @@
  *
  * @since 5.5.0
  */
+#[AllowDynamicProperties]
 class WP_Sitemaps_Stylesheet {
 	/**
 	 * Renders the XSL stylesheet depending on whether it's the sitemap index or not.

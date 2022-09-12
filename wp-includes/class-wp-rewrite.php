@@ -22,6 +22,7 @@
  *
  * @since 1.5.0
  */
+#[AllowDynamicProperties]
 class WP_Rewrite {
 	/**
 	 * Permalink structure for posts.

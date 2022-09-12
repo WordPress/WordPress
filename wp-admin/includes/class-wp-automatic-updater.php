@@ -13,6 +13,7 @@
  * @since 3.7.0
  * @since 4.6.0 Moved to its own file from wp-admin/includes/class-wp-upgrader.php.
  */
+#[AllowDynamicProperties]
 class WP_Automatic_Updater {
 
 	/**

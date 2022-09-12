@@ -2,6 +2,7 @@
 /**
  * WP_Importer base class
  */
+#[AllowDynamicProperties]
 class WP_Importer {
 	/**
 	 * Class Constructor

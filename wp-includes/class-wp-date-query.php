@@ -14,6 +14,7 @@
  *
  * @since 3.7.0
  */
+#[AllowDynamicProperties]
 class WP_Date_Query {
 	/**
 	 * Array of date queries.

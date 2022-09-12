@@ -17,6 +17,7 @@
  *
  * @see SimplePie_File
  */
+#[AllowDynamicProperties]
 class WP_SimplePie_File extends SimplePie_File {
 
 	/**

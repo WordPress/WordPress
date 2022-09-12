@@ -11,6 +11,7 @@
  *
  * @package WordPress
  */
+#[AllowDynamicProperties]
 class WP_Application_Passwords {
 
 	/**

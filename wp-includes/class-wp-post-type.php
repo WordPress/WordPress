@@ -14,6 +14,7 @@
  *
  * @see register_post_type()
  */
+#[AllowDynamicProperties]
 final class WP_Post_Type {
 	/**
 	 * Post type key.

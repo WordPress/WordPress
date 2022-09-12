@@ -17,6 +17,7 @@
  * @since 2.8.0
  * @since 4.4.0 Moved to its own file from wp-includes/widgets.php
  */
+#[AllowDynamicProperties]
 class WP_Widget {
 
 	/**

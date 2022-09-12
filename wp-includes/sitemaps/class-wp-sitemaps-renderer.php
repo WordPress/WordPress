@@ -14,6 +14,7 @@
  *
  * @since 5.5.0
  */
+#[AllowDynamicProperties]
 class WP_Sitemaps_Renderer {
 	/**
 	 * XSL stylesheet for styling a sitemap for web browsers.

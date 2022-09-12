@@ -12,6 +12,7 @@
  *
  * @since 5.0.0
  */
+#[AllowDynamicProperties]
 abstract class WP_REST_Search_Handler {
 
 	/**

@@ -14,6 +14,7 @@
  *
  * @see register_block_type()
  */
+#[AllowDynamicProperties]
 class WP_Block_Type {
 
 	/**

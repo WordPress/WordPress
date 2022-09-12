@@ -12,6 +12,7 @@
  *
  * @since 4.4.0
  */
+#[AllowDynamicProperties]
 final class WP_Comment {
 
 	/**

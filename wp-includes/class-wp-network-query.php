@@ -14,6 +14,7 @@
  *
  * @see WP_Network_Query::__construct() for accepted arguments.
  */
+#[AllowDynamicProperties]
 class WP_Network_Query {
 
 	/**

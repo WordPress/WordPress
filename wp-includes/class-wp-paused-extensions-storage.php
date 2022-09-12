@@ -11,6 +11,7 @@
  *
  * @since 5.2.0
  */
+#[AllowDynamicProperties]
 class WP_Paused_Extensions_Storage {
 
 	/**

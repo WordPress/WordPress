@@ -7,6 +7,7 @@
  * @since 4.9.6
  */
 
+#[AllowDynamicProperties]
 final class WP_Privacy_Policy_Content {
 
 	private static $policy_content = array();

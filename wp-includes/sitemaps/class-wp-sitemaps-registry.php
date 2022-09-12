@@ -14,6 +14,7 @@
  *
  * @since 5.5.0
  */
+#[AllowDynamicProperties]
 class WP_Sitemaps_Registry {
 	/**
 	 * Registered sitemap providers.

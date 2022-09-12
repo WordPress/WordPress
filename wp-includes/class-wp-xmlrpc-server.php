@@ -20,6 +20,7 @@
  *
  * @see IXR_Server
  */
+#[AllowDynamicProperties]
 class wp_xmlrpc_server extends IXR_Server {
 	/**
 	 * Methods.
