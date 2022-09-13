@@ -306,6 +306,18 @@ Inter variable font. Usage:
 	text-align: center;
 }
 
+.editor-styles-wrapper .wp-block-post-title.has-text-align-left {
+
+	/*rtl:ignore*/
+	text-align: left;
+}
+
+.editor-styles-wrapper .wp-block-post-title.has-text-align-right {
+
+	/*rtl:ignore*/
+	text-align: right;
+}
+
 /* DROP CAP */
 
 .editor-styles-wrapper .has-drop-cap:not(:focus)::first-letter {
