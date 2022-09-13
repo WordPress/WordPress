@@ -501,12 +501,17 @@ class WP_Scripts extends WP_Dependencies {
 				),
 				'5.7.0'
 			);
+
+			if ( false === $l10n ) {
+				// This should really not be needed, but is necessary for backward compatibility.
+				$l10n = array( $l10n );
+			}
 		}
 
 		if ( is_string( $l10n ) ) {
 			$l10n = html_entity_decode( $l10n, ENT_QUOTES, 'UTF-8' );
-		} else {
-			foreach ( (array) $l10n as $key => $value ) {
+		} elseif ( is_array( $l10n ) ) {
+			foreach ( $l10n as $key => $value ) {
 				if ( ! is_scalar( $value ) ) {
 					continue;
 				}
