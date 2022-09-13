@@ -2870,6 +2870,22 @@ function get_the_posts_pagination( $args = array() ) {
 			)
 		);
 
+		/**
+		 * Filters the arguments for posts pagination links.
+		 *
+		 * @since 6.1.0
+		 *
+		 * @param array $args {
+		 *     Optional. Default pagination arguments, see paginate_links().
+		 *
+		 *     @type string $screen_reader_text Screen reader text for navigation element.
+		 *                                      Default 'Posts navigation'.
+		 *     @type string $aria_label         ARIA label text for the nav element. Default 'Posts'.
+		 *     @type string $class              Custom class for the nav element. Default 'pagination'.
+		 * }
+		 */
+		$args = apply_filters( 'the_posts_pagination_args', $args );
+
 		// Make sure we get a string back. Plain is the next best thing.
 		if ( isset( $args['type'] ) && 'array' === $args['type'] ) {
 			$args['type'] = 'plain';
