@@ -21,6 +21,7 @@ $wp_file_descriptions = array(
 	'searchform.php'        => __( 'Search Form' ),
 	'404.php'               => __( '404 Template' ),
 	'link.php'              => __( 'Links Template' ),
+	'theme.json'            => __( 'Theme Styles & Block Settings' ),
 	// Archives.
 	'index.php'             => __( 'Main Index Template' ),
 	'archive.php'           => __( 'Archives' ),
