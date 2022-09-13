@@ -131,6 +131,24 @@ function get_option( $option, $default = false ) {
 	 */
 	$pre = apply_filters( "pre_option_{$option}", false, $option, $default );
 
+	/**
+	 * Filters the value of all existing options before it is retrieved.
+	 *
+	 * Returning a truthy value from the filter will effectively short-circuit retrieval
+	 * and return the passed value instead.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @param mixed  $pre_option  The value to return instead of the option value. This differs
+	 *                            from `$default`, which is used as the fallback value in the event
+	 *                            the option doesn't exist elsewhere in get_option().
+	 *                            Default false (to skip past the short-circuit).
+	 * @param string $option      Name of the option.
+	 * @param mixed  $default     The fallback value to return if the option does not exist.
+	 *                            Default false.
+	 */
+	$pre = apply_filters( 'pre_option', $pre, $option, $default );
+
 	if ( false !== $pre ) {
 		return $pre;
 	}
