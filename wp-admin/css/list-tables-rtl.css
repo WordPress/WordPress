@@ -1399,6 +1399,17 @@ ul.cat-checklist {
 	content: "\f147";
 }
 
+.plugin-install-php #the-list {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.plugin-install-php .plugin-card {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
 .plugin-install-php h2 {
 	clear: both;
 }
