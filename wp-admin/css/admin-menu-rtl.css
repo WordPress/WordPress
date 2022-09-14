@@ -428,6 +428,7 @@ ul#adminmenu > li.current > a.current:after {
 }
 
 /* @todo: consider to use a single rule for these counters and the list table comments counters. */
+#adminmenu .menu-counter,
 #adminmenu .awaiting-mod,
 #adminmenu .update-plugins {
 	display: inline-block;

@@ -15,6 +15,8 @@ jQuery( function( $ ) {
 		isStatusTab = $( '.health-check-body.health-check-status-tab' ).length,
 		isDebugTab = $( '.health-check-body.health-check-debug-tab' ).length,
 		pathsSizesSection = $( '#health-check-accordion-block-wp-paths-sizes' ),
+		menuCounterWrapper = $( '#adminmenu .site-health-counter' ),
+		menuCounter = $( '#adminmenu .site-health-counter .count' ),
 		successTimeout;
 
 	// Debug information copy section.
@@ -164,8 +166,14 @@ jQuery( function( $ ) {
 			$( '.site-health-issue-count-title', issueWrapper ).html( heading );
 		}
 
+		menuCounter.text( SiteHealth.site_status.issues.critical );
+
 		if ( 0 < parseInt( SiteHealth.site_status.issues.critical, 0 ) ) {
 			$( '#health-check-issues-critical' ).removeClass( 'hidden' );
+
+			menuCounterWrapper.removeClass( 'count-0' );
+		} else {
+			menuCounterWrapper.addClass( 'count-0' );
 		}
 		if ( 0 < parseInt( SiteHealth.site_status.issues.recommended, 0 ) ) {
 			$( '#health-check-issues-recommended' ).removeClass( 'hidden' );
