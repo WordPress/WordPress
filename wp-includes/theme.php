@@ -4027,6 +4027,13 @@ function create_initial_theme_features() {
 		)
 	);
 	register_theme_feature(
+		'disable-layout-styles',
+		array(
+			'description'  => __( 'Whether the theme disables generated layout styles.' ),
+			'show_in_rest' => true,
+		)
+	);
+	register_theme_feature(
 		'editor-color-palette',
 		array(
 			'type'         => 'array',
