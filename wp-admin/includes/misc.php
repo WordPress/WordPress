@@ -1585,7 +1585,8 @@ function wp_check_php_version() {
 		 *  'recommended_version' - string - The PHP version recommended by WordPress.
 		 *  'is_supported' - boolean - Whether the PHP version is actively supported.
 		 *  'is_secure' - boolean - Whether the PHP version receives security updates.
-		 *  'is_acceptable' - boolean - Whether the PHP version is still acceptable for WordPress.
+		 *  'is_acceptable' - boolean - Whether the PHP version is still acceptable or warnings
+		 *                              should be shown and an update recommended.
 		 */
 		$response = json_decode( wp_remote_retrieve_body( $response ), true );
 
@@ -1611,6 +1612,16 @@ function wp_check_php_version() {
 		 * @param string $version       PHP version checked.
 		 */
 		$response['is_acceptable'] = (bool) apply_filters( 'wp_is_php_version_acceptable', true, $version );
+	}
+
+	$response['is_lower_than_future_minimum'] = false;
+
+	// The minimum supported PHP version will be updated to 7.2. Check if the current version is lower.
+	if ( version_compare( $version, '7.2', '<' ) ) {
+		$response['is_lower_than_future_minimum'] = true;
+
+		// Force showing of warnings.
+		$response['is_acceptable'] = false;
 	}
 
 	return $response;
