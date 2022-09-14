@@ -304,7 +304,7 @@ class WP_Block_Type {
 		}
 
 		$new_name = $name . '_handles';
-		return isset( $this->{$new_name }[0] ) ? $this->{$new_name }[0] : null;
+		return isset( $this->{$new_name}[0] ) ? $this->{$new_name}[0] : null;
 	}
 
 	/**
@@ -324,7 +324,7 @@ class WP_Block_Type {
 		}
 
 		$new_name = $name . '_handles';
-		return isset( $this->{$new_name }[0] );
+		return isset( $this->{$new_name}[0] );
 	}
 
 	/**
@@ -348,7 +348,7 @@ class WP_Block_Type {
 		}
 
 		$new_name = $name . '_handles';
-		$this->{$new_name }[0] = $value;
+		$this->{$new_name}[0] = $value;
 	}
 
 	/**
