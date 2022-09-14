@@ -42,7 +42,9 @@ if (PHP_VERSION_ID < 70000) {
 }
 
 /* Explicitly, always load the Compat class: */
-require_once dirname(__FILE__) . '/src/Compat.php';
+if (!class_exists('ParagonIE_Sodium_Compat', false)) {
+    require_once dirname(__FILE__) . '/src/Compat.php';
+}
 
 if (!class_exists('SodiumException', false)) {
     require_once dirname(__FILE__) . '/src/SodiumException.php';
@@ -69,4 +71,5 @@ if (PHP_VERSION_ID < 70200 || !extension_loaded('sodium')) {
     // Older versions of {PHP, ext/sodium} will not define these
     require_once(dirname(__FILE__) . '/lib/php72compat.php');
 }
+require_once(dirname(__FILE__) . '/lib/stream-xchacha20.php');
 require_once(dirname(__FILE__) . '/lib/ristretto255.php');
