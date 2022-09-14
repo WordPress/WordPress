@@ -395,6 +395,10 @@ p.has-drop-cap:not(:focus)::first-letter {
 	vertical-align: baseline;
 }
 
+.is-style-outline .wp-block-button__link {
+	border: 2px solid;
+}
+
 .entry-content .wp-block-button:not(.is-style-outline) .wp-block-button__link {
 	border: 0;
 }
