@@ -121,12 +121,12 @@ Inter variable font. Usage:
 
 .editor-post-title__block .editor-post-title__input,
 .editor-styles-wrapper .wp-block-post-title,
-.editor-styles-wrapper .wp-block h1,
-.editor-styles-wrapper .wp-block h2,
-.editor-styles-wrapper .wp-block h3,
-.editor-styles-wrapper .wp-block h4,
-.editor-styles-wrapper .wp-block h5,
-.editor-styles-wrapper .wp-block h6,
+.editor-styles-wrapper h1,
+.editor-styles-wrapper h2,
+.editor-styles-wrapper h3,
+.editor-styles-wrapper h4,
+.editor-styles-wrapper h5,
+.editor-styles-wrapper h6,
 .editor-styles-wrapper .has-drop-cap:not(:focus)::first-letter,
 .editor-styles-wrapper cite,
 .editor-styles-wrapper figcaption,
@@ -138,12 +138,12 @@ Inter variable font. Usage:
 
 	.editor-post-title__block .editor-post-title__input,
 	.editor-styles-wrapper .wp-block-post-title,
-	.editor-styles-wrapper .wp-block h1,
-	.editor-styles-wrapper .wp-block h2,
-	.editor-styles-wrapper .wp-block h3,
-	.editor-styles-wrapper .wp-block h4,
-	.editor-styles-wrapper .wp-block h5,
-	.editor-styles-wrapper .wp-block h6,
+	.editor-styles-wrapper h1,
+	.editor-styles-wrapper h2,
+	.editor-styles-wrapper h3,
+	.editor-styles-wrapper h4,
+	.editor-styles-wrapper h5,
+	.editor-styles-wrapper h6,
 	.editor-styles-wrapper .has-drop-cap:not(:focus)::first-letter,
 	.editor-styles-wrapper cite,
 	.editor-styles-wrapper figcaption,
@@ -242,12 +242,12 @@ Inter variable font. Usage:
 
 .editor-post-title__block .editor-post-title__input,
 .editor-styles-wrapper .wp-block-post-title,
-.editor-styles-wrapper .wp-block h1,
-.editor-styles-wrapper .wp-block h2,
-.editor-styles-wrapper .wp-block h3,
-.editor-styles-wrapper .wp-block h4,
-.editor-styles-wrapper .wp-block h5,
-.editor-styles-wrapper .wp-block h6 {
+.editor-styles-wrapper h1,
+.editor-styles-wrapper h2,
+.editor-styles-wrapper h3,
+.editor-styles-wrapper h4,
+.editor-styles-wrapper h5,
+.editor-styles-wrapper h6 {
 	font-feature-settings: "lnum";
 	font-variant-numeric: lining-nums;
 	font-weight: 700;
@@ -259,29 +259,35 @@ Inter variable font. Usage:
 
 .editor-post-title__block .editor-post-title__input,
 .editor-styles-wrapper .wp-block-post-title,
-.editor-styles-wrapper .wp-block h1 {
+.editor-styles-wrapper h1,
+.editor-styles-wrapper .heading-size-1 {
 	font-size: 36px;
 	font-weight: 800;
 	line-height: 1.138888889;
 }
 
-.editor-styles-wrapper .wp-block h2 {
+.editor-styles-wrapper h2,
+.editor-styles-wrapper .heading-size-2 {
 	font-size: 32px;
 }
 
-.editor-styles-wrapper .wp-block h3 {
+.editor-styles-wrapper h3,
+.editor-styles-wrapper .heading-size-3 {
 	font-size: 28px;
 }
 
-.editor-styles-wrapper .wp-block h4 {
+.editor-styles-wrapper h4,
+.editor-styles-wrapper .heading-size-4 {
 	font-size: 24px;
 }
 
-.editor-styles-wrapper .wp-block h5 {
+.editor-styles-wrapper h5,
+.editor-styles-wrapper .heading-size-5 {
 	font-size: 21px;
 }
 
-.editor-styles-wrapper .wp-block h6 {
+.editor-styles-wrapper h6,
+.editor-styles-wrapper .heading-size-6 {
 	font-size: 16px;
 	letter-spacing: 0.03125em;
 	text-transform: uppercase;
@@ -1252,23 +1258,28 @@ hr.wp-block-separator.is-style-dots::before {
 
 	.editor-post-title__block .editor-post-title__input,
 	.editor-styles-wrapper .wp-block-post-title,
-	.editor-styles-wrapper .wp-block h1 {
+	.editor-styles-wrapper h1,
+	.editor-styles-wrapper .heading-size-1 {
 		font-size: 64px;
 	}
 
-	.editor-styles-wrapper .wp-block h2 {
+	.editor-styles-wrapper h2,
+	.editor-styles-wrapper .heading-size-2 {
 		font-size: 48px;
 	}
 
-	.editor-styles-wrapper .wp-block h3 {
+	.editor-styles-wrapper h3,
+	.editor-styles-wrapper .heading-size-3 {
 		font-size: 40px;
 	}
 
-	.editor-styles-wrapper .wp-block h4 {
+	.editor-styles-wrapper h4,
+	.editor-styles-wrapper .heading-size-4 {
 		font-size: 32px;
 	}
 
-	.editor-styles-wrapper .wp-block h5 {
+	.editor-styles-wrapper h5,
+	.editor-styles-wrapper .heading-size-5 {
 		font-size: 24px;
 	}
 
@@ -1431,11 +1442,13 @@ hr.wp-block-separator.is-style-dots::before {
 
 	.editor-post-title__block .editor-post-title__input,
 	.editor-styles-wrapper .wp-block-post-title,
-	.editor-styles-wrapper .wp-block h1 {
+	.editor-styles-wrapper h1,
+	.editor-styles-wrapper .heading-size-1 {
 		font-size: 84px;
 	}
 
-	.editor-styles-wrapper .wp-block h6 {
+	.editor-styles-wrapper h6,
+	.editor-styles-wrapper .heading-size-6 {
 		font-size: 18px;
 	}
 
