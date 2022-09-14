@@ -765,8 +765,7 @@ hr.wp-block-separator.is-style-dots::before {
 .wp-block-cover-image .wp-block-cover-text,
 .wp-block-cover-image h2,
 .wp-block-cover .wp-block-cover-image-text,
-.wp-block-cover .wp-block-cover-text,
-.wp-block-cover h2 {
+.wp-block-cover .wp-block-cover-text {
 	max-width: 100%;
 }
 
