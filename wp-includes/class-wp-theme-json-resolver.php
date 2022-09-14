@@ -233,6 +233,54 @@ class WP_Theme_JSON_Resolver {
 	}
 
 	/**
+	 * Gets the styles for blocks from the block.json file.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @return WP_Theme_JSON
+	 */
+	public static function get_block_data() {
+		$registry = WP_Block_Type_Registry::get_instance();
+		$blocks   = $registry->get_all_registered();
+		$config   = array( 'version' => 1 );
+		foreach ( $blocks as $block_name => $block_type ) {
+			if ( isset( $block_type->supports['__experimentalStyle'] ) ) {
+				$config['styles']['blocks'][ $block_name ] = static::remove_json_comments( $block_type->supports['__experimentalStyle'] );
+			}
+
+			if (
+				isset( $block_type->supports['spacing']['blockGap']['__experimentalDefault'] ) &&
+				null === _wp_array_get( $config, array( 'styles', 'blocks', $block_name, 'spacing', 'blockGap' ), null )
+			) {
+				// Ensure an empty placeholder value exists for the block, if it provides a default blockGap value.
+				// The real blockGap value to be used will be determined when the styles are rendered for output.
+				$config['styles']['blocks'][ $block_name ]['spacing']['blockGap'] = null;
+			}
+		}
+
+		// Core here means it's the lower level part of the styles chain.
+		// It can be a core or a third-party block.
+		return new WP_Theme_JSON( $config, 'core' );
+	}
+
+	/**
+	 * When given an array, this will remove any keys with the name `//`.
+	 *
+	 * @param array $array The array to filter.
+	 * @return array The filtered array.
+	 */
+	private static function remove_json_comments( $array ) {
+		unset( $array['//'] );
+		foreach ( $array as $k => $v ) {
+			if ( is_array( $v ) ) {
+				$array[ $k ] = static::remove_json_comments( $v );
+			}
+		}
+
+		return $array;
+	}
+
+	/**
 	 * Returns the custom post type that contains the user's origin config
 	 * for the active theme or a void array if none are found.
 	 *
@@ -370,6 +418,7 @@ class WP_Theme_JSON_Resolver {
 	 * @since 5.8.0
 	 * @since 5.9.0 Added user data, removed the `$settings` parameter,
 	 *              added the `$origin` parameter.
+	 * @since 6.1.0 Added block data.
 	 *
 	 * @param string $origin Optional. To what level should we merge data.
 	 *                       Valid values are 'theme' or 'custom'. Default 'custom'.
@@ -382,6 +431,7 @@ class WP_Theme_JSON_Resolver {
 
 		$result = new WP_Theme_JSON();
 		$result->merge( static::get_core_data() );
+		$result->merge( static::get_block_data() );
 		$result->merge( static::get_theme_data() );
 
 		if ( 'custom' === $origin ) {
