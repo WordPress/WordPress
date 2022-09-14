@@ -1026,7 +1026,7 @@ hr.wp-block-separator.is-style-dots::before {
 	border-style: solid;
 	border-width: 2px 0 0;
 	line-height: 1.25;
-	margin: 20px 0 16px 16px;
+	margin: 20px 0 16px 10px;
 	padding-top: 12px;
 }
 
