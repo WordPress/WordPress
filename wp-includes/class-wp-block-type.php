@@ -166,44 +166,58 @@ class WP_Block_Type {
 	public $provides_context = null;
 
 	/**
-	 * Block type editor only script handle.
+	 * Block type editor only script handles.
 	 *
-	 * @since 5.0.0
-	 * @var string|null
+	 * @since 6.1.0
+	 * @var string[]
 	 */
-	public $editor_script = null;
+	public $editor_script_handles = array();
 
 	/**
-	 * Block type front end and editor script handle.
+	 * Block type front end and editor script handles.
 	 *
-	 * @since 5.0.0
-	 * @var string|null
+	 * @since 6.1.0
+	 * @var string[]
 	 */
-	public $script = null;
+	public $script_handles = array();
 
 	/**
-	 * Block type front end only script handle.
+	 * Block type front end only script handles.
 	 *
-	 * @since 5.9.0
-	 * @var string|null
+	 * @since 6.1.0
+	 * @var string[]
 	 */
-	public $view_script = null;
+	public $view_script_handles = array();
 
 	/**
-	 * Block type editor only style handle.
+	 * Block type editor only style handles.
 	 *
-	 * @since 5.0.0
-	 * @var string|null
+	 * @since 6.1.0
+	 * @var string[]
 	 */
-	public $editor_style = null;
+	public $editor_style_handles = array();
 
 	/**
-	 * Block type front end and editor style handle.
+	 * Block type front end and editor style handles.
 	 *
-	 * @since 5.0.0
-	 * @var string|null
+	 * @since 6.1.0
+	 * @var string[]
 	 */
-	public $style = null;
+	public $style_handles = array();
+
+	/**
+	 * Deprecated block type properties for script and style handles.
+	 *
+	 * @since 6.1.0
+	 * @var string[]
+	 */
+	private $deprecated_properties = array(
+		'editor_script',
+		'script',
+		'view_script',
+		'editor_style',
+		'style',
+	);
 
 	/**
 	 * Attributes supported by every block.
@@ -228,6 +242,9 @@ class WP_Block_Type {
 	 * @since 5.8.0 Added the `variations` property.
 	 * @since 5.9.0 Added the `view_script` property.
 	 * @since 6.0.0 Added the `ancestor` property.
+	 * @since 6.1.0 Added the `editor_script_handles`, `script_handles`, `view_script_handles,
+	 *              `editor_style_handles`, and `style_handles` properties.
+	 *              Deprecated the `editor_script`, `script`, `view_script`, `editor_style`, and `style` properties.
 	 *
 	 * @see register_block_type()
 	 *
@@ -236,38 +253,102 @@ class WP_Block_Type {
 	 *     Optional. Array or string of arguments for registering a block type. Any arguments may be defined,
 	 *     however the ones described below are supported by default. Default empty array.
 	 *
-	 *     @type string        $api_version      Block API version.
-	 *     @type string        $title            Human-readable block type label.
-	 *     @type string|null   $category         Block type category classification, used in
-	 *                                           search interfaces to arrange block types by category.
-	 *     @type string[]|null $parent           Setting parent lets a block require that it is only
-	 *                                           available when nested within the specified blocks.
-	 *     @type string[]|null $ancestor         Setting ancestor makes a block available only inside the specified
-	 *                                           block types at any position of the ancestor's block subtree.
-	 *     @type string|null   $icon             Block type icon.
-	 *     @type string        $description      A detailed block type description.
-	 *     @type string[]      $keywords         Additional keywords to produce block type as
-	 *                                           result in search interfaces.
-	 *     @type string|null   $textdomain       The translation textdomain.
-	 *     @type array[]       $styles           Alternative block styles.
-	 *     @type array[]       $variations       Block variations.
-	 *     @type array|null    $supports         Supported features.
-	 *     @type array|null    $example          Structured data for the block preview.
-	 *     @type callable|null $render_callback  Block type render callback.
-	 *     @type array|null    $attributes       Block type attributes property schemas.
-	 *     @type string[]      $uses_context     Context values inherited by blocks of this type.
-	 *     @type string[]|null $provides_context Context provided by blocks of this type.
-	 *     @type string|null   $editor_script    Block type editor only script handle.
-	 *     @type string|null   $script           Block type front end and editor script handle.
-	 *     @type string|null   $view_script      Block type front end only script handle.
-	 *     @type string|null   $editor_style     Block type editor only style handle.
-	 *     @type string|null   $style            Block type front end and editor style handle.
+	 *     @type string        $api_version              Block API version.
+	 *     @type string        $title                    Human-readable block type label.
+	 *     @type string|null   $category                 Block type category classification, used in
+	 *                                                   search interfaces to arrange block types by category.
+	 *     @type string[]|null $parent                   Setting parent lets a block require that it is only
+	 *                                                   available when nested within the specified blocks.
+	 *     @type string[]|null $ancestor                 Setting ancestor makes a block available only inside the specified
+	 *                                                   block types at any position of the ancestor's block subtree.
+	 *     @type string|null   $icon                     Block type icon.
+	 *     @type string        $description              A detailed block type description.
+	 *     @type string[]      $keywords                 Additional keywords to produce block type as
+	 *                                                   result in search interfaces.
+	 *     @type string|null   $textdomain               The translation textdomain.
+	 *     @type array[]       $styles                   Alternative block styles.
+	 *     @type array[]       $variations               Block variations.
+	 *     @type array|null    $supports                 Supported features.
+	 *     @type array|null    $example                  Structured data for the block preview.
+	 *     @type callable|null $render_callback          Block type render callback.
+	 *     @type array|null    $attributes               Block type attributes property schemas.
+	 *     @type string[]      $uses_context             Context values inherited by blocks of this type.
+	 *     @type string[]|null $provides_context         Context provided by blocks of this type.
+	 *     @type string[]      $editor_script_handles    Block type editor only script handles.
+	 *     @type string[]      $script_handles           Block type front end and editor script handles.
+	 *     @type string[]      $view_script_handles      Block type front end only script handles.
+	 *     @type string[]      $editor_style_handles     Block type editor only style handles.
+	 *     @type string[]      $style_handles            Block type front end and editor style handles.
 	 * }
 	 */
 	public function __construct( $block_type, $args = array() ) {
 		$this->name = $block_type;
 
 		$this->set_props( $args );
+	}
+
+	/**
+	 * Proxies getting values for deprecated properties for script and style handles for backward compatibility.
+	 * Gets the value for the corresponding new property if the first item in the array provided.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @param string $name Deprecated property name.
+	 *
+	 * @return string|null|void The value read from the new property if the first item in the array provided,
+	 *                          null when value not found, or void when unknown property name provided.
+	 */
+	public function __get( $name ) {
+		if ( ! in_array( $name, $this->deprecated_properties ) ) {
+			return;
+		}
+
+		$new_name = $name . '_handles';
+		return isset( $this->{$new_name }[0] ) ? $this->{$new_name }[0] : null;
+	}
+
+	/**
+	 * Proxies checking for deprecated properties for script and style handles for backward compatibility.
+	 * Checks whether the corresponding new property has the first item in the array provided.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @param string $name Deprecated property name.
+	 *
+	 * @return boolean Returns true when for the new property the first item in the array exists,
+	 *                     or false otherwise.
+	 */
+	public function __isset( $name ) {
+		if ( ! in_array( $name, $this->deprecated_properties ) ) {
+			return false;
+		}
+
+		$new_name = $name . '_handles';
+		return isset( $this->{$new_name }[0] );
+	}
+
+	/**
+	 * Proxies setting values for deprecated properties for script and style handles for backward compatibility.
+	 * Sets the value for the corresponding new property as the first item in the array.
+	 * It also allows setting custom properties for backward compatibility.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @param string $name  Property name.
+	 * @param mixed  $value Property value.
+	 */
+	public function __set( $name, $value ) {
+		if ( ! in_array( $name, $this->deprecated_properties ) ) {
+			$this->{$name} = $value;
+			return;
+		}
+
+		if ( ! is_string( $value ) ) {
+			return;
+		}
+
+		$new_name = $name . '_handles';
+		$this->{$new_name }[0] = $value;
 	}
 
 	/**

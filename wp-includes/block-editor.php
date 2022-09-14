@@ -324,17 +324,16 @@ function _wp_get_iframed_editor_assets() {
 	$block_registry = WP_Block_Type_Registry::get_instance();
 
 	foreach ( $block_registry->get_all_registered() as $block_type ) {
-		if ( ! empty( $block_type->style ) ) {
-			$style_handles[] = $block_type->style;
-		}
+		$style_handles = array_merge(
+			$style_handles,
+			$block_type->style_handles,
+			$block_type->editor_style_handles
+		);
 
-		if ( ! empty( $block_type->editor_style ) ) {
-			$style_handles[] = $block_type->editor_style;
-		}
-
-		if ( ! empty( $block_type->script ) ) {
-			$script_handles[] = $block_type->script;
-		}
+		$script_handles = array_merge(
+			$script_handles,
+			$block_type->script_handles
+		);
 	}
 
 	$style_handles = array_unique( $style_handles );

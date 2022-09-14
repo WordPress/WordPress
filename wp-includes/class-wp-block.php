@@ -260,16 +260,22 @@ class WP_Block {
 			$post = $global_post;
 		}
 
-		if ( ! empty( $this->block_type->script ) ) {
-			wp_enqueue_script( $this->block_type->script );
+		if ( ( ! empty( $this->block_type->script_handles ) ) ) {
+			foreach ( $this->block_type->script_handles as $script_handle ) {
+				wp_enqueue_script( $script_handle );
+			}
 		}
 
-		if ( ! empty( $this->block_type->view_script ) && empty( $this->block_type->render_callback ) ) {
-			wp_enqueue_script( $this->block_type->view_script );
+		if ( ! empty( $this->block_type->view_script_handles ) && empty( $this->block_type->render_callback ) ) {
+			foreach ( $this->block_type->view_script_handles as $view_script_handle ) {
+				wp_enqueue_script( $view_script_handle );
+			}
 		}
 
-		if ( ! empty( $this->block_type->style ) ) {
-			wp_enqueue_style( $this->block_type->style );
+		if ( ( ! empty( $this->block_type->style_handles ) ) ) {
+			foreach ( $this->block_type->style_handles as $style_handle ) {
+				wp_enqueue_style( $style_handle );
+			}
 		}
 
 		/**
