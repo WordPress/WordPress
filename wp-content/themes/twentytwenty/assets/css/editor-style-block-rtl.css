@@ -156,6 +156,10 @@ Inter variable font. Usage:
 
 /* Colors ------------------------------------ */
 
+.editor-styles-wrapper .has-text-color a {
+	color: inherit;
+}
+
 /* CUSTOM COLORS */
 
 :root .has-accent-color {
