@@ -205,7 +205,8 @@ function wp_remote_head( $url, $args = array() ) {
  * @see \Requests_Utility_CaseInsensitiveDictionary
  *
  * @param array|WP_Error $response HTTP response.
- * @return array|\Requests_Utility_CaseInsensitiveDictionary The headers of the response. Empty array if incorrect parameter given.
+ * @return \Requests_Utility_CaseInsensitiveDictionary|array The headers of the response, or empty array
+ *                                                           if incorrect parameter given.
  */
 function wp_remote_retrieve_headers( $response ) {
 	if ( is_wp_error( $response ) || ! isset( $response['headers'] ) ) {
@@ -245,7 +246,7 @@ function wp_remote_retrieve_header( $response, $header ) {
  * @since 2.7.0
  *
  * @param array|WP_Error $response HTTP response.
- * @return int|string The response code as an integer. Empty string on incorrect parameter given.
+ * @return int|string The response code as an integer. Empty string if incorrect parameter given.
  */
 function wp_remote_retrieve_response_code( $response ) {
 	if ( is_wp_error( $response ) || ! isset( $response['response'] ) || ! is_array( $response['response'] ) ) {
@@ -263,7 +264,7 @@ function wp_remote_retrieve_response_code( $response ) {
  * @since 2.7.0
  *
  * @param array|WP_Error $response HTTP response.
- * @return string The response message. Empty string on incorrect parameter given.
+ * @return string The response message. Empty string if incorrect parameter given.
  */
 function wp_remote_retrieve_response_message( $response ) {
 	if ( is_wp_error( $response ) || ! isset( $response['response'] ) || ! is_array( $response['response'] ) ) {
@@ -295,7 +296,8 @@ function wp_remote_retrieve_body( $response ) {
  * @since 4.4.0
  *
  * @param array|WP_Error $response HTTP response.
- * @return WP_Http_Cookie[] An array of `WP_Http_Cookie` objects from the response. Empty array if there are none, or the response is a WP_Error.
+ * @return WP_Http_Cookie[] An array of `WP_Http_Cookie` objects from the response.
+ *                          Empty array if there are none, or the response is a WP_Error.
  */
 function wp_remote_retrieve_cookies( $response ) {
 	if ( is_wp_error( $response ) || empty( $response['cookies'] ) ) {
@@ -312,7 +314,8 @@ function wp_remote_retrieve_cookies( $response ) {
  *
  * @param array|WP_Error $response HTTP response.
  * @param string         $name     The name of the cookie to retrieve.
- * @return WP_Http_Cookie|string The `WP_Http_Cookie` object. Empty string if the cookie isn't present in the response.
+ * @return WP_Http_Cookie|string The `WP_Http_Cookie` object, or empty string
+ *                               if the cookie is not present in the response.
  */
 function wp_remote_retrieve_cookie( $response, $name ) {
 	$cookies = wp_remote_retrieve_cookies( $response );
@@ -337,7 +340,8 @@ function wp_remote_retrieve_cookie( $response, $name ) {
  *
  * @param array|WP_Error $response HTTP response.
  * @param string         $name     The name of the cookie to retrieve.
- * @return string The value of the cookie. Empty string if the cookie isn't present in the response.
+ * @return string The value of the cookie, or empty string
+ *                if the cookie is not present in the response.
  */
 function wp_remote_retrieve_cookie_value( $response, $name ) {
 	$cookie = wp_remote_retrieve_cookie( $response, $name );
