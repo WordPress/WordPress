@@ -49,7 +49,6 @@
 		letter-spacing: var(--heading--letter-spacing-h2);
 		line-height: var(--heading--line-height-h2);
 		padding: 0;
-		max-width: inherit; // undo opinionated styles
 		text-align: inherit;
 
 		&.has-text-align-left {
