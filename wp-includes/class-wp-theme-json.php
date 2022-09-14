@@ -177,60 +177,40 @@ class WP_Theme_JSON {
 	 *              `letter-spacing`, `margin-*`, `padding-*`, `--wp--style--block-gap`,
 	 *              `text-decoration`, `text-transform`, and `filter` properties,
 	 *              simplified the metadata structure.
-	 * @since 6.1.0 Added the `border-*-color`, `border-*-width`, `border-*-style`,
-	 *              `--wp--style--root--padding-*`, and `box-shadow` properties,
-	 *              removed the `--wp--style--block-gap` property.
 	 * @var array
 	 */
 	const PROPERTIES_METADATA = array(
-		'background'                        => array( 'color', 'gradient' ),
-		'background-color'                  => array( 'color', 'background' ),
-		'border-radius'                     => array( 'border', 'radius' ),
-		'border-top-left-radius'            => array( 'border', 'radius', 'topLeft' ),
-		'border-top-right-radius'           => array( 'border', 'radius', 'topRight' ),
-		'border-bottom-left-radius'         => array( 'border', 'radius', 'bottomLeft' ),
-		'border-bottom-right-radius'        => array( 'border', 'radius', 'bottomRight' ),
-		'border-color'                      => array( 'border', 'color' ),
-		'border-width'                      => array( 'border', 'width' ),
-		'border-style'                      => array( 'border', 'style' ),
-		'border-top-color'                  => array( 'border', 'top', 'color' ),
-		'border-top-width'                  => array( 'border', 'top', 'width' ),
-		'border-top-style'                  => array( 'border', 'top', 'style' ),
-		'border-right-color'                => array( 'border', 'right', 'color' ),
-		'border-right-width'                => array( 'border', 'right', 'width' ),
-		'border-right-style'                => array( 'border', 'right', 'style' ),
-		'border-bottom-color'               => array( 'border', 'bottom', 'color' ),
-		'border-bottom-width'               => array( 'border', 'bottom', 'width' ),
-		'border-bottom-style'               => array( 'border', 'bottom', 'style' ),
-		'border-left-color'                 => array( 'border', 'left', 'color' ),
-		'border-left-width'                 => array( 'border', 'left', 'width' ),
-		'border-left-style'                 => array( 'border', 'left', 'style' ),
-		'color'                             => array( 'color', 'text' ),
-		'font-family'                       => array( 'typography', 'fontFamily' ),
-		'font-size'                         => array( 'typography', 'fontSize' ),
-		'font-style'                        => array( 'typography', 'fontStyle' ),
-		'font-weight'                       => array( 'typography', 'fontWeight' ),
-		'letter-spacing'                    => array( 'typography', 'letterSpacing' ),
-		'line-height'                       => array( 'typography', 'lineHeight' ),
-		'margin'                            => array( 'spacing', 'margin' ),
-		'margin-top'                        => array( 'spacing', 'margin', 'top' ),
-		'margin-right'                      => array( 'spacing', 'margin', 'right' ),
-		'margin-bottom'                     => array( 'spacing', 'margin', 'bottom' ),
-		'margin-left'                       => array( 'spacing', 'margin', 'left' ),
-		'padding'                           => array( 'spacing', 'padding' ),
-		'padding-top'                       => array( 'spacing', 'padding', 'top' ),
-		'padding-right'                     => array( 'spacing', 'padding', 'right' ),
-		'padding-bottom'                    => array( 'spacing', 'padding', 'bottom' ),
-		'padding-left'                      => array( 'spacing', 'padding', 'left' ),
-		'--wp--style--root--padding'        => array( 'spacing', 'padding' ),
-		'--wp--style--root--padding-top'    => array( 'spacing', 'padding', 'top' ),
-		'--wp--style--root--padding-right'  => array( 'spacing', 'padding', 'right' ),
-		'--wp--style--root--padding-bottom' => array( 'spacing', 'padding', 'bottom' ),
-		'--wp--style--root--padding-left'   => array( 'spacing', 'padding', 'left' ),
-		'text-decoration'                   => array( 'typography', 'textDecoration' ),
-		'text-transform'                    => array( 'typography', 'textTransform' ),
-		'filter'                            => array( 'filter', 'duotone' ),
-		'box-shadow'                        => array( 'shadow' ),
+		'background'                 => array( 'color', 'gradient' ),
+		'background-color'           => array( 'color', 'background' ),
+		'border-radius'              => array( 'border', 'radius' ),
+		'border-top-left-radius'     => array( 'border', 'radius', 'topLeft' ),
+		'border-top-right-radius'    => array( 'border', 'radius', 'topRight' ),
+		'border-bottom-left-radius'  => array( 'border', 'radius', 'bottomLeft' ),
+		'border-bottom-right-radius' => array( 'border', 'radius', 'bottomRight' ),
+		'border-color'               => array( 'border', 'color' ),
+		'border-width'               => array( 'border', 'width' ),
+		'border-style'               => array( 'border', 'style' ),
+		'color'                      => array( 'color', 'text' ),
+		'font-family'                => array( 'typography', 'fontFamily' ),
+		'font-size'                  => array( 'typography', 'fontSize' ),
+		'font-style'                 => array( 'typography', 'fontStyle' ),
+		'font-weight'                => array( 'typography', 'fontWeight' ),
+		'letter-spacing'             => array( 'typography', 'letterSpacing' ),
+		'line-height'                => array( 'typography', 'lineHeight' ),
+		'margin'                     => array( 'spacing', 'margin' ),
+		'margin-top'                 => array( 'spacing', 'margin', 'top' ),
+		'margin-right'               => array( 'spacing', 'margin', 'right' ),
+		'margin-bottom'              => array( 'spacing', 'margin', 'bottom' ),
+		'margin-left'                => array( 'spacing', 'margin', 'left' ),
+		'padding'                    => array( 'spacing', 'padding' ),
+		'padding-top'                => array( 'spacing', 'padding', 'top' ),
+		'padding-right'              => array( 'spacing', 'padding', 'right' ),
+		'padding-bottom'             => array( 'spacing', 'padding', 'bottom' ),
+		'padding-left'               => array( 'spacing', 'padding', 'left' ),
+		'--wp--style--block-gap'     => array( 'spacing', 'blockGap' ),
+		'text-decoration'            => array( 'typography', 'textDecoration' ),
+		'text-transform'             => array( 'typography', 'textTransform' ),
+		'filter'                     => array( 'filter', 'duotone' ),
 	);
 
 	/**
@@ -274,19 +254,17 @@ class WP_Theme_JSON {
 	 *              added new properties for `border`, `color`, `spacing`,
 	 *              and `typography`, and renamed others according to the new schema.
 	 * @since 6.0.0 Added `color.defaultDuotone`.
-	 * @since 6.1.0 Added `layout.definitions` and `useRootPaddingAwareAlignments`.
 	 * @var array
 	 */
 	const VALID_SETTINGS = array(
-		'appearanceTools'               => null,
-		'useRootPaddingAwareAlignments' => null,
-		'border'                        => array(
+		'appearanceTools' => null,
+		'border'          => array(
 			'color'  => null,
 			'radius' => null,
 			'style'  => null,
 			'width'  => null,
 		),
-		'color'                         => array(
+		'color'           => array(
 			'background'       => null,
 			'custom'           => null,
 			'customDuotone'    => null,
@@ -300,18 +278,18 @@ class WP_Theme_JSON {
 			'palette'          => null,
 			'text'             => null,
 		),
-		'custom'                        => null,
-		'layout'                        => array(
+		'custom'          => null,
+		'layout'          => array(
 			'contentSize' => null,
 			'wideSize'    => null,
 		),
-		'spacing'                       => array(
+		'spacing'         => array(
 			'blockGap' => null,
 			'margin'   => null,
 			'padding'  => null,
 			'units'    => null,
 		),
-		'typography'                    => array(
+		'typography'      => array(
 			'customFontSize' => null,
 			'dropCap'        => null,
 			'fontFamilies'   => null,
@@ -332,8 +310,6 @@ class WP_Theme_JSON {
 	 * @since 5.9.0 Renamed from `ALLOWED_STYLES` to `VALID_STYLES`,
 	 *              added new properties for `border`, `filter`, `spacing`,
 	 *              and `typography`.
-	 * @since 6.1.0 Added new side properties for `border`,
-	 *              updated `blockGap` to be allowed at any level.
 	 * @var array
 	 */
 	const VALID_STYLES = array(
@@ -342,10 +318,6 @@ class WP_Theme_JSON {
 			'radius' => null,
 			'style'  => null,
 			'width'  => null,
-			'top'    => null,
-			'right'  => null,
-			'bottom' => null,
-			'left'   => null,
 		),
 		'color'      => array(
 			'background' => null,
@@ -358,7 +330,7 @@ class WP_Theme_JSON {
 		'spacing'    => array(
 			'margin'   => null,
 			'padding'  => null,
-			'blockGap' => null,
+			'blockGap' => 'top',
 		),
 		'typography' => array(
 			'fontFamily'     => null,
@@ -409,20 +381,6 @@ class WP_Theme_JSON {
 	const __EXPERIMENTAL_ELEMENT_CLASS_NAMES = array(
 		'button'  => 'wp-element-button',
 		'caption' => 'wp-element-caption',
-	);
-
-	/**
-	 * List of block support features that can have their related styles
-	 * generated under their own feature level selector rather than the block's.
-	 *
-	 * @since 6.1.0
-	 * @var string[]
-	 */
-	const BLOCK_SUPPORT_FEATURE_LEVEL_SELECTORS = array(
-		'__experimentalBorder' => 'border',
-		'color'                => 'color',
-		'spacing'              => 'spacing',
-		'typography'           => 'typography',
 	);
 
 	/**
@@ -698,7 +656,6 @@ class WP_Theme_JSON {
 	 *
 	 * @since 5.8.0
 	 * @since 5.9.0 Added `duotone` key with CSS selector.
-	 * @since 6.1.0 Added `features` key with block support feature level selectors.
 	 *
 	 * @return array Block metadata.
 	 */
@@ -726,25 +683,6 @@ class WP_Theme_JSON {
 				is_string( $block_type->supports['color']['__experimentalDuotone'] )
 			) {
 				static::$blocks_metadata[ $block_name ]['duotone'] = $block_type->supports['color']['__experimentalDuotone'];
-			}
-
-			// Generate block support feature level selectors if opted into
-			// for the current block.
-			$features = array();
-			foreach ( static::BLOCK_SUPPORT_FEATURE_LEVEL_SELECTORS as $key => $feature ) {
-				if (
-					isset( $block_type->supports[ $key ]['__experimentalSelector'] ) &&
-					$block_type->supports[ $key ]['__experimentalSelector']
-				) {
-					$features[ $feature ] = static::scope_selector(
-						static::$blocks_metadata[ $block_name ]['selector'],
-						$block_type->supports[ $key ]['__experimentalSelector']
-					);
-				}
-			}
-
-			if ( ! empty( $features ) ) {
-				static::$blocks_metadata[ $block_name ]['features'] = $features;
 			}
 
 			// Assign defaults, then overwrite those that the block sets by itself.
@@ -872,30 +810,7 @@ class WP_Theme_JSON {
 		}
 
 		if ( in_array( 'styles', $types, true ) ) {
-			$root_block_key = array_search( static::ROOT_BLOCK_SELECTOR, array_column( $style_nodes, 'selector' ), true );
-
-			if ( false !== $root_block_key ) {
-				$stylesheet .= $this->get_root_layout_rules( static::ROOT_BLOCK_SELECTOR, $style_nodes[ $root_block_key ] );
-			}
 			$stylesheet .= $this->get_block_classes( $style_nodes );
-		} elseif ( in_array( 'base-layout-styles', $types, true ) ) {
-			// Base layout styles are provided as part of `styles`, so only output separately if explicitly requested.
-			// For backwards compatibility, the Columns block is explicitly included, to support a different default gap value.
-			$base_styles_nodes = array(
-				array(
-					'path'     => array( 'styles' ),
-					'selector' => static::ROOT_BLOCK_SELECTOR,
-				),
-				array(
-					'path'     => array( 'styles', 'blocks', 'core/columns' ),
-					'selector' => '.wp-block-columns',
-					'name'     => 'core/columns',
-				),
-			);
-
-			foreach ( $base_styles_nodes as $base_style_node ) {
-				$stylesheet .= $this->get_layout_styles( $base_style_node );
-			}
 		}
 
 		if ( in_array( 'presets', $types, true ) ) {
@@ -969,7 +884,6 @@ class WP_Theme_JSON {
 	 * @since 5.9.0 Renamed from `get_block_styles()` to `get_block_classes()`
 	 *              and no longer returns preset classes.
 	 *              Removed the `$setting_nodes` parameter.
-	 * @since 6.1.0 Moved most internal logic to `get_styles_for_block()`.
 	 *
 	 * @param array $style_nodes Nodes with styles.
 	 * @return string The new stylesheet.
@@ -984,190 +898,6 @@ class WP_Theme_JSON {
 			$block_rules .= static::get_styles_for_block( $metadata );
 		}
 
-		return $block_rules;
-	}
-
-	/**
-	 * Get the CSS layout rules for a particular block from theme.json layout definitions.
-	 *
-	 * @since 6.1.0
-	 *
-	 * @param array $block_metadata Metadata about the block to get styles for.
-	 *
-	 * @return string Layout styles for the block.
-	 */
-	protected function get_layout_styles( $block_metadata ) {
-		$block_rules = '';
-		$block_type  = null;
-
-		// Skip outputting layout styles if explicitly disabled.
-		if ( current_theme_supports( 'disable-layout-styles' ) ) {
-			return $block_rules;
-		}
-
-		if ( isset( $block_metadata['name'] ) ) {
-			$block_type = WP_Block_Type_Registry::get_instance()->get_registered( $block_metadata['name'] );
-			if ( ! block_has_support( $block_type, array( '__experimentalLayout' ), false ) ) {
-				return $block_rules;
-			}
-		}
-
-		$selector                 = isset( $block_metadata['selector'] ) ? $block_metadata['selector'] : '';
-		$has_block_gap_support    = _wp_array_get( $this->theme_json, array( 'settings', 'spacing', 'blockGap' ) ) !== null;
-		$has_fallback_gap_support = ! $has_block_gap_support; // This setting isn't useful yet: it exists as a placeholder for a future explicit fallback gap styles support.
-		$node                     = _wp_array_get( $this->theme_json, $block_metadata['path'], array() );
-		$layout_definitions       = _wp_array_get( $this->theme_json, array( 'settings', 'layout', 'definitions' ), array() );
-		$layout_selector_pattern  = '/^[a-zA-Z0-9\-\.\ *+>:\(\)]*$/'; // Allow alphanumeric classnames, spaces, wildcard, sibling, child combinator and pseudo class selectors.
-
-		// Gap styles will only be output if the theme has block gap support, or supports a fallback gap.
-		// Default layout gap styles will be skipped for themes that do not explicitly opt-in to blockGap with a `true` or `false` value.
-		if ( $has_block_gap_support || $has_fallback_gap_support ) {
-			$block_gap_value = null;
-			// Use a fallback gap value if block gap support is not available.
-			if ( ! $has_block_gap_support ) {
-				$block_gap_value = static::ROOT_BLOCK_SELECTOR === $selector ? '0.5em' : null;
-				if ( ! empty( $block_type ) ) {
-					$block_gap_value = _wp_array_get( $block_type->supports, array( 'spacing', 'blockGap', '__experimentalDefault' ), null );
-				}
-			} else {
-				$block_gap_value = static::get_property_value( $node, array( 'spacing', 'blockGap' ) );
-			}
-
-			// Support split row / column values and concatenate to a shorthand value.
-			if ( is_array( $block_gap_value ) ) {
-				if ( isset( $block_gap_value['top'] ) && isset( $block_gap_value['left'] ) ) {
-					$gap_row         = static::get_property_value( $node, array( 'spacing', 'blockGap', 'top' ) );
-					$gap_column      = static::get_property_value( $node, array( 'spacing', 'blockGap', 'left' ) );
-					$block_gap_value = $gap_row === $gap_column ? $gap_row : $gap_row . ' ' . $gap_column;
-				} else {
-					// Skip outputting gap value if not all sides are provided.
-					$block_gap_value = null;
-				}
-			}
-
-			// If the block should have custom gap, add the gap styles.
-			if ( null !== $block_gap_value && false !== $block_gap_value && '' !== $block_gap_value ) {
-				foreach ( $layout_definitions as $layout_definition_key => $layout_definition ) {
-					// Allow outputting fallback gap styles for flex layout type when block gap support isn't available.
-					if ( ! $has_block_gap_support && 'flex' !== $layout_definition_key ) {
-						continue;
-					}
-
-					$class_name    = sanitize_title( _wp_array_get( $layout_definition, array( 'className' ), false ) );
-					$spacing_rules = _wp_array_get( $layout_definition, array( 'spacingStyles' ), array() );
-
-					if (
-						! empty( $class_name ) &&
-						! empty( $spacing_rules )
-					) {
-						foreach ( $spacing_rules as $spacing_rule ) {
-							$declarations = array();
-							if (
-								isset( $spacing_rule['selector'] ) &&
-								preg_match( $layout_selector_pattern, $spacing_rule['selector'] ) &&
-								! empty( $spacing_rule['rules'] )
-							) {
-								// Iterate over each of the styling rules and substitute non-string values such as `null` with the real `blockGap` value.
-								foreach ( $spacing_rule['rules'] as $css_property => $css_value ) {
-									$current_css_value = is_string( $css_value ) ? $css_value : $block_gap_value;
-									if ( static::is_safe_css_declaration( $css_property, $current_css_value ) ) {
-										$declarations[] = array(
-											'name'  => $css_property,
-											'value' => $current_css_value,
-										);
-									}
-								}
-
-								if ( ! $has_block_gap_support ) {
-									// For fallback gap styles, use lower specificity, to ensure styles do not unintentionally override theme styles.
-									$format          = static::ROOT_BLOCK_SELECTOR === $selector ? ':where(.%2$s%3$s)' : ':where(%1$s.%2$s%3$s)';
-									$layout_selector = sprintf(
-										$format,
-										$selector,
-										$class_name,
-										$spacing_rule['selector']
-									);
-								} else {
-									$format          = static::ROOT_BLOCK_SELECTOR === $selector ? '%s .%s%s' : '%s.%s%s';
-									$layout_selector = sprintf(
-										$format,
-										$selector,
-										$class_name,
-										$spacing_rule['selector']
-									);
-								}
-								$block_rules .= static::to_ruleset( $layout_selector, $declarations );
-							}
-						}
-					}
-				}
-			}
-		}
-
-		// Output base styles.
-		if (
-			static::ROOT_BLOCK_SELECTOR === $selector
-		) {
-			$valid_display_modes = array( 'block', 'flex', 'grid' );
-			foreach ( $layout_definitions as $layout_definition ) {
-				$class_name       = sanitize_title( _wp_array_get( $layout_definition, array( 'className' ), false ) );
-				$base_style_rules = _wp_array_get( $layout_definition, array( 'baseStyles' ), array() );
-
-				if (
-					! empty( $class_name ) &&
-					! empty( $base_style_rules )
-				) {
-					// Output display mode. This requires special handling as `display` is not exposed in `safe_style_css_filter`.
-					if (
-						! empty( $layout_definition['displayMode'] ) &&
-						is_string( $layout_definition['displayMode'] ) &&
-						in_array( $layout_definition['displayMode'], $valid_display_modes, true )
-					) {
-						$layout_selector = sprintf(
-							'%s .%s',
-							$selector,
-							$class_name
-						);
-						$block_rules    .= static::to_ruleset(
-							$layout_selector,
-							array(
-								array(
-									'name'  => 'display',
-									'value' => $layout_definition['displayMode'],
-								),
-							)
-						);
-					}
-
-					foreach ( $base_style_rules as $base_style_rule ) {
-						$declarations = array();
-
-						if (
-							isset( $base_style_rule['selector'] ) &&
-							preg_match( $layout_selector_pattern, $base_style_rule['selector'] ) &&
-							! empty( $base_style_rule['rules'] )
-						) {
-							foreach ( $base_style_rule['rules'] as $css_property => $css_value ) {
-								if ( static::is_safe_css_declaration( $css_property, $css_value ) ) {
-									$declarations[] = array(
-										'name'  => $css_property,
-										'value' => $css_value,
-									);
-								}
-							}
-
-							$layout_selector = sprintf(
-								'%s .%s%s',
-								$selector,
-								$class_name,
-								$base_style_rule['selector']
-							);
-							$block_rules    .= static::to_ruleset( $layout_selector, $declarations );
-						}
-					}
-				}
-			}
-		}
 		return $block_rules;
 	}
 
@@ -1597,17 +1327,15 @@ class WP_Theme_JSON {
 	 *
 	 * @since 5.8.0
 	 * @since 5.9.0 Added the `$settings` and `$properties` parameters.
-	 * @since 6.1.0 Added `$theme_json`, `$selector`, and `$use_root_padding` parameters.
+	 * @since 6.1.0 Added the `$theme_json` parameter.
 	 *
-	 * @param array   $styles Styles to process.
-	 * @param array   $settings Theme settings.
-	 * @param array   $properties Properties metadata.
-	 * @param array   $theme_json Theme JSON array.
-	 * @param string  $selector The style block selector.
-	 * @param boolean $use_root_padding Whether to add custom properties at root level.
-	 * @return array  Returns the modified $declarations.
+	 * @param array $styles    Styles to process.
+	 * @param array $settings  Theme settings.
+	 * @param array $properties Properties metadata.
+	 * @param array $theme_json Theme JSON array.
+	 * @return array Returns the modified $declarations.
 	 */
-	protected static function compute_style_properties( $styles, $settings = array(), $properties = null, $theme_json = null, $selector = null, $use_root_padding = null ) {
+	protected static function compute_style_properties( $styles, $settings = array(), $properties = null, $theme_json = null ) {
 		if ( null === $properties ) {
 			$properties = static::PROPERTIES_METADATA;
 		}
@@ -1617,23 +1345,8 @@ class WP_Theme_JSON {
 			return $declarations;
 		}
 
-		$root_variable_duplicates = array();
-
 		foreach ( $properties as $css_property => $value_path ) {
 			$value = static::get_property_value( $styles, $value_path, $theme_json );
-
-			if ( str_starts_with( $css_property, '--wp--style--root--' ) && ( static::ROOT_BLOCK_SELECTOR !== $selector || ! $use_root_padding ) ) {
-				continue;
-			}
-			// Root-level padding styles don't currently support strings with CSS shorthand values.
-			// This may change: https://github.com/WordPress/gutenberg/issues/40132.
-			if ( '--wp--style--root--padding' === $css_property && is_string( $value ) ) {
-				continue;
-			}
-
-			if ( str_starts_with( $css_property, '--wp--style--root--' ) && $use_root_padding ) {
-				$root_variable_duplicates[] = substr( $css_property, strlen( '--wp--style--root--' ) );
-			}
 
 			// Look up protected properties, keyed by value path.
 			// Skip protected properties that are explicitly set to `null`.
@@ -1657,14 +1370,6 @@ class WP_Theme_JSON {
 				'name'  => $css_property,
 				'value' => $value,
 			);
-		}
-
-		// If a variable value is added to the root, the corresponding property should be removed.
-		foreach ( $root_variable_duplicates as $duplicate ) {
-			$discard = array_search( $duplicate, array_column( $declarations, 'name' ), true );
-			if ( is_numeric( $discard ) ) {
-				array_splice( $declarations, $discard, 1 );
-			}
 		}
 
 		return $declarations;
@@ -1691,7 +1396,7 @@ class WP_Theme_JSON {
 	 * @return string|array Style property value.
 	 */
 	protected static function get_property_value( $styles, $path, $theme_json = null ) {
-		$value = _wp_array_get( $styles, $path );
+		$value = _wp_array_get( $styles, $path, '' );
 
 		/*
 		 * This converts references to a path to the value at that path
@@ -1724,7 +1429,7 @@ class WP_Theme_JSON {
 			}
 		}
 
-		if ( is_array( $value ) ) {
+		if ( '' === $value || is_array( $value ) ) {
 			return $value;
 		}
 
@@ -1917,17 +1622,11 @@ class WP_Theme_JSON {
 				$duotone_selector = $selectors[ $name ]['duotone'];
 			}
 
-			$feature_selectors = null;
-			if ( isset( $selectors[ $name ]['features'] ) ) {
-				$feature_selectors = $selectors[ $name ]['features'];
-			}
-
 			$nodes[] = array(
 				'name'     => $name,
 				'path'     => array( 'styles', 'blocks', $name ),
 				'selector' => $selector,
 				'duotone'  => $duotone_selector,
-				'features' => $feature_selectors,
 			);
 
 			if ( isset( $theme_json['styles']['blocks'][ $name ]['elements'] ) ) {
@@ -1960,47 +1659,15 @@ class WP_Theme_JSON {
 	 *
 	 * @since 6.1.0
 	 *
-	 * @param array $block_metadata Metadata about the block to get styles for.
-	 *
+	 * @param array $block_metadata Meta data about the block to get styles for.
 	 * @return array Styles for the block.
 	 */
 	public function get_styles_for_block( $block_metadata ) {
-		$node             = _wp_array_get( $this->theme_json, $block_metadata['path'], array() );
-		$use_root_padding = isset( $this->theme_json['settings']['useRootPaddingAwareAlignments'] ) && true === $this->theme_json['settings']['useRootPaddingAwareAlignments'];
-		$selector         = $block_metadata['selector'];
-		$settings         = _wp_array_get( $this->theme_json, array( 'settings' ) );
 
-		/*
-		 * Process style declarations for block support features the current
-		 * block contains selectors for. Values for a feature with a custom
-		 * selector are filtered from the theme.json node before it is
-		 * processed as normal.
-		*/
-		$feature_declarations = array();
+		$node = _wp_array_get( $this->theme_json, $block_metadata['path'], array() );
 
-		if ( ! empty( $block_metadata['features'] ) ) {
-			foreach ( $block_metadata['features'] as $feature_name => $feature_selector ) {
-				if ( ! empty( $node[ $feature_name ] ) ) {
-					// Create temporary node containing only the feature data
-					// to leverage existing `compute_style_properties` function.
-					$feature = array( $feature_name => $node[ $feature_name ] );
-					// Generate the feature's declarations only.
-					$new_feature_declarations = static::compute_style_properties( $feature, $settings, null, $this->theme_json );
-
-					// Merge new declarations with any that already exist for
-					// the feature selector. This may occur when multiple block
-					// support features use the same custom selector.
-					if ( isset( $feature_declarations[ $feature_selector ] ) ) {
-						$feature_declarations[ $feature_selector ] = array_merge( $feature_declarations[ $feature_selector ], $new_feature_declarations );
-					} else {
-						$feature_declarations[ $feature_selector ] = $new_feature_declarations;
-					}
-					// Remove the feature from the block's node now the
-					// styles will be included under the feature level selector.
-					unset( $node[ $feature_name ] );
-				}
-			}
-		}
+		$selector = $block_metadata['selector'];
+		$settings = _wp_array_get( $this->theme_json, array( 'settings' ) );
 
 		/*
 		 * Get a reference to element name from path.
@@ -2042,9 +1709,9 @@ class WP_Theme_JSON {
 			array_key_exists( $current_element, static::VALID_ELEMENT_PSEUDO_SELECTORS )
 			&& in_array( $pseudo_selector, static::VALID_ELEMENT_PSEUDO_SELECTORS[ $current_element ], true )
 		) {
-			$declarations = static::compute_style_properties( $node[ $pseudo_selector ], $settings, null, $this->theme_json, $selector, $use_root_padding );
+			$declarations = static::compute_style_properties( $node[ $pseudo_selector ], $settings, null, $this->theme_json );
 		} else {
-			$declarations = static::compute_style_properties( $node, $settings, null, $this->theme_json, $selector, $use_root_padding );
+			$declarations = static::compute_style_properties( $node, $settings, null, $this->theme_json );
 		}
 
 		$block_rules = '';
@@ -2061,6 +1728,18 @@ class WP_Theme_JSON {
 			}
 		}
 
+		/*
+		 * Reset default browser margin on the root body element.
+		 * This is set on the root selector **before** generating the ruleset
+		 * from the `theme.json`. This is to ensure that if the `theme.json` declares
+		 * `margin` in its `spacing` declaration for the `body` element then these
+		 * user-generated values take precedence in the CSS cascade.
+		 * @link https://github.com/WordPress/gutenberg/issues/36147.
+		 */
+		if ( static::ROOT_BLOCK_SELECTOR === $selector ) {
+			$block_rules .= 'body { margin: 0; }';
+		}
+
 		// 2. Generate and append the rules that use the general selector.
 		$block_rules .= static::to_ruleset( $selector, $declarations );
 
@@ -2070,95 +1749,19 @@ class WP_Theme_JSON {
 			$block_rules     .= static::to_ruleset( $selector_duotone, $declarations_duotone );
 		}
 
-		// 4. Generate Layout block gap styles.
-		if (
-			static::ROOT_BLOCK_SELECTOR !== $selector &&
-			! empty( $block_metadata['name'] )
-		) {
-			$block_rules .= $this->get_layout_styles( $block_metadata );
-		}
+		if ( static::ROOT_BLOCK_SELECTOR === $selector ) {
+			$block_rules .= '.wp-site-blocks > .alignleft { float: left; margin-right: 2em; }';
+			$block_rules .= '.wp-site-blocks > .alignright { float: right; margin-left: 2em; }';
+			$block_rules .= '.wp-site-blocks > .aligncenter { justify-content: center; margin-left: auto; margin-right: auto; }';
 
-		// 5. Generate and append the feature level rulesets.
-		foreach ( $feature_declarations as $feature_selector => $individual_feature_declarations ) {
-			$block_rules .= static::to_ruleset( $feature_selector, $individual_feature_declarations );
+			$has_block_gap_support = _wp_array_get( $this->theme_json, array( 'settings', 'spacing', 'blockGap' ) ) !== null;
+			if ( $has_block_gap_support ) {
+				$block_rules .= '.wp-site-blocks > * { margin-block-start: 0; margin-block-end: 0; }';
+				$block_rules .= '.wp-site-blocks > * + * { margin-block-start: var( --wp--style--block-gap ); }';
+			}
 		}
 
 		return $block_rules;
-	}
-
-	/**
-	 * Outputs the CSS for layout rules on the root.
-	 *
-	 * @since 6.1.0
-	 *
-	 * @param string $selector The root node selector.
-	 * @param array  $block_metadata The metadata for the root block.
-	 * @return string The additional root rules CSS.
-	 */
-	public function get_root_layout_rules( $selector, $block_metadata ) {
-		$css              = '';
-		$settings         = _wp_array_get( $this->theme_json, array( 'settings' ) );
-		$use_root_padding = isset( $this->theme_json['settings']['useRootPaddingAwareAlignments'] ) && true === $this->theme_json['settings']['useRootPaddingAwareAlignments'];
-
-		/*
-		* Reset default browser margin on the root body element.
-		* This is set on the root selector **before** generating the ruleset
-		* from the `theme.json`. This is to ensure that if the `theme.json` declares
-		* `margin` in its `spacing` declaration for the `body` element then these
-		* user-generated values take precedence in the CSS cascade.
-		* @link https://github.com/WordPress/gutenberg/issues/36147.
-		*/
-		$css .= 'body { margin: 0;';
-
-		/*
-		* If there are content and wide widths in theme.json, output them
-		* as custom properties on the body element so all blocks can use them.
-		*/
-		if ( isset( $settings['layout']['contentSize'] ) || isset( $settings['layout']['wideSize'] ) ) {
-			$content_size = isset( $settings['layout']['contentSize'] ) ? $settings['layout']['contentSize'] : $settings['layout']['wideSize'];
-			$content_size = static::is_safe_css_declaration( 'max-width', $content_size ) ? $content_size : 'initial';
-			$wide_size    = isset( $settings['layout']['wideSize'] ) ? $settings['layout']['wideSize'] : $settings['layout']['contentSize'];
-			$wide_size    = static::is_safe_css_declaration( 'max-width', $wide_size ) ? $wide_size : 'initial';
-			$css         .= '--wp--style--global--content-size: ' . $content_size . ';';
-			$css         .= '--wp--style--global--wide-size: ' . $wide_size . ';';
-		}
-
-		$css .= ' }';
-
-		if ( $use_root_padding ) {
-			// Top and bottom padding are applied to the outer block container.
-			$css .= '.wp-site-blocks { padding-top: var(--wp--style--root--padding-top); padding-bottom: var(--wp--style--root--padding-bottom); }';
-			// Right and left padding are applied to the first container with `.has-global-padding` class.
-			$css .= '.has-global-padding { padding-right: var(--wp--style--root--padding-right); padding-left: var(--wp--style--root--padding-left); }';
-			// Nested containers with `.has-global-padding` class do not get padding.
-			$css .= '.has-global-padding :where(.has-global-padding) { padding-right: 0; padding-left: 0; }';
-			// Alignfull children of the container with left and right padding have negative margins so they can still be full width.
-			$css .= '.has-global-padding > .alignfull { margin-right: calc(var(--wp--style--root--padding-right) * -1); margin-left: calc(var(--wp--style--root--padding-left) * -1); }';
-			// The above rule is negated for alignfull children of nested containers.
-			$css .= '.has-global-padding :where(.has-global-padding) > .alignfull { margin-right: 0; margin-left: 0; }';
-			// Some of the children of alignfull blocks without content width should also get padding: text blocks and non-alignfull container blocks.
-			$css .= '.has-global-padding > .alignfull:where(:not(.has-global-padding)) > :where([class*="wp-block-"]:not(.alignfull):not([class*="__"]),p,h1,h2,h3,h4,h5,h6,ul,ol) { padding-right: var(--wp--style--root--padding-right); padding-left: var(--wp--style--root--padding-left); }';
-			// The above rule also has to be negated for blocks inside nested `.has-global-padding` blocks.
-			$css .= '.has-global-padding :where(.has-global-padding) > .alignfull:where(:not(.has-global-padding)) > :where([class*="wp-block-"]:not(.alignfull):not([class*="__"]),p,h1,h2,h3,h4,h5,h6,ul,ol) { padding-right: 0; padding-left: 0; }';
-		}
-
-		$css .= '.wp-site-blocks > .alignleft { float: left; margin-right: 2em; }';
-		$css .= '.wp-site-blocks > .alignright { float: right; margin-left: 2em; }';
-		$css .= '.wp-site-blocks > .aligncenter { justify-content: center; margin-left: auto; margin-right: auto; }';
-
-		$block_gap_value       = _wp_array_get( $this->theme_json, array( 'styles', 'spacing', 'blockGap' ), '0.5em' );
-		$has_block_gap_support = _wp_array_get( $this->theme_json, array( 'settings', 'spacing', 'blockGap' ) ) !== null;
-		if ( $has_block_gap_support ) {
-			$block_gap_value = static::get_property_value( $this->theme_json, array( 'styles', 'spacing', 'blockGap' ) );
-			$css            .= '.wp-site-blocks > * { margin-block-start: 0; margin-block-end: 0; }';
-			$css            .= ".wp-site-blocks > * + * { margin-block-start: $block_gap_value; }";
-
-			// For backwards compatibility, ensure the legacy block gap CSS variable is still available.
-			$css .= "$selector { --wp--style--block-gap: $block_gap_value; }";
-		}
-		$css .= $this->get_layout_styles( $block_metadata );
-
-		return $css;
 	}
 
 	/**

@@ -209,7 +209,6 @@ function get_default_block_editor_settings() {
 		'disableCustomColors'              => get_theme_support( 'disable-custom-colors' ),
 		'disableCustomFontSizes'           => get_theme_support( 'disable-custom-font-sizes' ),
 		'disableCustomGradients'           => get_theme_support( 'disable-custom-gradients' ),
-		'disableLayoutStyles'              => get_theme_support( 'disable-layout-styles' ),
 		'enableCustomLineHeight'           => get_theme_support( 'custom-line-height' ),
 		'enableCustomSpacing'              => get_theme_support( 'custom-spacing' ),
 		'enableCustomUnits'                => get_theme_support( 'custom-units' ),
@@ -418,18 +417,6 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
 			$block_classes['css'] = $actual_css;
 			$global_styles[]      = $block_classes;
 		}
-	} else {
-		// If there is no `theme.json` file, ensure base layout styles are still available.
-		$block_classes = array(
-			'css'            => 'base-layout-styles',
-			'__unstableType' => 'base-layout',
-			'isGlobalStyles' => true,
-		);
-		$actual_css    = wp_get_global_stylesheet( array( $block_classes['css'] ) );
-		if ( '' !== $actual_css ) {
-			$block_classes['css'] = $actual_css;
-			$global_styles[]  = $block_classes;
-		}
 	}
 
 	$editor_settings['styles'] = array_merge( $global_styles, get_block_editor_theme_styles() );
@@ -487,23 +474,9 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
 		$editor_settings['enableCustomSpacing'] = $editor_settings['__experimentalFeatures']['spacing']['padding'];
 		unset( $editor_settings['__experimentalFeatures']['spacing']['padding'] );
 	}
-	if ( isset( $editor_settings['__experimentalFeatures']['spacing']['customSpacingSize'] ) ) {
-		$editor_settings['disableCustomSpacingSizes'] = ! $editor_ettings['__experimentalFeatures']['spacing']['customSpacingSize'];
-		unset( $editor_settings['__experimentalFeatures']['spacing']['customSpacingSize'] );
-	}
-	if ( isset( $editor_settings['__experimentalFeatures']['spacing']['spacingSizes'] ) ) {
-		$spacing_sizes_by_origin  = $editor_settings['__experimentalFeatures']['spacing']['spacingSizes'];
-		$editor_settings['spacingSizes'] = isset( $spacing_sizes_by_origin['custom'] ) ?
-			$spacing_sizes_by_origin['custom'] : (
-				isset( $spacing_sizes_by_origin['theme'] ) ?
-					$spacing_sizes_by_origin['theme'] :
-					$spacing_sizes_by_origin['default']
-			);
-	}
 
 	$editor_settings['__unstableResolvedAssets']         = _wp_get_iframed_editor_assets();
 	$editor_settings['localAutosaveInterval']            = 15;
-	$editor_settings['disableLayoutStyles']              = current_theme_supports( 'disable-layout-styles' );
 	$editor_settings['__experimentalDiscussionSettings'] = array(
 		'commentOrder'         => get_option( 'comment_order' ),
 		'commentsPerPage'      => get_option( 'comments_per_page' ),
