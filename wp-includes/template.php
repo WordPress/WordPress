@@ -437,6 +437,8 @@ function get_privacy_policy_template() {
 /**
  * Retrieve path of page template in current or parent template.
  *
+ * Note: For block themes, use locate_block_template function instead.
+ *
  * The hierarchy for this template looks like:
  *
  * 1. {Page Template}.php
