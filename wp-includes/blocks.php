@@ -1189,6 +1189,7 @@ function wp_migrate_old_typography_shape( $metadata ) {
  * It's used in Query Loop, Query Pagination Numbers and Query Pagination Next blocks.
  *
  * @since 5.8.0
+ * @since 6.1.0 Added `query_loop_block_query_vars` filter and `parents` support in query.
  *
  * @param WP_Block $block Block instance.
  * @param int      $page  Current query's page.
@@ -1289,8 +1290,32 @@ function build_query_vars_from_query_block( $block, $page ) {
 		if ( ! empty( $block->context['query']['search'] ) ) {
 			$query['s'] = $block->context['query']['search'];
 		}
+		if ( ! empty( $block->context['query']['parents'] ) && is_post_type_hierarchical( $query['post_type'] ) ) {
+			$query['post_parent__in'] = array_filter( array_map( 'intval', $block->context['query']['parents'] ) );
+		}
 	}
-	return $query;
+
+	/**
+	 * Filters the arguments which will be passed to `WP_Query` for the Query Loop Block.
+	 *
+	 * Anything to this filter should be compatible with the `WP_Query` API to form
+	 * the query context which will be passed down to the Query Loop Block's children.
+	 * This can help, for example, to include additional settings or meta queries not
+	 * directly supported by the core Query Loop Block, and extend its capabilities.
+	 *
+	 * Please note that this will only influence the query that will be rendered on the
+	 * front-end. The editor preview is not affected by this filter. Also, worth noting
+	 * that the editor preview uses the REST API, so, ideally, one should aim to provide
+	 * attributes which are also compatible with the REST API, in order to be able to
+	 * implement identical queries on both sides.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @param array    $query Array containing parameters for `WP_Query` as parsed by the block context.
+	 * @param WP_Block $block Block instance.
+	 * @param int      $page  Current query's page.
+	 */
+	return apply_filters( 'query_loop_block_query_vars', $query, $block, $page );
 }
 
 /**
