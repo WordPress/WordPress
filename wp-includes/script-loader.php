@@ -294,6 +294,9 @@ function wp_default_packages_scripts( $scripts ) {
 			case 'wp-edit-post':
 				array_push( $dependencies, 'media-models', 'media-views', 'postbox', 'wp-dom-ready' );
 				break;
+			case 'wp-preferences':
+				array_push( $dependencies, 'wp-preferences-persistence' );
+				break;
 		}
 
 		$scripts->add( $handle, $path, $dependencies, $package_data['version'], 1 );
@@ -324,11 +327,12 @@ function wp_default_packages_scripts( $scripts ) {
  * @since 5.0.0
  *
  * @global WP_Locale $wp_locale WordPress date and time locale object.
+ * @global wpdb      $wpdb      WordPress database abstraction object.
  *
  * @param WP_Scripts $scripts WP_Scripts object.
  */
 function wp_default_packages_inline_scripts( $scripts ) {
-	global $wp_locale;
+	global $wp_locale, $wpdb;
 
 	if ( isset( $scripts->registered['wp-api-fetch'] ) ) {
 		$scripts->registered['wp-api-fetch']->deps[] = 'wp-hooks';
@@ -360,19 +364,22 @@ function wp_default_packages_inline_scripts( $scripts ) {
 		),
 		'after'
 	);
+
+	$meta_key     = $wpdb->get_blog_prefix() . 'persisted_preferences';
+	$user_id      = get_current_user_ID();
+	$preload_data = get_user_meta( $user_id, $meta_key, true );
 	$scripts->add_inline_script(
-		'wp-data',
-		implode(
-			"\n",
-			array(
-				'( function() {',
-				'	var userId = ' . get_current_user_ID() . ';',
-				'	var storageKey = "WP_DATA_USER_" + userId;',
-				'	wp.data',
-				'		.use( wp.data.plugins.persistence, { storageKey: storageKey } );',
-				'	wp.data.plugins.persistence.__unstableMigrate( { storageKey: storageKey } );',
-				'} )();',
-			)
+		'wp-preferences',
+		sprintf(
+			'( function() {
+				var serverData = %s;
+				var userId = "%d";
+				var persistenceLayer = wp.preferencesPersistence.__unstableCreatePersistenceLayer( serverData, userId );
+				var preferencesStore = wp.preferences.store;
+				wp.data.dispatch( preferencesStore ).setPersistenceLayer( persistenceLayer );
+			} ) ();',
+			wp_json_encode( $preload_data ),
+			$user_id
 		)
 	);
 

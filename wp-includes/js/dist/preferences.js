@@ -49,6 +49,7 @@ __webpack_require__.r(actions_namespaceObject);
 __webpack_require__.d(actions_namespaceObject, {
   "set": function() { return set; },
   "setDefaults": function() { return setDefaults; },
+  "setPersistenceLayer": function() { return setPersistenceLayer; },
   "toggle": function() { return toggle; }
 });
 
@@ -69,7 +70,7 @@ var external_wp_components_namespaceObject = window["wp"]["components"];
 var external_wp_i18n_namespaceObject = window["wp"]["i18n"];
 ;// CONCATENATED MODULE: external ["wp","primitives"]
 var external_wp_primitives_namespaceObject = window["wp"]["primitives"];
-;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/check.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/preferences/node_modules/@wordpress/icons/build-module/library/check.js
 
 
 /**
@@ -122,6 +123,42 @@ function defaults() {
   return state;
 }
 /**
+ * Higher order reducer that does the following:
+ * - Merges any data from the persistence layer into the state when the
+ *   `SET_PERSISTENCE_LAYER` action is received.
+ * - Passes any preferences changes to the persistence layer.
+ *
+ * @param {Function} reducer The preferences reducer.
+ *
+ * @return {Function} The enhanced reducer.
+ */
+
+function withPersistenceLayer(reducer) {
+  let persistenceLayer;
+  return (state, action) => {
+    // Setup the persistence layer, and return the persisted data
+    // as the state.
+    if (action.type === 'SET_PERSISTENCE_LAYER') {
+      const {
+        persistenceLayer: persistence,
+        persistedData
+      } = action;
+      persistenceLayer = persistence;
+      return persistedData;
+    }
+
+    const nextState = reducer(state, action);
+
+    if (action.type === 'SET_PREFERENCE_VALUE') {
+      var _persistenceLayer;
+
+      (_persistenceLayer = persistenceLayer) === null || _persistenceLayer === void 0 ? void 0 : _persistenceLayer.set(nextState);
+    }
+
+    return nextState;
+  };
+}
+/**
  * Reducer returning the user preferences.
  *
  * @param {Object} state  Current state.
@@ -130,7 +167,8 @@ function defaults() {
  * @return {Object} Updated state.
  */
 
-function preferences() {
+
+const preferences = withPersistenceLayer(function () {
   let state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   let action = arguments.length > 1 ? arguments[1] : undefined;
 
@@ -148,7 +186,7 @@ function preferences() {
   }
 
   return state;
-}
+});
 /* harmony default export */ var reducer = ((0,external_wp_data_namespaceObject.combineReducers)({
   defaults,
   preferences
@@ -208,6 +246,41 @@ function setDefaults(scope, defaults) {
     defaults
   };
 }
+/** @typedef {() => Promise<Object>} WPPreferencesPersistenceLayerGet */
+
+/** @typedef {(*) => void} WPPreferencesPersistenceLayerSet */
+
+/**
+ * @typedef WPPreferencesPersistenceLayer
+ *
+ * @property {WPPreferencesPersistenceLayerGet} get An async function that gets data from the persistence layer.
+ * @property {WPPreferencesPersistenceLayerSet} set A  function that sets data in the persistence layer.
+ */
+
+/**
+ * Sets the persistence layer.
+ *
+ * When a persistence layer is set, the preferences store will:
+ * - call `get` immediately and update the store state to the value returned.
+ * - call `set` with all preferences whenever a preference changes value.
+ *
+ * `setPersistenceLayer` should ideally be dispatched at the start of an
+ * application's lifecycle, before any other actions have been dispatched to
+ * the preferences store.
+ *
+ * @param {WPPreferencesPersistenceLayer} persistenceLayer The persistence layer.
+ *
+ * @return {Object} Action object.
+ */
+
+async function setPersistenceLayer(persistenceLayer) {
+  const persistedData = await persistenceLayer.get();
+  return {
+    type: 'SET_PERSISTENCE_LAYER',
+    persistenceLayer,
+    persistedData
+  };
+}
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/preferences/build-module/store/selectors.js
 /**
@@ -244,10 +317,6 @@ const STORE_NAME = 'core/preferences';
  * Internal dependencies
  */
 
-/**
- * Internal dependencies
- */
-
 
 
 
@@ -263,17 +332,9 @@ const STORE_NAME = 'core/preferences';
 const store = (0,external_wp_data_namespaceObject.createReduxStore)(STORE_NAME, {
   reducer: reducer,
   actions: actions_namespaceObject,
-  selectors: selectors_namespaceObject,
-  persist: ['preferences']
-}); // Once we build a more generic persistence plugin that works across types of stores
-// we'd be able to replace this with a register call.
-
-(0,external_wp_data_namespaceObject.registerStore)(STORE_NAME, {
-  reducer: reducer,
-  actions: actions_namespaceObject,
-  selectors: selectors_namespaceObject,
-  persist: ['preferences']
+  selectors: selectors_namespaceObject
 });
+(0,external_wp_data_namespaceObject.register)(store);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/preferences/build-module/components/preference-toggle-menu-item/index.js
 
