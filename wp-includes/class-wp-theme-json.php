@@ -1873,7 +1873,7 @@ class WP_Theme_JSON {
 		 *
 		 * @param array $nodes Style nodes with metadata.
 		 */
-		return apply_filters( 'get_style_nodes', $nodes );
+		return apply_filters( 'theme_json_get_style_nodes', $nodes );
 	}
 
 	/**
