@@ -706,7 +706,8 @@ if ( ! CUSTOM_TAGS ) {
  * @param array[]|string $allowed_html      An array of allowed HTML elements and attributes,
  *                                          or a context name such as 'post'. See wp_kses_allowed_html()
  *                                          for the list of accepted context names.
- * @param string[]       $allowed_protocols Array of allowed URL protocols.
+ * @param string[]       $allowed_protocols Optional. Array of allowed URL protocols.
+ *                                          Defaults to the result of wp_allowed_protocols().
  * @return string Filtered content containing only the allowed HTML.
  */
 function wp_kses( $string, $allowed_html, $allowed_protocols = array() ) {
