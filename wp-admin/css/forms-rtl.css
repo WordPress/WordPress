@@ -777,6 +777,12 @@ ul#add-to-blog-users {
 
 .form-table p.timezone-info {
 	margin: 1em 0;
+	display: flex;
+	flex-direction: column;
+}
+
+#local-time {
+	margin-top: 0.5em;
 }
 
 .form-table td fieldset label {
@@ -1635,13 +1641,6 @@ table.form-table td .updated p {
 
 	.form-table fieldset label {
 		display: block;
-	}
-
-	#utc-time,
-	#local-time {
-		display: block;
-		float: none;
-		margin-top: 0.5em;
 	}
 
 	.form-field #domain {
