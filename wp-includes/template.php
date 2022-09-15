@@ -7,7 +7,7 @@
  */
 
 /**
- * Retrieve path to a template
+ * Retrieves path to a template.
  *
  * Used to quickly retrieve the path of a template without including the file
  * extension. It will also check the parent theme, if the file exists, with
@@ -104,7 +104,7 @@ function get_query_template( $type, $templates = array() ) {
 }
 
 /**
- * Retrieve path of index template in current or parent template.
+ * Retrieves path of index template in current or parent template.
  *
  * The template hierarchy and template path are filterable via the {@see '$type_template_hierarchy'}
  * and {@see '$type_template'} dynamic hooks, where `$type` is 'index'.
@@ -120,7 +120,7 @@ function get_index_template() {
 }
 
 /**
- * Retrieve path of 404 template in current or parent template.
+ * Retrieves path of 404 template in current or parent template.
  *
  * The template hierarchy and template path are filterable via the {@see '$type_template_hierarchy'}
  * and {@see '$type_template'} dynamic hooks, where `$type` is '404'.
@@ -136,7 +136,7 @@ function get_404_template() {
 }
 
 /**
- * Retrieve path of archive template in current or parent template.
+ * Retrieves path of archive template in current or parent template.
  *
  * The template hierarchy and template path are filterable via the {@see '$type_template_hierarchy'}
  * and {@see '$type_template'} dynamic hooks, where `$type` is 'archive'.
@@ -162,7 +162,7 @@ function get_archive_template() {
 }
 
 /**
- * Retrieve path of post type archive template in current or parent template.
+ * Retrieves path of post type archive template in current or parent template.
  *
  * The template hierarchy and template path are filterable via the {@see '$type_template_hierarchy'}
  * and {@see '$type_template'} dynamic hooks, where `$type` is 'archive'.
@@ -188,7 +188,7 @@ function get_post_type_archive_template() {
 }
 
 /**
- * Retrieve path of author template in current or parent template.
+ * Retrieves path of author template in current or parent template.
  *
  * The hierarchy for this template looks like:
  *
@@ -226,7 +226,7 @@ function get_author_template() {
 }
 
 /**
- * Retrieve path of category template in current or parent template.
+ * Retrieves path of category template in current or parent template.
  *
  * The hierarchy for this template looks like:
  *
@@ -272,7 +272,7 @@ function get_category_template() {
 }
 
 /**
- * Retrieve path of tag template in current or parent template.
+ * Retrieves path of tag template in current or parent template.
  *
  * The hierarchy for this template looks like:
  *
@@ -318,7 +318,7 @@ function get_tag_template() {
 }
 
 /**
- * Retrieve path of custom taxonomy term template in current or parent template.
+ * Retrieves path of custom taxonomy term template in current or parent template.
  *
  * The hierarchy for this template looks like:
  *
@@ -365,7 +365,7 @@ function get_taxonomy_template() {
 }
 
 /**
- * Retrieve path of date template in current or parent template.
+ * Retrieves path of date template in current or parent template.
  *
  * The template hierarchy and template path are filterable via the {@see '$type_template_hierarchy'}
  * and {@see '$type_template'} dynamic hooks, where `$type` is 'date'.
@@ -381,7 +381,7 @@ function get_date_template() {
 }
 
 /**
- * Retrieve path of home template in current or parent template.
+ * Retrieves path of home template in current or parent template.
  *
  * The template hierarchy and template path are filterable via the {@see '$type_template_hierarchy'}
  * and {@see '$type_template'} dynamic hooks, where `$type` is 'home'.
@@ -399,7 +399,7 @@ function get_home_template() {
 }
 
 /**
- * Retrieve path of front page template in current or parent template.
+ * Retrieves path of front page template in current or parent template.
  *
  * The template hierarchy and template path are filterable via the {@see '$type_template_hierarchy'}
  * and {@see '$type_template'} dynamic hooks, where `$type` is 'frontpage'.
@@ -417,7 +417,7 @@ function get_front_page_template() {
 }
 
 /**
- * Retrieve path of Privacy Policy page template in current or parent template.
+ * Retrieves path of Privacy Policy page template in current or parent template.
  *
  * The template hierarchy and template path are filterable via the {@see '$type_template_hierarchy'}
  * and {@see '$type_template'} dynamic hooks, where `$type` is 'privacypolicy'.
@@ -435,7 +435,7 @@ function get_privacy_policy_template() {
 }
 
 /**
- * Retrieve path of page template in current or parent template.
+ * Retrieves path of page template in current or parent template.
  *
  * Note: For block themes, use locate_block_template function instead.
  *
@@ -498,7 +498,7 @@ function get_page_template() {
 }
 
 /**
- * Retrieve path of search template in current or parent template.
+ * Retrieves path of search template in current or parent template.
  *
  * The template hierarchy and template path are filterable via the {@see '$type_template_hierarchy'}
  * and {@see '$type_template'} dynamic hooks, where `$type` is 'search'.
@@ -514,7 +514,7 @@ function get_search_template() {
 }
 
 /**
- * Retrieve path of single template in current or parent template. Applies to single Posts,
+ * Retrieves path of single template in current or parent template. Applies to single Posts,
  * single Attachments, and single custom post types.
  *
  * The hierarchy for this template looks like:
@@ -628,7 +628,7 @@ function get_singular_template() {
 }
 
 /**
- * Retrieve path of attachment template in current or parent template.
+ * Retrieves path of attachment template in current or parent template.
  *
  * The hierarchy for this template looks like:
  *
@@ -680,7 +680,7 @@ function get_attachment_template() {
 }
 
 /**
- * Retrieve the name of the highest priority template file that exists.
+ * Retrieves the name of the highest priority template file that exists.
  *
  * Searches in the STYLESHEETPATH before TEMPLATEPATH and wp-includes/theme-compat
  * so that themes which inherit from a parent theme can just overload one file.
@@ -746,7 +746,7 @@ function locate_template( $template_names, $load = false, $require_once = true, 
 }
 
 /**
- * Require the template file with WordPress environment.
+ * Requires the template file with WordPress environment.
  *
  * The globals are set up for the template file to ensure that the WordPress
  * environment is available from within the function. The query variables are
