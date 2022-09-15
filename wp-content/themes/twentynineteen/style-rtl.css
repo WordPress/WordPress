@@ -2471,6 +2471,7 @@ a:hover {
 
 a:focus {
   text-decoration: underline;
+  text-decoration-thickness: 2px;
 }
 
 /* Elements */
@@ -2512,6 +2513,7 @@ a:focus {
   outline: thin;
   outline-style: dotted;
   text-decoration: underline;
+  text-decoration-thickness: 2px;
 }
 
 h1,
@@ -2760,6 +2762,7 @@ a:active {
 a:focus {
   outline: thin dotted;
   text-decoration: underline;
+  text-decoration-thickness: 2px;
 }
 
 /*--------------------------------------------------------------
@@ -4423,6 +4426,7 @@ body.page .main-navigation {
 
 .entry .entry-content a {
   text-decoration: underline;
+  text-decoration-thickness: 2px;
 }
 
 .entry .entry-content a.button, .entry .entry-content a:hover {
@@ -4900,6 +4904,7 @@ body.page .main-navigation {
 
 .comment .comment-content a {
   text-decoration: underline;
+  text-decoration-thickness: 2px;
 }
 
 .comment .comment-content a:hover {
@@ -5225,6 +5230,7 @@ body.page .main-navigation {
 
 .widget_calendar .calendar_wrap a {
   text-decoration: underline;
+  text-decoration-thickness: 2px;
 }
 
 .widget_calendar .calendar_wrap .wp-calendar-table {
