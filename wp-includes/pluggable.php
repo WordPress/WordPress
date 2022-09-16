@@ -2612,7 +2612,7 @@ endif;
 
 if ( ! function_exists( 'wp_rand' ) ) :
 	/**
-	 * Generates a random number.
+	 * Generates a random non-negative number.
 	 *
 	 * @since 2.6.2
 	 * @since 4.4.0 Uses PHP7 random_int() or the random_compat library if available.
@@ -2624,7 +2624,7 @@ if ( ! function_exists( 'wp_rand' ) ) :
 	 *                 Accepts positive integers or zero. Defaults to 0.
 	 * @param int $max Optional. Upper limit for the generated number.
 	 *                 Accepts positive integers. Defaults to 4294967295.
-	 * @return int A random number between min and max.
+	 * @return int A random non-negative number between min and max.
 	 */
 	function wp_rand( $min = null, $max = null ) {
 		global $rnd_value;
