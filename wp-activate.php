@@ -105,10 +105,11 @@ add_action( 'wp_head', 'do_activate_header' );
 function wpmu_activate_stylesheet() {
 	?>
 	<style type="text/css">
-		form { margin-top: 2em; }
-		#submit, #key { width: 90%; font-size: 24px; }
-		#language { margin-top: .5em; }
-		.error { background: #f66; }
+		.wp-activate-container { width: 90%; margin: 0 auto; }
+		.wp-activate-container form { margin-top: 2em; }
+		#submit, #key { width: 100%; font-size: 24px; box-sizing: border-box; }
+		#language { margin-top: 0.5em; }
+		.wp-activate-container .error { background: #f66; color: #333; }
 		span.h3 { padding: 0 8px; font-size: 1.3em; font-weight: 600; }
 	</style>
 	<?php
@@ -130,7 +131,7 @@ $blog_details = get_blog_details();
 		<form name="activateform" id="activateform" method="post" action="<?php echo network_site_url( $blog_details->path . 'wp-activate.php' ); ?>">
 			<p>
 				<label for="key"><?php _e( 'Activation Key:' ); ?></label>
-				<br /><input type="text" name="key" id="key" value="" size="50" />
+				<br /><input type="text" name="key" id="key" value="" size="50" autofocus="autofocus" />
 			</p>
 			<p class="submit">
 				<input id="submit" type="submit" name="Submit" class="submit" value="<?php esc_attr_e( 'Activate' ); ?>" />
@@ -213,9 +214,5 @@ $blog_details = get_blog_details();
 	?>
 	</div>
 </div>
-<script type="text/javascript">
-	var key_input = document.getElementById('key');
-	key_input && key_input.focus();
-</script>
 <?php
 get_footer( 'wp-activate' );
