@@ -473,7 +473,6 @@ body.trashing #publish-settings {
 	height: 20px;
 	cursor: pointer;
 	box-shadow: none;
-	-webkit-appearance: none;
 	background: transparent;
 	color: #50575e;
 	border: none;
