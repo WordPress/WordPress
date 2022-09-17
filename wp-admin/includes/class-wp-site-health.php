@@ -2247,7 +2247,7 @@ class WP_Site_Health {
 			),
 			'description' => sprintf(
 				'<p>%s</p>',
-				__( 'The Authorization header comes from the third-party applications you approve. Without it, those apps cannot connect to your site.' )
+				__( 'The Authorization header is used by third-party applications you have approved for this site. Without this header, those apps cannot connect to your site.' )
 			),
 			'actions'     => '',
 			'test'        => 'authorization_header',
@@ -2261,7 +2261,11 @@ class WP_Site_Health {
 			return $result;
 		}
 
-		$result['status'] = 'recommended';
+		$result['status']       = 'recommended';
+		$result['description'] .= sprintf(
+			'<p>%s</p>',
+			__( 'If you are still seeing this warning after having tried the actions below, you may need to contact your hosting provider for further assistance.' )
+		);
 
 		if ( ! function_exists( 'got_mod_rewrite' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/misc.php';
