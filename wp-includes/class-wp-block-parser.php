@@ -62,7 +62,7 @@ class WP_Block_Parser_Block {
 	 *   'innerContent' => array( 'Before', null, 'Inner', null, 'After' ),
 	 * )
 	 *
-	 * @since 4.2.0
+	 * @since 5.0.0
 	 * @var array
 	 */
 	public $innerContent;
@@ -164,10 +164,9 @@ class WP_Block_Parser_Frame {
 /**
  * Class WP_Block_Parser
  *
- * Parses a document and constructs a list of parsed block objects
+ * Parses a document and constructs a list of parsed blocks.
  *
  * @since 5.0.0
- * @since 4.0.0 returns arrays not objects, all attributes are arrays
  */
 class WP_Block_Parser {
 	/**
@@ -207,7 +206,7 @@ class WP_Block_Parser {
 	/**
 	 * Empty associative array, here due to PHP quirks
 	 *
-	 * @since 4.4.0
+	 * @since 5.0.0
 	 * @var array empty associative array
 	 */
 	public $empty_attrs;
@@ -395,7 +394,6 @@ class WP_Block_Parser {
 	 *
 	 * @internal
 	 * @since 5.0.0
-	 * @since 4.6.1 fixed a bug in attribute parsing which caused catastrophic backtracking on invalid block comments
 	 * @return array
 	 */
 	function next_token() {
@@ -468,7 +466,7 @@ class WP_Block_Parser {
 	 * Returns a new block object for freeform HTML
 	 *
 	 * @internal
-	 * @since 3.9.0
+	 * @since 5.0.0
 	 *
 	 * @param string $innerHTML HTML content of block.
 	 * @return WP_Block_Parser_Block freeform block object.
