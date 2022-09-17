@@ -851,8 +851,10 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 
 /* Same as the Publish Meta Box #delete-action */
 .nav-menus-php .delete-action {
-	float: left;
-	line-height: 2.1;
+	float: right;
+    	line-height: 2.1;
+    	margin: 0 15px;
+	
 }
 
 .nav-menus-php .major-publishing-actions .form-invalid {
