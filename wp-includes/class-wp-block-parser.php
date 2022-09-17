@@ -192,7 +192,7 @@ class WP_Block_Parser {
 	 * List of parsed blocks
 	 *
 	 * @since 5.0.0
-	 * @var array[]
+	 * @var WP_Block_Parser_Block[]
 	 */
 	public $output;
 
@@ -222,7 +222,7 @@ class WP_Block_Parser {
 	 * @since 5.0.0
 	 *
 	 * @param string $document Input document being parsed.
-	 * @return array[]
+	 * @return WP_Block_Parser_Block[]
 	 */
 	function parse( $document ) {
 		$this->document    = $document;
