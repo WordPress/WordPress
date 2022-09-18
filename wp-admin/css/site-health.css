@@ -11,10 +11,6 @@ are styled in the Privacy section of edit.css */
 	font-weight: 400;
 }
 
-.health-check-widget-title-section {
-	text-align: center;
-}
-
 .site-health-progress-wrapper {
 	margin-bottom: 1rem;
 }
@@ -307,6 +303,14 @@ are styled in the Privacy section of edit.css */
 	padding-left: 16px;
 }
 
+#dashboard_site_health .site-health-details p:first-child {
+	margin-top: 0;
+}
+
+#dashboard_site_health .site-health-details p:last-child {
+	margin-bottom: 0;
+}
+
 #dashboard_site_health .health-check-widget {
 	display: grid;
 	grid-template-columns: 1fr 2fr;
@@ -316,6 +320,11 @@ are styled in the Privacy section of edit.css */
 }
 #dashboard_site_health .site-health-progress-label {
 	margin-left: 0;
+}
+
+.health-check-widget-title-section {
+	margin-bottom: 0;
+	text-align: center;
 }
 
 @media screen and (max-width: 480px) {
