@@ -1482,7 +1482,7 @@ switch ( $action ) {
 				$html_link = sprintf( '<a href="%s">%s</a>', esc_url( wp_lostpassword_url() ), __( 'Lost your password?' ) );
 
 				/**
-				 * Filters the link that allows the user to retrieve the lost password.
+				 * Filters the link that allows the user to reset the lost password.
 				 *
 				 * @since 6.1.0
 				 *

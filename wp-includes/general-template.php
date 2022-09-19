@@ -629,7 +629,7 @@ function wp_login_form( $args = array() ) {
 }
 
 /**
- * Returns the URL that allows the user to retrieve the lost password.
+ * Returns the URL that allows the user to reset the lost password.
  *
  * @since 2.8.0
  *
