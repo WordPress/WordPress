@@ -87,7 +87,7 @@ if ( file_exists( ABSPATH . 'wp-config.php' ) ) {
 	// Die with an error message.
 	$die = '<p>' . sprintf(
 		/* translators: %s: wp-config.php */
-		__( "There doesn't seem to be a %s file. I need this before we can get started." ),
+		__( "There doesn't seem to be a %s file. It is needed before the installation can continue." ),
 		'<code>wp-config.php</code>'
 	) . '</p>';
 	$die .= '<p>' . sprintf(

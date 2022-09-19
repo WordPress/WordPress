@@ -830,7 +830,7 @@ class WP_Automatic_Updater {
 		}
 
 		if ( $critical_support ) {
-			$body .= ' ' . __( "If you reach out to us, we'll also ensure you'll never have this problem again." );
+			$body .= ' ' . __( "Reach out to WordPress Core developers to ensure you'll never have this problem again." );
 		}
 
 		// If things are successful and we're now on the latest, mention plugins and themes if any are out of date.
