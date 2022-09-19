@@ -552,7 +552,7 @@ function _build_block_template_result_from_post( $post ) {
 	}
 
 	$theme          = $terms[0]->name;
-	$template_file = _get_block_template_file( $post->post_type, $post->post_name );
+	$template_file  = _get_block_template_file( $post->post_type, $post->post_name );
 	$has_theme_file = wp_get_theme()->get_stylesheet() === $theme && null !== $template_file;
 
 	$origin = get_post_meta( $post->ID, 'origin', true );

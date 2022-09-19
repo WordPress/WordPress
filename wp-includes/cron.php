@@ -1127,9 +1127,9 @@ function wp_get_ready_cron_jobs() {
 		return $pre;
 	}
 
-	$crons = _get_cron_array();
+	$crons    = _get_cron_array();
 	$gmt_time = microtime( true );
-	$results = array();
+	$results  = array();
 
 	foreach ( $crons as $timestamp => $cronhooks ) {
 		if ( $timestamp > $gmt_time ) {

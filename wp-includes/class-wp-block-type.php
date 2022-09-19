@@ -347,7 +347,7 @@ class WP_Block_Type {
 			return;
 		}
 
-		$new_name = $name . '_handles';
+		$new_name             = $name . '_handles';
 		$this->{$new_name}[0] = $value;
 	}
 

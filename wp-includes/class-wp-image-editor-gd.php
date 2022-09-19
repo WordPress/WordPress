@@ -310,7 +310,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 			imagedestroy( $resized );
 		}
 
-		$this->size = $orig_size;
+		$this->size      = $orig_size;
 		$this->size_name = $orig_size_name;
 
 		if ( ! is_wp_error( $saved ) ) {

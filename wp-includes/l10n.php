@@ -1270,7 +1270,7 @@ function _load_textdomain_just_in_time( $domain ) {
 	}
 
 	$locale = determine_locale();
-	$path = $wp_textdomain_registry->get( $domain, $locale );
+	$path   = $wp_textdomain_registry->get( $domain, $locale );
 	if ( ! $path ) {
 		return false;
 	}

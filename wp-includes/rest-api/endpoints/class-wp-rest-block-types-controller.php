@@ -256,7 +256,7 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller {
 			$data['is_dynamic'] = $block_type->is_dynamic();
 		}
 
-		$schema            = $this->get_item_schema();
+		$schema = $this->get_item_schema();
 		// Fields deprecated in WordPress 6.1, but left in the schema for backwards compatibility.
 		$deprecated_fields = array(
 			'editor_script',
@@ -688,13 +688,13 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller {
 					'context'     => array( 'embed', 'view', 'edit' ),
 					'readonly'    => true,
 				),
-				'keywords'         => $keywords_definition,
-				'example'          => $example_definition,
+				'keywords'              => $keywords_definition,
+				'example'               => $example_definition,
 			),
 		);
 
 		// Properties deprecated in WordPress 6.1, but left in the schema for backwards compatibility.
-		$deprecated_properties = array(
+		$deprecated_properties      = array(
 			'editor_script' => array(
 				'description' => __( 'Editor script handle. DEPRECATED: Use `editor_script_handles` instead.' ),
 				'type'        => array( 'string', 'null' ),
