@@ -725,6 +725,17 @@ form#tags-filter {
 	padding-left: 0;
 }
 
+/* Better position for the WordPress admin notices. */
+.privacy-settings .notice,
+.site-health .notice {
+	margin: 25px 20px 15px 22px;
+}
+
+.privacy-settings .notice ~ .notice,
+.site-health .notice ~ .notice {
+	margin-top: 5px;
+}
+
 /* Emulates .wrap h1 styling */
 .privacy-settings-header h1,
 .health-check-header h1 {

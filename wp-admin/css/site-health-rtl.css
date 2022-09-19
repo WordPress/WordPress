@@ -281,17 +281,6 @@ are styled in the Privacy section of edit.css */
 	padding-right: 20px;
 }
 
-
-/* Better position for the WordPress admin notices and update nag. */
-.site-health .notice {
-	margin: 5px 22px 15px 20px;
-}
-
-.site-health .update-nag {
-	margin-bottom: 20px;
-	margin-right: 22px;
-}
-
 .health-check-wp-paths-sizes.spinner {
 	visibility: visible;
 	float: none;

@@ -280,17 +280,6 @@ are styled in the Privacy section of edit.css */
 	padding-left: 20px;
 }
 
-
-/* Better position for the WordPress admin notices and update nag. */
-.site-health .notice {
-	margin: 5px 20px 15px 22px;
-}
-
-.site-health .update-nag {
-	margin-bottom: 20px;
-	margin-left: 22px;
-}
-
 .health-check-wp-paths-sizes.spinner {
 	visibility: visible;
 	float: none;
