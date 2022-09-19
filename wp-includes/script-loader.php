@@ -366,7 +366,7 @@ function wp_default_packages_inline_scripts( $scripts ) {
 	);
 
 	$meta_key     = $wpdb->get_blog_prefix() . 'persisted_preferences';
-	$user_id      = get_current_user_ID();
+	$user_id      = get_current_user_id();
 	$preload_data = get_user_meta( $user_id, $meta_key, true );
 	$scripts->add_inline_script(
 		'wp-preferences',
