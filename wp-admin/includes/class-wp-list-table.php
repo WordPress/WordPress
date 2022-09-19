@@ -377,6 +377,79 @@ class WP_List_Table {
 	}
 
 	/**
+	 * Generates views links.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @param array $link_data {
+	 *     An array of link data.
+	 *
+	 *     @type string $url     The link URL.
+	 *     @type string $label   The link label.
+	 *     @type bool   $current Optional. Whether this is the currently selected view.
+	 * }
+	 * @return array An array of link markup. Keys match the `$link_data` input array.
+	 */
+	protected function get_views_links( $link_data = array() ) {
+		if ( ! is_array( $link_data ) ) {
+			_doing_it_wrong(
+				__METHOD__,
+				sprintf(
+					/* translators: %s: The $link_data argument. */
+					__( 'The %s argument must be an array.' ),
+					'<code>$link_data</code>'
+				),
+				'6.1.0'
+			);
+
+			return array( '' );
+		}
+
+		$views_links = array();
+
+		foreach ( $link_data as $view => $link ) {
+			if ( empty( $link['url'] ) || ! is_string( $link['url'] ) || '' === trim( $link['url'] ) ) {
+				_doing_it_wrong(
+					__METHOD__,
+					sprintf(
+						/* translators: %1$s: The argument name. %2$s: The view name. */
+						__( 'The %1$s argument must be a non-empty string for %2$s.' ),
+						'<code>url</code>',
+						'<code>' . esc_html( $view ) . '</code>'
+					),
+					'6.1.0'
+				);
+
+				continue;
+			}
+
+			if ( empty( $link['label'] ) || ! is_string( $link['label'] ) || '' === trim( $link['label'] ) ) {
+				_doing_it_wrong(
+					__METHOD__,
+					sprintf(
+						/* translators: %1$s: The argument name. %2$s: The view name. */
+						__( 'The %1$s argument must be a non-empty string for %2$s.' ),
+						'<code>label</code>',
+						'<code>' . esc_html( $view ) . '</code>'
+					),
+					'6.1.0'
+				);
+
+				continue;
+			}
+
+			$views_links[ $view ] = sprintf(
+				'<a href="%s"%s>%s</a>',
+				esc_url( $link['url'] ),
+				isset( $link['current'] ) && true === $link['current'] ? ' class="current" aria-current="page"' : '',
+				$link['label']
+			);
+		}
+
+		return $views_links;
+	}
+
+	/**
 	 * Gets the list of views available on this table.
 	 *
 	 * The format is an associative array:
@@ -1511,78 +1584,6 @@ class WP_List_Table {
 		}
 
 		die( wp_json_encode( $response ) );
-	}
-
-	/**
-	 * Generates views links.
-	 *
-	 * @since 6.1.0
-	 *
-	 * @param array $link_data {
-	 *     An array of link data.
-	 *
-	 *     @type string $url     The link URL.
-	 *     @type string $label   The link label.
-	 *     @type bool   $current Optional. Whether this is the currently selected view.
-	 * }
-	 * @return array An array of link markup. Keys match the $link_data input array.
-	 */
-	protected function get_views_links( $link_data = array() ) {
-		if ( ! is_array( $link_data ) ) {
-			_doing_it_wrong(
-				__METHOD__,
-				sprintf(
-					/* translators: %s: The $link_data argument. */
-					__( 'The %s argument must be an array.' ),
-					'<code>$link_data</code>'
-				),
-				'6.1.0'
-			);
-
-			return array( '' );
-		}
-
-		$views_links = array();
-		foreach ( $link_data as $view => $link ) {
-			if ( empty( $link['url'] ) || ! is_string( $link['url'] ) || '' === trim( $link['url'] ) ) {
-				_doing_it_wrong(
-					__METHOD__,
-					sprintf(
-						/* translators: %1$s: The argument name. %2$s: The view name. */
-						__( 'The %1$s argument must be a non-empty string for %2$s.' ),
-						'<code>url</code>',
-						'<code>' . esc_html( $view ) . '</code>'
-					),
-					'6.1.0'
-				);
-
-				continue;
-			}
-
-			if ( empty( $link['label'] ) || ! is_string( $link['label'] ) || '' === trim( $link['label'] ) ) {
-				_doing_it_wrong(
-					__METHOD__,
-					sprintf(
-						/* translators: %1$s: The argument name. %2$s: The view name. */
-						__( 'The %1$s argument must be a non-empty string for %2$s.' ),
-						'<code>label</code>',
-						'<code>' . esc_html( $view ) . '</code>'
-					),
-					'6.1.0'
-				);
-
-				continue;
-			}
-
-			$views_links[ $view ] = sprintf(
-				'<a href="%s"%s>%s</a>',
-				esc_url( $link['url'] ),
-				isset( $link['current'] ) && true === $link['current'] ? ' class="current" aria-current="page"' : '',
-				$link['label']
-			);
-		}
-
-		return $views_links;
 	}
 
 	/**
