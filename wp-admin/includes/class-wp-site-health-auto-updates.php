@@ -184,7 +184,7 @@ class WP_Site_Health_Auto_Updates {
 			$description .= ' ' . __( 'You would have received an email because of this.' );
 		}
 
-		$description .= ' ' . __( "Another attempt will be made with the next release." );
+		$description .= ' ' . __( 'Another attempt will be made with the next release.' );
 		$description .= ' ' . sprintf(
 			/* translators: %s: Code of error shown. */
 			__( 'The error code was %s.' ),
