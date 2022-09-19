@@ -227,7 +227,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	 * @since 3.5.0
 	 *
 	 * @param array $sizes {
-	 *     Associative array of image size names and their data.
+	 *     An array of image size data arrays.
 	 *
 	 *     Either a height or width must be provided.
 	 *     If one of the two is set to null, the resize will
@@ -247,9 +247,6 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 		$metadata = array();
 
 		foreach ( $sizes as $size => $size_data ) {
-			// Include size name in the data.
-			$size_data['name'] = $size;
-
 			$meta = $this->make_subsize( $size_data );
 
 			if ( ! is_wp_error( $meta ) ) {
@@ -264,15 +261,13 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	 * Create an image sub-size and return the image meta data value for it.
 	 *
 	 * @since 5.3.0
-	 * @since 6.1.0 The $sizes parameter may now include a $name key for each entry.
 	 *
 	 * @param array $size_data {
 	 *     Array of size data.
 	 *
-	 *     @type int    $width  The maximum width in pixels.
-	 *     @type int    $height The maximum height in pixels.
-	 *     @type bool   $crop   Whether to crop the image to exact dimensions.
-	 *     @type string $name   Image size name.
+	 *     @type int  $width  The maximum width in pixels.
+	 *     @type int  $height The maximum height in pixels.
+	 *     @type bool $crop   Whether to crop the image to exact dimensions.
 	 * }
 	 * @return array|WP_Error The image data array for inclusion in the `sizes` array in the image meta,
 	 *                        WP_Error object on error.
@@ -282,8 +277,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 			return new WP_Error( 'image_subsize_create_error', __( 'Cannot resize the image. Both width and height are not set.' ) );
 		}
 
-		$orig_size      = $this->size;
-		$orig_size_name = $this->size_name;
+		$orig_size = $this->size;
 
 		if ( ! isset( $size_data['width'] ) ) {
 			$size_data['width'] = null;
@@ -297,10 +291,6 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 			$size_data['crop'] = false;
 		}
 
-		if ( isset( $size_data['name'] ) ) {
-			$this->update_size_name( $size_data['name'] );
-		}
-
 		$resized = $this->_resize( $size_data['width'], $size_data['height'], $size_data['crop'] );
 
 		if ( is_wp_error( $resized ) ) {
@@ -310,8 +300,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 			imagedestroy( $resized );
 		}
 
-		$this->size      = $orig_size;
-		$this->size_name = $orig_size_name;
+		$this->size = $orig_size;
 
 		if ( ! is_wp_error( $saved ) ) {
 			unset( $saved['path'] );

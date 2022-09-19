@@ -3927,51 +3927,6 @@ function _wp_image_editor_choose( $args = array() ) {
 }
 
 /**
- * Filters the default image output mapping.
- *
- * With this filter callback, WebP image files will be generated for certain JPEG source files.
- *
- * @since 6.1.0
- *
- * @param array $output_mapping Map of mime type to output format.
- * @param string $filename  Path to the image.
- * @param string $mime_type The source image mime type.
- * @param string $size_name Optional. The image size name to create, or empty string if not set. Default empty string.
- * @return array The adjusted default output mapping.
- */
-function wp_default_image_output_mapping( $output_mapping, $filename, $mime_type, $size_name = '' ) {
-	// If size name is specified, check whether the size supports additional MIME types like WebP.
-	if ( $size_name ) {
-		// Include only the core sizes that do not rely on add_image_size(). Additional image sizes are opt-in.
-		$enabled_sizes = array(
-			'thumbnail'      => true,
-			'medium'         => true,
-			'medium_large'   => true,
-			'large'          => true,
-			'post-thumbnail' => true,
-		);
-
-		/**
-		 * Filters the sizes that support secondary mime type output. Developers can use this
-		 * to control the generation of additional mime type sub-sized images.
-		 *
-		 * @since 6.1.0
-		 *
-		 * @param array $enabled_sizes Map of size names and whether they support secondary mime type output.
-		 */
-		$enabled_sizes = apply_filters( 'wp_image_sizes_with_additional_mime_type_support', $enabled_sizes );
-
-		// Bail early if the size does not support additional MIME types.
-		if ( empty( $enabled_sizes[ $size_name ] ) ) {
-			return $output_mapping;
-		}
-	}
-
-	$output_mapping['image/jpeg'] = 'image/webp';
-	return $output_mapping;
-}
-
-/**
  * Prints default Plupload arguments.
  *
  * @since 3.4.0
