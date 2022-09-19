@@ -185,10 +185,9 @@ class WP_Users_List_Table extends WP_List_Table {
 			$url = 'users.php';
 		}
 
-		$role_links              = array();
-		$avail_roles             = array();
-		$all_text                = __( 'All' );
-		$current_link_attributes = empty( $role ) ? ' class="current" aria-current="page"' : '';
+		$role_links  = array();
+		$avail_roles = array();
+		$all_text    = __( 'All' );
 
 		if ( $count_users ) {
 			if ( $this->is_site_users ) {
@@ -215,17 +214,15 @@ class WP_Users_List_Table extends WP_List_Table {
 			);
 		}
 
-		$role_links['all'] = sprintf( '<a href="%s"%s>%s</a>', $url, $current_link_attributes, $all_text );
+		$role_links['all'] = array(
+			'url'     => $url,
+			'label'   => $all_text,
+			'current' => empty( $role ),
+		);
 
 		foreach ( $wp_roles->get_names() as $this_role => $name ) {
 			if ( $count_users && ! isset( $avail_roles[ $this_role ] ) ) {
 				continue;
-			}
-
-			$current_link_attributes = '';
-
-			if ( $this_role === $role ) {
-				$current_link_attributes = ' class="current" aria-current="page"';
 			}
 
 			$name = translate_user_role( $name );
@@ -238,16 +235,14 @@ class WP_Users_List_Table extends WP_List_Table {
 				);
 			}
 
-			$role_links[ $this_role ] = "<a href='" . esc_url( add_query_arg( 'role', $this_role, $url ) ) . "'$current_link_attributes>$name</a>";
+			$role_links[ $this_role ] = array(
+				'url'     => esc_url( add_query_arg( 'role', $this_role, $url ) ),
+				'label'   => $name,
+				'current' => $this_role === $role,
+			);
 		}
 
 		if ( ! empty( $avail_roles['none'] ) ) {
-
-			$current_link_attributes = '';
-
-			if ( 'none' === $role ) {
-				$current_link_attributes = ' class="current" aria-current="page"';
-			}
 
 			$name = __( 'No role' );
 			$name = sprintf(
@@ -257,10 +252,14 @@ class WP_Users_List_Table extends WP_List_Table {
 				number_format_i18n( $avail_roles['none'] )
 			);
 
-			$role_links['none'] = "<a href='" . esc_url( add_query_arg( 'role', 'none', $url ) ) . "'$current_link_attributes>$name</a>";
+			$role_links['none'] = array(
+				'url'     => esc_url( add_query_arg( 'role', 'none', $url ) ),
+				'label'   => $name,
+				'current' => 'none' === $role,
+			);
 		}
 
-		return $role_links;
+		return $this->get_views_links( $role_links );
 	}
 
 	/**

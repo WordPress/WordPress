@@ -293,12 +293,6 @@ class WP_Comments_List_Table extends WP_List_Table {
 		}
 
 		foreach ( $stati as $status => $label ) {
-			$current_link_attributes = '';
-
-			if ( $status === $comment_status ) {
-				$current_link_attributes = ' class="current" aria-current="page"';
-			}
-
 			if ( 'mine' === $status ) {
 				$current_user_id    = get_current_user_id();
 				$num_comments->mine = get_comments(
@@ -329,14 +323,18 @@ class WP_Comments_List_Table extends WP_List_Table {
 				$link = add_query_arg( 's', esc_attr( wp_unslash( $_REQUEST['s'] ) ), $link );
 			*/
 
-			$status_links[ $status ] = "<a href='$link'$current_link_attributes>" . sprintf(
-				translate_nooped_plural( $label, $num_comments->$status ),
-				sprintf(
-					'<span class="%s-count">%s</span>',
-					( 'moderated' === $status ) ? 'pending' : $status,
-					number_format_i18n( $num_comments->$status )
-				)
-			) . '</a>';
+			$status_links[ $status ] = array(
+				'url'     => esc_url( $link ),
+				'label'   => sprintf(
+					translate_nooped_plural( $label, $num_comments->$status ),
+					sprintf(
+						'<span class="%s-count">%s</span>',
+						( 'moderated' === $status ) ? 'pending' : $status,
+						number_format_i18n( $num_comments->$status )
+					)
+				),
+				'current' => $status === $comment_status,
+			);
 		}
 
 		/**
@@ -348,7 +346,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 		 * @param string[] $status_links An associative array of fully-formed comment status links. Includes 'All', 'Mine',
 		 *                              'Pending', 'Approved', 'Spam', and 'Trash'.
 		 */
-		return apply_filters( 'comment_status_links', $status_links );
+		return apply_filters( 'comment_status_links', $this->get_views_links( $status_links ) );
 	}
 
 	/**

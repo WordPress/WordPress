@@ -137,13 +137,10 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 		$super_admins = get_super_admins();
 		$total_admins = count( $super_admins );
 
-		$current_link_attributes = 'super' !== $role ? ' class="current" aria-current="page"' : '';
-		$role_links              = array();
-		$role_links['all']       = sprintf(
-			'<a href="%s"%s>%s</a>',
-			network_admin_url( 'users.php' ),
-			$current_link_attributes,
-			sprintf(
+		$role_links        = array();
+		$role_links['all'] = array(
+			'url'     => network_admin_url( 'users.php' ),
+			'label'   => sprintf(
 				/* translators: Number of users. */
 				_nx(
 					'All <span class="count">(%s)</span>',
@@ -152,14 +149,13 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 					'users'
 				),
 				number_format_i18n( $total_users )
-			)
+			),
+			'current' => 'super' !== $role,
 		);
-		$current_link_attributes = 'super' === $role ? ' class="current" aria-current="page"' : '';
-		$role_links['super']     = sprintf(
-			'<a href="%s"%s>%s</a>',
-			network_admin_url( 'users.php?role=super' ),
-			$current_link_attributes,
-			sprintf(
+
+		$role_links['super'] = array(
+			'url'     => network_admin_url( 'users.php?role=super' ),
+			'label'   => sprintf(
 				/* translators: Number of users. */
 				_n(
 					'Super Admin <span class="count">(%s)</span>',
@@ -167,10 +163,11 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 					$total_admins
 				),
 				number_format_i18n( $total_admins )
-			)
+			),
+			'current' => 'super' === $role,
 		);
 
-		return $role_links;
+		return $this->get_views_links( $role_links );
 	}
 
 	/**
