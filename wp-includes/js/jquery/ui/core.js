@@ -1,7 +1,7 @@
-/*! jQuery UI - v1.13.1 - 2022-01-20
+/*! jQuery UI - v1.13.2 - 2022-07-14
 * http://jqueryui.com
-* Includes: data.js, disable-selection.js, escape-selector.js, focusable.js, form-reset-mixin.js, form.js, ie.js, jquery-1-7.js, keycode.js, labels.js, plugin.js, position.js, safe-active-element.js, safe-blur.js, scroll-parent.js, tabbable.js, unique-id.js, version.js, widget.js
-* Copyright jQuery Foundation and other contributors; Licensed  */
+* Includes: widget.js, position.js, data.js, disable-selection.js, effect.js, effects/effect-blind.js, effects/effect-bounce.js, effects/effect-clip.js, effects/effect-drop.js, effects/effect-explode.js, effects/effect-fade.js, effects/effect-fold.js, effects/effect-highlight.js, effects/effect-puff.js, effects/effect-pulsate.js, effects/effect-scale.js, effects/effect-shake.js, effects/effect-size.js, effects/effect-slide.js, effects/effect-transfer.js, focusable.js, form-reset-mixin.js, jquery-patch.js, keycode.js, labels.js, scroll-parent.js, tabbable.js, unique-id.js, widgets/accordion.js, widgets/autocomplete.js, widgets/button.js, widgets/checkboxradio.js, widgets/controlgroup.js, widgets/datepicker.js, widgets/dialog.js, widgets/draggable.js, widgets/droppable.js, widgets/menu.js, widgets/mouse.js, widgets/progressbar.js, widgets/resizable.js, widgets/selectable.js, widgets/selectmenu.js, widgets/slider.js, widgets/sortable.js, widgets/spinner.js, widgets/tabs.js, widgets/tooltip.js
+* Copyright jQuery Foundation and other contributors; Licensed MIT */
 ( function( factory ) {
 	"use strict";
 
@@ -20,11 +20,11 @@
 // Source: version.js
 $.ui = $.ui || {};
 
-$.ui.version = "1.13.1";
+$.ui.version = "1.13.2";
 
 // Source: data.js
 /*!
- * jQuery UI :data 1.13.1
+ * jQuery UI :data 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -53,7 +53,7 @@ $.extend( $.expr.pseudos, {
 
 // Source: disable-selection.js
 /*!
- * jQuery UI Disable Selection 1.13.1
+ * jQuery UI Disable Selection 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -87,7 +87,7 @@ $.fn.extend( {
 
 // Source: focusable.js
 /*!
- * jQuery UI Focusable 1.13.1
+ * jQuery UI Focusable 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -164,7 +164,7 @@ $.fn._form = function() {
 
 // Source: form-reset-mixin.js
 /*!
- * jQuery UI Form Reset Mixin 1.13.1
+ * jQuery UI Form Reset Mixin 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -229,7 +229,7 @@ $.ui.ie = !!/msie [\w.]+/.exec( navigator.userAgent.toLowerCase() );
 
 // Source: jquery-patch.js
 /*!
- * jQuery UI Support for jQuery core 1.8.x and newer 1.13.0
+ * jQuery UI Support for jQuery core 1.8.x and newer 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -303,7 +303,7 @@ if ( !$.fn.even || !$.fn.odd ) {
 
 // Source: keycode.js
 /*!
- * jQuery UI Keycode 1.13.1
+ * jQuery UI Keycode 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -337,7 +337,7 @@ $.ui.keyCode = {
 
 // Source: labels.js
 /*!
- * jQuery UI Labels 1.13.1
+ * jQuery UI Labels 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -409,7 +409,7 @@ $.ui.plugin = {
 		}
 
 		if ( !allowDisconnected && ( !instance.element[ 0 ].parentNode ||
-			instance.element[ 0 ].parentNode.nodeType === 11 ) ) {
+				instance.element[ 0 ].parentNode.nodeType === 11 ) ) {
 			return;
 		}
 
@@ -423,7 +423,7 @@ $.ui.plugin = {
 
 // Source: position.js
 /*!
- * jQuery UI Position 1.13.1
+ * jQuery UI Position 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -956,7 +956,7 @@ $.ui.safeBlur = function( element ) {
 
 // Source: scroll-parent.js
 /*!
- * jQuery UI Scroll Parent 1.13.1
+ * jQuery UI Scroll Parent 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -989,7 +989,7 @@ $.fn.scrollParent = function( includeHidden ) {
 
 // Source: tabbable.js
 /*!
- * jQuery UI Tabbable 1.13.1
+ * jQuery UI Tabbable 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -1012,7 +1012,7 @@ $.extend( $.expr.pseudos, {
 
 // Source: unique-id.js
 /*!
- * jQuery UI Unique ID 1.13.1
+ * jQuery UI Unique ID 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -1049,7 +1049,7 @@ $.fn.extend( {
 
 // Source: widget.js
 /*!
- * jQuery UI Widget 1.13.1
+ * jQuery UI Widget 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -1232,7 +1232,7 @@ $.widget.extend = function( target ) {
 						// Don't extend strings, arrays, etc. with objects
 						$.widget.extend( {}, value );
 
-					// Copy everything else by reference
+				// Copy everything else by reference
 				} else {
 					target[ key ] = value;
 				}
@@ -1481,8 +1481,8 @@ $.Widget.prototype = {
 		for ( classKey in value ) {
 			currentElements = this.classesElementLookup[ classKey ];
 			if ( value[ classKey ] === this.options.classes[ classKey ] ||
-				!currentElements ||
-				!currentElements.length ) {
+					!currentElements ||
+					!currentElements.length ) {
 				continue;
 			}
 
@@ -1642,7 +1642,7 @@ $.Widget.prototype = {
 				// - disabled as an array instead of boolean
 				// - disabled class as method for disabling individual parts
 				if ( !suppressDisabledCheck &&
-					( instance.options.disabled === true ||
+						( instance.options.disabled === true ||
 						$( this ).hasClass( "ui-state-disabled" ) ) ) {
 					return;
 				}

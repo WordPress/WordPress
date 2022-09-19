@@ -1,5 +1,5 @@
 /*!
- * jQuery UI Autocomplete 1.13.1
+ * jQuery UI Autocomplete 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -36,7 +36,7 @@
 "use strict";
 
 $.widget( "ui.autocomplete", {
-	version: "1.13.1",
+	version: "1.13.2",
 	defaultElement: "<input>",
 	options: {
 		appendTo: null,
@@ -104,58 +104,58 @@ $.widget( "ui.autocomplete", {
 				suppressKeyPressRepeat = false;
 				var keyCode = $.ui.keyCode;
 				switch ( event.keyCode ) {
-					case keyCode.PAGE_UP:
-						suppressKeyPress = true;
-						this._move( "previousPage", event );
-						break;
-					case keyCode.PAGE_DOWN:
-						suppressKeyPress = true;
-						this._move( "nextPage", event );
-						break;
-					case keyCode.UP:
-						suppressKeyPress = true;
-						this._keyEvent( "previous", event );
-						break;
-					case keyCode.DOWN:
-						suppressKeyPress = true;
-						this._keyEvent( "next", event );
-						break;
-					case keyCode.ENTER:
+				case keyCode.PAGE_UP:
+					suppressKeyPress = true;
+					this._move( "previousPage", event );
+					break;
+				case keyCode.PAGE_DOWN:
+					suppressKeyPress = true;
+					this._move( "nextPage", event );
+					break;
+				case keyCode.UP:
+					suppressKeyPress = true;
+					this._keyEvent( "previous", event );
+					break;
+				case keyCode.DOWN:
+					suppressKeyPress = true;
+					this._keyEvent( "next", event );
+					break;
+				case keyCode.ENTER:
 
-						// when menu is open and has focus
-						if ( this.menu.active ) {
+					// when menu is open and has focus
+					if ( this.menu.active ) {
 
-							// #6055 - Opera still allows the keypress to occur
-							// which causes forms to submit
-							suppressKeyPress = true;
-							event.preventDefault();
-							this.menu.select( event );
+						// #6055 - Opera still allows the keypress to occur
+						// which causes forms to submit
+						suppressKeyPress = true;
+						event.preventDefault();
+						this.menu.select( event );
+					}
+					break;
+				case keyCode.TAB:
+					if ( this.menu.active ) {
+						this.menu.select( event );
+					}
+					break;
+				case keyCode.ESCAPE:
+					if ( this.menu.element.is( ":visible" ) ) {
+						if ( !this.isMultiLine ) {
+							this._value( this.term );
 						}
-						break;
-					case keyCode.TAB:
-						if ( this.menu.active ) {
-							this.menu.select( event );
-						}
-						break;
-					case keyCode.ESCAPE:
-						if ( this.menu.element.is( ":visible" ) ) {
-							if ( !this.isMultiLine ) {
-								this._value( this.term );
-							}
-							this.close( event );
+						this.close( event );
 
-							// Different browsers have different default behavior for escape
-							// Single press can mean undo or clear
-							// Double press in IE means clear the whole form
-							event.preventDefault();
-						}
-						break;
-					default:
-						suppressKeyPressRepeat = true;
+						// Different browsers have different default behavior for escape
+						// Single press can mean undo or clear
+						// Double press in IE means clear the whole form
+						event.preventDefault();
+					}
+					break;
+				default:
+					suppressKeyPressRepeat = true;
 
-						// search timeout should be triggered before the input value is changed
-						this._searchTimeout( event );
-						break;
+					// search timeout should be triggered before the input value is changed
+					this._searchTimeout( event );
+					break;
 				}
 			},
 			keypress: function( event ) {
@@ -173,18 +173,18 @@ $.widget( "ui.autocomplete", {
 				// Replicate some key handlers to allow them to repeat in Firefox and Opera
 				var keyCode = $.ui.keyCode;
 				switch ( event.keyCode ) {
-					case keyCode.PAGE_UP:
-						this._move( "previousPage", event );
-						break;
-					case keyCode.PAGE_DOWN:
-						this._move( "nextPage", event );
-						break;
-					case keyCode.UP:
-						this._keyEvent( "previous", event );
-						break;
-					case keyCode.DOWN:
-						this._keyEvent( "next", event );
-						break;
+				case keyCode.PAGE_UP:
+					this._move( "previousPage", event );
+					break;
+				case keyCode.PAGE_DOWN:
+					this._move( "nextPage", event );
+					break;
+				case keyCode.UP:
+					this._keyEvent( "previous", event );
+					break;
+				case keyCode.DOWN:
+					this._keyEvent( "next", event );
+					break;
 				}
 			},
 			input: function( event ) {
@@ -577,7 +577,7 @@ $.widget( "ui.autocomplete", {
 			return;
 		}
 		if ( this.menu.isFirstItem() && /^previous/.test( direction ) ||
-			this.menu.isLastItem() && /^next/.test( direction ) ) {
+				this.menu.isLastItem() && /^next/.test( direction ) ) {
 
 			if ( !this.isMultiLine ) {
 				this._value( this.term );

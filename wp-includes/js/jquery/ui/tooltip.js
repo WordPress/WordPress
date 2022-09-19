@@ -1,5 +1,5 @@
 /*!
- * jQuery UI Tooltip 1.13.1
+ * jQuery UI Tooltip 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -35,7 +35,7 @@
 "use strict";
 
 $.widget( "ui.tooltip", {
-	version: "1.13.1",
+	version: "1.13.2",
 	options: {
 		classes: {
 			"ui-tooltip": "ui-corner-all ui-widget-shadow"
@@ -217,7 +217,7 @@ $.widget( "ui.tooltip", {
 			eventType = event ? event.type : null;
 
 		if ( typeof contentOption === "string" || contentOption.nodeType ||
-			contentOption.jquery ) {
+				contentOption.jquery ) {
 			return this._open( event, target, contentOption );
 		}
 
