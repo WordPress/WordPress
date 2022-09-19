@@ -4923,7 +4923,7 @@ function sanitize_option( $option, $value ) {
 			break;
 
 		case 'timezone_string':
-			$allowed_zones = timezone_identifiers_list();
+			$allowed_zones = timezone_identifiers_list( DateTimeZone::ALL_WITH_BC );
 			if ( ! in_array( $value, $allowed_zones, true ) && ! empty( $value ) ) {
 				$error = __( 'The timezone you have entered is not valid. Please select a valid timezone.' );
 			}
