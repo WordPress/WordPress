@@ -560,7 +560,7 @@ function get_post_class( $class = '', $post = null ) {
 	 * @param string[] $classes    An array of post class names.
 	 * @param string[] $class      An array of additional class names added to the post.
 	*/
-	$taxonomies = apply_filters( 'wp_post_class_taxonomies', $taxonomies, $post->ID, $classes, $class );
+	$taxonomies = apply_filters( 'post_class_taxonomies', $taxonomies, $post->ID, $classes, $class );
 
 	foreach ( (array) $taxonomies as $taxonomy ) {
 		if ( is_object_in_taxonomy( $post->post_type, $taxonomy ) ) {
