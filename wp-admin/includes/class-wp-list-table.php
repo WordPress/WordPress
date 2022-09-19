@@ -1533,8 +1533,8 @@ class WP_List_Table {
 				__METHOD__,
 				sprintf(
 					/* translators: %s: The $link_data argument. */
-					__( 'The <code>%s</code> argument must be an array.' ),
-					'$link_data'
+					__( 'The %s argument must be an array.' ),
+					'<code>$link_data</code>'
 				),
 				'6.1.0'
 			);
@@ -1549,9 +1549,9 @@ class WP_List_Table {
 					__METHOD__,
 					sprintf(
 						/* translators: %1$s: The argument name. %2$s: The view name. */
-						__( 'The <code>%1$s</code> argument must be a non-empty string for <code>%2$s</code>.' ),
-						'url',
-						esc_html( $view )
+						__( 'The %1$s argument must be a non-empty string for %2$s.' ),
+						'<code>url</code>',
+						'<code>' . esc_html( $view ) . '</code>'
 					),
 					'6.1.0'
 				);
@@ -1564,9 +1564,9 @@ class WP_List_Table {
 					__METHOD__,
 					sprintf(
 						/* translators: %1$s: The argument name. %2$s: The view name. */
-						__( 'The <code>%1$s</code> argument must be a non-empty string for <code>%2$s</code>.' ),
-						'label',
-						esc_html( $view )
+						__( 'The %1$s argument must be a non-empty string for %2$s.' ),
+						'<code>label</code>',
+						'<code>' . esc_html( $view ) . '</code>'
 					),
 					'6.1.0'
 				);
