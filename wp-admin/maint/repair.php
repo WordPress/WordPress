@@ -37,7 +37,7 @@ if ( ! defined( 'WP_ALLOW_REPAIR' ) || ! WP_ALLOW_REPAIR ) {
 	);
 	echo "</p><p><code>define('WP_ALLOW_REPAIR', true);</code></p>";
 
-	$default_key     = 'put your unique phrase here';
+	$default_key     = __( 'put your unique phrase here' );
 	$missing_key     = false;
 	$duplicated_keys = array();
 

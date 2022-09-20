@@ -198,7 +198,7 @@ final class WP_Recovery_Mode_Cookie_Service {
 	 * @return string|false The hashed $data, or false on failure.
 	 */
 	private function recovery_mode_hash( $data ) {
-		if ( ! defined( 'AUTH_KEY' ) || AUTH_KEY === 'put your unique phrase here' ) {
+		if ( ! defined( 'AUTH_KEY' ) || AUTH_KEY === __( 'put your unique phrase here' ) ) {
 			$auth_key = get_site_option( 'recovery_mode_auth_key' );
 
 			if ( ! $auth_key ) {
