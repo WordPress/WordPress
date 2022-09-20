@@ -1,0 +1,201 @@
+/**
+ * Colors
+ */
+/**
+ * Breakpoints & Media Queries
+ */
+/**
+ * SCSS Variables.
+ *
+ * Please use variables from this sheet to ensure consistency across the UI.
+ * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
+ * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
+ */
+/**
+ * Colors
+ */
+/**
+ * Fonts & basic variables.
+ */
+/**
+ * Grid System.
+ * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
+ */
+/**
+ * Dimensions.
+ */
+/**
+ * Shadows.
+ */
+/**
+ * Editor widths.
+ */
+/**
+ * Block & Editor UI.
+ */
+/**
+ * Block paddings.
+ */
+/**
+ * React Native specific.
+ * These variables do not appear to be used anywhere else.
+ */
+/**
+*  Converts a hex value into the rgb equivalent.
+*
+* @param {string} hex - the hexadecimal value to convert
+* @return {string} comma separated rgb values
+*/
+/**
+ * Breakpoint mixins
+ */
+/**
+ * Long content fade mixin
+ *
+ * Creates a fading overlay to signify that the content is longer
+ * than the space allows.
+ */
+/**
+ * Focus styles.
+ */
+/**
+ * Applies editor left position to the selector passed as argument
+ */
+/**
+ * Styles that are reused verbatim in a few places
+ */
+/**
+ * Allows users to opt-out of animations via OS-level preferences.
+ */
+/**
+ * Reset default styles for JavaScript UI based pages.
+ * This is a WP-admin agnostic reset
+ */
+/**
+ * Reset the WP Admin page styles for Gutenberg-like pages.
+ */
+/* Styles for backwards compatibility with the legacy `post-comments` block */
+.wp-block-post-comments, .wp-block-comments__legacy-placeholder {
+  /* utility classes */
+  /* end utility classes */
+}
+.wp-block-post-comments .alignleft, .wp-block-comments__legacy-placeholder .alignleft {
+  float: right;
+}
+.wp-block-post-comments .alignright, .wp-block-comments__legacy-placeholder .alignright {
+  float: left;
+}
+.wp-block-post-comments .navigation::after, .wp-block-comments__legacy-placeholder .navigation::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.wp-block-post-comments .commentlist, .wp-block-comments__legacy-placeholder .commentlist {
+  clear: both;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.wp-block-post-comments .commentlist .comment, .wp-block-comments__legacy-placeholder .commentlist .comment {
+  min-height: 2.25em;
+  padding-right: 3.25em;
+}
+.wp-block-post-comments .commentlist .comment p, .wp-block-comments__legacy-placeholder .commentlist .comment p {
+  font-size: 1em;
+  line-height: 1.8;
+  margin: 1em 0;
+}
+.wp-block-post-comments .commentlist .children, .wp-block-comments__legacy-placeholder .commentlist .children {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.wp-block-post-comments .comment-author, .wp-block-comments__legacy-placeholder .comment-author {
+  line-height: 1.5;
+}
+.wp-block-post-comments .comment-author .avatar, .wp-block-comments__legacy-placeholder .comment-author .avatar {
+  border-radius: 1.5em;
+  display: block;
+  float: right;
+  height: 2.5em;
+  margin-top: 0.5em;
+  margin-left: 0.75em;
+  width: 2.5em;
+}
+.wp-block-post-comments .comment-author cite, .wp-block-comments__legacy-placeholder .comment-author cite {
+  font-style: normal;
+}
+.wp-block-post-comments .comment-meta, .wp-block-comments__legacy-placeholder .comment-meta {
+  font-size: 0.875em;
+  line-height: 1.5;
+}
+.wp-block-post-comments .comment-meta b, .wp-block-comments__legacy-placeholder .comment-meta b {
+  font-weight: normal;
+}
+.wp-block-post-comments .comment-meta .comment-awaiting-moderation, .wp-block-comments__legacy-placeholder .comment-meta .comment-awaiting-moderation {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  display: block;
+}
+.wp-block-post-comments .comment-body .commentmetadata, .wp-block-comments__legacy-placeholder .comment-body .commentmetadata {
+  font-size: 0.875em;
+}
+.wp-block-post-comments .comment-form-comment label, .wp-block-comments__legacy-placeholder .comment-form-comment label,
+.wp-block-post-comments .comment-form-author label,
+.wp-block-comments__legacy-placeholder .comment-form-author label,
+.wp-block-post-comments .comment-form-email label,
+.wp-block-comments__legacy-placeholder .comment-form-email label,
+.wp-block-post-comments .comment-form-url label,
+.wp-block-comments__legacy-placeholder .comment-form-url label {
+  display: block;
+  margin-bottom: 0.25em;
+}
+.wp-block-post-comments .comment-form textarea, .wp-block-comments__legacy-placeholder .comment-form textarea,
+.wp-block-post-comments .comment-form input:not([type=submit]):not([type=checkbox]),
+.wp-block-comments__legacy-placeholder .comment-form input:not([type=submit]):not([type=checkbox]) {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+}
+.wp-block-post-comments .comment-form-cookies-consent, .wp-block-comments__legacy-placeholder .comment-form-cookies-consent {
+  display: flex;
+  gap: 0.25em;
+}
+.wp-block-post-comments .comment-form-cookies-consent #wp-comment-cookies-consent, .wp-block-comments__legacy-placeholder .comment-form-cookies-consent #wp-comment-cookies-consent {
+  margin-top: 0.35em;
+}
+.wp-block-post-comments .comment-reply-title, .wp-block-comments__legacy-placeholder .comment-reply-title {
+  margin-bottom: 0;
+}
+.wp-block-post-comments .comment-reply-title :where(small), .wp-block-comments__legacy-placeholder .comment-reply-title :where(small) {
+  font-size: var(--wp--preset--font-size--medium, smaller);
+  margin-right: 0.5em;
+}
+.wp-block-post-comments .reply, .wp-block-comments__legacy-placeholder .reply {
+  font-size: 0.875em;
+  margin-bottom: 1.4em;
+}
+.wp-block-post-comments textarea, .wp-block-comments__legacy-placeholder textarea,
+.wp-block-post-comments input:not([type=submit]),
+.wp-block-comments__legacy-placeholder input:not([type=submit]) {
+  border: 1px solid #949494;
+  font-size: 1em;
+  font-family: inherit;
+}
+.wp-block-post-comments textarea, .wp-block-comments__legacy-placeholder textarea,
+.wp-block-post-comments input:not([type=submit]):not([type=checkbox]),
+.wp-block-comments__legacy-placeholder input:not([type=submit]):not([type=checkbox]) {
+  padding: calc(0.667em + 2px);
+}
+
+:where(.wp-block-post-comments input[type="submit"]) {
+  border: none;
+}
+
+.block-library-comments-toolbar__popover .components-popover__content {
+  min-width: 230px;
+}
+
+.wp-block-comments__legacy-placeholder * {
+  pointer-events: none;
+}

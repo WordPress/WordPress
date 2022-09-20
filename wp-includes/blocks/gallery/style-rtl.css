@@ -157,8 +157,7 @@
   width: 100%;
   height: 100%;
   flex: 1;
-  -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 .wp-block-gallery:not(.has-nested-images).columns-1 .blocks-gallery-image, .wp-block-gallery:not(.has-nested-images).columns-1 .blocks-gallery-item,
 .blocks-gallery-grid:not(.has-nested-images).columns-1 .blocks-gallery-image,
@@ -280,6 +279,7 @@ figure.wp-block-gallery.has-nested-images {
   position: relative;
   flex-direction: column;
   max-width: 100%;
+  box-sizing: border-box;
 }
 .wp-block-gallery.has-nested-images figure.wp-block-image > div,
 .wp-block-gallery.has-nested-images figure.wp-block-image > a {
@@ -314,11 +314,15 @@ figure.wp-block-gallery.has-nested-images {
 .wp-block-gallery.has-nested-images figure.wp-block-image figcaption a {
   color: inherit;
 }
+.wp-block-gallery.has-nested-images figure.wp-block-image.has-custom-border img {
+  box-sizing: border-box;
+}
 .wp-block-gallery.has-nested-images figure.wp-block-image.is-style-rounded > div,
-.wp-block-gallery.has-nested-images figure.wp-block-image.is-style-rounded > a {
+.wp-block-gallery.has-nested-images figure.wp-block-image.is-style-rounded > a, .wp-block-gallery.has-nested-images figure.wp-block-image.has-custom-border > div,
+.wp-block-gallery.has-nested-images figure.wp-block-image.has-custom-border > a {
   flex: 1 1 auto;
 }
-.wp-block-gallery.has-nested-images figure.wp-block-image.is-style-rounded figcaption {
+.wp-block-gallery.has-nested-images figure.wp-block-image.is-style-rounded figcaption, .wp-block-gallery.has-nested-images figure.wp-block-image.has-custom-border figcaption {
   flex: initial;
   background: none;
   color: inherit;
@@ -347,8 +351,7 @@ figure.wp-block-gallery.has-nested-images {
   width: 100%;
   flex: 1 0 0%;
   height: 100%;
-  -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 .wp-block-gallery.has-nested-images.columns-1 figure.wp-block-image:not(#individual-image) {
   width: 100%;

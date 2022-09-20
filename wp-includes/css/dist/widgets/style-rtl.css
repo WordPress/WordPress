@@ -94,6 +94,8 @@
   border-radius: 2px;
   border: 1px solid #1e1e1e;
   padding: 11px;
+  max-height: calc(100vh - 2px);
+  overflow-y: scroll;
 }
 .wp-block-legacy-widget__edit-form:not([hidden]) {
   display: flow-root;

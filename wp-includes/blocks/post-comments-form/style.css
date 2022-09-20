@@ -93,7 +93,6 @@
   letter-spacing: inherit;
 }
 .wp-block-post-comments-form input[type=submit] {
-  border: none;
   box-shadow: none;
   cursor: pointer;
   display: inline-block;

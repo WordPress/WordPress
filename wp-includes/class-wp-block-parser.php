@@ -222,7 +222,7 @@ class WP_Block_Parser {
 	 * @since 5.0.0
 	 *
 	 * @param string $document Input document being parsed.
-	 * @return WP_Block_Parser_Block[]
+	 * @return array[]
 	 */
 	function parse( $document ) {
 		$this->document    = $document;

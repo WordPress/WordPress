@@ -87,7 +87,7 @@ const REGEXP_INVALID_ATTRIBUTE_NAME = /[\u007F-\u009F "'>/="\uFDD0-\uFDEF]/;
  * Returns a string with ampersands escaped. Note that this is an imperfect
  * implementation, where only ampersands which do not appear as a pattern of
  * named, decimal, or hexadecimal character references are escaped. Invalid
- * named references (i.e. ambiguous ampersand) are are still permitted.
+ * named references (i.e. ambiguous ampersand) are still permitted.
  *
  * @see https://w3c.github.io/html/syntax.html#character-references
  * @see https://w3c.github.io/html/syntax.html#ambiguous-ampersand

@@ -40,12 +40,13 @@
 		"className": false,
 		"typography": {
 			"fontSize": true,
-			"__experimentalFontFamily": true,
 			"lineHeight": true,
-			"__experimentalFontStyle": true,
+			"__experimentalFontFamily": true,
 			"__experimentalFontWeight": true,
-			"__experimentalLetterSpacing": true,
+			"__experimentalFontStyle": true,
 			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true,
+			"__experimentalLetterSpacing": true,
 			"__experimentalDefaultControls": {
 				"fontSize": true
 			}
@@ -57,6 +58,10 @@
 				"background": true,
 				"text": true
 			}
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
 		},
 		"__unstablePasteTextInline": true,
 		"__experimentalSelector": "ol,ul",

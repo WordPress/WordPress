@@ -41,6 +41,10 @@
 			"type": "string",
 			"default": "mobile"
 		},
+		"icon": {
+			"type": "string",
+			"default": "handle"
+		},
 		"hasIcon": {
 			"type": "boolean",
 			"default": true
@@ -94,6 +98,7 @@
 			"__experimentalFontWeight": true,
 			"__experimentalTextTransform": true,
 			"__experimentalFontFamily": true,
+			"__experimentalLetterSpacing": true,
 			"__experimentalTextDecoration": true,
 			"__experimentalSkipSerialization": [ "textDecoration" ],
 			"__experimentalDefaultControls": {
@@ -114,9 +119,18 @@
 			"default": {
 				"type": "flex"
 			}
+		},
+		"__experimentalStyle": {
+			"elements": {
+				"link": {
+					"color": {
+						"text": "inherit"
+					}
+				}
+			}
 		}
 	},
-	"viewScript": "file:./view.min.js",
+	"viewScript": [ "file:./view.min.js", "file:./view-modal.min.js" ],
 	"editorStyle": "wp-block-navigation-editor",
 	"style": "wp-block-navigation"
 }

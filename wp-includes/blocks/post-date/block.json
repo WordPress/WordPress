@@ -16,6 +16,10 @@
 		"isLink": {
 			"type": "boolean",
 			"default": false
+		},
+		"displayType": {
+			"type": "string",
+			"default": "date"
 		}
 	},
 	"usesContext": [ "postId", "postType", "queryId" ],
@@ -30,6 +34,10 @@
 				"link": true
 			}
 		},
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
 		"typography": {
 			"fontSize": true,
 			"lineHeight": true,
@@ -37,6 +45,7 @@
 			"__experimentalFontWeight": true,
 			"__experimentalFontStyle": true,
 			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true,
 			"__experimentalLetterSpacing": true,
 			"__experimentalDefaultControls": {
 				"fontSize": true

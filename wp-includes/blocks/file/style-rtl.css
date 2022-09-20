@@ -77,31 +77,30 @@
 .wp-block-file {
   margin-bottom: 1.5em;
 }
+.wp-block-file:not(.wp-element-button) {
+  font-size: 0.8em;
+}
 .wp-block-file.aligncenter {
   text-align: center;
 }
 .wp-block-file.alignright {
   text-align: right;
 }
-.wp-block-file .wp-block-file__embed {
+.wp-block-file * + .wp-block-file__button {
+  margin-right: 0.75em;
+}
+
+.wp-block-file__embed {
   margin-bottom: 1em;
 }
-.wp-block-file .wp-block-file__button {
-  background: #32373c;
+
+:where(.wp-block-file__button) {
   border-radius: 2em;
-  color: #fff;
-  font-size: 0.8em;
   padding: 0.5em 1em;
 }
-.wp-block-file a.wp-block-file__button {
-  text-decoration: none;
-}
-.wp-block-file a.wp-block-file__button:hover, .wp-block-file a.wp-block-file__button:visited, .wp-block-file a.wp-block-file__button:focus, .wp-block-file a.wp-block-file__button:active {
+:where(.wp-block-file__button):is(a):hover, :where(.wp-block-file__button):is(a):visited, :where(.wp-block-file__button):is(a):focus, :where(.wp-block-file__button):is(a):active {
   box-shadow: none;
   color: #fff;
   opacity: 0.85;
   text-decoration: none;
-}
-.wp-block-file * + .wp-block-file__button {
-  margin-right: 0.75em;
 }

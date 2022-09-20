@@ -566,10 +566,14 @@ __webpack_require__.d(__webpack_exports__, {
   "__experimentalFetchUrlData": function() { return /* reexport */ _experimental_fetch_url_data; },
   "__experimentalUseEntityRecord": function() { return /* reexport */ __experimentalUseEntityRecord; },
   "__experimentalUseEntityRecords": function() { return /* reexport */ __experimentalUseEntityRecords; },
+  "__experimentalUseResourcePermissions": function() { return /* reexport */ __experimentalUseResourcePermissions; },
   "store": function() { return /* binding */ store; },
   "useEntityBlockEditor": function() { return /* reexport */ useEntityBlockEditor; },
   "useEntityId": function() { return /* reexport */ useEntityId; },
-  "useEntityProp": function() { return /* reexport */ useEntityProp; }
+  "useEntityProp": function() { return /* reexport */ useEntityProp; },
+  "useEntityRecord": function() { return /* reexport */ useEntityRecord; },
+  "useEntityRecords": function() { return /* reexport */ useEntityRecords; },
+  "useResourcePermissions": function() { return /* reexport */ useResourcePermissions; }
 });
 
 // NAMESPACE OBJECT: ./node_modules/@wordpress/core-data/build-module/actions.js
@@ -807,6 +811,367 @@ const onSubKey = actionProperty => reducer => function () {
 };
 /* harmony default export */ var on_sub_key = (onSubKey);
 
+;// CONCATENATED MODULE: ./node_modules/tslib/tslib.es6.js
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
+/* global Reflect, Promise */
+
+var extendStatics = function(d, b) {
+    extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+    return extendStatics(d, b);
+};
+
+function __extends(d, b) {
+    if (typeof b !== "function" && b !== null)
+        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+    extendStatics(d, b);
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
+
+var __assign = function() {
+    __assign = Object.assign || function __assign(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+        }
+        return t;
+    }
+    return __assign.apply(this, arguments);
+}
+
+function __rest(s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+}
+
+function __decorate(decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+
+function __param(paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+}
+
+function __metadata(metadataKey, metadataValue) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
+}
+
+function __awaiter(thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+}
+
+function __generator(thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+}
+
+var __createBinding = Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+});
+
+function __exportStar(m, o) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(o, p)) __createBinding(o, m, p);
+}
+
+function __values(o) {
+    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+    if (m) return m.call(o);
+    if (o && typeof o.length === "number") return {
+        next: function () {
+            if (o && i >= o.length) o = void 0;
+            return { value: o && o[i++], done: !o };
+        }
+    };
+    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+}
+
+function __read(o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+}
+
+/** @deprecated */
+function __spread() {
+    for (var ar = [], i = 0; i < arguments.length; i++)
+        ar = ar.concat(__read(arguments[i]));
+    return ar;
+}
+
+/** @deprecated */
+function __spreadArrays() {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+}
+
+function __spreadArray(to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+}
+
+function __await(v) {
+    return this instanceof __await ? (this.v = v, this) : new __await(v);
+}
+
+function __asyncGenerator(thisArg, _arguments, generator) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var g = generator.apply(thisArg, _arguments || []), i, q = [];
+    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
+    function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
+    function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
+    function step(r) { r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
+    function fulfill(value) { resume("next", value); }
+    function reject(value) { resume("throw", value); }
+    function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
+}
+
+function __asyncDelegator(o) {
+    var i, p;
+    return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
+    function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: __await(o[n](v)), done: n === "return" } : f ? f(v) : v; } : f; }
+}
+
+function __asyncValues(o) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var m = o[Symbol.asyncIterator], i;
+    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+}
+
+function __makeTemplateObject(cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
+
+var __setModuleDefault = Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+};
+
+function __importStar(mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+}
+
+function __importDefault(mod) {
+    return (mod && mod.__esModule) ? mod : { default: mod };
+}
+
+function __classPrivateFieldGet(receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+}
+
+function __classPrivateFieldSet(receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+}
+
+;// CONCATENATED MODULE: ./node_modules/lower-case/dist.es2015/index.js
+/**
+ * Source: ftp://ftp.unicode.org/Public/UCD/latest/ucd/SpecialCasing.txt
+ */
+var SUPPORTED_LOCALE = {
+    tr: {
+        regexp: /\u0130|\u0049|\u0049\u0307/g,
+        map: {
+            İ: "\u0069",
+            I: "\u0131",
+            İ: "\u0069",
+        },
+    },
+    az: {
+        regexp: /\u0130/g,
+        map: {
+            İ: "\u0069",
+            I: "\u0131",
+            İ: "\u0069",
+        },
+    },
+    lt: {
+        regexp: /\u0049|\u004A|\u012E|\u00CC|\u00CD|\u0128/g,
+        map: {
+            I: "\u0069\u0307",
+            J: "\u006A\u0307",
+            Į: "\u012F\u0307",
+            Ì: "\u0069\u0307\u0300",
+            Í: "\u0069\u0307\u0301",
+            Ĩ: "\u0069\u0307\u0303",
+        },
+    },
+};
+/**
+ * Localized lower case.
+ */
+function localeLowerCase(str, locale) {
+    var lang = SUPPORTED_LOCALE[locale.toLowerCase()];
+    if (lang)
+        return lowerCase(str.replace(lang.regexp, function (m) { return lang.map[m]; }));
+    return lowerCase(str);
+}
+/**
+ * Lower case as a function.
+ */
+function lowerCase(str) {
+    return str.toLowerCase();
+}
+
+;// CONCATENATED MODULE: ./node_modules/no-case/dist.es2015/index.js
+
+// Support camel case ("camelCase" -> "camel Case" and "CAMELCase" -> "CAMEL Case").
+var DEFAULT_SPLIT_REGEXP = [/([a-z0-9])([A-Z])/g, /([A-Z])([A-Z][a-z])/g];
+// Remove all non-word characters.
+var DEFAULT_STRIP_REGEXP = /[^A-Z0-9]+/gi;
+/**
+ * Normalize the string into something other libraries can manipulate easier.
+ */
+function noCase(input, options) {
+    if (options === void 0) { options = {}; }
+    var _a = options.splitRegexp, splitRegexp = _a === void 0 ? DEFAULT_SPLIT_REGEXP : _a, _b = options.stripRegexp, stripRegexp = _b === void 0 ? DEFAULT_STRIP_REGEXP : _b, _c = options.transform, transform = _c === void 0 ? lowerCase : _c, _d = options.delimiter, delimiter = _d === void 0 ? " " : _d;
+    var result = replace(replace(input, splitRegexp, "$1\0$2"), stripRegexp, "\0");
+    var start = 0;
+    var end = result.length;
+    // Trim the delimiter from around the output string.
+    while (result.charAt(start) === "\0")
+        start++;
+    while (result.charAt(end - 1) === "\0")
+        end--;
+    // Transform each token independently.
+    return result.slice(start, end).split("\0").map(transform).join(delimiter);
+}
+/**
+ * Replace `re` in the input string with the replacement value.
+ */
+function replace(input, re, value) {
+    if (re instanceof RegExp)
+        return input.replace(re, value);
+    return re.reduce(function (input, re) { return input.replace(re, value); }, input);
+}
+
+;// CONCATENATED MODULE: ./node_modules/upper-case-first/dist.es2015/index.js
+/**
+ * Upper case the first character of an input string.
+ */
+function upperCaseFirst(input) {
+    return input.charAt(0).toUpperCase() + input.substr(1);
+}
+
+;// CONCATENATED MODULE: ./node_modules/capital-case/dist.es2015/index.js
+
+
+
+function capitalCaseTransform(input) {
+    return upperCaseFirst(input.toLowerCase());
+}
+function capitalCase(input, options) {
+    if (options === void 0) { options = {}; }
+    return noCase(input, __assign({ delimiter: " ", transform: capitalCaseTransform }, options));
+}
+
+;// CONCATENATED MODULE: ./node_modules/pascal-case/dist.es2015/index.js
+
+
+function pascalCaseTransform(input, index) {
+    var firstChar = input.charAt(0);
+    var lowerChars = input.substr(1).toLowerCase();
+    if (index > 0 && firstChar >= "0" && firstChar <= "9") {
+        return "_" + firstChar + lowerChars;
+    }
+    return "" + firstChar.toUpperCase() + lowerChars;
+}
+function dist_es2015_pascalCaseTransformMerge(input) {
+    return input.charAt(0).toUpperCase() + input.slice(1).toLowerCase();
+}
+function pascalCase(input, options) {
+    if (options === void 0) { options = {}; }
+    return noCase(input, __assign({ delimiter: "", transform: pascalCaseTransform }, options));
+}
+
 ;// CONCATENATED MODULE: external ["wp","apiFetch"]
 var external_wp_apiFetch_namespaceObject = window["wp"]["apiFetch"];
 var external_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_wp_apiFetch_namespaceObject);
@@ -966,13 +1331,8 @@ function receiveQueriedItems(items) {
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/batch/default-processor.js
 /**
- * External dependencies
- */
-
-/**
  * WordPress dependencies
  */
-
 
 /**
  * Maximum number of requests to place in a single batch request. Obtained by
@@ -982,6 +1342,17 @@ function receiveQueriedItems(items) {
  */
 
 let maxItems = null;
+
+function chunk(arr, chunkSize) {
+  const tmp = [...arr];
+  const cache = [];
+
+  while (tmp.length) {
+    cache.push(tmp.splice(0, chunkSize));
+  }
+
+  return cache;
+}
 /**
  * Default batch processor. Sends its input requests to /batch/v1.
  *
@@ -991,6 +1362,7 @@ let maxItems = null;
  *                   either `output` (if that request was succesful) or `error`
  *                   (if not ).
  */
+
 
 async function defaultProcessor(requests) {
   if (maxItems === null) {
@@ -1003,7 +1375,7 @@ async function defaultProcessor(requests) {
 
   const results = []; // @ts-ignore We would have crashed or never gotten to this point if we hadn't received the maxItems count.
 
-  for (const batchRequests of (0,external_lodash_namespaceObject.chunk)(requests, maxItems)) {
+  for (const batchRequests of chunk(requests, maxItems)) {
     const batchResponse = await external_wp_apiFetch_default()({
       path: '/batch/v1',
       method: 'POST',
@@ -1046,13 +1418,8 @@ async function defaultProcessor(requests) {
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/batch/create-batch.js
 /**
- * External dependencies
- */
-
-/**
  * Internal dependencies
  */
-
 
 /**
  * Creates a batch, which can be used to combine multiple API requests into one
@@ -1135,7 +1502,7 @@ function createBatch() {
         pending.delete(id);
       });
 
-      if ((0,external_lodash_namespaceObject.isFunction)(inputOrThunk)) {
+      if (typeof inputOrThunk === 'function') {
         return Promise.resolve(inputOrThunk(add)).finally(() => {
           pending.delete(id);
         });
@@ -1187,13 +1554,8 @@ function createBatch() {
       }
 
       let isSuccess = true;
-
-      for (const pair of (0,external_lodash_namespaceObject.zip)(results, queue)) {
-        /** @type {{error?: unknown, output?: unknown}} */
-        const result = pair[0];
-        /** @type {{resolve: (value: any) => void; reject: (error: any) => void} | undefined} */
-
-        const queueItem = pair[1];
+      results.forEach((result, key) => {
+        const queueItem = queue[key];
 
         if (result !== null && result !== void 0 && result.error) {
           queueItem === null || queueItem === void 0 ? void 0 : queueItem.reject(result.error);
@@ -1203,8 +1565,7 @@ function createBatch() {
 
           queueItem === null || queueItem === void 0 ? void 0 : queueItem.resolve((_result$output = result === null || result === void 0 ? void 0 : result.output) !== null && _result$output !== void 0 ? _result$output : result);
         }
-      }
-
+      });
       queue = [];
       return isSuccess;
     }
@@ -1279,6 +1640,9 @@ const STORE_NAME = 'core';
 
 /**
  * Returns an action object used in signalling that authors have been received.
+ * Ignored from documentation as it's internal to the data store.
+ *
+ * @ignore
  *
  * @param {string}       queryID Query ID.
  * @param {Array|Object} users   Users received.
@@ -1295,6 +1659,9 @@ function receiveUserQuery(queryID, users) {
 }
 /**
  * Returns an action used in signalling that the current user has been received.
+ * Ignored from documentation as it's internal to the data store.
+ *
+ * @ignore
  *
  * @param {Object} currentUser Current user object.
  *
@@ -1361,6 +1728,9 @@ function receiveEntityRecords(kind, name, records, query) {
 }
 /**
  * Returns an action object used in signalling that the current theme has been received.
+ * Ignored from documentation as it's internal to the data store.
+ *
+ * @ignore
  *
  * @param {Object} currentTheme The current theme.
  *
@@ -1375,6 +1745,9 @@ function receiveCurrentTheme(currentTheme) {
 }
 /**
  * Returns an action object used in signalling that the current global styles id has been received.
+ * Ignored from documentation as it's internal to the data store.
+ *
+ * @ignore
  *
  * @param {string} currentGlobalStylesId The current global styles id.
  *
@@ -1389,6 +1762,9 @@ function __experimentalReceiveCurrentGlobalStylesId(currentGlobalStylesId) {
 }
 /**
  * Returns an action object used in signalling that the theme base global styles have been received
+ * Ignored from documentation as it's internal to the data store.
+ *
+ * @ignore
  *
  * @param {string} stylesheet   The theme's identifier
  * @param {Object} globalStyles The global styles object.
@@ -1405,6 +1781,9 @@ function __experimentalReceiveThemeBaseGlobalStyles(stylesheet, globalStyles) {
 }
 /**
  * Returns an action object used in signalling that the theme global styles variations have been received.
+ * Ignored from documentation as it's internal to the data store.
+ *
+ * @ignore
  *
  * @param {string} stylesheet The theme's identifier
  * @param {Array}  variations The global styles variations.
@@ -1438,6 +1817,9 @@ function receiveThemeSupports() {
 /**
  * Returns an action object used in signalling that the preview data for
  * a given URl has been received.
+ * Ignored from documentation as it's internal to the data store.
+ *
+ * @ignore
  *
  * @param {string} url     URL to preview the embed for.
  * @param {*}      preview Preview data.
@@ -1971,6 +2353,9 @@ function receiveUploadPermissions(hasUploadPermissions) {
 /**
  * Returns an action object used in signalling that the current user has
  * permission to perform an action on a REST resource.
+ * Ignored from documentation as it's internal to the data store.
+ *
+ * @ignore
  *
  * @param {string}  key       A key that represents the action and REST resource.
  * @param {boolean} isAllowed Whether or not the user can perform the action.
@@ -1988,6 +2373,9 @@ function receiveUserPermission(key, isAllowed) {
 /**
  * Returns an action object used in signalling that the autosaves for a
  * post have been received.
+ * Ignored from documentation as it's internal to the data store.
+ *
+ * @ignore
  *
  * @param {number}       postId    The id of the post that is parent to the autosave.
  * @param {Array|Object} autosaves An array of autosaves or singular autosave object.
@@ -2008,6 +2396,7 @@ function receiveAutosaves(postId, autosaves) {
  * External dependencies
  */
 
+
 /**
  * WordPress dependencies
  */
@@ -2023,8 +2412,8 @@ const DEFAULT_ENTITY_KEY = 'id';
 const POST_RAW_ATTRIBUTES = ['title', 'excerpt', 'content'];
 const rootEntitiesConfig = [{
   label: (0,external_wp_i18n_namespaceObject.__)('Base'),
-  name: '__unstableBase',
   kind: 'root',
+  name: '__unstableBase',
   baseURL: '/',
   baseURLParams: {
     _fields: ['description', 'gmt_offset', 'home', 'name', 'site_icon', 'site_icon_url', 'site_logo', 'timezone_string', 'url'].join(',')
@@ -2045,8 +2434,7 @@ const rootEntitiesConfig = [{
   baseURL: '/wp/v2/types',
   baseURLParams: {
     context: 'edit'
-  },
-  rawAttributes: POST_RAW_ATTRIBUTES
+  }
 }, {
   name: 'media',
   kind: 'root',
@@ -2071,6 +2459,9 @@ const rootEntitiesConfig = [{
   name: 'sidebar',
   kind: 'root',
   baseURL: '/wp/v2/sidebars',
+  baseURLParams: {
+    context: 'edit'
+  },
   plural: 'sidebars',
   transientEdits: {
     blocks: true
@@ -2133,7 +2524,7 @@ const rootEntitiesConfig = [{
   },
   plural: 'menuItems',
   label: (0,external_wp_i18n_namespaceObject.__)('Menu Item'),
-  rawAttributes: ['title', 'content']
+  rawAttributes: ['title']
 }, {
   name: 'menuLocation',
   kind: 'root',
@@ -2242,9 +2633,9 @@ async function loadPostTypeEntities() {
       },
       rawAttributes: POST_RAW_ATTRIBUTES,
       getTitle: record => {
-        var _record$title2;
+        var _record$title2, _record$slug;
 
-        return (record === null || record === void 0 ? void 0 : (_record$title2 = record.title) === null || _record$title2 === void 0 ? void 0 : _record$title2.rendered) || (record === null || record === void 0 ? void 0 : record.title) || (isTemplate ? (0,external_lodash_namespaceObject.startCase)(record.slug) : String(record.id));
+        return (record === null || record === void 0 ? void 0 : (_record$title2 = record.title) === null || _record$title2 === void 0 ? void 0 : _record$title2.rendered) || (record === null || record === void 0 ? void 0 : record.title) || (isTemplate ? capitalCase((_record$slug = record.slug) !== null && _record$slug !== void 0 ? _record$slug : '') : String(record.id));
       },
       __unstablePrePersist: isTemplate ? undefined : prePersistPostType,
       __unstable_rest_base: postType.rest_base
@@ -2305,9 +2696,9 @@ const getMethodName = function (kind, name) {
     kind,
     name
   });
-  const kindPrefix = kind === 'root' ? '' : (0,external_lodash_namespaceObject.upperFirst)((0,external_lodash_namespaceObject.camelCase)(kind));
-  const nameSuffix = (0,external_lodash_namespaceObject.upperFirst)((0,external_lodash_namespaceObject.camelCase)(name)) + (usePlural ? 's' : '');
-  const suffix = usePlural && entityConfig !== null && entityConfig !== void 0 && entityConfig.plural ? (0,external_lodash_namespaceObject.upperFirst)((0,external_lodash_namespaceObject.camelCase)(entityConfig.plural)) : nameSuffix;
+  const kindPrefix = kind === 'root' ? '' : pascalCase(kind);
+  const nameSuffix = pascalCase(name) + (usePlural ? 's' : '');
+  const suffix = usePlural && 'plural' in entityConfig && entityConfig !== null && entityConfig !== void 0 && entityConfig.plural ? pascalCase(entityConfig.plural) : nameSuffix;
   return `${prefix}${kindPrefix}${suffix}`;
 };
 /**
@@ -2366,10 +2757,6 @@ function getNormalizedCommaSeparable(value) {
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/utils/with-weak-map-cache.js
 /**
- * External dependencies
- */
-
-/**
  * Given a function, returns an enhanced function which caches the result and
  * tracks in WeakMap. The result is only cached if the original function is
  * passed a valid object-like argument (requirement for WeakMap key).
@@ -2378,7 +2765,6 @@ function getNormalizedCommaSeparable(value) {
  *
  * @return {Function} Enhanced caching function.
  */
-
 function withWeakMapCache(fn) {
   const cache = new WeakMap();
   return key => {
@@ -2391,7 +2777,7 @@ function withWeakMapCache(fn) {
       // will return false for invalid key. Since `set` will throw,
       // ensure that key is valid before setting into cache.
 
-      if ((0,external_lodash_namespaceObject.isObjectLike)(key)) {
+      if (key !== null && typeof key === 'object') {
         cache.set(key, value);
       }
     }
@@ -2821,7 +3207,10 @@ function users() {
     case 'RECEIVE_USER_QUERY':
       return {
         byId: { ...state.byId,
-          ...(0,external_lodash_namespaceObject.keyBy)(action.users, 'id')
+          // Key users by their ID.
+          ...action.users.reduce((newUsers, user) => ({ ...newUsers,
+            [user.id]: user
+          }), {})
         },
         queries: { ...state.queries,
           [action.queryID]: (0,external_lodash_namespaceObject.map)(action.users, user => user.id)
@@ -3402,34 +3791,60 @@ function blockPatternCategories() {
   blockPatternCategories
 }));
 
-;// CONCATENATED MODULE: ./node_modules/rememo/es/rememo.js
+;// CONCATENATED MODULE: ./node_modules/rememo/rememo.js
 
 
-var LEAF_KEY, hasWeakMap;
+/** @typedef {(...args: any[]) => *[]} GetDependants */
+
+/** @typedef {() => void} Clear */
+
+/**
+ * @typedef {{
+ *   getDependants: GetDependants,
+ *   clear: Clear
+ * }} EnhancedSelector
+ */
+
+/**
+ * Internal cache entry.
+ *
+ * @typedef CacheNode
+ *
+ * @property {?CacheNode|undefined} [prev] Previous node.
+ * @property {?CacheNode|undefined} [next] Next node.
+ * @property {*[]} args Function arguments for cache entry.
+ * @property {*} val Function result.
+ */
+
+/**
+ * @typedef Cache
+ *
+ * @property {Clear} clear Function to clear cache.
+ * @property {boolean} [isUniqueByDependants] Whether dependants are valid in
+ * considering cache uniqueness. A cache is unique if dependents are all arrays
+ * or objects.
+ * @property {CacheNode?} [head] Cache head.
+ * @property {*[]} [lastDependants] Dependants from previous invocation.
+ */
 
 /**
  * Arbitrary value used as key for referencing cache object in WeakMap tree.
  *
- * @type {Object}
+ * @type {{}}
  */
-LEAF_KEY = {};
-
-/**
- * Whether environment supports WeakMap.
- *
- * @type {boolean}
- */
-hasWeakMap = typeof WeakMap !== 'undefined';
+var LEAF_KEY = {};
 
 /**
  * Returns the first argument as the sole entry in an array.
  *
- * @param {*} value Value to return.
+ * @template T
  *
- * @return {Array} Value returned as entry in array.
+ * @param {T} value Value to return.
+ *
+ * @return {[T]} Value returned as entry in array.
  */
-function arrayOf( value ) {
-	return [ value ];
+function arrayOf(value) {
+	return [value];
 }
 
 /**
@@ -3440,18 +3855,19 @@ function arrayOf( value ) {
  *
  * @return {boolean} Whether value is object-like.
  */
-function isObjectLike( value ) {
-	return !! value && 'object' === typeof value;
+function isObjectLike(value) {
+	return !!value && 'object' === typeof value;
 }
 
 /**
  * Creates and returns a new cache object.
  *
- * @return {Object} Cache object.
+ * @return {Cache} Cache object.
  */
 function createCache() {
+	/** @type {Cache} */
 	var cache = {
-		clear: function() {
+		clear: function () {
 			cache.head = null;
 		},
 	};
@@ -3463,21 +3879,21 @@ function createCache() {
  * Returns true if entries within the two arrays are strictly equal by
  * reference from a starting index.
  *
- * @param {Array}  a         First array.
- * @param {Array}  b         Second array.
+ * @param {*[]} a First array.
+ * @param {*[]} b Second array.
  * @param {number} fromIndex Index from which to start comparison.
  *
  * @return {boolean} Whether arrays are shallowly equal.
  */
-function isShallowEqual( a, b, fromIndex ) {
+function isShallowEqual(a, b, fromIndex) {
 	var i;
 
-	if ( a.length !== b.length ) {
+	if (a.length !== b.length) {
 		return false;
 	}
 
-	for ( i = fromIndex; i < a.length; i++ ) {
-		if ( a[ i ] !== b[ i ] ) {
+	for (i = fromIndex; i < a.length; i++) {
+		if (a[i] !== b[i]) {
 			return false;
 		}
 	}
@@ -3493,31 +3909,18 @@ function isShallowEqual( a, b, fromIndex ) {
  * dependant references remain the same. If getDependants returns a different
  * reference(s), the cache is cleared and the selector value regenerated.
  *
- * @param {Function} selector      Selector function.
- * @param {Function} getDependants Dependant getter returning an immutable
- *                                 reference or array of reference used in
- *                                 cache bust consideration.
+ * @template {(...args: *[]) => *} S
  *
- * @return {Function} Memoized selector.
+ * @param {S} selector Selector function.
+ * @param {GetDependants=} getDependants Dependant getter returning an array of
+ * references used in cache bust consideration.
  */
-/* harmony default export */ function rememo(selector, getDependants ) {
-	var rootCache, getCache;
+/* harmony default export */ function rememo(selector, getDependants) {
+	/** @type {WeakMap<*,*>} */
+	var rootCache;
 
-	// Use object source as dependant if getter not provided
-	if ( ! getDependants ) {
-		getDependants = arrayOf;
-	}
-
-	/**
-	 * Returns the root cache. If WeakMap is supported, this is assigned to the
-	 * root WeakMap cache set, otherwise it is a shared instance of the default
-	 * cache object.
-	 *
-	 * @return {(WeakMap|Object)} Root cache object.
-	 */
-	function getRootCache() {
-		return rootCache;
-	}
+	/** @type {GetDependants} */
+	var normalizedGetDependants = getDependants ? getDependants : arrayOf;
 
 	/**
 	 * Returns the cache for a given dependants array. When possible, a WeakMap
@@ -3533,85 +3936,93 @@ function isShallowEqual( a, b, fromIndex ) {
 	 *
 	 * @see isObjectLike
 	 *
-	 * @param {Array} dependants Selector dependants.
+	 * @param {*[]} dependants Selector dependants.
 	 *
-	 * @return {Object} Cache object.
+	 * @return {Cache} Cache object.
 	 */
-	function getWeakMapCache( dependants ) {
+	function getCache(dependants) {
 		var caches = rootCache,
 			isUniqueByDependants = true,
-			i, dependant, map, cache;
+			i,
+			dependant,
+			map,
+			cache;
 
-		for ( i = 0; i < dependants.length; i++ ) {
-			dependant = dependants[ i ];
+		for (i = 0; i < dependants.length; i++) {
+			dependant = dependants[i];
 
 			// Can only compose WeakMap from object-like key.
-			if ( ! isObjectLike( dependant ) ) {
+			if (!isObjectLike(dependant)) {
 				isUniqueByDependants = false;
 				break;
 			}
 
 			// Does current segment of cache already have a WeakMap?
-			if ( caches.has( dependant ) ) {
+			if (caches.has(dependant)) {
 				// Traverse into nested WeakMap.
-				caches = caches.get( dependant );
+				caches = caches.get(dependant);
 			} else {
 				// Create, set, and traverse into a new one.
 				map = new WeakMap();
-				caches.set( dependant, map );
+				caches.set(dependant, map);
 				caches = map;
 			}
 		}
 
 		// We use an arbitrary (but consistent) object as key for the last item
 		// in the WeakMap to serve as our running cache.
-		if ( ! caches.has( LEAF_KEY ) ) {
+		if (!caches.has(LEAF_KEY)) {
 			cache = createCache();
 			cache.isUniqueByDependants = isUniqueByDependants;
-			caches.set( LEAF_KEY, cache );
+			caches.set(LEAF_KEY, cache);
 		}
 
-		return caches.get( LEAF_KEY );
+		return caches.get(LEAF_KEY);
 	}
-
-	// Assign cache handler by availability of WeakMap
-	getCache = hasWeakMap ? getWeakMapCache : getRootCache;
 
 	/**
 	 * Resets root memoization cache.
 	 */
 	function clear() {
-		rootCache = hasWeakMap ? new WeakMap() : createCache();
+		rootCache = new WeakMap();
 	}
 
-	// eslint-disable-next-line jsdoc/check-param-names
+	/* eslint-disable jsdoc/check-param-names */
 	/**
 	 * The augmented selector call, considering first whether dependants have
 	 * changed before passing it to underlying memoize function.
 	 *
-	 * @param {Object} source    Source object for derivation.
-	 * @param {...*}   extraArgs Additional arguments to pass to selector.
+	 * @param {*}    source    Source object for derivation.
+	 * @param {...*} extraArgs Additional arguments to pass to selector.
 	 *
 	 * @return {*} Selector result.
 	 */
-	function callSelector( /* source, ...extraArgs */ ) {
+	/* eslint-enable jsdoc/check-param-names */
+	function callSelector(/* source, ...extraArgs */) {
 		var len = arguments.length,
-			cache, node, i, args, dependants;
+			cache,
+			node,
+			i,
+			args,
+			dependants;
 
 		// Create copy of arguments (avoid leaking deoptimization).
-		args = new Array( len );
-		for ( i = 0; i < len; i++ ) {
-			args[ i ] = arguments[ i ];
+		args = new Array(len);
+		for (i = 0; i < len; i++) {
+			args[i] = arguments[i];
 		}
 
-		dependants = getDependants.apply( null, args );
-		cache = getCache( dependants );
+		dependants = normalizedGetDependants.apply(null, args);
+		cache = getCache(dependants);
 
-		// If not guaranteed uniqueness by dependants (primitive type or lack
-		// of WeakMap support), shallow compare against last dependants and, if
-		// references have changed, destroy cache to recalculate result.
-		if ( ! cache.isUniqueByDependants ) {
-			if ( cache.lastDependants && ! isShallowEqual( dependants, cache.lastDependants, 0 ) ) {
+		// If not guaranteed uniqueness by dependants (primitive type), shallow
+		// compare against last dependants and, if references have changed,
+		// destroy cache to recalculate result.
+		if (!cache.isUniqueByDependants) {
+			if (
+				cache.lastDependants &&
+				!isShallowEqual(dependants, cache.lastDependants, 0)
+			) {
 				cache.clear();
 			}
 
@@ -3619,9 +4030,9 @@ function isShallowEqual( a, b, fromIndex ) {
 		}
 
 		node = cache.head;
-		while ( node ) {
+		while (node) {
 			// Check whether node arguments match arguments
-			if ( ! isShallowEqual( node.args, args, 1 ) ) {
+			if (!isShallowEqual(node.args, args, 1)) {
 				node = node.next;
 				continue;
 			}
@@ -3629,16 +4040,16 @@ function isShallowEqual( a, b, fromIndex ) {
 			// At this point we can assume we've found a match
 
 			// Surface matched node to head if not already
-			if ( node !== cache.head ) {
+			if (node !== cache.head) {
 				// Adjust siblings to point to each other.
-				node.prev.next = node.next;
-				if ( node.next ) {
+				/** @type {CacheNode} */ (node.prev).next = node.next;
+				if (node.next) {
 					node.next.prev = node.prev;
 				}
 
 				node.next = cache.head;
 				node.prev = null;
-				cache.head.prev = node;
+				/** @type {CacheNode} */ (cache.head).prev = node;
 				cache.head = node;
 			}
 
@@ -3648,20 +4059,20 @@ function isShallowEqual( a, b, fromIndex ) {
 
 		// No cached value found. Continue to insertion phase:
 
-		node = {
+		node = /** @type {CacheNode} */ ({
 			// Generate the result from original function
-			val: selector.apply( null, args ),
-		};
+			val: selector.apply(null, args),
+		});
 
 		// Avoid including the source object in the cache.
-		args[ 0 ] = null;
+		args[0] = null;
 		node.args = args;
 
 		// Don't need to check whether node is already head, since it would
 		// have been returned above already if it was
 
 		// Shift existing head down list
-		if ( cache.head ) {
+		if (cache.head) {
 			cache.head.prev = node;
 			node.next = cache.head;
 		}
@@ -3671,11 +4082,11 @@ function isShallowEqual( a, b, fromIndex ) {
 		return node.val;
 	}
 
-	callSelector.getDependants = getDependants;
+	callSelector.getDependants = normalizedGetDependants;
 	callSelector.clear = clear;
 	clear();
 
-	return callSelector;
+	return /** @type {S & EnhancedSelector} */ (callSelector);
 }
 
 // EXTERNAL MODULE: ./node_modules/equivalent-key-map/equivalent-key-map.js
@@ -3847,6 +4258,7 @@ function isRawAttribute(entity, attribute) {
 
 
 
+
 /**
  * Shared reference to an empty object for cases where it is important to avoid
  * returning a new object reference on every invocation, as in a connected or
@@ -3854,16 +4266,15 @@ function isRawAttribute(entity, attribute) {
  * This should be used as a last resort, since the normalized data should be
  * maintained by the reducer result in state.
  */
-
 const EMPTY_OBJECT = {};
 /**
  * Returns true if a request is in progress for embed preview data, or false
  * otherwise.
  *
- * @param {Object} state Data state.
- * @param {string} url   URL the preview would be for.
+ * @param  state Data state.
+ * @param  url   URL the preview would be for.
  *
- * @return {boolean} Whether a request is in progress for an embed preview.
+ * @return Whether a request is in progress for an embed preview.
  */
 
 const isRequestingEmbedPreview = (0,external_wp_data_namespaceObject.createRegistrySelector)(select => (state, url) => {
@@ -3874,10 +4285,10 @@ const isRequestingEmbedPreview = (0,external_wp_data_namespaceObject.createRegis
  *
  * @deprecated since 11.3. Callers should use `select( 'core' ).getUsers({ who: 'authors' })` instead.
  *
- * @param {Object}           state Data state.
- * @param {Object|undefined} query Optional object of query parameters to
- *                                 include with request.
- * @return {Array} Authors list.
+ * @param  state Data state.
+ * @param  query Optional object of query parameters to
+ *               include with request.
+ * @return Authors list.
  */
 
 function getAuthors(state, query) {
@@ -3891,9 +4302,9 @@ function getAuthors(state, query) {
 /**
  * Returns the current user.
  *
- * @param {Object} state Data state.
+ * @param  state Data state.
  *
- * @return {Object} Current user object.
+ * @return Current user object.
  */
 
 function getCurrentUser(state) {
@@ -3902,10 +4313,10 @@ function getCurrentUser(state) {
 /**
  * Returns all the users returned by a query ID.
  *
- * @param {Object} state   Data state.
- * @param {string} queryID Query ID.
+ * @param  state   Data state.
+ * @param  queryID Query ID.
  *
- * @return {Array} Users list.
+ * @return Users list.
  */
 
 const getUserQueryResults = rememo((state, queryID) => {
@@ -3916,10 +4327,10 @@ const getUserQueryResults = rememo((state, queryID) => {
  * Returns the loaded entities for the given kind.
  *
  * @deprecated since WordPress 6.0. Use getEntitiesConfig instead
- * @param {Object} state Data state.
- * @param {string} kind  Entity kind.
+ * @param  state Data state.
+ * @param  kind  Entity kind.
  *
- * @return {Array<Object>} Array of entities with config matching kind.
+ * @return Array of entities with config matching kind.
  */
 
 function getEntitiesByKind(state, kind) {
@@ -3932,10 +4343,10 @@ function getEntitiesByKind(state, kind) {
 /**
  * Returns the loaded entities for the given kind.
  *
- * @param {Object} state Data state.
- * @param {string} kind  Entity kind.
+ * @param  state Data state.
+ * @param  kind  Entity kind.
  *
- * @return {Array<Object>} Array of entities with config matching kind.
+ * @return Array of entities with config matching kind.
  */
 
 function getEntitiesConfig(state, kind) {
@@ -3947,11 +4358,11 @@ function getEntitiesConfig(state, kind) {
  * Returns the entity config given its kind and name.
  *
  * @deprecated since WordPress 6.0. Use getEntityConfig instead
- * @param {Object} state Data state.
- * @param {string} kind  Entity kind.
- * @param {string} name  Entity name.
+ * @param  state Data state.
+ * @param  kind  Entity kind.
+ * @param  name  Entity name.
  *
- * @return {Object} Entity config
+ * @return Entity config
  */
 
 function getEntity(state, kind, name) {
@@ -3964,11 +4375,11 @@ function getEntity(state, kind, name) {
 /**
  * Returns the entity config given its kind and name.
  *
- * @param {Object} state Data state.
- * @param {string} kind  Entity kind.
- * @param {string} name  Entity name.
+ * @param  state Data state.
+ * @param  kind  Entity kind.
+ * @param  name  Entity name.
  *
- * @return {Object} Entity config
+ * @return Entity config
  */
 
 function getEntityConfig(state, kind, name) {
@@ -3982,13 +4393,14 @@ function getEntityConfig(state, kind, name) {
  * yet received, undefined if the value entity is known to not exist, or the
  * entity object if it exists and is received.
  *
- * @param {Object}  state State tree
- * @param {string}  kind  Entity kind.
- * @param {string}  name  Entity name.
- * @param {number}  key   Record's key
- * @param {?Object} query Optional query.
+ * @param  state State tree
+ * @param  kind  Entity kind.
+ * @param  name  Entity name.
+ * @param  key   Record's key
+ * @param  query Optional query. If requesting specific
+ *               fields, fields must always include the ID.
  *
- * @return {Object|undefined} Record.
+ * @return Record.
  */
 
 const getEntityRecord = rememo((state, kind, name, key, query) => {
@@ -4040,12 +4452,12 @@ const getEntityRecord = rememo((state, kind, name, key, query) => {
 /**
  * Returns the Entity's record object by key. Doesn't trigger a resolver nor requests the entity records from the API if the entity record isn't available in the local state.
  *
- * @param {Object} state State tree
- * @param {string} kind  Entity kind.
- * @param {string} name  Entity name.
- * @param {number} key   Record's key
+ * @param  state State tree
+ * @param  kind  Entity kind.
+ * @param  name  Entity name.
+ * @param  key   Record's key
  *
- * @return {Object|null} Record.
+ * @return Record.
  */
 
 function __experimentalGetEntityRecordNoResolver(state, kind, name, key) {
@@ -4055,12 +4467,12 @@ function __experimentalGetEntityRecordNoResolver(state, kind, name, key) {
  * Returns the entity's record object by key,
  * with its attributes mapped to their raw values.
  *
- * @param {Object} state State tree.
- * @param {string} kind  Entity kind.
- * @param {string} name  Entity name.
- * @param {number} key   Record's key.
+ * @param  state State tree.
+ * @param  kind  Entity kind.
+ * @param  name  Entity name.
+ * @param  key   Record's key.
  *
- * @return {Object?} Object with the entity's raw attributes.
+ * @return Object with the entity's raw attributes.
  */
 
 const getRawEntityRecord = rememo((state, kind, name, key) => {
@@ -4087,12 +4499,12 @@ const getRawEntityRecord = rememo((state, kind, name, key) => {
  * Returns true if records have been received for the given set of parameters,
  * or false otherwise.
  *
- * @param {Object}  state State tree
- * @param {string}  kind  Entity kind.
- * @param {string}  name  Entity name.
- * @param {?Object} query Optional terms query.
+ * @param  state State tree
+ * @param  kind  Entity kind.
+ * @param  name  Entity name.
+ * @param  query Optional terms query.
  *
- * @return {boolean} Whether entity records have been received.
+ * @return  Whether entity records have been received.
  */
 
 function hasEntityRecords(state, kind, name, query) {
@@ -4101,15 +4513,16 @@ function hasEntityRecords(state, kind, name, query) {
 /**
  * Returns the Entity's records.
  *
- * @param {Object}  state State tree
- * @param {string}  kind  Entity kind.
- * @param {string}  name  Entity name.
- * @param {?Object} query Optional terms query.
+ * @param  state State tree
+ * @param  kind  Entity kind.
+ * @param  name  Entity name.
+ * @param  query Optional terms query. If requesting specific
+ *               fields, fields must always include the ID.
  *
- * @return {?Array} Records.
+ * @return Records.
  */
 
-function getEntityRecords(state, kind, name, query) {
+const getEntityRecords = (state, kind, name, query) => {
   // Queried data state is prepopulated for all known entities. If this is not
   // assigned for the given parameters, then it is known to not exist.
   const queriedState = (0,external_lodash_namespaceObject.get)(state.entities.records, [kind, name, 'queriedData']);
@@ -4119,15 +4532,15 @@ function getEntityRecords(state, kind, name, query) {
   }
 
   return getQueriedItems(queriedState, query);
-}
-/**
- * Returns the  list of dirty entity records.
- *
- * @param {Object} state State tree.
- *
- * @return {[{ title: string, key: string, name: string, kind: string }]} The list of updated records
- */
+};
 
+/**
+ * Returns the list of dirty entity records.
+ *
+ * @param  state State tree.
+ *
+ * @return The list of updated records
+ */
 const __experimentalGetDirtyEntityRecords = rememo(state => {
   const {
     entities: {
@@ -4150,7 +4563,7 @@ const __experimentalGetDirtyEntityRecords = rememo(state => {
           dirtyRecords.push({
             // We avoid using primaryKey because it's transformed into a string
             // when it's used as an object key.
-            key: entityRecord[entityConfig.key || DEFAULT_ENTITY_KEY],
+            key: entityRecord ? entityRecord[entityConfig.key || DEFAULT_ENTITY_KEY] : undefined,
             title: (entityConfig === null || entityConfig === void 0 ? void 0 : (_entityConfig$getTitl = entityConfig.getTitle) === null || _entityConfig$getTitl === void 0 ? void 0 : _entityConfig$getTitl.call(entityConfig, entityRecord)) || '',
             name,
             kind
@@ -4164,9 +4577,9 @@ const __experimentalGetDirtyEntityRecords = rememo(state => {
 /**
  * Returns the list of entities currently being saved.
  *
- * @param {Object} state State tree.
+ * @param  state State tree.
  *
- * @return {[{ title: string, key: string, name: string, kind: string }]} The list of records being saved.
+ * @return The list of records being saved.
  */
 
 const __experimentalGetEntitiesBeingSaved = rememo(state => {
@@ -4189,7 +4602,7 @@ const __experimentalGetEntitiesBeingSaved = rememo(state => {
           recordsBeingSaved.push({
             // We avoid using primaryKey because it's transformed into a string
             // when it's used as an object key.
-            key: entityRecord[entityConfig.key || DEFAULT_ENTITY_KEY],
+            key: entityRecord ? entityRecord[entityConfig.key || DEFAULT_ENTITY_KEY] : undefined,
             title: (entityConfig === null || entityConfig === void 0 ? void 0 : (_entityConfig$getTitl2 = entityConfig.getTitle) === null || _entityConfig$getTitl2 === void 0 ? void 0 : _entityConfig$getTitl2.call(entityConfig, entityRecord)) || '',
             name,
             kind
@@ -4203,12 +4616,12 @@ const __experimentalGetEntitiesBeingSaved = rememo(state => {
 /**
  * Returns the specified entity record's edits.
  *
- * @param {Object} state    State tree.
- * @param {string} kind     Entity kind.
- * @param {string} name     Entity name.
- * @param {number} recordId Record ID.
+ * @param  state    State tree.
+ * @param  kind     Entity kind.
+ * @param  name     Entity name.
+ * @param  recordId Record ID.
  *
- * @return {Object?} The entity record's edits.
+ * @return The entity record's edits.
  */
 
 function getEntityRecordEdits(state, kind, name, recordId) {
@@ -4221,12 +4634,12 @@ function getEntityRecordEdits(state, kind, name, recordId) {
  * are not considered for change detection.
  * They are defined in the entity's config.
  *
- * @param {Object} state    State tree.
- * @param {string} kind     Entity kind.
- * @param {string} name     Entity name.
- * @param {number} recordId Record ID.
+ * @param  state    State tree.
+ * @param  kind     Entity kind.
+ * @param  name     Entity name.
+ * @param  recordId Record ID.
  *
- * @return {Object?} The entity record's non transient edits.
+ * @return The entity record's non transient edits.
  */
 
 const getEntityRecordNonTransientEdits = rememo((state, kind, name, recordId) => {
@@ -4251,12 +4664,12 @@ const getEntityRecordNonTransientEdits = rememo((state, kind, name, recordId) =>
  * Returns true if the specified entity record has edits,
  * and false otherwise.
  *
- * @param {Object}        state    State tree.
- * @param {string}        kind     Entity kind.
- * @param {string}        name     Entity name.
- * @param {number|string} recordId Record ID.
+ * @param  state    State tree.
+ * @param  kind     Entity kind.
+ * @param  name     Entity name.
+ * @param  recordId Record ID.
  *
- * @return {boolean} Whether the entity record has edits or not.
+ * @return Whether the entity record has edits or not.
  */
 
 function hasEditsForEntityRecord(state, kind, name, recordId) {
@@ -4265,12 +4678,12 @@ function hasEditsForEntityRecord(state, kind, name, recordId) {
 /**
  * Returns the specified entity record, merged with its edits.
  *
- * @param {Object}        state    State tree.
- * @param {string}        kind     Entity kind.
- * @param {string}        name     Entity name.
- * @param {number|string} recordId Record ID.
+ * @param  state    State tree.
+ * @param  kind     Entity kind.
+ * @param  name     Entity name.
+ * @param  recordId Record ID.
  *
- * @return {Object?} The entity record, merged with its edits.
+ * @return The entity record, merged with its edits.
  */
 
 const getEditedEntityRecord = rememo((state, kind, name, recordId) => ({ ...getRawEntityRecord(state, kind, name, recordId),
@@ -4284,12 +4697,12 @@ const getEditedEntityRecord = rememo((state, kind, name, recordId) => ({ ...getR
 /**
  * Returns true if the specified entity record is autosaving, and false otherwise.
  *
- * @param {Object} state    State tree.
- * @param {string} kind     Entity kind.
- * @param {string} name     Entity name.
- * @param {number} recordId Record ID.
+ * @param  state    State tree.
+ * @param  kind     Entity kind.
+ * @param  name     Entity name.
+ * @param  recordId Record ID.
  *
- * @return {boolean} Whether the entity record is autosaving or not.
+ * @return Whether the entity record is autosaving or not.
  */
 
 function isAutosavingEntityRecord(state, kind, name, recordId) {
@@ -4302,12 +4715,12 @@ function isAutosavingEntityRecord(state, kind, name, recordId) {
 /**
  * Returns true if the specified entity record is saving, and false otherwise.
  *
- * @param {Object}        state    State tree.
- * @param {string}        kind     Entity kind.
- * @param {string}        name     Entity name.
- * @param {number|string} recordId Record ID.
+ * @param  state    State tree.
+ * @param  kind     Entity kind.
+ * @param  name     Entity name.
+ * @param  recordId Record ID.
  *
- * @return {boolean} Whether the entity record is saving or not.
+ * @return Whether the entity record is saving or not.
  */
 
 function isSavingEntityRecord(state, kind, name, recordId) {
@@ -4316,12 +4729,12 @@ function isSavingEntityRecord(state, kind, name, recordId) {
 /**
  * Returns true if the specified entity record is deleting, and false otherwise.
  *
- * @param {Object} state    State tree.
- * @param {string} kind     Entity kind.
- * @param {string} name     Entity name.
- * @param {number} recordId Record ID.
+ * @param  state    State tree.
+ * @param  kind     Entity kind.
+ * @param  name     Entity name.
+ * @param  recordId Record ID.
  *
- * @return {boolean} Whether the entity record is deleting or not.
+ * @return Whether the entity record is deleting or not.
  */
 
 function isDeletingEntityRecord(state, kind, name, recordId) {
@@ -4330,12 +4743,12 @@ function isDeletingEntityRecord(state, kind, name, recordId) {
 /**
  * Returns the specified entity record's last save error.
  *
- * @param {Object} state    State tree.
- * @param {string} kind     Entity kind.
- * @param {string} name     Entity name.
- * @param {number} recordId Record ID.
+ * @param  state    State tree.
+ * @param  kind     Entity kind.
+ * @param  name     Entity name.
+ * @param  recordId Record ID.
  *
- * @return {Object?} The entity record's save error.
+ * @return The entity record's save error.
  */
 
 function getLastEntitySaveError(state, kind, name, recordId) {
@@ -4344,12 +4757,12 @@ function getLastEntitySaveError(state, kind, name, recordId) {
 /**
  * Returns the specified entity record's last delete error.
  *
- * @param {Object} state    State tree.
- * @param {string} kind     Entity kind.
- * @param {string} name     Entity name.
- * @param {number} recordId Record ID.
+ * @param  state    State tree.
+ * @param  kind     Entity kind.
+ * @param  name     Entity name.
+ * @param  recordId Record ID.
  *
- * @return {Object?} The entity record's save error.
+ * @return The entity record's save error.
  */
 
 function getLastEntityDeleteError(state, kind, name, recordId) {
@@ -4362,9 +4775,9 @@ function getLastEntityDeleteError(state, kind, name, recordId) {
  * of the history stack we are at. 0 is the
  * last edit, -1 is the second last, and so on.
  *
- * @param {Object} state State tree.
+ * @param  state State tree.
  *
- * @return {number} The current undo offset.
+ * @return The current undo offset.
  */
 
 function getCurrentUndoOffset(state) {
@@ -4374,9 +4787,9 @@ function getCurrentUndoOffset(state) {
  * Returns the previous edit from the current undo offset
  * for the entity records edits history, if any.
  *
- * @param {Object} state State tree.
+ * @param  state State tree.
  *
- * @return {Object?} The edit.
+ * @return The edit.
  */
 
 
@@ -4387,9 +4800,9 @@ function getUndoEdit(state) {
  * Returns the next edit from the current undo offset
  * for the entity records edits history, if any.
  *
- * @param {Object} state State tree.
+ * @param  state State tree.
  *
- * @return {Object?} The edit.
+ * @return The edit.
  */
 
 function getRedoEdit(state) {
@@ -4399,9 +4812,9 @@ function getRedoEdit(state) {
  * Returns true if there is a previous edit from the current undo offset
  * for the entity records edits history, and false otherwise.
  *
- * @param {Object} state State tree.
+ * @param  state State tree.
  *
- * @return {boolean} Whether there is a previous edit or not.
+ * @return Whether there is a previous edit or not.
  */
 
 function hasUndo(state) {
@@ -4411,9 +4824,9 @@ function hasUndo(state) {
  * Returns true if there is a next edit from the current undo offset
  * for the entity records edits history, and false otherwise.
  *
- * @param {Object} state State tree.
+ * @param  state State tree.
  *
- * @return {boolean} Whether there is a next edit or not.
+ * @return Whether there is a next edit or not.
  */
 
 function hasRedo(state) {
@@ -4422,9 +4835,9 @@ function hasRedo(state) {
 /**
  * Return the current theme.
  *
- * @param {Object} state Data state.
+ * @param  state Data state.
  *
- * @return {Object} The current theme.
+ * @return The current theme.
  */
 
 function getCurrentTheme(state) {
@@ -4433,9 +4846,9 @@ function getCurrentTheme(state) {
 /**
  * Return the ID of the current global styles object.
  *
- * @param {Object} state Data state.
+ * @param  state Data state.
  *
- * @return {string} The current global styles ID.
+ * @return The current global styles ID.
  */
 
 function __experimentalGetCurrentGlobalStylesId(state) {
@@ -4444,9 +4857,9 @@ function __experimentalGetCurrentGlobalStylesId(state) {
 /**
  * Return theme supports data in the index.
  *
- * @param {Object} state Data state.
+ * @param  state Data state.
  *
- * @return {*} Index data.
+ * @return Index data.
  */
 
 function getThemeSupports(state) {
@@ -4457,10 +4870,10 @@ function getThemeSupports(state) {
 /**
  * Returns the embed preview for the given URL.
  *
- * @param {Object} state Data state.
- * @param {string} url   Embedded URL.
+ * @param  state Data state.
+ * @param  url   Embedded URL.
  *
- * @return {*} Undefined if the preview has not been fetched, otherwise, the preview fetched from the embed preview API.
+ * @return Undefined if the preview has not been fetched, otherwise, the preview fetched from the embed preview API.
  */
 
 function getEmbedPreview(state, url) {
@@ -4473,10 +4886,10 @@ function getEmbedPreview(state, url) {
  * We need to be able to determine if a URL is embeddable or not, based on what we
  * get back from the oEmbed preview API.
  *
- * @param {Object} state Data state.
- * @param {string} url   Embedded URL.
+ * @param  state Data state.
+ * @param  url   Embedded URL.
  *
- * @return {boolean} Is the preview for the URL an oEmbed link fallback.
+ * @return Is the preview for the URL an oEmbed link fallback.
  */
 
 function isPreviewEmbedFallback(state, url) {
@@ -4498,17 +4911,17 @@ function isPreviewEmbedFallback(state, url) {
  *
  * https://developer.wordpress.org/rest-api/reference/
  *
- * @param {Object}  state    Data state.
- * @param {string}  action   Action to check. One of: 'create', 'read', 'update', 'delete'.
- * @param {string}  resource REST resource to check, e.g. 'media' or 'posts'.
- * @param {string=} id       Optional ID of the rest resource to check.
+ * @param  state    Data state.
+ * @param  action   Action to check. One of: 'create', 'read', 'update', 'delete'.
+ * @param  resource REST resource to check, e.g. 'media' or 'posts'.
+ * @param  id       Optional ID of the rest resource to check.
  *
- * @return {boolean|undefined} Whether or not the user can perform the action,
+ * @return Whether or not the user can perform the action,
  *                             or `undefined` if the OPTIONS request is still being made.
  */
 
 function canUser(state, action, resource, id) {
-  const key = (0,external_lodash_namespaceObject.compact)([action, resource, id]).join('/');
+  const key = [action, resource, id].filter(Boolean).join('/');
   return (0,external_lodash_namespaceObject.get)(state, ['userPermissions', key]);
 }
 /**
@@ -4519,11 +4932,11 @@ function canUser(state, action, resource, id) {
  *
  * https://developer.wordpress.org/rest-api/reference/
  *
- * @param {Object} state    Data state.
- * @param {string} kind     Entity kind.
- * @param {string} name     Entity name.
- * @param {string} recordId Record's id.
- * @return {boolean|undefined} Whether or not the user can edit,
+ * @param  state    Data state.
+ * @param  kind     Entity kind.
+ * @param  name     Entity name.
+ * @param  recordId Record's id.
+ * @return Whether or not the user can edit,
  * or `undefined` if the OPTIONS request is still being made.
  */
 
@@ -4543,11 +4956,11 @@ function canUserEditEntityRecord(state, kind, name, recordId) {
  * May return multiple autosaves since the backend stores one autosave per
  * author for each post.
  *
- * @param {Object} state    State tree.
- * @param {string} postType The type of the parent post.
- * @param {number} postId   The id of the parent post.
+ * @param  state    State tree.
+ * @param  postType The type of the parent post.
+ * @param  postId   The id of the parent post.
  *
- * @return {?Array} An array of autosaves for the post, or undefined if there is none.
+ * @return An array of autosaves for the post, or undefined if there is none.
  */
 
 function getAutosaves(state, postType, postId) {
@@ -4556,12 +4969,12 @@ function getAutosaves(state, postType, postId) {
 /**
  * Returns the autosave for the post and author.
  *
- * @param {Object} state    State tree.
- * @param {string} postType The type of the parent post.
- * @param {number} postId   The id of the parent post.
- * @param {number} authorId The id of the author.
+ * @param  state    State tree.
+ * @param  postType The type of the parent post.
+ * @param  postId   The id of the parent post.
+ * @param  authorId The id of the author.
  *
- * @return {?Object} The autosave for the post and author.
+ * @return The autosave for the post and author.
  */
 
 function getAutosave(state, postType, postId, authorId) {
@@ -4577,11 +4990,11 @@ function getAutosave(state, postType, postId, authorId) {
 /**
  * Returns true if the REST request for autosaves has completed.
  *
- * @param {Object} state    State tree.
- * @param {string} postType The type of the parent post.
- * @param {number} postId   The id of the parent post.
+ * @param  state    State tree.
+ * @param  postType The type of the parent post.
+ * @param  postId   The id of the parent post.
  *
- * @return {boolean} True if the REST request was completed. False otherwise.
+ * @return True if the REST request was completed. False otherwise.
  */
 
 const hasFetchedAutosaves = (0,external_wp_data_namespaceObject.createRegistrySelector)(select => (state, postType, postId) => {
@@ -4601,39 +5014,39 @@ const hasFetchedAutosaves = (0,external_wp_data_namespaceObject.createRegistrySe
  * );
  * ```
  *
- * @param {Object} state Editor state.
+ * @param  state Editor state.
  *
- * @return {*} A value whose reference will change only when an edit occurs.
+ * @return A value whose reference will change only when an edit occurs.
  */
 
-const getReferenceByDistinctEdits = rememo(() => [], state => [state.undo.length, state.undo.offset, state.undo.flattenedUndo]);
+const getReferenceByDistinctEdits = rememo( // This unused state argument is listed here for the documentation generating tool (docgen).
+state => [], state => [state.undo.length, state.undo.offset, state.undo.flattenedUndo]);
 /**
  * Retrieve the frontend template used for a given link.
  *
- * @param {Object} state Editor state.
- * @param {string} link  Link.
+ * @param  state Editor state.
+ * @param  link  Link.
  *
- * @return {Object?} The template record.
+ * @return The template record.
  */
 
 function __experimentalGetTemplateForLink(state, link) {
   const records = getEntityRecords(state, 'postType', 'wp_template', {
     'find-template': link
   });
-  const template = records !== null && records !== void 0 && records.length ? records[0] : null;
 
-  if (template) {
-    return getEditedEntityRecord(state, 'postType', 'wp_template', template.id);
+  if (records !== null && records !== void 0 && records.length) {
+    return getEditedEntityRecord(state, 'postType', 'wp_template', records[0].id);
   }
 
-  return template;
+  return null;
 }
 /**
  * Retrieve the current theme's base global styles
  *
- * @param {Object} state Editor state.
+ * @param  state Editor state.
  *
- * @return {Object|null} The Global Styles object.
+ * @return The Global Styles object.
  */
 
 function __experimentalGetCurrentThemeBaseGlobalStyles(state) {
@@ -4648,9 +5061,9 @@ function __experimentalGetCurrentThemeBaseGlobalStyles(state) {
 /**
  * Return the ID of the current global styles object.
  *
- * @param {Object} state Data state.
+ * @param  state Data state.
  *
- * @return {string|null} The current global styles ID.
+ * @return The current global styles ID.
  */
 
 function __experimentalGetCurrentThemeGlobalStylesVariations(state) {
@@ -4665,9 +5078,9 @@ function __experimentalGetCurrentThemeGlobalStylesVariations(state) {
 /**
  * Retrieve the list of registered block patterns.
  *
- * @param {Object} state Data state.
+ * @param  state Data state.
  *
- * @return {Array} Block pattern list.
+ * @return Block pattern list.
  */
 
 function getBlockPatterns(state) {
@@ -4676,13 +5089,31 @@ function getBlockPatterns(state) {
 /**
  * Retrieve the list of registered block pattern categories.
  *
- * @param {Object} state Data state.
+ * @param  state Data state.
  *
- * @return {Array} Block pattern category list.
+ * @return Block pattern category list.
  */
 
 function getBlockPatternCategories(state) {
   return state.blockPatternCategories;
+}
+
+;// CONCATENATED MODULE: ./node_modules/camel-case/dist.es2015/index.js
+
+
+function camelCaseTransform(input, index) {
+    if (index === 0)
+        return input.toLowerCase();
+    return pascalCaseTransform(input, index);
+}
+function camelCaseTransformMerge(input, index) {
+    if (index === 0)
+        return input.toLowerCase();
+    return pascalCaseTransformMerge(input);
+}
+function camelCase(input, options) {
+    if (options === void 0) { options = {}; }
+    return pascalCase(input, __assign({ transform: camelCaseTransform }, options));
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/utils/forward-resolver.js
@@ -4763,7 +5194,8 @@ const resolvers_getCurrentUser = () => async _ref2 => {
  * @param {string}           name  Entity name.
  * @param {number|string}    key   Record's key
  * @param {Object|undefined} query Optional object of query parameters to
- *                                 include with request.
+ *                                 include with request. If requesting specific
+ *                                 fields, fields must always include the ID.
  */
 
 const resolvers_getEntityRecord = function (kind, name) {
@@ -4775,10 +5207,7 @@ const resolvers_getEntityRecord = function (kind, name) {
       dispatch
     } = _ref3;
     const configs = await dispatch(getOrLoadEntitiesConfig(kind));
-    const entityConfig = (0,external_lodash_namespaceObject.find)(configs, {
-      kind,
-      name
-    });
+    const entityConfig = configs.find(config => config.name === name && config.kind === kind);
 
     if (!entityConfig || entityConfig !== null && entityConfig !== void 0 && entityConfig.__experimentalNoFetch) {
       return;
@@ -4794,7 +5223,7 @@ const resolvers_getEntityRecord = function (kind, name) {
         // records are stored by ID reference. Thus, fields must always include
         // the ID.
         query = { ...query,
-          _fields: (0,external_lodash_namespaceObject.uniq)([...(get_normalized_comma_separable(query._fields) || []), entityConfig.key || DEFAULT_ENTITY_KEY]).join()
+          _fields: [...new Set([...(get_normalized_comma_separable(query._fields) || []), entityConfig.key || DEFAULT_ENTITY_KEY])].join()
         };
       } // Disable reason: While true that an early return could leave `path`
       // unused, it's important that path is derived using the query prior to
@@ -4846,7 +5275,8 @@ const resolvers_getEditedEntityRecord = forward_resolver('getEntityRecord');
  *
  * @param {string}  kind  Entity kind.
  * @param {string}  name  Entity name.
- * @param {Object?} query Query Object.
+ * @param {Object?} query Query Object. If requesting specific fields, fields
+ *                        must always include the ID.
  */
 
 const resolvers_getEntityRecords = function (kind, name) {
@@ -4856,10 +5286,7 @@ const resolvers_getEntityRecords = function (kind, name) {
       dispatch
     } = _ref4;
     const configs = await dispatch(getOrLoadEntitiesConfig(kind));
-    const entityConfig = (0,external_lodash_namespaceObject.find)(configs, {
-      kind,
-      name
-    });
+    const entityConfig = configs.find(config => config.name === name && config.kind === kind);
 
     if (!entityConfig || entityConfig !== null && entityConfig !== void 0 && entityConfig.__experimentalNoFetch) {
       return;
@@ -4877,7 +5304,7 @@ const resolvers_getEntityRecords = function (kind, name) {
         // records are stored by ID reference. Thus, fields must always include
         // the ID.
         query = { ...query,
-          _fields: (0,external_lodash_namespaceObject.uniq)([...(get_normalized_comma_separable(query._fields) || []), entityConfig.key || DEFAULT_ENTITY_KEY]).join()
+          _fields: [...new Set([...(get_normalized_comma_separable(query._fields) || []), entityConfig.key || DEFAULT_ENTITY_KEY])].join()
         };
       }
 
@@ -4976,36 +5403,47 @@ const resolvers_getEmbedPreview = url => async _ref6 => {
  * Checks whether the current user can perform the given action on the given
  * REST resource.
  *
- * @param {string}  action   Action to check. One of: 'create', 'read', 'update',
- *                           'delete'.
- * @param {string}  resource REST resource to check, e.g. 'media' or 'posts'.
- * @param {?string} id       ID of the rest resource to check.
+ * @param {string}  requestedAction Action to check. One of: 'create', 'read', 'update',
+ *                                  'delete'.
+ * @param {string}  resource        REST resource to check, e.g. 'media' or 'posts'.
+ * @param {?string} id              ID of the rest resource to check.
  */
 
-const resolvers_canUser = (action, resource, id) => async _ref7 => {
+const resolvers_canUser = (requestedAction, resource, id) => async _ref7 => {
   var _response$headers;
 
   let {
-    dispatch
+    dispatch,
+    registry
   } = _ref7;
-  const methods = {
-    create: 'POST',
-    read: 'GET',
-    update: 'PUT',
-    delete: 'DELETE'
-  };
-  const method = methods[action];
+  const {
+    hasStartedResolution
+  } = registry.select(STORE_NAME);
+  const resourcePath = id ? `${resource}/${id}` : resource;
+  const retrievedActions = ['create', 'read', 'update', 'delete'];
 
-  if (!method) {
-    throw new Error(`'${action}' is not a valid action.`);
+  if (!retrievedActions.includes(requestedAction)) {
+    throw new Error(`'${requestedAction}' is not a valid action.`);
+  } // Prevent resolving the same resource twice.
+
+
+  for (const relatedAction of retrievedActions) {
+    if (relatedAction === requestedAction) {
+      continue;
+    }
+
+    const isAlreadyResolving = hasStartedResolution('canUser', [relatedAction, resource, id]);
+
+    if (isAlreadyResolving) {
+      return;
+    }
   }
 
-  const path = id ? `/wp/v2/${resource}/${id}` : `/wp/v2/${resource}`;
   let response;
 
   try {
     response = await external_wp_apiFetch_default()({
-      path,
+      path: `/wp/v2/${resourcePath}`,
       method: 'OPTIONS',
       parse: false
     });
@@ -5019,9 +5457,22 @@ const resolvers_canUser = (action, resource, id) => async _ref7 => {
 
 
   const allowHeader = (_response$headers = response.headers) === null || _response$headers === void 0 ? void 0 : _response$headers.get('allow');
-  const key = (0,external_lodash_namespaceObject.compact)([action, resource, id]).join('/');
-  const isAllowed = (0,external_lodash_namespaceObject.includes)(allowHeader, method);
-  dispatch.receiveUserPermission(key, isAllowed);
+  const allowedMethods = (allowHeader === null || allowHeader === void 0 ? void 0 : allowHeader.allow) || allowHeader || '';
+  const permissions = {};
+  const methods = {
+    create: 'POST',
+    read: 'GET',
+    update: 'PUT',
+    delete: 'DELETE'
+  };
+
+  for (const [actionName, methodName] of Object.entries(methods)) {
+    permissions[actionName] = allowedMethods.includes(methodName);
+  }
+
+  for (const action of retrievedActions) {
+    dispatch.receiveUserPermission(`${action}/${resourcePath}`, permissions[action]);
+  }
 };
 /**
  * Checks whether the current user can perform the given action on the given
@@ -5037,10 +5488,7 @@ const resolvers_canUserEditEntityRecord = (kind, name, recordId) => async _ref8 
     dispatch
   } = _ref8;
   const configs = await dispatch(getOrLoadEntitiesConfig(kind));
-  const entityConfig = (0,external_lodash_namespaceObject.find)(configs, {
-    kind,
-    name
-  });
+  const entityConfig = configs.find(config => config.name === name && config.kind === kind);
 
   if (!entityConfig) {
     return;
@@ -5062,10 +5510,11 @@ const resolvers_getAutosaves = (postType, postId) => async _ref9 => {
     resolveSelect
   } = _ref9;
   const {
-    rest_base: restBase
+    rest_base: restBase,
+    rest_namespace: restNamespace = 'wp/v2'
   } = await resolveSelect.getPostType(postType);
   const autosaves = await external_wp_apiFetch_default()({
-    path: `/wp/v2/${restBase}/${postId}/autosaves?context=edit`
+    path: `/${restNamespace}/${restBase}/${postId}/autosaves?context=edit`
   });
 
   if (autosaves && autosaves.length) {
@@ -5134,6 +5583,8 @@ resolvers_experimentalGetTemplateForLink.shouldInvalidate = action => {
 };
 
 const resolvers_experimentalGetCurrentGlobalStylesId = () => async _ref13 => {
+  var _activeThemes$, _activeThemes$$_links, _activeThemes$$_links2, _activeThemes$$_links3;
+
   let {
     dispatch,
     resolveSelect
@@ -5141,7 +5592,7 @@ const resolvers_experimentalGetCurrentGlobalStylesId = () => async _ref13 => {
   const activeThemes = await resolveSelect.getEntityRecords('root', 'theme', {
     status: 'active'
   });
-  const globalStylesURL = (0,external_lodash_namespaceObject.get)(activeThemes, [0, '_links', 'wp:user-global-styles', 0, 'href']);
+  const globalStylesURL = activeThemes === null || activeThemes === void 0 ? void 0 : (_activeThemes$ = activeThemes[0]) === null || _activeThemes$ === void 0 ? void 0 : (_activeThemes$$_links = _activeThemes$._links) === null || _activeThemes$$_links === void 0 ? void 0 : (_activeThemes$$_links2 = _activeThemes$$_links['wp:user-global-styles']) === null || _activeThemes$$_links2 === void 0 ? void 0 : (_activeThemes$$_links3 = _activeThemes$$_links2[0]) === null || _activeThemes$$_links3 === void 0 ? void 0 : _activeThemes$$_links3.href;
 
   if (globalStylesURL) {
     const globalStylesObject = await external_wp_apiFetch_default()({
@@ -5182,27 +5633,19 @@ const resolvers_getBlockPatterns = () => async _ref16 => {
   const restPatterns = await external_wp_apiFetch_default()({
     path: '/wp/v2/block-patterns/patterns'
   });
-  const patterns = (0,external_lodash_namespaceObject.map)(restPatterns, pattern => (0,external_lodash_namespaceObject.mapKeys)(pattern, (value, key) => {
-    switch (key) {
-      case 'block_types':
-        return 'blockTypes';
-
-      case 'viewport_width':
-        return 'viewportWidth';
-
-      default:
-        return key;
-    }
-  }));
+  const patterns = restPatterns === null || restPatterns === void 0 ? void 0 : restPatterns.map(pattern => Object.fromEntries(Object.entries(pattern).map(_ref17 => {
+    let [key, value] = _ref17;
+    return [camelCase(key), value];
+  })));
   dispatch({
     type: 'RECEIVE_BLOCK_PATTERNS',
     patterns
   });
 };
-const resolvers_getBlockPatternCategories = () => async _ref17 => {
+const resolvers_getBlockPatternCategories = () => async _ref18 => {
   let {
     dispatch
-  } = _ref17;
+  } = _ref18;
   const categories = await external_wp_apiFetch_default()({
     path: '/wp/v2/block-patterns/categories'
   });
@@ -5729,283 +6172,6 @@ function useEntityBlockEditor(kind, name) {
   return [blocks !== null && blocks !== void 0 ? blocks : EMPTY_ARRAY, onInput, onChange];
 }
 
-// EXTERNAL MODULE: ./node_modules/memize/index.js
-var memize = __webpack_require__(9756);
-var memize_default = /*#__PURE__*/__webpack_require__.n(memize);
-;// CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/hooks/memoize.js
-/**
- * External dependencies
- */
- // re-export due to restrictive esModuleInterop setting
-
-/* harmony default export */ var memoize = ((memize_default()));
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/hooks/constants.js
-/* eslint-disable-next-line no-shadow */
-let Status;
-
-(function (Status) {
-  Status["Idle"] = "IDLE";
-  Status["Resolving"] = "RESOLVING";
-  Status["Error"] = "ERROR";
-  Status["Success"] = "SUCCESS";
-})(Status || (Status = {}));
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/hooks/use-query-select.js
-/**
- * WordPress dependencies
- */
-
-/**
- * Internal dependencies
- */
-
-
-
-const META_SELECTORS = ['getIsResolving', 'hasStartedResolution', 'hasFinishedResolution', 'isResolving', 'getCachedResolvers'];
-
-/**
- * Like useSelect, but the selectors return objects containing
- * both the original data AND the resolution info.
- *
- * @param {Function} mapQuerySelect see useSelect
- * @param {Array}    deps           see useSelect
- *
- * @example
- * ```js
- * import { useQuerySelect } from '@wordpress/data';
- * import { store as coreDataStore } from '@wordpress/core-data';
- *
- * function PageTitleDisplay( { id } ) {
- *   const { data: page, isResolving } = useQuerySelect( ( query ) => {
- *     return query( coreDataStore ).getEntityRecord( 'postType', 'page', id )
- *   }, [ id ] );
- *
- *   if ( isResolving ) {
- *     return 'Loading...';
- *   }
- *
- *   return page.title;
- * }
- *
- * // Rendered in the application:
- * // <PageTitleDisplay id={ 10 } />
- * ```
- *
- * In the above example, when `PageTitleDisplay` is rendered into an
- * application, the page and the resolution details will be retrieved from
- * the store state using the `mapSelect` callback on `useQuerySelect`.
- *
- * If the id prop changes then any page in the state for that id is
- * retrieved. If the id prop doesn't change and other props are passed in
- * that do change, the title will not change because the dependency is just
- * the id.
- * @see useSelect
- *
- * @return {QuerySelectResponse} Queried data.
- */
-function __experimentalUseQuerySelect(mapQuerySelect, deps) {
-  return (0,external_wp_data_namespaceObject.useSelect)((select, registry) => {
-    const resolve = store => enrichSelectors(select(store));
-
-    return mapQuerySelect(resolve, registry);
-  }, deps);
-}
-
-/**
- * Transform simple selectors into ones that return an object with the
- * original return value AND the resolution info.
- *
- * @param {Object} selectors Selectors to enrich
- * @return {EnrichedSelectors} Enriched selectors
- */
-const enrichSelectors = memoize(selectors => {
-  const resolvers = {};
-
-  for (const selectorName in selectors) {
-    if (META_SELECTORS.includes(selectorName)) {
-      continue;
-    }
-
-    Object.defineProperty(resolvers, selectorName, {
-      get: () => function () {
-        const {
-          getIsResolving,
-          hasFinishedResolution
-        } = selectors;
-
-        for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-          args[_key] = arguments[_key];
-        }
-
-        const isResolving = !!getIsResolving(selectorName, args);
-        const hasResolved = !isResolving && hasFinishedResolution(selectorName, args);
-        const data = selectors[selectorName](...args);
-        let status;
-
-        if (isResolving) {
-          status = Status.Resolving;
-        } else if (hasResolved) {
-          if (data) {
-            status = Status.Success;
-          } else {
-            status = Status.Error;
-          }
-        } else {
-          status = Status.Idle;
-        }
-
-        return {
-          data,
-          status,
-          isResolving,
-          hasResolved
-        };
-      }
-    });
-  }
-
-  return resolvers;
-});
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/hooks/use-entity-record.js
-/**
- * Internal dependencies
- */
-
-
-
-/**
- * Resolves the specified entity record.
- *
- * @param  kind                   Kind of the requested entity.
- * @param  name                   Name of the requested  entity.
- * @param  recordId               Record ID of the requested entity.
- * @param  options                Hook options.
- * @param  [options.enabled=true] Whether to run the query or short-circuit and return null. Defaults to true.
- * @example
- * ```js
- * import { useEntityRecord } from '@wordpress/core-data';
- *
- * function PageTitleDisplay( { id } ) {
- *   const { record, isResolving } = useEntityRecord( 'postType', 'page', id );
- *
- *   if ( isResolving ) {
- *     return 'Loading...';
- *   }
- *
- *   return record.title;
- * }
- *
- * // Rendered in the application:
- * // <PageTitleDisplay id={ 1 } />
- * ```
- *
- * In the above example, when `PageTitleDisplay` is rendered into an
- * application, the page and the resolution details will be retrieved from
- * the store state using `getEntityRecord()`, or resolved if missing.
- *
- * @return {EntityRecordResolution<RecordType>} Entity record data.
- * @template RecordType
- */
-function __experimentalUseEntityRecord(kind, name, recordId) {
-  let options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {
-    enabled: true
-  };
-  const {
-    data: record,
-    ...rest
-  } = __experimentalUseQuerySelect(query => {
-    if (!options.enabled) {
-      return null;
-    }
-
-    return query(store).getEntityRecord(kind, name, recordId);
-  }, [kind, name, recordId, options.enabled]);
-  return {
-    record,
-    ...rest
-  };
-}
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/hooks/use-entity-records.js
-/**
- * WordPress dependencies
- */
-
-/**
- * Internal dependencies
- */
-
-
-
-
-/**
- * Resolves the specified entity records.
- *
- * @param  kind      Kind of the requested entities.
- * @param  name      Name of the requested entities.
- * @param  queryArgs HTTP query for the requested entities.
- * @param  options   Hook options.
- * @example
- * ```js
- * import { useEntityRecord } from '@wordpress/core-data';
- *
- * function PageTitlesList() {
- *   const { records, isResolving } = useEntityRecords( 'postType', 'page' );
- *
- *   if ( isResolving ) {
- *     return 'Loading...';
- *   }
- *
- *   return (
- *     <ul>
- *       {records.map(( page ) => (
- *         <li>{ page.title }</li>
- *       ))}
- *     </ul>
- *   );
- * }
- *
- * // Rendered in the application:
- * // <PageTitlesList />
- * ```
- *
- * In the above example, when `PageTitlesList` is rendered into an
- * application, the list of records and the resolution details will be retrieved from
- * the store state using `getEntityRecords()`, or resolved if missing.
- *
- * @return Entity records data.
- * @template RecordType
- */
-function __experimentalUseEntityRecords(kind, name) {
-  let queryArgs = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-  let options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {
-    enabled: true
-  };
-  // Serialize queryArgs to a string that can be safely used as a React dep.
-  // We can't just pass queryArgs as one of the deps, because if it is passed
-  // as an object literal, then it will be a different object on each call even
-  // if the values remain the same.
-  const queryAsString = (0,external_wp_url_namespaceObject.addQueryArgs)('', queryArgs);
-  const {
-    data: records,
-    ...rest
-  } = __experimentalUseQuerySelect(query => {
-    if (!options.enabled) {
-      return {
-        data: []
-      };
-    }
-
-    return query(store).getEntityRecords(kind, name, queryArgs);
-  }, [kind, name, queryAsString, options.enabled]);
-  return {
-    records,
-    ...rest
-  };
-}
-
 ;// CONCATENATED MODULE: external ["wp","htmlEntities"]
 var external_wp_htmlEntities_namespaceObject = window["wp"]["htmlEntities"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/fetch/__experimental-fetch-link-suggestions.js
@@ -6301,6 +6467,538 @@ const fetchUrlData = async function (url) {
 
 
 
+// EXTERNAL MODULE: ./node_modules/memize/index.js
+var memize = __webpack_require__(9756);
+var memize_default = /*#__PURE__*/__webpack_require__.n(memize);
+;// CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/hooks/memoize.js
+/**
+ * External dependencies
+ */
+ // re-export due to restrictive esModuleInterop setting
+
+/* harmony default export */ var memoize = ((memize_default()));
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/hooks/constants.js
+let Status;
+
+(function (Status) {
+  Status["Idle"] = "IDLE";
+  Status["Resolving"] = "RESOLVING";
+  Status["Error"] = "ERROR";
+  Status["Success"] = "SUCCESS";
+})(Status || (Status = {}));
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/hooks/use-query-select.js
+/**
+ * WordPress dependencies
+ */
+
+/**
+ * Internal dependencies
+ */
+
+
+
+const META_SELECTORS = ['getIsResolving', 'hasStartedResolution', 'hasFinishedResolution', 'isResolving', 'getCachedResolvers'];
+
+/**
+ * Like useSelect, but the selectors return objects containing
+ * both the original data AND the resolution info.
+ *
+ * @since 6.1.0 Introduced in WordPress core.
+ * @private
+ *
+ * @param {Function} mapQuerySelect see useSelect
+ * @param {Array}    deps           see useSelect
+ *
+ * @example
+ * ```js
+ * import { useQuerySelect } from '@wordpress/data';
+ * import { store as coreDataStore } from '@wordpress/core-data';
+ *
+ * function PageTitleDisplay( { id } ) {
+ *   const { data: page, isResolving } = useQuerySelect( ( query ) => {
+ *     return query( coreDataStore ).getEntityRecord( 'postType', 'page', id )
+ *   }, [ id ] );
+ *
+ *   if ( isResolving ) {
+ *     return 'Loading...';
+ *   }
+ *
+ *   return page.title;
+ * }
+ *
+ * // Rendered in the application:
+ * // <PageTitleDisplay id={ 10 } />
+ * ```
+ *
+ * In the above example, when `PageTitleDisplay` is rendered into an
+ * application, the page and the resolution details will be retrieved from
+ * the store state using the `mapSelect` callback on `useQuerySelect`.
+ *
+ * If the id prop changes then any page in the state for that id is
+ * retrieved. If the id prop doesn't change and other props are passed in
+ * that do change, the title will not change because the dependency is just
+ * the id.
+ * @see useSelect
+ *
+ * @return {QuerySelectResponse} Queried data.
+ */
+function useQuerySelect(mapQuerySelect, deps) {
+  return (0,external_wp_data_namespaceObject.useSelect)((select, registry) => {
+    const resolve = store => enrichSelectors(select(store));
+
+    return mapQuerySelect(resolve, registry);
+  }, deps);
+}
+
+/**
+ * Transform simple selectors into ones that return an object with the
+ * original return value AND the resolution info.
+ *
+ * @param {Object} selectors Selectors to enrich
+ * @return {EnrichedSelectors} Enriched selectors
+ */
+const enrichSelectors = memoize(selectors => {
+  const resolvers = {};
+
+  for (const selectorName in selectors) {
+    if (META_SELECTORS.includes(selectorName)) {
+      continue;
+    }
+
+    Object.defineProperty(resolvers, selectorName, {
+      get: () => function () {
+        const {
+          getIsResolving,
+          hasFinishedResolution
+        } = selectors;
+
+        for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+          args[_key] = arguments[_key];
+        }
+
+        const isResolving = !!getIsResolving(selectorName, args);
+        const hasResolved = !isResolving && hasFinishedResolution(selectorName, args);
+        const data = selectors[selectorName](...args);
+        let status;
+
+        if (isResolving) {
+          status = Status.Resolving;
+        } else if (hasResolved) {
+          if (data) {
+            status = Status.Success;
+          } else {
+            status = Status.Error;
+          }
+        } else {
+          status = Status.Idle;
+        }
+
+        return {
+          data,
+          status,
+          isResolving,
+          hasResolved
+        };
+      }
+    });
+  }
+
+  return resolvers;
+});
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/hooks/use-entity-record.js
+/**
+ * WordPress dependencies
+ */
+
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+
+/**
+ * Resolves the specified entity record.
+ *
+ * @since 6.1.0 Introduced in WordPress core.
+ *
+ * @param  kind     Kind of the entity, e.g. `root` or a `postType`. See rootEntitiesConfig in ../entities.ts for a list of available kinds.
+ * @param  name     Name of the entity, e.g. `plugin` or a `post`. See rootEntitiesConfig in ../entities.ts for a list of available names.
+ * @param  recordId ID of the requested entity record.
+ * @param  options  Optional hook options.
+ * @example
+ * ```js
+ * import { useEntityRecord } from '@wordpress/core-data';
+ *
+ * function PageTitleDisplay( { id } ) {
+ *   const { record, isResolving } = useEntityRecord( 'postType', 'page', id );
+ *
+ *   if ( isResolving ) {
+ *     return 'Loading...';
+ *   }
+ *
+ *   return record.title;
+ * }
+ *
+ * // Rendered in the application:
+ * // <PageTitleDisplay id={ 1 } />
+ * ```
+ *
+ * In the above example, when `PageTitleDisplay` is rendered into an
+ * application, the page and the resolution details will be retrieved from
+ * the store state using `getEntityRecord()`, or resolved if missing.
+ *
+ * @example
+ * ```js
+ * import { useDispatch } from '@wordpress/data';
+ * import { useCallback } from '@wordpress/element';
+ * import { __ } from '@wordpress/i18n';
+ * import { TextControl } from '@wordpress/components';
+ * import { store as noticeStore } from '@wordpress/notices';
+ * import { useEntityRecord } from '@wordpress/core-data';
+ *
+ * function PageRenameForm( { id } ) {
+ * 	const page = useEntityRecord( 'postType', 'page', id );
+ * 	const { createSuccessNotice, createErrorNotice } =
+ * 		useDispatch( noticeStore );
+ *
+ * 	const setTitle = useCallback( ( title ) => {
+ * 		page.edit( { title } );
+ * 	}, [ page.edit ] );
+ *
+ * 	if ( page.isResolving ) {
+ * 		return 'Loading...';
+ * 	}
+ *
+ * 	async function onRename( event ) {
+ * 		event.preventDefault();
+ * 		try {
+ * 			await page.save();
+ * 			createSuccessNotice( __( 'Page renamed.' ), {
+ * 				type: 'snackbar',
+ * 			} );
+ * 		} catch ( error ) {
+ * 			createErrorNotice( error.message, { type: 'snackbar' } );
+ * 		}
+ * 	}
+ *
+ * 	return (
+ * 		<form onSubmit={ onRename }>
+ * 			<TextControl
+ * 				label={ __( 'Name' ) }
+ * 				value={ page.editedRecord.title }
+ * 				onChange={ setTitle }
+ * 			/>
+ * 			<button type="submit">{ __( 'Save' ) }</button>
+ * 		</form>
+ * 	);
+ * }
+ *
+ * // Rendered in the application:
+ * // <PageRenameForm id={ 1 } />
+ * ```
+ *
+ * In the above example, updating and saving the page title is handled
+ * via the `edit()` and `save()` mutation helpers provided by
+ * `useEntityRecord()`;
+ *
+ * @return Entity record data.
+ * @template RecordType
+ */
+function useEntityRecord(kind, name, recordId) {
+  let options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {
+    enabled: true
+  };
+  const {
+    editEntityRecord,
+    saveEditedEntityRecord
+  } = (0,external_wp_data_namespaceObject.useDispatch)(store);
+  const mutations = (0,external_wp_element_namespaceObject.useMemo)(() => ({
+    edit: record => editEntityRecord(kind, name, recordId, record),
+    save: function () {
+      let saveOptions = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      return saveEditedEntityRecord(kind, name, recordId, {
+        throwOnError: true,
+        ...saveOptions
+      });
+    }
+  }), [recordId]);
+  const {
+    editedRecord,
+    hasEdits
+  } = (0,external_wp_data_namespaceObject.useSelect)(select => ({
+    editedRecord: select(store).getEditedEntityRecord(kind, name, recordId),
+    hasEdits: select(store).hasEditsForEntityRecord(kind, name, recordId)
+  }), [kind, name, recordId]);
+  const {
+    data: record,
+    ...querySelectRest
+  } = useQuerySelect(query => {
+    if (!options.enabled) {
+      return null;
+    }
+
+    return query(store).getEntityRecord(kind, name, recordId);
+  }, [kind, name, recordId, options.enabled]);
+  return {
+    record,
+    editedRecord,
+    hasEdits,
+    ...querySelectRest,
+    ...mutations
+  };
+}
+function __experimentalUseEntityRecord(kind, name, recordId, options) {
+  external_wp_deprecated_default()(`wp.data.__experimentalUseEntityRecord`, {
+    alternative: 'wp.data.useEntityRecord',
+    since: '6.1'
+  });
+  return useEntityRecord(kind, name, recordId, options);
+}
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/hooks/use-entity-records.js
+/**
+ * WordPress dependencies
+ */
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+const use_entity_records_EMPTY_ARRAY = [];
+/**
+ * Resolves the specified entity records.
+ *
+ * @since 6.1.0 Introduced in WordPress core.
+ *
+ * @param  kind      Kind of the entity, e.g. `root` or a `postType`. See rootEntitiesConfig in ../entities.ts for a list of available kinds.
+ * @param  name      Name of the entity, e.g. `plugin` or a `post`. See rootEntitiesConfig in ../entities.ts for a list of available names.
+ * @param  queryArgs Optional HTTP query description for how to fetch the data, passed to the requested API endpoint.
+ * @param  options   Optional hook options.
+ * @example
+ * ```js
+ * import { useEntityRecord } from '@wordpress/core-data';
+ *
+ * function PageTitlesList() {
+ *   const { records, isResolving } = useEntityRecords( 'postType', 'page' );
+ *
+ *   if ( isResolving ) {
+ *     return 'Loading...';
+ *   }
+ *
+ *   return (
+ *     <ul>
+ *       {records.map(( page ) => (
+ *         <li>{ page.title }</li>
+ *       ))}
+ *     </ul>
+ *   );
+ * }
+ *
+ * // Rendered in the application:
+ * // <PageTitlesList />
+ * ```
+ *
+ * In the above example, when `PageTitlesList` is rendered into an
+ * application, the list of records and the resolution details will be retrieved from
+ * the store state using `getEntityRecords()`, or resolved if missing.
+ *
+ * @return Entity records data.
+ * @template RecordType
+ */
+
+function useEntityRecords(kind, name) {
+  let queryArgs = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+  let options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {
+    enabled: true
+  };
+  // Serialize queryArgs to a string that can be safely used as a React dep.
+  // We can't just pass queryArgs as one of the deps, because if it is passed
+  // as an object literal, then it will be a different object on each call even
+  // if the values remain the same.
+  const queryAsString = (0,external_wp_url_namespaceObject.addQueryArgs)('', queryArgs);
+  const {
+    data: records,
+    ...rest
+  } = useQuerySelect(query => {
+    if (!options.enabled) {
+      return {
+        // Avoiding returning a new reference on every execution.
+        data: use_entity_records_EMPTY_ARRAY
+      };
+    }
+
+    return query(store).getEntityRecords(kind, name, queryArgs);
+  }, [kind, name, queryAsString, options.enabled]);
+  return {
+    records,
+    ...rest
+  };
+}
+function __experimentalUseEntityRecords(kind, name, queryArgs, options) {
+  external_wp_deprecated_default()(`wp.data.__experimentalUseEntityRecords`, {
+    alternative: 'wp.data.useEntityRecords',
+    since: '6.1'
+  });
+  return useEntityRecords(kind, name, queryArgs, options);
+}
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/hooks/use-resource-permissions.js
+/**
+ * WordPress dependencies
+ */
+
+/**
+ * Internal dependencies
+ */
+
+
+
+
+
+/**
+ * Resolves resource permissions.
+ *
+ * @since 6.1.0 Introduced in WordPress core.
+ *
+ * @param  resource The resource in question, e.g. media.
+ * @param  id       ID of a specific resource entry, if needed, e.g. 10.
+ *
+ * @example
+ * ```js
+ * import { useResourcePermissions } from '@wordpress/core-data';
+ *
+ * function PagesList() {
+ *   const { canCreate, isResolving } = useResourcePermissions( 'pages' );
+ *
+ *   if ( isResolving ) {
+ *     return 'Loading ...';
+ *   }
+ *
+ *   return (
+ *     <div>
+ *       {canCreate ? (<button>+ Create a new page</button>) : false}
+ *       // ...
+ *     </div>
+ *   );
+ * }
+ *
+ * // Rendered in the application:
+ * // <PagesList />
+ * ```
+ *
+ * @example
+ * ```js
+ * import { useResourcePermissions } from '@wordpress/core-data';
+ *
+ * function Page({ pageId }) {
+ *   const {
+ *     canCreate,
+ *     canUpdate,
+ *     canDelete,
+ *     isResolving
+ *   } = useResourcePermissions( 'pages', pageId );
+ *
+ *   if ( isResolving ) {
+ *     return 'Loading ...';
+ *   }
+ *
+ *   return (
+ *     <div>
+ *       {canCreate ? (<button>+ Create a new page</button>) : false}
+ *       {canUpdate ? (<button>Edit page</button>) : false}
+ *       {canDelete ? (<button>Delete page</button>) : false}
+ *       // ...
+ *     </div>
+ *   );
+ * }
+ *
+ * // Rendered in the application:
+ * // <Page pageId={ 15 } />
+ * ```
+ *
+ * In the above example, when `PagesList` is rendered into an
+ * application, the appropriate permissions and the resolution details will be retrieved from
+ * the store state using `canUser()`, or resolved if missing.
+ *
+ * @return Entity records data.
+ * @template IdType
+ */
+function useResourcePermissions(resource, id) {
+  return useQuerySelect(resolve => {
+    const {
+      canUser
+    } = resolve(store);
+    const create = canUser('create', resource);
+
+    if (!id) {
+      const read = canUser('read', resource);
+      const isResolving = create.isResolving || read.isResolving;
+      const hasResolved = create.hasResolved && read.hasResolved;
+      let status = Status.Idle;
+
+      if (isResolving) {
+        status = Status.Resolving;
+      } else if (hasResolved) {
+        status = Status.Success;
+      }
+
+      return {
+        status,
+        isResolving,
+        hasResolved,
+        canCreate: create.hasResolved && create.data,
+        canRead: read.hasResolved && read.data
+      };
+    }
+
+    const read = canUser('read', resource, id);
+    const update = canUser('update', resource, id);
+
+    const _delete = canUser('delete', resource, id);
+
+    const isResolving = read.isResolving || create.isResolving || update.isResolving || _delete.isResolving;
+    const hasResolved = read.hasResolved && create.hasResolved && update.hasResolved && _delete.hasResolved;
+    let status = Status.Idle;
+
+    if (isResolving) {
+      status = Status.Resolving;
+    } else if (hasResolved) {
+      status = Status.Success;
+    }
+
+    return {
+      status,
+      isResolving,
+      hasResolved,
+      canRead: hasResolved && read.data,
+      canCreate: hasResolved && create.data,
+      canUpdate: hasResolved && update.data,
+      canDelete: hasResolved && _delete.data
+    };
+  }, [resource, id]);
+}
+function __experimentalUseResourcePermissions(resource, id) {
+  external_wp_deprecated_default()(`wp.data.__experimentalUseResourcePermissions`, {
+    alternative: 'wp.data.useResourcePermissions',
+    since: '6.1'
+  });
+  return useResourcePermissions(resource, id);
+}
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/hooks/index.js
+
+
+
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/index.js
 /**
  * WordPress dependencies
@@ -6385,14 +7083,11 @@ const storeConfig = () => ({
  * Store definition for the code data namespace.
  *
  * @see https://github.com/WordPress/gutenberg/blob/HEAD/packages/data/README.md#createReduxStore
- *
- * @type {Object}
  */
 
 
 const store = (0,external_wp_data_namespaceObject.createReduxStore)(STORE_NAME, storeConfig());
 (0,external_wp_data_namespaceObject.register)(store);
-
 
 
 

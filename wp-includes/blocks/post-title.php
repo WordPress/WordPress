@@ -34,7 +34,8 @@ function render_block_core_post_title( $attributes, $content, $block ) {
 	}
 
 	if ( isset( $attributes['isLink'] ) && $attributes['isLink'] ) {
-		$title = sprintf( '<a href="%1$s" target="%2$s" rel="%3$s">%4$s</a>', get_the_permalink( $post_ID ), esc_attr( $attributes['linkTarget'] ), esc_attr( $attributes['rel'] ), $title );
+		$rel   = ! empty( $attributes['rel'] ) ? 'rel="' . esc_attr( $attributes['rel'] ) . '"' : '';
+		$title = sprintf( '<a href="%1$s" target="%2$s" %3$s>%4$s</a>', get_the_permalink( $post_ID ), esc_attr( $attributes['linkTarget'] ), $rel, $title );
 	}
 	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => $align_class_name ) );
 

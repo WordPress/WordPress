@@ -16,6 +16,14 @@
 		"level": {
 			"type": "number",
 			"default": 1
+		},
+		"showPrefix": {
+			"type": "boolean",
+			"default": true
+		},
+		"showSearchTerm": {
+			"type": "boolean",
+			"default": true
 		}
 	},
 	"supports": {
@@ -29,7 +37,8 @@
 			}
 		},
 		"spacing": {
-			"margin": true
+			"margin": true,
+			"padding": true
 		},
 		"typography": {
 			"fontSize": true,
@@ -39,6 +48,7 @@
 			"__experimentalFontWeight": true,
 			"__experimentalLetterSpacing": true,
 			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true,
 			"__experimentalDefaultControls": {
 				"fontSize": true,
 				"fontAppearance": true,
@@ -46,5 +56,5 @@
 			}
 		}
 	},
-	"editorStyle": "wp-block-query-title-editor"
+	"style": "wp-block-query-title"
 }

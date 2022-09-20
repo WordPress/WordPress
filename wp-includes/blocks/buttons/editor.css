@@ -109,6 +109,9 @@
 .is-content-justification-center) .wp-block[data-align=center] .wp-block-button {
   margin-bottom: 0;
 }
+.editor-styles-wrapper .wp-block-buttons.has-custom-font-size .wp-block-button__link {
+  font-size: inherit;
+}
 
 .wp-block[data-align=center] > .wp-block-buttons {
   align-items: center;

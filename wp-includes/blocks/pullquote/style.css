@@ -86,15 +86,8 @@
 .wp-block-pullquote cite {
   color: inherit;
 }
-.wp-block-pullquote.has-text-align-left, .wp-block-pullquote.has-text-align-right, .wp-block-pullquote.alignleft, .wp-block-pullquote.alignright {
+.wp-block-pullquote.alignleft, .wp-block-pullquote.alignright {
   max-width: 420px;
-}
-.wp-block-pullquote.has-text-align-left p, .wp-block-pullquote.has-text-align-right p, .wp-block-pullquote.alignleft p, .wp-block-pullquote.alignright p {
-  font-size: 1.25em;
-}
-.wp-block-pullquote p {
-  font-size: 1.75em;
-  line-height: 1.6;
 }
 .wp-block-pullquote cite,
 .wp-block-pullquote footer {

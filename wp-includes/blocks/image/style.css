@@ -74,17 +74,14 @@
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
-.wp-block-image {
-  margin: 0 0 1em 0;
-}
 .wp-block-image img {
   height: auto;
   max-width: 100%;
   vertical-align: bottom;
+  box-sizing: border-box;
 }
-.wp-block-image:not(.is-style-rounded) > a,
-.wp-block-image:not(.is-style-rounded) img {
-  border-radius: inherit;
+.wp-block-image.has-custom-border img {
+  box-sizing: border-box;
 }
 .wp-block-image.aligncenter {
   text-align: center;
@@ -154,6 +151,36 @@
             mask-position: center;
     border-radius: 0;
   }
+}
+.wp-block-image :where(.has-border-color) {
+  border-style: solid;
+}
+.wp-block-image :where([style*="border-top-color"]) {
+  border-top-style: solid;
+}
+.wp-block-image :where([style*="border-right-color"]) {
+  border-right-style: solid;
+}
+.wp-block-image :where([style*="border-bottom-color"]) {
+  border-bottom-style: solid;
+}
+.wp-block-image :where([style*="border-left-color"]) {
+  border-left-style: solid;
+}
+.wp-block-image :where([style*="border-width"]) {
+  border-style: solid;
+}
+.wp-block-image :where([style*="border-top-width"]) {
+  border-top-style: solid;
+}
+.wp-block-image :where([style*="border-right-width"]) {
+  border-right-style: solid;
+}
+.wp-block-image :where([style*="border-bottom-width"]) {
+  border-bottom-style: solid;
+}
+.wp-block-image :where([style*="border-left-width"]) {
+  border-left-style: solid;
 }
 
 .wp-block-image figure {

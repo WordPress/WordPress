@@ -111,9 +111,6 @@
   transform: translate(-50%, -50%);
   margin: 0;
 }
-.wp-block-cover .block-editor-block-list__layout {
-  width: 100%;
-}
 .wp-block-cover .wp-block-cover__inner-container {
   text-align: left;
   margin-left: 0;
@@ -121,6 +118,13 @@
 }
 .wp-block-cover .wp-block-cover__placeholder-background-options {
   width: 100%;
+}
+.wp-block-cover .wp-block-cover__image--placeholder-image {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
 
 [data-align=left] > .wp-block-cover,
@@ -152,4 +156,8 @@
 
 .block-editor-block-patterns-list__list-item .has-parallax.wp-block-cover {
   background-attachment: scroll;
+}
+
+.color-block-support-panel__inner-wrapper > :not(.block-editor-tools-panel-color-gradient-settings__item) {
+  margin-top: 24px;
 }

@@ -24,7 +24,8 @@
 				"exclude": [],
 				"sticky": "",
 				"inherit": true,
-				"taxQuery": null
+				"taxQuery": null,
+				"parents": []
 			}
 		},
 		"tagName": {
@@ -36,6 +37,9 @@
 			"default": {
 				"type": "list"
 			}
+		},
+		"namespace": {
+			"type": "string"
 		}
 	},
 	"providesContext": {

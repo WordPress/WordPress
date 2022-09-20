@@ -357,23 +357,8 @@
   color: #1e1e1e;
 }
 
-.editor-post-format {
-  flex-direction: column;
-  align-items: stretch;
-  width: 100%;
-}
-
-.editor-post-format__content {
-  display: inline-flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-}
-
-.editor-post-format__suggestion {
-  padding: 6px;
-  text-align: left;
-  font-size: 13px;
+[class].editor-post-format__suggestion {
+  margin: 4px 0 0 0;
 }
 
 .editor-post-last-revision__title {
@@ -638,6 +623,14 @@
   }
 }
 
+.editor-post-save-draft.has-text.has-icon svg {
+  margin-left: 0;
+}
+
+:root[dir=rtl] .editor-post-saved-state.has-text.has-icon {
+  justify-content: right;
+}
+
 .editor-post-taxonomies__hierarchical-terms-list {
   max-height: 14em;
   overflow: auto;
@@ -740,20 +733,20 @@
   color: rgba(30, 30, 30, 0.62);
 }
 
-.edit-post-post-visibility__dialog,
-.editor-post-visibility__dialog-fieldset {
-  padding: 4px;
-  padding-top: 0;
+.editor-post-url__link-label {
+  font-size: 13px;
+  font-weight: 400;
+  margin: 0;
 }
-.edit-post-post-visibility__dialog .editor-post-visibility__dialog-legend,
-.editor-post-visibility__dialog-fieldset .editor-post-visibility__dialog-legend {
+.editor-post-url__link {
+  direction: ltr;
+  word-break: break-word;
+}
+.editor-post-url__link-slug {
   font-weight: 600;
-  margin-bottom: 1em;
-  margin-top: 0.5em;
-  padding: 0;
 }
-.edit-post-post-visibility__dialog .editor-post-visibility__dialog-radio[type=radio],
-.editor-post-visibility__dialog-fieldset .editor-post-visibility__dialog-radio[type=radio] {
+
+.editor-post-visibility__fieldset .editor-post-visibility__radio[type=radio] {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   padding: 6px 8px;
   box-shadow: 0 0 0 transparent;
@@ -773,48 +766,40 @@
   margin-top: 2px;
 }
 @media (prefers-reduced-motion: reduce) {
-  .edit-post-post-visibility__dialog .editor-post-visibility__dialog-radio[type=radio],
-.editor-post-visibility__dialog-fieldset .editor-post-visibility__dialog-radio[type=radio] {
+  .editor-post-visibility__fieldset .editor-post-visibility__radio[type=radio] {
     transition-duration: 0s;
     transition-delay: 0s;
   }
 }
 @media (min-width: 600px) {
-  .edit-post-post-visibility__dialog .editor-post-visibility__dialog-radio[type=radio],
-.editor-post-visibility__dialog-fieldset .editor-post-visibility__dialog-radio[type=radio] {
+  .editor-post-visibility__fieldset .editor-post-visibility__radio[type=radio] {
     font-size: 13px;
     /* Override core line-height. To be reviewed. */
     line-height: normal;
   }
 }
-.edit-post-post-visibility__dialog .editor-post-visibility__dialog-radio[type=radio]:focus,
-.editor-post-visibility__dialog-fieldset .editor-post-visibility__dialog-radio[type=radio]:focus {
+.editor-post-visibility__fieldset .editor-post-visibility__radio[type=radio]:focus {
   border-color: var(--wp-admin-theme-color);
   box-shadow: 0 0 0 1px var(--wp-admin-theme-color);
   outline: 2px solid transparent;
 }
-.edit-post-post-visibility__dialog .editor-post-visibility__dialog-radio[type=radio]::-webkit-input-placeholder,
-.editor-post-visibility__dialog-fieldset .editor-post-visibility__dialog-radio[type=radio]::-webkit-input-placeholder {
+.editor-post-visibility__fieldset .editor-post-visibility__radio[type=radio]::-webkit-input-placeholder {
   color: rgba(30, 30, 30, 0.62);
 }
-.edit-post-post-visibility__dialog .editor-post-visibility__dialog-radio[type=radio]::-moz-placeholder,
-.editor-post-visibility__dialog-fieldset .editor-post-visibility__dialog-radio[type=radio]::-moz-placeholder {
+.editor-post-visibility__fieldset .editor-post-visibility__radio[type=radio]::-moz-placeholder {
   opacity: 1;
   color: rgba(30, 30, 30, 0.62);
 }
-.edit-post-post-visibility__dialog .editor-post-visibility__dialog-radio[type=radio]:-ms-input-placeholder,
-.editor-post-visibility__dialog-fieldset .editor-post-visibility__dialog-radio[type=radio]:-ms-input-placeholder {
+.editor-post-visibility__fieldset .editor-post-visibility__radio[type=radio]:-ms-input-placeholder {
   color: rgba(30, 30, 30, 0.62);
 }
 @media (min-width: 600px) {
-  .edit-post-post-visibility__dialog .editor-post-visibility__dialog-radio[type=radio],
-.editor-post-visibility__dialog-fieldset .editor-post-visibility__dialog-radio[type=radio] {
+  .editor-post-visibility__fieldset .editor-post-visibility__radio[type=radio] {
     height: 20px;
     width: 20px;
   }
 }
-.edit-post-post-visibility__dialog .editor-post-visibility__dialog-radio[type=radio]:checked::before,
-.editor-post-visibility__dialog-fieldset .editor-post-visibility__dialog-radio[type=radio]:checked::before {
+.editor-post-visibility__fieldset .editor-post-visibility__radio[type=radio]:checked::before {
   box-sizing: inherit;
   width: 8px;
   height: 8px;
@@ -824,36 +809,32 @@
   border: 4px solid #fff;
 }
 @media (min-width: 600px) {
-  .edit-post-post-visibility__dialog .editor-post-visibility__dialog-radio[type=radio]:checked::before,
-.editor-post-visibility__dialog-fieldset .editor-post-visibility__dialog-radio[type=radio]:checked::before {
+  .editor-post-visibility__fieldset .editor-post-visibility__radio[type=radio]:checked::before {
     transform: translate(-5px, 5px);
   }
 }
-.edit-post-post-visibility__dialog .editor-post-visibility__dialog-radio[type=radio]:focus,
-.editor-post-visibility__dialog-fieldset .editor-post-visibility__dialog-radio[type=radio]:focus {
+.editor-post-visibility__fieldset .editor-post-visibility__radio[type=radio]:focus {
   box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--wp-admin-theme-color);
   outline: 2px solid transparent;
 }
-.edit-post-post-visibility__dialog .editor-post-visibility__dialog-radio[type=radio]:checked,
-.editor-post-visibility__dialog-fieldset .editor-post-visibility__dialog-radio[type=radio]:checked {
+.editor-post-visibility__fieldset .editor-post-visibility__radio[type=radio]:checked {
   background: var(--wp-admin-theme-color);
   border-color: var(--wp-admin-theme-color);
 }
-.edit-post-post-visibility__dialog .editor-post-visibility__dialog-label,
-.editor-post-visibility__dialog-fieldset .editor-post-visibility__dialog-label {
-  font-weight: 600;
+.editor-post-visibility__fieldset .editor-post-visibility__info {
+  color: #757575;
+  margin-right: 36px;
+  margin-top: 0.5em;
 }
-.edit-post-post-visibility__dialog .editor-post-visibility__dialog-info,
-.editor-post-visibility__dialog-fieldset .editor-post-visibility__dialog-info {
-  margin-top: 0;
-  margin-right: 32px;
+@media (min-width: 600px) {
+  .editor-post-visibility__fieldset .editor-post-visibility__info {
+    margin-right: 32px;
+  }
 }
-.edit-post-post-visibility__dialog .editor-post-visibility__choice:last-child .editor-post-visibility__dialog-info,
-.editor-post-visibility__dialog-fieldset .editor-post-visibility__choice:last-child .editor-post-visibility__dialog-info {
+.editor-post-visibility__fieldset .editor-post-visibility__choice:last-child .editor-post-visibility__info {
   margin-bottom: 0;
 }
-
-.editor-post-visibility__dialog-password .editor-post-visibility__dialog-password-input[type=text] {
+.editor-post-visibility__fieldset .editor-post-visibility__password .editor-post-visibility__password-input[type=text] {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   padding: 6px 8px;
   box-shadow: 0 0 0 transparent;
@@ -864,35 +845,35 @@
   font-size: 16px;
   /* Override core line-height. To be reviewed. */
   line-height: normal;
-  margin-right: 36px;
-  margin-top: 8px;
+  margin-right: 32px;
+  width: calc(100% - 32px);
 }
 @media (prefers-reduced-motion: reduce) {
-  .editor-post-visibility__dialog-password .editor-post-visibility__dialog-password-input[type=text] {
+  .editor-post-visibility__fieldset .editor-post-visibility__password .editor-post-visibility__password-input[type=text] {
     transition-duration: 0s;
     transition-delay: 0s;
   }
 }
 @media (min-width: 600px) {
-  .editor-post-visibility__dialog-password .editor-post-visibility__dialog-password-input[type=text] {
+  .editor-post-visibility__fieldset .editor-post-visibility__password .editor-post-visibility__password-input[type=text] {
     font-size: 13px;
     /* Override core line-height. To be reviewed. */
     line-height: normal;
   }
 }
-.editor-post-visibility__dialog-password .editor-post-visibility__dialog-password-input[type=text]:focus {
+.editor-post-visibility__fieldset .editor-post-visibility__password .editor-post-visibility__password-input[type=text]:focus {
   border-color: var(--wp-admin-theme-color);
   box-shadow: 0 0 0 1px var(--wp-admin-theme-color);
   outline: 2px solid transparent;
 }
-.editor-post-visibility__dialog-password .editor-post-visibility__dialog-password-input[type=text]::-webkit-input-placeholder {
+.editor-post-visibility__fieldset .editor-post-visibility__password .editor-post-visibility__password-input[type=text]::-webkit-input-placeholder {
   color: rgba(30, 30, 30, 0.62);
 }
-.editor-post-visibility__dialog-password .editor-post-visibility__dialog-password-input[type=text]::-moz-placeholder {
+.editor-post-visibility__fieldset .editor-post-visibility__password .editor-post-visibility__password-input[type=text]::-moz-placeholder {
   opacity: 1;
   color: rgba(30, 30, 30, 0.62);
 }
-.editor-post-visibility__dialog-password .editor-post-visibility__dialog-password-input[type=text]:-ms-input-placeholder {
+.editor-post-visibility__fieldset .editor-post-visibility__password .editor-post-visibility__password-input[type=text]:-ms-input-placeholder {
   color: rgba(30, 30, 30, 0.62);
 }
 
@@ -900,7 +881,7 @@
   position: relative;
 }
 .editor-post-title.is-focus-mode {
-  opacity: 0.5;
+  opacity: 0.2;
   transition: opacity 0.1s linear;
 }
 @media (prefers-reduced-motion: reduce) {
@@ -914,7 +895,10 @@
 }
 
 .editor-post-trash.components-button {
+  display: flex;
+  justify-content: center;
   margin-top: 4px;
+  width: 100%;
 }
 
 .table-of-contents__popover.components-popover .components-popover__content {
@@ -925,7 +909,7 @@
   z-index: 99998;
 }
 
-.table-of-contents__popover .components-popover__content > div {
+.table-of-contents__popover .components-popover__content {
   padding: 16px;
 }
 @media (min-width: 600px) {

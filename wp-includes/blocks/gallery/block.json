@@ -110,11 +110,18 @@
 		"html": false,
 		"units": [ "px", "em", "rem", "vh", "vw" ],
 		"spacing": {
-			"blockGap": true,
+			"margin": true,
+			"padding": true,
+			"blockGap": [ "horizontal", "vertical" ],
 			"__experimentalSkipSerialization": [ "blockGap" ],
 			"__experimentalDefaultControls": {
 				"blockGap": true
 			}
+		},
+		"color": {
+			"text": false,
+			"background": true,
+			"gradients": true
 		},
 		"__experimentalLayout": {
 			"allowSwitching": false,

@@ -149,13 +149,8 @@ var external_wp_components_namespaceObject = window["wp"]["components"];
 var external_wp_compose_namespaceObject = window["wp"]["compose"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/list-reusable-blocks/build-module/utils/import.js
 /**
- * External dependencies
- */
-
-/**
  * WordPress dependencies
  */
-
 
 /**
  * Internal dependencies
@@ -179,7 +174,7 @@ async function importReusableBlock(file) {
     throw new Error('Invalid JSON file');
   }
 
-  if (parsedContent.__file !== 'wp_block' || !parsedContent.title || !parsedContent.content || !(0,external_lodash_namespaceObject.isString)(parsedContent.title) || !(0,external_lodash_namespaceObject.isString)(parsedContent.content)) {
+  if (parsedContent.__file !== 'wp_block' || !parsedContent.title || !parsedContent.content || typeof parsedContent.title !== 'string' || typeof parsedContent.content !== 'string') {
     throw new Error('Invalid Reusable block JSON file');
   }
 

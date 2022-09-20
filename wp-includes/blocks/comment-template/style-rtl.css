@@ -89,3 +89,15 @@
   list-style: none;
   padding-right: 2rem;
 }
+.wp-block-comment-template.alignleft {
+  float: right;
+}
+.wp-block-comment-template.aligncenter {
+  margin-right: auto;
+  margin-left: auto;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+.wp-block-comment-template.alignright {
+  float: left;
+}

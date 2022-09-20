@@ -113,6 +113,14 @@
 .is-dark-theme .wp-block-table figcaption {
   color: rgba(255, 255, 255, 0.65);
 }
+.wp-block-table table.has-individual-borders > *,
+.wp-block-table table.has-individual-borders tr,
+.wp-block-table table.has-individual-borders th,
+.wp-block-table table.has-individual-borders td {
+  border-width: 1px;
+  border-style: solid;
+  border-color: currentColor;
+}
 
 .blocks-table__placeholder-form.blocks-table__placeholder-form {
   display: flex;

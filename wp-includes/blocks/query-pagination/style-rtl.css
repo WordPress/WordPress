@@ -85,6 +85,12 @@
 .wp-block-query-pagination > .wp-block-query-pagination-numbers:last-child {
   margin-right: 0;
 }
+.wp-block-query-pagination.is-content-justification-space-between > .wp-block-query-pagination-next:last-child {
+  margin-inline-start: auto;
+}
+.wp-block-query-pagination.is-content-justification-space-between > .wp-block-query-pagination-previous:first-child {
+  margin-inline-end: auto;
+}
 .wp-block-query-pagination .wp-block-query-pagination-previous-arrow {
   margin-left: 1ch;
   display: inline-block;

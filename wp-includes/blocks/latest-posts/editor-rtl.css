@@ -80,6 +80,9 @@
 .wp-block-latest-posts.is-grid {
   padding-right: 0;
 }
+.wp-block-latest-posts > li {
+  overflow: hidden;
+}
 
 .wp-block-latest-posts li a > div {
   display: inline;

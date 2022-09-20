@@ -83,6 +83,10 @@
   color: rgba(255, 255, 255, 0.65);
 }
 
+.wp-block-audio {
+  margin: 0 0 1em 0;
+}
+
 .wp-block-code {
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -97,6 +101,10 @@
 }
 .is-dark-theme .wp-block-embed figcaption {
   color: rgba(255, 255, 255, 0.65);
+}
+
+.wp-block-embed {
+  margin: 0 0 1em 0;
 }
 
 .blocks-gallery-caption {
@@ -115,6 +123,10 @@
 }
 .is-dark-theme .wp-block-image figcaption {
   color: rgba(255, 255, 255, 0.65);
+}
+
+.wp-block-image {
+  margin: 0 0 1em 0;
 }
 
 .wp-block-pullquote {
@@ -161,6 +173,11 @@
   font-weight: bold;
 }
 
+.wp-block-search__button {
+  border: 1px solid #ccc;
+  padding: 0.375em 0.625em;
+}
+
 :where(.wp-block-group.has-background) {
   padding: 1.25em 2.375em;
 }
@@ -189,6 +206,9 @@
   height: 2px;
 }
 
+.wp-block-table {
+  margin: "0 0 1em 0";
+}
 .wp-block-table thead {
   border-bottom: 3px solid;
 }
@@ -217,6 +237,10 @@
 }
 .is-dark-theme .wp-block-video figcaption {
   color: rgba(255, 255, 255, 0.65);
+}
+
+.wp-block-video {
+  margin: 0 0 1em 0;
 }
 
 .wp-block-template-part.has-background {

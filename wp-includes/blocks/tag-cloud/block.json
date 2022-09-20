@@ -23,7 +23,7 @@
 		},
 		"smallestFontSize": {
 			"type": "string",
-			"default": "8pt" 
+			"default": "8pt"
 		},
 		"largestFontSize": {
 			"type": "string",
@@ -36,7 +36,11 @@
 	],
 	"supports": {
 		"html": false,
-		"align": true
+		"align": true,
+		"spacing": {
+			"margin": true,
+			"padding": true
+		}
 	},
 	"editorStyle": "wp-block-tag-cloud-editor"
 }

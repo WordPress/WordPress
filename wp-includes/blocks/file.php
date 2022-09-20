@@ -19,6 +19,28 @@ function render_block_core_file( $attributes, $content ) {
 		wp_enqueue_script( 'wp-block-file-view' );
 	}
 
+	// Update object's aria-label attribute if present in block HTML.
+
+	// Match an aria-label attribute from an object tag.
+	$pattern = '@<object.+(?<attribute>aria-label="(?<filename>[^"]+)?")@i';
+	$content = preg_replace_callback(
+		$pattern,
+		function ( $matches ) {
+			$filename     = ! empty( $matches['filename'] ) ? $matches['filename'] : '';
+			$has_filename = ! empty( $filename ) && 'PDF embed' !== $filename;
+			$label        = $has_filename ?
+				sprintf(
+					/* translators: %s: filename. */
+					__( 'Embed of %s.' ),
+					$filename
+				)
+				: __( 'PDF embed' );
+
+			return str_replace( $matches['attribute'], sprintf( 'aria-label="%s"', $label ), $matches[0] );
+		},
+		$content
+	);
+
 	return $content;
 }
 

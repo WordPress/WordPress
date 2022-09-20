@@ -74,19 +74,30 @@
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
+.block-editor-template-part__selection-modal {
+  z-index: 1000001;
+}
 @media (min-width: 600px) {
-  .block-editor-template-part__selection-modal {
+  .block-editor-template-part__selection-modal .components-modal__frame {
     width: calc(100% - 32px);
     height: calc(100% - 120px);
   }
 }
 @media (min-width: 782px) {
-  .block-editor-template-part__selection-modal {
+  .block-editor-template-part__selection-modal .components-modal__frame {
     width: 750px;
   }
 }
 @media (min-width: 960px) {
-  .block-editor-template-part__selection-modal {
+  .block-editor-template-part__selection-modal .components-modal__frame {
     height: 70%;
   }
+}
+
+.block-library-template-part__selection-search {
+  background: #fff;
+  position: sticky;
+  top: 0;
+  padding: 16px 0;
+  z-index: 1;
 }

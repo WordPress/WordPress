@@ -62,8 +62,6 @@ __webpack_require__.d(selectors_namespaceObject, {
 
 ;// CONCATENATED MODULE: external ["wp","data"]
 var external_wp_data_namespaceObject = window["wp"]["data"];
-;// CONCATENATED MODULE: external "lodash"
-var external_lodash_namespaceObject = window["lodash"];
 ;// CONCATENATED MODULE: external ["wp","blockEditor"]
 var external_wp_blockEditor_namespaceObject = window["wp"]["blockEditor"];
 ;// CONCATENATED MODULE: external ["wp","blocks"]
@@ -72,13 +70,8 @@ var external_wp_blocks_namespaceObject = window["wp"]["blocks"];
 var external_wp_i18n_namespaceObject = window["wp"]["i18n"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/reusable-blocks/build-module/store/actions.js
 /**
- * External dependencies
- */
-
-/**
  * WordPress dependencies
  */
-
 
 
 
@@ -94,7 +87,7 @@ const __experimentalConvertBlockToStatic = clientId => _ref => {
   } = _ref;
   const oldBlock = registry.select(external_wp_blockEditor_namespaceObject.store).getBlock(clientId);
   const reusableBlock = registry.select('core').getEditedEntityRecord('postType', 'wp_block', oldBlock.attributes.ref);
-  const newBlocks = (0,external_wp_blocks_namespaceObject.parse)((0,external_lodash_namespaceObject.isFunction)(reusableBlock.content) ? reusableBlock.content(reusableBlock) : reusableBlock.content);
+  const newBlocks = (0,external_wp_blocks_namespaceObject.parse)(typeof reusableBlock.content === 'function' ? reusableBlock.content(reusableBlock) : reusableBlock.content);
   registry.dispatch(external_wp_blockEditor_namespaceObject.store).replaceBlocks(oldBlock.clientId, newBlocks);
 };
 /**
@@ -343,7 +336,7 @@ function ReusableBlockConvertButton(_ref) {
       onClick: () => {
         setIsModalOpen(true);
       }
-    }, (0,external_wp_i18n_namespaceObject.__)('Add to Reusable blocks')), isModalOpen && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Modal, {
+    }, (0,external_wp_i18n_namespaceObject.__)('Create Reusable block')), isModalOpen && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Modal, {
       title: (0,external_wp_i18n_namespaceObject.__)('Create Reusable block'),
       closeLabel: (0,external_wp_i18n_namespaceObject.__)('Close'),
       onRequestClose: () => {

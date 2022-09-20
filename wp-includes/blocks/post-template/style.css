@@ -74,49 +74,40 @@
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
-.wp-block-post-template,
-.wp-block-query-loop {
+.wp-block-post-template {
   margin-top: 0;
   margin-bottom: 0;
   max-width: 100%;
   list-style: none;
   padding: 0;
 }
-.wp-block-post-template.wp-block-post-template,
-.wp-block-query-loop.wp-block-post-template {
+.wp-block-post-template.wp-block-post-template {
   background: none;
 }
-.wp-block-post-template.is-flex-container,
-.wp-block-query-loop.is-flex-container {
+.wp-block-post-template.is-flex-container {
   flex-direction: row;
   display: flex;
   flex-wrap: wrap;
   gap: 1.25em;
 }
-.wp-block-post-template.is-flex-container li,
-.wp-block-query-loop.is-flex-container li {
+.wp-block-post-template.is-flex-container li {
   margin: 0;
   width: 100%;
 }
 @media (min-width: 600px) {
-  .wp-block-post-template.is-flex-container.is-flex-container.columns-2 > li,
-.wp-block-query-loop.is-flex-container.is-flex-container.columns-2 > li {
+  .wp-block-post-template.is-flex-container.is-flex-container.columns-2 > li {
     width: calc((100% / 2) - 1.25em + (1.25em / 2));
   }
-  .wp-block-post-template.is-flex-container.is-flex-container.columns-3 > li,
-.wp-block-query-loop.is-flex-container.is-flex-container.columns-3 > li {
+  .wp-block-post-template.is-flex-container.is-flex-container.columns-3 > li {
     width: calc((100% / 3) - 1.25em + (1.25em / 3));
   }
-  .wp-block-post-template.is-flex-container.is-flex-container.columns-4 > li,
-.wp-block-query-loop.is-flex-container.is-flex-container.columns-4 > li {
+  .wp-block-post-template.is-flex-container.is-flex-container.columns-4 > li {
     width: calc((100% / 4) - 1.25em + (1.25em / 4));
   }
-  .wp-block-post-template.is-flex-container.is-flex-container.columns-5 > li,
-.wp-block-query-loop.is-flex-container.is-flex-container.columns-5 > li {
+  .wp-block-post-template.is-flex-container.is-flex-container.columns-5 > li {
     width: calc((100% / 5) - 1.25em + (1.25em / 5));
   }
-  .wp-block-post-template.is-flex-container.is-flex-container.columns-6 > li,
-.wp-block-query-loop.is-flex-container.is-flex-container.columns-6 > li {
+  .wp-block-post-template.is-flex-container.is-flex-container.columns-6 > li {
     width: calc((100% / 6) - 1.25em + (1.25em / 6));
   }
 }

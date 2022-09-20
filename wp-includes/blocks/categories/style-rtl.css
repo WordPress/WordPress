@@ -74,6 +74,9 @@
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
+.wp-block-categories {
+  box-sizing: border-box;
+}
 .wp-block-categories.alignleft {
   margin-right: 2em;
 }

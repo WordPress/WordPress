@@ -23,25 +23,14 @@
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, {
-  "default": function() { return /* binding */ TokenList; }
-});
-
-;// CONCATENATED MODULE: external "lodash"
-var external_lodash_namespaceObject = window["lodash"];
-;// CONCATENATED MODULE: ./node_modules/@wordpress/token-list/build-module/index.js
-/**
- * External dependencies
- */
-
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": function() { return /* binding */ TokenList; }
+/* harmony export */ });
 /**
  * A set of tokens.
  *
  * @see https://dom.spec.whatwg.org/#domtokenlist
  */
-
 class TokenList {
   /**
    * Constructs a new instance of TokenList.
@@ -117,7 +106,7 @@ class TokenList {
 
   set value(value) {
     value = String(value);
-    this._valueAsArray = (0,external_lodash_namespaceObject.uniq)((0,external_lodash_namespaceObject.compact)(value.split(/\s+/g)));
+    this._valueAsArray = [...new Set(value.split(/\s+/g).filter(Boolean))];
     this._currentValue = this._valueAsArray.join(' ');
   }
   /**
@@ -215,7 +204,7 @@ class TokenList {
       items[_key2] = arguments[_key2];
     }
 
-    this.value = (0,external_lodash_namespaceObject.without)(this._valueAsArray, ...items).join(' ');
+    this.value = this._valueAsArray.filter(val => !items.includes(val)).join(' ');
   }
   /**
    * If `force` is not given, "toggles" `token`, removing it if it’s present

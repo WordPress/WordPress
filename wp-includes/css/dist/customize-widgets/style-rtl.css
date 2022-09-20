@@ -184,9 +184,6 @@
 .customize-widgets-keyboard-shortcut-help-modal__section {
   margin: 0 0 2rem 0;
 }
-.customize-widgets-keyboard-shortcut-help-modal__main-shortcuts .customize-widgets-keyboard-shortcut-help-modal__shortcut-list {
-  margin-top: -25px;
-}
 .customize-widgets-keyboard-shortcut-help-modal__section-title {
   font-size: 0.9rem;
   font-weight: 600;
@@ -242,8 +239,12 @@
 }
 
 .customize-control-sidebar_block_editor .block-editor-block-list__block-popover {
-  position: fixed;
+  position: fixed !important;
   z-index: 7;
+}
+
+.customize-widgets-popover .components-popover {
+  position: fixed !important;
 }
 
 .customize-widgets-welcome-guide__image__wrapper {

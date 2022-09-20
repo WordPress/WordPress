@@ -12,7 +12,8 @@
 		"query",
 		"queryContext",
 		"displayLayout",
-		"templateSlug"
+		"templateSlug",
+		"previewPostType"
 	],
 	"supports": {
 		"reusable": false,
@@ -20,6 +21,19 @@
 		"align": true,
 		"__experimentalLayout": {
 			"allowEditing": false
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true
+			}
 		}
 	},
 	"style": "wp-block-post-template",

@@ -76,6 +76,7 @@
  */
 .wp-block-tag-cloud.aligncenter {
   text-align: center;
+  justify-content: center;
 }
 .wp-block-tag-cloud.alignfull {
   padding-left: 1em;

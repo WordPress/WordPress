@@ -82,6 +82,6 @@
   opacity: 1;
 }
 
-.block-editor-block-list__block[data-empty=true] + .block-editor-block-list__block[data-empty=true] [data-rich-text-placeholder] {
+.block-editor-block-list__block[data-empty=true] + .block-editor-block-list__block[data-empty=true]:not([data-custom-placeholder=true]) [data-rich-text-placeholder] {
   opacity: 0;
 }

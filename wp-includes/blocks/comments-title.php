@@ -56,7 +56,7 @@ function render_block_core_comments_title( $attributes ) {
 		} else {
 			$comments_title = sprintf(
 				/* translators: %s: Number of comments. */
-				_n( '%s responses', '%s responses', $comments_count ),
+				_n( '%s response', '%s responses', $comments_count ),
 				number_format_i18n( $comments_count )
 			);
 		}

@@ -89,6 +89,13 @@
   }
 }
 
+/**
+ * Element styles.
+ */
+.wp-element-button {
+  cursor: pointer;
+}
+
 :root {
   /*
    * Our classes uses the same values we set for gradient value attributes,
@@ -188,7 +195,6 @@
 .screen-reader-text {
   border: 0;
   clip: rect(1px, 1px, 1px, 1px);
-  -webkit-clip-path: inset(50%);
   clip-path: inset(50%);
   height: 1px;
   margin: -1px;
@@ -202,8 +208,7 @@
 .screen-reader-text:focus {
   background-color: #ddd;
   clip: auto !important;
-  -webkit-clip-path: none;
-          clip-path: none;
+  clip-path: none;
   color: #444;
   display: block;
   font-size: 1em;
@@ -232,8 +237,40 @@ html :where(.has-border-color) {
   border-style: solid;
 }
 
+html :where([style*="border-top-color"]) {
+  border-top-style: solid;
+}
+
+html :where([style*="border-right-color"]) {
+  border-left-style: solid;
+}
+
+html :where([style*="border-bottom-color"]) {
+  border-bottom-style: solid;
+}
+
+html :where([style*="border-left-color"]) {
+  border-right-style: solid;
+}
+
 html :where([style*="border-width"]) {
   border-style: solid;
+}
+
+html :where([style*="border-top-width"]) {
+  border-top-style: solid;
+}
+
+html :where([style*="border-right-width"]) {
+  border-left-style: solid;
+}
+
+html :where([style*="border-bottom-width"]) {
+  border-bottom-style: solid;
+}
+
+html :where([style*="border-left-width"]) {
+  border-right-style: solid;
 }
 
 /**
@@ -242,4 +279,11 @@ html :where([style*="border-width"]) {
 html :where(img[class*="wp-image-"]) {
   height: auto;
   max-width: 100%;
+}
+
+/**
+ * Reset user agent styles for figure element margins.
+ */
+figure {
+  margin: 0 0 1em 0;
 }

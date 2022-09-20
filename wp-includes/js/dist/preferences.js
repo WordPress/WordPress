@@ -70,7 +70,7 @@ var external_wp_components_namespaceObject = window["wp"]["components"];
 var external_wp_i18n_namespaceObject = window["wp"]["i18n"];
 ;// CONCATENATED MODULE: external ["wp","primitives"]
 var external_wp_primitives_namespaceObject = window["wp"]["primitives"];
-;// CONCATENATED MODULE: ./node_modules/@wordpress/preferences/node_modules/@wordpress/icons/build-module/library/check.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/check.js
 
 
 /**

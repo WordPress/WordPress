@@ -38,6 +38,10 @@
 		"buttonUseIcon": {
 			"type": "boolean",
 			"default": false
+		},
+		"query": {
+			"type": "object",
+			"default": {}
 		}
 	},
 	"supports": {
@@ -48,6 +52,21 @@
 			"__experimentalDefaultControls": {
 				"background": true,
 				"text": true
+			}
+		},
+		"typography": {
+			"__experimentalSkipSerialization": true,
+			"__experimentalSelector": ".wp-block-search__label, .wp-block-search__input, .wp-block-search__button",
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true
 			}
 		},
 		"__experimentalBorder": {

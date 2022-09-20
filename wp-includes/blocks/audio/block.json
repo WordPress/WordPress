@@ -12,15 +12,18 @@
 			"type": "string",
 			"source": "attribute",
 			"selector": "audio",
-			"attribute": "src"
+			"attribute": "src",
+			"__experimentalRole": "content"
 		},
 		"caption": {
 			"type": "string",
 			"source": "html",
-			"selector": "figcaption"
+			"selector": "figcaption",
+			"__experimentalRole": "content"
 		},
 		"id": {
-			"type": "number"
+			"type": "number",
+			"__experimentalRole": "content"
 		},
 		"autoplay": {
 			"type": "boolean",
@@ -43,7 +46,11 @@
 	},
 	"supports": {
 		"anchor": true,
-		"align": true
+		"align": true,
+		"spacing": {
+			"margin": true,
+			"padding": true
+		}
 	},
 	"editorStyle": "wp-block-audio-editor",
 	"style": "wp-block-audio"

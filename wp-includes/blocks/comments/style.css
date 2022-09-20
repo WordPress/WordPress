@@ -74,6 +74,7 @@
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
+/* Styles for backwards compatibility with the legacy `post-comments` block */
 .wp-block-post-comments {
   /* utility classes */
   /* end utility classes */
@@ -180,6 +181,7 @@
 .wp-block-post-comments input:not([type=submit]):not([type=checkbox]) {
   padding: calc(0.667em + 2px);
 }
-.wp-block-post-comments input[type=submit] {
+
+:where(.wp-block-post-comments input[type="submit"]) {
   border: none;
 }

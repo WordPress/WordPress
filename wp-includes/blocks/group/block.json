@@ -14,12 +14,15 @@
 		},
 		"templateLock": {
 			"type": [ "string", "boolean" ],
-			"enum": [ "all", "insert", false ]
+			"enum": [ "all", "insert", "contentOnly", false ]
 		}
 	},
 	"supports": {
+		"__experimentalOnEnter": true,
+		"__experimentalSettings": true,
 		"align": [ "wide", "full" ],
 		"anchor": true,
+		"ariaLabel": true,
 		"html": false,
 		"color": {
 			"gradients": true,
@@ -53,10 +56,12 @@
 		"typography": {
 			"fontSize": true,
 			"lineHeight": true,
-			"__experimentalFontStyle": true,
+			"__experimentalFontFamily": true,
 			"__experimentalFontWeight": true,
-			"__experimentalLetterSpacing": true,
+			"__experimentalFontStyle": true,
 			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true,
+			"__experimentalLetterSpacing": true,
 			"__experimentalDefaultControls": {
 				"fontSize": true
 			}

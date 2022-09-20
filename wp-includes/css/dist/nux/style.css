@@ -120,8 +120,6 @@
 }
 .nux-dot-tip .components-popover__content {
   width: 350px;
-}
-.nux-dot-tip .components-popover__content > div {
   padding: 20px 18px;
 }
 @media (min-width: 600px) {

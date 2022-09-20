@@ -75,15 +75,8 @@
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
 .wp-block-search__button {
-  background: #f7f7f7;
-  border: 1px solid #ccc;
-  padding: 0.375em 0.625em;
-  color: #32373c;
   margin-left: 0.625em;
   word-break: normal;
-  font-size: inherit;
-  font-family: inherit;
-  line-height: inherit;
 }
 .wp-block-search__button.has-icon {
   line-height: 0;
@@ -92,6 +85,12 @@
   min-width: 1.5em;
   min-height: 1.5em;
   fill: currentColor;
+  vertical-align: text-bottom;
+}
+
+:where(.wp-block-search__button) {
+  border: 1px solid #ccc;
+  padding: 0.375em 0.625em;
 }
 
 .wp-block-search__inside-wrapper {
@@ -108,30 +107,30 @@
 .wp-block-search__input {
   padding: 8px;
   flex-grow: 1;
+  margin-left: 0;
+  margin-right: 0;
   min-width: 3em;
   border: 1px solid #949494;
-  font-size: inherit;
-  font-family: inherit;
-  line-height: inherit;
+  text-decoration: unset !important;
 }
 
 .wp-block-search.wp-block-search__button-only .wp-block-search__button {
   margin-left: 0;
 }
 
-.wp-block-search.wp-block-search__button-inside .wp-block-search__inside-wrapper {
+:where(.wp-block-search__button-inside .wp-block-search__inside-wrapper) {
   padding: 4px;
   border: 1px solid #949494;
 }
-.wp-block-search.wp-block-search__button-inside .wp-block-search__inside-wrapper .wp-block-search__input {
+:where(.wp-block-search__button-inside .wp-block-search__inside-wrapper) .wp-block-search__input {
   border-radius: 0;
   border: none;
   padding: 0 0 0 0.25em;
 }
-.wp-block-search.wp-block-search__button-inside .wp-block-search__inside-wrapper .wp-block-search__input:focus {
+:where(.wp-block-search__button-inside .wp-block-search__inside-wrapper) .wp-block-search__input:focus {
   outline: none;
 }
-.wp-block-search.wp-block-search__button-inside .wp-block-search__inside-wrapper .wp-block-search__button {
+:where(.wp-block-search__button-inside .wp-block-search__inside-wrapper) :where(.wp-block-search__button) {
   padding: 0.125em 0.5em;
 }
 

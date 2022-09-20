@@ -105,11 +105,11 @@ function render_block_core_avatar( $attributes, $content, $block ) {
 		return sprintf( '<div %1s>%2s</div>', $wrapper_attributes, $avatar_block );
 	}
 	$comment = get_comment( $block->context['commentId'] );
-	/* translators: %s is the Comment Author name */
-	$alt = sprintf( __( '%s Avatar' ), $comment->comment_author );
 	if ( ! $comment ) {
 		return '';
 	}
+	/* translators: %s is the Comment Author name */
+	$alt          = sprintf( __( '%s Avatar' ), $comment->comment_author );
 	$avatar_block = get_avatar(
 		$comment,
 		$size,

@@ -120,6 +120,13 @@
   margin-right: auto;
   width: 100%;
 }
+.wp-block-buttons[style*=text-decoration] .wp-block-button,
+.wp-block-buttons[style*=text-decoration] .wp-block-button__link {
+  text-decoration: inherit;
+}
+.wp-block-buttons.has-custom-font-size .wp-block-button__link {
+  font-size: inherit;
+}
 
 .wp-block-button.aligncenter {
   text-align: center;

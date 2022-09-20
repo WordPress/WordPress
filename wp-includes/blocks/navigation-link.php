@@ -150,7 +150,7 @@ function render_block_core_navigation_link( $attributes, $content, $block ) {
 
 	$css_classes = trim( implode( ' ', $classes ) );
 	$has_submenu = count( $block->inner_blocks ) > 0;
-	$is_active   = ! empty( $attributes['id'] ) && ( get_the_ID() === $attributes['id'] );
+	$is_active   = ! empty( $attributes['id'] ) && ( get_queried_object_id() === (int) $attributes['id'] );
 
 	$wrapper_attributes = get_block_wrapper_attributes(
 		array(

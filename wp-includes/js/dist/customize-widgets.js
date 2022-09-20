@@ -5,9 +5,9 @@
 /***/ (function(module, exports) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
-  Copyright (c) 2018 Jed Watson.
-  Licensed under the MIT License (MIT), see
-  http://jedwatson.github.io/classnames
+	Copyright (c) 2018 Jed Watson.
+	Licensed under the MIT License (MIT), see
+	http://jedwatson.github.io/classnames
 */
 /* global define */
 
@@ -15,6 +15,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 	'use strict';
 
 	var hasOwn = {}.hasOwnProperty;
+	var nativeCodeString = '[native code]';
 
 	function classNames() {
 		var classes = [];
@@ -35,14 +36,15 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 					}
 				}
 			} else if (argType === 'object') {
-				if (arg.toString === Object.prototype.toString) {
-					for (var key in arg) {
-						if (hasOwn.call(arg, key) && arg[key]) {
-							classes.push(key);
-						}
-					}
-				} else {
+				if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes('[native code]')) {
 					classes.push(arg.toString());
+					continue;
+				}
+
+				for (var key in arg) {
+					if (hasOwn.call(arg, key) && arg[key]) {
+						classes.push(key);
+					}
 				}
 			}
 		}
@@ -167,6 +169,7 @@ __webpack_require__.d(store_actions_namespaceObject, {
   "disableComplementaryArea": function() { return disableComplementaryArea; },
   "enableComplementaryArea": function() { return enableComplementaryArea; },
   "pinItem": function() { return pinItem; },
+  "setDefaultComplementaryArea": function() { return setDefaultComplementaryArea; },
   "setFeatureDefaults": function() { return setFeatureDefaults; },
   "setFeatureValue": function() { return setFeatureValue; },
   "toggleFeature": function() { return toggleFeature; },
@@ -204,12 +207,15 @@ var external_wp_i18n_namespaceObject = window["wp"]["i18n"];
 var external_wp_blockEditor_namespaceObject = window["wp"]["blockEditor"];
 ;// CONCATENATED MODULE: external ["wp","compose"]
 var external_wp_compose_namespaceObject = window["wp"]["compose"];
+;// CONCATENATED MODULE: external ["wp","hooks"]
+var external_wp_hooks_namespaceObject = window["wp"]["hooks"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/customize-widgets/build-module/components/error-boundary/index.js
 
 
 /**
  * WordPress dependencies
  */
+
 
 
 
@@ -240,6 +246,7 @@ class ErrorBoundary extends external_wp_element_namespaceObject.Component {
     this.setState({
       error
     });
+    (0,external_wp_hooks_namespaceObject.doAction)('editor.ErrorBoundary.errorLogged', error);
   }
 
   render() {
@@ -262,15 +269,13 @@ class ErrorBoundary extends external_wp_element_namespaceObject.Component {
 
 }
 
-;// CONCATENATED MODULE: external "lodash"
-var external_lodash_namespaceObject = window["lodash"];
 ;// CONCATENATED MODULE: external ["wp","coreData"]
 var external_wp_coreData_namespaceObject = window["wp"]["coreData"];
 ;// CONCATENATED MODULE: external ["wp","mediaUtils"]
 var external_wp_mediaUtils_namespaceObject = window["wp"]["mediaUtils"];
 ;// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
 function _extends() {
-  _extends = Object.assign || function (target) {
+  _extends = Object.assign ? Object.assign.bind() : function (target) {
     for (var i = 1; i < arguments.length; i++) {
       var source = arguments[i];
 
@@ -283,7 +288,6 @@ function _extends() {
 
     return target;
   };
-
   return _extends.apply(this, arguments);
 }
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/customize-widgets/build-module/components/block-inspector-button/index.js
@@ -653,6 +657,20 @@ var external_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external
 
 
 /**
+ * Set a default complementary area.
+ *
+ * @param {string} scope Complementary area scope.
+ * @param {string} area  Area identifier.
+ *
+ * @return {Object} Action object.
+ */
+
+const setDefaultComplementaryArea = (scope, area) => ({
+  type: 'SET_DEFAULT_COMPLEMENTARY_AREA',
+  scope,
+  area
+});
+/**
  * Enable the complementary area.
  *
  * @param {string} scope Complementary area scope.
@@ -661,7 +679,8 @@ var external_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external
 
 const enableComplementaryArea = (scope, area) => _ref => {
   let {
-    registry
+    registry,
+    dispatch
   } = _ref;
 
   // Return early if there's no area.
@@ -669,7 +688,17 @@ const enableComplementaryArea = (scope, area) => _ref => {
     return;
   }
 
-  registry.dispatch(external_wp_preferences_namespaceObject.store).set(scope, 'complementaryArea', area);
+  const isComplementaryAreaVisible = registry.select(external_wp_preferences_namespaceObject.store).get(scope, 'isComplementaryAreaVisible');
+
+  if (!isComplementaryAreaVisible) {
+    registry.dispatch(external_wp_preferences_namespaceObject.store).set(scope, 'isComplementaryAreaVisible', true);
+  }
+
+  dispatch({
+    type: 'ENABLE_COMPLEMENTARY_AREA',
+    scope,
+    area
+  });
 };
 /**
  * Disable the complementary area.
@@ -681,7 +710,11 @@ const disableComplementaryArea = scope => _ref2 => {
   let {
     registry
   } = _ref2;
-  registry.dispatch(external_wp_preferences_namespaceObject.store).set(scope, 'complementaryArea', null);
+  const isComplementaryAreaVisible = registry.select(external_wp_preferences_namespaceObject.store).get(scope, 'isComplementaryAreaVisible');
+
+  if (isComplementaryAreaVisible) {
+    registry.dispatch(external_wp_preferences_namespaceObject.store).set(scope, 'isComplementaryAreaVisible', false);
+  }
 };
 /**
  * Pins an item.
@@ -811,11 +844,26 @@ function setFeatureDefaults(scope, defaults) {
  * @param {Object} state Global application state.
  * @param {string} scope Item scope.
  *
- * @return {string} The complementary area that is active in the given scope.
+ * @return {string | null | undefined} The complementary area that is active in the given scope.
  */
 
 const getActiveComplementaryArea = (0,external_wp_data_namespaceObject.createRegistrySelector)(select => (state, scope) => {
-  return select(external_wp_preferences_namespaceObject.store).get(scope, 'complementaryArea');
+  var _state$complementaryA;
+
+  const isComplementaryAreaVisible = select(external_wp_preferences_namespaceObject.store).get(scope, 'isComplementaryAreaVisible'); // Return `undefined` to indicate that the user has never toggled
+  // visibility, this is the vanilla default. Other code relies on this
+  // nuance in the return value.
+
+  if (isComplementaryAreaVisible === undefined) {
+    return undefined;
+  } // Return `null` to indicate the user hid the complementary area.
+
+
+  if (!isComplementaryAreaVisible) {
+    return null;
+  }
+
+  return state === null || state === void 0 ? void 0 : (_state$complementaryA = state.complementaryAreas) === null || _state$complementaryA === void 0 ? void 0 : _state$complementaryA[scope];
 });
 /**
  * Returns a boolean indicating if an item is pinned or not.
@@ -852,6 +900,50 @@ const isFeatureActive = (0,external_wp_data_namespaceObject.createRegistrySelect
   return !!select(external_wp_preferences_namespaceObject.store).get(scope, featureName);
 });
 
+;// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/store/reducer.js
+/**
+ * WordPress dependencies
+ */
+
+function complementaryAreas() {
+  let state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  let action = arguments.length > 1 ? arguments[1] : undefined;
+
+  switch (action.type) {
+    case 'SET_DEFAULT_COMPLEMENTARY_AREA':
+      {
+        const {
+          scope,
+          area
+        } = action; // If there's already an area, don't overwrite it.
+
+        if (state[scope]) {
+          return state;
+        }
+
+        return { ...state,
+          [scope]: area
+        };
+      }
+
+    case 'ENABLE_COMPLEMENTARY_AREA':
+      {
+        const {
+          scope,
+          area
+        } = action;
+        return { ...state,
+          [scope]: area
+        };
+      }
+  }
+
+  return state;
+}
+/* harmony default export */ var store_reducer = ((0,external_wp_data_namespaceObject.combineReducers)({
+  complementaryAreas
+}));
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/store/constants.js
 /**
  * The identifier for the data store.
@@ -872,6 +964,7 @@ const constants_STORE_NAME = 'core/interface';
 
 
 
+
 /**
  * Store definition for the interface namespace.
  *
@@ -881,7 +974,7 @@ const constants_STORE_NAME = 'core/interface';
  */
 
 const store_store = (0,external_wp_data_namespaceObject.createReduxStore)(constants_STORE_NAME, {
-  reducer: () => {},
+  reducer: store_reducer,
   actions: store_actions_namespaceObject,
   selectors: store_selectors_namespaceObject
 }); // Once we build a more generic persistence plugin that works across types of stores
@@ -924,12 +1017,31 @@ const textFormattingShortcuts = [{
   description: (0,external_wp_i18n_namespaceObject.__)('Remove a link.')
 }, {
   keyCombination: {
+    character: '[['
+  },
+  description: (0,external_wp_i18n_namespaceObject.__)('Insert a link to a post or page')
+}, {
+  keyCombination: {
     modifier: 'primary',
     character: 'u'
   },
   description: (0,external_wp_i18n_namespaceObject.__)('Underline the selected text.')
+}, {
+  keyCombination: {
+    modifier: 'access',
+    character: 'd'
+  },
+  description: (0,external_wp_i18n_namespaceObject.__)('Strikethrough the selected text.')
+}, {
+  keyCombination: {
+    modifier: 'access',
+    character: 'x'
+  },
+  description: (0,external_wp_i18n_namespaceObject.__)('Make the selected text inline code.')
 }];
 
+;// CONCATENATED MODULE: external "lodash"
+var external_lodash_namespaceObject = window["lodash"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/customize-widgets/build-module/components/keyboard-shortcut-help-modal/shortcut.js
 
 
@@ -1046,7 +1158,6 @@ function DynamicShortcut(_ref) {
  * External dependencies
  */
 
-
 /**
  * WordPress dependencies
  */
@@ -1080,7 +1191,7 @@ const ShortcutList = _ref => {
     }, shortcuts.map((shortcut, index) => (0,external_wp_element_namespaceObject.createElement)("li", {
       className: "customize-widgets-keyboard-shortcut-help-modal__shortcut",
       key: index
-    }, (0,external_lodash_namespaceObject.isString)(shortcut) ? (0,external_wp_element_namespaceObject.createElement)(dynamic_shortcut, {
+    }, typeof shortcut === 'string' ? (0,external_wp_element_namespaceObject.createElement)(dynamic_shortcut, {
       name: shortcut
     }) : (0,external_wp_element_namespaceObject.createElement)(keyboard_shortcut_help_modal_shortcut, shortcut))))
     /* eslint-enable jsx-a11y/no-redundant-roles */
@@ -1278,6 +1389,7 @@ function Header(_ref) {
     isFixedToolbarActive
   } = _ref;
   const [[hasUndo, hasRedo], setUndoRedo] = (0,external_wp_element_namespaceObject.useState)([sidebar.hasUndo(), sidebar.hasRedo()]);
+  const shortcut = (0,external_wp_keycodes_namespaceObject.isAppleOS)() ? external_wp_keycodes_namespaceObject.displayShortcut.primaryShift('z') : external_wp_keycodes_namespaceObject.displayShortcut.primary('y');
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     return sidebar.subscribeHistory(() => {
       setUndoRedo([sidebar.hasUndo(), sidebar.hasRedo()]);
@@ -1307,7 +1419,7 @@ function Header(_ref) {
     /* translators: button label text should, if possible, be under 16 characters. */
     ,
     label: (0,external_wp_i18n_namespaceObject.__)('Redo'),
-    shortcut: external_wp_keycodes_namespaceObject.displayShortcut.primaryShift('z') // If there are no undo levels we don't want to actually disable this
+    shortcut: shortcut // If there are no undo levels we don't want to actually disable this
     // button, because it will remove focus for keyboard users.
     // See: https://github.com/WordPress/gutenberg/issues/3486
     ,
@@ -1372,11 +1484,6 @@ var external_wp_isShallowEqual_default = /*#__PURE__*/__webpack_require__.n(exte
 
 /**
  * WordPress dependencies
- */
-
-
-/**
- * External dependencies
  */
 
 
@@ -1450,7 +1557,12 @@ function blockToWidget(block) {
     };
   }
 
-  return { ...(0,external_lodash_namespaceObject.omit)(existingWidget, ['form', 'rendered']),
+  const {
+    form,
+    rendered,
+    ...restExistingWidget
+  } = existingWidget || {};
+  return { ...restExistingWidget,
     ...widget
   };
 }
@@ -1481,7 +1593,9 @@ function widgetToBlock(_ref) {
   } = instance;
 
   if (idBase === 'block') {
-    const parsedBlocks = (0,external_wp_blocks_namespaceObject.parse)(raw.content);
+    const parsedBlocks = (0,external_wp_blocks_namespaceObject.parse)(raw.content, {
+      __unstableSkipAutop: true
+    });
     block = parsedBlocks.length ? parsedBlocks[0] : (0,external_wp_blocks_namespaceObject.createBlock)('core/paragraph', {});
   } else if (number) {
     // Widget that extends WP_Widget.
@@ -1898,13 +2012,8 @@ function BlockAppender(props) {
 
 
 /**
- * External dependencies
- */
-
-/**
  * WordPress dependencies
  */
-
 
 
 
@@ -1936,11 +2045,13 @@ function SidebarBlockEditor(_ref) {
     keepCaretInsideBlock,
     isWelcomeGuideActive
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
+    var _select$canUser;
+
     const {
       get
     } = select(external_wp_preferences_namespaceObject.store);
     return {
-      hasUploadPermissions: (0,external_lodash_namespaceObject.defaultTo)(select(external_wp_coreData_namespaceObject.store).canUser('create', 'media'), true),
+      hasUploadPermissions: (_select$canUser = select(external_wp_coreData_namespaceObject.store).canUser('create', 'media')) !== null && _select$canUser !== void 0 ? _select$canUser : true,
       isFixedToolbarActive: !!get('core/customize-widgets', 'fixedToolbar'),
       keepCaretInsideBlock: !!get('core/customize-widgets', 'keepCaretInsideBlock'),
       isWelcomeGuideActive: !!get('core/customize-widgets', 'welcomeGuide')
@@ -2877,8 +2988,6 @@ function getSidebarControl() {
   };
 }
 
-;// CONCATENATED MODULE: external ["wp","hooks"]
-var external_wp_hooks_namespaceObject = window["wp"]["hooks"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/customize-widgets/build-module/filters/move-to-sidebar.js
 
 

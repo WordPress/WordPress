@@ -75,6 +75,7 @@
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
 .wp-block-social-links {
+  box-sizing: border-box;
   padding-right: 0;
   padding-left: 0;
   text-indent: 0;
@@ -248,7 +249,7 @@
   color: #fff;
 }
 .wp-block-social-links:not(.is-style-logos-only) .wp-social-link-reddit {
-  background-color: #fe4500;
+  background-color: #ff4500;
   color: #fff;
 }
 .wp-block-social-links:not(.is-style-logos-only) .wp-social-link-skype {
@@ -298,6 +299,10 @@
 }
 .wp-block-social-links:not(.is-style-logos-only) .wp-social-link-wordpress {
   background-color: #3499cd;
+  color: #fff;
+}
+.wp-block-social-links:not(.is-style-logos-only) .wp-social-link-whatsapp {
+  background-color: #25d366;
   color: #fff;
 }
 .wp-block-social-links:not(.is-style-logos-only) .wp-social-link-yelp {
@@ -392,7 +397,7 @@
   color: #ef4155;
 }
 .wp-block-social-links.is-style-logos-only .wp-social-link-reddit {
-  color: #fe4500;
+  color: #ff4500;
 }
 .wp-block-social-links.is-style-logos-only .wp-social-link-skype {
   color: #0478d7;
@@ -427,6 +432,9 @@
 }
 .wp-block-social-links.is-style-logos-only .wp-social-link-vk {
   color: #4680c2;
+}
+.wp-block-social-links.is-style-logos-only .wp-social-link-whatsapp {
+  color: #25d366;
 }
 .wp-block-social-links.is-style-logos-only .wp-social-link-wordpress {
   color: #3499cd;

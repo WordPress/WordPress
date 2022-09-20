@@ -77,15 +77,14 @@
 .wp-block-cover-image,
 .wp-block-cover {
   position: relative;
-  background-size: cover;
   background-position: center center;
   min-height: 430px;
-  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 1em;
   box-sizing: border-box;
+  /*rtl:raw: direction: ltr; */
   /**
    * Set a default background color for has-background-dim _unless_ it includes another
    * background-color class (e.g. has-green-background-color). The presence of another
@@ -96,27 +95,6 @@
    *   - Issue with background color specificity: https://github.com/WordPress/gutenberg/issues/26545
    *   - Issue with alternative fix: https://github.com/WordPress/gutenberg/issues/26545
    */
-}
-.wp-block-cover-image.has-parallax,
-.wp-block-cover.has-parallax {
-  background-attachment: fixed;
-}
-@supports (-webkit-touch-callout: inherit) {
-  .wp-block-cover-image.has-parallax,
-.wp-block-cover.has-parallax {
-    background-attachment: scroll;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .wp-block-cover-image.has-parallax,
-.wp-block-cover.has-parallax {
-    background-attachment: scroll;
-  }
-}
-.wp-block-cover-image.is-repeated,
-.wp-block-cover.is-repeated {
-  background-repeat: repeat;
-  background-size: auto;
 }
 .wp-block-cover-image.has-background-dim:not([class*=-background-color]),
 .wp-block-cover-image .has-background-dim:not([class*=-background-color]),
@@ -293,10 +271,6 @@
 .wp-block-cover .wp-block-cover__background.has-background-dim.has-background-dim-100 {
   opacity: 1;
 }
-.wp-block-cover-image .block-library-cover__padding-visualizer,
-.wp-block-cover .block-library-cover__padding-visualizer {
-  z-index: 2;
-}
 .wp-block-cover-image.alignleft, .wp-block-cover-image.alignright,
 .wp-block-cover.alignleft,
 .wp-block-cover.alignright {
@@ -327,6 +301,7 @@
   width: 100%;
   z-index: 1;
   color: #fff;
+  /*rtl:raw: direction: rtl; */
 }
 .wp-block-cover-image.is-light .wp-block-cover__inner-container,
 .wp-block-cover.is-light .wp-block-cover__inner-container {
@@ -398,9 +373,9 @@
   margin: 0;
   width: auto;
 }
-.wp-block-cover-image img.wp-block-cover__image-background,
+.wp-block-cover-image .wp-block-cover__image-background,
 .wp-block-cover-image video.wp-block-cover__video-background,
-.wp-block-cover img.wp-block-cover__image-background,
+.wp-block-cover .wp-block-cover__image-background,
 .wp-block-cover video.wp-block-cover__video-background {
   position: absolute;
   top: 0;
@@ -413,11 +388,42 @@
   height: 100%;
   max-width: none;
   max-height: none;
-  -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
   outline: none;
   border: none;
   box-shadow: none;
+}
+
+.wp-block-cover-image.has-parallax,
+.wp-block-cover.has-parallax,
+.wp-block-cover__image-background.has-parallax,
+video.wp-block-cover__video-background.has-parallax {
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+@supports (-webkit-overflow-scrolling: touch) {
+  .wp-block-cover-image.has-parallax,
+.wp-block-cover.has-parallax,
+.wp-block-cover__image-background.has-parallax,
+video.wp-block-cover__video-background.has-parallax {
+    background-attachment: scroll;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wp-block-cover-image.has-parallax,
+.wp-block-cover.has-parallax,
+.wp-block-cover__image-background.has-parallax,
+video.wp-block-cover__video-background.has-parallax {
+    background-attachment: scroll;
+  }
+}
+.wp-block-cover-image.is-repeated,
+.wp-block-cover.is-repeated,
+.wp-block-cover__image-background.is-repeated,
+video.wp-block-cover__video-background.is-repeated {
+  background-repeat: repeat;
+  background-size: auto;
 }
 
 .wp-block-cover__video-background {

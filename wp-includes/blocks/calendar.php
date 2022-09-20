@@ -30,8 +30,8 @@ function render_block_core_calendar( $attributes ) {
 	if ( isset( $attributes['month'] ) && isset( $attributes['year'] ) ) {
 		$permalink_structure = get_option( 'permalink_structure' );
 		if (
-			strpos( $permalink_structure, '%monthnum%' ) !== false &&
-			strpos( $permalink_structure, '%year%' ) !== false
+			str_contains( $permalink_structure, '%monthnum%' ) &&
+			str_contains( $permalink_structure, '%year%' )
 		) {
 			// phpcs:ignore WordPress.WP.GlobalVariablesOverride.OverrideProhibited
 			$monthnum = $attributes['month'];

@@ -74,6 +74,12 @@
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
-.block-library-comments-toolbar__popover .components-popover__content {
-  min-width: 230px;
+/**
+* Element styles for the editor
+*/
+.wp-element-button {
+  cursor: revert;
+}
+.wp-element-button[role=textbox] {
+  cursor: text;
 }

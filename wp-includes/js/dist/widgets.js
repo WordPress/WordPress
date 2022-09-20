@@ -5,9 +5,9 @@
 /***/ (function(module, exports) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
-  Copyright (c) 2018 Jed Watson.
-  Licensed under the MIT License (MIT), see
-  http://jedwatson.github.io/classnames
+	Copyright (c) 2018 Jed Watson.
+	Licensed under the MIT License (MIT), see
+	http://jedwatson.github.io/classnames
 */
 /* global define */
 
@@ -15,6 +15,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 	'use strict';
 
 	var hasOwn = {}.hasOwnProperty;
+	var nativeCodeString = '[native code]';
 
 	function classNames() {
 		var classes = [];
@@ -35,14 +36,15 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 					}
 				}
 			} else if (argType === 'object') {
-				if (arg.toString === Object.prototype.toString) {
-					for (var key in arg) {
-						if (hasOwn.call(arg, key) && arg[key]) {
-							classes.push(key);
-						}
-					}
-				} else {
+				if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes('[native code]')) {
 					classes.push(arg.toString());
+					continue;
+				}
+
+				for (var key in arg) {
+					if (hasOwn.call(arg, key) && arg[key]) {
+						classes.push(key);
+					}
 				}
 			}
 		}
@@ -835,8 +837,11 @@ function Form(_ref) {
       className: "wp-block-legacy-widget__edit-form-title"
     }, title), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Popover, {
       focusOnMount: false,
-      position: "middle right",
-      __unstableForceXAlignment: true
+      placement: "right",
+      offset: 32,
+      resize: false,
+      flip: false,
+      shift: true
     }, (0,external_wp_element_namespaceObject.createElement)("div", {
       ref: ref,
       className: "wp-block-legacy-widget__edit-form",
@@ -1121,7 +1126,7 @@ function NotEmpty(_ref3) {
   const {
     record: widgetType,
     hasResolved: hasResolvedWidgetType
-  } = (0,external_wp_coreData_namespaceObject.__experimentalUseEntityRecord)('root', 'widgetType', widgetTypeId);
+  } = (0,external_wp_coreData_namespaceObject.useEntityRecord)('root', 'widgetType', widgetTypeId);
   const isNavigationMode = (0,external_wp_data_namespaceObject.useSelect)(select => select(external_wp_blockEditor_namespaceObject.store).isNavigationMode(), []);
   const setInstance = (0,external_wp_element_namespaceObject.useCallback)(nextInstance => {
     setAttributes({

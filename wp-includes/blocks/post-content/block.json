@@ -10,7 +10,20 @@
 	"supports": {
 		"align": [ "wide", "full" ],
 		"html": false,
-		"__experimentalLayout": true
+		"__experimentalLayout": true,
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true
+			}
+		}
 	},
 	"editorStyle": "wp-block-post-content-editor"
 }

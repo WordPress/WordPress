@@ -2,7 +2,7 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 9025:
+/***/ 730:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -376,7 +376,7 @@ var _create = __webpack_require__(6288);
 
 var _create2 = _interopRequireDefault(_create);
 
-var _async = __webpack_require__(9025);
+var _async = __webpack_require__(730);
 
 var _async2 = _interopRequireDefault(_async);
 
@@ -726,12 +726,46 @@ function isGenerator(object) {
 
 // EXTERNAL MODULE: ./node_modules/rungen/dist/index.js
 var dist = __webpack_require__(2290);
-;// CONCATENATED MODULE: external "lodash"
-var external_lodash_namespaceObject = window["lodash"];
 ;// CONCATENATED MODULE: ./node_modules/is-promise/index.mjs
 function isPromise(obj) {
   return !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
 }
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/redux-routine/node_modules/is-plain-object/dist/is-plain-object.mjs
+/*!
+ * is-plain-object <https://github.com/jonschlinkert/is-plain-object>
+ *
+ * Copyright (c) 2014-2017, Jon Schlinkert.
+ * Released under the MIT License.
+ */
+
+function isObject(o) {
+  return Object.prototype.toString.call(o) === '[object Object]';
+}
+
+function isPlainObject(o) {
+  var ctor,prot;
+
+  if (isObject(o) === false) return false;
+
+  // If has modified constructor
+  ctor = o.constructor;
+  if (ctor === undefined) return true;
+
+  // If has modified prototype
+  prot = ctor.prototype;
+  if (isObject(prot) === false) return false;
+
+  // If constructor does not have an Object-specific method
+  if (prot.hasOwnProperty('isPrototypeOf') === false) {
+    return false;
+  }
+
+  // Most likely a plain Object
+  return true;
+}
+
+
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/redux-routine/build-module/is-action.js
 /**
@@ -749,7 +783,7 @@ function isPromise(obj) {
  */
 
 function isAction(object) {
-  return (0,external_lodash_namespaceObject.isPlainObject)(object) && (0,external_lodash_namespaceObject.isString)(object.type);
+  return isPlainObject(object) && typeof object.type === 'string';
 }
 /**
  * Returns true if the given object quacks like an action and has a specific
@@ -773,7 +807,6 @@ function isActionOfType(object, expectedType) {
 
 
 
-
 /**
  * Internal dependencies
  */
@@ -788,21 +821,24 @@ function isActionOfType(object, expectedType) {
 function createRuntime() {
   let controls = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   let dispatch = arguments.length > 1 ? arguments[1] : undefined;
-  const rungenControls = (0,external_lodash_namespaceObject.map)(controls, (control, actionType) => (value, next, iterate, yieldNext, yieldError) => {
-    if (!isActionOfType(value, actionType)) {
-      return false;
-    }
+  const rungenControls = Object.entries(controls).map(_ref => {
+    let [actionType, control] = _ref;
+    return (value, next, iterate, yieldNext, yieldError) => {
+      if (!isActionOfType(value, actionType)) {
+        return false;
+      }
 
-    const routine = control(value);
+      const routine = control(value);
 
-    if (isPromise(routine)) {
-      // Async control routine awaits resolution.
-      routine.then(yieldNext, yieldError);
-    } else {
-      yieldNext(routine);
-    }
+      if (isPromise(routine)) {
+        // Async control routine awaits resolution.
+        routine.then(yieldNext, yieldError);
+      } else {
+        yieldNext(routine);
+      }
 
-    return true;
+      return true;
+    };
   });
 
   const unhandledActionControl = (value, next) => {

@@ -82,3 +82,7 @@
 .is-dark-theme .wp-block-image figcaption {
   color: rgba(255, 255, 255, 0.65);
 }
+
+.wp-block-image {
+  margin: 0 0 1em 0;
+}

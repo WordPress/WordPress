@@ -37,6 +37,10 @@
 			"__experimentalDuotone": "img, .components-placeholder__illustration, .components-placeholder::before",
 			"text": false,
 			"background": false
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
 		}
 	},
 	"styles": [

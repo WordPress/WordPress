@@ -328,9 +328,9 @@ function render_block_core_page_list( $attributes, $content, $block ) {
 	);
 }
 
-	/**
-	 * Registers the `core/pages` block on server.
-	 */
+/**
+ * Registers the `core/pages` block on server.
+ */
 function register_block_core_page_list() {
 	register_block_type_from_metadata(
 		__DIR__ . '/page-list',
@@ -339,4 +339,4 @@ function register_block_core_page_list() {
 		)
 	);
 }
-	add_action( 'init', 'register_block_core_page_list' );
+add_action( 'init', 'register_block_core_page_list' );

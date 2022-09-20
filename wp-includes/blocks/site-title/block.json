@@ -47,6 +47,7 @@
 			"lineHeight": true,
 			"__experimentalFontFamily": true,
 			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true,
 			"__experimentalFontStyle": true,
 			"__experimentalFontWeight": true,
 			"__experimentalLetterSpacing": true,

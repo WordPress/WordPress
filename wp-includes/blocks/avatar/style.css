@@ -74,6 +74,9 @@
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
+.wp-block-avatar {
+  box-sizing: border-box;
+}
 .wp-block-avatar.aligncenter {
   text-align: center;
 }

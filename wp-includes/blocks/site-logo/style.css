@@ -75,6 +75,7 @@
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
 .wp-block-site-logo {
+  box-sizing: border-box;
   line-height: 0;
 }
 .wp-block-site-logo a {
@@ -83,6 +84,10 @@
 .wp-block-site-logo.is-default-size img {
   width: 120px;
   height: auto;
+}
+.wp-block-site-logo img {
+  height: auto;
+  max-width: 100%;
 }
 .wp-block-site-logo a,
 .wp-block-site-logo img {

@@ -29,7 +29,8 @@
 		},
 		"spacing": {
 			"blockGap": {
-				"__experimentalDefault": "2em"
+				"__experimentalDefault": "2em",
+				"sides": [ "horizontal", "vertical" ]
 			},
 			"margin": [ "top", "bottom" ],
 			"padding": true,
@@ -56,6 +57,19 @@
 				"radius": true,
 				"style": true,
 				"width": true
+			}
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true
 			}
 		}
 	},

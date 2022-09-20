@@ -34,15 +34,22 @@
 		"anchor": true,
 		"className": false,
 		"color": {
+			"gradients": true,
 			"link": true,
 			"__experimentalDefaultControls": {
 				"background": true,
 				"text": true
 			}
 		},
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
 		"typography": {
 			"fontSize": true,
 			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalTextDecoration": true,
 			"__experimentalFontStyle": true,
 			"__experimentalFontWeight": true,
 			"__experimentalLetterSpacing": true,

@@ -89,7 +89,7 @@ function block_core_home_link_build_css_font_sizes( $context ) {
  * Builds an array with classes and style for the li wrapper
  *
  * @param  array $context    Home link block context.
- * @return array The li wrapper attributes.
+ * @return string The li wrapper attributes.
  */
 function block_core_home_link_build_li_wrapper_attributes( $context ) {
 	$colors          = block_core_home_link_build_css_colors( $context );
@@ -125,24 +125,15 @@ function render_block_core_home_link( $attributes, $content, $block ) {
 		return '';
 	}
 
-	$wrapper_attributes = block_core_home_link_build_li_wrapper_attributes( $block->context );
-
 	$aria_current = is_home() || ( is_front_page() && 'page' === get_option( 'show_on_front' ) ) ? ' aria-current="page"' : '';
 
-	$html = '<li ' . $wrapper_attributes . '><a class="wp-block-home-link__content wp-block-navigation-item__content" rel="home"' . $aria_current;
-
-	// Start appending HTML attributes to anchor tag.
-	$html .= ' href="' . esc_url( home_url() ) . '"';
-
-	// End appending HTML attributes to anchor tag.
-	$html .= '>';
-
-	if ( isset( $attributes['label'] ) ) {
-		$html .= wp_kses_post( $attributes['label'] );
-	}
-
-	$html .= '</a></li>';
-	return $html;
+	return sprintf(
+		'<li %1$s><a class="wp-block-home-link__content wp-block-navigation-item__content" href="%2$s" "rel="home"%3$s>%4$s</a></li>',
+		block_core_home_link_build_li_wrapper_attributes( $block->context ),
+		esc_url( home_url() ),
+		$aria_current,
+		wp_kses_post( $attributes['label'] )
+	);
 }
 
 /**

@@ -75,7 +75,6 @@
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
 .wp-block-table {
-  margin: 0 0 1em 0;
   overflow-x: auto;
 }
 .wp-block-table table {
@@ -142,6 +141,44 @@
 .wp-block-table .has-border-color th,
 .wp-block-table .has-border-color td {
   border-color: inherit;
+}
+.wp-block-table table[style*=border-top-color] > *,
+.wp-block-table table[style*=border-top-color] tr:first-child {
+  border-top-color: inherit;
+}
+.wp-block-table table[style*=border-top-color] > * th,
+.wp-block-table table[style*=border-top-color] > * td,
+.wp-block-table table[style*=border-top-color] tr:first-child th,
+.wp-block-table table[style*=border-top-color] tr:first-child td {
+  border-top-color: inherit;
+}
+.wp-block-table table[style*=border-top-color] tr:not(:first-child) {
+  border-top-color: currentColor;
+}
+.wp-block-table table[style*=border-right-color] > *,
+.wp-block-table table[style*=border-right-color] tr,
+.wp-block-table table[style*=border-right-color] th,
+.wp-block-table table[style*=border-right-color] td:last-child {
+  border-left-color: inherit;
+}
+.wp-block-table table[style*=border-bottom-color] > *,
+.wp-block-table table[style*=border-bottom-color] tr:last-child {
+  border-bottom-color: inherit;
+}
+.wp-block-table table[style*=border-bottom-color] > * th,
+.wp-block-table table[style*=border-bottom-color] > * td,
+.wp-block-table table[style*=border-bottom-color] tr:last-child th,
+.wp-block-table table[style*=border-bottom-color] tr:last-child td {
+  border-bottom-color: inherit;
+}
+.wp-block-table table[style*=border-bottom-color] tr:not(:last-child) {
+  border-bottom-color: currentColor;
+}
+.wp-block-table table[style*=border-left-color] > *,
+.wp-block-table table[style*=border-left-color] tr,
+.wp-block-table table[style*=border-left-color] th,
+.wp-block-table table[style*=border-left-color] td:first-child {
+  border-right-color: inherit;
 }
 .wp-block-table table[style*=border-style] > *,
 .wp-block-table table[style*=border-style] tr,
