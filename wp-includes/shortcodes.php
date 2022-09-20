@@ -21,7 +21,7 @@
  *
  * To apply shortcode tags to content:
  *
- *     $out = do_shortcode( $content );
+ *     $out = apply_shortcodes( $content );
  *
  * @link https://developer.wordpress.org/plugins/shortcodes/
  *
@@ -171,29 +171,11 @@ function has_shortcode( $content, $tag ) {
 /**
  * Searches content for shortcodes and filter shortcodes through their hooks.
  *
- * This function is an alias for do_shortcode().
- *
- * @since 5.4.0
- *
- * @see do_shortcode()
- *
- * @param string $content     Content to search for shortcodes.
- * @param bool   $ignore_html When true, shortcodes inside HTML elements will be skipped.
- *                            Default false.
- * @return string Content with shortcodes filtered out.
- */
-function apply_shortcodes( $content, $ignore_html = false ) {
-	return do_shortcode( $content, $ignore_html );
-}
-
-/**
- * Searches content for shortcodes and filter shortcodes through their hooks.
- *
  * If there are no shortcode tags defined, then the content will be returned
  * without any filtering. This might cause issues when plugins are disabled but
  * the shortcode will still show up in the post or content.
  *
- * @since 2.5.0
+ * @since 5.4.0
  *
  * @global array $shortcode_tags List of shortcode tags and their callback hooks.
  *
@@ -202,7 +184,7 @@ function apply_shortcodes( $content, $ignore_html = false ) {
  *                            Default false.
  * @return string Content with shortcodes filtered out.
  */
-function do_shortcode( $content, $ignore_html = false ) {
+function apply_shortcodes( $content, $ignore_html = false ) {
 	global $shortcode_tags;
 
 	if ( false === strpos( $content, '[' ) ) {
@@ -230,6 +212,24 @@ function do_shortcode( $content, $ignore_html = false ) {
 	$content = unescape_invalid_shortcodes( $content );
 
 	return $content;
+}
+
+/**
+ * Searches content for shortcodes and filter shortcodes through their hooks.
+ *
+ * This function is an alias for apply_shortcodes().
+ *
+ * @since 2.5.0
+ *
+ * @see apply_shortcodes()
+ *
+ * @param string $content     Content to search for shortcodes.
+ * @param bool   $ignore_html When true, shortcodes inside HTML elements will be skipped.
+ *                            Default false.
+ * @return string Content with shortcodes filtered out.
+ */
+function do_shortcode( $content, $ignore_html = false ) {
+	return apply_shortcodes( $content, $ignore_html );
 }
 
 /**
@@ -299,7 +299,7 @@ function get_shortcode_regex( $tagnames = null ) {
 }
 
 /**
- * Regular Expression callable for do_shortcode() for calling shortcode hook.
+ * Regular Expression callable for apply_shortcodes() for calling shortcode hook.
  *
  * @see get_shortcode_regex() for details of the match array contents.
  *

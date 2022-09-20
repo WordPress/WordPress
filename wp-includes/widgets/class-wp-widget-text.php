@@ -244,9 +244,9 @@ class WP_Widget_Text extends WP_Widget {
 
 		/*
 		 * Suspend legacy plugin-supplied do_shortcode() for 'widget_text' filter for the visual Text widget to prevent
-		 * shortcodes being processed twice. Now do_shortcode() is added to the 'widget_text_content' filter in core itself
+		 * shortcodes being processed twice. Now apply_shortcodes() is added to the 'widget_text_content' filter in core itself
 		 * and it applies after wpautop() to prevent corrupting HTML output added by the shortcode. When do_shortcode() is
-		 * added to 'widget_text_content' then do_shortcode() will be manually called when in legacy mode as well.
+		 * added to 'widget_text_content' then apply_shortcodes() will be manually called when in legacy mode as well.
 		 */
 		$widget_text_do_shortcode_priority       = has_filter( 'widget_text', 'do_shortcode' );
 		$should_suspend_legacy_shortcode_support = ( $is_visual_text_widget && false !== $widget_text_do_shortcode_priority );
@@ -302,9 +302,9 @@ class WP_Widget_Text extends WP_Widget {
 
 			/*
 			 * Manually do shortcodes on the content when the core-added filter is present. It is added by default
-			 * in core by adding do_shortcode() to the 'widget_text_content' filter to apply after wpautop().
+			 * in core by adding apply_shortcodes() to the 'widget_text_content' filter to apply after wpautop().
 			 * Since the legacy Text widget runs wpautop() after 'widget_text' filters are applied, the widget in
-			 * legacy mode here manually applies do_shortcode() on the content unless the default
+			 * legacy mode here manually applies apply_shortcodes() on the content unless the default
 			 * core filter for 'widget_text_content' has been removed, or if do_shortcode() has already
 			 * been applied via a plugin adding do_shortcode() to 'widget_text' filters.
 			 */
@@ -312,7 +312,7 @@ class WP_Widget_Text extends WP_Widget {
 				if ( ! empty( $instance['filter'] ) ) {
 					$text = shortcode_unautop( $text );
 				}
-				$text = do_shortcode( $text );
+				$text = apply_shortcodes( $text );
 			}
 		}
 

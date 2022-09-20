@@ -242,7 +242,7 @@ function get_the_block_template_html() {
 	$content = convert_smilies( $content );
 	$content = shortcode_unautop( $content );
 	$content = wp_filter_content_tags( $content );
-	$content = do_shortcode( $content );
+	$content = apply_shortcodes( $content );
 	$content = str_replace( ']]>', ']]&gt;', $content );
 
 	// Wrap block template in .wp-site-blocks to allow for specific descendant styles
