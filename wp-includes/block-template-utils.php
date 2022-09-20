@@ -147,7 +147,7 @@ function get_default_block_template_types() {
 		),
 		'category'       => array(
 			'title'       => _x( 'Category', 'Template name' ),
-			'description' => __( 'Displays latest posts in single post category.' ),
+			'description' => __( 'Displays latest posts from a single post category.' ),
 		),
 		'taxonomy'       => array(
 			'title'       => _x( 'Taxonomy', 'Template name' ),
@@ -555,7 +555,8 @@ function _build_block_template_result_from_post( $post ) {
 	$template_file  = _get_block_template_file( $post->post_type, $post->post_name );
 	$has_theme_file = wp_get_theme()->get_stylesheet() === $theme && null !== $template_file;
 
-	$origin = get_post_meta( $post->ID, 'origin', true );
+	$origin           = get_post_meta( $post->ID, 'origin', true );
+	$is_wp_suggestion = get_post_meta( $post->ID, 'is_wp_suggestion', true );
 
 	$template                 = new WP_Block_Template();
 	$template->wp_id          = $post->ID;
@@ -570,7 +571,7 @@ function _build_block_template_result_from_post( $post ) {
 	$template->title          = $post->post_title;
 	$template->status         = $post->post_status;
 	$template->has_theme_file = $has_theme_file;
-	$template->is_custom      = true;
+	$template->is_custom      = empty( $is_wp_suggestion );
 	$template->author         = $post->post_author;
 
 	if ( 'wp_template' === $post->post_type && $has_theme_file && isset( $template_file['postTypes'] ) ) {
@@ -679,7 +680,8 @@ function get_block_templates( $query = array(), $template_type = 'wp_template' )
 			continue;
 		}
 
-		if ( $post_type &&
+		if (
+			$post_type &&
 			isset( $template->post_types ) &&
 			! in_array( $post_type, $template->post_types, true )
 		) {
@@ -912,9 +914,10 @@ function block_footer_area() {
  * @return Bool Whether this file is in an ignored directory.
  */
 function wp_is_theme_directory_ignored( $path ) {
-	$directories_to_ignore = array( '.svn', '.git', '.hg', '.bzr', 'node_modules', 'vendor' );
+	$directories_to_ignore = array( '.DS_Store', '.svn', '.git', '.hg', '.bzr', 'node_modules', 'vendor' );
+
 	foreach ( $directories_to_ignore as $directory ) {
-		if ( strpos( $path, $directory ) === 0 ) {
+		if ( str_starts_with( $path, $directory ) ) {
 			return true;
 		}
 	}
@@ -1023,3 +1026,74 @@ function wp_generate_block_templates_export_file() {
 
 	return $filename;
 }
+
+/**
+ * Gets the template hierarchy for the given template slug to be created.
+ *
+ *
+ * Note: Always add `index` as the last fallback template.
+ *
+ * @since 6.1.0
+ *
+ * @param string  $slug           The template slug to be created.
+ * @param boolean $is_custom      Optional. Indicates if a template is custom or
+ *                                part of the template hierarchy. Default false.
+ * @param string $template_prefix Optional. The template prefix for the created template.
+ *                                Used to extract the main template type, e.g.
+ *                                in `taxonomy-books` the `taxonomy` is extracted.
+ *                                Default empty string.
+ * @return string[] The template hierarchy.
+ */
+function get_template_hierarchy( $slug, $is_custom = false, $template_prefix = '' ) {
+	if ( 'index' === $slug ) {
+		return array( 'index' );
+	}
+	if ( $is_custom ) {
+		return array( 'page', 'singular', 'index' );
+	}
+	if ( 'front-page' === $slug ) {
+		return array( 'front-page', 'home', 'index' );
+	}
+
+	$template_hierarchy = array( $slug );
+
+	// Most default templates don't have `$template_prefix` assigned.
+	if ( $template_prefix ) {
+		list( $type ) = explode( '-', $template_prefix );
+		// These checks are needed because the `$slug` above is always added.
+		if ( ! in_array( $template_prefix, array( $slug, $type ), true ) ) {
+			$template_hierarchy[] = $template_prefix;
+		}
+		if ( $slug !== $type ) {
+			$template_hierarchy[] = $type;
+		}
+	}
+
+	// Handle `archive` template.
+	if (
+		str_starts_with( $slug, 'author' ) ||
+		str_starts_with( $slug, 'taxonomy' ) ||
+		str_starts_with( $slug, 'category' ) ||
+		str_starts_with( $slug, 'tag' ) ||
+		'date' === $slug
+	) {
+		$template_hierarchy[] = 'archive';
+	}
+	// Handle `single` template.
+	if ( 'attachment' === $slug ) {
+		$template_hierarchy[] = 'single';
+	}
+
+	// Handle `singular` template.
+	if (
+		str_starts_with( $slug, 'single' ) ||
+		str_starts_with( $slug, 'page' ) ||
+		'attachment' === $slug
+	) {
+		$template_hierarchy[] = 'singular';
+	}
+
+	$template_hierarchy[] = 'index';
+
+	return $template_hierarchy;
+};

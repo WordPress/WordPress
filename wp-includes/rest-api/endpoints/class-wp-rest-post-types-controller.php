@@ -186,54 +186,58 @@ class WP_REST_Post_Types_Controller extends WP_REST_Controller {
 		$fields = $this->get_fields_for_response( $request );
 		$data   = array();
 
-		if ( in_array( 'capabilities', $fields, true ) ) {
+		if ( rest_is_field_included( 'capabilities', $fields ) ) {
 			$data['capabilities'] = $post_type->cap;
 		}
 
-		if ( in_array( 'description', $fields, true ) ) {
+		if ( rest_is_field_included( 'description', $fields ) ) {
 			$data['description'] = $post_type->description;
 		}
 
-		if ( in_array( 'hierarchical', $fields, true ) ) {
+		if ( rest_is_field_included( 'hierarchical', $fields ) ) {
 			$data['hierarchical'] = $post_type->hierarchical;
 		}
 
-		if ( in_array( 'visibility', $fields, true ) ) {
+		if ( rest_is_field_included( 'visibility', $fields ) ) {
 			$data['visibility'] = array(
 				'show_in_nav_menus' => (bool) $post_type->show_in_nav_menus,
 				'show_ui'           => (bool) $post_type->show_ui,
 			);
 		}
 
-		if ( in_array( 'viewable', $fields, true ) ) {
+		if ( rest_is_field_included( 'viewable', $fields ) ) {
 			$data['viewable'] = is_post_type_viewable( $post_type );
 		}
 
-		if ( in_array( 'labels', $fields, true ) ) {
+		if ( rest_is_field_included( 'labels', $fields ) ) {
 			$data['labels'] = $post_type->labels;
 		}
 
-		if ( in_array( 'name', $fields, true ) ) {
+		if ( rest_is_field_included( 'name', $fields ) ) {
 			$data['name'] = $post_type->label;
 		}
 
-		if ( in_array( 'slug', $fields, true ) ) {
+		if ( rest_is_field_included( 'slug', $fields ) ) {
 			$data['slug'] = $post_type->name;
 		}
 
-		if ( in_array( 'supports', $fields, true ) ) {
+		if ( rest_is_field_included( 'icon', $fields ) ) {
+			$data['icon'] = $post_type->menu_icon;
+		}
+
+		if ( rest_is_field_included( 'supports', $fields ) ) {
 			$data['supports'] = $supports;
 		}
 
-		if ( in_array( 'taxonomies', $fields, true ) ) {
+		if ( rest_is_field_included( 'taxonomies', $fields ) ) {
 			$data['taxonomies'] = array_values( $taxonomies );
 		}
 
-		if ( in_array( 'rest_base', $fields, true ) ) {
+		if ( rest_is_field_included( 'rest_base', $fields ) ) {
 			$data['rest_base'] = $base;
 		}
 
-		if ( in_array( 'rest_namespace', $fields, true ) ) {
+		if ( rest_is_field_included( 'rest_namespace', $fields ) ) {
 			$data['rest_namespace'] = $namespace;
 		}
 
@@ -287,6 +291,7 @@ class WP_REST_Post_Types_Controller extends WP_REST_Controller {
 	 * @since 4.7.0
 	 * @since 4.8.0 The `supports` property was added.
 	 * @since 5.9.0 The `visibility` and `rest_namespace` properties were added.
+	 * @since 6.1.0 The `icon` property was added.
 	 *
 	 * @return array Item schema data.
 	 */
@@ -384,6 +389,12 @@ class WP_REST_Post_Types_Controller extends WP_REST_Controller {
 							'type'        => 'boolean',
 						),
 					),
+				),
+				'icon'           => array(
+					'description' => __( 'The icon for the post type.' ),
+					'type'        => array( 'string', 'null' ),
+					'context'     => array( 'view', 'edit', 'embed' ),
+					'readonly'    => true,
 				),
 			),
 		);
