@@ -101,6 +101,7 @@
 	color: #2c3338;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 	font-size: 13px;
+	line-height: 1.38461538;
 }
 
 .media-frame input[type="text"],
@@ -528,6 +529,13 @@
 .compat-item .field textarea {
 	height: 62px;
 	resize: vertical;
+}
+
+.media-sidebar .alt-text textarea,
+.attachment-details .alt-text textarea,
+.compat-item .alt-text textarea,
+.alt-text textarea {
+	height: 50px;
 }
 
 .compat-item {
@@ -2799,6 +2807,7 @@
 	.media-frame textarea,
 	.media-frame select {
 		font-size: 16px;
+		line-height: 1.5;
 	}
 
 	.media-frame .media-toolbar input[type="search"] {

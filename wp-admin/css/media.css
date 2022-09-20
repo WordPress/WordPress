@@ -781,8 +781,8 @@ border color while dragging a file over the uploader drop area */
 
 .edit-attachment-frame input,
 .edit-attachment-frame textarea {
-	padding: 6px 8px;
-	line-height: 1.14285714;
+	padding: 4px 8px;
+	line-height: 1.42857143;
 }
 
 .edit-attachment-frame .attachment-info {
@@ -847,6 +847,11 @@ border color while dragging a file over the uploader drop area */
 ------------------------------------------------------------------------------*/
 .wp_attachment_details .attachment-alt-text {
 	margin-bottom: 5px;
+}
+
+.wp_attachment_details #attachment_alt {
+	max-width: 500px;
+	height: 3.28571428em;
 }
 
 .wp_attachment_details .attachment-alt-text-description {
@@ -1231,9 +1236,22 @@ audio, video {
 }
 
 @media screen and (max-width: 782px) {
+	.edit-attachment-frame input,
+	.edit-attachment-frame textarea {
+		line-height: 1.5;
+	}
+	
 	.wp_attachment_details label[for="content"] {
 		font-size: 14px;
 		line-height: 1.5;
+	}
+
+	.wp_attachment_details textarea {
+		line-height: 1.5;
+	}
+
+	.wp_attachment_details #attachment_alt {
+		height: 3.375em;
 	}
 
 	.media-upload-form .media-item.error,
