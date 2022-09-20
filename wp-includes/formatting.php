@@ -5795,14 +5795,14 @@ function _print_emoji_detection_script() {
 
 	if ( SCRIPT_DEBUG ) {
 		$settings['source'] = array(
-			/** This filter is documented in wp-includes/class.wp-scripts.php */
+			/** This filter is documented in wp-includes/class-wp-scripts.php */
 			'wpemoji' => apply_filters( 'script_loader_src', includes_url( "js/wp-emoji.js?$version" ), 'wpemoji' ),
-			/** This filter is documented in wp-includes/class.wp-scripts.php */
+			/** This filter is documented in wp-includes/class-wp-scripts.php */
 			'twemoji' => apply_filters( 'script_loader_src', includes_url( "js/twemoji.js?$version" ), 'twemoji' ),
 		);
 	} else {
 		$settings['source'] = array(
-			/** This filter is documented in wp-includes/class.wp-scripts.php */
+			/** This filter is documented in wp-includes/class-wp-scripts.php */
 			'concatemoji' => apply_filters( 'script_loader_src', includes_url( "js/wp-emoji-release.min.js?$version" ), 'concatemoji' ),
 		);
 	}
