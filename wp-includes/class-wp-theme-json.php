@@ -334,6 +334,7 @@ class WP_Theme_JSON {
 	 *              added new properties for `border`, `filter`, `spacing`,
 	 *              and `typography`.
 	 * @since 6.1.0 Added new side properties for `border`,
+	 *              added new property `shadow`,
 	 *              updated `blockGap` to be allowed at any level.
 	 * @var array
 	 */
@@ -356,6 +357,7 @@ class WP_Theme_JSON {
 		'filter'     => array(
 			'duotone' => null,
 		),
+		'shadow'     => null,
 		'spacing'    => array(
 			'margin'   => null,
 			'padding'  => null,
@@ -584,9 +586,11 @@ class WP_Theme_JSON {
 		 */
 		$styles_non_top_level = static::VALID_STYLES;
 		foreach ( array_keys( $styles_non_top_level ) as $section ) {
-			foreach ( array_keys( $styles_non_top_level[ $section ] ) as $prop ) {
-				if ( 'top' === $styles_non_top_level[ $section ][ $prop ] ) {
-					unset( $styles_non_top_level[ $section ][ $prop ] );
+			if ( array_key_exists( $section, $styles_non_top_level ) && is_array( $styles_non_top_level[ $section ] ) ) {
+				foreach ( array_keys( $styles_non_top_level[ $section ] ) as $prop ) {
+					if ( 'top' === $styles_non_top_level[ $section ][ $prop ] ) {
+						unset( $styles_non_top_level[ $section ][ $prop ] );
+					}
 				}
 			}
 		}
