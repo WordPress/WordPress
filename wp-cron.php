@@ -123,10 +123,58 @@ foreach ( $crons as $timestamp => $cronhooks ) {
 			$schedule = $v['schedule'];
 
 			if ( $schedule ) {
-				wp_reschedule_event( $timestamp, $schedule, $hook, $v['args'] );
+				$result = wp_reschedule_event( $timestamp, $schedule, $hook, $v['args'], true );
+
+				if ( is_wp_error( $result ) ) {
+					error_log(
+						sprintf(
+							/* translators: 1: Hook name, 2: Error code, 3: Error message, 4: Event data. */
+							__( 'Cron reschedule event error for hook: %1$s, Error code: %2$s, Error message: %3$s, Data: %4$s' ),
+							$hook,
+							$result->get_error_code(),
+							$result->get_error_message(),
+							wp_json_encode( $v )
+						)
+					);
+
+					/**
+					 * Fires when an error happens rescheduling a cron event.
+					 *
+					 * @since 6.1.0
+					 *
+					 * @param WP_Error $result The WP_Error object.
+					 * @param string   $hook   Action hook to execute when the event is run.
+					 * @param array    $v      Event data.
+					 */
+					do_action( 'cron_reschedule_event_error', $result, $hook, $v );
+				}
 			}
 
-			wp_unschedule_event( $timestamp, $hook, $v['args'] );
+			$result = wp_unschedule_event( $timestamp, $hook, $v['args'], true );
+
+			if ( is_wp_error( $result ) ) {
+				error_log(
+					sprintf(
+						/* translators: 1: Hook name, 2: Error code, 3: Error message, 4: Event data. */
+						__( 'Cron unschedule event error for hook: %1$s, Error code: %2$s, Error message: %3$s, Data: %4$s' ),
+						$hook,
+						$result->get_error_code(),
+						$result->get_error_message(),
+						wp_json_encode( $v )
+					)
+				);
+
+				/**
+				 * Fires when an error happens unscheduling a cron event.
+				 *
+				 * @since 6.1.0
+				 *
+				 * @param WP_Error $result The WP_Error object.
+				 * @param string   $hook   Action hook to execute when the event is run.
+				 * @param array    $v      Event data.
+				 */
+				do_action( 'cron_unschedule_event_error', $result, $hook, $v );
+			}
 
 			/**
 			 * Fires scheduled events.
