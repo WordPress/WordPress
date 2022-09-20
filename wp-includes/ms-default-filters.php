@@ -75,7 +75,6 @@ add_action( 'template_redirect', 'maybe_redirect_404' );
 add_filter( 'allowed_redirect_hosts', 'redirect_this_site' );
 
 // Administration.
-add_filter( 'term_id_filter', 'global_terms', 10, 2 );
 add_action( 'after_delete_post', '_update_posts_count_on_delete' );
 add_action( 'delete_post', '_update_blog_date_on_post_delete' );
 add_action( 'transition_post_status', '_update_blog_date_on_post_publish', 10, 3 );

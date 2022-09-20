@@ -280,9 +280,7 @@ if ( 'category' === $taxonomy || 'link_category' === $taxonomy || 'post_tag' ===
 		$help .= '<ul>' .
 		'<li>' . __( '<strong>Name</strong> &mdash; The name is how it appears on your site.' ) . '</li>';
 
-		if ( ! global_terms_enabled() ) {
-			$help .= '<li>' . __( '<strong>Slug</strong> &mdash; The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.' ) . '</li>';
-		}
+		$help .= '<li>' . __( '<strong>Slug</strong> &mdash; The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.' ) . '</li>';
 
 		if ( 'category' === $taxonomy ) {
 			$help .= '<li>' . __( '<strong>Parent</strong> &mdash; Categories, unlike tags, can have a hierarchy. You might have a Jazz category, and under that have child categories for Bebop and Big Band. Totally optional. To create a subcategory, just choose another category from the Parent dropdown.' ) . '</li>';
@@ -456,13 +454,11 @@ if ( $can_edit_terms ) {
 	<input name="tag-name" id="tag-name" type="text" value="" size="40" aria-required="true" aria-describedby="name-description" />
 	<p id="name-description"><?php echo $tax->labels->name_field_description; ?></p>
 </div>
-	<?php if ( ! global_terms_enabled() ) : ?>
 <div class="form-field term-slug-wrap">
 	<label for="tag-slug"><?php _e( 'Slug' ); ?></label>
 	<input name="slug" id="tag-slug" type="text" value="" size="40" aria-describedby="slug-description" />
 	<p id="slug-description"><?php echo $tax->labels->slug_field_description; ?></p>
 </div>
-<?php endif; // global_terms_enabled() ?>
 	<?php if ( is_taxonomy_hierarchical( $taxonomy ) ) : ?>
 <div class="form-field term-parent-wrap">
 	<label for="parent"><?php echo esc_html( $tax->labels->parent_item ); ?></label>

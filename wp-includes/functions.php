@@ -6220,41 +6220,6 @@ function get_main_network_id() {
 }
 
 /**
- * Determines whether global terms are enabled.
- *
- * @since 3.0.0
- *
- * @return bool True if multisite and global terms enabled.
- */
-function global_terms_enabled() {
-	if ( ! is_multisite() ) {
-		return false;
-	}
-
-	static $global_terms = null;
-	if ( is_null( $global_terms ) ) {
-
-		/**
-		 * Filters whether global terms are enabled.
-		 *
-		 * Returning a non-null value from the filter will effectively short-circuit the function
-		 * and return the value of the 'global_terms_enabled' site option instead.
-		 *
-		 * @since 3.0.0
-		 *
-		 * @param null $enabled Whether global terms are enabled.
-		 */
-		$filter = apply_filters( 'global_terms_enabled', null );
-		if ( ! is_null( $filter ) ) {
-			$global_terms = (bool) $filter;
-		} else {
-			$global_terms = (bool) get_site_option( 'global_terms_enabled', false );
-		}
-	}
-	return $global_terms;
-}
-
-/**
  * Determines whether site meta is enabled.
  *
  * This function checks whether the 'blogmeta' database table exists. The result is saved as

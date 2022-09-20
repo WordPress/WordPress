@@ -100,7 +100,6 @@ if ( $_POST ) {
 		'welcome_email',
 		'welcome_user_email',
 		'fileupload_maxk',
-		'global_terms_enabled',
 		'illegal_names',
 		'limited_email_domains',
 		'banned_email_domains',

@@ -148,7 +148,6 @@ if ( isset( $tag->name ) ) {
 			<td><input name="name" id="name" type="text" value="<?php echo $tag_name_value; ?>" size="40" aria-required="true" aria-describedby="name-description" />
 			<p class="description" id="name-description"><?php echo $tax->labels->name_field_description; ?></p></td>
 		</tr>
-<?php if ( ! global_terms_enabled() ) { ?>
 		<tr class="form-field term-slug-wrap">
 			<th scope="row"><label for="slug"><?php _e( 'Slug' ); ?></label></th>
 			<?php
@@ -170,7 +169,6 @@ if ( isset( $tag->name ) ) {
 			<td><input name="slug" id="slug" type="text" value="<?php echo esc_attr( $slug ); ?>" size="40" aria-describedby="slug-description" />
 			<p class="description" id="slug-description"><?php echo $tax->labels->slug_field_description; ?></p></td>
 		</tr>
-<?php } ?>
 <?php if ( is_taxonomy_hierarchical( $taxonomy ) ) : ?>
 		<tr class="form-field term-parent-wrap">
 			<th scope="row"><label for="parent"><?php echo esc_html( $tax->labels->parent_item ); ?></label></th>

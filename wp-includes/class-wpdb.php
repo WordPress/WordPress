@@ -340,9 +340,18 @@ class wpdb {
 		'signups',
 		'site',
 		'sitemeta',
-		'sitecategories',
 		'registration_log',
 	);
+
+	/**
+	 * List of deprecated WordPress Multisite global tables.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @see wpdb::tables()
+	 * @var string[]
+	 */
+	public $old_ms_global_tables = array( 'sitecategories' );
 
 	/**
 	 * WordPress Comments table.
@@ -1123,11 +1132,13 @@ class wpdb {
 	 * - 'old' - returns tables which are deprecated.
 	 *
 	 * @since 3.0.0
+	 * @since 6.1.0 `old` now includes deprecated multisite global tables only on multisite.
 	 *
 	 * @uses wpdb::$tables
 	 * @uses wpdb::$old_tables
 	 * @uses wpdb::$global_tables
 	 * @uses wpdb::$ms_global_tables
+	 * @uses wpdb::$old_ms_global_tables
 	 *
 	 * @param string $scope   Optional. Possible values include 'all', 'global', 'ms_global', 'blog',
 	 *                        or 'old' tables. Default 'all'.
@@ -1159,6 +1170,9 @@ class wpdb {
 				break;
 			case 'old':
 				$tables = $this->old_tables;
+				if ( is_multisite() ) {
+					$tables = array_merge( $tables, $this->old_ms_global_tables );
+				}
 				break;
 			default:
 				return array();

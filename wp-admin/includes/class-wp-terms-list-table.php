@@ -665,12 +665,10 @@ class WP_Terms_List_Table extends WP_List_Table {
 					<span class="input-text-wrap"><input type="text" name="name" class="ptitle" value="" /></span>
 				</label>
 
-				<?php if ( ! global_terms_enabled() ) : ?>
-					<label>
-						<span class="title"><?php _e( 'Slug' ); ?></span>
-						<span class="input-text-wrap"><input type="text" name="slug" class="ptitle" value="" /></span>
-					</label>
-				<?php endif; ?>
+				<label>
+					<span class="title"><?php _e( 'Slug' ); ?></span>
+					<span class="input-text-wrap"><input type="text" name="slug" class="ptitle" value="" /></span>
+				</label>
 				</div>
 			</fieldset>
 
