@@ -150,7 +150,7 @@ class WP_Theme_JSON {
 			'path'              => array( 'typography', 'fontSizes' ),
 			'prevent_override'  => false,
 			'use_default_names' => true,
-			'value_key'         => 'size',
+			'value_func'        => 'wp_get_typography_font_size_value',
 			'css_vars'          => '--wp--preset--font-size--$slug',
 			'classes'           => array( '.has-$slug-font-size' => 'font-size' ),
 			'properties'        => array( 'font-size' ),
