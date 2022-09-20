@@ -36,6 +36,9 @@ window.wp = window.wp || {};
 			};
 
 		return function ( data ) {
+			if ( ! document.getElementById( 'tmpl-' + id ) ) {
+				throw new Error( 'Template not found: ' + '#tmpl-' + id );
+			}
 			compiled = compiled || _.template( $( '#tmpl-' + id ).html(),  options );
 			return compiled( data );
 		};
