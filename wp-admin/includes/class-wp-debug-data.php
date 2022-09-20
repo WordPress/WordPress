@@ -236,7 +236,7 @@ class WP_Debug_Data {
 		}
 
 		// Check WP_ENVIRONMENT_TYPE.
-		if ( defined( 'WP_ENVIRONMENT_TYPE' ) ) {
+		if ( defined( 'WP_ENVIRONMENT_TYPE' ) && WP_ENVIRONMENT_TYPE ) {
 			$wp_environment_type = WP_ENVIRONMENT_TYPE;
 		} else {
 			$wp_environment_type = __( 'Undefined' );
