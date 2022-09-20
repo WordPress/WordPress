@@ -141,7 +141,7 @@ get_current_screen()->add_help_tab(
 // Help tab: Block themes.
 $help_block_themes =
 	'<p>' . __( 'A block theme is a theme that uses blocks for all parts of a site including navigation menus, header, content, and site footer. These themes are built for the features that allow you to edit and customize all parts of your site.' ) . '</p>' .
-	'<p>' . __( ' With a block theme, you can place and edit blocks without affecting your content by customizing or creating new templates.' ) . '</p>';
+	'<p>' . __( 'With a block theme, you can place and edit blocks without affecting your content by customizing or creating new templates.' ) . '</p>';
 
 get_current_screen()->add_help_tab(
 	array(
