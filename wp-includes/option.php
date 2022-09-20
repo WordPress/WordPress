@@ -342,7 +342,7 @@ function wp_load_alloptions( $force_cache = false ) {
  * Loads and caches certain often requested site options if is_multisite() and a persistent cache is not being used.
  *
  * @since 3.0.0
- * @since 6.1.0 Uses update_meta_cache
+ * @since 6.1.0 Now uses update_meta_cache().
  *
  * @param int $network_id Optional site ID for which to query the options. Defaults to the current site.
  */
@@ -1806,8 +1806,8 @@ function get_site_transient( $transient ) {
 	 *
 	 * The dynamic portion of the hook name, `$transient`, refers to the transient name.
 	 *
-	 * Returning a truthy value from the filter will effectively short-circuit retrieval
-	 * and return the passed value instead.
+	 * Returning a value other than boolean false will short-circuit retrieval and
+	 * return that value instead.
 	 *
 	 * @since 2.9.0
 	 * @since 4.4.0 The `$transient` parameter was added.

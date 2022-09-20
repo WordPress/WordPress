@@ -377,7 +377,7 @@ function wp_reschedule_event( $timestamp, $recurrence, $hook, $args = array(), $
 	);
 
 	/**
-	 * Filter to preflight or hijack rescheduling of events.
+	 * Filter to preflight or hijack rescheduling of a recurring event.
 	 *
 	 * Returning a non-null value will short-circuit the normal rescheduling
 	 * process, causing the function to return the filtered value instead.
@@ -392,11 +392,11 @@ function wp_reschedule_event( $timestamp, $recurrence, $hook, $args = array(), $
 	 * @param stdClass           $event    {
 	 *     An object containing an event's data.
 	 *
-	 *     @type string       $hook      Action hook to execute when the event is run.
-	 *     @type int          $timestamp Unix timestamp (UTC) for when to next run the event.
-	 *     @type string|false $schedule  How often the event should subsequently recur.
-	 *     @type array        $args      Array containing each separate argument to pass to the hook's callback function.
-	 *     @type int          $interval  The interval time in seconds for the schedule. Only present for recurring events.
+	 *     @type string $hook      Action hook to execute when the event is run.
+	 *     @type int    $timestamp Unix timestamp (UTC) for when to next run the event.
+	 *     @type string $schedule  How often the event should subsequently recur.
+	 *     @type array  $args      Array containing each separate argument to pass to the hook's callback function.
+	 *     @type int    $interval  The interval time in seconds for the schedule.
 	 * }
 	 * @param bool               $wp_error Whether to return a WP_Error on failure.
 	 */
