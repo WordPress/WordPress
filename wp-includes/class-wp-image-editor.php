@@ -512,7 +512,7 @@ abstract class WP_Image_Editor {
 		switch ( $orientation ) {
 			case 2:
 				// Flip horizontally.
-				$result = $this->flip( true, false );
+				$result = $this->flip( false, true );
 				break;
 			case 3:
 				// Rotate 180 degrees or flip horizontally and vertically.
@@ -521,14 +521,14 @@ abstract class WP_Image_Editor {
 				break;
 			case 4:
 				// Flip vertically.
-				$result = $this->flip( false, true );
+				$result = $this->flip( true, false );
 				break;
 			case 5:
 				// Rotate 90 degrees counter-clockwise and flip vertically.
 				$result = $this->rotate( 90 );
 
 				if ( ! is_wp_error( $result ) ) {
-					$result = $this->flip( false, true );
+					$result = $this->flip( true, false );
 				}
 
 				break;
@@ -541,7 +541,7 @@ abstract class WP_Image_Editor {
 				$result = $this->rotate( 90 );
 
 				if ( ! is_wp_error( $result ) ) {
-					$result = $this->flip( true, false );
+					$result = $this->flip( false, true );
 				}
 
 				break;
