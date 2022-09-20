@@ -811,22 +811,33 @@ function wp_list_users( $args = array() ) {
 		'include'       => '',
 	);
 
-	$args = wp_parse_args( $args, $defaults );
+	$parsed_args = wp_parse_args( $args, $defaults );
 
 	$return = '';
 
-	$query_args           = wp_array_slice_assoc( $args, array( 'orderby', 'order', 'number', 'exclude', 'include' ) );
+	$query_args           = wp_array_slice_assoc( $parsed_args, array( 'orderby', 'order', 'number', 'exclude', 'include' ) );
 	$query_args['fields'] = 'ids';
-	$users                = get_users( $query_args );
+
+	/**
+	 * Filters the query arguments for the list of all users of the site.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @param array $query_args  The query arguments for get_users().
+	 * @param array $parsed_args The arguments passed to wp_list_users() combined with the defaults.
+	 */
+	$query_args = apply_filters( 'wp_list_users_args', $query_args, $parsed_args );
+
+	$users = get_users( $query_args );
 
 	foreach ( $users as $user_id ) {
 		$user = get_userdata( $user_id );
 
-		if ( $args['exclude_admin'] && 'admin' === $user->display_name ) {
+		if ( $parsed_args['exclude_admin'] && 'admin' === $user->display_name ) {
 			continue;
 		}
 
-		if ( $args['show_fullname'] && '' !== $user->first_name && '' !== $user->last_name ) {
+		if ( $parsed_args['show_fullname'] && '' !== $user->first_name && '' !== $user->last_name ) {
 			$name = sprintf(
 				/* translators: 1: User's first name, 2: Last name. */
 				_x( '%1$s %2$s', 'Display name based on first name and last name' ),
@@ -837,54 +848,54 @@ function wp_list_users( $args = array() ) {
 			$name = $user->display_name;
 		}
 
-		if ( ! $args['html'] ) {
+		if ( ! $parsed_args['html'] ) {
 			$return .= $name . ', ';
 
 			continue; // No need to go further to process HTML.
 		}
 
-		if ( 'list' === $args['style'] ) {
+		if ( 'list' === $parsed_args['style'] ) {
 			$return .= '<li>';
 		}
 
 		$row = $name;
 
-		if ( ! empty( $args['feed_image'] ) || ! empty( $args['feed'] ) ) {
+		if ( ! empty( $parsed_args['feed_image'] ) || ! empty( $parsed_args['feed'] ) ) {
 			$row .= ' ';
-			if ( empty( $args['feed_image'] ) ) {
+			if ( empty( $parsed_args['feed_image'] ) ) {
 				$row .= '(';
 			}
 
-			$row .= '<a href="' . get_author_feed_link( $user->ID, $args['feed_type'] ) . '"';
+			$row .= '<a href="' . get_author_feed_link( $user->ID, $parsed_args['feed_type'] ) . '"';
 
 			$alt = '';
-			if ( ! empty( $args['feed'] ) ) {
-				$alt  = ' alt="' . esc_attr( $args['feed'] ) . '"';
-				$name = $args['feed'];
+			if ( ! empty( $parsed_args['feed'] ) ) {
+				$alt  = ' alt="' . esc_attr( $parsed_args['feed'] ) . '"';
+				$name = $parsed_args['feed'];
 			}
 
 			$row .= '>';
 
-			if ( ! empty( $args['feed_image'] ) ) {
-				$row .= '<img src="' . esc_url( $args['feed_image'] ) . '" style="border: none;"' . $alt . ' />';
+			if ( ! empty( $parsed_args['feed_image'] ) ) {
+				$row .= '<img src="' . esc_url( $parsed_args['feed_image'] ) . '" style="border: none;"' . $alt . ' />';
 			} else {
 				$row .= $name;
 			}
 
 			$row .= '</a>';
 
-			if ( empty( $args['feed_image'] ) ) {
+			if ( empty( $parsed_args['feed_image'] ) ) {
 				$row .= ')';
 			}
 		}
 
 		$return .= $row;
-		$return .= ( 'list' === $args['style'] ) ? '</li>' : ', ';
+		$return .= ( 'list' === $parsed_args['style'] ) ? '</li>' : ', ';
 	}
 
 	$return = rtrim( $return, ', ' );
 
-	if ( ! $args['echo'] ) {
+	if ( ! $parsed_args['echo'] ) {
 		return $return;
 	}
 	echo $return;
