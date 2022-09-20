@@ -1,0 +1,72 @@
+{
+	"title": "Electric",
+	"settings": {
+		"color": {
+			"palette": [
+				{
+					"color": "#f3f3f1",
+					"name": "Base",
+					"slug": "base"
+				},
+				{
+					"color": "#2500ff",
+					"name": "Contrast",
+					"slug": "contrast"
+				},
+				{
+					"color": "#f3f3f1",
+					"name": "Primary",
+					"slug": "primary"
+				},
+				{
+					"color": "#2500ff",
+					"name": "Secondary",
+					"slug": "secondary"
+				},
+				{
+					"color": "#f6f6f6",
+					"name": "Tertiary",
+					"slug": "tertiary"
+				}
+			]
+		}
+	},
+	"styles": {
+		"elements": {
+			"button": {
+				"color": {
+					"background": "var(--wp--preset--color--contrast)",
+					"text": "var(--wp--preset--color--base)"
+				},
+				":hover": {
+					"border": {
+						"color": "var(--wp--preset--color--contrast)",
+						"style": "solid",
+						"width": "1px"
+					},
+					"color": {
+						"background": "var(--wp--preset--color--base)",
+						"text": "var(--wp--preset--color--contrast)"
+					}
+				}
+			},
+			"link": {
+				":focus": {
+					"typography": {
+						"textDecoration": "underline dotted"
+					}
+				},
+				":active": {
+					"typography": {
+						"textDecoration": "underline dotted"
+					}
+				}
+			}
+		},
+		"typography": {
+			"fontFamily": "var(--wp--preset--font-family--dm-sans)"
+		}
+	},
+	"version": 2,
+	"$schema": "https://schemas.wp.org/trunk/theme.json"
+}
