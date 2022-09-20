@@ -124,6 +124,7 @@ class WP_REST_Block_Patterns_Controller extends WP_REST_Controller {
 			'description'   => 'description',
 			'viewportWidth' => 'viewport_width',
 			'blockTypes'    => 'block_types',
+			'postTypes'     => 'post_types',
 			'categories'    => 'categories',
 			'keywords'      => 'keywords',
 			'content'       => 'content',
@@ -181,6 +182,12 @@ class WP_REST_Block_Patterns_Controller extends WP_REST_Controller {
 				),
 				'block_types'    => array(
 					'description' => __( 'Block types that the pattern is intended to be used with.' ),
+					'type'        => 'array',
+					'readonly'    => true,
+					'context'     => array( 'view', 'edit', 'embed' ),
+				),
+				'post_types'     => array(
+					'description' => __( ' An array of post types that the pattern is restricted to be used with.' ),
 					'type'        => 'array',
 					'readonly'    => true,
 					'context'     => array( 'view', 'edit', 'embed' ),
