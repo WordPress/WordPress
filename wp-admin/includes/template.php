@@ -1561,6 +1561,7 @@ function do_accordion_sections( $screen, $context, $data_object ) {
  * fields. It can output nothing if you want.
  *
  * @since 2.7.0
+ * @since 6.1.0 Added an `$args` parameter for the section's HTML wrapper and class name.
  *
  * @global array $wp_settings_sections Storage array of all settings sections added to admin pages.
  *
@@ -1570,9 +1571,28 @@ function do_accordion_sections( $screen, $context, $data_object ) {
  * @param string   $page     The slug-name of the settings page on which to show the section. Built-in pages include
  *                           'general', 'reading', 'writing', 'discussion', 'media', etc. Create your own using
  *                           add_options_page();
+ * @param array    $args     {
+ *     Arguments used to create the settings section.
+ *
+ *     @type string $before_section HTML content to prepend to the section's HTML output.
+ *                                  Receives the section's class name as `%s`. Default empty.
+ *     @type string $after_section  HTML content to append to the section's HTML output. Default empty.
+ *     @type string $section_class  The class name to use for the section. Default empty.
+ * }
  */
-function add_settings_section( $id, $title, $callback, $page ) {
+function add_settings_section( $id, $title, $callback, $page, $args = array() ) {
 	global $wp_settings_sections;
+
+	$defaults = array(
+		'id'             => $id,
+		'title'          => $title,
+		'callback'       => $callback,
+		'before_section' => '',
+		'after_section'  => '',
+		'section_class'  => '',
+	);
+
+	$section = wp_parse_args( $args, $defaults );
 
 	if ( 'misc' === $page ) {
 		_deprecated_argument(
@@ -1600,11 +1620,7 @@ function add_settings_section( $id, $title, $callback, $page ) {
 		$page = 'reading';
 	}
 
-	$wp_settings_sections[ $page ][ $id ] = array(
-		'id'       => $id,
-		'title'    => $title,
-		'callback' => $callback,
-	);
+	$wp_settings_sections[ $page ][ $id ] = $section;
 }
 
 /**
@@ -1700,6 +1716,14 @@ function do_settings_sections( $page ) {
 	}
 
 	foreach ( (array) $wp_settings_sections[ $page ] as $section ) {
+		if ( '' !== $section['before_section'] ) {
+			if ( '' !== $section['section_class'] ) {
+				echo wp_kses_post( sprintf( $section['before_section'], esc_attr( $section['section_class'] ) ) );
+			} else {
+				echo wp_kses_post( $section['before_section'] );
+			}
+		}
+
 		if ( $section['title'] ) {
 			echo "<h2>{$section['title']}</h2>\n";
 		}
@@ -1714,6 +1738,10 @@ function do_settings_sections( $page ) {
 		echo '<table class="form-table" role="presentation">';
 		do_settings_fields( $page, $section['id'] );
 		echo '</table>';
+
+		if ( '' !== $section['after_section'] ) {
+			echo wp_kses_post( $section['after_section'] );
+		}
 	}
 }
 
