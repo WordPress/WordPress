@@ -255,9 +255,8 @@ class WP_Network {
 		if ( $site->domain === $this->domain && $site->path === $this->path ) {
 			$main_site_id = (int) $site->id;
 		} else {
-			$cache_key = 'network:' . $this->id . ':main_site';
 
-			$main_site_id = wp_cache_get( $cache_key, 'site-options' );
+			$main_site_id = get_network_option( $this->id, 'main_site' );
 			if ( false === $main_site_id ) {
 				$_sites       = get_sites(
 					array(
@@ -270,7 +269,7 @@ class WP_Network {
 				);
 				$main_site_id = ! empty( $_sites ) ? array_shift( $_sites ) : 0;
 
-				wp_cache_add( $cache_key, $main_site_id, 'site-options' );
+				update_network_option( $this->id, 'main_site', $main_site_id );
 			}
 		}
 
