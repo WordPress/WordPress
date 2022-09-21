@@ -2486,8 +2486,8 @@ class WP_Site_Health {
 		 *
 		 * @since 6.1.0
 		 *
-		 * @param string $notes              The notes appended to the health check description.
-		 * @param array  $available_services The list of available persistent object cache services.
+		 * @param string   $notes              The notes appended to the health check description.
+		 * @param string[] $available_services The list of available persistent object cache services.
 		 */
 		$notes = apply_filters( 'site_status_persistent_object_cache_notes', $notes, $available_services );
 
@@ -3349,7 +3349,7 @@ class WP_Site_Health {
 		 *
 		 * @since 6.1.0
 		 *
-		 * @param array $thresholds The list of threshold names and numbers.
+		 * @param int[] $thresholds The list of threshold numbers keyed by threshold name.
 		 */
 		$thresholds = apply_filters(
 			'site_status_persistent_object_cache_thresholds',
@@ -3408,7 +3408,7 @@ class WP_Site_Health {
 	 *
 	 * @since 6.1.0
 	 *
-	 * @return array The list of available persistent object cache services.
+	 * @return string[] The list of available persistent object cache services.
 	 */
 	private function available_object_cache_services() {
 		$extensions = array_map(
@@ -3431,7 +3431,7 @@ class WP_Site_Health {
 		 *
 		 * @since 6.1.0
 		 *
-		 * @param array $services The list of available persistent object cache services.
+		 * @param string[] $services The list of available persistent object cache services.
 		 */
 		return apply_filters( 'site_status_available_object_cache_services', $services );
 	}

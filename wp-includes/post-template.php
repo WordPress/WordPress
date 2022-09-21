@@ -555,7 +555,7 @@ function get_post_class( $class = '', $post = null ) {
 	 *
 	 * @since 6.1.0
 	 *
-	 * @param array    $taxonomies List of all public taxonomies to generate classes for.
+	 * @param string[] $taxonomies List of all taxonomy names to generate classes for.
 	 * @param int      $post_id    The post ID.
 	 * @param string[] $classes    An array of post class names.
 	 * @param string[] $class      An array of additional class names added to the post.

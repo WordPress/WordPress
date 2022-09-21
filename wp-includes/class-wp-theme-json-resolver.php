@@ -434,13 +434,7 @@ class WP_Theme_JSON_Resolver {
 			}
 		}
 
-		/**
-		 * Filters the data provided by the user for global styles & settings.
-		 *
-		 * @since 6.1.0
-		 *
-		 * @param WP_Theme_JSON_Data Class to access and update the underlying data.
-		 */
+		/** This filter is documented in wp-includes/class-wp-theme-json-resolver.php */
 		$theme_json   = apply_filters( 'theme_json_user', new WP_Theme_JSON_Data( $config, 'custom' ) );
 		$config       = $theme_json->get_data();
 		static::$user = new WP_Theme_JSON( $config, 'custom' );

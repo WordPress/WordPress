@@ -682,7 +682,7 @@ function wp_update_themes( $extra_stats = array() ) {
 	 * @since 3.7.0
 	 * @since 4.5.0 The default value of the `$locales` parameter changed to include all locales.
 	 *
-	 * @param array $locales Theme locales. Default is all available locales of the site.
+	 * @param string[] $locales Theme locales. Default is all available locales of the site.
 	 */
 	$locales = apply_filters( 'themes_update_check_locales', $locales );
 	$locales = array_unique( $locales );
@@ -788,7 +788,7 @@ function wp_update_themes( $extra_stats = array() ) {
 		 * }
 		 * @param array       $theme_data       Theme headers.
 		 * @param string      $theme_stylesheet Theme stylesheet.
-		 * @param array       $locales          Installed locales to look up translations for.
+		 * @param string[]    $locales          Installed locales to look up translations for.
 		 */
 		$update = apply_filters( "update_themes_{$hostname}", false, $theme_data, $theme_stylesheet, $locales );
 

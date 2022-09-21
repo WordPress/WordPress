@@ -2245,9 +2245,9 @@ if ( ! function_exists( 'wp_nonce_tick' ) ) :
 	 * updated, e.g. by autosave.
 	 *
 	 * @since 2.5.0
-	 * @since 6.1.0 Added `action` argument.
+	 * @since 6.1.0 Added `$action` argument.
 	 *
-	 * @param string|int $action Optional. The current nonce action. Default -1.
+	 * @param string|int $action Optional. The nonce action. Default -1.
 	 * @return float Float value rounded up to the next highest integer.
 	 */
 	function wp_nonce_tick( $action = -1 ) {
@@ -2255,10 +2255,10 @@ if ( ! function_exists( 'wp_nonce_tick' ) ) :
 		 * Filters the lifespan of nonces in seconds.
 		 *
 		 * @since 2.5.0
-		 * @since 6.1.0 Added `action` argument to allow for more targeted filters.
+		 * @since 6.1.0 Added `$action` argument to allow for more targeted filters.
 		 *
 		 * @param int        $lifespan Lifespan of nonces in seconds. Default 86,400 seconds, or one day.
-		 * @param string|int $action   The current nonce action.
+		 * @param string|int $action   The nonce action, or -1 if none was provided.
 		 */
 		$nonce_life = apply_filters( 'nonce_life', DAY_IN_SECONDS, $action );
 
@@ -2290,8 +2290,8 @@ if ( ! function_exists( 'wp_verify_nonce' ) ) :
 			 *
 			 * @since 3.5.0
 			 *
-			 * @param int    $uid    ID of the nonce-owning user.
-			 * @param string $action The nonce action.
+			 * @param int        $uid    ID of the nonce-owning user.
+			 * @param string|int $action The nonce action, or -1 if none was provided.
 			 */
 			$uid = apply_filters( 'nonce_user_logged_out', $uid, $action );
 		}
