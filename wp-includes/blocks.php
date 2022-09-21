@@ -283,15 +283,39 @@ function get_block_metadata_i18n_schema() {
  * @return WP_Block_Type|false The registered block type on success, or false on failure.
  */
 function register_block_type_from_metadata( $file_or_folder, $args = array() ) {
-	$filename      = 'block.json';
-	$metadata_file = ( substr( $file_or_folder, -strlen( $filename ) ) !== $filename ) ?
-		trailingslashit( $file_or_folder ) . $filename :
+	/*
+	 * Get an array of metadata from a PHP file.
+	 * This improves performance for core blocks as it's only necessary to read a single PHP file
+	 * instead of reading a JSON file per-block, and then decoding from JSON to PHP.
+	 * Using a static variable ensures that the metadata is only read once per request.
+	 */
+	static $core_blocks_meta;
+	if ( ! $core_blocks_meta ) {
+		$core_blocks_meta = include_once ABSPATH . WPINC . '/blocks/blocks-json.php';
+	}
+
+	$metadata_file = ( ! str_ends_with( $file_or_folder, 'block.json' ) ) ?
+		trailingslashit( $file_or_folder ) . 'block.json' :
 		$file_or_folder;
+
 	if ( ! file_exists( $metadata_file ) ) {
 		return false;
 	}
 
-	$metadata = wp_json_file_decode( $metadata_file, array( 'associative' => true ) );
+	// Try to get metadata from the static cache for core blocks.
+	$metadata = false;
+	if ( str_starts_with( $file_or_folder, ABSPATH . WPINC ) ) {
+		$core_block_name = str_replace( ABSPATH . WPINC . '/blocks/', '', $file_or_folder );
+		if ( ! empty( $core_blocks_meta[ $core_block_name ] ) ) {
+			$metadata = $core_blocks_meta[ $core_block_name ];
+		}
+	}
+
+	// If metadata is not found in the static cache, read it from the file.
+	if ( ! $metadata ) {
+		$metadata = wp_json_file_decode( $metadata_file, array( 'associative' => true ) );
+	}
+
 	if ( ! is_array( $metadata ) || empty( $metadata['name'] ) ) {
 		return false;
 	}
