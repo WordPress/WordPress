@@ -715,31 +715,7 @@ function locate_template( $template_names, $load = false, $require_once = true, 
 	}
 
 	if ( $load && '' !== $located ) {
-		/**
-		 * Fires before a located template is loaded.
-		 *
-		 * @since 6.1.0
-		 *
-		 * @param string       $located        The template filename.
-		 * @param string|array $template_names Template file(s) to search for, in order.
-		 * @param bool         $require_once   Whether to require_once or require.
-		 * @param array        $args           Additional arguments passed to the template.
-		 */
-		do_action( 'wp_before_load_template', $located, $template_names, $require_once, $args );
-
 		load_template( $located, $require_once, $args );
-
-		/**
-		 * Fires after a located template is loaded.
-		 *
-		 * @since 6.1.0
-		 *
-		 * @param string       $located        The template filename.
-		 * @param string|array $template_names Template file(s) to search for, in order.
-		 * @param bool         $require_once   Whether to require_once or require.
-		 * @param array        $args           Additional arguments passed to the template.
-		 */
-		do_action( 'wp_after_load_template', $located, $template_names, $require_once, $args );
 	}
 
 	return $located;
@@ -792,9 +768,31 @@ function load_template( $_template_file, $require_once = true, $args = array() )
 		$s = esc_attr( $s );
 	}
 
+	/**
+	 * Fires before a template file is loaded.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @param string $_template_file The full path to the template file.
+	 * @param bool   $require_once   Whether to require_once or require.
+	 * @param array  $args           Additional arguments passed to the template.
+	 */
+	do_action( 'wp_before_load_template', $_template_file, $require_once, $args );
+
 	if ( $require_once ) {
 		require_once $_template_file;
 	} else {
 		require $_template_file;
 	}
+
+	/**
+	 * Fires after a template file is loaded.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @param string $_template_file The full path to the template file.
+	 * @param bool   $require_once   Whether to require_once or require.
+	 * @param array  $args           Additional arguments passed to the template.
+	 */
+	do_action( 'wp_after_load_template', $_template_file, $require_once, $args );
 }
