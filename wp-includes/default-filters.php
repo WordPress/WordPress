@@ -228,7 +228,7 @@ add_filter( 'widget_text_content', 'do_shortcode', 11 ); // Runs after wpautop()
 
 add_filter( 'widget_block_content', 'do_blocks', 9 );
 add_filter( 'widget_block_content', 'wp_filter_content_tags' );
-add_filter( 'widget_block_content', 'apply_shortcodes', 11 );
+add_filter( 'widget_block_content', 'do_shortcode', 11 );
 
 add_filter( 'block_type_metadata', 'wp_migrate_old_typography_shape' );
 
@@ -605,7 +605,7 @@ add_action( 'template_redirect', 'redirect_canonical' );
 add_action( 'template_redirect', 'wp_redirect_admin_locations', 1000 );
 
 // Shortcodes.
-add_filter( 'the_content', 'apply_shortcodes', 11 ); // AFTER wpautop().
+add_filter( 'the_content', 'do_shortcode', 11 ); // AFTER wpautop().
 
 // Media.
 add_action( 'wp_playlist_scripts', 'wp_playlist_scripts' );
