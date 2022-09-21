@@ -198,6 +198,10 @@ class WP_REST_Post_Types_Controller extends WP_REST_Controller {
 			$data['hierarchical'] = $post_type->hierarchical;
 		}
 
+		if ( rest_is_field_included( 'hierarchical', $fields ) ) {
+			$data['has_archive'] = $post_type->has_archive;
+		}
+
 		if ( rest_is_field_included( 'visibility', $fields ) ) {
 			$data['visibility'] = array(
 				'show_in_nav_menus' => (bool) $post_type->show_in_nav_menus,
@@ -351,6 +355,12 @@ class WP_REST_Post_Types_Controller extends WP_REST_Controller {
 					'description' => __( 'All features, supported by the post type.' ),
 					'type'        => 'object',
 					'context'     => array( 'edit' ),
+					'readonly'    => true,
+				),
+				'has_archive'    => array(
+					'description' => __( 'If the value is a string, the value will be used as the archive slug. If the value is false the post type has no archive.' ),
+					'type'        => array( 'string', 'boolean' ),
+					'context'     => array( 'view', 'edit' ),
 					'readonly'    => true,
 				),
 				'taxonomies'     => array(
