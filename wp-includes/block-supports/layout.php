@@ -39,12 +39,12 @@ function wp_register_layout_support( $block_type ) {
  * @param string               $selector                      CSS selector.
  * @param array                $layout                        Layout object. The one that is passed has already checked
  *                                                            the existence of default block layout.
- * @param boolean              $has_block_gap_support         Whether the theme has support for the block gap.
+ * @param bool                 $has_block_gap_support         Optional. Whether the theme has support for the block gap. Default false.
  * @param string|string[]|null $gap_value                     Optional. The block gap value to apply. Default null.
- * @param boolean              $should_skip_gap_serialization Whether to skip applying the user-defined value set in the editor.
- * @param string               $fallback_gap_value            The block gap value to apply.
+ * @param bool                 $should_skip_gap_serialization Optional. Whether to skip applying the user-defined value set in the editor. Default false.
+ * @param string               $fallback_gap_value            Optional. The block gap value to apply. Default '0.5em'.
  * @param array|null           $block_spacing                 Optional. Custom spacing set on the block. Default null.
- * @return string CSS style.
+ * @return string CSS styles on success. Else, empty string.
  */
 function wp_get_layout_style( $selector, $layout, $has_block_gap_support = false, $gap_value = null, $should_skip_gap_serialization = false, $fallback_gap_value = '0.5em', $block_spacing = null ) {
 	$layout_type   = isset( $layout['type'] ) ? $layout['type'] : 'default';
