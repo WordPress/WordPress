@@ -488,7 +488,7 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
 		unset( $editor_settings['__experimentalFeatures']['spacing']['padding'] );
 	}
 	if ( isset( $editor_settings['__experimentalFeatures']['spacing']['customSpacingSize'] ) ) {
-		$editor_settings['disableCustomSpacingSizes'] = ! $editor_ettings['__experimentalFeatures']['spacing']['customSpacingSize'];
+		$editor_settings['disableCustomSpacingSizes'] = ! $editor_settings['__experimentalFeatures']['spacing']['customSpacingSize'];
 		unset( $editor_settings['__experimentalFeatures']['spacing']['customSpacingSize'] );
 	}
 

@@ -30,6 +30,13 @@
 					}
 				]
 		},
+		"spacing": {
+			"spacingSizes": [
+				{
+					"name": "Space size name"
+				}
+			]
+		},
 		"blocks": {
 			"*": {
 				"typography": {
@@ -53,6 +60,13 @@
 					"gradients": [
 						{
 							"name": "Gradient name"
+						}
+					]
+				},
+				"spacing": {
+					"spacingSizes": [
+						{
+							"name": "Space size name"
 						}
 					]
 				}

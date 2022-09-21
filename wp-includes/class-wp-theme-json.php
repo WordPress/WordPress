@@ -164,6 +164,24 @@ class WP_Theme_JSON {
 			'classes'           => array( '.has-$slug-font-family' => 'font-family' ),
 			'properties'        => array( 'font-family' ),
 		),
+		array(
+			'path'              => array( 'spacing', 'spacingSizes' ),
+			'prevent_override'  => false,
+			'use_default_names' => true,
+			'value_key'         => 'size',
+			'css_vars'          => '--wp--preset--spacing--$slug',
+			'classes'           => array(),
+			'properties'        => array( 'padding', 'margin' ),
+		),
+		array(
+			'path'              => array( 'spacing', 'spacingScale' ),
+			'prevent_override'  => false,
+			'use_default_names' => true,
+			'value_key'         => 'size',
+			'css_vars'          => '--wp--preset--spacing--$slug',
+			'classes'           => array(),
+			'properties'        => array( 'padding', 'margin' ),
+		),
 	);
 
 	/**
@@ -307,10 +325,13 @@ class WP_Theme_JSON {
 			'wideSize'    => null,
 		),
 		'spacing'                       => array(
-			'blockGap' => null,
-			'margin'   => null,
-			'padding'  => null,
-			'units'    => null,
+			'customSpacingSize' => null,
+			'spacingSizes'      => null,
+			'spacingScale'      => null,
+			'blockGap'          => null,
+			'margin'            => null,
+			'padding'           => null,
+			'units'             => null,
 		),
 		'typography'                    => array(
 			'customFontSize' => null,
@@ -2890,4 +2911,122 @@ class WP_Theme_JSON {
 		return $output;
 	}
 
+	/**
+	 * Sets the spacingSizes array based on the spacingScale values from theme.json.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @return null|void
+	 */
+	public function set_spacing_sizes() {
+		$spacing_scale = _wp_array_get( $this->theme_json, array( 'settings', 'spacing', 'spacingScale' ), array() );
+
+		if ( ! is_numeric( $spacing_scale['steps'] )
+			|| ! isset( $spacing_scale['mediumStep'] )
+			|| ! isset( $spacing_scale['unit'] )
+			|| ! isset( $spacing_scale['operator'] )
+			|| ! isset( $spacing_scale['increment'] )
+			|| ! isset( $spacing_scale['steps'] )
+			|| ! is_numeric( $spacing_scale['increment'] )
+			|| ! is_numeric( $spacing_scale['mediumStep'] )
+			|| ( '+' !== $spacing_scale['operator'] && '*' !== $spacing_scale['operator'] ) ) {
+			if ( ! empty( $spacing_scale ) ) {
+				trigger_error( __( 'Some of the theme.json settings.spacing.spacingScale values are invalid' ), E_USER_NOTICE );
+			}
+			return null;
+		}
+
+		// If theme authors want to prevent the generation of the core spacing scale they can set their theme.json spacingScale.steps to 0.
+		if ( 0 === $spacing_scale['steps'] ) {
+			return null;
+		}
+
+		$unit            = '%' === $spacing_scale['unit'] ? '%' : sanitize_title( $spacing_scale['unit'] );
+		$current_step    = $spacing_scale['mediumStep'];
+		$steps_mid_point = round( $spacing_scale['steps'] / 2, 0 );
+		$x_small_count   = null;
+		$below_sizes     = array();
+		$slug            = 40;
+		$remainder       = 0;
+
+		for ( $below_midpoint_count = $steps_mid_point - 1; $spacing_scale['steps'] > 1 && $slug > 0 && $below_midpoint_count > 0; $below_midpoint_count-- ) {
+			if ( '+' === $spacing_scale['operator'] ) {
+				$current_step -= $spacing_scale['increment'];
+			} elseif ( $spacing_scale['increment'] > 1 ) {
+				$current_step /= $spacing_scale['increment'];
+			} else {
+				$current_step *= $spacing_scale['increment'];
+			}
+
+			if ( $current_step <= 0 ) {
+				$remainder = $below_midpoint_count;
+				break;
+			}
+
+			$below_sizes[] = array(
+				/* translators: %s: Digit to indicate multiple of sizing, eg. 2X-Small. */
+				'name' => $below_midpoint_count === $steps_mid_point - 1 ? __( 'Small' ) : sprintf( __( '%sX-Small' ), (string) $x_small_count ),
+				'slug' => (string) $slug,
+				'size' => round( $current_step, 2 ) . $unit,
+			);
+
+			if ( $below_midpoint_count === $steps_mid_point - 2 ) {
+				$x_small_count = 2;
+			}
+
+			if ( $below_midpoint_count < $steps_mid_point - 2 ) {
+				$x_small_count++;
+			}
+
+			$slug -= 10;
+		}
+
+		$below_sizes = array_reverse( $below_sizes );
+
+		$below_sizes[] = array(
+			'name' => __( 'Medium' ),
+			'slug' => '50',
+			'size' => $spacing_scale['mediumStep'] . $unit,
+		);
+
+		$current_step  = $spacing_scale['mediumStep'];
+		$x_large_count = null;
+		$above_sizes   = array();
+		$slug          = 60;
+		$steps_above   = ( $spacing_scale['steps'] - $steps_mid_point ) + $remainder;
+
+		for ( $above_midpoint_count = 0; $above_midpoint_count < $steps_above; $above_midpoint_count++ ) {
+			$current_step = '+' === $spacing_scale['operator']
+				? $current_step + $spacing_scale['increment']
+				: ( $spacing_scale['increment'] >= 1 ? $current_step * $spacing_scale['increment'] : $current_step / $spacing_scale['increment'] );
+
+			$above_sizes[] = array(
+				/* translators: %s: Digit to indicate multiple of sizing, eg. 2X-Large. */
+				'name' => 0 === $above_midpoint_count ? __( 'Large' ) : sprintf( __( '%sX-Large' ), (string) $x_large_count ),
+				'slug' => (string) $slug,
+				'size' => round( $current_step, 2 ) . $unit,
+			);
+
+			if ( 1 === $above_midpoint_count ) {
+				$x_large_count = 2;
+			}
+
+			if ( $above_midpoint_count > 1 ) {
+				$x_large_count++;
+			}
+
+			$slug += 10;
+		}
+
+		$spacing_sizes = array_merge( $below_sizes, $above_sizes );
+
+		// If there are 7 or less steps in the scale revert to numbers for labels instead of t-shirt sizes.
+		if ( $spacing_scale['steps'] <= 7 ) {
+			for ( $spacing_sizes_count = 0; $spacing_sizes_count < count( $spacing_sizes ); $spacing_sizes_count++ ) {
+				$spacing_sizes[ $spacing_sizes_count ]['name'] = (string) ( $spacing_sizes_count + 1 );
+			}
+		}
+
+		_wp_array_set( $this->theme_json, array( 'settings', 'spacing', 'spacingSizes', 'default' ), $spacing_sizes );
+	}
 }

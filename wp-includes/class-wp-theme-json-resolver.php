@@ -470,7 +470,7 @@ class WP_Theme_JSON_Resolver {
 	 * @since 5.8.0
 	 * @since 5.9.0 Added user data, removed the `$settings` parameter,
 	 *              added the `$origin` parameter.
-	 * @since 6.1.0 Added block data.
+	 * @since 6.1.0 Added block data and generation of spacingSizes array.
 	 *
 	 * @param string $origin Optional. To what level should we merge data.
 	 *                       Valid values are 'theme' or 'custom'. Default 'custom'.
@@ -489,6 +489,9 @@ class WP_Theme_JSON_Resolver {
 		if ( 'custom' === $origin ) {
 			$result->merge( static::get_user_data() );
 		}
+
+		// Generate the default spacingSizes array based on the merged spacingScale settings.
+		$result->set_spacing_sizes();
 
 		return $result;
 	}
