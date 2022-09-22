@@ -400,7 +400,7 @@ function wp_update_plugins( $extra_stats = array() ) {
 	 * @since 3.7.0
 	 * @since 4.5.0 The default value of the `$locales` parameter changed to include all locales.
 	 *
-	 * @param array $locales Plugin locales. Default is all available locales of the site.
+	 * @param string[] $locales Plugin locales. Default is all available locales of the site.
 	 */
 	$locales = apply_filters( 'plugins_update_check_locales', $locales );
 	$locales = array_unique( $locales );
@@ -506,7 +506,7 @@ function wp_update_plugins( $extra_stats = array() ) {
 		 * }
 		 * @param array       $plugin_data      Plugin headers.
 		 * @param string      $plugin_file      Plugin filename.
-		 * @param array       $locales          Installed locales to look up translations for.
+		 * @param string[]    $locales          Installed locales to look up translations for.
 		 */
 		$update = apply_filters( "update_plugins_{$hostname}", false, $plugin_data, $plugin_file, $locales );
 
