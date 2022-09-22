@@ -198,7 +198,7 @@ class WP_REST_Post_Types_Controller extends WP_REST_Controller {
 			$data['hierarchical'] = $post_type->hierarchical;
 		}
 
-		if ( rest_is_field_included( 'hierarchical', $fields ) ) {
+		if ( rest_is_field_included( 'has_archive', $fields ) ) {
 			$data['has_archive'] = $post_type->has_archive;
 		}
 
