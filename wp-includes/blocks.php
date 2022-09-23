@@ -223,9 +223,7 @@ function register_block_style_handle( $metadata, $field_name, $index = 0 ) {
 	}
 
 	$style_handle   = generate_block_asset_handle( $metadata['name'], $field_name, $index );
-	$block_dir      = dirname( $metadata['file'] );
-	$style_file     = wp_normalize_path( realpath( "$block_dir/$style_path" ) );
-	$has_style_file = false !== $style_file;
+	$has_style_file = false !== $style_path_norm;
 	$version        = ! $is_core_block && isset( $metadata['version'] ) ? $metadata['version'] : false;
 	$style_uri      = $has_style_file ? $style_uri : false;
 	$result         = wp_register_style(
@@ -234,14 +232,14 @@ function register_block_style_handle( $metadata, $field_name, $index = 0 ) {
 		array(),
 		$version
 	);
-	if ( file_exists( str_replace( '.css', '-rtl.css', $style_file ) ) ) {
+	if ( file_exists( str_replace( '.css', '-rtl.css', $style_path_norm ) ) ) {
 		wp_style_add_data( $style_handle, 'rtl', 'replace' );
 	}
 	if ( $has_style_file ) {
-		wp_style_add_data( $style_handle, 'path', $style_file );
+		wp_style_add_data( $style_handle, 'path', $style_path_norm );
 	}
 
-	$rtl_file = str_replace( "$suffix.css", "-rtl$suffix.css", $style_file );
+	$rtl_file = str_replace( "$suffix.css", "-rtl$suffix.css", $style_path_norm );
 	if ( is_rtl() && file_exists( $rtl_file ) ) {
 		wp_style_add_data( $style_handle, 'path', $rtl_file );
 	}
