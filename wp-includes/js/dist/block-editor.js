@@ -31621,75 +31621,6 @@ const {
 __unstableBlockSettingsMenuFirstItem.Slot = block_settings_menu_first_item_Slot;
 /* harmony default export */ var block_settings_menu_first_item = (__unstableBlockSettingsMenuFirstItem);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/convert-to-group-buttons/index.js
-
-
-/**
- * WordPress dependencies
- */
-
-
-
-
-/**
- * Internal dependencies
- */
-
-
-
-
-
-function ConvertToGroupButton(_ref) {
-  let {
-    clientIds,
-    isGroupable,
-    isUngroupable,
-    blocksSelection,
-    groupingBlockName,
-    onClose = () => {}
-  } = _ref;
-  const {
-    replaceBlocks
-  } = (0,external_wp_data_namespaceObject.useDispatch)(store);
-
-  const onConvertToGroup = () => {
-    // Activate the `transform` on the Grouping Block which does the conversion.
-    const newBlocks = (0,external_wp_blocks_namespaceObject.switchToBlockType)(blocksSelection, groupingBlockName);
-
-    if (newBlocks) {
-      replaceBlocks(clientIds, newBlocks);
-    }
-  };
-
-  const onConvertFromGroup = () => {
-    const innerBlocks = blocksSelection[0].innerBlocks;
-
-    if (!innerBlocks.length) {
-      return;
-    }
-
-    replaceBlocks(clientIds, innerBlocks);
-  };
-
-  if (!isGroupable && !isUngroupable) {
-    return null;
-  }
-
-  return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, isGroupable && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuItem, {
-    onClick: () => {
-      onConvertToGroup();
-      onClose();
-    }
-  }, (0,external_wp_i18n_namespaceObject._x)('Group', 'verb')), isUngroupable && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuItem, {
-    onClick: () => {
-      onConvertFromGroup();
-      onClose();
-    }
-  }, (0,external_wp_i18n_namespaceObject._x)('Ungroup', 'Ungrouping blocks from within a Group block back into individual blocks within the Editor ')));
-}
-
-
-
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/convert-to-group-buttons/use-convert-to-group-button-props.js
 /**
  * WordPress dependencies
@@ -31774,6 +31705,75 @@ function useConvertToGroupButtonProps() {
     groupingBlockName
   };
 }
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/convert-to-group-buttons/index.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+
+
+function ConvertToGroupButton(_ref) {
+  let {
+    clientIds,
+    isGroupable,
+    isUngroupable,
+    blocksSelection,
+    groupingBlockName,
+    onClose = () => {}
+  } = _ref;
+  const {
+    replaceBlocks
+  } = (0,external_wp_data_namespaceObject.useDispatch)(store);
+
+  const onConvertToGroup = () => {
+    // Activate the `transform` on the Grouping Block which does the conversion.
+    const newBlocks = (0,external_wp_blocks_namespaceObject.switchToBlockType)(blocksSelection, groupingBlockName);
+
+    if (newBlocks) {
+      replaceBlocks(clientIds, newBlocks);
+    }
+  };
+
+  const onConvertFromGroup = () => {
+    const innerBlocks = blocksSelection[0].innerBlocks;
+
+    if (!innerBlocks.length) {
+      return;
+    }
+
+    replaceBlocks(clientIds, innerBlocks);
+  };
+
+  if (!isGroupable && !isUngroupable) {
+    return null;
+  }
+
+  return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, isGroupable && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuItem, {
+    onClick: () => {
+      onConvertToGroup();
+      onClose();
+    }
+  }, (0,external_wp_i18n_namespaceObject._x)('Group', 'verb')), isUngroupable && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuItem, {
+    onClick: () => {
+      onConvertFromGroup();
+      onClose();
+    }
+  }, (0,external_wp_i18n_namespaceObject._x)('Ungroup', 'Ungrouping blocks from within a Group block back into individual blocks within the Editor ')));
+}
+
+
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/block-lock/use-block-lock.js
 /**

@@ -2223,6 +2223,11 @@ module.exports.remove = removeAccents;
 /******/ 		};
 /******/ 	}();
 /******/ 	
+/******/ 	/* webpack/runtime/nonce */
+/******/ 	!function() {
+/******/ 		__webpack_require__.nc = undefined;
+/******/ 	}();
+/******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
@@ -2389,7 +2394,7 @@ __webpack_require__.d(__webpack_exports__, {
   "__experimentalUnitControl": function() { return /* reexport */ unit_control; },
   "__experimentalUseCustomUnits": function() { return /* reexport */ useCustomUnits; },
   "__experimentalUseNavigator": function() { return /* reexport */ use_navigator; },
-  "__experimentalUseSlot": function() { return /* reexport */ use_slot_useSlot; },
+  "__experimentalUseSlot": function() { return /* reexport */ useSlot; },
   "__experimentalVStack": function() { return /* reexport */ v_stack_component; },
   "__experimentalView": function() { return /* reexport */ component; },
   "__experimentalZStack": function() { return /* reexport */ z_stack_component; },
@@ -18055,6 +18060,65 @@ function ScrollLock() {
 }
 /* harmony default export */ var scroll_lock = (ScrollLock);
 
+;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/slot-fill/bubbles-virtually/slot-fill-context.js
+// @ts-nocheck
+
+/**
+ * WordPress dependencies
+ */
+
+
+const SlotFillContext = (0,external_wp_element_namespaceObject.createContext)({
+  slots: {},
+  fills: {},
+  registerSlot: () => {
+    typeof process !== "undefined" && process.env && "production" !== "production" ? 0 : void 0;
+  },
+  updateSlot: () => {},
+  unregisterSlot: () => {},
+  registerFill: () => {},
+  unregisterFill: () => {}
+});
+/* harmony default export */ var slot_fill_context = (SlotFillContext);
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/slot-fill/bubbles-virtually/use-slot.js
+// @ts-nocheck
+
+/**
+ * WordPress dependencies
+ */
+
+/**
+ * Internal dependencies
+ */
+
+
+function useSlot(name) {
+  const registry = (0,external_wp_element_namespaceObject.useContext)(slot_fill_context);
+  const slot = registry.slots[name] || {};
+  const slotFills = registry.fills[name];
+  const fills = (0,external_wp_element_namespaceObject.useMemo)(() => slotFills || [], [slotFills]);
+  const updateSlot = (0,external_wp_element_namespaceObject.useCallback)(fillProps => {
+    registry.updateSlot(name, fillProps);
+  }, [name, registry.updateSlot]);
+  const unregisterSlot = (0,external_wp_element_namespaceObject.useCallback)(slotRef => {
+    registry.unregisterSlot(name, slotRef);
+  }, [name, registry.unregisterSlot]);
+  const registerFill = (0,external_wp_element_namespaceObject.useCallback)(fillRef => {
+    registry.registerFill(name, fillRef);
+  }, [name, registry.registerFill]);
+  const unregisterFill = (0,external_wp_element_namespaceObject.useCallback)(fillRef => {
+    registry.unregisterFill(name, fillRef);
+  }, [name, registry.unregisterFill]);
+  return { ...slot,
+    updateSlot,
+    unregisterSlot,
+    fills,
+    registerFill,
+    unregisterFill
+  };
+}
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/slot-fill/context.js
 // @ts-nocheck
 
@@ -18062,7 +18126,7 @@ function ScrollLock() {
  * WordPress dependencies
  */
 
-const SlotFillContext = (0,external_wp_element_namespaceObject.createContext)({
+const context_SlotFillContext = (0,external_wp_element_namespaceObject.createContext)({
   registerSlot: () => {},
   unregisterSlot: () => {},
   registerFill: () => {},
@@ -18071,7 +18135,7 @@ const SlotFillContext = (0,external_wp_element_namespaceObject.createContext)({
   getFills: () => {},
   subscribe: () => {}
 });
-/* harmony default export */ var context = (SlotFillContext);
+/* harmony default export */ var context = (context_SlotFillContext);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/slot-fill/use-slot.js
 // @ts-nocheck
@@ -18092,7 +18156,7 @@ const SlotFillContext = (0,external_wp_element_namespaceObject.createContext)({
  * @return {Object} Slot object.
  */
 
-const useSlot = name => {
+const use_slot_useSlot = name => {
   const {
     getSlot,
     subscribe
@@ -18108,7 +18172,7 @@ const useSlot = name => {
   return slot;
 };
 
-/* harmony default export */ var use_slot = (useSlot);
+/* harmony default export */ var use_slot = (use_slot_useSlot);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/slot-fill/fill.js
 
@@ -18302,77 +18366,22 @@ const Slot = props => (0,external_wp_element_namespaceObject.createElement)(cont
 
 /* harmony default export */ var slot = (Slot);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/slot-fill/bubbles-virtually/slot-fill-context.js
-// @ts-nocheck
-
-/**
- * WordPress dependencies
- */
-
-
-const slot_fill_context_SlotFillContext = (0,external_wp_element_namespaceObject.createContext)({
-  slots: {},
-  fills: {},
-  registerSlot: () => {
-    typeof process !== "undefined" && process.env && "production" !== "production" ? 0 : void 0;
-  },
-  updateSlot: () => {},
-  unregisterSlot: () => {},
-  registerFill: () => {},
-  unregisterFill: () => {}
+;// CONCATENATED MODULE: ./node_modules/uuid/dist/esm-browser/native.js
+const randomUUID = typeof crypto !== 'undefined' && crypto.randomUUID && crypto.randomUUID.bind(crypto);
+/* harmony default export */ var esm_browser_native = ({
+  randomUUID
 });
-/* harmony default export */ var slot_fill_context = (slot_fill_context_SlotFillContext);
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/slot-fill/bubbles-virtually/use-slot.js
-// @ts-nocheck
-
-/**
- * WordPress dependencies
- */
-
-/**
- * Internal dependencies
- */
-
-
-function use_slot_useSlot(name) {
-  const registry = (0,external_wp_element_namespaceObject.useContext)(slot_fill_context);
-  const slot = registry.slots[name] || {};
-  const slotFills = registry.fills[name];
-  const fills = (0,external_wp_element_namespaceObject.useMemo)(() => slotFills || [], [slotFills]);
-  const updateSlot = (0,external_wp_element_namespaceObject.useCallback)(fillProps => {
-    registry.updateSlot(name, fillProps);
-  }, [name, registry.updateSlot]);
-  const unregisterSlot = (0,external_wp_element_namespaceObject.useCallback)(slotRef => {
-    registry.unregisterSlot(name, slotRef);
-  }, [name, registry.unregisterSlot]);
-  const registerFill = (0,external_wp_element_namespaceObject.useCallback)(fillRef => {
-    registry.registerFill(name, fillRef);
-  }, [name, registry.registerFill]);
-  const unregisterFill = (0,external_wp_element_namespaceObject.useCallback)(fillRef => {
-    registry.unregisterFill(name, fillRef);
-  }, [name, registry.unregisterFill]);
-  return { ...slot,
-    updateSlot,
-    unregisterSlot,
-    fills,
-    registerFill,
-    unregisterFill
-  };
-}
-
 ;// CONCATENATED MODULE: ./node_modules/uuid/dist/esm-browser/rng.js
 // Unique ID creation requires a high quality random # generator. In the browser we therefore
 // require the crypto API and do not support built-in fallback to lower quality random number
 // generators (like Math.random()).
-var getRandomValues;
-var rnds8 = new Uint8Array(16);
+let getRandomValues;
+const rnds8 = new Uint8Array(16);
 function rng() {
   // lazy load so that environments that need to polyfill have a chance to do so
   if (!getRandomValues) {
-    // getRandomValues needs to be invoked in a context where "this" is a Crypto implementation. Also,
-    // find the complete implementation of crypto (msCrypto) on IE11.
-    getRandomValues = typeof crypto !== 'undefined' && crypto.getRandomValues && crypto.getRandomValues.bind(crypto) || typeof msCrypto !== 'undefined' && typeof msCrypto.getRandomValues === 'function' && msCrypto.getRandomValues.bind(msCrypto);
+    // getRandomValues needs to be invoked in a context where "this" is a Crypto implementation.
+    getRandomValues = typeof crypto !== 'undefined' && crypto.getRandomValues && crypto.getRandomValues.bind(crypto);
 
     if (!getRandomValues) {
       throw new Error('crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported');
@@ -18381,16 +18390,6 @@ function rng() {
 
   return getRandomValues(rnds8);
 }
-;// CONCATENATED MODULE: ./node_modules/uuid/dist/esm-browser/regex.js
-/* harmony default export */ var regex = (/^(?:[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|00000000-0000-0000-0000-000000000000)$/i);
-;// CONCATENATED MODULE: ./node_modules/uuid/dist/esm-browser/validate.js
-
-
-function validate(uuid) {
-  return typeof uuid === 'string' && regex.test(uuid);
-}
-
-/* harmony default export */ var esm_browser_validate = (validate);
 ;// CONCATENATED MODULE: ./node_modules/uuid/dist/esm-browser/stringify.js
 
 /**
@@ -18398,37 +18397,45 @@ function validate(uuid) {
  * XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
  */
 
-var byteToHex = [];
+const byteToHex = [];
 
-for (var stringify_i = 0; stringify_i < 256; ++stringify_i) {
-  byteToHex.push((stringify_i + 0x100).toString(16).substr(1));
+for (let i = 0; i < 256; ++i) {
+  byteToHex.push((i + 0x100).toString(16).slice(1));
 }
 
-function stringify_stringify(arr) {
-  var offset = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+function unsafeStringify(arr, offset = 0) {
   // Note: Be careful editing this code!  It's been tuned for performance
   // and works in ways you may not expect. See https://github.com/uuidjs/uuid/pull/434
-  var uuid = (byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + '-' + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + '-' + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + '-' + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + '-' + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]]).toLowerCase(); // Consistency check for valid UUID.  If this throws, it's likely due to one
+  return (byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + '-' + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + '-' + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + '-' + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + '-' + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]]).toLowerCase();
+}
+
+function stringify_stringify(arr, offset = 0) {
+  const uuid = unsafeStringify(arr, offset); // Consistency check for valid UUID.  If this throws, it's likely due to one
   // of the following:
   // - One or more input array values don't map to a hex octet (leading to
   // "undefined" in the uuid)
   // - Invalid input values for the RFC `version` or `variant` fields
 
-  if (!esm_browser_validate(uuid)) {
+  if (!validate(uuid)) {
     throw TypeError('Stringified UUID is invalid');
   }
 
   return uuid;
 }
 
-/* harmony default export */ var esm_browser_stringify = (stringify_stringify);
+/* harmony default export */ var esm_browser_stringify = ((/* unused pure expression or super */ null && (stringify_stringify)));
 ;// CONCATENATED MODULE: ./node_modules/uuid/dist/esm-browser/v4.js
 
 
 
+
 function v4(options, buf, offset) {
+  if (esm_browser_native.randomUUID && !buf && !options) {
+    return esm_browser_native.randomUUID();
+  }
+
   options = options || {};
-  var rnds = options.random || (options.rng || rng)(); // Per 4.4, set bits for version and `clock_seq_hi_and_reserved`
+  const rnds = options.random || (options.rng || rng)(); // Per 4.4, set bits for version and `clock_seq_hi_and_reserved`
 
   rnds[6] = rnds[6] & 0x0f | 0x40;
   rnds[8] = rnds[8] & 0x3f | 0x80; // Copy bytes to buffer, if provided
@@ -18436,14 +18443,14 @@ function v4(options, buf, offset) {
   if (buf) {
     offset = offset || 0;
 
-    for (var i = 0; i < 16; ++i) {
+    for (let i = 0; i < 16; ++i) {
       buf[offset + i] = rnds[i];
     }
 
     return buf;
   }
 
-  return esm_browser_stringify(rnds);
+  return unsafeStringify(rnds);
 }
 
 /* harmony default export */ var esm_browser_v4 = (v4);
@@ -18529,7 +18536,7 @@ function fill_Fill(_ref) {
     name,
     children
   } = _ref;
-  const slot = use_slot_useSlot(name);
+  const slot = useSlot(name);
   const ref = (0,external_wp_element_namespaceObject.useRef)({
     rerender: useForceUpdate()
   });
@@ -19413,7 +19420,7 @@ const UnforwardedPopover = (props, forwardedRef) => {
 
   const slotName = (0,external_wp_element_namespaceObject.useContext)(slotNameContext) || __unstableSlotName;
 
-  const slot = use_slot_useSlot(slotName);
+  const slot = useSlot(slotName);
   let onDialogClose;
 
   if (onClose || onFocusOutside) {
