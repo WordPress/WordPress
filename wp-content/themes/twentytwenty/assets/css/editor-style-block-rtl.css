@@ -1116,7 +1116,7 @@ hr.wp-block-separator.is-style-dots::before {
 }
 
 .editor-styles-wrapper ul.block-editor-block-list__block.wp-block-social-links {
-	padding-left: 0;
+	padding-right: 0;
 }
 
 /* Block: Post Template ---------------- */

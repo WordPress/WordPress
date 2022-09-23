@@ -14,13 +14,13 @@
 		"url": "https://core.trac.wordpress.org/"
 	},
 	"devDependencies": {
-		"@wordpress/browserslist-config": "^4.1.2",
-		"@wordpress/scripts": "^16.1.5",
-		"autoprefixer": "^10.4.7",
-		"concurrently": "^7.3.0",
-		"postcss": "^8.4.14",
+		"@wordpress/browserslist-config": "^5.1.0",
+		"@wordpress/scripts": "^24.2.0",
+		"autoprefixer": "^10.4.12",
+		"concurrently": "^7.4.0",
+		"postcss": "^8.4.16",
 		"postcss-cli": "^10.0.0",
-		"rtlcss": "^3.5.0",
+		"rtlcss": "^4.0.0",
 		"stylelint-a11y": "^1.2.3"
 	},
 	"browserslist": [
