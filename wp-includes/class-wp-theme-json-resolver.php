@@ -135,8 +135,8 @@ class WP_Theme_JSON_Resolver {
 			return static::$core;
 		}
 
-		$config       = static::read_json_file( __DIR__ . '/theme.json' );
-		$config       = static::translate( $config );
+		$config = static::read_json_file( __DIR__ . '/theme.json' );
+		$config = static::translate( $config );
 		/**
 		 * Filters the default data provided by WordPress for global styles & settings.
 		 *
