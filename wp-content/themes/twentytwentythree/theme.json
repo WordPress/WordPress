@@ -370,8 +370,8 @@
 			"core/post-title": {
 				"spacing": {
 					"margin": {
-						"bottom": "var(--wp--preset--spacing--40)",
-						"top": "var(--wp--preset--spacing--40)"
+						"bottom": "var(--wp--preset--spacing--30)",
+						"top": "var(--wp--preset--spacing--30)"
 					}
 				},
 				"typography": {

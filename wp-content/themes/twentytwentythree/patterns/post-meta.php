@@ -7,6 +7,10 @@
  * Block Types: core/template-part/post-meta
  */
 ?>
+<!-- wp:spacer {"height":"0"} -->
+<div style="height:0" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
 <!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"}}},"layout":{"type":"constrained"}} -->
 <div class="wp-block-group" style="margin-top:var(--wp--preset--spacing--70);margin-bottom:var(--wp--preset--spacing--70)">
 	<!-- wp:separator {"opacity":"css","align":"wide","className":"is-style-wide"} -->
@@ -25,7 +29,7 @@
 				</p>
 				<!-- /wp:paragraph -->
 
-				<!-- wp:post-date {"format":"<?php echo esc_html_x( 'F j, Y', 'Date format for publication date of post', 'twentytwentythree' ); ?>"} /-->
+				<!-- wp:post-date /-->
 
 				<!-- wp:paragraph -->
 				<p>

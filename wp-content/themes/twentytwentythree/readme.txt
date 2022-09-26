@@ -1,6 +1,6 @@
 === Twenty Twenty-Three ===
 Contributors: wordpressdotorg
-Requires at least: 5.9
+Requires at least: 6.1
 Tested up to: 6.1
 Requires PHP: 5.7
 License: GPLv2 or later
@@ -8,7 +8,11 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 == Description ==
 
-Twenty Twenty-Three is a stripped-back and minimal base theme, and includes a diverse collection of style variations designed by members of the community.
+Twenty Twenty-Three is a diverse, collaborative effort designed with the expansion of the possibilities of the block editor in mind. With a blank, unopinionated base as a starting point, this year’s default theme has minimal demo content to get in your way.
+
+It embraces aesthetic diversity with a collection of style variations created by members of the WordPress Community, and it is built to take advantage of the new tools introduced in WordPress 6.1.
+
+Whether you want to build a complex or incredibly simple website, you can style it the way you want it, and you can do it quickly and intuitively through the bundled styles or dive into creation and full customisation yourself.
 
 == Changelog ==
 
