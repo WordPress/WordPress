@@ -3219,26 +3219,28 @@ class ParagonIE_Sodium_Compat
      * Cache-timing-safe implementation of hex2bin().
      *
      * @param string $string Hexadecimal string
+     * @param string $ignore List of characters to ignore; useful for whitespace
      * @return string        Raw binary string
      * @throws SodiumException
      * @throws TypeError
      * @psalm-suppress TooFewArguments
      * @psalm-suppress MixedArgument
      */
-    public static function hex2bin($string)
+    public static function hex2bin($string, $ignore = '')
     {
         /* Type checks: */
         ParagonIE_Sodium_Core_Util::declareScalarType($string, 'string', 1);
+        ParagonIE_Sodium_Core_Util::declareScalarType($ignore, 'string', 2);
 
         if (self::useNewSodiumAPI()) {
             if (is_callable('sodium_hex2bin')) {
-                return (string) sodium_hex2bin($string);
+                return (string) sodium_hex2bin($string, $ignore);
             }
         }
         if (self::use_fallback('hex2bin')) {
-            return (string) call_user_func('\\Sodium\\hex2bin', $string);
+            return (string) call_user_func('\\Sodium\\hex2bin', $string, $ignore);
         }
-        return ParagonIE_Sodium_Core_Util::hex2bin($string);
+        return ParagonIE_Sodium_Core_Util::hex2bin($string, $ignore);
     }
 
     /**
