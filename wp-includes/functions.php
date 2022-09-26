@@ -4528,7 +4528,8 @@ function wp_check_jsonp_callback( $callback ) {
 function wp_json_file_decode( $filename, $options = array() ) {
 	$result   = null;
 	$filename = wp_normalize_path( realpath( $filename ) );
-	if ( ! file_exists( $filename ) ) {
+
+	if ( ! $filename ) {
 		trigger_error(
 			sprintf(
 				/* translators: %s: Path to the JSON file. */

@@ -442,7 +442,7 @@ function register_block_type_from_metadata( $file_or_folder, $args = array() ) {
 				remove_block_asset_path_prefix( $metadata['render'] )
 			)
 		);
-		if ( file_exists( $template_path ) ) {
+		if ( $template_path ) {
 			/**
 			 * Renders the block on the server.
 			 *
