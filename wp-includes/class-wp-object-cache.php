@@ -52,7 +52,7 @@ class WP_Object_Cache {
 	 * List of global cache groups.
 	 *
 	 * @since 3.0.0
-	 * @var array
+	 * @var string[]
 	 */
 	protected $global_groups = array();
 
