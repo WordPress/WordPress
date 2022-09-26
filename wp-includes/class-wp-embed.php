@@ -52,7 +52,7 @@ class WP_Embed {
 	 *
 	 * Since the [embed] shortcode needs to be run earlier than other shortcodes,
 	 * this function removes all existing shortcodes, registers the [embed] shortcode,
-	 * calls apply_shortcodes(), and then re-registers the old shortcodes.
+	 * calls do_shortcode(), and then re-registers the old shortcodes.
 	 *
 	 * @global array $shortcode_tags
 	 *
@@ -69,7 +69,7 @@ class WP_Embed {
 		add_shortcode( 'embed', array( $this, 'shortcode' ) );
 
 		// Do the shortcode (only the [embed] one is registered).
-		$content = apply_shortcodes( $content, true );
+		$content = do_shortcode( $content, true );
 
 		// Put the original shortcodes back.
 		$shortcode_tags = $orig_shortcode_tags;
@@ -177,7 +177,7 @@ class WP_Embed {
 	}
 
 	/**
-	 * The apply_shortcodes() callback function.
+	 * The do_shortcode() callback function.
 	 *
 	 * Attempts to convert a URL into embed HTML. Starts by checking the URL against the regex of
 	 * the registered embed handlers. If none of the regex matches and it's enabled, then the URL

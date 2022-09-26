@@ -2296,7 +2296,7 @@ function img_caption_shortcode( $attr, $content = '' ) {
 			$describedby,
 			$style,
 			esc_attr( $class ),
-			apply_shortcodes( $content ),
+			do_shortcode( $content ),
 			sprintf(
 				'<figcaption %sclass="wp-caption-text">%s</figcaption>',
 				$caption_id,
@@ -2309,7 +2309,7 @@ function img_caption_shortcode( $attr, $content = '' ) {
 			$id,
 			$style,
 			esc_attr( $class ),
-			str_replace( '<img ', '<img ' . $describedby, apply_shortcodes( $content ) ),
+			str_replace( '<img ', '<img ' . $describedby, do_shortcode( $content ) ),
 			sprintf(
 				'<p %sclass="wp-caption-text">%s</p>',
 				$caption_id,

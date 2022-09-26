@@ -3788,7 +3788,7 @@ function wp_ajax_parse_embed() {
 			$styles .= sprintf( '<link rel="stylesheet" href="%s" />', $style );
 		}
 
-		$html = apply_shortcodes( $parsed );
+		$html = do_shortcode( $parsed );
 
 		global $wp_scripts;
 
@@ -3861,7 +3861,7 @@ function wp_ajax_parse_media_shortcode() {
 		setup_postdata( $post );
 	}
 
-	$parsed = apply_shortcodes( $shortcode );
+	$parsed = do_shortcode( $shortcode );
 
 	if ( empty( $parsed ) ) {
 		wp_send_json_error(
