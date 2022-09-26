@@ -56,6 +56,13 @@ function wp_get_layout_style( $selector, $layout, $has_block_gap_support = false
 				$gap_value = isset( $gap_value['top'] ) ? $gap_value['top'] : null;
 			}
 			if ( null !== $gap_value && ! $should_skip_gap_serialization ) {
+				// Get spacing CSS variable from preset value if provided.
+				if ( is_string( $gap_value ) && str_contains( $gap_value, 'var:preset|spacing|' ) ) {
+					$index_to_splice = strrpos( $gap_value, '|' ) + 1;
+					$slug            = _wp_to_kebab_case( substr( $gap_value, $index_to_splice ) );
+					$gap_value       = "var(--wp--preset--spacing--$slug)";
+				}
+
 				array_push(
 					$layout_styles,
 					array(
