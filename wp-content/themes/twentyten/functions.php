@@ -326,7 +326,7 @@ if ( ! function_exists( 'twentyten_continue_reading_link' ) ) :
 	 * @return string "Continue Reading" link.
 	 */
 	function twentyten_continue_reading_link() {
-		return ' <a href="' . get_permalink() . '">' . __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'twentyten' ) . '</a>';
+		return ' <a href="' . esc_url( get_permalink() ) . '">' . __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'twentyten' ) . '</a>';
 	}
 endif;
 
@@ -607,7 +607,7 @@ if ( ! function_exists( 'twentyten_posted_on' ) ) :
 			'meta-prep meta-prep-author',
 			sprintf(
 				'<a href="%1$s" title="%2$s" rel="bookmark"><span class="entry-date">%3$s</span></a>',
-				get_permalink(),
+				esc_url( get_permalink() ),
 				esc_attr( get_the_time() ),
 				get_the_date()
 			),
@@ -648,7 +648,7 @@ if ( ! function_exists( 'twentyten_posted_in' ) ) :
 			$posted_in,
 			get_the_category_list( ', ' ),
 			$tags_list,
-			get_permalink(),
+			esc_url( get_permalink() ),
 			the_title_attribute( 'echo=0' )
 		);
 	}
