@@ -74,9 +74,10 @@ class WP_Site_Health_Auto_Updates {
 		if ( defined( $constant ) && ! in_array( constant( $constant ), $acceptable_values, true ) ) {
 			return array(
 				'description' => sprintf(
-					/* translators: %s: Name of the constant used. */
-					__( 'The %s constant is defined and enabled.' ),
-					"<code>$constant</code>"
+					/* translators: 1: Name of the constant used. 2: Value of the constant used. */
+					__( 'The %1$s constant is defined as %2$s' ),
+					"<code>$constant</code>",
+					'<code>' . esc_html( var_export( constant( $constant ), true ) ) . '</code>'
 				),
 				'severity'    => 'fail',
 			);
