@@ -353,8 +353,12 @@ class WP_Community_Events {
 	 *                     on success, false on failure.
 	 */
 	public function get_cached_events() {
-		$cached_response = get_site_transient( $this->get_events_transient_key( $this->user_location ) );
+		$transient_key = $this->get_events_transient_key( $this->user_location );
+		if ( ! $transient_key ) {
+			return false;
+		}
 
+		$cached_response = get_site_transient( $transient_key );
 		if ( isset( $cached_response['events'] ) ) {
 			$cached_response['events'] = $this->trim_events( $cached_response['events'] );
 		}
