@@ -11853,6 +11853,7 @@ function usePopoverScroll(scrollableRef) {
 
 
 
+const MAX_POPOVER_RECOMPUTE_COUNTER = Number.MAX_SAFE_INTEGER;
 
 function BlockPopover(_ref, ref) {
   let {
@@ -11879,8 +11880,33 @@ function BlockPopover(_ref, ref) {
       height: selectedElement.offsetHeight
     };
   }, [selectedElement, lastSelectedElement, __unstableRefreshSize]);
+  const [popoverAnchorRecomputeCounter, forceRecomputePopoverAnchor] = (0,external_wp_element_namespaceObject.useReducer)( // Module is there to make sure that the counter doesn't overflow.
+  s => (s + 1) % MAX_POPOVER_RECOMPUTE_COUNTER, 0); // When blocks are moved up/down, they are animated to their new position by
+  // updating the `transform` property manually (i.e. without using CSS
+  // transitions or animations). The animation, which can also scroll the block
+  // editor, can sometimes cause the position of the Popover to get out of sync.
+  // A MutationObserver is therefore used to make sure that changes to the
+  // selectedElement's attribute (i.e. `transform`) can be tracked and used to
+  // trigger the Popover to rerender.
+
+  (0,external_wp_element_namespaceObject.useLayoutEffect)(() => {
+    if (!selectedElement) {
+      return;
+    }
+
+    const observer = new window.MutationObserver(forceRecomputePopoverAnchor);
+    observer.observe(selectedElement, {
+      attributes: true
+    });
+    return () => {
+      observer.disconnect();
+    };
+  }, [selectedElement]);
   const popoverAnchor = (0,external_wp_element_namespaceObject.useMemo)(() => {
-    if (!selectedElement || bottomClientId && !lastSelectedElement) {
+    if ( // popoverAnchorRecomputeCounter is by definition always equal or greater
+    // than 0. This check is only there to satisfy the correctness of the
+    // exhaustive-deps rule for the `useMemo` hook.
+    popoverAnchorRecomputeCounter < 0 || !selectedElement || bottomClientId && !lastSelectedElement) {
       return undefined;
     }
 
@@ -11905,7 +11931,7 @@ function BlockPopover(_ref, ref) {
 
       ownerDocument: selectedElement.ownerDocument
     };
-  }, [bottomClientId, lastSelectedElement, selectedElement]);
+  }, [bottomClientId, lastSelectedElement, selectedElement, popoverAnchorRecomputeCounter]);
 
   if (!selectedElement || bottomClientId && !lastSelectedElement) {
     return null;
@@ -27836,6 +27862,7 @@ function BlockListAppender(_ref) {
 
 
 
+const inbetween_MAX_POPOVER_RECOMPUTE_COUNTER = Number.MAX_SAFE_INTEGER;
 const InsertionPointOpenRef = (0,external_wp_element_namespaceObject.createContext)();
 
 function BlockPopoverInbetween(_ref) {
@@ -27848,7 +27875,8 @@ function BlockPopoverInbetween(_ref) {
     ...props
   } = _ref;
   // This is a temporary hack to get the inbetween inserter to recompute properly.
-  const [positionRecompute, forceRecompute] = (0,external_wp_element_namespaceObject.useReducer)(s => s + 1, 0);
+  const [popoverRecomputeCounter, forcePopoverRecompute] = (0,external_wp_element_namespaceObject.useReducer)( // Module is there to make sure that the counter doesn't overflow.
+  s => (s + 1) % inbetween_MAX_POPOVER_RECOMPUTE_COUNTER, 0);
   const {
     orientation,
     rootClientId,
@@ -27874,7 +27902,10 @@ function BlockPopoverInbetween(_ref) {
   const nextElement = useBlockElement(nextClientId);
   const isVertical = orientation === 'vertical';
   const style = (0,external_wp_element_namespaceObject.useMemo)(() => {
-    if (!previousElement && !nextElement || !isVisible) {
+    if ( // popoverRecomputeCounter is by definition always equal or greater than 0.
+    // This check is only there to satisfy the correctness of the
+    // exhaustive-deps rule for the `useMemo` hook.
+    popoverRecomputeCounter < 0 || !previousElement && !nextElement || !isVisible) {
       return {};
     }
 
@@ -27898,9 +27929,12 @@ function BlockPopoverInbetween(_ref) {
       width,
       height: previousRect ? previousRect.height : nextRect.height
     };
-  }, [previousElement, nextElement, isVertical, positionRecompute, isVisible]);
+  }, [previousElement, nextElement, isVertical, popoverRecomputeCounter, isVisible]);
   const popoverAnchor = (0,external_wp_element_namespaceObject.useMemo)(() => {
-    if (!previousElement && !nextElement || !isVisible) {
+    if ( // popoverRecomputeCounter is by definition always equal or greater than 0.
+    // This check is only there to satisfy the correctness of the
+    // exhaustive-deps rule for the `useMemo` hook.
+    popoverRecomputeCounter < 0 || !previousElement && !nextElement || !isVisible) {
       return undefined;
     }
 
@@ -27943,15 +27977,22 @@ function BlockPopoverInbetween(_ref) {
       }
 
     };
-  }, [previousElement, nextElement, positionRecompute, isVertical, isVisible]);
+  }, [previousElement, nextElement, popoverRecomputeCounter, isVertical, isVisible]);
   const popoverScrollRef = use_popover_scroll(__unstableContentRef); // This is only needed for a smooth transition when moving blocks.
+  // When blocks are moved up/down, their position can be set by
+  // updating the `transform` property manually (i.e. without using CSS
+  // transitions or animations). The animation, which can also scroll the block
+  // editor, can sometimes cause the position of the Popover to get out of sync.
+  // A MutationObserver is therefore used to make sure that changes to the
+  // selectedElement's attribute (i.e. `transform`) can be tracked and used to
+  // trigger the Popover to rerender.
 
   (0,external_wp_element_namespaceObject.useLayoutEffect)(() => {
     if (!previousElement) {
       return;
     }
 
-    const observer = new window.MutationObserver(forceRecompute);
+    const observer = new window.MutationObserver(forcePopoverRecompute);
     observer.observe(previousElement, {
       attributes: true
     });
@@ -27964,7 +28005,7 @@ function BlockPopoverInbetween(_ref) {
       return;
     }
 
-    const observer = new window.MutationObserver(forceRecompute);
+    const observer = new window.MutationObserver(forcePopoverRecompute);
     observer.observe(nextElement, {
       attributes: true
     });
@@ -27977,9 +28018,9 @@ function BlockPopoverInbetween(_ref) {
       return;
     }
 
-    previousElement.ownerDocument.defaultView.addEventListener('resize', forceRecompute);
+    previousElement.ownerDocument.defaultView.addEventListener('resize', forcePopoverRecompute);
     return () => {
-      previousElement.ownerDocument.defaultView.removeEventListener('resize', forceRecompute);
+      previousElement.ownerDocument.defaultView.removeEventListener('resize', forcePopoverRecompute);
     };
   }, [previousElement]); // If there's either a previous or a next element, show the inbetween popover.
   // Note that drag and drop uses the inbetween popover to show the drop indicator
@@ -42701,7 +42742,8 @@ function ListView(_ref, ref) {
     ref: treeGridRef,
     onCollapseRow: collapseRow,
     onExpandRow: expandRow,
-    onFocusRow: focusRow
+    onFocusRow: focusRow,
+    applicationAriaLabel: (0,external_wp_i18n_namespaceObject.__)('Block navigation structure')
   }, (0,external_wp_element_namespaceObject.createElement)(ListViewContext.Provider, {
     value: contextValue
   }, (0,external_wp_element_namespaceObject.createElement)(branch, {
@@ -44065,7 +44107,7 @@ function getCropSize(mediaWidth, mediaHeight, containerWidth, containerHeight, a
     rotation = 0;
   }
 
-  var _a = translateSize(mediaWidth, mediaHeight, rotation),
+  var _a = rotateSize(mediaWidth, mediaHeight, rotation),
       width = _a.width,
       height = _a.height;
 
@@ -44085,6 +44127,15 @@ function getCropSize(mediaWidth, mediaHeight, containerWidth, containerHeight, a
   };
 }
 /**
+ * Compute media zoom.
+ * We fit the media into the container with "max-width: 100%; max-height: 100%;"
+ */
+
+function getMediaZoom(mediaSize) {
+  // Take the axis with more pixels to improve accuracy
+  return mediaSize.width > mediaSize.height ? mediaSize.width / mediaSize.naturalWidth : mediaSize.height / mediaSize.naturalHeight;
+}
+/**
  * Ensure a new media position stays in the crop area.
  */
 
@@ -44093,7 +44144,7 @@ function restrictPosition(position, mediaSize, cropSize, zoom, rotation) {
     rotation = 0;
   }
 
-  var _a = translateSize(mediaSize.width, mediaSize.height, rotation),
+  var _a = rotateSize(mediaSize.width, mediaSize.height, rotation),
       width = _a.width,
       height = _a.height;
 
@@ -44105,7 +44156,7 @@ function restrictPosition(position, mediaSize, cropSize, zoom, rotation) {
 
 function restrictPositionCoord(position, mediaSize, cropSize, zoom) {
   var maxPosition = mediaSize * zoom / 2 - cropSize / 2;
-  return Math.min(maxPosition, Math.max(position, -maxPosition));
+  return clamp(position, -maxPosition, maxPosition);
 }
 
 function getDistanceBetweenPoints(pointA, pointB) {
@@ -44130,18 +44181,22 @@ function computeCroppedArea(crop, mediaSize, cropSize, aspect, zoom, rotation, r
   // as it might need to be negative.
 
 
-  var limitAreaFn = restrictPosition && rotation === 0 ? limitArea : noOp;
+  var limitAreaFn = restrictPosition ? limitArea : noOp;
+  var mediaBBoxSize = rotateSize(mediaSize.width, mediaSize.height, rotation);
+  var mediaNaturalBBoxSize = rotateSize(mediaSize.naturalWidth, mediaSize.naturalHeight, rotation); // calculate the crop area in percentages
+  // in the rotated space
+
   var croppedAreaPercentages = {
-    x: limitAreaFn(100, ((mediaSize.width - cropSize.width / zoom) / 2 - crop.x / zoom) / mediaSize.width * 100),
-    y: limitAreaFn(100, ((mediaSize.height - cropSize.height / zoom) / 2 - crop.y / zoom) / mediaSize.height * 100),
-    width: limitAreaFn(100, cropSize.width / mediaSize.width * 100 / zoom),
-    height: limitAreaFn(100, cropSize.height / mediaSize.height * 100 / zoom)
+    x: limitAreaFn(100, ((mediaBBoxSize.width - cropSize.width / zoom) / 2 - crop.x / zoom) / mediaBBoxSize.width * 100),
+    y: limitAreaFn(100, ((mediaBBoxSize.height - cropSize.height / zoom) / 2 - crop.y / zoom) / mediaBBoxSize.height * 100),
+    width: limitAreaFn(100, cropSize.width / mediaBBoxSize.width * 100 / zoom),
+    height: limitAreaFn(100, cropSize.height / mediaBBoxSize.height * 100 / zoom)
   }; // we compute the pixels size naively
 
-  var widthInPixels = Math.round(limitAreaFn(mediaSize.naturalWidth, croppedAreaPercentages.width * mediaSize.naturalWidth / 100));
-  var heightInPixels = Math.round(limitAreaFn(mediaSize.naturalHeight, croppedAreaPercentages.height * mediaSize.naturalHeight / 100));
-  var isImgWiderThanHigh = mediaSize.naturalWidth >= mediaSize.naturalHeight * aspect; // then we ensure the width and height exactly match the aspect (to avoid rounding approximations)
-  // if the media is wider than high, when zoom is 0, the crop height will be equals to iamge height
+  var widthInPixels = Math.round(limitAreaFn(mediaNaturalBBoxSize.width, croppedAreaPercentages.width * mediaNaturalBBoxSize.width / 100));
+  var heightInPixels = Math.round(limitAreaFn(mediaNaturalBBoxSize.height, croppedAreaPercentages.height * mediaNaturalBBoxSize.height / 100));
+  var isImgWiderThanHigh = mediaNaturalBBoxSize.width >= mediaNaturalBBoxSize.height * aspect; // then we ensure the width and height exactly match the aspect (to avoid rounding approximations)
+  // if the media is wider than high, when zoom is 0, the crop height will be equals to image height
   // thus we want to compute the width from the height and aspect for accuracy.
   // Otherwise, we compute the height from width and aspect.
 
@@ -44154,8 +44209,8 @@ function computeCroppedArea(crop, mediaSize, cropSize, aspect, zoom, rotation, r
   };
 
   var croppedAreaPixels = __assign(__assign({}, sizePixels), {
-    x: Math.round(limitAreaFn(mediaSize.naturalWidth - sizePixels.width, croppedAreaPercentages.x * mediaSize.naturalWidth / 100)),
-    y: Math.round(limitAreaFn(mediaSize.naturalHeight - sizePixels.height, croppedAreaPercentages.y * mediaSize.naturalHeight / 100))
+    x: Math.round(limitAreaFn(mediaNaturalBBoxSize.width - sizePixels.width, croppedAreaPercentages.x * mediaNaturalBBoxSize.width / 100)),
+    y: Math.round(limitAreaFn(mediaNaturalBBoxSize.height - sizePixels.height, croppedAreaPercentages.y * mediaNaturalBBoxSize.height / 100))
   });
 
   return {
@@ -44175,34 +44230,47 @@ function noOp(_max, value) {
   return value;
 }
 /**
- * Compute the crop and zoom from the croppedAreaPixels
+ * Compute crop and zoom from the croppedAreaPercentages.
  */
 
 
-function getZoomFromCroppedAreaPixels(croppedAreaPixels, mediaSize, cropSize) {
-  var mediaZoom = mediaSize.width / mediaSize.naturalWidth;
+function getInitialCropFromCroppedAreaPercentages(croppedAreaPercentages, mediaSize, rotation, cropSize, minZoom, maxZoom) {
+  var mediaBBoxSize = rotateSize(mediaSize.width, mediaSize.height, rotation); // This is the inverse process of computeCroppedArea
 
-  if (cropSize) {
-    var isHeightMaxSize_1 = cropSize.height > cropSize.width;
-    return isHeightMaxSize_1 ? cropSize.height / mediaZoom / croppedAreaPixels.height : cropSize.width / mediaZoom / croppedAreaPixels.width;
-  }
-
-  var aspect = croppedAreaPixels.width / croppedAreaPixels.height;
-  var isHeightMaxSize = mediaSize.naturalWidth >= mediaSize.naturalHeight * aspect;
-  return isHeightMaxSize ? mediaSize.naturalHeight / croppedAreaPixels.height : mediaSize.naturalWidth / croppedAreaPixels.width;
+  var zoom = clamp(cropSize.width / mediaBBoxSize.width * (100 / croppedAreaPercentages.width), minZoom, maxZoom);
+  var crop = {
+    x: zoom * mediaBBoxSize.width / 2 - cropSize.width / 2 - mediaBBoxSize.width * zoom * (croppedAreaPercentages.x / 100),
+    y: zoom * mediaBBoxSize.height / 2 - cropSize.height / 2 - mediaBBoxSize.height * zoom * (croppedAreaPercentages.y / 100)
+  };
+  return {
+    crop: crop,
+    zoom: zoom
+  };
 }
 /**
- * Compute the crop and zoom from the croppedAreaPixels
+ * Compute zoom from the croppedAreaPixels
+ */
+
+function getZoomFromCroppedAreaPixels(croppedAreaPixels, mediaSize, cropSize) {
+  var mediaZoom = getMediaZoom(mediaSize);
+  return cropSize.height > cropSize.width ? cropSize.height / (croppedAreaPixels.height * mediaZoom) : cropSize.width / (croppedAreaPixels.width * mediaZoom);
+}
+/**
+ * Compute crop and zoom from the croppedAreaPixels
  */
 
 
-function getInitialCropFromCroppedAreaPixels(croppedAreaPixels, mediaSize, cropSize) {
-  var mediaZoom = mediaSize.width / mediaSize.naturalWidth;
-  var zoom = getZoomFromCroppedAreaPixels(croppedAreaPixels, mediaSize, cropSize);
-  var cropZoom = mediaZoom * zoom;
+function getInitialCropFromCroppedAreaPixels(croppedAreaPixels, mediaSize, rotation, cropSize, minZoom, maxZoom) {
+  if (rotation === void 0) {
+    rotation = 0;
+  }
+
+  var mediaNaturalBBoxSize = rotateSize(mediaSize.naturalWidth, mediaSize.naturalHeight, rotation);
+  var zoom = clamp(getZoomFromCroppedAreaPixels(croppedAreaPixels, mediaSize, cropSize), minZoom, maxZoom);
+  var cropZoom = cropSize.height > cropSize.width ? cropSize.height / croppedAreaPixels.height : cropSize.width / croppedAreaPixels.width;
   var crop = {
-    x: ((mediaSize.naturalWidth - croppedAreaPixels.width) / 2 - croppedAreaPixels.x) * cropZoom,
-    y: ((mediaSize.naturalHeight - croppedAreaPixels.height) / 2 - croppedAreaPixels.y) * cropZoom
+    x: ((mediaNaturalBBoxSize.width - croppedAreaPixels.width) / 2 - croppedAreaPixels.x) * cropZoom,
+    y: ((mediaNaturalBBoxSize.height - croppedAreaPixels.height) / 2 - croppedAreaPixels.y) * cropZoom
   };
   return {
     crop: crop,
@@ -44219,46 +44287,26 @@ function getCenter(a, b) {
     y: (b.y + a.y) / 2
   };
 }
-/**
- *
- * Returns an x,y point once rotated around xMid,yMid
- */
-
-function rotateAroundMidPoint(x, y, xMid, yMid, degrees) {
-  var cos = Math.cos;
-  var sin = Math.sin;
-  var radian = degrees * Math.PI / 180; // Convert to radians
-  // Subtract midpoints, so that midpoint is translated to origin
-  // and add it in the end again
-
-  var xr = (x - xMid) * cos(radian) - (y - yMid) * sin(radian) + xMid;
-  var yr = (x - xMid) * sin(radian) + (y - yMid) * cos(radian) + yMid;
-  return [xr, yr];
+function getRadianAngle(degreeValue) {
+  return degreeValue * Math.PI / 180;
 }
 /**
  * Returns the new bounding area of a rotated rectangle.
  */
 
-function translateSize(width, height, rotation) {
-  var centerX = width / 2;
-  var centerY = height / 2;
-  var outerBounds = [rotateAroundMidPoint(0, 0, centerX, centerY, rotation), rotateAroundMidPoint(width, 0, centerX, centerY, rotation), rotateAroundMidPoint(width, height, centerX, centerY, rotation), rotateAroundMidPoint(0, height, centerX, centerY, rotation)];
-  var minX = Math.min.apply(Math, outerBounds.map(function (p) {
-    return p[0];
-  }));
-  var maxX = Math.max.apply(Math, outerBounds.map(function (p) {
-    return p[0];
-  }));
-  var minY = Math.min.apply(Math, outerBounds.map(function (p) {
-    return p[1];
-  }));
-  var maxY = Math.max.apply(Math, outerBounds.map(function (p) {
-    return p[1];
-  }));
+function rotateSize(width, height, rotation) {
+  var rotRad = getRadianAngle(rotation);
   return {
-    width: maxX - minX,
-    height: maxY - minY
+    width: Math.abs(Math.cos(rotRad) * width) + Math.abs(Math.sin(rotRad) * height),
+    height: Math.abs(Math.sin(rotRad) * width) + Math.abs(Math.cos(rotRad) * height)
   };
+}
+/**
+ * Clamp value between min and max
+ */
+
+function clamp(value, min, max) {
+  return Math.min(Math.max(value, min), max);
 }
 /**
  * Combine multiple class names into a single string.
@@ -44293,8 +44341,8 @@ function (_super) {
   function Cropper() {
     var _this = _super !== null && _super.apply(this, arguments) || this;
 
-    _this.imageRef = null;
-    _this.videoRef = null;
+    _this.imageRef = /*#__PURE__*/external_React_default().createRef();
+    _this.videoRef = /*#__PURE__*/external_React_default().createRef();
     _this.containerRef = null;
     _this.styleRef = null;
     _this.containerRect = null;
@@ -44317,6 +44365,8 @@ function (_super) {
     _this.rafDragTimeout = null;
     _this.rafPinchTimeout = null;
     _this.wheelTimer = null;
+    _this.currentDoc = document;
+    _this.currentWindow = window;
     _this.state = {
       cropSize: null,
       hasWheelJustStarted: false
@@ -44327,10 +44377,13 @@ function (_super) {
     };
 
     _this.cleanEvents = function () {
-      document.removeEventListener('mousemove', _this.onMouseMove);
-      document.removeEventListener('mouseup', _this.onDragStopped);
-      document.removeEventListener('touchmove', _this.onTouchMove);
-      document.removeEventListener('touchend', _this.onDragStopped);
+      _this.currentDoc.removeEventListener('mousemove', _this.onMouseMove);
+
+      _this.currentDoc.removeEventListener('mouseup', _this.onDragStopped);
+
+      _this.currentDoc.removeEventListener('touchmove', _this.onTouchMove);
+
+      _this.currentDoc.removeEventListener('touchend', _this.onDragStopped);
     };
 
     _this.clearScrollEvent = function () {
@@ -44342,49 +44395,113 @@ function (_super) {
     };
 
     _this.onMediaLoad = function () {
-      _this.computeSizes();
+      var cropSize = _this.computeSizes();
 
-      _this.emitCropData();
+      if (cropSize) {
+        _this.emitCropData();
 
-      _this.setInitialCrop();
+        _this.setInitialCrop(cropSize);
+      }
 
       if (_this.props.onMediaLoaded) {
         _this.props.onMediaLoaded(_this.mediaSize);
       }
     };
 
-    _this.setInitialCrop = function () {
-      var _a = _this.props,
-          initialCroppedAreaPixels = _a.initialCroppedAreaPixels,
-          cropSize = _a.cropSize;
+    _this.setInitialCrop = function (cropSize) {
+      if (_this.props.initialCroppedAreaPercentages) {
+        var _a = getInitialCropFromCroppedAreaPercentages(_this.props.initialCroppedAreaPercentages, _this.mediaSize, _this.props.rotation, cropSize, _this.props.minZoom, _this.props.maxZoom),
+            crop = _a.crop,
+            zoom = _a.zoom;
 
-      if (!initialCroppedAreaPixels) {
-        return;
+        _this.props.onCropChange(crop);
+
+        _this.props.onZoomChange && _this.props.onZoomChange(zoom);
+      } else if (_this.props.initialCroppedAreaPixels) {
+        var _b = getInitialCropFromCroppedAreaPixels(_this.props.initialCroppedAreaPixels, _this.mediaSize, _this.props.rotation, cropSize, _this.props.minZoom, _this.props.maxZoom),
+            crop = _b.crop,
+            zoom = _b.zoom;
+
+        _this.props.onCropChange(crop);
+
+        _this.props.onZoomChange && _this.props.onZoomChange(zoom);
       }
-
-      var _b = getInitialCropFromCroppedAreaPixels(initialCroppedAreaPixels, _this.mediaSize, cropSize),
-          crop = _b.crop,
-          zoom = _b.zoom;
-
-      _this.props.onCropChange(crop);
-
-      _this.props.onZoomChange && _this.props.onZoomChange(zoom);
     };
 
     _this.computeSizes = function () {
       var _a, _b, _c, _d, _e, _f;
 
-      var mediaRef = _this.imageRef || _this.videoRef;
+      var mediaRef = _this.imageRef.current || _this.videoRef.current;
 
       if (mediaRef && _this.containerRef) {
         _this.containerRect = _this.containerRef.getBoundingClientRect();
-        _this.mediaSize = {
-          width: mediaRef.offsetWidth,
-          height: mediaRef.offsetHeight,
-          naturalWidth: ((_a = _this.imageRef) === null || _a === void 0 ? void 0 : _a.naturalWidth) || ((_b = _this.videoRef) === null || _b === void 0 ? void 0 : _b.videoWidth) || 0,
-          naturalHeight: ((_c = _this.imageRef) === null || _c === void 0 ? void 0 : _c.naturalHeight) || ((_d = _this.videoRef) === null || _d === void 0 ? void 0 : _d.videoHeight) || 0
-        };
-        var cropSize = _this.props.cropSize ? _this.props.cropSize : getCropSize(mediaRef.offsetWidth, mediaRef.offsetHeight, _this.containerRect.width, _this.containerRect.height, _this.props.aspect, _this.props.rotation);
+        var containerAspect = _this.containerRect.width / _this.containerRect.height;
+        var naturalWidth = ((_a = _this.imageRef.current) === null || _a === void 0 ? void 0 : _a.naturalWidth) || ((_b = _this.videoRef.current) === null || _b === void 0 ? void 0 : _b.videoWidth) || 0;
+        var naturalHeight = ((_c = _this.imageRef.current) === null || _c === void 0 ? void 0 : _c.naturalHeight) || ((_d = _this.videoRef.current) === null || _d === void 0 ? void 0 : _d.videoHeight) || 0;
+        var isMediaScaledDown = mediaRef.offsetWidth < naturalWidth || mediaRef.offsetHeight < naturalHeight;
+        var mediaAspect = naturalWidth / naturalHeight; // We do not rely on the offsetWidth/offsetHeight if the media is scaled down
+        // as the values they report are rounded. That will result in precision losses
+        // when calculating zoom. We use the fact that the media is positionned relative
+        // to the container. That allows us to use the container's dimensions
+        // and natural aspect ratio of the media to calculate accurate media size.
+        // However, for this to work, the container should not be rotated
+
+        var renderedMediaSize = void 0;
+
+        if (isMediaScaledDown) {
+          switch (_this.props.objectFit) {
+            default:
+            case 'contain':
+              renderedMediaSize = containerAspect > mediaAspect ? {
+                width: _this.containerRect.height * mediaAspect,
+                height: _this.containerRect.height
+              } : {
+                width: _this.containerRect.width,
+                height: _this.containerRect.width / mediaAspect
+              };
+              break;
+
+            case 'horizontal-cover':
+              renderedMediaSize = {
+                width: _this.containerRect.width,
+                height: _this.containerRect.width / mediaAspect
+              };
+              break;
+
+            case 'vertical-cover':
+              renderedMediaSize = {
+                width: _this.containerRect.height * mediaAspect,
+                height: _this.containerRect.height
+              };
+              break;
+
+            case 'auto-cover':
+              renderedMediaSize = naturalWidth > naturalHeight ? {
+                width: _this.containerRect.width,
+                height: _this.containerRect.width / mediaAspect
+              } : {
+                width: _this.containerRect.height * mediaAspect,
+                height: _this.containerRect.height
+              };
+              break;
+          }
+        } else {
+          renderedMediaSize = {
+            width: mediaRef.offsetWidth,
+            height: mediaRef.offsetHeight
+          };
+        }
+
+        _this.mediaSize = __assign(__assign({}, renderedMediaSize), {
+          naturalWidth: naturalWidth,
+          naturalHeight: naturalHeight
+        }); // set media size in the parent
+
+        if (_this.props.setMediaSize) {
+          _this.props.setMediaSize(_this.mediaSize);
+        }
+
+        var cropSize = _this.props.cropSize ? _this.props.cropSize : getCropSize(_this.mediaSize.width, _this.mediaSize.height, _this.containerRect.width, _this.containerRect.height, _this.props.aspect, _this.props.rotation);
 
         if (((_e = _this.state.cropSize) === null || _e === void 0 ? void 0 : _e.height) !== cropSize.height || ((_f = _this.state.cropSize) === null || _f === void 0 ? void 0 : _f.width) !== cropSize.width) {
           _this.props.onCropSizeChange && _this.props.onCropSizeChange(cropSize);
@@ -44392,14 +44509,23 @@ function (_super) {
 
         _this.setState({
           cropSize: cropSize
-        }, _this.recomputeCropPosition);
+        }, _this.recomputeCropPosition); // pass crop size to parent
+
+
+        if (_this.props.setCropSize) {
+          _this.props.setCropSize(cropSize);
+        }
+
+        return cropSize;
       }
     };
 
     _this.onMouseDown = function (e) {
       e.preventDefault();
-      document.addEventListener('mousemove', _this.onMouseMove);
-      document.addEventListener('mouseup', _this.onDragStopped);
+
+      _this.currentDoc.addEventListener('mousemove', _this.onMouseMove);
+
+      _this.currentDoc.addEventListener('mouseup', _this.onDragStopped);
 
       _this.onDragStart(Cropper.getMousePoint(e));
     };
@@ -44409,11 +44535,16 @@ function (_super) {
     };
 
     _this.onTouchStart = function (e) {
-      document.addEventListener('touchmove', _this.onTouchMove, {
+      if (_this.props.onTouchRequest && !_this.props.onTouchRequest(e)) {
+        return;
+      }
+
+      _this.currentDoc.addEventListener('touchmove', _this.onTouchMove, {
         passive: false
       }); // iOS 11 now defaults to passive: true
 
-      document.addEventListener('touchend', _this.onDragStopped);
+
+      _this.currentDoc.addEventListener('touchend', _this.onDragStopped);
 
       if (e.touches.length === 2) {
         _this.onPinchStart(e);
@@ -44449,8 +44580,8 @@ function (_super) {
     _this.onDrag = function (_a) {
       var x = _a.x,
           y = _a.y;
-      if (_this.rafDragTimeout) window.cancelAnimationFrame(_this.rafDragTimeout);
-      _this.rafDragTimeout = window.requestAnimationFrame(function () {
+      if (_this.rafDragTimeout) _this.currentWindow.cancelAnimationFrame(_this.rafDragTimeout);
+      _this.rafDragTimeout = _this.currentWindow.requestAnimationFrame(function () {
         if (!_this.state.cropSize) return;
         if (x === undefined || y === undefined) return;
         var offsetX = x - _this.dragStartPosition.x;
@@ -44476,12 +44607,18 @@ function (_super) {
     };
 
     _this.onWheel = function (e) {
+      if (_this.props.onWheelRequest && !_this.props.onWheelRequest(e)) {
+        return;
+      }
+
       e.preventDefault();
       var point = Cropper.getMousePoint(e);
       var pixelY = normalize_wheel_default()(e).pixelY;
       var newZoom = _this.props.zoom - pixelY * _this.props.zoomSpeed / 200;
 
-      _this.setNewZoom(newZoom, point);
+      _this.setNewZoom(newZoom, point, {
+        shouldUpdatePosition: true
+      });
 
       if (!_this.state.hasWheelJustStarted) {
         _this.setState({
@@ -44497,7 +44634,7 @@ function (_super) {
         clearTimeout(_this.wheelTimer);
       }
 
-      _this.wheelTimer = window.setTimeout(function () {
+      _this.wheelTimer = _this.currentWindow.setTimeout(function () {
         return _this.setState({
           hasWheelJustStarted: false
         }, function () {
@@ -44534,21 +44671,26 @@ function (_super) {
       };
     };
 
-    _this.setNewZoom = function (zoom, point) {
+    _this.setNewZoom = function (zoom, point, _a) {
+      var _b = (_a === void 0 ? {} : _a).shouldUpdatePosition,
+          shouldUpdatePosition = _b === void 0 ? true : _b;
       if (!_this.state.cropSize || !_this.props.onZoomChange) return;
 
       var zoomPoint = _this.getPointOnContainer(point);
 
       var zoomTarget = _this.getPointOnMedia(zoomPoint);
 
-      var newZoom = Math.min(_this.props.maxZoom, Math.max(zoom, _this.props.minZoom));
+      var newZoom = clamp(zoom, _this.props.minZoom, _this.props.maxZoom);
       var requestedPosition = {
         x: zoomTarget.x * newZoom - zoomPoint.x,
         y: zoomTarget.y * newZoom - zoomPoint.y
       };
-      var newPosition = _this.props.restrictPosition ? restrictPosition(requestedPosition, _this.mediaSize, _this.state.cropSize, newZoom, _this.props.rotation) : requestedPosition;
 
-      _this.props.onCropChange(newPosition);
+      if (shouldUpdatePosition) {
+        var newPosition = _this.props.restrictPosition ? restrictPosition(requestedPosition, _this.mediaSize, _this.state.cropSize, newZoom, _this.props.rotation) : requestedPosition;
+
+        _this.props.onCropChange(newPosition);
+      }
 
       _this.props.onZoomChange(newZoom);
     };
@@ -44556,7 +44698,7 @@ function (_super) {
     _this.getCropData = function () {
       if (!_this.state.cropSize) {
         return null;
-      } // this is to ensure the crop is correctly restricted after a zoom back (https://github.com/ricardo-ch/react-easy-crop/issues/6)
+      } // this is to ensure the crop is correctly restricted after a zoom back (https://github.com/ValentinH/react-easy-crop/issues/6)
 
 
       var restrictedPosition = _this.props.restrictPosition ? restrictPosition(_this.props.crop, _this.mediaSize, _this.state.cropSize, _this.props.zoom, _this.props.rotation) : _this.props.crop;
@@ -44604,9 +44746,16 @@ function (_super) {
   }
 
   Cropper.prototype.componentDidMount = function () {
-    window.addEventListener('resize', this.computeSizes);
-
     if (this.containerRef) {
+      if (this.containerRef.ownerDocument) {
+        this.currentDoc = this.containerRef.ownerDocument;
+      }
+
+      if (this.currentDoc.defaultView) {
+        this.currentWindow = this.currentDoc.defaultView;
+      }
+
+      this.currentWindow.addEventListener('resize', this.computeSizes);
       this.props.zoomWithScroll && this.containerRef.addEventListener('wheel', this.onWheel, {
         passive: false
       });
@@ -44615,22 +44764,36 @@ function (_super) {
     }
 
     if (!this.props.disableAutomaticStylesInjection) {
-      this.styleRef = document.createElement('style');
+      this.styleRef = this.currentDoc.createElement('style');
       this.styleRef.setAttribute('type', 'text/css');
+
+      if (this.props.nonce) {
+        this.styleRef.setAttribute('nonce', this.props.nonce);
+      }
+
       this.styleRef.innerHTML = css_248z;
-      document.head.appendChild(this.styleRef);
+      this.currentDoc.head.appendChild(this.styleRef);
     } // when rendered via SSR, the image can already be loaded and its onLoad callback will never be called
 
 
-    if (this.imageRef && this.imageRef.complete) {
+    if (this.imageRef.current && this.imageRef.current.complete) {
       this.onMediaLoad();
+    } // set image and video refs in the parent if the callbacks exist
+
+
+    if (this.props.setImageRef) {
+      this.props.setImageRef(this.imageRef);
+    }
+
+    if (this.props.setVideoRef) {
+      this.props.setVideoRef(this.videoRef);
     }
   };
 
   Cropper.prototype.componentWillUnmount = function () {
     var _a;
 
-    window.removeEventListener('resize', this.computeSizes);
+    this.currentWindow.removeEventListener('resize', this.computeSizes);
 
     if (this.containerRef) {
       this.containerRef.removeEventListener('gesturestart', this.preventZoomSafari);
@@ -44668,7 +44831,7 @@ function (_super) {
     }
 
     if (prevProps.video !== this.props.video) {
-      (_j = this.videoRef) === null || _j === void 0 ? void 0 : _j.load();
+      (_j = this.videoRef.current) === null || _j === void 0 ? void 0 : _j.load();
     }
   };
 
@@ -44699,12 +44862,14 @@ function (_super) {
     var pointB = Cropper.getTouchPoint(e.touches[1]);
     var center = getCenter(pointA, pointB);
     this.onDrag(center);
-    if (this.rafPinchTimeout) window.cancelAnimationFrame(this.rafPinchTimeout);
-    this.rafPinchTimeout = window.requestAnimationFrame(function () {
+    if (this.rafPinchTimeout) this.currentWindow.cancelAnimationFrame(this.rafPinchTimeout);
+    this.rafPinchTimeout = this.currentWindow.requestAnimationFrame(function () {
       var distance = getDistanceBetweenPoints(pointA, pointB);
       var newZoom = _this.props.zoom * (distance / _this.lastPinchDistance);
 
-      _this.setNewZoom(newZoom, center);
+      _this.setNewZoom(newZoom, center, {
+        shouldUpdatePosition: false
+      });
 
       _this.lastPinchDistance = distance;
       var rotation = getRotationBetweenPoints(pointA, pointB);
@@ -44749,12 +44914,10 @@ function (_super) {
       className: classNames('reactEasyCrop_Container', containerClassName)
     }, image ? /*#__PURE__*/external_React_default().createElement("img", __assign({
       alt: "",
-      className: classNames('reactEasyCrop_Image', objectFit === 'contain' && 'reactEasyCrop_Contain', objectFit === 'horizontal-cover' && 'reactEasyCrop_Cover_Horizontal', objectFit === 'vertical-cover' && 'reactEasyCrop_Cover_Vertical', mediaClassName)
+      className: classNames('reactEasyCrop_Image', objectFit === 'contain' && 'reactEasyCrop_Contain', objectFit === 'horizontal-cover' && 'reactEasyCrop_Cover_Horizontal', objectFit === 'vertical-cover' && 'reactEasyCrop_Cover_Vertical', objectFit === 'auto-cover' && (this.mediaSize.naturalWidth > this.mediaSize.naturalHeight ? 'reactEasyCrop_Cover_Horizontal' : 'reactEasyCrop_Cover_Vertical'), mediaClassName)
     }, mediaProps, {
       src: image,
-      ref: function ref(el) {
-        return _this.imageRef = el;
-      },
+      ref: this.imageRef,
       style: __assign(__assign({}, mediaStyle), {
         transform: transform || "translate(" + x + "px, " + y + "px) rotate(" + rotation + "deg) scale(" + zoom + ")"
       }),
@@ -44763,11 +44926,9 @@ function (_super) {
       autoPlay: true,
       loop: true,
       muted: true,
-      className: classNames('reactEasyCrop_Video', objectFit === 'contain' && 'reactEasyCrop_Contain', objectFit === 'horizontal-cover' && 'reactEasyCrop_Cover_Horizontal', objectFit === 'vertical-cover' && 'reactEasyCrop_Cover_Vertical', mediaClassName)
+      className: classNames('reactEasyCrop_Video', objectFit === 'contain' && 'reactEasyCrop_Contain', objectFit === 'horizontal-cover' && 'reactEasyCrop_Cover_Horizontal', objectFit === 'vertical-cover' && 'reactEasyCrop_Cover_Vertical', objectFit === 'auto-cover' && (this.mediaSize.naturalWidth > this.mediaSize.naturalHeight ? 'reactEasyCrop_Cover_Horizontal' : 'reactEasyCrop_Cover_Vertical'), mediaClassName)
     }, mediaProps, {
-      ref: function ref(el) {
-        return _this.videoRef = el;
-      },
+      ref: this.videoRef,
       onLoadedMetadata: this.onMediaLoad,
       style: __assign(__assign({}, mediaStyle), {
         transform: transform || "translate(" + x + "px, " + y + "px) rotate(" + rotation + "deg) scale(" + zoom + ")"
@@ -44824,6 +44985,7 @@ function (_super) {
 }((external_React_default()).Component);
 
 /* harmony default export */ var index_module = (Cropper);
+
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/image-editor/constants.js
 const constants_MIN_ZOOM = 100;
@@ -49985,6 +50147,12 @@ function RichTextWrapper(_ref, forwardedRef) {
   let adjustedOnChange = originalOnChange; // Handle deprecated format.
 
   if (Array.isArray(originalValue)) {
+    external_wp_deprecated_default()('wp.blockEditor.RichText value prop as children type', {
+      since: '6.1',
+      version: '6.3',
+      alternative: 'value prop as string',
+      link: 'https://developer.wordpress.org/block-editor/how-to-guides/block-tutorial/introducing-attributes-and-editable-fields/'
+    });
     adjustedValue = external_wp_blocks_namespaceObject.children.toHTML(originalValue);
 
     adjustedOnChange = newValue => originalOnChange(external_wp_blocks_namespaceObject.children.fromDOM((0,external_wp_richText_namespaceObject.__unstableCreateElement)(document, newValue).childNodes));
@@ -50213,6 +50381,12 @@ ForwardedRichTextContainer.Content = _ref3 => {
 
   // Handle deprecated `children` and `node` sources.
   if (Array.isArray(value)) {
+    external_wp_deprecated_default()('wp.blockEditor.RichText value prop as children type', {
+      since: '6.1',
+      version: '6.3',
+      alternative: 'value prop as string',
+      link: 'https://developer.wordpress.org/block-editor/how-to-guides/block-tutorial/introducing-attributes-and-editable-fields/'
+    });
     value = external_wp_blocks_namespaceObject.children.toHTML(value);
   }
 

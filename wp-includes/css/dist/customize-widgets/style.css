@@ -243,7 +243,8 @@
   z-index: 7;
 }
 
-.customize-widgets-popover .components-popover {
+.customize-widgets-popover .components-popover,
+.customize-control-sidebar_block_editor .components-popover {
   position: fixed !important;
 }
 

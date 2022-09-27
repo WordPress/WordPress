@@ -19166,6 +19166,143 @@ const getReferenceElement = _ref2 => {
   return (_referenceElement = referenceElement) !== null && _referenceElement !== void 0 ? _referenceElement : null;
 };
 
+;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/popover/limit-shift.js
+/**
+ * External dependencies
+ */
+
+/**
+ * Parts of this source were derived and modified from `floating-ui`,
+ * released under the MIT license.
+ *
+ * https://github.com/floating-ui/floating-ui
+ *
+ * Copyright (c) 2021 Floating UI contributors
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+/**
+ * Custom limiter function for the `shift` middleware.
+ * This function is mostly identical default `limitShift` from ``@floating-ui`;
+ * the only difference is that, when computing the min/max shift limits, it
+ * also takes into account the iframe offset that is added by the
+ * custom "frameOffset" middleware.
+ *
+ * All unexported types and functions are also from the `@floating-ui` library,
+ * and have been copied to this file for convenience.
+ */
+function getSide(placement) {
+  return placement.split('-')[0];
+}
+
+function getMainAxisFromPlacement(placement) {
+  return ['top', 'bottom'].includes(getSide(placement)) ? 'x' : 'y';
+}
+
+function getCrossAxis(axis) {
+  return axis === 'x' ? 'y' : 'x';
+}
+
+const limitShift = function () {
+  let options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  return {
+    options,
+
+    fn(middlewareArguments) {
+      var _middlewareData$frame;
+
+      const {
+        x,
+        y,
+        placement,
+        rects,
+        middlewareData
+      } = middlewareArguments;
+      const {
+        offset = 0,
+        mainAxis: checkMainAxis = true,
+        crossAxis: checkCrossAxis = true
+      } = options;
+      const coords = {
+        x,
+        y
+      };
+      const mainAxis = getMainAxisFromPlacement(placement);
+      const crossAxis = getCrossAxis(mainAxis);
+      let mainAxisCoord = coords[mainAxis];
+      let crossAxisCoord = coords[crossAxis];
+      const rawOffset = typeof offset === 'function' ? offset(middlewareArguments) : offset;
+      const computedOffset = typeof rawOffset === 'number' ? {
+        mainAxis: rawOffset,
+        crossAxis: 0
+      } : {
+        mainAxis: 0,
+        crossAxis: 0,
+        ...rawOffset
+      }; // At the moment of writing, this is the only difference
+      // with the `limitShift` function from `@floating-ui`.
+      // This offset needs to be added to all min/max limits
+      // in order to make the shift-limiting work as expected.
+
+      const additionalFrameOffset = {
+        x: 0,
+        y: 0,
+        ...((_middlewareData$frame = middlewareData.frameOffset) === null || _middlewareData$frame === void 0 ? void 0 : _middlewareData$frame.amount)
+      };
+
+      if (checkMainAxis) {
+        const len = mainAxis === 'y' ? 'height' : 'width';
+        const limitMin = rects.reference[mainAxis] - rects.floating[len] + computedOffset.mainAxis + additionalFrameOffset[mainAxis];
+        const limitMax = rects.reference[mainAxis] + rects.reference[len] - computedOffset.mainAxis + additionalFrameOffset[mainAxis];
+
+        if (mainAxisCoord < limitMin) {
+          mainAxisCoord = limitMin;
+        } else if (mainAxisCoord > limitMax) {
+          mainAxisCoord = limitMax;
+        }
+      }
+
+      if (checkCrossAxis) {
+        var _middlewareData$offse, _middlewareData$offse2, _middlewareData$offse3, _middlewareData$offse4;
+
+        const len = mainAxis === 'y' ? 'width' : 'height';
+        const isOriginSide = ['top', 'left'].includes(getSide(placement));
+        const limitMin = rects.reference[crossAxis] - rects.floating[len] + (isOriginSide ? (_middlewareData$offse = (_middlewareData$offse2 = middlewareData.offset) === null || _middlewareData$offse2 === void 0 ? void 0 : _middlewareData$offse2[crossAxis]) !== null && _middlewareData$offse !== void 0 ? _middlewareData$offse : 0 : 0) + (isOriginSide ? 0 : computedOffset.crossAxis) + additionalFrameOffset[crossAxis];
+        const limitMax = rects.reference[crossAxis] + rects.reference[len] + (isOriginSide ? 0 : (_middlewareData$offse3 = (_middlewareData$offse4 = middlewareData.offset) === null || _middlewareData$offse4 === void 0 ? void 0 : _middlewareData$offse4[crossAxis]) !== null && _middlewareData$offse3 !== void 0 ? _middlewareData$offse3 : 0) - (isOriginSide ? computedOffset.crossAxis : 0) + additionalFrameOffset[crossAxis];
+
+        if (crossAxisCoord < limitMin) {
+          crossAxisCoord = limitMin;
+        } else if (crossAxisCoord > limitMax) {
+          crossAxisCoord = limitMax;
+        }
+      }
+
+      return {
+        [mainAxis]: mainAxisCoord,
+        [crossAxis]: crossAxisCoord
+      };
+    }
+
+  };
+};
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/popover/index.js
 
 
@@ -19200,6 +19337,7 @@ const getReferenceElement = _ref2 => {
  *
  * @type {string}
  */
+
 const SLOT_NAME = 'Popover'; // An SVG displaying a triangle facing down, filled with a solid
 // color and bordered in such a way to create an arrow-like effect.
 // Keeping the SVG's viewbox squared simplify the arrow positioning
@@ -19362,36 +19500,35 @@ const UnforwardedPopover = (props, forwardedRef) => {
    */
 
   const frameOffsetRef = (0,external_wp_element_namespaceObject.useRef)(getFrameOffset(referenceOwnerDocument));
-  /**
-   * Store the offset prop in a ref, due to constraints with floating-ui:
-   * https://floating-ui.com/docs/react-dom#variables-inside-middleware-functions.
-   */
+  const middleware = [// Custom middleware which adjusts the popover's position by taking into
+  // account the offset of the anchor's iframe (if any) compared to the page.
+  {
+    name: 'frameOffset',
 
-  const offsetRef = (0,external_wp_element_namespaceObject.useRef)(offsetProp);
-  const middleware = [T(_ref2 => {
-    let {
-      placement: currentPlacement
-    } = _ref2;
+    fn(_ref2) {
+      let {
+        x,
+        y
+      } = _ref2;
 
-    if (!frameOffsetRef.current) {
-      return offsetRef.current;
+      if (!frameOffsetRef.current) {
+        return {
+          x,
+          y
+        };
+      }
+
+      return {
+        x: x + frameOffsetRef.current.x,
+        y: y + frameOffsetRef.current.y,
+        data: {
+          // This will be used in the customLimitShift() function.
+          amount: frameOffsetRef.current
+        }
+      };
     }
 
-    const isTopBottomPlacement = currentPlacement.includes('top') || currentPlacement.includes('bottom'); // The main axis should represent the gap between the
-    // floating element and the reference element. The cross
-    // axis is always perpendicular to the main axis.
-
-    const mainAxis = isTopBottomPlacement ? 'y' : 'x';
-    const crossAxis = mainAxis === 'x' ? 'y' : 'x'; // When the popover is before the reference, subtract the offset,
-    // of the main axis else add it.
-
-    const hasBeforePlacement = currentPlacement.includes('top') || currentPlacement.includes('left');
-    const mainAxisModifier = hasBeforePlacement ? -1 : 1;
-    return {
-      mainAxis: offsetRef.current + frameOffsetRef.current[mainAxis] * mainAxisModifier,
-      crossAxis: frameOffsetRef.current[crossAxis]
-    };
-  }), computedFlipProp ? b() : undefined, computedResizeProp ? k({
+  }, T(offsetProp), computedFlipProp ? b() : undefined, computedResizeProp ? k({
     apply(sizeProps) {
       var _refs$floating$curren;
 
@@ -19409,7 +19546,7 @@ const UnforwardedPopover = (props, forwardedRef) => {
 
   }) : undefined, shouldShift ? L({
     crossAxis: true,
-    limiter: D(),
+    limiter: limitShift(),
     padding: 1 // Necessary to avoid flickering at the edge of the viewport.
 
   }) : undefined, arrow({
@@ -19463,10 +19600,6 @@ const UnforwardedPopover = (props, forwardedRef) => {
       animationFrame: true
     })
   });
-  (0,external_wp_element_namespaceObject.useEffect)(() => {
-    offsetRef.current = offsetProp;
-    update();
-  }, [offsetProp, update]);
   const arrowCallbackRef = (0,external_wp_element_namespaceObject.useCallback)(node => {
     arrowRef.current = node;
     update();
@@ -31881,7 +32014,7 @@ function getVariation(placement) {
   return placement.split('-')[1];
 }
 ;// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/utils/getMainAxisFromPlacement.js
-function getMainAxisFromPlacement(placement) {
+function getMainAxisFromPlacement_getMainAxisFromPlacement(placement) {
   return ['top', 'bottom'].indexOf(placement) >= 0 ? 'x' : 'y';
 }
 ;// CONCATENATED MODULE: ./node_modules/@popperjs/core/lib/utils/computeOffsets.js
@@ -31935,7 +32068,7 @@ function computeOffsets(_ref) {
       };
   }
 
-  var mainAxis = basePlacement ? getMainAxisFromPlacement(basePlacement) : null;
+  var mainAxis = basePlacement ? getMainAxisFromPlacement_getMainAxisFromPlacement(basePlacement) : null;
 
   if (mainAxis != null) {
     var len = mainAxis === 'y' ? 'height' : 'width';
@@ -32815,7 +32948,7 @@ function preventOverflow(_ref) {
   var basePlacement = getBasePlacement(state.placement);
   var variation = getVariation(state.placement);
   var isBasePlacement = !variation;
-  var mainAxis = getMainAxisFromPlacement(basePlacement);
+  var mainAxis = getMainAxisFromPlacement_getMainAxisFromPlacement(basePlacement);
   var altAxis = getAltAxis(mainAxis);
   var popperOffsets = state.modifiersData.popperOffsets;
   var referenceRect = state.rects.reference;
@@ -32948,7 +33081,7 @@ function arrow_arrow(_ref) {
   var arrowElement = state.elements.arrow;
   var popperOffsets = state.modifiersData.popperOffsets;
   var basePlacement = getBasePlacement(state.placement);
-  var axis = getMainAxisFromPlacement(basePlacement);
+  var axis = getMainAxisFromPlacement_getMainAxisFromPlacement(basePlacement);
   var isVertical = [left, right].indexOf(basePlacement) >= 0;
   var len = isVertical ? 'height' : 'width';
 
@@ -45914,6 +46047,7 @@ function useCombobox(userProps) {
       refKey = 'ref',
       ref,
       onMouseMove,
+      onMouseDown,
       onClick,
       onPress,
       disabled,
@@ -45950,11 +46084,9 @@ function useCombobox(userProps) {
         type: ItemClick,
         index
       });
-
-      if (inputRef.current) {
-        inputRef.current.focus();
-      }
     };
+
+    const itemHandleMouseDown = e => e.preventDefault();
 
     return {
       [refKey]: handleRefs(ref, itemNode => {
@@ -45970,6 +46102,7 @@ function useCombobox(userProps) {
         [onSelectKey]: callAllEventHandlers(customClickHandler, itemHandleClick)
       }),
       onMouseMove: callAllEventHandlers(onMouseMove, itemHandleMouseMove),
+      onMouseDown: callAllEventHandlers(onMouseDown, itemHandleMouseDown),
       ...rest
     };
   }, [dispatch, latest, shouldScrollRef, elementIds]);
@@ -63362,12 +63495,13 @@ function getRowFocusables(rowElement) {
  * Renders both a table and tbody element, used to create a tree hierarchy.
  *
  * @see https://github.com/WordPress/gutenberg/blob/HEAD/packages/components/src/tree-grid/README.md
- * @param {Object}    props               Component props.
- * @param {WPElement} props.children      Children to be rendered.
- * @param {Function}  props.onExpandRow   Callback to fire when row is expanded.
- * @param {Function}  props.onCollapseRow Callback to fire when row is collapsed.
- * @param {Function}  props.onFocusRow    Callback to fire when moving focus to a different row.
- * @param {Object}    ref                 A ref to the underlying DOM table element.
+ * @param {Object}    props                      Component props.
+ * @param {WPElement} props.children             Children to be rendered.
+ * @param {Function}  props.onExpandRow          Callback to fire when row is expanded.
+ * @param {Function}  props.onCollapseRow        Callback to fire when row is collapsed.
+ * @param {Function}  props.onFocusRow           Callback to fire when moving focus to a different row.
+ * @param {string}    props.applicationAriaLabel Label to use for the application role.
+ * @param {Object}    ref                        A ref to the underlying DOM table element.
  */
 
 
@@ -63377,6 +63511,7 @@ function TreeGrid(_ref, ref) {
     onExpandRow = () => {},
     onCollapseRow = () => {},
     onFocusRow = () => {},
+    applicationAriaLabel,
     ...props
   } = _ref;
   const onKeyDown = (0,external_wp_element_namespaceObject.useCallback)(event => {
@@ -63576,11 +63711,14 @@ function TreeGrid(_ref, ref) {
 
   /* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
 
-  return (0,external_wp_element_namespaceObject.createElement)(RovingTabIndex, null, (0,external_wp_element_namespaceObject.createElement)("table", extends_extends({}, props, {
+  return (0,external_wp_element_namespaceObject.createElement)(RovingTabIndex, null, (0,external_wp_element_namespaceObject.createElement)("div", {
+    role: "application",
+    "aria-label": applicationAriaLabel
+  }, (0,external_wp_element_namespaceObject.createElement)("table", extends_extends({}, props, {
     role: "treegrid",
     onKeyDown: onKeyDown,
     ref: ref
-  }), (0,external_wp_element_namespaceObject.createElement)("tbody", null, children)));
+  }), (0,external_wp_element_namespaceObject.createElement)("tbody", null, children))));
   /* eslint-enable jsx-a11y/no-noninteractive-element-to-interactive-role */
 }
 

@@ -3809,14 +3809,18 @@ function VisualEditor(_ref2) {
   const {
     themeHasDisabledLayoutStyles,
     themeSupportsLayout,
-    assets
+    assets,
+    useRootPaddingAwareAlignments
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
+    var _settings$__experimen;
+
     const _settings = select(external_wp_blockEditor_namespaceObject.store).getSettings();
 
     return {
       themeHasDisabledLayoutStyles: _settings.disableLayoutStyles,
       themeSupportsLayout: _settings.supportsLayout,
-      assets: _settings.__unstableResolvedAssets
+      assets: _settings.__unstableResolvedAssets,
+      useRootPaddingAwareAlignments: (_settings$__experimen = _settings.__experimentalFeatures) === null || _settings$__experimen === void 0 ? void 0 : _settings$__experimen.useRootPaddingAwareAlignments
     };
   }, []);
   const {
@@ -3879,7 +3883,11 @@ function VisualEditor(_ref2) {
       type: 'default'
     };
   }, [isTemplateMode, themeSupportsLayout, defaultLayout]);
-  const blockListLayoutClass = themeSupportsLayout ? 'is-layout-constrained' : 'is-layout-flow';
+  const blockListLayoutClass = classnames_default()({
+    'is-layout-constrained': themeSupportsLayout,
+    'is-layout-flow': !themeSupportsLayout,
+    'has-global-padding': useRootPaddingAwareAlignments
+  });
   const titleRef = (0,external_wp_element_namespaceObject.useRef)();
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     var _titleRef$current;

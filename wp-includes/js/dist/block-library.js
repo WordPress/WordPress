@@ -10564,7 +10564,7 @@ const comments_pagination_previous_metadata = {
   $schema: "https://schemas.wp.org/trunk/block.json",
   apiVersion: 2,
   name: "core/comments-pagination-previous",
-  title: "Previous Page",
+  title: "Comments Previous Page",
   category: "theme",
   parent: ["core/comments-pagination"],
   description: "Displays the previous comment's page link.",
@@ -10910,7 +10910,7 @@ const comments_pagination_next_metadata = {
   $schema: "https://schemas.wp.org/trunk/block.json",
   apiVersion: 2,
   name: "core/comments-pagination-next",
-  title: "Next Page",
+  title: "Comments Next Page",
   category: "theme",
   parent: ["core/comments-pagination"],
   description: "Displays the next comment's page link.",
@@ -11035,7 +11035,7 @@ const comments_pagination_numbers_metadata = {
   $schema: "https://schemas.wp.org/trunk/block.json",
   apiVersion: 2,
   name: "core/comments-pagination-numbers",
-  title: "Page Numbers",
+  title: "Comments Page Numbers",
   category: "theme",
   parent: ["core/comments-pagination"],
   description: "Displays a list of page numbers for comments pagination.",
@@ -17230,8 +17230,8 @@ const deprecated_v3 = {
           attribute: 'data-link'
         },
         caption: {
-          type: 'array',
-          source: 'children',
+          type: 'string',
+          source: 'html',
           selector: 'figcaption'
         }
       }
@@ -17340,8 +17340,8 @@ const gallery_deprecated_v2 = {
           attribute: 'data-link'
         },
         caption: {
-          type: 'array',
-          source: 'children',
+          type: 'string',
+          source: 'html',
           selector: 'figcaption'
         }
       }
@@ -29948,10 +29948,12 @@ function menuItemsToBlocks(menuItems) {
  * A recursive function that maps menu item nodes to blocks.
  *
  * @param {WPNavMenuItem[]} menuItems An array of WPNavMenuItem items.
+ * @param {number}          level     An integer representing the nesting level.
  * @return {Object} Object containing innerBlocks and mapping.
  */
 
 function mapMenuItemsToBlocks(menuItems) {
+  let level = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
   let mapping = {}; // The menuItem should be in menu_order sort order.
 
   const sortedItems = [...menuItems].sort((a, b) => a.menu_order - b.menu_order);
@@ -29970,19 +29972,19 @@ function mapMenuItemsToBlocks(menuItems) {
       return block;
     }
 
-    const attributes = menuItemToBlockAttributes(menuItem); // If there are children recurse to build those nested blocks.
+    const blockType = (_menuItem$children = menuItem.children) !== null && _menuItem$children !== void 0 && _menuItem$children.length ? 'core/navigation-submenu' : 'core/navigation-link';
+    const attributes = menuItemToBlockAttributes(menuItem, blockType, level); // If there are children recurse to build those nested blocks.
 
     const {
       innerBlocks: nestedBlocks = [],
       // alias to avoid shadowing
       mapping: nestedMapping = {} // alias to avoid shadowing
 
-    } = (_menuItem$children = menuItem.children) !== null && _menuItem$children !== void 0 && _menuItem$children.length ? mapMenuItemsToBlocks(menuItem.children) : {}; // Update parent mapping with nested mapping.
+    } = (_menuItem$children2 = menuItem.children) !== null && _menuItem$children2 !== void 0 && _menuItem$children2.length ? mapMenuItemsToBlocks(menuItem.children, level + 1) : {}; // Update parent mapping with nested mapping.
 
     mapping = { ...mapping,
       ...nestedMapping
-    };
-    const blockType = (_menuItem$children2 = menuItem.children) !== null && _menuItem$children2 !== void 0 && _menuItem$children2.length ? 'core/navigation-submenu' : 'core/navigation-link'; // Create block with nested "innerBlocks".
+    }; // Create block with nested "innerBlocks".
 
     const block = (0,external_wp_blocks_namespaceObject.createBlock)(blockType, attributes, nestedBlocks); // Create mapping for menuItem -> block.
 
@@ -30018,12 +30020,14 @@ function mapMenuItemsToBlocks(menuItems) {
 /**
  * Convert block attributes to menu item.
  *
- * @param {WPNavMenuItem} menuItem the menu item to be converted to block attributes.
+ * @param {WPNavMenuItem} menuItem  the menu item to be converted to block attributes.
+ * @param {string}        blockType The block type.
+ * @param {number}        level     An integer representing the nesting level.
  * @return {Object} the block attributes converted from the WPNavMenuItem item.
  */
 
 
-function menuItemToBlockAttributes(_ref) {
+function menuItemToBlockAttributes(_ref, blockType, level) {
   var _object;
 
   let {
@@ -30077,6 +30081,12 @@ function menuItemToBlockAttributes(_ref) {
     }),
     ...(target === '_blank' && {
       opensInNewTab: true
+    }),
+    ...(blockType === 'core/navigation-submenu' && {
+      isTopLevelItem: level === 0
+    }),
+    ...(blockType === 'core/navigation-link' && {
+      isTopLevelLink: level === 0
     })
   };
 }
@@ -38115,21 +38125,6 @@ function PostTemplateEdit(_ref2) {
     page
   }] = queryContext;
   const [activeBlockContextId, setActiveBlockContextId] = (0,external_wp_element_namespaceObject.useState)();
-  let categorySlug = null;
-
-  if (templateSlug !== null && templateSlug !== void 0 && templateSlug.startsWith('category-')) {
-    categorySlug = templateSlug.replace('category-', '');
-  }
-
-  const {
-    records: categories,
-    hasResolved: hasResolvedCategories
-  } = (0,external_wp_coreData_namespaceObject.useEntityRecords)('taxonomy', 'category', {
-    context: 'view',
-    per_page: -1,
-    _fields: ['id'],
-    slug: categorySlug
-  });
   const {
     posts,
     blocks
@@ -38146,13 +38141,19 @@ function PostTemplateEdit(_ref2) {
       per_page: -1,
       context: 'view'
     });
+    const templateCategory = inherit && (templateSlug === null || templateSlug === void 0 ? void 0 : templateSlug.startsWith('category-')) && getEntityRecords('taxonomy', 'category', {
+      context: 'view',
+      per_page: 1,
+      _fields: ['id'],
+      slug: templateSlug.replace('category-', '')
+    });
     const query = {
       offset: perPage ? perPage * (page - 1) + offset : 0,
       order,
       orderby: orderBy
-    };
+    }; // There is no need to build the taxQuery if we inherit.
 
-    if (taxQuery) {
+    if (taxQuery && !inherit) {
       // We have to build the tax query for the REST API and use as
       // keys the taxonomies `rest_base` with the `term ids` as values.
       const builtTaxQuery = Object.entries(taxQuery).reduce((accumulator, _ref3) => {
@@ -38209,16 +38210,10 @@ function PostTemplateEdit(_ref2) {
       if (templateSlug !== null && templateSlug !== void 0 && templateSlug.startsWith('archive-')) {
         query.postType = templateSlug.replace('archive-', '');
         postType = query.postType;
-      } else if (!!categorySlug && hasResolvedCategories) {
-        query.taxQuery = {
-          category: categories.map(_ref5 => {
-            let {
-              id
-            } = _ref5;
-            return id;
-          })
-        };
-        taxQuery = query.taxQuery;
+      } else if (templateCategory) {
+        var _templateCategory$;
+
+        query.categories = (_templateCategory$ = templateCategory[0]) === null || _templateCategory$ === void 0 ? void 0 : _templateCategory$.id;
       }
     } // When we preview Query Loop blocks we should prefer the current
     // block's postType, which is passed through block context.
@@ -38231,7 +38226,7 @@ function PostTemplateEdit(_ref2) {
       }),
       blocks: getBlocks(clientId)
     };
-  }, [perPage, page, offset, order, orderBy, clientId, author, search, postType, exclude, sticky, inherit, templateSlug, taxQuery, parents, restQueryArgs, previewPostType, categories, categorySlug, hasResolvedCategories]);
+  }, [perPage, page, offset, order, orderBy, clientId, author, search, postType, exclude, sticky, inherit, templateSlug, taxQuery, parents, restQueryArgs, previewPostType]);
   const blockContexts = (0,external_wp_element_namespaceObject.useMemo)(() => posts === null || posts === void 0 ? void 0 : posts.map(post => ({
     postType: post.type,
     postId: post.id
@@ -43403,9 +43398,9 @@ const quote_transforms_transforms = {
         anchor,
         fontSize,
         style
-      }, (0,external_wp_blocks_namespaceObject.createBlock)('core/paragraph', {
+      }, [(0,external_wp_blocks_namespaceObject.createBlock)('core/paragraph', {
         content: value
-      }));
+      })]);
     }
   }, {
     type: 'block',
@@ -52208,7 +52203,7 @@ function TemplatePartEdit(_ref) {
     return (0,external_wp_element_namespaceObject.createElement)(TagName, blockProps, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.Warning, null, (0,external_wp_i18n_namespaceObject.__)('Block cannot be rendered inside itself.')));
   }
 
-  return (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.__experimentalRecursionProvider, {
+  return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.__experimentalRecursionProvider, {
     uniqueId: templatePartId
   }, (0,external_wp_element_namespaceObject.createElement)(TemplatePartAdvancedControls, {
     tagName: tagName,
@@ -52237,7 +52232,7 @@ function TemplatePartEdit(_ref) {
     postId: templatePartId,
     hasInnerBlocks: innerBlocks.length > 0,
     layout: layout
-  }), !isPlaceholder && !isResolved && (0,external_wp_element_namespaceObject.createElement)(TagName, blockProps, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Spinner, null)), isTemplatePartSelectionOpen && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Modal, {
+  }), !isPlaceholder && !isResolved && (0,external_wp_element_namespaceObject.createElement)(TagName, blockProps, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Spinner, null))), isTemplatePartSelectionOpen && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Modal, {
     overlayClassName: "block-editor-template-part__selection-modal",
     title: (0,external_wp_i18n_namespaceObject.sprintf)( // Translators: %s as template part area title ("Header", "Footer", etc.).
     (0,external_wp_i18n_namespaceObject.__)('Choose a %s'), areaObject.label.toLowerCase()),

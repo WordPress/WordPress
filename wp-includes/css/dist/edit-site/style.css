@@ -1694,8 +1694,7 @@ body.is-fullscreen-mode .edit-site-list-header {
   padding: 16px;
 }
 
-.edit-site-navigation-sidebar__beta,
-.edit-site-global-styles-sidebar__beta {
+.edit-site-navigation-sidebar__beta {
   display: inline-flex;
   margin-left: 8px;
   padding: 0 8px;

@@ -9448,7 +9448,7 @@ function isMatchingSearchTerm(state, nameOrType, searchTerm) {
   term => term.trim()]);
   const normalizedSearchTerm = getNormalizedSearchTerm(searchTerm);
   const isSearchMatch = (0,external_lodash_namespaceObject.flow)([getNormalizedSearchTerm, normalizedCandidate => (0,external_lodash_namespaceObject.includes)(normalizedCandidate, normalizedSearchTerm)]);
-  return isSearchMatch(blockType.title) || (0,external_lodash_namespaceObject.some)(blockType.keywords, isSearchMatch) || isSearchMatch(blockType.category) || isSearchMatch(blockType.description);
+  return isSearchMatch(blockType.title) || (0,external_lodash_namespaceObject.some)(blockType.keywords, isSearchMatch) || isSearchMatch(blockType.category) || typeof blockType.description === 'string' && isSearchMatch(blockType.description);
 }
 /**
  * Returns a boolean indicating if a block has child blocks or not.
@@ -12418,8 +12418,13 @@ function matchers_html(selector, multilineTag) {
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/node.js
 /**
+ * WordPress dependencies
+ */
+
+/**
  * Internal dependencies
  */
+
 
 /**
  * A representation of a single node within a block's rich text value. If
@@ -12443,6 +12448,11 @@ function matchers_html(selector, multilineTag) {
  */
 
 function isNodeOfType(node, type) {
+  external_wp_deprecated_default()('wp.blocks.node.isNodeOfType', {
+    since: '6.1',
+    version: '6.3',
+    link: 'https://developer.wordpress.org/block-editor/how-to-guides/block-tutorial/introducing-attributes-and-editable-fields/'
+  });
   return node && node.type === type;
 }
 /**
@@ -12482,6 +12492,13 @@ function getNamedNodeMapAsObject(nodeMap) {
  */
 
 function fromDOM(domNode) {
+  external_wp_deprecated_default()('wp.blocks.node.fromDOM', {
+    since: '6.1',
+    version: '6.3',
+    alternative: 'wp.richText.create',
+    link: 'https://developer.wordpress.org/block-editor/how-to-guides/block-tutorial/introducing-attributes-and-editable-fields/'
+  });
+
   if (domNode.nodeType === domNode.TEXT_NODE) {
     return domNode.nodeValue;
   }
@@ -12506,6 +12523,12 @@ function fromDOM(domNode) {
  */
 
 function toHTML(node) {
+  external_wp_deprecated_default()('wp.blocks.node.toHTML', {
+    since: '6.1',
+    version: '6.3',
+    alternative: 'wp.richText.toHTMLString',
+    link: 'https://developer.wordpress.org/block-editor/how-to-guides/block-tutorial/introducing-attributes-and-editable-fields/'
+  });
   return children_toHTML([node]);
 }
 /**
@@ -12518,6 +12541,12 @@ function toHTML(node) {
  */
 
 function node_matcher(selector) {
+  external_wp_deprecated_default()('wp.blocks.node.matcher', {
+    since: '6.1',
+    version: '6.3',
+    alternative: 'html source',
+    link: 'https://developer.wordpress.org/block-editor/how-to-guides/block-tutorial/introducing-attributes-and-editable-fields/'
+  });
   return domNode => {
     let match = domNode;
 
@@ -12561,6 +12590,7 @@ function node_matcher(selector) {
  */
 
 
+
 /**
  * Internal dependencies
  */
@@ -12598,9 +12628,14 @@ function getSerializeCapableElement(children) {
  */
 
 function getChildrenArray(children) {
-  // The fact that block children are compatible with the element serializer
+  external_wp_deprecated_default()('wp.blocks.children.getChildrenArray', {
+    since: '6.1',
+    version: '6.3',
+    link: 'https://developer.wordpress.org/block-editor/how-to-guides/block-tutorial/introducing-attributes-and-editable-fields/'
+  }); // The fact that block children are compatible with the element serializer
   // is merely an implementation detail that currently serves to be true, but
   // should not be mistaken as being a guarantee on the external API.
+
   return children;
 }
 /**
@@ -12614,6 +12649,12 @@ function getChildrenArray(children) {
 
 
 function concat() {
+  external_wp_deprecated_default()('wp.blocks.children.concat', {
+    since: '6.1',
+    version: '6.3',
+    alternative: 'wp.richText.concat',
+    link: 'https://developer.wordpress.org/block-editor/how-to-guides/block-tutorial/introducing-attributes-and-editable-fields/'
+  });
   const result = [];
 
   for (let i = 0; i < arguments.length; i++) {
@@ -12643,6 +12684,12 @@ function concat() {
  */
 
 function children_fromDOM(domNodes) {
+  external_wp_deprecated_default()('wp.blocks.children.fromDOM', {
+    since: '6.1',
+    version: '6.3',
+    alternative: 'wp.richText.create',
+    link: 'https://developer.wordpress.org/block-editor/how-to-guides/block-tutorial/introducing-attributes-and-editable-fields/'
+  });
   const result = [];
 
   for (let i = 0; i < domNodes.length; i++) {
@@ -12663,6 +12710,12 @@ function children_fromDOM(domNodes) {
  */
 
 function children_toHTML(children) {
+  external_wp_deprecated_default()('wp.blocks.children.toHTML', {
+    since: '6.1',
+    version: '6.3',
+    alternative: 'wp.richText.toHTMLString',
+    link: 'https://developer.wordpress.org/block-editor/how-to-guides/block-tutorial/introducing-attributes-and-editable-fields/'
+  });
   const element = getSerializeCapableElement(children);
   return (0,external_wp_element_namespaceObject.renderToString)(element);
 }
@@ -12676,6 +12729,12 @@ function children_toHTML(children) {
  */
 
 function children_matcher(selector) {
+  external_wp_deprecated_default()('wp.blocks.children.matcher', {
+    since: '6.1',
+    version: '6.3',
+    alternative: 'html source',
+    link: 'https://developer.wordpress.org/block-editor/how-to-guides/block-tutorial/introducing-attributes-and-editable-fields/'
+  });
   return domNode => {
     let match = domNode;
 
