@@ -1412,19 +1412,19 @@ class wp_xmlrpc_server extends IXR_Server {
 		$defaults = array(
 			'post_status'    => 'draft',
 			'post_type'      => 'post',
-			'post_author'    => null,
-			'post_password'  => null,
-			'post_excerpt'   => null,
-			'post_content'   => null,
-			'post_title'     => null,
-			'post_date'      => null,
-			'post_date_gmt'  => null,
+			'post_author'    => 0,
+			'post_password'  => '',
+			'post_excerpt'   => '',
+			'post_content'   => '',
+			'post_title'     => '',
+			'post_date'      => '',
+			'post_date_gmt'  => '',
 			'post_format'    => null,
 			'post_name'      => null,
 			'post_thumbnail' => null,
-			'post_parent'    => null,
-			'ping_status'    => null,
-			'comment_status' => null,
+			'post_parent'    => 0,
+			'ping_status'    => '',
+			'comment_status' => '',
 			'custom_fields'  => null,
 			'terms_names'    => null,
 			'terms'          => null,
@@ -1499,11 +1499,11 @@ class wp_xmlrpc_server extends IXR_Server {
 			$post_data['post_author'] = $user->ID;
 		}
 
-		if ( isset( $post_data['comment_status'] ) && 'open' !== $post_data['comment_status'] && 'closed' !== $post_data['comment_status'] ) {
+		if ( 'open' !== $post_data['comment_status'] && 'closed' !== $post_data['comment_status'] ) {
 			unset( $post_data['comment_status'] );
 		}
 
-		if ( isset( $post_data['ping_status'] ) && 'open' !== $post_data['ping_status'] && 'closed' !== $post_data['ping_status'] ) {
+		if ( 'open' !== $post_data['ping_status'] && 'closed' !== $post_data['ping_status'] ) {
 			unset( $post_data['ping_status'] );
 		}
 
@@ -1680,6 +1680,14 @@ class wp_xmlrpc_server extends IXR_Server {
 		 * @param array $content_struct Post data array.
 		 */
 		$post_data = apply_filters( 'xmlrpc_wp_insert_post_data', $post_data, $content_struct );
+
+		// Remove all null values to allow for using the insert/update post default values for those keys instead.
+		$post_data = array_filter(
+			$post_data,
+			static function ( $value ) {
+				return null !== $value;
+			}
+		);
 
 		$post_ID = $update ? wp_update_post( $post_data, true ) : wp_insert_post( $post_data, true );
 		if ( is_wp_error( $post_ID ) ) {
