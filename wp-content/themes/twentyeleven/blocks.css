@@ -219,6 +219,14 @@ p.has-drop-cap:not(:focus)::first-letter {
 	text-transform: uppercase;
 }
 
+.rtl .wp-block-table th {
+	padding: 6px 0 6px 10px;
+}
+
+.wp-block-table .has-text-color th {
+	color: currentColor;
+}
+
 .wp-block-table td {
 	border: 0;
 	border-top: 1px solid #ddd;

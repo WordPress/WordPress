@@ -162,12 +162,14 @@ Description: Used to style blocks in the editor.
 
 /* Captions */
 
-[class^="wp-block-"] figcaption {
+[class^="wp-block-"] figcaption,
+[class*=" wp-block-"] figcaption {
 	font-family: Georgia, serif;
 	font-size: 12px;
 }
 
-[class^="wp-block-"]:not(.wp-block-gallery) figcaption {
+[class^="wp-block-"]:not(.wp-block-gallery) figcaption,
+[class*=" wp-block-"]:not(.wp-block-gallery) figcaption {
 	color: #666;
 	margin-bottom: 1.625em;
 	max-width: 96%;
@@ -177,7 +179,8 @@ Description: Used to style blocks in the editor.
 	text-align: left;
 }
 
-[class^="wp-block-"]:not(.wp-block-gallery) figcaption:before {
+[class^="wp-block-"]:not(.wp-block-gallery) figcaption:before,
+[class*=" wp-block-"]:not(.wp-block-gallery) figcaption:before {
 	color: #666;
 	content: '\2014';
 	font-size: 14px;
@@ -189,13 +192,15 @@ Description: Used to style blocks in the editor.
 	top: 0;
 }
 
-.rtl [class^="wp-block-"]:not(.wp-block-gallery) figcaption {
+.rtl [class^="wp-block-"]:not(.wp-block-gallery) figcaption,
+.rtl [class*=" wp-block-"]:not(.wp-block-gallery) figcaption {
 	padding-left: 0;
 	padding-right: 40px;
 	text-align: right;
 }
 
-.rtl [class^="wp-block-"]:not(.wp-block-gallery) figcaption:before {
+.rtl [class^="wp-block-"]:not(.wp-block-gallery) figcaption:before,
+.rtl [class*=" wp-block-"]:not(.wp-block-gallery) figcaption:before {
 	left: 0;
 	margin-left: 5px;
 	margin-right: 0;
@@ -355,9 +360,18 @@ p.has-drop-cap:not(:focus)::first-letter {
 
 /* Table */
 
-.editor-block-list__block .wp-block-table th,
-.editor-block-list__block .wp-block-table td {
-	padding: 0;
+.editor-styles-wrapper .wp-block-table th,
+.editor-styles-wrapper .wp-block-table td {
+	padding: 6px 10px 6px 0;
+}
+
+.rtl .editor-styles-wrapper .wp-block-table th,
+.rtl .editor-styles-wrapper .wp-block-table td {
+	padding: 6px 0 6px 10px;
+}
+
+.wp-block-table .has-text-color th {
+	color: currentColor;
 }
 
 .wp-block-table__cell-content {
