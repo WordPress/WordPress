@@ -1225,7 +1225,7 @@ window.commentReply = {
 	discardCommentChanges: function() {
 		var editRow = $( '#replyrow' );
 
-		if  ( this.originalContent === $( '#replycontent', editRow ).val() ) {
+		if  ( '' === $( '#replycontent', editRow ).val() || this.originalContent === $( '#replycontent', editRow ).val() ) {
 			return true;
 		}
 
