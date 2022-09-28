@@ -1065,10 +1065,7 @@ function load_script_textdomain( $handle, $domain = 'default', $path = '' ) {
 		return false;
 	}
 
-	if ( is_string( $path ) ) {
-		$path = untrailingslashit( $path );
-	}
-
+	$path   = untrailingslashit( $path );
 	$locale = determine_locale();
 
 	// If a path was given and the handle file exists simply return it.

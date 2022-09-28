@@ -237,7 +237,7 @@ function wp_localize_script( $handle, $object_name, $l10n ) {
  * @param string $path   Optional. The full file path to the directory containing translation files.
  * @return bool True if the text domain was successfully localized, false otherwise.
  */
-function wp_set_script_translations( $handle, $domain = 'default', $path = null ) {
+function wp_set_script_translations( $handle, $domain = 'default', $path = '' ) {
 	global $wp_scripts;
 
 	if ( ! ( $wp_scripts instanceof WP_Scripts ) ) {

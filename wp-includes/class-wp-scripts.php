@@ -573,7 +573,7 @@ class WP_Scripts extends WP_Dependencies {
 	 * @param string $path   Optional. The full file path to the directory containing translation files.
 	 * @return bool True if the text domain was registered, false if not.
 	 */
-	public function set_translations( $handle, $domain = 'default', $path = null ) {
+	public function set_translations( $handle, $domain = 'default', $path = '' ) {
 		if ( ! isset( $this->registered[ $handle ] ) ) {
 			return false;
 		}
@@ -605,7 +605,11 @@ class WP_Scripts extends WP_Dependencies {
 		}
 
 		$domain = $this->registered[ $handle ]->textdomain;
-		$path   = $this->registered[ $handle ]->translations_path;
+		$path   = '';
+
+		if ( isset( $this->registered[ $handle ]->translations_path ) ) {
+			$path = $this->registered[ $handle ]->translations_path;
+		}
 
 		$json_translations = load_script_textdomain( $handle, $domain, $path );
 
