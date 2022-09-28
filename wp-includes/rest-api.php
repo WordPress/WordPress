@@ -108,8 +108,9 @@ function register_rest_route( $namespace, $route, $args = array(), $override = f
 			_doing_it_wrong(
 				__FUNCTION__,
 				sprintf(
-				/* translators: %s: The REST API route being registered. */
-					__( 'REST API $args should be an array of arrays. Non-array value detected for %s.' ),
+					/* translators: 1: $args, 2: The REST API route being registered. */
+					__( 'REST API %1$s should be an array of arrays. Non-array value detected for %2$s.' ),
+					'<code>$args</code>',
 					'<code>' . $clean_namespace . '/' . trim( $route, '/' ) . '</code>'
 				),
 				'6.1.0'
