@@ -1058,14 +1058,17 @@ function load_child_theme_textdomain( $domain, $path = false ) {
  * @return string|false The translated strings in JSON encoding on success,
  *                      false if the script textdomain could not be loaded.
  */
-function load_script_textdomain( $handle, $domain = 'default', $path = null ) {
+function load_script_textdomain( $handle, $domain = 'default', $path = '' ) {
 	$wp_scripts = wp_scripts();
 
 	if ( ! isset( $wp_scripts->registered[ $handle ] ) ) {
 		return false;
 	}
 
-	$path   = untrailingslashit( $path );
+	if ( is_string( $path ) ) {
+		$path = untrailingslashit( $path );
+	}
+
 	$locale = determine_locale();
 
 	// If a path was given and the handle file exists simply return it.
