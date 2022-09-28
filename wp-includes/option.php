@@ -164,6 +164,12 @@ function get_option( $option, $default = false ) {
 		// Prevent non-existent options from triggering multiple queries.
 		$notoptions = wp_cache_get( 'notoptions', 'options' );
 
+		// Prevent non-existent `notoptions` key from triggering multiple key lookups.
+		if ( ! is_array( $notoptions ) ) {
+			$notoptions = array();
+			wp_cache_set( 'notoptions', $notoptions, 'options' );
+		}
+
 		if ( isset( $notoptions[ $option ] ) ) {
 			/**
 			 * Filters the default value for an option.
