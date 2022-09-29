@@ -173,15 +173,6 @@ class WP_Theme_JSON {
 			'classes'           => array(),
 			'properties'        => array( 'padding', 'margin' ),
 		),
-		array(
-			'path'              => array( 'spacing', 'spacingScale' ),
-			'prevent_override'  => false,
-			'use_default_names' => true,
-			'value_key'         => 'size',
-			'css_vars'          => '--wp--preset--spacing--$slug',
-			'classes'           => array(),
-			'properties'        => array( 'padding', 'margin' ),
-		),
 	);
 
 	/**
@@ -334,6 +325,7 @@ class WP_Theme_JSON {
 			'units'             => null,
 		),
 		'typography'                    => array(
+			'fluid'          => null,
 			'customFontSize' => null,
 			'dropCap'        => null,
 			'fontFamilies'   => null,
