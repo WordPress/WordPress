@@ -478,7 +478,7 @@ class WP_Site_Health {
 	/**
 	 * Tests if themes are outdated, or unnecessary.
 	 *
-	 * Сhecks if your site has a default theme (to fall back on if there is a need),
+	 * Checks if your site has a default theme (to fall back on if there is a need),
 	 * if your themes are up to date and, finally, encourages you to remove any themes
 	 * that are not needed.
 	 *
