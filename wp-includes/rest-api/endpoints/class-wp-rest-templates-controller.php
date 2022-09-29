@@ -82,7 +82,7 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
 							'required'    => true,
 						),
 						'is_custom'       => array(
-							'description' => __( ' Indicates if a template is custom or part of the template hierarchy' ),
+							'description' => __( 'Indicates if a template is custom or part of the template hierarchy' ),
 							'type'        => 'boolean',
 						),
 						'template_prefix' => array(
