@@ -1373,11 +1373,11 @@ ul.cat-checklist {
 	content: "\f463";
 	display: inline-block;
 	font: normal 20px/1 dashicons;
-	margin: 3px -2px 0 5px;
+	margin: -3px -2px 0 5px;
 	speak: never;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	vertical-align: top;
+	vertical-align: middle;
 }
 
 .plugin-card .updating-message:before {
