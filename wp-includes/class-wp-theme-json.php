@@ -1709,7 +1709,12 @@ class WP_Theme_JSON {
 	 * @return string|array Style property value.
 	 */
 	protected static function get_property_value( $styles, $path, $theme_json = null ) {
-		$value = _wp_array_get( $styles, $path );
+		$value = _wp_array_get( $styles, $path, '' );
+
+		if ( '' === $value || null === $value ) {
+			// No need to process the value further.
+			return '';
+		}
 
 		/*
 		 * This converts references to a path to the value at that path
