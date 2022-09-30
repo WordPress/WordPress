@@ -2841,7 +2841,7 @@ class WP_Theme_JSON {
 				}
 				$flattened_preset = array();
 				foreach ( $items as $slug => $value ) {
-					$flattened_preset[] = array_merge( array( 'slug' => $slug ), $value );
+					$flattened_preset[] = array_merge( array( 'slug' => (string) $slug ), $value );
 				}
 				_wp_array_set( $output, $path, $flattened_preset );
 			}
