@@ -500,8 +500,21 @@ function url_to_postid( $url ) {
 	 */
 	$url = apply_filters( 'url_to_postid', $url );
 
-	$url_host      = str_replace( 'www.', '', parse_url( $url, PHP_URL_HOST ) );
-	$home_url_host = str_replace( 'www.', '', parse_url( home_url(), PHP_URL_HOST ) );
+	$url_host = parse_url( $url, PHP_URL_HOST );
+
+	if ( is_string( $url_host ) ) {
+		$url_host = str_replace( 'www.', '', $url_host );
+	} else {
+		$url_host = '';
+	}
+
+	$home_url_host = parse_url( home_url(), PHP_URL_HOST );
+
+	if ( is_string( $home_url_host ) ) {
+		$home_url_host = str_replace( 'www.', '', $home_url_host );
+	} else {
+		$home_url_host = '';
+	}
 
 	// Bail early if the URL does not belong to this site.
 	if ( $url_host && $url_host !== $home_url_host ) {
