@@ -266,7 +266,7 @@ class WP_Block {
 			}
 		}
 
-		if ( ! empty( $this->block_type->view_script_handles ) && empty( $this->block_type->render_callback ) ) {
+		if ( ! empty( $this->block_type->view_script_handles ) ) {
 			foreach ( $this->block_type->view_script_handles as $view_script_handle ) {
 				wp_enqueue_script( $view_script_handle );
 			}
