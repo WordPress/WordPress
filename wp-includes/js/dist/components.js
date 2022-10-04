@@ -41897,8 +41897,11 @@ function UnForwardedTokenInput(props, ref) {
     selectedSuggestionIndex,
     className,
     onChange,
+    onFocus,
+    onBlur,
     ...restProps
   } = props;
+  const [hasFocus, setHasFocus] = (0,external_wp_element_namespaceObject.useState)(false);
   const size = value ? value.length + 1 : 0;
 
   const onChangeHandler = event => {
@@ -41909,6 +41912,16 @@ function UnForwardedTokenInput(props, ref) {
     }
   };
 
+  const onFocusHandler = e => {
+    setHasFocus(true);
+    onFocus === null || onFocus === void 0 ? void 0 : onFocus(e);
+  };
+
+  const onBlurHandler = e => {
+    setHasFocus(false);
+    onBlur === null || onBlur === void 0 ? void 0 : onBlur(e);
+  };
+
   return (0,external_wp_element_namespaceObject.createElement)("input", extends_extends({
     ref: ref,
     id: `components-form-token-input-${instanceId}`,
@@ -41916,6 +41929,8 @@ function UnForwardedTokenInput(props, ref) {
   }, restProps, {
     value: value || '',
     onChange: onChangeHandler,
+    onFocus: onFocusHandler,
+    onBlur: onBlurHandler,
     size: size,
     className: classnames_default()(className, 'components-form-token-field__input'),
     autoComplete: "off",
@@ -41923,7 +41938,11 @@ function UnForwardedTokenInput(props, ref) {
     "aria-expanded": isExpanded,
     "aria-autocomplete": "list",
     "aria-owns": isExpanded ? `components-form-token-suggestions-${instanceId}` : undefined,
-    "aria-activedescendant": selectedSuggestionIndex !== -1 ? `components-form-token-suggestions-${instanceId}-${selectedSuggestionIndex}` : undefined,
+    "aria-activedescendant": // Only add the `aria-activedescendant` attribute when:
+    // - the user is actively interacting with the input (`hasFocus`)
+    // - there is a selected suggestion (`selectedSuggestionIndex !== -1`)
+    // - the list of suggestions are rendered in the DOM (`isExpanded`)
+    hasFocus && selectedSuggestionIndex !== -1 && isExpanded ? `components-form-token-suggestions-${instanceId}-${selectedSuggestionIndex}` : undefined,
     "aria-describedby": `components-form-token-suggestions-howto-${instanceId}`
   }));
 }
@@ -42318,7 +42337,6 @@ function ComboboxControl(_ref) {
     instanceId: instanceId,
     ref: inputContainer,
     value: isExpanded ? inputValue : currentLabel,
-    "aria-label": currentLabel ? `${currentLabel}, ${label}` : null,
     onFocus: onFocus,
     onBlur: onBlur,
     isExpanded: isExpanded,
@@ -54810,7 +54828,6 @@ const labelBlock =  true ? {
   styles: "flex:1"
 } : 0;
 const buttonView = /*#__PURE__*/emotion_react_browser_esm_css("align-items:center;appearance:none;background:transparent;border:none;border-radius:", config_values.controlBorderRadius, ";color:", COLORS.gray[700], ";fill:currentColor;cursor:pointer;display:flex;font-family:inherit;height:100%;justify-content:center;line-height:100%;outline:none;padding:0 12px;position:relative;text-align:center;transition:background ", config_values.transitionDurationFast, " linear,color ", config_values.transitionDurationFast, " linear,font-weight 60ms linear;", reduceMotion('transition'), " user-select:none;width:100%;z-index:2;&::-moz-focus-inner{border:0;}&:active{background:", config_values.toggleGroupControlBackgroundColor, ";}" + ( true ? "" : 0),  true ? "" : 0);
-const buttonActive = /*#__PURE__*/emotion_react_browser_esm_css("color:", COLORS.white, ";&:active{background:transparent;}" + ( true ? "" : 0),  true ? "" : 0);
 const ButtonContentView = emotion_styled_base_browser_esm("div",  true ? {
   target: "et6ln9s0"
 } : 0)("font-size:", config_values.fontSize, ";line-height:1;" + ( true ? "" : 0));
@@ -54826,8 +54843,9 @@ const styles_isIcon = _ref => {
     default: '30px',
     '__unstable-large': '34px'
   };
-  return /*#__PURE__*/emotion_react_browser_esm_css("width:", iconButtonSizes[size], ";padding-left:0;padding-right:0;" + ( true ? "" : 0),  true ? "" : 0);
+  return /*#__PURE__*/emotion_react_browser_esm_css("color:", COLORS.gray[900], ";width:", iconButtonSizes[size], ";padding-left:0;padding-right:0;" + ( true ? "" : 0),  true ? "" : 0);
 };
+const buttonActive = /*#__PURE__*/emotion_react_browser_esm_css("color:", COLORS.white, ";&:active{background:transparent;}" + ( true ? "" : 0),  true ? "" : 0);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/toggle-group-control/toggle-group-control-option-base/component.js
 

@@ -3291,6 +3291,8 @@ __webpack_require__.d(__webpack_exports__, {
   "__experimentalUseHasRecursion": function() { return /* reexport */ useHasRecursion; },
   "__experimentalUseMultipleOriginColorsAndGradients": function() { return /* reexport */ useMultipleOriginColorsAndGradients; },
   "__experimentalUseResizeCanvas": function() { return /* reexport */ useResizeCanvas; },
+  "__experimentaluseLayoutClasses": function() { return /* reexport */ useLayoutClasses; },
+  "__experimentaluseLayoutStyles": function() { return /* reexport */ useLayoutStyles; },
   "__unstableBlockNameContext": function() { return /* reexport */ block_name_context; },
   "__unstableBlockSettingsMenuFirstItem": function() { return /* reexport */ block_settings_menu_first_item; },
   "__unstableBlockToolbarLastItem": function() { return /* reexport */ block_toolbar_last_item; },
@@ -11078,11 +11080,11 @@ function SpacingInputControl(_ref) {
   const showHint = showRangeControl && !showCustomValueControl && currentValueHint !== undefined;
   return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, side !== 'all' && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
     className: "components-spacing-sizes-control__side-labels"
-  }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalText, {
+  }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.BaseControl.VisualLabel, {
     className: "components-spacing-sizes-control__side-label"
-  }, LABELS[side]), showHint && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalText, {
+  }, LABELS[side]), showHint && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.BaseControl.VisualLabel, {
     className: "components-spacing-sizes-control__hint-single"
-  }, currentValueHint)), side === 'all' && showHint && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalText, {
+  }, currentValueHint)), side === 'all' && showHint && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.BaseControl.VisualLabel, {
     className: "components-spacing-sizes-control__hint-all"
   }, currentValueHint), !disableCustomSpacingSizes && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
     label: showCustomValueControl ? (0,external_wp_i18n_namespaceObject.__)('Use size preset') : (0,external_wp_i18n_namespaceObject.__)('Set custom size'),
@@ -11138,7 +11140,8 @@ function SpacingInputControl(_ref) {
     max: spacingSizes.length - 1,
     marks: marks,
     label: ariaLabel,
-    hideLabelFromVision: true
+    hideLabelFromVision: true,
+    __nextHasNoMarginBottom: true
   }), !showRangeControl && !showCustomValueControl && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.CustomSelectControl, {
     className: "components-spacing-sizes-control__custom-select-control",
     value: options.find(option => option.key === currentValue) || '' // passing undefined here causes a downshift controlled/uncontrolled warning
@@ -11358,8 +11361,13 @@ function LinkedButton(_ref) {
 
 
 /**
+ * External dependencies
+ */
+
+/**
  * WordPress dependencies
  */
+
 
 
 
@@ -11426,8 +11434,10 @@ function SpacingSizesControl(_ref) {
   };
   return (0,external_wp_element_namespaceObject.createElement)("fieldset", {
     role: "region",
-    className: "component-spacing-sizes-control"
-  }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalText, {
+    className: classnames_default()('component-spacing-sizes-control', {
+      'is-unlinked': !isLinked
+    })
+  }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.BaseControl.VisualLabel, {
     as: "legend"
   }, label), !hasOneSide && (0,external_wp_element_namespaceObject.createElement)(LinkedButton, {
     onClick: toggleLinked,
@@ -11869,18 +11879,7 @@ function BlockPopover(_ref, ref) {
   const selectedElement = useBlockElement(clientId);
   const lastSelectedElement = useBlockElement(bottomClientId !== null && bottomClientId !== void 0 ? bottomClientId : clientId);
   const mergedRefs = (0,external_wp_compose_namespaceObject.useMergeRefs)([ref, use_popover_scroll(__unstableContentRef)]);
-  const style = (0,external_wp_element_namespaceObject.useMemo)(() => {
-    if (!selectedElement || lastSelectedElement !== selectedElement) {
-      return {};
-    }
-
-    return {
-      position: 'absolute',
-      width: selectedElement.offsetWidth,
-      height: selectedElement.offsetHeight
-    };
-  }, [selectedElement, lastSelectedElement, __unstableRefreshSize]);
-  const [popoverAnchorRecomputeCounter, forceRecomputePopoverAnchor] = (0,external_wp_element_namespaceObject.useReducer)( // Module is there to make sure that the counter doesn't overflow.
+  const [popoverDimensionsRecomputeCounter, forceRecomputePopoverDimensions] = (0,external_wp_element_namespaceObject.useReducer)( // Module is there to make sure that the counter doesn't overflow.
   s => (s + 1) % MAX_POPOVER_RECOMPUTE_COUNTER, 0); // When blocks are moved up/down, they are animated to their new position by
   // updating the `transform` property manually (i.e. without using CSS
   // transitions or animations). The animation, which can also scroll the block
@@ -11894,7 +11893,7 @@ function BlockPopover(_ref, ref) {
       return;
     }
 
-    const observer = new window.MutationObserver(forceRecomputePopoverAnchor);
+    const observer = new window.MutationObserver(forceRecomputePopoverDimensions);
     observer.observe(selectedElement, {
       attributes: true
     });
@@ -11902,11 +11901,25 @@ function BlockPopover(_ref, ref) {
       observer.disconnect();
     };
   }, [selectedElement]);
-  const popoverAnchor = (0,external_wp_element_namespaceObject.useMemo)(() => {
-    if ( // popoverAnchorRecomputeCounter is by definition always equal or greater
+  const style = (0,external_wp_element_namespaceObject.useMemo)(() => {
+    if ( // popoverDimensionsRecomputeCounter is by definition always equal or greater
     // than 0. This check is only there to satisfy the correctness of the
     // exhaustive-deps rule for the `useMemo` hook.
-    popoverAnchorRecomputeCounter < 0 || !selectedElement || bottomClientId && !lastSelectedElement) {
+    popoverDimensionsRecomputeCounter < 0 || !selectedElement || lastSelectedElement !== selectedElement) {
+      return {};
+    }
+
+    return {
+      position: 'absolute',
+      width: selectedElement.offsetWidth,
+      height: selectedElement.offsetHeight
+    };
+  }, [selectedElement, lastSelectedElement, __unstableRefreshSize, popoverDimensionsRecomputeCounter]);
+  const popoverAnchor = (0,external_wp_element_namespaceObject.useMemo)(() => {
+    if ( // popoverDimensionsRecomputeCounter is by definition always equal or greater
+    // than 0. This check is only there to satisfy the correctness of the
+    // exhaustive-deps rule for the `useMemo` hook.
+    popoverDimensionsRecomputeCounter < 0 || !selectedElement || bottomClientId && !lastSelectedElement) {
       return undefined;
     }
 
@@ -11931,7 +11944,7 @@ function BlockPopover(_ref, ref) {
 
       ownerDocument: selectedElement.ownerDocument
     };
-  }, [bottomClientId, lastSelectedElement, selectedElement, popoverAnchorRecomputeCounter]);
+  }, [bottomClientId, lastSelectedElement, selectedElement, popoverDimensionsRecomputeCounter]);
 
   if (!selectedElement || bottomClientId && !lastSelectedElement) {
     return null;
@@ -28020,7 +28033,9 @@ function BlockPopoverInbetween(_ref) {
 
     previousElement.ownerDocument.defaultView.addEventListener('resize', forcePopoverRecompute);
     return () => {
-      previousElement.ownerDocument.defaultView.removeEventListener('resize', forcePopoverRecompute);
+      var _previousElement$owne;
+
+      (_previousElement$owne = previousElement.ownerDocument.defaultView) === null || _previousElement$owne === void 0 ? void 0 : _previousElement$owne.removeEventListener('resize', forcePopoverRecompute);
     };
   }, [previousElement]); // If there's either a previous or a next element, show the inbetween popover.
   // Note that drag and drop uses the inbetween popover to show the drop indicator
@@ -30093,10 +30108,10 @@ function BlockParentSelector() {
     onClick: () => selectBlock(firstParentClientId),
     label: (0,external_wp_i18n_namespaceObject.sprintf)(
     /* translators: %s: Name of the block's parent. */
-    (0,external_wp_i18n_namespaceObject.__)('Select %s'), blockInformation.title),
+    (0,external_wp_i18n_namespaceObject.__)('Select %s'), blockInformation === null || blockInformation === void 0 ? void 0 : blockInformation.title),
     showTooltip: true,
     icon: (0,external_wp_element_namespaceObject.createElement)(block_icon, {
-      icon: blockInformation.icon
+      icon: blockInformation === null || blockInformation === void 0 ? void 0 : blockInformation.icon
     })
   }));
 }
@@ -39300,22 +39315,17 @@ const withDuotoneStyles = (0,external_wp_compose_namespaceObject.createHigherOrd
 
 const layoutBlockSupportKey = '__experimentalLayout';
 /**
- * Generates the utility classnames for the given blocks layout attributes.
- * This method was primarily added to reintroduce classnames that were removed
- * in the 5.9 release (https://github.com/WordPress/gutenberg/issues/38719), rather
- * than providing an extensive list of all possible layout classes. The plan is to
- * have the style engine generate a more extensive list of utility classnames which
- * will then replace this method.
+ * Generates the utility classnames for the given block's layout attributes.
  *
- * @param { Object } layout            Layout object.
- * @param { Object } layoutDefinitions An object containing layout definitions, stored in theme.json.
+ * @param { Object } block Block object.
  *
  * @return { Array } Array of CSS classname strings.
  */
 
-function useLayoutClasses(layout, layoutDefinitions) {
-  var _layoutDefinitions;
+function useLayoutClasses() {
+  var _globalLayoutSettings, _globalLayoutSettings2;
 
+  let block = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   const rootPaddingAlignment = (0,external_wp_data_namespaceObject.useSelect)(select => {
     var _getSettings$__experi;
 
@@ -39324,31 +39334,85 @@ function useLayoutClasses(layout, layoutDefinitions) {
     } = select(store);
     return (_getSettings$__experi = getSettings().__experimentalFeatures) === null || _getSettings$__experi === void 0 ? void 0 : _getSettings$__experi.useRootPaddingAwareAlignments;
   }, []);
+  const globalLayoutSettings = useSetting('layout') || {};
+  const {
+    attributes = {},
+    name
+  } = block;
+  const {
+    layout
+  } = attributes;
+  const {
+    default: defaultBlockLayout
+  } = (0,external_wp_blocks_namespaceObject.getBlockSupport)(name, layoutBlockSupportKey) || {};
+  const usedLayout = layout !== null && layout !== void 0 && layout.inherit || layout !== null && layout !== void 0 && layout.contentSize || layout !== null && layout !== void 0 && layout.wideSize ? { ...layout,
+    type: 'constrained'
+  } : layout || defaultBlockLayout || {};
   const layoutClassnames = [];
 
-  if (layoutDefinitions !== null && layoutDefinitions !== void 0 && (_layoutDefinitions = layoutDefinitions[(layout === null || layout === void 0 ? void 0 : layout.type) || 'default']) !== null && _layoutDefinitions !== void 0 && _layoutDefinitions.className) {
-    var _layoutDefinitions2;
+  if (globalLayoutSettings !== null && globalLayoutSettings !== void 0 && (_globalLayoutSettings = globalLayoutSettings.definitions) !== null && _globalLayoutSettings !== void 0 && (_globalLayoutSettings2 = _globalLayoutSettings[(usedLayout === null || usedLayout === void 0 ? void 0 : usedLayout.type) || 'default']) !== null && _globalLayoutSettings2 !== void 0 && _globalLayoutSettings2.className) {
+    var _globalLayoutSettings3, _globalLayoutSettings4;
 
-    layoutClassnames.push(layoutDefinitions === null || layoutDefinitions === void 0 ? void 0 : (_layoutDefinitions2 = layoutDefinitions[(layout === null || layout === void 0 ? void 0 : layout.type) || 'default']) === null || _layoutDefinitions2 === void 0 ? void 0 : _layoutDefinitions2.className);
+    layoutClassnames.push(globalLayoutSettings === null || globalLayoutSettings === void 0 ? void 0 : (_globalLayoutSettings3 = globalLayoutSettings.definitions) === null || _globalLayoutSettings3 === void 0 ? void 0 : (_globalLayoutSettings4 = _globalLayoutSettings3[(usedLayout === null || usedLayout === void 0 ? void 0 : usedLayout.type) || 'default']) === null || _globalLayoutSettings4 === void 0 ? void 0 : _globalLayoutSettings4.className);
   }
 
-  if ((layout !== null && layout !== void 0 && layout.inherit || layout !== null && layout !== void 0 && layout.contentSize || (layout === null || layout === void 0 ? void 0 : layout.type) === 'constrained') && rootPaddingAlignment) {
+  if ((usedLayout !== null && usedLayout !== void 0 && usedLayout.inherit || usedLayout !== null && usedLayout !== void 0 && usedLayout.contentSize || (usedLayout === null || usedLayout === void 0 ? void 0 : usedLayout.type) === 'constrained') && rootPaddingAlignment) {
     layoutClassnames.push('has-global-padding');
   }
 
-  if (layout !== null && layout !== void 0 && layout.orientation) {
-    layoutClassnames.push(`is-${(0,external_lodash_namespaceObject.kebabCase)(layout.orientation)}`);
+  if (usedLayout !== null && usedLayout !== void 0 && usedLayout.orientation) {
+    layoutClassnames.push(`is-${(0,external_lodash_namespaceObject.kebabCase)(usedLayout.orientation)}`);
   }
 
-  if (layout !== null && layout !== void 0 && layout.justifyContent) {
-    layoutClassnames.push(`is-content-justification-${(0,external_lodash_namespaceObject.kebabCase)(layout.justifyContent)}`);
+  if (usedLayout !== null && usedLayout !== void 0 && usedLayout.justifyContent) {
+    layoutClassnames.push(`is-content-justification-${(0,external_lodash_namespaceObject.kebabCase)(usedLayout.justifyContent)}`);
   }
 
-  if (layout !== null && layout !== void 0 && layout.flexWrap && layout.flexWrap === 'nowrap') {
+  if (usedLayout !== null && usedLayout !== void 0 && usedLayout.flexWrap && usedLayout.flexWrap === 'nowrap') {
     layoutClassnames.push('is-nowrap');
   }
 
   return layoutClassnames;
+}
+/**
+ * Generates a CSS rule with the given block's layout styles.
+ *
+ * @param { Object } block    Block object.
+ * @param { string } selector A selector to use in generating the CSS rule.
+ *
+ * @return { string } CSS rule.
+ */
+
+function useLayoutStyles() {
+  var _fullLayoutType$getLa;
+
+  let block = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  let selector = arguments.length > 1 ? arguments[1] : undefined;
+  const {
+    attributes = {},
+    name
+  } = block;
+  const {
+    layout = {},
+    style = {}
+  } = attributes; // Update type for blocks using legacy layouts.
+
+  const usedLayout = layout !== null && layout !== void 0 && layout.inherit || layout !== null && layout !== void 0 && layout.contentSize || layout !== null && layout !== void 0 && layout.wideSize ? { ...layout,
+    type: 'constrained'
+  } : layout || {};
+  const fullLayoutType = getLayoutType((usedLayout === null || usedLayout === void 0 ? void 0 : usedLayout.type) || 'default');
+  const globalLayoutSettings = useSetting('layout') || {};
+  const blockGapSupport = useSetting('spacing.blockGap');
+  const hasBlockGapSupport = blockGapSupport !== null;
+  const css = fullLayoutType === null || fullLayoutType === void 0 ? void 0 : (_fullLayoutType$getLa = fullLayoutType.getLayoutStyle) === null || _fullLayoutType$getLa === void 0 ? void 0 : _fullLayoutType$getLa.call(fullLayoutType, {
+    blockName: name,
+    selector,
+    layout,
+    layoutDefinitions: globalLayoutSettings === null || globalLayoutSettings === void 0 ? void 0 : globalLayoutSettings.definitions,
+    style,
+    hasBlockGapSupport
+  });
+  return css;
 }
 
 function LayoutPanel(_ref) {
@@ -39517,7 +39581,8 @@ const withInspectorControls = (0,external_wp_compose_namespaceObject.createHighe
 const withLayoutStyles = (0,external_wp_compose_namespaceObject.createHigherOrderComponent)(BlockListBlock => props => {
   const {
     name,
-    attributes
+    attributes,
+    block
   } = props;
   const hasLayoutBlockSupport = (0,external_wp_blocks_namespaceObject.hasBlockSupport)(name, layoutBlockSupportKey);
   const disableLayoutStyles = (0,external_wp_data_namespaceObject.useSelect)(select => {
@@ -39539,7 +39604,7 @@ const withLayoutStyles = (0,external_wp_compose_namespaceObject.createHigherOrde
   const usedLayout = layout !== null && layout !== void 0 && layout.inherit || layout !== null && layout !== void 0 && layout.contentSize || layout !== null && layout !== void 0 && layout.wideSize ? { ...layout,
     type: 'constrained'
   } : layout || defaultBlockLayout || {};
-  const layoutClasses = hasLayoutBlockSupport ? useLayoutClasses(usedLayout, defaultThemeLayout === null || defaultThemeLayout === void 0 ? void 0 : defaultThemeLayout.definitions) : null;
+  const layoutClasses = hasLayoutBlockSupport ? useLayoutClasses(block) : null;
   const selector = `.${(0,external_wp_blocks_namespaceObject.getBlockDefaultClassName)(name)}.wp-container-${id}`;
   const blockGapSupport = useSetting('spacing.blockGap');
   const hasBlockGapSupport = blockGapSupport !== null; // Get CSS string for the current layout type.
@@ -39548,10 +39613,10 @@ const withLayoutStyles = (0,external_wp_compose_namespaceObject.createHigherOrde
   let css;
 
   if (shouldRenderLayoutStyles) {
-    var _fullLayoutType$getLa;
+    var _fullLayoutType$getLa2;
 
     const fullLayoutType = getLayoutType((usedLayout === null || usedLayout === void 0 ? void 0 : usedLayout.type) || 'default');
-    css = fullLayoutType === null || fullLayoutType === void 0 ? void 0 : (_fullLayoutType$getLa = fullLayoutType.getLayoutStyle) === null || _fullLayoutType$getLa === void 0 ? void 0 : _fullLayoutType$getLa.call(fullLayoutType, {
+    css = fullLayoutType === null || fullLayoutType === void 0 ? void 0 : (_fullLayoutType$getLa2 = fullLayoutType.getLayoutStyle) === null || _fullLayoutType$getLa2 === void 0 ? void 0 : _fullLayoutType$getLa2.call(fullLayoutType, {
       blockName: name,
       selector,
       layout: usedLayout,
@@ -40080,6 +40145,7 @@ function useCachedTruthy(value) {
 /**
  * Internal dependencies
  */
+
 
 
 
@@ -45112,7 +45178,7 @@ function useTransformState(_ref) {
     if (angle === 0) {
       setEditedUrl();
       setRotation(angle);
-      setAspect(1 / aspect);
+      setAspect(naturalWidth / naturalHeight);
       setPosition({
         x: -(position.y * naturalAspectRatio),
         y: position.x * naturalAspectRatio
@@ -45148,7 +45214,7 @@ function useTransformState(_ref) {
       canvas.toBlob(blob => {
         setEditedUrl(URL.createObjectURL(blob));
         setRotation(angle);
-        setAspect(1 / aspect);
+        setAspect(canvas.width / canvas.height);
         setPosition({
           x: -(position.y * naturalAspectRatio),
           y: position.x * naturalAspectRatio

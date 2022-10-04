@@ -319,7 +319,7 @@ const offset = {
   name: 'offset',
   generate: function (style, options) {
     let path = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : ['outline', 'offset'];
-    let ruleKey = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'outlineColor';
+    let ruleKey = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'outlineOffset';
     return generateRule(style, options, path, ruleKey);
   }
 };

@@ -62,7 +62,7 @@
 			"color": true,
 			"radius": true,
 			"width": true,
-			"__experimentalSelector": "img, .block-editor-media-placeholder",
+			"__experimentalSelector": "img, .block-editor-media-placeholder, .wp-block-post-featured-image__overlay",
 			"__experimentalSkipSerialization": true,
 			"__experimentalDefaultControls": {
 				"color": true,

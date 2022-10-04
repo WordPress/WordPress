@@ -8741,7 +8741,7 @@ const getNodesWithStyles = (tree, blockSelectors) => {
     return nodes;
   }
 
-  const pickStyleKeys = treeToPickFrom => (0,external_lodash_namespaceObject.pickBy)(treeToPickFrom, (value, key) => ['border', 'color', 'spacing', 'typography', 'filter'].includes(key)); // Top-level.
+  const pickStyleKeys = treeToPickFrom => (0,external_lodash_namespaceObject.pickBy)(treeToPickFrom, (value, key) => ['border', 'color', 'spacing', 'typography', 'filter', 'outline', 'shadow'].includes(key)); // Top-level.
 
 
   const styles = pickStyleKeys(tree.styles);
@@ -8906,12 +8906,12 @@ const toStyles = function (tree, blockSelectors, hasBlockGapSupport, hasFallback
   }
 
   if (useRootPaddingAlign) {
-    ruleset += `padding-right: 0; padding-left: 0; padding-top: var(--wp--style--root--padding-top); padding-bottom: var(--wp--style--root--padding-bottom) } 
-			.has-global-padding { padding-right: var(--wp--style--root--padding-right); padding-left: var(--wp--style--root--padding-left); } 
-			.has-global-padding :where(.has-global-padding) { padding-right: 0; padding-left: 0; } 
-			.has-global-padding > .alignfull { margin-right: calc(var(--wp--style--root--padding-right) * -1); margin-left: calc(var(--wp--style--root--padding-left) * -1); } 
-			.has-global-padding :where(.has-global-padding) > .alignfull { margin-right: 0; margin-left: 0; } 
-			.has-global-padding > .alignfull:where(:not(.has-global-padding)) > :where([class*="wp-block-"]:not(.alignfull):not([class*="__"]),p,h1,h2,h3,h4,h5,h6,ul,ol) { padding-right: var(--wp--style--root--padding-right); padding-left: var(--wp--style--root--padding-left); } 
+    ruleset += `padding-right: 0; padding-left: 0; padding-top: var(--wp--style--root--padding-top); padding-bottom: var(--wp--style--root--padding-bottom) }
+			.has-global-padding { padding-right: var(--wp--style--root--padding-right); padding-left: var(--wp--style--root--padding-left); }
+			.has-global-padding :where(.has-global-padding) { padding-right: 0; padding-left: 0; }
+			.has-global-padding > .alignfull { margin-right: calc(var(--wp--style--root--padding-right) * -1); margin-left: calc(var(--wp--style--root--padding-left) * -1); }
+			.has-global-padding :where(.has-global-padding) > .alignfull { margin-right: 0; margin-left: 0; }
+			.has-global-padding > .alignfull:where(:not(.has-global-padding)) > :where([class*="wp-block-"]:not(.alignfull):not([class*="__"]),p,h1,h2,h3,h4,h5,h6,ul,ol) { padding-right: var(--wp--style--root--padding-right); padding-left: var(--wp--style--root--padding-left); }
 			.has-global-padding :where(.has-global-padding) > .alignfull:where(:not(.has-global-padding)) > :where([class*="wp-block-"]:not(.alignfull):not([class*="__"]),p,h1,h2,h3,h4,h5,h6,ul,ol) { padding-right: 0; padding-left: 0;`;
   }
 
@@ -9191,12 +9191,12 @@ const StylesPreview = _ref => {
       color
     } = _ref2;
     return color !== backgroundColor && color !== headingColor;
-  }).slice(0, 2); // Reset leaked styles from WP common.css and remove main content layout padding.
+  }).slice(0, 2); // Reset leaked styles from WP common.css and remove main content layout padding and border.
 
   const editorStyles = (0,external_wp_element_namespaceObject.useMemo)(() => {
     if (styles) {
       return [...styles, {
-        css: 'body{min-width: 0;padding: 0;}',
+        css: 'body{min-width: 0;padding: 0;border: none;}',
         isGlobalStyles: true
       }];
     }
@@ -16486,6 +16486,7 @@ function PluginSidebarMoreMenuItem(props) {
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -16512,8 +16513,25 @@ function reinitializeEditor(target, settings) {
       dashboardLink: "index.php"
     }), target);
     return;
-  } // This will be a no-op if the target doesn't have any React nodes.
+  }
+  /*
+   * Prevent adding the Clasic block in the site editor.
+   * Only add the filter when the site editor is initialized, not imported.
+   * Also only add the filter(s) after registerCoreBlocks()
+   * so that common filters in the block library are not overwritten.
+   *
+   * This usage here is inspired by previous usage of the filter in the post editor:
+   * https://github.com/WordPress/gutenberg/pull/37157
+   */
 
+
+  (0,external_wp_hooks_namespaceObject.addFilter)('blockEditor.__unstableCanInsertBlockType', 'removeClassicBlockFromInserter', (canInsert, blockType) => {
+    if (blockType.name === 'core/freeform') {
+      return false;
+    }
+
+    return canInsert;
+  }); // This will be a no-op if the target doesn't have any React nodes.
 
   (0,external_wp_element_namespaceObject.unmountComponentAtNode)(target);
   const reboot = reinitializeEditor.bind(null, target, settings); // We dispatch actions and update the store synchronously before rendering

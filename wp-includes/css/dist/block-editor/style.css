@@ -4317,7 +4317,8 @@ figcaption.block-editor-rich-text__editable [data-rich-text-placeholder]::before
 .tools-panel-item-spacing {
   display: grid;
   grid-template-columns: auto 1fr auto;
-  grid-row-gap: 4px;
+  align-items: center;
+  grid-template-rows: 25px auto;
 }
 
 .component-spacing-sizes-control {
@@ -4332,19 +4333,28 @@ figcaption.block-editor-rich-text__editable [data-rich-text-placeholder]::before
   grid-row: 1/1;
   align-self: center;
 }
+.component-spacing-sizes-control .components-base-control__label {
+  margin-bottom: 0;
+  height: 16px;
+}
 .component-spacing-sizes-control .components-spacing-sizes-control__side-labels {
   grid-column: 1/1;
-  min-height: 30px;
   justify-content: left;
+  height: 16px;
+  margin-top: 12px;
 }
-.component-spacing-sizes-control .components-spacing-sizes-control__hint-single {
-  margin-top: 0;
-  margin-left: 0;
+.component-spacing-sizes-control .components-spacing-sizes-control__side-label {
+  grid-column: 1/1;
+  justify-self: left;
+  margin-bottom: 0;
+}
+.component-spacing-sizes-control.is-unlinked .components-range-control.components-spacing-sizes-control__range-control {
+  margin-top: 12px;
 }
 .component-spacing-sizes-control .components-spacing-sizes-control__hint-single,
 .component-spacing-sizes-control .components-spacing-sizes-control__hint-all {
   color: #757575;
-  font-size: 12px;
+  margin-bottom: 0;
 }
 .component-spacing-sizes-control .components-spacing-sizes-control__hint-all {
   grid-column: 2/2;
@@ -4359,6 +4369,11 @@ figcaption.block-editor-rich-text__editable [data-rich-text-placeholder]::before
   justify-self: end;
   padding: 0;
 }
+.component-spacing-sizes-control .components-spacing-sizes-control__custom-toggle-all.is-small.has-icon {
+  padding: 0;
+  min-width: 24px;
+  height: 16px;
+}
 .component-spacing-sizes-control .component-spacing-sizes-control__linked-button ~ .components-spacing-sizes-control__custom-toggle-all {
   margin-right: 4px;
 }
@@ -4366,10 +4381,11 @@ figcaption.block-editor-rich-text__editable [data-rich-text-placeholder]::before
   grid-column: 3/3;
   justify-self: end;
 }
-.component-spacing-sizes-control .components-spacing-sizes-control__custom-toggle-all.is-small.has-icon,
 .component-spacing-sizes-control .components-spacing-sizes-control__custom-toggle-single.is-small.has-icon {
   padding: 0;
   min-width: 24px;
+  height: 16px;
+  margin-top: 12px;
 }
 .component-spacing-sizes-control .component-spacing-sizes-control__linked-button {
   grid-column: 3/3;
@@ -4379,7 +4395,6 @@ figcaption.block-editor-rich-text__editable [data-rich-text-placeholder]::before
 .component-spacing-sizes-control .components-spacing-sizes-control__custom-value-range {
   grid-column: span 2;
   margin-left: 8px;
-  padding-right: 8px;
   height: 30px;
 }
 .component-spacing-sizes-control .components-spacing-sizes-control__custom-value-input {
@@ -4387,11 +4402,7 @@ figcaption.block-editor-rich-text__editable [data-rich-text-placeholder]::before
 }
 .component-spacing-sizes-control .components-spacing-sizes-control__range-control {
   grid-column: span 3;
-  padding-right: 8px;
-  height: 30px;
-}
-.component-spacing-sizes-control .components-range-control__wrapper {
-  margin-bottom: 0;
+  height: 40px;
 }
 .component-spacing-sizes-control .components-range-control__mark {
   height: 4px;
@@ -4407,12 +4418,6 @@ figcaption.block-editor-rich-text__editable [data-rich-text-placeholder]::before
 }
 .component-spacing-sizes-control [class*=ThumbWrapper-thumbColor] {
   z-index: 3;
-}
-.component-spacing-sizes-control .components-spacing-sizes-control__side-label {
-  margin-right: 4px;
-  grid-column: 1/1;
-  justify-self: left;
-  font-size: 12px;
 }
 .component-spacing-sizes-control .components-spacing-sizes-control__custom-select-control {
   grid-column: span 3;

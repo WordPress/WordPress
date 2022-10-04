@@ -4389,6 +4389,31 @@ function getEntityConfig(state, kind, name) {
   });
 }
 /**
+ * GetEntityRecord is declared as a *callable interface* with
+ * two signatures to work around the fact that TypeScript doesn't
+ * allow currying generic functions:
+ *
+ * ```ts
+ * 		type CurriedState = F extends ( state: any, ...args: infer P ) => infer R
+ * 			? ( ...args: P ) => R
+ * 			: F;
+ * 		type Selector = <K extends string | number>(
+ *         state: any,
+ *         kind: K,
+ *         key: K extends string ? 'string value' : false
+ *    ) => K;
+ * 		type BadlyInferredSignature = CurriedState< Selector >
+ *    // BadlyInferredSignature evaluates to:
+ *    // (kind: string number, key: false | "string value") => string number
+ * ```
+ *
+ * The signature without the state parameter shipped as CurriedSignature
+ * is used in the return value of `select( coreStore )`.
+ *
+ * See https://github.com/WordPress/gutenberg/pull/41578 for more details.
+ */
+
+/**
  * Returns the Entity's record object by key. Returns `null` if the value is not
  * yet received, undefined if the value entity is known to not exist, or the
  * entity object if it exists and is received.
@@ -4402,7 +4427,6 @@ function getEntityConfig(state, kind, name) {
  *
  * @return Record.
  */
-
 const getEntityRecord = rememo((state, kind, name, key, query) => {
   var _query$context, _queriedState$items$c;
 
@@ -4511,6 +4535,15 @@ function hasEntityRecords(state, kind, name, query) {
   return Array.isArray(getEntityRecords(state, kind, name, query));
 }
 /**
+ * GetEntityRecord is declared as a *callable interface* with
+ * two signatures to work around the fact that TypeScript doesn't
+ * allow currying generic functions.
+ *
+ * @see GetEntityRecord
+ * @see https://github.com/WordPress/gutenberg/pull/41578
+ */
+
+/**
  * Returns the Entity's records.
  *
  * @param  state State tree
@@ -4521,7 +4554,6 @@ function hasEntityRecords(state, kind, name, query) {
  *
  * @return Records.
  */
-
 const getEntityRecords = (state, kind, name, query) => {
   // Queried data state is prepopulated for all known entities. If this is not
   // assigned for the given parameters, then it is known to not exist.

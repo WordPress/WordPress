@@ -74,6 +74,9 @@
 /**
  * Reset the WP Admin page styles for Gutenberg-like pages.
  */
+.wp-block-code {
+  box-sizing: border-box;
+}
 .wp-block-code code {
   display: block;
   font-family: inherit;

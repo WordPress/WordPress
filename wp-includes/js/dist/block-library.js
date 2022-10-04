@@ -30518,19 +30518,19 @@ function Navigation(_ref) {
   // - there are no uncontrolled blocks.
 
   const isPlaceholder = !ref && !isCreatingNavigationMenu && !isConvertingClassicMenu && hasResolvedNavigationMenus && !hasUncontrolledInnerBlocks;
+  (0,external_wp_element_namespaceObject.useEffect)(() => {
+    if (isPlaceholder && !ref) {
+      /**
+       *  this fallback only displays (both in editor and on front)
+       *  the list of pages block if no menu is available as a fallback.
+       *  We don't want the fallback to request a save,
+       *  nor to be undoable, hence we mark it non persistent.
+       */
+      __unstableMarkNextChangeAsNotPersistent();
 
-  if (isPlaceholder && !ref) {
-    /**
-     *  this fallback only displays (both in editor and on front)
-     *  the list of pages block if no menu is available as a fallback.
-     *  We don't want the fallback to request a save,
-     *  nor to be undoable, hence we mark it non persistent.
-     */
-    __unstableMarkNextChangeAsNotPersistent();
-
-    replaceInnerBlocks(clientId, [(0,external_wp_blocks_namespaceObject.createBlock)('core/page-list')]);
-  }
-
+      replaceInnerBlocks(clientId, [(0,external_wp_blocks_namespaceObject.createBlock)('core/page-list')]);
+    }
+  }, [clientId, isPlaceholder, ref]);
   const isEntityAvailable = !isNavigationMenuMissing && isNavigationMenuResolved; // "loading" state:
   // - there is a menu creation process in progress.
   // - there is a classic menu conversion process in progress.
@@ -36564,7 +36564,12 @@ function EditableContent(_ref2) {
     return (_getSettings = getSettings()) === null || _getSettings === void 0 ? void 0 : _getSettings.supportsLayout;
   }, []);
   const defaultLayout = (0,external_wp_blockEditor_namespaceObject.useSetting)('layout') || {};
-  const usedLayout = !!layout && layout.inherit ? defaultLayout : layout;
+  const usedLayout = !(layout !== null && layout !== void 0 && layout.type) ? { ...defaultLayout,
+    ...layout,
+    type: 'default'
+  } : { ...defaultLayout,
+    ...layout
+  };
   const [blocks, onInput, onChange] = (0,external_wp_coreData_namespaceObject.useEntityBlockEditor)('postType', postType, {
     id: postId
   });
@@ -37411,14 +37416,14 @@ const Overlay = _ref => {
     backgroundImage: gradientValue,
     ...borderProps.style
   };
-  return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)("span", {
+  return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, !!dimRatio && (0,external_wp_element_namespaceObject.createElement)("span", {
     "aria-hidden": "true",
     className: classnames_default()('wp-block-post-featured-image__overlay', utils_dimRatioToClass(dimRatio), {
       [overlayColor.class]: overlayColor.class,
       'has-background-dim': dimRatio !== undefined,
       'has-background-gradient': gradientValue,
       [gradientClass]: gradientClass
-    }),
+    }, borderProps.className),
     style: overlayStyles
   }), (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.InspectorControls, {
     __experimentalGroup: "color"
@@ -37779,7 +37784,7 @@ const post_featured_image_metadata = {
       color: true,
       radius: true,
       width: true,
-      __experimentalSelector: "img, .block-editor-media-placeholder",
+      __experimentalSelector: "img, .block-editor-media-placeholder, .wp-block-post-featured-image__overlay",
       __experimentalSkipSerialization: true,
       __experimentalDefaultControls: {
         color: true,
@@ -40542,7 +40547,7 @@ function useAllowedControls(attributes) {
   return (0,external_wp_data_namespaceObject.useSelect)(select => {
     var _select$getActiveBloc;
 
-    return (_select$getActiveBloc = select(external_wp_blocks_namespaceObject.store).getActiveBlockVariation(queryLoopName, attributes)) === null || _select$getActiveBloc === void 0 ? void 0 : _select$getActiveBloc.allowControls;
+    return (_select$getActiveBloc = select(external_wp_blocks_namespaceObject.store).getActiveBlockVariation(queryLoopName, attributes)) === null || _select$getActiveBloc === void 0 ? void 0 : _select$getActiveBloc.allowedControls;
   }, [attributes]);
 }
 function isControlAllowed(allowedControls, key) {
@@ -41231,7 +41236,7 @@ function QueryInspectorControls(_ref) {
     label: (0,external_wp_i18n_namespaceObject.__)('Keyword'),
     value: querySearch,
     onChange: setQuerySearch
-  })), isPostTypeHierarchical && !isControlAllowed(allowedControls, 'parents') && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalToolsPanelItem, {
+  })), isPostTypeHierarchical && isControlAllowed(allowedControls, 'parents') && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalToolsPanelItem, {
     hasValue: () => !!(parents !== null && parents !== void 0 && parents.length),
     label: (0,external_wp_i18n_namespaceObject.__)('Parents'),
     onDeselect: () => setQuery({
@@ -43566,7 +43571,6 @@ const quote_metadata = {
   },
   supports: {
     anchor: true,
-    __experimentalSlashInserter: true,
     __experimentalOnEnter: true,
     typography: {
       fontSize: true,
@@ -52437,14 +52441,14 @@ const template_part_init = () => {
   (0,external_wp_hooks_namespaceObject.addFilter)('blocks.registerBlockType', 'core/template-part', enhanceTemplatePartVariations); // Prevent adding template parts inside post templates.
 
   const DISALLOWED_PARENTS = ['core/post-template', 'core/post-content'];
-  (0,external_wp_hooks_namespaceObject.addFilter)('blockEditor.__unstableCanInsertBlockType', 'removeTemplatePartsFromPostTemplates', (can, blockType, rootClientId, _ref2) => {
+  (0,external_wp_hooks_namespaceObject.addFilter)('blockEditor.__unstableCanInsertBlockType', 'removeTemplatePartsFromPostTemplates', (canInsert, blockType, rootClientId, _ref2) => {
     let {
       getBlock,
       getBlockParentsByBlockName
     } = _ref2;
 
     if (blockType.name !== 'core/template-part') {
-      return can;
+      return canInsert;
     }
 
     for (const disallowedParentType of DISALLOWED_PARENTS) {

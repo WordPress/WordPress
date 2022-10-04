@@ -3715,6 +3715,7 @@ function BlockInspectorButton(_ref) {
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -3762,8 +3763,35 @@ function MaybeIframe(_ref) {
     name: "editor-canvas"
   }, children);
 }
+/**
+ * Given an array of nested blocks, find the first Post Content
+ * block inside it, recursing through any nesting levels.
+ *
+ * @param {Array} blocks A list of blocks.
+ *
+ * @return {Object} The Post Content block.
+ */
+
+
+function findPostContent(blocks) {
+  for (let i = 0; i < blocks.length; i++) {
+    if (blocks[i].name === 'core/post-content') {
+      return blocks[i];
+    }
+
+    if (blocks[i].innerBlocks.length) {
+      const nestedPostContent = findPostContent(blocks[i].innerBlocks);
+
+      if (nestedPostContent) {
+        return nestedPostContent;
+      }
+    }
+  }
+}
 
 function VisualEditor(_ref2) {
+  var _postContentBlock$att;
+
   let {
     styles
   } = _ref2;
@@ -3771,17 +3799,20 @@ function VisualEditor(_ref2) {
     deviceType,
     isWelcomeGuideVisible,
     isTemplateMode,
+    editedPostTemplate = {},
     wrapperBlockName,
     wrapperUniqueId
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
       isFeatureActive,
       isEditingTemplate,
-      __experimentalGetPreviewDeviceType
+      __experimentalGetPreviewDeviceType,
+      getEditedPostTemplate
     } = select(store_store);
     const {
       getCurrentPostId,
-      getCurrentPostType
+      getCurrentPostType,
+      getEditorSettings
     } = select(external_wp_editor_namespaceObject.store);
 
     const _isTemplateMode = isEditingTemplate();
@@ -3794,10 +3825,14 @@ function VisualEditor(_ref2) {
       _wrapperBlockName = 'core/post-content';
     }
 
+    const supportsTemplateMode = getEditorSettings().supportsTemplateMode;
     return {
       deviceType: __experimentalGetPreviewDeviceType(),
       isWelcomeGuideVisible: isFeatureActive('welcomeGuide'),
       isTemplateMode: _isTemplateMode,
+      // Post template fetch returns a 404 on classic themes, which
+      // messes with e2e tests, so we check it's a block theme first.
+      editedPostTemplate: supportsTemplateMode ? getEditedPostTemplate() : {},
       wrapperBlockName: _wrapperBlockName,
       wrapperUniqueId: getCurrentPostId()
     };
@@ -3809,18 +3844,14 @@ function VisualEditor(_ref2) {
   const {
     themeHasDisabledLayoutStyles,
     themeSupportsLayout,
-    assets,
-    useRootPaddingAwareAlignments
+    assets
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
-    var _settings$__experimen;
-
     const _settings = select(external_wp_blockEditor_namespaceObject.store).getSettings();
 
     return {
       themeHasDisabledLayoutStyles: _settings.disableLayoutStyles,
       themeSupportsLayout: _settings.supportsLayout,
-      assets: _settings.__unstableResolvedAssets,
-      useRootPaddingAwareAlignments: (_settings$__experimen = _settings.__experimentalFeatures) === null || _settings$__experimen === void 0 ? void 0 : _settings$__experimen.useRootPaddingAwareAlignments
+      assets: _settings.__unstableResolvedAssets
     };
   }, []);
   const {
@@ -3845,7 +3876,7 @@ function VisualEditor(_ref2) {
     borderBottom: 0
   };
   const resizedCanvasStyles = (0,external_wp_blockEditor_namespaceObject.__experimentalUseResizeCanvas)(deviceType, isTemplateMode);
-  const defaultLayout = (0,external_wp_blockEditor_namespaceObject.useSetting)('layout');
+  const globalLayoutSettings = (0,external_wp_blockEditor_namespaceObject.useSetting)('layout');
   const previewMode = 'is-' + deviceType.toLowerCase() + '-preview';
   let animatedStyles = isTemplateMode ? templateModeStyles : desktopCanvasStyles;
 
@@ -3862,8 +3893,10 @@ function VisualEditor(_ref2) {
 
   const ref = (0,external_wp_element_namespaceObject.useRef)();
   const contentRef = (0,external_wp_compose_namespaceObject.useMergeRefs)([ref, (0,external_wp_blockEditor_namespaceObject.__unstableUseClipboardHandler)(), (0,external_wp_blockEditor_namespaceObject.__unstableUseTypewriter)(), (0,external_wp_blockEditor_namespaceObject.__unstableUseTypingObserver)(), (0,external_wp_blockEditor_namespaceObject.__unstableUseBlockSelectionClearer)()]);
-  const blockSelectionClearerRef = (0,external_wp_blockEditor_namespaceObject.__unstableUseBlockSelectionClearer)();
-  const layout = (0,external_wp_element_namespaceObject.useMemo)(() => {
+  const blockSelectionClearerRef = (0,external_wp_blockEditor_namespaceObject.__unstableUseBlockSelectionClearer)(); // fallbackLayout is used if there is no Post Content,
+  // and for Post Title.
+
+  const fallbackLayout = (0,external_wp_element_namespaceObject.useMemo)(() => {
     if (isTemplateMode) {
       return {
         type: 'default'
@@ -3873,7 +3906,7 @@ function VisualEditor(_ref2) {
     if (themeSupportsLayout) {
       // We need to ensure support for wide and full alignments,
       // so we add the constrained type.
-      return { ...defaultLayout,
+      return { ...globalLayoutSettings,
         type: 'constrained'
       };
     } // Set default layout for classic themes so all alignments are supported.
@@ -3882,12 +3915,37 @@ function VisualEditor(_ref2) {
     return {
       type: 'default'
     };
-  }, [isTemplateMode, themeSupportsLayout, defaultLayout]);
+  }, [isTemplateMode, themeSupportsLayout, globalLayoutSettings]);
+  const postContentBlock = (0,external_wp_element_namespaceObject.useMemo)(() => {
+    // When in template editing mode, we can access the blocks directly.
+    if (editedPostTemplate !== null && editedPostTemplate !== void 0 && editedPostTemplate.blocks) {
+      return findPostContent(editedPostTemplate === null || editedPostTemplate === void 0 ? void 0 : editedPostTemplate.blocks);
+    } // If there are no blocks, we have to parse the content string.
+    // Best double-check it's a string otherwise the parse function gets unhappy.
+
+
+    const parseableContent = typeof (editedPostTemplate === null || editedPostTemplate === void 0 ? void 0 : editedPostTemplate.content) === 'string' ? editedPostTemplate === null || editedPostTemplate === void 0 ? void 0 : editedPostTemplate.content : '';
+    return findPostContent((0,external_wp_blocks_namespaceObject.parse)(parseableContent)) || {};
+  }, [editedPostTemplate === null || editedPostTemplate === void 0 ? void 0 : editedPostTemplate.content, editedPostTemplate === null || editedPostTemplate === void 0 ? void 0 : editedPostTemplate.blocks]);
+  const postContentLayoutClasses = (0,external_wp_blockEditor_namespaceObject.__experimentaluseLayoutClasses)(postContentBlock);
   const blockListLayoutClass = classnames_default()({
-    'is-layout-constrained': themeSupportsLayout,
-    'is-layout-flow': !themeSupportsLayout,
-    'has-global-padding': useRootPaddingAwareAlignments
-  });
+    'is-layout-flow': !themeSupportsLayout
+  }, themeSupportsLayout && postContentLayoutClasses);
+  const postContentLayoutStyles = (0,external_wp_blockEditor_namespaceObject.__experimentaluseLayoutStyles)(postContentBlock, '.block-editor-block-list__layout.is-root-container');
+  const layout = (postContentBlock === null || postContentBlock === void 0 ? void 0 : (_postContentBlock$att = postContentBlock.attributes) === null || _postContentBlock$att === void 0 ? void 0 : _postContentBlock$att.layout) || {}; // Update type for blocks using legacy layouts.
+
+  const postContentLayout = (0,external_wp_element_namespaceObject.useMemo)(() => {
+    return layout && ((layout === null || layout === void 0 ? void 0 : layout.type) === 'constrained' || layout !== null && layout !== void 0 && layout.inherit || layout !== null && layout !== void 0 && layout.contentSize || layout !== null && layout !== void 0 && layout.wideSize) ? { ...globalLayoutSettings,
+      ...layout,
+      type: 'constrained'
+    } : { ...globalLayoutSettings,
+      ...layout,
+      type: 'default'
+    };
+  }, [layout === null || layout === void 0 ? void 0 : layout.type, layout === null || layout === void 0 ? void 0 : layout.inherit, layout === null || layout === void 0 ? void 0 : layout.contentSize, layout === null || layout === void 0 ? void 0 : layout.wideSize, globalLayoutSettings]); // If there is a Post Content block we use its layout for the block list;
+  // if not, this must be a classic theme, in which case we use the fallback layout.
+
+  const blockListLayout = postContentBlock ? postContentLayout : fallbackLayout;
   const titleRef = (0,external_wp_element_namespaceObject.useRef)();
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     var _titleRef$current;
@@ -3928,11 +3986,15 @@ function VisualEditor(_ref2) {
     style: {
       paddingBottom
     }
-  }, themeSupportsLayout && !themeHasDisabledLayoutStyles && !isTemplateMode && (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.__experimentalLayoutStyle, {
+  }, themeSupportsLayout && !themeHasDisabledLayoutStyles && !isTemplateMode && (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.__experimentalLayoutStyle, {
     selector: ".edit-post-visual-editor__post-title-wrapper, .block-editor-block-list__layout.is-root-container",
-    layout: layout,
-    layoutDefinitions: defaultLayout === null || defaultLayout === void 0 ? void 0 : defaultLayout.definitions
-  }), !isTemplateMode && (0,external_wp_element_namespaceObject.createElement)("div", {
+    layout: fallbackLayout,
+    layoutDefinitions: globalLayoutSettings === null || globalLayoutSettings === void 0 ? void 0 : globalLayoutSettings.definitions
+  }), postContentLayoutStyles && (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.__experimentalLayoutStyle, {
+    layout: postContentLayout,
+    css: postContentLayoutStyles,
+    layoutDefinitions: globalLayoutSettings === null || globalLayoutSettings === void 0 ? void 0 : globalLayoutSettings.definitions
+  })), !isTemplateMode && (0,external_wp_element_namespaceObject.createElement)("div", {
     className: "edit-post-visual-editor__post-title-wrapper",
     contentEditable: false
   }, (0,external_wp_element_namespaceObject.createElement)(external_wp_editor_namespaceObject.PostTitle, {
@@ -3943,7 +4005,7 @@ function VisualEditor(_ref2) {
   }, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockList, {
     className: isTemplateMode ? 'wp-site-blocks' : `${blockListLayoutClass} wp-block-post-content` // Ensure root level blocks receive default/flow blockGap styling rules.
     ,
-    __experimentalLayout: layout
+    __experimentalLayout: blockListLayout
   }))))), (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.__unstableBlockSettingsMenuFirstItem, null, _ref3 => {
     let {
       onClose
@@ -9614,15 +9676,6 @@ function reinitializeEditor(postType, postId, target, settings, initialEdits) {
  */
 
 function initializeEditor(id, postType, postId, settings, initialEdits) {
-  // Prevent adding template part in the post editor.
-  // Only add the filter when the post editor is initialized, not imported.
-  (0,external_wp_hooks_namespaceObject.addFilter)('blockEditor.__unstableCanInsertBlockType', 'removeTemplatePartsFromInserter', (can, blockType) => {
-    if (!(0,external_wp_data_namespaceObject.select)(store_store).isEditingTemplate() && blockType.name === 'core/template-part') {
-      return false;
-    }
-
-    return can;
-  });
   const target = document.getElementById(id);
   const reboot = reinitializeEditor.bind(null, postType, postId, target, settings, initialEdits);
   (0,external_wp_data_namespaceObject.dispatch)(external_wp_preferences_namespaceObject.store).setDefaults('core/edit-post', {
@@ -9651,8 +9704,22 @@ function initializeEditor(id, postType, postId, settings, initialEdits) {
 
   (0,external_wp_blockLibrary_namespaceObject.registerCoreBlocks)();
 
-  if (false) {} // Show a console log warning if the browser is not in Standards rendering mode.
+  if (false) {}
+  /*
+   * Prevent adding template part in the post editor.
+   * Only add the filter when the post editor is initialized, not imported.
+   * Also only add the filter(s) after registerCoreBlocks()
+   * so that common filters in the block library are not overwritten.
+   */
 
+
+  (0,external_wp_hooks_namespaceObject.addFilter)('blockEditor.__unstableCanInsertBlockType', 'removeTemplatePartsFromInserter', (canInsert, blockType) => {
+    if (!(0,external_wp_data_namespaceObject.select)(store_store).isEditingTemplate() && blockType.name === 'core/template-part') {
+      return false;
+    }
+
+    return canInsert;
+  }); // Show a console log warning if the browser is not in Standards rendering mode.
 
   const documentMode = document.compatMode === 'CSS1Compat' ? 'Standards' : 'Quirks';
 
