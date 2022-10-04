@@ -3960,17 +3960,27 @@ class wpdb {
 	 * @return bool True when the database feature is supported, false otherwise.
 	 */
 	public function has_cap( $db_cap ) {
-		$version = $this->db_version();
+		$db_version     = $this->db_version();
+		$db_server_info = $this->db_server_info();
+
+		// Account for MariaDB version being prefixed with '5.5.5-' on older PHP versions.
+		if ( '5.5.5' === $db_version && str_contains( $db_server_info, 'MariaDB' )
+			&& PHP_VERSION_ID < 80016 // PHP 8.0.15 or older.
+		) {
+			// Strip the '5.5.5-' prefix and set the version to the correct value.
+			$db_server_info = preg_replace( '/^5\.5\.5-(.*)/', '$1', $db_server_info );
+			$db_version     = preg_replace( '/[^0-9.].*/', '', $db_server_info );
+		}
 
 		switch ( strtolower( $db_cap ) ) {
 			case 'collation':    // @since 2.5.0
 			case 'group_concat': // @since 2.7.0
 			case 'subqueries':   // @since 2.7.0
-				return version_compare( $version, '4.1', '>=' );
+				return version_compare( $db_version, '4.1', '>=' );
 			case 'set_charset':
-				return version_compare( $version, '5.0.7', '>=' );
+				return version_compare( $db_version, '5.0.7', '>=' );
 			case 'utf8mb4':      // @since 4.1.0
-				if ( version_compare( $version, '5.5.3', '<' ) ) {
+				if ( version_compare( $db_version, '5.5.3', '<' ) ) {
 					return false;
 				}
 				if ( $this->use_mysqli ) {
@@ -3990,7 +4000,7 @@ class wpdb {
 					return version_compare( $client_version, '5.5.3', '>=' );
 				}
 			case 'utf8mb4_520': // @since 4.6.0
-				return version_compare( $version, '5.6', '>=' );
+				return version_compare( $db_version, '5.6', '>=' );
 			case 'identifier_placeholders': // @since 6.1.0
 				/*
 				 * As of WordPress 6.1, wpdb::prepare() supports identifiers via '%i',
