@@ -37,7 +37,17 @@ if ( ! defined( 'WP_ALLOW_REPAIR' ) || ! WP_ALLOW_REPAIR ) {
 	);
 	echo "</p><p><code>define('WP_ALLOW_REPAIR', true);</code></p>";
 
-	$default_key     = __( 'put your unique phrase here' );
+	$default_keys    = array_unique(
+		array(
+			'put your unique phrase here',
+			/*
+			 * translators: This string should only be translated if wp-config-sample.php is localized.
+			 * You can check the localized release package or
+			 * https://i18n.svn.wordpress.org/<locale code>/branches/<wp version>/dist/wp-config-sample.php
+			 */
+			__( 'put your unique phrase here' ),
+		)
+	);
 	$missing_key     = false;
 	$duplicated_keys = array();
 
@@ -51,9 +61,11 @@ if ( ! defined( 'WP_ALLOW_REPAIR' ) || ! WP_ALLOW_REPAIR ) {
 		}
 	}
 
-	// If at least one key uses the default value, consider it duplicated.
-	if ( isset( $duplicated_keys[ $default_key ] ) ) {
-		$duplicated_keys[ $default_key ] = true;
+	// If at least one key uses a default value, consider it duplicated.
+	foreach ( $default_keys as $default_key ) {
+		if ( isset( $duplicated_keys[ $default_key ] ) ) {
+			$duplicated_keys[ $default_key ] = true;
+		}
 	}
 
 	// Weed out all unique, non-default values.
