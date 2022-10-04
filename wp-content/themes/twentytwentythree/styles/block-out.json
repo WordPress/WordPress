@@ -170,6 +170,11 @@
 					"fontFamily": "var(--wp--preset--font-family--ibm-plex-mono)",
 					"fontStyle": "italic",
 					"fontWeight": "400"
+				},
+				":active": {
+					"color": {
+						"text": "var(--wp--preset--color--contrast)"
+					}
 				}
 			},
 			"h1": {

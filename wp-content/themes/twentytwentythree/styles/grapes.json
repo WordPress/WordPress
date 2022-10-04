@@ -33,6 +33,17 @@
 	},
 	"styles": {
 		"blocks": {
+			"core/post-comments": {
+				"elements": {
+					"link": {
+						":hover": {
+							"typography": {
+								"textDecoration": "underline dashed"
+							}
+						}
+					}
+				}
+			},
 			"core/post-date": {
 				"typography": {
 					"fontFamily": "var(--wp--preset--font-family--source-serif-pro)",
@@ -43,6 +54,11 @@
 				"typography": {
 					"fontFamily": "var(--wp--preset--font-family--source-serif-pro)",
 					"fontStyle": "italic"
+				}
+			},
+			"core/site-title": {
+				"typography": {
+					"textTransform": "lowercase"
 				}
 			}
 		},
@@ -65,7 +81,7 @@
 			"link": {
 				":hover": {
 					"typography": {
-						"textDecoration": "underline"
+						"textDecoration": "underline dashed"
 					}
 				}
 			}

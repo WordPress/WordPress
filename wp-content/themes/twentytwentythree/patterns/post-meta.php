@@ -49,7 +49,7 @@
 				</p>
 				<!-- /wp:paragraph -->
 
-				<!-- wp:post-author-name {"isLink":true} /-->
+				<!-- wp:post-author {"showAvatar":false} /-->
 			</div>
 			<!-- /wp:group -->
 		</div>

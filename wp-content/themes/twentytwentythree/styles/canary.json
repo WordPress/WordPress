@@ -131,8 +131,22 @@
 		},
 		"elements": {
 			"button": {
+				":hover": {
+					"color": {
+						"background": "var(--wp--preset--color--base)",
+						"text": "var(--wp--preset--color--contrast)"
+					},
+					"border": {
+						"color": "var(--wp--preset--color--contrast)",
+						"style": "solid",
+						"width": "2px"
+					}
+				},
 				"border": {
-					"radius": "5px"
+					"radius": "5px",
+					"color": "var(--wp--preset--color--contrast)",
+					"style": "solid",
+					"width": "2px"
 				},
 				"color": {
 					"text": "var(--wp--preset--color--base)"

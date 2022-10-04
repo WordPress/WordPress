@@ -115,16 +115,12 @@
 					"fontSize": "var(--wp--preset--font-size--medium)"
 				}
 			},
-			"core/post-author-name": {
-				"elements": {
-					"link": {
-						"color": {
-							"text": "var(--wp--preset--color--primary)"
-						},
-						"typography": {
-							"fontStyle": "italic"
-						}
-					}
+			"core/post-author": {
+				"color": {
+					"text": "var(--wp--preset--color--primary)"
+				},
+				"typography": {
+					"fontStyle": "italic"
 				}
 			},
 			"core/post-content": {

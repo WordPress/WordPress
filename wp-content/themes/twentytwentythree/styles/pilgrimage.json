@@ -203,6 +203,10 @@
 							}
 						}
 					}
+				},
+				"typography": {
+					"fontStyle": "italic",
+					"fontWeight": "700"
 				}
 			}
 		},
@@ -213,7 +217,8 @@
 			"button": {
 				":active": {
 					"color": {
-						"background": "var(--wp--preset--color--secondary)"
+						"background": "var(--wp--preset--color--secondary)",
+						"gradient": "none"
 					}
 				},
 				":focus": {

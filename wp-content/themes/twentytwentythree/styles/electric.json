@@ -34,15 +34,38 @@
 	"styles": {
 		"elements": {
 			"button": {
+				"border": {
+					"style": "solid",
+					"width": "2px",
+					"color": "var(--wp--preset--color--contrast)"
+				},
 				"color": {
 					"background": "var(--wp--preset--color--contrast)",
 					"text": "var(--wp--preset--color--base)"
+				},
+				"spacing": {
+					"padding": {
+						"top": ".667em",
+						"right": "1.333em",
+						"bottom": ".667em",
+						"left": "1.333em"
+					}
+				},
+				":active": {
+					"typography": {
+						"textDecoration": "underline dotted"
+					}
+				},
+				":focus": {
+					"typography": {
+						"textDecoration": "underline dotted"
+					}
 				},
 				":hover": {
 					"border": {
 						"color": "var(--wp--preset--color--contrast)",
 						"style": "solid",
-						"width": "1px"
+						"width": "2px"
 					},
 					"color": {
 						"background": "var(--wp--preset--color--base)",
