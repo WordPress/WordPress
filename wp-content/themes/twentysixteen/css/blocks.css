@@ -172,6 +172,13 @@ p.has-drop-cap:not(:focus)::first-letter {
 	padding: 0 24px 0 0;
 }
 
+.wp-block-pullquote.has-text-color blockquote,
+.wp-block-pullquote.has-background blockquote,
+.has-background .wp-block-pullquote blockquote,
+.wp-block-pullquote.has-text-color cite {
+	color: inherit;
+}
+
 .wp-block-pullquote p {
 	font-size: 19px;
 	font-size: 1.1875rem;
