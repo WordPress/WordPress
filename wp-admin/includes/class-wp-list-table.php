@@ -11,7 +11,6 @@
  * Base class for displaying a list of items in an ajaxified HTML table.
  *
  * @since 3.1.0
- * @access private
  */
 #[AllowDynamicProperties]
 class WP_List_Table {

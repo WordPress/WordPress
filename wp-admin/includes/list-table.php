@@ -10,7 +10,6 @@
 /**
  * Fetches an instance of a WP_List_Table class.
  *
- * @access private
  * @since 3.1.0
  *
  * @global string $hook_suffix
@@ -56,6 +55,20 @@ function _get_list_table( $class_name, $args = array() ) {
 			$args['screen'] = get_current_screen();
 		} else {
 			$args['screen'] = null;
+		}
+
+		/**
+		 * Filters the list table class to instantiate.
+		 *
+		 * @since 6.1.0
+		 *
+		 * @param string $class_name The list table class to use.
+		 * @param array  $args       An array containing _get_list_table() arguments.
+		 */
+		$custom_class_name = apply_filters( 'wp_list_table_class_name', $class_name, $args );
+
+		if ( is_string( $custom_class_name ) && class_exists( $custom_class_name ) ) {
+			$class_name = $custom_class_name;
 		}
 
 		return new $class_name( $args );
