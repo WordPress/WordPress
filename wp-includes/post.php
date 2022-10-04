@@ -5787,7 +5787,7 @@ function get_page_by_title( $page_title, $output = OBJECT, $post_type = 'page' )
 		'order'                  => 'ASC',
 	);
 	$query = new WP_Query( $args );
-	$pages = $query->get_posts();
+	$pages = $query->posts;
 
 	if ( empty( $pages ) ) {
 		return null;
