@@ -1,5 +1,5 @@
 /*!
- * clipboard.js v2.0.10
+ * clipboard.js v2.0.11
  * https://clipboardjs.com/
  *
  * Licensed MIT © Zeno Rocha
@@ -95,11 +95,27 @@ function createFakeElement(value) {
 
 
 /**
+ * Create fake copy action wrapper using a fake element.
+ * @param {String} target
+ * @param {Object} options
+ * @return {String}
+ */
+
+var fakeCopyAction = function fakeCopyAction(value, options) {
+  var fakeElement = createFakeElement(value);
+  options.container.appendChild(fakeElement);
+  var selectedText = select_default()(fakeElement);
+  command('copy');
+  fakeElement.remove();
+  return selectedText;
+};
+/**
  * Copy action wrapper.
  * @param {String|HTMLElement} target
  * @param {Object} options
  * @return {String}
  */
+
 
 var ClipboardActionCopy = function ClipboardActionCopy(target) {
   var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {
@@ -108,11 +124,10 @@ var ClipboardActionCopy = function ClipboardActionCopy(target) {
   var selectedText = '';
 
   if (typeof target === 'string') {
-    var fakeElement = createFakeElement(target);
-    options.container.appendChild(fakeElement);
-    selectedText = select_default()(fakeElement);
-    command('copy');
-    fakeElement.remove();
+    selectedText = fakeCopyAction(target, options);
+  } else if (target instanceof HTMLInputElement && !['text', 'search', 'url', 'tel', 'password'].includes(target === null || target === void 0 ? void 0 : target.type)) {
+    // If input type doesn't support `setSelectionRange`. Simulate it. https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange
+    selectedText = fakeCopyAction(target.value, options);
   } else {
     selectedText = select_default()(target);
     command('copy');
@@ -304,7 +319,6 @@ var Clipboard = /*#__PURE__*/function (_Emitter) {
             trigger.focus();
           }
 
-          document.activeElement.blur();
           window.getSelection().removeAllRanges();
         }
       });

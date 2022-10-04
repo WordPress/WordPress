@@ -5,7 +5,7 @@
 /***/ (function(module) {
 
 /*!
- * clipboard.js v2.0.10
+ * clipboard.js v2.0.11
  * https://clipboardjs.com/
  *
  * Licensed MIT © Zeno Rocha
@@ -96,11 +96,27 @@ function createFakeElement(value) {
 
 
 /**
+ * Create fake copy action wrapper using a fake element.
+ * @param {String} target
+ * @param {Object} options
+ * @return {String}
+ */
+
+var fakeCopyAction = function fakeCopyAction(value, options) {
+  var fakeElement = createFakeElement(value);
+  options.container.appendChild(fakeElement);
+  var selectedText = select_default()(fakeElement);
+  command('copy');
+  fakeElement.remove();
+  return selectedText;
+};
+/**
  * Copy action wrapper.
  * @param {String|HTMLElement} target
  * @param {Object} options
  * @return {String}
  */
+
 
 var ClipboardActionCopy = function ClipboardActionCopy(target) {
   var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {
@@ -109,11 +125,10 @@ var ClipboardActionCopy = function ClipboardActionCopy(target) {
   var selectedText = '';
 
   if (typeof target === 'string') {
-    var fakeElement = createFakeElement(target);
-    options.container.appendChild(fakeElement);
-    selectedText = select_default()(fakeElement);
-    command('copy');
-    fakeElement.remove();
+    selectedText = fakeCopyAction(target, options);
+  } else if (target instanceof HTMLInputElement && !['text', 'search', 'url', 'tel', 'password'].includes(target === null || target === void 0 ? void 0 : target.type)) {
+    // If input type doesn't support `setSelectionRange`. Simulate it. https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange
+    selectedText = fakeCopyAction(target.value, options);
   } else {
     selectedText = select_default()(target);
     command('copy');
@@ -305,7 +320,6 @@ var Clipboard = /*#__PURE__*/function (_Emitter) {
             trigger.focus();
           }
 
-          document.activeElement.blur();
           window.getSelection().removeAllRanges();
         }
       });
@@ -446,9 +460,9 @@ module.exports = closest;
 /***/ }),
 
 /***/ 438:
-/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_15133__) {
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_15749__) {
 
-var closest = __nested_webpack_require_15133__(828);
+var closest = __nested_webpack_require_15749__(828);
 
 /**
  * Delegates event to a selector.
@@ -587,10 +601,10 @@ exports.fn = function(value) {
 /***/ }),
 
 /***/ 370:
-/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_18497__) {
+/***/ (function(module, __unused_webpack_exports, __nested_webpack_require_19113__) {
 
-var is = __nested_webpack_require_18497__(879);
-var delegate = __nested_webpack_require_18497__(438);
+var is = __nested_webpack_require_19113__(879);
+var delegate = __nested_webpack_require_19113__(438);
 
 /**
  * Validates all params and calls the right
@@ -818,7 +832,7 @@ module.exports.TinyEmitter = E;
 /******/ 	var __webpack_module_cache__ = {};
 /******/ 	
 /******/ 	// The require function
-/******/ 	function __nested_webpack_require_23879__(moduleId) {
+/******/ 	function __nested_webpack_require_24495__(moduleId) {
 /******/ 		// Check if module is in cache
 /******/ 		if(__webpack_module_cache__[moduleId]) {
 /******/ 			return __webpack_module_cache__[moduleId].exports;
@@ -831,7 +845,7 @@ module.exports.TinyEmitter = E;
 /******/ 		};
 /******/ 	
 /******/ 		// Execute the module function
-/******/ 		__webpack_modules__[moduleId](module, module.exports, __nested_webpack_require_23879__);
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __nested_webpack_require_24495__);
 /******/ 	
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
@@ -841,11 +855,11 @@ module.exports.TinyEmitter = E;
 /******/ 	/* webpack/runtime/compat get default export */
 /******/ 	!function() {
 /******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__nested_webpack_require_23879__.n = function(module) {
+/******/ 		__nested_webpack_require_24495__.n = function(module) {
 /******/ 			var getter = module && module.__esModule ?
 /******/ 				function() { return module['default']; } :
 /******/ 				function() { return module; };
-/******/ 			__nested_webpack_require_23879__.d(getter, { a: getter });
+/******/ 			__nested_webpack_require_24495__.d(getter, { a: getter });
 /******/ 			return getter;
 /******/ 		};
 /******/ 	}();
@@ -853,9 +867,9 @@ module.exports.TinyEmitter = E;
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	!function() {
 /******/ 		// define getter functions for harmony exports
-/******/ 		__nested_webpack_require_23879__.d = function(exports, definition) {
+/******/ 		__nested_webpack_require_24495__.d = function(exports, definition) {
 /******/ 			for(var key in definition) {
-/******/ 				if(__nested_webpack_require_23879__.o(definition, key) && !__nested_webpack_require_23879__.o(exports, key)) {
+/******/ 				if(__nested_webpack_require_24495__.o(definition, key) && !__nested_webpack_require_24495__.o(exports, key)) {
 /******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
 /******/ 				}
 /******/ 			}
@@ -864,14 +878,14 @@ module.exports.TinyEmitter = E;
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	!function() {
-/******/ 		__nested_webpack_require_23879__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
+/******/ 		__nested_webpack_require_24495__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
 /******/ 	}();
 /******/ 	
 /************************************************************************/
 /******/ 	// module exports must be returned from runtime so entry inlining is disabled
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	return __nested_webpack_require_23879__(686);
+/******/ 	return __nested_webpack_require_24495__(686);
 /******/ })()
 .default;
 });
