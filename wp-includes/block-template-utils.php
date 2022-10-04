@@ -1059,7 +1059,9 @@ function get_block_template( $id, $template_type = 'wp_template' ) {
 }
 
 /**
- * Retrieves a single unified template object using its id.
+ * Retrieves a unified template object based on a theme file.
+ *
+ * This is a fallback of get_block_template(), used when no templates are found in the database.
  *
  * @since 5.9.0
  *
@@ -1070,9 +1072,9 @@ function get_block_template( $id, $template_type = 'wp_template' ) {
  */
 function get_block_file_template( $id, $template_type = 'wp_template' ) {
 	/**
-	 * Filters the block templates array before the query takes place.
+	 * Filters the block template object before the theme file discovery takes place.
 	 *
-	 * Return a non-null value to bypass the WordPress queries.
+	 * Return a non-null value to bypass the WordPress theme file discovery.
 	 *
 	 * @since 5.9.0
 	 *
@@ -1107,7 +1109,7 @@ function get_block_file_template( $id, $template_type = 'wp_template' ) {
 	$block_template = _build_block_template_result_from_file( $template_file, $template_type );
 
 	/**
-	 * Filters the array of queried block templates array after they've been fetched.
+	 * Filters the block template object after it has been (potentially) fetched from the theme file.
 	 *
 	 * @since 5.9.0
 	 *
