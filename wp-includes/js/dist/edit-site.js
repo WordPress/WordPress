@@ -14472,20 +14472,10 @@ const usePostTypeMenuItems = onClickMenuItem => {
               };
             },
             getSpecificTemplate: suggestion => {
-              let title = (0,external_wp_i18n_namespaceObject.sprintf)( // translators: Represents the title of a user's custom template in the Site Editor, where %1$s is the singular name of a post type and %2$s is the name of the post, e.g. "Page: Hello".
-              (0,external_wp_i18n_namespaceObject.__)('%1$s: %2$s'), labels.singular_name, suggestion.name);
-              const description = (0,external_wp_i18n_namespaceObject.sprintf)( // translators: Represents the description of a user's custom template in the Site Editor, e.g. "Template for Page: Hello"
-              (0,external_wp_i18n_namespaceObject.__)('Template for %1$s'), title);
-
-              if (_needsUniqueIdentifier) {
-                title = (0,external_wp_i18n_namespaceObject.sprintf)( // translators: Represents the title of a user's custom template in the Site Editor, where %1$s is the template title and %2$s is the slug of the post type, e.g. "Project: Hello (project_type)"
-                (0,external_wp_i18n_namespaceObject.__)('%1$s (%2$s)'), title, slug);
-              }
-
+              const templateSlug = `${templatePrefixes[slug]}-${suggestion.slug}`;
               return {
-                title,
-                description,
-                slug: `${templatePrefixes[slug]}-${suggestion.slug}`,
+                title: templateSlug,
+                slug: templateSlug,
                 templatePrefix: templatePrefixes[slug]
               };
             }
@@ -14631,20 +14621,10 @@ const useTaxonomiesMenuItems = onClickMenuItem => {
               };
             },
             getSpecificTemplate: suggestion => {
-              let title = (0,external_wp_i18n_namespaceObject.sprintf)( // translators: Represents the title of a user's custom template in the Site Editor, where %1$s is the singular name of a taxonomy and %2$s is the name of the term, e.g. "Category: shoes".
-              (0,external_wp_i18n_namespaceObject.__)('%1$s: %2$s'), labels.singular_name, suggestion.name);
-              const description = (0,external_wp_i18n_namespaceObject.sprintf)( // translators: Represents the description of a user's custom template in the Site Editor, e.g. "Template for Category: shoes"
-              (0,external_wp_i18n_namespaceObject.__)('Template for %1$s'), title);
-
-              if (_needsUniqueIdentifier) {
-                title = (0,external_wp_i18n_namespaceObject.sprintf)( // translators: Represents the title of a user's custom template in the Site Editor, where %1$s is the template title and %2$s is the slug of the taxonomy, e.g. "Category: shoes (product_tag)"
-                (0,external_wp_i18n_namespaceObject.__)('%1$s (%2$s)'), title, slug);
-              }
-
+              const templateSlug = `${templatePrefixes[slug]}-${suggestion.slug}`;
               return {
-                title,
-                description,
-                slug: `${templatePrefixes[slug]}-${suggestion.slug}`,
+                title: templateSlug,
+                slug: templateSlug,
                 templatePrefix: templatePrefixes[slug]
               };
             }
@@ -14684,26 +14664,6 @@ const useTaxonomiesMenuItems = onClickMenuItem => {
   }), [menuItems]);
   return taxonomiesMenuItems;
 };
-
-function useAuthorNeedsUniqueIndentifier() {
-  const authors = (0,external_wp_data_namespaceObject.useSelect)(select => select(external_wp_coreData_namespaceObject.store).getUsers({
-    who: 'authors',
-    per_page: -1
-  }), []);
-  const authorsCountByName = (0,external_wp_element_namespaceObject.useMemo)(() => {
-    return (authors || []).reduce((authorsCount, _ref14) => {
-      let {
-        name
-      } = _ref14;
-      authorsCount[name] = (authorsCount[name] || 0) + 1;
-      return authorsCount;
-    }, {});
-  }, [authors]);
-  return (0,external_wp_element_namespaceObject.useCallback)(name => {
-    return authorsCountByName[name] > 1;
-  }, [authorsCountByName]);
-}
-
 const USE_AUTHOR_MENU_ITEM_TEMPLATE_PREFIX = {
   user: 'author'
 };
@@ -14718,11 +14678,10 @@ function useAuthorMenuItem(onClickMenuItem) {
   const existingTemplates = useExistingTemplates();
   const defaultTemplateTypes = useDefaultTemplateTypes();
   const authorInfo = useEntitiesInfo('root', USE_AUTHOR_MENU_ITEM_TEMPLATE_PREFIX, USE_AUTHOR_MENU_ITEM_QUERY_PARAMETERS);
-  const authorNeedsUniqueId = useAuthorNeedsUniqueIndentifier();
-  let authorMenuItem = defaultTemplateTypes === null || defaultTemplateTypes === void 0 ? void 0 : defaultTemplateTypes.find(_ref15 => {
+  let authorMenuItem = defaultTemplateTypes === null || defaultTemplateTypes === void 0 ? void 0 : defaultTemplateTypes.find(_ref14 => {
     let {
       slug
-    } = _ref15;
+    } = _ref14;
     return slug === 'author';
   });
 
@@ -14734,10 +14693,10 @@ function useAuthorMenuItem(onClickMenuItem) {
     };
   }
 
-  const hasGeneralTemplate = !!(existingTemplates !== null && existingTemplates !== void 0 && existingTemplates.find(_ref16 => {
+  const hasGeneralTemplate = !!(existingTemplates !== null && existingTemplates !== void 0 && existingTemplates.find(_ref15 => {
     let {
       slug
-    } = _ref16;
+    } = _ref15;
     return slug === 'author';
   }));
 
@@ -14751,10 +14710,10 @@ function useAuthorMenuItem(onClickMenuItem) {
         type: 'root',
         slug: 'user',
         config: {
-          queryArgs: _ref17 => {
+          queryArgs: _ref16 => {
             let {
               search
-            } = _ref17;
+            } = _ref16;
             return {
               _fields: 'id,name,slug,link',
               orderBy: search ? 'name' : 'registered_date',
@@ -14763,16 +14722,10 @@ function useAuthorMenuItem(onClickMenuItem) {
             };
           },
           getSpecificTemplate: suggestion => {
-            const needsUniqueId = authorNeedsUniqueId(suggestion.name);
-            const title = needsUniqueId ? (0,external_wp_i18n_namespaceObject.sprintf)( // translators: %1$s: Represents the name of an author e.g: "Jorge", %2$s: Represents the slug of an author e.g: "author-jorge-slug".
-            (0,external_wp_i18n_namespaceObject.__)('Author: %1$s (%2$s)'), suggestion.name, suggestion.slug) : (0,external_wp_i18n_namespaceObject.sprintf)( // translators: %s: Represents the name of an author e.g: "Jorge".
-            (0,external_wp_i18n_namespaceObject.__)('Author: %s'), suggestion.name);
-            const description = (0,external_wp_i18n_namespaceObject.sprintf)( // translators: %s: Represents the name of an author e.g: "Jorge".
-            (0,external_wp_i18n_namespaceObject.__)('Template for Author: %s'), suggestion.name);
+            const templateSlug = `author-${suggestion.slug}`;
             return {
-              title,
-              description,
-              slug: `author-${suggestion.slug}`,
+              title: templateSlug,
+              slug: templateSlug,
               templatePrefix: 'author'
             };
           }
@@ -14811,8 +14764,8 @@ function useAuthorMenuItem(onClickMenuItem) {
 const useExistingTemplateSlugs = templatePrefixes => {
   const existingTemplates = useExistingTemplates();
   const existingSlugs = (0,external_wp_element_namespaceObject.useMemo)(() => {
-    return Object.entries(templatePrefixes || {}).reduce((accumulator, _ref18) => {
-      let [slug, prefix] = _ref18;
+    return Object.entries(templatePrefixes || {}).reduce((accumulator, _ref17) => {
+      let [slug, prefix] = _ref17;
       const slugsWithTemplates = (existingTemplates || []).reduce((_accumulator, existingTemplate) => {
         const _prefix = `${prefix}-`;
 
@@ -14847,8 +14800,8 @@ const useTemplatesToExclude = function (entityName, templatePrefixes) {
   let additionalQueryParameters = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
   const slugsToExcludePerEntity = useExistingTemplateSlugs(templatePrefixes);
   const recordsToExcludePerEntity = (0,external_wp_data_namespaceObject.useSelect)(select => {
-    return Object.entries(slugsToExcludePerEntity || {}).reduce((accumulator, _ref19) => {
-      let [slug, slugsWithTemplates] = _ref19;
+    return Object.entries(slugsToExcludePerEntity || {}).reduce((accumulator, _ref18) => {
+      let [slug, slugsWithTemplates] = _ref18;
       const entitiesWithTemplates = select(external_wp_coreData_namespaceObject.store).getEntityRecords(entityName, slug, {
         _fields: 'id',
         context: 'view',
@@ -14889,10 +14842,10 @@ const useEntitiesInfo = function (entityName, templatePrefixes) {
     return Object.keys(templatePrefixes || {}).reduce((accumulator, slug) => {
       var _recordsToExcludePerE, _select$getEntityReco;
 
-      const existingEntitiesIds = (recordsToExcludePerEntity === null || recordsToExcludePerEntity === void 0 ? void 0 : (_recordsToExcludePerE = recordsToExcludePerEntity[slug]) === null || _recordsToExcludePerE === void 0 ? void 0 : _recordsToExcludePerE.map(_ref20 => {
+      const existingEntitiesIds = (recordsToExcludePerEntity === null || recordsToExcludePerEntity === void 0 ? void 0 : (_recordsToExcludePerE = recordsToExcludePerEntity[slug]) === null || _recordsToExcludePerE === void 0 ? void 0 : _recordsToExcludePerE.map(_ref19 => {
         let {
           id
-        } = _ref20;
+        } = _ref19;
         return id;
       })) || [];
       accumulator[slug] = {
