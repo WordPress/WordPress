@@ -413,7 +413,7 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Retrieves all page and attachments for pages URIs.
+	 * Retrieves all pages and attachments for pages URIs.
 	 *
 	 * The attachments are for those that have pages as parents and will be
 	 * retrieved.
@@ -616,7 +616,7 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Retrieve the permalink structure for tags.
+	 * Retrieves the permalink structure for tags.
 	 *
 	 * If the tag_base property has no value, then the tag structure will have
 	 * the front property value, followed by 'tag', and finally '%tag%'. If it
@@ -861,7 +861,7 @@ class WP_Rewrite {
 	 *                                    Default `EP_NONE`.
 	 * @param bool   $paged               Optional. Whether archive pagination rules should be added for the structure.
 	 *                                    Default true.
-	 * @param bool   $feed                Optional Whether feed rewrite rules should be added for the structure.
+	 * @param bool   $feed                Optional. Whether feed rewrite rules should be added for the structure.
 	 *                                    Default true.
 	 * @param bool   $forcomments         Optional. Whether the feed rules should be a query for a comments feed.
 	 *                                    Default false.
@@ -1245,7 +1245,7 @@ class WP_Rewrite {
 	 * @param string $permalink_structure The permalink structure to generate rules.
 	 * @param bool   $walk_dirs           Optional. Whether to create list of directories to walk over.
 	 *                                    Default false.
-	 * @return array
+	 * @return array An array of rewrite rules keyed by their regex pattern.
 	 */
 	public function generate_rewrite_rule( $permalink_structure, $walk_dirs = false ) {
 		return $this->generate_rewrite_rules( $permalink_structure, EP_NONE, false, false, false, $walk_dirs );
