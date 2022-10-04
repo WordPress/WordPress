@@ -33,9 +33,10 @@ class WP_Theme_JSON {
 	 * process it twice.
 	 *
 	 * @since 5.8.0
+	 * @since 6.1.0 Initialize as an empty array.
 	 * @var array
 	 */
-	protected static $blocks_metadata = null;
+	protected static $blocks_metadata = array();
 
 	/**
 	 * The CSS selector for the top-level styles.
@@ -721,14 +722,15 @@ class WP_Theme_JSON {
 	 * @return array Block metadata.
 	 */
 	protected static function get_blocks_metadata() {
-		if ( null !== static::$blocks_metadata ) {
+		$registry = WP_Block_Type_Registry::get_instance();
+		$blocks   = $registry->get_all_registered();
+
+		// Is there metadata for all currently registered blocks?
+		$blocks = array_diff_key( $blocks, static::$blocks_metadata );
+		if ( empty( $blocks ) ) {
 			return static::$blocks_metadata;
 		}
 
-		static::$blocks_metadata = array();
-
-		$registry = WP_Block_Type_Registry::get_instance();
-		$blocks   = $registry->get_all_registered();
 		foreach ( $blocks as $block_name => $block_type ) {
 			if (
 				isset( $block_type->supports['__experimentalSelector'] ) &&
