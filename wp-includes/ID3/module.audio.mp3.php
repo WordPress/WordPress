@@ -315,6 +315,10 @@ class getid3_mp3 extends getid3_handler
 			$encoder_options .= ' -b'.$thisfile_mpeg_audio_lame['bitrate_min'];
 		}
 
+		if (isset($thisfile_mpeg_audio['bitrate']) && $thisfile_mpeg_audio['bitrate'] === 'free') {
+			$encoder_options .= ' --freeformat';
+		}
+
 		if (!empty($thisfile_mpeg_audio_lame['encoding_flags']['nogap_prev']) || !empty($thisfile_mpeg_audio_lame['encoding_flags']['nogap_next'])) {
 			$encoder_options .= ' --nogap';
 		}
@@ -750,7 +754,8 @@ class getid3_mp3 extends getid3_handler
 							unset($thisfile_mpeg_audio_lame['long_version']);
 
 							// It the LAME tag was only introduced in LAME v3.90
-							// http://www.hydrogenaudio.org/?act=ST&f=15&t=9933
+							// https://wiki.hydrogenaud.io/index.php/LAME#VBR_header_and_LAME_tag
+							// https://hydrogenaud.io/index.php?topic=9933
 
 							// Offsets of various bytes in http://gabriel.mp3-tech.org/mp3infotag.html
 							// are assuming a 'Xing' identifier offset of 0x24, which is the case for
@@ -786,7 +791,7 @@ class getid3_mp3 extends getid3_handler
 							$thisfile_mpeg_audio_lame['lowpass_frequency'] = getid3_lib::BigEndian2Int(substr($headerstring, $LAMEtagOffsetContant + 0xA6, 1)) * 100;
 
 							// bytes $A7-$AE  Replay Gain
-							// http://privatewww.essex.ac.uk/~djmrob/replaygain/rg_data_format.html
+							// https://web.archive.org/web/20021015212753/http://privatewww.essex.ac.uk/~djmrob/replaygain/rg_data_format.html
 							// bytes $A7-$AA : 32 bit floating point "Peak signal amplitude"
 							if ($thisfile_mpeg_audio_lame['short_version'] >= 'LAME3.94b') {
 								// LAME 3.94a16 and later - 9.23 fixed point
@@ -914,7 +919,7 @@ class getid3_mp3 extends getid3_handler
 
 
 							// LAME CBR
-							if ($thisfile_mpeg_audio_lame_raw['vbr_method'] == 1) {
+							if ($thisfile_mpeg_audio_lame_raw['vbr_method'] == 1 && $thisfile_mpeg_audio['bitrate'] !== 'free') {
 
 								$thisfile_mpeg_audio['bitrate_mode'] = 'cbr';
 								$thisfile_mpeg_audio['bitrate'] = self::ClosestStandardMP3Bitrate($thisfile_mpeg_audio['bitrate']);
@@ -1169,6 +1174,7 @@ class getid3_mp3 extends getid3_handler
 
 			$nextframetestarray = array('error' => array(), 'warning' => array(), 'avdataend' => $info['avdataend'], 'avdataoffset'=>$info['avdataoffset']);
 			if ($this->decodeMPEGaudioHeader($nextframetestoffset, $nextframetestarray, false)) {
+				/** @phpstan-ignore-next-line */
 				getid3_lib::safe_inc($info['mp3_validity_check_bitrates'][$nextframetestarray['mpeg']['audio']['bitrate']]);
 				if ($ScanAsCBR) {
 					// force CBR mode, used for trying to pick out invalid audio streams with valid(?) VBR headers, or VBR streams with no VBR header

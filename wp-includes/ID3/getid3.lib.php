@@ -11,6 +11,13 @@
 //                                                            ///
 /////////////////////////////////////////////////////////////////
 
+if(!defined('GETID3_LIBXML_OPTIONS') && defined('LIBXML_VERSION')) {
+	if(LIBXML_VERSION >= 20621) {
+		define('GETID3_LIBXML_OPTIONS', LIBXML_NOENT | LIBXML_NONET | LIBXML_NOWARNING | LIBXML_COMPACT);
+	} else {
+		define('GETID3_LIBXML_OPTIONS', LIBXML_NOENT | LIBXML_NONET | LIBXML_NOWARNING);
+	}
+}
 
 class getid3_lib
 {
@@ -303,11 +310,10 @@ class getid3_lib
 			}
 		} elseif (($exponent == 0) && ($fraction == 0)) {
 			if ($signbit == '1') {
-				$floatvalue = -0;
+				$floatvalue = -0.0;
 			} else {
-				$floatvalue = 0;
+				$floatvalue = 0.0;
 			}
-			$floatvalue = ($signbit ? 0 : -0);
 		} elseif (($exponent == 0) && ($fraction != 0)) {
 			// These are 'unnormalized' values
 			$floatvalue = pow(2, (-1 * (pow(2, $exponentbits - 1) - 2))) * self::DecimalBinary2Float($fractionstring);
@@ -732,7 +738,7 @@ class getid3_lib
 			// This function has been deprecated in PHP 8.0 because in libxml 2.9.0, external entity loading is
 			// disabled by default, but is still needed when LIBXML_NOENT is used.
 			$loader = @libxml_disable_entity_loader(true);
-			$XMLobject = simplexml_load_string($XMLstring, 'SimpleXMLElement', LIBXML_NOENT);
+			$XMLobject = simplexml_load_string($XMLstring, 'SimpleXMLElement', GETID3_LIBXML_OPTIONS);
 			$return = self::SimpleXMLelement2array($XMLobject);
 			@libxml_disable_entity_loader($loader);
 			return $return;
