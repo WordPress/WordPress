@@ -2422,12 +2422,12 @@ class WP_Theme_JSON {
 			}
 
 			$slugs_for_preset = array();
-			$slugs_for_preset = array_map(
-				static function( $value ) {
-					return isset( $value['slug'] ) ? $value['slug'] : null;
-				},
-				$preset
-			);
+			foreach ( $preset as $item ) {
+				if ( isset( $item['slug'] ) ) {
+					$slugs_for_preset[] = $item['slug'];
+				}
+			}
+
 			_wp_array_set( $slugs, $metadata['path'], $slugs_for_preset );
 		}
 
