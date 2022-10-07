@@ -350,12 +350,12 @@
 
 	//! Pullquote
 	.wp-block-pullquote {
+		color: $color__text-main;
 		border-color: transparent;
 		border-width: 2px;
 		padding: $size__spacing-unit;
 
 		blockquote {
-			color: $color__text-main;
 			border: none;
 			margin-top: calc(4 * #{ $size__spacing-unit});
 			margin-bottom: calc(4.33 * #{ $size__spacing-unit});
