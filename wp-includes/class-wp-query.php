@@ -3268,10 +3268,6 @@ class WP_Query {
 			wp_cache_set( $cache_key, $cache_value, 'posts' );
 		}
 
-		if ( ! empty( $this->posts ) && $q['update_menu_item_cache'] ) {
-			update_menu_item_cache( $this->posts );
-		}
-
 		if ( ! $q['suppress_filters'] ) {
 			/**
 			 * Filters the raw post results array, prior to status checks.
@@ -3464,6 +3460,10 @@ class WP_Query {
 		} else {
 			$this->post_count = 0;
 			$this->posts      = array();
+		}
+
+		if ( ! empty( $this->posts ) && $q['update_menu_item_cache'] ) {
+			update_menu_item_cache( $this->posts );
 		}
 
 		if ( $q['lazy_load_term_meta'] ) {
