@@ -6,7 +6,7 @@
  */
 
 /**
- * Function to get the settings resulting of merging core, theme, and user data.
+ * Gets the settings resulting of merging core, theme, and user data.
  *
  * @since 5.9.0
  *
@@ -21,7 +21,6 @@
  *                              Valid values are 'all' (core, theme, and user) or 'base' (core and theme).
  *                              If empty or unknown, 'all' is used.
  * }
- *
  * @return array The settings to retrieve.
  */
 function wp_get_global_settings( $path = array(), $context = array() ) {
@@ -40,7 +39,7 @@ function wp_get_global_settings( $path = array(), $context = array() ) {
 }
 
 /**
- * Function to get the styles resulting of merging core, theme, and user data.
+ * Gets the styles resulting of merging core, theme, and user data.
  *
  * @since 5.9.0
  *
@@ -55,7 +54,6 @@ function wp_get_global_settings( $path = array(), $context = array() ) {
  *                              Valid values are 'all' (core, theme, and user) or 'base' (core and theme).
  *                              If empty or unknown, 'all' is used.
  * }
- *
  * @return array The styles to retrieve.
  */
 function wp_get_global_styles( $path = array(), $context = array() ) {
@@ -82,7 +80,6 @@ function wp_get_global_styles( $path = array(), $context = array() ) {
  *                     It accepts 'variables', 'styles', 'presets' as values.
  *                     If empty, it'll load all for themes with theme.json support
  *                     and only [ 'variables', 'presets' ] for themes without theme.json support.
- *
  * @return string Stylesheet.
  */
 function wp_get_global_stylesheet( $types = array() ) {
