@@ -50,10 +50,12 @@ class WP_Theme_JSON {
 	 * The sources of data this object can represent.
 	 *
 	 * @since 5.8.0
+	 * @since 6.1.0 Added 'blocks'.
 	 * @var string[]
 	 */
 	const VALID_ORIGINS = array(
 		'default',
+		'blocks',
 		'theme',
 		'custom',
 	);

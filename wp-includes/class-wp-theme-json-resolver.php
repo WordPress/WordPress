@@ -295,12 +295,10 @@ class WP_Theme_JSON_Resolver {
 		 *
 		 * @param WP_Theme_JSON_Data Class to access and update the underlying data.
 		 */
-		$theme_json = apply_filters( 'theme_json_blocks', new WP_Theme_JSON_Data( $config, 'core' ) );
+		$theme_json = apply_filters( 'theme_json_blocks', new WP_Theme_JSON_Data( $config, 'blocks' ) );
 		$config     = $theme_json->get_data();
 
-		// Core here means it's the lower level part of the styles chain.
-		// It can be a core or a third-party block.
-		return new WP_Theme_JSON( $config, 'core' );
+		return new WP_Theme_JSON( $config, 'blocks' );
 	}
 
 	/**

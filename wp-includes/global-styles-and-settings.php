@@ -113,15 +113,21 @@ function wp_get_global_stylesheet( $types = array() ) {
 	}
 
 	/*
-	 * If variables are part of the stylesheet,
-	 * we add them for all origins (default, theme, user).
+	 * If variables are part of the stylesheet, then add them.
 	 * This is so themes without a theme.json still work as before 5.9:
 	 * they can override the default presets.
 	 * See https://core.trac.wordpress.org/ticket/54782
 	 */
 	$styles_variables = '';
 	if ( in_array( 'variables', $types, true ) ) {
-		$styles_variables = $tree->get_stylesheet( array( 'variables' ) );
+		/*
+		 * Only use the default, theme, and custom origins. Why?
+		 * Because styles for `blocks` origin are added at a later phase
+		 * (i.e. in the render cycle). Here, only the ones in use are rendered.
+		 * @see wp_add_global_styles_for_blocks
+		 */
+		$origins          = array( 'default', 'theme', 'custom' );
+		$styles_variables = $tree->get_stylesheet( array( 'variables' ), $origins );
 		$types            = array_diff( $types, array( 'variables' ) );
 	}
 
@@ -133,6 +139,12 @@ function wp_get_global_stylesheet( $types = array() ) {
 	 */
 	$styles_rest = '';
 	if ( ! empty( $types ) ) {
+		/*
+		 * Only use the default, theme, and custom origins. Why?
+		 * Because styles for `blocks` origin are added at a later phase
+		 * (i.e. in the render cycle). Here, only the ones in use are rendered.
+		 * @see wp_add_global_styles_for_blocks
+		 */
 		$origins = array( 'default', 'theme', 'custom' );
 		if ( ! $supports_theme_json ) {
 			$origins = array( 'default' );
@@ -203,6 +215,11 @@ function wp_add_global_styles_for_blocks() {
 	$block_nodes = $tree->get_styles_block_nodes();
 	foreach ( $block_nodes as $metadata ) {
 		$block_css = $tree->get_styles_for_block( $metadata );
+
+		if ( ! wp_should_load_separate_core_block_assets() ) {
+			wp_add_inline_style( 'global-styles', $block_css );
+			continue;
+		}
 
 		if ( isset( $metadata['name'] ) ) {
 			$block_name = str_replace( 'core/', '', $metadata['name'] );
