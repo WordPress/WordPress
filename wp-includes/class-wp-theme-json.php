@@ -423,6 +423,7 @@ class WP_Theme_JSON {
 		'button'  => '.wp-element-button, .wp-block-button__link',
 		// The block classes are necessary to target older content that won't use the new class names.
 		'caption' => '.wp-element-caption, .wp-block-audio figcaption, .wp-block-embed figcaption, .wp-block-gallery figcaption, .wp-block-image figcaption, .wp-block-table figcaption, .wp-block-video figcaption',
+		'cite'    => 'cite',
 	);
 
 	const __EXPERIMENTAL_ELEMENT_CLASS_NAMES = array(
