@@ -4257,4 +4257,23 @@ function _add_default_theme_supports() {
 	add_theme_support( 'automatic-feed-links' );
 
 	add_filter( 'should_load_separate_core_block_assets', '__return_true' );
+
+	/*
+	 * Remove the Customizer's Menus panel when block theme is active.
+	 */
+	add_filter(
+		'customize_panel_active',
+		static function ( $active, WP_Customize_Panel $panel ) {
+			if (
+				'nav_menus' === $panel->id &&
+				! current_theme_supports( 'menus' ) &&
+				! current_theme_supports( 'widgets' )
+			) {
+				$active = false;
+			}
+			return $active;
+		},
+		10,
+		2
+	);
 }
