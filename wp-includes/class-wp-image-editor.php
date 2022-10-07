@@ -414,8 +414,8 @@ abstract class WP_Image_Editor {
 			// The image will be converted when saving. Set the quality for the new mime-type if not already set.
 			if ( $mime_type !== $this->output_mime_type ) {
 				$this->output_mime_type = $mime_type;
-				$this->set_quality();
 			}
+			$this->set_quality();
 		} elseif ( ! empty( $this->output_mime_type ) ) {
 			// Reset output_mime_type and quality.
 			$this->output_mime_type = null;
