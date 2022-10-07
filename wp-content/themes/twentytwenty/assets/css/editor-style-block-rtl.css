@@ -619,12 +619,15 @@ hr.wp-block-separator:not(.is-style-dots)::after {
 	width: 1px;
 }
 
-hr.wp-block-separator::before {
+.editor-styles-wrapper hr.wp-block-separator::before {
 	right: calc(50% - 5px);
+	left: auto;
 }
 
-hr.wp-block-separator::after {
+.editor-styles-wrapper hr.wp-block-separator::after {
 	left: calc(50% - 5px);
+	right: auto;
+	border-radius: 0;
 }
 
 /* STYLE: DOTS */
