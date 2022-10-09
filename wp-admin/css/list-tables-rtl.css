@@ -1764,6 +1764,15 @@ div.action-links,
 		display: none;
 	}
 
+	.tablenav.bottom .actions select {
+		margin-bottom: 5px;
+	}
+
+	.tablenav.bottom .actions.alignleft + .actions.alignleft {
+		clear: right;
+		margin-top: 10px;
+	}
+
 	.tablenav.bottom .tablenav-pages.one-page {
 		margin-top: 15px;
 		height: 0;
