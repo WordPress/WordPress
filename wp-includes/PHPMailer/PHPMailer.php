@@ -750,7 +750,7 @@ class PHPMailer
      *
      * @var string
      */
-    const VERSION = '6.6.4';
+    const VERSION = '6.6.5';
 
     /**
      * Error severity: message only, continue processing.
@@ -1673,7 +1673,7 @@ class PHPMailer
                     return $this->mailSend($this->MIMEHeader, $this->MIMEBody);
             }
         } catch (Exception $exc) {
-            if ($this->Mailer === 'smtp' && $this->SMTPKeepAlive == true) {
+            if ($this->Mailer === 'smtp' && $this->SMTPKeepAlive == true && $this->smtp->connected()) {
                 $this->smtp->reset();
             }
             $this->setError($exc->getMessage());
@@ -1865,7 +1865,7 @@ class PHPMailer
         if (!static::isPermittedPath($path)) {
             return false;
         }
-        $readable = file_exists($path);
+        $readable = is_file($path);
         //If not a UNC path (expected to start with \\), check read permission, see #2069
         if (strpos($path, '\\\\') !== 0) {
             $readable = $readable && is_readable($path);
@@ -2103,6 +2103,9 @@ class PHPMailer
         $this->smtp->setDebugLevel($this->SMTPDebug);
         $this->smtp->setDebugOutput($this->Debugoutput);
         $this->smtp->setVerp($this->do_verp);
+        if ($this->Host === null) {
+            $this->Host = 'localhost';
+        }
         $hosts = explode(';', $this->Host);
         $lastexception = null;
 
