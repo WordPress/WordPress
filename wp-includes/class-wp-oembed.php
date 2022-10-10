@@ -107,7 +107,6 @@ class WP_oEmbed {
 			'#https?://([a-z]{2}|www)\.pinterest\.com(\.(au|mx))?/.*#i' => array( 'https://www.pinterest.com/oembed.json', true ),
 			'#https?://(www\.)?wolframcloud\.com/obj/.+#i' => array( 'https://www.wolframcloud.com/oembed', true ),
 			'#https?://pca\.st/.+#i'                       => array( 'https://pca.st/oembed.json', true ),
-			'#https?://datastudio\.google\.com/c/u/0/reporting/.+#i' => array( 'https://datastudio.google.com/oembed', true ),
 		);
 
 		if ( ! empty( self::$early_providers['add'] ) ) {
@@ -186,7 +185,6 @@ class WP_oEmbed {
 		 * | Pinterest    | pinterest.com                             | 5.9.0   |
 		 * | WolframCloud | wolframcloud.com                          | 5.9.0   |
 		 * | Pocket Casts | pocketcasts.com                           | 6.1.0   |
-		 * | Data Studio  | datastudio.google.com                     | 6.1.0   |
 		 *
 		 * No longer supported providers:
 		 *
