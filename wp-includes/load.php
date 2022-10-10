@@ -1150,7 +1150,7 @@ function wp_clone( $object ) {
  *
  * @return bool True if inside WordPress login screen, false otherwise.
  */
-function is_login_screen() {
+function is_login() {
 	return false !== stripos( wp_login_url(), $_SERVER['SCRIPT_NAME'] );
 }
 
