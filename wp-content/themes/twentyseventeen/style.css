@@ -3796,6 +3796,13 @@ p > object:only-child {
 		background-attachment: fixed;
 	}
 
+	@supports ( -webkit-touch-callout: none ) {
+		/* Image scrolls with the content in iOS Safari. */
+		.background-fixed .panel-image {
+			background-attachment: scroll;
+		}
+	}
+
 	.page-two-column .panel-content .entry-header {
 		float: left;
 		width: 36%;
