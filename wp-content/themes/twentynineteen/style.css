@@ -5680,13 +5680,13 @@ body.page .main-navigation {
 }
 
 .entry .entry-content .wp-block-pullquote {
+  color: #111;
   border-color: transparent;
   border-width: 2px;
   padding: 1rem;
 }
 
 .entry .entry-content .wp-block-pullquote blockquote {
-  color: #111;
   border: none;
   margin-top: calc(4 * 1rem);
   margin-bottom: calc(4.33 * 1rem);
