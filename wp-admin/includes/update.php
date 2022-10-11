@@ -885,45 +885,15 @@ function wp_print_admin_notice_templates() {
 		<div id="{{ data.id }}" class="{{ data.className }} notice <# if ( data.errors ) { #>notice-error<# } else { #>notice-success<# } #>">
 			<p>
 				<# if ( data.successes ) { #>
-					<# if ( 1 === data.successes ) { #>
-						<# if ( 'plugin' === data.type ) { #>
-							<?php
-							/* translators: %s: Number of plugins. */
-							printf( __( '%s plugin successfully updated.' ), '{{ data.successes }}' );
-							?>
-						<# } else { #>
-							<?php
-							/* translators: %s: Number of themes. */
-							printf( __( '%s theme successfully updated.' ), '{{ data.successes }}' );
-							?>
-						<# } #>
+					<# if ( 'plugin' === data.type ) { #>
+						{{ wp.i18n.sprintf( wp.i18n._n( '%s plugin successfully updated.', '%s plugins successfully updated.', data.successes ), data.successes ) }}
 					<# } else { #>
-						<# if ( 'plugin' === data.type ) { #>
-							<?php
-							/* translators: %s: Number of plugins. */
-							printf( __( '%s plugins successfully updated.' ), '{{ data.successes }}' );
-							?>
-						<# } else { #>
-							<?php
-							/* translators: %s: Number of themes. */
-							printf( __( '%s themes successfully updated.' ), '{{ data.successes }}' );
-							?>
-						<# } #>
+						{{ wp.i18n.sprintf( wp.i18n._n( '%s theme successfully updated.', '%s themes successfully updated.', data.successes ), data.successes ) }}
 					<# } #>
 				<# } #>
 				<# if ( data.errors ) { #>
 					<button class="button-link bulk-action-errors-collapsed" aria-expanded="false">
-						<# if ( 1 === data.errors ) { #>
-							<?php
-							/* translators: %s: Number of failed updates. */
-							printf( __( '%s update failed.' ), '{{ data.errors }}' );
-							?>
-						<# } else { #>
-							<?php
-							/* translators: %s: Number of failed updates. */
-							printf( __( '%s updates failed.' ), '{{ data.errors }}' );
-							?>
-						<# } #>
+						{{ wp.i18n.sprintf( wp.i18n._n( '%s update failed.', '%s updates failed.' , data.errors ), data.errors ) }}
 						<span class="screen-reader-text"><?php _e( 'Show more details' ); ?></span>
 						<span class="toggle-indicator" aria-hidden="true"></span>
 					</button>
