@@ -20,16 +20,16 @@
 
 .about__container {
 	/* Section backgrounds */
-	--background: transparent;
-	--subtle-background: #f0f0f0;
+	--background: #274acd;
+	--subtle-background: #eff2ff;
 
 	/* Main text color */
 	--text: #000;
 	--text-light: #fff;
 
 	/* Accent colors: used in header, on special classes. */
-	--accent-1: #3858e9; /* Accent background, link color */
-	--accent-2: #3858e9; /* Header background */
+	--accent-1: #3858e9; /* Link color */
+	--accent-2: #fffcb5; /* Accent background */
 
 	/* Navigation colors. */
 	--nav-background: #fff;
@@ -99,17 +99,12 @@
 }
 
 .about__section {
-	background: var(--background);
+	background: transparent;
 	clear: both;
 }
 
 .about__container .has-accent-background-color {
-	background-color: var(--accent-1);
-	color: var(--text-light);
-}
-
-.about__container .has-accent-background-color a {
-	color: var(--text-light);
+	background-color: var(--accent-2);
 }
 
 .about__container .has-transparent-background-color {
@@ -117,7 +112,7 @@
 }
 
 .about__container .has-accent-color {
-	color: var(--accent-1);
+	color: var(--accent-2);
 }
 
 .about__container .has-border {
@@ -148,9 +143,9 @@
 	padding-bottom: var(--gap);
 }
 
-.about__section .column[class*="background-color"],
-.about__section:where([class*="background-color"]) .column,
-.about__section .column.has-border {
+.about__section .column[class*="background-color"]:not(.is-edge-to-edge),
+.about__section:where([class*="background-color"]) .column:not(.is-edge-to-edge),
+.about__section .column.has-border:not(.is-edge-to-edge) {
 	padding-top: var(--gap);
 	padding-bottom: var(--gap);
 }
@@ -475,6 +470,14 @@
 	line-height: 1.4;
 }
 
+.about__container h4,
+.about__container h3.is-smaller-heading {
+	margin-top: 0;
+	font-size: 1.125rem;
+	font-weight: 700;
+	line-height: 1.6;
+}
+
 .about__container p {
 	font-size: inherit;
 	line-height: inherit;
@@ -515,7 +518,7 @@
 }
 
 .about__container li {
-	margin-bottom: 0.75rem;
+	margin-bottom: 0.5rem;
 }
 
 .about__container img {
@@ -556,6 +559,7 @@
 	margin: 0;
 	height: var(--gap);
 	border: none;
+	border-top: 4px solid #d9d9d9;
 }
 
 .about__container hr.is-small {
@@ -606,7 +610,8 @@
 	position: relative;
 	margin-bottom: var(--gap);
 	padding-top: 0;
-	background: var(--subtle-background) url('../images/about-header-about.svg?ver=6.0') no-repeat;
+	color: var(--text-light);
+	background: var(--background) no-repeat;
 	background-size: var(--about-header-bg-width) var(--about-header-bg-height);
 	background-position: right var(--about-header-bg-offset-inline) center;
 }
@@ -647,6 +652,10 @@
 	margin: 0 0 0 var(--gap);
 	padding: 8rem 0 0;
 	padding-right: calc(var(--about-header-bg-width) + var(--about-header-bg-offset-inline) + var(--gap));
+}
+
+.about-php .about__header-title {
+	padding-right: 0;
 }
 
 .credits-php .about__header-title,
