@@ -94,8 +94,7 @@ class WP_Block_Supports {
 	 * @return string[] Array of HTML attributes.
 	 */
 	public function apply_block_supports() {
-		$block_attributes = self::$block_to_render['attrs'];
-		$block_type       = WP_Block_Type_Registry::get_instance()->get_registered(
+		$block_type = WP_Block_Type_Registry::get_instance()->get_registered(
 			self::$block_to_render['blockName']
 		);
 
@@ -103,6 +102,10 @@ class WP_Block_Supports {
 		if ( ! $block_type || empty( $block_type ) ) {
 			return array();
 		}
+
+		$block_attributes = array_key_exists( 'attrs', self::$block_to_render )
+			? self::$block_to_render['attrs']
+			: array();
 
 		$output = array();
 		foreach ( $this->block_supports as $block_support_config ) {
