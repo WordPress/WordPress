@@ -1138,11 +1138,11 @@ function get_block_file_template( $id, $template_type = 'wp_template' ) {
 }
 
 /**
- * Prints a template-part.
+ * Prints a block template part.
  *
  * @since 5.9.0
  *
- * @param string $part The template-part to print. Use "header" or "footer".
+ * @param string $part The block template part to print. Use "header" or "footer".
  */
 function block_template_part( $part ) {
 	$template_part = get_block_template( get_stylesheet() . '//' . $part, 'wp_template_part' );
@@ -1153,7 +1153,7 @@ function block_template_part( $part ) {
 }
 
 /**
- * Prints the header template-part.
+ * Prints the header block template part.
  *
  * @since 5.9.0
  */
@@ -1162,7 +1162,7 @@ function block_header_area() {
 }
 
 /**
- * Prints the footer template-part.
+ * Prints the footer block template part.
  *
  * @since 5.9.0
  */
