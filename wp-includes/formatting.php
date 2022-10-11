@@ -4771,6 +4771,7 @@ function sanitize_option( $option, $value ) {
 		case 'users_can_register':
 		case 'start_of_week':
 		case 'site_icon':
+		case 'fileupload_maxk':
 			$value = absint( $value );
 			break;
 
