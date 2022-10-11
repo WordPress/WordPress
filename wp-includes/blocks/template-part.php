@@ -193,7 +193,6 @@ function build_template_part_block_instance_variations() {
 	if ( wp_installing() ) {
 		return array();
 	}
-
 	$variations     = array();
 	$template_parts = get_block_templates(
 		array(
