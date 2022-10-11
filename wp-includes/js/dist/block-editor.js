@@ -3314,6 +3314,7 @@ __webpack_require__.d(__webpack_exports__, {
   "getColorClassName": function() { return /* reexport */ getColorClassName; },
   "getColorObjectByAttributeValues": function() { return /* reexport */ getColorObjectByAttributeValues; },
   "getColorObjectByColorValue": function() { return /* reexport */ getColorObjectByColorValue; },
+  "getComputedFluidTypographyValue": function() { return /* reexport */ getComputedFluidTypographyValue; },
   "getFontSize": function() { return /* reexport */ getFontSize; },
   "getFontSizeClass": function() { return /* reexport */ getFontSizeClass; },
   "getFontSizeObjectByValue": function() { return /* reexport */ getFontSizeObjectByValue; },
@@ -12137,10 +12138,10 @@ function MarginVisualizer(_ref2) {
       borderRightWidth: marginRight,
       borderBottomWidth: marginBottom,
       borderLeftWidth: marginLeft,
-      top: marginTop !== 0 ? `-${marginTop}` : 0,
-      right: marginRight !== 0 ? `-${marginRight}` : 0,
-      bottom: marginBottom !== 0 ? `-${marginBottom}` : 0,
-      left: marginLeft !== 0 ? `-${marginLeft}` : 0
+      top: marginTop !== 0 ? `calc(${marginTop} * -1)` : 0,
+      right: marginRight !== 0 ? `calc(${marginRight} * -1)` : 0,
+      bottom: marginBottom !== 0 ? `calc(${marginBottom} * -1)` : 0,
+      left: marginLeft !== 0 ? `calc(${marginLeft} * -1)` : 0
     };
   }, [margin]);
   const [isActive, setIsActive] = (0,external_wp_element_namespaceObject.useState)(false);
@@ -20810,17 +20811,17 @@ const applyWithSelect = (0,external_wp_data_namespaceObject.withSelect)((select,
     isSelected
   };
 });
-const applyWithDispatch = (0,external_wp_data_namespaceObject.withDispatch)((dispatch, ownProps, _ref4) => {
-  let {
-    select
-  } = _ref4;
+const applyWithDispatch = (0,external_wp_data_namespaceObject.withDispatch)((dispatch, ownProps, registry) => {
   const {
     updateBlockAttributes,
     insertBlocks,
     mergeBlocks,
     replaceBlocks,
     toggleSelection,
-    __unstableMarkLastChangeAsPersistent
+    __unstableMarkLastChangeAsPersistent,
+    moveBlocksToPosition,
+    removeBlock,
+    selectBlock
   } = dispatch(store); // Do not add new properties here, use `useDispatch` instead to avoid
   // leaking new props to the public API (editor.BlockListBlock filter).
 
@@ -20828,7 +20829,7 @@ const applyWithDispatch = (0,external_wp_data_namespaceObject.withDispatch)((dis
     setAttributes(newAttributes) {
       const {
         getMultiSelectedBlockClientIds
-      } = select(store);
+      } = registry.select(store);
       const multiSelectedBlockClientIds = getMultiSelectedBlockClientIds();
       const {
         clientId
@@ -20851,7 +20852,7 @@ const applyWithDispatch = (0,external_wp_data_namespaceObject.withDispatch)((dis
       } = ownProps;
       const {
         getBlockIndex
-      } = select(store);
+      } = registry.select(store);
       const index = getBlockIndex(clientId);
       insertBlocks(blocks, index + 1, rootClientId);
     },
@@ -20864,13 +20865,52 @@ const applyWithDispatch = (0,external_wp_data_namespaceObject.withDispatch)((dis
       const {
         getPreviousBlockClientId,
         getNextBlockClientId,
-        getBlock
-      } = select(store);
+        getBlock,
+        getBlockAttributes,
+        getBlockName,
+        getBlockOrder
+      } = registry.select(store); // For `Delete` or forward merge, we should do the exact same thing
+      // as `Backspace`, but from the other block.
 
       if (forward) {
+        if (rootClientId) {
+          const nextRootClientId = getNextBlockClientId(rootClientId);
+
+          if (nextRootClientId) {
+            // If there is a block that follows with the same parent
+            // block name and the same attributes, merge the inner
+            // blocks.
+            if (getBlockName(rootClientId) === getBlockName(nextRootClientId)) {
+              const rootAttributes = getBlockAttributes(rootClientId);
+              const previousRootAttributes = getBlockAttributes(nextRootClientId);
+
+              if (Object.keys(rootAttributes).every(key => rootAttributes[key] === previousRootAttributes[key])) {
+                registry.batch(() => {
+                  moveBlocksToPosition(getBlockOrder(nextRootClientId), nextRootClientId, rootClientId);
+                  removeBlock(nextRootClientId, false);
+                });
+                return;
+              }
+            } else {
+              mergeBlocks(rootClientId, nextRootClientId);
+              return;
+            }
+          }
+        }
+
         const nextBlockClientId = getNextBlockClientId(clientId);
 
-        if (nextBlockClientId) {
+        if (!nextBlockClientId) {
+          return;
+        } // Check if it's possibile to "unwrap" the following block
+        // before trying to merge.
+
+
+        const replacement = (0,external_wp_blocks_namespaceObject.switchToBlockType)(getBlock(nextBlockClientId), '*');
+
+        if (replacement && replacement.length) {
+          replaceBlocks(nextBlockClientId, replacement);
+        } else {
           mergeBlocks(clientId, nextBlockClientId);
         }
       } else {
@@ -20879,12 +20919,31 @@ const applyWithDispatch = (0,external_wp_data_namespaceObject.withDispatch)((dis
         if (previousBlockClientId) {
           mergeBlocks(previousBlockClientId, clientId);
         } else if (rootClientId) {
-          // Attempt to "unwrap" the block contents when there's no
+          const previousRootClientId = getPreviousBlockClientId(rootClientId); // If there is a preceding block with the same parent block
+          // name and the same attributes, merge the inner blocks.
+
+          if (previousRootClientId && getBlockName(rootClientId) === getBlockName(previousRootClientId)) {
+            const rootAttributes = getBlockAttributes(rootClientId);
+            const previousRootAttributes = getBlockAttributes(previousRootClientId);
+
+            if (Object.keys(rootAttributes).every(key => rootAttributes[key] === previousRootAttributes[key])) {
+              registry.batch(() => {
+                moveBlocksToPosition(getBlockOrder(rootClientId), rootClientId, previousRootClientId);
+                removeBlock(rootClientId, false);
+              });
+              return;
+            }
+          } // Attempt to "unwrap" the block contents when there's no
           // preceding block to merge with.
+
+
           const replacement = (0,external_wp_blocks_namespaceObject.switchToBlockType)(getBlock(rootClientId), '*');
 
           if (replacement && replacement.length) {
-            replaceBlocks(rootClientId, replacement, 0);
+            registry.batch(() => {
+              replaceBlocks(rootClientId, replacement);
+              selectBlock(replacement[0].clientId, 0);
+            });
           }
         }
       }
@@ -20907,10 +20966,10 @@ const applyWithDispatch = (0,external_wp_data_namespaceObject.withDispatch)((dis
 /* harmony default export */ var block = ((0,external_wp_compose_namespaceObject.compose)(external_wp_compose_namespaceObject.pure, applyWithSelect, applyWithDispatch, // Block is sometimes not mounted at the right time, causing it be undefined
 // see issue for more info
 // https://github.com/WordPress/gutenberg/issues/17013
-(0,external_wp_compose_namespaceObject.ifCondition)(_ref5 => {
+(0,external_wp_compose_namespaceObject.ifCondition)(_ref4 => {
   let {
     block
-  } = _ref5;
+  } = _ref4;
   return !!block;
 }), (0,external_wp_components_namespaceObject.withFilters)('editor.BlockListBlock'))(BlockListBlock));
 
@@ -26009,87 +26068,6 @@ function useInsertionPoint(_ref) {
 
 /* harmony default export */ var use_insertion_point = (useInsertionPoint);
 
-;// CONCATENATED MODULE: ./node_modules/lower-case/dist.es2015/index.js
-/**
- * Source: ftp://ftp.unicode.org/Public/UCD/latest/ucd/SpecialCasing.txt
- */
-var SUPPORTED_LOCALE = {
-    tr: {
-        regexp: /\u0130|\u0049|\u0049\u0307/g,
-        map: {
-            İ: "\u0069",
-            I: "\u0131",
-            İ: "\u0069",
-        },
-    },
-    az: {
-        regexp: /\u0130/g,
-        map: {
-            İ: "\u0069",
-            I: "\u0131",
-            İ: "\u0069",
-        },
-    },
-    lt: {
-        regexp: /\u0049|\u004A|\u012E|\u00CC|\u00CD|\u0128/g,
-        map: {
-            I: "\u0069\u0307",
-            J: "\u006A\u0307",
-            Į: "\u012F\u0307",
-            Ì: "\u0069\u0307\u0300",
-            Í: "\u0069\u0307\u0301",
-            Ĩ: "\u0069\u0307\u0303",
-        },
-    },
-};
-/**
- * Localized lower case.
- */
-function localeLowerCase(str, locale) {
-    var lang = SUPPORTED_LOCALE[locale.toLowerCase()];
-    if (lang)
-        return lowerCase(str.replace(lang.regexp, function (m) { return lang.map[m]; }));
-    return lowerCase(str);
-}
-/**
- * Lower case as a function.
- */
-function lowerCase(str) {
-    return str.toLowerCase();
-}
-
-;// CONCATENATED MODULE: ./node_modules/no-case/dist.es2015/index.js
-
-// Support camel case ("camelCase" -> "camel Case" and "CAMELCase" -> "CAMEL Case").
-var DEFAULT_SPLIT_REGEXP = [/([a-z0-9])([A-Z])/g, /([A-Z])([A-Z][a-z])/g];
-// Remove all non-word characters.
-var DEFAULT_STRIP_REGEXP = /[^A-Z0-9]+/gi;
-/**
- * Normalize the string into something other libraries can manipulate easier.
- */
-function noCase(input, options) {
-    if (options === void 0) { options = {}; }
-    var _a = options.splitRegexp, splitRegexp = _a === void 0 ? DEFAULT_SPLIT_REGEXP : _a, _b = options.stripRegexp, stripRegexp = _b === void 0 ? DEFAULT_STRIP_REGEXP : _b, _c = options.transform, transform = _c === void 0 ? lowerCase : _c, _d = options.delimiter, delimiter = _d === void 0 ? " " : _d;
-    var result = replace(replace(input, splitRegexp, "$1\0$2"), stripRegexp, "\0");
-    var start = 0;
-    var end = result.length;
-    // Trim the delimiter from around the output string.
-    while (result.charAt(start) === "\0")
-        start++;
-    while (result.charAt(end - 1) === "\0")
-        end--;
-    // Transform each token independently.
-    return result.slice(start, end).split("\0").map(transform).join(delimiter);
-}
-/**
- * Replace `re` in the input string with the replacement value.
- */
-function replace(input, re, value) {
-    if (re instanceof RegExp)
-        return input.replace(re, value);
-    return re.reduce(function (input, re) { return input.replace(re, value); }, input);
-}
-
 // EXTERNAL MODULE: ./node_modules/remove-accents/index.js
 var remove_accents = __webpack_require__(4793);
 var remove_accents_default = /*#__PURE__*/__webpack_require__.n(remove_accents);
@@ -26097,7 +26075,6 @@ var remove_accents_default = /*#__PURE__*/__webpack_require__.n(remove_accents);
 /**
  * External dependencies
  */
-
 
  // Default search helpers.
 
@@ -26135,19 +26112,6 @@ function normalizeSearchInput() {
   return input;
 }
 /**
- * Extracts words from an input string.
- *
- * @param {string} input The input string.
- *
- * @return {Array} Words, extracted from the input string.
- */
-
-
-function extractWords() {
-  let input = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-  return noCase(input).split(' ').filter(Boolean);
-}
-/**
  * Converts the search term into a list of normalized terms.
  *
  * @param {string} input The search term to normalize.
@@ -26158,7 +26122,7 @@ function extractWords() {
 
 const getNormalizedSearchTerms = function () {
   let input = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-  return extractWords(normalizeSearchInput(input));
+  return (0,external_lodash_namespaceObject.words)(normalizeSearchInput(input));
 };
 
 const removeMatchingTerms = (unmatchedTerms, unprocessedTerms) => {
@@ -26264,7 +26228,7 @@ function getItemSearchRank(item, searchTerm) {
     rank += 20;
   } else {
     const terms = [name, title, description, ...keywords, category, collection].join(' ');
-    const normalizedSearchTerms = extractWords(normalizedSearchInput);
+    const normalizedSearchTerms = (0,external_lodash_namespaceObject.words)(normalizedSearchInput);
     const unmatchedTerms = removeMatchingTerms(normalizedSearchTerms, terms);
 
     if (unmatchedTerms.length === 0) {
@@ -37662,6 +37626,204 @@ function FontSizePicker(props) {
 
 /* harmony default export */ var font_size_picker = (FontSizePicker);
 
+;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/font-sizes/fluid-utils.js
+/**
+ * The fluid utilities must match the backend equivalent.
+ * See: gutenberg_get_typography_font_size_value() in lib/block-supports/typography.php
+ * ---------------------------------------------------------------
+ */
+// Defaults.
+const DEFAULT_MAXIMUM_VIEWPORT_WIDTH = '1600px';
+const DEFAULT_MINIMUM_VIEWPORT_WIDTH = '768px';
+const DEFAULT_SCALE_FACTOR = 1;
+const DEFAULT_MINIMUM_FONT_SIZE_FACTOR = 0.75;
+const DEFAULT_MAXIMUM_FONT_SIZE_FACTOR = 1.5;
+/**
+ * Computes a fluid font-size value that uses clamp(). A minimum and maxinmum
+ * font size OR a single font size can be specified.
+ *
+ * If a single font size is specified, it is scaled up and down by
+ * minimumFontSizeFactor and maximumFontSizeFactor to arrive at the minimum and
+ * maximum sizes.
+ *
+ * @example
+ * ```js
+ * // Calculate fluid font-size value from a minimum and maximum value.
+ * const fontSize = getComputedFluidTypographyValue( {
+ *     minimumFontSize: '20px',
+ *     maximumFontSize: '45px'
+ * } );
+ * // Calculate fluid font-size value from a single font size.
+ * const fontSize = getComputedFluidTypographyValue( {
+ *     fontSize: '30px',
+ * } );
+ * ```
+ *
+ * @param {Object}        args
+ * @param {?string}       args.minimumViewPortWidth  Minimum viewport size from which type will have fluidity. Optional if fontSize is specified.
+ * @param {?string}       args.maximumViewPortWidth  Maximum size up to which type will have fluidity. Optional if fontSize is specified.
+ * @param {string|number} [args.fontSize]            Size to derive maximumFontSize and minimumFontSize from, if necessary. Optional if minimumFontSize and maximumFontSize are specified.
+ * @param {?string}       args.maximumFontSize       Maximum font size for any clamp() calculation. Optional.
+ * @param {?string}       args.minimumFontSize       Minimum font size for any clamp() calculation. Optional.
+ * @param {?number}       args.scaleFactor           A scale factor to determine how fast a font scales within boundaries. Optional.
+ * @param {?number}       args.minimumFontSizeFactor How much to scale defaultFontSize by to derive minimumFontSize. Optional.
+ * @param {?number}       args.maximumFontSizeFactor How much to scale defaultFontSize by to derive maximumFontSize. Optional.
+ *
+ * @return {string|null} A font-size value using clamp().
+ */
+
+function getComputedFluidTypographyValue(_ref) {
+  let {
+    minimumFontSize,
+    maximumFontSize,
+    fontSize,
+    minimumViewPortWidth = DEFAULT_MINIMUM_VIEWPORT_WIDTH,
+    maximumViewPortWidth = DEFAULT_MAXIMUM_VIEWPORT_WIDTH,
+    scaleFactor = DEFAULT_SCALE_FACTOR,
+    minimumFontSizeFactor = DEFAULT_MINIMUM_FONT_SIZE_FACTOR,
+    maximumFontSizeFactor = DEFAULT_MAXIMUM_FONT_SIZE_FACTOR
+  } = _ref;
+
+  // Calculate missing minimumFontSize and maximumFontSize from
+  // defaultFontSize if provided.
+  if (fontSize && (!minimumFontSize || !maximumFontSize)) {
+    // Parse default font size.
+    const fontSizeParsed = getTypographyValueAndUnit(fontSize); // Protect against invalid units.
+
+    if (!(fontSizeParsed !== null && fontSizeParsed !== void 0 && fontSizeParsed.unit)) {
+      return null;
+    } // If no minimumFontSize is provided, derive using min scale factor.
+
+
+    if (!minimumFontSize) {
+      minimumFontSize = fontSizeParsed.value * minimumFontSizeFactor + fontSizeParsed.unit;
+    } // If no maximumFontSize is provided, derive using max scale factor.
+
+
+    if (!maximumFontSize) {
+      maximumFontSize = fontSizeParsed.value * maximumFontSizeFactor + fontSizeParsed.unit;
+    }
+  } // Return early if one of the provided inputs is not provided.
+
+
+  if (!minimumFontSize || !maximumFontSize) {
+    return null;
+  } // Grab the minimum font size and normalize it in order to use the value for calculations.
+
+
+  const minimumFontSizeParsed = getTypographyValueAndUnit(minimumFontSize); // We get a 'preferred' unit to keep units consistent when calculating,
+  // otherwise the result will not be accurate.
+
+  const fontSizeUnit = (minimumFontSizeParsed === null || minimumFontSizeParsed === void 0 ? void 0 : minimumFontSizeParsed.unit) || 'rem'; // Grab the maximum font size and normalize it in order to use the value for calculations.
+
+  const maximumFontSizeParsed = getTypographyValueAndUnit(maximumFontSize, {
+    coerceTo: fontSizeUnit
+  }); // Protect against unsupported units.
+
+  if (!minimumFontSizeParsed || !maximumFontSizeParsed) {
+    return null;
+  } // Use rem for accessible fluid target font scaling.
+
+
+  const minimumFontSizeRem = getTypographyValueAndUnit(minimumFontSize, {
+    coerceTo: 'rem'
+  }); // Viewport widths defined for fluid typography. Normalize units
+
+  const maximumViewPortWidthParsed = getTypographyValueAndUnit(maximumViewPortWidth, {
+    coerceTo: fontSizeUnit
+  });
+  const minumumViewPortWidthParsed = getTypographyValueAndUnit(minimumViewPortWidth, {
+    coerceTo: fontSizeUnit
+  }); // Protect against unsupported units.
+
+  if (!maximumViewPortWidthParsed || !minumumViewPortWidthParsed || !minimumFontSizeRem) {
+    return null;
+  } // Build CSS rule.
+  // Borrowed from https://websemantics.uk/tools/responsive-font-calculator/.
+
+
+  const minViewPortWidthOffsetValue = roundToPrecision(minumumViewPortWidthParsed.value / 100, 3);
+  const viewPortWidthOffset = minViewPortWidthOffsetValue + fontSizeUnit;
+  let linearFactor = 100 * ((maximumFontSizeParsed.value - minimumFontSizeParsed.value) / (maximumViewPortWidthParsed.value - minumumViewPortWidthParsed.value));
+  linearFactor = roundToPrecision(linearFactor, 3) || 1;
+  const linearFactorScaled = linearFactor * scaleFactor;
+  const fluidTargetFontSize = `${minimumFontSizeRem.value}${minimumFontSizeRem.unit} + ((1vw - ${viewPortWidthOffset}) * ${linearFactorScaled})`;
+  return `clamp(${minimumFontSize}, ${fluidTargetFontSize}, ${maximumFontSize})`;
+}
+/**
+ * Internal method that checks a string for a unit and value and returns an array consisting of `'value'` and `'unit'`, e.g., [ '42', 'rem' ].
+ * A raw font size of `value + unit` is expected. If the value is an integer, it will convert to `value + 'px'`.
+ *
+ * @param {string|number}    rawValue Raw size value from theme.json.
+ * @param {Object|undefined} options  Calculation options.
+ *
+ * @return {{ unit: string, value: number }|null} An object consisting of `'value'` and `'unit'` properties.
+ */
+
+function getTypographyValueAndUnit(rawValue) {
+  let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+  if (typeof rawValue !== 'string' && typeof rawValue !== 'number') {
+    return null;
+  } // Converts numeric values to pixel values by default.
+
+
+  if (isFinite(rawValue)) {
+    rawValue = `${rawValue}px`;
+  }
+
+  const {
+    coerceTo,
+    rootSizeValue,
+    acceptableUnits
+  } = {
+    coerceTo: '',
+    // Default browser font size. Later we could inject some JS to compute this `getComputedStyle( document.querySelector( "html" ) ).fontSize`.
+    rootSizeValue: 16,
+    acceptableUnits: ['rem', 'px', 'em'],
+    ...options
+  };
+  const acceptableUnitsGroup = acceptableUnits === null || acceptableUnits === void 0 ? void 0 : acceptableUnits.join('|');
+  const regexUnits = new RegExp(`^(\\d*\\.?\\d+)(${acceptableUnitsGroup}){1,1}$`);
+  const matches = rawValue.match(regexUnits); // We need a number value and a unit.
+
+  if (!matches || matches.length < 3) {
+    return null;
+  }
+
+  let [, value, unit] = matches;
+  let returnValue = parseFloat(value);
+
+  if ('px' === coerceTo && ('em' === unit || 'rem' === unit)) {
+    returnValue = returnValue * rootSizeValue;
+    unit = coerceTo;
+  }
+
+  if ('px' === unit && ('em' === coerceTo || 'rem' === coerceTo)) {
+    returnValue = returnValue / rootSizeValue;
+    unit = coerceTo;
+  }
+
+  return {
+    value: returnValue,
+    unit
+  };
+}
+/**
+ * Returns a value rounded to defined precision.
+ * Returns `undefined` if the value is not a valid finite number.
+ *
+ * @param {number} value  Raw value.
+ * @param {number} digits The number of digits to appear after the decimal point
+ *
+ * @return {number|undefined} Value rounded to standard precision.
+ */
+
+function roundToPrecision(value) {
+  let digits = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 3;
+  return Number.isFinite(value) ? parseFloat(value.toFixed(digits)) : undefined;
+}
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/hooks/font-size.js
 
 
@@ -37672,9 +37834,11 @@ function FontSizePicker(props) {
 
 
 
+
 /**
  * Internal dependencies
  */
+
 
 
 
@@ -37914,11 +38078,67 @@ function font_size_addTransforms(result, source, index, results) {
   };
   return transformStyles(activeSupports, font_size_MIGRATION_PATHS, result, source, index, results);
 }
+/**
+ * Allow custom font sizes to appear fluid when fluid typography is enabled at
+ * the theme level.
+ *
+ * Adds a custom getEditWrapperProps() callback to all block types that support
+ * font sizes. Then, if fluid typography is enabled, this callback will swap any
+ * custom font size in style.fontSize with a fluid font size (i.e. one that uses
+ * clamp()).
+ *
+ * It's important that this hook runs after 'core/style/addEditProps' sets
+ * style.fontSize as otherwise fontSize will be overwritten.
+ *
+ * @param {Object} blockType Block settings object.
+ */
+
+function addEditPropsForFluidCustomFontSizes(blockType) {
+  if (!(0,external_wp_blocks_namespaceObject.hasBlockSupport)(blockType, FONT_SIZE_SUPPORT_KEY) || shouldSkipSerialization(blockType, TYPOGRAPHY_SUPPORT_KEY, 'fontSize')) {
+    return blockType;
+  }
+
+  const existingGetEditWrapperProps = blockType.getEditWrapperProps;
+
+  blockType.getEditWrapperProps = attributes => {
+    var _wrapperProps$style, _select$getSettings$_, _select$getSettings$_2;
+
+    const wrapperProps = existingGetEditWrapperProps ? existingGetEditWrapperProps(attributes) : {};
+    const fontSize = wrapperProps === null || wrapperProps === void 0 ? void 0 : (_wrapperProps$style = wrapperProps.style) === null || _wrapperProps$style === void 0 ? void 0 : _wrapperProps$style.fontSize; // TODO: This sucks! We should be using useSetting( 'typography.fluid' )
+    // or even useSelect( blockEditorStore ). We can't do either here
+    // because getEditWrapperProps is a plain JavaScript function called by
+    // BlockListBlock and not a React component rendered within
+    // BlockListContext.Provider. If we set fontSize using editor.
+    // BlockListBlock instead of using getEditWrapperProps then the value is
+    // clobbered when the core/style/addEditProps filter runs.
+
+    const isFluidTypographyEnabled = !!((_select$getSettings$_ = (0,external_wp_data_namespaceObject.select)(store).getSettings().__experimentalFeatures) !== null && _select$getSettings$_ !== void 0 && (_select$getSettings$_2 = _select$getSettings$_.typography) !== null && _select$getSettings$_2 !== void 0 && _select$getSettings$_2.fluid);
+    const newFontSize = fontSize && isFluidTypographyEnabled ? getComputedFluidTypographyValue({
+      fontSize
+    }) : null;
+
+    if (newFontSize === null) {
+      return wrapperProps;
+    }
+
+    return { ...wrapperProps,
+      style: { ...(wrapperProps === null || wrapperProps === void 0 ? void 0 : wrapperProps.style),
+        fontSize: newFontSize
+      }
+    };
+  };
+
+  return blockType;
+}
+
 (0,external_wp_hooks_namespaceObject.addFilter)('blocks.registerBlockType', 'core/font/addAttribute', font_size_addAttributes);
 (0,external_wp_hooks_namespaceObject.addFilter)('blocks.getSaveContent.extraProps', 'core/font/addSaveProps', font_size_addSaveProps);
 (0,external_wp_hooks_namespaceObject.addFilter)('blocks.registerBlockType', 'core/font/addEditProps', font_size_addEditProps);
 (0,external_wp_hooks_namespaceObject.addFilter)('editor.BlockListBlock', 'core/font-size/with-font-size-inline-styles', withFontSizeInlineStyles);
 (0,external_wp_hooks_namespaceObject.addFilter)('blocks.switchToBlockType.transformedBlock', 'core/font-size/addTransforms', font_size_addTransforms);
+(0,external_wp_hooks_namespaceObject.addFilter)('blocks.registerBlockType', 'core/font-size/addEditPropsForFluidCustomFontSizes', addEditPropsForFluidCustomFontSizes, // Run after 'core/style/addEditProps' so that the style object has already
+// been translated into inline CSS.
+11);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/reset.js
 
@@ -40091,6 +40311,7 @@ function getSpacingClassesAndStyles(attributes) {
  */
 
 
+
  // This utility is intended to assist where the serialization of the typography
 // block support is being skipped for a block but the typography related CSS
 // styles still need to be generated so they can be applied to inner elements.
@@ -40099,15 +40320,27 @@ function getSpacingClassesAndStyles(attributes) {
  * Provides the CSS class names and inline styles for a block's typography support
  * attributes.
  *
- * @param {Object} attributes Block attributes.
+ * @param {Object}  attributes            Block attributes.
+ * @param {boolean} isFluidFontSizeActive Whether the function should try to convert font sizes to fluid values.
  *
  * @return {Object} Typography block support derived CSS classes & styles.
  */
 
-function getTypographyClassesAndStyles(attributes) {
+function getTypographyClassesAndStyles(attributes, isFluidFontSizeActive) {
   var _attributes$style;
 
-  const typographyStyles = (attributes === null || attributes === void 0 ? void 0 : (_attributes$style = attributes.style) === null || _attributes$style === void 0 ? void 0 : _attributes$style.typography) || {};
+  let typographyStyles = (attributes === null || attributes === void 0 ? void 0 : (_attributes$style = attributes.style) === null || _attributes$style === void 0 ? void 0 : _attributes$style.typography) || {};
+
+  if (isFluidFontSizeActive) {
+    var _attributes$style2, _attributes$style2$ty;
+
+    typographyStyles = { ...typographyStyles,
+      fontSize: getComputedFluidTypographyValue({
+        fontSize: attributes === null || attributes === void 0 ? void 0 : (_attributes$style2 = attributes.style) === null || _attributes$style2 === void 0 ? void 0 : (_attributes$style2$ty = _attributes$style2.typography) === null || _attributes$style2$ty === void 0 ? void 0 : _attributes$style2$ty.fontSize
+      })
+    };
+  }
+
   const style = getInlineStyles({
     typography: typographyStyles
   });
@@ -40548,6 +40781,7 @@ const with_font_sizes_upperFirst = _ref => {
 });
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/font-sizes/index.js
+
 
 
 
@@ -51601,7 +51835,7 @@ function DefaultStylePicker(_ref) {
 function useContentBlocks(blockTypes, block) {
   const contenBlocksObjectAux = (0,external_wp_element_namespaceObject.useMemo)(() => {
     return blockTypes.reduce((result, blockType) => {
-      if (Object.entries(blockType.attributes).some(_ref => {
+      if (blockType.name !== 'core/list-item' && Object.entries(blockType.attributes).some(_ref => {
         let [, {
           __experimentalRole
         }] = _ref;
@@ -51711,8 +51945,7 @@ const BlockInspector = _ref5 => {
       getSelectedBlockClientId,
       getSelectedBlockCount,
       getBlockName,
-      __unstableGetContentLockingParent,
-      getTemplateLock
+      __unstableGetContentLockingParent
     } = select(store);
 
     const _selectedBlockClientId = getSelectedBlockClientId();
@@ -51726,7 +51959,7 @@ const BlockInspector = _ref5 => {
       selectedBlockClientId: _selectedBlockClientId,
       selectedBlockName: _selectedBlockName,
       blockType: _blockType,
-      topLevelLockedBlock: getTemplateLock(_selectedBlockClientId) === 'contentOnly' ? _selectedBlockClientId : __unstableGetContentLockingParent(_selectedBlockClientId)
+      topLevelLockedBlock: __unstableGetContentLockingParent(_selectedBlockClientId)
     };
   }, []);
 

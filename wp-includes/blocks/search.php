@@ -381,7 +381,7 @@ function styles_for_block_core_search( $attributes ) {
 	}
 
 	// Get typography styles to be shared across inner elements.
-	$typography_styles = get_typography_styles_for_block_core_search( $attributes );
+	$typography_styles = esc_attr( get_typography_styles_for_block_core_search( $attributes ) );
 	if ( ! empty( $typography_styles ) ) {
 		$label_styles [] = $typography_styles;
 		$button_styles[] = $typography_styles;
@@ -442,31 +442,39 @@ function get_typography_styles_for_block_core_search( $attributes ) {
 
 	// Add typography styles.
 	if ( ! empty( $attributes['style']['typography']['fontSize'] ) ) {
-		$typography_styles[] = sprintf( 'font-size: %s;', esc_attr( $attributes['style']['typography']['fontSize'] ) );
+		$typography_styles[] = sprintf(
+			'font-size: %s;',
+			gutenberg_get_typography_font_size_value(
+				array(
+					'size' => $attributes['style']['typography']['fontSize'],
+				)
+			)
+		);
+
 	}
 
 	if ( ! empty( $attributes['style']['typography']['fontFamily'] ) ) {
-		$typography_styles[] = sprintf( 'font-family: %s;', esc_attr( $attributes['style']['typography']['fontFamily'] ) );
+		$typography_styles[] = sprintf( 'font-family: %s;', $attributes['style']['typography']['fontFamily'] );
 	}
 
 	if ( ! empty( $attributes['style']['typography']['letterSpacing'] ) ) {
-		$typography_styles[] = sprintf( 'letter-spacing: %s;', esc_attr( $attributes['style']['typography']['letterSpacing'] ) );
+		$typography_styles[] = sprintf( 'letter-spacing: %s;', $attributes['style']['typography']['letterSpacing'] );
 	}
 
 	if ( ! empty( $attributes['style']['typography']['fontWeight'] ) ) {
-		$typography_styles[] = sprintf( 'font-weight: %s;', esc_attr( $attributes['style']['typography']['fontWeight'] ) );
+		$typography_styles[] = sprintf( 'font-weight: %s;', $attributes['style']['typography']['fontWeight'] );
 	}
 
 	if ( ! empty( $attributes['style']['typography']['fontStyle'] ) ) {
-		$typography_styles[] = sprintf( 'font-style: %s;', esc_attr( $attributes['style']['typography']['fontStyle'] ) );
+		$typography_styles[] = sprintf( 'font-style: %s;', $attributes['style']['typography']['fontStyle'] );
 	}
 
 	if ( ! empty( $attributes['style']['typography']['lineHeight'] ) ) {
-		$typography_styles[] = sprintf( 'line-height: %s;', esc_attr( $attributes['style']['typography']['lineHeight'] ) );
+		$typography_styles[] = sprintf( 'line-height: %s;', $attributes['style']['typography']['lineHeight'] );
 	}
 
 	if ( ! empty( $attributes['style']['typography']['textTransform'] ) ) {
-		$typography_styles[] = sprintf( 'text-transform: %s;', esc_attr( $attributes['style']['typography']['textTransform'] ) );
+		$typography_styles[] = sprintf( 'text-transform: %s;', $attributes['style']['typography']['textTransform'] );
 	}
 
 	return implode( '', $typography_styles );

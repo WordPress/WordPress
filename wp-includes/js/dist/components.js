@@ -55100,7 +55100,7 @@ function getSelectOptions(optionsArray, disableCustomFontSizes) {
     } = _ref;
     return {
       key: slug,
-      name,
+      name: name || slug,
       size,
       __experimentalHint: size && isSimpleCssValue(size) && parseFloat(size)
     };

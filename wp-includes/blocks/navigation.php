@@ -307,9 +307,6 @@ function block_core_navigation_get_fallback_blocks() {
 	$page_list_fallback = array(
 		array(
 			'blockName' => 'core/page-list',
-			'attrs'     => array(
-				'__unstableMaxPages' => 4,
-			),
 		),
 	);
 

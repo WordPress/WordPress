@@ -6704,67 +6704,62 @@ const layout = (0,external_wp_element_namespaceObject.createElement)(external_wp
  */
 
 /**
+ * WordPress dependencies
+ */
+
+/**
+ * @typedef {Object} FluidPreset
+ * @property {string|undefined} max A maximum font size value.
+ * @property {?string|undefined} min A minimum font size value.
+ */
+
+/**
+ * @typedef {Object} Preset
+ * @property {?string|?number}               size  A default font size.
+ * @property {string}                        name  A font size name, displayed in the UI.
+ * @property {string}                        slug  A font size slug
+ * @property {boolean|FluidPreset|undefined} fluid A font size slug
+ */
+
+/**
  * Returns a font-size value based on a given font-size preset.
  * Takes into account fluid typography parameters and attempts to return a css formula depending on available, valid values.
  *
- * @param {Object}           preset
- * @param {string}           preset.size              A default font size.
- * @param {string}           preset.name              A font size name, displayed in the UI.
- * @param {string}           preset.slug              A font size slug.
- * @param {Object}           preset.fluid
- * @param {string|undefined} preset.fluid.max         A maximum font size value.
- * @param {string|undefined} preset.fluid.min         A minimum font size value.
- * @param {Object}           typographySettings
- * @param {boolean}          typographySettings.fluid Whether fluid typography is enabled.
+ * @param {Preset}  preset
+ * @param {Object}  typographySettings
+ * @param {boolean} typographySettings.fluid Whether fluid typography is enabled.
  *
- * @return {string} An font-size value
+ * @return {string|*} A font-size value or the value of preset.size.
  */
+
 function getTypographyFontSizeValue(preset, typographySettings) {
+  var _preset$fluid, _preset$fluid2;
+
   const {
     size: defaultSize
   } = preset;
+  /*
+   * Catches falsy values and 0/'0'.
+   * Fluid calculations cannot be performed on 0.
+   */
+
+  if (!defaultSize || '0' === defaultSize) {
+    return defaultSize;
+  }
 
   if (true !== (typographySettings === null || typographySettings === void 0 ? void 0 : typographySettings.fluid)) {
     return defaultSize;
-  } // Defaults.
+  } // A font size has explicitly bypassed fluid calculations.
 
-
-  const DEFAULT_MAXIMUM_VIEWPORT_WIDTH = '1600px';
-  const DEFAULT_MINIMUM_VIEWPORT_WIDTH = '768px';
-  const DEFAULT_MINIMUM_FONT_SIZE_FACTOR = 0.75;
-  const DEFAULT_MAXIMUM_FONT_SIZE_FACTOR = 1.5;
-  const DEFAULT_SCALE_FACTOR = 1; // Font sizes.
-  // A font size has explicitly bypassed fluid calculations.
 
   if (false === (preset === null || preset === void 0 ? void 0 : preset.fluid)) {
     return defaultSize;
   }
 
-  const fluidFontSizeSettings = (preset === null || preset === void 0 ? void 0 : preset.fluid) || {}; // Try to grab explicit min and max fluid font sizes.
-
-  let minimumFontSizeRaw = fluidFontSizeSettings === null || fluidFontSizeSettings === void 0 ? void 0 : fluidFontSizeSettings.min;
-  let maximumFontSizeRaw = fluidFontSizeSettings === null || fluidFontSizeSettings === void 0 ? void 0 : fluidFontSizeSettings.max;
-  const preferredSize = getTypographyValueAndUnit(defaultSize); // Protect against unsupported units.
-
-  if (!(preferredSize !== null && preferredSize !== void 0 && preferredSize.unit)) {
-    return defaultSize;
-  } // If no fluid min or max font sizes are available, create some using min/max font size factors.
-
-
-  if (!minimumFontSizeRaw) {
-    minimumFontSizeRaw = preferredSize.value * DEFAULT_MINIMUM_FONT_SIZE_FACTOR + preferredSize.unit;
-  }
-
-  if (!maximumFontSizeRaw) {
-    maximumFontSizeRaw = preferredSize.value * DEFAULT_MAXIMUM_FONT_SIZE_FACTOR + preferredSize.unit;
-  }
-
-  const fluidFontSizeValue = getComputedFluidTypographyValue({
-    maximumViewPortWidth: DEFAULT_MAXIMUM_VIEWPORT_WIDTH,
-    minimumViewPortWidth: DEFAULT_MINIMUM_VIEWPORT_WIDTH,
-    maximumFontSize: maximumFontSizeRaw,
-    minimumFontSize: minimumFontSizeRaw,
-    scaleFactor: DEFAULT_SCALE_FACTOR
+  const fluidFontSizeValue = (0,external_wp_blockEditor_namespaceObject.getComputedFluidTypographyValue)({
+    minimumFontSize: preset === null || preset === void 0 ? void 0 : (_preset$fluid = preset.fluid) === null || _preset$fluid === void 0 ? void 0 : _preset$fluid.min,
+    maximumFontSize: preset === null || preset === void 0 ? void 0 : (_preset$fluid2 = preset.fluid) === null || _preset$fluid2 === void 0 ? void 0 : _preset$fluid2.max,
+    fontSize: defaultSize
   });
 
   if (!!fluidFontSizeValue) {
@@ -6772,133 +6767,6 @@ function getTypographyFontSizeValue(preset, typographySettings) {
   }
 
   return defaultSize;
-}
-/**
- * Internal implementation of clamp() based on available min/max viewport width, and min/max font sizes.
- *
- * @param {Object} args
- * @param {string} args.maximumViewPortWidth Maximum size up to which type will have fluidity.
- * @param {string} args.minimumViewPortWidth Minimum viewport size from which type will have fluidity.
- * @param {string} args.maximumFontSize      Maximum font size for any clamp() calculation.
- * @param {string} args.minimumFontSize      Minimum font size for any clamp() calculation.
- * @param {number} args.scaleFactor          A scale factor to determine how fast a font scales within boundaries.
- *
- * @return {string|null} A font-size value using clamp().
- */
-
-function getComputedFluidTypographyValue(_ref) {
-  let {
-    maximumViewPortWidth,
-    minimumViewPortWidth,
-    maximumFontSize,
-    minimumFontSize,
-    scaleFactor
-  } = _ref;
-  // Grab the minimum font size and normalize it in order to use the value for calculations.
-  const minimumFontSizeParsed = getTypographyValueAndUnit(minimumFontSize); // We get a 'preferred' unit to keep units consistent when calculating,
-  // otherwise the result will not be accurate.
-
-  const fontSizeUnit = (minimumFontSizeParsed === null || minimumFontSizeParsed === void 0 ? void 0 : minimumFontSizeParsed.unit) || 'rem'; // Grab the maximum font size and normalize it in order to use the value for calculations.
-
-  const maximumFontSizeParsed = getTypographyValueAndUnit(maximumFontSize, {
-    coerceTo: fontSizeUnit
-  }); // Protect against unsupported units.
-
-  if (!minimumFontSizeParsed || !maximumFontSizeParsed) {
-    return null;
-  } // Use rem for accessible fluid target font scaling.
-
-
-  const minimumFontSizeRem = getTypographyValueAndUnit(minimumFontSize, {
-    coerceTo: 'rem'
-  }); // Viewport widths defined for fluid typography. Normalize units
-
-  const maximumViewPortWidthParsed = getTypographyValueAndUnit(maximumViewPortWidth, {
-    coerceTo: fontSizeUnit
-  });
-  const minumumViewPortWidthParsed = getTypographyValueAndUnit(minimumViewPortWidth, {
-    coerceTo: fontSizeUnit
-  }); // Protect against unsupported units.
-
-  if (!maximumViewPortWidthParsed || !minumumViewPortWidthParsed || !minimumFontSizeRem) {
-    return null;
-  } // Build CSS rule.
-  // Borrowed from https://websemantics.uk/tools/responsive-font-calculator/.
-
-
-  const minViewPortWidthOffsetValue = roundToPrecision(minumumViewPortWidthParsed.value / 100, 3);
-  const viewPortWidthOffset = minViewPortWidthOffsetValue + fontSizeUnit;
-  let linearFactor = 100 * ((maximumFontSizeParsed.value - minimumFontSizeParsed.value) / (maximumViewPortWidthParsed.value - minumumViewPortWidthParsed.value));
-  linearFactor = roundToPrecision(linearFactor, 3) || 1;
-  const linearFactorScaled = linearFactor * scaleFactor;
-  const fluidTargetFontSize = `${minimumFontSizeRem.value}${minimumFontSizeRem.unit} + ((1vw - ${viewPortWidthOffset}) * ${linearFactorScaled})`;
-  return `clamp(${minimumFontSize}, ${fluidTargetFontSize}, ${maximumFontSize})`;
-}
-/**
- *
- * @param {string}           rawValue Raw size value from theme.json.
- * @param {Object|undefined} options  Calculation options.
- *
- * @return {{ unit: string, value: number }|null} An object consisting of `'value'` and `'unit'` properties.
- */
-
-function getTypographyValueAndUnit(rawValue) {
-  let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-  if (!rawValue) {
-    return null;
-  }
-
-  const {
-    coerceTo,
-    rootSizeValue,
-    acceptableUnits
-  } = {
-    coerceTo: '',
-    // Default browser font size. Later we could inject some JS to compute this `getComputedStyle( document.querySelector( "html" ) ).fontSize`.
-    rootSizeValue: 16,
-    acceptableUnits: ['rem', 'px', 'em'],
-    ...options
-  };
-  const acceptableUnitsGroup = acceptableUnits === null || acceptableUnits === void 0 ? void 0 : acceptableUnits.join('|');
-  const regexUnits = new RegExp(`^(\\d*\\.?\\d+)(${acceptableUnitsGroup}){1,1}$`);
-  const matches = rawValue.match(regexUnits); // We need a number value and a unit.
-
-  if (!matches || matches.length < 3) {
-    return null;
-  }
-
-  let [, value, unit] = matches;
-  let returnValue = parseFloat(value);
-
-  if ('px' === coerceTo && ('em' === unit || 'rem' === unit)) {
-    returnValue = returnValue * rootSizeValue;
-    unit = coerceTo;
-  }
-
-  if ('px' === unit && ('em' === coerceTo || 'rem' === coerceTo)) {
-    returnValue = returnValue / rootSizeValue;
-    unit = coerceTo;
-  }
-
-  return {
-    value: returnValue,
-    unit
-  };
-}
-/**
- * Returns a value rounded to defined precision.
- * Returns `undefined` if the value is not a valid finite number.
- *
- * @param {number} value  Raw value.
- * @param {number} digits The number of digits to appear after the decimal point
- *
- * @return {number|undefined} Value rounded to standard precision.
- */
-
-function roundToPrecision(value) {
-  let digits = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 3;
-  return Number.isFinite(value) ? parseFloat(value.toFixed(digits)) : undefined;
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-site/build-module/components/global-styles/utils.js
@@ -8107,6 +7975,7 @@ function DimensionsPanel(_ref) {
  */
 
 
+
 function useHasTypographyPanel(name) {
   const hasLineHeight = useHasLineHeightControl(name);
   const hasFontAppearance = useHasAppearanceControl(name);
@@ -8172,7 +8041,18 @@ function TypographyPanel(_ref) {
     prefix = `elements.${element}.`;
   }
 
-  const [fontSizes] = useSetting('typography.fontSizes', name);
+  const [fluidTypography] = useSetting('typography.fluid', name);
+  const [fontSizes] = useSetting('typography.fontSizes', name); // Convert static font size values to fluid font sizes if fluidTypography is activated.
+
+  const fontSizesWithFluidValues = fontSizes.map(font => {
+    if (!!fluidTypography) {
+      font.size = getTypographyFontSizeValue(font, {
+        fluid: fluidTypography
+      });
+    }
+
+    return font;
+  });
   const disableCustomFontSizes = !useSetting('typography.customFontSize', name)[0];
   const [fontFamilies] = useSetting('typography.fontFamilies', name);
   const hasFontStyles = useSetting('typography.fontStyle', name)[0] && supports.includes('fontStyle');
@@ -8233,7 +8113,7 @@ function TypographyPanel(_ref) {
     __nextHasNoMarginBottom: true
   }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalToggleGroupControlOption, {
     value: "heading"
-    /* translators: 'All' refers to selecting all heading levels 
+    /* translators: 'All' refers to selecting all heading levels
     and applying the same style to h1-h6. */
     ,
     label: (0,external_wp_i18n_namespaceObject.__)('All')
@@ -8268,7 +8148,7 @@ function TypographyPanel(_ref) {
   }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.FontSizePicker, {
     value: fontSize,
     onChange: setFontSize,
-    fontSizes: fontSizes,
+    fontSizes: fontSizesWithFluidValues,
     disableCustomFontSizes: disableCustomFontSizes,
     size: "__unstable-large",
     __nextHasNoMarginBottom: true
@@ -8379,6 +8259,7 @@ var external_wp_styleEngine_namespaceObject = window["wp"]["styleEngine"];
 /**
  * Internal dependencies
  */
+
 
 
 
@@ -8608,6 +8489,22 @@ function getStylesDeclarations() {
       if (!ruleValue || !!((_ruleValue2 = ruleValue) !== null && _ruleValue2 !== void 0 && _ruleValue2.ref)) {
         return;
       }
+    } // Calculate fluid typography rules where available.
+
+
+    if (cssProperty === 'font-size') {
+      var _tree$settings;
+
+      /*
+       * getTypographyFontSizeValue() will check
+       * if fluid typography has been activated and also
+       * whether the incoming value can be converted to a fluid value.
+       * Values that already have a "clamp()" function will not pass the test,
+       * and therefore the original $value will be returned.
+       */
+      ruleValue = getTypographyFontSizeValue({
+        size: ruleValue
+      }, tree === null || tree === void 0 ? void 0 : (_tree$settings = tree.settings) === null || _tree$settings === void 0 ? void 0 : _tree$settings.typography);
     }
 
     output.push(`${cssProperty}: ${ruleValue}`);
@@ -8629,7 +8526,7 @@ function getStylesDeclarations() {
  */
 
 function getLayoutStyles(_ref6) {
-  var _style$spacing, _tree$settings, _tree$settings$layout, _tree$settings2, _tree$settings2$layou;
+  var _style$spacing, _tree$settings2, _tree$settings2$layou, _tree$settings3, _tree$settings3$layou;
 
   let {
     tree,
@@ -8651,7 +8548,7 @@ function getLayoutStyles(_ref6) {
     }
   }
 
-  if (gapValue && tree !== null && tree !== void 0 && (_tree$settings = tree.settings) !== null && _tree$settings !== void 0 && (_tree$settings$layout = _tree$settings.layout) !== null && _tree$settings$layout !== void 0 && _tree$settings$layout.definitions) {
+  if (gapValue && tree !== null && tree !== void 0 && (_tree$settings2 = tree.settings) !== null && _tree$settings2 !== void 0 && (_tree$settings2$layou = _tree$settings2.layout) !== null && _tree$settings2$layou !== void 0 && _tree$settings2$layou.definitions) {
     Object.values(tree.settings.layout.definitions).forEach(_ref7 => {
       let {
         className,
@@ -8697,7 +8594,7 @@ function getLayoutStyles(_ref6) {
   } // Output base styles
 
 
-  if (selector === ROOT_BLOCK_SELECTOR && tree !== null && tree !== void 0 && (_tree$settings2 = tree.settings) !== null && _tree$settings2 !== void 0 && (_tree$settings2$layou = _tree$settings2.layout) !== null && _tree$settings2$layou !== void 0 && _tree$settings2$layou.definitions) {
+  if (selector === ROOT_BLOCK_SELECTOR && tree !== null && tree !== void 0 && (_tree$settings3 = tree.settings) !== null && _tree$settings3 !== void 0 && (_tree$settings3$layou = _tree$settings3.layout) !== null && _tree$settings3$layou !== void 0 && _tree$settings3$layou.definitions) {
     const validDisplayModes = ['block', 'flex', 'grid'];
     Object.values(tree.settings.layout.definitions).forEach(_ref9 => {
       let {
@@ -8802,7 +8699,7 @@ const getNodesWithStyles = (tree, blockSelectors) => {
   return nodes;
 };
 const getNodesWithSettings = (tree, blockSelectors) => {
-  var _tree$settings3, _tree$settings$blocks, _tree$settings4;
+  var _tree$settings4, _tree$settings$blocks, _tree$settings5;
 
   const nodes = [];
 
@@ -8827,7 +8724,7 @@ const getNodesWithSettings = (tree, blockSelectors) => {
 
 
   const presets = pickPresets(tree.settings);
-  const custom = (_tree$settings3 = tree.settings) === null || _tree$settings3 === void 0 ? void 0 : _tree$settings3.custom;
+  const custom = (_tree$settings4 = tree.settings) === null || _tree$settings4 === void 0 ? void 0 : _tree$settings4.custom;
 
   if (!(0,external_lodash_namespaceObject.isEmpty)(presets) || !!custom) {
     nodes.push({
@@ -8838,7 +8735,7 @@ const getNodesWithSettings = (tree, blockSelectors) => {
   } // Blocks.
 
 
-  Object.entries((_tree$settings$blocks = (_tree$settings4 = tree.settings) === null || _tree$settings4 === void 0 ? void 0 : _tree$settings4.blocks) !== null && _tree$settings$blocks !== void 0 ? _tree$settings$blocks : {}).forEach(_ref15 => {
+  Object.entries((_tree$settings$blocks = (_tree$settings5 = tree.settings) === null || _tree$settings5 === void 0 ? void 0 : _tree$settings5.blocks) !== null && _tree$settings$blocks !== void 0 ? _tree$settings$blocks : {}).forEach(_ref15 => {
     let [blockName, node] = _ref15;
     const blockPresets = pickPresets(node);
     const blockCustom = node.custom;
@@ -8876,16 +8773,16 @@ const toCustomProperties = (tree, blockSelectors) => {
   return ruleset;
 };
 const toStyles = function (tree, blockSelectors, hasBlockGapSupport, hasFallbackGapSupport) {
-  var _tree$settings5, _tree$settings6;
+  var _tree$settings6, _tree$settings7;
 
   let disableLayoutStyles = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
   const nodesWithStyles = getNodesWithStyles(tree, blockSelectors);
   const nodesWithSettings = getNodesWithSettings(tree, blockSelectors);
-  const useRootPaddingAlign = tree === null || tree === void 0 ? void 0 : (_tree$settings5 = tree.settings) === null || _tree$settings5 === void 0 ? void 0 : _tree$settings5.useRootPaddingAwareAlignments;
+  const useRootPaddingAlign = tree === null || tree === void 0 ? void 0 : (_tree$settings6 = tree.settings) === null || _tree$settings6 === void 0 ? void 0 : _tree$settings6.useRootPaddingAwareAlignments;
   const {
     contentSize,
     wideSize
-  } = (tree === null || tree === void 0 ? void 0 : (_tree$settings6 = tree.settings) === null || _tree$settings6 === void 0 ? void 0 : _tree$settings6.layout) || {};
+  } = (tree === null || tree === void 0 ? void 0 : (_tree$settings7 = tree.settings) === null || _tree$settings7 === void 0 ? void 0 : _tree$settings7.layout) || {};
   /*
    * Reset default browser margin on the root body element.
    * This is set on the root selector **before** generating the ruleset
@@ -12608,34 +12505,14 @@ function ResizableEditor(_ref) {
   const mouseMoveTypingResetRef = (0,external_wp_blockEditor_namespaceObject.__unstableUseMouseMoveTypingReset)();
   const ref = (0,external_wp_compose_namespaceObject.useMergeRefs)([iframeRef, mouseMoveTypingResetRef]);
   (0,external_wp_element_namespaceObject.useEffect)(function autoResizeIframeHeight() {
-    const iframe = iframeRef.current;
-
-    if (!iframe || !enableResizing) {
+    if (!iframeRef.current || !enableResizing) {
       return;
     }
 
-    let timeoutId = null;
+    const iframe = iframeRef.current;
 
-    function resizeHeight() {
-      if (!timeoutId) {
-        // Throttle the updates on timeout. This code previously
-        // used `requestAnimationFrame`, but that seems to not
-        // always work before an iframe is ready.
-        timeoutId = iframe.contentWindow.setTimeout(() => {
-          const {
-            readyState
-          } = iframe.contentDocument; // Continue deferring the timeout until the document is ready.
-          // Only then will it have a height.
-
-          if (readyState !== 'interactive' && readyState !== 'complete') {
-            resizeHeight();
-            return;
-          }
-
-          setHeight(iframe.contentDocument.body.scrollHeight);
-          timeoutId = null; // 30 frames per second.
-        }, 1000 / 30);
-      }
+    function setFrameHeight() {
+      setHeight(iframe.contentDocument.body.scrollHeight);
     }
 
     let resizeObserver;
@@ -12644,25 +12521,21 @@ function ResizableEditor(_ref) {
       var _resizeObserver;
 
       (_resizeObserver = resizeObserver) === null || _resizeObserver === void 0 ? void 0 : _resizeObserver.disconnect();
-      resizeObserver = new iframe.contentWindow.ResizeObserver(resizeHeight); // Observe the body, since the `html` element seems to always
+      resizeObserver = new iframe.contentWindow.ResizeObserver(setFrameHeight); // Observe the body, since the `html` element seems to always
       // have a height of `100%`.
 
       resizeObserver.observe(iframe.contentDocument.body);
-      resizeHeight();
-    } // This is only required in Firefox for some unknown reasons.
+      setFrameHeight();
+    }
 
-
-    iframe.addEventListener('load', registerObserver); // This is required in Chrome and Safari.
-
-    registerObserver();
+    iframe.addEventListener('load', registerObserver);
     return () => {
-      var _iframe$contentWindow, _resizeObserver2;
+      var _resizeObserver2;
 
-      (_iframe$contentWindow = iframe.contentWindow) === null || _iframe$contentWindow === void 0 ? void 0 : _iframe$contentWindow.clearTimeout(timeoutId);
       (_resizeObserver2 = resizeObserver) === null || _resizeObserver2 === void 0 ? void 0 : _resizeObserver2.disconnect();
       iframe.removeEventListener('load', registerObserver);
     };
-  }, [enableResizing]);
+  }, [enableResizing, iframeRef.current]);
   const resizeWidthBy = (0,external_wp_element_namespaceObject.useCallback)(deltaPixels => {
     if (iframeRef.current) {
       setWidth(iframeRef.current.offsetWidth + deltaPixels);

@@ -34,7 +34,7 @@ function render_block_core_comment_author_name( $attributes, $content, $block ) 
 	$comment_author     = get_comment_author( $comment );
 	$link               = get_comment_author_url( $comment );
 
-	if ( ! empty( $attributes['isLink'] ) && ! empty( $attributes['linkTarget'] ) ) {
+	if ( ! empty( $link ) && ! empty( $attributes['isLink'] ) && ! empty( $attributes['linkTarget'] ) ) {
 		$comment_author = sprintf( '<a rel="external nofollow ugc" href="%1s" target="%2s" >%3s</a>', esc_url( $link ), esc_attr( $attributes['linkTarget'] ), $comment_author );
 	}
 	if ( '0' === $comment->comment_approved && ! $show_pending_links ) {

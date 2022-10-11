@@ -88,7 +88,6 @@
 	},
 	"supports": {
 		"align": [ "wide", "full" ],
-		"anchor": true,
 		"html": false,
 		"inserter": true,
 		"typography": {

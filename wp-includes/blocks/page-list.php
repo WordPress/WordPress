@@ -119,7 +119,14 @@ function block_core_page_list_build_css_font_sizes( $context ) {
 		$font_sizes['css_classes'][] = sprintf( 'has-%s-font-size', $context['fontSize'] );
 	} elseif ( $has_custom_font_size ) {
 		// Add the custom font size inline style.
-		$font_sizes['inline_styles'] = sprintf( 'font-size: %s;', $context['style']['typography']['fontSize'] );
+		$font_sizes['inline_styles'] = sprintf(
+			'font-size: %s;',
+			gutenberg_get_typography_font_size_value(
+				array(
+					'size' => $context['style']['typography']['fontSize'],
+				)
+			)
+		);
 	}
 
 	return $font_sizes;
@@ -298,11 +305,6 @@ function render_block_core_page_list( $attributes, $content, $block ) {
 	$css_classes     = trim( implode( ' ', $classes ) );
 
 	$nested_pages = block_core_page_list_nest_pages( $top_level_pages, $pages_with_children );
-
-	// Limit the number of items to be visually displayed.
-	if ( ! empty( $attributes['__unstableMaxPages'] ) ) {
-		$nested_pages = array_slice( $nested_pages, 0, $attributes['__unstableMaxPages'] );
-	}
 
 	$is_navigation_child = array_key_exists( 'showSubmenuIcon', $block->context );
 
