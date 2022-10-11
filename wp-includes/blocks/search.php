@@ -444,7 +444,7 @@ function get_typography_styles_for_block_core_search( $attributes ) {
 	if ( ! empty( $attributes['style']['typography']['fontSize'] ) ) {
 		$typography_styles[] = sprintf(
 			'font-size: %s;',
-			gutenberg_get_typography_font_size_value(
+			wp_get_typography_font_size_value(
 				array(
 					'size' => $attributes['style']['typography']['fontSize'],
 				)
