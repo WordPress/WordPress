@@ -121,7 +121,7 @@ function block_core_page_list_build_css_font_sizes( $context ) {
 		// Add the custom font size inline style.
 		$font_sizes['inline_styles'] = sprintf(
 			'font-size: %s;',
-			wp_get_typography_font_size_value(
+			gutenberg_get_typography_font_size_value(
 				array(
 					'size' => $context['style']['typography']['fontSize'],
 				)
