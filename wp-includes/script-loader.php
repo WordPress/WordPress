@@ -383,6 +383,22 @@ function wp_default_packages_inline_scripts( $scripts ) {
 		)
 	);
 
+	// Backwards compatibility - configure the old wp-data persistence system.
+	$scripts->add_inline_script(
+		'wp-data',
+		implode(
+			"\n",
+			array(
+				'( function() {',
+				'	var userId = ' . get_current_user_ID() . ';',
+				'	var storageKey = "WP_DATA_USER_" + userId;',
+				'	wp.data',
+				'		.use( wp.data.plugins.persistence, { storageKey: storageKey } );',
+				'} )();',
+			)
+		)
+	);
+
 	// Calculate the timezone abbr (EDT, PST) if possible.
 	$timezone_string = get_option( 'timezone_string', 'UTC' );
 	$timezone_abbr   = '';
