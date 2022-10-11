@@ -2429,7 +2429,7 @@ function wp_enqueue_global_styles() {
 	 * This removes the CSS from the global-styles stylesheet and adds it to the inline CSS for each block.
 	 * This filter must be registered before calling wp_get_global_stylesheet();
 	 */
-	add_filter( 'theme_json_get_style_nodes', 'wp_filter_out_block_nodes' );
+	add_filter( 'wp_theme_json_get_style_nodes', 'wp_filter_out_block_nodes' );
 
 	$stylesheet = wp_get_global_stylesheet();
 
