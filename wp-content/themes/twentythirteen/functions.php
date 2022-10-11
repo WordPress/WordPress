@@ -310,7 +310,7 @@ function twentythirteen_scripts_styles() {
 	}
 
 	// Loads JavaScript file with functionality specific to Twenty Thirteen.
-	wp_enqueue_script( 'twentythirteen-script', get_template_directory_uri() . '/js/functions.js', array( 'jquery' ), '20171218', true );
+	wp_enqueue_script( 'twentythirteen-script', get_template_directory_uri() . '/js/functions.js', array( 'jquery' ), '20210122', true );
 
 	// Add Source Sans Pro and Bitter fonts, used in the main stylesheet.
 	wp_enqueue_style( 'twentythirteen-fonts', twentythirteen_fonts_url(), array(), null );
@@ -319,10 +319,10 @@ function twentythirteen_scripts_styles() {
 	wp_enqueue_style( 'genericons', get_template_directory_uri() . '/genericons/genericons.css', array(), '3.0.3' );
 
 	// Loads our main stylesheet.
-	wp_enqueue_style( 'twentythirteen-style', get_stylesheet_uri(), array(), '20220524' );
+	wp_enqueue_style( 'twentythirteen-style', get_stylesheet_uri(), array(), '20221101' );
 
 	// Theme block stylesheet.
-	wp_enqueue_style( 'twentythirteen-block-style', get_template_directory_uri() . '/css/blocks.css', array( 'twentythirteen-style' ), '20190102' );
+	wp_enqueue_style( 'twentythirteen-block-style', get_template_directory_uri() . '/css/blocks.css', array( 'twentythirteen-style' ), '20210622' );
 
 	// Loads the Internet Explorer specific stylesheet.
 	wp_enqueue_style( 'twentythirteen-ie', get_template_directory_uri() . '/css/ie.css', array( 'twentythirteen-style' ), '20150214' );
@@ -362,7 +362,7 @@ add_filter( 'wp_resource_hints', 'twentythirteen_resource_hints', 10, 2 );
  */
 function twentythirteen_block_editor_styles() {
 	// Block styles.
-	wp_enqueue_style( 'twentythirteen-block-editor-style', get_template_directory_uri() . '/css/editor-blocks.css', array(), '20201208' );
+	wp_enqueue_style( 'twentythirteen-block-editor-style', get_template_directory_uri() . '/css/editor-blocks.css', array(), '20210621' );
 	// Add custom fonts.
 	wp_enqueue_style( 'twentythirteen-fonts', twentythirteen_fonts_url(), array(), null );
 }
@@ -812,7 +812,7 @@ function twentythirteen_customize_partial_blogdescription() {
  * @since Twenty Thirteen 1.0
  */
 function twentythirteen_customize_preview_js() {
-	wp_enqueue_script( 'twentythirteen-customizer', get_template_directory_uri() . '/js/theme-customizer.js', array( 'customize-preview' ), '20141120', true );
+	wp_enqueue_script( 'twentythirteen-customizer', get_template_directory_uri() . '/js/theme-customizer.js', array( 'customize-preview' ), '20200516', true );
 }
 add_action( 'customize_preview_init', 'twentythirteen_customize_preview_js' );
 
