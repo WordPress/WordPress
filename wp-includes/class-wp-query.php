@@ -3963,6 +3963,9 @@ class WP_Query {
 		$attachment = array_map( 'strval', (array) $attachment );
 
 		$post_obj = $this->get_queried_object();
+		if ( ! $post_obj ) {
+			return false;
+		}
 
 		if ( in_array( (string) $post_obj->ID, $attachment, true ) ) {
 			return true;
@@ -3996,6 +3999,9 @@ class WP_Query {
 		}
 
 		$author_obj = $this->get_queried_object();
+		if ( ! $author_obj ) {
+			return false;
+		}
 
 		$author = array_map( 'strval', (array) $author );
 
@@ -4032,6 +4038,9 @@ class WP_Query {
 		}
 
 		$cat_obj = $this->get_queried_object();
+		if ( ! $cat_obj ) {
+			return false;
+		}
 
 		$category = array_map( 'strval', (array) $category );
 
@@ -4068,6 +4077,9 @@ class WP_Query {
 		}
 
 		$tag_obj = $this->get_queried_object();
+		if ( ! $tag_obj ) {
+			return false;
+		}
 
 		$tag = array_map( 'strval', (array) $tag );
 
@@ -4315,6 +4327,9 @@ class WP_Query {
 		}
 
 		$page_obj = $this->get_queried_object();
+		if ( ! $page_obj ) {
+			return false;
+		}
 
 		$page = array_map( 'strval', (array) $page );
 
@@ -4422,6 +4437,9 @@ class WP_Query {
 		}
 
 		$post_obj = $this->get_queried_object();
+		if ( ! $post_obj ) {
+			return false;
+		}
 
 		$post = array_map( 'strval', (array) $post );
 
@@ -4469,6 +4487,9 @@ class WP_Query {
 		}
 
 		$post_obj = $this->get_queried_object();
+		if ( ! $post_obj ) {
+			return false;
+		}
 
 		return in_array( $post_obj->post_type, (array) $post_types, true );
 	}
