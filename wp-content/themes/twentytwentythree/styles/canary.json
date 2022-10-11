@@ -1,4 +1,6 @@
 {
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 2,
 	"title": "Canary",
 	"settings": {
 		"color": {
@@ -70,6 +72,20 @@
 	},
 	"styles": {
 		"blocks": {
+			"core/comments": {
+				"elements": {
+					"link": {
+						"typography": {
+							"textDecoration": "underline"
+						},
+						":hover": {
+							"typography": {
+								"textDecoration": "none"
+							}
+						}
+					}
+				}
+			},
 			"core/comment-reply-link": {
 				"typography": {
 					"fontSize": "var(--wp--preset--font-size--small)"
@@ -91,6 +107,20 @@
 			"core/navigation": {
 				"typography": {
 					"textTransform": "lowercase"
+				}
+			},
+			"core/post-content": {
+				"elements": {
+					"link": {
+						"typography": {
+							"textDecoration": "underline"
+						},
+						":hover": {
+							"typography": {
+								"textDecoration": "none"
+							}
+						}
+					}
 				}
 			},
 			"core/post-featured-image": {
@@ -115,6 +145,13 @@
 			"core/post-title": {
 				"typography": {
 					"fontWeight": "700"
+				}
+			},
+			"core/query-pagination": {
+				"border": {
+					"top": {
+						"width": "4px"
+					}
 				}
 			},
 			"core/separator": {
@@ -142,6 +179,17 @@
 						"width": "2px"
 					}
 				},
+				":focus": {
+					"color": {
+						"background": "var(--wp--preset--color--base)",
+						"text": "var(--wp--preset--color--contrast)"
+					},
+					"border": {
+						"color": "var(--wp--preset--color--contrast)",
+						"style": "solid",
+						"width": "2px"
+					}
+				},
 				"border": {
 					"radius": "5px",
 					"color": "var(--wp--preset--color--contrast)",
@@ -150,6 +198,14 @@
 				},
 				"color": {
 					"text": "var(--wp--preset--color--base)"
+				},
+				"spacing": {
+					"padding": {
+						"bottom": "0.667em",
+						"left": "1.333em",
+						"right": "1.333em",
+						"top": "0.667em"
+					}
 				}
 			},
 			"h1": {
@@ -186,7 +242,5 @@
 		"typography": {
 			"fontFamily": "var(--wp--preset--font-family--ibm-plex-mono)"
 		}
-	},
-	"version": 2,
-	"$schema": "https://schemas.wp.org/trunk/theme.json"
+	}
 }

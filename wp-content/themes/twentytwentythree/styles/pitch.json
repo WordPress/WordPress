@@ -1,4 +1,6 @@
 {
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 2,
 	"title": "Pitch",
 	"settings": {
 		"color": {
@@ -128,6 +130,14 @@
 	},
 	"styles": {
 		"blocks": {
+			"core/query-pagination": {
+				"border": {
+					"top": {
+						"color": "var(--wp--preset--color--tertiary)",
+						"width": "4px"
+					}
+				}
+			},
 			"core/separator": {
 				"border": {
 					"color":"var(--wp--preset--color--tertiary)",
@@ -231,7 +241,5 @@
 			"fontSize": "var(--wp--preset--font-size--medium)",
 			"lineHeight": "1.7"
 		}
-	},
-	"version": 2,
-	"$schema": "https://schemas.wp.org/trunk/theme.json"
+	}
 }

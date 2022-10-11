@@ -1,4 +1,6 @@
 {
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 2,
 	"title": "Aubergine",
 	"settings": {
 		"color": {
@@ -158,6 +160,15 @@
 				}
 			},
 			"core/post-title": {
+				"elements": {
+					"link": {
+						":active": {
+							"color": {
+								"text": "var(--wp--preset--color--contrast)"
+							}
+						}
+					}
+				},
 				"typography": {
 					"fontSize": "clamp(2.625rem, calc(2.625rem + ((1vw - 0.48rem) * 8.4135)), 3.25rem)"
 				}
@@ -177,6 +188,13 @@
 						"color": {
 							"text": "var(--wp--preset--color--primary)"
 						}
+					}
+				}
+			},
+			"core/query-pagination": {
+				"border": {
+					"top": {
+						"color": "var(--wp--preset--color--primary)"
 					}
 				}
 			},
@@ -236,20 +254,23 @@
 				},
 				":hover": {
 					"color": {
-						"gradient": "var(--wp--preset--gradient--primary-tertiary)",
-						"text": "var(--wp--preset--color--contrast)"
+						"background": "var(--wp--preset--color--primary)",
+						"gradient": "none",
+						"text": "var(--wp--preset--color--secondary)"
 					}
 				},
 				":focus": {
 					"color": {
-						"gradient": "var(--wp--preset--gradient--primary-tertiary)",
-						"text": "var(--wp--preset--color--contrast)"
+						"background": "var(--wp--preset--color--primary)",
+						"gradient": "none",
+						"text": "var(--wp--preset--color--secondary)"
 					}
 				},
 				":active": {
 					"color": {
-						"gradient": "var(--wp--preset--gradient--primary-tertiary)",
-						"text": "var(--wp--preset--color--contrast)"
+						"background": "var(--wp--preset--color--primary)",
+						"gradient": "none",
+						"text": "var(--wp--preset--color--secondary)"
 					}
 				}
 			},
@@ -261,7 +282,7 @@
 			"link": {
 				":active": {
 					"color": {
-						"text": "var(--wp--preset--color--tertiary)"
+						"text": "var(--wp--preset--color--primary)"
 					}
 				}
 			}
@@ -269,7 +290,5 @@
 		"typography": {
 			"fontFamily": "var(--wp--preset--font-family--dm-sans)"
 		}
-	},
-	"version": 2,
-	"$schema": "https://schemas.wp.org/trunk/theme.json"
+	}
 }

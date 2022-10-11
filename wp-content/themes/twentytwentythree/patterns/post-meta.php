@@ -21,7 +21,7 @@
 	<div class="wp-block-columns alignwide has-small-font-size" style="margin-top:var(--wp--preset--spacing--40)">
 		<!-- wp:column {"style":{"spacing":{"blockGap":"0px"}}} -->
 		<div class="wp-block-column">
-			<!-- wp:group {"style":{"spacing":{"blockGap":"1ch"}},"layout":{"type":"flex"}} -->
+			<!-- wp:group {"style":{"spacing":{"blockGap":"0.5ch"}},"layout":{"type":"flex"}} -->
 			<div class="wp-block-group">
 				<!-- wp:paragraph -->
 				<p>
@@ -41,7 +41,7 @@
 			</div>
 			<!-- /wp:group -->
 
-			<!-- wp:group {"style":{"spacing":{"blockGap":"1ch"}},"layout":{"type":"flex"}} -->
+			<!-- wp:group {"style":{"spacing":{"blockGap":"0.5ch"}},"layout":{"type":"flex"}} -->
 			<div class="wp-block-group">
 				<!-- wp:paragraph -->
 				<p>
@@ -57,7 +57,7 @@
 
 		<!-- wp:column {"style":{"spacing":{"blockGap":"0px"}}} -->
 		<div class="wp-block-column">
-			<!-- wp:group {"style":{"spacing":{"blockGap":"1ch"}},"layout":{"type":"flex","orientation":"vertical"}} -->
+			<!-- wp:group {"style":{"spacing":{"blockGap":"0.5ch"}},"layout":{"type":"flex","orientation":"vertical"}} -->
 			<div class="wp-block-group">
 				<!-- wp:paragraph -->
 				<p>
