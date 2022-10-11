@@ -2895,7 +2895,6 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			'items'             => array(
 				'type' => 'string',
 			),
-			'sanitize_callback' => 'wp_parse_slug_list',
 		);
 
 		$query_params['status'] = array(
