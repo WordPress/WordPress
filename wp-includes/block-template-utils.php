@@ -560,9 +560,9 @@ function _wp_build_title_and_description_for_single_post_type_block_template( $p
 		'name' => $slug,
 	);
 	$args  = wp_parse_args( $args, $default_args );
-	$posts = new WP_Query( $args );
+	$posts_query = new WP_Query( $args );
 
-	if ( empty( $posts ) ) {
+	if ( empty( $posts_query->posts ) ) {
 		$template->title = sprintf(
 			/* translators: Custom template title in the Site Editor referencing a post that was not found. 1: Post type singular name, 2: Post type slug. */
 			__( 'Not found: %1$s (%2$s)' ),
@@ -573,7 +573,7 @@ function _wp_build_title_and_description_for_single_post_type_block_template( $p
 		return false;
 	}
 
-	$post_title = $posts[0]->post_title;
+	$post_title = $posts_query->posts[0]->post_title;
 
 	$template->title = sprintf(
 		/* translators: Custom template title in the Site Editor. 1: Post type singular name, 2: Post title. */
@@ -591,11 +591,10 @@ function _wp_build_title_and_description_for_single_post_type_block_template( $p
 	$args = array(
 		'title' => $post_title,
 	);
-	$args = wp_parse_args( $args, $default_args );
+	$args                        = wp_parse_args( $args, $default_args );
+	$posts_with_same_title_query = new WP_Query( $args );
 
-	$posts_with_same_title = new WP_Query( $args );
-
-	if ( count( $posts_with_same_title ) > 1 ) {
+	if ( count( $posts_with_same_title_query->posts ) > 1 ) {
 		$template->title = sprintf(
 			/* translators: Custom template title in the Site Editor. 1: Template title, 2: Post type slug. */
 			__( '%1$s (%2$s)' ),
@@ -635,10 +634,10 @@ function _wp_build_title_and_description_for_taxonomy_block_template( $taxonomy,
 		'number' => 1,
 		'slug'   => $slug,
 	);
-	$args  = wp_parse_args( $args, $default_args );
-	$terms = $term_query->query( $args );
+	$args        = wp_parse_args( $args, $default_args );
+	$terms_query = $term_query->query( $args );
 
-	if ( empty( $terms ) ) {
+	if ( empty( $terms_query->terms ) ) {
 		$template->title = sprintf(
 			/* translators: Custom template title in the Site Editor, referencing a taxonomy term that was not found. 1: Taxonomy singular name, 2: Term slug. */
 			__( 'Not found: %1$s (%2$s)' ),
@@ -648,7 +647,7 @@ function _wp_build_title_and_description_for_taxonomy_block_template( $taxonomy,
 		return false;
 	}
 
-	$term_title = $terms[0]->name;
+	$term_title = $terms_query->terms[0]->name;
 
 	$template->title = sprintf(
 		/* translators: Custom template title in the Site Editor. 1: Taxonomy singular name, 2: Term title. */
@@ -669,11 +668,10 @@ function _wp_build_title_and_description_for_taxonomy_block_template( $taxonomy,
 		'number' => 2,
 		'name'   => $term_title,
 	);
-	$args = wp_parse_args( $args, $default_args );
+	$args                        = wp_parse_args( $args, $default_args );
+	$terms_with_same_title_query = $term_query->query( $args );
 
-	$terms_with_same_title = $term_query->query( $args );
-
-	if ( count( $terms_with_same_title ) > 1 ) {
+	if ( count( $terms_with_same_title_query->terms ) > 1 ) {
 		$template->title = sprintf(
 			/* translators: Custom template title in the Site Editor. 1: Template title, 2: Term slug. */
 			__( '%1$s (%2$s)' ),
