@@ -272,7 +272,7 @@ class WP_Theme_JSON_Resolver {
 	public static function get_block_data() {
 		$registry = WP_Block_Type_Registry::get_instance();
 		$blocks   = $registry->get_all_registered();
-		$config   = array( 'version' => 1 );
+		$config   = array( 'version' => 2 );
 		foreach ( $blocks as $block_name => $block_type ) {
 			if ( isset( $block_type->supports['__experimentalStyle'] ) ) {
 				$config['styles']['blocks'][ $block_name ] = static::remove_json_comments( $block_type->supports['__experimentalStyle'] );
