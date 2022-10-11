@@ -196,24 +196,38 @@ function wp_nav_menu( $args = array() ) {
 	_wp_menu_item_classes_by_context( $menu_items );
 
 	$sorted_menu_items        = array();
+	$menu_items_tree          = array();
 	$menu_items_with_children = array();
 	foreach ( (array) $menu_items as $menu_item ) {
 		$sorted_menu_items[ $menu_item->menu_order ] = $menu_item;
+		$menu_items_tree[ $menu_item->ID ]           = $menu_item->menu_item_parent;
 		if ( $menu_item->menu_item_parent ) {
-			$menu_items_with_children[ $menu_item->menu_item_parent ] = true;
+			$menu_items_with_children[ $menu_item->menu_item_parent ] = 1;
+		}
+
+		// Calculate the depth of each menu item with children
+		foreach ( $menu_items_with_children as $menu_item_key => &$menu_item_depth ) {
+			$menu_item_parent = $menu_items_tree[ $menu_item_key ];
+			while ( $menu_item_parent ) {
+				$menu_item_depth  = $menu_item_depth + 1;
+				$menu_item_parent = $menu_items_tree[ $menu_item_parent ];
+			}
 		}
 	}
 
 	// Add the menu-item-has-children class where applicable.
 	if ( $menu_items_with_children ) {
 		foreach ( $sorted_menu_items as &$menu_item ) {
-			if ( isset( $menu_items_with_children[ $menu_item->ID ] ) ) {
+			if (
+				isset( $menu_items_with_children[ $menu_item->ID ] ) &&
+				( $args->depth <= 0 || $menu_items_with_children[ $menu_item->ID ] < $args->depth )
+			) {
 				$menu_item->classes[] = 'menu-item-has-children';
 			}
 		}
 	}
 
-	unset( $menu_items, $menu_item );
+	unset( $menu_items_tree, $menu_items_with_children, $menu_items, $menu_item );
 
 	/**
 	 * Filters the sorted list of menu item objects before generating the menu's HTML.
