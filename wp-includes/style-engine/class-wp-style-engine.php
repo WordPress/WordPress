@@ -21,6 +21,7 @@
  * @access private
  * @since 6.1.0
  */
+#[AllowDynamicProperties]
 final class WP_Style_Engine {
 	/**
 	 * Style definitions that contain the instructions to
