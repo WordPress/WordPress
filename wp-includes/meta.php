@@ -1078,7 +1078,7 @@ function delete_metadata_by_mid( $meta_type, $meta_id ) {
 			 *
 			 * @since 3.4.0
 			 *
-			 * @param int $meta_ids Deleted metadata entry ID.
+			 * @param int $meta_id Deleted metadata entry ID.
 			 */
 			do_action( "deleted_{$meta_type}meta", $meta_id );
 		}
