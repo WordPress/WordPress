@@ -548,8 +548,7 @@ class WP_Theme_JSON_Resolver {
 			_deprecated_argument( __FUNCTION__, '5.9.0' );
 		}
 
-		$result = new WP_Theme_JSON();
-		$result->merge( static::get_core_data() );
+		$result = static::get_core_data();
 		$result->merge( static::get_block_data() );
 		$result->merge( static::get_theme_data() );
 
