@@ -687,7 +687,8 @@ function serialize_block_attributes( $block_attributes ) {
  *
  * @since 5.3.1
  *
- * @param string $block_name Original block name.
+ * @param string|null $block_name Optional. Original block name. Null if the block name is unknown,
+ *                                e.g. Classic blocks have their name set to null. Default null.
  * @return string Block name to use for serialization.
  */
 function strip_core_block_namespace( $block_name = null ) {
@@ -783,9 +784,9 @@ function serialize_blocks( $blocks ) {
  * @since 5.3.1
  *
  * @param string         $text              Text that may contain block content.
- * @param array[]|string $allowed_html      An array of allowed HTML elements and attributes,
+ * @param array[]|string $allowed_html      Optional. An array of allowed HTML elements and attributes,
  *                                          or a context name such as 'post'. See wp_kses_allowed_html()
- *                                          for the list of accepted context names.
+ *                                          for the list of accepted context names. Default 'post'.
  * @param string[]       $allowed_protocols Optional. Array of allowed URL protocols.
  *                                          Defaults to the result of wp_allowed_protocols().
  * @return string The filtered and sanitized content result.
@@ -1412,7 +1413,6 @@ function get_query_pagination_arrow( $block, $is_next ) {
  * @since 6.0.0
  *
  * @param WP_Block $block Block instance.
- *
  * @return array Returns the comment query parameters to use with the
  *               WP_Comment_Query constructor.
  */
@@ -1483,9 +1483,8 @@ function build_comment_query_vars_from_block( $block ) {
  * @since 6.0.0
  *
  * @param WP_Block $block           Block instance.
- * @param string   $pagination_type Type of the arrow we will be rendering.
- *                                  Default 'next'. Accepts 'next' or 'previous'.
- *
+ * @param string   $pagination_type Optional. Type of the arrow we will be rendering.
+ *                                  Accepts 'next' or 'previous'. Default 'next'.
  * @return string|null The pagination arrow HTML or null if there is none.
  */
 function get_comments_pagination_arrow( $block, $pagination_type = 'next' ) {
