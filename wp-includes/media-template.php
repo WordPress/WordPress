@@ -1252,7 +1252,7 @@ function wp_print_media_templates() {
 			<div class="favicon">
 				<img id="preview-favicon" src="{{ data.url }}" alt="<?php esc_attr_e( 'Preview as a browser icon' ); ?>"/>
 			</div>
-			<span class="browser-title"><?php bloginfo( 'name' ); ?></span>
+			<span class="browser-title"><?php echo esc_js( get_bloginfo( 'name' ) ); ?></span>
 		</div>
 
 		<strong><?php _e( 'As an app icon' ); ?></strong>
