@@ -91,7 +91,6 @@ if ( ! function_exists( 'get_user_by' ) ) :
 	 *
 	 * @since 2.8.0
 	 * @since 4.4.0 Added 'ID' as an alias of 'id' for the `$field` parameter.
-	 * @since 5.8.0 Returns the global `$current_user` if it's the user being fetched.
 	 *
 	 * @global WP_User $current_user The current user object which holds the user data.
 	 *
@@ -100,16 +99,10 @@ if ( ! function_exists( 'get_user_by' ) ) :
 	 * @return WP_User|false WP_User object on success, false on failure.
 	 */
 	function get_user_by( $field, $value ) {
-		global $current_user;
-
 		$userdata = WP_User::get_data_by( $field, $value );
 
 		if ( ! $userdata ) {
 			return false;
-		}
-
-		if ( $current_user instanceof WP_User && $current_user->ID === (int) $userdata->ID ) {
-			return $current_user;
 		}
 
 		$user = new WP_User;
@@ -361,6 +354,8 @@ if ( ! function_exists( 'wp_mail' ) ) :
 		$phpmailer->clearAttachments();
 		$phpmailer->clearCustomHeaders();
 		$phpmailer->clearReplyTos();
+		$phpmailer->Body    = '';
+		$phpmailer->AltBody = '';
 
 		// Set "From" name and email.
 
