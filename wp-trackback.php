@@ -13,6 +13,9 @@ if ( empty( $wp ) ) {
 	wp( array( 'tb' => '1' ) );
 }
 
+// Always run as an unauthenticated user.
+wp_set_current_user( 0 );
+
 /**
  * Response to a trackback.
  *
