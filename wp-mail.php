@@ -60,6 +60,9 @@ if( 0 === $count ) {
 	wp_die( __('There doesn&#8217;t seem to be any new mail.') );
 }
 
+// Always run as an unauthenticated user.
+wp_set_current_user( 0 );
+
 for ( $i = 1; $i <= $count; $i++ ) {
 
 	$message = $pop3->get($i);
@@ -124,8 +127,6 @@ for ( $i = 1; $i <= $count; $i++ ) {
 					$author = trim($line);
 				$author = sanitize_email($author);
 				if ( is_email($author) ) {
-					/* translators: Post author email address */
-					echo '<p>' . sprintf(__('Author is %s'), $author) . '</p>';
 					$userdata = get_user_by('email', $author);
 					if ( ! empty( $userdata ) ) {
 						$post_author = $userdata->ID;
