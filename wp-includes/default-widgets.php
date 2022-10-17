@@ -834,7 +834,7 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 
 	if ( is_wp_error($rss) ) {
 		if ( is_admin() || current_user_can('manage_options') )
-			echo '<p>' . sprintf( __('<strong>RSS Error</strong>: %s'), $rss->get_error_message() ) . '</p>';
+			echo '<p>' . sprintf( __('<strong>RSS Error</strong>: %s'), esc_html( $rss->get_error_message() ) ) . '</p>';
 		return;
 	}
 
@@ -942,7 +942,7 @@ function wp_widget_rss_form( $args, $inputs = null ) {
 	$show_date      = (int) $show_date;
 
 	if ( !empty($error) )
-		echo '<p class="widget-error"><strong>' . sprintf( __('RSS Error: %s'), $error) . '</strong></p>';
+		echo '<p class="widget-error"><strong>' . sprintf( __('RSS Error: %s'), esc_html( $error ) ) . '</strong></p>';
 
 	if ( $inputs['url'] ) :
 ?>
