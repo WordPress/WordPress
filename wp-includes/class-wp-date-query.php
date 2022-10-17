@@ -149,8 +149,8 @@ class WP_Date_Query {
 			return;
 		}
 
-		if ( isset( $date_query['relation'] ) && 'OR' === strtoupper( $date_query['relation'] ) ) {
-			$this->relation = 'OR';
+		if ( isset( $date_query['relation'] ) ) {
+			$this->relation = $this->sanitize_relation( $date_query['relation'] );
 		} else {
 			$this->relation = 'AND';
 		}
@@ -218,6 +218,9 @@ class WP_Date_Query {
 		if ( $this->is_first_order_clause( $queries ) ) {
 			$this->validate_date_values( $queries );
 		}
+
+		// Sanitize the relation parameter.
+		$queries['relation'] = $this->sanitize_relation( $queries['relation'] );
 
 		foreach ( $queries as $key => $q ) {
 			if ( ! is_array( $q ) || in_array( $key, $this->time_keys, true ) ) {
@@ -1039,5 +1042,21 @@ class WP_Date_Query {
 		}
 
 		return $wpdb->prepare( "DATE_FORMAT( $column, %s ) $compare %f", $format, $time );
+	}
+
+	/**
+	 * Sanitizes a 'relation' operator.
+	 *
+	 * @since 6.0.3
+	 *
+	 * @param string $relation Raw relation key from the query argument.
+	 * @return string Sanitized relation ('AND' or 'OR').
+	 */
+	public function sanitize_relation( $relation ) {
+		if ( 'OR' === strtoupper( $relation ) ) {
+			return 'OR';
+		} else {
+			return 'AND';
+		}
 	}
 }
