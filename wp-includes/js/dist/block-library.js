@@ -3959,7 +3959,6 @@ function (_super) {
     };
 
     _this.onTouchStart = function (e) {
-      e.preventDefault();
       document.addEventListener('touchmove', _this.onTouchMove, {
         passive: false
       }); // iOS 11 now defaults to passive: true
