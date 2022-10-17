@@ -656,11 +656,11 @@ function wp_get_http_headers( $url, $deprecated = false ) {
 /**
  * Determines whether the publish date of the current post in the loop is different
  * from the publish date of the previous post in the loop.
- * 
+ *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/ 
+ * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
- * 
+ *
  * @since 0.71
  *
  * @global string $currentday  The day of the current post in the loop.
@@ -1351,9 +1351,9 @@ function do_robots() {
  * cache, and the database goes away, then you might have problems.
  *
  * Checks for the 'siteurl' option for whether WordPress is installed.
- * 
+ *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/ 
+ * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 2.1.0
@@ -2412,7 +2412,7 @@ function wp_check_filetype_and_ext( $file, $filename, $mimes = null ) {
 		} else {
 			if ( $type !== $real_mime ) {
 				/*
-				 * Everything else including image/* and application/*: 
+				 * Everything else including image/* and application/*:
 				 * If the real content type doesn't match the file extension, assume it's dangerous.
 				 */
 				$type = $ext = false;
@@ -2421,7 +2421,7 @@ function wp_check_filetype_and_ext( $file, $filename, $mimes = null ) {
 		}
 	}
 
-	// The mime type must be allowed 
+	// The mime type must be allowed
 	if ( $type ) {
 		$allowed = get_allowed_mime_types();
 
@@ -2695,9 +2695,12 @@ function wp_nonce_ays( $action ) {
 	} else {
 		$html = __( 'The link you followed has expired.' );
 		if ( wp_get_referer() ) {
-			$html .= '</p><p>';
-			$html .= sprintf( '<a href="%s">%s</a>',
-				esc_url( remove_query_arg( 'updated', wp_get_referer() ) ),
+			$wp_http_referer = remove_query_arg( 'updated', wp_get_referer() );
+			$wp_http_referer = wp_validate_redirect( esc_url_raw( $wp_http_referer ) );
+			$html           .= '</p><p>';
+			$html           .= sprintf(
+				'<a href="%s">%s</a>',
+				esc_url( $wp_http_referer ),
 				__( 'Please try again.' )
 			);
 		}
