@@ -2221,8 +2221,16 @@ function wp_nonce_ays( $action ) {
 		$html .= sprintf( __( "Do you really want to <a href='%s'>log out</a>?"), wp_logout_url() );
 	} else {
 		$html = __( 'Are you sure you want to do this?' );
-		if ( wp_get_referer() )
-			$html .= "</p><p><a href='" . esc_url( remove_query_arg( 'updated', wp_get_referer() ) ) . "'>" . __( 'Please try again.' ) . "</a>";
+		if ( wp_get_referer() ) {
+			$wp_http_referer = remove_query_arg( 'updated', wp_get_referer() );
+			$wp_http_referer = wp_validate_redirect( esc_url_raw( $wp_http_referer ) );
+			$html .= '</p><p>';
+			$html .= sprintf(
+				'<a href="%s">%s</a>',
+				esc_url( $wp_http_referer ),
+				__( 'Please try again.' )
+			);
+		}
 	}
 
 	wp_die( $html, $title, array('response' => 403) );

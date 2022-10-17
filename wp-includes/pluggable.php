@@ -313,6 +313,8 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 	$phpmailer->ClearCCs();
 	$phpmailer->ClearCustomHeaders();
 	$phpmailer->ClearReplyTos();
+	$phpmailer->Body    = '';
+	$phpmailer->AltBody = '';
 
 	// From email and name
 	// If we don't have a name from the input headers
