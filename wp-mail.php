@@ -65,6 +65,9 @@ if ( 0 === $count ) {
 	wp_die( __( 'There does not seem to be any new mail.' ) );
 }
 
+// Always run as an unauthenticated user.
+wp_set_current_user( 0 );
+
 for ( $i = 1; $i <= $count; $i++ ) {
 
 	$message = $pop3->get( $i );
