@@ -287,12 +287,12 @@ function styles_for_block_core_search( $attributes ) {
 	// Add color styles.
 	$has_text_color = ! empty( $attributes['style']['color']['text'] );
 	if ( $has_text_color ) {
-		$button_styles[] = sprintf( 'color: %s;', esc_attr( $attributes['style']['color']['text'] ) );
+		$button_styles[] = sprintf( 'color: %s;', $attributes['style']['color']['text'] );
 	}
 
 	$has_background_color = ! empty( $attributes['style']['color']['background'] );
 	if ( $has_background_color ) {
-		$button_styles[] = sprintf( 'background-color: %s;', esc_attr( $attributes['style']['color']['background'] ) );
+		$button_styles[] = sprintf( 'background-color: %s;', $attributes['style']['color']['background'] );
 	}
 
 	$has_custom_gradient = ! empty( $attributes['style']['color']['gradient'] );
@@ -301,9 +301,9 @@ function styles_for_block_core_search( $attributes ) {
 	}
 
 	return array(
-		'input'   => ! empty( $input_styles ) ? sprintf( ' style="%s"', safecss_filter_attr( implode( ' ', $input_styles ) ) ) : '',
-		'button'  => ! empty( $button_styles ) ? sprintf( ' style="%s"', safecss_filter_attr( implode( ' ', $button_styles ) ) ) : '',
-		'wrapper' => ! empty( $wrapper_styles ) ? sprintf( ' style="%s"', safecss_filter_attr( implode( ' ', $wrapper_styles ) ) ) : '',
+		'input'   => ! empty( $input_styles ) ? sprintf( ' style="%s"', esc_attr( safecss_filter_attr( implode( ' ', $input_styles ) ) ) ) : '',
+		'button'  => ! empty( $button_styles ) ? sprintf( ' style="%s"', esc_attr( safecss_filter_attr( implode( ' ', $button_styles ) ) ) ) : '',
+		'wrapper' => ! empty( $wrapper_styles ) ? sprintf( ' style="%s"', esc_attr( safecss_filter_attr( implode( ' ', $wrapper_styles ) ) ) ) : '',
 	);
 }
 
