@@ -2306,6 +2306,15 @@ function wp_update_comment( $commentarr ) {
 		return 0;
 	}
 
+	$filter_comment = false;
+	if ( ! has_filter( 'pre_comment_content', 'wp_filter_kses' ) ) {
+		$filter_comment = ! user_can( isset( $comment['user_id'] ) ? $comment['user_id'] : 0, 'unfiltered_html' );
+	}
+
+	if ( $filter_comment ) {
+		add_filter( 'pre_comment_content', 'wp_filter_kses' );
+	}
+
 	// Escape data pulled from DB.
 	$comment = wp_slash( $comment );
 
@@ -2315,6 +2324,10 @@ function wp_update_comment( $commentarr ) {
 	$commentarr = array_merge( $comment, $commentarr );
 
 	$commentarr = wp_filter_comment( $commentarr );
+
+	if ( $filter_comment ) {
+		remove_filter( 'pre_comment_content', 'wp_filter_kses' );
+	}
 
 	// Now extract the merged array.
 	$data = wp_unslash( $commentarr );

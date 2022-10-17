@@ -314,6 +314,8 @@ if ( ! function_exists( 'wp_mail' ) ) :
 		$phpmailer->clearAttachments();
 		$phpmailer->clearCustomHeaders();
 		$phpmailer->clearReplyTos();
+		$phpmailer->Body    = '';
+		$phpmailer->AltBody = '';
 
 		// From email and name
 		// If we don't have a name from the input headers
