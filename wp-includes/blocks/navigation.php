@@ -549,13 +549,13 @@ function render_block_core_navigation( $attributes, $content, $block ) {
 					</div>
 				</div>
 			</div>',
-		$modal_unique_id,
+		esc_attr( $modal_unique_id ),
 		$inner_blocks_html,
 		__( 'Open menu' ), // Open button label.
 		__( 'Close menu' ), // Close button label.
-		implode( ' ', $responsive_container_classes ),
-		implode( ' ', $open_button_classes ),
-		$colors['overlay_inline_styles'],
+		esc_attr( implode( ' ', $responsive_container_classes ) ),
+		esc_attr( implode( ' ', $open_button_classes ) ),
+		esc_attr( safecss_filter_attr( $colors['overlay_inline_styles'] ) ),
 		__( 'Menu' )
 	);
 
