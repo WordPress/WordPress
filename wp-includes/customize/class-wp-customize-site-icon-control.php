@@ -70,7 +70,7 @@ class WP_Customize_Site_Icon_Control extends WP_Customize_Cropped_Image_Control 
 						<div class="favicon">
 							<img id="preview-favicon" src="{{ data.attachment.sizes.full.url }}" alt="<?php esc_attr_e( 'Preview as a browser icon' ); ?>"/>
 						</div>
-						<span class="browser-title"><?php bloginfo( 'name' ); ?></span>
+						<span class="browser-title"><?php echo esc_js( get_bloginfo( 'name' ) ); ?></span>
 					</div>
 					<img class="app-icon-preview" src="{{ data.attachment.sizes.full.url }}" alt="<?php esc_attr_e( 'Preview as an app icon' ); ?>"/>
 				</div>
