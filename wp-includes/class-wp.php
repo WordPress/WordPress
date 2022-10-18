@@ -410,8 +410,12 @@ class WP {
 	 * @since 2.0.0
 	 * @since 4.4.0 `X-Pingback` header is added conditionally for single posts that allow pings.
 	 * @since 6.1.0 Runs after posts have been queried.
+	 *
+	 * @global WP_Query $wp_query WordPress Query object.
 	 */
 	public function send_headers() {
+		global $wp_query;
+
 		$headers       = array();
 		$status        = null;
 		$exit_required = false;
