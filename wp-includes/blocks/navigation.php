@@ -646,7 +646,7 @@ function render_block_core_navigation( $attributes, $content, $block ) {
 		$toggle_aria_label_close,
 		esc_attr( implode( ' ', $responsive_container_classes ) ),
 		esc_attr( implode( ' ', $open_button_classes ) ),
-		safecss_filter_attr( $colors['overlay_inline_styles'] ),
+		esc_attr( safecss_filter_attr( $colors['overlay_inline_styles'] ) ),
 		__( 'Menu' ),
 		$toggle_button_content,
 		$toggle_close_button_content

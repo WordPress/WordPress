@@ -2772,320 +2772,318 @@ module.exports.remove = removeAccents;
 /***/ 3124:
 /***/ (function(module) {
 
-var traverse = module.exports = function (obj) {
-    return new Traverse(obj);
+"use strict";
+
+
+// TODO: use call-bind, is-date, is-regex, is-string, is-boolean-object, is-number-object
+function toS(obj) { return Object.prototype.toString.call(obj); }
+function isDate(obj) { return toS(obj) === '[object Date]'; }
+function isRegExp(obj) { return toS(obj) === '[object RegExp]'; }
+function isError(obj) { return toS(obj) === '[object Error]'; }
+function isBoolean(obj) { return toS(obj) === '[object Boolean]'; }
+function isNumber(obj) { return toS(obj) === '[object Number]'; }
+function isString(obj) { return toS(obj) === '[object String]'; }
+
+// TODO: use isarray
+var isArray = Array.isArray || function isArray(xs) {
+	return Object.prototype.toString.call(xs) === '[object Array]';
 };
 
-function Traverse (obj) {
-    this.value = obj;
+// TODO: use for-each?
+function forEach(xs, fn) {
+	if (xs.forEach) { return xs.forEach(fn); }
+	for (var i = 0; i < xs.length; i++) {
+		fn(xs[i], i, xs);
+	}
+	return void undefined;
+}
+
+// TODO: use object-keys
+var objectKeys = Object.keys || function keys(obj) {
+	var res = [];
+	for (var key in obj) { res.push(key); } // eslint-disable-line no-restricted-syntax
+	return res;
+};
+
+// TODO: use object.hasown
+var hasOwnProperty = Object.prototype.hasOwnProperty || function (obj, key) {
+	return key in obj;
+};
+
+function copy(src) {
+	if (typeof src === 'object' && src !== null) {
+		var dst;
+
+		if (isArray(src)) {
+			dst = [];
+		} else if (isDate(src)) {
+			dst = new Date(src.getTime ? src.getTime() : src);
+		} else if (isRegExp(src)) {
+			dst = new RegExp(src);
+		} else if (isError(src)) {
+			dst = { message: src.message };
+		} else if (isBoolean(src) || isNumber(src) || isString(src)) {
+			dst = Object(src);
+		} else if (Object.create && Object.getPrototypeOf) {
+			dst = Object.create(Object.getPrototypeOf(src));
+		} else if (src.constructor === Object) {
+			dst = {};
+		} else {
+			var proto = (src.constructor && src.constructor.prototype)
+                || src.__proto__
+                || {};
+			var T = function T() {}; // eslint-disable-line func-style, func-name-matching
+			T.prototype = proto;
+			dst = new T();
+		}
+
+		forEach(objectKeys(src), function (key) {
+			dst[key] = src[key];
+		});
+		return dst;
+	}
+	return src;
+}
+
+function walk(root, cb, immutable) {
+	var path = [];
+	var parents = [];
+	var alive = true;
+
+	return (function walker(node_) {
+		var node = immutable ? copy(node_) : node_;
+		var modifiers = {};
+
+		var keepGoing = true;
+
+		var state = {
+			node: node,
+			node_: node_,
+			path: [].concat(path),
+			parent: parents[parents.length - 1],
+			parents: parents,
+			key: path[path.length - 1],
+			isRoot: path.length === 0,
+			level: path.length,
+			circular: null,
+			update: function (x, stopHere) {
+				if (!state.isRoot) {
+					state.parent.node[state.key] = x;
+				}
+				state.node = x;
+				if (stopHere) { keepGoing = false; }
+			},
+			delete: function (stopHere) {
+				delete state.parent.node[state.key];
+				if (stopHere) { keepGoing = false; }
+			},
+			remove: function (stopHere) {
+				if (isArray(state.parent.node)) {
+					state.parent.node.splice(state.key, 1);
+				} else {
+					delete state.parent.node[state.key];
+				}
+				if (stopHere) { keepGoing = false; }
+			},
+			keys: null,
+			before: function (f) { modifiers.before = f; },
+			after: function (f) { modifiers.after = f; },
+			pre: function (f) { modifiers.pre = f; },
+			post: function (f) { modifiers.post = f; },
+			stop: function () { alive = false; },
+			block: function () { keepGoing = false; },
+		};
+
+		if (!alive) { return state; }
+
+		function updateState() {
+			if (typeof state.node === 'object' && state.node !== null) {
+				if (!state.keys || state.node_ !== state.node) {
+					state.keys = objectKeys(state.node);
+				}
+
+				state.isLeaf = state.keys.length === 0;
+
+				for (var i = 0; i < parents.length; i++) {
+					if (parents[i].node_ === node_) {
+						state.circular = parents[i];
+						break; // eslint-disable-line no-restricted-syntax
+					}
+				}
+			} else {
+				state.isLeaf = true;
+				state.keys = null;
+			}
+
+			state.notLeaf = !state.isLeaf;
+			state.notRoot = !state.isRoot;
+		}
+
+		updateState();
+
+		// use return values to update if defined
+		var ret = cb.call(state, state.node);
+		if (ret !== undefined && state.update) { state.update(ret); }
+
+		if (modifiers.before) { modifiers.before.call(state, state.node); }
+
+		if (!keepGoing) { return state; }
+
+		if (
+			typeof state.node === 'object'
+			&& state.node !== null
+			&& !state.circular
+		) {
+			parents.push(state);
+
+			updateState();
+
+			forEach(state.keys, function (key, i) {
+				path.push(key);
+
+				if (modifiers.pre) { modifiers.pre.call(state, state.node[key], key); }
+
+				var child = walker(state.node[key]);
+				if (immutable && hasOwnProperty.call(state.node, key)) {
+					state.node[key] = child.node;
+				}
+
+				child.isLast = i === state.keys.length - 1;
+				child.isFirst = i === 0;
+
+				if (modifiers.post) { modifiers.post.call(state, child); }
+
+				path.pop();
+			});
+			parents.pop();
+		}
+
+		if (modifiers.after) { modifiers.after.call(state, state.node); }
+
+		return state;
+	}(root)).node;
+}
+
+function Traverse(obj) {
+	this.value = obj;
 }
 
 Traverse.prototype.get = function (ps) {
-    var node = this.value;
-    for (var i = 0; i < ps.length; i ++) {
-        var key = ps[i];
-        if (!node || !hasOwnProperty.call(node, key)) {
-            node = undefined;
-            break;
-        }
-        node = node[key];
-    }
-    return node;
+	var node = this.value;
+	for (var i = 0; i < ps.length; i++) {
+		var key = ps[i];
+		if (!node || !hasOwnProperty.call(node, key)) {
+			return void undefined;
+		}
+		node = node[key];
+	}
+	return node;
 };
 
 Traverse.prototype.has = function (ps) {
-    var node = this.value;
-    for (var i = 0; i < ps.length; i ++) {
-        var key = ps[i];
-        if (!node || !hasOwnProperty.call(node, key)) {
-            return false;
-        }
-        node = node[key];
-    }
-    return true;
+	var node = this.value;
+	for (var i = 0; i < ps.length; i++) {
+		var key = ps[i];
+		if (!node || !hasOwnProperty.call(node, key)) {
+			return false;
+		}
+		node = node[key];
+	}
+	return true;
 };
 
 Traverse.prototype.set = function (ps, value) {
-    var node = this.value;
-    for (var i = 0; i < ps.length - 1; i ++) {
-        var key = ps[i];
-        if (!hasOwnProperty.call(node, key)) node[key] = {};
-        node = node[key];
-    }
-    node[ps[i]] = value;
-    return value;
+	var node = this.value;
+	for (var i = 0; i < ps.length - 1; i++) {
+		var key = ps[i];
+		if (!hasOwnProperty.call(node, key)) { node[key] = {}; }
+		node = node[key];
+	}
+	node[ps[i]] = value;
+	return value;
 };
 
 Traverse.prototype.map = function (cb) {
-    return walk(this.value, cb, true);
+	return walk(this.value, cb, true);
 };
 
 Traverse.prototype.forEach = function (cb) {
-    this.value = walk(this.value, cb, false);
-    return this.value;
+	this.value = walk(this.value, cb, false);
+	return this.value;
 };
 
 Traverse.prototype.reduce = function (cb, init) {
-    var skip = arguments.length === 1;
-    var acc = skip ? this.value : init;
-    this.forEach(function (x) {
-        if (!this.isRoot || !skip) {
-            acc = cb.call(this, acc, x);
-        }
-    });
-    return acc;
+	var skip = arguments.length === 1;
+	var acc = skip ? this.value : init;
+	this.forEach(function (x) {
+		if (!this.isRoot || !skip) {
+			acc = cb.call(this, acc, x);
+		}
+	});
+	return acc;
 };
 
 Traverse.prototype.paths = function () {
-    var acc = [];
-    this.forEach(function (x) {
-        acc.push(this.path); 
-    });
-    return acc;
+	var acc = [];
+	this.forEach(function () {
+		acc.push(this.path);
+	});
+	return acc;
 };
 
 Traverse.prototype.nodes = function () {
-    var acc = [];
-    this.forEach(function (x) {
-        acc.push(this.node);
-    });
-    return acc;
+	var acc = [];
+	this.forEach(function () {
+		acc.push(this.node);
+	});
+	return acc;
 };
 
 Traverse.prototype.clone = function () {
-    var parents = [], nodes = [];
-    
-    return (function clone (src) {
-        for (var i = 0; i < parents.length; i++) {
-            if (parents[i] === src) {
-                return nodes[i];
-            }
-        }
-        
-        if (typeof src === 'object' && src !== null) {
-            var dst = copy(src);
-            
-            parents.push(src);
-            nodes.push(dst);
-            
-            forEach(objectKeys(src), function (key) {
-                dst[key] = clone(src[key]);
-            });
-            
-            parents.pop();
-            nodes.pop();
-            return dst;
-        }
-        else {
-            return src;
-        }
-    })(this.value);
+	var parents = [];
+	var nodes = [];
+
+	return (function clone(src) {
+		for (var i = 0; i < parents.length; i++) {
+			if (parents[i] === src) {
+				return nodes[i];
+			}
+		}
+
+		if (typeof src === 'object' && src !== null) {
+			var dst = copy(src);
+
+			parents.push(src);
+			nodes.push(dst);
+
+			forEach(objectKeys(src), function (key) {
+				dst[key] = clone(src[key]);
+			});
+
+			parents.pop();
+			nodes.pop();
+			return dst;
+		}
+
+		return src;
+
+	}(this.value));
 };
 
-function walk (root, cb, immutable) {
-    var path = [];
-    var parents = [];
-    var alive = true;
-    
-    return (function walker (node_) {
-        var node = immutable ? copy(node_) : node_;
-        var modifiers = {};
-        
-        var keepGoing = true;
-        
-        var state = {
-            node : node,
-            node_ : node_,
-            path : [].concat(path),
-            parent : parents[parents.length - 1],
-            parents : parents,
-            key : path.slice(-1)[0],
-            isRoot : path.length === 0,
-            level : path.length,
-            circular : null,
-            update : function (x, stopHere) {
-                if (!state.isRoot) {
-                    state.parent.node[state.key] = x;
-                }
-                state.node = x;
-                if (stopHere) keepGoing = false;
-            },
-            'delete' : function (stopHere) {
-                delete state.parent.node[state.key];
-                if (stopHere) keepGoing = false;
-            },
-            remove : function (stopHere) {
-                if (isArray(state.parent.node)) {
-                    state.parent.node.splice(state.key, 1);
-                }
-                else {
-                    delete state.parent.node[state.key];
-                }
-                if (stopHere) keepGoing = false;
-            },
-            keys : null,
-            before : function (f) { modifiers.before = f },
-            after : function (f) { modifiers.after = f },
-            pre : function (f) { modifiers.pre = f },
-            post : function (f) { modifiers.post = f },
-            stop : function () { alive = false },
-            block : function () { keepGoing = false }
-        };
-        
-        if (!alive) return state;
-        
-        function updateState() {
-            if (typeof state.node === 'object' && state.node !== null) {
-                if (!state.keys || state.node_ !== state.node) {
-                    state.keys = objectKeys(state.node)
-                }
-                
-                state.isLeaf = state.keys.length == 0;
-                
-                for (var i = 0; i < parents.length; i++) {
-                    if (parents[i].node_ === node_) {
-                        state.circular = parents[i];
-                        break;
-                    }
-                }
-            }
-            else {
-                state.isLeaf = true;
-                state.keys = null;
-            }
-            
-            state.notLeaf = !state.isLeaf;
-            state.notRoot = !state.isRoot;
-        }
-        
-        updateState();
-        
-        // use return values to update if defined
-        var ret = cb.call(state, state.node);
-        if (ret !== undefined && state.update) state.update(ret);
-        
-        if (modifiers.before) modifiers.before.call(state, state.node);
-        
-        if (!keepGoing) return state;
-        
-        if (typeof state.node == 'object'
-        && state.node !== null && !state.circular) {
-            parents.push(state);
-            
-            updateState();
-            
-            forEach(state.keys, function (key, i) {
-                path.push(key);
-                
-                if (modifiers.pre) modifiers.pre.call(state, state.node[key], key);
-                
-                var child = walker(state.node[key]);
-                if (immutable && hasOwnProperty.call(state.node, key)) {
-                    state.node[key] = child.node;
-                }
-                
-                child.isLast = i == state.keys.length - 1;
-                child.isFirst = i == 0;
-                
-                if (modifiers.post) modifiers.post.call(state, child);
-                
-                path.pop();
-            });
-            parents.pop();
-        }
-        
-        if (modifiers.after) modifiers.after.call(state, state.node);
-        
-        return state;
-    })(root).node;
+function traverse(obj) {
+	return new Traverse(obj);
 }
 
-function copy (src) {
-    if (typeof src === 'object' && src !== null) {
-        var dst;
-        
-        if (isArray(src)) {
-            dst = [];
-        }
-        else if (isDate(src)) {
-            dst = new Date(src.getTime ? src.getTime() : src);
-        }
-        else if (isRegExp(src)) {
-            dst = new RegExp(src);
-        }
-        else if (isError(src)) {
-            dst = { message: src.message };
-        }
-        else if (isBoolean(src)) {
-            dst = new Boolean(src);
-        }
-        else if (isNumber(src)) {
-            dst = new Number(src);
-        }
-        else if (isString(src)) {
-            dst = new String(src);
-        }
-        else if (Object.create && Object.getPrototypeOf) {
-            dst = Object.create(Object.getPrototypeOf(src));
-        }
-        else if (src.constructor === Object) {
-            dst = {};
-        }
-        else {
-            var proto =
-                (src.constructor && src.constructor.prototype)
-                || src.__proto__
-                || {}
-            ;
-            var T = function () {};
-            T.prototype = proto;
-            dst = new T;
-        }
-        
-        forEach(objectKeys(src), function (key) {
-            dst[key] = src[key];
-        });
-        return dst;
-    }
-    else return src;
-}
-
-var objectKeys = Object.keys || function keys (obj) {
-    var res = [];
-    for (var key in obj) res.push(key)
-    return res;
-};
-
-function toS (obj) { return Object.prototype.toString.call(obj) }
-function isDate (obj) { return toS(obj) === '[object Date]' }
-function isRegExp (obj) { return toS(obj) === '[object RegExp]' }
-function isError (obj) { return toS(obj) === '[object Error]' }
-function isBoolean (obj) { return toS(obj) === '[object Boolean]' }
-function isNumber (obj) { return toS(obj) === '[object Number]' }
-function isString (obj) { return toS(obj) === '[object String]' }
-
-var isArray = Array.isArray || function isArray (xs) {
-    return Object.prototype.toString.call(xs) === '[object Array]';
-};
-
-var forEach = function (xs, fn) {
-    if (xs.forEach) return xs.forEach(fn)
-    else for (var i = 0; i < xs.length; i++) {
-        fn(xs[i], i, xs);
-    }
-};
-
+// TODO: replace with object.assign?
 forEach(objectKeys(Traverse.prototype), function (key) {
-    traverse[key] = function (obj) {
-        var args = [].slice.call(arguments, 1);
-        var t = new Traverse(obj);
-        return t[key].apply(t, args);
-    };
+	traverse[key] = function (obj) {
+		var args = [].slice.call(arguments, 1);
+		var t = new Traverse(obj);
+		return t[key].apply(t, args);
+	};
 });
 
-var hasOwnProperty = Object.hasOwnProperty || function (obj, key) {
-    return key in obj;
-};
+module.exports = traverse;
 
 
 /***/ }),
@@ -11112,7 +11110,8 @@ function SpacingInputControl(_ref) {
     className: "components-spacing-sizes-control__custom-value-input",
     style: {
       gridColumn: '1'
-    }
+    },
+    size: '__unstable-large'
   }), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.RangeControl, {
     value: customRangeValue,
     min: 0,
@@ -11153,7 +11152,8 @@ function SpacingInputControl(_ref) {
     options: options,
     label: ariaLabel,
     hideLabelFromVision: true,
-    __nextUnconstrainedWidth: true
+    __nextUnconstrainedWidth: true,
+    size: '__unstable-large'
   }));
 }
 
@@ -33533,7 +33533,8 @@ function useNestedSettingsUpdate(clientId, allowedBlocks, __experimentalDefaultB
 
 function useInnerBlockTemplateSync(clientId, template, templateLock, templateInsertUpdatesSelection) {
   const {
-    getSelectedBlocksInitialCaretPosition
+    getSelectedBlocksInitialCaretPosition,
+    isBlockSelected
   } = (0,external_wp_data_namespaceObject.useSelect)(store);
   const {
     replaceInnerBlocks
@@ -33564,7 +33565,7 @@ function useInnerBlockTemplateSync(clientId, template, templateLock, templateIns
       const nextBlocks = (0,external_wp_blocks_namespaceObject.synchronizeBlocksWithTemplate)(currentInnerBlocks, template);
 
       if (!(0,external_lodash_namespaceObject.isEqual)(nextBlocks, currentInnerBlocks)) {
-        replaceInnerBlocks(clientId, nextBlocks, currentInnerBlocks.length === 0 && templateInsertUpdatesSelection && nextBlocks.length !== 0, // This ensures the "initialPosition" doesn't change when applying the template
+        replaceInnerBlocks(clientId, nextBlocks, currentInnerBlocks.length === 0 && templateInsertUpdatesSelection && nextBlocks.length !== 0 && isBlockSelected(clientId), // This ensures the "initialPosition" doesn't change when applying the template
         // If we're supposed to focus the block, we'll focus the first inner block
         // otherwise, we won't apply any auto-focus.
         // This ensures for instance that the focus stays in the inserter when inserting the "buttons" block.
@@ -44660,6 +44661,9 @@ function (_super) {
       x: 0,
       y: 0
     };
+    _this.gestureZoomStart = 0;
+    _this.gestureRotationStart = 0;
+    _this.isTouching = false;
     _this.lastPinchDistance = 0;
     _this.lastPinchRotation = 0;
     _this.rafDragTimeout = null;
@@ -44684,6 +44688,10 @@ function (_super) {
       _this.currentDoc.removeEventListener('touchmove', _this.onTouchMove);
 
       _this.currentDoc.removeEventListener('touchend', _this.onDragStopped);
+
+      _this.currentDoc.removeEventListener('gesturemove', _this.onGestureMove);
+
+      _this.currentDoc.removeEventListener('gestureend', _this.onGestureEnd);
     };
 
     _this.clearScrollEvent = function () {
@@ -44835,6 +44843,8 @@ function (_super) {
     };
 
     _this.onTouchStart = function (e) {
+      _this.isTouching = true;
+
       if (_this.props.onTouchRequest && !_this.props.onTouchRequest(e)) {
         return;
       }
@@ -44862,6 +44872,43 @@ function (_super) {
       } else if (e.touches.length === 1) {
         _this.onDrag(Cropper.getTouchPoint(e.touches[0]));
       }
+    };
+
+    _this.onGestureStart = function (e) {
+      e.preventDefault();
+
+      _this.currentDoc.addEventListener('gesturechange', _this.onGestureMove);
+
+      _this.currentDoc.addEventListener('gestureend', _this.onGestureEnd);
+
+      _this.gestureZoomStart = _this.props.zoom;
+      _this.gestureRotationStart = _this.props.rotation;
+    };
+
+    _this.onGestureMove = function (e) {
+      e.preventDefault();
+
+      if (_this.isTouching) {
+        // this is to avoid conflict between gesture and touch events
+        return;
+      }
+
+      var point = Cropper.getMousePoint(e);
+      var newZoom = _this.gestureZoomStart - 1 + e.scale;
+
+      _this.setNewZoom(newZoom, point, {
+        shouldUpdatePosition: true
+      });
+
+      if (_this.props.onRotationChange) {
+        var newRotation = _this.gestureRotationStart + e.rotation;
+
+        _this.props.onRotationChange(newRotation);
+      }
+    };
+
+    _this.onGestureEnd = function (e) {
+      _this.cleanEvents();
     };
 
     _this.onDragStart = function (_a) {
@@ -44898,6 +44945,8 @@ function (_super) {
 
     _this.onDragStopped = function () {
       var _a, _b;
+
+      _this.isTouching = false;
 
       _this.cleanEvents();
 
@@ -44975,18 +45024,17 @@ function (_super) {
       var _b = (_a === void 0 ? {} : _a).shouldUpdatePosition,
           shouldUpdatePosition = _b === void 0 ? true : _b;
       if (!_this.state.cropSize || !_this.props.onZoomChange) return;
-
-      var zoomPoint = _this.getPointOnContainer(point);
-
-      var zoomTarget = _this.getPointOnMedia(zoomPoint);
-
       var newZoom = clamp(zoom, _this.props.minZoom, _this.props.maxZoom);
-      var requestedPosition = {
-        x: zoomTarget.x * newZoom - zoomPoint.x,
-        y: zoomTarget.y * newZoom - zoomPoint.y
-      };
 
       if (shouldUpdatePosition) {
+        var zoomPoint = _this.getPointOnContainer(point);
+
+        var zoomTarget = _this.getPointOnMedia(zoomPoint);
+
+        var requestedPosition = {
+          x: zoomTarget.x * newZoom - zoomPoint.x,
+          y: zoomTarget.y * newZoom - zoomPoint.y
+        };
         var newPosition = _this.props.restrictPosition ? restrictPosition(requestedPosition, _this.mediaSize, _this.state.cropSize, newZoom, _this.props.rotation) : requestedPosition;
 
         _this.props.onCropChange(newPosition);
@@ -45059,8 +45107,7 @@ function (_super) {
       this.props.zoomWithScroll && this.containerRef.addEventListener('wheel', this.onWheel, {
         passive: false
       });
-      this.containerRef.addEventListener('gesturestart', this.preventZoomSafari);
-      this.containerRef.addEventListener('gesturechange', this.preventZoomSafari);
+      this.containerRef.addEventListener('gesturestart', this.onGestureStart);
     }
 
     if (!this.props.disableAutomaticStylesInjection) {
@@ -45097,7 +45144,6 @@ function (_super) {
 
     if (this.containerRef) {
       this.containerRef.removeEventListener('gesturestart', this.preventZoomSafari);
-      this.containerRef.removeEventListener('gesturechange', this.preventZoomSafari);
     }
 
     if (this.styleRef) {
@@ -51945,7 +51991,8 @@ const BlockInspector = _ref5 => {
       getSelectedBlockClientId,
       getSelectedBlockCount,
       getBlockName,
-      __unstableGetContentLockingParent
+      __unstableGetContentLockingParent,
+      getTemplateLock
     } = select(store);
 
     const _selectedBlockClientId = getSelectedBlockClientId();
@@ -51959,7 +52006,7 @@ const BlockInspector = _ref5 => {
       selectedBlockClientId: _selectedBlockClientId,
       selectedBlockName: _selectedBlockName,
       blockType: _blockType,
-      topLevelLockedBlock: __unstableGetContentLockingParent(_selectedBlockClientId)
+      topLevelLockedBlock: __unstableGetContentLockingParent(_selectedBlockClientId) || (getTemplateLock(_selectedBlockClientId) === 'contentOnly' ? _selectedBlockClientId : undefined)
     };
   }, []);
 

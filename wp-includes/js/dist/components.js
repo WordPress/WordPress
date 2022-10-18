@@ -55246,7 +55246,7 @@ function FontSizePicker(_ref2, ref) {
     } // Calculate the `hint` for toggle group control.
 
 
-    let hint = selectedOption.name;
+    let hint = (selectedOption === null || selectedOption === void 0 ? void 0 : selectedOption.name) || selectedOption.slug;
 
     if (!fontSizesContainComplexValues && typeof selectedOption.size === 'string') {
       const [, unit] = splitValueAndUnitFromSize(selectedOption.size);
@@ -58120,13 +58120,15 @@ function NavigatorProvider(props, forwardedRef) {
     let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     setLocationHistory([...locationHistory, { ...options,
       path,
-      isBack: false
+      isBack: false,
+      hasRestoredFocus: false
     }]);
   }, [locationHistory]);
   const goBack = (0,external_wp_element_namespaceObject.useCallback)(() => {
     if (locationHistory.length > 1) {
       setLocationHistory([...locationHistory.slice(0, -2), { ...locationHistory[locationHistory.length - 2],
-        isBack: true
+        isBack: true,
+        hasRestoredFocus: false
       }]);
     }
   }, [locationHistory]);
@@ -58251,7 +58253,8 @@ function NavigatorScreen(props, forwardedRef) {
     // - if the current location is not the initial one (to avoid moving focus on page load)
     // - when the screen becomes visible
     // - if the wrapper ref has been assigned
-    if (isInitialLocation || !isMatch || !wrapperRef.current) {
+    // - if focus hasn't already been restored for the current location
+    if (isInitialLocation || !isMatch || !wrapperRef.current || location.hasRestoredFocus) {
       return;
     }
 
@@ -58269,8 +58272,9 @@ function NavigatorScreen(props, forwardedRef) {
       elementToFocus = firstTabbable !== null && firstTabbable !== void 0 ? firstTabbable : wrapperRef.current;
     }
 
+    location.hasRestoredFocus = true;
     elementToFocus.focus();
-  }, [isInitialLocation, isMatch, location.isBack, previousLocation === null || previousLocation === void 0 ? void 0 : previousLocation.focusTargetSelector]);
+  }, [isInitialLocation, isMatch, location.hasRestoredFocus, location.isBack, previousLocation === null || previousLocation === void 0 ? void 0 : previousLocation.focusTargetSelector]);
   const mergedWrapperRef = (0,external_wp_compose_namespaceObject.useMergeRefs)([forwardedRef, wrapperRef]);
 
   if (!isMatch) {

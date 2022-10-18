@@ -25772,11 +25772,14 @@ function useOutdentListItem(clientId) {
     canOutdent
   } = (0,external_wp_data_namespaceObject.useSelect)(innerSelect => {
     const {
-      getBlockRootClientId
+      getBlockRootClientId,
+      getBlockName
     } = innerSelect(external_wp_blockEditor_namespaceObject.store);
     const grandParentId = getBlockRootClientId(getBlockRootClientId(clientId));
+    const grandParentName = getBlockName(grandParentId);
+    const isListItem = grandParentName === listItemName;
     return {
-      canOutdent: !!grandParentId
+      canOutdent: isListItem
     };
   }, [clientId]);
   const {

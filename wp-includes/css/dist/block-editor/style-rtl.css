@@ -1068,6 +1068,7 @@
 .block-editor-block-patterns-list__list-item {
   cursor: pointer;
   margin-bottom: 24px;
+  position: relative;
 }
 .block-editor-block-patterns-list__list-item.is-placeholder {
   min-height: 100px;
@@ -1712,10 +1713,10 @@
   color: #000;
 }
 
-.is-layout-constrained.block-editor-block-list__block:not(.is-selected) > .block-list-appender:only-child, .is-layout-flow.block-editor-block-list__block:not(.is-selected) > .block-list-appender:only-child, .is-layout-constrained.block-editor-block-list__block:not(.is-selected) > .block-editor-block-list__layout > .block-list-appender:only-child, .is-layout-flow.block-editor-block-list__block:not(.is-selected) > .block-editor-block-list__layout > .block-list-appender:only-child {
+.is-layout-constrained.block-editor-block-list__block:not(.is-selected) > .block-list-appender:only-child, .is-layout-flow.block-editor-block-list__block:not(.is-selected) > .block-list-appender:only-child, .is-layout-constrained.block-editor-block-list__block:not(.is-selected) > .wp-block-group__inner-container > .block-list-appender:only-child, .is-layout-flow.block-editor-block-list__block:not(.is-selected) > .wp-block-group__inner-container > .block-list-appender:only-child {
   pointer-events: none;
 }
-.is-layout-constrained.block-editor-block-list__block:not(.is-selected) > .block-list-appender:only-child::after, .is-layout-flow.block-editor-block-list__block:not(.is-selected) > .block-list-appender:only-child::after, .is-layout-constrained.block-editor-block-list__block:not(.is-selected) > .block-editor-block-list__layout > .block-list-appender:only-child::after, .is-layout-flow.block-editor-block-list__block:not(.is-selected) > .block-editor-block-list__layout > .block-list-appender:only-child::after {
+.is-layout-constrained.block-editor-block-list__block:not(.is-selected) > .block-list-appender:only-child::after, .is-layout-flow.block-editor-block-list__block:not(.is-selected) > .block-list-appender:only-child::after, .is-layout-constrained.block-editor-block-list__block:not(.is-selected) > .wp-block-group__inner-container > .block-list-appender:only-child::after, .is-layout-flow.block-editor-block-list__block:not(.is-selected) > .wp-block-group__inner-container > .block-list-appender:only-child::after {
   content: "";
   position: absolute;
   top: 0;
@@ -1726,7 +1727,7 @@
   border: 1px dashed currentColor;
   border-radius: 2px;
 }
-.is-layout-constrained.block-editor-block-list__block:not(.is-selected) > .block-list-appender:only-child .block-editor-inserter, .is-layout-flow.block-editor-block-list__block:not(.is-selected) > .block-list-appender:only-child .block-editor-inserter, .is-layout-constrained.block-editor-block-list__block:not(.is-selected) > .block-editor-block-list__layout > .block-list-appender:only-child .block-editor-inserter, .is-layout-flow.block-editor-block-list__block:not(.is-selected) > .block-editor-block-list__layout > .block-list-appender:only-child .block-editor-inserter {
+.is-layout-constrained.block-editor-block-list__block:not(.is-selected) > .block-list-appender:only-child .block-editor-inserter, .is-layout-flow.block-editor-block-list__block:not(.is-selected) > .block-list-appender:only-child .block-editor-inserter, .is-layout-constrained.block-editor-block-list__block:not(.is-selected) > .wp-block-group__inner-container > .block-list-appender:only-child .block-editor-inserter, .is-layout-flow.block-editor-block-list__block:not(.is-selected) > .wp-block-group__inner-container > .block-list-appender:only-child .block-editor-inserter {
   visibility: hidden;
 }
 
@@ -4273,7 +4274,7 @@ figcaption.block-editor-rich-text__editable [data-rich-text-placeholder]::before
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
-  grid-template-rows: 25px auto;
+  grid-template-rows: 16px auto;
 }
 
 .component-spacing-sizes-control {
@@ -4296,15 +4297,16 @@ figcaption.block-editor-rich-text__editable [data-rich-text-placeholder]::before
   grid-column: 1/1;
   justify-content: left;
   height: 16px;
-  margin-top: 12px;
+  margin-top: 16px;
 }
 .component-spacing-sizes-control .components-spacing-sizes-control__side-label {
   grid-column: 1/1;
   justify-self: left;
   margin-bottom: 0;
 }
-.component-spacing-sizes-control.is-unlinked .components-range-control.components-spacing-sizes-control__range-control {
-  margin-top: 12px;
+.component-spacing-sizes-control.is-unlinked .components-range-control.components-spacing-sizes-control__range-control,
+.component-spacing-sizes-control.is-unlinked .components-spacing-sizes-control__custom-value-input {
+  margin-top: 8px;
 }
 .component-spacing-sizes-control .components-spacing-sizes-control__hint-single,
 .component-spacing-sizes-control .components-spacing-sizes-control__hint-all {
@@ -4322,12 +4324,7 @@ figcaption.block-editor-rich-text__editable [data-rich-text-placeholder]::before
   grid-column: 2/2;
   grid-row: 1/1;
   justify-self: end;
-  padding: 0;
-}
-.component-spacing-sizes-control .components-spacing-sizes-control__custom-toggle-all.is-small.has-icon {
-  padding: 0;
-  min-width: 24px;
-  height: 16px;
+  margin-top: -4px;
 }
 .component-spacing-sizes-control .component-spacing-sizes-control__linked-button ~ .components-spacing-sizes-control__custom-toggle-all {
   margin-left: 4px;
@@ -4335,29 +4332,37 @@ figcaption.block-editor-rich-text__editable [data-rich-text-placeholder]::before
 .component-spacing-sizes-control .components-spacing-sizes-control__custom-toggle-single {
   grid-column: 3/3;
   justify-self: end;
-}
-.component-spacing-sizes-control .components-spacing-sizes-control__custom-toggle-single.is-small.has-icon {
-  padding: 0;
-  min-width: 24px;
-  height: 16px;
   margin-top: 12px;
 }
 .component-spacing-sizes-control .component-spacing-sizes-control__linked-button {
   grid-column: 3/3;
   grid-row: 1/1;
   justify-self: end;
+  line-height: 0;
+  margin-top: -4px;
 }
 .component-spacing-sizes-control .components-spacing-sizes-control__custom-value-range {
   grid-column: span 2;
-  margin-right: 8px;
-  height: 30px;
+  margin-right: 16px;
+  margin-top: 8px;
 }
 .component-spacing-sizes-control .components-spacing-sizes-control__custom-value-input {
   width: 124px;
+  margin-top: 8px;
+}
+.component-spacing-sizes-control .components-range-control {
+  height: 40px;
+  /* Vertically center the RangeControl until it has true 40px height. */
+  display: flex;
+  align-items: center;
+}
+.component-spacing-sizes-control .components-range-control > .components-base-control__field {
+  /* Fixes RangeControl contents when the outer wrapper is flex */
+  flex: 1;
 }
 .component-spacing-sizes-control .components-spacing-sizes-control__range-control {
   grid-column: span 3;
-  height: 40px;
+  margin-top: 8px;
 }
 .component-spacing-sizes-control .components-range-control__mark {
   height: 4px;
@@ -4376,6 +4381,7 @@ figcaption.block-editor-rich-text__editable [data-rich-text-placeholder]::before
 }
 .component-spacing-sizes-control .components-spacing-sizes-control__custom-select-control {
   grid-column: span 3;
+  margin-top: 8px;
 }
 
 body.admin-color-light {
