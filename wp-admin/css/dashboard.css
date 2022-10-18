@@ -120,7 +120,7 @@
 	position: relative;
 	overflow: auto;
 	margin: 16px 0;
-	background-color: #e7ebfd;
+	background-color: #273fcc;
 	font-size: 14px;
 	line-height: 1.3;
 	clear: both;
@@ -146,29 +146,35 @@
 }
 
 .welcome-panel-header {
-	--about-header-image-width: 521px;
-	--about-header-bg-width: calc(var(--about-header-image-width) * 0.55);
-	--about-header-bg-offset-inline: 2rem;
+	--about-header-bg-width: 780px;
 
 	position: relative;
+	color: #fff;
 }
 
 .welcome-panel-header-image {
-	position: absolute;
-	top: -1rem;
-	right: var(--about-header-bg-offset-inline);
+	position: absolute !important;
+	top: 0;
+	right: 0;
 	bottom: 0;
-	width: var(--about-header-bg-width);
-	height: auto;
+	left: 0;
+	z-index: 0 !important;
+	overflow: hidden;
 }
 
 .welcome-panel-header-image svg {
-	width: 100%;
+	display: block;
+	margin: auto;
+	width: var(--about-header-bg-width);
 	height: auto;
+	transform: scale(0.75);
+	transform-origin: center top;
 }
 
-.welcome-panel-header a {
+.welcome-panel-header * {
 	color: inherit;
+	position: relative;
+	z-index: 1;
 }
 
 .welcome-panel-header a:focus,
@@ -208,18 +214,18 @@
 	transition: all .1s ease-in-out;
 	content: '\f335';
 	font-size: 24px;
-	color: #1d2327;
+	color: #fff;
 }
 
 .welcome-panel .welcome-panel-close {
-	color: #1d2327;
+	color: #fff;
 }
 
 .welcome-panel .welcome-panel-close:hover,
 .welcome-panel .welcome-panel-close:focus,
 .welcome-panel .welcome-panel-close:hover::before,
 .welcome-panel .welcome-panel-close:focus::before {
-	color: #2271b1;
+	color: #fff972;
 }
 
 /* @deprecated 5.9.0 -- Button removed from panel. */
@@ -245,7 +251,6 @@
 	max-width: 1500px;
 	width: 100%;
 	padding: 48px 0 80px 48px;
-	padding-right: calc(var(--about-header-bg-width) + (var(--about-header-bg-offset-inline) * 2));
 }
 
 .welcome-panel .welcome-panel-column-container {
@@ -264,11 +269,14 @@
 [class*="welcome-panel-icon"] {
 	height: 60px;
 	width: 60px;
-	background-color: #1d2327;
 	background-position: center;
 	background-size: 24px 24px;
 	background-repeat: no-repeat;
 	border-radius: 100%;
+}
+
+.welcome-panel-column > svg {
+	margin-top: 4px;
 }
 
 .welcome-panel-column {
@@ -1352,21 +1360,13 @@ a.rsswidget {
 		grid-template-columns: 1fr;
 	}
 
-	[class*="welcome-panel-icon"] {
+	[class*="welcome-panel-icon"],
+	.welcome-panel-column > svg {
 		display: none;
 	}
 }
 
 @media screen and (max-width: 782px) {
-	.welcome-panel-header {
-		--about-header-bg-width: calc(var(--about-header-image-width) * 0.4);
-		--about-header-bg-offset-inline: 1rem;
-	}
-
-	.welcome-panel-header-image {
-		top: 2rem;
-	}
-
 	.welcome-panel .welcome-panel-column-container {
 		grid-template-columns: 1fr;
 		box-sizing: border-box;
@@ -1457,7 +1457,8 @@ a.rsswidget {
 		grid-template-columns: 1fr;
 	}
 
-	[class*="welcome-panel-icon"] {
+	[class*="welcome-panel-icon"],
+	.welcome-panel-column > svg {
 		display: none;
 	}
 }
