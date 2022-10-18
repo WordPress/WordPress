@@ -29,7 +29,7 @@
 	--text-light: #fff;
 
 	/* Accent colors: used in header, on special classes. */
-	--accent-1: #3858e9; /* Link color */
+	--accent-1: #3858e9; /* Link color, credit image overlay */
 	--accent-2: #fffcb5; /* Accent background */
 
 	/* Navigation colors. */
@@ -133,7 +133,7 @@
 /* 1.1 - Layout */
 
 .about__section {
-	margin: 0 0 var(--gap);
+	margin: 0;
 }
 
 .about__section .column:not(.is-edge-to-edge) {
@@ -205,7 +205,7 @@
 
 .about__section.has-gutters {
 	gap: var(--gap);
-	margin-bottom: calc(var(--gap) * 2);
+	margin-bottom: var(--gap);
 }
 
 .about__section.has-2-columns {
@@ -602,46 +602,41 @@
 /* 1.3 - Header */
 
 .about__header {
-	--about-header-image-width: 521px;
-	--about-header-image-height: 504px;
+	--about-header-image-width: 780px;
+	--about-header-image-height: 550px;
 	--about-header-bg-width: var(--about-header-image-width);
 	--about-header-bg-height: var(--about-header-image-height);
-	--about-header-bg-offset-inline: calc(var(--gap) * -2);
+	--about-header-bg-offset-block: 0;
 
 	position: relative;
 	margin-bottom: var(--gap);
 	padding-top: 0;
 	color: var(--text-light);
-	background: var(--background) no-repeat;
+	background: var(--background) url('../images/about-header-about.svg?ver=6.1') no-repeat;
 	background-size: var(--about-header-bg-width) var(--about-header-bg-height);
-	background-position: left var(--about-header-bg-offset-inline) center;
+	background-position: center top var(--about-header-bg-offset-block);
 }
 
 .credits-php .about__header {
-	--about-header-image-width: 477px;
-	--about-header-image-height: 470px;
-	--about-header-bg-offset-inline: calc(var(--gap) * -4);
+	--about-header-image-width: 863px;
+	--about-header-image-height: 550px;
 
-	background-image: url('../images/about-header-credits.svg?ver=6.0');
-	background-position: left var(--about-header-bg-offset-inline) top var(--gap);
+	background-image: url('../images/about-header-credits.svg?ver=6.1');
 }
 
 .freedoms-php .about__header {
-	--about-header-image-width: 411px;
-	--about-header-image-height: 498px;
-	--about-header-bg-offset-inline: var(--gap);
+	--about-header-image-width: 782px;
+	--about-header-image-height: 510px;
 
-	background-image: url('../images/about-header-freedoms.svg?ver=6.0');
-	background-position: left var(--about-header-bg-offset-inline) top calc(var(--gap) * 4);
+	background-image: url('../images/about-header-freedoms.svg?ver=6.1');
 }
 
 .privacy-php .about__header {
-	--about-header-image-width: 277px;
-	--about-header-image-height: 361px;
-	--about-header-bg-offset-inline: var(--gap);
+	--about-header-image-width: 1005px;
+	--about-header-image-height: 500px;
+	--about-header-bg-offset-block: calc(var(--gap) * -2);
 
-	background-image: url('../images/about-header-privacy.svg?ver=6.0');
-	background-position: left var(--about-header-bg-offset-inline) top var(--gap);
+	background-image: url('../images/about-header-privacy.svg?ver=6.1');
 }
 
 .about__header-image {
@@ -650,48 +645,39 @@
 
 .about__header-title {
 	box-sizing: border-box;
-	margin: 0 var(--gap) 0 0;
-	padding: 8rem 0 0;
-	padding-left: calc(var(--about-header-bg-width) + var(--about-header-bg-offset-inline) + var(--gap));
-}
-
-.about-php .about__header-title {
-	padding-left: 0;
-}
-
-.credits-php .about__header-title,
-.privacy-php .about__header-title {
-	padding-top: 6rem;
-}
-
-.freedoms-php .about__header-title {
-	padding-top: 3rem;
+	margin: 0 var(--gap);
+	padding: 9rem 0 0;
+	text-align: center;
 }
 
 .about__header-title h1 {
 	margin: 0 0 1rem;
 	padding: 0;
-	font-size: clamp(3rem, 18.46vw - 8.08rem, 6rem);
+	/* Fluid font size scales on browser size 960px - 1200px. */
+	font-size: clamp(3rem, 20vw - 9rem, 6rem);
 	line-height: 1;
 	font-weight: 400;
 }
 
+.credits-php .about__header-title h1,
+.privacy-php .about__header-title h1,
+.freedoms-php .about__header-title h1 {
+	/* Fluid font size scales on browser size 960px - 1200px. */
+	font-size: clamp(3rem, 10vw - 3rem, 4.5rem);
+}
+
 .about__header-text {
 	box-sizing: border-box;
-	margin: 0 0 9rem;
-	padding: 0 2rem 0 0;
-	padding-left: calc(var(--about-header-bg-width) + var(--about-header-bg-offset-inline) + var(--gap));
+	max-width: 22em;
+	margin: 0 auto 10rem;
+	padding: 0;
 	font-size: 1.6rem;
 	line-height: 1.15;
+	text-align: center;
 }
 
-.credits-php .about__header-text,
-.privacy-php .about__header-text {
-	margin-bottom: 7rem;
-}
-
-.freedoms-php .about__header-text {
-	margin-bottom: 6rem;
+.credits-php .about__header-text {
+	margin-bottom: 9rem;
 }
 
 .about__header-navigation {
@@ -740,13 +726,24 @@
 
 @media screen and (max-width: 960px) {
 	.about__header {
-		--about-header-bg-width: calc(var(--about-header-image-width) * 0.7);
-		--about-header-bg-height: calc(var(--about-header-image-height) * 0.7);
-		--about-header-bg-offset-inline: calc(var(--gap) * -1);
+		--about-header-bg-width: calc(var(--about-header-image-width) * 0.85);
+		--about-header-bg-height: calc(var(--about-header-image-height) * 0.85);
+	}
+
+	.privacy-php .about__header {
+		--about-header-bg-offset-block: 0;
 	}
 
 	.about__header-title h1 {
-		font-size: clamp(3rem, 18.46vw - 5.08rem, 6rem);
+		/* Fluid font size scales on browser size 600px - 960px. */
+		font-size: clamp(3rem, 13.33vw - 2rem, 6rem);
+	}
+
+	.credits-php .about__header-title h1,
+	.privacy-php .about__header-title h1,
+	.freedoms-php .about__header-title h1 {
+		/* Fluid font size scales on browser size 600px - 960px. */
+		font-size: clamp(3rem, 6.67vw - 0.5rem, 4.5rem);
 	}
 }
 
@@ -767,8 +764,6 @@
 
 	.about__header-text {
 		margin-top: 0;
-		margin-left: 0;
-		padding-right: calc(var(--gap) / 2);
 	}
 
 	.about__header-navigation .nav-tab {
@@ -780,6 +775,13 @@
 }
 
 @media screen and (max-width: 600px) {
+	.about__header {
+		--about-header-bg-width: calc(var(--about-header-image-width) * 0.75);
+		--about-header-bg-height: calc(var(--about-header-image-height) * 0.75);
+	}
+}
+
+@media screen and (max-width: 480px) {
 	.about__header,
 	.credits-php .about__header,
 	.privacy-php .about__header,
@@ -787,17 +789,6 @@
 		background-image: none;
 	}
 
-	.about__header-title,
-	.about__header-text {
-		padding-left: calc(var(--gap) / 2) !important;
-	}
-
-	.about__header-title h1 {
-		font-size: clamp(2rem, 11.43vw - 0.29rem, 4rem);
-	}
-}
-
-@media screen and (max-width: 480px) {
 	.about__header-title p {
 		font-size: 2.4em;
 	}
@@ -806,7 +797,10 @@
 		padding-top: 2rem;
 	}
 
-	.about__header-text {
+	.about__header-text,
+	.credits-php .about__header-text {
+		margin-right: calc(var(--gap) / 2);
+		margin-left: calc(var(--gap) / 2);
 		margin-bottom: 2rem;
 	}
 

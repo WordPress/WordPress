@@ -54,14 +54,16 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					?>
 				</h2>
 				<p class="is-subheading">
-					<?php _e( 'WordPress 6.1 includes more than 2,000 updates. This page highlights some of the most significant changes to the product since the May 2022 release of WordPress 6.0. You will also find resources for developers and anyone seeking a deeper understanding of WordPress.' ); ?>
+					<?php _e( 'This page highlights some of the most significant changes to the product since the May 2022 release of WordPress 6.0. You will also find resources for developers and anyone seeking a deeper understanding of WordPress.' ); ?>
 				</p>
 			</div>
 		</div>
 
 		<div class="about__section has-2-columns">
-			<div class="column about__image is-edge-to-edge" style="background-color:#353535;">
-				<img src="data:image/svg+xml,%3Csvg width='436' height='436' viewbox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50%25' cy='50%25' r='30%25' fill='%23E26F56' /%3E%3C/svg%3E" alt="" />
+			<div class="column">
+				<div class="about__image" style="background-color:#353535;">
+					<img src="https://make.wordpress.org/core/files/2022/10/about-61-style-variations.webp" alt="" />
+				</div>
 			</div>
 			<div class="column is-vertically-aligned-center">
 				<h3><?php _e( 'A new default theme powered by 10 distinct style variations' ); ?></h3>
@@ -92,14 +94,18 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					?>
 				</p>
 			</div>
-			<div class="column about__image is-edge-to-edge has-subtle-background-color">
-				<img src="data:image/svg+xml,%3Csvg width='436' height='436' viewbox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50%25' cy='50%25' r='30%25' fill='%23E26F56' /%3E%3C/svg%3E" alt="" />
+			<div class="column">
+				<div class="about__image has-subtle-background-color">
+					<img src="https://make.wordpress.org/core/files/2022/10/about-61-templates.webp" alt="" />
+				</div>
 			</div>
 		</div>
 
 		<div class="about__section has-2-columns">
-			<div class="column about__image is-edge-to-edge has-subtle-background-color">
-				<img src="data:image/svg+xml,%3Csvg width='436' height='436' viewbox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50%25' cy='50%25' r='30%25' fill='%23E26F56' /%3E%3C/svg%3E" alt="" />
+			<div class="column">
+				<div class="about__image has-subtle-background-color">
+					<img src="https://make.wordpress.org/core/files/2022/10/about-61-design-tools.webp" alt="" />
+				</div>
 			</div>
 			<div class="column is-vertically-aligned-center">
 				<h3><?php _e( 'More consistency and control across design tools' ); ?></h3>
@@ -108,7 +114,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					printf(
 						/* translators: %s: Link to layout support refactor dev note. */
 						__( 'Upgrades to the <a href="%s">controls for design elements and blocks</a> make the layout and site-building process more consistent, complete, and intuitive.' ),
-						'https://make.wordpress.org/core/2022/10/10/updated-editor-layout-support-in-6-1-after-refactor/'
+						'https://make.wordpress.org/core/2022/10/11/roster-of-design-tools-per-block/'
 					);
 					?>
 				</p>
@@ -128,22 +134,24 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					?>
 				</p>
 			</div>
-			<div class="column about__image is-edge-to-edge has-subtle-background-color">
-				<img src="data:image/svg+xml,%3Csvg width='436' height='436' viewbox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50%25' cy='50%25' r='30%25' fill='%23E26F56' /%3E%3C/svg%3E" alt="" />
+			<div class="column">
+				<div class="about__image has-subtle-background-color">
+					<img src="https://make.wordpress.org/core/files/2022/10/about-61-navigation.webp" alt="" />
+				</div>
 			</div>
 		</div>
 
 		<div class="about__section has-2-columns">
 			<div class="column">
 				<div class="about__image has-accent-background-color">
-					<img src="data:image/svg+xml,%3Csvg width='436' height='436' viewbox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50%25' cy='50%25' r='30%25' fill='%23E26F56' /%3E%3C/svg%3E" alt="" />
+					<img src="https://make.wordpress.org/core/files/2022/10/about-61-document-settings.webp" alt="" />
 				</div>
 				<h3><?php _e( 'Improved layout and visualization of document settings' ); ?></h3>
 				<p><?php _e( 'A cleaner, better-organized display helps you easily view and manage important post and page settings, especially the template picker and scheduler.' ); ?></p>
 			</div>
 			<div class="column">
 				<div class="about__image has-accent-background-color">
-					<img src="data:image/svg+xml,%3Csvg width='436' height='436' viewbox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50%25' cy='50%25' r='30%25' fill='%23E26F56' /%3E%3C/svg%3E" alt="" />
+					<img src="https://make.wordpress.org/core/files/2022/10/about-61-lock.webp" alt="" />
 				</div>
 				<h3><?php _e( 'One-click lock settings for all inner blocks' ); ?></h3>
 				<p><?php _e( 'When locking blocks, a new toggle lets you apply your lock settings to all the blocks in a containing block like the group, cover, and column blocks.' ); ?></p>
@@ -153,32 +161,32 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 		<div class="about__section has-3-columns">
 			<div class="column">
 				<div class="column about__image is-edge-to-edge has-accent-background-color">
-					<img src="data:image/svg+xml,%3Csvg width='436' height='436' viewbox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50%25' cy='50%25' r='30%25' fill='%23E26F56' /%3E%3C/svg%3E" alt="" />
+					<img src="https://make.wordpress.org/core/files/2022/10/about-61-sub-feature-1.webp" alt="" />
 				</div>
 				<h3 class="is-smaller-heading"><?php _e( 'Improved block placeholders' ); ?></h3>
 				<p><?php _e( 'Various blocks have improved placeholders that reflect customization options to help you design your site and its content. For example, the Image block placeholder displays custom borders and duotone filters even before selecting an image.' ); ?></p>
 			</div>
 			<div class="column">
 				<div class="column about__image is-edge-to-edge has-accent-background-color">
-					<img src="data:image/svg+xml,%3Csvg width='436' height='436' viewbox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50%25' cy='50%25' r='30%25' fill='%23E26F56' /%3E%3C/svg%3E" alt="" />
+					<img src="https://make.wordpress.org/core/files/2022/10/about-61-sub-feature-2.webp" alt="" />
 				</div>
 				<h3 class="is-smaller-heading"><?php _e( 'Compose richer lists and quotes with inner blocks' ); ?></h3>
 				<p><?php _e( 'The List and Quote blocks now support inner blocks, allowing for more flexible and rich compositions like adding headings inside your Quote blocks.' ); ?></p>
 			</div>
 			<div class="column">
 				<div class="column about__image is-edge-to-edge has-accent-background-color">
-					<img src="data:image/svg+xml,%3Csvg width='436' height='436' viewbox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50%25' cy='50%25' r='30%25' fill='%23E26F56' /%3E%3C/svg%3E" alt="" />
+					<img src="https://make.wordpress.org/core/files/2022/10/about-61-sub-feature-3.webp" alt="" />
 				</div>
-				<h3 class="is-smaller-heading"><?php _e( 'Header and footer patterns for every theme' ); ?></h3>
+				<h3 class="is-smaller-heading"><?php _e( 'More responsive text with fluid typography' ); ?></h3>
 				<p>
 					<?php
 					printf(
-						/* translators: 1: Link to tutorial for customizing a header, 2: Link to tutorial for customizing a footer. */
-						__( 'Explore these block patterns, making <a href="%1$s">header</a> and <a href="%2$s">footer</a> creation more efficient.' ),
-						'https://learn.wordpress.org/tutorial/customizing-a-header-with-patterns/',
-						'https://learn.wordpress.org/tutorial/customizing-a-footer-with-patterns/'
+						/* translators: %s: Link to fluid typography demo. */
+						__( '<a href="%s">Fluid typography</a> lets you define font sizes that adapt for easy reading in any screen size.' ),
+						'https://make.wordpress.org/core/2022/10/03/fluid-font-sizes-in-wordpress-6-1/'
 					);
 					?>
+				</p>
 			</div>
 		</div>
 
@@ -189,7 +197,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 				<div class="about__image">
 					<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
 						<rect width="48" height="48" rx="4" fill="#1E1E1E"/>
-						<path fill-rule="evenodd" clip-rule="evenodd" d="M30.5 17.5V20H32V17.5H34.5V16H32V13.5H30.5V16H28V17.5H30.5ZM24 16H18C16.8954 16 16 16.8954 16 18V30C16 31.1046 16.8954 32 18 32H30C31.1046 32 32 31.1046 32 30V24H30.5V30C30.5 30.2761 30.2761 30.5 30 30.5H18C17.7239 30.5 17.5 30.2761 17.5 30V18C17.5 17.7239 17.7239 17.5 18 17.5H24V16Z" fill="white"/>
+						<path fill-rule="evenodd" clip-rule="evenodd" d="M29.25 18.75v2.5h1.5v-2.5h2.5v-1.5h-2.5v-2.5h-1.5v2.5h-2.5v1.5h2.5zm-6.5-1.5h-6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6h-1.5v6a.5.5 0 0 1-.5.5h-12a.5.5 0 0 1-.5-.5v-12a.5.5 0 0 1 .5-.5h6v-1.5z" fill="#fff"/>
 					</svg>
 				</div>
 				<h3 class="is-smaller-heading"><?php _e( 'Add starter patterns to any post type' ); ?></h3>
@@ -199,7 +207,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 				<div class="about__image">
 					<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
 						<rect width="48" height="48" rx="4" fill="#1E1E1E"/>
-						<path fill-rule="evenodd" clip-rule="evenodd" d="M31.25 23.375C31.25 26.3435 28.8435 28.75 25.875 28.75C22.9065 28.75 20.5 26.3435 20.5 23.375C20.5 20.4065 22.9065 18 25.875 18C28.8435 18 31.25 20.4065 31.25 23.375ZM32.75 23.375C32.75 27.172 29.6719 30.25 25.875 30.25C24.0609 30.25 22.411 29.5474 21.1824 28.3995L16.9939 32.0644L16.0061 30.9356L20.2039 27.2625C19.4444 26.1568 19 24.8178 19 23.375C19 19.578 22.078 16.5 25.875 16.5C29.6719 16.5 32.75 19.578 32.75 23.375Z" fill="white"/>
+						<path fill-rule="evenodd" clip-rule="evenodd" d="M29.99 23.16a4.628 4.628 0 1 1-9.257 0 4.628 4.628 0 0 1 9.257 0zm1.5 0a6.128 6.128 0 0 1-10.252 4.535l-3.74 3.273-.988-1.13 3.75-3.28a6.128 6.128 0 1 1 11.23-3.397z" fill="#fff"/>
 					</svg>
 				</div>
 				<h3 class="is-smaller-heading"><?php _e( 'Find block themes faster' ); ?></h3>
@@ -208,7 +216,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					printf(
 						/* translators: %s: Link to "full site editing" themes on WordPress.org. */
 						__( 'The Themes Directory has <a href="%s">a filter for block themes</a>, and a pattern preview gives a better sense of what the theme might look like while exploring different themes and patterns.' ),
-						__( 'https://wordpress.org/themes/tags/full-site-editing/' )
+						esc_url( __( 'https://wordpress.org/themes/tags/full-site-editing/' ) )
 					);
 					?>
 				</p>
@@ -220,7 +228,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 				<div class="about__image">
 					<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
 						<rect width="48" height="48" rx="4" fill="#1E1E1E"/>
-						<path fill-rule="evenodd" clip-rule="evenodd" d="M22.4373 15.0445C22.5378 14.4418 23.0593 14 23.6703 14H25.3025C25.9136 14 26.4351 14.4418 26.5355 15.0445L26.8409 16.877C27.8252 17.2022 28.7192 17.7257 29.4757 18.4002L31.217 17.7478C31.7892 17.5335 32.4325 17.7642 32.738 18.2934L33.5541 19.7069C33.8597 20.2361 33.7378 20.9086 33.2661 21.297L31.8318 22.4777C31.9332 22.9693 31.9864 23.4784 31.9864 24C31.9864 24.5214 31.9332 25.0304 31.8319 25.5218L33.2672 26.7033C33.739 27.0917 33.8608 27.7642 33.5553 28.2934L32.7392 29.7069C32.4337 30.2361 31.7904 30.4668 31.2182 30.2525L29.4758 29.5997C28.7193 30.2743 27.8252 30.7978 26.8409 31.123L26.5355 32.9555C26.4351 33.5582 25.9136 34 25.3025 34H23.6703C23.0593 34 22.5378 33.5582 22.4373 32.9555L22.1319 31.123C21.1476 30.7978 20.2535 30.2743 19.497 29.5997L17.7547 30.2525C17.1825 30.4668 16.5392 30.2361 16.2336 29.7069L15.4175 28.2934C15.112 27.7642 15.2339 27.0917 15.7056 26.7033L17.1409 25.5218C17.0396 25.0304 16.9864 24.5214 16.9864 24C16.9864 23.4784 17.0397 22.9693 17.141 22.4777L15.7068 21.297C15.235 20.9086 15.1132 20.2361 15.4187 19.7069L16.2348 18.2934C16.5403 17.7642 17.1837 17.5335 17.7559 17.7479L19.4971 18.4002C20.2536 17.7257 21.1476 17.2022 22.1319 16.877L22.4373 15.0445ZM28.2364 24C28.2364 26.0711 26.5575 27.75 24.4864 27.75C22.4154 27.75 20.7364 26.0711 20.7364 24C20.7364 21.9289 22.4154 20.25 24.4864 20.25C26.5575 20.25 28.2364 21.9289 28.2364 24Z" fill="white"/>
+						<path fill-rule="evenodd" clip-rule="evenodd" d="M22.29 16.836a1 1 0 0 1 .986-.836h1.306a1 1 0 0 1 .986.836l.244 1.466c.788.26 1.503.679 2.108 1.218l1.393-.522a1 1 0 0 1 1.217.437l.653 1.13a1 1 0 0 1-.23 1.273l-1.148.944a6.025 6.025 0 0 1 0 2.435l1.148.946a1 1 0 0 1 .23 1.272l-.652 1.13a1 1 0 0 1-1.217.437l-1.394-.522c-.605.54-1.32.958-2.108 1.218l-.244 1.466a1 1 0 0 1-.986.836h-1.306a1 1 0 0 1-.987-.836l-.244-1.466a5.994 5.994 0 0 1-2.108-1.218l-1.394.522a1 1 0 0 1-1.216-.436l-.653-1.131a1 1 0 0 1 .23-1.272l1.148-.946a6.028 6.028 0 0 1 0-2.435l-1.147-.944a1 1 0 0 1-.23-1.273l.652-1.13a1 1 0 0 1 1.217-.437l1.393.522a5.996 5.996 0 0 1 2.108-1.218l.244-1.466zM26.928 24a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" fill="#fff"/>
 					</svg>
 				</div>
 				<h3 class="is-smaller-heading"><?php _e( 'Keep your Site Editor settings for later' ); ?></h3>
@@ -238,7 +246,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 				<div class="about__image">
 					<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
 						<rect width="48" height="48" rx="4" fill="#1E1E1E"/>
-						<path fill-rule="evenodd" clip-rule="evenodd" d="M32.75 24C32.75 28.8325 28.8325 32.75 24 32.75V24V15.25C28.8325 15.25 32.75 19.1675 32.75 24ZM24 14C29.5228 14 34 18.4772 34 24C34 29.5228 29.5228 34 24 34C18.4772 34 14 29.5228 14 24C14 18.4772 18.4772 14 24 14Z" fill="white"/>
+						<path fill-rule="evenodd" clip-rule="evenodd" d="M31 24a7 7 0 0 1-7 7V17a7 7 0 0 1 7 7zm-7-8a8 8 0 1 1 0 16 8 8 0 0 1 0-16z" fill="#fff"/>
 					</svg>
 				</div>
 				<h3 class="is-smaller-heading"><?php _e( 'A streamlined style system' ); ?></h3>
@@ -259,16 +267,16 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 				<div class="about__image">
 					<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
 						<rect width="48" height="48" rx="4" fill="#1E1E1E"/>
-						<path d="M23.8 15.38C23.2 15.38 22.685 15.165 22.255 14.735C21.825 14.305 21.61 13.79 21.61 13.19C21.61 12.59 21.825 12.075 22.255 11.645C22.685 11.215 23.2 11 23.8 11C24.4 11 24.915 11.215 25.345 11.645C25.775 12.075 25.99 12.59 25.99 13.19C25.99 13.79 25.775 14.305 25.345 14.735C24.915 15.165 24.4 15.38 23.8 15.38ZM20.59 35V19.01C19.23 18.91 17.915 18.77 16.645 18.59C15.375 18.41 14.16 18.18 13 17.9L13.45 16.1C15.15 16.5 16.84 16.785 18.52 16.955C20.2 17.125 21.96 17.21 23.8 17.21C25.64 17.21 27.4 17.125 29.08 16.955C30.76 16.785 32.45 16.5 34.15 16.1L34.6 17.9C33.44 18.18 32.225 18.41 30.955 18.59C29.685 18.77 28.37 18.91 27.01 19.01V35H25.21V27.2H22.39V35H20.59Z" fill="white"/>
+						<path d="M24 18.285a1.58 1.58 0 0 1-1.159-.484 1.58 1.58 0 0 1-.484-1.159c0-.45.162-.836.484-1.158A1.58 1.58 0 0 1 24 15c.45 0 .836.161 1.159.484.322.322.483.708.483 1.158 0 .45-.16.837-.483 1.16a1.581 1.581 0 0 1-1.16.483zM21.592 33V21.008a44.174 44.174 0 0 1-2.958-.316 28.99 28.99 0 0 1-2.734-.517l.337-1.35c1.275.3 2.543.514 3.803.641 1.26.128 2.58.191 3.96.191s2.7-.063 3.96-.19a29.603 29.603 0 0 0 3.802-.642l.338 1.35c-.87.21-1.781.383-2.734.517-.952.136-1.939.24-2.959.316V33h-1.35v-5.85h-2.115V33h-1.35z" fill="#fff"/>
 					</svg>
 				</div>
 				<h3 class="is-smaller-heading"><?php _e( 'Improved admin and editor accessibility' ); ?></h3>
 				<p>
 					<?php
 					printf(
-						/* translators: %s: Link to WordPress.org accessibility statement. */
+						/* translators: %s: Link to accessibility improvements dev note. */
 						__( 'More than 40 improvements in accessibility include resolving focus loss problems in the editor, improving form labels and audible messages, making alternative text easier to edit, and fixing the sub-menu overlap in the expanded admin side navigation at smaller screen sizes and higher zoom levels. Learn more about <a href="%s">accessibility in WordPress</a>.' ),
-						'https://wordpress.org/about/accessibility/'
+						'https://make.wordpress.org/core/2022/10/11/wordpress-6-1-accessibility-improvements/'
 					);
 					?>
 				</p>
@@ -277,7 +285,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 				<div class="about__image">
 					<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
 						<rect width="48" height="48" rx="4" fill="#1E1E1E"/>
-						<path fill-rule="evenodd" clip-rule="evenodd" d="M23.2639 25.5896L18.7107 30.2783L17.6346 29.2333L22.1471 24.5865L16.0056 24.5598L16.0121 23.0598L22.2329 23.0869L17.9693 18.6964L19.0454 17.6514L23.2449 21.9759L23.2136 16.0062L24.7136 15.9983L24.7446 21.9117L28.8818 17.6514L29.9579 18.6964L25.6798 23.1019L32.1563 23.13L32.1498 24.63L25.7955 24.6024L30.2926 29.2333L29.2165 30.2783L24.7644 25.6937L24.7983 32.1497L23.2983 32.1576L23.2639 25.5896Z" fill="white"/>
+						<path fill-rule="evenodd" clip-rule="evenodd" d="M23.019 25.517l-4.258 4.385-.718-.697 4.212-4.337-5.752-.025.005-1 5.826.025-3.997-4.116.717-.696 3.952 4.07-.03-5.623 1-.005.03 5.567 3.894-4.01.717.697-4.007 4.126 6.046.026-.005 1-5.942-.025 4.201 4.326-.717.697-4.174-4.298.032 6.048-1 .006-.032-6.14z" fill="#fff"/>
 					</svg>
 				</div>
 				<h3 class="is-smaller-heading"><?php _e( 'Other notes of interest' ); ?></h3>
@@ -300,8 +308,8 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 				<div class="about__image">
 					<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
 						<rect width="48" height="48" rx="4" fill="#1E1E1E"/>
-						<rect x="9" y="15" width="30" height="18" rx="9" fill="white"/>
-						<circle cx="18" cy="24" r="5" fill="#1E1E1E"/>
+						<rect x="11" y="17" width="26" height="14" rx="7" fill="#fff"/>
+						<circle cx="18" cy="24" r="4" fill="#1E1E1E"/>
 					</svg>
 				</div>
 				<h3 class="is-smaller-heading"><?php _e( 'Updated interface options and features' ); ?></h3>
@@ -319,7 +327,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 				<div class="about__image">
 					<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
 						<rect width="48" height="48" rx="4" fill="#1E1E1E"/>
-						<path fill-rule="evenodd" clip-rule="evenodd" d="M16.5 14H31.5C32.8807 14 34 15.1193 34 16.5V31.5C34 32.8807 32.8807 34 31.5 34H16.5C15.1193 34 14 32.8807 14 31.5V16.5C14 15.1193 15.1193 14 16.5 14ZM31.5 15.875H16.5C16.1548 15.875 15.875 16.1548 15.875 16.5V20.25H32.125V16.5C32.125 16.1548 31.8452 15.875 31.5 15.875ZM32.125 22.125H21.5L21.5 32.125H31.5C31.8452 32.125 32.125 31.8452 32.125 31.5V22.125ZM19.625 22.125H15.875V31.5C15.875 31.8452 16.1548 32.125 16.5 32.125H19.625L19.625 22.125Z" fill="white"/>
+						<path fill-rule="evenodd" clip-rule="evenodd" d="M18 16h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H18a2 2 0 0 1-2-2V18a2 2 0 0 1 2-2zm12 1.5H18a.5.5 0 0 0-.5.5v3h13v-3a.5.5 0 0 0-.5-.5zm.5 5H22v8h8a.5.5 0 0 0 .5-.5v-7.5zm-10 0h-3V30a.5.5 0 0 0 .5.5h2.5v-8z" fill="#fff"/>
 					</svg>
 				</div>
 				<h3 class="is-smaller-heading"><?php _e( 'Continued evolution of layout options' ); ?></h3>
@@ -340,7 +348,8 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 				<div class="about__image">
 					<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
 						<rect width="48" height="48" rx="4" fill="#1E1E1E"/>
-						<circle cx="50%" cy="50%" r="30%" fill="red"/>
+						<path d="M27.7 17.2l5.6 5.6c.7.6.7 1.8-.1 2.5l-5.6 5.6c-.3.3-.8.5-1.2.5-.4 0-.9-.2-1.2-.5l-5.6-5.6c-.7-.7-.7-1.8 0-2.5l5.6-5.6c.7-.7 1.8-.7 2.5 0z" fill="#fff"/>
+						<path d="M22 17.5l-6.3 6.3c-.1.1-.1.3.1.3l6.3 6.3-1.1 1.1-6.3-6.2c-.7-.7-.7-1.8 0-2.5l6.3-6.3 1 1z" fill="#fff"/>
 					</svg>
 				</div>
 				<h3 class="is-smaller-heading"><?php _e( 'Block template parts in classic themes' ); ?></h3>
@@ -359,7 +368,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 				<div class="about__image">
 					<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
 						<rect width="48" height="48" rx="4" fill="#1E1E1E"/>
-						<path fill-rule="evenodd" clip-rule="evenodd" d="M14.0628 24.4951C14.0628 22.2125 15.9132 20.3621 18.1958 20.3621C20.1204 20.3621 21.7397 21.6785 22.1986 23.4612L22.2137 23.4573L23.0646 25.9676C23.7156 28.4398 25.9654 30.2638 28.6433 30.2638C31.8292 30.2638 34.4118 27.6812 34.4118 24.4953C34.4118 21.3094 31.8292 18.7268 28.6433 18.7268C27.9035 18.7268 27.1943 18.8665 26.5421 19.1217L27.1381 20.6448C27.6034 20.4627 28.1107 20.3623 28.6433 20.3623C30.9259 20.3623 32.7763 22.2127 32.7763 24.4953C32.7763 26.7779 30.9259 28.6283 28.6433 28.6283C26.7186 28.6283 25.0994 27.3119 24.6405 25.5292L24.6329 25.4995L24.623 25.4705L23.714 22.7888L23.7081 22.7908C22.9812 20.4373 20.7892 18.7266 18.1958 18.7266C15.0099 18.7266 12.4272 21.3092 12.4272 24.4951C12.4272 27.6809 15.0099 30.2636 18.1958 30.2636C18.9374 30.2636 19.6482 30.1232 20.3017 29.8669L19.7044 28.3443C19.2381 28.5272 18.7297 28.628 18.1958 28.628C15.9132 28.628 14.0628 26.7777 14.0628 24.4951Z" fill="white"/>
+						<path fill-rule="evenodd" clip-rule="evenodd" d="M31.349 23.579a3.18 3.18 0 0 1-6.262.796l-.007-.03-.01-.029-.734-2.166-.005.002a4.818 4.818 0 0 0-9.418 1.427 4.816 4.816 0 0 0 6.575 4.485l-.598-1.523a3.18 3.18 0 1 1 1.92-3.758l.012-.003.69 2.034a4.818 4.818 0 0 0 9.472-1.235 4.816 4.816 0 0 0-6.57-4.487l.596 1.524a3.18 3.18 0 0 1 4.34 2.963z" fill="#fff"/>
 					</svg>
 				</div>
 				<h3 class="is-smaller-heading"><?php _e( 'Expanded support for Query Loop blocks' ); ?></h3>
@@ -380,7 +389,8 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 				<div class="about__image">
 					<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
 						<rect width="48" height="48" rx="4" fill="#1E1E1E"/>
-						<circle cx="50%" cy="50%" r="30%" fill="red"/>
+						<path d="M17.25 30.25L24 17.594l6.75 12.656h-13.5z" stroke="#fff" stroke-width="1.5"/>
+						<path d="M24 16v15h-8l8-15z" fill="#fff"/>
 					</svg>
 				</div>
 				<h3 class="is-smaller-heading"><?php _e( 'Filters for all your styles' ); ?></h3>
@@ -398,10 +408,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 				<div class="about__image">
 					<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
 						<rect width="48" height="48" rx="4" fill="#1E1E1E"/>
-						<path d="M17 36.5996H32.333V34.533H17V36.5996Z" fill="white"/>
-						<path d="M17 13.0668L32.333 13.0668V11.0002L17 11.0002V13.0668Z" fill="white"/>
-						<path d="M37.4662 16.1334H35.3996V31.4664H37.4662V16.1334Z" fill="white"/>
-						<path d="M14.0666 31.4663H12L12 16.1333H14.0666L14.0666 31.4663Z" fill="white"/>
+						<path fill-rule="evenodd" clip-rule="evenodd" d="M19.114 20.5H16V19h3.114a2.501 2.501 0 0 1 4.771 0H32v1.5h-8.114a2.501 2.501 0 0 1-4.771 0zM16 29h8.114a2.501 2.501 0 0 0 4.771 0H32v-1.5h-3.114a2.501 2.501 0 0 0-4.771 0H16V29z" fill="#fff"/>
 					</svg>
 				</div>
 				<h3 class="is-smaller-heading"><?php _e( 'Spacing presets for faster, consistent design' ); ?></h3>
@@ -422,7 +429,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 				<div class="about__image">
 					<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
 						<rect width="48" height="48" rx="4" fill="#1E1E1E"/>
-						<path d="M21.4667 28.8357C21.9575 29.3156 22.667 29.5399 23.5952 29.5086C24.5235 29.4773 25.201 29.1382 25.6278 28.4914L32.5415 17.8811L21.8188 24.7355C21.1786 25.1528 20.8372 25.8206 20.7945 26.7387C20.7518 27.6568 20.9759 28.3558 21.4667 28.8357V28.8357ZM23.7393 14C24.9556 14 26.2252 14.193 27.5483 14.579C28.8713 14.965 30.1409 15.6275 31.3572 16.5665L29.6928 17.7246C28.7326 17.0986 27.703 16.6343 26.604 16.3318C25.5051 16.0292 24.5502 15.8779 23.7393 15.8779C20.7518 15.8779 18.2019 16.9212 16.0893 19.0078C13.9768 21.0944 12.9205 23.6296 12.9205 26.6135C12.9205 27.5524 13.0539 28.5018 13.3206 29.4617C13.5873 30.4215 13.9661 31.3083 14.4569 32.1221H32.9897C33.4591 31.3709 33.8325 30.4945 34.1099 29.493C34.3873 28.4914 34.526 27.5107 34.526 26.5509C34.526 25.6745 34.3927 24.7303 34.1259 23.7183C33.8592 22.7063 33.3844 21.7726 32.7016 20.9171L33.9499 19.2895C34.7608 20.458 35.3689 21.6317 35.7744 22.8106C36.1798 23.9896 36.4039 25.1737 36.4465 26.3631C36.4892 27.615 36.3612 28.7939 36.0624 29.8998C35.7637 31.0057 35.3263 32.0282 34.7501 32.9671C34.494 33.4471 34.222 33.7392 33.9339 33.8435C33.6458 33.9478 33.2884 34 32.8616 34H14.5849C14.2222 34 13.8647 33.9113 13.5126 33.734C13.1606 33.5566 12.8992 33.301 12.7284 32.9671C12.1736 31.9656 11.7469 30.9484 11.4481 29.9155C11.1494 28.8826 11 27.782 11 26.6135C11 24.8816 11.3361 23.2488 12.0083 21.7152C12.6804 20.1815 13.5927 18.8461 14.745 17.7089C15.8973 16.5717 17.2469 15.6693 18.794 15.0016C20.3411 14.3339 21.9895 14 23.7393 14V14Z" fill="white"/>
+						<path fill-rule="evenodd" clip-rule="evenodd" d="M17.517 20.75A7.268 7.268 0 0 1 22 17.03a8.142 8.142 0 0 0-1.19 1.875 10.763 10.763 0 0 0-.657 1.845h-2.636zm-.554 1.5a7.266 7.266 0 0 0 0 3.5h2.9a13.453 13.453 0 0 1 0-3.5h-2.9zm4.415 0c-.084.56-.128 1.145-.128 1.75s.044 1.19.128 1.75h5.244c.084-.56.128-1.145.128-1.75s-.044-1.19-.128-1.75h-5.244zm6.759 0a13.45 13.45 0 0 1 0 3.5h2.9a7.266 7.266 0 0 0 0-3.5h-2.9zm2.346-1.5h-2.636a10.759 10.759 0 0 0-.657-1.845A8.14 8.14 0 0 0 26 17.03a7.269 7.269 0 0 1 4.483 3.721zm-4.194 0h-4.578c.13-.43.283-.836.458-1.211.495-1.063 1.139-1.847 1.831-2.306.692.46 1.335 1.243 1.83 2.306.176.375.33.78.46 1.211zm-8.772 6.5h2.636c.18.693.416 1.344.7 1.938A8.08 8.08 0 0 0 22 30.97a7.268 7.268 0 0 1-4.483-3.721zm8.772 0h-4.578c.138.46.305.892.495 1.29.491 1.024 1.12 1.78 1.794 2.227.692-.46 1.336-1.243 1.83-2.306a9.02 9.02 0 0 0 .46-1.211zm.901 1.845c.266-.57.486-1.188.657-1.845h2.636A7.268 7.268 0 0 1 26 30.97a8.145 8.145 0 0 0 1.19-1.875zM15.25 24a8.75 8.75 0 1 1 17.5 0 8.75 8.75 0 0 1-17.5 0z" fill="#fff"/>
 					</svg>
 				</div>
 				<h3 class="is-smaller-heading"><?php _e( 'Performance highlights' ); ?></h3>
@@ -446,7 +453,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					printf(
 						/* translators: %s: Link to install Performance Lab plugin if permitted, otherwise link to plugin on WordPress.org. */
 						__( 'Be among the first to get the latest improvements by adding the <a href="%s">Performance Lab plugin</a> to your WordPress test site or sandbox.' ),
-						current_user_can( 'install_plugins' ) ? admin_url( 'plugin-install.php?s=slug%253Aperformance-lab&tab=search&type=term' ) : 'https://wordpress.org/plugins/performance-lab/'
+						current_user_can( 'install_plugins' ) ? admin_url( 'plugin-install.php?s=slug%253Aperformance-lab&tab=search&type=term' ) : esc_url( __( 'https://wordpress.org/plugins/performance-lab/' ) )
 					);
 					?>
 				</p>
@@ -455,33 +462,20 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 				<div class="about__image">
 					<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
 						<rect width="48" height="48" rx="4" fill="#1E1E1E"/>
-						<path fill-rule="evenodd" clip-rule="evenodd" d="M33.9426 16.4519L30.3191 12.9453L18.4578 24.9231L17.0032 29.8499L22.0592 28.4519L33.9426 16.4519ZM16 33.9453H24.934V32.2702H16V33.9453Z" fill="white"/>
+						<path fill-rule="evenodd" clip-rule="evenodd" d="M32.067 17.085l-3.245-3.14-10.621 10.726-1.303 4.412 4.528-1.252 10.64-10.746zM16 32.75h8v-1.5h-8v1.5z" fill="#fff"/>
 					</svg>
 				</div>
 				<h3 class="is-smaller-heading"><?php _e( 'Content-only editing support for container blocks' ); ?></h3>
-				<p><?php _e( 'Thanks to content-only editing settings, layouts can be locked within container blocks. In a content-only block, its children are invisible to the List View and entirely uneditable. So you control the layout while your writers can focus on the content.' ); ?></p>
-				<p><?php _e( 'Combine it with block locking options for even more advanced control over your blocks.' ); ?></p>
-			</div>
-		</div>
-
-		<div class="about__section has-2-columns">
-			<div class="column">
-				<div class="about__image">
-					<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-						<rect width="48" height="48" rx="4" fill="#1E1E1E"/>
-						<circle cx="50%" cy="50%" r="30%" fill="red"/>
-					</svg>
-				</div>
-				<h3 class="is-smaller-heading"><?php _e( 'More responsive text with fluid typography' ); ?></h3>
 				<p>
 					<?php
 					printf(
-						/* translators: %s: Link to fluid typography demo. */
-						__( '<a href="%s">Fluid typography</a> lets you define font sizes that adapt for easy reading in any screen size.' ),
-						'https://make.wordpress.org/core/2022/08/04/whats-new-in-gutenberg-13-8-3-august/#fluid-typography-support'
+						/* translators: %s: Link to content locking dev note. */
+						__( 'Thanks to <a href="%s">content-only editing settings</a>, layouts can be locked within container blocks. In a content-only block, its children are invisible to the List View and entirely uneditable. So you control the layout while your writers can focus on the content.' ),
+						'https://make.wordpress.org/core/2022/10/11/content-locking-features-and-updates/'
 					);
 					?>
 				</p>
+				<p><?php _e( 'Combine it with block locking options for even more advanced control over your blocks.' ); ?></p>
 			</div>
 		</div>
 
@@ -520,10 +514,9 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 				<p>
 					<?php
 					printf(
-						/* translators: 1: Learn WordPress workshops link, 2: Learn WordPress social learning link. */
-						__( 'Explore <a href="%1$s">learn.wordpress.org/&#8203;workshops</a> for quick how-to videos and lots more on new features in WordPress. Or join a live <a href="%2$s">interactive online learning session</a> on a specific WordPress topic.' ),
-						'https://learn.wordpress.org/workshops/',
-						'https://learn.wordpress.org/social-learning/'
+						/* translators: 1: Learn WordPress link. */
+						__( 'Explore <a href="%s">learn.wordpress.org</a> for tutorial videos, online workshops, courses, and lesson plans for Meetup organizers, including new features in WordPress.' ),
+						'https://learn.wordpress.org/'
 					);
 					?>
 				</p>
@@ -534,7 +527,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					printf(
 						/* translators: %s: WordPress Field Guide link. */
 						__( 'Check out the latest version of the <a href="%s">WordPress Field Guide</a>. It is overflowing with detailed developer notes to help you build with WordPress.' ),
-						__( '#' )
+						__( 'https://make.wordpress.org/core/2022/10/12/wordpress-6-1-field-guide/' )
 					);
 					?>
 				</p>

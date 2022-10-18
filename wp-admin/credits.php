@@ -46,7 +46,7 @@ $credits = wp_credits();
 		</nav>
 	</div>
 
-	<div class="about__section has-1-column">
+	<div class="about__section has-1-column has-gutters">
 		<div class="column aligncenter">
 			<?php if ( ! $credits ) : ?>
 
@@ -82,7 +82,7 @@ if ( ! $credits ) {
 }
 ?>
 
-	<hr />
+	<hr class="is-large" />
 
 	<div class="about__section">
 		<div class="column is-edge-to-edge">
