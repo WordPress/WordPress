@@ -130,14 +130,6 @@
 	},
 	"styles": {
 		"blocks": {
-			"core/query-pagination": {
-				"border": {
-					"top": {
-						"color": "var(--wp--preset--color--tertiary)",
-						"width": "4px"
-					}
-				}
-			},
 			"core/separator": {
 				"border": {
 					"color":"var(--wp--preset--color--tertiary)",

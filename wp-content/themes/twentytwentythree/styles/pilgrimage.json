@@ -206,11 +206,6 @@
 							"textDecoration": "underline"
 						}
 					}
-				},
-				"border": {
-					"top": {
-						"color": "var(--wp--preset--color--primary)"
-					}
 				}
 			},
 			"core/separator": {
