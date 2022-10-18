@@ -3115,10 +3115,12 @@ class WP_Query {
 				$cache_args['update_post_meta_cache'],
 				$cache_args['update_post_term_cache'],
 				$cache_args['lazy_load_term_meta'],
-				$cache_args['update_menu_item_cache']
+				$cache_args['update_menu_item_cache'],
+				$cache_args['search_orderby_title']
 			);
 
 			$new_request = str_replace( $fields, "{$wpdb->posts}.*", $this->request );
+			$new_request = $wpdb->remove_placeholder_escape( $new_request );
 			$key         = md5( serialize( $cache_args ) . $new_request );
 
 			$last_changed = wp_cache_get_last_changed( 'posts' );
@@ -3126,7 +3128,20 @@ class WP_Query {
 				$last_changed .= wp_cache_get_last_changed( 'terms' );
 			}
 
-			$cache_key   = "wp_query:$key:$last_changed";
+			$cache_key = "wp_query:$key:$last_changed";
+
+			/**
+			 * Filters query cache key.
+			 *
+			 * @since 6.1.0
+			 *
+			 * @param string   $cache_key   Cache key.
+			 * @param array    $cache_args  Query args used to generate the cache key.
+			 * @param string   $new_request SQL Query.
+			 * @param WP_Query $query       The WP_Query instance.
+			 */
+			$cache_key = apply_filters( 'wp_query_cache_key', $cache_key, $cache_args, $new_request, $this );
+
 			$cache_found = false;
 			if ( null === $this->posts ) {
 				$cached_results = wp_cache_get( $cache_key, 'posts', false, $cache_found );
