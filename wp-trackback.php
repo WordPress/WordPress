@@ -25,7 +25,7 @@ wp_set_current_user( 0 );
  *
  * @param int|bool $error         Whether there was an error.
  *                                Default '0'. Accepts '0' or '1', true or false.
- * @param string   $error_message Error message if an error occurred. Default empty string.
+ * @param string   $error_message Error message if an error occurred.
  */
 function trackback_response( $error = 0, $error_message = '' ) {
 	header( 'Content-Type: text/xml; charset=' . get_option( 'blog_charset' ) );
