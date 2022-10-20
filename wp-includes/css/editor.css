@@ -1393,7 +1393,7 @@ i.mce-i-wp_code:before {
 
 #wp-link-wrap {
 	height: 600px;
-	margin-top: -250px;
+	margin-top: -300px;
 }
 
 #wp-link-wrap .wp-link-text-field {
@@ -1688,7 +1688,7 @@ i.mce-i-wp_code:before {
 	}
 }
 
-@media screen and (max-height: 520px) {
+@media screen and (max-height: 620px) {
 	#wp-link-wrap {
 		transition: none;
 		height: auto;
