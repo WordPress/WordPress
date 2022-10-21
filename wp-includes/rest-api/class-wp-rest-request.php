@@ -14,7 +14,7 @@
  *
  * Note: This implements ArrayAccess, and acts as an array of parameters when
  * used in that manner. It does not use ArrayObject (as we cannot rely on SPL),
- * so be aware it may have non-array behaviour in some cases.
+ * so be aware it may have non-array behavior in some cases.
  *
  * Note: When using features provided by ArrayAccess, be aware that WordPress deliberately
  * does not distinguish between arguments of the same name for different request methods.

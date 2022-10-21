@@ -943,7 +943,7 @@ function _wp_specialchars( $string, $quote_style = ENT_NOQUOTES, $charset = fals
 		return $string;
 	}
 
-	// Account for the previous behaviour of the function when the $quote_style is not an accepted value.
+	// Account for the previous behavior of the function when the $quote_style is not an accepted value.
 	if ( empty( $quote_style ) ) {
 		$quote_style = ENT_NOQUOTES;
 	} elseif ( ENT_XML1 === $quote_style ) {
@@ -1023,7 +1023,7 @@ function wp_specialchars_decode( $string, $quote_style = ENT_NOQUOTES ) {
 		return $string;
 	}
 
-	// Match the previous behaviour of _wp_specialchars() when the $quote_style is not an accepted value.
+	// Match the previous behavior of _wp_specialchars() when the $quote_style is not an accepted value.
 	if ( empty( $quote_style ) ) {
 		$quote_style = ENT_NOQUOTES;
 	} elseif ( ! in_array( $quote_style, array( 0, 2, 3, 'single', 'double' ), true ) ) {
@@ -4334,7 +4334,7 @@ function _deep_replace( $search, $subject ) {
  * is preparing an array for use in an IN clause.
  *
  * NOTE: Since 4.8.3, '%' characters will be replaced with a placeholder string,
- * this prevents certain SQLi attacks from taking place. This change in behaviour
+ * this prevents certain SQLi attacks from taking place. This change in behavior
  * may cause issues for code that expects the return value of esc_sql() to be useable
  * for other purposes.
  *
@@ -4354,7 +4354,7 @@ function esc_sql( $data ) {
  * Checks and cleans a URL.
  *
  * A number of characters are removed from the URL. If the URL is for displaying
- * (the default behaviour) ampersands are also replaced. The {@see 'clean_url'} filter
+ * (the default behavior) ampersands are also replaced. The {@see 'clean_url'} filter
  * is applied to the returned cleaned URL.
  *
  * @since 2.8.0

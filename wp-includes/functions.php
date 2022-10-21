@@ -8436,7 +8436,7 @@ function wp_fuzzy_number_match( $expected, $actual, $precision = 1 ) {
 /**
  * Sorts the keys of an array alphabetically.
  * The array is passed by reference so it doesn't get returned
- * which mimics the behaviour of ksort.
+ * which mimics the behavior of ksort.
  *
  * @since 6.0.0
  *

@@ -247,7 +247,7 @@ class WP_Http {
 		 *  - A WP_Error instance
 		 *  - boolean false to avoid short-circuiting the response
 		 *
-		 * Returning any other value may result in unexpected behaviour.
+		 * Returning any other value may result in unexpected behavior.
 		 *
 		 * @since 2.9.0
 		 *
@@ -325,7 +325,7 @@ class WP_Http {
 			'hooks'     => new WP_HTTP_Requests_Hooks( $url, $parsed_args ),
 		);
 
-		// Ensure redirects follow browser behaviour.
+		// Ensure redirects follow browser behavior.
 		$options['hooks']->register( 'requests.before_redirect', array( get_class(), 'browser_redirect_compatibility' ) );
 
 		// Validate redirected URLs.
@@ -476,7 +476,7 @@ class WP_Http {
 	}
 
 	/**
-	 * Match redirect behaviour to browser handling.
+	 * Match redirect behavior to browser handling.
 	 *
 	 * Changes 302 redirects from POST to GET to match browser handling. Per
 	 * RFC 7231, user agents can deviate from the strict reading of the
