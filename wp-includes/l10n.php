@@ -934,7 +934,7 @@ function load_plugin_textdomain( $domain, $deprecated = false, $plugin_rel_path 
 		$path = WP_PLUGIN_DIR;
 	}
 
-	$wp_textdomain_registry->set( $domain, $locale, $path );
+	$wp_textdomain_registry->set_custom_path( $domain, $path );
 
 	return load_textdomain( $domain, $path . '/' . $mofile, $locale );
 }
@@ -968,7 +968,7 @@ function load_muplugin_textdomain( $domain, $mu_plugin_rel_path = '' ) {
 
 	$path = WPMU_PLUGIN_DIR . '/' . ltrim( $mu_plugin_rel_path, '/' );
 
-	$wp_textdomain_registry->set( $domain, $locale, $path );
+	$wp_textdomain_registry->set_custom_path( $domain, $path );
 
 	return load_textdomain( $domain, $path . '/' . $mofile, $locale );
 }
@@ -1016,7 +1016,7 @@ function load_theme_textdomain( $domain, $path = false ) {
 		$path = get_template_directory();
 	}
 
-	$wp_textdomain_registry->set( $domain, $locale, $path );
+	$wp_textdomain_registry->set_custom_path( $domain, $path );
 
 	return load_textdomain( $domain, $path . '/' . $locale . '.mo', $locale );
 }
@@ -1265,7 +1265,7 @@ function _load_textdomain_just_in_time( $domain ) {
 		return false;
 	}
 
-	if ( $wp_textdomain_registry->has( $domain ) && ! $wp_textdomain_registry->get_current( $domain ) ) {
+	if ( ! $wp_textdomain_registry->has( $domain ) ) {
 		return false;
 	}
 
