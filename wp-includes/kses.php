@@ -2423,6 +2423,7 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 			'direction',
 			'float',
 			'list-style-type',
+			'object-fit',
 			'object-position',
 			'overflow',
 			'vertical-align',
