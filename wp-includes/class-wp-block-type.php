@@ -295,8 +295,8 @@ class WP_Block_Type {
 	 *
 	 * @param string $name Deprecated property name.
 	 *
-	 * @return string|null|void The value read from the new property if the first item in the array provided,
-	 *                          null when value not found, or void when unknown property name provided.
+	 * @return string|string[]|null|void The value read from the new property if the first item in the array provided,
+	 *                                   null when value not found, or void when unknown property name provided.
 	 */
 	public function __get( $name ) {
 		if ( ! in_array( $name, $this->deprecated_properties ) ) {
@@ -304,6 +304,14 @@ class WP_Block_Type {
 		}
 
 		$new_name = $name . '_handles';
+
+		if ( ! property_exists( $this, $new_name ) || ! is_array( $this->{$new_name} ) ) {
+			return null;
+		}
+
+		if ( count( $this->{$new_name} ) > 1 ) {
+			return $this->{$new_name};
+		}
 		return isset( $this->{$new_name}[0] ) ? $this->{$new_name}[0] : null;
 	}
 
@@ -343,12 +351,32 @@ class WP_Block_Type {
 			return;
 		}
 
+		$new_name = $name . '_handles';
+
+		if ( is_array( $value ) ) {
+			$filtered = array_filter( $value, 'is_string' );
+
+			if ( count( $filtered ) !== count( $value ) ) {
+					_doing_it_wrong(
+						__METHOD__,
+						sprintf(
+							/* translators: %s: The '$value' argument. */
+							__( 'The %s argument must be a string or a string array.' ),
+							'<code>$value</code>'
+						),
+						'6.1.0'
+					);
+			}
+
+			$this->{$new_name} = array_values( $filtered );
+			return;
+		}
+
 		if ( ! is_string( $value ) ) {
 			return;
 		}
 
-		$new_name             = $name . '_handles';
-		$this->{$new_name}[0] = $value;
+		$this->{$new_name} = array( $value );
 	}
 
 	/**
