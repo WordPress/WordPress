@@ -710,7 +710,7 @@ div#wp-responsive-toggle a:before {
   background-color: #273fcc;
 }
 
-.welcome-panel-header-image path {
+.welcome-panel-header-image circle {
   stroke: #627eff;
   fill: #273fcc;
 }
