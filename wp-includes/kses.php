@@ -36,6 +36,13 @@
  * Using `CUSTOM_TAGS` is not recommended and should be considered deprecated. The
  * {@see 'wp_kses_allowed_html'} filter is more powerful and supplies context.
  *
+ * When using this constant, make sure to set all of these globals to arrays:
+ *
+ *  - `$allowedposttags`
+ *  - `$allowedtags`
+ *  - `$allowedentitynames`
+ *  - `$allowedxmlentitynames`
+ *
  * @see wp_kses_allowed_html()
  * @since 1.2.0
  *
@@ -685,6 +692,33 @@ if ( ! CUSTOM_TAGS ) {
 
 	$allowedposttags = array_map( '_wp_add_global_attributes', $allowedposttags );
 } else {
+	$required_kses_globals = array(
+		'allowedposttags',
+		'allowedtags',
+		'allowedentitynames',
+		'allowedxmlentitynames',
+	);
+	$missing_kses_globals  = array();
+
+	foreach ( $required_kses_globals as $global_name ) {
+		if ( ! isset( $GLOBALS[ $global_name ] ) || ! is_array( $GLOBALS[ $global_name ] ) ) {
+			$missing_kses_globals[] = '<code>$' . $global_name . '</code>';
+		}
+	}
+
+	if ( $missing_kses_globals ) {
+		_doing_it_wrong(
+			'wp_kses_allowed_html',
+			sprintf(
+				/* translators: 1: CUSTOM_TAGS, 2: Global variable names. */
+				__( 'When using the %1$s constant, make sure to set these globals to an array: %2$s.' ),
+				'<code>CUSTOM_TAGS</code>',
+				implode( ', ', $missing_kses_globals )
+			),
+			'6.2.0'
+		);
+	}
+
 	$allowedtags     = wp_kses_array_lc( $allowedtags );
 	$allowedposttags = wp_kses_array_lc( $allowedposttags );
 }
