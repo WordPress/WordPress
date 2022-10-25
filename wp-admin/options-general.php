@@ -105,7 +105,7 @@ if ( ! is_multisite() ) {
 		<?php
 		printf(
 			/* translators: %s: Documentation URL. */
-			__( 'Enter the address here if you <a href="%s">want your site home page to be different from your WordPress installation directory</a>.' ),
+			__( 'Enter the same address here unless you <a href="%s">want your site home page to be different from your WordPress installation directory</a>.' ),
 			__( 'https://wordpress.org/support/article/giving-wordpress-its-own-directory/' )
 		);
 		?>
