@@ -8,6 +8,7 @@
     1.3 Header
    2.0 Credits Page
    3.0 Freedoms Page
+   4.0 Privacy Page
    x.2.0 Legacy About Styles: Global
     x.2.1 Typography
     x.2.2 Structure
@@ -946,7 +947,19 @@
 
 .about__section .column .freedom-image {
 	margin-bottom: var(--gap);
-	max-height: 140px;
+	max-height: 180px;
+}
+
+
+/*------------------------------------------------------------------------------
+  4.0 - Privacy Page
+------------------------------------------------------------------------------*/
+
+.about__section .column .privacy-image {
+	display: block;
+	margin-right: auto;
+	margin-left: auto;
+	max-width: 25rem;
 }
 
 
