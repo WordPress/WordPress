@@ -369,6 +369,7 @@ p.has-drop-cap:not(:focus)::first-letter {
 	background-image: -o-linear-gradient(top, #f4f4f4, #e6e6e6);
 	background-image: linear-gradient(to bottom, #f4f4f4, #e6e6e6);
 	background-repeat: repeat-x;
+	color: #7c7c7c;
 }
 
 /* Separator */

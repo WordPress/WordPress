@@ -920,8 +920,8 @@ hr.wp-block-separator.is-style-dots::before {
 
 /* Block: Button ----------------------------- */
 
-.editor-styles-wrapper .wp-block-button__link,
-.editor-styles-wrapper .wp-block-file__button {
+:root .editor-styles-wrapper .wp-block-button__link,
+:root .editor-styles-wrapper .wp-block-file__button {
 	background: #cd2653;
 	border-radius: 0;
 	color: #fff;
@@ -935,6 +935,11 @@ hr.wp-block-separator.is-style-dots::before {
 
 .editor-styles-wrapper .wp-block-button .wp-block-button__link.mce-content-body {
 	line-height: 1.1;
+}
+
+.editor-styles-wrapper .wp-block-button__link:hover,
+.editor-styles-wrapper .wp-block-file__button:hover {
+	text-decoration: underline;
 }
 
 /* BUTTON STYLE: OUTLINE */
@@ -1301,8 +1306,8 @@ hr.wp-block-separator.is-style-dots::before {
 
 	/* BLOCK: BUTTON */
 
-	.editor-styles-wrapper .wp-block-button__link,
-	.editor-styles-wrapper .wp-block-file__button {
+	:root .editor-styles-wrapper .wp-block-button__link,
+	:root .editor-styles-wrapper .wp-block-file__button {
 		font-size: 17px;
 	}
 
