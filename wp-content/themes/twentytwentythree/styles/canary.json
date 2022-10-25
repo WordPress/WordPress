@@ -189,6 +189,11 @@
 						"width": "2px"
 					}
 				},
+				":visited": {
+					"color": {
+						"text": "var(--wp--preset--color--base)"
+					}
+				},
 				"border": {
 					"radius": "5px",
 					"color": "var(--wp--preset--color--contrast)",

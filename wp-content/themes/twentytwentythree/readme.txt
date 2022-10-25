@@ -9,11 +9,9 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 == Description ==
 
-Twenty Twenty-Three is a diverse, collaborative effort designed with the expansion of the possibilities of the block editor in mind. With a blank, unopinionated base as a starting point, this year’s default theme has minimal demo content to get in your way.
+Twenty Twenty-Three is designed to take advantage of the new design tools introduced in WordPress 6.1. With a clean, blank base as a starting point, this default theme includes ten diverse style variations created by members of the WordPress community.
 
-It embraces aesthetic diversity with a collection of style variations created by members of the WordPress Community, and it is built to take advantage of the new tools introduced in WordPress 6.1.
-
-Whether you want to build a complex or incredibly simple website, you can style it the way you want it, and you can do it quickly and intuitively through the bundled styles or dive into creation and full customisation yourself.
+Whether you want to build a complex or incredibly simple website, you can do it quickly and intuitively through the bundled styles or dive into creation and full customization yourself.
 
 == Changelog ==
 
