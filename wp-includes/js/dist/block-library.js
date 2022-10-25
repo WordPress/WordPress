@@ -15348,7 +15348,7 @@ const variations_variations = [{
   icon: embedTumblrIcon,
   keywords: [(0,external_wp_i18n_namespaceObject.__)('social')],
   description: (0,external_wp_i18n_namespaceObject.__)('Embed a Tumblr post.'),
-  patterns: [/^https?:\/\/(www\.)?tumblr\.com\/.+/i],
+  patterns: [/^https?:\/\/(.+)\.tumblr\.com\/.+/i],
   attributes: {
     providerNameSlug: 'tumblr',
     responsive: true
@@ -15478,11 +15478,49 @@ const embed_deprecated_metadata = {
 
 const {
   attributes: embed_deprecated_blockAttributes
-} = embed_deprecated_metadata;
-const embed_deprecated_deprecated = [{
+} = embed_deprecated_metadata; // In #41140 support was added to global styles for caption elements which added a `wp-element-caption` classname
+// to the embed figcaption element.
+
+const deprecated_v2 = {
   attributes: embed_deprecated_blockAttributes,
 
   save(_ref) {
+    let {
+      attributes
+    } = _ref;
+    const {
+      url,
+      caption,
+      type,
+      providerNameSlug
+    } = attributes;
+
+    if (!url) {
+      return null;
+    }
+
+    const className = classnames_default()('wp-block-embed', {
+      [`is-type-${type}`]: type,
+      [`is-provider-${providerNameSlug}`]: providerNameSlug,
+      [`wp-block-embed-${providerNameSlug}`]: providerNameSlug
+    });
+    return (0,external_wp_element_namespaceObject.createElement)("figure", external_wp_blockEditor_namespaceObject.useBlockProps.save({
+      className
+    }), (0,external_wp_element_namespaceObject.createElement)("div", {
+      className: "wp-block-embed__wrapper"
+    }, `\n${url}\n`
+    /* URL needs to be on its own line. */
+    ), !external_wp_blockEditor_namespaceObject.RichText.isEmpty(caption) && (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.RichText.Content, {
+      tagName: "figcaption",
+      value: caption
+    }));
+  }
+
+};
+const embed_deprecated_v1 = {
+  attributes: embed_deprecated_blockAttributes,
+
+  save(_ref2) {
     let {
       attributes: {
         url,
@@ -15490,7 +15528,7 @@ const embed_deprecated_deprecated = [{
         type,
         providerNameSlug
       }
-    } = _ref;
+    } = _ref2;
 
     if (!url) {
       return null;
@@ -15510,7 +15548,8 @@ const embed_deprecated_deprecated = [{
     }));
   }
 
-}];
+};
+const embed_deprecated_deprecated = [deprecated_v2, embed_deprecated_v1];
 /* harmony default export */ var embed_deprecated = (embed_deprecated_deprecated);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/embed/index.js
@@ -15613,7 +15652,7 @@ const file = (0,external_wp_element_namespaceObject.createElement)(external_wp_p
 
  // Version of the file block without PR#43050 removing the translated aria-label.
 
-const deprecated_v2 = {
+const deprecated_v3 = {
   attributes: {
     id: {
       type: 'number'
@@ -15714,6 +15753,110 @@ const deprecated_v2 = {
     })));
   }
 
+}; // In #41239 the button was made an element button which added a `wp-element-button` classname
+// to the download link element.
+
+const file_deprecated_v2 = {
+  attributes: {
+    id: {
+      type: 'number'
+    },
+    href: {
+      type: 'string'
+    },
+    fileId: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'a:not([download])',
+      attribute: 'id'
+    },
+    fileName: {
+      type: 'string',
+      source: 'html',
+      selector: 'a:not([download])'
+    },
+    textLinkHref: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'a:not([download])',
+      attribute: 'href'
+    },
+    textLinkTarget: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'a:not([download])',
+      attribute: 'target'
+    },
+    showDownloadButton: {
+      type: 'boolean',
+      default: true
+    },
+    downloadButtonText: {
+      type: 'string',
+      source: 'html',
+      selector: 'a[download]'
+    },
+    displayPreview: {
+      type: 'boolean'
+    },
+    previewHeight: {
+      type: 'number',
+      default: 600
+    }
+  },
+  supports: {
+    anchor: true,
+    align: true
+  },
+
+  save(_ref2) {
+    let {
+      attributes
+    } = _ref2;
+    const {
+      href,
+      fileId,
+      fileName,
+      textLinkHref,
+      textLinkTarget,
+      showDownloadButton,
+      downloadButtonText,
+      displayPreview,
+      previewHeight
+    } = attributes;
+    const pdfEmbedLabel = external_wp_blockEditor_namespaceObject.RichText.isEmpty(fileName) ? (0,external_wp_i18n_namespaceObject.__)('PDF embed') : (0,external_wp_i18n_namespaceObject.sprintf)(
+    /* translators: %s: filename. */
+    (0,external_wp_i18n_namespaceObject.__)('Embed of %s.'), fileName);
+    const hasFilename = !external_wp_blockEditor_namespaceObject.RichText.isEmpty(fileName); // Only output an `aria-describedby` when the element it's referring to is
+    // actually rendered.
+
+    const describedById = hasFilename ? fileId : undefined;
+    return href && (0,external_wp_element_namespaceObject.createElement)("div", external_wp_blockEditor_namespaceObject.useBlockProps.save(), displayPreview && (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)("object", {
+      className: "wp-block-file__embed",
+      data: href,
+      type: "application/pdf",
+      style: {
+        width: '100%',
+        height: `${previewHeight}px`
+      },
+      "aria-label": pdfEmbedLabel
+    })), hasFilename && (0,external_wp_element_namespaceObject.createElement)("a", {
+      id: describedById,
+      href: textLinkHref,
+      target: textLinkTarget,
+      rel: textLinkTarget ? 'noreferrer noopener' : undefined
+    }, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.RichText.Content, {
+      value: fileName
+    })), showDownloadButton && (0,external_wp_element_namespaceObject.createElement)("a", {
+      href: href,
+      className: "wp-block-file__button",
+      download: true,
+      "aria-describedby": describedById
+    }, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.RichText.Content, {
+      value: downloadButtonText
+    })));
+  }
+
 }; // Version of the file block without PR#28062 accessibility fix.
 
 const file_deprecated_v1 = {
@@ -15763,10 +15906,10 @@ const file_deprecated_v1 = {
     align: true
   },
 
-  save(_ref2) {
+  save(_ref3) {
     let {
       attributes
-    } = _ref2;
+    } = _ref3;
     const {
       href,
       fileName,
@@ -15805,7 +15948,7 @@ const file_deprecated_v1 = {
   }
 
 };
-const file_deprecated_deprecated = [deprecated_v2, file_deprecated_v1];
+const file_deprecated_deprecated = [deprecated_v3, file_deprecated_v2, file_deprecated_v1];
 /* harmony default export */ var file_deprecated = (file_deprecated_deprecated);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/file/inspector.js
@@ -16770,7 +16913,129 @@ function getImageBlock(image, sizeSlug, linkTo) {
     sizeSlug,
     ...getHrefAndDestination(image, linkTo)
   });
-}
+} // In #41140 support was added to global styles for caption elements which added a `wp-element-caption` classname
+// to the gallery figcaption element.
+
+const deprecated_v7 = {
+  attributes: {
+    images: {
+      type: 'array',
+      default: [],
+      source: 'query',
+      selector: '.blocks-gallery-item',
+      query: {
+        url: {
+          type: 'string',
+          source: 'attribute',
+          selector: 'img',
+          attribute: 'src'
+        },
+        fullUrl: {
+          type: 'string',
+          source: 'attribute',
+          selector: 'img',
+          attribute: 'data-full-url'
+        },
+        link: {
+          type: 'string',
+          source: 'attribute',
+          selector: 'img',
+          attribute: 'data-link'
+        },
+        alt: {
+          type: 'string',
+          source: 'attribute',
+          selector: 'img',
+          attribute: 'alt',
+          default: ''
+        },
+        id: {
+          type: 'string',
+          source: 'attribute',
+          selector: 'img',
+          attribute: 'data-id'
+        },
+        caption: {
+          type: 'string',
+          source: 'html',
+          selector: '.blocks-gallery-item__caption'
+        }
+      }
+    },
+    ids: {
+      type: 'array',
+      items: {
+        type: 'number'
+      },
+      default: []
+    },
+    shortCodeTransforms: {
+      type: 'array',
+      default: [],
+      items: {
+        type: 'object'
+      }
+    },
+    columns: {
+      type: 'number',
+      minimum: 1,
+      maximum: 8
+    },
+    caption: {
+      type: 'string',
+      source: 'html',
+      selector: '.blocks-gallery-caption'
+    },
+    imageCrop: {
+      type: 'boolean',
+      default: true
+    },
+    fixedHeight: {
+      type: 'boolean',
+      default: true
+    },
+    linkTarget: {
+      type: 'string'
+    },
+    linkTo: {
+      type: 'string'
+    },
+    sizeSlug: {
+      type: 'string',
+      default: 'large'
+    },
+    allowResize: {
+      type: 'boolean',
+      default: false
+    }
+  },
+
+  save(_ref) {
+    let {
+      attributes
+    } = _ref;
+    const {
+      caption,
+      columns,
+      imageCrop
+    } = attributes;
+    const className = classnames_default()('has-nested-images', {
+      [`columns-${columns}`]: columns !== undefined,
+      [`columns-default`]: columns === undefined,
+      'is-cropped': imageCrop
+    });
+    const blockProps = external_wp_blockEditor_namespaceObject.useBlockProps.save({
+      className
+    });
+    const innerBlocksProps = external_wp_blockEditor_namespaceObject.useInnerBlocksProps.save(blockProps);
+    return (0,external_wp_element_namespaceObject.createElement)("figure", innerBlocksProps, innerBlocksProps.children, !external_wp_blockEditor_namespaceObject.RichText.isEmpty(caption) && (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.RichText.Content, {
+      tagName: "figcaption",
+      className: "blocks-gallery-caption",
+      value: caption
+    }));
+  }
+
+};
 const deprecated_v6 = {
   attributes: {
     images: {
@@ -16855,10 +17120,10 @@ const deprecated_v6 = {
     align: true
   },
 
-  save(_ref) {
+  save(_ref2) {
     let {
       attributes
-    } = _ref;
+    } = _ref2;
     const {
       images,
       columns = defaultColumnsNumberV1(attributes),
@@ -16998,10 +17263,10 @@ const deprecated_v5 = {
     align: true
   },
 
-  isEligible(_ref2) {
+  isEligible(_ref3) {
     let {
       linkTo
-    } = _ref2;
+    } = _ref3;
     return !linkTo || linkTo === 'attachment' || linkTo === 'media';
   },
 
@@ -17025,10 +17290,10 @@ const deprecated_v5 = {
     };
   },
 
-  save(_ref3) {
+  save(_ref4) {
     let {
       attributes
-    } = _ref3;
+    } = _ref4;
     const {
       images,
       columns = defaultColumnsNumberV1(attributes),
@@ -17145,10 +17410,10 @@ const deprecated_v4 = {
     align: true
   },
 
-  isEligible(_ref4) {
+  isEligible(_ref5) {
     let {
       ids
-    } = _ref4;
+    } = _ref5;
     return ids && ids.some(id => typeof id === 'string');
   },
 
@@ -17165,10 +17430,10 @@ const deprecated_v4 = {
     };
   },
 
-  save(_ref5) {
+  save(_ref6) {
     let {
       attributes
-    } = _ref5;
+    } = _ref6;
     const {
       images,
       columns = defaultColumnsNumberV1(attributes),
@@ -17219,7 +17484,7 @@ const deprecated_v4 = {
   }
 
 };
-const deprecated_v3 = {
+const gallery_deprecated_v3 = {
   attributes: {
     images: {
       type: 'array',
@@ -17280,10 +17545,10 @@ const deprecated_v3 = {
     align: true
   },
 
-  save(_ref6) {
+  save(_ref7) {
     let {
       attributes
-    } = _ref6;
+    } = _ref7;
     const {
       images,
       columns = defaultColumnsNumberV1(attributes),
@@ -17383,11 +17648,11 @@ const gallery_deprecated_v2 = {
     }
   },
 
-  isEligible(_ref7) {
+  isEligible(_ref8) {
     let {
       images,
       ids
-    } = _ref7;
+    } = _ref8;
     return images && images.length > 0 && (!ids && images || ids && images && ids.length !== images.length || (0,external_lodash_namespaceObject.some)(images, (id, index) => {
       if (!id && ids[index] !== null) {
         return true;
@@ -17403,10 +17668,10 @@ const gallery_deprecated_v2 = {
     }
 
     return { ...attributes,
-      ids: (0,external_lodash_namespaceObject.map)(attributes.images, _ref8 => {
+      ids: (0,external_lodash_namespaceObject.map)(attributes.images, _ref9 => {
         let {
           id
-        } = _ref8;
+        } = _ref9;
 
         if (!id) {
           return null;
@@ -17421,10 +17686,10 @@ const gallery_deprecated_v2 = {
     align: true
   },
 
-  save(_ref9) {
+  save(_ref10) {
     let {
       attributes
-    } = _ref9;
+    } = _ref10;
     const {
       images,
       columns = defaultColumnsNumberV1(attributes),
@@ -17509,10 +17774,10 @@ const gallery_deprecated_v1 = {
     align: true
   },
 
-  save(_ref10) {
+  save(_ref11) {
     let {
       attributes
-    } = _ref10;
+    } = _ref11;
     const {
       images,
       columns = defaultColumnsNumberV1(attributes),
@@ -17562,7 +17827,7 @@ const gallery_deprecated_v1 = {
   }
 
 };
-/* harmony default export */ var gallery_deprecated = ([deprecated_v6, deprecated_v5, deprecated_v4, deprecated_v3, gallery_deprecated_v2, gallery_deprecated_v1]);
+/* harmony default export */ var gallery_deprecated = ([deprecated_v7, deprecated_v6, deprecated_v5, deprecated_v4, gallery_deprecated_v3, gallery_deprecated_v2, gallery_deprecated_v1]);
 
 ;// CONCATENATED MODULE: external ["wp","viewport"]
 var external_wp_viewport_namespaceObject = window["wp"]["viewport"];
@@ -48748,10 +49013,7 @@ const blockTable = (0,external_wp_element_namespaceObject.createElement)(externa
  * WordPress dependencies
  */
 
-
-const table_deprecated_supports = {
-  align: true
-}; // As the previous arbitrary colors won't match theme color palettes, the hex
+ // As the previous arbitrary colors won't match theme color palettes, the hex
 // value will be mapped to the style.color.background attribute as if it was
 // a custom color selection.
 
@@ -48760,9 +49022,255 @@ const oldColors = {
   'subtle-pale-green': '#e9fbe5',
   'subtle-pale-blue': '#e7f5fe',
   'subtle-pale-pink': '#fcf0ef'
-};
-const table_deprecated_deprecated = [// Deprecation migrating table block to use colors block support feature.
-{
+}; // In #41140 support was added to global styles for caption elements which
+// added a `wp-element-caption` classname to the embed figcaption element.
+
+const table_deprecated_v3 = {
+  attributes: {
+    hasFixedLayout: {
+      type: 'boolean',
+      default: false
+    },
+    caption: {
+      type: 'string',
+      source: 'html',
+      selector: 'figcaption',
+      default: ''
+    },
+    head: {
+      type: 'array',
+      default: [],
+      source: 'query',
+      selector: 'thead tr',
+      query: {
+        cells: {
+          type: 'array',
+          default: [],
+          source: 'query',
+          selector: 'td,th',
+          query: {
+            content: {
+              type: 'string',
+              source: 'html'
+            },
+            tag: {
+              type: 'string',
+              default: 'td',
+              source: 'tag'
+            },
+            scope: {
+              type: 'string',
+              source: 'attribute',
+              attribute: 'scope'
+            },
+            align: {
+              type: 'string',
+              source: 'attribute',
+              attribute: 'data-align'
+            }
+          }
+        }
+      }
+    },
+    body: {
+      type: 'array',
+      default: [],
+      source: 'query',
+      selector: 'tbody tr',
+      query: {
+        cells: {
+          type: 'array',
+          default: [],
+          source: 'query',
+          selector: 'td,th',
+          query: {
+            content: {
+              type: 'string',
+              source: 'html'
+            },
+            tag: {
+              type: 'string',
+              default: 'td',
+              source: 'tag'
+            },
+            scope: {
+              type: 'string',
+              source: 'attribute',
+              attribute: 'scope'
+            },
+            align: {
+              type: 'string',
+              source: 'attribute',
+              attribute: 'data-align'
+            }
+          }
+        }
+      }
+    },
+    foot: {
+      type: 'array',
+      default: [],
+      source: 'query',
+      selector: 'tfoot tr',
+      query: {
+        cells: {
+          type: 'array',
+          default: [],
+          source: 'query',
+          selector: 'td,th',
+          query: {
+            content: {
+              type: 'string',
+              source: 'html'
+            },
+            tag: {
+              type: 'string',
+              default: 'td',
+              source: 'tag'
+            },
+            scope: {
+              type: 'string',
+              source: 'attribute',
+              attribute: 'scope'
+            },
+            align: {
+              type: 'string',
+              source: 'attribute',
+              attribute: 'data-align'
+            }
+          }
+        }
+      }
+    }
+  },
+  supports: {
+    anchor: true,
+    align: true,
+    color: {
+      __experimentalSkipSerialization: true,
+      gradients: true,
+      __experimentalDefaultControls: {
+        background: true,
+        text: true
+      }
+    },
+    spacing: {
+      margin: true,
+      padding: true
+    },
+    typography: {
+      fontSize: true,
+      lineHeight: true,
+      __experimentalFontFamily: true,
+      __experimentalFontStyle: true,
+      __experimentalFontWeight: true,
+      __experimentalLetterSpacing: true,
+      __experimentalTextTransform: true,
+      __experimentalTextDecoration: true,
+      __experimentalDefaultControls: {
+        fontSize: true
+      }
+    },
+    __experimentalBorder: {
+      __experimentalSkipSerialization: true,
+      color: true,
+      style: true,
+      width: true,
+      __experimentalDefaultControls: {
+        color: true,
+        style: true,
+        width: true
+      }
+    },
+    __experimentalSelector: '.wp-block-table > table'
+  },
+
+  save(_ref) {
+    let {
+      attributes
+    } = _ref;
+    const {
+      hasFixedLayout,
+      head,
+      body,
+      foot,
+      caption
+    } = attributes;
+    const isEmpty = !head.length && !body.length && !foot.length;
+
+    if (isEmpty) {
+      return null;
+    }
+
+    const colorProps = (0,external_wp_blockEditor_namespaceObject.__experimentalGetColorClassesAndStyles)(attributes);
+    const borderProps = (0,external_wp_blockEditor_namespaceObject.__experimentalGetBorderClassesAndStyles)(attributes);
+    const classes = classnames_default()(colorProps.className, borderProps.className, {
+      'has-fixed-layout': hasFixedLayout
+    });
+    const hasCaption = !external_wp_blockEditor_namespaceObject.RichText.isEmpty(caption);
+
+    const Section = _ref2 => {
+      let {
+        type,
+        rows
+      } = _ref2;
+
+      if (!rows.length) {
+        return null;
+      }
+
+      const Tag = `t${type}`;
+      return (0,external_wp_element_namespaceObject.createElement)(Tag, null, rows.map((_ref3, rowIndex) => {
+        let {
+          cells
+        } = _ref3;
+        return (0,external_wp_element_namespaceObject.createElement)("tr", {
+          key: rowIndex
+        }, cells.map((_ref4, cellIndex) => {
+          let {
+            content,
+            tag,
+            scope,
+            align
+          } = _ref4;
+          const cellClasses = classnames_default()({
+            [`has-text-align-${align}`]: align
+          });
+          return (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.RichText.Content, {
+            className: cellClasses ? cellClasses : undefined,
+            "data-align": align,
+            tagName: tag,
+            value: content,
+            key: cellIndex,
+            scope: tag === 'th' ? scope : undefined
+          });
+        }));
+      }));
+    };
+
+    return (0,external_wp_element_namespaceObject.createElement)("figure", external_wp_blockEditor_namespaceObject.useBlockProps.save(), (0,external_wp_element_namespaceObject.createElement)("table", {
+      className: classes === '' ? undefined : classes,
+      style: { ...colorProps.style,
+        ...borderProps.style
+      }
+    }, (0,external_wp_element_namespaceObject.createElement)(Section, {
+      type: "head",
+      rows: head
+    }), (0,external_wp_element_namespaceObject.createElement)(Section, {
+      type: "body",
+      rows: body
+    }), (0,external_wp_element_namespaceObject.createElement)(Section, {
+      type: "foot",
+      rows: foot
+    })), hasCaption && (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.RichText.Content, {
+      tagName: "figcaption",
+      value: caption
+    }));
+  }
+
+}; // Deprecation migrating table block to use colors block support feature.
+
+const table_deprecated_v2 = {
   attributes: {
     hasFixedLayout: {
       type: 'boolean',
@@ -48888,10 +49396,10 @@ const table_deprecated_deprecated = [// Deprecation migrating table block to use
     align: true,
     __experimentalSelector: '.wp-block-table > table'
   },
-  save: _ref => {
+  save: _ref5 => {
     let {
       attributes
-    } = _ref;
+    } = _ref5;
     const {
       hasFixedLayout,
       head,
@@ -48913,30 +49421,30 @@ const table_deprecated_deprecated = [// Deprecation migrating table block to use
     });
     const hasCaption = !external_wp_blockEditor_namespaceObject.RichText.isEmpty(caption);
 
-    const Section = _ref2 => {
+    const Section = _ref6 => {
       let {
         type,
         rows
-      } = _ref2;
+      } = _ref6;
 
       if (!rows.length) {
         return null;
       }
 
       const Tag = `t${type}`;
-      return (0,external_wp_element_namespaceObject.createElement)(Tag, null, rows.map((_ref3, rowIndex) => {
+      return (0,external_wp_element_namespaceObject.createElement)(Tag, null, rows.map((_ref7, rowIndex) => {
         let {
           cells
-        } = _ref3;
+        } = _ref7;
         return (0,external_wp_element_namespaceObject.createElement)("tr", {
           key: rowIndex
-        }, cells.map((_ref4, cellIndex) => {
+        }, cells.map((_ref8, cellIndex) => {
           let {
             content,
             tag,
             scope,
             align
-          } = _ref4;
+          } = _ref8;
           const cellClasses = classnames_default()({
             [`has-text-align-${align}`]: align
           });
@@ -48983,7 +49491,8 @@ const table_deprecated_deprecated = [// Deprecation migrating table block to use
       }
     };
   }
-}, {
+};
+const table_deprecated_v1 = {
   attributes: {
     hasFixedLayout: {
       type: 'boolean',
@@ -49083,12 +49592,14 @@ const table_deprecated_deprecated = [// Deprecation migrating table block to use
       }
     }
   },
-  supports: table_deprecated_supports,
+  supports: {
+    align: true
+  },
 
-  save(_ref5) {
+  save(_ref9) {
     let {
       attributes
-    } = _ref5;
+    } = _ref9;
     const {
       hasFixedLayout,
       head,
@@ -49108,29 +49619,29 @@ const table_deprecated_deprecated = [// Deprecation migrating table block to use
       'has-background': !!backgroundClass
     });
 
-    const Section = _ref6 => {
+    const Section = _ref10 => {
       let {
         type,
         rows
-      } = _ref6;
+      } = _ref10;
 
       if (!rows.length) {
         return null;
       }
 
       const Tag = `t${type}`;
-      return (0,external_wp_element_namespaceObject.createElement)(Tag, null, rows.map((_ref7, rowIndex) => {
+      return (0,external_wp_element_namespaceObject.createElement)(Tag, null, rows.map((_ref11, rowIndex) => {
         let {
           cells
-        } = _ref7;
+        } = _ref11;
         return (0,external_wp_element_namespaceObject.createElement)("tr", {
           key: rowIndex
-        }, cells.map((_ref8, cellIndex) => {
+        }, cells.map((_ref12, cellIndex) => {
           let {
             content,
             tag,
             scope
-          } = _ref8;
+          } = _ref12;
           return (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.RichText.Content, {
             tagName: tag,
             value: content,
@@ -49155,8 +49666,17 @@ const table_deprecated_deprecated = [// Deprecation migrating table block to use
     }));
   }
 
-}];
-/* harmony default export */ var table_deprecated = (table_deprecated_deprecated);
+};
+/**
+ * New deprecations need to be placed first
+ * for them to have higher priority.
+ *
+ * Old deprecations may need to be updated as well.
+ *
+ * See block-deprecation.md
+ */
+
+/* harmony default export */ var table_deprecated = ([table_deprecated_v3, table_deprecated_v2, table_deprecated_v1]);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/align-left.js
 
@@ -53178,6 +53698,168 @@ const video = (0,external_wp_element_namespaceObject.createElement)(external_wp_
 }));
 /* harmony default export */ var library_video = (video);
 
+;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/video/tracks.js
+
+
+function Tracks(_ref) {
+  let {
+    tracks = []
+  } = _ref;
+  return tracks.map(track => {
+    return (0,external_wp_element_namespaceObject.createElement)("track", _extends({
+      key: track.src
+    }, track));
+  });
+}
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/video/deprecated.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+/**
+ * Internal dependencies
+ */
+
+const video_deprecated_metadata = {
+  $schema: "https://schemas.wp.org/trunk/block.json",
+  apiVersion: 2,
+  name: "core/video",
+  title: "Video",
+  category: "media",
+  description: "Embed a video from your media library or upload a new one.",
+  keywords: ["movie"],
+  textdomain: "default",
+  attributes: {
+    autoplay: {
+      type: "boolean",
+      source: "attribute",
+      selector: "video",
+      attribute: "autoplay"
+    },
+    caption: {
+      type: "string",
+      source: "html",
+      selector: "figcaption",
+      __experimentalRole: "content"
+    },
+    controls: {
+      type: "boolean",
+      source: "attribute",
+      selector: "video",
+      attribute: "controls",
+      "default": true
+    },
+    id: {
+      type: "number",
+      __experimentalRole: "content"
+    },
+    loop: {
+      type: "boolean",
+      source: "attribute",
+      selector: "video",
+      attribute: "loop"
+    },
+    muted: {
+      type: "boolean",
+      source: "attribute",
+      selector: "video",
+      attribute: "muted"
+    },
+    poster: {
+      type: "string",
+      source: "attribute",
+      selector: "video",
+      attribute: "poster"
+    },
+    preload: {
+      type: "string",
+      source: "attribute",
+      selector: "video",
+      attribute: "preload",
+      "default": "metadata"
+    },
+    src: {
+      type: "string",
+      source: "attribute",
+      selector: "video",
+      attribute: "src",
+      __experimentalRole: "content"
+    },
+    playsInline: {
+      type: "boolean",
+      source: "attribute",
+      selector: "video",
+      attribute: "playsinline"
+    },
+    tracks: {
+      __experimentalRole: "content",
+      type: "array",
+      items: {
+        type: "object"
+      },
+      "default": []
+    }
+  },
+  supports: {
+    anchor: true,
+    align: true,
+    spacing: {
+      margin: true,
+      padding: true
+    }
+  },
+  editorStyle: "wp-block-video-editor",
+  style: "wp-block-video"
+};
+
+const {
+  attributes: video_deprecated_blockAttributes
+} = video_deprecated_metadata; // In #41140 support was added to global styles for caption elements which added a `wp-element-caption` classname
+// to the video figcaption element.
+
+const video_deprecated_v1 = {
+  attributes: video_deprecated_blockAttributes,
+
+  save(_ref) {
+    let {
+      attributes
+    } = _ref;
+    const {
+      autoplay,
+      caption,
+      controls,
+      loop,
+      muted,
+      poster,
+      preload,
+      src,
+      playsInline,
+      tracks
+    } = attributes;
+    return (0,external_wp_element_namespaceObject.createElement)("figure", external_wp_blockEditor_namespaceObject.useBlockProps.save(), src && (0,external_wp_element_namespaceObject.createElement)("video", {
+      autoPlay: autoplay,
+      controls: controls,
+      loop: loop,
+      muted: muted,
+      poster: poster,
+      preload: preload !== 'metadata' ? preload : undefined,
+      src: src,
+      playsInline: playsInline
+    }, (0,external_wp_element_namespaceObject.createElement)(Tracks, {
+      tracks: tracks
+    })), !external_wp_blockEditor_namespaceObject.RichText.isEmpty(caption) && (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.RichText.Content, {
+      tagName: "figcaption",
+      value: caption
+    }));
+  }
+
+};
+const video_deprecated_deprecated = [video_deprecated_v1];
+/* harmony default export */ var video_deprecated = (video_deprecated_deprecated);
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/video/edit-common-settings.js
 
 
@@ -53580,20 +54262,6 @@ function TracksEditor(_ref3) {
   });
 }
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/video/tracks.js
-
-
-function Tracks(_ref) {
-  let {
-    tracks = []
-  } = _ref;
-  return tracks.map(track => {
-    return (0,external_wp_element_namespaceObject.createElement)("track", _extends({
-      key: track.src
-    }, track));
-  });
-}
-
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/video/edit.js
 
 
@@ -53990,6 +54658,7 @@ const video_transforms_transforms = {
 
 
 
+
 const video_metadata = {
   $schema: "https://schemas.wp.org/trunk/block.json",
   apiVersion: 2,
@@ -54097,6 +54766,7 @@ const video_settings = {
     }
   },
   transforms: video_transforms,
+  deprecated: video_deprecated,
   edit: video_edit,
   save: video_save_save
 };
