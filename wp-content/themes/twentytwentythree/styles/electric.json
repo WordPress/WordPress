@@ -73,6 +73,11 @@
 						"background": "var(--wp--preset--color--base)",
 						"text": "var(--wp--preset--color--contrast)"
 					}
+				},
+				":visited": {
+					"color": {
+						"text": "var(--wp--preset--color--base)"
+					}
 				}
 			},
 			"link": {

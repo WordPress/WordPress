@@ -196,6 +196,11 @@
 						"background": "var(--wp--preset--color--contrast)",
 						"text": "var(--wp--preset--color--tertiary)"
 					}
+				},
+				":visited": {
+					"color": {
+						"text": "var(--wp--preset--color--base)"
+					}
 				}
 			},
 			"h1": {

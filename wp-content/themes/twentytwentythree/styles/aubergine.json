@@ -265,6 +265,11 @@
 						"gradient": "none",
 						"text": "var(--wp--preset--color--secondary)"
 					}
+				},
+				":visited": {
+					"color": {
+						"text": "var(--wp--preset--color--base)"
+					}
 				}
 			},
 			"heading": {

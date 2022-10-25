@@ -250,6 +250,11 @@
 						"gradient": "var(--wp--preset--gradient--secondary-primary)"
 					}
 				},
+				":visited": {
+					"color": {
+						"text": "var(--wp--preset--color--base)"
+					}
+				},
 				"border": {
 					"radius": "5px"
 				},
