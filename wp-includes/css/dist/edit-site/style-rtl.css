@@ -549,6 +549,7 @@ body.is-fullscreen-mode .interface-interface-skeleton {
 }
 .edit-site-visual-editor.is-focus-mode .edit-site-visual-editor__editor-canvas {
   border-radius: 2px;
+  max-height: 100%;
 }
 .edit-site-visual-editor.is-focus-mode .components-resizable-box__container {
   overflow: visible;

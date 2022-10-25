@@ -22967,7 +22967,7 @@ function Iframe(_ref3, ref) {
   }, []);
   const bodyRef = (0,external_wp_compose_namespaceObject.useMergeRefs)([contentRef, clearerRef, writingFlowRef]);
   const styleCompatibilityRef = useStylesCompatibility();
-  head = (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)("style", null, 'body{margin:0}'), styles.map(_ref4 => {
+  head = (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)("style", null, 'html{height:auto!important;}body{margin:0}'), styles.map(_ref4 => {
     let {
       tagName,
       href,
@@ -51569,6 +51569,7 @@ const ImageURLInputUI = _ref => {
 function PreviewOptions(_ref) {
   let {
     children,
+    viewLabel,
     className,
     isEnabled = true,
     deviceType,
@@ -51584,9 +51585,7 @@ function PreviewOptions(_ref) {
     variant: 'tertiary',
     className: 'block-editor-post-preview__button-toggle',
     disabled: !isEnabled,
-
-    /* translators: button label text should, if possible, be under 16 characters. */
-    children: (0,external_wp_i18n_namespaceObject.__)('View')
+    children: viewLabel
   };
   const menuProps = {
     'aria-label': (0,external_wp_i18n_namespaceObject.__)('View options')
