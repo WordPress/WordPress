@@ -2265,7 +2265,7 @@ function kses_init() {
  * @since 5.8.0 Added support for `calc()` and `var()` values.
  * @since 6.1.0 Added support for `min()`, `max()`, `minmax()`, `clamp()`,
  *              nested `var()` values, and assigning values to CSS variables.
- *              Added support for `gap`, `column-gap`, `row-gap`, and `flex-wrap`.
+ *              Added support for `object-fit`, `gap`, `column-gap`, `row-gap`, and `flex-wrap`.
  *              Extended `margin-*` and `padding-*` support for logical properties.
  *
  * @param string $css        A string of CSS rules.
