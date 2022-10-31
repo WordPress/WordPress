@@ -845,6 +845,25 @@ $_old_files = array(
 	'wp-includes/blocks/tag-cloud/editor-rtl.min.css',
 	// 6.0
 	'wp-content/themes/twentytwentytwo/assets/fonts/LICENSE.md',
+	// 6.1
+	'wp-content/themes/twentytwentyone/assets/sass/05-blocks/spacer/_style.scss',
+	'wp-content/themes/twentytwentyone/assets/sass/05-blocks/spacer',
+	'wp-includes/blocks/post-comments.php',
+	'wp-includes/blocks/post-comments/block.json',
+	'wp-includes/blocks/post-comments/editor.css',
+	'wp-includes/blocks/post-comments/editor.min.css',
+	'wp-includes/blocks/post-comments/editor-rtl.css',
+	'wp-includes/blocks/post-comments/editor-rtl.min.css',
+	'wp-includes/blocks/post-comments/style.css',
+	'wp-includes/blocks/post-comments/style.min.css',
+	'wp-includes/blocks/post-comments/style-rtl.css',
+	'wp-includes/blocks/post-comments/style-rtl.min.css',
+	'wp-includes/blocks/post-comments',
+	'wp-includes/blocks/comments-query-loop/block.json',
+	'wp-includes/blocks/comments-query-loop/editor.css',
+	'wp-includes/blocks/comments-query-loop/editor.min.css',
+	'wp-includes/blocks/comments-query-loop/editor-rtl.css',
+	'wp-includes/blocks/comments-query-loop/editor-rtl.min.css',
 );
 
 /**
