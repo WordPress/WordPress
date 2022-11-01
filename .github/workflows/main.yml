@@ -1,0 +1,15 @@
+- name: GitHub Repo Sync
+  # You may pin to the exact commit or the version.
+  # uses: repo-sync/github-sync@3832fe8e2be32372e1b3970bbae8e7079edeec88
+  uses: repo-sync/github-sync@v2.3.0
+  with:
+    # GitHub public repo slug or full https clone url (with access_token if needed)
+    source_repo: https://github.com/WordPress/WordPress.git
+    # Branch name to sync from
+    source_branch: master
+    # Branch name to sync to in this repo
+    destination_branch: teste
+    # GitHub token secret
+    github_token: 
+    # Should tags also be synced
+    sync_tags: teste1-ci
