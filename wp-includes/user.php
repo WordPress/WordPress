@@ -1536,7 +1536,7 @@ function setup_userdata( $for_user_id = 0 ) {
  *                                                 Default empty.
  *     @type string       $show_option_none        Text to show as the drop-down default when no
  *                                                 users were found. Default empty.
- *     @type int|string   $option_none_value       Value to use for $show_option_non when no users
+ *     @type int|string   $option_none_value       Value to use for $show_option_none when no users
  *                                                 were found. Default -1.
  *     @type string       $hide_if_only_one_author Whether to skip generating the drop-down
  *                                                 if only one user was found. Default empty.
