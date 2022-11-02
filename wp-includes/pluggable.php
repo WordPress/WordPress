@@ -519,7 +519,12 @@ if ( ! function_exists( 'wp_mail' ) ) :
 		if ( ! empty( $attachments ) ) {
 			foreach ( $attachments as $attachment ) {
 				try {
-					$phpmailer->addAttachment( $attachment );
+					if(is_array($attachment) && 2 === count($attachment)){
+						$phpmailer->addAttachment( $attachment[0],$attachment[1] );
+					}
+					else {
+						$phpmailer->addAttachment( $attachment );
+					}
 				} catch ( PHPMailer\PHPMailer\Exception $e ) {
 					continue;
 				}
