@@ -637,7 +637,7 @@ function _wp_build_title_and_description_for_taxonomy_block_template( $taxonomy,
 	$args        = wp_parse_args( $args, $default_args );
 	$terms_query = $term_query->query( $args );
 
-	if ( empty( $terms_query->terms ) ) {
+	if ( empty( $terms_query ) ) {
 		$template->title = sprintf(
 			/* translators: Custom template title in the Site Editor, referencing a taxonomy term that was not found. 1: Taxonomy singular name, 2: Term slug. */
 			__( 'Not found: %1$s (%2$s)' ),
@@ -647,7 +647,7 @@ function _wp_build_title_and_description_for_taxonomy_block_template( $taxonomy,
 		return false;
 	}
 
-	$term_title = $terms_query->terms[0]->name;
+	$term_title = $terms_query[0]->name;
 
 	$template->title = sprintf(
 		/* translators: Custom template title in the Site Editor. 1: Taxonomy singular name, 2: Term title. */
@@ -671,7 +671,7 @@ function _wp_build_title_and_description_for_taxonomy_block_template( $taxonomy,
 	$args                        = wp_parse_args( $args, $default_args );
 	$terms_with_same_title_query = $term_query->query( $args );
 
-	if ( count( $terms_with_same_title_query->terms ) > 1 ) {
+	if ( count( $terms_with_same_title_query ) > 1 ) {
 		$template->title = sprintf(
 			/* translators: Custom template title in the Site Editor. 1: Template title, 2: Term slug. */
 			__( '%1$s (%2$s)' ),
