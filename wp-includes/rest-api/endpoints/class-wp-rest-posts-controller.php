@@ -2890,9 +2890,9 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		}
 
 		$query_params['slug'] = array(
-			'description'       => __( 'Limit result set to posts with one or more specific slugs.' ),
-			'type'              => 'array',
-			'items'             => array(
+			'description' => __( 'Limit result set to posts with one or more specific slugs.' ),
+			'type'        => 'array',
+			'items'       => array(
 				'type' => 'string',
 			),
 		);

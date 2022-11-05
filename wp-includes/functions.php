@@ -3567,19 +3567,23 @@ function wp_nonce_ays( $action ) {
 			__( 'You are attempting to log out of %s' ),
 			get_bloginfo( 'name' )
 		);
-		$html        = $title;
-		$html       .= '</p><p>';
+
 		$redirect_to = isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '';
-		$html       .= sprintf(
+
+		$html  = $title;
+		$html .= '</p><p>';
+		$html .= sprintf(
 			/* translators: %s: Logout URL. */
 			__( 'Do you really want to <a href="%s">log out</a>?' ),
 			wp_logout_url( $redirect_to )
 		);
 	} else {
 		$html = __( 'The link you followed has expired.' );
+
 		if ( wp_get_referer() ) {
 			$wp_http_referer = remove_query_arg( 'updated', wp_get_referer() );
 			$wp_http_referer = wp_validate_redirect( esc_url_raw( $wp_http_referer ) );
+
 			$html .= '</p><p>';
 			$html .= sprintf(
 				'<a href="%s">%s</a>',

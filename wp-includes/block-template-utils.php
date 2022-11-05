@@ -556,10 +556,11 @@ function _wp_build_title_and_description_for_single_post_type_block_template( $p
 		'no_found_rows'          => true,
 	);
 
-	$args  = array(
+	$args = array(
 		'name' => $slug,
 	);
-	$args  = wp_parse_args( $args, $default_args );
+	$args = wp_parse_args( $args, $default_args );
+
 	$posts_query = new WP_Query( $args );
 
 	if ( empty( $posts_query->posts ) ) {
@@ -591,7 +592,8 @@ function _wp_build_title_and_description_for_single_post_type_block_template( $p
 	$args = array(
 		'title' => $post_title,
 	);
-	$args                        = wp_parse_args( $args, $default_args );
+	$args = wp_parse_args( $args, $default_args );
+
 	$posts_with_same_title_query = new WP_Query( $args );
 
 	if ( count( $posts_with_same_title_query->posts ) > 1 ) {
@@ -630,11 +632,12 @@ function _wp_build_title_and_description_for_taxonomy_block_template( $taxonomy,
 
 	$term_query = new WP_Term_Query();
 
-	$args  = array(
+	$args = array(
 		'number' => 1,
 		'slug'   => $slug,
 	);
-	$args        = wp_parse_args( $args, $default_args );
+	$args = wp_parse_args( $args, $default_args );
+
 	$terms_query = $term_query->query( $args );
 
 	if ( empty( $terms_query ) ) {
@@ -668,7 +671,8 @@ function _wp_build_title_and_description_for_taxonomy_block_template( $taxonomy,
 		'number' => 2,
 		'name'   => $term_title,
 	);
-	$args                        = wp_parse_args( $args, $default_args );
+	$args = wp_parse_args( $args, $default_args );
+
 	$terms_with_same_title_query = $term_query->query( $args );
 
 	if ( count( $terms_with_same_title_query ) > 1 ) {

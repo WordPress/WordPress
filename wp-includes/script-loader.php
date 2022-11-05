@@ -3686,7 +3686,8 @@ function wp_add_editor_classic_theme_styles( $editor_settings ) {
 	if ( WP_Theme_JSON_Resolver::theme_has_support() ) {
 		return $editor_settings;
 	}
-	$suffix = wp_scripts_get_suffix();
+
+	$suffix               = wp_scripts_get_suffix();
 	$classic_theme_styles = ABSPATH . WPINC . "/css/classic-themes$suffix.css";
 
 	// This follows the pattern of get_block_editor_theme_styles,
