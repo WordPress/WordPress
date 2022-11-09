@@ -3586,7 +3586,15 @@ class WP_Query {
 		global $post;
 
 		if ( ! $this->in_the_loop ) {
-			update_post_author_caches( $this->posts );
+			// Only prime the post cache for queries limited to the ID field.
+			$post_ids = array_filter( $this->posts, 'is_numeric' );
+			// Exclude any falsey values, such as 0.
+			$post_ids = array_filter( $post_ids );
+			if ( $post_ids ) {
+				_prime_post_caches( $post_ids, $this->query_vars['update_post_term_cache'], $this->query_vars['update_post_meta_cache'] );
+			}
+			$post_objects = array_map( 'get_post', $this->posts );
+			update_post_author_caches( $post_objects );
 		}
 
 		$this->in_the_loop = true;
