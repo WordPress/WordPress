@@ -571,7 +571,7 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
  * @global WP_Scripts $wp_scripts The WP_Scripts object for printing scripts.
  * @global WP_Styles  $wp_styles  The WP_Styles object for printing styles.
  *
- * @param string[]                $preload_paths        List of paths to preload.
+ * @param (string|string[])[]     $preload_paths        List of paths to preload.
  * @param WP_Block_Editor_Context $block_editor_context The current block editor context.
  */
 function block_editor_rest_api_preload( array $preload_paths, $block_editor_context ) {
@@ -582,7 +582,7 @@ function block_editor_rest_api_preload( array $preload_paths, $block_editor_cont
 	 *
 	 * @since 5.8.0
 	 *
-	 * @param string[]                $preload_paths        Array of paths to preload.
+	 * @param (string|string[])[]     $preload_paths        Array of paths to preload.
 	 * @param WP_Block_Editor_Context $block_editor_context The current block editor context.
 	 */
 	$preload_paths = apply_filters( 'block_editor_rest_api_preload_paths', $preload_paths, $block_editor_context );
@@ -598,8 +598,8 @@ function block_editor_rest_api_preload( array $preload_paths, $block_editor_cont
 		 * @since 5.0.0
 		 * @deprecated 5.8.0 Use the {@see 'block_editor_rest_api_preload_paths'} filter instead.
 		 *
-		 * @param string[] $preload_paths Array of paths to preload.
-		 * @param WP_Post  $selected_post Post being edited.
+		 * @param (string|string[])[] $preload_paths Array of paths to preload.
+		 * @param WP_Post             $selected_post Post being edited.
 		 */
 		$preload_paths = apply_filters_deprecated( 'block_editor_preload_paths', array( $preload_paths, $selected_post ), '5.8.0', 'block_editor_rest_api_preload_paths' );
 	}
