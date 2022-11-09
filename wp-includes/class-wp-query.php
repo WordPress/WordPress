@@ -3103,8 +3103,23 @@ class WP_Query {
 		 * cannot be cached. Note the space before `RAND` in the string
 		 * search, that to ensure against a collision with another
 		 * function.
+		 *
+		 * If `$fields` has been modified by the `posts_fields`,
+		 * `posts_fields_request`, `post_clauses` or `posts_clauses_request`
+		 * filters, then caching is disabled to prevent caching collisions.
 		 */
 		$id_query_is_cacheable = ! str_contains( strtoupper( $orderby ), ' RAND(' );
+
+		$cachable_field_values = array(
+			"{$wpdb->posts}.*",
+			"{$wpdb->posts}.ID, {$wpdb->posts}.post_parent",
+			"{$wpdb->posts}.ID",
+		);
+
+		if ( ! in_array( $fields, $cachable_field_values, true ) ) {
+			$id_query_is_cacheable = false;
+		}
+
 		if ( $q['cache_results'] && $id_query_is_cacheable ) {
 			$new_request = str_replace( $fields, "{$wpdb->posts}.*", $this->request );
 			$cache_key   = $this->generate_cache_key( $q, $new_request );
