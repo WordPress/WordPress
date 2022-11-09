@@ -153,9 +153,14 @@ function get_allowed_block_types( $block_editor_context ) {
  */
 function get_default_block_editor_settings() {
 	// Media settings.
-	$max_upload_size = wp_max_upload_size();
-	if ( ! $max_upload_size ) {
-		$max_upload_size = 0;
+
+	// wp_max_upload_size() can be expensive, so only call it when relevant for the current user.
+	$max_upload_size = 0;
+	if ( current_user_can( 'upload_files' ) ) {
+		$max_upload_size = wp_max_upload_size();
+		if ( ! $max_upload_size ) {
+			$max_upload_size = 0;
+		}
 	}
 
 	/** This filter is documented in wp-admin/includes/media.php */
