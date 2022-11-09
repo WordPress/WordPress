@@ -3110,13 +3110,13 @@ class WP_Query {
 		 */
 		$id_query_is_cacheable = ! str_contains( strtoupper( $orderby ), ' RAND(' );
 
-		$cachable_field_values = array(
+		$cacheable_field_values = array(
 			"{$wpdb->posts}.*",
 			"{$wpdb->posts}.ID, {$wpdb->posts}.post_parent",
 			"{$wpdb->posts}.ID",
 		);
 
-		if ( ! in_array( $fields, $cachable_field_values, true ) ) {
+		if ( ! in_array( $fields, $cacheable_field_values, true ) ) {
 			$id_query_is_cacheable = false;
 		}
 
