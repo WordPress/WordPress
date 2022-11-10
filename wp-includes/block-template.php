@@ -43,7 +43,7 @@ function _add_template_loader_filters() {
  * @param string   $template  Path to the template. See locate_template().
  * @param string   $type      Sanitized filename without extension.
  * @param string[] $templates A list of template candidates, in descending order of priority.
- * @return string The path to the Full Site Editing template canvas file, or the fallback PHP template.
+ * @return string The path to the Site Editor template canvas file, or the fallback PHP template.
  */
 function locate_block_template( $template, $type, array $templates ) {
 	global $_wp_current_template_content;

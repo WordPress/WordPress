@@ -299,6 +299,7 @@ function get_theme_update_available( $theme ) {
  *              and 'Full Site Editing' features.
  * @since 5.5.0 Added 'Wide Blocks' layout option.
  * @since 5.8.1 Added 'Template Editing' feature.
+ * @since 6.1.1 Replaced 'Full Site Editing' feature name with 'Site Editor'.
  *
  * @param bool $api Optional. Whether try to fetch tags from the WordPress.org API. Defaults to true.
  * @return array Array of features keyed by category with translations keyed by slug.
@@ -331,7 +332,7 @@ function get_theme_feature_list( $api = true ) {
 			'featured-image-header' => __( 'Featured Image Header' ),
 			'featured-images'       => __( 'Featured Images' ),
 			'footer-widgets'        => __( 'Footer Widgets' ),
-			'full-site-editing'     => __( 'Full Site Editing' ),
+			'full-site-editing'     => __( 'Site Editor' ),
 			'full-width-template'   => __( 'Full Width Template' ),
 			'post-formats'          => __( 'Post Formats' ),
 			'sticky-post'           => __( 'Sticky Post' ),
