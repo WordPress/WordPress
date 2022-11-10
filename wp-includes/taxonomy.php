@@ -558,7 +558,6 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
  *
  * @since 4.5.0
  *
- * @global WP            $wp            Current WordPress environment instance.
  * @global WP_Taxonomy[] $wp_taxonomies List of taxonomies.
  *
  * @param string $taxonomy Taxonomy name.
@@ -4521,6 +4520,8 @@ function wp_get_split_term( $old_term_id, $taxonomy ) {
  * other delays in upgrade routines may cause shared terms to remain.
  *
  * @since 4.4.0
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int $term_id Term ID.
  * @return bool Returns false if a term is not shared between multiple taxonomies or
