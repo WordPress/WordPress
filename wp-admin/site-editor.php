@@ -20,7 +20,7 @@ if ( ! current_user_can( 'edit_theme_options' ) ) {
 }
 
 if ( ! ( current_theme_supports( 'block-template-parts' ) || wp_is_block_theme() ) ) {
-	wp_die( __( 'The theme you are currently using is not compatible with Full Site Editing.' ) );
+	wp_die( __( 'The theme you are currently using is not compatible with the Site Editor.' ) );
 }
 
 $is_template_part_editor = isset( $_GET['postType'] ) && 'wp_template_part' === sanitize_key( $_GET['postType'] );

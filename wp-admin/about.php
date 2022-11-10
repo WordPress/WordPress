@@ -214,7 +214,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 				<p>
 					<?php
 					printf(
-						/* translators: %s: Link to "full site editing" themes on WordPress.org. */
+						/* translators: %s: Link to Block Themes on WordPress.org. */
 						__( 'The Themes Directory has <a href="%s">a filter for block themes</a>, and a pattern preview gives a better sense of what the theme might look like while exploring different themes and patterns.' ),
 						esc_url( __( 'https://wordpress.org/themes/tags/full-site-editing/' ) )
 					);
