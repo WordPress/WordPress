@@ -336,7 +336,7 @@ class WP_REST_Site_Health_Controller extends WP_REST_Controller {
 		// Accounts for inner REST API requests in the admin.
 		if ( ! is_admin() ) {
 			$locale = determine_locale();
-			load_textdomain( 'default', WP_LANG_DIR . "/admin-$locale.mo" );
+			load_textdomain( 'default', WP_LANG_DIR . "/admin-$locale.mo", $locale );
 		}
 	}
 
