@@ -98,6 +98,7 @@
 .wp-block-table td,
 .wp-block-table th {
   border: 1px solid;
+  padding: 0.5em;
 }
 .wp-block-table td.is-selected,
 .wp-block-table th.is-selected {
