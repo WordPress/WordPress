@@ -437,7 +437,7 @@ function _inject_theme_attribute_in_block_template_content( $template_content ) 
 			'core/template-part' === $block['blockName'] &&
 			! isset( $block['attrs']['theme'] )
 		) {
-			$block['attrs']['theme'] = wp_get_theme()->get_stylesheet();
+			$block['attrs']['theme'] = get_stylesheet();
 			$has_updated_content     = true;
 		}
 	}
@@ -499,7 +499,7 @@ function _remove_theme_attribute_in_block_template_content( $template_content ) 
 function _build_block_template_result_from_file( $template_file, $template_type ) {
 	$default_template_types = get_default_block_template_types();
 	$template_content       = file_get_contents( $template_file['path'] );
-	$theme                  = wp_get_theme()->get_stylesheet();
+	$theme                  = get_stylesheet();
 
 	$template                 = new WP_Block_Template();
 	$template->id             = $theme . '//' . $template_file['slug'];
@@ -710,7 +710,7 @@ function _build_block_template_result_from_post( $post ) {
 
 	$theme          = $terms[0]->name;
 	$template_file  = _get_block_template_file( $post->post_type, $post->post_name );
-	$has_theme_file = wp_get_theme()->get_stylesheet() === $theme && null !== $template_file;
+	$has_theme_file = get_stylesheet() === $theme && null !== $template_file;
 
 	$origin           = get_post_meta( $post->ID, 'origin', true );
 	$is_wp_suggestion = get_post_meta( $post->ID, 'is_wp_suggestion', true );
@@ -907,7 +907,7 @@ function get_block_templates( $query = array(), $template_type = 'wp_template' )
 			array(
 				'taxonomy' => 'wp_theme',
 				'field'    => 'name',
-				'terms'    => wp_get_theme()->get_stylesheet(),
+				'terms'    => get_stylesheet(),
 			),
 		),
 	);
@@ -973,7 +973,7 @@ function get_block_templates( $query = array(), $template_type = 'wp_template' )
 			}
 
 			$is_not_custom   = false === array_search(
-				wp_get_theme()->get_stylesheet() . '//' . $template_file['slug'],
+				get_stylesheet() . '//' . $template_file['slug'],
 				wp_list_pluck( $query_result, 'id' ),
 				true
 			);
@@ -1114,7 +1114,7 @@ function get_block_file_template( $id, $template_type = 'wp_template' ) {
 	}
 	list( $theme, $slug ) = $parts;
 
-	if ( wp_get_theme()->get_stylesheet() !== $theme ) {
+	if ( get_stylesheet() !== $theme ) {
 		/** This filter is documented in wp-includes/block-template-utils.php */
 		return apply_filters( 'get_block_file_template', null, $id, $template_type );
 	}
