@@ -33072,6 +33072,7 @@ function useBlockToolbarPopoverProps(_ref) {
 
 
 
+
 function selected_block_popover_selector(select) {
   const {
     __unstableGetEditorMode,
@@ -33147,11 +33148,29 @@ function SelectedBlockPopover(_ref) {
     clientId
   });
 
-  if (!shouldShowBreadcrumb && !shouldShowContextualToolbar) {
+  if (!shouldShowBreadcrumb && !shouldShowContextualToolbar && !showEmptyBlockSideInserter) {
     return null;
   }
 
-  return (0,external_wp_element_namespaceObject.createElement)(block_popover, _extends({
+  return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, showEmptyBlockSideInserter && (0,external_wp_element_namespaceObject.createElement)(block_popover, _extends({
+    clientId: capturingClientId || clientId,
+    __unstableCoverTarget: true,
+    bottomClientId: lastClientId,
+    className: classnames_default()('block-editor-block-list__block-side-inserter-popover', {
+      'is-insertion-point-visible': isInsertionPointVisible
+    }),
+    __unstablePopoverSlot: __unstablePopoverSlot,
+    __unstableContentRef: __unstableContentRef,
+    resize: false,
+    shift: false
+  }, popoverProps), (0,external_wp_element_namespaceObject.createElement)("div", {
+    className: "block-editor-block-list__empty-block-inserter"
+  }, (0,external_wp_element_namespaceObject.createElement)(inserter, {
+    position: "bottom right",
+    rootClientId: rootClientId,
+    clientId: clientId,
+    __experimentalIsQuick: true
+  }))), (shouldShowBreadcrumb || shouldShowContextualToolbar) && (0,external_wp_element_namespaceObject.createElement)(block_popover, _extends({
     clientId: capturingClientId || clientId,
     bottomClientId: lastClientId,
     className: classnames_default()('block-editor-block-list__block-popover', {
@@ -33174,7 +33193,7 @@ function SelectedBlockPopover(_ref) {
   }), shouldShowBreadcrumb && (0,external_wp_element_namespaceObject.createElement)(block_selection_button, {
     clientId: clientId,
     rootClientId: rootClientId
-  }));
+  })));
 }
 
 function wrapperSelector(select) {
@@ -34157,6 +34176,9 @@ function useInnerBlocksProps() {
   let props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   const {
+    __unstableDisableDropZone
+  } = options;
+  const {
     clientId
   } = useBlockEditContext();
   const isSmallScreen = (0,external_wp_compose_namespaceObject.useViewportMatch)('medium', '<');
@@ -34181,9 +34203,10 @@ function useInnerBlocksProps() {
       hasOverlay: blockName !== 'core/template' && !isBlockSelected(clientId) && !hasSelectedInnerBlock(clientId, true) && enableClickThrough
     };
   }, [clientId, isSmallScreen]);
-  const ref = (0,external_wp_compose_namespaceObject.useMergeRefs)([props.ref, useBlockDropZone({
+  const blockDropZoneRef = useBlockDropZone({
     rootClientId: clientId
-  })]);
+  });
+  const ref = (0,external_wp_compose_namespaceObject.useMergeRefs)([props.ref, __unstableDisableDropZone ? null : blockDropZoneRef]);
   const innerBlocksProps = {
     __experimentalCaptureToolbars,
     ...options
@@ -37638,7 +37661,7 @@ const DEFAULT_MAXIMUM_VIEWPORT_WIDTH = '1600px';
 const DEFAULT_MINIMUM_VIEWPORT_WIDTH = '768px';
 const DEFAULT_SCALE_FACTOR = 1;
 const DEFAULT_MINIMUM_FONT_SIZE_FACTOR = 0.75;
-const DEFAULT_MAXIMUM_FONT_SIZE_FACTOR = 1.5;
+const DEFAULT_MINIMUM_FONT_SIZE_LIMIT = '14px';
 /**
  * Computes a fluid font-size value that uses clamp(). A minimum and maxinmum
  * font size OR a single font size can be specified.
@@ -37668,7 +37691,6 @@ const DEFAULT_MAXIMUM_FONT_SIZE_FACTOR = 1.5;
  * @param {?string}       args.minimumFontSize       Minimum font size for any clamp() calculation. Optional.
  * @param {?number}       args.scaleFactor           A scale factor to determine how fast a font scales within boundaries. Optional.
  * @param {?number}       args.minimumFontSizeFactor How much to scale defaultFontSize by to derive minimumFontSize. Optional.
- * @param {?number}       args.maximumFontSizeFactor How much to scale defaultFontSize by to derive maximumFontSize. Optional.
  *
  * @return {string|null} A font-size value using clamp().
  */
@@ -37682,48 +37704,71 @@ function getComputedFluidTypographyValue(_ref) {
     maximumViewPortWidth = DEFAULT_MAXIMUM_VIEWPORT_WIDTH,
     scaleFactor = DEFAULT_SCALE_FACTOR,
     minimumFontSizeFactor = DEFAULT_MINIMUM_FONT_SIZE_FACTOR,
-    maximumFontSizeFactor = DEFAULT_MAXIMUM_FONT_SIZE_FACTOR
+    minimumFontSizeLimit = DEFAULT_MINIMUM_FONT_SIZE_LIMIT
   } = _ref;
 
-  // Calculate missing minimumFontSize and maximumFontSize from
-  // defaultFontSize if provided.
-  if (fontSize && (!minimumFontSize || !maximumFontSize)) {
-    // Parse default font size.
+  /*
+   * Calculates missing minimumFontSize and maximumFontSize from
+   * defaultFontSize if provided.
+   */
+  if (fontSize) {
+    // Parses default font size.
     const fontSizeParsed = getTypographyValueAndUnit(fontSize); // Protect against invalid units.
 
     if (!(fontSizeParsed !== null && fontSizeParsed !== void 0 && fontSizeParsed.unit)) {
       return null;
-    } // If no minimumFontSize is provided, derive using min scale factor.
+    } // Parses the minimum font size limit, so we can perform checks using it.
 
 
-    if (!minimumFontSize) {
-      minimumFontSize = fontSizeParsed.value * minimumFontSizeFactor + fontSizeParsed.unit;
-    } // If no maximumFontSize is provided, derive using max scale factor.
+    const minimumFontSizeLimitParsed = getTypographyValueAndUnit(minimumFontSizeLimit, {
+      coerceTo: fontSizeParsed.unit
+    }); // Don't enforce minimum font size if a font size has explicitly set a min and max value.
+
+    if (!!(minimumFontSizeLimitParsed !== null && minimumFontSizeLimitParsed !== void 0 && minimumFontSizeLimitParsed.value) && !minimumFontSize && !maximumFontSize) {
+      /*
+       * If a minimum size was not passed to this function
+       * and the user-defined font size is lower than $minimum_font_size_limit,
+       * do not calculate a fluid value.
+       */
+      if ((fontSizeParsed === null || fontSizeParsed === void 0 ? void 0 : fontSizeParsed.value) <= (minimumFontSizeLimitParsed === null || minimumFontSizeLimitParsed === void 0 ? void 0 : minimumFontSizeLimitParsed.value)) {
+        return null;
+      }
+    } // If no fluid max font size is available use the incoming value.
 
 
     if (!maximumFontSize) {
-      maximumFontSize = fontSizeParsed.value * maximumFontSizeFactor + fontSizeParsed.unit;
+      maximumFontSize = `${fontSizeParsed.value}${fontSizeParsed.unit}`;
     }
-  } // Return early if one of the provided inputs is not provided.
+    /*
+     * If no minimumFontSize is provided, create one using
+     * the given font size multiplied by the min font size scale factor.
+     */
 
 
-  if (!minimumFontSize || !maximumFontSize) {
-    return null;
+    if (!minimumFontSize) {
+      const calculatedMinimumFontSize = roundToPrecision(fontSizeParsed.value * minimumFontSizeFactor, 3); // Only use calculated min font size if it's > $minimum_font_size_limit value.
+
+      if (!!(minimumFontSizeLimitParsed !== null && minimumFontSizeLimitParsed !== void 0 && minimumFontSizeLimitParsed.value) && calculatedMinimumFontSize < (minimumFontSizeLimitParsed === null || minimumFontSizeLimitParsed === void 0 ? void 0 : minimumFontSizeLimitParsed.value)) {
+        minimumFontSize = `${minimumFontSizeLimitParsed.value}${minimumFontSizeLimitParsed.unit}`;
+      } else {
+        minimumFontSize = `${calculatedMinimumFontSize}${fontSizeParsed.unit}`;
+      }
+    }
   } // Grab the minimum font size and normalize it in order to use the value for calculations.
 
 
   const minimumFontSizeParsed = getTypographyValueAndUnit(minimumFontSize); // We get a 'preferred' unit to keep units consistent when calculating,
   // otherwise the result will not be accurate.
 
-  const fontSizeUnit = (minimumFontSizeParsed === null || minimumFontSizeParsed === void 0 ? void 0 : minimumFontSizeParsed.unit) || 'rem'; // Grab the maximum font size and normalize it in order to use the value for calculations.
+  const fontSizeUnit = (minimumFontSizeParsed === null || minimumFontSizeParsed === void 0 ? void 0 : minimumFontSizeParsed.unit) || 'rem'; // Grabs the maximum font size and normalize it in order to use the value for calculations.
 
   const maximumFontSizeParsed = getTypographyValueAndUnit(maximumFontSize, {
     coerceTo: fontSizeUnit
-  }); // Protect against unsupported units.
+  }); // Checks for mandatory min and max sizes, and protects against unsupported units.
 
   if (!minimumFontSizeParsed || !maximumFontSizeParsed) {
     return null;
-  } // Use rem for accessible fluid target font scaling.
+  } // Uses rem for accessible fluid target font scaling.
 
 
   const minimumFontSizeRem = getTypographyValueAndUnit(minimumFontSize, {
@@ -37744,10 +37789,9 @@ function getComputedFluidTypographyValue(_ref) {
 
 
   const minViewPortWidthOffsetValue = roundToPrecision(minumumViewPortWidthParsed.value / 100, 3);
-  const viewPortWidthOffset = minViewPortWidthOffsetValue + fontSizeUnit;
-  let linearFactor = 100 * ((maximumFontSizeParsed.value - minimumFontSizeParsed.value) / (maximumViewPortWidthParsed.value - minumumViewPortWidthParsed.value));
-  linearFactor = roundToPrecision(linearFactor, 3) || 1;
-  const linearFactorScaled = linearFactor * scaleFactor;
+  const viewPortWidthOffset = roundToPrecision(minViewPortWidthOffsetValue, 3) + fontSizeUnit;
+  const linearFactor = 100 * ((maximumFontSizeParsed.value - minimumFontSizeParsed.value) / (maximumViewPortWidthParsed.value - minumumViewPortWidthParsed.value));
+  const linearFactorScaled = roundToPrecision((linearFactor || 1) * scaleFactor, 3);
   const fluidTargetFontSize = `${minimumFontSizeRem.value}${minimumFontSizeRem.unit} + ((1vw - ${viewPortWidthOffset}) * ${linearFactorScaled})`;
   return `clamp(${minimumFontSize}, ${fluidTargetFontSize}, ${maximumFontSize})`;
 }
@@ -37804,9 +37848,19 @@ function getTypographyValueAndUnit(rawValue) {
     returnValue = returnValue / rootSizeValue;
     unit = coerceTo;
   }
+  /*
+   * No calculation is required if swapping between em and rem yet,
+   * since we assume a root size value. Later we might like to differentiate between
+   * :root font size (rem) and parent element font size (em) relativity.
+   */
+
+
+  if (('em' === coerceTo || 'rem' === coerceTo) && ('em' === unit || 'rem' === unit)) {
+    unit = coerceTo;
+  }
 
   return {
-    value: returnValue,
+    value: roundToPrecision(returnValue, 3),
     unit
   };
 }
@@ -37822,7 +37876,8 @@ function getTypographyValueAndUnit(rawValue) {
 
 function roundToPrecision(value) {
   let digits = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 3;
-  return Number.isFinite(value) ? parseFloat(value.toFixed(digits)) : undefined;
+  const base = Math.pow(10, digits);
+  return Number.isFinite(value) ? parseFloat(Math.round(value * base) / base) : undefined;
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/hooks/font-size.js

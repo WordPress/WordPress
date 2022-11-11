@@ -6335,17 +6335,18 @@ function Header(_ref) {
     listViewShortcut,
     isLoaded,
     isVisualMode,
-    settings,
-    blockEditorMode
+    blockEditorMode,
+    homeUrl
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
+    var _getUnstableBase;
+
     const {
       __experimentalGetPreviewDeviceType,
       getEditedPostType,
       getEditedPostId,
       isInserterOpened,
       isListViewOpened,
-      getEditorMode,
-      getSettings
+      getEditorMode
     } = select(store_store);
     const {
       getEditedEntityRecord
@@ -6365,6 +6366,10 @@ function Header(_ref) {
 
     const _isLoaded = !!postId;
 
+    const {
+      getUnstableBase // Site index.
+
+    } = select(external_wp_coreData_namespaceObject.store);
     return {
       deviceType: __experimentalGetPreviewDeviceType(),
       entityTitle: getTemplateInfo(record).title,
@@ -6375,8 +6380,8 @@ function Header(_ref) {
       isListViewOpen: isListViewOpened(),
       listViewShortcut: getShortcutRepresentation('core/edit-site/toggle-list-view'),
       isVisualMode: getEditorMode() === 'visual',
-      settings: getSettings(),
-      blockEditorMode: __unstableGetEditorMode()
+      blockEditorMode: __unstableGetEditorMode(),
+      homeUrl: (_getUnstableBase = getUnstableBase()) === null || _getUnstableBase === void 0 ? void 0 : _getUnstableBase.home
     };
   }, []);
   const {
@@ -6494,7 +6499,7 @@ function Header(_ref) {
     ,
     viewLabel: (0,external_wp_i18n_namespaceObject.__)('View')
   }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuGroup, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuItem, {
-    href: settings === null || settings === void 0 ? void 0 : settings.siteUrl,
+    href: homeUrl,
     target: "_blank",
     icon: library_external
   }, (0,external_wp_i18n_namespaceObject.__)('View site'), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.VisuallyHidden, {
@@ -8984,8 +8989,40 @@ const getBlockSelectors = blockTypes => {
   });
   return result;
 };
+/**
+ * If there is a separator block whose color is defined in theme.json via background,
+ * update the separator color to the same value by using border color.
+ *
+ * @param {Object} config Theme.json configuration file object.
+ * @return {Object} configTheme.json configuration file object updated.
+ */
+
+function updateConfigWithSeparator(config) {
+  var _config$styles, _config$styles2, _config$styles2$block, _config$styles3, _config$styles3$block, _config$styles4, _config$styles4$block;
+
+  const needsSeparatorStyleUpdate = ((_config$styles = config.styles) === null || _config$styles === void 0 ? void 0 : _config$styles.blocks['core/separator']) && ((_config$styles2 = config.styles) === null || _config$styles2 === void 0 ? void 0 : (_config$styles2$block = _config$styles2.blocks['core/separator'].color) === null || _config$styles2$block === void 0 ? void 0 : _config$styles2$block.background) && !((_config$styles3 = config.styles) !== null && _config$styles3 !== void 0 && (_config$styles3$block = _config$styles3.blocks['core/separator'].color) !== null && _config$styles3$block !== void 0 && _config$styles3$block.text) && !((_config$styles4 = config.styles) !== null && _config$styles4 !== void 0 && (_config$styles4$block = _config$styles4.blocks['core/separator'].border) !== null && _config$styles4$block !== void 0 && _config$styles4$block.color);
+
+  if (needsSeparatorStyleUpdate) {
+    var _config$styles5;
+
+    return { ...config,
+      styles: { ...config.styles,
+        blocks: { ...config.styles.blocks,
+          'core/separator': { ...config.styles.blocks['core/separator'],
+            color: { ...config.styles.blocks['core/separator'].color,
+              text: (_config$styles5 = config.styles) === null || _config$styles5 === void 0 ? void 0 : _config$styles5.blocks['core/separator'].color.background
+            }
+          }
+        }
+      }
+    };
+  }
+
+  return config;
+}
+
 function useGlobalStylesOutput() {
-  const {
+  let {
     merged: mergedConfig
   } = (0,external_wp_element_namespaceObject.useContext)(GlobalStylesContext);
   const [blockGap] = useSetting('spacing.blockGap');
@@ -8999,10 +9036,13 @@ function useGlobalStylesOutput() {
     return !!getSettings().disableLayoutStyles;
   });
   return (0,external_wp_element_namespaceObject.useMemo)(() => {
-    if (!(mergedConfig !== null && mergedConfig !== void 0 && mergedConfig.styles) || !(mergedConfig !== null && mergedConfig !== void 0 && mergedConfig.settings)) {
+    var _mergedConfig, _mergedConfig2;
+
+    if (!((_mergedConfig = mergedConfig) !== null && _mergedConfig !== void 0 && _mergedConfig.styles) || !((_mergedConfig2 = mergedConfig) !== null && _mergedConfig2 !== void 0 && _mergedConfig2.settings)) {
       return [];
     }
 
+    mergedConfig = updateConfigWithSeparator(mergedConfig);
     const blockSelectors = getBlockSelectors((0,external_wp_blocks_namespaceObject.getBlockTypes)());
     const customProperties = toCustomProperties(mergedConfig, blockSelectors);
     const globalStyles = toStyles(mergedConfig, blockSelectors, hasBlockGapSupport, hasFallbackGapSupport, disableLayoutStyles);

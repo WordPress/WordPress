@@ -3239,6 +3239,11 @@ ul.wp-block-rss.is-grid li {
   border-collapse: collapse;
   width: 100%;
 }
+.wp-block-table td,
+.wp-block-table th {
+  border: 1px solid;
+  padding: 0.5em;
+}
 .wp-block-table .has-fixed-layout {
   table-layout: fixed;
   width: 100%;

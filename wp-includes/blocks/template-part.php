@@ -193,6 +193,11 @@ function build_template_part_block_instance_variations() {
 	if ( wp_installing() ) {
 		return array();
 	}
+
+	if ( ! current_theme_supports( 'block-templates' ) && ! current_theme_supports( 'block-template-parts' ) ) {
+		return array();
+	}
+
 	$variations     = array();
 	$template_parts = get_block_templates(
 		array(

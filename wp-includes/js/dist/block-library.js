@@ -13394,7 +13394,9 @@ function CoverEdit(_ref) {
   const innerBlocksProps = (0,external_wp_blockEditor_namespaceObject.useInnerBlocksProps)({
     className: 'wp-block-cover__inner-container'
   }, {
-    template: innerBlocksTemplate,
+    // Avoid template sync when the `templateLock` value is `all` or `contentOnly`.
+    // See: https://github.com/WordPress/gutenberg/pull/45632
+    template: !hasInnerBlocks ? innerBlocksTemplate : undefined,
     templateInsertUpdatesSelection: true,
     allowedBlocks,
     templateLock
@@ -25058,14 +25060,10 @@ function migrateToListV2(attributes) {
     list.setAttribute('type', type);
   }
 
-  const listBlock = createListBlockFromDOMElement(list);
-  const {
-    values: omittedValues,
-    ...restAttributes
-  } = attributes;
-  return [{ ...restAttributes,
-    ...listBlock.attributes
-  }, listBlock.innerBlocks];
+  const [listBlock] = (0,external_wp_blocks_namespaceObject.rawHandler)({
+    HTML: list.outerHTML
+  });
+  return [listBlock.attributes, listBlock.innerBlocks];
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/list/deprecated.js
@@ -26639,7 +26637,8 @@ function ListItemEdit(_ref2) {
     ref: useCopy(clientId)
   });
   const innerBlocksProps = (0,external_wp_blockEditor_namespaceObject.useInnerBlocksProps)(blockProps, {
-    allowedBlocks: ['core/list']
+    allowedBlocks: ['core/list'],
+    __unstableDisableDropZone: true
   });
   const useEnterRef = useEnter({
     content,
@@ -34569,6 +34568,34 @@ function PageListEdit(_ref) {
     style: { ...((_context$style = context.style) === null || _context$style === void 0 ? void 0 : _context$style.color)
     }
   });
+
+  const getBlockContent = () => {
+    if (!hasResolvedPages) {
+      return (0,external_wp_element_namespaceObject.createElement)("div", blockProps, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Spinner, null));
+    }
+
+    if (totalPages === null) {
+      return (0,external_wp_element_namespaceObject.createElement)("div", blockProps, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Notice, {
+        status: 'warning',
+        isDismissible: false
+      }, (0,external_wp_i18n_namespaceObject.__)('Page List: Cannot retrieve Pages.')));
+    }
+
+    if (totalPages === 0) {
+      return (0,external_wp_element_namespaceObject.createElement)("div", blockProps, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Notice, {
+        status: 'info',
+        isDismissible: false
+      }, (0,external_wp_i18n_namespaceObject.__)('Page List: Cannot retrieve Pages.')));
+    }
+
+    if (totalPages > 0) {
+      return (0,external_wp_element_namespaceObject.createElement)("ul", blockProps, (0,external_wp_element_namespaceObject.createElement)(PageItems, {
+        context: context,
+        pagesByParentId: pagesByParentId
+      }));
+    }
+  };
+
   return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, allowConvertToLinks && (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockControls, {
     group: "other"
   }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.ToolbarButton, {
@@ -34577,16 +34604,7 @@ function PageListEdit(_ref) {
   }, (0,external_wp_i18n_namespaceObject.__)('Edit'))), allowConvertToLinks && isOpen && (0,external_wp_element_namespaceObject.createElement)(ConvertToLinksModal, {
     onClose: closeModal,
     clientId: clientId
-  }), !hasResolvedPages && (0,external_wp_element_namespaceObject.createElement)("div", blockProps, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Spinner, null)), hasResolvedPages && totalPages === null && (0,external_wp_element_namespaceObject.createElement)("div", blockProps, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Notice, {
-    status: 'warning',
-    isDismissible: false
-  }, (0,external_wp_i18n_namespaceObject.__)('Page List: Cannot retrieve Pages.'))), totalPages === 0 && (0,external_wp_element_namespaceObject.createElement)("div", blockProps, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Notice, {
-    status: 'info',
-    isDismissible: false
-  }, (0,external_wp_i18n_namespaceObject.__)('Page List: Cannot retrieve Pages.'))), totalPages > 0 && (0,external_wp_element_namespaceObject.createElement)("ul", blockProps, (0,external_wp_element_namespaceObject.createElement)(PageItems, {
-    context: context,
-    pagesByParentId: pagesByParentId
-  })));
+  }), getBlockContent());
 }
 
 function useFrontPageId() {
