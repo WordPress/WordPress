@@ -564,6 +564,8 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
  * @return true|WP_Error True on success, WP_Error on failure or if the taxonomy doesn't exist.
  */
 function unregister_taxonomy( $taxonomy ) {
+	global $wp_taxonomies;
+
 	if ( ! taxonomy_exists( $taxonomy ) ) {
 		return new WP_Error( 'invalid_taxonomy', __( 'Invalid taxonomy.' ) );
 	}
@@ -574,8 +576,6 @@ function unregister_taxonomy( $taxonomy ) {
 	if ( $taxonomy_object->_builtin ) {
 		return new WP_Error( 'invalid_taxonomy', __( 'Unregistering a built-in taxonomy is not allowed.' ) );
 	}
-
-	global $wp_taxonomies;
 
 	$taxonomy_object->remove_rewrite_rules();
 	$taxonomy_object->remove_hooks();
