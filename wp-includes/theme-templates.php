@@ -27,7 +27,7 @@ function wp_set_unique_slug_on_create_template_part( $post_id ) {
 
 	$terms = get_the_terms( $post_id, 'wp_theme' );
 	if ( ! is_array( $terms ) || ! count( $terms ) ) {
-		wp_set_post_terms( $post_id, wp_get_theme()->get_stylesheet(), 'wp_theme' );
+		wp_set_post_terms( $post_id, get_stylesheet(), 'wp_theme' );
 	}
 }
 
@@ -60,7 +60,7 @@ function wp_filter_wp_template_unique_post_slug( $override_slug, $slug, $post_ID
 	 * in the case of new entities since is too early in the process to have been saved
 	 * to the entity. So for now we use the currently activated theme for creation.
 	 */
-	$theme = wp_get_theme()->get_stylesheet();
+	$theme = get_stylesheet();
 	$terms = get_the_terms( $post_ID, 'wp_theme' );
 	if ( $terms && ! is_wp_error( $terms ) ) {
 		$theme = $terms[0]->name;
