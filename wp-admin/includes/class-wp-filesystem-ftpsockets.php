@@ -414,18 +414,19 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 	 * Checks if a file or directory exists.
 	 *
 	 * @since 2.5.0
-	 * @since 6.1.0 Uses WP_Filesystem_ftpsockets::is_dir() to check for directory existence
-	 *              and file size to check for file existence.
 	 *
 	 * @param string $path Path to file or directory.
 	 * @return bool Whether $path exists or not.
 	 */
 	public function exists( $path ) {
-		if ( $this->is_dir( $path ) ) {
-			return true;
+		$list = $this->ftp->nlist( $path );
+
+		if ( empty( $list ) && $this->is_dir( $path ) ) {
+			return true; // File is an empty directory.
 		}
 
-		return is_numeric( $this->size( $path ) );
+		return ! empty( $list ); // Empty list = no file, so invert.
+		// Return $this->ftp->is_exists($file); has issues with ABOR+426 responses on the ncFTPd server.
 	}
 
 	/**
