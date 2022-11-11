@@ -243,7 +243,7 @@ class WP_Theme_JSON_Resolver {
 			_deprecated_argument( __METHOD__, '5.9.0' );
 		}
 
-		$options  = wp_parse_args( $options, array( 'with_supports' => true ) );
+		$options = wp_parse_args( $options, array( 'with_supports' => true ) );
 
 		if ( null === static::$theme || ! static::has_same_registered_blocks( 'theme' ) ) {
 			$theme_json_file = static::get_file_path_from_theme( 'theme.json' );
