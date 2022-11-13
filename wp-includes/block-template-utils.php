@@ -1200,9 +1200,13 @@ function wp_is_theme_directory_ignored( $path ) {
  * @since 5.9.0
  * @since 6.0.0 Adds the whole theme to the export archive.
  *
+ * @global string $wp_version The WordPress version string.
+ *
  * @return WP_Error|string Path of the ZIP file or error on failure.
  */
 function wp_generate_block_templates_export_file() {
+	global $wp_version;
+
 	if ( ! class_exists( 'ZipArchive' ) ) {
 		return new WP_Error( 'missing_zip_package', __( 'Zip Export not supported.' ) );
 	}
@@ -1270,7 +1274,6 @@ function wp_generate_block_templates_export_file() {
 	$theme_json_raw = $tree->get_data();
 	// If a version is defined, add a schema.
 	if ( $theme_json_raw['version'] ) {
-		global $wp_version;
 		$theme_json_version = 'wp/' . substr( $wp_version, 0, 3 );
 		$schema             = array( '$schema' => 'https://schemas.wp.org/' . $theme_json_version . '/theme.json' );
 		$theme_json_raw     = array_merge( $schema, $theme_json_raw );
