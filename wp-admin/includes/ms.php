@@ -783,7 +783,7 @@ function choose_primary_blog() {
 				update_user_meta( get_current_user_id(), 'primary_blog', $blog->userblog_id );
 			}
 		} else {
-			echo 'N/A';
+			_e( 'Not available' );
 		}
 		?>
 		</td>
