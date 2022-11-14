@@ -143,7 +143,7 @@ function register_nav_menu( $location, $description ) {
  *
  * @global array $_wp_registered_nav_menus
  *
- * @return string[] Associative array of egistered navigation menu descriptions keyed
+ * @return string[] Associative array of registered navigation menu descriptions keyed
  *                  by their location. If none are registered, an empty array.
  */
 function get_registered_nav_menus() {
