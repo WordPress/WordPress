@@ -1040,7 +1040,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 										<input type="checkbox" id="bulk-select-switcher-bottom" name="bulk-select-switcher-top" class="bulk-select-switcher">
 										<span class="bulk-select-button-label"><?php _e( 'Bulk Select' ); ?></span>
 									</label>
-									<input type="button" class="deletion menu-items-delete disabled" value="<?php _e( 'Remove Selected Items' ); ?>">
+									<input type="button" class="deletion menu-items-delete disabled" value="<?php esc_attr_e( 'Remove Selected Items' ); ?>">
 									<div id="pending-menu-items-to-delete">
 										<p><?php _e( 'List of menu items selected for deletion:' ); ?></p>
 										<ul></ul>

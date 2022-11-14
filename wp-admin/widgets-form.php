@@ -332,7 +332,7 @@ if ( isset( $_GET['editwidget'] ) && $_GET['editwidget'] ) {
 	<div class="widget-control-actions">
 		<div class="alignleft">
 			<?php if ( ! isset( $_GET['addnew'] ) ) : ?>
-				<input type="submit" name="removewidget" id="removewidget" class="button-link button-link-delete widget-control-remove" value="<?php _e( 'Delete' ); ?>" />
+				<input type="submit" name="removewidget" id="removewidget" class="button-link button-link-delete widget-control-remove" value="<?php esc_attr_e( 'Delete' ); ?>" />
 				<span class="widget-control-close-wrapper">
 					| <a href="widgets.php" class="button-link widget-control-close"><?php _e( 'Cancel' ); ?></a>
 				</span>
