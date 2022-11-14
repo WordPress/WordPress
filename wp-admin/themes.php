@@ -199,7 +199,7 @@ if ( current_user_can( 'update_themes' ) && wp_is_auto_update_enabled_for_type( 
 		)
 	);
 
-	$help_sidebar_autoupdates = '<p>' . __( '<a href="https://wordpress.org/support/article/plugins-themes-auto-updates/">Learn more: Auto-updates documentation</a>' ) . '</p>';
+	$help_sidebar_autoupdates = '<p>' . __( '<a href="https://wordpress.org/support/article/plugins-themes-auto-updates/">Documentation on Auto-updates</a>' ) . '</p>';
 } // End if 'update_themes' && 'wp_is_auto_update_enabled_for_type'.
 
 get_current_screen()->set_help_sidebar(
