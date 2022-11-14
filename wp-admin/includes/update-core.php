@@ -864,6 +864,7 @@ $_old_files = array(
 	'wp-includes/blocks/comments-query-loop/editor.min.css',
 	'wp-includes/blocks/comments-query-loop/editor-rtl.css',
 	'wp-includes/blocks/comments-query-loop/editor-rtl.min.css',
+	'wp-includes/blocks/comments-query-loop',
 );
 
 /**
