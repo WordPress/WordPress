@@ -425,7 +425,9 @@ function wp_login_viewport_meta() {
 }
 
 /*
- * Main part: check the request and redirect or display a form based on the current action.
+ * Main part.
+ *
+ * Check the request and redirect or display a form based on the current action.
  */
 
 $action = isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : 'login';
