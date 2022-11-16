@@ -68,6 +68,10 @@ final class WP_Block_Patterns_Registry {
 	 *                                 Certain blocks support further specificity besides the block name
 	 *                                 (e.g. for `core/template-part` you can specify areas
 	 *                                 like `core/template-part/header` or `core/template-part/footer`).
+	 *     @type array  $postTypes     An array of post types that the pattern is restricted to be used with.
+	 *                                 The pattern will only be available when editing one of the post types
+	 *                                 passed on the array. For all the other post types not part of the array
+	 *                                 the pattern is not available at all.
 	 *     @type array  $keywords      Optional. A list of aliases or keywords that help users discover the
 	 *                                 pattern while searching.
 	 * }
