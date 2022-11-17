@@ -176,7 +176,7 @@ function determine_locale() {
  * *Note:* Don't use translate() directly, use __() or related functions.
  *
  * @since 2.2.0
- * @since 5.5.0 Introduced gettext-{$domain} filter.
+ * @since 5.5.0 Introduced `gettext-{$domain}` filter.
  *
  * @param string $text   Text to translate.
  * @param string $domain Optional. Text domain. Unique identifier for retrieving translated strings.
@@ -242,7 +242,7 @@ function before_last_bar( $string ) {
  * *Note:* Don't use translate_with_gettext_context() directly, use _x() or related functions.
  *
  * @since 2.8.0
- * @since 5.5.0 Introduced gettext_with_context-{$domain} filter.
+ * @since 5.5.0 Introduced `gettext_with_context-{$domain}` filter.
  *
  * @param string $text    Text to translate.
  * @param string $context Context information for the translators.
@@ -463,7 +463,7 @@ function esc_html_x( $text, $context, $domain = 'default' ) {
  *     printf( _n( '%s person', '%s people', $count, 'text-domain' ), number_format_i18n( $count ) );
  *
  * @since 2.8.0
- * @since 5.5.0 Introduced ngettext-{$domain} filter.
+ * @since 5.5.0 Introduced `ngettext-{$domain}` filter.
  *
  * @param string $single The text to be used if the number is singular.
  * @param string $plural The text to be used if the number is plural.
@@ -521,7 +521,7 @@ function _n( $single, $plural, $number, $domain = 'default' ) {
  *     printf( _nx( '%s group', '%s groups', $animals, 'group of animals', 'text-domain' ), number_format_i18n( $animals ) );
  *
  * @since 2.8.0
- * @since 5.5.0 Introduced ngettext_with_context-{$domain} filter.
+ * @since 5.5.0 Introduced `ngettext_with_context-{$domain}` filter.
  *
  * @param string $single  The text to be used if the number is singular.
  * @param string $plural  The text to be used if the number is plural.
@@ -1022,9 +1022,9 @@ function load_theme_textdomain( $domain, $path = false ) {
 }
 
 /**
- * Loads the child themes translated strings.
+ * Loads the child theme's translated strings.
  *
- * If the current locale exists as a .mo file in the child themes
+ * If the current locale exists as a .mo file in the child theme's
  * root directory, it will be included in the translated strings by the $domain.
  *
  * The .mo files must be named based on the locale exactly.
@@ -1361,7 +1361,8 @@ function translate_user_role( $name, $domain = 'default' ) {
  *
  * @param string $dir A directory to search for language files.
  *                    Default WP_LANG_DIR.
- * @return string[] An array of language codes or an empty array if no languages are present. Language codes are formed by stripping the .mo extension from the language file names.
+ * @return string[] An array of language codes or an empty array if no languages are present.
+ *                  Language codes are formed by stripping the .mo extension from the language file names.
  */
 function get_available_languages( $dir = null ) {
 	$languages = array();

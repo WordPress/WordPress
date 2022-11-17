@@ -934,7 +934,7 @@ function do_enclose( $content, $post ) {
 	 * @since 4.4.0
 	 *
 	 * @param string[] $post_links An array of enclosure links.
-	 * @param int      $post_ID    Post ID.
+	 * @param int      $post_id    Post ID.
 	 */
 	$post_links = apply_filters( 'enclosure_links', $post_links, $post->ID );
 
@@ -3330,7 +3330,7 @@ function wp_get_mime_types() {
 	 * @since 3.5.0
 	 *
 	 * @param string[] $wp_get_mime_types Mime types keyed by the file extension regex
-	 *                                 corresponding to those types.
+	 *                                    corresponding to those types.
 	 */
 	return apply_filters(
 		'mime_types',
@@ -5200,9 +5200,10 @@ function wp_list_pluck( $list, $field, $index_key = null ) {
  *
  * @param array        $list          An array of objects or arrays to sort.
  * @param string|array $orderby       Optional. Either the field name to order by or an array
- *                                    of multiple orderby fields as $orderby => $order.
- * @param string       $order         Optional. Either 'ASC' or 'DESC'. Only used if $orderby
- *                                    is a string.
+ *                                    of multiple orderby fields as `$orderby => $order`.
+ *                                    Default empty array.
+ * @param string       $order         Optional. Either 'ASC' or 'DESC'. Only used if `$orderby`
+ *                                    is a string. Default 'ASC'.
  * @param bool         $preserve_keys Optional. Whether to preserve keys. Default false.
  * @return array The sorted array.
  */

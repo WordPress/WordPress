@@ -659,11 +659,9 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			&& in_array( $prepared_post->post_status, array( 'draft', 'pending' ), true )
 		) {
 			/*
-			 * `wp_unique_post_slug()` returns the same
-			 * slug for 'draft' or 'pending' posts.
+			 * `wp_unique_post_slug()` returns the same slug for 'draft' or 'pending' posts.
 			 *
-			 * To ensure that a unique slug is generated,
-			 * pass the post data with the 'publish' status.
+			 * To ensure that a unique slug is generated, pass the post data with the 'publish' status.
 			 */
 			$prepared_post->post_name = wp_unique_post_slug(
 				$prepared_post->post_name,
@@ -862,15 +860,19 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		}
 
 		/*
-		 * `wp_unique_post_slug()` returns the same
-		 * slug for 'draft' or 'pending' posts.
+		 * `wp_unique_post_slug()` returns the same slug for 'draft' or 'pending' posts.
 		 *
-		 * To ensure that a unique slug is generated,
-		 * pass the post data with the 'publish' status.
+		 * To ensure that a unique slug is generated, pass the post data with the 'publish' status.
 		 */
 		if ( ! empty( $post->post_name ) && in_array( $post_status, array( 'draft', 'pending' ), true ) ) {
 			$post_parent     = ! empty( $post->post_parent ) ? $post->post_parent : 0;
-			$post->post_name = wp_unique_post_slug( $post->post_name, $post->ID, 'publish', $post->post_type, $post_parent );
+			$post->post_name = wp_unique_post_slug(
+				$post->post_name,
+				$post->ID,
+				'publish',
+				$post->post_type,
+				$post_parent
+			);
 		}
 
 		// Convert the post object to an array, otherwise wp_update_post() will expect non-escaped input.

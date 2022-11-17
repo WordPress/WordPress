@@ -1322,10 +1322,10 @@ function get_current_network_id() {
  * @access private
  *
  * @global WP_Textdomain_Registry $wp_textdomain_registry WordPress Textdomain Registry.
- * @global WP_Locale $wp_locale WordPress date and time locale object.
+ * @global WP_Locale              $wp_locale              WordPress date and time locale object.
  */
 function wp_load_translations_early() {
-	global $wp_locale, $wp_textdomain_registry;
+	global $wp_textdomain_registry, $wp_locale;
 
 	static $loaded = false;
 	if ( $loaded ) {

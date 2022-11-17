@@ -156,7 +156,7 @@ endif;
 /**
  * Internal compat function to mimic mb_strlen().
  *
- * Only understands UTF-8 and 8bit.  All other character sets will be treated as 8bit.
+ * Only understands UTF-8 and 8bit. All other character sets will be treated as 8bit.
  * For `$encoding === UTF-8`, the `$str` input is expected to be a valid UTF-8 byte
  * sequence. The behavior of this function for invalid inputs is undefined.
  *

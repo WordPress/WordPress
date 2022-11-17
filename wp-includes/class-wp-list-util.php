@@ -207,9 +207,10 @@ class WP_List_Util {
 	 * @since 4.7.0
 	 *
 	 * @param string|array $orderby       Optional. Either the field name to order by or an array
-	 *                                    of multiple orderby fields as $orderby => $order.
-	 * @param string       $order         Optional. Either 'ASC' or 'DESC'. Only used if $orderby
-	 *                                    is a string.
+	 *                                    of multiple orderby fields as `$orderby => $order`.
+	 *                                    Default empty array.
+	 * @param string       $order         Optional. Either 'ASC' or 'DESC'. Only used if `$orderby`
+	 *                                    is a string. Default 'ASC'.
 	 * @param bool         $preserve_keys Optional. Whether to preserve keys. Default false.
 	 * @return array The sorted array.
 	 */

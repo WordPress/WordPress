@@ -1557,14 +1557,14 @@
 		});
 	});
 
-	// Show bulk action
+	// Show bulk action.
 	$( document ).on( 'menu-item-added', function() {
 		if ( ! $( '.bulk-actions' ).is( ':visible' ) ) {
 			$( '.bulk-actions' ).show();
 		}
 	} );
 
-	// Hide bulk action
+	// Hide bulk action.
 	$( document ).on( 'menu-removing-item', function( e, el ) {
 		var menuElement = $( el ).parents( '#menu-to-edit' );
 		if ( menuElement.find( 'li' ).length === 1 && $( '.bulk-actions' ).is( ':visible' ) ) {

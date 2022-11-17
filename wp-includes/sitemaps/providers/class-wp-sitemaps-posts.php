@@ -221,7 +221,7 @@ class WP_Sitemaps_Posts extends WP_Sitemaps_Provider {
 				'no_found_rows'          => true,
 				'update_post_term_cache' => false,
 				'update_post_meta_cache' => false,
-				'ignore_sticky_posts'    => true, // sticky posts will still appear, but they won't be moved to the front.
+				'ignore_sticky_posts'    => true, // Sticky posts will still appear, but they won't be moved to the front.
 			),
 			$post_type
 		);

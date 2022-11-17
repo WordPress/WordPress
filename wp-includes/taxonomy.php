@@ -390,8 +390,8 @@ function is_taxonomy_hierarchical( $taxonomy ) {
  *
  * @global WP_Taxonomy[] $wp_taxonomies Registered taxonomies.
  *
- * @param string       $taxonomy    Taxonomy key, must not exceed 32 characters and may only contain lowercase alphanumeric
- *                                  characters, dashes, and underscores. See sanitize_key().
+ * @param string       $taxonomy    Taxonomy key. Must not exceed 32 characters and may only contain
+ *                                  lowercase alphanumeric characters, dashes, and underscores. See sanitize_key().
  * @param array|string $object_type Object type or array of object types with which the taxonomy should be associated.
  * @param array|string $args        {
  *     Optional. Array or query string of arguments for registering a taxonomy.
