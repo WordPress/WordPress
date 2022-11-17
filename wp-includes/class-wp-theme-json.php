@@ -114,7 +114,7 @@ class WP_Theme_JSON {
 	 * @since 5.9.0 Added the `color.duotone` and `typography.fontFamilies` presets,
 	 *              `use_default_names` preset key, and simplified the metadata structure.
 	 * @since 6.0.0 Replaced `override` with `prevent_override` and updated the
-	 *              `prevent_overried` value for `color.duotone` to use `color.defaultDuotone`.
+	 *              `prevent_override` value for `color.duotone` to use `color.defaultDuotone`.
 	 * @var array
 	 */
 	const PRESETS_METADATA = array(
@@ -412,7 +412,7 @@ class WP_Theme_JSON {
 	 * The valid elements that can be found under styles.
 	 *
 	 * @since 5.8.0
-	 * @since 6.1.0 Added `heading`, `button`. and `caption` elements.
+	 * @since 6.1.0 Added `heading`, `button`, and `caption` elements.
 	 * @var string[]
 	 */
 	const ELEMENTS = array(
