@@ -3057,7 +3057,7 @@ function wp_count_posts( $type = 'post', $perm = '' ) {
 	wp_cache_set( $cache_key, $counts, 'counts' );
 
 	/**
-	 * Modifies returned post counts by status for the current post type.
+	 * Filters the post counts by status for the current post type.
 	 *
 	 * @since 3.7.0
 	 *
@@ -3109,7 +3109,7 @@ function wp_count_attachments( $mime_type = '' ) {
 	}
 
 	/**
-	 * Modifies returned attachment counts by mime type.
+	 * Filters the attachment counts by mime type.
 	 *
 	 * @since 3.7.0
 	 *
