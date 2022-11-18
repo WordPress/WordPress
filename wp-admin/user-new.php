@@ -442,8 +442,8 @@ if ( is_multisite() && current_user_can( 'promote_users' ) ) {
 
 <table class="form-table" role="presentation">
 	<tr class="form-field form-required">
-		<th scope="row"><label for="adduser-email"><?php echo $label; ?></label></th>
-		<td><input name="email" type="<?php echo $type; ?>" id="adduser-email" class="wp-suggest-user" value="" /></td>
+		<th scope="row"><label for="adduser-email"><?php echo esc_html( $label ); ?></label></th>
+		<td><input name="email" type="<?php echo esc_attr( $type ); ?>" id="adduser-email" class="wp-suggest-user" value="" /></td>
 	</tr>
 	<tr class="form-field">
 		<th scope="row"><label for="adduser-role"><?php _e( 'Role' ); ?></label></th>
