@@ -503,7 +503,7 @@ function _build_block_template_result_from_file( $template_file, $template_type 
 
 	$template                 = new WP_Block_Template();
 	$template->id             = $theme . '//' . $template_file['slug'];
-	$template->theme          = $theme;
+	$template->theme          = ! empty( $template_file['theme'] ) ? $template_file['theme'] : $theme;
 	$template->content        = _inject_theme_attribute_in_block_template_content( $template_content );
 	$template->slug           = $template_file['slug'];
 	$template->source         = 'theme';
