@@ -1,0 +1,8 @@
+version: 1.0 
+runtime: php81
+build:
+  commands:
+    build:
+      - echo example build command for PHP
+run:
+  command: php -S 0.0.0.0:8080 -t .
