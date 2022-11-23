@@ -196,6 +196,8 @@ class WP_Block {
 	 *
 	 * @since 5.5.0
 	 *
+	 * @global WP_Post $post Global post object.
+	 *
 	 * @param array $options {
 	 *     Optional options object.
 	 *

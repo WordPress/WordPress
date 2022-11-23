@@ -910,8 +910,6 @@ class WP_Term_Query {
 	 *
 	 * @since 4.6.0
 	 *
-	 * @global wpdb $wpdb WordPress database abstraction object.
-	 *
 	 * @param string $orderby_raw Alias for the field to order by.
 	 * @return string|false Value to used in the ORDER clause. False otherwise.
 	 */

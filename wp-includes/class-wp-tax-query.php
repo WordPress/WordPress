@@ -589,8 +589,6 @@ class WP_Tax_Query {
 	 *
 	 * @since 3.2.0
 	 *
-	 * @global wpdb $wpdb The WordPress database abstraction object.
-	 *
 	 * @param array  $query           The single query. Passed by reference.
 	 * @param string $resulting_field The resulting field. Accepts 'slug', 'name', 'term_taxonomy_id',
 	 *                                or 'term_id'. Default 'term_id'.

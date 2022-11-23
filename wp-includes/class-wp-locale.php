@@ -124,7 +124,6 @@ class WP_Locale {
 	 * @since 2.1.0
 	 *
 	 * @global string $text_direction
-	 * @global string $wp_version     The WordPress version string.
 	 */
 	public function init() {
 		// The weekdays.
