@@ -76,7 +76,7 @@ if ( function_exists( 'mb_convert_encoding' ) ) {
 	$blog_name = mb_convert_encoding( $blog_name, get_option( 'blog_charset' ), $charset );
 }
 
-// Now that mb_convert_encoding() has been given a swing, we need to escape these three.
+// Escape values to use in the trackback.
 $title     = wp_slash( $title );
 $excerpt   = wp_slash( $excerpt );
 $blog_name = wp_slash( $blog_name );

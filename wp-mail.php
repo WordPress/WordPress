@@ -231,7 +231,7 @@ for ( $i = 1; $i <= $count; $i++ ) {
 		echo "\n" . $post_ID->get_error_message();
 	}
 
-	// We couldn't post, for whatever reason. Better move forward to the next email.
+	// The post wasn't inserted or updated, for whatever reason. Better move forward to the next email.
 	if ( empty( $post_ID ) ) {
 		continue;
 	}

@@ -23,7 +23,7 @@ if ( ! headers_sent() ) {
 	header( 'Cache-Control: no-cache, must-revalidate, max-age=0' );
 }
 
-/* Don't make the request block till we finish, if possible. */
+// Don't run cron until the request finishes, if possible.
 if ( PHP_VERSION_ID >= 70016 && function_exists( 'fastcgi_finish_request' ) ) {
 	fastcgi_finish_request();
 } elseif ( function_exists( 'litespeed_finish_request' ) ) {
@@ -35,7 +35,7 @@ if ( ! empty( $_POST ) || defined( 'DOING_AJAX' ) || defined( 'DOING_CRON' ) ) {
 }
 
 /**
- * Tell WordPress we are doing the cron task.
+ * Tell WordPress the cron task is running.
  *
  * @var bool
  */

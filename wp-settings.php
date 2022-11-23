@@ -19,8 +19,8 @@ define( 'WPINC', 'wp-includes' );
  * Version information for the current WordPress release.
  *
  * These can't be directly globalized in version.php. When updating,
- * we're including version.php from another installation and don't want
- * these values to be overridden if already set.
+ * include version.php from another installation and don't override
+ * these values if already set.
  *
  * @global string $wp_version             The WordPress version string.
  * @global int    $wp_db_version          WordPress database version.
@@ -60,7 +60,7 @@ global $blog_id;
 // Set initial default constants including WP_MEMORY_LIMIT, WP_MAX_MEMORY_LIMIT, WP_DEBUG, SCRIPT_DEBUG, WP_CONTENT_DIR and WP_CACHE.
 wp_initial_constants();
 
-// Make sure we register the shutdown handler for fatal errors as soon as possible.
+// Register the shutdown handler for fatal errors as soon as possible.
 wp_register_fatal_error_handler();
 
 // WordPress calculates offsets from UTC.
@@ -70,13 +70,13 @@ date_default_timezone_set( 'UTC' );
 // Standardize $_SERVER variables across setups.
 wp_fix_server_vars();
 
-// Check if we're in maintenance mode.
+// Check if the site is in maintenance mode.
 wp_maintenance();
 
 // Start loading timer.
 timer_start();
 
-// Check if we're in WP_DEBUG mode.
+// Check if WP_DEBUG mode is enabled.
 wp_debug_mode();
 
 /**
@@ -145,7 +145,7 @@ if ( is_multisite() ) {
 
 register_shutdown_function( 'shutdown_action_hook' );
 
-// Stop most of WordPress from being loaded if we just want the basics.
+// Stop most of WordPress from being loaded if SHORTINIT is enabled.
 if ( SHORTINIT ) {
 	return false;
 }
