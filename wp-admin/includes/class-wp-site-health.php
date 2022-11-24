@@ -65,7 +65,7 @@ class WP_Site_Health {
 	 */
 	public function show_site_health_tab( $tab ) {
 		if ( 'debug' === $tab ) {
-			require_once ABSPATH . '/wp-admin/site-health-info.php';
+			require_once ABSPATH . 'wp-admin/site-health-info.php';
 		}
 	}
 
