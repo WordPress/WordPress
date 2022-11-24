@@ -859,7 +859,7 @@ function _wp_upgrade_revisions_of_post( $post, $revisions ) {
 			return false;
 		}
 
-		if ( $locked > $now - 3600 ) {
+		if ( $locked > $now - HOUR_IN_SECONDS ) {
 			// Lock is not too old: some other process may be upgrading this post. Bail.
 			return false;
 		}

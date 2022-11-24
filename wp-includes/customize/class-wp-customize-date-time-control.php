@@ -234,7 +234,7 @@ class WP_Customize_Date_Time_Control extends WP_Customize_Control {
 
 			if ( $tz ) {
 				$now                   = new DateTime( 'now', $tz );
-				$formatted_gmt_offset  = $this->format_gmt_offset( $tz->getOffset( $now ) / 3600 );
+				$formatted_gmt_offset  = $this->format_gmt_offset( $tz->getOffset( $now ) / HOUR_IN_SECONDS );
 				$tz_name               = str_replace( '_', ' ', $tz->getName() );
 				$timezone_info['abbr'] = $now->format( 'T' );
 
