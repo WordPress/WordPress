@@ -7,7 +7,7 @@
  */
 
 /**
- * Get the elements class names.
+ * Gets the elements class names.
  *
  * @since 6.0.0
  * @access private
@@ -20,7 +20,7 @@ function wp_get_elements_class_name( $block ) {
 }
 
 /**
- * Update the block content with elements class names.
+ * Updates the block content with elements class names.
  *
  * @since 5.8.0
  * @access private
@@ -82,7 +82,7 @@ function wp_render_elements_support( $block_content, $block ) {
 }
 
 /**
- * Render the elements stylesheet.
+ * Renders the elements stylesheet.
  *
  * In the case of nested blocks we want the parent element styles to be rendered before their descendants.
  * This solves the issue of an element (e.g.: link color) being styled in both the parent and a descendant:

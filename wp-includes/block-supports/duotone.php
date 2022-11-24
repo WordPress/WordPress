@@ -497,7 +497,7 @@ function wp_register_duotone_support( $block_type ) {
 }
 
 /**
- * Render out the duotone stylesheet and SVG.
+ * Renders out the duotone stylesheet and SVG.
  *
  * @since 5.8.0
  * @since 6.1.0 Allow unset for preset colors.

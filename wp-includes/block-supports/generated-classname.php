@@ -7,7 +7,7 @@
  */
 
 /**
- * Get the generated classname from a given block name.
+ * Gets the generated classname from a given block name.
  *
  * @since 5.6.0
  *
@@ -39,7 +39,7 @@ function wp_get_block_default_classname( $block_name ) {
 }
 
 /**
- * Add the generated classnames to the output.
+ * Adds the generated classnames to the output.
  *
  * @since 5.6.0
  *

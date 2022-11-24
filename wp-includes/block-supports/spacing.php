@@ -33,7 +33,7 @@ function wp_register_spacing_support( $block_type ) {
 }
 
 /**
- * Add CSS classes for block spacing to the incoming attributes array.
+ * Adds CSS classes for block spacing to the incoming attributes array.
  * This will be applied to the block markup in the front-end.
  *
  * @since 5.8.0
