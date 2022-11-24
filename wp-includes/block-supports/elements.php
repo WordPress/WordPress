@@ -13,7 +13,7 @@
  * @access private
  *
  * @param array $block Block object.
- * @return string      The unique class name.
+ * @return string The unique class name.
  */
 function wp_get_elements_class_name( $block ) {
 	return 'wp-elements-' . md5( serialize( $block ) );
@@ -92,9 +92,8 @@ function wp_render_elements_support( $block_content, $block ) {
  * @since 6.1.0 Implemented the style engine to generate CSS and classnames.
  * @access private
  *
- * @param string|null $pre_render   The pre-rendered content. Default null.
- * @param array       $block        The block being rendered.
- *
+ * @param string|null $pre_render The pre-rendered content. Default null.
+ * @param array       $block      The block being rendered.
  * @return null
  */
 function wp_render_elements_support_styles( $pre_render, $block ) {

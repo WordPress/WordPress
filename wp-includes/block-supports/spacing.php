@@ -1,7 +1,7 @@
 <?php
 /**
  * Spacing block support flag.
-
+ *
  * For backwards compatibility, this remains separate to the dimensions.php
  * block support despite both belonging under a single panel in the editor.
  *
