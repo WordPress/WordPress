@@ -29,8 +29,10 @@ class _WP_Dependency {
 	/**
 	 * The handle source.
 	 *
+	 * If source is set to false, the item is an alias of other items it depends on.
+	 *
 	 * @since 2.6.0
-	 * @var string
+	 * @var string|false
 	 */
 	public $src;
 
