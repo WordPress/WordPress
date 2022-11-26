@@ -163,7 +163,7 @@ get_header(); ?>
 								/* translators: %s: Post title. */
 								$title = sprintf( __( 'Featuring: %s', 'twentyeleven' ), the_title_attribute( 'echo=0' ) );
 								?>
-					<li><a href="#featured-post-<?php echo esc_attr( $counter_slider ); ?>" title="<?php echo esc_attr( $title ); ?>"<?php echo $class; ?>></a></li>
+					<li><a href="#featured-post-<?php echo esc_attr( $counter_slider ); ?>"<?php echo $class; ?>><span class="feature-slider-tooltip" aria-hidden="true" title="<?php echo esc_attr( $title ); ?>"></span><span class="screen-reader-text"><?php echo esc_html( $title ); ?></span></a></li>
 						<?php endwhile; ?>
 					</ul>
 					</nav>

@@ -1628,6 +1628,11 @@ section.feature-image.large img {
 	width: 14px;
 	height: 14px;
 }
+.feature-slider a .feature-slider-tooltip {
+	display: block;
+	width: 14px;
+	height: 14px;
+}
 .feature-slider a.active {
 	background: #1982d1;
 	-webkit-box-shadow: inset 1px 1px 5px rgba(0,0,0,0.4), inset 0 0 2px rgba(255,255,255,0.8);
