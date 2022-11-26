@@ -154,7 +154,8 @@ if ( have_posts() ) {
 						<div class="entry-caption">
 						<?php
 						if ( ! empty( $post->post_excerpt ) ) {
-							the_excerpt();}
+							the_excerpt();
+						}
 						?>
 </div>
 
