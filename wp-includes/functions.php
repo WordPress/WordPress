@@ -163,8 +163,6 @@ function wp_timezone() {
  * @since 0.71
  * @since 5.3.0 Converted into a wrapper for wp_date().
  *
- * @global WP_Locale $wp_locale WordPress date and time locale object.
- *
  * @param string   $format                Format to display the date.
  * @param int|bool $timestamp_with_offset Optional. A sum of Unix timestamp and timezone offset
  *                                        in seconds. Default false.

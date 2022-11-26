@@ -3783,6 +3783,8 @@ function wp_register_comment_personal_data_eraser( $erasers ) {
  *
  * @since 4.9.6
  *
+ * @global wpdb $wpdb WordPress database abstraction object.
+ *
  * @param string $email_address The comment author email address.
  * @param int    $page          Comment page.
  * @return array
