@@ -78,10 +78,9 @@ class TwentyNineteen_Walker_Comment extends Walker_Comment {
 						$comment_timestamp = sprintf( __( '%1$s at %2$s', 'twentynineteen' ), get_comment_date( '', $comment ), get_comment_time() );
 
 						printf(
-							'<a href="%s"><time datetime="%s" title="%s">%s</time></a>',
+							'<a href="%s"><time datetime="%s">%s</time></a>',
 							esc_url( get_comment_link( $comment, $args ) ),
 							get_comment_time( 'c' ),
-							esc_attr( $comment_timestamp ),
 							$comment_timestamp
 						);
 
