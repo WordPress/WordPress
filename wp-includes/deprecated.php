@@ -4324,7 +4324,7 @@ function wp_add_iframed_editor_assets_html() {
  * @return array The unmodified clauses.
  */
 function _filter_query_attachment_filenames( $clauses ) {
-	_deprecated_function( __FUNCTION__, '4.9.9', 'add_filter( "wp_allow_query_attachment_by_filename", "__return_true" )' );
+	_deprecated_function( __FUNCTION__, '6.0.3', 'add_filter( "wp_allow_query_attachment_by_filename", "__return_true" )' );
 	remove_filter( 'posts_clauses', __FUNCTION__ );
 	return $clauses;
 }
