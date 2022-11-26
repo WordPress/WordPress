@@ -260,7 +260,7 @@ function wp_popular_terms_checklist( $taxonomy, $default_term = 0, $number = 10,
  *
  * @since 2.5.1
  *
- * @param int $link_id
+ * @param int $link_id Optional. The link ID. Default 0.
  */
 function wp_link_category_checklist( $link_id = 0 ) {
 	$default = 1;
@@ -402,10 +402,11 @@ function get_inline_data( $post ) {
  *
  * @global WP_List_Table $wp_list_table
  *
- * @param int    $position
- * @param bool   $checkbox
- * @param string $mode
- * @param bool   $table_row
+ * @param int    $position  Optional. The value of the 'position' input field. Default 1.
+ * @param bool   $checkbox  Optional. The value of the 'checkbox' input field. Default false.
+ * @param string $mode      Optional. If set to 'single', will use WP_Post_Comments_List_Table,
+ *                          otherwise WP_Comments_List_Table. Default 'single'.
+ * @param bool   $table_row Optional. Whether to use a table instead of a div element. Default true.
  */
 function wp_comment_reply( $position = 1, $checkbox = false, $mode = 'single', $table_row = true ) {
 	global $wp_list_table;
@@ -565,7 +566,7 @@ function wp_comment_trashnotice() {
  *
  * @since 1.2.0
  *
- * @param array $meta
+ * @param array[] $meta An array of meta data arrays keyed on 'meta_key' and 'meta_value'.
  */
 function list_meta( $meta ) {
 	// Exit if no meta.
@@ -609,9 +610,9 @@ function list_meta( $meta ) {
  *
  * @since 2.5.0
  *
- * @param array $entry
- * @param int   $count
- * @return string
+ * @param array $entry An array of meta data keyed on 'meta_key' and 'meta_value'.
+ * @param int   $count Reference to the row number.
+ * @return string A single row of public meta data.
  */
 function _list_meta_row( $entry, &$count ) {
 	static $update_nonce = '';
@@ -1969,7 +1970,7 @@ function settings_errors( $setting = '', $sanitize = false, $hide_on_update = fa
  *
  * @since 2.7.0
  *
- * @param string $found_action
+ * @param string $found_action Optional. The value of the 'found_action' input field. Default empty string.
  */
 function find_posts_div( $found_action = '' ) {
 	?>
