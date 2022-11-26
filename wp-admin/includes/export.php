@@ -519,7 +519,8 @@ function export_wp( $args = array() ) {
 	<?php endforeach; ?>
 	<?php
 	if ( 'all' === $args['content'] ) {
-		wxr_nav_menu_terms();}
+		wxr_nav_menu_terms();
+	}
 	?>
 
 	<?php

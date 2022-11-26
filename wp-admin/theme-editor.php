@@ -221,7 +221,8 @@ if ( $file_description !== $file_show ) {
 	<?php
 	echo $theme->display( 'Name' );
 	if ( $description ) {
-		echo ': ' . $description;}
+		echo ': ' . $description;
+	}
 	?>
 </h2>
 </div>

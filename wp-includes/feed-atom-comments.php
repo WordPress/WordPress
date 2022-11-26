@@ -93,7 +93,8 @@ while ( have_comments() ) :
 			<name><?php comment_author_rss(); ?></name>
 			<?php
 			if ( get_comment_author_url() ) {
-				echo '<uri>' . get_comment_author_url() . '</uri>';}
+				echo '<uri>' . get_comment_author_url() . '</uri>';
+			}
 			?>
 
 		</author>
