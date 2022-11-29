@@ -1452,6 +1452,22 @@ th.action-links {
 	margin: 25px 2px 0 20px;
 }
 
+.update-nag-core-insecure {
+	font-weight: bold;
+}
+
+.update-nag-core-insecure > p:first-child {
+	margin-top: 0;
+}
+
+.update-nag-core-insecure > p:last-child {
+	margin-bottom: 0;
+}
+
+.update-nag-core-insecure a {
+	text-decoration: underline;
+}
+
 .plugins .plugin-update {
 	padding: 0;
 }

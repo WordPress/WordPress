@@ -606,6 +606,16 @@ div.updated,
 	box-shadow:         0px 1px 1px 0px rgba(0,0,0,0.1);
 }
 
+.update-nag-core-insecure {
+	color: #fff;
+	background-color: #ac1b1b;
+	border-right-color: #cd5a5a;
+}
+
+.update-nag-core-insecure a {
+	color: #fff;
+}
+
 div.error,
 .login #login_error {
 	background: #fff;
