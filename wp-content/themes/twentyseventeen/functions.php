@@ -122,7 +122,7 @@ function twentyseventeen_setup() {
 	/*
 	 * This theme styles the visual editor to resemble the theme style,
 	 * specifically font, colors, and column width.
-	  */
+	 */
 	add_editor_style( array( 'assets/css/editor-style.css', twentyseventeen_fonts_url() ) );
 
 	// Load regular editor styles into the new block-based editor.
