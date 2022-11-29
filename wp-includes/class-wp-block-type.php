@@ -299,7 +299,7 @@ class WP_Block_Type {
 	 *                                   null when value not found, or void when unknown property name provided.
 	 */
 	public function __get( $name ) {
-		if ( ! in_array( $name, $this->deprecated_properties ) ) {
+		if ( ! in_array( $name, $this->deprecated_properties, true ) ) {
 			return;
 		}
 
@@ -327,7 +327,7 @@ class WP_Block_Type {
 	 *                     or false otherwise.
 	 */
 	public function __isset( $name ) {
-		if ( ! in_array( $name, $this->deprecated_properties ) ) {
+		if ( ! in_array( $name, $this->deprecated_properties, true ) ) {
 			return false;
 		}
 
@@ -346,7 +346,7 @@ class WP_Block_Type {
 	 * @param mixed  $value Property value.
 	 */
 	public function __set( $name, $value ) {
-		if ( ! in_array( $name, $this->deprecated_properties ) ) {
+		if ( ! in_array( $name, $this->deprecated_properties, true ) ) {
 			$this->{$name} = $value;
 			return;
 		}
