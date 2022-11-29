@@ -59,7 +59,7 @@ function edit_link( $link_id = 0 ) {
  * @return stdClass Default link object.
  */
 function get_default_link_to_edit() {
-	$link = new stdClass;
+	$link = new stdClass();
 	if ( isset( $_GET['linkurl'] ) ) {
 		$link->link_url = esc_url( wp_unslash( $_GET['linkurl'] ) );
 	} else {

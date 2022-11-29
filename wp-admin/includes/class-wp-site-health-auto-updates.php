@@ -280,7 +280,7 @@ class WP_Site_Health_Auto_Updates {
 			require_once ABSPATH . 'wp-admin/includes/file.php';
 		}
 
-		$skin    = new Automatic_Upgrader_Skin;
+		$skin    = new Automatic_Upgrader_Skin();
 		$success = $skin->request_filesystem_credentials( false, ABSPATH );
 
 		if ( ! $success ) {
@@ -313,7 +313,7 @@ class WP_Site_Health_Auto_Updates {
 
 		require ABSPATH . WPINC . '/version.php'; // $wp_version; // x.y.z
 
-		$skin    = new Automatic_Upgrader_Skin;
+		$skin    = new Automatic_Upgrader_Skin();
 		$success = $skin->request_filesystem_credentials( false, ABSPATH );
 
 		if ( ! $success ) {

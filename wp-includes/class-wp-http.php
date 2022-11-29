@@ -581,7 +581,7 @@ class WP_Http {
 
 		// Transport claims to support request, instantiate it and give it a whirl.
 		if ( empty( $transports[ $class ] ) ) {
-			$transports[ $class ] = new $class;
+			$transports[ $class ] = new $class();
 		}
 
 		$response = $transports[ $class ]->request( $url, $args );

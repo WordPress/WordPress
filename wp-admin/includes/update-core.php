@@ -1395,7 +1395,7 @@ function update_core( $from, $to ) {
 					// If a error occurs partway through this final step, keep the error flowing through, but keep process going.
 					if ( is_wp_error( $_result ) ) {
 						if ( ! is_wp_error( $result ) ) {
-							$result = new WP_Error;
+							$result = new WP_Error();
 						}
 
 						$result->add(

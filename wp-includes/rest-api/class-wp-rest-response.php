@@ -227,7 +227,7 @@ class WP_REST_Response extends WP_HTTP_Response {
 			return null;
 		}
 
-		$error = new WP_Error;
+		$error = new WP_Error();
 
 		if ( is_array( $this->get_data() ) ) {
 			$data = $this->get_data();

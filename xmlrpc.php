@@ -81,7 +81,7 @@ $post_default_title = '';
  * @param string $class The name of the XML-RPC server class.
  */
 $wp_xmlrpc_server_class = apply_filters( 'wp_xmlrpc_server_class', 'wp_xmlrpc_server' );
-$wp_xmlrpc_server       = new $wp_xmlrpc_server_class;
+$wp_xmlrpc_server       = new $wp_xmlrpc_server_class();
 
 // Fire off the request.
 $wp_xmlrpc_server->serve_request();

@@ -274,7 +274,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		 */
 		$prepared_args = apply_filters( 'rest_comment_query', $prepared_args, $request );
 
-		$query        = new WP_Comment_Query;
+		$query        = new WP_Comment_Query();
 		$query_result = $query->query( $prepared_args );
 
 		$comments = array();
@@ -295,7 +295,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			// Out-of-bounds, run the query again without LIMIT for total count.
 			unset( $prepared_args['number'], $prepared_args['offset'] );
 
-			$query                  = new WP_Comment_Query;
+			$query                  = new WP_Comment_Query();
 			$prepared_args['count'] = true;
 
 			$total_comments = $query->query( $prepared_args );

@@ -171,7 +171,7 @@ function get_approved_comments( $post_id, $args = array() ) {
 	);
 	$parsed_args = wp_parse_args( $args, $defaults );
 
-	$query = new WP_Comment_Query;
+	$query = new WP_Comment_Query();
 	return $query->query( $parsed_args );
 }
 
@@ -240,7 +240,7 @@ function get_comment( $comment = null, $output = OBJECT ) {
  * @return WP_Comment[]|int[]|int List of comments or number of found comments if `$count` argument is true.
  */
 function get_comments( $args = '' ) {
-	$query = new WP_Comment_Query;
+	$query = new WP_Comment_Query();
 	return $query->query( $args );
 }
 
@@ -1023,7 +1023,7 @@ function get_comment_pages_count( $comments = null, $per_page = null, $threaded 
 	}
 
 	if ( $threaded ) {
-		$walker = new Walker_Comment;
+		$walker = new Walker_Comment();
 		$count  = ceil( $walker->get_number_of_root_elements( $comments ) / $per_page );
 	} else {
 		$count = ceil( count( $comments ) / $per_page );

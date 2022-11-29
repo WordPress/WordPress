@@ -1121,7 +1121,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 	 * @return object User object.
 	 */
 	protected function prepare_item_for_database( $request ) {
-		$prepared_user = new stdClass;
+		$prepared_user = new stdClass();
 
 		$schema = $this->get_item_schema();
 

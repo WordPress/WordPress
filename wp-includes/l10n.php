@@ -1306,7 +1306,7 @@ function get_translations_for_domain( $domain ) {
 
 	static $noop_translations = null;
 	if ( null === $noop_translations ) {
-		$noop_translations = new NOOP_Translations;
+		$noop_translations = new NOOP_Translations();
 	}
 
 	return $noop_translations;

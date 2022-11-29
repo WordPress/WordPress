@@ -29,7 +29,7 @@ function add_user() {
  */
 function edit_user( $user_id = 0 ) {
 	$wp_roles = wp_roles();
-	$user     = new stdClass;
+	$user     = new stdClass();
 	$user_id  = (int) $user_id;
 	if ( $user_id ) {
 		$update           = true;

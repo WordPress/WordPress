@@ -139,7 +139,7 @@ class WP_Automatic_Updater {
 	 */
 	public function should_update( $type, $item, $context ) {
 		// Used to see if WP_Filesystem is set up to allow unattended updates.
-		$skin = new Automatic_Upgrader_Skin;
+		$skin = new Automatic_Upgrader_Skin();
 
 		if ( $this->is_disabled() ) {
 			return false;
@@ -305,7 +305,7 @@ class WP_Automatic_Updater {
 	 * @return null|WP_Error
 	 */
 	public function update( $type, $item ) {
-		$skin = new Automatic_Upgrader_Skin;
+		$skin = new Automatic_Upgrader_Skin();
 
 		switch ( $type ) {
 			case 'core':

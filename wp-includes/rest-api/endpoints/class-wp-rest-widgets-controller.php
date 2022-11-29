@@ -715,7 +715,7 @@ class WP_REST_Widgets_Controller extends WP_REST_Controller {
 
 				if ( ! empty( $widget_object->widget_options['show_instance_in_rest'] ) ) {
 					// Use new stdClass so that JSON result is {} and not [].
-					$prepared['instance']['raw'] = empty( $instance ) ? new stdClass : $instance;
+					$prepared['instance']['raw'] = empty( $instance ) ? new stdClass() : $instance;
 				}
 			}
 		}

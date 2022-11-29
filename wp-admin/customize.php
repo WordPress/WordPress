@@ -97,7 +97,7 @@ if ( ! empty( $autofocus ) && is_array( $autofocus ) ) {
 }
 
 $registered             = $wp_scripts->registered;
-$wp_scripts             = new WP_Scripts;
+$wp_scripts             = new WP_Scripts();
 $wp_scripts->registered = $registered;
 
 add_action( 'customize_controls_print_scripts', 'print_head_scripts', 20 );

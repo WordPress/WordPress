@@ -2238,7 +2238,7 @@ function wp_list_comments( $args = array(), $comments = null ) {
 	wp_queue_comments_for_comment_meta_lazyload( $_comments );
 
 	if ( empty( $parsed_args['walker'] ) ) {
-		$walker = new Walker_Comment;
+		$walker = new Walker_Comment();
 	} else {
 		$walker = $parsed_args['walker'];
 	}

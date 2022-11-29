@@ -529,7 +529,7 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
 
 		if ( ! empty( $widget_object->widget_options['show_instance_in_rest'] ) ) {
 			// Use new stdClass so that JSON result is {} and not [].
-			$response['instance']['raw'] = empty( $instance ) ? new stdClass : $instance;
+			$response['instance']['raw'] = empty( $instance ) ? new stdClass() : $instance;
 		}
 
 		return rest_ensure_response( $response );

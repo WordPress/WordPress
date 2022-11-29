@@ -237,7 +237,7 @@ function wp_download_language_pack( $download ) {
 	$translation = (object) $translation;
 
 	require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
-	$skin              = new Automatic_Upgrader_Skin;
+	$skin              = new Automatic_Upgrader_Skin();
 	$upgrader          = new Language_Pack_Upgrader( $skin );
 	$translation->type = 'core';
 	$result            = $upgrader->upgrade( $translation, array( 'clear_update_cache' => false ) );
@@ -263,7 +263,7 @@ function wp_can_install_language_pack() {
 	}
 
 	require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
-	$skin     = new Automatic_Upgrader_Skin;
+	$skin     = new Automatic_Upgrader_Skin();
 	$upgrader = new Language_Pack_Upgrader( $skin );
 	$upgrader->init();
 

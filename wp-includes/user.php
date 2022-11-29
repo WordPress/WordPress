@@ -951,7 +951,7 @@ function get_blogs_of_user( $user_id, $all = false ) {
 
 	if ( ! is_multisite() ) {
 		$site_id                        = get_current_blog_id();
-		$sites                          = array( $site_id => new stdClass );
+		$sites                          = array( $site_id => new stdClass() );
 		$sites[ $site_id ]->userblog_id = $site_id;
 		$sites[ $site_id ]->blogname    = get_option( 'blogname' );
 		$sites[ $site_id ]->domain      = '';

@@ -1050,7 +1050,7 @@ function populate_network( $network_id = 1, $domain = '', $email = '', $site_nam
 	 * created.
 	 */
 	if ( ! is_multisite() ) {
-		$current_site            = new stdClass;
+		$current_site            = new stdClass();
 		$current_site->domain    = $domain;
 		$current_site->path      = $path;
 		$current_site->site_name = ucfirst( $domain );

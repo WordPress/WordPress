@@ -1010,7 +1010,7 @@ function wp_get_associated_nav_menu_items( $object_id = 0, $object_type = 'post_
 	$object_id     = (int) $object_id;
 	$menu_item_ids = array();
 
-	$query      = new WP_Query;
+	$query      = new WP_Query();
 	$menu_items = $query->query(
 		array(
 			'meta_key'       => '_menu_item_object_id',

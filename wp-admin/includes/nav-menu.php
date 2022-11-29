@@ -32,7 +32,7 @@ function _wp_ajax_menu_quick_search( $request = array() ) {
 	}
 
 	if ( 'markup' === $response_format ) {
-		$args['walker'] = new Walker_Nav_Menu_Checklist;
+		$args['walker'] = new Walker_Nav_Menu_Checklist();
 	}
 
 	if ( 'get-post-item' === $type ) {
@@ -429,14 +429,14 @@ function wp_nav_menu_item_post_type_meta_box( $data_object, $box ) {
 	}
 
 	// @todo Transient caching of these results with proper invalidation on updating of a post of this type.
-	$get_posts = new WP_Query;
+	$get_posts = new WP_Query();
 	$posts     = $get_posts->query( $args );
 
 	// Only suppress and insert when more than just suppression pages available.
 	if ( ! $get_posts->post_count ) {
 		if ( ! empty( $suppress_page_ids ) ) {
 			unset( $args['post__not_in'] );
-			$get_posts = new WP_Query;
+			$get_posts = new WP_Query();
 			$posts     = $get_posts->query( $args );
 		} else {
 			echo '<p>' . __( 'No items.' ) . '</p>';
@@ -1059,7 +1059,7 @@ function wp_get_nav_menu_to_edit( $menu_id = 0 ) {
 		$walker_class_name = apply_filters( 'wp_edit_nav_menu_walker', 'Walker_Nav_Menu_Edit', $menu_id );
 
 		if ( class_exists( $walker_class_name ) ) {
-			$walker = new $walker_class_name;
+			$walker = new $walker_class_name();
 		} else {
 			return new WP_Error(
 				'menu_walker_not_exist',

@@ -975,7 +975,7 @@ function user_can( $user, $capability, ...$args ) {
 	if ( empty( $user ) ) {
 		// User is logged out, create anonymous user object.
 		$user = new WP_User( 0 );
-		$user->init( new stdClass );
+		$user->init( new stdClass() );
 	}
 
 	return $user->has_cap( $capability, ...$args );

@@ -1570,7 +1570,7 @@ function wp_ajax_add_menu_item() {
 			'before'      => '',
 			'link_after'  => '',
 			'link_before' => '',
-			'walker'      => new $walker_class_name,
+			'walker'      => new $walker_class_name(),
 		);
 
 		echo walk_nav_menu_tree( $menu_items, 0, (object) $args );

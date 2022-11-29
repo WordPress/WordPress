@@ -766,7 +766,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 
 			// Ensure empty details is an empty object.
 			if ( empty( $data['media_details'] ) ) {
-				$data['media_details'] = new stdClass;
+				$data['media_details'] = new stdClass();
 			} elseif ( ! empty( $data['media_details']['sizes'] ) ) {
 
 				foreach ( $data['media_details']['sizes'] as $size => &$size_data ) {
@@ -797,7 +797,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 					);
 				}
 			} else {
-				$data['media_details']['sizes'] = new stdClass;
+				$data['media_details']['sizes'] = new stdClass();
 			}
 		}
 

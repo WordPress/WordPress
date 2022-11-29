@@ -41,7 +41,7 @@ function _wp_admin_bar_init() {
 	 */
 	$admin_bar_class = apply_filters( 'wp_admin_bar_class', 'WP_Admin_Bar' );
 	if ( class_exists( $admin_bar_class ) ) {
-		$wp_admin_bar = new $admin_bar_class;
+		$wp_admin_bar = new $admin_bar_class();
 	} else {
 		return false;
 	}

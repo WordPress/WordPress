@@ -1110,7 +1110,7 @@ function _wp_object_count_sort_cb( $a, $b ) {
 function walk_category_tree( ...$args ) {
 	// The user's options are the third parameter.
 	if ( empty( $args[2]['walker'] ) || ! ( $args[2]['walker'] instanceof Walker ) ) {
-		$walker = new Walker_Category;
+		$walker = new Walker_Category();
 	} else {
 		/**
 		 * @var Walker $walker
@@ -1136,7 +1136,7 @@ function walk_category_tree( ...$args ) {
 function walk_category_dropdown_tree( ...$args ) {
 	// The user's options are the third parameter.
 	if ( empty( $args[2]['walker'] ) || ! ( $args[2]['walker'] instanceof Walker ) ) {
-		$walker = new Walker_CategoryDropdown;
+		$walker = new Walker_CategoryDropdown();
 	} else {
 		/**
 		 * @var Walker $walker

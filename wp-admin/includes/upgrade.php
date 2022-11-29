@@ -2617,7 +2617,7 @@ function maybe_convert_table_to_utf8mb4( $table ) {
  */
 function get_alloptions_110() {
 	global $wpdb;
-	$all_options = new stdClass;
+	$all_options = new stdClass();
 	$options     = $wpdb->get_results( "SELECT option_name, option_value FROM $wpdb->options" );
 	if ( $options ) {
 		foreach ( $options as $option ) {

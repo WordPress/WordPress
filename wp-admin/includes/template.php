@@ -104,7 +104,7 @@ function wp_terms_checklist( $post_id = 0, $args = array() ) {
 	$parsed_args = wp_parse_args( $params, $defaults );
 
 	if ( empty( $parsed_args['walker'] ) || ! ( $parsed_args['walker'] instanceof Walker ) ) {
-		$walker = new Walker_Category_Checklist;
+		$walker = new Walker_Category_Checklist();
 	} else {
 		$walker = $parsed_args['walker'];
 	}

@@ -617,7 +617,7 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
  * @return string The HTML list content for the menu items.
  */
 function walk_nav_menu_tree( $items, $depth, $args ) {
-	$walker = ( empty( $args->walker ) ) ? new Walker_Nav_Menu : $args->walker;
+	$walker = ( empty( $args->walker ) ) ? new Walker_Nav_Menu() : $args->walker;
 
 	return $walker->walk( $items, $depth, $args );
 }

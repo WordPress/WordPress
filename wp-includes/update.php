@@ -44,7 +44,7 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
 	}
 
 	if ( ! is_object( $current ) ) {
-		$current                  = new stdClass;
+		$current                  = new stdClass();
 		$current->updates         = array();
 		$current->version_checked = $wp_version;
 	}
@@ -327,10 +327,10 @@ function wp_update_plugins( $extra_stats = array() ) {
 	$current = get_site_transient( 'update_plugins' );
 
 	if ( ! is_object( $current ) ) {
-		$current = new stdClass;
+		$current = new stdClass();
 	}
 
-	$updates               = new stdClass;
+	$updates               = new stdClass();
 	$updates->last_checked = time();
 	$updates->response     = array();
 	$updates->translations = array();
@@ -595,7 +595,7 @@ function wp_update_themes( $extra_stats = array() ) {
 	$last_update = get_site_transient( 'update_themes' );
 
 	if ( ! is_object( $last_update ) ) {
-		$last_update = new stdClass;
+		$last_update = new stdClass();
 	}
 
 	$themes  = array();
@@ -734,7 +734,7 @@ function wp_update_themes( $extra_stats = array() ) {
 		return;
 	}
 
-	$new_update               = new stdClass;
+	$new_update               = new stdClass();
 	$new_update->last_checked = time();
 	$new_update->checked      = $checked;
 
@@ -846,7 +846,7 @@ function wp_maybe_auto_update() {
 	include_once ABSPATH . 'wp-admin/includes/admin.php';
 	require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 
-	$upgrader = new WP_Automatic_Updater;
+	$upgrader = new WP_Automatic_Updater();
 	$upgrader->run();
 }
 
