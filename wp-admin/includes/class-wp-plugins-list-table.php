@@ -403,7 +403,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		global $plugins;
 
 		if ( ! empty( $_REQUEST['s'] ) ) {
-			$s = esc_html( wp_unslash( $_REQUEST['s'] ) );
+			$s = esc_html( urldecode( wp_unslash( $_REQUEST['s'] ) ) );
 
 			/* translators: %s: Plugin search term. */
 			printf( __( 'No plugins found for: %s.' ), '<strong>' . $s . '</strong>' );

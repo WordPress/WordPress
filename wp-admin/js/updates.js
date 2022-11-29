@@ -2654,7 +2654,7 @@
 					sprintf(
 						/* translators: %s: Search query. */
 						__( 'Search results for: %s' ),
-						'<strong>' + _.escape( data.s ) + '</strong>'
+						'<strong>' + _.escape( decodeURIComponent( data.s ) ) + '</strong>'
 					) ),
 					$oldSubTitle = $( '.wrap .subtitle' );
 
