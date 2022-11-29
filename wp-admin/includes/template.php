@@ -626,7 +626,7 @@ function _list_meta_row( $entry, &$count ) {
 	}
 
 	$r = '';
-	++ $count;
+	++$count;
 
 	if ( is_serialized( $entry['meta_value'] ) ) {
 		if ( is_serialized_string( $entry['meta_value'] ) ) {
