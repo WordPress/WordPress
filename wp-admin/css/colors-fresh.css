@@ -732,6 +732,16 @@ table.widefat span.spam a,
 	color: #555;
 }
 
+.update-nag-core-insecure {
+	color: #fff;
+	background-color: #ac1b1b;
+	border-color: #cd5a5a;
+}
+
+.update-nag-core-insecure a {
+	color: #fff;
+}
+
 #screen-meta {
 	background-color: #f1f1f1;
 	border-color: #ccc;
