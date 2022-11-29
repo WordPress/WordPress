@@ -7822,7 +7822,6 @@ function wp_delete_auto_drafts() {
 function wp_queue_posts_for_term_meta_lazyload( $posts ) {
 	$post_type_taxonomies = array();
 	$term_ids             = array();
-	$prime_post_terms     = array();
 	foreach ( $posts as $post ) {
 		if ( ! ( $post instanceof WP_Post ) ) {
 			continue;
@@ -7832,16 +7831,6 @@ function wp_queue_posts_for_term_meta_lazyload( $posts ) {
 			$post_type_taxonomies[ $post->post_type ] = get_object_taxonomies( $post->post_type );
 		}
 
-		foreach ( $post_type_taxonomies[ $post->post_type ] as $taxonomy ) {
-			$prime_post_terms[ $taxonomy ][] = $post->ID;
-		}
-	}
-
-	foreach ( $prime_post_terms as $taxonomy => $post_ids ){
-		wp_cache_get_multiple( $post_ids, "{$taxonomy}_relationships" );
-	}
-
-	foreach ( $posts as $post ) {
 		foreach ( $post_type_taxonomies[ $post->post_type ] as $taxonomy ) {
 			// Term cache should already be primed by `update_post_term_cache()`.
 			$terms = get_object_term_cache( $post->ID, $taxonomy );
@@ -7888,9 +7877,7 @@ function _update_term_count_on_transition_post_status( $new_status, $old_status,
  * @since 3.4.0
  * @since 6.1.0 This function is no longer marked as "private".
  *
- * @see update_post_cache()
- * @see update_postmeta_cache()
- * @see update_object_term_cache()
+ * @see update_post_caches()
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
@@ -7905,20 +7892,7 @@ function _prime_post_caches( $ids, $update_term_cache = true, $update_meta_cache
 	if ( ! empty( $non_cached_ids ) ) {
 		$fresh_posts = $wpdb->get_results( sprintf( "SELECT $wpdb->posts.* FROM $wpdb->posts WHERE ID IN (%s)", implode( ',', $non_cached_ids ) ) );
 
-		if ( $fresh_posts ) {
-			// Despite the name, update_post_cache() expects an array rather than a single post.
-			update_post_cache( $fresh_posts );
-		}
-	}
-
-	if ( $update_meta_cache ) {
-		update_postmeta_cache( $ids );
-	}
-
-	if ( $update_term_cache ) {
-		$post_types = array_map( 'get_post_type', $ids );
-		$post_types = array_unique( $post_types );
-		update_object_term_cache( $ids, $post_types );
+		update_post_caches( $fresh_posts, 'any', $update_term_cache, $update_meta_cache );
 	}
 }
 
