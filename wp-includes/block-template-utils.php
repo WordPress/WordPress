@@ -1366,4 +1366,4 @@ function get_template_hierarchy( $slug, $is_custom = false, $template_prefix = '
 	$template_hierarchy[] = 'index';
 
 	return $template_hierarchy;
-};
+}
