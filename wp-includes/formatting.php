@@ -918,7 +918,7 @@ function seems_utf8( $str ) {
  * @since 5.5.0 `$quote_style` also accepts `ENT_XML1`.
  * @access private
  *
- * @param string       $string        The text which is to be encoded.
+ * @param string       $text          The text which is to be encoded.
  * @param int|string   $quote_style   Optional. Converts double quotes if set to ENT_COMPAT,
  *                                    both single and double if set to ENT_QUOTES or none if set to ENT_NOQUOTES.
  *                                    Converts single and double quotes, as well as converting HTML
@@ -931,16 +931,16 @@ function seems_utf8( $str ) {
  * @param bool         $double_encode Optional. Whether to encode existing HTML entities. Default false.
  * @return string The encoded text with HTML entities.
  */
-function _wp_specialchars( $string, $quote_style = ENT_NOQUOTES, $charset = false, $double_encode = false ) {
-	$string = (string) $string;
+function _wp_specialchars( $text, $quote_style = ENT_NOQUOTES, $charset = false, $double_encode = false ) {
+	$text = (string) $text;
 
-	if ( 0 === strlen( $string ) ) {
+	if ( 0 === strlen( $text ) ) {
 		return '';
 	}
 
 	// Don't bother if there are no specialchars - saves some processing.
-	if ( ! preg_match( '/[&<>"\']/', $string ) ) {
-		return $string;
+	if ( ! preg_match( '/[&<>"\']/', $text ) ) {
+		return $text;
 	}
 
 	// Account for the previous behavior of the function when the $quote_style is not an accepted value.
@@ -978,17 +978,17 @@ function _wp_specialchars( $string, $quote_style = ENT_NOQUOTES, $charset = fals
 	if ( ! $double_encode ) {
 		// Guarantee every &entity; is valid, convert &garbage; into &amp;garbage;
 		// This is required for PHP < 5.4.0 because ENT_HTML401 flag is unavailable.
-		$string = wp_kses_normalize_entities( $string, ( $quote_style & ENT_XML1 ) ? 'xml' : 'html' );
+		$text = wp_kses_normalize_entities( $text, ( $quote_style & ENT_XML1 ) ? 'xml' : 'html' );
 	}
 
-	$string = htmlspecialchars( $string, $quote_style, $charset, $double_encode );
+	$text = htmlspecialchars( $text, $quote_style, $charset, $double_encode );
 
 	// Back-compat.
 	if ( 'single' === $_quote_style ) {
-		$string = str_replace( "'", '&#039;', $string );
+		$text = str_replace( "'", '&#039;', $text );
 	}
 
-	return $string;
+	return $text;
 }
 
 /**
@@ -1001,7 +1001,7 @@ function _wp_specialchars( $string, $quote_style = ENT_NOQUOTES, $charset = fals
  *
  * @since 2.8.0
  *
- * @param string     $string The text which is to be decoded.
+ * @param string     $text        The text which is to be decoded.
  * @param string|int $quote_style Optional. Converts double quotes if set to ENT_COMPAT,
  *                                both single and double if set to ENT_QUOTES or
  *                                none if set to ENT_NOQUOTES.
@@ -1011,16 +1011,16 @@ function _wp_specialchars( $string, $quote_style = ENT_NOQUOTES, $charset = fals
  *                                Default is ENT_NOQUOTES.
  * @return string The decoded text without HTML entities.
  */
-function wp_specialchars_decode( $string, $quote_style = ENT_NOQUOTES ) {
-	$string = (string) $string;
+function wp_specialchars_decode( $text, $quote_style = ENT_NOQUOTES ) {
+	$text = (string) $text;
 
-	if ( 0 === strlen( $string ) ) {
+	if ( 0 === strlen( $text ) ) {
 		return '';
 	}
 
 	// Don't bother if there are no entities - saves a lot of processing.
-	if ( strpos( $string, '&' ) === false ) {
-		return $string;
+	if ( strpos( $text, '&' ) === false ) {
+		return $text;
 	}
 
 	// Match the previous behavior of _wp_specialchars() when the $quote_style is not an accepted value.
@@ -1079,10 +1079,10 @@ function wp_specialchars_decode( $string, $quote_style = ENT_NOQUOTES ) {
 	}
 
 	// Remove zero padding on numeric entities.
-	$string = preg_replace( array_keys( $translation_preg ), array_values( $translation_preg ), $string );
+	$text = preg_replace( array_keys( $translation_preg ), array_values( $translation_preg ), $text );
 
 	// Replace characters according to translation table.
-	return strtr( $string, $translation );
+	return strtr( $text, $translation );
 }
 
 /**
@@ -1090,14 +1090,14 @@ function wp_specialchars_decode( $string, $quote_style = ENT_NOQUOTES ) {
  *
  * @since 2.8.0
  *
- * @param string $string The text which is to be checked.
+ * @param string $text   The text which is to be checked.
  * @param bool   $strip  Optional. Whether to attempt to strip out invalid UTF8. Default false.
  * @return string The checked text.
  */
-function wp_check_invalid_utf8( $string, $strip = false ) {
-	$string = (string) $string;
+function wp_check_invalid_utf8( $text, $strip = false ) {
+	$text = (string) $text;
 
-	if ( 0 === strlen( $string ) ) {
+	if ( 0 === strlen( $text ) ) {
 		return '';
 	}
 
@@ -1107,7 +1107,7 @@ function wp_check_invalid_utf8( $string, $strip = false ) {
 		$is_utf8 = in_array( get_option( 'blog_charset' ), array( 'utf8', 'utf-8', 'UTF8', 'UTF-8' ), true );
 	}
 	if ( ! $is_utf8 ) {
-		return $string;
+		return $text;
 	}
 
 	// Check for support for utf8 in the installed PCRE library once and store the result in a static.
@@ -1118,17 +1118,17 @@ function wp_check_invalid_utf8( $string, $strip = false ) {
 	}
 	// We can't demand utf8 in the PCRE installation, so just return the string in those cases.
 	if ( ! $utf8_pcre ) {
-		return $string;
+		return $text;
 	}
 
-	// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- preg_match fails when it encounters invalid UTF8 in $string.
-	if ( 1 === @preg_match( '/^./us', $string ) ) {
-		return $string;
+	// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- preg_match fails when it encounters invalid UTF8 in $text.
+	if ( 1 === @preg_match( '/^./us', $text ) ) {
+		return $text;
 	}
 
 	// Attempt to strip the bad chars if requested (not recommended).
 	if ( $strip && function_exists( 'iconv' ) ) {
-		return iconv( 'utf-8', 'utf-8', $string );
+		return iconv( 'utf-8', 'utf-8', $text );
 	}
 
 	return '';
@@ -1586,26 +1586,26 @@ function utf8_uri_encode( $utf8_string, $length = 0, $encode_ascii_characters = 
  * @since 6.0.0 Added the `$locale` parameter.
  * @since 6.1.0 Added Unicode NFC encoding normalization support.
  *
- * @param string $string Text that might have accent characters.
+ * @param string $text   Text that might have accent characters.
  * @param string $locale Optional. The locale to use for accent removal. Some character
  *                       replacements depend on the locale being used (e.g. 'de_DE').
  *                       Defaults to the current locale.
  * @return string Filtered string with replaced "nice" characters.
  */
-function remove_accents( $string, $locale = '' ) {
-	if ( ! preg_match( '/[\x80-\xff]/', $string ) ) {
-		return $string;
+function remove_accents( $text, $locale = '' ) {
+	if ( ! preg_match( '/[\x80-\xff]/', $text ) ) {
+		return $text;
 	}
 
-	if ( seems_utf8( $string ) ) {
+	if ( seems_utf8( $text ) ) {
 
 		// Unicode sequence normalization from NFD (Normalization Form Decomposed)
 		// to NFC (Normalization Form [Pre]Composed), the encoding used in this function.
 		if ( function_exists( 'normalizer_is_normalized' )
 			&& function_exists( 'normalizer_normalize' )
 		) {
-			if ( ! normalizer_is_normalized( $string ) ) {
-				$string = normalizer_normalize( $string );
+			if ( ! normalizer_is_normalized( $text ) ) {
+				$text = normalizer_normalize( $text );
 			}
 		}
 
@@ -1970,7 +1970,7 @@ function remove_accents( $string, $locale = '' ) {
 			$chars['đ'] = 'dj';
 		}
 
-		$string = strtr( $string, $chars );
+		$text = strtr( $text, $chars );
 	} else {
 		$chars = array();
 		// Assume ISO-8859-1 if not UTF-8.
@@ -1987,14 +1987,14 @@ function remove_accents( $string, $locale = '' ) {
 
 		$chars['out'] = 'EfSZszYcYuAAAAAACEEEEIIIINOOOOOOUUUUYaaaaaaceeeeiiiinoooooouuuuyy';
 
-		$string              = strtr( $string, $chars['in'], $chars['out'] );
+		$text                = strtr( $text, $chars['in'], $chars['out'] );
 		$double_chars        = array();
 		$double_chars['in']  = array( "\x8c", "\x9c", "\xc6", "\xd0", "\xde", "\xdf", "\xe6", "\xf0", "\xfe" );
 		$double_chars['out'] = array( 'OE', 'oe', 'AE', 'DH', 'TH', 'ss', 'ae', 'dh', 'th' );
-		$string              = str_replace( $double_chars['in'], $double_chars['out'], $string );
+		$text                = str_replace( $double_chars['in'], $double_chars['out'], $text );
 	}
 
-	return $string;
+	return $text;
 }
 
 /**
@@ -2742,14 +2742,14 @@ function zeroise( $number, $threshold ) {
  *
  * @since 0.71
  *
- * @param string $string Value to which backslashes will be added.
+ * @param string $value Value to which backslashes will be added.
  * @return string String with backslashes inserted.
  */
-function backslashit( $string ) {
-	if ( isset( $string[0] ) && $string[0] >= '0' && $string[0] <= '9' ) {
-		$string = '\\\\' . $string;
+function backslashit( $value ) {
+	if ( isset( $value[0] ) && $value[0] >= '0' && $value[0] <= '9' ) {
+		$value = '\\\\' . $value;
 	}
-	return addcslashes( $string, 'A..Za..z' );
+	return addcslashes( $value, 'A..Za..z' );
 }
 
 /**
@@ -2763,11 +2763,11 @@ function backslashit( $string ) {
  *
  * @since 1.2.0
  *
- * @param string $string What to add the trailing slash to.
+ * @param string $value Value to which trailing slash will be added.
  * @return string String with trailing slash added.
  */
-function trailingslashit( $string ) {
-	return untrailingslashit( $string ) . '/';
+function trailingslashit( $value ) {
+	return untrailingslashit( $value ) . '/';
 }
 
 /**
@@ -2778,11 +2778,11 @@ function trailingslashit( $string ) {
  *
  * @since 2.2.0
  *
- * @param string $string What to remove the trailing slashes from.
+ * @param string $text Value from which trailing slashes will be removed.
  * @return string String without the trailing slashes.
  */
-function untrailingslashit( $string ) {
-	return rtrim( $string, '/\\' );
+function untrailingslashit( $value ) {
+	return rtrim( $value, '/\\' );
 }
 
 /**
@@ -3084,20 +3084,20 @@ function make_clickable( $text ) {
  *         4 => '123456789 ',   // 10 characters: '123456789 1234567890a' was too long.
  *         5 => '1234567890a ', // 12 characters: Too long, but no inner whitespace on which to split.
  *         6 => '   45678   ',  // 11 characters: Perfect split.
- *         7 => '1 3 5 7 90 ',  // 11 characters: End of $string.
+ *         7 => '1 3 5 7 90 ',  // 11 characters: End of $text.
  *     );
  *
  * @since 3.4.0
  * @access private
  *
- * @param string $string The string to split.
+ * @param string $text   The string to split.
  * @param int    $goal   The desired chunk length.
  * @return array Numeric array of chunks.
  */
-function _split_str_by_whitespace( $string, $goal ) {
+function _split_str_by_whitespace( $text, $goal ) {
 	$chunks = array();
 
-	$string_nullspace = strtr( $string, "\r\n\t\v\f ", "\000\000\000\000\000\000" );
+	$string_nullspace = strtr( $text, "\r\n\t\v\f ", "\000\000\000\000\000\000" );
 
 	while ( $goal < strlen( $string_nullspace ) ) {
 		$pos = strrpos( substr( $string_nullspace, 0, $goal + 1 ), "\000" );
@@ -3109,13 +3109,13 @@ function _split_str_by_whitespace( $string, $goal ) {
 			}
 		}
 
-		$chunks[]         = substr( $string, 0, $pos + 1 );
-		$string           = substr( $string, $pos + 1 );
+		$chunks[]         = substr( $text, 0, $pos + 1 );
+		$text             = substr( $text, $pos + 1 );
 		$string_nullspace = substr( $string_nullspace, $pos + 1 );
 	}
 
-	if ( $string ) {
-		$chunks[] = $string;
+	if ( $text ) {
+		$chunks[] = $text;
 	}
 
 	return $chunks;
@@ -3552,17 +3552,17 @@ function is_email( $email, $deprecated = false ) {
  *
  * @since 1.2.0
  *
- * @param string $string Subject line.
+ * @param string $subject Subject line.
  * @return string Converted string to ASCII.
  */
-function wp_iso_descrambler( $string ) {
+function wp_iso_descrambler( $subject ) {
 	/* this may only work with iso-8859-1, I'm afraid */
-	if ( ! preg_match( '#\=\?(.+)\?Q\?(.+)\?\=#i', $string, $matches ) ) {
-		return $string;
-	} else {
-		$subject = str_replace( '_', ' ', $matches[2] );
-		return preg_replace_callback( '#\=([0-9a-f]{2})#i', '_wp_iso_convert', $subject );
+	if ( ! preg_match( '#\=\?(.+)\?Q\?(.+)\?\=#i', $subject, $matches ) ) {
+		return $subject;
 	}
+
+	$subject = str_replace( '_', ' ', $matches[2] );
+	return preg_replace_callback( '#\=([0-9a-f]{2})#i', '_wp_iso_convert', $subject );
 }
 
 /**
@@ -3571,11 +3571,11 @@ function wp_iso_descrambler( $string ) {
  * @since 3.1.0
  * @access private
  *
- * @param array $match The preg_replace_callback matches array.
+ * @param array $matches The preg_replace_callback matches array.
  * @return string Converted chars.
  */
-function _wp_iso_convert( $match ) {
-	return chr( hexdec( strtolower( $match[1] ) ) );
+function _wp_iso_convert( $matches ) {
+	return chr( hexdec( strtolower( $matches[1] ) ) );
 }
 
 /**
@@ -3586,12 +3586,12 @@ function _wp_iso_convert( $match ) {
  *
  * @since 1.2.0
  *
- * @param string $string The date to be converted, in the timezone of the site.
- * @param string $format The format string for the returned date. Default 'Y-m-d H:i:s'.
+ * @param string $date_string The date to be converted, in the timezone of the site.
+ * @param string $format      The format string for the returned date. Default 'Y-m-d H:i:s'.
  * @return string Formatted version of the date, in UTC.
  */
-function get_gmt_from_date( $string, $format = 'Y-m-d H:i:s' ) {
-	$datetime = date_create( $string, wp_timezone() );
+function get_gmt_from_date( $date_string, $format = 'Y-m-d H:i:s' ) {
+	$datetime = date_create( $date_string, wp_timezone() );
 
 	if ( false === $datetime ) {
 		return gmdate( $format, 0 );
@@ -3608,12 +3608,12 @@ function get_gmt_from_date( $string, $format = 'Y-m-d H:i:s' ) {
  *
  * @since 1.2.0
  *
- * @param string $string The date to be converted, in UTC or GMT timezone.
- * @param string $format The format string for the returned date. Default 'Y-m-d H:i:s'.
+ * @param string $date_string The date to be converted, in UTC or GMT timezone.
+ * @param string $format      The format string for the returned date. Default 'Y-m-d H:i:s'.
  * @return string Formatted version of the date, in the site's timezone.
  */
-function get_date_from_gmt( $string, $format = 'Y-m-d H:i:s' ) {
-	$datetime = date_create( $string, new DateTimeZone( 'UTC' ) );
+function get_date_from_gmt( $date_string, $format = 'Y-m-d H:i:s' ) {
+	$datetime = date_create( $date_string, new DateTimeZone( 'UTC' ) );
 
 	if ( false === $datetime ) {
 		return gmdate( $format, 0 );
@@ -5033,20 +5033,20 @@ function map_deep( $value, $callback ) {
  *
  * @since 2.2.1
  *
- * @param string $string The string to be parsed.
- * @param array  $array  Variables will be stored in this array.
+ * @param string $input  The string to be parsed.
+ * @param array  $result Variables will be stored in this array.
  */
-function wp_parse_str( $string, &$array ) {
-	parse_str( (string) $string, $array );
+function wp_parse_str( $input, &$result ) {
+	parse_str( (string) $input, $result );
 
 	/**
 	 * Filters the array of variables derived from a parsed string.
 	 *
 	 * @since 2.2.1
 	 *
-	 * @param array $array The array populated with variables.
+	 * @param array $result The array populated with variables.
 	 */
-	$array = apply_filters( 'wp_parse_str', $array );
+	$result = apply_filters( 'wp_parse_str', $result );
 }
 
 /**
@@ -5056,11 +5056,11 @@ function wp_parse_str( $string, &$array ) {
  *
  * @since 2.3.0
  *
- * @param string $text Text to be converted.
+ * @param string $content Text to be converted.
  * @return string Converted text.
  */
-function wp_pre_kses_less_than( $text ) {
-	return preg_replace_callback( '%<[^>]*?((?=<)|>|$)%', 'wp_pre_kses_less_than_callback', $text );
+function wp_pre_kses_less_than( $content ) {
+	return preg_replace_callback( '%<[^>]*?((?=<)|>|$)%', 'wp_pre_kses_less_than_callback', $content );
 }
 
 /**
@@ -5084,23 +5084,23 @@ function wp_pre_kses_less_than_callback( $matches ) {
  *
  * @since 5.3.1
  *
- * @param string         $string            Content to be run through KSES.
+ * @param string         $content           Content to be run through KSES.
  * @param array[]|string $allowed_html      An array of allowed HTML elements
  *                                          and attributes, or a context name
  *                                          such as 'post'.
  * @param string[]       $allowed_protocols Array of allowed URL protocols.
  * @return string Filtered text to run through KSES.
  */
-function wp_pre_kses_block_attributes( $string, $allowed_html, $allowed_protocols ) {
+function wp_pre_kses_block_attributes( $content, $allowed_html, $allowed_protocols ) {
 	/*
 	 * `filter_block_content` is expected to call `wp_kses`. Temporarily remove
 	 * the filter to avoid recursion.
 	 */
 	remove_filter( 'pre_kses', 'wp_pre_kses_block_attributes', 10 );
-	$string = filter_block_content( $string, $allowed_html, $allowed_protocols );
+	$content = filter_block_content( $content, $allowed_html, $allowed_protocols );
 	add_filter( 'pre_kses', 'wp_pre_kses_block_attributes', 10, 3 );
 
-	return $string;
+	return $content;
 }
 
 /**
@@ -5389,19 +5389,19 @@ function normalize_whitespace( $str ) {
  *
  * @since 2.9.0
  *
- * @param string $string        String containing HTML tags
+ * @param string $text          String containing HTML tags
  * @param bool   $remove_breaks Optional. Whether to remove left over line breaks and white space chars
  * @return string The processed string.
  */
-function wp_strip_all_tags( $string, $remove_breaks = false ) {
-	$string = preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $string );
-	$string = strip_tags( $string );
+function wp_strip_all_tags( $text, $remove_breaks = false ) {
+	$text = preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $text );
+	$text = strip_tags( $text );
 
 	if ( $remove_breaks ) {
-		$string = preg_replace( '/[\r\n\t ]+/', ' ', $string );
+		$text = preg_replace( '/[\r\n\t ]+/', ' ', $text );
 	}
 
-	return trim( $string );
+	return trim( $text );
 }
 
 /**
