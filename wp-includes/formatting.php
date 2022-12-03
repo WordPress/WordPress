@@ -5033,11 +5033,11 @@ function map_deep( $value, $callback ) {
  *
  * @since 2.2.1
  *
- * @param string $input  The string to be parsed.
- * @param array  $result Variables will be stored in this array.
+ * @param string $input_string The string to be parsed.
+ * @param array  $result       Variables will be stored in this array.
  */
-function wp_parse_str( $input, &$result ) {
-	parse_str( (string) $input, $result );
+function wp_parse_str( $input_string, &$result ) {
+	parse_str( (string) $input_string, $result );
 
 	/**
 	 * Filters the array of variables derived from a parsed string.
