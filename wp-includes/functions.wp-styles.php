@@ -204,14 +204,14 @@ function wp_dequeue_style( $handle ) {
  * @since 2.8.0
  *
  * @param string $handle Name of the stylesheet.
- * @param string $list   Optional. Status of the stylesheet to check. Default 'enqueued'.
+ * @param string $status Optional. Status of the stylesheet to check. Default 'enqueued'.
  *                       Accepts 'enqueued', 'registered', 'queue', 'to_do', and 'done'.
  * @return bool Whether style is queued.
  */
-function wp_style_is( $handle, $list = 'enqueued' ) {
+function wp_style_is( $handle, $status = 'enqueued' ) {
 	_wp_scripts_maybe_doing_it_wrong( __FUNCTION__, $handle );
 
-	return (bool) wp_styles()->query( $handle, $list );
+	return (bool) wp_styles()->query( $handle, $status );
 }
 
 /**
