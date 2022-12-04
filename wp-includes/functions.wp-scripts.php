@@ -34,11 +34,11 @@ function wp_scripts() {
  * @since 4.2.0
  * @since 5.5.0 Added the `$handle` parameter.
  *
- * @param string $function Function name.
- * @param string $handle   Optional. Name of the script or stylesheet that was
- *                         registered or enqueued too early. Default empty.
+ * @param string $function_name Function name.
+ * @param string $handle        Optional. Name of the script or stylesheet that was
+ *                              registered or enqueued too early. Default empty.
  */
-function _wp_scripts_maybe_doing_it_wrong( $function, $handle = '' ) {
+function _wp_scripts_maybe_doing_it_wrong( $function_name, $handle = '' ) {
 	if ( did_action( 'init' ) || did_action( 'wp_enqueue_scripts' )
 		|| did_action( 'admin_enqueue_scripts' ) || did_action( 'login_enqueue_scripts' )
 	) {
@@ -62,7 +62,7 @@ function _wp_scripts_maybe_doing_it_wrong( $function, $handle = '' ) {
 	}
 
 	_doing_it_wrong(
-		$function,
+		$function_name,
 		$message,
 		'3.3.0'
 	);
@@ -389,14 +389,14 @@ function wp_dequeue_script( $handle ) {
  * @since 3.5.0 'enqueued' added as an alias of the 'queue' list.
  *
  * @param string $handle Name of the script.
- * @param string $list   Optional. Status of the script to check. Default 'enqueued'.
+ * @param string $status Optional. Status of the script to check. Default 'enqueued'.
  *                       Accepts 'enqueued', 'registered', 'queue', 'to_do', and 'done'.
  * @return bool Whether the script is queued.
  */
-function wp_script_is( $handle, $list = 'enqueued' ) {
+function wp_script_is( $handle, $status = 'enqueued' ) {
 	_wp_scripts_maybe_doing_it_wrong( __FUNCTION__, $handle );
 
-	return (bool) wp_scripts()->query( $handle, $list );
+	return (bool) wp_scripts()->query( $handle, $status );
 }
 
 /**
