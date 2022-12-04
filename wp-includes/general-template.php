@@ -370,17 +370,17 @@ function get_search_form( $args = array() ) {
  * @since 1.5.0
  *
  * @param string $redirect Optional path to redirect to on login/logout.
- * @param bool   $echo     Default to echo and not return the link.
- * @return void|string Void if `$echo` argument is true, log in/out link if `$echo` is false.
+ * @param bool   $display  Default to echo and not return the link.
+ * @return void|string Void if `$display` argument is true, log in/out link if `$display` is false.
  */
-function wp_loginout( $redirect = '', $echo = true ) {
+function wp_loginout( $redirect = '', $display = true ) {
 	if ( ! is_user_logged_in() ) {
 		$link = '<a href="' . esc_url( wp_login_url( $redirect ) ) . '">' . __( 'Log in' ) . '</a>';
 	} else {
 		$link = '<a href="' . esc_url( wp_logout_url( $redirect ) ) . '">' . __( 'Log out' ) . '</a>';
 	}
 
-	if ( $echo ) {
+	if ( $display ) {
 		/**
 		 * Filters the HTML output for the Log In/Log Out link.
 		 *
@@ -673,13 +673,13 @@ function wp_lostpassword_url( $redirect = '' ) {
  *
  * @since 1.5.0
  *
- * @param string $before Text to output before the link. Default `<li>`.
- * @param string $after  Text to output after the link. Default `</li>`.
- * @param bool   $echo   Default to echo and not return the link.
- * @return void|string Void if `$echo` argument is true, registration or admin link
- *                     if `$echo` is false.
+ * @param string $before  Text to output before the link. Default `<li>`.
+ * @param string $after   Text to output after the link. Default `</li>`.
+ * @param bool   $display Default to echo and not return the link.
+ * @return void|string Void if `$display` argument is true, registration or admin link
+ *                     if `$display` is false.
  */
-function wp_register( $before = '<li>', $after = '</li>', $echo = true ) {
+function wp_register( $before = '<li>', $after = '</li>', $display = true ) {
 	if ( ! is_user_logged_in() ) {
 		if ( get_option( 'users_can_register' ) ) {
 			$link = $before . '<a href="' . esc_url( wp_registration_url() ) . '">' . __( 'Register' ) . '</a>' . $after;
@@ -704,7 +704,7 @@ function wp_register( $before = '<li>', $after = '</li>', $echo = true ) {
 	 */
 	$link = apply_filters( 'register', $link );
 
-	if ( $echo ) {
+	if ( $display ) {
 		echo $link;
 	} else {
 		return $link;
@@ -2220,10 +2220,10 @@ function calendar_week_mod( $num ) {
  * @global array     $posts
  *
  * @param bool $initial Optional. Whether to use initial calendar names. Default true.
- * @param bool $echo    Optional. Whether to display the calendar output. Default true.
- * @return void|string Void if `$echo` argument is true, calendar HTML if `$echo` is false.
+ * @param bool $display Optional. Whether to display the calendar output. Default true.
+ * @return void|string Void if `$display` argument is true, calendar HTML if `$display` is false.
  */
-function get_calendar( $initial = true, $echo = true ) {
+function get_calendar( $initial = true, $display = true ) {
 	global $wpdb, $m, $monthnum, $year, $wp_locale, $posts;
 
 	$key   = md5( $m . $monthnum . $year );
@@ -2233,7 +2233,7 @@ function get_calendar( $initial = true, $echo = true ) {
 		/** This filter is documented in wp-includes/general-template.php */
 		$output = apply_filters( 'get_calendar', $cache[ $key ] );
 
-		if ( $echo ) {
+		if ( $display ) {
 			echo $output;
 			return;
 		}
@@ -2430,7 +2430,7 @@ function get_calendar( $initial = true, $echo = true ) {
 	$cache[ $key ] = $calendar_output;
 	wp_cache_set( 'get_calendar', $cache, 'calendar' );
 
-	if ( $echo ) {
+	if ( $display ) {
 		/**
 		 * Filters the HTML calendar output.
 		 *
@@ -2511,13 +2511,13 @@ function the_date_xml() {
  * @global string $currentday  The day of the current post in the loop.
  * @global string $previousday The day of the previous post in the loop.
  *
- * @param string $format Optional. PHP date format. Defaults to the 'date_format' option.
- * @param string $before Optional. Output before the date. Default empty.
- * @param string $after  Optional. Output after the date. Default empty.
- * @param bool   $echo   Optional. Whether to echo the date or return it. Default true.
+ * @param string $format  Optional. PHP date format. Defaults to the 'date_format' option.
+ * @param string $before  Optional. Output before the date. Default empty.
+ * @param string $after   Optional. Output after the date. Default empty.
+ * @param bool   $display Optional. Whether to echo the date or return it. Default true.
  * @return string|void String if retrieving.
  */
-function the_date( $format = '', $before = '', $after = '', $echo = true ) {
+function the_date( $format = '', $before = '', $after = '', $display = true ) {
 	global $currentday, $previousday;
 
 	$the_date = '';
@@ -2539,7 +2539,7 @@ function the_date( $format = '', $before = '', $after = '', $echo = true ) {
 	 */
 	$the_date = apply_filters( 'the_date', $the_date, $format, $before, $after );
 
-	if ( $echo ) {
+	if ( $display ) {
 		echo $the_date;
 	} else {
 		return $the_date;
@@ -2586,13 +2586,13 @@ function get_the_date( $format = '', $post = null ) {
  *
  * @since 2.1.0
  *
- * @param string $format Optional. PHP date format. Defaults to the 'date_format' option.
- * @param string $before Optional. Output before the date. Default empty.
- * @param string $after  Optional. Output after the date. Default empty.
- * @param bool   $echo   Optional. Whether to echo the date or return it. Default true.
+ * @param string $format  Optional. PHP date format. Defaults to the 'date_format' option.
+ * @param string $before  Optional. Output before the date. Default empty.
+ * @param string $after   Optional. Output after the date. Default empty.
+ * @param bool   $display Optional. Whether to echo the date or return it. Default true.
  * @return string|void String if retrieving.
  */
-function the_modified_date( $format = '', $before = '', $after = '', $echo = true ) {
+function the_modified_date( $format = '', $before = '', $after = '', $display = true ) {
 	$the_modified_date = $before . get_the_modified_date( $format ) . $after;
 
 	/**
@@ -2607,7 +2607,7 @@ function the_modified_date( $format = '', $before = '', $after = '', $echo = tru
 	 */
 	$the_modified_date = apply_filters( 'the_modified_date', $the_modified_date, $format, $before, $after );
 
-	if ( $echo ) {
+	if ( $display ) {
 		echo $the_modified_date;
 	} else {
 		return $the_modified_date;
@@ -5066,12 +5066,12 @@ function get_the_generator( $type = '' ) {
  * @param mixed $checked One of the values to compare.
  * @param mixed $current Optional. The other value to compare if not just true.
  *                       Default true.
- * @param bool  $echo    Optional. Whether to echo or just return the string.
+ * @param bool  $display Optional. Whether to echo or just return the string.
  *                       Default true.
  * @return string HTML attribute or empty string.
  */
-function checked( $checked, $current = true, $echo = true ) {
-	return __checked_selected_helper( $checked, $current, $echo, 'checked' );
+function checked( $checked, $current = true, $display = true ) {
+	return __checked_selected_helper( $checked, $current, $display, 'checked' );
 }
 
 /**
@@ -5084,12 +5084,12 @@ function checked( $checked, $current = true, $echo = true ) {
  * @param mixed $selected One of the values to compare.
  * @param mixed $current  Optional. The other value to compare if not just true.
  *                        Default true.
- * @param bool  $echo     Optional. Whether to echo or just return the string.
+ * @param bool  $display  Optional. Whether to echo or just return the string.
  *                        Default true.
  * @return string HTML attribute or empty string.
  */
-function selected( $selected, $current = true, $echo = true ) {
-	return __checked_selected_helper( $selected, $current, $echo, 'selected' );
+function selected( $selected, $current = true, $display = true ) {
+	return __checked_selected_helper( $selected, $current, $display, 'selected' );
 }
 
 /**
@@ -5102,12 +5102,12 @@ function selected( $selected, $current = true, $echo = true ) {
  * @param mixed $disabled One of the values to compare.
  * @param mixed $current  Optional. The other value to compare if not just true.
  *                        Default true.
- * @param bool  $echo     Optional. Whether to echo or just return the string.
+ * @param bool  $display  Optional. Whether to echo or just return the string.
  *                        Default true.
  * @return string HTML attribute or empty string.
  */
-function disabled( $disabled, $current = true, $echo = true ) {
-	return __checked_selected_helper( $disabled, $current, $echo, 'disabled' );
+function disabled( $disabled, $current = true, $display = true ) {
+	return __checked_selected_helper( $disabled, $current, $display, 'disabled' );
 }
 
 /**
@@ -5117,15 +5117,15 @@ function disabled( $disabled, $current = true, $echo = true ) {
  *
  * @since 5.9.0
  *
- * @param mixed $readonly One of the values to compare.
- * @param mixed $current  Optional. The other value to compare if not just true.
- *                        Default true.
- * @param bool  $echo     Optional. Whether to echo or just return the string.
- *                        Default true.
+ * @param mixed $readonly_value One of the values to compare.
+ * @param mixed $current        Optional. The other value to compare if not just true.
+ *                              Default true.
+ * @param bool  $display        Optional. Whether to echo or just return the string.
+ *                              Default true.
  * @return string HTML attribute or empty string.
  */
-function wp_readonly( $readonly, $current = true, $echo = true ) {
-	return __checked_selected_helper( $readonly, $current, $echo, 'readonly' );
+function wp_readonly( $readonly_value, $current = true, $display = true ) {
+	return __checked_selected_helper( $readonly_value, $current, $display, 'readonly' );
 }
 
 /*
@@ -5148,18 +5148,18 @@ if ( PHP_VERSION_ID < 80100 ) {
  *
  * @param mixed  $helper  One of the values to compare.
  * @param mixed  $current The other value to compare if not just true.
- * @param bool   $echo    Whether to echo or just return the string.
+ * @param bool   $display Whether to echo or just return the string.
  * @param string $type    The type of checked|selected|disabled|readonly we are doing.
  * @return string HTML attribute or empty string.
  */
-function __checked_selected_helper( $helper, $current, $echo, $type ) { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionDoubleUnderscore,PHPCompatibility.FunctionNameRestrictions.ReservedFunctionNames.FunctionDoubleUnderscore
+function __checked_selected_helper( $helper, $current, $display, $type ) { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionDoubleUnderscore,PHPCompatibility.FunctionNameRestrictions.ReservedFunctionNames.FunctionDoubleUnderscore
 	if ( (string) $helper === (string) $current ) {
 		$result = " $type='$type'";
 	} else {
 		$result = '';
 	}
 
-	if ( $echo ) {
+	if ( $display ) {
 		echo $result;
 	}
 
