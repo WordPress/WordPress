@@ -5764,7 +5764,15 @@ final class WP_Customize_Manager {
 				}
 			}
 		}
-		return 0 !== count( get_pages( array( 'number' => 1 ) ) );
+
+		return 0 !== count(
+			get_pages(
+				array(
+					'number'       => 1,
+					'hierarchical' => 0,
+				)
+			)
+		);
 	}
 
 	/**
