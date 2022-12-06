@@ -1132,12 +1132,12 @@ function shutdown_action_hook() {
  * @since 2.7.0
  * @deprecated 3.2.0
  *
- * @param object $object The object to clone.
+ * @param object $input_object The object to clone.
  * @return object The cloned object.
  */
-function wp_clone( $object ) {
+function wp_clone( $input_object ) {
 	// Use parens for clone to accommodate PHP 4. See #17880.
-	return clone( $object );
+	return clone( $input_object );
 }
 
 /**
