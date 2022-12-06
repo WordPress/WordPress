@@ -110,8 +110,10 @@ class WP_Media_List_Table extends WP_List_Table {
 				'per_page'    => $wp_query->query_vars['posts_per_page'],
 			)
 		);
-
-		update_post_parent_caches( $wp_query->posts );
+		if ( $wp_query->posts ) {
+			update_post_thumbnail_cache( $wp_query );
+			update_post_parent_caches( $wp_query->posts );
+		}
 	}
 
 	/**
@@ -424,8 +426,18 @@ class WP_Media_List_Table extends WP_List_Table {
 	public function column_title( $post ) {
 		list( $mime ) = explode( '/', $post->post_mime_type );
 
+		$attachment_id = $post->ID;
+
+		if ( has_post_thumbnail( $post ) ) {
+			$thumbnail_id = get_post_thumbnail_id( $post );
+
+			if ( ! empty( $thumbnail_id ) ) {
+				$attachment_id = $thumbnail_id;
+			}
+		}
+
 		$title      = _draft_or_post_title();
-		$thumb      = wp_get_attachment_image( $post->ID, array( 60, 60 ), true, array( 'alt' => '' ) );
+		$thumb      = wp_get_attachment_image( $attachment_id, array( 60, 60 ), true, array( 'alt' => '' ) );
 		$link_start = '';
 		$link_end   = '';
 
