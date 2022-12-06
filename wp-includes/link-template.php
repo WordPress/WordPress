@@ -39,17 +39,17 @@ function the_permalink( $post = 0 ) {
  *
  * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
- * @param string $string      URL with or without a trailing slash.
+ * @param string $url         URL with or without a trailing slash.
  * @param string $type_of_url Optional. The type of URL being considered (e.g. single, category, etc)
  *                            for use in the filter. Default empty string.
  * @return string The URL with the trailing slash appended or stripped.
  */
-function user_trailingslashit( $string, $type_of_url = '' ) {
+function user_trailingslashit( $url, $type_of_url = '' ) {
 	global $wp_rewrite;
 	if ( $wp_rewrite->use_trailing_slashes ) {
-		$string = trailingslashit( $string );
+		$url = trailingslashit( $url );
 	} else {
-		$string = untrailingslashit( $string );
+		$url = untrailingslashit( $url );
 	}
 
 	/**
@@ -57,12 +57,12 @@ function user_trailingslashit( $string, $type_of_url = '' ) {
 	 *
 	 * @since 2.2.0
 	 *
-	 * @param string $string      URL with or without a trailing slash.
+	 * @param string $url         URL with or without a trailing slash.
 	 * @param string $type_of_url The type of URL being considered. Accepts 'single', 'single_trackback',
 	 *                            'single_feed', 'single_paged', 'commentpaged', 'paged', 'home', 'feed',
 	 *                            'category', 'page', 'year', 'month', 'day', 'post_type_archive'.
 	 */
-	return apply_filters( 'user_trailingslashit', $string, $type_of_url );
+	return apply_filters( 'user_trailingslashit', $url, $type_of_url );
 }
 
 /**
@@ -1122,14 +1122,14 @@ function get_edit_term_link( $term, $taxonomy = '', $object_type = '' ) {
  *
  * @since 3.1.0
  *
- * @param string           $link   Optional. Anchor text. If empty, default is 'Edit This'. Default empty.
- * @param string           $before Optional. Display before edit link. Default empty.
- * @param string           $after  Optional. Display after edit link. Default empty.
- * @param int|WP_Term|null $term   Optional. Term ID or object. If null, the queried object will be inspected. Default null.
- * @param bool             $echo   Optional. Whether or not to echo the return. Default true.
+ * @param string           $link    Optional. Anchor text. If empty, default is 'Edit This'. Default empty.
+ * @param string           $before  Optional. Display before edit link. Default empty.
+ * @param string           $after   Optional. Display after edit link. Default empty.
+ * @param int|WP_Term|null $term    Optional. Term ID or object. If null, the queried object will be inspected. Default null.
+ * @param bool             $display Optional. Whether or not to echo the return. Default true.
  * @return string|void HTML content.
  */
-function edit_term_link( $link = '', $before = '', $after = '', $term = null, $echo = true ) {
+function edit_term_link( $link = '', $before = '', $after = '', $term = null, $display = true ) {
 	if ( is_null( $term ) ) {
 		$term = get_queried_object();
 	} else {
@@ -1161,7 +1161,7 @@ function edit_term_link( $link = '', $before = '', $after = '', $term = null, $e
 	 */
 	$link = $before . apply_filters( 'edit_term_link', $link, $term->term_id ) . $after;
 
-	if ( $echo ) {
+	if ( $display ) {
 		echo $link;
 	} else {
 		return $link;
@@ -1492,15 +1492,15 @@ function get_edit_post_link( $post = 0, $context = 'display' ) {
  * Displays the edit post link for post.
  *
  * @since 1.0.0
- * @since 4.4.0 The `$class` argument was added.
+ * @since 4.4.0 The `$css_class` argument was added.
  *
- * @param string      $text   Optional. Anchor text. If null, default is 'Edit This'. Default null.
- * @param string      $before Optional. Display before edit link. Default empty.
- * @param string      $after  Optional. Display after edit link. Default empty.
- * @param int|WP_Post $post   Optional. Post ID or post object. Default is the global `$post`.
- * @param string      $class  Optional. Add custom class to link. Default 'post-edit-link'.
+ * @param string      $text      Optional. Anchor text. If null, default is 'Edit This'. Default null.
+ * @param string      $before    Optional. Display before edit link. Default empty.
+ * @param string      $after     Optional. Display after edit link. Default empty.
+ * @param int|WP_Post $post      Optional. Post ID or post object. Default is the global `$post`.
+ * @param string      $css_class Optional. Add custom class to link. Default 'post-edit-link'.
  */
-function edit_post_link( $text = null, $before = '', $after = '', $post = 0, $class = 'post-edit-link' ) {
+function edit_post_link( $text = null, $before = '', $after = '', $post = 0, $css_class = 'post-edit-link' ) {
 	$post = get_post( $post );
 
 	if ( ! $post ) {
@@ -1517,7 +1517,7 @@ function edit_post_link( $text = null, $before = '', $after = '', $post = 0, $cl
 		$text = __( 'Edit This' );
 	}
 
-	$link = '<a class="' . esc_attr( $class ) . '" href="' . esc_url( $url ) . '">' . $text . '</a>';
+	$link = '<a class="' . esc_attr( $css_class ) . '" href="' . esc_url( $url ) . '">' . $text . '</a>';
 
 	/**
 	 * Filters the post edit link anchor tag.
@@ -2488,13 +2488,13 @@ function get_next_posts_page_link( $max_page = 0 ) {
  * @since 0.71
  *
  * @param int  $max_page Optional. Max pages. Default 0.
- * @param bool $echo     Optional. Whether to echo the link. Default true.
- * @return string|void The link URL for next posts page if `$echo = false`.
+ * @param bool $display  Optional. Whether to echo the link. Default true.
+ * @return string|void The link URL for next posts page if `$display = false`.
  */
-function next_posts( $max_page = 0, $echo = true ) {
+function next_posts( $max_page = 0, $display = true ) {
 	$output = esc_url( get_next_posts_page_link( $max_page ) );
 
-	if ( $echo ) {
+	if ( $display ) {
 		echo $output;
 	} else {
 		return $output;
@@ -2586,13 +2586,13 @@ function get_previous_posts_page_link() {
  *
  * @since 0.71
  *
- * @param bool $echo Optional. Whether to echo the link. Default true.
- * @return string|void The previous posts page link if `$echo = false`.
+ * @param bool $display Optional. Whether to echo the link. Default true.
+ * @return string|void The previous posts page link if `$display = false`.
  */
-function previous_posts( $echo = true ) {
+function previous_posts( $display = true ) {
 	$output = esc_url( get_previous_posts_page_link() );
 
-	if ( $echo ) {
+	if ( $display ) {
 		echo $output;
 	} else {
 		return $output;
@@ -2958,7 +2958,7 @@ function the_posts_pagination( $args = array() ) {
  * @access private
  *
  * @param string $links              Navigational links.
- * @param string $class              Optional. Custom class for the nav element.
+ * @param string $css_class          Optional. Custom class for the nav element.
  *                                   Default 'posts-navigation'.
  * @param string $screen_reader_text Optional. Screen reader text for the nav element.
  *                                   Default 'Posts navigation'.
@@ -2966,7 +2966,7 @@ function the_posts_pagination( $args = array() ) {
  *                                   Defaults to the value of `$screen_reader_text`.
  * @return string Navigation template tag.
  */
-function _navigation_markup( $links, $class = 'posts-navigation', $screen_reader_text = '', $aria_label = '' ) {
+function _navigation_markup( $links, $css_class = 'posts-navigation', $screen_reader_text = '', $aria_label = '' ) {
 	if ( empty( $screen_reader_text ) ) {
 		$screen_reader_text = __( 'Posts navigation' );
 	}
@@ -2994,13 +2994,13 @@ function _navigation_markup( $links, $class = 'posts-navigation', $screen_reader
 	 *
 	 * @since 4.4.0
 	 *
-	 * @param string $template The default template.
-	 * @param string $class    The class passed by the calling function.
+	 * @param string $template  The default template.
+	 * @param string $css_class The class passed by the calling function.
 	 * @return string Navigation template.
 	 */
-	$template = apply_filters( 'navigation_markup_template', $template, $class );
+	$template = apply_filters( 'navigation_markup_template', $template, $css_class );
 
-	return sprintf( $template, sanitize_html_class( $class ), esc_html( $screen_reader_text ), $links, esc_html( $aria_label ) );
+	return sprintf( $template, sanitize_html_class( $css_class ), esc_html( $screen_reader_text ), $links, esc_html( $aria_label ) );
 }
 
 /**
