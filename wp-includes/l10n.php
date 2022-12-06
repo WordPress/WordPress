@@ -222,15 +222,15 @@ function translate( $text, $domain = 'default' ) {
  *
  * @since 2.8.0
  *
- * @param string $string A pipe-delimited string.
- * @return string Either $string or everything before the last pipe.
+ * @param string $text A pipe-delimited string.
+ * @return string Either $text or everything before the last pipe.
  */
-function before_last_bar( $string ) {
-	$last_bar = strrpos( $string, '|' );
+function before_last_bar( $text ) {
+	$last_bar = strrpos( $text, '|' );
 	if ( false === $last_bar ) {
-		return $string;
+		return $text;
 	} else {
-		return substr( $string, 0, $last_bar );
+		return substr( $text, 0, $last_bar );
 	}
 }
 
