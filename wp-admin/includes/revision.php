@@ -194,7 +194,7 @@ function wp_prepare_revisions_for_js( $post, $selected_revision_id, $from = null
 
 	$show_avatars = get_option( 'show_avatars' );
 
-	cache_users( wp_list_pluck( $revisions, 'post_author' ) );
+	update_post_author_caches( $revisions );
 
 	$can_restore = current_user_can( 'edit_post', $post->ID );
 	$current_id  = false;
