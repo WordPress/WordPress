@@ -1284,6 +1284,8 @@ class WP_Site_Health {
 	 *
 	 * @since 5.2.0
 	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
 	 * @return array The test results.
 	 */
 	public function get_test_utf8mb4_support() {

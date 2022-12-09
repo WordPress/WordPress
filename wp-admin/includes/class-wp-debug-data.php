@@ -30,6 +30,7 @@ class WP_Debug_Data {
 	 *
 	 * @throws ImagickException
 	 * @global wpdb $wpdb WordPress database abstraction object.
+	 * @global $_wp_theme_features
 	 *
 	 * @return array The debug data for the site.
 	 */
@@ -1557,6 +1558,8 @@ class WP_Debug_Data {
 	 * Fetches the total size of all the database tables for the active database user.
 	 *
 	 * @since 5.2.0
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @return int The size of the database, in bytes.
 	 */
