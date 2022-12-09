@@ -1289,13 +1289,13 @@ if ( ! function_exists( 'check_ajax_referer' ) ) :
 	 * @param false|string $query_arg Optional. Key to check for the nonce in `$_REQUEST` (since 2.5). If false,
 	 *                                `$_REQUEST` values will be evaluated for '_ajax_nonce', and '_wpnonce'
 	 *                                (in that order). Default false.
-	 * @param bool         $die       Optional. Whether to die early when the nonce cannot be verified.
+	 * @param bool         $stop      Optional. Whether to stop early when the nonce cannot be verified.
 	 *                                Default true.
 	 * @return int|false 1 if the nonce is valid and generated between 0-12 hours ago,
 	 *                   2 if the nonce is valid and generated between 12-24 hours ago.
 	 *                   False if the nonce is invalid.
 	 */
-	function check_ajax_referer( $action = -1, $query_arg = false, $die = true ) {
+	function check_ajax_referer( $action = -1, $query_arg = false, $stop = true ) {
 		if ( -1 == $action ) {
 			_doing_it_wrong( __FUNCTION__, __( 'You should specify an action to be verified by using the first parameter.' ), '4.7.0' );
 		}
@@ -1323,7 +1323,7 @@ if ( ! function_exists( 'check_ajax_referer' ) ) :
 		 */
 		do_action( 'check_ajax_referer', $action, $result );
 
-		if ( $die && false === $result ) {
+		if ( $stop && false === $result ) {
 			if ( wp_doing_ajax() ) {
 				wp_die( -1, 403 );
 			} else {
@@ -1519,7 +1519,9 @@ if ( ! function_exists( 'wp_safe_redirect' ) ) :
 		 * @param string $fallback_url The fallback URL to use by default.
 		 * @param int    $status       The HTTP response status code to use.
 		 */
-		$location = wp_validate_redirect( $location, apply_filters( 'wp_safe_redirect_fallback', admin_url(), $status ) );
+		$fallback_url = apply_filters( 'wp_safe_redirect_fallback', admin_url(), $status );
+
+		$location = wp_validate_redirect( $location, $fallback_url );
 
 		return wp_redirect( $location, $status, $x_redirect_by );
 	}
@@ -1533,15 +1535,15 @@ if ( ! function_exists( 'wp_validate_redirect' ) ) :
 	 * path. A plugin can therefore set or remove allowed host(s) to or from the
 	 * list.
 	 *
-	 * If the host is not allowed, then the redirect is to $default supplied.
+	 * If the host is not allowed, then the redirect is to $fallback_url supplied.
 	 *
 	 * @since 2.8.1
 	 *
-	 * @param string $location The redirect to validate.
-	 * @param string $default  The value to return if $location is not allowed.
-	 * @return string redirect-sanitized URL.
+	 * @param string $location     The redirect to validate.
+	 * @param string $fallback_url The value to return if $location is not allowed.
+	 * @return string Redirect-sanitized URL.
 	 */
-	function wp_validate_redirect( $location, $default = '' ) {
+	function wp_validate_redirect( $location, $fallback_url = '' ) {
 		$location = wp_sanitize_redirect( trim( $location, " \t\n\r\0\x08\x0B" ) );
 		// Browsers will assume 'http' is your protocol, and will obey a redirect to a URL starting with '//'.
 		if ( '//' === substr( $location, 0, 2 ) ) {
@@ -1557,12 +1559,12 @@ if ( ! function_exists( 'wp_validate_redirect' ) ) :
 
 		// Give up if malformed URL.
 		if ( false === $lp ) {
-			return $default;
+			return $fallback_url;
 		}
 
 		// Allow only 'http' and 'https' schemes. No 'data:', etc.
 		if ( isset( $lp['scheme'] ) && ! ( 'http' === $lp['scheme'] || 'https' === $lp['scheme'] ) ) {
-			return $default;
+			return $fallback_url;
 		}
 
 		if ( ! isset( $lp['host'] ) && ! empty( $lp['path'] ) && '/' !== $lp['path'][0] ) {
@@ -1577,13 +1579,13 @@ if ( ! function_exists( 'wp_validate_redirect' ) ) :
 		// Reject if certain components are set but host is not.
 		// This catches URLs like https:host.com for which parse_url() does not set the host field.
 		if ( ! isset( $lp['host'] ) && ( isset( $lp['scheme'] ) || isset( $lp['user'] ) || isset( $lp['pass'] ) || isset( $lp['port'] ) ) ) {
-			return $default;
+			return $fallback_url;
 		}
 
 		// Reject malformed components parse_url() can return on odd inputs.
 		foreach ( array( 'user', 'pass', 'host' ) as $component ) {
 			if ( isset( $lp[ $component ] ) && strpbrk( $lp[ $component ], ':/?#@' ) ) {
-				return $default;
+				return $fallback_url;
 			}
 		}
 
@@ -1600,7 +1602,7 @@ if ( ! function_exists( 'wp_validate_redirect' ) ) :
 		$allowed_hosts = (array) apply_filters( 'allowed_redirect_hosts', array( $wpp['host'] ), isset( $lp['host'] ) ? $lp['host'] : '' );
 
 		if ( isset( $lp['host'] ) && ( ! in_array( $lp['host'], $allowed_hosts, true ) && strtolower( $wpp['host'] ) !== $lp['host'] ) ) {
-			$location = $default;
+			$location = $fallback_url;
 		}
 
 		return $location;
@@ -2746,16 +2748,16 @@ if ( ! function_exists( 'get_avatar' ) ) :
 	 * @since 2.5.0
 	 * @since 4.2.0 Optional `$args` parameter added.
 	 *
-	 * @param mixed  $id_or_email The Gravatar to retrieve. Accepts a user_id, gravatar md5 hash,
-	 *                            user email, WP_User object, WP_Post object, or WP_Comment object.
-	 * @param int    $size        Optional. Height and width of the avatar image file in pixels. Default 96.
-	 * @param string $default     Optional. URL for the default image or a default type. Accepts '404'
-	 *                            (return a 404 instead of a default image), 'retro' (8bit), 'monsterid'
-	 *                            (monster), 'wavatar' (cartoon face), 'indenticon' (the "quilt"),
-	 *                            'mystery', 'mm', or 'mysteryman' (The Oyster Man), 'blank' (transparent GIF),
-	 *                            or 'gravatar_default' (the Gravatar logo). Default is the value of the
-	 *                            'avatar_default' option, with a fallback of 'mystery'.
-	 * @param string $alt         Optional. Alternative text to use in img tag. Default empty.
+	 * @param mixed  $id_or_email   The Gravatar to retrieve. Accepts a user_id, gravatar md5 hash,
+	 *                              user email, WP_User object, WP_Post object, or WP_Comment object.
+	 * @param int    $size          Optional. Height and width of the avatar image file in pixels. Default 96.
+	 * @param string $default_value Optional. URL for the default image or a default type. Accepts '404'
+	 *                              (return a 404 instead of a default image), 'retro' (8bit), 'monsterid'
+	 *                              (monster), 'wavatar' (cartoon face), 'indenticon' (the "quilt"),
+	 *                              'mystery', 'mm', or 'mysteryman' (The Oyster Man), 'blank' (transparent GIF),
+	 *                              or 'gravatar_default' (the Gravatar logo). Default is the value of the
+	 *                              'avatar_default' option, with a fallback of 'mystery'.
+	 * @param string $alt           Optional. Alternative text to use in img tag. Default empty.
 	 * @param array  $args {
 	 *     Optional. Extra arguments to retrieve the avatar.
 	 *
@@ -2776,7 +2778,7 @@ if ( ! function_exists( 'get_avatar' ) ) :
 	 * }
 	 * @return string|false `<img>` tag for the user's avatar. False on failure.
 	 */
-	function get_avatar( $id_or_email, $size = 96, $default = '', $alt = '', $args = null ) {
+	function get_avatar( $id_or_email, $size = 96, $default_value = '', $alt = '', $args = null ) {
 		$defaults = array(
 			// get_avatar_data() args.
 			'size'          => 96,
@@ -2803,7 +2805,7 @@ if ( ! function_exists( 'get_avatar' ) ) :
 		}
 
 		$args['size']    = (int) $size;
-		$args['default'] = $default;
+		$args['default'] = $default_value;
 		$args['alt']     = $alt;
 
 		$args = wp_parse_args( $args, $defaults );
@@ -2907,14 +2909,14 @@ if ( ! function_exists( 'get_avatar' ) ) :
 		 * @since 2.5.0
 		 * @since 4.2.0 The `$args` parameter was added.
 		 *
-		 * @param string $avatar      HTML for the user's avatar.
-		 * @param mixed  $id_or_email The avatar to retrieve. Accepts a user_id, Gravatar MD5 hash,
-		 *                            user email, WP_User object, WP_Post object, or WP_Comment object.
-		 * @param int    $size        Square avatar width and height in pixels to retrieve.
-		 * @param string $default     URL for the default image or a default type. Accepts '404', 'retro', 'monsterid',
-		 *                            'wavatar', 'indenticon', 'mystery', 'mm', 'mysteryman', 'blank', or 'gravatar_default'.
-		 * @param string $alt         Alternative text to use in the avatar image tag.
-		 * @param array  $args        Arguments passed to get_avatar_data(), after processing.
+		 * @param string $avatar        HTML for the user's avatar.
+		 * @param mixed  $id_or_email   The avatar to retrieve. Accepts a user_id, Gravatar MD5 hash,
+		 *                              user email, WP_User object, WP_Post object, or WP_Comment object.
+		 * @param int    $size          Square avatar width and height in pixels to retrieve.
+		 * @param string $default_value URL for the default image or a default type. Accepts '404', 'retro', 'monsterid',
+		 *                              'wavatar', 'indenticon', 'mystery', 'mm', 'mysteryman', 'blank', or 'gravatar_default'.
+		 * @param string $alt           Alternative text to use in the avatar image tag.
+		 * @param array  $args          Arguments passed to get_avatar_data(), after processing.
 		 */
 		return apply_filters( 'get_avatar', $avatar, $id_or_email, $args['size'], $args['default'], $args['alt'], $args );
 	}
