@@ -425,8 +425,8 @@ function comment_author_url_link( $linktext = '', $before = '', $after = '', $co
  *
  * @param string|string[] $css_class Optional. One or more classes to add to the class list.
  *                                   Default empty.
- * @param int|WP_Comment  $comment   Comment ID or WP_Comment object. Default current comment.
- * @param int|WP_Post     $post      Post ID or WP_Post object. Default current post.
+ * @param int|WP_Comment  $comment   Optional. Comment ID or WP_Comment object. Default current comment.
+ * @param int|WP_Post     $post      Optional. Post ID or WP_Post object. Default current post.
  * @param bool            $display   Optional. Whether to print or return the output.
  *                                   Default true.
  * @return void|string Void if `$display` argument is true, comment classes if `$display` is false.
@@ -452,9 +452,10 @@ function comment_class( $css_class = '', $comment = null, $post = null, $display
  * @global int $comment_depth
  * @global int $comment_thread_alt
  *
- * @param string|string[] $css_class  Optional. One or more classes to add to the class list. Default empty.
- * @param int|WP_Comment  $comment_id Comment ID or WP_Comment object. Default current comment.
- * @param int|WP_Post     $post       Post ID or WP_Post object. Default current post.
+ * @param string|string[] $css_class  Optional. One or more classes to add to the class list.
+ *                                    Default empty.
+ * @param int|WP_Comment  $comment_id Optional. Comment ID or WP_Comment object. Default current comment.
+ * @param int|WP_Post     $post       Optional. Post ID or WP_Post object. Default current post.
  * @return string[] An array of classes.
  */
 function get_comment_class( $css_class = '', $comment_id = null, $post = null ) {
@@ -591,8 +592,8 @@ function comment_date( $format = '', $comment_ID = 0 ) {
  * @since 1.5.0
  * @since 4.4.0 Added the ability for `$comment_ID` to also accept a WP_Comment object.
  *
- * @param int|WP_Comment $comment_ID  WP_Comment or ID of the comment for which to get the excerpt.
- *                                    Default current comment.
+ * @param int|WP_Comment $comment_ID Optional. WP_Comment or ID of the comment for which to get the excerpt.
+ *                                   Default current comment.
  * @return string The possibly truncated comment excerpt.
  */
 function get_comment_excerpt( $comment_ID = 0 ) {
@@ -637,8 +638,8 @@ function get_comment_excerpt( $comment_ID = 0 ) {
  * @since 1.2.0
  * @since 4.4.0 Added the ability for `$comment_ID` to also accept a WP_Comment object.
  *
- * @param int|WP_Comment $comment_ID  WP_Comment or ID of the comment for which to print the excerpt.
- *                                    Default current comment.
+ * @param int|WP_Comment $comment_ID Optional. WP_Comment or ID of the comment for which to print the excerpt.
+ *                                   Default current comment.
  */
 function comment_excerpt( $comment_ID = 0 ) {
 	$comment         = get_comment( $comment_ID );
@@ -699,7 +700,7 @@ function comment_ID() { // phpcs:ignore WordPress.NamingConventions.ValidFunctio
  * @global WP_Rewrite $wp_rewrite      WordPress rewrite component.
  * @global bool       $in_comment_loop
  *
- * @param WP_Comment|int|null $comment Comment to retrieve. Default current comment.
+ * @param WP_Comment|int|null $comment Optional. Comment to retrieve. Default current comment.
  * @param array               $args {
  *     An array of optional arguments to override the defaults.
  *
@@ -958,7 +959,7 @@ function get_comments_number_text( $zero = false, $one = false, $more = false, $
  *
  * @see Walker_Comment::comment()
  *
- * @param int|WP_Comment $comment_ID WP_Comment or ID of the comment for which to get the text.
+ * @param int|WP_Comment $comment_ID Optional. WP_Comment or ID of the comment for which to get the text.
  *                                   Default current comment.
  * @param array          $args       Optional. An array of arguments. Default empty array.
  * @return string The comment content.
@@ -1004,7 +1005,7 @@ function get_comment_text( $comment_ID = 0, $args = array() ) {
  *
  * @see Walker_Comment::comment()
  *
- * @param int|WP_Comment $comment_ID WP_Comment or ID of the comment for which to print the text.
+ * @param int|WP_Comment $comment_ID Optional. WP_Comment or ID of the comment for which to print the text.
  *                                   Default current comment.
  * @param array          $args       Optional. An array of arguments. Default empty array.
  */
@@ -1231,7 +1232,7 @@ function trackback_rdf( $deprecated = '' ) {
  *
  * @since 1.5.0
  *
- * @param int|WP_Post $post Post ID or WP_Post object. Default current post.
+ * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default current post.
  * @return bool True if the comments are open.
  */
 function comments_open( $post = null ) {
@@ -1260,7 +1261,7 @@ function comments_open( $post = null ) {
  *
  * @since 1.5.0
  *
- * @param int|WP_Post $post Post ID or WP_Post object. Default current post.
+ * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default current post.
  * @return bool True if pings are accepted
  */
 function pings_open( $post = null ) {
@@ -1661,8 +1662,8 @@ function comments_popup_link( $zero = false, $one = false, $more = false, $css_c
  *     @type string $before     The text or HTML to add before the reply link. Default empty.
  *     @type string $after      The text or HTML to add after the reply link. Default empty.
  * }
- * @param int|WP_Comment $comment Comment being replied to. Default current comment.
- * @param int|WP_Post    $post    Post ID or WP_Post object the comment is going to be displayed on.
+ * @param int|WP_Comment $comment Optional. Comment being replied to. Default current comment.
+ * @param int|WP_Post    $post    Optional. Post ID or WP_Post object the comment is going to be displayed on.
  *                                Default current post.
  * @return string|false|null Link to show comment form, if successful. False, if comments are closed.
  */
@@ -1782,8 +1783,8 @@ function get_comment_reply_link( $args = array(), $comment = null, $post = null 
  * @see get_comment_reply_link()
  *
  * @param array          $args    Optional. Override default options. Default empty array.
- * @param int|WP_Comment $comment Comment being replied to. Default current comment.
- * @param int|WP_Post    $post    Post ID or WP_Post object the comment is going to be displayed on.
+ * @param int|WP_Comment $comment Optional. Comment being replied to. Default current comment.
+ * @param int|WP_Post    $post    Optional. Post ID or WP_Post object the comment is going to be displayed on.
  *                                Default current post.
  */
 function comment_reply_link( $args = array(), $comment = null, $post = null ) {
@@ -1873,7 +1874,7 @@ function get_post_reply_link( $args = array(), $post = null ) {
  * @see get_post_reply_link()
  *
  * @param array       $args Optional. Override default options. Default empty array.
- * @param int|WP_Post $post Post ID or WP_Post object the comment is going to be displayed on.
+ * @param int|WP_Post $post Optional. Post ID or WP_Post object the comment is going to be displayed on.
  *                          Default current post.
  */
 function post_reply_link( $args = array(), $post = null ) {
@@ -2319,7 +2320,7 @@ function wp_list_comments( $args = array(), $comments = null ) {
  *                                        submit button markup and %2$s is the comment hidden fields.
  *     @type string $format               The comment form format. Default 'xhtml'. Accepts 'xhtml', 'html5'.
  * }
- * @param int|WP_Post $post Post ID or WP_Post object to generate the form for. Default current post.
+ * @param int|WP_Post $post Optional. Post ID or WP_Post object to generate the form for. Default current post.
  */
 function comment_form( $args = array(), $post = null ) {
 	$post = get_post( $post );
