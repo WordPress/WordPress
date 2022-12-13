@@ -10,6 +10,8 @@
 /**
  * Stores files to be deleted.
  *
+ * Bundled theme files should not be included in this list.
+ *
  * @since 2.7.0
  *
  * @global array $_old_files
@@ -843,11 +845,7 @@ $_old_files = array(
 	'wp-includes/blocks/tag-cloud/editor.min.css',
 	'wp-includes/blocks/tag-cloud/editor-rtl.css',
 	'wp-includes/blocks/tag-cloud/editor-rtl.min.css',
-	// 6.0
-	'wp-content/themes/twentytwentytwo/assets/fonts/LICENSE.md',
 	// 6.1
-	'wp-content/themes/twentytwentyone/assets/sass/05-blocks/spacer/_style.scss',
-	'wp-content/themes/twentytwentyone/assets/sass/05-blocks/spacer',
 	'wp-includes/blocks/post-comments.php',
 	'wp-includes/blocks/post-comments/block.json',
 	'wp-includes/blocks/post-comments/editor.css',
