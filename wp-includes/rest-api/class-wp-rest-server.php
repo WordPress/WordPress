@@ -797,26 +797,26 @@ class WP_REST_Server {
 	 *
 	 * @since 4.4.0
 	 *
-	 * @param string $namespace  Namespace.
-	 * @param string $route      The REST route.
-	 * @param array  $route_args Route arguments.
-	 * @param bool   $override   Optional. Whether the route should be overridden if it already exists.
-	 *                           Default false.
+	 * @param string $route_namespace Namespace.
+	 * @param string $route           The REST route.
+	 * @param array  $route_args      Route arguments.
+	 * @param bool   $override        Optional. Whether the route should be overridden if it already exists.
+	 *                                Default false.
 	 */
-	public function register_route( $namespace, $route, $route_args, $override = false ) {
-		if ( ! isset( $this->namespaces[ $namespace ] ) ) {
-			$this->namespaces[ $namespace ] = array();
+	public function register_route( $route_namespace, $route, $route_args, $override = false ) {
+		if ( ! isset( $this->namespaces[ $route_namespace ] ) ) {
+			$this->namespaces[ $route_namespace ] = array();
 
 			$this->register_route(
-				$namespace,
-				'/' . $namespace,
+				$route_namespace,
+				'/' . $route_namespace,
 				array(
 					array(
 						'methods'  => self::READABLE,
 						'callback' => array( $this, 'get_namespace_index' ),
 						'args'     => array(
 							'namespace' => array(
-								'default' => $namespace,
+								'default' => $route_namespace,
 							),
 							'context'   => array(
 								'default' => 'view',
@@ -828,8 +828,9 @@ class WP_REST_Server {
 		}
 
 		// Associative to avoid double-registration.
-		$this->namespaces[ $namespace ][ $route ] = true;
-		$route_args['namespace']                  = $namespace;
+		$this->namespaces[ $route_namespace ][ $route ] = true;
+
+		$route_args['namespace'] = $route_namespace;
 
 		if ( $override || empty( $this->endpoints[ $route ] ) ) {
 			$this->endpoints[ $route ] = $route_args;
@@ -854,17 +855,17 @@ class WP_REST_Server {
 	 * used as the delimiter with preg_match()
 	 *
 	 * @since 4.4.0
-	 * @since 5.4.0 Add $namespace parameter.
+	 * @since 5.4.0 Added `$route_namespace` parameter.
 	 *
-	 * @param string $namespace Optionally, only return routes in the given namespace.
+	 * @param string $route_namespace Optionally, only return routes in the given namespace.
 	 * @return array `'/path/regex' => array( $callback, $bitmask )` or
 	 *               `'/path/regex' => array( array( $callback, $bitmask ), ...)`.
 	 */
-	public function get_routes( $namespace = '' ) {
+	public function get_routes( $route_namespace = '' ) {
 		$endpoints = $this->endpoints;
 
-		if ( $namespace ) {
-			$endpoints = wp_list_filter( $endpoints, array( 'namespace' => $namespace ) );
+		if ( $route_namespace ) {
+			$endpoints = wp_list_filter( $endpoints, array( 'namespace' => $route_namespace ) );
 		}
 
 		/**
