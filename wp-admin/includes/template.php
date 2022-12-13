@@ -1846,15 +1846,19 @@ function add_settings_error( $setting, $code, $message, $type = 'error' ) {
  *
  * @param string $setting  Optional. Slug title of a specific setting whose errors you want.
  * @param bool   $sanitize Optional. Whether to re-sanitize the setting value before returning errors.
- * @return array {
- *     Array of settings errors.
+ * @return array[] {
+ *     Array of settings error arrays.
  *
- *     @type string $setting Slug title of the setting to which this error applies.
- *     @type string $code    Slug-name to identify the error. Used as part of 'id' attribute in HTML output.
- *     @type string $message The formatted message text to display to the user (will be shown inside styled
- *                           `<div>` and `<p>` tags).
- *     @type string $type    Optional. Message type, controls HTML class. Possible values include 'error',
- *                           'success', 'warning', 'info'. Default 'error'.
+ *     @type array ...$0 {
+ *         Associative array of setting error data.
+ *
+ *         @type string $setting Slug title of the setting to which this error applies.
+ *         @type string $code    Slug-name to identify the error. Used as part of 'id' attribute in HTML output.
+ *         @type string $message The formatted message text to display to the user (will be shown inside styled
+ *                               `<div>` and `<p>` tags).
+ *         @type string $type    Optional. Message type, controls HTML class. Possible values include 'error',
+ *                               'success', 'warning', 'info'. Default 'error'.
+ *     }
  * }
  */
 function get_settings_errors( $setting = '', $sanitize = false ) {
