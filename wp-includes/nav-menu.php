@@ -563,6 +563,11 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 
 	$menu_item_db_id = (int) $menu_item_db_id;
 
+	// Reset invalid `menu_item_parent`.
+	if ( (int) $args['menu-item-parent-id'] === $menu_item_db_id ) {
+		$args['menu-item-parent-id'] = 0;
+	}
+
 	update_post_meta( $menu_item_db_id, '_menu_item_type', sanitize_key( $args['menu-item-type'] ) );
 	update_post_meta( $menu_item_db_id, '_menu_item_menu_item_parent', (string) ( (int) $args['menu-item-parent-id'] ) );
 	update_post_meta( $menu_item_db_id, '_menu_item_object_id', (string) ( (int) $args['menu-item-object-id'] ) );
@@ -1272,4 +1277,32 @@ function wp_map_nav_menu_locations( $new_nav_menu_locations, $old_nav_menu_locat
 	} // End foreach ( $common_slug_groups as $slug_group ).
 
 	return $new_nav_menu_locations;
+}
+
+/**
+ * Prevents menu items from being their own parent.
+ *
+ * Resets menu_item_parent to 0 when the parent is set to the item itself.
+ * For use before saving `_menu_item_menu_item_parent` in nav-menus.php.
+ *
+ * @since 6.1.2
+ * @access private
+ *
+ * @param array $menu_item_data The menu item data array.
+ * @return array The menu item data with reset menu_item_parent.
+ */
+function _wp_reset_invalid_menu_item_parent( $menu_item_data ) {
+	if ( ! is_array( $menu_item_data ) ) {
+		return $menu_item_data;
+	}
+
+	if (
+		! empty( $menu_item_data['ID'] ) &&
+		! empty( $menu_item_data['menu_item_parent'] ) &&
+		(int) $menu_item_data['ID'] === (int) $menu_item_data['menu_item_parent']
+	) {
+		$menu_item_data['menu_item_parent'] = 0;
+	}
+
+	return $menu_item_data;
 }

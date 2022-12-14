@@ -199,6 +199,11 @@ function wp_nav_menu( $args = array() ) {
 	$menu_items_tree          = array();
 	$menu_items_with_children = array();
 	foreach ( (array) $menu_items as $menu_item ) {
+		// Fix invalid `menu_item_parent`. See: https://core.trac.wordpress.org/ticket/56926.
+		if ( (int) $menu_item->ID === (int) $menu_item->menu_item_parent ) {
+			$menu_item->menu_item_parent = 0;
+		}
+
 		$sorted_menu_items[ $menu_item->menu_order ] = $menu_item;
 		$menu_items_tree[ $menu_item->ID ]           = $menu_item->menu_item_parent;
 		if ( $menu_item->menu_item_parent ) {
