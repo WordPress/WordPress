@@ -134,25 +134,29 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 	 *
 	 * @since 4.7.2
 	 *
-	 * @param int $parent Supplied ID.
+	 * @param int $parent_post Supplied ID.
 	 * @return WP_Post|WP_Error Post object if ID is valid, WP_Error otherwise.
 	 */
-	protected function get_parent( $parent ) {
+	protected function get_parent( $parent_post ) {
 		$error = new WP_Error(
 			'rest_post_invalid_parent',
 			__( 'Invalid post parent ID.' ),
 			array( 'status' => 404 )
 		);
-		if ( (int) $parent <= 0 ) {
+
+		if ( (int) $parent_post <= 0 ) {
 			return $error;
 		}
 
-		$parent = get_post( (int) $parent );
-		if ( empty( $parent ) || empty( $parent->ID ) || $this->parent_post_type !== $parent->post_type ) {
+		$parent_post = get_post( (int) $parent_post );
+
+		if ( empty( $parent_post ) || empty( $parent_post->ID )
+			|| $this->parent_post_type !== $parent_post->post_type
+		) {
 			return $error;
 		}
 
-		return $parent;
+		return $parent_post;
 	}
 
 	/**
