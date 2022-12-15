@@ -244,10 +244,10 @@ function remove_permastruct( $name ) {
  * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
  * @param string   $feedname Feed name.
- * @param callable $function Callback to run on feed display.
+ * @param callable $callback Callback to run on feed display.
  * @return string Feed action name.
  */
-function add_feed( $feedname, $function ) {
+function add_feed( $feedname, $callback ) {
 	global $wp_rewrite;
 
 	if ( ! in_array( $feedname, $wp_rewrite->feeds, true ) ) {
@@ -259,7 +259,7 @@ function add_feed( $feedname, $function ) {
 	// Remove default function hook.
 	remove_action( $hook, $hook );
 
-	add_action( $hook, $function, 10, 2 );
+	add_action( $hook, $callback, 10, 2 );
 
 	return $hook;
 }
