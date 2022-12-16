@@ -617,6 +617,7 @@ add_filter( 'plupload_default_settings', 'wp_show_heic_upload_error' );
 
 // Nav menu.
 add_filter( 'nav_menu_item_id', '_nav_menu_item_id_use_once', 10, 2 );
+add_filter( 'nav_menu_css_class', 'wp_nav_menu_remove_menu_item_has_children_class', 10, 4 );
 
 // Widgets.
 add_action( 'after_setup_theme', 'wp_setup_widgets_block_editor', 1 );
