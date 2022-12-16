@@ -866,6 +866,96 @@ $_old_files = array(
 );
 
 /**
+ * Stores Requests files to be preloaded and deleted.
+ *
+ * For classes/interfaces, use the class/interface name
+ * as the array key.
+ *
+ * All other files/directories should not have a key.
+ *
+ * @since 6.2.0
+ *
+ * @global array $_old_requests_files
+ * @var array
+ * @name $_old_requests_files
+ */
+global $_old_requests_files;
+
+$_old_requests_files = array(
+	// Interfaces.
+	'Requests_Auth'                              => 'wp-includes/Requests/Auth.php',
+	'Requests_Hooker'                            => 'wp-includes/Requests/Hooker.php',
+	'Requests_Proxy'                             => 'wp-includes/Requests/Proxy.php',
+	'Requests_Transport'                         => 'wp-includes/Requests/Transport.php',
+
+	// Classes.
+	'Requests_Auth_Basic'                        => 'wp-includes/Requests/Auth/Basic.php',
+	'Requests_Cookie_Jar'                        => 'wp-includes/Requests/Cookie/Jar.php',
+	'Requests_Exception_HTTP'                    => 'wp-includes/Requests/Exception/HTTP.php',
+	'Requests_Exception_Transport'               => 'wp-includes/Requests/Exception/Transport.php',
+	'Requests_Exception_HTTP_304'                => 'wp-includes/Requests/Exception/HTTP/304.php',
+	'Requests_Exception_HTTP_305'                => 'wp-includes/Requests/Exception/HTTP/305.php',
+	'Requests_Exception_HTTP_306'                => 'wp-includes/Requests/Exception/HTTP/306.php',
+	'Requests_Exception_HTTP_400'                => 'wp-includes/Requests/Exception/HTTP/400.php',
+	'Requests_Exception_HTTP_401'                => 'wp-includes/Requests/Exception/HTTP/401.php',
+	'Requests_Exception_HTTP_402'                => 'wp-includes/Requests/Exception/HTTP/402.php',
+	'Requests_Exception_HTTP_403'                => 'wp-includes/Requests/Exception/HTTP/403.php',
+	'Requests_Exception_HTTP_404'                => 'wp-includes/Requests/Exception/HTTP/404.php',
+	'Requests_Exception_HTTP_405'                => 'wp-includes/Requests/Exception/HTTP/405.php',
+	'Requests_Exception_HTTP_406'                => 'wp-includes/Requests/Exception/HTTP/406.php',
+	'Requests_Exception_HTTP_407'                => 'wp-includes/Requests/Exception/HTTP/407.php',
+	'Requests_Exception_HTTP_408'                => 'wp-includes/Requests/Exception/HTTP/408.php',
+	'Requests_Exception_HTTP_409'                => 'wp-includes/Requests/Exception/HTTP/409.php',
+	'Requests_Exception_HTTP_410'                => 'wp-includes/Requests/Exception/HTTP/410.php',
+	'Requests_Exception_HTTP_411'                => 'wp-includes/Requests/Exception/HTTP/411.php',
+	'Requests_Exception_HTTP_412'                => 'wp-includes/Requests/Exception/HTTP/412.php',
+	'Requests_Exception_HTTP_413'                => 'wp-includes/Requests/Exception/HTTP/413.php',
+	'Requests_Exception_HTTP_414'                => 'wp-includes/Requests/Exception/HTTP/414.php',
+	'Requests_Exception_HTTP_415'                => 'wp-includes/Requests/Exception/HTTP/415.php',
+	'Requests_Exception_HTTP_416'                => 'wp-includes/Requests/Exception/HTTP/416.php',
+	'Requests_Exception_HTTP_417'                => 'wp-includes/Requests/Exception/HTTP/417.php',
+	'Requests_Exception_HTTP_418'                => 'wp-includes/Requests/Exception/HTTP/418.php',
+	'Requests_Exception_HTTP_428'                => 'wp-includes/Requests/Exception/HTTP/428.php',
+	'Requests_Exception_HTTP_429'                => 'wp-includes/Requests/Exception/HTTP/429.php',
+	'Requests_Exception_HTTP_431'                => 'wp-includes/Requests/Exception/HTTP/431.php',
+	'Requests_Exception_HTTP_500'                => 'wp-includes/Requests/Exception/HTTP/500.php',
+	'Requests_Exception_HTTP_501'                => 'wp-includes/Requests/Exception/HTTP/501.php',
+	'Requests_Exception_HTTP_502'                => 'wp-includes/Requests/Exception/HTTP/502.php',
+	'Requests_Exception_HTTP_503'                => 'wp-includes/Requests/Exception/HTTP/503.php',
+	'Requests_Exception_HTTP_504'                => 'wp-includes/Requests/Exception/HTTP/504.php',
+	'Requests_Exception_HTTP_505'                => 'wp-includes/Requests/Exception/HTTP/505.php',
+	'Requests_Exception_HTTP_511'                => 'wp-includes/Requests/Exception/HTTP/511.php',
+	'Requests_Exception_HTTP_Unknown'            => 'wp-includes/Requests/Exception/HTTP/Unknown.php',
+	'Requests_Exception_Transport_cURL'          => 'wp-includes/Requests/Exception/Transport/cURL.php',
+	'Requests_Proxy_HTTP'                        => 'wp-includes/Requests/Proxy/HTTP.php',
+	'Requests_Response_Headers'                  => 'wp-includes/Requests/Response/Headers.php',
+	'Requests_Transport_cURL'                    => 'wp-includes/Requests/Transport/cURL.php',
+	'Requests_Transport_fsockopen'               => 'wp-includes/Requests/Transport/fsockopen.php',
+	'Requests_Utility_CaseInsensitiveDictionary' => 'wp-includes/Requests/Utility/CaseInsensitiveDictionary.php',
+	'Requests_Utility_FilteredIterator'          => 'wp-includes/Requests/Utility/FilteredIterator.php',
+	'Requests_Cookie'                            => 'wp-includes/Requests/Cookie.php',
+	'Requests_Exception'                         => 'wp-includes/Requests/Exception.php',
+	'Requests_Hooks'                             => 'wp-includes/Requests/Hooks.php',
+	'Requests_IDNAEncoder'                       => 'wp-includes/Requests/IDNAEncoder.php',
+	'Requests_IPv6'                              => 'wp-includes/Requests/IPv6.php',
+	'Requests_IRI'                               => 'wp-includes/Requests/IRI.php',
+	'Requests_Response'                          => 'wp-includes/Requests/Response.php',
+	'Requests_SSL'                               => 'wp-includes/Requests/SSL.php',
+	'Requests_Session'                           => 'wp-includes/Requests/Session.php',
+
+	// Directories.
+	'wp-includes/Requests/Auth/',
+	'wp-includes/Requests/Cookie/',
+	'wp-includes/Requests/Exception/HTTP/',
+	'wp-includes/Requests/Exception/Transport/',
+	'wp-includes/Requests/Exception/',
+	'wp-includes/Requests/Proxy/',
+	'wp-includes/Requests/Response/',
+	'wp-includes/Requests/Transport/',
+	'wp-includes/Requests/Utility/',
+);
+
+/**
  * Stores new files in wp-content to copy
  *
  * The contents of this array indicate any new bundled plugins/themes which
@@ -949,6 +1039,7 @@ $_new_bundled_files = array(
  *
  * @global WP_Filesystem_Base $wp_filesystem          WordPress filesystem subclass.
  * @global array              $_old_files
+ * @global array              $_old_requests_files
  * @global array              $_new_bundled_files
  * @global wpdb               $wpdb                   WordPress database abstraction object.
  * @global string             $wp_version
@@ -960,9 +1051,17 @@ $_new_bundled_files = array(
  * @return string|WP_Error New WordPress version on success, WP_Error on failure.
  */
 function update_core( $from, $to ) {
-	global $wp_filesystem, $_old_files, $_new_bundled_files, $wpdb;
+	global $wp_filesystem, $_old_files, $_old_requests_files, $_new_bundled_files, $wpdb;
 
 	set_time_limit( 300 );
+
+	/*
+	 * Merge the old Requests files and directories into the `$_old_files`.
+	 * Then preload these Requests files first, before the files are deleted
+	 * and replaced to ensure the code is in memory if needed.
+	 */
+	$_old_files = array_merge( $_old_files, array_values( $_old_requests_files ) );
+	_preload_old_requests_classes_and_interfaces( $to );
 
 	/**
 	 * Filters feedback messages displayed during the core update process.
@@ -1476,6 +1575,48 @@ function update_core( $from, $to ) {
 	}
 
 	return $wp_version;
+}
+
+/**
+ * Preloads old Requests classes and interfaces.
+ *
+ * This function preloads the old Requests code into memory before the
+ * upgrade process deletes the files. Why? Requests code is loaded into
+ * memory via an autoloader, meaning when a class or interface is needed
+ * If a request is in process, Requests could attempt to access code. If
+ * the file is not there, a fatal error could occur. If the file was
+ * replaced, the new code is not compatible with the old, resulting in
+ * a fatal error. Preloading ensures the code is in memory before the
+ * code is updated.
+ *
+ * @since 6.2.0
+ *
+ * @global array              $_old_requests_files Requests files to be preloaded.
+ * @global WP_Filesystem_Base $wp_filesystem       WordPress filesystem subclass.
+ *
+ * @param string $to Path to old WordPress installation.
+ */
+function _preload_old_requests_classes_and_interfaces( $to ) {
+	global $_old_requests_files, $wp_filesystem;
+
+	foreach ( $_old_requests_files as $name => $file ) {
+		// Skip files that aren't interfaces or classes.
+		if ( is_int( $name ) ) {
+			continue;
+		}
+
+		// Skip if it's already loaded.
+		if ( class_exists( $name ) || interface_exists( $name ) ) {
+			continue;
+		}
+
+		// Skip if the file is missing.
+		if ( ! $wp_filesystem->is_file( $to . $file ) ) {
+			continue;
+		}
+
+		require_once $to . $file;
+	}
 }
 
 /**

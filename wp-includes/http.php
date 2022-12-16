@@ -200,13 +200,13 @@ function wp_remote_head( $url, $args = array() ) {
  * Retrieve only the headers from the raw response.
  *
  * @since 2.7.0
- * @since 4.6.0 Return value changed from an array to an Requests_Utility_CaseInsensitiveDictionary instance.
+ * @since 4.6.0 Return value changed from an array to an WpOrg\Requests\Utility\CaseInsensitiveDictionary instance.
  *
- * @see \Requests_Utility_CaseInsensitiveDictionary
+ * @see \WpOrg\Requests\Utility\CaseInsensitiveDictionary
  *
  * @param array|WP_Error $response HTTP response.
- * @return \Requests_Utility_CaseInsensitiveDictionary|array The headers of the response, or empty array
- *                                                           if incorrect parameter given.
+ * @return \WpOrg\Requests\Utility\CaseInsensitiveDictionary|array The headers of the response, or empty array
+ *                                                                 if incorrect parameter given.
  */
 function wp_remote_retrieve_headers( $response ) {
 	if ( is_wp_error( $response ) || ! isset( $response['headers'] ) ) {
