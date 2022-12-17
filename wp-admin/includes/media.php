@@ -993,6 +993,7 @@ function wp_media_upload_handler() {
  * @since 5.3.0 The `$post_id` parameter was made optional.
  * @since 5.4.0 The original URL of the attachment is stored in the `_source_url`
  *              post meta value.
+ * @since 5.8.0 Added 'webp' to the default list of allowed file extensions.
  *
  * @param string $file        The URL of the image to download.
  * @param int    $post_id     Optional. The post ID the media is to be associated with.
@@ -1017,8 +1018,10 @@ function media_sideload_image( $file, $post_id = 0, $desc = null, $return_type =
 		 *  - `jpe`
 		 *  - `png`
 		 *  - `gif`
+		 *  - `webp`
 		 *
 		 * @since 5.6.0
+		 * @since 5.8.0 Added 'webp' to the default list of allowed file extensions.
 		 *
 		 * @param string[] $allowed_extensions Array of allowed file extensions.
 		 * @param string   $file               The URL of the image to download.
