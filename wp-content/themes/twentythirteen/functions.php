@@ -488,9 +488,9 @@ if ( ! function_exists( 'twentythirteen_post_nav' ) ) :
 	/**
 	 * Display navigation to next/previous post when applicable.
 	 *
-	 * @global WP_Post $post Global post object.
-	 *
 	 * @since Twenty Thirteen 1.0
+	 *
+	 * @global WP_Post $post Global post object.
 	 */
 	function twentythirteen_post_nav() {
 		global $post;

@@ -125,7 +125,8 @@ endif;
 /**
  * Display a front page section.
  *
- * @global WP_Post $post Global post object.
+ * @global int|string $twentyseventeencounter Front page section counter.
+ * @global WP_Post    $post                   Global post object.
  *
  * @param WP_Customize_Partial $partial Partial associated with a selective refresh request.
  * @param int                  $id Front page section to display.
