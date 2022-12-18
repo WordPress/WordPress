@@ -241,6 +241,8 @@ add_filter( 'edit_post_link', 'twentytwenty_edit_post_link', 10, 3 );
  *
  * @since Twenty Twenty 1.0
  *
+ * @global WP_Post $post Global post object.
+ *
  * @param int    $post_id  The ID of the post.
  * @param string $location The location where the meta is shown.
  */
@@ -650,6 +652,8 @@ add_action( 'wp_head', 'twentytwenty_no_js_class' );
  * Adds conditional body classes.
  *
  * @since Twenty Twenty 1.0
+ *
+ * @global WP_Post $post Global post object.
  *
  * @param array $classes Classes added to the body tag.
  * @return array Classes added to the body tag.
