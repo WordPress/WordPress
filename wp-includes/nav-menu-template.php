@@ -638,15 +638,38 @@ function _nav_menu_item_id_use_once( $id, $item ) {
 /**
  * Remove the `menu-item-has-children` class from bottom level menu items.
  *
+ * This runs on the {@see 'nav_menu_css_class'} filter. The $args and $depth
+ * parameters were added after the filter was originally introduced in
+ * WordPress 3.0.0 so this needs to allow for cases in which the filter is
+ * called without them.
+ *
+ * @see https://core.trac.wordpress.org/ticket/56926.
+ *
  * @since 6.1.2
  *
- * @param string[] $classes   Array of the CSS classes that are applied to the menu item's `<li>` element.
- * @param WP_Post  $menu_item The current menu item object.
- * @param stdClass $args      An object of wp_nav_menu() arguments.
- * @param int      $depth     Depth of menu item.
+ * @param string[]       $classes   Array of the CSS classes that are applied to the menu item's `<li>` element.
+ * @param WP_Post        $menu_item The current menu item object.
+ * @param stdClass|false $args      An object of wp_nav_menu() arguments. Default false ($args unspecified when filter is called).
+ * @param int|false      $depth     Depth of menu item. Default false ($depth unspecified when filter is called).
  * @return string[] Modified nav menu classes.
  */
-function wp_nav_menu_remove_menu_item_has_children_class( $classes, $menu_item, $args, $depth ) {
+function wp_nav_menu_remove_menu_item_has_children_class( $classes, $menu_item, $args = false, $depth = false ) {
+	/*
+	 * Account for the filter being called without the $args or $depth parameters.
+	 *
+	 * This occurs when a theme uses a custom walker calling the `nav_menu_css_class`
+	 * filter using the legacy formats prior to the introduction of the $args and
+	 * $depth parameters.
+	 *
+	 * As both of these parameters are required for this function to determine
+	 * both the current and maximum depth of the menu tree, the function does not
+	 * attempt to remove the `menu-item-has-children` class if these parameters
+	 * are not set.
+	 */
+	if ( false === $depth || false === $args ) {
+		return $classes;
+	}
+
 	// Max-depth is 1-based.
 	$max_depth = isset( $args->depth ) ? (int) $args->depth : 0;
 	// Depth is 0-based so needs to be increased by one.
