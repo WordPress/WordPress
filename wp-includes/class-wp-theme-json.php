@@ -280,8 +280,8 @@ class WP_Theme_JSON {
 		'settings',
 		'styles',
 		'templateParts',
-		'version',
 		'title',
+		'version',
 	);
 
 	/**
@@ -381,13 +381,13 @@ class WP_Theme_JSON {
 		'filter'     => array(
 			'duotone' => null,
 		),
-		'shadow'     => null,
 		'outline'    => array(
 			'color'  => null,
 			'offset' => null,
 			'style'  => null,
 			'width'  => null,
 		),
+		'shadow'     => null,
 		'spacing'    => array(
 			'margin'   => null,
 			'padding'  => null,
