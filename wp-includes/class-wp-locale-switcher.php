@@ -36,7 +36,7 @@ class WP_Locale_Switcher {
 	 * @since 4.7.0
 	 * @var string[] An array of language codes (file names without the .mo extension).
 	 */
-	private $available_languages = array();
+	private $available_languages;
 
 	/**
 	 * Constructor.
