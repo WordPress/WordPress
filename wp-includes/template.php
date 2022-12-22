@@ -690,13 +690,13 @@ function get_attachment_template() {
  *
  * @param string|array $template_names Template file(s) to search for, in order.
  * @param bool         $load           If true the template file will be loaded if it is found.
- * @param bool         $require_once   Whether to require_once or require. Has no effect if `$load` is false.
+ * @param bool         $load_once      Whether to require_once or require. Has no effect if `$load` is false.
  *                                     Default true.
  * @param array        $args           Optional. Additional arguments passed to the template.
  *                                     Default empty array.
  * @return string The template filename if one is located.
  */
-function locate_template( $template_names, $load = false, $require_once = true, $args = array() ) {
+function locate_template( $template_names, $load = false, $load_once = true, $args = array() ) {
 	$located = '';
 	foreach ( (array) $template_names as $template_name ) {
 		if ( ! $template_name ) {
@@ -715,7 +715,7 @@ function locate_template( $template_names, $load = false, $require_once = true, 
 	}
 
 	if ( $load && '' !== $located ) {
-		load_template( $located, $require_once, $args );
+		load_template( $located, $load_once, $args );
 	}
 
 	return $located;
@@ -744,11 +744,11 @@ function locate_template( $template_names, $load = false, $require_once = true, 
  * @global int        $user_ID
  *
  * @param string $_template_file Path to template file.
- * @param bool   $require_once   Whether to require_once or require. Default true.
+ * @param bool   $load_once      Whether to require_once or require. Default true.
  * @param array  $args           Optional. Additional arguments passed to the template.
  *                               Default empty array.
  */
-function load_template( $_template_file, $require_once = true, $args = array() ) {
+function load_template( $_template_file, $load_once = true, $args = array() ) {
 	global $posts, $post, $wp_did_header, $wp_query, $wp_rewrite, $wpdb, $wp_version, $wp, $id, $comment, $user_ID;
 
 	if ( is_array( $wp_query->query_vars ) ) {
@@ -774,12 +774,12 @@ function load_template( $_template_file, $require_once = true, $args = array() )
 	 * @since 6.1.0
 	 *
 	 * @param string $_template_file The full path to the template file.
-	 * @param bool   $require_once   Whether to require_once or require.
+	 * @param bool   $load_once      Whether to require_once or require.
 	 * @param array  $args           Additional arguments passed to the template.
 	 */
-	do_action( 'wp_before_load_template', $_template_file, $require_once, $args );
+	do_action( 'wp_before_load_template', $_template_file, $load_once, $args );
 
-	if ( $require_once ) {
+	if ( $load_once ) {
 		require_once $_template_file;
 	} else {
 		require $_template_file;
@@ -791,8 +791,8 @@ function load_template( $_template_file, $require_once = true, $args = array() )
 	 * @since 6.1.0
 	 *
 	 * @param string $_template_file The full path to the template file.
-	 * @param bool   $require_once   Whether to require_once or require.
+	 * @param bool   $load_once      Whether to require_once or require.
 	 * @param array  $args           Additional arguments passed to the template.
 	 */
-	do_action( 'wp_after_load_template', $_template_file, $require_once, $args );
+	do_action( 'wp_after_load_template', $_template_file, $load_once, $args );
 }
