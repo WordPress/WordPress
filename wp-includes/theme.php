@@ -991,18 +991,18 @@ function get_theme_mods() {
 /**
  * Retrieves theme modification value for the active theme.
  *
- * If the modification name does not exist and `$default` is a string, then the
+ * If the modification name does not exist and `$default_value` is a string, then the
  * default will be passed through the {@link https://www.php.net/sprintf sprintf()}
  * PHP function with the template directory URI as the first value and the
  * stylesheet directory URI as the second value.
  *
  * @since 2.1.0
  *
- * @param string $name    Theme modification name.
- * @param mixed  $default Optional. Theme modification default value. Default false.
+ * @param string $name          Theme modification name.
+ * @param mixed  $default_value Optional. Theme modification default value. Default false.
  * @return mixed Theme modification value.
  */
-function get_theme_mod( $name, $default = false ) {
+function get_theme_mod( $name, $default_value = false ) {
 	$mods = get_theme_mods();
 
 	if ( isset( $mods[ $name ] ) ) {
@@ -1020,17 +1020,17 @@ function get_theme_mod( $name, $default = false ) {
 		return apply_filters( "theme_mod_{$name}", $mods[ $name ] );
 	}
 
-	if ( is_string( $default ) ) {
+	if ( is_string( $default_value ) ) {
 		// Only run the replacement if an sprintf() string format pattern was found.
-		if ( preg_match( '#(?<!%)%(?:\d+\$?)?s#', $default ) ) {
+		if ( preg_match( '#(?<!%)%(?:\d+\$?)?s#', $default_value ) ) {
 			// Remove a single trailing percent sign.
-			$default = preg_replace( '#(?<!%)%$#', '', $default );
-			$default = sprintf( $default, get_template_directory_uri(), get_stylesheet_directory_uri() );
+			$default_value = preg_replace( '#(?<!%)%$#', '', $default_value );
+			$default_value = sprintf( $default_value, get_template_directory_uri(), get_stylesheet_directory_uri() );
 		}
 	}
 
 	/** This filter is documented in wp-includes/theme.php */
-	return apply_filters( "theme_mod_{$name}", $default );
+	return apply_filters( "theme_mod_{$name}", $default_value );
 }
 
 /**
@@ -3125,12 +3125,12 @@ function current_theme_supports( $feature, ...$args ) {
  *
  * @param string $feature The feature being checked. See add_theme_support() for the list
  *                        of possible values.
- * @param string $include Path to the file.
+ * @param string $file    Path to the file.
  * @return bool True if the active theme supports the supplied feature, false otherwise.
  */
-function require_if_theme_supports( $feature, $include ) {
+function require_if_theme_supports( $feature, $file ) {
 	if ( current_theme_supports( $feature ) ) {
-		require $include;
+		require $file;
 		return true;
 	}
 	return false;
