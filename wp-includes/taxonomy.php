@@ -1229,18 +1229,15 @@ function get_term_to_edit( $id, $taxonomy ) {
  * The {@see 'get_terms_orderby'} filter passes the `ORDER BY` clause for the query
  * along with the $args array.
  *
- * Prior to 4.5.0, the first parameter of `get_terms()` was a taxonomy or list of taxonomies:
- *
- *     $terms = get_terms( 'post_tag', array(
- *         'hide_empty' => false,
- *     ) );
- *
- * Since 4.5.0, taxonomies should be passed via the 'taxonomy' argument in the `$args` array:
+ * Taxonomy or an array of taxonomies should be passed via the 'taxonomy' argument
+ * in the `$args` array:
  *
  *     $terms = get_terms( array(
- *         'taxonomy' => 'post_tag',
+ *         'taxonomy'   => 'post_tag',
  *         'hide_empty' => false,
  *     ) );
+ *
+ * Prior to 4.5.0, taxonomy was passed as the first parameter of `get_terms()`.
  *
  * @since 2.3.0
  * @since 4.2.0 Introduced 'name' and 'childless' parameters.
