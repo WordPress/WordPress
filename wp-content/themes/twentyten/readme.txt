@@ -21,7 +21,7 @@ For more information about Twenty Ten theme please go to https://codex.wordpress
 
 == Copyright ==
 
-Twenty Ten WordPress Theme, Copyright 2010-2022 WordPress.org & Automattic.com
+Twenty Ten WordPress Theme, Copyright 2010-2023 WordPress.org & Automattic.com
 Twenty Ten is Distributed under the terms of the GNU GPL
 
 This program is free software: you can redistribute it and/or modify
