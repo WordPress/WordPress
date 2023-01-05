@@ -517,9 +517,11 @@ if ( ! function_exists( 'wp_mail' ) ) :
 		}
 
 		if ( ! empty( $attachments ) ) {
-			foreach ( $attachments as $attachment ) {
+			foreach ( $attachments as $filename => $attachment ) {
+				$filename = is_string( $filename ) ? $filename : '';
+
 				try {
-					$phpmailer->addAttachment( $attachment );
+					$phpmailer->addAttachment( $attachment, $filename );
 				} catch ( PHPMailer\PHPMailer\Exception $e ) {
 					continue;
 				}
