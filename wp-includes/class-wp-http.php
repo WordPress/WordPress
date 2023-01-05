@@ -251,7 +251,7 @@ class WP_Http {
 		 *
 		 * @since 2.9.0
 		 *
-		 * @param false|array|WP_Error $preempt     A preemptive return value of an HTTP request. Default false.
+		 * @param false|array|WP_Error $response    A preemptive return value of an HTTP request. Default false.
 		 * @param array                $parsed_args HTTP request arguments.
 		 * @param string               $url         The request URL.
 		 */
