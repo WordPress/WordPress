@@ -16,12 +16,12 @@
 					"slug": "base-secondary-base"
 				},
 				{
-					"gradient": "linear-gradient(90deg, var(--wp--preset--color--tertiary) 5.74%, var(--wp--preset--color--primary) 100%);",
+					"gradient": "linear-gradient(90deg, var(--wp--preset--color--tertiary) 5.74%, var(--wp--preset--color--primary) 100%)",
 					"name": "Tertiary to Primary",
 					"slug": "tertiary-primary"
 				},
 				{
-					"gradient": "linear-gradient(90deg, var(--wp--preset--color--primary) 5.74%, var(--wp--preset--color--tertiary) 100%);",
+					"gradient": "linear-gradient(90deg, var(--wp--preset--color--primary) 5.74%, var(--wp--preset--color--tertiary) 100%)",
 					"name": "Primary to Tertiary",
 					"slug": "primary-tertiary"
 				}
