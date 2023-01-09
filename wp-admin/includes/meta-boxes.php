@@ -804,7 +804,7 @@ function post_comment_status_meta_box( $post ) {
 		<?php
 		printf(
 			/* translators: %s: Documentation URL. */
-			__( 'Allow <a href="%s">trackbacks and pingbacks</a> on this page' ),
+			__( 'Allow <a href="%s">trackbacks and pingbacks</a>' ),
 			__( 'https://wordpress.org/support/article/introduction-to-blogging/#managing-comments' )
 		);
 		?>
