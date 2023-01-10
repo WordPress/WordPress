@@ -19,9 +19,10 @@ class WP_Locale {
 	 * Stores the translated strings for the full weekday names.
 	 *
 	 * @since 2.1.0
+	 * @since 6.2.0 Initialized to an empty array.
 	 * @var string[]
 	 */
-	public $weekday;
+	public $weekday = array();
 
 	/**
 	 * Stores the translated strings for the one character weekday names.
@@ -32,41 +33,46 @@ class WP_Locale {
 	 * @see WP_Locale::init() for how to handle the hack.
 	 *
 	 * @since 2.1.0
+	 * @since 6.2.0 Initialized to an empty array.
 	 * @var string[]
 	 */
-	public $weekday_initial;
+	public $weekday_initial = array();
 
 	/**
 	 * Stores the translated strings for the abbreviated weekday names.
 	 *
 	 * @since 2.1.0
+	 * @since 6.2.0 Initialized to an empty array.
 	 * @var string[]
 	 */
-	public $weekday_abbrev;
+	public $weekday_abbrev = array();
 
 	/**
 	 * Stores the translated strings for the full month names.
 	 *
 	 * @since 2.1.0
+	 * @since 6.2.0 Initialized to an empty array.
 	 * @var string[]
 	 */
-	public $month;
+	public $month = array();
 
 	/**
 	 * Stores the translated strings for the month names in genitive case, if the locale specifies.
 	 *
 	 * @since 4.4.0
+	 * @since 6.2.0 Initialized to an empty array.
 	 * @var string[]
 	 */
-	public $month_genitive;
+	public $month_genitive = array();
 
 	/**
 	 * Stores the translated strings for the abbreviated month names.
 	 *
 	 * @since 2.1.0
+	 * @since 6.2.0 Initialized to an empty array.
 	 * @var string[]
 	 */
-	public $month_abbrev;
+	public $month_abbrev = array();
 
 	/**
 	 * Stores the translated strings for 'am' and 'pm'.
@@ -74,9 +80,10 @@ class WP_Locale {
 	 * Also the capitalized versions.
 	 *
 	 * @since 2.1.0
+	 * @since 6.2.0 Initialized to an empty array.
 	 * @var string[]
 	 */
-	public $meridiem;
+	public $meridiem = array();
 
 	/**
 	 * The text direction of the locale language.
@@ -92,9 +99,10 @@ class WP_Locale {
 	 * The thousands separator and decimal point values used for localizing numbers.
 	 *
 	 * @since 2.3.0
+	 * @since 6.2.0 Initialized to an empty array.
 	 * @var array
 	 */
-	public $number_format;
+	public $number_format = array();
 
 	/**
 	 * The separator string used for localizing list item separator.
