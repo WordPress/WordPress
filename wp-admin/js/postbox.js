@@ -14,7 +14,7 @@
 		__ = wp.i18n.__;
 
 	/**
-	 * This object contains all function to handle the behaviour of the post boxes. The post boxes are the boxes you see
+	 * This object contains all function to handle the behavior of the post boxes. The post boxes are the boxes you see
 	 * around the content on the edit page.
 	 *
 	 * @since 2.7.0
@@ -347,7 +347,7 @@
 		},
 
 		/**
-		 * Initializes all the postboxes, mainly their sortable behaviour.
+		 * Initializes all the postboxes, mainly their sortable behavior.
 		 *
 		 * @since 2.7.0
 		 *
