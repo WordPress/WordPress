@@ -2740,6 +2740,16 @@ if ( ! function_exists( 'wp_set_password' ) ) :
 		);
 
 		clean_user_cache( $user_id );
+
+		/**
+		 * Fires after the password is set.
+		 *
+		 * @since 6.2.0
+		 *
+		 * @param string $password The plain text password just set.
+		 * @param mixed  $user_id  The ID of the user whose password was just set.
+		 */
+		do_action( 'wp_set_password', $password, $user_id );
 	}
 endif;
 
