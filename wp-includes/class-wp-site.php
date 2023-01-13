@@ -351,3 +351,34 @@ final class WP_Site {
 		return $details;
 	}
 }
+?>
+/*
+*
+* Here is a PHP code snippet that can be used to add an option to the WordPress general settings page, which allows you to disable the Gutenberg block editor and enable the classic editor:
+*?
+<?php
+    // Register the setting
+    add_action( 'admin_init', 'register_classic_editor_settings' );
+    function register_classic_editor_settings() {
+        register_setting( 'general', 'classic_editor_enabled' );
+        add_settings_field( 'classic_editor_enabled', 'Classic Editor', 'classic_editor_enabled_callback', 'general' );
+    }
+    // Display the checkbox
+    function classic_editor_enabled_callback() {
+        $classic_editor_enabled = get_option( 'classic_editor_enabled', 'enabled' );
+        ?>
+        <label for="classic_editor_enabled">
+            <input type="checkbox" name="classic_editor_enabled" id="classic_editor_enabled" value="enabled" <?php checked( $classic_editor_enabled, 'enabled' ); ?>>
+            Enable Classic Editor
+        </label>
+        <?php
+    }
+    // Disable Gutenberg if the checkbox is checked
+    add_filter( 'use_block_editor_for_post', 'disable_gutenberg_on_check', 10, 2 );
+    function disable_gutenberg_on_check( $use_block_editor, $post ) {
+        if ( get_option( 'classic_editor_enabled', 'enabled' ) === 'enabled' ) {
+            return false;
+        }
+        return $use_block_editor;
+    }
+?>
