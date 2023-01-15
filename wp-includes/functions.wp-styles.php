@@ -226,7 +226,7 @@ function wp_style_is( $handle, $status = 'enqueued' ) {
  * 'alt'         bool        For rel="alternate stylesheet".
  * 'title'       string      For preferred/alternate stylesheets.
  * 'path'        string      The absolute path to a stylesheet. Stylesheet will
- *                           load inline when 'path'' is set.
+ *                           load inline when 'path' is set.
  *
  * @see WP_Dependencies::add_data()
  *
