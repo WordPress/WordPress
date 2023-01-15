@@ -1348,7 +1348,7 @@ if ( ! function_exists( 'wp_redirect' ) ) :
 	 *     exit;
 	 *
 	 * Exiting can also be selectively manipulated by using wp_redirect() as a conditional
-	 * in conjunction with the {@see 'wp_redirect'} and {@see 'wp_redirect_location'} filters:
+	 * in conjunction with the {@see 'wp_redirect'} and {@see 'wp_redirect_status'} filters:
 	 *
 	 *     if ( wp_redirect( $url ) ) {
 	 *         exit;
@@ -1494,7 +1494,7 @@ if ( ! function_exists( 'wp_safe_redirect' ) ) :
 	 *     exit;
 	 *
 	 * Exiting can also be selectively manipulated by using wp_safe_redirect() as a conditional
-	 * in conjunction with the {@see 'wp_redirect'} and {@see 'wp_redirect_location'} filters:
+	 * in conjunction with the {@see 'wp_redirect'} and {@see 'wp_redirect_status'} filters:
 	 *
 	 *     if ( wp_safe_redirect( $url ) ) {
 	 *         exit;
