@@ -443,7 +443,7 @@ class POP3 {
         //  Sends a user defined command string to the
         //  POP server and returns the results. Useful for
         //  non-compliant or custom POP servers.
-        //  Do NOT includ the \r\n as part of your command
+        //  Do NOT include the \r\n as part of your command
         //  string - it will be appended automatically.
 
         //  The return value is a standard fgets() call, which
