@@ -2636,7 +2636,7 @@ function upload_size_limit_filter( $size ) {
  * @since 3.3.0
  * @since 4.8.0 The `$network_id` parameter has been added.
  *
- * @param string   $using      'sites or 'users'. Default is 'sites'.
+ * @param string   $using      'sites' or 'users'. Default is 'sites'.
  * @param int|null $network_id ID of the network. Default is the current network.
  * @return bool True if the network meets the criteria for large. False otherwise.
  */
