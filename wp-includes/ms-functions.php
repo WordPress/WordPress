@@ -145,7 +145,7 @@ function get_blog_post( $blog_id, $post_id ) {
  *
  * @param int    $blog_id ID of the blog the user is being added to.
  * @param int    $user_id ID of the user being added.
- * @param string $role    The role you want the user to have.
+ * @param string $role    User role.
  * @return true|WP_Error True on success or a WP_Error object if the user doesn't exist
  *                       or could not be added.
  */
@@ -307,7 +307,7 @@ function remove_user_from_blog( $user_id, $blog_id = 0, $reassign = 0 ) {
  *
  * @param int $blog_id ID of the source blog.
  * @param int $post_id ID of the desired post.
- * @return string The post's permalink
+ * @return string The post's permalink.
  */
 function get_blog_permalink( $blog_id, $post_id ) {
 	switch_to_blog( $blog_id );
@@ -329,9 +329,9 @@ function get_blog_permalink( $blog_id, $post_id ) {
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param string $domain
+ * @param string $domain Website domain.
  * @param string $path   Optional. Not required for subdomain installations.
- * @return int 0 if no blog found, otherwise the ID of the matching blog
+ * @return int 0 if no blog found, otherwise the ID of the matching blog.
  */
 function get_blog_id_from_url( $domain, $path = '/' ) {
 	$domain = strtolower( $domain );
@@ -913,7 +913,7 @@ function wpmu_signup_user( $user, $user_email, $meta = array() ) {
  * @param string $title      The site title.
  * @param string $user_login The user's login name.
  * @param string $user_email The user's email address.
- * @param string $key        The activation key created in wpmu_signup_blog()
+ * @param string $key        The activation key created in wpmu_signup_blog().
  * @param array  $meta       Optional. Signup meta data. By default, contains the requested privacy setting and lang_id.
  * @return bool
  */
@@ -1152,7 +1152,7 @@ function wpmu_signup_user_notification( $user_login, $user_email, $key, $meta = 
  * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $key The activation key provided to the user.
- * @return array|WP_Error An array containing information about the activated user and/or blog
+ * @return array|WP_Error An array containing information about the activated user and/or blog.
  */
 function wpmu_activate_signup( $key ) {
 	global $wpdb;
@@ -1304,7 +1304,7 @@ function wp_delete_signup_on_user_delete( $id, $reassign, $user ) {
  * @param string $user_name The new user's login name.
  * @param string $password  The new user's password.
  * @param string $email     The new user's email address.
- * @return int|false Returns false on failure, or int $user_id on success
+ * @return int|false Returns false on failure, or int $user_id on success.
  */
 function wpmu_create_user( $user_name, $password, $email ) {
 	$user_name = preg_replace( '/\s+/', '', sanitize_user( $user_name, true ) );
@@ -1908,9 +1908,9 @@ function wpmu_welcome_user_notification( $user_id, $password, $meta = array() ) 
  *
  * @since MU (3.0.0)
  *
- * @global WP_Network $current_site
+ * @global WP_Network $current_site The current network.
  *
- * @return WP_Network
+ * @return WP_Network The current network.
  */
 function get_current_site() {
 	global $current_site;
@@ -1927,8 +1927,8 @@ function get_current_site() {
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param int $user_id
- * @return array Contains the blog_id, post_id, post_date_gmt, and post_gmt_ts
+ * @param int $user_id User ID.
+ * @return array Contains the blog_id, post_id, post_date_gmt, and post_gmt_ts.
  */
 function get_most_recent_post_of_user( $user_id ) {
 	global $wpdb;
@@ -2075,7 +2075,7 @@ function redirect_this_site( $deprecated = '' ) {
  *
  * @blessed
  *
- * @param array $upload
+ * @param array $upload An array of information about the newly-uploaded file.
  * @return string|array If the upload is under the size limit, $upload is returned. Otherwise returns an error message.
  */
 function upload_is_file_too_big( $upload ) {
@@ -2262,7 +2262,7 @@ function add_new_user_to_blog( $user_id, $password, $meta ) {
 }
 
 /**
- * Corrects From host on outgoing mail to match the site domain
+ * Corrects From host on outgoing mail to match the site domain.
  *
  * @since MU (3.0.0)
  *
@@ -2300,8 +2300,8 @@ function is_user_spammy( $user = null ) {
  *
  * @since MU (3.0.0)
  *
- * @param int $old_value
- * @param int $value     The new public value
+ * @param int $old_value The old public value.
+ * @param int $value     The new public value.
  */
 function update_blog_public( $old_value, $value ) {
 	update_blog_status( get_current_blog_id(), 'public', (int) $value );
@@ -2378,8 +2378,8 @@ function force_ssl_content( $force = '' ) {
  *
  * @since 2.8.5
  *
- * @param string $url URL
- * @return string URL with https as the scheme
+ * @param string $url URL.
+ * @return string URL with https as the scheme.
  */
 function filter_SSL( $url ) {  // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
 	if ( ! is_string( $url ) ) {
@@ -2545,7 +2545,7 @@ function get_space_used() {
  *
  * @since MU (3.0.0)
  *
- * @return int Quota in megabytes
+ * @return int Quota in megabytes.
  */
 function get_space_allowed() {
 	$space_allowed = get_option( 'blog_upload_space' );
@@ -2573,7 +2573,7 @@ function get_space_allowed() {
  *
  * @since 3.0.0
  *
- * @return int of upload space available in bytes
+ * @return int of upload space available in bytes.
  */
 function get_upload_space_available() {
 	$allowed = get_space_allowed();
