@@ -9,7 +9,7 @@
  */
 
 /**
- * Initialize $wp_styles if it has not been set.
+ * Initializes $wp_styles if it has not been set.
  *
  * @global WP_Styles $wp_styles
  *
@@ -28,7 +28,7 @@ function wp_styles() {
 }
 
 /**
- * Display styles that are in the $handles queue.
+ * Displays styles that are in the $handles queue.
  *
  * Passing an empty array to $handles prints the queue,
  * passing an array with one string prints that style,
@@ -69,7 +69,7 @@ function wp_print_styles( $handles = false ) {
 }
 
 /**
- * Add extra CSS styles to a registered stylesheet.
+ * Adds extra CSS styles to a registered stylesheet.
  *
  * Styles will only be added if the stylesheet is already in the queue.
  * Accepts a string $data containing the CSS. If two or more CSS code blocks
@@ -105,7 +105,7 @@ function wp_add_inline_style( $handle, $data ) {
 }
 
 /**
- * Register a CSS stylesheet.
+ * Registers a CSS stylesheet.
  *
  * @see WP_Dependencies::add()
  * @link https://www.w3.org/TR/CSS2/media.html#media-types List of CSS media types.
@@ -133,7 +133,7 @@ function wp_register_style( $handle, $src, $deps = array(), $ver = false, $media
 }
 
 /**
- * Remove a registered stylesheet.
+ * Removes a registered stylesheet.
  *
  * @see WP_Dependencies::remove()
  *
@@ -148,7 +148,7 @@ function wp_deregister_style( $handle ) {
 }
 
 /**
- * Enqueue a CSS stylesheet.
+ * Enqueues a CSS stylesheet.
  *
  * Registers the style if source provided (does NOT overwrite) and enqueues.
  *
@@ -184,7 +184,7 @@ function wp_enqueue_style( $handle, $src = '', $deps = array(), $ver = false, $m
 }
 
 /**
- * Remove a previously enqueued CSS stylesheet.
+ * Removes a previously enqueued CSS stylesheet.
  *
  * @see WP_Dependencies::dequeue()
  *
@@ -199,7 +199,7 @@ function wp_dequeue_style( $handle ) {
 }
 
 /**
- * Check whether a CSS stylesheet has been added to the queue.
+ * Checks whether a CSS stylesheet has been added to the queue.
  *
  * @since 2.8.0
  *
@@ -215,7 +215,7 @@ function wp_style_is( $handle, $status = 'enqueued' ) {
 }
 
 /**
- * Add metadata to a CSS stylesheet.
+ * Adds metadata to a CSS stylesheet.
  *
  * Works only if the stylesheet has already been registered.
  *

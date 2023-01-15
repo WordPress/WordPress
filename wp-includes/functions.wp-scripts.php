@@ -9,7 +9,7 @@
  */
 
 /**
- * Initialize $wp_scripts if it has not been set.
+ * Initializes $wp_scripts if it has not been set.
  *
  * @global WP_Scripts $wp_scripts
  *
@@ -148,7 +148,7 @@ function wp_add_inline_script( $handle, $data, $position = 'after' ) {
 }
 
 /**
- * Register a new script.
+ * Registers a new script.
  *
  * Registers a script to be enqueued later using the wp_enqueue_script() function.
  *
@@ -184,7 +184,7 @@ function wp_register_script( $handle, $src, $deps = array(), $ver = false, $in_f
 }
 
 /**
- * Localize a script.
+ * Localizes a script.
  *
  * Works only if the script has already been registered.
  *
@@ -249,7 +249,7 @@ function wp_set_script_translations( $handle, $domain = 'default', $path = '' ) 
 }
 
 /**
- * Remove a registered script.
+ * Removes a registered script.
  *
  * Note: there are intentional safeguards in place to prevent critical admin scripts,
  * such as jQuery core, from being unregistered.
@@ -322,7 +322,7 @@ function wp_deregister_script( $handle ) {
 }
 
 /**
- * Enqueue a script.
+ * Enqueues a script.
  *
  * Registers the script if $src provided (does NOT overwrite), and enqueues it.
  *
@@ -364,7 +364,7 @@ function wp_enqueue_script( $handle, $src = '', $deps = array(), $ver = false, $
 }
 
 /**
- * Remove a previously enqueued script.
+ * Removes a previously enqueued script.
  *
  * @see WP_Dependencies::dequeue()
  *
@@ -400,7 +400,7 @@ function wp_script_is( $handle, $status = 'enqueued' ) {
 }
 
 /**
- * Add metadata to a script.
+ * Adds metadata to a script.
  *
  * Works only if the script has already been registered.
  *
