@@ -4014,10 +4014,6 @@ function wp_get_recent_posts( $args = array(), $output = ARRAY_A ) {
  *                                         Default empty.
  *     @type string $pinged                Space or carriage return-separated list of URLs that have
  *                                         been pinged. Default empty.
- *     @type string $post_modified         The date when the post was last modified. Default is
- *                                         the current time.
- *     @type string $post_modified_gmt     The date when the post was last modified in the GMT
- *                                         timezone. Default is the current time.
  *     @type int    $post_parent           Set this for the post it belongs to, if any. Default 0.
  *     @type int    $menu_order            The order the post should be displayed in. Default 0.
  *     @type string $post_mime_type        The mime type of the post. Default empty.
