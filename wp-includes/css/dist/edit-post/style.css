@@ -794,7 +794,8 @@ body.is-fullscreen-mode .interface-interface-skeleton {
   width: 36px;
   height: 36px;
   border-radius: 2px;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
   margin-top: -1px;
 }
 
@@ -1707,7 +1708,8 @@ h2.edit-post-template-summary__title {
 .edit-template-welcome-guide__image > img {
   display: block;
   max-width: 100%;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 .edit-post-welcome-guide__heading,
 .edit-template-welcome-guide__heading {

@@ -1147,7 +1147,8 @@ body.is-navigation-sidebar-open .edit-site-header .edit-site-header_end .compone
   width: 36px;
   height: 36px;
   border-radius: 2px;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
   margin-top: -1px;
 }
 
@@ -1480,7 +1481,8 @@ body.is-fullscreen-mode .edit-site-list-header {
 .edit-site-list-added-by__avatar img {
   width: 32px;
   height: 32px;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
   opacity: 0;
   transition: opacity 0.1s linear;
 }
@@ -2132,7 +2134,8 @@ body.is-fullscreen-mode .edit-site .components-editor-notices__snackbar {
 .edit-site-welcome-guide__image > img {
   display: block;
   max-width: 100%;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 .edit-site-welcome-guide__heading {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
