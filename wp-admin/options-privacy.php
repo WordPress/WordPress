@@ -181,16 +181,16 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 <div class="privacy-settings-body hide-if-no-js">
 	<h2><?php _e( 'Privacy Settings' ); ?></h2>
 	<p>
-		<?php _e( 'As a website owner, you may need to follow national or international privacy laws. For example, you may need to create and display a Privacy Policy.' ); ?>
+		<?php _e( 'As a website owner, you may need to follow national or international privacy laws. For example, you may need to create and display a privacy policy.' ); ?>
 		<?php _e( 'If you already have a Privacy Policy page, please select it below. If not, please create one.' ); ?>
 	</p>
 	<p>
-		<?php _e( 'The new page will include help and suggestions for your Privacy Policy.' ); ?>
-		<?php _e( 'However, it is your responsibility to use those resources correctly, to provide the information that your Privacy Policy requires, and to keep that information current and accurate.' ); ?>
+		<?php _e( 'The new page will include help and suggestions for your privacy policy.' ); ?>
+		<?php _e( 'However, it is your responsibility to use those resources correctly, to provide the information that your privacy policy requires, and to keep that information current and accurate.' ); ?>
 	</p>
 	<p>
 		<?php _e( 'After your Privacy Policy page is set, you should edit it.' ); ?>
-		<?php _e( 'You should also review your Privacy Policy from time to time, especially after installing or updating any themes or plugins. There may be changes or new suggested information for you to consider adding to your policy.' ); ?>
+		<?php _e( 'You should also review your privacy policy from time to time, especially after installing or updating any themes or plugins. There may be changes or new suggested information for you to consider adding to your policy.' ); ?>
 	</p>
 	<p>
 		<?php
@@ -227,7 +227,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 		}
 		printf(
 			/* translators: 1: Privacy Policy guide URL, 2: Additional link attributes, 3: Accessibility text. */
-			__( 'Need help putting together your new Privacy Policy page? <a href="%1$s" %2$s>Check out our Privacy Policy guide%3$s</a> for recommendations on what content to include, along with policies suggested by your plugins and theme.' ),
+			__( 'Need help putting together your new Privacy Policy page? <a href="%1$s" %2$s>Check out our privacy policy guide%3$s</a> for recommendations on what content to include, along with policies suggested by your plugins and theme.' ),
 			esc_url( admin_url( 'options-privacy.php?tab=policyguide' ) ),
 			'',
 			''
@@ -253,7 +253,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 				<label for="create-page">
 				<?php
 				if ( $has_pages ) {
-					_e( 'Create a new Privacy Policy Page' );
+					_e( 'Create a new Privacy Policy page' );
 				} else {
 					_e( 'There are no pages.' );
 				}
