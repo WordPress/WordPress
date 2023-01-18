@@ -1,12 +1,6 @@
 .wp-block-navigation {
 
 	.wp-block-navigation-link {
-		padding: 0;
-
-		.wp-block-navigation-link__content {
-			padding: var(--primary-nav--padding);
-		}
-
 		.wp-block-navigation-link__label {
 			font-family: var(--primary-nav--font-family);
 			font-size: var(--primary-nav--font-size);
@@ -30,33 +24,14 @@
 			.wp-block-navigation__container {
 				border: none;
 				left: 0;
-				margin-left: var(--primary-nav--padding);
 				min-width: max-content;
 				opacity: 0;
 				padding: 0;
 				position: inherit;
 				top: inherit;
 
-				.wp-block-navigation-link {
-
-					.wp-block-navigation-link__content {
-						display: inline-block;
-						padding: calc(0.5 * var(--primary-nav--padding)) var(--primary-nav--padding);
-					}
-				}
-
 				.wp-block-navigation-link__submenu-icon {
 					display: none;
-				}
-			}
-
-			&:hover,
-			&:focus-within {
-
-				.wp-block-navigation__container {
-					display: block;
-					opacity: 1;
-					visibility: visible;
 				}
 			}
 		}

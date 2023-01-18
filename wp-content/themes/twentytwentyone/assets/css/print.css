@@ -2,7 +2,6 @@
 Adding print support. The print styles are based on the the great work of
 Andreas Hecht in https://www.jotform.com/blog/css-perfect-print-stylesheet-98272/.
 */
-
 /*--------------------------------------------------------------
 >>> TABLE OF CONTENTS:
 ----------------------------------------------------------------
@@ -13,166 +12,166 @@ Andreas Hecht in https://www.jotform.com/blog/css-perfect-print-stylesheet-98272
 # Visibility
 --------------------------------------------------------------*/
 @media print {
+  /* Margins & paddings */
+  @page {
+    margin: 2cm;
+  }
+  .entry .entry-header,
+.entry,
+.single .site-main > article > .entry-footer {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
 
-	/* Margins & paddings */
-	@page {
-		margin: 2cm;
-	}
+  .site-footer .site-info {
+    margin: 0;
+  }
 
-	.entry .entry-header,
-	.entry,
-	.single .site-main > article > .entry-footer {
-		margin-top: 0;
-		margin-bottom: 0;
-	}
+  .site-header {
+    padding: 0;
+  }
 
-	.site-footer .site-info {
-		margin: 0;
-	}
+  /* Fonts */
+  body {
+    font: 13pt Georgia, "Times New Roman", Times, serif;
+    font: 13pt var(--global--font-secondary, Georgia, "Times New Roman", Times, serif);
+    line-height: 1.3;
+    background: #fff !important;
+    color: #000;
+  }
 
-	.site-header {
-		padding: 0;
-	}
+  .has-background-dark * {
+    color: #000 !important;
+  }
 
-	/* Fonts */
-	body {
-		font: 13pt Georgia, "Times New Roman", Times, serif;
-		font: 13pt var(--global--font-secondary, Georgia, "Times New Roman", Times, serif);
-		line-height: 1.3;
-		background: #fff !important;
-		color: #000;
-	}
+  h1,
+.entry-title,
+.singular .entry-title,
+.page-title {
+    font-size: 22pt;
+    font-weight: bold;
+  }
 
-	.has-background-dark * {
-		color: #000 !important;
-	}
+  h2,
+h3,
+h4,
+.has-regular-font-size,
+.has-large-font-size,
+h2.author-title,
+p.author-bio,
+.comments-title,
+.archive-description {
+    font-size: 14pt;
+    margin-top: 25px;
+  }
 
-	h1,
-	.entry-title,
-	.singular .entry-title,
-	.page-title {
-		font-size: 22pt;
-		font-weight: bold;
-	}
+  .comment-meta,
+.comment-meta .comment-author .fn {
+    font-size: 13pt;
+  }
 
-	h2,
-	h3,
-	h4,
-	.has-regular-font-size,
-	.has-large-font-size,
-	h2.author-title,
-	p.author-bio,
-	.comments-title,
-	.archive-description {
-		font-size: 14pt;
-		margin-top: 25px;
-	}
+  /* Page breaks */
+  a {
+    page-break-inside: avoid;
+  }
 
-	.comment-meta,
-	.comment-meta .comment-author .fn {
-		font-size: 13pt;
-	}
+  blockquote {
+    page-break-inside: avoid;
+  }
 
-	/* Page breaks */
-	a {
-		page-break-inside: avoid;
-	}
+  h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    page-break-after: avoid;
+    page-break-inside: avoid;
+  }
 
-	blockquote {
-		page-break-inside: avoid;
-	}
+  img {
+    page-break-inside: avoid;
+    page-break-after: avoid;
+  }
 
-	h1,
-	h2,
-	h3,
-	h4,
-	h5,
-	h6 {
-		page-break-after: avoid;
-		page-break-inside: avoid;
-	}
+  table,
+pre,
+figure {
+    page-break-inside: avoid;
+  }
 
-	img {
-		page-break-inside: avoid;
-		page-break-after: avoid;
-	}
+  ul,
+ol,
+dl {
+    page-break-before: avoid;
+  }
 
-	table,
-	pre,
-	figure {
-		page-break-inside: avoid;
-	}
+  /* Links */
+  a:link,
+a:visited,
+a {
+    background: transparent;
+    font-weight: bold;
+    text-decoration: underline;
+    text-align: left;
+  }
 
-	ul,
-	ol,
-	dl {
-		page-break-before: avoid;
-	}
+  a[href^=http]:after {
+    content: " < " attr(href) "> ";
+  }
 
-	/* Links */
-	a:link,
-	a:visited,
-	a {
-		background: transparent;
-		font-weight: bold;
-		text-decoration: underline;
-		text-align: left;
-	}
+  a:after > img {
+    content: "";
+  }
 
-	a[href^=http]:after {
-		content: " < " attr(href) "> ";
-	}
+  article a[href^="#"]:after {
+    content: "";
+  }
 
-	a:after > img {
-		content: "";
-	}
+  a:not(:local-link):after {
+    content: " < " attr(href) "> ";
+  }
 
-	article a[href^="#"]:after {
-		content: "";
-	}
+  .entry-title a:after {
+    content: "\a< " attr(href) "> ";
+    white-space: pre;
+    font-size: 14pt;
+  }
 
-	a:not(:local-link):after {
-		content: " < " attr(href) "> ";
-	}
+  .cat-links a:after,
+.tags-links a:after,
+.byline a:after,
+.comment-metadata a:after,
+.wp-block-calendar a:after,
+.wp-block-tag-cloud a:after,
+.page-links a:after {
+    content: "";
+  }
 
-	.entry-title a:after {
-		content: "\a< " attr(href) "> ";
-		white-space: pre;
-		font-size: 14pt;
-	}
+  /* Visibility */
+  .primary-navigation,
+.site-title + .primary-navigation,
+.footer-navigation,
+.entry-footer,
+.post-navigation,
+.navigation.pagination,
+.widget-area,
+.edit-link,
+.more-link,
+.comment-reply,
+.reply,
+.comment .comment-metadata .edit-link,
+.comment-respond,
+#dark-mode-toggler {
+    display: none !important;
+  }
 
-	.cat-links a:after,
-	.tags-links a:after,
-	.byline a:after,
-	.comment-metadata a:after,
-	.wp-block-calendar a:after,
-	.wp-block-tag-cloud a:after,
-	.page-links a:after {
-		content: "";
-	}
-
-	/* Visibility */
-	.primary-navigation,
-	.site-title + .primary-navigation,
-	.footer-navigation,
-	.entry-footer,
-	.post-navigation,
-	.navigation.pagination,
-	.widget-area,
-	.edit-link,
-	.more-link,
-	.comment-reply,
-	.reply,
-	.comment .comment-metadata .edit-link,
-	.comment-respond,
-	#dark-mode-toggler {
-		display: none !important;
-	}
-
-	.entry .entry-content .wp-block-button .wp-block-button__link,
-	.entry .entry-content .button,
-	.entry .entry-content .wp-block-file__button {
-		color: #000;
-		background: none;
-	}
+  .entry .entry-content .wp-block-button .wp-block-button__link,
+.entry .entry-content .button,
+.entry .entry-content .wp-block-file__button {
+    color: #000;
+    background: none;
+  }
 }
+
+/*# sourceMappingURL=print.css.map */

@@ -1,15 +1,15 @@
 .wp-block-navigation {
 
+	[data-block] {
+		margin-top: revert;
+		margin-bottom: revert;
+	}
+
 	.wp-block-navigation__container {
 		background: var(--global--color-background);
-		padding: 0;
 	}
 
 	.wp-block-navigation-link {
-
-		.wp-block-navigation-link__content {
-			padding: var(--primary-nav--padding);
-		}
 
 		.wp-block-navigation-link__label {
 			font-family: var(--primary-nav--font-family);
