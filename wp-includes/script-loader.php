@@ -99,7 +99,8 @@ function wp_default_packages_vendor( $scripts ) {
 		'wp-polyfill-dom-rect',
 		'wp-polyfill-element-closest',
 		'wp-polyfill-object-fit',
-		'wp-polyfill' => array( 'regenerator-runtime' ),
+		'wp-polyfill-inert',
+		'wp-polyfill' => array( 'wp-polyfill-inert', 'regenerator-runtime' ),
 	);
 
 	$vendor_scripts_versions = array(
@@ -115,6 +116,7 @@ function wp_default_packages_vendor( $scripts ) {
 		'wp-polyfill-dom-rect'        => '4.4.0',
 		'wp-polyfill-element-closest' => '2.0.2',
 		'wp-polyfill-object-fit'      => '2.3.5',
+		'wp-polyfill-inert'           => '3.1.2',
 		'wp-polyfill'                 => '3.15.0',
 	);
 
