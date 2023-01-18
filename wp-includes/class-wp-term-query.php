@@ -774,19 +774,8 @@ class WP_Term_Query {
 			return $this->terms;
 		}
 
-		// $args can be anything. Only use the args defined in defaults to compute the key.
-		$cache_args = wp_array_slice_assoc( $args, array_keys( $this->query_var_defaults ) );
-
-		unset( $cache_args['update_term_meta_cache'] );
-
-		if ( 'count' !== $_fields && 'all_with_object_id' !== $_fields ) {
-			$cache_args['fields'] = 'all';
-		}
-
-		$key          = md5( serialize( $cache_args ) . serialize( $taxonomies ) . $this->request );
-		$last_changed = wp_cache_get_last_changed( 'terms' );
-		$cache_key    = "get_terms:$key:$last_changed";
-		$cache        = wp_cache_get( $cache_key, 'terms' );
+		$cache_key = $this->generate_cache_key( $args, $this->request );
+		$cache     = wp_cache_get( $cache_key, 'terms' );
 
 		if ( false !== $cache ) {
 			if ( 'ids' === $_fields ) {
@@ -1141,5 +1130,37 @@ class WP_Term_Query {
 		}
 
 		return $term_objects;
+	}
+
+	/**
+	 * Generate cache key.
+	 *
+	 * @since 6.2.0
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
+	 * @param array  $args WP_Term_Query arguments.
+	 * @param string $sql  SQL statement.
+	 *
+	 * @return string Cache key.
+	 */
+	protected function generate_cache_key( array $args, $sql ) {
+		global $wpdb;
+		// $args can be anything. Only use the args defined in defaults to compute the key.
+		$cache_args = wp_array_slice_assoc( $args, array_keys( $this->query_var_defaults ) );
+
+		unset( $cache_args['update_term_meta_cache'] );
+
+		if ( 'count' !== $args['fields'] && 'all_with_object_id' !== $args['fields'] ) {
+			$cache_args['fields'] = 'all';
+		}
+		$taxonomies = (array) $args['taxonomy'];
+
+		// Replace wpdb placeholder in the SQL statement used by the cache key.
+		$sql = $wpdb->remove_placeholder_escape( $sql );
+
+		$key          = md5( serialize( $cache_args ) . serialize( $taxonomies ) . $sql );
+		$last_changed = wp_cache_get_last_changed( 'terms' );
+		return "get_terms:$key:$last_changed";
 	}
 }
