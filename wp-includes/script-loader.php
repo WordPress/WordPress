@@ -1620,7 +1620,7 @@ function wp_default_styles( $styles ) {
 	);
 
 	// Only load the default layout and margin styles for themes without theme.json file.
-	if ( ! WP_Theme_JSON_Resolver::theme_has_support() ) {
+	if ( ! wp_theme_has_theme_json() ) {
 		$wp_edit_blocks_dependencies[] = 'wp-editor-classic-layout-styles';
 	}
 
@@ -3667,7 +3667,7 @@ function _wp_theme_json_webfonts_handler() {
  * @since 6.1.0
  */
 function wp_enqueue_classic_theme_styles() {
-	if ( ! WP_Theme_JSON_Resolver::theme_has_support() ) {
+	if ( ! wp_theme_has_theme_json() ) {
 		$suffix = wp_scripts_get_suffix();
 		wp_register_style( 'classic-theme-styles', '/' . WPINC . "/css/classic-themes$suffix.css", array(), true );
 		wp_enqueue_style( 'classic-theme-styles' );
@@ -3685,7 +3685,7 @@ function wp_enqueue_classic_theme_styles() {
  * @return array A filtered array of editor settings.
  */
 function wp_add_editor_classic_theme_styles( $editor_settings ) {
-	if ( WP_Theme_JSON_Resolver::theme_has_support() ) {
+	if ( wp_theme_has_theme_json() ) {
 		return $editor_settings;
 	}
 

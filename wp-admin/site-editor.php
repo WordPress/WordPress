@@ -74,7 +74,7 @@ $custom_settings      = array(
 	'styles'                    => get_block_editor_theme_styles(),
 	'defaultTemplateTypes'      => $indexed_template_types,
 	'defaultTemplatePartAreas'  => get_allowed_block_template_part_areas(),
-	'supportsLayout'            => WP_Theme_JSON_Resolver::theme_has_support(),
+	'supportsLayout'            => wp_theme_has_theme_json(),
 	'supportsTemplatePartsMode' => ! wp_is_block_theme() && current_theme_supports( 'block-template-parts' ),
 	'__unstableHomeTemplate'    => $home_template,
 );

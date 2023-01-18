@@ -139,7 +139,7 @@ function _register_remote_theme_patterns() {
 		return;
 	}
 
-	if ( ! WP_Theme_JSON_Resolver::theme_has_support() ) {
+	if ( ! wp_theme_has_theme_json() ) {
 		return;
 	}
 

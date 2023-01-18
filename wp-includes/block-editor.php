@@ -417,7 +417,7 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
 		}
 	}
 
-	if ( WP_Theme_JSON_Resolver::theme_has_support() ) {
+	if ( wp_theme_has_theme_json() ) {
 		$block_classes = array(
 			'css'            => 'styles',
 			'__unstableType' => 'theme',
