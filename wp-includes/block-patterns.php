@@ -36,14 +36,126 @@ function _register_core_block_patterns_and_categories() {
 		}
 	}
 
-	register_block_pattern_category( 'buttons', array( 'label' => _x( 'Buttons', 'Block pattern category' ) ) );
-	register_block_pattern_category( 'columns', array( 'label' => _x( 'Columns', 'Block pattern category' ) ) );
-	register_block_pattern_category( 'featured', array( 'label' => _x( 'Featured', 'Block pattern category' ) ) );
-	register_block_pattern_category( 'footer', array( 'label' => _x( 'Footers', 'Block pattern category' ) ) );
-	register_block_pattern_category( 'gallery', array( 'label' => _x( 'Gallery', 'Block pattern category' ) ) );
-	register_block_pattern_category( 'header', array( 'label' => _x( 'Headers', 'Block pattern category' ) ) );
-	register_block_pattern_category( 'text', array( 'label' => _x( 'Text', 'Block pattern category' ) ) );
-	register_block_pattern_category( 'query', array( 'label' => _x( 'Query', 'Block pattern category' ) ) );
+	register_block_pattern_category( 'banner', array( 'label' => _x( 'Banners', 'Block pattern category' ) ) );
+	register_block_pattern_category(
+		'buttons',
+		array(
+			'label'       => _x( 'Buttons', 'Block pattern category' ),
+			'description' => __( 'Patterns that contain buttons and call to actions.' ),
+		)
+	);
+	register_block_pattern_category(
+		'columns',
+		array(
+			'label'       => _x( 'Columns', 'Block pattern category' ),
+			'description' => __( 'Multi-column patterns with more complex layouts.' ),
+		)
+	);
+	register_block_pattern_category(
+		'text',
+		array(
+			'label'       => _x( 'Text', 'Block pattern category' ),
+			'description' => __( 'Patterns containing mostly text.' ),
+		)
+	);
+	register_block_pattern_category(
+		'query',
+		array(
+			'label'       => _x( 'Posts', 'Block pattern category' ),
+			'description' => __( 'Display your latest posts in lists, grids or other layouts.' ),
+		)
+	);
+	register_block_pattern_category(
+		'featured',
+		array(
+			'label'       => _x( 'Featured', 'Block pattern category' ),
+			'description' => __( 'A set of high quality curated patterns.' ),
+		)
+	);
+	register_block_pattern_category(
+		'call-to-action',
+		array(
+			'label'       => _x( 'Call to Action', 'Block pattern category' ),
+			'description' => __( 'Sections whose purpose is to trigger a specific action.' ),
+		)
+	);
+	register_block_pattern_category(
+		'team',
+		array(
+			'label'       => _x( 'Team', 'Block pattern category' ),
+			'description' => __( 'A variety of designs to display your team members.' ),
+		)
+	);
+	register_block_pattern_category(
+		'testimonials',
+		array(
+			'label'       => _x( 'Testimonials', 'Block pattern category' ),
+			'description' => __( 'Share reviews and feedback about your brand/business.' ),
+		)
+	);
+	register_block_pattern_category(
+		'services',
+		array(
+			'label'       => _x( 'Services', 'Block pattern category' ),
+			'description' => __( 'Briefly describe what your business does and how you can help.' ),
+		)
+	);
+	register_block_pattern_category(
+		'contact',
+		array(
+			'label'       => _x( 'Contact', 'Block pattern category' ),
+			'description' => __( 'Display your contact information.' ),
+		)
+	);
+	register_block_pattern_category(
+		'about',
+		array(
+			'label'       => _x( 'About', 'Block pattern category' ),
+			'description' => __( 'Introduce yourself.' ),
+		)
+	);
+	register_block_pattern_category(
+		'portfolio',
+		array(
+			'label'       => _x( 'Portfolio', 'Block pattern category' ),
+			'description' => __( 'Showcase your latest work.' ),
+		)
+	);
+	register_block_pattern_category(
+		'gallery',
+		array(
+			'label'       => _x( 'Gallery', 'Block pattern category' ),
+			'description' => __( 'Different layouts for displaying images.' ),
+		)
+	);
+	register_block_pattern_category(
+		'media',
+		array(
+			'label'       => _x( 'Media', 'Block pattern category' ),
+			'description' => __( 'Different layouts containing video or audio.' ),
+		)
+	);
+	register_block_pattern_category(
+		'posts',
+		array(
+			'label'       => _x( 'Posts', 'Block pattern category' ),
+			'description' => __( 'Display your latest posts in lists, grids or other layouts.' ),
+		)
+	);
+	register_block_pattern_category(
+		'footer',
+		array(
+			'label'       => _x( 'Footers', 'Block pattern category' ),
+			'description' => __( 'A variety of footer designs displaying information and site navigation.' ),
+		)
+	);
+	register_block_pattern_category(
+		'header',
+		array(
+			'label'       => _x( 'Headers', 'Block pattern category' ),
+			'description' => __( 'A variety of header designs displaying your site title and navigation.' ),
+		)
+	);
 }
 
 /**
