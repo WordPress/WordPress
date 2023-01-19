@@ -1082,9 +1082,18 @@ table.form-table td .updated p {
 	margin-top: 8px;
 }
 
+.form-table.permalink-structure .available-structure-tags ul {
+	display: flex;
+	flex-wrap: wrap;
+	margin: 8px 0 0;
+}
+
 .form-table.permalink-structure .available-structure-tags li {
-	float: left;
-	margin-right: 5px;
+	margin: 6px 5px 0 0;
+}
+
+.form-table.permalink-structure .available-structure-tags li:last-child {
+	margin-right: 0;
 }
 
 .form-table.permalink-structure .structure-selection .row {
