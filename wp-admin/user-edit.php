@@ -638,7 +638,7 @@ switch ( $action ) {
 									<button type="button" class="button wp-generate-pw hide-if-no-js" aria-expanded="false"><?php _e( 'Set New Password' ); ?></button>
 									<div class="wp-pwd hide-if-js">
 										<span class="password-input-wrapper">
-											<input type="password" name="pass1" id="pass1" class="regular-text" value="" autocomplete="new-password" data-pw="<?php echo esc_attr( wp_generate_password( 24 ) ); ?>" aria-describedby="pass-strength-result" />
+											<input type="password" name="pass1" id="pass1" class="regular-text" value="" autocomplete="new-password" spellcheck="false" data-pw="<?php echo esc_attr( wp_generate_password( 24 ) ); ?>" aria-describedby="pass-strength-result" />
 										</span>
 										<button type="button" class="button wp-hide-pw hide-if-no-js" data-toggle="0" aria-label="<?php esc_attr_e( 'Hide password' ); ?>">
 											<span class="dashicons dashicons-hidden" aria-hidden="true"></span>
@@ -655,7 +655,7 @@ switch ( $action ) {
 							<tr class="user-pass2-wrap hide-if-js">
 								<th scope="row"><label for="pass2"><?php _e( 'Repeat New Password' ); ?></label></th>
 								<td>
-								<input name="pass2" type="password" id="pass2" class="regular-text" value="" autocomplete="new-password" aria-describedby="pass2-desc" />
+								<input name="pass2" type="password" id="pass2" class="regular-text" value="" autocomplete="new-password" spellcheck="false" aria-describedby="pass2-desc" />
 									<?php if ( IS_PROFILE_PAGE ) : ?>
 										<p class="description" id="pass2-desc"><?php _e( 'Type your new password again.' ); ?></p>
 									<?php else : ?>

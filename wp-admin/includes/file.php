@@ -2390,7 +2390,7 @@ function request_filesystem_credentials( $form_post, $type = '', $error = false,
 <div class="ftp-password">
 	<label for="password">
 		<span class="field-title"><?php echo $label_pass; ?></span>
-		<input name="password" type="password" id="password" value="<?php echo $password_value; ?>"<?php disabled( defined( 'FTP_PASS' ) ); ?> />
+		<input name="password" type="password" id="password" value="<?php echo $password_value; ?>"<?php disabled( defined( 'FTP_PASS' ) ); ?> spellcheck="false" />
 		<?php
 		if ( ! defined( 'FTP_PASS' ) ) {
 			_e( 'This password will not be stored on the server.' );
