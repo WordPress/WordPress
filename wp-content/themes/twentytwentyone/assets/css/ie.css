@@ -3538,14 +3538,6 @@ dd {
 	border: 3px solid #28303d;
 }
 
-.wp-block-navigation .wp-block-navigation-link {
-	padding: 0;
-}
-
-.wp-block-navigation .wp-block-navigation-link .wp-block-navigation-link__content {
-	padding: 13px;
-}
-
 .wp-block-navigation .wp-block-navigation-link .wp-block-navigation-link__label {
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 	font-size: 1.25rem;
@@ -3563,7 +3555,6 @@ dd {
 .wp-block-navigation > .wp-block-navigation__container .has-child .wp-block-navigation__container {
 	border: none;
 	left: 0;
-	margin-left: 13px;
 	min-width: max-content;
 	opacity: 0;
 	padding: 0;
@@ -3571,20 +3562,8 @@ dd {
 	top: inherit;
 }
 
-.wp-block-navigation > .wp-block-navigation__container .has-child .wp-block-navigation__container .wp-block-navigation-link .wp-block-navigation-link__content {
-	display: inline-block;
-	padding: 7px 13px;
-}
-
 .wp-block-navigation > .wp-block-navigation__container .has-child .wp-block-navigation__container .wp-block-navigation-link__submenu-icon {
 	display: none;
-}
-
-.wp-block-navigation > .wp-block-navigation__container .has-child:hover .wp-block-navigation__container,
-.wp-block-navigation > .wp-block-navigation__container .has-child:focus-within .wp-block-navigation__container {
-	display: block;
-	opacity: 1;
-	visibility: visible;
 }
 
 .wp-block-navigation > .wp-block-navigation__container > .has-child > .wp-block-navigation__container {
