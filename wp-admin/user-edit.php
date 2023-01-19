@@ -9,6 +9,9 @@
 /** WordPress Administration Bootstrap */
 require_once __DIR__ . '/admin.php';
 
+/** WordPress Translation Installation API */
+require_once ABSPATH . 'wp-admin/includes/translation-install.php';
+
 wp_reset_vars( array( 'action', 'user_id', 'wp_http_referer' ) );
 
 $user_id      = (int) $user_id;
@@ -345,8 +348,11 @@ switch ( $action ) {
 						</td>
 					</tr>
 
-					<?php $languages = get_available_languages(); ?>
-					<?php if ( $languages ) : ?>
+					<?php
+					$languages = get_available_languages();
+					$can_install_translations = current_user_can( 'install_languages' ) && wp_can_install_language_pack();
+					?>
+					<?php if ( $languages || $can_install_translations ) : ?>
 					<tr class="user-language-wrap">
 						<th scope="row">
 							<?php /* translators: The user language selection field label. */ ?>
@@ -364,12 +370,12 @@ switch ( $action ) {
 
 							wp_dropdown_languages(
 								array(
-									'name'      => 'locale',
-									'id'        => 'locale',
-									'selected'  => $user_locale,
-									'languages' => $languages,
-									'show_available_translations' => false,
-									'show_option_site_default' => true,
+									'name'                        => 'locale',
+									'id'                          => 'locale',
+									'selected'                    => $user_locale,
+									'languages'                   => $languages,
+									'show_available_translations' => $can_install_translations,
+									'show_option_site_default'    => true,
 								)
 							);
 							?>
@@ -909,6 +915,19 @@ switch ( $action ) {
 	if (window.location.hash == '#password') {
 		document.getElementById('pass1').focus();
 	}
+</script>
+
+<script type="text/javascript">
+	jQuery( function( $ ) {
+		var languageSelect = $( '#locale' );
+		$( 'form' ).on( 'submit', function() {
+			// Don't show a spinner for English and installed languages,
+			// as there is nothing to download.
+			if ( ! languageSelect.find( 'option:selected' ).data( 'installed' ) ) {
+				$( '#submit', this ).after( '<span class="spinner language-install-spinner is-active" />' );
+			}
+		});
+	} );
 </script>
 
 <?php if ( isset( $application_passwords_list_table ) ) : ?>

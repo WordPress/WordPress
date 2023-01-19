@@ -1069,7 +1069,9 @@ table.form-table td .updated p {
 }
 
 .settings-php .language-install-spinner,
-.options-general-php .language-install-spinner {
+.options-general-php .language-install-spinner,
+.user-edit-php .language-install-spinner,
+.profile-php .language-install-spinner {
 	display: inline-block;
 	float: none;
 	margin: -3px 5px 0;

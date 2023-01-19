@@ -119,7 +119,13 @@ function edit_user( $user_id = 0 ) {
 		} elseif ( '' === $locale ) {
 			$locale = 'en_US';
 		} elseif ( ! in_array( $locale, get_available_languages(), true ) ) {
-			$locale = '';
+			if ( current_user_can( 'install_languages' ) && wp_can_install_language_pack() ) {
+				if ( ! wp_download_language_pack( $locale ) ) {
+					$locale = '';
+				}
+			} else {
+				$locale = '';
+			}
 		}
 
 		$user->locale = $locale;
