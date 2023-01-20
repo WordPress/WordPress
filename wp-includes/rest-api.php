@@ -2934,36 +2934,36 @@ function rest_parse_embed_param( $embed ) {
  * @since 5.6.0 Support the "patternProperties" keyword for objects.
  *              Support the "anyOf" and "oneOf" keywords.
  *
- * @param array|object $data    The response data to modify.
- * @param array        $schema  The schema for the endpoint used to filter the response.
- * @param string       $context The requested context.
+ * @param array|object $response_data The response data to modify.
+ * @param array        $schema        The schema for the endpoint used to filter the response.
+ * @param string       $context       The requested context.
  * @return array|object The filtered response data.
  */
-function rest_filter_response_by_context( $data, $schema, $context ) {
+function rest_filter_response_by_context( $response_data, $schema, $context ) {
 	if ( isset( $schema['anyOf'] ) ) {
-		$matching_schema = rest_find_any_matching_schema( $data, $schema, '' );
+		$matching_schema = rest_find_any_matching_schema( $response_data, $schema, '' );
 		if ( ! is_wp_error( $matching_schema ) ) {
 			if ( ! isset( $schema['type'] ) ) {
 				$schema['type'] = $matching_schema['type'];
 			}
 
-			$data = rest_filter_response_by_context( $data, $matching_schema, $context );
+			$response_data = rest_filter_response_by_context( $response_data, $matching_schema, $context );
 		}
 	}
 
 	if ( isset( $schema['oneOf'] ) ) {
-		$matching_schema = rest_find_one_matching_schema( $data, $schema, '', true );
+		$matching_schema = rest_find_one_matching_schema( $response_data, $schema, '', true );
 		if ( ! is_wp_error( $matching_schema ) ) {
 			if ( ! isset( $schema['type'] ) ) {
 				$schema['type'] = $matching_schema['type'];
 			}
 
-			$data = rest_filter_response_by_context( $data, $matching_schema, $context );
+			$response_data = rest_filter_response_by_context( $response_data, $matching_schema, $context );
 		}
 	}
 
-	if ( ! is_array( $data ) && ! is_object( $data ) ) {
-		return $data;
+	if ( ! is_array( $response_data ) && ! is_object( $response_data ) ) {
+		return $response_data;
 	}
 
 	if ( isset( $schema['type'] ) ) {
@@ -2971,14 +2971,14 @@ function rest_filter_response_by_context( $data, $schema, $context ) {
 	} elseif ( isset( $schema['properties'] ) ) {
 		$type = 'object'; // Back compat if a developer accidentally omitted the type.
 	} else {
-		return $data;
+		return $response_data;
 	}
 
 	$is_array_type  = 'array' === $type || ( is_array( $type ) && in_array( 'array', $type, true ) );
 	$is_object_type = 'object' === $type || ( is_array( $type ) && in_array( 'object', $type, true ) );
 
 	if ( $is_array_type && $is_object_type ) {
-		if ( rest_is_array( $data ) ) {
+		if ( rest_is_array( $response_data ) ) {
 			$is_object_type = false;
 		} else {
 			$is_array_type = false;
@@ -2987,7 +2987,7 @@ function rest_filter_response_by_context( $data, $schema, $context ) {
 
 	$has_additional_properties = $is_object_type && isset( $schema['additionalProperties'] ) && is_array( $schema['additionalProperties'] );
 
-	foreach ( $data as $key => $value ) {
+	foreach ( $response_data as $key => $value ) {
 		$check = array();
 
 		if ( $is_array_type ) {
@@ -3012,27 +3012,27 @@ function rest_filter_response_by_context( $data, $schema, $context ) {
 		if ( ! in_array( $context, $check['context'], true ) ) {
 			if ( $is_array_type ) {
 				// All array items share schema, so there's no need to check each one.
-				$data = array();
+				$response_data = array();
 				break;
 			}
 
-			if ( is_object( $data ) ) {
-				unset( $data->$key );
+			if ( is_object( $response_data ) ) {
+				unset( $response_data->$key );
 			} else {
-				unset( $data[ $key ] );
+				unset( $response_data[ $key ] );
 			}
 		} elseif ( is_array( $value ) || is_object( $value ) ) {
 			$new_value = rest_filter_response_by_context( $value, $check, $context );
 
-			if ( is_object( $data ) ) {
-				$data->$key = $new_value;
+			if ( is_object( $response_data ) ) {
+				$response_data->$key = $new_value;
 			} else {
-				$data[ $key ] = $new_value;
+				$response_data[ $key ] = $new_value;
 			}
 		}
 	}
 
-	return $data;
+	return $response_data;
 }
 
 /**

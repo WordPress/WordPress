@@ -289,15 +289,15 @@ abstract class WP_REST_Controller {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param array  $data    Response data to filter.
-	 * @param string $context Context defined in the schema.
+	 * @param array  $response_data Response data to filter.
+	 * @param string $context       Context defined in the schema.
 	 * @return array Filtered response.
 	 */
-	public function filter_response_by_context( $data, $context ) {
+	public function filter_response_by_context( $response_data, $context ) {
 
 		$schema = $this->get_item_schema();
 
-		return rest_filter_response_by_context( $data, $schema, $context );
+		return rest_filter_response_by_context( $response_data, $schema, $context );
 	}
 
 	/**
@@ -412,11 +412,11 @@ abstract class WP_REST_Controller {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param array           $prepared Prepared response array.
-	 * @param WP_REST_Request $request  Full details about the request.
+	 * @param array           $response_data Prepared response array.
+	 * @param WP_REST_Request $request       Full details about the request.
 	 * @return array Modified data object with additional fields.
 	 */
-	protected function add_additional_fields_to_object( $prepared, $request ) {
+	protected function add_additional_fields_to_object( $response_data, $request ) {
 
 		$additional_fields = $this->get_additional_fields();
 
@@ -431,16 +431,16 @@ abstract class WP_REST_Controller {
 				continue;
 			}
 
-			$prepared[ $field_name ] = call_user_func(
+			$response_data[ $field_name ] = call_user_func(
 				$field_options['get_callback'],
-				$prepared,
+				$response_data,
 				$field_name,
 				$request,
 				$this->get_object_type()
 			);
 		}
 
-		return $prepared;
+		return $response_data;
 	}
 
 	/**
