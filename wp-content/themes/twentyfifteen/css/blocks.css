@@ -472,7 +472,8 @@ p.has-drop-cap:not(:focus)::first-letter {
 	max-width: 100px;
 }
 
-.wp-block-separator.is-style-wide {
+.wp-block-separator.is-style-wide,
+.wp-block-separator.is-style-dots {
 	max-width: 100%;
 }
 
