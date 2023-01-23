@@ -4877,6 +4877,26 @@ function wp_array_slice_assoc( $input_array, $keys ) {
 }
 
 /**
+ * Sorts the keys of an array alphabetically.
+ *
+ * The array is passed by reference so it doesn't get returned
+ * which mimics the behavior of `ksort()`.
+ *
+ * @since 6.0.0
+ *
+ * @param array $input_array The array to sort, passed by reference.
+ */
+function wp_recursive_ksort( &$input_array ) {
+	foreach ( $input_array as &$value ) {
+		if ( is_array( $value ) ) {
+			wp_recursive_ksort( $value );
+		}
+	}
+
+	ksort( $input_array );
+}
+
+/**
  * Accesses an array in depth based on a path of keys.
  *
  * It is the PHP equivalent of JavaScript's `lodash.get()` and mirroring it may help other components
@@ -8428,22 +8448,4 @@ function is_php_version_compatible( $required ) {
  */
 function wp_fuzzy_number_match( $expected, $actual, $precision = 1 ) {
 	return abs( (float) $expected - (float) $actual ) <= $precision;
-}
-
-/**
- * Sorts the keys of an array alphabetically.
- * The array is passed by reference so it doesn't get returned
- * which mimics the behavior of ksort.
- *
- * @since 6.0.0
- *
- * @param array $array The array to sort, passed by reference.
- */
-function wp_recursive_ksort( &$array ) {
-	foreach ( $array as &$value ) {
-		if ( is_array( $value ) ) {
-			wp_recursive_ksort( $value );
-		}
-	}
-	ksort( $array );
 }
