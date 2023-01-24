@@ -3,7 +3,7 @@
  * Header with centered logo and black background
  */
 return array(
-	'title'      => __( 'Header with centered logo and black background', 'twentytwentytwo' ),
+	'title'      => __( 'Header with centered logo and background', 'twentytwentytwo' ),
 	'categories' => array( 'header' ),
 	'blockTypes' => array( 'core/template-part/header' ),
 	'content'    => '<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"bottom":"var(--wp--custom--spacing--small, 1.25rem)","top":"var(--wp--custom--spacing--small, 1.25rem)"}},"elements":{"link":{"color":{"text":"var:preset|color|background"}}}},"backgroundColor":"foreground","textColor":"background","layout":{"type":"flex","justifyContent":"center"}} -->

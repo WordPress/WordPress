@@ -3,7 +3,7 @@
  * Centered header with navigation, social links, and salmon background block pattern
  */
 return array(
-	'title'      => __( 'Centered header with navigation, social links, and salmon background', 'twentytwentytwo' ),
+	'title'      => __( 'Centered header with navigation, social links, and background', 'twentytwentytwo' ),
 	'categories' => array( 'header' ),
 	'blockTypes' => array( 'core/template-part/header' ),
 	'content'    => '<!-- wp:group {"align":"full","style":{"elements":{"link":{"color":{"text":"var:preset|color|primary"}}},"spacing":{"padding":{"top":"var(--wp--custom--spacing--small, 1.25rem)","bottom":"var(--wp--custom--spacing--small, 1.25rem)"}}},"backgroundColor":"secondary","textColor":"primary","layout":{"inherit":true}} -->

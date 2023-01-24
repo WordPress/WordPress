@@ -3,7 +3,7 @@
  * Text-only header with salmon background block pattern
  */
 return array(
-	'title'      => __( 'Text-only header with salmon background', 'twentytwentytwo' ),
+	'title'      => __( 'Text-only header with background', 'twentytwentytwo' ),
 	'categories' => array( 'header' ),
 	'blockTypes' => array( 'core/template-part/header' ),
 	'content'    => '<!-- wp:group {"align":"full","style":{"elements":{"link":{"color":{"text":"var:preset|color|foreground"}}},"spacing":{"padding":{"top":"var(--wp--custom--spacing--small, 1.25rem)","bottom":"var(--wp--custom--spacing--small, 1.25rem)"}}},"backgroundColor":"secondary","textColor":"foreground","layout":{"inherit":true}} -->

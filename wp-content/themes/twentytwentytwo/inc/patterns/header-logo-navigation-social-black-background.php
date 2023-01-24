@@ -3,7 +3,7 @@
  * Logo, navigation, and social links header with black background block pattern
  */
 return array(
-	'title'      => __( 'Logo, navigation, and social links header with black background', 'twentytwentytwo' ),
+	'title'      => __( 'Logo, navigation, and social links header with background', 'twentytwentytwo' ),
 	'categories' => array( 'header' ),
 	'blockTypes' => array( 'core/template-part/header' ),
 	'content'    => '<!-- wp:group {"align":"full","style":{"elements":{"link":{"color":{"text":"var:preset|color|background"}}},"spacing":{"padding":{"top":"var(--wp--custom--spacing--small, 1.25rem)","bottom":"var(--wp--custom--spacing--small, 1.25rem)"}}},"backgroundColor":"foreground","textColor":"background","layout":{"inherit":true}} -->

@@ -3,7 +3,7 @@
  * Logo and navigation header with gray background
  */
 return array(
-	'title'      => __( 'Logo and navigation header with gray background', 'twentytwentytwo' ),
+	'title'      => __( 'Logo and navigation header with background', 'twentytwentytwo' ),
 	'categories' => array( 'header' ),
 	'blockTypes' => array( 'core/template-part/header' ),
 	'content'    => '<!-- wp:group {"align":"full","style":{"elements":{"link":{"color":{"text":"var:preset|color|foreground"}}},"spacing":{"padding":{"top":"var(--wp--custom--spacing--small, 1.25rem)","bottom":"var(--wp--custom--spacing--small, 1.25rem)"}}},"backgroundColor":"tertiary","textColor":"foreground","layout":{"inherit":true}} -->
