@@ -373,6 +373,8 @@ class WP_Theme_JSON_Resolver {
 	/**
 	 * When given an array, this will remove any keys with the name `//`.
 	 *
+	 * @since 6.1.0
+	 *
 	 * @param array $input_array The array to filter.
 	 * @return array The filtered array.
 	 */
