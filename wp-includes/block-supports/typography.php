@@ -453,6 +453,7 @@ function wp_get_computed_fluid_typography_value( $args = array() ) {
  *
  * @since 6.1.0
  * @since 6.1.1 Adjusted rules for min and max font sizes.
+ * @since 6.2.0 Added 'settings.typography.fluid.minFontSize' support.
  *
  * @param array $preset                     {
  *     Required. fontSizes preset value as seen in theme.json.
@@ -479,19 +480,29 @@ function wp_get_typography_font_size_value( $preset, $should_use_fluid_typograph
 	}
 
 	// Checks if fluid font sizes are activated.
-	$typography_settings         = wp_get_global_settings( array( 'typography' ) );
-	$should_use_fluid_typography = isset( $typography_settings['fluid'] ) && true === $typography_settings['fluid'] ? true : $should_use_fluid_typography;
+	$typography_settings = wp_get_global_settings( array( 'typography' ) );
+	if (
+		isset( $typography_settings['fluid'] ) &&
+		( true === $typography_settings['fluid'] || is_array( $typography_settings['fluid'] ) )
+	) {
+		$should_use_fluid_typography = true;
+	}
 
 	if ( ! $should_use_fluid_typography ) {
 		return $preset['size'];
 	}
+
+	$fluid_settings = isset( $typography_settings['fluid'] ) && is_array( $typography_settings['fluid'] )
+		? $typography_settings['fluid']
+		: array();
 
 	// Defaults.
 	$default_maximum_viewport_width   = '1600px';
 	$default_minimum_viewport_width   = '768px';
 	$default_minimum_font_size_factor = 0.75;
 	$default_scale_factor             = 1;
-	$default_minimum_font_size_limit  = '14px';
+	$has_min_font_size                = isset( $fluid_settings['minFontSize'] ) && ! empty( wp_get_typography_value_and_unit( $fluid_settings['minFontSize'] ) );
+	$default_minimum_font_size_limit  = $has_min_font_size ? $fluid_settings['minFontSize'] : '14px';
 
 	// Font sizes.
 	$fluid_font_size_settings = isset( $preset['fluid'] ) ? $preset['fluid'] : null;
