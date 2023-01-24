@@ -172,9 +172,9 @@ function twentytwentyoneExpandSubMenu( el ) { // jshint ignore:line
 		 *
 		 * @since Twenty Twenty-One 1.1
 		 */
-		document.addEventListener( 'click', function( event ) {
+		document.getElementById( 'site-navigation' ).addEventListener( 'click', function( event ) {
 			// If target onclick is <a> with # within the href attribute
-			if ( event.target.hash && event.target.hash.includes( '#' ) ) {
+			if ( event.target.hash ) {
 				wrapper.classList.remove( id + '-navigation-open', 'lock-scrolling' );
 				twentytwentyoneToggleAriaExpanded( mobileButton );
 				// Wait 550 and scroll to the anchor.
