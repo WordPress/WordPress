@@ -373,18 +373,18 @@ class WP_Theme_JSON_Resolver {
 	/**
 	 * When given an array, this will remove any keys with the name `//`.
 	 *
-	 * @param array $array The array to filter.
+	 * @param array $input_array The array to filter.
 	 * @return array The filtered array.
 	 */
-	private static function remove_json_comments( $array ) {
-		unset( $array['//'] );
-		foreach ( $array as $k => $v ) {
+	private static function remove_json_comments( $input_array ) {
+		unset( $input_array['//'] );
+		foreach ( $input_array as $k => $v ) {
 			if ( is_array( $v ) ) {
-				$array[ $k ] = static::remove_json_comments( $v );
+				$input_array[ $k ] = static::remove_json_comments( $v );
 			}
 		}
 
-		return $array;
+		return $input_array;
 	}
 
 	/**
