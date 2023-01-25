@@ -130,10 +130,10 @@ function wp_tinycolor_rgb_to_rgb( $rgb_color ) {
  */
 function wp_tinycolor_hue_to_rgb( $p, $q, $t ) {
 	if ( $t < 0 ) {
-		$t += 1;
+		++$t;
 	}
 	if ( $t > 1 ) {
-		$t -= 1;
+		--$t;
 	}
 	if ( $t < 1 / 6 ) {
 		return $p + ( $q - $p ) * 6 * $t;
