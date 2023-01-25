@@ -2111,7 +2111,7 @@ class WP_Theme_JSON {
 					// support features use the same custom selector.
 					if ( isset( $feature_declarations[ $feature_selector ] ) ) {
 						foreach ( $new_feature_declarations as $new_feature_declaration ) {
-							$feature_declarations[ $feature_selector ][] = $feature_declaration;
+							$feature_declarations[ $feature_selector ][] = $new_feature_declaration;
 						}
 					} else {
 						$feature_declarations[ $feature_selector ] = $new_feature_declarations;
