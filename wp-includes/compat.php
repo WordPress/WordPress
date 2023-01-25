@@ -56,7 +56,7 @@ if ( ! function_exists( 'mb_substr' ) ) :
 	 * @param string|null $encoding Optional. Character encoding to use. Default null.
 	 * @return string Extracted substring.
 	 */
-	function mb_substr( $string, $start, $length = null, $encoding = null ) {
+	function mb_substr( $string, $start, $length = null, $encoding = null ) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.stringFound
 		return _mb_substr( $string, $start, $length, $encoding );
 	}
 endif;
@@ -148,7 +148,7 @@ if ( ! function_exists( 'mb_strlen' ) ) :
 	 * @param string|null $encoding Optional. Character encoding to use. Default null.
 	 * @return int String length of `$string`.
 	 */
-	function mb_strlen( $string, $encoding = null ) {
+	function mb_strlen( $string, $encoding = null ) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.stringFound
 		return _mb_strlen( $string, $encoding );
 	}
 endif;
@@ -393,7 +393,7 @@ if ( ! function_exists( 'array_key_first' ) ) {
 	 * @return string|int|null The first key of array if the array
 	 *                         is not empty; `null` otherwise.
 	 */
-	function array_key_first( array $array ) {
+	function array_key_first( array $array ) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.arrayFound
 		foreach ( $array as $key => $value ) {
 			return $key;
 		}
@@ -413,7 +413,7 @@ if ( ! function_exists( 'array_key_last' ) ) {
 	 * @return string|int|null The last key of array if the array
 	 *.                        is not empty; `null` otherwise.
 	 */
-	function array_key_last( array $array ) {
+	function array_key_last( array $array ) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.arrayFound
 		if ( empty( $array ) ) {
 			return null;
 		}
