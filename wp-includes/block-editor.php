@@ -495,6 +495,7 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
 	}
 
 	$editor_settings['__unstableResolvedAssets']         = _wp_get_iframed_editor_assets();
+	$editor_settings['__unstableIsBlockBasedTheme']      = wp_is_block_theme();
 	$editor_settings['localAutosaveInterval']            = 15;
 	$editor_settings['disableLayoutStyles']              = current_theme_supports( 'disable-layout-styles' );
 	$editor_settings['__experimentalDiscussionSettings'] = array(
