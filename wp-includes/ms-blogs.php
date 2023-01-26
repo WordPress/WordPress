@@ -575,7 +575,7 @@ function switch_to_blog( $new_blog_id, $deprecated = null ) {
 				);
 			}
 
-			wp_cache_add_non_persistent_groups( array( 'counts', 'plugins' ) );
+			wp_cache_add_non_persistent_groups( array( 'counts', 'plugins', 'theme_json' ) );
 		}
 	}
 
@@ -666,7 +666,7 @@ function restore_current_blog() {
 				);
 			}
 
-			wp_cache_add_non_persistent_groups( array( 'counts', 'plugins' ) );
+			wp_cache_add_non_persistent_groups( array( 'counts', 'plugins', 'theme_json' ) );
 		}
 	}
 

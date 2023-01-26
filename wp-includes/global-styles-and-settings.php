@@ -85,18 +85,34 @@ function wp_get_global_styles( $path = array(), $context = array() ) {
  * @return string Stylesheet.
  */
 function wp_get_global_stylesheet( $types = array() ) {
-	// Return cached value if it can be used and exists.
-	// It's cached by theme to make sure that theme switching clears the cache.
-	$can_use_cached = (
-		( empty( $types ) ) &&
-		( ! defined( 'WP_DEBUG' ) || ! WP_DEBUG ) &&
-		( ! defined( 'SCRIPT_DEBUG' ) || ! SCRIPT_DEBUG ) &&
-		( ! defined( 'REST_REQUEST' ) || ! REST_REQUEST ) &&
-		! is_admin()
-	);
-	$transient_name = 'global_styles_' . get_stylesheet();
+	/*
+	 * Ignore cache when `WP_DEBUG` is enabled, so it doesn't interfere with the theme
+	 * developer's workflow.
+	 *
+	 * @todo Replace `WP_DEBUG` once an "in development mode" check is available in Core.
+	 */
+	$can_use_cached = empty( $types ) && ! WP_DEBUG;
+
+	/*
+	 * By using the 'theme_json' group, this data is marked to be non-persistent across requests.
+	 * @see `wp_cache_add_non_persistent_groups()`.
+	 *
+	 * The rationale for this is to make sure derived data from theme.json
+	 * is always fresh from the potential modifications done via hooks
+	 * that can use dynamic data (modify the stylesheet depending on some option,
+	 * settings depending on user permissions, etc.).
+	 * See some of the existing hooks to modify theme.json behavior:
+	 * @see https://make.wordpress.org/core/2022/10/10/filters-for-theme-json-data/
+	 *
+	 * A different alternative considered was to invalidate the cache upon certain
+	 * events such as options add/update/delete, user meta, etc.
+	 * It was judged not enough, hence this approach.
+	 * @see https://github.com/WordPress/gutenberg/pull/45372
+	 */
+	$cache_group = 'theme_json';
+	$cache_key   = 'wp_get_global_stylesheet';
 	if ( $can_use_cached ) {
-		$cached = get_transient( $transient_name );
+		$cached = wp_cache_get( $cache_key, $cache_group );
 		if ( $cached ) {
 			return $cached;
 		}
@@ -152,11 +168,8 @@ function wp_get_global_stylesheet( $types = array() ) {
 	}
 
 	$stylesheet = $styles_variables . $styles_rest;
-
 	if ( $can_use_cached ) {
-		// Cache for a minute.
-		// This cache doesn't need to be any longer, we only want to avoid spikes on high-traffic sites.
-		set_transient( $transient_name, $stylesheet, MINUTE_IN_SECONDS );
+		wp_cache_set( $cache_key, $stylesheet, $cache_group );
 	}
 
 	return $stylesheet;
@@ -303,5 +316,6 @@ function wp_theme_has_theme_json() {
  * @since 6.2.0
  */
 function wp_clean_theme_json_cache() {
+	wp_cache_delete( 'wp_get_global_stylesheet', 'theme_json' );
 	WP_Theme_JSON_Resolver::clean_cached_data();
 }
