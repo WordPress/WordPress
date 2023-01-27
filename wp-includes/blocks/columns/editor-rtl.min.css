@@ -1,1 +1,1 @@
-.wp-block-columns :where(.wp-block){max-width:none;margin-right:0;margin-left:0}html :where(.wp-block-column){margin-top:0;margin-bottom:0}
+.wp-block-columns :where(.wp-block){margin-left:0;margin-right:0;max-width:none}html :where(.wp-block-column){margin-bottom:0;margin-top:0}

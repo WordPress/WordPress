@@ -1604,7 +1604,6 @@ p.customize-section-description {
 	font-family: Consolas, Monaco, monospace;
 	font-size: 12px;
 	padding: 6px 8px;
-	-o-tab-size: 2;
 	tab-size: 2;
 }
 .customize-control-code_editor textarea,
