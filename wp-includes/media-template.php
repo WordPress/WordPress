@@ -529,6 +529,10 @@ function wp_print_media_templates() {
 					<# } #>
 					<a href="{{ data.editLink }}"><?php _e( 'Edit more details' ); ?></a>
 				<# } #>
+				<# if ( data.can.save && data.link ) { #>
+					<span class="links-separator">|</span>
+					<a href="{{ data.url }}" download><?php _e( 'Download file' ); ?></a>
+				<# } #>
 				<# if ( ! data.uploading && data.can.remove ) { #>
 					<# if ( data.link || data.can.save ) { #>
 						<span class="links-separator">|</span>
