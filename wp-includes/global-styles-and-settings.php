@@ -25,15 +25,65 @@
  */
 function wp_get_global_settings( $path = array(), $context = array() ) {
 	if ( ! empty( $context['block_name'] ) ) {
-		$path = array_merge( array( 'blocks', $context['block_name'] ), $path );
+		$new_path = array( 'blocks', $context['block_name'] );
+		foreach ( $path as $subpath ) {
+			$new_path[] = $subpath;
+		}
+		$path = $new_path;
 	}
 
+	/*
+	 * This is the default value when no origin is provided or when it is 'all'.
+	 *
+	 * The $origin is used as part of the cache key. Changes here need to account
+	 * for clearing the cache appropriately.
+	 */
 	$origin = 'custom';
-	if ( isset( $context['origin'] ) && 'base' === $context['origin'] ) {
+	if (
+		! wp_theme_has_theme_json() ||
+		( isset( $context['origin'] ) && 'base' === $context['origin'] )
+	) {
 		$origin = 'theme';
 	}
 
-	$settings = WP_Theme_JSON_Resolver::get_merged_data( $origin )->get_settings();
+	/*
+	 * By using the 'theme_json' group, this data is marked to be non-persistent across requests.
+	 * See `wp_cache_add_non_persistent_groups` in src/wp-includes/load.php and other places.
+	 *
+	 * The rationale for this is to make sure derived data from theme.json
+	 * is always fresh from the potential modifications done via hooks
+	 * that can use dynamic data (modify the stylesheet depending on some option,
+	 * settings depending on user permissions, etc.).
+	 * See some of the existing hooks to modify theme.json behaviour:
+	 * https://make.wordpress.org/core/2022/10/10/filters-for-theme-json-data/
+	 *
+	 * A different alternative considered was to invalidate the cache upon certain
+	 * events such as options add/update/delete, user meta, etc.
+	 * It was judged not enough, hence this approach.
+	 * See https://github.com/WordPress/gutenberg/pull/45372
+	 */
+	$cache_group = 'theme_json';
+	$cache_key   = 'wp_get_global_settings_' . $origin;
+
+	/*
+	 * Ignore cache when `WP_DEBUG` is enabled, so it doesn't interfere with the theme
+	 * developer's workflow.
+	 *
+	 * @todo Replace `WP_DEBUG` once an "in development mode" check is available in Core.
+	 */
+	$can_use_cached = ! WP_DEBUG;
+
+	$settings = false;
+	if ( $can_use_cached ) {
+		$settings = wp_cache_get( $cache_key, $cache_group );
+	}
+
+	if ( false === $settings ) {
+		$settings = WP_Theme_JSON_Resolver::get_merged_data( $origin )->get_settings();
+		if ( $can_use_cached ) {
+			wp_cache_set( $cache_key, $settings, $cache_group );
+		}
+	}
 
 	return _wp_array_get( $settings, $path, $settings );
 }
@@ -317,5 +367,7 @@ function wp_theme_has_theme_json() {
  */
 function wp_clean_theme_json_cache() {
 	wp_cache_delete( 'wp_get_global_stylesheet', 'theme_json' );
+	wp_cache_delete( 'wp_get_global_settings_custom', 'theme_json' );
+	wp_cache_delete( 'wp_get_global_settings_theme', 'theme_json' );
 	WP_Theme_JSON_Resolver::clean_cached_data();
 }
