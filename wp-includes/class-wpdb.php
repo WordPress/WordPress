@@ -1561,7 +1561,9 @@ class wpdb {
 			$format = substr( $placeholder, 1, -1 );
 			$type   = substr( $placeholder, -1 );
 
-			if ( 'f' === $type && true === $this->allow_unsafe_unquoted_parameters && str_ends_with( $split_query[ $key - 1 ], '%' ) ) {
+			if ( 'f' === $type && true === $this->allow_unsafe_unquoted_parameters
+				&& 0 === substr_compare( $split_query[ $key - 1 ], '%', -1, 1 )
+			) {
 
 				/*
 				 * Before WP 6.2 the "force floats to be locale-unaware" RegEx didn't
@@ -1620,7 +1622,9 @@ class wpdb {
 					 * First, "numbered or formatted string placeholders (eg, %1$s, %5s)".
 					 * Second, if "%s" has a "%" before it, even if it's unrelated (e.g. "LIKE '%%%s%%'").
 					 */
-					if ( true !== $this->allow_unsafe_unquoted_parameters || ( '' === $format && ! str_ends_with( $split_query[ $key - 1 ], '%' ) ) ) {
+					if ( true !== $this->allow_unsafe_unquoted_parameters
+						|| ( '' === $format && 0 !== substr_compare( $split_query[ $key - 1 ], '%', -1, 1 ) )
+					) {
 						$placeholder = "'%" . $format . "s'";
 					}
 				}
