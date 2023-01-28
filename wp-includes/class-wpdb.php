@@ -1562,7 +1562,7 @@ class wpdb {
 			$type   = substr( $placeholder, -1 );
 
 			if ( 'f' === $type && true === $this->allow_unsafe_unquoted_parameters
-				&& 0 === substr_compare( $split_query[ $key - 1 ], '%', -1, 1 )
+				&& '%' === substr( $split_query[ $key - 1 ], -1, 1 )
 			) {
 
 				/*
@@ -1623,7 +1623,7 @@ class wpdb {
 					 * Second, if "%s" has a "%" before it, even if it's unrelated (e.g. "LIKE '%%%s%%'").
 					 */
 					if ( true !== $this->allow_unsafe_unquoted_parameters
-						|| ( '' === $format && 0 !== substr_compare( $split_query[ $key - 1 ], '%', -1, 1 ) )
+						|| ( '' === $format && '%' !== substr( $split_query[ $key - 1 ], -1, 1 ) )
 					) {
 						$placeholder = "'%" . $format . "s'";
 					}
