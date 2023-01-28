@@ -497,11 +497,12 @@ class WP_Media_List_Table extends WP_List_Table {
 	 * Handles the description column output.
 	 *
 	 * @since 4.3.0
+	 * @deprecated 6.2.0
 	 *
 	 * @param WP_Post $post The current WP_Post object.
 	 */
 	public function column_desc( $post ) {
-		echo has_excerpt() ? $post->post_excerpt : '';
+		_deprecated_function( __METHOD__, '6.2.0' );
 	}
 
 	/**
