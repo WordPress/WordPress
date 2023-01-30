@@ -1665,7 +1665,32 @@ function switch_to_locale( $locale ) {
 	/* @var WP_Locale_Switcher $wp_locale_switcher */
 	global $wp_locale_switcher;
 
+	if ( ! $wp_locale_switcher ) {
+		return false;
+	}
+
 	return $wp_locale_switcher->switch_to_locale( $locale );
+}
+
+/**
+ * Switches the translations according to the given user's locale.
+ *
+ * @since 6.2.0
+ *
+ * @global WP_Locale_Switcher $wp_locale_switcher WordPress locale switcher object.
+ *
+ * @param int $user_id User ID.
+ * @return bool True on success, false on failure.
+ */
+function switch_to_user_locale( $user_id ) {
+	/* @var WP_Locale_Switcher $wp_locale_switcher */
+	global $wp_locale_switcher;
+
+	if ( ! $wp_locale_switcher ) {
+		return false;
+	}
+
+	return $wp_locale_switcher->switch_to_user_locale( $user_id );
 }
 
 /**
@@ -1680,6 +1705,10 @@ function switch_to_locale( $locale ) {
 function restore_previous_locale() {
 	/* @var WP_Locale_Switcher $wp_locale_switcher */
 	global $wp_locale_switcher;
+
+	if ( ! $wp_locale_switcher ) {
+		return false;
+	}
 
 	return $wp_locale_switcher->restore_previous_locale();
 }
@@ -1696,6 +1725,10 @@ function restore_previous_locale() {
 function restore_current_locale() {
 	/* @var WP_Locale_Switcher $wp_locale_switcher */
 	global $wp_locale_switcher;
+
+	if ( ! $wp_locale_switcher ) {
+		return false;
+	}
 
 	return $wp_locale_switcher->restore_current_locale();
 }

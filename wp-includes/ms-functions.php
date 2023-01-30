@@ -954,7 +954,7 @@ function wpmu_signup_blog_notification( $domain, $path, $title, $user_login, $us
 	$message_headers = "From: \"{$from_name}\" <{$admin_email}>\n" . 'Content-Type: text/plain; charset="' . get_option( 'blog_charset' ) . "\"\n";
 
 	$user            = get_user_by( 'login', $user_login );
-	$switched_locale = switch_to_locale( get_user_locale( $user ) );
+	$switched_locale = $user && switch_to_user_locale( $user->ID );
 
 	$message = sprintf(
 		/**
@@ -1068,7 +1068,7 @@ function wpmu_signup_user_notification( $user_login, $user_email, $key, $meta = 
 	}
 
 	$user            = get_user_by( 'login', $user_login );
-	$switched_locale = switch_to_locale( get_user_locale( $user ) );
+	$switched_locale = $user && switch_to_user_locale( $user->ID );
 
 	// Send email with activation link.
 	$admin_email = get_site_option( 'admin_email' );
@@ -1610,7 +1610,7 @@ function wpmu_welcome_notification( $blog_id, $user_id, $password, $title, $meta
 
 	$user = get_userdata( $user_id );
 
-	$switched_locale = switch_to_locale( get_user_locale( $user ) );
+	$switched_locale = switch_to_user_locale( $user_id );
 
 	$welcome_email = get_site_option( 'welcome_email' );
 	if ( false == $welcome_email ) {
@@ -1734,7 +1734,7 @@ function wpmu_new_site_admin_notification( $site_id, $user_id ) {
 
 	if ( $network_admin ) {
 		// If the network admin email address corresponds to a user, switch to their locale.
-		$switched_locale = switch_to_locale( get_user_locale( $network_admin ) );
+		$switched_locale = switch_to_user_locale( $network_admin->ID );
 	} else {
 		// Otherwise switch to the locale of the current site.
 		$switched_locale = switch_to_locale( get_locale() );
@@ -1843,7 +1843,7 @@ function wpmu_welcome_user_notification( $user_id, $password, $meta = array() ) 
 
 	$user = get_userdata( $user_id );
 
-	$switched_locale = switch_to_locale( get_user_locale( $user ) );
+	$switched_locale = switch_to_user_locale( $user_id );
 
 	/**
 	 * Filters the content of the welcome email after user activation.
@@ -2726,7 +2726,7 @@ function update_network_option_new_admin_email( $old_value, $value ) {
 	);
 	update_site_option( 'network_admin_hash', $new_admin_email );
 
-	$switched_locale = switch_to_locale( get_user_locale() );
+	$switched_locale = switch_to_user_locale( get_current_user_id() );
 
 	/* translators: Do not translate USERNAME, ADMIN_URL, EMAIL, SITENAME, SITEURL: those are placeholders. */
 	$email_text = __(

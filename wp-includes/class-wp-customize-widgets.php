@@ -1264,7 +1264,7 @@ final class WP_Customize_Widgets {
 	public function export_preview_data() {
 		global $wp_registered_sidebars, $wp_registered_widgets;
 
-		$switched_locale = switch_to_locale( get_user_locale() );
+		$switched_locale = switch_to_user_locale( get_current_user_id() );
 
 		$l10n = array(
 			'widgetTooltip' => __( 'Shift-click to edit this widget.' ),

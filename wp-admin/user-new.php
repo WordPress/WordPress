@@ -110,7 +110,7 @@ if ( isset( $_REQUEST['action'] ) && 'adduser' === $_REQUEST['action'] ) {
 			 */
 			do_action( 'invite_user', $user_id, $role, $newuser_key );
 
-			$switched_locale = switch_to_locale( get_user_locale( $user_details ) );
+			$switched_locale = switch_to_user_locale( $user_id );
 
 			if ( '' !== get_option( 'blogname' ) ) {
 				$site_title = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
