@@ -1070,7 +1070,7 @@ if ( ! function_exists( 'wp_set_auth_cookie' ) ) :
 		 * Allows preventing auth cookies from actually being sent to the client.
 		 *
 		 * @since 4.7.4
-		 * @since 6.2.0 The `$user_id`, `$expire`, `$expiration`, an `$token` parameters were added.
+		 * @since 6.2.0 The `$user_id`, `$expire`, `$expiration`, and `$token` parameters were added.
 		 *
 		 * @param bool   $send       Whether to send auth cookies to the client. Default true.
 		 * @param int    $user_id    User ID. Zero when clearing cookies.
