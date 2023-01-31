@@ -173,6 +173,7 @@ class WP_REST_Block_Patterns_Controller extends WP_REST_Controller {
 			'keywords'      => 'keywords',
 			'content'       => 'content',
 			'inserter'      => 'inserter',
+			'templateTypes' => 'template_types',
 		);
 		$data   = array();
 		foreach ( $keys as $item_key => $rest_key ) {
@@ -244,6 +245,12 @@ class WP_REST_Block_Patterns_Controller extends WP_REST_Controller {
 				),
 				'keywords'       => array(
 					'description' => __( 'The pattern keywords.' ),
+					'type'        => 'array',
+					'readonly'    => true,
+					'context'     => array( 'view', 'edit', 'embed' ),
+				),
+				'template_types' => array(
+					'description' => __( 'An array of template types where the pattern fits.' ),
 					'type'        => 'array',
 					'readonly'    => true,
 					'context'     => array( 'view', 'edit', 'embed' ),
