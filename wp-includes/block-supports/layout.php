@@ -316,16 +316,17 @@ function wp_render_layout_support_flag( $block_content, $block ) {
 		return $block_content;
 	}
 
-	$block_gap              = wp_get_global_settings( array( 'spacing', 'blockGap' ) );
-	$global_layout_settings = wp_get_global_settings( array( 'layout' ) );
-	$has_block_gap_support  = isset( $block_gap ) ? null !== $block_gap : false;
-	$default_block_layout   = _wp_array_get( $block_type->supports, array( '__experimentalLayout', 'default' ), array() );
-	$used_layout            = isset( $block['attrs']['layout'] ) ? $block['attrs']['layout'] : $default_block_layout;
+	$global_settings               = wp_get_global_settings();
+	$block_gap                     = _wp_array_get( $global_settings, array( 'spacing', 'blockGap' ), null );
+	$has_block_gap_support         = isset( $block_gap );
+	$global_layout_settings        = _wp_array_get( $global_settings, array( 'layout' ), null );
+	$root_padding_aware_alignments = _wp_array_get( $global_settings, array( 'useRootPaddingAwareAlignments' ), false );
 
-	if ( isset( $used_layout['inherit'] ) && $used_layout['inherit'] ) {
-		if ( ! $global_layout_settings ) {
-			return $block_content;
-		}
+	$default_block_layout = _wp_array_get( $block_type->supports, array( '__experimentalLayout', 'default' ), array() );
+	$used_layout          = isset( $block['attrs']['layout'] ) ? $block['attrs']['layout'] : $default_block_layout;
+
+	if ( isset( $used_layout['inherit'] ) && $used_layout['inherit'] && ! $global_layout_settings ) {
+		return $block_content;
 	}
 
 	$class_names        = array();
@@ -340,7 +341,7 @@ function wp_render_layout_support_flag( $block_content, $block ) {
 	}
 
 	if (
-		wp_get_global_settings( array( 'useRootPaddingAwareAlignments' ) ) &&
+		$root_padding_aware_alignments &&
 		isset( $used_layout['type'] ) &&
 		'constrained' === $used_layout['type']
 	) {
