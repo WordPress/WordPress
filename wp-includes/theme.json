@@ -325,6 +325,20 @@
 				}
 			}
 		},
+		"shadow": {
+			"presets": [
+				{
+					"name": "Natural",
+					"slug": "natural",
+					"shadow": "0 .2rem .3rem 0 rgba(0,0,0, 0.3), 0 .5rem .6rem 0 rgba(0,0,0, 0.4)"
+				},
+				{
+					"name": "Sharp",
+					"slug": "sharp",
+					"shadow": ".5rem .5rem 0 0 rgba(0,0,0, 0.4)"
+				}
+			]
+		},
 		"spacing": {
 			"blockGap": null,
 			"margin": false,

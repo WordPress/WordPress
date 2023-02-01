@@ -115,6 +115,7 @@ class WP_Theme_JSON {
 	 *              `use_default_names` preset key, and simplified the metadata structure.
 	 * @since 6.0.0 Replaced `override` with `prevent_override` and updated the
 	 *              `prevent_override` value for `color.duotone` to use `color.defaultDuotone`.
+	 * @since 6.2.0 Added 'shadow' presets.
 	 * @var array
 	 */
 	const PRESETS_METADATA = array(
@@ -175,6 +176,15 @@ class WP_Theme_JSON {
 			'css_vars'          => '--wp--preset--spacing--$slug',
 			'classes'           => array(),
 			'properties'        => array( 'padding', 'margin' ),
+		),
+		array(
+			'path'              => array( 'shadow', 'presets' ),
+			'prevent_override'  => array( 'shadow', 'defaultPresets' ),
+			'use_default_names' => false,
+			'value_key'         => 'shadow',
+			'css_vars'          => '--wp--preset--shadow--$slug',
+			'classes'           => array(),
+			'properties'        => array( 'box-shadow' ),
 		),
 	);
 
@@ -294,7 +304,7 @@ class WP_Theme_JSON {
 	 *              and `typography`, and renamed others according to the new schema.
 	 * @since 6.0.0 Added `color.defaultDuotone`.
 	 * @since 6.1.0 Added `layout.definitions` and `useRootPaddingAwareAlignments`.
-	 * @since 6.2.0 Added `dimensions.minHeight`.
+	 * @since 6.2.0 Added `dimensions.minHeight`, 'shadow.presets', and 'shadow.defaultPresets'.
 	 * @var array
 	 */
 	const VALID_SETTINGS = array(
@@ -337,6 +347,10 @@ class WP_Theme_JSON {
 			'margin'            => null,
 			'padding'           => null,
 			'units'             => null,
+		),
+		'shadow'                        => array(
+			'presets'        => null,
+			'defaultPresets' => null,
 		),
 		'typography'                    => array(
 			'fluid'          => null,
