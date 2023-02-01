@@ -431,6 +431,7 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Controller {
 	 * Get the link relations available for the post and current user.
 	 *
 	 * @since 5.9.0
+	 * @since 6.2.0 Added 'edit-css' action.
 	 *
 	 * @return array List of link relations.
 	 */
@@ -440,6 +441,10 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Controller {
 		$post_type = get_post_type_object( $this->post_type );
 		if ( current_user_can( $post_type->cap->publish_posts ) ) {
 			$rels[] = 'https://api.w.org/action-publish';
+		}
+
+		if ( current_user_can( 'edit_css' ) ) {
+			$rels[] = 'https://api.w.org/action-edit-css';
 		}
 
 		return $rels;
