@@ -63,6 +63,7 @@ class WP_oEmbed {
 			'#https?://(.+\.)?smugmug\.com/.*#i'           => array( 'https://api.smugmug.com/services/oembed/', true ),
 			'#https?://(www\.)?scribd\.com/(doc|document)/.*#i' => array( 'https://www.scribd.com/services/oembed', true ),
 			'#https?://wordpress\.tv/.*#i'                 => array( 'https://wordpress.tv/oembed/', true ),
+			'#https?://(.+\.)?crowdsignal\.net/.*#i'       => array( 'https://api.crowdsignal.com/oembed', true ),
 			'#https?://(.+\.)?polldaddy\.com/.*#i'         => array( 'https://api.crowdsignal.com/oembed', true ),
 			'#https?://poll\.fm/.*#i'                      => array( 'https://api.crowdsignal.com/oembed', true ),
 			'#https?://(.+\.)?survey\.fm/.*#i'             => array( 'https://api.crowdsignal.com/oembed', true ),
@@ -184,6 +185,7 @@ class WP_oEmbed {
 		 * | Pinterest    | pinterest.com                             | 5.9.0   |
 		 * | WolframCloud | wolframcloud.com                          | 5.9.0   |
 		 * | Pocket Casts | pocketcasts.com                           | 6.1.0   |
+		 * | Crowdsignal  | crowdsignal.net                           | 6.2.0   |
 		 *
 		 * No longer supported providers:
 		 *
