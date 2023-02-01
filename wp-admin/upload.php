@@ -219,6 +219,7 @@ if ( $doaction ) {
 	} elseif ( isset( $_REQUEST['ids'] ) ) {
 		$post_ids = explode( ',', $_REQUEST['ids'] );
 	}
+	$post_ids = array_map( 'intval', (array) $post_ids );
 
 	$location = 'upload.php';
 	$referer  = wp_get_referer();
@@ -241,7 +242,7 @@ if ( $doaction ) {
 			if ( empty( $post_ids ) ) {
 				break;
 			}
-			foreach ( (array) $post_ids as $post_id ) {
+			foreach ( $post_ids as $post_id ) {
 				if ( ! current_user_can( 'delete_post', $post_id ) ) {
 					wp_die( __( 'Sorry, you are not allowed to move this item to the Trash.' ) );
 				}
@@ -262,7 +263,7 @@ if ( $doaction ) {
 			if ( empty( $post_ids ) ) {
 				break;
 			}
-			foreach ( (array) $post_ids as $post_id ) {
+			foreach ( $post_ids as $post_id ) {
 				if ( ! current_user_can( 'delete_post', $post_id ) ) {
 					wp_die( __( 'Sorry, you are not allowed to restore this item from the Trash.' ) );
 				}
@@ -277,7 +278,7 @@ if ( $doaction ) {
 			if ( empty( $post_ids ) ) {
 				break;
 			}
-			foreach ( (array) $post_ids as $post_id_del ) {
+			foreach ( $post_ids as $post_id_del ) {
 				if ( ! current_user_can( 'delete_post', $post_id_del ) ) {
 					wp_die( __( 'Sorry, you are not allowed to delete this item.' ) );
 				}
