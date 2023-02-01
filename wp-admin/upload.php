@@ -13,6 +13,90 @@ if ( ! current_user_can( 'upload_files' ) ) {
 	wp_die( __( 'Sorry, you are not allowed to upload files.' ) );
 }
 
+$message = '';
+if ( ! empty( $_GET['posted'] ) ) {
+	$message                = __( 'Media file updated.' );
+	$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'posted' ), $_SERVER['REQUEST_URI'] );
+	unset( $_GET['posted'] );
+}
+
+if ( ! empty( $_GET['attached'] ) && absint( $_GET['attached'] ) ) {
+	$attached = absint( $_GET['attached'] );
+	if ( 1 === $attached ) {
+		$message = __( 'Media file attached.' );
+	} else {
+		/* translators: %s: Number of media files. */
+		$message = _n( '%s media file attached.', '%s media files attached.', $attached );
+	}
+	$message                = sprintf( $message, $attached );
+	$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'detach', 'attached' ), $_SERVER['REQUEST_URI'] );
+	unset( $_GET['detach'], $_GET['attached'] );
+}
+
+if ( ! empty( $_GET['detach'] ) && absint( $_GET['detach'] ) ) {
+	$detached = absint( $_GET['detach'] );
+	if ( 1 === $detached ) {
+		$message = __( 'Media file detached.' );
+	} else {
+		/* translators: %s: Number of media files. */
+		$message = _n( '%s media file detached.', '%s media files detached.', $detached );
+	}
+	$message                = sprintf( $message, $detached );
+	$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'detach', 'attached' ), $_SERVER['REQUEST_URI'] );
+	unset( $_GET['detach'], $_GET['attached'] );
+}
+
+if ( ! empty( $_GET['deleted'] ) && absint( $_GET['deleted'] ) ) {
+	$deleted = absint( $_GET['deleted'] );
+	if ( 1 === $deleted ) {
+		$message = __( 'Media file permanently deleted.' );
+	} else {
+		/* translators: %s: Number of media files. */
+		$message = _n( '%s media file permanently deleted.', '%s media files permanently deleted.', $deleted );
+	}
+	$message                = sprintf( $message, $deleted );
+	$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'deleted' ), $_SERVER['REQUEST_URI'] );
+	unset( $_GET['deleted'] );
+}
+
+if ( ! empty( $_GET['trashed'] ) && absint( $_GET['trashed'] ) ) {
+	$trashed = absint( $_GET['trashed'] );
+	if ( 1 === $trashed ) {
+		$message = __( 'Media file moved to the Trash.' );
+	} else {
+		/* translators: %s: Number of media files. */
+		$message = _n( '%s media file moved to the Trash.', '%s media files moved to the Trash.', $trashed );
+	}
+	$message                = sprintf( $message, $trashed );
+	$message               .= ' <a href="' . esc_url( wp_nonce_url( 'upload.php?doaction=undo&action=untrash&ids=' . ( isset( $_GET['ids'] ) ? $_GET['ids'] : '' ), 'bulk-media' ) ) . '">' . __( 'Undo' ) . '</a>';
+	$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'trashed' ), $_SERVER['REQUEST_URI'] );
+	unset( $_GET['trashed'] );
+}
+
+if ( ! empty( $_GET['untrashed'] ) && absint( $_GET['untrashed'] ) ) {
+	$untrashed = absint( $_GET['untrashed'] );
+	if ( 1 === $untrashed ) {
+		$message = __( 'Media file restored from the Trash.' );
+	} else {
+		/* translators: %s: Number of media files. */
+		$message = _n( '%s media file restored from the Trash.', '%s media files restored from the Trash.', $untrashed );
+	}
+	$message                = sprintf( $message, $untrashed );
+	$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'untrashed' ), $_SERVER['REQUEST_URI'] );
+	unset( $_GET['untrashed'] );
+}
+
+$messages[1] = __( 'Media file updated.' );
+$messages[2] = __( 'Media file permanently deleted.' );
+$messages[3] = __( 'Error saving media file.' );
+$messages[4] = __( 'Media file moved to the Trash.' ) . ' <a href="' . esc_url( wp_nonce_url( 'upload.php?doaction=undo&action=untrash&ids=' . ( isset( $_GET['ids'] ) ? $_GET['ids'] : '' ), 'bulk-media' ) ) . '">' . __( 'Undo' ) . '</a>';
+$messages[5] = __( 'Media file restored from the Trash.' );
+
+if ( ! empty( $_GET['message'] ) && isset( $messages[ $_GET['message'] ] ) ) {
+	$message                = $messages[ $_GET['message'] ];
+	$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'message' ), $_SERVER['REQUEST_URI'] );
+}
+
 $mode  = get_user_option( 'media_library_mode', get_current_user_id() ) ? get_user_option( 'media_library_mode', get_current_user_id() ) : 'grid';
 $modes = array( 'grid', 'list' );
 
@@ -94,6 +178,10 @@ if ( 'grid' === $mode ) {
 		?>
 
 		<hr class="wp-header-end">
+
+		<?php if ( ! empty( $message ) ) : ?>
+			<div id="message" class="updated notice is-dismissible"><p><?php echo $message; ?></p></div>
+		<?php endif; ?>
 
 		<div class="error hide-if-js">
 			<p>
@@ -297,89 +385,9 @@ if ( isset( $_REQUEST['s'] ) && strlen( $_REQUEST['s'] ) ) {
 
 <hr class="wp-header-end">
 
-<?php
-$message = '';
-if ( ! empty( $_GET['posted'] ) ) {
-	$message                = __( 'Media file updated.' );
-	$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'posted' ), $_SERVER['REQUEST_URI'] );
-}
-
-if ( ! empty( $_GET['attached'] ) && absint( $_GET['attached'] ) ) {
-	$attached = absint( $_GET['attached'] );
-	if ( 1 === $attached ) {
-		$message = __( 'Media file attached.' );
-	} else {
-		/* translators: %s: Number of media files. */
-		$message = _n( '%s media file attached.', '%s media files attached.', $attached );
-	}
-	$message                = sprintf( $message, number_format_i18n( $attached ) );
-	$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'detach', 'attached' ), $_SERVER['REQUEST_URI'] );
-}
-
-if ( ! empty( $_GET['detach'] ) && absint( $_GET['detach'] ) ) {
-	$detached = absint( $_GET['detach'] );
-	if ( 1 === $detached ) {
-		$message = __( 'Media file detached.' );
-	} else {
-		/* translators: %s: Number of media files. */
-		$message = _n( '%s media file detached.', '%s media files detached.', $detached );
-	}
-	$message                = sprintf( $message, number_format_i18n( $detached ) );
-	$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'detach', 'attached' ), $_SERVER['REQUEST_URI'] );
-}
-
-if ( ! empty( $_GET['deleted'] ) && absint( $_GET['deleted'] ) ) {
-	$deleted = absint( $_GET['deleted'] );
-	if ( 1 === $deleted ) {
-		$message = __( 'Media file permanently deleted.' );
-	} else {
-		/* translators: %s: Number of media files. */
-		$message = _n( '%s media file permanently deleted.', '%s media files permanently deleted.', $deleted );
-	}
-	$message                = sprintf( $message, number_format_i18n( $deleted ) );
-	$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'deleted' ), $_SERVER['REQUEST_URI'] );
-}
-
-if ( ! empty( $_GET['trashed'] ) && absint( $_GET['trashed'] ) ) {
-	$trashed = absint( $_GET['trashed'] );
-	if ( 1 === $trashed ) {
-		$message = __( 'Media file moved to the Trash.' );
-	} else {
-		/* translators: %s: Number of media files. */
-		$message = _n( '%s media file moved to the Trash.', '%s media files moved to the Trash.', $trashed );
-	}
-	$message                = sprintf( $message, number_format_i18n( $trashed ) );
-	$message               .= ' <a href="' . esc_url( wp_nonce_url( 'upload.php?doaction=undo&action=untrash&ids=' . ( isset( $_GET['ids'] ) ? $_GET['ids'] : '' ), 'bulk-media' ) ) . '">' . __( 'Undo' ) . '</a>';
-	$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'trashed' ), $_SERVER['REQUEST_URI'] );
-}
-
-if ( ! empty( $_GET['untrashed'] ) && absint( $_GET['untrashed'] ) ) {
-	$untrashed = absint( $_GET['untrashed'] );
-	if ( 1 === $untrashed ) {
-		$message = __( 'Media file restored from the Trash.' );
-	} else {
-		/* translators: %s: Number of media files. */
-		$message = _n( '%s media file restored from the Trash.', '%s media files restored from the Trash.', $untrashed );
-	}
-	$message                = sprintf( $message, number_format_i18n( $untrashed ) );
-	$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'untrashed' ), $_SERVER['REQUEST_URI'] );
-}
-
-$messages[1] = __( 'Media file updated.' );
-$messages[2] = __( 'Media file permanently deleted.' );
-$messages[3] = __( 'Error saving media file.' );
-$messages[4] = __( 'Media file moved to the Trash.' ) . ' <a href="' . esc_url( wp_nonce_url( 'upload.php?doaction=undo&action=untrash&ids=' . ( isset( $_GET['ids'] ) ? $_GET['ids'] : '' ), 'bulk-media' ) ) . '">' . __( 'Undo' ) . '</a>';
-$messages[5] = __( 'Media file restored from the Trash.' );
-
-if ( ! empty( $_GET['message'] ) && isset( $messages[ $_GET['message'] ] ) ) {
-	$message                = $messages[ $_GET['message'] ];
-	$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'message' ), $_SERVER['REQUEST_URI'] );
-}
-
-if ( ! empty( $message ) ) {
-	?>
+<?php if ( ! empty( $message ) ) : ?>
 <div id="message" class="updated notice is-dismissible"><p><?php echo $message; ?></p></div>
-<?php } ?>
+<?php endif; ?>
 
 <form id="posts-filter" method="get">
 
