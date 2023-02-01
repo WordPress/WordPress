@@ -29,8 +29,7 @@ function wp_register_dimensions_support( $block_type ) {
 		return;
 	}
 
-	$has_dimensions_support = block_has_support( $block_type, array( '__experimentalDimensions' ), false );
-	// Future block supports such as height & width will be added here.
+	$has_dimensions_support = block_has_support( $block_type, array( 'dimensions' ), false );
 
 	if ( $has_dimensions_support ) {
 		$block_type->attributes['style'] = array(
@@ -44,6 +43,7 @@ function wp_register_dimensions_support( $block_type ) {
  * This will be applied to the block markup in the front-end.
  *
  * @since 5.9.0
+ * @since 6.2.0 Added `minHeight` support.
  * @access private
  *
  * @param WP_Block_Type $block_type       Block Type.
@@ -51,16 +51,31 @@ function wp_register_dimensions_support( $block_type ) {
  * @return array Block dimensions CSS classes and inline styles.
  */
 function wp_apply_dimensions_support( $block_type, $block_attributes ) { // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
-	if ( wp_should_skip_block_supports_serialization( $block_type, '__experimentalDimensions' ) ) {
+	if ( wp_should_skip_block_supports_serialization( $block_type, 'dimensions' ) ) {
 		return array();
 	}
 
-	$styles = array();
+	$attributes = array();
 
-	// Height support to be added in near future.
 	// Width support to be added in near future.
 
-	return empty( $styles ) ? array() : array( 'style' => implode( ' ', $styles ) );
+	$has_min_height_support = block_has_support( $block_type, array( 'dimensions', 'minHeight' ), false );
+	$block_styles           = isset( $block_attributes['style'] ) ? $block_attributes['style'] : null;
+
+	if ( ! $block_styles ) {
+		return $attributes;
+	}
+
+	$skip_min_height                      = wp_should_skip_block_supports_serialization( $block_type, 'dimensions', 'minHeight' );
+	$dimensions_block_styles              = array();
+	$dimensions_block_styles['minHeight'] = $has_min_height_support && ! $skip_min_height ? _wp_array_get( $block_styles, array( 'dimensions', 'minHeight' ), null ) : null;
+	$styles                               = wp_style_engine_get_styles( array( 'dimensions' => $dimensions_block_styles ) );
+
+	if ( ! empty( $styles['css'] ) ) {
+		$attributes['style'] = $styles['css'];
+	}
+
+	return $attributes;
 }
 
 // Register the block support.
