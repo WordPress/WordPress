@@ -298,14 +298,16 @@ function _register_remote_theme_patterns() {
  *
  *   - Description
  *   - Viewport Width
+ *   - Inserter         (yes/no)
  *   - Categories       (comma-separated values)
  *   - Keywords         (comma-separated values)
  *   - Block Types      (comma-separated values)
  *   - Post Types       (comma-separated values)
  *   - Template Types   (comma-separated values)
- *   - Inserter         (yes/no)
  *
  * @since 6.0.0
+ * @since 6.1.0 The `postTypes` property was added.
+ * @since 6.2.0 The `templateTypes` property was added.
  * @access private
  */
 function _register_theme_block_patterns() {
@@ -314,11 +316,11 @@ function _register_theme_block_patterns() {
 		'slug'          => 'Slug',
 		'description'   => 'Description',
 		'viewportWidth' => 'Viewport Width',
+		'inserter'      => 'Inserter',
 		'categories'    => 'Categories',
 		'keywords'      => 'Keywords',
 		'blockTypes'    => 'Block Types',
 		'postTypes'     => 'Post Types',
-		'inserter'      => 'Inserter',
 		'templateTypes' => 'Template Types',
 	);
 

@@ -43,6 +43,8 @@ final class WP_Block_Patterns_Registry {
 	 *
 	 * @since 5.5.0
 	 * @since 5.8.0 Added support for the `blockTypes` property.
+	 * @since 6.1.0 Added support for the `postTypes` property.
+	 * @since 6.2.0 Added support for the `templateTypes` property.
 	 *
 	 * @param string $pattern_name       Block pattern name including namespace.
 	 * @param array  $pattern_properties {
@@ -50,17 +52,18 @@ final class WP_Block_Patterns_Registry {
 	 *
 	 *     @type string $title         Required. A human-readable title for the pattern.
 	 *     @type string $content       Required. Block HTML markup for the pattern.
-	 *     @type string $description   Optional. Visually hidden text used to describe the pattern in the
-	 *                                 inserter. A description is optional, but is strongly
+	 *     @type string $description   Optional. Visually hidden text used to describe the pattern
+	 *                                 in the inserter. A description is optional, but is strongly
 	 *                                 encouraged when the title does not fully describe what the
 	 *                                 pattern does. The description will help users discover the
 	 *                                 pattern while searching.
 	 *     @type int    $viewportWidth Optional. The intended width of the pattern to allow for a scaled
 	 *                                 preview within the pattern inserter.
-	 *     @type array  $categories    Optional. A list of registered pattern categories used to group block
-	 *                                 patterns. Block patterns can be shown on multiple categories.
-	 *                                 A category must be registered separately in order to be used
-	 *                                 here.
+	 *     @type array  $categories    Optional. A list of registered pattern categories used to group
+	 *                                 block patterns. Block patterns can be shown on multiple categories.
+	 *                                 A category must be registered separately in order to be used here.
+	 *     @type array  $keywords      Optional. A list of aliases or keywords that help users discover
+	 *                                 the pattern while searching.
 	 *     @type array  $blockTypes    Optional. A list of block names including namespace that could use
 	 *                                 the block pattern in certain contexts (placeholder, transforms).
 	 *                                 The block pattern is available in the block editor inserter
@@ -68,12 +71,11 @@ final class WP_Block_Patterns_Registry {
 	 *                                 Certain blocks support further specificity besides the block name
 	 *                                 (e.g. for `core/template-part` you can specify areas
 	 *                                 like `core/template-part/header` or `core/template-part/footer`).
-	 *     @type array  $postTypes     An array of post types that the pattern is restricted to be used with.
-	 *                                 The pattern will only be available when editing one of the post types
-	 *                                 passed on the array. For all the other post types not part of the array
-	 *                                 the pattern is not available at all.
-	 *     @type array  $keywords      Optional. A list of aliases or keywords that help users discover the
-	 *                                 pattern while searching.
+	 *     @type array  $postTypes     Optional. An array of post types that the pattern is restricted
+	 *                                 to be used with. The pattern will only be available when editing one
+	 *                                 of the post types passed on the array. For all the other post types
+	 *                                 not part of the array the pattern is not available at all.
+	 *     @type array  $templateTypes Optional. An array of template types where the pattern fits.
 	 * }
 	 * @return bool True if the pattern was registered with success and false otherwise.
 	 */

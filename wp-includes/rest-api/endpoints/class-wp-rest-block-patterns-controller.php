@@ -165,14 +165,14 @@ class WP_REST_Block_Patterns_Controller extends WP_REST_Controller {
 		$keys   = array(
 			'name'          => 'name',
 			'title'         => 'title',
+			'content'       => 'content',
 			'description'   => 'description',
 			'viewportWidth' => 'viewport_width',
-			'blockTypes'    => 'block_types',
-			'postTypes'     => 'post_types',
+			'inserter'      => 'inserter',
 			'categories'    => 'categories',
 			'keywords'      => 'keywords',
-			'content'       => 'content',
-			'inserter'      => 'inserter',
+			'blockTypes'    => 'block_types',
+			'postTypes'     => 'post_types',
 			'templateTypes' => 'template_types',
 		);
 		$data   = array();
@@ -213,6 +213,12 @@ class WP_REST_Block_Patterns_Controller extends WP_REST_Controller {
 					'readonly'    => true,
 					'context'     => array( 'view', 'edit', 'embed' ),
 				),
+				'content'        => array(
+					'description' => __( 'The pattern content.' ),
+					'type'        => 'string',
+					'readonly'    => true,
+					'context'     => array( 'view', 'edit', 'embed' ),
+				),
 				'description'    => array(
 					'description' => __( 'The pattern detailed description.' ),
 					'type'        => 'string',
@@ -225,15 +231,9 @@ class WP_REST_Block_Patterns_Controller extends WP_REST_Controller {
 					'readonly'    => true,
 					'context'     => array( 'view', 'edit', 'embed' ),
 				),
-				'block_types'    => array(
-					'description' => __( 'Block types that the pattern is intended to be used with.' ),
-					'type'        => 'array',
-					'readonly'    => true,
-					'context'     => array( 'view', 'edit', 'embed' ),
-				),
-				'post_types'     => array(
-					'description' => __( 'An array of post types that the pattern is restricted to be used with.' ),
-					'type'        => 'array',
+				'inserter'       => array(
+					'description' => __( 'Determines whether the pattern is visible in inserter.' ),
+					'type'        => 'boolean',
 					'readonly'    => true,
 					'context'     => array( 'view', 'edit', 'embed' ),
 				),
@@ -249,21 +249,21 @@ class WP_REST_Block_Patterns_Controller extends WP_REST_Controller {
 					'readonly'    => true,
 					'context'     => array( 'view', 'edit', 'embed' ),
 				),
-				'template_types' => array(
-					'description' => __( 'An array of template types where the pattern fits.' ),
+				'block_types'    => array(
+					'description' => __( 'Block types that the pattern is intended to be used with.' ),
 					'type'        => 'array',
 					'readonly'    => true,
 					'context'     => array( 'view', 'edit', 'embed' ),
 				),
-				'content'        => array(
-					'description' => __( 'The pattern content.' ),
-					'type'        => 'string',
+				'post_types'     => array(
+					'description' => __( 'An array of post types that the pattern is restricted to be used with.' ),
+					'type'        => 'array',
 					'readonly'    => true,
 					'context'     => array( 'view', 'edit', 'embed' ),
 				),
-				'inserter'       => array(
-					'description' => __( 'Determines whether the pattern is visible in inserter.' ),
-					'type'        => 'boolean',
+				'template_types' => array(
+					'description' => __( 'An array of template types where the pattern fits.' ),
+					'type'        => 'array',
 					'readonly'    => true,
 					'context'     => array( 'view', 'edit', 'embed' ),
 				),
