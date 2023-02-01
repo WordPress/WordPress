@@ -810,6 +810,9 @@ function wp_restore_image( $post_id ) {
 		$msg->error = __( 'Image metadata is inconsistent.' );
 	} else {
 		$msg->msg = __( 'Image restored successfully.' );
+		if ( defined( 'IMAGE_EDIT_OVERWRITE' ) && IMAGE_EDIT_OVERWRITE ) {
+			delete_post_meta( $post_id, '_wp_attachment_backup_sizes' );
+		}
 	}
 
 	return $msg;
