@@ -59,6 +59,9 @@ final class WP_Block_Patterns_Registry {
 	 *                                 pattern while searching.
 	 *     @type int    $viewportWidth Optional. The intended width of the pattern to allow for a scaled
 	 *                                 preview within the pattern inserter.
+	 *     @type bool   $inserter      Optional. Determines whether the pattern is visible in inserter.
+	 *                                 To hide a pattern so that it can only be inserted programmatically,
+	 *                                 set this to false. Default true.
 	 *     @type array  $categories    Optional. A list of registered pattern categories used to group
 	 *                                 block patterns. Block patterns can be shown on multiple categories.
 	 *                                 A category must be registered separately in order to be used here.
