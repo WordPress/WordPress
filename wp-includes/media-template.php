@@ -439,7 +439,7 @@ function wp_print_media_templates() {
 
 					<# if ( data.originalImageURL && data.originalImageName ) { #>
 						<div class="word-wrap-break-word">
-							<?php _e( 'Original image:' ); ?>
+							<strong><?php _e( 'Original image:' ); ?></strong>
 							<a href="{{ data.originalImageURL }}">{{data.originalImageName}}</a>
 						</div>
 					<# } #>
