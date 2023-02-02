@@ -1,108 +1,32 @@
-/**
- * Colors
- */
-/**
- * Breakpoints & Media Queries
- */
-/**
- * SCSS Variables.
- *
- * Please use variables from this sheet to ensure consistency across the UI.
- * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
- * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
- */
-/**
- * Colors
- */
-/**
- * Fonts & basic variables.
- */
-/**
- * Grid System.
- * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
- */
-/**
- * Dimensions.
- */
-/**
- * Shadows.
- */
-/**
- * Editor widths.
- */
-/**
- * Block & Editor UI.
- */
-/**
- * Block paddings.
- */
-/**
- * React Native specific.
- * These variables do not appear to be used anywhere else.
- */
-/**
-*  Converts a hex value into the rgb equivalent.
-*
-* @param {string} hex - the hexadecimal value to convert
-* @return {string} comma separated rgb values
-*/
-/**
- * Breakpoint mixins
- */
-/**
- * Long content fade mixin
- *
- * Creates a fading overlay to signify that the content is longer
- * than the space allows.
- */
-/**
- * Focus styles.
- */
-/**
- * Applies editor left position to the selector passed as argument
- */
-/**
- * Styles that are reused verbatim in a few places
- */
-/**
- * Allows users to opt-out of animations via OS-level preferences.
- */
-/**
- * Reset default styles for JavaScript UI based pages.
- * This is a WP-admin agnostic reset
- */
-/**
- * Reset the WP Admin page styles for Gutenberg-like pages.
- */
-.block-editor-block-list__block[data-type="core/nextpage"] {
-  max-width: 100%;
-  text-align: center;
-  margin-top: 28px;
-  margin-bottom: 28px;
+.block-editor-block-list__block[data-type="core/nextpage"]{
+  margin-bottom:28px;
+  margin-top:28px;
+  max-width:100%;
+  text-align:center;
 }
 
-.wp-block-nextpage {
-  display: block;
-  text-align: center;
-  white-space: nowrap;
+.wp-block-nextpage{
+  display:block;
+  text-align:center;
+  white-space:nowrap;
 }
-.wp-block-nextpage > span {
-  font-size: 13px;
-  position: relative;
-  text-transform: uppercase;
-  font-weight: 600;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-  color: #757575;
-  border-radius: 4px;
-  background: #fff;
-  padding: 6px 8px;
-  height: 24px;
+.wp-block-nextpage>span{
+  background:#fff;
+  border-radius:4px;
+  color:#757575;
+  font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif;
+  font-size:13px;
+  font-weight:600;
+  height:24px;
+  padding:6px 8px;
+  position:relative;
+  text-transform:uppercase;
 }
-.wp-block-nextpage::before {
-  content: "";
-  position: absolute;
-  top: calc(50%);
-  right: 0;
-  left: 0;
-  border-top: 3px dashed #ccc;
+.wp-block-nextpage:before{
+  border-top:3px dashed #ccc;
+  content:"";
+  left:0;
+  position:absolute;
+  right:0;
+  top:50%;
 }

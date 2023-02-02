@@ -1,137 +1,56 @@
-/**
- * Colors
- */
-/**
- * Breakpoints & Media Queries
- */
-/**
- * SCSS Variables.
- *
- * Please use variables from this sheet to ensure consistency across the UI.
- * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
- * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
- */
-/**
- * Colors
- */
-/**
- * Fonts & basic variables.
- */
-/**
- * Grid System.
- * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
- */
-/**
- * Dimensions.
- */
-/**
- * Shadows.
- */
-/**
- * Editor widths.
- */
-/**
- * Block & Editor UI.
- */
-/**
- * Block paddings.
- */
-/**
- * React Native specific.
- * These variables do not appear to be used anywhere else.
- */
-/**
-*  Converts a hex value into the rgb equivalent.
-*
-* @param {string} hex - the hexadecimal value to convert
-* @return {string} comma separated rgb values
-*/
-/**
- * Breakpoint mixins
- */
-/**
- * Long content fade mixin
- *
- * Creates a fading overlay to signify that the content is longer
- * than the space allows.
- */
-/**
- * Focus styles.
- */
-/**
- * Applies editor left position to the selector passed as argument
- */
-/**
- * Styles that are reused verbatim in a few places
- */
-/**
- * Allows users to opt-out of animations via OS-level preferences.
- */
-/**
- * Reset default styles for JavaScript UI based pages.
- * This is a WP-admin agnostic reset
- */
-/**
- * Reset the WP Admin page styles for Gutenberg-like pages.
- */
-.wp-block-post-comments-form[style*=font-weight] :where(.comment-reply-title) {
-  font-weight: inherit;
+.wp-block-post-comments-form[style*=font-weight] :where(.comment-reply-title){
+  font-weight:inherit;
 }
-.wp-block-post-comments-form[style*=font-family] :where(.comment-reply-title) {
-  font-family: inherit;
+.wp-block-post-comments-form[style*=font-family] :where(.comment-reply-title){
+  font-family:inherit;
 }
-.wp-block-post-comments-form[class*=-font-size] :where(.comment-reply-title), .wp-block-post-comments-form[style*=font-size] :where(.comment-reply-title) {
-  font-size: inherit;
+.wp-block-post-comments-form[class*=-font-size] :where(.comment-reply-title),.wp-block-post-comments-form[style*=font-size] :where(.comment-reply-title){
+  font-size:inherit;
 }
-.wp-block-post-comments-form[style*=line-height] :where(.comment-reply-title) {
-  line-height: inherit;
+.wp-block-post-comments-form[style*=line-height] :where(.comment-reply-title){
+  line-height:inherit;
 }
-.wp-block-post-comments-form[style*=font-style] :where(.comment-reply-title) {
-  font-style: inherit;
+.wp-block-post-comments-form[style*=font-style] :where(.comment-reply-title){
+  font-style:inherit;
 }
-.wp-block-post-comments-form[style*=letter-spacing] :where(.comment-reply-title) {
-  letter-spacing: inherit;
+.wp-block-post-comments-form[style*=letter-spacing] :where(.comment-reply-title){
+  letter-spacing:inherit;
 }
-.wp-block-post-comments-form input[type=submit] {
-  box-shadow: none;
-  cursor: pointer;
-  display: inline-block;
-  text-align: center;
-  overflow-wrap: break-word;
+.wp-block-post-comments-form input[type=submit]{
+  box-shadow:none;
+  cursor:pointer;
+  display:inline-block;
+  overflow-wrap:break-word;
+  text-align:center;
 }
-.wp-block-post-comments-form textarea,
-.wp-block-post-comments-form input:not([type=submit]) {
-  border: 1px solid #949494;
-  font-size: 1em;
-  font-family: inherit;
+.wp-block-post-comments-form input:not([type=submit]),.wp-block-post-comments-form textarea{
+  border:1px solid #949494;
+  font-family:inherit;
+  font-size:1em;
 }
-.wp-block-post-comments-form textarea,
-.wp-block-post-comments-form input:not([type=submit]):not([type=checkbox]) {
-  padding: calc(0.667em + 2px);
+.wp-block-post-comments-form input:not([type=submit]):not([type=checkbox]),.wp-block-post-comments-form textarea{
+  padding:calc(.667em + 2px);
 }
-.wp-block-post-comments-form .comment-form textarea,
-.wp-block-post-comments-form .comment-form input:not([type=submit]):not([type=checkbox]) {
-  display: block;
-  box-sizing: border-box;
-  width: 100%;
+.wp-block-post-comments-form .comment-form input:not([type=submit]):not([type=checkbox]),.wp-block-post-comments-form .comment-form textarea{
+  box-sizing:border-box;
+  display:block;
+  width:100%;
 }
-.wp-block-post-comments-form .comment-form-author label,
-.wp-block-post-comments-form .comment-form-email label,
-.wp-block-post-comments-form .comment-form-url label {
-  display: block;
-  margin-bottom: 0.25em;
+.wp-block-post-comments-form .comment-form-author label,.wp-block-post-comments-form .comment-form-email label,.wp-block-post-comments-form .comment-form-url label{
+  display:block;
+  margin-bottom:.25em;
 }
-.wp-block-post-comments-form .comment-form-cookies-consent {
-  display: flex;
-  gap: 0.25em;
+.wp-block-post-comments-form .comment-form-cookies-consent{
+  display:flex;
+  gap:.25em;
 }
-.wp-block-post-comments-form .comment-form-cookies-consent #wp-comment-cookies-consent {
-  margin-top: 0.35em;
+.wp-block-post-comments-form .comment-form-cookies-consent #wp-comment-cookies-consent{
+  margin-top:.35em;
 }
-.wp-block-post-comments-form .comment-reply-title {
-  margin-bottom: 0;
+.wp-block-post-comments-form .comment-reply-title{
+  margin-bottom:0;
 }
-.wp-block-post-comments-form .comment-reply-title :where(small) {
-  font-size: var(--wp--preset--font-size--medium, smaller);
-  margin-right: 0.5em;
+.wp-block-post-comments-form .comment-reply-title :where(small){
+  font-size:var(--wp--preset--font-size--medium, smaller);
+  margin-right:.5em;
 }

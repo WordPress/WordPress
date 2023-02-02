@@ -1,173 +1,73 @@
-/**
- * Colors
- */
-/**
- * Breakpoints & Media Queries
- */
-/**
- * SCSS Variables.
- *
- * Please use variables from this sheet to ensure consistency across the UI.
- * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
- * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
- */
-/**
- * Colors
- */
-/**
- * Fonts & basic variables.
- */
-/**
- * Grid System.
- * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
- */
-/**
- * Dimensions.
- */
-/**
- * Shadows.
- */
-/**
- * Editor widths.
- */
-/**
- * Block & Editor UI.
- */
-/**
- * Block paddings.
- */
-/**
- * React Native specific.
- * These variables do not appear to be used anywhere else.
- */
-/**
-*  Converts a hex value into the rgb equivalent.
-*
-* @param {string} hex - the hexadecimal value to convert
-* @return {string} comma separated rgb values
-*/
-/**
- * Breakpoint mixins
- */
-/**
- * Long content fade mixin
- *
- * Creates a fading overlay to signify that the content is longer
- * than the space allows.
- */
-/**
- * Focus styles.
- */
-/**
- * Applies editor left position to the selector passed as argument
- */
-/**
- * Styles that are reused verbatim in a few places
- */
-/**
- * Allows users to opt-out of animations via OS-level preferences.
- */
-/**
- * Reset default styles for JavaScript UI based pages.
- * This is a WP-admin agnostic reset
- */
-/**
- * Reset the WP Admin page styles for Gutenberg-like pages.
- */
-.wp-block-post-featured-image .block-editor-media-placeholder {
-  z-index: 1;
-  -webkit-backdrop-filter: none;
-          backdrop-filter: none;
+.wp-block-post-featured-image .block-editor-media-placeholder{
+  -webkit-backdrop-filter:none;
+          backdrop-filter:none;
+  z-index:1;
 }
-.wp-block-post-featured-image .wp-block-post-featured-image__placeholder,
-.wp-block-post-featured-image .components-placeholder {
-  justify-content: center;
-  align-items: center;
-  padding: 0;
-  min-height: 200px;
+.wp-block-post-featured-image .components-placeholder,.wp-block-post-featured-image .wp-block-post-featured-image__placeholder{
+  align-items:center;
+  justify-content:center;
+  min-height:200px;
+  padding:0;
 }
-.wp-block-post-featured-image .wp-block-post-featured-image__placeholder .components-form-file-upload,
-.wp-block-post-featured-image .components-placeholder .components-form-file-upload {
-  display: none;
+.wp-block-post-featured-image .components-placeholder .components-form-file-upload,.wp-block-post-featured-image .wp-block-post-featured-image__placeholder .components-form-file-upload{
+  display:none;
 }
-.wp-block-post-featured-image .wp-block-post-featured-image__placeholder .components-button,
-.wp-block-post-featured-image .components-placeholder .components-button {
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  position: relative;
-  background: var(--wp-admin-theme-color);
-  border-color: var(--wp-admin-theme-color);
-  border-style: solid;
-  color: #fff;
+.wp-block-post-featured-image .components-placeholder .components-button,.wp-block-post-featured-image .wp-block-post-featured-image__placeholder .components-button{
+  align-items:center;
+  background:var(--wp-admin-theme-color);
+  border-color:var(--wp-admin-theme-color);
+  border-radius:50%;
+  border-style:solid;
+  color:#fff;
+  display:flex;
+  height:48px;
+  justify-content:center;
+  padding:0;
+  position:relative;
+  width:48px;
 }
-.wp-block-post-featured-image .wp-block-post-featured-image__placeholder .components-button > svg,
-.wp-block-post-featured-image .components-placeholder .components-button > svg {
-  color: inherit;
+.wp-block-post-featured-image .components-placeholder .components-button>svg,.wp-block-post-featured-image .wp-block-post-featured-image__placeholder .components-button>svg{
+  color:inherit;
 }
-.wp-block-post-featured-image .wp-block-post-featured-image__placeholder:where(.has-border-color),
-.wp-block-post-featured-image .components-placeholder:where(.has-border-color),
-.wp-block-post-featured-image img:where(.has-border-color) {
-  border-style: solid;
+.wp-block-post-featured-image .components-placeholder:where(.has-border-color),.wp-block-post-featured-image .wp-block-post-featured-image__placeholder:where(.has-border-color),.wp-block-post-featured-image img:where(.has-border-color){
+  border-style:solid;
 }
-.wp-block-post-featured-image .wp-block-post-featured-image__placeholder:where([style*="border-top-color"]),
-.wp-block-post-featured-image .components-placeholder:where([style*="border-top-color"]),
-.wp-block-post-featured-image img:where([style*="border-top-color"]) {
-  border-top-style: solid;
+.wp-block-post-featured-image .components-placeholder:where([style*=border-top-color]),.wp-block-post-featured-image .wp-block-post-featured-image__placeholder:where([style*=border-top-color]),.wp-block-post-featured-image img:where([style*=border-top-color]){
+  border-top-style:solid;
 }
-.wp-block-post-featured-image .wp-block-post-featured-image__placeholder:where([style*="border-right-color"]),
-.wp-block-post-featured-image .components-placeholder:where([style*="border-right-color"]),
-.wp-block-post-featured-image img:where([style*="border-right-color"]) {
-  border-left-style: solid;
+.wp-block-post-featured-image .components-placeholder:where([style*=border-right-color]),.wp-block-post-featured-image .wp-block-post-featured-image__placeholder:where([style*=border-right-color]),.wp-block-post-featured-image img:where([style*=border-right-color]){
+  border-left-style:solid;
 }
-.wp-block-post-featured-image .wp-block-post-featured-image__placeholder:where([style*="border-bottom-color"]),
-.wp-block-post-featured-image .components-placeholder:where([style*="border-bottom-color"]),
-.wp-block-post-featured-image img:where([style*="border-bottom-color"]) {
-  border-bottom-style: solid;
+.wp-block-post-featured-image .components-placeholder:where([style*=border-bottom-color]),.wp-block-post-featured-image .wp-block-post-featured-image__placeholder:where([style*=border-bottom-color]),.wp-block-post-featured-image img:where([style*=border-bottom-color]){
+  border-bottom-style:solid;
 }
-.wp-block-post-featured-image .wp-block-post-featured-image__placeholder:where([style*="border-left-color"]),
-.wp-block-post-featured-image .components-placeholder:where([style*="border-left-color"]),
-.wp-block-post-featured-image img:where([style*="border-left-color"]) {
-  border-right-style: solid;
+.wp-block-post-featured-image .components-placeholder:where([style*=border-left-color]),.wp-block-post-featured-image .wp-block-post-featured-image__placeholder:where([style*=border-left-color]),.wp-block-post-featured-image img:where([style*=border-left-color]){
+  border-right-style:solid;
 }
-.wp-block-post-featured-image .wp-block-post-featured-image__placeholder:where([style*="border-width"]),
-.wp-block-post-featured-image .components-placeholder:where([style*="border-width"]),
-.wp-block-post-featured-image img:where([style*="border-width"]) {
-  border-style: solid;
+.wp-block-post-featured-image .components-placeholder:where([style*=border-width]),.wp-block-post-featured-image .wp-block-post-featured-image__placeholder:where([style*=border-width]),.wp-block-post-featured-image img:where([style*=border-width]){
+  border-style:solid;
 }
-.wp-block-post-featured-image .wp-block-post-featured-image__placeholder:where([style*="border-top-width"]),
-.wp-block-post-featured-image .components-placeholder:where([style*="border-top-width"]),
-.wp-block-post-featured-image img:where([style*="border-top-width"]) {
-  border-top-style: solid;
+.wp-block-post-featured-image .components-placeholder:where([style*=border-top-width]),.wp-block-post-featured-image .wp-block-post-featured-image__placeholder:where([style*=border-top-width]),.wp-block-post-featured-image img:where([style*=border-top-width]){
+  border-top-style:solid;
 }
-.wp-block-post-featured-image .wp-block-post-featured-image__placeholder:where([style*="border-right-width"]),
-.wp-block-post-featured-image .components-placeholder:where([style*="border-right-width"]),
-.wp-block-post-featured-image img:where([style*="border-right-width"]) {
-  border-left-style: solid;
+.wp-block-post-featured-image .components-placeholder:where([style*=border-right-width]),.wp-block-post-featured-image .wp-block-post-featured-image__placeholder:where([style*=border-right-width]),.wp-block-post-featured-image img:where([style*=border-right-width]){
+  border-left-style:solid;
 }
-.wp-block-post-featured-image .wp-block-post-featured-image__placeholder:where([style*="border-bottom-width"]),
-.wp-block-post-featured-image .components-placeholder:where([style*="border-bottom-width"]),
-.wp-block-post-featured-image img:where([style*="border-bottom-width"]) {
-  border-bottom-style: solid;
+.wp-block-post-featured-image .components-placeholder:where([style*=border-bottom-width]),.wp-block-post-featured-image .wp-block-post-featured-image__placeholder:where([style*=border-bottom-width]),.wp-block-post-featured-image img:where([style*=border-bottom-width]){
+  border-bottom-style:solid;
 }
-.wp-block-post-featured-image .wp-block-post-featured-image__placeholder:where([style*="border-left-width"]),
-.wp-block-post-featured-image .components-placeholder:where([style*="border-left-width"]),
-.wp-block-post-featured-image img:where([style*="border-left-width"]) {
-  border-right-style: solid;
+.wp-block-post-featured-image .components-placeholder:where([style*=border-left-width]),.wp-block-post-featured-image .wp-block-post-featured-image__placeholder:where([style*=border-left-width]),.wp-block-post-featured-image img:where([style*=border-left-width]){
+  border-right-style:solid;
 }
-.wp-block-post-featured-image[style*=height] .components-placeholder {
-  min-height: 48px;
-  min-width: 48px;
-  height: 100%;
-  width: 100%;
+.wp-block-post-featured-image[style*=height] .components-placeholder{
+  height:100%;
+  min-height:48px;
+  min-width:48px;
+  width:100%;
 }
 
-div[data-type="core/post-featured-image"] img {
-  max-width: 100%;
-  height: auto;
-  display: block;
+div[data-type="core/post-featured-image"] img{
+  display:block;
+  height:auto;
+  max-width:100%;
 }

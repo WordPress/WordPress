@@ -1,160 +1,79 @@
-/**
- * Colors
- */
-/**
- * Breakpoints & Media Queries
- */
-/**
- * SCSS Variables.
- *
- * Please use variables from this sheet to ensure consistency across the UI.
- * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
- * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
- */
-/**
- * Colors
- */
-/**
- * Fonts & basic variables.
- */
-/**
- * Grid System.
- * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
- */
-/**
- * Dimensions.
- */
-/**
- * Shadows.
- */
-/**
- * Editor widths.
- */
-/**
- * Block & Editor UI.
- */
-/**
- * Block paddings.
- */
-/**
- * React Native specific.
- * These variables do not appear to be used anywhere else.
- */
-/**
-*  Converts a hex value into the rgb equivalent.
-*
-* @param {string} hex - the hexadecimal value to convert
-* @return {string} comma separated rgb values
-*/
-/**
- * Breakpoint mixins
- */
-/**
- * Long content fade mixin
- *
- * Creates a fading overlay to signify that the content is longer
- * than the space allows.
- */
-/**
- * Focus styles.
- */
-/**
- * Applies editor left position to the selector passed as argument
- */
-/**
- * Styles that are reused verbatim in a few places
- */
-/**
- * Allows users to opt-out of animations via OS-level preferences.
- */
-/**
- * Reset default styles for JavaScript UI based pages.
- * This is a WP-admin agnostic reset
- */
-/**
- * Reset the WP Admin page styles for Gutenberg-like pages.
- */
-.wp-block-button__link {
-  cursor: pointer;
-  display: inline-block;
-  text-align: center;
-  word-break: break-word;
-  box-sizing: border-box;
+.wp-block-button__link{
+  box-sizing:border-box;
+  cursor:pointer;
+  display:inline-block;
+  text-align:center;
+  word-break:break-word;
 }
-.wp-block-button__link.aligncenter {
-  text-align: center;
+.wp-block-button__link.aligncenter{
+  text-align:center;
 }
-.wp-block-button__link.alignright {
-  text-align: right;
+.wp-block-button__link.alignright{
+  text-align:right;
 }
 
-:where(.wp-block-button__link) {
-  box-shadow: none;
-  text-decoration: none;
-  border-radius: 9999px;
-  padding: calc(0.667em + 2px) calc(1.333em + 2px);
+:where(.wp-block-button__link){
+  border-radius:9999px;
+  box-shadow:none;
+  padding:calc(.667em + 2px) calc(1.333em + 2px);
+  text-decoration:none;
 }
 
-.wp-block-button[style*=text-decoration] .wp-block-button__link {
-  text-decoration: inherit;
+.wp-block-button[style*=text-decoration] .wp-block-button__link{
+  text-decoration:inherit;
 }
 
-.wp-block-buttons > .wp-block-button.has-custom-width {
-  max-width: none;
+.wp-block-buttons>.wp-block-button.has-custom-width{
+  max-width:none;
 }
-.wp-block-buttons > .wp-block-button.has-custom-width .wp-block-button__link {
-  width: 100%;
+.wp-block-buttons>.wp-block-button.has-custom-width .wp-block-button__link{
+  width:100%;
 }
-.wp-block-buttons > .wp-block-button.has-custom-font-size .wp-block-button__link {
-  font-size: inherit;
+.wp-block-buttons>.wp-block-button.has-custom-font-size .wp-block-button__link{
+  font-size:inherit;
 }
-.wp-block-buttons > .wp-block-button.wp-block-button__width-25 {
-  width: calc(25% - (var(--wp--style--block-gap, 0.5em) * 0.75));
+.wp-block-buttons>.wp-block-button.wp-block-button__width-25{
+  width:calc(25% - var(--wp--style--block-gap, .5em)*.75);
 }
-.wp-block-buttons > .wp-block-button.wp-block-button__width-50 {
-  width: calc(50% - (var(--wp--style--block-gap, 0.5em) * 0.5));
+.wp-block-buttons>.wp-block-button.wp-block-button__width-50{
+  width:calc(50% - var(--wp--style--block-gap, .5em)*.5);
 }
-.wp-block-buttons > .wp-block-button.wp-block-button__width-75 {
-  width: calc(75% - (var(--wp--style--block-gap, 0.5em) * 0.25));
+.wp-block-buttons>.wp-block-button.wp-block-button__width-75{
+  width:calc(75% - var(--wp--style--block-gap, .5em)*.25);
 }
-.wp-block-buttons > .wp-block-button.wp-block-button__width-100 {
-  width: 100%;
-  flex-basis: 100%;
-}
-
-.wp-block-buttons.is-vertical > .wp-block-button.wp-block-button__width-25 {
-  width: 25%;
-}
-.wp-block-buttons.is-vertical > .wp-block-button.wp-block-button__width-50 {
-  width: 50%;
-}
-.wp-block-buttons.is-vertical > .wp-block-button.wp-block-button__width-75 {
-  width: 75%;
+.wp-block-buttons>.wp-block-button.wp-block-button__width-100{
+  flex-basis:100%;
+  width:100%;
 }
 
-.wp-block-button.is-style-squared,
-.wp-block-button__link.wp-block-button.is-style-squared {
-  border-radius: 0;
+.wp-block-buttons.is-vertical>.wp-block-button.wp-block-button__width-25{
+  width:25%;
+}
+.wp-block-buttons.is-vertical>.wp-block-button.wp-block-button__width-50{
+  width:50%;
+}
+.wp-block-buttons.is-vertical>.wp-block-button.wp-block-button__width-75{
+  width:75%;
 }
 
-.wp-block-button.no-border-radius,
-.wp-block-button__link.no-border-radius {
-  border-radius: 0 !important;
+.wp-block-button.is-style-squared,.wp-block-button__link.wp-block-button.is-style-squared{
+  border-radius:0;
 }
 
-.wp-block-button.is-style-outline > .wp-block-button__link,
-.wp-block-button .wp-block-button__link.is-style-outline {
-  border: 2px solid currentColor;
-  padding: 0.667em 1.333em;
+.wp-block-button.no-border-radius,.wp-block-button__link.no-border-radius{
+  border-radius:0 !important;
 }
 
-.wp-block-button.is-style-outline > .wp-block-button__link:not(.has-text-color),
-.wp-block-button .wp-block-button__link.is-style-outline:not(.has-text-color) {
-  color: currentColor;
+.wp-block-button .wp-block-button__link.is-style-outline,.wp-block-button.is-style-outline>.wp-block-button__link{
+  border:2px solid;
+  padding:.667em 1.333em;
 }
 
-.wp-block-button.is-style-outline > .wp-block-button__link:not(.has-background),
-.wp-block-button .wp-block-button__link.is-style-outline:not(.has-background) {
-  background-color: transparent;
-  background-image: none;
+.wp-block-button .wp-block-button__link.is-style-outline:not(.has-text-color),.wp-block-button.is-style-outline>.wp-block-button__link:not(.has-text-color){
+  color:currentColor;
+}
+
+.wp-block-button .wp-block-button__link.is-style-outline:not(.has-background),.wp-block-button.is-style-outline>.wp-block-button__link:not(.has-background){
+  background-color:initial;
+  background-image:none;
 }

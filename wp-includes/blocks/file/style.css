@@ -1,107 +1,30 @@
-/**
- * Colors
- */
-/**
- * Breakpoints & Media Queries
- */
-/**
- * SCSS Variables.
- *
- * Please use variables from this sheet to ensure consistency across the UI.
- * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
- * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
- */
-/**
- * Colors
- */
-/**
- * Fonts & basic variables.
- */
-/**
- * Grid System.
- * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
- */
-/**
- * Dimensions.
- */
-/**
- * Shadows.
- */
-/**
- * Editor widths.
- */
-/**
- * Block & Editor UI.
- */
-/**
- * Block paddings.
- */
-/**
- * React Native specific.
- * These variables do not appear to be used anywhere else.
- */
-/**
-*  Converts a hex value into the rgb equivalent.
-*
-* @param {string} hex - the hexadecimal value to convert
-* @return {string} comma separated rgb values
-*/
-/**
- * Breakpoint mixins
- */
-/**
- * Long content fade mixin
- *
- * Creates a fading overlay to signify that the content is longer
- * than the space allows.
- */
-/**
- * Focus styles.
- */
-/**
- * Applies editor left position to the selector passed as argument
- */
-/**
- * Styles that are reused verbatim in a few places
- */
-/**
- * Allows users to opt-out of animations via OS-level preferences.
- */
-/**
- * Reset default styles for JavaScript UI based pages.
- * This is a WP-admin agnostic reset
- */
-/**
- * Reset the WP Admin page styles for Gutenberg-like pages.
- */
-.wp-block-file {
-  margin-bottom: 1.5em;
+.wp-block-file{
+  margin-bottom:1.5em;
 }
-.wp-block-file:not(.wp-element-button) {
-  font-size: 0.8em;
+.wp-block-file:not(.wp-element-button){
+  font-size:.8em;
 }
-.wp-block-file.aligncenter {
-  text-align: center;
+.wp-block-file.aligncenter{
+  text-align:center;
 }
-.wp-block-file.alignright {
-  /*rtl:ignore*/
-  text-align: right;
+.wp-block-file.alignright{
+  text-align:right;
 }
-.wp-block-file * + .wp-block-file__button {
-  margin-left: 0.75em;
+.wp-block-file *+.wp-block-file__button{
+  margin-left:.75em;
 }
 
-.wp-block-file__embed {
-  margin-bottom: 1em;
+.wp-block-file__embed{
+  margin-bottom:1em;
 }
 
-:where(.wp-block-file__button) {
-  border-radius: 2em;
-  padding: 0.5em 1em;
+:where(.wp-block-file__button){
+  border-radius:2em;
+  padding:.5em 1em;
 }
-:where(.wp-block-file__button):is(a):hover, :where(.wp-block-file__button):is(a):visited, :where(.wp-block-file__button):is(a):focus, :where(.wp-block-file__button):is(a):active {
-  box-shadow: none;
-  color: #fff;
-  opacity: 0.85;
-  text-decoration: none;
+:where(.wp-block-file__button):is(a):active,:where(.wp-block-file__button):is(a):focus,:where(.wp-block-file__button):is(a):hover,:where(.wp-block-file__button):is(a):visited{
+  box-shadow:none;
+  color:#fff;
+  opacity:.85;
+  text-decoration:none;
 }

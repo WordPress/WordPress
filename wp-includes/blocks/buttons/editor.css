@@ -1,123 +1,34 @@
-/**
- * Colors
- */
-/**
- * Breakpoints & Media Queries
- */
-/**
- * SCSS Variables.
- *
- * Please use variables from this sheet to ensure consistency across the UI.
- * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
- * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
- */
-/**
- * Colors
- */
-/**
- * Fonts & basic variables.
- */
-/**
- * Grid System.
- * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
- */
-/**
- * Dimensions.
- */
-/**
- * Shadows.
- */
-/**
- * Editor widths.
- */
-/**
- * Block & Editor UI.
- */
-/**
- * Block paddings.
- */
-/**
- * React Native specific.
- * These variables do not appear to be used anywhere else.
- */
-/**
-*  Converts a hex value into the rgb equivalent.
-*
-* @param {string} hex - the hexadecimal value to convert
-* @return {string} comma separated rgb values
-*/
-/**
- * Breakpoint mixins
- */
-/**
- * Long content fade mixin
- *
- * Creates a fading overlay to signify that the content is longer
- * than the space allows.
- */
-/**
- * Focus styles.
- */
-/**
- * Applies editor left position to the selector passed as argument
- */
-/**
- * Styles that are reused verbatim in a few places
- */
-/**
- * Allows users to opt-out of animations via OS-level preferences.
- */
-/**
- * Reset default styles for JavaScript UI based pages.
- * This is a WP-admin agnostic reset
- */
-/**
- * Reset the WP Admin page styles for Gutenberg-like pages.
- */
-.wp-block-buttons {
-  /* stylelint-disable indentation */
+.wp-block-buttons>.wp-block,.wp-block-buttons>.wp-block-button.wp-block-button.wp-block-button.wp-block-button.wp-block-button{
+  margin:0;
 }
-.wp-block-buttons > .wp-block {
-  margin: 0;
+.wp-block-buttons>.block-list-appender{
+  align-items:center;
+  display:inline-flex;
 }
-.wp-block-buttons > .wp-block-button.wp-block-button.wp-block-button.wp-block-button.wp-block-button {
-  margin: 0;
+.wp-block-buttons.is-vertical>.block-list-appender .block-list-appender__toggle{
+  justify-content:flex-start;
 }
-.wp-block-buttons > .block-list-appender {
-  display: inline-flex;
-  align-items: center;
+.wp-block-buttons>.wp-block-button:focus{
+  box-shadow:none;
 }
-.wp-block-buttons.is-vertical > .block-list-appender .block-list-appender__toggle {
-  justify-content: flex-start;
+.wp-block-buttons:not(.is-content-justification-space-between,.is-content-justification-right,.is-content-justification-left,.is-content-justification-center) .wp-block[data-align=center]{
+  margin-left:auto;
+  margin-right:auto;
+  margin-top:0;
+  width:100%;
 }
-.wp-block-buttons > .wp-block-button:focus {
-  box-shadow: none;
+.wp-block-buttons:not(.is-content-justification-space-between,.is-content-justification-right,.is-content-justification-left,.is-content-justification-center) .wp-block[data-align=center] .wp-block-button{
+  margin-bottom:0;
 }
-.wp-block-buttons:not(.is-content-justification-space-between,
-.is-content-justification-right,
-.is-content-justification-left,
-.is-content-justification-center) .wp-block[data-align=center] {
-  /* stylelint-enable indentation */
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 0;
-  width: 100%;
-}
-.wp-block-buttons:not(.is-content-justification-space-between,
-.is-content-justification-right,
-.is-content-justification-left,
-.is-content-justification-center) .wp-block[data-align=center] .wp-block-button {
-  margin-bottom: 0;
-}
-.editor-styles-wrapper .wp-block-buttons.has-custom-font-size .wp-block-button__link {
-  font-size: inherit;
+.editor-styles-wrapper .wp-block-buttons.has-custom-font-size .wp-block-button__link{
+  font-size:inherit;
 }
 
-.wp-block[data-align=center] > .wp-block-buttons {
-  align-items: center;
-  justify-content: center;
+.wp-block[data-align=center]>.wp-block-buttons{
+  align-items:center;
+  justify-content:center;
 }
 
-.wp-block[data-align=right] > .wp-block-buttons {
-  justify-content: flex-end;
+.wp-block[data-align=right]>.wp-block-buttons{
+  justify-content:flex-end;
 }

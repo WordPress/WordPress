@@ -1,154 +1,78 @@
-/**
- * Colors
- */
-/**
- * Breakpoints & Media Queries
- */
-/**
- * SCSS Variables.
- *
- * Please use variables from this sheet to ensure consistency across the UI.
- * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
- * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
- */
-/**
- * Colors
- */
-/**
- * Fonts & basic variables.
- */
-/**
- * Grid System.
- * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
- */
-/**
- * Dimensions.
- */
-/**
- * Shadows.
- */
-/**
- * Editor widths.
- */
-/**
- * Block & Editor UI.
- */
-/**
- * Block paddings.
- */
-/**
- * React Native specific.
- * These variables do not appear to be used anywhere else.
- */
-/**
-*  Converts a hex value into the rgb equivalent.
-*
-* @param {string} hex - the hexadecimal value to convert
-* @return {string} comma separated rgb values
-*/
-/**
- * Breakpoint mixins
- */
-/**
- * Long content fade mixin
- *
- * Creates a fading overlay to signify that the content is longer
- * than the space allows.
- */
-/**
- * Focus styles.
- */
-/**
- * Applies editor left position to the selector passed as argument
- */
-/**
- * Styles that are reused verbatim in a few places
- */
-/**
- * Allows users to opt-out of animations via OS-level preferences.
- */
-/**
- * Reset default styles for JavaScript UI based pages.
- * This is a WP-admin agnostic reset
- */
-/**
- * Reset the WP Admin page styles for Gutenberg-like pages.
- */
-:root {
-  --wp-admin-theme-color: #007cba;
-  --wp-admin-theme-color--rgb: 0, 124, 186;
-  --wp-admin-theme-color-darker-10: #006ba1;
-  --wp-admin-theme-color-darker-10--rgb: 0, 107, 161;
-  --wp-admin-theme-color-darker-20: #005a87;
-  --wp-admin-theme-color-darker-20--rgb: 0, 90, 135;
-  --wp-admin-border-width-focus: 2px;
+:root{
+  --wp-admin-theme-color:#007cba;
+  --wp-admin-theme-color--rgb:0, 124, 186;
+  --wp-admin-theme-color-darker-10:#006ba1;
+  --wp-admin-theme-color-darker-10--rgb:0, 107, 161;
+  --wp-admin-theme-color-darker-20:#005a87;
+  --wp-admin-theme-color-darker-20--rgb:0, 90, 135;
+  --wp-admin-border-width-focus:2px;
 }
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-  :root {
-    --wp-admin-border-width-focus: 1.5px;
+@media (-webkit-min-device-pixel-ratio:2),(min-resolution:192dpi){
+  :root{
+    --wp-admin-border-width-focus:1.5px;
   }
 }
 
-.block-editor-format-toolbar__image-popover {
-  z-index: 159990;
+.block-editor-format-toolbar__image-popover{
+  z-index:159990;
 }
 
-.block-editor-format-toolbar__image-container-content {
-  display: flex;
+.block-editor-format-toolbar__image-container-content{
+  display:flex;
 }
-.block-editor-format-toolbar__image-container-content .components-button {
-  align-self: flex-end;
-  height: 30px;
-  margin-bottom: 8px;
-  margin-left: 8px;
-  padding: 0 6px;
-}
-
-.block-editor-format-toolbar__image-container-value {
-  margin: 7px;
-  flex-grow: 1;
-  flex-shrink: 1;
-  white-space: nowrap;
-  min-width: 150px;
-  max-width: 500px;
-}
-.block-editor-format-toolbar__image-container-value.components-base-control .components-base-control__field {
-  margin-bottom: 0;
-}
-.block-editor-format-toolbar__image-container-value.components-base-control .components-base-control__label {
-  display: block;
+.block-editor-format-toolbar__image-container-content .components-button{
+  align-self:flex-end;
+  height:30px;
+  margin-bottom:8px;
+  margin-left:8px;
+  padding:0 6px;
 }
 
-.block-editor-format-toolbar__link-container-content {
-  display: flex;
+.block-editor-format-toolbar__image-container-value{
+  flex-grow:1;
+  flex-shrink:1;
+  margin:7px;
+  max-width:500px;
+  min-width:150px;
+  white-space:nowrap;
+}
+.block-editor-format-toolbar__image-container-value.components-base-control .components-base-control__field{
+  margin-bottom:0;
+}
+.block-editor-format-toolbar__image-container-value.components-base-control .components-base-control__label{
+  display:block;
 }
 
-.block-editor-format-toolbar__link-container-value {
-  margin: 7px;
-  flex-grow: 1;
-  flex-shrink: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  min-width: 150px;
-  max-width: 500px;
-}
-.block-editor-format-toolbar__link-container-value.has-invalid-link {
-  color: #cc1818;
+.block-editor-format-toolbar__link-container-content{
+  display:flex;
 }
 
-.components-inline-color-popover .components-popover__content .components-tab-panel__tab-content {
-  padding: 16px;
+.block-editor-format-toolbar__link-container-value{
+  flex-grow:1;
+  flex-shrink:1;
+  margin:7px;
+  max-width:500px;
+  min-width:150px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
 }
-.components-inline-color-popover .components-popover__content .components-color-palette {
-  margin-top: 0.6rem;
+.block-editor-format-toolbar__link-container-value.has-invalid-link{
+  color:#cc1818;
 }
-.components-inline-color-popover .components-popover__content .components-base-control__title {
-  display: block;
-  margin-bottom: 16px;
-  font-weight: 600;
-  color: #191e23;
+
+.components-inline-color-popover .components-popover__content .components-tab-panel__tab-content{
+  padding:16px;
 }
-.components-inline-color-popover .components-popover__content .component-color-indicator {
-  vertical-align: text-bottom;
+.components-inline-color-popover .components-popover__content .components-color-palette{
+  margin-top:.6rem;
+}
+.components-inline-color-popover .components-popover__content .components-base-control__title{
+  color:#191e23;
+  display:block;
+  font-weight:600;
+  margin-bottom:16px;
+}
+.components-inline-color-popover .components-popover__content .component-color-indicator{
+  vertical-align:text-bottom;
 }

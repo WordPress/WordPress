@@ -1,109 +1,31 @@
-/**
- * Colors
- */
-/**
- * Breakpoints & Media Queries
- */
-/**
- * SCSS Variables.
- *
- * Please use variables from this sheet to ensure consistency across the UI.
- * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
- * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
- */
-/**
- * Colors
- */
-/**
- * Fonts & basic variables.
- */
-/**
- * Grid System.
- * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
- */
-/**
- * Dimensions.
- */
-/**
- * Shadows.
- */
-/**
- * Editor widths.
- */
-/**
- * Block & Editor UI.
- */
-/**
- * Block paddings.
- */
-/**
- * React Native specific.
- * These variables do not appear to be used anywhere else.
- */
-/**
-*  Converts a hex value into the rgb equivalent.
-*
-* @param {string} hex - the hexadecimal value to convert
-* @return {string} comma separated rgb values
-*/
-/**
- * Breakpoint mixins
- */
-/**
- * Long content fade mixin
- *
- * Creates a fading overlay to signify that the content is longer
- * than the space allows.
- */
-/**
- * Focus styles.
- */
-/**
- * Applies editor left position to the selector passed as argument
- */
-/**
- * Styles that are reused verbatim in a few places
- */
-/**
- * Allows users to opt-out of animations via OS-level preferences.
- */
-/**
- * Reset default styles for JavaScript UI based pages.
- * This is a WP-admin agnostic reset
- */
-/**
- * Reset the WP Admin page styles for Gutenberg-like pages.
- */
-.block-editor-block-list__block[data-type="core/spacer"]::before {
-  content: "";
-  display: block;
-  position: absolute;
-  z-index: 1;
-  width: 100%;
-  min-height: 8px;
-  min-width: 8px;
-  height: 100%;
+.block-editor-block-list__block[data-type="core/spacer"]:before{
+  content:"";
+  display:block;
+  height:100%;
+  min-height:8px;
+  min-width:8px;
+  position:absolute;
+  width:100%;
+  z-index:1;
 }
 
-.wp-block-spacer.is-hovered .block-library-spacer__resize-container,
-.block-library-spacer__resize-container.has-show-handle {
-  background: rgba(0, 0, 0, 0.1);
+.block-library-spacer__resize-container.has-show-handle,.wp-block-spacer.is-hovered .block-library-spacer__resize-container{
+  background:rgba(0,0,0,.1);
 }
-.is-dark-theme .wp-block-spacer.is-hovered .block-library-spacer__resize-container,
-.is-dark-theme .block-library-spacer__resize-container.has-show-handle {
-  background: rgba(255, 255, 255, 0.15);
+.is-dark-theme .block-library-spacer__resize-container.has-show-handle,.is-dark-theme .wp-block-spacer.is-hovered .block-library-spacer__resize-container{
+  background:hsla(0,0%,100%,.15);
 }
 
-.block-library-spacer__resize-container {
-  clear: both;
+.block-library-spacer__resize-container{
+  clear:both;
 }
-.block-library-spacer__resize-container:not(.is-resizing) {
-  height: 100% !important;
-  width: 100% !important;
+.block-library-spacer__resize-container:not(.is-resizing){
+  height:100% !important;
+  width:100% !important;
 }
-.block-library-spacer__resize-container .components-resizable-box__handle::before {
-  content: none;
+.block-library-spacer__resize-container .components-resizable-box__handle:before{
+  content:none;
 }
-.block-library-spacer__resize-container.resize-horizontal {
-  margin-bottom: 0;
+.block-library-spacer__resize-container.resize-horizontal{
+  margin-bottom:0;
 }

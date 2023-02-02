@@ -1,138 +1,62 @@
-/**
- * Colors
- */
-/**
- * Breakpoints & Media Queries
- */
-/**
- * SCSS Variables.
- *
- * Please use variables from this sheet to ensure consistency across the UI.
- * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
- * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
- */
-/**
- * Colors
- */
-/**
- * Fonts & basic variables.
- */
-/**
- * Grid System.
- * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
- */
-/**
- * Dimensions.
- */
-/**
- * Shadows.
- */
-/**
- * Editor widths.
- */
-/**
- * Block & Editor UI.
- */
-/**
- * Block paddings.
- */
-/**
- * React Native specific.
- * These variables do not appear to be used anywhere else.
- */
-/**
-*  Converts a hex value into the rgb equivalent.
-*
-* @param {string} hex - the hexadecimal value to convert
-* @return {string} comma separated rgb values
-*/
-/**
- * Breakpoint mixins
- */
-/**
- * Long content fade mixin
- *
- * Creates a fading overlay to signify that the content is longer
- * than the space allows.
- */
-/**
- * Focus styles.
- */
-/**
- * Applies editor left position to the selector passed as argument
- */
-/**
- * Styles that are reused verbatim in a few places
- */
-/**
- * Allows users to opt-out of animations via OS-level preferences.
- */
-/**
- * Reset default styles for JavaScript UI based pages.
- * This is a WP-admin agnostic reset
- */
-/**
- * Reset the WP Admin page styles for Gutenberg-like pages.
- */
-.wp-block-post-featured-image {
-  margin-left: 0;
-  margin-right: 0;
+.wp-block-post-featured-image{
+  margin-left:0;
+  margin-right:0;
 }
-.wp-block-post-featured-image a {
-  display: block;
+.wp-block-post-featured-image a{
+  display:block;
 }
-.wp-block-post-featured-image img {
-  max-width: 100%;
-  width: 100%;
-  height: auto;
-  vertical-align: bottom;
-  box-sizing: border-box;
+.wp-block-post-featured-image img{
+  box-sizing:border-box;
+  height:auto;
+  max-width:100%;
+  vertical-align:bottom;
+  width:100%;
 }
-.wp-block-post-featured-image.alignwide img, .wp-block-post-featured-image.alignfull img {
-  width: 100%;
+.wp-block-post-featured-image.alignfull img,.wp-block-post-featured-image.alignwide img{
+  width:100%;
 }
-.wp-block-post-featured-image .wp-block-post-featured-image__overlay.has-background-dim {
-  position: absolute;
-  inset: 0;
-  background-color: #000;
+.wp-block-post-featured-image .wp-block-post-featured-image__overlay.has-background-dim{
+  background-color:#000;
+  inset:0;
+  position:absolute;
 }
-.wp-block-post-featured-image {
-  position: relative;
+.wp-block-post-featured-image{
+  position:relative;
 }
 
-.wp-block-post-featured-image .wp-block-post-featured-image__overlay.has-background-gradient {
-  background-color: transparent;
+.wp-block-post-featured-image .wp-block-post-featured-image__overlay.has-background-gradient{
+  background-color:initial;
 }
-.wp-block-post-featured-image .wp-block-post-featured-image__overlay.has-background-dim-0 {
-  opacity: 0;
+.wp-block-post-featured-image .wp-block-post-featured-image__overlay.has-background-dim-0{
+  opacity:0;
 }
-.wp-block-post-featured-image .wp-block-post-featured-image__overlay.has-background-dim-10 {
-  opacity: 0.1;
+.wp-block-post-featured-image .wp-block-post-featured-image__overlay.has-background-dim-10{
+  opacity:.1;
 }
-.wp-block-post-featured-image .wp-block-post-featured-image__overlay.has-background-dim-20 {
-  opacity: 0.2;
+.wp-block-post-featured-image .wp-block-post-featured-image__overlay.has-background-dim-20{
+  opacity:.2;
 }
-.wp-block-post-featured-image .wp-block-post-featured-image__overlay.has-background-dim-30 {
-  opacity: 0.3;
+.wp-block-post-featured-image .wp-block-post-featured-image__overlay.has-background-dim-30{
+  opacity:.3;
 }
-.wp-block-post-featured-image .wp-block-post-featured-image__overlay.has-background-dim-40 {
-  opacity: 0.4;
+.wp-block-post-featured-image .wp-block-post-featured-image__overlay.has-background-dim-40{
+  opacity:.4;
 }
-.wp-block-post-featured-image .wp-block-post-featured-image__overlay.has-background-dim-50 {
-  opacity: 0.5;
+.wp-block-post-featured-image .wp-block-post-featured-image__overlay.has-background-dim-50{
+  opacity:.5;
 }
-.wp-block-post-featured-image .wp-block-post-featured-image__overlay.has-background-dim-60 {
-  opacity: 0.6;
+.wp-block-post-featured-image .wp-block-post-featured-image__overlay.has-background-dim-60{
+  opacity:.6;
 }
-.wp-block-post-featured-image .wp-block-post-featured-image__overlay.has-background-dim-70 {
-  opacity: 0.7;
+.wp-block-post-featured-image .wp-block-post-featured-image__overlay.has-background-dim-70{
+  opacity:.7;
 }
-.wp-block-post-featured-image .wp-block-post-featured-image__overlay.has-background-dim-80 {
-  opacity: 0.8;
+.wp-block-post-featured-image .wp-block-post-featured-image__overlay.has-background-dim-80{
+  opacity:.8;
 }
-.wp-block-post-featured-image .wp-block-post-featured-image__overlay.has-background-dim-90 {
-  opacity: 0.9;
+.wp-block-post-featured-image .wp-block-post-featured-image__overlay.has-background-dim-90{
+  opacity:.9;
 }
-.wp-block-post-featured-image .wp-block-post-featured-image__overlay.has-background-dim-100 {
-  opacity: 1;
+.wp-block-post-featured-image .wp-block-post-featured-image__overlay.has-background-dim-100{
+  opacity:1;
 }

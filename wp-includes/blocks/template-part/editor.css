@@ -1,103 +1,27 @@
-/**
- * Colors
- */
-/**
- * Breakpoints & Media Queries
- */
-/**
- * SCSS Variables.
- *
- * Please use variables from this sheet to ensure consistency across the UI.
- * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
- * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
- */
-/**
- * Colors
- */
-/**
- * Fonts & basic variables.
- */
-/**
- * Grid System.
- * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
- */
-/**
- * Dimensions.
- */
-/**
- * Shadows.
- */
-/**
- * Editor widths.
- */
-/**
- * Block & Editor UI.
- */
-/**
- * Block paddings.
- */
-/**
- * React Native specific.
- * These variables do not appear to be used anywhere else.
- */
-/**
-*  Converts a hex value into the rgb equivalent.
-*
-* @param {string} hex - the hexadecimal value to convert
-* @return {string} comma separated rgb values
-*/
-/**
- * Breakpoint mixins
- */
-/**
- * Long content fade mixin
- *
- * Creates a fading overlay to signify that the content is longer
- * than the space allows.
- */
-/**
- * Focus styles.
- */
-/**
- * Applies editor left position to the selector passed as argument
- */
-/**
- * Styles that are reused verbatim in a few places
- */
-/**
- * Allows users to opt-out of animations via OS-level preferences.
- */
-/**
- * Reset default styles for JavaScript UI based pages.
- * This is a WP-admin agnostic reset
- */
-/**
- * Reset the WP Admin page styles for Gutenberg-like pages.
- */
-.block-editor-template-part__selection-modal {
-  z-index: 1000001;
+.block-editor-template-part__selection-modal{
+  z-index:1000001;
 }
-@media (min-width: 600px) {
-  .block-editor-template-part__selection-modal .components-modal__frame {
-    width: calc(100% - 32px);
-    height: calc(100% - 120px);
+@media (min-width:600px){
+  .block-editor-template-part__selection-modal .components-modal__frame{
+    height:calc(100% - 120px);
+    width:calc(100% - 32px);
   }
 }
-@media (min-width: 782px) {
-  .block-editor-template-part__selection-modal .components-modal__frame {
-    width: 750px;
+@media (min-width:782px){
+  .block-editor-template-part__selection-modal .components-modal__frame{
+    width:750px;
   }
 }
-@media (min-width: 960px) {
-  .block-editor-template-part__selection-modal .components-modal__frame {
-    height: 70%;
+@media (min-width:960px){
+  .block-editor-template-part__selection-modal .components-modal__frame{
+    height:70%;
   }
 }
 
-.block-library-template-part__selection-search {
-  background: #fff;
-  position: sticky;
-  top: 0;
-  padding: 16px 0;
-  z-index: 1;
+.block-library-template-part__selection-search{
+  background:#fff;
+  padding:16px 0;
+  position:sticky;
+  top:0;
+  z-index:1;
 }

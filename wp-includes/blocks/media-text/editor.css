@@ -1,106 +1,30 @@
-/**
- * Colors
- */
-/**
- * Breakpoints & Media Queries
- */
-/**
- * SCSS Variables.
- *
- * Please use variables from this sheet to ensure consistency across the UI.
- * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
- * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
- */
-/**
- * Colors
- */
-/**
- * Fonts & basic variables.
- */
-/**
- * Grid System.
- * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
- */
-/**
- * Dimensions.
- */
-/**
- * Shadows.
- */
-/**
- * Editor widths.
- */
-/**
- * Block & Editor UI.
- */
-/**
- * Block paddings.
- */
-/**
- * React Native specific.
- * These variables do not appear to be used anywhere else.
- */
-/**
-*  Converts a hex value into the rgb equivalent.
-*
-* @param {string} hex - the hexadecimal value to convert
-* @return {string} comma separated rgb values
-*/
-/**
- * Breakpoint mixins
- */
-/**
- * Long content fade mixin
- *
- * Creates a fading overlay to signify that the content is longer
- * than the space allows.
- */
-/**
- * Focus styles.
- */
-/**
- * Applies editor left position to the selector passed as argument
- */
-/**
- * Styles that are reused verbatim in a few places
- */
-/**
- * Allows users to opt-out of animations via OS-level preferences.
- */
-/**
- * Reset default styles for JavaScript UI based pages.
- * This is a WP-admin agnostic reset
- */
-/**
- * Reset the WP Admin page styles for Gutenberg-like pages.
- */
-.wp-block-media-text__media {
-  position: relative;
+.wp-block-media-text__media{
+  position:relative;
 }
-.wp-block-media-text__media.is-transient img {
-  opacity: 0.3;
+.wp-block-media-text__media.is-transient img{
+  opacity:.3;
 }
-.wp-block-media-text__media .components-spinner {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-top: -9px;
-  margin-left: -9px;
+.wp-block-media-text__media .components-spinner{
+  left:50%;
+  margin-left:-9px;
+  margin-top:-9px;
+  position:absolute;
+  top:50%;
 }
 
-.wp-block-media-text .__resizable_base__ {
-  grid-column: 1/span 2;
-  grid-row: 2;
+.wp-block-media-text .__resizable_base__{
+  grid-column:1 / span 2;
+  grid-row:2;
 }
 
-.wp-block-media-text .editor-media-container__resizer {
-  width: 100% !important;
+.wp-block-media-text .editor-media-container__resizer{
+  width:100% !important;
 }
 
-.wp-block-media-text.is-image-fill .editor-media-container__resizer {
-  height: 100% !important;
+.wp-block-media-text.is-image-fill .editor-media-container__resizer{
+  height:100% !important;
 }
 
-.wp-block-media-text > .block-editor-block-list__layout > .block-editor-block-list__block {
-  max-width: unset;
+.wp-block-media-text>.block-editor-block-list__layout>.block-editor-block-list__block{
+  max-width:unset;
 }
