@@ -186,14 +186,14 @@ function wp_insert_category( $catarr, $wp_error = false ) {
  * @return int|false The ID number of the new or updated Category on success. Zero or FALSE on failure.
  */
 function wp_update_category( $catarr ) {
-	$cat_ID = (int) $catarr['cat_ID'];
+	$cat_id = (int) $catarr['cat_ID'];
 
-	if ( isset( $catarr['category_parent'] ) && ( $cat_ID == $catarr['category_parent'] ) ) {
+	if ( isset( $catarr['category_parent'] ) && ( $cat_id == $catarr['category_parent'] ) ) {
 		return false;
 	}
 
 	// First, get all of the original fields.
-	$category = get_term( $cat_ID, 'category', ARRAY_A );
+	$category = get_term( $cat_id, 'category', ARRAY_A );
 	_make_cat_compat( $category );
 
 	// Escape data pulled from DB.
