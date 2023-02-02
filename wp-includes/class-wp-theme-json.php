@@ -425,6 +425,7 @@ class WP_Theme_JSON {
 			'textDecoration' => null,
 			'textTransform'  => null,
 		),
+		'css'        => null,
 	);
 
 	/**
@@ -1000,6 +1001,31 @@ class WP_Theme_JSON {
 
 		if ( in_array( 'presets', $types, true ) ) {
 			$stylesheet .= $this->get_preset_classes( $setting_nodes, $origins );
+		}
+
+		return $stylesheet;
+	}
+
+	/**
+	 * Returns the global styles custom css.
+	 *
+	 * @since 6.2.0
+	 *
+	 * @return string
+	 */
+	public function get_custom_css() {
+		// Add the global styles root CSS.
+		$stylesheet = _wp_array_get( $this->theme_json, array( 'styles', 'css' ), '' );
+
+		// Add the global styles block CSS.
+		if ( isset( $this->theme_json['styles']['blocks'] ) ) {
+			foreach ( $this->theme_json['styles']['blocks'] as $name => $node ) {
+				$custom_block_css = _wp_array_get( $this->theme_json, array( 'styles', 'blocks', $name, 'css' ) );
+				if ( $custom_block_css ) {
+					$selector    = static::$blocks_metadata[ $name ]['selector'];
+					$stylesheet .= $this->process_blocks_custom_css( $custom_block_css, $selector );
+				}
+			}
 		}
 
 		return $stylesheet;
@@ -2740,7 +2766,12 @@ class WP_Theme_JSON {
 				continue;
 			}
 
-			$output = static::remove_insecure_styles( $input );
+			// The global styles custom CSS is not sanitized, but can only be edited by users with 'edit_css' capability.
+			if ( isset( $input['css'] ) && current_user_can( 'edit_css' ) ) {
+				$output = $input;
+			} else {
+				$output = static::remove_insecure_styles( $input );
+			}
 
 			/*
 			 * Get a reference to element name from path.

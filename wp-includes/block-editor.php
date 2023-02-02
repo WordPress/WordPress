@@ -410,6 +410,16 @@ function get_block_editor_settings( array $custom_settings, $block_editor_contex
 			$block_classes['css'] = $actual_css;
 			$global_styles[]      = $block_classes;
 		}
+
+		/*
+		 * Add the custom CSS as a separate stylesheet so any invalid CSS
+		 * entered by users does not break other global styles.
+		 */
+		$editor_settings['styles'][] = array(
+			'css'            => wp_get_global_styles_custom_css(),
+			'__unstableType' => 'user',
+			'isGlobalStyles' => true,
+		);
 	} else {
 		// If there is no `theme.json` file, ensure base layout styles are still available.
 		$block_classes = array(

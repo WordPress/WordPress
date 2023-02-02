@@ -268,6 +268,10 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Controller {
 		}
 
 		$changes = $this->prepare_item_for_database( $request );
+		if ( is_wp_error( $changes ) ) {
+			return $changes;
+		}
+
 		$result  = wp_update_post( wp_slash( (array) $changes ), true, false );
 		if ( is_wp_error( $result ) ) {
 			return $result;
@@ -290,9 +294,10 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Controller {
 	 * Prepares a single global styles config for update.
 	 *
 	 * @since 5.9.0
+	 * @since 6.2.0 Added validation of styles.css property.
 	 *
 	 * @param WP_REST_Request $request Request object.
-	 * @return stdClass Changes to pass to wp_update_post.
+	 * @return stdClass|WP_Error Prepared item on success. WP_Error on when the custom CSS is not valid.
 	 */
 	protected function prepare_item_for_database( $request ) {
 		$changes     = new stdClass();
@@ -312,6 +317,12 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Controller {
 		if ( isset( $request['styles'] ) || isset( $request['settings'] ) ) {
 			$config = array();
 			if ( isset( $request['styles'] ) ) {
+				if ( isset( $request['styles']['css'] ) ) {
+					$css_validation_result = $this->validate_custom_css( $request['styles']['css'] );
+					if ( is_wp_error( $css_validation_result ) ) {
+						return $css_validation_result;
+					}
+				}
 				$config['styles'] = $request['styles'];
 			} elseif ( isset( $existing_config['styles'] ) ) {
 				$config['styles'] = $existing_config['styles'];
@@ -656,5 +667,26 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Controller {
 		$response   = rest_ensure_response( $variations );
 
 		return $response;
+	}
+
+	/**
+	 * Validate style.css as valid CSS.
+	 *
+	 * Currently just checks for invalid markup.
+	 *
+	 * @since 6.2.0
+	 *
+	 * @param string $css CSS to validate.
+	 * @return true|WP_Error True if the input was validated, otherwise WP_Error.
+	 */
+	private function validate_custom_css( $css ) {
+		if ( preg_match( '#</?\w+#', $css ) ) {
+			return new WP_Error(
+				'rest_custom_css_illegal_markup',
+				__( 'Markup is not allowed in CSS.' ),
+				array( 'status' => 400 )
+			);
+		}
+		return true;
 	}
 }
