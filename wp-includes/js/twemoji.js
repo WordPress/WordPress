@@ -4,6 +4,11 @@ var twemoji = (function (
     https://github.com/twitter/twemoji/blob/gh-pages/LICENSE
   */
 
+  /*
+   * Note: this file was modified in two places to add support for a doNotParse() callback.
+   * The modifications are surrounded by `// WP start` and `// WP end` comments.
+   */
+
   // WARNING:   this file is generated automatically via
   //            `node scripts/build.js`
   //            please update its `createTwemoji` function
@@ -305,6 +310,14 @@ var twemoji = (function (
       // should not be parsed as script, style, and others
       else if (nodeType === 1 && !('ownerSVGElement' in subnode) &&
           !shouldntBeParsed.test(subnode.nodeName.toLowerCase())) {
+
+        // WP start
+        // Use doNotParse() callback if set.
+        if ( twemoji.doNotParse && twemoji.doNotParse( subnode ) ) {
+            continue;
+        }
+        // WP end
+
         grabAllTextNodes(subnode, allText);
       }
     }
@@ -520,6 +533,14 @@ var twemoji = (function (
     if (!how || typeof how === 'function') {
       how = {callback: how};
     }
+
+    // WP start
+    // Allow passing of the doNotParse() callback in the settings.
+    // The callback is used in `grabAllTextNodes()` (DOM mode only) as a filter
+    // that allows bypassing of some of the text nodes. It gets the current subnode as argument.
+    twemoji.doNotParse = how.doNotParse;
+    // WP end
+
     // if first argument is string, inject html <img> tags
     // otherwise use the DOM tree and parse text nodes only
     return (typeof what === 'string' ? parseString : parseNode)(what, {
