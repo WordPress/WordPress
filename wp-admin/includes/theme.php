@@ -555,6 +555,7 @@ function themes_api( $action, $args = array() ) {
 		}
 
 		$http_args = array(
+			'timeout'    => 15,
 			'user-agent' => 'WordPress/' . $wp_version . '; ' . home_url( '/' ),
 		);
 		$request   = wp_remote_get( $url, $http_args );
