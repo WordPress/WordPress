@@ -705,6 +705,8 @@ function create_initial_post_types() {
 /**
  * Retrieves attached file path based on attachment ID.
  *
+ * Will return intermediate size path if $size param is provided.
+ *
  * By default the path will go through the 'get_attached_file' filter, but
  * passing a true to the $unfiltered argument of get_attached_file() will
  * return the file path unfiltered.
@@ -715,13 +717,27 @@ function create_initial_post_types() {
  * attached filename through a filter.
  *
  * @since 2.0.0
+ * @since 6.2 The `$size` parameter was added
  *
- * @param int  $attachment_id Attachment ID.
- * @param bool $unfiltered    Optional. Whether to apply filters. Default false.
+ * @param int          $attachment_id Attachment ID.
+ * @param bool         $unfiltered    Optional. Whether to apply filters. Default false.
+ * @param string|int[] $size          Optional. Image size. Accepts any registered image size name, or an array
+ *                                    of width and height values in pixels (in that order). Default ''.
+ *
  * @return string|false The file path to where the attached file should be, false otherwise.
  */
-function get_attached_file( $attachment_id, $unfiltered = false ) {
-	$file = get_post_meta( $attachment_id, '_wp_attached_file', true );
+function get_attached_file( $attachment_id, $unfiltered = false, $size = '' ) {
+
+	// Check for intermediate sizes first, otherwise fallback to original attachment size
+	if ( ! empty( $size ) ) {
+		$intermediate_image = image_get_intermediate_size( $attachment_id, $size );
+		if ( ! $intermediate_image || ! isset( $intermediate_image['path'] ) ) {
+			return false;
+		}
+		$file = $intermediate_image['path'];
+	} else {
+		$file = get_post_meta( $attachment_id, '_wp_attached_file', true );
+	}
 
 	// If the file is relative, prepend upload dir.
 	if ( $file && 0 !== strpos( $file, '/' ) && ! preg_match( '|^.:\\\|', $file ) ) {
