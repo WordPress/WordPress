@@ -842,8 +842,16 @@ class WP_Media_List_Table extends WP_List_Table {
 					esc_url( wp_get_attachment_url( $post->ID ) ),
 					/* translators: %s: Attachment title. */
 					esc_attr( sprintf( __( 'Copy &#8220;%s&#8221; URL to clipboard' ), $att_title ) ),
-					__( 'Copy URL to clipboard' ),
+					__( 'Copy URL' ),
 					__( 'Copied!' )
+				);
+
+				$actions['download'] = sprintf(
+					'<a href="%s" aria-label="%s" download>%s</a>',
+					wp_get_attachment_url( $post->ID ),
+					/* translators: %s: Attachment title. */
+					esc_attr( sprintf( __( 'Download &#8220;%s&#8221;' ), $att_title ) ),
+					__( 'Download file' )
 				);
 			}
 		}
