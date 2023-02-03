@@ -1084,10 +1084,10 @@ function _wp_object_name_sort_cb( $a, $b ) {
  *
  * @param object $a The first object to compare.
  * @param object $b The second object to compare.
- * @return bool Whether the count value for `$a` is greater than the count value for `$b`.
+ * @return int The count value for `$a` minus the count value for `$b` (less than, equal to, or greater than zero).
  */
 function _wp_object_count_sort_cb( $a, $b ) {
-	return ( $a->count > $b->count );
+	return ( $a->count - $b->count );
 }
 
 //
