@@ -558,7 +558,7 @@ class WP_HTML_Tag_Processor {
 	 *
 	 *     @type string|null $tag_name     Which tag to find, or `null` for "any tag."
 	 *     @type int|null    $match_offset Find the Nth tag matching all search criteria.
-	 *                                     0 for "first" tag, 2 for "third," etc.
+	 *                                     1 for "first" tag, 3 for "third," etc.
 	 *                                     Defaults to first tag.
 	 *     @type string|null $class_name   Tag must contain this whole class name to match.
 	 *     @type string|null $tag_closers  "visit" or "skip": whether to stop on tag closers, e.g. </div>.
@@ -2097,7 +2097,7 @@ class WP_HTML_Tag_Processor {
 	 *
 	 *     @type string|null $tag_name     Which tag to find, or `null` for "any tag."
 	 *     @type int|null    $match_offset Find the Nth tag matching all search criteria.
-	 *                                     0 for "first" tag, 2 for "third," etc.
+	 *                                     1 for "first" tag, 3 for "third," etc.
 	 *                                     Defaults to first tag.
 	 *     @type string|null $class_name   Tag must contain this class name to match.
 	 *     @type string      $tag_closers  "visit" or "skip": whether to stop on tag closers, e.g. </div>.
