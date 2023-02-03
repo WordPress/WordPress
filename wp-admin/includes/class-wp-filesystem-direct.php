@@ -316,7 +316,14 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	}
 
 	/**
-	 * Moves a file.
+	 * Moves a file or directory.
+	 *
+	 * After moving files or directories, OPcache will need to be invalidated.
+	 *
+	 * If moving a directory fails, `copy_dir()` can be used for a recursive copy.
+	 *
+	 * Use `move_dir()` for moving directories with OPcache invalidation and a
+	 * fallback to `copy_dir()`.
 	 *
 	 * @since 2.5.0
 	 *
@@ -331,12 +338,18 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 			return false;
 		}
 
+		if ( $overwrite && $this->exists( $destination ) && ! $this->delete( $destination, true ) ) {
+			// Can't overwrite if the destination couldn't be deleted.
+			return false;
+		}
+
 		// Try using rename first. if that fails (for example, source is read only) try copy.
 		if ( @rename( $source, $destination ) ) {
 			return true;
 		}
 
-		if ( $this->copy( $source, $destination, $overwrite ) && $this->exists( $destination ) ) {
+		// Backward compatibility: Only fall back to `::copy()` for single files.
+		if ( $this->is_file( $source ) && $this->copy( $source, $destination, $overwrite ) && $this->exists( $destination ) ) {
 			$this->delete( $source );
 
 			return true;
