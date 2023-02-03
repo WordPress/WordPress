@@ -506,13 +506,13 @@ function wp_install_maybe_enable_pretty_permalinks() {
 
 		/*
 		 * Send a request to the site, and check whether
-		 * the 'x-pingback' header is returned as expected.
+		 * the 'X-Pingback' header is returned as expected.
 		 *
 		 * Uses wp_remote_get() instead of wp_remote_head() because web servers
 		 * can block head requests.
 		 */
 		$response          = wp_remote_get( $test_url, array( 'timeout' => 5 ) );
-		$x_pingback_header = wp_remote_retrieve_header( $response, 'x-pingback' );
+		$x_pingback_header = wp_remote_retrieve_header( $response, 'X-Pingback' );
 		$pretty_permalinks = $x_pingback_header && get_bloginfo( 'pingback_url' ) === $x_pingback_header;
 
 		if ( $pretty_permalinks ) {
