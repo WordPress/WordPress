@@ -754,11 +754,14 @@ function get_attached_file( $attachment_id, $unfiltered = false, $size = '' ) {
 	 * Filters the attached file based on the given ID.
 	 *
 	 * @since 2.1.0
+	 * @since 6.2.0 The `$size` parameter was added.
 	 *
 	 * @param string|false $file          The file path to where the attached file should be, false otherwise.
 	 * @param int          $attachment_id Attachment ID.
+	 * @param string|int[] $size          Optional. Image size. Accepts any registered image size name, or an array
+	 *                                    of width and height values in pixels (in that order). Default empty string.
 	 */
-	return apply_filters( 'get_attached_file', $file, $attachment_id );
+	return apply_filters( 'get_attached_file', $file, $attachment_id, $size );
 }
 
 /**
