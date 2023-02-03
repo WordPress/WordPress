@@ -733,11 +733,12 @@ function locale_stylesheet() {
  * @global array                $wp_theme_directories
  * @global WP_Customize_Manager $wp_customize
  * @global array                $sidebars_widgets
+ * @global array                $wp_registered_sidebars
  *
  * @param string $stylesheet Stylesheet name.
  */
 function switch_theme( $stylesheet ) {
-	global $wp_theme_directories, $wp_customize, $sidebars_widgets;
+	global $wp_theme_directories, $wp_customize, $sidebars_widgets, $wp_registered_sidebars;
 
 	$requirements = validate_theme_requirements( $stylesheet );
 	if ( is_wp_error( $requirements ) ) {
@@ -812,6 +813,11 @@ function switch_theme( $stylesheet ) {
 		if ( 'wp_ajax_customize_save' === current_action() ) {
 			remove_theme_mod( 'sidebars_widgets' );
 		}
+	}
+
+	// Stores classic sidebars for later use by block themes.
+	if ( $new_theme->is_block_theme() ) {
+		set_theme_mod( 'wp_classic_sidebars', $wp_registered_sidebars );
 	}
 
 	update_option( 'theme_switched', $old_theme->get_stylesheet() );

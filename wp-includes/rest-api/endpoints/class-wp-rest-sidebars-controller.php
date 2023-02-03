@@ -339,6 +339,10 @@ class WP_REST_Sidebars_Controller extends WP_REST_Controller {
 			$sidebar['class']       = '';
 		}
 
+		if ( wp_is_block_theme() ) {
+			$sidebar['status'] = 'inactive';
+		}
+
 		$fields = $this->get_fields_for_response( $request );
 		if ( rest_is_field_included( 'widgets', $fields ) ) {
 			$sidebars = wp_get_sidebars_widgets();
