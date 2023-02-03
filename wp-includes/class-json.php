@@ -291,7 +291,7 @@ class Services_JSON
     {
         _deprecated_function( __METHOD__, '5.3.0', 'The PHP native JSON extension' );
 
-        header('Content-type: application/json');
+        header('Content-Type: application/json');
         return $this->encodeUnsafe($var);
     }
     /**

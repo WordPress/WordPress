@@ -171,7 +171,7 @@ for ( $i = 1; $i <= $count; $i++ ) {
 		$content = explode( '--' . $boundary, $content );
 		$content = $content[2];
 
-		// Match case-insensitive content-transfer-encoding.
+		// Match case-insensitive Content-Transfer-Encoding.
 		if ( preg_match( '/Content-Transfer-Encoding: quoted-printable/i', $content, $delim ) ) {
 			$content = explode( $delim[0], $content );
 			$content = $content[1];

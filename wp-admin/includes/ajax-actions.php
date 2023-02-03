@@ -2532,7 +2532,7 @@ function wp_ajax_upload_attachment() {
 	check_ajax_referer( 'media-form' );
 	/*
 	 * This function does not use wp_send_json_success() / wp_send_json_error()
-	 * as the html4 Plupload handler requires a text/html content-type for older IE.
+	 * as the html4 Plupload handler requires a text/html Content-Type for older IE.
 	 * See https://core.trac.wordpress.org/ticket/31037
 	 */
 

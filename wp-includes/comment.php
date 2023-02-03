@@ -2824,12 +2824,12 @@ function discover_pingback_server_uri( $url, $deprecated = '' ) {
 		return false;
 	}
 
-	if ( wp_remote_retrieve_header( $response, 'x-pingback' ) ) {
-		return wp_remote_retrieve_header( $response, 'x-pingback' );
+	if ( wp_remote_retrieve_header( $response, 'X-Pingback' ) ) {
+		return wp_remote_retrieve_header( $response, 'X-Pingback' );
 	}
 
 	// Not an (x)html, sgml, or xml page, no use going further.
-	if ( preg_match( '#(image|audio|video|model)/#is', wp_remote_retrieve_header( $response, 'content-type' ) ) ) {
+	if ( preg_match( '#(image|audio|video|model)/#is', wp_remote_retrieve_header( $response, 'Content-Type' ) ) ) {
 		return false;
 	}
 

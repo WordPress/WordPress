@@ -943,8 +943,8 @@ function do_enclose( $content, $post ) {
 
 			$headers = wp_get_http_headers( $url );
 			if ( $headers ) {
-				$len           = isset( $headers['content-length'] ) ? (int) $headers['content-length'] : 0;
-				$type          = isset( $headers['content-type'] ) ? $headers['content-type'] : '';
+				$len           = isset( $headers['Content-Length'] ) ? (int) $headers['Content-Length'] : 0;
+				$type          = isset( $headers['Content-Type'] ) ? $headers['Content-Type'] : '';
 				$allowed_types = array( 'video', 'audio' );
 
 				// Check to see if we can figure out the mime type from the extension.
