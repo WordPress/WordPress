@@ -2781,9 +2781,9 @@ function wp_update_comment_count_now( $post_id ) {
 /**
  * Finds a pingback server URI based on the given URL.
  *
- * Checks the HTML for the rel="pingback" link and x-pingback headers. It does
- * a check for the x-pingback headers first and returns that, if available. The
- * check for the rel="pingback" has more overhead than just the header.
+ * Checks the HTML for the rel="pingback" link and X-Pingback headers. It does
+ * a check for the X-Pingback headers first and returns that, if available.
+ * The check for the rel="pingback" has more overhead than just the header.
  *
  * @since 1.5.0
  *
