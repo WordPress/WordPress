@@ -5752,65 +5752,6 @@ function get_page_by_path( $page_path, $output = OBJECT, $post_type = 'page' ) {
 }
 
 /**
- * Retrieves a page given its title.
- *
- * If more than one post uses the same title, the post with the smallest ID will be returned.
- * Be careful: in case of more than one post having the same title, it will check the oldest
- * publication date, not the smallest ID.
- *
- * Because this function uses the MySQL '=' comparison, $page_title will usually be matched
- * as case-insensitive with default collation.
- *
- * @since 2.1.0
- * @since 3.0.0 The `$post_type` parameter was added.
- *
- * @global wpdb $wpdb WordPress database abstraction object.
- *
- * @param string       $page_title Page title.
- * @param string       $output     Optional. The required return type. One of OBJECT, ARRAY_A, or ARRAY_N, which
- *                                 correspond to a WP_Post object, an associative array, or a numeric array,
- *                                 respectively. Default OBJECT.
- * @param string|array $post_type  Optional. Post type or array of post types. Default 'page'.
- * @return WP_Post|array|null WP_Post (or array) on success, or null on failure.
- */
-function get_page_by_title( $page_title, $output = OBJECT, $post_type = 'page' ) {
-	global $wpdb;
-
-	if ( is_array( $post_type ) ) {
-		$post_type           = esc_sql( $post_type );
-		$post_type_in_string = "'" . implode( "','", $post_type ) . "'";
-		$sql                 = $wpdb->prepare(
-			"
-			SELECT ID
-			FROM $wpdb->posts
-			WHERE post_title = %s
-			AND post_type IN ($post_type_in_string)
-		",
-			$page_title
-		);
-	} else {
-		$sql = $wpdb->prepare(
-			"
-			SELECT ID
-			FROM $wpdb->posts
-			WHERE post_title = %s
-			AND post_type = %s
-		",
-			$page_title,
-			$post_type
-		);
-	}
-
-	$page = $wpdb->get_var( $sql );
-
-	if ( $page ) {
-		return get_post( $page, $output );
-	}
-
-	return null;
-}
-
-/**
  * Identifies descendants of a given page ID in a list of page objects.
  *
  * Descendants are identified from the `$pages` array passed to the function. No database queries are performed.
