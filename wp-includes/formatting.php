@@ -2047,6 +2047,7 @@ function sanitize_file_name( $filename ) {
 
 	$filename = str_replace( $special_chars, '', $filename );
 	$filename = str_replace( array( '%20', '+' ), '-', $filename );
+	$filename = preg_replace( '/\.{2,}/', '.', $filename );
 	$filename = preg_replace( '/[\r\n\t -]+/', '-', $filename );
 	$filename = trim( $filename, '.-_' );
 
