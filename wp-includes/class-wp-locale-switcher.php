@@ -92,8 +92,8 @@ class WP_Locale_Switcher {
 		 * @since 4.7.0
 		 * @since 6.2.0 The `$user_id` parameter was added.
 		 *
-		 * @param string   $locale  The new locale.
-		 * @param null|int $user_id User ID for context if available.
+		 * @param string    $locale  The new locale.
+		 * @param false|int $user_id User ID for context if available.
 		 */
 		do_action( 'switch_locale', $locale, $user_id );
 
@@ -186,7 +186,7 @@ class WP_Locale_Switcher {
 	 *
 	 * @return string|false Locale if the locale has been switched, false otherwise.
 	 */
-	public function get_current_locale() {
+	public function get_switched_locale() {
 		$entry = end( $this->stack );
 
 		if ( $entry ) {
@@ -203,7 +203,7 @@ class WP_Locale_Switcher {
 	 *
 	 * @return int|false User ID if set and if the locale has been switched, false otherwise.
 	 */
-	public function get_current_user_id() {
+	public function get_switched_user_id() {
 		$entry = end( $this->stack );
 
 		if ( $entry ) {
@@ -222,7 +222,7 @@ class WP_Locale_Switcher {
 	 * @return string The locale currently being switched to.
 	 */
 	public function filter_locale( $locale ) {
-		$switched_locale = $this->get_current_locale();
+		$switched_locale = $this->get_switched_locale();
 
 		if ( $switched_locale ) {
 			return $switched_locale;
