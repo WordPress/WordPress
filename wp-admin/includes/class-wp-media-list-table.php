@@ -852,7 +852,7 @@ class WP_Media_List_Table extends WP_List_Table {
 
 				$actions['download'] = sprintf(
 					'<a href="%s" aria-label="%s" download>%s</a>',
-					wp_get_attachment_url( $post->ID ),
+					esc_url( wp_get_attachment_url( $post->ID ) ),
 					/* translators: %s: Attachment title. */
 					esc_attr( sprintf( __( 'Download &#8220;%s&#8221;' ), $att_title ) ),
 					__( 'Download file' )
