@@ -429,6 +429,7 @@ class WP_Upgrader {
 	 * clear out the destination folder if it already exists.
 	 *
 	 * @since 2.8.0
+	 * @since 6.2.0 Use move_dir() instead of copy_dir() when possible.
 	 *
 	 * @global WP_Filesystem_Base $wp_filesystem        WordPress filesystem subclass.
 	 * @global array              $wp_theme_directories
@@ -586,15 +587,26 @@ class WP_Upgrader {
 			}
 		}
 
-		// Create destination if needed.
-		if ( ! $wp_filesystem->exists( $remote_destination ) ) {
-			if ( ! $wp_filesystem->mkdir( $remote_destination, FS_CHMOD_DIR ) ) {
-				return new WP_Error( 'mkdir_failed_destination', $this->strings['mkdir_failed'], $remote_destination );
+		/*
+		 * Partial updates may want to retain the destination.
+		 * move_dir() returns a WP_Error when the destination exists,
+		 * so copy_dir() should be used.
+		 *
+		 * If 'clear_working' is false, the source shouldn't be removed.
+		 * After move_dir() runs, the source will no longer exist.
+		 * Therefore, copy_dir() should be used.
+		 */
+		if ( $clear_destination && $args['clear_working'] ) {
+			$result = move_dir( $source, $remote_destination, true );
+		} else {
+			// Create destination if needed.
+			if ( ! $wp_filesystem->exists( $remote_destination ) ) {
+				if ( ! $wp_filesystem->mkdir( $remote_destination, FS_CHMOD_DIR ) ) {
+					return new WP_Error( 'mkdir_failed_destination', $this->strings['mkdir_failed'], $remote_destination );
+				}
 			}
+			$result = copy_dir( $source, $remote_destination );
 		}
-
-		// Copy new version of item into place.
-		$result = copy_dir( $source, $remote_destination );
 
 		// Clear the working folder?
 		if ( $args['clear_working'] ) {
