@@ -1955,6 +1955,8 @@ function copy_dir( $from, $to, $skip_list = array() ) {
  *
  * Assumes that WP_Filesystem() has already been called and setup.
  *
+ * This function is not designed to merge directories, copy_dir() should be used instead.
+ *
  * @since 6.2.0
  *
  * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
@@ -1979,7 +1981,12 @@ function move_dir( $from, $to, $overwrite = false ) {
 		return new WP_Error( 'destination_already_exists_move_dir', __( 'The destination folder already exists.' ), $to );
 	}
 
-	if ( $wp_filesystem->move( $from, $to, $overwrite ) ) {
+	if ( $overwrite && $wp_filesystem->exists( $to ) && ! $wp_filesystem->delete( $to, true ) ) {
+		// Can't overwrite if the destination couldn't be deleted.
+		return WP_Error( 'destination_not_deleted_move_dir', __( 'The destination directory already exists and could not be removed.' ) );
+	}
+
+	if ( $wp_filesystem->move( $from, $to ) ) {
 		/*
 		 * When using an environment with shared folders,
 		 * there is a delay in updating the filesystem's cache.
