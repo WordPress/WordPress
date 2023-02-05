@@ -1599,6 +1599,10 @@ function update_core( $from, $to ) {
 function _preload_old_requests_classes_and_interfaces( $to ) {
 	global $_old_requests_files, $wp_filesystem;
 
+	if ( ! defined( 'REQUESTS_SILENCE_PSR0_DEPRECATIONS' ) ) {
+		define( 'REQUESTS_SILENCE_PSR0_DEPRECATIONS', true );
+	}
+
 	foreach ( $_old_requests_files as $name => $file ) {
 		// Skip files that aren't interfaces or classes.
 		if ( is_int( $name ) ) {
