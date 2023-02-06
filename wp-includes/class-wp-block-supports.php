@@ -181,7 +181,7 @@ function get_block_wrapper_attributes( $extra_attributes = array() ) {
 
 	// This is hardcoded on purpose.
 	// We only support a fixed list of attributes.
-	$attributes_to_merge = array( 'style', 'class' );
+	$attributes_to_merge = array( 'style', 'class', 'id' );
 	$attributes          = array();
 	foreach ( $attributes_to_merge as $attribute_name ) {
 		if ( empty( $new_attributes[ $attribute_name ] ) && empty( $extra_attributes[ $attribute_name ] ) ) {
