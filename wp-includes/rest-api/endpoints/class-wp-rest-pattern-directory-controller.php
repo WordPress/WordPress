@@ -103,7 +103,7 @@ class WP_REST_Pattern_Directory_Controller extends WP_REST_Controller {
 			'search'   => true,
 			'slug'     => true,
 		);
-		$query_args = array_intersect_key( $request->get_params(), $valid_query_args );
+		$query_args       = array_intersect_key( $request->get_params(), $valid_query_args );
 
 		$query_args['locale']             = get_user_locale();
 		$query_args['wp-version']         = $wp_version; // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UndefinedVariable -- it's defined in `version.php` above.
@@ -202,6 +202,7 @@ class WP_REST_Pattern_Directory_Controller extends WP_REST_Controller {
 			'keywords'       => array_map( 'sanitize_text_field', explode( ',', $raw_pattern->meta->wpop_keywords ) ),
 			'description'    => sanitize_text_field( $raw_pattern->meta->wpop_description ),
 			'viewport_width' => absint( $raw_pattern->meta->wpop_viewport_width ),
+			'block_types'    => array_map( 'sanitize_text_field', $raw_pattern->meta->wpop_block_types ),
 		);
 
 		$prepared_pattern = $this->add_additional_fields_to_object( $prepared_pattern, $request );
@@ -224,6 +225,7 @@ class WP_REST_Pattern_Directory_Controller extends WP_REST_Controller {
 	 * Retrieves the block pattern's schema, conforming to JSON Schema.
 	 *
 	 * @since 5.8.0
+	 * @since 6.2.0 Added `'block_types'` to schema.
 	 *
 	 * @return array Item schema data.
 	 */
@@ -285,6 +287,14 @@ class WP_REST_Pattern_Directory_Controller extends WP_REST_Controller {
 					'description' => __( 'The preferred width of the viewport when previewing a pattern, in pixels.' ),
 					'type'        => 'integer',
 					'context'     => array( 'view', 'edit', 'embed' ),
+				),
+
+				'block_types'    => array(
+					'description' => __( 'The block types which can use this pattern.' ),
+					'type'        => 'array',
+					'uniqueItems' => true,
+					'items'       => array( 'type' => 'string' ),
+					'context'     => array( 'view', 'embed' ),
 				),
 			),
 		);
