@@ -281,6 +281,7 @@ $avatar_defaults = array(
 	'wavatar'          => __( 'Wavatar (Generated)' ),
 	'monsterid'        => __( 'MonsterID (Generated)' ),
 	'retro'            => __( 'Retro (Generated)' ),
+	'robohash'         => __( 'RoboHash (Generated)' ),
 );
 /**
  * Filters the default avatars.
