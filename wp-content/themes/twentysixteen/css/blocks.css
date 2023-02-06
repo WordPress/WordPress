@@ -58,6 +58,12 @@ p.has-drop-cap:not(:focus)::first-letter {
 		margin-left: 0;
 		margin-right: -40%;
 	}
+
+	body:not(.search-results) article:not(.type-page) .wp-block-gallery .wp-block-image img.below-entry-meta,
+	body:not(.search-results) article:not(.type-page) .wp-block-gallery .wp-block-image figcaption.below-entry-meta {
+		margin: 0;
+		max-width: 100%;
+	}
 }
 
 /* Gallery */

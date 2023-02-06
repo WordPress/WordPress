@@ -3614,6 +3614,7 @@ p > video {
 		max-width: 140%;
 	}
 
+	body:not(.search-results) article:not(.type-page) .gallery-item img.below-entry-meta,
 	body:not(.search-results) article:not(.type-page) figure.below-entry-meta img.below-entry-meta,
 	body:not(.search-results) article:not(.type-page) table figure.below-entry-meta,
 	body:not(.search-results) article:not(.type-page) table img.below-entry-meta {
