@@ -427,14 +427,16 @@ class WP_Theme_JSON_Resolver {
 		$post_type_filter = 'wp_global_styles';
 		$stylesheet       = $theme->get_stylesheet();
 		$args             = array(
-			'posts_per_page'      => 1,
-			'orderby'             => 'date',
-			'order'               => 'desc',
-			'post_type'           => $post_type_filter,
-			'post_status'         => $post_status_filter,
-			'ignore_sticky_posts' => true,
-			'no_found_rows'       => true,
-			'tax_query'           => array(
+			'posts_per_page'         => 1,
+			'orderby'                => 'date',
+			'order'                  => 'desc',
+			'post_type'              => $post_type_filter,
+			'post_status'            => $post_status_filter,
+			'ignore_sticky_posts'    => true,
+			'no_found_rows'          => true,
+			'update_post_meta_cache' => false,
+			'update_post_term_cache' => false,
+			'tax_query'              => array(
 				array(
 					'taxonomy' => 'wp_theme',
 					'field'    => 'name',
@@ -446,7 +448,7 @@ class WP_Theme_JSON_Resolver {
 		$global_style_query = new WP_Query();
 		$recent_posts       = $global_style_query->query( $args );
 		if ( count( $recent_posts ) === 1 ) {
-			$user_cpt = get_post( $recent_posts[0], ARRAY_A );
+			$user_cpt = get_object_vars( $recent_posts[0] );
 		} elseif ( $create_post ) {
 			$cpt_post_id = wp_insert_post(
 				array(
@@ -462,7 +464,7 @@ class WP_Theme_JSON_Resolver {
 				true
 			);
 			if ( ! is_wp_error( $cpt_post_id ) ) {
-				$user_cpt = get_post( $cpt_post_id, ARRAY_A );
+				$user_cpt = get_object_vars( get_post( $cpt_post_id ) );
 			}
 		}
 
@@ -525,9 +527,15 @@ class WP_Theme_JSON_Resolver {
 	/**
 	 * Returns the data merged from multiple origins.
 	 *
-	 * There are three sources of data (origins) for a site:
-	 * default, theme, and custom. The custom's has higher priority
-	 * than the theme's, and the theme's higher than default's.
+	 * There are four sources of data (origins) for a site:
+	 *
+	 * - default => WordPress
+	 * - blocks  => each one of the blocks provides data for itself
+	 * - theme   => the active theme
+	 * - custom  => data provided by the user
+	 *
+	 * The custom's has higher priority than the theme's, the theme's higher than blocks',
+	 * and block's higher than default's.
 	 *
 	 * Unlike the getters
 	 * {@link https://developer.wordpress.org/reference/classes/wp_theme_json_resolver/get_core_data/ get_core_data},
@@ -535,7 +543,7 @@ class WP_Theme_JSON_Resolver {
 	 * and {@link https://developer.wordpress.org/reference/classes/wp_theme_json_resolver/get_user_data/ get_user_data},
 	 * this method returns data after it has been merged with the previous origins.
 	 * This means that if the same piece of data is declared in different origins
-	 * (user, theme, and core), the last origin overrides the previous.
+	 * (default, blocks, theme, custom), the last origin overrides the previous.
 	 *
 	 * For example, if the user has set a background color
 	 * for the paragraph block, and the theme has done it as well,
@@ -545,9 +553,10 @@ class WP_Theme_JSON_Resolver {
 	 * @since 5.9.0 Added user data, removed the `$settings` parameter,
 	 *              added the `$origin` parameter.
 	 * @since 6.1.0 Added block data and generation of spacingSizes array.
+	 * @since 6.2.0 Changed ' $origin' parameter values to 'default', 'blocks', 'theme' or 'custom'.
 	 *
-	 * @param string $origin Optional. To what level should we merge data.
-	 *                       Valid values are 'theme' or 'custom'. Default 'custom'.
+	 * @param string $origin Optional. To what level should we merge data: 'default', 'blocks', 'theme' or 'custom'.
+	 *                       'custom' is used as default value as well as fallback value if the origin is unknown.
 	 * @return WP_Theme_JSON
 	 */
 	public static function get_merged_data( $origin = 'custom' ) {
@@ -556,14 +565,23 @@ class WP_Theme_JSON_Resolver {
 		}
 
 		$result = static::get_core_data();
-		$result->merge( static::get_block_data() );
-		$result->merge( static::get_theme_data() );
-
-		if ( 'custom' === $origin ) {
-			$result->merge( static::get_user_data() );
+		if ( 'default' === $origin ) {
+			$result->set_spacing_sizes();
+			return $result;
 		}
 
-		// Generate the default spacingSizes array based on the merged spacingScale settings.
+		$result->merge( static::get_block_data() );
+		if ( 'blocks' === $origin ) {
+			return $result;
+		}
+
+		$result->merge( static::get_theme_data() );
+		if ( 'theme' === $origin ) {
+			$result->set_spacing_sizes();
+			return $result;
+		}
+
+		$result->merge( static::get_user_data() );
 		$result->set_spacing_sizes();
 
 		return $result;
@@ -650,32 +668,60 @@ class WP_Theme_JSON_Resolver {
 	}
 
 	/**
+	 * Returns an array of all nested JSON files within a given directory.
+	 *
+	 * @since 6.2.0
+	 *
+	 * @param string $dir The directory to recursively iterate and list files of.
+	 * @return array The merged array.
+	 */
+	private static function recursively_iterate_json( $dir ) {
+		$nested_files      = new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $dir ) );
+		$nested_json_files = iterator_to_array( new RegexIterator( $nested_files, '/^.+\.json$/i', RecursiveRegexIterator::GET_MATCH ) );
+		return $nested_json_files;
+	}
+
+
+	/**
 	 * Returns the style variations defined by the theme.
 	 *
 	 * @since 6.0.0
+	 * @since 6.2.0 Returns parent theme variations if theme is a child.
 	 *
 	 * @return array
 	 */
 	public static function get_style_variations() {
-		$variations     = array();
-		$base_directory = get_stylesheet_directory() . '/styles';
+		$variation_files    = array();
+		$variations         = array();
+		$base_directory     = get_stylesheet_directory() . '/styles';
+		$template_directory = get_template_directory() . '/styles';
 		if ( is_dir( $base_directory ) ) {
-			$nested_files      = new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $base_directory ) );
-			$nested_html_files = iterator_to_array( new RegexIterator( $nested_files, '/^.+\.json$/i', RecursiveRegexIterator::GET_MATCH ) );
-			ksort( $nested_html_files );
-			foreach ( $nested_html_files as $path => $file ) {
-				$decoded_file = wp_json_file_decode( $path, array( 'associative' => true ) );
-				if ( is_array( $decoded_file ) ) {
-					$translated = static::translate( $decoded_file, wp_get_theme()->get( 'TextDomain' ) );
-					$variation  = ( new WP_Theme_JSON( $translated ) )->get_raw_data();
-					if ( empty( $variation['title'] ) ) {
-						$variation['title'] = basename( $path, '.json' );
+			$variation_files = static::recursively_iterate_json( $base_directory );
+		}
+		if ( is_dir( $template_directory ) && $template_directory !== $base_directory ) {
+			$variation_files_parent = static::recursively_iterate_json( $template_directory );
+			// If the child and parent variation file basename are the same, only include the child theme's.
+			foreach ( $variation_files_parent as $parent_path => $parent ) {
+				foreach ( $variation_files as $child_path => $child ) {
+					if ( basename( $parent_path ) === basename( $child_path ) ) {
+						unset( $variation_files_parent[ $parent_path ] );
 					}
-					$variations[] = $variation;
 				}
+			}
+			$variation_files = array_merge( $variation_files, $variation_files_parent );
+		}
+		ksort( $variation_files );
+		foreach ( $variation_files as $path => $file ) {
+			$decoded_file = wp_json_file_decode( $path, array( 'associative' => true ) );
+			if ( is_array( $decoded_file ) ) {
+				$translated = static::translate( $decoded_file, wp_get_theme()->get( 'TextDomain' ) );
+				$variation  = ( new WP_Theme_JSON( $translated ) )->get_raw_data();
+				if ( empty( $variation['title'] ) ) {
+					$variation['title'] = basename( $path, '.json' );
+				}
+				$variations[] = $variation;
 			}
 		}
 		return $variations;
 	}
-
 }
