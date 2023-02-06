@@ -364,8 +364,11 @@ p.has-drop-cap:not(:focus)::first-letter {
 /* Pullquote */
 
 .wp-block-pullquote {
-	border: 0;
 	margin: 0;
+}
+
+.editor-styles-wrapper .wp-block-pullquote {
+	border: 0;
 }
 
 .wp-block-pullquote .wp-block-pullquote__citation {
@@ -374,6 +377,15 @@ p.has-drop-cap:not(:focus)::first-letter {
 	font-weight: 400;
 	margin-top: 0;
 	text-transform: none;
+}
+
+.wp-block-pullquote.has-text-color blockquote,
+.wp-block-pullquote.has-background blockquote,
+.has-background .wp-block-pullquote blockquote,
+.wp-block-pullquote.has-text-color cite,
+.has-background .wp-block-pullquote cite,
+.has-text-color .wp-block-pullquote__citation {
+	color: inherit;
 }
 
 .wp-block-pullquote.alignleft blockquote > .editor-rich-text p,
