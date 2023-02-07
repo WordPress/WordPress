@@ -53,6 +53,21 @@ Genericons icon font, Copyright 2013-2017 Automattic.com
 License: GNU GPL, Version 2 (or later)
 Source: http://www.genericons.com
 
+Noto Sans Font
+Copyright 2015-2021 Google LLC. All Rights Reserved.
+License: SIL Open Font License, 1.1, https://opensource.org/licenses/OFL-1.1
+Source: https://fontsource.org/fonts/noto-sans
+
+Noto Serif Font
+Copyright 2012 Google Inc. All Rights Reserved.
+License: SIL Open Font License, 1.1, https://opensource.org/licenses/OFL-1.1
+Source: https://fontsource.org/fonts/noto-serif
+
+Inconsolata Font
+Copyright 2006 The Inconsolata Project Authors (https://github.com/cyrealtype/Inconsolata)
+License: SIL Open Font License, 1.1, https://opensource.org/licenses/OFL-1.1
+Source: https://fontsource.org/fonts/inconsolata
+
 Block Pattern Images
 License: CC0
 Source: https://stocksnap.io/photo/purple-yellow-ACF0693B9C
