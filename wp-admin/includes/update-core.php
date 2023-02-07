@@ -1053,7 +1053,9 @@ $_new_bundled_files = array(
 function update_core( $from, $to ) {
 	global $wp_filesystem, $_old_files, $_old_requests_files, $_new_bundled_files, $wpdb;
 
-	set_time_limit( 300 );
+	if ( function_exists( 'set_time_limit' ) ) {
+		set_time_limit( 300 );
+	}
 
 	/*
 	 * Merge the old Requests files and directories into the `$_old_files`.

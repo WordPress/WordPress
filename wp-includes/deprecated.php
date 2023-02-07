@@ -3659,7 +3659,9 @@ function post_permalink( $post = 0 ) {
 function wp_get_http( $url, $file_path = false, $red = 1 ) {
 	_deprecated_function( __FUNCTION__, '4.4.0', 'WP_Http' );
 
-	@set_time_limit( 60 );
+	if ( function_exists( 'set_time_limit' ) ) {
+		@set_time_limit( 60 );
+	}
 
 	if ( $red > 5 )
 		return false;

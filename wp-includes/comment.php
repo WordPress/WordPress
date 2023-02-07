@@ -3111,7 +3111,10 @@ function pingback( $content, $post ) {
 		$pingback_server_url = discover_pingback_server_uri( $pagelinkedto );
 
 		if ( $pingback_server_url ) {
-			set_time_limit( 60 );
+			if ( function_exists( 'set_time_limit' ) ) {
+				set_time_limit( 60 );
+			}
+
 			// Now, the RPC call.
 			$pagelinkedfrom = get_permalink( $post );
 
