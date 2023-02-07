@@ -48,7 +48,7 @@ function render_block_core_rss( $attributes ) {
 			if ( $date ) {
 				$date = sprintf(
 					'<time datetime="%1$s" class="wp-block-rss__item-publish-date">%2$s</time> ',
-					esc_attr( date_i18n( get_option( 'c' ), $date ) ),
+					esc_attr( date_i18n( 'c', $date ) ),
 					esc_attr( date_i18n( get_option( 'date_format' ), $date ) )
 				);
 			}

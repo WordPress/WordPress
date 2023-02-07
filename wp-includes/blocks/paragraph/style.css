@@ -24,6 +24,11 @@
   text-transform:uppercase;
 }
 
+body.rtl .has-drop-cap:not(:focus):first-letter{
+  float:none;
+  margin-left:.1em;
+}
+
 p.has-drop-cap.has-background{
   overflow:hidden;
 }

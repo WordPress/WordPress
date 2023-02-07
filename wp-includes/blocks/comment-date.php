@@ -23,7 +23,7 @@ function render_block_core_comment_date( $attributes, $content, $block ) {
 		return '';
 	}
 
-	$classes = '';
+	$classes = ( isset( $attributes['style']['elements']['link']['color']['text'] ) ) ? 'has-link-color' : '';
 
 	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => $classes ) );
 	$formatted_date     = get_comment_date(

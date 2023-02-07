@@ -202,7 +202,6 @@ function register_legacy_post_comments_block() {
 			'wp-block-buttons',
 			'wp-block-button',
 		),
-		'editorStyle'       => 'wp-block-post-comments-editor',
 		'render_callback'   => 'render_block_core_comments',
 		'skip_inner_blocks' => true,
 	);

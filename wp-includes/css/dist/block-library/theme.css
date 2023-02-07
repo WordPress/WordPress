@@ -129,13 +129,7 @@
 }
 
 .wp-block-table{
-  margin:"0 0 1em 0";
-}
-.wp-block-table thead{
-  border-bottom:3px solid;
-}
-.wp-block-table tfoot{
-  border-top:3px solid;
+  margin:0 0 1em;
 }
 .wp-block-table td,.wp-block-table th{
   word-break:normal;

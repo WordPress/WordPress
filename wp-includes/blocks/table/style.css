@@ -5,6 +5,12 @@
   border-collapse:collapse;
   width:100%;
 }
+.wp-block-table thead{
+  border-bottom:3px solid;
+}
+.wp-block-table tfoot{
+  border-top:3px solid;
+}
 .wp-block-table td,.wp-block-table th{
   border:1px solid;
   padding:.5em;

@@ -67,8 +67,8 @@ var external_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_w
  * - The second is never called.
  * - The third happens `delayMS` milliseconds after the first has resolved.
  *
- * This is distinct from `lodash.debounce` in that it waits for promise
- * resolution.
+ * This is distinct from `{ debounce } from @wordpress/compose` in that it
+ * waits for promise resolution.
  *
  * @param {Function} func    A function that returns a promise.
  * @param {number}   delayMS A delay in milliseconds.

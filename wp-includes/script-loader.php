@@ -104,8 +104,8 @@ function wp_default_packages_vendor( $scripts ) {
 	);
 
 	$vendor_scripts_versions = array(
-		'react'                       => '17.0.1',
-		'react-dom'                   => '17.0.1',
+		'react'                       => '18.2.0',
+		'react-dom'                   => '18.2.0',
 		'regenerator-runtime'         => '0.13.9',
 		'moment'                      => '2.29.4',
 		'lodash'                      => '4.17.19',

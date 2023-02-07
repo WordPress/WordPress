@@ -273,7 +273,7 @@ var __webpack_exports__ = {};
  * @param {string} text  Text to search.
  * @param {number} index Index to start search from.
  *
- * @return {?WPShortcodeMatch} Matched information.
+ * @return {WPShortcodeMatch | undefined} Matched information.
  */
 
 function next(tag, text) {

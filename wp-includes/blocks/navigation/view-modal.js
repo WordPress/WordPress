@@ -30,6 +30,10 @@ function navigationToggleModal(modal) {
   htmlElement.classList.toggle('has-modal-open');
 }
 
+function isLinkToAnchorOnCurrentPage(node) {
+  return node.hash && node.protocol === window.location.protocol && node.host === window.location.host && node.pathname === window.location.pathname && node.search === window.location.search;
+}
+
 window.addEventListener('load', () => {
   micromodal_es.init({
     onShow: navigationToggleModal,
@@ -39,10 +43,10 @@ window.addEventListener('load', () => {
 
   const navigationLinks = document.querySelectorAll('.wp-block-navigation-item__content');
   navigationLinks.forEach(function (link) {
-    var _link$getAttribute, _link$attributes;
+    var _link$attributes;
 
     // Ignore non-anchor links and anchor links which open on a new tab.
-    if (!((_link$getAttribute = link.getAttribute('href')) !== null && _link$getAttribute !== void 0 && _link$getAttribute.startsWith('#')) || ((_link$attributes = link.attributes) === null || _link$attributes === void 0 ? void 0 : _link$attributes.target) === '_blank') {
+    if (!isLinkToAnchorOnCurrentPage(link) || ((_link$attributes = link.attributes) === null || _link$attributes === void 0 ? void 0 : _link$attributes.target) === '_blank') {
       return;
     } // Find the specific parent modal for this link
     // since .close() won't work without an ID if there are

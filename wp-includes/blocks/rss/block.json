@@ -43,6 +43,7 @@
 	},
 	"supports": {
 		"align": true,
+		"anchor": true,
 		"html": false
 	},
 	"editorStyle": "wp-block-rss-editor",

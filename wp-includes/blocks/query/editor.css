@@ -3,7 +3,7 @@
 }
 
 .wp-block-query__create-new-link{
-  padding:0 16px 16px 56px;
+  padding:0 16px 16px 52px;
 }
 
 .block-library-query__pattern-selection-content .block-editor-block-patterns-list{
@@ -18,31 +18,28 @@
   max-height:250px;
 }
 
-.block-editor-query-pattern__selection-modal .components-modal__content{
-  margin-bottom:60px;
-  padding:0;
-}
-.block-editor-query-pattern__selection-modal .components-modal__content:before{
-  margin-bottom:0;
-}
-
 @media (min-width:600px){
-  .block-editor-query-pattern__selection-modal{
+  .block-library-query-pattern__selection-modal .components-modal__frame{
     height:calc(100% - 120px);
     width:calc(100% - 32px);
   }
 }
 @media (min-width:782px){
-  .block-editor-query-pattern__selection-modal{
+  .block-library-query-pattern__selection-modal .components-modal__frame{
     width:750px;
   }
 }
 @media (min-width:960px){
-  .block-editor-query-pattern__selection-modal{
-    height:80%;
-    max-height:none;
-    width:80%;
+  .block-library-query-pattern__selection-modal .components-modal__frame{
+    height:70%;
   }
+}
+.block-library-query-pattern__selection-modal .block-library-query-pattern__selection-search{
+  background:#fff;
+  padding:16px 0;
+  position:sticky;
+  top:0;
+  z-index:2;
 }
 
 .block-library-query-toolspanel__filters .components-form-token-field__help{

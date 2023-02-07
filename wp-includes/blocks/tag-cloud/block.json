@@ -36,10 +36,19 @@
 	],
 	"supports": {
 		"html": false,
+		"anchor": true,
 		"align": true,
 		"spacing": {
 			"margin": true,
 			"padding": true
+		},
+		"typography": {
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalTextTransform": true,
+			"__experimentalLetterSpacing": true
 		}
 	},
 	"editorStyle": "wp-block-tag-cloud-editor"

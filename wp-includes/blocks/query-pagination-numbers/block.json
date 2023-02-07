@@ -9,6 +9,7 @@
 	"textdomain": "default",
 	"usesContext": [ "queryId", "query" ],
 	"supports": {
+		"anchor": true,
 		"reusable": false,
 		"html": false,
 		"color": {

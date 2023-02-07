@@ -20,6 +20,7 @@ function render_block_core_social_link( $attributes, $content, $block ) {
 	$service     = ( isset( $attributes['service'] ) ) ? $attributes['service'] : 'Icon';
 	$url         = ( isset( $attributes['url'] ) ) ? $attributes['url'] : false;
 	$label       = ( isset( $attributes['label'] ) ) ? $attributes['label'] : block_core_social_link_get_name( $service );
+	$rel         = ( isset( $attributes['rel'] ) ) ? $attributes['rel'] : '';
 	$show_labels = array_key_exists( 'showLabels', $block->context ) ? $block->context['showLabels'] : false;
 
 	// Don't render a link if there is no URL set.
@@ -43,11 +44,6 @@ function render_block_core_social_link( $attributes, $content, $block ) {
 		$url = 'https://' . $url;
 	}
 
-	$rel_target_attributes = '';
-	if ( $open_in_new_tab ) {
-		$rel_target_attributes = 'rel="noopener nofollow" target="_blank"';
-	}
-
 	$icon               = block_core_social_link_get_icon( $service );
 	$wrapper_attributes = get_block_wrapper_attributes(
 		array(
@@ -57,13 +53,21 @@ function render_block_core_social_link( $attributes, $content, $block ) {
 	);
 
 	$link  = '<li ' . $wrapper_attributes . '>';
-	$link .= '<a href="' . esc_url( $url ) . '" ' . $rel_target_attributes . ' class="wp-block-social-link-anchor">';
+	$link .= '<a href="' . esc_url( $url ) . '" class="wp-block-social-link-anchor">';
 	$link .= $icon;
 	$link .= '<span class="wp-block-social-link-label' . ( $show_labels ? '' : ' screen-reader-text' ) . '">';
 	$link .= esc_html( $label );
 	$link .= '</span></a></li>';
 
-	return $link;
+	$w = new WP_HTML_Tag_Processor( $link );
+	$w->next_tag( 'a' );
+	if ( $open_in_new_tab ) {
+		$w->set_attribute( 'rel', esc_attr( $rel ) . ' noopener nofollow' );
+		$w->set_attribute( 'target', '_blank' );
+	} elseif ( '' !== $rel ) {
+		$w->set_attribute( 'rel', esc_attr( $rel ) );
+	}
+	return $w;
 }
 
 /**

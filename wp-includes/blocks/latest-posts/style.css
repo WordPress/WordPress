@@ -1,3 +1,6 @@
+.wp-block-latest-posts{
+  box-sizing:border-box;
+}
 .wp-block-latest-posts.alignleft{
   margin-right:2em;
 }

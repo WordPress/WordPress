@@ -1,7 +1,53 @@
 /******/ (function() { // webpackBootstrap
 /******/ 	"use strict";
-/******/ 	// The require scope
-/******/ 	var __webpack_require__ = {};
+/******/ 	var __webpack_modules__ = ({
+
+/***/ 4470:
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+
+var m = __webpack_require__(1850);
+if (true) {
+  exports.s = m.createRoot;
+  exports.a = m.hydrateRoot;
+} else { var i; }
+
+
+/***/ }),
+
+/***/ 1850:
+/***/ (function(module) {
+
+module.exports = window["ReactDOM"];
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
 /******/ 	
 /************************************************************************/
 /******/ 	/* webpack/runtime/define property getters */
@@ -34,6 +80,8 @@
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
+!function() {
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
@@ -51,29 +99,37 @@ __webpack_require__.d(__webpack_exports__, {
   "createContext": function() { return /* reexport */ external_React_namespaceObject.createContext; },
   "createElement": function() { return /* reexport */ external_React_namespaceObject.createElement; },
   "createInterpolateElement": function() { return /* reexport */ create_interpolate_element; },
-  "createPortal": function() { return /* reexport */ external_ReactDOM_namespaceObject.createPortal; },
+  "createPortal": function() { return /* reexport */ external_ReactDOM_.createPortal; },
   "createRef": function() { return /* reexport */ external_React_namespaceObject.createRef; },
-  "findDOMNode": function() { return /* reexport */ external_ReactDOM_namespaceObject.findDOMNode; },
+  "createRoot": function() { return /* reexport */ client/* createRoot */.s; },
+  "findDOMNode": function() { return /* reexport */ external_ReactDOM_.findDOMNode; },
   "forwardRef": function() { return /* reexport */ external_React_namespaceObject.forwardRef; },
-  "hydrate": function() { return /* reexport */ external_ReactDOM_namespaceObject.hydrate; },
+  "hydrate": function() { return /* reexport */ external_ReactDOM_.hydrate; },
+  "hydrateRoot": function() { return /* reexport */ client/* hydrateRoot */.a; },
   "isEmptyElement": function() { return /* reexport */ isEmptyElement; },
   "isValidElement": function() { return /* reexport */ external_React_namespaceObject.isValidElement; },
   "lazy": function() { return /* reexport */ external_React_namespaceObject.lazy; },
   "memo": function() { return /* reexport */ external_React_namespaceObject.memo; },
-  "render": function() { return /* reexport */ external_ReactDOM_namespaceObject.render; },
+  "render": function() { return /* reexport */ external_ReactDOM_.render; },
   "renderToString": function() { return /* reexport */ serialize; },
+  "startTransition": function() { return /* reexport */ external_React_namespaceObject.startTransition; },
   "switchChildrenNodeName": function() { return /* reexport */ switchChildrenNodeName; },
-  "unmountComponentAtNode": function() { return /* reexport */ external_ReactDOM_namespaceObject.unmountComponentAtNode; },
+  "unmountComponentAtNode": function() { return /* reexport */ external_ReactDOM_.unmountComponentAtNode; },
   "useCallback": function() { return /* reexport */ external_React_namespaceObject.useCallback; },
   "useContext": function() { return /* reexport */ external_React_namespaceObject.useContext; },
   "useDebugValue": function() { return /* reexport */ external_React_namespaceObject.useDebugValue; },
+  "useDeferredValue": function() { return /* reexport */ external_React_namespaceObject.useDeferredValue; },
   "useEffect": function() { return /* reexport */ external_React_namespaceObject.useEffect; },
+  "useId": function() { return /* reexport */ external_React_namespaceObject.useId; },
   "useImperativeHandle": function() { return /* reexport */ external_React_namespaceObject.useImperativeHandle; },
+  "useInsertionEffect": function() { return /* reexport */ external_React_namespaceObject.useInsertionEffect; },
   "useLayoutEffect": function() { return /* reexport */ external_React_namespaceObject.useLayoutEffect; },
   "useMemo": function() { return /* reexport */ external_React_namespaceObject.useMemo; },
   "useReducer": function() { return /* reexport */ external_React_namespaceObject.useReducer; },
   "useRef": function() { return /* reexport */ external_React_namespaceObject.useRef; },
-  "useState": function() { return /* reexport */ external_React_namespaceObject.useState; }
+  "useState": function() { return /* reexport */ external_React_namespaceObject.useState; },
+  "useSyncExternalStore": function() { return /* reexport */ external_React_namespaceObject.useSyncExternalStore; },
+  "useTransition": function() { return /* reexport */ external_React_namespaceObject.useTransition; }
 });
 
 ;// CONCATENATED MODULE: external "React"
@@ -541,12 +597,27 @@ function closeOuterElement(endOffset) {
 
 
 /**
+ * @see https://reactjs.org/docs/hooks-reference.html#usedeferredvalue
+ */
+
+
+/**
  * @see https://reactjs.org/docs/hooks-reference.html#useeffect
  */
 
 
 /**
+ * @see https://reactjs.org/docs/hooks-reference.html#useid
+ */
+
+
+/**
  * @see https://reactjs.org/docs/hooks-reference.html#useimperativehandle
+ */
+
+
+/**
+ * @see https://reactjs.org/docs/hooks-reference.html#useinsertioneffect
  */
 
 
@@ -572,6 +643,21 @@ function closeOuterElement(endOffset) {
 
 /**
  * @see https://reactjs.org/docs/hooks-reference.html#usestate
+ */
+
+
+/**
+ * @see https://reactjs.org/docs/hooks-reference.html#usesyncexternalstore
+ */
+
+
+/**
+ * @see https://reactjs.org/docs/hooks-reference.html#usetransition
+ */
+
+
+/**
+ * @see https://reactjs.org/docs/react-api.html#starttransition
  */
 
 
@@ -639,12 +725,15 @@ function switchChildrenNodeName(children, nodeName) {
   });
 }
 
-;// CONCATENATED MODULE: external "ReactDOM"
-var external_ReactDOM_namespaceObject = window["ReactDOM"];
+// EXTERNAL MODULE: external "ReactDOM"
+var external_ReactDOM_ = __webpack_require__(1850);
+// EXTERNAL MODULE: ./node_modules/react-dom/client.js
+var client = __webpack_require__(4470);
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/element/build-module/react-platform.js
 /**
  * External dependencies
  */
+
 
 /**
  * Creates a portal into which a component can be rendered.
@@ -677,6 +766,20 @@ var external_ReactDOM_namespaceObject = window["ReactDOM"];
  *
  * @param {import('./react').WPElement} element Element to hydrate.
  * @param {HTMLElement}                 target  DOM node into which element should be hydrated.
+ */
+
+
+/**
+ * Creates a new React root for the target DOM node.
+ *
+ * @see https://reactjs.org/docs/react-dom-client.html#createroot
+ */
+
+
+/**
+ * Creates a new React root for the target DOM node and hydrates it with a pre-generated markup.
+ *
+ * @see https://reactjs.org/docs/react-dom-client.html#hydrateroot
  */
 
 
@@ -1123,7 +1226,6 @@ var external_wp_escapeHtml_namespaceObject = window["wp"]["escapeHtml"];
 /**
  * Internal dependencies
  */
- // Disable reason: JSDoc linter doesn't seem to parse the union (`&`) correctly.
 
 /** @typedef {{children: string} & import('react').ComponentPropsWithoutRef<'div'>} RawHTMLProps */
 
@@ -1719,6 +1821,7 @@ function renderStyle(style) {
 
 
 
+}();
 (window.wp = window.wp || {}).element = __webpack_exports__;
 /******/ })()
 ;

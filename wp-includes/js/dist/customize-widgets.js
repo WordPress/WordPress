@@ -65,6 +65,86 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 }());
 
 
+/***/ }),
+
+/***/ 5619:
+/***/ (function(module) {
+
+"use strict";
+
+
+// do not edit .js files directly - edit src/index.jst
+
+
+  var envHasBigInt64Array = typeof BigInt64Array !== 'undefined';
+
+
+module.exports = function equal(a, b) {
+  if (a === b) return true;
+
+  if (a && b && typeof a == 'object' && typeof b == 'object') {
+    if (a.constructor !== b.constructor) return false;
+
+    var length, i, keys;
+    if (Array.isArray(a)) {
+      length = a.length;
+      if (length != b.length) return false;
+      for (i = length; i-- !== 0;)
+        if (!equal(a[i], b[i])) return false;
+      return true;
+    }
+
+
+    if ((a instanceof Map) && (b instanceof Map)) {
+      if (a.size !== b.size) return false;
+      for (i of a.entries())
+        if (!b.has(i[0])) return false;
+      for (i of a.entries())
+        if (!equal(i[1], b.get(i[0]))) return false;
+      return true;
+    }
+
+    if ((a instanceof Set) && (b instanceof Set)) {
+      if (a.size !== b.size) return false;
+      for (i of a.entries())
+        if (!b.has(i[0])) return false;
+      return true;
+    }
+
+    if (ArrayBuffer.isView(a) && ArrayBuffer.isView(b)) {
+      length = a.length;
+      if (length != b.length) return false;
+      for (i = length; i-- !== 0;)
+        if (a[i] !== b[i]) return false;
+      return true;
+    }
+
+
+    if (a.constructor === RegExp) return a.source === b.source && a.flags === b.flags;
+    if (a.valueOf !== Object.prototype.valueOf) return a.valueOf() === b.valueOf();
+    if (a.toString !== Object.prototype.toString) return a.toString() === b.toString();
+
+    keys = Object.keys(a);
+    length = keys.length;
+    if (length !== Object.keys(b).length) return false;
+
+    for (i = length; i-- !== 0;)
+      if (!Object.prototype.hasOwnProperty.call(b, keys[i])) return false;
+
+    for (i = length; i-- !== 0;) {
+      var key = keys[i];
+
+      if (!equal(a[key], b[key])) return false;
+    }
+
+    return true;
+  }
+
+  // true if both NaN, false otherwise
+  return a!==a && b!==b;
+};
+
+
 /***/ })
 
 /******/ 	});
@@ -278,14 +358,12 @@ function _extends() {
   _extends = Object.assign ? Object.assign.bind() : function (target) {
     for (var i = 1; i < arguments.length; i++) {
       var source = arguments[i];
-
       for (var key in source) {
         if (Object.prototype.hasOwnProperty.call(source, key)) {
           target[key] = source[key];
         }
       }
     }
-
     return target;
   };
   return _extends.apply(this, arguments);
@@ -622,7 +700,7 @@ function MoreMenuDropdown(_ref) {
     icon: more_vertical,
     label: label,
     popoverProps: {
-      position: 'bottom left',
+      placement: 'bottom-end',
       ...popoverProps,
       className: classnames_default()('interface-more-menu-dropdown__content', popoverProps === null || popoverProps === void 0 ? void 0 : popoverProps.className)
     },
@@ -634,6 +712,7 @@ function MoreMenuDropdown(_ref) {
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/components/index.js
+
 
 
 
@@ -1040,19 +1119,12 @@ const textFormattingShortcuts = [{
   description: (0,external_wp_i18n_namespaceObject.__)('Make the selected text inline code.')
 }];
 
-;// CONCATENATED MODULE: external "lodash"
-var external_lodash_namespaceObject = window["lodash"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/customize-widgets/build-module/components/keyboard-shortcut-help-modal/shortcut.js
 
 
 /**
- * External dependencies
- */
-
-/**
  * WordPress dependencies
  */
-
 
 
 
@@ -1066,7 +1138,7 @@ function KeyCombination(_ref) {
   return (0,external_wp_element_namespaceObject.createElement)("kbd", {
     className: "customize-widgets-keyboard-shortcut-help-modal__shortcut-key-combination",
     "aria-label": forceAriaLabel || ariaLabel
-  }, (0,external_lodash_namespaceObject.castArray)(shortcut).map((character, index) => {
+  }, (Array.isArray(shortcut) ? shortcut : [shortcut]).map((character, index) => {
     if (character === '+') {
       return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, {
         key: index
@@ -1255,7 +1327,6 @@ function KeyboardShortcutHelpModal(_ref4) {
   return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Modal, {
     className: "customize-widgets-keyboard-shortcut-help-modal",
     title: (0,external_wp_i18n_namespaceObject.__)('Keyboard shortcuts'),
-    closeLabel: (0,external_wp_i18n_namespaceObject.__)('Close'),
     onRequestClose: toggleModal
   }, (0,external_wp_element_namespaceObject.createElement)(ShortcutSection, {
     className: "customize-widgets-keyboard-shortcut-help-modal__main-shortcuts",
@@ -1476,6 +1547,9 @@ function useInserter(inserter) {
   }, [setIsInserterOpened])];
 }
 
+// EXTERNAL MODULE: ./node_modules/fast-deep-equal/es6/index.js
+var es6 = __webpack_require__(5619);
+var es6_default = /*#__PURE__*/__webpack_require__.n(es6);
 ;// CONCATENATED MODULE: external ["wp","isShallowEqual"]
 var external_wp_isShallowEqual_namespaceObject = window["wp"]["isShallowEqual"];
 var external_wp_isShallowEqual_default = /*#__PURE__*/__webpack_require__.n(external_wp_isShallowEqual_namespaceObject);
@@ -1593,7 +1667,9 @@ function widgetToBlock(_ref) {
   } = instance;
 
   if (idBase === 'block') {
-    const parsedBlocks = (0,external_wp_blocks_namespaceObject.parse)(raw.content, {
+    var _raw$content;
+
+    const parsedBlocks = (0,external_wp_blocks_namespaceObject.parse)((_raw$content = raw.content) !== null && _raw$content !== void 0 ? _raw$content : '', {
       __unstableSkipAutop: true
     });
     block = parsedBlocks.length ? parsedBlocks[0] : (0,external_wp_blocks_namespaceObject.createBlock)('core/paragraph', {});
@@ -1680,7 +1756,7 @@ function useSidebarBlockEditor(sidebar) {
           const prevWidget = sidebar.getWidget(widgetId); // Bail out updates by returning the previous widgets.
           // Deep equality is necessary until the block editor's internals changes.
 
-          if ((0,external_lodash_namespaceObject.isEqual)(nextBlock, prevBlock) && prevWidget) {
+          if (es6_default()(nextBlock, prevBlock) && prevWidget) {
             return prevWidget;
           }
 
@@ -1820,6 +1896,18 @@ function useBlocksFocusControl(blocks) {
   }, [focusedWidgetIdRef, selectBlock]);
 }
 
+;// CONCATENATED MODULE: external ["wp","experiments"]
+var external_wp_experiments_namespaceObject = window["wp"]["experiments"];
+;// CONCATENATED MODULE: ./node_modules/@wordpress/customize-widgets/build-module/experiments.js
+/**
+ * WordPress dependencies
+ */
+
+const {
+  lock,
+  unlock
+} = (0,external_wp_experiments_namespaceObject.__dangerousOptInToUnstableAPIsOnlyForCoreModules)('I know using unstable features means my plugin or theme will inevitably break on the next WordPress release.', '@wordpress/customize-widgets');
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/customize-widgets/build-module/components/sidebar-block-editor/sidebar-editor-provider.js
 
 
@@ -1833,6 +1921,10 @@ function useBlocksFocusControl(blocks) {
 
 
 
+
+const {
+  ExperimentalBlockEditorProvider
+} = unlock(external_wp_blockEditor_namespaceObject.experiments);
 function SidebarEditorProvider(_ref) {
   let {
     sidebar,
@@ -1841,7 +1933,7 @@ function SidebarEditorProvider(_ref) {
   } = _ref;
   const [blocks, onInput, onChange] = useSidebarBlockEditor(sidebar);
   useBlocksFocusControl(blocks);
-  return (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockEditorProvider, {
+  return (0,external_wp_element_namespaceObject.createElement)(ExperimentalBlockEditorProvider, {
     value: blocks,
     onInput: onInput,
     onChange: onChange,
@@ -1911,6 +2003,7 @@ function WelcomeGuide(_ref) {
 
 
 
+
 function KeyboardShortcuts(_ref) {
   let {
     undo,
@@ -1954,7 +2047,15 @@ function KeyboardShortcutsRegister() {
       keyCombination: {
         modifier: 'primaryShift',
         character: 'z'
-      }
+      },
+      // Disable on Apple OS because it conflicts with the browser's
+      // history shortcut. It's a fine alias for both Windows and Linux.
+      // Since there's no conflict for Ctrl+Shift+Z on both Windows and
+      // Linux, we keep it as the default for consistency.
+      aliases: (0,external_wp_keycodes_namespaceObject.isAppleOS)() ? [] : [{
+        modifier: 'primary',
+        character: 'y'
+      }]
     });
     registerShortcut({
       name: 'core/customize-widgets/save',
@@ -2992,13 +3093,8 @@ function getSidebarControl() {
 
 
 /**
- * External dependencies
- */
-
-/**
  * WordPress dependencies
  */
-
 
 
 
@@ -3038,7 +3134,7 @@ const withMoveToSidebarToolbarItem = (0,external_wp_compose_namespaceObject.crea
        */
       const oldSetting = activeSidebarControl.setting;
       const newSetting = newSidebarControl.setting;
-      oldSetting((0,external_lodash_namespaceObject.without)(oldSetting(), widgetId));
+      oldSetting(oldSetting().filter(id => id !== widgetId));
       newSetting([...newSetting(), widgetId]);
     } else {
       /**

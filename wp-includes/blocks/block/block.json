@@ -15,6 +15,5 @@
 		"customClassName": false,
 		"html": false,
 		"inserter": false
-	},
-	"editorStyle": "wp-block-editor"
+	}
 }

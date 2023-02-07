@@ -274,7 +274,7 @@ function InlineUI(_ref) {
     settings: image_image
   });
   return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Popover, {
-    position: "bottom center",
+    placement: "bottom",
     focusOnMount: false,
     anchor: popoverAnchor,
     className: "block-editor-format-toolbar__image-popover"
@@ -744,7 +744,7 @@ function getKey(_id) {
  * Builds a unique link control key for the given object reference.
  *
  * @param {Object} instance an unique object reference specific to this link control instance.
- * @return {string} the unique key to use for this link control.
+ * @return {string | undefined} the unique key to use for this link control.
  */
 
 
@@ -890,15 +890,31 @@ function InlineLinkUI(_ref) {
           text: newText
         }); // Apply the new Link format to this new text value.
 
-        newValue = (0,external_wp_richText_namespaceObject.applyFormat)(newValue, linkFormat, 0, newText.length); // Update the original (full) RichTextValue replacing the
+        newValue = (0,external_wp_richText_namespaceObject.applyFormat)(newValue, linkFormat, 0, newText.length); // Get the boundaries of the active link format.
+
+        const boundary = getFormatBoundary(value, {
+          type: 'core/link'
+        }); // Split the value at the start of the active link format.
+        // Passing "start" as the 3rd parameter is required to ensure
+        // the second half of the split value is split at the format's
+        // start boundary and avoids relying on the value's "end" property
+        // which may not correspond correctly.
+
+        const [valBefore, valAfter] = (0,external_wp_richText_namespaceObject.split)(value, boundary.start, boundary.start); // Update the original (full) RichTextValue replacing the
         // target text with the *new* RichTextValue containing:
         // 1. The new text content.
         // 2. The new link format.
+        // As "replace" will operate on the first match only, it is
+        // run only against the second half of the value which was
+        // split at the active format's boundary. This avoids a bug
+        // with incorrectly targetted replacements.
+        // See: https://github.com/WordPress/gutenberg/issues/41771.
         // Note original formats will be lost when applying this change.
         // That is expected behaviour.
         // See: https://github.com/WordPress/gutenberg/pull/33849#issuecomment-936134179.
 
-        newValue = (0,external_wp_richText_namespaceObject.replace)(value, richTextText, newValue);
+        const newValAfter = (0,external_wp_richText_namespaceObject.replace)(valAfter, richTextText, newValue);
+        newValue = (0,external_wp_richText_namespaceObject.concat)(valBefore, newValAfter);
       }
 
       newValue.start = newValue.end;
@@ -961,7 +977,7 @@ function InlineLinkUI(_ref) {
     anchor: popoverAnchor,
     focusOnMount: focusOnMount.current,
     onClose: stopAddingLink,
-    position: "bottom center",
+    placement: "bottom",
     shift: true
   }, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.__experimentalLinkControl, {
     key: forceRemountKey,
@@ -1306,6 +1322,21 @@ const textColor = (0,external_wp_element_namespaceObject.createElement)(external
 }));
 /* harmony default export */ var text_color = (textColor);
 
+;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/color.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+const color = (0,external_wp_element_namespaceObject.createElement)(external_wp_primitives_namespaceObject.SVG, {
+  viewBox: "0 0 24 24",
+  xmlns: "http://www.w3.org/2000/svg"
+}, (0,external_wp_element_namespaceObject.createElement)(external_wp_primitives_namespaceObject.Path, {
+  d: "M17.2 10.9c-.5-1-1.2-2.1-2.1-3.2-.6-.9-1.3-1.7-2.1-2.6L12 4l-1 1.1c-.6.9-1.3 1.7-2 2.6-.8 1.2-1.5 2.3-2 3.2-.6 1.2-1 2.2-1 3 0 3.4 2.7 6.1 6.1 6.1s6.1-2.7 6.1-6.1c0-.8-.3-1.8-1-3zm-5.1 7.6c-2.5 0-4.6-2.1-4.6-4.6 0-.3.1-1 .8-2.3.5-.9 1.1-1.9 2-3.1.7-.9 1.3-1.7 1.8-2.3.7.8 1.3 1.6 1.8 2.3.8 1.1 1.5 2.2 2 3.1.7 1.3.8 2 .8 2.3 0 2.5-2.1 4.6-4.6 4.6z"
+}));
+/* harmony default export */ var library_color = (color);
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/format-library/build-module/text-color/inline.js
 
 
@@ -1552,7 +1583,7 @@ function TextColorEdit(_ref2) {
     className: "format-library-text-color-button",
     isActive: isActive,
     icon: (0,external_wp_element_namespaceObject.createElement)(icon, {
-      icon: text_color,
+      icon: Object.keys(activeAttributes).length ? text_color : library_color,
       style: colorIndicatorStyle
     }),
     title: text_color_title // If has no colors to choose but a color is active remove the color onClick.
@@ -1799,6 +1830,74 @@ const keyboard = {
 
 };
 
+;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/help.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+const help = (0,external_wp_element_namespaceObject.createElement)(external_wp_primitives_namespaceObject.SVG, {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24"
+}, (0,external_wp_element_namespaceObject.createElement)(external_wp_primitives_namespaceObject.Path, {
+  d: "M12 4.75a7.25 7.25 0 100 14.5 7.25 7.25 0 000-14.5zM3.25 12a8.75 8.75 0 1117.5 0 8.75 8.75 0 01-17.5 0zM12 8.75a1.5 1.5 0 01.167 2.99c-.465.052-.917.44-.917 1.01V14h1.5v-.845A3 3 0 109 10.25h1.5a1.5 1.5 0 011.5-1.5zM11.25 15v1.5h1.5V15h-1.5z"
+}));
+/* harmony default export */ var library_help = (help);
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/format-library/build-module/unknown/index.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+const unknown_name = 'core/unknown';
+
+const unknown_title = (0,external_wp_i18n_namespaceObject.__)('Clear Unknown Formatting');
+
+const unknown = {
+  name: unknown_name,
+  title: unknown_title,
+  tagName: '*',
+  className: null,
+
+  edit(_ref) {
+    let {
+      isActive,
+      value,
+      onChange,
+      onFocus
+    } = _ref;
+
+    function onClick() {
+      onChange((0,external_wp_richText_namespaceObject.removeFormat)(value, unknown_name));
+      onFocus();
+    }
+
+    const selectedValue = (0,external_wp_richText_namespaceObject.slice)(value);
+    const hasUnknownFormats = selectedValue.formats.some(formats => {
+      return formats.some(format => format.type === unknown_name);
+    });
+
+    if (!isActive && !hasUnknownFormats) {
+      return null;
+    }
+
+    return (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.RichTextToolbarButton, {
+      name: "unknown",
+      icon: library_help,
+      title: unknown_title,
+      onClick: onClick,
+      isActive: true
+    });
+  }
+
+};
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/format-library/build-module/default-formats.js
 /**
  * Internal dependencies
@@ -1814,7 +1913,8 @@ const keyboard = {
 
 
 
-/* harmony default export */ var default_formats = ([bold, code_code, image_image, italic, build_module_link_link, strikethrough, underline, text_color_textColor, subscript_subscript, superscript_superscript, keyboard]);
+
+/* harmony default export */ var default_formats = ([bold, code_code, image_image, italic, build_module_link_link, strikethrough, underline, text_color_textColor, subscript_subscript, superscript_superscript, keyboard, unknown]);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/format-library/build-module/index.js
 /**

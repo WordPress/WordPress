@@ -18,6 +18,7 @@
 		"paginationArrow": "paginationArrow"
 	},
 	"supports": {
+		"anchor": true,
 		"align": true,
 		"reusable": false,
 		"html": false,

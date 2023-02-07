@@ -25,12 +25,15 @@ function render_block_core_comment_author_name( $attributes, $content, $block ) 
 		return '';
 	}
 
-	$classes = '';
+	$classes = array();
 	if ( isset( $attributes['textAlign'] ) ) {
-		$classes .= 'has-text-align-' . $attributes['textAlign'];
+		$classes[] = 'has-text-align-' . $attributes['textAlign'];
+	}
+	if ( isset( $attributes['style']['elements']['link']['color']['text'] ) ) {
+		$classes[] = 'has-link-color';
 	}
 
-	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => $classes ) );
+	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => implode( ' ', $classes ) ) );
 	$comment_author     = get_comment_author( $comment );
 	$link               = get_comment_author_url( $comment );
 

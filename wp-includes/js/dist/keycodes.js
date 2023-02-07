@@ -416,17 +416,12 @@ var external_lodash_namespaceObject = window["lodash"];
 var external_wp_i18n_namespaceObject = window["wp"]["i18n"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/keycodes/build-module/platform.js
 /**
- * External dependencies
- */
-
-/**
  * Return true if platform is MacOS.
  *
  * @param {Window?} _window window object by default; used for DI testing.
  *
  * @return {boolean} True if MacOS; false otherwise.
  */
-
 function isAppleOS() {
   let _window = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
@@ -441,7 +436,7 @@ function isAppleOS() {
   const {
     platform
   } = _window.navigator;
-  return platform.indexOf('Mac') !== -1 || (0,external_lodash_namespaceObject.includes)(['iPad', 'iPhone'], platform);
+  return platform.indexOf('Mac') !== -1 || ['iPad', 'iPhone'].includes(platform);
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/keycodes/build-module/index.js
@@ -678,12 +673,12 @@ const displayShortcutList = (0,external_lodash_namespaceObject.mapValues)(modifi
         return [...accumulator, replacementKey, '+'];
       },
       /** @type {string[]} */
-      []); // Symbols (`,.) are removed by the default regular expression,
+      []); // Symbols (~`,.) are removed by the default regular expression,
       // so override the rule to allow symbols used for shortcuts.
       // see: https://github.com/blakeembrey/change-case#options
 
       const capitalizedCharacter = capitalCase(character, {
-        stripRegexp: /[^A-Z0-9`,\.]/gi
+        stripRegexp: /[^A-Z0-9~`,\.\\\-]/gi
       });
       return [...modifierKeys, capitalizedCharacter];
     }
@@ -749,7 +744,10 @@ const shortcutAriaLabel = (0,external_lodash_namespaceObject.mapValues)(modifier
         '.': (0,external_wp_i18n_namespaceObject.__)('Period'),
 
         /* translators: backtick as in the character '`' */
-        '`': (0,external_wp_i18n_namespaceObject.__)('Backtick')
+        '`': (0,external_wp_i18n_namespaceObject.__)('Backtick'),
+
+        /* translators: tilde as in the character '~' */
+        '~': (0,external_wp_i18n_namespaceObject.__)('Tilde')
       };
       return [...modifier(_isApple), character].map(key => capitalCase((0,external_lodash_namespaceObject.get)(replacementKeyMap, key, key))).join(isApple ? ' ' : ' + ');
     }
@@ -806,11 +804,21 @@ const isKeyboardEvent = (0,external_lodash_namespaceObject.mapValues)(modifiers,
       let key = event.key.toLowerCase();
 
       if (!character) {
-        return (0,external_lodash_namespaceObject.includes)(mods, key);
+        return mods.includes(
+        /** @type {WPModifierPart} */
+        key);
       }
 
       if (event.altKey && character.length === 1) {
         key = String.fromCharCode(event.keyCode).toLowerCase();
+      } // Replace some characters to match the key indicated
+      // by the shortcut on Windows.
+
+
+      if (!_isApple()) {
+        if (event.shiftKey && character.length === 1 && event.code === 'Comma') {
+          key = ',';
+        }
       } // For backwards compatibility.
 
 

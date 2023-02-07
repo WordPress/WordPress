@@ -27,6 +27,7 @@
 		"viewportWidth": 500
 	},
 	"supports": {
+		"anchor": true,
 		"align": [ "wide", "full" ],
 		"html": false,
 		"color": {
@@ -60,5 +61,6 @@
 			}
 		}
 	},
-	"editorStyle": "wp-block-site-title-editor"
+	"editorStyle": "wp-block-site-title-editor",
+	"style": "wp-block-site-title"
 }

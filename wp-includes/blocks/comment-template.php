@@ -50,13 +50,13 @@ function block_core_comment_template_render_comments( $comments, $block ) {
 		// comments.
 		if ( ! empty( $children ) && ! empty( $thread_comments ) ) {
 			if ( $comment_depth < $thread_comments_depth ) {
-				$comment_depth += 1;
+				++$comment_depth;
 				$inner_content  = block_core_comment_template_render_comments(
 					$children,
 					$block
 				);
 				$block_content .= sprintf( '<ol>%1$s</ol>', $inner_content );
-				$comment_depth -= 1;
+				--$comment_depth;
 			} else {
 				$inner_content  = block_core_comment_template_render_comments(
 					$children,
@@ -70,7 +70,6 @@ function block_core_comment_template_render_comments( $comments, $block ) {
 	}
 
 	return $content;
-
 }
 
 /**

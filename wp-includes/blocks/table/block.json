@@ -47,6 +47,16 @@
 							"type": "string",
 							"source": "attribute",
 							"attribute": "data-align"
+						},
+						"colspan": {
+							"type": "string",
+							"source": "attribute",
+							"attribute": "colspan"
+						},
+						"rowspan": {
+							"type": "string",
+							"source": "attribute",
+							"attribute": "rowspan"
 						}
 					}
 				}
@@ -82,6 +92,16 @@
 							"type": "string",
 							"source": "attribute",
 							"attribute": "data-align"
+						},
+						"colspan": {
+							"type": "string",
+							"source": "attribute",
+							"attribute": "colspan"
+						},
+						"rowspan": {
+							"type": "string",
+							"source": "attribute",
+							"attribute": "rowspan"
 						}
 					}
 				}
@@ -117,6 +137,16 @@
 							"type": "string",
 							"source": "attribute",
 							"attribute": "data-align"
+						},
+						"colspan": {
+							"type": "string",
+							"source": "attribute",
+							"attribute": "colspan"
+						},
+						"rowspan": {
+							"type": "string",
+							"source": "attribute",
+							"attribute": "rowspan"
 						}
 					}
 				}

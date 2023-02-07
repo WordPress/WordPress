@@ -23,10 +23,19 @@
 		},
 		"byline": {
 			"type": "string"
+		},
+		"isLink": {
+			"type": "boolean",
+			"default": false
+		},
+		"linkTarget": {
+			"type": "string",
+			"default": "_self"
 		}
 	},
 	"usesContext": [ "postType", "postId", "queryId" ],
 	"supports": {
+		"anchor": true,
 		"html": false,
 		"spacing": {
 			"margin": true,

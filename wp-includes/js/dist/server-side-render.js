@@ -1,7 +1,111 @@
 /******/ (function() { // webpackBootstrap
 /******/ 	"use strict";
-/******/ 	// The require scope
-/******/ 	var __webpack_require__ = {};
+/******/ 	var __webpack_modules__ = ({
+
+/***/ 5619:
+/***/ (function(module) {
+
+
+
+// do not edit .js files directly - edit src/index.jst
+
+
+  var envHasBigInt64Array = typeof BigInt64Array !== 'undefined';
+
+
+module.exports = function equal(a, b) {
+  if (a === b) return true;
+
+  if (a && b && typeof a == 'object' && typeof b == 'object') {
+    if (a.constructor !== b.constructor) return false;
+
+    var length, i, keys;
+    if (Array.isArray(a)) {
+      length = a.length;
+      if (length != b.length) return false;
+      for (i = length; i-- !== 0;)
+        if (!equal(a[i], b[i])) return false;
+      return true;
+    }
+
+
+    if ((a instanceof Map) && (b instanceof Map)) {
+      if (a.size !== b.size) return false;
+      for (i of a.entries())
+        if (!b.has(i[0])) return false;
+      for (i of a.entries())
+        if (!equal(i[1], b.get(i[0]))) return false;
+      return true;
+    }
+
+    if ((a instanceof Set) && (b instanceof Set)) {
+      if (a.size !== b.size) return false;
+      for (i of a.entries())
+        if (!b.has(i[0])) return false;
+      return true;
+    }
+
+    if (ArrayBuffer.isView(a) && ArrayBuffer.isView(b)) {
+      length = a.length;
+      if (length != b.length) return false;
+      for (i = length; i-- !== 0;)
+        if (a[i] !== b[i]) return false;
+      return true;
+    }
+
+
+    if (a.constructor === RegExp) return a.source === b.source && a.flags === b.flags;
+    if (a.valueOf !== Object.prototype.valueOf) return a.valueOf() === b.valueOf();
+    if (a.toString !== Object.prototype.toString) return a.toString() === b.toString();
+
+    keys = Object.keys(a);
+    length = keys.length;
+    if (length !== Object.keys(b).length) return false;
+
+    for (i = length; i-- !== 0;)
+      if (!Object.prototype.hasOwnProperty.call(b, keys[i])) return false;
+
+    for (i = length; i-- !== 0;) {
+      var key = keys[i];
+
+      if (!equal(a[key], b[key])) return false;
+    }
+
+    return true;
+  }
+
+  // true if both NaN, false otherwise
+  return a!==a && b!==b;
+};
+
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
 /******/ 	
 /************************************************************************/
 /******/ 	/* webpack/runtime/compat get default export */
@@ -35,6 +139,8 @@
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
+!function() {
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
@@ -46,14 +152,12 @@ function _extends() {
   _extends = Object.assign ? Object.assign.bind() : function (target) {
     for (var i = 1; i < arguments.length; i++) {
       var source = arguments[i];
-
       for (var key in source) {
         if (Object.prototype.hasOwnProperty.call(source, key)) {
           target[key] = source[key];
         }
       }
     }
-
     return target;
   };
   return _extends.apply(this, arguments);
@@ -62,11 +166,9 @@ function _extends() {
 var external_wp_element_namespaceObject = window["wp"]["element"];
 ;// CONCATENATED MODULE: external ["wp","data"]
 var external_wp_data_namespaceObject = window["wp"]["data"];
-;// CONCATENATED MODULE: external ["wp","deprecated"]
-var external_wp_deprecated_namespaceObject = window["wp"]["deprecated"];
-var external_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external_wp_deprecated_namespaceObject);
-;// CONCATENATED MODULE: external "lodash"
-var external_lodash_namespaceObject = window["lodash"];
+// EXTERNAL MODULE: ./node_modules/fast-deep-equal/es6/index.js
+var es6 = __webpack_require__(5619);
+var es6_default = /*#__PURE__*/__webpack_require__.n(es6);
 ;// CONCATENATED MODULE: external ["wp","compose"]
 var external_wp_compose_namespaceObject = window["wp"]["compose"];
 ;// CONCATENATED MODULE: external ["wp","i18n"]
@@ -99,6 +201,7 @@ var external_wp_blocks_namespaceObject = window["wp"]["blocks"];
 
 
 
+const EMPTY_OBJECT = {};
 function rendererPath(block) {
   let attributes = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
   let urlQueryArgs = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
@@ -109,6 +212,29 @@ function rendererPath(block) {
     } : {}),
     ...urlQueryArgs
   });
+}
+function removeBlockSupportAttributes(attributes) {
+  const {
+    backgroundColor,
+    borderColor,
+    fontFamily,
+    fontSize,
+    gradient,
+    textColor,
+    className,
+    ...restAttributes
+  } = attributes;
+  const {
+    border,
+    color,
+    elements,
+    spacing,
+    typography,
+    ...restStyles
+  } = (attributes === null || attributes === void 0 ? void 0 : attributes.style) || EMPTY_OBJECT;
+  return { ...restAttributes,
+    style: restStyles
+  };
 }
 
 function DefaultEmptyResponsePlaceholder(_ref) {
@@ -163,6 +289,7 @@ function ServerSideRender(props) {
     className,
     httpMethod = 'GET',
     urlQueryArgs,
+    skipBlockSupportAttributes = false,
     EmptyResponsePlaceholder = DefaultEmptyResponsePlaceholder,
     ErrorResponsePlaceholder = DefaultErrorResponsePlaceholder,
     LoadingResponsePlaceholder = DefaultLoadingResponsePlaceholder
@@ -175,21 +302,27 @@ function ServerSideRender(props) {
   const [isLoading, setIsLoading] = (0,external_wp_element_namespaceObject.useState)(false);
 
   function fetchData() {
+    var _sanitizedAttributes, _sanitizedAttributes2;
+
     if (!isMountedRef.current) {
       return;
     }
 
     setIsLoading(true);
 
-    const sanitizedAttributes = attributes && (0,external_wp_blocks_namespaceObject.__experimentalSanitizeBlockAttributes)(block, attributes); // If httpMethod is 'POST', send the attributes in the request body instead of the URL.
+    let sanitizedAttributes = attributes && (0,external_wp_blocks_namespaceObject.__experimentalSanitizeBlockAttributes)(block, attributes);
+
+    if (skipBlockSupportAttributes) {
+      sanitizedAttributes = removeBlockSupportAttributes(sanitizedAttributes);
+    } // If httpMethod is 'POST', send the attributes in the request body instead of the URL.
     // This allows sending a larger attributes object than in a GET request, where the attributes are in the URL.
 
 
     const isPostRequest = 'POST' === httpMethod;
-    const urlAttributes = isPostRequest ? null : sanitizedAttributes !== null && sanitizedAttributes !== void 0 ? sanitizedAttributes : null;
+    const urlAttributes = isPostRequest ? null : (_sanitizedAttributes = sanitizedAttributes) !== null && _sanitizedAttributes !== void 0 ? _sanitizedAttributes : null;
     const path = rendererPath(block, urlAttributes, urlQueryArgs);
     const data = isPostRequest ? {
-      attributes: sanitizedAttributes !== null && sanitizedAttributes !== void 0 ? sanitizedAttributes : null
+      attributes: (_sanitizedAttributes2 = sanitizedAttributes) !== null && _sanitizedAttributes2 !== void 0 ? _sanitizedAttributes2 : null
     } : null; // Store the latest fetch request so that when we process it, we can
     // check if it is the current request, to avoid race conditions on slow networks.
 
@@ -227,7 +360,7 @@ function ServerSideRender(props) {
     // shows data as soon as possible.
     if (prevProps === undefined) {
       fetchData();
-    } else if (!(0,external_lodash_namespaceObject.isEqual)(prevProps, props)) {
+    } else if (!es6_default()(prevProps, props)) {
       debouncedFetchData();
     }
   });
@@ -283,7 +416,6 @@ function ServerSideRender(props) {
  */
 
 
-
 /**
  * Internal dependencies
  */
@@ -293,7 +425,7 @@ function ServerSideRender(props) {
  * Constants
  */
 
-const EMPTY_OBJECT = {};
+const build_module_EMPTY_OBJECT = {};
 const ExportedServerSideRender = (0,external_wp_data_namespaceObject.withSelect)(select => {
   // FIXME: @wordpress/server-side-render should not depend on @wordpress/editor.
   // It is used by blocks that can be loaded into a *non-post* block editor.
@@ -313,10 +445,10 @@ const ExportedServerSideRender = (0,external_wp_data_namespaceObject.withSelect)
     }
   }
 
-  return EMPTY_OBJECT;
+  return build_module_EMPTY_OBJECT;
 })(_ref => {
   let {
-    urlQueryArgs = EMPTY_OBJECT,
+    urlQueryArgs = build_module_EMPTY_OBJECT,
     currentPostId,
     ...props
   } = _ref;
@@ -334,22 +466,9 @@ const ExportedServerSideRender = (0,external_wp_data_namespaceObject.withSelect)
     urlQueryArgs: newUrlQueryArgs
   }, props));
 });
-
-if (window && window.wp && window.wp.components) {
-  window.wp.components.ServerSideRender = (0,external_wp_element_namespaceObject.forwardRef)((props, ref) => {
-    external_wp_deprecated_default()('wp.components.ServerSideRender', {
-      version: '6.2',
-      since: '5.3',
-      alternative: 'wp.serverSideRender'
-    });
-    return (0,external_wp_element_namespaceObject.createElement)(ExportedServerSideRender, _extends({}, props, {
-      ref: ref
-    }));
-  });
-}
-
 /* harmony default export */ var build_module = (ExportedServerSideRender);
 
+}();
 (window.wp = window.wp || {}).serverSideRender = __webpack_exports__["default"];
 /******/ })()
 ;

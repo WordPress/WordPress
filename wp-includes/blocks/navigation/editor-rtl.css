@@ -11,12 +11,6 @@
 .wp-block-navigation-item__label{
   display:inline;
 }
-.wp-block-navigation__container.is-parent-of-selected-block{
-  opacity:1;
-  overflow:visible;
-  visibility:visible;
-}
-
 .wp-block-navigation-item,.wp-block-navigation__container{
   background-color:inherit;
 }
@@ -163,10 +157,6 @@
   color:#1e1e1e;
 }
 
-.wp-block-navigation-placeholder .components-spinner{
-  margin-top:0;
-}
-
 .wp-block-navigation-placeholder__preview{
   align-items:center;
   background:transparent;
@@ -187,6 +177,17 @@
   content:"";
   display:block;
   left:0;
+  pointer-events:none;
+  position:absolute;
+  right:0;
+  top:0;
+}
+.wp-block-navigation-placeholder__preview:before:before{
+  background:currentColor;
+  bottom:0;
+  content:"";
+  left:0;
+  opacity:.1;
   pointer-events:none;
   position:absolute;
   right:0;
@@ -353,6 +354,14 @@ body.editor-styles-wrapper .wp-block-navigation__responsive-container.is-menu-op
   padding:0;
 }
 
+.components-heading.wp-block-navigation-off-canvas-editor__title{
+  margin:0;
+}
+
+.wp-block-navigation-off-canvas-editor__header{
+  margin-bottom:8px;
+}
+
 .is-menu-open .wp-block-navigation__responsive-container-content * .block-list-appender{
   margin-top:16px;
 }
@@ -369,6 +378,10 @@ body.editor-styles-wrapper .wp-block-navigation__responsive-container.is-menu-op
   padding:8px 12px;
 }
 
+.wp-block-navigation .wp-block-navigation__uncontrolled-inner-blocks-loading-indicator{
+  margin-top:0;
+}
+
 @keyframes fadeouthalf{
   0%{
     opacity:1;
@@ -381,6 +394,10 @@ body.editor-styles-wrapper .wp-block-navigation__responsive-container.is-menu-op
   justify-content:center;
   margin-bottom:16px;
   width:100%;
+}
+
+.components-button.is-link.wp-block-navigation-manage-menus-button{
+  margin-bottom:16px;
 }
 
 .wp-block-navigation__overlay-menu-preview{
@@ -413,8 +430,23 @@ body.editor-styles-wrapper .wp-block-navigation__responsive-container.is-menu-op
   width:100%;
 }
 
+.wp-block-navigation__navigation-selector-button__icon{
+  flex:0 0 auto;
+}
+
+.wp-block-navigation__navigation-selector-button__label{
+  flex:0 1 auto;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
 .wp-block-navigation__navigation-selector-button--createnew{
   border:1px solid;
   margin-bottom:16px;
   width:100%;
+}
+
+.wp-block-navigation__responsive-container-open.components-button{
+  opacity:1;
 }

@@ -12,6 +12,9 @@
 .wp-block-image.wp-block-image.is-selected .components-placeholder .components-placeholder__illustration{
   display:none;
 }
+.wp-block-image.wp-block-image.is-selected .components-placeholder:before{
+  opacity:0;
+}
 .wp-block-image.wp-block-image .components-button,.wp-block-image.wp-block-image .components-placeholder__instructions,.wp-block-image.wp-block-image .components-placeholder__label{
   transition:none;
 }
@@ -37,7 +40,7 @@ figure.wp-block-image:not(.wp-block){
 }
 
 .wp-block-image .components-resizable-box__container{
-  display:inline-block;
+  display:table;
 }
 .wp-block-image .components-resizable-box__container img{
   display:block;
@@ -108,15 +111,6 @@ figure.wp-block-image:not(.wp-block){
 .wp-block-image__zoom .components-popover__content{
   min-width:260px;
   overflow:visible !important;
-}
-.wp-block-image__zoom .components-range-control{
-  flex:1;
-}
-.wp-block-image__zoom .components-base-control__field{
-  align-items:flex-start;
-  display:flex;
-  flex-direction:column;
-  margin-bottom:0;
 }
 
 .wp-block-image__aspect-ratio{

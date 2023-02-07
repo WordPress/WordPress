@@ -40,11 +40,34 @@ function render_block_core_calendar( $attributes ) {
 		}
 	}
 
+	$color_block_styles = array();
+
+	// Text color.
+	$preset_text_color          = array_key_exists( 'textColor', $attributes ) ? "var:preset|color|{$attributes['textColor']}" : null;
+	$custom_text_color          = _wp_array_get( $attributes, array( 'style', 'color', 'text' ), null );
+	$color_block_styles['text'] = $preset_text_color ? $preset_text_color : $custom_text_color;
+
+	// Background Color.
+	$preset_background_color          = array_key_exists( 'backgroundColor', $attributes ) ? "var:preset|color|{$attributes['backgroundColor']}" : null;
+	$custom_background_color          = _wp_array_get( $attributes, array( 'style', 'color', 'background' ), null );
+	$color_block_styles['background'] = $preset_background_color ? $preset_background_color : $custom_background_color;
+
+	// Generate color styles and classes.
+	$styles        = wp_style_engine_get_styles( array( 'color' => $color_block_styles ), array( 'convert_vars_to_classnames' => true ) );
+	$inline_styles = empty( $styles['css'] ) ? '' : sprintf( ' style="%s"', esc_attr( $styles['css'] ) );
+	$classnames    = empty( $styles['classnames'] ) ? '' : ' ' . esc_attr( $styles['classnames'] );
+	if ( isset( $attributes['style']['elements']['link']['color']['text'] ) ) {
+		$classnames .= ' has-link-color';
+	}
+	// Apply color classes and styles to the calendar.
+	$calendar = str_replace( '<table', '<table' . $inline_styles, get_calendar( true, false ) );
+	$calendar = str_replace( 'class="wp-calendar-table', 'class="wp-calendar-table' . $classnames, $calendar );
+
 	$wrapper_attributes = get_block_wrapper_attributes();
 	$output             = sprintf(
 		'<div %1$s>%2$s</div>',
 		$wrapper_attributes,
-		get_calendar( true, false )
+		$calendar
 	);
 
 	// phpcs:ignore WordPress.WP.GlobalVariablesOverride.OverrideProhibited

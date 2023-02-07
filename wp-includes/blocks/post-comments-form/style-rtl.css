@@ -1,3 +1,6 @@
+.wp-block-post-comments-form{
+  box-sizing:border-box;
+}
 .wp-block-post-comments-form[style*=font-weight] :where(.comment-reply-title){
   font-weight:inherit;
 }

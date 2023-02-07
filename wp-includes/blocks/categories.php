@@ -14,7 +14,7 @@
  */
 function render_block_core_categories( $attributes ) {
 	static $block_id = 0;
-	$block_id++;
+	++$block_id;
 
 	$args = array(
 		'echo'         => false,

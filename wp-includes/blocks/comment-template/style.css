@@ -1,4 +1,5 @@
 .wp-block-comment-template{
+  box-sizing:border-box;
   list-style:none;
   margin-bottom:0;
   max-width:100%;

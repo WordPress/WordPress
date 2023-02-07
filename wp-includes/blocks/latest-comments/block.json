@@ -29,7 +29,12 @@
 	},
 	"supports": {
 		"align": true,
-		"html": false
+		"anchor": true,
+		"html": false,
+		"spacing": {
+			"margin": true,
+			"padding": true
+		}
 	},
 	"editorStyle": "wp-block-latest-comments-editor",
 	"style": "wp-block-latest-comments"

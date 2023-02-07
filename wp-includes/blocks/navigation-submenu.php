@@ -155,7 +155,7 @@ function render_block_core_navigation_submenu( $attributes, $content, $block ) {
 
 	$css_classes = trim( implode( ' ', $classes ) );
 	$has_submenu = count( $block->inner_blocks ) > 0;
-	$is_active   = ! empty( $attributes['id'] ) && ( get_the_ID() === (int) $attributes['id'] );
+	$is_active   = ! empty( $attributes['id'] ) && ( get_queried_object_id() === (int) $attributes['id'] );
 
 	$show_submenu_indicators = isset( $block->context['showSubmenuIcon'] ) && $block->context['showSubmenuIcon'];
 	$open_on_click           = isset( $block->context['openSubmenusOnClick'] ) && $block->context['openSubmenusOnClick'];
@@ -255,6 +255,14 @@ function render_block_core_navigation_submenu( $attributes, $content, $block ) {
 			$inner_blocks_html .= $inner_block->render();
 		}
 
+		if ( strpos( $inner_blocks_html, 'current-menu-item' ) ) {
+			$tag_processor = new WP_HTML_Tag_Processor( $html );
+			while ( $tag_processor->next_tag( array( 'class_name' => 'wp-block-navigation-item__content' ) ) ) {
+				$tag_processor->add_class( 'current-menu-ancestor' );
+			}
+			$html = $tag_processor->get_updated_html();
+		}
+
 		$html .= sprintf(
 			'<ul class="wp-block-navigation__submenu-container">%s</ul>',
 			$inner_blocks_html
@@ -281,3 +289,35 @@ function register_block_core_navigation_submenu() {
 	);
 }
 add_action( 'init', 'register_block_core_navigation_submenu' );
+
+/**
+ * Enables animation of the block inspector for the Navigation Submenu block.
+ *
+ * See:
+ * - https://github.com/WordPress/gutenberg/pull/46342
+ * - https://github.com/WordPress/gutenberg/issues/45884
+ *
+ * @param array $settings Default editor settings.
+ * @return array Filtered editor settings.
+ */
+function block_core_navigation_submenu_enable_inspector_animation( $settings ) {
+	$current_animation_settings = _wp_array_get(
+		$settings,
+		array( '__experimentalBlockInspectorAnimation' ),
+		array()
+	);
+
+	$settings['__experimentalBlockInspectorAnimation'] = array_merge(
+		$current_animation_settings,
+		array(
+			'core/navigation-submenu' =>
+				array(
+					'enterDirection' => 'rightToLeft',
+				),
+		)
+	);
+
+	return $settings;
+}
+
+add_filter( 'block_editor_settings_all', 'block_core_navigation_submenu_enable_inspector_animation' );

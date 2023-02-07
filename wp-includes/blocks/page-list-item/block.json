@@ -1,0 +1,52 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "core/page-list-item",
+	"title": "Page List Item",
+	"category": "widgets",
+	"parent": [ "core/page-list" ],
+	"description": "Displays a page inside a list of all pages.",
+	"keywords": [ "page", "menu", "navigation" ],
+	"textdomain": "default",
+	"attributes": {
+		"id": {
+			"type": "number"
+		},
+		"label": {
+			"type": "string"
+		},
+		"title": {
+			"type": "string"
+		},
+		"link": {
+			"type": "string"
+		},
+		"hasChildren": {
+			"type": "boolean"
+		}
+	},
+	"usesContext": [
+		"textColor",
+		"customTextColor",
+		"backgroundColor",
+		"customBackgroundColor",
+		"overlayTextColor",
+		"customOverlayTextColor",
+		"overlayBackgroundColor",
+		"customOverlayBackgroundColor",
+		"fontSize",
+		"customFontSize",
+		"showSubmenuIcon",
+		"style",
+		"openSubmenusOnClick"
+	],
+	"supports": {
+		"reusable": false,
+		"html": false,
+		"lock": false,
+		"inserter": false,
+		"__experimentalToolbar": false
+	},
+	"editorStyle": "wp-block-page-list-editor",
+	"style": "wp-block-page-list"
+}

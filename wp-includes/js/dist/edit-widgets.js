@@ -145,6 +145,7 @@ __webpack_require__.r(__webpack_exports__);
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
   "initialize": function() { return /* binding */ initialize; },
+  "initializeEditor": function() { return /* binding */ initializeEditor; },
   "reinitializeEditor": function() { return /* binding */ reinitializeEditor; }
 });
 
@@ -230,6 +231,9 @@ var external_wp_element_namespaceObject = window["wp"]["element"];
 var external_wp_blocks_namespaceObject = window["wp"]["blocks"];
 ;// CONCATENATED MODULE: external ["wp","data"]
 var external_wp_data_namespaceObject = window["wp"]["data"];
+;// CONCATENATED MODULE: external ["wp","deprecated"]
+var external_wp_deprecated_namespaceObject = window["wp"]["deprecated"];
+var external_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external_wp_deprecated_namespaceObject);
 ;// CONCATENATED MODULE: external ["wp","blockLibrary"]
 var external_wp_blockLibrary_namespaceObject = window["wp"]["blockLibrary"];
 ;// CONCATENATED MODULE: external ["wp","coreData"]
@@ -348,14 +352,12 @@ function _extends() {
   _extends = Object.assign ? Object.assign.bind() : function (target) {
     for (var i = 1; i < arguments.length; i++) {
       var source = arguments[i];
-
       for (var key in source) {
         if (Object.prototype.hasOwnProperty.call(source, key)) {
           target[key] = source[key];
         }
       }
     }
-
     return target;
   };
   return _extends.apply(this, arguments);
@@ -431,9 +433,6 @@ const closeSmall = (0,external_wp_element_namespaceObject.createElement)(externa
 }));
 /* harmony default export */ var close_small = (closeSmall);
 
-;// CONCATENATED MODULE: external ["wp","deprecated"]
-var external_wp_deprecated_namespaceObject = window["wp"]["deprecated"];
-var external_wp_deprecated_default = /*#__PURE__*/__webpack_require__.n(external_wp_deprecated_namespaceObject);
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/store/actions.js
 /**
  * WordPress dependencies
@@ -1226,6 +1225,30 @@ ComplementaryAreaWrapped.Slot = ComplementaryAreaSlot;
 
 ;// CONCATENATED MODULE: external ["wp","compose"]
 var external_wp_compose_namespaceObject = window["wp"]["compose"];
+;// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/components/navigable-region/index.js
+
+
+
+/**
+ * External dependencies
+ */
+
+function NavigableRegion(_ref) {
+  let {
+    children,
+    className,
+    ariaLabel,
+    as: Tag = 'div',
+    ...props
+  } = _ref;
+  return (0,external_wp_element_namespaceObject.createElement)(Tag, _extends({
+    className: classnames_default()('interface-navigable-region', className),
+    "aria-label": ariaLabel,
+    role: "region",
+    tabIndex: "-1"
+  }, props), children);
+}
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/components/interface-skeleton/index.js
 
 
@@ -1240,6 +1263,11 @@ var external_wp_compose_namespaceObject = window["wp"]["compose"];
 
 
 
+
+
+/**
+ * Internal dependencies
+ */
 
 
 
@@ -1260,24 +1288,25 @@ function useHTMLClass(className) {
 
 function InterfaceSkeleton(_ref, ref) {
   let {
+    isDistractionFree,
     footer,
     header,
+    editorNotices,
     sidebar,
     secondarySidebar,
     notices,
     content,
-    drawer,
     actions,
     labels,
     className,
+    enableRegionNavigation = true,
+    // Todo: does this need to be a prop.
+    // Can we use a dependency to keyboard-shortcuts directly?
     shortcuts
   } = _ref;
   const navigateRegionsProps = (0,external_wp_components_namespaceObject.__unstableUseNavigateRegions)(shortcuts);
   useHTMLClass('interface-interface-skeleton__html-container');
   const defaultLabels = {
-    /* translators: accessibility text for the nav bar landmark region. */
-    drawer: (0,external_wp_i18n_namespaceObject.__)('Drawer'),
-
     /* translators: accessibility text for the top bar landmark region. */
     header: (0,external_wp_i18n_namespaceObject.__)('Header'),
 
@@ -1299,50 +1328,61 @@ function InterfaceSkeleton(_ref, ref) {
   const mergedLabels = { ...defaultLabels,
     ...labels
   };
-  return (0,external_wp_element_namespaceObject.createElement)("div", _extends({}, navigateRegionsProps, {
-    ref: (0,external_wp_compose_namespaceObject.useMergeRefs)([ref, navigateRegionsProps.ref]),
+  const headerVariants = {
+    hidden: isDistractionFree ? {
+      opacity: 0
+    } : {
+      opacity: 1
+    },
+    hover: {
+      opacity: 1,
+      transition: {
+        type: 'tween',
+        delay: 0.2,
+        delayChildren: 0.2
+      }
+    }
+  };
+  return (0,external_wp_element_namespaceObject.createElement)("div", _extends({}, enableRegionNavigation ? navigateRegionsProps : {}, {
+    ref: (0,external_wp_compose_namespaceObject.useMergeRefs)([ref, enableRegionNavigation ? navigateRegionsProps.ref : undefined]),
     className: classnames_default()(className, 'interface-interface-skeleton', navigateRegionsProps.className, !!footer && 'has-footer')
-  }), !!drawer && (0,external_wp_element_namespaceObject.createElement)("div", {
-    className: "interface-interface-skeleton__drawer",
-    role: "region",
-    "aria-label": mergedLabels.drawer,
-    tabIndex: "-1"
-  }, drawer), (0,external_wp_element_namespaceObject.createElement)("div", {
+  }), (0,external_wp_element_namespaceObject.createElement)("div", {
     className: "interface-interface-skeleton__editor"
-  }, !!header && (0,external_wp_element_namespaceObject.createElement)("div", {
+  }, !!header && isDistractionFree && (0,external_wp_element_namespaceObject.createElement)(NavigableRegion, {
+    as: external_wp_components_namespaceObject.__unstableMotion.div,
     className: "interface-interface-skeleton__header",
-    role: "region",
     "aria-label": mergedLabels.header,
-    tabIndex: "-1"
-  }, header), (0,external_wp_element_namespaceObject.createElement)("div", {
+    initial: isDistractionFree ? 'hidden' : 'hover',
+    whileHover: "hover",
+    variants: headerVariants,
+    transition: {
+      type: 'tween',
+      delay: 0.8
+    }
+  }, header), !!header && !isDistractionFree && (0,external_wp_element_namespaceObject.createElement)(NavigableRegion, {
+    className: "interface-interface-skeleton__header",
+    ariaLabel: mergedLabels.header
+  }, header), isDistractionFree && (0,external_wp_element_namespaceObject.createElement)("div", {
+    className: "interface-interface-skeleton__header"
+  }, editorNotices), (0,external_wp_element_namespaceObject.createElement)("div", {
     className: "interface-interface-skeleton__body"
-  }, !!secondarySidebar && (0,external_wp_element_namespaceObject.createElement)("div", {
+  }, !!secondarySidebar && (0,external_wp_element_namespaceObject.createElement)(NavigableRegion, {
     className: "interface-interface-skeleton__secondary-sidebar",
-    role: "region",
-    "aria-label": mergedLabels.secondarySidebar,
-    tabIndex: "-1"
+    ariaLabel: mergedLabels.secondarySidebar
   }, secondarySidebar), !!notices && (0,external_wp_element_namespaceObject.createElement)("div", {
     className: "interface-interface-skeleton__notices"
-  }, notices), (0,external_wp_element_namespaceObject.createElement)("div", {
+  }, notices), (0,external_wp_element_namespaceObject.createElement)(NavigableRegion, {
     className: "interface-interface-skeleton__content",
-    role: "region",
-    "aria-label": mergedLabels.body,
-    tabIndex: "-1"
-  }, content), !!sidebar && (0,external_wp_element_namespaceObject.createElement)("div", {
+    ariaLabel: mergedLabels.body
+  }, content), !!sidebar && (0,external_wp_element_namespaceObject.createElement)(NavigableRegion, {
     className: "interface-interface-skeleton__sidebar",
-    role: "region",
-    "aria-label": mergedLabels.sidebar,
-    tabIndex: "-1"
-  }, sidebar), !!actions && (0,external_wp_element_namespaceObject.createElement)("div", {
+    ariaLabel: mergedLabels.sidebar
+  }, sidebar), !!actions && (0,external_wp_element_namespaceObject.createElement)(NavigableRegion, {
     className: "interface-interface-skeleton__actions",
-    role: "region",
-    "aria-label": mergedLabels.actions,
-    tabIndex: "-1"
-  }, actions))), !!footer && (0,external_wp_element_namespaceObject.createElement)("div", {
+    ariaLabel: mergedLabels.actions
+  }, actions))), !!footer && (0,external_wp_element_namespaceObject.createElement)(NavigableRegion, {
     className: "interface-interface-skeleton__footer",
-    role: "region",
-    "aria-label": mergedLabels.footer,
-    tabIndex: "-1"
+    ariaLabel: mergedLabels.footer
   }, footer));
 }
 
@@ -1393,7 +1433,7 @@ function MoreMenuDropdown(_ref) {
     icon: more_vertical,
     label: label,
     popoverProps: {
-      position: 'bottom left',
+      placement: 'bottom-end',
       ...popoverProps,
       className: classnames_default()('interface-more-menu-dropdown__content', popoverProps === null || popoverProps === void 0 ? void 0 : popoverProps.className)
     },
@@ -1405,6 +1445,7 @@ function MoreMenuDropdown(_ref) {
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/interface/build-module/components/index.js
+
 
 
 
@@ -2750,46 +2791,48 @@ function CopyButton(_ref) {
   }, children);
 }
 
+function ErrorBoundaryWarning(_ref2) {
+  let {
+    message,
+    error
+  } = _ref2;
+  const actions = [(0,external_wp_element_namespaceObject.createElement)(CopyButton, {
+    key: "copy-error",
+    text: error.stack
+  }, (0,external_wp_i18n_namespaceObject.__)('Copy Error'))];
+  return (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.Warning, {
+    className: "edit-widgets-error-boundary",
+    actions: actions
+  }, message);
+}
+
 class ErrorBoundary extends external_wp_element_namespaceObject.Component {
   constructor() {
     super(...arguments);
-    this.reboot = this.reboot.bind(this);
     this.state = {
       error: null
     };
   }
 
   componentDidCatch(error) {
-    this.setState({
-      error
-    });
     (0,external_wp_hooks_namespaceObject.doAction)('editor.ErrorBoundary.errorLogged', error);
   }
 
-  reboot() {
-    this.props.onError();
+  static getDerivedStateFromError(error) {
+    return {
+      error
+    };
   }
 
   render() {
-    const {
-      error
-    } = this.state;
-
-    if (!error) {
+    if (!this.state.error) {
       return this.props.children;
     }
 
-    return (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.Warning, {
-      className: "edit-widgets-error-boundary",
-      actions: [(0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
-        key: "recovery",
-        onClick: this.reboot,
-        variant: "secondary"
-      }, (0,external_wp_i18n_namespaceObject.__)('Attempt Recovery')), (0,external_wp_element_namespaceObject.createElement)(CopyButton, {
-        key: "copy-error",
-        text: error.stack
-      }, (0,external_wp_i18n_namespaceObject.__)('Copy Error'))]
-    }, (0,external_wp_i18n_namespaceObject.__)('The editor has encountered an unexpected error.'));
+    return (0,external_wp_element_namespaceObject.createElement)(ErrorBoundaryWarning, {
+      message: (0,external_wp_i18n_namespaceObject.__)('The editor has encountered an unexpected error.'),
+      error: this.state.error
+    });
   }
 
 }
@@ -2798,10 +2841,13 @@ class ErrorBoundary extends external_wp_element_namespaceObject.Component {
 var external_wp_reusableBlocks_namespaceObject = window["wp"]["reusableBlocks"];
 ;// CONCATENATED MODULE: external ["wp","keyboardShortcuts"]
 var external_wp_keyboardShortcuts_namespaceObject = window["wp"]["keyboardShortcuts"];
+;// CONCATENATED MODULE: external ["wp","keycodes"]
+var external_wp_keycodes_namespaceObject = window["wp"]["keycodes"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/keyboard-shortcuts/index.js
 /**
  * WordPress dependencies
  */
+
 
 
 
@@ -2858,7 +2904,15 @@ function KeyboardShortcutsRegister() {
       keyCombination: {
         modifier: 'primaryShift',
         character: 'z'
-      }
+      },
+      // Disable on Apple OS because it conflicts with the browser's
+      // history shortcut. It's a fine alias for both Windows and Linux.
+      // Since there's no conflict for Ctrl+Shift+Z on both Windows and
+      // Linux, we keep it as the default for consistency.
+      aliases: (0,external_wp_keycodes_namespaceObject.isAppleOS)() ? [] : [{
+        modifier: 'primary',
+        character: 'y'
+      }]
     });
     registerShortcut({
       name: 'core/edit-widgets/save',
@@ -2902,6 +2956,9 @@ function KeyboardShortcutsRegister() {
       aliases: [{
         modifier: 'access',
         character: 'p'
+      }, {
+        modifier: 'ctrlShift',
+        character: '~'
       }]
     });
   }, [registerShortcut]);
@@ -2969,6 +3026,18 @@ const useLastSelectedWidgetArea = () => (0,external_wp_data_namespaceObject.useS
 const ALLOW_REUSABLE_BLOCKS = false;
 const ENABLE_EXPERIMENTAL_FSE_BLOCKS = false;
 
+;// CONCATENATED MODULE: external ["wp","experiments"]
+var external_wp_experiments_namespaceObject = window["wp"]["experiments"];
+;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/experiments.js
+/**
+ * WordPress dependencies
+ */
+
+const {
+  lock,
+  unlock
+} = (0,external_wp_experiments_namespaceObject.__dangerousOptInToUnstableAPIsOnlyForCoreModules)('I know using unstable features means my plugin or theme will inevitably break on the next WordPress release.', '@wordpress/edit-widgets');
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/widget-areas-block-editor-provider/index.js
 
 
@@ -2994,6 +3063,10 @@ const ENABLE_EXPERIMENTAL_FSE_BLOCKS = false;
 
 
 
+
+const {
+  ExperimentalBlockEditorProvider
+} = unlock(external_wp_blockEditor_namespaceObject.experiments);
 function WidgetAreasBlockEditorProvider(_ref) {
   let {
     blockEditorSettings,
@@ -3050,7 +3123,7 @@ function WidgetAreasBlockEditorProvider(_ref) {
   const [blocks, onInput, onChange] = (0,external_wp_coreData_namespaceObject.useEntityBlockEditor)(KIND, POST_TYPE, {
     id: buildWidgetAreasPostId()
   });
-  return (0,external_wp_element_namespaceObject.createElement)(external_wp_keyboardShortcuts_namespaceObject.ShortcutProvider, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockEditorKeyboardShortcuts.Register, null), (0,external_wp_element_namespaceObject.createElement)(keyboard_shortcuts.Register, null), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.SlotFillProvider, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockEditorProvider, _extends({
+  return (0,external_wp_element_namespaceObject.createElement)(external_wp_keyboardShortcuts_namespaceObject.ShortcutProvider, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockEditorKeyboardShortcuts.Register, null), (0,external_wp_element_namespaceObject.createElement)(keyboard_shortcuts.Register, null), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.SlotFillProvider, null, (0,external_wp_element_namespaceObject.createElement)(ExperimentalBlockEditorProvider, _extends({
     value: blocks,
     onInput: onInput,
     onChange: onChange,
@@ -3400,8 +3473,6 @@ const redo = (0,external_wp_element_namespaceObject.createElement)(external_wp_p
 }));
 /* harmony default export */ var library_redo = (redo);
 
-;// CONCATENATED MODULE: external ["wp","keycodes"]
-var external_wp_keycodes_namespaceObject = window["wp"]["keycodes"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/edit-widgets/build-module/components/header/undo-redo/undo.js
 
 
@@ -3729,7 +3800,6 @@ function KeyboardShortcutHelpModal(_ref4) {
   return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Modal, {
     className: "edit-widgets-keyboard-shortcut-help-modal",
     title: (0,external_wp_i18n_namespaceObject.__)('Keyboard shortcuts'),
-    closeLabel: (0,external_wp_i18n_namespaceObject.__)('Close'),
     onRequestClose: toggleModal
   }, (0,external_wp_element_namespaceObject.createElement)(ShortcutSection, {
     className: "edit-widgets-keyboard-shortcut-help-modal__main-shortcuts",
@@ -4405,8 +4475,6 @@ function Interface(_ref) {
     }),
     content: (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)(WidgetAreasBlockEditorContent, {
       blockEditorSettings: blockEditorSettings
-    }), (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockStyles.Slot, {
-      scope: "core/block-inspector"
     })),
     footer: hasBlockBreadCrumbsEnabled && !isMobileViewport && (0,external_wp_element_namespaceObject.createElement)("div", {
       className: "edit-widgets-layout__footer"
@@ -4457,7 +4525,7 @@ function UnsavedChangesWarning() {
      *
      * @param {Event} event `beforeunload` event.
      *
-     * @return {?string} Warning prompt message, if unsaved changes exist.
+     * @return {string | undefined} Warning prompt message, if unsaved changes exist.
      */
     const warnIfUnsavedChanges = event => {
       if (isDirty) {
@@ -4613,8 +4681,7 @@ function WelcomeGuideImage(_ref) {
 
 function Layout(_ref) {
   let {
-    blockEditorSettings,
-    onError
+    blockEditorSettings
   } = _ref;
   const {
     createErrorNotice
@@ -4626,9 +4693,7 @@ function Layout(_ref) {
     (0,external_wp_i18n_namespaceObject.__)('The "%s" plugin has encountered an error and cannot be rendered.'), name));
   }
 
-  return (0,external_wp_element_namespaceObject.createElement)(ErrorBoundary, {
-    onError: onError
-  }, (0,external_wp_element_namespaceObject.createElement)(WidgetAreasBlockEditorProvider, {
+  return (0,external_wp_element_namespaceObject.createElement)(ErrorBoundary, null, (0,external_wp_element_namespaceObject.createElement)(WidgetAreasBlockEditorProvider, {
     blockEditorSettings: blockEditorSettings
   }, (0,external_wp_element_namespaceObject.createElement)(layout_interface, {
     blockEditorSettings: blockEditorSettings
@@ -4652,6 +4717,7 @@ function Layout(_ref) {
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -4663,32 +4729,15 @@ function Layout(_ref) {
 
 const disabledBlocks = ['core/more', 'core/freeform', 'core/template-part', ...(ALLOW_REUSABLE_BLOCKS ? [] : ['core/block'])];
 /**
- * Reinitializes the editor after the user chooses to reboot the editor after
- * an unhandled error occurs, replacing previously mounted editor element using
- * an initial state from prior to the crash.
- *
- * @param {Element} target   DOM node in which editor is rendered.
- * @param {?Object} settings Editor settings object.
- */
-
-function reinitializeEditor(target, settings) {
-  (0,external_wp_element_namespaceObject.unmountComponentAtNode)(target);
-  const reboot = reinitializeEditor.bind(null, target, settings);
-  (0,external_wp_element_namespaceObject.render)((0,external_wp_element_namespaceObject.createElement)(layout, {
-    blockEditorSettings: settings,
-    onError: reboot
-  }), target);
-}
-/**
  * Initializes the block editor in the widgets screen.
  *
  * @param {string} id       ID of the root element to render the screen in.
  * @param {Object} settings Block editor settings.
  */
 
-function initialize(id, settings) {
+function initializeEditor(id, settings) {
   const target = document.getElementById(id);
-  const reboot = reinitializeEditor.bind(null, target, settings);
+  const root = (0,external_wp_element_namespaceObject.createRoot)(target);
 
   const coreBlocks = (0,external_wp_blockLibrary_namespaceObject.__experimentalGetCoreBlocks)().filter(block => {
     return !(disabledBlocks.includes(block.name) || block.name.startsWith('core/post') || block.name.startsWith('core/query') || block.name.startsWith('core/site') || block.name.startsWith('core/navigation'));
@@ -4719,10 +4768,21 @@ function initialize(id, settings) {
 
 
   (0,external_wp_blocks_namespaceObject.setFreeformContentHandlerName)('core/html');
-  (0,external_wp_element_namespaceObject.render)((0,external_wp_element_namespaceObject.createElement)(layout, {
-    blockEditorSettings: settings,
-    onError: reboot
-  }), target);
+  root.render((0,external_wp_element_namespaceObject.createElement)(layout, {
+    blockEditorSettings: settings
+  }));
+  return root;
+}
+/**
+ * Compatibility export under the old `initialize` name.
+ */
+
+const initialize = initializeEditor;
+function reinitializeEditor() {
+  external_wp_deprecated_default()('wp.editWidgets.reinitializeEditor', {
+    since: '6.2',
+    version: '6.3'
+  });
 }
 /**
  * Function to register an individual block.

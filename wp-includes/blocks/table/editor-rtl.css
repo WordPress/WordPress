@@ -25,14 +25,6 @@
   border-style:double;
   box-shadow:inset 0 0 0 1px var(--wp-admin-theme-color);
 }
-.wp-block-table figcaption{
-  color:#555;
-  font-size:13px;
-  text-align:center;
-}
-.is-dark-theme .wp-block-table figcaption{
-  color:hsla(0,0%,100%,.65);
-}
 .wp-block-table table.has-individual-borders td,.wp-block-table table.has-individual-borders th,.wp-block-table table.has-individual-borders tr,.wp-block-table table.has-individual-borders>*{
   border:1px solid;
 }
@@ -62,7 +54,4 @@
 }
 .blocks-table__placeholder-input input{
   height:36px;
-}
-.blocks-table__placeholder-input .components-base-control__field{
-  margin-bottom:0;
 }

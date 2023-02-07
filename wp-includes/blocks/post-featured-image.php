@@ -27,12 +27,19 @@ function render_block_core_post_featured_image( $attributes, $content, $block ) 
 
 	$is_link        = isset( $attributes['isLink'] ) && $attributes['isLink'];
 	$size_slug      = isset( $attributes['sizeSlug'] ) ? $attributes['sizeSlug'] : 'post-thumbnail';
-	$post_title     = trim( strip_tags( get_the_title( $post_ID ) ) );
 	$attr           = get_block_core_post_featured_image_border_attributes( $attributes );
 	$overlay_markup = get_block_core_post_featured_image_overlay_element_markup( $attributes );
 
 	if ( $is_link ) {
-		$attr['alt'] = $post_title;
+		if ( get_the_title( $post_ID ) ) {
+			$attr['alt'] = trim( strip_tags( get_the_title( $post_ID ) ) );
+		} else {
+			$attr['alt'] = sprintf(
+				// translators: %d is the post ID.
+				__( 'Untitled post %d' ),
+				$post_ID
+			);
+		}
 	}
 
 	if ( ! empty( $attributes['height'] ) ) {
@@ -50,11 +57,13 @@ function render_block_core_post_featured_image( $attributes, $content, $block ) 
 	if ( $is_link ) {
 		$link_target    = $attributes['linkTarget'];
 		$rel            = ! empty( $attributes['rel'] ) ? 'rel="' . esc_attr( $attributes['rel'] ) . '"' : '';
+		$height         = ! empty( $attributes['height'] ) ? 'style="' . esc_attr( safecss_filter_attr( 'height:' . $attributes['height'] ) ) . '"' : '';
 		$featured_image = sprintf(
-			'<a href="%1$s" target="%2$s" %3$s>%4$s%5$s</a>',
+			'<a href="%1$s" target="%2$s" %3$s %4$s>%5$s%6$s</a>',
 			get_the_permalink( $post_ID ),
 			esc_attr( $link_target ),
 			$rel,
+			$height,
 			$featured_image,
 			$overlay_markup
 		);
@@ -62,10 +71,13 @@ function render_block_core_post_featured_image( $attributes, $content, $block ) 
 		$featured_image = $featured_image . $overlay_markup;
 	}
 
-	$wrapper_attributes = empty( $attributes['width'] )
-		? get_block_wrapper_attributes()
-		: get_block_wrapper_attributes( array( 'style' => "width:{$attributes['width']};" ) );
-
+	$width  = ! empty( $attributes['width'] ) ? esc_attr( safecss_filter_attr( 'width:' . $attributes['width'] ) ) . ';' : '';
+	$height = ! empty( $attributes['height'] ) ? esc_attr( safecss_filter_attr( 'height:' . $attributes['height'] ) ) . ';' : '';
+	if ( ! $height && ! $width ) {
+		$wrapper_attributes = get_block_wrapper_attributes();
+	} else {
+		$wrapper_attributes = get_block_wrapper_attributes( array( 'style' => $width . $height ) );
+	}
 	return "<figure {$wrapper_attributes}>{$featured_image}</figure>";
 }
 

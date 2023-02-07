@@ -18,6 +18,7 @@
 		}
 	},
 	"supports": {
+		"anchor": true,
 		"className": true,
 		"typography": {
 			"fontSize": false

@@ -80,7 +80,7 @@ let stack;
  */
 
 /**
- * @typedef {'void-block'|'block-opener'|'block-closer'} TokenType
+ * @typedef {'no-more-tokens'|'void-block'|'block-opener'|'block-closer'} TokenType
  */
 
 /**
@@ -282,40 +282,38 @@ const parse = doc => {
 function proceed() {
   const stackDepth = stack.length;
   const next = nextToken();
-
-  if (next === null) {
-    // If not in a block then flush output.
-    if (0 === stackDepth) {
-      addFreeform();
-      return false;
-    } // Otherwise we have a problem
-    // This is an error
-    // we have options
-    //  - treat it all as freeform text
-    //  - assume an implicit closer (easiest when not nesting)
-    // For the easy case we'll assume an implicit closer.
-
-
-    if (1 === stackDepth) {
-      addBlockFromStack();
-      return false;
-    } // For the nested case where it's more difficult we'll
-    // have to assume that multiple closers are missing
-    // and so we'll collapse the whole stack piecewise.
-
-
-    while (0 < stack.length) {
-      addBlockFromStack();
-    }
-
-    return false;
-  }
-
   const [tokenType, blockName, attrs, startOffset, tokenLength] = next; // We may have some HTML soup before the next block.
 
   const leadingHtmlStart = startOffset > offset ? offset : null;
 
   switch (tokenType) {
+    case 'no-more-tokens':
+      // If not in a block then flush output.
+      if (0 === stackDepth) {
+        addFreeform();
+        return false;
+      } // Otherwise we have a problem
+      // This is an error
+      // we have options
+      //  - treat it all as freeform text
+      //  - assume an implicit closer (easiest when not nesting)
+      // For the easy case we'll assume an implicit closer.
+
+
+      if (1 === stackDepth) {
+        addBlockFromStack();
+        return false;
+      } // For the nested case where it's more difficult we'll
+      // have to assume that multiple closers are missing
+      // and so we'll collapse the whole stack piecewise.
+
+
+      while (0 < stack.length) {
+        addBlockFromStack();
+      }
+
+      return false;
+
     case 'void-block':
       // easy case is if we stumbled upon a void block
       // in the top-level of the document.
@@ -400,7 +398,7 @@ function parseJSON(input) {
 /**
  * Finds the next token in the document.
  *
- * @return {Token|null} The next matched token.
+ * @return {Token} The next matched token.
  */
 
 
@@ -414,7 +412,7 @@ function nextToken() {
   const matches = tokenizer.exec(document); // We have no more tokens.
 
   if (null === matches) {
-    return null;
+    return ['no-more-tokens', '', null, 0, 0];
   }
 
   const startedAt = matches.index;

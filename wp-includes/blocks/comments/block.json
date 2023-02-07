@@ -18,6 +18,7 @@
 	},
 	"supports": {
 		"align": [ "wide", "full" ],
+		"anchor": true,
 		"html": false,
 		"color": {
 			"gradients": true,
@@ -27,6 +28,10 @@
 				"text": true,
 				"link": true
 			}
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
 		},
 		"typography": {
 			"fontSize": true,

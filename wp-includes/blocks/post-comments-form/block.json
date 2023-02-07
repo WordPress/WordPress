@@ -13,6 +13,7 @@
 	},
 	"usesContext": [ "postId", "postType" ],
 	"supports": {
+		"anchor": true,
 		"html": false,
 		"color": {
 			"gradients": true,
@@ -21,6 +22,10 @@
 				"background": true,
 				"text": true
 			}
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
 		},
 		"typography": {
 			"fontSize": true,

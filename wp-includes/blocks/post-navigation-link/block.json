@@ -24,9 +24,14 @@
 		"linkLabel": {
 			"type": "boolean",
 			"default": false
+		},
+		"arrow": {
+			"type": "string",
+			"default": "none"
 		}
 	},
 	"supports": {
+		"anchor": true,
 		"reusable": false,
 		"html": false,
 		"color": {
@@ -45,5 +50,6 @@
 				"fontSize": true
 			}
 		}
-	}
+	},
+	"style": "wp-block-post-navigation-link"
 }

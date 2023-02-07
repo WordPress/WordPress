@@ -100,7 +100,7 @@ function render_block_core_avatar( $attributes, $content, $block ) {
 				$label = 'aria-label="' . sprintf( esc_attr__( '(%s author archive, opens in a new tab)' ), $author_name ) . '"';
 			}
 			// translators: %1$s: Author archive link. %2$s: Link target. %3$s Aria label. %4$s Avatar image.
-			$avatar_block = sprintf( '<a href="%1$s" target="%2$s" %3$s class="wp-block-avatar__link">%4$s</a>', get_author_posts_url( $author_id ), esc_attr( $attributes['linkTarget'] ), $label, $avatar_block );
+			$avatar_block = sprintf( '<a href="%1$s" target="%2$s" %3$s class="wp-block-avatar__link">%4$s</a>', esc_url( get_author_posts_url( $author_id ) ), esc_attr( $attributes['linkTarget'] ), $label, $avatar_block );
 		}
 		return sprintf( '<div %1s>%2s</div>', $wrapper_attributes, $avatar_block );
 	}

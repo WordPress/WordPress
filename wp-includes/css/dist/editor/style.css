@@ -7,6 +7,8 @@
   --wp-admin-theme-color-darker-20:#005a87;
   --wp-admin-theme-color-darker-20--rgb:0, 90, 135;
   --wp-admin-border-width-focus:2px;
+  --wp-block-synced-color:#7a00df;
+  --wp-block-synced-color--rgb:122, 0, 223;
 }
 @media (-webkit-min-device-pixel-ratio:2),(min-resolution:192dpi){
   :root{
@@ -188,7 +190,7 @@
 }
 
 .editor-error-boundary{
-  box-shadow:0 10px 10px rgba(0,0,0,.25);
+  box-shadow:0 .7px 1px rgba(0,0,0,.15),0 2.7px 3.8px -.2px rgba(0,0,0,.15),0 5.5px 7.8px -.3px rgba(0,0,0,.15),.1px 11.5px 16.4px -.5px rgba(0,0,0,.15);
   margin:60px auto auto;
   max-width:780px;
   padding:20px;
@@ -465,9 +467,6 @@
   display:flex;
   margin-bottom:16px;
 }
-.post-publish-panel__postpublish-post-address-container .components-base-control__field{
-  margin-bottom:0;
-}
 .post-publish-panel__postpublish-post-address-container .post-publish-panel__postpublish-post-address{
   flex:1;
 }
@@ -537,10 +536,6 @@
   margin-right:0;
 }
 
-:root[dir=rtl] .editor-post-saved-state.has-text.has-icon{
-  justify-content:right;
-}
-
 .editor-post-taxonomies__hierarchical-terms-list{
   margin-left:-6px;
   margin-top:-6px;
@@ -578,8 +573,7 @@
 }
 
 .editor-post-taxonomies__flat-term-most-used .editor-post-taxonomies__flat-term-most-used-label{
-  font-weight:400;
-  margin-bottom:12px;
+  margin-bottom:4px;
 }
 
 .editor-post-taxonomies__flat-term-most-used-list{
@@ -734,7 +728,7 @@
   margin-bottom:0;
 }
 .editor-post-visibility__fieldset .editor-post-visibility__password .editor-post-visibility__password-input[type=text]{
-  border:1px solid #757575;
+  border:1px solid #949494;
   border-radius:2px;
   box-shadow:0 0 0 transparent;
   font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif;
@@ -771,23 +765,6 @@
 }
 .editor-post-visibility__fieldset .editor-post-visibility__password .editor-post-visibility__password-input[type=text]:-ms-input-placeholder{
   color:rgba(30,30,30,.62);
-}
-
-.editor-post-title{
-  position:relative;
-}
-.editor-post-title.is-focus-mode{
-  opacity:.2;
-  transition:opacity .1s linear;
-}
-@media (prefers-reduced-motion:reduce){
-  .editor-post-title.is-focus-mode{
-    transition-delay:0s;
-    transition-duration:0s;
-  }
-}
-.editor-post-title.is-focus-mode:focus{
-  opacity:1;
 }
 
 .editor-post-trash.components-button{

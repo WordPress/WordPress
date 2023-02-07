@@ -16,6 +16,9 @@
 		},
 		"label": {
 			"type": "string"
+		},
+		"rel": {
+			"type": "string"
 		}
 	},
 	"usesContext": [
@@ -25,6 +28,7 @@
 		"iconBackgroundColorValue"
 	],
 	"supports": {
+		"anchor": true,
 		"reusable": false,
 		"html": false
 	},

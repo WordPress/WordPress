@@ -6,6 +6,8 @@
   --wp-admin-theme-color-darker-20:#005a87;
   --wp-admin-theme-color-darker-20--rgb:0, 90, 135;
   --wp-admin-border-width-focus:2px;
+  --wp-block-synced-color:#7a00df;
+  --wp-block-synced-color--rgb:122, 0, 223;
 }
 @media (-webkit-min-device-pixel-ratio:2),(min-resolution:192dpi){
   :root{
@@ -138,14 +140,6 @@
 
 .components-popover__content .wp-block-legacy-widget__edit-form{
   min-width:400px;
-}
-
-.wp-block-legacy-widget .components-base-control{
-  width:100%;
-}
-.wp-block-legacy-widget .components-select-control__input{
-  font-family:system-ui;
-  padding:0;
 }
 
 .wp-block-widget-group.has-child-selected:after{

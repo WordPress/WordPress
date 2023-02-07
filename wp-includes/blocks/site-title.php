@@ -18,8 +18,11 @@ function render_block_core_site_title( $attributes ) {
 		return;
 	}
 
-	$tag_name         = 'h1';
-	$align_class_name = empty( $attributes['textAlign'] ) ? '' : "has-text-align-{$attributes['textAlign']}";
+	$tag_name = 'h1';
+	$classes  = empty( $attributes['textAlign'] ) ? '' : "has-text-align-{$attributes['textAlign']}";
+	if ( isset( $attributes['style']['elements']['link']['color']['text'] ) ) {
+		$classes .= ' has-link-color';
+	}
 
 	if ( isset( $attributes['level'] ) ) {
 		$tag_name = 0 === $attributes['level'] ? 'p' : 'h' . (int) $attributes['level'];
@@ -37,7 +40,7 @@ function render_block_core_site_title( $attributes ) {
 			esc_html( $site_title )
 		);
 	}
-	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => $align_class_name ) );
+	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => trim( $classes ) ) );
 
 	return sprintf(
 		'<%1$s %2$s>%3$s</%1$s>',

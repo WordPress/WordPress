@@ -9,6 +9,10 @@
   flex:inherit;
 }
 
+.wp-block-navigation .wp-block-navigation__submenu-container>.wp-block-page-list{
+  display:block;
+}
+
 .wp-block-pages-list__item__link{
   pointer-events:none;
 }

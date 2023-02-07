@@ -20,6 +20,7 @@
 	},
 	"usesContext": [ "postId", "postType", "queryId" ],
 	"supports": {
+		"anchor": true,
 		"html": false,
 		"color": {
 			"gradients": true,

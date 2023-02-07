@@ -5,7 +5,7 @@
 .wp-block-query-pagination>.wp-block-query-pagination-next:last-child,.wp-block-query-pagination>.wp-block-query-pagination-numbers:last-child,.wp-block-query-pagination>.wp-block-query-pagination-previous:last-child{
   margin-right:0;
 }
-.wp-block-query-pagination.is-content-justification-space-between>.wp-block-query-pagination-next:last-child{
+.wp-block-query-pagination.is-content-justification-space-between>.wp-block-query-pagination-next:last-of-type{
   margin-inline-start:auto;
 }
 .wp-block-query-pagination.is-content-justification-space-between>.wp-block-query-pagination-previous:first-child{

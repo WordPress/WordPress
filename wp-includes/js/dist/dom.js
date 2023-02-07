@@ -387,17 +387,11 @@ function tabbable_find(context) {
  */
 
 function findPrevious(element) {
-  const focusables = find(element.ownerDocument.body);
-  const index = focusables.indexOf(element);
-
-  if (index === -1) {
-    return undefined;
-  } // Remove all focusables after and including `element`.
-
-
-  focusables.length = index;
-  const tabbable = filterTabbable(focusables);
-  return tabbable[tabbable.length - 1];
+  return filterTabbable(find(element.ownerDocument.body)).reverse().find(focusable => {
+    return (// eslint-disable-next-line no-bitwise
+      element.compareDocumentPosition(focusable) & element.DOCUMENT_POSITION_PRECEDING
+    );
+  });
 }
 /**
  * Given a focusable element, find the next tabbable element.
@@ -409,11 +403,11 @@ function findPrevious(element) {
  */
 
 function findNext(element) {
-  const focusables = find(element.ownerDocument.body);
-  const index = focusables.indexOf(element); // Remove all focusables before and including `element`.
-
-  const remaining = focusables.slice(index + 1);
-  return filterTabbable(remaining)[0];
+  return filterTabbable(find(element.ownerDocument.body)).find(focusable => {
+    return (// eslint-disable-next-line no-bitwise
+      element.compareDocumentPosition(focusable) & element.DOCUMENT_POSITION_FOLLOWING
+    );
+  });
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/utils/assert-is-defined.js

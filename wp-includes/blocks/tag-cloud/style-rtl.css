@@ -1,3 +1,6 @@
+.wp-block-tag-cloud{
+  box-sizing:border-box;
+}
 .wp-block-tag-cloud.aligncenter{
   justify-content:center;
   text-align:center;

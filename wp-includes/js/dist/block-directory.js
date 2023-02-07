@@ -366,8 +366,6 @@ function getErrorNoticeForBlock(state, blockId) {
   return state.errorNotices[blockId];
 }
 
-;// CONCATENATED MODULE: external "lodash"
-var external_lodash_namespaceObject = window["lodash"];
 ;// CONCATENATED MODULE: external ["wp","i18n"]
 var external_wp_i18n_namespaceObject = window["wp"]["i18n"];
 ;// CONCATENATED MODULE: external ["wp","apiFetch"]
@@ -474,13 +472,8 @@ function getPluginUrl(block) {
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-directory/build-module/store/actions.js
 /**
- * External dependencies
- */
-
-/**
  * WordPress dependencies
  */
-
 
 
 
@@ -589,7 +582,10 @@ const installBlockType = block => async _ref => {
       }
 
       (0,external_wp_blocks_namespaceObject.unstable__bootstrapServerSideBlockDefinitions)({
-        [name]: (0,external_lodash_namespaceObject.pick)(response, metadataFields)
+        [name]: Object.fromEntries(Object.entries(response).filter(_ref2 => {
+          let [key] = _ref2;
+          return metadataFields.includes(key);
+        }))
       });
     });
     await loadAssets();
@@ -637,11 +633,11 @@ const installBlockType = block => async _ref => {
  * @param {Object} block The blockType object.
  */
 
-const uninstallBlockType = block => async _ref2 => {
+const uninstallBlockType = block => async _ref3 => {
   let {
     registry,
     dispatch
-  } = _ref2;
+  } = _ref3;
 
   try {
     const url = getPluginUrl(block);
@@ -1216,10 +1212,10 @@ function AutoBlockUninstaller() {
   return null;
 }
 
-;// CONCATENATED MODULE: external ["wp","components"]
-var external_wp_components_namespaceObject = window["wp"]["components"];
 ;// CONCATENATED MODULE: external ["wp","compose"]
 var external_wp_compose_namespaceObject = window["wp"]["compose"];
+;// CONCATENATED MODULE: external ["wp","components"]
+var external_wp_components_namespaceObject = window["wp"]["components"];
 ;// CONCATENATED MODULE: external ["wp","coreData"]
 var external_wp_coreData_namespaceObject = window["wp"]["coreData"];
 ;// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
@@ -1227,14 +1223,12 @@ function _extends() {
   _extends = Object.assign ? Object.assign.bind() : function (target) {
     for (var i = 1; i < arguments.length; i++) {
       var source = arguments[i];
-
       for (var key in source) {
         if (Object.prototype.hasOwnProperty.call(source, key)) {
           target[key] = source[key];
         }
       }
     }
-
     return target;
   };
   return _extends.apply(this, arguments);
@@ -1832,10 +1826,6 @@ function DownloadableBlocksPanel(_ref) {
 
 
 /**
- * External dependencies
- */
-
-/**
  * WordPress dependencies
  */
 
@@ -1849,7 +1839,7 @@ function DownloadableBlocksPanel(_ref) {
 
 function InserterMenuDownloadableBlocksPanel() {
   const [debouncedFilterValue, setFilterValue] = (0,external_wp_element_namespaceObject.useState)('');
-  const debouncedSetFilterValue = (0,external_lodash_namespaceObject.debounce)(setFilterValue, 400);
+  const debouncedSetFilterValue = (0,external_wp_compose_namespaceObject.debounce)(setFilterValue, 400);
   return (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.__unstableInserterMenuExtension, null, _ref => {
     let {
       onSelect,
@@ -1880,8 +1870,6 @@ function InserterMenuDownloadableBlocksPanel() {
 
 /* harmony default export */ var inserter_menu_downloadable_blocks_panel = (InserterMenuDownloadableBlocksPanel);
 
-;// CONCATENATED MODULE: external ["wp","editPost"]
-var external_wp_editPost_namespaceObject = window["wp"]["editPost"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-directory/build-module/components/compact-list/index.js
 
 
@@ -1931,6 +1919,8 @@ function CompactList(_ref) {
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-directory/build-module/plugins/installed-blocks-pre-publish-panel/index.js
+var _window$wp$editPost, _window, _window$wp;
+
 
 
 /**
@@ -1939,13 +1929,17 @@ function CompactList(_ref) {
 
 
 
-
 /**
  * Internal dependencies
  */
 
 
+ // We shouldn't import the edit-post package directly
+// because it would include the wp-edit-post in all pages loading the block-directory script.
 
+const {
+  PluginPrePublishPanel
+} = (_window$wp$editPost = (_window = window) === null || _window === void 0 ? void 0 : (_window$wp = _window.wp) === null || _window$wp === void 0 ? void 0 : _window$wp.editPost) !== null && _window$wp$editPost !== void 0 ? _window$wp$editPost : {};
 function InstalledBlocksPrePublishPanel() {
   const newBlockTypes = (0,external_wp_data_namespaceObject.useSelect)(select => select(store).getNewBlockTypes(), []);
 
@@ -1953,7 +1947,7 @@ function InstalledBlocksPrePublishPanel() {
     return null;
   }
 
-  return (0,external_wp_element_namespaceObject.createElement)(external_wp_editPost_namespaceObject.PluginPrePublishPanel, {
+  return (0,external_wp_element_namespaceObject.createElement)(PluginPrePublishPanel, {
     icon: block_default,
     title: (0,external_wp_i18n_namespaceObject.sprintf)( // translators: %d: number of blocks (number).
     (0,external_wp_i18n_namespaceObject._n)('Added: %d block', 'Added: %d blocks', newBlockTypes.length), newBlockTypes.length),
@@ -2075,7 +2069,8 @@ const ModifiedWarning = _ref2 => {
   } = _ref2;
   const {
     originalName,
-    originalUndelimitedContent
+    originalUndelimitedContent,
+    clientId
   } = props.attributes;
   const {
     replaceBlock
@@ -2088,7 +2083,13 @@ const ModifiedWarning = _ref2 => {
   };
 
   const hasContent = !!originalUndelimitedContent;
-  const hasHTMLBlock = (0,external_wp_blocks_namespaceObject.getBlockType)('core/html');
+  const hasHTMLBlock = (0,external_wp_data_namespaceObject.useSelect)(select => {
+    const {
+      canInsertBlockType,
+      getBlockRootClientId
+    } = select(external_wp_blockEditor_namespaceObject.store);
+    return canInsertBlockType('core/html', getBlockRootClientId(clientId));
+  }, [clientId]);
   let messageHTML = (0,external_wp_i18n_namespaceObject.sprintf)(
   /* translators: %s: block name */
   (0,external_wp_i18n_namespaceObject.__)('Your site doesn’t include support for the %s block. You can try installing the block or remove it entirely.'), originalBlock.title || originalName);
@@ -2106,7 +2107,7 @@ const ModifiedWarning = _ref2 => {
     actions.push((0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
       key: "convert",
       onClick: convertToHTML,
-      variant: "link"
+      variant: "tertiary"
     }, (0,external_wp_i18n_namespaceObject.__)('Keep as HTML')));
   }
 

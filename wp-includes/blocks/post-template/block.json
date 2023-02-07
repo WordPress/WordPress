@@ -19,8 +19,17 @@
 		"reusable": false,
 		"html": false,
 		"align": true,
+		"anchor": true,
 		"__experimentalLayout": {
 			"allowEditing": false
+		},
+		"color": {
+			"gradients": true,
+			"link": true,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true
+			}
 		},
 		"typography": {
 			"fontSize": true,

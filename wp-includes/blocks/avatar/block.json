@@ -4,7 +4,7 @@
 	"name": "core/avatar",
 	"title": "Avatar",
 	"category": "theme",
-	"description": "Add a user's avatar.",
+	"description": "Add a user’s avatar.",
 	"textdomain": "default",
 	"attributes": {
 		"userId": {
@@ -25,6 +25,7 @@
 	},
 	"usesContext": [ "postType", "postId", "commentId" ],
 	"supports": {
+		"anchor": true,
 		"html": false,
 		"align": true,
 		"alignWide": false,

@@ -65,17 +65,17 @@ var external_wp_i18n_namespaceObject = window["wp"]["i18n"];
  */
 
 
-const {
-  wp
-} = window;
 const DEFAULT_EMPTY_GALLERY = [];
 /**
  * Prepares the Featured Image toolbars and frames.
  *
- * @return {wp.media.view.MediaFrame.Select} The default media workflow.
+ * @return {window.wp.media.view.MediaFrame.Select} The default media workflow.
  */
 
 const getFeaturedImageMediaFrame = () => {
+  const {
+    wp
+  } = window;
   return wp.media.view.MediaFrame.Select.extend({
     /**
      * Enables the Set Featured Image Button.
@@ -124,11 +124,14 @@ const getFeaturedImageMediaFrame = () => {
 /**
  * Prepares the Gallery toolbars and frames.
  *
- * @return {wp.media.view.MediaFrame.Post} The default media workflow.
+ * @return {window.wp.media.view.MediaFrame.Post} The default media workflow.
  */
 
 
 const getGalleryDetailsMediaFrame = () => {
+  const {
+    wp
+  } = window;
   /**
    * Custom gallery details frame.
    *
@@ -136,6 +139,7 @@ const getGalleryDetailsMediaFrame = () => {
    * @class GalleryDetailsMediaFrame
    * @class
    */
+
   return wp.media.view.MediaFrame.Post.extend({
     /**
      * Set up gallery toolbar.
@@ -237,6 +241,9 @@ const slimImageObject = img => {
 };
 
 const getAttachmentsCollection = ids => {
+  const {
+    wp
+  } = window;
   return wp.media.query({
     order: 'ASC',
     orderby: 'post__in',
@@ -263,6 +270,9 @@ class MediaUpload extends external_wp_element_namespaceObject.Component {
     this.onSelect = this.onSelect.bind(this);
     this.onUpdate = this.onUpdate.bind(this);
     this.onClose = this.onClose.bind(this);
+    const {
+      wp
+    } = window;
 
     if (gallery) {
       this.buildAndSetGalleryFrame();
@@ -319,6 +329,9 @@ class MediaUpload extends external_wp_element_namespaceObject.Component {
       return;
     }
 
+    const {
+      wp
+    } = window;
     this.lastGalleryValue = value; // If a frame already existed remove it.
 
     if (this.frame) {
@@ -360,6 +373,9 @@ class MediaUpload extends external_wp_element_namespaceObject.Component {
 
 
   buildAndSetFeatureImageFrame() {
+    const {
+      wp
+    } = window;
     const featuredImageFrame = getFeaturedImageMediaFrame();
     const attachments = getAttachmentsCollection(this.props.value);
     const selection = new wp.media.model.Selection(attachments.models, {
@@ -409,6 +425,9 @@ class MediaUpload extends external_wp_element_namespaceObject.Component {
   }
 
   onOpen() {
+    const {
+      wp
+    } = window;
     const {
       value
     } = this.props;

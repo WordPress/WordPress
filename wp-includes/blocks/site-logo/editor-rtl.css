@@ -32,6 +32,7 @@
 .wp-block-site-logo.wp-block-site-logo .components-placeholder{
   align-items:center;
   border-radius:inherit;
+  display:flex;
   height:100%;
   justify-content:center;
   min-height:48px;

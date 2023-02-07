@@ -17,6 +17,16 @@
 	},
 	"supports": {
 		"align": true,
+		"anchor": true,
+		"color": {
+			"link": true,
+			"__experimentalSkipSerialization": [ "text", "background" ],
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true
+			},
+			"__experimentalSelector": "table, th"
+		},
 		"typography": {
 			"fontSize": true,
 			"lineHeight": true,

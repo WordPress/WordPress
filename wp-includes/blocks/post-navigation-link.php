@@ -34,6 +34,18 @@ function render_block_core_post_navigation_link( $attributes, $content ) {
 	$link   = 'next' === $navigation_type ? _x( 'Next', 'label for next post link' ) : _x( 'Previous', 'label for previous post link' );
 	$label  = '';
 
+	$arrow_map = array(
+		'none'    => '',
+		'arrow'   => array(
+			'next'     => '→',
+			'previous' => '←',
+		),
+		'chevron' => array(
+			'next'     => '»',
+			'previous' => '«',
+		),
+	);
+
 	// If a custom label is provided, make this a link.
 	// `$label` is used to prepend the provided label, if we want to show the page title as well.
 	if ( isset( $attributes['label'] ) && ! empty( $attributes['label'] ) ) {
@@ -68,6 +80,17 @@ function render_block_core_post_navigation_link( $attributes, $content ) {
 					'%title'
 				);
 			}
+		}
+	}
+
+	// Display arrows.
+	if ( isset( $attributes['arrow'] ) && ! empty( $attributes['arrow'] ) && 'none' !== $attributes['arrow'] ) {
+		$arrow = $arrow_map[ $attributes['arrow'] ][ $navigation_type ];
+
+		if ( 'next' === $navigation_type ) {
+			$format = '%link <span class="wp-block-post-navigation-link__arrow-next is-arrow-' . $attributes['arrow'] . '" aria-hidden="true">' . $arrow . '</span>';
+		} else {
+			$format = '<span class="wp-block-post-navigation-link__arrow-previous is-arrow-' . $attributes['arrow'] . '" aria-hidden="true">' . $arrow . '</span> %link';
 		}
 	}
 

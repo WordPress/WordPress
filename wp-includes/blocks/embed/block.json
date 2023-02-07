@@ -8,18 +8,22 @@
 	"textdomain": "default",
 	"attributes": {
 		"url": {
-			"type": "string"
+			"type": "string",
+			"__experimentalRole": "content"
 		},
 		"caption": {
 			"type": "string",
 			"source": "html",
-			"selector": "figcaption"
+			"selector": "figcaption",
+			"__experimentalRole": "content"
 		},
 		"type": {
-			"type": "string"
+			"type": "string",
+			"__experimentalRole": "content"
 		},
 		"providerNameSlug": {
-			"type": "string"
+			"type": "string",
+			"__experimentalRole": "content"
 		},
 		"allowResponsive": {
 			"type": "boolean",
@@ -27,11 +31,13 @@
 		},
 		"responsive": {
 			"type": "boolean",
-			"default": false
+			"default": false,
+			"__experimentalRole": "content"
 		},
 		"previewable": {
 			"type": "boolean",
-			"default": true
+			"default": true,
+			"__experimentalRole": "content"
 		}
 	},
 	"supports": {

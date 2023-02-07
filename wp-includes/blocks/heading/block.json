@@ -29,7 +29,7 @@
 	"supports": {
 		"align": [ "wide", "full" ],
 		"anchor": true,
-		"className": false,
+		"className": true,
 		"color": {
 			"gradients": true,
 			"link": true,
@@ -57,7 +57,6 @@
 				"textTransform": true
 			}
 		},
-		"__experimentalSelector": "h1,h2,h3,h4,h5,h6",
 		"__unstablePasteTextInline": true,
 		"__experimentalSlashInserter": true
 	},
