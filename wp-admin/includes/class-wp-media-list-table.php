@@ -503,6 +503,8 @@ class WP_Media_List_Table extends WP_List_Table {
 	 */
 	public function column_desc( $post ) {
 		_deprecated_function( __METHOD__, '6.2.0' );
+
+		echo has_excerpt() ? $post->post_excerpt : '';
 	}
 
 	/**
