@@ -53,6 +53,11 @@ Font Awesome icons, Copyright Dave Gandy
 License: SIL Open Font License, version 1.1.
 Source: http://fontawesome.io/
 
+Libre Franklin Font
+Copyright 2020 The LibreFranklin Project Authors (https://github.com/impallari/Libre-Franklin)
+License: SIL Open Font License, 1.1, https://opensource.org/licenses/OFL-1.1
+Source: https://fontsource.org/fonts/libre-franklin
+
 Bundled header image, Copyright Alvin Engler
 License: CC0 1.0 Universal (CC0 1.0)
 Source: https://unsplash.com/@englr?photo=bIhpiQA009k
