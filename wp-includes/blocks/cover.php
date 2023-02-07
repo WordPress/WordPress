@@ -25,7 +25,7 @@ function render_block_core_cover( $attributes, $content ) {
 		);
 
 		if ( isset( $attributes['focalPoint'] ) ) {
-			$object_position              = round( $attributes['focalPoint']['x'] * 100 ) . '%' . ' ' . round( $attributes['focalPoint']['y'] * 100 ) . '%';
+			$object_position              = round( $attributes['focalPoint']['x'] * 100 ) . '% ' . round( $attributes['focalPoint']['y'] * 100 ) . '%';
 			$attr['data-object-position'] = $object_position;
 			$attr['style']                = 'object-position: ' . $object_position;
 		}
