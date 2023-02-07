@@ -610,6 +610,7 @@ class WP_Query {
 			'post_parent__not_in',
 			'author__in',
 			'author__not_in',
+			'search_columns',
 		);
 
 		foreach ( $array_keys as $key ) {
@@ -637,6 +638,7 @@ class WP_Query {
 	 * @since 5.1.0 Introduced the `$meta_compare_key` parameter.
 	 * @since 5.3.0 Introduced the `$meta_type_key` parameter.
 	 * @since 6.1.0 Introduced the `$update_menu_item_cache` parameter.
+	 * @since 6.2.0 Introduced the `$search_columns` parameter.
 	 *
 	 * @param string|array $query {
 	 *     Optional. Array or string of Query parameters.
@@ -750,6 +752,8 @@ class WP_Query {
 	 *                                                    return posts containing 'pillow' but not 'sofa'. The
 	 *                                                    character used for exclusion can be modified using the
 	 *                                                    the 'wp_query_search_exclusion_prefix' filter.
+	 *     @type array           $search_columns          Array of column names to be searched. Accepts 'post_title',
+	 *                                                    'post_excerpt' and 'post_content'. Default empty array.
 	 *     @type int             $second                  Second of the minute. Default empty. Accepts numbers 0-59.
 	 *     @type bool            $sentence                Whether to search by phrase. Default false.
 	 *     @type bool            $suppress_filters        Whether to suppress filters. Default false.
@@ -1410,6 +1414,32 @@ class WP_Query {
 		$searchand                 = '';
 		$q['search_orderby_title'] = array();
 
+		$default_search_columns = array( 'post_title', 'post_excerpt', 'post_content' );
+		$search_columns         = ! empty( $q['search_columns'] ) ? $q['search_columns'] : $default_search_columns;
+		if ( ! is_array( $search_columns ) ) {
+			$search_columns = array( $search_columns );
+		}
+
+		/**
+		 * Filters the columns to search in a WP_Query search.
+		 *
+		 * The supported columns are `post_title`, `post_excerpt` and `post_content`.
+		 * They are all included by default.
+		 *
+		 * @since 6.2.0
+		 *
+		 * @param string[] $search_columns Array of column names to be searched.
+		 * @param string   $search         Text being searched.
+		 * @param WP_Query $query          The current WP_Query instance.
+		 */
+		$search_columns = (array) apply_filters( 'post_search_columns', $search_columns, $q['s'], $this );
+
+		// Use only supported search columns.
+		$search_columns = array_intersect( $search_columns, $default_search_columns );
+		if ( empty( $search_columns ) ) {
+			$search_columns = $default_search_columns;
+		}
+
 		/**
 		 * Filters the prefix that indicates that a search term should be excluded from results.
 		 *
@@ -1439,11 +1469,17 @@ class WP_Query {
 
 			$like = $n . $wpdb->esc_like( $term ) . $n;
 
-			if ( ! empty( $this->allow_query_attachment_by_filename ) ) {
-				$search .= $wpdb->prepare( "{$searchand}(({$wpdb->posts}.post_title $like_op %s) $andor_op ({$wpdb->posts}.post_excerpt $like_op %s) $andor_op ({$wpdb->posts}.post_content $like_op %s) $andor_op (sq1.meta_value $like_op %s))", $like, $like, $like, $like );
-			} else {
-				$search .= $wpdb->prepare( "{$searchand}(({$wpdb->posts}.post_title $like_op %s) $andor_op ({$wpdb->posts}.post_excerpt $like_op %s) $andor_op ({$wpdb->posts}.post_content $like_op %s))", $like, $like, $like );
+			$search_columns_parts = array();
+			foreach ( $search_columns as $search_column ) {
+				$search_columns_parts[ $search_column ] = $wpdb->prepare( "({$wpdb->posts}.$search_column $like_op %s)", $like );
 			}
+
+			if ( ! empty( $this->allow_query_attachment_by_filename ) ) {
+				$search_columns_parts['attachment'] = $wpdb->prepare( "(sq1.meta_value $like_op %s)", $like );
+			}
+
+			$search .= "$searchand(" . implode( " $andor_op ", $search_columns_parts ) . ')';
+
 			$searchand = ' AND ';
 		}
 
