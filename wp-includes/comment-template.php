@@ -547,7 +547,7 @@ function get_comment_class( $css_class = '', $comment_id = null, $post = null ) 
  * @since 4.4.0 Added the ability for `$comment_ID` to also accept a WP_Comment object.
  *
  * @param string         $format     Optional. PHP date format. Defaults to the 'date_format' option.
- * @param int|WP_Comment $comment_ID WP_Comment or ID of the comment for which to get the date.
+ * @param int|WP_Comment $comment_ID Optional. WP_Comment or ID of the comment for which to get the date.
  *                                   Default current comment.
  * @return string The comment's date.
  */
@@ -1031,14 +1031,14 @@ function comment_text( $comment_ID = 0, $args = array() ) {
  * Retrieves the comment time of the current comment.
  *
  * @since 1.5.0
- * @since 6.2.0 Added the ability for `$comment_ID` to also accept a WP_Comment object.
+ * @since 6.2.0 Added the `$comment_ID` parameter.
  *
  * @param string         $format     Optional. PHP date format. Defaults to the 'time_format' option.
  * @param bool           $gmt        Optional. Whether to use the GMT date. Default false.
  * @param bool           $translate  Optional. Whether to translate the time (for use in feeds).
  *                                   Default true.
- * @param int|WP_Comment $comment_ID Optional. WP_Comment or ID of the comment for which to get the date.
- *                                   Default is 0, or the global comment.
+ * @param int|WP_Comment $comment_ID Optional. WP_Comment or ID of the comment for which to get the time.
+ *                                   Default current comment.
  * @return string The formatted time.
  */
 function get_comment_time( $format = '', $gmt = false, $translate = true, $comment_ID = 0 ) {
@@ -1072,11 +1072,14 @@ function get_comment_time( $format = '', $gmt = false, $translate = true, $comme
  * Displays the comment time of the current comment.
  *
  * @since 0.71
+ * @since 6.2.0 Added the `$comment_ID` parameter.
  *
- * @param string $format Optional. PHP time format. Defaults to the 'time_format' option.
+ * @param string         $format     Optional. PHP time format. Defaults to the 'time_format' option.
+ * @param int|WP_Comment $comment_ID Optional. WP_Comment or ID of the comment for which to get the time.
+ *                                   Default current comment.
  */
-function comment_time( $format = '' ) {
-	echo get_comment_time( $format );
+function comment_time( $format = '', $comment_ID = 0 ) {
+	echo get_comment_time( $format, $comment_ID );
 }
 
 /**
