@@ -44,6 +44,16 @@ Genericons icon font, Copyright 2013-2017 Automattic.com
 License: GNU GPL, Version 2 (or later)
 Source: http://www.genericons.com
 
+Bitter Font
+Copyright 2011 The Bitter Project Authors (https://github.com/solmatas/BitterPro)
+License: SIL Open Font License, 1.1, https://opensource.org/licenses/OFL-1.1
+Source: https://fontsource.org/fonts/bitter
+
+Source Sans Pro Font
+© 2010 - 2018 Adobe Systems Incorporated (http://www.adobe.com/), with Reserved Font Name ‘Source’.
+License: SIL Open Font License, 1.1, https://opensource.org/licenses/OFL-1.1
+Source: https://fontsource.org/fonts/source-sans-pro
+
 Images
 Cylinder Interior: https://www.flickr.com/photos/nasacommons/14052998066/in/album-72157644439092941/. Rick Guidice, NASA Ames Research Center.
 Bernal Cutaway: https://www.flickr.com/photos/nasacommons/14052996976/in/album-72157644439092941/ Don Davis, NASA Ames Research Center.

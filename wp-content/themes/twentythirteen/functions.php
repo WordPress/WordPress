@@ -80,9 +80,15 @@ function twentythirteen_setup() {
 
 	/*
 	 * This theme styles the visual editor to resemble the theme style,
-	 * specifically font, colors, icons, and column width.
+	 * specifically font, colors, icons, and column width. When fonts are
+	 * self-hosted, the theme directory needs to be removed first.
 	 */
-	add_editor_style( array( 'css/editor-style.css', 'genericons/genericons.css', twentythirteen_fonts_url() ) );
+	$font_stylesheet = str_replace(
+		array( get_template_directory_uri() . '/', get_stylesheet_directory_uri() . '/' ),
+		'',
+		twentythirteen_fonts_url()
+	);
+	add_editor_style( array( 'css/editor-style.css', 'genericons/genericons.css', $font_stylesheet ) );
 
 	// Load regular editor styles into the new block-based editor.
 	add_theme_support( 'editor-styles' );
@@ -243,52 +249,50 @@ function twentythirteen_setup() {
 }
 add_action( 'after_setup_theme', 'twentythirteen_setup' );
 
-/**
- * Return the Google font stylesheet URL, if available.
- *
- * The use of Source Sans Pro and Bitter by default is localized. For languages
- * that use characters not supported by the font, the font can be disabled.
- *
- * @since Twenty Thirteen 1.0
- *
- * @return string Font stylesheet or empty string if disabled.
- */
-function twentythirteen_fonts_url() {
-	$fonts_url = '';
-
-	/*
-	 * translators: If there are characters in your language that are not supported
-	 * by Source Sans Pro, translate this to 'off'. Do not translate into your own language.
+if ( ! function_exists( 'twentythirteen_fonts_url' ) ) :
+	/**
+	 * Return the font stylesheet URL, if available.
+	 *
+	 * The use of Source Sans Pro and Bitter by default is localized. For languages
+	 * that use characters not supported by the font, the font can be disabled.
+	 *
+	 * @since Twenty Thirteen 1.0
+	 * @since Twenty Thirteen 3.8 Replaced Google URL with self-hosted fonts.
+	 *
+	 * @return string Font stylesheet or empty string if disabled.
 	 */
-	$source_sans_pro = _x( 'on', 'Source Sans Pro font: on or off', 'twentythirteen' );
+	function twentythirteen_fonts_url() {
+		$fonts_url = '';
 
-	/*
-	 * translators: If there are characters in your language that are not supported
-	 * by Bitter, translate this to 'off'. Do not translate into your own language.
-	 */
-	$bitter = _x( 'on', 'Bitter font: on or off', 'twentythirteen' );
+		/*
+		 * translators: If there are characters in your language that are not supported
+		 * by Source Sans Pro, translate this to 'off'. Do not translate into your own language.
+		 */
+		$source_sans_pro = _x( 'on', 'Source Sans Pro font: on or off', 'twentythirteen' );
 
-	if ( 'off' !== $source_sans_pro || 'off' !== $bitter ) {
-		$font_families = array();
+		/*
+		 * translators: If there are characters in your language that are not supported
+		 * by Bitter, translate this to 'off'. Do not translate into your own language.
+		 */
+		$bitter = _x( 'on', 'Bitter font: on or off', 'twentythirteen' );
 
-		if ( 'off' !== $source_sans_pro ) {
-			$font_families[] = 'Source Sans Pro:300,400,700,300italic,400italic,700italic';
+		if ( 'off' !== $source_sans_pro || 'off' !== $bitter ) {
+			$font_families = array();
+
+			if ( 'off' !== $source_sans_pro ) {
+				$font_families[] = 'source-sans-pro';
+			}
+
+			if ( 'off' !== $bitter ) {
+				$font_families[] = 'bitter';
+			}
+
+			$fonts_url = get_template_directory_uri() . '/fonts/' . implode( '-plus-', $font_families ) . '.css';
 		}
 
-		if ( 'off' !== $bitter ) {
-			$font_families[] = 'Bitter:400,700';
-		}
-
-		$query_args = array(
-			'family'  => urlencode( implode( '|', $font_families ) ),
-			'subset'  => urlencode( 'latin,latin-ext' ),
-			'display' => urlencode( 'fallback' ),
-		);
-		$fonts_url  = add_query_arg( $query_args, 'https://fonts.googleapis.com/css' );
+		return $fonts_url;
 	}
-
-	return $fonts_url;
-}
+endif;
 
 /**
  * Enqueue scripts and styles for the front end.
@@ -313,7 +317,8 @@ function twentythirteen_scripts_styles() {
 	wp_enqueue_script( 'twentythirteen-script', get_template_directory_uri() . '/js/functions.js', array( 'jquery' ), '20210122', true );
 
 	// Add Source Sans Pro and Bitter fonts, used in the main stylesheet.
-	wp_enqueue_style( 'twentythirteen-fonts', twentythirteen_fonts_url(), array(), null );
+	$font_version = ( 0 === strpos( (string) twentythirteen_fonts_url(), get_template_directory_uri() . '/' ) ) ? '20230328' : null;
+	wp_enqueue_style( 'twentythirteen-fonts', twentythirteen_fonts_url(), array(), $font_version );
 
 	// Add Genericons font, used in the main stylesheet.
 	wp_enqueue_style( 'genericons', get_template_directory_uri() . '/genericons/genericons.css', array(), '3.0.3' );
@@ -334,6 +339,7 @@ add_action( 'wp_enqueue_scripts', 'twentythirteen_scripts_styles' );
  * Add preconnect for Google Fonts.
  *
  * @since Twenty Thirteen 2.1
+ * @deprecated Twenty Thirteen 3.8 Disabled filter because, by default, fonts are self-hosted.
  *
  * @param array   $urls          URLs to print for resource hints.
  * @param string  $relation_type The relation type the URLs are printed.
@@ -353,7 +359,7 @@ function twentythirteen_resource_hints( $urls, $relation_type ) {
 
 	return $urls;
 }
-add_filter( 'wp_resource_hints', 'twentythirteen_resource_hints', 10, 2 );
+// add_filter( 'wp_resource_hints', 'twentythirteen_resource_hints', 10, 2 );
 
 /**
  * Enqueue styles for the block-based editor.
@@ -364,7 +370,8 @@ function twentythirteen_block_editor_styles() {
 	// Block styles.
 	wp_enqueue_style( 'twentythirteen-block-editor-style', get_template_directory_uri() . '/css/editor-blocks.css', array(), '20210621' );
 	// Add custom fonts.
-	wp_enqueue_style( 'twentythirteen-fonts', twentythirteen_fonts_url(), array(), null );
+	$font_version = ( 0 === strpos( (string) twentythirteen_fonts_url(), get_template_directory_uri() . '/' ) ) ? '20230328' : null;
+	wp_enqueue_style( 'twentythirteen-fonts', twentythirteen_fonts_url(), array(), $font_version );
 }
 add_action( 'enqueue_block_editor_assets', 'twentythirteen_block_editor_styles' );
 
