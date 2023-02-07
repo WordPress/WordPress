@@ -1948,6 +1948,8 @@ class WP_Query {
 
 		if ( ! isset( $q['lazy_load_term_meta'] ) ) {
 			$q['lazy_load_term_meta'] = $q['update_post_term_cache'];
+		} elseif ( $q['lazy_load_term_meta'] ) { // Lazy loading term meta only works if term caches are primed.
+			$q['update_post_term_cache'] = true;
 		}
 
 		if ( ! isset( $q['update_post_meta_cache'] ) ) {
