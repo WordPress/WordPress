@@ -134,9 +134,15 @@ if ( ! function_exists( 'twentysixteen_setup' ) ) :
 
 		/*
 		 * This theme styles the visual editor to resemble the theme style,
-		 * specifically font, colors, icons, and column width.
+		 * specifically font, colors, icons, and column width. When fonts are
+		 * self-hosted, the theme directory needs to be removed first.
 		 */
-		add_editor_style( array( 'css/editor-style.css', twentysixteen_fonts_url() ) );
+		$font_stylesheet = str_replace(
+			array( get_template_directory_uri() . '/', get_stylesheet_directory_uri() . '/' ),
+			'',
+			twentysixteen_fonts_url()
+		);
+		add_editor_style( array( 'css/editor-style.css', $font_stylesheet ) );
 
 		// Load regular editor styles into the new block-based editor.
 		add_theme_support( 'editor-styles' );
@@ -241,6 +247,7 @@ add_action( 'after_setup_theme', 'twentysixteen_content_width', 0 );
  * Add preconnect for Google Fonts.
  *
  * @since Twenty Sixteen 1.6
+ * @deprecated Twenty Sixteen 2.9 Disabled filter because, by default, fonts are self-hosted.
  *
  * @param array  $urls          URLs to print for resource hints.
  * @param string $relation_type The relation type the URLs are printed.
@@ -256,7 +263,7 @@ function twentysixteen_resource_hints( $urls, $relation_type ) {
 
 	return $urls;
 }
-add_filter( 'wp_resource_hints', 'twentysixteen_resource_hints', 10, 2 );
+// add_filter( 'wp_resource_hints', 'twentysixteen_resource_hints', 10, 2 );
 
 /**
  * Registers a widget area.
@@ -306,25 +313,25 @@ add_action( 'widgets_init', 'twentysixteen_widgets_init' );
 
 if ( ! function_exists( 'twentysixteen_fonts_url' ) ) :
 	/**
-	 * Register Google fonts for Twenty Sixteen.
+	 * Register fonts for Twenty Sixteen.
 	 *
 	 * Create your own twentysixteen_fonts_url() function to override in a child theme.
 	 *
 	 * @since Twenty Sixteen 1.0
+	 * @since Twenty Sixteen 2.9 Replaced Google URL with self-hosted fonts.
 	 *
-	 * @return string Google fonts URL for the theme.
+	 * @return string Fonts URL for the theme.
 	 */
 	function twentysixteen_fonts_url() {
 		$fonts_url = '';
 		$fonts     = array();
-		$subsets   = 'latin,latin-ext';
 
 		/*
 		 * translators: If there are characters in your language that are not supported
 		 * by Merriweather, translate this to 'off'. Do not translate into your own language.
 		 */
 		if ( 'off' !== _x( 'on', 'Merriweather font: on or off', 'twentysixteen' ) ) {
-			$fonts[] = 'Merriweather:400,700,900,400italic,700italic,900italic';
+			$fonts[] = 'merriweather';
 		}
 
 		/*
@@ -332,7 +339,7 @@ if ( ! function_exists( 'twentysixteen_fonts_url' ) ) :
 		 * by Montserrat, translate this to 'off'. Do not translate into your own language.
 		 */
 		if ( 'off' !== _x( 'on', 'Montserrat font: on or off', 'twentysixteen' ) ) {
-			$fonts[] = 'Montserrat:400,700';
+			$fonts[] = 'montserrat';
 		}
 
 		/*
@@ -340,18 +347,11 @@ if ( ! function_exists( 'twentysixteen_fonts_url' ) ) :
 		 * by Inconsolata, translate this to 'off'. Do not translate into your own language.
 		 */
 		if ( 'off' !== _x( 'on', 'Inconsolata font: on or off', 'twentysixteen' ) ) {
-			$fonts[] = 'Inconsolata:400';
+			$fonts[] = 'inconsolata';
 		}
 
 		if ( $fonts ) {
-			$fonts_url = add_query_arg(
-				array(
-					'family'  => urlencode( implode( '|', $fonts ) ),
-					'subset'  => urlencode( $subsets ),
-					'display' => urlencode( 'fallback' ),
-				),
-				'https://fonts.googleapis.com/css'
-			);
+			$fonts_url = get_template_directory_uri() . '/fonts/' . implode( '-plus-', $fonts ) . '.css';
 		}
 
 		return $fonts_url;
@@ -377,7 +377,8 @@ add_action( 'wp_head', 'twentysixteen_javascript_detection', 0 );
  */
 function twentysixteen_scripts() {
 	// Add custom fonts, used in the main stylesheet.
-	wp_enqueue_style( 'twentysixteen-fonts', twentysixteen_fonts_url(), array(), null );
+	$font_version = ( 0 === strpos( (string) twentysixteen_fonts_url(), get_template_directory_uri() . '/' ) ) ? '20230328' : null;
+	wp_enqueue_style( 'twentysixteen-fonts', twentysixteen_fonts_url(), array(), $font_version );
 
 	// Add Genericons, used in the main stylesheet.
 	wp_enqueue_style( 'genericons', get_template_directory_uri() . '/genericons/genericons.css', array(), '20201208' );
@@ -436,7 +437,8 @@ function twentysixteen_block_editor_styles() {
 	// Block styles.
 	wp_enqueue_style( 'twentysixteen-block-editor-style', get_template_directory_uri() . '/css/editor-blocks.css', array(), '20221004' );
 	// Add custom fonts.
-	wp_enqueue_style( 'twentysixteen-fonts', twentysixteen_fonts_url(), array(), null );
+	$font_version = ( 0 === strpos( (string) twentysixteen_fonts_url(), get_template_directory_uri() . '/' ) ) ? '20230328' : null;
+	wp_enqueue_style( 'twentysixteen-fonts', twentysixteen_fonts_url(), array(), $font_version );
 }
 add_action( 'enqueue_block_editor_assets', 'twentysixteen_block_editor_styles' );
 
