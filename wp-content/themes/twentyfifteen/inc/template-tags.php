@@ -20,7 +20,12 @@ if ( ! function_exists( 'twentyfifteen_comment_nav' ) ) :
 		if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) :
 			?>
 		<nav class="navigation comment-navigation">
-		<h2 class="screen-reader-text"><?php _e( 'Comment navigation', 'twentyfifteen' ); ?></h2>
+		<h2 class="screen-reader-text">
+			<?php
+			/* translators: Hidden accessibility text. */
+			_e( 'Comment navigation', 'twentyfifteen' );
+			?>
+		</h2>
 		<div class="nav-links">
 			<?php
 			$prev_link = get_previous_comments_link( __( 'Older Comments', 'twentyfifteen' ) );
@@ -55,7 +60,11 @@ if ( ! function_exists( 'twentyfifteen_entry_meta' ) ) :
 		if ( current_theme_supports( 'post-formats', $format ) ) {
 			printf(
 				'<span class="entry-format">%1$s<a href="%2$s">%3$s</a></span>',
-				sprintf( '<span class="screen-reader-text">%s </span>', _x( 'Format', 'Used before post format.', 'twentyfifteen' ) ),
+				sprintf(
+					'<span class="screen-reader-text">%s </span>',
+					/* translators: Hidden accessibility text. */
+					_x( 'Format', 'Used before post format.', 'twentyfifteen' )
+				),
 				esc_url( get_post_format_link( $format ) ),
 				get_post_format_string( $format )
 			);
@@ -78,6 +87,7 @@ if ( ! function_exists( 'twentyfifteen_entry_meta' ) ) :
 
 			printf(
 				'<span class="posted-on"><span class="screen-reader-text">%1$s </span><a href="%2$s" rel="bookmark">%3$s</a></span>',
+				/* translators: Hidden accessibility text. */
 				_x( 'Posted on', 'Used before publish date.', 'twentyfifteen' ),
 				esc_url( get_permalink() ),
 				$time_string
@@ -88,6 +98,7 @@ if ( ! function_exists( 'twentyfifteen_entry_meta' ) ) :
 			if ( is_singular() || is_multi_author() ) {
 				printf(
 					'<span class="byline"><span class="author vcard"><span class="screen-reader-text">%1$s </span><a class="url fn n" href="%2$s">%3$s</a></span></span>',
+					/* translators: Hidden accessibility text. */
 					_x( 'Author', 'Used before post author name.', 'twentyfifteen' ),
 					esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
 					get_the_author()
@@ -98,6 +109,7 @@ if ( ! function_exists( 'twentyfifteen_entry_meta' ) ) :
 			if ( $categories_list && twentyfifteen_categorized_blog() ) {
 				printf(
 					'<span class="cat-links"><span class="screen-reader-text">%1$s </span>%2$s</span>',
+					/* translators: Hidden accessibility text. */
 					_x( 'Categories', 'Used before category names.', 'twentyfifteen' ),
 					$categories_list
 				);
@@ -107,6 +119,7 @@ if ( ! function_exists( 'twentyfifteen_entry_meta' ) ) :
 			if ( $tags_list && ! is_wp_error( $tags_list ) ) {
 				printf(
 					'<span class="tags-links"><span class="screen-reader-text">%1$s </span>%2$s</span>',
+					/* translators: Hidden accessibility text. */
 					_x( 'Tags', 'Used before tag names.', 'twentyfifteen' ),
 					$tags_list
 				);
@@ -119,6 +132,7 @@ if ( ! function_exists( 'twentyfifteen_entry_meta' ) ) :
 
 			printf(
 				'<span class="full-size-link"><span class="screen-reader-text">%1$s </span><a href="%2$s">%3$s &times; %4$s</a></span>',
+				/* translators: Hidden accessibility text. */
 				_x( 'Full size', 'Used before full size attachment link.', 'twentyfifteen' ),
 				esc_url( wp_get_attachment_url() ),
 				$metadata['width'],

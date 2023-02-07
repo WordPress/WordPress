@@ -805,7 +805,12 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 									);
 									?>
 									">
-										<span aria-hidden="true"><?php _ex( 'Edit', 'menu' ); ?></span><span class="screen-reader-text"><?php _e( 'Edit selected menu' ); ?></span>
+										<span aria-hidden="true"><?php _ex( 'Edit', 'menu' ); ?></span><span class="screen-reader-text">
+											<?php
+											/* translators: Hidden accessibility text. */
+											_e( 'Edit selected menu' );
+											?>
+										</span>
 									</a>
 								</span>
 								<?php endif; ?>
@@ -851,7 +856,12 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 		<?php if ( $menu_count < 1 ) : ?>
 		<span class="first-menu-message">
 			<?php _e( 'Create your first menu below.' ); ?>
-			<span class="screen-reader-text"><?php _e( 'Fill in the Menu Name and click the Create Menu button to create your first menu.' ); ?></span>
+			<span class="screen-reader-text">
+				<?php
+				/* translators: Hidden accessibility text. */
+				_e( 'Fill in the Menu Name and click the Create Menu button to create your first menu.' );
+				?>
+			</span>
 		</span><!-- /first-menu-message -->
 		<?php elseif ( $menu_count < 2 ) : ?>
 		<span class="add-edit-menu-action">
@@ -870,7 +880,12 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 				)
 			);
 			?>
-			<span class="screen-reader-text"><?php _e( 'Click the Save Menu button to save your changes.' ); ?></span>
+			<span class="screen-reader-text">
+				<?php
+				/* translators: Hidden accessibility text. */
+				_e( 'Click the Save Menu button to save your changes.' );
+				?>
+			</span>
 		</span><!-- /add-edit-menu-action -->
 		<?php else : ?>
 			<form method="get" action="<?php echo esc_url( admin_url( 'nav-menus.php' ) ); ?>">
@@ -935,7 +950,12 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					)
 				);
 				?>
-				<span class="screen-reader-text"><?php _e( 'Click the Save Menu button to save your changes.' ); ?></span>
+				<span class="screen-reader-text">
+					<?php
+					/* translators: Hidden accessibility text. */
+					_e( 'Click the Save Menu button to save your changes.' );
+					?>
+				</span>
 			</span><!-- /add-new-menu-action -->
 		</form>
 			<?php

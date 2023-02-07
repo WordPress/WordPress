@@ -85,7 +85,13 @@ else :
 <table class="form-table" role="presentation">
 <tr>
 <th scope="row"><?php _e( 'Your homepage displays' ); ?></th>
-<td id="front-static-pages"><fieldset><legend class="screen-reader-text"><span><?php _e( 'Your homepage displays' ); ?></span></legend>
+<td id="front-static-pages"><fieldset>
+	<legend class="screen-reader-text"><span>
+		<?php
+		/* translators: Hidden accessibility text. */
+		_e( 'Your homepage displays' );
+		?>
+	</span></legend>
 	<p><label>
 		<input name="show_on_front" type="radio" value="posts" class="tog" <?php checked( 'posts', get_option( 'show_on_front' ) ); ?> />
 		<?php _e( 'Your latest posts' ); ?>
@@ -159,7 +165,13 @@ else :
 </tr>
 <tr>
 <th scope="row"><?php _e( 'For each post in a feed, include' ); ?> </th>
-<td><fieldset><legend class="screen-reader-text"><span><?php _e( 'For each post in a feed, include' ); ?> </span></legend>
+<td><fieldset>
+	<legend class="screen-reader-text"><span>
+		<?php
+		/* translators: Hidden accessibility text. */
+		_e( 'For each post in a feed, include' );
+		?>
+	</span></legend>
 	<p>
 		<label><input name="rss_use_excerpt" type="radio" value="0" <?php checked( 0, get_option( 'rss_use_excerpt' ) ); ?>	/> <?php _e( 'Full text' ); ?></label><br />
 		<label><input name="rss_use_excerpt" type="radio" value="1" <?php checked( 1, get_option( 'rss_use_excerpt' ) ); ?> /> <?php _e( 'Excerpt' ); ?></label>
@@ -178,7 +190,16 @@ else :
 
 <tr class="option-site-visibility">
 <th scope="row"><?php has_action( 'blog_privacy_selector' ) ? _e( 'Site visibility' ) : _e( 'Search engine visibility' ); ?> </th>
-<td><fieldset><legend class="screen-reader-text"><span><?php has_action( 'blog_privacy_selector' ) ? _e( 'Site visibility' ) : _e( 'Search engine visibility' ); ?> </span></legend>
+<td><fieldset>
+	<legend class="screen-reader-text"><span>
+		<?php
+		has_action( 'blog_privacy_selector' )
+			/* translators: Hidden accessibility text. */
+			? _e( 'Site visibility' )
+			/* translators: Hidden accessibility text. */
+			: _e( 'Search engine visibility' );
+		?>
+	</span></legend>
 <?php if ( has_action( 'blog_privacy_selector' ) ) : ?>
 	<input id="blog-public" type="radio" name="blog_public" value="1" <?php checked( '1', get_option( 'blog_public' ) ); ?> />
 	<label for="blog-public"><?php _e( 'Allow search engines to index this site' ); ?></label><br />

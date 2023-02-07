@@ -57,7 +57,12 @@ if ( ! function_exists( 'twentyfourteen_paging_nav' ) ) :
 
 			?>
 		<nav class="navigation paging-navigation">
-		<h1 class="screen-reader-text"><?php _e( 'Posts navigation', 'twentyfourteen' ); ?></h1>
+		<h1 class="screen-reader-text">
+			<?php
+			/* translators: Hidden accessibility text. */
+			_e( 'Posts navigation', 'twentyfourteen' );
+			?>
+		</h1>
 		<div class="pagination loop-pagination">
 			<?php echo $links; ?>
 		</div><!-- .pagination -->
@@ -84,7 +89,12 @@ if ( ! function_exists( 'twentyfourteen_post_nav' ) ) :
 
 		?>
 		<nav class="navigation post-navigation">
-		<h1 class="screen-reader-text"><?php _e( 'Post navigation', 'twentyfourteen' ); ?></h1>
+		<h1 class="screen-reader-text">
+			<?php
+			/* translators: Hidden accessibility text. */
+			_e( 'Post navigation', 'twentyfourteen' );
+			?>
+		</h1>
 		<div class="nav-links">
 			<?php
 			if ( is_attachment() ) :

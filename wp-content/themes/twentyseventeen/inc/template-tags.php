@@ -81,11 +81,19 @@ if ( ! function_exists( 'twentyseventeen_entry_footer' ) ) :
 
 					// Make sure there's more than one category before displaying.
 					if ( $categories_list && twentyseventeen_categorized_blog() ) {
-						echo '<span class="cat-links">' . twentyseventeen_get_svg( array( 'icon' => 'folder-open' ) ) . '<span class="screen-reader-text">' . __( 'Categories', 'twentyseventeen' ) . '</span>' . $categories_list . '</span>';
+						echo '<span class="cat-links">' . twentyseventeen_get_svg( array( 'icon' => 'folder-open' ) ) .
+							/* translators: Hidden accessibility text. */
+							'<span class="screen-reader-text">' . __( 'Categories', 'twentyseventeen' ) . '</span>' .
+							$categories_list .
+						'</span>';
 					}
 
 					if ( $tags_list && ! is_wp_error( $tags_list ) ) {
-						echo '<span class="tags-links">' . twentyseventeen_get_svg( array( 'icon' => 'hashtag' ) ) . '<span class="screen-reader-text">' . __( 'Tags', 'twentyseventeen' ) . '</span>' . $tags_list . '</span>';
+						echo '<span class="tags-links">' . twentyseventeen_get_svg( array( 'icon' => 'hashtag' ) ) .
+							/* translators: Hidden accessibility text. */
+							'<span class="screen-reader-text">' . __( 'Tags', 'twentyseventeen' ) . '</span>' .
+							$tags_list .
+						'</span>';
 					}
 
 					echo '</span>';

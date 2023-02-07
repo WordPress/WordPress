@@ -112,7 +112,10 @@ if ( ! class_exists( 'TwentyTwenty_Walker_Page' ) ) {
 					$toggle_duration      = twentytwenty_toggle_duration();
 
 					// Add the sub menu toggle.
-					$args['list_item_after'] .= '<button class="toggle sub-menu-toggle fill-children-current-color" data-toggle-target="' . $toggle_target_string . '" data-toggle-type="slidetoggle" data-toggle-duration="' . absint( $toggle_duration ) . '" aria-expanded="false"><span class="screen-reader-text">' . __( 'Show sub menu', 'twentytwenty' ) . '</span>' . twentytwenty_get_theme_svg( 'chevron-down' ) . '</button>';
+					$args['list_item_after'] .= '<button class="toggle sub-menu-toggle fill-children-current-color" data-toggle-target="' . $toggle_target_string . '" data-toggle-type="slidetoggle" data-toggle-duration="' . absint( $toggle_duration ) . '" aria-expanded="false"><span class="screen-reader-text">' .
+						/* translators: Hidden accessibility text. */
+						__( 'Show sub menu', 'twentytwenty' ) .
+					'</span>' . twentytwenty_get_theme_svg( 'chevron-down' ) . '</button>';
 
 				}
 

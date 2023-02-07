@@ -124,25 +124,45 @@ class WP_Customize_Themes_Section extends WP_Customize_Section {
 		<button type="button" class="button button-primary customize-section-back customize-themes-mobile-back"><?php _e( 'Go to theme sources' ); ?></button>
 		<# if ( 'wporg' === data.action ) { #>
 			<div class="search-form">
-				<label for="wp-filter-search-input-{{ data.id }}" class="screen-reader-text"><?php _e( 'Search themes&hellip;' ); ?></label>
+				<label for="wp-filter-search-input-{{ data.id }}" class="screen-reader-text">
+					<?php
+					/* translators: Hidden accessibility text. */
+					_e( 'Search themes&hellip;' );
+					?>
+				</label>
 				<input type="search" id="wp-filter-search-input-{{ data.id }}" placeholder="<?php esc_attr_e( 'Search themes&hellip;' ); ?>" aria-describedby="{{ data.id }}-live-search-desc" class="wp-filter-search">
 				<div class="search-icon" aria-hidden="true"></div>
-				<span id="{{ data.id }}-live-search-desc" class="screen-reader-text"><?php _e( 'The search results will be updated as you type.' ); ?></span>
+				<span id="{{ data.id }}-live-search-desc" class="screen-reader-text">
+					<?php
+					/* translators: Hidden accessibility text. */
+					_e( 'The search results will be updated as you type.' );
+					?>
+				</span>
 			</div>
 			<button type="button" class="button feature-filter-toggle">
 				<span class="filter-count-0"><?php _e( 'Filter themes' ); ?></span><span class="filter-count-filters">
-				<?php
-				/* translators: %s: Number of filters selected. */
-				printf( __( 'Filter themes (%s)' ), '<span class="theme-filter-count">0</span>' );
-				?>
+					<?php
+					/* translators: %s: Number of filters selected. */
+					printf( __( 'Filter themes (%s)' ), '<span class="theme-filter-count">0</span>' );
+					?>
 				</span>
 			</button>
 		<# } else { #>
 			<div class="themes-filter-container">
-				<label for="{{ data.id }}-themes-filter" class="screen-reader-text"><?php _e( 'Search themes&hellip;' ); ?></label>
+				<label for="{{ data.id }}-themes-filter" class="screen-reader-text">
+					<?php
+					/* translators: Hidden accessibility text. */
+					_e( 'Search themes&hellip;' );
+					?>
+				</label>
 				<input type="search" id="{{ data.id }}-themes-filter" placeholder="<?php esc_attr_e( 'Search themes&hellip;' ); ?>" aria-describedby="{{ data.id }}-live-search-desc" class="wp-filter-search wp-filter-search-themes" />
 				<div class="search-icon" aria-hidden="true"></div>
-				<span id="{{ data.id }}-live-search-desc" class="screen-reader-text"><?php _e( 'The search results will be updated as you type.' ); ?></span>
+				<span id="{{ data.id }}-live-search-desc" class="screen-reader-text">
+					<?php
+					/* translators: Hidden accessibility text. */
+					_e( 'The search results will be updated as you type.' );
+					?>
+				</span>
 			</div>
 		<# } #>
 		<div class="filter-themes-count">

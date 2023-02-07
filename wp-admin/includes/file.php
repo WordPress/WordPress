@@ -339,7 +339,12 @@ function wp_print_file_editor_templates() {
 				<# } #>
 			<# } #>
 			<# if ( data.dismissible ) { #>
-				<button type="button" class="notice-dismiss"><span class="screen-reader-text"><?php _e( 'Dismiss' ); ?></span></button>
+				<button type="button" class="notice-dismiss"><span class="screen-reader-text">
+					<?php
+					/* translators: Hidden accessibility text. */
+					_e( 'Dismiss' );
+					?>
+				</span></button>
 			<# } #>
 		</div>
 	</script>

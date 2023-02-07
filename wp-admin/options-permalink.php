@@ -330,7 +330,12 @@ printf(
 	<th scope="row"><?php _e( 'Permalink structure' ); ?></th>
 	<td>
 		<fieldset class="structure-selection">
-			<legend class="screen-reader-text"><?php _e( 'Permalink structure' ); ?></legend>
+			<legend class="screen-reader-text">
+				<?php
+				/* translators: Hidden accessibility text. */
+				_e( 'Permalink structure' );
+				?>
+			</legend>
 			<?php foreach ( $default_structures as $input ) : ?>
 			<div class="row">
 				<input id="permalink-input-<?php echo $input['id']; ?>"
@@ -356,7 +361,10 @@ printf(
 					<label for="custom_selection"><?php _e( 'Custom Structure' ); ?></label>
 					<p>
 						<label for="permalink_structure" class="screen-reader-text">
-							<?php _e( 'Customize permalink structure by selecting available tags' ); ?>
+							<?php
+							/* translators: Hidden accessibility text. */
+							_e( 'Customize permalink structure by selecting available tags' );
+							?>
 						</label>
 						<span class="code">
 							<code id="permalink-custom"><?php echo $url_base; ?></code>

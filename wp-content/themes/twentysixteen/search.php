@@ -43,6 +43,7 @@ get_header(); ?>
 				array(
 					'prev_text'          => __( 'Previous page', 'twentysixteen' ),
 					'next_text'          => __( 'Next page', 'twentysixteen' ),
+					/* translators: Hidden accessibility text. */
 					'before_page_number' => '<span class="meta-nav screen-reader-text">' . __( 'Page', 'twentysixteen' ) . ' </span>',
 				)
 			);

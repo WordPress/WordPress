@@ -47,7 +47,12 @@ if ( 'approved' === wp_get_comment_status( $comment ) && $comment->comment_post_
 <div class="inside">
 <h2 class="edit-comment-author"><?php _e( 'Author' ); ?></h2>
 <fieldset>
-<legend class="screen-reader-text"><?php _e( 'Comment Author' ); ?></legend>
+<legend class="screen-reader-text">
+	<?php
+	/* translators: Hidden accessibility text. */
+	_e( 'Comment Author' );
+	?>
+</legend>
 <table class="form-table editcomment" role="presentation">
 <tbody>
 <tr>
@@ -73,8 +78,13 @@ if ( 'approved' === wp_get_comment_status( $comment ) && $comment->comment_post_
 </div>
 
 <div id="postdiv" class="postarea">
+<label for="content" class="screen-reader-text">
+	<?php
+	/* translators: Hidden accessibility text. */
+	_e( 'Comment' );
+	?>
+</label>
 <?php
-	echo '<label for="content" class="screen-reader-text">' . __( 'Comment' ) . '</label>';
 	$quicktags_settings = array( 'buttons' => 'strong,em,link,block,del,ins,img,ul,ol,li,code,close' );
 	wp_editor(
 		$comment->comment_content,
@@ -117,7 +127,12 @@ switch ( $comment->comment_approved ) {
 </span>
 
 <fieldset id="comment-status-radio">
-<legend class="screen-reader-text"><?php _e( 'Comment status' ); ?></legend>
+<legend class="screen-reader-text">
+	<?php
+	/* translators: Hidden accessibility text. */
+	_e( 'Comment status' );
+	?>
+</legend>
 <label><input type="radio"<?php checked( $comment->comment_approved, '1' ); ?> name="comment_status" value="1" /><?php _ex( 'Approved', 'comment status' ); ?></label><br />
 <label><input type="radio"<?php checked( $comment->comment_approved, '0' ); ?> name="comment_status" value="0" /><?php _ex( 'Pending', 'comment status' ); ?></label><br />
 <label><input type="radio"<?php checked( $comment->comment_approved, 'spam' ); ?> name="comment_status" value="spam" /><?php _ex( 'Spam', 'comment status' ); ?></label>
@@ -141,9 +156,19 @@ $submitted = sprintf(
 printf( __( 'Submitted on: %s' ), '<b>' . $submitted . '</b>' );
 ?>
 </span>
-<a href="#edit_timestamp" class="edit-timestamp hide-if-no-js"><span aria-hidden="true"><?php _e( 'Edit' ); ?></span> <span class="screen-reader-text"><?php _e( 'Edit date and time' ); ?></span></a>
+<a href="#edit_timestamp" class="edit-timestamp hide-if-no-js"><span aria-hidden="true"><?php _e( 'Edit' ); ?></span> <span class="screen-reader-text">
+	<?php
+	/* translators: Hidden accessibility text. */
+	_e( 'Edit date and time' );
+	?>
+</span></a>
 <fieldset id='timestampdiv' class='hide-if-js'>
-<legend class="screen-reader-text"><?php _e( 'Date and time' ); ?></legend>
+<legend class="screen-reader-text">
+	<?php
+	/* translators: Hidden accessibility text. */
+	_e( 'Date and time' );
+	?>
+</legend>
 <?php
 /**
  * @global string $action

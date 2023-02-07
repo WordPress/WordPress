@@ -360,7 +360,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 				'<label class="screen-reader-text" for="cb-select-%1$s">%2$s</label>' .
 				'<input type="checkbox" name="delete_tags[]" value="%1$s" id="cb-select-%1$s" />',
 				$tag->term_id,
-				/* translators: %s: Taxonomy term name. */
+				/* translators: Hidden accessibility text. %s: Taxonomy term name. */
 				sprintf( __( 'Select %s' ), $tag->name )
 			);
 		}
@@ -547,7 +547,10 @@ class WP_Terms_List_Table extends WP_List_Table {
 		if ( $tag->description ) {
 			return $tag->description;
 		} else {
-			return '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">' . __( 'No description' ) . '</span>';
+			return '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">' .
+				/* translators: Hidden accessibility text. */
+				__( 'No description' ) .
+			'</span>';
 		}
 	}
 

@@ -127,7 +127,12 @@ class WP_Customize_Date_Time_Control extends WP_Customize_Control {
 				<legend class="title-day {{ ! data.includeTime ? 'screen-reader-text' : '' }}"><?php esc_html_e( 'Date' ); ?></legend>
 				<div class="day-fields clear">
 					<?php ob_start(); ?>
-					<label for="{{ idPrefix }}date-time-month" class="screen-reader-text"><?php esc_html_e( 'Month' ); ?></label>
+					<label for="{{ idPrefix }}date-time-month" class="screen-reader-text">
+						<?php
+						/* translators: Hidden accessibility text. */
+						esc_html_e( 'Month' );
+						?>
+					</label>
 					<select id="{{ idPrefix }}date-time-month" class="date-input month" data-component="month">
 						<# _.each( data.month_choices, function( choice ) {
 							if ( _.isObject( choice ) && ! _.isUndefined( choice.text ) && ! _.isUndefined( choice.value ) ) {
@@ -143,12 +148,22 @@ class WP_Customize_Date_Time_Control extends WP_Customize_Control {
 					<?php $month_field = trim( ob_get_clean() ); ?>
 
 					<?php ob_start(); ?>
-					<label for="{{ idPrefix }}date-time-day" class="screen-reader-text"><?php esc_html_e( 'Day' ); ?></label>
+					<label for="{{ idPrefix }}date-time-day" class="screen-reader-text">
+						<?php
+						/* translators: Hidden accessibility text. */
+						esc_html_e( 'Day' );
+						?>
+					</label>
 					<input id="{{ idPrefix }}date-time-day" type="number" size="2" autocomplete="off" class="date-input day" data-component="day" min="1" max="31" />
 					<?php $day_field = trim( ob_get_clean() ); ?>
 
 					<?php ob_start(); ?>
-					<label for="{{ idPrefix }}date-time-year" class="screen-reader-text"><?php esc_html_e( 'Year' ); ?></label>
+					<label for="{{ idPrefix }}date-time-year" class="screen-reader-text">
+						<?php
+						/* translators: Hidden accessibility text. */
+						esc_html_e( 'Year' );
+						?>
+					</label>
 					<input id="{{ idPrefix }}date-time-year" type="number" size="4" autocomplete="off" class="date-input year" data-component="year" min="{{ data.minYear }}" max="{{ data.maxYear }}">
 					<?php $year_field = trim( ob_get_clean() ); ?>
 
@@ -159,15 +174,30 @@ class WP_Customize_Date_Time_Control extends WP_Customize_Control {
 				<fieldset class="time-row clear">
 					<legend class="title-time"><?php esc_html_e( 'Time' ); ?></legend>
 					<div class="time-fields clear">
-						<label for="{{ idPrefix }}date-time-hour" class="screen-reader-text"><?php esc_html_e( 'Hour' ); ?></label>
+						<label for="{{ idPrefix }}date-time-hour" class="screen-reader-text">
+							<?php
+							/* translators: Hidden accessibility text. */
+							esc_html_e( 'Hour' );
+							?>
+						</label>
 						<# var maxHour = data.twelveHourFormat ? 12 : 23; #>
 						<# var minHour = data.twelveHourFormat ? 1 : 0; #>
 						<input id="{{ idPrefix }}date-time-hour" type="number" size="2" autocomplete="off" class="date-input hour" data-component="hour" min="{{ minHour }}" max="{{ maxHour }}">
 						:
-						<label for="{{ idPrefix }}date-time-minute" class="screen-reader-text"><?php esc_html_e( 'Minute' ); ?></label>
+						<label for="{{ idPrefix }}date-time-minute" class="screen-reader-text">
+							<?php
+							/* translators: Hidden accessibility text. */
+							esc_html_e( 'Minute' );
+							?>
+						</label>
 						<input id="{{ idPrefix }}date-time-minute" type="number" size="2" autocomplete="off" class="date-input minute" data-component="minute" min="0" max="59">
 						<# if ( data.twelveHourFormat ) { #>
-							<label for="{{ idPrefix }}date-time-meridian" class="screen-reader-text"><?php esc_html_e( 'Meridian' ); ?></label>
+							<label for="{{ idPrefix }}date-time-meridian" class="screen-reader-text">
+								<?php
+								/* translators: Hidden accessibility text. */
+								esc_html_e( 'Meridian' );
+								?>
+							</label>
 							<select id="{{ idPrefix }}date-time-meridian" class="date-input meridian" data-component="meridian">
 								<option value="am"><?php esc_html_e( 'AM' ); ?></option>
 								<option value="pm"><?php esc_html_e( 'PM' ); ?></option>

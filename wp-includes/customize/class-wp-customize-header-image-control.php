@@ -133,12 +133,24 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 			<button type="button" class="choice thumbnail"
 				data-customize-image-value="{{data.header.url}}"
 				data-customize-header-image-data="{{JSON.stringify(data.header)}}">
-				<span class="screen-reader-text"><?php _e( 'Set image' ); ?></span>
+				<span class="screen-reader-text">
+					<?php
+					/* translators: Hidden accessibility text. */
+					_e( 'Set image' );
+					?>
+				</span>
 				<img src="{{data.header.thumbnail_url}}" alt="{{data.header.alt_text || data.header.description}}" />
 			</button>
 
 			<# if ( data.type === 'uploaded' ) { #>
-				<button type="button" class="dashicons dashicons-no close"><span class="screen-reader-text"><?php _e( 'Remove image' ); ?></span></button>
+				<button type="button" class="dashicons dashicons-no close">
+					<span class="screen-reader-text">
+						<?php
+						/* translators: Hidden accessibility text. */
+						_e( 'Remove image' );
+						?>
+					</span>
+				</button>
 			<# } #>
 
 			<# } #>

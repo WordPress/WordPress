@@ -67,7 +67,12 @@
 								?>
 
 								<div class="entry-categories">
-									<span class="screen-reader-text"><?php _e( 'Categories', 'twentytwenty' ); ?></span>
+									<span class="screen-reader-text">
+										<?php
+										/* translators: Hidden accessibility text. */
+										_e( 'Categories', 'twentytwenty' );
+										?>
+									</span>
 									<div class="entry-categories-inner">
 										<?php the_category( ' ' ); ?>
 									</div><!-- .entry-categories-inner -->
@@ -85,7 +90,12 @@
 
 									<a href="#post-inner" class="to-the-content fill-children-current-color">
 										<?php twentytwenty_the_theme_svg( 'arrow-down' ); ?>
-										<div class="screen-reader-text"><?php _e( 'Scroll Down', 'twentytwenty' ); ?></div>
+										<div class="screen-reader-text">
+											<?php
+											/* translators: Hidden accessibility text. */
+											_e( 'Scroll Down', 'twentytwenty' );
+											?>
+										</div>
 									</a><!-- .to-the-content -->
 
 								</div><!-- .to-the-content-wrapper -->

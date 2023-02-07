@@ -114,7 +114,10 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	 * @return string
 	 */
 	public function addedLine( $line ) {
-		return "<td class='diff-addedline'><span aria-hidden='true' class='dashicons dashicons-plus'></span><span class='screen-reader-text'>" . __( 'Added:' ) . " </span>{$line}</td>";
+		return "<td class='diff-addedline'><span aria-hidden='true' class='dashicons dashicons-plus'></span><span class='screen-reader-text'>" .
+			/* translators: Hidden accessibility text. */
+			__( 'Added:' ) .
+		" </span>{$line}</td>";
 
 	}
 
@@ -125,7 +128,10 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	 * @return string
 	 */
 	public function deletedLine( $line ) {
-		return "<td class='diff-deletedline'><span aria-hidden='true' class='dashicons dashicons-minus'></span><span class='screen-reader-text'>" . __( 'Deleted:' ) . " </span>{$line}</td>";
+		return "<td class='diff-deletedline'><span aria-hidden='true' class='dashicons dashicons-minus'></span><span class='screen-reader-text'>" .
+			/* translators: Hidden accessibility text. */
+			__( 'Deleted:' ) .
+		" </span>{$line}</td>";
 	}
 
 	/**
@@ -135,7 +141,10 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	 * @return string
 	 */
 	public function contextLine( $line ) {
-		return "<td class='diff-context'><span class='screen-reader-text'>" . __( 'Unchanged:' ) . " </span>{$line}</td>";
+		return "<td class='diff-context'><span class='screen-reader-text'>" .
+			/* translators: Hidden accessibility text. */
+			__( 'Unchanged:' ) .
+		" </span>{$line}</td>";
 	}
 
 	/**

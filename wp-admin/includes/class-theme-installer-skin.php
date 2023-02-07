@@ -129,7 +129,7 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 				'<span aria-hidden="true">%s</span><span class="screen-reader-text">%s</span></a>',
 				esc_url( $customize_url ),
 				__( 'Live Preview' ),
-				/* translators: %s: Theme name. */
+				/* translators: Hidden accessibility text. %s: Theme name. */
 				sprintf( __( 'Live Preview &#8220;%s&#8221;' ), $name )
 			);
 		}
@@ -139,7 +139,7 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 			'<span aria-hidden="true">%s</span><span class="screen-reader-text">%s</span></a>',
 			esc_url( $activate_link ),
 			__( 'Activate' ),
-			/* translators: %s: Theme name. */
+			/* translators: Hidden accessibility text. %s: Theme name. */
 			sprintf( _x( 'Activate &#8220;%s&#8221;', 'theme' ), $name )
 		);
 

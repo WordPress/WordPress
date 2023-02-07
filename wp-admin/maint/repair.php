@@ -27,7 +27,10 @@ header( 'Content-Type: text/html; charset=utf-8' );
 
 if ( ! defined( 'WP_ALLOW_REPAIR' ) || ! WP_ALLOW_REPAIR ) {
 
-	echo '<h1 class="screen-reader-text">' . __( 'Allow automatic database repair' ) . '</h1>';
+	echo '<h1 class="screen-reader-text">' .
+		/* translators: Hidden accessibility text. */
+		__( 'Allow automatic database repair' ) .
+	'</h1>';
 
 	echo '<p>';
 	printf(
@@ -73,14 +76,20 @@ if ( ! defined( 'WP_ALLOW_REPAIR' ) || ! WP_ALLOW_REPAIR ) {
 
 	if ( $duplicated_keys || $missing_key ) {
 
-		echo '<h2 class="screen-reader-text">' . __( 'Check secret keys' ) . '</h2>';
+		echo '<h2 class="screen-reader-text">' .
+			/* translators: Hidden accessibility text. */
+			__( 'Check secret keys' ) .
+		'</h2>';
 
 		/* translators: 1: wp-config.php, 2: Secret key service URL. */
 		echo '<p>' . sprintf( __( 'While you are editing your %1$s file, take a moment to make sure you have all 8 keys and that they are unique. You can generate these using the <a href="%2$s">WordPress.org secret key service</a>.' ), '<code>wp-config.php</code>', 'https://api.wordpress.org/secret-key/1.1/salt/' ) . '</p>';
 	}
 } elseif ( isset( $_GET['repair'] ) ) {
 
-	echo '<h1 class="screen-reader-text">' . __( 'Database repair results' ) . '</h1>';
+	echo '<h1 class="screen-reader-text">' .
+		/* translators: Hidden accessibility text. */
+		__( 'Database repair results' ) .
+	'</h1>';
 
 	$optimize = 2 == $_GET['repair'];
 	$okay     = true;
@@ -168,7 +177,10 @@ if ( ! defined( 'WP_ALLOW_REPAIR' ) || ! WP_ALLOW_REPAIR ) {
 	}
 } else {
 
-	echo '<h1 class="screen-reader-text">' . __( 'WordPress database repair' ) . '</h1>';
+	echo '<h1 class="screen-reader-text">' .
+		/* translators: Hidden accessibility text. */
+		__( 'WordPress database repair' ) .
+	'</h1>';
 
 	if ( isset( $_GET['referrer'] ) && 'is_blog_installed' === $_GET['referrer'] ) {
 		echo '<p>' . __( 'One or more database tables are unavailable. To allow WordPress to attempt to repair these tables, press the &#8220;Repair Database&#8221; button. Repairing can take a while, so please be patient.' ) . '</p>';

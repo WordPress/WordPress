@@ -23,6 +23,7 @@ if ( ! function_exists( 'twentysixteen_entry_meta' ) ) :
 			printf(
 				'<span class="byline"><span class="author vcard">%1$s<span class="screen-reader-text">%2$s </span> <a class="url fn n" href="%3$s">%4$s</a></span></span>',
 				get_avatar( get_the_author_meta( 'user_email' ), $author_avatar_size ),
+				/* translators: Hidden accessibility text. */
 				_x( 'Author', 'Used before post author name.', 'twentysixteen' ),
 				esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
 				get_the_author()
@@ -37,7 +38,11 @@ if ( ! function_exists( 'twentysixteen_entry_meta' ) ) :
 		if ( current_theme_supports( 'post-formats', $format ) ) {
 			printf(
 				'<span class="entry-format">%1$s<a href="%2$s">%3$s</a></span>',
-				sprintf( '<span class="screen-reader-text">%s </span>', _x( 'Format', 'Used before post format.', 'twentysixteen' ) ),
+				sprintf(
+					'<span class="screen-reader-text">%s </span>',
+					/* translators: Hidden accessibility text. */
+					_x( 'Format', 'Used before post format.', 'twentysixteen' )
+				),
 				esc_url( get_post_format_link( $format ) ),
 				get_post_format_string( $format )
 			);
@@ -81,6 +86,7 @@ if ( ! function_exists( 'twentysixteen_entry_date' ) ) :
 
 		printf(
 			'<span class="posted-on"><span class="screen-reader-text">%1$s </span><a href="%2$s" rel="bookmark">%3$s</a></span>',
+			/* translators: Hidden accessibility text. */
 			_x( 'Posted on', 'Used before publish date.', 'twentysixteen' ),
 			esc_url( get_permalink() ),
 			$time_string
@@ -101,6 +107,7 @@ if ( ! function_exists( 'twentysixteen_entry_taxonomies' ) ) :
 		if ( $categories_list && twentysixteen_categorized_blog() ) {
 			printf(
 				'<span class="cat-links"><span class="screen-reader-text">%1$s </span>%2$s</span>',
+				/* translators: Hidden accessibility text. */
 				_x( 'Categories', 'Used before category names.', 'twentysixteen' ),
 				$categories_list
 			);
@@ -110,6 +117,7 @@ if ( ! function_exists( 'twentysixteen_entry_taxonomies' ) ) :
 		if ( $tags_list && ! is_wp_error( $tags_list ) ) {
 			printf(
 				'<span class="tags-links"><span class="screen-reader-text">%1$s </span>%2$s</span>',
+				/* translators: Hidden accessibility text. */
 				_x( 'Tags', 'Used before tag names.', 'twentysixteen' ),
 				$tags_list
 			);

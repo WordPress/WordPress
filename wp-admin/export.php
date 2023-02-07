@@ -177,7 +177,12 @@ function export_date_options( $post_type = 'post' ) {
 <h2><?php _e( 'Choose what to export' ); ?></h2>
 <form method="get" id="export-filters">
 <fieldset>
-<legend class="screen-reader-text"><?php _e( 'Content to export' ); ?></legend>
+<legend class="screen-reader-text">
+	<?php
+	/* translators: Hidden accessibility text. */
+	_e( 'Content to export' );
+	?>
+</legend>
 <input type="hidden" name="download" value="true" />
 <p><label><input type="radio" name="content" value="all" checked="checked" aria-describedby="all-content-desc" /> <?php _e( 'All content' ); ?></label></p>
 <p class="description" id="all-content-desc"><?php _e( 'This will contain all of your posts, pages, comments, custom fields, terms, navigation menus, and custom posts.' ); ?></p>
@@ -207,7 +212,12 @@ function export_date_options( $post_type = 'post' ) {
 	</li>
 	<li>
 		<fieldset>
-		<legend class="screen-reader-text"><?php _e( 'Date range:' ); ?></legend>
+		<legend class="screen-reader-text">
+			<?php
+			/* translators: Hidden accessibility text. */
+			_e( 'Date range:' )
+			?>
+		</legend>
 		<label for="post-start-date" class="label-responsive"><?php _e( 'Start date:' ); ?></label>
 		<select name="post_start_date" id="post-start-date">
 			<option value="0"><?php _e( '&mdash; Select &mdash;' ); ?></option>
@@ -254,7 +264,12 @@ function export_date_options( $post_type = 'post' ) {
 	</li>
 	<li>
 		<fieldset>
-		<legend class="screen-reader-text"><?php _e( 'Date range:' ); ?></legend>
+		<legend class="screen-reader-text">
+			<?php
+			/* translators: Hidden accessibility text. */
+			_e( 'Date range:' );
+			?>
+		</legend>
 		<label for="page-start-date" class="label-responsive"><?php _e( 'Start date:' ); ?></label>
 		<select name="page_start_date" id="page-start-date">
 			<option value="0"><?php _e( '&mdash; Select &mdash;' ); ?></option>
@@ -294,7 +309,12 @@ foreach ( get_post_types(
 <ul id="attachment-filters" class="export-filters">
 	<li>
 		<fieldset>
-		<legend class="screen-reader-text"><?php _e( 'Date range:' ); ?></legend>
+		<legend class="screen-reader-text">
+			<?php
+			/* translators: Hidden accessibility text. */
+			_e( 'Date range:' );
+			?>
+		</legend>
 		<label for="attachment-start-date" class="label-responsive"><?php _e( 'Start date:' ); ?></label>
 		<select name="attachment_start_date" id="attachment-start-date">
 			<option value="0"><?php _e( '&mdash; Select &mdash;' ); ?></option>

@@ -70,7 +70,7 @@ wp_localize_script(
 			'noThemesFound'       => __( 'No themes found. Try a different search.' ),
 			'collapseSidebar'     => __( 'Collapse Sidebar' ),
 			'expandSidebar'       => __( 'Expand Sidebar' ),
-			/* translators: Accessibility text. */
+			/* translators: Hidden accessibility text. */
 			'selectFeatureFilter' => __( 'Select one or more Theme features to filter by' ),
 		),
 		'installedThemes' => array_keys( $installed_themes ),
@@ -191,7 +191,12 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 	<?php install_themes_upload(); ?>
 	</div>
 
-	<h2 class="screen-reader-text hide-if-no-js"><?php _e( 'Filter themes list' ); ?></h2>
+	<h2 class="screen-reader-text hide-if-no-js">
+		<?php
+		/* translators: Hidden accessibility text. */
+		_e( 'Filter themes list' );
+		?>
+	</h2>
 
 	<div class="wp-filter hide-if-no-js">
 		<div class="filter-count">
@@ -263,7 +268,12 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			</div>
 		</div>
 	</div>
-	<h2 class="screen-reader-text hide-if-no-js"><?php _e( 'Themes list' ); ?></h2>
+	<h2 class="screen-reader-text hide-if-no-js">
+		<?php
+		/* translators: Hidden accessibility text. */
+		_e( 'Themes list' );
+		?>
+	</h2>
 	<div class="theme-browser content-filterable"></div>
 	<div class="theme-install-overlay wp-full-overlay expanded"></div>
 
@@ -440,9 +450,24 @@ if ( $tab ) {
 <script id="tmpl-theme-preview" type="text/template">
 	<div class="wp-full-overlay-sidebar">
 		<div class="wp-full-overlay-header">
-			<button class="close-full-overlay"><span class="screen-reader-text"><?php _e( 'Close' ); ?></span></button>
-			<button class="previous-theme"><span class="screen-reader-text"><?php _e( 'Previous theme' ); ?></span></button>
-			<button class="next-theme"><span class="screen-reader-text"><?php _e( 'Next theme' ); ?></span></button>
+			<button class="close-full-overlay"><span class="screen-reader-text">
+				<?php
+				/* translators: Hidden accessibility text. */
+				_e( 'Close' );
+				?>
+			</span></button>
+			<button class="previous-theme"><span class="screen-reader-text">
+				<?php
+				/* translators: Hidden accessibility text. */
+				_e( 'Previous theme' );
+				?>
+			</span></button>
+			<button class="next-theme"><span class="screen-reader-text">
+				<?php
+				/* translators: Hidden accessibility text. */
+				_e( 'Next theme' );
+				?>
+			</span></button>
 			<# if ( data.installed ) { #>
 				<# if ( data.compatible_wp && data.compatible_php ) { #>
 					<?php

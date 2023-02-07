@@ -69,7 +69,12 @@ class WP_Customize_Nav_Menus_Panel extends WP_Customize_Panel {
 		?>
 		<li class="panel-meta customize-info accordion-section <# if ( ! data.description ) { #> cannot-expand<# } #>">
 			<button type="button" class="customize-panel-back" tabindex="-1">
-				<span class="screen-reader-text"><?php _e( 'Back' ); ?></span>
+				<span class="screen-reader-text">
+					<?php
+					/* translators: Hidden accessibility text. */
+					_e( 'Back' );
+					?>
+				</span>
 			</button>
 			<div class="accordion-section-title">
 				<span class="preview-notice">
@@ -79,10 +84,20 @@ class WP_Customize_Nav_Menus_Panel extends WP_Customize_Panel {
 					?>
 				</span>
 				<button type="button" class="customize-help-toggle dashicons dashicons-editor-help" aria-expanded="false">
-					<span class="screen-reader-text"><?php _e( 'Help' ); ?></span>
+					<span class="screen-reader-text">
+						<?php
+						/* translators: Hidden accessibility text. */
+						_e( 'Help' );
+						?>
+					</span>
 				</button>
 				<button type="button" class="customize-screen-options-toggle" aria-expanded="false">
-					<span class="screen-reader-text"><?php _e( 'Menu Options' ); ?></span>
+					<span class="screen-reader-text">
+						<?php
+						/* translators: Hidden accessibility text. */
+						_e( 'Menu Options' );
+						?>
+					</span>
 				</button>
 			</div>
 			<# if ( data.description ) { #>

@@ -160,7 +160,12 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 		<?php if ( count( $tabs ) > 4 ) : ?>
 			<button type="button" class="health-check-tab health-check-offscreen-nav-wrapper" aria-haspopup="true">
 				<span class="dashicons dashicons-ellipsis"></span>
-				<span class="screen-reader-text"><?php _e( 'Toggle extra menu items' ); ?></span>
+				<span class="screen-reader-text">
+					<?php
+					/* translators: Hidden accessibility text. */
+					_e( 'Toggle extra menu items' );
+					?>
+				</span>
 
 				<div class="health-check-offscreen-nav">
 					<?php

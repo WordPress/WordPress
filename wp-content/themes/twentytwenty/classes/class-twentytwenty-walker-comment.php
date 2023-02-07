@@ -57,6 +57,7 @@ if ( ! class_exists( 'TwentyTwenty_Walker_Comment' ) ) {
 							printf(
 								'<span class="fn">%1$s</span><span class="screen-reader-text says">%2$s</span>',
 								esc_html( $comment_author ),
+								/* translators: Hidden accessibility text. */
 								__( 'says:', 'twentytwenty' )
 							);
 

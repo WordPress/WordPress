@@ -450,7 +450,9 @@ function twentyfifteen_scripts() {
 		'twentyfifteen-script',
 		'screenReaderText',
 		array(
+			/* translators: Hidden accessibility text. */
 			'expand'   => '<span class="screen-reader-text">' . __( 'expand child menu', 'twentyfifteen' ) . '</span>',
+			/* translators: Hidden accessibility text. */
 			'collapse' => '<span class="screen-reader-text">' . __( 'collapse child menu', 'twentyfifteen' ) . '</span>',
 		)
 	);

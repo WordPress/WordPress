@@ -42,7 +42,12 @@
 			<div id="navbar" class="navbar">
 				<nav id="site-navigation" class="navigation main-navigation">
 					<button class="menu-toggle"><?php _e( 'Menu', 'twentythirteen' ); ?></button>
-					<a class="screen-reader-text skip-link" href="#content"><?php _e( 'Skip to content', 'twentythirteen' ); ?></a>
+					<a class="screen-reader-text skip-link" href="#content">
+						<?php
+						/* translators: Hidden accessibility text. */
+						_e( 'Skip to content', 'twentythirteen' );
+						?>
+					</a>
 					<?php
 					wp_nav_menu(
 						array(

@@ -359,7 +359,10 @@ if ( ! function_exists( 'wp_body_open' ) ) {
  * @since Twenty Twenty 1.0
  */
 function twentytwenty_skip_link() {
-	echo '<a class="skip-link screen-reader-text" href="#site-content">' . __( 'Skip to the content', 'twentytwenty' ) . '</a>';
+	echo '<a class="skip-link screen-reader-text" href="#site-content">' .
+		/* translators: Hidden accessibility text. */
+		__( 'Skip to the content', 'twentytwenty' ) .
+	'</a>';
 }
 
 add_action( 'wp_body_open', 'twentytwenty_skip_link', 5 );

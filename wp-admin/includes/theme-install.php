@@ -98,7 +98,12 @@ function install_theme_search_form( $type_selector = true ) {
 <form id="search-themes" method="get">
 	<input type="hidden" name="tab" value="search" />
 	<?php if ( $type_selector ) : ?>
-	<label class="screen-reader-text" for="typeselector"><?php _e( 'Type of search' ); ?></label>
+	<label class="screen-reader-text" for="typeselector">
+		<?php
+		/* translators: Hidden accessibility text. */
+		_e( 'Type of search' );
+		?>
+	</label>
 	<select	name="type" id="typeselector">
 	<option value="term" <?php selected( 'term', $type ); ?>><?php _e( 'Keyword' ); ?></option>
 	<option value="author" <?php selected( 'author', $type ); ?>><?php _e( 'Author' ); ?></option>
@@ -108,19 +113,27 @@ function install_theme_search_form( $type_selector = true ) {
 		<?php
 		switch ( $type ) {
 			case 'term':
+				/* translators: Hidden accessibility text. */
 				_e( 'Search by keyword' );
 				break;
 			case 'author':
+				/* translators: Hidden accessibility text. */
 				_e( 'Search by author' );
 				break;
 			case 'tag':
+				/* translators: Hidden accessibility text. */
 				_e( 'Search by tag' );
 				break;
 		}
 		?>
 	</label>
 	<?php else : ?>
-	<label class="screen-reader-text" for="s"><?php _e( 'Search by keyword' ); ?></label>
+	<label class="screen-reader-text" for="s">
+		<?php
+		/* translators: Hidden accessibility text. */
+		_e( 'Search by keyword' );
+		?>
+	</label>
 	<?php endif; ?>
 	<input type="search" name="s" id="s" size="30" value="<?php echo esc_attr( $term ); ?>" autofocus="autofocus" />
 	<?php submit_button( __( 'Search' ), '', 'search', false ); ?>
@@ -184,7 +197,12 @@ function install_themes_upload() {
 <p class="install-help"><?php _e( 'If you have a theme in a .zip format, you may install or update it by uploading it here.' ); ?></p>
 <form method="post" enctype="multipart/form-data" class="wp-upload-form" action="<?php echo esc_url( self_admin_url( 'update.php?action=upload-theme' ) ); ?>">
 	<?php wp_nonce_field( 'theme-upload' ); ?>
-	<label class="screen-reader-text" for="themezip"><?php _e( 'Theme zip file' ); ?></label>
+	<label class="screen-reader-text" for="themezip">
+		<?php
+		/* translators: Hidden accessibility text. */
+		_e( 'Theme zip file' );
+		?>
+	</label>
 	<input type="file" id="themezip" name="themezip" accept=".zip" />
 	<?php submit_button( __( 'Install Now' ), '', 'install-theme-submit', false ); ?>
 </form>

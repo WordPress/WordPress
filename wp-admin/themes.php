@@ -940,9 +940,24 @@ function wp_theme_auto_update_setting_template() {
 	<div class="theme-backdrop"></div>
 	<div class="theme-wrap wp-clearfix" role="document">
 		<div class="theme-header">
-			<button class="left dashicons dashicons-no"><span class="screen-reader-text"><?php _e( 'Show previous theme' ); ?></span></button>
-			<button class="right dashicons dashicons-no"><span class="screen-reader-text"><?php _e( 'Show next theme' ); ?></span></button>
-			<button class="close dashicons dashicons-no"><span class="screen-reader-text"><?php _e( 'Close details dialog' ); ?></span></button>
+			<button class="left dashicons dashicons-no"><span class="screen-reader-text">
+				<?php
+				/* translators: Hidden accessibility text. */
+				_e( 'Show previous theme' );
+				?>
+			</span></button>
+			<button class="right dashicons dashicons-no"><span class="screen-reader-text">
+				<?php
+				/* translators: Hidden accessibility text. */
+				_e( 'Show next theme' );
+				?>
+			</span></button>
+			<button class="close dashicons dashicons-no"><span class="screen-reader-text">
+				<?php
+				/* translators: Hidden accessibility text. */
+				_e( 'Close details dialog' );
+				?>
+			</span></button>
 		</div>
 		<div class="theme-about wp-clearfix">
 			<div class="theme-screenshots">
