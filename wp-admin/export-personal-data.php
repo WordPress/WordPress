@@ -13,6 +13,9 @@ if ( ! current_user_can( 'export_others_personal_data' ) ) {
 	wp_die( __( 'Sorry, you are not allowed to export personal data on this site.' ) );
 }
 
+// Used in the HTML title tag.
+$title = __( 'Export Personal Data' );
+
 // Contextual help - choose Help on the top right of admin panel to preview this.
 get_current_screen()->add_help_tab(
 	array(

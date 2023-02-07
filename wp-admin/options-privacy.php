@@ -18,6 +18,9 @@ if ( isset( $_GET['tab'] ) && 'policyguide' === $_GET['tab'] ) {
 	return;
 }
 
+// Used in the HTML title tag.
+$title = __( 'Privacy' );
+
 add_filter(
 	'admin_body_class',
 	static function( $body_class ) {
