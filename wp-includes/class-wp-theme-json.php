@@ -943,9 +943,12 @@ class WP_Theme_JSON {
 	 *                       - `styles`: only the styles section in theme.json.
 	 *                       - `presets`: only the classes for the presets.
 	 * @param array $origins A list of origins to include. By default it includes VALID_ORIGINS.
+	 * @param array $options An array of options for now used for internal purposes only (may change without notice).
+	 *                       The options currently supported are 'scope' that makes sure all style are scoped to a given selector,
+	 *                       and root_selector which overwrites and forces a given selector to be used on the root node.
 	 * @return string The resulting stylesheet.
 	 */
-	public function get_stylesheet( $types = array( 'variables', 'styles', 'presets' ), $origins = null ) {
+	public function get_stylesheet( $types = array( 'variables', 'styles', 'presets' ), $origins = null, $options = array() ) {
 		if ( null === $origins ) {
 			$origins = static::VALID_ORIGINS;
 		}
@@ -966,6 +969,27 @@ class WP_Theme_JSON {
 		$style_nodes     = static::get_style_nodes( $this->theme_json, $blocks_metadata );
 		$setting_nodes   = static::get_setting_nodes( $this->theme_json, $blocks_metadata );
 
+		$root_style_key    = array_search( static::ROOT_BLOCK_SELECTOR, array_column( $style_nodes, 'selector' ), true );
+		$root_settings_key = array_search( static::ROOT_BLOCK_SELECTOR, array_column( $setting_nodes, 'selector' ), true );
+
+		if ( ! empty( $options['scope'] ) ) {
+			foreach ( $setting_nodes as &$node ) {
+				$node['selector'] = static::scope_selector( $options['scope'], $node['selector'] );
+			}
+			foreach ( $style_nodes as &$node ) {
+				$node['selector'] = static::scope_selector( $options['scope'], $node['selector'] );
+			}
+		}
+
+		if ( ! empty( $options['root_selector'] ) ) {
+			if ( false !== $root_settings_key ) {
+				$setting_nodes[ $root_settings_key ]['selector'] = $options['root_selector'];
+			}
+			if ( false !== $root_style_key ) {
+				$setting_nodes[ $root_style_key ]['selector'] = $options['root_selector'];
+			}
+		}
+
 		$stylesheet = '';
 
 		if ( in_array( 'variables', $types, true ) ) {
@@ -973,23 +997,30 @@ class WP_Theme_JSON {
 		}
 
 		if ( in_array( 'styles', $types, true ) ) {
-			$root_block_key = array_search( static::ROOT_BLOCK_SELECTOR, array_column( $style_nodes, 'selector' ), true );
-
-			if ( false !== $root_block_key ) {
-				$stylesheet .= $this->get_root_layout_rules( static::ROOT_BLOCK_SELECTOR, $style_nodes[ $root_block_key ] );
+			if ( false !== $root_style_key ) {
+				$stylesheet .= $this->get_root_layout_rules( $style_nodes[ $root_style_key ]['selector'], $style_nodes[ $root_style_key ] );
 			}
 			$stylesheet .= $this->get_block_classes( $style_nodes );
 		} elseif ( in_array( 'base-layout-styles', $types, true ) ) {
+			$root_selector    = static::ROOT_BLOCK_SELECTOR;
+			$columns_selector = '.wp-block-columns';
+			if ( ! empty( $options['scope'] ) ) {
+				$root_selector    = static::scope_selector( $options['scope'], $root_selector );
+				$columns_selector = static::scope_selector( $options['scope'], $columns_selector );
+			}
+			if ( ! empty( $options['root_selector'] ) ) {
+				$root_selector = $options['root_selector'];
+			}
 			// Base layout styles are provided as part of `styles`, so only output separately if explicitly requested.
 			// For backwards compatibility, the Columns block is explicitly included, to support a different default gap value.
 			$base_styles_nodes = array(
 				array(
 					'path'     => array( 'styles' ),
-					'selector' => static::ROOT_BLOCK_SELECTOR,
+					'selector' => $root_selector,
 				),
 				array(
 					'path'     => array( 'styles', 'blocks', 'core/columns' ),
-					'selector' => '.wp-block-columns',
+					'selector' => $columns_selector,
 					'name'     => 'core/columns',
 				),
 			);
@@ -1490,18 +1521,27 @@ class WP_Theme_JSON {
 	 * @param string $selector Original selector.
 	 * @return string Scoped selector.
 	 */
-	protected static function scope_selector( $scope, $selector ) {
+	public static function scope_selector( $scope, $selector ) {
 		$scopes    = explode( ',', $scope );
 		$selectors = explode( ',', $selector );
 
 		$selectors_scoped = array();
 		foreach ( $scopes as $outer ) {
 			foreach ( $selectors as $inner ) {
-				$selectors_scoped[] = trim( $outer ) . ' ' . trim( $inner );
+				$outer = trim( $outer );
+				$inner = trim( $inner );
+				if ( ! empty( $outer ) && ! empty( $inner ) ) {
+					$selectors_scoped[] = $outer . ' ' . $inner;
+				} elseif ( empty( $outer ) ) {
+					$selectors_scoped[] = $inner;
+				} elseif ( empty( $inner ) ) {
+					$selectors_scoped[] = $outer;
+				}
 			}
 		}
 
-		return implode( ', ', $selectors_scoped );
+		$result = implode( ', ', $selectors_scoped );
+		return $result;
 	}
 
 	/**

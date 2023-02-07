@@ -338,6 +338,7 @@ require ABSPATH . WPINC . '/block-supports/generated-classname.php';
 require ABSPATH . WPINC . '/block-supports/layout.php';
 require ABSPATH . WPINC . '/block-supports/spacing.php';
 require ABSPATH . WPINC . '/block-supports/typography.php';
+require ABSPATH . WPINC . '/block-supports/settings.php';
 require ABSPATH . WPINC . '/style-engine.php';
 require ABSPATH . WPINC . '/style-engine/class-wp-style-engine.php';
 require ABSPATH . WPINC . '/style-engine/class-wp-style-engine-css-declarations.php';
