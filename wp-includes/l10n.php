@@ -1809,3 +1809,18 @@ function wp_get_list_item_separator() {
 
 	return $wp_locale->get_list_item_separator();
 }
+
+/**
+ * Retrieves the word count type based on the locale.
+ *
+ * @since 6.2.0
+ *
+ * @global WP_Locale $wp_locale WordPress date and time locale object.
+ *
+ * @return string Locale-specific word count type.
+ */
+function wp_get_word_count_type() {
+	global $wp_locale;
+
+	return $wp_locale->get_word_count_type();
+}

@@ -113,6 +113,16 @@ class WP_Locale {
 	public $list_item_separator;
 
 	/**
+	 * The word count type of the locale language.
+	 *
+	 * Default is 'words'.
+	 *
+	 * @since 6.2.0
+	 * @var string
+	 */
+	public $word_count_type;
+
+	/**
 	 * Constructor which calls helper methods to set up object variables.
 	 *
 	 * @since 2.1.0
@@ -236,6 +246,9 @@ class WP_Locale {
 		} elseif ( 'rtl' === _x( 'ltr', 'text direction' ) ) {
 			$this->text_direction = 'rtl';
 		}
+
+		// Set the word count type.
+		$this->word_count_type = $this->get_word_count_type();
 	}
 
 	/**
@@ -395,5 +408,32 @@ class WP_Locale {
 	 */
 	public function get_list_item_separator() {
 		return $this->list_item_separator;
+	}
+
+	/**
+	 * Retrieves the localized word count type.
+	 *
+	 * Options are 'characters_excluding_spaces', 'characters_including_spaces or 'words'. Defaults to 'words'.
+	 *
+	 * @since 6.2.0
+	 *
+	 * @return string Localized word count type.
+	 */
+	public function get_word_count_type() {
+
+		/*
+		 * translators: If your word count is based on single characters (e.g. East Asian characters),
+		 * enter 'characters_excluding_spaces' or 'characters_including_spaces'. Otherwise, enter 'words'.
+		 * Do not translate into your own language.
+		 */
+		$word_count_type = is_null( $this->word_count_type ) ? _x( 'words', 'Word count type. Do not translate!' ) : $this->word_count_type;
+
+		// Check for valid types.
+		if ( 'characters_excluding_spaces' !== $word_count_type && 'characters_including_spaces' !== $word_count_type ) {
+			// Defaults to 'words'.
+			$word_count_type = 'words';
+		}
+
+		return $word_count_type;
 	}
 }
