@@ -67,8 +67,16 @@ if ( ! function_exists( 'twentyfourteen_setup' ) ) :
 		 */
 		load_theme_textdomain( 'twentyfourteen' );
 
-		// This theme styles the visual editor to resemble the theme style.
-		add_editor_style( array( 'css/editor-style.css', twentyfourteen_font_url(), 'genericons/genericons.css' ) );
+		/*
+		 * This theme styles the visual editor to resemble the theme style.
+		 * When fonts are self-hosted, the theme directory needs to be removed first.
+		 */
+		$font_stylesheet = str_replace(
+			array( get_template_directory_uri() . '/', get_stylesheet_directory_uri() . '/' ),
+			'',
+			twentyfourteen_font_url()
+		);
+		add_editor_style( array( 'css/editor-style.css', $font_stylesheet, 'genericons/genericons.css' ) );
 
 		// Load regular editor styles into the new block-based editor.
 		add_theme_support( 'editor-styles' );
@@ -293,30 +301,28 @@ function twentyfourteen_widgets_init() {
 }
 add_action( 'widgets_init', 'twentyfourteen_widgets_init' );
 
-/**
- * Register Lato Google font for Twenty Fourteen.
- *
- * @since Twenty Fourteen 1.0
- *
- * @return string
- */
-function twentyfourteen_font_url() {
-	$font_url = '';
-	/*
-	 * translators: If there are characters in your language that are not supported
-	 * by Lato, translate this to 'off'. Do not translate into your own language.
+if ( ! function_exists( 'twentyfourteen_font_url' ) ) :
+	/**
+	 * Register Lato font for Twenty Fourteen.
+	 *
+	 * @since Twenty Fourteen 1.0
+	 * @since Twenty Fourteen 3.6 Replaced Google URL with self-hosted fonts.
+	 *
+	 * @return string
 	 */
-	if ( 'off' !== _x( 'on', 'Lato font: on or off', 'twentyfourteen' ) ) {
-		$query_args = array(
-			'family'  => urlencode( 'Lato:300,400,700,900,300italic,400italic,700italic' ),
-			'subset'  => urlencode( 'latin,latin-ext' ),
-			'display' => urlencode( 'fallback' ),
-		);
-		$font_url   = add_query_arg( $query_args, 'https://fonts.googleapis.com/css' );
-	}
+	function twentyfourteen_font_url() {
+		$font_url = '';
+		/*
+		 * translators: If there are characters in your language that are not supported
+		 * by Lato, translate this to 'off'. Do not translate into your own language.
+		 */
+		if ( 'off' !== _x( 'on', 'Lato font: on or off', 'twentyfourteen' ) ) {
+			$font_url = get_template_directory_uri() . '/fonts/font-lato.css';
+		}
 
-	return $font_url;
-}
+		return $font_url;
+	}
+endif;
 
 /**
  * Enqueue scripts and styles for the front end.
@@ -325,7 +331,8 @@ function twentyfourteen_font_url() {
  */
 function twentyfourteen_scripts() {
 	// Add Lato font, used in the main stylesheet.
-	wp_enqueue_style( 'twentyfourteen-lato', twentyfourteen_font_url(), array(), null );
+	$font_version = ( 0 === strpos( (string) twentyfourteen_font_url(), get_template_directory_uri() . '/' ) ) ? '20230328' : null;
+	wp_enqueue_style( 'twentyfourteen-lato', twentyfourteen_font_url(), array(), $font_version );
 
 	// Add Genericons font, used in the main stylesheet.
 	wp_enqueue_style( 'genericons', get_template_directory_uri() . '/genericons/genericons.css', array(), '3.0.3' );
@@ -369,12 +376,13 @@ function twentyfourteen_scripts() {
 add_action( 'wp_enqueue_scripts', 'twentyfourteen_scripts' );
 
 /**
- * Enqueue Google fonts style to admin screen for custom header display.
+ * Enqueue font stylesheet to admin screen for custom header display.
  *
  * @since Twenty Fourteen 1.0
  */
 function twentyfourteen_admin_fonts() {
-	wp_enqueue_style( 'twentyfourteen-lato', twentyfourteen_font_url(), array(), null );
+	$font_version = ( 0 === strpos( (string) twentyfourteen_font_url(), get_template_directory_uri() . '/' ) ) ? '20230328' : null;
+	wp_enqueue_style( 'twentyfourteen-lato', twentyfourteen_font_url(), array(), $font_version );
 }
 add_action( 'admin_print_scripts-appearance_page_custom-header', 'twentyfourteen_admin_fonts' );
 
@@ -382,6 +390,7 @@ add_action( 'admin_print_scripts-appearance_page_custom-header', 'twentyfourteen
  * Add preconnect for Google Fonts.
  *
  * @since Twenty Fourteen 1.9
+ * @deprecated Twenty Fourteen 3.6 Disabled filter because, by default, fonts are self-hosted.
  *
  * @param array   $urls          URLs to print for resource hints.
  * @param string  $relation_type The relation type the URLs are printed.
@@ -401,7 +410,7 @@ function twentyfourteen_resource_hints( $urls, $relation_type ) {
 
 	return $urls;
 }
-add_filter( 'wp_resource_hints', 'twentyfourteen_resource_hints', 10, 2 );
+// add_filter( 'wp_resource_hints', 'twentyfourteen_resource_hints', 10, 2 );
 
 /**
  * Enqueue styles for the block-based editor.
@@ -412,7 +421,8 @@ function twentyfourteen_block_editor_styles() {
 	// Block styles.
 	wp_enqueue_style( 'twentyfourteen-block-editor-style', get_template_directory_uri() . '/css/editor-blocks.css', array(), '20210216' );
 	// Add custom fonts.
-	wp_enqueue_style( 'twentyfourteen-fonts', twentyfourteen_font_url(), array(), null );
+	$font_version = ( 0 === strpos( (string) twentyfourteen_font_url(), get_template_directory_uri() . '/' ) ) ? '20230328' : null;
+	wp_enqueue_style( 'twentyfourteen-fonts', twentyfourteen_font_url(), array(), $font_version );
 }
 add_action( 'enqueue_block_editor_assets', 'twentyfourteen_block_editor_styles' );
 
