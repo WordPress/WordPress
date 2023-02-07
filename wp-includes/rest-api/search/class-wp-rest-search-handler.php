@@ -37,7 +37,7 @@ abstract class WP_REST_Search_Handler {
 	 * Object subtypes managed by this search handler.
 	 *
 	 * @since 5.0.0
-	 * @var array
+	 * @var string[]
 	 */
 	protected $subtypes = array();
 
@@ -57,7 +57,7 @@ abstract class WP_REST_Search_Handler {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @return array Array of object subtype identifiers.
+	 * @return string[] Array of object subtype identifiers.
 	 */
 	public function get_subtypes() {
 		return $this->subtypes;

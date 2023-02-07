@@ -387,7 +387,7 @@ class WP_List_Table {
 	 *     @type string $label   The link label.
 	 *     @type bool   $current Optional. Whether this is the currently selected view.
 	 * }
-	 * @return array An array of link markup. Keys match the `$link_data` input array.
+	 * @return string[] An array of link markup. Keys match the `$link_data` input array.
 	 */
 	protected function get_views_links( $link_data = array() ) {
 		if ( ! is_array( $link_data ) ) {

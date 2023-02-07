@@ -77,14 +77,14 @@ function wp_schedule_single_event( $timestamp, $hook, $args = array(), $wp_error
 	 * @since 5.7.0 The `$wp_error` parameter was added, and a `WP_Error` object can now be returned.
 	 *
 	 * @param null|bool|WP_Error $result   The value to return instead. Default null to continue adding the event.
-	 * @param stdClass           $event    {
+	 * @param object             $event    {
 	 *     An object containing an event's data.
 	 *
 	 *     @type string       $hook      Action hook to execute when the event is run.
 	 *     @type int          $timestamp Unix timestamp (UTC) for when to next run the event.
 	 *     @type string|false $schedule  How often the event should subsequently recur.
 	 *     @type array        $args      Array containing each separate argument to pass to the hook's callback function.
-	 *     @type int          $interval  The interval time in seconds for the schedule. Only present for recurring events.
+	 *     @type int          $interval  Optional. The interval time in seconds for the schedule. Only present for recurring events.
 	 * }
 	 * @param bool               $wp_error Whether to return a WP_Error on failure.
 	 */
@@ -164,14 +164,14 @@ function wp_schedule_single_event( $timestamp, $hook, $args = array(), $wp_error
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param stdClass|false $event {
+	 * @param object|false $event {
 	 *     An object containing an event's data, or boolean false to prevent the event from being scheduled.
 	 *
 	 *     @type string       $hook      Action hook to execute when the event is run.
 	 *     @type int          $timestamp Unix timestamp (UTC) for when to next run the event.
 	 *     @type string|false $schedule  How often the event should subsequently recur.
 	 *     @type array        $args      Array containing each separate argument to pass to the hook's callback function.
-	 *     @type int          $interval  The interval time in seconds for the schedule. Only present for recurring events.
+	 *     @type int          $interval  Optional. The interval time in seconds for the schedule. Only present for recurring events.
 	 * }
 	 */
 	$event = apply_filters( 'schedule_event', $event );
@@ -385,7 +385,7 @@ function wp_reschedule_event( $timestamp, $recurrence, $hook, $args = array(), $
 	 * @since 5.7.0 The `$wp_error` parameter was added, and a `WP_Error` object can now be returned.
 	 *
 	 * @param null|bool|WP_Error $pre      Value to return instead. Default null to continue adding the event.
-	 * @param stdClass           $event    {
+	 * @param object             $event    {
 	 *     An object containing an event's data.
 	 *
 	 *     @type string $hook      Action hook to execute when the event is run.
@@ -722,7 +722,15 @@ function wp_unschedule_hook( $hook, $wp_error = false ) {
  *                            Default empty array.
  * @param int|null $timestamp Optional. Unix timestamp (UTC) of the event. If not specified, the next scheduled event
  *                            is returned. Default null.
- * @return object|false The event object. False if the event does not exist.
+ * @return object|false {
+ *     The event object. False if the event does not exist.
+ *
+ *     @type string       $hook      Action hook to execute when the event is run.
+ *     @type int          $timestamp Unix timestamp (UTC) for when to next run the event.
+ *     @type string|false $schedule  How often the event should subsequently recur.
+ *     @type array        $args      Array containing each separate argument to pass to the hook's callback function.
+ *     @type int          $interval  Optional. The interval time in seconds for the schedule. Only present for recurring events.
+ * }
  */
 function wp_get_scheduled_event( $hook, $args = array(), $timestamp = null ) {
 	/**

@@ -1292,8 +1292,13 @@ function rest_parse_hex_color( $color ) {
  *
  * @param string $date   RFC3339 timestamp.
  * @param bool   $is_utc Whether the provided date should be interpreted as UTC. Default false.
- * @return array|null Local and UTC datetime strings, in MySQL datetime format (Y-m-d H:i:s),
- *                    null on failure.
+ * @return array|null {
+ *     Local and UTC datetime strings, in MySQL datetime format (Y-m-d H:i:s),
+ *     null on failure.
+ *
+ *     @type string $0 Local datetime string.
+ *     @type string $1 UTC datetime string.
+ * }
  */
 function rest_get_date_with_gmt( $date, $is_utc = false ) {
 	/*
@@ -1549,12 +1554,12 @@ function rest_is_object( $maybe_object ) {
 }
 
 /**
- * Converts an object-like value to an object.
+ * Converts an object-like value to an array.
  *
  * @since 5.5.0
  *
  * @param mixed $maybe_object The value being evaluated.
- * @return array Returns the object extracted from the value.
+ * @return array Returns the object extracted from the value as an associative array.
  */
 function rest_sanitize_object( $maybe_object ) {
 	if ( '' === $maybe_object ) {
@@ -1581,8 +1586,8 @@ function rest_sanitize_object( $maybe_object ) {
  *
  * @since 5.5.0
  *
- * @param mixed $value The value to check.
- * @param array $types The list of possible types.
+ * @param mixed    $value The value to check.
+ * @param string[] $types The list of possible types.
  * @return string The best matching type, an empty string if no types match.
  */
 function rest_get_best_type_for_value( $value, $types ) {
