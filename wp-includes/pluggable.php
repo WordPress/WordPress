@@ -1079,6 +1079,7 @@ if ( ! function_exists( 'wp_set_auth_cookie' ) ) :
 		 *                           Default is 14 days from now. Zero when clearing cookies.
 		 * @param int    $user_id    User ID. Zero when clearing cookies.
 		 * @param string $scheme     Authentication scheme. Values include 'auth' or 'secure_auth'.
+		 *                           Empty string when clearing cookies.
 		 * @param string $token      User's session token to use for this cookie. Empty string when clearing cookies.
 		 */
 		if ( ! apply_filters( 'send_auth_cookies', true, $expire, $expiration, $user_id, $scheme, $token ) ) {
@@ -1109,7 +1110,7 @@ if ( ! function_exists( 'wp_clear_auth_cookie' ) ) :
 		do_action( 'clear_auth_cookie' );
 
 		/** This filter is documented in wp-includes/pluggable.php */
-		if ( ! apply_filters( 'send_auth_cookies', true, 0, 0, 0, '' ) ) {
+		if ( ! apply_filters( 'send_auth_cookies', true, 0, 0, 0, '', '' ) ) {
 			return;
 		}
 
