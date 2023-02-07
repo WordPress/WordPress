@@ -288,18 +288,33 @@ body.is-fullscreen-mode .interface-interface-skeleton{
 }
 
 .interface-interface-skeleton__actions{
+  background:#fff;
   bottom:auto;
   color:#1e1e1e;
   left:auto;
   position:fixed !important;
   right:0;
   top:-9999em;
-  width:280px;
+  width:100vw;
   z-index:100000;
+}
+@media (min-width:782px){
+  .interface-interface-skeleton__actions{
+    width:280px;
+  }
 }
 .interface-interface-skeleton__actions:focus,.interface-interface-skeleton__actions:focus-within{
   bottom:0;
-  top:auto;
+  top:46px;
+}
+@media (min-width:782px){
+  .interface-interface-skeleton__actions:focus,.interface-interface-skeleton__actions:focus-within{
+    border-left:1px solid #ddd;
+    top:32px;
+  }
+  .is-fullscreen-mode .interface-interface-skeleton__actions:focus,.is-fullscreen-mode .interface-interface-skeleton__actions:focus-within{
+    top:0;
+  }
 }
 
 .interface-more-menu-dropdown{
@@ -1017,6 +1032,10 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar{
 .interface-interface-skeleton__actions:focus .edit-post-layout__toggle-entities-saved-states-panel,.interface-interface-skeleton__actions:focus .edit-post-layout__toggle-publish-panel,.interface-interface-skeleton__actions:focus-within .edit-post-layout__toggle-entities-saved-states-panel,.interface-interface-skeleton__actions:focus-within .edit-post-layout__toggle-publish-panel{
   bottom:0;
   top:auto;
+}
+
+.edit-post-layout .entities-saved-states__panel-header{
+  height:61px;
 }
 
 .edit-post-block-manager__no-results{

@@ -1432,6 +1432,24 @@
   content:attr(aria-label);
 }
 
+.block-editor-inspector-controls-tabs__hint{
+  align-items:top;
+  background:#f0f0f0;
+  border-radius:2px;
+  color:#1e1e1e;
+  display:flex;
+  flex-direction:row;
+  margin:16px;
+}
+
+.block-editor-inspector-controls-tabs__hint-content{
+  margin:12px 0 12px 12px;
+}
+
+.block-editor-inspector-controls-tabs__hint-dismiss{
+  margin:4px 4px 4px 0;
+}
+
 .block-editor-inspector-popover-header{
   margin-bottom:16px;
 }

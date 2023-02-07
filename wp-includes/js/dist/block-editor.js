@@ -3856,6 +3856,18 @@ const SETTINGS_DEFAULTS = {
   __experimentalBlockPatternCategories: [],
   __unstableGalleryWithImageBlocks: false,
   __unstableIsPreviewMode: false,
+  // This setting is `private` now with `lock` API.
+  blockInspectorAnimation: {
+    'core/navigation': {
+      enterDirection: 'leftToRight'
+    },
+    'core/navigation-submenu': {
+      enterDirection: 'rightToLeft'
+    },
+    'core/navigation-link': {
+      enterDirection: 'rightToLeft'
+    }
+  },
   generateAnchors: false,
   // gradients setting is not used anymore now defaults are passed from theme.json on the server and core has its own defaults.
   // The setting is only kept for backward compatibility purposes.
@@ -8841,7 +8853,7 @@ function __unstableIsWithinBlockOverlay(state, clientId) {
  * @see https://github.com/WordPress/gutenberg/pull/46131
  */
 
-const privateSettings = ['inserterMediaCategories'];
+const privateSettings = ['inserterMediaCategories', 'blockInspectorAnimation'];
 /**
  * Action that updates the block editor settings and
  * conditionally preserves the experimental ones.
@@ -15805,7 +15817,10 @@ function useBlockSync(_ref) {
 
       previousAreBlocksDifferent = areBlocksDifferent;
     });
-    return () => unsubscribe();
+    return () => {
+      subscribed.current = false;
+      unsubscribe();
+    };
   }, [registry, clientId]);
 }
 
@@ -37054,7 +37069,10 @@ function MobileTabNavigation(_ref2) {
 
 
 
+ // Preffered order of pattern categories. Any other categories should
+// be at the bottom without any re-ordering.
 
+const patternCategoriesOrder = ['featured', 'posts', 'text', 'gallery', 'call-to-action', 'banner', 'header', 'footer'];
 
 function usePatternsCategories(rootClientId) {
   const [allPatterns, allCategories] = use_patterns_state(undefined, rootClientId);
@@ -37079,12 +37097,18 @@ function usePatternsCategories(rootClientId) {
         name: nextName
       } = _ref2;
 
-      if (![currentName, nextName].some(categoryName => ['featured', 'text'].includes(categoryName))) {
+      // The pattern categories should be ordered as follows:
+      // 1. The categories from `patternCategoriesOrder` in that specific order should be at the top.
+      // 2. The rest categories should be at the bottom without any re-ordering.
+      if (![currentName, nextName].some(categoryName => patternCategoriesOrder.includes(categoryName))) {
         return 0;
-      } // Move `featured` category to the top and `text` to the bottom.
+      }
 
+      if ([currentName, nextName].every(categoryName => patternCategoriesOrder.includes(categoryName))) {
+        return patternCategoriesOrder.indexOf(currentName) - patternCategoriesOrder.indexOf(nextName);
+      }
 
-      return currentName === 'featured' || nextName === 'text' ? -1 : 1;
+      return patternCategoriesOrder.includes(currentName) ? -1 : 1;
     });
 
     if (allPatterns.some(pattern => !hasRegisteredCategory(pattern)) && !categories.find(category => category.name === 'uncategorized')) {
@@ -59668,6 +59692,57 @@ const PositionControls = () => {
 
 /* harmony default export */ var position_controls_panel = (PositionControls);
 
+;// CONCATENATED MODULE: external ["wp","preferences"]
+var external_wp_preferences_namespaceObject = window["wp"]["preferences"];
+;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/inspector-controls-tabs/settings-tab-hint.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+
+
+
+const PREFERENCE_NAME = 'isInspectorControlsTabsHintVisible';
+function InspectorControlsTabsHint() {
+  const isInspectorControlsTabsHintVisible = (0,external_wp_data_namespaceObject.useSelect)(select => {
+    var _select$get;
+
+    return (_select$get = select(external_wp_preferences_namespaceObject.store).get('core', PREFERENCE_NAME)) !== null && _select$get !== void 0 ? _select$get : true;
+  }, []);
+  const ref = (0,external_wp_element_namespaceObject.useRef)();
+  const {
+    set: setPreference
+  } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_preferences_namespaceObject.store);
+
+  if (!isInspectorControlsTabsHintVisible) {
+    return null;
+  }
+
+  return (0,external_wp_element_namespaceObject.createElement)("div", {
+    ref: ref,
+    className: "block-editor-inspector-controls-tabs__hint"
+  }, (0,external_wp_element_namespaceObject.createElement)("div", {
+    className: "block-editor-inspector-controls-tabs__hint-content"
+  }, (0,external_wp_i18n_namespaceObject.__)("Looking for other block settings? They've moved to the styles tab.")), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
+    className: "block-editor-inspector-controls-tabs__hint-dismiss",
+    icon: library_close,
+    iconSize: "16",
+    label: (0,external_wp_i18n_namespaceObject.__)('Dismiss hint'),
+    onClick: () => {
+      // Retain focus when dismissing the element.
+      const previousElement = external_wp_dom_namespaceObject.focus.tabbable.findPrevious(ref.current);
+      previousElement === null || previousElement === void 0 ? void 0 : previousElement.focus();
+      setPreference('core', PREFERENCE_NAME, false);
+    },
+    showTooltip: false
+  }));
+}
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/inspector-controls-tabs/settings-tab.js
 
 
@@ -59678,11 +59753,12 @@ const PositionControls = () => {
 
 
 
+
 const SettingsTab = _ref => {
   let {
     showAdvancedControls = false
   } = _ref;
-  return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)(inspector_controls.Slot, null), (0,external_wp_element_namespaceObject.createElement)(position_controls_panel, null), showAdvancedControls && (0,external_wp_element_namespaceObject.createElement)("div", null, (0,external_wp_element_namespaceObject.createElement)(advanced_controls_panel, null)));
+  return (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)(inspector_controls.Slot, null), (0,external_wp_element_namespaceObject.createElement)(position_controls_panel, null), showAdvancedControls && (0,external_wp_element_namespaceObject.createElement)("div", null, (0,external_wp_element_namespaceObject.createElement)(advanced_controls_panel, null)), (0,external_wp_element_namespaceObject.createElement)(InspectorControlsTabsHint, null));
 };
 
 /* harmony default export */ var settings_tab = (SettingsTab);
@@ -60050,8 +60126,7 @@ const BlockInspector = _ref5 => {
   const showTabs = (availableTabs === null || availableTabs === void 0 ? void 0 : availableTabs.length) > 1;
   const blockInspectorAnimationSettings = (0,external_wp_data_namespaceObject.useSelect)(select => {
     if (blockType) {
-      const globalBlockInspectorAnimationSettings = select(store).getSettings().__experimentalBlockInspectorAnimation;
-
+      const globalBlockInspectorAnimationSettings = select(store).getSettings().blockInspectorAnimation;
       return globalBlockInspectorAnimationSettings === null || globalBlockInspectorAnimationSettings === void 0 ? void 0 : globalBlockInspectorAnimationSettings[blockType.name];
     }
 

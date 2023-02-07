@@ -289,35 +289,3 @@ function register_block_core_navigation_submenu() {
 	);
 }
 add_action( 'init', 'register_block_core_navigation_submenu' );
-
-/**
- * Enables animation of the block inspector for the Navigation Submenu block.
- *
- * See:
- * - https://github.com/WordPress/gutenberg/pull/46342
- * - https://github.com/WordPress/gutenberg/issues/45884
- *
- * @param array $settings Default editor settings.
- * @return array Filtered editor settings.
- */
-function block_core_navigation_submenu_enable_inspector_animation( $settings ) {
-	$current_animation_settings = _wp_array_get(
-		$settings,
-		array( '__experimentalBlockInspectorAnimation' ),
-		array()
-	);
-
-	$settings['__experimentalBlockInspectorAnimation'] = array_merge(
-		$current_animation_settings,
-		array(
-			'core/navigation-submenu' =>
-				array(
-					'enterDirection' => 'rightToLeft',
-				),
-		)
-	);
-
-	return $settings;
-}
-
-add_filter( 'block_editor_settings_all', 'block_core_navigation_submenu_enable_inspector_animation' );

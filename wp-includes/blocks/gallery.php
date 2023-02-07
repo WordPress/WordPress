@@ -99,12 +99,13 @@ function block_core_gallery_render( $attributes, $content ) {
 	}
 
 	// Set the CSS variable to the column value, and the `gap` property to the combined gap value.
-	$gallery_styles   = array();
-	$gallery_styles[] = array(
-		'selector'     => ".wp-block-gallery.{$unique_gallery_classname}",
-		'declarations' => array(
-			'--wp--style--unstable-gallery-gap' => $gap_column,
-			'gap'                               => $gap_value,
+	$gallery_styles = array(
+		array(
+			'selector'     => ".wp-block-gallery.{$unique_gallery_classname}",
+			'declarations' => array(
+				'--wp--style--unstable-gallery-gap' => $gap_column,
+				'gap'                               => $gap_value,
+			),
 		),
 	);
 

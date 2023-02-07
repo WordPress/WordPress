@@ -65,58 +65,58 @@ if ( defined( 'IS_GUTENBERG_PLUGIN' ) && IS_GUTENBERG_PLUGIN ) {
 
 		return $menu_items_by_parent_id;
 	}
+}
 
-	/**
-	 * Turns menu item data into a nested array of parsed blocks
-	 *
-	 * @param array $menu_items               An array of menu items that represent
-	 *                                        an individual level of a menu.
-	 * @param array $menu_items_by_parent_id  An array keyed by the id of the
-	 *                                        parent menu where each element is an
-	 *                                        array of menu items that belong to
-	 *                                        that parent.
-	 * @return array An array of parsed block data.
-	 */
-	function block_core_navigation_parse_blocks_from_menu_items( $menu_items, $menu_items_by_parent_id ) {
-		if ( empty( $menu_items ) ) {
-			return array();
-		}
-
-		$blocks = array();
-
-		foreach ( $menu_items as $menu_item ) {
-			$class_name       = ! empty( $menu_item->classes ) ? implode( ' ', (array) $menu_item->classes ) : null;
-			$id               = ( null !== $menu_item->object_id && 'custom' !== $menu_item->object ) ? $menu_item->object_id : null;
-			$opens_in_new_tab = null !== $menu_item->target && '_blank' === $menu_item->target;
-			$rel              = ( null !== $menu_item->xfn && '' !== $menu_item->xfn ) ? $menu_item->xfn : null;
-			$kind             = null !== $menu_item->type ? str_replace( '_', '-', $menu_item->type ) : 'custom';
-
-			$block = array(
-				'blockName' => isset( $menu_items_by_parent_id[ $menu_item->ID ] ) ? 'core/navigation-submenu' : 'core/navigation-link',
-				'attrs'     => array(
-					'className'     => $class_name,
-					'description'   => $menu_item->description,
-					'id'            => $id,
-					'kind'          => $kind,
-					'label'         => $menu_item->title,
-					'opensInNewTab' => $opens_in_new_tab,
-					'rel'           => $rel,
-					'title'         => $menu_item->attr_title,
-					'type'          => $menu_item->object,
-					'url'           => $menu_item->url,
-				),
-			);
-
-			$block['innerBlocks']  = isset( $menu_items_by_parent_id[ $menu_item->ID ] )
-				? block_core_navigation_parse_blocks_from_menu_items( $menu_items_by_parent_id[ $menu_item->ID ], $menu_items_by_parent_id )
-				: array();
-			$block['innerContent'] = array_map( 'serialize_block', $block['innerBlocks'] );
-
-			$blocks[] = $block;
-		}
-
-		return $blocks;
+/**
+ * Turns menu item data into a nested array of parsed blocks
+ *
+ * @param array $menu_items               An array of menu items that represent
+ *                                        an individual level of a menu.
+ * @param array $menu_items_by_parent_id  An array keyed by the id of the
+ *                                        parent menu where each element is an
+ *                                        array of menu items that belong to
+ *                                        that parent.
+ * @return array An array of parsed block data.
+ */
+function block_core_navigation_parse_blocks_from_menu_items( $menu_items, $menu_items_by_parent_id ) {
+	if ( empty( $menu_items ) ) {
+		return array();
 	}
+
+	$blocks = array();
+
+	foreach ( $menu_items as $menu_item ) {
+		$class_name       = ! empty( $menu_item->classes ) ? implode( ' ', (array) $menu_item->classes ) : null;
+		$id               = ( null !== $menu_item->object_id && 'custom' !== $menu_item->object ) ? $menu_item->object_id : null;
+		$opens_in_new_tab = null !== $menu_item->target && '_blank' === $menu_item->target;
+		$rel              = ( null !== $menu_item->xfn && '' !== $menu_item->xfn ) ? $menu_item->xfn : null;
+		$kind             = null !== $menu_item->type ? str_replace( '_', '-', $menu_item->type ) : 'custom';
+
+		$block = array(
+			'blockName' => isset( $menu_items_by_parent_id[ $menu_item->ID ] ) ? 'core/navigation-submenu' : 'core/navigation-link',
+			'attrs'     => array(
+				'className'     => $class_name,
+				'description'   => $menu_item->description,
+				'id'            => $id,
+				'kind'          => $kind,
+				'label'         => $menu_item->title,
+				'opensInNewTab' => $opens_in_new_tab,
+				'rel'           => $rel,
+				'title'         => $menu_item->attr_title,
+				'type'          => $menu_item->object,
+				'url'           => $menu_item->url,
+			),
+		);
+
+		$block['innerBlocks']  = isset( $menu_items_by_parent_id[ $menu_item->ID ] )
+			? block_core_navigation_parse_blocks_from_menu_items( $menu_items_by_parent_id[ $menu_item->ID ], $menu_items_by_parent_id )
+			: array();
+		$block['innerContent'] = array_map( 'serialize_block', $block['innerBlocks'] );
+
+		$blocks[] = $block;
+	}
+
+	return $blocks;
 }
 
 /**
@@ -874,35 +874,3 @@ function block_core_navigation_typographic_presets_backcompatibility( $parsed_bl
 }
 
 add_filter( 'render_block_data', 'block_core_navigation_typographic_presets_backcompatibility' );
-
-/**
- * Enables animation of the block inspector for the Navigation block.
- *
- * See:
- * - https://github.com/WordPress/gutenberg/pull/46342
- * - https://github.com/WordPress/gutenberg/issues/45884
- *
- * @param array $settings Default editor settings.
- * @return array Filtered editor settings.
- */
-function block_core_navigation_enable_inspector_animation( $settings ) {
-	$current_animation_settings = _wp_array_get(
-		$settings,
-		array( '__experimentalBlockInspectorAnimation' ),
-		array()
-	);
-
-	$settings['__experimentalBlockInspectorAnimation'] = array_merge(
-		$current_animation_settings,
-		array(
-			'core/navigation' =>
-				array(
-					'enterDirection' => 'leftToRight',
-				),
-		)
-	);
-
-	return $settings;
-}
-
-add_filter( 'block_editor_settings_all', 'block_core_navigation_enable_inspector_animation' );

@@ -288,18 +288,33 @@ body.is-fullscreen-mode .interface-interface-skeleton{
 }
 
 .interface-interface-skeleton__actions{
+  background:#fff;
   bottom:auto;
   color:#1e1e1e;
   left:0;
   position:fixed !important;
   right:auto;
   top:-9999em;
-  width:280px;
+  width:100vw;
   z-index:100000;
+}
+@media (min-width:782px){
+  .interface-interface-skeleton__actions{
+    width:280px;
+  }
 }
 .interface-interface-skeleton__actions:focus,.interface-interface-skeleton__actions:focus-within{
   bottom:0;
-  top:auto;
+  top:46px;
+}
+@media (min-width:782px){
+  .interface-interface-skeleton__actions:focus,.interface-interface-skeleton__actions:focus-within{
+    border-right:1px solid #ddd;
+    top:32px;
+  }
+  .is-fullscreen-mode .interface-interface-skeleton__actions:focus,.is-fullscreen-mode .interface-interface-skeleton__actions:focus-within{
+    top:0;
+  }
 }
 
 .interface-more-menu-dropdown{
@@ -922,7 +937,6 @@ textarea.edit-site-code-editor-text-area.edit-site-code-editor-text-area:-ms-inp
 .edit-site-global-styles__block-preview-panel{
   border:1px solid #e0e0e0;
   border-radius:2px;
-  height:152px;
   overflow:auto;
   position:relative;
   width:100%;
@@ -1679,7 +1693,7 @@ h3.edit-site-template-card__template-areas-title{
   padding:24px;
   width:280px;
 }
-.interface-interface-skeleton__actions:focus .edit-site-editor__toggle-save-panel,.interface-interface-skeleton__actions:focus-within .edit-site-editor__toggle-save-panel{
+.edit-site-layout__actions:focus .edit-site-editor__toggle-save-panel,.edit-site-layout__actions:focus-within .edit-site-editor__toggle-save-panel{
   bottom:0;
   top:auto;
 }
@@ -2033,28 +2047,9 @@ body.is-fullscreen-mode .edit-site .components-editor-notices__snackbar{
   top:0;
 }
 .edit-site-layout__sidebar>div{
-  min-height:100%;
-  overflow-y:auto;
-  scrollbar-color:#757575 #1e1e1e;
-  scrollbar-gutter:stable;
-  scrollbar-width:thin;
-  visibility:hidden;
-}
-.edit-site-layout__sidebar>div::-webkit-scrollbar{
-  height:12px;
-  width:12px;
-}
-.edit-site-layout__sidebar>div::-webkit-scrollbar-track{
-  background-color:#1e1e1e;
-}
-.edit-site-layout__sidebar>div::-webkit-scrollbar-thumb{
-  background-clip:padding-box;
-  background-color:#757575;
-  border:3px solid transparent;
-  border-radius:8px;
-}
-.edit-site-layout__sidebar>div:focus,.edit-site-layout__sidebar>div:hover,.edit-site-layout__sidebar>div>*{
-  visibility:visible;
+  display:flex;
+  flex-direction:column;
+  height:100%;
 }
 .edit-site-layout__sidebar .resizable-editor__drag-handle{
   left:0;
@@ -2152,6 +2147,67 @@ body.is-fullscreen-mode .edit-site .components-editor-notices__snackbar{
 .edit-site-layout__view-mode-toggle.components-button .edit-site-layout__view-mode-toggle-icon{
   border-radius:2px;
   display:flex;
+}
+
+.edit-site-layout__actions{
+  background:#fff;
+  bottom:auto;
+  color:#1e1e1e;
+  left:0;
+  position:fixed !important;
+  right:auto;
+  top:-9999em;
+  width:280px;
+  z-index:100000;
+}
+.edit-site-layout__actions:focus,.edit-site-layout__actions:focus-within{
+  bottom:0;
+  top:0;
+}
+@media (min-width:782px){
+  .edit-site-layout__actions{
+    border-right:1px solid #ddd;
+  }
+}
+
+@media (min-width:600px){
+  .edit-site-save-panel__modal{
+    width:600px;
+  }
+}
+
+.edit-site-sidebar__content{
+  flex-grow:1;
+  overflow-y:auto;
+  scrollbar-color:#757575 #1e1e1e;
+  scrollbar-gutter:stable;
+  scrollbar-width:thin;
+  visibility:hidden;
+}
+.edit-site-sidebar__content::-webkit-scrollbar{
+  height:12px;
+  width:12px;
+}
+.edit-site-sidebar__content::-webkit-scrollbar-track{
+  background-color:#1e1e1e;
+}
+.edit-site-sidebar__content::-webkit-scrollbar-thumb{
+  background-clip:padding-box;
+  background-color:#757575;
+  border:3px solid transparent;
+  border-radius:8px;
+}
+.edit-site-sidebar__content:focus,.edit-site-sidebar__content:hover,.edit-site-sidebar__content>*{
+  visibility:visible;
+}
+
+.edit-site-sidebar__footer{
+  border-top:1px solid #2f2f2f;
+  display:flex;
+  flex-shrink:0;
+  justify-content:flex-end;
+  margin:0 24px;
+  padding:24px 0;
 }
 
 .edit-site-sidebar__content.edit-site-sidebar__content{
@@ -2252,6 +2308,7 @@ body.is-fullscreen-mode .edit-site .components-editor-notices__snackbar{
 }
 
 .edit-site-site-hub__edit-button{
+  color:#fff;
   height:32px;
 }
 

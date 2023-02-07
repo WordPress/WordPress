@@ -6363,7 +6363,6 @@ class ErrorBoundary extends external_wp_element_namespaceObject.Component {
 
 const requestIdleCallback = window.requestIdleCallback ? window.requestIdleCallback : window.requestAnimationFrame;
 let hasStorageSupport;
-let uniqueId = 0;
 /**
  * Function which returns true if the current environment supports browser
  * sessionStorage, or false otherwise. The result of this function is cached and
@@ -6371,17 +6370,19 @@ let uniqueId = 0;
  */
 
 const hasSessionStorageSupport = () => {
-  if (typeof hasStorageSupport === 'undefined') {
-    try {
-      // Private Browsing in Safari 10 and earlier will throw an error when
-      // attempting to set into sessionStorage. The test here is intentional in
-      // causing a thrown error as condition bailing from local autosave.
-      window.sessionStorage.setItem('__wpEditorTestSessionStorage', '');
-      window.sessionStorage.removeItem('__wpEditorTestSessionStorage');
-      hasStorageSupport = true;
-    } catch (error) {
-      hasStorageSupport = false;
-    }
+  if (hasStorageSupport !== undefined) {
+    return hasStorageSupport;
+  }
+
+  try {
+    // Private Browsing in Safari 10 and earlier will throw an error when
+    // attempting to set into sessionStorage. The test here is intentional in
+    // causing a thrown error as condition bailing from local autosave.
+    window.sessionStorage.setItem('__wpEditorTestSessionStorage', '');
+    window.sessionStorage.removeItem('__wpEditorTestSessionStorage');
+    hasStorageSupport = true;
+  } catch {
+    hasStorageSupport = false;
   }
 
   return hasStorageSupport;
@@ -6422,7 +6423,7 @@ function useAutosaveNotice() {
 
     try {
       localAutosave = JSON.parse(localAutosave);
-    } catch (error) {
+    } catch {
       // Not usable if it can't be parsed.
       return;
     }
@@ -6455,9 +6456,9 @@ function useAutosaveNotice() {
       return;
     }
 
-    const noticeId = `wpEditorAutosaveRestore${++uniqueId}`;
+    const id = 'wpEditorAutosaveRestore';
     createWarningNotice((0,external_wp_i18n_namespaceObject.__)('The backup of this post in your browser is different from the version below.'), {
-      id: noticeId,
+      id,
       actions: [{
         label: (0,external_wp_i18n_namespaceObject.__)('Restore the backup'),
 
@@ -6468,7 +6469,7 @@ function useAutosaveNotice() {
           } = edits;
           editPost(editsWithoutContent);
           resetEditorBlocks((0,external_wp_blocks_namespaceObject.parse)(edits.content));
-          removeNotice(noticeId);
+          removeNotice(id);
         }
 
       }]
@@ -6525,11 +6526,7 @@ function LocalAutosaveMonitor() {
   }, []);
   useAutosaveNotice();
   useAutosavePurge();
-  const {
-    localAutosaveInterval
-  } = (0,external_wp_data_namespaceObject.useSelect)(select => ({
-    localAutosaveInterval: select(store_store).getEditorSettings().localAutosaveInterval
-  }), []);
+  const localAutosaveInterval = (0,external_wp_data_namespaceObject.useSelect)(select => select(store_store).getEditorSettings().localAutosaveInterval, []);
   return (0,external_wp_element_namespaceObject.createElement)(autosave_monitor, {
     interval: localAutosaveInterval,
     autosave: deferredAutosave
@@ -13209,7 +13206,7 @@ function mediaUpload(_ref) {
 
 
 const EMPTY_BLOCKS_LIST = [];
-const BLOCK_EDITOR_SETTINGS = ['__experimentalBlockDirectory', '__experimentalBlockInspectorAnimation', '__experimentalDiscussionSettings', '__experimentalFeatures', '__experimentalGlobalStylesBaseStyles', '__experimentalPreferredStyleVariations', '__experimentalSetIsInserterOpened', '__unstableGalleryWithImageBlocks', 'alignWide', 'allowedBlockTypes', 'blockInspectorTabs', 'allowedMimeTypes', 'bodyPlaceholder', 'canLockBlocks', 'capabilities', 'clearBlockSelection', 'codeEditingEnabled', 'colors', 'disableCustomColors', 'disableCustomFontSizes', 'disableCustomSpacingSizes', 'disableCustomGradients', 'disableLayoutStyles', 'enableCustomLineHeight', 'enableCustomSpacing', 'enableCustomUnits', 'enableOpenverseMediaCategory', 'focusMode', 'fontSizes', 'gradients', 'generateAnchors', 'hasFixedToolbar', 'hasInlineToolbar', 'isDistractionFree', 'imageDefaultSize', 'imageDimensions', 'imageEditing', 'imageSizes', 'isRTL', 'keepCaretInsideBlock', 'locale', 'maxWidth', 'onUpdateDefaultBlockStyles', 'postsPerPage', 'readOnly', 'styles', 'template', 'templateLock', 'titlePlaceholder', 'supportsLayout', 'widgetTypesToHideFromLegacyWidgetBlock', '__unstableHasCustomAppender', '__unstableIsPreviewMode', '__unstableResolvedAssets'];
+const BLOCK_EDITOR_SETTINGS = ['__experimentalBlockDirectory', '__experimentalDiscussionSettings', '__experimentalFeatures', '__experimentalGlobalStylesBaseStyles', '__experimentalPreferredStyleVariations', '__experimentalSetIsInserterOpened', '__unstableGalleryWithImageBlocks', 'alignWide', 'allowedBlockTypes', 'blockInspectorTabs', 'allowedMimeTypes', 'bodyPlaceholder', 'canLockBlocks', 'capabilities', 'clearBlockSelection', 'codeEditingEnabled', 'colors', 'disableCustomColors', 'disableCustomFontSizes', 'disableCustomSpacingSizes', 'disableCustomGradients', 'disableLayoutStyles', 'enableCustomLineHeight', 'enableCustomSpacing', 'enableCustomUnits', 'enableOpenverseMediaCategory', 'focusMode', 'fontSizes', 'gradients', 'generateAnchors', 'hasFixedToolbar', 'hasInlineToolbar', 'isDistractionFree', 'imageDefaultSize', 'imageDimensions', 'imageEditing', 'imageSizes', 'isRTL', 'keepCaretInsideBlock', 'locale', 'maxWidth', 'onUpdateDefaultBlockStyles', 'postsPerPage', 'readOnly', 'styles', 'template', 'templateLock', 'titlePlaceholder', 'supportsLayout', 'widgetTypesToHideFromLegacyWidgetBlock', '__unstableHasCustomAppender', '__unstableIsPreviewMode', '__unstableResolvedAssets'];
 /**
  * React hook used to compute the block editor settings to use for the post editor.
  *

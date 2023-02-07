@@ -18,12 +18,19 @@ function render_block_core_read_more( $attributes, $content, $block ) {
 		return '';
 	}
 
-	$post_ID            = $block->context['postId'];
-	$post_title         = get_the_title( $post_ID );
+	$post_ID    = $block->context['postId'];
+	$post_title = get_the_title( $post_ID );
+	if ( '' === $post_title ) {
+		$post_title = sprintf(
+			/* translators: %s is post ID to describe the link for screen readers. */
+			__( 'untitled post %s' ),
+			$post_ID
+		);
+	}
 	$screen_reader_text = sprintf(
 		/* translators: %s is either the post title or post ID to describe the link for screen readers. */
 		__( ': %s' ),
-		'' !== $post_title ? $post_title : __( 'untitled post ' ) . $post_ID
+		$post_title
 	);
 	$justify_class_name = empty( $attributes['justifyContent'] ) ? '' : "is-justified-{$attributes['justifyContent']}";
 	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => $justify_class_name ) );

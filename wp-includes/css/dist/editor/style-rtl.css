@@ -141,51 +141,34 @@
   margin-top:12px;
 }
 
-.entities-saved-states__panel{
-  background:#fff;
-  bottom:0;
-  box-sizing:border-box;
-  left:0;
-  overflow:auto;
-  position:fixed;
-  right:0;
-  top:46px;
-  z-index:100001;
-}
-.entities-saved-states__panel *,.entities-saved-states__panel :after,.entities-saved-states__panel :before{
-  box-sizing:inherit;
-}
-.entities-saved-states__panel .entities-saved-states__find-entity{
+.entities-saved-states__find-entity{
   display:none;
 }
-.entities-saved-states__panel .entities-saved-states__find-entity-small{
+@media (min-width:782px){
+  .entities-saved-states__find-entity{
+    display:block;
+  }
+}
+
+.entities-saved-states__find-entity-small{
   display:block;
 }
 @media (min-width:782px){
-  .entities-saved-states__panel{
-    border-right:1px solid #ddd;
-    right:auto;
-    top:32px;
-    width:280px;
-  }
-  body.is-fullscreen-mode .entities-saved-states__panel{
-    top:0;
-  }
-  .entities-saved-states__panel .entities-saved-states__find-entity{
-    display:block;
-  }
-  .entities-saved-states__panel .entities-saved-states__find-entity-small{
+  .entities-saved-states__find-entity-small{
     display:none;
   }
 }
-.entities-saved-states__panel .entities-saved-states__panel-header{
+
+.entities-saved-states__panel-header{
   background:#fff;
   border-bottom:1px solid #ddd;
-  height:61px;
+  box-sizing:border-box;
+  height:60px;
   padding-left:8px;
   padding-right:8px;
 }
-.entities-saved-states__panel .entities-saved-states__text-prompt{
+
+.entities-saved-states__text-prompt{
   padding:16px 16px 4px;
 }
 
