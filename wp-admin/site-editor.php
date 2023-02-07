@@ -46,7 +46,7 @@ if ( $home_template && empty( $_GET['postType'] ) && empty( $_GET['postId'] ) ) 
 }
 
 // Used in the HTML title tag.
-$title       = __( 'Editor (beta)' );
+$title       = _x( 'Editor', 'site editor title tag' );
 $parent_file = 'themes.php';
 
 // Flag that we're loading the block editor.
