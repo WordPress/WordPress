@@ -2638,10 +2638,14 @@ function wp_underscore_playlist_templates() {
 	<# } #>
 	<div class="wp-playlist-caption">
 		<span class="wp-playlist-item-meta wp-playlist-item-title">
-		<?php
-			/* translators: %s: Playlist item title. */
-			printf( _x( '&#8220;%s&#8221;', 'playlist item title' ), '{{ data.title }}' );
-		?>
+			<# if ( data.meta.album || data.meta.artist ) { #>
+				<?php
+				/* translators: %s: Playlist item title. */
+				printf( _x( '&#8220;%s&#8221;', 'playlist item title' ), '{{ data.title }}' );
+				?>
+			<# } else { #>
+				{{ data.title }}
+			<# } #>
 		</span>
 		<# if ( data.meta.album ) { #><span class="wp-playlist-item-meta wp-playlist-item-album">{{ data.meta.album }}</span><# } #>
 		<# if ( data.meta.artist ) { #><span class="wp-playlist-item-meta wp-playlist-item-artist">{{ data.meta.artist }}</span><# } #>
@@ -2654,14 +2658,16 @@ function wp_underscore_playlist_templates() {
 			<# if ( data.caption ) { #>
 				{{ data.caption }}
 			<# } else { #>
-				<span class="wp-playlist-item-title">
-				<?php
-					/* translators: %s: Playlist item title. */
-					printf( _x( '&#8220;%s&#8221;', 'playlist item title' ), '{{{ data.title }}}' );
-				?>
-				</span>
 				<# if ( data.artists && data.meta.artist ) { #>
-				<span class="wp-playlist-item-artist"> &mdash; {{ data.meta.artist }}</span>
+					<span class="wp-playlist-item-title">
+						<?php
+						/* translators: %s: Playlist item title. */
+						printf( _x( '&#8220;%s&#8221;', 'playlist item title' ), '{{{ data.title }}}' );
+						?>
+					</span>
+					<span class="wp-playlist-item-artist"> &mdash; {{ data.meta.artist }}</span>
+				<# } else { #>
+					<span class="wp-playlist-item-title">{{{ data.title }}}</span>
 				<# } #>
 			<# } #>
 		</a>
