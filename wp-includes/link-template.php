@@ -4664,7 +4664,7 @@ function get_the_privacy_policy_link( $before = '', $after = '' ) {
 
 	if ( $privacy_policy_url && $page_title ) {
 		$link = sprintf(
-			'<a class="privacy-policy-link" href="%s">%s</a>',
+			'<a class="privacy-policy-link" href="%s" rel="privacy-policy">%s</a>',
 			esc_url( $privacy_policy_url ),
 			esc_html( $page_title )
 		);
