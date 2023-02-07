@@ -4688,3 +4688,63 @@ function get_the_privacy_policy_link( $before = '', $after = '' ) {
 
 	return '';
 }
+
+/**
+ * Returns an array of URL hosts which are considered to be internal hosts.
+ *
+ * By default the list of internal hosts is comproside of the PHP_URL_HOST of
+ * the site's home_url() (as parsed by wp_parse_url()).
+ *
+ * This list is used when determining if a specificed URL is a link to a page on
+ * the site itself or a link offsite (to an external host). This is used, for
+ * example, when determining if the "nofollow" attribute should be applied to a
+ * link.
+ *
+ * @see wp_is_internal_link
+ *
+ * @since 6.2.0
+ *
+ * @return string[] An array of URL hosts.
+ */
+function wp_internal_hosts() {
+	static $internal_hosts;
+
+	if ( empty( $internal_hosts ) ) {
+		/**
+		 * Filters the array of URL hosts which are considered internal.
+		 *
+		 * @since 6.2.9
+		 *
+		 * @param array $internal_hosts An array of internal URL hostnames.
+		 */
+		$internal_hosts = apply_filters(
+			'wp_internal_hosts',
+			array(
+				wp_parse_url( home_url(), PHP_URL_HOST ),
+			)
+		);
+		$internal_hosts = array_unique(
+			array_map( 'strtolower', (array) $internal_hosts )
+		);
+	}
+
+	return $internal_hosts;
+}
+
+/**
+ * Determines whether or not the specified URL is of a host included in the internal hosts list.
+ *
+ * @see wp_internal_hosts()
+ *
+ * @since 6.2.0
+ *
+ * @param string $link The URL to test.
+ * @return bool Returns true for internal URLs and false for all other URLs.
+ */
+function wp_is_internal_link( $link ) {
+	$link = strtolower( $link );
+	if ( in_array( wp_parse_url( $link, PHP_URL_SCHEME ), wp_allowed_protocols(), true ) ) {
+		return in_array( wp_parse_url( $link, PHP_URL_HOST ), wp_internal_hosts(), true );
+	}
+	return false;
+}
