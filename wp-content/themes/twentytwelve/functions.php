@@ -137,50 +137,32 @@ require get_template_directory() . '/inc/custom-header.php';
  */
 require get_template_directory() . '/inc/block-patterns.php';
 
-/**
- * Return the Google font stylesheet URL if available.
- *
- * The use of Open Sans by default is localized. For languages that use
- * characters not supported by the font, the font can be disabled.
- *
- * @since Twenty Twelve 1.2
- *
- * @return string Font stylesheet or empty string if disabled.
- */
-function twentytwelve_get_font_url() {
-	$font_url = '';
-
-	/*
-	 * translators: If there are characters in your language that are not supported
-	 * by Open Sans, translate this to 'off'. Do not translate into your own language.
+if ( ! function_exists( 'twentytwelve_get_font_url' ) ) :
+	/**
+	 * Return the font stylesheet URL if available.
+	 *
+	 * The use of Open Sans by default is localized. For languages that use
+	 * characters not supported by the font, the font can be disabled.
+	 *
+	 * @since Twenty Twelve 1.2
+	 * @since Twenty Twelve 3.9 Replaced Google URL with self-hosted font.
+	 *
+	 * @return string Font stylesheet or empty string if disabled.
 	 */
-	if ( 'off' !== _x( 'on', 'Open Sans font: on or off', 'twentytwelve' ) ) {
-		$subsets = 'latin,latin-ext';
+	function twentytwelve_get_font_url() {
+		$font_url = '';
 
 		/*
-		 * translators: To add an additional Open Sans character subset specific to your language,
-		 * translate this to 'greek', 'cyrillic' or 'vietnamese'. Do not translate into your own language.
-		 */
-		$subset = _x( 'no-subset', 'Open Sans font: add new subset (greek, cyrillic, vietnamese)', 'twentytwelve' );
-
-		if ( 'cyrillic' === $subset ) {
-			$subsets .= ',cyrillic,cyrillic-ext';
-		} elseif ( 'greek' === $subset ) {
-			$subsets .= ',greek,greek-ext';
-		} elseif ( 'vietnamese' === $subset ) {
-			$subsets .= ',vietnamese';
+		* translators: If there are characters in your language that are not supported
+		* by Open Sans, translate this to 'off'. Do not translate into your own language.
+		*/
+		if ( 'off' !== _x( 'on', 'Open Sans font: on or off', 'twentytwelve' ) ) {
+			$font_url = get_template_directory_uri() . '/fonts/font-open-sans.css';
 		}
 
-		$query_args = array(
-			'family'  => urlencode( 'Open Sans:400italic,700italic,400,700' ),
-			'subset'  => urlencode( $subsets ),
-			'display' => urlencode( 'fallback' ),
-		);
-		$font_url   = add_query_arg( $query_args, 'https://fonts.googleapis.com/css' );
+		return $font_url;
 	}
-
-	return $font_url;
-}
+endif;
 
 /**
  * Enqueue scripts and styles for front end.
@@ -203,7 +185,8 @@ function twentytwelve_scripts_styles() {
 
 	$font_url = twentytwelve_get_font_url();
 	if ( ! empty( $font_url ) ) {
-		wp_enqueue_style( 'twentytwelve-fonts', esc_url_raw( $font_url ), array(), null );
+		$font_version = ( 0 === strpos( (string) twentytwelve_get_font_url(), get_template_directory_uri() . '/' ) ) ? '20230328' : null;
+		wp_enqueue_style( 'twentytwelve-fonts', esc_url_raw( $font_url ), array(), $font_version );
 	}
 
 	// Loads our main stylesheet.
@@ -227,7 +210,8 @@ function twentytwelve_block_editor_styles() {
 	// Block styles.
 	wp_enqueue_style( 'twentytwelve-block-editor-style', get_template_directory_uri() . '/css/editor-blocks.css', array(), '20200713' );
 	// Add custom fonts.
-	wp_enqueue_style( 'twentytwelve-fonts', twentytwelve_get_font_url(), array(), null );
+	$font_version = ( 0 === strpos( (string) twentytwelve_get_font_url(), get_template_directory_uri() . '/' ) ) ? '20230328' : null;
+	wp_enqueue_style( 'twentytwelve-fonts', twentytwelve_get_font_url(), array(), $font_version );
 }
 add_action( 'enqueue_block_editor_assets', 'twentytwelve_block_editor_styles' );
 
@@ -235,6 +219,7 @@ add_action( 'enqueue_block_editor_assets', 'twentytwelve_block_editor_styles' );
  * Add preconnect for Google Fonts.
  *
  * @since Twenty Twelve 2.2
+ * @deprecated Twenty Twelve 3.9 Disabled filter because, by default, fonts are self-hosted.
  *
  * @param array   $urls          URLs to print for resource hints.
  * @param string  $relation_type The relation type the URLs are printed.
@@ -254,14 +239,14 @@ function twentytwelve_resource_hints( $urls, $relation_type ) {
 
 	return $urls;
 }
-add_filter( 'wp_resource_hints', 'twentytwelve_resource_hints', 10, 2 );
+// add_filter( 'wp_resource_hints', 'twentytwelve_resource_hints', 10, 2 );
 
 /**
- * Filter TinyMCE CSS path to include Google Fonts.
+ * Filter TinyMCE CSS path to include hosted fonts.
  *
  * Adds additional stylesheets to the TinyMCE editor if needed.
  *
- * @uses twentytwelve_get_font_url() To get the Google Font stylesheet URL.
+ * @uses twentytwelve_get_font_url() To get the font stylesheet URL.
  *
  * @since Twenty Twelve 1.2
  *

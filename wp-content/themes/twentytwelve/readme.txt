@@ -40,6 +40,11 @@ HTML5 Shiv v3.7.0, Copyright 2014 Alexander Farkas
 Licenses: MIT/GPL2
 Source: https://github.com/aFarkas/html5shiv
 
+Open Sans Font
+Copyright 2020 The Open Sans Project Authors (https://github.com/googlefonts/opensans)
+License: SIL Open Font License, 1.1, https://opensource.org/licenses/OFL-1.1
+Source: https://fontsource.org/fonts/open-sans
+
 "Fall Leaf Photo" by Tim Sullivan. CC0. https://stocksnap.io/photo/fall-leaf-ZBK0NLVP2B
 "Fall Leaf Photo" by Tim Sullivan. CC0. https://stocksnap.io/photo/fall-leaf-EEGO4GCPQD
 "Autumn City Photo" by Oleg Prokopenko. CC0. https://stocksnap.io/photo/autumn-city-PZP8EWR5MR
