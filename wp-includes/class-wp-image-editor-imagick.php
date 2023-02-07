@@ -503,6 +503,10 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 			$size_data['crop'] = false;
 		}
 
+		if ( ( $this->size['width'] == $size_data['width'] ) && ( $this->size['height'] == $size_data['height'] ) ) {
+			return new WP_Error( 'image_subsize_create_error', __( 'The image already has the requested size.' ) );
+		}
+
 		$resized = $this->resize( $size_data['width'], $size_data['height'], $size_data['crop'] );
 
 		if ( is_wp_error( $resized ) ) {
