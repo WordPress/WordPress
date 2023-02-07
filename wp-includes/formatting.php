@@ -5395,6 +5395,32 @@ function normalize_whitespace( $str ) {
  * @return string The processed string.
  */
 function wp_strip_all_tags( $text, $remove_breaks = false ) {
+	if ( is_null( $text ) ) {
+		return '';
+	}
+
+	if ( ! is_scalar( $text ) ) {
+		/*
+		 * To maintain consistency with pre-PHP 8 error levels,
+		 * trigger_error() is used to trigger an E_USER_WARNING,
+		 * rather than _doing_it_wrong(), which triggers an E_USER_NOTICE.
+		 */
+		trigger_error(
+			sprintf(
+				/* translators: 1: The function name, 2: The argument number, 3: The argument name, 4: The expected type, 5: The provided type. */
+				__( 'Warning: %1$s expects parameter %2$s (%3$s) to be a %4$s, %5$s given.' ),
+				__FUNCTION__,
+				'#1',
+				'$text',
+				'string',
+				gettype( $text )
+			),
+			E_USER_WARNING
+		);
+
+		return '';
+	}
+
 	$text = preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $text );
 	$text = strip_tags( $text );
 
