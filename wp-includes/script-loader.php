@@ -1111,6 +1111,10 @@ function wp_default_scripts( $scripts ) {
 		'pluginPath'  => includes_url( 'js/mediaelement/', 'relative' ),
 		'classPrefix' => 'mejs-',
 		'stretching'  => 'responsive',
+		/** This filter is documented in wp-includes/media.php */
+		'audioShortcodeLibrary' => apply_filters( 'wp_audio_shortcode_library', 'mediaelement' ),
+		/** This filter is documented in wp-includes/media.php */
+		'videoShortcodeLibrary' => apply_filters( 'wp_video_shortcode_library', 'mediaelement' ),
 	);
 	did_action( 'init' ) && $scripts->localize(
 		'mediaelement',
