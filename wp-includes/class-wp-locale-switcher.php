@@ -17,7 +17,7 @@ class WP_Locale_Switcher {
 	/**
 	 * Locale switching stack.
 	 *
-	 * @since 4.7.0
+	 * @since 6.2.0
 	 * @var array
 	 */
 	private $stack = array();
