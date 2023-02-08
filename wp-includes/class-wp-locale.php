@@ -413,11 +413,10 @@ class WP_Locale {
 	/**
 	 * Retrieves the localized word count type.
 	 *
-	 * Options are 'characters_excluding_spaces', 'characters_including_spaces or 'words'. Defaults to 'words'.
-	 *
 	 * @since 6.2.0
 	 *
-	 * @return string Localized word count type.
+	 * @return string Localized word count type. Possible values are `characters_excluding_spaces`,
+	 *                `characters_including_spaces`, or `words`. Defaults to `words`.
 	 */
 	public function get_word_count_type() {
 

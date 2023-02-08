@@ -1817,7 +1817,8 @@ function wp_get_list_item_separator() {
  *
  * @global WP_Locale $wp_locale WordPress date and time locale object.
  *
- * @return string Locale-specific word count type.
+ * @return string Locale-specific word count type. Possible values are `characters_excluding_spaces`,
+ *                `characters_including_spaces`, or `words`. Defaults to `words`.
  */
 function wp_get_word_count_type() {
 	global $wp_locale;
