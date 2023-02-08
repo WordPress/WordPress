@@ -204,6 +204,11 @@ function apply_shortcodes( $content, $ignore_html = false ) {
  */
 function do_shortcode( $content, $ignore_html = false ) {
 	global $shortcode_tags;
+	
+	/* PHP 8.2 arise deprecated message when $content variable is null */
+	if ( $content === null ) {
+		return null;
+	}
 
 	if ( false === strpos( $content, '[' ) ) {
 		return $content;
