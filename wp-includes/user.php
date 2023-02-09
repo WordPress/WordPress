@@ -26,13 +26,24 @@
  *
  * @global string $auth_secure_cookie
  *
- * @param array       $credentials   Optional. User info in order to sign on.
+ * @param array       $credentials {
+ *     Optional. User info in order to sign on.
+ *
+ *     @type string $user_login    Username.
+ *     @type string $user_password User password.
+ *     @type bool   $remember      Whether to 'remember' the user. Increases the time
+ *                                 that the cookie will be kept. Default false.
+ * }
  * @param string|bool $secure_cookie Optional. Whether to use secure cookie.
  * @return WP_User|WP_Error WP_User on success, WP_Error on failure.
  */
 function wp_signon( $credentials = array(), $secure_cookie = '' ) {
 	if ( empty( $credentials ) ) {
-		$credentials = array(); // Back-compat for plugins passing an empty string.
+		$credentials = array(
+			'user_login'    => '',
+			'user_password' => '',
+			'remember'      => false,
+		);
 
 		if ( ! empty( $_POST['log'] ) ) {
 			$credentials['user_login'] = wp_unslash( $_POST['log'] );
