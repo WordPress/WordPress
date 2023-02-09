@@ -1,6 +1,9 @@
 <?php
 /**
- * Locale API: WP_Textdomain_Registry class
+ * Locale API: WP_Textdomain_Registry class.
+ *
+ * This file uses rtrim() instead of untrailingslashit() and trailingslashit()
+ * to avoid formatting.php dependency.
  *
  * @package WordPress
  * @subpackage i18n
@@ -113,7 +116,7 @@ class WP_Textdomain_Registry {
 	 * @param string|false $path   Language directory path or false if there is none available.
 	 */
 	public function set( $domain, $locale, $path ) {
-		$this->all[ $domain ][ $locale ] = $path ? trailingslashit( $path ) : false;
+		$this->all[ $domain ][ $locale ] = $path ? rtrim( $path, '/' ) . '/' : false;
 		$this->current[ $domain ]        = $this->all[ $domain ][ $locale ];
 	}
 
@@ -128,7 +131,7 @@ class WP_Textdomain_Registry {
 	 * @param string $path   Language directory path.
 	 */
 	public function set_custom_path( $domain, $path ) {
-		$this->custom_paths[ $domain ] = untrailingslashit( $path );
+		$this->custom_paths[ $domain ] = rtrim( $path, '/' );
 	}
 
 	/**
@@ -187,7 +190,7 @@ class WP_Textdomain_Registry {
 				}
 
 				if ( $mo_path === $path ) {
-					$found_location = trailingslashit( $location );
+					$found_location = rtrim( $location, '/' ) . '/';
 				}
 			}
 		}
@@ -201,7 +204,7 @@ class WP_Textdomain_Registry {
 		// If no path is found for the given locale and a custom path has been set
 		// using load_plugin_textdomain/load_theme_textdomain, use that one.
 		if ( 'en_US' !== $locale && isset( $this->custom_paths[ $domain ] ) ) {
-			$fallback_location = trailingslashit( $this->custom_paths[ $domain ] );
+			$fallback_location = rtrim( $this->custom_paths[ $domain ], '/' ) . '/';
 			$this->set( $domain, $locale, $fallback_location );
 			return $fallback_location;
 		}
