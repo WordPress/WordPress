@@ -40,7 +40,7 @@
  * Example:
  * ```php
  *     $tags = new WP_HTML_Tag_Processor( $html );
- *     if ( $tags->next_tag( [ 'tag_name' => 'option' ] ) ) {
+ *     if ( $tags->next_tag( array( 'tag_name' => 'option' ) ) ) {
  *         $tags->set_attribute( 'selected', true );
  *     }
  * ```
@@ -61,9 +61,9 @@
  * | Goal                                                      | Query                                                                      |
  * |-----------------------------------------------------------|----------------------------------------------------------------------------|
  * | Find any tag.                                             | `$tags->next_tag();`                                                       |
- * | Find next image tag.                                      | `$tags->next_tag( [ 'tag_name' => 'img' ] );`                              |
- * | Find next tag containing the `fullwidth` CSS class.       | `$tags->next_tag( [ 'class_name' => 'fullwidth' ] );`                      |
- * | Find next image tag containing the `fullwidth` CSS class. | `$tags->next_tag( [ 'tag_name' => 'img', 'class_name' => 'fullwidth' ] );` |
+ * | Find next image tag.                                      | `$tags->next_tag( array( 'tag_name' => 'img' ) );`                              |
+ * | Find next tag containing the `fullwidth` CSS class.       | `$tags->next_tag( array( 'class_name' => 'fullwidth' ) );`                      |
+ * | Find next image tag containing the `fullwidth` CSS class. | `$tags->next_tag( array( 'tag_name' => 'img', 'class_name' => 'fullwidth' ) );` |
  *
  * If a tag was found meeting your criteria then `next_tag()`
  * will return `true` and you can proceed to modify it. If it
@@ -116,7 +116,7 @@
  *
  * Example:
  * ```php
- *     if ( $tags->next_tag( [ 'class' => 'wp-group-block' ] ) ) {
+ *     if ( $tags->next_tag( array( 'class' => 'wp-group-block' ) ) ) {
  *         $tags->set_attribute( 'title', 'This groups the contained content.' );
  *         $tags->remove_attribute( 'data-test-id' );
  *     }
@@ -185,9 +185,9 @@
  *
  * ```php
  *     $total_todos = 0;
- *     while ( $p->next_tag( [ 'tag_name' => 'UL', 'class_name' => 'todo' ] ) ) {
+ *     while ( $p->next_tag( array( 'tag_name' => 'UL', 'class_name' => 'todo' ) ) ) {
  *         $p->set_bookmark( 'list-start' );
- *         while ( $p->next_tag( [ 'tag_closers' => 'visit' ] ) ) {
+ *         while ( $p->next_tag( array( 'tag_closers' => 'visit' ) ) ) {
  *             if ( 'UL' === $p->get_tag() && $p->is_tag_closer() ) {
  *                 $p->set_bookmark( 'list-end' );
  *                 $p->seek( 'list-start' );
@@ -424,16 +424,16 @@ class WP_HTML_Tag_Processor {
 	 *     // and stops after recognizing the `id` attribute
 	 *     // <div id="test-4" class=outline title="data:text/plain;base64=asdk3nk1j3fo8">
 	 *     //                 ^ parsing will continue from this point
-	 *     $this->attributes = [
+	 *     $this->attributes = array(
 	 *         'id' => new WP_HTML_Attribute_Match( 'id', null, 6, 17 )
-	 *     ];
+	 *     );
 	 *
 	 *     // when picking up parsing again, or when asking to find the
 	 *     // `class` attribute we will continue and add to this array
-	 *     $this->attributes = [
+	 *     $this->attributes = array(
 	 *         'id'    => new WP_HTML_Attribute_Match( 'id', null, 6, 17 ),
 	 *         'class' => new WP_HTML_Attribute_Match( 'class', 'outline', 18, 32 )
-	 *     ];
+	 *     );
 	 *
 	 *     // Note that only the `class` attribute value is stored in the index.
 	 *     // That's because it is the only value used by this class at the moment.
@@ -458,11 +458,11 @@ class WP_HTML_Tag_Processor {
 	 * Example:
 	 * ```php
 	 *     // Add the `wp-block-group` class, remove the `wp-group` class.
-	 *     $classname_updates = [
+	 *     $classname_updates = array(
 	 *         // Indexed by a comparable class name
 	 *         'wp-block-group' => WP_HTML_Tag_Processor::ADD_CLASS,
 	 *         'wp-group'       => WP_HTML_Tag_Processor::REMOVE_CLASS
-	 *     ];
+	 *     );
 	 * ```
 	 *
 	 * @since 6.2.0
@@ -518,9 +518,9 @@ class WP_HTML_Tag_Processor {
 	 *     $modifications[] = new WP_HTML_Text_Replacement( $start, $end, $new_value );
 	 *
 	 *     // Correspondingly, something like this will appear in this array.
-	 *     $lexical_updates = [
+	 *     $lexical_updates = array(
 	 *         WP_HTML_Text_Replacement( 14, 28, 'https://my-site.my-domain/wp-content/uploads/2014/08/kittens.jpg' )
-	 *     ];
+	 *     );
 	 * ```
 	 *
 	 * @since 6.2.0
@@ -660,7 +660,7 @@ class WP_HTML_Tag_Processor {
 	 *
 	 *     $p = new WP_HTML_Tag_Processor( $html );
 	 *     $in_list = false;
-	 *     while ( $p->next_tag( [ 'tag_closers' => $in_list ? 'visit' : 'skip' ] ) ) {
+	 *     while ( $p->next_tag( array( 'tag_closers' => $in_list ? 'visit' : 'skip' ) ) ) {
 	 *         if ( 'UL' === $p->get_tag() ) {
 	 *             if ( $p->is_tag_closer() ) {
 	 *                 $in_list = false;
@@ -1603,12 +1603,12 @@ class WP_HTML_Tag_Processor {
 	 * Example:
 	 * ```php
 	 *     $p = new WP_HTML_Tag_Processor( '<div enabled class="test" data-test-id="14">Test</div>' );
-	 *     $p->next_tag( [ 'class_name' => 'test' ] ) === true;
+	 *     $p->next_tag( array( 'class_name' => 'test' ) ) === true;
 	 *     $p->get_attribute( 'data-test-id' ) === '14';
 	 *     $p->get_attribute( 'enabled' ) === true;
 	 *     $p->get_attribute( 'aria-label' ) === null;
 	 *
-	 *     $p->next_tag( [] ) === false;
+	 *     $p->next_tag( array() ) === false;
 	 *     $p->get_attribute( 'class' ) === null;
 	 * ```
 	 *
@@ -1686,10 +1686,10 @@ class WP_HTML_Tag_Processor {
 	 * Example:
 	 * ```php
 	 *     $p = new WP_HTML_Tag_Processor( '<div data-ENABLED class="test" DATA-test-id="14">Test</div>' );
-	 *     $p->next_tag( [ 'class_name' => 'test' ] ) === true;
+	 *     $p->next_tag( array( 'class_name' => 'test' ) ) === true;
 	 *     $p->get_attribute_names_with_prefix( 'data-' ) === array( 'data-enabled', 'data-test-id' );
 	 *
-	 *     $p->next_tag( [] ) === false;
+	 *     $p->next_tag( array() ) === false;
 	 *     $p->get_attribute_names_with_prefix( 'data-' ) === null;
 	 * ```
 	 *
@@ -1720,10 +1720,10 @@ class WP_HTML_Tag_Processor {
 	 * Example:
 	 * ```php
 	 *     $p = new WP_HTML_Tag_Processor( '<DIV CLASS="test">Test</DIV>' );
-	 *     $p->next_tag( [] ) === true;
+	 *     $p->next_tag( array() ) === true;
 	 *     $p->get_tag() === 'DIV';
 	 *
-	 *     $p->next_tag( [] ) === false;
+	 *     $p->next_tag( array() ) === false;
 	 *     $p->get_tag() === null;
 	 * ```
 	 *
@@ -1747,10 +1747,10 @@ class WP_HTML_Tag_Processor {
 	 * Example:
 	 * ```php
 	 *     $p = new WP_HTML_Tag_Processor( '<div></div>' );
-	 *     $p->next_tag( [ 'tag_name' => 'div', 'tag_closers' => 'visit' ] );
+	 *     $p->next_tag( array( 'tag_name' => 'div', 'tag_closers' => 'visit' ) );
 	 *     $p->is_tag_closer() === false;
 	 *
-	 *     $p->next_tag( [ 'tag_name' => 'div', 'tag_closers' => 'visit' ] );
+	 *     $p->next_tag( array( 'tag_name' => 'div', 'tag_closers' => 'visit' ) );
 	 *     $p->is_tag_closer() === true;
 	 * ```
 	 *
