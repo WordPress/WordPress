@@ -142,21 +142,24 @@
 .screen-reader-shortcut {
 	position: absolute;
 	top: -1000em;
-}
-
-.screen-reader-shortcut:focus {
 	right: 6px;
-	top: -25px;
 	height: auto;
 	width: auto;
 	display: block;
 	font-size: 14px;
 	font-weight: 600;
 	padding: 15px 23px 14px;
+	/* Background and color set to prevent false positives in automated accessibility tests. */
 	background: #f0f0f1;
 	color: #2271b1;
 	z-index: 100000;
 	line-height: normal;
+}
+
+.screen-reader-shortcut:focus {
+	top: -25px;
+	/* Overrides a:focus in the admin. See ticket #56789. */
+	color: #2271b1;
 	box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
 	text-decoration: none;
 	/* Only visible in Windows High Contrast mode */
