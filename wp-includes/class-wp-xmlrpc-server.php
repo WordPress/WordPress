@@ -3720,25 +3720,25 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$username   = $args[1];
 		$password   = $args[2];
-		$comment_ID = (int) $args[3];
+		$comment_id = (int) $args[3];
 
 		$user = $this->login( $username, $password );
 		if ( ! $user ) {
 			return $this->error;
 		}
 
-		if ( ! get_comment( $comment_ID ) ) {
+		if ( ! get_comment( $comment_id ) ) {
 			return new IXR_Error( 404, __( 'Invalid comment ID.' ) );
 		}
 
-		if ( ! current_user_can( 'edit_comment', $comment_ID ) ) {
+		if ( ! current_user_can( 'edit_comment', $comment_id ) ) {
 			return new IXR_Error( 403, __( 'Sorry, you are not allowed to delete this comment.' ) );
 		}
 
 		/** This action is documented in wp-includes/class-wp-xmlrpc-server.php */
 		do_action( 'xmlrpc_call', 'wp.deleteComment', $args, $this );
 
-		$status = wp_delete_comment( $comment_ID );
+		$status = wp_delete_comment( $comment_id );
 
 		if ( $status ) {
 			/**
@@ -3746,10 +3746,10 @@ class wp_xmlrpc_server extends IXR_Server {
 			 *
 			 * @since 3.4.0
 			 *
-			 * @param int   $comment_ID ID of the deleted comment.
+			 * @param int   $comment_id ID of the deleted comment.
 			 * @param array $args       An array of arguments to delete the comment.
 			 */
-			do_action( 'xmlrpc_call_success_wp_deleteComment', $comment_ID, $args ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.NotLowercase
+			do_action( 'xmlrpc_call_success_wp_deleteComment', $comment_id, $args ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.NotLowercase
 		}
 
 		return $status;
@@ -3787,7 +3787,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$username       = $args[1];
 		$password       = $args[2];
-		$comment_ID     = (int) $args[3];
+		$comment_id     = (int) $args[3];
 		$content_struct = $args[4];
 
 		$user = $this->login( $username, $password );
@@ -3795,18 +3795,18 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 		}
 
-		if ( ! get_comment( $comment_ID ) ) {
+		if ( ! get_comment( $comment_id ) ) {
 			return new IXR_Error( 404, __( 'Invalid comment ID.' ) );
 		}
 
-		if ( ! current_user_can( 'edit_comment', $comment_ID ) ) {
+		if ( ! current_user_can( 'edit_comment', $comment_id ) ) {
 			return new IXR_Error( 403, __( 'Sorry, you are not allowed to moderate or edit this comment.' ) );
 		}
 
 		/** This action is documented in wp-includes/class-wp-xmlrpc-server.php */
 		do_action( 'xmlrpc_call', 'wp.editComment', $args, $this );
 		$comment = array(
-			'comment_ID' => $comment_ID,
+			'comment_ID' => $comment_id,
 		);
 
 		if ( isset( $content_struct['status'] ) ) {
@@ -3858,10 +3858,10 @@ class wp_xmlrpc_server extends IXR_Server {
 		 *
 		 * @since 3.4.0
 		 *
-		 * @param int   $comment_ID ID of the updated comment.
+		 * @param int   $comment_id ID of the updated comment.
 		 * @param array $args       An array of arguments to update the comment.
 		 */
-		do_action( 'xmlrpc_call_success_wp_editComment', $comment_ID, $args ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.NotLowercase
+		do_action( 'xmlrpc_call_success_wp_editComment', $comment_id, $args ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.NotLowercase
 
 		return true;
 	}
@@ -3999,12 +3999,12 @@ class wp_xmlrpc_server extends IXR_Server {
 		/** This action is documented in wp-includes/class-wp-xmlrpc-server.php */
 		do_action( 'xmlrpc_call', 'wp.newComment', $args, $this );
 
-		$comment_ID = wp_new_comment( $comment, true );
-		if ( is_wp_error( $comment_ID ) ) {
-			return new IXR_Error( 403, $comment_ID->get_error_message() );
+		$comment_id = wp_new_comment( $comment, true );
+		if ( is_wp_error( $comment_id ) ) {
+			return new IXR_Error( 403, $comment_id->get_error_message() );
 		}
 
-		if ( ! $comment_ID ) {
+		if ( ! $comment_id ) {
 			return new IXR_Error( 403, __( 'Something went wrong.' ) );
 		}
 
@@ -4013,12 +4013,12 @@ class wp_xmlrpc_server extends IXR_Server {
 		 *
 		 * @since 3.4.0
 		 *
-		 * @param int   $comment_ID ID of the new comment.
+		 * @param int   $comment_id ID of the new comment.
 		 * @param array $args       An array of new comment arguments.
 		 */
-		do_action( 'xmlrpc_call_success_wp_newComment', $comment_ID, $args ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.NotLowercase
+		do_action( 'xmlrpc_call_success_wp_newComment', $comment_id, $args ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.NotLowercase
 
-		return $comment_ID;
+		return $comment_id;
 	}
 
 	/**
@@ -7040,10 +7040,10 @@ class wp_xmlrpc_server extends IXR_Server {
 			'remote_source_original'
 		);
 
-		$comment_ID = wp_new_comment( $commentdata );
+		$comment_id = wp_new_comment( $commentdata );
 
-		if ( is_wp_error( $comment_ID ) ) {
-			return $this->pingback_error( 0, $comment_ID->get_error_message() );
+		if ( is_wp_error( $comment_id ) ) {
+			return $this->pingback_error( 0, $comment_id->get_error_message() );
 		}
 
 		/**
@@ -7051,9 +7051,9 @@ class wp_xmlrpc_server extends IXR_Server {
 		 *
 		 * @since 0.71
 		 *
-		 * @param int $comment_ID Comment ID.
+		 * @param int $comment_id Comment ID.
 		 */
-		do_action( 'pingback_post', $comment_ID );
+		do_action( 'pingback_post', $comment_id );
 
 		/* translators: 1: URL of the page linked from, 2: URL of the page linked to. */
 		return sprintf( __( 'Pingback from %1$s to %2$s registered. Keep the web talking! :-)' ), $pagelinkedfrom, $pagelinkedto );

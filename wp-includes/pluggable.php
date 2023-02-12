@@ -1875,7 +1875,7 @@ if ( ! function_exists( 'wp_notify_moderator' ) ) :
 		 * @since 4.4.0
 		 *
 		 * @param bool $maybe_notify Whether to notify blog moderator.
-		 * @param int  $comment_ID   The id of the comment for the notification.
+		 * @param int  $comment_id   The ID of the comment for the notification.
 		 */
 		$maybe_notify = apply_filters( 'notify_moderator', $maybe_notify, $comment_id );
 
