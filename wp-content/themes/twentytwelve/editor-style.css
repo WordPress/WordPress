@@ -278,7 +278,7 @@ tr th {
 }
 td {
 	border-top: 1px solid #ededed !important;
-	color: #757575;
+	color: inherit;
 	font-size: inherit;
 	font-weight: normal;
 	padding: 6px 10px 6px 0;

@@ -311,6 +311,10 @@ p.has-drop-cap:not(:focus)::first-letter {
 	width: 100%;
 }
 
+.editor-styles-wrapper .has-text-color th {
+	color: inherit;
+}
+
 .editor-block-list__block .wp-block-table th {
 	border: 0;
 	font-size: 11px;

@@ -232,6 +232,10 @@ pre.wp-block-code {
 	text-transform: uppercase;
 }
 
+.has-text-color th {
+	color: inherit;
+}
+
 .wp-block-table td {
 	border: 0;
 	border-top: 1px solid #ededed;
