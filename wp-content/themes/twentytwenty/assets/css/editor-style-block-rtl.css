@@ -683,6 +683,12 @@ hr.wp-block-separator.is-style-dots::before {
 	font-style: normal;
 }
 
+.editor-styles-wrapper .wp-block-quote.has-text-color cite,
+.editor-styles-wrapper .wp-block-quote.has-background cite,
+.editor-styles-wrapper .has-background .wp-block-quote cite {
+	color: inherit;
+}
+
 .editor-styles-wrapper .wp-block-quote p {
 	color: inherit;
 	font-weight: 400;
@@ -881,6 +887,12 @@ hr.wp-block-separator.is-style-dots::before {
 	font-weight: 500;
 	margin-top: 12px;
 	text-transform: none;
+}
+
+.editor-styles-wrapper .wp-block-pullquote.has-text-color cite,
+.editor-styles-wrapper .wp-block-pullquote.has-background cite,
+.editor-styles-wrapper .has-background .wp-block-pullquote cite {
+	color: inherit;
 }
 
 /* STYLE: SOLID COLOR */
