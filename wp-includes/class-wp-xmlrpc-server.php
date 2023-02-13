@@ -1,6 +1,6 @@
 <?php
 /**
- * XML-RPC protocol support for WordPress
+ * XML-RPC protocol support for WordPress.
  *
  * @package WordPress
  * @subpackage Publishing
@@ -60,9 +60,9 @@ class wp_xmlrpc_server extends IXR_Server {
 	/**
 	 * Registers all of the XMLRPC methods that XMLRPC server understands.
 	 *
-	 * Sets up server and method property. Passes XMLRPC
-	 * methods through the {@see 'xmlrpc_methods'} filter to allow plugins to extend
-	 * or replace XML-RPC methods.
+	 * Sets up server and method property. Passes XMLRPC methods through the
+	 * {@see 'xmlrpc_methods'} filter to allow plugins to extend or replace
+	 * XML-RPC methods.
 	 *
 	 * @since 1.5.0
 	 */
@@ -177,9 +177,9 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Set wp_xmlrpc_server::$is_enabled property.
+	 * Sets wp_xmlrpc_server::$is_enabled property.
 	 *
-	 * Determine whether the xmlrpc server is enabled on this WordPress install
+	 * Determines whether the xmlrpc server is enabled on this WordPress install
 	 * and set the is_enabled property accordingly.
 	 *
 	 * @since 5.7.3
@@ -220,7 +220,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Make private/protected methods readable for backward compatibility.
+	 * Makes private/protected methods readable for backward compatibility.
 	 *
 	 * @since 4.0.0
 	 *
@@ -245,7 +245,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Test XMLRPC API by saying, "Hello!" to client.
+	 * Tests XMLRPC API by saying, "Hello!" to client.
 	 *
 	 * @since 1.5.0
 	 *
@@ -256,7 +256,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Test XMLRPC API by adding two numbers for client.
+	 * Tests XMLRPC API by adding two numbers for client.
 	 *
 	 * @since 1.5.0
 	 *
@@ -275,13 +275,13 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Log user in.
+	 * Logs user in.
 	 *
 	 * @since 2.8.0
 	 *
 	 * @param string $username User's username.
 	 * @param string $password User's password.
-	 * @return WP_User|false WP_User object if authentication passed, false otherwise
+	 * @return WP_User|false WP_User object if authentication passed, false otherwise.
 	 */
 	public function login( $username, $password ) {
 		if ( ! $this->is_enabled ) {
@@ -318,7 +318,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Check user's credentials. Deprecated.
+	 * Checks user's credentials. Deprecated.
 	 *
 	 * @since 1.5.0
 	 * @deprecated 2.8.0 Use wp_xmlrpc_server::login()
@@ -333,7 +333,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Escape string or array of strings for database.
+	 * Escapes string or array of strings for database.
 	 *
 	 * @since 1.5.2
 	 *
@@ -356,9 +356,9 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Send error response to client.
+	 * Sends error response to client.
 	 *
-	 * Send an XML error response to the client. If the endpoint is enabled
+	 * Sends an XML error response to the client. If the endpoint is enabled
 	 * an HTTP 200 response is always sent per the XML-RPC specification.
 	 *
 	 * @since 5.7.3
@@ -380,7 +380,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieve custom fields for post.
+	 * Retrieves custom fields for post.
 	 *
 	 * @since 2.5.0
 	 *
@@ -409,7 +409,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Set custom fields for post.
+	 * Sets custom fields for post.
 	 *
 	 * @since 2.5.0
 	 *
@@ -447,7 +447,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieve custom fields for a term.
+	 * Retrieves custom fields for a term.
 	 *
 	 * @since 4.9.0
 	 *
@@ -476,7 +476,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Set custom fields for a term.
+	 * Sets custom fields for a term.
 	 *
 	 * @since 4.9.0
 	 *
@@ -509,7 +509,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Set up blog options property.
+	 * Sets up blog options property.
 	 *
 	 * Passes property through {@see 'xmlrpc_blog_options'} filter.
 	 *
@@ -678,7 +678,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieve the blogs of the user.
+	 * Retrieves the blogs of the user.
 	 *
 	 * @since 2.6.0
 	 *
@@ -868,7 +868,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Convert a WordPress date string to an IXR_Date object.
+	 * Converts a WordPress date string to an IXR_Date object.
 	 *
 	 * @param string $date Date string to convert.
 	 * @return IXR_Date IXR_Date object.
@@ -881,7 +881,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Convert a WordPress GMT date string to an IXR_Date object.
+	 * Converts a WordPress GMT date string to an IXR_Date object.
 	 *
 	 * @param string $date_gmt WordPress GMT date string.
 	 * @param string $date     Date string.
@@ -1261,7 +1261,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Create a new post for any registered post type.
+	 * Creates a new post for any registered post type.
 	 *
 	 * @since 3.4.0
 	 *
@@ -1361,8 +1361,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Encapsulate the logic for sticking a post
-	 * and determining if the user has permission to do so
+	 * Encapsulates the logic for sticking a post and determining if
+	 * the user has permission to do so.
 	 *
 	 * @since 4.3.0
 	 *
@@ -1706,7 +1706,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Edit a post for any registered post type.
+	 * Edits a post for any registered post type.
 	 *
 	 * The $content_struct parameter only needs to contain fields that
 	 * should be changed. All other fields will retain their existing values.
@@ -1792,7 +1792,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Delete a post for any registered post type.
+	 * Deletes a post for any registered post type.
 	 *
 	 * @since 3.4.0
 	 *
@@ -1846,7 +1846,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieve a post.
+	 * Retrieves a post.
 	 *
 	 * @since 3.4.0
 	 *
@@ -1941,7 +1941,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieve posts.
+	 * Retrieves posts.
 	 *
 	 * @since 3.4.0
 	 *
@@ -2050,7 +2050,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Create a new term.
+	 * Creates a new term.
 	 *
 	 * @since 3.4.0
 	 *
@@ -2153,7 +2153,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Edit a term.
+	 * Edits a term.
 	 *
 	 * @since 3.4.0
 	 *
@@ -2271,7 +2271,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Delete a term.
+	 * Deletes a term.
 	 *
 	 * @since 3.4.0
 	 *
@@ -2341,7 +2341,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieve a term.
+	 * Retrieves a term.
 	 *
 	 * @since 3.4.0
 	 *
@@ -2411,7 +2411,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieve all terms for a taxonomy.
+	 * Retrieves all terms for a taxonomy.
 	 *
 	 * @since 3.4.0
 	 *
@@ -2506,7 +2506,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieve a taxonomy.
+	 * Retrieves a taxonomy.
 	 *
 	 * @since 3.4.0
 	 *
@@ -2572,7 +2572,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieve all taxonomies.
+	 * Retrieves all taxonomies.
 	 *
 	 * @since 3.4.0
 	 *
@@ -2634,7 +2634,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieve a user.
+	 * Retrieves a user.
 	 *
 	 * The optional $fields parameter specifies what fields will be included
 	 * in the response array. This should be a list of field names. 'user_id' will
@@ -2716,7 +2716,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieve users.
+	 * Retrieves users.
 	 *
 	 * The optional $filter parameter modifies the query used to retrieve users.
 	 * Accepted keys are 'number' (default: 50), 'offset' (default: 0), 'role',
@@ -2806,7 +2806,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieve information about the requesting user.
+	 * Retrieves information about the requesting user.
 	 *
 	 * @uses get_userdata()
 	 *
@@ -2855,7 +2855,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Edit user's profile.
+	 * Edits user's profile.
 	 *
 	 * @uses wp_update_user()
 	 *
@@ -2946,7 +2946,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieve page.
+	 * Retrieves a page.
 	 *
 	 * @since 2.2.0
 	 *
@@ -2994,7 +2994,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieve Pages.
+	 * Retrieves Pages.
 	 *
 	 * @since 2.2.0
 	 *
@@ -3053,7 +3053,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Create new page.
+	 * Creates a new page.
 	 *
 	 * @since 2.2.0
 	 *
@@ -3090,7 +3090,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Delete page.
+	 * Deletes a page.
 	 *
 	 * @since 2.2.0
 	 *
@@ -3151,7 +3151,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Edit page.
+	 * Edits a page.
 	 *
 	 * @since 2.2.0
 	 *
@@ -3214,7 +3214,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieve page list.
+	 * Retrieves page list.
 	 *
 	 * @since 2.2.0
 	 *
@@ -3279,7 +3279,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieve authors list.
+	 * Retrieves authors list.
 	 *
 	 * @since 2.2.0
 	 *
@@ -3323,7 +3323,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Get list of all tags
+	 * Gets the list of all tags.
 	 *
 	 * @since 2.7.0
 	 *
@@ -3375,7 +3375,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Create new category.
+	 * Creates a new category.
 	 *
 	 * @since 2.2.0
 	 *
@@ -3458,7 +3458,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Remove category.
+	 * Deletes a category.
 	 *
 	 * @since 2.5.0
 	 *
@@ -3509,7 +3509,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieve category list.
+	 * Retrieves category list.
 	 *
 	 * @since 2.2.0
 	 *
@@ -3561,7 +3561,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieve comment.
+	 * Retrieves a comment.
 	 *
 	 * @since 2.7.0
 	 *
@@ -3603,7 +3603,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieve comments.
+	 * Retrieves comments.
 	 *
 	 * Besides the common blog_id (unused), username, and password arguments, it takes a filter
 	 * array as last argument.
@@ -3626,7 +3626,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *     @type string $2 Password.
 	 *     @type array  $3 Optional. Query arguments.
 	 * }
-	 * @return array|IXR_Error Contains a collection of comments. See wp_xmlrpc_server::wp_getComment() for a description of each item contents
+	 * @return array|IXR_Error Contains a collection of comments. See wp_xmlrpc_server::wp_getComment()
+	 *                         for a description of each item contents.
 	 */
 	public function wp_getComments( $args ) {
 		$this->escape( $args );
@@ -3698,7 +3699,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Delete a comment.
+	 * Deletes a comment.
 	 *
 	 * By default, the comment will be moved to the Trash instead of deleted.
 	 * See wp_delete_comment() for more information on this behavior.
@@ -3756,7 +3757,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Edit comment.
+	 * Edits a comment.
 	 *
 	 * Besides the common blog_id (unused), username, and password arguments, it takes a
 	 * comment_id integer and a content_struct array as last argument.
@@ -3767,7 +3768,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *  - 'author_email'
 	 *  - 'content'
 	 *  - 'date_created_gmt'
-	 *  - 'status'. Common statuses are 'approve', 'hold', 'spam'. See get_comment_statuses() for more details
+	 *  - 'status'. Common statuses are 'approve', 'hold', 'spam'. See get_comment_statuses() for more details.
 	 *
 	 * @since 2.7.0
 	 *
@@ -3867,7 +3868,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Create new comment.
+	 * Creates a new comment.
 	 *
 	 * @since 2.7.0
 	 *
@@ -4022,7 +4023,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieve all of the comment status.
+	 * Retrieves all of the comment status.
 	 *
 	 * @since 2.7.0
 	 *
@@ -4057,7 +4058,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieve comment count.
+	 * Retrieves comment counts.
 	 *
 	 * @since 2.5.0
 	 *
@@ -4106,7 +4107,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieve post statuses.
+	 * Retrieves post statuses.
 	 *
 	 * @since 2.5.0
 	 *
@@ -4141,7 +4142,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieve page statuses.
+	 * Retrieves page statuses.
 	 *
 	 * @since 2.5.0
 	 *
@@ -4176,7 +4177,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieve page templates.
+	 * Retrieves page templates.
 	 *
 	 * @since 2.6.0
 	 *
@@ -4211,7 +4212,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieve blog options.
+	 * Retrieves blog options.
 	 *
 	 * @since 2.6.0
 	 *
@@ -4246,7 +4247,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieve blog options value from list.
+	 * Retrieves blog options value from list.
 	 *
 	 * @since 2.6.0
 	 *
@@ -4275,7 +4276,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Update blog options.
+	 * Updates blog options.
 	 *
 	 * @since 2.6.0
 	 *
@@ -4324,7 +4325,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieve a media item by ID
+	 * Retrieves a media item by ID.
 	 *
 	 * @since 3.1.0
 	 *
@@ -4374,7 +4375,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieves a collection of media library items (or attachments)
+	 * Retrieves a collection of media library items (or attachments).
 	 *
 	 * Besides the common blog_id (unused), username, and password arguments, it takes a filter
 	 * array as last argument.
@@ -4397,7 +4398,9 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *     @type string $2 Password.
 	 *     @type array  $3 Query arguments.
 	 * }
-	 * @return array|IXR_Error Contains a collection of media items. See wp_xmlrpc_server::wp_getMediaItem() for a description of each item contents
+	 * @return array|IXR_Error Contains a collection of media items.
+	 *                   See wp_xmlrpc_server::wp_getMediaItem() for
+	 *                   a description of each item contents.
 	 */
 	public function wp_getMediaLibrary( $args ) {
 		$this->escape( $args );
@@ -4495,7 +4498,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieves a post type
+	 * Retrieves a post type.
 	 *
 	 * @since 3.4.0
 	 *
@@ -4568,7 +4571,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieves a post types
+	 * Retrieves post types.
 	 *
 	 * @since 3.4.0
 	 *
@@ -4627,7 +4630,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieve revisions for a specific post.
+	 * Retrieves revisions for a specific post.
 	 *
 	 * @since 3.5.0
 	 *
@@ -4720,7 +4723,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Restore a post revision
+	 * Restores a post revision.
 	 *
 	 * @since 3.5.0
 	 *
@@ -4789,7 +4792,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 */
 
 	/**
-	 * Retrieve blogs that user owns.
+	 * Retrieves blogs that user owns.
 	 *
 	 * Will make more sense once we support multiple blogs.
 	 *
@@ -4840,7 +4843,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Private function for retrieving a users blogs for multisite setups
+	 * Private function for retrieving a users blogs for multisite setups.
 	 *
 	 * @since 3.0.0
 	 *
@@ -4877,7 +4880,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieve user's data.
+	 * Retrieves user's data.
 	 *
 	 * Gives your client some info about you, so you don't have to.
 	 *
@@ -4922,7 +4925,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieve post.
+	 * Retrieves a post.
 	 *
 	 * @since 1.5.0
 	 *
@@ -4977,7 +4980,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieve list of recent posts.
+	 * Retrieves the list of recent posts.
 	 *
 	 * @since 1.5.0
 	 *
@@ -5075,7 +5078,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Creates new post.
+	 * Creates a new post.
 	 *
 	 * @since 1.5.0
 	 *
@@ -5150,7 +5153,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Edit a post.
+	 * Edits a post.
 	 *
 	 * @since 1.5.0
 	 *
@@ -5229,7 +5232,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Remove a post.
+	 * Deletes a post.
 	 *
 	 * @since 1.5.0
 	 *
@@ -5293,7 +5296,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 */
 
 	/**
-	 * Create a new post.
+	 * Creates a new post.
 	 *
 	 * The 'content_struct' argument must contain:
 	 *  - title
@@ -5665,7 +5668,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Attach upload to a post.
+	 * Attaches an upload to a post.
 	 *
 	 * @since 2.1.0
 	 *
@@ -5689,7 +5692,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Edit a post.
+	 * Edits a post.
 	 *
 	 * @since 1.5.0
 	 *
@@ -6021,7 +6024,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieve post.
+	 * Retrieves a post.
 	 *
 	 * @since 1.5.0
 	 *
@@ -6162,7 +6165,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieve list of recent posts.
+	 * Retrieves list of recent posts.
 	 *
 	 * @since 1.5.0
 	 *
@@ -6289,7 +6292,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieve the list of categories on a given blog.
+	 * Retrieves the list of categories on a given blog.
 	 *
 	 * @since 1.5.0
 	 *
@@ -6467,7 +6470,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 */
 
 	/**
-	 * Retrieve the post titles of recent posts.
+	 * Retrieves the post titles of recent posts.
 	 *
 	 * @since 1.5.0
 	 *
@@ -6531,7 +6534,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieve list of all categories on blog.
+	 * Retrieves the list of all categories on a blog.
 	 *
 	 * @since 1.5.0
 	 *
@@ -6584,7 +6587,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieve post categories.
+	 * Retrieves post categories.
 	 *
 	 * @since 1.5.0
 	 *
@@ -6686,7 +6689,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieve an array of methods supported by this server.
+	 * Retrieves an array of methods supported by this server.
 	 *
 	 * @since 1.5.0
 	 *
@@ -6700,7 +6703,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieve an empty array because we don't support per-post text filters.
+	 * Retrieves an empty array because we don't support per-post text filters.
 	 *
 	 * @since 1.5.0
 	 */
@@ -6719,7 +6722,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieve trackbacks sent to a given post.
+	 * Retrieves trackbacks sent to a given post.
 	 *
 	 * @since 1.5.0
 	 *
@@ -7060,7 +7063,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Retrieve array of URLs that pingbacked the given URL.
+	 * Retrieves an array of URLs that pingbacked the given URL.
 	 *
 	 * Specs on http://www.aquarionics.com/misc/archives/blogite/0198.html
 	 *
