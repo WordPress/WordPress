@@ -2277,7 +2277,8 @@ function kses_init() {
  *              nested `var()` values, and assigning values to CSS variables.
  *              Added support for `object-fit`, `gap`, `column-gap`, `row-gap`, and `flex-wrap`.
  *              Extended `margin-*` and `padding-*` support for logical properties.
- * @since 6.2.0 Added support for `position`, `top`, `right`, `bottom`, `left` and `z-index` position CSS properties.
+ * @since 6.2.0 Added support for `aspect-ratio`, `position`, `top`, `right`, `bottom`, `left`,
+ *              and `z-index` CSS properties.
  *
  * @param string $css        A string of CSS rules.
  * @param string $deprecated Not used.
@@ -2445,6 +2446,7 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 			'bottom',
 			'left',
 			'z-index',
+			'aspect-ratio',
 
 			// Custom CSS properties.
 			'--*',
