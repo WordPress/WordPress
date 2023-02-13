@@ -3520,13 +3520,14 @@ function _wp_theme_json_webfonts_handler() {
 	 * Compiles the 'src' into valid CSS.
 	 *
 	 * @since 6.0.0
+	 * @since 6.2.0 Removed local() CSS.
 	 *
 	 * @param string $font_family Font family.
 	 * @param array  $value       Value to process.
 	 * @return string The CSS.
 	 */
 	$fn_compile_src = static function( $font_family, array $value ) {
-		$src = "local($font_family)";
+		$src = '';
 
 		foreach ( $value as $item ) {
 
@@ -3541,6 +3542,8 @@ function _wp_theme_json_webfonts_handler() {
 				? ", url({$item['url']})"
 				: ", url('{$item['url']}') format('{$item['format']}')";
 		}
+
+		$src = ltrim( $src, ', ' );
 
 		return $src;
 	};
