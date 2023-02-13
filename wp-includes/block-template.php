@@ -241,7 +241,7 @@ function get_the_block_template_html() {
 	$content = wptexturize( $content );
 	$content = convert_smilies( $content );
 	$content = shortcode_unautop( $content );
-	$content = wp_filter_content_tags( $content );
+	$content = wp_filter_content_tags( $content, 'template' );
 	$content = do_shortcode( $content );
 	$content = str_replace( ']]>', ']]&gt;', $content );
 
