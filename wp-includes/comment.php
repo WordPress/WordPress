@@ -3692,7 +3692,7 @@ function wp_comments_personal_data_exporter( $email_address, $page = 1 ) {
 			'author_email'              => $email_address,
 			'number'                    => $number,
 			'paged'                     => $page,
-			'order_by'                  => 'comment_ID',
+			'orderby'                   => 'comment_ID',
 			'order'                     => 'ASC',
 			'update_comment_meta_cache' => false,
 		)
@@ -3815,7 +3815,7 @@ function wp_comments_personal_data_eraser( $email_address, $page = 1 ) {
 			'author_email'       => $email_address,
 			'number'             => $number,
 			'paged'              => $page,
-			'order_by'           => 'comment_ID',
+			'orderby'            => 'comment_ID',
 			'order'              => 'ASC',
 			'include_unapproved' => true,
 		)
