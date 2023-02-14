@@ -338,15 +338,19 @@ printf(
 			</legend>
 			<?php foreach ( $default_structures as $input ) : ?>
 			<div class="row">
-				<input id="permalink-input-<?php echo $input['id']; ?>"
-					name="selection" aria-describedby="permalink-<?php echo $input['id']; ?>"
+				<input id="permalink-input-<?php echo esc_attr( $input['id'] ); ?>"
+					name="selection" aria-describedby="permalink-<?php echo esc_attr( $input['id'] ); ?>"
 					type="radio" value="<?php echo esc_attr( $input['value'] ); ?>"
 					<?php checked( $input['value'], $permalink_structure ); ?>
 				/>
 				<div>
-					<label for="permalink-input-<?php echo $input['id']; ?>"><?php echo $input['label']; ?></label>
+					<label for="permalink-input-<?php echo esc_attr( $input['id'] ); ?>">
+						<?php echo esc_html( $input['label'] ); ?>
+					</label>
 					<p>
-						<code id="permalink-<?php echo $input['id']; ?>"><?php echo $input['example']; ?></code>
+						<code id="permalink-<?php echo esc_attr( $input['id'] ); ?>">
+							<?php echo esc_html( $input['example'] ); ?>
+						</code>
 					</p>
 				</div>
 			</div><!-- .row -->
@@ -367,7 +371,7 @@ printf(
 							?>
 						</label>
 						<span class="code">
-							<code id="permalink-custom"><?php echo $url_base; ?></code>
+							<code id="permalink-custom"><?php echo esc_url( $url_base ); ?></code>
 							<input name="permalink_structure" id="permalink_structure"
 								type="text" value="<?php echo esc_attr( $permalink_structure ); ?>"
 								aria-describedby="permalink-custom" class="regular-text code"
@@ -389,7 +393,7 @@ printf(
 										data-added="<?php echo esc_attr( sprintf( $tag_added, $tag ) ); ?>"
 										data-removed="<?php echo esc_attr( sprintf( $tag_removed, $tag ) ); ?>"
 										data-used="<?php echo esc_attr( sprintf( $tag_already_used, $tag ) ); ?>">
-										<?php echo '%' . $tag . '%'; ?>
+										<?php echo '%' . esc_html( $tag ) . '%'; ?>
 									</button>
 								</li>
 							<?php endforeach; ?>
