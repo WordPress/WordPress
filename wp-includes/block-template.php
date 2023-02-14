@@ -27,7 +27,7 @@ function _add_template_loader_filters() {
 
 	// Request to resolve a template.
 	if ( isset( $_GET['_wp-find-template'] ) ) {
-		add_filter( 'pre_get_posts', '_resolve_template_for_new_post' );
+		add_action( 'pre_get_posts', '_resolve_template_for_new_post' );
 	}
 }
 
