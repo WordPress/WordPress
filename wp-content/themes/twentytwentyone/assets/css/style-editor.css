@@ -931,19 +931,6 @@ a:hover {
 	color: var(--global--color-white);
 }
 
-.wp-block-group {
-	display: block;
-	clear: both;
-	display: flow-root;
-}
-
-.wp-block-group:before,
-.wp-block-group:after {
-	content: "";
-	display: block;
-	clear: both;
-}
-
 .wp-block-group.has-background {
 	padding: var(--global--spacing-vertical);
 }
