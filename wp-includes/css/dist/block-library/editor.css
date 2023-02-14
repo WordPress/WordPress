@@ -2644,3 +2644,6 @@ div[data-type="core/post-featured-image"] img{
 .editor-styles-wrapper .has-huge-font-size{
   font-size:var(--wp--preset--font-size--huge);
 }
+.editor-styles-wrapper iframe:not([frameborder]){
+  border:0;
+}

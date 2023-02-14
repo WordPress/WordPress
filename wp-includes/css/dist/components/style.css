@@ -2598,18 +2598,7 @@ body.lockscroll,html.lockscroll{
 
 .components-select-control__input{
   -webkit-tap-highlight-color:rgba(0, 0, 0, 0) !important;
-  background:#fff;
-  height:36px;
-  line-height:36px;
-  margin:1px;
   outline:0;
-  width:100%;
-}
-@media (min-width:782px){
-  .components-select-control__input{
-    height:28px;
-    line-height:28px;
-  }
 }
 
 @media (max-width:782px){

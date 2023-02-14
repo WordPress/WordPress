@@ -7,3 +7,8 @@
   padding:calc(.667em + 2px) calc(1.333em + 2px);
   text-decoration:none;
 }
+
+.wp-block-file__button{
+  background:#32373c;
+  color:#fff;
+}

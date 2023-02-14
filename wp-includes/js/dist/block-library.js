@@ -13850,7 +13850,7 @@ function getInnerBlocksTemplate(attributes) {
 const isTemporaryMedia = (id, url) => !id && (0,external_wp_blob_namespaceObject.isBlobURL)(url);
 
 function CoverEdit(_ref) {
-  var _useSetting;
+  var _attributes$url, _useSetting;
 
   let {
     attributes,
@@ -13890,7 +13890,8 @@ function CoverEdit(_ref) {
   // depending on the value of the useFeaturedImage flag
   // to preview in edit the dynamic featured image
 
-  const url = useFeaturedImage ? mediaUrl : attributes.url;
+  const url = useFeaturedImage ? mediaUrl : // Ensure the url is not malformed due to sanitization through `wp_kses`.
+  (_attributes$url = attributes.url) === null || _attributes$url === void 0 ? void 0 : _attributes$url.replaceAll('&amp;', '&');
   const backgroundType = useFeaturedImage ? IMAGE_BACKGROUND_TYPE : attributes.backgroundType;
   const {
     __unstableMarkNextChangeAsNotPersistent
@@ -23748,6 +23749,7 @@ function image_Image(_ref) {
     canInsertCover,
     imageEditing,
     imageSizes,
+    maxWidth,
     mediaUpload
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
@@ -23758,7 +23760,7 @@ function image_Image(_ref) {
     const rootClientId = getBlockRootClientId(clientId);
     const settings = Object.fromEntries(Object.entries(getSettings()).filter(_ref2 => {
       let [key] = _ref2;
-      return ['imageEditing', 'imageSizes', 'mediaUpload'].includes(key);
+      return ['imageEditing', 'imageSizes', 'maxWidth', 'mediaUpload'].includes(key);
     }));
     return { ...settings,
       canInsertCover: canInsertBlockType('core/cover', rootClientId)
@@ -24105,10 +24107,14 @@ function image_Image(_ref) {
     const minHeight = naturalHeight < naturalWidth ? constants_MIN_SIZE : constants_MIN_SIZE / ratio; // With the current implementation of ResizableBox, an image needs an
     // explicit pixel value for the max-width. In absence of being able to
     // set the content-width, this max-width is currently dictated by the
-    // vanilla editor style. We'll use the clientWidth here, to prevent the width
-    // of the image growing larger than the width of the block column.
+    // vanilla editor style. The following variable adds a buffer to this
+    // vanilla style, so 3rd party themes have some wiggleroom. This does,
+    // in most cases, allow you to scale the image beyond the width of the
+    // main column, though not infinitely.
+    // @todo It would be good to revisit this once a content-width variable
+    // becomes available.
 
-    const maxWidthBuffer = clientWidth;
+    const maxWidthBuffer = maxWidth * 2.5;
     let showRightHandle = false;
     let showLeftHandle = false;
     /* eslint-disable no-lonely-if */
@@ -30838,7 +30844,6 @@ function UnsavedInnerBlocks(_ref) {
   });
   const {
     isSaving,
-    draftNavigationMenus,
     hasResolvedDraftNavigationMenus
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
     if (isDisabled) {
@@ -30852,13 +30857,13 @@ function UnsavedInnerBlocks(_ref) {
     } = select(external_wp_coreData_namespaceObject.store);
     return {
       isSaving: isSavingEntityRecord('postType', 'wp_navigation'),
-      draftNavigationMenus: getEntityRecords(...DRAFT_MENU_PARAMS),
+      draftNavigationMenus: getEntityRecords( // This is needed so that hasResolvedDraftNavigationMenus gives the correct status.
+      ...DRAFT_MENU_PARAMS),
       hasResolvedDraftNavigationMenus: hasFinishedResolution('getEntityRecords', DRAFT_MENU_PARAMS)
     };
   }, [isDisabled]);
   const {
-    hasResolvedNavigationMenus,
-    navigationMenus
+    hasResolvedNavigationMenus
   } = useNavigationMenu(); // Automatically save the uncontrolled blocks.
 
   (0,external_wp_element_namespaceObject.useEffect)(() => {
@@ -30879,7 +30884,7 @@ function UnsavedInnerBlocks(_ref) {
     }
 
     createNavigationMenu(null, blocks);
-  }, [isDisabled, isSaving, hasResolvedDraftNavigationMenus, hasResolvedNavigationMenus, draftNavigationMenus, navigationMenus, hasSelection, createNavigationMenu, blocks]);
+  }, [isDisabled, isSaving, hasResolvedDraftNavigationMenus, hasResolvedNavigationMenus, innerBlocksAreDirty, hasSelection]);
   const Wrapper = isSaving ? external_wp_components_namespaceObject.Disabled : 'div';
   return (0,external_wp_element_namespaceObject.createElement)(Wrapper, innerBlocksProps);
 }
@@ -31188,7 +31193,8 @@ function useCreateNavigationMenu(clientId) {
   const [value, setValue] = (0,external_wp_element_namespaceObject.useState)(null);
   const [error, setError] = (0,external_wp_element_namespaceObject.useState)(null);
   const {
-    saveEntityRecord
+    saveEntityRecord,
+    editEntityRecord
   } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_coreData_namespaceObject.store);
   const generateDefaultTitle = useGenerateDefaultNavigationTitle(clientId); // This callback uses data from the two placeholder steps and only creates
   // a new navigation menu when the user completes the final step.
@@ -31229,7 +31235,15 @@ function useCreateNavigationMenu(clientId) {
 
     return saveEntityRecord('postType', 'wp_navigation', record).then(response => {
       setValue(response);
-      setStatus(CREATE_NAVIGATION_MENU_SUCCESS);
+      setStatus(CREATE_NAVIGATION_MENU_SUCCESS); // Set the status to publish so that the Navigation block
+      // shows up in the multi entity save flow.
+
+      if (postStatus !== 'publish') {
+        editEntityRecord('postType', 'wp_navigation', response.id, {
+          status: 'publish'
+        });
+      }
+
       return response;
     }).catch(err => {
       setError(err === null || err === void 0 ? void 0 : err.message);
@@ -31850,9 +31864,9 @@ const LeafMoreMenu = props => {
   });
 };
 
-;// CONCATENATED MODULE: external ["wp","experiments"]
-var external_wp_experiments_namespaceObject = window["wp"]["experiments"];
-;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/experiments.js
+;// CONCATENATED MODULE: external ["wp","privateApis"]
+var external_wp_privateApis_namespaceObject = window["wp"]["privateApis"];
+;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/private-apis.js
 /**
  * WordPress dependencies
  */
@@ -31860,7 +31874,7 @@ var external_wp_experiments_namespaceObject = window["wp"]["experiments"];
 const {
   lock,
   unlock
-} = (0,external_wp_experiments_namespaceObject.__dangerousOptInToUnstableAPIsOnlyForCoreModules)('I know using unstable features means my plugin or theme will inevitably break on the next WordPress release.', '@wordpress/block-library');
+} = (0,external_wp_privateApis_namespaceObject.__dangerousOptInToUnstableAPIsOnlyForCoreModules)('I know using unstable features means my plugin or theme will inevitably break on the next WordPress release.', '@wordpress/block-library');
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/navigation/edit/deleted-navigation-warning.js
 
@@ -31917,7 +31931,7 @@ const MainContent = _ref => {
   } = _ref;
   const {
     OffCanvasEditor
-  } = unlock(external_wp_blockEditor_namespaceObject.experiments); // Provide a hierarchy of clientIds for the given Navigation block (clientId).
+  } = unlock(external_wp_blockEditor_namespaceObject.privateApis); // Provide a hierarchy of clientIds for the given Navigation block (clientId).
   // This is required else the list view will display the entire block tree.
 
   const clientIdsTree = (0,external_wp_data_namespaceObject.useSelect)(select => {
@@ -32077,10 +32091,7 @@ function Navigation(_ref) {
   };
 
   const recursionId = `navigationMenu/${ref}`;
-  const hasAlreadyRendered = (0,external_wp_blockEditor_namespaceObject.__experimentalUseHasRecursion)(recursionId);
-  const {
-    editEntityRecord
-  } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_coreData_namespaceObject.store); // Preload classic menus, so that they don't suddenly pop-in when viewing
+  const hasAlreadyRendered = (0,external_wp_blockEditor_namespaceObject.__experimentalUseHasRecursion)(recursionId); // Preload classic menus, so that they don't suddenly pop-in when viewing
   // the Select Menu dropdown.
 
   const {
@@ -32091,9 +32102,6 @@ function Navigation(_ref) {
   });
   const [showClassicMenuConversionNotice, hideClassicMenuConversionNotice] = use_navigation_notice({
     name: 'block-library/core/navigation/classic-menu-conversion'
-  });
-  const [showMenuAutoPublishDraftNotice, hideMenuAutoPublishDraftNotice] = use_navigation_notice({
-    name: 'block-library/core/navigation/auto-publish-draft'
   });
   const [showNavigationMenuPermissionsNotice, hideNavigationMenuPermissionsNotice] = use_navigation_notice({
     name: 'block-library/core/navigation/permissions/update'
@@ -32149,7 +32157,6 @@ function Navigation(_ref) {
     isNavigationMenuResolved,
     isNavigationMenuMissing,
     navigationMenus,
-    navigationMenu,
     canUserUpdateNavigationMenu,
     hasResolvedCanUserUpdateNavigationMenu,
     canUserDeleteNavigationMenu,
@@ -32374,24 +32381,7 @@ function Navigation(_ref) {
   const isResponsive = 'never' !== overlayMenu;
   const overlayMenuPreviewClasses = classnames_default()('wp-block-navigation__overlay-menu-preview', {
     open: overlayMenuPreview
-  }); // Prompt the user to publish the menu they have set as a draft
-
-  const isDraftNavigationMenu = (navigationMenu === null || navigationMenu === void 0 ? void 0 : navigationMenu.status) === 'draft';
-  (0,external_wp_element_namespaceObject.useEffect)(() => {
-    hideMenuAutoPublishDraftNotice();
-
-    if (!isDraftNavigationMenu) {
-      return;
-    }
-
-    editEntityRecord('postType', 'wp_navigation', navigationMenu === null || navigationMenu === void 0 ? void 0 : navigationMenu.id, {
-      status: 'publish'
-    }, {
-      throwOnError: true
-    }).catch(() => {
-      showMenuAutoPublishDraftNotice((0,external_wp_i18n_namespaceObject.__)('Error occurred while publishing the navigation menu.'));
-    });
-  }, [isDraftNavigationMenu, navigationMenu]);
+  });
   const colorGradientSettings = (0,external_wp_blockEditor_namespaceObject.__experimentalUseMultipleOriginColorsAndGradients)();
   const stylingInspectorControls = (0,external_wp_element_namespaceObject.createElement)(external_wp_element_namespaceObject.Fragment, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.InspectorControls, null, hasSubmenuIndicatorSetting && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.PanelBody, {
     title: (0,external_wp_i18n_namespaceObject.__)('Display')
@@ -32518,8 +32508,6 @@ function Navigation(_ref) {
     }, (0,external_wp_element_namespaceObject.createElement)(UnsavedInnerBlocks, {
       createNavigationMenu: createNavigationMenu,
       blocks: uncontrolledInnerBlocks,
-      templateLock: templateLock,
-      navigationMenus: navigationMenus,
       hasSelection: isSelected || isInnerBlockSelected
     })));
   } // Show a warning if the selected menu is no longer available.
