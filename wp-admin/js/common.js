@@ -1703,7 +1703,7 @@ $( function() {
 			} );
 
 			// Close sidebar when focus moves outside of toggle and sidebar.
-			$( '#wp-admin-bar-menu-toggle, #adminmenumain' ).on( 'focusout', function( e ) {
+			$( '#wp-admin-bar-menu-toggle, #adminmenumain' ).on( 'focusout', function() {
 				var focusIsInToggle, focusIsInSidebar;
 
 				if ( ! $wpwrap.hasClass( 'wp-responsive-open' ) || ! document.hasFocus() ) {
