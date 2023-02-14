@@ -32,7 +32,8 @@ function mysql2date( $format, $date, $translate = true ) {
 		return false;
 	}
 
-	$datetime = date_create( $date, wp_timezone() );
+	$timezone = wp_timezone();
+	$datetime = date_create( $date, $timezone );
 
 	if ( false === $datetime ) {
 		return false;
@@ -44,7 +45,7 @@ function mysql2date( $format, $date, $translate = true ) {
 	}
 
 	if ( $translate ) {
-		return wp_date( $format, $datetime->getTimestamp() );
+		return wp_date( $format, $datetime->getTimestamp(), $timezone );
 	}
 
 	return $datetime->format( $format );
