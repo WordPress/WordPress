@@ -212,7 +212,7 @@ if ( apply_filters( 'enable_update_services_configuration', true ) ) {
 		<?php
 		printf(
 			/* translators: %s: Documentation URL. */
-			__( 'When you publish a new post, WordPress automatically notifies the following site update services. For more about this, see <a href="%s">Update Services</a> on the Codex. Separate multiple service URLs with line breaks.' ),
+			__( 'When you publish a new post, WordPress automatically notifies the following site update services. For more about this, see the <a href="%s">Update Services</a> documentation article. Separate multiple service URLs with line breaks.' ),
 			__( 'https://wordpress.org/support/article/update-services/' )
 		);
 		?>
