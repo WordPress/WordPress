@@ -59,7 +59,7 @@ class WP_Textdomain_Registry {
 	/**
 	 * Holds a cached list of domains with translations to improve performance.
 	 *
-	 * @since 6.1.2
+	 * @since 6.2.0
 	 *
 	 * @var string[]
 	 */
@@ -137,7 +137,7 @@ class WP_Textdomain_Registry {
 	/**
 	 * Returns possible language directory paths for a given text domain.
 	 *
-	 * @since 6.1.2
+	 * @since 6.2.0
 	 *
 	 * @param string $domain Text domain.
 	 * @return string[] Array of language directory paths.

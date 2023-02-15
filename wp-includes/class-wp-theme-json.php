@@ -272,7 +272,8 @@ class WP_Theme_JSON {
 	 * but are used elsewhere in the processing of global styles. The indirect
 	 * property is used to validate whether or not a style value is allowed.
 	 *
-	 * @since 6.1.2
+	 * @since 6.2.0
+	 *
 	 * @var array
 	 */
 	const INDIRECT_PROPERTIES_METADATA = array(
@@ -3036,7 +3037,7 @@ class WP_Theme_JSON {
 	 * Removes indirect properties from the given input node and
 	 * sets in the given output node.
 	 *
-	 * @since 6.1.2
+	 * @since 6.2.0
 	 *
 	 * @param array $input  Node to process.
 	 * @param array $output The processed node. Passed by reference.

@@ -649,7 +649,7 @@ function _nav_menu_item_id_use_once( $id, $item ) {
  *
  * @see https://core.trac.wordpress.org/ticket/56926.
  *
- * @since 6.1.2
+ * @since 6.2.0
  *
  * @param string[]       $classes   Array of the CSS classes that are applied to the menu item's `<li>` element.
  * @param WP_Post        $menu_item The current menu item object.

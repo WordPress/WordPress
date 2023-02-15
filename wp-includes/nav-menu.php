@@ -1285,7 +1285,7 @@ function wp_map_nav_menu_locations( $new_nav_menu_locations, $old_nav_menu_locat
  * Resets menu_item_parent to 0 when the parent is set to the item itself.
  * For use before saving `_menu_item_menu_item_parent` in nav-menus.php.
  *
- * @since 6.1.2
+ * @since 6.2.0
  * @access private
  *
  * @param array $menu_item_data The menu item data array.
