@@ -235,7 +235,7 @@ class WP_Locale {
 
 		$this->number_format['decimal_point'] = ( 'number_format_decimal_point' === $decimal_point ) ? '.' : $decimal_point;
 
-		/* translators: used between list items, there is a space after the comma */
+		/* translators: Used between list items, there is a space after the comma. */
 		$this->list_item_separator = __( ', ' );
 
 		// Set text direction.
