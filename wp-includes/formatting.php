@@ -2111,15 +2111,15 @@ function sanitize_file_name( $filename ) {
 /**
  * Sanitizes a username, stripping out unsafe characters.
  *
- * Removes tags, octets, entities, and if strict is enabled, will only keep
- * alphanumeric, _, space, ., -, @. After sanitizing, it passes the username,
- * raw username (the username in the parameter), and the value of $strict as
- * parameters for the {@see 'sanitize_user'} filter.
+ * Removes tags, percent-encoded characters, HTML entities, and if strict is enabled,
+ * will only keep alphanumeric, _, space, ., -, @. After sanitizing, it passes the username,
+ * raw username (the username in the parameter), and the value of $strict as parameters
+ * for the {@see 'sanitize_user'} filter.
  *
  * @since 2.0.0
  *
  * @param string $username The username to be sanitized.
- * @param bool   $strict   Optional. If set limits $username to specific characters.
+ * @param bool   $strict   Optional. If set to true, limits $username to specific characters.
  *                         Default false.
  * @return string The sanitized username, after passing through filters.
  */
@@ -2127,9 +2127,9 @@ function sanitize_user( $username, $strict = false ) {
 	$raw_username = $username;
 	$username     = wp_strip_all_tags( $username );
 	$username     = remove_accents( $username );
-	// Kill octets.
+	// Remove percent-encoded characters.
 	$username = preg_replace( '|%([a-fA-F0-9][a-fA-F0-9])|', '', $username );
-	// Kill entities.
+	// Remove HTML entities.
 	$username = preg_replace( '/&.+?;/', '', $username );
 
 	// If strict, reduce to ASCII for max portability.
@@ -2364,7 +2364,7 @@ function sanitize_title_with_dashes( $title, $raw_title = '', $context = 'displa
 		$title = str_replace( '%c3%97', 'x', $title );
 	}
 
-	// Kill entities.
+	// Remove HTML entities.
 	$title = preg_replace( '/&.+?;/', '', $title );
 	$title = str_replace( '.', '-', $title );
 
@@ -2412,7 +2412,7 @@ function sanitize_sql_orderby( $orderby ) {
  * @return string The sanitized value.
  */
 function sanitize_html_class( $classname, $fallback = '' ) {
-	// Strip out any %-encoded octets.
+	// Strip out any percent-encoded characters.
 	$sanitized = preg_replace( '|%[a-fA-F0-9][a-fA-F0-9]|', '', $classname );
 
 	// Limit to A-Z, a-z, 0-9, '_', '-'.
@@ -5450,7 +5450,7 @@ function wp_strip_all_tags( $text, $remove_breaks = false ) {
  * - Converts single `<` characters to entities
  * - Strips all tags
  * - Removes line breaks, tabs, and extra whitespace
- * - Strips octets
+ * - Strips percent-encoded characters
  *
  * @since 2.9.0
  *
@@ -5527,8 +5527,10 @@ function _sanitize_text_fields( $str, $keep_newlines = false ) {
 		// This will strip extra whitespace for us.
 		$filtered = wp_strip_all_tags( $filtered, false );
 
-		// Use HTML entities in a special case to make sure no later
-		// newline stripping stage could lead to a functional tag.
+		/*
+		 * Use HTML entities in a special case to make sure that
+		 * later newline stripping stages cannot lead to a functional tag.
+		 */
 		$filtered = str_replace( "<\n", "&lt;\n", $filtered );
 	}
 
@@ -5537,6 +5539,7 @@ function _sanitize_text_fields( $str, $keep_newlines = false ) {
 	}
 	$filtered = trim( $filtered );
 
+	// Remove percent-encoded characters.
 	$found = false;
 	while ( preg_match( '/%[a-f0-9]{2}/i', $filtered, $match ) ) {
 		$filtered = str_replace( $match[0], '', $filtered );
@@ -5544,7 +5547,7 @@ function _sanitize_text_fields( $str, $keep_newlines = false ) {
 	}
 
 	if ( $found ) {
-		// Strip out the whitespace that may now exist after removing the octets.
+		// Strip out the whitespace that may now exist after removing percent-encoded characters.
 		$filtered = trim( preg_replace( '/ +/', ' ', $filtered ) );
 	}
 

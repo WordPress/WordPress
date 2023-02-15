@@ -944,7 +944,7 @@ function get_comments_number_text( $zero = false, $one = false, $more = false, $
 			 */
 			if ( 'on' === _x( 'off', 'Comment number declension: on or off' ) ) {
 				$text = preg_replace( '#<span class="screen-reader-text">.+?</span>#', '', $more );
-				$text = preg_replace( '/&.+?;/', '', $text ); // Kill entities.
+				$text = preg_replace( '/&.+?;/', '', $text ); // Remove HTML entities.
 				$text = trim( strip_tags( $text ), '% ' );
 
 				// Replace '% Comments' with a proper plural form.
