@@ -263,6 +263,35 @@ class WP_Theme_JSON {
 	);
 
 	/**
+	 * Indirect metadata for style properties that are not directly output.
+	 *
+	 * Each element maps from a CSS property name to an array of
+	 * paths to the value in theme.json & block attributes.
+	 *
+	 * Indirect properties are not output directly by `compute_style_properties`,
+	 * but are used elsewhere in the processing of global styles. The indirect
+	 * property is used to validate whether or not a style value is allowed.
+	 *
+	 * @since 6.1.2
+	 * @var array
+	 */
+	const INDIRECT_PROPERTIES_METADATA = array(
+		'gap'        => array(
+			array( 'spacing', 'blockGap' ),
+		),
+		'column-gap' => array(
+			array( 'spacing', 'blockGap', 'left' ),
+		),
+		'row-gap'    => array(
+			array( 'spacing', 'blockGap', 'top' ),
+		),
+		'max-width'  => array(
+			array( 'layout', 'contentSize' ),
+			array( 'layout', 'wideSize' ),
+		),
+	);
+
+	/**
 	 * Protected style properties.
 	 *
 	 * These style properties are only rendered if a setting enables it
@@ -2949,6 +2978,10 @@ class WP_Theme_JSON {
 				}
 			}
 		}
+
+		// Ensure indirect properties not included in any `PRESETS_METADATA` value are allowed.
+		static::remove_indirect_properties( $input, $output );
+
 		return $output;
 	}
 
@@ -2977,6 +3010,10 @@ class WP_Theme_JSON {
 				}
 			}
 		}
+
+		// Ensure indirect properties not handled by `compute_style_properties` are allowed.
+		static::remove_indirect_properties( $input, $output );
+
 		return $output;
 	}
 
@@ -2993,6 +3030,29 @@ class WP_Theme_JSON {
 		$style_to_validate = $property_name . ': ' . $property_value;
 		$filtered          = esc_html( safecss_filter_attr( $style_to_validate ) );
 		return ! empty( trim( $filtered ) );
+	}
+
+	/**
+	 * Removes indirect properties from the given input node and
+	 * sets in the given output node.
+	 *
+	 * @since 6.1.2
+	 *
+	 * @param array $input  Node to process.
+	 * @param array $output The processed node. Passed by reference.
+	 */
+	private static function remove_indirect_properties( $input, &$output ) {
+		foreach ( static::INDIRECT_PROPERTIES_METADATA as $property => $paths ) {
+			foreach ( $paths as $path ) {
+				$value = _wp_array_get( $input, $path );
+				if (
+					is_string( $value ) &&
+					static::is_safe_css_declaration( $property, $value )
+				) {
+					_wp_array_set( $output, $path, $value );
+				}
+			}
+		}
 	}
 
 	/**
