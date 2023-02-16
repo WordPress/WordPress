@@ -200,10 +200,9 @@ function wp_nav_menu( $args = array() ) {
 	foreach ( (array) $menu_items as $menu_item ) {
 		/*
 		 * Fix invalid `menu_item_parent`. See: https://core.trac.wordpress.org/ticket/56926.
-		 * Compare as strings. Plugins may change the ID to string.
-		 * To avoid modifying the object, use `strval()` rather than casting to (string).
+		 * Compare as strings. Plugins may change the ID to a string.
 		 */
-		if ( strval( $menu_item->ID ) === strval( $menu_item->menu_item_parent ) ) {
+		if ( (string) $menu_item->ID === (string) $menu_item->menu_item_parent ) {
 			$menu_item->menu_item_parent = 0;
 		}
 
