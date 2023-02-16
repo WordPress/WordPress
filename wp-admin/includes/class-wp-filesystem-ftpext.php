@@ -761,12 +761,13 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 			$dirlist[ $entry['name'] ] = $entry;
 		}
 
-		$ret = array();
+		$path = trailingslashit( $path );
+		$ret  = array();
 
 		foreach ( (array) $dirlist as $struc ) {
 			if ( 'd' === $struc['type'] ) {
 				if ( $recursive ) {
-					$struc['files'] = $this->dirlist( $path . '/' . $struc['name'], $include_hidden, $recursive );
+					$struc['files'] = $this->dirlist( $path . $struc['name'], $include_hidden, $recursive );
 				} else {
 					$struc['files'] = array();
 				}
