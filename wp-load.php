@@ -31,7 +31,7 @@ if ( function_exists( 'error_reporting' ) ) {
 	 * Initialize error reporting to a known set of levels.
 	 *
 	 * This will be adapted in wp_debug_mode() located in wp-includes/load.php based on WP_DEBUG.
-	 * @see http://php.net/manual/en/errorfunc.constants.php List of known error levels.
+	 * @see https://php.net/manual/en/errorfunc.constants.php List of known error levels.
 	 */
 	error_reporting( E_CORE_ERROR | E_CORE_WARNING | E_COMPILE_ERROR | E_ERROR | E_WARNING | E_PARSE | E_USER_ERROR | E_USER_WARNING | E_RECOVERABLE_ERROR );
 }
