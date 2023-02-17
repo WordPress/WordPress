@@ -5,7 +5,7 @@
  * @output wp-admin/js/updates.js
  */
 
-/* global pagenow */
+/* global pagenow, _wpThemeSettings */
 
 /**
  * @param {jQuery}  $                                        jQuery object.
@@ -1612,6 +1612,14 @@
 				// There is always at least one theme available.
 				$views.find( '.all .count' ).text( '(' + themes.all.length + ')' );
 			} );
+		}
+
+		// DecrementCount from update count.
+		if ( 'themes' === pagenow ) {
+		    var theme = _.find( _wpThemeSettings.themes, { id: response.slug } );
+		    if ( theme.hasUpdate ) {
+		        wp.updates.decrementCount( 'theme' );
+		    }
 		}
 
 		wp.a11y.speak( _x( 'Deleted!', 'theme' ) );
