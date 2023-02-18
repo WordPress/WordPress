@@ -2481,9 +2481,11 @@ function get_next_posts_page_link( $max_page = 0 ) {
 		if ( ! $paged ) {
 			$paged = 1;
 		}
-		$nextpage = (int) $paged + 1;
-		if ( ! $max_page || $max_page >= $nextpage ) {
-			return get_pagenum_link( $nextpage );
+
+		$next_page = (int) $paged + 1;
+
+		if ( ! $max_page || $max_page >= $next_page ) {
+			return get_pagenum_link( $next_page );
 		}
 	}
 }
@@ -2530,13 +2532,13 @@ function get_next_posts_link( $label = null, $max_page = 0 ) {
 		$paged = 1;
 	}
 
-	$nextpage = (int) $paged + 1;
+	$next_page = (int) $paged + 1;
 
 	if ( null === $label ) {
 		$label = __( 'Next Page &raquo;' );
 	}
 
-	if ( ! is_single() && ( $nextpage <= $max_page ) ) {
+	if ( ! is_single() && ( $next_page <= $max_page ) ) {
 		/**
 		 * Filters the anchor tag attributes for the next posts page link.
 		 *
@@ -2546,7 +2548,12 @@ function get_next_posts_link( $label = null, $max_page = 0 ) {
 		 */
 		$attr = apply_filters( 'next_posts_link_attributes', '' );
 
-		return '<a href="' . next_posts( $max_page, false ) . "\" $attr>" . preg_replace( '/&([^#])(?![a-z]{1,8};)/i', '&#038;$1', $label ) . '</a>';
+		return sprintf(
+			'<a href="%1$s" %2$s>%3$s</a>',
+			next_posts( $max_page, false ),
+			$attr,
+			preg_replace( '/&([^#])(?![a-z]{1,8};)/i', '&#038;$1', $label )
+		);
 	}
 }
 
@@ -2579,11 +2586,13 @@ function get_previous_posts_page_link() {
 	global $paged;
 
 	if ( ! is_single() ) {
-		$nextpage = (int) $paged - 1;
-		if ( $nextpage < 1 ) {
-			$nextpage = 1;
+		$previous_page = (int) $paged - 1;
+
+		if ( $previous_page < 1 ) {
+			$previous_page = 1;
 		}
-		return get_pagenum_link( $nextpage );
+
+		return get_pagenum_link( $previous_page );
 	}
 }
 
@@ -2631,7 +2640,13 @@ function get_previous_posts_link( $label = null ) {
 		 * @param string $attributes Attributes for the anchor tag.
 		 */
 		$attr = apply_filters( 'previous_posts_link_attributes', '' );
-		return '<a href="' . previous_posts( false ) . "\" $attr>" . preg_replace( '/&([^#])(?![a-z]{1,8};)/i', '&#038;$1', $label ) . '</a>';
+
+		return sprintf(
+			'<a href="%1$s" %2$s>%3$s</a>',
+			previous_posts( false ),
+			$attr,
+			preg_replace( '/&([^#])(?![a-z]{1,8};)/i', '&#038;$1', $label )
+		);
 	}
 }
 
@@ -3079,7 +3094,7 @@ function get_next_comments_link( $label = '', $max_page = 0 ) {
 		$page = 1;
 	}
 
-	$nextpage = (int) $page + 1;
+	$next_page = (int) $page + 1;
 
 	if ( empty( $max_page ) ) {
 		$max_page = $wp_query->max_num_comment_pages;
@@ -3089,7 +3104,7 @@ function get_next_comments_link( $label = '', $max_page = 0 ) {
 		$max_page = get_comment_pages_count();
 	}
 
-	if ( $nextpage > $max_page ) {
+	if ( $next_page > $max_page ) {
 		return;
 	}
 
@@ -3104,7 +3119,14 @@ function get_next_comments_link( $label = '', $max_page = 0 ) {
 	 *
 	 * @param string $attributes Attributes for the anchor tag.
 	 */
-	return '<a href="' . esc_url( get_comments_pagenum_link( $nextpage, $max_page ) ) . '" ' . apply_filters( 'next_comments_link_attributes', '' ) . '>' . preg_replace( '/&([^#])(?![a-z]{1,8};)/i', '&#038;$1', $label ) . '</a>';
+	$attr = apply_filters( 'next_comments_link_attributes', '' );
+
+	return sprintf(
+		'<a href="%1$s" %2$s>%3$s</a>',
+		esc_url( get_comments_pagenum_link( $next_page, $max_page ) ),
+		$attr,
+		preg_replace( '/&([^#])(?![a-z]{1,8};)/i', '&#038;$1', $label )
+	);
 }
 
 /**
@@ -3138,7 +3160,7 @@ function get_previous_comments_link( $label = '' ) {
 		return;
 	}
 
-	$prevpage = (int) $page - 1;
+	$previous_page = (int) $page - 1;
 
 	if ( empty( $label ) ) {
 		$label = __( '&laquo; Older Comments' );
@@ -3151,7 +3173,14 @@ function get_previous_comments_link( $label = '' ) {
 	 *
 	 * @param string $attributes Attributes for the anchor tag.
 	 */
-	return '<a href="' . esc_url( get_comments_pagenum_link( $prevpage ) ) . '" ' . apply_filters( 'previous_comments_link_attributes', '' ) . '>' . preg_replace( '/&([^#])(?![a-z]{1,8};)/i', '&#038;$1', $label ) . '</a>';
+	$attr = apply_filters( 'previous_comments_link_attributes', '' );
+
+	return sprintf(
+		'<a href="%1$s" %2$s>%3$s</a>',
+		esc_url( get_comments_pagenum_link( $previous_page ) ),
+		$attr,
+		preg_replace( '/&([^#])(?![a-z]{1,8};)/i', '&#038;$1', $label )
+	);
 }
 
 /**
