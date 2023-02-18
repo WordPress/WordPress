@@ -1,0 +1,21 @@
+version: '3.9'
+services:
+  wordpress:
+    ports:
+      - 82:80
+    image: wordpress:php8.1-apache
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: dzikri
+      WORDPRESS_DB_PASSWORD: 123
+      WORDPRESS_DB_NAME: coba
+  db:
+    image: mysql
+    container_name: db-wordress
+    environment:
+      MYSQL_DATABASE: 'coba'
+      MYSQL_USER: 'dzikri'
+      MYSQL_PASSWORD: 123
+      MYSQL_ROOT_PASSWORD: '123'
+    ports:
+      - '3306:3306'
