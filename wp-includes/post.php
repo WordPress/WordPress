@@ -4093,7 +4093,7 @@ function wp_insert_post( $postarr, $wp_error = false, $fire_after_hooks = true )
 	$postarr = sanitize_post( $postarr, 'db' );
 
 	// Are we updating or creating?
-	$post_ID = 0;
+	$post_id = 0;
 	$update  = false;
 	$guid    = $postarr['guid'];
 
@@ -4101,8 +4101,8 @@ function wp_insert_post( $postarr, $wp_error = false, $fire_after_hooks = true )
 		$update = true;
 
 		// Get the post ID and GUID.
-		$post_ID     = $postarr['ID'];
-		$post_before = get_post( $post_ID );
+		$post_id     = $postarr['ID'];
+		$post_before = get_post( $post_id );
 
 		if ( is_null( $post_before ) ) {
 			if ( $wp_error ) {
@@ -4111,8 +4111,8 @@ function wp_insert_post( $postarr, $wp_error = false, $fire_after_hooks = true )
 			return 0;
 		}
 
-		$guid            = get_post_field( 'guid', $post_ID );
-		$previous_status = get_post_field( 'post_status', $post_ID );
+		$guid            = get_post_field( 'guid', $post_id );
+		$previous_status = get_post_field( 'post_status', $post_id );
 	} else {
 		$previous_status = 'new';
 		$post_before     = null;
@@ -4194,7 +4194,7 @@ function wp_insert_post( $postarr, $wp_error = false, $fire_after_hooks = true )
 
 		if ( ! $update && $post_type_object && ! current_user_can( $post_type_object->cap->publish_posts ) ) {
 			$post_name = '';
-		} elseif ( $update && ! current_user_can( 'publish_post', $post_ID ) ) {
+		} elseif ( $update && ! current_user_can( 'publish_post', $post_id ) ) {
 			$post_name = '';
 		}
 	}
@@ -4213,7 +4213,7 @@ function wp_insert_post( $postarr, $wp_error = false, $fire_after_hooks = true )
 		// On updates, we need to check to see if it's using the old, fixed sanitization context.
 		$check_name = sanitize_title( $post_name, '', 'old-save' );
 
-		if ( $update && strtolower( urlencode( $post_name ) ) == $check_name && get_post_field( 'post_name', $post_ID ) == $check_name ) {
+		if ( $update && strtolower( urlencode( $post_name ) ) == $check_name && get_post_field( 'post_name', $post_id ) == $check_name ) {
 			$post_name = $check_name;
 		} else { // New post, or slug has changed.
 			$post_name = sanitize_title( $post_name );
@@ -4308,7 +4308,7 @@ function wp_insert_post( $postarr, $wp_error = false, $fire_after_hooks = true )
 
 	$new_postarr = array_merge(
 		array(
-			'ID' => $post_ID,
+			'ID' => $post_id,
 		),
 		compact( array_diff( array_keys( $defaults ), array( 'context', 'filter' ) ) )
 	);
@@ -4319,21 +4319,21 @@ function wp_insert_post( $postarr, $wp_error = false, $fire_after_hooks = true )
 	 * @since 3.1.0
 	 *
 	 * @param int   $post_parent Post parent ID.
-	 * @param int   $post_ID     Post ID.
+	 * @param int   $post_id     Post ID.
 	 * @param array $new_postarr Array of parsed post data.
 	 * @param array $postarr     Array of sanitized, but otherwise unmodified post data.
 	 */
-	$post_parent = apply_filters( 'wp_insert_post_parent', $post_parent, $post_ID, $new_postarr, $postarr );
+	$post_parent = apply_filters( 'wp_insert_post_parent', $post_parent, $post_id, $new_postarr, $postarr );
 
 	/*
 	 * If the post is being untrashed and it has a desired slug stored in post meta,
 	 * reassign it.
 	 */
 	if ( 'trash' === $previous_status && 'trash' !== $post_status ) {
-		$desired_post_slug = get_post_meta( $post_ID, '_wp_desired_post_slug', true );
+		$desired_post_slug = get_post_meta( $post_id, '_wp_desired_post_slug', true );
 
 		if ( $desired_post_slug ) {
-			delete_post_meta( $post_ID, '_wp_desired_post_slug' );
+			delete_post_meta( $post_id, '_wp_desired_post_slug' );
 			$post_name = $desired_post_slug;
 		}
 	}
@@ -4347,21 +4347,21 @@ function wp_insert_post( $postarr, $wp_error = false, $fire_after_hooks = true )
 		 *
 		 * @param bool   $add_trashed_suffix Whether to attempt to add the suffix.
 		 * @param string $post_name          The name of the post being updated.
-		 * @param int    $post_ID            Post ID.
+		 * @param int    $post_id            Post ID.
 		 */
-		$add_trashed_suffix = apply_filters( 'add_trashed_suffix_to_trashed_posts', true, $post_name, $post_ID );
+		$add_trashed_suffix = apply_filters( 'add_trashed_suffix_to_trashed_posts', true, $post_name, $post_id );
 
 		if ( $add_trashed_suffix ) {
-			wp_add_trashed_suffix_to_post_name_for_trashed_posts( $post_name, $post_ID );
+			wp_add_trashed_suffix_to_post_name_for_trashed_posts( $post_name, $post_id );
 		}
 	}
 
 	// When trashing an existing post, change its slug to allow non-trashed posts to use it.
 	if ( 'trash' === $post_status && 'trash' !== $previous_status && 'new' !== $previous_status ) {
-		$post_name = wp_add_trashed_suffix_to_post_name_for_post( $post_ID );
+		$post_name = wp_add_trashed_suffix_to_post_name_for_post( $post_id );
 	}
 
-	$post_name = wp_unique_post_slug( $post_name, $post_ID, $post_status, $post_type, $post_parent );
+	$post_name = wp_unique_post_slug( $post_name, $post_id, $post_status, $post_type, $post_parent );
 
 	// Don't unslash.
 	$post_mime_type = isset( $postarr['post_mime_type'] ) ? $postarr['post_mime_type'] : '';
@@ -4436,7 +4436,7 @@ function wp_insert_post( $postarr, $wp_error = false, $fire_after_hooks = true )
 	}
 
 	$data  = wp_unslash( $data );
-	$where = array( 'ID' => $post_ID );
+	$where = array( 'ID' => $post_id );
 
 	if ( $update ) {
 		/**
@@ -4444,10 +4444,10 @@ function wp_insert_post( $postarr, $wp_error = false, $fire_after_hooks = true )
 		 *
 		 * @since 2.5.0
 		 *
-		 * @param int   $post_ID Post ID.
+		 * @param int   $post_id Post ID.
 		 * @param array $data    Array of unslashed post data.
 		 */
-		do_action( 'pre_post_update', $post_ID, $data );
+		do_action( 'pre_post_update', $post_id, $data );
 
 		if ( false === $wpdb->update( $wpdb->posts, $data, $where ) ) {
 			if ( $wp_error ) {
@@ -4486,25 +4486,25 @@ function wp_insert_post( $postarr, $wp_error = false, $fire_after_hooks = true )
 			}
 		}
 
-		$post_ID = (int) $wpdb->insert_id;
+		$post_id = (int) $wpdb->insert_id;
 
-		// Use the newly generated $post_ID.
-		$where = array( 'ID' => $post_ID );
+		// Use the newly generated $post_id.
+		$where = array( 'ID' => $post_id );
 	}
 
 	if ( empty( $data['post_name'] ) && ! in_array( $data['post_status'], array( 'draft', 'pending', 'auto-draft' ), true ) ) {
-		$data['post_name'] = wp_unique_post_slug( sanitize_title( $data['post_title'], $post_ID ), $post_ID, $data['post_status'], $post_type, $post_parent );
+		$data['post_name'] = wp_unique_post_slug( sanitize_title( $data['post_title'], $post_id ), $post_id, $data['post_status'], $post_type, $post_parent );
 
 		$wpdb->update( $wpdb->posts, array( 'post_name' => $data['post_name'] ), $where );
-		clean_post_cache( $post_ID );
+		clean_post_cache( $post_id );
 	}
 
 	if ( is_object_in_taxonomy( $post_type, 'category' ) ) {
-		wp_set_post_categories( $post_ID, $post_category );
+		wp_set_post_categories( $post_id, $post_category );
 	}
 
 	if ( isset( $postarr['tags_input'] ) && is_object_in_taxonomy( $post_type, 'post_tag' ) ) {
-		wp_set_post_tags( $post_ID, $postarr['tags_input'] );
+		wp_set_post_tags( $post_id, $postarr['tags_input'] );
 	}
 
 	// Add default term for all associated custom taxonomies.
@@ -4519,7 +4519,7 @@ function wp_insert_post( $postarr, $wp_error = false, $fire_after_hooks = true )
 				}
 
 				// Passed custom taxonomy list overwrites the existing list if not empty.
-				$terms = wp_get_object_terms( $post_ID, $taxonomy, array( 'fields' => 'ids' ) );
+				$terms = wp_get_object_terms( $post_id, $taxonomy, array( 'fields' => 'ids' ) );
 				if ( ! empty( $terms ) && empty( $postarr['tax_input'][ $taxonomy ] ) ) {
 					$postarr['tax_input'][ $taxonomy ] = $terms;
 				}
@@ -4551,31 +4551,31 @@ function wp_insert_post( $postarr, $wp_error = false, $fire_after_hooks = true )
 			}
 
 			if ( current_user_can( $taxonomy_obj->cap->assign_terms ) ) {
-				wp_set_post_terms( $post_ID, $tags, $taxonomy );
+				wp_set_post_terms( $post_id, $tags, $taxonomy );
 			}
 		}
 	}
 
 	if ( ! empty( $postarr['meta_input'] ) ) {
 		foreach ( $postarr['meta_input'] as $field => $value ) {
-			update_post_meta( $post_ID, $field, $value );
+			update_post_meta( $post_id, $field, $value );
 		}
 	}
 
-	$current_guid = get_post_field( 'guid', $post_ID );
+	$current_guid = get_post_field( 'guid', $post_id );
 
 	// Set GUID.
 	if ( ! $update && '' === $current_guid ) {
-		$wpdb->update( $wpdb->posts, array( 'guid' => get_permalink( $post_ID ) ), $where );
+		$wpdb->update( $wpdb->posts, array( 'guid' => get_permalink( $post_id ) ), $where );
 	}
 
 	if ( 'attachment' === $postarr['post_type'] ) {
 		if ( ! empty( $postarr['file'] ) ) {
-			update_attached_file( $post_ID, $postarr['file'] );
+			update_attached_file( $post_id, $postarr['file'] );
 		}
 
 		if ( ! empty( $postarr['context'] ) ) {
-			add_post_meta( $post_ID, '_wp_attachment_context', $postarr['context'], true );
+			add_post_meta( $post_id, '_wp_attachment_context', $postarr['context'], true );
 		}
 	}
 
@@ -4584,9 +4584,9 @@ function wp_insert_post( $postarr, $wp_error = false, $fire_after_hooks = true )
 		$thumbnail_support = current_theme_supports( 'post-thumbnails', $post_type ) && post_type_supports( $post_type, 'thumbnail' ) || 'revision' === $post_type;
 
 		if ( ! $thumbnail_support && 'attachment' === $post_type && $post_mime_type ) {
-			if ( wp_attachment_is( 'audio', $post_ID ) ) {
+			if ( wp_attachment_is( 'audio', $post_id ) ) {
 				$thumbnail_support = post_type_supports( 'attachment:audio', 'thumbnail' ) || current_theme_supports( 'post-thumbnails', 'attachment:audio' );
-			} elseif ( wp_attachment_is( 'video', $post_ID ) ) {
+			} elseif ( wp_attachment_is( 'video', $post_id ) ) {
 				$thumbnail_support = post_type_supports( 'attachment:video', 'thumbnail' ) || current_theme_supports( 'post-thumbnails', 'attachment:video' );
 			}
 		}
@@ -4594,16 +4594,16 @@ function wp_insert_post( $postarr, $wp_error = false, $fire_after_hooks = true )
 		if ( $thumbnail_support ) {
 			$thumbnail_id = (int) $postarr['_thumbnail_id'];
 			if ( -1 === $thumbnail_id ) {
-				delete_post_thumbnail( $post_ID );
+				delete_post_thumbnail( $post_id );
 			} else {
-				set_post_thumbnail( $post_ID, $thumbnail_id );
+				set_post_thumbnail( $post_id, $thumbnail_id );
 			}
 		}
 	}
 
-	clean_post_cache( $post_ID );
+	clean_post_cache( $post_id );
 
-	$post = get_post( $post_ID );
+	$post = get_post( $post_id );
 
 	if ( ! empty( $postarr['page_template'] ) ) {
 		$post->page_template = $postarr['page_template'];
@@ -4614,9 +4614,9 @@ function wp_insert_post( $postarr, $wp_error = false, $fire_after_hooks = true )
 				return new WP_Error( 'invalid_page_template', __( 'Invalid page template.' ) );
 			}
 
-			update_post_meta( $post_ID, '_wp_page_template', 'default' );
+			update_post_meta( $post_id, '_wp_page_template', 'default' );
 		} else {
-			update_post_meta( $post_ID, '_wp_page_template', $postarr['page_template'] );
+			update_post_meta( $post_id, '_wp_page_template', $postarr['page_template'] );
 		}
 	}
 
@@ -4629,22 +4629,22 @@ function wp_insert_post( $postarr, $wp_error = false, $fire_after_hooks = true )
 			 *
 			 * @since 2.0.0
 			 *
-			 * @param int $post_ID Attachment ID.
+			 * @param int $post_id Attachment ID.
 			 */
-			do_action( 'edit_attachment', $post_ID );
+			do_action( 'edit_attachment', $post_id );
 
-			$post_after = get_post( $post_ID );
+			$post_after = get_post( $post_id );
 
 			/**
 			 * Fires once an existing attachment has been updated.
 			 *
 			 * @since 4.4.0
 			 *
-			 * @param int     $post_ID      Post ID.
+			 * @param int     $post_id      Post ID.
 			 * @param WP_Post $post_after   Post object following the update.
 			 * @param WP_Post $post_before  Post object before the update.
 			 */
-			do_action( 'attachment_updated', $post_ID, $post_after, $post_before );
+			do_action( 'attachment_updated', $post_id, $post_after, $post_before );
 		} else {
 
 			/**
@@ -4652,12 +4652,12 @@ function wp_insert_post( $postarr, $wp_error = false, $fire_after_hooks = true )
 			 *
 			 * @since 2.0.0
 			 *
-			 * @param int $post_ID Attachment ID.
+			 * @param int $post_id Attachment ID.
 			 */
-			do_action( 'add_attachment', $post_ID );
+			do_action( 'add_attachment', $post_id );
 		}
 
-		return $post_ID;
+		return $post_id;
 	}
 
 	if ( $update ) {
@@ -4674,33 +4674,33 @@ function wp_insert_post( $postarr, $wp_error = false, $fire_after_hooks = true )
 		 *
 		 * @since 5.1.0
 		 *
-		 * @param int     $post_ID Post ID.
+		 * @param int     $post_id Post ID.
 		 * @param WP_Post $post    Post object.
 		 */
-		do_action( "edit_post_{$post->post_type}", $post_ID, $post );
+		do_action( "edit_post_{$post->post_type}", $post_id, $post );
 
 		/**
 		 * Fires once an existing post has been updated.
 		 *
 		 * @since 1.2.0
 		 *
-		 * @param int     $post_ID Post ID.
+		 * @param int     $post_id Post ID.
 		 * @param WP_Post $post    Post object.
 		 */
-		do_action( 'edit_post', $post_ID, $post );
+		do_action( 'edit_post', $post_id, $post );
 
-		$post_after = get_post( $post_ID );
+		$post_after = get_post( $post_id );
 
 		/**
 		 * Fires once an existing post has been updated.
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param int     $post_ID      Post ID.
+		 * @param int     $post_id      Post ID.
 		 * @param WP_Post $post_after   Post object following the update.
 		 * @param WP_Post $post_before  Post object before the update.
 		 */
-		do_action( 'post_updated', $post_ID, $post_after, $post_before );
+		do_action( 'post_updated', $post_id, $post_after, $post_before );
 	}
 
 	/**
@@ -4716,39 +4716,39 @@ function wp_insert_post( $postarr, $wp_error = false, $fire_after_hooks = true )
 	 *
 	 * @since 3.7.0
 	 *
-	 * @param int     $post_ID Post ID.
+	 * @param int     $post_id Post ID.
 	 * @param WP_Post $post    Post object.
 	 * @param bool    $update  Whether this is an existing post being updated.
 	 */
-	do_action( "save_post_{$post->post_type}", $post_ID, $post, $update );
+	do_action( "save_post_{$post->post_type}", $post_id, $post, $update );
 
 	/**
 	 * Fires once a post has been saved.
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param int     $post_ID Post ID.
+	 * @param int     $post_id Post ID.
 	 * @param WP_Post $post    Post object.
 	 * @param bool    $update  Whether this is an existing post being updated.
 	 */
-	do_action( 'save_post', $post_ID, $post, $update );
+	do_action( 'save_post', $post_id, $post, $update );
 
 	/**
 	 * Fires once a post has been saved.
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param int     $post_ID Post ID.
+	 * @param int     $post_id Post ID.
 	 * @param WP_Post $post    Post object.
 	 * @param bool    $update  Whether this is an existing post being updated.
 	 */
-	do_action( 'wp_insert_post', $post_ID, $post, $update );
+	do_action( 'wp_insert_post', $post_id, $post, $update );
 
 	if ( $fire_after_hooks ) {
 		wp_after_insert_post( $post, $update, $post_before );
 	}
 
-	return $post_ID;
+	return $post_id;
 }
 
 /**
@@ -4993,13 +4993,13 @@ function wp_resolve_post_date( $post_date = '', $post_date_gmt = '' ) {
  * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
  * @param string $slug        The desired slug (post_name).
- * @param int    $post_ID     Post ID.
+ * @param int    $post_id     Post ID.
  * @param string $post_status No uniqueness checks are made if the post is still draft or pending.
  * @param string $post_type   Post type.
  * @param int    $post_parent Post parent ID.
  * @return string Unique slug for the post, based on $post_name (with a -1, -2, etc. suffix)
  */
-function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_parent ) {
+function wp_unique_post_slug( $slug, $post_id, $post_status, $post_type, $post_parent ) {
 	if ( in_array( $post_status, array( 'draft', 'pending', 'auto-draft' ), true )
 		|| ( 'inherit' === $post_status && 'revision' === $post_type ) || 'user_request' === $post_type
 	) {
@@ -5016,12 +5016,12 @@ function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_p
 	 *
 	 * @param string|null $override_slug Short-circuit return value.
 	 * @param string      $slug          The desired slug (post_name).
-	 * @param int         $post_ID       Post ID.
+	 * @param int         $post_id       Post ID.
 	 * @param string      $post_status   The post status.
 	 * @param string      $post_type     Post type.
 	 * @param int         $post_parent   Post parent ID.
 	 */
-	$override_slug = apply_filters( 'pre_wp_unique_post_slug', null, $slug, $post_ID, $post_status, $post_type, $post_parent );
+	$override_slug = apply_filters( 'pre_wp_unique_post_slug', null, $slug, $post_id, $post_status, $post_type, $post_parent );
 	if ( null !== $override_slug ) {
 		return $override_slug;
 	}
@@ -5038,7 +5038,7 @@ function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_p
 	if ( 'attachment' === $post_type ) {
 		// Attachment slugs must be unique across all types.
 		$check_sql       = "SELECT post_name FROM $wpdb->posts WHERE post_name = %s AND ID != %d LIMIT 1";
-		$post_name_check = $wpdb->get_var( $wpdb->prepare( $check_sql, $slug, $post_ID ) );
+		$post_name_check = $wpdb->get_var( $wpdb->prepare( $check_sql, $slug, $post_id ) );
 
 		/**
 		 * Filters whether the post slug would make a bad attachment slug.
@@ -5057,7 +5057,7 @@ function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_p
 			$suffix = 2;
 			do {
 				$alt_post_name   = _truncate_post_slug( $slug, 200 - ( strlen( $suffix ) + 1 ) ) . "-$suffix";
-				$post_name_check = $wpdb->get_var( $wpdb->prepare( $check_sql, $alt_post_name, $post_ID ) );
+				$post_name_check = $wpdb->get_var( $wpdb->prepare( $check_sql, $alt_post_name, $post_id ) );
 				$suffix++;
 			} while ( $post_name_check );
 			$slug = $alt_post_name;
@@ -5072,7 +5072,7 @@ function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_p
 		 * namespace than posts so page slugs are allowed to overlap post slugs.
 		 */
 		$check_sql       = "SELECT post_name FROM $wpdb->posts WHERE post_name = %s AND post_type IN ( %s, 'attachment' ) AND ID != %d AND post_parent = %d LIMIT 1";
-		$post_name_check = $wpdb->get_var( $wpdb->prepare( $check_sql, $slug, $post_type, $post_ID, $post_parent ) );
+		$post_name_check = $wpdb->get_var( $wpdb->prepare( $check_sql, $slug, $post_type, $post_id, $post_parent ) );
 
 		/**
 		 * Filters whether the post slug would make a bad hierarchical post slug.
@@ -5094,7 +5094,7 @@ function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_p
 			$suffix = 2;
 			do {
 				$alt_post_name   = _truncate_post_slug( $slug, 200 - ( strlen( $suffix ) + 1 ) ) . "-$suffix";
-				$post_name_check = $wpdb->get_var( $wpdb->prepare( $check_sql, $alt_post_name, $post_type, $post_ID, $post_parent ) );
+				$post_name_check = $wpdb->get_var( $wpdb->prepare( $check_sql, $alt_post_name, $post_type, $post_id, $post_parent ) );
 				$suffix++;
 			} while ( $post_name_check );
 			$slug = $alt_post_name;
@@ -5102,9 +5102,9 @@ function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_p
 	} else {
 		// Post slugs must be unique across all posts.
 		$check_sql       = "SELECT post_name FROM $wpdb->posts WHERE post_name = %s AND post_type = %s AND ID != %d LIMIT 1";
-		$post_name_check = $wpdb->get_var( $wpdb->prepare( $check_sql, $slug, $post_type, $post_ID ) );
+		$post_name_check = $wpdb->get_var( $wpdb->prepare( $check_sql, $slug, $post_type, $post_id ) );
 
-		$post = get_post( $post_ID );
+		$post = get_post( $post_id );
 
 		// Prevent new post slugs that could result in URLs that conflict with date archives.
 		$conflicts_with_date_archive = false;
@@ -5150,7 +5150,7 @@ function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_p
 			$suffix = 2;
 			do {
 				$alt_post_name   = _truncate_post_slug( $slug, 200 - ( strlen( $suffix ) + 1 ) ) . "-$suffix";
-				$post_name_check = $wpdb->get_var( $wpdb->prepare( $check_sql, $alt_post_name, $post_type, $post_ID ) );
+				$post_name_check = $wpdb->get_var( $wpdb->prepare( $check_sql, $alt_post_name, $post_type, $post_id ) );
 				$suffix++;
 			} while ( $post_name_check );
 			$slug = $alt_post_name;
@@ -5163,13 +5163,13 @@ function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_p
 	 * @since 3.3.0
 	 *
 	 * @param string $slug          The post slug.
-	 * @param int    $post_ID       Post ID.
+	 * @param int    $post_id       Post ID.
 	 * @param string $post_status   The post status.
 	 * @param string $post_type     Post type.
 	 * @param int    $post_parent   Post parent ID
 	 * @param string $original_slug The original post slug.
 	 */
-	return apply_filters( 'wp_unique_post_slug', $slug, $post_ID, $post_status, $post_type, $post_parent, $original_slug );
+	return apply_filters( 'wp_unique_post_slug', $slug, $post_id, $post_status, $post_type, $post_parent, $original_slug );
 }
 
 /**
@@ -5285,7 +5285,7 @@ function wp_set_post_terms( $post_id = 0, $terms = '', $taxonomy = 'post_tag', $
  *
  * @since 2.1.0
  *
- * @param int       $post_ID         Optional. The Post ID. Does not default to the ID
+ * @param int       $post_id         Optional. The Post ID. Does not default to the ID
  *                                   of the global $post. Default 0.
  * @param int[]|int $post_categories Optional. List of category IDs, or the ID of a single category.
  *                                   Default empty array.
@@ -5293,10 +5293,10 @@ function wp_set_post_terms( $post_id = 0, $terms = '', $taxonomy = 'post_tag', $
  *                                   If false, replace the categories with the new categories.
  * @return array|false|WP_Error Array of term taxonomy IDs of affected categories. WP_Error or false on failure.
  */
-function wp_set_post_categories( $post_ID = 0, $post_categories = array(), $append = false ) {
-	$post_ID     = (int) $post_ID;
-	$post_type   = get_post_type( $post_ID );
-	$post_status = get_post_status( $post_ID );
+function wp_set_post_categories( $post_id = 0, $post_categories = array(), $append = false ) {
+	$post_id     = (int) $post_id;
+	$post_type   = get_post_type( $post_id );
+	$post_status = get_post_status( $post_id );
 
 	// If $post_categories isn't already an array, make it one.
 	$post_categories = (array) $post_categories;
@@ -5327,7 +5327,7 @@ function wp_set_post_categories( $post_ID = 0, $post_categories = array(), $appe
 		return true;
 	}
 
-	return wp_set_post_terms( $post_ID, $post_categories, 'category', $append );
+	return wp_set_post_terms( $post_id, $post_categories, 'category', $append );
 }
 
 /**
@@ -7671,37 +7671,37 @@ function wp_get_post_parent_id( $post = null ) {
  * @see wp_find_hierarchy_loop()
  *
  * @param int $post_parent ID of the parent for the post we're checking.
- * @param int $post_ID     ID of the post we're checking.
+ * @param int $post_id     ID of the post we're checking.
  * @return int The new post_parent for the post, 0 otherwise.
  */
-function wp_check_post_hierarchy_for_loops( $post_parent, $post_ID ) {
+function wp_check_post_hierarchy_for_loops( $post_parent, $post_id ) {
 	// Nothing fancy here - bail.
 	if ( ! $post_parent ) {
 		return 0;
 	}
 
 	// New post can't cause a loop.
-	if ( ! $post_ID ) {
+	if ( ! $post_id ) {
 		return $post_parent;
 	}
 
 	// Can't be its own parent.
-	if ( $post_parent == $post_ID ) {
+	if ( $post_parent == $post_id ) {
 		return 0;
 	}
 
 	// Now look for larger loops.
-	$loop = wp_find_hierarchy_loop( 'wp_get_post_parent_id', $post_ID, $post_parent );
+	$loop = wp_find_hierarchy_loop( 'wp_get_post_parent_id', $post_id, $post_parent );
 	if ( ! $loop ) {
 		return $post_parent; // No loop.
 	}
 
 	// Setting $post_parent to the given value causes a loop.
-	if ( isset( $loop[ $post_ID ] ) ) {
+	if ( isset( $loop[ $post_id ] ) ) {
 		return 0;
 	}
 
-	// There's a loop, but it doesn't contain $post_ID. Break the loop.
+	// There's a loop, but it doesn't contain $post_id. Break the loop.
 	foreach ( array_keys( $loop ) as $loop_member ) {
 		wp_update_post(
 			array(
@@ -7917,16 +7917,16 @@ function _prime_post_caches( $ids, $update_term_cache = true, $update_meta_cache
  * @access private
  *
  * @param string $post_name Post slug.
- * @param int    $post_ID   Optional. Post ID that should be ignored. Default 0.
+ * @param int    $post_id   Optional. Post ID that should be ignored. Default 0.
  */
-function wp_add_trashed_suffix_to_post_name_for_trashed_posts( $post_name, $post_ID = 0 ) {
+function wp_add_trashed_suffix_to_post_name_for_trashed_posts( $post_name, $post_id = 0 ) {
 	$trashed_posts_with_desired_slug = get_posts(
 		array(
 			'name'         => $post_name,
 			'post_status'  => 'trash',
 			'post_type'    => 'any',
 			'nopaging'     => true,
-			'post__not_in' => array( $post_ID ),
+			'post__not_in' => array( $post_id ),
 		)
 	);
 
