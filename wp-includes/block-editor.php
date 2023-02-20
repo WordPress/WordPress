@@ -296,7 +296,7 @@ function get_legacy_widget_block_editor_settings() {
  * }
  */
 function _wp_get_iframed_editor_assets() {
-	global $pagenow;
+	global $pagenow, $editor_styles;
 
 	$script_handles = array(
 		'wp-polyfill',
@@ -305,7 +305,10 @@ function _wp_get_iframed_editor_assets() {
 		'wp-edit-blocks',
 	);
 
-	if ( current_theme_supports( 'wp-block-styles' ) ) {
+	if (
+		current_theme_supports( 'wp-block-styles' ) &&
+		( ! is_array( $editor_styles ) || count( $editor_styles ) === 0 )
+	) {
 		$style_handles[] = 'wp-block-library-theme';
 	}
 
