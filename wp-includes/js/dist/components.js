@@ -18421,64 +18421,53 @@ function ScrollLock() {
 /* harmony default export */ var scroll_lock = (ScrollLock);
 
 ;// CONCATENATED MODULE: ./node_modules/proxy-compare/dist/index.modern.js
-const index_modern_e=Symbol(),index_modern_t=Symbol(),index_modern_r="a",index_modern_n="w";let index_modern_o=(e,t)=>new Proxy(e,t);const index_modern_s=Object.getPrototypeOf,index_modern_c=new WeakMap,index_modern_l=e=>e&&(index_modern_c.has(e)?index_modern_c.get(e):index_modern_s(e)===Object.prototype||index_modern_s(e)===Array.prototype),index_modern_f=e=>"object"==typeof e&&null!==e,index_modern_i=e=>{if(Array.isArray(e))return Array.from(e);const t=Object.getOwnPropertyDescriptors(e);return Object.values(t).forEach(e=>{e.configurable=!0}),Object.create(index_modern_s(e),t)},index_modern_u=e=>e[index_modern_t]||e,index_modern_a=(s,c,f,p)=>{if(!index_modern_l(s))return s;let g=p&&p.get(s);if(!g){const e=index_modern_u(s);g=(e=>Object.values(Object.getOwnPropertyDescriptors(e)).some(e=>!e.configurable&&!e.writable))(e)?[e,index_modern_i(e)]:[e],null==p||p.set(s,g)}const[y,h]=g;let w=f&&f.get(y);return w&&w[1].f===!!h||(w=((o,s)=>{const c={f:s};let l=!1;const f=(e,t)=>{if(!l){let s=c[index_modern_r].get(o);if(s||(s={},c[index_modern_r].set(o,s)),e===index_modern_n)s[index_modern_n]=!0;else{let r=s[e];r||(r=new Set,s[e]=r),r.add(t)}}},i={get:(e,n)=>n===index_modern_t?o:(f("k",n),index_modern_a(Reflect.get(e,n),c[index_modern_r],c.c)),has:(t,n)=>n===index_modern_e?(l=!0,c[index_modern_r].delete(o),!0):(f("h",n),Reflect.has(t,n)),getOwnPropertyDescriptor:(e,t)=>(f("o",t),Reflect.getOwnPropertyDescriptor(e,t)),ownKeys:e=>(f(index_modern_n),Reflect.ownKeys(e))};return s&&(i.set=i.deleteProperty=()=>!1),[i,c]})(y,!!h),w[1].p=index_modern_o(h||y,w[0]),f&&f.set(y,w)),w[1][index_modern_r]=c,w[1].c=f,w[1].p},index_modern_p=(e,t,r,o)=>{if(Object.is(e,t))return!1;if(!index_modern_f(e)||!index_modern_f(t))return!0;const s=r.get(index_modern_u(e));if(!s)return!0;if(o){const r=o.get(e);if(r&&r.n===t)return r.g;o.set(e,{n:t,g:!1})}let c=null;try{for(const r of s.h||[])if(c=Reflect.has(e,r)!==Reflect.has(t,r),c)return c;if(!0===s[index_modern_n]){if(c=((e,t)=>{const r=Reflect.ownKeys(e),n=Reflect.ownKeys(t);return r.length!==n.length||r.some((e,t)=>e!==n[t])})(e,t),c)return c}else for(const r of s.o||[])if(c=!!Reflect.getOwnPropertyDescriptor(e,r)!=!!Reflect.getOwnPropertyDescriptor(t,r),c)return c;for(const n of s.k||[])if(c=index_modern_p(e[n],t[n],r,o),c)return c;return null===c&&(c=!0),c}finally{o&&o.set(e,{n:t,g:c})}},index_modern_g=t=>!!index_modern_l(t)&&index_modern_e in t,index_modern_y=e=>index_modern_l(e)&&e[index_modern_t]||null,index_modern_h=(e,t=!0)=>{index_modern_c.set(e,t)},index_modern_w=(e,t,r)=>{const o=[],s=new WeakSet,c=(e,l)=>{if(s.has(e))return;index_modern_f(e)&&s.add(e);const i=index_modern_f(e)&&t.get(index_modern_u(e));if(i){var a,p;if(null==(a=i.h)||a.forEach(e=>{const t=`:has(${String(e)})`;o.push(l?[...l,t]:[t])}),!0===i[index_modern_n]){const e=":ownKeys";o.push(l?[...l,e]:[e])}else{var g;null==(g=i.o)||g.forEach(e=>{const t=`:hasOwn(${String(e)})`;o.push(l?[...l,t]:[t])})}null==(p=i.k)||p.forEach(t=>{r&&!("value"in(Object.getOwnPropertyDescriptor(e,t)||{}))||c(e[t],l?[...l,t]:[t])})}else l&&o.push(l)};return c(e),o},index_modern_O=e=>{index_modern_o=e};
+const index_modern_e=Symbol(),index_modern_t=Symbol(),index_modern_r=Symbol();let index_modern_n=(e,t)=>new Proxy(e,t);const index_modern_o=Object.getPrototypeOf,index_modern_s=new WeakMap,index_modern_c=e=>e&&(index_modern_s.has(e)?index_modern_s.get(e):index_modern_o(e)===Object.prototype||index_modern_o(e)===Array.prototype),index_modern_l=e=>"object"==typeof e&&null!==e,index_modern_a=new WeakMap,index_modern_f=e=>e[index_modern_r]||e,index_modern_i=(s,l,p)=>{if(!index_modern_c(s))return s;const y=index_modern_f(s),u=(e=>Object.isFrozen(e)||Object.values(Object.getOwnPropertyDescriptors(e)).some(e=>!e.writable))(y);let g=p&&p.get(y);return g&&g[1].f===u||(g=((n,o)=>{const s={f:o};let c=!1;const l=(t,r)=>{if(!c){let o=s.a.get(n);o||(o=new Set,s.a.set(n,o)),r&&o.has(index_modern_e)||o.add(t)}},a={get:(e,t)=>t===index_modern_r?n:(l(t),index_modern_i(e[t],s.a,s.c)),has:(e,r)=>r===index_modern_t?(c=!0,s.a.delete(n),!0):(l(r),r in e),getOwnPropertyDescriptor:(e,t)=>(l(t,!0),Object.getOwnPropertyDescriptor(e,t)),ownKeys:t=>(l(index_modern_e),Reflect.ownKeys(t))};return o&&(a.set=a.deleteProperty=()=>!1),[a,s]})(y,u),g[1].p=index_modern_n(u?(e=>{let t=index_modern_a.get(e);if(!t){if(Array.isArray(e))t=Array.from(e);else{const r=Object.getOwnPropertyDescriptors(e);Object.values(r).forEach(e=>{e.configurable=!0}),t=Object.create(index_modern_o(e),r)}index_modern_a.set(e,t)}return t})(y):y,g[0]),p&&p.set(y,g)),g[1].a=l,g[1].c=p,g[1].p},index_modern_p=(e,t)=>{const r=Reflect.ownKeys(e),n=Reflect.ownKeys(t);return r.length!==n.length||r.some((e,t)=>e!==n[t])},index_modern_y=(t,r,n,o)=>{if(Object.is(t,r))return!1;if(!index_modern_l(t)||!index_modern_l(r))return!0;const s=n.get(index_modern_f(t));if(!s)return!0;if(o){const e=o.get(t);if(e&&e.n===r)return e.g;o.set(t,{n:r,g:!1})}let c=null;for(const l of s){const s=l===index_modern_e?index_modern_p(t,r):index_modern_y(t[l],r[l],n,o);if(!0!==s&&!1!==s||(c=s),c)break}return null===c&&(c=!0),o&&o.set(t,{n:r,g:c}),c},index_modern_u=e=>!!index_modern_c(e)&&index_modern_t in e,index_modern_g=e=>index_modern_c(e)&&e[index_modern_r]||null,index_modern_b=(e,t=!0)=>{index_modern_s.set(e,t)},index_modern_O=(e,t)=>{const r=[],n=new WeakSet,o=(e,s)=>{if(n.has(e))return;index_modern_l(e)&&n.add(e);const c=index_modern_l(e)&&t.get(index_modern_f(e));c?c.forEach(t=>{o(e[t],s?[...s,t]:[t])}):s&&r.push(s)};return o(e),r},index_modern_w=e=>{index_modern_n=e};
 
 // EXTERNAL MODULE: ./node_modules/use-sync-external-store/shim/index.js
 var shim = __webpack_require__(635);
-;// CONCATENATED MODULE: ./node_modules/valtio/esm/vanilla.mjs
+;// CONCATENATED MODULE: ./node_modules/valtio/esm/vanilla.js
 
 
 const vanilla_isObject = (x) => typeof x === "object" && x !== null;
-const proxyStateMap = /* @__PURE__ */ new WeakMap();
 const refSet = /* @__PURE__ */ new WeakSet();
-const buildProxyFunction = (objectIs = Object.is, newProxy = (target, handler) => new Proxy(target, handler), canProxy = (x) => vanilla_isObject(x) && !refSet.has(x) && (Array.isArray(x) || !(Symbol.iterator in x)) && !(x instanceof WeakMap) && !(x instanceof WeakSet) && !(x instanceof Error) && !(x instanceof Number) && !(x instanceof Date) && !(x instanceof String) && !(x instanceof RegExp) && !(x instanceof ArrayBuffer), defaultHandlePromise = (promise) => {
-  switch (promise.status) {
-    case "fulfilled":
-      return promise.value;
-    case "rejected":
-      throw promise.reason;
-    default:
-      throw promise;
-  }
-}, snapCache = /* @__PURE__ */ new WeakMap(), createSnapshot = (target, version, handlePromise = defaultHandlePromise) => {
-  const cache = snapCache.get(target);
+const VERSION =  true ? Symbol("VERSION") : 0;
+const LISTENERS =  true ? Symbol("LISTENERS") : 0;
+const SNAPSHOT =  true ? Symbol("SNAPSHOT") : 0;
+const buildProxyFunction = (objectIs = Object.is, newProxy = (target, handler) => new Proxy(target, handler), canProxy = (x) => vanilla_isObject(x) && !refSet.has(x) && (Array.isArray(x) || !(Symbol.iterator in x)) && !(x instanceof WeakMap) && !(x instanceof WeakSet) && !(x instanceof Error) && !(x instanceof Number) && !(x instanceof Date) && !(x instanceof String) && !(x instanceof RegExp) && !(x instanceof ArrayBuffer), PROMISE_RESULT =  true ? Symbol("PROMISE_RESULT") : 0, PROMISE_ERROR =  true ? Symbol("PROMISE_ERROR") : 0, snapshotCache = /* @__PURE__ */ new WeakMap(), createSnapshot = (version, target, receiver) => {
+  const cache = snapshotCache.get(receiver);
   if ((cache == null ? void 0 : cache[0]) === version) {
     return cache[1];
   }
-  const snap = Array.isArray(target) ? [] : Object.create(Object.getPrototypeOf(target));
-  index_modern_h(snap, true);
-  snapCache.set(target, [version, snap]);
+  const snapshot2 = Array.isArray(target) ? [] : Object.create(Object.getPrototypeOf(target));
+  index_modern_b(snapshot2, true);
+  snapshotCache.set(receiver, [version, snapshot2]);
   Reflect.ownKeys(target).forEach((key) => {
-    if (Object.getOwnPropertyDescriptor(snap, key)) {
-      return;
-    }
-    const value = Reflect.get(target, key);
-    const desc = {
-      value,
-      enumerable: true,
-      // This is intentional to avoid copying with proxy-compare.
-      // It's still non-writable, so it avoids assigning a value.
-      configurable: true
-    };
+    const value = Reflect.get(target, key, receiver);
     if (refSet.has(value)) {
-      index_modern_h(value, false);
+      index_modern_b(value, false);
+      snapshot2[key] = value;
     } else if (value instanceof Promise) {
-      delete desc.value;
-      desc.get = () => handlePromise(value);
-    } else if (proxyStateMap.has(value)) {
-      const [target2, ensureVersion] = proxyStateMap.get(
-        value
-      );
-      desc.value = createSnapshot(
-        target2,
-        ensureVersion(),
-        handlePromise
-      );
+      if (PROMISE_RESULT in value) {
+        snapshot2[key] = value[PROMISE_RESULT];
+      } else {
+        const errorOrPromise = value[PROMISE_ERROR] || value;
+        Object.defineProperty(snapshot2, key, {
+          get() {
+            if (PROMISE_RESULT in value) {
+              return value[PROMISE_RESULT];
+            }
+            throw errorOrPromise;
+          }
+        });
+      }
+    } else if (value == null ? void 0 : value[LISTENERS]) {
+      snapshot2[key] = value[SNAPSHOT];
+    } else {
+      snapshot2[key] = value;
     }
-    Object.defineProperty(snap, key, desc);
   });
-  return snap;
-}, proxyCache = /* @__PURE__ */ new WeakMap(), versionHolder = [1, 1], proxyFunction = (initialObject) => {
+  return Object.freeze(snapshot2);
+}, proxyCache = /* @__PURE__ */ new WeakMap(), versionHolder = [1], proxyFunction2 = (initialObject) => {
   if (!vanilla_isObject(initialObject)) {
     throw new Error("object required");
   }
@@ -18494,75 +18483,44 @@ const buildProxyFunction = (objectIs = Object.is, newProxy = (target, handler) =
       listeners.forEach((listener) => listener(op, nextVersion));
     }
   };
-  let checkVersion = versionHolder[1];
-  const ensureVersion = (nextCheckVersion = ++versionHolder[1]) => {
-    if (checkVersion !== nextCheckVersion && !listeners.size) {
-      checkVersion = nextCheckVersion;
-      propProxyStates.forEach(([propProxyState]) => {
-        const propVersion = propProxyState[1](nextCheckVersion);
-        if (propVersion > version) {
-          version = propVersion;
-        }
-      });
+  const propListeners = /* @__PURE__ */ new Map();
+  const getPropListener = (prop) => {
+    let propListener = propListeners.get(prop);
+    if (!propListener) {
+      propListener = (op, nextVersion) => {
+        const newOp = [...op];
+        newOp[1] = [prop, ...newOp[1]];
+        notifyUpdate(newOp, nextVersion);
+      };
+      propListeners.set(prop, propListener);
     }
-    return version;
+    return propListener;
   };
-  const createPropListener = (prop) => (op, nextVersion) => {
-    const newOp = [...op];
-    newOp[1] = [prop, ...newOp[1]];
-    notifyUpdate(newOp, nextVersion);
-  };
-  const propProxyStates = /* @__PURE__ */ new Map();
-  const addPropListener = (prop, propProxyState) => {
-    var _a;
-    if (((_a = /* unsupported import.meta.env */ undefined) == null ? void 0 : _a.MODE) !== "production" && propProxyStates.has(prop)) {
-      throw new Error("prop listener already exists");
-    }
-    if (listeners.size) {
-      const remove = propProxyState[3](createPropListener(prop));
-      propProxyStates.set(prop, [propProxyState, remove]);
-    } else {
-      propProxyStates.set(prop, [propProxyState]);
-    }
-  };
-  const removePropListener = (prop) => {
-    var _a;
-    const entry = propProxyStates.get(prop);
-    if (entry) {
-      propProxyStates.delete(prop);
-      (_a = entry[1]) == null ? void 0 : _a.call(entry);
-    }
-  };
-  const addListener = (listener) => {
-    listeners.add(listener);
-    if (listeners.size === 1) {
-      propProxyStates.forEach(([propProxyState, prevRemove], prop) => {
-        var _a;
-        if (((_a = /* unsupported import.meta.env */ undefined) == null ? void 0 : _a.MODE) !== "production" && prevRemove) {
-          throw new Error("remove already exists");
-        }
-        const remove = propProxyState[3](createPropListener(prop));
-        propProxyStates.set(prop, [propProxyState, remove]);
-      });
-    }
-    const removeListener = () => {
-      listeners.delete(listener);
-      if (listeners.size === 0) {
-        propProxyStates.forEach(([propProxyState, remove], prop) => {
-          if (remove) {
-            remove();
-            propProxyStates.set(prop, [propProxyState]);
-          }
-        });
-      }
-    };
-    return removeListener;
+  const popPropListener = (prop) => {
+    const propListener = propListeners.get(prop);
+    propListeners.delete(prop);
+    return propListener;
   };
   const baseObject = Array.isArray(initialObject) ? [] : Object.create(Object.getPrototypeOf(initialObject));
   const handler = {
+    get(target, prop, receiver) {
+      if (prop === VERSION) {
+        return version;
+      }
+      if (prop === LISTENERS) {
+        return listeners;
+      }
+      if (prop === SNAPSHOT) {
+        return createSnapshot(version, target, receiver);
+      }
+      return Reflect.get(target, prop, receiver);
+    },
     deleteProperty(target, prop) {
       const prevValue = Reflect.get(target, prop);
-      removePropListener(prop);
+      const childListeners = prevValue == null ? void 0 : prevValue[LISTENERS];
+      if (childListeners) {
+        childListeners.delete(popPropListener(prop));
+      }
       const deleted = Reflect.deleteProperty(target, prop);
       if (deleted) {
         notifyUpdate(["delete", [prop], prevValue]);
@@ -18570,34 +18528,39 @@ const buildProxyFunction = (objectIs = Object.is, newProxy = (target, handler) =
       return deleted;
     },
     set(target, prop, value, receiver) {
+      var _a;
       const hasPrevValue = Reflect.has(target, prop);
       const prevValue = Reflect.get(target, prop, receiver);
-      if (hasPrevValue && (objectIs(prevValue, value) || proxyCache.has(value) && objectIs(prevValue, proxyCache.get(value)))) {
+      if (hasPrevValue && objectIs(prevValue, value)) {
         return true;
       }
-      removePropListener(prop);
-      if (vanilla_isObject(value)) {
-        value = index_modern_y(value) || value;
+      const childListeners = prevValue == null ? void 0 : prevValue[LISTENERS];
+      if (childListeners) {
+        childListeners.delete(popPropListener(prop));
       }
-      let nextValue = value;
-      if (value instanceof Promise) {
-        value.then((v) => {
-          value.status = "fulfilled";
-          value.value = v;
+      if (vanilla_isObject(value)) {
+        value = index_modern_g(value) || value;
+      }
+      let nextValue;
+      if ((_a = Object.getOwnPropertyDescriptor(target, prop)) == null ? void 0 : _a.set) {
+        nextValue = value;
+      } else if (value instanceof Promise) {
+        nextValue = value.then((v) => {
+          nextValue[PROMISE_RESULT] = v;
           notifyUpdate(["resolve", [prop], v]);
+          return v;
         }).catch((e) => {
-          value.status = "rejected";
-          value.reason = e;
+          nextValue[PROMISE_ERROR] = e;
           notifyUpdate(["reject", [prop], e]);
         });
+      } else if (value == null ? void 0 : value[LISTENERS]) {
+        nextValue = value;
+        nextValue[LISTENERS].add(getPropListener(prop));
+      } else if (canProxy(value)) {
+        nextValue = vanilla_proxy(value);
+        nextValue[LISTENERS].add(getPropListener(prop));
       } else {
-        if (!proxyStateMap.has(value) && canProxy(value)) {
-          nextValue = proxyFunction(value);
-        }
-        const childProxyState = !refSet.has(nextValue) && proxyStateMap.get(nextValue);
-        if (childProxyState) {
-          addPropListener(prop, childProxyState);
-        }
+        nextValue = value;
       }
       Reflect.set(target, prop, nextValue, receiver);
       notifyUpdate(["set", [prop], value, prevValue]);
@@ -18606,60 +18569,47 @@ const buildProxyFunction = (objectIs = Object.is, newProxy = (target, handler) =
   };
   const proxyObject = newProxy(baseObject, handler);
   proxyCache.set(initialObject, proxyObject);
-  const proxyState = [
-    baseObject,
-    ensureVersion,
-    createSnapshot,
-    addListener
-  ];
-  proxyStateMap.set(proxyObject, proxyState);
   Reflect.ownKeys(initialObject).forEach((key) => {
     const desc = Object.getOwnPropertyDescriptor(
       initialObject,
       key
     );
-    const hasValue = "value" in desc;
-    delete desc.value;
-    Object.defineProperty(baseObject, key, desc);
-    if (hasValue) {
+    if (desc.get || desc.set) {
+      Object.defineProperty(baseObject, key, desc);
+    } else {
       proxyObject[key] = initialObject[key];
     }
   });
   return proxyObject;
 }) => [
-  // public functions
-  proxyFunction,
-  // shared state
-  proxyStateMap,
+  proxyFunction2,
   refSet,
-  // internal things
+  VERSION,
+  LISTENERS,
+  SNAPSHOT,
   objectIs,
   newProxy,
   canProxy,
-  defaultHandlePromise,
-  snapCache,
+  PROMISE_RESULT,
+  PROMISE_ERROR,
+  snapshotCache,
   createSnapshot,
   proxyCache,
   versionHolder
 ];
-const [defaultProxyFunction] = buildProxyFunction();
+const [proxyFunction] = buildProxyFunction();
 function vanilla_proxy(initialObject = {}) {
-  return defaultProxyFunction(initialObject);
+  return proxyFunction(initialObject);
 }
 function vanilla_getVersion(proxyObject) {
-  const proxyState = proxyStateMap.get(proxyObject);
-  return proxyState == null ? void 0 : proxyState[1]();
+  return vanilla_isObject(proxyObject) ? proxyObject[VERSION] : void 0;
 }
 function vanilla_subscribe(proxyObject, callback, notifyInSync) {
-  var _a;
-  const proxyState = proxyStateMap.get(proxyObject);
-  if (((_a = /* unsupported import.meta.env */ undefined) == null ? void 0 : _a.MODE) !== "production" && !proxyState) {
+  if ( true && !(proxyObject == null ? void 0 : proxyObject[LISTENERS])) {
     console.warn("Please use proxy object");
   }
   let promise;
   const ops = [];
-  const addListener = proxyState[3];
-  let isListenerActive = false;
   const listener = (op) => {
     ops.push(op);
     if (notifyInSync) {
@@ -18669,27 +18619,20 @@ function vanilla_subscribe(proxyObject, callback, notifyInSync) {
     if (!promise) {
       promise = Promise.resolve().then(() => {
         promise = void 0;
-        if (isListenerActive) {
-          callback(ops.splice(0));
-        }
+        callback(ops.splice(0));
       });
     }
   };
-  const removeListener = addListener(listener);
-  isListenerActive = true;
+  proxyObject[LISTENERS].add(listener);
   return () => {
-    isListenerActive = false;
-    removeListener();
+    proxyObject[LISTENERS].delete(listener);
   };
 }
-function vanilla_snapshot(proxyObject, handlePromise) {
-  var _a;
-  const proxyState = proxyStateMap.get(proxyObject);
-  if (((_a = /* unsupported import.meta.env */ undefined) == null ? void 0 : _a.MODE) !== "production" && !proxyState) {
+function vanilla_snapshot(proxyObject) {
+  if ( true && !(proxyObject == null ? void 0 : proxyObject[SNAPSHOT])) {
     console.warn("Please use proxy object");
   }
-  const [target, ensureVersion, createSnapshot] = proxyState;
-  return createSnapshot(target, ensureVersion(), handlePromise);
+  return proxyObject[SNAPSHOT];
 }
 function vanilla_ref(obj) {
   refSet.add(obj);
@@ -18699,24 +18642,22 @@ const unstable_buildProxyFunction = (/* unused pure expression or super */ null 
 
 
 
-;// CONCATENATED MODULE: ./node_modules/valtio/esm/react.mjs
+;// CONCATENATED MODULE: ./node_modules/valtio/esm/index.js
 
 
 
 
 
-const { use } = external_React_;
+
 const { useSyncExternalStore } = shim;
 const useAffectedDebugValue = (state, affected) => {
   const pathList = (0,external_React_.useRef)();
   (0,external_React_.useEffect)(() => {
-    pathList.current = index_modern_w(state, affected, true);
+    pathList.current = index_modern_O(state, affected);
   });
   (0,external_React_.useDebugValue)(pathList.current);
 };
-const targetCache = /* @__PURE__ */ new WeakMap();
 function useSnapshot(proxyObject, options) {
-  var _a;
   const notifyInSync = options == null ? void 0 : options.sync;
   const lastSnapshot = (0,external_React_.useRef)();
   const lastAffected = (0,external_React_.useRef)();
@@ -18731,9 +18672,9 @@ function useSnapshot(proxyObject, options) {
       [proxyObject, notifyInSync]
     ),
     () => {
-      const nextSnapshot = vanilla_snapshot(proxyObject, use);
+      const nextSnapshot = vanilla_snapshot(proxyObject);
       try {
-        if (!inRender && lastSnapshot.current && lastAffected.current && !index_modern_p(
+        if (!inRender && lastSnapshot.current && lastAffected.current && !index_modern_y(
           lastSnapshot.current,
           nextSnapshot,
           lastAffected.current,
@@ -18745,7 +18686,7 @@ function useSnapshot(proxyObject, options) {
       }
       return nextSnapshot;
     },
-    () => vanilla_snapshot(proxyObject, use)
+    () => vanilla_snapshot(proxyObject)
   );
   inRender = false;
   const currAffected = /* @__PURE__ */ new WeakMap();
@@ -18753,31 +18694,24 @@ function useSnapshot(proxyObject, options) {
     lastSnapshot.current = currSnapshot;
     lastAffected.current = currAffected;
   });
-  if (((_a = /* unsupported import.meta.env */ undefined) == null ? void 0 : _a.MODE) !== "production") {
+  if (true) {
     useAffectedDebugValue(currSnapshot, currAffected);
   }
   const proxyCache = (0,external_React_.useMemo)(() => /* @__PURE__ */ new WeakMap(), []);
-  return index_modern_a(
-    currSnapshot,
-    currAffected,
-    proxyCache,
-    targetCache
-  );
+  return index_modern_i(currSnapshot, currAffected, proxyCache);
 }
 
 
 
-;// CONCATENATED MODULE: ./node_modules/valtio/esm/vanilla/utils.mjs
+;// CONCATENATED MODULE: ./node_modules/valtio/esm/utils.js
 
 
 function subscribeKey(proxyObject, key, callback, notifyInSync) {
-  let prevValue = proxyObject[key];
   return subscribe(
     proxyObject,
-    () => {
-      const nextValue = proxyObject[key];
-      if (!Object.is(prevValue, nextValue)) {
-        callback(prevValue = nextValue);
+    (ops) => {
+      if (ops.some((op) => op[1][0] === key)) {
+        callback(proxyObject[key]);
       }
     },
     notifyInSync
@@ -18840,7 +18774,6 @@ function watch(callback, options) {
 
 const DEVTOOLS = Symbol();
 function devtools(proxyObject, options) {
-  var _a, _b;
   if (typeof options === "string") {
     console.warn(
       "string name option is deprecated, use { name }. https://github.com/pmndrs/valtio/pull/400"
@@ -18850,11 +18783,11 @@ function devtools(proxyObject, options) {
   const { enabled, name = "" } = options || {};
   let extension;
   try {
-    extension = (enabled != null ? enabled : ((_a = /* unsupported import.meta.env */ undefined) == null ? void 0 : _a.MODE) !== "production") && window.__REDUX_DEVTOOLS_EXTENSION__;
+    extension = (enabled != null ? enabled : (/* unsupported import.meta.env */ undefined && 0) !== "production") && window.__REDUX_DEVTOOLS_EXTENSION__;
   } catch {
   }
   if (!extension) {
-    if (((_b = /* unsupported import.meta.env */ undefined) == null ? void 0 : _b.MODE) !== "production" && enabled) {
+    if ( true && enabled) {
       console.warn("[Warning] Please install/enable Redux devtools extension");
     }
     return;
@@ -18874,14 +18807,14 @@ function devtools(proxyObject, options) {
       devtools2.send(
         {
           type: action,
-          updatedAt: (/* @__PURE__ */ new Date()).toLocaleString()
+          updatedAt: new Date().toLocaleString()
         },
         snapWithoutDevtools
       );
     }
   });
   const unsub2 = devtools2.subscribe((message) => {
-    var _a2, _b2, _c, _d, _e, _f;
+    var _a, _b, _c, _d, _e, _f;
     if (message.type === "ACTION" && message.payload) {
       try {
         Object.assign(proxyObject, JSON.parse(message.payload));
@@ -18893,7 +18826,7 @@ function devtools(proxyObject, options) {
       }
     }
     if (message.type === "DISPATCH" && message.state) {
-      if (((_a2 = message.payload) == null ? void 0 : _a2.type) === "JUMP_TO_ACTION" || ((_b2 = message.payload) == null ? void 0 : _b2.type) === "JUMP_TO_STATE") {
+      if (((_a = message.payload) == null ? void 0 : _a.type) === "JUMP_TO_ACTION" || ((_b = message.payload) == null ? void 0 : _b.type) === "JUMP_TO_STATE") {
         isTimeTraveling = true;
         const state = JSON.parse(message.state);
         Object.assign(proxyObject, state);
@@ -19076,16 +19009,11 @@ function derive(derivedFns, options) {
           } else {
             const subscription = {
               s: p,
-              // sourceObject
               d: proxyObject,
-              // derivedObject
               k: key,
-              // derived key
               c: evaluate,
-              // callback
               n: notifyInSync,
               i: derivedKeys
-              // ignoringKeys
             };
             addSubscription(subscription);
             entry.s = subscription;
@@ -19128,12 +19056,9 @@ function underive(proxyObject, options) {
 }
 
 function addComputed_DEPRECATED(proxyObject, computedFns_FAKE, targetObject = proxyObject) {
-  var _a;
-  if (((_a = /* unsupported import.meta.env */ undefined) == null ? void 0 : _a.MODE) !== "production") {
-    console.warn(
-      "addComputed is deprecated. Please consider using `derive`. Falling back to emulation with derive. https://github.com/pmndrs/valtio/pull/201"
-    );
-  }
+  console.warn(
+    "addComputed is deprecated. Please consider using `derive` or `proxyWithComputed` instead. Falling back to emulation with derive. https://github.com/pmndrs/valtio/pull/201"
+  );
   const derivedFns = {};
   Object.keys(computedFns_FAKE).forEach((key) => {
     derivedFns[key] = (get) => computedFns_FAKE[key](get(proxyObject));
@@ -19141,13 +19066,7 @@ function addComputed_DEPRECATED(proxyObject, computedFns_FAKE, targetObject = pr
   return derive(derivedFns, { proxy: targetObject });
 }
 
-function proxyWithComputed_DEPRECATED(initialObject, computedFns) {
-  var _a;
-  if (((_a = /* unsupported import.meta.env */ undefined) == null ? void 0 : _a.MODE) !== "production") {
-    console.warn(
-      'proxyWithComputed is deprecated. Please follow "Computed Properties" guide in docs.'
-    );
-  }
+function proxyWithComputed(initialObject, computedFns) {
   Object.keys(computedFns).forEach((key) => {
     if (Object.getOwnPropertyDescriptor(initialObject, key)) {
       throw new Error("object property already defined");
@@ -19181,7 +19100,6 @@ function proxyWithHistory(initialValue, skipSubscribe = false) {
     value: initialValue,
     history: ref({
       wip: void 0,
-      // to avoid infinite loop
       snapshots: [],
       index: -1
     }),
@@ -19260,7 +19178,7 @@ function proxySet(initialValues) {
       return "Set";
     },
     toJSON() {
-      return new Set(this.data);
+      return {};
     },
     [Symbol.iterator]() {
       return this.data[Symbol.iterator]();
@@ -19324,7 +19242,7 @@ function proxyMap(entries) {
       return this.data.length;
     },
     toJSON() {
-      return new Map(this.data);
+      return {};
     },
     forEach(cb) {
       this.data.forEach((p) => {
@@ -21499,7 +21417,7 @@ var hoist_non_react_statics_cjs = __webpack_require__(1281);
 
 var pkg = {
 	name: "@emotion/react",
-	version: "11.10.5",
+	version: "11.10.6",
 	main: "dist/emotion-react.cjs.js",
 	module: "dist/emotion-react.esm.js",
 	browser: {
@@ -21562,7 +21480,7 @@ var pkg = {
 	},
 	dependencies: {
 		"@babel/runtime": "^7.18.3",
-		"@emotion/babel-plugin": "^11.10.5",
+		"@emotion/babel-plugin": "^11.10.6",
 		"@emotion/cache": "^11.10.5",
 		"@emotion/serialize": "^1.1.1",
 		"@emotion/use-insertion-effect-with-fallbacks": "^1.0.0",
@@ -21571,24 +21489,19 @@ var pkg = {
 		"hoist-non-react-statics": "^3.3.1"
 	},
 	peerDependencies: {
-		"@babel/core": "^7.0.0",
 		react: ">=16.8.0"
 	},
 	peerDependenciesMeta: {
-		"@babel/core": {
-			optional: true
-		},
 		"@types/react": {
 			optional: true
 		}
 	},
 	devDependencies: {
-		"@babel/core": "^7.18.5",
 		"@definitelytyped/dtslint": "0.0.112",
-		"@emotion/css": "11.10.5",
+		"@emotion/css": "11.10.6",
 		"@emotion/css-prettifier": "1.1.1",
 		"@emotion/server": "11.10.0",
-		"@emotion/styled": "11.10.5",
+		"@emotion/styled": "11.10.6",
 		"html-tag-names": "^1.1.2",
 		react: "16.14.0",
 		"svg-tag-names": "^1.1.1",

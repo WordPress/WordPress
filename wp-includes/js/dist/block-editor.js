@@ -49080,8 +49080,8 @@ var Cropper = /** @class */function (_super) {
     _this.rafDragTimeout = null;
     _this.rafPinchTimeout = null;
     _this.wheelTimer = null;
-    _this.currentDoc = document;
-    _this.currentWindow = window;
+    _this.currentDoc = typeof document !== 'undefined' ? document : null;
+    _this.currentWindow = typeof window !== 'undefined' ? window : null;
     _this.resizeObserver = null;
     _this.state = {
       cropSize: null,
@@ -49106,6 +49106,7 @@ var Cropper = /** @class */function (_super) {
       return e.preventDefault();
     };
     _this.cleanEvents = function () {
+      if (!_this.currentDoc) return;
       _this.currentDoc.removeEventListener('mousemove', _this.onMouseMove);
       _this.currentDoc.removeEventListener('mouseup', _this.onDragStopped);
       _this.currentDoc.removeEventListener('touchmove', _this.onTouchMove);
@@ -49224,6 +49225,7 @@ var Cropper = /** @class */function (_super) {
       }
     };
     _this.onMouseDown = function (e) {
+      if (!_this.currentDoc) return;
       e.preventDefault();
       _this.currentDoc.addEventListener('mousemove', _this.onMouseMove);
       _this.currentDoc.addEventListener('mouseup', _this.onDragStopped);
@@ -49233,6 +49235,7 @@ var Cropper = /** @class */function (_super) {
       return _this.onDrag(Cropper.getMousePoint(e));
     };
     _this.onTouchStart = function (e) {
+      if (!_this.currentDoc) return;
       _this.isTouching = true;
       if (_this.props.onTouchRequest && !_this.props.onTouchRequest(e)) {
         return;
@@ -49257,6 +49260,7 @@ var Cropper = /** @class */function (_super) {
       }
     };
     _this.onGestureStart = function (e) {
+      if (!_this.currentDoc) return;
       e.preventDefault();
       _this.currentDoc.addEventListener('gesturechange', _this.onGestureMove);
       _this.currentDoc.addEventListener('gestureend', _this.onGestureEnd);
@@ -49296,6 +49300,7 @@ var Cropper = /** @class */function (_super) {
     _this.onDrag = function (_a) {
       var x = _a.x,
         y = _a.y;
+      if (!_this.currentWindow) return;
       if (_this.rafDragTimeout) _this.currentWindow.cancelAnimationFrame(_this.rafDragTimeout);
       _this.rafDragTimeout = _this.currentWindow.requestAnimationFrame(function () {
         if (!_this.state.cropSize) return;
@@ -49318,6 +49323,7 @@ var Cropper = /** @class */function (_super) {
       (_b = (_a = _this.props).onInteractionEnd) === null || _b === void 0 ? void 0 : _b.call(_a);
     };
     _this.onWheel = function (e) {
+      if (!_this.currentWindow) return;
       if (_this.props.onWheelRequest && !_this.props.onWheelRequest(e)) {
         return;
       }
@@ -49426,6 +49432,7 @@ var Cropper = /** @class */function (_super) {
     return _this;
   }
   Cropper.prototype.componentDidMount = function () {
+    if (!this.currentDoc || !this.currentWindow) return;
     if (this.containerRef) {
       if (this.containerRef.ownerDocument) {
         this.currentDoc = this.containerRef.ownerDocument;
@@ -49466,6 +49473,7 @@ var Cropper = /** @class */function (_super) {
   };
   Cropper.prototype.componentWillUnmount = function () {
     var _a, _b;
+    if (!this.currentDoc || !this.currentWindow) return;
     if (typeof window.ResizeObserver === 'undefined') {
       this.currentWindow.removeEventListener('resize', this.computeSizes);
     }
@@ -49520,6 +49528,7 @@ var Cropper = /** @class */function (_super) {
   };
   Cropper.prototype.onPinchMove = function (e) {
     var _this = this;
+    if (!this.currentDoc || !this.currentWindow) return;
     var pointA = Cropper.getTouchPoint(e.touches[0]);
     var pointB = Cropper.getTouchPoint(e.touches[1]);
     var center = getCenter(pointA, pointB);
