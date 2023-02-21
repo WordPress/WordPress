@@ -1451,7 +1451,7 @@ final class _WP_Editors {
 	 *
 	 * @param string $mce_locale The locale used for the editor.
 	 * @param bool   $json_only  Optional. Whether to include the JavaScript calls to tinymce.addI18n() and
-	 *                           tinymce.ScriptLoader.markDone().
+	 *                           tinymce.ScriptLoader.markDone(). Default false.
 	 * @return string Translation object, JSON encoded.
 	 */
 	public static function wp_mce_translation( $mce_locale = '', $json_only = false ) {
@@ -1751,7 +1751,12 @@ final class _WP_Editors {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param array $args Optional. Accepts 'pagenum' and 's' (search) arguments.
+	 * @param array $args {
+	 *     Optional. Array of link query arguments.
+	 *
+	 *     @type int    $pagenum Page number. Default 1.
+	 *     @type string $s       Search keywords.
+	 * }
 	 * @return array|false $results {
 	 *     An array of associative arrays of query results, false if there are none.
 	 *

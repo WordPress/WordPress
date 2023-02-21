@@ -541,7 +541,7 @@ endif;
  * @subpackage MagpieRSS
  *
  * @param string $url URL to retrieve
- * @param array $headers Optional. Headers to send to the URL.
+ * @param array $headers Optional. Headers to send to the URL. Default empty string.
  * @return Snoopy style response
  */
 function _fetch_remote_file($url, $headers = "" ) {

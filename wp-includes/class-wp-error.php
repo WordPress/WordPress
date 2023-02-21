@@ -56,7 +56,7 @@ class WP_Error {
 	 *
 	 * @param string|int $code    Error code.
 	 * @param string     $message Error message.
-	 * @param mixed      $data    Optional. Error data.
+	 * @param mixed      $data    Optional. Error data. Default empty string.
 	 */
 	public function __construct( $code = '', $message = '', $data = '' ) {
 		if ( empty( $code ) ) {
@@ -103,7 +103,8 @@ class WP_Error {
 	 *
 	 * @since 2.1.0
 	 *
-	 * @param string|int $code Optional. Retrieve messages matching code, if exists.
+	 * @param string|int $code Optional. Error code to retrieve the messages for.
+	 *                         Default empty string.
 	 * @return string[] Error strings on success, or empty array if there are none.
 	 */
 	public function get_error_messages( $code = '' ) {
@@ -132,7 +133,8 @@ class WP_Error {
 	 *
 	 * @since 2.1.0
 	 *
-	 * @param string|int $code Optional. Error code to retrieve message.
+	 * @param string|int $code Optional. Error code to retrieve the message for.
+	 *                         Default empty string.
 	 * @return string The error message.
 	 */
 	public function get_error_message( $code = '' ) {
@@ -151,7 +153,7 @@ class WP_Error {
 	 *
 	 * @since 2.1.0
 	 *
-	 * @param string|int $code Optional. Error code.
+	 * @param string|int $code Optional. Error code. Default empty string.
 	 * @return mixed Error data, if it exists.
 	 */
 	public function get_error_data( $code = '' ) {
@@ -185,7 +187,7 @@ class WP_Error {
 	 *
 	 * @param string|int $code    Error code.
 	 * @param string     $message Error message.
-	 * @param mixed      $data    Optional. Error data.
+	 * @param mixed      $data    Optional. Error data. Default empty string.
 	 */
 	public function add( $code, $message, $data = '' ) {
 		$this->errors[ $code ][] = $message;

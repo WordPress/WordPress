@@ -155,7 +155,13 @@ function check_comment( $author, $email, $url, $comment, $user_ip, $user_agent, 
  * @since 4.1.0 Refactored to leverage WP_Comment_Query over a direct query.
  *
  * @param int   $post_id The ID of the post.
- * @param array $args    Optional. See WP_Comment_Query::__construct() for information on accepted arguments.
+ * @param array $args    {
+ *     Optional. See WP_Comment_Query::__construct() for information on accepted arguments.
+ *
+ *     @type int    $status  Comment status to limit results by. Defaults to approved comments.
+ *     @type int    $post_id Limit results to those affiliated with a given post ID.
+ *     @type string $order   How to order retrieved comments. Default 'ASC'.
+ * }
  * @return WP_Comment[]|int[]|int The approved comments, or number of comments if `$count`
  *                                argument is true.
  */
@@ -236,7 +242,7 @@ function get_comment( $comment = null, $output = OBJECT ) {
  * @since 2.7.0
  *
  * @param string|array $args Optional. Array or string of arguments. See WP_Comment_Query::__construct()
- *                           for information on accepted arguments. Default empty.
+ *                           for information on accepted arguments. Default empty string.
  * @return WP_Comment[]|int[]|int List of comments or number of found comments if `$count` argument is true.
  */
 function get_comments( $args = '' ) {
@@ -449,7 +455,7 @@ function add_comment_meta( $comment_id, $meta_key, $meta_value, $unique = false 
  * @param string $meta_key   Metadata name.
  * @param mixed  $meta_value Optional. Metadata value. If provided,
  *                           rows will only be removed that match the value.
- *                           Must be serializable if non-scalar. Default empty.
+ *                           Must be serializable if non-scalar. Default empty string.
  * @return bool True on success, false on failure.
  */
 function delete_comment_meta( $comment_id, $meta_key, $meta_value = '' ) {
@@ -465,7 +471,7 @@ function delete_comment_meta( $comment_id, $meta_key, $meta_value = '' ) {
  *
  * @param int    $comment_id Comment ID.
  * @param string $key        Optional. The meta key to retrieve. By default,
- *                           returns data for all keys.
+ *                           returns data for all keys. Default empty string.
  * @param bool   $single     Optional. Whether to return a single value.
  *                           This parameter has no effect if `$key` is not specified.
  *                           Default false.
@@ -495,7 +501,7 @@ function get_comment_meta( $comment_id, $key = '', $single = false ) {
  * @param mixed  $meta_value Metadata value. Must be serializable if non-scalar.
  * @param mixed  $prev_value Optional. Previous value to check before updating.
  *                           If specified, only update existing metadata entries with
- *                           this value. Otherwise, update all entries. Default empty.
+ *                           this value. Otherwise, update all entries. Default empty string.
  * @return int|bool Meta ID if the key didn't exist, true on successful update,
  *                  false on failure or if the value passed to the function
  *                  is the same as the one that is already in the database.
@@ -985,8 +991,10 @@ function separate_comments( &$comments ) {
  * @global WP_Query $wp_query WordPress Query object.
  *
  * @param WP_Comment[] $comments Optional. Array of WP_Comment objects. Defaults to `$wp_query->comments`.
- * @param int          $per_page Optional. Comments per page.
- * @param bool         $threaded Optional. Control over flat or threaded comments.
+ * @param int          $per_page Optional. Comments per page. Defaults to the value of `comments_per_page`
+ *                               query var, option of the same name, or 1 (in that order).
+ * @param bool         $threaded Optional. Control over flat or threaded comments. Defaults to the value
+ *                               of `thread_comments` option.
  * @return int Number of comment pages.
  */
 function get_comment_pages_count( $comments = null, $per_page = null, $threaded = null ) {

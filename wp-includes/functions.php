@@ -1049,7 +1049,7 @@ function build_query( $data ) {
  *                                Default null.
  * @param string       $sep       Optional. Argument separator; defaults to 'arg_separator.output'.
  *                                Default null.
- * @param string       $key       Optional. Used to prefix key name. Default empty.
+ * @param string       $key       Optional. Used to prefix key name. Default empty string.
  * @param bool         $urlencode Optional. Whether to use urlencode() in the result. Default true.
  * @return string The query string.
  */
@@ -1438,6 +1438,7 @@ function get_status_header_desc( $code ) {
  *
  * @param int    $code        HTTP status code.
  * @param string $description Optional. A custom description for the HTTP status.
+ *                            Defaults to the result of get_status_header_desc() for the given code.
  */
 function status_header( $code, $description = '' ) {
 	if ( ! $description ) {
@@ -3000,6 +3001,7 @@ function wp_get_default_extension_for_mime_type( $mime_type ) {
  *
  * @param string   $filename File name or path.
  * @param string[] $mimes    Optional. Array of allowed mime types keyed by their file extension regex.
+ *                           Defaults to the result of get_allowed_mime_types().
  * @return array {
  *     Values for the extension and mime type.
  *
@@ -3042,6 +3044,7 @@ function wp_check_filetype( $filename, $mimes = null ) {
  * @param string   $filename The name of the file (may differ from $file due to $file being
  *                           in a tmp directory).
  * @param string[] $mimes    Optional. Array of allowed mime types keyed by their file extension regex.
+ *                           Defaults to the result of get_allowed_mime_types().
  * @return array {
  *     Values for the extension, mime type, and corrected filename.
  *
@@ -3618,11 +3621,11 @@ function wp_nonce_ays( $action ) {
  *
  * @param string|WP_Error  $message Optional. Error message. If this is a WP_Error object,
  *                                  and not an Ajax or XML-RPC request, the error's messages are used.
- *                                  Default empty.
+ *                                  Default empty string.
  * @param string|int       $title   Optional. Error title. If `$message` is a `WP_Error` object,
  *                                  error data with the key 'title' may be used to specify the title.
- *                                  If `$title` is an integer, then it is treated as the response
- *                                  code. Default empty.
+ *                                  If `$title` is an integer, then it is treated as the response code.
+ *                                  Default empty string.
  * @param string|array|int $args {
  *     Optional. Arguments to control behavior. If `$args` is an integer, then it is treated
  *     as the response code. Default empty array.
@@ -3725,7 +3728,7 @@ function wp_die( $message = '', $title = '', $args = array() ) {
  * @access private
  *
  * @param string|WP_Error $message Error message or WP_Error object.
- * @param string          $title   Optional. Error title. Default empty.
+ * @param string          $title   Optional. Error title. Default empty string.
  * @param string|array    $args    Optional. Arguments to control behavior. Default empty array.
  */
 function _default_wp_die_handler( $message, $title = '', $args = array() ) {
@@ -3927,7 +3930,7 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
  * @access private
  *
  * @param string       $message Error message.
- * @param string       $title   Optional. Error title (unused). Default empty.
+ * @param string       $title   Optional. Error title (unused). Default empty string.
  * @param string|array $args    Optional. Arguments to control behavior. Default empty array.
  */
 function _ajax_wp_die_handler( $message, $title = '', $args = array() ) {
@@ -3969,7 +3972,7 @@ function _ajax_wp_die_handler( $message, $title = '', $args = array() ) {
  * @access private
  *
  * @param string       $message Error message.
- * @param string       $title   Optional. Error title. Default empty.
+ * @param string       $title   Optional. Error title. Default empty string.
  * @param string|array $args    Optional. Arguments to control behavior. Default empty array.
  */
 function _json_wp_die_handler( $message, $title = '', $args = array() ) {
@@ -4007,7 +4010,7 @@ function _json_wp_die_handler( $message, $title = '', $args = array() ) {
  * @access private
  *
  * @param string       $message Error message.
- * @param string       $title   Optional. Error title. Default empty.
+ * @param string       $title   Optional. Error title. Default empty string.
  * @param string|array $args    Optional. Arguments to control behavior. Default empty array.
  */
 function _jsonp_wp_die_handler( $message, $title = '', $args = array() ) {
@@ -4051,7 +4054,7 @@ function _jsonp_wp_die_handler( $message, $title = '', $args = array() ) {
  * @global wp_xmlrpc_server $wp_xmlrpc_server
  *
  * @param string       $message Error message.
- * @param string       $title   Optional. Error title. Default empty.
+ * @param string       $title   Optional. Error title. Default empty string.
  * @param string|array $args    Optional. Arguments to control behavior. Default empty array.
  */
 function _xmlrpc_wp_die_handler( $message, $title = '', $args = array() ) {
@@ -4081,7 +4084,7 @@ function _xmlrpc_wp_die_handler( $message, $title = '', $args = array() ) {
  * @access private
  *
  * @param string       $message Error message.
- * @param string       $title   Optional. Error title. Default empty.
+ * @param string       $title   Optional. Error title. Default empty string.
  * @param string|array $args    Optional. Arguments to control behavior. Default empty array.
  */
 function _xml_wp_die_handler( $message, $title = '', $args = array() ) {
@@ -4125,8 +4128,8 @@ EOD;
  * @since 5.1.0 Added the $title and $args parameters.
  * @access private
  *
- * @param string       $message Optional. Response to print. Default empty.
- * @param string       $title   Optional. Error title (unused). Default empty.
+ * @param string       $message Optional. Response to print. Default empty string.
+ * @param string       $title   Optional. Error title (unused). Default empty string.
  * @param string|array $args    Optional. Arguments to control behavior. Default empty array.
  */
 function _scalar_wp_die_handler( $message = '', $title = '', $args = array() ) {
@@ -4151,7 +4154,7 @@ function _scalar_wp_die_handler( $message = '', $title = '', $args = array() ) {
  * @access private
  *
  * @param string|WP_Error $message Error message or WP_Error object.
- * @param string          $title   Optional. Error title. Default empty.
+ * @param string          $title   Optional. Error title. Default empty string.
  * @param string|array    $args    Optional. Arguments to control behavior. Default empty array.
  * @return array {
  *     Processed arguments.
@@ -4518,7 +4521,7 @@ function wp_check_jsonp_callback( $callback ) {
  *     Optional. Options to be used with `json_decode()`.
  *
  *     @type bool $associative Optional. When `true`, JSON objects will be returned as associative arrays.
- *                             When `false`, JSON objects will be returned as objects.
+ *                             When `false`, JSON objects will be returned as objects. Default false.
  * }
  *
  * @return mixed Returns the value encoded in JSON in appropriate PHP type.
@@ -5370,7 +5373,7 @@ function absint( $maybeint ) {
  *
  * @param string $function_name The function that was called.
  * @param string $version       The version of WordPress that deprecated the function.
- * @param string $replacement   Optional. The function that should have been called. Default empty.
+ * @param string $replacement   Optional. The function that should have been called. Default empty string.
  */
 function _deprecated_function( $function_name, $version, $replacement = '' ) {
 
@@ -5556,8 +5559,8 @@ function _deprecated_constructor( $class_name, $version, $parent_class = '' ) {
  * @param string $file        The file that was included.
  * @param string $version     The version of WordPress that deprecated the file.
  * @param string $replacement Optional. The file that should have been included based on ABSPATH.
- *                            Default empty.
- * @param string $message     Optional. A message regarding the change. Default empty.
+ *                            Default empty string.
+ * @param string $message     Optional. A message regarding the change. Default empty string.
  */
 function _deprecated_file( $file, $version, $replacement = '', $message = '' ) {
 
@@ -5654,7 +5657,7 @@ function _deprecated_file( $file, $version, $replacement = '', $message = '' ) {
  *
  * @param string $function_name The function that was called.
  * @param string $version       The version of WordPress that deprecated the argument used.
- * @param string $message       Optional. A message regarding the change. Default empty.
+ * @param string $message       Optional. A message regarding the change. Default empty string.
  */
 function _deprecated_argument( $function_name, $version, $message = '' ) {
 
@@ -5742,7 +5745,7 @@ function _deprecated_argument( $function_name, $version, $message = '' ) {
  *
  * @param string $hook        The hook that was used.
  * @param string $version     The version of WordPress that deprecated the hook.
- * @param string $replacement Optional. The hook that should have been used. Default empty.
+ * @param string $replacement Optional. The hook that should have been used. Default empty string.
  * @param string $message     Optional. A message regarding the change. Default empty.
  */
 function _deprecated_hook( $hook, $version, $replacement = '', $message = '' ) {
@@ -5986,7 +5989,7 @@ function iis7_supports_permalinks() {
  * @since 1.2.0
  *
  * @param string   $file          File path.
- * @param string[] $allowed_files Optional. Array of allowed files.
+ * @param string[] $allowed_files Optional. Array of allowed files. Default empty array.
  * @return int 0 means nothing is wrong, greater than 0 means something was wrong.
  */
 function validate_file( $file, $allowed_files = array() ) {
@@ -6104,7 +6107,8 @@ function wp_guess_url() {
  * @since 3.3.0
  *
  * @param bool $suspend Optional. Suspends additions if true, re-enables them if false.
- * @return bool The current suspend setting
+ *                      Defaults to not changing the current setting.
+ * @return bool The current suspend setting.
  */
 function wp_suspend_cache_addition( $suspend = null ) {
 	static $_suspend = false;
@@ -6635,7 +6639,7 @@ function wp_scheduled_delete() {
  * @param string $file            Absolute path to the file.
  * @param array  $default_headers List of headers, in the format `array( 'HeaderKey' => 'Header Name' )`.
  * @param string $context         Optional. If specified adds filter hook {@see 'extra_$context_headers'}.
- *                                Default empty.
+ *                                Default empty string.
  * @return string[] Array of file header values keyed by header name.
  */
 function get_file_data( $file, $default_headers, $context = '' ) {
@@ -6809,8 +6813,8 @@ function _wp_mysql_week( $column ) {
  * @param callable $callback      Function that accepts ( ID, $callback_args ) and outputs parent_ID.
  * @param int      $start         The ID to start the loop check at.
  * @param int      $start_parent  The parent_ID of $start to use instead of calling $callback( $start ).
- *                                Use null to always use $callback
- * @param array    $callback_args Optional. Additional arguments to send to $callback.
+ *                                Use null to always use $callback.
+ * @param array    $callback_args Optional. Additional arguments to send to $callback. Default empty array.
  * @return array IDs of all members of loop.
  */
 function wp_find_hierarchy_loop( $callback, $start, $start_parent, $callback_args = array() ) {
@@ -7813,7 +7817,7 @@ function wp_privacy_anonymize_ip( $ip_addr, $ipv6_fallback = false ) {
  * @since 4.9.6
  *
  * @param string $type The type of data to be anonymized.
- * @param string $data Optional The data to be anonymized.
+ * @param string $data Optional. The data to be anonymized. Default empty string.
  * @return string The anonymous data for the requested type.
  */
 function wp_privacy_anonymize_data( $type, $data = '' ) {
@@ -8246,10 +8250,13 @@ function get_dirsize( $directory, $max_execution_time = null ) {
  * @param string          $directory          Full path of a directory.
  * @param string|string[] $exclude            Optional. Full path of a subdirectory to exclude from the total,
  *                                            or array of paths. Expected without trailing slash(es).
+ *                                            Default null.
  * @param int             $max_execution_time Optional. Maximum time to run before giving up. In seconds.
  *                                            The timeout is global and is measured from the moment
- *                                            WordPress started to load.
+ *                                            WordPress started to load. Defaults to the value of
+ *                                            `max_execution_time` PHP setting.
  * @param array           $directory_cache    Optional. Array of cached directory paths.
+ *                                            Defaults to the value of `dirsize_cache` transient.
  * @return int|false|null Size in bytes if a valid directory. False if not. Null if timeout.
  */
 function recurse_dirsize( $directory, $exclude = null, $max_execution_time = null, &$directory_cache = null ) {

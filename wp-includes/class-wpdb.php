@@ -1072,7 +1072,7 @@ class wpdb {
 	 * @since 3.0.0
 	 *
 	 * @param int $blog_id
-	 * @param int $network_id Optional.
+	 * @param int $network_id Optional. Network ID. Default 0.
 	 * @return int Previous blog ID.
 	 */
 	public function set_blog_id( $blog_id, $network_id = 0 ) {
@@ -1101,7 +1101,8 @@ class wpdb {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param int $blog_id Optional.
+	 * @param int $blog_id Optional. Blog ID to retrieve the table prefix for.
+	 *                     Defaults to the current blog ID.
 	 * @return string Blog prefix.
 	 */
 	public function get_blog_prefix( $blog_id = null ) {
@@ -1220,7 +1221,8 @@ class wpdb {
 	 * @since 0.71
 	 *
 	 * @param string          $db  Database name.
-	 * @param mysqli|resource $dbh Optional database connection.
+	 * @param mysqli|resource $dbh Optional. Database connection.
+	 *                             Defaults to the current database handle.
 	 */
 	public function select( $db, $dbh = null ) {
 		if ( is_null( $dbh ) ) {
@@ -2561,7 +2563,7 @@ class wpdb {
 	 *                             If string, that format will be used for all of the values in $data.
 	 *                             A format is one of '%d', '%f', '%s' (integer, float, string).
 	 *                             If omitted, all values in $data will be treated as strings unless otherwise
-	 *                             specified in wpdb::$field_types.
+	 *                             specified in wpdb::$field_types. Default null.
 	 * @return int|false The number of rows inserted, or false on error.
 	 */
 	public function insert( $table, $data, $format = null ) {
@@ -2591,7 +2593,7 @@ class wpdb {
 	 *                             If string, that format will be used for all of the values in $data.
 	 *                             A format is one of '%d', '%f', '%s' (integer, float, string).
 	 *                             If omitted, all values in $data will be treated as strings unless otherwise
-	 *                             specified in wpdb::$field_types.
+	 *                             specified in wpdb::$field_types. Default null.
 	 * @return int|false The number of rows affected, or false on error.
 	 */
 	public function replace( $table, $data, $format = null ) {
@@ -2618,7 +2620,7 @@ class wpdb {
 	 *                             If string, that format will be used for all of the values in $data.
 	 *                             A format is one of '%d', '%f', '%s' (integer, float, string).
 	 *                             If omitted, all values in $data will be treated as strings unless otherwise
-	 *                             specified in wpdb::$field_types.
+	 *                             specified in wpdb::$field_types. Default null.
 	 * @param string       $type   Optional. Type of operation. Possible values include 'INSERT' or 'REPLACE'.
 	 *                             Default 'INSERT'.
 	 * @return int|false The number of rows affected, or false on error.
@@ -2684,11 +2686,11 @@ class wpdb {
 	 *                                   If string, that format will be used for all of the values in $data.
 	 *                                   A format is one of '%d', '%f', '%s' (integer, float, string).
 	 *                                   If omitted, all values in $data will be treated as strings unless otherwise
-	 *                                   specified in wpdb::$field_types.
+	 *                                   specified in wpdb::$field_types. Default null.
 	 * @param array|string $where_format Optional. An array of formats to be mapped to each of the values in $where.
 	 *                                   If string, that format will be used for all of the items in $where.
 	 *                                   A format is one of '%d', '%f', '%s' (integer, float, string).
-	 *                                   If omitted, all values in $where will be treated as strings.
+	 *                                   If omitted, all values in $where will be treated as strings. Default null.
 	 * @return int|false The number of rows updated, or false on error.
 	 */
 	public function update( $table, $data, $where, $format = null, $where_format = null ) {
@@ -2760,7 +2762,7 @@ class wpdb {
 	 *                                   If string, that format will be used for all of the items in $where.
 	 *                                   A format is one of '%d', '%f', '%s' (integer, float, string).
 	 *                                   If omitted, all values in $data will be treated as strings unless otherwise
-	 *                                   specified in wpdb::$field_types.
+	 *                                   specified in wpdb::$field_types. Default null.
 	 * @return int|false The number of rows deleted, or false on error.
 	 */
 	public function delete( $table, $where, $where_format = null ) {
@@ -2967,8 +2969,8 @@ class wpdb {
 	 * @since 0.71
 	 *
 	 * @param string|null $query Optional. SQL query. Defaults to null, use the result from the previous query.
-	 * @param int         $x     Optional. Column of value to return. Indexed from 0.
-	 * @param int         $y     Optional. Row of value to return. Indexed from 0.
+	 * @param int         $x     Optional. Column of value to return. Indexed from 0. Default 0.
+	 * @param int         $y     Optional. Row of value to return. Indexed from 0. Default 0.
 	 * @return string|null Database query result (as string), or null on failure.
 	 */
 	public function get_var( $query = null, $x = 0, $y = 0 ) {
@@ -3002,7 +3004,7 @@ class wpdb {
 	 * @param string      $output Optional. The required return type. One of OBJECT, ARRAY_A, or ARRAY_N, which
 	 *                            correspond to an stdClass object, an associative array, or a numeric array,
 	 *                            respectively. Default OBJECT.
-	 * @param int         $y      Optional. Row to return. Indexed from 0.
+	 * @param int         $y      Optional. Row to return. Indexed from 0. Default 0.
 	 * @return array|object|null|void Database query result in format specified by $output or null on failure.
 	 */
 	public function get_row( $query = null, $output = OBJECT, $y = 0 ) {
@@ -3046,7 +3048,7 @@ class wpdb {
 	 * @since 0.71
 	 *
 	 * @param string|null $query Optional. SQL query. Defaults to previous query.
-	 * @param int         $x     Optional. Column to return. Indexed from 0.
+	 * @param int         $x     Optional. Column to return. Indexed from 0. Default 0.
 	 * @return array Database query result. Array indexed from 0 by SQL result row number.
 	 */
 	public function get_col( $query = null, $x = 0 ) {
@@ -3083,6 +3085,7 @@ class wpdb {
 	 *                       or an object ( ->column = value ), respectively. With OBJECT_K,
 	 *                       return an associative array of row objects keyed by the value
 	 *                       of each row's first column's value. Duplicate keys are discarded.
+	 *                       Default OBJECT.
 	 * @return array|object|null Database query results.
 	 */
 	public function get_results( $query = null, $output = OBJECT ) {
