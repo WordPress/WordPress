@@ -1013,6 +1013,11 @@ class WP_Http {
 			$path .= '?' . $relative_url_parts['query'];
 		}
 
+		// Add the fragment.
+		if ( ! empty( $relative_url_parts['fragment'] ) ) {
+			$path .= '#' . $relative_url_parts['fragment'];
+		}
+
 		return $absolute_path . '/' . ltrim( $path, '/' );
 	}
 
