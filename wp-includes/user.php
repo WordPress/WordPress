@@ -3734,7 +3734,7 @@ All at ###SITENAME###
 		$content = apply_filters( 'new_user_email_content', $email_text, $new_user_email );
 
 		$content = str_replace( '###USERNAME###', $current_user->user_login, $content );
-		$content = str_replace( '###ADMIN_URL###', esc_url( admin_url( 'profile.php?newuseremail=' . $hash ) ), $content );
+		$content = str_replace( '###ADMIN_URL###', esc_url( self_admin_url( 'profile.php?newuseremail=' . $hash ) ), $content );
 		$content = str_replace( '###EMAIL###', $_POST['email'], $content );
 		$content = str_replace( '###SITENAME###', $sitename, $content );
 		$content = str_replace( '###SITEURL###', home_url(), $content );
