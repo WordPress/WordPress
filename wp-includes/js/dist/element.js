@@ -103,6 +103,7 @@ __webpack_require__.d(__webpack_exports__, {
   "createRef": function() { return /* reexport */ external_React_namespaceObject.createRef; },
   "createRoot": function() { return /* reexport */ client/* createRoot */.s; },
   "findDOMNode": function() { return /* reexport */ external_ReactDOM_.findDOMNode; },
+  "flushSync": function() { return /* reexport */ external_ReactDOM_.flushSync; },
   "forwardRef": function() { return /* reexport */ external_React_namespaceObject.forwardRef; },
   "hydrate": function() { return /* reexport */ external_ReactDOM_.hydrate; },
   "hydrateRoot": function() { return /* reexport */ client/* hydrateRoot */.a; },
@@ -750,6 +751,13 @@ var client = __webpack_require__(4470);
  * Finds the dom node of a React component.
  *
  * @param {import('./react').WPComponent} component Component's instance.
+ */
+
+
+/**
+ * Forces React to flush any updates inside the provided callback synchronously.
+ *
+ * @param {Function} callback Callback to run synchronously.
  */
 
 

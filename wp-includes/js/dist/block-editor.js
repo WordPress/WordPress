@@ -29699,15 +29699,18 @@ function InserterMenu(_ref, ref) {
   });
   const {
     showPatterns,
-    inserterItems
+    inserterItems,
+    enableOpenverseMediaCategory
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
       __experimentalGetAllowedPatterns,
-      getInserterItems
+      getInserterItems,
+      getSettings
     } = select(store);
     return {
       showPatterns: !!__experimentalGetAllowedPatterns(destinationRootClientId).length,
-      inserterItems: getInserterItems(destinationRootClientId)
+      inserterItems: getInserterItems(destinationRootClientId),
+      enableOpenverseMediaCategory: getSettings().enableOpenverseMediaCategory
     };
   }, [destinationRootClientId]);
   const hasReusableBlocks = (0,external_wp_element_namespaceObject.useMemo)(() => {
@@ -29719,7 +29722,7 @@ function InserterMenu(_ref, ref) {
     });
   }, [inserterItems]);
   const mediaCategories = useMediaCategories(destinationRootClientId);
-  const showMedia = !!mediaCategories.length;
+  const showMedia = !!mediaCategories.length || enableOpenverseMediaCategory;
   const onInsert = (0,external_wp_element_namespaceObject.useCallback)((blocks, meta, shouldForceFocusBlock) => {
     onInsertBlocks(blocks, meta, shouldForceFocusBlock);
     onSelect();
@@ -45819,13 +45822,15 @@ const listView = (0,external_wp_element_namespaceObject.createElement)(external_
  */
 
 
+
+
 /**
  * Internal dependencies
  */
 
 
 const AnimatedTreeGridRow = animated(external_wp_components_namespaceObject.__experimentalTreeGridRow);
-function ListViewLeaf(_ref) {
+const ListViewLeaf = (0,external_wp_element_namespaceObject.forwardRef)((_ref, ref) => {
   let {
     isSelected,
     position,
@@ -45836,19 +45841,64 @@ function ListViewLeaf(_ref) {
     path,
     ...props
   } = _ref;
-  const ref = use_moving_animation({
+  const animationRef = use_moving_animation({
     isSelected,
     adjustScrolling: false,
     enableAnimation: true,
     triggerAnimationOnChange: path
   });
+  const mergedRef = (0,external_wp_compose_namespaceObject.useMergeRefs)([ref, animationRef]);
   return (0,external_wp_element_namespaceObject.createElement)(AnimatedTreeGridRow, _extends({
-    ref: ref,
+    ref: mergedRef,
     className: classnames_default()('block-editor-list-view-leaf', className),
     level: level,
     positionInSet: position,
     setSize: rowCount
   }, props), children);
+});
+/* harmony default export */ var leaf = (ListViewLeaf);
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/list-view/use-list-view-scroll-into-view.js
+/**
+ * WordPress dependencies
+ */
+
+
+function useListViewScrollIntoView(_ref) {
+  let {
+    isSelected,
+    selectedClientIds,
+    rowItemRef
+  } = _ref;
+  const isSingleSelection = selectedClientIds.length === 1;
+  (0,external_wp_element_namespaceObject.useLayoutEffect)(() => {
+    // Skip scrolling into view if this particular block isn't selected,
+    // or if more than one block is selected overall. This is to avoid
+    // scrolling the view in a multi selection where the user has intentionally
+    // selected multiple blocks within the list view, but the initially
+    // selected block may be out of view.
+    if (!isSelected || !isSingleSelection || !rowItemRef.current) {
+      return;
+    }
+
+    const scrollContainer = (0,external_wp_dom_namespaceObject.getScrollContainer)(rowItemRef.current);
+    const {
+      ownerDocument
+    } = rowItemRef.current;
+    const windowScroll = scrollContainer === ownerDocument.body || scrollContainer === ownerDocument.documentElement; // If the there is no scroll container, of if the scroll container is the window,
+    // do not scroll into view, as the block is already in view.
+
+    if (windowScroll || !scrollContainer) {
+      return;
+    }
+
+    const rowRect = rowItemRef.current.getBoundingClientRect();
+    const scrollContainerRect = scrollContainer.getBoundingClientRect(); // If the selected block is not currently visible, scroll to it.
+
+    if (rowRect.top < scrollContainerRect.top || rowRect.bottom > scrollContainerRect.bottom) {
+      rowItemRef.current.scrollIntoView();
+    }
+  }, [isSelected, isSingleSelection, rowItemRef]);
 }
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/lock-small.js
@@ -46189,6 +46239,7 @@ function getCommonDepthClientIds(startId, endId, startParents, endParents) {
 
 
 
+
 function ListViewBlock(_ref) {
   let {
     block,
@@ -46208,6 +46259,7 @@ function ListViewBlock(_ref) {
     isSyncedBranch
   } = _ref;
   const cellRef = (0,external_wp_element_namespaceObject.useRef)(null);
+  const rowRef = (0,external_wp_element_namespaceObject.useRef)(null);
   const [isHovered, setIsHovered] = (0,external_wp_element_namespaceObject.useState)(false);
   const {
     clientId
@@ -46323,8 +46375,16 @@ function ListViewBlock(_ref) {
   // to alter a block that isn't part of the selection, they're still able
   // to do so.
 
-  const dropdownClientIds = selectedClientIds.includes(clientId) ? selectedClientIds : [clientId];
-  return (0,external_wp_element_namespaceObject.createElement)(ListViewLeaf, {
+  const dropdownClientIds = selectedClientIds.includes(clientId) ? selectedClientIds : [clientId]; // Pass in a ref to the row, so that it can be scrolled
+  // into view when selected. For long lists, the placeholder for the
+  // selected block is also observed, within ListViewLeafPlaceholder.
+
+  useListViewScrollIntoView({
+    isSelected,
+    rowItemRef: rowRef,
+    selectedClientIds
+  });
+  return (0,external_wp_element_namespaceObject.createElement)(leaf, {
     className: classes,
     onMouseEnter: onMouseEnter,
     onMouseLeave: onMouseLeave,
@@ -46337,7 +46397,8 @@ function ListViewBlock(_ref) {
     id: `list-view-block-${clientId}`,
     "data-block": clientId,
     isExpanded: canExpand ? isExpanded : undefined,
-    "aria-selected": !!isSelected || forceSelectionContentLock
+    "aria-selected": !!isSelected || forceSelectionContentLock,
+    ref: rowRef
   }, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalTreeGridCell, {
     className: "block-editor-list-view-block__contents-cell",
     colSpan: colSpan,
@@ -46556,12 +46617,12 @@ function ListViewBranch(props) {
     const updatedPath = path.length > 0 ? `${path}_${position}` : `${position}`;
     const hasNestedBlocks = !!(innerBlocks !== null && innerBlocks !== void 0 && innerBlocks.length);
     const shouldExpand = hasNestedBlocks && shouldShowInnerBlocks ? (_expandedState$client = expandedState[clientId]) !== null && _expandedState$client !== void 0 ? _expandedState$client : isExpanded : undefined;
-    const isDragged = !!(draggedClientIds !== null && draggedClientIds !== void 0 && draggedClientIds.includes(clientId));
-    const showBlock = isDragged || blockInView; // Make updates to the selected or dragged blocks synchronous,
+    const isDragged = !!(draggedClientIds !== null && draggedClientIds !== void 0 && draggedClientIds.includes(clientId)); // Make updates to the selected or dragged blocks synchronous,
     // but asynchronous for any other block.
 
     const isSelected = isClientIdSelected(clientId, selectedClientIds);
     const isSelectedBranch = isBranchSelected || isSelected && hasNestedBlocks;
+    const showBlock = isDragged || blockInView || isSelected;
     return (0,external_wp_element_namespaceObject.createElement)(external_wp_data_namespaceObject.AsyncModeProvider, {
       key: clientId,
       value: !isSelected
@@ -61720,10 +61781,135 @@ function OffCanvasEditor(_ref, ref) {
 
 /* harmony default export */ var off_canvas_editor = ((0,external_wp_element_namespaceObject.forwardRef)(OffCanvasEditor));
 
+;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/add-submenu.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+const addSubmenu = (0,external_wp_element_namespaceObject.createElement)(external_wp_primitives_namespaceObject.SVG, {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24"
+}, (0,external_wp_element_namespaceObject.createElement)(external_wp_primitives_namespaceObject.Path, {
+  d: "M2 12c0 3.6 2.4 5.5 6 5.5h.5V19l3-2.5-3-2.5v2H8c-2.5 0-4.5-1.5-4.5-4s2-4.5 4.5-4.5h3.5V6H8c-3.6 0-6 2.4-6 6zm19.5-1h-8v1.5h8V11zm0 5h-8v1.5h8V16zm0-10h-8v1.5h8V6z"
+}));
+/* harmony default export */ var add_submenu = (addSubmenu);
+
+;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/off-canvas-editor/leaf-more-menu.js
+
+
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+
+const leaf_more_menu_POPOVER_PROPS = {
+  className: 'block-editor-block-settings-menu__popover',
+  position: 'bottom right',
+  variant: 'toolbar'
+};
+const BLOCKS_THAT_CAN_BE_CONVERTED_TO_SUBMENU = ['core/navigation-link', 'core/navigation-submenu'];
+
+function AddSubmenuItem(_ref) {
+  let {
+    block,
+    onClose
+  } = _ref;
+  const {
+    expandedState,
+    expand
+  } = context_useListViewContext();
+  const {
+    insertBlock,
+    replaceBlock,
+    replaceInnerBlocks
+  } = (0,external_wp_data_namespaceObject.useDispatch)(store);
+  const clientId = block.clientId;
+  const isDisabled = !BLOCKS_THAT_CAN_BE_CONVERTED_TO_SUBMENU.includes(block.name);
+  return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuItem, {
+    icon: add_submenu,
+    disabled: isDisabled,
+    onClick: () => {
+      const updateSelectionOnInsert = false;
+      const newLink = (0,external_wp_blocks_namespaceObject.createBlock)('core/navigation-link');
+
+      if (block.name === 'core/navigation-submenu') {
+        insertBlock(newLink, block.innerBlocks.length, clientId, updateSelectionOnInsert);
+      } else {
+        // Convert to a submenu if the block currently isn't one.
+        const newSubmenu = (0,external_wp_blocks_namespaceObject.createBlock)('core/navigation-submenu', block.attributes, block.innerBlocks); // The following must happen as two independent actions.
+        // Why? Because the offcanvas editor relies on the getLastInsertedBlocksClientIds
+        // selector to determine which block is "active". As the UX needs the newLink to be
+        // the "active" block it must be the last block to be inserted.
+        // Therefore the Submenu is first created and **then** the newLink is inserted
+        // thus ensuring it is the last inserted block.
+
+        replaceBlock(clientId, newSubmenu);
+        replaceInnerBlocks(newSubmenu.clientId, [newLink], updateSelectionOnInsert);
+      }
+
+      if (!expandedState[block.clientId]) {
+        expand(block.clientId);
+      }
+
+      onClose();
+    }
+  }, (0,external_wp_i18n_namespaceObject.__)('Add submenu link'));
+}
+
+function LeafMoreMenu(props) {
+  const {
+    clientId,
+    block
+  } = props;
+  const {
+    removeBlocks
+  } = (0,external_wp_data_namespaceObject.useDispatch)(store);
+  const label = (0,external_wp_i18n_namespaceObject.sprintf)(
+  /* translators: %s: block name */
+  (0,external_wp_i18n_namespaceObject.__)('Remove %s'), BlockTitle({
+    clientId,
+    maximumLength: 25
+  }));
+  return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.DropdownMenu, _extends({
+    icon: more_vertical,
+    label: (0,external_wp_i18n_namespaceObject.__)('Options'),
+    className: "block-editor-block-settings-menu",
+    popoverProps: leaf_more_menu_POPOVER_PROPS,
+    noIcons: true
+  }, props), _ref2 => {
+    let {
+      onClose
+    } = _ref2;
+    return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuGroup, null, (0,external_wp_element_namespaceObject.createElement)(AddSubmenuItem, {
+      block: block,
+      onClose: onClose
+    }), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuItem, {
+      onClick: () => {
+        removeBlocks([clientId], false);
+        onClose();
+      }
+    }, label));
+  });
+}
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/private-apis.js
 /**
  * Internal dependencies
  */
+
 
 
 
@@ -61735,6 +61921,7 @@ function OffCanvasEditor(_ref, ref) {
 const privateApis = {};
 lock(privateApis, { ...global_styles_namespaceObject,
   ExperimentalBlockEditorProvider: ExperimentalBlockEditorProvider,
+  LeafMoreMenu: LeafMoreMenu,
   OffCanvasEditor: off_canvas_editor
 });
 

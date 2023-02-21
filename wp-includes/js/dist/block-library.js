@@ -31772,98 +31772,6 @@ const ManageMenusButton = _ref => {
 
 /* harmony default export */ var manage_menus_button = (ManageMenusButton);
 
-;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/add-submenu.js
-
-
-/**
- * WordPress dependencies
- */
-
-const addSubmenu = (0,external_wp_element_namespaceObject.createElement)(external_wp_primitives_namespaceObject.SVG, {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24"
-}, (0,external_wp_element_namespaceObject.createElement)(external_wp_primitives_namespaceObject.Path, {
-  d: "M2 12c0 3.6 2.4 5.5 6 5.5h.5V19l3-2.5-3-2.5v2H8c-2.5 0-4.5-1.5-4.5-4s2-4.5 4.5-4.5h3.5V6H8c-3.6 0-6 2.4-6 6zm19.5-1h-8v1.5h8V11zm0 5h-8v1.5h8V16zm0-10h-8v1.5h8V6z"
-}));
-/* harmony default export */ var add_submenu = (addSubmenu);
-
-;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/navigation/leaf-more-menu.js
-
-
-
-/**
- * WordPress dependencies
- */
-
-
-
-
-
-
-const leaf_more_menu_POPOVER_PROPS = {
-  className: 'block-editor-block-settings-menu__popover',
-  position: 'bottom right',
-  variant: 'toolbar'
-};
-const LeafMoreMenu = props => {
-  const {
-    clientId,
-    block
-  } = props;
-  const {
-    insertBlock,
-    replaceBlock,
-    removeBlocks,
-    replaceInnerBlocks
-  } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_blockEditor_namespaceObject.store);
-  const label = (0,external_wp_i18n_namespaceObject.sprintf)(
-  /* translators: %s: block name */
-  (0,external_wp_i18n_namespaceObject.__)('Remove %s'), (0,external_wp_blockEditor_namespaceObject.BlockTitle)({
-    clientId,
-    maximumLength: 25
-  }));
-  return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.DropdownMenu, _extends({
-    icon: more_vertical,
-    label: (0,external_wp_i18n_namespaceObject.__)('Options'),
-    className: "block-editor-block-settings-menu",
-    popoverProps: leaf_more_menu_POPOVER_PROPS,
-    noIcons: true
-  }, props), _ref => {
-    let {
-      onClose
-    } = _ref;
-    return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuGroup, null, (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuItem, {
-      icon: add_submenu,
-      onClick: () => {
-        const updateSelectionOnInsert = false;
-        const newLink = (0,external_wp_blocks_namespaceObject.createBlock)('core/navigation-link');
-
-        if (block.name === 'core/navigation-submenu') {
-          insertBlock(newLink, block.innerBlocks.length, clientId, updateSelectionOnInsert);
-        } else {
-          // Convert to a submenu if the block currently isn't one.
-          const newSubmenu = (0,external_wp_blocks_namespaceObject.createBlock)('core/navigation-submenu', block.attributes, block.innerBlocks); // The following must happen as two independent actions.
-          // Why? Because the offcanvas editor relies on the getLastInsertedBlocksClientIds
-          // selector to determine which block is "active". As the UX needs the newLink to be
-          // the "active" block it must be the last block to be inserted.
-          // Therefore the Submenu is first created and **then** the newLink is inserted
-          // thus ensuring it is the last inserted block.
-
-          replaceBlock(clientId, newSubmenu);
-          replaceInnerBlocks(newSubmenu.clientId, [newLink], updateSelectionOnInsert);
-        }
-
-        onClose();
-      }
-    }, (0,external_wp_i18n_namespaceObject.__)('Add submenu item')), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.MenuItem, {
-      onClick: () => {
-        removeBlocks([clientId], false);
-        onClose();
-      }
-    }, label));
-  });
-};
-
 ;// CONCATENATED MODULE: external ["wp","privateApis"]
 var external_wp_privateApis_namespaceObject = window["wp"]["privateApis"];
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/private-apis.js
@@ -31916,7 +31824,6 @@ function DeletedNavigationWarning(_ref) {
 
 
 
-
 /* translators: %s: The name of a menu. */
 
 const actionLabel = (0,external_wp_i18n_namespaceObject.__)("Switch to '%s'");
@@ -31930,7 +31837,8 @@ const MainContent = _ref => {
     onCreateNew
   } = _ref;
   const {
-    OffCanvasEditor
+    OffCanvasEditor,
+    LeafMoreMenu
   } = unlock(external_wp_blockEditor_namespaceObject.privateApis); // Provide a hierarchy of clientIds for the given Navigation block (clientId).
   // This is required else the list view will display the entire block tree.
 
@@ -33441,6 +33349,21 @@ const customLink = (0,external_wp_element_namespaceObject.createElement)(externa
 }));
 /* harmony default export */ var custom_link = (customLink);
 
+;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/add-submenu.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+const addSubmenu = (0,external_wp_element_namespaceObject.createElement)(external_wp_primitives_namespaceObject.SVG, {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24"
+}, (0,external_wp_element_namespaceObject.createElement)(external_wp_primitives_namespaceObject.Path, {
+  d: "M2 12c0 3.6 2.4 5.5 6 5.5h.5V19l3-2.5-3-2.5v2H8c-2.5 0-4.5-1.5-4.5-4s2-4.5 4.5-4.5h3.5V6H8c-3.6 0-6 2.4-6 6zm19.5-1h-8v1.5h8V11zm0 5h-8v1.5h8V16zm0-10h-8v1.5h8V6z"
+}));
+/* harmony default export */ var add_submenu = (addSubmenu);
+
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/navigation-link/link-ui.js
 
 
@@ -34052,6 +33975,10 @@ function NavigationLinkEdit(_ref) {
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     // If block has inner blocks, transform to Submenu.
     if (hasChildren) {
+      // This side-effect should not create an undo level as those should
+      // only be created via user interactions.
+      __unstableMarkNextChangeAsNotPersistent();
+
       transformToSubmenu();
     }
   }, [hasChildren]);
@@ -35101,6 +35028,10 @@ function NavigationSubmenuEdit(_ref) {
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     // If block becomes empty, transform to Navigation Link.
     if (!hasChildren && prevHasChildren) {
+      // This side-effect should not create an undo level as those should
+      // only be created via user interactions.
+      __unstableMarkNextChangeAsNotPersistent();
+
       transformToLink();
     }
   }, [hasChildren, prevHasChildren]);

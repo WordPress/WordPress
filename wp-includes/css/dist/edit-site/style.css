@@ -305,14 +305,17 @@ body.is-fullscreen-mode .interface-interface-skeleton{
 }
 .interface-interface-skeleton__actions:focus,.interface-interface-skeleton__actions:focus-within{
   bottom:0;
+  top:auto;
+}
+.is-entity-save-view-open .interface-interface-skeleton__actions:focus,.is-entity-save-view-open .interface-interface-skeleton__actions:focus-within{
   top:46px;
 }
 @media (min-width:782px){
-  .interface-interface-skeleton__actions:focus,.interface-interface-skeleton__actions:focus-within{
+  .is-entity-save-view-open .interface-interface-skeleton__actions:focus,.is-entity-save-view-open .interface-interface-skeleton__actions:focus-within{
     border-left:1px solid #ddd;
     top:32px;
   }
-  .is-fullscreen-mode .interface-interface-skeleton__actions:focus,.is-fullscreen-mode .interface-interface-skeleton__actions:focus-within{
+  .is-fullscreen-mode .is-entity-save-view-open .interface-interface-skeleton__actions:focus,.is-fullscreen-mode .is-entity-save-view-open .interface-interface-skeleton__actions:focus-within{
     top:0;
   }
 }
@@ -1544,6 +1547,14 @@ body.is-fullscreen-mode .edit-site-list-header{
   margin:0;
 }
 
+.show-icon-labels .edit-site-global-styles-sidebar__header .components-button.has-icon svg{
+  display:none;
+}
+.show-icon-labels .edit-site-global-styles-sidebar__header .components-button.has-icon:after{
+  content:attr(aria-label);
+  font-size:12px;
+}
+
 .components-panel__header.edit-site-sidebar-edit-mode__panel-tabs{
   border-top:0;
   justify-content:flex-start;
@@ -1693,10 +1704,6 @@ h3.edit-site-template-card__template-areas-title{
   justify-content:center;
   padding:24px;
   width:280px;
-}
-.edit-site-layout__actions:focus .edit-site-editor__toggle-save-panel,.edit-site-layout__actions:focus-within .edit-site-editor__toggle-save-panel{
-  bottom:0;
-  top:auto;
 }
 
 .edit-site .components-editor-notices__snackbar{
@@ -2156,6 +2163,9 @@ body.is-fullscreen-mode .edit-site .components-editor-notices__snackbar{
 }
 .edit-site-layout__actions:focus,.edit-site-layout__actions:focus-within{
   bottom:0;
+  top:auto;
+}
+.edit-site-layout__actions.is-entity-save-view-open:focus,.edit-site-layout__actions.is-entity-save-view-open:focus-within{
   top:0;
 }
 @media (min-width:782px){
@@ -2279,7 +2289,7 @@ body.is-fullscreen-mode .edit-site .components-editor-notices__snackbar{
 .edit-site-sidebar-navigation-screen__back{
   color:#e0e0e0;
 }
-.edit-site-sidebar-navigation-screen__back:hover,.edit-site-sidebar-navigation-screen__back:not([aria-disabled=true]):active{
+.edit-site-sidebar-navigation-screen__back:focus,.edit-site-sidebar-navigation-screen__back:hover,.edit-site-sidebar-navigation-screen__back:not([aria-disabled=true]):active{
   color:#fff;
 }
 

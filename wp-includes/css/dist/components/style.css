@@ -1497,7 +1497,7 @@ body.is-dragging-components-draggable{
   top:0;
   z-index:1000000;
 }
-.is-focusing-regions .editor-post-publish-panel,.is-focusing-regions .interface-interface-skeleton__actions .edit-post-layout__toggle-publish-panel,.is-focusing-regions .interface-interface-skeleton__sidebar .edit-post-layout__toggle-sidebar-panel,.is-focusing-regions [role=region]:focus:after,.is-focusing-regions.is-distraction-free .interface-interface-skeleton__header .edit-post-header{
+.is-focusing-regions .editor-post-publish-panel,.is-focusing-regions .interface-interface-skeleton__actions .edit-post-layout__toggle-entities-saved-states-panel,.is-focusing-regions .interface-interface-skeleton__actions .edit-post-layout__toggle-publish-panel,.is-focusing-regions .interface-interface-skeleton__sidebar .edit-post-layout__toggle-sidebar-panel,.is-focusing-regions [role=region]:focus:after,.is-focusing-regions.is-distraction-free .interface-interface-skeleton__header .edit-post-header{
   outline:4px solid var(--wp-components-color-accent, var(--wp-admin-theme-color, #007cba));
   outline-offset:-4px;
 }

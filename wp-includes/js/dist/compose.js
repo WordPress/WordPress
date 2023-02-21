@@ -4944,16 +4944,14 @@ function useAsyncList(list) {
     setCurrent(firstItems);
     const asyncQueue = (0,external_wp_priorityQueue_namespaceObject.createQueue)();
 
-    const append = nextIndex => () => {
-      if (list.length <= nextIndex) {
-        return;
-      }
+    for (let i = firstItems.length; i < list.length; i += step) {
+      asyncQueue.add({}, () => {
+        (0,external_wp_element_namespaceObject.flushSync)(() => {
+          setCurrent(state => [...state, ...list.slice(i, i + step)]);
+        });
+      });
+    }
 
-      setCurrent(state => [...state, ...list.slice(nextIndex, nextIndex + step)]);
-      asyncQueue.add({}, append(nextIndex + step));
-    };
-
-    asyncQueue.add({}, append(firstItems.length));
     return () => asyncQueue.reset();
   }, [list]);
   return current;

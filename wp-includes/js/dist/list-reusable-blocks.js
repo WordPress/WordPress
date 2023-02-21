@@ -729,9 +729,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const container = document.createElement('div');
   container.className = 'list-reusable-blocks__container';
   button.parentNode.insertBefore(container, button);
-  (0,external_wp_element_namespaceObject.render)((0,external_wp_element_namespaceObject.createElement)(import_dropdown, {
+  (0,external_wp_element_namespaceObject.createRoot)(container).render((0,external_wp_element_namespaceObject.createElement)(import_dropdown, {
     onUpload: showNotice
-  }), container);
+  }));
 });
 
 (window.wp = window.wp || {}).listReusableBlocks = __webpack_exports__;
