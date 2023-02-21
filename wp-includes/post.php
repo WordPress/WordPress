@@ -7802,9 +7802,9 @@ function wp_queue_posts_for_term_meta_lazyload( $posts ) {
 			$cached_term_ids = wp_cache_get_multiple( $post_ids, "{$taxonomy}_relationships" );
 			if ( is_array( $cached_term_ids ) ) {
 				$cached_term_ids = array_filter( $cached_term_ids );
-				foreach ( $cached_term_ids as $term_ids ) {
+				foreach ( $cached_term_ids as $_term_ids ) {
 					// Backward compatibility for if a plugin is putting objects into the cache, rather than IDs.
-					foreach ( $term_ids as $term_id ) {
+					foreach ( $_term_ids as $term_id ) {
 						if ( is_numeric( $term_id ) ) {
 							$prime_term_ids[]                  = (int) $term_id;
 							$prime_taxonomy_ids[ $taxonomy ][] = (int) $term_id;
