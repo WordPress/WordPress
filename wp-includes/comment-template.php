@@ -2034,6 +2034,8 @@ function comment_id_fields( $post = null ) {
  * @since 2.7.0
  * @since 6.2.0 Added the `$post` parameter.
  *
+ * @global WP_Comment $comment Global comment object.
+ *
  * @param string|false      $no_reply_text  Optional. Text to display when not replying to a comment.
  *                                          Default false.
  * @param string|false      $reply_text     Optional. Text to display when replying to a comment.
@@ -2045,6 +2047,8 @@ function comment_id_fields( $post = null ) {
  *                                          Defaults to the current global post.
  */
 function comment_form_title( $no_reply_text = false, $reply_text = false, $link_to_parent = true, $post = null ) {
+	global $comment;
+
 	if ( false === $no_reply_text ) {
 		$no_reply_text = __( 'Leave a Reply' );
 	}
@@ -2066,6 +2070,9 @@ function comment_form_title( $no_reply_text = false, $reply_text = false, $link_
 		echo $no_reply_text;
 		return;
 	}
+
+	// Sets the global so that template tags can be used in the comment form.
+	$comment = get_comment( $reply_to_id );
 
 	if ( $link_to_parent ) {
 		$author = '<a href="#comment-' . get_comment_ID() . '">' . get_comment_author( $reply_to_id ) . '</a>';
