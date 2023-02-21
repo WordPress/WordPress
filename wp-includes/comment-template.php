@@ -1926,18 +1926,23 @@ function post_reply_link( $args = array(), $post = null ) {
  * Retrieves HTML content for cancel comment reply link.
  *
  * @since 2.7.0
+ * @since 6.2.0 Added the `$post` parameter.
  *
- * @param string $text Optional. Text to display for cancel reply link. If empty,
- *                     defaults to 'Click here to cancel reply'. Default empty.
+ * @param string           $text Optional. Text to display for cancel reply link. If empty,
+ *                               defaults to 'Click here to cancel reply'. Default empty.
+ * @param int|WP_Post|null $post Optional. The post the comment thread is being
+ *                               displayed for. Defaults to the current global post.
  * @return string
  */
-function get_cancel_comment_reply_link( $text = '' ) {
+function get_cancel_comment_reply_link( $text = '', $post = null ) {
 	if ( empty( $text ) ) {
 		$text = __( 'Click here to cancel reply.' );
 	}
 
-	$style = isset( $_GET['replytocom'] ) ? '' : ' style="display:none;"';
-	$link  = esc_html( remove_query_arg( array( 'replytocom', 'unapproved', 'moderation-hash' ) ) ) . '#respond';
+	$post        = get_post( $post );
+	$reply_to_id = $post ? _get_comment_reply_id( $post->ID ) : 0;
+	$style       = 0 !== $reply_to_id ? '' : ' style="display:none;"';
+	$link        = esc_html( remove_query_arg( array( 'replytocom', 'unapproved', 'moderation-hash' ) ) ) . '#respond';
 
 	$formatted_link = '<a rel="nofollow" id="cancel-comment-reply-link" href="' . $link . '"' . $style . '>' . $text . '</a>';
 
@@ -1969,16 +1974,20 @@ function cancel_comment_reply_link( $text = '' ) {
  * Retrieves hidden input HTML for replying to comments.
  *
  * @since 3.0.0
+ * @since 6.2.0 Renamed `$post_id` to `$post` and added WP_Post support.
  *
- * @param int $post_id Optional. Post ID. Defaults to the current post ID.
+ * @param int|WP_Post|null $post Optional. The post the comment is being displayed for.
+ *                               Defaults to the current global post.
  * @return string Hidden input HTML for replying to comments.
  */
-function get_comment_id_fields( $post_id = 0 ) {
-	if ( empty( $post_id ) ) {
-		$post_id = get_the_ID();
+function get_comment_id_fields( $post = null ) {
+	$post = get_post( $post );
+	if ( ! $post ) {
+		return '';
 	}
 
-	$reply_to_id = isset( $_GET['replytocom'] ) ? (int) $_GET['replytocom'] : 0;
+	$post_id     = $post->ID;
+	$reply_to_id = _get_comment_reply_id( $post_id );
 	$result      = "<input type='hidden' name='comment_post_ID' value='$post_id' id='comment_post_ID' />\n";
 	$result     .= "<input type='hidden' name='comment_parent' id='comment_parent' value='$reply_to_id' />\n";
 
@@ -2003,13 +2012,15 @@ function get_comment_id_fields( $post_id = 0 ) {
  * This tag must be within the `<form>` section of the `comments.php` template.
  *
  * @since 2.7.0
+ * @since 6.2.0 Renamed `$post_id` to `$post` and added WP_Post support.
  *
  * @see get_comment_id_fields()
  *
- * @param int $post_id Optional. Post ID. Defaults to the current post ID.
+ * @param int|WP_Post|null $post Optional. The post the comment is being displayed for.
+ *                               Defaults to the current global post.
  */
-function comment_id_fields( $post_id = 0 ) {
-	echo get_comment_id_fields( $post_id );
+function comment_id_fields( $post = null ) {
+	echo get_comment_id_fields( $post );
 }
 
 /**
@@ -2021,20 +2032,19 @@ function comment_id_fields( $post_id = 0 ) {
  *           comment. See https://core.trac.wordpress.org/changeset/36512.
  *
  * @since 2.7.0
+ * @since 6.2.0 Added the `$post` parameter.
  *
- * @global WP_Comment $comment Global comment object.
- *
- * @param string|false $no_reply_text  Optional. Text to display when not replying to a comment.
- *                                     Default false.
- * @param string|false $reply_text     Optional. Text to display when replying to a comment.
- *                                     Default false. Accepts "%s" for the author of the comment
- *                                     being replied to.
- * @param bool         $link_to_parent Optional. Boolean to control making the author's name a link
- *                                     to their comment. Default true.
+ * @param string|false      $no_reply_text  Optional. Text to display when not replying to a comment.
+ *                                          Default false.
+ * @param string|false      $reply_text     Optional. Text to display when replying to a comment.
+ *                                          Default false. Accepts "%s" for the author of the comment
+ *                                          being replied to.
+ * @param bool              $link_to_parent Optional. Boolean to control making the author's name a link
+ *                                          to their comment. Default true.
+ * @param int|WP_Post|null  $post           Optional. The post that the comment form is being displayed for.
+ *                                          Defaults to the current global post.
  */
-function comment_form_title( $no_reply_text = false, $reply_text = false, $link_to_parent = true ) {
-	global $comment;
-
+function comment_form_title( $no_reply_text = false, $reply_text = false, $link_to_parent = true, $post = null ) {
 	if ( false === $no_reply_text ) {
 		$no_reply_text = __( 'Leave a Reply' );
 	}
@@ -2044,22 +2054,64 @@ function comment_form_title( $no_reply_text = false, $reply_text = false, $link_
 		$reply_text = __( 'Leave a Reply to %s' );
 	}
 
-	$reply_to_id = isset( $_GET['replytocom'] ) ? (int) $_GET['replytocom'] : 0;
-
-	if ( 0 == $reply_to_id ) {
+	$post = get_post( $post );
+	if ( ! $post ) {
 		echo $no_reply_text;
-	} else {
-		// Sets the global so that template tags can be used in the comment form.
-		$comment = get_comment( $reply_to_id );
-
-		if ( $link_to_parent ) {
-			$author = '<a href="#comment-' . get_comment_ID() . '">' . get_comment_author( $comment ) . '</a>';
-		} else {
-			$author = get_comment_author( $comment );
-		}
-
-		printf( $reply_text, $author );
+		return;
 	}
+
+	$reply_to_id = _get_comment_reply_id( $post->ID );
+
+	if ( 0 === $reply_to_id ) {
+		echo $no_reply_text;
+		return;
+	}
+
+	if ( $link_to_parent ) {
+		$author = '<a href="#comment-' . get_comment_ID() . '">' . get_comment_author( $reply_to_id ) . '</a>';
+	} else {
+		$author = get_comment_author( $reply_to_id );
+	}
+
+	printf( $reply_text, $author );
+}
+
+/**
+ * Gets the comment's reply to ID from the $_GET['replytocom'].
+ *
+ * @since 6.2.0
+ *
+ * @access private
+ *
+ * @param int|WP_Post $post The post the comment is being displayed for.
+ *                          Defaults to the current global post.
+ * @return int Comment's reply to ID.
+ */
+function _get_comment_reply_id( $post = null ) {
+	$post = get_post( $post );
+
+	if ( ! $post || ! isset( $_GET['replytocom'] ) || ! is_numeric( $_GET['replytocom'] ) ) {
+		return 0;
+	}
+
+	$reply_to_id = (int) $_GET['replytocom'];
+
+	/*
+	 * Validate the comment.
+	 * Bail out if it does not exist, is not approved, or its
+	 * `comment_post_ID` does not match the given post ID.
+	 */
+	$comment = get_comment( $reply_to_id );
+
+	if (
+		! $comment instanceof WP_Comment ||
+		0 === (int) $comment->comment_approved ||
+		$post->ID !== (int) $comment->comment_post_ID
+	) {
+		return 0;
+	}
+
+	return $reply_to_id;
 }
 
 /**
@@ -2570,7 +2622,7 @@ function comment_form( $args = array(), $post = null ) {
 		<?php
 		echo $args['title_reply_before'];
 
-		comment_form_title( $args['title_reply'], $args['title_reply_to'] );
+		comment_form_title( $args['title_reply'], $args['title_reply_to'], true, $post_id );
 
 		if ( get_option( 'thread_comments' ) ) {
 			echo $args['cancel_reply_before'];

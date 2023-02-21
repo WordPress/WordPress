@@ -3475,7 +3475,28 @@ function wp_handle_comment_submission( $comment_data ) {
 		$comment_content = trim( $comment_data['comment'] );
 	}
 	if ( isset( $comment_data['comment_parent'] ) ) {
-		$comment_parent = absint( $comment_data['comment_parent'] );
+		$comment_parent        = absint( $comment_data['comment_parent'] );
+		$comment_parent_object = get_comment( $comment_parent );
+
+		if (
+			0 !== $comment_parent &&
+			(
+				! $comment_parent_object instanceof WP_Comment ||
+				0 === (int) $comment_parent_object->comment_approved
+			)
+		) {
+			/**
+			 * Fires when a comment reply is attempted to an unapproved comment.
+			 *
+			 * @since 6.2.0
+			 *
+			 * @param int $comment_post_id Post ID.
+			 * @param int $comment_parent  Parent comment ID.
+			 */
+			do_action( 'comment_reply_to_unapproved_comment', $comment_post_id, $comment_parent );
+
+			return new WP_Error( 'comment_reply_to_unapproved_comment', __( 'Sorry, replies to unapproved comments are not allowed.' ), 403 );
+		}
 	}
 
 	$post = get_post( $comment_post_id );
@@ -3560,7 +3581,6 @@ function wp_handle_comment_submission( $comment_data ) {
 		return new WP_Error( 'comment_on_password_protected' );
 
 	} else {
-
 		/**
 		 * Fires before a comment is posted.
 		 *
@@ -3569,7 +3589,6 @@ function wp_handle_comment_submission( $comment_data ) {
 		 * @param int $comment_post_id Post ID.
 		 */
 		do_action( 'pre_comment_on_post', $comment_post_id );
-
 	}
 
 	// If the user is logged in.
