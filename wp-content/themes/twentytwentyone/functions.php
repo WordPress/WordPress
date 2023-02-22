@@ -340,7 +340,7 @@ if ( ! function_exists( 'twenty_twenty_one_setup' ) ) {
 		add_theme_support( 'custom-units' );
 
 		// Remove feed icon link from legacy RSS widget.
-		add_filter( 'rss_widget_feed_link', '__return_false' );
+		add_filter( 'rss_widget_feed_link', '__return_empty_string' );
 	}
 }
 add_action( 'after_setup_theme', 'twenty_twenty_one_setup' );
