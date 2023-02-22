@@ -274,7 +274,7 @@ class WP_HTML_Tag_Processor {
 	 * @since 6.2.0
 	 * @var string
 	 */
-	private $html;
+	protected $html;
 
 	/**
 	 * The last query passed to next_tag().
