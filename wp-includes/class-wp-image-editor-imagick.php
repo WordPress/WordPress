@@ -254,6 +254,50 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	}
 
 	/**
+	 * Sets Imagick time limit.
+	 *
+	 * Depending on configuration, Imagick processing may take time.
+	 *
+	 * Multiple problems exist if PHP times out before ImageMagick completed:
+	 * 1. Temporary files aren't cleaned by ImageMagick garbage collection.
+	 * 2. No clear error is provided.
+	 * 3. The cause of such timeout can be hard to pinpoint.
+	 *
+	 * This function, which is expected to be run before heavy image routines, resolves
+	 * point 1 above by aligning Imagick's timeout with PHP's timeout, assuming it is set.
+	 *
+	 * Note:
+	 *  - Imagick resource exhaustion does not issue catchable exceptions (yet).
+	 *    See https://github.com/Imagick/imagick/issues/333.
+	 *  - The resource limit is not saved/restored. It applies to subsequent
+	 *    image operations within the time of the HTTP request.
+	 *
+	 * @since 6.2.0
+	 *
+	 * @return int|null The new limit on success, null on failure.
+	 */
+	public static function set_imagick_time_limit() {
+		if ( ! defined( 'Imagick::RESOURCETYPE_TIME' ) ) {
+			return null;
+		}
+
+		// Returns PHP_FLOAT_MAX if unset.
+		$imagick_timeout = Imagick::getResourceLimit( Imagick::RESOURCETYPE_TIME );
+
+		// Convert to an integer, keeping in mind that: 0 === (int) PHP_FLOAT_MAX.
+		$imagick_timeout = $imagick_timeout > PHP_INT_MAX ? PHP_INT_MAX : (int) $imagick_timeout;
+
+		$php_timeout = (int) ini_get( 'max_execution_time' );
+
+		if ( $php_timeout > 1 && $php_timeout < $imagick_timeout ) {
+			$limit = (float) 0.8 * $php_timeout;
+			Imagick::setResourceLimit( Imagick::RESOURCETYPE_TIME, $limit );
+
+			return $limit;
+		}
+	}
+
+	/**
 	 * Resizes current image.
 	 *
 	 * At minimum, either a height or width must be provided.
@@ -282,6 +326,8 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 		if ( $crop ) {
 			return $this->crop( $src_x, $src_y, $src_w, $src_h, $dst_w, $dst_h );
 		}
+
+		self::set_imagick_time_limit();
 
 		// Execute the resize.
 		$thumb_result = $this->thumbnail_image( $dst_w, $dst_h );
@@ -548,6 +594,8 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 			$src_w -= $src_x;
 			$src_h -= $src_y;
 		}
+
+		self::set_imagick_time_limit();
 
 		try {
 			$this->image->cropImage( $src_w, $src_h, $src_x, $src_y );
