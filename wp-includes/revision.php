@@ -205,29 +205,14 @@ function wp_save_post_revision( $post_id ) {
 	 *
 	 * @since 6.2.0
 	 *
-	 * @param WP_Post[]|int[] $revisions Array of revision objects or IDs,
-	 *                                   or an empty array if none.
-	 * @param int             $post_id   The ID of the post to save as a revision.
+	 * @param WP_Post[] $revisions Array of revisions, or an empty array if none.
+	 * @param int       $post_id   The ID of the post to save as a revision.
 	 */
-	$filtered_revisions = apply_filters(
+	$revisions = apply_filters(
 		'wp_save_post_revision_revisions_before_deletion',
 		$revisions,
 		$post_id
 	);
-
-	if ( is_array( $filtered_revisions ) ) {
-		$revisions = $filtered_revisions;
-	} else {
-		_doing_it_wrong(
-			__FUNCTION__,
-			sprintf(
-				/* translators: %s: The filter name. */
-				__( 'The "%s" filter should return an array.' ),
-				'wp_save_post_revision_revisions_before_deletion'
-			),
-			'6.2.0'
-		);
-	}
 
 	$delete = count( $revisions ) - $revisions_to_keep;
 
