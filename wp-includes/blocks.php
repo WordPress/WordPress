@@ -529,7 +529,7 @@ function register_block_type_from_metadata( $file_or_folder, $args = array() ) {
  * @return WP_Block_Type|false The registered block type on success, or false on failure.
  */
 function register_block_type( $block_type, $args = array() ) {
-	if ( is_string( $block_type ) && file_exists( $block_type ) ) {
+	if ( is_string( $block_type ) && @file_exists( $block_type ) ) {
 		return register_block_type_from_metadata( $block_type, $args );
 	}
 
