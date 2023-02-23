@@ -158,39 +158,6 @@ function wp_check_php_mysql_versions() {
 		exit( 1 );
 	}
 
-	if ( ! function_exists( 'mysqli_connect' ) && ! function_exists( 'mysql_connect' )
-		// This runs before default constants are defined, so we can't assume WP_CONTENT_DIR is set yet.
-		&& ( defined( 'WP_CONTENT_DIR' ) && ! file_exists( WP_CONTENT_DIR . '/db.php' )
-			|| ! file_exists( ABSPATH . 'wp-content/db.php' ) )
-	) {
-		require_once ABSPATH . WPINC . '/functions.php';
-		wp_load_translations_early();
-
-		$message = '<p>' . __( 'Your PHP installation appears to be missing the MySQL extension which is required by WordPress.' ) . "</p>\n";
-
-		$message .= '<p>' . sprintf(
-			/* translators: %s: mysqli. */
-			__( 'Please check that the %s PHP extension is installed and enabled.' ),
-			'<code>mysqli</code>'
-		) . "</p>\n";
-
-		$message .= '<p>' . sprintf(
-			/* translators: %s: Support forums URL. */
-			__( 'If you are unsure what these terms mean you should probably contact your host. If you still need help you can always visit the <a href="%s">WordPress Support Forums</a>.' ),
-			__( 'https://wordpress.org/support/forums/' )
-		) . "</p>\n";
-
-		$args = array(
-			'exit' => false,
-			'code' => 'mysql_not_found',
-		);
-		wp_die(
-			$message,
-			__( 'Requirements Not Met' ),
-			$args
-		);
-		exit( 1 );
-	}
 }
 
 /**
@@ -566,9 +533,7 @@ function require_wp_db() {
 
 	require_once ABSPATH . WPINC . '/class-wpdb.php';
 
-	if ( file_exists( WP_CONTENT_DIR . '/db.php' ) ) {
-		require_once WP_CONTENT_DIR . '/db.php';
-	}
+	require_once ABSPATH . WPINC . '/class-wp-sqlite.php';
 
 	if ( isset( $wpdb ) ) {
 		return;

@@ -224,13 +224,8 @@ class WP_Automatic_Updater {
 			global $wpdb;
 
 			$php_compat = version_compare( PHP_VERSION, $item->php_version, '>=' );
-			if ( file_exists( WP_CONTENT_DIR . '/db.php' ) && empty( $wpdb->is_mysql ) ) {
-				$mysql_compat = true;
-			} else {
-				$mysql_compat = version_compare( $wpdb->db_version(), $item->mysql_version, '>=' );
-			}
 
-			if ( ! $php_compat || ! $mysql_compat ) {
+			if ( ! $php_compat ) {
 				return false;
 			}
 		}

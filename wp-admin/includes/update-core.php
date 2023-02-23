@@ -1140,13 +1140,7 @@ function update_core( $from, $to ) {
 	$development_build = ( false !== strpos( $old_wp_version . $wp_version, '-' ) ); // A dash in the version indicates a development release.
 	$php_compat        = version_compare( $php_version, $required_php_version, '>=' );
 
-	if ( file_exists( WP_CONTENT_DIR . '/db.php' ) && empty( $wpdb->is_mysql ) ) {
-		$mysql_compat = true;
-	} else {
-		$mysql_compat = version_compare( $mysql_version, $required_mysql_version, '>=' );
-	}
-
-	if ( ! $mysql_compat || ! $php_compat ) {
+	if ( ! $php_compat ) {
 		$wp_filesystem->delete( $from, true );
 	}
 
@@ -1168,7 +1162,7 @@ function update_core( $from, $to ) {
 		}
 	}
 
-	if ( ! $mysql_compat && ! $php_compat ) {
+	if ( ! $php_compat ) {
 		return new WP_Error(
 			'php_mysql_not_compatible',
 			sprintf(
@@ -1191,17 +1185,6 @@ function update_core( $from, $to ) {
 				$required_php_version,
 				$php_version
 			) . $php_update_message
-		);
-	} elseif ( ! $mysql_compat ) {
-		return new WP_Error(
-			'mysql_not_compatible',
-			sprintf(
-				/* translators: 1: WordPress version number, 2: Minimum required MySQL version number, 3: Current MySQL version number. */
-				__( 'The update cannot be installed because WordPress %1$s requires MySQL version %2$s or higher. You are running version %3$s.' ),
-				$wp_version,
-				$required_mysql_version,
-				$mysql_version
-			)
 		);
 	}
 

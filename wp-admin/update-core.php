@@ -83,11 +83,6 @@ function list_core_update( $update ) {
 			$form_action = 'update-core.php?action=do-core-reinstall';
 		} else {
 			$php_compat = version_compare( $php_version, $update->php_version, '>=' );
-			if ( file_exists( WP_CONTENT_DIR . '/db.php' ) && empty( $wpdb->is_mysql ) ) {
-				$mysql_compat = true;
-			} else {
-				$mysql_compat = version_compare( $mysql_version, $update->mysql_version, '>=' );
-			}
 
 			$version_url = sprintf(
 				/* translators: %s: WordPress version. */
@@ -107,7 +102,7 @@ function list_core_update( $update ) {
 				$php_update_message .= '</p><p><em>' . $annotation . '</em>';
 			}
 
-			if ( ! $mysql_compat && ! $php_compat ) {
+			if ( ! $php_compat ) {
 				$message = sprintf(
 					/* translators: 1: URL to WordPress release notes, 2: WordPress version number, 3: Minimum required PHP version number, 4: Minimum required MySQL version number, 5: Current PHP version number, 6: Current MySQL version number. */
 					__( 'You cannot update because <a href="%1$s">WordPress %2$s</a> requires PHP version %3$s or higher and MySQL version %4$s or higher. You are running PHP version %5$s and MySQL version %6$s.' ),
@@ -127,15 +122,6 @@ function list_core_update( $update ) {
 					$update->php_version,
 					$php_version
 				) . $php_update_message;
-			} elseif ( ! $mysql_compat ) {
-				$message = sprintf(
-					/* translators: 1: URL to WordPress release notes, 2: WordPress version number, 3: Minimum required MySQL version number, 4: Current MySQL version number. */
-					__( 'You cannot update because <a href="%1$s">WordPress %2$s</a> requires MySQL version %3$s or higher. You are running version %4$s.' ),
-					$version_url,
-					$update->current,
-					$update->mysql_version,
-					$mysql_version
-				);
 			} else {
 				$message = sprintf(
 					/* translators: 1: Installed WordPress version number, 2: URL to WordPress release notes, 3: New WordPress version number, including locale if necessary. */
@@ -146,7 +132,7 @@ function list_core_update( $update ) {
 				);
 			}
 
-			if ( ! $mysql_compat || ! $php_compat ) {
+			if ( ! $php_compat ) {
 				$show_buttons = false;
 			}
 		}

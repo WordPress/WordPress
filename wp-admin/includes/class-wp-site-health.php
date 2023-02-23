@@ -1226,8 +1226,6 @@ class WP_Site_Health {
 			'test'        => 'sql_server',
 		);
 
-		$db_dropin = file_exists( WP_CONTENT_DIR . '/db.php' );
-
 		if ( ! $this->is_recommended_mysql_version ) {
 			$result['status'] = 'recommended';
 
@@ -1261,22 +1259,20 @@ class WP_Site_Health {
 			);
 		}
 
-		if ( $db_dropin ) {
-			$result['description'] .= sprintf(
-				'<p>%s</p>',
-				wp_kses(
-					sprintf(
-						/* translators: 1: The name of the drop-in. 2: The name of the database engine. */
-						__( 'You are using a %1$s drop-in which might mean that a %2$s database is not being used.' ),
-						'<code>wp-content/db.php</code>',
-						( $this->is_mariadb ? 'MariaDB' : 'MySQL' )
-					),
-					array(
-						'code' => true,
-					)
+		$result['description'] .= sprintf(
+			'<p>%s</p>',
+			wp_kses(
+				sprintf(
+					/* translators: 1: The name of the drop-in. 2: The name of the database engine. */
+					__( 'You are using a %1$s drop-in which might mean that a %2$s database is not being used.' ),
+					'<code>wp-content/db.php</code>',
+					( $this->is_mariadb ? 'MariaDB' : 'MySQL' )
+				),
+				array(
+					'code' => true,
 				)
-			);
-		}
+			)
+		);
 
 		return $result;
 	}

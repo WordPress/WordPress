@@ -488,7 +488,6 @@ function get_dropins() {
 function _get_dropins() {
 	$dropins = array(
 		'advanced-cache.php'      => array( __( 'Advanced caching plugin.' ), 'WP_CACHE' ),  // WP_CACHE
-		'db.php'                  => array( __( 'Custom database class.' ), true ),          // Auto on load.
 		'db-error.php'            => array( __( 'Custom database error message.' ), true ),  // Auto on error.
 		'install.php'             => array( __( 'Custom installation script.' ), true ),     // Auto on installation.
 		'maintenance.php'         => array( __( 'Custom maintenance message.' ), true ),     // Auto on maintenance.
