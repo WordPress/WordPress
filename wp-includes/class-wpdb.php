@@ -1267,7 +1267,7 @@ class wpdb {
 
 				$message .= '<p>' . sprintf(
 					/* translators: %s: Support forums URL. */
-					__( 'If you do not know how to set up a database you should <strong>contact your host</strong>. If all else fails you may find help at the <a href="%s">WordPress Support Forums</a>.' ),
+					__( 'If you do not know how to set up a database you should <strong>contact your host</strong>. If all else fails you may find help at the <a href="%s">WordPress Support forums</a>.' ),
 					__( 'https://wordpress.org/support/forums/' )
 				) . "</p>\n";
 
@@ -2081,7 +2081,7 @@ class wpdb {
 
 			$message .= '<p>' . sprintf(
 				/* translators: %s: Support forums URL. */
-				__( 'If you are unsure what these terms mean you should probably contact your host. If you still need help you can always visit the <a href="%s">WordPress Support Forums</a>.' ),
+				__( 'If you are unsure what these terms mean you should probably contact your host. If you still need help you can always visit the <a href="%s">WordPress Support forums</a>.' ),
 				__( 'https://wordpress.org/support/forums/' )
 			) . "</p>\n";
 
@@ -2241,7 +2241,7 @@ class wpdb {
 
 		$message .= '<p>' . sprintf(
 			/* translators: %s: Support forums URL. */
-			__( 'If you are unsure what these terms mean you should probably contact your host. If you still need help you can always visit the <a href="%s">WordPress Support Forums</a>.' ),
+			__( 'If you are unsure what these terms mean you should probably contact your host. If you still need help you can always visit the <a href="%s">WordPress Support forums</a>.' ),
 			__( 'https://wordpress.org/support/forums/' )
 		) . "</p>\n";
 
