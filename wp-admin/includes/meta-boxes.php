@@ -746,7 +746,7 @@ function post_excerpt_meta_box( $post ) {
 	printf(
 		/* translators: %s: Documentation URL. */
 		__( 'Excerpts are optional hand-crafted summaries of your content that can be used in your theme. <a href="%s">Learn more about manual excerpts</a>.' ),
-		__( 'https://wordpress.org/documentation/article/excerpt/' )
+		__( 'https://wordpress.org/documentation/article/what-is-an-excerpt-classic-editor/' )
 	);
 	?>
 </p>
@@ -821,7 +821,7 @@ function post_custom_meta_box( $post ) {
 	printf(
 		/* translators: %s: Documentation URL. */
 		__( 'Custom fields can be used to add extra metadata to a post that you can <a href="%s">use in your theme</a>.' ),
-		__( 'https://wordpress.org/documentation/article/custom-fields/' )
+		__( 'https://wordpress.org/documentation/article/assign-custom-fields/' )
 	);
 	?>
 </p>

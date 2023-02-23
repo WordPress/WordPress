@@ -316,7 +316,7 @@ if ( 'post' === $post_type ) {
 			'tools.php'
 		) . '</p>' .
 			'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
-			'<p>' . __( '<a href="https://wordpress.org/documentation/article/wordpress-editor/">Documentation on Writing and Editing Posts</a>' ) . '</p>' .
+			'<p>' . __( '<a href="https://wordpress.org/documentation/article/write-posts-classic-editor/">Documentation on Writing and Editing Posts</a>' ) . '</p>' .
 			'<p>' . __( '<a href="https://wordpress.org/support/forums/">Support forums</a>' ) . '</p>'
 	);
 } elseif ( 'page' === $post_type ) {

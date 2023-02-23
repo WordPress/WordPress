@@ -58,7 +58,7 @@ get_current_screen()->add_help_tab(
 
 $help_sidebar_content = '<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
 	'<p>' . __( '<a href="https://wordpress.org/documentation/article/settings-permalinks-screen/">Documentation on Permalinks Settings</a>' ) . '</p>' .
-	'<p>' . __( '<a href="https://wordpress.org/documentation/article/using-permalinks/">Documentation on Using Permalinks</a>' ) . '</p>';
+	'<p>' . __( '<a href="https://wordpress.org/documentation/article/customize-permalinks/">Documentation on Using Permalinks</a>' ) . '</p>';
 
 if ( $is_nginx ) {
 	$help_sidebar_content .= '<p>' . __( '<a href="https://wordpress.org/documentation/article/nginx/">Documentation on Nginx configuration</a>.' ) . '</p>';

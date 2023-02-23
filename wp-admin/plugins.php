@@ -585,7 +585,7 @@ if ( current_user_can( 'update_plugins' ) && wp_is_auto_update_enabled_for_type(
 
 get_current_screen()->set_help_sidebar(
 	'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
-	'<p>' . __( '<a href="https://wordpress.org/documentation/article/managing-plugins/">Documentation on Managing Plugins</a>' ) . '</p>' .
+	'<p>' . __( '<a href="https://wordpress.org/documentation/article/manage-plugins/">Documentation on Managing Plugins</a>' ) . '</p>' .
 	$help_sidebar_autoupdates .
 	'<p>' . __( '<a href="https://wordpress.org/support/forums/">Support forums</a>' ) . '</p>'
 );
