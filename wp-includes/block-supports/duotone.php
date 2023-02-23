@@ -547,7 +547,7 @@ function wp_render_duotone_support( $block_content, $block ) {
 		? $selector . " {\n\tfilter: " . $filter_property . " !important;\n}\n"
 		: $selector . '{filter:' . $filter_property . ' !important;}';
 
-	wp_register_style( $filter_id, false, array(), true, true );
+	wp_register_style( $filter_id, false );
 	wp_add_inline_style( $filter_id, $filter_style );
 	wp_enqueue_style( $filter_id );
 
