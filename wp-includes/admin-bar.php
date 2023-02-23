@@ -175,7 +175,7 @@ function wp_admin_bar_wp_menu( $wp_admin_bar ) {
 			'parent' => 'wp-logo-external',
 			'id'     => 'documentation',
 			'title'  => __( 'Documentation' ),
-			'href'   => __( 'https://wordpress.org/support/' ),
+			'href'   => __( 'https://wordpress.org/documentation/' ),
 		)
 	);
 
