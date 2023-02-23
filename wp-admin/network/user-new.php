@@ -77,8 +77,8 @@ if ( isset( $_REQUEST['action'] ) && 'add-user' === $_REQUEST['action'] ) {
 	}
 }
 
+$message = '';
 if ( isset( $_GET['update'] ) ) {
-	$messages = array();
 	if ( 'added' === $_GET['update'] ) {
 		$edit_link = '';
 		if ( isset( $_GET['user_id'] ) ) {
@@ -93,8 +93,6 @@ if ( isset( $_GET['update'] ) ) {
 		if ( $edit_link ) {
 			$message .= sprintf( ' <a href="%s">%s</a>', $edit_link, __( 'Edit user' ) );
 		}
-
-		$messages[] = $message;
 	}
 }
 
@@ -107,18 +105,16 @@ require_once ABSPATH . 'wp-admin/admin-header.php'; ?>
 <div class="wrap">
 <h1 id="add-new-user"><?php _e( 'Add New User' ); ?></h1>
 <?php
-if ( ! empty( $messages ) ) {
-	foreach ( $messages as $msg ) {
-		echo '<div id="message" class="updated notice is-dismissible"><p>' . $msg . '</p></div>';
-	}
+if ( '' !== $message ) {
+	echo '<div id="message" class="notice notice-success is-dismissible"><p>' . $message . '</p></div>';
 }
 
 if ( isset( $add_user_errors ) && is_wp_error( $add_user_errors ) ) {
 	?>
-	<div class="error">
+	<div id="message" class="notice notice-error is-dismissible">
 		<?php
-		foreach ( $add_user_errors->get_error_messages() as $message ) {
-			echo "<p>$message</p>";
+		foreach ( $add_user_errors->get_error_messages() as $error ) {
+			echo "<p>$error</p>";
 		}
 		?>
 	</div>

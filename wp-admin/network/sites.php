@@ -354,7 +354,7 @@ if ( isset( $_GET['updated'] ) ) {
 	}
 
 	if ( ! empty( $msg ) ) {
-		$msg = '<div id="message" class="updated notice is-dismissible"><p>' . $msg . '</p></div>';
+		$msg = '<div id="message" class="notice notice-success is-dismissible"><p>' . $msg . '</p></div>';
 	}
 }
 

@@ -235,37 +235,37 @@ network_edit_site_nav(
 if ( isset( $_GET['update'] ) ) :
 	switch ( $_GET['update'] ) {
 		case 'adduser':
-			echo '<div id="message" class="updated notice is-dismissible"><p>' . __( 'User added.' ) . '</p></div>';
+			echo '<div id="message" class="notice notice-success is-dismissible"><p>' . __( 'User added.' ) . '</p></div>';
 			break;
 		case 'err_add_member':
-			echo '<div id="message" class="error notice is-dismissible"><p>' . __( 'User is already a member of this site.' ) . '</p></div>';
+			echo '<div id="message" class="notice notice-error  is-dismissible"><p>' . __( 'User is already a member of this site.' ) . '</p></div>';
 			break;
 		case 'err_add_fail':
-			echo '<div id="message" class="error notice is-dismissible"><p>' . __( 'User could not be added to this site.' ) . '</p></div>';
+			echo '<div id="message" class="notice notice-error is-dismissible"><p>' . __( 'User could not be added to this site.' ) . '</p></div>';
 			break;
 		case 'err_add_notfound':
-			echo '<div id="message" class="error notice is-dismissible"><p>' . __( 'Enter the username of an existing user.' ) . '</p></div>';
+			echo '<div id="message" class="notice notice-error is-dismissible"><p>' . __( 'Enter the username of an existing user.' ) . '</p></div>';
 			break;
 		case 'promote':
-			echo '<div id="message" class="updated notice is-dismissible"><p>' . __( 'Changed roles.' ) . '</p></div>';
+			echo '<div id="message" class="notice notice-success is-dismissible"><p>' . __( 'Changed roles.' ) . '</p></div>';
 			break;
 		case 'err_promote':
-			echo '<div id="message" class="error notice is-dismissible"><p>' . __( 'Select a user to change role.' ) . '</p></div>';
+			echo '<div id="message" class="notice notice-error is-dismissible"><p>' . __( 'Select a user to change role.' ) . '</p></div>';
 			break;
 		case 'remove':
-			echo '<div id="message" class="updated notice is-dismissible"><p>' . __( 'User removed from this site.' ) . '</p></div>';
+			echo '<div id="message" class="notice notice-success is-dismissible"><p>' . __( 'User removed from this site.' ) . '</p></div>';
 			break;
 		case 'err_remove':
-			echo '<div id="message" class="error notice is-dismissible"><p>' . __( 'Select a user to remove.' ) . '</p></div>';
+			echo '<div id="message" class="notice notice-error is-dismissible"><p>' . __( 'Select a user to remove.' ) . '</p></div>';
 			break;
 		case 'newuser':
-			echo '<div id="message" class="updated notice is-dismissible"><p>' . __( 'User created.' ) . '</p></div>';
+			echo '<div id="message" class="notice notice-success is-dismissible"><p>' . __( 'User created.' ) . '</p></div>';
 			break;
 		case 'err_new':
-			echo '<div id="message" class="error notice is-dismissible"><p>' . __( 'Enter the username and email.' ) . '</p></div>';
+			echo '<div id="message" class="notice notice-error is-dismissible"><p>' . __( 'Enter the username and email.' ) . '</p></div>';
 			break;
 		case 'err_new_dup':
-			echo '<div id="message" class="error notice is-dismissible"><p>' . __( 'Duplicated username or email address.' ) . '</p></div>';
+			echo '<div id="message" class="notice notice-error is-dismissible"><p>' . __( 'Duplicated username or email address.' ) . '</p></div>';
 			break;
 	}
 endif;

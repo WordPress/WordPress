@@ -255,7 +255,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 
 if ( isset( $_REQUEST['updated'] ) && 'true' == $_REQUEST['updated'] && ! empty( $_REQUEST['action'] ) ) {
 	?>
-	<div id="message" class="updated notice is-dismissible"><p>
+	<div id="message" class="notice notice-success is-dismissible"><p>
 		<?php
 		switch ( $_REQUEST['action'] ) {
 			case 'delete':

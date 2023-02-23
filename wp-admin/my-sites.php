@@ -56,7 +56,7 @@ get_current_screen()->set_help_sidebar(
 require_once ABSPATH . 'wp-admin/admin-header.php';
 
 if ( $updated ) { ?>
-	<div id="message" class="updated notice is-dismissible"><p><strong><?php _e( 'Settings saved.' ); ?></strong></p></div>
+	<div id="message" class="notice notice-success is-dismissible"><p><strong><?php _e( 'Settings saved.' ); ?></strong></p></div>
 <?php } ?>
 
 <div class="wrap">
@@ -74,9 +74,9 @@ if ( in_array( get_site_option( 'registration' ), array( 'all', 'blog' ), true )
 }
 
 if ( empty( $blogs ) ) :
-	echo '<p>';
-	_e( 'You must be a member of at least one site to use this page.' );
-	echo '</p>';
+	?>
+	<div class="notice notice-error is-dismissible"><p><strong><?php _e( 'You must be a member of at least one site to use this page.' ); ?></strong></p></div>
+	<?php
 else :
 	?>
 

@@ -138,7 +138,7 @@ if ( $_POST ) {
 require_once ABSPATH . 'wp-admin/admin-header.php';
 
 if ( isset( $_GET['updated'] ) ) {
-	?><div id="message" class="updated notice is-dismissible"><p><?php _e( 'Settings saved.' ); ?></p></div>
+	?><div id="message" class="notice notice-success is-dismissible"><p><?php _e( 'Settings saved.' ); ?></p></div>
 	<?php
 }
 ?>
@@ -167,7 +167,7 @@ if ( isset( $_GET['updated'] ) ) {
 					$new_admin_email = get_site_option( 'new_admin_email' );
 					if ( $new_admin_email && get_site_option( 'admin_email' ) !== $new_admin_email ) :
 						?>
-						<div class="updated inline">
+						<div class="notice notice-warning is-dismissible inline">
 						<p>
 						<?php
 							printf(
