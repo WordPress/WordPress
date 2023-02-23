@@ -1226,39 +1226,6 @@ class WP_Site_Health {
 			'test'        => 'sql_server',
 		);
 
-		if ( ! $this->is_recommended_mysql_version ) {
-			$result['status'] = 'recommended';
-
-			$result['label'] = __( 'Outdated SQL server' );
-
-			$result['description'] .= sprintf(
-				'<p>%s</p>',
-				sprintf(
-					/* translators: 1: The database engine in use (MySQL or MariaDB). 2: Database server recommended version number. */
-					__( 'For optimal performance and security reasons, you should consider running %1$s version %2$s or higher. Contact your web hosting company to correct this.' ),
-					( $this->is_mariadb ? 'MariaDB' : 'MySQL' ),
-					$this->mysql_recommended_version
-				)
-			);
-		}
-
-		if ( ! $this->is_acceptable_mysql_version ) {
-			$result['status'] = 'critical';
-
-			$result['label']          = __( 'Severely outdated SQL server' );
-			$result['badge']['label'] = __( 'Security' );
-
-			$result['description'] .= sprintf(
-				'<p>%s</p>',
-				sprintf(
-					/* translators: 1: The database engine in use (MySQL or MariaDB). 2: Database server minimum version number. */
-					__( 'WordPress requires %1$s version %2$s or higher. Contact your web hosting company to correct this.' ),
-					( $this->is_mariadb ? 'MariaDB' : 'MySQL' ),
-					$this->mysql_required_version
-				)
-			);
-		}
-
 		$result['description'] .= sprintf(
 			'<p>%s</p>',
 			wp_kses(
@@ -3376,32 +3343,6 @@ class WP_Site_Health {
 
 		if ( $thresholds['alloptions_bytes'] < strlen( serialize( $alloptions ) ) ) {
 			return true;
-		}
-
-		$table_names = implode( "','", array( $wpdb->comments, $wpdb->options, $wpdb->posts, $wpdb->terms, $wpdb->users ) );
-
-		// With InnoDB the `TABLE_ROWS` are estimates, which are accurate enough and faster to retrieve than individual `COUNT()` queries.
-		$results = $wpdb->get_results(
-			$wpdb->prepare(
-				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- This query cannot use interpolation.
-				"SELECT TABLE_NAME AS 'table', TABLE_ROWS AS 'rows', SUM(data_length + index_length) as 'bytes' FROM information_schema.TABLES WHERE TABLE_SCHEMA = %s AND TABLE_NAME IN ('$table_names') GROUP BY TABLE_NAME;",
-				DB_NAME
-			),
-			OBJECT_K
-		);
-
-		$threshold_map = array(
-			'comments_count' => $wpdb->comments,
-			'options_count'  => $wpdb->options,
-			'posts_count'    => $wpdb->posts,
-			'terms_count'    => $wpdb->terms,
-			'users_count'    => $wpdb->users,
-		);
-
-		foreach ( $threshold_map as $threshold => $table ) {
-			if ( $thresholds[ $threshold ] <= $results[ $table ]->rows ) {
-				return true;
-			}
 		}
 
 		return false;
