@@ -1294,7 +1294,7 @@ function wp_default_scripts( $scripts ) {
 			'blockThemeNotification'  => sprintf(
 				/* translators: 1: Link to Site Editor documentation on HelpHub, 2: HTML button. */
 				__( 'Hurray! Your theme supports site editing with blocks. <a href="%1$s">Tell me more</a>. %2$s' ),
-				__( 'https://wordpress.org/support/article/site-editor/' ),
+				__( 'https://wordpress.org/documentation/article/site-editor/' ),
 				sprintf(
 					'<button type="button" data-action="%1$s" class="button switch-to-editor">%2$s</button>',
 					esc_url( admin_url( 'site-editor.php' ) ),

@@ -10,7 +10,7 @@
  * This functionality was found in a plugin before the WordPress 2.2 release, which
  * included it in the core from that point on.
  *
- * @link https://wordpress.org/support/article/wordpress-widgets/
+ * @link https://wordpress.org/documentation/article/wordpress-widgets/
  * @link https://developer.wordpress.org/themes/functionality/widgets/
  *
  * @package WordPress

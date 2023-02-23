@@ -57,14 +57,14 @@ get_current_screen()->add_help_tab(
 );
 
 $help_sidebar_content = '<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
-	'<p>' . __( '<a href="https://wordpress.org/support/article/settings-permalinks-screen/">Documentation on Permalinks Settings</a>' ) . '</p>' .
-	'<p>' . __( '<a href="https://wordpress.org/support/article/using-permalinks/">Documentation on Using Permalinks</a>' ) . '</p>';
+	'<p>' . __( '<a href="https://wordpress.org/documentation/article/settings-permalinks-screen/">Documentation on Permalinks Settings</a>' ) . '</p>' .
+	'<p>' . __( '<a href="https://wordpress.org/documentation/article/using-permalinks/">Documentation on Using Permalinks</a>' ) . '</p>';
 
 if ( $is_nginx ) {
-	$help_sidebar_content .= '<p>' . __( '<a href="https://wordpress.org/support/article/nginx/">Documentation on Nginx configuration</a>.' ) . '</p>';
+	$help_sidebar_content .= '<p>' . __( '<a href="https://wordpress.org/documentation/article/nginx/">Documentation on Nginx configuration</a>.' ) . '</p>';
 }
 
-$help_sidebar_content .= '<p>' . __( '<a href="https://wordpress.org/support/">Support</a>' ) . '</p>';
+$help_sidebar_content .= '<p>' . __( '<a href="https://wordpress.org/support/forums/">Support forums</a>' ) . '</p>';
 
 get_current_screen()->set_help_sidebar( $help_sidebar_content );
 unset( $help_sidebar_content );

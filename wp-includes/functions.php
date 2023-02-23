@@ -5847,7 +5847,7 @@ function _doing_it_wrong( $function_name, $message, $version ) {
 			$message .= ' ' . sprintf(
 				/* translators: %s: Documentation URL. */
 				__( 'Please see <a href="%s">Debugging in WordPress</a> for more information.' ),
-				__( 'https://wordpress.org/support/article/debugging-in-wordpress/' )
+				__( 'https://wordpress.org/documentation/article/debugging-in-wordpress/' )
 			);
 
 			trigger_error(
@@ -5867,7 +5867,7 @@ function _doing_it_wrong( $function_name, $message, $version ) {
 
 			$message .= sprintf(
 				' Please see <a href="%s">Debugging in WordPress</a> for more information.',
-				'https://wordpress.org/support/article/debugging-in-wordpress/'
+				'https://wordpress.org/documentation/article/debugging-in-wordpress/'
 			);
 
 			trigger_error(
@@ -8177,7 +8177,7 @@ function wp_get_update_https_url() {
  */
 function wp_get_default_update_https_url() {
 	/* translators: Documentation explaining HTTPS and why it should be used. */
-	return __( 'https://wordpress.org/support/article/why-should-i-use-https/' );
+	return __( 'https://wordpress.org/documentation/article/why-should-i-use-https/' );
 }
 
 /**

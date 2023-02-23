@@ -4963,7 +4963,7 @@ function sanitize_option( $option, $value ) {
 				$error = sprintf(
 					/* translators: %s: Documentation URL. */
 					__( 'A structure tag is required when using custom permalinks. <a href="%s">Learn more</a>' ),
-					__( 'https://wordpress.org/support/article/using-permalinks/#choosing-your-permalink-structure' )
+					__( 'https://wordpress.org/documentation/article/using-permalinks/#choosing-your-permalink-structure' )
 				);
 			}
 			break;

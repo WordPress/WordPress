@@ -1496,7 +1496,7 @@ class WP_Site_Health {
 			'actions'     => sprintf(
 				'<p><a href="%s" target="_blank" rel="noopener">%s <span class="screen-reader-text">%s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
 				/* translators: Documentation explaining debugging in WordPress. */
-				esc_url( __( 'https://wordpress.org/support/article/debugging-in-wordpress/' ) ),
+				esc_url( __( 'https://wordpress.org/documentation/article/debugging-in-wordpress/' ) ),
 				__( 'Learn more about debugging in WordPress.' ),
 				/* translators: Hidden accessibility text. */
 				__( '(opens in a new tab)' )
@@ -2329,7 +2329,7 @@ class WP_Site_Health {
 			'label'       => '',
 			'actions'     => sprintf(
 				'<p><a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s <span class="screen-reader-text">%3$s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
-				__( 'https://wordpress.org/support/article/optimization/#Caching' ),
+				__( 'https://wordpress.org/documentation/article/optimization/#Caching' ),
 				__( 'Learn more about page cache' ),
 				/* translators: Hidden accessibility text. */
 				__( '(opens in a new tab)' )
@@ -2438,7 +2438,7 @@ class WP_Site_Health {
 		$action_url = apply_filters(
 			'site_status_persistent_object_cache_url',
 			/* translators: Localized Support reference. */
-			__( 'https://wordpress.org/support/article/optimization/#persistent-object-cache' )
+			__( 'https://wordpress.org/documentation/article/optimization/#persistent-object-cache' )
 		);
 
 		$result = array(

@@ -154,8 +154,8 @@ get_current_screen()->add_help_tab(
 );
 
 $revisions_sidebar  = '<p><strong>' . __( 'For more information:' ) . '</strong></p>';
-$revisions_sidebar .= '<p>' . __( '<a href="https://wordpress.org/support/article/revisions/">Revisions Management</a>' ) . '</p>';
-$revisions_sidebar .= '<p>' . __( '<a href="https://wordpress.org/support/">Support</a>' ) . '</p>';
+$revisions_sidebar .= '<p>' . __( '<a href="https://wordpress.org/documentation/article/revisions/">Revisions Management</a>' ) . '</p>';
+$revisions_sidebar .= '<p>' . __( '<a href="https://wordpress.org/support/forums/">Support forums</a>' ) . '</p>';
 
 get_current_screen()->set_help_sidebar( $revisions_sidebar );
 

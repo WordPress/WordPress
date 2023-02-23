@@ -10,7 +10,7 @@
  * servers with known pretty permalink capability.
  *
  * Note: Though Nginx is detected, WordPress does not currently
- * generate rewrite rules for it. See https://wordpress.org/support/article/nginx/
+ * generate rewrite rules for it. See https://wordpress.org/documentation/article/nginx/
  *
  * @package WordPress
  */

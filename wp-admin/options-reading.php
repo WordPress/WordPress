@@ -32,7 +32,7 @@ get_current_screen()->add_help_tab(
 			'<p>' . sprintf(
 				/* translators: %s: Documentation URL. */
 				__( 'You can also control the display of your content in RSS feeds, including the maximum number of posts to display and whether to show full text or an excerpt. <a href="%s">Learn more about feeds</a>.' ),
-				__( 'https://wordpress.org/support/article/wordpress-feeds/' )
+				__( 'https://wordpress.org/documentation/article/wordpress-feeds/' )
 			) . '</p>' .
 			'<p>' . __( 'You must click the Save Changes button at the bottom of the screen for new settings to take effect.' ) . '</p>',
 	)
@@ -50,8 +50,8 @@ get_current_screen()->add_help_tab(
 
 get_current_screen()->set_help_sidebar(
 	'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
-	'<p>' . __( '<a href="https://wordpress.org/support/article/settings-reading-screen/">Documentation on Reading Settings</a>' ) . '</p>' .
-	'<p>' . __( '<a href="https://wordpress.org/support/">Support</a>' ) . '</p>'
+	'<p>' . __( '<a href="https://wordpress.org/documentation/article/settings-reading-screen/">Documentation on Reading Settings</a>' ) . '</p>' .
+	'<p>' . __( '<a href="https://wordpress.org/support/forums/">Support forums</a>' ) . '</p>'
 );
 
 require_once ABSPATH . 'wp-admin/admin-header.php';
@@ -181,7 +181,7 @@ else :
 		printf(
 			/* translators: %s: Documentation URL. */
 			__( 'Your theme determines how content is displayed in browsers. <a href="%s">Learn more about feeds</a>.' ),
-			__( 'https://wordpress.org/support/article/wordpress-feeds/' )
+			__( 'https://wordpress.org/documentation/article/wordpress-feeds/' )
 		);
 		?>
 	</p>

@@ -3274,7 +3274,7 @@ function retrieve_password( $user_login = null ) {
 			sprintf(
 				/* translators: %s: Documentation URL. */
 				__( '<strong>Error:</strong> The email could not be sent. Your site may not be correctly configured to send emails. <a href="%s">Get support for resetting your password</a>.' ),
-				esc_url( __( 'https://wordpress.org/support/article/resetting-your-password/' ) )
+				esc_url( __( 'https://wordpress.org/documentation/article/resetting-your-password/' ) )
 			)
 		);
 		return $errors;

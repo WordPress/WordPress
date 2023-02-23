@@ -198,7 +198,7 @@ class WP_Fatal_Error_Handler {
 			'<p>%s</p><p><a href="%s">%s</a></p>',
 			$message,
 			/* translators: Documentation about troubleshooting. */
-			__( 'https://wordpress.org/support/article/faq-troubleshooting/' ),
+			__( 'https://wordpress.org/documentation/article/faq-troubleshooting/' ),
 			__( 'Learn more about troubleshooting WordPress.' )
 		);
 

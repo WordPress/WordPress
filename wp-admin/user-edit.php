@@ -74,8 +74,8 @@ get_current_screen()->add_help_tab(
 
 get_current_screen()->set_help_sidebar(
 	'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
-	'<p>' . __( '<a href="https://wordpress.org/support/article/users-your-profile-screen/">Documentation on User Profiles</a>' ) . '</p>' .
-	'<p>' . __( '<a href="https://wordpress.org/support/">Support</a>' ) . '</p>'
+	'<p>' . __( '<a href="https://wordpress.org/documentation/article/users-your-profile-screen/">Documentation on User Profiles</a>' ) . '</p>' .
+	'<p>' . __( '<a href="https://wordpress.org/support/forums/">Support forums</a>' ) . '</p>'
 );
 
 $wp_http_referer = remove_query_arg( array( 'update', 'delete_count', 'user_id' ), $wp_http_referer );
@@ -333,7 +333,7 @@ switch ( $action ) {
 								<input type="checkbox" name="comment_shortcuts" id="comment_shortcuts" value="true" <?php checked( 'true', $profile_user->comment_shortcuts ); ?> />
 								<?php _e( 'Enable keyboard shortcuts for comment moderation.' ); ?>
 							</label>
-							<?php _e( '<a href="https://wordpress.org/support/article/keyboard-shortcuts/#keyboard-shortcuts-for-comments">Documentation on Keyboard Shortcuts</a>' ); ?>
+							<?php _e( '<a href="https://wordpress.org/documentation/article/keyboard-shortcuts/#keyboard-shortcuts-for-comments">Documentation on Keyboard Shortcuts</a>' ); ?>
 						</td>
 					</tr>
 					<?php endif; ?>
