@@ -1112,7 +1112,7 @@ class WP_Automatic_Updater {
 						$body_message .= sprintf(
 							/* translators: 1: Plugin name, 2: Current version number, 3: New version number, 4: Plugin URL. */
 							__( '- %1$s (from version %2$s to %3$s)%4$s' ),
-							$item->name,
+							html_entity_decode( $item->name ),
 							$item->item->current_version,
 							$item->item->new_version,
 							$item_url
@@ -1121,7 +1121,7 @@ class WP_Automatic_Updater {
 						$body_message .= sprintf(
 							/* translators: 1: Plugin name, 2: Version number, 3: Plugin URL. */
 							__( '- %1$s version %2$s%3$s' ),
-							$item->name,
+							html_entity_decode( $item->name ),
 							$item->item->new_version,
 							$item_url
 						);
@@ -1144,7 +1144,7 @@ class WP_Automatic_Updater {
 						$body[] = sprintf(
 							/* translators: 1: Theme name, 2: Current version number, 3: New version number. */
 							__( '- %1$s (from version %2$s to %3$s)' ),
-							$item->name,
+							html_entity_decode( $item->name ),
 							$item->item->current_version,
 							$item->item->new_version
 						);
@@ -1152,7 +1152,7 @@ class WP_Automatic_Updater {
 						$body[] = sprintf(
 							/* translators: 1: Theme name, 2: Version number. */
 							__( '- %1$s version %2$s' ),
-							$item->name,
+							html_entity_decode( $item->name ),
 							$item->item->new_version
 						);
 					}
@@ -1184,7 +1184,7 @@ class WP_Automatic_Updater {
 						$body_message .= sprintf(
 							/* translators: 1: Plugin name, 2: Current version number, 3: New version number, 4: Plugin URL. */
 							__( '- %1$s (from version %2$s to %3$s)%4$s' ),
-							$item->name,
+							html_entity_decode( $item->name ),
 							$item->item->current_version,
 							$item->item->new_version,
 							$item_url
@@ -1193,7 +1193,7 @@ class WP_Automatic_Updater {
 						$body_message .= sprintf(
 							/* translators: 1: Plugin name, 2: Version number, 3: Plugin URL. */
 							__( '- %1$s version %2$s%3$s' ),
-							$item->name,
+							html_entity_decode( $item->name ),
 							$item->item->new_version,
 							$item_url
 						);
@@ -1215,7 +1215,7 @@ class WP_Automatic_Updater {
 						$body[] = sprintf(
 							/* translators: 1: Theme name, 2: Current version number, 3: New version number. */
 							__( '- %1$s (from version %2$s to %3$s)' ),
-							$item->name,
+							html_entity_decode( $item->name ),
 							$item->item->current_version,
 							$item->item->new_version
 						);
@@ -1223,7 +1223,7 @@ class WP_Automatic_Updater {
 						$body[] = sprintf(
 							/* translators: 1: Theme name, 2: Version number. */
 							__( '- %1$s version %2$s' ),
-							$item->name,
+							html_entity_decode( $item->name ),
 							$item->item->new_version
 						);
 					}
