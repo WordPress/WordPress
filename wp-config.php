@@ -18,6 +18,9 @@
  * @package WordPress
  */
 
+/** Override default theme */
+define( 'WP_DEFAULT_THEME', 'theme' );
+
 // ** Database settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
 define( 'DB_NAME', 'database_name_here' );
@@ -39,6 +42,9 @@ define( 'DB_COLLATE', '' );
 
 /** The database target file */
 define('DB_FILE', 'database');
+
+/* Multisite */
+define('WP_ALLOW_MULTISITE', true);
 
 /**#@+
  * Authentication unique keys and salts.
@@ -82,7 +88,7 @@ $table_prefix = 'wp_';
  *
  * @link https://wordpress.org/support/article/debugging-in-wordpress/
  */
-define( 'WP_DEBUG', true );
+define( 'WP_DEBUG', false );
 
 /* Add any custom values between this line and the "stop editing" line. */
 
