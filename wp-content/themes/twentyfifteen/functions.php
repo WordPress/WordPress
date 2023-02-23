@@ -109,7 +109,7 @@ if ( ! function_exists( 'twentyfifteen_setup' ) ) :
 		/*
 		 * Enable support for Post Formats.
 		 *
-		 * See: https://wordpress.org/support/article/post-formats/
+		 * See: https://wordpress.org/documentation/article/post-formats/
 		 */
 		add_theme_support(
 			'post-formats',

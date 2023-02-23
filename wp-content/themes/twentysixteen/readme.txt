@@ -16,14 +16,14 @@ Twenty Sixteen is a modernized take on an ever-popular WordPress layout — the 
 * Post Formats
 * The GPL v2.0 or later license. :) Use it to make something cool.
 
-For more information about Twenty Sixteen please go to https://wordpress.org/support/article/twenty-sixteen/.
+For more information about Twenty Sixteen please go to https://wordpress.org/documentation/article/twenty-sixteen/.
 
 == Installation ==
 
 1. In your admin panel, go to Appearance -> Themes and click the 'Add New' button.
 2. Type in Twenty Sixteen in the search form and press the 'Enter' key on your keyboard.
 3. Click on the 'Activate' button to use your new theme right away.
-4. Go to https://wordpress.org/support/article/twenty-sixteen/ for a guide on how to customize this theme.
+4. Go to https://wordpress.org/documentation/article/twenty-sixteen/ for a guide on how to customize this theme.
 5. Navigate to Appearance > Customize in your admin panel and customize to taste.
 
 == Copyright ==

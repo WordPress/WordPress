@@ -20,22 +20,22 @@ Whether you’re building a single-page website, a blog, a business website, or 
 = 1.3 =
 * Released: November 1, 2022
 
-https://wordpress.org/support/article/twenty-twenty-two-changelog#Version_1.3
+https://wordpress.org/documentation/article/twenty-twenty-two-changelog/#Version_1.3
 
 = 1.2 =
 * Released: May 24, 2022
 
-https://wordpress.org/support/article/twenty-twenty-two-changelog#Version_1.2
+https://wordpress.org/documentation/article/twenty-twenty-two-changelog/#Version_1.2
 
 = 1.1 =
 * Released: February 22, 2022
 
-https://wordpress.org/support/article/twenty-twenty-two-changelog#Version_1.1
+https://wordpress.org/documentation/article/twenty-twenty-two-changelog/#Version_1.1
 
 = 1.0 =
 * Released: January 25, 2022
 
-https://wordpress.org/support/article/twenty-twenty-two-changelog#Version_1.0
+https://wordpress.org/documentation/article/twenty-twenty-two-changelog/#Version_1.0
 
 == Copyright ==
 
