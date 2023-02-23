@@ -60,28 +60,6 @@ final class WP_Screen {
 	protected $in_admin;
 
 	/**
-	 * Whether the screen is in the network admin.
-	 *
-	 * Deprecated. Use in_admin() instead.
-	 *
-	 * @since 3.3.0
-	 * @deprecated 3.5.0
-	 * @var bool
-	 */
-	public $is_network;
-
-	/**
-	 * Whether the screen is in the user admin.
-	 *
-	 * Deprecated. Use in_admin() instead.
-	 *
-	 * @since 3.3.0
-	 * @deprecated 3.5.0
-	 * @var bool
-	 */
-	public $is_user;
-
-	/**
 	 * The base menu parent.
 	 *
 	 * This is derived from `$parent_file` by removing the query string and any .php extension.

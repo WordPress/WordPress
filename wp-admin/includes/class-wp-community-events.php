@@ -367,85 +367,6 @@ class WP_Community_Events {
 	}
 
 	/**
-	 * Adds formatted date and time items for each event in an API response.
-	 *
-	 * This has to be called after the data is pulled from the cache, because
-	 * the cached events are shared by all users. If it was called before storing
-	 * the cache, then all users would see the events in the localized data/time
-	 * of the user who triggered the cache refresh, rather than their own.
-	 *
-	 * @since 4.8.0
-	 * @deprecated 5.6.0 No longer used in core.
-	 *
-	 * @param array $response_body The response which contains the events.
-	 * @return array The response with dates and times formatted.
-	 */
-	protected function format_event_data_time( $response_body ) {
-		_deprecated_function(
-			__METHOD__,
-			'5.5.2',
-			'This is no longer used by core, and only kept for backward compatibility.'
-		);
-
-		if ( isset( $response_body['events'] ) ) {
-			foreach ( $response_body['events'] as $key => $event ) {
-				$timestamp = strtotime( $event['date'] );
-
-				/*
-				 * The `date_format` option is not used because it's important
-				 * in this context to keep the day of the week in the formatted date,
-				 * so that users can tell at a glance if the event is on a day they
-				 * are available, without having to open the link.
-				 */
-				/* translators: Date format for upcoming events on the dashboard. Include the day of the week. See https://www.php.net/manual/datetime.format.php */
-				$formatted_date = date_i18n( __( 'l, M j, Y' ), $timestamp );
-				$formatted_time = date_i18n( get_option( 'time_format' ), $timestamp );
-
-				if ( isset( $event['end_date'] ) ) {
-					$end_timestamp      = strtotime( $event['end_date'] );
-					$formatted_end_date = date_i18n( __( 'l, M j, Y' ), $end_timestamp );
-
-					if ( 'meetup' !== $event['type'] && $formatted_end_date !== $formatted_date ) {
-						/* translators: Upcoming events month format. See https://www.php.net/manual/datetime.format.php */
-						$start_month = date_i18n( _x( 'F', 'upcoming events month format' ), $timestamp );
-						$end_month   = date_i18n( _x( 'F', 'upcoming events month format' ), $end_timestamp );
-
-						if ( $start_month === $end_month ) {
-							$formatted_date = sprintf(
-								/* translators: Date string for upcoming events. 1: Month, 2: Starting day, 3: Ending day, 4: Year. */
-								__( '%1$s %2$d–%3$d, %4$d' ),
-								$start_month,
-								/* translators: Upcoming events day format. See https://www.php.net/manual/datetime.format.php */
-								date_i18n( _x( 'j', 'upcoming events day format' ), $timestamp ),
-								date_i18n( _x( 'j', 'upcoming events day format' ), $end_timestamp ),
-								/* translators: Upcoming events year format. See https://www.php.net/manual/datetime.format.php */
-								date_i18n( _x( 'Y', 'upcoming events year format' ), $timestamp )
-							);
-						} else {
-							$formatted_date = sprintf(
-								/* translators: Date string for upcoming events. 1: Starting month, 2: Starting day, 3: Ending month, 4: Ending day, 5: Year. */
-								__( '%1$s %2$d – %3$s %4$d, %5$d' ),
-								$start_month,
-								date_i18n( _x( 'j', 'upcoming events day format' ), $timestamp ),
-								$end_month,
-								date_i18n( _x( 'j', 'upcoming events day format' ), $end_timestamp ),
-								date_i18n( _x( 'Y', 'upcoming events year format' ), $timestamp )
-							);
-						}
-
-						$formatted_date = wp_maybe_decline_date( $formatted_date, 'F j, Y' );
-					}
-				}
-
-				$response_body['events'][ $key ]['formatted_date'] = $formatted_date;
-				$response_body['events'][ $key ]['formatted_time'] = $formatted_time;
-			}
-		}
-
-		return $response_body;
-	}
-
-	/**
 	 * Prepares the event list for presentation.
 	 *
 	 * Discards expired events, and makes WordCamps "sticky." Attendees need more
@@ -499,32 +420,5 @@ class WP_Community_Events {
 		}
 
 		return $trimmed_events;
-	}
-
-	/**
-	 * Logs responses to Events API requests.
-	 *
-	 * @since 4.8.0
-	 * @deprecated 4.9.0 Use a plugin instead. See #41217 for an example.
-	 *
-	 * @param string $message A description of what occurred.
-	 * @param array  $details Details that provide more context for the
-	 *                        log entry.
-	 */
-	protected function maybe_log_events_response( $message, $details ) {
-		_deprecated_function( __METHOD__, '4.9.0' );
-
-		if ( ! WP_DEBUG_LOG ) {
-			return;
-		}
-
-		error_log(
-			sprintf(
-				'%s: %s. Details: %s',
-				__METHOD__,
-				trim( $message, '.' ),
-				wp_json_encode( $details )
-			)
-		);
 	}
 }

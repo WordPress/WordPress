@@ -90,12 +90,8 @@ require_once ABSPATH . 'wp-admin/includes/class-wp-site-icon.php';
 /** WordPress Update Administration API */
 require_once ABSPATH . 'wp-admin/includes/update.php';
 
-/** WordPress Deprecated Administration API */
-require_once ABSPATH . 'wp-admin/includes/deprecated.php';
-
 /** WordPress Multisite support API */
 if ( is_multisite() ) {
 	require_once ABSPATH . 'wp-admin/includes/ms-admin-filters.php';
 	require_once ABSPATH . 'wp-admin/includes/ms.php';
-	require_once ABSPATH . 'wp-admin/includes/ms-deprecated.php';
 }
