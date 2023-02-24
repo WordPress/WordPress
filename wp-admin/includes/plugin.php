@@ -474,7 +474,7 @@ function get_dropins() {
 
 	return $dropins;
 }
-
+ 
 /**
  * Returns drop-ins that WordPress uses.
  *
@@ -487,11 +487,9 @@ function get_dropins() {
  */
 function _get_dropins() {
 	$dropins = array(
-		'advanced-cache.php'      => array( __( 'Advanced caching plugin.' ), 'WP_CACHE' ),  // WP_CACHE
 		'db-error.php'            => array( __( 'Custom database error message.' ), true ),  // Auto on error.
 		'install.php'             => array( __( 'Custom installation script.' ), true ),     // Auto on installation.
 		'maintenance.php'         => array( __( 'Custom maintenance message.' ), true ),     // Auto on maintenance.
-		'object-cache.php'        => array( __( 'External object cache.' ), true ),          // Auto on load.
 		'php-error.php'           => array( __( 'Custom PHP error message.' ), true ),       // Auto on error.
 		'fatal-error-handler.php' => array( __( 'Custom PHP fatal error handler.' ), true ), // Auto on error.
 	);

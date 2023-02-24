@@ -3203,7 +3203,7 @@ class WP_Site_Health {
 
 		return array(
 			'advanced_cache_present'        => (
-				file_exists( WP_CONTENT_DIR . '/advanced-cache.php' )
+				file_exists( WPINC . '/wp-advanced-cache.php' )
 				&&
 				( defined( 'WP_CACHE' ) && WP_CACHE )
 				&&

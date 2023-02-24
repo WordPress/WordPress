@@ -676,8 +676,8 @@ function wp_start_object_cache() {
 			 * results in a wp_cache_init() function existing, we note
 			 * that an external object cache is being used.
 			 */
-			if ( file_exists( WP_CONTENT_DIR . '/object-cache.php' ) ) {
-				require_once WP_CONTENT_DIR . '/object-cache.php';
+			if ( file_exists( WPINC . '/wp-object-cache.php' ) ) {
+				require_once WPINC . '/wp-object-cache.php';
 				if ( function_exists( 'wp_cache_init' ) ) {
 					wp_using_ext_object_cache( true );
 				}
@@ -687,7 +687,7 @@ function wp_start_object_cache() {
 					$wp_filter = WP_Hook::build_preinitialized_hooks( $wp_filter );
 				}
 			}
-		} elseif ( ! wp_using_ext_object_cache() && file_exists( WP_CONTENT_DIR . '/object-cache.php' ) ) {
+		} elseif ( ! wp_using_ext_object_cache() && file_exists( WPINC . '/wp-object-cache.php' ) ) {
 			/*
 			 * Sometimes advanced-cache.php can load object-cache.php before
 			 * this function is run. This breaks the function_exists() check
