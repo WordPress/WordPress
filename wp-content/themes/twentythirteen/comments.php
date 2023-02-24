@@ -23,7 +23,7 @@ if ( post_password_required() ) {
 	<?php if ( have_comments() ) : ?>
 		<h2 class="comments-title">
 			<?php
-			if ( 1 === get_comments_number() ) {
+			if ( '1' === get_comments_number() ) {
 				printf(
 					/* translators: %s: The post title. */
 					_x( 'One thought on &ldquo;%s&rdquo;', 'comments title', 'twentythirteen' ),

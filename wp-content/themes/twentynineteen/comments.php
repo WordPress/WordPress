@@ -35,7 +35,7 @@ $discussion = twentynineteen_get_discussion_data();
 				_e( 'Leave a comment', 'twentynineteen' );
 			}
 		} else {
-			if ( '1' == $discussion->responses ) {
+			if ( '1' === (string) $discussion->responses ) {
 				/* translators: %s: Post title. */
 				printf( _x( 'One reply on &ldquo;%s&rdquo;', 'comments title', 'twentynineteen' ), get_the_title() );
 			} else {

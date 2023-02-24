@@ -154,7 +154,7 @@ get_header(); ?>
 							while ( $featured->have_posts() ) :
 								$featured->the_post();
 								$counter_slider++;
-								if ( 1 == $counter_slider ) {
+								if ( 1 === $counter_slider ) {
 									$class = ' class="active"';
 								} else {
 									$class = '';

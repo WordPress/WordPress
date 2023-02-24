@@ -262,7 +262,7 @@ class Featured_Content {
 	public static function delete_post_tag( $tag_id ) {
 		$settings = self::get_setting();
 
-		if ( empty( $settings['tag-id'] ) || $tag_id != $settings['tag-id'] ) {
+		if ( empty( $settings['tag-id'] ) || $tag_id !== $settings['tag-id'] ) {
 			return;
 		}
 

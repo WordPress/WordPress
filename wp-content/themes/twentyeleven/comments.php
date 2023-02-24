@@ -31,7 +31,7 @@
 	<?php if ( have_comments() ) : ?>
 		<h2 id="comments-title">
 			<?php
-			if ( 1 === get_comments_number() ) {
+			if ( '1' === get_comments_number() ) {
 				printf(
 					/* translators: %s: The post title. */
 					__( 'One thought on &ldquo;%1$s&rdquo;', 'twentyeleven' ),

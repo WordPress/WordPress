@@ -100,7 +100,7 @@ if ( have_posts() ) {
 				)
 			);
 			foreach ( $attachments as $k => $attachment ) {
-				if ( $attachment->ID == $post->ID ) {
+				if ( $attachment->ID === $post->ID ) {
 					break;
 				}
 			}

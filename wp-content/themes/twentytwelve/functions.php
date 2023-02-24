@@ -461,7 +461,7 @@ if ( ! function_exists( 'twentytwelve_comment' ) ) :
 				}
 				?>
 
-				<?php if ( '0' == $comment->comment_approved ) : ?>
+				<?php if ( '0' === $comment->comment_approved ) : ?>
 				<p class="comment-awaiting-moderation"><?php echo $moderation_note; ?></p>
 				<?php endif; ?>
 

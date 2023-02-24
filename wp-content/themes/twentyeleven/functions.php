@@ -322,7 +322,7 @@ if ( ! function_exists( 'twentyeleven_header_style' ) ) :
 		$text_color = get_header_textcolor();
 
 		// If no custom options for text are set, let's bail.
-		if ( HEADER_TEXTCOLOR == $text_color ) {
+		if ( HEADER_TEXTCOLOR === $text_color ) {
 			return;
 		}
 
@@ -386,7 +386,7 @@ if ( ! function_exists( 'twentyeleven_admin_header_style' ) ) :
 	}
 		<?php
 		// If the user has set a custom color for the text, use that.
-		if ( get_header_textcolor() != HEADER_TEXTCOLOR ) :
+		if ( get_header_textcolor() !== HEADER_TEXTCOLOR ) :
 			?>
 	#site-title a,
 	#site-description {
@@ -724,7 +724,7 @@ if ( ! function_exists( 'twentyeleven_comment' ) ) :
 					<?php
 					$avatar_size = 68;
 
-					if ( '0' != $comment->comment_parent ) {
+					if ( '0' !== $comment->comment_parent ) {
 						$avatar_size = 39;
 					}
 
@@ -756,7 +756,7 @@ if ( ! function_exists( 'twentyeleven_comment' ) ) :
 					}
 					?>
 
-					<?php if ( '0' == $comment->comment_approved ) : ?>
+					<?php if ( '0' === $comment->comment_approved ) : ?>
 					<em class="comment-awaiting-moderation"><?php echo $moderation_note; ?></em>
 					<br />
 					<?php endif; ?>

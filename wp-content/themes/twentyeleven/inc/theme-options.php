@@ -446,7 +446,7 @@ function twentyeleven_print_link_color_style() {
 	$default_options = twentyeleven_get_default_theme_options();
 
 	// Don't do anything if the current link color is the default.
-	if ( $default_options['link_color'] == $link_color ) {
+	if ( $default_options['link_color'] === $link_color ) {
 		return;
 	}
 	?>
