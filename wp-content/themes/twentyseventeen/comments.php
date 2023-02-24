@@ -68,8 +68,10 @@ if ( post_password_required() ) {
 		<?php
 		the_comments_pagination(
 			array(
-				'prev_text' => twentyseventeen_get_svg( array( 'icon' => 'arrow-left' ) ) . '<span class="screen-reader-text">' . /* translators: Hidden accessibility text. */ __( 'Previous', 'twentyseventeen' ) . '</span>',
-				'next_text' => '<span class="screen-reader-text">' . /* translators: Hidden accessibility text. */ __( 'Next', 'twentyseventeen' ) . '</span>' . twentyseventeen_get_svg( array( 'icon' => 'arrow-right' ) ),
+				/* translators: Hidden accessibility text. */
+				'prev_text' => twentyseventeen_get_svg( array( 'icon' => 'arrow-left' ) ) . '<span class="screen-reader-text">' . __( 'Previous', 'twentyseventeen' ) . '</span>',
+				/* translators: Hidden accessibility text. */
+				'next_text' => '<span class="screen-reader-text">' . __( 'Next', 'twentyseventeen' ) . '</span>' . twentyseventeen_get_svg( array( 'icon' => 'arrow-right' ) ),
 			)
 		);
 

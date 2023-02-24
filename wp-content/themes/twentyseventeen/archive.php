@@ -46,9 +46,12 @@ get_header(); ?>
 
 			the_posts_pagination(
 				array(
-					'prev_text'          => twentyseventeen_get_svg( array( 'icon' => 'arrow-left' ) ) . '<span class="screen-reader-text">' . /* translators: Hidden accessibility text. */ __( 'Previous page', 'twentyseventeen' ) . '</span>',
+					/* translators: Hidden accessibility text. */
+					'prev_text'          => twentyseventeen_get_svg( array( 'icon' => 'arrow-left' ) ) . '<span class="screen-reader-text">' . __( 'Previous page', 'twentyseventeen' ) . '</span>',
+					/* translators: Hidden accessibility text. */
 					'next_text'          => '<span class="screen-reader-text">' . __( 'Next page', 'twentyseventeen' ) . '</span>' . twentyseventeen_get_svg( array( 'icon' => 'arrow-right' ) ),
-					'before_page_number' => '<span class="meta-nav screen-reader-text">' . /* translators: Hidden accessibility text. */ __( 'Page', 'twentyseventeen' ) . ' </span>',
+					/* translators: Hidden accessibility text. */
+					'before_page_number' => '<span class="meta-nav screen-reader-text">' . __( 'Page', 'twentyseventeen' ) . ' </span>',
 				)
 			);
 
