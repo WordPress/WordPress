@@ -57,6 +57,54 @@ class WP_Automatic_Updater {
 	}
 
 	/**
+	 * Checks whether access to a given directory is allowed.
+	 *
+	 * This is used when detecting version control checkouts. Takes into account
+	 * the PHP `open_basedir` restrictions, so that WordPress does not try to access
+	 * directories it is not allowed to.
+	 *
+	 * @since 6.2.0
+	 *
+	 * @param string $dir The directory to check.
+	 * @return bool True if access to the directory is allowed, false otherwise.
+	 */
+	public function is_allowed_dir( $dir ) {
+		if ( is_string( $dir ) ) {
+			$dir = trim( $dir );
+		}
+
+		if ( ! is_string( $dir ) || '' === $dir ) {
+			_doing_it_wrong(
+				__METHOD__,
+				sprintf(
+					/* translators: %s: The "$dir" argument. */
+					__( 'The "%s" argument must be a non-empty string.' ),
+					'$dir'
+				),
+				'6.2.0'
+			);
+
+			return false;
+		}
+
+		$open_basedir = ini_get( 'open_basedir' );
+
+		if ( empty( $open_basedir ) ) {
+			return true;
+		}
+
+		$open_basedir_list = explode( PATH_SEPARATOR, $open_basedir );
+
+		foreach ( $open_basedir_list as $basedir ) {
+			if ( '' !== trim( $basedir ) && str_starts_with( $dir, $basedir ) ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * Checks for version control checkouts.
 	 *
 	 * Checks for Subversion, Git, Mercurial, and Bazaar. It recursively looks up the
@@ -102,7 +150,11 @@ class WP_Automatic_Updater {
 		// Search all directories we've found for evidence of version control.
 		foreach ( $vcs_dirs as $vcs_dir ) {
 			foreach ( $check_dirs as $check_dir ) {
-				$checkout = @is_dir( rtrim( $check_dir, '\\/' ) . "/$vcs_dir" );
+				if ( ! $this->is_allowed_dir( $check_dir ) ) {
+					continue;
+				}
+
+				$checkout = is_dir( rtrim( $check_dir, '\\/' ) . "/$vcs_dir" );
 				if ( $checkout ) {
 					break 2;
 				}
