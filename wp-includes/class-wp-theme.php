@@ -242,6 +242,9 @@ final class WP_Theme implements ArrayAccess {
 			}
 		}
 
+		// Handle a numeric theme directory as a string.
+		$theme_dir = (string) $theme_dir;
+
 		$this->theme_root = $theme_root;
 		$this->stylesheet = $theme_dir;
 
