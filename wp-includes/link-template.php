@@ -4742,7 +4742,7 @@ function wp_internal_hosts() {
 		/**
 		 * Filters the array of URL hosts which are considered internal.
 		 *
-		 * @since 6.2.9
+		 * @since 6.2.0
 		 *
 		 * @param array $internal_hosts An array of internal URL hostnames.
 		 */
