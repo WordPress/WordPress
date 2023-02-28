@@ -125,7 +125,7 @@ function twenty_twenty_one_get_starter_content() {
 
 					<!-- wp:column -->
 					<div class="wp-block-column"><!-- wp:paragraph -->
-					<p><a href="https://wordpress.org/support/theme/twentytwentyone/">' . esc_html_x( 'Check out the Support forums', 'Theme starter content', 'twentytwentyone' ) . '</a></p>
+					<p><a href="https://wordpress.org/support/theme/twentytwentyone/">' . esc_html_x( 'Check out the Support Forums', 'Theme starter content', 'twentytwentyone' ) . '</a></p>
 					<!-- /wp:paragraph --></div>
 					<!-- /wp:column --></div>
 					<!-- /wp:columns -->
