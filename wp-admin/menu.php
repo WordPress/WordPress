@@ -210,7 +210,7 @@ if ( ! wp_is_block_theme() && current_theme_supports( 'block-template-parts' ) )
 	$submenu['themes.php'][6] = array(
 		__( 'Template Parts' ),
 		'edit_theme_options',
-		'site-editor.php?postType=wp_template_part',
+		'site-editor.php?postType=wp_template_part&amp;path=/wp_template_part/all',
 	);
 }
 
