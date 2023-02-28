@@ -250,7 +250,7 @@ do_action( 'customize_controls_head' );
 						</p>
 						<p>
 							<?php
-							_e( '<a href="https://wordpress.org/documentation/article/appearance-customize-screen/">Documentation on Customizer</a>' );
+							_e( '<a href="https://wordpress.org/documentation/article/customizer/">Documentation on Customizer</a>' );
 							?>
 						</p>
 					</div>
