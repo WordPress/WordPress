@@ -309,27 +309,26 @@ abstract class ParagonIE_Sodium_Core_Util
      * @internal You should not use this directly from another application
      *
      * @param string $hexString
+     * @param string $ignore
      * @param bool $strictPadding
      * @return string (raw binary)
      * @throws RangeException
      * @throws TypeError
      */
-    public static function hex2bin($hexString, $strictPadding = false)
+    public static function hex2bin($hexString, $ignore = '', $strictPadding = false)
     {
         /* Type checks: */
         if (!is_string($hexString)) {
             throw new TypeError('Argument 1 must be a string, ' . gettype($hexString) . ' given.');
         }
+        if (!is_string($ignore)) {
+            throw new TypeError('Argument 2 must be a string, ' . gettype($hexString) . ' given.');
+        }
 
-        /** @var int $hex_pos */
         $hex_pos = 0;
-        /** @var string $bin */
         $bin = '';
-        /** @var int $c_acc */
         $c_acc = 0;
-        /** @var int $hex_len */
         $hex_len = self::strlen($hexString);
-        /** @var int $state */
         $state = 0;
         if (($hex_len & 1) !== 0) {
             if ($strictPadding) {
@@ -347,20 +346,18 @@ abstract class ParagonIE_Sodium_Core_Util
             ++$hex_pos;
             /** @var int $c */
             $c = $chunk[$hex_pos];
-            /** @var int $c_num */
             $c_num = $c ^ 48;
-            /** @var int $c_num0 */
             $c_num0 = ($c_num - 10) >> 8;
-            /** @var int $c_alpha */
             $c_alpha = ($c & ~32) - 55;
-            /** @var int $c_alpha0 */
             $c_alpha0 = (($c_alpha - 10) ^ ($c_alpha - 16)) >> 8;
             if (($c_num0 | $c_alpha0) === 0) {
+                if ($ignore && $state === 0 && strpos($ignore, self::intToChr($c)) !== false) {
+                    continue;
+                }
                 throw new RangeException(
                     'hex2bin() only expects hexadecimal characters'
                 );
             }
-            /** @var int $c_val */
             $c_val = ($c_num0 & $c_num) | ($c_alpha & $c_alpha0);
             if ($state === 0) {
                 $c_acc = $c_val * 16;
@@ -382,7 +379,6 @@ abstract class ParagonIE_Sodium_Core_Util
      */
     public static function intArrayToString(array $ints)
     {
-        /** @var array<int, int> $args */
         $args = $ints;
         foreach ($args as $i => $v) {
             $args[$i] = (int) ($v & 0xff);
@@ -458,7 +454,7 @@ abstract class ParagonIE_Sodium_Core_Util
         }
         /** @var array<int, int> $unpacked */
         $unpacked = unpack('V', $string);
-        return (int) ($unpacked[1] & 0xffffffff);
+        return (int) $unpacked[1];
     }
 
     /**
@@ -613,7 +609,11 @@ abstract class ParagonIE_Sodium_Core_Util
     {
         $high = 0;
         /** @var int $low */
-        $low = $num & 0xffffffff;
+        if (PHP_INT_SIZE === 4) {
+            $low = (int) $num;
+        } else {
+            $low = $num & 0xffffffff;
+        }
 
         if ((+(abs($num))) >= 1) {
             if ($num > 0) {

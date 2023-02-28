@@ -311,6 +311,10 @@ p.has-drop-cap:not(:focus)::first-letter {
 	width: 100%;
 }
 
+.editor-styles-wrapper .has-text-color th {
+	color: inherit;
+}
+
 .editor-block-list__block .wp-block-table th {
 	border: 0;
 	font-size: 11px;
@@ -369,6 +373,7 @@ p.has-drop-cap:not(:focus)::first-letter {
 	background-image: -o-linear-gradient(top, #f4f4f4, #e6e6e6);
 	background-image: linear-gradient(to bottom, #f4f4f4, #e6e6e6);
 	background-repeat: repeat-x;
+	color: #7c7c7c;
 }
 
 /* Separator */

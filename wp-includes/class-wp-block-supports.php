@@ -14,6 +14,7 @@
  *
  * @access private
  */
+#[AllowDynamicProperties]
 class WP_Block_Supports {
 
 	/**
@@ -58,7 +59,7 @@ class WP_Block_Supports {
 	}
 
 	/**
-	 * Initializes the block supports. It registes the block supports block attributes.
+	 * Initializes the block supports. It registers the block supports block attributes.
 	 *
 	 * @since 5.6.0
 	 */
@@ -72,7 +73,9 @@ class WP_Block_Supports {
 	 *
 	 * @since 5.6.0
 	 *
-	 * @param string $block_support_name Block support name.
+	 * @link https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/
+	 *
+	 * @param string $block_support_name   Block support name.
 	 * @param array  $block_support_config Array containing the properties of the block support.
 	 */
 	public function register( $block_support_name, $block_support_config ) {
@@ -88,11 +91,10 @@ class WP_Block_Supports {
 	 *
 	 * @since 5.6.0
 	 *
-	 * @return array Array of HTML attributes.
+	 * @return string[] Array of HTML attributes.
 	 */
 	public function apply_block_supports() {
-		$block_attributes = self::$block_to_render['attrs'];
-		$block_type       = WP_Block_Type_Registry::get_instance()->get_registered(
+		$block_type = WP_Block_Type_Registry::get_instance()->get_registered(
 			self::$block_to_render['blockName']
 		);
 
@@ -100,6 +102,10 @@ class WP_Block_Supports {
 		if ( ! $block_type || empty( $block_type ) ) {
 			return array();
 		}
+
+		$block_attributes = array_key_exists( 'attrs', self::$block_to_render )
+			? self::$block_to_render['attrs']
+			: array();
 
 		$output = array();
 		foreach ( $this->block_supports as $block_support_config ) {
@@ -163,9 +169,8 @@ class WP_Block_Supports {
  *
  * @since 5.6.0
  *
- * @param array $extra_attributes Optional. Extra attributes to render on the block wrapper.
- *
- * @return string String of HTML classes.
+ * @param string[] $extra_attributes Optional. Array of extra attributes to render on the block wrapper.
+ * @return string String of HTML attributes.
  */
 function get_block_wrapper_attributes( $extra_attributes = array() ) {
 	$new_attributes = WP_Block_Supports::get_instance()->apply_block_supports();
@@ -176,7 +181,7 @@ function get_block_wrapper_attributes( $extra_attributes = array() ) {
 
 	// This is hardcoded on purpose.
 	// We only support a fixed list of attributes.
-	$attributes_to_merge = array( 'style', 'class' );
+	$attributes_to_merge = array( 'style', 'class', 'id' );
 	$attributes          = array();
 	foreach ( $attributes_to_merge as $attribute_name ) {
 		if ( empty( $new_attributes[ $attribute_name ] ) && empty( $extra_attributes[ $attribute_name ] ) ) {

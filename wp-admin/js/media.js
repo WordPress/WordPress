@@ -10,7 +10,7 @@
  * @requires jQuery
  */
 
-/* global ajaxurl, _wpMediaGridSettings, showNotice, findPosts */
+/* global ajaxurl, _wpMediaGridSettings, showNotice, findPosts, ClipboardJS */
 
 ( function( $ ){
 	window.findPosts = {
@@ -141,7 +141,10 @@
 	 * @return {void}
 	 */
 	$( function() {
-		var settings, $mediaGridWrap = $( '#wp-media-grid' );
+		var settings,
+			$mediaGridWrap             = $( '#wp-media-grid' ),
+			copyAttachmentURLClipboard = new ClipboardJS( '.copy-attachment-url.media-library' ),
+			copyAttachmentURLSuccessTimeout;
 
 		// Opens a manage media frame into the grid.
 		if ( $mediaGridWrap.length && window.wp && window.wp.media ) {
@@ -205,5 +208,35 @@
 		$( '.find-box-inside' ).on( 'click', 'tr', function() {
 			$( this ).find( '.found-radio input' ).prop( 'checked', true );
 		});
+
+		/**
+		 * Handles media list copy media URL button.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param {MouseEvent} event A click event.
+		 * @return {void}
+		 */
+		copyAttachmentURLClipboard.on( 'success', function( event ) {
+			var triggerElement = $( event.trigger ),
+				successElement = $( '.success', triggerElement.closest( '.copy-to-clipboard-container' ) );
+
+			// Clear the selection and move focus back to the trigger.
+			event.clearSelection();
+			// Handle ClipboardJS focus bug, see https://github.com/zenorocha/clipboard.js/issues/680.
+			triggerElement.trigger( 'focus' );
+
+			// Show success visual feedback.
+			clearTimeout( copyAttachmentURLSuccessTimeout );
+			successElement.removeClass( 'hidden' );
+
+			// Hide success visual feedback after 3 seconds since last success and unfocus the trigger.
+			copyAttachmentURLSuccessTimeout = setTimeout( function() {
+				successElement.addClass( 'hidden' );
+			}, 3000 );
+
+			// Handle success audible feedback.
+			wp.a11y.speak( wp.i18n.__( 'The file URL has been copied to your clipboard' ) );
+		} );
 	});
 })( jQuery );

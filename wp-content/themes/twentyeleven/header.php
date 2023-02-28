@@ -49,10 +49,10 @@ if ( ( $paged >= 2 || $page >= 2 ) && ! is_404() ) {
 ?>
 	</title>
 <link rel="profile" href="https://gmpg.org/xfn/11" />
-<link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo( 'stylesheet_url' ); ?>?ver=20190507" />
+<link rel="stylesheet" type="text/css" media="all" href="<?php echo esc_url( get_stylesheet_uri() ); ?>?ver=20221101" />
 <link rel="pingback" href="<?php echo esc_url( get_bloginfo( 'pingback_url' ) ); ?>">
 <!--[if lt IE 9]>
-<script src="<?php echo get_template_directory_uri(); ?>/js/html5.js?ver=3.7.0" type="text/javascript"></script>
+<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/html5.js?ver=3.7.0" type="text/javascript"></script>
 <![endif]-->
 <?php
 	/*
@@ -76,7 +76,7 @@ if ( is_singular() && get_option( 'thread_comments' ) ) {
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 <div id="page" class="hfeed">
-	<header id="branding" role="banner">
+	<header id="branding">
 			<hgroup>
 				<h1 id="site-title"><span><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></span></h1>
 				<h2 id="site-description"><?php bloginfo( 'description' ); ?></h2>
@@ -144,7 +144,7 @@ if ( is_singular() && get_option( 'thread_comments' ) ) {
 					<?php get_search_form(); ?>
 			<?php endif; ?>
 
-			<nav id="access" role="navigation">
+			<nav id="access">
 				<h3 class="assistive-text"><?php _e( 'Main menu', 'twentyeleven' ); ?></h3>
 				<?php
 				/*

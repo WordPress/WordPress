@@ -68,7 +68,9 @@ if ( post_password_required() ) {
 		<?php
 		the_comments_pagination(
 			array(
+				/* translators: Hidden accessibility text. */
 				'prev_text' => twentyseventeen_get_svg( array( 'icon' => 'arrow-left' ) ) . '<span class="screen-reader-text">' . __( 'Previous', 'twentyseventeen' ) . '</span>',
+				/* translators: Hidden accessibility text. */
 				'next_text' => '<span class="screen-reader-text">' . __( 'Next', 'twentyseventeen' ) . '</span>' . twentyseventeen_get_svg( array( 'icon' => 'arrow-right' ) ),
 			)
 		);

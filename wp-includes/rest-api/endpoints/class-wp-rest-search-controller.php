@@ -210,11 +210,13 @@ class WP_REST_Search_Controller extends WP_REST_Controller {
 
 		$response = rest_ensure_response( $data );
 
-		$links               = $handler->prepare_item_links( $item_id );
-		$links['collection'] = array(
-			'href' => rest_url( sprintf( '%s/%s', $this->namespace, $this->rest_base ) ),
-		);
-		$response->add_links( $links );
+		if ( rest_is_field_included( '_links', $fields ) || rest_is_field_included( '_embedded', $fields ) ) {
+			$links               = $handler->prepare_item_links( $item_id );
+			$links['collection'] = array(
+				'href' => rest_url( sprintf( '%s/%s', $this->namespace, $this->rest_base ) ),
+			);
+			$response->add_links( $links );
+		}
 
 		return $response;
 	}
@@ -329,6 +331,24 @@ class WP_REST_Search_Controller extends WP_REST_Controller {
 			'sanitize_callback' => array( $this, 'sanitize_subtypes' ),
 		);
 
+		$query_params['exclude'] = array(
+			'description' => __( 'Ensure result set excludes specific IDs.' ),
+			'type'        => 'array',
+			'items'       => array(
+				'type' => 'integer',
+			),
+			'default'     => array(),
+		);
+
+		$query_params['include'] = array(
+			'description' => __( 'Limit result set to specific IDs.' ),
+			'type'        => 'array',
+			'items'       => array(
+				'type' => 'integer',
+			),
+			'default'     => array(),
+		);
+
 		return $query_params;
 	}
 
@@ -340,7 +360,7 @@ class WP_REST_Search_Controller extends WP_REST_Controller {
 	 * @param string|array    $subtypes  One or more subtypes.
 	 * @param WP_REST_Request $request   Full details about the request.
 	 * @param string          $parameter Parameter name.
-	 * @return array|WP_Error List of valid subtypes, or WP_Error object on failure.
+	 * @return string[]|WP_Error List of valid subtypes, or WP_Error object on failure.
 	 */
 	public function sanitize_subtypes( $subtypes, $request, $parameter ) {
 		$subtypes = wp_parse_slug_list( $subtypes );

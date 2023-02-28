@@ -11,6 +11,7 @@
  *
  * @since 5.2.0
  */
+#[AllowDynamicProperties]
 final class WP_Recovery_Mode_Key_Service {
 
 	/**
@@ -84,12 +85,15 @@ final class WP_Recovery_Mode_Key_Service {
 	 *
 	 * @since 5.2.0
 	 *
+	 * @global PasswordHash $wp_hasher
+	 *
 	 * @param string $token The token used when generating the given key.
 	 * @param string $key   The unhashed key.
 	 * @param int    $ttl   Time in seconds for the key to be valid for.
 	 * @return true|WP_Error True on success, error object on failure.
 	 */
 	public function validate_recovery_mode_key( $token, $key, $ttl ) {
+		global $wp_hasher;
 
 		$records = $this->get_keys();
 
@@ -105,7 +109,12 @@ final class WP_Recovery_Mode_Key_Service {
 			return new WP_Error( 'invalid_recovery_key_format', __( 'Invalid recovery key format.' ) );
 		}
 
-		if ( ! wp_check_password( $key, $record['hashed_key'] ) ) {
+		if ( empty( $wp_hasher ) ) {
+			require_once ABSPATH . WPINC . '/class-phpass.php';
+			$wp_hasher = new PasswordHash( 8, true );
+		}
+
+		if ( ! $wp_hasher->CheckPassword( $key, $record['hashed_key'] ) ) {
 			return new WP_Error( 'hash_mismatch', __( 'Invalid recovery key.' ) );
 		}
 

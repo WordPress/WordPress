@@ -13,7 +13,7 @@
 		<?php
 			the_content(
 				sprintf(
-					/* translators: %s: Post title. */
+					/* translators: %s: Post title. Only visible to screen readers. */
 					__( 'Continue reading %s <span class="meta-nav">&rarr;</span>', 'twentythirteen' ),
 					the_title( '<span class="screen-reader-text">', '</span>', false )
 				)

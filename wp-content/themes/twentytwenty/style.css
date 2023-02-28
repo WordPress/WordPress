@@ -1,7 +1,8 @@
 /*
 Theme Name: Twenty Twenty
 Text Domain: twentytwenty
-Version: 1.8
+Version: 2.1
+Tested up to: 6.1
 Requires at least: 4.7
 Requires PHP: 5.2.4
 Description: Our default theme for 2020 is designed to take full advantage of the flexibility of the block editor. Organizations and businesses have the ability to create dynamic landing pages with endless layouts using the group and column blocks. The centered content column and fine-tuned typography also makes it perfect for traditional blogs. Complete editor styles give you a good idea of what your content will look like, even before you publish. You can give your site a personal touch by changing the background colors and the accent color in the Customizer. The colors of all elements on your site are automatically calculated based on the colors you pick, ensuring a high, accessible color contrast for your visitors.
@@ -794,6 +795,10 @@ textarea {
 	max-width: 100%;
 	padding: 1.5rem 1.8rem;
 	width: 100%;
+}
+
+input[type="number"] {
+	padding-right: 0.5rem;
 }
 
 select {
@@ -2801,6 +2806,8 @@ h2.entry-title {
 }
 
 .has-text-align-right {
+
+	/*rtl:ignore*/
 	text-align: right;
 }
 
@@ -3032,6 +3039,7 @@ h2.entry-title {
 }
 
 .is-style-outline .wp-block-button__link {
+	border: 2px solid;
 	padding: calc(1.1em - 0.2rem) calc(1.44em - 0.2rem);
 }
 
@@ -3253,6 +3261,12 @@ figure.wp-block-gallery.alignfull {
 	margin-top: 1.2rem;
 }
 
+.wp-block-pullquote.has-text-color cite,
+.wp-block-pullquote.has-background cite,
+.has-background .wp-block-pullquote cite {
+	color: inherit;
+}
+
 .wp-block-pullquote.alignleft p,
 .wp-block-pullquote.alignright p {
 	font-size: 2.8rem;
@@ -3369,6 +3383,12 @@ figure.wp-block-table.is-style-stripes {
 .wp-block-quote p,
 .wp-block-quote cite {
 	text-align: inherit;
+}
+
+.wp-block-quote.has-text-color cite,
+.wp-block-quote.has-background cite,
+.has-background .wp-block-quote cite {
+	color: inherit;
 }
 
 .wp-block-quote[style="text-align:center"] {
@@ -3546,7 +3566,7 @@ figure.wp-block-table.is-style-stripes {
 /* Font Families ----------------------------- */
 
 .entry-content {
-	font-family: NonBreakingSpaceOverride, "Hoefler Text", Garamond, "Times New Roman", serif;
+	font-family: NonBreakingSpaceOverride, "Hoefler Text", "Noto Serif", Garamond, "Times New Roman", serif;
 	letter-spacing: normal;
 }
 
@@ -3926,17 +3946,8 @@ div.comment:first-of-type {
 	text-align: center;
 }
 
-.comment-respond .comment-notes a,
-.comment-respond .logged-in-as a {
-	color: inherit;
-	text-decoration: none;
-}
-
-.comment-respond .comment-notes a:focus,
-.comment-respond .comment-notes a:hover,
-.comment-respond .logged-in-as a:focus,
-.comment-respond .logged-in-as a:hover {
-	text-decoration: underline;
+.comment-respond .required-field-message {
+	display: inline-block;
 }
 
 .comment-respond p {
@@ -4153,7 +4164,7 @@ div.comment:first-of-type {
 .widget_text dl,
 .widget_text dt,
 .widget-content .rssSummary {
-	font-family: NonBreakingSpaceOverride, "Hoefler Text", Garamond, "Times New Roman", serif;
+	font-family: NonBreakingSpaceOverride, "Hoefler Text", "Noto Serif", Garamond, "Times New Roman", serif;
 	letter-spacing: normal;
 }
 
@@ -4320,7 +4331,7 @@ div.comment:first-of-type {
 
 /* Widget: RSS ------------------------------- */
 
-.widget_rss .widget-title a.rsswidget:first-of-type {
+.widget_rss .widget-title a.rsswidget:first-of-type:not(.rss-widget-title) {
 	display: none;
 }
 
@@ -4366,6 +4377,12 @@ div.comment:first-of-type {
 }
 
 /* Widget: Text ------------------------------ */
+
+/* Widget: Blocks ---------------------------- */
+
+.widget .wp-block-social-links li {
+	margin-top: 0;
+}
 
 
 /* -------------------------------------------------------------------------- */
@@ -4498,13 +4515,20 @@ ul.footer-social li {
 }
 
 .footer-copyright a,
+.privacy-policy a,
 .powered-by-wordpress a {
 	color: inherit;
 }
 
+.privacy-policy,
 .powered-by-wordpress,
 .to-the-top {
 	color: #6d6d6d;
+}
+
+a.to-the-top {
+	margin-left: 2.4rem;
+	white-space: nowrap;
 }
 
 a.to-the-top > * {
@@ -4519,6 +4543,10 @@ a.to-the-top > * {
 .powered-by-wordpress {
 	display: none;
 	margin: 0 0 0 2.4rem;
+}
+
+.privacy-policy {
+	margin: 1.2rem 0 0;
 }
 
 .to-the-top-long {
@@ -5632,14 +5660,15 @@ a.to-the-top > * {
 
 	.footer-credits {
 		display: flex;
+		flex-wrap: wrap;
 	}
 
 	.footer-copyright {
 		font-weight: 700;
 	}
 
-	.powered-by-wordpress {
-		display: block;
+	.privacy-policy {
+		margin: 0 0 0 2.4rem;
 	}
 
 	.to-the-top-long {
@@ -6118,6 +6147,10 @@ a.to-the-top > * {
 	.footer-menu li {
 		margin: 1.2rem 0 0 2.4rem;
 	}
+
+	.powered-by-wordpress {
+		display: block;
+	}
 }
 
 
@@ -6355,7 +6388,7 @@ a.to-the-top > * {
 
 	.wp-block-separator.is-style-wide {
 		max-width: 120rem;
-		width: 120rem;
+		width: 100%;
 	}
 
 	/* Entry Content ------------------------- */

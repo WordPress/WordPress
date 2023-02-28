@@ -16,6 +16,7 @@
  *
  * @see WP_Customize_Manager
  */
+#[AllowDynamicProperties]
 final class WP_Customize_Widgets {
 
 	/**
@@ -238,13 +239,13 @@ final class WP_Customize_Widgets {
 	 *
 	 * @since 3.9.0
 	 *
-	 * @param string $name    Post value.
-	 * @param mixed  $default Default post value.
+	 * @param string $name          Post value.
+	 * @param mixed  $default_value Default post value.
 	 * @return mixed Unslashed post value or default value.
 	 */
-	protected function get_post_value( $name, $default = null ) {
+	protected function get_post_value( $name, $default_value = null ) {
 		if ( ! isset( $_POST[ $name ] ) ) {
-			return $default;
+			return $default_value;
 		}
 
 		return wp_unslash( $_POST[ $name ] );
@@ -420,6 +421,7 @@ final class WP_Customize_Widgets {
 				'priority'                 => 110,
 				'active_callback'          => array( $this, 'is_panel_active' ),
 				'auto_expand_sole_section' => true,
+				'theme_supports'           => 'widgets',
 			)
 		);
 
@@ -746,7 +748,7 @@ final class WP_Customize_Widgets {
 		 */
 		$some_non_rendered_areas_messages    = array();
 		$some_non_rendered_areas_messages[1] = html_entity_decode(
-			__( 'Your theme has 1 other widget area, but this particular page doesn&#8217;t display it.' ),
+			__( 'Your theme has 1 other widget area, but this particular page does not display it.' ),
 			ENT_QUOTES,
 			get_bloginfo( 'charset' )
 		);
@@ -756,8 +758,8 @@ final class WP_Customize_Widgets {
 				sprintf(
 					/* translators: %s: The number of other widget areas registered but not rendered. */
 					_n(
-						'Your theme has %s other widget area, but this particular page doesn&#8217;t display it.',
-						'Your theme has %s other widget areas, but this particular page doesn&#8217;t display them.',
+						'Your theme has %s other widget area, but this particular page does not display it.',
+						'Your theme has %s other widget areas, but this particular page does not display them.',
 						$non_rendered_count
 					),
 					number_format_i18n( $non_rendered_count )
@@ -770,7 +772,7 @@ final class WP_Customize_Widgets {
 		if ( 1 === $registered_sidebar_count ) {
 			$no_areas_shown_message = html_entity_decode(
 				sprintf(
-					__( 'Your theme has 1 widget area, but this particular page doesn&#8217;t display it.' )
+					__( 'Your theme has 1 widget area, but this particular page does not display it.' )
 				),
 				ENT_QUOTES,
 				get_bloginfo( 'charset' )
@@ -780,8 +782,8 @@ final class WP_Customize_Widgets {
 				sprintf(
 					/* translators: %s: The total number of widget areas registered. */
 					_n(
-						'Your theme has %s widget area, but this particular page doesn&#8217;t display it.',
-						'Your theme has %s widget areas, but this particular page doesn&#8217;t display them.',
+						'Your theme has %s widget area, but this particular page does not display it.',
+						'Your theme has %s widget areas, but this particular page does not display them.',
 						$registered_sidebar_count
 					),
 					number_format_i18n( $registered_sidebar_count )
@@ -837,7 +839,11 @@ final class WP_Customize_Widgets {
 		 */
 
 		if ( wp_use_widgets_block_editor() ) {
-			$block_editor_context = new WP_Block_Editor_Context();
+			$block_editor_context = new WP_Block_Editor_Context(
+				array(
+					'name' => 'core/customize-widgets',
+				)
+			);
 
 			$editor_settings = get_block_editor_settings(
 				get_legacy_widget_block_editor_settings(),
@@ -885,7 +891,12 @@ final class WP_Customize_Widgets {
 		<div id="available-widgets">
 			<div class="customize-section-title">
 				<button class="customize-section-back" tabindex="-1">
-					<span class="screen-reader-text"><?php _e( 'Back' ); ?></span>
+					<span class="screen-reader-text">
+						<?php
+						/* translators: Hidden accessibility text. */
+						_e( 'Back' );
+						?>
+					</span>
 				</button>
 				<h3>
 					<span class="customize-action">
@@ -898,11 +909,26 @@ final class WP_Customize_Widgets {
 				</h3>
 			</div>
 			<div id="available-widgets-filter">
-				<label class="screen-reader-text" for="widgets-search"><?php _e( 'Search Widgets' ); ?></label>
+				<label class="screen-reader-text" for="widgets-search">
+					<?php
+					/* translators: Hidden accessibility text. */
+					_e( 'Search Widgets' );
+					?>
+				</label>
 				<input type="text" id="widgets-search" placeholder="<?php esc_attr_e( 'Search widgets&hellip;' ); ?>" aria-describedby="widgets-search-desc" />
 				<div class="search-icon" aria-hidden="true"></div>
-				<button type="button" class="clear-results"><span class="screen-reader-text"><?php _e( 'Clear Results' ); ?></span></button>
-				<p class="screen-reader-text" id="widgets-search-desc"><?php _e( 'The search results will be updated as you type.' ); ?></p>
+				<button type="button" class="clear-results"><span class="screen-reader-text">
+					<?php
+					/* translators: Hidden accessibility text. */
+					_e( 'Clear Results' );
+					?>
+				</span></button>
+				<p class="screen-reader-text" id="widgets-search-desc">
+					<?php
+					/* translators: Hidden accessibility text. */
+					_e( 'The search results will be updated as you type.' );
+					?>
+				</p>
 			</div>
 			<div id="available-widgets-list">
 			<?php foreach ( $this->get_available_widgets() as $available_widget ) : ?>
@@ -1258,7 +1284,7 @@ final class WP_Customize_Widgets {
 	public function export_preview_data() {
 		global $wp_registered_sidebars, $wp_registered_widgets;
 
-		$switched_locale = switch_to_locale( get_user_locale() );
+		$switched_locale = switch_to_user_locale( get_current_user_id() );
 
 		$l10n = array(
 			'widgetTooltip' => __( 'Shift-click to edit this widget.' ),
@@ -1421,9 +1447,8 @@ final class WP_Customize_Widgets {
 			if ( ! empty( $widget_object->widget_options['show_instance_in_rest'] ) ) {
 				if ( 'block' === $id_base && ! current_user_can( 'unfiltered_html' ) ) {
 					/*
-					 * The content of the 'block' widget is not filtered on the
-					 * fly while editing. Filter the content here to prevent
-					 * vulnerabilities.
+					 * The content of the 'block' widget is not filtered on the fly while editing.
+					 * Filter the content here to prevent vulnerabilities.
 					 */
 					$value['raw_instance']['content'] = wp_kses_post( $value['raw_instance']['content'] );
 				}
@@ -2053,15 +2078,15 @@ final class WP_Customize_Widgets {
 	 *
 	 * @since 4.2.0
 	 *
-	 * @param string $option_name Option name.
-	 * @param mixed  $default     Optional. Default value to return if the option does not exist. Default false.
+	 * @param string $option_name   Option name.
+	 * @param mixed  $default_value Optional. Default value to return if the option does not exist. Default false.
 	 * @return mixed Value set for the option.
 	 */
-	protected function get_captured_option( $option_name, $default = false ) {
+	protected function get_captured_option( $option_name, $default_value = false ) {
 		if ( array_key_exists( $option_name, $this->_captured_options ) ) {
 			$value = $this->_captured_options[ $option_name ];
 		} else {
-			$value = $default;
+			$value = $default_value;
 		}
 		return $value;
 	}

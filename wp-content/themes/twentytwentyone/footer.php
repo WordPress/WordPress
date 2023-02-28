@@ -18,7 +18,7 @@
 
 	<?php get_template_part( 'template-parts/footer/footer-widgets' ); ?>
 
-	<footer id="colophon" class="site-footer" role="contentinfo">
+	<footer id="colophon" class="site-footer">
 
 		<?php if ( has_nav_menu( 'footer' ) ) : ?>
 			<nav aria-label="<?php esc_attr_e( 'Secondary menu', 'twentytwentyone' ); ?>" class="footer-navigation">
@@ -53,6 +53,13 @@
 					<?php endif; ?>
 				<?php endif; ?>
 			</div><!-- .site-name -->
+
+			<?php
+			if ( function_exists( 'the_privacy_policy_link' ) ) {
+				the_privacy_policy_link( '<div class="privacy-policy">', '</div>' );
+			}
+			?>
+
 			<div class="powered-by">
 				<?php
 				printf(

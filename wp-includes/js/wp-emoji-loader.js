@@ -16,32 +16,27 @@
 	 *
 	 * @private
 	 *
-	 * @param {number[]} set1 Set of Emoji character codes.
-	 * @param {number[]} set2 Set of Emoji character codes.
+	 * @param {string} set1 Set of Emoji to test.
+	 * @param {string} set2 Set of Emoji to test.
 	 *
 	 * @return {boolean} True if the two sets render the same.
 	 */
 	function emojiSetsRenderIdentically( set1, set2 ) {
-		var stringFromCharCode = String.fromCharCode;
-
 		// Cleanup from previous test.
 		context.clearRect( 0, 0, canvas.width, canvas.height );
-		context.fillText( stringFromCharCode.apply( this, set1 ), 0, 0 );
+		context.fillText( set1, 0, 0 );
 		var rendered1 = canvas.toDataURL();
 
 		// Cleanup from previous test.
 		context.clearRect( 0, 0, canvas.width, canvas.height );
-		context.fillText( stringFromCharCode.apply( this, set2 ), 0, 0 );
+		context.fillText( set2, 0, 0 );
 		var rendered2 = canvas.toDataURL();
 
 		return rendered1 === rendered2;
 	}
 
 	/**
-	 * Detects if the browser supports rendering emoji or flag emoji.
-	 *
-	 * Flag emoji are a single glyph made of two characters, so some browsers
-	 * (notably, Firefox OS X) don't support them.
+	 * Determines if the browser properly renders Emoji that Twemoji can supplement.
 	 *
 	 * @since 4.2.0
 	 *
@@ -69,15 +64,14 @@
 		switch ( type ) {
 			case 'flag':
 				/*
-				 * Test for Transgender flag compatibility. This flag is shortlisted for the Emoji 13 spec,
-				 * but has landed in Twemoji early, so we can add support for it, too.
+				 * Test for Transgender flag compatibility. Added in Unicode 13.
 				 *
 				 * To test for support, we try to render it, and compare the rendering to how it would look if
 				 * the browser doesn't render it correctly (white flag emoji + transgender symbol).
 				 */
 				isIdentical = emojiSetsRenderIdentically(
-					[ 0x1F3F3, 0xFE0F, 0x200D, 0x26A7, 0xFE0F ],
-					[ 0x1F3F3, 0xFE0F, 0x200B, 0x26A7, 0xFE0F ]
+					'\uD83C\uDFF3\uFE0F\u200D\u26A7\uFE0F', // as a zero-width joiner sequence
+					'\uD83C\uDFF3\uFE0F\u200B\u26A7\uFE0F'  // separated by a zero-width space
 				);
 
 				if ( isIdentical ) {
@@ -92,8 +86,8 @@
 				 * the browser doesn't render it correctly ([U] + [N]).
 				 */
 				isIdentical = emojiSetsRenderIdentically(
-					[ 0xD83C, 0xDDFA, 0xD83C, 0xDDF3 ],
-					[ 0xD83C, 0xDDFA, 0x200B, 0xD83C, 0xDDF3 ]
+					'\uD83C\uDDFA\uD83C\uDDF3',       // as the sequence of two code points
+					'\uD83C\uDDFA\u200B\uD83C\uDDF3'  // as the two code points separated by a zero-width space
 				);
 
 				if ( isIdentical ) {
@@ -102,36 +96,41 @@
 
 				/*
 				 * Test for English flag compatibility. England is a country in the United Kingdom, it
-				 * does not have a two letter locale code but rather an five letter sub-division code.
+				 * does not have a two letter locale code but rather a five letter sub-division code.
 				 *
 				 * To test for support, we try to render it, and compare the rendering to how it would look if
 				 * the browser doesn't render it correctly (black flag emoji + [G] + [B] + [E] + [N] + [G]).
 				 */
 				isIdentical = emojiSetsRenderIdentically(
-					[ 0xD83C, 0xDFF4, 0xDB40, 0xDC67, 0xDB40, 0xDC62, 0xDB40, 0xDC65, 0xDB40, 0xDC6E, 0xDB40, 0xDC67, 0xDB40, 0xDC7F ],
-					[ 0xD83C, 0xDFF4, 0x200B, 0xDB40, 0xDC67, 0x200B, 0xDB40, 0xDC62, 0x200B, 0xDB40, 0xDC65, 0x200B, 0xDB40, 0xDC6E, 0x200B, 0xDB40, 0xDC67, 0x200B, 0xDB40, 0xDC7F ]
+					// as the flag sequence
+					'\uD83C\uDFF4\uDB40\uDC67\uDB40\uDC62\uDB40\uDC65\uDB40\uDC6E\uDB40\uDC67\uDB40\uDC7F',
+					// with each code point separated by a zero-width space
+					'\uD83C\uDFF4\u200B\uDB40\uDC67\u200B\uDB40\uDC62\u200B\uDB40\uDC65\u200B\uDB40\uDC6E\u200B\uDB40\uDC67\u200B\uDB40\uDC7F'
 				);
 
 				return ! isIdentical;
 			case 'emoji':
 				/*
-				 * Burning Love: Just a hunk, a hunk of burnin' love.
+				 * Why can't we be friends? Everyone can now shake hands in emoji, regardless of skin tone!
 				 *
-				 *  To test for Emoji 13.1 support, try to render a new emoji: Heart on Fire!
+				 * To test for Emoji 14.0 support, try to render a new emoji: Handshake: Light Skin Tone, Dark Skin Tone.
 				 *
-				 * The Heart on Fire emoji is a ZWJ sequence combining ❤️ Red Heart, a Zero Width Joiner and 🔥 Fire.
+				 * The Handshake: Light Skin Tone, Dark Skin Tone emoji is a ZWJ sequence combining 🫱 Rightwards Hand,
+				 * 🏻 Light Skin Tone, a Zero Width Joiner, 🫲 Leftwards Hand, and 🏿 Dark Skin Tone.
 				 *
-				 * 0x2764, 0xfe0f == Red Heart emoji.
-				 * 0x200D == Zero-Width Joiner (ZWJ) that links the two code points for the new emoji or
+				 * 0x1FAF1 == Rightwards Hand
+				 * 0x1F3FB == Light Skin Tone
+				 * 0x200D == Zero-Width Joiner (ZWJ) that links the code points for the new emoji or
 				 * 0x200B == Zero-Width Space (ZWS) that is rendered for clients not supporting the new emoji.
-				 * 0xD83D, 0xDD25 == Fire.
+				 * 0x1FAF2 == Leftwards Hand
+				 * 0x1F3FF == Dark Skin Tone.
 				 *
 				 * When updating this test for future Emoji releases, ensure that individual emoji that make up the
 				 * sequence come from older emoji standards.
 				 */
 				isIdentical = emojiSetsRenderIdentically(
-					[0x2764, 0xfe0f, 0x200D, 0xD83D, 0xDD25],
-					[0x2764, 0xfe0f, 0x200B, 0xD83D, 0xDD25]
+					'\uD83E\uDEF1\uD83C\uDFFB\u200D\uD83E\uDEF2\uD83C\uDFFF', // as the zero-width joiner sequence
+					'\uD83E\uDEF1\uD83C\uDFFB\u200B\uD83E\uDEF2\uD83C\uDFFF'  // separated by a zero-width space
 				);
 
 				return ! isIdentical;

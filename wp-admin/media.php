@@ -65,13 +65,13 @@ switch ( $action ) {
 		$att = get_post( $att_id );
 
 		if ( empty( $att->ID ) ) {
-			wp_die( __( 'You attempted to edit an attachment that doesn&#8217;t exist. Perhaps it was deleted?' ) );
+			wp_die( __( 'You attempted to edit an attachment that does not exist. Perhaps it was deleted?' ) );
 		}
 		if ( 'attachment' !== $att->post_type ) {
-			wp_die( __( 'You attempted to edit an item that isn&#8217;t an attachment. Please go back and try again.' ) );
+			wp_die( __( 'You attempted to edit an item that is not an attachment. Please go back and try again.' ) );
 		}
 		if ( 'trash' === $att->post_status ) {
-			wp_die( __( 'You can&#8217;t edit this attachment because it is in the Trash. Please move it out of the Trash and try again.' ) );
+			wp_die( __( 'You cannot edit this attachment because it is in the Trash. Please move it out of the Trash and try again.' ) );
 		}
 
 		add_filter( 'attachment_fields_to_edit', 'media_single_attachment_fields_to_edit', 10, 2 );
@@ -88,14 +88,14 @@ switch ( $action ) {
 					'<p>' . __( 'This screen allows you to edit fields for metadata in a file within the media library.' ) . '</p>' .
 					'<p>' . __( 'For images only, you can click on Edit Image under the thumbnail to expand out an inline image editor with icons for cropping, rotating, or flipping the image as well as for undoing and redoing. The boxes on the right give you more options for scaling the image, for cropping it, and for cropping the thumbnail in a different way than you crop the original image. You can click on Help in those boxes to get more information.' ) . '</p>' .
 					'<p>' . __( 'Note that you crop the image by clicking on it (the Crop icon is already selected) and dragging the cropping frame to select the desired part. Then click Save to retain the cropping.' ) . '</p>' .
-					'<p>' . __( 'Remember to click Update Media to save metadata entered or changed.' ) . '</p>',
+					'<p>' . __( 'Remember to click Update to save metadata entered or changed.' ) . '</p>',
 			)
 		);
 
 		get_current_screen()->set_help_sidebar(
 			'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
-			'<p>' . __( '<a href="https://wordpress.org/support/article/edit-media/">Documentation on Edit Media</a>' ) . '</p>' .
-			'<p>' . __( '<a href="https://wordpress.org/support/">Support</a>' ) . '</p>'
+			'<p>' . __( '<a href="https://wordpress.org/documentation/article/edit-media/">Documentation on Edit Media</a>' ) . '</p>' .
+			'<p>' . __( '<a href="https://wordpress.org/support/forums/">Support forums</a>' ) . '</p>'
 		);
 
 		require_once ABSPATH . 'wp-admin/admin-header.php';
@@ -134,7 +134,7 @@ switch ( $action ) {
 
 	<form method="post" class="media-upload-form" id="media-single-form">
 	<p class="submit" style="padding-bottom: 0;">
-		<?php submit_button( __( 'Update Media' ), 'primary', 'save', false ); ?>
+		<?php submit_button( __( 'Update' ), 'primary', 'save', false ); ?>
 	</p>
 
 	<div class="media-single">
@@ -154,7 +154,7 @@ switch ( $action ) {
 	</div>
 	</div>
 
-		<?php submit_button( __( 'Update Media' ), 'primary', 'save' ); ?>
+		<?php submit_button( __( 'Update' ), 'primary', 'save' ); ?>
 	<input type="hidden" name="post_id" id="post_id" value="<?php echo isset( $post_id ) ? esc_attr( $post_id ) : ''; ?>" />
 	<input type="hidden" name="attachment_id" id="attachment_id" value="<?php echo esc_attr( $att_id ); ?>" />
 	<input type="hidden" name="action" value="editattachment" />

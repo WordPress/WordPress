@@ -1803,7 +1803,7 @@ class SimplePie_Item
 							}
 							if (isset($content['attribs']['']['fileSize']))
 							{
-								$length = ceil($content['attribs']['']['fileSize']);
+								$length = intval($content['attribs']['']['fileSize']);
 							}
 							if (isset($content['attribs']['']['medium']))
 							{
@@ -2425,7 +2425,7 @@ class SimplePie_Item
 						}
 						if (isset($content['attribs']['']['fileSize']))
 						{
-							$length = ceil($content['attribs']['']['fileSize']);
+							$length = intval($content['attribs']['']['fileSize']);
 						}
 						if (isset($content['attribs']['']['medium']))
 						{
@@ -2790,7 +2790,7 @@ class SimplePie_Item
 					}
 					if (isset($link['attribs']['']['length']))
 					{
-						$length = ceil($link['attribs']['']['length']);
+						$length = intval($link['attribs']['']['length']);
 					}
 					if (isset($link['attribs']['']['title']))
 					{
@@ -2833,7 +2833,7 @@ class SimplePie_Item
 					}
 					if (isset($link['attribs']['']['length']))
 					{
-						$length = ceil($link['attribs']['']['length']);
+						$length = intval($link['attribs']['']['length']);
 					}
 
 					// Since we don't have group or content for these, we'll just pass the '*_parent' variables directly to the constructor
@@ -2862,13 +2862,14 @@ class SimplePie_Item
 					$width = null;
 
 					$url = $this->sanitize($enclosure[0]['attribs']['']['url'], SIMPLEPIE_CONSTRUCT_IRI, $this->get_base($enclosure[0]));
+					$url = $this->feed->sanitize->https_url($url);
 					if (isset($enclosure[0]['attribs']['']['type']))
 					{
 						$type = $this->sanitize($enclosure[0]['attribs']['']['type'], SIMPLEPIE_CONSTRUCT_TEXT);
 					}
 					if (isset($enclosure[0]['attribs']['']['length']))
 					{
-						$length = ceil($enclosure[0]['attribs']['']['length']);
+						$length = intval($enclosure[0]['attribs']['']['length']);
 					}
 
 					// Since we don't have group or content for these, we'll just pass the '*_parent' variables directly to the constructor

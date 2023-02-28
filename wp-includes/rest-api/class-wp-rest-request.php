@@ -14,7 +14,7 @@
  *
  * Note: This implements ArrayAccess, and acts as an array of parameters when
  * used in that manner. It does not use ArrayObject (as we cannot rely on SPL),
- * so be aware it may have non-array behaviour in some cases.
+ * so be aware it may have non-array behavior in some cases.
  *
  * Note: When using features provided by ArrayAccess, be aware that WordPress deliberately
  * does not distinguish between arguments of the same name for different request methods.
@@ -26,6 +26,7 @@
  *
  * @link https://www.php.net/manual/en/class.arrayaccess.php
  */
+#[AllowDynamicProperties]
 class WP_REST_Request implements ArrayAccess {
 
 	/**
@@ -290,16 +291,16 @@ class WP_REST_Request implements ArrayAccess {
 	}
 
 	/**
-	 * Retrieves the content-type of the request.
+	 * Retrieves the Content-Type of the request.
 	 *
 	 * @since 4.4.0
 	 *
 	 * @return array|null Map containing 'value' and 'parameters' keys
-	 *                    or null when no valid content-type header was
+	 *                    or null when no valid Content-Type header was
 	 *                    available.
 	 */
 	public function get_content_type() {
-		$value = $this->get_header( 'content-type' );
+		$value = $this->get_header( 'Content-Type' );
 		if ( empty( $value ) ) {
 			return null;
 		}
@@ -324,11 +325,11 @@ class WP_REST_Request implements ArrayAccess {
 	}
 
 	/**
-	 * Checks if the request has specified a JSON content-type.
+	 * Checks if the request has specified a JSON Content-Type.
 	 *
 	 * @since 5.6.0
 	 *
-	 * @return bool True if the content-type header is JSON.
+	 * @return bool True if the Content-Type header is JSON.
 	 */
 	public function is_json_content_type() {
 		$content_type = $this->get_content_type();
@@ -718,7 +719,7 @@ class WP_REST_Request implements ArrayAccess {
 		$this->parsed_body = true;
 
 		/*
-		 * Check that we got URL-encoded. Treat a missing content-type as
+		 * Check that we got URL-encoded. Treat a missing Content-Type as
 		 * URL-encoded for maximum compatibility.
 		 */
 		$content_type = $this->get_content_type();

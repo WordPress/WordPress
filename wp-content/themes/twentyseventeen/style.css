@@ -4,7 +4,8 @@ Theme URI: https://wordpress.org/themes/twentyseventeen/
 Author: the WordPress team
 Author URI: https://wordpress.org/
 Description: Twenty Seventeen brings your site to life with header video and immersive featured images. With a focus on business sites, it features multiple sections on the front page as well as widgets, navigation and social menus, a logo, and more. Personalize its asymmetrical grid with a custom color scheme and showcase your multimedia content with post formats. Our default theme for 2017 works great in many languages, for any abilities, and on any device.
-Version: 2.8
+Version: 3.1
+Tested up to: 6.1
 Requires at least: 4.7
 Requires PHP: 5.2.4
 License: GNU General Public License v2 or later
@@ -596,11 +597,11 @@ html[lang="azb"] button,
 html[lang="azb"] input,
 html[lang="azb"] select,
 html[lang="azb"] textarea,
-html[lang="fa-IR"] body,
-html[lang="fa-IR"] button,
-html[lang="fa-IR"] input,
-html[lang="fa-IR"] select,
-html[lang="fa-IR"] textarea,
+html[lang^="fa-"] body,
+html[lang^="fa-"] button,
+html[lang^="fa-"] input,
+html[lang^="fa-"] select,
+html[lang^="fa-"] textarea,
 html[lang="haz"] body,
 html[lang="haz"] button,
 html[lang="haz"] input,
@@ -637,12 +638,12 @@ html[lang="azb"] h3,
 html[lang="azb"] h4,
 html[lang="azb"] h5,
 html[lang="azb"] h6,
-html[lang="fa-IR"] h1,
-html[lang="fa-IR"] h2,
-html[lang="fa-IR"] h3,
-html[lang="fa-IR"] h4,
-html[lang="fa-IR"] h5,
-html[lang="fa-IR"] h6,
+html[lang^="fa-"] h1,
+html[lang^="fa-"] h2,
+html[lang^="fa-"] h3,
+html[lang^="fa-"] h4,
+html[lang^="fa-"] h5,
+html[lang^="fa-"] h6,
 html[lang="haz"] h1,
 html[lang="haz"] h2,
 html[lang="haz"] h3,
@@ -896,8 +897,10 @@ html[lang="th"] textarea {
 html[lang="ar"] *,
 html[lang="ary"] *,
 html[lang="azb"] *,
+html[lang^="fa-"] *,
 html[lang="haz"] *,
 html[lang="ps"] *,
+html[lang="ur"] *,
 html[lang^="zh-"] *,
 html[lang="bg-BG"] *,
 html[lang="ru-RU"] *,
@@ -2662,7 +2665,7 @@ h2.widget-title {
 
 /* RSS Widget */
 
-.widget_rss .widget-title .rsswidget:first-child {
+.widget_rss .widget-title .rsswidget:first-child:not(.rss-widget-title) {
 	float: right;
 }
 
@@ -3382,6 +3385,9 @@ p > object:only-child {
 }
 
 @media screen and (min-width: 48em) {
+	html {
+		scroll-padding-top: calc( var(--wp-admin--admin-bar--height, 0px) + 72px );
+	}
 
 	/* Typography */
 
@@ -3790,6 +3796,13 @@ p > object:only-child {
 	/* With panel images 100% of the screen height, we're going to fix the background image where supported to create a parallax-like effect. */
 	.background-fixed .panel-image {
 		background-attachment: fixed;
+	}
+
+	@supports ( -webkit-touch-callout: none ) {
+		/* Image scrolls with the content in iOS Safari. */
+		.background-fixed .panel-image {
+			background-attachment: scroll;
+		}
 	}
 
 	.page-two-column .panel-content .entry-header {

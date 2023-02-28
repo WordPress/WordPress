@@ -14,6 +14,7 @@
  *
  * @since 4.8.0
  */
+#[AllowDynamicProperties]
 class WP_Community_Events {
 	/**
 	 * ID for a WordPress user account.
@@ -352,8 +353,12 @@ class WP_Community_Events {
 	 *                     on success, false on failure.
 	 */
 	public function get_cached_events() {
-		$cached_response = get_site_transient( $this->get_events_transient_key( $this->user_location ) );
+		$transient_key = $this->get_events_transient_key( $this->user_location );
+		if ( ! $transient_key ) {
+			return false;
+		}
 
+		$cached_response = get_site_transient( $transient_key );
 		if ( isset( $cached_response['events'] ) ) {
 			$cached_response['events'] = $this->trim_events( $cached_response['events'] );
 		}
@@ -453,6 +458,7 @@ class WP_Community_Events {
 	 * @since 4.8.0
 	 * @since 4.9.7 Stick a WordCamp to the final list.
 	 * @since 5.5.2 Accepts and returns only the events, rather than an entire HTTP response.
+	 * @since 6.0.0 Decode HTML entities from the event title.
 	 *
 	 * @param array $events The events that will be prepared.
 	 * @return array The response body with events trimmed.
@@ -468,6 +474,9 @@ class WP_Community_Events {
 			$end_time = (int) $event['end_unix_timestamp'];
 
 			if ( time() < $end_time ) {
+				// Decode HTML entities from the event title.
+				$event['title'] = html_entity_decode( $event['title'], ENT_QUOTES, 'UTF-8' );
+
 				array_push( $future_events, $event );
 			}
 		}

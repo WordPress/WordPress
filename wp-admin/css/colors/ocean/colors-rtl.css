@@ -3,6 +3,10 @@
  * Button mixin- creates a button effect with correct
  * highlights/shadows, based on a base color.
  */
+/**
+ * This function name uses British English to maintain backward compatibility, as developers
+ * may use the function in their own admin CSS files. See #56811.
+ */
 body {
   background: #f1f1f1;
 }
@@ -292,6 +296,7 @@ ul#adminmenu > li.current > a.current:after {
 }
 
 /* Admin Menu: bubble */
+#adminmenu .menu-counter,
 #adminmenu .awaiting-mod,
 #adminmenu .update-plugins {
   color: #fff;
@@ -669,4 +674,18 @@ div#wp-responsive-toggle a:before {
 .wp-core-ui.wp-customizer .theme-overlay .theme-header .close:focus, .wp-core-ui.wp-customizer .theme-overlay .theme-header .close:hover, .wp-core-ui.wp-customizer .theme-overlay .theme-header .right:focus, .wp-core-ui.wp-customizer .theme-overlay .theme-header .right:hover, .wp-core-ui.wp-customizer .theme-overlay .theme-header .left:focus, .wp-core-ui.wp-customizer .theme-overlay .theme-header .left:hover {
   border-bottom-color: #9ebaa0;
   color: #0073aa;
+}
+
+/* Welcome Panel */
+.welcome-panel {
+  background-color: #9ebaa0;
+}
+
+.welcome-panel-header-image circle {
+  stroke: rgba(255, 255, 255, 0.5);
+  fill: #9ebaa0;
+}
+
+[class*=welcome-panel-icon] {
+  background-color: rgba(255, 255, 255, 0.5);
 }

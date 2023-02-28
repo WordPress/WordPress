@@ -16,6 +16,7 @@
  *
  * @since 4.5.0
  */
+#[AllowDynamicProperties]
 class WP_Customize_Partial {
 
 	/**

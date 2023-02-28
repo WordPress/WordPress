@@ -17,6 +17,12 @@
 class WP_REST_Themes_Controller extends WP_REST_Controller {
 
 	/**
+	 * Matches theme's directory: `/themes/<subdirectory>/<theme>/` or `/themes/<theme>/`.
+	 * Excludes invalid directory name characters: `/:<>*?"|`.
+	 */
+	const PATTERN = '[^\/:<>\*\?"\|]+(?:\/[^\/:<>\*\?"\|]+)?';
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 5.0.0
@@ -50,12 +56,13 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
 
 		register_rest_route(
 			$this->namespace,
-			'/' . $this->rest_base . '/(?P<stylesheet>[\w-]+)',
+			sprintf( '/%s/(?P<stylesheet>%s)', $this->rest_base, self::PATTERN ),
 			array(
 				'args'   => array(
 					'stylesheet' => array(
-						'description' => __( "The theme's stylesheet. This uniquely identifies the theme." ),
-						'type'        => 'string',
+						'description'       => __( "The theme's stylesheet. This uniquely identifies the theme." ),
+						'type'              => 'string',
+						'sanitize_callback' => array( $this, '_sanitize_stylesheet_callback' ),
 					),
 				),
 				array(
@@ -66,6 +73,18 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
 				'schema' => array( $this, 'get_public_item_schema' ),
 			)
 		);
+	}
+
+	/**
+	 * Sanitize the stylesheet to decode endpoint.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @param string $stylesheet The stylesheet name.
+	 * @return string Sanitized stylesheet.
+	 */
+	public function _sanitize_stylesheet_callback( $stylesheet ) {
+		return urldecode( $stylesheet );
 	}
 
 	/**
@@ -312,7 +331,9 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
 		// Wrap the data in a response object.
 		$response = rest_ensure_response( $data );
 
-		$response->add_links( $this->prepare_links( $theme ) );
+		if ( rest_is_field_included( '_links', $fields ) || rest_is_field_included( '_embedded', $fields ) ) {
+			$response->add_links( $this->prepare_links( $theme ) );
+		}
 
 		/**
 		 * Filters theme data returned from the REST API.
@@ -335,7 +356,7 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
 	 * @return array Links for the given block type.
 	 */
 	protected function prepare_links( $theme ) {
-		return array(
+		$links = array(
 			'self'       => array(
 				'href' => rest_url( sprintf( '%s/%s/%s', $this->namespace, $this->rest_base, $theme->get_stylesheet() ) ),
 			),
@@ -343,6 +364,22 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
 				'href' => rest_url( sprintf( '%s/%s', $this->namespace, $this->rest_base ) ),
 			),
 		);
+
+		if ( $this->is_same_theme( $theme, wp_get_theme() ) ) {
+			// This creates a record for the active theme if not existent.
+			$id = WP_Theme_JSON_Resolver::get_user_global_styles_post_id();
+		} else {
+			$user_cpt = WP_Theme_JSON_Resolver::get_user_data_from_wp_global_styles( $theme );
+			$id       = isset( $user_cpt['ID'] ) ? $user_cpt['ID'] : null;
+		}
+
+		if ( $id ) {
+			$links['https://api.w.org/user-global-styles'] = array(
+				'href' => rest_url( 'wp/v2/global-styles/' . $id ),
+			);
+		}
+
+		return $links;
 	}
 
 	/**

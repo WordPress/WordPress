@@ -7,6 +7,7 @@
  * @since 4.9.6
  */
 
+#[AllowDynamicProperties]
 final class WP_Privacy_Policy_Content {
 
 	private static $policy_content = array();
@@ -103,7 +104,7 @@ final class WP_Privacy_Policy_Content {
 		sort( $new );
 
 		// The == operator (equal, not identical) was used intentionally.
-		// See http://php.net/manual/en/language.operators.array.php
+		// See https://www.php.net/manual/en/language.operators.array.php
 		if ( $new != $old ) {
 			// A plugin was activated or deactivated, or some policy text has changed.
 			// Show a notice on the relevant screens to inform the admin.
@@ -125,6 +126,8 @@ final class WP_Privacy_Policy_Content {
 	 * Output a warning when some privacy info has changed.
 	 *
 	 * @since 4.9.6
+	 *
+	 * @global WP_Post $post Global post object.
 	 */
 	public static function policy_text_changed_notice() {
 		global $post;
@@ -303,6 +306,8 @@ final class WP_Privacy_Policy_Content {
 	 * @since 4.9.6
 	 * @since 5.0.0 The `$post` parameter was made optional.
 	 *
+	 * @global WP_Post $post Global post object.
+	 *
 	 * @param WP_Post|null $post The currently edited post. Default null.
 	 */
 	public static function notice( $post = null ) {
@@ -356,7 +361,7 @@ final class WP_Privacy_Policy_Content {
 					' <a href="%s" target="_blank">%s <span class="screen-reader-text">%s</span></a>',
 					$url,
 					$label,
-					/* translators: Accessibility text. */
+					/* translators: Hidden accessibility text. */
 					__( '(opens in a new tab)' )
 				);
 				?>
@@ -423,7 +428,7 @@ final class WP_Privacy_Policy_Content {
 						<span aria-hidden="true"><?php _e( 'Copy suggested policy text to clipboard' ); ?></span>
 						<span class="screen-reader-text">
 							<?php
-							/* translators: %s: Plugin name. */
+							/* translators: Hidden accessibility text. %s: Plugin name. */
 							printf( __( 'Copy suggested policy text from %s.' ), $plugin_name );
 							?>
 						</span>
@@ -587,7 +592,7 @@ final class WP_Privacy_Policy_Content {
 		}
 
 		/* translators: Default privacy policy heading. */
-		$strings[] = '<h2>' . __( 'Where we send your data' ) . '</h2>';
+		$strings[] = '<h2>' . __( 'Where your data is sent' ) . '</h2>';
 
 		if ( $description ) {
 			/* translators: Privacy policy tutorial. */

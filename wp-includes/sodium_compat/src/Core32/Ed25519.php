@@ -3,6 +3,9 @@
 if (class_exists('ParagonIE_Sodium_Core32_Ed25519', false)) {
     return;
 }
+if (!class_exists('ParagonIE_Sodium_Core32_Curve25519')) {
+    require_once dirname(__FILE__) . '/Curve25519.php';
+}
 
 /**
  * Class ParagonIE_Sodium_Core32_Ed25519

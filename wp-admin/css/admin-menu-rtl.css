@@ -37,108 +37,21 @@
 	width: 36px;
 }
 
-.icon16 {
-	height: 18px;
-	width: 18px;
-	padding: 6px;
-	margin: -6px -8px 0 0;
-	float: right;
-}
-
 /* New Menu icons */
 
-.icon16:before {
-	color: #8c8f94; /* same as new icons */
-	font: normal 20px/1 dashicons;
-	speak: never;
-	padding: 6px 0;
-	height: 34px;
-	width: 20px;
-	display: inline-block;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	transition: all .1s ease-in-out;
-}
-
-.icon16.icon-dashboard:before {
-	content: "\f226";
-}
-
-.icon16.icon-post:before {
-	content: "\f109";
-}
-
-.icon16.icon-media:before {
-	content: "\f104";
-}
-
-.icon16.icon-links:before {
-	content: "\f103";
-}
-
-.icon16.icon-page:before {
-	content: "\f105";
-}
-
-.icon16.icon-comments:before {
-	content: "\f101";
-	margin-top: 1px;
-}
-
-.icon16.icon-appearance:before {
-	content: "\f100";
-}
-
-.icon16.icon-plugins:before {
-	content: "\f106";
-}
-
-.icon16.icon-users:before {
-	content: "\f110";
-}
-
-.icon16.icon-tools:before {
-	content: "\f107";
-}
-
-.icon16.icon-settings:before {
-	content: "\f108";
-}
-
-.icon16.icon-site:before {
-	content: "\f541";
-}
-
-.icon16.icon-generic:before {
-	content: "\f111";
-}
-
 /* hide background-image for icons above */
-.icon16.icon-dashboard,
 .menu-icon-dashboard div.wp-menu-image,
-.icon16.icon-post,
 .menu-icon-post div.wp-menu-image,
-.icon16.icon-media,
 .menu-icon-media div.wp-menu-image,
-.icon16.icon-links,
 .menu-icon-links div.wp-menu-image,
-.icon16.icon-page,
 .menu-icon-page div.wp-menu-image,
-.icon16.icon-comments,
 .menu-icon-comments div.wp-menu-image,
-.icon16.icon-appearance,
 .menu-icon-appearance div.wp-menu-image,
-.icon16.icon-plugins,
 .menu-icon-plugins div.wp-menu-image,
-.icon16.icon-users,
 .menu-icon-users div.wp-menu-image,
-.icon16.icon-tools,
 .menu-icon-tools div.wp-menu-image,
-.icon16.icon-settings,
 .menu-icon-settings div.wp-menu-image,
-.icon16.icon-site,
 .menu-icon-site div.wp-menu-image,
-.icon16.icon-generic,
 .menu-icon-generic div.wp-menu-image {
 	background-image: none !important;
 }
@@ -515,6 +428,7 @@ ul#adminmenu > li.current > a.current:after {
 }
 
 /* @todo: consider to use a single rule for these counters and the list table comments counters. */
+#adminmenu .menu-counter,
 #adminmenu .awaiting-mod,
 #adminmenu .update-plugins {
 	display: inline-block;

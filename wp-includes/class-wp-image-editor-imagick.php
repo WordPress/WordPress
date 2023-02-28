@@ -129,7 +129,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 		}
 
 		if ( ! is_file( $this->file ) && ! wp_is_stream( $this->file ) ) {
-			return new WP_Error( 'error_loading_image', __( 'File doesn&#8217;t exist?' ), $this->file );
+			return new WP_Error( 'error_loading_image', __( 'File does not exist?' ), $this->file );
 		}
 
 		/*
@@ -254,6 +254,50 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	}
 
 	/**
+	 * Sets Imagick time limit.
+	 *
+	 * Depending on configuration, Imagick processing may take time.
+	 *
+	 * Multiple problems exist if PHP times out before ImageMagick completed:
+	 * 1. Temporary files aren't cleaned by ImageMagick garbage collection.
+	 * 2. No clear error is provided.
+	 * 3. The cause of such timeout can be hard to pinpoint.
+	 *
+	 * This function, which is expected to be run before heavy image routines, resolves
+	 * point 1 above by aligning Imagick's timeout with PHP's timeout, assuming it is set.
+	 *
+	 * Note:
+	 *  - Imagick resource exhaustion does not issue catchable exceptions (yet).
+	 *    See https://github.com/Imagick/imagick/issues/333.
+	 *  - The resource limit is not saved/restored. It applies to subsequent
+	 *    image operations within the time of the HTTP request.
+	 *
+	 * @since 6.2.0
+	 *
+	 * @return int|null The new limit on success, null on failure.
+	 */
+	public static function set_imagick_time_limit() {
+		if ( ! defined( 'Imagick::RESOURCETYPE_TIME' ) ) {
+			return null;
+		}
+
+		// Returns PHP_FLOAT_MAX if unset.
+		$imagick_timeout = Imagick::getResourceLimit( Imagick::RESOURCETYPE_TIME );
+
+		// Convert to an integer, keeping in mind that: 0 === (int) PHP_FLOAT_MAX.
+		$imagick_timeout = $imagick_timeout > PHP_INT_MAX ? PHP_INT_MAX : (int) $imagick_timeout;
+
+		$php_timeout = (int) ini_get( 'max_execution_time' );
+
+		if ( $php_timeout > 1 && $php_timeout < $imagick_timeout ) {
+			$limit = (float) 0.8 * $php_timeout;
+			Imagick::setResourceLimit( Imagick::RESOURCETYPE_TIME, $limit );
+
+			return $limit;
+		}
+	}
+
+	/**
 	 * Resizes current image.
 	 *
 	 * At minimum, either a height or width must be provided.
@@ -282,6 +326,8 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 		if ( $crop ) {
 			return $this->crop( $src_x, $src_y, $src_w, $src_h, $dst_w, $dst_h );
 		}
+
+		self::set_imagick_time_limit();
 
 		// Execute the resize.
 		$thumb_result = $this->thumbnail_image( $dst_w, $dst_h );
@@ -444,7 +490,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 *     If one of the two is set to null, the resize will
 	 *     maintain aspect ratio according to the provided dimension.
 	 *
-	 *     @type array $size {
+	 *     @type array ...$0 {
 	 *         Array of height, width values, and whether to crop.
 	 *
 	 *         @type int  $width  Image width. Optional if `$height` is specified.
@@ -503,6 +549,10 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 			$size_data['crop'] = false;
 		}
 
+		if ( ( $this->size['width'] === $size_data['width'] ) && ( $this->size['height'] === $size_data['height'] ) ) {
+			return new WP_Error( 'image_subsize_create_error', __( 'The image already has the requested size.' ) );
+		}
+
 		$resized = $this->resize( $size_data['width'], $size_data['height'], $size_data['crop'] );
 
 		if ( is_wp_error( $resized ) ) {
@@ -544,6 +594,8 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 			$src_w -= $src_x;
 			$src_h -= $src_y;
 		}
+
+		self::set_imagick_time_limit();
 
 		try {
 			$this->image->cropImage( $src_w, $src_h, $src_x, $src_y );
@@ -589,7 +641,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 		try {
 			$this->image->rotateImage( new ImagickPixel( 'none' ), 360 - $angle );
 
-			// Normalise EXIF orientation data so that display is consistent across devices.
+			// Normalize EXIF orientation data so that display is consistent across devices.
 			if ( is_callable( array( $this->image, 'setImageOrientation' ) ) && defined( 'Imagick::ORIENTATION_TOPLEFT' ) ) {
 				$this->image->setImageOrientation( Imagick::ORIENTATION_TOPLEFT );
 			}
@@ -627,7 +679,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 				$this->image->flopImage();
 			}
 
-			// Normalise EXIF orientation data so that display is consistent across devices.
+			// Normalize EXIF orientation data so that display is consistent across devices.
 			if ( is_callable( array( $this->image, 'setImageOrientation' ) ) && defined( 'Imagick::ORIENTATION_TOPLEFT' ) ) {
 				$this->image->setImageOrientation( Imagick::ORIENTATION_TOPLEFT );
 			}
@@ -661,10 +713,20 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 * Saves current image to file.
 	 *
 	 * @since 3.5.0
+	 * @since 6.0.0 The `$filesize` value was added to the returned array.
 	 *
 	 * @param string $destfilename Optional. Destination filename. Default null.
 	 * @param string $mime_type    Optional. The mime-type. Default null.
-	 * @return array|WP_Error {'path'=>string, 'file'=>string, 'width'=>int, 'height'=>int, 'mime-type'=>string}
+	 * @return array|WP_Error {
+	 *     Array on success or WP_Error if the file failed to save.
+	 *
+	 *     @type string $path      Path to the image file.
+	 *     @type string $file      Name of the image file.
+	 *     @type int    $width     Image width.
+	 *     @type int    $height    Image height.
+	 *     @type string $mime-type The mime type of the image.
+	 *     @type int    $filesize  File size of the image.
+	 * }
 	 */
 	public function save( $destfilename = null, $mime_type = null ) {
 		$saved = $this->_save( $this->image, $destfilename, $mime_type );
@@ -684,10 +746,22 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	}
 
 	/**
+	 * @since 3.5.0
+	 * @since 6.0.0 The `$filesize` value was added to the returned array.
+	 *
 	 * @param Imagick $image
 	 * @param string  $filename
 	 * @param string  $mime_type
-	 * @return array|WP_Error
+	 * @return array|WP_Error {
+	 *     Array on success or WP_Error if the file failed to save.
+	 *
+	 *     @type string $path      Path to the image file.
+	 *     @type string $file      Name of the image file.
+	 *     @type int    $width     Image width.
+	 *     @type int    $height    Image height.
+	 *     @type string $mime-type The mime type of the image.
+	 *     @type int    $filesize  File size of the image.
+	 * }
 	 */
 	protected function _save( $image, $filename = null, $mime_type = null ) {
 		list( $filename, $extension, $mime_type ) = $this->get_output_format( $filename, $mime_type );
@@ -729,6 +803,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 			'width'     => $this->size['width'],
 			'height'    => $this->size['height'],
 			'mime-type' => $mime_type,
+			'filesize'  => wp_filesize( $filename ),
 		);
 	}
 

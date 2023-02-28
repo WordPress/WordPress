@@ -131,7 +131,7 @@ window.wp = window.wp || {};
 		$('#bulk-edit').find('fieldset:first').after(
 			$('#inline-edit fieldset.inline-edit-categories').clone()
 		).siblings( 'fieldset:last' ).prepend(
-			$('#inline-edit label.inline-edit-tags').clone()
+			$( '#inline-edit .inline-edit-tags-wrap' ).clone()
 		);
 
 		$('select[name="_status"] option[value="future"]', bulkRow).remove();
@@ -197,9 +197,15 @@ window.wp = window.wp || {};
 			// If the checkbox for a post is selected, add the post to the edit list.
 			if ( $(this).prop('checked') ) {
 				c = false;
-				var id = $(this).val(), theTitle;
-				theTitle = $('#inline_'+id+' .post_title').html() || wp.i18n.__( '(no title)' );
-				te += '<div id="ttle'+id+'"><a id="_'+id+'" class="ntdelbutton" title="'+ wp.i18n.__( 'Remove From Bulk Edit' ) +'">X</a>'+theTitle+'</div>';
+				var id = $( this ).val(),
+					theTitle = $( '#inline_' + id + ' .post_title' ).html() || wp.i18n.__( '(no title)' ),
+					buttonVisuallyHiddenText = wp.i18n.sprintf(
+						/* translators: %s: Post title. */
+						wp.i18n.__( 'Remove &#8220;%s&#8221; from Bulk Edit' ),
+						theTitle
+					);
+
+				te += '<li class="ntdelitem"><button type="button" id="_' + id + '" class="button-link ntdelbutton"><span class="screen-reader-text">' + buttonVisuallyHiddenText + '</span></button><span class="ntdeltitle" aria-hidden="true">' + theTitle + '</span></li>';
 			}
 		});
 
@@ -208,18 +214,34 @@ window.wp = window.wp || {};
 			return this.revert();
 		}
 
-		// Add onclick events to the delete-icons in the bulk editors the post title list.
-		$('#bulk-titles').html(te);
+		// Populate the list of items to bulk edit.
+		$( '#bulk-titles' ).html( '<ul id="bulk-titles-list" role="list">' + te + '</ul>' );
+
 		/**
-		 * Binds on click events to the checkboxes before the posts in the table.
+		 * Binds on click events to handle the list of items to bulk edit.
 		 *
 		 * @listens click
 		 */
-		$('#bulk-titles a').on( 'click', function(){
-			var id = $(this).attr('id').substr(1);
+		$( '#bulk-titles .ntdelbutton' ).click( function() {
+			var $this = $( this ),
+				id = $this.attr( 'id' ).substr( 1 ),
+				$prev = $this.parent().prev().children( '.ntdelbutton' ),
+				$next = $this.parent().next().children( '.ntdelbutton' );
 
-			$('table.widefat input[value="' + id + '"]').prop('checked', false);
-			$('#ttle'+id).remove();
+			$( 'table.widefat input[value="' + id + '"]' ).prop( 'checked', false );
+			$( '#_' + id ).parent().remove();
+			wp.a11y.speak( wp.i18n.__( 'Item removed.' ), 'assertive' );
+
+			// Move focus to a proper place when items are removed.
+			if ( $next.length ) {
+				$next.focus();
+			} else if ( $prev.length ) {
+				$prev.focus();
+			} else {
+				$( '#bulk-titles-list' ).remove();
+				inlineEditPost.revert();
+				wp.a11y.speak( wp.i18n.__( 'All selected items have been removed. Select new items to use Bulk Actions.' ) );
+			}
 		});
 
 		// Enable auto-complete for tags when editing posts.
@@ -238,6 +260,8 @@ window.wp = window.wp || {};
 			} );
 		}
 
+		// Set initial focus on the Bulk Edit region.
+		$( '#bulk-edit .inline-edit-wrapper' ).attr( 'tabindex', '-1' ).focus();
 		// Scrolls to the top of the table where the editor is rendered.
 		$('html, body').animate( { scrollTop: 0 }, 'fast' );
 	},
@@ -270,6 +294,10 @@ window.wp = window.wp || {};
 		editRow = $('#inline-edit').clone(true);
 		$( 'td', editRow ).attr( 'colspan', $( 'th:visible, td:visible', '.widefat:first thead' ).length );
 
+		// Remove the ID from the copied row and let the `for` attribute reference the hidden ID.
+		$( 'td', editRow ).find('#quick-edit-legend').removeAttr('id');
+		$( 'td', editRow ).find('p[id^="quick-edit-"]').removeAttr('id');
+
 		$(t.what+id).removeClass('is-expanded').hide().after(editRow).after('<tr class="hidden"></tr>');
 
 		// Populate fields in the quick edit window.
@@ -277,7 +305,7 @@ window.wp = window.wp || {};
 		if ( !$(':input[name="post_author"] option[value="' + $('.post_author', rowData).text() + '"]', editRow).val() ) {
 
 			// The post author no longer has edit capabilities, so we need to add them to the list of authors.
-			$(':input[name="post_author"]', editRow).prepend('<option value="' + $('.post_author', rowData).text() + '">' + $('#' + t.type + '-' + id + ' .author').text() + '</option>');
+			$(':input[name="post_author"]', editRow).prepend('<option value="' + $('.post_author', rowData).text() + '">' + $('#post-' + id + ' .author').text() + '</option>');
 		}
 		if ( $( ':input[name="post_author"] option', editRow ).length === 1 ) {
 			$('label.inline-edit-author', editRow).hide();

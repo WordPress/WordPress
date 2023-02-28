@@ -67,8 +67,8 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller {
 
 		$this->parent_controller    = $parent_controller;
 		$this->revisions_controller = new WP_REST_Revisions_Controller( $parent_post_type );
-		$this->namespace            = 'wp/v2';
 		$this->rest_base            = 'autosaves';
+		$this->namespace            = ! empty( $post_type_object->rest_namespace ) ? $post_type_object->rest_namespace : 'wp/v2';
 		$this->parent_base          = ! empty( $post_type_object->rest_base ) ? $post_type_object->rest_base : $post_type_object->name;
 	}
 
@@ -220,7 +220,15 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller {
 		$prepared_post->ID = $post->ID;
 		$user_id           = get_current_user_id();
 
-		if ( ( 'draft' === $post->post_status || 'auto-draft' === $post->post_status ) && $post->post_author == $user_id ) {
+		// We need to check post lock to ensure the original author didn't leave their browser tab open.
+		if ( ! function_exists( 'wp_check_post_lock' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/post.php';
+		}
+
+		$post_lock = wp_check_post_lock( $post->ID );
+		$is_draft  = 'draft' === $post->post_status || 'auto-draft' === $post->post_status;
+
+		if ( $is_draft && (int) $post->post_author === $user_id && ! $post_lock ) {
 			// Draft posts for the same author: autosaving updates the post and does not create a revision.
 			// Convert the post object to an array and add slashes, wp_update_post() expects escaped array.
 			$autosave_id = wp_update_post( wp_slash( (array) $prepared_post ), true );
@@ -352,34 +360,33 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller {
 			return $post;
 		}
 
+		// Only create an autosave when it is different from the saved post.
+		$autosave_is_different = false;
+		$new_autosave          = _wp_post_revision_data( $post_data, true );
+
+		foreach ( array_intersect( array_keys( $new_autosave ), array_keys( _wp_post_revision_fields( $post ) ) ) as $field ) {
+			if ( normalize_whitespace( $new_autosave[ $field ] ) !== normalize_whitespace( $post->$field ) ) {
+				$autosave_is_different = true;
+				break;
+			}
+		}
+
+		if ( ! $autosave_is_different ) {
+			return new WP_Error(
+				'rest_autosave_no_changes',
+				__( 'There is nothing to save. The autosave and the post content are the same.' ),
+				array( 'status' => 400 )
+			);
+		}
+
 		$user_id = get_current_user_id();
 
 		// Store one autosave per author. If there is already an autosave, overwrite it.
 		$old_autosave = wp_get_post_autosave( $post_id, $user_id );
 
 		if ( $old_autosave ) {
-			$new_autosave                = _wp_post_revision_data( $post_data, true );
 			$new_autosave['ID']          = $old_autosave->ID;
 			$new_autosave['post_author'] = $user_id;
-
-			// If the new autosave has the same content as the post, delete the autosave.
-			$autosave_is_different = false;
-
-			foreach ( array_intersect( array_keys( $new_autosave ), array_keys( _wp_post_revision_fields( $post ) ) ) as $field ) {
-				if ( normalize_whitespace( $new_autosave[ $field ] ) !== normalize_whitespace( $post->$field ) ) {
-					$autosave_is_different = true;
-					break;
-				}
-			}
-
-			if ( ! $autosave_is_different ) {
-				wp_delete_post_revision( $old_autosave->ID );
-				return new WP_Error(
-					'rest_autosave_no_changes',
-					__( 'There is nothing to save. The autosave and the post content are the same.' ),
-					array( 'status' => 400 )
-				);
-			}
 
 			/** This filter is documented in wp-admin/post.php */
 			do_action( 'wp_creating_autosave', $new_autosave );

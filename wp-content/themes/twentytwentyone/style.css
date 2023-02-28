@@ -7,9 +7,9 @@ Author: the WordPress team
 Author URI: https://wordpress.org/
 Description: Twenty Twenty-One is a blank canvas for your ideas and it makes the block editor your best brush. With new block patterns, which allow you to create a beautiful layout in a matter of seconds, this theme’s soft colors and eye-catching — yet timeless — design will let your work shine. Take it for a spin! See how Twenty Twenty-One elevates your portfolio, business website, or personal blog.
 Requires at least: 5.3
-Tested up to: 5.8
+Tested up to: 6.0
 Requires PHP: 5.6
-Version: 1.4
+Version: 1.7
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: twentytwentyone
@@ -66,7 +66,6 @@ Twenty Twenty-One is distributed under the terms of the GNU GPL.
  * Quote................Specific styles for the quote block.
  * Search...............Specific styles for the search block.
  * Separator............Specific styles for the separator block.
- * Spacer...............Specific styles for the spacer block.
  * Table................Specific styles for the table block.
  * Verse................Specific styles for the verse block.
  * Video................Specific styles for the video block.
@@ -167,19 +166,11 @@ Twenty Twenty-One is distributed under the terms of the GNU GPL.
 	--global--color-white: #fff;
 	--global--color-white-50: rgba(255, 255, 255, 0.5);
 	--global--color-white-90: rgba(255, 255, 255, 0.9);
-	--global--color-primary: var(--global--color-dark-gray);
-
-	/* Body text color, site title, footer text color. */
-	--global--color-secondary: var(--global--color-gray);
-
-	/* Headings */
+	--global--color-primary: var(--global--color-dark-gray); /* Body text color, site title, footer text color. */
+	--global--color-secondary: var(--global--color-gray); /* Headings */
 	--global--color-primary-hover: var(--global--color-primary);
-	--global--color-background: var(--global--color-green);
-
-	/* Mint, default body background */
-	--global--color-border: var(--global--color-primary);
-
-	/* Used for borders (separators) */
+	--global--color-background: var(--global--color-green); /* Mint, default body background */
+	--global--color-border: var(--global--color-primary); /* Used for borders (separators) */
 
 	/* Spacing */
 	--global--spacing-unit: 20px;
@@ -351,12 +342,8 @@ Twenty Twenty-One is distributed under the terms of the GNU GPL.
  * 2. Prevent adjustments of font size after orientation changes in iOS.
  */
 html {
-	line-height: 1.15;
-
-	/* 1 */
-	-webkit-text-size-adjust: 100%;
-
-	/* 2 */
+	line-height: 1.15; /* 1 */
+	-webkit-text-size-adjust: 100%; /* 2 */
 }
 
 /* Sections
@@ -393,15 +380,9 @@ h1 {
  * 2. Show the overflow in Edge and IE.
  */
 hr {
-	box-sizing: content-box;
-
-	/* 1 */
-	height: 0;
-
-	/* 1 */
-	overflow: visible;
-
-	/* 2 */
+	box-sizing: content-box; /* 1 */
+	height: 0; /* 1 */
+	overflow: visible; /* 2 */
 }
 
 /**
@@ -409,12 +390,8 @@ hr {
  * 2. Correct the odd `em` font sizing in all browsers.
  */
 pre {
-	font-family: monospace;
-
-	/* 1 */
-	font-size: 1em;
-
-	/* 2 */
+	font-family: monospace; /* 1 */
+	font-size: 1em; /* 2 */
 }
 
 /* Text-level semantics
@@ -433,15 +410,9 @@ a {
  * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.
  */
 abbr[title] {
-	border-bottom: none;
-
-	/* 1 */
-	text-decoration: underline;
-
-	/* 2 */
-	text-decoration-style: dotted;
-
-	/* 2 */
+	border-bottom: none; /* 1 */
+	text-decoration: underline; /* 2 */
+	text-decoration-style: dotted; /* 2 */
 }
 
 /**
@@ -459,12 +430,8 @@ strong {
 code,
 kbd,
 samp {
-	font-family: monospace;
-
-	/* 1 */
-	font-size: 1em;
-
-	/* 2 */
+	font-family: monospace; /* 1 */
+	font-size: 1em; /* 2 */
 }
 
 /**
@@ -516,18 +483,10 @@ input,
 optgroup,
 select,
 textarea {
-	font-family: inherit;
-
-	/* 1 */
-	font-size: 100%;
-
-	/* 1 */
-	line-height: 1.15;
-
-	/* 1 */
-	margin: 0;
-
-	/* 2 */
+	font-family: inherit; /* 1 */
+	font-size: 100%; /* 1 */
+	line-height: 1.15; /* 1 */
+	margin: 0; /* 2 */
 }
 
 /**
@@ -535,9 +494,7 @@ textarea {
  * 1. Show the overflow in Edge.
  */
 button,
-input {
-
-	/* 1 */
+input { /* 1 */
 	overflow: visible;
 }
 
@@ -546,9 +503,7 @@ input {
  * 1. Remove the inheritance of text transform in Firefox.
  */
 button,
-select {
-
-	/* 1 */
+select { /* 1 */
 	text-transform: none;
 }
 
@@ -597,24 +552,12 @@ fieldset {
  *    `fieldset` elements in all browsers.
  */
 legend {
-	box-sizing: border-box;
-
-	/* 1 */
-	color: inherit;
-
-	/* 2 */
-	display: table;
-
-	/* 1 */
-	max-width: 100%;
-
-	/* 1 */
-	padding: 0;
-
-	/* 3 */
-	white-space: normal;
-
-	/* 1 */
+	box-sizing: border-box; /* 1 */
+	color: inherit; /* 2 */
+	display: table; /* 1 */
+	max-width: 100%; /* 1 */
+	padding: 0; /* 3 */
+	white-space: normal; /* 1 */
 }
 
 /**
@@ -637,12 +580,8 @@ textarea {
  */
 [type=checkbox],
 [type=radio] {
-	box-sizing: border-box;
-
-	/* 1 */
-	padding: 0;
-
-	/* 2 */
+	box-sizing: border-box; /* 1 */
+	padding: 0; /* 2 */
 }
 
 /**
@@ -658,12 +597,8 @@ textarea {
  * 2. Correct the outline style in Safari.
  */
 [type=search] {
-	-webkit-appearance: textfield;
-
-	/* 1 */
-	outline-offset: -2px;
-
-	/* 2 */
+	-webkit-appearance: textfield; /* 1 */
+	outline-offset: -2px; /* 2 */
 }
 
 /**
@@ -678,12 +613,8 @@ textarea {
  * 2. Change font properties to `inherit` in Safari.
  */
 ::-webkit-file-upload-button {
-	-webkit-appearance: button;
-
-	/* 1 */
-	font: inherit;
-
-	/* 2 */
+	-webkit-appearance: button; /* 1 */
+	font: inherit; /* 2 */
 }
 
 /* Interactive
@@ -762,8 +693,8 @@ template {
  */
 .post-thumbnail,
 .entry-content .wp-audio-shortcode,
-.entry-content > *:not(.alignwide):not(.alignfull):not(.alignleft):not(.alignright):not(.wp-block-separator):not(.woocommerce),
-*[class*=inner-container] > *:not(.entry-content):not(.alignwide):not(.alignfull):not(.alignleft):not(.alignright):not(.wp-block-separator):not(.woocommerce),
+.entry-content > *:not(.alignwide):not(.alignfull):not(.alignleft):not(.alignright):not(.wp-block-separator),
+*[class*=inner-container] > *:not(.entry-content):not(.alignwide):not(.alignfull):not(.alignleft):not(.alignright):not(.wp-block-separator),
 .default-max-width {
 	max-width: var(--responsive--aligndefault-width);
 	margin-left: auto;
@@ -1446,12 +1377,8 @@ input[type=radio] + label {
 @supports (-webkit-appearance: none) or (-moz-appearance: none) {
 
 	input[type=range] {
-		-webkit-appearance: none;
-
-		/* Hides the slider so that custom slider can be made */
-		width: 100%;
-
-		/* Specific width is required for Firefox. */
+		-webkit-appearance: none; /* Hides the slider so that custom slider can be made */
+		width: 100%; /* Specific width is required for Firefox. */
 		height: 6px;
 		background: var(--form--color-ranged);
 		border-radius: 6px;
@@ -2114,7 +2041,7 @@ input[type=reset]:disabled,
 
 .wp-block-cover .wp-block-cover__inner-container,
 .wp-block-cover-image .wp-block-cover__inner-container {
-	width: calc(100% - calc(2 * var(--global--spacing-vertical)));
+	width: calc(100% - 2 * var(--global--spacing-vertical));
 }
 
 .wp-block-cover .wp-block-cover__inner-container > *,
@@ -2276,8 +2203,8 @@ input[type=reset]:disabled,
 .wp-block-group.has-background .wp-block-group__inner-container > hr.wp-block-separator:not(.is-style-dots):not(.alignwide).alignfull,
 .wp-block-group.is-style-twentytwentyone-border .wp-block-group__inner-container > .alignfull,
 .wp-block-group.is-style-twentytwentyone-border .wp-block-group__inner-container > hr.wp-block-separator:not(.is-style-dots):not(.alignwide).alignfull {
-	max-width: calc(var(--responsive--alignfull-width) + (2 * var(--global--spacing-vertical)));
-	width: calc(var(--responsive--alignfull-width) + (2 * var(--global--spacing-vertical)));
+	max-width: calc(var(--responsive--alignfull-width) + 2 * var(--global--spacing-vertical));
+	width: calc(var(--responsive--alignfull-width) + 2 * var(--global--spacing-vertical));
 	margin-left: calc(-1 * var(--global--spacing-vertical));
 }
 
@@ -2602,23 +2529,23 @@ h6,
 @media screen and (min-width: 600px) {
 
 	.wp-block-latest-posts.is-style-twentytwentyone-latest-posts-dividers.is-grid.columns-2 li {
-		width: calc((100% / 2));
+		width: calc(100% / 2);
 	}
 
 	.wp-block-latest-posts.is-style-twentytwentyone-latest-posts-dividers.is-grid.columns-3 li {
-		width: calc((100% / 3));
+		width: calc(100% / 3);
 	}
 
 	.wp-block-latest-posts.is-style-twentytwentyone-latest-posts-dividers.is-grid.columns-4 li {
-		width: calc((100% / 4));
+		width: calc(100% / 4);
 	}
 
 	.wp-block-latest-posts.is-style-twentytwentyone-latest-posts-dividers.is-grid.columns-5 li {
-		width: calc((100% / 5));
+		width: calc(100% / 5);
 	}
 
 	.wp-block-latest-posts.is-style-twentytwentyone-latest-posts-dividers.is-grid.columns-6 li {
-		width: calc((100% / 6));
+		width: calc(100% / 6);
 	}
 }
 
@@ -2794,14 +2721,6 @@ dd {
 	border: calc(3 * var(--separator--height)) solid var(--global--color-border);
 }
 
-.wp-block-navigation .wp-block-navigation-link {
-	padding: 0;
-}
-
-.wp-block-navigation .wp-block-navigation-link .wp-block-navigation-link__content {
-	padding: var(--primary-nav--padding);
-}
-
 .wp-block-navigation .wp-block-navigation-link .wp-block-navigation-link__label {
 	font-family: var(--primary-nav--font-family);
 	font-size: var(--primary-nav--font-size);
@@ -2819,7 +2738,6 @@ dd {
 .wp-block-navigation > .wp-block-navigation__container .has-child .wp-block-navigation__container {
 	border: none;
 	left: 0;
-	margin-left: var(--primary-nav--padding);
 	min-width: max-content;
 	opacity: 0;
 	padding: 0;
@@ -2827,20 +2745,8 @@ dd {
 	top: inherit;
 }
 
-.wp-block-navigation > .wp-block-navigation__container .has-child .wp-block-navigation__container .wp-block-navigation-link .wp-block-navigation-link__content {
-	display: inline-block;
-	padding: calc(0.5 * var(--primary-nav--padding)) var(--primary-nav--padding);
-}
-
 .wp-block-navigation > .wp-block-navigation__container .has-child .wp-block-navigation__container .wp-block-navigation-link__submenu-icon {
 	display: none;
-}
-
-.wp-block-navigation > .wp-block-navigation__container .has-child:hover .wp-block-navigation__container,
-.wp-block-navigation > .wp-block-navigation__container .has-child:focus-within .wp-block-navigation__container {
-	display: block;
-	opacity: 1;
-	visibility: visible;
 }
 
 .wp-block-navigation > .wp-block-navigation__container > .has-child > .wp-block-navigation__container {
@@ -3457,18 +3363,6 @@ hr.wp-block-separator.is-style-dots:before {
 	background: none;
 }
 
-.wp-block-spacer {
-	display: block;
-	margin-bottom: 0 !important;
-	margin-top: 0 !important;
-}
-@media only screen and (max-width: 481px) {
-
-	.wp-block-spacer[style] {
-		height: var(--global--spacing-unit) !important;
-	}
-}
-
 table,
 .wp-block-table {
 	width: 100%;
@@ -3916,7 +3810,7 @@ table.wp-calendar-table caption {
 	}
 
 	.site-header.has-logo:not(.has-title-and-tagline).has-menu .site-logo img {
-		max-height: calc(var(--button--padding-vertical) - (0.25 * var(--global--spacing-unit)) + 1.7em);
+		max-height: calc(var(--button--padding-vertical) - 0.25 * var(--global--spacing-unit) + 1.7em);
 	}
 
 	.site-header.has-logo.has-title-and-tagline {
@@ -3947,7 +3841,7 @@ table.wp-calendar-table caption {
 	body:not(.primary-navigation-open) .site-header.has-logo.has-title-and-tagline .menu-button-container {
 		position: relative;
 		padding-top: 0;
-		margin-top: calc(0px - var(--button--padding-vertical) + (0.25 * var(--global--spacing-unit)));
+		margin-top: calc(0px - var(--button--padding-vertical) + 0.25 * var(--global--spacing-unit));
 	}
 
 	body:not(.primary-navigation-open) .site-header.has-logo.has-title-and-tagline .menu-button-container #primary-mobile-menu {
@@ -3995,6 +3889,7 @@ table.wp-calendar-table caption {
 	font-size: var(--branding--title--font-size);
 }
 
+.site-footer > .site-info .privacy-policy,
 .site-footer > .site-info .powered-by {
 	margin-top: calc(0.5 * var(--global--spacing-vertical));
 }
@@ -4005,9 +3900,18 @@ table.wp-calendar-table caption {
 		align-items: center;
 	}
 
+	.site-footer > .site-info .site-name {
+		margin-right: calc(0.5 * var(--global--spacing-vertical));
+	}
+
+	.site-footer > .site-info .privacy-policy,
 	.site-footer > .site-info .powered-by {
 		margin-top: initial;
 		margin-left: auto;
+	}
+
+	.site-footer > .site-info .privacy-policy + .powered-by {
+		margin-left: calc(0.5 * var(--global--spacing-vertical));
 	}
 }
 
@@ -4591,7 +4495,7 @@ h1.page-title {
 .comment-form > p textarea {
 	display: block;
 	font-size: var(--global--font-size-sm);
-	margin-bottom: calc(.5 * var(--global--spacing-unit));
+	margin-bottom: calc(0.5 * var(--global--spacing-unit));
 	width: 100%;
 	font-weight: var(--form--label-weight);
 }
@@ -4629,7 +4533,7 @@ h1.page-title {
 .menu-button-container #primary-mobile-menu {
 	display: flex;
 	margin-left: auto;
-	padding: calc(var(--button--padding-vertical) - (0.25 * var(--global--spacing-unit))) calc(0.5 * var(--button--padding-horizontal));
+	padding: calc(var(--button--padding-vertical) - 0.25 * var(--global--spacing-unit)) calc(0.5 * var(--button--padding-horizontal));
 	font-size: var(--primary-nav--font-size-button);
 	font-weight: var(--primary-nav--font-weight-button);
 	background-color: transparent;
@@ -4702,8 +4606,13 @@ h1.page-title {
 	padding-right: var(--global--spacing-unit);
 	padding-bottom: var(--global--spacing-horizontal);
 	background-color: var(--global--color-background);
-	transition: all 0.15s ease-in-out;
 	transform: translateY(var(--global--spacing-vertical));
+}
+@media (prefers-reduced-motion: no-preference) {
+
+	.primary-navigation > .primary-menu-container {
+		transition: all 0.15s ease-in-out;
+	}
 }
 @media only screen and (max-width: 481px) {
 
@@ -4874,6 +4783,12 @@ h1.page-title {
 .primary-navigation > div > .menu-wrapper > li > .sub-menu {
 	position: relative;
 }
+@media only screen and (min-width: 482px) and (prefers-reduced-motion: no-preference) {
+
+	.primary-navigation > div > .menu-wrapper > li > .sub-menu {
+		transition: all 0.5s ease;
+	}
+}
 @media only screen and (min-width: 482px) {
 
 	.primary-navigation > div > .menu-wrapper > li > .sub-menu {
@@ -4883,7 +4798,6 @@ h1.page-title {
 		position: absolute;
 		top: 100%;
 		padding-top: 3px;
-		transition: all 0.5s ease;
 		z-index: 88888;
 	}
 
@@ -5131,7 +5045,6 @@ h1.page-title {
 
 .footer-navigation-wrapper li a {
 	padding: calc(1.25 * var(--primary-nav--padding)) var(--primary-nav--padding);
-	transition: transform 0.1s ease;
 	color: var(--footer--color-link);
 }
 
@@ -5163,6 +5076,12 @@ h1.page-title {
 
 .footer-navigation-wrapper li .svg-icon:hover {
 	transform: scale(1.1);
+}
+@media (prefers-reduced-motion: no-preference) {
+
+	.footer-navigation-wrapper li .svg-icon {
+		transition: transform 0.1s ease;
+	}
 }
 
 .footer-navigation-wrapper .sub-menu-toggle,
@@ -5221,7 +5140,7 @@ h1.page-title {
 		flex: 0 1 auto;
 		margin-bottom: inherit;
 		margin-top: inherit;
-		max-width: calc(50% - (0.5 * var(--global--spacing-unit)));
+		max-width: calc(50% - 0.5 * var(--global--spacing-unit));
 	}
 
 	.navigation .nav-links .nav-next {
@@ -5273,7 +5192,7 @@ h1.page-title {
 @media only screen and (min-width: 822px) {
 
 	.post-navigation .post-title {
-		margin: 5px calc(24px + (0.25 * var(--global--spacing-unit))) 0;
+		margin: 5px calc(24px + 0.25 * var(--global--spacing-unit)) 0;
 	}
 }
 @media only screen and (min-width: 482px) {
@@ -5453,42 +5372,6 @@ h1.page-title {
 	}
 }
 
-.widget-area ul {
-	list-style-type: none;
-	padding: 0;
-}
-
-.widget-area ul li {
-	line-height: var(--widget--line-height-list);
-}
-
-.widget-area ul.sub-menu,
-.widget-area ul.children {
-	margin-left: var(--widget--spacing-menu);
-}
-
-.widget-area ul .sub-menu-toggle {
-	display: none;
-}
-
-.widget-area a {
-	color: var(--footer--color-link);
-	text-decoration: underline;
-	text-decoration-style: solid;
-	text-decoration-color: currentColor;
-}
-
-.widget-area a:link,
-.widget-area a:visited,
-.widget-area a:active {
-	color: var(--footer--color-link);
-}
-
-.widget-area a:hover {
-	color: var(--footer--color-link-hover);
-	text-decoration-style: dotted;
-}
-
 .widget-area .wp-block-social-links.alignright {
 	margin-top: var(--global--spacing-vertical);
 	justify-content: flex-end;
@@ -5536,6 +5419,42 @@ h1.page-title {
 
 .widget h6 {
 	font-size: var(--global--font-size-xs);
+}
+
+.widget ul {
+	list-style-type: none;
+	padding: 0;
+}
+
+.widget ul li {
+	line-height: var(--widget--line-height-list);
+}
+
+.widget ul.sub-menu,
+.widget ul.children {
+	margin-left: var(--widget--spacing-menu);
+}
+
+.widget ul .sub-menu-toggle {
+	display: none;
+}
+
+.widget a {
+	color: var(--footer--color-link);
+	text-decoration: underline;
+	text-decoration-style: solid;
+	text-decoration-color: currentColor;
+}
+
+.widget a:link,
+.widget a:visited,
+.widget a:active {
+	color: var(--footer--color-link);
+}
+
+.widget a:hover {
+	color: var(--footer--color-link-hover);
+	text-decoration-style: dotted;
 }
 
 .search-form {
@@ -5618,14 +5537,6 @@ h1.page-title {
 /* Do not show the outline on the skip link target. */
 #content[tabindex="-1"]:focus {
 	outline: 0;
-}
-
-@media (prefers-reduced-motion) {
-
-	* {
-		transition-delay: 0s !important;
-		transition-duration: 0s !important;
-	}
 }
 
 .has-black-color[class] {

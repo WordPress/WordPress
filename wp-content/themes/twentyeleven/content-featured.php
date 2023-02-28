@@ -32,8 +32,7 @@ global $feature_class;
 
 	<footer class="entry-meta">
 		<?php
-		/* translators: Used between list items, there is a space after the comma. */
-		$tags_list = get_the_tag_list( '', __( ', ', 'twentyeleven' ) );
+		$tags_list = get_the_tag_list( '', wp_get_list_item_separator() );
 
 		if ( $tags_list && ! is_wp_error( $tags_list ) ) {
 			/* translators: 1: Category list, 2: Tag list, 3: Post permalink, 4: Post title. */
@@ -45,8 +44,7 @@ global $feature_class;
 
 		printf(
 			$utility_text,
-			/* translators: Used between list items, there is a space after the comma. */
-			get_the_category_list( __( ', ', 'twentyeleven' ) ),
+			get_the_category_list( wp_get_list_item_separator() ),
 			$tags_list,
 			esc_url( get_permalink() ),
 			the_title_attribute( 'echo=0' )

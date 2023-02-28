@@ -3155,6 +3155,55 @@ class ParagonIE_Sodium_Compat
     }
 
     /**
+     * DANGER! UNAUTHENTICATED ENCRYPTION!
+     *
+     * Unless you are following expert advice, do not use this feature.
+     *
+     * Algorithm: XChaCha20
+     *
+     * This DOES NOT provide ciphertext integrity.
+     *
+     * @param string $message Plaintext message
+     * @param string $nonce Number to be used Once; must be 24 bytes
+     * @param int $counter
+     * @param string $key Encryption key
+     * @return string         Encrypted text which is vulnerable to chosen-
+     *                        ciphertext attacks unless you implement some
+     *                        other mitigation to the ciphertext (i.e.
+     *                        Encrypt then MAC)
+     * @param bool $dontFallback
+     * @throws SodiumException
+     * @throws TypeError
+     * @psalm-suppress MixedArgument
+     */
+    public static function crypto_stream_xchacha20_xor_ic($message, $nonce, $counter, $key, $dontFallback = false)
+    {
+        /* Type checks: */
+        ParagonIE_Sodium_Core_Util::declareScalarType($message, 'string', 1);
+        ParagonIE_Sodium_Core_Util::declareScalarType($nonce, 'string', 2);
+        ParagonIE_Sodium_Core_Util::declareScalarType($counter, 'int', 3);
+        ParagonIE_Sodium_Core_Util::declareScalarType($key, 'string', 4);
+
+        /* Input validation: */
+        if (ParagonIE_Sodium_Core_Util::strlen($nonce) !== self::CRYPTO_STREAM_XCHACHA20_NONCEBYTES) {
+            throw new SodiumException('Argument 2 must be CRYPTO_SECRETBOX_XCHACHA20_NONCEBYTES long.');
+        }
+        if (ParagonIE_Sodium_Core_Util::strlen($key) !== self::CRYPTO_STREAM_XCHACHA20_KEYBYTES) {
+            throw new SodiumException('Argument 3 must be CRYPTO_SECRETBOX_XCHACHA20_KEYBYTES long.');
+        }
+
+        if (is_callable('sodium_crypto_stream_xchacha20_xor_ic') && !$dontFallback) {
+            return sodium_crypto_stream_xchacha20_xor_ic($message, $nonce, $counter, $key);
+        }
+
+        $ic = ParagonIE_Sodium_Core_Util::store64_le($counter);
+        if (PHP_INT_SIZE === 4) {
+            return ParagonIE_Sodium_Core32_XChaCha20::streamXorIc($message, $nonce, $key, $ic);
+        }
+        return ParagonIE_Sodium_Core_XChaCha20::streamXorIc($message, $nonce, $key, $ic);
+    }
+
+    /**
      * Return a secure random key for use with crypto_stream_xchacha20
      *
      * @return string
@@ -3170,26 +3219,28 @@ class ParagonIE_Sodium_Compat
      * Cache-timing-safe implementation of hex2bin().
      *
      * @param string $string Hexadecimal string
+     * @param string $ignore List of characters to ignore; useful for whitespace
      * @return string        Raw binary string
      * @throws SodiumException
      * @throws TypeError
      * @psalm-suppress TooFewArguments
      * @psalm-suppress MixedArgument
      */
-    public static function hex2bin($string)
+    public static function hex2bin($string, $ignore = '')
     {
         /* Type checks: */
         ParagonIE_Sodium_Core_Util::declareScalarType($string, 'string', 1);
+        ParagonIE_Sodium_Core_Util::declareScalarType($ignore, 'string', 2);
 
         if (self::useNewSodiumAPI()) {
             if (is_callable('sodium_hex2bin')) {
-                return (string) sodium_hex2bin($string);
+                return (string) sodium_hex2bin($string, $ignore);
             }
         }
         if (self::use_fallback('hex2bin')) {
-            return (string) call_user_func('\\Sodium\\hex2bin', $string);
+            return (string) call_user_func('\\Sodium\\hex2bin', $string, $ignore);
         }
-        return ParagonIE_Sodium_Core_Util::hex2bin($string);
+        return ParagonIE_Sodium_Core_Util::hex2bin($string, $ignore);
     }
 
     /**
@@ -3533,8 +3584,12 @@ class ParagonIE_Sodium_Compat
                 );
             }
         }
+        /** @var positive-int $numBytes */
         if (self::use_fallback('randombytes_buf')) {
             return (string) call_user_func('\\Sodium\\randombytes_buf', $numBytes);
+        }
+        if ($numBytes < 0) {
+            throw new SodiumException("Number of bytes must be a positive integer");
         }
         return random_bytes($numBytes);
     }

@@ -12,6 +12,7 @@
  *
  * @since 4.7.0
  */
+#[AllowDynamicProperties]
 abstract class WP_REST_Controller {
 
 	/**
@@ -288,15 +289,15 @@ abstract class WP_REST_Controller {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param array  $data    Response data to filter.
-	 * @param string $context Context defined in the schema.
+	 * @param array  $response_data Response data to filter.
+	 * @param string $context       Context defined in the schema.
 	 * @return array Filtered response.
 	 */
-	public function filter_response_by_context( $data, $context ) {
+	public function filter_response_by_context( $response_data, $context ) {
 
 		$schema = $this->get_item_schema();
 
-		return rest_filter_response_by_context( $data, $schema, $context );
+		return rest_filter_response_by_context( $response_data, $schema, $context );
 	}
 
 	/**
@@ -411,11 +412,11 @@ abstract class WP_REST_Controller {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param array           $prepared Prepared response array.
-	 * @param WP_REST_Request $request  Full details about the request.
+	 * @param array           $response_data Prepared response array.
+	 * @param WP_REST_Request $request       Full details about the request.
 	 * @return array Modified data object with additional fields.
 	 */
-	protected function add_additional_fields_to_object( $prepared, $request ) {
+	protected function add_additional_fields_to_object( $response_data, $request ) {
 
 		$additional_fields = $this->get_additional_fields();
 
@@ -430,10 +431,16 @@ abstract class WP_REST_Controller {
 				continue;
 			}
 
-			$prepared[ $field_name ] = call_user_func( $field_options['get_callback'], $prepared, $field_name, $request, $this->get_object_type() );
+			$response_data[ $field_name ] = call_user_func(
+				$field_options['get_callback'],
+				$response_data,
+				$field_name,
+				$request,
+				$this->get_object_type()
+			);
 		}
 
-		return $prepared;
+		return $response_data;
 	}
 
 	/**
@@ -441,11 +448,11 @@ abstract class WP_REST_Controller {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param object          $object  Data model like WP_Term or WP_Post.
-	 * @param WP_REST_Request $request Full details about the request.
+	 * @param object          $data_object Data model like WP_Term or WP_Post.
+	 * @param WP_REST_Request $request     Full details about the request.
 	 * @return true|WP_Error True on success, WP_Error object if a field cannot be updated.
 	 */
-	protected function update_additional_fields_for_object( $object, $request ) {
+	protected function update_additional_fields_for_object( $data_object, $request ) {
 		$additional_fields = $this->get_additional_fields();
 
 		foreach ( $additional_fields as $field_name => $field_options ) {
@@ -458,7 +465,14 @@ abstract class WP_REST_Controller {
 				continue;
 			}
 
-			$result = call_user_func( $field_options['update_callback'], $request[ $field_name ], $object, $field_name, $request, $this->get_object_type() );
+			$result = call_user_func(
+				$field_options['update_callback'],
+				$request[ $field_name ],
+				$data_object,
+				$field_name,
+				$request,
+				$this->get_object_type()
+			);
 
 			if ( is_wp_error( $result ) ) {
 				return $result;
@@ -580,6 +594,18 @@ abstract class WP_REST_Controller {
 		}
 
 		$fields = array_keys( $properties );
+
+		/*
+		 * '_links' and '_embedded' are not typically part of the item schema,
+		 * but they can be specified in '_fields', so they are added here as a
+		 * convenience for checking with rest_is_field_included().
+		 */
+		$fields[] = '_links';
+		if ( $request->has_param( '_embed' ) ) {
+			$fields[] = '_embedded';
+		}
+
+		$fields = array_unique( $fields );
 
 		if ( ! isset( $request['_fields'] ) ) {
 			return $fields;

@@ -1,0 +1,44 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "core/term-description",
+	"title": "Term Description",
+	"category": "theme",
+	"description": "Display the description of categories, tags and custom taxonomies when viewing an archive.",
+	"textdomain": "default",
+	"attributes": {
+		"textAlign": {
+			"type": "string"
+		}
+	},
+	"supports": {
+		"anchor": true,
+		"align": [ "wide", "full" ],
+		"html": false,
+		"color": {
+			"link": true,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true
+			}
+		},
+		"spacing": {
+			"padding": true,
+			"margin": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true
+			}
+		}
+	},
+	"editorStyle": "wp-block-term-description-editor"
+}

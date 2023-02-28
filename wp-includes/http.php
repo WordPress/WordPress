@@ -200,12 +200,13 @@ function wp_remote_head( $url, $args = array() ) {
  * Retrieve only the headers from the raw response.
  *
  * @since 2.7.0
- * @since 4.6.0 Return value changed from an array to an Requests_Utility_CaseInsensitiveDictionary instance.
+ * @since 4.6.0 Return value changed from an array to an WpOrg\Requests\Utility\CaseInsensitiveDictionary instance.
  *
- * @see \Requests_Utility_CaseInsensitiveDictionary
+ * @see \WpOrg\Requests\Utility\CaseInsensitiveDictionary
  *
  * @param array|WP_Error $response HTTP response.
- * @return array|\Requests_Utility_CaseInsensitiveDictionary The headers of the response. Empty array if incorrect parameter given.
+ * @return \WpOrg\Requests\Utility\CaseInsensitiveDictionary|array The headers of the response, or empty array
+ *                                                                 if incorrect parameter given.
  */
 function wp_remote_retrieve_headers( $response ) {
 	if ( is_wp_error( $response ) || ! isset( $response['headers'] ) ) {
@@ -222,7 +223,8 @@ function wp_remote_retrieve_headers( $response ) {
  *
  * @param array|WP_Error $response HTTP response.
  * @param string         $header   Header name to retrieve value from.
- * @return string The header value. Empty string on if incorrect parameter given, or if the header doesn't exist.
+ * @return array|string The header(s) value(s). Array if multiple headers with the same name are retrieved.
+ *                      Empty string if incorrect parameter given, or if the header doesn't exist.
  */
 function wp_remote_retrieve_header( $response, $header ) {
 	if ( is_wp_error( $response ) || ! isset( $response['headers'] ) ) {
@@ -239,12 +241,12 @@ function wp_remote_retrieve_header( $response, $header ) {
 /**
  * Retrieve only the response code from the raw response.
  *
- * Will return an empty array if incorrect parameter value is given.
+ * Will return an empty string if incorrect parameter value is given.
  *
  * @since 2.7.0
  *
  * @param array|WP_Error $response HTTP response.
- * @return int|string The response code as an integer. Empty string on incorrect parameter given.
+ * @return int|string The response code as an integer. Empty string if incorrect parameter given.
  */
 function wp_remote_retrieve_response_code( $response ) {
 	if ( is_wp_error( $response ) || ! isset( $response['response'] ) || ! is_array( $response['response'] ) ) {
@@ -257,12 +259,12 @@ function wp_remote_retrieve_response_code( $response ) {
 /**
  * Retrieve only the response message from the raw response.
  *
- * Will return an empty array if incorrect parameter value is given.
+ * Will return an empty string if incorrect parameter value is given.
  *
  * @since 2.7.0
  *
  * @param array|WP_Error $response HTTP response.
- * @return string The response message. Empty string on incorrect parameter given.
+ * @return string The response message. Empty string if incorrect parameter given.
  */
 function wp_remote_retrieve_response_message( $response ) {
 	if ( is_wp_error( $response ) || ! isset( $response['response'] ) || ! is_array( $response['response'] ) ) {
@@ -294,7 +296,8 @@ function wp_remote_retrieve_body( $response ) {
  * @since 4.4.0
  *
  * @param array|WP_Error $response HTTP response.
- * @return WP_Http_Cookie[] An array of `WP_Http_Cookie` objects from the response. Empty array if there are none, or the response is a WP_Error.
+ * @return WP_Http_Cookie[] An array of `WP_Http_Cookie` objects from the response.
+ *                          Empty array if there are none, or the response is a WP_Error.
  */
 function wp_remote_retrieve_cookies( $response ) {
 	if ( is_wp_error( $response ) || empty( $response['cookies'] ) ) {
@@ -311,7 +314,8 @@ function wp_remote_retrieve_cookies( $response ) {
  *
  * @param array|WP_Error $response HTTP response.
  * @param string         $name     The name of the cookie to retrieve.
- * @return WP_Http_Cookie|string The `WP_Http_Cookie` object. Empty string if the cookie isn't present in the response.
+ * @return WP_Http_Cookie|string The `WP_Http_Cookie` object, or empty string
+ *                               if the cookie is not present in the response.
  */
 function wp_remote_retrieve_cookie( $response, $name ) {
 	$cookies = wp_remote_retrieve_cookies( $response );
@@ -336,7 +340,8 @@ function wp_remote_retrieve_cookie( $response, $name ) {
  *
  * @param array|WP_Error $response HTTP response.
  * @param string         $name     The name of the cookie to retrieve.
- * @return string The value of the cookie. Empty string if the cookie isn't present in the response.
+ * @return string The value of the cookie, or empty string
+ *                if the cookie is not present in the response.
  */
 function wp_remote_retrieve_cookie_value( $response, $name ) {
 	$cookie = wp_remote_retrieve_cookie( $response, $name );
@@ -447,7 +452,7 @@ function get_allowed_http_origins() {
  *
  * @since 3.4.0
  *
- * @param null|string $origin Origin URL. If not provided, the value of get_http_origin() is used.
+ * @param string|null $origin Origin URL. If not provided, the value of get_http_origin() is used.
  * @return string Origin URL if allowed, empty string if not.
  */
 function is_allowed_http_origin( $origin = null ) {
@@ -514,6 +519,10 @@ function send_origin_headers() {
  * @return string|false URL or false on failure.
  */
 function wp_http_validate_url( $url ) {
+	if ( ! is_string( $url ) || '' === $url || is_numeric( $url ) ) {
+		return false;
+	}
+
 	$original_url = $url;
 	$url          = wp_kses_bad_protocol( $url, array( 'http', 'https' ) );
 	if ( ! $url || strtolower( $url ) !== strtolower( $original_url ) ) {
@@ -534,15 +543,10 @@ function wp_http_validate_url( $url ) {
 	}
 
 	$parsed_home = parse_url( get_option( 'home' ) );
-
-	if ( isset( $parsed_home['host'] ) ) {
-		$same_host = strtolower( $parsed_home['host'] ) === strtolower( $parsed_url['host'] );
-	} else {
-		$same_host = false;
-	}
+	$same_host   = isset( $parsed_home['host'] ) && strtolower( $parsed_home['host'] ) === strtolower( $parsed_url['host'] );
+	$host        = trim( $parsed_url['host'], '.' );
 
 	if ( ! $same_host ) {
-		$host = trim( $parsed_url['host'], '.' );
 		if ( preg_match( '#^(([1-9]?\d|1\d\d|25[0-5]|2[0-4]\d)\.){3}([1-9]?\d|1\d\d|25[0-5]|2[0-4]\d)$#', $host ) ) {
 			$ip = $host;
 		} else {
@@ -581,7 +585,20 @@ function wp_http_validate_url( $url ) {
 	}
 
 	$port = $parsed_url['port'];
-	if ( 80 === $port || 443 === $port || 8080 === $port ) {
+
+	/**
+	 * Controls the list of ports considered safe in HTTP API.
+	 *
+	 * Allows to change and allow external requests for the HTTP request.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @param array  $allowed_ports Array of integers for valid ports.
+	 * @param string $host          Host name of the requested URL.
+	 * @param string $url           Requested URL.
+	 */
+	$allowed_ports = apply_filters( 'http_allowed_safe_ports', array( 80, 443, 8080 ), $host, $url );
+	if ( is_array( $allowed_ports ) && in_array( $port, $allowed_ports, true ) ) {
 		return $url;
 	}
 
@@ -641,16 +658,15 @@ function ms_allowed_http_request_hosts( $is_external, $host ) {
 }
 
 /**
- * A wrapper for PHP's parse_url() function that handles consistency in the return
- * values across PHP versions.
+ * A wrapper for PHP's parse_url() function that handles consistency in the return values
+ * across PHP versions.
  *
- * PHP 5.4.7 expanded parse_url()'s ability to handle non-absolute url's, including
- * schemeless and relative url's with :// in the path. This function works around
+ * PHP 5.4.7 expanded parse_url()'s ability to handle non-absolute URLs, including
+ * schemeless and relative URLs with "://" in the path. This function works around
  * those limitations providing a standard output on PHP 5.2~5.4+.
  *
- * Secondly, across various PHP versions, schemeless URLs starting containing a ":"
- * in the query are being handled inconsistently. This function works around those
- * differences as well.
+ * Secondly, across various PHP versions, schemeless URLs containing a ":" in the query
+ * are being handled inconsistently. This function works around those differences as well.
  *
  * @since 4.4.0
  * @since 4.7.0 The `$component` parameter was added for parity with PHP's `parse_url()`.

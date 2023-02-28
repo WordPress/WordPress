@@ -63,7 +63,8 @@
 				$.get( window.ajaxurl, {
 					action: 'ajax-tag-search',
 					tax: taxonomy,
-					q: term
+					q: term,
+					number: 20
 				} ).always( function() {
 					$element.removeClass( 'ui-autocomplete-loading' ); // UI fails to remove this sometimes?
 				} ).done( function( data ) {

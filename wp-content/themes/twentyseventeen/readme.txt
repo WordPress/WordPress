@@ -1,7 +1,7 @@
 === Twenty Seventeen ===
 Contributors: wordpressdotorg
-Tested up to: 5.8
-Version: 2.8
+Tested up to: 6.1
+Version: 3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: one-column, two-columns, right-sidebar, flexible-header, accessibility-ready, custom-colors, custom-header, custom-menu, custom-logo, editor-style, featured-images, footer-widgets, post-formats, rtl-language-support, sticky-post, theme-options, threaded-comments, translation-ready, block-patterns
@@ -10,19 +10,19 @@ Tags: one-column, two-columns, right-sidebar, flexible-header, accessibility-rea
 
 Twenty Seventeen brings your site to life with header video and immersive featured images. With a focus on business sites, it features multiple sections on the front page as well as widgets, navigation and social menus, a logo, and more. Personalize its asymmetrical grid with a custom color scheme and showcase your multimedia content with post formats. Our default theme for 2017 works great in many languages, for any abilities, and on any device.
 
-For more information about Twenty Seventeen please go to https://wordpress.org/support/article/twenty-seventeen/.
+For more information about Twenty Seventeen please go to https://wordpress.org/documentation/article/twenty-seventeen/.
 
 == Installation ==
 
 1. In your admin panel, go to Appearance -> Themes and click the 'Add New' button.
 2. Type in Twenty Seventeen in the search form and press the 'Enter' key on your keyboard.
 3. Click on the 'Activate' button to use your new theme right away.
-4. Go to https://wordpress.org/support/article/twenty-seventeen/ for a guide on how to customize this theme.
+4. Go to https://wordpress.org/documentation/article/twenty-seventeen/ for a guide on how to customize this theme.
 5. Navigate to Appearance > Customize in your admin panel and customize to taste.
 
 == Copyright ==
 
-Twenty Seventeen WordPress Theme, Copyright 2016-2021 WordPress.org
+Twenty Seventeen WordPress Theme, Copyright 2016-2023 WordPress.org
 Twenty Seventeen is distributed under the terms of the GNU GPL
 
 This program is free software: you can redistribute it and/or modify
@@ -53,6 +53,11 @@ Font Awesome icons, Copyright Dave Gandy
 License: SIL Open Font License, version 1.1.
 Source: http://fontawesome.io/
 
+Libre Franklin Font
+Copyright 2020 The LibreFranklin Project Authors (https://github.com/impallari/Libre-Franklin)
+License: SIL Open Font License, 1.1, https://opensource.org/licenses/OFL-1.1
+Source: https://fontsource.org/fonts/libre-franklin
+
 Bundled header image, Copyright Alvin Engler
 License: CC0 1.0 Universal (CC0 1.0)
 Source: https://unsplash.com/@englr?photo=bIhpiQA009k
@@ -67,6 +72,21 @@ License: CC0 1.0 Universal (CC0 1.0)
 Source: https://stocksnap.io/photo/striped-fabric-9CBVWF2CDU
 
 == Changelog ==
+
+= 3.1 =
+* Released: November 1, 2022
+
+https://codex.wordpress.org/Twenty_Seventeen_Theme_Changelog#Version_3.1
+
+= 3.0 =
+* Released: May 24, 2022
+
+https://codex.wordpress.org/Twenty_Seventeen_Theme_Changelog#Version_3.0
+
+= 2.9 =
+* Released: January 25, 2022
+
+https://codex.wordpress.org/Twenty_Seventeen_Theme_Changelog#Version_2.9
 
 = 2.8 =
 * Released: July 20, 2021

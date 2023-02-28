@@ -11,7 +11,6 @@
  * Core class used to implement displaying users in a list table for the network admin.
  *
  * @since 3.1.0
- * @access private
  *
  * @see WP_List_Table
  */
@@ -137,13 +136,10 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 		$super_admins = get_super_admins();
 		$total_admins = count( $super_admins );
 
-		$current_link_attributes = 'super' !== $role ? ' class="current" aria-current="page"' : '';
-		$role_links              = array();
-		$role_links['all']       = sprintf(
-			'<a href="%s"%s>%s</a>',
-			network_admin_url( 'users.php' ),
-			$current_link_attributes,
-			sprintf(
+		$role_links        = array();
+		$role_links['all'] = array(
+			'url'     => network_admin_url( 'users.php' ),
+			'label'   => sprintf(
 				/* translators: Number of users. */
 				_nx(
 					'All <span class="count">(%s)</span>',
@@ -152,14 +148,13 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 					'users'
 				),
 				number_format_i18n( $total_users )
-			)
+			),
+			'current' => 'super' !== $role,
 		);
-		$current_link_attributes = 'super' === $role ? ' class="current" aria-current="page"' : '';
-		$role_links['super']     = sprintf(
-			'<a href="%s"%s>%s</a>',
-			network_admin_url( 'users.php?role=super' ),
-			$current_link_attributes,
-			sprintf(
+
+		$role_links['super'] = array(
+			'url'     => network_admin_url( 'users.php?role=super' ),
+			'label'   => sprintf(
 				/* translators: Number of users. */
 				_n(
 					'Super Admin <span class="count">(%s)</span>',
@@ -167,10 +162,11 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 					$total_admins
 				),
 				number_format_i18n( $total_admins )
-			)
+			),
+			'current' => 'super' === $role,
 		);
 
-		return $role_links;
+		return $this->get_views_links( $role_links );
 	}
 
 	/**
@@ -241,7 +237,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 		?>
 		<label class="screen-reader-text" for="blog_<?php echo $user->ID; ?>">
 			<?php
-			/* translators: %s: User login. */
+			/* translators: Hidden accessibility text. %s: User login. */
 			printf( __( 'Select %s' ), $user->user_login );
 			?>
 		</label>
@@ -302,13 +298,21 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 	 */
 	public function column_name( $user ) {
 		if ( $user->first_name && $user->last_name ) {
-			echo "$user->first_name $user->last_name";
+			printf(
+				/* translators: 1: User's first name, 2: Last name. */
+				_x( '%1$s %2$s', 'Display name based on first name and last name' ),
+				$user->first_name,
+				$user->last_name
+			);
 		} elseif ( $user->first_name ) {
 			echo $user->first_name;
 		} elseif ( $user->last_name ) {
 			echo $user->last_name;
 		} else {
-			echo '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">' . _x( 'Unknown', 'name' ) . '</span>';
+			echo '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">' .
+				/* translators: Hidden accessibility text. */
+				_x( 'Unknown', 'name' ) .
+			'</span>';
 		}
 	}
 
@@ -370,13 +374,13 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 			return;
 		}
 
-		foreach ( $blogs as $val ) {
-			if ( ! can_edit_network( $val->site_id ) ) {
+		foreach ( $blogs as $site ) {
+			if ( ! can_edit_network( $site->site_id ) ) {
 				continue;
 			}
 
-			$path         = ( '/' === $val->path ) ? '' : $val->path;
-			$site_classes = array( 'site-' . $val->site_id );
+			$path         = ( '/' === $site->path ) ? '' : $site->path;
+			$site_classes = array( 'site-' . $site->site_id );
 			/**
 			 * Filters the span class for a site listing on the mulisite user list table.
 			 *
@@ -387,33 +391,33 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 			 * @param int      $network_id   Network ID.
 			 * @param WP_User  $user         WP_User object.
 			 */
-			$site_classes = apply_filters( 'ms_user_list_site_class', $site_classes, $val->userblog_id, $val->site_id, $user );
+			$site_classes = apply_filters( 'ms_user_list_site_class', $site_classes, $site->userblog_id, $site->site_id, $user );
 			if ( is_array( $site_classes ) && ! empty( $site_classes ) ) {
 				$site_classes = array_map( 'sanitize_html_class', array_unique( $site_classes ) );
 				echo '<span class="' . esc_attr( implode( ' ', $site_classes ) ) . '">';
 			} else {
 				echo '<span>';
 			}
-			echo '<a href="' . esc_url( network_admin_url( 'site-info.php?id=' . $val->userblog_id ) ) . '">' . str_replace( '.' . get_network()->domain, '', $val->domain . $path ) . '</a>';
+			echo '<a href="' . esc_url( network_admin_url( 'site-info.php?id=' . $site->userblog_id ) ) . '">' . str_replace( '.' . get_network()->domain, '', $site->domain . $path ) . '</a>';
 			echo ' <small class="row-actions">';
 			$actions         = array();
-			$actions['edit'] = '<a href="' . esc_url( network_admin_url( 'site-info.php?id=' . $val->userblog_id ) ) . '">' . __( 'Edit' ) . '</a>';
+			$actions['edit'] = '<a href="' . esc_url( network_admin_url( 'site-info.php?id=' . $site->userblog_id ) ) . '">' . __( 'Edit' ) . '</a>';
 
 			$class = '';
-			if ( 1 == $val->spam ) {
+			if ( 1 === (int) $site->spam ) {
 				$class .= 'site-spammed ';
 			}
-			if ( 1 == $val->mature ) {
+			if ( 1 === (int) $site->mature ) {
 				$class .= 'site-mature ';
 			}
-			if ( 1 == $val->deleted ) {
+			if ( 1 === (int) $site->deleted ) {
 				$class .= 'site-deleted ';
 			}
-			if ( 1 == $val->archived ) {
+			if ( 1 === (int) $site->archived ) {
 				$class .= 'site-archived ';
 			}
 
-			$actions['view'] = '<a class="' . $class . '" href="' . esc_url( get_home_url( $val->userblog_id ) ) . '">' . __( 'View' ) . '</a>';
+			$actions['view'] = '<a class="' . $class . '" href="' . esc_url( get_home_url( $site->userblog_id ) ) . '">' . __( 'View' ) . '</a>';
 
 			/**
 			 * Filters the action links displayed next the sites a user belongs to
@@ -424,7 +428,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 			 * @param string[] $actions     An array of action links to be displayed. Default 'Edit', 'View'.
 			 * @param int      $userblog_id The site ID.
 			 */
-			$actions = apply_filters( 'ms_user_list_site_actions', $actions, $val->userblog_id );
+			$actions = apply_filters( 'ms_user_list_site_actions', $actions, $site->userblog_id );
 
 			$action_count = count( $actions );
 
@@ -433,12 +437,12 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 			foreach ( $actions as $action => $link ) {
 				++$i;
 
-				$sep = ( $i < $action_count ) ? ' | ' : '';
+				$separator = ( $i < $action_count ) ? ' | ' : '';
 
-				echo "<span class='$action'>$link$sep</span>";
+				echo "<span class='$action'>{$link}{$separator}</span>";
 			}
 
-			echo '</small></span><br/>';
+			echo '</small></span><br />';
 		}
 	}
 

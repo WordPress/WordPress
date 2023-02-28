@@ -57,6 +57,7 @@ if ( ! class_exists( 'TwentyTwenty_Walker_Comment' ) ) {
 							printf(
 								'<span class="fn">%1$s</span><span class="screen-reader-text says">%2$s</span>',
 								esc_html( $comment_author ),
+								/* translators: Hidden accessibility text. */
 								__( 'says:', 'twentytwenty' )
 							);
 
@@ -72,10 +73,9 @@ if ( ! class_exists( 'TwentyTwenty_Walker_Comment' ) ) {
 							$comment_timestamp = sprintf( __( '%1$s at %2$s', 'twentytwenty' ), get_comment_date( '', $comment ), get_comment_time() );
 
 							printf(
-								'<a href="%s"><time datetime="%s" title="%s">%s</time></a>',
+								'<a href="%s"><time datetime="%s">%s</time></a>',
 								esc_url( get_comment_link( $comment, $args ) ),
 								get_comment_time( 'c' ),
-								esc_attr( $comment_timestamp ),
 								esc_html( $comment_timestamp )
 							);
 

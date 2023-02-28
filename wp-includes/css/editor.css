@@ -1392,8 +1392,8 @@ i.mce-i-wp_code:before {
 }
 
 #wp-link-wrap {
-	height: 500px;
-	margin-top: -250px;
+	height: 600px;
+	margin-top: -300px;
 }
 
 #wp-link-wrap .wp-link-text-field {
@@ -1407,7 +1407,6 @@ i.mce-i-wp_code:before {
 #link-modal-title {
 	background: #fff;
 	border-bottom: 1px solid #dcdcde;
-	height: 36px;
 	font-size: 18px;
 	font-weight: 600;
 	line-height: 2;
@@ -1459,10 +1458,13 @@ i.mce-i-wp_code:before {
 	-webkit-overflow-scrolling: touch;
 	padding: 0 16px;
 	position: absolute;
-	top: 37px;
+	top: calc(2.15384615em + 16px);
 	left: 0;
 	right: 0;
-	bottom: 44px;
+	bottom: calc(2.15384615em + 19px);
+	display: flex;
+	flex-direction: column;
+	overflow: auto;
 }
 
 #wp-link ol,
@@ -1497,7 +1499,7 @@ i.mce-i-wp_code:before {
 #wp-link #link-options label span,
 #wp-link #search-panel label span.search-label {
 	display: inline-block;
-	width: 80px;
+	width: 120px;
 	text-align: right;
 	padding-right: 5px;
 	max-width: 24%;
@@ -1513,7 +1515,11 @@ i.mce-i-wp_code:before {
 #wp-link .link-search-wrapper {
 	margin: 5px 0 9px;
 	display: block;
-	overflow: hidden;
+}
+
+#wp-link .query-results {
+	position: absolute;
+	width: calc(100% - 32px);
 }
 
 #wp-link .link-search-wrapper .spinner {
@@ -1523,9 +1529,6 @@ i.mce-i-wp_code:before {
 
 #wp-link .link-target {
 	padding: 3px 0 0;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
 }
 
 #wp-link .link-target label {
@@ -1537,15 +1540,7 @@ i.mce-i-wp_code:before {
 	margin: 0 0 12px;
 	background: #fff;
 	overflow: auto;
-	position: absolute;
-	left: 16px;
-	right: 16px;
-	bottom: 0;
-	top: 166px;
-}
-
-.has-text-field #wp-link .query-results {
-	top: 210px;
+	max-height: 290px;
 }
 
 #wp-link li {
@@ -1662,24 +1657,12 @@ i.mce-i-wp_code:before {
 }
 
 @media screen and (max-width: 782px) {
-	#wp-link-wrap {
-		margin-top: -140px;
-	}
-
-	#wp-link-wrap .query-results {
-		top: 195px;
-	}
-
-	#wp-link-wrap.has-text-field .query-results {
-		top: 235px;
-	}
-
 	#link-selector {
 		padding: 0 16px 60px;
 	}
 
 	#wp-link-wrap #link-selector {
-		bottom: 52px;
+		bottom: calc(2.71428571em + 23px);
 	}
 
 	#wp-link-cancel {
@@ -1705,7 +1688,7 @@ i.mce-i-wp_code:before {
 	}
 }
 
-@media screen and (max-height: 520px) {
+@media screen and (max-height: 620px) {
 	#wp-link-wrap {
 		transition: none;
 		height: auto;
@@ -1716,10 +1699,6 @@ i.mce-i-wp_code:before {
 
 	#link-selector {
 		overflow: auto;
-	}
-
-	#search-panel .query-results {
-		position: static;
 	}
 }
 
@@ -1735,10 +1714,6 @@ i.mce-i-wp_code:before {
 		overflow: auto;
 		height: calc(100% - 92px);
 		padding-bottom: 2px;
-	}
-
-	#search-panel .query-results {
-		position: static;
 	}
 }
 

@@ -60,6 +60,16 @@ p.has-drop-cap:not(:focus)::first-letter {
 	margin-left: 1.5em;
 }
 
+.wp-block-image a,
+.wp-block-image a:hover,
+.wp-block-image a:focus,
+.widget-area .wp-block-image a,
+.widget-area .wp-block-image a:hover,
+.widget-area .wp-block-image a:focus {
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
 /* Gallery */
 
 .wp-block-gallery {
@@ -127,7 +137,7 @@ p.has-drop-cap:not(:focus)::first-letter {
 	padding: 0.7em 2em;
 	-webkit-transition: background-color 0.2s ease-in-out;
 	transition: background-color 0.2s ease-in-out;
-	white-space: nowrap;
+	white-space: pre-line;
 }
 
 .wp-block-file .wp-block-file__button:hover,
@@ -204,7 +214,7 @@ p.has-drop-cap:not(:focus)::first-letter {
 	padding: 0.7em 2em;
 	-webkit-transition: background-color 0.2s ease-in-out;
 	transition: background-color 0.2s ease-in-out;
-	white-space: nowrap;
+	white-space: pre-line;
 }
 
 .entry-content .wp-block-button__link {

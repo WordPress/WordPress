@@ -39,12 +39,13 @@ if ( 'upgrade_db' === $step ) {
  * @global string $wp_version             The WordPress version string.
  * @global string $required_php_version   The required PHP version string.
  * @global string $required_mysql_version The required MySQL version string.
+ * @global wpdb   $wpdb                   WordPress database abstraction object.
  */
-global $wp_version, $required_php_version, $required_mysql_version;
+global $wp_version, $required_php_version, $required_mysql_version, $wpdb;
 
 $step = (int) $step;
 
-$php_version   = phpversion();
+$php_version   = PHP_VERSION;
 $mysql_version = $wpdb->db_version();
 $php_compat    = version_compare( $php_version, $required_php_version, '>=' );
 if ( file_exists( WP_CONTENT_DIR . '/db.php' ) && empty( $wpdb->is_mysql ) ) {
@@ -132,12 +133,12 @@ else :
 		case 0:
 			$goback = wp_get_referer();
 			if ( $goback ) {
-				$goback = esc_url_raw( $goback );
+				$goback = sanitize_url( $goback );
 				$goback = urlencode( $goback );
 			}
 			?>
 	<h1><?php _e( 'Database Update Required' ); ?></h1>
-<p><?php _e( 'WordPress has been updated! Before we send you on your way, we have to update your database to the newest version.' ); ?></p>
+<p><?php _e( 'WordPress has been updated! Next and final step is to update your database to the newest version.' ); ?></p>
 <p><?php _e( 'The database update process may take a little while, so please be patient.' ); ?></p>
 <p class="step"><a class="button button-large button-primary" href="upgrade.php?step=1&amp;backto=<?php echo $goback; ?>"><?php _e( 'Update WordPress Database' ); ?></a></p>
 			<?php

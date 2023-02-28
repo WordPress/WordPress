@@ -496,7 +496,7 @@ class WP_Widget_Text extends WP_Widget {
 				<?php if ( ! isset( $instance['visual'] ) ) : ?>
 					<p><?php _e( 'This widget may contain code that may work better in the &#8220;Custom HTML&#8221; widget. How about trying that widget instead?' ); ?></p>
 				<?php else : ?>
-					<p><?php _e( 'This widget may have contained code that may work better in the &#8220;Custom HTML&#8221; widget. If you haven&#8217;t yet, how about trying that widget instead?' ); ?></p>
+					<p><?php _e( 'This widget may have contained code that may work better in the &#8220;Custom HTML&#8221; widget. If you have not yet, how about trying that widget instead?' ); ?></p>
 				<?php endif; ?>
 			</div>
 			<p>
@@ -561,7 +561,7 @@ class WP_Widget_Text extends WP_Widget {
 			<?php endif; ?>
 
 			<p>
-				<label for="{{ elementIdPrefix }}text" class="screen-reader-text"><?php esc_html_e( 'Content:' ); ?></label>
+				<label for="{{ elementIdPrefix }}text" class="screen-reader-text"><?php /* translators: Hidden accessibility text. */ esc_html_e( 'Content:' ); ?></label>
 				<textarea id="{{ elementIdPrefix }}text" class="widefat text wp-editor-area" style="height: 200px" rows="16" cols="20"></textarea>
 			</p>
 		</script>

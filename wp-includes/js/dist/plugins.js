@@ -1,94 +1,8 @@
-this["wp"] = this["wp"] || {}; this["wp"]["plugins"] =
-/******/ (function(modules) { // webpackBootstrap
-/******/ 	// The module cache
-/******/ 	var installedModules = {};
-/******/
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/
-/******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId]) {
-/******/ 			return installedModules[moduleId].exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = installedModules[moduleId] = {
-/******/ 			i: moduleId,
-/******/ 			l: false,
-/******/ 			exports: {}
-/******/ 		};
-/******/
-/******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/
-/******/ 		// Flag the module as loaded
-/******/ 		module.l = true;
-/******/
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/
-/******/
-/******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__webpack_require__.m = modules;
-/******/
-/******/ 	// expose the module cache
-/******/ 	__webpack_require__.c = installedModules;
-/******/
-/******/ 	// define getter function for harmony exports
-/******/ 	__webpack_require__.d = function(exports, name, getter) {
-/******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
-/******/ 		}
-/******/ 	};
-/******/
-/******/ 	// define __esModule on exports
-/******/ 	__webpack_require__.r = function(exports) {
-/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 		}
-/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 	};
-/******/
-/******/ 	// create a fake namespace object
-/******/ 	// mode & 1: value is a module id, require it
-/******/ 	// mode & 2: merge all properties of value into the ns
-/******/ 	// mode & 4: return value when already ns object
-/******/ 	// mode & 8|1: behave like require
-/******/ 	__webpack_require__.t = function(value, mode) {
-/******/ 		if(mode & 1) value = __webpack_require__(value);
-/******/ 		if(mode & 8) return value;
-/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
-/******/ 		var ns = Object.create(null);
-/******/ 		__webpack_require__.r(ns);
-/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
-/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
-/******/ 		return ns;
-/******/ 	};
-/******/
-/******/ 	// getDefaultExport function for compatibility with non-harmony modules
-/******/ 	__webpack_require__.n = function(module) {
-/******/ 		var getter = module && module.__esModule ?
-/******/ 			function getDefault() { return module['default']; } :
-/******/ 			function getModuleExports() { return module; };
-/******/ 		__webpack_require__.d(getter, 'a', getter);
-/******/ 		return getter;
-/******/ 	};
-/******/
-/******/ 	// Object.prototype.hasOwnProperty.call
-/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
-/******/
-/******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
-/******/
-/******/
-/******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "ey5A");
-/******/ })
-/************************************************************************/
-/******/ ({
+/******/ (function() { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
 
-/***/ "4eJC":
-/***/ (function(module, exports, __webpack_require__) {
+/***/ 9756:
+/***/ (function(module) {
 
 /**
  * Memize options object.
@@ -253,71 +167,118 @@ function memize( fn, options ) {
 module.exports = memize;
 
 
-/***/ }),
+/***/ })
 
-/***/ "GRId":
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["wp"]["element"]; }());
-
-/***/ }),
-
-/***/ "K9lf":
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["wp"]["compose"]; }());
-
-/***/ }),
-
-/***/ "Tqx9":
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["wp"]["primitives"]; }());
-
-/***/ }),
-
-/***/ "YLtl":
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["lodash"]; }());
-
-/***/ }),
-
-/***/ "ey5A":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	!function() {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = function(module) {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				function() { return module['default']; } :
+/******/ 				function() { return module; };
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	!function() {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = function(exports, definition) {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	!function() {
+/******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	!function() {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = function(exports) {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/************************************************************************/
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
+!function() {
 "use strict";
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
-__webpack_require__.d(__webpack_exports__, "PluginArea", function() { return /* reexport */ plugin_area; });
-__webpack_require__.d(__webpack_exports__, "withPluginContext", function() { return /* reexport */ withPluginContext; });
-__webpack_require__.d(__webpack_exports__, "registerPlugin", function() { return /* reexport */ registerPlugin; });
-__webpack_require__.d(__webpack_exports__, "unregisterPlugin", function() { return /* reexport */ unregisterPlugin; });
-__webpack_require__.d(__webpack_exports__, "getPlugin", function() { return /* reexport */ getPlugin; });
-__webpack_require__.d(__webpack_exports__, "getPlugins", function() { return /* reexport */ getPlugins; });
+__webpack_require__.d(__webpack_exports__, {
+  "PluginArea": function() { return /* reexport */ plugin_area; },
+  "getPlugin": function() { return /* reexport */ getPlugin; },
+  "getPlugins": function() { return /* reexport */ getPlugins; },
+  "registerPlugin": function() { return /* reexport */ registerPlugin; },
+  "unregisterPlugin": function() { return /* reexport */ unregisterPlugin; },
+  "withPluginContext": function() { return /* reexport */ withPluginContext; }
+});
 
-// EXTERNAL MODULE: external ["wp","element"]
-var external_wp_element_ = __webpack_require__("GRId");
-
-// EXTERNAL MODULE: external "lodash"
-var external_lodash_ = __webpack_require__("YLtl");
-
+;// CONCATENATED MODULE: external ["wp","element"]
+var external_wp_element_namespaceObject = window["wp"]["element"];
 // EXTERNAL MODULE: ./node_modules/memize/index.js
-var memize = __webpack_require__("4eJC");
+var memize = __webpack_require__(9756);
 var memize_default = /*#__PURE__*/__webpack_require__.n(memize);
-
-// EXTERNAL MODULE: external ["wp","hooks"]
-var external_wp_hooks_ = __webpack_require__("g56x");
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
-var esm_extends = __webpack_require__("wx14");
-
-// EXTERNAL MODULE: external ["wp","compose"]
-var external_wp_compose_ = __webpack_require__("K9lf");
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/plugins/build-module/components/plugin-context/index.js
+;// CONCATENATED MODULE: external ["wp","hooks"]
+var external_wp_hooks_namespaceObject = window["wp"]["hooks"];
+;// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
+function _extends() {
+  _extends = Object.assign ? Object.assign.bind() : function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+    return target;
+  };
+  return _extends.apply(this, arguments);
+}
+;// CONCATENATED MODULE: external ["wp","compose"]
+var external_wp_compose_namespaceObject = window["wp"]["compose"];
+;// CONCATENATED MODULE: ./node_modules/@wordpress/plugins/build-module/components/plugin-context/index.js
 
 
 
@@ -329,7 +290,7 @@ var external_wp_compose_ = __webpack_require__("K9lf");
 const {
   Consumer,
   Provider
-} = Object(external_wp_element_["createContext"])({
+} = (0,external_wp_element_namespaceObject.createContext)({
   name: null,
   icon: null
 });
@@ -345,38 +306,72 @@ const {
  * @return {WPComponent} Enhanced component with injected context as props.
  */
 
-const withPluginContext = mapContextToProps => Object(external_wp_compose_["createHigherOrderComponent"])(OriginalComponent => {
-  return props => Object(external_wp_element_["createElement"])(Consumer, null, context => Object(external_wp_element_["createElement"])(OriginalComponent, Object(esm_extends["a" /* default */])({}, props, mapContextToProps(context, props))));
+const withPluginContext = mapContextToProps => (0,external_wp_compose_namespaceObject.createHigherOrderComponent)(OriginalComponent => {
+  return props => (0,external_wp_element_namespaceObject.createElement)(Consumer, null, context => (0,external_wp_element_namespaceObject.createElement)(OriginalComponent, _extends({}, props, mapContextToProps(context, props))));
 }, 'withPluginContext');
 
-// EXTERNAL MODULE: external ["wp","primitives"]
-var external_wp_primitives_ = __webpack_require__("Tqx9");
+;// CONCATENATED MODULE: ./node_modules/@wordpress/plugins/build-module/components/plugin-error-boundary/index.js
+/**
+ * WordPress dependencies
+ */
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/plugins.js
+class PluginErrorBoundary extends external_wp_element_namespaceObject.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      hasError: false
+    };
+  }
+
+  static getDerivedStateFromError() {
+    return {
+      hasError: true
+    };
+  }
+
+  componentDidCatch(error) {
+    const {
+      name,
+      onError
+    } = this.props;
+
+    if (onError) {
+      onError(name, error);
+    }
+  }
+
+  render() {
+    if (!this.state.hasError) {
+      return this.props.children;
+    }
+
+    return null;
+  }
+
+}
+
+;// CONCATENATED MODULE: external ["wp","primitives"]
+var external_wp_primitives_namespaceObject = window["wp"]["primitives"];
+;// CONCATENATED MODULE: ./node_modules/@wordpress/icons/build-module/library/plugins.js
 
 
 /**
  * WordPress dependencies
  */
 
-const plugins = Object(external_wp_element_["createElement"])(external_wp_primitives_["SVG"], {
+const plugins = (0,external_wp_element_namespaceObject.createElement)(external_wp_primitives_namespaceObject.SVG, {
   xmlns: "http://www.w3.org/2000/svg",
   viewBox: "0 0 24 24"
-}, Object(external_wp_element_["createElement"])(external_wp_primitives_["Path"], {
+}, (0,external_wp_element_namespaceObject.createElement)(external_wp_primitives_namespaceObject.Path, {
   d: "M10.5 4v4h3V4H15v4h1.5a1 1 0 011 1v4l-3 4v2a1 1 0 01-1 1h-3a1 1 0 01-1-1v-2l-3-4V9a1 1 0 011-1H9V4h1.5zm.5 12.5v2h2v-2l3-4v-3H8v3l3 4z"
 }));
 /* harmony default export */ var library_plugins = (plugins);
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/plugins/build-module/api/index.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/plugins/build-module/api/index.js
 /* eslint no-console: [ 'error', { allow: [ 'error' ] } ] */
 
 /**
  * WordPress dependencies
- */
-
-
-/**
- * External dependencies
  */
 
 
@@ -407,9 +402,9 @@ const api_plugins = {};
 /**
  * Registers a plugin to the editor.
  *
- * @param {string}   name     A string identifying the plugin.Must be
- *                            unique across all registered plugins.
- * @param {WPPlugin} settings The settings for this plugin.
+ * @param {string}                 name     A string identifying the plugin.Must be
+ *                                          unique across all registered plugins.
+ * @param {Omit<WPPlugin, 'name'>} settings The settings for this plugin.
  *
  * @example
  * ```js
@@ -502,13 +497,13 @@ function registerPlugin(name, settings) {
     console.error(`Plugin "${name}" is already registered.`);
   }
 
-  settings = Object(external_wp_hooks_["applyFilters"])('plugins.registerPlugin', settings, name);
+  settings = (0,external_wp_hooks_namespaceObject.applyFilters)('plugins.registerPlugin', settings, name);
   const {
     render,
     scope
   } = settings;
 
-  if (!Object(external_lodash_["isFunction"])(render)) {
+  if (typeof render !== 'function') {
     console.error('The "render" property must be specified and must be a valid function.');
     return null;
   }
@@ -530,7 +525,7 @@ function registerPlugin(name, settings) {
     icon: library_plugins,
     ...settings
   };
-  Object(external_wp_hooks_["doAction"])('plugins.pluginRegistered', settings, name);
+  (0,external_wp_hooks_namespaceObject.doAction)('plugins.pluginRegistered', settings, name);
   return settings;
 }
 /**
@@ -554,7 +549,7 @@ function registerPlugin(name, settings) {
  * unregisterPlugin( 'plugin-name' );
  * ```
  *
- * @return {?WPPlugin} The previous plugin settings object, if it has been
+ * @return {WPPlugin | undefined} The previous plugin settings object, if it has been
  *                     successfully unregistered; otherwise `undefined`.
  */
 
@@ -566,7 +561,7 @@ function unregisterPlugin(name) {
 
   const oldPlugin = api_plugins[name];
   delete api_plugins[name];
-  Object(external_wp_hooks_["doAction"])('plugins.pluginUnregistered', oldPlugin, name);
+  (0,external_wp_hooks_namespaceObject.doAction)('plugins.pluginUnregistered', oldPlugin, name);
   return oldPlugin;
 }
 /**
@@ -593,13 +588,12 @@ function getPlugins(scope) {
   return Object.values(api_plugins).filter(plugin => plugin.scope === scope);
 }
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/plugins/build-module/components/plugin-area/index.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/plugins/build-module/components/plugin-area/index.js
 
 
 /**
  * External dependencies
  */
-
 
 /**
  * WordPress dependencies
@@ -610,6 +604,7 @@ function getPlugins(scope) {
 /**
  * Internal dependencies
  */
+
 
 
 
@@ -648,7 +643,7 @@ function getPlugins(scope) {
  * @return {WPComponent} The component to be rendered.
  */
 
-class plugin_area_PluginArea extends external_wp_element_["Component"] {
+class PluginArea extends external_wp_element_namespaceObject.Component {
   constructor() {
     super(...arguments);
     this.setPlugins = this.setPlugins.bind(this);
@@ -663,11 +658,12 @@ class plugin_area_PluginArea extends external_wp_element_["Component"] {
 
   getCurrentPluginsState() {
     return {
-      plugins: Object(external_lodash_["map"])(getPlugins(this.props.scope), ({
-        icon,
-        name,
-        render
-      }) => {
+      plugins: getPlugins(this.props.scope).map(_ref => {
+        let {
+          icon,
+          name,
+          render
+        } = _ref;
         return {
           Plugin: render,
           context: this.memoizedContext(name, icon)
@@ -677,13 +673,13 @@ class plugin_area_PluginArea extends external_wp_element_["Component"] {
   }
 
   componentDidMount() {
-    Object(external_wp_hooks_["addAction"])('plugins.pluginRegistered', 'core/plugins/plugin-area/plugins-registered', this.setPlugins);
-    Object(external_wp_hooks_["addAction"])('plugins.pluginUnregistered', 'core/plugins/plugin-area/plugins-unregistered', this.setPlugins);
+    (0,external_wp_hooks_namespaceObject.addAction)('plugins.pluginRegistered', 'core/plugins/plugin-area/plugins-registered', this.setPlugins);
+    (0,external_wp_hooks_namespaceObject.addAction)('plugins.pluginUnregistered', 'core/plugins/plugin-area/plugins-unregistered', this.setPlugins);
   }
 
   componentWillUnmount() {
-    Object(external_wp_hooks_["removeAction"])('plugins.pluginRegistered', 'core/plugins/plugin-area/plugins-registered');
-    Object(external_wp_hooks_["removeAction"])('plugins.pluginUnregistered', 'core/plugins/plugin-area/plugins-unregistered');
+    (0,external_wp_hooks_namespaceObject.removeAction)('plugins.pluginRegistered', 'core/plugins/plugin-area/plugins-registered');
+    (0,external_wp_hooks_namespaceObject.removeAction)('plugins.pluginUnregistered', 'core/plugins/plugin-area/plugins-unregistered');
   }
 
   setPlugins() {
@@ -691,64 +687,38 @@ class plugin_area_PluginArea extends external_wp_element_["Component"] {
   }
 
   render() {
-    return Object(external_wp_element_["createElement"])("div", {
+    return (0,external_wp_element_namespaceObject.createElement)("div", {
       style: {
         display: 'none'
       }
-    }, Object(external_lodash_["map"])(this.state.plugins, ({
-      context,
-      Plugin
-    }) => Object(external_wp_element_["createElement"])(Provider, {
-      key: context.name,
-      value: context
-    }, Object(external_wp_element_["createElement"])(Plugin, null))));
+    }, this.state.plugins.map(_ref2 => {
+      let {
+        context,
+        Plugin
+      } = _ref2;
+      return (0,external_wp_element_namespaceObject.createElement)(Provider, {
+        key: context.name,
+        value: context
+      }, (0,external_wp_element_namespaceObject.createElement)(PluginErrorBoundary, {
+        name: context.name,
+        onError: this.props.onError
+      }, (0,external_wp_element_namespaceObject.createElement)(Plugin, null)));
+    }));
   }
 
 }
 
-/* harmony default export */ var plugin_area = (plugin_area_PluginArea);
+/* harmony default export */ var plugin_area = (PluginArea);
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/plugins/build-module/components/index.js
-
-
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/plugins/build-module/index.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/plugins/build-module/components/index.js
 
 
 
+;// CONCATENATED MODULE: ./node_modules/@wordpress/plugins/build-module/index.js
 
-/***/ }),
 
-/***/ "g56x":
-/***/ (function(module, exports) {
 
-(function() { module.exports = window["wp"]["hooks"]; }());
-
-/***/ }),
-
-/***/ "wx14":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _extends; });
-function _extends() {
-  _extends = Object.assign || function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-
-    return target;
-  };
-
-  return _extends.apply(this, arguments);
-}
-
-/***/ })
-
-/******/ });
+}();
+(window.wp = window.wp || {}).plugins = __webpack_exports__;
+/******/ })()
+;

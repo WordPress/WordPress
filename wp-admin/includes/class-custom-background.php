@@ -11,6 +11,7 @@
  *
  * @since 3.0.0
  */
+#[AllowDynamicProperties]
 class Custom_Background {
 
 	/**
@@ -38,7 +39,7 @@ class Custom_Background {
 	private $updated;
 
 	/**
-	 * Constructor - Register administration header callback.
+	 * Constructor - Registers administration header callback.
 	 *
 	 * @since 3.0.0
 	 * @param callable $admin_header_callback
@@ -57,7 +58,7 @@ class Custom_Background {
 	}
 
 	/**
-	 * Set up the hooks for the Custom Background admin page.
+	 * Sets up the hooks for the Custom Background admin page.
 	 *
 	 * @since 3.0.0
 	 */
@@ -77,7 +78,7 @@ class Custom_Background {
 	}
 
 	/**
-	 * Set up the enqueue for the CSS & JavaScript files.
+	 * Sets up the enqueue for the CSS & JavaScript files.
 	 *
 	 * @since 3.0.0
 	 */
@@ -90,14 +91,14 @@ class Custom_Background {
 					'<p>' . __( 'You can customize the look of your site without touching any of your theme&#8217;s code by using a custom background. Your background can be an image or a color.' ) . '</p>' .
 					'<p>' . __( 'To use a background image, simply upload it or choose an image that has already been uploaded to your Media Library by clicking the &#8220;Choose Image&#8221; button. You can display a single instance of your image, or tile it to fill the screen. You can have your background fixed in place, so your site content moves on top of it, or you can have it scroll with your site.' ) . '</p>' .
 					'<p>' . __( 'You can also choose a background color by clicking the Select Color button and either typing in a legitimate HTML hex value, e.g. &#8220;#ff0000&#8221; for red, or by choosing a color using the color picker.' ) . '</p>' .
-					'<p>' . __( 'Don&#8217;t forget to click on the Save Changes button when you are finished.' ) . '</p>',
+					'<p>' . __( 'Do not forget to click on the Save Changes button when you are finished.' ) . '</p>',
 			)
 		);
 
 		get_current_screen()->set_help_sidebar(
 			'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
 			'<p>' . __( '<a href="https://codex.wordpress.org/Appearance_Background_Screen">Documentation on Custom Background</a>' ) . '</p>' .
-			'<p>' . __( '<a href="https://wordpress.org/support/">Support</a>' ) . '</p>'
+			'<p>' . __( '<a href="https://wordpress.org/support/forums/">Support forums</a>' ) . '</p>'
 		);
 
 		wp_enqueue_media();
@@ -106,7 +107,7 @@ class Custom_Background {
 	}
 
 	/**
-	 * Execute custom background modification.
+	 * Executes custom background modification.
 	 *
 	 * @since 3.0.0
 	 */
@@ -222,7 +223,7 @@ class Custom_Background {
 	}
 
 	/**
-	 * Display the custom background page.
+	 * Displays the custom background page.
 	 *
 	 * @since 3.0.0
 	 */
@@ -250,7 +251,7 @@ class Custom_Background {
 	<p>
 			<?php
 			/* translators: %s: Home URL. */
-			printf( __( 'Background updated. <a href="%s">Visit your site</a> to see how it looks.' ), home_url( '/' ) );
+			printf( __( 'Background updated. <a href="%s">Visit your site</a> to see how it looks.' ), esc_url( home_url( '/' ) ) );
 			?>
 	</p>
 </div>
@@ -306,7 +307,7 @@ class Custom_Background {
 <td>
 <form method="post">
 			<?php wp_nonce_field( 'custom-background-remove', '_wpnonce-custom-background-remove' ); ?>
-			<?php submit_button( __( 'Remove Background Image' ), '', 'remove-background', false ); ?><br/>
+			<?php submit_button( __( 'Remove Background Image' ), '', 'remove-background', false ); ?><br />
 			<?php _e( 'This will remove the background image. You will not be able to restore any customizations.' ); ?>
 </form>
 </td>
@@ -320,7 +321,7 @@ class Custom_Background {
 <td>
 <form method="post">
 			<?php wp_nonce_field( 'custom-background-reset', '_wpnonce-custom-background-reset' ); ?>
-			<?php submit_button( __( 'Restore Original Image' ), '', 'reset-background', false ); ?><br/>
+			<?php submit_button( __( 'Restore Original Image' ), '', 'reset-background', false ); ?><br />
 			<?php _e( 'This will restore the original background image. You will not be able to restore any customizations.' ); ?>
 </form>
 </td>
@@ -412,7 +413,12 @@ class Custom_Background {
 			?>
 <tr>
 <th scope="row"><?php _e( 'Image Position' ); ?></th>
-<td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Image Position' ); ?></span></legend>
+<td><fieldset><legend class="screen-reader-text"><span>
+			<?php
+			/* translators: Hidden accessibility text. */
+			_e( 'Image Position' );
+			?>
+</span></legend>
 <div class="background-position-control">
 			<?php foreach ( $background_position_options as $group ) : ?>
 	<div class="button-group">
@@ -431,7 +437,12 @@ class Custom_Background {
 
 <tr>
 <th scope="row"><label for="background-size"><?php _e( 'Image Size' ); ?></label></th>
-<td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Image Size' ); ?></span></legend>
+<td><fieldset><legend class="screen-reader-text"><span>
+			<?php
+			/* translators: Hidden accessibility text. */
+			_e( 'Image Size' );
+			?>
+</span></legend>
 <select id="background-size" name="background-size">
 <option value="auto"<?php selected( 'auto', get_theme_mod( 'background_size', get_theme_support( 'custom-background', 'default-size' ) ) ); ?>><?php _ex( 'Original', 'Original Size' ); ?></option>
 <option value="contain"<?php selected( 'contain', get_theme_mod( 'background_size', get_theme_support( 'custom-background', 'default-size' ) ) ); ?>><?php _e( 'Fit to Screen' ); ?></option>
@@ -442,7 +453,12 @@ class Custom_Background {
 
 <tr>
 <th scope="row"><?php _ex( 'Repeat', 'Background Repeat' ); ?></th>
-<td><fieldset><legend class="screen-reader-text"><span><?php _ex( 'Repeat', 'Background Repeat' ); ?></span></legend>
+<td><fieldset><legend class="screen-reader-text"><span>
+			<?php
+			/* translators: Hidden accessibility text. */
+			_ex( 'Repeat', 'Background Repeat' );
+			?>
+</span></legend>
 <input name="background-repeat" type="hidden" value="no-repeat">
 <label><input type="checkbox" name="background-repeat" value="repeat"<?php checked( 'repeat', get_theme_mod( 'background_repeat', get_theme_support( 'custom-background', 'default-repeat' ) ) ); ?>> <?php _e( 'Repeat Background Image' ); ?></label>
 </fieldset></td>
@@ -450,7 +466,12 @@ class Custom_Background {
 
 <tr>
 <th scope="row"><?php _ex( 'Scroll', 'Background Scroll' ); ?></th>
-<td><fieldset><legend class="screen-reader-text"><span><?php _ex( 'Scroll', 'Background Scroll' ); ?></span></legend>
+<td><fieldset><legend class="screen-reader-text"><span>
+			<?php
+			/* translators: Hidden accessibility text. */
+			_ex( 'Scroll', 'Background Scroll' );
+			?>
+</span></legend>
 <input name="background-attachment" type="hidden" value="fixed">
 <label><input name="background-attachment" type="checkbox" value="scroll" <?php checked( 'scroll', get_theme_mod( 'background_attachment', get_theme_support( 'custom-background', 'default-attachment' ) ) ); ?>> <?php _e( 'Scroll with Page' ); ?></label>
 </fieldset></td>
@@ -458,7 +479,12 @@ class Custom_Background {
 <?php endif; // get_background_image() ?>
 <tr>
 <th scope="row"><?php _e( 'Background Color' ); ?></th>
-<td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Background Color' ); ?></span></legend>
+<td><fieldset><legend class="screen-reader-text"><span>
+		<?php
+		/* translators: Hidden accessibility text. */
+		_e( 'Background Color' );
+		?>
+</span></legend>
 		<?php
 		$default_color = '';
 		if ( current_theme_supports( 'custom-background', 'default-color' ) ) {
@@ -480,7 +506,7 @@ class Custom_Background {
 	}
 
 	/**
-	 * Handle an Image upload for the background image.
+	 * Handles an Image upload for the background image.
 	 *
 	 * @since 3.0.0
 	 */
@@ -510,8 +536,8 @@ class Custom_Background {
 		$file     = $file['file'];
 		$filename = wp_basename( $file );
 
-		// Construct the object array.
-		$object = array(
+		// Construct the attachment array.
+		$attachment = array(
 			'post_title'     => $filename,
 			'post_content'   => $url,
 			'post_mime_type' => $type,
@@ -520,16 +546,16 @@ class Custom_Background {
 		);
 
 		// Save the data.
-		$id = wp_insert_attachment( $object, $file );
+		$id = wp_insert_attachment( $attachment, $file );
 
 		// Add the metadata.
 		wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $file ) );
 		update_post_meta( $id, '_wp_attachment_is_custom_background', get_option( 'stylesheet' ) );
 
-		set_theme_mod( 'background_image', esc_url_raw( $url ) );
+		set_theme_mod( 'background_image', sanitize_url( $url ) );
 
 		$thumbnail = wp_get_attachment_image_src( $id, 'thumbnail' );
-		set_theme_mod( 'background_image_thumb', esc_url_raw( $thumbnail[0] ) );
+		set_theme_mod( 'background_image_thumb', sanitize_url( $thumbnail[0] ) );
 
 		/** This action is documented in wp-admin/includes/class-custom-image-header.php */
 		do_action( 'wp_create_file_in_uploads', $file, $id ); // For replication.
@@ -537,7 +563,7 @@ class Custom_Background {
 	}
 
 	/**
-	 * Ajax handler for adding custom background context to an attachment.
+	 * Handles Ajax request for adding custom background context to an attachment.
 	 *
 	 * Triggers when the user adds a new background image from the
 	 * Media Manager.
@@ -618,8 +644,8 @@ class Custom_Background {
 
 		$url       = wp_get_attachment_image_src( $attachment_id, $size );
 		$thumbnail = wp_get_attachment_image_src( $attachment_id, 'thumbnail' );
-		set_theme_mod( 'background_image', esc_url_raw( $url[0] ) );
-		set_theme_mod( 'background_image_thumb', esc_url_raw( $thumbnail[0] ) );
+		set_theme_mod( 'background_image', sanitize_url( $url[0] ) );
+		set_theme_mod( 'background_image_thumb', sanitize_url( $thumbnail[0] ) );
 		exit;
 	}
 }

@@ -253,7 +253,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 
 	editor.addCommand( 'WP_Help', function() {
 		var access = tinymce.Env.mac ? __( 'Ctrl + Alt + letter:' ) : __( 'Shift + Alt + letter:' ),
-			meta = tinymce.Env.mac ? __( 'Cmd + letter:' ) : __( 'Ctrl + letter:' ),
+			meta = tinymce.Env.mac ? __( '⌘ + letter:' ) : __( 'Ctrl + letter:' ),
 			table1 = [],
 			table2 = [],
 			row1 = {},
@@ -758,7 +758,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 				tooltip = getTooltip( button.settings.tooltip );
 				button.settings.tooltip = tooltip;
 
-				// Override the aria label wiht the translated tooltip + shortcut.
+				// Override the aria label with the translated tooltip + shortcut.
 				if ( button._aria && button._aria.label ) {
 					button._aria.label = tooltip;
 				}

@@ -1,10 +1,11 @@
 {
+	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 2,
 	"name": "core/social-link",
 	"title": "Social Icon",
 	"category": "widgets",
 	"parent": [ "core/social-links" ],
-	"description": "Display an icon linking to a social media profile or website.",
+	"description": "Display an icon linking to a social media profile or site.",
 	"textdomain": "default",
 	"attributes": {
 		"url": {
@@ -15,14 +16,19 @@
 		},
 		"label": {
 			"type": "string"
+		},
+		"rel": {
+			"type": "string"
 		}
 	},
 	"usesContext": [
 		"openInNewTab",
+		"showLabels",
 		"iconColorValue",
 		"iconBackgroundColorValue"
 	],
 	"supports": {
+		"anchor": true,
 		"reusable": false,
 		"html": false
 	},

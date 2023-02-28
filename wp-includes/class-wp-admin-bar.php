@@ -12,12 +12,15 @@
  *
  * @since 3.1.0
  */
+#[AllowDynamicProperties]
 class WP_Admin_Bar {
 	private $nodes = array();
 	private $bound = false;
 	public $user;
 
 	/**
+	 * @since 3.3.0
+	 *
 	 * @param string $name
 	 * @return string|array|void
 	 */
@@ -33,9 +36,12 @@ class WP_Admin_Bar {
 	}
 
 	/**
+	 * Initializes the admin bar.
+	 *
+	 * @since 3.1.0
 	 */
 	public function initialize() {
-		$this->user = new stdClass;
+		$this->user = new stdClass();
 
 		if ( is_user_logged_in() ) {
 			/* Populate settings we need for the menu based on the current user. */
@@ -82,7 +88,7 @@ class WP_Admin_Bar {
 	}
 
 	/**
-	 * Add a node (menu item) to the Admin Bar menu.
+	 * Adds a node (menu item) to the admin bar menu.
 	 *
 	 * @since 3.3.0
 	 *
@@ -93,7 +99,7 @@ class WP_Admin_Bar {
 	}
 
 	/**
-	 * Remove a node from the admin bar.
+	 * Removes a node from the admin bar.
 	 *
 	 * @since 3.1.0
 	 *
@@ -179,6 +185,8 @@ class WP_Admin_Bar {
 	}
 
 	/**
+	 * @since 3.3.0
+	 *
 	 * @param array $args
 	 */
 	final protected function _set_node( $args ) {
@@ -187,6 +195,8 @@ class WP_Admin_Bar {
 
 	/**
 	 * Gets a node.
+	 *
+	 * @since 3.3.0
 	 *
 	 * @param string $id
 	 * @return object|void Node.
@@ -199,6 +209,8 @@ class WP_Admin_Bar {
 	}
 
 	/**
+	 * @since 3.3.0
+	 *
 	 * @param string $id
 	 * @return object|void
 	 */
@@ -217,6 +229,8 @@ class WP_Admin_Bar {
 	}
 
 	/**
+	 * @since 3.3.0
+	 *
 	 * @return array|void
 	 */
 	final public function get_nodes() {
@@ -232,6 +246,8 @@ class WP_Admin_Bar {
 	}
 
 	/**
+	 * @since 3.3.0
+	 *
 	 * @return array|void
 	 */
 	final protected function _get_nodes() {
@@ -243,7 +259,7 @@ class WP_Admin_Bar {
 	}
 
 	/**
-	 * Add a group to a toolbar menu node.
+	 * Adds a group to a toolbar menu node.
 	 *
 	 * Groups can be used to organize toolbar items into distinct sections of a toolbar menu.
 	 *
@@ -267,6 +283,8 @@ class WP_Admin_Bar {
 	/**
 	 * Remove a node.
 	 *
+	 * @since 3.1.0
+	 *
 	 * @param string $id The ID of the item.
 	 */
 	public function remove_node( $id ) {
@@ -274,6 +292,8 @@ class WP_Admin_Bar {
 	}
 
 	/**
+	 * @since 3.3.0
+	 *
 	 * @param string $id
 	 */
 	final protected function _unset_node( $id ) {
@@ -281,6 +301,7 @@ class WP_Admin_Bar {
 	}
 
 	/**
+	 * @since 3.1.0
 	 */
 	public function render() {
 		$root = $this->_bind();
@@ -290,6 +311,8 @@ class WP_Admin_Bar {
 	}
 
 	/**
+	 * @since 3.3.0
+	 *
 	 * @return object|void
 	 */
 	final protected function _bind() {
@@ -426,6 +449,8 @@ class WP_Admin_Bar {
 	}
 
 	/**
+	 * @since 3.3.0
+	 *
 	 * @param object $root
 	 */
 	final protected function _render( $root ) {
@@ -457,6 +482,8 @@ class WP_Admin_Bar {
 	}
 
 	/**
+	 * @since 3.3.0
+	 *
 	 * @param object $node
 	 */
 	final protected function _render_container( $node ) {
@@ -472,6 +499,8 @@ class WP_Admin_Bar {
 	}
 
 	/**
+	 * @since 3.3.0
+	 *
 	 * @param object $node
 	 */
 	final protected function _render_group( $node ) {
@@ -497,6 +526,8 @@ class WP_Admin_Bar {
 	}
 
 	/**
+	 * @since 3.3.0
+	 *
 	 * @param object $node
 	 */
 	final protected function _render_item( $node ) {
@@ -596,6 +627,9 @@ class WP_Admin_Bar {
 	}
 
 	/**
+	 * Adds menus to the admin bar.
+	 *
+	 * @since 3.1.0
 	 */
 	public function add_menus() {
 		// User-related, aligned right.
@@ -609,6 +643,7 @@ class WP_Admin_Bar {
 		add_action( 'admin_bar_menu', 'wp_admin_bar_wp_menu', 10 );
 		add_action( 'admin_bar_menu', 'wp_admin_bar_my_sites_menu', 20 );
 		add_action( 'admin_bar_menu', 'wp_admin_bar_site_menu', 30 );
+		add_action( 'admin_bar_menu', 'wp_admin_bar_edit_site_menu', 40 );
 		add_action( 'admin_bar_menu', 'wp_admin_bar_customize_menu', 40 );
 		add_action( 'admin_bar_menu', 'wp_admin_bar_updates_menu', 50 );
 

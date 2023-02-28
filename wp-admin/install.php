@@ -42,7 +42,7 @@ require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 require_once ABSPATH . 'wp-admin/includes/translation-install.php';
 
 /** Load wpdb */
-require_once ABSPATH . WPINC . '/wp-db.php';
+require_once ABSPATH . WPINC . '/class-wpdb.php';
 
 nocache_headers();
 
@@ -80,7 +80,7 @@ function display_header( $body_classes = '' ) {
 } // End display_header().
 
 /**
- * Display installer setup form.
+ * Displays installer setup form.
  *
  * @since 2.8.0
  *
@@ -96,7 +96,7 @@ function display_setup_form( $error = null ) {
 	// Ensure that sites appear in search engines by default.
 	$blog_public = 1;
 	if ( isset( $_POST['weblog_title'] ) ) {
-		$blog_public = isset( $_POST['blog_public'] );
+		$blog_public = isset( $_POST['blog_public'] ) ? (int) $_POST['blog_public'] : $blog_public;
 	}
 
 	$weblog_title = isset( $_POST['weblog_title'] ) ? trim( wp_unslash( $_POST['weblog_title'] ) ) : '';
@@ -140,7 +140,7 @@ function display_setup_form( $error = null ) {
 			<td>
 				<div class="wp-pwd">
 					<?php $initial_password = isset( $_POST['admin_password'] ) ? stripslashes( $_POST['admin_password'] ) : wp_generate_password( 18 ); ?>
-					<input type="password" name="admin_password" id="pass1" class="regular-text" autocomplete="off" data-reveal="1" data-pw="<?php echo esc_attr( $initial_password ); ?>" aria-describedby="pass-strength-result" />
+					<input type="password" name="admin_password" id="pass1" class="regular-text" autocomplete="new-password" spellcheck="false" data-reveal="1" data-pw="<?php echo esc_attr( $initial_password ); ?>" aria-describedby="pass-strength-result" />
 					<button type="button" class="button wp-hide-pw hide-if-no-js" data-start-masked="<?php echo (int) isset( $_POST['admin_password'] ); ?>" data-toggle="0" aria-label="<?php esc_attr_e( 'Hide password' ); ?>">
 						<span class="dashicons dashicons-hidden"></span>
 						<span class="text"><?php _e( 'Hide' ); ?></span>
@@ -160,7 +160,7 @@ function display_setup_form( $error = null ) {
 				</label>
 			</th>
 			<td>
-				<input name="admin_password2" type="password" id="pass2" autocomplete="off" />
+				<input type="password" name="admin_password2" id="pass2" autocomplete="new-password" spellcheck="false" />
 			</td>
 		</tr>
 		<tr class="pw-weak">
@@ -182,12 +182,20 @@ function display_setup_form( $error = null ) {
 			<th scope="row"><?php has_action( 'blog_privacy_selector' ) ? _e( 'Site visibility' ) : _e( 'Search engine visibility' ); ?></th>
 			<td>
 				<fieldset>
-					<legend class="screen-reader-text"><span><?php has_action( 'blog_privacy_selector' ) ? _e( 'Site visibility' ) : _e( 'Search engine visibility' ); ?> </span></legend>
+					<legend class="screen-reader-text"><span>
+						<?php
+						has_action( 'blog_privacy_selector' )
+							/* translators: Hidden accessibility text. */
+							? _e( 'Site visibility' )
+							/* translators: Hidden accessibility text. */
+							: _e( 'Search engine visibility' );
+						?>
+					</span></legend>
 					<?php
 					if ( has_action( 'blog_privacy_selector' ) ) {
 						?>
 						<input id="blog-public" type="radio" name="blog_public" value="1" <?php checked( 1, $blog_public ); ?> />
-						<label for="blog-public"><?php _e( 'Allow search engines to index this site' ); ?></label><br/>
+						<label for="blog-public"><?php _e( 'Allow search engines to index this site' ); ?></label><br />
 						<input id="blog-norobots" type="radio" name="blog_public" value="0" <?php checked( 0, $blog_public ); ?> />
 						<label for="blog-norobots"><?php _e( 'Discourage search engines from indexing this site' ); ?></label>
 						<p class="description"><?php _e( 'Note: Neither of these options blocks access to your site &mdash; it is up to search engines to honor your request.' ); ?></p>
@@ -225,10 +233,11 @@ if ( is_blog_installed() ) {
  * @global string $wp_version             The WordPress version string.
  * @global string $required_php_version   The required PHP version string.
  * @global string $required_mysql_version The required MySQL version string.
+ * @global wpdb   $wpdb                   WordPress database abstraction object.
  */
-global $wp_version, $required_php_version, $required_mysql_version;
+global $wp_version, $required_php_version, $required_mysql_version, $wpdb;
 
-$php_version   = phpversion();
+$php_version   = PHP_VERSION;
 $mysql_version = $wpdb->db_version();
 $php_compat    = version_compare( $php_version, $required_php_version, '>=' );
 $mysql_compat  = version_compare( $mysql_version, $required_mysql_version, '>=' ) || file_exists( WP_CONTENT_DIR . '/db.php' );
@@ -358,7 +367,7 @@ switch ( $step ) {
 <p><?php _e( 'Welcome to the famous five-minute WordPress installation process! Just fill in the information below and you&#8217;ll be on your way to using the most extendable and powerful personal publishing platform in the world.' ); ?></p>
 
 <h2><?php _e( 'Information needed' ); ?></h2>
-<p><?php _e( 'Please provide the following information. Don&#8217;t worry, you can always change these settings later.' ); ?></p>
+<p><?php _e( 'Please provide the following information. Do not worry, you can always change these settings later.' ); ?></p>
 
 		<?php
 		display_setup_form();
@@ -405,7 +414,7 @@ switch ( $step ) {
 			$error = true;
 		} elseif ( ! is_email( $admin_email ) ) {
 			// TODO: Poka-yoke.
-			display_setup_form( __( 'Sorry, that isn&#8217;t a valid email address. Email addresses look like <code>username@example.com</code>.' ) );
+			display_setup_form( __( 'Sorry, that is not a valid email address. Email addresses look like <code>username@example.com</code>.' ) );
 			$error = true;
 		}
 

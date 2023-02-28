@@ -39,7 +39,7 @@ if ( ( $paged >= 2 || $page >= 2 ) && ! is_404() ) {
 ?>
 	</title>
 <link rel="profile" href="https://gmpg.org/xfn/11" />
-<link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo( 'stylesheet_url' ); ?>?ver=20190507" />
+<link rel="stylesheet" type="text/css" media="all" href="<?php echo esc_url( get_stylesheet_uri() ); ?>?ver=20221101" />
 <link rel="pingback" href="<?php echo esc_url( get_bloginfo( 'pingback_url' ) ); ?>">
 <?php
 	/*
@@ -69,7 +69,7 @@ if ( is_singular() && get_option( 'thread_comments' ) ) {
 				<?php $heading_tag = ( is_home() || is_front_page() ) ? 'h1' : 'div'; ?>
 				<<?php echo $heading_tag; ?> id="site-title">
 					<span>
-						<a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>
+						<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>
 					</span>
 				</<?php echo $heading_tag; ?>>
 				<div id="site-description"><?php bloginfo( 'description' ); ?></div>
@@ -112,7 +112,7 @@ if ( is_singular() && get_option( 'thread_comments' ) ) {
 
 			<div id="access" role="navigation">
 				<?php // Allow screen readers / text browsers to skip the navigation menu and get right to the good stuff. ?>
-				<div class="skip-link screen-reader-text"><a href="#content" title="<?php esc_attr_e( 'Skip to content', 'twentyten' ); ?>"><?php _e( 'Skip to content', 'twentyten' ); ?></a></div>
+				<div class="skip-link screen-reader-text"><a href="#content"><?php _e( 'Skip to content', 'twentyten' ); ?></a></div>
 				<?php
 				/*
 				 * Our navigation menu. If one isn't filled out, wp_nav_menu() falls back to wp_page_menu().

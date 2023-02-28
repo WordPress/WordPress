@@ -608,7 +608,7 @@ html[lang="th"] .edit-post-visual-editor * {
 	padding: 0.7em 2em;
 	-webkit-transition: background-color 0.2s ease-in-out;
 	transition: background-color 0.2s ease-in-out;
-	white-space: nowrap;
+	white-space: pre-line;
 }
 
 /*--------------------------------------------------------------
@@ -735,7 +735,7 @@ table.wp-block-table td:last-child {
 	padding: 0.7em 2em;
 	-webkit-transition: background-color 0.2s ease-in-out;
 	transition: background-color 0.2s ease-in-out;
-	white-space: nowrap;
+	white-space: pre-line;
 }
 
 .wp-block-button .wp-block-button__link[data-is-placeholder-visible="true"] {

@@ -15,6 +15,7 @@
  *
  * @since 5.5.0
  */
+#[AllowDynamicProperties]
 class WP_Sitemaps_Index {
 	/**
 	 * The main registry of supported sitemaps.
@@ -27,7 +28,7 @@ class WP_Sitemaps_Index {
 	/**
 	 * Maximum number of sitemaps to include in an index.
 	 *
-	 * @sincee 5.5.0
+	 * @since 5.5.0
 	 *
 	 * @var int Maximum number of sitemaps.
 	 */

@@ -179,7 +179,7 @@ function network_step1( $errors = false ) {
 	}
 	?>
 	<p><?php _e( 'Welcome to the Network installation process!' ); ?></p>
-	<p><?php _e( 'Fill in the information below and you&#8217;ll be on your way to creating a network of WordPress sites. We will create configuration files in the next step.' ); ?></p>
+	<p><?php _e( 'Fill in the information below and you&#8217;ll be on your way to creating a network of WordPress sites. Configuration files will be created in the next step.' ); ?></p>
 	<?php
 
 	if ( isset( $_POST['subdomain_install'] ) ) {
@@ -271,7 +271,7 @@ function network_step1( $errors = false ) {
 		<?php
 		printf(
 			/* translators: 1: Site URL, 2: Host name, 3: www. */
-			__( 'We recommend you change your site domain to %1$s before enabling the network feature. It will still be possible to visit your site using the %3$s prefix with an address like %2$s but any links will not have the %3$s prefix.' ),
+			__( 'You should consider changing your site domain to %1$s before enabling the network feature. It will still be possible to visit your site using the %3$s prefix with an address like %2$s but any links will not have the %3$s prefix.' ),
 			'<code>' . substr( $hostname, 4 ) . '</code>',
 			'<code>' . $hostname . '</code>',
 			'<code>www</code>'
@@ -444,7 +444,7 @@ function network_step2( $errors = false ) {
 			echo '<strong>' . __( 'Caution:' ) . '</strong> ';
 			printf(
 				/* translators: 1: wp-config.php, 2: .htaccess */
-				__( 'We recommend you back up your existing %1$s and %2$s files.' ),
+				__( 'You should back up your existing %1$s and %2$s files.' ),
 				'<code>wp-config.php</code>',
 				'<code>.htaccess</code>'
 			);
@@ -452,7 +452,7 @@ function network_step2( $errors = false ) {
 			echo '<strong>' . __( 'Caution:' ) . '</strong> ';
 			printf(
 				/* translators: 1: wp-config.php, 2: web.config */
-				__( 'We recommend you back up your existing %1$s and %2$s files.' ),
+				__( 'You should back up your existing %1$s and %2$s files.' ),
 				'<code>wp-config.php</code>',
 				'<code>web.config</code>'
 			);
@@ -460,7 +460,7 @@ function network_step2( $errors = false ) {
 			echo '<strong>' . __( 'Caution:' ) . '</strong> ';
 			printf(
 				/* translators: %s: wp-config.php */
-				__( 'We recommend you back up your existing %s file.' ),
+				__( 'You should back up your existing %s file.' ),
 				'<code>wp-config.php</code>'
 			);
 		}
@@ -470,7 +470,7 @@ function network_step2( $errors = false ) {
 	}
 	?>
 	<ol>
-		<li><p>
+		<li><p id="network-wpconfig-rules-description">
 		<?php
 		printf(
 			/* translators: 1: wp-config.php, 2: Location of wp-config file, 3: Translated version of "That's all, stop editing! Happy publishing." */
@@ -486,7 +486,16 @@ function network_step2( $errors = false ) {
 		);
 		?>
 		</p>
-		<textarea class="code" readonly="readonly" cols="100" rows="7">
+		<p class="configuration-rules-label"><label for="network-wpconfig-rules">
+			<?php
+			printf(
+				/* translators: %s: File name (wp-config.php, .htaccess or web.config). */
+				__( 'Network configuration rules for %s' ),
+				'<code>wp-config.php</code>'
+			);
+			?>
+		</label></p>
+		<textarea id="network-wpconfig-rules" class="code" readonly="readonly" cols="100" rows="7" aria-describedby="network-wpconfig-rules-description">
 define( 'MULTISITE', true );
 define( 'SUBDOMAIN_INSTALL', <?php echo $subdomain_install ? 'true' : 'false'; ?> );
 define( 'DOMAIN_CURRENT_SITE', '<?php echo $hostname; ?>' );
@@ -526,7 +535,7 @@ define( 'BLOG_ID_CURRENT_SITE', 1 );
 			}
 			$num_keys_salts = count( $keys_salts );
 			?>
-		<p>
+		<p id="network-wpconfig-authentication-description">
 			<?php
 			if ( 1 === $num_keys_salts ) {
 				printf(
@@ -544,7 +553,8 @@ define( 'BLOG_ID_CURRENT_SITE', 1 );
 			?>
 			<?php _e( 'To make your installation more secure, you should also add:' ); ?>
 		</p>
-		<textarea class="code" readonly="readonly" cols="100" rows="<?php echo $num_keys_salts; ?>"><?php echo esc_textarea( $keys_salts_str ); ?></textarea>
+		<p class="configuration-rules-label"><label for="network-wpconfig-authentication"><?php _e( 'Network configuration authentication keys' ); ?></label></p>
+		<textarea id="network-wpconfig-authentication" class="code" readonly="readonly" cols="100" rows="<?php echo $num_keys_salts; ?>" aria-describedby="network-wpconfig-authentication-description"><?php echo esc_textarea( $keys_salts_str ); ?></textarea>
 			<?php
 		}
 		?>
@@ -603,7 +613,7 @@ define( 'BLOG_ID_CURRENT_SITE', 1 );
 </configuration>
 ';
 
-			echo '<li><p>';
+			echo '<li><p id="network-webconfig-rules-description">';
 			printf(
 				/* translators: 1: File name (.htaccess or web.config), 2: File path. */
 				__( 'Add the following to your %1$s file in %2$s, <strong>replacing</strong> other WordPress rules:' ),
@@ -615,7 +625,16 @@ define( 'BLOG_ID_CURRENT_SITE', 1 );
 			echo '<p><strong>' . __( 'Warning:' ) . ' ' . __( 'Subdirectory networks may not be fully compatible with custom wp-content directories.' ) . '</strong></p>';
 		}
 		?>
-		<textarea class="code" readonly="readonly" cols="100" rows="20"><?php echo esc_textarea( $web_config_file ); ?></textarea>
+			<p class="configuration-rules-label"><label for="network-webconfig-rules">
+				<?php
+				printf(
+					/* translators: %s: File name (wp-config.php, .htaccess or web.config). */
+					__( 'Network configuration rules for %s' ),
+					'<code>web.config</code>'
+				);
+				?>
+			</label></p>
+			<textarea id="network-webconfig-rules" class="code" readonly="readonly" cols="100" rows="20" aria-describedby="network-webconfig-rules-description"><?php echo esc_textarea( $web_config_file ); ?></textarea>
 		</li>
 	</ol>
 
@@ -626,7 +645,7 @@ define( 'BLOG_ID_CURRENT_SITE', 1 );
 		printf(
 			/* translators: %s: Documentation URL. */
 			__( 'It seems your network is running with Nginx web server. <a href="%s">Learn more about further configuration</a>.' ),
-			__( 'https://wordpress.org/support/article/nginx/' )
+			__( 'https://wordpress.org/documentation/article/nginx/' )
 		);
 		echo '</p></li>';
 
@@ -656,7 +675,7 @@ RewriteRule . index.php [L]
 
 EOF;
 
-		echo '<li><p>';
+		echo '<li><p id="network-htaccess-rules-description">';
 		printf(
 			/* translators: 1: File name (.htaccess or web.config), 2: File path. */
 			__( 'Add the following to your %1$s file in %2$s, <strong>replacing</strong> other WordPress rules:' ),
@@ -668,7 +687,16 @@ EOF;
 			echo '<p><strong>' . __( 'Warning:' ) . ' ' . __( 'Subdirectory networks may not be fully compatible with custom wp-content directories.' ) . '</strong></p>';
 		}
 		?>
-		<textarea class="code" readonly="readonly" cols="100" rows="<?php echo substr_count( $htaccess_file, "\n" ) + 1; ?>"><?php echo esc_textarea( $htaccess_file ); ?></textarea>
+			<p class="configuration-rules-label"><label for="network-htaccess-rules">
+				<?php
+				printf(
+					/* translators: %s: File name (wp-config.php, .htaccess or web.config). */
+					__( 'Network configuration rules for %s' ),
+					'<code>.htaccess</code>'
+				);
+				?>
+			</label></p>
+			<textarea id="network-htaccess-rules" class="code" readonly="readonly" cols="100" rows="<?php echo substr_count( $htaccess_file, "\n" ) + 1; ?>" aria-describedby="network-htaccess-rules-description"><?php echo esc_textarea( $htaccess_file ); ?></textarea>
 		</li>
 	</ol>
 

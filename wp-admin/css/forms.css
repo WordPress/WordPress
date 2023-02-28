@@ -776,6 +776,12 @@ ul#add-to-blog-users {
 
 .form-table p.timezone-info {
 	margin: 1em 0;
+	display: flex;
+	flex-direction: column;
+}
+
+#local-time {
+	margin-top: 0.5em;
 }
 
 .form-table td fieldset label {
@@ -885,6 +891,7 @@ table.form-table td .updated p {
 #application-passwords-section .notice {
 	margin-top: 20px;
 	margin-bottom: 0;
+	word-wrap: break-word;
 }
 
 .application-password-display input.code {
@@ -1062,16 +1069,49 @@ table.form-table td .updated p {
 }
 
 .settings-php .language-install-spinner,
-.options-general-php .language-install-spinner {
+.options-general-php .language-install-spinner,
+.user-edit-php .language-install-spinner,
+.profile-php .language-install-spinner {
 	display: inline-block;
 	float: none;
 	margin: -3px 5px 0;
 	vertical-align: middle;
 }
 
+.form-table.permalink-structure .available-structure-tags {
+	margin-top: 8px;
+}
+
+.form-table.permalink-structure .available-structure-tags ul {
+	display: flex;
+	flex-wrap: wrap;
+	margin: 8px 0 0;
+}
+
 .form-table.permalink-structure .available-structure-tags li {
-	float: left;
-	margin-right: 5px;
+	margin: 6px 5px 0 0;
+}
+
+.form-table.permalink-structure .available-structure-tags li:last-child {
+	margin-right: 0;
+}
+
+.form-table.permalink-structure .structure-selection .row {
+	margin-bottom: 16px;
+}
+
+.form-table.permalink-structure .structure-selection .row > div {
+	max-width: calc(100% - 24px);
+	display: inline-flex;
+	flex-direction: column;
+}
+
+.form-table.permalink-structure .structure-selection .row label {
+	font-weight: 600;
+}
+
+.form-table.permalink-structure .structure-selection .row p {
+	margin-top: 0;
 }
 
 /*------------------------------------------------------------------------------
@@ -1105,6 +1145,11 @@ table.form-table td .updated p {
 #search-users,
 #search-sites {
 	max-width: 60%;
+}
+
+.configuration-rules-label {
+	font-weight: 600;
+	margin-bottom: 4px;
 }
 
 /*------------------------------------------------------------------------------
@@ -1528,6 +1573,10 @@ table.form-table td .updated p {
 		margin: 0 3px;
 	}
 
+	.form-table .regular-text ~ input[type="text"].small-text {
+		margin-top: 5px;
+	}
+
 	#pass-strength-result {
 		width: 100%;
 		box-sizing: border-box;
@@ -1572,14 +1621,20 @@ table.form-table td .updated p {
 	}
 
 	.form-table.permalink-structure td code {
-		margin-left: 32px;
 		display: inline-block;
 	}
 
+	.form-table.permalink-structure .structure-selection {
+		margin-top: 8px;
+	}
+
+	.form-table.permalink-structure .structure-selection .row > div {
+		max-width: calc(100% - 36px);
+		width: 100%;
+	}
+
 	.form-table.permalink-structure td input[type="text"] {
-		margin-left: 32px;
 		margin-top: 4px;
-		width: 96%;
 	}
 
 	.form-table input.regular-text {
@@ -1596,13 +1651,6 @@ table.form-table td .updated p {
 
 	.form-table fieldset label {
 		display: block;
-	}
-
-	#utc-time,
-	#local-time {
-		display: block;
-		float: none;
-		margin-top: 0.5em;
 	}
 
 	.form-field #domain {
@@ -1639,6 +1687,10 @@ table.form-table td .updated p {
 		right: 2.5rem;
 	}
 
+	body.user-new-php .wp-pwd button.wp-hide-pw {
+		right: 0;
+	}
+
 	.wp-pwd button.button:hover,
 	.wp-pwd button.button:focus {
 		background: transparent;
@@ -1658,6 +1710,11 @@ table.form-table td .updated p {
 	.wp-pwd [type="password"] {
 		line-height: 2;
 		padding-right: 5rem;
+	}
+
+	body.user-new-php .wp-pwd [type="text"],
+	body.user-new-php .wp-pwd [type="password"] {
+		padding-right: 2.5rem;
 	}
 
 	.wp-cancel-pw .dashicons-no {

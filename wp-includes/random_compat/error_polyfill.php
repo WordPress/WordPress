@@ -1,12 +1,12 @@
 <?php
 /**
- * Random_* Compatibility Library 
+ * Random_* Compatibility Library
  * for using the new PHP 7 random_* API in PHP 5 projects
- * 
+ *
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 - 2017 Paragon Initiative Enterprises
- * 
+ * Copyright (c) 2015 - 2018 Paragon Initiative Enterprises
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -30,7 +30,7 @@ if (!class_exists('Error', false)) {
     // We can't really avoid making this extend Exception in PHP 5.
     class Error extends Exception
     {
-        
+
     }
 }
 
@@ -38,12 +38,12 @@ if (!class_exists('TypeError', false)) {
     if (is_subclass_of('Error', 'Exception')) {
         class TypeError extends Error
         {
-            
+
         }
     } else {
         class TypeError extends Exception
         {
-            
+
         }
     }
 }

@@ -59,7 +59,7 @@ function edit_link( $link_id = 0 ) {
  * @return stdClass Default link object.
  */
 function get_default_link_to_edit() {
-	$link = new stdClass;
+	$link = new stdClass();
 	if ( isset( $_GET['linkurl'] ) ) {
 		$link->link_url = esc_url( wp_unslash( $_GET['linkurl'] ) );
 	} else {
@@ -163,7 +163,6 @@ function get_link_to_edit( $link ) {
  *     @type string $link_visible     Optional. 'Y' means visible, anything else means not.
  *     @type int    $link_owner       Optional. A user ID.
  *     @type int    $link_rating      Optional. A rating for the link.
- *     @type string $link_updated     Optional. When the link was last updated.
  *     @type string $link_rel         Optional. A relationship of the link to you.
  *     @type string $link_notes       Optional. An extended description of or notes on the link.
  *     @type string $link_rss         Optional. A URL of an associated RSS feed.
@@ -328,7 +327,7 @@ function wp_update_link( $linkdata ) {
  * @since 3.5.0
  * @access private
  *
- * @global string $pagenow
+ * @global string $pagenow The filename of the current screen.
  */
 function wp_link_manager_disabled_message() {
 	global $pagenow;

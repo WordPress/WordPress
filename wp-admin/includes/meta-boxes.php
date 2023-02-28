@@ -76,7 +76,7 @@ function post_submit_meta_box( $post, $args = array() ) {
 				$preview_button = sprintf(
 					'%1$s<span class="screen-reader-text"> %2$s</span>',
 					$preview_button_text,
-					/* translators: Accessibility text. */
+					/* translators: Hidden accessibility text. */
 					__( '(opens in a new tab)' )
 				);
 				?>
@@ -132,11 +132,21 @@ function post_submit_meta_box( $post, $args = array() ) {
 					$private_style = 'style="display:none"';
 				}
 				?>
-				<a href="#post_status" <?php echo $private_style; ?> class="edit-post-status hide-if-no-js" role="button"><span aria-hidden="true"><?php _e( 'Edit' ); ?></span> <span class="screen-reader-text"><?php _e( 'Edit status' ); ?></span></a>
+				<a href="#post_status" <?php echo $private_style; ?> class="edit-post-status hide-if-no-js" role="button"><span aria-hidden="true"><?php _e( 'Edit' ); ?></span> <span class="screen-reader-text">
+					<?php
+					/* translators: Hidden accessibility text. */
+					_e( 'Edit status' );
+					?>
+				</span></a>
 
 				<div id="post-status-select" class="hide-if-js">
 					<input type="hidden" name="hidden_post_status" id="hidden_post_status" value="<?php echo esc_attr( ( 'auto-draft' === $post->post_status ) ? 'draft' : $post->post_status ); ?>" />
-					<label for="post_status" class="screen-reader-text"><?php _e( 'Set status' ); ?></label>
+					<label for="post_status" class="screen-reader-text">
+						<?php
+						/* translators: Hidden accessibility text. */
+						_e( 'Set status' );
+						?>
+					</label>
 					<select name="post_status" id="post_status">
 						<?php if ( 'publish' === $post->post_status ) : ?>
 							<option<?php selected( $post->post_status, 'publish' ); ?> value='publish'><?php _e( 'Published' ); ?></option>
@@ -184,7 +194,12 @@ function post_submit_meta_box( $post, $args = array() ) {
 			</span>
 
 			<?php if ( $can_publish ) { ?>
-				<a href="#visibility" class="edit-visibility hide-if-no-js" role="button"><span aria-hidden="true"><?php _e( 'Edit' ); ?></span> <span class="screen-reader-text"><?php _e( 'Edit visibility' ); ?></span></a>
+				<a href="#visibility" class="edit-visibility hide-if-no-js" role="button"><span aria-hidden="true"><?php _e( 'Edit' ); ?></span> <span class="screen-reader-text">
+					<?php
+					/* translators: Hidden accessibility text. */
+					_e( 'Edit visibility' );
+					?>
+				</span></a>
 
 				<div id="post-visibility-select" class="hide-if-js">
 					<input type="hidden" name="hidden_post_password" id="hidden-post-password" value="<?php echo esc_attr( $post->post_password ); ?>" />
@@ -257,7 +272,12 @@ function post_submit_meta_box( $post, $args = array() ) {
 				/* translators: Post revisions heading. %s: The number of available revisions. */
 				printf( __( 'Revisions: %s' ), '<b>' . number_format_i18n( $args['args']['revisions_count'] ) . '</b>' );
 				?>
-				<a class="hide-if-no-js" href="<?php echo esc_url( get_edit_post_link( $args['args']['revision_id'] ) ); ?>"><span aria-hidden="true"><?php _ex( 'Browse', 'revisions' ); ?></span> <span class="screen-reader-text"><?php _e( 'Browse revisions' ); ?></span></a>
+				<a class="hide-if-no-js" href="<?php echo esc_url( get_edit_post_link( $args['args']['revision_id'] ) ); ?>"><span aria-hidden="true"><?php _ex( 'Browse', 'revisions' ); ?></span> <span class="screen-reader-text">
+					<?php
+					/* translators: Hidden accessibility text. */
+					_e( 'Browse revisions' );
+					?>
+				</span></a>
 			</div>
 			<?php
 		endif;
@@ -270,10 +290,20 @@ function post_submit_meta_box( $post, $args = array() ) {
 				</span>
 				<a href="#edit_timestamp" class="edit-timestamp hide-if-no-js" role="button">
 					<span aria-hidden="true"><?php _e( 'Edit' ); ?></span>
-					<span class="screen-reader-text"><?php _e( 'Edit date and time' ); ?></span>
+					<span class="screen-reader-text">
+						<?php
+						/* translators: Hidden accessibility text. */
+						_e( 'Edit date and time' );
+						?>
+					</span>
 				</a>
 				<fieldset id="timestampdiv" class="hide-if-js">
-					<legend class="screen-reader-text"><?php _e( 'Date and time' ); ?></legend>
+					<legend class="screen-reader-text">
+						<?php
+						/* translators: Hidden accessibility text. */
+						_e( 'Date and time' );
+						?>
+					</legend>
 					<?php touch_time( ( 'edit' === $action ), 1 ); ?>
 				</fieldset>
 			</div>
@@ -287,7 +317,7 @@ function post_submit_meta_box( $post, $args = array() ) {
 					<?php
 					printf(
 						/* translators: %s: URL to the Customizer. */
-						__( 'This draft comes from your <a href="%s">unpublished customization changes</a>. You can edit, but there&#8217;s no need to publish now. It will be published automatically with those changes.' ),
+						__( 'This draft comes from your <a href="%s">unpublished customization changes</a>. You can edit, but there is no need to publish now. It will be published automatically with those changes.' ),
 						esc_url(
 							add_query_arg(
 								'changeset_uuid',
@@ -382,11 +412,11 @@ function post_submit_meta_box( $post, $args = array() ) {
 }
 
 /**
- * Display attachment submit form fields.
+ * Displays attachment submit form fields.
  *
  * @since 3.5.0
  *
- * @param WP_Post $post
+ * @param WP_Post $post Current post object.
  */
 function attachment_submit_meta_box( $post ) {
 	?>
@@ -442,7 +472,7 @@ function attachment_submit_meta_box( $post ) {
 			echo "<a class='submitdelete deletion' href='" . get_delete_post_link( $post->ID ) . "'>" . __( 'Move to Trash' ) . '</a>';
 		} else {
 			$delete_ays = ! MEDIA_TRASH ? " onclick='return showNotice.warn();'" : '';
-			echo "<a class='submitdelete deletion'$delete_ays href='" . get_delete_post_link( $post->ID, null, true ) . "'>" . __( 'Delete permanently' ) . '</a>';
+			echo "<a class='submitdelete deletion'$delete_ays href='" . get_delete_post_link( $post->ID, '', true ) . "'>" . __( 'Delete permanently' ) . '</a>';
 		}
 	}
 	?>
@@ -462,11 +492,11 @@ function attachment_submit_meta_box( $post ) {
 }
 
 /**
- * Display post format form elements.
+ * Displays post format form elements.
  *
  * @since 3.1.0
  *
- * @param WP_Post $post Post object.
+ * @param WP_Post $post Current post object.
  * @param array   $box {
  *     Post formats meta box arguments.
  *
@@ -485,14 +515,19 @@ function post_format_meta_box( $post, $box ) {
 			if ( ! $post_format ) {
 				$post_format = '0';
 			}
-			// Add in the current one if it isn't there yet, in case the current theme doesn't support it.
+			// Add in the current one if it isn't there yet, in case the active theme doesn't support it.
 			if ( $post_format && ! in_array( $post_format, $post_formats[0], true ) ) {
 				$post_formats[0][] = $post_format;
 			}
 			?>
 		<div id="post-formats-select">
 		<fieldset>
-			<legend class="screen-reader-text"><?php _e( 'Post Formats' ); ?></legend>
+			<legend class="screen-reader-text">
+				<?php
+				/* translators: Hidden accessibility text. */
+				_e( 'Post Formats' );
+				?>
+			</legend>
 			<input type="radio" name="post_format" class="post-format" id="post-format-0" value="0" <?php checked( $post_format, '0' ); ?> /> <label for="post-format-0" class="post-format-icon post-format-standard"><?php echo get_post_format_string( 'standard' ); ?></label>
 			<?php foreach ( $post_formats[0] as $format ) : ?>
 			<br /><input type="radio" name="post_format" class="post-format" id="post-format-<?php echo esc_attr( $format ); ?>" value="<?php echo esc_attr( $format ); ?>" <?php checked( $post_format, $format ); ?> /> <label for="post-format-<?php echo esc_attr( $format ); ?>" class="post-format-icon post-format-<?php echo esc_attr( $format ); ?>"><?php echo esc_html( get_post_format_string( $format ) ); ?></label>
@@ -505,13 +540,13 @@ endif;
 }
 
 /**
- * Display post tags form fields.
+ * Displays post tags form fields.
  *
  * @since 2.6.0
  *
  * @todo Create taxonomy-agnostic wrapper for this.
  *
- * @param WP_Post $post Post object.
+ * @param WP_Post $post Current post object.
  * @param array   $box {
  *     Tags meta box arguments.
  *
@@ -568,13 +603,13 @@ function post_tags_meta_box( $post, $box ) {
 }
 
 /**
- * Display post categories form fields.
+ * Displays post categories form fields.
  *
  * @since 2.6.0
  *
  * @todo Create taxonomy-agnostic wrapper for this.
  *
- * @param WP_Post $post Post object.
+ * @param WP_Post $post Current post object.
  * @param array   $box {
  *     Categories meta box arguments.
  *
@@ -692,21 +727,26 @@ function post_categories_meta_box( $post, $box ) {
 }
 
 /**
- * Display post excerpt form fields.
+ * Displays post excerpt form fields.
  *
  * @since 2.6.0
  *
- * @param WP_Post $post
+ * @param WP_Post $post Current post object.
  */
 function post_excerpt_meta_box( $post ) {
 	?>
-<label class="screen-reader-text" for="excerpt"><?php _e( 'Excerpt' ); ?></label><textarea rows="1" cols="40" name="excerpt" id="excerpt"><?php echo $post->post_excerpt; // textarea_escaped ?></textarea>
+<label class="screen-reader-text" for="excerpt">
+	<?php
+	/* translators: Hidden accessibility text. */
+	_e( 'Excerpt' );
+	?>
+</label><textarea rows="1" cols="40" name="excerpt" id="excerpt"><?php echo $post->post_excerpt; // textarea_escaped ?></textarea>
 <p>
 	<?php
 	printf(
 		/* translators: %s: Documentation URL. */
 		__( 'Excerpts are optional hand-crafted summaries of your content that can be used in your theme. <a href="%s">Learn more about manual excerpts</a>.' ),
-		__( 'https://wordpress.org/support/article/excerpt/' )
+		__( 'https://wordpress.org/documentation/article/what-is-an-excerpt-classic-editor/' )
 	);
 	?>
 </p>
@@ -714,11 +754,11 @@ function post_excerpt_meta_box( $post ) {
 }
 
 /**
- * Display trackback links form fields.
+ * Displays trackback links form fields.
  *
  * @since 2.6.0
  *
- * @param WP_Post $post
+ * @param WP_Post $post Current post object.
  */
 function post_trackback_meta_box( $post ) {
 	$form_trackback = '<input type="text" name="trackback_url" id="trackback_url" class="code" value="' .
@@ -744,7 +784,7 @@ function post_trackback_meta_box( $post ) {
 	printf(
 		/* translators: %s: Documentation URL. */
 		__( 'Trackbacks are a way to notify legacy blog systems that you&#8217;ve linked to them. If you link other WordPress sites, they&#8217;ll be notified automatically using <a href="%s">pingbacks</a>, no other action necessary.' ),
-		__( 'https://wordpress.org/support/article/introduction-to-blogging/#comments' )
+		__( 'https://wordpress.org/documentation/article/introduction-to-blogging/#comments' )
 	);
 	?>
 </p>
@@ -755,11 +795,11 @@ function post_trackback_meta_box( $post ) {
 }
 
 /**
- * Display custom fields form fields.
+ * Displays custom fields form fields.
  *
  * @since 2.6.0
  *
- * @param WP_Post $post
+ * @param WP_Post $post Current post object.
  */
 function post_custom_meta_box( $post ) {
 	?>
@@ -781,7 +821,7 @@ function post_custom_meta_box( $post ) {
 	printf(
 		/* translators: %s: Documentation URL. */
 		__( 'Custom fields can be used to add extra metadata to a post that you can <a href="%s">use in your theme</a>.' ),
-		__( 'https://wordpress.org/support/article/custom-fields/' )
+		__( 'https://wordpress.org/documentation/article/assign-custom-fields/' )
 	);
 	?>
 </p>
@@ -789,11 +829,11 @@ function post_custom_meta_box( $post ) {
 }
 
 /**
- * Display comments status form fields.
+ * Displays comments status form fields.
  *
  * @since 2.6.0
  *
- * @param WP_Post $post
+ * @param WP_Post $post Current post object.
  */
 function post_comment_status_meta_box( $post ) {
 	?>
@@ -804,8 +844,8 @@ function post_comment_status_meta_box( $post ) {
 		<?php
 		printf(
 			/* translators: %s: Documentation URL. */
-			__( 'Allow <a href="%s">trackbacks and pingbacks</a> on this page' ),
-			__( 'https://wordpress.org/support/article/introduction-to-blogging/#managing-comments' )
+			__( 'Allow <a href="%s">trackbacks and pingbacks</a>' ),
+			__( 'https://wordpress.org/documentation/article/introduction-to-blogging/#managing-comments' )
 		);
 		?>
 	</label>
@@ -815,7 +855,7 @@ function post_comment_status_meta_box( $post ) {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param WP_Post $post WP_Post object of the current post.
+	 * @param WP_Post $post WP_Post object for the current post.
 	 */
 	do_action( 'post_comment_status_meta_box-options', $post ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 	?>
@@ -824,11 +864,11 @@ function post_comment_status_meta_box( $post ) {
 }
 
 /**
- * Display comments for post table header
+ * Displays comments for post table header
  *
  * @since 3.0.0
  *
- * @param array $result table header rows
+ * @param array $result Table header rows.
  * @return array
  */
 function post_comment_meta_box_thead( $result ) {
@@ -837,11 +877,11 @@ function post_comment_meta_box_thead( $result ) {
 }
 
 /**
- * Display comments for post.
+ * Displays comments for post.
  *
  * @since 2.8.0
  *
- * @param WP_Post $post
+ * @param WP_Post $post Current post object.
  */
 function post_comment_meta_box( $post ) {
 	wp_nonce_field( 'get-comments', 'add_comment_nonce', false );
@@ -865,7 +905,7 @@ function post_comment_meta_box( $post ) {
 		$hidden = get_hidden_meta_boxes( get_current_screen() );
 		if ( ! in_array( 'commentsdiv', $hidden, true ) ) {
 			?>
-			<script type="text/javascript">jQuery(document).ready(function(){commentsBox.get(<?php echo $total; ?>, 10);});</script>
+			<script type="text/javascript">jQuery(function(){commentsBox.get(<?php echo $total; ?>, 10);});</script>
 			<?php
 		}
 
@@ -878,37 +918,49 @@ function post_comment_meta_box( $post ) {
 }
 
 /**
- * Display slug form fields.
+ * Displays slug form fields.
  *
  * @since 2.6.0
  *
- * @param WP_Post $post
+ * @param WP_Post $post Current post object.
  */
 function post_slug_meta_box( $post ) {
 	/** This filter is documented in wp-admin/edit-tag-form.php */
 	$editable_slug = apply_filters( 'editable_slug', $post->post_name, $post );
 	?>
-<label class="screen-reader-text" for="post_name"><?php _e( 'Slug' ); ?></label><input name="post_name" type="text" size="13" id="post_name" value="<?php echo esc_attr( $editable_slug ); ?>" />
+<label class="screen-reader-text" for="post_name">
+	<?php
+	/* translators: Hidden accessibility text. */
+	_e( 'Slug' );
+	?>
+</label><input name="post_name" type="text" class="large-text" id="post_name" value="<?php echo esc_attr( $editable_slug ); ?>" />
 	<?php
 }
 
 /**
- * Display form field with list of authors.
+ * Displays form field with list of authors.
  *
  * @since 2.6.0
  *
  * @global int $user_ID
  *
- * @param WP_Post $post
+ * @param WP_Post $post Current post object.
  */
 function post_author_meta_box( $post ) {
 	global $user_ID;
+
+	$post_type_object = get_post_type_object( $post->post_type );
 	?>
-<label class="screen-reader-text" for="post_author_override"><?php _e( 'Author' ); ?></label>
+<label class="screen-reader-text" for="post_author_override">
+	<?php
+	/* translators: Hidden accessibility text. */
+	_e( 'Author' );
+	?>
+</label>
 	<?php
 	wp_dropdown_users(
 		array(
-			'who'              => 'authors',
+			'capability'       => array( $post_type_object->cap->edit_posts ),
 			'name'             => 'post_author_override',
 			'selected'         => empty( $post->ID ) ? $user_ID : $post->post_author,
 			'include_selected' => true,
@@ -918,11 +970,11 @@ function post_author_meta_box( $post ) {
 }
 
 /**
- * Display list of revisions.
+ * Displays list of revisions.
  *
  * @since 2.6.0
  *
- * @param WP_Post $post
+ * @param WP_Post $post Current post object.
  */
 function post_revisions_meta_box( $post ) {
 	wp_list_post_revisions( $post );
@@ -933,11 +985,11 @@ function post_revisions_meta_box( $post ) {
 //
 
 /**
- * Display page attributes form fields.
+ * Displays page attributes form fields.
  *
  * @since 2.7.0
  *
- * @param WP_Post $post
+ * @param WP_Post $post Current post object.
  */
 function page_attributes_meta_box( $post ) {
 	if ( is_post_type_hierarchical( $post->post_type ) ) :
@@ -982,8 +1034,8 @@ function page_attributes_meta_box( $post ) {
 		 *
 		 * @since 4.4.0
 		 *
-		 * @param string  $template The template used for the current post.
-		 * @param WP_Post $post     The current post.
+		 * @param string|false $template The template used for the current post.
+		 * @param WP_Post      $post     The current post.
 		 */
 		do_action( 'page_attributes_meta_box_template', $template, $post );
 		?>
@@ -1030,11 +1082,11 @@ function page_attributes_meta_box( $post ) {
 //
 
 /**
- * Display link create form fields.
+ * Displays link create form fields.
  *
  * @since 2.7.0
  *
- * @param object $link
+ * @param object $link Current link object.
  */
 function link_submit_meta_box( $link ) {
 	?>
@@ -1106,11 +1158,11 @@ function link_submit_meta_box( $link ) {
 }
 
 /**
- * Display link categories form fields.
+ * Displays link categories form fields.
  *
  * @since 2.6.0
  *
- * @param object $link
+ * @param object $link Current link object.
  */
 function link_categories_meta_box( $link ) {
 	?>
@@ -1141,7 +1193,12 @@ function link_categories_meta_box( $link ) {
 	<div id="category-adder" class="wp-hidden-children">
 		<a id="category-add-toggle" href="#category-add" class="taxonomy-add-new"><?php _e( '+ Add New Category' ); ?></a>
 		<p id="link-category-add" class="wp-hidden-child">
-			<label class="screen-reader-text" for="newcat"><?php _e( '+ Add New Category' ); ?></label>
+			<label class="screen-reader-text" for="newcat">
+				<?php
+				/* translators: Hidden accessibility text. */
+				_e( '+ Add New Category' );
+				?>
+			</label>
 			<input type="text" name="newcat" id="newcat" class="form-required form-input-tip" value="<?php esc_attr_e( 'New category name' ); ?>" aria-required="true" />
 			<input type="button" id="link-category-add-submit" data-wp-lists="add:categorychecklist:link-category-add" class="button" value="<?php esc_attr_e( 'Add' ); ?>" />
 			<?php wp_nonce_field( 'add-link-category', '_ajax_nonce', false ); ?>
@@ -1153,16 +1210,21 @@ function link_categories_meta_box( $link ) {
 }
 
 /**
- * Display form fields for changing link target.
+ * Displays form fields for changing link target.
  *
  * @since 2.6.0
  *
- * @param object $link
+ * @param object $link Current link object.
  */
 function link_target_meta_box( $link ) {
 
 	?>
-<fieldset><legend class="screen-reader-text"><span><?php _e( 'Target' ); ?></span></legend>
+<fieldset><legend class="screen-reader-text"><span>
+	<?php
+	/* translators: Hidden accessibility text. */
+	_e( 'Target' );
+	?>
+</span></legend>
 <p><label for="link_target_blank" class="selectit">
 <input id="link_target_blank" type="radio" name="link_target" value="_blank" <?php echo ( isset( $link->link_target ) && ( '_blank' === $link->link_target ) ? 'checked="checked"' : '' ); ?> />
 	<?php _e( '<code>_blank</code> &mdash; new window or tab.' ); ?></label></p>
@@ -1178,52 +1240,70 @@ function link_target_meta_box( $link ) {
 }
 
 /**
- * Display checked checkboxes attribute for xfn microformat options.
+ * Displays 'checked' checkboxes attribute for XFN microformat options.
  *
  * @since 1.0.1
  *
- * @global object $link
+ * @global object $link Current link object.
  *
- * @param string $class
- * @param string $value
- * @param mixed  $deprecated Never used.
+ * @param string $xfn_relationship XFN relationship category. Possible values are:
+ *                                 'friendship', 'physical', 'professional',
+ *                                 'geographical', 'family', 'romantic', 'identity'.
+ * @param string $xfn_value        Optional. The XFN value to mark as checked
+ *                                 if it matches the current link's relationship.
+ *                                 Default empty string.
+ * @param mixed  $deprecated       Deprecated. Not used.
  */
-function xfn_check( $class, $value = '', $deprecated = '' ) {
+function xfn_check( $xfn_relationship, $xfn_value = '', $deprecated = '' ) {
 	global $link;
 
 	if ( ! empty( $deprecated ) ) {
 		_deprecated_argument( __FUNCTION__, '2.5.0' ); // Never implemented.
 	}
 
-	$link_rel = isset( $link->link_rel ) ? $link->link_rel : ''; // In PHP 5.3: $link_rel = $link->link_rel ?: '';
-	$rels     = preg_split( '/\s+/', $link_rel );
+	$link_rel  = isset( $link->link_rel ) ? $link->link_rel : ''; // In PHP 5.3: $link_rel = $link->link_rel ?: '';
+	$link_rels = preg_split( '/\s+/', $link_rel );
 
-	if ( '' !== $value && in_array( $value, $rels, true ) ) {
+	// Mark the specified value as checked if it matches the current link's relationship.
+	if ( '' !== $xfn_value && in_array( $xfn_value, $link_rels, true ) ) {
 		echo ' checked="checked"';
 	}
 
-	if ( '' === $value ) {
-		if ( 'family' === $class && strpos( $link_rel, 'child' ) === false && strpos( $link_rel, 'parent' ) === false && strpos( $link_rel, 'sibling' ) === false && strpos( $link_rel, 'spouse' ) === false && strpos( $link_rel, 'kin' ) === false ) {
+	if ( '' === $xfn_value ) {
+		// Mark the 'none' value as checked if the current link does not match the specified relationship.
+		if ( 'family' === $xfn_relationship
+			&& ! array_intersect( $link_rels, array( 'child', 'parent', 'sibling', 'spouse', 'kin' ) )
+		) {
 			echo ' checked="checked"';
 		}
-		if ( 'friendship' === $class && strpos( $link_rel, 'friend' ) === false && strpos( $link_rel, 'acquaintance' ) === false && strpos( $link_rel, 'contact' ) === false ) {
+
+		if ( 'friendship' === $xfn_relationship
+			&& ! array_intersect( $link_rels, array( 'friend', 'acquaintance', 'contact' ) )
+		) {
 			echo ' checked="checked"';
 		}
-		if ( 'geographical' === $class && strpos( $link_rel, 'co-resident' ) === false && strpos( $link_rel, 'neighbor' ) === false ) {
+
+		if ( 'geographical' === $xfn_relationship
+			&& ! array_intersect( $link_rels, array( 'co-resident', 'neighbor' ) )
+		) {
 			echo ' checked="checked"';
 		}
-		if ( 'identity' === $class && in_array( 'me', $rels, true ) ) {
+
+		// Mark the 'me' value as checked if it matches the current link's relationship.
+		if ( 'identity' === $xfn_relationship
+			&& in_array( 'me', $link_rels, true )
+		) {
 			echo ' checked="checked"';
 		}
 	}
 }
 
 /**
- * Display xfn form fields.
+ * Displays XFN form fields.
  *
  * @since 2.6.0
  *
- * @param object $link
+ * @param object $link Current link object.
  */
 function link_xfn_meta_box( $link ) {
 	?>
@@ -1234,7 +1314,13 @@ function link_xfn_meta_box( $link ) {
 	</tr>
 	<tr>
 		<th scope="row"><?php /* translators: xfn: https://gmpg.org/xfn/ */ _e( 'identity' ); ?></th>
-		<td><fieldset><legend class="screen-reader-text"><span><?php /* translators: xfn: https://gmpg.org/xfn/ */ _e( 'identity' ); ?></span></legend>
+		<td><fieldset>
+			<legend class="screen-reader-text"><span>
+				<?php
+				/* translators: Hidden accessibility text. xfn: https://gmpg.org/xfn/ */
+				_e( 'identity' );
+				?>
+			</span></legend>
 			<label for="me">
 			<input type="checkbox" name="identity" value="me" id="me" <?php xfn_check( 'identity', 'me' ); ?> />
 			<?php _e( 'another web address of mine' ); ?></label>
@@ -1242,7 +1328,13 @@ function link_xfn_meta_box( $link ) {
 	</tr>
 	<tr>
 		<th scope="row"><?php /* translators: xfn: https://gmpg.org/xfn/ */ _e( 'friendship' ); ?></th>
-		<td><fieldset><legend class="screen-reader-text"><span><?php /* translators: xfn: https://gmpg.org/xfn/ */ _e( 'friendship' ); ?></span></legend>
+		<td><fieldset>
+			<legend class="screen-reader-text"><span>
+				<?php
+				/* translators: Hidden accessibility text. xfn: https://gmpg.org/xfn/ */
+				_e( 'friendship' );
+				?>
+			</span></legend>
 			<label for="contact">
 			<input class="valinp" type="radio" name="friendship" value="contact" id="contact" <?php xfn_check( 'friendship', 'contact' ); ?> />&nbsp;<?php /* translators: xfn: https://gmpg.org/xfn/ */ _e( 'contact' ); ?>
 			</label>
@@ -1259,7 +1351,13 @@ function link_xfn_meta_box( $link ) {
 	</tr>
 	<tr>
 		<th scope="row"> <?php /* translators: xfn: https://gmpg.org/xfn/ */ _e( 'physical' ); ?> </th>
-		<td><fieldset><legend class="screen-reader-text"><span><?php /* translators: xfn: https://gmpg.org/xfn/ */ _e( 'physical' ); ?></span></legend>
+		<td><fieldset>
+			<legend class="screen-reader-text"><span>
+				<?php
+				/* translators: Hidden accessibility text. xfn: https://gmpg.org/xfn/ */
+				_e( 'physical' );
+				?>
+			</span></legend>
 			<label for="met">
 			<input class="valinp" type="checkbox" name="physical" value="met" id="met" <?php xfn_check( 'physical', 'met' ); ?> />&nbsp;<?php /* translators: xfn: https://gmpg.org/xfn/ */ _e( 'met' ); ?>
 			</label>
@@ -1267,7 +1365,13 @@ function link_xfn_meta_box( $link ) {
 	</tr>
 	<tr>
 		<th scope="row"> <?php /* translators: xfn: https://gmpg.org/xfn/ */ _e( 'professional' ); ?> </th>
-		<td><fieldset><legend class="screen-reader-text"><span><?php /* translators: xfn: https://gmpg.org/xfn/ */ _e( 'professional' ); ?></span></legend>
+		<td><fieldset>
+			<legend class="screen-reader-text"><span>
+				<?php
+				/* translators: Hidden accessibility text. xfn: https://gmpg.org/xfn/ */
+				_e( 'professional' );
+				?>
+			</span></legend>
 			<label for="co-worker">
 			<input class="valinp" type="checkbox" name="professional" value="co-worker" id="co-worker" <?php xfn_check( 'professional', 'co-worker' ); ?> />&nbsp;<?php /* translators: xfn: https://gmpg.org/xfn/ */ _e( 'co-worker' ); ?>
 			</label>
@@ -1278,7 +1382,13 @@ function link_xfn_meta_box( $link ) {
 	</tr>
 	<tr>
 		<th scope="row"><?php /* translators: xfn: https://gmpg.org/xfn/ */ _e( 'geographical' ); ?></th>
-		<td><fieldset><legend class="screen-reader-text"><span> <?php /* translators: xfn: https://gmpg.org/xfn/ */ _e( 'geographical' ); ?> </span></legend>
+		<td><fieldset>
+			<legend class="screen-reader-text"><span>
+				<?php
+				/* translators: Hidden accessibility text. xfn: https://gmpg.org/xfn/ */
+				_e( 'geographical' );
+				?>
+			</span></legend>
 			<label for="co-resident">
 			<input class="valinp" type="radio" name="geographical" value="co-resident" id="co-resident" <?php xfn_check( 'geographical', 'co-resident' ); ?> />&nbsp;<?php /* translators: xfn: https://gmpg.org/xfn/ */ _e( 'co-resident' ); ?>
 			</label>
@@ -1292,7 +1402,13 @@ function link_xfn_meta_box( $link ) {
 	</tr>
 	<tr>
 		<th scope="row"><?php /* translators: xfn: https://gmpg.org/xfn/ */ _e( 'family' ); ?></th>
-		<td><fieldset><legend class="screen-reader-text"><span> <?php /* translators: xfn: https://gmpg.org/xfn/ */ _e( 'family' ); ?> </span></legend>
+		<td><fieldset>
+			<legend class="screen-reader-text"><span>
+				<?php
+				/* translators: Hidden accessibility text. xfn: https://gmpg.org/xfn/ */
+				_e( 'family' );
+				?>
+			</span></legend>
 			<label for="child">
 			<input class="valinp" type="radio" name="family" value="child" id="child" <?php xfn_check( 'family', 'child' ); ?> />&nbsp;<?php /* translators: xfn: https://gmpg.org/xfn/ */ _e( 'child' ); ?>
 			</label>
@@ -1315,7 +1431,13 @@ function link_xfn_meta_box( $link ) {
 	</tr>
 	<tr>
 		<th scope="row"><?php /* translators: xfn: https://gmpg.org/xfn/ */ _e( 'romantic' ); ?></th>
-		<td><fieldset><legend class="screen-reader-text"><span> <?php /* translators: xfn: https://gmpg.org/xfn/ */ _e( 'romantic' ); ?> </span></legend>
+		<td><fieldset>
+			<legend class="screen-reader-text"><span>
+				<?php
+				/* translators: Hidden accessibility text. xfn: https://gmpg.org/xfn/ */
+				_e( 'romantic' );
+				?>
+			</span></legend>
 			<label for="muse">
 			<input class="valinp" type="checkbox" name="romantic" value="muse" id="muse" <?php xfn_check( 'romantic', 'muse' ); ?> />&nbsp;<?php /* translators: xfn: https://gmpg.org/xfn/ */ _e( 'muse' ); ?>
 			</label>
@@ -1337,11 +1459,11 @@ function link_xfn_meta_box( $link ) {
 }
 
 /**
- * Display advanced link options form fields.
+ * Displays advanced link options form fields.
  *
  * @since 2.6.0
  *
- * @param object $link
+ * @param object $link Current link object.
  */
 function link_advanced_meta_box( $link ) {
 	?>
@@ -1362,12 +1484,12 @@ function link_advanced_meta_box( $link ) {
 		<th scope="row"><label for="link_rating"><?php _e( 'Rating' ); ?></label></th>
 		<td><select name="link_rating" id="link_rating" size="1">
 		<?php
-		for ( $parsed_args = 0; $parsed_args <= 10; $parsed_args++ ) {
-			echo '<option value="' . $parsed_args . '"';
-			if ( isset( $link->link_rating ) && $link->link_rating == $parsed_args ) {
+		for ( $rating = 0; $rating <= 10; $rating++ ) {
+			echo '<option value="' . $rating . '"';
+			if ( isset( $link->link_rating ) && $link->link_rating == $rating ) {
 				echo ' selected="selected"';
 			}
-			echo( '>' . $parsed_args . '</option>' );
+			echo '>' . $rating . '</option>';
 		}
 		?>
 		</select>&nbsp;<?php _e( '(Leave at 0 for no rating.)' ); ?>
@@ -1378,11 +1500,11 @@ function link_advanced_meta_box( $link ) {
 }
 
 /**
- * Display post thumbnail meta box.
+ * Displays post thumbnail meta box.
  *
  * @since 2.9.0
  *
- * @param WP_Post $post A post object.
+ * @param WP_Post $post Current post object.
  */
 function post_thumbnail_meta_box( $post ) {
 	$thumbnail_id = get_post_meta( $post->ID, '_thumbnail_id', true );
@@ -1390,11 +1512,11 @@ function post_thumbnail_meta_box( $post ) {
 }
 
 /**
- * Display fields for ID3 data
+ * Displays fields for ID3 data.
  *
  * @since 3.9.0
  *
- * @param WP_Post $post A post object.
+ * @param WP_Post $post Current post object.
  */
 function attachment_id3_data_meta_box( $post ) {
 	$meta = array();
@@ -1439,13 +1561,13 @@ function register_and_do_post_meta_boxes( $post ) {
 	$publish_callback_args = array( '__back_compat_meta_box' => true );
 
 	if ( post_type_supports( $post_type, 'revisions' ) && 'auto-draft' !== $post->post_status ) {
-		$revisions = wp_get_post_revisions( $post->ID, array( 'fields' => 'ids' ) );
+		$revisions = wp_get_latest_revision_id_and_total_count( $post->ID );
 
 		// We should aim to show the revisions meta box only when there are revisions.
-		if ( count( $revisions ) > 1 ) {
+		if ( ! is_wp_error( $revisions ) && $revisions['count'] > 1 ) {
 			$publish_callback_args = array(
-				'revisions_count'        => count( $revisions ),
-				'revision_id'            => reset( $revisions ),
+				'revisions_count'        => $revisions['count'],
+				'revision_id'            => $revisions['latest_id'],
 				'__back_compat_meta_box' => true,
 			);
 

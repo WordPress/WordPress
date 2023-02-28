@@ -80,7 +80,7 @@ class WP_Block_Parser_Block {
 	 * @param string $innerHTML    Resultant HTML from inside block comment delimiters after removing inner blocks.
 	 * @param array  $innerContent List of string fragments and null markers where inner blocks were found.
 	 */
-	function __construct( $name, $attrs, $innerBlocks, $innerHTML, $innerContent ) {
+	public function __construct( $name, $attrs, $innerBlocks, $innerHTML, $innerContent ) {
 		$this->blockName    = $name;
 		$this->attrs        = $attrs;
 		$this->innerBlocks  = $innerBlocks;
@@ -152,7 +152,7 @@ class WP_Block_Parser_Frame {
 	 * @param int                   $prev_offset        Byte offset into document for after parse token ends.
 	 * @param int                   $leading_html_start Byte offset into document where leading HTML before token starts.
 	 */
-	function __construct( $block, $token_start, $token_length, $prev_offset = null, $leading_html_start = null ) {
+	public function __construct( $block, $token_start, $token_length, $prev_offset = null, $leading_html_start = null ) {
 		$this->block              = $block;
 		$this->token_start        = $token_start;
 		$this->token_length       = $token_length;
@@ -222,18 +222,18 @@ class WP_Block_Parser {
 	 * @since 5.0.0
 	 *
 	 * @param string $document Input document being parsed.
-	 * @return WP_Block_Parser_Block[]
+	 * @return array[]
 	 */
-	function parse( $document ) {
+	public function parse( $document ) {
 		$this->document    = $document;
 		$this->offset      = 0;
 		$this->output      = array();
 		$this->stack       = array();
 		$this->empty_attrs = json_decode( '{}', true );
 
-		do {
-			// twiddle our thumbs.
-		} while ( $this->proceed() );
+		while ( $this->proceed() ) {
+			continue;
+		}
 
 		return $this->output;
 	}
@@ -252,7 +252,7 @@ class WP_Block_Parser {
 	 * @since 5.0.0
 	 * @return bool
 	 */
-	function proceed() {
+	public function proceed() {
 		$next_token = $this->next_token();
 		list( $token_type, $block_name, $attrs, $start_offset, $token_length ) = $next_token;
 		$stack_depth = count( $this->stack );
@@ -398,7 +398,7 @@ class WP_Block_Parser {
 	 * @since 4.6.1 fixed a bug in attribute parsing which caused catastrophic backtracking on invalid block comments
 	 * @return array
 	 */
-	function next_token() {
+	public function next_token() {
 		$matches = null;
 
 		/*
@@ -473,7 +473,7 @@ class WP_Block_Parser {
 	 * @param string $innerHTML HTML content of block.
 	 * @return WP_Block_Parser_Block freeform block object.
 	 */
-	function freeform( $innerHTML ) {
+	public function freeform( $innerHTML ) {
 		return new WP_Block_Parser_Block( null, $this->empty_attrs, array(), $innerHTML, array( $innerHTML ) );
 	}
 
@@ -485,7 +485,7 @@ class WP_Block_Parser {
 	 * @since 5.0.0
 	 * @param null $length how many bytes of document text to output.
 	 */
-	function add_freeform( $length = null ) {
+	public function add_freeform( $length = null ) {
 		$length = $length ? $length : strlen( $this->document ) - $this->offset;
 
 		if ( 0 === $length ) {
@@ -506,7 +506,7 @@ class WP_Block_Parser {
 	 * @param int                   $token_length Byte length of entire block from start of opening token to end of closing token.
 	 * @param int|null              $last_offset  Last byte offset into document if continuing form earlier output.
 	 */
-	function add_inner_block( WP_Block_Parser_Block $block, $token_start, $token_length, $last_offset = null ) {
+	public function add_inner_block( WP_Block_Parser_Block $block, $token_start, $token_length, $last_offset = null ) {
 		$parent                       = $this->stack[ count( $this->stack ) - 1 ];
 		$parent->block->innerBlocks[] = (array) $block;
 		$html                         = substr( $this->document, $parent->prev_offset, $token_start - $parent->prev_offset );
@@ -527,7 +527,7 @@ class WP_Block_Parser {
 	 * @since 5.0.0
 	 * @param int|null $end_offset byte offset into document for where we should stop sending text output as HTML.
 	 */
-	function add_block_from_stack( $end_offset = null ) {
+	public function add_block_from_stack( $end_offset = null ) {
 		$stack_top   = array_pop( $this->stack );
 		$prev_offset = $stack_top->prev_offset;
 

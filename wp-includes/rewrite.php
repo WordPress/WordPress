@@ -144,7 +144,7 @@ function add_rewrite_rule( $regex, $query, $after = 'bottom' ) {
 }
 
 /**
- * Add a new rewrite tag (like %postname%).
+ * Adds a new rewrite tag (like %postname%).
  *
  * The `$query` parameter is optional. If it is omitted you must ensure that you call
  * this on, or before, the {@see 'init'} hook. This is because `$query` defaults to
@@ -191,7 +191,7 @@ function remove_rewrite_tag( $tag ) {
 }
 
 /**
- * Add permalink structure.
+ * Adds a permalink structure.
  *
  * @since 3.0.0
  *
@@ -237,17 +237,17 @@ function remove_permastruct( $name ) {
 }
 
 /**
- * Add a new feed type like /atom1/.
+ * Adds a new feed type like /atom1/.
  *
  * @since 2.1.0
  *
  * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
  * @param string   $feedname Feed name.
- * @param callable $function Callback to run on feed display.
+ * @param callable $callback Callback to run on feed display.
  * @return string Feed action name.
  */
-function add_feed( $feedname, $function ) {
+function add_feed( $feedname, $callback ) {
 	global $wp_rewrite;
 
 	if ( ! in_array( $feedname, $wp_rewrite->feeds, true ) ) {
@@ -259,13 +259,13 @@ function add_feed( $feedname, $function ) {
 	// Remove default function hook.
 	remove_action( $hook, $hook );
 
-	add_action( $hook, $function, 10, 2 );
+	add_action( $hook, $callback, 10, 2 );
 
 	return $hook;
 }
 
 /**
- * Remove rewrite rules and then recreate rewrite rules.
+ * Removes rewrite rules and then recreate rewrite rules.
  *
  * @since 3.0.0
  *
@@ -283,7 +283,7 @@ function flush_rewrite_rules( $hard = true ) {
 }
 
 /**
- * Add an endpoint, like /trackback/.
+ * Adds an endpoint, like /trackback/.
  *
  * Adding an endpoint creates extra rewrite rules for each of the matching
  * places specified by the provided bitmask. For example:
@@ -357,7 +357,7 @@ function _wp_filter_taxonomy_base( $base ) {
 
 
 /**
- * Resolve numeric slugs that collide with date permalinks.
+ * Resolves numeric slugs that collide with date permalinks.
  *
  * Permalinks of posts with numeric slugs can sometimes look to WP_Query::parse_query()
  * like a date archive, as when your permalink structure is `/%year%/%postname%/` and
@@ -410,7 +410,10 @@ function wp_resolve_numeric_slug_conflicts( $query_vars = array() ) {
 	}
 
 	// This is the potentially clashing slug.
-	$value = $query_vars[ $compare ];
+	$value = '';
+	if ( $compare && array_key_exists( $compare, $query_vars ) ) {
+		$value = $query_vars[ $compare ];
+	}
 
 	$post = get_page_by_path( $value, OBJECT, 'post' );
 	if ( ! ( $post instanceof WP_Post ) ) {
@@ -473,7 +476,7 @@ function wp_resolve_numeric_slug_conflicts( $query_vars = array() ) {
 }
 
 /**
- * Examine a URL and try to determine the post ID it represents.
+ * Examines a URL and try to determine the post ID it represents.
  *
  * Checks are supposedly from the hosted site blog.
  *
@@ -497,8 +500,21 @@ function url_to_postid( $url ) {
 	 */
 	$url = apply_filters( 'url_to_postid', $url );
 
-	$url_host      = str_replace( 'www.', '', parse_url( $url, PHP_URL_HOST ) );
-	$home_url_host = str_replace( 'www.', '', parse_url( home_url(), PHP_URL_HOST ) );
+	$url_host = parse_url( $url, PHP_URL_HOST );
+
+	if ( is_string( $url_host ) ) {
+		$url_host = str_replace( 'www.', '', $url_host );
+	} else {
+		$url_host = '';
+	}
+
+	$home_url_host = parse_url( home_url(), PHP_URL_HOST );
+
+	if ( is_string( $home_url_host ) ) {
+		$home_url_host = str_replace( 'www.', '', $home_url_host );
+	} else {
+		$home_url_host = '';
+	}
 
 	// Bail early if the URL does not belong to this site.
 	if ( $url_host && $url_host !== $home_url_host ) {

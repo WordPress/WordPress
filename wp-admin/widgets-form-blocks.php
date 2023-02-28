@@ -15,10 +15,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 $current_screen = get_current_screen();
 $current_screen->is_block_editor( true );
 
-$block_editor_context = new WP_Block_Editor_Context();
+$block_editor_context = new WP_Block_Editor_Context( array( 'name' => 'core/edit-widgets' ) );
 
 $preload_paths = array(
-	array( '/wp/v2/media', 'OPTIONS' ),
+	array( rest_get_route_for_post_type_items( 'attachment' ), 'OPTIONS' ),
+	'/wp/v2/widget-types?context=edit&per_page=-1',
 	'/wp/v2/sidebars?context=edit&per_page=-1',
 	'/wp/v2/widgets?context=edit&per_page=-1&_embed=about',
 );

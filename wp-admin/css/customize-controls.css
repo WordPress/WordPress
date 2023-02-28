@@ -472,7 +472,6 @@ body.trashing #publish-settings {
 	height: 20px;
 	cursor: pointer;
 	box-shadow: none;
-	-webkit-appearance: none;
 	background: transparent;
 	color: #50575e;
 	border: none;
@@ -949,7 +948,8 @@ p.customize-section-description {
 .customize-control input[type="number"],
 .customize-control input[type="search"],
 .customize-control input[type="tel"],
-.customize-control input[type="url"] {
+.customize-control input[type="url"],
+.customize-control input[type="range"] {
 	width: 100%;
 	margin: 0;
 }
@@ -989,7 +989,7 @@ p.customize-section-description {
 
 .customize-section-description a.external-link:after {
 	font: 16px/11px dashicons;
-	content: "\f310";
+	content: "\f504";
 	top: 3px;
 	position: relative;
 	padding-left: 3px;
@@ -1604,8 +1604,6 @@ p.customize-section-description {
 	font-family: Consolas, Monaco, monospace;
 	font-size: 12px;
 	padding: 6px 8px;
-	-moz-tab-size: 2;
-	-o-tab-size: 2;
 	tab-size: 2;
 }
 .customize-control-code_editor textarea,
@@ -1729,6 +1727,12 @@ p.customize-section-description {
 	right: 10px;
 	top: 50%;
 	margin-top: -14px;
+	font-weight: 400;
+}
+
+#customize-notifications-area .notification-message button.switch-to-editor {
+	display: block;
+	margin-top: 6px;
 	font-weight: 400;
 }
 

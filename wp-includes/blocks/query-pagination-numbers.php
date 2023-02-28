@@ -45,6 +45,28 @@ function render_block_core_query_pagination_numbers( $attributes, $content, $blo
 			'total'     => $total,
 			'prev_next' => false,
 		);
+		if ( 1 !== $page ) {
+			/**
+			 * `paginate_links` doesn't use the provided `format` when the page is `1`.
+			 * This is great for the main query as it removes the extra query params
+			 * making the URL shorter, but in the case of multiple custom queries is
+			 * problematic. It results in returning an empty link which ends up with
+			 * a link to the current page.
+			 *
+			 * A way to address this is to add a `fake` query arg with no value that
+			 * is the same for all custom queries. This way the link is not empty and
+			 * preserves all the other existent query args.
+			 *
+			 * @see https://developer.wordpress.org/reference/functions/paginate_links/
+			 *
+			 * The proper fix of this should be in core. Track Ticket:
+			 * @see https://core.trac.wordpress.org/ticket/53868
+			 *
+			 * TODO: After two WP versions (starting from the WP version the core patch landed),
+			 * we should remove this and call `paginate_links` with the proper new arg.
+			 */
+			$paginate_args['add_args'] = array( 'cst' => '' );
+		}
 		// We still need to preserve `paged` query param if exists, as is used
 		// for Queries that inherit from global context.
 		$paged = empty( $_GET['paged'] ) ? null : (int) $_GET['paged'];

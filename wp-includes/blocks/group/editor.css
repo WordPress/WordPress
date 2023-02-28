@@ -1,86 +1,90 @@
-/**
- * Colors
- */
-/**
- * Breakpoints & Media Queries
- */
-/**
- * SCSS Variables.
- *
- * Please use variables from this sheet to ensure consistency across the UI.
- * Don't add to this sheet unless you're pretty sure the value will be reused in many places.
- * For example, don't add rules to this sheet that affect block visuals. It's purely for UI.
- */
-/**
- * Colors
- */
-/**
- * Fonts & basic variables.
- */
-/**
- * Grid System.
- * https://make.wordpress.org/design/2019/10/31/proposal-a-consistent-spacing-system-for-wordpress/
- */
-/**
- * Dimensions.
- */
-/**
- * Shadows.
- */
-/**
- * Editor widths.
- */
-/**
- * Block & Editor UI.
- */
-/**
- * Block paddings.
- */
-/**
- * React Native specific.
- * These variables do not appear to be used anywhere else.
- */
-/**
- * Breakpoint mixins
- */
-/**
- * Long content fade mixin
- *
- * Creates a fading overlay to signify that the content is longer
- * than the space allows.
- */
-/**
- * Focus styles.
- */
-/**
- * Applies editor left position to the selector passed as argument
- */
-/**
- * Styles that are reused verbatim in a few places
- */
-/**
- * Allows users to opt-out of animations via OS-level preferences.
- */
-/**
- * Reset default styles for JavaScript UI based pages.
- * This is a WP-admin agnostic reset
- */
-/**
- * Reset the WP Admin page styles for Gutenberg-like pages.
- */
-/**
-* Group: All Alignment Settings
-*/
-.wp-block-group .block-editor-block-list__insertion-point {
-  left: 0;
-  right: 0;
+.wp-block-group .block-editor-block-list__insertion-point{
+  left:0;
+  right:0;
 }
 
-[data-type="core/group"].is-selected .block-list-appender {
-  margin-left: 0;
-  margin-right: 0;
+[data-type="core/group"].is-selected .block-list-appender{
+  margin-left:0;
+  margin-right:0;
 }
-[data-type="core/group"].is-selected .has-background .block-list-appender {
-  margin-top: 18px;
-  margin-bottom: 18px;
+[data-type="core/group"].is-selected .has-background .block-list-appender{
+  margin-bottom:18px;
+  margin-top:18px;
+}
+
+.wp-block-group.is-layout-flex.block-editor-block-list__block>.block-list-appender:only-child{
+  gap:inherit;
+  pointer-events:none;
+}
+.wp-block-group.is-layout-flex.block-editor-block-list__block>.block-list-appender:only-child,.wp-block-group.is-layout-flex.block-editor-block-list__block>.block-list-appender:only-child .block-editor-default-block-appender__content,.wp-block-group.is-layout-flex.block-editor-block-list__block>.block-list-appender:only-child .block-editor-inserter{
+  display:inherit;
+  flex:1;
+  flex-direction:inherit;
+  width:100%;
+}
+.wp-block-group.is-layout-flex.block-editor-block-list__block>.block-list-appender:only-child:after{
+  border:1px dashed;
+  border-radius:2px;
+  content:"";
+  display:flex;
+  flex:1 0 48px;
+  min-height:46px;
+  pointer-events:none;
+}
+.wp-block-group.is-layout-flex.block-editor-block-list__block>.block-list-appender:only-child:after:before{
+  background:currentColor;
+  bottom:0;
+  content:"";
+  left:0;
+  opacity:.1;
+  pointer-events:none;
+  position:absolute;
+  right:0;
+  top:0;
+}
+.wp-block-group.is-layout-flex.block-editor-block-list__block>.block-list-appender:only-child .block-editor-inserter{
+  pointer-events:all;
+}
+
+.wp-block-group__placeholder .wp-block-group-placeholder__variations{
+  display:flex;
+  flex-direction:row;
+  flex-wrap:wrap;
+  justify-content:center;
+  list-style:none;
+  margin:0;
+  padding:0;
+  width:100%;
+}
+.wp-block-group__placeholder .components-placeholder__instructions{
+  margin-bottom:18px;
+  text-align:center;
+}
+.wp-block-group__placeholder .wp-block-group-placeholder__variations svg{
+  fill:#ccc !important;
+}
+.wp-block-group__placeholder .wp-block-group-placeholder__variations svg:hover{
+  fill:var(--wp-admin-theme-color) !important;
+}
+.wp-block-group__placeholder .wp-block-group-placeholder__variations>li{
+  align-items:center;
+  display:flex;
+  flex-direction:column;
+  margin:0 12px 12px;
+  width:auto;
+}
+.wp-block-group__placeholder .wp-block-group-placeholder__variations li>.wp-block-group-placeholder__variation-button{
+  height:32px;
+  padding:0;
+  width:44px;
+}
+.wp-block-group__placeholder .wp-block-group-placeholder__variations li>.wp-block-group-placeholder__variation-button:hover{
+  box-shadow:none;
+}
+.wp-block-group__placeholder .components-placeholder{
+  min-height:auto;
+  padding:24px;
+}
+.wp-block-group__placeholder .is-medium .wp-block-group-placeholder__variations>li,.wp-block-group__placeholder .is-small .wp-block-group-placeholder__variations>li{
+  margin:12px;
 }

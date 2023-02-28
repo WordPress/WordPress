@@ -25,7 +25,7 @@
 	<link rel="profile" href="https://gmpg.org/xfn/11">
 	<link rel="pingback" href="<?php echo esc_url( get_bloginfo( 'pingback_url' ) ); ?>">
 	<!--[if lt IE 9]>
-	<script src="<?php echo get_template_directory_uri(); ?>/js/html5.js?ver=3.7.0"></script>
+	<script src="<?php echo esc_url( get_template_directory_uri() ); ?>/js/html5.js?ver=3.7.0"></script>
 	<![endif]-->
 	<?php wp_head(); ?>
 </head>
@@ -41,17 +41,27 @@
 	</div>
 	<?php endif; ?>
 
-	<header id="masthead" class="site-header" role="banner">
+	<header id="masthead" class="site-header">
 		<div class="header-main">
 			<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
 
 			<div class="search-toggle">
-				<a href="#search-container" class="screen-reader-text" aria-expanded="false" aria-controls="search-container"><?php _e( 'Search', 'twentyfourteen' ); ?></a>
+				<a href="#search-container" class="screen-reader-text" aria-expanded="false" aria-controls="search-container">
+					<?php
+					/* translators: Hidden accessibility text. */
+					_e( 'Search', 'twentyfourteen' );
+					?>
+				</a>
 			</div>
 
-			<nav id="primary-navigation" class="site-navigation primary-navigation" role="navigation">
+			<nav id="primary-navigation" class="site-navigation primary-navigation">
 				<button class="menu-toggle"><?php _e( 'Primary Menu', 'twentyfourteen' ); ?></button>
-				<a class="screen-reader-text skip-link" href="#content"><?php _e( 'Skip to content', 'twentyfourteen' ); ?></a>
+				<a class="screen-reader-text skip-link" href="#content">
+					<?php
+					/* translators: Hidden accessibility text. */
+					_e( 'Skip to content', 'twentyfourteen' );
+					?>
+				</a>
 				<?php
 				wp_nav_menu(
 					array(

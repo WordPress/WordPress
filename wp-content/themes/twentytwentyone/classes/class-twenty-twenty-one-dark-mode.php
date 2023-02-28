@@ -175,10 +175,10 @@ class Twenty_Twenty_One_Dark_Mode {
 		$description .= sprintf(
 			/* translators: %s: Twenty Twenty-One support article URL. */
 			__( 'Dark Mode is a device setting. If a visitor to your site requests it, your site will be shown with a dark background and light text. <a href="%s">Learn more about Dark Mode.</a>', 'twentytwentyone' ),
-			esc_url( __( 'https://wordpress.org/support/article/twenty-twenty-one/#dark-mode-support', 'twentytwentyone' ) )
+			esc_url( __( 'https://wordpress.org/documentation/article/twenty-twenty-one/#dark-mode-support', 'twentytwentyone' ) )
 		);
 		$description .= '</p>';
-		$description .= '<p>' . __( 'Dark Mode can also be turned on and off with a button that you can find in the bottom right corner of the page.', 'twentytwentyone' ) . '</p>';
+		$description .= '<p>' . __( 'Dark Mode can also be turned on and off with a button that you can find in the bottom corner of the page.', 'twentytwentyone' ) . '</p>';
 
 		$wp_customize->add_control(
 			'respect_user_color_preference',
@@ -378,7 +378,7 @@ class Twenty_Twenty_One_Dark_Mode {
 		$content = '<p class="privacy-policy-tutorial">' . __( 'Twenty Twenty-One uses LocalStorage when Dark Mode support is enabled.', 'twentytwentyone' ) . '</p>'
 				. '<strong class="privacy-policy-tutorial">' . __( 'Suggested text:', 'twentytwentyone' ) . '</strong> '
 				. __( 'This website uses LocalStorage to save the setting when Dark Mode support is turned on or off.<br> LocalStorage is necessary for the setting to work and is only used when a user clicks on the Dark Mode button.<br> No data is saved in the database or transferred.', 'twentytwentyone' );
-		wp_add_privacy_policy_content( 'Twenty Twenty-One', wp_kses_post( wpautop( $content, false ) ) );
+		wp_add_privacy_policy_content( __( 'Twenty Twenty-One', 'twentytwentyone' ), wp_kses_post( wpautop( $content, false ) ) );
 	}
 
 }

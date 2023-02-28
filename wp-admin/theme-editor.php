@@ -1,6 +1,6 @@
 <?php
 /**
- * Theme editor administration panel.
+ * Theme file editor administration panel.
  *
  * @package WordPress
  * @subpackage Administration
@@ -27,9 +27,9 @@ get_current_screen()->add_help_tab(
 		'id'      => 'overview',
 		'title'   => __( 'Overview' ),
 		'content' =>
-				'<p>' . __( 'You can use the theme editor to edit the individual CSS and PHP files which make up your theme.' ) . '</p>' .
+				'<p>' . __( 'You can use the theme file editor to edit the individual CSS and PHP files which make up your theme.' ) . '</p>' .
 				'<p>' . __( 'Begin by choosing a theme to edit from the dropdown menu and clicking the Select button. A list then appears of the theme&#8217;s template files. Clicking once on any file name causes the file to appear in the large Editor box.' ) . '</p>' .
-				'<p>' . __( 'For PHP files, you can use the Documentation dropdown to select from functions recognized in that file. Look Up takes you to a web page with reference material about that particular function.' ) . '</p>' .
+				'<p>' . __( 'For PHP files, you can use the documentation dropdown to select from functions recognized in that file. Look Up takes you to a web page with reference material about that particular function.' ) . '</p>' .
 				'<p id="editor-keyboard-trap-help-1">' . __( 'When using a keyboard to navigate:' ) . '</p>' .
 				'<ul>' .
 				'<li id="editor-keyboard-trap-help-2">' . __( 'In the editing area, the Tab key enters a tab character.' ) . '</li>' .
@@ -50,10 +50,10 @@ get_current_screen()->add_help_tab(
 get_current_screen()->set_help_sidebar(
 	'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
 	'<p>' . __( '<a href="https://developer.wordpress.org/themes/">Documentation on Theme Development</a>' ) . '</p>' .
-	'<p>' . __( '<a href="https://wordpress.org/support/article/using-themes/">Documentation on Using Themes</a>' ) . '</p>' .
-	'<p>' . __( '<a href="https://wordpress.org/support/article/editing-files/">Documentation on Editing Files</a>' ) . '</p>' .
+	'<p>' . __( '<a href="https://wordpress.org/documentation/article/appearance-theme-file-editor-screen/">Documentation on Editing Themes</a>' ) . '</p>' .
+	'<p>' . __( '<a href="https://wordpress.org/documentation/article/editing-files/">Documentation on Editing Files</a>' ) . '</p>' .
 	'<p>' . __( '<a href="https://developer.wordpress.org/themes/basics/template-tags/">Documentation on Template Tags</a>' ) . '</p>' .
-	'<p>' . __( '<a href="https://wordpress.org/support/">Support</a>' ) . '</p>'
+	'<p>' . __( '<a href="https://wordpress.org/support/forums/">Support forums</a>' ) . '</p>'
 );
 
 wp_reset_vars( array( 'action', 'error', 'file', 'theme' ) );
@@ -164,12 +164,16 @@ if ( ! empty( $posted_content ) ) {
 	if ( '.php' === substr( $file, strrpos( $file, '.' ) ) ) {
 		$functions = wp_doc_link_parse( $content );
 
-		$docs_select  = '<select name="docs-list" id="docs-list">';
-		$docs_select .= '<option value="">' . esc_attr__( 'Function Name&hellip;' ) . '</option>';
-		foreach ( $functions as $function ) {
-			$docs_select .= '<option value="' . esc_attr( urlencode( $function ) ) . '">' . htmlspecialchars( $function ) . '()</option>';
+		if ( ! empty( $functions ) ) {
+			$docs_select  = '<select name="docs-list" id="docs-list">';
+			$docs_select .= '<option value="">' . esc_html__( 'Function Name&hellip;' ) . '</option>';
+
+			foreach ( $functions as $function ) {
+				$docs_select .= '<option value="' . esc_attr( $function ) . '">' . esc_html( $function ) . '()</option>';
+			}
+
+			$docs_select .= '</select>';
 		}
-		$docs_select .= '</select>';
 	}
 
 	$content = esc_textarea( $content );
@@ -196,14 +200,14 @@ if ( $file_description !== $file_show ) {
 	</div>
 <?php endif; ?>
 
-<?php if ( preg_match( '/\.css$/', $file ) ) : ?>
+<?php if ( preg_match( '/\.css$/', $file ) && ! wp_is_block_theme() && current_user_can( 'customize' ) ) : ?>
 	<div id="message" class="notice-info notice">
 		<p><strong><?php _e( 'Did you know?' ); ?></strong></p>
 		<p>
 			<?php
 			printf(
 				/* translators: %s: Link to Custom CSS section in the Customizer. */
-				__( 'There&#8217;s no need to change your CSS here &mdash; you can edit and live preview CSS changes in the <a href="%s">built-in CSS editor</a>.' ),
+				__( 'There is no need to change your CSS here &mdash; you can edit and live preview CSS changes in the <a href="%s">built-in CSS editor</a>.' ),
 				esc_url( add_query_arg( 'autofocus[section]', 'custom_css', admin_url( 'customize.php' ) ) )
 			);
 			?>
@@ -217,7 +221,8 @@ if ( $file_description !== $file_show ) {
 	<?php
 	echo $theme->display( 'Name' );
 	if ( $description ) {
-		echo ': ' . $description;}
+		echo ': ' . $description;
+	}
 	?>
 </h2>
 </div>
@@ -321,7 +326,7 @@ else :
 					printf(
 						/* translators: %s: Documentation URL. */
 						__( 'You need to make this file writable before you can save your changes. See <a href="%s">Changing File Permissions</a> for more information.' ),
-						__( 'https://wordpress.org/support/article/changing-file-permissions/' )
+						__( 'https://wordpress.org/documentation/article/changing-file-permissions/' )
 					);
 					?>
 				</p>
@@ -359,7 +364,7 @@ if ( ! in_array( 'theme_editor_notice', $dismissed_pointers, true ) ) :
 					<h1><?php _e( 'Heads up!' ); ?></h1>
 					<p>
 						<?php
-						_e( 'You appear to be making direct edits to your theme in the WordPress dashboard. We recommend that you don&#8217;t! Editing your theme directly could break your site and your changes may be lost in future updates.' );
+						_e( 'You appear to be making direct edits to your theme in the WordPress dashboard. It is not recommended! Editing your theme directly could break your site and your changes may be lost in future updates.' );
 						?>
 					</p>
 						<?php

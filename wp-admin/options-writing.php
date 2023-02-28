@@ -50,8 +50,8 @@ if ( apply_filters( 'enable_update_services_configuration', true ) ) {
 
 get_current_screen()->set_help_sidebar(
 	'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
-	'<p>' . __( '<a href="https://wordpress.org/support/article/settings-writing-screen/">Documentation on Writing Settings</a>' ) . '</p>' .
-	'<p>' . __( '<a href="https://wordpress.org/support/">Support</a>' ) . '</p>'
+	'<p>' . __( '<a href="https://wordpress.org/documentation/article/settings-writing-screen/">Documentation on Writing Settings</a>' ) . '</p>' .
+	'<p>' . __( '<a href="https://wordpress.org/support/forums/">Support forums</a>' ) . '</p>'
 );
 
 require_once ABSPATH . 'wp-admin/admin-header.php';
@@ -67,7 +67,12 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 <?php if ( get_site_option( 'initial_db_version' ) < 32453 ) : ?>
 <tr>
 <th scope="row"><?php _e( 'Formatting' ); ?></th>
-<td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Formatting' ); ?></span></legend>
+<td><fieldset><legend class="screen-reader-text"><span>
+	<?php
+	/* translators: Hidden accessibility text. */
+	_e( 'Formatting' );
+	?>
+</span></legend>
 <label for="use_smilies">
 <input name="use_smilies" type="checkbox" id="use_smilies" value="1" <?php checked( '1', get_option( 'use_smilies' ) ); ?> />
 	<?php _e( 'Convert emoticons like <code>:-)</code> and <code>:-P</code> to graphics on display' ); ?></label><br />
@@ -207,8 +212,8 @@ if ( apply_filters( 'enable_update_services_configuration', true ) ) {
 		<?php
 		printf(
 			/* translators: %s: Documentation URL. */
-			__( 'When you publish a new post, WordPress automatically notifies the following site update services. For more about this, see <a href="%s">Update Services</a> on the Codex. Separate multiple service URLs with line breaks.' ),
-			__( 'https://wordpress.org/support/article/update-services/' )
+			__( 'When you publish a new post, WordPress automatically notifies the following site update services. For more about this, see the <a href="%s">Update Services</a> documentation article. Separate multiple service URLs with line breaks.' ),
+			__( 'https://wordpress.org/documentation/article/update-services/' )
 		);
 		?>
 	</label></p>
@@ -222,7 +227,7 @@ if ( apply_filters( 'enable_update_services_configuration', true ) ) {
 		printf(
 			/* translators: 1: Documentation URL, 2: URL to Reading Settings screen. */
 			__( 'WordPress is not notifying any <a href="%1$s">Update Services</a> because of your site&#8217;s <a href="%2$s">visibility settings</a>.' ),
-			__( 'https://wordpress.org/support/article/update-services/' ),
+			__( 'https://wordpress.org/documentation/article/update-services/' ),
 			'options-reading.php'
 		);
 		?>

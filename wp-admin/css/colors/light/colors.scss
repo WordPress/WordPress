@@ -1,3 +1,4 @@
+$scheme-name: "light";
 $base-color: #e5e5e5;
 $icon-color: #999;
 $text-color: #333;
@@ -16,6 +17,8 @@ $menu-submenu-background: #fff;
 
 $menu-collapse-text: #777;
 $menu-collapse-focus-icon: #555;
+
+$dashboard-icon-background: $text-color;
 
 @import "../_admin.scss";
 

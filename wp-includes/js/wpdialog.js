@@ -17,7 +17,7 @@
 			this._super();
 
 			// WebKit leaves focus in the TinyMCE editor unless we shift focus.
-			this.element.focus();
+			this.element.trigger('focus');
 			this._trigger('refresh');
 		}
 	});

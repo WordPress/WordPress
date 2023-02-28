@@ -8,19 +8,19 @@
  */
 
 /**
- * Determine if uploaded file exceeds space quota.
+ * Determines whether uploaded file exceeds space quota.
  *
  * @since 3.0.0
  *
- * @param array $file $_FILES array for a given file.
- * @return array $_FILES array with 'error' key set if file exceeds quota. 'error' is empty otherwise.
+ * @param array $file An element from the `$_FILES` array for a given file.
+ * @return array The `$_FILES` array element with 'error' key set if file exceeds quota. 'error' is empty otherwise.
  */
 function check_upload_size( $file ) {
 	if ( get_site_option( 'upload_space_check_disabled' ) ) {
 		return $file;
 	}
 
-	if ( '0' != $file['error'] ) { // There's already an error.
+	if ( $file['error'] > 0 ) { // There's already an error.
 		return $file;
 	}
 
@@ -45,7 +45,7 @@ function check_upload_size( $file ) {
 		$file['error'] = __( 'You have used your space quota. Please delete files before uploading.' );
 	}
 
-	if ( '0' != $file['error'] && ! isset( $_POST['html-upload'] ) && ! wp_doing_ajax() ) {
+	if ( $file['error'] > 0 && ! isset( $_POST['html-upload'] ) && ! wp_doing_ajax() ) {
 		wp_die( $file['error'] . ' <a href="javascript:history.go(-1)">' . __( 'Back' ) . '</a>' );
 	}
 
@@ -53,7 +53,7 @@ function check_upload_size( $file ) {
 }
 
 /**
- * Delete a site.
+ * Deletes a site.
  *
  * @since 3.0.0
  * @since 5.1.0 Use wp_delete_site() internally to delete the site row from the database.
@@ -66,8 +66,10 @@ function check_upload_size( $file ) {
 function wpmu_delete_blog( $blog_id, $drop = false ) {
 	global $wpdb;
 
+	$blog_id = (int) $blog_id;
+
 	$switch = false;
-	if ( get_current_blog_id() != $blog_id ) {
+	if ( get_current_blog_id() !== $blog_id ) {
 		$switch = true;
 		switch_to_blog( $blog_id );
 	}
@@ -82,7 +84,10 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
 	}
 
 	// Don't destroy the initial, main, or root blog.
-	if ( $drop && ( 1 == $blog_id || is_main_site( $blog_id ) || ( $blog->path == $current_network->path && $blog->domain == $current_network->domain ) ) ) {
+	if ( $drop
+		&& ( 1 === $blog_id || is_main_site( $blog_id )
+			|| ( $blog->path === $current_network->path && $blog->domain === $current_network->domain ) )
+	) {
 		$drop = false;
 	}
 
@@ -125,7 +130,7 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
 }
 
 /**
- * Delete a user from the network and remove from all sites.
+ * Deletes a user from the network and remove from all sites.
  *
  * @since 3.0.0
  *
@@ -134,7 +139,7 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
  * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int $id The user ID.
- * @return bool True if the user was deleted, otherwise false.
+ * @return bool True if the user was deleted, false otherwise.
  */
 function wpmu_delete_user( $id ) {
 	global $wpdb;
@@ -208,14 +213,15 @@ function wpmu_delete_user( $id ) {
 }
 
 /**
- * Check whether a site has used its allotted upload space.
+ * Checks whether a site has used its allotted upload space.
  *
  * @since MU (3.0.0)
  *
- * @param bool $echo Optional. If $echo is set and the quota is exceeded, a warning message is echoed. Default is true.
+ * @param bool $display_message Optional. If set to true and the quota is exceeded,
+ *                              a warning message is displayed. Default true.
  * @return bool True if user is over upload space quota, otherwise false.
  */
-function upload_is_user_over_quota( $echo = true ) {
+function upload_is_user_over_quota( $display_message = true ) {
 	if ( get_site_option( 'upload_space_check_disabled' ) ) {
 		return false;
 	}
@@ -227,7 +233,7 @@ function upload_is_user_over_quota( $echo = true ) {
 	$space_used = get_space_used();
 
 	if ( ( $space_allowed - $space_used ) < 0 ) {
-		if ( $echo ) {
+		if ( $display_message ) {
 			printf(
 				/* translators: %s: Allowed space allocation. */
 				__( 'Sorry, you have used your space allocation of %s. Please delete some files to upload more files.' ),
@@ -263,12 +269,12 @@ function display_space_usage() {
 }
 
 /**
- * Get the remaining upload space for this site.
+ * Gets the remaining upload space for this site.
  *
  * @since MU (3.0.0)
  *
- * @param int $size Current max size in bytes
- * @return int Max size in bytes
+ * @param int $size Current max size in bytes.
+ * @return int Max size in bytes.
  */
 function fix_import_form_size( $size ) {
 	if ( upload_is_user_over_quota( false ) ) {
@@ -299,7 +305,12 @@ function upload_space_setting( $id ) {
 		<th><label for="blog-upload-space-number"><?php _e( 'Site Upload Space Quota' ); ?></label></th>
 		<td>
 			<input type="number" step="1" min="0" style="width: 100px" name="option[blog_upload_space]" id="blog-upload-space-number" aria-describedby="blog-upload-space-desc" value="<?php echo $quota; ?>" />
-			<span id="blog-upload-space-desc"><span class="screen-reader-text"><?php _e( 'Size in megabytes' ); ?></span> <?php _e( 'MB (Leave blank for network default)' ); ?></span>
+			<span id="blog-upload-space-desc"><span class="screen-reader-text">
+				<?php
+				/* translators: Hidden accessibility text. */
+				_e( 'Size in megabytes' );
+				?>
+			</span> <?php _e( 'MB (Leave blank for network default)' ); ?></span>
 		</td>
 	</tr>
 	<?php
@@ -538,29 +549,6 @@ function format_code_lang( $code = '' ) {
 }
 
 /**
- * Synchronizes category and post tag slugs when global terms are enabled.
- *
- * @since 3.0.0
- *
- * @param WP_Term|array $term     The term.
- * @param string        $taxonomy The taxonomy for `$term`. Should be 'category' or 'post_tag', as these are
- *                                the only taxonomies which are processed by this function; anything else
- *                                will be returned untouched.
- * @return WP_Term|array Returns `$term`, after filtering the 'slug' field with `sanitize_title()`
- *                       if `$taxonomy` is 'category' or 'post_tag'.
- */
-function sync_category_tag_slugs( $term, $taxonomy ) {
-	if ( global_terms_enabled() && ( 'category' === $taxonomy || 'post_tag' === $taxonomy ) ) {
-		if ( is_object( $term ) ) {
-			$term->slug = sanitize_title( $term->name );
-		} else {
-			$term['slug'] = sanitize_title( $term['name'] );
-		}
-	}
-	return $term;
-}
-
-/**
  * Displays an access denied message when a user tries to view a site's dashboard they
  * do not have access to.
  *
@@ -687,7 +675,7 @@ function mu_dropdown_languages( $lang_files = array(), $current = '' ) {
  * @since 3.0.0
  *
  * @global int    $wp_db_version WordPress database version.
- * @global string $pagenow
+ * @global string $pagenow       The filename of the current screen.
  *
  * @return void|false Void on success. False if the current user is not a super admin.
  */
@@ -702,7 +690,7 @@ function site_admin_notice() {
 		return;
 	}
 
-	if ( get_site_option( 'wpmu_upgrade_site' ) != $wp_db_version ) {
+	if ( (int) get_site_option( 'wpmu_upgrade_site' ) !== $wp_db_version ) {
 		echo "<div class='update-nag notice notice-warning inline'>" . sprintf(
 			/* translators: %s: URL to Upgrade Network screen. */
 			__( 'Thank you for Updating! Please visit the <a href="%s">Upgrade Network</a> page to update all your sites.' ),
@@ -742,13 +730,16 @@ function avoid_blog_page_permalink_collision( $data, $postarr ) {
 
 	$post_name = $data['post_name'];
 	$c         = 0;
+
 	while ( $c < 10 && get_id_from_blogname( $post_name ) ) {
 		$post_name .= mt_rand( 1, 10 );
-		$c ++;
+		$c++;
 	}
-	if ( $post_name != $data['post_name'] ) {
+
+	if ( $post_name !== $data['post_name'] ) {
 		$data['post_name'] = $post_name;
 	}
+
 	return $data;
 }
 
@@ -769,14 +760,14 @@ function choose_primary_blog() {
 		<td>
 		<?php
 		$all_blogs    = get_blogs_of_user( get_current_user_id() );
-		$primary_blog = get_user_meta( get_current_user_id(), 'primary_blog', true );
+		$primary_blog = (int) get_user_meta( get_current_user_id(), 'primary_blog', true );
 		if ( count( $all_blogs ) > 1 ) {
 			$found = false;
 			?>
 			<select name="primary_blog" id="primary_blog">
 				<?php
 				foreach ( (array) $all_blogs as $blog ) {
-					if ( $primary_blog == $blog->userblog_id ) {
+					if ( $blog->userblog_id === $primary_blog ) {
 						$found = true;
 					}
 					?>
@@ -790,14 +781,14 @@ function choose_primary_blog() {
 				$blog = reset( $all_blogs );
 				update_user_meta( get_current_user_id(), 'primary_blog', $blog->userblog_id );
 			}
-		} elseif ( count( $all_blogs ) == 1 ) {
+		} elseif ( 1 === count( $all_blogs ) ) {
 			$blog = reset( $all_blogs );
 			echo esc_url( get_home_url( $blog->userblog_id ) );
-			if ( $primary_blog != $blog->userblog_id ) { // Set the primary blog again if it's out of sync with blog list.
+			if ( $blog->userblog_id !== $primary_blog ) { // Set the primary blog again if it's out of sync with blog list.
 				update_user_meta( get_current_user_id(), 'primary_blog', $blog->userblog_id );
 			}
 		} else {
-			echo 'N/A';
+			_e( 'Not available' );
 		}
 		?>
 		</td>
@@ -807,7 +798,7 @@ function choose_primary_blog() {
 }
 
 /**
- * Whether or not we can edit this network from this page.
+ * Determines whether or not this network from this page can be edited.
  *
  * By default editing of network is restricted to the Network Admin for that `$network_id`.
  * This function allows for this to be overridden.
@@ -815,10 +806,10 @@ function choose_primary_blog() {
  * @since 3.1.0
  *
  * @param int $network_id The network ID to check.
- * @return bool True if network can be edited, otherwise false.
+ * @return bool True if network can be edited, false otherwise.
  */
 function can_edit_network( $network_id ) {
-	if ( get_current_network_id() == $network_id ) {
+	if ( get_current_network_id() === (int) $network_id ) {
 		$result = true;
 	} else {
 		$result = false;
@@ -836,7 +827,7 @@ function can_edit_network( $network_id ) {
 }
 
 /**
- * Thickbox image paths for Network Admin.
+ * Prints thickbox image paths for Network Admin.
  *
  * @since 3.1.0
  *
@@ -878,7 +869,7 @@ function confirm_delete_users( $users ) {
 	<?php
 	$allusers = (array) $_POST['allusers'];
 	foreach ( $allusers as $user_id ) {
-		if ( '' !== $user_id && '0' != $user_id ) {
+		if ( '' !== $user_id && '0' !== $user_id ) {
 			$delete_user = get_userdata( $user_id );
 
 			if ( ! current_user_can( 'delete_user', $delete_user->ID ) ) {
@@ -929,8 +920,11 @@ function confirm_delete_users( $users ) {
 					);
 
 					if ( is_array( $blog_users ) && ! empty( $blog_users ) ) {
-						$user_site      = "<a href='" . esc_url( get_home_url( $details->userblog_id ) ) . "'>{$details->blogname}</a>";
-						$user_dropdown  = '<label for="reassign_user" class="screen-reader-text">' . __( 'Select a user' ) . '</label>';
+						$user_site     = "<a href='" . esc_url( get_home_url( $details->userblog_id ) ) . "'>{$details->blogname}</a>";
+						$user_dropdown = '<label for="reassign_user" class="screen-reader-text">' .
+								/* translators: Hidden accessibility text. */
+								__( 'Select a user' ) .
+							'</label>';
 						$user_dropdown .= "<select name='blog[$user_id][$key]' id='reassign_user'>";
 						$user_list      = '';
 
@@ -995,14 +989,14 @@ function confirm_delete_users( $users ) {
 }
 
 /**
- * Print JavaScript in the header on the Network Settings screen.
+ * Prints JavaScript in the header on the Network Settings screen.
  *
  * @since 4.1.0
  */
 function network_settings_add_js() {
 	?>
 <script type="text/javascript">
-jQuery(document).ready( function($) {
+jQuery( function($) {
 	var languageSelect = $( '#WPLANG' );
 	$( 'form' ).on( 'submit', function() {
 		// Don't show a spinner for English and installed languages,
@@ -1011,7 +1005,7 @@ jQuery(document).ready( function($) {
 			$( '#submit', this ).after( '<span class="spinner language-install-spinner is-active" />' );
 		}
 	});
-});
+} );
 </script>
 	<?php
 }
@@ -1021,7 +1015,7 @@ jQuery(document).ready( function($) {
  *
  * @since 4.6.0
  *
- * @global string $pagenow
+ * @global string $pagenow The filename of the current screen.
  *
  * @param array $args {
  *     Optional. Array or string of Query parameters. Default empty array.
@@ -1160,6 +1154,6 @@ function get_site_screen_help_tab_args() {
  */
 function get_site_screen_help_sidebar_content() {
 	return '<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
-		'<p>' . __( '<a href="https://wordpress.org/support/article/network-admin-sites-screen/">Documentation on Site Management</a>' ) . '</p>' .
-		'<p>' . __( '<a href="https://wordpress.org/support/forum/multisite/">Support Forums</a>' ) . '</p>';
+		'<p>' . __( '<a href="https://wordpress.org/documentation/article/network-admin-sites-screen/">Documentation on Site Management</a>' ) . '</p>' .
+		'<p>' . __( '<a href="https://wordpress.org/support/forum/multisite/">Support forums</a>' ) . '</p>';
 }

@@ -12,6 +12,7 @@
  * @since 5.5.0
  * @property array $attributes
  */
+#[AllowDynamicProperties]
 class WP_Block {
 
 	/**
@@ -56,6 +57,15 @@ class WP_Block {
 	 * @access protected
 	 */
 	protected $available_context;
+
+	/**
+	 * Block type registry.
+	 *
+	 * @since 5.9.0
+	 * @var WP_Block_Type_Registry
+	 * @access protected
+	 */
+	protected $registry;
 
 	/**
 	 * List of inner blocks (of this same class)
@@ -114,6 +124,8 @@ class WP_Block {
 		if ( is_null( $registry ) ) {
 			$registry = WP_Block_Type_Registry::get_instance();
 		}
+
+		$this->registry = $registry;
 
 		$this->block_type = $registry->get_registered( $this->name );
 
@@ -184,10 +196,12 @@ class WP_Block {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @param array $options {
-	 *   Optional options object.
+	 * @global WP_Post $post Global post object.
 	 *
-	 *   @type bool $dynamic Defaults to 'true'. Optionally set to false to avoid using the block's render_callback.
+	 * @param array $options {
+	 *     Optional options object.
+	 *
+	 *     @type bool $dynamic Defaults to 'true'. Optionally set to false to avoid using the block's render_callback.
 	 * }
 	 * @return string Rendered block output.
 	 */
@@ -205,10 +219,33 @@ class WP_Block {
 
 		if ( ! $options['dynamic'] || empty( $this->block_type->skip_inner_blocks ) ) {
 			$index = 0;
+
 			foreach ( $this->inner_content as $chunk ) {
-				$block_content .= is_string( $chunk ) ?
-					$chunk :
-					$this->inner_blocks[ $index++ ]->render();
+				if ( is_string( $chunk ) ) {
+					$block_content .= $chunk;
+				} else {
+					$inner_block  = $this->inner_blocks[ $index ];
+					$parent_block = $this;
+
+					/** This filter is documented in wp-includes/blocks.php */
+					$pre_render = apply_filters( 'pre_render_block', null, $inner_block->parsed_block, $parent_block );
+
+					if ( ! is_null( $pre_render ) ) {
+						$block_content .= $pre_render;
+					} else {
+						$source_block = $inner_block->parsed_block;
+
+						/** This filter is documented in wp-includes/blocks.php */
+						$inner_block->parsed_block = apply_filters( 'render_block_data', $inner_block->parsed_block, $source_block, $parent_block );
+
+						/** This filter is documented in wp-includes/blocks.php */
+						$inner_block->context = apply_filters( 'render_block_context', $inner_block->context, $inner_block->parsed_block, $parent_block );
+
+						$block_content .= $inner_block->render();
+					}
+
+					$index++;
+				}
 			}
 		}
 
@@ -225,16 +262,22 @@ class WP_Block {
 			$post = $global_post;
 		}
 
-		if ( ! empty( $this->block_type->script ) ) {
-			wp_enqueue_script( $this->block_type->script );
+		if ( ( ! empty( $this->block_type->script_handles ) ) ) {
+			foreach ( $this->block_type->script_handles as $script_handle ) {
+				wp_enqueue_script( $script_handle );
+			}
 		}
 
-		if ( ! empty( $this->block_type->view_script ) && empty( $this->block_type->render_callback ) ) {
-			wp_enqueue_script( $this->block_type->view_script );
+		if ( ! empty( $this->block_type->view_script_handles ) ) {
+			foreach ( $this->block_type->view_script_handles as $view_script_handle ) {
+				wp_enqueue_script( $view_script_handle );
+			}
 		}
 
-		if ( ! empty( $this->block_type->style ) ) {
-			wp_enqueue_style( $this->block_type->style );
+		if ( ( ! empty( $this->block_type->style_handles ) ) ) {
+			foreach ( $this->block_type->style_handles as $style_handle ) {
+				wp_enqueue_style( $style_handle );
+			}
 		}
 
 		/**
@@ -243,7 +286,7 @@ class WP_Block {
 		 * @since 5.0.0
 		 * @since 5.9.0 The `$instance` parameter was added.
 		 *
-		 * @param string   $block_content The block content about to be appended.
+		 * @param string   $block_content The block content.
 		 * @param array    $block         The full block, including name and attributes.
 		 * @param WP_Block $instance      The block instance.
 		 */
@@ -258,7 +301,7 @@ class WP_Block {
 		 * @since 5.7.0
 		 * @since 5.9.0 The `$instance` parameter was added.
 		 *
-		 * @param string   $block_content The block content about to be appended.
+		 * @param string   $block_content The block content.
 		 * @param array    $block         The full block, including name and attributes.
 		 * @param WP_Block $instance      The block instance.
 		 */

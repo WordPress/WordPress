@@ -1,0 +1,18 @@
+{
+	"apiVersion": 2,
+	"name": "core/widget-group",
+	"category": "widgets",
+	"attributes": {
+		"title": {
+			"type": "string"
+		}
+	},
+	"supports": {
+		"html": false,
+		"inserter": true,
+		"customClassName": true,
+		"reusable": false
+	},
+	"editorStyle": "wp-block-widget-group-editor",
+	"style": "wp-block-widget-group"
+}

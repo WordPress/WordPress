@@ -1,4 +1,5 @@
 {
+	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 2,
 	"name": "core/list",
 	"title": "List",
@@ -39,13 +40,32 @@
 		"className": false,
 		"typography": {
 			"fontSize": true,
-			"__experimentalFontFamily": true
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true
+			}
 		},
 		"color": {
-			"gradients": true
+			"gradients": true,
+			"link": true,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true
+			}
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
 		},
 		"__unstablePasteTextInline": true,
-		"__experimentalSelector": "ol,ul"
+		"__experimentalSelector": "ol,ul",
+		"__experimentalSlashInserter": true
 	},
 	"editorStyle": "wp-block-list-editor",
 	"style": "wp-block-list"

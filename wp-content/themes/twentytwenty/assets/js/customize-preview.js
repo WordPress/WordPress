@@ -186,7 +186,7 @@
 		stylesheet.html( styles );
 	}
 	// Generate styles on load. Handles page-changes on the preview pane.
-	$( document ).ready( function() {
+	$( function() {
 		twentyTwentyGenerateColorA11yPreviewStyles( 'content' );
 		twentyTwentyGenerateColorA11yPreviewStyles( 'header-footer' );
 	} );

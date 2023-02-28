@@ -118,8 +118,8 @@ function twentyeleven_theme_options_help() {
 			'<p>' . __( 'Remember to click "Save Changes" to save any changes you have made to the theme options.', 'twentyeleven' ) . '</p>';
 
 	$sidebar = '<p><strong>' . __( 'For more information:', 'twentyeleven' ) . '</strong></p>' .
-		'<p>' . __( '<a href="https://wordpress.org/support/article/appearance-customize-screen/" target="_blank">Documentation on Theme Options</a>', 'twentyeleven' ) . '</p>' .
-		'<p>' . __( '<a href="https://wordpress.org/support/" target="_blank">Support</a>', 'twentyeleven' ) . '</p>';
+		'<p>' . __( '<a href="https://wordpress.org/documentation/article/customizer/" target="_blank">Documentation on Theme Customization</a>', 'twentyeleven' ) . '</p>' .
+		'<p>' . __( '<a href="https://wordpress.org/support/forums/" target="_blank">Support forums</a>', 'twentyeleven' ) . '</p>';
 
 	$screen = get_current_screen();
 
@@ -339,10 +339,9 @@ function twentyeleven_settings_field_layout() {
  * @since Twenty Eleven 1.2
  */
 function twentyeleven_theme_options_render_page() {
+	$theme_name = function_exists( 'wp_get_theme' ) ? wp_get_theme()->display( 'Name' ) : get_option( 'current_theme' );
 	?>
 	<div class="wrap">
-		<?php screen_icon(); ?>
-		<?php $theme_name = function_exists( 'wp_get_theme' ) ? wp_get_theme() : get_current_theme(); ?>
 		<h2>
 		<?php
 		/* translators: %s: Theme name. */
@@ -447,7 +446,7 @@ function twentyeleven_print_link_color_style() {
 	$default_options = twentyeleven_get_default_theme_options();
 
 	// Don't do anything if the current link color is the default.
-	if ( $default_options['link_color'] == $link_color ) {
+	if ( $default_options['link_color'] === $link_color ) {
 		return;
 	}
 	?>

@@ -53,6 +53,7 @@ get_header();
 								'after'       => '</div>',
 								'link_before' => '<span>',
 								'link_after'  => '</span>',
+								/* translators: Hidden accessibility text. */
 								'pagelink'    => '<span class="screen-reader-text">' . __( 'Page', 'twentynineteen' ) . ' </span>%',
 								'separator'   => '<span class="screen-reader-text">, </span>',
 							)
@@ -67,6 +68,7 @@ get_header();
 					if ( $metadata ) {
 						printf(
 							'<span class="full-size-link"><span class="screen-reader-text">%1$s</span><a href="%2$s">%3$s &times; %4$s</a></span>',
+							/* translators: Hidden accessibility text. */
 							_x( 'Full size', 'Used before full size attachment link.', 'twentynineteen' ),
 							esc_url( wp_get_attachment_url() ),
 							absint( $metadata['width'] ),

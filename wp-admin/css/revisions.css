@@ -186,10 +186,6 @@ body.folded .revisions .loading-indicator {
 	vertical-align: middle;
 }
 
-table.diff tbody tr td:nth-child(2) {
-	width: 4%;
-}
-
 table.diff {
 	table-layout: fixed;
 	width: 100%;

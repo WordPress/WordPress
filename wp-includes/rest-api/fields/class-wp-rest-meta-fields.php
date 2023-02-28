@@ -12,6 +12,7 @@
  *
  * @since 4.7.0
  */
+#[AllowDynamicProperties]
 abstract class WP_REST_Meta_Fields {
 
 	/**

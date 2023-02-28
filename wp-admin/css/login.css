@@ -50,6 +50,7 @@ p {
 	margin-bottom: 20px;
 	background-color: #fff;
 	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
+	word-wrap: break-word;
 }
 
 .login .success {
@@ -281,7 +282,7 @@ p {
 
 #login {
 	width: 320px;
-	padding: 8% 0 0;
+	padding: 5% 0 0;
 	margin: auto;
 }
 
@@ -297,7 +298,7 @@ p {
 
 #backtoblog {
 	margin: 16px 0;
-	word-break: break-word;
+	word-wrap: break-word;
 }
 
 .login #nav a,
@@ -321,7 +322,7 @@ p {
 .login .privacy-policy-page-link {
 	text-align: center;
 	width: 100%;
-	margin: 5em 0 2em;
+	margin: 3em 0 2em;
 }
 
 .login form .input,
@@ -409,9 +410,45 @@ input::-ms-reveal {
 	display: none;
 }
 
+#language-switcher {
+	padding: 0;
+	overflow: visible;
+	background: none;
+	border: none;
+	box-shadow: none;
+}
+
+#language-switcher select {
+	margin-right: 0.25em;
+}
+
+.language-switcher {
+	margin: 0 auto;
+	padding: 0 0 24px;
+	text-align: center;
+}
+
+.language-switcher label {
+	margin-right: 0.25em;
+}
+
+.language-switcher label .dashicons {
+	width: auto;
+	height: auto;
+}
+
+.login .language-switcher .button-primary {
+	float: none;
+	margin-bottom: 0;
+}
+
 @media screen and (max-height: 550px) {
 	#login {
 		padding: 20px 0;
+	}
+
+	#language-switcher {
+		margin-top: 0;
 	}
 }
 
@@ -426,5 +463,17 @@ input::-ms-reveal {
 		width: 1.3125rem;
 		height: 1.3125rem;
 		margin: -0.1875rem 0 0 -0.25rem;
+	}
+
+	#language-switcher label,
+	#language-switcher select {
+		margin-right: 0;
+	}
+}
+
+@media screen and (max-width: 400px) {
+	.login .language-switcher .button-primary {
+		display: block;
+		margin: 5px auto 0;
 	}
 }

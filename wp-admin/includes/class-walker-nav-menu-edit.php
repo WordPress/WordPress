@@ -180,8 +180,9 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 						printf(
 							'<a class="item-edit" id="edit-%s" href="%s" aria-label="%s"><span class="screen-reader-text">%s</span></a>',
 							$item_id,
-							$edit_url,
+							esc_url( $edit_url ),
 							esc_attr__( 'Edit menu item' ),
+							/* translators: Hidden accessibility text. */
 							__( 'Edit' )
 						);
 						?>
@@ -232,7 +233,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 					<label for="edit-menu-item-description-<?php echo $item_id; ?>">
 						<?php _e( 'Description' ); ?><br />
 						<textarea id="edit-menu-item-description-<?php echo $item_id; ?>" class="widefat edit-menu-item-description" rows="3" cols="20" name="menu-item-description[<?php echo $item_id; ?>]"><?php echo esc_html( $menu_item->description ); // textarea_escaped ?></textarea>
-						<span class="description"><?php _e( 'The description will be displayed in the menu if the current theme supports it.' ); ?></span>
+						<span class="description"><?php _e( 'The description will be displayed in the menu if the active theme supports it.' ); ?></span>
 					</label>
 				</p>
 
@@ -242,11 +243,11 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 				 *
 				 * @since 5.4.0
 				 *
-				 * @param int      $item_id           Menu item ID.
-				 * @param WP_Post  $menu_item         Menu item data object.
-				 * @param int      $depth             Depth of menu item. Used for padding.
-				 * @param stdClass $args              An object of menu item arguments.
-				 * @param int      $current_object_id Nav menu ID.
+				 * @param string        $item_id           Menu item ID as a numeric string.
+				 * @param WP_Post       $menu_item         Menu item data object.
+				 * @param int           $depth             Depth of menu item. Used for padding.
+				 * @param stdClass|null $args              An object of menu item arguments.
+				 * @param int           $current_object_id Nav menu ID.
 				 */
 				do_action( 'wp_nav_menu_item_custom_fields', $item_id, $menu_item, $depth, $args, $current_object_id );
 				?>
@@ -265,7 +266,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 						<p class="link-to-original">
 							<?php
 							/* translators: %s: Link to menu item's original object. */
-							printf( __( 'Original: %s' ), '<a href="' . esc_attr( $menu_item->url ) . '">' . esc_html( $original_title ) . '</a>' );
+							printf( __( 'Original: %s' ), '<a href="' . esc_url( $menu_item->url ) . '">' . esc_html( $original_title ) . '</a>' );
 							?>
 						</p>
 					<?php endif; ?>

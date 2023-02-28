@@ -10,7 +10,7 @@
 get_header();
 ?>
 
-<main id="site-content" role="main">
+<main id="site-content">
 
 	<div class="section-inner thin error404-content">
 

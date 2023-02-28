@@ -11,7 +11,6 @@
  * Core class used to implement displaying links in a list table.
  *
  * @since 3.1.0
- * @access private
  *
  * @see WP_List_Table
  */
@@ -177,7 +176,7 @@ class WP_Links_List_Table extends WP_List_Table {
 		?>
 		<label class="screen-reader-text" for="cb-select-<?php echo $link->link_id; ?>">
 			<?php
-			/* translators: %s: Link name. */
+			/* translators: Hidden accessibility text. %s: Link name. */
 			printf( __( 'Select %s' ), $link->link_name );
 			?>
 		</label>

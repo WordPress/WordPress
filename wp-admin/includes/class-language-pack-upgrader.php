@@ -62,7 +62,7 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 		 * Avoid messing with VCS installations, at least for now.
 		 * Noted: this is not the ideal way to accomplish this.
 		 */
-		$check_vcs = new WP_Automatic_Updater;
+		$check_vcs = new WP_Automatic_Updater();
 		if ( $check_vcs->is_vcs_checkout( WP_CONTENT_DIR ) ) {
 			return;
 		}
@@ -110,7 +110,7 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 	 * @since 3.7.0
 	 */
 	public function upgrade_strings() {
-		$this->strings['starting_upgrade'] = __( 'Some of your translations need updating. Sit tight for a few more seconds while we update them as well.' );
+		$this->strings['starting_upgrade'] = __( 'Some of your translations need updating. Sit tight for a few more seconds while they are updated as well.' );
 		$this->strings['up_to_date']       = __( 'Your translations are all up to date.' );
 		$this->strings['no_package']       = __( 'Update package not available.' );
 		/* translators: %s: Package URL. */

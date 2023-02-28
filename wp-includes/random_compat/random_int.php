@@ -7,7 +7,7 @@ if (!is_callable('random_int')) {
      *
      * The MIT License (MIT)
      *
-     * Copyright (c) 2015 - 2017 Paragon Initiative Enterprises
+     * Copyright (c) 2015 - 2018 Paragon Initiative Enterprises
      *
      * Permission is hereby granted, free of charge, to any person obtaining a copy
      * of this software and associated documentation files (the "Software"), to deal
@@ -51,6 +51,7 @@ if (!is_callable('random_int')) {
          */
 
         try {
+            /** @var int $min */
             $min = RandomCompat_intval($min);
         } catch (TypeError $ex) {
             throw new TypeError(
@@ -59,6 +60,7 @@ if (!is_callable('random_int')) {
         }
 
         try {
+            /** @var int $max */
             $max = RandomCompat_intval($max);
         } catch (TypeError $ex) {
             throw new TypeError(
@@ -90,11 +92,18 @@ if (!is_callable('random_int')) {
          *          so we can minimize the number of discards
          */
         $attempts = $bits = $bytes = $mask = $valueShift = 0;
+        /** @var int $attempts */
+        /** @var int $bits */
+        /** @var int $bytes */
+        /** @var int $mask */
+        /** @var int $valueShift */
 
         /**
          * At this point, $range is a positive number greater than 0. It might
          * overflow, however, if $max - $min > PHP_INT_MAX. PHP will cast it to
          * a float and we will lose some precision.
+         *
+         * @var int|float $range
          */
         $range = $max - $min;
 
@@ -115,6 +124,7 @@ if (!is_callable('random_int')) {
              * @ref http://3v4l.org/XX9r5  (64-bit)
              */
             $bytes = PHP_INT_SIZE;
+            /** @var int $mask */
             $mask = ~0;
 
         } else {
@@ -129,16 +139,19 @@ if (!is_callable('random_int')) {
                 }
                 ++$bits;
                 $range >>= 1;
+                /** @var int $mask */
                 $mask = $mask << 1 | 1;
             }
             $valueShift = $min;
         }
 
+        /** @var int $val */
         $val = 0;
         /**
          * Now that we have our parameters set up, let's begin generating
          * random integers until one falls between $min and $max
          */
+        /** @psalm-suppress RedundantCondition */
         do {
             /**
              * The rejection probability is at most 0.5, so this corresponds
@@ -169,6 +182,7 @@ if (!is_callable('random_int')) {
             for ($i = 0; $i < $bytes; ++$i) {
                 $val |= ord($randomByteString[$i]) << ($i * 8);
             }
+            /** @var int $val */
 
             /**
              * Apply mask

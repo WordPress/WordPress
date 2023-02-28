@@ -30,7 +30,7 @@
 		wp_body_open();
 		?>
 
-		<header id="site-header" class="header-footer-group" role="banner">
+		<header id="site-header" class="header-footer-group">
 
 			<div class="header-inner section-inner">
 
@@ -85,7 +85,7 @@
 					if ( has_nav_menu( 'primary' ) || ! has_nav_menu( 'expanded' ) ) {
 						?>
 
-							<nav class="primary-menu-wrapper" aria-label="<?php echo esc_attr_x( 'Horizontal', 'menu', 'twentytwenty' ); ?>" role="navigation">
+							<nav class="primary-menu-wrapper" aria-label="<?php echo esc_attr_x( 'Horizontal', 'menu', 'twentytwenty' ); ?>">
 
 								<ul class="primary-menu reset-list-style">
 

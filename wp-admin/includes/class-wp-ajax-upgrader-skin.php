@@ -19,6 +19,27 @@
 class WP_Ajax_Upgrader_Skin extends Automatic_Upgrader_Skin {
 
 	/**
+	 * Plugin info.
+	 *
+	 * The Plugin_Upgrader::bulk_upgrade() method will fill this in
+	 * with info retrieved from the get_plugin_data() function.
+	 *
+	 * @var array Plugin data. Values will be empty if not supplied by the plugin.
+	 */
+	public $plugin_info = array();
+
+	/**
+	 * Theme info.
+	 *
+	 * The Theme_Upgrader::bulk_upgrade() method will fill this in
+	 * with info retrieved from the Theme_Upgrader::theme_info() method,
+	 * which in turn calls the wp_get_theme() function.
+	 *
+	 * @var WP_Theme|false The theme's info object, or false.
+	 */
+	public $theme_info = false;
+
+	/**
 	 * Holds the WP_Error object.
 	 *
 	 * @since 4.6.0

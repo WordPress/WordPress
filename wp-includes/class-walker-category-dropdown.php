@@ -31,7 +31,7 @@ class Walker_CategoryDropdown extends Walker {
 	 *
 	 * @since 2.1.0
 	 * @todo Decouple this
-	 * @var array
+	 * @var string[]
 	 *
 	 * @see Walker::$db_fields
 	 */

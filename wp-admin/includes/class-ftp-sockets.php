@@ -139,22 +139,22 @@ class ftp_sockets extends ftp_base {
 			else $this->_ftp_temp_sock=$this->_ftp_data_sock;
 		} else {
 			if(!@socket_getsockname($this->_ftp_control_sock, $addr, $port)) {
-				$this->PushError("_data_prepare","can't get control socket information", socket_strerror(socket_last_error($this->_ftp_control_sock)));
+				$this->PushError("_data_prepare","cannot get control socket information", socket_strerror(socket_last_error($this->_ftp_control_sock)));
 				$this->_data_close();
 				return FALSE;
 			}
 			if(!@socket_bind($this->_ftp_data_sock,$addr)){
-				$this->PushError("_data_prepare","can't bind data socket", socket_strerror(socket_last_error($this->_ftp_data_sock)));
+				$this->PushError("_data_prepare","cannot bind data socket", socket_strerror(socket_last_error($this->_ftp_data_sock)));
 				$this->_data_close();
 				return FALSE;
 			}
 			if(!@socket_listen($this->_ftp_data_sock)) {
-				$this->PushError("_data_prepare","can't listen data socket", socket_strerror(socket_last_error($this->_ftp_data_sock)));
+				$this->PushError("_data_prepare","cannot listen data socket", socket_strerror(socket_last_error($this->_ftp_data_sock)));
 				$this->_data_close();
 				return FALSE;
 			}
 			if(!@socket_getsockname($this->_ftp_data_sock, $this->_datahost, $this->_dataport)) {
-				$this->PushError("_data_prepare","can't get data socket information", socket_strerror(socket_last_error($this->_ftp_data_sock)));
+				$this->PushError("_data_prepare","cannot get data socket information", socket_strerror(socket_last_error($this->_ftp_data_sock)));
 				$this->_data_close();
 				return FALSE;
 			}

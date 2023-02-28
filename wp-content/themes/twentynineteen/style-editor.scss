@@ -36,6 +36,7 @@ body {
 
 	@include media(tablet) {
 
+		&.block-editor-writing-flow,
 		.block-editor-writing-flow {
 			max-width: 80%;
 			margin: 0 10%;
@@ -93,6 +94,8 @@ body {
 /** === Base Typography === */
 
 body {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 	font-size: $font__size_base;
 	@include font-family( $font__body );
 	line-height: $font__line-height-body;
@@ -442,7 +445,7 @@ figcaption,
 		@include font-family( $font__heading );
 		font-size: $font__size-xs;
 		line-height: 1.6;
-		color: $color__text-light;
+		color: inherit;
 	}
 }
 

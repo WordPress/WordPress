@@ -80,9 +80,15 @@ function twentythirteen_setup() {
 
 	/*
 	 * This theme styles the visual editor to resemble the theme style,
-	 * specifically font, colors, icons, and column width.
+	 * specifically font, colors, icons, and column width. When fonts are
+	 * self-hosted, the theme directory needs to be removed first.
 	 */
-	add_editor_style( array( 'css/editor-style.css', 'genericons/genericons.css', twentythirteen_fonts_url() ) );
+	$font_stylesheet = str_replace(
+		array( get_template_directory_uri() . '/', get_stylesheet_directory_uri() . '/' ),
+		'',
+		twentythirteen_fonts_url()
+	);
+	add_editor_style( array( 'css/editor-style.css', 'genericons/genericons.css', $font_stylesheet ) );
 
 	// Load regular editor styles into the new block-based editor.
 	add_theme_support( 'editor-styles' );
@@ -158,6 +164,33 @@ function twentythirteen_setup() {
 		)
 	);
 
+	// Add support for block gradient colors.
+	add_theme_support(
+		'editor-gradient-presets',
+		array(
+			array(
+				'name'     => __( 'Autumn Brown', 'twentythirteen' ),
+				'gradient' => 'linear-gradient(135deg, rgba(226,45,15,1) 0%, rgba(158,25,13,1) 100%)',
+				'slug'     => 'autumn-brown',
+			),
+			array(
+				'name'     => __( 'Sunset Yellow', 'twentythirteen' ),
+				'gradient' => 'linear-gradient(135deg, rgba(233,139,41,1) 0%, rgba(238,179,95,1) 100%)',
+				'slug'     => 'sunset-yellow',
+			),
+			array(
+				'name'     => __( 'Light Sky', 'twentythirteen' ),
+				'gradient' => 'linear-gradient(135deg,rgba(228,228,228,1.0) 0%,rgba(208,225,252,1.0) 100%)',
+				'slug'     => 'light-sky',
+			),
+			array(
+				'name'     => __( 'Dark Sky', 'twentythirteen' ),
+				'gradient' => 'linear-gradient(135deg,rgba(0,0,0,1.0) 0%,rgba(56,61,69,1.0) 100%)',
+				'slug'     => 'dark-sky',
+			),
+		)
+	);
+
 	// Adds RSS feed links to <head> for posts and comments.
 	add_theme_support( 'automatic-feed-links' );
 
@@ -181,7 +214,7 @@ function twentythirteen_setup() {
 
 	/*
 	 * This theme supports all available post formats by default.
-	 * See https://wordpress.org/support/article/post-formats/
+	 * See https://wordpress.org/documentation/article/post-formats/
 	 */
 	add_theme_support(
 		'post-formats',
@@ -216,52 +249,50 @@ function twentythirteen_setup() {
 }
 add_action( 'after_setup_theme', 'twentythirteen_setup' );
 
-/**
- * Return the Google font stylesheet URL, if available.
- *
- * The use of Source Sans Pro and Bitter by default is localized. For languages
- * that use characters not supported by the font, the font can be disabled.
- *
- * @since Twenty Thirteen 1.0
- *
- * @return string Font stylesheet or empty string if disabled.
- */
-function twentythirteen_fonts_url() {
-	$fonts_url = '';
-
-	/*
-	 * translators: If there are characters in your language that are not supported
-	 * by Source Sans Pro, translate this to 'off'. Do not translate into your own language.
+if ( ! function_exists( 'twentythirteen_fonts_url' ) ) :
+	/**
+	 * Return the font stylesheet URL, if available.
+	 *
+	 * The use of Source Sans Pro and Bitter by default is localized. For languages
+	 * that use characters not supported by the font, the font can be disabled.
+	 *
+	 * @since Twenty Thirteen 1.0
+	 * @since Twenty Thirteen 3.8 Replaced Google URL with self-hosted fonts.
+	 *
+	 * @return string Font stylesheet or empty string if disabled.
 	 */
-	$source_sans_pro = _x( 'on', 'Source Sans Pro font: on or off', 'twentythirteen' );
+	function twentythirteen_fonts_url() {
+		$fonts_url = '';
 
-	/*
-	 * translators: If there are characters in your language that are not supported
-	 * by Bitter, translate this to 'off'. Do not translate into your own language.
-	 */
-	$bitter = _x( 'on', 'Bitter font: on or off', 'twentythirteen' );
+		/*
+		 * translators: If there are characters in your language that are not supported
+		 * by Source Sans Pro, translate this to 'off'. Do not translate into your own language.
+		 */
+		$source_sans_pro = _x( 'on', 'Source Sans Pro font: on or off', 'twentythirteen' );
 
-	if ( 'off' !== $source_sans_pro || 'off' !== $bitter ) {
-		$font_families = array();
+		/*
+		 * translators: If there are characters in your language that are not supported
+		 * by Bitter, translate this to 'off'. Do not translate into your own language.
+		 */
+		$bitter = _x( 'on', 'Bitter font: on or off', 'twentythirteen' );
 
-		if ( 'off' !== $source_sans_pro ) {
-			$font_families[] = 'Source Sans Pro:300,400,700,300italic,400italic,700italic';
+		if ( 'off' !== $source_sans_pro || 'off' !== $bitter ) {
+			$font_families = array();
+
+			if ( 'off' !== $source_sans_pro ) {
+				$font_families[] = 'source-sans-pro';
+			}
+
+			if ( 'off' !== $bitter ) {
+				$font_families[] = 'bitter';
+			}
+
+			$fonts_url = get_template_directory_uri() . '/fonts/' . implode( '-plus-', $font_families ) . '.css';
 		}
 
-		if ( 'off' !== $bitter ) {
-			$font_families[] = 'Bitter:400,700';
-		}
-
-		$query_args = array(
-			'family'  => urlencode( implode( '|', $font_families ) ),
-			'subset'  => urlencode( 'latin,latin-ext' ),
-			'display' => urlencode( 'fallback' ),
-		);
-		$fonts_url  = add_query_arg( $query_args, 'https://fonts.googleapis.com/css' );
+		return $fonts_url;
 	}
-
-	return $fonts_url;
-}
+endif;
 
 /**
  * Enqueue scripts and styles for the front end.
@@ -283,19 +314,20 @@ function twentythirteen_scripts_styles() {
 	}
 
 	// Loads JavaScript file with functionality specific to Twenty Thirteen.
-	wp_enqueue_script( 'twentythirteen-script', get_template_directory_uri() . '/js/functions.js', array( 'jquery' ), '20171218', true );
+	wp_enqueue_script( 'twentythirteen-script', get_template_directory_uri() . '/js/functions.js', array( 'jquery' ), '20210122', true );
 
 	// Add Source Sans Pro and Bitter fonts, used in the main stylesheet.
-	wp_enqueue_style( 'twentythirteen-fonts', twentythirteen_fonts_url(), array(), null );
+	$font_version = ( 0 === strpos( (string) twentythirteen_fonts_url(), get_template_directory_uri() . '/' ) ) ? '20230328' : null;
+	wp_enqueue_style( 'twentythirteen-fonts', twentythirteen_fonts_url(), array(), $font_version );
 
 	// Add Genericons font, used in the main stylesheet.
 	wp_enqueue_style( 'genericons', get_template_directory_uri() . '/genericons/genericons.css', array(), '3.0.3' );
 
 	// Loads our main stylesheet.
-	wp_enqueue_style( 'twentythirteen-style', get_stylesheet_uri(), array(), '20201208' );
+	wp_enqueue_style( 'twentythirteen-style', get_stylesheet_uri(), array(), '20221101' );
 
 	// Theme block stylesheet.
-	wp_enqueue_style( 'twentythirteen-block-style', get_template_directory_uri() . '/css/blocks.css', array( 'twentythirteen-style' ), '20190102' );
+	wp_enqueue_style( 'twentythirteen-block-style', get_template_directory_uri() . '/css/blocks.css', array( 'twentythirteen-style' ), '20210622' );
 
 	// Loads the Internet Explorer specific stylesheet.
 	wp_enqueue_style( 'twentythirteen-ie', get_template_directory_uri() . '/css/ie.css', array( 'twentythirteen-style' ), '20150214' );
@@ -307,6 +339,7 @@ add_action( 'wp_enqueue_scripts', 'twentythirteen_scripts_styles' );
  * Add preconnect for Google Fonts.
  *
  * @since Twenty Thirteen 2.1
+ * @deprecated Twenty Thirteen 3.8 Disabled filter because, by default, fonts are self-hosted.
  *
  * @param array   $urls          URLs to print for resource hints.
  * @param string  $relation_type The relation type the URLs are printed.
@@ -326,7 +359,7 @@ function twentythirteen_resource_hints( $urls, $relation_type ) {
 
 	return $urls;
 }
-add_filter( 'wp_resource_hints', 'twentythirteen_resource_hints', 10, 2 );
+// add_filter( 'wp_resource_hints', 'twentythirteen_resource_hints', 10, 2 );
 
 /**
  * Enqueue styles for the block-based editor.
@@ -335,9 +368,10 @@ add_filter( 'wp_resource_hints', 'twentythirteen_resource_hints', 10, 2 );
  */
 function twentythirteen_block_editor_styles() {
 	// Block styles.
-	wp_enqueue_style( 'twentythirteen-block-editor-style', get_template_directory_uri() . '/css/editor-blocks.css', array(), '20201208' );
+	wp_enqueue_style( 'twentythirteen-block-editor-style', get_template_directory_uri() . '/css/editor-blocks.css', array(), '20210621' );
 	// Add custom fonts.
-	wp_enqueue_style( 'twentythirteen-fonts', twentythirteen_fonts_url(), array(), null );
+	$font_version = ( 0 === strpos( (string) twentythirteen_fonts_url(), get_template_directory_uri() . '/' ) ) ? '20230328' : null;
+	wp_enqueue_style( 'twentythirteen-fonts', twentythirteen_fonts_url(), array(), $font_version );
 }
 add_action( 'enqueue_block_editor_assets', 'twentythirteen_block_editor_styles' );
 
@@ -411,6 +445,20 @@ function twentythirteen_widgets_init() {
 }
 add_action( 'widgets_init', 'twentythirteen_widgets_init' );
 
+if ( ! function_exists( 'wp_get_list_item_separator' ) ) :
+	/**
+	 * Retrieves the list item separator based on the locale.
+	 *
+	 * Added for backward compatibility to support pre-6.0.0 WordPress versions.
+	 *
+	 * @since 6.0.0
+	 */
+	function wp_get_list_item_separator() {
+		/* translators: Used between list items, there is a space after the comma. */
+		return __( ', ', 'twentythirteen' );
+	}
+endif;
+
 if ( ! function_exists( 'twentythirteen_paging_nav' ) ) :
 	/**
 	 * Display navigation to next/previous set of posts when applicable.
@@ -425,8 +473,13 @@ if ( ! function_exists( 'twentythirteen_paging_nav' ) ) :
 			return;
 		}
 		?>
-		<nav class="navigation paging-navigation" role="navigation">
-		<h1 class="screen-reader-text"><?php _e( 'Posts navigation', 'twentythirteen' ); ?></h1>
+		<nav class="navigation paging-navigation">
+		<h1 class="screen-reader-text">
+			<?php
+			/* translators: Hidden accessibility text. */
+			_e( 'Posts navigation', 'twentythirteen' );
+			?>
+		</h1>
 		<div class="nav-links">
 
 			<?php if ( get_next_posts_link() ) : ?>
@@ -448,6 +501,8 @@ if ( ! function_exists( 'twentythirteen_post_nav' ) ) :
 	 * Display navigation to next/previous post when applicable.
 	 *
 	 * @since Twenty Thirteen 1.0
+	 *
+	 * @global WP_Post $post Global post object.
 	 */
 	function twentythirteen_post_nav() {
 		global $post;
@@ -460,8 +515,13 @@ if ( ! function_exists( 'twentythirteen_post_nav' ) ) :
 			return;
 		}
 		?>
-		<nav class="navigation post-navigation" role="navigation">
-		<h1 class="screen-reader-text"><?php _e( 'Post navigation', 'twentythirteen' ); ?></h1>
+		<nav class="navigation post-navigation">
+		<h1 class="screen-reader-text">
+			<?php
+			/* translators: Hidden accessibility text. */
+			_e( 'Post navigation', 'twentythirteen' );
+			?>
+		</h1>
 		<div class="nav-links">
 
 			<?php previous_post_link( '%link', _x( '<span class="meta-nav">&larr;</span> %title', 'Previous post link', 'twentythirteen' ) ); ?>
@@ -490,14 +550,12 @@ if ( ! function_exists( 'twentythirteen_entry_meta' ) ) :
 			twentythirteen_entry_date();
 		}
 
-		/* translators: Used between list items, there is a space after the comma. */
-		$categories_list = get_the_category_list( __( ', ', 'twentythirteen' ) );
+		$categories_list = get_the_category_list( wp_get_list_item_separator() );
 		if ( $categories_list ) {
 			echo '<span class="categories-links">' . $categories_list . '</span>';
 		}
 
-		/* translators: Used between list items, there is a space after the comma. */
-		$tags_list = get_the_tag_list( '', __( ', ', 'twentythirteen' ) );
+		$tags_list = get_the_tag_list( '', wp_get_list_item_separator() );
 		if ( $tags_list && ! is_wp_error( $tags_list ) ) {
 			echo '<span class="tags-links">' . $tags_list . '</span>';
 		}
@@ -523,10 +581,10 @@ if ( ! function_exists( 'twentythirteen_entry_date' ) ) :
 	 *
 	 * @since Twenty Thirteen 1.0
 	 *
-	 * @param bool $echo (optional) Whether to echo the date. Default true.
+	 * @param bool $display (optional) Whether to display the date. Default true.
 	 * @return string The HTML-formatted post date.
 	 */
-	function twentythirteen_entry_date( $echo = true ) {
+	function twentythirteen_entry_date( $display = true ) {
 		if ( has_post_format( array( 'chat', 'status' ) ) ) {
 			/* translators: 1: Post format name, 2: Date. */
 			$format_prefix = _x( '%1$s on %2$s', '1: post format name. 2: date', 'twentythirteen' );
@@ -543,7 +601,7 @@ if ( ! function_exists( 'twentythirteen_entry_date' ) ) :
 			esc_html( sprintf( $format_prefix, get_post_format_string( get_post_format() ), get_the_date() ) )
 		);
 
-		if ( $echo ) {
+		if ( $display ) {
 			echo $date;
 		}
 
@@ -594,7 +652,7 @@ if ( ! function_exists( 'twentythirteen_the_attached_image' ) ) :
 		// If there is more than 1 attachment in a gallery...
 		if ( count( $attachment_ids ) > 1 ) {
 			foreach ( $attachment_ids as $idx => $attachment_id ) {
-				if ( $attachment_id == $post->ID ) {
+				if ( $attachment_id === $post->ID ) {
 					$next_id = $attachment_ids[ ( $idx + 1 ) % count( $attachment_ids ) ];
 					break;
 				}
@@ -651,7 +709,7 @@ if ( ! function_exists( 'twentythirteen_excerpt_more' ) && ! is_admin() ) :
 		$link = sprintf(
 			'<a href="%1$s" class="more-link">%2$s</a>',
 			esc_url( get_permalink( get_the_ID() ) ),
-			/* translators: %s: Post title. */
+			/* translators: %s: Post title. Only visible to screen readers. */
 			sprintf( __( 'Continue reading %s <span class="meta-nav">&rarr;</span>', 'twentythirteen' ), '<span class="screen-reader-text">' . get_the_title( get_the_ID() ) . '</span>' )
 		);
 		return ' &hellip; ' . $link;
@@ -773,7 +831,7 @@ function twentythirteen_customize_partial_blogdescription() {
  * @since Twenty Thirteen 1.0
  */
 function twentythirteen_customize_preview_js() {
-	wp_enqueue_script( 'twentythirteen-customizer', get_template_directory_uri() . '/js/theme-customizer.js', array( 'customize-preview' ), '20141120', true );
+	wp_enqueue_script( 'twentythirteen-customizer', get_template_directory_uri() . '/js/theme-customizer.js', array( 'customize-preview' ), '20200516', true );
 }
 add_action( 'customize_preview_init', 'twentythirteen_customize_preview_js' );
 

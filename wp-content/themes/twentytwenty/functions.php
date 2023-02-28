@@ -196,7 +196,10 @@ function twentytwenty_register_styles() {
 	wp_style_add_data( 'twentytwenty-style', 'rtl', 'replace' );
 
 	// Add output of Customizer settings as inline style.
-	wp_add_inline_style( 'twentytwenty-style', twentytwenty_get_customizer_css( 'front-end' ) );
+	$customizer_css = twentytwenty_get_customizer_css( 'front-end' );
+	if ( $customizer_css ) {
+		wp_add_inline_style( 'twentytwenty-style', $customizer_css );
+	}
 
 	// Add print CSS.
 	wp_enqueue_style( 'twentytwenty-print-style', get_template_directory_uri() . '/print.css', null, $theme_version, 'print' );
@@ -359,7 +362,10 @@ if ( ! function_exists( 'wp_body_open' ) ) {
  * @since Twenty Twenty 1.0
  */
 function twentytwenty_skip_link() {
-	echo '<a class="skip-link screen-reader-text" href="#site-content">' . __( 'Skip to the content', 'twentytwenty' ) . '</a>';
+	echo '<a class="skip-link screen-reader-text" href="#site-content">' .
+		/* translators: Hidden accessibility text. */
+		__( 'Skip to the content', 'twentytwenty' ) .
+	'</a>';
 }
 
 add_action( 'wp_body_open', 'twentytwenty_skip_link', 5 );
@@ -421,10 +427,16 @@ function twentytwenty_block_editor_styles() {
 	wp_style_add_data( 'twentytwenty-block-editor-styles', 'rtl', 'replace' );
 
 	// Add inline style from the Customizer.
-	wp_add_inline_style( 'twentytwenty-block-editor-styles', twentytwenty_get_customizer_css( 'block-editor' ) );
+	$customizer_css = twentytwenty_get_customizer_css( 'block-editor' );
+	if ( $customizer_css ) {
+		wp_add_inline_style( 'twentytwenty-block-editor-styles', $customizer_css );
+	}
 
 	// Add inline style for non-latin fonts.
-	wp_add_inline_style( 'twentytwenty-block-editor-styles', TwentyTwenty_Non_Latin_Languages::get_non_latin_css( 'block-editor' ) );
+	$custom_css = TwentyTwenty_Non_Latin_Languages::get_non_latin_css( 'block-editor' );
+	if ( $custom_css ) {
+		wp_add_inline_style( 'twentytwenty-block-editor-styles', $custom_css );
+	}
 
 	// Enqueue the editor script.
 	wp_enqueue_script( 'twentytwenty-block-editor-script', get_theme_file_uri( '/assets/js/editor-script-block.js' ), array( 'wp-blocks', 'wp-dom' ), wp_get_theme()->get( 'Version' ), true );
@@ -461,6 +473,10 @@ add_action( 'init', 'twentytwenty_classic_editor_styles' );
 function twentytwenty_add_classic_editor_customizer_styles( $mce_init ) {
 
 	$styles = twentytwenty_get_customizer_css( 'classic-editor' );
+
+	if ( ! $styles ) {
+		return $mce_init;
+	}
 
 	if ( ! isset( $mce_init['content_style'] ) ) {
 		$mce_init['content_style'] = $styles . ' ';

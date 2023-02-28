@@ -121,10 +121,15 @@ Description: Used to style blocks in the editor.
 	.edit-post-visual-editor .editor-block-list__block h4 {
 		font-size: 20px;
 		line-height: 1.4;
-		padding: .7em 0 0.35em;
+		padding: 0.7em 0 0.35em;
 	}
 
-	.edit-post-visual-editor .editor-block-list__block h5,
+	.edit-post-visual-editor .editor-block-list__block h5 {
+		font-size: 18px;
+		line-height: 1.3333;
+		padding: 1.3em 0 0.65em;
+	}
+
 	.edit-post-visual-editor .editor-block-list__block h6 {
 		font-size: 17px;
 		line-height: 1.2353;
@@ -169,7 +174,12 @@ Description: Used to style blocks in the editor.
 		padding: 0.75em 0 0.35em;
 	}
 
-	.edit-post-visual-editor .editor-block-list__block h5,
+	.edit-post-visual-editor .editor-block-list__block h5 {
+		font-size: 20px;
+		line-height: 1.4;
+		padding: 0.7em 0 0.35em;
+	}
+
 	.edit-post-visual-editor .editor-block-list__block h6 {
 		font-size: 19px;
 		line-height: 1.2632;
@@ -214,7 +224,12 @@ Description: Used to style blocks in the editor.
 		padding: 0.65em 0 0.3em;
 	}
 
-	.edit-post-visual-editor .editor-block-list__block h5,
+	.edit-post-visual-editor .editor-block-list__block h5 {
+		font-size: 16px;
+		line-height: 1.25;
+		padding: 0.875em 0 0.4375em;
+	}
+
 	.edit-post-visual-editor .editor-block-list__block h6 {
 		font-size: 15px;
 		line-height: 1.2;
@@ -259,7 +274,12 @@ Description: Used to style blocks in the editor.
 		padding: 0.7em 0 0.35em;
 	}
 
-	.edit-post-visual-editor .editor-block-list__block h5,
+	.edit-post-visual-editor .editor-block-list__block h5 {
+		font-size: 18px;
+		line-height: 1.3333;
+		padding: 0.65em 0 0.3em;
+	}
+
 	.edit-post-visual-editor .editor-block-list__block h6 {
 		font-size: 17px;
 		line-height: 1.2353;
@@ -292,7 +312,12 @@ Description: Used to style blocks in the editor.
 		padding: 0.75em 0 0.35em;
 	}
 
-	.edit-post-visual-editor .editor-block-list__block h5,
+	.edit-post-visual-editor .editor-block-list__block h5 {
+		font-size: 20px;
+		line-height: 1.4;
+		padding: 0.7em 0 0.35em;
+	}
+
 	.edit-post-visual-editor .editor-block-list__block h6 {
 		font-size: 19px;
 		line-height: 1.2632;
@@ -779,7 +804,8 @@ p.has-drop-cap:not(:focus)::first-letter {
 	max-width: 100px;
 }
 
-.wp-block-separator.is-style-wide {
+.wp-block-separator.is-style-wide,
+.wp-block-separator.is-style-dots {
 	max-width: 100%;
 }
 

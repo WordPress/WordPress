@@ -106,7 +106,7 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Parse block metadata for a block, and prepare it for an API repsonse.
+	 * Parse block metadata for a block, and prepare it for an API response.
 	 *
 	 * @since 5.5.0
 	 * @since 5.9.0 Renamed `$plugin` to `$item` to match parent class for PHP 8 named parameter support.
@@ -118,6 +118,8 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller {
 	public function prepare_item_for_response( $item, $request ) {
 		// Restores the more descriptive, specific name for use within this method.
 		$plugin = $item;
+
+		$fields = $this->get_fields_for_response( $request );
 
 		// There might be multiple blocks in a plugin. Only the first block is mapped.
 		$block_data = reset( $plugin['blocks'] );
@@ -146,7 +148,10 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller {
 		$this->add_additional_fields_to_object( $block, $request );
 
 		$response = new WP_REST_Response( $block );
-		$response->add_links( $this->prepare_links( $plugin ) );
+
+		if ( rest_is_field_included( '_links', $fields ) || rest_is_field_included( '_embedded', $fields ) ) {
+			$response->add_links( $this->prepare_links( $plugin ) );
+		}
 
 		return $response;
 	}
@@ -239,7 +244,7 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller {
 				),
 				'rating'              => array(
 					'description' => __( 'The star rating of the block.' ),
-					'type'        => 'integer',
+					'type'        => 'number',
 					'context'     => array( 'view' ),
 				),
 				'rating_count'        => array(
@@ -249,12 +254,12 @@ class WP_REST_Block_Directory_Controller extends WP_REST_Controller {
 				),
 				'active_installs'     => array(
 					'description' => __( 'The number sites that have activated this block.' ),
-					'type'        => 'string',
+					'type'        => 'integer',
 					'context'     => array( 'view' ),
 				),
 				'author_block_rating' => array(
 					'description' => __( 'The average rating of blocks published by the same author.' ),
-					'type'        => 'integer',
+					'type'        => 'number',
 					'context'     => array( 'view' ),
 				),
 				'author_block_count'  => array(

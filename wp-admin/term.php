@@ -20,7 +20,7 @@ if ( empty( $_REQUEST['tag_ID'] ) ) {
 		$sendback = add_query_arg( 'post_type', get_current_screen()->post_type, $sendback );
 	}
 
-	wp_redirect( esc_url_raw( $sendback ) );
+	wp_redirect( sanitize_url( $sendback ) );
 	exit;
 }
 
@@ -28,7 +28,7 @@ $tag_ID = absint( $_REQUEST['tag_ID'] );
 $tag    = get_term( $tag_ID, $taxnow, OBJECT, 'edit' );
 
 if ( ! $tag instanceof WP_Term ) {
-	wp_die( __( 'You attempted to edit an item that doesn&#8217;t exist. Perhaps it was deleted?' ) );
+	wp_die( __( 'You attempted to edit an item that does not exist. Perhaps it was deleted?' ) );
 }
 
 $tax      = get_taxonomy( $tag->taxonomy );

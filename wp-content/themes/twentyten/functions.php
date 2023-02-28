@@ -326,7 +326,7 @@ if ( ! function_exists( 'twentyten_continue_reading_link' ) ) :
 	 * @return string "Continue Reading" link.
 	 */
 	function twentyten_continue_reading_link() {
-		return ' <a href="' . get_permalink() . '">' . __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'twentyten' ) . '</a>';
+		return ' <a href="' . esc_url( get_permalink() ) . '">' . __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'twentyten' ) . '</a>';
 	}
 endif;
 
@@ -439,7 +439,7 @@ if ( ! function_exists( 'twentyten_comment' ) ) :
 				}
 				?>
 
-				<?php if ( '0' == $comment->comment_approved ) : ?>
+				<?php if ( '0' === $comment->comment_approved ) : ?>
 			<em class="comment-awaiting-moderation"><?php echo $moderation_note; ?></em>
 			<br />
 			<?php endif; ?>
@@ -607,13 +607,13 @@ if ( ! function_exists( 'twentyten_posted_on' ) ) :
 			'meta-prep meta-prep-author',
 			sprintf(
 				'<a href="%1$s" title="%2$s" rel="bookmark"><span class="entry-date">%3$s</span></a>',
-				get_permalink(),
+				esc_url( get_permalink() ),
 				esc_attr( get_the_time() ),
 				get_the_date()
 			),
 			sprintf(
 				'<span class="author vcard"><a class="url fn n" href="%1$s" title="%2$s">%3$s</a></span>',
-				get_author_posts_url( get_the_author_meta( 'ID' ) ),
+				esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
 				/* translators: %s: Author display name. */
 				esc_attr( sprintf( __( 'View all posts by %s', 'twentyten' ), get_the_author() ) ),
 				get_the_author()
@@ -648,7 +648,7 @@ if ( ! function_exists( 'twentyten_posted_in' ) ) :
 			$posted_in,
 			get_the_category_list( ', ' ),
 			$tags_list,
-			get_permalink(),
+			esc_url( get_permalink() ),
 			the_title_attribute( 'echo=0' )
 		);
 	}
@@ -724,7 +724,7 @@ add_filter( 'widget_tag_cloud_args', 'twentyten_widget_tag_cloud_args' );
  */
 function twentyten_scripts_styles() {
 	// Theme block stylesheet.
-	wp_enqueue_style( 'twentyten-block-style', get_template_directory_uri() . '/blocks.css', array(), '20181218' );
+	wp_enqueue_style( 'twentyten-block-style', get_template_directory_uri() . '/blocks.css', array(), '20190704' );
 }
 add_action( 'wp_enqueue_scripts', 'twentyten_scripts_styles' );
 
@@ -735,7 +735,7 @@ add_action( 'wp_enqueue_scripts', 'twentyten_scripts_styles' );
  */
 function twentyten_block_editor_styles() {
 	// Block styles.
-	wp_enqueue_style( 'twentyten-block-editor-style', get_template_directory_uri() . '/editor-blocks.css', array(), '20201208' );
+	wp_enqueue_style( 'twentyten-block-editor-style', get_template_directory_uri() . '/editor-blocks.css', array(), '20221011' );
 }
 add_action( 'enqueue_block_editor_assets', 'twentyten_block_editor_styles' );
 

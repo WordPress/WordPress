@@ -560,7 +560,7 @@ get_current_screen()->add_help_tab(
 				'<p>' . __( 'Most of the time, plugins play nicely with the core of WordPress and with other plugins. Sometimes, though, a plugin&#8217;s code will get in the way of another plugin, causing compatibility issues. If your site starts doing strange things, this may be the problem. Try deactivating all your plugins and re-activating them in various combinations until you isolate which one(s) caused the issue.' ) . '</p>' .
 				'<p>' . sprintf(
 					/* translators: %s: WP_PLUGIN_DIR constant value. */
-					__( 'If something goes wrong with a plugin and you can&#8217;t use WordPress, delete or rename that file in the %s directory and it will be automatically deactivated.' ),
+					__( 'If something goes wrong with a plugin and you cannot use WordPress, delete or rename that file in the %s directory and it will be automatically deactivated.' ),
 					'<code>' . WP_PLUGIN_DIR . '</code>'
 				) . '</p>',
 	)
@@ -580,14 +580,14 @@ if ( current_user_can( 'update_plugins' ) && wp_is_auto_update_enabled_for_type(
 		)
 	);
 
-	$help_sidebar_autoupdates = '<p>' . __( '<a href="https://wordpress.org/support/article/plugins-themes-auto-updates/">Learn more: Auto-updates documentation</a>' ) . '</p>';
+	$help_sidebar_autoupdates = '<p>' . __( '<a href="https://wordpress.org/documentation/article/plugins-themes-auto-updates/">Documentation on Auto-updates</a>' ) . '</p>';
 }
 
 get_current_screen()->set_help_sidebar(
 	'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
-	'<p>' . __( '<a href="https://wordpress.org/support/article/managing-plugins/">Documentation on Managing Plugins</a>' ) . '</p>' .
+	'<p>' . __( '<a href="https://wordpress.org/documentation/article/manage-plugins/">Documentation on Managing Plugins</a>' ) . '</p>' .
 	$help_sidebar_autoupdates .
-	'<p>' . __( '<a href="https://wordpress.org/support/">Support</a>' ) . '</p>'
+	'<p>' . __( '<a href="https://wordpress.org/support/forums/">Support forums</a>' ) . '</p>'
 );
 
 get_current_screen()->set_screen_reader_content(
@@ -612,7 +612,7 @@ if ( ! empty( $invalid ) ) {
 			/* translators: 1: Plugin file, 2: Error message. */
 			__( 'The plugin %1$s has been deactivated due to an error: %2$s' ),
 			'<code>' . esc_html( $plugin_file ) . '</code>',
-			$error->get_error_message()
+			esc_html( $error->get_error_message() )
 		);
 		echo '</p></div>';
 	}
@@ -676,7 +676,7 @@ elseif ( isset( $_GET['deleted'] ) ) :
 				printf(
 					/* translators: %s: Error message. */
 					__( 'Plugin could not be deleted due to an error: %s' ),
-					$delete_result->get_error_message()
+					esc_html( $delete_result->get_error_message() )
 				);
 				?>
 			</p>
@@ -726,7 +726,7 @@ echo esc_html( $title );
 <?php
 if ( ( ! is_multisite() || is_network_admin() ) && current_user_can( 'install_plugins' ) ) {
 	?>
-	<a href="<?php echo self_admin_url( 'plugin-install.php' ); ?>" class="page-title-action"><?php echo esc_html_x( 'Add New', 'plugin' ); ?></a>
+	<a href="<?php echo esc_url( self_admin_url( 'plugin-install.php' ) ); ?>" class="page-title-action"><?php echo esc_html_x( 'Add New', 'plugin' ); ?></a>
 	<?php
 }
 

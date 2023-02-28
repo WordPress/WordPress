@@ -83,7 +83,7 @@ if ( $message ) {
 <div id="message" class="notice notice-<?php echo $class; ?>">
 	<p><strong><?php echo $message; ?></strong></p>
 	<?php if ( $wp_http_referer ) { ?>
-	<p><a href="<?php echo esc_url( wp_validate_redirect( esc_url_raw( $wp_http_referer ), admin_url( 'term.php?taxonomy=' . $taxonomy ) ) ); ?>">
+	<p><a href="<?php echo esc_url( wp_validate_redirect( sanitize_url( $wp_http_referer ), admin_url( 'term.php?taxonomy=' . $taxonomy ) ) ); ?>">
 		<?php echo esc_html( $tax->labels->back_to_items ); ?>
 	</a></p>
 	<?php } ?>
@@ -145,10 +145,9 @@ if ( isset( $tag->name ) ) {
 	<table class="form-table" role="presentation">
 		<tr class="form-field form-required term-name-wrap">
 			<th scope="row"><label for="name"><?php _ex( 'Name', 'term name' ); ?></label></th>
-			<td><input name="name" id="name" type="text" value="<?php echo $tag_name_value; ?>" size="40" aria-required="true" />
-			<p class="description"><?php _e( 'The name is how it appears on your site.' ); ?></p></td>
+			<td><input name="name" id="name" type="text" value="<?php echo $tag_name_value; ?>" size="40" aria-required="true" aria-describedby="name-description" />
+			<p class="description" id="name-description"><?php echo $tax->labels->name_field_description; ?></p></td>
 		</tr>
-<?php if ( ! global_terms_enabled() ) { ?>
 		<tr class="form-field term-slug-wrap">
 			<th scope="row"><label for="slug"><?php _e( 'Slug' ); ?></label></th>
 			<?php
@@ -167,10 +166,9 @@ if ( isset( $tag->name ) ) {
 			 */
 			$slug = isset( $tag->slug ) ? apply_filters( 'editable_slug', $tag->slug, $tag ) : '';
 			?>
-			<td><input name="slug" id="slug" type="text" value="<?php echo esc_attr( $slug ); ?>" size="40" />
-			<p class="description"><?php _e( 'The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.' ); ?></p></td>
+			<td><input name="slug" id="slug" type="text" value="<?php echo esc_attr( $slug ); ?>" size="40" aria-describedby="slug-description" />
+			<p class="description" id="slug-description"><?php echo $tax->labels->slug_field_description; ?></p></td>
 		</tr>
-<?php } ?>
 <?php if ( is_taxonomy_hierarchical( $taxonomy ) ) : ?>
 		<tr class="form-field term-parent-wrap">
 			<th scope="row"><label for="parent"><?php echo esc_html( $tax->labels->parent_item ); ?></label></th>
@@ -186,6 +184,7 @@ if ( isset( $tag->name ) ) {
 					'exclude_tree'     => $tag->term_id,
 					'hierarchical'     => true,
 					'show_option_none' => __( 'None' ),
+					'aria_describedby' => 'parent-description',
 				);
 
 				/** This filter is documented in wp-admin/edit-tags.php */
@@ -193,17 +192,17 @@ if ( isset( $tag->name ) ) {
 				wp_dropdown_categories( $dropdown_args );
 				?>
 				<?php if ( 'category' === $taxonomy ) : ?>
-					<p class="description"><?php _e( 'Categories, unlike tags, can have a hierarchy. You might have a Jazz category, and under that have children categories for Bebop and Big Band. Totally optional.' ); ?></p>
+					<p class="description" id="parent-description"><?php _e( 'Categories, unlike tags, can have a hierarchy. You might have a Jazz category, and under that have children categories for Bebop and Big Band. Totally optional.' ); ?></p>
 				<?php else : ?>
-					<p class="description"><?php _e( 'Assign a parent term to create a hierarchy. The term Jazz, for example, would be the parent of Bebop and Big Band.' ); ?></p>
+					<p class="description" id="parent-description"><?php echo $tax->labels->parent_field_description; ?></p>
 				<?php endif; ?>
 			</td>
 		</tr>
 <?php endif; // is_taxonomy_hierarchical() ?>
 		<tr class="form-field term-description-wrap">
 			<th scope="row"><label for="description"><?php _e( 'Description' ); ?></label></th>
-			<td><textarea name="description" id="description" rows="5" cols="50" class="large-text"><?php echo $tag->description; // textarea_escaped ?></textarea>
-			<p class="description"><?php _e( 'The description is not prominent by default; however, some themes may show it.' ); ?></p></td>
+			<td><textarea name="description" id="description" rows="5" cols="50" class="large-text" aria-describedby="description-description"><?php echo $tag->description; // textarea_escaped ?></textarea>
+			<p class="description" id="description-description"><?php echo $tax->labels->desc_field_description; ?></p></td>
 		</tr>
 		<?php
 		// Back compat hooks.

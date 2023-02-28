@@ -617,7 +617,7 @@ window.screenMeta = {
 		 * @return {void}
 		 */
 		panel.slideDown( 'fast', function() {
-			panel.trigger( 'focus' );
+			panel.removeClass( 'hidden' ).trigger( 'focus' );
 			button.addClass( 'screen-meta-active' ).attr( 'aria-expanded', true );
 		});
 
@@ -646,6 +646,7 @@ window.screenMeta = {
 			button.removeClass( 'screen-meta-active' ).attr( 'aria-expanded', false );
 			$('.screen-meta-toggle').css('visibility', '');
 			panel.parent().hide();
+			panel.addClass( 'hidden' );
 		});
 
 		$document.trigger( 'screen:options:close' );
@@ -751,8 +752,14 @@ $availableStructureTags.on( 'click', function() {
 	    selectionStart          = $permalinkStructure[ 0 ].selectionStart,
 	    selectionEnd            = $permalinkStructure[ 0 ].selectionEnd,
 	    textToAppend            = $( this ).text().trim(),
-	    textToAnnounce          = $( this ).attr( 'data-added' ),
+	    textToAnnounce,
 	    newSelectionStart;
+
+	if ( $( this ).hasClass( 'active' ) ) {
+		textToAnnounce = $( this ).attr( 'data-removed' );
+	} else {
+		textToAnnounce = $( this ).attr( 'data-added' );
+	}
 
 	// Remove structure tag if already part of the structure.
 	if ( -1 !== permalinkStructureValue.indexOf( textToAppend ) ) {
@@ -854,7 +861,7 @@ $( function() {
 		// Reset any compensation for submenus near the bottom of the screen.
 		$('#adminmenu div.wp-submenu').css('margin-top', '');
 
-		if ( viewportWidth < 960 ) {
+		if ( viewportWidth <= 960 ) {
 			if ( $body.hasClass('auto-fold') ) {
 				$body.removeClass('auto-fold').removeClass('folded');
 				setUserSetting('unfold', 1);
@@ -931,7 +938,7 @@ $( function() {
 			adjustment = maxtop;
 		}
 
-		if ( adjustment > 1 ) {
+		if ( adjustment > 1 && $('#wp-admin-bar-menu-toggle').is(':hidden') ) {
 			$submenu.css( 'margin-top', '-' + adjustment + 'px' );
 		} else {
 			$submenu.css( 'margin-top', '' );
@@ -1309,7 +1316,7 @@ $( function() {
 	});
 
 	/**
-	 * Handles tab keypresses in theme and plugin editor textareas.
+	 * Handles tab keypresses in theme and plugin file editor textareas.
 	 *
 	 * @param {Event} e The event object.
 	 *
@@ -1695,6 +1702,25 @@ $( function() {
 				}
 			} );
 
+			// Close sidebar when focus moves outside of toggle and sidebar.
+			$( '#wp-admin-bar-menu-toggle, #adminmenumain' ).on( 'focusout', function() {
+				var focusIsInToggle, focusIsInSidebar;
+
+				if ( ! $wpwrap.hasClass( 'wp-responsive-open' ) || ! document.hasFocus() ) {
+					return;
+				}
+				// A brief delay is required to allow focus to switch to another element.
+				setTimeout( function() {
+					focusIsInToggle  = $.contains( $( '#wp-admin-bar-menu-toggle' )[0], $( ':focus' )[0] );
+					focusIsInSidebar = $.contains( $( '#adminmenumain' )[0], $( ':focus' )[0] );
+
+					if ( ! focusIsInToggle && ! focusIsInSidebar ) {
+						$( '#wp-admin-bar-menu-toggle' ).trigger( 'click.wp-responsive' );
+					}
+				}, 10 );
+			} );
+
+
 			// Add menu events.
 			$adminmenu.on( 'click.wp-responsive', 'li.wp-has-submenu > a', function( event ) {
 				if ( ! $adminmenu.data('wp-responsive') ) {
@@ -1702,13 +1728,14 @@ $( function() {
 				}
 
 				$( this ).parent( 'li' ).toggleClass( 'selected' );
+				$( this ).trigger( 'focus' );
 				event.preventDefault();
 			});
 
 			self.trigger();
 			$document.on( 'wp-window-resized.wp-responsive', this.trigger.bind( this ) );
 
-			// This needs to run later as UI Sortable may be initialized later on $(document).ready().
+			// This needs to run later as UI Sortable may be initialized when the document is ready.
 			$window.on( 'load.wp-responsive', this.maybeDisableSortables );
 			$document.on( 'postbox-toggled', this.maybeDisableSortables );
 

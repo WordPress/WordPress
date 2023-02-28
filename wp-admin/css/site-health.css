@@ -11,10 +11,6 @@ are styled in the Privacy section of edit.css */
 	font-weight: 400;
 }
 
-.health-check-widget-title-section {
-	text-align: center;
-}
-
 .site-health-progress-wrapper {
 	margin-bottom: 1rem;
 }
@@ -249,12 +245,12 @@ are styled in the Privacy section of edit.css */
 	text-align: center;
 	height: 100%;
 	width: 100%;
-	margin-top: 0;
+	margin: 0 0 3rem;
 }
 
 @media all and (min-width: 784px) {
 	.site-status-all-clear {
-		margin: 5rem 0;
+		margin: 2rem 0 5rem;
 	}
 }
 
@@ -264,7 +260,8 @@ are styled in the Privacy section of edit.css */
 
 .site-status-all-clear .dashicons {
 	font-size: 150px;
-	height: 130px;
+	height: 150px;
+	margin-bottom: 2rem;
 	width: 150px;
 }
 
@@ -283,17 +280,6 @@ are styled in the Privacy section of edit.css */
 	padding-left: 20px;
 }
 
-
-/* Better position for the WordPress admin notices and update nag. */
-.site-health .notice {
-	margin: 5px 20px 15px 22px;
-}
-
-.site-health .update-nag {
-	margin-bottom: 20px;
-	margin-left: 22px;
-}
-
 .health-check-wp-paths-sizes.spinner {
 	visibility: visible;
 	float: none;
@@ -306,6 +292,14 @@ are styled in the Privacy section of edit.css */
 	padding-left: 16px;
 }
 
+#dashboard_site_health .site-health-details p:first-child {
+	margin-top: 0;
+}
+
+#dashboard_site_health .site-health-details p:last-child {
+	margin-bottom: 0;
+}
+
 #dashboard_site_health .health-check-widget {
 	display: grid;
 	grid-template-columns: 1fr 2fr;
@@ -315,6 +309,11 @@ are styled in the Privacy section of edit.css */
 }
 #dashboard_site_health .site-health-progress-label {
 	margin-left: 0;
+}
+
+.health-check-widget-title-section {
+	margin-bottom: 0;
+	text-align: center;
 }
 
 @media screen and (max-width: 480px) {

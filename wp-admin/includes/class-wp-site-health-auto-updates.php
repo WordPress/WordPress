@@ -7,6 +7,7 @@
  * @since 5.2.0
  */
 
+#[AllowDynamicProperties]
 class WP_Site_Health_Auto_Updates {
 	/**
 	 * WP_Site_Health_Auto_Updates constructor.
@@ -19,7 +20,7 @@ class WP_Site_Health_Auto_Updates {
 
 
 	/**
-	 * Run tests to determine if auto-updates can run.
+	 * Runs tests to determine if auto-updates can run.
 	 *
 	 * @since 5.2.0
 	 *
@@ -57,7 +58,7 @@ class WP_Site_Health_Auto_Updates {
 	}
 
 	/**
-	 * Test if auto-updates related constants are set correctly.
+	 * Tests if auto-updates related constants are set correctly.
 	 *
 	 * @since 5.2.0
 	 * @since 5.5.1 The `$value` parameter can accept an array.
@@ -73,9 +74,10 @@ class WP_Site_Health_Auto_Updates {
 		if ( defined( $constant ) && ! in_array( constant( $constant ), $acceptable_values, true ) ) {
 			return array(
 				'description' => sprintf(
-					/* translators: %s: Name of the constant used. */
-					__( 'The %s constant is defined and enabled.' ),
-					"<code>$constant</code>"
+					/* translators: 1: Name of the constant used. 2: Value of the constant used. */
+					__( 'The %1$s constant is defined as %2$s' ),
+					"<code>$constant</code>",
+					'<code>' . esc_html( var_export( constant( $constant ), true ) ) . '</code>'
 				),
 				'severity'    => 'fail',
 			);
@@ -83,7 +85,7 @@ class WP_Site_Health_Auto_Updates {
 	}
 
 	/**
-	 * Check if updates are intercepted by a filter.
+	 * Checks if updates are intercepted by a filter.
 	 *
 	 * @since 5.2.0
 	 *
@@ -105,7 +107,7 @@ class WP_Site_Health_Auto_Updates {
 	}
 
 	/**
-	 * Check if automatic updates are disabled by a filter.
+	 * Checks if automatic updates are disabled by a filter.
 	 *
 	 * @since 5.2.0
 	 *
@@ -126,7 +128,7 @@ class WP_Site_Health_Auto_Updates {
 	}
 
 	/**
-	 * Check if automatic updates are disabled.
+	 * Checks if automatic updates are disabled.
 	 *
 	 * @since 5.3.0
 	 *
@@ -150,13 +152,13 @@ class WP_Site_Health_Auto_Updates {
 	}
 
 	/**
-	 * Check if automatic updates have tried to run, but failed, previously.
+	 * Checks if automatic updates have tried to run, but failed, previously.
 	 *
 	 * @since 5.2.0
 	 *
 	 * @return array|false The test results. False if the auto-updates failed.
 	 */
-	function test_if_failed_update() {
+	public function test_if_failed_update() {
 		$failed = get_site_option( 'auto_core_update_failed' );
 
 		if ( ! $failed ) {
@@ -166,7 +168,7 @@ class WP_Site_Health_Auto_Updates {
 		if ( ! empty( $failed['critical'] ) ) {
 			$description  = __( 'A previous automatic background update ended with a critical failure, so updates are now disabled.' );
 			$description .= ' ' . __( 'You would have received an email because of this.' );
-			$description .= ' ' . __( "When you've been able to update using the \"Update now\" button on Dashboard > Updates, we'll clear this error for future update attempts." );
+			$description .= ' ' . __( "When you've been able to update using the \"Update now\" button on Dashboard > Updates, this error will be cleared for future update attempts." );
 			$description .= ' ' . sprintf(
 				/* translators: %s: Code of error shown. */
 				__( 'The error code was %s.' ),
@@ -183,7 +185,7 @@ class WP_Site_Health_Auto_Updates {
 			$description .= ' ' . __( 'You would have received an email because of this.' );
 		}
 
-		$description .= ' ' . __( "We'll try again with the next release." );
+		$description .= ' ' . __( 'Another attempt will be made with the next release.' );
 		$description .= ' ' . sprintf(
 			/* translators: %s: Code of error shown. */
 			__( 'The error code was %s.' ),
@@ -196,7 +198,7 @@ class WP_Site_Health_Auto_Updates {
 	}
 
 	/**
-	 * Check if WordPress is controlled by a VCS (Git, Subversion etc).
+	 * Checks if WordPress is controlled by a VCS (Git, Subversion etc).
 	 *
 	 * @since 5.2.0
 	 *
@@ -266,19 +268,19 @@ class WP_Site_Health_Auto_Updates {
 	}
 
 	/**
-	 * Check if we can access files without providing credentials.
+	 * Checks if we can access files without providing credentials.
 	 *
 	 * @since 5.2.0
 	 *
 	 * @return array The test results.
 	 */
-	function test_check_wp_filesystem_method() {
+	public function test_check_wp_filesystem_method() {
 		// Make sure the `request_filesystem_credentials()` function is available during our REST API call.
 		if ( ! function_exists( 'request_filesystem_credentials' ) ) {
-			require_once ABSPATH . '/wp-admin/includes/file.php';
+			require_once ABSPATH . 'wp-admin/includes/file.php';
 		}
 
-		$skin    = new Automatic_Upgrader_Skin;
+		$skin    = new Automatic_Upgrader_Skin();
 		$success = $skin->request_filesystem_credentials( false, ABSPATH );
 
 		if ( ! $success ) {
@@ -292,13 +294,13 @@ class WP_Site_Health_Auto_Updates {
 		}
 
 		return array(
-			'description' => __( "Your installation of WordPress doesn't require FTP credentials to perform updates." ),
+			'description' => __( 'Your installation of WordPress does not require FTP credentials to perform updates.' ),
 			'severity'    => 'pass',
 		);
 	}
 
 	/**
-	 * Check if core files are writable by the web user/group.
+	 * Checks if core files are writable by the web user/group.
 	 *
 	 * @since 5.2.0
 	 *
@@ -306,12 +308,12 @@ class WP_Site_Health_Auto_Updates {
 	 *
 	 * @return array|false The test results. False if they're not writeable.
 	 */
-	function test_all_files_writable() {
+	public function test_all_files_writable() {
 		global $wp_filesystem;
 
 		require ABSPATH . WPINC . '/version.php'; // $wp_version; // x.y.z
 
-		$skin    = new Automatic_Upgrader_Skin;
+		$skin    = new Automatic_Upgrader_Skin();
 		$success = $skin->request_filesystem_credentials( false, ABSPATH );
 
 		if ( ! $success ) {
@@ -326,7 +328,7 @@ class WP_Site_Health_Auto_Updates {
 
 		// Make sure the `get_core_checksums()` function is available during our REST API call.
 		if ( ! function_exists( 'get_core_checksums' ) ) {
-			require_once ABSPATH . '/wp-admin/includes/update.php';
+			require_once ABSPATH . 'wp-admin/includes/update.php';
 		}
 
 		$checksums = get_core_checksums( $wp_version, 'en_US' );
@@ -385,13 +387,13 @@ class WP_Site_Health_Auto_Updates {
 	}
 
 	/**
-	 * Check if the install is using a development branch and can use nightly packages.
+	 * Checks if the install is using a development branch and can use nightly packages.
 	 *
 	 * @since 5.2.0
 	 *
 	 * @return array|false The test results. False if it isn't a development version.
 	 */
-	function test_accepts_dev_updates() {
+	public function test_accepts_dev_updates() {
 		require ABSPATH . WPINC . '/version.php'; // $wp_version; // x.y.z
 		// Only for dev versions.
 		if ( false === strpos( $wp_version, '-' ) ) {
@@ -423,13 +425,13 @@ class WP_Site_Health_Auto_Updates {
 	}
 
 	/**
-	 * Check if the site supports automatic minor updates.
+	 * Checks if the site supports automatic minor updates.
 	 *
 	 * @since 5.2.0
 	 *
 	 * @return array The test results.
 	 */
-	function test_accepts_minor_updates() {
+	public function test_accepts_minor_updates() {
 		if ( defined( 'WP_AUTO_UPDATE_CORE' ) && false === WP_AUTO_UPDATE_CORE ) {
 			return array(
 				'description' => sprintf(

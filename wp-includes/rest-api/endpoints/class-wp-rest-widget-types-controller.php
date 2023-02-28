@@ -85,9 +85,9 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
 					'form_data' => array(
 						'description'       => __( 'Serialized widget form data to encode into instance settings.' ),
 						'type'              => 'string',
-						'sanitize_callback' => static function( $string ) {
+						'sanitize_callback' => static function( $form_data ) {
 							$array = array();
-							wp_parse_str( $string, $array );
+							wp_parse_str( $form_data, $array );
 							return $array;
 						},
 					),
@@ -96,6 +96,29 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
 					'methods'             => WP_REST_Server::CREATABLE,
 					'permission_callback' => array( $this, 'get_item_permissions_check' ),
 					'callback'            => array( $this, 'encode_form_data' ),
+				),
+			)
+		);
+
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->rest_base . '/(?P<id>[a-zA-Z0-9_-]+)/render',
+			array(
+				array(
+					'methods'             => WP_REST_Server::CREATABLE,
+					'permission_callback' => array( $this, 'get_item_permissions_check' ),
+					'callback'            => array( $this, 'render' ),
+					'args'                => array(
+						'id'       => array(
+							'description' => __( 'The widget type id.' ),
+							'type'        => 'string',
+							'required'    => true,
+						),
+						'instance' => array(
+							'description' => __( 'Current instance settings of the widget.' ),
+							'type'        => 'object',
+						),
+					),
 				),
 			)
 		);
@@ -237,6 +260,8 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
 			$widgets[ $widget['id'] ] = $widget;
 		}
 
+		ksort( $widgets );
+
 		return $widgets;
 	}
 
@@ -310,7 +335,9 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
 
 		$response = rest_ensure_response( $data );
 
-		$response->add_links( $this->prepare_links( $widget_type ) );
+		if ( rest_is_field_included( '_links', $fields ) || rest_is_field_included( '_embedded', $fields ) ) {
+			$response->add_links( $this->prepare_links( $widget_type ) );
+		}
 
 		/**
 		 * Filters the REST API response for a widget type.
@@ -502,7 +529,7 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
 
 		if ( ! empty( $widget_object->widget_options['show_instance_in_rest'] ) ) {
 			// Use new stdClass so that JSON result is {} and not [].
-			$response['instance']['raw'] = empty( $instance ) ? new stdClass : $instance;
+			$response['instance']['raw'] = empty( $instance ) ? new stdClass() : $instance;
 		}
 
 		return rest_ensure_response( $response );
@@ -554,6 +581,78 @@ class WP_REST_Widget_Types_Controller extends WP_REST_Controller {
 			);
 		}
 
+		return ob_get_clean();
+	}
+
+	/**
+	 * Renders a single Legacy Widget and wraps it in a JSON-encodable array.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
+	 * @return array An array with rendered Legacy Widget HTML.
+	 */
+	public function render( $request ) {
+		return array(
+			'preview' => $this->render_legacy_widget_preview_iframe(
+				$request['id'],
+				isset( $request['instance'] ) ? $request['instance'] : null
+			),
+		);
+	}
+
+	/**
+	 * Renders a page containing a preview of the requested Legacy Widget block.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @param string $id_base The id base of the requested widget.
+	 * @param array  $instance The widget instance attributes.
+	 *
+	 * @return string Rendered Legacy Widget block preview.
+	 */
+	private function render_legacy_widget_preview_iframe( $id_base, $instance ) {
+		if ( ! defined( 'IFRAME_REQUEST' ) ) {
+			define( 'IFRAME_REQUEST', true );
+		}
+
+		ob_start();
+		?>
+		<!doctype html>
+		<html <?php language_attributes(); ?>>
+		<head>
+			<meta charset="<?php bloginfo( 'charset' ); ?>" />
+			<meta name="viewport" content="width=device-width, initial-scale=1" />
+			<link rel="profile" href="https://gmpg.org/xfn/11" />
+			<?php wp_head(); ?>
+			<style>
+				/* Reset theme styles */
+				html, body, #page, #content {
+					padding: 0 !important;
+					margin: 0 !important;
+				}
+			</style>
+		</head>
+		<body <?php body_class(); ?>>
+		<div id="page" class="site">
+			<div id="content" class="site-content">
+				<?php
+				$registry = WP_Block_Type_Registry::get_instance();
+				$block    = $registry->get_registered( 'core/legacy-widget' );
+				echo $block->render(
+					array(
+						'idBase'   => $id_base,
+						'instance' => $instance,
+					)
+				);
+				?>
+			</div><!-- #content -->
+		</div><!-- #page -->
+		<?php wp_footer(); ?>
+		</body>
+		</html>
+		<?php
 		return ob_get_clean();
 	}
 

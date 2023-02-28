@@ -571,11 +571,13 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
 	 *
 	 * @since 5.5.0
 	 *
-	 * @param mixed           $item    Unmarked up and untranslated plugin data from {@see get_plugin_data()}.
+	 * @param array           $item    Unmarked up and untranslated plugin data from {@see get_plugin_data()}.
 	 * @param WP_REST_Request $request Request object.
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function prepare_item_for_response( $item, $request ) {
+		$fields = $this->get_fields_for_response( $request );
+
 		$item   = _get_plugin_data_markup_translate( $item['_file'], $item, false );
 		$marked = _get_plugin_data_markup_translate( $item['_file'], $item, true );
 
@@ -600,7 +602,10 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
 		$data = $this->add_additional_fields_to_object( $data, $request );
 
 		$response = new WP_REST_Response( $data );
-		$response->add_links( $this->prepare_links( $item ) );
+
+		if ( rest_is_field_included( '_links', $fields ) || rest_is_field_included( '_embedded', $fields ) ) {
+			$response->add_links( $this->prepare_links( $item ) );
+		}
 
 		/**
 		 * Filters plugin data for a REST API response.
@@ -625,7 +630,14 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
 	protected function prepare_links( $item ) {
 		return array(
 			'self' => array(
-				'href' => rest_url( sprintf( '%s/%s/%s', $this->namespace, $this->rest_base, substr( $item['_file'], 0, - 4 ) ) ),
+				'href' => rest_url(
+					sprintf(
+						'%s/%s/%s',
+						$this->namespace,
+						$this->rest_base,
+						substr( $item['_file'], 0, - 4 )
+					)
+				),
 			),
 		);
 	}

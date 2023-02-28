@@ -108,3 +108,33 @@ function wpmu_get_blog_allowedthemes( $blog_id = 0 ) {
  * @deprecated 3.5.0
  */
 function ms_deprecated_blogs_file() {}
+
+if ( ! function_exists( 'install_global_terms' ) ) :
+	/**
+	 * Install global terms.
+	 *
+	 * @since 3.0.0
+	 * @since 6.1.0 This function no longer does anything.
+	 * @deprecated 6.1.0
+	 */
+	function install_global_terms() {
+		_deprecated_function( __FUNCTION__, '6.1.0' );
+	}
+endif;
+
+/**
+ * Synchronizes category and post tag slugs when global terms are enabled.
+ *
+ * @since 3.0.0
+ * @since 6.1.0 This function no longer does anything.
+ * @deprecated 6.1.0
+ *
+ * @param WP_Term|array $term     The term.
+ * @param string        $taxonomy The taxonomy for `$term`.
+ * @return WP_Term|array Always returns `$term`.
+ */
+function sync_category_tag_slugs( $term, $taxonomy ) {
+	_deprecated_function( __FUNCTION__, '6.1.0' );
+
+	return $term;
+}

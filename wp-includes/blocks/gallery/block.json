@@ -1,4 +1,5 @@
 {
+	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 2,
 	"name": "core/gallery",
 	"title": "Gallery",
@@ -58,6 +59,13 @@
 			},
 			"default": []
 		},
+		"shortCodeTransforms": {
+			"type": "array",
+			"default": [],
+			"items": {
+				"type": "object"
+			}
+		},
 		"columns": {
 			"type": "number",
 			"minimum": 1,
@@ -72,17 +80,57 @@
 			"type": "boolean",
 			"default": true
 		},
+		"fixedHeight": {
+			"type": "boolean",
+			"default": true
+		},
+		"linkTarget": {
+			"type": "string"
+		},
 		"linkTo": {
 			"type": "string"
 		},
 		"sizeSlug": {
 			"type": "string",
 			"default": "large"
+		},
+		"allowResize": {
+			"type": "boolean",
+			"default": false
 		}
+	},
+	"providesContext": {
+		"allowResize": "allowResize",
+		"imageCrop": "imageCrop",
+		"fixedHeight": "fixedHeight"
 	},
 	"supports": {
 		"anchor": true,
-		"align": true
+		"align": true,
+		"html": false,
+		"units": [ "px", "em", "rem", "vh", "vw" ],
+		"spacing": {
+			"margin": true,
+			"padding": true,
+			"blockGap": [ "horizontal", "vertical" ],
+			"__experimentalSkipSerialization": [ "blockGap" ],
+			"__experimentalDefaultControls": {
+				"blockGap": true
+			}
+		},
+		"color": {
+			"text": false,
+			"background": true,
+			"gradients": true
+		},
+		"__experimentalLayout": {
+			"allowSwitching": false,
+			"allowInheriting": false,
+			"allowEditing": false,
+			"default": {
+				"type": "flex"
+			}
+		}
 	},
 	"editorStyle": "wp-block-gallery-editor",
 	"style": "wp-block-gallery"

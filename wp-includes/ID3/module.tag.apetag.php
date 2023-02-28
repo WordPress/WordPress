@@ -360,6 +360,7 @@ class getid3_apetag extends getid3_handler
 		// http://www.uni-jena.de/~pfk/mpp/sv8/apeheader.html
 
 		// shortcut
+		$headerfooterinfo = array();
 		$headerfooterinfo['raw'] = array();
 		$headerfooterinfo_raw = &$headerfooterinfo['raw'];
 
@@ -389,6 +390,7 @@ class getid3_apetag extends getid3_handler
 		// "Note: APE Tags 1.0 do not use any of the APE Tag flags.
 		// All are set to zero on creation and ignored on reading."
 		// http://wiki.hydrogenaud.io/index.php?title=Ape_Tags_Flags
+		$flags                      = array();
 		$flags['header']            = (bool) ($rawflagint & 0x80000000);
 		$flags['footer']            = (bool) ($rawflagint & 0x40000000);
 		$flags['this_is_header']    = (bool) ($rawflagint & 0x20000000);

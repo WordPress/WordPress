@@ -8,7 +8,7 @@
  */
 
 /**
- * Determine if a comment exists based on author and date.
+ * Determines if a comment exists based on author and date.
  *
  * For best performance, use `$timezone = 'gmt'`, which queries a field that is properly indexed. The default value
  * for `$timezone` is 'blog' for legacy reasons.
@@ -42,7 +42,7 @@ function comment_exists( $comment_author, $comment_date, $timezone = 'blog' ) {
 }
 
 /**
- * Update a comment with values provided in $_POST.
+ * Updates a comment with values provided in $_POST.
  *
  * @since 2.0.0
  * @since 5.5.0 A return value was added.
@@ -135,7 +135,7 @@ function get_comment_to_edit( $id ) {
 }
 
 /**
- * Get the number of pending comments on a post or posts
+ * Gets the number of pending comments on a post or posts.
  *
  * @since 2.3.0
  *
@@ -197,6 +197,8 @@ function floated_admin_avatar( $name ) {
 }
 
 /**
+ * Enqueues comment shortcuts jQuery script.
+ *
  * @since 2.7.0
  */
 function enqueue_comment_hotkeys_js() {
@@ -206,7 +208,7 @@ function enqueue_comment_hotkeys_js() {
 }
 
 /**
- * Display error message at bottom of comments.
+ * Displays error message at bottom of comments.
  *
  * @param string $msg Error Message. Assumed to contain HTML and be sanitized.
  */

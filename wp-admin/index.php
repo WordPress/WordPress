@@ -33,7 +33,8 @@ if ( wp_is_mobile() ) {
 $title       = __( 'Dashboard' );
 $parent_file = 'index.php';
 
-$help = '<p>' . __( 'Welcome to your WordPress Dashboard! This is the screen you will see when you log in to your site, and gives you access to all the site management features of WordPress. You can get help for any screen by clicking the Help tab above the screen title.' ) . '</p>';
+$help  = '<p>' . __( 'Welcome to your WordPress Dashboard!' ) . '</p>';
+$help .= '<p>' . __( 'The Dashboard is the first place you will come to every time you log into your site. It is where you will find all your WordPress tools. If you need help, just click the &#8220;Help&#8221; tab above the screen title.' ) . '</p>';
 
 $screen = get_current_screen();
 
@@ -107,10 +108,30 @@ $screen->add_help_tab(
 
 unset( $help );
 
+$wp_version = get_bloginfo( 'version', 'display' );
+/* translators: %s: WordPress version. */
+$wp_version_text = sprintf( __( 'Version %s' ), $wp_version );
+$is_dev_version  = preg_match( '/alpha|beta|RC/', $wp_version );
+
+if ( ! $is_dev_version ) {
+	$version_url = sprintf(
+		/* translators: %s: WordPress version. */
+		esc_url( __( 'https://wordpress.org/support/wordpress-version/version-%s/' ) ),
+		sanitize_title( $wp_version )
+	);
+
+	$wp_version_text = sprintf(
+		'<a href="%1$s">%2$s</a>',
+		$version_url,
+		$wp_version_text
+	);
+}
+
 $screen->set_help_sidebar(
 	'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
-	'<p>' . __( '<a href="https://wordpress.org/support/article/dashboard-screen/">Documentation on Dashboard</a>' ) . '</p>' .
-	'<p>' . __( '<a href="https://wordpress.org/support/">Support</a>' ) . '</p>'
+	'<p>' . __( '<a href="https://wordpress.org/documentation/article/dashboard-screen/">Documentation on Dashboard</a>' ) . '</p>' .
+	'<p>' . __( '<a href="https://wordpress.org/support/forums/">Support forums</a>' ) . '</p>' .
+	'<p>' . $wp_version_text . '</p>'
 );
 
 require_once ABSPATH . 'wp-admin/admin-header.php';

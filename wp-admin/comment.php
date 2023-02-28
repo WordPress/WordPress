@@ -43,7 +43,7 @@ if ( isset( $_REQUEST['c'] ) ) {
 	// Prevent actions on a comment associated with a trashed post.
 	if ( $comment && 'trash' === get_post_status( $comment->comment_post_ID ) ) {
 		wp_die(
-			__( 'You can&#8217;t edit this comment because the associated post is in the Trash. Please restore the post first, then try again.' )
+			__( 'You cannot edit this comment because the associated post is in the Trash. Please restore the post first, then try again.' )
 		);
 	}
 } else {
@@ -68,8 +68,8 @@ switch ( $action ) {
 
 		get_current_screen()->set_help_sidebar(
 			'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
-			'<p>' . __( '<a href="https://wordpress.org/support/article/comments-screen/">Documentation on Comments</a>' ) . '</p>' .
-			'<p>' . __( '<a href="https://wordpress.org/support/">Support</a>' ) . '</p>'
+			'<p>' . __( '<a href="https://wordpress.org/documentation/article/comments-screen/">Documentation on Comments</a>' ) . '</p>' .
+			'<p>' . __( '<a href="https://wordpress.org/support/forums/">Support forums</a>' ) . '</p>'
 		);
 
 		wp_enqueue_script( 'comment' );

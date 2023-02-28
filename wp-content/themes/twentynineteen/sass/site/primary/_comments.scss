@@ -114,6 +114,11 @@
 	}
 }
 
+.comment-form-wrapper,
+.comment-form-wrapper .comments-title {
+	display: block;
+}
+
 .comment-list {
 	list-style: none;
 	padding: 0;
@@ -318,6 +323,7 @@
 
 		a {
 			text-decoration: underline;
+			text-decoration-thickness: 2px;
 
 			&:hover {
 				text-decoration: none;

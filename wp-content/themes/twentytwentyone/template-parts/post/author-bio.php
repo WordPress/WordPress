@@ -20,7 +20,7 @@
 				get_the_author()
 			);
 			?>
-			</h2>
+			</h2><!-- .author-title -->
 			<p class="author-description"> <?php the_author_meta( 'description' ); ?></p><!-- .author-description -->
 			<?php
 			printf(
@@ -35,4 +35,5 @@
 			?>
 		</div><!-- .author-bio-content -->
 	</div><!-- .author-bio -->
-<?php endif; ?>
+	<?php
+endif;

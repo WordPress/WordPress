@@ -1,52 +1,60 @@
 {
-	"version": 1,
+	"version": 2,
 	"settings": {
+		"appearanceTools": false,
+		"useRootPaddingAwareAlignments": false,
 		"border": {
-			"customRadius": false
+			"color": false,
+			"radius": false,
+			"style": false,
+			"width": false
 		},
 		"color": {
+			"background": true,
 			"custom": true,
 			"customDuotone": true,
- 			"customGradient": true,
- 			"link": false,
+			"customGradient": true,
+			"defaultDuotone": true,
+			"defaultGradients": true,
+			"defaultPalette": true,
 			"duotone": [
 				{
-					"name":  "Dark grayscale" ,
+					"name": "Dark grayscale",
 					"colors": [ "#000000", "#7f7f7f" ],
 					"slug": "dark-grayscale"
 				},
 				{
-					"name":  "Grayscale" ,
+					"name": "Grayscale",
 					"colors": [ "#000000", "#ffffff" ],
 					"slug": "grayscale"
 				},
 				{
-					"name":  "Purple and yellow" ,
+					"name": "Purple and yellow",
 					"colors": [ "#8c00b7", "#fcff41" ],
 					"slug": "purple-yellow"
 				},
 				{
-					"name":  "Blue and red" ,
+					"name": "Blue and red",
 					"colors": [ "#000097", "#ff4747" ],
 					"slug": "blue-red"
 				},
 				{
-					"name":  "Midnight" ,
+					"name": "Midnight",
 					"colors": [ "#000000", "#00a5ff" ],
 					"slug": "midnight"
 				},
 				{
-					"name":  "Magenta and yellow" ,
+					"name": "Magenta and yellow",
 					"colors": [ "#c7005a", "#fff278" ],
 					"slug": "magenta-yellow"
 				},
 				{
-					"name":  "Purple and green" ,
+					"name": "Purple and green",
 					"colors": [ "#a60072", "#67ff66" ],
 					"slug": "purple-green"
 				},
 				{
-					"name":  "Blue and orange" ,
+					"name": "Blue and orange",
 					"colors": [ "#1900d8", "#ffa96b" ],
 					"slug": "blue-orange"
 				}
@@ -113,6 +121,7 @@
 					"slug": "midnight"
 				}
 			],
+			"link": false,
 			"palette": [
 				{
 					"name": "Black",
@@ -174,27 +183,200 @@
 					"slug": "vivid-purple",
 					"color": "#9b51e0"
 				}
+			],
+			"text": true
+		},
+		"layout": {
+			"definitions": {
+				"default": {
+					"name": "default",
+					"slug": "flow",
+					"className": "is-layout-flow",
+					"baseStyles": [
+						{
+							"selector": " > .alignleft",
+							"rules": {
+								"float": "left",
+								"margin-inline-start": "0",
+								"margin-inline-end": "2em"
+							}
+						},
+						{
+							"selector": " > .alignright",
+							"rules": {
+								"float": "right",
+								"margin-inline-start": "2em",
+								"margin-inline-end": "0"
+							}
+						},
+						{
+							"selector": " > .aligncenter",
+							"rules": {
+								"margin-left": "auto !important",
+								"margin-right": "auto !important"
+							}
+						}
+					],
+					"spacingStyles": [
+						{
+							"selector": " > *",
+							"rules": {
+								"margin-block-start": "0",
+								"margin-block-end": "0"
+							}
+						},
+						{
+							"selector": " > * + *",
+							"rules": {
+								"margin-block-start": null,
+								"margin-block-end": "0"
+							}
+						}
+					]
+				},
+				"constrained": {
+					"name": "constrained",
+					"slug": "constrained",
+					"className": "is-layout-constrained",
+					"baseStyles": [
+						{
+							"selector": " > .alignleft",
+							"rules": {
+								"float": "left",
+								"margin-inline-start": "0",
+								"margin-inline-end": "2em"
+							}
+						},
+						{
+							"selector": " > .alignright",
+							"rules": {
+								"float": "right",
+								"margin-inline-start": "2em",
+								"margin-inline-end": "0"
+							}
+						},
+						{
+							"selector": " > .aligncenter",
+							"rules": {
+								"margin-left": "auto !important",
+								"margin-right": "auto !important"
+							}
+						},
+						{
+							"selector": " > :where(:not(.alignleft):not(.alignright):not(.alignfull))",
+							"rules": {
+								"max-width": "var(--wp--style--global--content-size)",
+								"margin-left": "auto !important",
+								"margin-right": "auto !important"
+							}
+						},
+						{
+							"selector": " > .alignwide",
+							"rules": {
+								"max-width": "var(--wp--style--global--wide-size)"
+							}
+						}
+					],
+					"spacingStyles": [
+						{
+							"selector": " > *",
+							"rules": {
+								"margin-block-start": "0",
+								"margin-block-end": "0"
+							}
+						},
+						{
+							"selector": " > * + *",
+							"rules": {
+								"margin-block-start": null,
+								"margin-block-end": "0"
+							}
+						}
+					]
+				},
+				"flex": {
+					"name": "flex",
+					"slug": "flex",
+					"className": "is-layout-flex",
+					"displayMode": "flex",
+					"baseStyles": [
+						{
+							"selector": "",
+							"rules": {
+								"flex-wrap": "wrap",
+								"align-items": "center"
+							}
+						},
+						{
+							"selector": " > *",
+							"rules": {
+								"margin": "0"
+							}
+						}
+					],
+					"spacingStyles": [
+						{
+							"selector": "",
+							"rules": {
+								"gap": null
+							}
+						}
+					]
+				}
+			}
+		},
+		"shadow": {
+			"defaultPresets": true,
+			"presets": [
+				{
+					"name": "Natural",
+					"slug": "natural",
+					"shadow": "6px 6px 9px rgba(0, 0, 0, 0.2)"
+				},
+				{
+					"name": "Deep",
+					"slug": "deep",
+					"shadow": "12px 12px 50px rgba(0, 0, 0, 0.4)"
+				},
+				{
+					"name": "Sharp",
+					"slug": "sharp",
+					"shadow": "6px 6px 0px rgba(0, 0, 0, 0.2)"
+				},
+				{
+					"name": "Outlined",
+					"slug": "outlined",
+					"shadow": "6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1)"
+				},
+				{
+					"name": "Crisp",
+					"slug": "crisp",
+					"shadow": "6px 6px 0px rgba(0, 0, 0, 1)"
+				}
 			]
 		},
 		"spacing": {
-			"customMargin": false,
-			"customPadding": false,
-			"units": [ "px", "em", "rem", "vh", "vw", "%" ]
+			"blockGap": null,
+			"margin": false,
+			"padding": false,
+			"customSpacingSize": true,
+			"units": [ "px", "em", "rem", "vh", "vw", "%" ],
+			"spacingScale": {
+				"operator": "*",
+				"increment": 1.5,
+				"steps": 7,
+				"mediumStep": 1.5,
+				"unit": "rem"
+			}
 		},
 		"typography": {
 			"customFontSize": true,
-			"customLineHeight": false,
 			"dropCap": true,
 			"fontSizes": [
 				{
 					"name": "Small",
 					"slug": "small",
 					"size": "13px"
-				},
-				{
-					"name": "Normal",
-					"slug": "normal",
-					"size": "16px"
 				},
 				{
 					"name": "Medium",
@@ -207,17 +389,67 @@
 					"size": "36px"
 				},
 				{
-					"name": "Huge",
-					"slug": "huge",
+					"name": "Extra Large",
+					"slug": "x-large",
 					"size": "42px"
 				}
-			]
+			],
+			"fontStyle": true,
+			"fontWeight": true,
+			"letterSpacing": true,
+			"lineHeight": false,
+			"textDecoration": true,
+			"textTransform": true
 		},
 		"blocks": {
 			"core/button": {
 				"border": {
-					"customRadius": true
+					"radius": true
 				}
+			},
+			"core/pullquote": {
+				"border": {
+					"color": true,
+					"radius": true,
+					"style": true,
+					"width": true
+				}
+			}
+		}
+	},
+	"styles": {
+		"elements": {
+			"button": {
+				"color": {
+					"text": "#fff",
+					"background": "#32373c"
+				},
+				"spacing": {
+					"padding": "calc(0.667em + 2px) calc(1.333em + 2px)"
+				},
+				"typography": {
+					"fontSize": "inherit",
+					"fontFamily": "inherit",
+					"lineHeight": "inherit",
+					"textDecoration": "none"
+				},
+				"border": {
+					"width": "0"
+				}
+			},
+			"link": {
+				"typography": {
+					"textDecoration": "underline"
+				}
+			}
+		},
+		"spacing": {
+			"blockGap": "24px",
+			"padding": {
+				"top": "0px",
+				"right": "0px",
+				"bottom": "0px",
+				"left": "0px"
 			}
 		}
 	}

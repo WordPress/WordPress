@@ -10,6 +10,8 @@
 /**
  * Stores files to be deleted.
  *
+ * Bundled theme files should not be included in this list.
+ *
  * @since 2.7.0
  *
  * @global array $_old_files
@@ -826,6 +828,131 @@ $_old_files = array(
 	'wp-includes/css/dist/editor/editor-styles.min.css',
 	'wp-includes/css/dist/editor/editor-styles-rtl.css',
 	'wp-includes/css/dist/editor/editor-styles-rtl.min.css',
+	// 5.9
+	'wp-includes/blocks/heading/editor.css',
+	'wp-includes/blocks/heading/editor.min.css',
+	'wp-includes/blocks/heading/editor-rtl.css',
+	'wp-includes/blocks/heading/editor-rtl.min.css',
+	'wp-includes/blocks/post-content/editor.css',
+	'wp-includes/blocks/post-content/editor.min.css',
+	'wp-includes/blocks/post-content/editor-rtl.css',
+	'wp-includes/blocks/post-content/editor-rtl.min.css',
+	'wp-includes/blocks/query-title/editor.css',
+	'wp-includes/blocks/query-title/editor.min.css',
+	'wp-includes/blocks/query-title/editor-rtl.css',
+	'wp-includes/blocks/query-title/editor-rtl.min.css',
+	'wp-includes/blocks/tag-cloud/editor.css',
+	'wp-includes/blocks/tag-cloud/editor.min.css',
+	'wp-includes/blocks/tag-cloud/editor-rtl.css',
+	'wp-includes/blocks/tag-cloud/editor-rtl.min.css',
+	// 6.1
+	'wp-includes/blocks/post-comments.php',
+	'wp-includes/blocks/post-comments/block.json',
+	'wp-includes/blocks/post-comments/editor.css',
+	'wp-includes/blocks/post-comments/editor.min.css',
+	'wp-includes/blocks/post-comments/editor-rtl.css',
+	'wp-includes/blocks/post-comments/editor-rtl.min.css',
+	'wp-includes/blocks/post-comments/style.css',
+	'wp-includes/blocks/post-comments/style.min.css',
+	'wp-includes/blocks/post-comments/style-rtl.css',
+	'wp-includes/blocks/post-comments/style-rtl.min.css',
+	'wp-includes/blocks/post-comments',
+	'wp-includes/blocks/comments-query-loop/block.json',
+	'wp-includes/blocks/comments-query-loop/editor.css',
+	'wp-includes/blocks/comments-query-loop/editor.min.css',
+	'wp-includes/blocks/comments-query-loop/editor-rtl.css',
+	'wp-includes/blocks/comments-query-loop/editor-rtl.min.css',
+	'wp-includes/blocks/comments-query-loop',
+);
+
+/**
+ * Stores Requests files to be preloaded and deleted.
+ *
+ * For classes/interfaces, use the class/interface name
+ * as the array key.
+ *
+ * All other files/directories should not have a key.
+ *
+ * @since 6.2.0
+ *
+ * @global array $_old_requests_files
+ * @var array
+ * @name $_old_requests_files
+ */
+global $_old_requests_files;
+
+$_old_requests_files = array(
+	// Interfaces.
+	'Requests_Auth'                              => 'wp-includes/Requests/Auth.php',
+	'Requests_Hooker'                            => 'wp-includes/Requests/Hooker.php',
+	'Requests_Proxy'                             => 'wp-includes/Requests/Proxy.php',
+	'Requests_Transport'                         => 'wp-includes/Requests/Transport.php',
+
+	// Classes.
+	'Requests_Auth_Basic'                        => 'wp-includes/Requests/Auth/Basic.php',
+	'Requests_Cookie_Jar'                        => 'wp-includes/Requests/Cookie/Jar.php',
+	'Requests_Exception_HTTP'                    => 'wp-includes/Requests/Exception/HTTP.php',
+	'Requests_Exception_Transport'               => 'wp-includes/Requests/Exception/Transport.php',
+	'Requests_Exception_HTTP_304'                => 'wp-includes/Requests/Exception/HTTP/304.php',
+	'Requests_Exception_HTTP_305'                => 'wp-includes/Requests/Exception/HTTP/305.php',
+	'Requests_Exception_HTTP_306'                => 'wp-includes/Requests/Exception/HTTP/306.php',
+	'Requests_Exception_HTTP_400'                => 'wp-includes/Requests/Exception/HTTP/400.php',
+	'Requests_Exception_HTTP_401'                => 'wp-includes/Requests/Exception/HTTP/401.php',
+	'Requests_Exception_HTTP_402'                => 'wp-includes/Requests/Exception/HTTP/402.php',
+	'Requests_Exception_HTTP_403'                => 'wp-includes/Requests/Exception/HTTP/403.php',
+	'Requests_Exception_HTTP_404'                => 'wp-includes/Requests/Exception/HTTP/404.php',
+	'Requests_Exception_HTTP_405'                => 'wp-includes/Requests/Exception/HTTP/405.php',
+	'Requests_Exception_HTTP_406'                => 'wp-includes/Requests/Exception/HTTP/406.php',
+	'Requests_Exception_HTTP_407'                => 'wp-includes/Requests/Exception/HTTP/407.php',
+	'Requests_Exception_HTTP_408'                => 'wp-includes/Requests/Exception/HTTP/408.php',
+	'Requests_Exception_HTTP_409'                => 'wp-includes/Requests/Exception/HTTP/409.php',
+	'Requests_Exception_HTTP_410'                => 'wp-includes/Requests/Exception/HTTP/410.php',
+	'Requests_Exception_HTTP_411'                => 'wp-includes/Requests/Exception/HTTP/411.php',
+	'Requests_Exception_HTTP_412'                => 'wp-includes/Requests/Exception/HTTP/412.php',
+	'Requests_Exception_HTTP_413'                => 'wp-includes/Requests/Exception/HTTP/413.php',
+	'Requests_Exception_HTTP_414'                => 'wp-includes/Requests/Exception/HTTP/414.php',
+	'Requests_Exception_HTTP_415'                => 'wp-includes/Requests/Exception/HTTP/415.php',
+	'Requests_Exception_HTTP_416'                => 'wp-includes/Requests/Exception/HTTP/416.php',
+	'Requests_Exception_HTTP_417'                => 'wp-includes/Requests/Exception/HTTP/417.php',
+	'Requests_Exception_HTTP_418'                => 'wp-includes/Requests/Exception/HTTP/418.php',
+	'Requests_Exception_HTTP_428'                => 'wp-includes/Requests/Exception/HTTP/428.php',
+	'Requests_Exception_HTTP_429'                => 'wp-includes/Requests/Exception/HTTP/429.php',
+	'Requests_Exception_HTTP_431'                => 'wp-includes/Requests/Exception/HTTP/431.php',
+	'Requests_Exception_HTTP_500'                => 'wp-includes/Requests/Exception/HTTP/500.php',
+	'Requests_Exception_HTTP_501'                => 'wp-includes/Requests/Exception/HTTP/501.php',
+	'Requests_Exception_HTTP_502'                => 'wp-includes/Requests/Exception/HTTP/502.php',
+	'Requests_Exception_HTTP_503'                => 'wp-includes/Requests/Exception/HTTP/503.php',
+	'Requests_Exception_HTTP_504'                => 'wp-includes/Requests/Exception/HTTP/504.php',
+	'Requests_Exception_HTTP_505'                => 'wp-includes/Requests/Exception/HTTP/505.php',
+	'Requests_Exception_HTTP_511'                => 'wp-includes/Requests/Exception/HTTP/511.php',
+	'Requests_Exception_HTTP_Unknown'            => 'wp-includes/Requests/Exception/HTTP/Unknown.php',
+	'Requests_Exception_Transport_cURL'          => 'wp-includes/Requests/Exception/Transport/cURL.php',
+	'Requests_Proxy_HTTP'                        => 'wp-includes/Requests/Proxy/HTTP.php',
+	'Requests_Response_Headers'                  => 'wp-includes/Requests/Response/Headers.php',
+	'Requests_Transport_cURL'                    => 'wp-includes/Requests/Transport/cURL.php',
+	'Requests_Transport_fsockopen'               => 'wp-includes/Requests/Transport/fsockopen.php',
+	'Requests_Utility_CaseInsensitiveDictionary' => 'wp-includes/Requests/Utility/CaseInsensitiveDictionary.php',
+	'Requests_Utility_FilteredIterator'          => 'wp-includes/Requests/Utility/FilteredIterator.php',
+	'Requests_Cookie'                            => 'wp-includes/Requests/Cookie.php',
+	'Requests_Exception'                         => 'wp-includes/Requests/Exception.php',
+	'Requests_Hooks'                             => 'wp-includes/Requests/Hooks.php',
+	'Requests_IDNAEncoder'                       => 'wp-includes/Requests/IDNAEncoder.php',
+	'Requests_IPv6'                              => 'wp-includes/Requests/IPv6.php',
+	'Requests_IRI'                               => 'wp-includes/Requests/IRI.php',
+	'Requests_Response'                          => 'wp-includes/Requests/Response.php',
+	'Requests_SSL'                               => 'wp-includes/Requests/SSL.php',
+	'Requests_Session'                           => 'wp-includes/Requests/Session.php',
+
+	// Directories.
+	'wp-includes/Requests/Auth/',
+	'wp-includes/Requests/Cookie/',
+	'wp-includes/Requests/Exception/HTTP/',
+	'wp-includes/Requests/Exception/Transport/',
+	'wp-includes/Requests/Exception/',
+	'wp-includes/Requests/Proxy/',
+	'wp-includes/Requests/Response/',
+	'wp-includes/Requests/Transport/',
+	'wp-includes/Requests/Utility/',
 );
 
 /**
@@ -833,7 +960,7 @@ $_old_files = array(
  *
  * The contents of this array indicate any new bundled plugins/themes which
  * should be installed with the WordPress Upgrade. These items will not be
- * re-installed in future upgrades, this behaviour is controlled by the
+ * re-installed in future upgrades, this behavior is controlled by the
  * introduced version present here being older than the current installed version.
  *
  * The content of this array should follow the following format:
@@ -852,18 +979,20 @@ $_old_files = array(
 global $_new_bundled_files;
 
 $_new_bundled_files = array(
-	'plugins/akismet/'        => '2.0',
-	'themes/twentyten/'       => '3.0',
-	'themes/twentyeleven/'    => '3.2',
-	'themes/twentytwelve/'    => '3.5',
-	'themes/twentythirteen/'  => '3.6',
-	'themes/twentyfourteen/'  => '3.8',
-	'themes/twentyfifteen/'   => '4.1',
-	'themes/twentysixteen/'   => '4.4',
-	'themes/twentyseventeen/' => '4.7',
-	'themes/twentynineteen/'  => '5.0',
-	'themes/twentytwenty/'    => '5.3',
-	'themes/twentytwentyone/' => '5.6',
+	'plugins/akismet/'          => '2.0',
+	'themes/twentyten/'         => '3.0',
+	'themes/twentyeleven/'      => '3.2',
+	'themes/twentytwelve/'      => '3.5',
+	'themes/twentythirteen/'    => '3.6',
+	'themes/twentyfourteen/'    => '3.8',
+	'themes/twentyfifteen/'     => '4.1',
+	'themes/twentysixteen/'     => '4.4',
+	'themes/twentyseventeen/'   => '4.7',
+	'themes/twentynineteen/'    => '5.0',
+	'themes/twentytwenty/'      => '5.3',
+	'themes/twentytwentyone/'   => '5.6',
+	'themes/twentytwentytwo/'   => '5.9',
+	'themes/twentytwentythree/' => '6.1',
 );
 
 /**
@@ -910,6 +1039,7 @@ $_new_bundled_files = array(
  *
  * @global WP_Filesystem_Base $wp_filesystem          WordPress filesystem subclass.
  * @global array              $_old_files
+ * @global array              $_old_requests_files
  * @global array              $_new_bundled_files
  * @global wpdb               $wpdb                   WordPress database abstraction object.
  * @global string             $wp_version
@@ -921,9 +1051,19 @@ $_new_bundled_files = array(
  * @return string|WP_Error New WordPress version on success, WP_Error on failure.
  */
 function update_core( $from, $to ) {
-	global $wp_filesystem, $_old_files, $_new_bundled_files, $wpdb;
+	global $wp_filesystem, $_old_files, $_old_requests_files, $_new_bundled_files, $wpdb;
 
-	set_time_limit( 300 );
+	if ( function_exists( 'set_time_limit' ) ) {
+		set_time_limit( 300 );
+	}
+
+	/*
+	 * Merge the old Requests files and directories into the `$_old_files`.
+	 * Then preload these Requests files first, before the files are deleted
+	 * and replaced to ensure the code is in memory if needed.
+	 */
+	$_old_files = array_merge( $_old_files, array_values( $_old_requests_files ) );
+	_preload_old_requests_classes_and_interfaces( $to );
 
 	/**
 	 * Filters feedback messages displayed during the core update process.
@@ -965,7 +1105,7 @@ function update_core( $from, $to ) {
 
 	/*
 	 * Import $wp_version, $required_php_version, and $required_mysql_version from the new version.
-	 * DO NOT globalise any variables imported from `version-current.php` in this function.
+	 * DO NOT globalize any variables imported from `version-current.php` in this function.
 	 *
 	 * BC Note: $wp_filesystem->wp_content_dir() returned unslashed pre-2.8.
 	 */
@@ -976,7 +1116,7 @@ function update_core( $from, $to ) {
 
 		return new WP_Error(
 			'copy_failed_for_version_file',
-			__( 'The update cannot be installed because we will be unable to copy some files. This is usually due to inconsistent file permissions.' ),
+			__( 'The update cannot be installed because some files could not be copied. This is usually due to inconsistent file permissions.' ),
 			'wp-includes/version.php'
 		);
 	}
@@ -994,7 +1134,7 @@ function update_core( $from, $to ) {
 	require WP_CONTENT_DIR . '/upgrade/version-current.php';
 	$wp_filesystem->delete( $versions_file );
 
-	$php_version       = phpversion();
+	$php_version       = PHP_VERSION;
 	$mysql_version     = $wpdb->db_version();
 	$old_wp_version    = $GLOBALS['wp_version']; // The version of WordPress we're updating from.
 	$development_build = ( false !== strpos( $old_wp_version . $wp_version, '-' ) ); // A dash in the version indicates a development release.
@@ -1148,7 +1288,7 @@ function update_core( $from, $to ) {
 			if ( $files_not_writable ) {
 				return new WP_Error(
 					'files_not_writable',
-					__( 'The update cannot be installed because we will be unable to copy some files. This is usually due to inconsistent file permissions.' ),
+					__( 'The update cannot be installed because your site is unable to copy some files. This is usually due to inconsistent file permissions.' ),
 					implode( ', ', $error_data )
 				);
 			}
@@ -1168,7 +1308,7 @@ function update_core( $from, $to ) {
 	apply_filters( 'update_feedback', __( 'Copying the required files&#8230;' ) );
 
 	// Copy new versions of WP files into place.
-	$result = _copy_dir( $from . $distro, $to, $skip );
+	$result = copy_dir( $from . $distro, $to, $skip );
 
 	if ( is_wp_error( $result ) ) {
 		$result = new WP_Error(
@@ -1184,7 +1324,7 @@ function update_core( $from, $to ) {
 			$wp_filesystem->delete( $from, true );
 			$result = new WP_Error(
 				'copy_failed_for_version_file',
-				__( 'The update cannot be installed because we will be unable to copy some files. This is usually due to inconsistent file permissions.' ),
+				__( 'The update cannot be installed because your site is unable to copy some files. This is usually due to inconsistent file permissions.' ),
 				'wp-includes/version.php'
 			);
 		}
@@ -1241,12 +1381,12 @@ function update_core( $from, $to ) {
 
 		// If we don't have enough free space, it isn't worth trying again.
 		// Unlikely to be hit due to the check in unzip_file().
-		$available_space = @disk_free_space( ABSPATH );
+		$available_space = function_exists( 'disk_free_space' ) ? @disk_free_space( ABSPATH ) : false;
 
 		if ( $available_space && $total_size >= $available_space ) {
 			$result = new WP_Error( 'disk_full', __( 'There is not enough free disk space to complete the update.' ) );
 		} else {
-			$result = _copy_dir( $from . $distro, $to, $skip );
+			$result = copy_dir( $from . $distro, $to, $skip );
 
 			if ( is_wp_error( $result ) ) {
 				$result = new WP_Error(
@@ -1356,7 +1496,7 @@ function update_core( $from, $to ) {
 					// If a error occurs partway through this final step, keep the error flowing through, but keep process going.
 					if ( is_wp_error( $_result ) ) {
 						if ( ! is_wp_error( $result ) ) {
-							$result = new WP_Error;
+							$result = new WP_Error();
 						}
 
 						$result->add(
@@ -1397,8 +1537,8 @@ function update_core( $from, $to ) {
 	// Deactivate the REST API plugin if its version is 2.0 Beta 4 or lower.
 	_upgrade_440_force_deactivate_incompatible_plugins();
 
-	// Deactivate the Gutenberg plugin if its version is 10.7 or lower.
-	_upgrade_580_force_deactivate_incompatible_plugins();
+	// Deactivate incompatible plugins.
+	_upgrade_core_deactivate_incompatible_plugins();
 
 	// Upgrade DB with separate request.
 	/** This filter is documented in wp-admin/includes/update-core.php */
@@ -1440,92 +1580,60 @@ function update_core( $from, $to ) {
 }
 
 /**
- * Copies a directory from one location to another via the WordPress Filesystem Abstraction.
+ * Preloads old Requests classes and interfaces.
  *
- * Assumes that WP_Filesystem() has already been called and setup.
+ * This function preloads the old Requests code into memory before the
+ * upgrade process deletes the files. Why? Requests code is loaded into
+ * memory via an autoloader, meaning when a class or interface is needed
+ * If a request is in process, Requests could attempt to access code. If
+ * the file is not there, a fatal error could occur. If the file was
+ * replaced, the new code is not compatible with the old, resulting in
+ * a fatal error. Preloading ensures the code is in memory before the
+ * code is updated.
  *
- * This is a standalone copy of the `copy_dir()` function that is used to
- * upgrade the core files. It is placed here so that the version of this
- * function from the *new* WordPress version will be called.
+ * @since 6.2.0
  *
- * It was initially added for the 3.1 -> 3.2 upgrade.
+ * @global array              $_old_requests_files Requests files to be preloaded.
+ * @global WP_Filesystem_Base $wp_filesystem       WordPress filesystem subclass.
+ * @global string             $wp_version          The WordPress version string.
  *
- * @ignore
- * @since 3.2.0
- * @since 3.7.0 Updated not to use a regular expression for the skip list.
- *
- * @see copy_dir()
- * @link https://core.trac.wordpress.org/ticket/17173
- *
- * @global WP_Filesystem_Base $wp_filesystem
- *
- * @param string   $from      Source directory.
- * @param string   $to        Destination directory.
- * @param string[] $skip_list Array of files/folders to skip copying.
- * @return true|WP_Error True on success, WP_Error on failure.
+ * @param string $to Path to old WordPress installation.
  */
-function _copy_dir( $from, $to, $skip_list = array() ) {
-	global $wp_filesystem;
+function _preload_old_requests_classes_and_interfaces( $to ) {
+	global $_old_requests_files, $wp_filesystem, $wp_version;
 
-	$dirlist = $wp_filesystem->dirlist( $from );
-
-	if ( false === $dirlist ) {
-		return new WP_Error( 'dirlist_failed__copy_dir', __( 'Directory listing failed.' ), basename( $to ) );
+	/*
+	 * Requests was introduced in WordPress 4.6.
+	 *
+	 * Skip preloading if the website was previously using
+	 * an earlier version of WordPress.
+	 */
+	if ( version_compare( $wp_version, '4.6', '<' ) ) {
+		return;
 	}
 
-	$from = trailingslashit( $from );
-	$to   = trailingslashit( $to );
+	if ( ! defined( 'REQUESTS_SILENCE_PSR0_DEPRECATIONS' ) ) {
+		define( 'REQUESTS_SILENCE_PSR0_DEPRECATIONS', true );
+	}
 
-	foreach ( (array) $dirlist as $filename => $fileinfo ) {
-		if ( in_array( $filename, $skip_list, true ) ) {
+	foreach ( $_old_requests_files as $name => $file ) {
+		// Skip files that aren't interfaces or classes.
+		if ( is_int( $name ) ) {
 			continue;
 		}
 
-		if ( 'f' === $fileinfo['type'] ) {
-			if ( ! $wp_filesystem->copy( $from . $filename, $to . $filename, true, FS_CHMOD_FILE ) ) {
-				// If copy failed, chmod file to 0644 and try again.
-				$wp_filesystem->chmod( $to . $filename, FS_CHMOD_FILE );
-
-				if ( ! $wp_filesystem->copy( $from . $filename, $to . $filename, true, FS_CHMOD_FILE ) ) {
-					return new WP_Error( 'copy_failed__copy_dir', __( 'Could not copy file.' ), $to . $filename );
-				}
-			}
-
-			/*
-			 * `wp_opcache_invalidate()` only exists in WordPress 5.5 or later,
-			 * so don't run it when upgrading from older versions.
-			 */
-			if ( function_exists( 'wp_opcache_invalidate' ) ) {
-				wp_opcache_invalidate( $to . $filename );
-			}
-		} elseif ( 'd' === $fileinfo['type'] ) {
-			if ( ! $wp_filesystem->is_dir( $to . $filename ) ) {
-				if ( ! $wp_filesystem->mkdir( $to . $filename, FS_CHMOD_DIR ) ) {
-					return new WP_Error( 'mkdir_failed__copy_dir', __( 'Could not create directory.' ), $to . $filename );
-				}
-			}
-
-			/*
-			 * Generate the $sub_skip_list for the subdirectory as a sub-set
-			 * of the existing $skip_list.
-			 */
-			$sub_skip_list = array();
-
-			foreach ( $skip_list as $skip_item ) {
-				if ( 0 === strpos( $skip_item, $filename . '/' ) ) {
-					$sub_skip_list[] = preg_replace( '!^' . preg_quote( $filename, '!' ) . '/!i', '', $skip_item );
-				}
-			}
-
-			$result = _copy_dir( $from . $filename, $to . $filename, $sub_skip_list );
-
-			if ( is_wp_error( $result ) ) {
-				return $result;
-			}
+		// Skip if it's already loaded.
+		if ( class_exists( $name ) || interface_exists( $name ) ) {
+			continue;
 		}
-	}
 
-	return true;
+		// Skip if the file is missing.
+		if ( ! $wp_filesystem->is_file( $to . $file ) ) {
+			continue;
+		}
+
+		require_once $to . $file;
+	}
 }
 
 /**
@@ -1536,7 +1644,7 @@ function _copy_dir( $from, $to, $skip_list = array() ) {
  * @since 3.3.0
  *
  * @global string $wp_version The WordPress version string.
- * @global string $pagenow
+ * @global string $pagenow    The filename of the current screen.
  * @global string $action
  *
  * @param string $new_version
@@ -1684,15 +1792,18 @@ function _upgrade_440_force_deactivate_incompatible_plugins() {
 }
 
 /**
+ * @access private
  * @ignore
  * @since 5.8.0
+ * @since 5.9.0 The minimum compatible version of Gutenberg is 11.9.
+ * @since 6.1.1 The minimum compatible version of Gutenberg is 14.1.
  */
-function _upgrade_580_force_deactivate_incompatible_plugins() {
-	if ( defined( 'GUTENBERG_VERSION' ) && version_compare( GUTENBERG_VERSION, '10.7', '<=' ) ) {
+function _upgrade_core_deactivate_incompatible_plugins() {
+	if ( defined( 'GUTENBERG_VERSION' ) && version_compare( GUTENBERG_VERSION, '14.1', '<' ) ) {
 		$deactivated_gutenberg['gutenberg'] = array(
 			'plugin_name'         => 'Gutenberg',
 			'version_deactivated' => GUTENBERG_VERSION,
-			'version_compatible'  => '10.8',
+			'version_compatible'  => '14.1',
 		);
 		if ( is_plugin_active_for_network( 'gutenberg/gutenberg.php' ) ) {
 			$deactivated_plugins = get_site_option( 'wp_force_deactivated_plugins', array() );

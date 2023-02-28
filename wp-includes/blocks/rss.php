@@ -13,10 +13,14 @@
  * @return string Returns the block content with received rss items.
  */
 function render_block_core_rss( $attributes ) {
+	if ( in_array( untrailingslashit( $attributes['feedURL'] ), array( site_url(), home_url() ), true ) ) {
+		return '<div class="components-placeholder"><div class="notice notice-error">' . __( 'Adding an RSS feed to this site’s homepage is not supported, as it could lead to a loop that slows down your site. Try using another block, like the <strong>Latest Posts</strong> block, to list posts from the site.' ) . '</div></div>';
+	}
+
 	$rss = fetch_feed( $attributes['feedURL'] );
 
 	if ( is_wp_error( $rss ) ) {
-		return '<div class="components-placeholder"><div class="notice notice-error"><strong>' . __( 'RSS Error:' ) . '</strong> ' . $rss->get_error_message() . '</div></div>';
+		return '<div class="components-placeholder"><div class="notice notice-error"><strong>' . __( 'RSS Error:' ) . '</strong> ' . esc_html( $rss->get_error_message() ) . '</div></div>';
 	}
 
 	if ( ! $rss->get_item_quantity() ) {
@@ -44,8 +48,8 @@ function render_block_core_rss( $attributes ) {
 			if ( $date ) {
 				$date = sprintf(
 					'<time datetime="%1$s" class="wp-block-rss__item-publish-date">%2$s</time> ',
-					date_i18n( get_option( 'c' ), $date ),
-					date_i18n( get_option( 'date_format' ), $date )
+					esc_attr( date_i18n( 'c', $date ) ),
+					esc_attr( date_i18n( get_option( 'date_format' ), $date ) )
 				);
 			}
 		}
@@ -83,10 +87,19 @@ function render_block_core_rss( $attributes ) {
 	if ( isset( $attributes['blockLayout'] ) && 'grid' === $attributes['blockLayout'] ) {
 		$classnames[] = 'is-grid';
 	}
-
 	if ( isset( $attributes['columns'] ) && 'grid' === $attributes['blockLayout'] ) {
 		$classnames[] = 'columns-' . $attributes['columns'];
 	}
+	if ( $attributes['displayDate'] ) {
+		$classnames[] = 'has-dates';
+	}
+	if ( $attributes['displayAuthor'] ) {
+		$classnames[] = 'has-authors';
+	}
+	if ( $attributes['displayExcerpt'] ) {
+		$classnames[] = 'has-excerpts';
+	}
+
 	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => implode( ' ', $classnames ) ) );
 
 	return sprintf( '<ul %s>%s</ul>', $wrapper_attributes, $list_items );

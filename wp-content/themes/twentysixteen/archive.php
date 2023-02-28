@@ -19,7 +19,7 @@
 get_header(); ?>
 
 	<div id="primary" class="content-area">
-		<main id="main" class="site-main" role="main">
+		<main id="main" class="site-main">
 
 		<?php if ( have_posts() ) : ?>
 
@@ -51,6 +51,7 @@ get_header(); ?>
 				array(
 					'prev_text'          => __( 'Previous page', 'twentysixteen' ),
 					'next_text'          => __( 'Next page', 'twentysixteen' ),
+					/* translators: Hidden accessibility text. */
 					'before_page_number' => '<span class="meta-nav screen-reader-text">' . __( 'Page', 'twentysixteen' ) . ' </span>',
 				)
 			);

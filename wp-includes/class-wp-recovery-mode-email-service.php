@@ -11,6 +11,7 @@
  *
  * @since 5.2.0
  */
+#[AllowDynamicProperties]
 final class WP_Recovery_Mode_Email_Service {
 
 	const RATE_LIMIT_OPTION = 'recovery_mode_email_last_sent';
@@ -40,7 +41,7 @@ final class WP_Recovery_Mode_Email_Service {
 	 * @since 5.2.0
 	 *
 	 * @param int   $rate_limit Number of seconds before another email can be sent.
-	 * @param array $error      Error details from {@see error_get_last()}
+	 * @param array $error      Error details from `error_get_last()`.
 	 * @param array $extension {
 	 *     The extension that caused the error.
 	 *
@@ -101,8 +102,13 @@ final class WP_Recovery_Mode_Email_Service {
 	 * @since 5.2.0
 	 *
 	 * @param int   $rate_limit Number of seconds before another email can be sent.
-	 * @param array $error      Error details from {@see error_get_last()}
-	 * @param array $extension  Extension that caused the error.
+	 * @param array $error      Error details from `error_get_last()`.
+	 * @param array $extension {
+	 *     The extension that caused the error.
+	 *
+	 *     @type string $slug The extension slug. The directory of the plugin or theme.
+	 *     @type string $type The extension type. Either 'plugin' or 'theme'.
+	 * }
 	 * @return bool Whether the email was sent successfully.
 	 */
 	private function send_recovery_mode_email( $rate_limit, $error, $extension ) {
@@ -110,12 +116,7 @@ final class WP_Recovery_Mode_Email_Service {
 		$url      = $this->link_service->generate_url();
 		$blogname = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
 
-		$switched_locale = false;
-
-		// The switch_to_locale() function is loaded before it can actually be used.
-		if ( function_exists( 'switch_to_locale' ) && isset( $GLOBALS['wp_locale_switcher'] ) ) {
-			$switched_locale = switch_to_locale( get_locale() );
-		}
+		$switched_locale = switch_to_locale( get_locale() );
 
 		if ( $extension ) {
 			$cause   = $this->get_cause( $extension );
@@ -152,7 +153,7 @@ final class WP_Recovery_Mode_Email_Service {
 		$message = __(
 			'Howdy!
 
-Since WordPress 5.2 there is a built-in feature that detects when a plugin or theme causes a fatal error on your site, and notifies you with this automated email.
+WordPress has a built-in feature that detects when a plugin or theme causes a fatal error on your site, and notifies you with this automated email.
 ###CAUSE###
 First, visit your website (###SITEURL###) and check for any visible issues. Next, visit the page where the error was caught (###PAGEURL###) and check for any visible issues.
 
@@ -256,7 +257,12 @@ When seeking help with this issue, you may be asked for some of the following in
 	 *
 	 * @since 5.2.0
 	 *
-	 * @param array $extension The extension that caused the error.
+	 * @param array $extension {
+	 *     The extension that caused the error.
+	 *
+	 *     @type string $slug The extension slug. The directory of the plugin or theme.
+	 *     @type string $type The extension type. Either 'plugin' or 'theme'.
+	 * }
 	 * @return string Message about which extension caused the error.
 	 */
 	private function get_cause( $extension ) {
@@ -288,7 +294,12 @@ When seeking help with this issue, you may be asked for some of the following in
 	 *
 	 * @since 5.3.0
 	 *
-	 * @param array $extension The extension that caused the error.
+	 * @param array $extension {
+	 *     The extension that caused the error.
+	 *
+	 *     @type string $slug The extension slug. The directory of the plugin or theme.
+	 *     @type string $type The extension type. Either 'plugin' or 'theme'.
+	 * }
 	 * @return array|false A plugin array {@see get_plugins()} or `false` if no plugin was found.
 	 */
 	private function get_plugin( $extension ) {
@@ -317,7 +328,12 @@ When seeking help with this issue, you may be asked for some of the following in
 	 *
 	 * @since 5.3.0
 	 *
-	 * @param array $extension The extension that caused the error.
+	 * @param array $extension {
+	 *     The extension that caused the error.
+	 *
+	 *     @type string $slug The extension slug. The directory of the plugin or theme.
+	 *     @type string $type The extension type. Either 'plugin' or 'theme'.
+	 * }
 	 * @return array An associative array of debug information.
 	 */
 	private function get_debug( $extension ) {
@@ -338,7 +354,7 @@ When seeking help with this issue, you may be asked for some of the following in
 			),
 			'theme' => sprintf(
 				/* translators: 1: Current active theme name. 2: Current active theme version. */
-				__( 'Current theme: %1$s (version %2$s)' ),
+				__( 'Active theme: %1$s (version %2$s)' ),
 				$theme->get( 'Name' ),
 				$theme->get( 'Version' )
 			),

@@ -314,7 +314,7 @@ class WP_Widget_Custom_HTML extends WP_Widget {
 				'class="external-link" target="_blank"',
 				sprintf(
 					'<span class="screen-reader-text"> %s</span>',
-					/* translators: Accessibility text. */
+					/* translators: Hidden accessibility text. */
 					__( '(opens in a new tab)' )
 				)
 			);

@@ -22,9 +22,6 @@ add_action( 'wpmueditblogaction', 'upload_space_setting' );
 // Network hooks.
 add_action( 'update_site_option_admin_email', 'wp_network_admin_email_change_notification', 10, 4 );
 
-// Taxonomy hooks.
-add_filter( 'get_term', 'sync_category_tag_slugs', 10, 2 );
-
 // Post hooks.
 add_filter( 'wp_insert_post_data', 'avoid_blog_page_permalink_collision', 10, 2 );
 

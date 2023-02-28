@@ -32,6 +32,13 @@
 			showOrHideWeakPasswordCheckbox();
 		}
 
+		/*
+		 * This works around a race condition when zxcvbn loads quickly and
+		 * causes `generatePassword()` to run prior to the toggle button being
+		 * bound.
+		 */
+		bindToggleButton();
+
 		// Install screen.
 		if ( 1 !== parseInt( $toggleButton.data( 'start-masked' ), 10 ) ) {
 			// Show the password not masked if admin_password hasn't been posted yet.
@@ -43,6 +50,9 @@
 
 		// Once zxcvbn loads, passwords strength is known.
 		$( '#pw-weak-text-label' ).text( __( 'Confirm use of weak password' ) );
+
+		// Focus the password field.
+		$( $pass1 ).trigger( 'focus' );
 	}
 
 	function bindPass1() {
@@ -79,6 +89,10 @@
 	}
 
 	function bindToggleButton() {
+		if ( !! $toggleButton ) {
+			// Do not rebind.
+			return;
+		}
 		$toggleButton = $pass1Row.find('.wp-hide-pw');
 		$toggleButton.show().on( 'click', function () {
 			if ( 'password' === $pass1.attr( 'type' ) ) {
@@ -213,7 +227,7 @@
 			updateLock = true;
 
 			// Make sure the password fields are shown.
-			$generateButton.attr( 'aria-expanded', 'true' );
+			$generateButton.not( '.skip-aria-expanded' ).attr( 'aria-expanded', 'true' );
 			$passwordWrapper
 				.show()
 				.addClass( 'is-open' );
@@ -254,6 +268,8 @@
 
 			// Stop an empty password from being submitted as a change.
 			$submitButtons.prop( 'disabled', false );
+
+			$generateButton.attr( 'aria-expanded', 'false' );
 		} );
 
 		$pass1Row.closest( 'form' ).on( 'submit', function () {

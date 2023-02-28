@@ -1,8 +1,9 @@
 {
+	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 2,
 	"name": "core/query-title",
 	"title": "Query Title",
-	"category": "design",
+	"category": "theme",
 	"description": "Display the query title.",
 	"textdomain": "default",
 	"attributes": {
@@ -15,19 +16,46 @@
 		"level": {
 			"type": "number",
 			"default": 1
+		},
+		"showPrefix": {
+			"type": "boolean",
+			"default": true
+		},
+		"showSearchTerm": {
+			"type": "boolean",
+			"default": true
 		}
 	},
 	"supports": {
+		"anchor": true,
 		"align": [ "wide", "full" ],
 		"html": false,
 		"color": {
-			"gradients": true
+			"gradients": true,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true
+			}
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
 		},
 		"typography": {
 			"fontSize": true,
 			"lineHeight": true,
-			"__experimentalFontFamily": true
+			"__experimentalFontFamily": true,
+			"__experimentalFontStyle": true,
+			"__experimentalFontWeight": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true,
+				"fontAppearance": true,
+				"textTransform": true
+			}
 		}
 	},
-	"editorStyle": "wp-block-query-title-editor"
+	"style": "wp-block-query-title"
 }

@@ -1,0 +1,8 @@
+.wp-block-search .wp-block-search__label{
+  font-weight:700;
+}
+
+.wp-block-search__button{
+  border:1px solid #ccc;
+  padding:.375em .625em;
+}

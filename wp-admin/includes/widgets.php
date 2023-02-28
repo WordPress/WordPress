@@ -226,7 +226,7 @@ function wp_widget_control( $sidebar_args ) {
 	if ( isset( $sidebar_args['_display'] ) && 'template' === $sidebar_args['_display'] && $widget_number ) {
 		// number == -1 implies a template where id numbers are replaced by a generic '__i__'.
 		$control['params'][0]['number'] = -1;
-		// With id_base widget id's are constructed like {$id_base}-{$id_number}.
+		// With id_base widget ID's are constructed like {$id_base}-{$id_number}.
 		if ( isset( $control['id_base'] ) ) {
 			$id_format = $control['id_base'] . '-__i__';
 		}
@@ -245,13 +245,13 @@ function wp_widget_control( $sidebar_args ) {
 		<button type="button" class="widget-action hide-if-no-js" aria-expanded="false">
 			<span class="screen-reader-text edit">
 				<?php
-				/* translators: %s: Widget title. */
+				/* translators: Hidden accessibility text. %s: Widget title. */
 				printf( __( 'Edit widget: %s' ), $widget_title );
 				?>
 			</span>
 			<span class="screen-reader-text add">
 				<?php
-				/* translators: %s: Widget title. */
+				/* translators: Hidden accessibility text. %s: Widget title. */
 				printf( __( 'Add widget: %s' ), $widget_title );
 				?>
 			</span>

@@ -115,17 +115,18 @@ Inter variable font. Usage:
 .editor-styles-wrapper ul,
 .editor-styles-wrapper dl,
 .editor-styles-wrapper dt {
-	font-family: NonBreakingSpaceOverride, "Hoefler Text", Garamond, "Times New Roman", serif;
+	font-family: NonBreakingSpaceOverride, "Hoefler Text", "Noto Serif", Garamond, "Times New Roman", serif;
 	letter-spacing: normal;
 }
 
 .editor-post-title__block .editor-post-title__input,
-.editor-styles-wrapper .wp-block h1,
-.editor-styles-wrapper .wp-block h2,
-.editor-styles-wrapper .wp-block h3,
-.editor-styles-wrapper .wp-block h4,
-.editor-styles-wrapper .wp-block h5,
-.editor-styles-wrapper .wp-block h6,
+.editor-styles-wrapper .wp-block-post-title,
+.editor-styles-wrapper h1,
+.editor-styles-wrapper h2,
+.editor-styles-wrapper h3,
+.editor-styles-wrapper h4,
+.editor-styles-wrapper h5,
+.editor-styles-wrapper h6,
 .editor-styles-wrapper .has-drop-cap:not(:focus)::first-letter,
 .editor-styles-wrapper cite,
 .editor-styles-wrapper figcaption,
@@ -136,12 +137,13 @@ Inter variable font. Usage:
 @supports ( font-variation-settings: normal ) {
 
 	.editor-post-title__block .editor-post-title__input,
-	.editor-styles-wrapper .wp-block h1,
-	.editor-styles-wrapper .wp-block h2,
-	.editor-styles-wrapper .wp-block h3,
-	.editor-styles-wrapper .wp-block h4,
-	.editor-styles-wrapper .wp-block h5,
-	.editor-styles-wrapper .wp-block h6,
+	.editor-styles-wrapper .wp-block-post-title,
+	.editor-styles-wrapper h1,
+	.editor-styles-wrapper h2,
+	.editor-styles-wrapper h3,
+	.editor-styles-wrapper h4,
+	.editor-styles-wrapper h5,
+	.editor-styles-wrapper h6,
 	.editor-styles-wrapper .has-drop-cap:not(:focus)::first-letter,
 	.editor-styles-wrapper cite,
 	.editor-styles-wrapper figcaption,
@@ -153,6 +155,10 @@ Inter variable font. Usage:
 
 
 /* Colors ------------------------------------ */
+
+.editor-styles-wrapper .has-text-color a {
+	color: inherit;
+}
 
 /* CUSTOM COLORS */
 
@@ -235,12 +241,13 @@ Inter variable font. Usage:
 }
 
 .editor-post-title__block .editor-post-title__input,
-.editor-styles-wrapper .wp-block h1,
-.editor-styles-wrapper .wp-block h2,
-.editor-styles-wrapper .wp-block h3,
-.editor-styles-wrapper .wp-block h4,
-.editor-styles-wrapper .wp-block h5,
-.editor-styles-wrapper .wp-block h6 {
+.editor-styles-wrapper .wp-block-post-title,
+.editor-styles-wrapper h1,
+.editor-styles-wrapper h2,
+.editor-styles-wrapper h3,
+.editor-styles-wrapper h4,
+.editor-styles-wrapper h5,
+.editor-styles-wrapper h6 {
 	font-feature-settings: "lnum";
 	font-variant-numeric: lining-nums;
 	font-weight: 700;
@@ -251,29 +258,36 @@ Inter variable font. Usage:
 }
 
 .editor-post-title__block .editor-post-title__input,
-.editor-styles-wrapper .wp-block h1 {
+.editor-styles-wrapper .wp-block-post-title,
+.editor-styles-wrapper h1,
+.editor-styles-wrapper .heading-size-1 {
 	font-size: 36px;
 	font-weight: 800;
 	line-height: 1.138888889;
 }
 
-.editor-styles-wrapper .wp-block h2 {
+.editor-styles-wrapper h2,
+.editor-styles-wrapper .heading-size-2 {
 	font-size: 32px;
 }
 
-.editor-styles-wrapper .wp-block h3 {
+.editor-styles-wrapper h3,
+.editor-styles-wrapper .heading-size-3 {
 	font-size: 28px;
 }
 
-.editor-styles-wrapper .wp-block h4 {
+.editor-styles-wrapper h4,
+.editor-styles-wrapper .heading-size-4 {
 	font-size: 24px;
 }
 
-.editor-styles-wrapper .wp-block h5 {
+.editor-styles-wrapper h5,
+.editor-styles-wrapper .heading-size-5 {
 	font-size: 21px;
 }
 
-.editor-styles-wrapper .wp-block h6 {
+.editor-styles-wrapper h6,
+.editor-styles-wrapper .heading-size-6 {
 	font-size: 16px;
 	letter-spacing: 0.03125em;
 	text-transform: uppercase;
@@ -287,6 +301,12 @@ Inter variable font. Usage:
 
 /* POST TITLE */
 
+.editor-styles-wrapper .wp-block-post-title {
+	max-width: 1000px;
+	margin: 0 auto;
+	text-align: center;
+}
+
 .wp-block.editor-post-title__block {
 	max-width: 1000px;
 }
@@ -294,6 +314,18 @@ Inter variable font. Usage:
 .editor-styles-wrapper .editor-post-title__block .editor-post-title__input {
 	margin: 0;
 	text-align: center;
+}
+
+.editor-styles-wrapper .wp-block-post-title.has-text-align-left {
+
+	/*rtl:ignore*/
+	text-align: left;
+}
+
+.editor-styles-wrapper .wp-block-post-title.has-text-align-right {
+
+	/*rtl:ignore*/
+	text-align: right;
 }
 
 /* DROP CAP */
@@ -591,12 +623,15 @@ hr.wp-block-separator:not(.is-style-dots)::after {
 	width: 1px;
 }
 
-hr.wp-block-separator::before {
+.editor-styles-wrapper hr.wp-block-separator::before {
 	left: calc(50% - 5px);
+	right: auto;
 }
 
-hr.wp-block-separator::after {
+.editor-styles-wrapper hr.wp-block-separator::after {
 	right: calc(50% - 5px);
+	left: auto;
+	border-radius: 0;
 }
 
 /* STYLE: DOTS */
@@ -646,6 +681,16 @@ hr.wp-block-separator.is-style-dots::before {
 	font-size: 14px;
 	font-weight: 600;
 	line-height: 1.25;
+}
+
+.editor-styles-wrapper .wp-block-quote cite {
+	font-style: normal;
+}
+
+.editor-styles-wrapper .wp-block-quote.has-text-color cite,
+.editor-styles-wrapper .wp-block-quote.has-background cite,
+.editor-styles-wrapper .has-background .wp-block-quote cite {
+	color: inherit;
 }
 
 .editor-styles-wrapper .wp-block-quote p {
@@ -733,8 +778,7 @@ hr.wp-block-separator.is-style-dots::before {
 .wp-block-cover-image .wp-block-cover-text,
 .wp-block-cover-image h2,
 .wp-block-cover .wp-block-cover-image-text,
-.wp-block-cover .wp-block-cover-text,
-.wp-block-cover h2 {
+.wp-block-cover .wp-block-cover-text {
 	max-width: 100%;
 }
 
@@ -849,6 +893,12 @@ hr.wp-block-separator.is-style-dots::before {
 	text-transform: none;
 }
 
+.editor-styles-wrapper .wp-block-pullquote.has-text-color cite,
+.editor-styles-wrapper .wp-block-pullquote.has-background cite,
+.editor-styles-wrapper .has-background .wp-block-pullquote cite {
+	color: inherit;
+}
+
 /* STYLE: SOLID COLOR */
 
 .editor-styles-wrapper .wp-block-pullquote.is-style-solid-color {
@@ -886,8 +936,8 @@ hr.wp-block-separator.is-style-dots::before {
 
 /* Block: Button ----------------------------- */
 
-.editor-styles-wrapper .wp-block-button__link,
-.editor-styles-wrapper .wp-block-file__button {
+:root .editor-styles-wrapper .wp-block-button__link,
+:root .editor-styles-wrapper .wp-block-file__button {
 	background: #cd2653;
 	border-radius: 0;
 	color: #fff;
@@ -901,6 +951,11 @@ hr.wp-block-separator.is-style-dots::before {
 
 .editor-styles-wrapper .wp-block-button .wp-block-button__link.mce-content-body {
 	line-height: 1.1;
+}
+
+.editor-styles-wrapper .wp-block-button__link:hover,
+.editor-styles-wrapper .wp-block-file__button:hover {
+	text-decoration: underline;
 }
 
 /* BUTTON STYLE: OUTLINE */
@@ -995,7 +1050,7 @@ hr.wp-block-separator.is-style-dots::before {
 	border-style: solid;
 	border-width: 2px 0 0;
 	line-height: 1.25;
-	margin: 20px 16px 16px 0;
+	margin: 20px 10px 16px 0;
 	padding-top: 12px;
 }
 
@@ -1082,6 +1137,10 @@ hr.wp-block-separator.is-style-dots::before {
 .editor-styles-wrapper ul ul,
 .editor-styles-wrapper ol ul {
 	padding-left: 1.3em;
+}
+
+.editor-styles-wrapper ul.block-editor-block-list__block.wp-block-social-links {
+	padding-left: 0;
 }
 
 /* Block: Post Template ---------------- */
@@ -1217,23 +1276,29 @@ hr.wp-block-separator.is-style-dots::before {
 	/* TYPOGRAPHY */
 
 	.editor-post-title__block .editor-post-title__input,
-	.editor-styles-wrapper .wp-block h1 {
+	.editor-styles-wrapper .wp-block-post-title,
+	.editor-styles-wrapper h1,
+	.editor-styles-wrapper .heading-size-1 {
 		font-size: 64px;
 	}
 
-	.editor-styles-wrapper .wp-block h2 {
+	.editor-styles-wrapper h2,
+	.editor-styles-wrapper .heading-size-2 {
 		font-size: 48px;
 	}
 
-	.editor-styles-wrapper .wp-block h3 {
+	.editor-styles-wrapper h3,
+	.editor-styles-wrapper .heading-size-3 {
 		font-size: 40px;
 	}
 
-	.editor-styles-wrapper .wp-block h4 {
+	.editor-styles-wrapper h4,
+	.editor-styles-wrapper .heading-size-4 {
 		font-size: 32px;
 	}
 
-	.editor-styles-wrapper .wp-block h5 {
+	.editor-styles-wrapper h5,
+	.editor-styles-wrapper .heading-size-5 {
 		font-size: 24px;
 	}
 
@@ -1257,8 +1322,8 @@ hr.wp-block-separator.is-style-dots::before {
 
 	/* BLOCK: BUTTON */
 
-	.editor-styles-wrapper .wp-block-button__link,
-	.editor-styles-wrapper .wp-block-file__button {
+	:root .editor-styles-wrapper .wp-block-button__link,
+	:root .editor-styles-wrapper .wp-block-file__button {
 		font-size: 17px;
 	}
 
@@ -1381,8 +1446,8 @@ hr.wp-block-separator.is-style-dots::before {
 	}
 
 	hr.wp-block-separator.is-style-wide {
-		margin-left: -70px;
-		margin-right: -70px;
+		margin-left: auto;
+		margin-right: auto;
 	}
 
 
@@ -1395,11 +1460,14 @@ hr.wp-block-separator.is-style-dots::before {
 	/* TYPOGRAPHY */
 
 	.editor-post-title__block .editor-post-title__input,
-	.editor-styles-wrapper .wp-block h1 {
+	.editor-styles-wrapper .wp-block-post-title,
+	.editor-styles-wrapper h1,
+	.editor-styles-wrapper .heading-size-1 {
 		font-size: 84px;
 	}
 
-	.editor-styles-wrapper .wp-block h6 {
+	.editor-styles-wrapper h6,
+	.editor-styles-wrapper .heading-size-6 {
 		font-size: 18px;
 	}
 
@@ -1418,8 +1486,8 @@ hr.wp-block-separator.is-style-dots::before {
 	/* BLOCK: SEPARATOR */
 
 	hr.wp-block-separator.is-style-wide {
-		margin-left: -150px;
-		margin-right: -150px;
+		margin-left: auto;
+		margin-right: auto;
 	}
 
 }
@@ -1453,8 +1521,8 @@ hr.wp-block-separator.is-style-dots::before {
 	/* BLOCK: SEPARATOR */
 
 	hr.wp-block-separator.is-style-wide {
-		margin-left: -200px;
-		margin-right: -200px;
+		margin-left: auto;
+		margin-right: auto;
 	}
 
 

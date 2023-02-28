@@ -8,27 +8,27 @@
  *
  * This file contains the following configurations:
  *
- * * MySQL settings
+ * * Database settings
  * * Secret keys
  * * Database table prefix
  * * ABSPATH
  *
- * @link https://wordpress.org/support/article/editing-wp-config-php/
+ * @link https://wordpress.org/documentation/article/editing-wp-config-php/
  *
  * @package WordPress
  */
 
-// ** MySQL settings - You can get this info from your web host ** //
+// ** Database settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
 define( 'DB_NAME', 'database_name_here' );
 
-/** MySQL database username */
+/** Database username */
 define( 'DB_USER', 'username_here' );
 
-/** MySQL database password */
+/** Database password */
 define( 'DB_PASSWORD', 'password_here' );
 
-/** MySQL hostname */
+/** Database hostname */
 define( 'DB_HOST', 'localhost' );
 
 /** Database charset to use in creating database tables. */
@@ -77,7 +77,7 @@ $table_prefix = 'wp_';
  * For information on other constants that can be used for debugging,
  * visit the documentation.
  *
- * @link https://wordpress.org/support/article/debugging-in-wordpress/
+ * @link https://wordpress.org/documentation/article/debugging-in-wordpress/
  */
 define( 'WP_DEBUG', false );
 

@@ -1,7 +1,7 @@
 === Twenty Twenty ===
 Contributors: the WordPress team
-Tested up to: 5.8
-Stable tag: 1.8
+Tested up to: 6.1
+Stable tag: 2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,45 +22,60 @@ you pick, ensuring a high, accessible color contrast for your visitors.
 
 == Changelog ==
 
+= 2.1 =
+* Released: November 1, 2022
+
+https://wordpress.org/documentation/article/twenty-twenty-changelog/#Version_2.1
+
+= 2.0 =
+* Released: May 24, 2022
+
+https://wordpress.org/documentation/article/twenty-twenty-changelog/#Version_2.0
+
+= 1.9 =
+* Released: January 25, 2022
+
+https://wordpress.org/documentation/article/twenty-twenty-changelog/#Version_1.9
+
 = 1.8 =
 * Released: July 20, 2021
 
-https://wordpress.org/support/article/twenty-twenty-changelog/#Version_1.8
+https://wordpress.org/documentation/article/twenty-twenty-changelog/#Version_1.8
 
 = 1.7 =
 * Released: March 9, 2021
 
-https://wordpress.org/support/article/twenty-twenty-changelog/#Version_1.7
+https://wordpress.org/documentation/article/twenty-twenty-changelog/#Version_1.7
 
 = 1.6 =
 * Released: December 8, 2020
 
-https://wordpress.org/support/article/twenty-twenty-changelog/#Version_1.6
+https://wordpress.org/documentation/article/twenty-twenty-changelog/#Version_1.6
 
 = 1.5 =
 * Released: August 11, 2020
 
-https://wordpress.org/support/article/twenty-twenty-changelog/#Version_1.5
+https://wordpress.org/documentation/article/twenty-twenty-changelog/#Version_1.5
 
 = 1.4 =
 * Released: June 10, 2020
 
-https://wordpress.org/support/article/twenty-twenty-changelog/#Version_1.4
+https://wordpress.org/documentation/article/twenty-twenty-changelog/#Version_1.4
 
 = 1.3 =
 * Released: May 14, 2020
 
-https://wordpress.org/support/article/twenty-twenty-changelog/#Version_1.3
+https://wordpress.org/documentation/article/twenty-twenty-changelog/#Version_1.3
 
 = 1.2 =
 * Released: March 31, 2020
 
-https://wordpress.org/support/article/twenty-twenty-changelog/#Version_1.2
+https://wordpress.org/documentation/article/twenty-twenty-changelog/#Version_1.2
 
 = 1.1 =
 * Released: December 12, 2019
 
-https://wordpress.org/support/article/twenty-twenty-changelog/#Version_1.1
+https://wordpress.org/documentation/article/twenty-twenty-changelog/#Version_1.1
 
 = 1.0 =
 * Released: November 12, 2019
@@ -69,7 +84,7 @@ Initial release
 
 == Copyright ==
 
-Twenty Twenty WordPress Theme, Copyright 2019-2021 WordPress.org
+Twenty Twenty WordPress Theme, Copyright 2019-2023 WordPress.org
 Twenty Twenty is distributed under the terms of the GNU GPL.
 
 This program is free software: you can redistribute it and/or modify
@@ -118,7 +133,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Source: WordPress Social Link Block (See wp-includes\blocks\social-link.php)
 
 Code from Twenty Nineteen
-Copyright (c) 2018-2021 WordPress.org
+Copyright (c) 2018-2023 WordPress.org
 License: GPLv2
 Source: https://wordpress.org/themes/twentynineteen/
 Included as part of the following classes and functions:
@@ -128,11 +143,11 @@ Included as part of the following classes and functions:
 - twentytwenty_nav_menu_social_icons()
 
 Code from Twenty Seventeen
-Copyright (c) 2016-2021 WordPress.org
+Copyright (c) 2016-2023 WordPress.org
 License: GPLv2
 Source: https://wordpress.org/themes/twentyseventeen/
 Included as part of the following classes and functions:
 - twentytwenty_unique_id()
 
 Underscores
-https://underscores.me/, (C) 2012-2021 Automattic, Inc., [GPLv2 or later](https://www.gnu.org/licenses/gpl-2.0.html)
+https://underscores.me/, (C) 2012-2023 Automattic, Inc., [GPLv2 or later](https://www.gnu.org/licenses/gpl-2.0.html)

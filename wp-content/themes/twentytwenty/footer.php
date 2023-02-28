@@ -12,7 +12,7 @@
  */
 
 ?>
-			<footer id="site-footer" role="contentinfo" class="header-footer-group">
+			<footer id="site-footer" class="header-footer-group">
 
 				<div class="section-inner">
 
@@ -27,6 +27,12 @@
 							?>
 							<a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php bloginfo( 'name' ); ?></a>
 						</p><!-- .footer-copyright -->
+
+						<?php
+						if ( function_exists( 'the_privacy_policy_link' ) ) {
+							the_privacy_policy_link( '<p class="privacy-policy">', '</p>' );
+						}
+						?>
 
 						<p class="powered-by-wordpress">
 							<a href="<?php echo esc_url( __( 'https://wordpress.org/', 'twentytwenty' ) ); ?>">

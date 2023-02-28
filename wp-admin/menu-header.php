@@ -59,7 +59,7 @@ get_admin_page_parent();
  * @global string $parent_file
  * @global string $submenu_file
  * @global string $plugin_page
- * @global string $typenow
+ * @global string $typenow      The post type of the current screen.
  *
  * @param array $menu
  * @param array $submenu
@@ -123,12 +123,13 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 		 * as special cases.
 		 */
 		if ( ! empty( $item[6] ) ) {
-			$img = '<img src="' . $item[6] . '" alt="" />';
+			$img = '<img src="' . esc_url( $item[6] ) . '" alt="" />';
 
 			if ( 'none' === $item[6] || 'div' === $item[6] ) {
 				$img = '<br />';
 			} elseif ( 0 === strpos( $item[6], 'data:image/svg+xml;base64,' ) ) {
-				$img       = '<br />';
+				$img = '<br />';
+				// The value is base64-encoded data, so esc_attr() is used here instead of esc_url().
 				$img_style = ' style="background-image:url(\'' . esc_attr( $item[6] ) . '\')"';
 				$img_class = ' svg';
 			} elseif ( 0 === strpos( $item[6], 'dashicons-' ) ) {

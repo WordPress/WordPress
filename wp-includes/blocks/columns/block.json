@@ -1,13 +1,18 @@
 {
+	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 2,
 	"name": "core/columns",
 	"title": "Columns",
 	"category": "design",
-	"description": "Add a block that displays content in multiple columns, then add whatever content blocks you’d like.",
+	"description": "Display content in multiple columns, with blocks added to each column.",
 	"textdomain": "default",
 	"attributes": {
 		"verticalAlignment": {
 			"type": "string"
+		},
+		"isStackedOnMobile": {
+			"type": "boolean",
+			"default": true
 		}
 	},
 	"supports": {
@@ -16,7 +21,56 @@
 		"html": false,
 		"color": {
 			"gradients": true,
-			"link": true
+			"link": true,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true
+			}
+		},
+		"spacing": {
+			"blockGap": {
+				"__experimentalDefault": "2em",
+				"sides": [ "horizontal", "vertical" ]
+			},
+			"margin": [ "top", "bottom" ],
+			"padding": true,
+			"__experimentalDefaultControls": {
+				"padding": true
+			}
+		},
+		"__experimentalLayout": {
+			"allowSwitching": false,
+			"allowInheriting": false,
+			"allowEditing": false,
+			"default": {
+				"type": "flex",
+				"flexWrap": "nowrap"
+			}
+		},
+		"__experimentalBorder": {
+			"color": true,
+			"radius": true,
+			"style": true,
+			"width": true,
+			"__experimentalDefaultControls": {
+				"color": true,
+				"radius": true,
+				"style": true,
+				"width": true
+			}
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true
+			}
 		}
 	},
 	"editorStyle": "wp-block-columns-editor",

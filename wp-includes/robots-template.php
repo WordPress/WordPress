@@ -50,7 +50,7 @@ function wp_robots() {
 }
 
 /**
- * Adds noindex to the robots meta tag if required by the site configuration.
+ * Adds `noindex` to the robots meta tag if required by the site configuration.
  *
  * If a blog is marked as not being public then noindex will be output to
  * tell web robots not to index the page content. Add this to the
@@ -76,7 +76,7 @@ function wp_robots_noindex( array $robots ) {
 }
 
 /**
- * Adds noindex to the robots meta tag for embeds.
+ * Adds `noindex` to the robots meta tag for embeds.
  *
  * Typical usage is as a {@see 'wp_robots'} callback:
  *
@@ -98,7 +98,7 @@ function wp_robots_noindex_embeds( array $robots ) {
 }
 
 /**
- * Adds noindex to the robots meta tag if a search is being performed.
+ * Adds `noindex` to the robots meta tag if a search is being performed.
  *
  * If a search is being performed then noindex will be output to
  * tell web robots not to index the page content. Add this to the
@@ -124,7 +124,7 @@ function wp_robots_noindex_search( array $robots ) {
 }
 
 /**
- * Adds noindex to the robots meta tag.
+ * Adds `noindex` to the robots meta tag.
  *
  * This directive tells web robots not to index the page content.
  *
@@ -150,7 +150,7 @@ function wp_robots_no_robots( array $robots ) {
 }
 
 /**
- * Adds noindex and noarchive to the robots meta tag.
+ * Adds `noindex` and `noarchive` to the robots meta tag.
  *
  * This directive tells web robots not to index or archive the page content and
  * is recommended to be used for sensitive pages.
@@ -171,7 +171,7 @@ function wp_robots_sensitive_page( array $robots ) {
 }
 
 /**
- * Adds 'max-image-preview:large' to the robots meta tag.
+ * Adds `max-image-preview:large` to the robots meta tag.
  *
  * This directive tells web robots that large image previews are allowed to be
  * displayed, e.g. in search engines, unless the blog is marked as not being public.

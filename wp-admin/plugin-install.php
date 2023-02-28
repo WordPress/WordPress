@@ -52,7 +52,7 @@ $title       = __( 'Add Plugins' );
 $parent_file = 'plugins.php';
 
 wp_enqueue_script( 'plugin-install' );
-if ( 'plugin-information' != $tab ) {
+if ( 'plugin-information' !== $tab ) {
 	add_thickbox();
 }
 
@@ -109,7 +109,7 @@ get_current_screen()->add_help_tab(
 		'id'      => 'adding-plugins',
 		'title'   => __( 'Adding Plugins' ),
 		'content' =>
-				'<p>' . __( 'If you know what you&#8217;re looking for, Search is your best bet. The Search screen has options to search the WordPress Plugin Directory for a particular Term, Author, or Tag. You can also search the directory by selecting popular tags. Tags in larger type mean more plugins have been labeled with that tag.' ) . '</p>' .
+				'<p>' . __( 'If you know what you are looking for, Search is your best bet. The Search screen has options to search the WordPress Plugin Directory for a particular Term, Author, or Tag. You can also search the directory by selecting popular tags. Tags in larger type mean more plugins have been labeled with that tag.' ) . '</p>' .
 				'<p>' . __( 'If you just want to get an idea of what&#8217;s available, you can browse Featured and Popular plugins by using the links above the plugins list. These sections rotate regularly.' ) . '</p>' .
 				'<p>' . __( 'You can also browse a user&#8217;s favorite plugins, by using the Favorites link above the plugins list and entering their WordPress.org username.' ) . '</p>' .
 				'<p>' . __( 'If you want to install a plugin that you&#8217;ve downloaded elsewhere, click the Upload Plugin button above the plugins list. You will be prompted to upload the .zip package, and once uploaded, you can activate the new plugin.' ) . '</p>',
@@ -118,8 +118,8 @@ get_current_screen()->add_help_tab(
 
 get_current_screen()->set_help_sidebar(
 	'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
-	'<p>' . __( '<a href="https://wordpress.org/support/article/plugins-add-new-screen/">Documentation on Installing Plugins</a>' ) . '</p>' .
-	'<p>' . __( '<a href="https://wordpress.org/support/">Support</a>' ) . '</p>'
+	'<p>' . __( '<a href="https://wordpress.org/documentation/article/plugins-add-new-screen/">Documentation on Installing Plugins</a>' ) . '</p>' .
+	'<p>' . __( '<a href="https://wordpress.org/support/forums/">Support forums</a>' ) . '</p>'
 );
 
 get_current_screen()->set_screen_reader_content(

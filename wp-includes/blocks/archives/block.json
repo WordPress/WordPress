@@ -1,23 +1,50 @@
 {
+	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 2,
 	"name": "core/archives",
 	"title": "Archives",
 	"category": "widgets",
-	"description": "Display a monthly archive of your posts.",
+	"description": "Display a date archive of your posts.",
 	"textdomain": "default",
 	"attributes": {
 		"displayAsDropdown": {
 			"type": "boolean",
 			"default": false
 		},
+		"showLabel": {
+			"type": "boolean",
+			"default": true
+		},
 		"showPostCounts": {
 			"type": "boolean",
 			"default": false
+		},
+		"type": {
+			"type": "string",
+			"default": "monthly"
 		}
 	},
 	"supports": {
 		"align": true,
-		"html": false
+		"anchor": true,
+		"html": false,
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true
+			}
+		}
 	},
 	"editorStyle": "wp-block-archives-editor"
 }

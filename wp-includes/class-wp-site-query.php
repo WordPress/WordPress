@@ -14,6 +14,7 @@
  *
  * @see WP_Site_Query::__construct() for accepted arguments.
  */
+#[AllowDynamicProperties]
 class WP_Site_Query {
 
 	/**
@@ -109,62 +110,79 @@ class WP_Site_Query {
 	 * @since 4.6.0
 	 * @since 4.8.0 Introduced the 'lang_id', 'lang__in', and 'lang__not_in' parameters.
 	 * @since 5.1.0 Introduced the 'update_site_meta_cache', 'meta_query', 'meta_key',
-	 *              'meta_value', 'meta_type' and 'meta_compare' parameters.
+	 *              'meta_compare_key', 'meta_value', 'meta_type', and 'meta_compare' parameters.
+	 * @since 5.3.0 Introduced the 'meta_type_key' parameter.
 	 *
 	 * @param string|array $query {
 	 *     Optional. Array or query string of site query parameters. Default empty.
 	 *
-	 *     @type int[]        $site__in               Array of site IDs to include. Default empty.
-	 *     @type int[]        $site__not_in           Array of site IDs to exclude. Default empty.
-	 *     @type bool         $count                  Whether to return a site count (true) or array of site objects.
-	 *                                                Default false.
-	 *     @type array        $date_query             Date query clauses to limit sites by. See WP_Date_Query.
-	 *                                                Default null.
-	 *     @type string       $fields                 Site fields to return. Accepts 'ids' (returns an array of site IDs)
-	 *                                                or empty (returns an array of complete site objects). Default empty.
-	 *     @type int          $ID                     A site ID to only return that site. Default empty.
-	 *     @type int          $number                 Maximum number of sites to retrieve. Default 100.
-	 *     @type int          $offset                 Number of sites to offset the query. Used to build LIMIT clause.
-	 *                                                Default 0.
-	 *     @type bool         $no_found_rows          Whether to disable the `SQL_CALC_FOUND_ROWS` query. Default true.
-	 *     @type string|array $orderby                Site status or array of statuses. Accepts 'id', 'domain', 'path',
-	 *                                                'network_id', 'last_updated', 'registered', 'domain_length',
-	 *                                                'path_length', 'site__in' and 'network__in'. Also accepts false,
-	 *                                                an empty array, or 'none' to disable `ORDER BY` clause.
-	 *                                                Default 'id'.
-	 *     @type string       $order                  How to order retrieved sites. Accepts 'ASC', 'DESC'. Default 'ASC'.
-	 *     @type int          $network_id             Limit results to those affiliated with a given network ID. If 0,
-	 *                                                include all networks. Default 0.
-	 *     @type int[]        $network__in            Array of network IDs to include affiliated sites for. Default empty.
-	 *     @type int[]        $network__not_in        Array of network IDs to exclude affiliated sites for. Default empty.
-	 *     @type string       $domain                 Limit results to those affiliated with a given domain. Default empty.
-	 *     @type string[]     $domain__in             Array of domains to include affiliated sites for. Default empty.
-	 *     @type string[]     $domain__not_in         Array of domains to exclude affiliated sites for. Default empty.
-	 *     @type string       $path                   Limit results to those affiliated with a given path. Default empty.
-	 *     @type string[]     $path__in               Array of paths to include affiliated sites for. Default empty.
-	 *     @type string[]     $path__not_in           Array of paths to exclude affiliated sites for. Default empty.
-	 *     @type int          $public                 Limit results to public sites. Accepts '1' or '0'. Default empty.
-	 *     @type int          $archived               Limit results to archived sites. Accepts '1' or '0'. Default empty.
-	 *     @type int          $mature                 Limit results to mature sites. Accepts '1' or '0'. Default empty.
-	 *     @type int          $spam                   Limit results to spam sites. Accepts '1' or '0'. Default empty.
-	 *     @type int          $deleted                Limit results to deleted sites. Accepts '1' or '0'. Default empty.
-	 *     @type int          $lang_id                Limit results to a language ID. Default empty.
-	 *     @type string[]     $lang__in               Array of language IDs to include affiliated sites for. Default empty.
-	 *     @type string[]     $lang__not_in           Array of language IDs to exclude affiliated sites for. Default empty.
-	 *     @type string       $search                 Search term(s) to retrieve matching sites for. Default empty.
-	 *     @type string[]     $search_columns         Array of column names to be searched. Accepts 'domain' and 'path'.
-	 *                                                Default empty array.
-	 *     @type bool         $update_site_cache      Whether to prime the cache for found sites. Default true.
-	 *     @type bool         $update_site_meta_cache Whether to prime the metadata cache for found sites. Default true.
-	 *     @type array        $meta_query             Meta query clauses to limit retrieved sites by. See `WP_Meta_Query`.
-	 *                                                Default empty.
-	 *     @type string       $meta_key               Limit sites to those matching a specific metadata key.
-	 *                                                Can be used in conjunction with `$meta_value`. Default empty.
-	 *     @type string       $meta_value             Limit sites to those matching a specific metadata value.
-	 *                                                Usually used in conjunction with `$meta_key`. Default empty.
-	 *     @type string       $meta_type              Data type that the `$meta_value` column will be CAST to for
-	 *                                                comparisons. Default empty.
-	 *     @type string       $meta_compare           Comparison operator to test the `$meta_value`. Default empty.
+	 *     @type int[]           $site__in               Array of site IDs to include. Default empty.
+	 *     @type int[]           $site__not_in           Array of site IDs to exclude. Default empty.
+	 *     @type bool            $count                  Whether to return a site count (true) or array of site objects.
+	 *                                                   Default false.
+	 *     @type array           $date_query             Date query clauses to limit sites by. See WP_Date_Query.
+	 *                                                   Default null.
+	 *     @type string          $fields                 Site fields to return. Accepts 'ids' (returns an array of site IDs)
+	 *                                                   or empty (returns an array of complete site objects). Default empty.
+	 *     @type int             $ID                     A site ID to only return that site. Default empty.
+	 *     @type int             $number                 Maximum number of sites to retrieve. Default 100.
+	 *     @type int             $offset                 Number of sites to offset the query. Used to build LIMIT clause.
+	 *                                                   Default 0.
+	 *     @type bool            $no_found_rows          Whether to disable the `SQL_CALC_FOUND_ROWS` query. Default true.
+	 *     @type string|array    $orderby                Site status or array of statuses. Accepts:
+	 *                                                   - 'id'
+	 *                                                   - 'domain'
+	 *                                                   - 'path'
+	 *                                                   - 'network_id'
+	 *                                                   - 'last_updated'
+	 *                                                   - 'registered'
+	 *                                                   - 'domain_length'
+	 *                                                   - 'path_length'
+	 *                                                   - 'site__in'
+	 *                                                   - 'network__in'
+	 *                                                   - 'deleted'
+	 *                                                   - 'mature'
+	 *                                                   - 'spam'
+	 *                                                   - 'archived'
+	 *                                                   - 'public'
+	 *                                                   - false, an empty array, or 'none' to disable `ORDER BY` clause.
+	 *                                                   Default 'id'.
+	 *     @type string          $order                  How to order retrieved sites. Accepts 'ASC', 'DESC'. Default 'ASC'.
+	 *     @type int             $network_id             Limit results to those affiliated with a given network ID. If 0,
+	 *                                                   include all networks. Default 0.
+	 *     @type int[]           $network__in            Array of network IDs to include affiliated sites for. Default empty.
+	 *     @type int[]           $network__not_in        Array of network IDs to exclude affiliated sites for. Default empty.
+	 *     @type string          $domain                 Limit results to those affiliated with a given domain. Default empty.
+	 *     @type string[]        $domain__in             Array of domains to include affiliated sites for. Default empty.
+	 *     @type string[]        $domain__not_in         Array of domains to exclude affiliated sites for. Default empty.
+	 *     @type string          $path                   Limit results to those affiliated with a given path. Default empty.
+	 *     @type string[]        $path__in               Array of paths to include affiliated sites for. Default empty.
+	 *     @type string[]        $path__not_in           Array of paths to exclude affiliated sites for. Default empty.
+	 *     @type int             $public                 Limit results to public sites. Accepts '1' or '0'. Default empty.
+	 *     @type int             $archived               Limit results to archived sites. Accepts '1' or '0'. Default empty.
+	 *     @type int             $mature                 Limit results to mature sites. Accepts '1' or '0'. Default empty.
+	 *     @type int             $spam                   Limit results to spam sites. Accepts '1' or '0'. Default empty.
+	 *     @type int             $deleted                Limit results to deleted sites. Accepts '1' or '0'. Default empty.
+	 *     @type int             $lang_id                Limit results to a language ID. Default empty.
+	 *     @type string[]        $lang__in               Array of language IDs to include affiliated sites for. Default empty.
+	 *     @type string[]        $lang__not_in           Array of language IDs to exclude affiliated sites for. Default empty.
+	 *     @type string          $search                 Search term(s) to retrieve matching sites for. Default empty.
+	 *     @type string[]        $search_columns         Array of column names to be searched. Accepts 'domain' and 'path'.
+	 *                                                   Default empty array.
+	 *     @type bool            $update_site_cache      Whether to prime the cache for found sites. Default true.
+	 *     @type bool            $update_site_meta_cache Whether to prime the metadata cache for found sites. Default true.
+	 *     @type string|string[] $meta_key               Meta key or keys to filter by.
+	 *     @type string|string[] $meta_value             Meta value or values to filter by.
+	 *     @type string          $meta_compare           MySQL operator used for comparing the meta value.
+	 *                                                   See WP_Meta_Query::__construct() for accepted values and default value.
+	 *     @type string          $meta_compare_key       MySQL operator used for comparing the meta key.
+	 *                                                   See WP_Meta_Query::__construct() for accepted values and default value.
+	 *     @type string          $meta_type              MySQL data type that the meta_value column will be CAST to for comparisons.
+	 *                                                   See WP_Meta_Query::__construct() for accepted values and default value.
+	 *     @type string          $meta_type_key          MySQL data type that the meta_key column will be CAST to for comparisons.
+	 *                                                   See WP_Meta_Query::__construct() for accepted values and default value.
+	 *     @type array           $meta_query             An associative array of WP_Meta_Query arguments.
+	 *                                                   See WP_Meta_Query::__construct() for accepted values.
 	 * }
 	 */
 	public function __construct( $query = '' ) {
@@ -333,8 +351,8 @@ class WP_Site_Query {
 		// $args can include anything. Only use the args defined in the query_var_defaults to compute the key.
 		$_args = wp_array_slice_assoc( $this->query_vars, array_keys( $this->query_var_defaults ) );
 
-		// Ignore the $fields argument as the queried result will be the same regardless.
-		unset( $_args['fields'] );
+		// Ignore the $fields, $update_site_cache, $update_site_meta_cache argument as the queried result will be the same regardless.
+		unset( $_args['fields'], $_args['update_site_cache'], $_args['update_site_meta_cache'] );
 
 		$key          = md5( serialize( $_args ) );
 		$last_changed = wp_cache_get_last_changed( 'sites' );
@@ -609,7 +627,9 @@ class WP_Site_Query {
 
 		$date_query = $this->query_vars['date_query'];
 		if ( ! empty( $date_query ) && is_array( $date_query ) ) {
-			$this->date_query                         = new WP_Date_Query( $date_query, 'registered' );
+			$this->date_query = new WP_Date_Query( $date_query, 'registered' );
+
+			// Strip leading 'AND'.
 			$this->sql_clauses['where']['date_query'] = preg_replace( '/^\s*AND\s*/', '', $this->date_query->get_sql() );
 		}
 
@@ -636,8 +656,8 @@ class WP_Site_Query {
 		 *
 		 * @since 4.6.0
 		 *
-		 * @param string[]      $pieces An associative array of site query clauses.
-		 * @param WP_Site_Query $query  Current instance of WP_Site_Query (passed by reference).
+		 * @param string[]      $clauses An associative array of site query clauses.
+		 * @param WP_Site_Query $query   Current instance of WP_Site_Query (passed by reference).
 		 */
 		$clauses = apply_filters_ref_array( 'sites_clauses', array( compact( $pieces ), &$this ) );
 
@@ -671,7 +691,14 @@ class WP_Site_Query {
 		$this->sql_clauses['orderby'] = $orderby;
 		$this->sql_clauses['limits']  = $limits;
 
-		$this->request = "{$this->sql_clauses['select']} {$this->sql_clauses['from']} {$where} {$this->sql_clauses['groupby']} {$this->sql_clauses['orderby']} {$this->sql_clauses['limits']}";
+		$this->request = "
+			{$this->sql_clauses['select']}
+			{$this->sql_clauses['from']}
+			{$where}
+			{$this->sql_clauses['groupby']}
+			{$this->sql_clauses['orderby']}
+			{$this->sql_clauses['limits']}
+		";
 
 		if ( $this->query_vars['count'] ) {
 			return (int) $wpdb->get_var( $this->request );
@@ -715,17 +742,17 @@ class WP_Site_Query {
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
-	 * @param string   $string  Search string.
+	 * @param string   $search  Search string.
 	 * @param string[] $columns Array of columns to search.
 	 * @return string Search SQL.
 	 */
-	protected function get_search_sql( $string, $columns ) {
+	protected function get_search_sql( $search, $columns ) {
 		global $wpdb;
 
-		if ( false !== strpos( $string, '*' ) ) {
-			$like = '%' . implode( '%', array_map( array( $wpdb, 'esc_like' ), explode( '*', $string ) ) ) . '%';
+		if ( false !== strpos( $search, '*' ) ) {
+			$like = '%' . implode( '%', array_map( array( $wpdb, 'esc_like' ), explode( '*', $search ) ) ) . '%';
 		} else {
-			$like = '%' . $wpdb->esc_like( $string ) . '%';
+			$like = '%' . $wpdb->esc_like( $search ) . '%';
 		}
 
 		$searches = array();
@@ -764,6 +791,11 @@ class WP_Site_Query {
 			case 'last_updated':
 			case 'path':
 			case 'registered':
+			case 'deleted':
+			case 'spam':
+			case 'mature':
+			case 'archived':
+			case 'public':
 				$parsed = $orderby;
 				break;
 			case 'network_id':

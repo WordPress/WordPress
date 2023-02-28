@@ -10,7 +10,7 @@
  * This functionality was found in a plugin before the WordPress 2.2 release, which
  * included it in the core from that point on.
  *
- * @link https://wordpress.org/support/article/wordpress-widgets/
+ * @link https://wordpress.org/documentation/article/manage-wordpress-widgets/
  * @link https://developer.wordpress.org/themes/functionality/widgets/
  *
  * @package WordPress
@@ -220,6 +220,7 @@ function register_sidebars( $number = 1, $args = array() ) {
  *
  * @since 2.2.0
  * @since 5.6.0 Added the `before_sidebar` and `after_sidebar` arguments.
+ * @since 5.9.0 Added the `show_in_rest` argument.
  *
  * @global array $wp_registered_sidebars Registered sidebars.
  *
@@ -250,6 +251,8 @@ function register_sidebars( $number = 1, $args = array() ) {
  *     @type string $after_sidebar  HTML content to append to the sidebar when displayed.
  *                                  Outputs before the {@see 'dynamic_sidebar_after'} action.
  *                                  Default empty string.
+ *     @type bool $show_in_rest     Whether to show this sidebar publicly in the REST API.
+ *                                  Defaults to only showing the sidebar to administrator users.
  * }
  * @return string Sidebar ID added to $wp_registered_sidebars global.
  */
@@ -272,6 +275,7 @@ function register_sidebar( $args = array() ) {
 		'after_title'    => "</h2>\n",
 		'before_sidebar' => '',
 		'after_sidebar'  => '',
+		'show_in_rest'   => false,
 	);
 
 	/**
@@ -485,7 +489,7 @@ function wp_unregister_sidebar_widget( $id ) {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param int $id The widget ID.
+	 * @param int|string $id The widget ID.
 	 */
 	do_action( 'wp_unregister_sidebar_widget', $id );
 
@@ -515,7 +519,7 @@ function wp_unregister_sidebar_widget( $id ) {
  *     @type int        $width   Width of the fully expanded control form (but try hard to use the default width).
  *                               Default 250.
  *     @type int|string $id_base Required for multi-widgets, i.e widgets that allow multiple instances such as the
- *                               text widget. The widget id will end up looking like `{$id_base}-{$unique_number}`.
+ *                               text widget. The widget ID will end up looking like `{$id_base}-{$unique_number}`.
  * }
  * @param mixed      ...$params        Optional additional parameters to pass to the callback function when it's called.
  */
@@ -1036,6 +1040,35 @@ function wp_get_sidebars_widgets( $deprecated = true ) {
 }
 
 /**
+ * Retrieves the registered sidebar with the given ID.
+ *
+ * @since 5.9.0
+ *
+ * @global array $wp_registered_sidebars The registered sidebars.
+ *
+ * @param string $id The sidebar ID.
+ * @return array|null The discovered sidebar, or null if it is not registered.
+ */
+function wp_get_sidebar( $id ) {
+	global $wp_registered_sidebars;
+
+	foreach ( (array) $wp_registered_sidebars as $sidebar ) {
+		if ( $sidebar['id'] === $id ) {
+			return $sidebar;
+		}
+	}
+
+	if ( 'wp_inactive_widgets' === $id ) {
+		return array(
+			'id'   => 'wp_inactive_widgets',
+			'name' => __( 'Inactive widgets' ),
+		);
+	}
+
+	return null;
+}
+
+/**
  * Set the sidebar widget option to update sidebars.
  *
  * @since 2.2.0
@@ -1545,7 +1578,7 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 
 	if ( is_wp_error( $rss ) ) {
 		if ( is_admin() || current_user_can( 'manage_options' ) ) {
-			echo '<p><strong>' . __( 'RSS Error:' ) . '</strong> ' . $rss->get_error_message() . '</p>';
+			echo '<p><strong>' . __( 'RSS Error:' ) . '</strong> ' . esc_html( $rss->get_error_message() ) . '</p>';
 		}
 		return;
 	}
@@ -1668,7 +1701,7 @@ function wp_widget_rss_form( $args, $inputs = null ) {
 	$args['show_date']    = isset( $args['show_date'] ) ? (int) $args['show_date'] : (int) $inputs['show_date'];
 
 	if ( ! empty( $args['error'] ) ) {
-		echo '<p class="widget-error"><strong>' . __( 'RSS Error:' ) . '</strong> ' . $args['error'] . '</p>';
+		echo '<p class="widget-error"><strong>' . __( 'RSS Error:' ) . '</strong> ' . esc_html( $args['error'] ) . '</p>';
 	}
 
 	$esc_number = esc_attr( $args['number'] );
@@ -1734,7 +1767,7 @@ function wp_widget_rss_process( $widget_rss, $check_feed = true ) {
 	if ( $items < 1 || 20 < $items ) {
 		$items = 10;
 	}
-	$url          = esc_url_raw( strip_tags( $widget_rss['url'] ) );
+	$url          = sanitize_url( strip_tags( $widget_rss['url'] ) );
 	$title        = isset( $widget_rss['title'] ) ? trim( strip_tags( $widget_rss['title'] ) ) : '';
 	$show_summary = isset( $widget_rss['show_summary'] ) ? (int) $widget_rss['show_summary'] : 0;
 	$show_author  = isset( $widget_rss['show_author'] ) ? (int) $widget_rss['show_author'] : 0;
@@ -1883,8 +1916,8 @@ function wp_parse_widget_id( $id ) {
  *
  * @since 5.8.0
  *
- * @param string $widget_id The widget id to look for.
- * @return string|null The found sidebar's id, or null if it was not found.
+ * @param string $widget_id The widget ID to look for.
+ * @return string|null The found sidebar's ID, or null if it was not found.
  */
 function wp_find_widgets_sidebar( $widget_id ) {
 	foreach ( wp_get_sidebars_widgets() as $sidebar_id => $widget_ids ) {
@@ -1903,8 +1936,8 @@ function wp_find_widgets_sidebar( $widget_id ) {
  *
  * @since 5.8.0
  *
- * @param string $widget_id  The widget id to assign.
- * @param string $sidebar_id The sidebar id to assign to. If empty, the widget won't be added to any sidebar.
+ * @param string $widget_id  The widget ID to assign.
+ * @param string $sidebar_id The sidebar ID to assign to. If empty, the widget won't be added to any sidebar.
  */
 function wp_assign_widget_to_sidebar( $widget_id, $sidebar_id ) {
 	$sidebars = wp_get_sidebars_widgets();
@@ -1913,7 +1946,7 @@ function wp_assign_widget_to_sidebar( $widget_id, $sidebar_id ) {
 		foreach ( $widgets as $i => $maybe_widget_id ) {
 			if ( $widget_id === $maybe_widget_id && $sidebar_id !== $maybe_sidebar_id ) {
 				unset( $sidebars[ $maybe_sidebar_id ][ $i ] );
-				// We could technically break 2 here, but continue looping in case the id is duplicated.
+				// We could technically break 2 here, but continue looping in case the ID is duplicated.
 				continue 2;
 			}
 		}
@@ -2070,5 +2103,31 @@ function wp_check_widget_editor_deps() {
 				'5.8.0'
 			);
 		}
+	}
+}
+
+/**
+ * Registers the previous theme's sidebars for the block themes.
+ *
+ * @since 6.2.0
+ * @access private
+ *
+ * @global array $wp_registered_sidebars Registered sidebars.
+ */
+function _wp_block_theme_register_classic_sidebars() {
+	global $wp_registered_sidebars;
+
+	if ( ! wp_is_block_theme() ) {
+		return;
+	}
+
+	$classic_sidebars = get_theme_mod( 'wp_classic_sidebars' );
+	if ( empty( $classic_sidebars ) ) {
+		return;
+	}
+
+	// Don't use `register_sidebar` since it will enable the `widgets` support for a theme.
+	foreach ( $classic_sidebars as $sidebar ) {
+		$wp_registered_sidebars[ $sidebar['id'] ] = $sidebar;
 	}
 }

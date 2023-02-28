@@ -1,6 +1,7 @@
 /*! This file is auto-generated */
 html {
 	--wp-admin--admin-bar--height: 32px;
+	scroll-padding-top: var(--wp-admin--admin-bar--height);
 }
 
 #wpadminbar * {
@@ -15,6 +16,7 @@ html {
 	font-size: 13px;
 	font-weight: 400;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+	font-style: normal;
 	line-height: 2.46153846;
 	border-radius: 0;
 	box-sizing: content-box;
@@ -549,11 +551,15 @@ html:lang(he-il) .rtl #wpadminbar * {
 	top: 2px;
 }
 
+#wpadminbar #wp-admin-bar-site-editor > .ab-item:before {
+	content: "\f100";
+	top: 2px;
+}
+
 #wpadminbar #wp-admin-bar-customize > .ab-item:before {
 	content: "\f540";
 	top: 2px;
 }
-
 
 #wpadminbar #wp-admin-bar-edit > .ab-item:before {
 	content: "\f464";
@@ -714,11 +720,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 #wpadminbar .screen-reader-shortcut {
 	position: absolute;
 	top: -1000em;
-}
-
-#wpadminbar .screen-reader-shortcut:focus {
 	right: 6px;
-	top: 7px;
 	height: auto;
 	width: auto;
 	display: block;
@@ -730,6 +732,11 @@ html:lang(he-il) .rtl #wpadminbar * {
 	z-index: 100000;
 	line-height: normal;
 	text-decoration: none;
+}
+
+#wpadminbar .screen-reader-shortcut:focus {
+	top: 7px;
+	background: #f0f0f1;
 	box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
 }
 
@@ -791,7 +798,17 @@ html:lang(he-il) .rtl #wpadminbar * {
 	}
 
 	#wpadminbar .ab-label {
-		display: none;
+		border: 0;
+		clip: rect(1px, 1px, 1px, 1px);
+		-webkit-clip-path: inset(50%);
+		clip-path: inset(50%);
+		height: 1px;
+		margin: -1px;
+		overflow: hidden;
+		padding: 0;
+		position: absolute;
+		width: 1px;
+		word-wrap: normal !important;
 	}
 
 	#wpadminbar .menupop li:hover > .ab-sub-wrapper,
@@ -843,6 +860,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 	/* My Sites and "Site Title" menu */
 	#wpadminbar #wp-admin-bar-my-sites > .ab-item,
 	#wpadminbar #wp-admin-bar-site-name > .ab-item,
+	#wpadminbar #wp-admin-bar-site-editor > .ab-item,
 	#wpadminbar #wp-admin-bar-customize > .ab-item,
 	#wpadminbar #wp-admin-bar-edit > .ab-item,
 	#wpadminbar #wp-admin-bar-my-account > .ab-item {
@@ -865,6 +883,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 	#wpadminbar #wp-admin-bar-edit > .ab-item:before,
 	#wpadminbar #wp-admin-bar-my-sites > .ab-item:before,
 	#wpadminbar #wp-admin-bar-site-name > .ab-item:before,
+	#wpadminbar #wp-admin-bar-site-editor > .ab-item:before,
 	#wpadminbar #wp-admin-bar-customize > .ab-item:before,
 	#wpadminbar #wp-admin-bar-my-account > .ab-item:before {
 		display: block;
@@ -979,6 +998,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 	#wpadminbar li#wp-admin-bar-my-sites,
 	#wpadminbar li#wp-admin-bar-updates,
 	#wpadminbar li#wp-admin-bar-site-name,
+	#wpadminbar li#wp-admin-bar-site-editor,
 	#wpadminbar li#wp-admin-bar-customize,
 	#wpadminbar li#wp-admin-bar-new-content,
 	#wpadminbar li#wp-admin-bar-edit,

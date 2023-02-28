@@ -1,7 +1,7 @@
 /* global wp, jQuery */
 
 ( function( $, api ) {
-	$( document ).ready( function() {
+	$( function() {
 		// Make it possible to reset the color based on a radio input's value.
 		// `active` can be either `custom` or `default`.
 		api.control( 'accent_hue_active' ).setting.bind( function( active ) {

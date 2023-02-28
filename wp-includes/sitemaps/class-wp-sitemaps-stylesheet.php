@@ -14,6 +14,7 @@
  *
  * @since 5.5.0
  */
+#[AllowDynamicProperties]
 class WP_Sitemaps_Stylesheet {
 	/**
 	 * Renders the XSL stylesheet depending on whether it's the sitemap index or not.
@@ -21,7 +22,7 @@ class WP_Sitemaps_Stylesheet {
 	 * @param string $type Stylesheet type. Either 'sitemap' or 'index'.
 	 */
 	public function render_stylesheet( $type ) {
-		header( 'Content-type: application/xml; charset=UTF-8' );
+		header( 'Content-Type: application/xml; charset=UTF-8' );
 
 		if ( 'sitemap' === $type ) {
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- All content escaped below.

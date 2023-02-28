@@ -17,5 +17,6 @@ a {
 	&:focus {
 		outline: thin dotted;
 		text-decoration: underline;
+		text-decoration-thickness: 2px;
 	}
 }

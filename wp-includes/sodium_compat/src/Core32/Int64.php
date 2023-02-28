@@ -337,9 +337,9 @@ class ParagonIE_Sodium_Core32_Int64
             $a_i = $a[$i];
             for ($j = 0; $j < $a_l; ++$j) {
                 $b_j = $b[$j];
-                $product = ($a_i * $b_j) + $r[$i + $j];
-                $carry = ($product >> $baseLog2 & 0xffff);
-                $r[$i + $j] = ($product - (int) ($carry * $base)) & 0xffff;
+                $product = (($a_i * $b_j) + $r[$i + $j]);
+                $carry = (((int) $product >> $baseLog2) & 0xffff);
+                $r[$i + $j] = ((int) $product - (int) ($carry * $base)) & 0xffff;
                 $r[$i + $j + 1] += $carry;
             }
         }

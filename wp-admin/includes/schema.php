@@ -388,21 +388,30 @@ function populate_options( array $options = array() ) {
 	/*
 	 * translators: default GMT offset or timezone string. Must be either a valid offset (-12 to 14)
 	 * or a valid timezone string (America/New_York). See https://www.php.net/manual/en/timezones.php
-	 * for all timezone strings supported by PHP.
+	 * for all timezone strings currently supported by PHP.
+	 *
+	 * Important: When a previous timezone string, like `Europe/Kiev`, has been superseded by an
+	 * updated one, like `Europe/Kyiv`, as a rule of thumb, the **old** timezone name should be used
+	 * in the "translation" to allow for the default timezone setting to be PHP cross-version compatible,
+	 * as old timezone names will be recognized in new PHP versions, while new timezone names cannot
+	 * be recognized in old PHP versions.
+	 *
+	 * To verify which timezone strings are available in the _oldest_ PHP version supported, you can
+	 * use https://3v4l.org/6YQAt#v5.6.20 and replace the "BR" (Brazil) in the code line with the
+	 * country code for which you want to look up the supported timezone names.
 	 */
 	$offset_or_tz = _x( '0', 'default GMT offset or timezone string' );
 	if ( is_numeric( $offset_or_tz ) ) {
 		$gmt_offset = $offset_or_tz;
-	} elseif ( $offset_or_tz && in_array( $offset_or_tz, timezone_identifiers_list(), true ) ) {
-			$timezone_string = $offset_or_tz;
+	} elseif ( $offset_or_tz && in_array( $offset_or_tz, timezone_identifiers_list( DateTimeZone::ALL_WITH_BC ), true ) ) {
+		$timezone_string = $offset_or_tz;
 	}
 
 	$defaults = array(
 		'siteurl'                         => $guessurl,
 		'home'                            => $guessurl,
 		'blogname'                        => __( 'My Site' ),
-		/* translators: Site tagline. */
-		'blogdescription'                 => __( 'Just another WordPress site' ),
+		'blogdescription'                 => '',
 		'users_can_register'              => 0,
 		'admin_email'                     => 'you@example.com',
 		/* translators: Default start of the week. 0 = Sunday, 1 = Monday. */
@@ -555,8 +564,6 @@ function populate_options( array $options = array() ) {
 
 	// 3.0.0 multisite.
 	if ( is_multisite() ) {
-		/* translators: %s: Network title. */
-		$defaults['blogdescription']     = sprintf( __( 'Just another %s site' ), get_network()->site_name );
 		$defaults['permalink_structure'] = '/%year%/%monthnum%/%day%/%postname%/';
 	}
 
@@ -964,7 +971,7 @@ endif;
  * @global WP_Rewrite $wp_rewrite   WordPress rewrite component.
  *
  * @param int    $network_id        ID of network to populate.
- * @param string $domain            The domain name for the network (eg. "example.com").
+ * @param string $domain            The domain name for the network. Example: "example.com".
  * @param string $email             Email address for the network administrator.
  * @param string $site_name         The name of the network.
  * @param string $path              Optional. The path to append to the network's domain name. Default '/'.
@@ -1043,7 +1050,7 @@ function populate_network( $network_id = 1, $domain = '', $email = '', $site_nam
 	 * created.
 	 */
 	if ( ! is_multisite() ) {
-		$current_site            = new stdClass;
+		$current_site            = new stdClass();
 		$current_site->domain    = $domain;
 		$current_site->path      = $path;
 		$current_site->site_name = ucfirst( $domain );
@@ -1060,6 +1067,16 @@ function populate_network( $network_id = 1, $domain = '', $email = '', $site_nam
 		$current_site->blog_id = $wpdb->insert_id;
 		update_user_meta( $site_user->ID, 'source_domain', $domain );
 		update_user_meta( $site_user->ID, 'primary_blog', $current_site->blog_id );
+
+		// Unable to use update_network_option() while populating the network.
+		$wpdb->insert(
+			$wpdb->sitemeta,
+			array(
+				'site_id'    => $network_id,
+				'meta_key'   => 'main_site',
+				'meta_value' => $current_site->blog_id,
+			)
+		);
 
 		if ( $subdomain_install ) {
 			$wp_rewrite->set_permalink_structure( '/%year%/%monthnum%/%day%/%postname%/' );
@@ -1173,8 +1190,6 @@ function populate_network_meta( $network_id, array $meta = array() ) {
 		wp_cache_delete( $network_id, 'networks' );
 	}
 
-	wp_cache_delete( 'networks_have_paths', 'site-options' );
-
 	if ( ! is_multisite() ) {
 		$site_admins = array( $site_user->user_login );
 		$users       = get_users(
@@ -1265,8 +1280,8 @@ We hope you enjoy your new site. Thanks!
 		'add_new_users'               => '0',
 		'upload_space_check_disabled' => is_multisite() ? get_site_option( 'upload_space_check_disabled' ) : '1',
 		'subdomain_install'           => $subdomain_install,
-		'global_terms_enabled'        => global_terms_enabled() ? '1' : '0',
 		'ms_files_rewriting'          => is_multisite() ? get_site_option( 'ms_files_rewriting' ) : '0',
+		'user_count'                  => get_site_option( 'user_count' ),
 		'initial_db_version'          => get_option( 'initial_db_version' ),
 		'active_sitewide_plugins'     => array(),
 		'WPLANG'                      => get_locale(),

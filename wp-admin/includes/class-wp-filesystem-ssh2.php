@@ -26,7 +26,7 @@
  * Restart Apache!
  * Check phpinfo() streams to confirm that: ssh2.shell, ssh2.exec, ssh2.tunnel, ssh2.scp, ssh2.sftp  exist.
  *
- * Note: As of WordPress 2.8, this utilises the PHP5+ function `stream_get_contents()`.
+ * Note: As of WordPress 2.8, this utilizes the PHP5+ function `stream_get_contents()`.
  *
  * @since 2.7.0
  *
@@ -88,7 +88,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 			$this->options['public_key']  = $opt['public_key'];
 			$this->options['private_key'] = $opt['private_key'];
 
-			$this->options['hostkey'] = array( 'hostkey' => 'ssh-rsa' );
+			$this->options['hostkey'] = array( 'hostkey' => 'ssh-rsa,ssh-ed25519' );
 
 			$this->keys = true;
 		} elseif ( empty( $opt['username'] ) ) {
@@ -496,20 +496,27 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	}
 
 	/**
-	 * Moves a file.
+	 * Moves a file or directory.
+	 *
+	 * After moving files or directories, OPcache will need to be invalidated.
+	 *
+	 * If moving a directory fails, `copy_dir()` can be used for a recursive copy.
+	 *
+	 * Use `move_dir()` for moving directories with OPcache invalidation and a
+	 * fallback to `copy_dir()`.
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param string $source      Path to the source file.
-	 * @param string $destination Path to the destination file.
-	 * @param bool   $overwrite   Optional. Whether to overwrite the destination file if it exists.
+	 * @param string $source      Path to the source file or directory.
+	 * @param string $destination Path to the destination file or directory.
+	 * @param bool   $overwrite   Optional. Whether to overwrite the destination if it exists.
 	 *                            Default false.
 	 * @return bool True on success, false on failure.
 	 */
 	public function move( $source, $destination, $overwrite = false ) {
 		if ( $this->exists( $destination ) ) {
 			if ( $overwrite ) {
-				// We need to remove the destination file before we can rename the source.
+				// We need to remove the destination before we can rename the source.
 				$this->delete( $destination, false, 'f' );
 			} else {
 				// If we're not overwriting, the rename will fail, so return early.
@@ -557,11 +564,11 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param string $file Path to file or directory.
-	 * @return bool Whether $file exists or not.
+	 * @param string $path Path to file or directory.
+	 * @return bool Whether $path exists or not.
 	 */
-	public function exists( $file ) {
-		return file_exists( $this->sftp_path( $file ) );
+	public function exists( $path ) {
+		return file_exists( $this->sftp_path( $path ) );
 	}
 
 	/**
@@ -605,10 +612,10 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param string $file Path to file or directory.
-	 * @return bool Whether $file is writable.
+	 * @param string $path Path to file or directory.
+	 * @return bool Whether $path is writable.
 	 */
-	public function is_writable( $file ) {
+	public function is_writable( $path ) {
 		// PHP will base its writable checks on system_user === file_owner, not ssh_user === file_owner.
 		return true;
 	}
@@ -745,7 +752,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	 *     @type mixed  $lastmod     Last modified month (3 letter) and day (without leading 0).
 	 *     @type int    $time        Last modified time.
 	 *     @type string $type        Type of resource. 'f' for file, 'd' for directory.
-	 *     @type mixed  $files       If a directory and $recursive is true, contains another array of files.
+	 *     @type mixed  $files       If a directory and `$recursive` is true, contains another array of files.
 	 * }
 	 */
 	public function dirlist( $path, $include_hidden = true, $recursive = false ) {
@@ -767,6 +774,8 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 			return false;
 		}
 
+		$path = trailingslashit( $path );
+
 		while ( false !== ( $entry = $dir->read() ) ) {
 			$struc         = array();
 			$struc['name'] = $entry;
@@ -783,20 +792,20 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 				continue;
 			}
 
-			$struc['perms']       = $this->gethchmod( $path . '/' . $entry );
+			$struc['perms']       = $this->gethchmod( $path . $entry );
 			$struc['permsn']      = $this->getnumchmodfromh( $struc['perms'] );
 			$struc['number']      = false;
-			$struc['owner']       = $this->owner( $path . '/' . $entry );
-			$struc['group']       = $this->group( $path . '/' . $entry );
-			$struc['size']        = $this->size( $path . '/' . $entry );
-			$struc['lastmodunix'] = $this->mtime( $path . '/' . $entry );
+			$struc['owner']       = $this->owner( $path . $entry );
+			$struc['group']       = $this->group( $path . $entry );
+			$struc['size']        = $this->size( $path . $entry );
+			$struc['lastmodunix'] = $this->mtime( $path . $entry );
 			$struc['lastmod']     = gmdate( 'M j', $struc['lastmodunix'] );
 			$struc['time']        = gmdate( 'h:i:s', $struc['lastmodunix'] );
-			$struc['type']        = $this->is_dir( $path . '/' . $entry ) ? 'd' : 'f';
+			$struc['type']        = $this->is_dir( $path . $entry ) ? 'd' : 'f';
 
 			if ( 'd' === $struc['type'] ) {
 				if ( $recursive ) {
-					$struc['files'] = $this->dirlist( $path . '/' . $struc['name'], $include_hidden, $recursive );
+					$struc['files'] = $this->dirlist( $path . $struc['name'], $include_hidden, $recursive );
 				} else {
 					$struc['files'] = array();
 				}

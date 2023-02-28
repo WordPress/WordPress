@@ -73,6 +73,25 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 			break;
 		case 'delete_post':
 		case 'delete_page':
+			if ( ! isset( $args[0] ) ) {
+				if ( 'delete_post' === $cap ) {
+					/* translators: %s: Capability name. */
+					$message = __( 'When checking for the %s capability, you must always check it against a specific post.' );
+				} else {
+					/* translators: %s: Capability name. */
+					$message = __( 'When checking for the %s capability, you must always check it against a specific page.' );
+				}
+
+				_doing_it_wrong(
+					__FUNCTION__,
+					sprintf( $message, '<code>' . $cap . '</code>' ),
+					'6.1.0'
+				);
+
+				$caps[] = 'do_not_allow';
+				break;
+			}
+
 			$post = get_post( $args[0] );
 			if ( ! $post ) {
 				$caps[] = 'do_not_allow';
@@ -92,7 +111,18 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 			$post_type = get_post_type_object( $post->post_type );
 			if ( ! $post_type ) {
 				/* translators: 1: Post type, 2: Capability name. */
-				_doing_it_wrong( __FUNCTION__, sprintf( __( 'The post type %1$s is not registered, so it may not be reliable to check the capability "%2$s" against a post of that type.' ), $post->post_type, $cap ), '4.4.0' );
+				$message = __( 'The post type %1$s is not registered, so it may not be reliable to check the capability %2$s against a post of that type.' );
+
+				_doing_it_wrong(
+					__FUNCTION__,
+					sprintf(
+						$message,
+						'<code>' . $post->post_type . '</code>',
+						'<code>' . $cap . '</code>'
+					),
+					'4.4.0'
+				);
+
 				$caps[] = 'edit_others_posts';
 				break;
 			}
@@ -146,6 +176,25 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 		// edit_others_posts.
 		case 'edit_post':
 		case 'edit_page':
+			if ( ! isset( $args[0] ) ) {
+				if ( 'edit_post' === $cap ) {
+					/* translators: %s: Capability name. */
+					$message = __( 'When checking for the %s capability, you must always check it against a specific post.' );
+				} else {
+					/* translators: %s: Capability name. */
+					$message = __( 'When checking for the %s capability, you must always check it against a specific page.' );
+				}
+
+				_doing_it_wrong(
+					__FUNCTION__,
+					sprintf( $message, '<code>' . $cap . '</code>' ),
+					'6.1.0'
+				);
+
+				$caps[] = 'do_not_allow';
+				break;
+			}
+
 			$post = get_post( $args[0] );
 			if ( ! $post ) {
 				$caps[] = 'do_not_allow';
@@ -163,7 +212,18 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 			$post_type = get_post_type_object( $post->post_type );
 			if ( ! $post_type ) {
 				/* translators: 1: Post type, 2: Capability name. */
-				_doing_it_wrong( __FUNCTION__, sprintf( __( 'The post type %1$s is not registered, so it may not be reliable to check the capability "%2$s" against a post of that type.' ), $post->post_type, $cap ), '4.4.0' );
+				$message = __( 'The post type %1$s is not registered, so it may not be reliable to check the capability %2$s against a post of that type.' );
+
+				_doing_it_wrong(
+					__FUNCTION__,
+					sprintf(
+						$message,
+						'<code>' . $post->post_type . '</code>',
+						'<code>' . $cap . '</code>'
+					),
+					'4.4.0'
+				);
+
 				$caps[] = 'edit_others_posts';
 				break;
 			}
@@ -215,6 +275,25 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 			break;
 		case 'read_post':
 		case 'read_page':
+			if ( ! isset( $args[0] ) ) {
+				if ( 'read_post' === $cap ) {
+					/* translators: %s: Capability name. */
+					$message = __( 'When checking for the %s capability, you must always check it against a specific post.' );
+				} else {
+					/* translators: %s: Capability name. */
+					$message = __( 'When checking for the %s capability, you must always check it against a specific page.' );
+				}
+
+				_doing_it_wrong(
+					__FUNCTION__,
+					sprintf( $message, '<code>' . $cap . '</code>' ),
+					'6.1.0'
+				);
+
+				$caps[] = 'do_not_allow';
+				break;
+			}
+
 			$post = get_post( $args[0] );
 			if ( ! $post ) {
 				$caps[] = 'do_not_allow';
@@ -232,7 +311,18 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 			$post_type = get_post_type_object( $post->post_type );
 			if ( ! $post_type ) {
 				/* translators: 1: Post type, 2: Capability name. */
-				_doing_it_wrong( __FUNCTION__, sprintf( __( 'The post type %1$s is not registered, so it may not be reliable to check the capability "%2$s" against a post of that type.' ), $post->post_type, $cap ), '4.4.0' );
+				$message = __( 'The post type %1$s is not registered, so it may not be reliable to check the capability %2$s against a post of that type.' );
+
+				_doing_it_wrong(
+					__FUNCTION__,
+					sprintf(
+						$message,
+						'<code>' . $post->post_type . '</code>',
+						'<code>' . $cap . '</code>'
+					),
+					'4.4.0'
+				);
+
 				$caps[] = 'edit_others_posts';
 				break;
 			}
@@ -249,7 +339,18 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 			$status_obj = get_post_status_object( get_post_status( $post ) );
 			if ( ! $status_obj ) {
 				/* translators: 1: Post status, 2: Capability name. */
-				_doing_it_wrong( __FUNCTION__, sprintf( __( 'The post status %1$s is not registered, so it may not be reliable to check the capability "%2$s" against a post with that status.' ), get_post_status( $post ), $cap ), '5.4.0' );
+				$message = __( 'The post status %1$s is not registered, so it may not be reliable to check the capability %2$s against a post with that status.' );
+
+				_doing_it_wrong(
+					__FUNCTION__,
+					sprintf(
+						$message,
+						'<code>' . get_post_status( $post ) . '</code>',
+						'<code>' . $cap . '</code>'
+					),
+					'5.4.0'
+				);
+
 				$caps[] = 'edit_others_posts';
 				break;
 			}
@@ -268,6 +369,20 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 			}
 			break;
 		case 'publish_post':
+			if ( ! isset( $args[0] ) ) {
+				/* translators: %s: Capability name. */
+				$message = __( 'When checking for the %s capability, you must always check it against a specific post.' );
+
+				_doing_it_wrong(
+					__FUNCTION__,
+					sprintf( $message, '<code>' . $cap . '</code>' ),
+					'6.1.0'
+				);
+
+				$caps[] = 'do_not_allow';
+				break;
+			}
+
 			$post = get_post( $args[0] );
 			if ( ! $post ) {
 				$caps[] = 'do_not_allow';
@@ -277,7 +392,18 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 			$post_type = get_post_type_object( $post->post_type );
 			if ( ! $post_type ) {
 				/* translators: 1: Post type, 2: Capability name. */
-				_doing_it_wrong( __FUNCTION__, sprintf( __( 'The post type %1$s is not registered, so it may not be reliable to check the capability "%2$s" against a post of that type.' ), $post->post_type, $cap ), '4.4.0' );
+				$message = __( 'The post type %1$s is not registered, so it may not be reliable to check the capability %2$s against a post of that type.' );
+
+				_doing_it_wrong(
+					__FUNCTION__,
+					sprintf(
+						$message,
+						'<code>' . $post->post_type . '</code>',
+						'<code>' . $cap . '</code>'
+					),
+					'4.4.0'
+				);
+
 				$caps[] = 'edit_others_posts';
 				break;
 			}
@@ -297,7 +423,33 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 		case 'delete_user_meta':
 		case 'add_user_meta':
 			$object_type = explode( '_', $cap )[1];
-			$object_id   = (int) $args[0];
+
+			if ( ! isset( $args[0] ) ) {
+				if ( 'post' === $object_type ) {
+					/* translators: %s: Capability name. */
+					$message = __( 'When checking for the %s capability, you must always check it against a specific post.' );
+				} elseif ( 'comment' === $object_type ) {
+					/* translators: %s: Capability name. */
+					$message = __( 'When checking for the %s capability, you must always check it against a specific comment.' );
+				} elseif ( 'term' === $object_type ) {
+					/* translators: %s: Capability name. */
+					$message = __( 'When checking for the %s capability, you must always check it against a specific term.' );
+				} else {
+					/* translators: %s: Capability name. */
+					$message = __( 'When checking for the %s capability, you must always check it against a specific user.' );
+				}
+
+				_doing_it_wrong(
+					__FUNCTION__,
+					sprintf( $message, '<code>' . $cap . '</code>' ),
+					'6.1.0'
+				);
+
+				$caps[] = 'do_not_allow';
+				break;
+			}
+
+			$object_id = (int) $args[0];
 
 			$object_subtype = get_object_subtype( $object_type, $object_id );
 
@@ -392,6 +544,20 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 			}
 			break;
 		case 'edit_comment':
+			if ( ! isset( $args[0] ) ) {
+				/* translators: %s: Capability name. */
+				$message = __( 'When checking for the %s capability, you must always check it against a specific comment.' );
+
+				_doing_it_wrong(
+					__FUNCTION__,
+					sprintf( $message, '<code>' . $cap . '</code>' ),
+					'6.1.0'
+				);
+
+				$caps[] = 'do_not_allow';
+				break;
+			}
+
 			$comment = get_comment( $args[0] );
 			if ( ! $comment ) {
 				$caps[] = 'do_not_allow';
@@ -532,6 +698,20 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 		case 'edit_term':
 		case 'delete_term':
 		case 'assign_term':
+			if ( ! isset( $args[0] ) ) {
+				/* translators: %s: Capability name. */
+				$message = __( 'When checking for the %s capability, you must always check it against a specific term.' );
+
+				_doing_it_wrong(
+					__FUNCTION__,
+					sprintf( $message, '<code>' . $cap . '</code>' ),
+					'6.1.0'
+				);
+
+				$caps[] = 'do_not_allow';
+				break;
+			}
+
 			$term_id = (int) $args[0];
 			$term    = get_term( $term_id );
 			if ( ! $term || is_wp_error( $term ) ) {
@@ -795,7 +975,7 @@ function user_can( $user, $capability, ...$args ) {
 	if ( empty( $user ) ) {
 		// User is logged out, create anonymous user object.
 		$user = new WP_User( 0 );
-		$user->init( new stdClass );
+		$user->init( new stdClass() );
 	}
 
 	return $user->has_cap( $capability, ...$args );
@@ -820,7 +1000,7 @@ function wp_roles() {
 }
 
 /**
- * Retrieve role object.
+ * Retrieves role object.
  *
  * @since 2.0.0
  *
@@ -832,7 +1012,7 @@ function get_role( $role ) {
 }
 
 /**
- * Add role, if it does not exist.
+ * Adds a role, if it does not exist.
  *
  * @since 2.0.0
  *
@@ -840,17 +1020,18 @@ function get_role( $role ) {
  * @param string $display_name Display name for role.
  * @param bool[] $capabilities List of capabilities keyed by the capability name,
  *                             e.g. array( 'edit_posts' => true, 'delete_posts' => false ).
- * @return WP_Role|null WP_Role object if role is added, null if already exists.
+ * @return WP_Role|void WP_Role object, if the role is added.
  */
 function add_role( $role, $display_name, $capabilities = array() ) {
 	if ( empty( $role ) ) {
 		return;
 	}
+
 	return wp_roles()->add_role( $role, $display_name, $capabilities );
 }
 
 /**
- * Remove role, if it exists.
+ * Removes a role, if it exists.
  *
  * @since 2.0.0
  *
@@ -861,7 +1042,7 @@ function remove_role( $role ) {
 }
 
 /**
- * Retrieve a list of super admins.
+ * Retrieves a list of super admins.
  *
  * @since 3.0.0
  *
@@ -880,7 +1061,7 @@ function get_super_admins() {
 }
 
 /**
- * Determine if user is a site admin.
+ * Determines whether user is a site admin.
  *
  * @since 3.0.0
  *
@@ -888,7 +1069,7 @@ function get_super_admins() {
  * @return bool Whether the user is a site admin.
  */
 function is_super_admin( $user_id = false ) {
-	if ( ! $user_id || get_current_user_id() == $user_id ) {
+	if ( ! $user_id ) {
 		$user = wp_get_current_user();
 	} else {
 		$user = get_userdata( $user_id );

@@ -622,6 +622,9 @@ themes.view.Theme = wp.Backbone.View.extend({
 			if ( _this.model.get( 'id' ) === response.slug ) {
 				_this.model.set( { 'installed': true } );
 			}
+			if ( response.blockTheme ) {
+				_this.model.set( { 'block_theme': true } );
+			}
 		} );
 
 		wp.updates.installTheme( {
@@ -1691,7 +1694,13 @@ themes.view.Installer = themes.view.Appearance.extend({
 	browse: function( section ) {
 		// Create a new collection with the proper theme data
 		// for each section.
-		this.collection.query( { browse: section } );
+		if ( 'block-themes' === section ) {
+			// Get the themes by sending Ajax POST request to api.wordpress.org/themes
+			// or searching the local cache.
+			this.collection.query( { tag: 'full-site-editing' } );
+		} else {
+			this.collection.query( { browse: section } );
+		}
 	},
 
 	// Sorting navigation.

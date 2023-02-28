@@ -1,110 +1,37 @@
-this["wp"] = this["wp"] || {}; this["wp"]["apiFetch"] =
-/******/ (function(modules) { // webpackBootstrap
-/******/ 	// The module cache
-/******/ 	var installedModules = {};
-/******/
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/
-/******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId]) {
-/******/ 			return installedModules[moduleId].exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = installedModules[moduleId] = {
-/******/ 			i: moduleId,
-/******/ 			l: false,
-/******/ 			exports: {}
-/******/ 		};
-/******/
-/******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/
-/******/ 		// Flag the module as loaded
-/******/ 		module.l = true;
-/******/
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/
-/******/
-/******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__webpack_require__.m = modules;
-/******/
-/******/ 	// expose the module cache
-/******/ 	__webpack_require__.c = installedModules;
-/******/
-/******/ 	// define getter function for harmony exports
-/******/ 	__webpack_require__.d = function(exports, name, getter) {
-/******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
-/******/ 		}
-/******/ 	};
-/******/
-/******/ 	// define __esModule on exports
-/******/ 	__webpack_require__.r = function(exports) {
-/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 		}
-/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 	};
-/******/
-/******/ 	// create a fake namespace object
-/******/ 	// mode & 1: value is a module id, require it
-/******/ 	// mode & 2: merge all properties of value into the ns
-/******/ 	// mode & 4: return value when already ns object
-/******/ 	// mode & 8|1: behave like require
-/******/ 	__webpack_require__.t = function(value, mode) {
-/******/ 		if(mode & 1) value = __webpack_require__(value);
-/******/ 		if(mode & 8) return value;
-/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
-/******/ 		var ns = Object.create(null);
-/******/ 		__webpack_require__.r(ns);
-/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
-/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
-/******/ 		return ns;
-/******/ 	};
-/******/
-/******/ 	// getDefaultExport function for compatibility with non-harmony modules
-/******/ 	__webpack_require__.n = function(module) {
-/******/ 		var getter = module && module.__esModule ?
-/******/ 			function getDefault() { return module['default']; } :
-/******/ 			function getModuleExports() { return module; };
-/******/ 		__webpack_require__.d(getter, 'a', getter);
-/******/ 		return getter;
-/******/ 	};
-/******/
-/******/ 	// Object.prototype.hasOwnProperty.call
-/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
-/******/
-/******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
-/******/
-/******/
-/******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "jqrR");
-/******/ })
+/******/ (function() { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	// The require scope
+/******/ 	var __webpack_require__ = {};
+/******/ 	
 /************************************************************************/
-/******/ ({
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	!function() {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = function(exports, definition) {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	!function() {
+/******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
+/******/ 	}();
+/******/ 	
+/************************************************************************/
+var __webpack_exports__ = {};
 
-/***/ "Mmq9":
-/***/ (function(module, exports) {
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, {
+  "default": function() { return /* binding */ build_module; }
+});
 
-(function() { module.exports = window["wp"]["url"]; }());
-
-/***/ }),
-
-/***/ "jqrR":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-// ESM COMPAT FLAG
-__webpack_require__.r(__webpack_exports__);
-
-// EXTERNAL MODULE: external ["wp","i18n"]
-var external_wp_i18n_ = __webpack_require__("l3Sj");
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/middlewares/nonce.js
+;// CONCATENATED MODULE: external ["wp","i18n"]
+var external_wp_i18n_namespaceObject = window["wp"]["i18n"];
+;// CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/middlewares/nonce.js
 /**
  * @param {string} nonce
  * @return {import('../types').APIFetchMiddleware & { nonce: string }} A middleware to enhance a request with a nonce.
@@ -138,7 +65,7 @@ function createNonceMiddleware(nonce) {
 
 /* harmony default export */ var nonce = (createNonceMiddleware);
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/middlewares/namespace-endpoint.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/middlewares/namespace-endpoint.js
 /**
  * @type {import('../types').APIFetchMiddleware}
  */
@@ -166,7 +93,7 @@ const namespaceAndEndpointMiddleware = (options, next) => {
 
 /* harmony default export */ var namespace_endpoint = (namespaceAndEndpointMiddleware);
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/middlewares/root-url.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/middlewares/root-url.js
 /**
  * Internal dependencies
  */
@@ -207,78 +134,84 @@ const createRootURLMiddleware = rootURL => (options, next) => {
 
 /* harmony default export */ var root_url = (createRootURLMiddleware);
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/middlewares/preloading.js
+;// CONCATENATED MODULE: external ["wp","url"]
+var external_wp_url_namespaceObject = window["wp"]["url"];
+;// CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/middlewares/preloading.js
 /**
- * Given a path, returns a normalized path where equal query parameter values
- * will be treated as identical, regardless of order they appear in the original
- * text.
- *
- * @param {string} path Original path.
- *
- * @return {string} Normalized path.
+ * WordPress dependencies
  */
-function getStablePath(path) {
-  const splitted = path.split('?');
-  const query = splitted[1];
-  const base = splitted[0];
 
-  if (!query) {
-    return base;
-  } // 'b=1&c=2&a=5'
-
-
-  return base + '?' + query // [ 'b=1', 'c=2', 'a=5' ]
-  .split('&') // [ [ 'b, '1' ], [ 'c', '2' ], [ 'a', '5' ] ]
-  .map(entry => entry.split('=')) // [ [ 'a', '5' ], [ 'b, '1' ], [ 'c', '2' ] ]
-  .sort((a, b) => a[0].localeCompare(b[0])) // [ 'a=5', 'b=1', 'c=2' ]
-  .map(pair => pair.join('=')) // 'a=5&b=1&c=2'
-  .join('&');
-}
 /**
  * @param {Record<string, any>} preloadedData
  * @return {import('../types').APIFetchMiddleware} Preloading middleware.
  */
 
 function createPreloadingMiddleware(preloadedData) {
-  const cache = Object.keys(preloadedData).reduce((result, path) => {
-    result[getStablePath(path)] = preloadedData[path];
-    return result;
-  },
-  /** @type {Record<string, any>} */
-  {});
+  const cache = Object.fromEntries(Object.entries(preloadedData).map(_ref => {
+    let [path, data] = _ref;
+    return [(0,external_wp_url_namespaceObject.normalizePath)(path), data];
+  }));
   return (options, next) => {
     const {
       parse = true
     } = options;
+    /** @type {string | void} */
 
-    if (typeof options.path === 'string') {
-      const method = options.method || 'GET';
-      const path = getStablePath(options.path);
+    let rawPath = options.path;
 
-      if ('GET' === method && cache[path]) {
-        const cacheData = cache[path]; // Unsetting the cache key ensures that the data is only preloaded a single time
+    if (!rawPath && options.url) {
+      const {
+        rest_route: pathFromQuery,
+        ...queryArgs
+      } = (0,external_wp_url_namespaceObject.getQueryArgs)(options.url);
 
-        delete cache[path];
-        return Promise.resolve(parse ? cacheData.body : new window.Response(JSON.stringify(cacheData.body), {
-          status: 200,
-          statusText: 'OK',
-          headers: cacheData.headers
-        }));
-      } else if ('OPTIONS' === method && cache[method] && cache[method][path]) {
-        return Promise.resolve(parse ? cache[method][path].body : cache[method][path]);
+      if (typeof pathFromQuery === 'string') {
+        rawPath = (0,external_wp_url_namespaceObject.addQueryArgs)(pathFromQuery, queryArgs);
       }
+    }
+
+    if (typeof rawPath !== 'string') {
+      return next(options);
+    }
+
+    const method = options.method || 'GET';
+    const path = (0,external_wp_url_namespaceObject.normalizePath)(rawPath);
+
+    if ('GET' === method && cache[path]) {
+      const cacheData = cache[path]; // Unsetting the cache key ensures that the data is only used a single time.
+
+      delete cache[path];
+      return prepareResponse(cacheData, !!parse);
+    } else if ('OPTIONS' === method && cache[method] && cache[method][path]) {
+      const cacheData = cache[method][path]; // Unsetting the cache key ensures that the data is only used a single time.
+
+      delete cache[method][path];
+      return prepareResponse(cacheData, !!parse);
     }
 
     return next(options);
   };
 }
+/**
+ * This is a helper function that sends a success response.
+ *
+ * @param {Record<string, any>} responseData
+ * @param {boolean}             parse
+ * @return {Promise<any>} Promise with the response.
+ */
+
+
+function prepareResponse(responseData, parse) {
+  return Promise.resolve(parse ? responseData.body : new window.Response(JSON.stringify(responseData.body), {
+    status: 200,
+    statusText: 'OK',
+    headers: responseData.headers
+  }));
+}
 
 /* harmony default export */ var preloading = (createPreloadingMiddleware);
 
-// EXTERNAL MODULE: external ["wp","url"]
-var external_wp_url_ = __webpack_require__("Mmq9");
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/middlewares/fetch-all-middleware.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/middlewares/fetch-all-middleware.js
 /**
  * WordPress dependencies
  */
@@ -292,18 +225,21 @@ var external_wp_url_ = __webpack_require__("Mmq9");
  * Apply query arguments to both URL and Path, whichever is present.
  *
  * @param {import('../types').APIFetchOptions} props
- * @param {Record<string, string | number>} queryArgs
+ * @param {Record<string, string | number>}    queryArgs
  * @return {import('../types').APIFetchOptions} The request with the modified query args
  */
 
-const modifyQuery = ({
-  path,
-  url,
-  ...options
-}, queryArgs) => ({ ...options,
-  url: url && Object(external_wp_url_["addQueryArgs"])(url, queryArgs),
-  path: path && Object(external_wp_url_["addQueryArgs"])(path, queryArgs)
-});
+const modifyQuery = (_ref, queryArgs) => {
+  let {
+    path,
+    url,
+    ...options
+  } = _ref;
+  return { ...options,
+    url: url && (0,external_wp_url_namespaceObject.addQueryArgs)(url, queryArgs),
+    path: path && (0,external_wp_url_namespaceObject.addQueryArgs)(path, queryArgs)
+  };
+};
 /**
  * Duplicates parsing functionality from apiFetch.
  *
@@ -416,7 +352,7 @@ const fetchAllMiddleware = async (options, next) => {
 
 /* harmony default export */ var fetch_all_middleware = (fetchAllMiddleware);
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/middlewares/http-v1.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/middlewares/http-v1.js
 /**
  * Set of HTTP methods which are eligible to be overridden.
  *
@@ -462,7 +398,7 @@ const httpV1Middleware = (options, next) => {
 
 /* harmony default export */ var http_v1 = (httpV1Middleware);
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/middlewares/user-locale.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/middlewares/user-locale.js
 /**
  * WordPress dependencies
  */
@@ -472,14 +408,14 @@ const httpV1Middleware = (options, next) => {
  */
 
 const userLocaleMiddleware = (options, next) => {
-  if (typeof options.url === 'string' && !Object(external_wp_url_["hasQueryArg"])(options.url, '_locale')) {
-    options.url = Object(external_wp_url_["addQueryArgs"])(options.url, {
+  if (typeof options.url === 'string' && !(0,external_wp_url_namespaceObject.hasQueryArg)(options.url, '_locale')) {
+    options.url = (0,external_wp_url_namespaceObject.addQueryArgs)(options.url, {
       _locale: 'user'
     });
   }
 
-  if (typeof options.path === 'string' && !Object(external_wp_url_["hasQueryArg"])(options.path, '_locale')) {
-    options.path = Object(external_wp_url_["addQueryArgs"])(options.path, {
+  if (typeof options.path === 'string' && !(0,external_wp_url_namespaceObject.hasQueryArg)(options.path, '_locale')) {
+    options.path = (0,external_wp_url_namespaceObject.addQueryArgs)(options.path, {
       _locale: 'user'
     });
   }
@@ -489,7 +425,7 @@ const userLocaleMiddleware = (options, next) => {
 
 /* harmony default export */ var user_locale = (userLocaleMiddleware);
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/utils/response.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/utils/response.js
 /**
  * WordPress dependencies
  */
@@ -503,7 +439,9 @@ const userLocaleMiddleware = (options, next) => {
  * @return {Promise<any> | null | Response} Parsed response.
  */
 
-const response_parseResponse = (response, shouldParseResponse = true) => {
+const response_parseResponse = function (response) {
+  let shouldParseResponse = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
   if (shouldParseResponse) {
     if (response.status === 204) {
       return null;
@@ -526,7 +464,7 @@ const response_parseResponse = (response, shouldParseResponse = true) => {
 const parseJsonAndNormalizeError = response => {
   const invalidJsonError = {
     code: 'invalid_json',
-    message: Object(external_wp_i18n_["__"])('The response is not a valid JSON response.')
+    message: (0,external_wp_i18n_namespaceObject.__)('The response is not a valid JSON response.')
   };
 
   if (!response || !response.json) {
@@ -547,18 +485,21 @@ const parseJsonAndNormalizeError = response => {
  */
 
 
-const parseResponseAndNormalizeError = (response, shouldParseResponse = true) => {
+const parseResponseAndNormalizeError = function (response) {
+  let shouldParseResponse = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
   return Promise.resolve(response_parseResponse(response, shouldParseResponse)).catch(res => parseAndThrowError(res, shouldParseResponse));
 };
 /**
  * Parses a response, throwing an error if parsing the response fails.
  *
  * @param {Response} response
- * @param {boolean} shouldParseResponse
+ * @param {boolean}  shouldParseResponse
  * @return {Promise<any>} Parsed response.
  */
 
-function parseAndThrowError(response, shouldParseResponse = true) {
+function parseAndThrowError(response) {
+  let shouldParseResponse = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
   if (!shouldParseResponse) {
     throw response;
   }
@@ -566,13 +507,13 @@ function parseAndThrowError(response, shouldParseResponse = true) {
   return parseJsonAndNormalizeError(response).then(error => {
     const unknownError = {
       code: 'unknown_error',
-      message: Object(external_wp_i18n_["__"])('An unknown error occurred.')
+      message: (0,external_wp_i18n_namespaceObject.__)('An unknown error occurred.')
     };
     throw error || unknownError;
   });
 }
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/middlewares/media-upload.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/middlewares/media-upload.js
 /**
  * WordPress dependencies
  */
@@ -583,15 +524,24 @@ function parseAndThrowError(response, shouldParseResponse = true) {
 
 
 /**
+ * @param {import('../types').APIFetchOptions} options
+ * @return {boolean} True if the request is for media upload.
+ */
+
+function isMediaUploadRequest(options) {
+  const isCreateMethod = !!options.method && options.method === 'POST';
+  const isMediaEndpoint = !!options.path && options.path.indexOf('/wp/v2/media') !== -1 || !!options.url && options.url.indexOf('/wp/v2/media') !== -1;
+  return isMediaEndpoint && isCreateMethod;
+}
+/**
  * Middleware handling media upload failures and retries.
  *
  * @type {import('../types').APIFetchMiddleware}
  */
 
-const mediaUploadMiddleware = (options, next) => {
-  const isMediaUploadRequest = options.path && options.path.indexOf('/wp/v2/media') !== -1 || options.url && options.url.indexOf('/wp/v2/media') !== -1;
 
-  if (!isMediaUploadRequest) {
+const mediaUploadMiddleware = (options, next) => {
+  if (!isMediaUploadRequest(options)) {
     return next(options);
   }
 
@@ -634,7 +584,7 @@ const mediaUploadMiddleware = (options, next) => {
         if (options.parse !== false) {
           return Promise.reject({
             code: 'post_process',
-            message: Object(external_wp_i18n_["__"])('Media upload failed. If this is a photo or a large image, please scale it down and try again.')
+            message: (0,external_wp_i18n_namespaceObject.__)('Media upload failed. If this is a photo or a large image, please scale it down and try again.')
           });
         }
 
@@ -648,7 +598,7 @@ const mediaUploadMiddleware = (options, next) => {
 
 /* harmony default export */ var media_upload = (mediaUploadMiddleware);
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/index.js
+;// CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/index.js
 /**
  * WordPress dependencies
  */
@@ -753,19 +703,23 @@ const defaultFetchHandler = nextOptions => {
     headers['Content-Type'] = 'application/json';
   }
 
-  const responsePromise = window.fetch( // fall back to explicitly passing `window.location` which is the behavior if `undefined` is passed
+  const responsePromise = window.fetch( // Fall back to explicitly passing `window.location` which is the behavior if `undefined` is passed.
   url || path || window.location.href, { ...DEFAULT_OPTIONS,
     ...remainingOptions,
     body,
     headers
   });
-  return responsePromise // Return early if fetch errors. If fetch error, there is most likely no
-  // network connection. Unfortunately fetch just throws a TypeError and
-  // the message might depend on the browser.
-  .then(value => Promise.resolve(value).then(checkStatus).catch(response => parseAndThrowError(response, parse)).then(response => parseResponseAndNormalizeError(response, parse)), () => {
+  return responsePromise.then(value => Promise.resolve(value).then(checkStatus).catch(response => parseAndThrowError(response, parse)).then(response => parseResponseAndNormalizeError(response, parse)), err => {
+    // Re-throw AbortError for the users to handle it themselves.
+    if (err && err.name === 'AbortError') {
+      throw err;
+    } // Otherwise, there is most likely no network connection.
+    // Unfortunately the message might depend on the browser.
+
+
     throw {
       code: 'fetch_error',
-      message: Object(external_wp_i18n_["__"])('You are probably offline.')
+      message: (0,external_wp_i18n_namespaceObject.__)('You are probably offline.')
     };
   });
 };
@@ -823,16 +777,8 @@ apiFetch.createPreloadingMiddleware = preloading;
 apiFetch.createRootURLMiddleware = root_url;
 apiFetch.fetchAllMiddleware = fetch_all_middleware;
 apiFetch.mediaUploadMiddleware = media_upload;
-/* harmony default export */ var build_module = __webpack_exports__["default"] = (apiFetch);
+/* harmony default export */ var build_module = (apiFetch);
 
-
-/***/ }),
-
-/***/ "l3Sj":
-/***/ (function(module, exports) {
-
-(function() { module.exports = window["wp"]["i18n"]; }());
-
-/***/ })
-
-/******/ })["default"];
+(window.wp = window.wp || {}).apiFetch = __webpack_exports__["default"];
+/******/ })()
+;

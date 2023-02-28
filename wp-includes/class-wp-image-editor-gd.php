@@ -70,7 +70,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 			case 'image/gif':
 				return ( $image_types & IMG_GIF ) != 0;
 			case 'image/webp':
-				return ( $image_types & IMG_WEBP ) != 0; // phpcs:ignore PHPCompatibility.Constants.NewConstants.img_webpFound
+				return ( $image_types & IMG_WEBP ) != 0;
 		}
 
 		return false;
@@ -89,7 +89,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 		}
 
 		if ( ! is_file( $this->file ) && ! preg_match( '|^https?://|', $this->file ) ) {
-			return new WP_Error( 'error_loading_image', __( 'File doesn&#8217;t exist?' ), $this->file );
+			return new WP_Error( 'error_loading_image', __( 'File does not exist?' ), $this->file );
 		}
 
 		// Set artificially high because GD uses uncompressed images in memory.
@@ -98,7 +98,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 		$file_contents = @file_get_contents( $this->file );
 
 		if ( ! $file_contents ) {
-			return new WP_Error( 'error_loading_image', __( 'File doesn&#8217;t exist?' ), $this->file );
+			return new WP_Error( 'error_loading_image', __( 'File does not exist?' ), $this->file );
 		}
 
 		// WebP may not work with imagecreatefromstring().
@@ -233,7 +233,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	 *     If one of the two is set to null, the resize will
 	 *     maintain aspect ratio according to the source image.
 	 *
-	 *     @type array $size {
+	 *     @type array ...$0 {
 	 *         Array of height, width values, and whether to crop.
 	 *
 	 *         @type int  $width  Image width. Optional if `$height` is specified.
@@ -425,10 +425,20 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	 * @since 3.5.0
 	 * @since 5.9.0 Renamed `$filename` to `$destfilename` to match parent class
 	 *              for PHP 8 named parameter support.
+	 * @since 6.0.0 The `$filesize` value was added to the returned array.
 	 *
 	 * @param string|null $destfilename Optional. Destination filename. Default null.
 	 * @param string|null $mime_type    Optional. The mime-type. Default null.
-	 * @return array|WP_Error {'path'=>string, 'file'=>string, 'width'=>int, 'height'=>int, 'mime-type'=>string}
+	 * @return array|WP_Error {
+	 *     Array on success or WP_Error if the file failed to save.
+	 *
+	 *     @type string $path      Path to the image file.
+	 *     @type string $file      Name of the image file.
+	 *     @type int    $width     Image width.
+	 *     @type int    $height    Image height.
+	 *     @type string $mime-type The mime type of the image.
+	 *     @type int    $filesize  File size of the image.
+	 * }
 	 */
 	public function save( $destfilename = null, $mime_type = null ) {
 		$saved = $this->_save( $this->image, $destfilename, $mime_type );
@@ -442,10 +452,22 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	}
 
 	/**
+	 * @since 3.5.0
+	 * @since 6.0.0 The `$filesize` value was added to the returned array.
+	 *
 	 * @param resource|GdImage $image
 	 * @param string|null      $filename
 	 * @param string|null      $mime_type
-	 * @return array|WP_Error
+	 * @return array|WP_Error {
+	 *     Array on success or WP_Error if the file failed to save.
+	 *
+	 *     @type string $path      Path to the image file.
+	 *     @type string $file      Name of the image file.
+	 *     @type int    $width     Image width.
+	 *     @type int    $height    Image height.
+	 *     @type string $mime-type The mime type of the image.
+	 *     @type int    $filesize  File size of the image.
+	 * }
 	 */
 	protected function _save( $image, $filename = null, $mime_type = null ) {
 		list( $filename, $extension, $mime_type ) = $this->get_output_format( $filename, $mime_type );
@@ -497,6 +519,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 			'width'     => $this->size['width'],
 			'height'    => $this->size['height'],
 			'mime-type' => $mime_type,
+			'filesize'  => wp_filesize( $filename ),
 		);
 	}
 
@@ -536,15 +559,15 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	 * @since 3.5.0
 	 *
 	 * @param string   $filename
-	 * @param callable $function
+	 * @param callable $callback
 	 * @param array    $arguments
 	 * @return bool
 	 */
-	protected function make_image( $filename, $function, $arguments ) {
+	protected function make_image( $filename, $callback, $arguments ) {
 		if ( wp_is_stream( $filename ) ) {
 			$arguments[1] = null;
 		}
 
-		return parent::make_image( $filename, $function, $arguments );
+		return parent::make_image( $filename, $callback, $arguments );
 	}
 }

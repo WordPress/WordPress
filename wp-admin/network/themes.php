@@ -316,14 +316,14 @@ if ( current_user_can( 'update_themes' ) && wp_is_auto_update_enabled_for_type( 
 		)
 	);
 
-	$help_sidebar_autoupdates = '<p>' . __( '<a href="https://wordpress.org/support/article/plugins-themes-auto-updates/">Learn more: Auto-updates documentation</a>' ) . '</p>';
+	$help_sidebar_autoupdates = '<p>' . __( '<a href="https://wordpress.org/documentation/article/plugins-themes-auto-updates/">Documentation on Auto-updates</a>' ) . '</p>';
 }
 
 get_current_screen()->set_help_sidebar(
 	'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
 	'<p>' . __( '<a href="https://codex.wordpress.org/Network_Admin_Themes_Screen">Documentation on Network Themes</a>' ) . '</p>' .
 	$help_sidebar_autoupdates .
-	'<p>' . __( '<a href="https://wordpress.org/support/">Support</a>' ) . '</p>'
+	'<p>' . __( '<a href="https://wordpress.org/support/forums/">Support forums</a>' ) . '</p>'
 );
 
 get_current_screen()->set_screen_reader_content(
@@ -375,7 +375,7 @@ if ( isset( $_GET['enabled'] ) ) {
 		/* translators: %s: Number of themes. */
 		$message = _n( '%s theme enabled.', '%s themes enabled.', $enabled );
 	}
-	echo '<div id="message" class="updated notice is-dismissible"><p>' . sprintf( $message, number_format_i18n( $enabled ) ) . '</p></div>';
+	echo '<div id="message" class="notice notice-updated is-dismissible"><p>' . sprintf( $message, number_format_i18n( $enabled ) ) . '</p></div>';
 } elseif ( isset( $_GET['disabled'] ) ) {
 	$disabled = absint( $_GET['disabled'] );
 	if ( 1 === $disabled ) {
@@ -384,7 +384,7 @@ if ( isset( $_GET['enabled'] ) ) {
 		/* translators: %s: Number of themes. */
 		$message = _n( '%s theme disabled.', '%s themes disabled.', $disabled );
 	}
-	echo '<div id="message" class="updated notice is-dismissible"><p>' . sprintf( $message, number_format_i18n( $disabled ) ) . '</p></div>';
+	echo '<div id="message" class="notice notice-updated is-dismissible"><p>' . sprintf( $message, number_format_i18n( $disabled ) ) . '</p></div>';
 } elseif ( isset( $_GET['deleted'] ) ) {
 	$deleted = absint( $_GET['deleted'] );
 	if ( 1 === $deleted ) {
@@ -393,7 +393,7 @@ if ( isset( $_GET['enabled'] ) ) {
 		/* translators: %s: Number of themes. */
 		$message = _n( '%s theme deleted.', '%s themes deleted.', $deleted );
 	}
-	echo '<div id="message" class="updated notice is-dismissible"><p>' . sprintf( $message, number_format_i18n( $deleted ) ) . '</p></div>';
+	echo '<div id="message" class="notice notice-success is-dismissible"><p>' . sprintf( $message, number_format_i18n( $deleted ) ) . '</p></div>';
 } elseif ( isset( $_GET['enabled-auto-update'] ) ) {
 	$enabled = absint( $_GET['enabled-auto-update'] );
 	if ( 1 === $enabled ) {
@@ -402,7 +402,7 @@ if ( isset( $_GET['enabled'] ) ) {
 		/* translators: %s: Number of themes. */
 		$message = _n( '%s theme will be auto-updated.', '%s themes will be auto-updated.', $enabled );
 	}
-	echo '<div id="message" class="updated notice is-dismissible"><p>' . sprintf( $message, number_format_i18n( $enabled ) ) . '</p></div>';
+	echo '<div id="message" class="notice notice-success is-dismissible"><p>' . sprintf( $message, number_format_i18n( $enabled ) ) . '</p></div>';
 } elseif ( isset( $_GET['disabled-auto-update'] ) ) {
 	$disabled = absint( $_GET['disabled-auto-update'] );
 	if ( 1 === $disabled ) {
@@ -411,11 +411,11 @@ if ( isset( $_GET['enabled'] ) ) {
 		/* translators: %s: Number of themes. */
 		$message = _n( '%s theme will no longer be auto-updated.', '%s themes will no longer be auto-updated.', $disabled );
 	}
-	echo '<div id="message" class="updated notice is-dismissible"><p>' . sprintf( $message, number_format_i18n( $disabled ) ) . '</p></div>';
+	echo '<div id="message" class="notice notice-success is-dismissible"><p>' . sprintf( $message, number_format_i18n( $disabled ) ) . '</p></div>';
 } elseif ( isset( $_GET['error'] ) && 'none' === $_GET['error'] ) {
-	echo '<div id="message" class="error notice is-dismissible"><p>' . __( 'No theme selected.' ) . '</p></div>';
+	echo '<div id="message" class="notice notice-error is-dismissible"><p>' . __( 'No theme selected.' ) . '</p></div>';
 } elseif ( isset( $_GET['error'] ) && 'main' === $_GET['error'] ) {
-	echo '<div class="error notice is-dismissible"><p>' . __( 'You cannot delete a theme while it is active on the main site.' ) . '</p></div>';
+	echo '<div id="message" class="notice notice-error is-dismissible"><p>' . __( 'You cannot delete a theme while it is active on the main site.' ) . '</p></div>';
 }
 
 ?>

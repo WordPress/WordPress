@@ -1,12 +1,1 @@
-<svg width="157" height="148" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M146.643 77.521c.122-1.213.122-2.547.122-3.76C146.765 33.622 114.143 1 74.003 1S1.24 33.621 1.24 73.762c0 40.14 32.622 72.761 72.762 72.761 33.713 0 62.09-22.919 70.336-53.965" fill="#fff"/>
-  <path d="M146.643 77.521c.122-1.213.122-2.547.122-3.76C146.765 33.622 114.143 1 74.003 1S1.24 33.621 1.24 73.762c0 40.14 32.622 72.761 72.762 72.761 33.713 0 62.09-22.919 70.336-53.965" stroke="#3858E9" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M156.224 67.941l-9.517 10.182-9.401-10.182" stroke="#3858E9" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M74.003 124.694c28.129 0 50.933-22.803 50.933-50.933s-22.804-50.933-50.933-50.933c-28.13 0-50.934 22.804-50.934 50.933 0 28.13 22.804 50.933 50.934 50.933z" fill="url(#paint0_linear)" stroke="#3858E9" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-  <defs>
-    <linearGradient id="paint0_linear" x1="74.003" y1="22.828" x2="74.003" y2="124.694" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#ECF5FF"/>
-      <stop offset="1" stop-color="#fff"/>
-    </linearGradient>
-  </defs>
-</svg>
+<svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><g fill="#FFFFFF" stroke="#3858E9" stroke-width="1.2" stroke-miterlimit="10"><circle cx="36.3" cy="90" r="35.8"/><circle cx="37.5" cy="101.2" r="35.8"/><circle cx="40.8" cy="111.5" r="35.8"/><circle cx="46.1" cy="120.8" r="35.8"/><circle cx="53" cy="128.9" r="35.8"/><circle cx="61.4" cy="135.5" r="35.8"/><circle cx="71" cy="140.3" r="35.8"/><circle cx="81.6" cy="143.1" r="35.8"/><circle cx="92.9" cy="143.7" r="35.8"/><circle cx="103.9" cy="141.9" r="35.8"/><circle cx="114" cy="138.1" r="35.8"/><circle cx="123.1" cy="132.4" r="35.8"/><circle cx="130.8" cy="125.1" r="35.8"/><circle cx="136.9" cy="116.4" r="35.8"/><circle cx="141.2" cy="106.5" r="35.8"/><circle cx="143.5" cy="95.7" r="35.8"/><circle cx="143.5" cy="84.3" r="35.8"/><circle cx="141.2" cy="73.6" r="35.8"/><circle cx="136.9" cy="63.7" r="35.8"/><circle cx="130.8" cy="55" r="35.8"/><circle cx="123.1" cy="47.6" r="35.8"/><circle cx="114" cy="41.9" r="35.8"/><circle cx="103.9" cy="38.1" r="35.8"/><circle cx="92.9" cy="36.4" r="35.8"/><circle cx="81.6" cy="37" r="35.8"/><circle cx="71" cy="39.7" r="35.8"/><circle cx="61.4" cy="44.5" r="35.8"/><circle cx="53" cy="51.1" r="35.8"/><circle cx="46.1" cy="59.2" r="35.8"/><circle cx="40.8" cy="68.5" r="35.8"/><circle cx="37.5" cy="78.9" r="35.8"/><circle cx="36.4" cy="90" r="35.8"/></g></svg>

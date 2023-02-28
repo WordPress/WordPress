@@ -34,19 +34,19 @@ class WP_Sitemaps_Users extends WP_Sitemaps_Provider {
 	 * @param string $object_subtype Optional. Not applicable for Users but
 	 *                               required for compatibility with the parent
 	 *                               provider class. Default empty.
-	 * @return array Array of URLs for a sitemap.
+	 * @return array[] Array of URL information for a sitemap.
 	 */
 	public function get_url_list( $page_num, $object_subtype = '' ) {
 		/**
 		 * Filters the users URL list before it is generated.
 		 *
-		 * Passing a non-null value will effectively short-circuit the generation,
+		 * Returning a non-null value will effectively short-circuit the generation,
 		 * returning that value instead.
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param array  $url_list The URL list. Default null.
-		 * @param int    $page_num Page of results.
+		 * @param array[]|null $url_list The URL list. Default null.
+		 * @param int        $page_num Page of results.
 		 */
 		$url_list = apply_filters(
 			'wp_sitemaps_users_pre_url_list',
@@ -99,14 +99,14 @@ class WP_Sitemaps_Users extends WP_Sitemaps_Provider {
 	 */
 	public function get_max_num_pages( $object_subtype = '' ) {
 		/**
-		 * Filters the max number of pages before it is generated.
+		 * Filters the max number of pages for a user sitemap before it is generated.
 		 *
-		 * Passing a non-null value will effectively short-circuit the generation,
+		 * Returning a non-null value will effectively short-circuit the generation,
 		 * returning that value instead.
 		 *
 		 * @since 5.5.0
 		 *
-		 * @param int $max_num_pages The maximum number of pages. Default null.
+		 * @param int|null $max_num_pages The maximum number of pages. Default null.
 		 */
 		$max_num_pages = apply_filters( 'wp_sitemaps_users_pre_max_num_pages', null );
 

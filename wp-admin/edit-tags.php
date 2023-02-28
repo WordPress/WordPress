@@ -157,10 +157,10 @@ switch ( $wp_list_table->current_action() ) {
 		$term    = get_term( $term_id );
 
 		if ( ! $term instanceof WP_Term ) {
-			wp_die( __( 'You attempted to edit an item that doesn&#8217;t exist. Perhaps it was deleted?' ) );
+			wp_die( __( 'You attempted to edit an item that does not exist. Perhaps it was deleted?' ) );
 		}
 
-		wp_redirect( esc_url_raw( get_edit_term_link( $term_id, $taxonomy, $post_type ) ) );
+		wp_redirect( sanitize_url( get_edit_term_link( $term_id, $taxonomy, $post_type ) ) );
 		exit;
 
 	case 'editedtag':
@@ -177,7 +177,7 @@ switch ( $wp_list_table->current_action() ) {
 
 		$tag = get_term( $tag_ID, $taxonomy );
 		if ( ! $tag ) {
-			wp_die( __( 'You attempted to edit an item that doesn&#8217;t exist. Perhaps it was deleted?' ) );
+			wp_die( __( 'You attempted to edit an item that does not exist. Perhaps it was deleted?' ) );
 		}
 
 		$ret = wp_update_term( $tag_ID, $taxonomy, $_POST );
@@ -253,7 +253,7 @@ if ( 'category' === $taxonomy || 'link_category' === $taxonomy || 'post_tag' ===
 	} elseif ( 'link_category' === $taxonomy ) {
 		$help = '<p>' . __( 'You can create groups of links by using Link Categories. Link Category names must be unique and Link Categories are separate from the categories you use for posts.' ) . '</p>';
 	} else {
-		$help = '<p>' . __( 'You can assign keywords to your posts using <strong>tags</strong>. Unlike categories, tags have no hierarchy, meaning there&#8217;s no relationship from one tag to another.' ) . '</p>';
+		$help = '<p>' . __( 'You can assign keywords to your posts using <strong>tags</strong>. Unlike categories, tags have no hierarchy, meaning there is no relationship from one tag to another.' ) . '</p>';
 	}
 
 	if ( 'link_category' === $taxonomy ) {
@@ -280,9 +280,7 @@ if ( 'category' === $taxonomy || 'link_category' === $taxonomy || 'post_tag' ===
 		$help .= '<ul>' .
 		'<li>' . __( '<strong>Name</strong> &mdash; The name is how it appears on your site.' ) . '</li>';
 
-		if ( ! global_terms_enabled() ) {
-			$help .= '<li>' . __( '<strong>Slug</strong> &mdash; The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.' ) . '</li>';
-		}
+		$help .= '<li>' . __( '<strong>Slug</strong> &mdash; The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.' ) . '</li>';
 
 		if ( 'category' === $taxonomy ) {
 			$help .= '<li>' . __( '<strong>Parent</strong> &mdash; Categories, unlike tags, can have a hierarchy. You might have a Jazz category, and under that have child categories for Bebop and Big Band. Totally optional. To create a subcategory, just choose another category from the Parent dropdown.' ) . '</li>';
@@ -304,14 +302,14 @@ if ( 'category' === $taxonomy || 'link_category' === $taxonomy || 'post_tag' ===
 	$help = '<p><strong>' . __( 'For more information:' ) . '</strong></p>';
 
 	if ( 'category' === $taxonomy ) {
-		$help .= '<p>' . __( '<a href="https://wordpress.org/support/article/posts-categories-screen/">Documentation on Categories</a>' ) . '</p>';
+		$help .= '<p>' . __( '<a href="https://wordpress.org/documentation/article/posts-categories-screen/">Documentation on Categories</a>' ) . '</p>';
 	} elseif ( 'link_category' === $taxonomy ) {
 		$help .= '<p>' . __( '<a href="https://codex.wordpress.org/Links_Link_Categories_Screen">Documentation on Link Categories</a>' ) . '</p>';
 	} else {
-		$help .= '<p>' . __( '<a href="https://wordpress.org/support/article/posts-tags-screen/">Documentation on Tags</a>' ) . '</p>';
+		$help .= '<p>' . __( '<a href="https://wordpress.org/documentation/article/posts-tags-screen/">Documentation on Tags</a>' ) . '</p>';
 	}
 
-	$help .= '<p>' . __( '<a href="https://wordpress.org/support/">Support</a>' ) . '</p>';
+	$help .= '<p>' . __( '<a href="https://wordpress.org/support/forums/">Support forums</a>' ) . '</p>';
 
 	get_current_screen()->set_help_sidebar( $help );
 
@@ -453,16 +451,14 @@ if ( $can_edit_terms ) {
 
 <div class="form-field form-required term-name-wrap">
 	<label for="tag-name"><?php _ex( 'Name', 'term name' ); ?></label>
-	<input name="tag-name" id="tag-name" type="text" value="" size="40" aria-required="true" />
-	<p><?php _e( 'The name is how it appears on your site.' ); ?></p>
+	<input name="tag-name" id="tag-name" type="text" value="" size="40" aria-required="true" aria-describedby="name-description" />
+	<p id="name-description"><?php echo $tax->labels->name_field_description; ?></p>
 </div>
-	<?php if ( ! global_terms_enabled() ) : ?>
 <div class="form-field term-slug-wrap">
 	<label for="tag-slug"><?php _e( 'Slug' ); ?></label>
-	<input name="slug" id="tag-slug" type="text" value="" size="40" />
-	<p><?php _e( 'The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.' ); ?></p>
+	<input name="slug" id="tag-slug" type="text" value="" size="40" aria-describedby="slug-description" />
+	<p id="slug-description"><?php echo $tax->labels->slug_field_description; ?></p>
 </div>
-<?php endif; // global_terms_enabled() ?>
 	<?php if ( is_taxonomy_hierarchical( $taxonomy ) ) : ?>
 <div class="form-field term-parent-wrap">
 	<label for="parent"><?php echo esc_html( $tax->labels->parent_item ); ?></label>
@@ -486,7 +482,7 @@ if ( $can_edit_terms ) {
 		 * @param array  $dropdown_args {
 		 *     An array of taxonomy parent drop-down arguments.
 		 *
-		 *     @type int|bool $hide_empty       Whether to hide terms not attached to any posts. Default 0|false.
+		 *     @type int|bool $hide_empty       Whether to hide terms not attached to any posts. Default 0.
 		 *     @type bool     $hide_if_empty    Whether to hide the drop-down if no terms exist. Default false.
 		 *     @type string   $taxonomy         The taxonomy slug.
 		 *     @type string   $name             Value of the name attribute to use for the drop-down select element.
@@ -500,19 +496,21 @@ if ( $can_edit_terms ) {
 		 */
 		$dropdown_args = apply_filters( 'taxonomy_parent_dropdown_args', $dropdown_args, $taxonomy, 'new' );
 
+		$dropdown_args['aria_describedby'] = 'parent-description';
+
 		wp_dropdown_categories( $dropdown_args );
 		?>
 		<?php if ( 'category' === $taxonomy ) : ?>
-		<p><?php _e( 'Categories, unlike tags, can have a hierarchy. You might have a Jazz category, and under that have children categories for Bebop and Big Band. Totally optional.' ); ?></p>
+		<p id="parent-description"><?php _e( 'Categories, unlike tags, can have a hierarchy. You might have a Jazz category, and under that have children categories for Bebop and Big Band. Totally optional.' ); ?></p>
 	<?php else : ?>
-		<p><?php _e( 'Assign a parent term to create a hierarchy. The term Jazz, for example, would be the parent of Bebop and Big Band.' ); ?></p>
+		<p id="parent-description"><?php echo $tax->labels->parent_field_description; ?></p>
 	<?php endif; ?>
 </div>
 	<?php endif; // is_taxonomy_hierarchical() ?>
 <div class="form-field term-description-wrap">
 	<label for="tag-description"><?php _e( 'Description' ); ?></label>
-	<textarea name="description" id="tag-description" rows="5" cols="40"></textarea>
-	<p><?php _e( 'The description is not prominent by default; however, some themes may show it.' ); ?></p>
+	<textarea name="description" id="tag-description" rows="5" cols="40" aria-describedby="description-description"></textarea>
+	<p id="description-description"><?php echo $tax->labels->desc_field_description; ?></p>
 </div>
 
 	<?php

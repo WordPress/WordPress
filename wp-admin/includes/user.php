@@ -25,11 +25,11 @@ function add_user() {
  * @since 2.0.0
  *
  * @param int $user_id Optional. User ID.
- * @return int|WP_Error User ID of the updated user.
+ * @return int|WP_Error User ID of the updated user or WP_Error on failure.
  */
 function edit_user( $user_id = 0 ) {
 	$wp_roles = wp_roles();
-	$user     = new stdClass;
+	$user     = new stdClass();
 	$user_id  = (int) $user_id;
 	if ( $user_id ) {
 		$update           = true;
@@ -84,7 +84,7 @@ function edit_user( $user_id = 0 ) {
 		if ( empty( $_POST['url'] ) || 'http://' === $_POST['url'] ) {
 			$user->user_url = '';
 		} else {
-			$user->user_url = esc_url_raw( $_POST['url'] );
+			$user->user_url = sanitize_url( $_POST['url'] );
 			$protocols      = implode( '|', array_map( 'preg_quote', wp_allowed_protocols() ) );
 			$user->user_url = preg_match( '/^(' . $protocols . '):/is', $user->user_url ) ? $user->user_url : 'http://' . $user->user_url;
 		}
@@ -119,7 +119,13 @@ function edit_user( $user_id = 0 ) {
 		} elseif ( '' === $locale ) {
 			$locale = 'en_US';
 		} elseif ( ! in_array( $locale, get_available_languages(), true ) ) {
-			$locale = '';
+			if ( current_user_can( 'install_languages' ) && wp_can_install_language_pack() ) {
+				if ( ! wp_download_language_pack( $locale ) ) {
+					$locale = '';
+				}
+			} else {
+				$locale = '';
+			}
 		}
 
 		$user->locale = $locale;
@@ -143,12 +149,12 @@ function edit_user( $user_id = 0 ) {
 
 	/* checking that username has been typed */
 	if ( '' === $user->user_login ) {
-		$errors->add( 'user_login', __( '<strong>Error</strong>: Please enter a username.' ) );
+		$errors->add( 'user_login', __( '<strong>Error:</strong> Please enter a username.' ) );
 	}
 
 	/* checking that nickname has been typed */
 	if ( $update && empty( $user->nickname ) ) {
-		$errors->add( 'nickname', __( '<strong>Error</strong>: Please enter a nickname.' ) );
+		$errors->add( 'nickname', __( '<strong>Error:</strong> Please enter a nickname.' ) );
 	}
 
 	/**
@@ -164,17 +170,17 @@ function edit_user( $user_id = 0 ) {
 
 	// Check for blank password when adding a user.
 	if ( ! $update && empty( $pass1 ) ) {
-		$errors->add( 'pass', __( '<strong>Error</strong>: Please enter a password.' ), array( 'form-field' => 'pass1' ) );
+		$errors->add( 'pass', __( '<strong>Error:</strong> Please enter a password.' ), array( 'form-field' => 'pass1' ) );
 	}
 
 	// Check for "\" in password.
 	if ( false !== strpos( wp_unslash( $pass1 ), '\\' ) ) {
-		$errors->add( 'pass', __( '<strong>Error</strong>: Passwords may not contain the character "\\".' ), array( 'form-field' => 'pass1' ) );
+		$errors->add( 'pass', __( '<strong>Error:</strong> Passwords may not contain the character "\\".' ), array( 'form-field' => 'pass1' ) );
 	}
 
 	// Checking the password has been typed twice the same.
 	if ( ( $update || ! empty( $pass1 ) ) && $pass1 != $pass2 ) {
-		$errors->add( 'pass', __( '<strong>Error</strong>: Passwords don&#8217;t match. Please enter the same password in both password fields.' ), array( 'form-field' => 'pass1' ) );
+		$errors->add( 'pass', __( '<strong>Error:</strong> Passwords do not match. Please enter the same password in both password fields.' ), array( 'form-field' => 'pass1' ) );
 	}
 
 	if ( ! empty( $pass1 ) ) {
@@ -182,29 +188,29 @@ function edit_user( $user_id = 0 ) {
 	}
 
 	if ( ! $update && isset( $_POST['user_login'] ) && ! validate_username( $_POST['user_login'] ) ) {
-		$errors->add( 'user_login', __( '<strong>Error</strong>: This username is invalid because it uses illegal characters. Please enter a valid username.' ) );
+		$errors->add( 'user_login', __( '<strong>Error:</strong> This username is invalid because it uses illegal characters. Please enter a valid username.' ) );
 	}
 
 	if ( ! $update && username_exists( $user->user_login ) ) {
-		$errors->add( 'user_login', __( '<strong>Error</strong>: This username is already registered. Please choose another one.' ) );
+		$errors->add( 'user_login', __( '<strong>Error:</strong> This username is already registered. Please choose another one.' ) );
 	}
 
 	/** This filter is documented in wp-includes/user.php */
 	$illegal_logins = (array) apply_filters( 'illegal_user_logins', array() );
 
 	if ( in_array( strtolower( $user->user_login ), array_map( 'strtolower', $illegal_logins ), true ) ) {
-		$errors->add( 'invalid_username', __( '<strong>Error</strong>: Sorry, that username is not allowed.' ) );
+		$errors->add( 'invalid_username', __( '<strong>Error:</strong> Sorry, that username is not allowed.' ) );
 	}
 
 	/* checking email address */
 	if ( empty( $user->user_email ) ) {
-		$errors->add( 'empty_email', __( '<strong>Error</strong>: Please enter an email address.' ), array( 'form-field' => 'email' ) );
+		$errors->add( 'empty_email', __( '<strong>Error:</strong> Please enter an email address.' ), array( 'form-field' => 'email' ) );
 	} elseif ( ! is_email( $user->user_email ) ) {
-		$errors->add( 'invalid_email', __( '<strong>Error</strong>: The email address isn&#8217;t correct.' ), array( 'form-field' => 'email' ) );
+		$errors->add( 'invalid_email', __( '<strong>Error:</strong> The email address is not correct.' ), array( 'form-field' => 'email' ) );
 	} else {
 		$owner_id = email_exists( $user->user_email );
 		if ( $owner_id && ( ! $update || ( $owner_id != $user->ID ) ) ) {
-			$errors->add( 'email_exists', __( '<strong>Error</strong>: This email is already registered. Please choose another one.' ), array( 'form-field' => 'email' ) );
+			$errors->add( 'email_exists', __( '<strong>Error:</strong> This email is already registered. Please choose another one.' ), array( 'form-field' => 'email' ) );
 		}
 	}
 
@@ -234,9 +240,9 @@ function edit_user( $user_id = 0 ) {
 		 *
 		 * @since 4.4.0
 		 *
-		 * @param int    $user_id ID of the newly created user.
-		 * @param string $notify  Type of notification that should happen. See wp_send_new_user_notifications()
-		 *                        for more information on possible values.
+		 * @param int|WP_Error $user_id ID of the newly created user or WP_Error on failure.
+		 * @param string       $notify  Type of notification that should happen. See
+		 *                              wp_send_new_user_notifications() for more information.
 		 */
 		do_action( 'edit_user_created_user', $user_id, $notify );
 	}
@@ -510,10 +516,11 @@ function default_password_nag_edit_user( $user_ID, $old_data ) {
 /**
  * @since 2.8.0
  *
- * @global string $pagenow
+ * @global string $pagenow The filename of the current screen.
  */
 function default_password_nag() {
 	global $pagenow;
+
 	// Short-circuit it.
 	if ( 'profile.php' === $pagenow || ! get_user_option( 'default_password_nag' ) ) {
 		return;
@@ -536,7 +543,7 @@ function default_password_nag() {
 function delete_users_add_js() {
 	?>
 <script>
-jQuery(document).ready( function($) {
+jQuery( function($) {
 	var submit = $('#submit').prop('disabled', true);
 	$('input[name="delete_option"]').one('change', function() {
 		submit.prop('disabled', false);
@@ -544,7 +551,7 @@ jQuery(document).ready( function($) {
 	$('#reassign_user').focus( function() {
 		$('#delete_option1').prop('checked', true).trigger('change');
 	});
-});
+} );
 </script>
 	<?php
 }
@@ -577,6 +584,12 @@ function admin_created_user_email( $text ) {
 	$roles = get_editable_roles();
 	$role  = $roles[ $_REQUEST['role'] ];
 
+	if ( '' !== get_bloginfo( 'name' ) ) {
+		$site_title = wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES );
+	} else {
+		$site_title = parse_url( home_url(), PHP_URL_HOST );
+	}
+
 	return sprintf(
 		/* translators: 1: Site title, 2: Site URL, 3: User role. */
 		__(
@@ -589,7 +602,7 @@ this email. This invitation will expire in a few days.
 Please click the following link to activate your user account:
 %%s'
 		),
-		wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES ),
+		$site_title,
 		home_url(),
 		wp_specialchars_decode( translate_user_role( $role['name'] ) )
 	);
@@ -599,6 +612,7 @@ Please click the following link to activate your user account:
  * Checks if the Authorize Application Password request is valid.
  *
  * @since 5.6.0
+ * @since 6.2.0 Allow insecure HTTP connections for the local environment.
  *
  * @param array   $request {
  *     The array of request data. All arguments are optional and may be empty.
@@ -612,12 +626,13 @@ Please click the following link to activate your user account:
  * @return true|WP_Error True if the request is valid, a WP_Error object contains errors if not.
  */
 function wp_is_authorize_application_password_request_valid( $request, $user ) {
-	$error = new WP_Error();
+	$error    = new WP_Error();
+	$is_local = 'local' === wp_get_environment_type();
 
 	if ( ! empty( $request['success_url'] ) ) {
 		$scheme = wp_parse_url( $request['success_url'], PHP_URL_SCHEME );
 
-		if ( 'http' === $scheme ) {
+		if ( 'http' === $scheme && ! $is_local ) {
 			$error->add(
 				'invalid_redirect_scheme',
 				__( 'The success URL must be served over a secure connection.' )
@@ -628,7 +643,7 @@ function wp_is_authorize_application_password_request_valid( $request, $user ) {
 	if ( ! empty( $request['reject_url'] ) ) {
 		$scheme = wp_parse_url( $request['reject_url'], PHP_URL_SCHEME );
 
-		if ( 'http' === $scheme ) {
+		if ( 'http' === $scheme && ! $is_local ) {
 			$error->add(
 				'invalid_redirect_scheme',
 				__( 'The rejection URL must be served over a secure connection.' )

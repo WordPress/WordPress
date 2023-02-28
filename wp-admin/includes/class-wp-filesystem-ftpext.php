@@ -40,7 +40,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 
 		// This class uses the timeout on a per-connection basis, others use it on a per-action basis.
 		if ( ! defined( 'FS_TIMEOUT' ) ) {
-			define( 'FS_TIMEOUT', 240 );
+			define( 'FS_TIMEOUT', 4 * MINUTE_IN_SECONDS );
 		}
 
 		if ( empty( $opt['port'] ) ) {
@@ -358,13 +358,20 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	}
 
 	/**
-	 * Moves a file.
+	 * Moves a file or directory.
+	 *
+	 * After moving files or directories, OPcache will need to be invalidated.
+	 *
+	 * If moving a directory fails, `copy_dir()` can be used for a recursive copy.
+	 *
+	 * Use `move_dir()` for moving directories with OPcache invalidation and a
+	 * fallback to `copy_dir()`.
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param string $source      Path to the source file.
-	 * @param string $destination Path to the destination file.
-	 * @param bool   $overwrite   Optional. Whether to overwrite the destination file if it exists.
+	 * @param string $source      Path to the source file or directory.
+	 * @param string $destination Path to the destination file or directory.
+	 * @param bool   $overwrite   Optional. Whether to overwrite the destination if it exists.
 	 *                            Default false.
 	 * @return bool True on success, false on failure.
 	 */
@@ -413,13 +420,13 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param string $file Path to file or directory.
-	 * @return bool Whether $file exists or not.
+	 * @param string $path Path to file or directory.
+	 * @return bool Whether $path exists or not.
 	 */
-	public function exists( $file ) {
-		$list = ftp_nlist( $this->link, $file );
+	public function exists( $path ) {
+		$list = ftp_nlist( $this->link, $path );
 
-		if ( empty( $list ) && $this->is_dir( $file ) ) {
+		if ( empty( $list ) && $this->is_dir( $path ) ) {
 			return true; // File is an empty directory.
 		}
 
@@ -475,10 +482,10 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param string $file Path to file or directory.
-	 * @return bool Whether $file is writable.
+	 * @param string $path Path to file or directory.
+	 * @return bool Whether $path is writable.
 	 */
-	public function is_writable( $file ) {
+	public function is_writable( $path ) {
 		return true;
 	}
 
@@ -515,7 +522,9 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	 * @return int|false Size of the file in bytes on success, false on failure.
 	 */
 	public function size( $file ) {
-		return ftp_size( $this->link, $file );
+		$size = ftp_size( $this->link, $file );
+
+		return ( $size > -1 ) ? $size : false;
 	}
 
 	/**
@@ -703,7 +712,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	 *     @type mixed  $lastmod     Last modified month (3 letter) and day (without leading 0).
 	 *     @type int    $time        Last modified time.
 	 *     @type string $type        Type of resource. 'f' for file, 'd' for directory.
-	 *     @type mixed  $files       If a directory and $recursive is true, contains another array of files.
+	 *     @type mixed  $files       If a directory and `$recursive` is true, contains another array of files.
 	 * }
 	 */
 	public function dirlist( $path = '.', $include_hidden = true, $recursive = false ) {
@@ -752,12 +761,13 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 			$dirlist[ $entry['name'] ] = $entry;
 		}
 
-		$ret = array();
+		$path = trailingslashit( $path );
+		$ret  = array();
 
 		foreach ( (array) $dirlist as $struc ) {
 			if ( 'd' === $struc['type'] ) {
 				if ( $recursive ) {
-					$struc['files'] = $this->dirlist( $path . '/' . $struc['name'], $include_hidden, $recursive );
+					$struc['files'] = $this->dirlist( $path . $struc['name'], $include_hidden, $recursive );
 				} else {
 					$struc['files'] = array();
 				}

@@ -1,5 +1,5 @@
 /*!
- * jQuery UI Effects 1.13.0-rc.2
+ * jQuery UI Effects 1.13.2
  * http://jqueryui.com
  *
  * Copyright jQuery Foundation and other contributors
@@ -32,7 +32,7 @@
 
 // Include version.js
 $.ui = $.ui || {};
-$.ui.version = "1.13.0-rc.2";
+$.ui.version = "1.13.1";
 
 // Source: jquery-var-for-color.js
 // Create a local jQuery because jQuery Color relies on it and the
@@ -52,6 +52,8 @@ var jQuery = $;
  *
  * Date: Sun May 10 09:02:36 2020 +0200
  */
+
+
 
 	var stepHooks = "backgroundColor borderBottomColor borderLeftColor borderRightColor " +
 		"borderTopColor color columnRuleColor outlineColor textDecorationColor textEmphasisColor",
@@ -751,7 +753,6 @@ colors = jQuery.Color.names = {
 	_default: "#ffffff"
 };
 
-
 var dataSpace = "ui-effects-",
 	dataSpaceStyle = "ui-effects-style",
 	dataSpaceAnimated = "ui-effects-animated";
@@ -1119,7 +1120,7 @@ if ( $.uiBackCompat !== false ) {
 }
 
 $.extend( $.effects, {
-	version: "1.13.0-rc.2",
+	version: "1.13.2",
 
 	define: function( name, mode, effect ) {
 		if ( !effect ) {

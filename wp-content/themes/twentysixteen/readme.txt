@@ -1,7 +1,7 @@
 === Twenty Sixteen ===
 Contributors: wordpressdotorg
-Tested up to: 5.8
-Version: 2.5
+Tested up to: 6.1
+Version: 2.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: one-column, two-columns, right-sidebar, accessibility-ready, custom-background, custom-colors, custom-header, custom-menu, editor-style, featured-images, flexible-header, microformats, post-formats, rtl-language-support, sticky-post, threaded-comments, translation-ready, blog, block-patterns
@@ -16,19 +16,19 @@ Twenty Sixteen is a modernized take on an ever-popular WordPress layout — the 
 * Post Formats
 * The GPL v2.0 or later license. :) Use it to make something cool.
 
-For more information about Twenty Sixteen please go to https://wordpress.org/support/article/twenty-sixteen/.
+For more information about Twenty Sixteen please go to https://wordpress.org/documentation/article/twenty-sixteen/.
 
 == Installation ==
 
 1. In your admin panel, go to Appearance -> Themes and click the 'Add New' button.
 2. Type in Twenty Sixteen in the search form and press the 'Enter' key on your keyboard.
 3. Click on the 'Activate' button to use your new theme right away.
-4. Go to https://wordpress.org/support/article/twenty-sixteen/ for a guide on how to customize this theme.
+4. Go to https://wordpress.org/documentation/article/twenty-sixteen/ for a guide on how to customize this theme.
 5. Navigate to Appearance > Customize in your admin panel and customize to taste.
 
 == Copyright ==
 
-Twenty Sixteen WordPress Theme, Copyright 2014-2021 WordPress.org
+Twenty Sixteen WordPress Theme, Copyright 2014-2023 WordPress.org
 Twenty Sixteen is distributed under the terms of the GNU GPL
 
 This program is free software: you can redistribute it and/or modify
@@ -51,9 +51,39 @@ Genericons icon font, Copyright 2013-2017 Automattic.com
 License: GNU GPL, Version 2 (or later)
 Source: http://www.genericons.com
 
+Merriweather Font
+Copyright 2016 The Merriweather Project Authors (https://github.com/EbenSorkin/Merriweather), with Reserved Font Name "Merriweather".
+License: SIL Open Font License, 1.1, https://opensource.org/licenses/OFL-1.1
+Source: https://fontsource.org/fonts/merriweather
+
+Montserrat Font
+Copyright 2011 The Montserrat Project Authors (https://github.com/JulietaUla/Montserrat)
+License: SIL Open Font License, 1.1, https://opensource.org/licenses/OFL-1.1
+Source: https://fontsource.org/fonts/montserrat
+
+Inconsolata Font
+Copyright 2006 The Inconsolata Project Authors (https://github.com/cyrealtype/Inconsolata)
+License: SIL Open Font License, 1.1, https://opensource.org/licenses/OFL-1.1
+Source: https://fontsource.org/fonts/inconsolata
+
 Image used in screenshot.png: A photo by Austin Schmid (https://unsplash.com/schmidy/), licensed under Creative Commons Zero(http://creativecommons.org/publicdomain/zero/1.0/)
 
 == Changelog ==
+
+= 2.8 =
+* Released: November 1, 2022
+
+https://codex.wordpress.org/Twenty_Sixteen_Theme_Changelog#Version_2.8
+
+= 2.7 =
+* Released: May 24, 2022
+
+https://codex.wordpress.org/Twenty_Sixteen_Theme_Changelog#Version_2.7
+
+= 2.6 =
+* Released: January 25, 2022
+
+https://codex.wordpress.org/Twenty_Sixteen_Theme_Changelog#Version_2.6
 
 = 2.5 =
 * Released: July 20, 2021

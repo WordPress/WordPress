@@ -85,8 +85,10 @@
 				if ( this.data.images && this.current.get( 'image' ) && -1 === this.current.get( 'image' ).src.indexOf( defaultImage ) ) {
 					this.playerNode.attr( 'poster', this.current.get( 'image' ).src );
 				}
-				dimensions = this.current.get( 'dimensions' ).resized;
-				this.playerNode.attr( dimensions );
+				dimensions = this.current.get( 'dimensions' );
+				if ( dimensions && dimensions.resized ) {
+					this.playerNode.attr( dimensions.resized );
+				}
 			} else {
 				if ( ! this.data.images ) {
 					this.current.set( 'image', false );

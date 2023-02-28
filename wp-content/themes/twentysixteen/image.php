@@ -10,7 +10,7 @@
 get_header(); ?>
 
 	<div id="primary" class="content-area">
-		<main id="main" class="site-main" role="main">
+		<main id="main" class="site-main">
 
 			<?php
 			// Start the loop.
@@ -59,6 +59,7 @@ get_header(); ?>
 								'after'       => '</div>',
 								'link_before' => '<span>',
 								'link_after'  => '</span>',
+								/* translators: Hidden accessibility text. */
 								'pagelink'    => '<span class="screen-reader-text">' . __( 'Page', 'twentysixteen' ) . ' </span>%',
 								'separator'   => '<span class="screen-reader-text">, </span>',
 							)
@@ -74,6 +75,7 @@ get_header(); ?>
 						if ( $metadata ) {
 							printf(
 								'<span class="full-size-link"><span class="screen-reader-text">%1$s </span><a href="%2$s">%3$s &times; %4$s</a></span>',
+								/* translators: Hidden accessibility text. */
 								esc_html_x( 'Full size', 'Used before full size attachment link.', 'twentysixteen' ),
 								esc_url( wp_get_attachment_url() ),
 								absint( $metadata['width'] ),
@@ -84,7 +86,7 @@ get_header(); ?>
 						<?php
 						edit_post_link(
 							sprintf(
-								/* translators: %s: Post title. */
+								/* translators: %s: Post title. Only visible to screen readers. */
 								__( 'Edit<span class="screen-reader-text"> "%s"</span>', 'twentysixteen' ),
 								get_the_title()
 							),

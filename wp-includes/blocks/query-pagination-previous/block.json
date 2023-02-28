@@ -1,8 +1,9 @@
 {
+	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 2,
 	"name": "core/query-pagination-previous",
-	"title": "Query Pagination Previous",
-	"category": "design",
+	"title": "Previous Page",
+	"category": "theme",
 	"parent": [ "core/query-pagination" ],
 	"description": "Displays the previous posts page link.",
 	"textdomain": "default",
@@ -11,17 +12,30 @@
 			"type": "string"
 		}
 	},
-	"usesContext": [ "queryId", "query" ],
+	"usesContext": [ "queryId", "query", "paginationArrow" ],
 	"supports": {
+		"anchor": true,
 		"reusable": false,
 		"html": false,
 		"color": {
 			"gradients": true,
-			"link": true
+			"text": false,
+			"__experimentalDefaultControls": {
+				"background": true
+			}
 		},
 		"typography": {
 			"fontSize": true,
-			"lineHeight": true
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true
+			}
 		}
 	}
 }

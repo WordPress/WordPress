@@ -28,7 +28,7 @@
 		<?php
 			the_content(
 				sprintf(
-					/* translators: %s: Post title. */
+					/* translators: %s: Post title. Only visible to screen readers. */
 					__( 'Continue reading %s', 'twentyfifteen' ),
 					the_title( '<span class="screen-reader-text">', '</span>', false )
 				)
@@ -40,6 +40,7 @@
 					'after'       => '</div>',
 					'link_before' => '<span>',
 					'link_after'  => '</span>',
+					/* translators: Hidden accessibility text. */
 					'pagelink'    => '<span class="screen-reader-text">' . __( 'Page', 'twentyfifteen' ) . ' </span>%',
 					'separator'   => '<span class="screen-reader-text">, </span>',
 				)

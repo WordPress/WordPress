@@ -23,6 +23,7 @@ if ( ! function_exists( 'twentysixteen_entry_meta' ) ) :
 			printf(
 				'<span class="byline"><span class="author vcard">%1$s<span class="screen-reader-text">%2$s </span> <a class="url fn n" href="%3$s">%4$s</a></span></span>',
 				get_avatar( get_the_author_meta( 'user_email' ), $author_avatar_size ),
+				/* translators: Hidden accessibility text. */
 				_x( 'Author', 'Used before post author name.', 'twentysixteen' ),
 				esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
 				get_the_author()
@@ -37,7 +38,11 @@ if ( ! function_exists( 'twentysixteen_entry_meta' ) ) :
 		if ( current_theme_supports( 'post-formats', $format ) ) {
 			printf(
 				'<span class="entry-format">%1$s<a href="%2$s">%3$s</a></span>',
-				sprintf( '<span class="screen-reader-text">%s </span>', _x( 'Format', 'Used before post format.', 'twentysixteen' ) ),
+				sprintf(
+					'<span class="screen-reader-text">%s </span>',
+					/* translators: Hidden accessibility text. */
+					_x( 'Format', 'Used before post format.', 'twentysixteen' )
+				),
 				esc_url( get_post_format_link( $format ) ),
 				get_post_format_string( $format )
 			);
@@ -49,7 +54,7 @@ if ( ! function_exists( 'twentysixteen_entry_meta' ) ) :
 
 		if ( ! is_singular() && ! post_password_required() && ( comments_open() || get_comments_number() ) ) {
 			echo '<span class="comments-link">';
-			/* translators: %s: Post title. */
+			/* translators: %s: Post title. Only visible to screen readers. */
 			comments_popup_link( sprintf( __( 'Leave a comment<span class="screen-reader-text"> on %s</span>', 'twentysixteen' ), get_the_title() ) );
 			echo '</span>';
 		}
@@ -81,6 +86,7 @@ if ( ! function_exists( 'twentysixteen_entry_date' ) ) :
 
 		printf(
 			'<span class="posted-on"><span class="screen-reader-text">%1$s </span><a href="%2$s" rel="bookmark">%3$s</a></span>',
+			/* translators: Hidden accessibility text. */
 			_x( 'Posted on', 'Used before publish date.', 'twentysixteen' ),
 			esc_url( get_permalink() ),
 			$time_string
@@ -101,6 +107,7 @@ if ( ! function_exists( 'twentysixteen_entry_taxonomies' ) ) :
 		if ( $categories_list && twentysixteen_categorized_blog() ) {
 			printf(
 				'<span class="cat-links"><span class="screen-reader-text">%1$s </span>%2$s</span>',
+				/* translators: Hidden accessibility text. */
 				_x( 'Categories', 'Used before category names.', 'twentysixteen' ),
 				$categories_list
 			);
@@ -110,6 +117,7 @@ if ( ! function_exists( 'twentysixteen_entry_taxonomies' ) ) :
 		if ( $tags_list && ! is_wp_error( $tags_list ) ) {
 			printf(
 				'<span class="tags-links"><span class="screen-reader-text">%1$s </span>%2$s</span>',
+				/* translators: Hidden accessibility text. */
 				_x( 'Tags', 'Used before tag names.', 'twentysixteen' ),
 				$tags_list
 			);
@@ -161,16 +169,16 @@ if ( ! function_exists( 'twentysixteen_excerpt' ) ) :
 	 *
 	 * @since Twenty Sixteen 1.0
 	 *
-	 * @param string $class Optional. Class string of the div element. Defaults to 'entry-summary'.
+	 * @param string $css_class Optional. Class string of the div element. Defaults to 'entry-summary'.
 	 */
-	function twentysixteen_excerpt( $class = 'entry-summary' ) {
-		$class = esc_attr( $class );
+	function twentysixteen_excerpt( $css_class = 'entry-summary' ) {
+		$css_class = esc_attr( $css_class );
 
 		if ( has_excerpt() || is_search() ) :
 			?>
-			<div class="<?php echo $class; ?>">
+			<div class="<?php echo $css_class; ?>">
 				<?php the_excerpt(); ?>
-			</div><!-- .<?php echo $class; ?> -->
+			</div><!-- .<?php echo $css_class; ?> -->
 			<?php
 		endif;
 	}
@@ -191,7 +199,7 @@ if ( ! function_exists( 'twentysixteen_excerpt_more' ) && ! is_admin() ) :
 		$link = sprintf(
 			'<a href="%1$s" class="more-link">%2$s</a>',
 			esc_url( get_permalink( get_the_ID() ) ),
-			/* translators: %s: Post title. */
+			/* translators: %s: Post title. Only visible to screen readers. */
 			sprintf( __( 'Continue reading<span class="screen-reader-text"> "%s"</span>', 'twentysixteen' ), get_the_title( get_the_ID() ) )
 		);
 		return ' &hellip; ' . $link;

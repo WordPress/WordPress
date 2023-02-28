@@ -32,7 +32,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 		</div>
 
 		<div class="about__header-text">
-			<?php _e( 'WordPress is free and open source software, built by a distributed community of mostly volunteer developers from around the world' ); ?>
+			<?php _e( 'WordPress is free and open source software' ); ?>
 		</div>
 
 		<nav class="about__header-navigation nav-tab-wrapper wp-clearfix" aria-label="<?php esc_attr_e( 'Secondary menu' ); ?>">
@@ -57,22 +57,22 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 
 	<div class="about__section has-2-columns">
 		<div class="column aligncenter">
-			<img class="freedom-image" src="<?php echo esc_url( admin_url( 'images/freedom-1.svg' ) ); ?>" alt="" />
+			<img class="freedom-image" src="<?php echo esc_url( admin_url( 'images/freedom-1.svg?ver=6.1' ) ); ?>" alt="" />
 			<h2 class="is-smaller-heading"><?php _e( 'The 1st Freedom' ); ?></h2>
 			<p><?php _e( 'To run the program for any purpose.' ); ?></p>
 		</div>
 		<div class="column aligncenter">
-			<img class="freedom-image" src="<?php echo esc_url( admin_url( 'images/freedom-2.svg' ) ); ?>" alt="" />
+			<img class="freedom-image" src="<?php echo esc_url( admin_url( 'images/freedom-2.svg?ver=6.1' ) ); ?>" alt="" />
 			<h2 class="is-smaller-heading"><?php _e( 'The 2nd Freedom' ); ?></h2>
 			<p><?php _e( 'To study how the program works and change it to make it do what you wish.' ); ?></p>
 		</div>
 		<div class="column aligncenter">
-			<img class="freedom-image" src="<?php echo esc_url( admin_url( 'images/freedom-3.svg' ) ); ?>" alt="" />
+			<img class="freedom-image" src="<?php echo esc_url( admin_url( 'images/freedom-3.svg?ver=6.1' ) ); ?>" alt="" />
 			<h2 class="is-smaller-heading"><?php _e( 'The 3rd Freedom' ); ?></h2>
 			<p><?php _e( 'To redistribute.' ); ?></p>
 		</div>
 		<div class="column aligncenter">
-			<img class="freedom-image" src="<?php echo esc_url( admin_url( 'images/freedom-4.svg' ) ); ?>" alt="" />
+			<img class="freedom-image" src="<?php echo esc_url( admin_url( 'images/freedom-4.svg?ver=6.1' ) ); ?>" alt="" />
 			<h2 class="is-smaller-heading"><?php _e( 'The 4th Freedom' ); ?></h2>
 			<p><?php _e( 'To distribute copies of your modified versions to others.' ); ?></p>
 		</div>
@@ -84,7 +84,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			<?php
 			printf(
 				/* translators: %s: https://wordpressfoundation.org/trademark-policy/ */
-				__( 'WordPress grows when people like you tell their friends about it, and the thousands of businesses and services that are built on and around WordPress share that fact with their users. We&#8217;re flattered every time someone spreads the good word, just make sure to <a href="%s">check out our trademark guidelines</a> first.' ),
+				__( 'WordPress grows when people like you tell their friends about it, and the thousands of businesses and services that are built on and around WordPress share that fact with their users. We are flattered every time someone spreads the good word, just make sure to <a href="%s">check out our trademark guidelines</a> first.' ),
 				'https://wordpressfoundation.org/trademark-policy/'
 			);
 			?>
@@ -96,15 +96,13 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 			$themes_url  = current_user_can( 'switch_themes' ) ? admin_url( 'themes.php' ) : __( 'https://wordpress.org/themes/' );
 			printf(
 				/* translators: 1: URL to Plugins screen, 2: URL to Themes screen, 3: https://wordpress.org/about/license/ */
-				__( 'Every plugin and theme in WordPress.org&#8217;s directory is 100%% GPL or a similarly free and compatible license, so you can feel safe finding <a href="%1$s">plugins</a> and <a href="%2$s">themes</a> there. If you get a plugin or theme from another source, make sure to <a href="%3$s">ask them if it&#8217;s GPL</a> first. If they don&#8217;t respect the WordPress license, we don&#8217;t recommend them.' ),
+				__( 'Every plugin and theme in WordPress.org&#8217;s directory is 100%% GPL or a similarly free and compatible license, so you can feel safe finding <a href="%1$s">plugins</a> and <a href="%2$s">themes</a> there. If you get a plugin or theme from another source, make sure to <a href="%3$s">ask them if it&#8217;s GPL</a> first. If they do not respect the WordPress license, it is not recommended to use them.' ),
 				$plugins_url,
 				$themes_url,
 				__( 'https://wordpress.org/about/license/' )
 			);
 			?>
 			</p>
-
-			<p><?php _e( 'Don&#8217;t you wish all software came with these freedoms? So do we! For more information, check out the <a href="https://www.fsf.org/">Free Software Foundation</a>.' ); ?></p>
 		</div>
 	</div>
 

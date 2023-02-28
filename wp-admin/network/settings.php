@@ -61,8 +61,8 @@ get_current_screen()->add_help_tab(
 
 get_current_screen()->set_help_sidebar(
 	'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
-	'<p>' . __( '<a href="https://wordpress.org/support/article/network-admin-settings-screen/">Documentation on Network Settings</a>' ) . '</p>' .
-	'<p>' . __( '<a href="https://wordpress.org/support/">Support</a>' ) . '</p>'
+	'<p>' . __( '<a href="https://wordpress.org/documentation/article/network-admin-settings-screen/">Documentation on Network Settings</a>' ) . '</p>' .
+	'<p>' . __( '<a href="https://wordpress.org/support/forums/">Support forums</a>' ) . '</p>'
 );
 
 if ( $_POST ) {
@@ -100,7 +100,6 @@ if ( $_POST ) {
 		'welcome_email',
 		'welcome_user_email',
 		'fileupload_maxk',
-		'global_terms_enabled',
 		'illegal_names',
 		'limited_email_domains',
 		'banned_email_domains',
@@ -139,7 +138,7 @@ if ( $_POST ) {
 require_once ABSPATH . 'wp-admin/admin-header.php';
 
 if ( isset( $_GET['updated'] ) ) {
-	?><div id="message" class="updated notice is-dismissible"><p><?php _e( 'Settings saved.' ); ?></p></div>
+	?><div id="message" class="notice notice-success is-dismissible"><p><?php _e( 'Settings saved.' ); ?></p></div>
 	<?php
 }
 ?>
@@ -162,13 +161,13 @@ if ( isset( $_GET['updated'] ) ) {
 				<td>
 					<input name="new_admin_email" type="email" id="admin_email" aria-describedby="admin-email-desc" class="regular-text" value="<?php echo esc_attr( get_site_option( 'admin_email' ) ); ?>" />
 					<p class="description" id="admin-email-desc">
-						<?php _e( 'This address is used for admin purposes. If you change this, we will send you an email at your new address to confirm it. <strong>The new address will not become active until confirmed.</strong>' ); ?>
+						<?php _e( 'This address is used for admin purposes. If you change this, an email will be sent to your new address to confirm it. <strong>The new address will not become active until confirmed.</strong>' ); ?>
 					</p>
 					<?php
 					$new_admin_email = get_site_option( 'new_admin_email' );
 					if ( $new_admin_email && get_site_option( 'admin_email' ) !== $new_admin_email ) :
 						?>
-						<div class="updated inline">
+						<div class="notice notice-warning is-dismissible inline">
 						<p>
 						<?php
 							printf(
@@ -200,7 +199,12 @@ if ( isset( $_GET['updated'] ) ) {
 				?>
 				<td>
 					<fieldset>
-					<legend class="screen-reader-text"><?php _e( 'New registrations settings' ); ?></legend>
+					<legend class="screen-reader-text">
+						<?php
+						/* translators: Hidden accessibility text. */
+						_e( 'New registrations settings' );
+						?>
+					</legend>
 					<label><input name="registration" type="radio" id="registration1" value="none"<?php checked( $reg, 'none' ); ?> /> <?php _e( 'Registration is disabled' ); ?></label><br />
 					<label><input name="registration" type="radio" id="registration2" value="user"<?php checked( $reg, 'user' ); ?> /> <?php _e( 'User accounts may be registered' ); ?></label><br />
 					<label><input name="registration" type="radio" id="registration3" value="blog"<?php checked( $reg, 'blog' ); ?> /> <?php _e( 'Logged in users may register new sites' ); ?></label><br />
@@ -401,7 +405,10 @@ if ( isset( $_GET['updated'] ) ) {
 						?>
 					</label><br />
 					<p class="screen-reader-text" id="blog-upload-space-desc">
-						<?php _e( 'Size in megabytes' ); ?>
+						<?php
+						/* translators: Hidden accessibility text. */
+						_e( 'Size in megabytes' );
+						?>
 					</p>
 				</td>
 			</tr>
@@ -427,7 +434,10 @@ if ( isset( $_GET['updated'] ) ) {
 						);
 						?>
 					<p class="screen-reader-text" id="fileupload-maxk-desc">
-						<?php _e( 'Size in kilobytes' ); ?>
+						<?php
+						/* translators: Hidden accessibility text. */
+						_e( 'Size in kilobytes' );
+						?>
 					</p>
 				</td>
 			</tr>
@@ -494,7 +504,10 @@ if ( isset( $_GET['updated'] ) ) {
 					<th scope="row"><?php _e( 'Enable administration menus' ); ?></th>
 					<td>
 						<?php
-						echo '<fieldset><legend class="screen-reader-text">' . __( 'Enable menus' ) . '</legend>';
+						echo '<fieldset><legend class="screen-reader-text">' .
+							/* translators: Hidden accessibility text. */
+							__( 'Enable menus' ) .
+						'</legend>';
 
 						foreach ( (array) $menu_items as $key => $val ) {
 							echo "<label><input type='checkbox' name='menu_items[" . $key . "]' value='1'" . ( isset( $menu_perms[ $key ] ) ? checked( $menu_perms[ $key ], '1', false ) : '' ) . ' /> ' . esc_html( $val ) . '</label><br/>';

@@ -56,26 +56,26 @@ if (!is_callable('sodium_crypto_core_ristretto255_from_hash')) {
     /**
      * @see ParagonIE_Sodium_Compat::ristretto255_from_hash()
      *
-     * @param string $r
+     * @param string $s
      * @return string
      * @throws SodiumException
      */
-    function sodium_crypto_core_ristretto255_from_hash($r)
+    function sodium_crypto_core_ristretto255_from_hash($s)
     {
-        return ParagonIE_Sodium_Compat::ristretto255_from_hash($r, true);
+        return ParagonIE_Sodium_Compat::ristretto255_from_hash($s, true);
     }
 }
 if (!is_callable('sodium_crypto_core_ristretto255_is_valid_point')) {
     /**
      * @see ParagonIE_Sodium_Compat::ristretto255_is_valid_point()
      *
-     * @param string $p
+     * @param string $s
      * @return bool
      * @throws SodiumException
      */
-    function sodium_crypto_core_ristretto255_is_valid_point($p)
+    function sodium_crypto_core_ristretto255_is_valid_point($s)
     {
-        return ParagonIE_Sodium_Compat::ristretto255_is_valid_point($p, true);
+        return ParagonIE_Sodium_Compat::ristretto255_is_valid_point($s, true);
     }
 }
 if (!is_callable('sodium_crypto_core_ristretto255_random')) {
@@ -94,27 +94,27 @@ if (!is_callable('sodium_crypto_core_ristretto255_scalar_add')) {
     /**
      * @see ParagonIE_Sodium_Compat::ristretto255_scalar_add()
      *
-     * @param string $p
-     * @param string $q
+     * @param string $x
+     * @param string $y
      * @return string
      * @throws SodiumException
      */
-    function sodium_crypto_core_ristretto255_scalar_add($p, $q)
+    function sodium_crypto_core_ristretto255_scalar_add($x, $y)
     {
-        return ParagonIE_Sodium_Compat::ristretto255_scalar_add($p, $q, true);
+        return ParagonIE_Sodium_Compat::ristretto255_scalar_add($x, $y, true);
     }
 }
 if (!is_callable('sodium_crypto_core_ristretto255_scalar_complement')) {
     /**
      * @see ParagonIE_Sodium_Compat::ristretto255_scalar_complement()
      *
-     * @param string $p
+     * @param string $s
      * @return string
      * @throws SodiumException
      */
-    function sodium_crypto_core_ristretto255_scalar_complement($p)
+    function sodium_crypto_core_ristretto255_scalar_complement($s)
     {
-        return ParagonIE_Sodium_Compat::ristretto255_scalar_complement($p, true);
+        return ParagonIE_Sodium_Compat::ristretto255_scalar_complement($s, true);
     }
 }
 if (!is_callable('sodium_crypto_core_ristretto255_scalar_invert')) {
@@ -134,27 +134,27 @@ if (!is_callable('sodium_crypto_core_ristretto255_scalar_mul')) {
     /**
      * @see ParagonIE_Sodium_Compat::ristretto255_scalar_mul()
      *
-     * @param string $p
-     * @param string $q
+     * @param string $x
+     * @param string $y
      * @return string
      * @throws SodiumException
      */
-    function sodium_crypto_core_ristretto255_scalar_mul($p, $q)
+    function sodium_crypto_core_ristretto255_scalar_mul($x, $y)
     {
-        return ParagonIE_Sodium_Compat::ristretto255_scalar_mul($p, $q, true);
+        return ParagonIE_Sodium_Compat::ristretto255_scalar_mul($x, $y, true);
     }
 }
 if (!is_callable('sodium_crypto_core_ristretto255_scalar_negate')) {
     /**
      * @see ParagonIE_Sodium_Compat::ristretto255_scalar_negate()
      *
-     * @param string $p
+     * @param string $s
      * @return string
      * @throws SodiumException
      */
-    function sodium_crypto_core_ristretto255_scalar_negate($p)
+    function sodium_crypto_core_ristretto255_scalar_negate($s)
     {
-        return ParagonIE_Sodium_Compat::ristretto255_scalar_negate($p, true);
+        return ParagonIE_Sodium_Compat::ristretto255_scalar_negate($s, true);
     }
 }
 if (!is_callable('sodium_crypto_core_ristretto255_scalar_random')) {
@@ -173,27 +173,27 @@ if (!is_callable('sodium_crypto_core_ristretto255_scalar_reduce')) {
     /**
      * @see ParagonIE_Sodium_Compat::ristretto255_scalar_reduce()
      *
-     * @param string $p
+     * @param string $s
      * @return string
      * @throws SodiumException
      */
-    function sodium_crypto_core_ristretto255_scalar_reduce($p)
+    function sodium_crypto_core_ristretto255_scalar_reduce($s)
     {
-        return ParagonIE_Sodium_Compat::ristretto255_scalar_reduce($p, true);
+        return ParagonIE_Sodium_Compat::ristretto255_scalar_reduce($s, true);
     }
 }
 if (!is_callable('sodium_crypto_core_ristretto255_scalar_sub')) {
     /**
      * @see ParagonIE_Sodium_Compat::ristretto255_scalar_sub()
      *
-     * @param string $p
-     * @param string $q
+     * @param string $x
+     * @param string $y
      * @return string
      * @throws SodiumException
      */
-    function sodium_crypto_core_ristretto255_scalar_sub($p, $q)
+    function sodium_crypto_core_ristretto255_scalar_sub($x, $y)
     {
-        return ParagonIE_Sodium_Compat::ristretto255_scalar_sub($p, $q, true);
+        return ParagonIE_Sodium_Compat::ristretto255_scalar_sub($x, $y, true);
     }
 }
 if (!is_callable('sodium_crypto_core_ristretto255_sub')) {

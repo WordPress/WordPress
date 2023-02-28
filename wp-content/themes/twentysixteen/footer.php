@@ -12,9 +12,9 @@
 
 		</div><!-- .site-content -->
 
-		<footer id="colophon" class="site-footer" role="contentinfo">
+		<footer id="colophon" class="site-footer">
 			<?php if ( has_nav_menu( 'primary' ) ) : ?>
-				<nav class="main-navigation" role="navigation" aria-label="<?php esc_attr_e( 'Footer Primary Menu', 'twentysixteen' ); ?>">
+				<nav class="main-navigation" aria-label="<?php esc_attr_e( 'Footer Primary Menu', 'twentysixteen' ); ?>">
 					<?php
 						wp_nav_menu(
 							array(
@@ -27,7 +27,7 @@
 			<?php endif; ?>
 
 			<?php if ( has_nav_menu( 'social' ) ) : ?>
-				<nav class="social-navigation" role="navigation" aria-label="<?php esc_attr_e( 'Footer Social Links Menu', 'twentysixteen' ); ?>">
+				<nav class="social-navigation" aria-label="<?php esc_attr_e( 'Footer Social Links Menu', 'twentysixteen' ); ?>">
 					<?php
 						wp_nav_menu(
 							array(

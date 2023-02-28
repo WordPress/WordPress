@@ -152,7 +152,7 @@ class SimplePie_Cache_Redis implements SimplePie_Cache_Base {
         if ($data !== false) {
             $return = $this->cache->set($this->name, $data);
             if ($this->options['expire']) {
-                return $this->cache->expire($this->name, $this->ttl);
+                return $this->cache->expire($this->name, $this->options['expire']);
             }
             return $return;
         }

@@ -101,8 +101,11 @@
 		padding-right: var(--global--spacing-unit);
 		padding-bottom: var(--global--spacing-horizontal);
 		background-color: var(--global--color-background);
-		transition: all .15s ease-in-out;
 		transform: translateY(var(--global--spacing-vertical));
+
+		@media (prefers-reduced-motion: no-preference) {
+			transition: all .15s ease-in-out;
+		}
 
 		@include media(mobile-only) {
 			height: 100vh;
@@ -279,13 +282,18 @@
 			position: relative;
 
 			@include media(mobile) {
+				@media (prefers-reduced-motion: no-preference) {
+					transition: all 0.5s ease;
+				}
+			}
+
+			@include media(mobile) {
 				left: 0;
 				margin: 0;
 				min-width: max-content;
 				position: absolute;
 				top: 100%;
 				padding-top: 3px;
-				transition: all 0.5s ease;
 				z-index: 88888;
 
 				&:before,

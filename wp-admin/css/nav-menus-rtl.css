@@ -170,7 +170,7 @@ label.bulk-select-button:focus-within {
 	color: #0a4b78;
 }
 
-input.bulk-select-switcher:focus + .bulk-select-button-label{
+input.bulk-select-switcher:focus + .bulk-select-button-label {
 	color: #0a4b78;
 }
 
@@ -192,9 +192,7 @@ input.bulk-select-switcher:focus + .bulk-select-button-label{
 }
 
 .bulk-actions input.menu-items-delete.disabled {
-	cursor: default;
-	color: #a7aaad;
-	box-shadow: none;
+	display: none;
 }
 
 .menu-settings {
@@ -1019,5 +1017,9 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 	/* menu locations */
 	#menu-locations-wrap .widefat {
 		width: 100%;
+	}
+
+	.bulk-select-button {
+		padding: 5px 10px;
 	}
 }

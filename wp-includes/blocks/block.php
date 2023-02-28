@@ -27,8 +27,7 @@ function render_block_core_block( $attributes ) {
 	if ( isset( $seen_refs[ $attributes['ref'] ] ) ) {
 		// WP_DEBUG_DISPLAY must only be honored when WP_DEBUG. This precedent
 		// is set in `wp_debug_mode()`.
-		$is_debug = defined( 'WP_DEBUG' ) && WP_DEBUG &&
-			defined( 'WP_DEBUG_DISPLAY' ) && WP_DEBUG_DISPLAY;
+		$is_debug = WP_DEBUG && WP_DEBUG_DISPLAY;
 
 		return $is_debug ?
 			// translators: Visible only in the front end, this warning takes the place of a faulty block.
@@ -42,9 +41,14 @@ function render_block_core_block( $attributes ) {
 
 	$seen_refs[ $attributes['ref'] ] = true;
 
-	$result = do_blocks( $reusable_block->post_content );
+	// Handle embeds for reusable blocks.
+	global $wp_embed;
+	$content = $wp_embed->run_shortcode( $reusable_block->post_content );
+	$content = $wp_embed->autoembed( $content );
+
+	$content = do_blocks( $content );
 	unset( $seen_refs[ $attributes['ref'] ] );
-	return $result;
+	return $content;
 }
 
 /**

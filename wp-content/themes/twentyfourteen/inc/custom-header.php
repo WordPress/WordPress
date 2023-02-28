@@ -82,7 +82,7 @@ if ( ! function_exists( 'twentyfourteen_header_style' ) ) :
 		}
 			<?php
 			// If the user has set a custom color for the text, use that.
-		elseif ( get_theme_support( 'custom-header', 'default-text-color' ) != $text_color ) :
+		elseif ( get_theme_support( 'custom-header', 'default-text-color' ) !== $text_color ) :
 			?>
 		.site-title a {
 			color: #<?php echo esc_attr( $text_color ); ?>;

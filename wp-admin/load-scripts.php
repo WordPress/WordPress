@@ -1,13 +1,13 @@
 <?php
 
-/**
- * Disable error reporting
+/*
+ * Disable error reporting.
  *
  * Set this to error_reporting( -1 ) for debugging.
  */
 error_reporting( 0 );
 
-/** Set ABSPATH for execution */
+// Set ABSPATH for execution.
 if ( ! defined( 'ABSPATH' ) ) {
 	define( 'ABSPATH', dirname( __DIR__ ) . '/' );
 }
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 define( 'WPINC', 'wp-includes' );
 
 $protocol = $_SERVER['SERVER_PROTOCOL'];
-if ( ! in_array( $protocol, array( 'HTTP/1.1', 'HTTP/2', 'HTTP/2.0' ), true ) ) {
+if ( ! in_array( $protocol, array( 'HTTP/1.1', 'HTTP/2', 'HTTP/2.0', 'HTTP/3' ), true ) ) {
 	$protocol = 'HTTP/1.0';
 }
 

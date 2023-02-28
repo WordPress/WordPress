@@ -356,7 +356,7 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Checks if a given request has access to delete all application passwords.
+	 * Checks if a given request has access to delete all application passwords for a user.
 	 *
 	 * @since 5.6.0
 	 *
@@ -382,7 +382,7 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Deletes all application passwords.
+	 * Deletes all application passwords for a user.
 	 *
 	 * @since 5.6.0
 	 *
@@ -411,7 +411,7 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Checks if a given request has access to delete a specific application password.
+	 * Checks if a given request has access to delete a specific application password for a user.
 	 *
 	 * @since 5.6.0
 	 *
@@ -437,7 +437,7 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Deletes one application password.
+	 * Deletes an application password for a user.
 	 *
 	 * @since 5.6.0
 	 *
@@ -474,7 +474,7 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Checks if a given request has access to get the currently used application password.
+	 * Checks if a given request has access to get the currently used application password for a user.
 	 *
 	 * @since 5.7.0
 	 *
@@ -500,7 +500,7 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Retrieves the application password being currently used for authentication.
+	 * Retrieves the application password being currently used for authentication of a user.
 	 *
 	 * @since 5.7.0
 	 *
@@ -610,6 +610,8 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller {
 			return $user;
 		}
 
+		$fields = $this->get_fields_for_response( $request );
+
 		$prepared = array(
 			'uuid'      => $item['uuid'],
 			'app_id'    => empty( $item['app_id'] ) ? '' : $item['app_id'],
@@ -627,7 +629,10 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller {
 		$prepared = $this->filter_response_by_context( $prepared, $request['context'] );
 
 		$response = new WP_REST_Response( $prepared );
-		$response->add_links( $this->prepare_links( $user, $item ) );
+
+		if ( rest_is_field_included( '_links', $fields ) || rest_is_field_included( '_embedded', $fields ) ) {
+			$response->add_links( $this->prepare_links( $user, $item ) );
+		}
 
 		/**
 		 * Filters the REST API response for an application password.
@@ -653,7 +658,14 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller {
 	protected function prepare_links( WP_User $user, $item ) {
 		return array(
 			'self' => array(
-				'href' => rest_url( sprintf( '%s/users/%d/application-passwords/%s', $this->namespace, $user->ID, $item['uuid'] ) ),
+				'href' => rest_url(
+					sprintf(
+						'%s/users/%d/application-passwords/%s',
+						$this->namespace,
+						$user->ID,
+						$item['uuid']
+					)
+				),
 			),
 		);
 	}
@@ -707,7 +719,7 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller {
 			return $error;
 		}
 
-		if ( is_multisite() && ! is_user_member_of_blog( $user->ID ) ) {
+		if ( is_multisite() && ! user_can( $user->ID, 'manage_sites' ) && ! is_user_member_of_blog( $user->ID ) ) {
 			return $error;
 		}
 
@@ -723,7 +735,7 @@ class WP_REST_Application_Passwords_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Gets the requested application password.
+	 * Gets the requested application password for a user.
 	 *
 	 * @since 5.6.0
 	 *

@@ -5,13 +5,14 @@ Theme URI: https://wordpress.org/themes/twentynineteen/
 Author: the WordPress team
 Author URI: https://wordpress.org/
 Description: Our 2019 default theme is designed to show off the power of the block editor. It features custom styles for all the default blocks, and is built so that what you see in the editor looks like what you'll see on your website. Twenty Nineteen is designed to be adaptable to a wide range of websites, whether you’re running a photo blog, launching a new business, or supporting a non-profit. Featuring ample whitespace and modern sans-serif headlines paired with classic serif body text, it's built to be beautiful on all screen sizes.
+Tested up to: 6.1
 Requires at least: 4.9.6
 Requires PHP: 5.2.4
-Version: 2.1
+Version: 2.4
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: twentynineteen
-Tags: one-column, flexible-header, accessibility-ready, custom-colors, custom-menu, custom-logo, editor-style, featured-images, footer-widgets, rtl-language-support, sticky-post, threaded-comments, translation-ready, block-patterns
+Tags: one-column, accessibility-ready, custom-colors, custom-menu, custom-logo, editor-style, featured-images, footer-widgets, rtl-language-support, sticky-post, threaded-comments, translation-ready, block-patterns
 
 This theme, like WordPress, is licensed under the GPL.
 Use it to make something cool, have fun, and share what you've learned with others.
@@ -2470,6 +2471,7 @@ a:hover {
 
 a:focus {
   text-decoration: underline;
+  text-decoration-thickness: 2px;
 }
 
 /* Elements */
@@ -2511,6 +2513,7 @@ a:focus {
   outline: thin;
   outline-style: dotted;
   text-decoration: underline;
+  text-decoration-thickness: 2px;
 }
 
 h1,
@@ -2759,6 +2762,7 @@ a:active {
 a:focus {
   outline: thin dotted;
   text-decoration: underline;
+  text-decoration-thickness: 2px;
 }
 
 /*--------------------------------------------------------------
@@ -4422,6 +4426,7 @@ body.page .main-navigation {
 
 .entry .entry-content a {
   text-decoration: underline;
+  text-decoration-thickness: 2px;
 }
 
 .entry .entry-content a.button, .entry .entry-content a:hover {
@@ -4692,6 +4697,11 @@ body.page .main-navigation {
   display: block;
 }
 
+.comment-form-wrapper,
+.comment-form-wrapper .comments-title {
+  display: block;
+}
+
 .comment-list {
   list-style: none;
   padding: 0;
@@ -4894,6 +4904,7 @@ body.page .main-navigation {
 
 .comment .comment-content a {
   text-decoration: underline;
+  text-decoration-thickness: 2px;
 }
 
 .comment .comment-content a:hover {
@@ -5219,6 +5230,7 @@ body.page .main-navigation {
 
 .widget_calendar .calendar_wrap a {
   text-decoration: underline;
+  text-decoration-thickness: 2px;
 }
 
 .widget_calendar .calendar_wrap .wp-calendar-table {
@@ -5656,13 +5668,13 @@ body.page .main-navigation {
 }
 
 .entry .entry-content .wp-block-pullquote {
+  color: #111;
   border-color: transparent;
   border-width: 2px;
   padding: 1rem;
 }
 
 .entry .entry-content .wp-block-pullquote blockquote {
-  color: #111;
   border: none;
   margin-top: calc(4 * 1rem);
   margin-bottom: calc(4.33 * 1rem);
@@ -5846,13 +5858,19 @@ body.page .main-navigation {
 }
 
 @media only screen and (min-width: 768px) {
-  .entry .entry-content .wp-block-image:not(.alignwide):not(.alignfull) > img {
+  .entry .entry-content .wp-block-image:not(.alignwide):not(.alignfull) > img,
+  .entry .entry-content .wp-block-image:not(.alignwide):not(.alignfull) > a > img,
+  .entry .entry-content .wp-block-image:not(.alignwide):not(.alignfull) > img + figcaption,
+  .entry .entry-content .wp-block-image:not(.alignwide):not(.alignfull) > a + figcaption {
     max-width: calc(8 * (100vw / 12) - 28px);
   }
 }
 
 @media only screen and (min-width: 1168px) {
-  .entry .entry-content .wp-block-image:not(.alignwide):not(.alignfull) > img {
+  .entry .entry-content .wp-block-image:not(.alignwide):not(.alignfull) > img,
+  .entry .entry-content .wp-block-image:not(.alignwide):not(.alignfull) > a > img,
+  .entry .entry-content .wp-block-image:not(.alignwide):not(.alignfull) > img + figcaption,
+  .entry .entry-content .wp-block-image:not(.alignwide):not(.alignfull) > a + figcaption {
     max-width: calc(6 * (100vw / 12) - 28px);
   }
 }
@@ -6180,6 +6198,8 @@ body.page .main-navigation {
 }
 
 @media only screen and (min-width: 768px) {
+  .entry .entry-content .wp-block-columns .wp-block-image:not(.alignwide):not(.alignfull) > img,
+  .entry .entry-content .wp-block-columns .wp-block-image:not(.alignwide):not(.alignfull) > a > img,
   .entry .entry-content .wp-block-columns .wp-block-image > img:not(.alignwide):not(.alignfull),
   .entry .entry-content .wp-block-columns .wp-block-image > figure {
     max-width: 100%;
@@ -6187,6 +6207,8 @@ body.page .main-navigation {
 }
 
 @media only screen and (min-width: 1168px) {
+  .entry .entry-content .wp-block-columns .wp-block-image:not(.alignwide):not(.alignfull) > img,
+  .entry .entry-content .wp-block-columns .wp-block-image:not(.alignwide):not(.alignfull) > a > img,
   .entry .entry-content .wp-block-columns .wp-block-image > img:not(.alignwide):not(.alignfull),
   .entry .entry-content .wp-block-columns .wp-block-image > figure {
     max-width: 100%;

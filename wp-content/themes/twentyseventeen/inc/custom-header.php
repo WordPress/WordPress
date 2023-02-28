@@ -124,7 +124,9 @@ endif; // End of twentyseventeen_header_style().
  * @return array The filtered video settings.
  */
 function twentyseventeen_video_controls( $settings ) {
-	$settings['l10n']['play']  = '<span class="screen-reader-text">' . __( 'Play background video', 'twentyseventeen' ) . '</span>' . twentyseventeen_get_svg( array( 'icon' => 'play' ) );
+	/* translators: Hidden accessibility text. */
+	$settings['l10n']['play'] = '<span class="screen-reader-text">' . __( 'Play background video', 'twentyseventeen' ) . '</span>' . twentyseventeen_get_svg( array( 'icon' => 'play' ) );
+	/* translators: Hidden accessibility text. */
 	$settings['l10n']['pause'] = '<span class="screen-reader-text">' . __( 'Pause background video', 'twentyseventeen' ) . '</span>' . twentyseventeen_get_svg( array( 'icon' => 'pause' ) );
 	return $settings;
 }

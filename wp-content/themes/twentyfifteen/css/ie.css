@@ -510,12 +510,18 @@ img.aligncenter {
 }
 
 .entry-content h5,
-.entry-content h6,
 .entry-summary h5,
-.entry-summary h6,
 .page-content h5,
+.comment-content h5 {
+	font-size: 20px;
+	line-height: 1.4;
+	margin-top: 2.8em;
+	margin-bottom: 1.4em;
+}
+
+.entry-content h6,
+.entry-summary h6,
 .page-content h6,
-.comment-content h5,
 .comment-content h6 {
 	font-size: 19px;
 	line-height: 1.2632;

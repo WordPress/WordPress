@@ -187,6 +187,15 @@ p.has-drop-cap:not(:focus)::first-letter {
 	text-transform: none;
 }
 
+.wp-block-pullquote.has-text-color blockquote,
+.wp-block-pullquote.has-background blockquote,
+.has-background .wp-block-pullquote blockquote,
+.wp-block-pullquote.has-text-color cite,
+.has-background .wp-block-pullquote cite,
+.has-text-color .wp-block-pullquote__citation {
+	color: inherit;
+}
+
 .wp-block-pullquote.alignleft {
 	margin-right: 1em;
 }
@@ -261,7 +270,8 @@ p.has-drop-cap:not(:focus)::first-letter {
 	max-width: 100px;
 }
 
-.wp-block-separator.is-style-wide {
+.wp-block-separator.is-style-wide,
+.wp-block-separator.is-style-dots {
 	max-width: 100%;
 }
 

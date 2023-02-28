@@ -123,7 +123,7 @@ function wp_insert_site( array $data ) {
 		 * Fires immediately after a new site is created.
 		 *
 		 * @since MU (3.0.0)
-		 * @deprecated 5.1.0 Use {@see 'wp_insert_site'} instead.
+		 * @deprecated 5.1.0 Use {@see 'wp_initialize_site'} instead.
 		 *
 		 * @param int    $site_id    Site ID.
 		 * @param int    $user_id    User ID.
@@ -136,7 +136,7 @@ function wp_insert_site( array $data ) {
 			'wpmu_new_blog',
 			array( $new_site->id, $user_id, $new_site->domain, $new_site->path, $new_site->network_id, $meta ),
 			'5.1.0',
-			'wp_insert_site'
+			'wp_initialize_site'
 		);
 	}
 
@@ -339,7 +339,7 @@ function get_site( $site = null ) {
  *
  * @since 4.6.0
  * @since 5.1.0 Introduced the `$update_meta_cache` parameter.
- * @access private
+ * @since 6.1.0 This function is no longer marked as "private".
  *
  * @see update_site_cache()
  * @global wpdb $wpdb WordPress database abstraction object.
@@ -371,12 +371,17 @@ function update_site_cache( $sites, $update_meta_cache = true ) {
 	if ( ! $sites ) {
 		return;
 	}
-	$site_ids = array();
+	$site_ids          = array();
+	$site_data         = array();
+	$blog_details_data = array();
 	foreach ( $sites as $site ) {
-		$site_ids[] = $site->blog_id;
-		wp_cache_add( $site->blog_id, $site, 'sites' );
-		wp_cache_add( $site->blog_id . 'short', $site, 'blog-details' );
+		$site_ids[]                                    = $site->blog_id;
+		$site_data[ $site->blog_id ]                   = $site;
+		$blog_details_data[ $site->blog_id . 'short' ] = $site;
+
 	}
+	wp_cache_add_multiple( $site_data, 'sites' );
+	wp_cache_add_multiple( $blog_details_data, 'blog-details' );
 
 	if ( $update_meta_cache ) {
 		update_sitemeta_cache( $site_ids );
@@ -977,7 +982,7 @@ function clean_blog_cache( $blog ) {
 	 *
 	 * @since 4.6.0
 	 *
-	 * @param int     $id              Blog ID.
+	 * @param string  $id              Site ID as a numeric string.
 	 * @param WP_Site $blog            Site object.
 	 * @param string  $domain_path_key md5 hash of domain and path.
 	 */
@@ -1229,8 +1234,9 @@ function wp_maybe_transition_site_statuses_on_update( $new_site, $old_site = nul
 		 *
 		 * @since MU (3.0.0)
 		 *
-		 * @param int    $site_id Site ID.
-		 * @param string $value   The value of the site status.
+		 * @param int    $site_id   Site ID.
+		 * @param string $is_public Whether the site is public. A numeric string,
+		 *                          for compatibility reasons. Accepts '1' or '0'.
 		 */
 		do_action( 'update_blog_public', $site_id, $new_site->public );
 	}
@@ -1242,7 +1248,7 @@ function wp_maybe_transition_site_statuses_on_update( $new_site, $old_site = nul
  * @since 5.1.0
  *
  * @param WP_Site $new_site The site object after the update.
- * @param WP_Site $old_site The site obejct prior to the update.
+ * @param WP_Site $old_site The site object prior to the update.
  */
 function wp_maybe_clean_new_site_cache_on_update( $new_site, $old_site ) {
 	if ( $old_site->domain !== $new_site->domain || $old_site->path !== $new_site->path ) {
@@ -1255,17 +1261,18 @@ function wp_maybe_clean_new_site_cache_on_update( $new_site, $old_site ) {
  *
  * @since 5.1.0
  *
- * @param int    $site_id Site ID.
- * @param string $public  The value of the site status.
+ * @param int    $site_id   Site ID.
+ * @param string $is_public Whether the site is public. A numeric string,
+ *                          for compatibility reasons. Accepts '1' or '0'.
  */
-function wp_update_blog_public_option_on_site_update( $site_id, $public ) {
+function wp_update_blog_public_option_on_site_update( $site_id, $is_public ) {
 
 	// Bail if the site's database tables do not exist (yet).
 	if ( ! wp_is_site_initialized( $site_id ) ) {
 		return;
 	}
 
-	update_blog_option( $site_id, 'blog_public', $public );
+	update_blog_option( $site_id, 'blog_public', $is_public );
 }
 
 /**

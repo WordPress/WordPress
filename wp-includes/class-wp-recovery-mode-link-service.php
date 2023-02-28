@@ -11,6 +11,7 @@
  *
  * @since 5.2.0
  */
+#[AllowDynamicProperties]
 class WP_Recovery_Mode_Link_Service {
 	const LOGIN_ACTION_ENTER   = 'enter_recovery_mode';
 	const LOGIN_ACTION_ENTERED = 'entered_recovery_mode';
@@ -65,7 +66,7 @@ class WP_Recovery_Mode_Link_Service {
 	 *
 	 * @since 5.2.0
 	 *
-	 * @global string $pagenow
+	 * @global string $pagenow The filename of the current screen.
 	 *
 	 * @param int $ttl Number of seconds the link should be valid for.
 	 */

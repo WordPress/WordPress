@@ -261,6 +261,7 @@ p.has-drop-cap:not(:focus)::first-letter {
 
 /* Pullquote */
 
+.wp-block-pullquote blockquote > p.rich-text,
 .wp-block-pullquote blockquote > .editor-rich-text p {
 	font-size: 1.5em;
 }

@@ -43,8 +43,8 @@ get_current_screen()->add_help_tab(
 
 get_current_screen()->set_help_sidebar(
 	'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
-	'<p>' . __( '<a href="https://wordpress.org/support/article/network-admin-sites-screen/">Documentation on Site Management</a>' ) . '</p>' .
-	'<p>' . __( '<a href="https://wordpress.org/support/forum/multisite/">Support Forums</a>' ) . '</p>'
+	'<p>' . __( '<a href="https://wordpress.org/documentation/article/network-admin-sites-screen/">Documentation on Site Management</a>' ) . '</p>' .
+	'<p>' . __( '<a href="https://wordpress.org/support/forum/multisite/">Support forums</a>' ) . '</p>'
 );
 
 get_current_screen()->set_screen_reader_content(
@@ -261,7 +261,7 @@ if ( isset( $_GET['action'] ) ) {
 			 *
 			 * @since MU (3.0.0)
 			 *
-			 * @param string $id The ID of the activated site.
+			 * @param int $id The ID of the activated site.
 			 */
 			do_action( 'activate_blog', $id );
 			break;
@@ -272,7 +272,7 @@ if ( isset( $_GET['action'] ) ) {
 			 *
 			 * @since MU (3.0.0)
 			 *
-			 * @param string $id The ID of the site being deactivated.
+			 * @param int $id The ID of the site being deactivated.
 			 */
 			do_action( 'deactivate_blog', $id );
 
@@ -354,7 +354,7 @@ if ( isset( $_GET['updated'] ) ) {
 	}
 
 	if ( ! empty( $msg ) ) {
-		$msg = '<div id="message" class="updated notice is-dismissible"><p>' . $msg . '</p></div>';
+		$msg = '<div id="message" class="notice notice-success is-dismissible"><p>' . $msg . '</p></div>';
 	}
 }
 

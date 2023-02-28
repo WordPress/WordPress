@@ -142,21 +142,24 @@
 .screen-reader-shortcut {
 	position: absolute;
 	top: -1000em;
-}
-
-.screen-reader-shortcut:focus {
 	right: 6px;
-	top: -25px;
 	height: auto;
 	width: auto;
 	display: block;
 	font-size: 14px;
 	font-weight: 600;
 	padding: 15px 23px 14px;
+	/* Background and color set to prevent false positives in automated accessibility tests. */
 	background: #f0f0f1;
 	color: #2271b1;
 	z-index: 100000;
 	line-height: normal;
+}
+
+.screen-reader-shortcut:focus {
+	top: -25px;
+	/* Overrides a:focus in the admin. See ticket #56789. */
+	color: #2271b1;
 	box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
 	text-decoration: none;
 	/* Only visible in Windows High Contrast mode */
@@ -271,6 +274,7 @@ a:active {
 
 a:focus,
 a:focus .media-icon img,
+a:focus .plugin-icon,
 .wp-person a:focus .gravatar {
 	color: #043959;
 	box-shadow:
@@ -789,7 +793,7 @@ img.emoji {
 /* @todo can we combine these into a class or use an existing dashicon one? */
 .welcome-panel .welcome-panel-close:before,
 .tagchecklist .ntdelbutton .remove-tag-icon:before,
-#bulk-titles div a:before,
+#bulk-titles .ntdelbutton:before,
 .notice-dismiss:before {
 	background: none;
 	color: #787c82;
@@ -808,10 +812,6 @@ img.emoji {
 	margin: 0;
 }
 
-#bulk-titles div a:before {
-	margin: 1px 0;
-}
-
 .tagchecklist .ntdelbutton .remove-tag-icon:before {
 	margin-right: 2px;
 	border-radius: 50%;
@@ -824,12 +824,10 @@ img.emoji {
 	outline: 0;
 }
 
-.welcome-panel .welcome-panel-close:hover:before,
-.welcome-panel .welcome-panel-close:focus:before,
 .tagchecklist .ntdelbutton:hover .remove-tag-icon:before,
 .tagchecklist .ntdelbutton:focus .remove-tag-icon:before,
-#bulk-titles div a:hover:before,
-#bulk-titles div a:focus:before {
+#bulk-titles .ntdelbutton:hover:before,
+#bulk-titles .ntdelbutton:focus:before {
 	color: #d63638;
 }
 
@@ -884,7 +882,8 @@ hr {
 #media-items a.delete-permanently,
 #nav-menu-footer .menu-delete,
 #delete-link a.delete,
-a#remove-post-thumbnail {
+a#remove-post-thumbnail,
+.privacy_requests .remove-personal-data .remove-personal-data-handle {
 	color: #b32d2e;
 }
 
@@ -902,7 +901,8 @@ span.required,
 #media-items a.delete-permanently:hover,
 #nav-menu-footer .menu-delete:hover,
 #delete-link a.delete:hover,
-a#remove-post-thumbnail:hover {
+a#remove-post-thumbnail:hover,
+.privacy_requests .remove-personal-data .remove-personal-data-handle:hover {
 	color: #b32d2e;
 	border: none;
 }
@@ -953,6 +953,7 @@ a#remove-post-thumbnail:hover {
 	padding: 6px 10px 8px;
 }
 
+.word-wrap-break-word,
 .misc-pub-filename {
 	word-wrap: break-word;
 }
@@ -1578,6 +1579,9 @@ div.error {
 .wrap .notice p:before,
 .import-php .updating-message:before {
 	margin-left: 6px;
+}
+
+.import-php .updating-message:before {
 	vertical-align: bottom;
 }
 
@@ -1838,6 +1842,7 @@ p.auto-update-status {
 
 .metabox-prefs .screen-options .screen-per-page {
 	margin-left: 15px;
+	padding-left: 0;
 }
 
 .metabox-prefs .screen-options label {
@@ -3029,9 +3034,15 @@ div.action-links {
 
 .plugin-details-modal #TB_closeWindowButton:hover,
 .plugin-details-modal #TB_closeWindowButton:focus {
-	color: #135e96;
 	outline: none;
 	box-shadow: none;
+}
+
+.plugin-details-modal #TB_closeWindowButton:hover::after,
+.plugin-details-modal #TB_closeWindowButton:focus::after {
+	outline: 2px solid;
+	outline-offset: -4px;
+	border-radius: 4px;
 }
 
 .plugin-details-modal .tb-close-icon {
@@ -3144,7 +3155,7 @@ img {
 	width: 300px;
 }
 
-/* Theme/Plugin Editor */
+/* Theme/Plugin file editor */
 .alignleft h2 {
 	margin: 0;
 }
@@ -3153,8 +3164,6 @@ img {
 	font-family: Consolas, Monaco, monospace;
 	font-size: 13px;
 	background: #f6f7f7;
-	-moz-tab-size: 4;
-	-o-tab-size: 4;
 	tab-size: 4;
 }
 
@@ -3197,7 +3206,7 @@ img {
 }
 
 /*
- * Styles for Theme and Plugin editors.
+ * Styles for Theme and Plugin file editors.
  */
 
 /* Hide collapsed items. */

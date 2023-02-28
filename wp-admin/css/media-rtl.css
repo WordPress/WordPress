@@ -192,7 +192,7 @@
 
 .media-item .original {
 	position: relative;
-	height: 34px;
+	min-height: 34px;
 }
 
 .media-item .progress {
@@ -508,24 +508,6 @@ border color while dragging a file over the uploader drop area */
 	background: none;
 }
 
-.upload-php .mode-grid .media-sidebar .media-uploader-status .upload-dismiss-errors {
-	top: -10px;
-	left: -14px;
-	padding: 10px;
-}
-
-.upload-php .mode-grid .media-sidebar .media-uploader-status .upload-dismiss-errors:before {
-	content: "\f153";
-	display: block;
-	font: normal 16px/1 dashicons;
-	color: #787c82;
-}
-
-.upload-php .mode-grid .media-sidebar .media-uploader-status .upload-dismiss-errors:focus:before,
-.upload-php .mode-grid .media-sidebar .media-uploader-status .upload-dismiss-errors:hover:before {
-	color: #d63638;
-}
-
 .upload-php .mode-grid .media-sidebar .media-uploader-status.errors h2 {
 	display: none;
 }
@@ -800,8 +782,8 @@ border color while dragging a file over the uploader drop area */
 
 .edit-attachment-frame input,
 .edit-attachment-frame textarea {
-	padding: 6px 8px;
-	line-height: 1.14285714;
+	padding: 4px 8px;
+	line-height: 1.42857143;
 }
 
 .edit-attachment-frame .attachment-info {
@@ -866,6 +848,11 @@ border color while dragging a file over the uploader drop area */
 ------------------------------------------------------------------------------*/
 .wp_attachment_details .attachment-alt-text {
 	margin-bottom: 5px;
+}
+
+.wp_attachment_details #attachment_alt {
+	max-width: 500px;
+	height: 3.28571428em;
 }
 
 .wp_attachment_details .attachment-alt-text-description {
@@ -1250,9 +1237,22 @@ audio, video {
 }
 
 @media screen and (max-width: 782px) {
+	.edit-attachment-frame input,
+	.edit-attachment-frame textarea {
+		line-height: 1.5;
+	}
+	
 	.wp_attachment_details label[for="content"] {
 		font-size: 14px;
 		line-height: 1.5;
+	}
+
+	.wp_attachment_details textarea {
+		line-height: 1.5;
+	}
+
+	.wp_attachment_details #attachment_alt {
+		height: 3.375em;
 	}
 
 	.media-upload-form .media-item.error,
@@ -1286,6 +1286,25 @@ audio, video {
 
 	.copy-to-clipboard-container .success {
 		font-size: 14px;
+	}
+
+	/* Restructure image editor on narrow viewports. */
+	.imgedit-crop-wrap img{
+		width: 100%;
+	}
+
+	.media-modal .imgedit-wrap .imgedit-panel-content,
+	.media-modal .imgedit-wrap .imgedit-settings {
+		position: initial !important;
+	}
+
+	.media-modal .imgedit-wrap .imgedit-settings {
+		box-sizing: border-box;
+		width: 100% !important;
+	}
+
+	.imgedit-settings .imgedit-scale-button-wrapper {
+		display: inline-block;
 	}
 }
 

@@ -90,10 +90,10 @@ function get_the_category( $post_id = false ) {
 	 * Filters the array of categories to return for a post.
 	 *
 	 * @since 3.1.0
-	 * @since 4.4.0 Added `$post_id` parameter.
+	 * @since 4.4.0 Added the `$post_id` parameter.
 	 *
 	 * @param WP_Term[] $categories An array of categories to return for the post.
-	 * @param int|false $post_id    ID of the post.
+	 * @param int|false $post_id    The post ID.
 	 */
 	return apply_filters( 'get_the_categories', $categories, $post_id );
 }
@@ -103,12 +103,12 @@ function get_the_category( $post_id = false ) {
  *
  * @since 0.71
  *
- * @param int $cat_ID Category ID.
+ * @param int $cat_id Category ID.
  * @return string|WP_Error Category name on success, WP_Error on failure.
  */
-function get_the_category_by_ID( $cat_ID ) { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
-	$cat_ID   = (int) $cat_ID;
-	$category = get_term( $cat_ID );
+function get_the_category_by_ID( $cat_id ) { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
+	$cat_id   = (int) $cat_id;
+	$category = get_term( $cat_id );
 
 	if ( is_wp_error( $category ) ) {
 		return $category;
@@ -133,8 +133,9 @@ function get_the_category_by_ID( $cat_ID ) { // phpcs:ignore WordPress.NamingCon
  *
  * @param string $separator Optional. Separator between the categories. By default, the links are placed
  *                          in an unordered list. An empty string will result in the default behavior.
- * @param string $parents   Optional. How to display the parents.
- * @param int    $post_id   Optional. Post ID to retrieve categories.
+ * @param string $parents   Optional. How to display the parents. Accepts 'multiple', 'single', or empty.
+ *                          Default empty string.
+ * @param int    $post_id   Optional. ID of the post to retrieve categories for. Defaults to the current post.
  * @return string Category list for a post.
  */
 function get_the_category_list( $separator = '', $parents = '', $post_id = false ) {
@@ -151,8 +152,8 @@ function get_the_category_list( $separator = '', $parents = '', $post_id = false
 	 * @since 4.4.0
 	 *
 	 * @param WP_Term[] $categories An array of the post's categories.
-	 * @param int|bool  $post_id    ID of the post we're retrieving categories for.
-	 *                              When `false`, we assume the current post in the loop.
+	 * @param int|false $post_id    ID of the post to retrieve categories for.
+	 *                              When `false`, defaults to the current post in the loop.
 	 */
 	$categories = apply_filters( 'the_category_list', get_the_category( $post_id ), $post_id );
 
@@ -250,7 +251,7 @@ function get_the_category_list( $separator = '', $parents = '', $post_id = false
  *
  * @param int|string|int[]|string[] $category Category ID, name, slug, or array of such
  *                                            to check against.
- * @param int|object                $post     Optional. Post to check instead of the current post.
+ * @param int|WP_Post               $post     Optional. Post to check. Defaults to the current post.
  * @return bool True if the current post is in any of the given categories.
  */
 function in_category( $category, $post = null ) {
@@ -268,8 +269,9 @@ function in_category( $category, $post = null ) {
  *
  * @param string $separator Optional. Separator between the categories. By default, the links are placed
  *                          in an unordered list. An empty string will result in the default behavior.
- * @param string $parents   Optional. How to display the parents.
- * @param int    $post_id   Optional. Post ID to retrieve categories.
+ * @param string $parents   Optional. How to display the parents. Accepts 'multiple', 'single', or empty.
+ *                          Default empty string.
+ * @param int    $post_id   Optional. ID of the post to retrieve categories for. Defaults to the current post.
  */
 function the_category( $separator = '', $parents = '', $post_id = false ) {
 	echo get_the_category_list( $separator, $parents, $post_id );
@@ -298,6 +300,7 @@ function category_description( $category = 0 ) {
  * @since 2.1.0
  * @since 4.2.0 Introduced the `value_field` argument.
  * @since 4.6.0 Introduced the `required` argument.
+ * @since 6.1.0 Introduced the `aria_describedby` argument.
  *
  * @param array|string $args {
  *     Optional. Array or string of arguments to generate a categories drop-down element. See WP_Term_Query::__construct()
@@ -331,6 +334,10 @@ function category_description( $category = 0 ) {
  *                                           Default false (create select element even if no categories are found).
  *     @type bool         $required          Whether the `<select>` element should have the HTML5 'required' attribute.
  *                                           Default false.
+ *     @type Walker       $walker            Walker object to use to build the output. Default empty which results in a
+ *                                           Walker_CategoryDropdown instance being used.
+ *     @type string       $aria_describedby  The 'id' of an element that contains descriptive text for the select.
+ *                                           Default empty string.
  * }
  * @return string HTML dropdown list of categories.
  */
@@ -357,6 +364,7 @@ function wp_dropdown_categories( $args = '' ) {
 		'option_none_value' => -1,
 		'value_field'       => 'term_id',
 		'required'          => false,
+		'aria_describedby'  => '',
 	);
 
 	$defaults['selected'] = ( is_category() ) ? get_query_var( 'cat' ) : 0;
@@ -402,8 +410,10 @@ function wp_dropdown_categories( $args = '' ) {
 	$id       = $parsed_args['id'] ? esc_attr( $parsed_args['id'] ) : $name;
 	$required = $parsed_args['required'] ? 'required' : '';
 
+	$aria_describedby_attribute = $parsed_args['aria_describedby'] ? ' aria-describedby="' . esc_attr( $parsed_args['aria_describedby'] ) . '"' : '';
+
 	if ( ! $parsed_args['hide_if_empty'] || ! empty( $categories ) ) {
-		$output = "<select $required name='$name' id='$id' class='$class' $tab_index_attribute>\n";
+		$output = "<select $required name='$name' id='$id' class='$class'$tab_index_attribute$aria_describedby_attribute>\n";
 	} else {
 		$output = '';
 	}
@@ -481,6 +491,7 @@ function wp_dropdown_categories( $args = '' ) {
  * @since 2.1.0
  * @since 4.4.0 Introduced the `hide_title_if_empty` and `separator` arguments.
  * @since 4.4.0 The `current_category` argument was modified to optionally accept an array of values.
+ * @since 6.1.0 Default value of the 'use_desc_for_title' argument was changed from 1 to 0.
  *
  * @param array|string $args {
  *     Array of optional arguments. See get_categories(), get_terms(), and WP_Term_Query::__construct()
@@ -517,7 +528,9 @@ function wp_dropdown_categories( $args = '' ) {
  *     @type string       $title_li              Text to use for the list title `<li>` element. Pass an empty string
  *                                               to disable. Default 'Categories'.
  *     @type bool|int     $use_desc_for_title    Whether to use the category description as the title attribute.
- *                                               Accepts 0, 1, or their bool equivalents. Default 1.
+ *                                               Accepts 0, 1, or their bool equivalents. Default 0.
+ *     @type Walker       $walker                Walker object to use to build the output. Default empty which results
+ *                                               in a Walker_Category instance being used.
  * }
  * @return void|string|false Void if 'echo' argument is true, HTML list of categories if 'echo' is false.
  *                           False if the taxonomy does not exist.
@@ -545,7 +558,7 @@ function wp_list_categories( $args = '' ) {
 		'style'               => 'list',
 		'taxonomy'            => 'category',
 		'title_li'            => __( 'Categories' ),
-		'use_desc_for_title'  => 1,
+		'use_desc_for_title'  => 0,
 	);
 
 	$parsed_args = wp_parse_args( $args, $defaults );
@@ -661,9 +674,9 @@ function wp_list_categories( $args = '' ) {
 	 *
 	 * @since 2.1.0
 	 *
-	 * @param string $output HTML output.
-	 * @param array  $args   An array of taxonomy-listing arguments. See wp_list_categories()
-	 *                       for information on accepted arguments.
+	 * @param string       $output HTML output.
+	 * @param array|string $args   An array or query string of taxonomy-listing arguments. See
+	 *                             wp_list_categories() for information on accepted arguments.
 	 */
 	$html = apply_filters( 'wp_list_categories', $output, $args );
 
@@ -737,9 +750,9 @@ function wp_tag_cloud( $args = '' ) {
 
 	foreach ( $tags as $key => $tag ) {
 		if ( 'edit' === $args['link'] ) {
-			$link = get_edit_term_link( $tag->term_id, $tag->taxonomy, $args['post_type'] );
+			$link = get_edit_term_link( $tag, $tag->taxonomy, $args['post_type'] );
 		} else {
-			$link = get_term_link( (int) $tag->term_id, $tag->taxonomy );
+			$link = get_term_link( $tag, $tag->taxonomy );
 		}
 
 		if ( is_wp_error( $link ) ) {
@@ -818,7 +831,7 @@ function default_topic_count_scale( $count ) {
  *                                                'DESC' (descending), or 'RAND' (random). Default 'ASC'.
  *     @type int|bool $filter                     Whether to enable filtering of the final output
  *                                                via {@see 'wp_generate_tag_cloud'}. Default 1.
- *     @type string   $topic_count_text           Nooped plural text from _n_noop() to supply to
+ *     @type array    $topic_count_text           Nooped plural text from _n_noop() to supply to
  *                                                tag counts. Default null.
  *     @type callable $topic_count_text_callback  Callback used to generate nooped plural text for
  *                                                tag counts based on the count. Default null.
@@ -1071,10 +1084,11 @@ function _wp_object_name_sort_cb( $a, $b ) {
  *
  * @param object $a The first object to compare.
  * @param object $b The second object to compare.
- * @return bool Whether the count value for `$a` is greater than the count value for `$b`.
+ * @return int Negative number if `$a->count` is less than `$b->count`, zero if they are equal,
+ *             or greater than zero if `$a->count` is greater than `$b->count`.
  */
 function _wp_object_count_sort_cb( $a, $b ) {
-	return ( $a->count > $b->count );
+	return ( $a->count - $b->count );
 }
 
 //
@@ -1097,7 +1111,7 @@ function _wp_object_count_sort_cb( $a, $b ) {
 function walk_category_tree( ...$args ) {
 	// The user's options are the third parameter.
 	if ( empty( $args[2]['walker'] ) || ! ( $args[2]['walker'] instanceof Walker ) ) {
-		$walker = new Walker_Category;
+		$walker = new Walker_Category();
 	} else {
 		/**
 		 * @var Walker $walker
@@ -1123,7 +1137,7 @@ function walk_category_tree( ...$args ) {
 function walk_category_dropdown_tree( ...$args ) {
 	// The user's options are the third parameter.
 	if ( empty( $args[2]['walker'] ) || ! ( $args[2]['walker'] instanceof Walker ) ) {
-		$walker = new Walker_CategoryDropdown;
+		$walker = new Walker_CategoryDropdown();
 	} else {
 		/**
 		 * @var Walker $walker
@@ -1156,12 +1170,12 @@ function get_tag_link( $tag ) {
  *
  * @since 2.3.0
  *
- * @param int|WP_Post $post_id Post ID or object.
+ * @param int|WP_Post $post Post ID or object.
  * @return WP_Term[]|false|WP_Error Array of WP_Term objects on success, false if there are no terms
  *                                  or the post does not exist, WP_Error on failure.
  */
-function get_the_tags( $post_id = 0 ) {
-	$terms = get_the_terms( $post_id, 'post_tag' );
+function get_the_tags( $post = 0 ) {
+	$terms = get_the_terms( $post, 'post_tag' );
 
 	/**
 	 * Filters the array of tags for the given post.
@@ -1273,11 +1287,13 @@ function term_description( $term = 0, $deprecated = null ) {
  */
 function get_the_terms( $post, $taxonomy ) {
 	$post = get_post( $post );
+
 	if ( ! $post ) {
 		return false;
 	}
 
 	$terms = get_object_term_cache( $post->ID, $taxonomy );
+
 	if ( false === $terms ) {
 		$terms = wp_get_object_terms( $post->ID, $taxonomy );
 		if ( ! is_wp_error( $terms ) ) {
@@ -1471,7 +1487,7 @@ function the_terms( $post_id, $taxonomy, $before = '', $sep = ', ', $after = '' 
  *
  * @param string|int|array $category Optional. The category name/term_id/slug,
  *                                   or an array of them to check for. Default empty.
- * @param int|object       $post     Optional. Post to check instead of the current post.
+ * @param int|WP_Post      $post     Optional. Post to check. Defaults to the current post.
  * @return bool True if the current post has any of the given categories
  *              (or any category, if no category specified). False otherwise.
  */
@@ -1498,7 +1514,7 @@ function has_category( $category = '', $post = null ) {
  *
  * @param string|int|array $tag  Optional. The tag name/term_id/slug,
  *                               or an array of them to check for. Default empty.
- * @param int|object       $post Optional. Post to check instead of the current post.
+ * @param int|WP_Post      $post Optional. Post to check. Defaults to the current post.
  * @return bool True if the current post has any of the given tags
  *              (or any tag, if no tag specified). False otherwise.
  */
@@ -1519,7 +1535,7 @@ function has_tag( $tag = '', $post = null ) {
  * @param string|int|array $term     Optional. The term name/term_id/slug,
  *                                   or an array of them to check for. Default empty.
  * @param string           $taxonomy Optional. Taxonomy name. Default empty.
- * @param int|WP_Post      $post     Optional. Post to check instead of the current post.
+ * @param int|WP_Post      $post     Optional. Post to check. Defaults to the current post.
  * @return bool True if the current post has any of the given terms
  *              (or any term, if no term specified). False otherwise.
  */

@@ -1,8 +1,10 @@
 {
+	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 2,
 	"name": "core/image",
 	"title": "Image",
 	"category": "media",
+	"usesContext": [ "allowResize", "imageCrop", "fixedHeight" ],
 	"description": "Insert an image to make a visual statement.",
 	"keywords": [ "img", "photo", "picture" ],
 	"textdomain": "default",
@@ -14,31 +16,36 @@
 			"type": "string",
 			"source": "attribute",
 			"selector": "img",
-			"attribute": "src"
+			"attribute": "src",
+			"__experimentalRole": "content"
 		},
 		"alt": {
 			"type": "string",
 			"source": "attribute",
 			"selector": "img",
 			"attribute": "alt",
-			"default": ""
+			"default": "",
+			"__experimentalRole": "content"
 		},
 		"caption": {
 			"type": "string",
 			"source": "html",
-			"selector": "figcaption"
+			"selector": "figcaption",
+			"__experimentalRole": "content"
 		},
 		"title": {
 			"type": "string",
 			"source": "attribute",
 			"selector": "img",
-			"attribute": "title"
+			"attribute": "title",
+			"__experimentalRole": "content"
 		},
 		"href": {
 			"type": "string",
 			"source": "attribute",
 			"selector": "figure > a",
-			"attribute": "href"
+			"attribute": "href",
+			"__experimentalRole": "content"
 		},
 		"rel": {
 			"type": "string",
@@ -53,7 +60,8 @@
 			"attribute": "class"
 		},
 		"id": {
-			"type": "number"
+			"type": "number",
+			"__experimentalRole": "content"
 		},
 		"width": {
 			"type": "number"
@@ -77,12 +85,21 @@
 	"supports": {
 		"anchor": true,
 		"color": {
-			"__experimentalDuotone": "img",
+			"__experimentalDuotone": "img, .components-placeholder",
 			"text": false,
 			"background": false
 		},
 		"__experimentalBorder": {
-			"radius": true
+			"color": true,
+			"radius": true,
+			"width": true,
+			"__experimentalSelector": "img, .wp-block-image__crop-area",
+			"__experimentalSkipSerialization": true,
+			"__experimentalDefaultControls": {
+				"color": true,
+				"radius": true,
+				"width": true
+			}
 		}
 	},
 	"styles": [

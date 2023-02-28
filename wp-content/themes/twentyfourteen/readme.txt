@@ -1,8 +1,8 @@
 === Twenty Fourteen ===
 Contributors: wordpressdotorg
 Requires at least: WordPress 3.6
-Tested up to: 5.8
-Stable tag: 3.2
+Tested up to: 6.1
+Stable tag: 3.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: blog, news, two-columns, three-columns, left-sidebar, right-sidebar, custom-background, custom-header, custom-menu, editor-style, featured-images, flexible-header, footer-widgets, full-width-template, microformats, post-formats, rtl-language-support, sticky-post, theme-options, translation-ready, accessibility-ready, block-patterns
@@ -22,7 +22,7 @@ For more information about Twenty Fourteen please go to https://codex.wordpress.
 
 == Copyright ==
 
-Twenty Fourteen WordPress Theme, Copyright 2013-2021 WordPress.org & Automattic.com
+Twenty Fourteen WordPress Theme, Copyright 2013-2023 WordPress.org & Automattic.com
 Twenty Fourteen is Distributed under the terms of the GNU GPL
 
 This program is free software: you can redistribute it and/or modify
@@ -48,6 +48,11 @@ Genericons icon font, Copyright 2013-2017 Automattic.com
 License: GNU GPL, Version 2 (or later)
 Source: http://www.genericons.com
 
+Lato Font
+Copyright (c) 2010-2011 by tyPoland Lukasz Dziedzic (team@latofonts.com) with Reserved Font Name "Lato".
+License: SIL Open Font License, 1.1, https://opensource.org/licenses/OFL-1.1
+Source: https://fontsource.org/fonts/lato
+
 Photos from Stocksnap, used in block patterns.
 License: CC0
 Source: https://stocksnap.io/photo/fog-mountain-ZKN6UKFKEO
@@ -57,6 +62,21 @@ Source: https://stocksnap.io/photo/fog-mountain-ZKN6UKFKEO
         https://stocksnap.io/photo/guy-man-7CFLDIWXK5
 
 == Changelog ==
+
+= 3.5 =
+* Released: November 1, 2022
+
+https://codex.wordpress.org/Twenty_Fourteen_Theme_Changelog#Version_3.5
+
+= 3.4 =
+* Released: May 24, 2022
+
+https://codex.wordpress.org/Twenty_Fourteen_Theme_Changelog#Version_3.4
+
+= 3.3 =
+* Released: January 25, 2022
+
+https://codex.wordpress.org/Twenty_Fourteen_Theme_Changelog#Version_3.3
 
 = 3.2 =
 * Released: July 20, 2021

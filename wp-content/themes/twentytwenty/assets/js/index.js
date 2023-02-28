@@ -678,20 +678,36 @@ twentytwentyDomReady( function() {
 /* Toggle an attribute ----------------------- */
 
 function twentytwentyToggleAttribute( element, attribute, trueVal, falseVal ) {
-	if ( element.classList.contains( 'close-search-toggle' ) ) {
+	var toggles;
+
+	if ( ! element.hasAttribute( attribute ) ) {
 		return;
 	}
+
 	if ( trueVal === undefined ) {
 		trueVal = true;
 	}
 	if ( falseVal === undefined ) {
 		falseVal = false;
 	}
-	if ( element.getAttribute( attribute ) !== trueVal ) {
-		element.setAttribute( attribute, trueVal );
-	} else {
-		element.setAttribute( attribute, falseVal );
-	}
+
+	/*
+	 * Take into account multiple toggle elements that need their state to be
+	 * synced. For example: the Search toggle buttons for desktop and mobile.
+	 */
+	toggles = document.querySelectorAll( '[data-toggle-target="' + element.dataset.toggleTarget + '"]' );
+
+	toggles.forEach( function( toggle ) {
+		if ( ! toggle.hasAttribute( attribute ) ) {
+			return;
+		}
+
+		if ( toggle.getAttribute( attribute ) !== trueVal ) {
+			toggle.setAttribute( attribute, trueVal );
+		} else {
+			toggle.setAttribute( attribute, falseVal );
+		}
+	} );
 }
 
 /**

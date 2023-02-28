@@ -511,6 +511,13 @@ Description: Used to style blocks in the editor.
 	text-transform: none;
 }
 
+.wp-block-pullquote.has-text-color blockquote,
+.wp-block-pullquote.has-background blockquote,
+.has-background .wp-block-pullquote blockquote,
+.wp-block-pullquote.has-text-color cite {
+	color: inherit;
+}
+
 .wp-block-pullquote .wp-block-pullquote__citation:before {
 	content: "\2014\00a0";
 }

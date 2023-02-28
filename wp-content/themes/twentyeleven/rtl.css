@@ -445,9 +445,12 @@ section.recent-posts .other-recent-posts .comments-link > span {
 	box-shadow: -1px 2px 2px rgba(204,204,204,0.8);
 }
 #respond .comment-form-author .required,
-#respond .comment-form-email .required {
-	left: auto;
-	right: 75%;
+#respond .comment-form-email .required,
+#respond .comment-form-url .required,
+#respond .comment-form-comment .required {
+	float: left;
+	margin-left: 0;
+	margin-right: 4px;
 }
 #respond .form-submit {
 	float: left;
@@ -543,12 +546,6 @@ section.recent-posts .other-recent-posts .comments-link > span {
 	.commentlist .children .avatar {
 		left: auto;
 		right: 2.2em;
-	}
-	/* Use the available space in the smaller comment form */
-	#respond .comment-form-author .required,
-	#respond .comment-form-email .required {
-		left: auto;
-		right: 95%;
 	}
 	#content .gallery-columns-3 .gallery-item {
 		padding-right: 0;

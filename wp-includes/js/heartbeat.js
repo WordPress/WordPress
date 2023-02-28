@@ -155,7 +155,7 @@
 				 */
 				if ( options.minimalInterval ) {
 					options.minimalInterval = parseInt( options.minimalInterval, 10 );
-					settings.minimalInterval = options.minimalInterval > 0 && options.minimalInterval <= 600 ? options.minimalInterval * 1000 : 0;
+					settings.minimalInterval = options.minimalInterval > 0 && options.minimalInterval <= 600 ? options.minimalInterval : 0;
 				}
 
 				if ( settings.minimalInterval && settings.mainInterval < settings.minimalInterval ) {
@@ -176,6 +176,9 @@
 			// Convert to milliseconds.
 			settings.mainInterval = settings.mainInterval * 1000;
 			settings.originalInterval = settings.mainInterval;
+			if ( settings.minimalInterval ) {
+				settings.minimalInterval = settings.minimalInterval * 1000;
+			}
 
 			/*
 			 * Switch the interval to 120 seconds by using the Page Visibility API.

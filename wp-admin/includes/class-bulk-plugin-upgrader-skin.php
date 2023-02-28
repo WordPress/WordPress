@@ -16,7 +16,16 @@
  * @see Bulk_Upgrader_Skin
  */
 class Bulk_Plugin_Upgrader_Skin extends Bulk_Upgrader_Skin {
-	public $plugin_info = array(); // Plugin_Upgrader::bulk_upgrade() will fill this in.
+
+	/**
+	 * Plugin info.
+	 *
+	 * The Plugin_Upgrader::bulk_upgrade() method will fill this in
+	 * with info retrieved from the get_plugin_data() function.
+	 *
+	 * @var array Plugin data. Values will be empty if not supplied by the plugin.
+	 */
+	public $plugin_info = array();
 
 	public function add_strings() {
 		parent::add_strings();

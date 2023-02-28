@@ -134,7 +134,7 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 			// The title may be filtered: Strip out HTML and make sure the aria-label is never empty.
 			$title      = trim( strip_tags( $title ) );
 			$aria_label = $title ? $title : $default_title;
-			$output    .= '<nav role="navigation" aria-label="' . esc_attr( $aria_label ) . '">';
+			$output    .= '<nav aria-label="' . esc_attr( $aria_label ) . '">';
 		}
 
 		$output .= '<ul id="' . esc_attr( $recent_comments_id ) . '">';

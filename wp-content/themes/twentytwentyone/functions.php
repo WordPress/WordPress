@@ -338,6 +338,9 @@ if ( ! function_exists( 'twenty_twenty_one_setup' ) ) {
 		// Add support for custom units.
 		// This was removed in WordPress 5.6 but is still required to properly support WP 5.5.
 		add_theme_support( 'custom-units' );
+
+		// Remove feed icon link from legacy RSS widget.
+		add_filter( 'rss_widget_feed_link', '__return_empty_string' );
 	}
 }
 add_action( 'after_setup_theme', 'twenty_twenty_one_setup' );
@@ -496,14 +499,14 @@ function twenty_twenty_one_skip_link_focus_fix() {
 		echo '<script>';
 		include get_template_directory() . '/assets/js/skip-link-focus-fix.js';
 		echo '</script>';
+	} else {
+		// The following is minified via `npx terser --compress --mangle -- assets/js/skip-link-focus-fix.js`.
+		?>
+		<script>
+		/(trident|msie)/i.test(navigator.userAgent)&&document.getElementById&&window.addEventListener&&window.addEventListener("hashchange",(function(){var t,e=location.hash.substring(1);/^[A-z0-9_-]+$/.test(e)&&(t=document.getElementById(e))&&(/^(?:a|select|input|button|textarea)$/i.test(t.tagName)||(t.tabIndex=-1),t.focus())}),!1);
+		</script>
+		<?php
 	}
-
-	// The following is minified via `npx terser --compress --mangle -- assets/js/skip-link-focus-fix.js`.
-	?>
-	<script>
-	/(trident|msie)/i.test(navigator.userAgent)&&document.getElementById&&window.addEventListener&&window.addEventListener("hashchange",(function(){var t,e=location.hash.substring(1);/^[A-z0-9_-]+$/.test(e)&&(t=document.getElementById(e))&&(/^(?:a|select|input|button|textarea)$/i.test(t.tagName)||(t.tabIndex=-1),t.focus())}),!1);
-	</script>
-	<?php
 }
 add_action( 'wp_print_footer_scripts', 'twenty_twenty_one_skip_link_focus_fix' );
 
@@ -637,3 +640,17 @@ function twentytwentyone_add_ie_class() {
 	<?php
 }
 add_action( 'wp_footer', 'twentytwentyone_add_ie_class' );
+
+if ( ! function_exists( 'wp_get_list_item_separator' ) ) :
+	/**
+	 * Retrieves the list item separator based on the locale.
+	 *
+	 * Added for backward compatibility to support pre-6.0.0 WordPress versions.
+	 *
+	 * @since 6.0.0
+	 */
+	function wp_get_list_item_separator() {
+		/* translators: Used between list items, there is a space after the comma. */
+		return __( ', ', 'twentytwentyone' );
+	}
+endif;

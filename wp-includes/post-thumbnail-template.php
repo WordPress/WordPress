@@ -39,7 +39,7 @@ function has_post_thumbnail( $post = null ) {
 }
 
 /**
- * Retrieve post thumbnail ID.
+ * Retrieves the post thumbnail ID.
  *
  * @since 2.9.0
  * @since 4.4.0 `$post` can be a post ID or WP_Post object.
@@ -57,11 +57,21 @@ function get_post_thumbnail_id( $post = null ) {
 		return false;
 	}
 
-	return (int) get_post_meta( $post->ID, '_thumbnail_id', true );
+	$thumbnail_id = (int) get_post_meta( $post->ID, '_thumbnail_id', true );
+
+	/**
+	 * Filters the post thumbnail ID.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @param int|false        $thumbnail_id Post thumbnail ID or false if the post does not exist.
+	 * @param int|WP_Post|null $post         Post ID or WP_Post object. Default is global `$post`.
+	 */
+	return (int) apply_filters( 'post_thumbnail_id', $thumbnail_id, $post );
 }
 
 /**
- * Display the post thumbnail.
+ * Displays the post thumbnail.
  *
  * When a theme adds 'post-thumbnail' support, a special 'post-thumbnail' image size
  * is registered, which differs from the 'thumbnail' image size managed via the
@@ -83,7 +93,7 @@ function the_post_thumbnail( $size = 'post-thumbnail', $attr = '' ) {
 }
 
 /**
- * Update cache for thumbnails in the current loop.
+ * Updates cache for thumbnails in the current loop.
  *
  * @since 3.2.0
  *
@@ -117,7 +127,7 @@ function update_post_thumbnail_cache( $wp_query = null ) {
 }
 
 /**
- * Retrieve the post thumbnail.
+ * Retrieves the post thumbnail.
  *
  * When a theme adds 'post-thumbnail' support, a special 'post-thumbnail' image size
  * is registered, which differs from the 'thumbnail' image size managed via the
@@ -176,6 +186,22 @@ function get_the_post_thumbnail( $post = null, $size = 'post-thumbnail', $attr =
 			update_post_thumbnail_cache();
 		}
 
+		// Add `loading` attribute.
+		if ( wp_lazy_loading_enabled( 'img', 'the_post_thumbnail' ) ) {
+			// Get the 'loading' attribute value to use as default, taking precedence over the default from
+			// `wp_get_attachment_image()`.
+			$loading = wp_get_loading_attr_default( 'the_post_thumbnail' );
+
+			// Add the default to the given attributes unless they already include a 'loading' directive.
+			if ( empty( $attr ) ) {
+				$attr = array( 'loading' => $loading );
+			} elseif ( is_array( $attr ) && ! array_key_exists( 'loading', $attr ) ) {
+				$attr['loading'] = $loading;
+			} elseif ( is_string( $attr ) && ! preg_match( '/(^|&)loading=/', $attr ) ) {
+				$attr .= '&loading=' . $loading;
+			}
+		}
+
 		$html = wp_get_attachment_image( $post_thumbnail_id, $size, false, $attr );
 
 		/**
@@ -201,16 +227,16 @@ function get_the_post_thumbnail( $post = null, $size = 'post-thumbnail', $attr =
 	 *
 	 * @param string       $html              The post thumbnail HTML.
 	 * @param int          $post_id           The post ID.
-	 * @param int          $post_thumbnail_id The post thumbnail ID.
+	 * @param int          $post_thumbnail_id The post thumbnail ID, or 0 if there isn't one.
 	 * @param string|int[] $size              Requested image size. Can be any registered image size name, or
 	 *                                        an array of width and height values in pixels (in that order).
-	 * @param string       $attr              Query string of attributes.
+	 * @param string|array $attr              Query string or array of attributes.
 	 */
 	return apply_filters( 'post_thumbnail_html', $html, $post->ID, $post_thumbnail_id, $size, $attr );
 }
 
 /**
- * Return the post thumbnail URL.
+ * Returns the post thumbnail URL.
  *
  * @since 4.4.0
  *
@@ -227,11 +253,23 @@ function get_the_post_thumbnail_url( $post = null, $size = 'post-thumbnail' ) {
 		return false;
 	}
 
-	return wp_get_attachment_image_url( $post_thumbnail_id, $size );
+	$thumbnail_url = wp_get_attachment_image_url( $post_thumbnail_id, $size );
+
+	/**
+	 * Filters the post thumbnail URL.
+	 *
+	 * @since 5.9.0
+	 *
+	 * @param string|false     $thumbnail_url Post thumbnail URL or false if the post does not exist.
+	 * @param int|WP_Post|null $post          Post ID or WP_Post object. Default is global `$post`.
+	 * @param string|int[]     $size          Registered image size to retrieve the source for or a flat array
+	 *                                        of height and width dimensions. Default 'post-thumbnail'.
+	 */
+	return apply_filters( 'post_thumbnail_url', $thumbnail_url, $post, $size );
 }
 
 /**
- * Display the post thumbnail URL.
+ * Displays the post thumbnail URL.
  *
  * @since 4.4.0
  *

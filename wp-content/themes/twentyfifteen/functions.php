@@ -109,7 +109,7 @@ if ( ! function_exists( 'twentyfifteen_setup' ) ) :
 		/*
 		 * Enable support for Post Formats.
 		 *
-		 * See: https://wordpress.org/support/article/post-formats/
+		 * See: https://wordpress.org/documentation/article/post-formats/
 		 */
 		add_theme_support(
 			'post-formats',
@@ -170,9 +170,15 @@ if ( ! function_exists( 'twentyfifteen_setup' ) ) :
 
 		/*
 		 * This theme styles the visual editor to resemble the theme style,
-		 * specifically font, colors, icons, and column width.
+		 * specifically font, colors, icons, and column width. When fonts are
+		 * self-hosted, the theme directory needs to be removed first.
 		 */
-		add_editor_style( array( 'css/editor-style.css', 'genericons/genericons.css', twentyfifteen_fonts_url() ) );
+		$font_stylesheet = str_replace(
+			array( get_template_directory_uri() . '/', get_stylesheet_directory_uri() . '/' ),
+			'',
+			twentyfifteen_fonts_url()
+		);
+		add_editor_style( array( 'css/editor-style.css', 'genericons/genericons.css', $font_stylesheet ) );
 
 		// Load regular editor styles into the new block-based editor.
 		add_theme_support( 'editor-styles' );
@@ -250,6 +256,73 @@ if ( ! function_exists( 'twentyfifteen_setup' ) ) :
 			)
 		);
 
+		// Add support for custom color scheme.
+		add_theme_support(
+			'editor-gradient-presets',
+			array(
+				array(
+					'name'     => __( 'Dark Gray Gradient', 'twentyfifteen' ),
+					'slug'     => 'dark-gray-gradient-gradient',
+					'gradient' => 'linear-gradient(90deg, rgba(17,17,17,1) 0%, rgba(42,42,42,1) 100%)',
+				),
+				array(
+					'name'     => __( 'Light Gray Gradient', 'twentyfifteen' ),
+					'slug'     => 'light-gray-gradient',
+					'gradient' => 'linear-gradient(90deg, rgba(241,241,241,1) 0%, rgba(215,215,215,1) 100%)',
+				),
+				array(
+					'name'     => __( 'White Gradient', 'twentyfifteen' ),
+					'slug'     => 'white-gradient',
+					'gradient' => 'linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(230,230,230,1) 100%)',
+				),
+				array(
+					'name'     => __( 'Yellow Gradient', 'twentyfifteen' ),
+					'slug'     => 'yellow-gradient',
+					'gradient' => 'linear-gradient(90deg, rgba(244,202,22,1) 0%, rgba(205,168,10,1) 100%)',
+				),
+				array(
+					'name'     => __( 'Dark Brown Gradient', 'twentyfifteen' ),
+					'slug'     => 'dark-brown-gradient',
+					'gradient' => 'linear-gradient(90deg, rgba(53,39,18,1) 0%, rgba(91,67,31,1) 100%)',
+				),
+				array(
+					'name'     => __( 'Medium Pink Gradient', 'twentyfifteen' ),
+					'slug'     => 'medium-pink-gradient',
+					'gradient' => 'linear-gradient(90deg, rgba(229,59,81,1) 0%, rgba(209,28,51,1) 100%)',
+				),
+				array(
+					'name'     => __( 'Light Pink Gradient', 'twentyfifteen' ),
+					'slug'     => 'light-pink-gradient',
+					'gradient' => 'linear-gradient(90deg, rgba(255,229,209,1) 0%, rgba(255,200,158,1) 100%)',
+				),
+				array(
+					'name'     => __( 'Dark Purple Gradient', 'twentyfifteen' ),
+					'slug'     => 'dark-purple-gradient',
+					'gradient' => 'linear-gradient(90deg, rgba(46,34,86,1) 0%, rgba(66,48,123,1) 100%)',
+				),
+				array(
+					'name'     => __( 'Purple Gradient', 'twentyfifteen' ),
+					'slug'     => 'purple-gradient',
+					'gradient' => 'linear-gradient(90deg, rgba(103,73,112,1) 0%, rgba(131,93,143,1) 100%)',
+				),
+				array(
+					'name'     => __( 'Blue Gray Gradient', 'twentyfifteen' ),
+					'slug'     => 'blue-gray-gradient',
+					'gradient' => 'linear-gradient(90deg, rgba(34,49,63,1) 0%, rgba(52,75,96,1) 100%)',
+				),
+				array(
+					'name'     => __( 'Bright Blue Gradient', 'twentyfifteen' ),
+					'slug'     => 'bright-blue-gradient',
+					'gradient' => 'linear-gradient(90deg, rgba(85,195,220,1) 0%, rgba(43,180,211,1) 100%)',
+				),
+				array(
+					'name'     => __( 'Light Blue Gradient', 'twentyfifteen' ),
+					'slug'     => 'light-blue-gradient',
+					'gradient' => 'linear-gradient(90deg, rgba(233,242,249,1) 0%, rgba(193,218,238,1) 100%)',
+				),
+			)
+		);
+
 		// Indicate widget sidebars can use selective refresh in the Customizer.
 		add_theme_support( 'customize-selective-refresh-widgets' );
 	}
@@ -280,23 +353,23 @@ add_action( 'widgets_init', 'twentyfifteen_widgets_init' );
 
 if ( ! function_exists( 'twentyfifteen_fonts_url' ) ) :
 	/**
-	 * Register Google fonts for Twenty Fifteen.
+	 * Register fonts for Twenty Fifteen.
 	 *
 	 * @since Twenty Fifteen 1.0
+	 * @since Twenty Fifteen 3.4 Replaced Google URL with self-hosted fonts.
 	 *
-	 * @return string Google fonts URL for the theme.
+	 * @return string Fonts URL for the theme.
 	 */
 	function twentyfifteen_fonts_url() {
 		$fonts_url = '';
 		$fonts     = array();
-		$subsets   = 'latin,latin-ext';
 
 		/*
 		 * translators: If there are characters in your language that are not supported
 		 * by Noto Sans, translate this to 'off'. Do not translate into your own language.
 		 */
 		if ( 'off' !== _x( 'on', 'Noto Sans font: on or off', 'twentyfifteen' ) ) {
-			$fonts[] = 'Noto Sans:400italic,700italic,400,700';
+			$fonts[] = 'noto-sans';
 		}
 
 		/*
@@ -304,7 +377,7 @@ if ( ! function_exists( 'twentyfifteen_fonts_url' ) ) :
 		 * by Noto Serif, translate this to 'off'. Do not translate into your own language.
 		 */
 		if ( 'off' !== _x( 'on', 'Noto Serif font: on or off', 'twentyfifteen' ) ) {
-			$fonts[] = 'Noto Serif:400italic,700italic,400,700';
+			$fonts[] = 'noto-serif';
 		}
 
 		/*
@@ -312,34 +385,11 @@ if ( ! function_exists( 'twentyfifteen_fonts_url' ) ) :
 		 * by Inconsolata, translate this to 'off'. Do not translate into your own language.
 		 */
 		if ( 'off' !== _x( 'on', 'Inconsolata font: on or off', 'twentyfifteen' ) ) {
-			$fonts[] = 'Inconsolata:400,700';
-		}
-
-		/*
-		 * translators: To add an additional character subset specific to your language,
-		 * translate this to 'greek', 'cyrillic', 'devanagari' or 'vietnamese'. Do not translate into your own language.
-		 */
-		$subset = _x( 'no-subset', 'Add new subset (greek, cyrillic, devanagari, vietnamese)', 'twentyfifteen' );
-
-		if ( 'cyrillic' === $subset ) {
-			$subsets .= ',cyrillic,cyrillic-ext';
-		} elseif ( 'greek' === $subset ) {
-			$subsets .= ',greek,greek-ext';
-		} elseif ( 'devanagari' === $subset ) {
-			$subsets .= ',devanagari';
-		} elseif ( 'vietnamese' === $subset ) {
-			$subsets .= ',vietnamese';
+			$fonts[] = 'inconsolata';
 		}
 
 		if ( $fonts ) {
-			$fonts_url = add_query_arg(
-				array(
-					'family'  => urlencode( implode( '|', $fonts ) ),
-					'subset'  => urlencode( $subsets ),
-					'display' => urlencode( 'fallback' ),
-				),
-				'https://fonts.googleapis.com/css'
-			);
+			$fonts_url = get_template_directory_uri() . '/assets/fonts/' . implode( '-plus-', $fonts ) . '.css';
 		}
 
 		return $fonts_url;
@@ -365,19 +415,20 @@ add_action( 'wp_head', 'twentyfifteen_javascript_detection', 0 );
  */
 function twentyfifteen_scripts() {
 	// Add custom fonts, used in the main stylesheet.
-	wp_enqueue_style( 'twentyfifteen-fonts', twentyfifteen_fonts_url(), array(), null );
+	$font_version = ( 0 === strpos( (string) twentyfifteen_fonts_url(), get_template_directory_uri() . '/' ) ) ? '20230328' : null;
+	wp_enqueue_style( 'twentyfifteen-fonts', twentyfifteen_fonts_url(), array(), $font_version );
 
 	// Add Genericons, used in the main stylesheet.
-	wp_enqueue_style( 'genericons', get_template_directory_uri() . '/genericons/genericons.css', array(), '20201208' );
+	wp_enqueue_style( 'genericons', get_template_directory_uri() . '/genericons/genericons.css', array(), '20201026' );
 
 	// Load our main stylesheet.
-	wp_enqueue_style( 'twentyfifteen-style', get_stylesheet_uri(), array(), '20201208' );
+	wp_enqueue_style( 'twentyfifteen-style', get_stylesheet_uri(), array(), '20221101' );
 
 	// Theme block stylesheet.
-	wp_enqueue_style( 'twentyfifteen-block-style', get_template_directory_uri() . '/css/blocks.css', array( 'twentyfifteen-style' ), '20190102' );
+	wp_enqueue_style( 'twentyfifteen-block-style', get_template_directory_uri() . '/css/blocks.css', array( 'twentyfifteen-style' ), '20220914' );
 
 	// Load the Internet Explorer specific stylesheet.
-	wp_enqueue_style( 'twentyfifteen-ie', get_template_directory_uri() . '/css/ie.css', array( 'twentyfifteen-style' ), '20170916' );
+	wp_enqueue_style( 'twentyfifteen-ie', get_template_directory_uri() . '/css/ie.css', array( 'twentyfifteen-style' ), '20220908' );
 	wp_style_add_data( 'twentyfifteen-ie', 'conditional', 'lt IE 9' );
 
 	// Load the Internet Explorer 7 specific stylesheet.
@@ -394,12 +445,14 @@ function twentyfifteen_scripts() {
 		wp_enqueue_script( 'twentyfifteen-keyboard-image-navigation', get_template_directory_uri() . '/js/keyboard-image-navigation.js', array( 'jquery' ), '20141210' );
 	}
 
-	wp_enqueue_script( 'twentyfifteen-script', get_template_directory_uri() . '/js/functions.js', array( 'jquery' ), '20171218', true );
+	wp_enqueue_script( 'twentyfifteen-script', get_template_directory_uri() . '/js/functions.js', array( 'jquery' ), '20221101', true );
 	wp_localize_script(
 		'twentyfifteen-script',
 		'screenReaderText',
 		array(
+			/* translators: Hidden accessibility text. */
 			'expand'   => '<span class="screen-reader-text">' . __( 'expand child menu', 'twentyfifteen' ) . '</span>',
+			/* translators: Hidden accessibility text. */
 			'collapse' => '<span class="screen-reader-text">' . __( 'collapse child menu', 'twentyfifteen' ) . '</span>',
 		)
 	);
@@ -413,9 +466,10 @@ add_action( 'wp_enqueue_scripts', 'twentyfifteen_scripts' );
  */
 function twentyfifteen_block_editor_styles() {
 	// Block styles.
-	wp_enqueue_style( 'twentyfifteen-block-editor-style', get_template_directory_uri() . '/css/editor-blocks.css', array(), '20201208' );
+	wp_enqueue_style( 'twentyfifteen-block-editor-style', get_template_directory_uri() . '/css/editor-blocks.css', array(), '20220908' );
 	// Add custom fonts.
-	wp_enqueue_style( 'twentyfifteen-fonts', twentyfifteen_fonts_url(), array(), null );
+	$font_version = ( 0 === strpos( (string) twentyfifteen_fonts_url(), get_template_directory_uri() . '/' ) ) ? '20230328' : null;
+	wp_enqueue_style( 'twentyfifteen-fonts', twentyfifteen_fonts_url(), array(), $font_version );
 }
 add_action( 'enqueue_block_editor_assets', 'twentyfifteen_block_editor_styles' );
 
@@ -424,6 +478,7 @@ add_action( 'enqueue_block_editor_assets', 'twentyfifteen_block_editor_styles' )
  * Add preconnect for Google Fonts.
  *
  * @since Twenty Fifteen 1.7
+ * @deprecated Twenty Fifteen 3.4 Disabled filter because, by default, fonts are self-hosted.
  *
  * @param array   $urls          URLs to print for resource hints.
  * @param string  $relation_type The relation type the URLs are printed.
@@ -443,7 +498,7 @@ function twentyfifteen_resource_hints( $urls, $relation_type ) {
 
 	return $urls;
 }
-add_filter( 'wp_resource_hints', 'twentyfifteen_resource_hints', 10, 2 );
+// add_filter( 'wp_resource_hints', 'twentyfifteen_resource_hints', 10, 2 );
 
 /**
  * Add featured image as background image to post navigation elements.

@@ -244,6 +244,8 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 
 		$prepared_args['no_found_rows'] = false;
 
+		$prepared_args['update_comment_post_cache'] = true;
+
 		$prepared_args['date_query'] = array();
 
 		// Set before into date query. Date query must be specified as an array of an array.
@@ -272,7 +274,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		 */
 		$prepared_args = apply_filters( 'rest_comment_query', $prepared_args, $request );
 
-		$query        = new WP_Comment_Query;
+		$query        = new WP_Comment_Query();
 		$query_result = $query->query( $prepared_args );
 
 		$comments = array();
@@ -293,7 +295,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			// Out-of-bounds, run the query again without LIMIT for total count.
 			unset( $prepared_args['number'], $prepared_args['offset'] );
 
-			$query                  = new WP_Comment_Query;
+			$query                  = new WP_Comment_Query();
 			$prepared_args['count'] = true;
 
 			$total_comments = $query->query( $prepared_args );
@@ -1119,7 +1121,9 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		// Wrap the data in a response object.
 		$response = rest_ensure_response( $data );
 
-		$response->add_links( $this->prepare_links( $comment ) );
+		if ( rest_is_field_included( '_links', $fields ) || rest_is_field_included( '_embedded', $fields ) ) {
+			$response->add_links( $this->prepare_links( $comment ) );
+		}
 
 		/**
 		 * Filters a comment returned from the REST API.
@@ -1196,7 +1200,8 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			$rest_url = add_query_arg( $args, rest_url( $this->namespace . '/' . $this->rest_base ) );
 
 			$links['children'] = array(
-				'href' => $rest_url,
+				'href'       => $rest_url,
+				'embeddable' => true,
 			);
 		}
 
@@ -1882,11 +1887,11 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			$prepared_comment,
 			array(
 				'comment_post_ID'      => 0,
-				'comment_parent'       => 0,
-				'user_ID'              => 0,
 				'comment_author'       => null,
 				'comment_author_email' => null,
 				'comment_author_url'   => null,
+				'comment_parent'       => 0,
+				'user_id'              => 0,
 			)
 		);
 

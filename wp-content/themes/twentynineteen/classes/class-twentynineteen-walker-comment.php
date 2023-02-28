@@ -36,7 +36,7 @@ class TwentyNineteen_Walker_Comment extends Walker_Comment {
 						$comment_author_url = get_comment_author_url( $comment );
 						$comment_author     = get_comment_author( $comment );
 						$avatar             = get_avatar( $comment, $args['avatar_size'] );
-						if ( 0 != $args['avatar_size'] ) {
+						if ( 0 !== (int) $args['avatar_size'] ) {
 							if ( empty( $comment_author_url ) ) {
 								echo $avatar;
 							} else {
@@ -78,10 +78,9 @@ class TwentyNineteen_Walker_Comment extends Walker_Comment {
 						$comment_timestamp = sprintf( __( '%1$s at %2$s', 'twentynineteen' ), get_comment_date( '', $comment ), get_comment_time() );
 
 						printf(
-							'<a href="%s"><time datetime="%s" title="%s">%s</time></a>',
+							'<a href="%s"><time datetime="%s">%s</time></a>',
 							esc_url( get_comment_link( $comment, $args ) ),
 							get_comment_time( 'c' ),
-							esc_attr( $comment_timestamp ),
 							$comment_timestamp
 						);
 
@@ -99,7 +98,7 @@ class TwentyNineteen_Walker_Comment extends Walker_Comment {
 					}
 					?>
 
-					<?php if ( '0' == $comment->comment_approved ) : ?>
+					<?php if ( '0' === $comment->comment_approved ) : ?>
 					<p class="comment-awaiting-moderation"><?php echo $moderation_note; ?></p>
 					<?php endif; ?>
 

@@ -102,6 +102,8 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 	 *
 	 * @since 4.9.6
 	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
 	 * @return object Number of posts for each status.
 	 */
 	protected function get_request_counts() {
@@ -151,8 +153,7 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 		// Normalized admin URL.
 		$admin_url = $this->get_admin_url();
 
-		$current_link_attributes = empty( $current_status ) ? ' class="current" aria-current="page"' : '';
-		$status_label            = sprintf(
+		$status_label = sprintf(
 			/* translators: %s: Number of requests. */
 			_nx(
 				'All <span class="count">(%s)</span>',
@@ -163,11 +164,10 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 			number_format_i18n( $total_requests )
 		);
 
-		$views['all'] = sprintf(
-			'<a href="%s"%s>%s</a>',
-			esc_url( $admin_url ),
-			$current_link_attributes,
-			$status_label
+		$views['all'] = array(
+			'url'     => esc_url( $admin_url ),
+			'label'   => $status_label,
+			'current' => empty( $current_status ),
 		);
 
 		foreach ( $statuses as $status => $label ) {
@@ -176,8 +176,7 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 				continue;
 			}
 
-			$current_link_attributes = $status === $current_status ? ' class="current" aria-current="page"' : '';
-			$total_status_requests   = absint( $counts->{$status} );
+			$total_status_requests = absint( $counts->{$status} );
 
 			if ( ! $total_status_requests ) {
 				continue;
@@ -190,15 +189,14 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 
 			$status_link = add_query_arg( 'filter-status', $status, $admin_url );
 
-			$views[ $status ] = sprintf(
-				'<a href="%s"%s>%s</a>',
-				esc_url( $status_link ),
-				$current_link_attributes,
-				$status_label
+			$views[ $status ] = array(
+				'url'     => esc_url( $status_link ),
+				'label'   => $status_label,
+				'current' => $status === $current_status,
 			);
 		}
 
-		return $views;
+		return $this->get_views_links( $views );
 	}
 
 	/**

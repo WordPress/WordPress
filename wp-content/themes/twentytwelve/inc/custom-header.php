@@ -71,7 +71,7 @@ function twentytwelve_header_style() {
 	$text_color = get_header_textcolor();
 
 	// If no custom options for text are set, let's bail.
-	if ( get_theme_support( 'custom-header', 'default-text-color' ) == $text_color ) {
+	if ( get_theme_support( 'custom-header', 'default-text-color' ) === $text_color ) {
 		return;
 	}
 

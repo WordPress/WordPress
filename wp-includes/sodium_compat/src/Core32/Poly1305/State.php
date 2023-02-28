@@ -419,7 +419,7 @@ class ParagonIE_Sodium_Core32_Poly1305_State extends ParagonIE_Sodium_Core32_Uti
         $g4 = $g4->mask($mask);
 
         /** @var int $mask */
-        $mask = (~$mask) & 0xffffffff;
+        $mask = ~$mask;
 
         $h0 = $h0->mask($mask)->orInt32($g0);
         $h1 = $h1->mask($mask)->orInt32($g1);

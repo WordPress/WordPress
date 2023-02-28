@@ -41,7 +41,7 @@ class WP_Widget_Media_Image extends WP_Widget_Media {
 				'edit_media'                 => _x( 'Edit Image', 'label for button in the image widget; should preferably not be longer than ~13 characters long' ),
 				'missing_attachment'         => sprintf(
 					/* translators: %s: URL to media library. */
-					__( 'We can&#8217;t find that image. Check your <a href="%s">media library</a> and make sure it wasn&#8217;t deleted.' ),
+					__( 'That image cannot be found. Check your <a href="%s">media library</a> and make sure it was not deleted.' ),
 					esc_url( admin_url( 'upload.php' ) )
 				),
 				/* translators: %d: Widget count. */

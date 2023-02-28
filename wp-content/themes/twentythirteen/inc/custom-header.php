@@ -90,7 +90,7 @@ function twentythirteen_header_style() {
 	$text_color   = get_header_textcolor();
 
 	// If no custom options for text are set, let's bail.
-	if ( empty( $header_image ) && get_theme_support( 'custom-header', 'default-text-color' ) == $text_color ) {
+	if ( empty( $header_image ) && get_theme_support( 'custom-header', 'default-text-color' ) === $text_color ) {
 		return;
 	}
 
@@ -136,7 +136,7 @@ function twentythirteen_header_style() {
 		endif;
 
 		// If the user has set a custom color for the text, use that.
-		elseif ( get_theme_support( 'custom-header', 'default-text-color' ) != $text_color ) :
+		elseif ( get_theme_support( 'custom-header', 'default-text-color' ) !== $text_color ) :
 			?>
 		.site-title,
 		.site-description {
