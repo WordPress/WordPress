@@ -21,7 +21,7 @@
 
 .about__container {
 	/* Section backgrounds */
-	--background: #274acd;
+	--background: #1d35b4;
 	--subtle-background: #eff2ff;
 
 	/* Main text color */
@@ -29,8 +29,8 @@
 	--text-light: #fff;
 
 	/* Accent colors: used in header, on special classes. */
-	--accent-1: #3858e9; /* Link color, credit image overlay */
-	--accent-2: #fffcb5; /* Accent background */
+	--accent-1: #1d35b4; /* Link color, credit image overlay */
+	--accent-2: #33f078; /* Accent background */
 
 	/* Navigation colors. */
 	--nav-background: #fff;
@@ -560,7 +560,7 @@
 	margin: 0;
 	height: var(--gap);
 	border: none;
-	border-top: 4px solid #d9d9d9;
+	border-top: 4px solid var(--accent-2);
 }
 
 .about__container hr.is-small {
@@ -602,41 +602,25 @@
 /* 1.3 - Header */
 
 .about__header {
-	--about-header-image-width: 780px;
-	--about-header-image-height: 550px;
-	--about-header-bg-width: var(--about-header-image-width);
-	--about-header-bg-height: var(--about-header-image-height);
-	--about-header-bg-offset-block: 0;
-
 	position: relative;
 	margin-bottom: var(--gap);
 	padding-top: 0;
 	color: var(--text-light);
-	background: var(--background) url('../images/about-header-about.svg?ver=6.1') no-repeat;
-	background-size: var(--about-header-bg-width) var(--about-header-bg-height);
-	background-position: center top var(--about-header-bg-offset-block);
+	background: var(--background) url('../images/about-header-about.svg?ver=6.2') no-repeat;
+	background-size: cover;
+	background-position: center calc(50% - 36px);
 }
 
 .credits-php .about__header {
-	--about-header-image-width: 863px;
-	--about-header-image-height: 550px;
-
-	background-image: url('../images/about-header-credits.svg?ver=6.1');
+	background-image: url('../images/about-header-credits.svg?ver=6.2');
 }
 
 .freedoms-php .about__header {
-	--about-header-image-width: 782px;
-	--about-header-image-height: 510px;
-
-	background-image: url('../images/about-header-freedoms.svg?ver=6.1');
+	background-image: url('../images/about-header-freedoms.svg?ver=6.2');
 }
 
 .privacy-php .about__header {
-	--about-header-image-width: 1005px;
-	--about-header-image-height: 500px;
-	--about-header-bg-offset-block: calc(var(--gap) * -2);
-
-	background-image: url('../images/about-header-privacy.svg?ver=6.1');
+	background-image: url('../images/about-header-privacy.svg?ver=6.2');
 }
 
 .about__header-image {
@@ -656,7 +640,7 @@
 	/* Fluid font size scales on browser size 960px - 1200px. */
 	font-size: clamp(3rem, 20vw - 9rem, 6rem);
 	line-height: 1;
-	font-weight: 400;
+	font-weight: 600;
 }
 
 .credits-php .about__header-title h1,
@@ -664,6 +648,10 @@
 .freedoms-php .about__header-title h1 {
 	/* Fluid font size scales on browser size 960px - 1200px. */
 	font-size: clamp(3rem, 10vw - 3rem, 4.5rem);
+}
+
+.about__header-title h1 span {
+	color: var(--accent-2);
 }
 
 .about__header-text {
@@ -725,15 +713,6 @@
 }
 
 @media screen and (max-width: 960px) {
-	.about__header {
-		--about-header-bg-width: calc(var(--about-header-image-width) * 0.85);
-		--about-header-bg-height: calc(var(--about-header-image-height) * 0.85);
-	}
-
-	.privacy-php .about__header {
-		--about-header-bg-offset-block: 0;
-	}
-
 	.about__header-title h1 {
 		/* Fluid font size scales on browser size 600px - 960px. */
 		font-size: clamp(3rem, 13.33vw - 2rem, 6rem);
@@ -771,13 +750,6 @@
 		margin-right: 0;
 		padding-left: calc(var(--gap) / 2);
 		padding-right: calc(var(--gap) / 2);
-	}
-}
-
-@media screen and (max-width: 600px) {
-	.about__header {
-		--about-header-bg-width: calc(var(--about-header-image-width) * 0.75);
-		--about-header-bg-height: calc(var(--about-header-image-height) * 0.75);
 	}
 }
 
