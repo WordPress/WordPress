@@ -2043,7 +2043,7 @@ function wp_welcome_panel() {
 	<div class="welcome-panel-content">
 	<div class="welcome-panel-header">
 		<div class="welcome-panel-header-image">
-			<?php echo file_get_contents( dirname( __DIR__ ) . '/images/about-header-about.svg' ); ?>
+			<?php echo file_get_contents( dirname( __DIR__ ) . '/images/dashboard-background.svg' ); ?>
 		</div>
 		<h2><?php _e( 'Welcome to WordPress!' ); ?></h2>
 		<p>

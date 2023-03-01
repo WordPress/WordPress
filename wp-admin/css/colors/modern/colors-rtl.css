@@ -710,15 +710,3 @@ div#wp-responsive-toggle a:before {
 }
 
 /* Welcome Panel */
-.welcome-panel {
-  background-color: #273fcc;
-}
-
-.welcome-panel-header-image circle {
-  stroke: #627eff;
-  fill: #273fcc;
-}
-
-[class*=welcome-panel-icon] {
-  background-color: #1d2327;
-}

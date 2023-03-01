@@ -714,9 +714,9 @@ div#wp-responsive-toggle a:before {
   background-color: #096484;
 }
 
-.welcome-panel-header-image circle {
-  stroke: rgba(255, 255, 255, 0.5);
-  fill: #096484;
+.welcome-panel-header-image .curve,
+.welcome-panel-header-image .dot {
+  fill: rgba(255, 255, 255, 0.33);
 }
 
 [class*=welcome-panel-icon] {
