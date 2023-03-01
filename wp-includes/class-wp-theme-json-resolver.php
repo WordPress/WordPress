@@ -559,7 +559,8 @@ class WP_Theme_JSON_Resolver {
 			_deprecated_argument( __FUNCTION__, '5.9.0' );
 		}
 
-		$result = static::get_core_data();
+		$result = new WP_Theme_JSON();
+		$result->merge( static::get_core_data() );
 		if ( 'default' === $origin ) {
 			$result->set_spacing_sizes();
 			return $result;
