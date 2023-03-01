@@ -107,19 +107,19 @@ function register_block_script_handle( $metadata, $field_name, $index = 0 ) {
 		return $script_handle;
 	}
 
-	$script_handle     = generate_block_asset_handle( $metadata['name'], $field_name, $index );
-	$script_asset_path = wp_normalize_path(
-		realpath(
-			dirname( $metadata['file'] ) . '/' .
-			substr_replace( $script_path, '.asset.php', - strlen( '.js' ) )
-		)
+	$script_asset_raw_path = dirname( $metadata['file'] ) . '/' . substr_replace( $script_path, '.asset.php', - strlen( '.js' ) );
+	$script_handle         = generate_block_asset_handle( $metadata['name'], $field_name, $index );
+	$script_asset_path     = wp_normalize_path(
+		realpath( $script_asset_raw_path )
 	);
-	if ( ! file_exists( $script_asset_path ) ) {
+
+	if ( empty( $script_asset_path ) ) {
 		_doing_it_wrong(
 			__FUNCTION__,
 			sprintf(
-				/* translators: 1: Field name, 2: Block name. */
-				__( 'The asset file for the "%1$s" defined in "%2$s" block definition is missing.' ),
+				/* translators: 1: Asset file location, 2: Field name, 3: Block name.  */
+				__( 'The asset file (%1$s) for the "%2$s" defined in "%3$s" block definition is missing.' ),
+				$script_asset_raw_path,
 				$field_name,
 				$metadata['name']
 			),
