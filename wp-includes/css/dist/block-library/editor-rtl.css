@@ -2054,8 +2054,8 @@ body.editor-styles-wrapper .wp-block-navigation__responsive-container.is-menu-op
 }
 
 .wp-block-site-logo.wp-block-site-logo.is-default-size .components-placeholder{
-  height:120px;
-  width:120px;
+  height:60px;
+  width:60px;
 }
 .wp-block-site-logo.wp-block-site-logo .components-resizable-box__container,.wp-block-site-logo.wp-block-site-logo>div{
   border-radius:inherit;
@@ -2465,6 +2465,7 @@ body.editor-styles-wrapper .wp-block-navigation__responsive-container.is-menu-op
 }
 .block-library-query-pattern__selection-modal .block-library-query-pattern__selection-search{
   background:#fff;
+  margin-bottom:2px;
   padding:16px 0;
   position:sticky;
   top:0;

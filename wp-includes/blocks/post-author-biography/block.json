@@ -13,7 +13,6 @@
 	},
 	"usesContext": [ "postType", "postId" ],
 	"supports": {
-		"anchor": true,
 		"spacing": {
 			"margin": true,
 			"padding": true

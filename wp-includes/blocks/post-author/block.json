@@ -35,7 +35,6 @@
 	},
 	"usesContext": [ "postType", "postId", "queryId" ],
 	"supports": {
-		"anchor": true,
 		"html": false,
 		"spacing": {
 			"margin": true,

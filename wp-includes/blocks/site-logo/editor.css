@@ -23,8 +23,8 @@
 }
 
 .wp-block-site-logo.wp-block-site-logo.is-default-size .components-placeholder{
-  height:120px;
-  width:120px;
+  height:60px;
+  width:60px;
 }
 .wp-block-site-logo.wp-block-site-logo .components-resizable-box__container,.wp-block-site-logo.wp-block-site-logo>div{
   border-radius:inherit;

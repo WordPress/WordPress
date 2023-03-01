@@ -19,7 +19,6 @@
 		"reusable": false,
 		"html": false,
 		"align": true,
-		"anchor": true,
 		"__experimentalLayout": {
 			"allowEditing": false
 		},

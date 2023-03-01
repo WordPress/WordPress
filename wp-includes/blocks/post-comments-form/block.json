@@ -13,7 +13,6 @@
 	},
 	"usesContext": [ "postId", "postType" ],
 	"supports": {
-		"anchor": true,
 		"html": false,
 		"color": {
 			"gradients": true,

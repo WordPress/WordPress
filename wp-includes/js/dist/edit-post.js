@@ -3939,7 +3939,7 @@ function VisualEditor(_ref2) {
   }, [layout === null || layout === void 0 ? void 0 : layout.type, layout === null || layout === void 0 ? void 0 : layout.inherit, layout === null || layout === void 0 ? void 0 : layout.contentSize, layout === null || layout === void 0 ? void 0 : layout.wideSize, globalLayoutSettings]); // If there is a Post Content block we use its layout for the block list;
   // if not, this must be a classic theme, in which case we use the fallback layout.
 
-  const blockListLayout = postContentBlock ? postContentLayout : fallbackLayout;
+  const blockListLayout = postContentBlock !== null && postContentBlock !== void 0 && postContentBlock.isValid ? postContentLayout : fallbackLayout;
   const titleRef = (0,external_wp_element_namespaceObject.useRef)();
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     var _titleRef$current;

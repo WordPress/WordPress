@@ -5100,44 +5100,6 @@ var external_ReactDOM_namespaceObject = window["ReactDOM"];
 
 
 
-/**
- * A data provider that provides data to position an inner element of the
- * floating element (usually a triangle or caret) so that it is centered to the
- * reference element.
- * This wraps the core `arrow` middleware to allow React refs as the element.
- * @see https://floating-ui.com/docs/arrow
- */
-const arrow = options => {
-  const {
-    element,
-    padding
-  } = options;
-  function isRef(value) {
-    return Object.prototype.hasOwnProperty.call(value, 'current');
-  }
-  return {
-    name: 'arrow',
-    options,
-    fn(args) {
-      if (isRef(element)) {
-        if (element.current != null) {
-          return m({
-            element: element.current,
-            padding
-          }).fn(args);
-        }
-        return {};
-      } else if (element) {
-        return m({
-          element,
-          padding
-        }).fn(args);
-      }
-      return {};
-    }
-  };
-};
-
 var index = typeof document !== 'undefined' ? external_React_.useLayoutEffect : external_React_.useEffect;
 
 // Fork of `fast-deep-equal` that only does the comparisons we need and compares
@@ -5146,45 +5108,59 @@ function deepEqual(a, b) {
   if (a === b) {
     return true;
   }
+
   if (typeof a !== typeof b) {
     return false;
   }
+
   if (typeof a === 'function' && a.toString() === b.toString()) {
     return true;
   }
+
   let length, i, keys;
+
   if (a && b && typeof a == 'object') {
     if (Array.isArray(a)) {
       length = a.length;
       if (length != b.length) return false;
+
       for (i = length; i-- !== 0;) {
         if (!deepEqual(a[i], b[i])) {
           return false;
         }
       }
+
       return true;
     }
+
     keys = Object.keys(a);
     length = keys.length;
+
     if (length !== Object.keys(b).length) {
       return false;
     }
+
     for (i = length; i-- !== 0;) {
       if (!Object.prototype.hasOwnProperty.call(b, keys[i])) {
         return false;
       }
     }
+
     for (i = length; i-- !== 0;) {
       const key = keys[i];
+
       if (key === '_owner' && a.$$typeof) {
         continue;
       }
+
       if (!deepEqual(a[key], b[key])) {
         return false;
       }
     }
+
     return true;
   }
+
   return a !== a && b !== b;
 }
 
@@ -5196,87 +5172,75 @@ function useLatestRef(value) {
   return ref;
 }
 
-/**
- * Provides data to position a floating element.
- * @see https://floating-ui.com/docs/react
- */
-function useFloating(options) {
-  if (options === void 0) {
-    options = {};
-  }
-  const {
+function useFloating(_temp) {
+  let {
+    middleware,
     placement = 'bottom',
     strategy = 'absolute',
-    middleware = [],
-    platform,
-    whileElementsMounted,
-    open
-  } = options;
+    whileElementsMounted
+  } = _temp === void 0 ? {} : _temp;
   const [data, setData] = external_React_.useState({
+    // Setting these to `null` will allow the consumer to determine if
+    // `computePosition()` has run yet
     x: null,
     y: null,
     strategy,
     placement,
-    middlewareData: {},
-    isPositioned: false
+    middlewareData: {}
   });
   const [latestMiddleware, setLatestMiddleware] = external_React_.useState(middleware);
-  if (!deepEqual(latestMiddleware, middleware)) {
+
+  if (!deepEqual(latestMiddleware == null ? void 0 : latestMiddleware.map(_ref => {
+    let {
+      name,
+      options
+    } = _ref;
+    return {
+      name,
+      options
+    };
+  }), middleware == null ? void 0 : middleware.map(_ref2 => {
+    let {
+      name,
+      options
+    } = _ref2;
+    return {
+      name,
+      options
+    };
+  }))) {
     setLatestMiddleware(middleware);
   }
-  const referenceRef = external_React_.useRef(null);
-  const floatingRef = external_React_.useRef(null);
+
+  const reference = external_React_.useRef(null);
+  const floating = external_React_.useRef(null);
+  const cleanupRef = external_React_.useRef(null);
   const dataRef = external_React_.useRef(data);
   const whileElementsMountedRef = useLatestRef(whileElementsMounted);
-  const platformRef = useLatestRef(platform);
-  const [reference, _setReference] = external_React_.useState(null);
-  const [floating, _setFloating] = external_React_.useState(null);
-  const setReference = external_React_.useCallback(node => {
-    if (referenceRef.current !== node) {
-      referenceRef.current = node;
-      _setReference(node);
-    }
-  }, []);
-  const setFloating = external_React_.useCallback(node => {
-    if (floatingRef.current !== node) {
-      floatingRef.current = node;
-      _setFloating(node);
-    }
-  }, []);
   const update = external_React_.useCallback(() => {
-    if (!referenceRef.current || !floatingRef.current) {
+    if (!reference.current || !floating.current) {
       return;
     }
-    const config = {
+
+    z(reference.current, floating.current, {
+      middleware: latestMiddleware,
       placement,
-      strategy,
-      middleware: latestMiddleware
-    };
-    if (platformRef.current) {
-      config.platform = platformRef.current;
-    }
-    z(referenceRef.current, floatingRef.current, config).then(data => {
-      const fullData = {
-        ...data,
-        isPositioned: true
-      };
-      if (isMountedRef.current && !deepEqual(dataRef.current, fullData)) {
-        dataRef.current = fullData;
+      strategy
+    }).then(data => {
+      if (isMountedRef.current && !deepEqual(dataRef.current, data)) {
+        dataRef.current = data;
         external_ReactDOM_namespaceObject.flushSync(() => {
-          setData(fullData);
+          setData(data);
         });
       }
     });
-  }, [latestMiddleware, placement, strategy, platformRef]);
+  }, [latestMiddleware, placement, strategy]);
   index(() => {
-    if (open === false && dataRef.current.isPositioned) {
-      dataRef.current.isPositioned = false;
-      setData(data => ({
-        ...data,
-        isPositioned: false
-      }));
+    // Skip first update
+    if (isMountedRef.current) {
+      update();
     }
-  }, [open]);
+  }, [update]);
   const isMountedRef = external_React_.useRef(false);
   index(() => {
     isMountedRef.current = true;
@@ -5284,34 +5248,84 @@ function useFloating(options) {
       isMountedRef.current = false;
     };
   }, []);
-  index(() => {
-    if (reference && floating) {
+  const runElementMountCallback = external_React_.useCallback(() => {
+    if (typeof cleanupRef.current === 'function') {
+      cleanupRef.current();
+      cleanupRef.current = null;
+    }
+
+    if (reference.current && floating.current) {
       if (whileElementsMountedRef.current) {
-        return whileElementsMountedRef.current(reference, floating, update);
+        const cleanupFn = whileElementsMountedRef.current(reference.current, floating.current, update);
+        cleanupRef.current = cleanupFn;
       } else {
         update();
       }
     }
-  }, [reference, floating, update, whileElementsMountedRef]);
+  }, [update, whileElementsMountedRef]);
+  const setReference = external_React_.useCallback(node => {
+    reference.current = node;
+    runElementMountCallback();
+  }, [runElementMountCallback]);
+  const setFloating = external_React_.useCallback(node => {
+    floating.current = node;
+    runElementMountCallback();
+  }, [runElementMountCallback]);
   const refs = external_React_.useMemo(() => ({
-    reference: referenceRef,
-    floating: floatingRef,
-    setReference,
-    setFloating
-  }), [setReference, setFloating]);
-  const elements = external_React_.useMemo(() => ({
     reference,
     floating
-  }), [reference, floating]);
-  return external_React_.useMemo(() => ({
-    ...data,
+  }), []);
+  return external_React_.useMemo(() => ({ ...data,
     update,
     refs,
-    elements,
     reference: setReference,
     floating: setFloating
-  }), [data, update, refs, elements, setReference, setFloating]);
+  }), [data, update, refs, setReference, setFloating]);
 }
+
+/**
+ * Positions an inner element of the floating element such that it is centered
+ * to the reference element.
+ * This wraps the core `arrow` middleware to allow React refs as the element.
+ * @see https://floating-ui.com/docs/arrow
+ */
+
+const arrow = options => {
+  const {
+    element,
+    padding
+  } = options;
+
+  function isRef(value) {
+    return Object.prototype.hasOwnProperty.call(value, 'current');
+  }
+
+  return {
+    name: 'arrow',
+    options,
+
+    fn(args) {
+      if (isRef(element)) {
+        if (element.current != null) {
+          return m({
+            element: element.current,
+            padding
+          }).fn(args);
+        }
+
+        return {};
+      } else if (element) {
+        return m({
+          element,
+          padding
+        }).fn(args);
+      }
+
+      return {};
+    }
+
+  };
+};
 
 
 
@@ -32632,6 +32646,7 @@ function UnforwardedRangeControl(props, forwardedRef) {
     },
     trackColor: trackColor
   }), (0,external_wp_element_namespaceObject.createElement)(ThumbWrapper, {
+    className: "components-range-control__thumb-wrapper",
     style: offsetStyle,
     disabled: disabled
   }, (0,external_wp_element_namespaceObject.createElement)(Thumb, {
@@ -43191,12 +43206,16 @@ function DropdownMenu(dropdownMenuProps) {
         }
       };
 
+      const {
+        as: Toggle = build_module_button,
+        ...restToggleProps
+      } = toggleProps !== null && toggleProps !== void 0 ? toggleProps : {};
       const mergedToggleProps = mergeProps({
         className: classnames_default()('components-dropdown-menu__toggle', {
           'is-opened': isOpen
         })
-      }, toggleProps);
-      return (0,external_wp_element_namespaceObject.createElement)(build_module_button, extends_extends({}, mergedToggleProps, {
+      }, restToggleProps);
+      return (0,external_wp_element_namespaceObject.createElement)(Toggle, extends_extends({}, mergedToggleProps, {
         icon: icon,
         onClick: event => {
           onToggle(event);

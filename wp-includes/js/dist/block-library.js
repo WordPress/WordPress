@@ -2079,7 +2079,6 @@ const metadata = {
   },
   supports: {
     align: true,
-    anchor: true,
     html: false,
     spacing: {
       margin: true,
@@ -2546,7 +2545,6 @@ const avatar_metadata = {
   },
   usesContext: ["postType", "postId", "commentId"],
   supports: {
-    anchor: true,
     html: false,
     align: true,
     alignWide: false,
@@ -5813,7 +5811,6 @@ const calendar_metadata = {
   },
   supports: {
     align: true,
-    anchor: true,
     color: {
       link: true,
       __experimentalSkipSerialization: ["text", "background"],
@@ -6089,7 +6086,6 @@ const categories_metadata = {
   },
   supports: {
     align: true,
-    anchor: true,
     html: false,
     spacing: {
       margin: true,
@@ -8715,8 +8711,6 @@ const comments_metadata = {
   },
   supports: {
     align: ["wide", "full"],
-    anchor: true,
-    html: false,
     color: {
       gradients: true,
       link: true,
@@ -8726,6 +8720,7 @@ const comments_metadata = {
         link: true
       }
     },
+    html: false,
     spacing: {
       margin: true,
       padding: true
@@ -8885,7 +8880,6 @@ const comment_author_avatar_metadata = {
   },
   usesContext: ["commentId"],
   supports: {
-    anchor: true,
     html: false,
     inserter: false,
     __experimentalBorder: {
@@ -9143,7 +9137,6 @@ const comment_author_name_metadata = {
   },
   usesContext: ["commentId"],
   supports: {
-    anchor: true,
     html: false,
     spacing: {
       margin: true,
@@ -9296,7 +9289,6 @@ const comment_content_metadata = {
     }
   },
   supports: {
-    anchor: true,
     color: {
       gradients: true,
       link: true,
@@ -9523,7 +9515,6 @@ const comment_date_metadata = {
   },
   usesContext: ["commentId"],
   supports: {
-    anchor: true,
     html: false,
     color: {
       gradients: true,
@@ -9667,7 +9658,6 @@ const comment_edit_link_metadata = {
     }
   },
   supports: {
-    anchor: true,
     html: false,
     color: {
       link: true,
@@ -9807,7 +9797,6 @@ const comment_reply_link_metadata = {
     }
   },
   supports: {
-    anchor: true,
     color: {
       gradients: true,
       link: true,
@@ -10338,7 +10327,6 @@ const comment_template_metadata = {
   usesContext: ["postId"],
   supports: {
     align: true,
-    anchor: true,
     html: false,
     reusable: false,
     spacing: {
@@ -10461,7 +10449,6 @@ const comments_pagination_previous_metadata = {
   },
   usesContext: ["postId", "comments/paginationArrow"],
   supports: {
-    anchor: true,
     reusable: false,
     html: false,
     color: {
@@ -10662,7 +10649,6 @@ const comments_pagination_metadata = {
     "comments/paginationArrow": "paginationArrow"
   },
   supports: {
-    anchor: true,
     align: true,
     reusable: false,
     html: false,
@@ -10799,7 +10785,6 @@ const comments_pagination_next_metadata = {
   },
   usesContext: ["postId", "comments/paginationArrow"],
   supports: {
-    anchor: true,
     reusable: false,
     html: false,
     color: {
@@ -10920,7 +10905,6 @@ const comments_pagination_numbers_metadata = {
   textdomain: "default",
   usesContext: ["postId"],
   supports: {
-    anchor: true,
     reusable: false,
     html: false,
     color: {
@@ -22988,7 +22972,6 @@ const home_link_metadata = {
   },
   usesContext: ["textColor", "customTextColor", "backgroundColor", "customBackgroundColor", "fontSize", "customFontSize", "style"],
   supports: {
-    anchor: true,
     reusable: false,
     html: false,
     typography: {
@@ -25147,7 +25130,6 @@ const latest_comments_metadata = {
   },
   supports: {
     align: true,
-    anchor: true,
     html: false,
     spacing: {
       margin: true,
@@ -25278,7 +25260,6 @@ const latest_posts_deprecated_metadata = {
   },
   supports: {
     align: true,
-    anchor: true,
     html: false,
     color: {
       gradients: true,
@@ -25875,7 +25856,6 @@ const latest_posts_metadata = {
   },
   supports: {
     align: true,
-    anchor: true,
     html: false,
     color: {
       gradients: true,
@@ -27904,7 +27884,6 @@ const loginout_metadata = {
     }
   },
   supports: {
-    anchor: true,
     className: true,
     typography: {
       fontSize: false
@@ -33241,7 +33220,6 @@ const navigation_metadata = {
   },
   supports: {
     align: ["wide", "full"],
-    anchor: true,
     html: false,
     inserter: true,
     typography: {
@@ -34031,17 +34009,12 @@ function NavigationLinkEdit(_ref) {
 
   function removeLink() {
     // Reset all attributes that comprise the link.
-    // It is critical that all attributes are reset
-    // to their default values otherwise this may
-    // in advertently trigger side effects because
-    // the values will have "changed".
     setAttributes({
-      url: undefined,
-      label: undefined,
-      id: undefined,
-      kind: undefined,
-      type: undefined,
-      opensInNewTab: false
+      url: '',
+      label: '',
+      id: '',
+      kind: '',
+      type: ''
     }); // Close the link editing UI.
 
     setIsLinkOpen(false);
@@ -35949,7 +35922,6 @@ const page_list_metadata = {
   },
   usesContext: ["textColor", "customTextColor", "backgroundColor", "customBackgroundColor", "overlayTextColor", "customOverlayTextColor", "overlayBackgroundColor", "customOverlayBackgroundColor", "fontSize", "customFontSize", "showSubmenuIcon", "style", "openSubmenusOnClick"],
   supports: {
-    anchor: true,
     reusable: false,
     html: false,
     typography: {
@@ -37319,7 +37291,6 @@ const post_author_metadata = {
   },
   usesContext: ["postType", "postId", "queryId"],
   supports: {
-    anchor: true,
     html: false,
     spacing: {
       margin: true,
@@ -37519,7 +37490,6 @@ const post_author_name_metadata = {
   },
   usesContext: ["postType", "postId"],
   supports: {
-    anchor: true,
     html: false,
     spacing: {
       margin: true,
@@ -37661,7 +37631,6 @@ const post_author_biography_metadata = {
   },
   usesContext: ["postType", "postId"],
   supports: {
-    anchor: true,
     spacing: {
       margin: true,
       padding: true
@@ -37944,7 +37913,6 @@ const post_comments_count_metadata = {
   },
   usesContext: ["postId"],
   supports: {
-    anchor: true,
     html: false,
     color: {
       gradients: true,
@@ -38077,7 +38045,6 @@ const post_comments_form_metadata = {
   },
   usesContext: ["postId", "postType"],
   supports: {
-    anchor: true,
     html: false,
     color: {
       gradients: true,
@@ -38243,7 +38210,6 @@ const post_comments_link_metadata = {
     }
   },
   supports: {
-    anchor: true,
     html: false,
     color: {
       link: true,
@@ -38442,7 +38408,6 @@ const post_content_metadata = {
   textdomain: "default",
   usesContext: ["postId", "postType", "queryId"],
   supports: {
-    anchor: true,
     align: ["wide", "full"],
     html: false,
     __experimentalLayout: true,
@@ -38718,7 +38683,6 @@ const post_date_metadata = {
   },
   usesContext: ["postId", "postType", "queryId"],
   supports: {
-    anchor: true,
     html: false,
     color: {
       gradients: true,
@@ -38945,7 +38909,6 @@ const post_excerpt_metadata = {
   },
   usesContext: ["postId", "postType", "queryId"],
   supports: {
-    anchor: true,
     html: false,
     color: {
       gradients: true,
@@ -39589,7 +39552,6 @@ const post_featured_image_metadata = {
   usesContext: ["postId", "postType", "queryId"],
   supports: {
     align: ["left", "right", "center", "wide", "full"],
-    anchor: true,
     color: {
       __experimentalDuotone: "img, .wp-block-post-featured-image__placeholder, .components-placeholder__illustration, .components-placeholder::before",
       text: false,
@@ -39844,7 +39806,6 @@ const post_navigation_link_metadata = {
     }
   },
   supports: {
-    anchor: true,
     reusable: false,
     html: false,
     color: {
@@ -40161,7 +40122,6 @@ const post_template_metadata = {
     reusable: false,
     html: false,
     align: true,
-    anchor: true,
     __experimentalLayout: {
       allowEditing: false
     },
@@ -40483,7 +40443,6 @@ const post_terms_metadata = {
   },
   usesContext: ["postId", "postType"],
   supports: {
-    anchor: true,
     html: false,
     color: {
       gradients: true,
@@ -40774,7 +40733,6 @@ const post_title_metadata = {
   },
   supports: {
     align: ["wide", "full"],
-    anchor: true,
     html: false,
     color: {
       gradients: true,
@@ -42077,7 +42035,6 @@ const {
   },
   supports: {
     align: ["wide", "full"],
-    anchor: true,
     html: false,
     __experimentalLayout: true
   },
@@ -44346,7 +44303,6 @@ const query_metadata = {
   },
   supports: {
     align: ["wide", "full"],
-    anchor: true,
     html: false,
     __experimentalLayout: true
   },
@@ -44428,7 +44384,6 @@ const query_no_results_metadata = {
   textdomain: "default",
   usesContext: ["queryId", "query"],
   supports: {
-    anchor: true,
     align: true,
     reusable: false,
     html: false,
@@ -44613,7 +44568,6 @@ const query_pagination_metadata = {
     paginationArrow: "paginationArrow"
   },
   supports: {
-    anchor: true,
     align: true,
     reusable: false,
     html: false,
@@ -44738,7 +44692,6 @@ const query_pagination_next_metadata = {
   },
   usesContext: ["queryId", "query", "paginationArrow"],
   supports: {
-    anchor: true,
     reusable: false,
     html: false,
     color: {
@@ -44822,7 +44775,6 @@ const query_pagination_numbers_metadata = {
   textdomain: "default",
   usesContext: ["queryId", "query"],
   supports: {
-    anchor: true,
     reusable: false,
     html: false,
     color: {
@@ -44932,7 +44884,6 @@ const query_pagination_previous_metadata = {
   },
   usesContext: ["queryId", "query", "paginationArrow"],
   supports: {
-    anchor: true,
     reusable: false,
     html: false,
     color: {
@@ -45197,7 +45148,6 @@ const query_title_metadata = {
     }
   },
   supports: {
-    anchor: true,
     align: ["wide", "full"],
     html: false,
     color: {
@@ -46187,7 +46137,6 @@ const read_more_metadata = {
   },
   usesContext: ["postId"],
   supports: {
-    anchor: true,
     html: false,
     color: {
       gradients: true,
@@ -46458,7 +46407,6 @@ const rss_metadata = {
   },
   supports: {
     align: true,
-    anchor: true,
     html: false
   },
   editorStyle: "wp-block-rss-editor",
@@ -47069,7 +47017,6 @@ const search_metadata = {
   },
   supports: {
     align: ["left", "center", "right"],
-    anchor: true,
     color: {
       gradients: true,
       __experimentalSkipSerialization: true,
@@ -48195,7 +48142,6 @@ const site_logo_metadata = {
   },
   supports: {
     html: false,
-    anchor: true,
     align: true,
     alignWide: false,
     color: {
@@ -48412,8 +48358,8 @@ const site_tagline_metadata = {
       type: "string"
     }
   },
+  example: {},
   supports: {
-    anchor: true,
     align: ["wide", "full"],
     html: false,
     color: {
@@ -48798,7 +48744,6 @@ const site_title_metadata = {
     viewportWidth: 500
   },
   supports: {
-    anchor: true,
     align: ["wide", "full"],
     html: false,
     color: {
@@ -50105,7 +50050,6 @@ const social_link_metadata = {
   },
   usesContext: ["openInNewTab", "showLabels", "iconColorValue", "iconBackgroundColorValue"],
   supports: {
-    anchor: true,
     reusable: false,
     html: false
   },
@@ -50295,7 +50239,7 @@ const sizeOptions = [{
   value: 'has-huge-icon-size'
 }];
 function SocialLinksEdit(props) {
-  var _attributes$className;
+  var _attributes$className, _attributes$layout$or, _attributes$layout;
 
   const {
     clientId,
@@ -50364,6 +50308,7 @@ function SocialLinksEdit(props) {
     allowedBlocks: social_links_edit_ALLOWED_BLOCKS,
     placeholder: isSelected ? SelectedSocialPlaceholder : SocialPlaceholder,
     templateLock: false,
+    orientation: (_attributes$layout$or = (_attributes$layout = attributes.layout) === null || _attributes$layout === void 0 ? void 0 : _attributes$layout.orientation) !== null && _attributes$layout$or !== void 0 ? _attributes$layout$or : 'horizontal',
     __experimentalAppenderTagName: 'li'
   });
   const POPOVER_PROPS = {
@@ -53910,7 +53855,6 @@ const tag_cloud_metadata = {
   }],
   supports: {
     html: false,
-    anchor: true,
     align: true,
     spacing: {
       margin: true,
@@ -54700,6 +54644,10 @@ function transformWidgetToBlock(widget) {
 
 
 
+const SIDEBARS_QUERY = {
+  per_page: -1,
+  _fields: 'id,name,description,status,widgets'
+};
 function TemplatePartImportControls(_ref) {
   let {
     area,
@@ -54708,11 +54656,18 @@ function TemplatePartImportControls(_ref) {
   const [selectedSidebar, setSelectedSidebar] = (0,external_wp_element_namespaceObject.useState)('');
   const [isBusy, setIsBusy] = (0,external_wp_element_namespaceObject.useState)(false);
   const registry = (0,external_wp_data_namespaceObject.useRegistry)();
-  const sidebars = (0,external_wp_data_namespaceObject.useSelect)(select => {
-    return select(external_wp_coreData_namespaceObject.store).getSidebars({
-      per_page: -1,
-      _fields: 'id,name,description,status,widgets'
-    });
+  const {
+    sidebars,
+    hasResolved
+  } = (0,external_wp_data_namespaceObject.useSelect)(select => {
+    const {
+      getSidebars,
+      hasFinishedResolution
+    } = select(external_wp_coreData_namespaceObject.store);
+    return {
+      sidebars: getSidebars(SIDEBARS_QUERY),
+      hasResolved: hasFinishedResolution('getSidebars', [SIDEBARS_QUERY])
+    };
   }, []);
   const {
     createErrorNotice
@@ -54734,7 +54689,18 @@ function TemplatePartImportControls(_ref) {
       value: '',
       label: (0,external_wp_i18n_namespaceObject.__)('Select widget area')
     }, ...sidebarOptions];
-  }, [sidebars]);
+  }, [sidebars]); // Render an empty node while data is loading to avoid SlotFill re-positioning bug.
+  // See: https://github.com/WordPress/gutenberg/issues/15641.
+
+  if (!hasResolved) {
+    return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalSpacer, {
+      marginBottom: "0"
+    });
+  }
+
+  if (hasResolved && !options.length) {
+    return null;
+  }
 
   async function createFromWidgets(event) {
     event.preventDefault();
@@ -55279,7 +55245,6 @@ const template_part_metadata = {
     }
   },
   supports: {
-    anchor: true,
     align: true,
     html: false,
     reusable: false
@@ -55432,7 +55397,6 @@ const term_description_metadata = {
     }
   },
   supports: {
-    anchor: true,
     align: ["wide", "full"],
     html: false,
     color: {

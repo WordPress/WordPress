@@ -509,9 +509,6 @@ body.is-fullscreen-mode .interface-interface-skeleton{
   }
 }
 
-.edit-site-custom-template-modal__suggestions_list{
-  margin-top:16px;
-}
 @media (min-width:600px){
   .edit-site-custom-template-modal__suggestions_list{
     height:232px;
@@ -561,8 +558,6 @@ body.is-fullscreen-mode .interface-interface-skeleton{
 .edit-site-custom-template-modal__no-results{
   border:1px solid #ccc;
   border-radius:2px;
-  margin-bottom:0;
-  margin-top:16px;
   padding:16px;
 }
 
@@ -607,7 +602,7 @@ body.is-fullscreen-mode .interface-interface-skeleton{
 
 .edit-site-visual-editor{
   align-items:center;
-  background-color:#2f2f2f;
+  background-color:#1e1e1e;
   display:block;
   height:100%;
   overflow:hidden;
@@ -1387,22 +1382,10 @@ body.is-fullscreen-mode .edit-site-list-header{
   flex-shrink:0;
   height:32px;
   justify-content:center;
-  position:relative;
   width:32px;
 }
 .edit-site-list-added-by__icon svg{
   fill:#fff;
-}
-.edit-site-list-added-by__icon.is-customized:after{
-  background:var(--wp-admin-theme-color);
-  border-radius:100%;
-  content:"";
-  height:8px;
-  left:-1px;
-  outline:2px solid #fff;
-  position:absolute;
-  top:-1px;
-  width:8px;
 }
 
 .edit-site-list-added-by__avatar{
@@ -1429,6 +1412,11 @@ body.is-fullscreen-mode .edit-site-list-header{
 }
 .edit-site-list-added-by__avatar.is-loaded img{
   opacity:1;
+}
+
+.edit-site-list-added-by__customized-info{
+  color:#757575;
+  display:block;
 }
 
 @keyframes loadingpulse{
@@ -2222,6 +2210,22 @@ body.is-fullscreen-mode .edit-site .components-editor-notices__snackbar{
   padding:0 12px;
 }
 
+.edit-site-sidebar-button{
+  color:#e0e0e0;
+  flex-shrink:0;
+}
+.edit-site-sidebar-button:focus:not(:disabled){
+  box-shadow:none;
+  outline:none;
+}
+.edit-site-sidebar-button:focus-visible:not(:disabled){
+  box-shadow:0 0 0 var(--wp-admin-border-width-focus) var(--wp-components-color-accent, var(--wp-admin-theme-color, #007cba));
+  outline:3px solid transparent;
+}
+.edit-site-sidebar-button:focus,.edit-site-sidebar-button:focus-visible,.edit-site-sidebar-button:hover,.edit-site-sidebar-button:not([aria-disabled=true]):active{
+  color:#fff;
+}
+
 .edit-site-sidebar-navigation-item.components-item{
   border-width:1.5px;
   color:#949494;
@@ -2283,22 +2287,12 @@ body.is-fullscreen-mode .edit-site .components-editor-notices__snackbar{
   flex-grow:1;
   font-size:20.28px;
   font-weight:500;
+  line-height:normal;
   margin:0;
-}
-
-.edit-site-sidebar-navigation-screen__back{
-  color:#e0e0e0;
-}
-.edit-site-sidebar-navigation-screen__back:focus,.edit-site-sidebar-navigation-screen__back:hover,.edit-site-sidebar-navigation-screen__back:not([aria-disabled=true]):active{
-  color:#fff;
 }
 
 .edit-site-sidebar-navigation-screen-templates__see-all{
   margin-top:16px !important;
-}
-
-.edit-site-sidebar-navigation-screen-templates__add-button{
-  color:inherit !important;
 }
 
 .edit-site-site-hub{

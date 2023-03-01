@@ -14,7 +14,6 @@
 	},
 	"usesContext": [ "queryId", "query", "paginationArrow" ],
 	"supports": {
-		"anchor": true,
 		"reusable": false,
 		"html": false,
 		"color": {

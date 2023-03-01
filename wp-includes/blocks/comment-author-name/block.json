@@ -22,7 +22,6 @@
 	},
 	"usesContext": [ "commentId" ],
 	"supports": {
-		"anchor": true,
 		"html": false,
 		"spacing": {
 			"margin": true,

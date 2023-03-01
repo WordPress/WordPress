@@ -1531,7 +1531,7 @@
   font-size:16px;
   line-height:normal;
   margin:0;
-  padding:11px 16px;
+  padding:11px 36px 11px 16px;
   position:relative;
   transition:box-shadow .1s linear;
   width:calc(100% - 32px);
@@ -1569,10 +1569,9 @@
 }
 
 .block-editor-link-control__search-actions{
-  display:flex;
-  flex-direction:row-reverse;
-  gap:8px;
-  justify-content:flex-start;
+  position:absolute;
+  right:19px;
+  top:3px;
 }
 
 .components-button .block-editor-link-control__search-submit .has-icon{
@@ -1849,11 +1848,10 @@
   padding:10px;
 }
 
-.block-editor-link-control__drawer{
+.block-editor-link-control__tools{
   align-items:center;
   border-top:1px solid #ddd;
   display:flex;
-  justify-content:space-between;
   margin:0;
   padding:16px;
 }
@@ -1888,7 +1886,7 @@
   bottom:auto;
   left:auto;
   position:absolute;
-  right:16px;
+  right:36px;
   top:calc(50% - 8px);
 }
 
@@ -3563,6 +3561,16 @@
   margin:0 auto;
   max-width:100%;
 }
+.block-editor-inserter__media-list .block-editor-inserter__media-list__item .block-editor-inserter__media-list__item-preview .block-editor-inserter__media-list__item-preview-spinner{
+  align-items:center;
+  background:hsla(0,0%,100%,.7);
+  display:flex;
+  height:100%;
+  justify-content:center;
+  pointer-events:none;
+  position:absolute;
+  width:100%;
+}
 .block-editor-inserter__media-list .block-editor-inserter__media-list__item:focus .block-editor-inserter__media-list__item-preview{
   box-shadow:inset 0 0 0 2px #fff, 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
   outline:2px solid transparent;
@@ -3578,6 +3586,15 @@
 }
 .block-editor-inserter__mobile-tab-navigation>*{
   height:100%;
+}
+
+@media (min-width:600px){
+  .block-editor-inserter-media-tab-media-preview-inserter-external-image-modal{
+    max-width:480px;
+  }
+}
+.block-editor-inserter-media-tab-media-preview-inserter-external-image-modal p{
+  margin:0;
 }
 
 .block-editor-post-preview__dropdown{
@@ -3727,7 +3744,7 @@
 .component-spacing-sizes-control .components-range-control__marks :first-child{
   display:none;
 }
-.component-spacing-sizes-control [class*=ThumbWrapper-thumbColor]{
+.component-spacing-sizes-control .components-range-control__thumb-wrapper{
   z-index:3;
 }
 .component-spacing-sizes-control .components-spacing-sizes-control__custom-select-control{

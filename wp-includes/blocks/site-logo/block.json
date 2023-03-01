@@ -31,7 +31,6 @@
 	},
 	"supports": {
 		"html": false,
-		"anchor": true,
 		"align": true,
 		"alignWide": false,
 		"color": {

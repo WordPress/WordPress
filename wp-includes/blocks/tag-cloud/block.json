@@ -36,7 +36,6 @@
 	],
 	"supports": {
 		"html": false,
-		"anchor": true,
 		"align": true,
 		"spacing": {
 			"margin": true,

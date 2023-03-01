@@ -14,7 +14,6 @@
 		}
 	},
 	"supports": {
-		"anchor": true,
 		"color": {
 			"gradients": true,
 			"link": true,
