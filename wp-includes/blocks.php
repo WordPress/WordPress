@@ -1265,7 +1265,15 @@ function build_query_vars_from_query_block( $block, $page ) {
 		if ( isset( $block->context['query']['sticky'] ) && ! empty( $block->context['query']['sticky'] ) ) {
 			$sticky = get_option( 'sticky_posts' );
 			if ( 'only' === $block->context['query']['sticky'] ) {
-				$query['post__in'] = $sticky;
+				/*
+				 * Passing an empty array to post__in will return have_posts() as true (and all posts will be returned).
+				 * Logic should be used before hand to determine if WP_Query should be used in the event that the array
+				 * being passed to post__in is empty.
+				 *
+				 * @see https://core.trac.wordpress.org/ticket/28099
+				 */
+				$query['post__in']            = ! empty( $sticky ) ? $sticky : array( 0 );
+				$query['ignore_sticky_posts'] = 1;
 			} else {
 				$query['post__not_in'] = array_merge( $query['post__not_in'], $sticky );
 			}
