@@ -2591,7 +2591,7 @@ if ( ! function_exists( 'wp_generate_password' ) ) :
 	/**
 	 * Generates a random password drawn from the defined set of characters.
 	 *
-	 * Uses wp_rand() is used to create passwords with far less predictability
+	 * Uses wp_rand() to create passwords with far less predictability
 	 * than similar native PHP functions like `rand()` or `mt_rand()`.
 	 *
 	 * @since 2.5.0
