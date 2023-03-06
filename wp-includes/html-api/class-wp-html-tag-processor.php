@@ -775,7 +775,8 @@ class WP_HTML_Tag_Processor {
 				return false;
 			}
 
-			$at += 2;
+			$closer_potentially_starts_at = $at;
+			$at                          += 2;
 
 			/*
 			 * Find a case-insensitive match to the tag name.
@@ -818,7 +819,7 @@ class WP_HTML_Tag_Processor {
 			}
 
 			if ( '>' === $html[ $at ] || '/' === $html[ $at ] ) {
-				++$this->bytes_already_parsed;
+				$this->bytes_already_parsed = $closer_potentially_starts_at;
 				return true;
 			}
 		}
@@ -887,7 +888,8 @@ class WP_HTML_Tag_Processor {
 			}
 
 			if ( '/' === $html[ $at ] ) {
-				$is_closing = true;
+				$closer_potentially_starts_at = $at - 1;
+				$is_closing                   = true;
 				++$at;
 			} else {
 				$is_closing = false;
@@ -938,7 +940,7 @@ class WP_HTML_Tag_Processor {
 			}
 
 			if ( $is_closing ) {
-				$this->bytes_already_parsed = $at;
+				$this->bytes_already_parsed = $closer_potentially_starts_at;
 				if ( $this->bytes_already_parsed >= $doc_length ) {
 					return false;
 				}
@@ -948,7 +950,7 @@ class WP_HTML_Tag_Processor {
 				}
 
 				if ( '>' === $html[ $this->bytes_already_parsed ] ) {
-					++$this->bytes_already_parsed;
+					$this->bytes_already_parsed = $closer_potentially_starts_at;
 					return true;
 				}
 			}
