@@ -374,7 +374,7 @@ body.editor-styles-wrapper .wp-block-navigation__responsive-container.is-menu-op
     opacity:1;
   }
 }
-.wp-block-navigation .components-spinner{
+.wp-block-navigation__loading-indicator-container{
   padding:8px 12px;
 }
 

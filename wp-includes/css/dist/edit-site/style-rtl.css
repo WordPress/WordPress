@@ -1419,46 +1419,6 @@ body.is-fullscreen-mode .edit-site-list-header{
   display:block;
 }
 
-@keyframes loadingpulse{
-  0%{
-    opacity:1;
-  }
-  50%{
-    opacity:.5;
-  }
-  to{
-    opacity:1;
-  }
-}
-.edit-site-navigation-inspector .block-editor-list-view-leaf .block-editor-list-view-block-contents{
-  white-space:normal;
-}
-.edit-site-navigation-inspector .block-editor-list-view-block__title{
-  margin-top:3px;
-}
-.edit-site-navigation-inspector .block-editor-list-view-block__menu-cell{
-  padding-left:0;
-}
-.edit-site-navigation-inspector .edit-site-navigation-inspector__select-menu{
-  margin-bottom:8px;
-}
-
-.edit-site-navigation-inspector__placeholder{
-  animation:loadingpulse 1s linear infinite;
-  animation-delay:.5s;
-  background-color:#f0f0f0;
-  margin:8px;
-  padding:8px;
-}
-.edit-site-navigation-inspector__placeholder.is-child{
-  margin-right:24px;
-  width:50%;
-}
-
-.edit-site-navigation-inspector__empty-msg{
-  padding:0 8px;
-}
-
 .edit-site-sidebar-edit-mode{
   width:280px;
 }
@@ -2017,7 +1977,7 @@ body.is-fullscreen-mode .edit-site .components-editor-notices__snackbar{
 .edit-site-layout__content{
   display:flex;
   flex-grow:1;
-  overflow:hidden;
+  height:100%;
 }
 
 .edit-site-layout__sidebar{
@@ -2162,6 +2122,20 @@ body.is-fullscreen-mode .edit-site .components-editor-notices__snackbar{
   }
 }
 
+.edit-site-save-hub{
+  color:#949494;
+}
+
+.edit-site-save-hub__button{
+  color:inherit;
+}
+.edit-site-save-hub__button[aria-disabled=true]{
+  opacity:1;
+}
+.edit-site-save-hub__button[aria-disabled=true]:hover{
+  color:inherit;
+}
+
 @media (min-width:600px){
   .edit-site-save-panel__modal{
     width:600px;
@@ -2171,33 +2145,33 @@ body.is-fullscreen-mode .edit-site .components-editor-notices__snackbar{
 .edit-site-sidebar__content{
   flex-grow:1;
   overflow-y:auto;
+}
+.edit-site-sidebar__content .components-navigator-screen{
   scrollbar-color:#757575 #1e1e1e;
   scrollbar-gutter:stable;
   scrollbar-width:thin;
   visibility:hidden;
 }
-.edit-site-sidebar__content::-webkit-scrollbar{
+.edit-site-sidebar__content .components-navigator-screen::-webkit-scrollbar{
   height:12px;
   width:12px;
 }
-.edit-site-sidebar__content::-webkit-scrollbar-track{
+.edit-site-sidebar__content .components-navigator-screen::-webkit-scrollbar-track{
   background-color:#1e1e1e;
 }
-.edit-site-sidebar__content::-webkit-scrollbar-thumb{
+.edit-site-sidebar__content .components-navigator-screen::-webkit-scrollbar-thumb{
   background-clip:padding-box;
   background-color:#757575;
   border:3px solid transparent;
   border-radius:8px;
 }
-.edit-site-sidebar__content:focus,.edit-site-sidebar__content:hover,.edit-site-sidebar__content>*{
+.edit-site-sidebar__content .components-navigator-screen:focus,.edit-site-sidebar__content .components-navigator-screen:hover,.edit-site-sidebar__content .components-navigator-screen>*{
   visibility:visible;
 }
 
 .edit-site-sidebar__footer{
   border-top:1px solid #2f2f2f;
-  display:flex;
   flex-shrink:0;
-  justify-content:flex-end;
   margin:0 24px;
   padding:24px 0;
 }
@@ -2222,7 +2196,7 @@ body.is-fullscreen-mode .edit-site .components-editor-notices__snackbar{
   box-shadow:0 0 0 var(--wp-admin-border-width-focus) var(--wp-components-color-accent, var(--wp-admin-theme-color, #007cba));
   outline:3px solid transparent;
 }
-.edit-site-sidebar-button:focus,.edit-site-sidebar-button:focus-visible,.edit-site-sidebar-button:hover,.edit-site-sidebar-button:not([aria-disabled=true]):active{
+.edit-site-sidebar-button:focus,.edit-site-sidebar-button:focus-visible,.edit-site-sidebar-button:hover,.edit-site-sidebar-button:not([aria-disabled=true]):active,.edit-site-sidebar-button[aria-expanded=true]{
   color:#fff;
 }
 
@@ -2237,20 +2211,6 @@ body.is-fullscreen-mode .edit-site .components-editor-notices__snackbar{
 }
 .edit-site-sidebar-navigation-item.components-item[aria-current]{
   background:var(--wp-admin-theme-color);
-}
-
-.edit-site-sidebar-navigation-screen__content .edit-site-navigation-inspector .components-button{
-  color:#949494;
-}
-.edit-site-sidebar-navigation-screen__content .edit-site-navigation-inspector .components-button:focus,.edit-site-sidebar-navigation-screen__content .edit-site-navigation-inspector .components-button:hover,.edit-site-sidebar-navigation-screen__content .edit-site-navigation-inspector .components-button[aria-current]{
-  color:#fff;
-}
-
-.edit-site-sidebar-navigation-screen__content .edit-site-navigation-inspector .offcanvas-editor-list-view-leaf:focus,.edit-site-sidebar-navigation-screen__content .edit-site-navigation-inspector .offcanvas-editor-list-view-leaf:hover,.edit-site-sidebar-navigation-screen__content .edit-site-navigation-inspector .offcanvas-editor-list-view-leaf[aria-current]{
-  background:#2f2f2f;
-}
-.edit-site-sidebar-navigation-screen__content .edit-site-navigation-inspector .offcanvas-editor-list-view-leaf .block-editor-list-view-block__menu{
-  margin-right:-8px;
 }
 
 .edit-site-sidebar-navigation-screen__content .block-editor-list-view-block-select-button{
@@ -2269,6 +2229,18 @@ body.is-fullscreen-mode .edit-site .components-editor-notices__snackbar{
 .edit-site-sidebar-navigation-screen__content{
   color:#949494;
   margin:0 36px 16px 16px;
+}
+
+.edit-site-sidebar-navigation-screen__page-link{
+  color:#949494;
+  display:inline-block;
+  margin-right:16px;
+}
+.edit-site-sidebar-navigation-screen__page-link:focus,.edit-site-sidebar-navigation-screen__page-link:hover{
+  color:#fff;
+}
+.edit-site-sidebar-navigation-screen__page-link .components-external-link__icon{
+  margin-right:4px;
 }
 
 .edit-site-sidebar-navigation-screen__title-icon{
@@ -2323,14 +2295,56 @@ body.is-fullscreen-mode .edit-site .components-editor-notices__snackbar{
   white-space:nowrap;
 }
 
-.edit-site-sidebar-navigation-screen-navigation-menus .block-editor-list-view-block__menu-edit,.edit-site-sidebar-navigation-screen-navigation-menus .edit-site-navigation-inspector__select-menu{
-  display:none;
+.edit-site-sidebar-navigation-screen__description{
+  margin:0 16px 32px 0;
 }
-.edit-site-sidebar-navigation-screen-navigation-menus .offcanvas-editor-list-view-leaf{
+
+.edit-site-sidebar-navigation-screen-navigation-menus__placeholder{
+  animation:loadingpulse 1s linear infinite;
+  animation-delay:.5s;
+  background-color:#f0f0f0;
+  margin:8px;
+  padding:8px;
+}
+
+@keyframes loadingpulse{
+  0%{
+    opacity:1;
+  }
+  50%{
+    opacity:.5;
+  }
+  to{
+    opacity:1;
+  }
+}
+.edit-site-sidebar-navigation-screen-navigation-menus__content .offcanvas-editor-list-view-leaf{
+  border-radius:2px;
   max-width:calc(100% - 4px);
 }
-.edit-site-sidebar-navigation-screen-navigation-menus .block-editor-list-view-leaf .block-editor-list-view-block__contents-cell{
+.edit-site-sidebar-navigation-screen-navigation-menus__content .offcanvas-editor-list-view-leaf:focus,.edit-site-sidebar-navigation-screen-navigation-menus__content .offcanvas-editor-list-view-leaf:hover,.edit-site-sidebar-navigation-screen-navigation-menus__content .offcanvas-editor-list-view-leaf[aria-current]{
+  background:#2f2f2f;
+}
+.edit-site-sidebar-navigation-screen-navigation-menus__content .offcanvas-editor-list-view-leaf .block-editor-list-view-block__menu{
+  margin-right:-8px;
+}
+.edit-site-sidebar-navigation-screen-navigation-menus__content .block-editor-list-view-leaf .block-editor-list-view-block__contents-cell{
   width:100%;
+}
+.edit-site-sidebar-navigation-screen-navigation-menus__content .block-editor-list-view-leaf .block-editor-list-view-block-contents{
+  white-space:normal;
+}
+.edit-site-sidebar-navigation-screen-navigation-menus__content .block-editor-list-view-block__title{
+  margin-top:3px;
+}
+.edit-site-sidebar-navigation-screen-navigation-menus__content .block-editor-list-view-block__menu-cell{
+  padding-left:0;
+}
+.edit-site-sidebar-navigation-screen-navigation-menus__content .components-button{
+  color:#949494;
+}
+.edit-site-sidebar-navigation-screen-navigation-menus__content .components-button:focus,.edit-site-sidebar-navigation-screen-navigation-menus__content .components-button:hover,.edit-site-sidebar-navigation-screen-navigation-menus__content .components-button[aria-current]{
+  color:#fff;
 }
 
 .edit-site-site-icon__icon{

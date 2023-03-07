@@ -9208,21 +9208,32 @@ function selectBlock(clientId) {
 }
 /**
  * Yields action objects used in signalling that the block preceding the given
- * clientId should be selected.
+ * clientId (or optionally, its first parent from bottom to top)
+ * should be selected.
  *
- * @param {string} clientId Block client ID.
+ * @param {string}  clientId         Block client ID.
+ * @param {boolean} fallbackToParent If true, select the first parent if there is no previous block.
  */
 
-const selectPreviousBlock = clientId => _ref4 => {
-  let {
-    select,
-    dispatch
-  } = _ref4;
-  const previousBlockClientId = select.getPreviousBlockClientId(clientId);
+const selectPreviousBlock = function (clientId) {
+  let fallbackToParent = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+  return _ref4 => {
+    let {
+      select,
+      dispatch
+    } = _ref4;
+    const previousBlockClientId = select.getPreviousBlockClientId(clientId);
 
-  if (previousBlockClientId) {
-    dispatch.selectBlock(previousBlockClientId, -1);
-  }
+    if (previousBlockClientId) {
+      dispatch.selectBlock(previousBlockClientId, -1);
+    } else if (fallbackToParent) {
+      const firstParentClientId = select.getBlockRootClientId(clientId);
+
+      if (firstParentClientId) {
+        dispatch.selectBlock(firstParentClientId, -1);
+      }
+    }
+  };
 };
 /**
  * Yields action objects used in signalling that the block following the given
@@ -10019,8 +10030,11 @@ const mergeBlocks = (firstBlockClientId, secondBlockClientId) => _ref16 => {
  * the set of specified client IDs are to be removed.
  *
  * @param {string|string[]} clientIds      Client IDs of blocks to remove.
- * @param {boolean}         selectPrevious True if the previous block should be
- *                                         selected when a block is removed.
+ * @param {boolean}         selectPrevious True if the previous block
+ *                                         or the immediate parent
+ *                                         (if no previous block exists)
+ *                                         should be selected
+ *                                         when a block is removed.
  */
 
 const removeBlocks = function (clientIds) {
@@ -10044,7 +10058,7 @@ const removeBlocks = function (clientIds) {
     }
 
     if (selectPrevious) {
-      dispatch.selectPreviousBlock(clientIds[0]);
+      dispatch.selectPreviousBlock(clientIds[0], selectPrevious);
     }
 
     dispatch({
@@ -25017,7 +25031,8 @@ function InserterSearchResults(_ref) {
     isDraggable = true,
     shouldFocusBlock = true,
     prioritizePatterns,
-    selectBlockOnInsert
+    selectBlockOnInsert,
+    orderInitialBlockItems
   } = _ref;
   const debouncedSpeak = (0,external_wp_compose_namespaceObject.useDebounce)(external_wp_a11y_namespaceObject.speak, 500);
   const [destinationRootClientId, onInsertBlocks] = use_insertion_point({
@@ -25050,9 +25065,15 @@ function InserterSearchResults(_ref) {
       return [];
     }
 
-    const results = searchBlockItems(orderBy(blockTypes, 'frecency', 'desc'), blockTypeCategories, blockTypeCollections, filterValue);
+    let orderedItems = orderBy(blockTypes, 'frecency', 'desc');
+
+    if (!filterValue && orderInitialBlockItems) {
+      orderedItems = orderInitialBlockItems(orderedItems);
+    }
+
+    const results = searchBlockItems(orderedItems, blockTypeCategories, blockTypeCollections, filterValue);
     return maxBlockTypesToShow !== undefined ? results.slice(0, maxBlockTypesToShow) : results;
-  }, [filterValue, blockTypes, blockTypeCategories, blockTypeCollections, maxBlockTypes]); // Announce search results on change.
+  }, [filterValue, blockTypes, blockTypeCategories, blockTypeCollections, maxBlockTypes, orderInitialBlockItems]); // Announce search results on change.
 
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     if (!filterValue) {
@@ -25429,7 +25450,8 @@ function QuickInserter(_ref) {
     clientId,
     isAppender,
     prioritizePatterns,
-    selectBlockOnInsert
+    selectBlockOnInsert,
+    orderInitialBlockItems
   } = _ref;
   const [filterValue, setFilterValue] = (0,external_wp_element_namespaceObject.useState)('');
   const [destinationRootClientId, onInsertBlocks] = use_insertion_point({
@@ -25507,7 +25529,8 @@ function QuickInserter(_ref) {
     maxBlockTypes: SHOWN_BLOCK_TYPES,
     isDraggable: false,
     prioritizePatterns: prioritizePatterns,
-    selectBlockOnInsert: selectBlockOnInsert
+    selectBlockOnInsert: selectBlockOnInsert,
+    orderInitialBlockItems: orderInitialBlockItems
   })), setInserterIsOpened && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, {
     className: "block-editor-inserter__quick-inserter-expand",
     onClick: onBrowseAll,
@@ -25553,21 +25576,23 @@ const defaultRenderToggle = _ref => {
     toggleProps = {},
     prioritizePatterns
   } = _ref;
-  let label;
-
-  if (hasSingleBlockType) {
-    label = (0,external_wp_i18n_namespaceObject.sprintf)( // translators: %s: the name of the block when there is only one
-    (0,external_wp_i18n_namespaceObject._x)('Add %s', 'directly add the only allowed block'), blockTitle);
-  } else if (prioritizePatterns) {
-    label = (0,external_wp_i18n_namespaceObject.__)('Add pattern');
-  } else {
-    label = (0,external_wp_i18n_namespaceObject._x)('Add block', 'Generic label for block inserter button');
-  }
-
   const {
+    as: Wrapper = external_wp_components_namespaceObject.Button,
+    label: labelProp,
     onClick,
     ...rest
-  } = toggleProps; // Handle both onClick functions from the toggle and the parent component.
+  } = toggleProps;
+  let label = labelProp;
+
+  if (!label && hasSingleBlockType) {
+    label = (0,external_wp_i18n_namespaceObject.sprintf)( // translators: %s: the name of the block when there is only one
+    (0,external_wp_i18n_namespaceObject._x)('Add %s', 'directly add the only allowed block'), blockTitle);
+  } else if (!label && prioritizePatterns) {
+    label = (0,external_wp_i18n_namespaceObject.__)('Add pattern');
+  } else if (!label) {
+    label = (0,external_wp_i18n_namespaceObject._x)('Add block', 'Generic label for block inserter button');
+  } // Handle both onClick functions from the toggle and the parent component.
+
 
   function handleClick(event) {
     if (onToggle) {
@@ -25579,7 +25604,7 @@ const defaultRenderToggle = _ref => {
     }
   }
 
-  return (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.Button, _extends({
+  return (0,external_wp_element_namespaceObject.createElement)(Wrapper, _extends({
     icon: library_plus,
     label: label,
     tooltipPosition: "bottom",
@@ -25591,7 +25616,7 @@ const defaultRenderToggle = _ref => {
   }, rest));
 };
 
-class Inserter extends external_wp_element_namespaceObject.Component {
+class PrivateInserter extends external_wp_element_namespaceObject.Component {
   constructor() {
     super(...arguments);
     this.onToggle = this.onToggle.bind(this);
@@ -25671,7 +25696,8 @@ class Inserter extends external_wp_element_namespaceObject.Component {
       __experimentalIsQuick: isQuick,
       prioritizePatterns,
       onSelectOrClose,
-      selectBlockOnInsert
+      selectBlockOnInsert,
+      orderInitialBlockItems
     } = this.props;
 
     if (isQuick) {
@@ -25689,7 +25715,8 @@ class Inserter extends external_wp_element_namespaceObject.Component {
         clientId: clientId,
         isAppender: isAppender,
         prioritizePatterns: prioritizePatterns,
-        selectBlockOnInsert: selectBlockOnInsert
+        selectBlockOnInsert: selectBlockOnInsert,
+        orderInitialBlockItems: orderInitialBlockItems
       });
     }
 
@@ -25740,7 +25767,7 @@ class Inserter extends external_wp_element_namespaceObject.Component {
 
 }
 
-/* harmony default export */ var inserter = ((0,external_wp_compose_namespaceObject.compose)([(0,external_wp_data_namespaceObject.withSelect)((select, _ref4) => {
+const ComposedPrivateInserter = (0,external_wp_compose_namespaceObject.compose)([(0,external_wp_data_namespaceObject.withSelect)((select, _ref4) => {
   var _getBlockVariations;
 
   let {
@@ -25912,7 +25939,15 @@ class Inserter extends external_wp_element_namespaceObject.Component {
     clientId
   } = _ref6;
   return hasItems || !isAppender && !rootClientId && !clientId;
-})])(Inserter));
+})])(PrivateInserter);
+const Inserter = (0,external_wp_element_namespaceObject.forwardRef)((props, ref) => {
+  return (0,external_wp_element_namespaceObject.createElement)(ComposedPrivateInserter, _extends({
+    ref: ref
+  }, props, {
+    orderInitialBlockItems: undefined
+  }));
+});
+/* harmony default export */ var inserter = (Inserter);
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/default-block-appender/index.js
 
@@ -31256,7 +31291,7 @@ function BlockSettingsDropdown(_ref2) {
     maximumLength: 25
   });
   const updateSelectionAfterRemove = (0,external_wp_element_namespaceObject.useCallback)(__experimentalSelectBlock ? () => {
-    const blockToSelect = previousBlockClientId || nextBlockClientId;
+    const blockToSelect = previousBlockClientId || nextBlockClientId || firstParentClientId;
 
     if (blockToSelect && // From the block options dropdown, it's possible to remove a block that is not selected,
     // in this case, it's not necessary to update the selection since the selected block wasn't removed.
@@ -31265,7 +31300,7 @@ function BlockSettingsDropdown(_ref2) {
     !selectedBlockClientIds.includes(blockToSelect)) {
       __experimentalSelectBlock(blockToSelect);
     }
-  } : block_settings_dropdown_noop, [__experimentalSelectBlock, previousBlockClientId, nextBlockClientId, selectedBlockClientIds]);
+  } : block_settings_dropdown_noop, [__experimentalSelectBlock, previousBlockClientId, nextBlockClientId, firstParentClientId, selectedBlockClientIds]);
   const label = (0,external_wp_i18n_namespaceObject.sprintf)(
   /* translators: %s: block name */
   (0,external_wp_i18n_namespaceObject.__)('Remove %s'), blockTitle);
@@ -55403,6 +55438,8 @@ function useGlobalStylesOutput() {
 
 
 
+
+const prioritizedInserterBlocks = ['core/navigation-link/page', 'core/navigation-link'];
 const Appender = (0,external_wp_element_namespaceObject.forwardRef)((_ref, ref) => {
   let {
     nestingLevel,
@@ -55444,18 +55481,39 @@ const Appender = (0,external_wp_element_namespaceObject.forwardRef)((_ref, ref) 
     (0,external_wp_a11y_namespaceObject.speak)((0,external_wp_i18n_namespaceObject.sprintf)( // translators: %s: name of block being inserted (i.e. Paragraph, Image, Group etc)
     (0,external_wp_i18n_namespaceObject.__)('%s block inserted'), insertedBlockTitle), 'assertive');
   }, [insertedBlockTitle]);
+  const orderInitialBlockItems = (0,external_wp_element_namespaceObject.useCallback)(items => {
+    items.sort((_ref2, _ref3) => {
+      let {
+        id: aName
+      } = _ref2;
+      let {
+        id: bName
+      } = _ref3;
+      // Sort block items according to `prioritizedInserterBlocks`.
+      let aIndex = prioritizedInserterBlocks.indexOf(aName);
+      let bIndex = prioritizedInserterBlocks.indexOf(bName); // All other block items should come after that.
+
+      if (aIndex < 0) aIndex = prioritizedInserterBlocks.length;
+      if (bIndex < 0) bIndex = prioritizedInserterBlocks.length;
+      return aIndex - bIndex;
+    });
+    return items;
+  }, []);
 
   if (hideInserter) {
     return null;
   }
 
+  const {
+    PrivateInserter
+  } = unlock(privateApis);
   const descriptionId = `off-canvas-editor-appender__${instanceId}`;
   const description = (0,external_wp_i18n_namespaceObject.sprintf)(
   /* translators: 1: The name of the block. 2: The numerical position of the block. 3: The level of nesting for the block. */
   (0,external_wp_i18n_namespaceObject.__)('Append to %1$s block at position %2$d, Level %3$d'), blockTitle, blockCount + 1, nestingLevel);
   return (0,external_wp_element_namespaceObject.createElement)("div", {
     className: "offcanvas-editor-appender"
-  }, (0,external_wp_element_namespaceObject.createElement)(inserter, _extends({
+  }, (0,external_wp_element_namespaceObject.createElement)(PrivateInserter, _extends({
     ref: ref,
     rootClientId: clientId,
     position: "bottom right",
@@ -55471,7 +55529,8 @@ const Appender = (0,external_wp_element_namespaceObject.forwardRef)((_ref, ref) 
       if (maybeInsertedBlock !== null && maybeInsertedBlock !== void 0 && maybeInsertedBlock.clientId) {
         setInsertedBlock(maybeInsertedBlock);
       }
-    }
+    },
+    orderInitialBlockItems: orderInitialBlockItems
   })), (0,external_wp_element_namespaceObject.createElement)("div", {
     className: "offcanvas-editor-appender__description",
     id: descriptionId
@@ -56044,7 +56103,7 @@ const block_contents_ListViewBlockContents = (0,external_wp_element_namespaceObj
     insertedBlockName,
     setInsertedBlockAttributes
   } = useInsertedBlock(lastInsertedBlockClientId);
-  const hasExistingLinkValue = insertedBlockAttributes === null || insertedBlockAttributes === void 0 ? void 0 : insertedBlockAttributes.id;
+  const hasExistingLinkValue = insertedBlockAttributes === null || insertedBlockAttributes === void 0 ? void 0 : insertedBlockAttributes.url;
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     if (clientId === lastInsertedBlockClientId && BLOCKS_WITH_LINK_UI_SUPPORT !== null && BLOCKS_WITH_LINK_UI_SUPPORT !== void 0 && BLOCKS_WITH_LINK_UI_SUPPORT.includes(insertedBlockName) && !hasExistingLinkValue // don't re-show the Link UI if the block already has a link value.
     ) {
@@ -56507,7 +56566,8 @@ function branch_ListViewBranch(props) {
     fixedListWindow,
     isExpanded,
     parentId,
-    shouldShowInnerBlocks = true
+    shouldShowInnerBlocks = true,
+    showAppender: showAppenderProp = true
   } = props;
   const isContentLocked = (0,external_wp_data_namespaceObject.useSelect)(select => {
     return !!(parentId && select(store).getTemplateLock(parentId) === 'contentOnly');
@@ -56522,7 +56582,7 @@ function branch_ListViewBranch(props) {
   } // Only show the appender at the first level.
 
 
-  const showAppender = level === 1;
+  const showAppender = showAppenderProp && level === 1;
   const filteredBlocks = blocks.filter(Boolean);
   const blockCount = filteredBlocks.length; // The appender means an extra row in List View, so add 1 to the row count.
 
@@ -56585,7 +56645,8 @@ function branch_ListViewBranch(props) {
       fixedListWindow: fixedListWindow,
       isBranchSelected: isSelectedBranch,
       selectedClientIds: selectedClientIds,
-      isExpanded: isExpanded
+      isExpanded: isExpanded,
+      showAppender: showAppenderProp
     }));
   }), showAppender && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalTreeGridRow, {
     level: level,
@@ -57182,6 +57243,7 @@ const off_canvas_editor_BLOCK_LIST_ITEM_HEIGHT = 36;
  * @param {Object}  props.LeafMoreMenu    Optional more menu substitution.
  * @param {string}  props.description     Optional accessible description for the tree grid component.
  * @param {string}  props.onSelect        Optional callback to be invoked when a block is selected.
+ * @param {string}  props.showAppender    Flag to show or hide the block appender.
  * @param {Object}  ref                   Forwarded ref
  */
 
@@ -57191,6 +57253,7 @@ function OffCanvasEditor(_ref, ref) {
     blocks,
     showBlockMovers = false,
     isExpanded = false,
+    showAppender = true,
     LeafMoreMenu,
     description = (0,external_wp_i18n_namespaceObject.__)('Block navigation structure'),
     onSelect
@@ -57324,7 +57387,8 @@ function OffCanvasEditor(_ref, ref) {
     fixedListWindow: fixedListWindow,
     selectedClientIds: selectedClientIds,
     isExpanded: isExpanded,
-    shouldShowInnerBlocks: shouldShowInnerBlocks
+    shouldShowInnerBlocks: shouldShowInnerBlocks,
+    showAppender: showAppender
   }), (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalTreeGridRow, {
     level: 1,
     setSize: 1,
@@ -57472,6 +57536,7 @@ function LeafMoreMenu(props) {
 
 
 
+
 /**
  * Private @wordpress/block-editor APIs.
  */
@@ -57480,7 +57545,8 @@ const privateApis = {};
 lock(privateApis, { ...global_styles_namespaceObject,
   ExperimentalBlockEditorProvider: ExperimentalBlockEditorProvider,
   LeafMoreMenu: LeafMoreMenu,
-  OffCanvasEditor: off_canvas_editor
+  OffCanvasEditor: off_canvas_editor,
+  PrivateInserter: ComposedPrivateInserter
 });
 
 ;// CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/index.js

@@ -373,12 +373,14 @@ function block_core_navigation_get_most_recently_published_navigation() {
 
 	// Default to the most recently created menu.
 	$parsed_args = array(
-		'post_type'      => 'wp_navigation',
-		'no_found_rows'  => true,
-		'order'          => 'DESC',
-		'orderby'        => 'date',
-		'post_status'    => 'publish',
-		'posts_per_page' => 1, // get only the most recent.
+		'post_type'              => 'wp_navigation',
+		'no_found_rows'          => true,
+		'update_post_meta_cache' => false,
+		'update_post_term_cache' => false,
+		'order'                  => 'DESC',
+		'orderby'                => 'date',
+		'post_status'            => 'publish',
+		'posts_per_page'         => 1, // get only the most recent.
 	);
 
 	$navigation_post = new WP_Query( $parsed_args );

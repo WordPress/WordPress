@@ -3005,6 +3005,7 @@
 
 .block-editor-inserter__popover.is-quick .components-popover__content{
   border:none;
+  box-shadow:0 .7px 1px rgba(0,0,0,.1),0 1.2px 1.7px -.2px rgba(0,0,0,.1),0 2.3px 3.3px -.5px rgba(0,0,0,.1);
   outline:none;
 }
 .block-editor-inserter__popover.is-quick .components-popover__content .block-editor-inserter__quick-inserter>*{
@@ -3012,10 +3013,12 @@
   border-right:1px solid #ccc;
 }
 .block-editor-inserter__popover.is-quick .components-popover__content .block-editor-inserter__quick-inserter>:first-child{
+  border-radius:2px 2px 0 0;
   border-top:1px solid #ccc;
 }
 .block-editor-inserter__popover.is-quick .components-popover__content .block-editor-inserter__quick-inserter>:last-child{
   border-bottom:1px solid #ccc;
+  border-radius:0 0 2px 2px;
 }
 .block-editor-inserter__popover.is-quick .components-popover__content .block-editor-inserter__quick-inserter>.components-button{
   border:1px solid #1e1e1e;

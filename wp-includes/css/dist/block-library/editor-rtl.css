@@ -1645,7 +1645,7 @@ body.editor-styles-wrapper .wp-block-navigation__responsive-container.is-menu-op
     opacity:1;
   }
 }
-.wp-block-navigation .components-spinner{
+.wp-block-navigation__loading-indicator-container{
   padding:8px 12px;
 }
 
@@ -1914,6 +1914,10 @@ body.editor-styles-wrapper .wp-block-navigation__responsive-container.is-menu-op
 
 .wp-block-page-list .components-notice{
   margin-right:0;
+}
+
+.wp-block-page-list__loading-indicator-container{
+  padding:8px 12px;
 }
 
 .block-editor-block-list__block[data-type="core/paragraph"].has-drop-cap:focus{

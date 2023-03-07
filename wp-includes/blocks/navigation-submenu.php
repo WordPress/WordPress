@@ -9,17 +9,16 @@
  * Build an array with CSS classes and inline styles defining the colors
  * which will be applied to the navigation markup in the front-end.
  *
- * @param  array $context    Navigation block context.
- * @param  array $attributes Block attributes.
+ * @param  array $context     Navigation block context.
+ * @param  array $attributes  Block attributes.
+ * @param  bool  $is_sub_menu Whether the block is a sub-menu.
  * @return array Colors CSS classes and inline styles.
  */
-function block_core_navigation_submenu_build_css_colors( $context, $attributes ) {
+function block_core_navigation_submenu_build_css_colors( $context, $attributes, $is_sub_menu = false ) {
 	$colors = array(
 		'css_classes'   => array(),
 		'inline_styles' => '',
 	);
-
-	$is_sub_menu = isset( $attributes['isTopLevelItem'] ) ? ( ! $attributes['isTopLevelItem'] ) : false;
 
 	// Text color.
 	$named_text_color  = null;
@@ -250,6 +249,15 @@ function render_block_core_navigation_submenu( $attributes, $content, $block ) {
 	}
 
 	if ( $has_submenu ) {
+		$colors      = block_core_navigation_submenu_build_css_colors( $block->context, $attributes, $has_submenu );
+		$classes     = array_merge(
+			array( 'wp-block-navigation__submenu-container' ),
+			$colors['css_classes']
+		);
+		$css_classes = trim( implode( ' ', $classes ) );
+
+		$style_attribute = $colors['inline_styles'];
+
 		$inner_blocks_html = '';
 		foreach ( $block->inner_blocks as $inner_block ) {
 			$inner_blocks_html .= $inner_block->render();
@@ -263,10 +271,19 @@ function render_block_core_navigation_submenu( $attributes, $content, $block ) {
 			$html = $tag_processor->get_updated_html();
 		}
 
+		$wrapper_attributes = get_block_wrapper_attributes(
+			array(
+				'class' => $css_classes,
+				'style' => $style_attribute,
+			)
+		);
+
 		$html .= sprintf(
-			'<ul class="wp-block-navigation__submenu-container">%s</ul>',
+			'<ul %s>%s</ul>',
+			$wrapper_attributes,
 			$inner_blocks_html
 		);
+
 	}
 
 	$html .= '</li>';
