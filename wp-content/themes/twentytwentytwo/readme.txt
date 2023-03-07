@@ -1,9 +1,9 @@
 === Twenty Twenty-Two ===
 Contributors: wordpressdotorg
 Requires at least: 5.9
-Tested up to: 6.1
+Tested up to: 6.2
 Requires PHP: 5.6
-Stable tag: 1.3
+Stable tag: 1.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -16,6 +16,11 @@ The true richness of Twenty Twenty-Two lies in its opportunity for customization
 Whether you’re building a single-page website, a blog, a business website, or a portfolio, Twenty Twenty-Two will help you create a site that is uniquely yours.
 
 == Changelog ==
+
+= 1.4 =
+* Released: March 28, 2023
+
+https://wordpress.org/documentation/article/twenty-twenty-two-changelog#Version_1.4
 
 = 1.3 =
 * Released: November 1, 2022
