@@ -18,7 +18,7 @@ Whether you want to build a complex or incredibly simple website, you can do it 
 = 1.1 =
 * Released: March 28, 2023
 
-https://wordpress.org/documentation/article/twenty-twenty-three-changelog#Version_1.1
+https://wordpress.org/documentation/article/twenty-twenty-three-changelog/#Version_1.1
 
 = 1.0 =
 * Released: November 1, 2022

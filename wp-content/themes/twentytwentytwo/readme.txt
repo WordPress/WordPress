@@ -20,7 +20,7 @@ Whether you’re building a single-page website, a blog, a business website, or 
 = 1.4 =
 * Released: March 28, 2023
 
-https://wordpress.org/documentation/article/twenty-twenty-two-changelog#Version_1.4
+https://wordpress.org/documentation/article/twenty-twenty-two-changelog/#Version_1.4
 
 = 1.3 =
 * Released: November 1, 2022

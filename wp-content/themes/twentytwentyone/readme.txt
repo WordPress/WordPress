@@ -33,7 +33,7 @@ No data is saved in the database or transferred.
 = 1.8 =
 * Released: March 28, 2023
 
-https://wordpress.org/documentation/article/twenty-twenty-one-changelog#Version_1.8
+https://wordpress.org/documentation/article/twenty-twenty-one-changelog/#Version_1.8
 
 = 1.7 =
 * Released: November 1, 2022
