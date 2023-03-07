@@ -40,7 +40,7 @@
  * Example:
  * ```php
  *     $tags = new WP_HTML_Tag_Processor( $html );
- *     if ( $tags->next_tag( array( 'tag_name' => 'option' ) ) ) {
+ *     if ( $tags->next_tag( 'option' ) ) {
  *         $tags->set_attribute( 'selected', true );
  *     }
  * ```
@@ -58,10 +58,11 @@
  *     $tags->next_tag();
  * ```
  *
- * | Goal                                                      | Query                                                                      |
- * |-----------------------------------------------------------|----------------------------------------------------------------------------|
- * | Find any tag.                                             | `$tags->next_tag();`                                                       |
+ * | Goal                                                      | Query                                                                           |
+ * |-----------------------------------------------------------|---------------------------------------------------------------------------------|
+ * | Find any tag.                                             | `$tags->next_tag();`                                                            |
  * | Find next image tag.                                      | `$tags->next_tag( array( 'tag_name' => 'img' ) );`                              |
+ * | Find next image tag (without passing the array).          | `$tags->next_tag( 'img' );`                                                     |
  * | Find next tag containing the `fullwidth` CSS class.       | `$tags->next_tag( array( 'class_name' => 'fullwidth' ) );`                      |
  * | Find next image tag containing the `fullwidth` CSS class. | `$tags->next_tag( array( 'tag_name' => 'img', 'class_name' => 'fullwidth' ) );` |
  *
@@ -1610,7 +1611,7 @@ class WP_HTML_Tag_Processor {
 	 *     $p->get_attribute( 'enabled' ) === true;
 	 *     $p->get_attribute( 'aria-label' ) === null;
 	 *
-	 *     $p->next_tag( array() ) === false;
+	 *     $p->next_tag() === false;
 	 *     $p->get_attribute( 'class' ) === null;
 	 * ```
 	 *
@@ -1691,7 +1692,7 @@ class WP_HTML_Tag_Processor {
 	 *     $p->next_tag( array( 'class_name' => 'test' ) ) === true;
 	 *     $p->get_attribute_names_with_prefix( 'data-' ) === array( 'data-enabled', 'data-test-id' );
 	 *
-	 *     $p->next_tag( array() ) === false;
+	 *     $p->next_tag() === false;
 	 *     $p->get_attribute_names_with_prefix( 'data-' ) === null;
 	 * ```
 	 *
@@ -1722,10 +1723,10 @@ class WP_HTML_Tag_Processor {
 	 * Example:
 	 * ```php
 	 *     $p = new WP_HTML_Tag_Processor( '<DIV CLASS="test">Test</DIV>' );
-	 *     $p->next_tag( array() ) === true;
+	 *     $p->next_tag() === true;
 	 *     $p->get_tag() === 'DIV';
 	 *
-	 *     $p->next_tag( array() ) === false;
+	 *     $p->next_tag() === false;
 	 *     $p->get_tag() === null;
 	 * ```
 	 *
