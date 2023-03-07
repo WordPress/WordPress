@@ -3144,20 +3144,6 @@ function wp_ajax_save_attachment() {
 		wp_delete_post( $id );
 	} else {
 		wp_update_post( $post );
-
-		/**
-		 * Fires after an attachment has been updated via the Ajax handler
-		 * and before the JSON response is sent.
-		 *
-		 * When checking if an action is being done, `doing_action( 'wp_ajax_save-attachment' )`
-		 * may be used if that is more convenient.
-		 *
-		 * @since 6.2.0
-		 *
-		 * @param array $post    The attachment data.
-		 * @param array $changes An array containing the updated attachment attributes.
-		 */
-		do_action( 'wp_ajax_save_attachment_updated', $post, $changes );
 	}
 
 	wp_send_json_success();
