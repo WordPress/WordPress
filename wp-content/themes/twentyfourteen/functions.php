@@ -721,6 +721,8 @@ if ( ! class_exists( 'Featured_Content' ) && 'plugins.php' !== $GLOBALS['pagenow
  *
  * Enables installing Twenty Fourteen in WordPress versions before 4.0.0 when the
  * `is_customize_preview` function was introduced.
+ *
+ * @global WP_Customize_Manager $wp_customize Customizer object.
  */
 if ( ! function_exists( 'is_customize_preview' ) ) :
 	function is_customize_preview() {

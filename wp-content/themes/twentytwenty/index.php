@@ -25,6 +25,9 @@ get_header();
 	$archive_subtitle = '';
 
 	if ( is_search() ) {
+		/**
+		 * @global WP_Query $wp_query WordPress Query object.
+		 */
 		global $wp_query;
 
 		$archive_title = sprintf(
