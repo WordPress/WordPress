@@ -220,74 +220,17 @@
 	grid-template-columns: 3fr 2fr;
 }
 
-.about__section.has-2-columns .is-section-header {
+.about__section .is-section-header {
 	grid-column-start: 1;
-	-ms-grid-column-span: 2;
-	grid-column-end: span 2;
-}
-
-.about__section.has-2-columns .column:nth-of-type(2n+1) {
-	grid-column-start: 1;
-}
-
-.about__section.has-2-columns .column:nth-of-type(2n) {
-	grid-column-start: 2;
+	grid-column-end: -1;
 }
 
 .about__section.has-3-columns {
 	grid-template-columns: repeat(3, 1fr);
 }
 
-.about__section.has-3-columns .is-section-header {
-	grid-column-start: 1;
-	-ms-grid-column-span: 3;
-	grid-column-end: span 3;
-}
-
-.about__section.has-3-columns .column:nth-of-type(3n+1) {
-	grid-column-start: 1;
-}
-
-.about__section.has-3-columns .column:nth-of-type(3n+2) {
-	grid-column-start: 2;
-}
-
-.about__section.has-3-columns .column:nth-of-type(3n) {
-	grid-column-start: 3;
-}
-
 .about__section.has-4-columns {
 	grid-template-columns: repeat(4, 1fr);
-}
-
-.about__section.has-4-columns .is-section-header {
-	grid-column-start: 1;
-	-ms-grid-column-span: 4;
-	grid-column-end: span 4;
-}
-
-.about__section.has-4-columns .column:nth-of-type(4n+1) {
-	grid-column-start: 1;
-}
-
-.about__section.has-4-columns .column:nth-of-type(4n+2) {
-	grid-column-start: 2;
-}
-
-.about__section.has-4-columns .column:nth-of-type(4n+3) {
-	grid-column-start: 3;
-}
-
-.about__section.has-4-columns .column:nth-of-type(4n) {
-	grid-column-start: 4;
-}
-
-/* Any columns following a section header need to be expicitly put into the second row, for IE support. */
-.about__section.has-2-columns .is-section-header ~ .column,
-.about__section.has-3-columns .is-section-header ~ .column,
-.about__section.has-4-columns .is-section-header ~ .column,
-.about__section.has-overlap-style .is-section-header ~ .column {
-	grid-row-start: 2;
 }
 
 .about__section.has-overlap-style {
@@ -300,13 +243,11 @@
 
 .about__section.has-overlap-style .column:nth-of-type(2n+1) {
 	grid-column-start: 2;
-	-ms-grid-column-span: 3;
 	grid-column-end: span 3;
 }
 
 .about__section.has-overlap-style .column:nth-of-type(2n) {
 	grid-column-start: 4;
-	-ms-grid-column-span: 3;
 	grid-column-end: span 3;
 }
 
@@ -354,29 +295,6 @@
 		grid-template-columns: repeat(2, 1fr);
 	}
 
-	.about__section.has-4-columns .column:nth-of-type(2n+1) {
-		grid-column-start: 1;
-	}
-
-	.about__section.has-4-columns .column:nth-of-type(2n) {
-		grid-column-start: 2;
-	}
-
-	.about__section.has-4-columns .column:nth-of-type(4n+3),
-	.about__section.has-4-columns .column:nth-of-type(4n) {
-		grid-row-start: 2;
-	}
-
-	.about__section.has-4-columns .is-section-header {
-		-ms-grid-column-span: 2;
-		grid-column-end: span 2;
-	}
-
-	.about__section.has-4-columns .is-section-header ~ .column:nth-of-type(4n+3),
-	.about__section.has-4-columns .is-section-header ~ .column:nth-of-type(4n) {
-		grid-row-start: 3;
-	}
-
 	.about__section.has-overlap-style {
 		grid-template-columns: 1fr;
 	}
@@ -384,10 +302,8 @@
 	/* At this size, the two columns fully overlap */
 	.about__section.has-overlap-style .column.column {
 		grid-column-start: 1;
-		-ms-grid-column-span: 1;
 		grid-column-end: 2;
 		grid-row-start: 1;
-		-ms-grid-row-span: 1;
 		grid-row-end: 2;
 	}
 }
@@ -475,7 +391,7 @@
 .about__container h3.is-smaller-heading {
 	margin-top: 0;
 	font-size: 1.125rem;
-	font-weight: 700;
+	font-weight: 600;
 	line-height: 1.6;
 }
 
@@ -548,6 +464,10 @@
 	margin-right: auto;
 }
 
+.about__container .about__image svg {
+	vertical-align: middle;
+}
+
 .about__container .about__image + h3 {
 	margin-top: 1.5em;
 }
@@ -557,7 +477,7 @@
 }
 
 .about__container hr {
-	margin: 0;
+	margin: 0 var(--gap);
 	height: var(--gap);
 	border: none;
 	border-top: 4px solid var(--accent-2);
@@ -587,6 +507,11 @@
 	font-size: 1.6em;
 }
 
+.about__section.has-3-columns,
+.about__section.has-4-columns {
+	font-size: 1rem;
+}
+
 @media screen and (max-width: 480px) {
 	.about__section.is-feature {
 		font-size: 1.4em;
@@ -603,12 +528,17 @@
 
 .about__header {
 	position: relative;
-	margin-bottom: var(--gap);
-	padding-top: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+	padding: calc(var(--gap) * 2) 0;
+	min-height: 420px;
 	color: var(--text-light);
 	background: var(--background) url('../images/about-header-about.svg?ver=6.2') no-repeat;
 	background-size: cover;
-	background-position: center calc(50% - 36px);
+	background-position: center;
 }
 
 .credits-php .about__header {
@@ -630,7 +560,7 @@
 .about__header-title {
 	box-sizing: border-box;
 	margin: 0 var(--gap);
-	padding: 9rem 0 0;
+	padding: 0;
 	text-align: center;
 }
 
@@ -657,15 +587,11 @@
 .about__header-text {
 	box-sizing: border-box;
 	max-width: 22em;
-	margin: 0 auto 10rem;
+	margin: 0 auto;
 	padding: 0;
 	font-size: 1.6rem;
 	line-height: 1.15;
 	text-align: center;
-}
-
-.credits-php .about__header-text {
-	margin-bottom: 9rem;
 }
 
 .about__header-navigation {
@@ -674,6 +600,7 @@
 	display: flex;
 	justify-content: center;
 	padding-top: 0;
+	margin-bottom: var(--gap);
 	background: var(--nav-background);
 	color: var(--nav-color);
 	border-bottom: 3px solid var(--nav-border);
@@ -753,6 +680,12 @@
 	}
 }
 
+@media screen and (max-width: 600px) {
+	.about__header {
+		min-height: auto;
+	}
+}
+
 @media screen and (max-width: 480px) {
 	.about__header,
 	.credits-php .about__header,
@@ -765,15 +698,9 @@
 		font-size: 2.4em;
 	}
 
-	.about__header-title {
-		padding-top: 2rem;
-	}
-
-	.about__header-text,
-	.credits-php .about__header-text {
+	.about__header-text {
 		margin-left: calc(var(--gap) / 2);
 		margin-right: calc(var(--gap) / 2);
-		margin-bottom: 2rem;
 	}
 
 	.about__header-navigation {
