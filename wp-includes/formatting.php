@@ -2918,8 +2918,8 @@ function _make_url_clickable_cb( $matches ) {
 	}
 
 	$rel_attr = _make_clickable_rel_attr( $url );
-	return $matches[1] . "<a href=\"$url\"$rel_attr>$url</a>" . $suffix;
 
+	return $matches[1] . "<a href=\"{$url}\"{$rel_attr}>{$url}</a>" . $suffix;
 }
 
 /**
@@ -2951,7 +2951,8 @@ function _make_web_ftp_clickable_cb( $matches ) {
 	}
 
 	$rel_attr = _make_clickable_rel_attr( $dest );
-	return $matches[1] . "<a href='{$dest}'{$rel_attr}>{$dest}</a>{$ret}";
+
+	return $matches[1] . "<a href=\"{$dest}\"{$rel_attr}>{$dest}</a>{$ret}";
 }
 
 /**
@@ -2967,7 +2968,8 @@ function _make_web_ftp_clickable_cb( $matches ) {
  */
 function _make_email_clickable_cb( $matches ) {
 	$email = $matches[2] . '@' . $matches[3];
-	return $matches[1] . "<a href=\"mailto:$email\">$email</a>";
+
+	return $matches[1] . "<a href=\"mailto:{$email}\">{$email}</a>";
 }
 
 /**
@@ -2979,7 +2981,6 @@ function _make_email_clickable_cb( $matches ) {
  * @return string The rel attribute for the anchor or an empty string if no rel attribute should be added.
  */
 function _make_clickable_rel_attr( $url ) {
-
 	$rel_parts        = array();
 	$scheme           = strtolower( wp_parse_url( $url, PHP_URL_SCHEME ) );
 	$nofollow_schemes = array_intersect( wp_allowed_protocols(), array( 'https', 'http' ) );
@@ -3009,7 +3010,6 @@ function _make_clickable_rel_attr( $url ) {
 	$rel_attr = $rel ? ' rel="' . esc_attr( $rel ) . '"' : '';
 
 	return $rel_attr;
-
 }
 
 /**
