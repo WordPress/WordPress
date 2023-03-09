@@ -115,67 +115,71 @@ function get_default_block_template_types() {
 	$default_template_types = array(
 		'index'          => array(
 			'title'       => _x( 'Index', 'Template name' ),
-			'description' => __( 'Displays posts.' ),
+			'description' => __( 'Used as a fallback template for all pages when a more specific template is not defined.' ),
 		),
 		'home'           => array(
 			'title'       => _x( 'Home', 'Template name' ),
-			'description' => __( 'Displays posts on the homepage, or on the Posts page if a static homepage is set.' ),
+			'description' => __( 'Displays the latest posts as either the site homepage or a custom page defined under reading settings. If it exists, the Front Page template overrides this template when posts are shown on the front page.' ),
 		),
 		'front-page'     => array(
 			'title'       => _x( 'Front Page', 'Template name' ),
-			'description' => __( 'Displays the homepage.' ),
+			'description' => __( 'Displays your site\'s front page, whether it is set to display latest posts or a static page. The Front Page template takes precedence over all templates.' ),
 		),
 		'singular'       => array(
 			'title'       => _x( 'Singular', 'Template name' ),
-			'description' => __( 'Displays a single post or page.' ),
+			'description' => __( 'Displays any single entry, such as a post or a page. This template will serve as a fallback when a more specific template (e.g., Single Post, Page, or Attachment) cannot be found.' ),
 		),
 		'single'         => array(
 			'title'       => _x( 'Single', 'Template name' ),
-			'description' => __( 'The default template for displaying any single post or attachment.' ),
+			'description' => __( 'Displays single posts on your website unless a custom template has been applied to that post or a dedicated template exists.' ),
 		),
 		'page'           => array(
 			'title'       => _x( 'Page', 'Template name' ),
-			'description' => __( 'Displays a single page.' ),
+			'description' => __( 'Display all static pages unless a custom template has been applied or a dedicated template exists.' ),
 		),
 		'archive'        => array(
 			'title'       => _x( 'Archive', 'Template name' ),
-			'description' => __( 'Displays posts by a category, tag, author, or date.' ),
+			'description' => __( 'Displays any archive, including posts by a single author, category, tag, taxonomy, custom post type, and date. This template will serve as a fallback when more specific templates (e.g., Category or Tag) cannot be found.' ),
 		),
 		'author'         => array(
 			'title'       => _x( 'Author', 'Template name' ),
-			'description' => __( 'Displays latest posts written by a single author.' ),
+			'description' => __( 'Displays a single author\'s post archive. This template will serve as a fallback when a more specific template (e.g., Author: Admin) cannot be found.' ),
 		),
 		'category'       => array(
 			'title'       => _x( 'Category', 'Template name' ),
-			'description' => __( 'Displays latest posts from a single post category.' ),
+			'description' => __( 'Displays a post category archive. This template will serve as a fallback when a more specific template (e.g., Category: Recipes) cannot be found.' ),
 		),
 		'taxonomy'       => array(
 			'title'       => _x( 'Taxonomy', 'Template name' ),
-			'description' => __( 'Displays latest posts from a single post taxonomy.' ),
+			'description' => __( 'Displays a custom taxonomy archive. Like categories and tags, taxonomies have terms which you use to classify things. For example: a taxonomy named "Art" can have multiple terms, such as "Modern" and "18th Century." This template will serve as a fallback when a more specific template (e.g, Taxonomy: Art) cannot be found.' ),
 		),
 		'date'           => array(
 			'title'       => _x( 'Date', 'Template name' ),
-			'description' => __( 'Displays posts from a specific date.' ),
+			/* translators: %s: Example URL. */
+			'description' => sprintf(
+				__( 'Displays a post archive when a specific date is visited (e.g., %s).' ),
+				__( 'example.com/2023/' )
+			),
 		),
 		'tag'            => array(
 			'title'       => _x( 'Tag', 'Template name' ),
-			'description' => __( 'Displays latest posts with a single post tag.' ),
+			'description' => __( 'Displays a post tag archive. This template will serve as a fallback when a more specific template (e.g., Tag: Pizza) cannot be found.' ),
 		),
 		'attachment'     => array(
 			'title'       => __( 'Media' ),
-			'description' => __( 'Displays individual media items or attachments.' ),
+			'description' => __( 'Displays when a visitor views the dedicated page that exists for any media attachment.' ),
 		),
 		'search'         => array(
 			'title'       => _x( 'Search', 'Template name' ),
-			'description' => __( 'Displays search results.' ),
+			'description' => __( 'Displays when a visitor performs a search on your website.' ),
 		),
 		'privacy-policy' => array(
 			'title'       => __( 'Privacy Policy' ),
-			'description' => __( 'Displays the privacy policy page.' ),
+			'description' => __( 'Displays your site\'s Privacy Policy page.' ),
 		),
 		'404'            => array(
 			'title'       => _x( '404', 'Template name' ),
-			'description' => __( 'Displays when no content is found.' ),
+			'description' => __( 'Displays when a visitor views a non-existent page, such as a dead link or a mistyped URL.' ),
 		),
 	);
 
