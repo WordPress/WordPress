@@ -1,0 +1,32 @@
+.wp-block-tag-cloud{
+  box-sizing:border-box;
+}
+.wp-block-tag-cloud.aligncenter{
+  justify-content:center;
+  text-align:center;
+}
+.wp-block-tag-cloud.alignfull{
+  padding-left:1em;
+  padding-right:1em;
+}
+.wp-block-tag-cloud a{
+  display:inline-block;
+  margin-right:5px;
+}
+.wp-block-tag-cloud span{
+  display:inline-block;
+  margin-left:5px;
+  text-decoration:none;
+}
+.wp-block-tag-cloud.is-style-outline{
+  display:flex;
+  flex-wrap:wrap;
+  gap:1ch;
+}
+.wp-block-tag-cloud.is-style-outline a{
+  border:1px solid;
+  font-size:unset !important;
+  margin-right:0;
+  padding:1ch 2ch;
+  text-decoration:none !important;
+}

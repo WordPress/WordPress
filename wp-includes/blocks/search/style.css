@@ -1,0 +1,63 @@
+.wp-block-search__button{
+  margin-left:.625em;
+  word-break:normal;
+}
+.wp-block-search__button.has-icon{
+  line-height:0;
+}
+.wp-block-search__button svg{
+  fill:currentColor;
+  min-height:1.5em;
+  min-width:1.5em;
+  vertical-align:text-bottom;
+}
+
+:where(.wp-block-search__button){
+  border:1px solid #ccc;
+  padding:.375em .625em;
+}
+
+.wp-block-search__inside-wrapper{
+  display:flex;
+  flex:auto;
+  flex-wrap:nowrap;
+  max-width:100%;
+}
+
+.wp-block-search__label{
+  width:100%;
+}
+
+.wp-block-search__input{
+  border:1px solid #949494;
+  flex-grow:1;
+  margin-left:0;
+  margin-right:0;
+  min-width:3em;
+  padding:8px;
+  text-decoration:unset !important;
+}
+
+.wp-block-search.wp-block-search__button-only .wp-block-search__button{
+  margin-left:0;
+}
+
+:where(.wp-block-search__button-inside .wp-block-search__inside-wrapper){
+  border:1px solid #949494;
+  padding:4px;
+}
+:where(.wp-block-search__button-inside .wp-block-search__inside-wrapper) .wp-block-search__input{
+  border:none;
+  border-radius:0;
+  padding:0 0 0 .25em;
+}
+:where(.wp-block-search__button-inside .wp-block-search__inside-wrapper) .wp-block-search__input:focus{
+  outline:none;
+}
+:where(.wp-block-search__button-inside .wp-block-search__inside-wrapper) :where(.wp-block-search__button){
+  padding:.125em .5em;
+}
+
+.wp-block-search.aligncenter .wp-block-search__inside-wrapper{
+  margin:auto;
+}

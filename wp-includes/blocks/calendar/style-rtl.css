@@ -1,0 +1,33 @@
+.wp-block-calendar{
+  text-align:center;
+}
+.wp-block-calendar td,.wp-block-calendar th{
+  border:1px solid;
+  padding:.25em;
+}
+.wp-block-calendar th{
+  font-weight:400;
+}
+.wp-block-calendar caption{
+  background-color:inherit;
+}
+.wp-block-calendar table{
+  border-collapse:collapse;
+  width:100%;
+}
+.wp-block-calendar table:where(:not(.has-text-color)){
+  color:#40464d;
+}
+.wp-block-calendar table:where(:not(.has-text-color)) td,.wp-block-calendar table:where(:not(.has-text-color)) th{
+  border-color:#ddd;
+}
+.wp-block-calendar table.has-background th{
+  background-color:inherit;
+}
+.wp-block-calendar table.has-text-color th{
+  color:inherit;
+}
+
+:where(.wp-block-calendar table:not(.has-background) th){
+  background:#ddd;
+}
