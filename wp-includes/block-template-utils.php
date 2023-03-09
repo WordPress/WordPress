@@ -155,11 +155,7 @@ function get_default_block_template_types() {
 		),
 		'date'           => array(
 			'title'       => _x( 'Date', 'Template name' ),
-			/* translators: %s: Example URL. */
-			'description' => sprintf(
-				__( 'Displays a post archive when a specific date is visited (e.g., %s).' ),
-				__( 'example.com/2023/' )
-			),
+			'description' => __( 'Displays a post archive when a specific date is visited (e.g., example.com/2023/).' ),
 		),
 		'tag'            => array(
 			'title'       => _x( 'Tag', 'Template name' ),
