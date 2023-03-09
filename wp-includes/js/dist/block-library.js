@@ -31854,6 +31854,7 @@ const MainContent = _ref => {
   (0,external_wp_i18n_namespaceObject.__)('Structure for navigation menu: %s'), (navigationMenu === null || navigationMenu === void 0 ? void 0 : navigationMenu.title) || (0,external_wp_i18n_namespaceObject.__)('Untitled menu')) : (0,external_wp_i18n_namespaceObject.__)('You have not yet created any menus. Displaying a list of your Pages');
   return (0,external_wp_element_namespaceObject.createElement)(OffCanvasEditor, {
     blocks: clientIdsTree,
+    parentClientId: clientId,
     isExpanded: true,
     LeafMoreMenu: LeafMoreMenu,
     description: description

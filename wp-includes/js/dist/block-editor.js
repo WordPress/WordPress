@@ -57237,6 +57237,7 @@ const off_canvas_editor_BLOCK_LIST_ITEM_HEIGHT = 36;
  *
  * @param {Object}  props                 Components props.
  * @param {string}  props.id              An HTML element id for the root element of ListView.
+ * @param {string}  props.parentClientId  The client id of the parent block.
  * @param {Array}   props.blocks          Custom subset of block client IDs to be used instead of the default hierarchy.
  * @param {boolean} props.showBlockMovers Flag to enable block movers
  * @param {boolean} props.isExpanded      Flag to determine whether nested levels are expanded by default.
@@ -57250,6 +57251,7 @@ const off_canvas_editor_BLOCK_LIST_ITEM_HEIGHT = 36;
 function OffCanvasEditor(_ref, ref) {
   let {
     id,
+    parentClientId,
     blocks,
     showBlockMovers = false,
     isExpanded = false,
@@ -57381,6 +57383,7 @@ function OffCanvasEditor(_ref, ref) {
   }, (0,external_wp_element_namespaceObject.createElement)(context_ListViewContext.Provider, {
     value: contextValue
   }, (0,external_wp_element_namespaceObject.createElement)(off_canvas_editor_branch, {
+    parentId: parentClientId,
     blocks: clientIdsTree,
     selectBlock: selectEditorBlock,
     showBlockMovers: showBlockMovers,

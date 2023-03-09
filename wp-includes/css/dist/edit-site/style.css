@@ -459,9 +459,18 @@ body.is-fullscreen-mode .interface-interface-skeleton{
 }
 
 @media (min-width:600px){
-  .edit-site-new-template-dropdown .edit-site-new-template-dropdown__popover{
+  .edit-site-new-template-dropdown .edit-site-new-template-dropdown__menu-groups{
     min-width:300px;
   }
+}
+.edit-site-new-template-dropdown__menu-item-tooltip.components-tooltip .components-popover__content{
+  border-radius:2px;
+  max-width:320px;
+  min-width:0;
+  padding:8px 12px;
+  text-align:left;
+  white-space:pre-wrap;
+  width:auto;
 }
 
 .edit-site-custom-template-modal__contents>.components-button{
@@ -2282,7 +2291,7 @@ body.is-fullscreen-mode .edit-site .components-editor-notices__snackbar{
   background:#1e1e1e;
   flex-shrink:0;
   height:60px;
-  width:64px;
+  width:60px;
 }
 
 .edit-site-site-hub__text-content{
@@ -2347,6 +2356,10 @@ body.is-fullscreen-mode .edit-site .components-editor-notices__snackbar{
   color:#fff;
 }
 
+.edit-site-sidebar-navigation-screen-navigation-menus__content .popover-slot .wp-block-navigation-submenu{
+  display:none;
+}
+
 .edit-site-site-icon__icon{
   fill:currentColor;
 }
@@ -2385,51 +2398,10 @@ body.is-fullscreen-mode .edit-site .components-editor-notices__snackbar{
   bottom:0;
   left:0;
   overflow:auto;
-  padding:32px;
+  padding:0;
   position:absolute;
   right:0;
   top:48px;
-}
-
-.edit-site-style-book__examples{
-  margin:0 auto;
-  max-width:900px;
-}
-
-.edit-site-style-book__example{
-  background:none;
-  border:none;
-  border-radius:2px;
-  color:inherit;
-  cursor:pointer;
-  display:flex;
-  flex-direction:column;
-  gap:40px;
-  margin-bottom:40px;
-  padding:16px;
-  width:100%;
-}
-.edit-site-style-book__example.is-selected{
-  box-shadow:0 0 0 1px var(--wp-admin-theme-color);
-}
-.edit-site-style-book.is-wide .edit-site-style-book__example{
-  flex-direction:row;
-}
-
-.edit-site-style-book__example-title{
-  font-size:11px;
-  font-weight:500;
-  margin:0;
-  text-align:left;
-  text-transform:uppercase;
-}
-.edit-site-style-book.is-wide .edit-site-style-book__example-title{
-  text-align:right;
-  width:120px;
-}
-
-.edit-site-style-book__example-preview{
-  width:100%;
 }
 
 .edit-site-push-changes-to-global-styles-control .components-button{
