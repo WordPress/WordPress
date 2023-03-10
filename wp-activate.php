@@ -120,7 +120,7 @@ add_filter( 'wp_robots', 'wp_robots_sensitive_page' );
 
 get_header( 'wp-activate' );
 
-$blog_details = get_blog_details();
+$blog_details = get_site();
 ?>
 
 <div id="signup-content" class="widecolumn">

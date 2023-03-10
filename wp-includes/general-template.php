@@ -652,7 +652,7 @@ function wp_lostpassword_url( $redirect = '' ) {
 	}
 
 	if ( is_multisite() ) {
-		$blog_details  = get_blog_details();
+		$blog_details  = get_site();
 		$wp_login_path = $blog_details->path . 'wp-login.php';
 	} else {
 		$wp_login_path = 'wp-login.php';
