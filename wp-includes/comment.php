@@ -3293,7 +3293,7 @@ function clean_comment_cache( $ids ) {
 		do_action( 'clean_comment_cache', $id );
 	}
 
-	wp_cache_set( 'last_changed', microtime(), 'comment' );
+	wp_cache_set_comments_last_changed();
 }
 
 /**

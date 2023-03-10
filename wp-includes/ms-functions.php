@@ -1400,7 +1400,7 @@ function wpmu_create_blog( $domain, $path, $title, $user_id, $options = array(),
 		return $blog_id;
 	}
 
-	wp_cache_set( 'last_changed', microtime(), 'sites' );
+	wp_cache_set_sites_last_changed();
 
 	return $blog_id;
 }

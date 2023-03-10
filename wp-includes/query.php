@@ -1154,12 +1154,12 @@ function _find_post_by_old_slug( $post_type ) {
 	$key          = md5( $query );
 	$last_changed = wp_cache_get_last_changed( 'posts' );
 	$cache_key    = "find_post_by_old_slug:$key:$last_changed";
-	$cache        = wp_cache_get( $cache_key, 'posts' );
+	$cache        = wp_cache_get( $cache_key, 'post-queries' );
 	if ( false !== $cache ) {
 		$id = $cache;
 	} else {
 		$id = (int) $wpdb->get_var( $query );
-		wp_cache_set( $cache_key, $id, 'posts' );
+		wp_cache_set( $cache_key, $id, 'post-queries' );
 	}
 
 	return $id;
@@ -1197,7 +1197,7 @@ function _find_post_by_old_date( $post_type ) {
 		$key          = md5( $query );
 		$last_changed = wp_cache_get_last_changed( 'posts' );
 		$cache_key    = "find_post_by_old_date:$key:$last_changed";
-		$cache        = wp_cache_get( $cache_key, 'posts' );
+		$cache        = wp_cache_get( $cache_key, 'post-queries' );
 		if ( false !== $cache ) {
 			$id = $cache;
 		} else {
@@ -1206,7 +1206,7 @@ function _find_post_by_old_date( $post_type ) {
 				// Check to see if an old slug matches the old date.
 				$id = (int) $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts, $wpdb->postmeta AS pm_slug, $wpdb->postmeta AS pm_date WHERE ID = pm_slug.post_id AND ID = pm_date.post_id AND post_type = %s AND pm_slug.meta_key = '_wp_old_slug' AND pm_slug.meta_value = %s AND pm_date.meta_key = '_wp_old_date'" . $date_query, $post_type, get_query_var( 'name' ) ) );
 			}
-			wp_cache_set( $cache_key, $id, 'posts' );
+			wp_cache_set( $cache_key, $id, 'post-queries' );
 		}
 	}
 

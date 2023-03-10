@@ -988,7 +988,7 @@ function clean_blog_cache( $blog ) {
 	 */
 	do_action( 'clean_site_cache', $blog_id, $blog, $domain_path_key );
 
-	wp_cache_set( 'last_changed', microtime(), 'sites' );
+	wp_cache_set_sites_last_changed();
 
 	/**
 	 * Fires after the blog details cache is cleared.

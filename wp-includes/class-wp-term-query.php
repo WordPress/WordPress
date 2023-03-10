@@ -775,7 +775,7 @@ class WP_Term_Query {
 		}
 
 		$cache_key = $this->generate_cache_key( $args, $this->request );
-		$cache     = wp_cache_get( $cache_key, 'terms' );
+		$cache     = wp_cache_get( $cache_key, 'term-queries' );
 
 		if ( false !== $cache ) {
 			if ( 'ids' === $_fields ) {
@@ -801,14 +801,14 @@ class WP_Term_Query {
 
 		if ( 'count' === $_fields ) {
 			$count = $wpdb->get_var( $this->request ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-			wp_cache_set( $cache_key, $count, 'terms' );
+			wp_cache_set( $cache_key, $count, 'term-queries' );
 			return $count;
 		}
 
 		$terms = $wpdb->get_results( $this->request ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 
 		if ( empty( $terms ) ) {
-			wp_cache_add( $cache_key, array(), 'terms' );
+			wp_cache_add( $cache_key, array(), 'term-queries' );
 			return array();
 		}
 
@@ -888,7 +888,7 @@ class WP_Term_Query {
 			$term_cache = wp_list_pluck( $term_objects, 'term_id' );
 		}
 
-		wp_cache_add( $cache_key, $term_cache, 'terms' );
+		wp_cache_add( $cache_key, $term_cache, 'term-queries' );
 		$this->terms = $this->format_terms( $term_objects, $_fields );
 
 		return $this->terms;
