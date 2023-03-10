@@ -585,7 +585,7 @@ body.is-fullscreen-mode .interface-interface-skeleton{
 .edit-site-template-actions-loading-screen-modal{
   -webkit-backdrop-filter:none;
           backdrop-filter:none;
-  background-color:initial;
+  background-color:transparent;
 }
 .edit-site-template-actions-loading-screen-modal.is-full-screen{
   background-color:#fff;
@@ -1173,10 +1173,10 @@ textarea.edit-site-code-editor-text-area.edit-site-code-editor-text-area:-ms-inp
   content:attr(aria-label);
 }
 .edit-site-header-edit-mode.show-icon-labels .components-button.has-icon[aria-disabled=true]{
-  background-color:initial;
+  background-color:transparent;
 }
 .edit-site-header-edit-mode.show-icon-labels .is-tertiary:active{
-  background-color:initial;
+  background-color:transparent;
   box-shadow:0 0 0 1.5px var(--wp-admin-theme-color);
 }
 .edit-site-header-edit-mode.show-icon-labels .edit-site-save-button__button{

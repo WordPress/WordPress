@@ -552,7 +552,7 @@ html :where(.wp-block-column){
   width:96%;
 }
 .wp-block-freeform.block-library-rich-text__tinymce img::selection{
-  background-color:initial;
+  background-color:transparent;
 }
 .wp-block-freeform.block-library-rich-text__tinymce div.mceTemp{
   -ms-user-select:element;
@@ -1396,7 +1396,7 @@ figure.wp-block-image:not(.wp-block){
 }
 
 .wp-block-navigation .wp-block .wp-block .block-editor-button-block-appender{
-  background-color:initial;
+  background-color:transparent;
   color:#1e1e1e;
 }
 @keyframes loadingpulse{

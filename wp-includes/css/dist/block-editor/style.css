@@ -1707,7 +1707,7 @@
   position:relative;
 }
 .block-editor-link-control__search-item .block-editor-link-control__search-item-title mark{
-  background-color:initial;
+  background-color:transparent;
   color:inherit;
   font-weight:700;
 }

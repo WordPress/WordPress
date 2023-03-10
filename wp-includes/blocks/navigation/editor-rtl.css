@@ -125,7 +125,7 @@
 }
 
 .wp-block-navigation .wp-block .wp-block .block-editor-button-block-appender{
-  background-color:initial;
+  background-color:transparent;
   color:#1e1e1e;
 }
 @keyframes loadingpulse{
