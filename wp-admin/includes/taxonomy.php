@@ -188,7 +188,7 @@ function wp_insert_category( $catarr, $wp_error = false ) {
 function wp_update_category( $catarr ) {
 	$cat_id = (int) $catarr['cat_ID'];
 
-	if ( isset( $catarr['category_parent'] ) && ( $cat_id == $catarr['category_parent'] ) ) {
+	if ( isset( $catarr['category_parent'] ) && ( $cat_id === (int) $catarr['category_parent'] ) ) {
 		return false;
 	}
 
