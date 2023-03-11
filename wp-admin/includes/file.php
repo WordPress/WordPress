@@ -1904,7 +1904,7 @@ function copy_dir( $from, $to, $skip_list = array() ) {
 	$dirlist = $wp_filesystem->dirlist( $from );
 
 	if ( false === $dirlist ) {
-		return new WP_Error( 'dirlist_failed_copy_dir', __( 'Directory listing failed.' ), basename( $to ) );
+		return new WP_Error( 'dirlist_failed_copy_dir', __( 'Directory listing failed.' ), basename( $from ) );
 	}
 
 	$from = trailingslashit( $from );
