@@ -1931,15 +1931,16 @@ function get_admin_page_parent( $parent_page = '' ) {
 				$parent_page = $_wp_real_parent_file[ $parent_page ];
 			}
 
-			if ( ! empty( $typenow ) && "$pagenow?post_type=$typenow" === $submenu_array[2] ) {
+			$submenu_array_2 = isset($submenu_array[2]) ? $submenu_array[2] : false;
+			if ( ! empty( $typenow ) && "$pagenow?post_type=$typenow" === $submenu_array_2 ) {
 				$parent_file = $parent_page;
 				return $parent_page;
-			} elseif ( empty( $typenow ) && $pagenow === $submenu_array[2]
+			} elseif ( empty( $typenow ) && $pagenow === $submenu_array_2
 				&& ( empty( $parent_file ) || false === strpos( $parent_file, '?' ) )
 			) {
 				$parent_file = $parent_page;
 				return $parent_page;
-			} elseif ( isset( $plugin_page ) && $plugin_page === $submenu_array[2] ) {
+			} elseif ( isset( $plugin_page ) && $plugin_page === $submenu_array_2 ) {
 				$parent_file = $parent_page;
 				return $parent_page;
 			}

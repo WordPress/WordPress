@@ -199,7 +199,7 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 
 			// 0 = menu_title, 1 = capability, 2 = menu_slug, 3 = page_title, 4 = classes.
 			foreach ( $submenu_items as $sub_key => $sub_item ) {
-				if ( ! current_user_can( $sub_item[1] ) ) {
+				if ( ! isset($sub_item[1]) || ! current_user_can( $sub_item[1] ) ) {
 					continue;
 				}
 
