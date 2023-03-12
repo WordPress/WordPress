@@ -198,8 +198,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		 * Filters whether XML-RPC methods requiring authentication are enabled.
 		 *
 		 * Contrary to the way it's named, this filter does not control whether XML-RPC is *fully*
-		 * enabled, rather, it only controls whether XML-RPC methods requiring authentication - such
-		 * as for publishing purposes - are enabled.
+		 * enabled, rather, it only controls whether XML-RPC methods requiring authentication -
+		 * such as for publishing purposes - are enabled.
 		 *
 		 * Further, the filter does not control whether pingbacks or other custom endpoints that don't
 		 * require authentication are enabled. This behavior is expected, and due to how parity was matched
@@ -1909,11 +1909,12 @@ class wp_xmlrpc_server extends IXR_Server {
 			$fields = $args[4];
 		} else {
 			/**
-			 * Filters the list of post query fields used by the given XML-RPC method.
+			 * Filters the default post query fields used by the given XML-RPC method.
 			 *
 			 * @since 3.4.0
 			 *
-			 * @param array  $fields Array of post fields. Default array contains 'post', 'terms', and 'custom_fields'.
+			 * @param array  $fields An array of post fields to retrieve. By default,
+			 *                       contains 'post', 'terms', and 'custom_fields'.
 			 * @param string $method Method name.
 			 */
 			$fields = apply_filters( 'xmlrpc_default_post_fields', array( 'post', 'terms', 'custom_fields' ), 'wp.getPost' );
@@ -1960,7 +1961,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *                     Default empty array.
 	 *     @type array  $4 Optional. The subset of post type fields to return in the response array.
 	 * }
-	 * @return array|IXR_Error Array contains a collection of posts.
+	 * @return array|IXR_Error Array containing a collection of posts.
 	 */
 	public function wp_getPosts( $args ) {
 		if ( ! $this->minimum_args( $args, 3 ) ) {
@@ -2540,11 +2541,12 @@ class wp_xmlrpc_server extends IXR_Server {
 			$fields = $args[4];
 		} else {
 			/**
-			 * Filters the taxonomy query fields used by the given XML-RPC method.
+			 * Filters the default taxonomy query fields used by the given XML-RPC method.
 			 *
 			 * @since 3.4.0
 			 *
-			 * @param array  $fields An array of taxonomy fields to retrieve.
+			 * @param array  $fields An array of taxonomy fields to retrieve. By default,
+			 *                       contains 'labels', 'cap', and 'object_type'.
 			 * @param string $method The method name.
 			 */
 			$fields = apply_filters( 'xmlrpc_default_taxonomy_fields', array( 'labels', 'cap', 'object_type' ), 'wp.getTaxonomy' );
@@ -2688,7 +2690,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			 *
 			 * @since 3.5.0
 			 *
-			 * @param array  $fields User query fields for given method. Default 'all'.
+			 * @param array  $fields An array of user fields to retrieve. By default, contains 'all'.
 			 * @param string $method The method name.
 			 */
 			$fields = apply_filters( 'xmlrpc_default_user_fields', array( 'all' ), 'wp.getUser' );
@@ -3605,16 +3607,17 @@ class wp_xmlrpc_server extends IXR_Server {
 	/**
 	 * Retrieves comments.
 	 *
-	 * Besides the common blog_id (unused), username, and password arguments, it takes a filter
-	 * array as last argument.
+	 * Besides the common blog_id (unused), username, and password arguments,
+	 * it takes a filter array as the last argument.
 	 *
 	 * Accepted 'filter' keys are 'status', 'post_id', 'offset', and 'number'.
 	 *
 	 * The defaults are as follows:
-	 * - 'status' - Default is ''. Filter by status (e.g., 'approve', 'hold')
-	 * - 'post_id' - Default is ''. The post where the comment is posted. Empty string shows all comments.
-	 * - 'number' - Default is 10. Total number of media items to retrieve.
-	 * - 'offset' - Default is 0. See WP_Query::query() for more.
+	 * - 'status'  - Default is ''. Filter by status (e.g., 'approve', 'hold')
+	 * - 'post_id' - Default is ''. The post where the comment is posted.
+	 *               Empty string shows all comments.
+	 * - 'number'  - Default is 10. Total number of media items to retrieve.
+	 * - 'offset'  - Default is 0. See WP_Query::query() for more.
 	 *
 	 * @since 2.7.0
 	 *
@@ -3626,8 +3629,9 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *     @type string $2 Password.
 	 *     @type array  $3 Optional. Query arguments.
 	 * }
-	 * @return array|IXR_Error Contains a collection of comments. See wp_xmlrpc_server::wp_getComment()
-	 *                         for a description of each item contents.
+	 * @return array|IXR_Error Array containing a collection of comments.
+	 *                         See wp_xmlrpc_server::wp_getComment() for a description
+	 *                         of each item contents.
 	 */
 	public function wp_getComments( $args ) {
 		$this->escape( $args );
@@ -3759,8 +3763,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	/**
 	 * Edits a comment.
 	 *
-	 * Besides the common blog_id (unused), username, and password arguments, it takes a
-	 * comment_id integer and a content_struct array as last argument.
+	 * Besides the common blog_id (unused), username, and password arguments,
+	 * it takes a comment_id integer and a content_struct array as the last argument.
 	 *
 	 * The allowed keys in the content_struct array are:
 	 *  - 'author'
@@ -4377,15 +4381,16 @@ class wp_xmlrpc_server extends IXR_Server {
 	/**
 	 * Retrieves a collection of media library items (or attachments).
 	 *
-	 * Besides the common blog_id (unused), username, and password arguments, it takes a filter
-	 * array as last argument.
+	 * Besides the common blog_id (unused), username, and password arguments,
+	 * it takes a filter array as the last argument.
 	 *
 	 * Accepted 'filter' keys are 'parent_id', 'mime_type', 'offset', and 'number'.
 	 *
 	 * The defaults are as follows:
-	 * - 'number' - Default is 5. Total number of media items to retrieve.
-	 * - 'offset' - Default is 0. See WP_Query::query() for more.
-	 * - 'parent_id' - Default is ''. The post where the media item is attached. Empty string shows all media items. 0 shows unattached media items.
+	 * - 'number'    - Default is 5. Total number of media items to retrieve.
+	 * - 'offset'    - Default is 0. See WP_Query::query() for more.
+	 * - 'parent_id' - Default is ''. The post where the media item is attached.
+	 *                 Empty string shows all media items. 0 shows unattached media items.
 	 * - 'mime_type' - Default is ''. Filter by mime type (e.g., 'image/jpeg', 'application/pdf')
 	 *
 	 * @since 3.1.0
@@ -4396,11 +4401,11 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *     @type int    $0 Blog ID (unused).
 	 *     @type string $1 Username.
 	 *     @type string $2 Password.
-	 *     @type array  $3 Query arguments.
+	 *     @type array  $3 Optional. Query arguments.
 	 * }
-	 * @return array|IXR_Error Contains a collection of media items.
-	 *                   See wp_xmlrpc_server::wp_getMediaItem() for
-	 *                   a description of each item contents.
+	 * @return array|IXR_Error Array containing a collection of media items.
+	 *                         See wp_xmlrpc_server::wp_getMediaItem() for a description
+	 *                         of each item contents.
 	 */
 	public function wp_getMediaLibrary( $args ) {
 		$this->escape( $args );
@@ -4539,11 +4544,12 @@ class wp_xmlrpc_server extends IXR_Server {
 			$fields = $args[4];
 		} else {
 			/**
-			 * Filters the default query fields used by the given XML-RPC method.
+			 * Filters the default post type query fields used by the given XML-RPC method.
 			 *
 			 * @since 3.4.0
 			 *
-			 * @param array  $fields An array of post type query fields for the given method.
+			 * @param array  $fields An array of post type fields to retrieve. By default,
+			 *                       contains 'labels', 'cap', and 'taxonomies'.
 			 * @param string $method The method name.
 			 */
 			$fields = apply_filters( 'xmlrpc_default_posttype_fields', array( 'labels', 'cap', 'taxonomies' ), 'wp.getPostType' );
@@ -4649,7 +4655,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *     @type int    $3 Post ID.
 	 *     @type array  $4 Optional. Fields to fetch.
 	 * }
-	 * @return array|IXR_Error contains a collection of posts.
+	 * @return array|IXR_Error Array containing a collection of posts.
 	 */
 	public function wp_getRevisions( $args ) {
 		if ( ! $this->minimum_args( $args, 4 ) ) {
@@ -4670,7 +4676,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			 *
 			 * @since 3.5.0
 			 *
-			 * @param array  $field  An array of revision query fields.
+			 * @param array  $field  An array of revision fields to retrieve. By default,
+			 *                       contains 'post_date' and 'post_date_gmt'.
 			 * @param string $method The method name.
 			 */
 			$fields = apply_filters( 'xmlrpc_default_revision_fields', array( 'post_date', 'post_date_gmt' ), 'wp.getRevisions' );
