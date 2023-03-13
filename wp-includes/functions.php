@@ -1953,13 +1953,16 @@ function wp_original_referer_field( $display = true, $jump_back_to = 'current' )
  * @return string|false Referer URL on success, false on failure.
  */
 function wp_get_referer() {
+	// Return early if called before wp_validate_redirect() is defined.
 	if ( ! function_exists( 'wp_validate_redirect' ) ) {
 		return false;
 	}
 
 	$ref = wp_get_raw_referer();
 
-	if ( $ref && wp_unslash( $_SERVER['REQUEST_URI'] ) !== $ref && home_url() . wp_unslash( $_SERVER['REQUEST_URI'] ) !== $ref ) {
+	if ( $ref && wp_unslash( $_SERVER['REQUEST_URI'] ) !== $ref
+		&& home_url() . wp_unslash( $_SERVER['REQUEST_URI'] ) !== $ref
+	) {
 		return wp_validate_redirect( $ref, false );
 	}
 
@@ -1993,7 +1996,12 @@ function wp_get_raw_referer() {
  * @return string|false Original referer URL on success, false on failure.
  */
 function wp_get_original_referer() {
-	if ( ! empty( $_REQUEST['_wp_original_http_referer'] ) && function_exists( 'wp_validate_redirect' ) ) {
+	// Return early if called before wp_validate_redirect() is defined.
+	if ( ! function_exists( 'wp_validate_redirect' ) ) {
+		return false;
+	}
+
+	if ( ! empty( $_REQUEST['_wp_original_http_referer'] ) ) {
 		return wp_validate_redirect( wp_unslash( $_REQUEST['_wp_original_http_referer'] ), false );
 	}
 
