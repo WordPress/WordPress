@@ -319,8 +319,8 @@ function wp_get_layout_style( $selector, $layout, $has_block_gap_support = false
  * @return string Filtered block content.
  */
 function wp_render_layout_support_flag( $block_content, $block ) {
-	$block_type     = WP_Block_Type_Registry::get_instance()->get_registered( $block['blockName'] );
-	$support_layout = block_has_support( $block_type, array( '__experimentalLayout' ), false );
+	$block_type       = WP_Block_Type_Registry::get_instance()->get_registered( $block['blockName'] );
+	$support_layout   = block_has_support( $block_type, array( '__experimentalLayout' ), false );
 	$has_child_layout = isset( $block['attrs']['style']['layout']['selfStretch'] );
 
 	if ( ! $support_layout && ! $has_child_layout ) {
@@ -369,14 +369,9 @@ function wp_render_layout_support_flag( $block_content, $block ) {
 		return (string) $content;
 	}
 
-	$global_settings               = wp_get_global_settings();
-	$block_gap                     = _wp_array_get( $global_settings, array( 'spacing', 'blockGap' ), null );
-	$has_block_gap_support         = isset( $block_gap );
-	$global_layout_settings        = _wp_array_get( $global_settings, array( 'layout' ), null );
-	$root_padding_aware_alignments = _wp_array_get( $global_settings, array( 'useRootPaddingAwareAlignments' ), false );
-
-	$default_block_layout = _wp_array_get( $block_type->supports, array( '__experimentalLayout', 'default' ), array() );
-	$used_layout          = isset( $block['attrs']['layout'] ) ? $block['attrs']['layout'] : $default_block_layout;
+	$global_settings        = wp_get_global_settings();
+	$global_layout_settings = _wp_array_get( $global_settings, array( 'layout' ), null );
+	$used_layout            = isset( $block['attrs']['layout'] ) ? $block['attrs']['layout'] : _wp_array_get( $block_type->supports, array( '__experimentalLayout', 'default' ), array() );
 
 	if ( isset( $used_layout['inherit'] ) && $used_layout['inherit'] && ! $global_layout_settings ) {
 		return $block_content;
@@ -391,6 +386,8 @@ function wp_render_layout_support_flag( $block_content, $block ) {
 	if ( isset( $used_layout['inherit'] ) && $used_layout['inherit'] || isset( $used_layout['contentSize'] ) && $used_layout['contentSize'] ) {
 		$used_layout['type'] = 'constrained';
 	}
+
+	$root_padding_aware_alignments = _wp_array_get( $global_settings, array( 'useRootPaddingAwareAlignments' ), false );
 
 	if (
 		$root_padding_aware_alignments &&
@@ -457,6 +454,9 @@ function wp_render_layout_support_flag( $block_content, $block ) {
 		 * don't apply the user-defined value to the styles.
 		 */
 		$should_skip_gap_serialization = wp_should_skip_block_supports_serialization( $block_type, 'spacing', 'blockGap' );
+
+		$block_gap             = _wp_array_get( $global_settings, array( 'spacing', 'blockGap' ), null );
+		$has_block_gap_support = isset( $block_gap );
 
 		$style = wp_get_layout_style(
 			".$container_class.$container_class",
