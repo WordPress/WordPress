@@ -7034,24 +7034,28 @@ function _get_non_cached_ids( $object_ids, $cache_key ) {
 }
 
 /**
- * Checks whether the given cache ID is either an integer or iterger-like strings.
- * Both `16` and `"16"` are considered valid, other numeric types and numeric
- * strings (`16.3` and `"16.3"`) are considered invalid.
+ * Checks whether the given cache ID is either an integer or an integer-like string.
+ *
+ * Both `16` and `"16"` are considered valid, other numeric types and numeric strings
+ * (`16.3` and `"16.3"`) are considered invalid.
  *
  * @since 6.3.0
  *
- * @param mixed $object_id The cache id to validate.
- * @return bool Whether the given $object_id is a valid cache id.
+ * @param mixed $object_id The cache ID to validate.
+ * @return bool Whether the given $object_id is a valid cache ID.
  */
 function _validate_cache_id( $object_id ) {
-	// Unfortunately filter_var() is considered an optional extension
+	/*
+	 * filter_var() could be used here, but the `filter` PHP extension
+	 * is considered optional and may not be available.
+	 */
 	if ( is_int( $object_id )
 		|| ( is_string( $object_id ) && (string) (int) $object_id === $object_id ) ) {
 		return true;
 	}
 
-	/* translators: %s: The type of the given object id. */
-	$message = sprintf( __( 'Object id must be integer, %s given.' ), gettype( $object_id ) );
+	/* translators: %s: The type of the given object ID. */
+	$message = sprintf( __( 'Object ID must be an integer, %s given.' ), gettype( $object_id ) );
 	_doing_it_wrong( '_get_non_cached_ids', $message, '6.3.0' );
 
 	return false;
