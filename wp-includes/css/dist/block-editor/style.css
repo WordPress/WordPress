@@ -75,6 +75,7 @@
 .block-editor-block-inspector .components-panel__body{
   border:none;
   border-top:1px solid #e0e0e0;
+  margin-top:-1px;
 }
 .block-editor-block-inspector .block-editor-block-card{
   padding:16px;

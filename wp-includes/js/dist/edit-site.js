@@ -5755,11 +5755,12 @@ function SidebarNavigationScreenMain() {
       })
     };
   });
+  const showNavigationScreen =  false ? 0 : false;
   return (0,external_wp_element_namespaceObject.createElement)(SidebarNavigationScreen, {
     isRoot: true,
     title: (0,external_wp_i18n_namespaceObject.__)('Design'),
     description: (0,external_wp_i18n_namespaceObject.__)('Customize the appearance of your website using the block editor.'),
-    content: (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalItemGroup, null, !!navigationMenus && navigationMenus.length > 0 && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalNavigatorButton, {
+    content: (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalItemGroup, null, showNavigationScreen && (0,external_wp_element_namespaceObject.createElement)(external_wp_components_namespaceObject.__experimentalNavigatorButton, {
       as: SidebarNavigationItem,
       path: "/navigation",
       withChevron: true,
@@ -8005,7 +8006,7 @@ const sidebar_navigation_screen_templates_browse_config = {
   },
   wp_template_part: {
     title: (0,external_wp_i18n_namespaceObject.__)('All template parts'),
-    description: (0,external_wp_i18n_namespaceObject.__)('Create new template parts, or reset any customisations made to the template parts supplied by your theme.')
+    description: (0,external_wp_i18n_namespaceObject.__)('Create new template parts, or reset any customizations made to the template parts supplied by your theme.')
   }
 };
 function SidebarNavigationScreenTemplatesBrowse() {
@@ -17402,7 +17403,9 @@ const SiteHub = (0,external_wp_element_namespaceObject.forwardRef)((props, ref) 
     className: "edit-site-layout__view-mode-toggle"
   }), (0,external_wp_element_namespaceObject.createElement)(site_icon, {
     className: "edit-site-layout__view-mode-toggle-icon"
-  }))), showLabels && (0,external_wp_element_namespaceObject.createElement)("div", null, siteTitle)));
+  }))), showLabels && (0,external_wp_element_namespaceObject.createElement)("div", {
+    className: "edit-site-site-hub__site-title"
+  }, siteTitle)));
 });
 /* harmony default export */ var site_hub = (SiteHub);
 
