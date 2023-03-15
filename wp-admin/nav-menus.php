@@ -28,6 +28,9 @@ if ( ! current_user_can( 'edit_theme_options' ) ) {
 	);
 }
 
+// Used in the HTML title tag.
+$title = __( 'Menus' );
+
 wp_enqueue_script( 'nav-menu' );
 
 if ( wp_is_mobile() ) {
