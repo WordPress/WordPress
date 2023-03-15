@@ -56,8 +56,6 @@ class WP_Widget_Text extends WP_Widget {
 		}
 		$this->registered = true;
 
-		wp_add_inline_script( 'text-widgets', sprintf( 'wp.textWidgets.idBases.push( %s );', wp_json_encode( $this->id_base ) ) );
-
 		if ( $this->is_preview() ) {
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_preview_scripts' ) );
 		}
@@ -436,6 +434,7 @@ class WP_Widget_Text extends WP_Widget {
 		wp_enqueue_editor();
 		wp_enqueue_media();
 		wp_enqueue_script( 'text-widgets' );
+		wp_add_inline_script( 'text-widgets', sprintf( 'wp.textWidgets.idBases.push( %s );', wp_json_encode( $this->id_base ) ) );
 		wp_add_inline_script( 'text-widgets', 'wp.textWidgets.init();', 'after' );
 	}
 
