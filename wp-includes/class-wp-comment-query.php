@@ -584,8 +584,6 @@ class WP_Comment_Query {
 		if ( ! empty( $this->query_vars['include_unapproved'] ) ) {
 			$include_unapproved = wp_parse_list( $this->query_vars['include_unapproved'] );
 
-			$unapproved_ids    = array();
-			$unapproved_emails = array();
 			foreach ( $include_unapproved as $unapproved_identifier ) {
 				// Numeric values are assumed to be user IDs.
 				if ( is_numeric( $unapproved_identifier ) ) {
@@ -1013,14 +1011,10 @@ class WP_Comment_Query {
 	 *
 	 * @since 4.4.0
 	 *
-	 * @global wpdb $wpdb WordPress database abstraction object.
-	 *
 	 * @param WP_Comment[] $comments Array of top-level comments whose descendants should be filled in.
 	 * @return array
 	 */
 	protected function fill_descendants( $comments ) {
-		global $wpdb;
-
 		$levels = array(
 			0 => wp_list_pluck( $comments, 'comment_ID' ),
 		);
