@@ -2279,6 +2279,7 @@ function kses_init() {
  *              Extended `margin-*` and `padding-*` support for logical properties.
  * @since 6.2.0 Added support for `aspect-ratio`, `position`, `top`, `right`, `bottom`, `left`,
  *              and `z-index` CSS properties.
+ * @since 6.3.0 Extended support for `filter` to accept a URL.
  *
  * @param string $css        A string of CSS rules.
  * @param string $deprecated Not used.
@@ -2466,6 +2467,7 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 		'background-image',
 
 		'cursor',
+		'filter',
 
 		'list-style',
 		'list-style-image',
