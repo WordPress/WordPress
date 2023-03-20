@@ -7009,11 +7009,11 @@ function wp_debug_backtrace_summary( $ignore_class = null, $skip_frames = 0, $pr
  * @since 3.4.0
  * @since 6.1.0 This function is no longer marked as "private".
  *
- * @param int[]  $object_ids Array of IDs.
- * @param string $cache_key  The cache bucket to check against.
+ * @param int[]  $object_ids  Array of IDs.
+ * @param string $cache_group The cache group to check against.
  * @return int[] Array of IDs not present in the cache.
  */
-function _get_non_cached_ids( $object_ids, $cache_key ) {
+function _get_non_cached_ids( $object_ids, $cache_group ) {
 	$object_ids = array_filter( $object_ids, '_validate_cache_id' );
 	$object_ids = array_unique( array_map( 'intval', $object_ids ), SORT_NUMERIC );
 
@@ -7022,7 +7022,7 @@ function _get_non_cached_ids( $object_ids, $cache_key ) {
 	}
 
 	$non_cached_ids = array();
-	$cache_values   = wp_cache_get_multiple( $object_ids, $cache_key );
+	$cache_values   = wp_cache_get_multiple( $object_ids, $cache_group );
 
 	foreach ( $cache_values as $id => $value ) {
 		if ( ! $value ) {
