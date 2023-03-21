@@ -716,7 +716,7 @@ div#wp-responsive-toggle a:before {
 
 .welcome-panel-header-image .curve,
 .welcome-panel-header-image .dot {
-  fill: rgba(255, 255, 255, 0.33);
+  fill: #17b5dd;
 }
 
 [class*=welcome-panel-icon] {

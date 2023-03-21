@@ -18,6 +18,8 @@ $menu-submenu-background: #fff;
 $menu-collapse-text: #777;
 $menu-collapse-focus-icon: #555;
 
+$dashboard-accent-1: $highlight-color;
+$dashboard-accent-2: desaturate( lighten( $highlight-color, 7% ), 15% );
 $dashboard-icon-background: $text-color;
 
 @import "../_admin.scss";

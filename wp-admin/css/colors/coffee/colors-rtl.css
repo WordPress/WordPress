@@ -678,14 +678,14 @@ div#wp-responsive-toggle a:before {
 
 /* Welcome Panel */
 .welcome-panel {
-  background-color: #c7a589;
+  background-color: #46403c;
 }
 
 .welcome-panel-header-image .curve,
 .welcome-panel-header-image .dot {
-  fill: rgba(255, 255, 255, 0.33);
+  fill: #59524c;
 }
 
 [class*=welcome-panel-icon] {
-  background-color: rgba(255, 255, 255, 0.33);
+  background-color: #59524c;
 }
