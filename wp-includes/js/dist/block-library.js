@@ -30624,10 +30624,7 @@ function ResponsiveWrapper(_ref) {
 
 const inner_blocks_ALLOWED_BLOCKS = ['core/navigation-link', 'core/search', 'core/social-links', 'core/page-list', 'core/spacer', 'core/home-link', 'core/site-title', 'core/site-logo', 'core/navigation-submenu'];
 const inner_blocks_DEFAULT_BLOCK = {
-  name: 'core/navigation-link',
-  attributes: {
-    type: 'page'
-  }
+  name: 'core/navigation-link'
 };
 function NavigationInnerBlocks(_ref) {
   let {
