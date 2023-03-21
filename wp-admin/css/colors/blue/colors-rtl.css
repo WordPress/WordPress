@@ -711,12 +711,12 @@ div#wp-responsive-toggle a:before {
 
 /* Welcome Panel */
 .welcome-panel {
-  background-color: #096484;
+  background-color: #4796b3;
 }
 
 .welcome-panel-header-image .curve,
 .welcome-panel-header-image .dot {
-  fill: rgba(255, 255, 255, 0.33);
+  fill: #52accc;
 }
 
 [class*=welcome-panel-icon] {

@@ -3,7 +3,6 @@ $base-color: #363b3f;
 $highlight-color: #e14d43;
 $notification-color: #69a8bb;
 
-$dashboard-accent-1: $notification-color;
-$dashboard-icon-background: $highlight-color;
+$dashboard-accent-2: mix($base-color, $notification-color, 90%);
 
 @import "../_admin.scss";
