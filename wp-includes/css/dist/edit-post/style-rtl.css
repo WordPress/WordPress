@@ -1238,6 +1238,9 @@ body.is-fullscreen-mode .edit-post-layout .components-editor-notices__snackbar{
 .edit-post-editor__document-overview-panel-header li:only-child{
   width:100%;
 }
+.edit-post-editor__document-overview-panel-header.components-panel__header.edit-post-sidebar__panel-tabs .components-button.has-icon{
+  display:flex;
+}
 
 .edit-post-editor__list-view-container>.document-outline,.edit-post-editor__list-view-empty-headings,.edit-post-editor__list-view-panel-content{
   height:100%;
