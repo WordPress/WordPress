@@ -437,8 +437,7 @@ input::-ms-reveal {
 	height: auto;
 }
 
-.login .language-switcher .button-primary {
-	float: none;
+.login .language-switcher .button {
 	margin-bottom: 0;
 }
 
@@ -472,7 +471,7 @@ input::-ms-reveal {
 }
 
 @media screen and (max-width: 400px) {
-	.login .language-switcher .button-primary {
+	.login .language-switcher .button {
 		display: block;
 		margin: 5px auto 0;
 	}
