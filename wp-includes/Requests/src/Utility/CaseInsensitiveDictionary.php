@@ -112,9 +112,19 @@ class CaseInsensitiveDictionary implements ArrayAccess, IteratorAggregate {
 	 * @return \ArrayIterator
 	 */
 	#[ReturnTypeWillChange]
+	/*
 	public function getIterator() {
 		return new ArrayIterator($this->data);
 	}
+	*/
+	# PHP Deprecated:  Return type of Requests_Utility_CaseInsensitiveDictionary::getIterator() 
+        # should either be compatible with IteratorAggregate::getIterator(): Traversable, or the 
+        # #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the 
+        # notice in /wp-includes/Requests/Utility/CaseInsensitiveDictionary.php 
+	public function getIterator(): iterable { // Add 'iterable' to the return type
+	    return new \ArrayIterator($this->data);
+	}
+	
 
 	/**
 	 * Get the headers as an array
