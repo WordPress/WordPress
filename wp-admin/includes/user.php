@@ -179,7 +179,7 @@ function edit_user( $user_id = 0 ) {
 	}
 
 	// Checking the password has been typed twice the same.
-	if ( ( $update || ! empty( $pass1 ) ) && $pass1 != $pass2 ) {
+	if ( ( $update || ! empty( $pass1 ) ) && $pass1 !== $pass2 ) {
 		$errors->add( 'pass', __( '<strong>Error:</strong> Passwords do not match. Please enter the same password in both password fields.' ), array( 'form-field' => 'pass1' ) );
 	}
 
@@ -202,14 +202,14 @@ function edit_user( $user_id = 0 ) {
 		$errors->add( 'invalid_username', __( '<strong>Error:</strong> Sorry, that username is not allowed.' ) );
 	}
 
-	/* checking email address */
+	// Checking email address.
 	if ( empty( $user->user_email ) ) {
 		$errors->add( 'empty_email', __( '<strong>Error:</strong> Please enter an email address.' ), array( 'form-field' => 'email' ) );
 	} elseif ( ! is_email( $user->user_email ) ) {
 		$errors->add( 'invalid_email', __( '<strong>Error:</strong> The email address is not correct.' ), array( 'form-field' => 'email' ) );
 	} else {
 		$owner_id = email_exists( $user->user_email );
-		if ( $owner_id && ( ! $update || ( $owner_id != $user->ID ) ) ) {
+		if ( $owner_id && ( ! $update || ( $owner_id !== $user->ID ) ) ) {
 			$errors->add( 'email_exists', __( '<strong>Error:</strong> This email is already registered. Please choose another one.' ), array( 'form-field' => 'email' ) );
 		}
 	}
@@ -485,7 +485,7 @@ function default_password_nag_handler( $errors = false ) {
 
 	// get_user_setting() = JS-saved UI setting. Else no-js-fallback code.
 	if ( 'hide' === get_user_setting( 'default_password_nag' )
-		|| isset( $_GET['default_password_nag'] ) && '0' == $_GET['default_password_nag']
+		|| isset( $_GET['default_password_nag'] ) && '0' === $_GET['default_password_nag']
 	) {
 		delete_user_setting( 'default_password_nag' );
 		update_user_meta( $user_ID, 'default_password_nag', false );
@@ -507,7 +507,7 @@ function default_password_nag_edit_user( $user_ID, $old_data ) {
 	$new_data = get_userdata( $user_ID );
 
 	// Remove the nag if the password has been changed.
-	if ( $new_data->user_pass != $old_data->user_pass ) {
+	if ( $new_data->user_pass !== $old_data->user_pass ) {
 		delete_user_setting( 'default_password_nag' );
 		update_user_meta( $user_ID, 'default_password_nag', false );
 	}
