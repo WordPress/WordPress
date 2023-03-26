@@ -938,7 +938,7 @@ function wp_save_nav_menu_items( $menu_id = 0, $menu_data = array() ) {
 	$menu_id     = (int) $menu_id;
 	$items_saved = array();
 
-	if ( 0 == $menu_id || is_nav_menu( $menu_id ) ) {
+	if ( 0 === $menu_id || is_nav_menu( $menu_id ) ) {
 
 		// Loop through all the menu items' POST values.
 		foreach ( (array) $menu_data as $_possible_db_id => $_item_object_data ) {
@@ -964,7 +964,7 @@ function wp_save_nav_menu_items( $menu_id = 0, $menu_data = array() ) {
 			if (
 				empty( $_item_object_data['menu-item-db-id'] ) ||
 				( 0 > $_possible_db_id ) ||
-				$_possible_db_id != $_item_object_data['menu-item-db-id']
+				$_possible_db_id !== (int) $_item_object_data['menu-item-db-id']
 			) {
 				$_actual_db_id = 0;
 			} else {
@@ -1211,7 +1211,11 @@ function wp_nav_menu_update_menu_items( $nav_menu_selected_id, $nav_menu_selecte
 				$args[ $field ] = isset( $_POST[ $field ][ $_key ] ) ? $_POST[ $field ][ $_key ] : '';
 			}
 
-			$menu_item_db_id = wp_update_nav_menu_item( $nav_menu_selected_id, ( $_POST['menu-item-db-id'][ $_key ] != $_key ? 0 : $_key ), $args );
+			$menu_item_db_id = wp_update_nav_menu_item(
+				$nav_menu_selected_id,
+				( (int) $_POST['menu-item-db-id'][ $_key ] !== $_key ? 0 : $_key ),
+				$arg
+			);
 
 			if ( is_wp_error( $menu_item_db_id ) ) {
 				$messages[] = '<div id="message" class="error"><p>' . $menu_item_db_id->get_error_message() . '</p></div>';
@@ -1301,7 +1305,7 @@ function _wp_expand_nav_menu_post_data() {
 
 			// Build the new array value from leaf to trunk.
 			for ( $i = count( $array_bits ) - 1; $i >= 0; $i-- ) {
-				if ( count( $array_bits ) - 1 == $i ) {
+				if ( count( $array_bits ) - 1 === $i ) {
 					$new_post_data[ $array_bits[ $i ] ] = wp_slash( $post_input_data->value );
 				} else {
 					$new_post_data = array( $array_bits[ $i ] => $new_post_data );
