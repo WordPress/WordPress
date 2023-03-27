@@ -270,7 +270,7 @@ class WP_Upgrader_Skin {
 	 * @since 5.5.0
 	 *
 	 * @param WP_Error $wp_error WP_Error object.
-	 * @return bool
+	 * @return bool True if the error should be hidden, false otherwise.
 	 */
 	public function hide_process_failed( $wp_error ) {
 		return false;
