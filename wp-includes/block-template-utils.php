@@ -1338,9 +1338,9 @@ function get_template_hierarchy( $slug, $is_custom = false, $template_prefix = '
 		if ( $slug !== $type ) {
 			$template_hierarchy[] = $type;
 		}
-	} else if ( preg_match( '/^(author|category|archive|tag|page)-.+$/', $slug, $matches ) ) {
+	} elseif ( preg_match( '/^(author|category|archive|tag|page)-.+$/', $slug, $matches ) ) {
 		$template_hierarchy[] = $matches[1];
-	} else if ( preg_match( '/^(taxonomy|single)-(.+)$/', $slug, $matches ) ) {
+	} elseif ( preg_match( '/^(taxonomy|single)-(.+)$/', $slug, $matches ) ) {
 		$type           = $matches[1];
 		$slug_remaining = $matches[2];
 

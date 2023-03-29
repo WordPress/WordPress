@@ -272,7 +272,7 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Controller {
 			return $changes;
 		}
 
-		$result  = wp_update_post( wp_slash( (array) $changes ), true, false );
+		$result = wp_update_post( wp_slash( (array) $changes ), true, false );
 		if ( is_wp_error( $result ) ) {
 			return $result;
 		}

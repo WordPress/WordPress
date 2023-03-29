@@ -349,7 +349,7 @@ switch ( $action ) {
 					</tr>
 
 					<?php
-					$languages = get_available_languages();
+					$languages                = get_available_languages();
 					$can_install_translations = current_user_can( 'install_languages' ) && wp_can_install_language_pack();
 					?>
 					<?php if ( $languages || $can_install_translations ) : ?>
@@ -370,12 +370,12 @@ switch ( $action ) {
 
 							wp_dropdown_languages(
 								array(
-									'name'                        => 'locale',
-									'id'                          => 'locale',
-									'selected'                    => $user_locale,
-									'languages'                   => $languages,
+									'name'      => 'locale',
+									'id'        => 'locale',
+									'selected'  => $user_locale,
+									'languages' => $languages,
 									'show_available_translations' => $can_install_translations,
-									'show_option_site_default'    => true,
+									'show_option_site_default' => true,
 								)
 							);
 							?>
