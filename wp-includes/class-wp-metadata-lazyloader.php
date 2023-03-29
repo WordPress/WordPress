@@ -55,11 +55,11 @@ class WP_Metadata_Lazyloader {
 		$this->settings = array(
 			'term'    => array(
 				'filter'   => 'get_term_metadata',
-				'callback' => array( $this, 'lazyload_term_meta' ),
+				'callback' => array( $this, 'lazyload_meta_callback' ),
 			),
 			'comment' => array(
 				'filter'   => 'get_comment_metadata',
-				'callback' => array( $this, 'lazyload_comment_meta' ),
+				'callback' => array( $this, 'lazyload_meta_callback' ),
 			),
 		);
 	}
@@ -91,7 +91,7 @@ class WP_Metadata_Lazyloader {
 			}
 		}
 
-		add_filter( $type_settings['filter'], $type_settings['callback'] );
+		add_filter( $type_settings['filter'], $type_settings['callback'], 10, 5 );
 
 		/**
 		 * Fires after objects are added to the metadata lazy-load queue.
@@ -131,20 +131,15 @@ class WP_Metadata_Lazyloader {
 	 * is no need to invoke it directly.
 	 *
 	 * @since 4.5.0
+	 * @deprecated 6.3.0 Use WP_Metadata_Lazyloader::lazyload_meta_callback() instead.
 	 *
 	 * @param mixed $check The `$check` param passed from the 'get_term_metadata' hook.
 	 * @return mixed In order not to short-circuit `get_metadata()`. Generally, this is `null`, but it could be
 	 *               another value if filtered by a plugin.
 	 */
 	public function lazyload_term_meta( $check ) {
-		if ( ! empty( $this->pending_objects['term'] ) ) {
-			update_termmeta_cache( array_keys( $this->pending_objects['term'] ) );
-
-			// No need to run again for this set of terms.
-			$this->reset_queue( 'term' );
-		}
-
-		return $check;
+		_deprecated_function( __METHOD__, '6.3.0', 'WP_Metadata_Lazyloader::lazyload_meta_callback' );
+		return $this->lazyload_meta_callback( $check, 0, '', false, 'term' );
 	}
 
 	/**
@@ -154,17 +149,47 @@ class WP_Metadata_Lazyloader {
 	 * directly, from either inside or outside the `WP_Query` object.
 	 *
 	 * @since 4.5.0
+	 * @deprecated 6.3.0 Use WP_Metadata_Lazyloader::lazyload_meta_callback() instead.
 	 *
 	 * @param mixed $check The `$check` param passed from the {@see 'get_comment_metadata'} hook.
 	 * @return mixed The original value of `$check`, so as not to short-circuit `get_comment_metadata()`.
 	 */
 	public function lazyload_comment_meta( $check ) {
-		if ( ! empty( $this->pending_objects['comment'] ) ) {
-			update_meta_cache( 'comment', array_keys( $this->pending_objects['comment'] ) );
+		_deprecated_function( __METHOD__, '6.3.0', 'WP_Metadata_Lazyloader::lazyload_meta_callback' );
+		return $this->lazyload_meta_callback( $check, 0, '', false, 'comment' );
+	}
 
-			// No need to run again for this set of comments.
-			$this->reset_queue( 'comment' );
+	/**
+	 * Lazy-loads meta for queued objects.
+	 *
+	 * This method is public so that it can be used as a filter callback. As a rule, there
+	 * is no need to invoke it directly.
+	 *
+	 * @since 6.3.0
+	 *
+	 * @param mixed  $check     The `$check` param passed from the 'get_*_metadata' hook.
+	 * @param int    $object_id ID of the object metadata is for.
+	 * @param string $meta_key  Unused.
+	 * @param bool   $single    Unused.
+	 * @param string $meta_type Type of object metadata is for. Accepts 'post', 'comment', 'term', 'user',
+	 *                          or any other object type with an associated meta table.
+	 * @return mixed In order not to short-circuit `get_metadata()`. Generally, this is `null`, but it could be
+	 *               another value if filtered by a plugin.
+	 */
+	public function lazyload_meta_callback( $check, $object_id, $meta_key, $single, $meta_type ) {
+		if ( empty( $this->pending_objects[ $meta_type ] ) ) {
+			return $check;
 		}
+
+		$object_ids = array_keys( $this->pending_objects[ $meta_type ] );
+		if ( $object_id && ! in_array( $object_id, $object_ids, true ) ) {
+			$object_ids[] = $object_id;
+		}
+
+		update_meta_cache( $meta_type, $object_ids );
+
+		// No need to run again for this set of objects.
+		$this->reset_queue( $meta_type );
 
 		return $check;
 	}
