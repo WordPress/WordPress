@@ -3225,6 +3225,10 @@ function _wp_theme_json_webfonts_handler() {
 		return;
 	}
 
+	if ( ! wp_theme_has_theme_json() ) {
+		return;
+	}
+
 	// Webfonts to be processed.
 	$registered_webfonts = array();
 
