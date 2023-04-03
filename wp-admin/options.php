@@ -353,7 +353,8 @@ if ( 'update' === $action ) { // We are saving settings sent from a settings pag
 	exit;
 }
 
-require_once ABSPATH . 'wp-admin/admin-header.php'; ?>
+require_once ABSPATH . 'wp-admin/admin-header.php';
+?>
 
 <div class="wrap">
 	<h1><?php esc_html_e( 'All Settings' ); ?></h1>

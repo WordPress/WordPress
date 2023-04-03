@@ -213,7 +213,8 @@ if ( ! wp_is_large_network( 'users' ) && apply_filters( 'show_network_site_users
 	wp_enqueue_script( 'user-suggest' );
 }
 
-require_once ABSPATH . 'wp-admin/admin-header.php'; ?>
+require_once ABSPATH . 'wp-admin/admin-header.php';
+?>
 
 <script type="text/javascript">
 var current_site_id = <?php echo absint( $id ); ?>;

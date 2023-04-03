@@ -272,7 +272,8 @@ if ( isset( $_GET['editwidget'] ) && $_GET['editwidget'] ) {
 	$width = ' style="width:' . max( $control['width'], 350 ) . 'px"';
 	$key   = isset( $_GET['key'] ) ? (int) $_GET['key'] : 0;
 
-	require_once ABSPATH . 'wp-admin/admin-header.php'; ?>
+	require_once ABSPATH . 'wp-admin/admin-header.php';
+	?>
 	<div class="wrap">
 	<h1><?php echo esc_html( $title ); ?></h1>
 	<div class="editwidget"<?php echo $width; ?>>
