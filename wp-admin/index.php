@@ -116,7 +116,7 @@ $is_dev_version  = preg_match( '/alpha|beta|RC/', $wp_version );
 if ( ! $is_dev_version ) {
 	$version_url = sprintf(
 		/* translators: %s: WordPress version. */
-		esc_url( __( 'https://wordpress.org/support/wordpress-version/version-%s/' ) ),
+		esc_url( __( 'https://wordpress.org/documentation/wordpress-version/version-%s/' ) ),
 		sanitize_title( $wp_version )
 	);
 
