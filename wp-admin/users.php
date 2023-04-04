@@ -359,7 +359,7 @@ switch ( $wp_list_table->current_action() ) {
 				?>
 			<input type="hidden" name="delete_option" value="delete" />
 			<?php else : ?>
-				<?php if ( 1 == $go_delete ) : ?>
+				<?php if ( 1 === $go_delete ) : ?>
 			<fieldset><p><legend><?php _e( 'What should be done with content owned by this user?' ); ?></legend></p>
 		<?php else : ?>
 			<fieldset><p><legend><?php _e( 'What should be done with content owned by these users?' ); ?></legend></p>
