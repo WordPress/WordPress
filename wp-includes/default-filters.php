@@ -328,7 +328,6 @@ add_action( 'wp_head', 'wp_preload_resources', 1 );
 add_action( 'wp_head', 'feed_links', 2 );
 add_action( 'wp_head', 'feed_links_extra', 3 );
 add_action( 'wp_head', 'rsd_link' );
-add_action( 'wp_head', 'wlwmanifest_link' );
 add_action( 'wp_head', 'locale_stylesheet' );
 add_action( 'publish_future_post', 'check_and_publish_future_post', 10, 1 );
 add_action( 'wp_head', 'wp_robots', 1 );

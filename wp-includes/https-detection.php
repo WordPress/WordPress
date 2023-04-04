@@ -208,14 +208,7 @@ function wp_is_local_html_output( $html ) {
 		return false !== strpos( $html, $pattern );
 	}
 
-	// 2. Check if HTML includes the site's Windows Live Writer manifest link.
-	if ( has_action( 'wp_head', 'wlwmanifest_link' ) ) {
-		// Try both HTTPS and HTTP since the URL depends on context.
-		$pattern = preg_replace( '#^https?:(?=//)#', '', includes_url( 'wlwmanifest.xml' ) ); // See wlwmanifest_link().
-		return false !== strpos( $html, $pattern );
-	}
-
-	// 3. Check if HTML includes the site's REST API link.
+	// 2. Check if HTML includes the site's REST API link.
 	if ( has_action( 'wp_head', 'rest_output_link_wp_head' ) ) {
 		// Try both HTTPS and HTTP since the URL depends on context.
 		$pattern = preg_replace( '#^https?:(?=//)#', '', esc_url( get_rest_url() ) ); // See rest_output_link_wp_head().

@@ -3373,19 +3373,6 @@ function rsd_link() {
 }
 
 /**
- * Displays the link to the Windows Live Writer manifest file.
- *
- * @link https://msdn.microsoft.com/en-us/library/bb463265.aspx
- * @since 2.3.1
- */
-function wlwmanifest_link() {
-	printf(
-		'<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="%s" />' . "\n",
-		includes_url( 'wlwmanifest.xml' )
-	);
-}
-
-/**
  * Displays a referrer `strict-origin-when-cross-origin` meta tag.
  *
  * Outputs a referrer `strict-origin-when-cross-origin` meta tag that tells the browser not to send
