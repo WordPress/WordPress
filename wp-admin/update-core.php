@@ -91,7 +91,7 @@ function list_core_update( $update ) {
 
 			$version_url = sprintf(
 				/* translators: %s: WordPress version. */
-				esc_url( __( 'https://wordpress.org/support/wordpress-version/version-%s/' ) ),
+				esc_url( __( 'https://wordpress.org/documentation/wordpress-version/version-%s/' ) ),
 				sanitize_title( $update->current )
 			);
 
