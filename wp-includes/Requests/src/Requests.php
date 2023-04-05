@@ -148,7 +148,7 @@ class Requests {
 	 *
 	 * @var string
 	 */
-	const VERSION = '2.0.5';
+	const VERSION = '2.0.6';
 
 	/**
 	 * Selected transport name
@@ -642,12 +642,14 @@ class Requests {
 	/**
 	 * Set the default values
 	 *
+	 * The $options parameter is updated with the results.
+	 *
 	 * @param string $url URL to request
 	 * @param array $headers Extra headers to send with the request
 	 * @param array|null $data Data to send either as a query string for GET/HEAD requests, or in the body for POST requests
 	 * @param string $type HTTP request type
 	 * @param array $options Options for the request
-	 * @return void $options is updated with the results
+	 * @return void
 	 *
 	 * @throws \WpOrg\Requests\Exception When the $url is not an http(s) URL.
 	 */
@@ -824,9 +826,11 @@ class Requests {
 	 * Internal use only. Converts a raw HTTP response to a \WpOrg\Requests\Response
 	 * while still executing a multiple request.
 	 *
+	 * `$response` is either set to a \WpOrg\Requests\Response instance, or a \WpOrg\Requests\Exception object
+	 *
 	 * @param string $response Full response text including headers and body (will be overwritten with Response instance)
 	 * @param array $request Request data as passed into {@see \WpOrg\Requests\Requests::request_multiple()}
-	 * @return void `$response` is either set to a \WpOrg\Requests\Response instance, or a \WpOrg\Requests\Exception object
+	 * @return void
 	 */
 	public static function parse_multiple(&$response, $request) {
 		try {

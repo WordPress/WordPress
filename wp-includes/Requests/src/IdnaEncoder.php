@@ -137,7 +137,7 @@ class IdnaEncoder {
 	 *
 	 * @internal (Testing found regex was the fastest implementation)
 	 *
-	 * @param string $text
+	 * @param string $text Text to examine.
 	 * @return bool Is the text string ASCII-only?
 	 */
 	protected static function is_ascii($text) {
@@ -148,7 +148,7 @@ class IdnaEncoder {
 	 * Prepare a text string for use as an IDNA name
 	 *
 	 * @todo Implement this based on RFC 3491 and the newer 5891
-	 * @param string $text
+	 * @param string $text Text to prepare.
 	 * @return string Prepared string
 	 */
 	protected static function nameprep($text) {
@@ -160,7 +160,7 @@ class IdnaEncoder {
 	 *
 	 * Based on \WpOrg\Requests\Iri::replace_invalid_with_pct_encoding()
 	 *
-	 * @param string $input
+	 * @param string $input Text to convert.
 	 * @return array Unicode code points
 	 *
 	 * @throws \WpOrg\Requests\Exception Invalid UTF-8 codepoint (`idna.invalidcodepoint`)
@@ -329,10 +329,10 @@ class IdnaEncoder {
 						}
 
 						// output the code point for digit t + ((q - t) mod (base - t))
-						$digit   = $t + (($q - $t) % (self::BOOTSTRAP_BASE - $t));
+						$digit   = (int) ($t + (($q - $t) % (self::BOOTSTRAP_BASE - $t)));
 						$output .= self::digit_to_char($digit);
 						// let q = (q - t) div (base - t)
-						$q = floor(($q - $t) / (self::BOOTSTRAP_BASE - $t));
+						$q = (int) floor(($q - $t) / (self::BOOTSTRAP_BASE - $t));
 					} // end
 					// output the code point for digit q
 					$output .= self::digit_to_char($q);
@@ -381,7 +381,7 @@ class IdnaEncoder {
 	 * @param int $delta
 	 * @param int $numpoints
 	 * @param bool $firsttime
-	 * @return int New bias
+	 * @return int|float New bias
 	 *
 	 * function adapt(delta,numpoints,firsttime):
 	 */

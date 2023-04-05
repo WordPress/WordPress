@@ -36,8 +36,8 @@ class Cookie {
 	/**
 	 * Cookie attributes
 	 *
-	 * Valid keys are (currently) path, domain, expires, max-age, secure and
-	 * httponly.
+	 * Valid keys are `'path'`, `'domain'`, `'expires'`, `'max-age'`, `'secure'` and
+	 * `'httponly'`.
 	 *
 	 * @var \WpOrg\Requests\Utility\CaseInsensitiveDictionary|array Array-like object
 	 */
@@ -46,8 +46,7 @@ class Cookie {
 	/**
 	 * Cookie flags
 	 *
-	 * Valid keys are (currently) creation, last-access, persistent and
-	 * host-only.
+	 * Valid keys are `'creation'`, `'last-access'`, `'persistent'` and `'host-only'`.
 	 *
 	 * @var array
 	 */
@@ -66,11 +65,13 @@ class Cookie {
 	/**
 	 * Create a new cookie object
 	 *
-	 * @param string $name
-	 * @param string $value
+	 * @param string                                                  $name           The name of the cookie.
+	 * @param string                                                  $value          The value for the cookie.
 	 * @param array|\WpOrg\Requests\Utility\CaseInsensitiveDictionary $attributes Associative array of attribute data
-	 * @param array $flags
-	 * @param int|null $reference_time
+	 * @param array                                                   $flags          The flags for the cookie.
+	 *                                                                                Valid keys are `'creation'`, `'last-access'`,
+	 *                                                                                `'persistent'` and `'host-only'`.
+	 * @param int|null                                                $reference_time Reference time for relative calculations.
 	 *
 	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $name argument is not a string.
 	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $value argument is not a string.
@@ -279,7 +280,11 @@ class Cookie {
 	public function normalize() {
 		foreach ($this->attributes as $key => $value) {
 			$orig_value = $value;
-			$value      = $this->normalize_attribute($key, $value);
+
+			if (is_string($key)) {
+				$value = $this->normalize_attribute($key, $value);
+			}
+
 			if ($value === null) {
 				unset($this->attributes[$key]);
 				continue;
@@ -299,7 +304,7 @@ class Cookie {
 	 * Handles parsing individual attributes from the cookie values.
 	 *
 	 * @param string $name Attribute name
-	 * @param string|boolean $value Attribute value (string value, or true if empty/flag)
+	 * @param string|int|bool $value Attribute value (string/integer value, or true if empty/flag)
 	 * @return mixed Value if available, or null if the attribute value is invalid (and should be skipped)
 	 */
 	protected function normalize_attribute($name, $value) {
