@@ -1108,9 +1108,9 @@ function wp_default_scripts( $scripts ) {
 	$scripts->add( 'mediaelement-vimeo', '/wp-includes/js/mediaelement/renderers/vimeo.min.js', array( 'mediaelement' ), '4.2.17', 1 );
 	$scripts->add( 'wp-mediaelement', "/wp-includes/js/mediaelement/wp-mediaelement$suffix.js", array( 'mediaelement' ), false, 1 );
 	$mejs_settings = array(
-		'pluginPath'  => includes_url( 'js/mediaelement/', 'relative' ),
-		'classPrefix' => 'mejs-',
-		'stretching'  => 'responsive',
+		'pluginPath'            => includes_url( 'js/mediaelement/', 'relative' ),
+		'classPrefix'           => 'mejs-',
+		'stretching'            => 'responsive',
 		/** This filter is documented in wp-includes/media.php */
 		'audioShortcodeLibrary' => apply_filters( 'wp_audio_shortcode_library', 'mediaelement' ),
 		/** This filter is documented in wp-includes/media.php */
