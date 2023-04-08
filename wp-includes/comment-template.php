@@ -1109,7 +1109,7 @@ function get_comment_time( $format = '', $gmt = false, $translate = true, $comme
  *                                   Default current comment.
  */
 function comment_time( $format = '', $comment_id = 0 ) {
-	echo get_comment_time( $format, $comment_id );
+	echo get_comment_time( $format, false, true, $comment_id );
 }
 
 /**
