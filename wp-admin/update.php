@@ -107,7 +107,7 @@ if ( isset( $_GET['action'] ) ) {
 			wp_die( __( 'Sorry, you are not allowed to install plugins on this site.' ) );
 		}
 
-		include_once ABSPATH . 'wp-admin/includes/plugin-install.php'; // For plugins_api().
+		require_once ABSPATH . 'wp-admin/includes/plugin-install.php'; // For plugins_api().
 
 		check_admin_referer( 'install-plugin_' . $plugin );
 		$api = plugins_api(
@@ -258,7 +258,7 @@ if ( isset( $_GET['action'] ) ) {
 			wp_die( __( 'Sorry, you are not allowed to install themes on this site.' ) );
 		}
 
-		include_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php'; // For themes_api().
+		require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php'; // For themes_api().
 
 		check_admin_referer( 'install-theme_' . $theme );
 		$api = themes_api(

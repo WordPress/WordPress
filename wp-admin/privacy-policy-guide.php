@@ -14,7 +14,7 @@ if ( ! current_user_can( 'manage_privacy_options' ) ) {
 }
 
 if ( ! class_exists( 'WP_Privacy_Policy_Content' ) ) {
-	include_once ABSPATH . 'wp-admin/includes/class-wp-privacy-policy-content.php';
+	require_once ABSPATH . 'wp-admin/includes/class-wp-privacy-policy-content.php';
 }
 
 // Used in the HTML title tag.
