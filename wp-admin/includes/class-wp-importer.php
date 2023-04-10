@@ -41,7 +41,7 @@ class WP_Importer {
 					$hashtable[ $r->meta_value ] = (int) $r->post_id;
 				}
 			}
-		} while ( count( $results ) == $limit );
+		} while ( count( $results ) === $limit );
 
 		return $hashtable;
 	}
@@ -110,7 +110,7 @@ class WP_Importer {
 					}
 				}
 			}
-		} while ( count( $results ) == $limit );
+		} while ( count( $results ) === $limit );
 
 		return $hashtable;
 	}

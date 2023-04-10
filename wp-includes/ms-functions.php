@@ -274,7 +274,7 @@ function remove_user_from_blog( $user_id, $blog_id = 0, $reassign = 0 ) {
 	$user->remove_all_caps();
 
 	$blogs = get_blogs_of_user( $user_id );
-	if ( count( $blogs ) == 0 ) {
+	if ( count( $blogs ) === 0 ) {
 		update_user_meta( $user_id, 'primary_blog', '' );
 		update_user_meta( $user_id, 'source_domain', '' );
 	}

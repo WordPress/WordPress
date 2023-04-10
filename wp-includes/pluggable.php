@@ -432,7 +432,7 @@ if ( ! function_exists( 'wp_mail' ) ) :
 					$recipient_name = '';
 
 					if ( preg_match( '/(.*)<(.+)>/', $address, $matches ) ) {
-						if ( count( $matches ) == 3 ) {
+						if ( count( $matches ) === 3 ) {
 							$recipient_name = $matches[1];
 							$address        = $matches[2];
 						}

@@ -241,7 +241,7 @@ function add_menu_classes( $menu ) {
 			$first_item        = false;
 		}
 
-		if ( $i == $items_count ) { // Last item.
+		if ( $i === $items_count ) { // Last item.
 			$classes           = $menu[ $order ][4];
 			$menu[ $order ][4] = add_cssclass( 'menu-top-last', $classes );
 		}

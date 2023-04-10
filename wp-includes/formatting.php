@@ -1169,7 +1169,7 @@ function utf8_uri_encode( $utf8_string, $length = 0, $encode_ascii_characters = 
 			$unicode        .= $encoded_char;
 			$unicode_length += $encoded_char_length;
 		} else {
-			if ( count( $values ) == 0 ) {
+			if ( count( $values ) === 0 ) {
 				if ( $value < 224 ) {
 					$num_octets = 2;
 				} elseif ( $value < 240 ) {
@@ -1184,7 +1184,7 @@ function utf8_uri_encode( $utf8_string, $length = 0, $encode_ascii_characters = 
 			if ( $length && ( $unicode_length + ( $num_octets * 3 ) ) > $length ) {
 				break;
 			}
-			if ( count( $values ) == $num_octets ) {
+			if ( count( $values ) === $num_octets ) {
 				for ( $j = 0; $j < $num_octets; $j++ ) {
 					$unicode .= '%' . dechex( $values[ $j ] );
 				}
@@ -3391,7 +3391,7 @@ function wp_remove_targeted_link_rel_filters() {
 function translate_smiley( $matches ) {
 	global $wpsmiliestrans;
 
-	if ( count( $matches ) == 0 ) {
+	if ( count( $matches ) === 0 ) {
 		return '';
 	}
 
@@ -5242,7 +5242,7 @@ function wp_sprintf_l( $pattern, $args ) {
 
 	$args   = (array) $args;
 	$result = array_shift( $args );
-	if ( count( $args ) == 1 ) {
+	if ( count( $args ) === 1 ) {
 		$result .= $l['between_only_two'] . array_shift( $args );
 	}
 
@@ -5251,7 +5251,7 @@ function wp_sprintf_l( $pattern, $args ) {
 	while ( $i ) {
 		$arg = array_shift( $args );
 		$i--;
-		if ( 0 == $i ) {
+		if ( 0 === $i ) {
 			$result .= $l['between_last_two'] . $arg;
 		} else {
 			$result .= $l['between'] . $arg;

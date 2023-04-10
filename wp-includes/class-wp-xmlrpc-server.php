@@ -4243,7 +4243,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		// If no specific options where asked for, return all of them.
-		if ( count( $options ) == 0 ) {
+		if ( count( $options ) === 0 ) {
 			$options = array_keys( $this->blog_options );
 		}
 

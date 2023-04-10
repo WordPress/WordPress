@@ -788,7 +788,7 @@ function wp_kses_one_attr( $attr, $element ) {
 	// Parse attribute name and value from input.
 	$split = preg_split( '/\s*=\s*/', $attr, 2 );
 	$name  = $split[0];
-	if ( count( $split ) == 2 ) {
+	if ( count( $split ) === 2 ) {
 		$value = $split[1];
 
 		// Remove quotes surrounding $value.

@@ -2297,7 +2297,7 @@ function get_usermeta( $user_id, $meta_key = '' ) {
 
 	$metas = array_map('maybe_unserialize', $metas);
 
-	if ( count($metas) == 1 )
+	if ( count($metas) === 1 )
 		return $metas[0];
 	else
 		return $metas;

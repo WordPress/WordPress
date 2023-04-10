@@ -4754,7 +4754,7 @@ function smilies_init() {
 	 */
 	$wpsmiliestrans = apply_filters( 'smilies', $wpsmiliestrans );
 
-	if ( count( $wpsmiliestrans ) == 0 ) {
+	if ( count( $wpsmiliestrans ) === 0 ) {
 		return;
 	}
 
