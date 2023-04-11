@@ -91,7 +91,7 @@ if ( ! defined( 'WP_ALLOW_REPAIR' ) || ! WP_ALLOW_REPAIR ) {
 		__( 'Database repair results' ) .
 	'</h1>';
 
-	$optimize = 2 == $_GET['repair'];
+	$optimize = '2' === $_GET['repair'];
 	$okay     = true;
 	$problems = array();
 
