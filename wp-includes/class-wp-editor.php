@@ -1508,8 +1508,8 @@ final class _WP_Editors {
 	 * Force uncompressed TinyMCE when a custom theme has been defined.
 	 *
 	 * The compressed TinyMCE file cannot deal with custom themes, so this makes
-	 * sure that we use the uncompressed TinyMCE file if a theme is defined.
-	 * Even if we are on a production environment.
+	 * sure that WordPress uses the uncompressed TinyMCE file if a theme is defined.
+	 * Even if the website is running on a production environment.
 	 *
 	 * @since 5.0.0
 	 */
