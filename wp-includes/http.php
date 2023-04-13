@@ -372,7 +372,7 @@ function wp_http_supports( $capabilities = array(), $url = null ) {
 	$count = count( $capabilities );
 
 	// If we have a numeric $capabilities array, spoof a wp_remote_request() associative $args array.
-	if ( $count && count( array_filter( array_keys( $capabilities ), 'is_numeric' ) ) == $count ) {
+	if ( $count && count( array_filter( array_keys( $capabilities ), 'is_numeric' ) ) === $count ) {
 		$capabilities = array_combine( array_values( $capabilities ), array_fill( 0, $count, true ) );
 	}
 
