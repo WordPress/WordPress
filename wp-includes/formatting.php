@@ -4524,13 +4524,15 @@ function sanitize_url( $url, $protocols = null ) {
  *
  * @since 1.2.2
  *
- * @param string $myHTML The text to be converted.
+ * @param string $text The text to be converted.
  * @return string Converted text.
  */
-function htmlentities2( $myHTML ) {
-	$translation_table              = get_html_translation_table( HTML_ENTITIES, ENT_QUOTES );
+function htmlentities2( $text ) {
+	$translation_table = get_html_translation_table( HTML_ENTITIES, ENT_QUOTES );
+
 	$translation_table[ chr( 38 ) ] = '&';
-	return preg_replace( '/&(?![A-Za-z]{0,4}\w{2,3};|#[0-9]{2,3};)/', '&amp;', strtr( $myHTML, $translation_table ) );
+
+	return preg_replace( '/&(?![A-Za-z]{0,4}\w{2,3};|#[0-9]{2,3};)/', '&amp;', strtr( $text, $translation_table ) );
 }
 
 /**
