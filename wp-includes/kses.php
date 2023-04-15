@@ -1330,7 +1330,7 @@ function wp_kses_hair( $attr, $allowed_protocols ) {
 
 	// Loop through the whole attribute list.
 
-	while ( strlen( $attr ) != 0 ) {
+	while ( strlen( $attr ) !== 0 ) {
 		$working = 0; // Was the last operation successful?
 
 		switch ( $mode ) {

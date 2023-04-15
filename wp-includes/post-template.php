@@ -42,7 +42,7 @@ function get_the_ID() { // phpcs:ignore WordPress.NamingConventions.ValidFunctio
 function the_title( $before = '', $after = '', $display = true ) {
 	$title = get_the_title();
 
-	if ( strlen( $title ) == 0 ) {
+	if ( strlen( $title ) === 0 ) {
 		return;
 	}
 
@@ -88,7 +88,7 @@ function the_title_attribute( $args = '' ) {
 
 	$title = get_the_title( $parsed_args['post'] );
 
-	if ( strlen( $title ) == 0 ) {
+	if ( strlen( $title ) === 0 ) {
 		return;
 	}
 

@@ -898,7 +898,7 @@ function seems_utf8( $str ) {
 			return false; // Does not match any model.
 		}
 		for ( $j = 0; $j < $n; $j++ ) { // n bytes matching 10bbbbbb follow ?
-			if ( ( ++$i == $length ) || ( ( ord( $str[ $i ] ) & 0xC0 ) != 0x80 ) ) {
+			if ( ( ++$i === $length ) || ( ( ord( $str[ $i ] ) & 0xC0 ) != 0x80 ) ) {
 				return false;
 			}
 		}
@@ -5138,7 +5138,7 @@ function wp_sprintf( $pattern, ...$args ) {
 	$arg_index = 0;
 	while ( $len > $start ) {
 		// Last character: append and break.
-		if ( strlen( $pattern ) - 1 == $start ) {
+		if ( strlen( $pattern ) - 1 === $start ) {
 			$result .= substr( $pattern, -1 );
 			break;
 		}
