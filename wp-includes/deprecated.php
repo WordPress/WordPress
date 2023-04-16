@@ -947,7 +947,7 @@ function get_links($category = -1, $before = '', $after = '<br />', $between = '
 	_deprecated_function( __FUNCTION__, '2.1.0', 'get_bookmarks()' );
 
 	$order = 'ASC';
-	if ( substr($orderby, 0, 1) == '_' ) {
+	if ( substr($orderby, 0, 1) === '_' ) {
 		$order = 'DESC';
 		$orderby = substr($orderby, 1);
 	}
@@ -980,7 +980,7 @@ function get_links($category = -1, $before = '', $after = '<br />', $between = '
 		$title = $desc;
 
 		if ( $show_updated )
-			if (substr($row->link_updated_f, 0, 2) != '00')
+			if (substr($row->link_updated_f, 0, 2) !== '00')
 				$title .= ' ('.__('Last updated') . ' ' . gmdate(get_option('links_updated_date_format'), $row->link_updated_f + (get_option('gmt_offset') * HOUR_IN_SECONDS)) . ')';
 
 		if ( '' != $title )
@@ -1042,7 +1042,7 @@ function get_links_list($order = 'name') {
 
 	// Handle link category sorting.
 	$direction = 'ASC';
-	if ( '_' == substr($order,0,1) ) {
+	if ( '_' === substr($order,0,1) ) {
 		$direction = 'DESC';
 		$order = substr($order,1);
 	}
@@ -1739,7 +1739,7 @@ function make_url_footnote( $content ) {
 		$link_url = $matches[2][$i];
 		$link_text = $matches[4][$i];
 		$content = str_replace( $link_match, $link_text . ' ' . $link_number, $content );
-		$link_url = ( ( strtolower( substr( $link_url, 0, 7 ) ) != 'http://' ) && ( strtolower( substr( $link_url, 0, 8 ) ) != 'https://' ) ) ? get_option( 'home' ) . $link_url : $link_url;
+		$link_url = ( ( strtolower( substr( $link_url, 0, 7 ) ) !== 'http://' ) && ( strtolower( substr( $link_url, 0, 8 ) ) !== 'https://' ) ) ? get_option( 'home' ) . $link_url : $link_url;
 		$links_summary .= "\n" . $link_number . ' ' . $link_url;
 	}
 	$content  = strip_tags( $content );

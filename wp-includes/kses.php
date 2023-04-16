@@ -799,7 +799,7 @@ function wp_kses_one_attr( $attr, $element ) {
 			$quote = $value[0];
 		}
 		if ( '"' === $quote || "'" === $quote ) {
-			if ( substr( $value, -1 ) != $quote ) {
+			if ( substr( $value, -1 ) !== $quote ) {
 				return '';
 			}
 			$value = substr( $value, 1, -1 );
