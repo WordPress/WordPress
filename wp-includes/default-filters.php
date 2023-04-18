@@ -115,6 +115,14 @@ add_action( 'added_post_meta', 'wp_cache_set_posts_last_changed' );
 add_action( 'updated_post_meta', 'wp_cache_set_posts_last_changed' );
 add_action( 'deleted_post_meta', 'wp_cache_set_posts_last_changed' );
 
+// User meta.
+add_action( 'added_user_meta', 'wp_cache_set_users_last_changed' );
+add_action( 'updated_user_meta', 'wp_cache_set_users_last_changed' );
+add_action( 'deleted_user_meta', 'wp_cache_set_users_last_changed' );
+add_action( 'add_user_role', 'wp_cache_set_users_last_changed' );
+add_action( 'set_user_role', 'wp_cache_set_users_last_changed' );
+add_action( 'remove_user_role', 'wp_cache_set_users_last_changed' );
+
 // Term meta.
 add_action( 'added_term_meta', 'wp_cache_set_terms_last_changed' );
 add_action( 'updated_term_meta', 'wp_cache_set_terms_last_changed' );

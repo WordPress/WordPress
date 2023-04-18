@@ -295,6 +295,7 @@ function remove_user_from_blog( $user_id, $blog_id = 0, $reassign = 0 ) {
 		}
 	}
 
+	clean_user_cache( $user_id );
 	restore_current_blog();
 
 	return true;

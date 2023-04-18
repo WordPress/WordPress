@@ -1907,6 +1907,7 @@ function clean_user_cache( $user ) {
 	}
 
 	wp_cache_delete( $user->ID, 'user_meta' );
+	wp_cache_set_users_last_changed();
 
 	/**
 	 * Fires immediately after the given user's cache is cleaned.
@@ -5015,4 +5016,13 @@ function wp_register_persisted_preferences_meta() {
 			),
 		)
 	);
+}
+
+/**
+ * Sets the last changed time for the 'users' cache group.
+ *
+ * @since 6.3.0
+ */
+function wp_cache_set_users_last_changed() {
+	wp_cache_set( 'last_changed', microtime(), 'users' );
 }
