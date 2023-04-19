@@ -1815,6 +1815,7 @@ class WP_HTML_Tag_Processor {
 	 * For string attributes, the value is escaped using the `esc_attr` function.
 	 *
 	 * @since 6.2.0
+	 * @since 6.2.1 Fix: Only create a single update for multiple calls with case-variant attribute names.
 	 *
 	 * @param string      $name  The attribute name to target.
 	 * @param string|bool $value The new attribute value.
@@ -1907,8 +1908,8 @@ class WP_HTML_Tag_Processor {
 			 *
 			 *    Result: <div id="new"/>
 			 */
-			$existing_attribute             = $this->attributes[ $comparable_name ];
-			$this->lexical_updates[ $name ] = new WP_HTML_Text_Replacement(
+			$existing_attribute = $this->attributes[ $comparable_name ];
+			$this->lexical_updates[ $comparable_name ] = new WP_HTML_Text_Replacement(
 				$existing_attribute->start,
 				$existing_attribute->end,
 				$updated_attribute
