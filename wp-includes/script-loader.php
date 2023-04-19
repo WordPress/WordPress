@@ -2939,41 +2939,34 @@ function wp_maybe_inline_styles() {
  * @return string The CSS with URLs made relative to the WordPress installation.
  */
 function _wp_normalize_relative_css_links( $css, $stylesheet_url ) {
-	$has_src_results = preg_match_all( '#url\s*\(\s*[\'"]?\s*([^\'"\)]+)#', $css, $src_results );
-	if ( $has_src_results ) {
-		// Loop through the URLs to find relative ones.
-		foreach ( $src_results[1] as $src_index => $src_result ) {
-			// Skip if this is an absolute URL.
-			if ( 0 === strpos( $src_result, 'http' ) || 0 === strpos( $src_result, '//' ) ) {
-				continue;
+	return preg_replace_callback(
+		'#(url\s*\(\s*[\'"]?\s*)([^\'"\)]+)#',
+		static function ( $matches ) use ( $stylesheet_url ) {
+			list( , $prefix, $url ) = $matches;
+
+			if ( ! (
+				str_starts_with( $url, 'http:' )
+				||
+				str_starts_with( $url, 'https:' )
+				||
+				str_starts_with( $url, '//' )
+				||
+				str_starts_with( $url, '#' )
+				||
+				str_starts_with( $url, 'data:' )
+			) ) {
+				// Build the absolute URL.
+				$absolute_url = dirname( $stylesheet_url ) . '/' . $url;
+				$absolute_url = str_replace( '/./', '/', $absolute_url );
+
+				// Convert to URL related to the site root.
+				$url = wp_make_link_relative( $absolute_url );
 			}
 
-			// Skip if the URL is an HTML ID.
-			if ( str_starts_with( $src_result, '#' ) ) {
-				continue;
-			}
-
-			// Skip if the URL is a data URI.
-			if ( str_starts_with( $src_result, 'data:' ) ) {
-				continue;
-			}
-
-			// Build the absolute URL.
-			$absolute_url = dirname( $stylesheet_url ) . '/' . $src_result;
-			$absolute_url = str_replace( '/./', '/', $absolute_url );
-			// Convert to URL related to the site root.
-			$relative_url = wp_make_link_relative( $absolute_url );
-
-			// Replace the URL in the CSS.
-			$css = str_replace(
-				$src_results[0][ $src_index ],
-				str_replace( $src_result, $relative_url, $src_results[0][ $src_index ] ),
-				$css
-			);
-		}
-	}
-
-	return $css;
+			return $prefix . $url;
+		},
+		$css
+	);
 }
 
 /**
