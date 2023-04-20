@@ -971,6 +971,7 @@ class WP_HTML_Tag_Processor {
 	 * closing `>`; these are left for other methods.
 	 *
 	 * @since 6.2.0
+	 * @since 6.2.1 Support abruptly-closed comments, invalid-tag-closer-comments, and empty elements.
 	 *
 	 * @return bool Whether a tag was found before the end of the document.
 	 */
@@ -1039,13 +1040,42 @@ class WP_HTML_Tag_Processor {
 					'-' === $html[ $at + 2 ] &&
 					'-' === $html[ $at + 3 ]
 				) {
-					$closer_at = strpos( $html, '-->', $at + 4 );
-					if ( false === $closer_at ) {
+					$closer_at = $at + 4;
+					// If it's not possible to close the comment then there is nothing more to scan.
+					if ( strlen( $html ) <= $closer_at ) {
 						return false;
 					}
 
-					$at = $closer_at + 3;
-					continue;
+					// Abruptly-closed empty comments are a sequence of dashes followed by `>`.
+					$span_of_dashes = strspn( $html, '-', $closer_at );
+					if ( '>' === $html[ $closer_at + $span_of_dashes ] ) {
+						$at = $closer_at + $span_of_dashes + 1;
+						continue;
+					}
+
+					/*
+					 * Comments may be closed by either a --> or an invalid --!>.
+					 * The first occurrence closes the comment.
+					 *
+					 * See https://html.spec.whatwg.org/#parse-error-incorrectly-closed-comment
+					 */
+					$closer_at--; // Pre-increment inside condition below reduces risk of accidental infinite looping.
+					while ( ++$closer_at < strlen( $html ) ) {
+						$closer_at = strpos( $html, '--', $closer_at );
+						if ( false === $closer_at ) {
+							return false;
+						}
+
+						if ( $closer_at + 2 < strlen( $html ) && '>' === $html[ $closer_at + 2 ] ) {
+							$at = $closer_at + 3;
+							continue 2;
+						}
+
+						if ( $closer_at + 3 < strlen( $html ) && '!' === $html[ $closer_at + 2 ] && '>' === $html[ $closer_at + 3 ] ) {
+							$at = $closer_at + 4;
+							continue 2;
+						}
+					}
 				}
 
 				/*
@@ -1105,11 +1135,37 @@ class WP_HTML_Tag_Processor {
 			}
 
 			/*
+			 * </> is a missing end tag name, which is ignored.
+			 *
+			 * See https://html.spec.whatwg.org/#parse-error-missing-end-tag-name
+			 */
+			if ( '>' === $html[ $at + 1 ] ) {
+				$at++;
+				continue;
+			}
+
+			/*
 			 * <? transitions to a bogus comment state – skip to the nearest >
-			 * https://html.spec.whatwg.org/multipage/parsing.html#tag-open-state
+			 * See https://html.spec.whatwg.org/multipage/parsing.html#tag-open-state
 			 */
 			if ( '?' === $html[ $at + 1 ] ) {
 				$closer_at = strpos( $html, '>', $at + 2 );
+				if ( false === $closer_at ) {
+					return false;
+				}
+
+				$at = $closer_at + 1;
+				continue;
+			}
+
+			/*
+			 * If a non-alpha starts the tag name in a tag closer it's a comment.
+			 * Find the first `>`, which closes the comment.
+			 *
+			 * See https://html.spec.whatwg.org/#parse-error-invalid-first-character-of-tag-name
+			 */
+			if ( $this->is_closing_tag ) {
+				$closer_at = strpos( $html, '>', $at + 3 );
 				if ( false === $closer_at ) {
 					return false;
 				}
