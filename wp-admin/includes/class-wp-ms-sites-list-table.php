@@ -732,7 +732,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 			__( 'Dashboard' )
 		);
 
-		if ( get_network()->site_id !== (int) $blog['blog_id'] ) {
+		if ( ! is_main_site( $blog['blog_id'] ) ) {
 			if ( '1' === $blog['deleted'] ) {
 				$actions['activate'] = sprintf(
 					'<a href="%1$s">%2$s</a>',
