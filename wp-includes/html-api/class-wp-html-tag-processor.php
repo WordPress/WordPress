@@ -1964,7 +1964,7 @@ class WP_HTML_Tag_Processor {
 			 *
 			 *    Result: <div id="new"/>
 			 */
-			$existing_attribute = $this->attributes[ $comparable_name ];
+			$existing_attribute                        = $this->attributes[ $comparable_name ];
 			$this->lexical_updates[ $comparable_name ] = new WP_HTML_Text_Replacement(
 				$existing_attribute->start,
 				$existing_attribute->end,
