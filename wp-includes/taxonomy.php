@@ -1426,6 +1426,22 @@ function update_termmeta_cache( $term_ids ) {
 	return update_meta_cache( 'term', $term_ids );
 }
 
+
+/**
+ * Queue term meta for lazy-loading.
+ *
+ * @since 6.3.0
+ *
+ * @param array $term_ids List of term IDs.
+ */
+function wp_lazyload_term_meta( array $term_ids ) {
+	if ( empty( $term_ids ) ) {
+		return;
+	}
+	$lazyloader = wp_metadata_lazyloader();
+	$lazyloader->queue_objects( 'term', $term_ids );
+}
+
 /**
  * Gets all meta data, including meta IDs, for the given term ID.
  *
@@ -4003,6 +4019,7 @@ function _pad_term_counts( &$terms, $taxonomy ) {
  *
  * @since 4.6.0
  * @since 6.1.0 This function is no longer marked as "private".
+ * @since 6.3.0 Use wp_lazyload_term_meta() for lazy-loading of term meta.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
@@ -4017,10 +4034,10 @@ function _prime_term_caches( $term_ids, $update_meta_cache = true ) {
 		$fresh_terms = $wpdb->get_results( sprintf( "SELECT t.*, tt.* FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id WHERE t.term_id IN (%s)", implode( ',', array_map( 'intval', $non_cached_ids ) ) ) );
 
 		update_term_cache( $fresh_terms );
+	}
 
-		if ( $update_meta_cache ) {
-			update_termmeta_cache( $non_cached_ids );
-		}
+	if ( $update_meta_cache ) {
+		wp_lazyload_term_meta( $term_ids );
 	}
 }
 

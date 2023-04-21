@@ -865,7 +865,7 @@ class WP_Term_Query {
 		// Prime termmeta cache.
 		if ( $args['update_term_meta_cache'] ) {
 			$term_ids = wp_list_pluck( $term_objects, 'term_id' );
-			update_termmeta_cache( $term_ids );
+			wp_lazyload_term_meta( $term_ids );
 		}
 
 		if ( 'all_with_object_id' === $_fields && ! empty( $args['object_ids'] ) ) {
