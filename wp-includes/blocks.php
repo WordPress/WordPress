@@ -300,6 +300,7 @@ function get_block_metadata_i18n_schema() {
  * @since 5.7.0 Added support for `textdomain` field and i18n handling for all translatable fields.
  * @since 5.9.0 Added support for `variations` and `viewScript` fields.
  * @since 6.1.0 Added support for `render` field.
+ * @since 6.3.0 Added `selectors` field.
  *
  * @param string $file_or_folder Path to the JSON file with metadata definition for
  *                               the block or path to the folder where the `block.json` file is located.
@@ -382,6 +383,7 @@ function register_block_type_from_metadata( $file_or_folder, $args = array() ) {
 		'attributes'      => 'attributes',
 		'providesContext' => 'provides_context',
 		'usesContext'     => 'uses_context',
+		'selectors'       => 'selectors',
 		'supports'        => 'supports',
 		'styles'          => 'styles',
 		'variations'      => 'variations',

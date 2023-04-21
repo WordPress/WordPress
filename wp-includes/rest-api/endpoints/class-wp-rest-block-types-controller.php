@@ -237,6 +237,7 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller {
 	 *
 	 * @since 5.5.0
 	 * @since 5.9.0 Renamed `$block_type` to `$item` to match parent class for PHP 8 named parameter support.
+	 * @since 6.3.0 Added `selectors` field.
 	 *
 	 * @param WP_Block_Type   $item    Block type data.
 	 * @param WP_REST_Request $request Full details about the request.
@@ -278,6 +279,7 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller {
 				'ancestor',
 				'provides_context',
 				'uses_context',
+				'selectors',
 				'supports',
 				'styles',
 				'textdomain',
@@ -379,6 +381,7 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller {
 	 * Retrieves the block type' schema, conforming to JSON Schema.
 	 *
 	 * @since 5.5.0
+	 * @since 6.3.0 Added `selectors` field.
 	 *
 	 * @return array Item schema data.
 	 */
@@ -515,6 +518,14 @@ class WP_REST_Block_Types_Controller extends WP_REST_Controller {
 					'items'       => array(
 						'type' => 'string',
 					),
+					'context'     => array( 'embed', 'view', 'edit' ),
+					'readonly'    => true,
+				),
+				'selectors'             => array(
+					'description' => __( 'Custom CSS selectors.' ),
+					'type'        => 'object',
+					'default'     => array(),
+					'properties'  => array(),
 					'context'     => array( 'embed', 'view', 'edit' ),
 					'readonly'    => true,
 				),

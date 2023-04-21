@@ -2178,6 +2178,7 @@ function taxonomy_meta_box_sanitize_cb_input( $taxonomy, $terms ) {
  * of a block relevant for client registration.
  *
  * @since 5.0.0
+ * @since 6.3.0 Added `selectors` field.
  *
  * @return array An associative array of registered block data.
  */
@@ -2192,6 +2193,7 @@ function get_block_editor_server_block_settings() {
 		'attributes'       => 'attributes',
 		'provides_context' => 'providesContext',
 		'uses_context'     => 'usesContext',
+		'selectors'        => 'selectors',
 		'supports'         => 'supports',
 		'category'         => 'category',
 		'styles'           => 'styles',

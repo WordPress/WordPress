@@ -118,6 +118,14 @@ class WP_Block_Type {
 	public $variations = array();
 
 	/**
+	 * Custom CSS selectors for theme.json style generation.
+	 *
+	 * @since 6.3.0
+	 * @var array
+	 */
+	public $selectors = array();
+
+	/**
 	 * Supported features.
 	 *
 	 * @since 5.5.0
@@ -245,6 +253,7 @@ class WP_Block_Type {
 	 * @since 6.1.0 Added the `editor_script_handles`, `script_handles`, `view_script_handles,
 	 *              `editor_style_handles`, and `style_handles` properties.
 	 *              Deprecated the `editor_script`, `script`, `view_script`, `editor_style`, and `style` properties.
+	 * @since 6.3.0 Added the `selectors` property.
 	 *
 	 * @see register_block_type()
 	 *
@@ -268,6 +277,7 @@ class WP_Block_Type {
 	 *     @type string|null   $textdomain               The translation textdomain.
 	 *     @type array[]       $styles                   Alternative block styles.
 	 *     @type array[]       $variations               Block variations.
+	 *     @type array         $selectors                Custom CSS selectors for theme.json style generation.
 	 *     @type array|null    $supports                 Supported features.
 	 *     @type array|null    $example                  Structured data for the block preview.
 	 *     @type callable|null $render_callback          Block type render callback.
