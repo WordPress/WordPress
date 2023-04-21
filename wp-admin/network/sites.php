@@ -181,8 +181,8 @@ if ( isset( $_GET['action'] ) ) {
 			if ( isset( $_POST['action'] ) && isset( $_POST['allblogs'] ) ) {
 				$doaction = $_POST['action'];
 
-				foreach ( (array) $_POST['allblogs'] as $key => $val ) {
-					if ( '0' != $val && ! is_main_site( $val ) ) {
+				foreach ( (array) $_POST['allblogs'] as $site_id ) {
+					if ( '0' != $site_id && ! is_main_site( $site_id ) ) {
 						switch ( $doaction ) {
 							case 'delete':
 								require_once ABSPATH . 'wp-admin/admin-header.php';
@@ -217,7 +217,7 @@ if ( isset( $_GET['action'] ) ) {
 							case 'spam':
 							case 'notspam':
 								$updated_action = ( 'spam' === $doaction ) ? 'all_spam' : 'all_notspam';
-								update_blog_status( $val, 'spam', ( 'spam' === $doaction ) ? '1' : '0' );
+								update_blog_status( $site_id, 'spam', ( 'spam' === $doaction ) ? '1' : '0' );
 								break;
 						}
 					} else {
