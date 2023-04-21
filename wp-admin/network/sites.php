@@ -102,7 +102,7 @@ if ( isset( $_GET['action'] ) ) {
 			header( 'Content-Type: text/html; charset=utf-8' );
 		}
 
-		if ( get_network()->site_id == $id ) {
+		if ( is_main_site( $id ) ) {
 			wp_die( __( 'Sorry, you are not allowed to change the current site.' ) );
 		}
 
@@ -142,7 +142,7 @@ if ( isset( $_GET['action'] ) ) {
 			}
 
 			$updated_action = 'not_deleted';
-			if ( '0' != $id && get_network()->site_id != $id && current_user_can( 'delete_site', $id ) ) {
+			if ( '0' != $id && ! is_main_site( $id ) && current_user_can( 'delete_site', $id ) ) {
 				wpmu_delete_blog( $id, true );
 				$updated_action = 'delete';
 			}
@@ -154,7 +154,7 @@ if ( isset( $_GET['action'] ) ) {
 			foreach ( (array) $_POST['site_ids'] as $site_id ) {
 				$site_id = (int) $site_id;
 
-				if ( get_network()->site_id == $site_id ) {
+				if ( is_main_site( $site_id ) ) {
 					continue;
 				}
 
@@ -182,7 +182,7 @@ if ( isset( $_GET['action'] ) ) {
 				$doaction = $_POST['action'];
 
 				foreach ( (array) $_POST['allblogs'] as $key => $val ) {
-					if ( '0' != $val && get_network()->site_id != $val ) {
+					if ( '0' != $val && ! is_main_site( $val ) ) {
 						switch ( $doaction ) {
 							case 'delete':
 								require_once ABSPATH . 'wp-admin/admin-header.php';

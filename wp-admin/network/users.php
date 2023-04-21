@@ -94,7 +94,7 @@ if ( isset( $_GET['action'] ) ) {
 								$blogs        = get_blogs_of_user( $user_id, true );
 
 								foreach ( (array) $blogs as $details ) {
-									if ( get_network()->site_id != $details->userblog_id ) { // Main blog is not a spam!
+									if ( ! is_main_site( $details->userblog_id ) ) { // Main site is not a spam!
 										update_blog_status( $details->userblog_id, 'spam', '1' );
 									}
 								}
