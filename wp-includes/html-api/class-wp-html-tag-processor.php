@@ -2142,6 +2142,8 @@ class WP_HTML_Tag_Processor {
 		 * to the end of the updated document and return.
 		 */
 		if ( $requires_no_updating && $this->bytes_already_copied > 0 ) {
+			$this->html                 = $this->output_buffer . substr( $this->html, $this->bytes_already_copied );
+			$this->bytes_already_copied = strlen( $this->output_buffer );
 			return $this->output_buffer . substr( $this->html, $this->bytes_already_copied );
 		}
 
