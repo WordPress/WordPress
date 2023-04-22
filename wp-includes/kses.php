@@ -1640,7 +1640,7 @@ function wp_kses_check_attr_val( $value, $vless, $checkname, $checkvalue ) {
 			 * If the given value is an "n" or an "N", the attribute must have a value.
 			 */
 
-			if ( strtolower( $checkvalue ) != $vless ) {
+			if ( strtolower( $checkvalue ) !== $vless ) {
 				$ok = false;
 			}
 			break;
@@ -1846,7 +1846,7 @@ function wp_kses_bad_protocol_once2( $scheme, $allowed_protocols ) {
 
 	$allowed = false;
 	foreach ( (array) $allowed_protocols as $one_protocol ) {
-		if ( strtolower( $one_protocol ) == $scheme ) {
+		if ( strtolower( $one_protocol ) === $scheme ) {
 			$allowed = true;
 			break;
 		}

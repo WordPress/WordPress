@@ -3029,13 +3029,26 @@ function make_clickable( $text ) {
 	$nested_code_pre = 0; // Keep track of how many levels link is nested inside <pre> or <code>.
 	foreach ( $textarr as $piece ) {
 
-		if ( preg_match( '|^<code[\s>]|i', $piece ) || preg_match( '|^<pre[\s>]|i', $piece ) || preg_match( '|^<script[\s>]|i', $piece ) || preg_match( '|^<style[\s>]|i', $piece ) ) {
+		if ( preg_match( '|^<code[\s>]|i', $piece )
+			|| preg_match( '|^<pre[\s>]|i', $piece )
+			|| preg_match( '|^<script[\s>]|i', $piece )
+			|| preg_match( '|^<style[\s>]|i', $piece )
+		) {
 			$nested_code_pre++;
-		} elseif ( $nested_code_pre && ( '</code>' === strtolower( $piece ) || '</pre>' === strtolower( $piece ) || '</script>' === strtolower( $piece ) || '</style>' === strtolower( $piece ) ) ) {
+		} elseif ( $nested_code_pre
+			&& ( '</code>' === strtolower( $piece )
+				|| '</pre>' === strtolower( $piece )
+				|| '</script>' === strtolower( $piece )
+				|| '</style>' === strtolower( $piece )
+			)
+		) {
 			$nested_code_pre--;
 		}
 
-		if ( $nested_code_pre || empty( $piece ) || ( '<' === $piece[0] && ! preg_match( '|^<\s*[\w]{1,20}+://|', $piece ) ) ) {
+		if ( $nested_code_pre
+			|| empty( $piece )
+			|| ( '<' === $piece[0] && ! preg_match( '|^<\s*[\w]{1,20}+://|', $piece ) )
+		) {
 			$r .= $piece;
 			continue;
 		}
@@ -4463,7 +4476,7 @@ function esc_url( $url, $protocols = null, $_context = 'display' ) {
 			$protocols = wp_allowed_protocols();
 		}
 		$good_protocol_url = wp_kses_bad_protocol( $url, $protocols );
-		if ( strtolower( $good_protocol_url ) != strtolower( $url ) ) {
+		if ( strtolower( $good_protocol_url ) !== strtolower( $url ) ) {
 			return '';
 		}
 	}

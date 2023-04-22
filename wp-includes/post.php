@@ -4194,7 +4194,10 @@ function wp_insert_post( $postarr, $wp_error = false, $fire_after_hooks = true )
 		// On updates, we need to check to see if it's using the old, fixed sanitization context.
 		$check_name = sanitize_title( $post_name, '', 'old-save' );
 
-		if ( $update && strtolower( urlencode( $post_name ) ) == $check_name && get_post_field( 'post_name', $post_id ) == $check_name ) {
+		if ( $update
+			&& strtolower( urlencode( $post_name ) ) === $check_name
+			&& get_post_field( 'post_name', $post_id ) === $check_name
+		) {
 			$post_name = $check_name;
 		} else { // New post, or slug has changed.
 			$post_name = sanitize_title( $post_name );
