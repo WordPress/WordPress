@@ -201,9 +201,9 @@ class WP_Site_Icon {
 	 * @param int $post_id Attachment ID.
 	 */
 	public function delete_attachment_data( $post_id ) {
-		$site_icon_id = get_option( 'site_icon' );
+		$site_icon_id = (int) get_option( 'site_icon' );
 
-		if ( $site_icon_id && $post_id == $site_icon_id ) {
+		if ( $site_icon_id && $post_id === $site_icon_id ) {
 			delete_option( 'site_icon' );
 		}
 	}
@@ -222,9 +222,9 @@ class WP_Site_Icon {
 	 */
 	public function get_post_metadata( $value, $post_id, $meta_key, $single ) {
 		if ( $single && '_wp_attachment_backup_sizes' === $meta_key ) {
-			$site_icon_id = get_option( 'site_icon' );
+			$site_icon_id = (int) get_option( 'site_icon' );
 
-			if ( $post_id == $site_icon_id ) {
+			if ( $post_id === $site_icon_id ) {
 				add_filter( 'intermediate_image_sizes', array( $this, 'intermediate_image_sizes' ) );
 			}
 		}
