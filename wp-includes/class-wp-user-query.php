@@ -826,7 +826,7 @@ class WP_User_Query {
 			";
 			$cache_value   = false;
 			$cache_key     = $this->generate_cache_key( $qv, $this->request );
-			$cache_group   = 'users-queries';
+			$cache_group   = 'user-queries';
 			if ( $qv['cache_results'] ) {
 				$cache_value = wp_cache_get( $cache_key, $cache_group );
 			}

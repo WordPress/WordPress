@@ -568,12 +568,12 @@ function switch_to_blog( $new_blog_id, $deprecated = null ) {
 						'site-transient',
 						'rss',
 						'users',
+						'user-queries',
 						'useremail',
 						'userlogins',
 						'usermeta',
 						'user_meta',
 						'userslugs',
-						'users-queries',
 					)
 				);
 			}
@@ -662,12 +662,12 @@ function restore_current_blog() {
 						'site-transient',
 						'rss',
 						'users',
+						'user-queries',
 						'useremail',
 						'userlogins',
 						'usermeta',
 						'user_meta',
 						'userslugs',
-						'users-queries',
 					)
 				);
 			}
