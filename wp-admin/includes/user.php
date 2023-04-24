@@ -525,15 +525,28 @@ function default_password_nag() {
 	if ( 'profile.php' === $pagenow || ! get_user_option( 'default_password_nag' ) ) {
 		return;
 	}
-
-	echo '<div class="error default-password-nag">';
-	echo '<p>';
-	echo '<strong>' . __( 'Notice:' ) . '</strong> ';
-	_e( 'You&rsquo;re using the auto-generated password for your account. Would you like to change it?' );
-	echo '</p><p>';
-	printf( '<a href="%s">' . __( 'Yes, take me to my profile page' ) . '</a> | ', esc_url( get_edit_profile_url() . '#password' ) );
-	printf( '<a href="%s" id="default-password-nag-no">' . __( 'No thanks, do not remind me again' ) . '</a>', '?default_password_nag=0' );
-	echo '</p></div>';
+	?>
+	<div class="error default-password-nag">
+		<p>
+			<strong><?php _e( 'Notice:' ); ?></strong>
+			<?php _e( 'You&rsquo;re using the auto-generated password for your account. Would you like to change it?' ); ?>
+		</p>
+		<p>
+		<?php
+		printf(
+			'<a href="%1$s">%2$s</a> | ',
+			esc_url( get_edit_profile_url() . '#password' ),
+			__( 'Yes, take me to my profile page' )
+		);
+		printf(
+			'<a href="%1$s" id="default-password-nag-no">%2$s</a>',
+			'?default_password_nag=0',
+			__( 'No thanks, do not remind me again' )
+		);
+		?>
+		</p>
+	</div>
+	<?php
 }
 
 /**
