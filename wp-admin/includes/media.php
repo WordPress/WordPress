@@ -2737,7 +2737,7 @@ function media_upload_library_form( $errors ) {
 		<label class="screen-reader-text" for="media-search-input">
 			<?php
 			/* translators: Hidden accessibility text. */
-			echo __( 'Search Media' ) . ':';
+			_e( 'Search Media:' );
 			?>
 		</label>
 		<input type="search" id="media-search-input" name="s" value="<?php the_search_query(); ?>" />
