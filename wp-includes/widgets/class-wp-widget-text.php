@@ -44,7 +44,7 @@ class WP_Widget_Text extends WP_Widget {
 	}
 
 	/**
-	 * Add hooks for enqueueing assets when registering all widget instances of this widget class.
+	 * Adds hooks for enqueueing assets when registering all widget instances of this widget class.
 	 *
 	 * @param int $number Optional. The unique order number of this widget instance
 	 *                    compared to other instances of the same class. Default -1.
@@ -340,7 +340,7 @@ class WP_Widget_Text extends WP_Widget {
 	}
 
 	/**
-	 * Inject max-width and remove height for videos too constrained to fit inside sidebars on frontend.
+	 * Injects max-width and removes height for videos too constrained to fit inside sidebars on frontend.
 	 *
 	 * @since 4.9.0
 	 *
@@ -410,7 +410,7 @@ class WP_Widget_Text extends WP_Widget {
 	}
 
 	/**
-	 * Enqueue preview scripts.
+	 * Enqueues preview scripts.
 	 *
 	 * These scripts normally are enqueued just-in-time when a playlist shortcode is used.
 	 * However, in the customizer, a playlist shortcode may be used in a text widget and
@@ -510,7 +510,7 @@ class WP_Widget_Text extends WP_Widget {
 	}
 
 	/**
-	 * Render form template scripts.
+	 * Renders form template scripts.
 	 *
 	 * @since 4.8.0
 	 * @since 4.9.0 The method is now static.
