@@ -671,7 +671,7 @@ input[type="text"].ui-autocomplete-loading,
 input[type="email"].ui-autocomplete-loading {
 	background-image: url(../images/loading.gif);
 	background-repeat: no-repeat;
-	background-position: right center;
+	background-position: right 5px center;
 	visibility: visible;
 }
 
