@@ -290,20 +290,41 @@ function _get_block_template_file( $template_type, $slug ) {
  * Retrieves the template files from the theme.
  *
  * @since 5.9.0
+ * @since 6.3.0 Added the `$query` parameter.
  * @access private
  *
  * @param string $template_type 'wp_template' or 'wp_template_part'.
- * @return array Template.
+ * @param array  $query {
+ *     Arguments to retrieve templates. Optional, empty by default.
+ *
+ *     @type array  $slug__in     List of slugs to include.
+ *     @type array  $slug__not_in List of slugs to skip.
+ *     @type string $area         A 'wp_template_part_area' taxonomy value to filter by (for wp_template_part template type only).
+ *     @type string $post_type    Post type to get the templates for.
+ * }
+ *
+ * @return array Template
  */
-function _get_block_templates_files( $template_type ) {
+function _get_block_templates_files( $template_type, $query = array() ) {
 	if ( 'wp_template' !== $template_type && 'wp_template_part' !== $template_type ) {
 		return null;
 	}
 
-	$themes         = array(
-		get_stylesheet() => get_stylesheet_directory(),
-		get_template()   => get_template_directory(),
+	// Prepare metadata from $query.
+	$slugs_to_include = isset( $query['slug__in'] ) ? $query['slug__in'] : array();
+	$slugs_to_skip    = isset( $query['slug__not_in'] ) ? $query['slug__not_in'] : array();
+	$area             = isset( $query['area'] ) ? $query['area'] : null;
+	$post_type        = isset( $query['post_type'] ) ? $query['post_type'] : '';
+
+	$stylesheet = get_stylesheet();
+	$template   = get_template();
+	$themes     = array(
+		$stylesheet => get_stylesheet_directory(),
 	);
+	// Add the parent theme if it's not the same as the current theme.
+	if ( $stylesheet !== $template ) {
+		$themes[ $template ] = get_template_directory();
+	}
 	$template_files = array();
 	foreach ( $themes as $theme_slug => $theme_dir ) {
 		$template_base_paths  = get_block_theme_folders( $theme_slug );
@@ -317,6 +338,17 @@ function _get_block_templates_files( $template_type ) {
 				// Subtract ending '.html'.
 				-5
 			);
+
+			// Skip this item if its slug doesn't match any of the slugs to include.
+			if ( ! empty( $slugs_to_include ) && ! in_array( $template_slug, $slugs_to_include, true ) ) {
+				continue;
+			}
+
+			// Skip this item if its slug matches any of the slugs to skip.
+			if ( ! empty( $slugs_to_skip ) && in_array( $template_slug, $slugs_to_skip, true ) ) {
+				continue;
+			}
+
 			$new_template_item = array(
 				'slug'  => $template_slug,
 				'path'  => $template_file,
@@ -325,11 +357,40 @@ function _get_block_templates_files( $template_type ) {
 			);
 
 			if ( 'wp_template_part' === $template_type ) {
-				$template_files[] = _add_block_template_part_area_info( $new_template_item );
+				/*
+				 * Structure of a wp_template_part item:
+				 *
+				 * - slug
+				 * - path
+				 * - theme
+				 * - type
+				 * - area
+				 * - title (optional)
+				 */
+				$candidate = _add_block_template_part_area_info( $new_template_item );
+				if ( ! isset( $area ) || ( isset( $area ) && $area === $candidate['area'] ) ) {
+					$template_files[] = $candidate;
+				}
 			}
 
 			if ( 'wp_template' === $template_type ) {
-				$template_files[] = _add_block_template_info( $new_template_item );
+				/*
+				 * Structure of a wp_template item:
+				 *
+				 * - slug
+				 * - path
+				 * - theme
+				 * - type
+				 * - title (optional)
+				 * - postTypes (optional)
+				 */
+				$candidate = _add_block_template_info( $new_template_item );
+				if (
+					! $post_type ||
+					( $post_type && isset( $candidate['postTypes'] ) && in_array( $post_type, $candidate['postTypes'], true ) )
+				) {
+					$template_files[] = $candidate;
+				}
 			}
 		}
 	}
@@ -921,8 +982,9 @@ function get_block_templates( $query = array(), $template_type = 'wp_template' )
 		$wp_query_args['tax_query']['relation'] = 'AND';
 	}
 
-	if ( isset( $query['slug__in'] ) ) {
-		$wp_query_args['post_name__in'] = $query['slug__in'];
+	if ( ! empty( $query['slug__in'] ) ) {
+		$wp_query_args['post_name__in']  = $query['slug__in'];
+		$wp_query_args['posts_per_page'] = count( array_unique( $query['slug__in'] ) );
 	}
 
 	// This is only needed for the regular templates/template parts post type listing and editor.
@@ -957,34 +1019,14 @@ function get_block_templates( $query = array(), $template_type = 'wp_template' )
 	}
 
 	if ( ! isset( $query['wp_id'] ) ) {
-		$template_files = _get_block_templates_files( $template_type );
+		/*
+		 * If the query has found some use templates, those have priority
+		 * over the theme-provided ones, so we skip querying and building them.
+		 */
+		$query['slug__not_in'] = wp_list_pluck( $query_result, 'slug' );
+		$template_files        = _get_block_templates_files( $template_type, $query );
 		foreach ( $template_files as $template_file ) {
-			$template = _build_block_template_result_from_file( $template_file, $template_type );
-
-			if ( $post_type && ! $template->is_custom ) {
-				continue;
-			}
-
-			if ( $post_type &&
-				isset( $template->post_types ) &&
-				! in_array( $post_type, $template->post_types, true )
-			) {
-				continue;
-			}
-
-			$is_not_custom   = false === array_search(
-				get_stylesheet() . '//' . $template_file['slug'],
-				wp_list_pluck( $query_result, 'id' ),
-				true
-			);
-			$fits_slug_query =
-				! isset( $query['slug__in'] ) || in_array( $template_file['slug'], $query['slug__in'], true );
-			$fits_area_query =
-				! isset( $query['area'] ) || $template_file['area'] === $query['area'];
-			$should_include  = $is_not_custom && $fits_slug_query && $fits_area_query;
-			if ( $should_include ) {
-				$query_result[] = $template;
-			}
+			$query_result[] = _build_block_template_result_from_file( $template_file, $template_type );
 		}
 	}
 
