@@ -410,6 +410,7 @@ final class WP_Post_Type {
 	 *
 	 * @param string       $post_type Post type key.
 	 * @param array|string $args      Optional. Array or string of arguments for registering a post type.
+	 *                                See register_post_type() for information on accepted arguments.
 	 *                                Default empty array.
 	 */
 	public function __construct( $post_type, $args = array() ) {

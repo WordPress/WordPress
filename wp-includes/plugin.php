@@ -575,7 +575,7 @@ function do_action_ref_array( $hook_name, $args ) {
  *
  * @since 2.5.0
  *
- * @see has_filter() has_action() is an alias of has_filter().
+ * @see has_filter() This function is an alias of has_filter().
  *
  * @param string                      $hook_name The name of the action hook.
  * @param callable|string|array|false $callback  Optional. The callback to check for.
@@ -964,18 +964,7 @@ function _wp_call_all_hook( $args ) {
 }
 
 /**
- * Builds Unique ID for storage and retrieval.
- *
- * The old way to serialize the callback caused issues and this function is the
- * solution. It works by checking for objects and creating a new property in
- * the class to keep track of the object and new objects of the same class that
- * need to be added.
- *
- * It also allows for the removal of actions and filters for objects after they
- * change class properties. It is possible to include the property $wp_filter_id
- * in your class and set it to "null" or a number to bypass the workaround.
- * However this will prevent you from adding new classes and any new classes
- * will overwrite the previous hook by the same class.
+ * Builds a unique string ID for a hook callback function.
  *
  * Functions and static method callbacks are just returned as strings and
  * shouldn't have any speed penalty.

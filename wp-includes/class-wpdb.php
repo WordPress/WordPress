@@ -2556,13 +2556,13 @@ class wpdb {
 	 *
 	 * @param string       $table  Table name.
 	 * @param array        $data   Data to insert (in column => value pairs).
-	 *                             Both $data columns and $data values should be "raw" (neither should be SQL escaped).
+	 *                             Both `$data` columns and `$data` values should be "raw" (neither should be SQL escaped).
 	 *                             Sending a null value will cause the column to be set to NULL - the corresponding
 	 *                             format is ignored in this case.
-	 * @param array|string $format Optional. An array of formats to be mapped to each of the value in $data.
-	 *                             If string, that format will be used for all of the values in $data.
+	 * @param array|string $format Optional. An array of formats to be mapped to each of the value in `$data`.
+	 *                             If string, that format will be used for all of the values in `$data`.
 	 *                             A format is one of '%d', '%f', '%s' (integer, float, string).
-	 *                             If omitted, all values in $data will be treated as strings unless otherwise
+	 *                             If omitted, all values in `$data` will be treated as strings unless otherwise
 	 *                             specified in wpdb::$field_types. Default null.
 	 * @return int|false The number of rows inserted, or false on error.
 	 */
@@ -2586,13 +2586,13 @@ class wpdb {
 	 *
 	 * @param string       $table  Table name.
 	 * @param array        $data   Data to insert (in column => value pairs).
-	 *                             Both $data columns and $data values should be "raw" (neither should be SQL escaped).
+	 *                             Both `$data` columns and `$data` values should be "raw" (neither should be SQL escaped).
 	 *                             Sending a null value will cause the column to be set to NULL - the corresponding
 	 *                             format is ignored in this case.
-	 * @param array|string $format Optional. An array of formats to be mapped to each of the value in $data.
-	 *                             If string, that format will be used for all of the values in $data.
+	 * @param array|string $format Optional. An array of formats to be mapped to each of the value in `$data`.
+	 *                             If string, that format will be used for all of the values in `$data`.
 	 *                             A format is one of '%d', '%f', '%s' (integer, float, string).
-	 *                             If omitted, all values in $data will be treated as strings unless otherwise
+	 *                             If omitted, all values in `$data` will be treated as strings unless otherwise
 	 *                             specified in wpdb::$field_types. Default null.
 	 * @return int|false The number of rows affected, or false on error.
 	 */
@@ -2603,7 +2603,7 @@ class wpdb {
 	/**
 	 * Helper function for insert and replace.
 	 *
-	 * Runs an insert or replace query based on $type argument.
+	 * Runs an insert or replace query based on `$type` argument.
 	 *
 	 * @since 3.0.0
 	 *
@@ -2613,15 +2613,15 @@ class wpdb {
 	 *
 	 * @param string       $table  Table name.
 	 * @param array        $data   Data to insert (in column => value pairs).
-	 *                             Both $data columns and $data values should be "raw" (neither should be SQL escaped).
+	 *                             Both `$data` columns and `$data` values should be "raw" (neither should be SQL escaped).
 	 *                             Sending a null value will cause the column to be set to NULL - the corresponding
 	 *                             format is ignored in this case.
-	 * @param array|string $format Optional. An array of formats to be mapped to each of the value in $data.
-	 *                             If string, that format will be used for all of the values in $data.
+	 * @param array|string $format Optional. An array of formats to be mapped to each of the value in `$data`.
+	 *                             If string, that format will be used for all of the values in `$data`.
 	 *                             A format is one of '%d', '%f', '%s' (integer, float, string).
-	 *                             If omitted, all values in $data will be treated as strings unless otherwise
+	 *                             If omitted, all values in `$data` will be treated as strings unless otherwise
 	 *                             specified in wpdb::$field_types. Default null.
-	 * @param string       $type   Optional. Type of operation. Possible values include 'INSERT' or 'REPLACE'.
+	 * @param string       $type   Optional. Type of operation. Either 'INSERT' or 'REPLACE'.
 	 *                             Default 'INSERT'.
 	 * @return int|false The number of rows affected, or false on error.
 	 */

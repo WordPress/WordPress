@@ -825,6 +825,8 @@ function switch_theme( $stylesheet ) {
 	/**
 	 * Fires after the theme is switched.
 	 *
+	 * See {@see 'after_switch_theme'}.
+	 *
 	 * @since 1.5.0
 	 * @since 4.5.0 Introduced the `$old_theme` parameter.
 	 *
@@ -3386,12 +3388,13 @@ function check_theme_switched() {
 
 		if ( $old_theme->exists() ) {
 			/**
-			 * Fires on the first WP load after a theme switch if the old theme still exists.
+			 * Fires on the next WP load after the theme has been switched.
 			 *
-			 * This action fires multiple times and the parameters differs
-			 * according to the context, if the old theme exists or not.
-			 * If the old theme is missing, the parameter will be the slug
+			 * The parameters differ according to whether the old theme exists or not.
+			 * If the old theme is missing, the old name will instead be the slug
 			 * of the old theme.
+			 *
+			 * See {@see 'switch_theme'}.
 			 *
 			 * @since 3.3.0
 			 *

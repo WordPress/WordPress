@@ -6139,7 +6139,7 @@ function is_local_attachment( $url ) {
  *
  * @param string|array $args             Arguments for inserting an attachment.
  * @param string|false $file             Optional. Filename. Default false.
- * @param int          $parent_post_id   Optional. Parent post ID. Default 0.
+ * @param int          $parent_post_id   Optional. Parent post ID or 0 for no parent. Default 0.
  * @param bool         $wp_error         Optional. Whether to return a WP_Error on failure. Default false.
  * @param bool         $fire_after_hooks Optional. Whether to fire the after insert hooks. Default true.
  * @return int|WP_Error The attachment ID on success. The value 0 or WP_Error on failure.

@@ -39,6 +39,7 @@ function _wp_http_get_object() {
  *
  * @param string $url  URL to retrieve.
  * @param array  $args Optional. Request arguments. Default empty array.
+ *                     See WP_Http::request() for information on accepted arguments.
  * @return array|WP_Error The response or WP_Error on failure.
  */
 function wp_safe_remote_request( $url, $args = array() ) {
@@ -60,6 +61,7 @@ function wp_safe_remote_request( $url, $args = array() ) {
  *
  * @param string $url  URL to retrieve.
  * @param array  $args Optional. Request arguments. Default empty array.
+ *                     See WP_Http::request() for information on accepted arguments.
  * @return array|WP_Error The response or WP_Error on failure.
  */
 function wp_safe_remote_get( $url, $args = array() ) {
@@ -81,6 +83,7 @@ function wp_safe_remote_get( $url, $args = array() ) {
  *
  * @param string $url  URL to retrieve.
  * @param array  $args Optional. Request arguments. Default empty array.
+ *                     See WP_Http::request() for information on accepted arguments.
  * @return array|WP_Error The response or WP_Error on failure.
  */
 function wp_safe_remote_post( $url, $args = array() ) {
@@ -102,6 +105,7 @@ function wp_safe_remote_post( $url, $args = array() ) {
  *
  * @param string $url  URL to retrieve.
  * @param array  $args Optional. Request arguments. Default empty array.
+ *                     See WP_Http::request() for information on accepted arguments.
  * @return array|WP_Error The response or WP_Error on failure.
  */
 function wp_safe_remote_head( $url, $args = array() ) {
@@ -125,6 +129,7 @@ function wp_safe_remote_head( $url, $args = array() ) {
  *
  * @param string $url  URL to retrieve.
  * @param array  $args Optional. Request arguments. Default empty array.
+ *                     See WP_Http::request() for information on accepted arguments.
  * @return array|WP_Error {
  *     The response array or a WP_Error on failure.
  *
@@ -155,6 +160,7 @@ function wp_remote_request( $url, $args = array() ) {
  *
  * @param string $url  URL to retrieve.
  * @param array  $args Optional. Request arguments. Default empty array.
+ *                     See WP_Http::request() for information on accepted arguments.
  * @return array|WP_Error The response or WP_Error on failure.
  */
 function wp_remote_get( $url, $args = array() ) {
@@ -172,6 +178,7 @@ function wp_remote_get( $url, $args = array() ) {
  *
  * @param string $url  URL to retrieve.
  * @param array  $args Optional. Request arguments. Default empty array.
+ *                     See WP_Http::request() for information on accepted arguments.
  * @return array|WP_Error The response or WP_Error on failure.
  */
 function wp_remote_post( $url, $args = array() ) {
@@ -189,6 +196,7 @@ function wp_remote_post( $url, $args = array() ) {
  *
  * @param string $url  URL to retrieve.
  * @param array  $args Optional. Request arguments. Default empty array.
+ *                     See WP_Http::request() for information on accepted arguments.
  * @return array|WP_Error The response or WP_Error on failure.
  */
 function wp_remote_head( $url, $args = array() ) {
