@@ -14,7 +14,7 @@ if ( ! current_user_can( 'manage_privacy_options' ) ) {
 }
 
 if ( isset( $_GET['tab'] ) && 'policyguide' === $_GET['tab'] ) {
-	require_once dirname( __FILE__ ) . '/privacy-policy-guide.php';
+	require_once __DIR__ . '/privacy-policy-guide.php';
 	return;
 }
 
