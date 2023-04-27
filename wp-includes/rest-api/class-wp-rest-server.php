@@ -158,8 +158,8 @@ class WP_REST_Server {
 	 *
 	 * @since 4.4.0
 	 *
-	 * @return WP_Error|null WP_Error indicates unsuccessful login, null indicates successful
-	 *                       or no authentication provided
+	 * @return WP_Error|null|true WP_Error indicates unsuccessful login, null indicates successful
+	 *                            or no authentication provided
 	 */
 	public function check_authentication() {
 		/**

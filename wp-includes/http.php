@@ -593,7 +593,7 @@ function wp_http_validate_url( $url ) {
 	 *
 	 * @since 5.9.0
 	 *
-	 * @param array  $allowed_ports Array of integers for valid ports.
+	 * @param int[]  $allowed_ports Array of integers for valid ports.
 	 * @param string $host          Host name of the requested URL.
 	 * @param string $url           Requested URL.
 	 */

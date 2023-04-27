@@ -814,7 +814,11 @@ function unregister_taxonomy_for_object_type( $taxonomy, $object_type ) {
  *
  * @param int|int[]       $term_ids   Term ID or array of term IDs of terms that will be used.
  * @param string|string[] $taxonomies String of taxonomy name or Array of string values of taxonomy names.
- * @param array|string    $args       Change the order of the object IDs, either ASC or DESC.
+ * @param array|string    $args       {
+ *     Change the order of the object IDs.
+ *
+ *     @type string $order Order to retrieve terms. Accepts 'ASC' or 'DESC'. Default 'ASC'.
+ * }
  * @return string[]|WP_Error An array of object IDs as numeric strings on success,
  *                           WP_Error if the taxonomy does not exist.
  */

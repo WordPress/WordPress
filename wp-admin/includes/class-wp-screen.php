@@ -89,7 +89,7 @@ final class WP_Screen {
 	 * have a `$parent_base` of 'edit'.
 	 *
 	 * @since 3.3.0
-	 * @var string
+	 * @var string|null
 	 */
 	public $parent_base;
 
@@ -99,7 +99,7 @@ final class WP_Screen {
 	 * Some `$parent_file` values are 'edit.php?post_type=page', 'edit.php', and 'options-general.php'.
 	 *
 	 * @since 3.3.0
-	 * @var string
+	 * @var string|null
 	 */
 	public $parent_file;
 

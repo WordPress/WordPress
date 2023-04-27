@@ -59,7 +59,7 @@ function get_block_theme_folders( $theme_stylesheet = null ) {
  *
  * @since 5.9.0
  *
- * @return array The supported template part area values.
+ * @return array[] The supported template part area values.
  */
 function get_allowed_block_template_part_areas() {
 	$default_area_definitions = array(
@@ -97,7 +97,7 @@ function get_allowed_block_template_part_areas() {
 	 *
 	 * @since 5.9.0
 	 *
-	 * @param array $default_area_definitions An array of supported area objects.
+	 * @param array[] $default_area_definitions An array of supported area objects.
 	 */
 	return apply_filters( 'default_wp_template_part_areas', $default_area_definitions );
 }
@@ -109,7 +109,7 @@ function get_allowed_block_template_part_areas() {
  *
  * @since 5.9.0
  *
- * @return array The default template types.
+ * @return array[] The default template types.
  */
 function get_default_block_template_types() {
 	$default_template_types = array(
@@ -184,7 +184,7 @@ function get_default_block_template_types() {
 	 *
 	 * @since 5.9.0
 	 *
-	 * @param array $default_template_types An array of template types, formatted as [ slug => [ title, description ] ].
+	 * @param array[] $default_template_types An array of template types, formatted as [ slug => [ title, description ] ].
 	 */
 	return apply_filters( 'default_template_types', $default_template_types );
 }
@@ -227,7 +227,7 @@ function _filter_block_template_part_area( $type ) {
  * @access private
  *
  * @param string $base_directory The theme's file path.
- * @return array A list of paths to all template part files.
+ * @return string[] A list of paths to all template part files.
  */
 function _get_block_templates_paths( $base_directory ) {
 	$path_list = array();
@@ -926,13 +926,13 @@ function _build_block_template_result_from_post( $post ) {
  * @param array  $query {
  *     Optional. Arguments to retrieve templates.
  *
- *     @type array  $slug__in  List of slugs to include.
- *     @type int    $wp_id     Post ID of customized template.
- *     @type string $area      A 'wp_template_part_area' taxonomy value to filter by (for wp_template_part template type only).
- *     @type string $post_type Post type to get the templates for.
+ *     @type string[] $slug__in  List of slugs to include.
+ *     @type int      $wp_id     Post ID of customized template.
+ *     @type string   $area      A 'wp_template_part_area' taxonomy value to filter by (for 'wp_template_part' template type only).
+ *     @type string   $post_type Post type to get the templates for.
  * }
  * @param string $template_type 'wp_template' or 'wp_template_part'.
- * @return array Templates.
+ * @return WP_Block_Template[] Array of block templates.
  */
 function get_block_templates( $query = array(), $template_type = 'wp_template' ) {
 	/**
@@ -943,15 +943,16 @@ function get_block_templates( $query = array(), $template_type = 'wp_template' )
 	 * @since 5.9.0
 	 *
 	 * @param WP_Block_Template[]|null $block_templates Return an array of block templates to short-circuit the default query,
-	 *                                                  or null to allow WP to run it's normal queries.
+	 *                                                  or null to allow WP to run its normal queries.
 	 * @param array  $query {
-	 *     Optional. Arguments to retrieve templates.
+	 *     Arguments to retrieve templates. All arguments are optional.
 	 *
-	 *     @type array  $slug__in List of slugs to include.
-	 *     @type int    $wp_id Post ID of customized template.
-	 *     @type string $post_type Post type to get the templates for.
+	 *     @type string[] $slug__in  List of slugs to include.
+	 *     @type int      $wp_id     Post ID of customized template.
+	 *     @type string   $area      A 'wp_template_part_area' taxonomy value to filter by (for 'wp_template_part' template type only).
+	 *     @type string   $post_type Post type to get the templates for.
 	 * }
-	 * @param string $template_type wp_template or wp_template_part.
+	 * @param string $template_type 'wp_template' or 'wp_template_part'.
 	 */
 	$templates = apply_filters( 'pre_get_block_templates', null, $query, $template_type );
 	if ( ! is_null( $templates ) ) {
@@ -1036,13 +1037,15 @@ function get_block_templates( $query = array(), $template_type = 'wp_template' )
 	 * @since 5.9.0
 	 *
 	 * @param WP_Block_Template[] $query_result Array of found block templates.
-	 * @param array  $query {
-	 *     Optional. Arguments to retrieve templates.
+	 * @param array               $query {
+	 *     Arguments to retrieve templates. All arguments are optional.
 	 *
-	 *     @type array  $slug__in List of slugs to include.
-	 *     @type int    $wp_id Post ID of customized template.
+	 *     @type string[] $slug__in  List of slugs to include.
+	 *     @type int      $wp_id     Post ID of customized template.
+	 *     @type string   $area      A 'wp_template_part_area' taxonomy value to filter by (for 'wp_template_part' template type only).
+	 *     @type string   $post_type Post type to get the templates for.
 	 * }
-	 * @param string $template_type wp_template or wp_template_part.
+	 * @param string              $template_type wp_template or wp_template_part.
 	 */
 	return apply_filters( 'get_block_templates', $query_result, $query, $template_type );
 }
