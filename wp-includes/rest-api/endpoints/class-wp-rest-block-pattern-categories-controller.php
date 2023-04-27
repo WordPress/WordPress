@@ -1,6 +1,6 @@
 <?php
 /**
- * REST API: WP_REST_Block_Pattern_Catergories_Controller class
+ * REST API: WP_REST_Block_Pattern_Categories_Controller class
  *
  * @package    WordPress
  * @subpackage REST_API
