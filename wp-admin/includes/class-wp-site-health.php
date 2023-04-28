@@ -2799,7 +2799,7 @@ class WP_Site_Health {
 		}
 
 		foreach ( $this->crons as $id => $cron ) {
-			if ( ( $cron->time - time() ) < $this->timeout_missed_cron ) {
+			if ( ( (int) $cron->time - time() ) < $this->timeout_missed_cron ) {
 				$this->last_missed_cron = $cron->hook;
 				return true;
 			}
