@@ -410,8 +410,6 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 			return $parent;
 		}
 
-		$parent_post_type = get_post_type_object( $parent->post_type );
-
 		if ( ! current_user_can( 'delete_post', $parent->ID ) ) {
 			return new WP_Error(
 				'rest_cannot_delete',
