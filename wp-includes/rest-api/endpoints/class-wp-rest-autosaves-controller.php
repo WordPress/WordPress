@@ -68,8 +68,8 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller {
 		$this->parent_controller    = $parent_controller;
 		$this->revisions_controller = new WP_REST_Revisions_Controller( $parent_post_type );
 		$this->rest_base            = 'autosaves';
-		$this->namespace            = ! empty( $post_type_object->rest_namespace ) ? $post_type_object->rest_namespace : 'wp/v2';
 		$this->parent_base          = ! empty( $post_type_object->rest_base ) ? $post_type_object->rest_base : $post_type_object->name;
+		$this->namespace            = ! empty( $post_type_object->rest_namespace ) ? $post_type_object->rest_namespace : 'wp/v2';
 	}
 
 	/**

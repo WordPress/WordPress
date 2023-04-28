@@ -48,16 +48,18 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 	 * @param string $parent_post_type Post type of the parent.
 	 */
 	public function __construct( $parent_post_type ) {
-		$this->parent_post_type  = $parent_post_type;
+		$this->parent_post_type = $parent_post_type;
+		$post_type_object       = get_post_type_object( $parent_post_type );
+		$parent_controller      = $post_type_object->get_rest_controller();
+
+		if ( ! $parent_controller ) {
+			$parent_controller = new WP_REST_Posts_Controller( $parent_post_type );
+		}
+
+		$this->parent_controller = $parent_controller;
 		$this->rest_base         = 'revisions';
-		$post_type_object        = get_post_type_object( $parent_post_type );
 		$this->parent_base       = ! empty( $post_type_object->rest_base ) ? $post_type_object->rest_base : $post_type_object->name;
 		$this->namespace         = ! empty( $post_type_object->rest_namespace ) ? $post_type_object->rest_namespace : 'wp/v2';
-		$this->parent_controller = $post_type_object->get_rest_controller();
-
-		if ( ! $this->parent_controller ) {
-			$this->parent_controller = new WP_REST_Posts_Controller( $parent_post_type );
-		}
 	}
 
 	/**
