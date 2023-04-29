@@ -3339,6 +3339,7 @@ function make_site_theme_from_default( $theme_name, $template ) {
 			foreach ( $headers as $header => $value ) {
 				if ( strpos( $line, $header ) !== false ) {
 					$line = $header . ' ' . $value;
+					break;
 				}
 			}
 
