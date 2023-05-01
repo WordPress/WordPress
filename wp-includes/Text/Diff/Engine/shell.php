@@ -8,7 +8,7 @@
  * Copyright 2007-2010 The Horde Project (http://www.horde.org/)
  *
  * See the enclosed file COPYING for license information (LGPL). If you did
- * not receive this file, see http://opensource.org/licenses/lgpl-license.php.
+ * not receive this file, see https://opensource.org/license/lgpl-2-1/.
  *
  * @author  Milian Wolff <mail@milianw.de>
  * @package Text_Diff
