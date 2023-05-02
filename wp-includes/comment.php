@@ -2816,7 +2816,7 @@ function discover_pingback_server_uri( $url, $deprecated = '' ) {
 
 	// Do not search for a pingback server on our own uploads.
 	$uploads_dir = wp_get_upload_dir();
-	if ( 0 === strpos( $url, $uploads_dir['baseurl'] ) ) {
+	if ( str_starts_with( $url, $uploads_dir['baseurl'] ) ) {
 		return false;
 	}
 

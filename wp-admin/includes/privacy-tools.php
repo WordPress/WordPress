@@ -275,7 +275,7 @@ function wp_privacy_generate_personal_data_export_group_html( $group_data, $grou
 		foreach ( (array) $group_item_data as $group_item_datum ) {
 			$value = $group_item_datum['value'];
 			// If it looks like a link, make it a link.
-			if ( false === strpos( $value, ' ' ) && ( 0 === strpos( $value, 'http://' ) || 0 === strpos( $value, 'https://' ) ) ) {
+			if ( false === strpos( $value, ' ' ) && ( str_starts_with( $value, 'http://' ) || str_starts_with( $value, 'https://' ) ) ) {
 				$value = '<a href="' . esc_url( $value ) . '">' . esc_html( $value ) . '</a>';
 			}
 

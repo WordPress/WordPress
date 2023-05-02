@@ -656,11 +656,11 @@ final class WP_Privacy_Policy_Content {
 
 		if ( $blocks ) {
 			foreach ( $strings as $key => $string ) {
-				if ( 0 === strpos( $string, '<p>' ) ) {
+				if ( str_starts_with( $string, '<p>' ) ) {
 					$strings[ $key ] = '<!-- wp:paragraph -->' . $string . '<!-- /wp:paragraph -->';
 				}
 
-				if ( 0 === strpos( $string, '<h2>' ) ) {
+				if ( str_starts_with( $string, '<h2>' ) ) {
 					$strings[ $key ] = '<!-- wp:heading -->' . $string . '<!-- /wp:heading -->';
 				}
 			}

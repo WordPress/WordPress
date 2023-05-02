@@ -165,7 +165,7 @@ function resolve_block_template( $template_type, $template_hierarchy, $fallback_
 
 	// Is the active theme a child theme, and is the PHP fallback template part of it?
 	if (
-		strpos( $fallback_template, $theme_base_path ) === 0 &&
+		str_starts_with( $fallback_template, $theme_base_path ) &&
 		strpos( $fallback_template, $parent_theme_base_path ) === false
 	) {
 		$fallback_template_slug = substr(

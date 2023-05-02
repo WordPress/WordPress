@@ -87,7 +87,7 @@ if ( ! got_url_rewrite() ) {
  * base prefix, WordPress core can no longer account for the possible collision.
  */
 if ( is_multisite() && ! is_subdomain_install() && is_main_site()
-	&& 0 === strpos( $permalink_structure, '/blog/' )
+	&& str_starts_with( $permalink_structure, '/blog/' )
 ) {
 	$blog_prefix = '/blog';
 }
@@ -231,7 +231,7 @@ printf(
 
 <?php
 if ( is_multisite() && ! is_subdomain_install() && is_main_site()
-	&& 0 === strpos( $permalink_structure, '/blog/' )
+	&& str_starts_with( $permalink_structure, '/blog/' )
 ) {
 	$permalink_structure = preg_replace( '|^/?blog|', '', $permalink_structure );
 	$category_base       = preg_replace( '|^/?blog|', '', $category_base );

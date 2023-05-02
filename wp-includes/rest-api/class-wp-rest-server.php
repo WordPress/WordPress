@@ -648,7 +648,7 @@ class WP_REST_Server {
 			// Convert $rel URIs to their compact versions if they exist.
 			foreach ( $curies as $curie ) {
 				$href_prefix = substr( $curie['href'], 0, strpos( $curie['href'], '{rel}' ) );
-				if ( strpos( $rel, $href_prefix ) !== 0 ) {
+				if ( ! str_starts_with( $rel, $href_prefix ) ) {
 					continue;
 				}
 
@@ -1044,7 +1044,7 @@ class WP_REST_Server {
 		$with_namespace = array();
 
 		foreach ( $this->get_namespaces() as $namespace ) {
-			if ( 0 === strpos( trailingslashit( ltrim( $path, '/' ) ), $namespace ) ) {
+			if ( str_starts_with( trailingslashit( ltrim( $path, '/' ) ), $namespace ) ) {
 				$with_namespace[] = $this->get_routes( $namespace );
 			}
 		}
@@ -1827,7 +1827,7 @@ class WP_REST_Server {
 		);
 
 		foreach ( $server as $key => $value ) {
-			if ( strpos( $key, 'HTTP_' ) === 0 ) {
+			if ( str_starts_with( $key, 'HTTP_' ) ) {
 				$headers[ substr( $key, 5 ) ] = $value;
 			} elseif ( 'REDIRECT_HTTP_AUTHORIZATION' === $key && empty( $server['HTTP_AUTHORIZATION'] ) ) {
 				/*

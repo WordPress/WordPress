@@ -4757,7 +4757,7 @@ class WP_Query {
 			$content = str_replace( '<!-- /wp:nextpage -->', '', $content );
 
 			// Ignore nextpage at the beginning of the content.
-			if ( 0 === strpos( $content, '<!--nextpage-->' ) ) {
+			if ( str_starts_with( $content, '<!--nextpage-->' ) ) {
 				$content = substr( $content, 15 );
 			}
 

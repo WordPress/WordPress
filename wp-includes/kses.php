@@ -1260,7 +1260,7 @@ function wp_kses_attr_check( &$name, &$value, &$whole, $vless, $element, $allowe
 		 * Note: the attribute name should only contain `A-Za-z0-9_-` chars,
 		 * double hyphens `--` are not accepted by WordPress.
 		 */
-		if ( strpos( $name_low, 'data-' ) === 0 && ! empty( $allowed_attr['data-*'] )
+		if ( str_starts_with( $name_low, 'data-' ) && ! empty( $allowed_attr['data-*'] )
 			&& preg_match( '/^data(?:-[a-z0-9_]+)+$/', $name_low, $match )
 		) {
 			/*

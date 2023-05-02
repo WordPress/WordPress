@@ -314,7 +314,7 @@ When seeking help with this issue, you may be asked for some of the following in
 			return $plugins[ "{$extension['slug']}/{$extension['slug']}.php" ];
 		} else {
 			foreach ( $plugins as $file => $plugin_data ) {
-				if ( 0 === strpos( $file, "{$extension['slug']}/" ) || $file === $extension['slug'] ) {
+				if ( str_starts_with( $file, "{$extension['slug']}/" ) || $file === $extension['slug'] ) {
 					return $plugin_data;
 				}
 			}

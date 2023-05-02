@@ -125,7 +125,7 @@ function _walk_bookmarks( $bookmarks, $args = '' ) {
 		$output .= $parsed_args['link_before'];
 
 		if ( null != $bookmark->link_image && $parsed_args['show_images'] ) {
-			if ( strpos( $bookmark->link_image, 'http' ) === 0 ) {
+			if ( str_starts_with( $bookmark->link_image, 'http' ) ) {
 				$output .= "<img src=\"$bookmark->link_image\" $alt $title />";
 			} else { // If it's a relative path.
 				$output .= '<img src="' . get_option( 'siteurl' ) . "$bookmark->link_image\" $alt $title />";

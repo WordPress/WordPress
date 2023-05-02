@@ -3636,7 +3636,7 @@ function plugins_url( $path = '', $plugin = '' ) {
 	$plugin        = wp_normalize_path( $plugin );
 	$mu_plugin_dir = wp_normalize_path( WPMU_PLUGIN_DIR );
 
-	if ( ! empty( $plugin ) && 0 === strpos( $plugin, $mu_plugin_dir ) ) {
+	if ( ! empty( $plugin ) && str_starts_with( $plugin, $mu_plugin_dir ) ) {
 		$url = WPMU_PLUGIN_URL;
 	} else {
 		$url = WP_PLUGIN_URL;

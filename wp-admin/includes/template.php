@@ -1257,14 +1257,14 @@ function _get_plugin_from_callback( $callback ) {
 		$filename   = wp_normalize_path( $reflection->getFileName() );
 		$plugin_dir = wp_normalize_path( WP_PLUGIN_DIR );
 
-		if ( strpos( $filename, $plugin_dir ) === 0 ) {
+		if ( str_starts_with( $filename, $plugin_dir ) ) {
 			$filename = str_replace( $plugin_dir, '', $filename );
 			$filename = preg_replace( '|^/([^/]*/).*$|', '\\1', $filename );
 
 			$plugins = get_plugins();
 
 			foreach ( $plugins as $name => $plugin ) {
-				if ( strpos( $name, $filename ) === 0 ) {
+				if ( str_starts_with( $name, $filename ) ) {
 					return $plugin;
 				}
 			}

@@ -3730,7 +3730,7 @@ function get_taxonomies_for_attachments( $output = 'names' ) {
 
 	foreach ( get_taxonomies( array(), 'objects' ) as $taxonomy ) {
 		foreach ( $taxonomy->object_type as $object_type ) {
-			if ( 'attachment' === $object_type || 0 === strpos( $object_type, 'attachment:' ) ) {
+			if ( 'attachment' === $object_type || str_starts_with( $object_type, 'attachment:' ) ) {
 				if ( 'names' === $output ) {
 					$taxonomies[] = $taxonomy->name;
 				} else {
@@ -5120,7 +5120,7 @@ function attachment_url_to_postid( $url ) {
 		$path = str_replace( $image_path['scheme'], $site_url['scheme'], $path );
 	}
 
-	if ( 0 === strpos( $path, $dir['baseurl'] . '/' ) ) {
+	if ( str_starts_with( $path, $dir['baseurl'] . '/' ) ) {
 		$path = substr( $path, strlen( $dir['baseurl'] . '/' ) );
 	}
 

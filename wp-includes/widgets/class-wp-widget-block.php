@@ -223,7 +223,7 @@ class WP_Widget_Block extends WP_Widget {
 	 * @return bool Updated `is_wide` value.
 	 */
 	public function set_is_wide_widget_in_customizer( $is_wide, $widget_id ) {
-		if ( strpos( $widget_id, 'block-' ) === 0 ) {
+		if ( str_starts_with( $widget_id, 'block-' ) ) {
 			return false;
 		}
 

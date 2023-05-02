@@ -989,7 +989,7 @@ function get_blogs_of_user( $user_id, $all = false ) {
 		if ( 'capabilities' !== substr( $key, -12 ) ) {
 			continue;
 		}
-		if ( $wpdb->base_prefix && 0 !== strpos( $key, $wpdb->base_prefix ) ) {
+		if ( $wpdb->base_prefix && ! str_starts_with( $key, $wpdb->base_prefix ) ) {
 			continue;
 		}
 		$site_id = str_replace( array( $wpdb->base_prefix, '_capabilities' ), '', $key );

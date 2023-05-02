@@ -1084,7 +1084,7 @@ function load_script_textdomain( $handle, $domain = 'default', $path = '' ) {
 
 	$src = $wp_scripts->registered[ $handle ]->src;
 
-	if ( ! preg_match( '|^(https?:)?//|', $src ) && ! ( $wp_scripts->content_url && 0 === strpos( $src, $wp_scripts->content_url ) ) ) {
+	if ( ! preg_match( '|^(https?:)?//|', $src ) && ! ( $wp_scripts->content_url && str_starts_with( $src, $wp_scripts->content_url ) ) ) {
 		$src = $wp_scripts->base_url . $src;
 	}
 
@@ -1098,7 +1098,7 @@ function load_script_textdomain( $handle, $domain = 'default', $path = '' ) {
 
 	// If the host is the same or it's a relative URL.
 	if (
-		( ! isset( $content_url['path'] ) || strpos( $src_url['path'], $content_url['path'] ) === 0 ) &&
+		( ! isset( $content_url['path'] ) || str_starts_with( $src_url['path'], $content_url['path'] ) ) &&
 		( ! isset( $src_url['host'] ) || ! isset( $content_url['host'] ) || $src_url['host'] === $content_url['host'] )
 	) {
 		// Make the src relative the specific plugin or theme.
@@ -1115,7 +1115,7 @@ function load_script_textdomain( $handle, $domain = 'default', $path = '' ) {
 		$relative = array_slice( $relative, 2 ); // Remove plugins/<plugin name> or themes/<theme name>.
 		$relative = implode( '/', $relative );
 	} elseif (
-		( ! isset( $plugins_url['path'] ) || strpos( $src_url['path'], $plugins_url['path'] ) === 0 ) &&
+		( ! isset( $plugins_url['path'] ) || str_starts_with( $src_url['path'], $plugins_url['path'] ) ) &&
 		( ! isset( $src_url['host'] ) || ! isset( $plugins_url['host'] ) || $src_url['host'] === $plugins_url['host'] )
 	) {
 		// Make the src relative the specific plugin.
@@ -1134,7 +1134,7 @@ function load_script_textdomain( $handle, $domain = 'default', $path = '' ) {
 	} elseif ( ! isset( $src_url['host'] ) || ! isset( $site_url['host'] ) || $src_url['host'] === $site_url['host'] ) {
 		if ( ! isset( $site_url['path'] ) ) {
 			$relative = trim( $src_url['path'], '/' );
-		} elseif ( ( strpos( $src_url['path'], trailingslashit( $site_url['path'] ) ) === 0 ) ) {
+		} elseif ( str_starts_with( $src_url['path'], trailingslashit( $site_url['path'] ) ) ) {
 			// Make the src relative to the WP root.
 			$relative = substr( $src_url['path'], strlen( $site_url['path'] ) );
 			$relative = trim( $relative, '/' );
@@ -1373,8 +1373,8 @@ function get_available_languages( $dir = null ) {
 	if ( $lang_files ) {
 		foreach ( $lang_files as $lang_file ) {
 			$lang_file = basename( $lang_file, '.mo' );
-			if ( 0 !== strpos( $lang_file, 'continents-cities' ) && 0 !== strpos( $lang_file, 'ms-' ) &&
-				0 !== strpos( $lang_file, 'admin-' ) ) {
+			if ( ! str_starts_with( $lang_file, 'continents-cities' ) && ! str_starts_with( $lang_file, 'ms-' ) &&
+				! str_starts_with( $lang_file, 'admin-' ) ) {
 				$languages[] = $lang_file;
 			}
 		}

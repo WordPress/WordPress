@@ -362,7 +362,7 @@ class WP_Recovery_Mode {
 		$error_file    = wp_normalize_path( $error['file'] );
 		$wp_plugin_dir = wp_normalize_path( WP_PLUGIN_DIR );
 
-		if ( 0 === strpos( $error_file, $wp_plugin_dir ) ) {
+		if ( str_starts_with( $error_file, $wp_plugin_dir ) ) {
 			$path  = str_replace( $wp_plugin_dir . '/', '', $error_file );
 			$parts = explode( '/', $path );
 
@@ -379,7 +379,7 @@ class WP_Recovery_Mode {
 		foreach ( $wp_theme_directories as $theme_directory ) {
 			$theme_directory = wp_normalize_path( $theme_directory );
 
-			if ( 0 === strpos( $error_file, $theme_directory ) ) {
+			if ( str_starts_with( $error_file, $theme_directory ) ) {
 				$path  = str_replace( $theme_directory . '/', '', $error_file );
 				$parts = explode( '/', $path );
 
@@ -413,7 +413,7 @@ class WP_Recovery_Mode {
 		$network_plugins = wp_get_active_network_plugins();
 
 		foreach ( $network_plugins as $plugin ) {
-			if ( 0 === strpos( $plugin, $extension['slug'] . '/' ) ) {
+			if ( str_starts_with( $plugin, $extension['slug'] . '/' ) ) {
 				return true;
 			}
 		}

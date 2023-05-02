@@ -140,7 +140,7 @@ class WP_Media_List_Table extends WP_List_Table {
 			}
 
 			$selected = selected(
-				$filter && 0 === strpos( $filter, 'post_mime_type:' ) &&
+				$filter && str_starts_with( $filter, 'post_mime_type:' ) &&
 					wp_match_mime_types( $mime_type, str_replace( 'post_mime_type:', '', $filter ) ),
 				true,
 				false
@@ -652,7 +652,7 @@ class WP_Media_List_Table extends WP_List_Table {
 			$taxonomy = 'category';
 		} elseif ( 'tags' === $column_name ) {
 			$taxonomy = 'post_tag';
-		} elseif ( 0 === strpos( $column_name, 'taxonomy-' ) ) {
+		} elseif ( str_starts_with( $column_name, 'taxonomy-' ) ) {
 			$taxonomy = substr( $column_name, 9 );
 		} else {
 			$taxonomy = false;

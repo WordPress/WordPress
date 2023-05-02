@@ -887,7 +887,7 @@ function post_password_required( $post = null ) {
 	$hasher = new PasswordHash( 8, true );
 
 	$hash = wp_unslash( $_COOKIE[ 'wp-postpass_' . COOKIEHASH ] );
-	if ( 0 !== strpos( $hash, '$P$B' ) ) {
+	if ( ! str_starts_with( $hash, '$P$B' ) ) {
 		$required = true;
 	} else {
 		$required = ! $hasher->CheckPassword( $post->post_password, $hash );

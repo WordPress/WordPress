@@ -108,7 +108,7 @@ class File_Upload_Upgrader {
 			$this->filename = sanitize_file_name( $_GET[ $urlholder ] );
 			$this->package  = $uploads['basedir'] . '/' . $this->filename;
 
-			if ( 0 !== strpos( realpath( $this->package ), realpath( $uploads['basedir'] ) ) ) {
+			if ( ! str_starts_with( realpath( $this->package ), realpath( $uploads['basedir'] ) ) ) {
 				wp_die( __( 'Please select a file' ) );
 			}
 		}

@@ -600,7 +600,7 @@ function url_to_postid( $url ) {
 
 		// If the requesting file is the anchor of the match,
 		// prepend it to the path info.
-		if ( ! empty( $url ) && ( $url != $request ) && ( strpos( $match, $url ) === 0 ) ) {
+		if ( ! empty( $url ) && ( $url != $request ) && str_starts_with( $match, $url ) ) {
 			$request_match = $url . '/' . $request;
 		}
 

@@ -393,7 +393,7 @@ class WP_Styles extends WP_Dependencies {
 	 * @return string Style's fully-qualified URL.
 	 */
 	public function _css_href( $src, $ver, $handle ) {
-		if ( ! is_bool( $src ) && ! preg_match( '|^(https?:)?//|', $src ) && ! ( $this->content_url && 0 === strpos( $src, $this->content_url ) ) ) {
+		if ( ! is_bool( $src ) && ! preg_match( '|^(https?:)?//|', $src ) && ! ( $this->content_url && str_starts_with( $src, $this->content_url ) ) ) {
 			$src = $this->base_url . $src;
 		}
 
@@ -427,7 +427,7 @@ class WP_Styles extends WP_Dependencies {
 		}
 
 		foreach ( (array) $this->default_dirs as $test ) {
-			if ( 0 === strpos( $src, $test ) ) {
+			if ( str_starts_with( $src, $test ) ) {
 				return true;
 			}
 		}

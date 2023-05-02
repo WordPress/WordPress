@@ -50,7 +50,7 @@ function wp_get_extension_error_description( $error ) {
 	$core_errors = array();
 
 	foreach ( $constants as $constant => $value ) {
-		if ( 0 === strpos( $constant, 'E_' ) ) {
+		if ( str_starts_with( $constant, 'E_' ) ) {
 			$core_errors[ $value ] = $constant;
 		}
 	}

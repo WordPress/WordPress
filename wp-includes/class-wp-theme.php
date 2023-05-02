@@ -1768,7 +1768,7 @@ final class WP_Theme implements ArrayAccess {
 	 * @param WP_Theme[] $themes Array of theme objects to sort (passed by reference).
 	 */
 	public static function sort_by_name( &$themes ) {
-		if ( 0 === strpos( get_user_locale(), 'en_' ) ) {
+		if ( str_starts_with( get_user_locale(), 'en_' ) ) {
 			uasort( $themes, array( 'WP_Theme', '_name_sort' ) );
 		} else {
 			foreach ( $themes as $key => $theme ) {

@@ -385,7 +385,7 @@ function media_handle_upload( $file_id, $post_id, $post_data = array(), $overrid
 		}
 
 		// Use image exif/iptc data for title and caption defaults if possible.
-	} elseif ( 0 === strpos( $type, 'image/' ) ) {
+	} elseif ( str_starts_with( $type, 'image/' ) ) {
 		$image_meta = wp_read_image_metadata( $file );
 
 		if ( $image_meta ) {
@@ -534,8 +534,8 @@ function wp_iframe( $content_func, ...$args ) {
 	wp_enqueue_style( 'colors' );
 	// Check callback name for 'media'.
 	if (
-		( is_array( $content_func ) && ! empty( $content_func[1] ) && 0 === strpos( (string) $content_func[1], 'media' ) ) ||
-		( ! is_array( $content_func ) && 0 === strpos( $content_func, 'media' ) )
+		( is_array( $content_func ) && ! empty( $content_func[1] ) && str_starts_with( (string) $content_func[1], 'media' ) ) ||
+		( ! is_array( $content_func ) && str_starts_with( $content_func, 'media' ) )
 	) {
 		wp_enqueue_style( 'deprecated-media' );
 	}
@@ -3507,7 +3507,7 @@ function wp_add_id3_tag_data( &$metadata, $data ) {
 				if ( 'length' !== $key && ! empty( $list ) ) {
 					$metadata[ $key ] = wp_kses_post( reset( $list ) );
 					// Fix bug in byte stream analysis.
-					if ( 'terms_of_use' === $key && 0 === strpos( $metadata[ $key ], 'yright notice.' ) ) {
+					if ( 'terms_of_use' === $key && str_starts_with( $metadata[ $key ], 'yright notice.' ) ) {
 						$metadata[ $key ] = 'Cop' . $metadata[ $key ];
 					}
 				}

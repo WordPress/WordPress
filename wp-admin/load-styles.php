@@ -73,7 +73,7 @@ foreach ( $load as $handle ) {
 
 	$content = get_file( $path ) . "\n";
 
-	if ( strpos( $style->src, '/' . WPINC . '/css/' ) === 0 ) {
+	if ( str_starts_with( $style->src, '/' . WPINC . '/css/' ) ) {
 		$content = str_replace( '../images/', '../' . WPINC . '/images/', $content );
 		$content = str_replace( '../js/tinymce/', '../' . WPINC . '/js/tinymce/', $content );
 		$content = str_replace( '../fonts/', '../' . WPINC . '/fonts/', $content );

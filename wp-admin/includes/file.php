@@ -997,7 +997,7 @@ function _wp_handle_upload( &$file, $overrides, $time, $action ) {
 		}
 
 		if ( false === $move_new_file ) {
-			if ( 0 === strpos( $uploads['basedir'], ABSPATH ) ) {
+			if ( str_starts_with( $uploads['basedir'], ABSPATH ) ) {
 				$error_path = str_replace( ABSPATH, '', $uploads['basedir'] ) . $uploads['subdir'];
 			} else {
 				$error_path = basename( $uploads['basedir'] ) . $uploads['subdir'];
@@ -1196,7 +1196,7 @@ function download_url( $url, $timeout = 300, $signature_verification = false ) {
 	if ( $content_disposition ) {
 		$content_disposition = strtolower( $content_disposition );
 
-		if ( 0 === strpos( $content_disposition, 'attachment; filename=' ) ) {
+		if ( str_starts_with( $content_disposition, 'attachment; filename=' ) ) {
 			$tmpfname_disposition = sanitize_file_name( substr( $content_disposition, 21 ) );
 		} else {
 			$tmpfname_disposition = '';
@@ -1937,7 +1937,7 @@ function copy_dir( $from, $to, $skip_list = array() ) {
 			$sub_skip_list = array();
 
 			foreach ( $skip_list as $skip_item ) {
-				if ( 0 === strpos( $skip_item, $filename . '/' ) ) {
+				if ( str_starts_with( $skip_item, $filename . '/' ) ) {
 					$sub_skip_list[] = preg_replace( '!^' . preg_quote( $filename, '!' ) . '/!i', '', $skip_item );
 				}
 			}

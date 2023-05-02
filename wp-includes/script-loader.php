@@ -184,7 +184,7 @@ function wp_get_script_polyfill( $scripts, $tests ) {
 		$src = $scripts->registered[ $handle ]->src;
 		$ver = $scripts->registered[ $handle ]->ver;
 
-		if ( ! preg_match( '|^(https?:)?//|', $src ) && ! ( $scripts->content_url && 0 === strpos( $src, $scripts->content_url ) ) ) {
+		if ( ! preg_match( '|^(https?:)?//|', $src ) && ! ( $scripts->content_url && str_starts_with( $src, $scripts->content_url ) ) ) {
 			$src = $scripts->base_url . $src;
 		}
 

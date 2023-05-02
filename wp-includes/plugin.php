@@ -770,7 +770,7 @@ function plugin_basename( $file ) {
 	arsort( $wp_plugin_paths );
 
 	foreach ( $wp_plugin_paths as $dir => $realdir ) {
-		if ( strpos( $file, $realdir ) === 0 ) {
+		if ( str_starts_with( $file, $realdir ) ) {
 			$file = $dir . substr( $file, strlen( $realdir ) );
 		}
 	}

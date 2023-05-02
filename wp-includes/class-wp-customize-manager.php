@@ -1981,7 +1981,7 @@ final class WP_Customize_Manager {
 				&&
 				$parsed_allowed_url['host'] === $parsed_original_url['host']
 				&&
-				0 === strpos( $parsed_original_url['path'], $parsed_allowed_url['path'] )
+				str_starts_with( $parsed_original_url['path'], $parsed_allowed_url['path'] )
 			);
 			if ( $is_allowed ) {
 				break;

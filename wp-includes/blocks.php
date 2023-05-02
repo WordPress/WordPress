@@ -17,14 +17,14 @@
  */
 function remove_block_asset_path_prefix( $asset_handle_or_path ) {
 	$path_prefix = 'file:';
-	if ( 0 !== strpos( $asset_handle_or_path, $path_prefix ) ) {
+	if ( ! str_starts_with( $asset_handle_or_path, $path_prefix ) ) {
 		return $asset_handle_or_path;
 	}
 	$path = substr(
 		$asset_handle_or_path,
 		strlen( $path_prefix )
 	);
-	if ( strpos( $path, './' ) === 0 ) {
+	if ( str_starts_with( $path, './' ) ) {
 		$path = substr( $path, 2 );
 	}
 	return $path;
@@ -44,12 +44,12 @@ function remove_block_asset_path_prefix( $asset_handle_or_path ) {
  * @return string Generated asset name for the block's field.
  */
 function generate_block_asset_handle( $block_name, $field_name, $index = 0 ) {
-	if ( 0 === strpos( $block_name, 'core/' ) ) {
+	if ( str_starts_with( $block_name, 'core/' ) ) {
 		$asset_handle = str_replace( 'core/', 'wp-block-', $block_name );
-		if ( 0 === strpos( $field_name, 'editor' ) ) {
+		if ( str_starts_with( $field_name, 'editor' ) ) {
 			$asset_handle .= '-editor';
 		}
-		if ( 0 === strpos( $field_name, 'view' ) ) {
+		if ( str_starts_with( $field_name, 'view' ) ) {
 			$asset_handle .= '-view';
 		}
 		if ( $index > 0 ) {
@@ -137,8 +137,8 @@ function register_block_script_handle( $metadata, $field_name, $index = 0 ) {
 	$theme_path_norm  = wp_normalize_path( get_theme_file_path() );
 	$script_path_norm = wp_normalize_path( realpath( dirname( $metadata['file'] ) . '/' . $script_path ) );
 
-	$is_core_block  = isset( $metadata['file'] ) && 0 === strpos( $metadata['file'], $wpinc_path_norm );
-	$is_theme_block = 0 === strpos( $script_path_norm, $theme_path_norm );
+	$is_core_block  = isset( $metadata['file'] ) && str_starts_with( $metadata['file'], $wpinc_path_norm );
+	$is_theme_block = str_starts_with( $script_path_norm, $theme_path_norm );
 
 	$script_uri = plugins_url( $script_path, $metadata['file'] );
 	if ( $is_core_block ) {
@@ -191,7 +191,7 @@ function register_block_style_handle( $metadata, $field_name, $index = 0 ) {
 		$wpinc_path_norm = wp_normalize_path( realpath( ABSPATH . WPINC ) );
 	}
 
-	$is_core_block = isset( $metadata['file'] ) && 0 === strpos( $metadata['file'], $wpinc_path_norm );
+	$is_core_block = isset( $metadata['file'] ) && str_starts_with( $metadata['file'], $wpinc_path_norm );
 	// Skip registering individual styles for each core block when a bundled version provided.
 	if ( $is_core_block && ! wp_should_load_separate_core_block_assets() ) {
 		return false;
@@ -359,7 +359,7 @@ function register_block_type_from_metadata( $file_or_folder, $args = array() ) {
 	$metadata = apply_filters( 'block_type_metadata', $metadata );
 
 	// Add `style` and `editor_style` for core blocks if missing.
-	if ( ! empty( $metadata['name'] ) && 0 === strpos( $metadata['name'], 'core/' ) ) {
+	if ( ! empty( $metadata['name'] ) && str_starts_with( $metadata['name'], 'core/' ) ) {
 		$block_name = str_replace( 'core/', '', $metadata['name'] );
 
 		if ( ! isset( $metadata['style'] ) ) {
@@ -698,7 +698,7 @@ function serialize_block_attributes( $block_attributes ) {
  * @return string Block name to use for serialization.
  */
 function strip_core_block_namespace( $block_name = null ) {
-	if ( is_string( $block_name ) && 0 === strpos( $block_name, 'core/' ) ) {
+	if ( is_string( $block_name ) && str_starts_with( $block_name, 'core/' ) ) {
 		return substr( $block_name, 5 );
 	}
 

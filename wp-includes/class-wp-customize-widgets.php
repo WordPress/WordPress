@@ -2059,7 +2059,7 @@ final class WP_Customize_Widgets {
 	 * @return bool Whether the option capture is ignored.
 	 */
 	protected function is_option_capture_ignored( $option_name ) {
-		return ( 0 === strpos( $option_name, '_transient_' ) );
+		return ( str_starts_with( $option_name, '_transient_' ) );
 	}
 
 	/**

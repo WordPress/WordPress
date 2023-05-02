@@ -1508,7 +1508,7 @@ class WP_Site_Health {
 			if ( defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
 				$result['label'] = __( 'Your site is set to log errors to a potentially public file' );
 
-				$result['status'] = ( 0 === strpos( ini_get( 'error_log' ), ABSPATH ) ) ? 'critical' : 'recommended';
+				$result['status'] = str_starts_with( ini_get( 'error_log' ), ABSPATH ) ? 'critical' : 'recommended';
 
 				$result['description'] .= sprintf(
 					'<p>%s</p>',

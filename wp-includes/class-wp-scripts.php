@@ -375,7 +375,7 @@ class WP_Scripts extends WP_Dependencies {
 			return true;
 		}
 
-		if ( ! preg_match( '|^(https?:)?//|', $src ) && ! ( $this->content_url && 0 === strpos( $src, $this->content_url ) ) ) {
+		if ( ! preg_match( '|^(https?:)?//|', $src ) && ! ( $this->content_url && str_starts_with( $src, $this->content_url ) ) ) {
 			$src = $this->base_url . $src;
 		}
 
@@ -702,12 +702,12 @@ JS;
 			return true;
 		}
 
-		if ( 0 === strpos( $src, '/' . WPINC . '/js/l10n' ) ) {
+		if ( str_starts_with( $src, '/' . WPINC . '/js/l10n' ) ) {
 			return false;
 		}
 
 		foreach ( (array) $this->default_dirs as $test ) {
-			if ( 0 === strpos( $src, $test ) ) {
+			if ( str_starts_with( $src, $test ) ) {
 				return true;
 			}
 		}
