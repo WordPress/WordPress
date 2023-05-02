@@ -1281,7 +1281,7 @@ function wp_update_blog_public_option_on_site_update( $site_id, $is_public ) {
  * @since 5.1.0
  */
 function wp_cache_set_sites_last_changed() {
-	wp_cache_set( 'last_changed', microtime(), 'sites' );
+	wp_cache_set_last_changed( 'sites' );
 }
 
 /**

@@ -96,7 +96,7 @@ function clean_network_cache( $ids ) {
 		do_action( 'clean_network_cache', $id );
 	}
 
-	wp_cache_set( 'last_changed', microtime(), 'networks' );
+	wp_cache_set_last_changed( 'networks' );
 }
 
 /**

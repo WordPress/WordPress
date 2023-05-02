@@ -5024,5 +5024,5 @@ function wp_register_persisted_preferences_meta() {
  * @since 6.3.0
  */
 function wp_cache_set_users_last_changed() {
-	wp_cache_set( 'last_changed', microtime(), 'users' );
+	wp_cache_set_last_changed( 'users' );
 }

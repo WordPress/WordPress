@@ -5038,7 +5038,7 @@ function is_term_publicly_viewable( $term ) {
  * @since 5.0.0
  */
 function wp_cache_set_terms_last_changed() {
-	wp_cache_set( 'last_changed', microtime(), 'terms' );
+	wp_cache_set_last_changed( 'terms' );
 }
 
 /**
