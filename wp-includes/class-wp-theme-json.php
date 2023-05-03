@@ -972,7 +972,7 @@ class WP_Theme_JSON {
 	 * the theme.json structure this object represents.
 	 *
 	 * @since 5.8.0
-	 * @since 5.9.0 Removed the `$type` parameter`, added the `$types` and `$origins` parameters.
+	 * @since 5.9.0 Removed the `$type` parameter, added the `$types` and `$origins` parameters.
 	 *
 	 * @param string[] $types   Types of styles to load. Will load all by default. It accepts:
 	 *                          - `variables`: only the CSS Custom Properties for presets & custom ones.
@@ -2749,12 +2749,12 @@ class WP_Theme_JSON {
 	 *
 	 * For example:
 	 *
-	 *  array(
-	 *   'color' => array(
-	 *     'palette'   => array( 'slug-1', 'slug-2' ),
-	 *     'gradients' => array( 'slug-3', 'slug-4' ),
-	 *   ),
-	 * )
+	 *     array(
+	 *       'color' => array(
+	 *         'palette'   => array( 'slug-1', 'slug-2' ),
+	 *         'gradients' => array( 'slug-3', 'slug-4' ),
+	 *       ),
+	 *     )
 	 *
 	 * @since 5.9.0
 	 *
@@ -3430,7 +3430,7 @@ class WP_Theme_JSON {
 			$spacing_sizes[] = $above_sizes_item;
 		}
 
-		// If there are 7 or less steps in the scale revert to numbers for labels instead of t-shirt sizes.
+		// If there are 7 or fewer steps in the scale revert to numbers for labels instead of t-shirt sizes.
 		if ( $spacing_scale['steps'] <= 7 ) {
 			for ( $spacing_sizes_count = 0; $spacing_sizes_count < count( $spacing_sizes ); $spacing_sizes_count++ ) {
 				$spacing_sizes[ $spacing_sizes_count ]['name'] = (string) ( $spacing_sizes_count + 1 );
