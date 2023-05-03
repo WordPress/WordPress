@@ -34,7 +34,6 @@ function edit_link( $link_id = 0 ) {
 		);
 	}
 
-	$_POST['link_url']   = esc_html( $_POST['link_url'] );
 	$_POST['link_url']   = esc_url( $_POST['link_url'] );
 	$_POST['link_name']  = esc_html( $_POST['link_name'] );
 	$_POST['link_image'] = esc_html( $_POST['link_image'] );
