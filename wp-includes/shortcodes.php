@@ -308,8 +308,18 @@ function get_shortcode_regex( $tagnames = null ) {
  *
  * @global array $shortcode_tags
  *
- * @param array $m Regular expression match array.
- * @return string|false Shortcode output on success, false on failure.
+ * @param array $m {
+ *     Regular expression match array.
+ *
+ *     @type string $0 Entire matched shortcode text.
+ *     @type string $1 Optional second opening bracket for escaping shortcodes.
+ *     @type string $2 Shortcode name.
+ *     @type string $3 Shortcode arguments list.
+ *     @type string $4 Optional self closing slash.
+ *     @type string $5 Content of a shortcode when it wraps some content.
+ *     @type string $6 Optional second closing brocket for escaping shortcodes.
+ * }
+ * @return string Shortcode output.
  */
 function do_shortcode_tag( $m ) {
 	global $shortcode_tags;
@@ -342,7 +352,7 @@ function do_shortcode_tag( $m ) {
 	 *
 	 * @param false|string $output Short-circuit return value. Either false or the value to replace the shortcode with.
 	 * @param string       $tag    Shortcode name.
-	 * @param array|string $attr   Shortcode attributes array or empty string.
+	 * @param array|string $attr   Shortcode attributes array or the original arguments string if it cannot be parsed.
 	 * @param array        $m      Regular expression match array.
 	 */
 	$return = apply_filters( 'pre_do_shortcode_tag', false, $tag, $attr, $m );
@@ -361,7 +371,7 @@ function do_shortcode_tag( $m ) {
 	 *
 	 * @param string       $output Shortcode output.
 	 * @param string       $tag    Shortcode name.
-	 * @param array|string $attr   Shortcode attributes array or empty string.
+	 * @param array|string $attr   Shortcode attributes array or the original arguments string if it cannot be parsed.
 	 * @param array        $m      Regular expression match array.
 	 */
 	return apply_filters( 'do_shortcode_tag', $output, $tag, $attr, $m );
@@ -521,11 +531,10 @@ function get_shortcode_atts_regex() {
  *
  * @since 2.5.0
  *
- * @param string $text
- * @return array|string List of attribute values.
- *                      Returns empty array if '""' === trim( $text ).
- *                      Returns empty string if '' === trim( $text ).
- *                      All other matches are checked for not empty().
+ * @param string $text Shortcode arguments list.
+ * @return array|string Array of attribute values keyed by attribute name.
+ *                      Returns empty array if there are no attributes.
+ *                      Returns the original arguments string if it cannot be parsed.
  */
 function shortcode_parse_atts( $text ) {
 	$atts    = array();

@@ -21,7 +21,7 @@
  *                              Valid values are 'all' (core, theme, and user) or 'base' (core and theme).
  *                              If empty or unknown, 'all' is used.
  * }
- * @return array The settings to retrieve.
+ * @return mixed The settings array or individual setting value to retrieve.
  */
 function wp_get_global_settings( $path = array(), $context = array() ) {
 	if ( ! empty( $context['block_name'] ) ) {
@@ -104,7 +104,7 @@ function wp_get_global_settings( $path = array(), $context = array() ) {
  *                              Valid values are 'all' (core, theme, and user) or 'base' (core and theme).
  *                              If empty or unknown, 'all' is used.
  * }
- * @return array The styles to retrieve.
+ * @return mixed The styles array or individual style value to retrieve.
  */
 function wp_get_global_styles( $path = array(), $context = array() ) {
 	if ( ! empty( $context['block_name'] ) ) {
@@ -226,11 +226,11 @@ function wp_get_global_stylesheet( $types = array() ) {
 }
 
 /**
- * Gets the global styles custom css from theme.json.
+ * Gets the global styles custom CSS from theme.json.
  *
  * @since 6.2.0
  *
- * @return string Stylesheet.
+ * @return string The global styles custom CSS.
  */
 function wp_get_global_styles_custom_css() {
 	if ( ! wp_theme_has_theme_json() ) {
