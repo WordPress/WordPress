@@ -41,7 +41,6 @@ class WP_Style_Engine_Processor {
 	 * @since 6.1.0
 	 *
 	 * @param WP_Style_Engine_CSS_Rules_Store $store The store to add.
-	 *
 	 * @return WP_Style_Engine_Processor Returns the object to allow chaining methods.
 	 */
 	public function add_store( $store ) {
@@ -65,7 +64,6 @@ class WP_Style_Engine_Processor {
 	 * @since 6.1.0
 	 *
 	 * @param WP_Style_Engine_CSS_Rule|WP_Style_Engine_CSS_Rule[] $css_rules A single, or an array of, WP_Style_Engine_CSS_Rule objects from a store or otherwise.
-	 *
 	 * @return WP_Style_Engine_Processor Returns the object to allow chaining methods.
 	 */
 	public function add_rules( $css_rules ) {
@@ -96,7 +94,6 @@ class WP_Style_Engine_Processor {
 	 *     @type bool $optimize Whether to optimize the CSS output, e.g., combine rules. Default is `false`.
 	 *     @type bool $prettify Whether to add new lines and indents to output. Default is the test of whether the global constant `SCRIPT_DEBUG` is defined.
 	 * }
-	 *
 	 * @return string The computed CSS.
 	 */
 	public function get_css( $options = array() ) {
