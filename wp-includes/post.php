@@ -289,6 +289,7 @@ function create_initial_post_types() {
 				'new_item'                 => __( 'New Reusable block' ),
 				'edit_item'                => __( 'Edit Reusable block' ),
 				'view_item'                => __( 'View Reusable block' ),
+				'view_items'               => __( 'View Reusable blocks' ),
 				'all_items'                => __( 'All Reusable blocks' ),
 				'search_items'             => __( 'Search Reusable blocks' ),
 				'not_found'                => __( 'No reusable blocks found.' ),
