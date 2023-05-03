@@ -318,23 +318,6 @@ class WP_HTML_Tag_Processor {
 	private $stop_on_tag_closers;
 
 	/**
-	 * Holds updated HTML as updates are applied.
-	 *
-	 * Updates and unmodified portions of the input document are
-	 * appended to this value as they are applied. It will hold
-	 * a copy of the updated document up until the point of the
-	 * latest applied update. The fully-updated HTML document
-	 * will comprise this value plus the part of the input document
-	 * which follows that latest update.
-	 *
-	 * @see $bytes_already_copied
-	 *
-	 * @since 6.2.0
-	 * @var string
-	 */
-	private $output_buffer = '';
-
-	/**
 	 * How many bytes from the original HTML document have been read and parsed.
 	 *
 	 * This value points to the latest byte offset in the input document which
@@ -345,23 +328,6 @@ class WP_HTML_Tag_Processor {
 	 * @var int
 	 */
 	private $bytes_already_parsed = 0;
-
-	/**
-	 * How many bytes from the input HTML document have already been
-	 * copied into the output buffer.
-	 *
-	 * Lexical updates are enqueued and processed in batches. Prior
-	 * to any given update in the input document, there might exist
-	 * a span of HTML unaffected by any changes. This span ought to
-	 * be copied verbatim into the output buffer before applying the
-	 * following update. This value will point to the starting byte
-	 * offset in the input document where that unaffected span of
-	 * HTML starts.
-	 *
-	 * @since 6.2.0
-	 * @var int
-	 */
-	private $bytes_already_copied = 0;
 
 	/**
 	 * Byte offset in input document where current tag name starts.
@@ -1303,8 +1269,7 @@ class WP_HTML_Tag_Processor {
 	 * @return void
 	 */
 	private function after_tag() {
-		$this->class_name_updates_to_attributes_updates();
-		$this->apply_attributes_updates();
+		$this->get_updated_html();
 		$this->tag_name_starts_at = null;
 		$this->tag_name_length    = null;
 		$this->tag_ends_at        = null;
@@ -1460,14 +1425,18 @@ class WP_HTML_Tag_Processor {
 	 * Applies attribute updates to HTML document.
 	 *
 	 * @since 6.2.0
+	 * @since 6.2.1 Accumulates shift for internal cursor and passed pointer.
 	 * @since 6.3.0 Invalidate any bookmarks whose targets are overwritten.
 	 *
-	 * @return void
+	 * @param int $shift_this_point Accumulate and return shift for this position.
+	 * @return int How many bytes the given pointer moved in response to the updates.
 	 */
-	private function apply_attributes_updates() {
+	private function apply_attributes_updates( $shift_this_point = 0 ) {
 		if ( ! count( $this->lexical_updates ) ) {
-			return;
+			return 0;
 		}
+
+		$accumulated_shift_for_given_point = 0;
 
 		/*
 		 * Attribute updates can be enqueued in any order but updates
@@ -1481,11 +1450,27 @@ class WP_HTML_Tag_Processor {
 		 */
 		usort( $this->lexical_updates, array( self::class, 'sort_start_ascending' ) );
 
+		$bytes_already_copied = 0;
+		$output_buffer        = '';
 		foreach ( $this->lexical_updates as $diff ) {
-			$this->output_buffer       .= substr( $this->html, $this->bytes_already_copied, $diff->start - $this->bytes_already_copied );
-			$this->output_buffer       .= $diff->text;
-			$this->bytes_already_copied = $diff->end;
+			$shift = strlen( $diff->text ) - ( $diff->end - $diff->start );
+
+			// Adjust the cursor position by however much an update affects it.
+			if ( $diff->start <= $this->bytes_already_parsed ) {
+				$this->bytes_already_parsed += $shift;
+			}
+
+			// Accumulate shift of the given pointer within this function call.
+			if ( $diff->start <= $shift_this_point ) {
+				$accumulated_shift_for_given_point += $shift;
+			}
+
+			$output_buffer        .= substr( $this->html, $bytes_already_copied, $diff->start - $bytes_already_copied );
+			$output_buffer        .= $diff->text;
+			$bytes_already_copied  = $diff->end;
 		}
+
+		$this->html = $output_buffer . substr( $this->html, $bytes_already_copied );
 
 		/*
 		 * Adjust bookmark locations to account for how the text
@@ -1527,6 +1512,8 @@ class WP_HTML_Tag_Processor {
 		}
 
 		$this->lexical_updates = array();
+
+		return $accumulated_shift_for_given_point;
 	}
 
 	/**
@@ -1576,8 +1563,6 @@ class WP_HTML_Tag_Processor {
 
 		// Point this tag processor before the sought tag opener and consume it.
 		$this->bytes_already_parsed = $this->bookmarks[ $bookmark_name ]->start;
-		$this->bytes_already_copied = $this->bytes_already_parsed;
-		$this->output_buffer        = substr( $this->html, 0, $this->bytes_already_copied );
 		return $this->next_tag( array( 'tag_closers' => 'visit' ) );
 	}
 
@@ -2122,6 +2107,7 @@ class WP_HTML_Tag_Processor {
 	 * Returns the string representation of the HTML Tag Processor.
 	 *
 	 * @since 6.2.0
+	 * @since 6.2.1 Shifts the internal cursor corresponding to the applied updates.
 	 *
 	 * @return string The processed HTML.
 	 */
@@ -2132,46 +2118,24 @@ class WP_HTML_Tag_Processor {
 		 * When there is nothing more to update and nothing has already been
 		 * updated, return the original document and avoid a string copy.
 		 */
-		if ( $requires_no_updating && 0 === $this->bytes_already_copied ) {
+		if ( $requires_no_updating ) {
 			return $this->html;
 		}
 
 		/*
-		 * If there are no updates left to apply, but some have already
-		 * been applied, then finish by copying the rest of the input
-		 * to the end of the updated document and return.
+		 * Keep track of the position right before the current tag. This will
+		 * be necessary for reparsing the current tag after updating the HTML.
 		 */
-		if ( $requires_no_updating && $this->bytes_already_copied > 0 ) {
-			$this->html                 = $this->output_buffer . substr( $this->html, $this->bytes_already_copied );
-			$this->bytes_already_copied = strlen( $this->output_buffer );
-			return $this->output_buffer . substr( $this->html, $this->bytes_already_copied );
-		}
-
-		// Apply the updates, rewind to before the current tag, and reparse the attributes.
-		$content_up_to_opened_tag_name = $this->output_buffer . substr(
-			$this->html,
-			$this->bytes_already_copied,
-			$this->tag_name_starts_at + $this->tag_name_length - $this->bytes_already_copied
-		);
+		$before_current_tag = $this->tag_name_starts_at - 1;
 
 		/*
-		 * 1. Apply the edits by flushing them to the output buffer and updating the copied byte count.
-		 *
-		 * Note: `apply_attributes_updates()` modifies `$this->output_buffer`.
+		 * 1. Apply the enqueued edits and update all the pointers to reflect those changes.
 		 */
 		$this->class_name_updates_to_attributes_updates();
-		$this->apply_attributes_updates();
+		$before_current_tag += $this->apply_attributes_updates( $before_current_tag );
 
 		/*
-		 * 2. Replace the original HTML with the now-updated HTML so that it's possible to
-		 *    seek to a previous location and have a consistent view of the updated document.
-		 */
-		$this->html                 = $this->output_buffer . substr( $this->html, $this->bytes_already_copied );
-		$this->output_buffer        = $content_up_to_opened_tag_name;
-		$this->bytes_already_copied = strlen( $this->output_buffer );
-
-		/*
-		 * 3. Point this tag processor at the original tag opener and consume it
+		 * 2. Rewind to before the current tag and reparse to get updated attributes.
 		 *
 		 * At this point the internal cursor points to the end of the tag name.
 		 * Rewind before the tag name starts so that it's as if the cursor didn't
@@ -2183,8 +2147,18 @@ class WP_HTML_Tag_Processor {
 		 *                 ^  | back up by the length of the tag name plus the opening <
 		 *                 \<-/ back up by strlen("em") + 1 ==> 3
 		 */
-		$this->bytes_already_parsed = strlen( $content_up_to_opened_tag_name ) - $this->tag_name_length - 1;
+
+		// Store existing state so it can be restored after reparsing.
+		$previous_parsed_byte_count = $this->bytes_already_parsed;
+		$previous_query             = $this->last_query;
+
+		// Reparse attributes.
+		$this->bytes_already_parsed = $before_current_tag;
 		$this->next_tag();
+
+		// Restore previous state.
+		$this->bytes_already_parsed = $previous_parsed_byte_count;
+		$this->parse_query( $previous_query );
 
 		return $this->html;
 	}
