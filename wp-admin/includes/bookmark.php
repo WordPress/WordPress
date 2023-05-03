@@ -7,7 +7,7 @@
  */
 
 /**
- * Add a link to using values provided in $_POST.
+ * Adds a link using values provided in $_POST.
  *
  * @since 2.0.0
  *
@@ -83,7 +83,7 @@ function get_default_link_to_edit() {
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param int $link_id ID of the link to delete
+ * @param int $link_id ID of the link to delete.
  * @return true Always true.
  */
 function wp_delete_link( $link_id ) {
@@ -267,7 +267,7 @@ function wp_insert_link( $linkdata, $wp_error = false ) {
 }
 
 /**
- * Update link with the specified link categories.
+ * Updates link with the specified link categories.
  *
  * @since 2.1.0
  *
