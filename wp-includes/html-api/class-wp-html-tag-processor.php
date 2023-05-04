@@ -1465,9 +1465,9 @@ class WP_HTML_Tag_Processor {
 				$accumulated_shift_for_given_point += $shift;
 			}
 
-			$output_buffer        .= substr( $this->html, $bytes_already_copied, $diff->start - $bytes_already_copied );
-			$output_buffer        .= $diff->text;
-			$bytes_already_copied  = $diff->end;
+			$output_buffer       .= substr( $this->html, $bytes_already_copied, $diff->start - $bytes_already_copied );
+			$output_buffer       .= $diff->text;
+			$bytes_already_copied = $diff->end;
 		}
 
 		$this->html = $output_buffer . substr( $this->html, $bytes_already_copied );
