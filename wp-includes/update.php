@@ -1077,6 +1077,62 @@ function wp_clean_update_cache() {
 	delete_site_transient( 'update_core' );
 }
 
+/**
+ * Schedules the removal of all contents in the temporary backup directory.
+ *
+ * @since 6.3.0
+ */
+function wp_delete_all_temp_backups() {
+	/*
+	 * Check if there is a lock, or if currently performing an Ajax request,
+	 * in which case there is a chance an update is running.
+	 * Reschedule for an hour from now and exit early.
+	 */
+	if ( get_option( 'core_updater.lock' ) || get_option( 'auto_updater.lock' ) || wp_doing_ajax() ) {
+		wp_schedule_single_event( time() + HOUR_IN_SECONDS, 'wp_delete_temp_updater_backups' );
+		return;
+	}
+
+	// This action runs on shutdown to make sure there are no plugin updates currently running.
+	add_action( 'shutdown', '_wp_delete_all_temp_backups' );
+}
+
+/**
+ * Deletes all contents in the temporary backup directory.
+ *
+ * @since 6.3.0
+ *
+ * @access private
+ *
+ * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+ *
+ * @return void|WP_Error Void on success, or a WP_Error object on failure.
+ */
+function _wp_delete_all_temp_backups() {
+	global $wp_filesystem;
+
+	if ( ! $wp_filesystem ) {
+		require_once ABSPATH . '/wp-admin/includes/file.php';
+		WP_Filesystem();
+	}
+
+	if ( ! $wp_filesystem->wp_content_dir() ) {
+		return new WP_Error( 'fs_no_content_dir', __( 'Unable to locate WordPress content directory (wp-content).' ) );
+	}
+
+	$temp_backup_dir = $wp_filesystem->wp_content_dir() . 'upgrade-temp-backup/';
+	$dirlist         = $wp_filesystem->dirlist( $temp_backup_dir );
+	$dirlist         = $dirlist ? $dirlist : array();
+
+	foreach ( array_keys( $dirlist ) as $dir ) {
+		if ( '.' === $dir || '..' === $dir ) {
+			continue;
+		}
+
+		$wp_filesystem->delete( $temp_backup_dir . $dir, true );
+	}
+}
+
 if ( ( ! is_main_site() && ! is_network_admin() ) || wp_doing_ajax() ) {
 	return;
 }
@@ -1101,3 +1157,5 @@ add_action( 'update_option_WPLANG', 'wp_clean_update_cache', 10, 0 );
 add_action( 'wp_maybe_auto_update', 'wp_maybe_auto_update' );
 
 add_action( 'init', 'wp_schedule_update_checks' );
+
+add_action( 'wp_delete_temp_updater_backups', 'wp_delete_all_temp_backups' );
