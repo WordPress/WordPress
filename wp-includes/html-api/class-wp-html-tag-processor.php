@@ -253,9 +253,10 @@ class WP_HTML_Tag_Processor {
 	 * The maximum number of bookmarks allowed to exist at
 	 * any given time.
 	 *
-	 * @see set_bookmark()
 	 * @since 6.2.0
 	 * @var int
+	 *
+	 * @see WP_HTML_Tag_Processor::set_bookmark()
 	 */
 	const MAX_BOOKMARKS = 10;
 
@@ -263,9 +264,10 @@ class WP_HTML_Tag_Processor {
 	 * Maximum number of times seek() can be called.
 	 * Prevents accidental infinite loops.
 	 *
-	 * @see seek()
 	 * @since 6.2.0
 	 * @var int
+	 *
+	 * @see WP_HTML_Tag_Processor::seek()
 	 */
 	const MAX_SEEK_OPS = 1000;
 
@@ -498,9 +500,10 @@ class WP_HTML_Tag_Processor {
 	/**
 	 * Tracks and limits `seek()` calls to prevent accidental infinite loops.
 	 *
-	 * @see seek
 	 * @since 6.2.0
 	 * @var int
+	 *
+	 * @see WP_HTML_Tag_Processor::seek()
 	 */
 	protected $seek_count = 0;
 
@@ -720,8 +723,9 @@ class WP_HTML_Tag_Processor {
 	/**
 	 * Skips contents of title and textarea tags.
 	 *
-	 * @see https://html.spec.whatwg.org/multipage/parsing.html#rcdata-state
 	 * @since 6.2.0
+	 *
+	 * @see https://html.spec.whatwg.org/multipage/parsing.html#rcdata-state
 	 *
 	 * @param string $tag_name – the lowercase tag name which will close the RCDATA region.
 	 * @return bool Whether an end to the RCDATA region was found before the end of the document.
@@ -1281,10 +1285,10 @@ class WP_HTML_Tag_Processor {
 	 * Converts class name updates into tag attributes updates
 	 * (they are accumulated in different data formats for performance).
 	 *
-	 * @see $lexical_updates
-	 * @see $classname_updates
-	 *
 	 * @since 6.2.0
+	 *
+	 * @see WP_HTML_Tag_Processor::$lexical_updates
+	 * @see WP_HTML_Tag_Processor::$classname_updates
 	 *
 	 * @return void
 	 */
@@ -1740,8 +1744,6 @@ class WP_HTML_Tag_Processor {
 	 * > case-insensitive match for each other.
 	 *     - HTML 5 spec
 	 *
-	 * @see https://html.spec.whatwg.org/multipage/syntax.html#attributes-2:ascii-case-insensitive
-	 *
 	 * Example:
 	 * ```php
 	 * $p = new WP_HTML_Tag_Processor( '<div data-ENABLED class="test" DATA-test-id="14">Test</div>' );
@@ -1753,6 +1755,8 @@ class WP_HTML_Tag_Processor {
 	 * ```
 	 *
 	 * @since 6.2.0
+	 *
+	 * @see https://html.spec.whatwg.org/multipage/syntax.html#attributes-2:ascii-case-insensitive
 	 *
 	 * @param string $prefix Prefix of requested attribute names.
 	 * @return array|null List of attribute names, or `null` when no tag opener is matched.
@@ -1778,7 +1782,7 @@ class WP_HTML_Tag_Processor {
 	 *
 	 * Example:
 	 * ```php
-	 * $p = new WP_HTML_Tag_Processor( '<DIV CLASS="test">Test</DIV>' );
+	 * $p = new WP_HTML_Tag_Processor( '<div class="test">Test</div>' );
 	 * $p->next_tag() === true;
 	 * $p->get_tag() === 'DIV';
 	 *
@@ -2095,7 +2099,8 @@ class WP_HTML_Tag_Processor {
 	 * Returns the string representation of the HTML Tag Processor.
 	 *
 	 * @since 6.2.0
-	 * @see get_updated_html
+	 *
+	 * @see WP_HTML_Tag_Processor::get_updated_html()
 	 *
 	 * @return string The processed HTML.
 	 */
