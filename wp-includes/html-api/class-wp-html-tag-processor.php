@@ -229,11 +229,11 @@
  * The Tag Processor's design incorporates a "garbage-in-garbage-out" philosophy.
  * HTML5 specifies that certain invalid content be transformed into different forms
  * for display, such as removing null bytes from an input document and replacing
- * invalid characters with the Unicode replacement character `U+FFFD`. Where errors
- * or transformations exist within the HTML5 specification, the Tag Processor leaves
- * those invalid inputs untouched, passing them through to the final browser to handle.
- * While this implies that certain operations will be non-spec-compliant, such as
- * reading the value of an attribute with invalid content, it also preserves a
+ * invalid characters with the Unicode replacement character `U+FFFD` (visually "�").
+ * Where errors or transformations exist within the HTML5 specification, the Tag Processor
+ * leaves those invalid inputs untouched, passing them through to the final browser
+ * to handle. While this implies that certain operations will be non-spec-compliant,
+ * such as reading the value of an attribute with invalid content, it also preserves a
  * simplicity and efficiency for handling those error cases.
  *
  * Most operations within the Tag Processor are designed to minimize the difference
