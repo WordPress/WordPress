@@ -34,8 +34,6 @@ class WP_REST_Global_Styles_Controller extends WP_REST_Controller {
 	 * Registers the controllers routes.
 	 *
 	 * @since 5.9.0
-	 *
-	 * @return void
 	 */
 	public function register_routes() {
 		register_rest_route(

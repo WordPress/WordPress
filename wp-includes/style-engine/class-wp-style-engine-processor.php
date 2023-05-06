@@ -126,8 +126,6 @@ class WP_Style_Engine_Processor {
 	 * Combines selectors from the rules store when they have the same styles.
 	 *
 	 * @since 6.1.0
-	 *
-	 * @return void
 	 */
 	private function combine_rules_selectors() {
 		// Build an array of selectors along with the JSON-ified styles to make comparisons easier.

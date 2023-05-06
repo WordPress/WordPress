@@ -3021,8 +3021,6 @@ function wp_enqueue_block_support_styles( $style, $priority = 10 ) {
  *     @type bool $optimize Whether to optimize the CSS output, e.g., combine rules. Default is `false`.
  *     @type bool $prettify Whether to add new lines and indents to output. Default is the test of whether the global constant `SCRIPT_DEBUG` is defined.
  * }
- *
- * @return void
  */
 function wp_enqueue_stored_styles( $options = array() ) {
 	$is_block_theme   = wp_is_block_theme();

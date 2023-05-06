@@ -80,8 +80,6 @@ class WP_Style_Engine_CSS_Rules_Store {
 	 * Clears all stores from static::$stores.
 	 *
 	 * @since 6.1.0
-	 *
-	 * @return void
 	 */
 	public static function remove_all_stores() {
 		static::$stores = array();
@@ -93,7 +91,6 @@ class WP_Style_Engine_CSS_Rules_Store {
 	 * @since 6.1.0
 	 *
 	 * @param string $name The store name.
-	 * @return void
 	 */
 	public function set_name( $name ) {
 		$this->name = $name;
@@ -152,7 +149,6 @@ class WP_Style_Engine_CSS_Rules_Store {
 	 * @since 6.1.0
 	 *
 	 * @param string $selector The CSS selector.
-	 * @return void
 	 */
 	public function remove_rule( $selector ) {
 		unset( $this->rules[ $selector ] );
