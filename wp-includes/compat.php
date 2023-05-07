@@ -434,11 +434,15 @@ if ( ! function_exists( 'str_contains' ) ) {
 	 * @since 5.9.0
 	 *
 	 * @param string $haystack The string to search in.
-	 * @param string $needle   The substring to search for in the haystack.
+	 * @param string $needle   The substring to search for in the `$haystack`.
 	 * @return bool True if `$needle` is in `$haystack`, otherwise false.
 	 */
 	function str_contains( $haystack, $needle ) {
-		return ( '' === $needle || false !== strpos( $haystack, $needle ) );
+		if ( '' === $needle ) {
+			return true;
+		}
+
+		return false !== strpos( $haystack, $needle );
 	}
 }
 
