@@ -44,7 +44,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 
 		<div class="about__section">
 			<div class="column">
-				<h2 class="aligncenter">
+				<h2>
 					<?php
 					printf(
 						/* translators: %s: Version number. */
@@ -53,7 +53,7 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 					);
 					?>
 				</h2>
-				<p class="is-subheading aligncenter">
+				<p class="is-subheading">
 					<?php
 					printf(
 						/* translators: 1: Count of enhancements, 2: Count of bug fixes. */
