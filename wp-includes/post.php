@@ -1225,7 +1225,7 @@ function get_page_statuses() {
  * @since 4.9.6
  * @access private
  *
- * @return array
+ * @return string[] Array of privacy request status labels keyed by their status.
  */
 function _wp_privacy_statuses() {
 	return array(

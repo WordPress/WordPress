@@ -91,7 +91,7 @@ class WP_Block_Supports {
 	 *
 	 * @since 5.6.0
 	 *
-	 * @return string[] Array of HTML attributes.
+	 * @return string[] Array of HTML attribute values keyed by their name.
 	 */
 	public function apply_block_supports() {
 		$block_type = WP_Block_Type_Registry::get_instance()->get_registered(

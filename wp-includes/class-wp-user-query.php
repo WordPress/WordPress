@@ -67,11 +67,12 @@ class WP_User_Query {
 	public $query_limit;
 
 	/**
-	 * PHP5 constructor.
+	 * Constructor.
 	 *
 	 * @since 3.1.0
 	 *
 	 * @param null|string|array $query Optional. The query variables.
+	 *                                 See WP_User_Query::prepare_query() for information on accepted arguments.
 	 */
 	public function __construct( $query = null ) {
 		if ( ! empty( $query ) ) {
@@ -85,7 +86,7 @@ class WP_User_Query {
 	 *
 	 * @since 4.4.0
 	 *
-	 * @param array $args Query vars, as passed to `WP_User_Query`.
+	 * @param string|array $args Query vars, as passed to `WP_User_Query`.
 	 * @return array Complete query variables with undefined ones filled in with defaults.
 	 */
 	public static function fill_query_vars( $args ) {
@@ -147,7 +148,7 @@ class WP_User_Query {
 	 * @global WP_Roles $wp_roles WordPress role management object.
 	 *
 	 * @param string|array $query {
-	 *     Optional. Array or string of Query parameters.
+	 *     Optional. Array or string of query parameters.
 	 *
 	 *     @type int             $blog_id             The site ID. Default is the current site.
 	 *     @type string|string[] $role                An array or a comma-separated list of role names that users must match

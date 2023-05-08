@@ -68,8 +68,22 @@ class WP_Application_Passwords {
 	 *     @type string $name   The name of the application password.
 	 *     @type string $app_id A UUID provided by the application to uniquely identify it.
 	 * }
-	 * @return array|WP_Error The first key in the array is the new password, the second is its detailed information.
-	 *                        A WP_Error instance is returned on error.
+	 * @return array|WP_Error {
+	 *     Application password details, or a WP_Error instance if an error occurs.
+	 *
+	 *     @type string $0 The unhashed generated application password.
+	 *     @type array  $1 {
+	 *         The details about the created password.
+	 *
+	 *         @type string $uuid      The unique identifier for the application password.
+	 *         @type string $app_id    A UUID provided by the application to uniquely identify it.
+	 *         @type string $name      The name of the application password.
+	 *         @type string $password  A one-way hash of the password.
+	 *         @type int    $created   Unix timestamp of when the password was created.
+	 *         @type null   $last_used Null.
+	 *         @type null   $last_ip   Null.
+	 *     }
+	 * }
 	 */
 	public static function create_new_application_password( $user_id, $args = array() ) {
 		if ( ! empty( $args['name'] ) ) {

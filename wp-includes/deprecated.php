@@ -3935,11 +3935,11 @@ function get_shortcut_link() {
 }
 
 /**
-* Ajax handler for saving a post from Press This.
-*
-* @since 4.2.0
-* @deprecated 4.9.0
-*/
+ * Ajax handler for saving a post from Press This.
+ *
+ * @since 4.2.0
+ * @deprecated 4.9.0
+ */
 function wp_ajax_press_this_save_post() {
 	_deprecated_function( __FUNCTION__, '4.9.0' );
 	if ( is_plugin_active( 'press-this/press-this-plugin.php' ) ) {
@@ -3952,11 +3952,11 @@ function wp_ajax_press_this_save_post() {
 }
 
 /**
-* Ajax handler for creating new category from Press This.
-*
-* @since 4.2.0
-* @deprecated 4.9.0
-*/
+ * Ajax handler for creating new category from Press This.
+ *
+ * @since 4.2.0
+ * @deprecated 4.9.0
+ */
 function wp_ajax_press_this_add_category() {
 	_deprecated_function( __FUNCTION__, '4.9.0' );
 	if ( is_plugin_active( 'press-this/press-this-plugin.php' ) ) {
@@ -4446,15 +4446,15 @@ function _get_path_to_translation_from_lang_dir( $domain ) {
 }
 
 /**
-  * Allows multiple block styles.
-  *
-  * @since 5.9.0
-  * @deprecated 6.1.0
-  *
-  * @param array $metadata Metadata for registering a block type.
-  * @return array Metadata for registering a block type.
-  */
-  function _wp_multiple_block_styles( $metadata ) {
+ * Allows multiple block styles.
+ *
+ * @since 5.9.0
+ * @deprecated 6.1.0
+ *
+ * @param array $metadata Metadata for registering a block type.
+ * @return array Metadata for registering a block type.
+ */
+function _wp_multiple_block_styles( $metadata ) {
 	_deprecated_function( __FUNCTION__, '6.1.0' );
 	return $metadata;
 }
@@ -4598,7 +4598,7 @@ function get_page_by_title( $page_title, $output = OBJECT, $post_type = 'page' )
  * @access private
  * @since 6.0.0
  * @deprecated 6.2.0 Site Editor's server-side redirect for missing postType and postId
- *             		 query args is removed. Thus, this function is no longer used.
+ *                   query args is removed. Thus, this function is no longer used.
  *
  * @return array|null A template object, or null if none could be found.
  */

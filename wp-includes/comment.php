@@ -1059,7 +1059,7 @@ function get_comment_pages_count( $comments = null, $per_page = null, $threaded 
  *     @type int|string $max_depth If greater than 1, comment page will be determined
  *                                 for the top-level parent `$comment_id`.
  *                                 Defaults to the value of the 'thread_comments_depth' option.
- * } *
+ * }
  * @return int|null Comment page number or null on error.
  */
 function get_page_of_comment( $comment_id, $args = array() ) {

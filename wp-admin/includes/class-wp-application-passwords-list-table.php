@@ -21,7 +21,7 @@ class WP_Application_Passwords_List_Table extends WP_List_Table {
 	 *
 	 * @since 5.6.0
 	 *
-	 * @return array
+	 * @return string[] Array of column titles keyed by their column name.
 	 */
 	public function get_columns() {
 		return array(

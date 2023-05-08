@@ -894,7 +894,7 @@ class WP_User {
 	 * @since 4.9.0
 	 *
 	 * @return bool[] List of capabilities keyed by the capability name,
-	 *                e.g. array( 'edit_posts' => true, 'delete_posts' => false ).
+	 *                e.g. `array( 'edit_posts' => true, 'delete_posts' => false )`.
 	 */
 	private function get_caps_data() {
 		$caps = get_user_meta( $this->ID, $this->cap_key, true );

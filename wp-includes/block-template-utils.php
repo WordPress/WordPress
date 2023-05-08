@@ -1345,7 +1345,6 @@ function wp_generate_block_templates_export_file() {
 /**
  * Gets the template hierarchy for the given template slug to be created.
  *
- *
  * Note: Always add `index` as the last fallback template.
  *
  * @since 6.1.0
