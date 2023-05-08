@@ -38,12 +38,11 @@
  *  3. Request changes to the attributes in those tag(s).
  *
  * Example:
- * ```php
- * $tags = new WP_HTML_Tag_Processor( $html );
- * if ( $tags->next_tag( 'option' ) ) {
- *     $tags->set_attribute( 'selected', true );
- * }
- * ```
+ *
+ *     $tags = new WP_HTML_Tag_Processor( $html );
+ *     if ( $tags->next_tag( 'option' ) ) {
+ *         $tags->set_attribute( 'selected', true );
+ *     }
  *
  * ### Finding tags
  *
@@ -54,9 +53,8 @@
  * regardless of what kind it is.
  *
  * If you want to _find whatever the next tag is_:
- * ```php
- * $tags->next_tag();
- * ```
+ *
+ *     $tags->next_tag();
  *
  * | Goal                                                      | Query                                                                           |
  * |-----------------------------------------------------------|---------------------------------------------------------------------------------|
@@ -87,19 +85,18 @@
  * provided by the processor or external state or variables.
  *
  * Example:
- * ```php
- * // Paint up to the first five DIV or SPAN tags marked with the "jazzy" style.
- * $remaining_count = 5;
- * while ( $remaining_count > 0 && $tags->next_tag() ) {
- *     if (
- *          ( 'DIV' === $tags->get_tag() || 'SPAN' === $tags->get_tag() ) &&
- *          'jazzy' === $tags->get_attribute( 'data-style' )
- *     ) {
- *         $tags->add_class( 'theme-style-everest-jazz' );
- *         $remaining_count--;
+ *
+ *     // Paint up to the first five DIV or SPAN tags marked with the "jazzy" style.
+ *     $remaining_count = 5;
+ *     while ( $remaining_count > 0 && $tags->next_tag() ) {
+ *         if (
+ *              ( 'DIV' === $tags->get_tag() || 'SPAN' === $tags->get_tag() ) &&
+ *              'jazzy' === $tags->get_attribute( 'data-style' )
+ *         ) {
+ *             $tags->add_class( 'theme-style-everest-jazz' );
+ *             $remaining_count--;
+ *         }
  *     }
- * }
- * ```
  *
  * `get_attribute()` will return `null` if the attribute wasn't present
  * on the tag when it was called. It may return `""` (the empty string)
@@ -116,12 +113,11 @@
  * nothing and move on to the next opening tag.
  *
  * Example:
- * ```php
- * if ( $tags->next_tag( array( 'class' => 'wp-group-block' ) ) ) {
- *     $tags->set_attribute( 'title', 'This groups the contained content.' );
- *     $tags->remove_attribute( 'data-test-id' );
- * }
- * ```
+ *
+ *     if ( $tags->next_tag( array( 'class' => 'wp-group-block' ) ) ) {
+ *         $tags->set_attribute( 'title', 'This groups the contained content.' );
+ *         $tags->remove_attribute( 'data-test-id' );
+ *     }
  *
  * If `set_attribute()` is called for an existing attribute it will
  * overwrite the existing value. Similarly, calling `remove_attribute()`
@@ -141,31 +137,30 @@
  * entire `class` attribute will be removed.
  *
  * Example:
- * ```php
- * // from `<span>Yippee!</span>`
- * //   to `<span class="is-active">Yippee!</span>`
- * $tags->add_class( 'is-active' );
  *
- * // from `<span class="excited">Yippee!</span>`
- * //   to `<span class="excited is-active">Yippee!</span>`
- * $tags->add_class( 'is-active' );
+ *     // from `<span>Yippee!</span>`
+ *     //   to `<span class="is-active">Yippee!</span>`
+ *     $tags->add_class( 'is-active' );
  *
- * // from `<span class="is-active heavy-accent">Yippee!</span>`
- * //   to `<span class="is-active heavy-accent">Yippee!</span>`
- * $tags->add_class( 'is-active' );
+ *     // from `<span class="excited">Yippee!</span>`
+ *     //   to `<span class="excited is-active">Yippee!</span>`
+ *     $tags->add_class( 'is-active' );
  *
- * // from `<input type="text" class="is-active rugby not-disabled" length="24">`
- * //   to `<input type="text" class="is-active not-disabled" length="24">
- * $tags->remove_class( 'rugby' );
+ *     // from `<span class="is-active heavy-accent">Yippee!</span>`
+ *     //   to `<span class="is-active heavy-accent">Yippee!</span>`
+ *     $tags->add_class( 'is-active' );
  *
- * // from `<input type="text" class="rugby" length="24">`
- * //   to `<input type="text" length="24">
- * $tags->remove_class( 'rugby' );
+ *     // from `<input type="text" class="is-active rugby not-disabled" length="24">`
+ *     //   to `<input type="text" class="is-active not-disabled" length="24">
+ *     $tags->remove_class( 'rugby' );
  *
- * // from `<input type="text" length="24">`
- * //   to `<input type="text" length="24">
- * $tags->remove_class( 'rugby' );
- * ```
+ *     // from `<input type="text" class="rugby" length="24">`
+ *     //   to `<input type="text" length="24">
+ *     $tags->remove_class( 'rugby' );
+ *
+ *     // from `<input type="text" length="24">`
+ *     //   to `<input type="text" length="24">
+ *     $tags->remove_class( 'rugby' );
  *
  * When class changes are enqueued but a direct change to `class` is made via
  * `set_attribute` then the changes to `set_attribute` (or `remove_attribute`)
@@ -184,26 +179,24 @@
  * and so on. It's fine from a performance standpoint to create a
  * bookmark and update it frequently, such as within a loop.
  *
- * ```php
- * $total_todos = 0;
- * while ( $p->next_tag( array( 'tag_name' => 'UL', 'class_name' => 'todo' ) ) ) {
- *     $p->set_bookmark( 'list-start' );
- *     while ( $p->next_tag( array( 'tag_closers' => 'visit' ) ) ) {
- *         if ( 'UL' === $p->get_tag() && $p->is_tag_closer() ) {
- *             $p->set_bookmark( 'list-end' );
- *             $p->seek( 'list-start' );
- *             $p->set_attribute( 'data-contained-todos', (string) $total_todos );
- *             $total_todos = 0;
- *             $p->seek( 'list-end' );
- *             break;
- *         }
+ *     $total_todos = 0;
+ *     while ( $p->next_tag( array( 'tag_name' => 'UL', 'class_name' => 'todo' ) ) ) {
+ *         $p->set_bookmark( 'list-start' );
+ *         while ( $p->next_tag( array( 'tag_closers' => 'visit' ) ) ) {
+ *             if ( 'UL' === $p->get_tag() && $p->is_tag_closer() ) {
+ *                 $p->set_bookmark( 'list-end' );
+ *                 $p->seek( 'list-start' );
+ *                 $p->set_attribute( 'data-contained-todos', (string) $total_todos );
+ *                 $total_todos = 0;
+ *                 $p->seek( 'list-end' );
+ *                 break;
+ *             }
  *
- *         if ( 'LI' === $p->get_tag() && ! $p->is_tag_closer() ) {
- *             $total_todos++;
+ *             if ( 'LI' === $p->get_tag() && ! $p->is_tag_closer() ) {
+ *                 $total_todos++;
+ *             }
  *         }
  *     }
- * }
- * ```
  *
  * ## Design and limitations
  *
@@ -335,11 +328,10 @@ class WP_HTML_Tag_Processor {
 	 * Byte offset in input document where current tag name starts.
 	 *
 	 * Example:
-	 * ```
-	 *   <div id="test">...
-	 *   01234
-	 *    - tag name starts at 1
-	 * ```
+	 *
+	 *     <div id="test">...
+	 *     01234
+	 *      - tag name starts at 1
 	 *
 	 * @since 6.2.0
 	 * @var int|null
@@ -350,11 +342,10 @@ class WP_HTML_Tag_Processor {
 	 * Byte length of current tag name.
 	 *
 	 * Example:
-	 * ```
-	 *   <div id="test">...
-	 *   01234
-	 *    --- tag name length is 3
-	 * ```
+	 *
+	 *     <div id="test">...
+	 *     01234
+	 *      --- tag name length is 3
 	 *
 	 * @since 6.2.0
 	 * @var int|null
@@ -365,12 +356,11 @@ class WP_HTML_Tag_Processor {
 	 * Byte offset in input document where current tag token ends.
 	 *
 	 * Example:
-	 * ```
-	 *   <div id="test">...
-	 *   0         1   |
-	 *   01234567890123456
-	 *    --- tag name ends at 14
-	 * ```
+	 *
+	 *     <div id="test">...
+	 *     0         1   |
+	 *     01234567890123456
+	 *      --- tag name ends at 14
 	 *
 	 * @since 6.2.0
 	 * @var int|null
@@ -388,25 +378,24 @@ class WP_HTML_Tag_Processor {
 	 * Lazily-built index of attributes found within an HTML tag, keyed by the attribute name.
 	 *
 	 * Example:
-	 * ```php
-	 * // supposing the parser is working through this content
-	 * // and stops after recognizing the `id` attribute
-	 * // <div id="test-4" class=outline title="data:text/plain;base64=asdk3nk1j3fo8">
-	 * //                 ^ parsing will continue from this point
-	 * $this->attributes = array(
-	 *     'id' => new WP_HTML_Attribute_Match( 'id', null, 6, 17 )
-	 * );
 	 *
-	 * // when picking up parsing again, or when asking to find the
-	 * // `class` attribute we will continue and add to this array
-	 * $this->attributes = array(
-	 *     'id'    => new WP_HTML_Attribute_Match( 'id', null, 6, 17 ),
-	 *     'class' => new WP_HTML_Attribute_Match( 'class', 'outline', 18, 32 )
-	 * );
+	 *     // Supposing the parser is working through this content
+	 *     // and stops after recognizing the `id` attribute.
+	 *     // <div id="test-4" class=outline title="data:text/plain;base64=asdk3nk1j3fo8">
+	 *     //                 ^ parsing will continue from this point.
+	 *     $this->attributes = array(
+	 *         'id' => new WP_HTML_Attribute_Match( 'id', null, 6, 17 )
+	 *     );
 	 *
-	 * // Note that only the `class` attribute value is stored in the index.
-	 * // That's because it is the only value used by this class at the moment.
-	 * ```
+	 *     // When picking up parsing again, or when asking to find the
+	 *     // `class` attribute we will continue and add to this array.
+	 *     $this->attributes = array(
+	 *         'id'    => new WP_HTML_Attribute_Match( 'id', null, 6, 17 ),
+	 *         'class' => new WP_HTML_Attribute_Match( 'class', 'outline', 18, 32 )
+	 *     );
+	 *
+	 *     // Note that only the `class` attribute value is stored in the index.
+	 *     // That's because it is the only value used by this class at the moment.
 	 *
 	 * @since 6.2.0
 	 * @var WP_HTML_Attribute_Token[]
@@ -425,14 +414,13 @@ class WP_HTML_Tag_Processor {
 	 * into a single `set_attribute( 'class', $changes )` call.
 	 *
 	 * Example:
-	 * ```php
-	 * // Add the `wp-block-group` class, remove the `wp-group` class.
-	 * $classname_updates = array(
-	 *     // Indexed by a comparable class name
-	 *     'wp-block-group' => WP_HTML_Tag_Processor::ADD_CLASS,
-	 *     'wp-group'       => WP_HTML_Tag_Processor::REMOVE_CLASS
-	 * );
-	 * ```
+	 *
+	 *     // Add the `wp-block-group` class, remove the `wp-group` class.
+	 *     $classname_updates = array(
+	 *         // Indexed by a comparable class name.
+	 *         'wp-block-group' => WP_HTML_Tag_Processor::ADD_CLASS,
+	 *         'wp-group'       => WP_HTML_Tag_Processor::REMOVE_CLASS
+	 *     );
 	 *
 	 * @since 6.2.0
 	 * @var bool[]
@@ -479,18 +467,17 @@ class WP_HTML_Tag_Processor {
 	 * copies when applying many updates to a single document.
 	 *
 	 * Example:
-	 * ```php
-	 * // Replace an attribute stored with a new value, indices
-	 * // sourced from the lazily-parsed HTML recognizer.
-	 * $start = $attributes['src']->start;
-	 * $end   = $attributes['src']->end;
-	 * $modifications[] = new WP_HTML_Text_Replacement( $start, $end, $new_value );
 	 *
-	 * // Correspondingly, something like this will appear in this array.
-	 * $lexical_updates = array(
-	 *     WP_HTML_Text_Replacement( 14, 28, 'https://my-site.my-domain/wp-content/uploads/2014/08/kittens.jpg' )
-	 * );
-	 * ```
+	 *     // Replace an attribute stored with a new value, indices
+	 *     // sourced from the lazily-parsed HTML recognizer.
+	 *     $start = $attributes['src']->start;
+	 *     $end   = $attributes['src']->end;
+	 *     $modifications[] = new WP_HTML_Text_Replacement( $start, $end, $new_value );
+	 *
+	 *     // Correspondingly, something like this will appear in this array.
+	 *     $lexical_updates = array(
+	 *         WP_HTML_Text_Replacement( 14, 28, 'https://my-site.my-domain/wp-content/uploads/2014/08/kittens.jpg' )
+	 *     );
 	 *
 	 * @since 6.2.0
 	 * @var WP_HTML_Text_Replacement[]
@@ -608,7 +595,7 @@ class WP_HTML_Tag_Processor {
 	 * Release bookmarks when they are no longer needed.
 	 *
 	 * Example:
-	 * ```
+	 *
 	 *     <main><h2>Surprising fact you may not know!</h2></main>
 	 *           ^  ^
 	 *            \-|-- this `H2` opener bookmark tracks the token
@@ -616,14 +603,13 @@ class WP_HTML_Tag_Processor {
 	 *     <main class="clickbait"><h2>Surprising fact you may no…
 	 *                             ^  ^
 	 *                              \-|-- it shifts with edits
-	 * ```
 	 *
 	 * Bookmarks provide the ability to seek to a previously-scanned
 	 * place in the HTML document. This avoids the need to re-scan
 	 * the entire document.
 	 *
 	 * Example:
-	 * ```
+	 *
 	 *     <ul><li>One</li><li>Two</li><li>Three</li></ul>
 	 *                                 ^^^^
 	 *                                 want to note this last item
@@ -650,7 +636,6 @@ class WP_HTML_Tag_Processor {
 	 *             $p->set_bookmark( 'last-li' );
 	 *         }
 	 *     }
-	 * ```
 	 *
 	 * Bookmarks intentionally hide the internal string offsets
 	 * to which they refer. They are maintained internally as
@@ -727,7 +712,7 @@ class WP_HTML_Tag_Processor {
 	 *
 	 * @see https://html.spec.whatwg.org/multipage/parsing.html#rcdata-state
 	 *
-	 * @param string $tag_name – the lowercase tag name which will close the RCDATA region.
+	 * @param string $tag_name The lowercase tag name which will close the RCDATA region.
 	 * @return bool Whether an end to the RCDATA region was found before the end of the document.
 	 */
 	private function skip_rcdata( $tag_name ) {
@@ -1624,10 +1609,9 @@ class WP_HTML_Tag_Processor {
 		 * or trailing whitespace, and that the casing follows the name given in `set_attribute`.
 		 *
 		 * Example:
-		 * ```
+		 *
 		 *     $p->set_attribute( 'data-TEST-id', 'update' );
 		 *     'update' === $p->get_enqueued_attribute_value( 'data-test-id' );
-		 * ```
 		 *
 		 * Detect this difference based on the absence of the `=`, which _must_ exist in any
 		 * attribute containing a value, e.g. `<input type="text" enabled />`.
@@ -1658,16 +1642,15 @@ class WP_HTML_Tag_Processor {
 	 * Returns the value of a requested attribute from a matched tag opener if that attribute exists.
 	 *
 	 * Example:
-	 * ```php
-	 * $p = new WP_HTML_Tag_Processor( '<div enabled class="test" data-test-id="14">Test</div>' );
-	 * $p->next_tag( array( 'class_name' => 'test' ) ) === true;
-	 * $p->get_attribute( 'data-test-id' ) === '14';
-	 * $p->get_attribute( 'enabled' ) === true;
-	 * $p->get_attribute( 'aria-label' ) === null;
 	 *
-	 * $p->next_tag() === false;
-	 * $p->get_attribute( 'class' ) === null;
-	 * ```
+	 *     $p = new WP_HTML_Tag_Processor( '<div enabled class="test" data-test-id="14">Test</div>' );
+	 *     $p->next_tag( array( 'class_name' => 'test' ) ) === true;
+	 *     $p->get_attribute( 'data-test-id' ) === '14';
+	 *     $p->get_attribute( 'enabled' ) === true;
+	 *     $p->get_attribute( 'aria-label' ) === null;
+	 *
+	 *     $p->next_tag() === false;
+	 *     $p->get_attribute( 'class' ) === null;
 	 *
 	 * @since 6.2.0
 	 *
@@ -1739,14 +1722,13 @@ class WP_HTML_Tag_Processor {
 	 *     - HTML 5 spec
 	 *
 	 * Example:
-	 * ```php
-	 * $p = new WP_HTML_Tag_Processor( '<div data-ENABLED class="test" DATA-test-id="14">Test</div>' );
-	 * $p->next_tag( array( 'class_name' => 'test' ) ) === true;
-	 * $p->get_attribute_names_with_prefix( 'data-' ) === array( 'data-enabled', 'data-test-id' );
 	 *
-	 * $p->next_tag() === false;
-	 * $p->get_attribute_names_with_prefix( 'data-' ) === null;
-	 * ```
+	 *     $p = new WP_HTML_Tag_Processor( '<div data-ENABLED class="test" DATA-test-id="14">Test</div>' );
+	 *     $p->next_tag( array( 'class_name' => 'test' ) ) === true;
+	 *     $p->get_attribute_names_with_prefix( 'data-' ) === array( 'data-enabled', 'data-test-id' );
+	 *
+	 *     $p->next_tag() === false;
+	 *     $p->get_attribute_names_with_prefix( 'data-' ) === null;
 	 *
 	 * @since 6.2.0
 	 *
@@ -1775,14 +1757,13 @@ class WP_HTML_Tag_Processor {
 	 * Returns the uppercase name of the matched tag.
 	 *
 	 * Example:
-	 * ```php
-	 * $p = new WP_HTML_Tag_Processor( '<div class="test">Test</div>' );
-	 * $p->next_tag() === true;
-	 * $p->get_tag() === 'DIV';
 	 *
-	 * $p->next_tag() === false;
-	 * $p->get_tag() === null;
-	 * ```
+	 *     $p = new WP_HTML_Tag_Processor( '<div class="test">Test</div>' );
+	 *     $p->next_tag() === true;
+	 *     $p->get_tag() === 'DIV';
+	 *
+	 *     $p->next_tag() === false;
+	 *     $p->get_tag() === null;
 	 *
 	 * @since 6.2.0
 	 *
@@ -1827,14 +1808,13 @@ class WP_HTML_Tag_Processor {
 	 * Indicates if the current tag token is a tag closer.
 	 *
 	 * Example:
-	 * ```php
-	 * $p = new WP_HTML_Tag_Processor( '<div></div>' );
-	 * $p->next_tag( array( 'tag_name' => 'div', 'tag_closers' => 'visit' ) );
-	 * $p->is_tag_closer() === false;
 	 *
-	 * $p->next_tag( array( 'tag_name' => 'div', 'tag_closers' => 'visit' ) );
-	 * $p->is_tag_closer() === true;
-	 * ```
+	 *     $p = new WP_HTML_Tag_Processor( '<div></div>' );
+	 *     $p->next_tag( array( 'tag_name' => 'div', 'tag_closers' => 'visit' ) );
+	 *     $p->is_tag_closer() === false;
+	 *
+	 *     $p->next_tag( array( 'tag_name' => 'div', 'tag_closers' => 'visit' ) );
+	 *     $p->is_tag_closer() === true;
 	 *
 	 * @since 6.2.0
 	 *
@@ -1940,12 +1920,13 @@ class WP_HTML_Tag_Processor {
 			 * Update an existing attribute.
 			 *
 			 * Example – set attribute id to "new" in <div id="initial_id" />:
-			 *    <div id="initial_id"/>
-			 *         ^-------------^
-			 *         start         end
-			 *    replacement: `id="new"`
 			 *
-			 *    Result: <div id="new"/>
+			 *     <div id="initial_id"/>
+			 *          ^-------------^
+			 *          start         end
+			 *     replacement: `id="new"`
+			 *
+			 *     Result: <div id="new"/>
 			 */
 			$existing_attribute                        = $this->attributes[ $comparable_name ];
 			$this->lexical_updates[ $comparable_name ] = new WP_HTML_Text_Replacement(
@@ -1958,12 +1939,13 @@ class WP_HTML_Tag_Processor {
 			 * Create a new attribute at the tag's name end.
 			 *
 			 * Example – add attribute id="new" to <div />:
-			 *    <div/>
-			 *        ^
-			 *        start and end
-			 *    replacement: ` id="new"`
 			 *
-			 *    Result: <div id="new"/>
+			 *     <div/>
+			 *         ^
+			 *         start and end
+			 *     replacement: ` id="new"`
+			 *
+			 *     Result: <div id="new"/>
 			 */
 			$this->lexical_updates[ $comparable_name ] = new WP_HTML_Text_Replacement(
 				$this->tag_name_starts_at + $this->tag_name_length,
