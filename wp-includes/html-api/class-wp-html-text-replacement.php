@@ -1,6 +1,6 @@
 <?php
 /**
- * HTML Tag Processor: Text replacement class.
+ * HTML API: WP_HTML_Text_Replacement class
  *
  * @package WordPress
  * @subpackage HTML-API
@@ -8,7 +8,8 @@
  */
 
 /**
- * Data structure used to replace existing content from start to end that allows to drastically improve performance.
+ * Core class used by the HTML tag processor as a data structure for replacing
+ * existing content from start to end, allowing to drastically improve performance.
  *
  * This class is for internal usage of the WP_HTML_Tag_Processor class.
  *

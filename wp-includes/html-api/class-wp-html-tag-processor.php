@@ -1,5 +1,7 @@
 <?php
 /**
+ * HTML API: WP_HTML_Tag_Processor class
+ *
  * Scans through an HTML document to find specific tags, then
  * transforms those tags by adding, removing, or updating the
  * values of the HTML attributes within that tag (opener).
@@ -27,7 +29,7 @@
  */
 
 /**
- * Modifies attributes in an HTML document for tags matching a query.
+ * Core class used to modify attributes in an HTML document for tags matching a query.
  *
  * ## Usage
  *
