@@ -1,8 +1,6 @@
 <?php
 /**
- * WP_Style_Engine_CSS_Rules_Store
- *
- * A store for WP_Style_Engine_CSS_Rule objects.
+ * Style Engine: WP_Style_Engine_CSS_Rules_Store class
  *
  * @package WordPress
  * @subpackage StyleEngine
@@ -10,9 +8,9 @@
  */
 
 /**
- * Class WP_Style_Engine_CSS_Rules_Store.
+ * Core class used as a store for WP_Style_Engine_CSS_Rule objects.
  *
- * Holds, sanitizes, processes and prints CSS declarations for the style engine.
+ * Holds, sanitizes, processes, and prints CSS declarations for the style engine.
  *
  * @since 6.1.0
  */

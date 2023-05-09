@@ -1,8 +1,6 @@
 <?php
 /**
- * StyleEngine: WP_Style_Engine class
- *
- * This is the main class integrating all other WP_Style_Engine_* classes.
+ * Style Engine: WP_Style_Engine class
  *
  * @package WordPress
  * @subpackage StyleEngine
@@ -10,7 +8,7 @@
  */
 
 /**
- * Class WP_Style_Engine.
+ * The main class integrating all other WP_Style_Engine_* classes.
  *
  * The Style Engine aims to provide a consistent API for rendering styling for blocks across both client-side and server-side applications.
  *

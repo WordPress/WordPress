@@ -1,8 +1,6 @@
 <?php
 /**
- * WP_Style_Engine_Processor
- *
- * Compiles styles from stores or collection of CSS rules.
+ * Style Engine: WP_Style_Engine_Processor class
  *
  * @package WordPress
  * @subpackage StyleEngine
@@ -10,9 +8,7 @@
  */
 
 /**
- * Class WP_Style_Engine_Processor.
- *
- * Compiles styles from stores or collection of CSS rules.
+ * Core class used to compile styles from stores or collection of CSS rules.
  *
  * @since 6.1.0
  */
