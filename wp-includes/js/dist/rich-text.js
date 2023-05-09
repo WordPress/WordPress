@@ -4436,6 +4436,12 @@ function useRichText(_ref) {
   }, [placeholder, ...__unstableDependencies])]);
   return {
     value: record.current,
+    // A function to get the most recent value so event handlers in
+    // useRichText implementations have access to it. For example when
+    // listening to input events, we internally update the state, but this
+    // state is not yet available to the input event handler because React
+    // may re-render asynchronously.
+    getValue: () => record.current,
     onChange: handleChange,
     ref: mergedRefs
   };
