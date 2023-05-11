@@ -1440,12 +1440,11 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 	$comment_author_url = esc_url( $commenter['comment_author_url'] );
 
 	$comment_args = array(
-		'orderby'                   => 'comment_date_gmt',
-		'order'                     => 'ASC',
-		'status'                    => 'approve',
-		'post_id'                   => $post->ID,
-		'no_found_rows'             => false,
-		'update_comment_meta_cache' => false, // We lazy-load comment meta for performance.
+		'orderby'       => 'comment_date_gmt',
+		'order'         => 'ASC',
+		'status'        => 'approve',
+		'post_id'       => $post->ID,
+		'no_found_rows' => false,
 	);
 
 	if ( get_option( 'thread_comments' ) ) {
@@ -2379,8 +2378,6 @@ function wp_list_comments( $args = array(), $comments = null ) {
 	if ( null === $parsed_args['reverse_top_level'] ) {
 		$parsed_args['reverse_top_level'] = ( 'desc' === get_option( 'comment_order' ) );
 	}
-
-	wp_queue_comments_for_comment_meta_lazyload( $_comments );
 
 	if ( empty( $parsed_args['walker'] ) ) {
 		$walker = new Walker_Comment();
