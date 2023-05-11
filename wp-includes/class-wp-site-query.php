@@ -388,6 +388,10 @@ class WP_Site_Query {
 
 		$site_ids = array_map( 'intval', $site_ids );
 
+		if ( $this->query_vars['update_site_meta_cache'] ) {
+			wp_lazyload_site_meta( $site_ids );
+		}
+
 		if ( 'ids' === $this->query_vars['fields'] ) {
 			$this->sites = $site_ids;
 
@@ -396,7 +400,7 @@ class WP_Site_Query {
 
 		// Prime site network caches.
 		if ( $this->query_vars['update_site_cache'] ) {
-			_prime_site_caches( $site_ids, $this->query_vars['update_site_meta_cache'] );
+			_prime_site_caches( $site_ids, false );
 		}
 
 		// Fetch full site objects from the primed cache.
