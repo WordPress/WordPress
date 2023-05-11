@@ -310,7 +310,7 @@ function wp_print_file_editor_templates() {
 					<?php
 					printf(
 						/* translators: 1: Line number, 2: File path. */
-						__( 'Your PHP code changes were rolled back due to an error on line %1$s of file %2$s. Please fix and try saving again.' ),
+						__( 'Your PHP code changes were not applied due to an error on line %1$s of file %2$s. Please fix and try saving again.' ),
 						'{{ data.line }}',
 						'{{ data.file }}'
 					);
