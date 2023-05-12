@@ -2981,6 +2981,7 @@ function do_all_trackbacks() {
  * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int|WP_Post $post Post ID or object to do trackbacks on.
+ * @return void|false Returns false on failure.
  */
 function do_trackbacks( $post ) {
 	global $wpdb;

@@ -197,7 +197,7 @@ function remove_option_update_handler( $option_group, $option_name, $sanitize_ca
  * @deprecated 3.0.0
  *
  * @param string $filename
-**/
+ */
 function codepress_get_lang( $filename ) {
 	_deprecated_function( __FUNCTION__, '3.0.0' );
 }
@@ -207,7 +207,7 @@ function codepress_get_lang( $filename ) {
  *
  * @since 2.8.0
  * @deprecated 3.0.0
-**/
+ */
 function codepress_footer_js() {
 	_deprecated_function( __FUNCTION__, '3.0.0' );
 }
@@ -217,7 +217,7 @@ function codepress_footer_js() {
  *
  * @since 2.8.0
  * @deprecated 3.0.0
-**/
+ */
 function use_codepress() {
 	_deprecated_function( __FUNCTION__, '3.0.0' );
 }

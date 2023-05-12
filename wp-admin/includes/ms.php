@@ -848,6 +848,7 @@ var tb_pathToImage = "<?php echo esc_js( includes_url( 'js/thickbox/loadingAnima
 
 /**
  * @param array $users
+ * @return bool
  */
 function confirm_delete_users( $users ) {
 	$current_user = wp_get_current_user();

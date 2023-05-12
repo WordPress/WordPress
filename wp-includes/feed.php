@@ -747,6 +747,7 @@ function get_feed_build_date( $format ) {
  * @since 2.8.0
  *
  * @param string $type Type of feed. Possible values include 'rss', rss2', 'atom', and 'rdf'.
+ * @return string Content type for specified feed type.
  */
 function feed_content_type( $type = '' ) {
 	if ( empty( $type ) ) {

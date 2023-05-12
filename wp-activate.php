@@ -87,7 +87,7 @@ do_action( 'activate_header' );
  */
 function do_activate_header() {
 	/**
-	 * Fires before the Site Activation page is loaded.
+	 * Fires within the `<head>` section of the Site Activation page.
 	 *
 	 * Fires on the {@see 'wp_head'} action.
 	 *

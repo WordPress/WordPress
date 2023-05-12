@@ -20,6 +20,8 @@ require ABSPATH . WPINC . '/SimplePie/Author.php';
  * WordPress autoloader for SimplePie.
  *
  * @since 3.5.0
+ *
+ * @param string $class Class name.
  */
 function wp_simplepie_autoload( $class ) {
 	if ( ! str_starts_with( $class, 'SimplePie_' ) )

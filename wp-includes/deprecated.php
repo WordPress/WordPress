@@ -3916,7 +3916,7 @@ function _sort_nav_menu_items( $a, $b ) {
  *
  * @since 2.6.0
  * @deprecated 4.9.0
- *
+ * @return string
  */
 function get_shortcut_link() {
 	_deprecated_function( __FUNCTION__, '4.9.0' );
