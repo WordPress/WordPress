@@ -28,6 +28,16 @@
  */
 class Text_Diff_Engine_native {
 
+    public $xchanged;
+    public $ychanged;
+    public $xv;
+    public $yv;
+    public $xind;
+    public $yind;
+    public $seq;
+    public $in_seq;
+    public $lcs;
+
     function diff($from_lines, $to_lines)
     {
         array_walk($from_lines, array('Text_Diff', 'trimNewlines'));
