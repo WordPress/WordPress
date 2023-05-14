@@ -14,11 +14,12 @@
  * Retrieves the author of the current post.
  *
  * @since 1.5.0
+ * @since 6.3.0 Returns an empty string if the author's display name is unknown.
  *
  * @global WP_User $authordata The current author's data.
  *
  * @param string $deprecated Deprecated.
- * @return string|null The author's display name.
+ * @return string The author's display name, empty string if unknown.
  */
 function get_the_author( $deprecated = '' ) {
 	global $authordata;
@@ -32,9 +33,9 @@ function get_the_author( $deprecated = '' ) {
 	 *
 	 * @since 2.9.0
 	 *
-	 * @param string|null $display_name The author's display name.
+	 * @param string $display_name The author's display name.
 	 */
-	return apply_filters( 'the_author', is_object( $authordata ) ? $authordata->display_name : null );
+	return apply_filters( 'the_author', is_object( $authordata ) ? $authordata->display_name : '' );
 }
 
 /**
@@ -55,7 +56,7 @@ function get_the_author( $deprecated = '' ) {
  *
  * @param string $deprecated      Deprecated.
  * @param bool   $deprecated_echo Deprecated. Use get_the_author(). Echo the string or return it.
- * @return string|null The author's display name, from get_the_author().
+ * @return string The author's display name, from get_the_author().
  */
 function the_author( $deprecated = '', $deprecated_echo = true ) {
 	if ( ! empty( $deprecated ) ) {
@@ -219,15 +220,15 @@ function the_author_meta( $field = '', $user_id = false ) {
 /**
  * Retrieves either author's link or author's name.
  *
- * If the author has a home page set, return an HTML link, otherwise just return the
- * author's name.
+ * If the author has a home page set, return an HTML link, otherwise just return
+ * the author's name.
  *
  * @since 3.0.0
  *
  * @global WP_User $authordata The current author's data.
  *
- * @return string|null An HTML link if the author's url exist in user meta,
- *                     else the result of get_the_author().
+ * @return string An HTML link if the author's URL exists in user meta,
+ *                otherwise the result of get_the_author().
  */
 function get_the_author_link() {
 	if ( get_the_author_meta( 'url' ) ) {
@@ -307,10 +308,11 @@ function the_author_posts() {
  *
  * @global WP_User $authordata The current author's data.
  *
- * @return string An HTML link to the author page, or an empty string if $authordata isn't defined.
+ * @return string An HTML link to the author page, or an empty string if $authordata is not set.
  */
 function get_the_author_posts_link() {
 	global $authordata;
+
 	if ( ! is_object( $authordata ) ) {
 		return '';
 	}
