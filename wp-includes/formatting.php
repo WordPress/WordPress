@@ -2434,6 +2434,29 @@ function sanitize_html_class( $classname, $fallback = '' ) {
 }
 
 /**
+ * Strips out all characters not allowed in a locale name.
+ *
+ * @since 6.2.1
+ *
+ * @param string $locale_name The locale name to be sanitized.
+ * @return string The sanitized value.
+ */
+function sanitize_locale_name( $locale_name ) {
+	// Limit to A-Z, a-z, 0-9, '_', '-'.
+	$sanitized = preg_replace( '/[^A-Za-z0-9_-]/', '', $locale_name );
+
+	/**
+	 * Filters a sanitized locale name string.
+	 *
+	 * @since 6.2.1
+	 *
+	 * @param string $sanitized   The sanitized locale name.
+	 * @param string $locale_name The locale name before sanitization.
+	 */
+	return apply_filters( 'sanitize_locale_name', $sanitized, $locale_name );
+}
+
+/**
  * Converts lone & characters into `&#038;` (a.k.a. `&amp;`)
  *
  * @since 0.71
