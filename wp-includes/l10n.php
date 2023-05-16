@@ -149,9 +149,9 @@ function determine_locale() {
 	$wp_lang = '';
 
 	if ( ! empty( $_GET['wp_lang'] ) ) {
-		$wp_lang = sanitize_text_field( $_GET['wp_lang'] );
+		$wp_lang = sanitize_locale_name( wp_unslash( $_GET['wp_lang'] ) );
 	} elseif ( ! empty( $_COOKIE['wp_lang'] ) ) {
-		$wp_lang = sanitize_text_field( $_COOKIE['wp_lang'] );
+		$wp_lang = sanitize_locale_name( wp_unslash( $_COOKIE['wp_lang'] ) );
 	}
 
 	if ( ! empty( $wp_lang ) && ! empty( $GLOBALS['pagenow'] ) && 'wp-login.php' === $GLOBALS['pagenow'] ) {
