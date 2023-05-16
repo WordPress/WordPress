@@ -2192,6 +2192,8 @@ function wp_delete_category( $cat_id ) {
  * @since 4.4.0 Introduced `$meta_query` and `$update_term_meta_cache` arguments. When `$fields` is 'all' or
  *              'all_with_object_id', an array of `WP_Term` objects will be returned.
  * @since 4.7.0 Refactored to use WP_Term_Query, and to support any WP_Term_Query arguments.
+ * @since 6.3.0 Passing `update_term_meta_cache` argument value false by default resulting in get_terms() to not
+ *              prime the term meta cache.
  *
  * @param int|int[]       $object_ids The ID(s) of the object(s) to retrieve.
  * @param string|string[] $taxonomies The taxonomy names to retrieve terms from.
@@ -2220,7 +2222,11 @@ function wp_get_object_terms( $object_ids, $taxonomies, $args = array() ) {
 	}
 	$object_ids = array_map( 'intval', $object_ids );
 
-	$args = wp_parse_args( $args );
+	$defaults = array(
+		'update_term_meta_cache' => false,
+	);
+
+	$args = wp_parse_args( $args, $defaults );
 
 	/**
 	 * Filters arguments for retrieving object terms.
