@@ -123,7 +123,8 @@ class WP_Style_Engine_CSS_Rules_Store {
 	 * @since 6.1.0
 	 *
 	 * @param string $selector The CSS selector.
-	 * @return WP_Style_Engine_CSS_Rule|void Returns a WP_Style_Engine_CSS_Rule object, or void if the selector is empty.
+	 * @return WP_Style_Engine_CSS_Rule|void Returns a WP_Style_Engine_CSS_Rule object,
+	 *                                       or void if the selector is empty.
 	 */
 	public function add_rule( $selector ) {
 		$selector = trim( $selector );
