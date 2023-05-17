@@ -952,11 +952,12 @@ function get_block_templates( $query = array(), $template_type = 'wp_template' )
 
 	$post_type     = isset( $query['post_type'] ) ? $query['post_type'] : '';
 	$wp_query_args = array(
-		'post_status'    => array( 'auto-draft', 'draft', 'publish' ),
-		'post_type'      => $template_type,
-		'posts_per_page' => -1,
-		'no_found_rows'  => true,
-		'tax_query'      => array(
+		'post_status'         => array( 'auto-draft', 'draft', 'publish' ),
+		'post_type'           => $template_type,
+		'posts_per_page'      => -1,
+		'no_found_rows'       => true,
+		'lazy_load_term_meta' => false,
+		'tax_query'           => array(
 			array(
 				'taxonomy' => 'wp_theme',
 				'field'    => 'name',
