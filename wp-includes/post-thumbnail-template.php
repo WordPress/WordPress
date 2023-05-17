@@ -186,22 +186,6 @@ function get_the_post_thumbnail( $post = null, $size = 'post-thumbnail', $attr =
 			update_post_thumbnail_cache();
 		}
 
-		// Add `loading` attribute.
-		if ( wp_lazy_loading_enabled( 'img', 'the_post_thumbnail' ) ) {
-			// Get the 'loading' attribute value to use as default, taking precedence over the default from
-			// `wp_get_attachment_image()`.
-			$loading = wp_get_loading_attr_default( 'the_post_thumbnail' );
-
-			// Add the default to the given attributes unless they already include a 'loading' directive.
-			if ( empty( $attr ) ) {
-				$attr = array( 'loading' => $loading );
-			} elseif ( is_array( $attr ) && ! array_key_exists( 'loading', $attr ) ) {
-				$attr['loading'] = $loading;
-			} elseif ( is_string( $attr ) && ! preg_match( '/(^|&)loading=/', $attr ) ) {
-				$attr .= '&loading=' . $loading;
-			}
-		}
-
 		$html = wp_get_attachment_image( $post_thumbnail_id, $size, false, $attr );
 
 		/**

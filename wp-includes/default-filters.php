@@ -444,9 +444,11 @@ add_action( 'delete_term', '_wp_delete_tax_menu_item', 10, 3 );
 add_action( 'transition_post_status', '_wp_auto_add_pages_to_menu', 10, 3 );
 add_action( 'delete_post', '_wp_delete_customize_changeset_dependent_auto_drafts' );
 
-// Post Thumbnail CSS class filtering.
+// Post Thumbnail specific image filtering.
 add_action( 'begin_fetch_post_thumbnail_html', '_wp_post_thumbnail_class_filter_add' );
 add_action( 'end_fetch_post_thumbnail_html', '_wp_post_thumbnail_class_filter_remove' );
+add_action( 'begin_fetch_post_thumbnail_html', '_wp_post_thumbnail_context_filter_add' );
+add_action( 'end_fetch_post_thumbnail_html', '_wp_post_thumbnail_context_filter_remove' );
 
 // Redirect old slugs.
 add_action( 'template_redirect', 'wp_old_slug_redirect' );

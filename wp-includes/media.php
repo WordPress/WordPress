@@ -1050,9 +1050,18 @@ function wp_get_attachment_image( $attachment_id, $size = 'thumbnail', $icon = f
 			'decoding' => 'async',
 		);
 
+		/**
+		 * Filters the context in which wp_get_attachment_image() is used.
+		 *
+		 * @since 6.3.0
+		 *
+		 * @param string $context The context. Default 'wp_get_attachment_image'.
+		 */
+		$context = apply_filters( 'wp_get_attachment_image_context', 'wp_get_attachment_image' );
+
 		// Add `loading` attribute.
-		if ( wp_lazy_loading_enabled( 'img', 'wp_get_attachment_image' ) ) {
-			$default_attr['loading'] = wp_get_loading_attr_default( 'wp_get_attachment_image' );
+		if ( wp_lazy_loading_enabled( 'img', $context ) ) {
+			$default_attr['loading'] = wp_get_loading_attr_default( $context );
 		}
 
 		$attr = wp_parse_args( $attr, $default_attr );
@@ -2168,6 +2177,47 @@ function _wp_post_thumbnail_class_filter_add( $attr ) {
  */
 function _wp_post_thumbnail_class_filter_remove( $attr ) {
 	remove_filter( 'wp_get_attachment_image_attributes', '_wp_post_thumbnail_class_filter' );
+}
+
+/**
+ * Overrides the context used in {@see wp_get_attachment_image()}. Internal use only.
+ *
+ * Uses the {@see 'begin_fetch_post_thumbnail_html'} and {@see 'end_fetch_post_thumbnail_html'}
+ * action hooks to dynamically add/remove itself so as to only filter post thumbnails.
+ *
+ * @ignore
+ * @since 6.3.0
+ * @access private
+ *
+ * @param string $context The context for rendering an attachment image.
+ * @return string Modified context set to 'the_post_thumbnail'.
+ */
+function _wp_post_thumbnail_context_filter( $context ) {
+	return 'the_post_thumbnail';
+}
+
+/**
+ * Adds the '_wp_post_thumbnail_context_filter' callback to the 'wp_get_attachment_image_context'
+ * filter hook. Internal use only.
+ *
+ * @ignore
+ * @since 6.3.0
+ * @access private
+ */
+function _wp_post_thumbnail_context_filter_add() {
+	add_filter( 'wp_get_attachment_image_context', '_wp_post_thumbnail_context_filter' );
+}
+
+/**
+ * Removes the '_wp_post_thumbnail_context_filter' callback from the 'wp_get_attachment_image_context'
+ * filter hook. Internal use only.
+ *
+ * @ignore
+ * @since 6.3.0
+ * @access private
+ */
+function _wp_post_thumbnail_context_filter_remove() {
+	remove_filter( 'wp_get_attachment_image_context', '_wp_post_thumbnail_context_filter' );
 }
 
 add_shortcode( 'wp_caption', 'img_caption_shortcode' );
