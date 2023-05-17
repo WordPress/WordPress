@@ -606,7 +606,7 @@ final class WP_Style_Engine {
 	 *                                 e.g. 'block-supports' or 'global-styles'. Default 'block-supports'.
 	 *                                 When set, the style engine will attempt to store the CSS rules.
 	 *     @type bool        $optimize Whether to optimize the CSS output, e.g. combine rules.
-	 *                                 Default false.
+	 *                                 Default true.
 	 *     @type bool        $prettify Whether to add new lines and indents to output.
 	 *                                 Defaults to whether the `SCRIPT_DEBUG` constant is defined.
 	 * }
