@@ -2405,7 +2405,7 @@ function wp_common_block_scripts_and_styles() {
 function wp_filter_out_block_nodes( $nodes ) {
 	return array_filter(
 		$nodes,
-		function( $node ) {
+		static function( $node ) {
 			return ! in_array( 'blocks', $node['path'], true );
 		},
 		ARRAY_FILTER_USE_BOTH
@@ -2635,7 +2635,7 @@ function enqueue_block_styles_assets() {
 				if ( wp_should_load_separate_core_block_assets() ) {
 					add_filter(
 						'render_block',
-						function( $html, $block ) use ( $block_name, $style_properties ) {
+						static function( $html, $block ) use ( $block_name, $style_properties ) {
 							if ( $block['blockName'] === $block_name ) {
 								wp_enqueue_style( $style_properties['style_handle'] );
 							}

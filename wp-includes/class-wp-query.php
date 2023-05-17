@@ -4826,7 +4826,7 @@ class WP_Query {
 			 * $value is passed by reference to allow it to be modified.
 			 * array_walk_recursive() does not return an array.
 			 */
-			function ( &$value ) use ( $wpdb, $placeholder ) {
+			static function ( &$value ) use ( $wpdb, $placeholder ) {
 				if ( is_string( $value ) && str_contains( $value, $placeholder ) ) {
 					$value = $wpdb->remove_placeholder_escape( $value );
 				}

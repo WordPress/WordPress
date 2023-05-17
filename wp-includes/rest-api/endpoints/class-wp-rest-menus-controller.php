@@ -534,7 +534,7 @@ class WP_REST_Menus_Controller extends WP_REST_Terms_Controller {
 			),
 			'context'     => array( 'view', 'edit' ),
 			'arg_options' => array(
-				'validate_callback' => function ( $locations, $request, $param ) {
+				'validate_callback' => static function ( $locations, $request, $param ) {
 					$valid = rest_validate_request_arg( $locations, $request, $param );
 
 					if ( true !== $valid ) {
