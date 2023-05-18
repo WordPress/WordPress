@@ -487,7 +487,7 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		$this->skin->footer();
 
-		// Cleanup our hooks, in case something else does a upgrade on this connection.
+		// Cleanup our hooks, in case something else does an upgrade on this connection.
 		remove_filter( 'upgrader_pre_install', array( $this, 'current_before' ) );
 		remove_filter( 'upgrader_post_install', array( $this, 'current_after' ) );
 		remove_filter( 'upgrader_clear_destination', array( $this, 'delete_old_theme' ) );

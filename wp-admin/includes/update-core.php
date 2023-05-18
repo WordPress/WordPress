@@ -1496,7 +1496,10 @@ function update_core( $from, $to ) {
 					$wp_filesystem->mkdir( $dest . $filename, FS_CHMOD_DIR );
 					$_result = copy_dir( $from . $distro . 'wp-content/' . $file, $dest . $filename );
 
-					// If a error occurs partway through this final step, keep the error flowing through, but keep process going.
+					/*
+					 * If an error occurs partway through this final step,
+					 * keep the error flowing through, but keep the process going.
+					 */
 					if ( is_wp_error( $_result ) ) {
 						if ( ! is_wp_error( $result ) ) {
 							$result = new WP_Error();

@@ -398,7 +398,7 @@ class WP_Filesystem_Base {
 	}
 
 	/**
-	 * Converts *nix-style file permissions to a octal number.
+	 * Converts *nix-style file permissions to an octal number.
 	 *
 	 * Converts '-rw-r--r--' to 0644
 	 * From "info at rvgate dot nl"'s comment on the PHP documentation for chmod()
