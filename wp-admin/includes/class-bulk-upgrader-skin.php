@@ -79,13 +79,13 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 	/**
 	 */
 	public function header() {
-		// Nothing, This will be displayed within a iframe.
+		// Nothing. This will be displayed within an iframe.
 	}
 
 	/**
 	 */
 	public function footer() {
-		// Nothing, This will be displayed within a iframe.
+		// Nothing. This will be displayed within an iframe.
 	}
 
 	/**
