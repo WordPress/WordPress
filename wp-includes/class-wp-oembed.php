@@ -514,7 +514,7 @@ class WP_oEmbed {
 	}
 
 	/**
-	 * Connects to a oEmbed provider and returns the result.
+	 * Connects to an oEmbed provider and returns the result.
 	 *
 	 * @since 2.9.0
 	 *

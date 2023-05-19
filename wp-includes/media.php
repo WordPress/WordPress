@@ -3811,6 +3811,7 @@ function is_gd_image( $image ) {
 	if ( $image instanceof GdImage
 		|| is_resource( $image ) && 'gd' === get_resource_type( $image )
 	) {
+
 		return true;
 	}
 
@@ -4861,7 +4862,7 @@ function get_attached_media( $type, $post = 0 ) {
 }
 
 /**
- * Checks the HTML content for a audio, video, object, embed, or iframe tags.
+ * Checks the HTML content for an audio, video, object, embed, or iframe tags.
  *
  * @since 3.6.0
  *

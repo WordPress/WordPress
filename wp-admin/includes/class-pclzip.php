@@ -632,9 +632,9 @@
   //                newer_exist : the file was not extracted because a newer file exists
   //                path_creation_fail : the file is not extracted because the folder
   //                                     does not exist and can not be created
-  //                write_error : the file was not extracted because there was a
+  //                write_error : the file was not extracted because there was an
   //                              error while writing the file
-  //                read_error : the file was not extracted because there was a error
+  //                read_error : the file was not extracted because there was an error
   //                             while reading the file
   //                invalid_header : the file was not extracted because of an archive
   //                                 format error (bad file header)

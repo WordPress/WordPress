@@ -1080,7 +1080,7 @@ class WP_Http {
 	 * Determines if a specified string represents an IP address or not.
 	 *
 	 * This function also detects the type of the IP address, returning either
-	 * '4' or '6' to represent a IPv4 and IPv6 address respectively.
+	 * '4' or '6' to represent an IPv4 and IPv6 address respectively.
 	 * This does not verify if the IP is a valid IP, only that it appears to be
 	 * an IP address.
 	 *
@@ -1089,7 +1089,7 @@ class WP_Http {
 	 * @since 3.7.0
 	 *
 	 * @param string $maybe_ip A suspected IP address.
-	 * @return int|false Upon success, '4' or '6' to represent a IPv4 or IPv6 address, false upon failure
+	 * @return int|false Upon success, '4' or '6' to represent an IPv4 or IPv6 address, false upon failure.
 	 */
 	public static function is_ip_address( $maybe_ip ) {
 		if ( preg_match( '/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/', $maybe_ip ) ) {

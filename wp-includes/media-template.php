@@ -8,7 +8,7 @@
  */
 
 /**
- * Outputs the markup for a audio tag to be used in an Underscore template
+ * Outputs the markup for an audio tag to be used in an Underscore template
  * when data.model is passed.
  *
  * @since 3.9.0
