@@ -3804,14 +3804,13 @@ function get_taxonomies_for_attachments( $output = 'names' ) {
  * @since 5.6.0
  *
  * @param resource|GdImage|false $image A value to check the type for.
- * @return bool True if $image is either a GD image resource or GdImage instance,
+ * @return bool True if `$image` is either a GD image resource or a GdImage instance,
  *              false otherwise.
  */
 function is_gd_image( $image ) {
 	if ( $image instanceof GdImage
 		|| is_resource( $image ) && 'gd' === get_resource_type( $image )
 	) {
-
 		return true;
 	}
 
@@ -3819,7 +3818,7 @@ function is_gd_image( $image ) {
 }
 
 /**
- * Creates new GD image resource with transparency support.
+ * Creates a new GD image resource with transparency support.
  *
  * @todo Deprecate if possible.
  *

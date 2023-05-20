@@ -435,7 +435,7 @@
 	 *
 	 * @return {boolean|void} Executes a post request that refreshes the page
 	 *                        when the action is performed.
-	 *                        Returns false if a invalid action is given,
+	 *                        Returns false if an invalid action is given,
 	 *                        or when the action cannot be performed.
 	 */
 	action : function(postid, nonce, action) {
