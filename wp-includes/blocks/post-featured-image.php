@@ -19,6 +19,12 @@ function render_block_core_post_featured_image( $attributes, $content, $block ) 
 	}
 	$post_ID = $block->context['postId'];
 
+	// Check is needed for backward compatibility with third-party plugins
+	// that might rely on the `in_the_loop` check; calling `the_post` sets it to true.
+	if ( ! in_the_loop() && have_posts() ) {
+		the_post();
+	}
+
 	$is_link        = isset( $attributes['isLink'] ) && $attributes['isLink'];
 	$size_slug      = isset( $attributes['sizeSlug'] ) ? $attributes['sizeSlug'] : 'post-thumbnail';
 	$post_title     = trim( strip_tags( get_the_title( $post_ID ) ) );
