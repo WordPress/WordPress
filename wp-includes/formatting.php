@@ -3831,7 +3831,7 @@ function sanitize_email( $email ) {
 /**
  * Determines the difference between two timestamps.
  *
- * The difference is returned in a human readable format such as "1 hour",
+ * The difference is returned in a human-readable format such as "1 hour",
  * "5 mins", "2 days".
  *
  * @since 1.5.0
@@ -3839,7 +3839,7 @@ function sanitize_email( $email ) {
  *
  * @param int $from Unix timestamp from which the difference begins.
  * @param int $to   Optional. Unix timestamp to end the time difference. Default becomes time() if not set.
- * @return string Human readable time difference.
+ * @return string Human-readable time difference.
  */
 function human_time_diff( $from, $to = 0 ) {
 	if ( empty( $to ) ) {
@@ -3900,11 +3900,11 @@ function human_time_diff( $from, $to = 0 ) {
 	}
 
 	/**
-	 * Filters the human readable difference between two timestamps.
+	 * Filters the human-readable difference between two timestamps.
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param string $since The difference in human readable text.
+	 * @param string $since The difference in human-readable text.
 	 * @param int    $diff  The difference in seconds.
 	 * @param int    $from  Unix timestamp from which the difference begins.
 	 * @param int    $to    Unix timestamp to end the time difference.
@@ -3917,7 +3917,7 @@ function human_time_diff( $from, $to = 0 ) {
  *
  * Returns a maximum of 55 words with an ellipsis appended if necessary.
  *
- * The 55 word limit can be modified by plugins/themes using the {@see 'excerpt_length'} filter
+ * The 55-word limit can be modified by plugins/themes using the {@see 'excerpt_length'} filter
  * The ' [&hellip;]' string can be modified by plugins/themes using the {@see 'excerpt_more'} filter
  *
  * @since 1.5.0
@@ -4354,7 +4354,7 @@ function format_for_editor( $text, $default_editor = null ) {
 /**
  * Performs a deep string replace operation to ensure the values in $search are no longer present.
  *
- * Repeats the replacement operation until it no longer replaces anything so as to remove "nested" values
+ * Repeats the replacement operation until it no longer replaces anything to remove "nested" values
  * e.g. $subject = '%0%0%0DDD', $search ='%0D', $result ='' rather than the '%0%0DD' that
  * str_replace would return
  *
@@ -4386,7 +4386,7 @@ function _deep_replace( $search, $subject ) {
  *
  * NOTE: Since 4.8.3, '%' characters will be replaced with a placeholder string,
  * this prevents certain SQLi attacks from taking place. This change in behavior
- * may cause issues for code that expects the return value of esc_sql() to be useable
+ * may cause issues for code that expects the return value of esc_sql() to be usable
  * for other purposes.
  *
  * @since 2.8.0
@@ -5155,7 +5155,7 @@ function wp_pre_kses_block_attributes( $content, $allowed_html, $allowed_protoco
 }
 
 /**
- * WordPress implementation of PHP sprintf() with filters.
+ * WordPress' implementation of PHP sprintf() with filters.
  *
  * @since 2.5.0
  * @since 5.3.0 Formalized the existing and already documented `...$args` parameter
@@ -5333,8 +5333,8 @@ function wp_html_excerpt( $str, $count, $more = null ) {
 /**
  * Adds a base URL to relative links in passed content.
  *
- * By default it supports the 'src' and 'href' attributes. However this can be
- * changed via the 3rd param.
+ * By default, this function supports the 'src' and 'href' attributes.
+ * However, this can be modified via the `$attrs` parameter.
  *
  * @since 2.7.0
  *
@@ -5377,8 +5377,8 @@ function _links_add_base( $m ) {
 /**
  * Adds a target attribute to all links in passed content.
  *
- * This function by default only applies to `<a>` tags, however this can be
- * modified by the `$tags` parameter.
+ * By default, this function only applies to `<a>` tags.
+ * However, this can be modified via the `$tags` parameter.
  *
  * *NOTE:* Any current target attribute will be stripped and replaced.
  *
