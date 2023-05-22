@@ -5490,30 +5490,52 @@ function wp_get_webp_info( $filename ) {
  *
  * @since 5.9.0
  *
+ * @global WP_Query $wp_query WordPress Query object.
+ *
  * @param string $context Context for the element for which the `loading` attribute value is requested.
  * @return string|bool The default `loading` attribute value. Either 'lazy', 'eager', or a boolean `false`, to indicate
  *                     that the `loading` attribute should be skipped.
  */
 function wp_get_loading_attr_default( $context ) {
+	global $wp_query;
+
 	// Skip lazy-loading for the overall block template, as it is handled more granularly.
 	if ( 'template' === $context ) {
 		return false;
 	}
 
 	// Do not lazy-load images in the header block template part, as they are likely above the fold.
+	// For classic themes, this is handled in the condition below using the 'get_header' action.
 	$header_area = WP_TEMPLATE_PART_AREA_HEADER;
 	if ( "template_part_{$header_area}" === $context ) {
 		return false;
 	}
 
-	/*
-	 * Skip programmatically created images within post content as they need to be handled together with the other
-	 * images within the post content.
-	 * Without this clause, they would already be counted below which skews the number and can result in the first
-	 * post content image being lazy-loaded only because there are images elsewhere in the post content.
-	 */
-	if ( ( 'the_post_thumbnail' === $context || 'wp_get_attachment_image' === $context ) && doing_filter( 'the_content' ) ) {
-		return false;
+	// Special handling for programmatically created image tags.
+	if ( ( 'the_post_thumbnail' === $context || 'wp_get_attachment_image' === $context ) ) {
+		/*
+		 * Skip programmatically created images within post content as they need to be handled together with the other
+		 * images within the post content.
+		 * Without this clause, they would already be counted below which skews the number and can result in the first
+		 * post content image being lazy-loaded only because there are images elsewhere in the post content.
+		 */
+		if ( doing_filter( 'the_content' ) ) {
+			return false;
+		}
+
+		// Conditionally skip lazy-loading on images before the loop.
+		if (
+			// Only apply for main query but before the loop.
+			$wp_query->before_loop && $wp_query->is_main_query()
+			/*
+			 * Any image before the loop, but after the header has started should not be lazy-loaded,
+			 * except when the footer has already started which can happen when the current template
+			 * does not include any loop.
+			 */
+			&& did_action( 'get_header' ) && ! did_action( 'get_footer' )
+		) {
+			return false;
+		}
 	}
 
 	/*

@@ -109,6 +109,14 @@ class WP_Query {
 	public $current_post = -1;
 
 	/**
+	 * Whether the caller is before the loop.
+	 *
+	 * @since 6.3.0
+	 * @var bool
+	 */
+	public $before_loop = true;
+
+	/**
 	 * Whether the loop has started and the caller is in the loop.
 	 *
 	 * @since 2.0.0
@@ -517,6 +525,7 @@ class WP_Query {
 		$this->post_count   = 0;
 		$this->current_post = -1;
 		$this->in_the_loop  = false;
+		$this->before_loop  = true;
 		unset( $this->request );
 		unset( $this->post );
 		unset( $this->comments );
@@ -3631,6 +3640,7 @@ class WP_Query {
 		}
 
 		$this->in_the_loop = true;
+		$this->before_loop = false;
 
 		if ( -1 == $this->current_post ) { // Loop has just started.
 			/**
@@ -3671,6 +3681,8 @@ class WP_Query {
 			// Do some cleaning up after the loop.
 			$this->rewind_posts();
 		} elseif ( 0 === $this->post_count ) {
+			$this->before_loop = false;
+
 			/**
 			 * Fires if no results are found in a post query.
 			 *
