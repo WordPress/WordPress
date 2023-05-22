@@ -6031,7 +6031,7 @@ function get_pages( $args = array() ) {
 					}
 					$post_author = $post_author->ID;
 				}
-				$query_args['author__in'][] = $post_author;
+				$query_args['author__in'][] = (int) $post_author;
 			}
 		}
 	}
@@ -6059,6 +6059,16 @@ function get_pages( $args = array() ) {
 	if ( ! empty( $number ) ) {
 		$query_args['posts_per_page'] = $number;
 	}
+
+	/**
+	 * Filters query arguments passed to WP_Query in get_pages.
+	 *
+	 * @since 6.3.0
+	 *
+	 * @param array $query_args  Array of arguments passed to WP_Query.
+	 * @param array $parsed_args Array of get_pages() arguments.
+	 */
+	$query_args = apply_filters( 'get_pages_query_args', $query_args, $parsed_args );
 
 	$query = new WP_Query( $query_args );
 	$pages = $query->get_posts();
