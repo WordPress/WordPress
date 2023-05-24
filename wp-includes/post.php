@@ -3591,10 +3591,12 @@ function wp_trash_post( $post_id = 0 ) {
 	 * Fires before a post is sent to the Trash.
 	 *
 	 * @since 3.3.0
+	 * @since 6.3.0 Added the `$post` parameter.
 	 *
 	 * @param int $post_id Post ID.
+	 * @param WP_Post $post   Post object.
 	 */
-	do_action( 'wp_trash_post', $post_id );
+	do_action( 'wp_trash_post', $post_id, $post );
 
 	add_post_meta( $post_id, '_wp_trash_meta_status', $post->post_status );
 	add_post_meta( $post_id, '_wp_trash_meta_time', time() );
