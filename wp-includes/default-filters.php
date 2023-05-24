@@ -571,6 +571,20 @@ add_action( 'admin_enqueue_scripts', 'wp_localize_jquery_ui_datepicker', 1000 );
 add_action( 'admin_enqueue_scripts', 'wp_common_block_scripts_and_styles' );
 add_action( 'enqueue_block_assets', 'wp_enqueue_registered_block_scripts_and_styles' );
 add_action( 'enqueue_block_assets', 'enqueue_block_styles_assets', 30 );
+/*
+ * `wp_enqueue_registered_block_scripts_and_styles` is bound to both
+ * `enqueue_block_editor_assets` and `enqueue_block_assets` hooks
+ * since the introduction of the block editor in WordPress 5.0.
+ *
+ * The way this works is that the block assets are loaded before any other assets.
+ * For example, this is the order of styles for the editor:
+ *
+ * - front styles registered for blocks, via `styles` handle (block.json)
+ * - editor styles registered for blocks, via `editorStyles` handle (block.json)
+ * - editor styles enqueued via `enqueue_block_editor_assets` hook
+ * - front styles enqueued via `enqueue_block_assets` hook
+ */
+add_action( 'enqueue_block_editor_assets', 'wp_enqueue_registered_block_scripts_and_styles' );
 add_action( 'enqueue_block_editor_assets', 'enqueue_editor_block_styles_assets' );
 add_action( 'enqueue_block_editor_assets', 'wp_enqueue_editor_block_directory_assets' );
 add_action( 'enqueue_block_editor_assets', 'wp_enqueue_editor_format_library_assets' );
