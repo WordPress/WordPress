@@ -226,7 +226,8 @@
 	 */
 	scaleChanged : function( postid, x, el ) {
 		var w = $('#imgedit-scale-width-' + postid), h = $('#imgedit-scale-height-' + postid),
-		warn = $('#imgedit-scale-warn-' + postid), w1 = '', h1 = '';
+		warn = $('#imgedit-scale-warn-' + postid), w1 = '', h1 = '',
+		scaleBtn = $('#imgedit-scale-button');
 
 		if ( false === this.validateNumeric( el ) ) {
 			return;
@@ -242,8 +243,10 @@
 
 		if ( ( h1 && h1 > this.hold.oh ) || ( w1 && w1 > this.hold.ow ) ) {
 			warn.css('visibility', 'visible');
+			scaleBtn.prop('disabled', true);
 		} else {
 			warn.css('visibility', 'hidden');
+			scaleBtn.prop('disabled', false);
 		}
 	},
 

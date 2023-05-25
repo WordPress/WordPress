@@ -143,7 +143,7 @@ function wp_image_editor( $post_id, $msg = false ) {
 			_e( 'scale width' );
 			?>
 		</label>
-		<input type="text" id="imgedit-scale-width-<?php echo $post_id; ?>" onkeyup="imageEdit.scaleChanged(<?php echo $post_id; ?>, 1, this)" onblur="imageEdit.scaleChanged(<?php echo $post_id; ?>, 1, this)" value="<?php echo isset( $meta['width'] ) ? $meta['width'] : 0; ?>" />
+		<input type="number" aria-describedby="imgedit-scale-warn-<?php echo $post_id; ?>" min="1" max="<?php echo isset( $meta['width'] ) ? $meta['width'] : ''; ?>" step="1" id="imgedit-scale-width-<?php echo $post_id; ?>" onkeyup="imageEdit.scaleChanged(<?php echo $post_id; ?>, 1, this)" onchange="imageEdit.scaleChanged(<?php echo $post_id; ?>, 0, this)" onblur="imageEdit.scaleChanged(<?php echo $post_id; ?>, 1, this)" value="<?php echo isset( $meta['width'] ) ? $meta['width'] : 0; ?>" />
 		<span class="imgedit-separator" aria-hidden="true">&times;</span>
 		<label for="imgedit-scale-height-<?php echo $post_id; ?>" class="screen-reader-text">
 			<?php
@@ -151,10 +151,11 @@ function wp_image_editor( $post_id, $msg = false ) {
 			_e( 'scale height' );
 			?>
 		</label>
-		<input type="text" id="imgedit-scale-height-<?php echo $post_id; ?>" onkeyup="imageEdit.scaleChanged(<?php echo $post_id; ?>, 0, this)" onblur="imageEdit.scaleChanged(<?php echo $post_id; ?>, 0, this)" value="<?php echo isset( $meta['height'] ) ? $meta['height'] : 0; ?>" />
-		<span class="imgedit-scale-warn" id="imgedit-scale-warn-<?php echo $post_id; ?>">!</span>
+		<input type="number" aria-describedby="imgedit-scale-warn-<?php echo $post_id; ?>" min="1" max="<?php echo isset( $meta['height'] ) ? $meta['height'] : ''; ?>" step="1" id="imgedit-scale-height-<?php echo $post_id; ?>" onkeyup="imageEdit.scaleChanged(<?php echo $post_id; ?>, 0, this)" onchange="imageEdit.scaleChanged(<?php echo $post_id; ?>, 0, this)" onblur="imageEdit.scaleChanged(<?php echo $post_id; ?>, 0, this)" value="<?php echo isset( $meta['height'] ) ? $meta['height'] : 0; ?>" />
 		<div class="imgedit-scale-button-wrapper"><input id="imgedit-scale-button" type="button" onclick="imageEdit.action(<?php echo "$post_id, '$nonce'"; ?>, 'scale')" class="button button-primary" value="<?php esc_attr_e( 'Scale' ); ?>" /></div>
 		</div>
+		<span class="imgedit-scale-warn" id="imgedit-scale-warn-<?php echo $post_id; ?>"><span class="dashicons dashicons-warning" aria-hidden="true"></span><?php esc_html_e( 'Images cannot be scaled to a size larger than the original.' ); ?></span>
+
 		</fieldset>
 
 		</div>
@@ -893,23 +894,30 @@ function wp_save_image( $post_id ) {
 	$target  = ! empty( $_REQUEST['target'] ) ? preg_replace( '/[^a-z0-9_-]+/i', '', $_REQUEST['target'] ) : '';
 	$scale   = ! empty( $_REQUEST['do'] ) && 'scale' === $_REQUEST['do'];
 
-	if ( $scale && $fwidth > 0 && $fheight > 0 ) {
+	if ( $scale ) {
 		$size = $img->get_size();
 		$sX   = $size['width'];
 		$sY   = $size['height'];
 
-		// Check if it has roughly the same w / h ratio.
-		$diff = round( $sX / $sY, 2 ) - round( $fwidth / $fheight, 2 );
-		if ( -0.1 < $diff && $diff < 0.1 ) {
-			// Scale the full size image.
-			if ( $img->resize( $fwidth, $fheight ) ) {
-				$scaled = true;
-			}
+		if ( $sX < $fwidth || $sY < $fheight ) {
+			$return->error = esc_js( __( 'Images cannot be scaled to a size larger than the original.' ) );
+			return $return;
 		}
 
-		if ( ! $scaled ) {
-			$return->error = esc_js( __( 'Error while saving the scaled image. Please reload the page and try again.' ) );
-			return $return;
+		if ( $fwidth > 0 && $fheight > 0 ) {
+			// Check if it has roughly the same w / h ratio.
+			$diff = round( $sX / $sY, 2 ) - round( $fwidth / $fheight, 2 );
+			if ( -0.1 < $diff && $diff < 0.1 ) {
+				// Scale the full size image.
+				if ( $img->resize( $fwidth, $fheight ) ) {
+					$scaled = true;
+				}
+			}
+
+			if ( ! $scaled ) {
+				$return->error = esc_js( __( 'Error while saving the scaled image. Please reload the page and try again.' ) );
+				return $return;
+			}
 		}
 	} elseif ( ! empty( $_REQUEST['history'] ) ) {
 		$changes = json_decode( wp_unslash( $_REQUEST['history'] ) );
