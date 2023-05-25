@@ -4891,7 +4891,7 @@ class WP_Query {
 	 * Lazyload comment meta for comments in the loop.
 	 *
 	 * @since 4.4.0
-	 * @deprecated 4.5.0 See wp_queue_comments_for_comment_meta_lazyload().
+	 * @deprecated 4.5.0 See wp_lazyload_comment_meta().
 	 *
 	 * @param mixed $check
 	 * @param int   $comment_id

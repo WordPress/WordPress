@@ -526,30 +526,6 @@ function update_comment_meta( $comment_id, $meta_key, $meta_value, $prev_value =
 }
 
 /**
- * Queues comments for metadata lazy-loading.
- *
- * @since 4.5.0
- * @since 6.3.0 Use wp_lazyload_comment_meta() for lazy-loading of comment meta.
- *
- * @see wp_lazyload_comment_meta()
- *
- * @param WP_Comment[] $comments Array of comment objects.
- */
-function wp_queue_comments_for_comment_meta_lazyload( $comments ) {
-	// Don't use `wp_list_pluck()` to avoid by-reference manipulation.
-	$comment_ids = array();
-	if ( is_array( $comments ) ) {
-		foreach ( $comments as $comment ) {
-			if ( $comment instanceof WP_Comment ) {
-				$comment_ids[] = $comment->comment_ID;
-			}
-		}
-	}
-
-	wp_lazyload_comment_meta( $comment_ids );
-}
-
-/**
  * Sets the cookies used to store an unauthenticated commentator's identity. Typically used
  * to recall previous comments by this commentator that are still held in moderation.
  *
