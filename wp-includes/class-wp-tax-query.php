@@ -466,13 +466,13 @@ class WP_Tax_Query {
 
 			$where = $wpdb->prepare(
 				"$operator (
-				SELECT 1
-				FROM $wpdb->term_relationships
-				INNER JOIN $wpdb->term_taxonomy
-				ON $wpdb->term_taxonomy.term_taxonomy_id = $wpdb->term_relationships.term_taxonomy_id
-				WHERE $wpdb->term_taxonomy.taxonomy = %s
-				AND $wpdb->term_relationships.object_id = $this->primary_table.$this->primary_id_column
-			)",
+					SELECT 1
+					FROM $wpdb->term_relationships
+					INNER JOIN $wpdb->term_taxonomy
+					ON $wpdb->term_taxonomy.term_taxonomy_id = $wpdb->term_relationships.term_taxonomy_id
+					WHERE $wpdb->term_taxonomy.taxonomy = %s
+					AND $wpdb->term_relationships.object_id = $this->primary_table.$this->primary_id_column
+				)",
 				$clause['taxonomy']
 			);
 

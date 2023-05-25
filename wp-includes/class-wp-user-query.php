@@ -1009,8 +1009,7 @@ class WP_User_Query {
 				FROM $wpdb->posts
 				$where
 				GROUP BY post_author
-			) p ON ({$wpdb->users}.ID = p.post_author)
-			";
+			) p ON ({$wpdb->users}.ID = p.post_author)";
 			$_orderby          = 'post_count';
 		} elseif ( 'ID' === $orderby || 'id' === $orderby ) {
 			$_orderby = 'ID';

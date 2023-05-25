@@ -2298,16 +2298,16 @@ function get_calendar( $initial = true, $display = true ) {
 		FROM $wpdb->posts
 		WHERE post_date < '$thisyear-$thismonth-01'
 		AND post_type = 'post' AND post_status = 'publish'
-			ORDER BY post_date DESC
-			LIMIT 1"
+		ORDER BY post_date DESC
+		LIMIT 1"
 	);
 	$next     = $wpdb->get_row(
 		"SELECT MONTH(post_date) AS month, YEAR(post_date) AS year
 		FROM $wpdb->posts
 		WHERE post_date > '$thisyear-$thismonth-{$last_day} 23:59:59'
 		AND post_type = 'post' AND post_status = 'publish'
-			ORDER BY post_date ASC
-			LIMIT 1"
+		ORDER BY post_date ASC
+		LIMIT 1"
 	);
 
 	/* translators: Calendar caption: 1: Month name, 2: 4-digit year. */

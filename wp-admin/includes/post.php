@@ -1010,11 +1010,10 @@ function get_meta_keys() {
 	global $wpdb;
 
 	$keys = $wpdb->get_col(
-		"
-			SELECT meta_key
-			FROM $wpdb->postmeta
-			GROUP BY meta_key
-			ORDER BY meta_key"
+		"SELECT meta_key
+		FROM $wpdb->postmeta
+		GROUP BY meta_key
+		ORDER BY meta_key"
 	);
 
 	return $keys;
