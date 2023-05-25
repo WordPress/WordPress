@@ -1440,6 +1440,8 @@ function utf8_uri_encode( $utf8_string, $length = 0, $encode_ascii_characters = 
  *
  * |   Code   | Glyph | Replacement |                Description                |
  * | -------- | ----- | ----------- | ----------------------------------------- |
+ * | U+018F   | Ə     | E           | Latin capital letter Ə                    |
+ * | U+0259   | ǝ     | e           | Latin small letter ǝ                      |
  * | U+0218   | Ș     | S           | Latin capital letter S with comma below   |
  * | U+0219   | ș     | s           | Latin small letter s with comma below     |
  * | U+021A   | Ț     | T           | Latin capital letter T with comma below   |
@@ -1805,6 +1807,8 @@ function remove_accents( $text, $locale = '' ) {
 			'ž' => 'z',
 			'ſ' => 's',
 			// Decompositions for Latin Extended-B.
+			'Ə' => 'E',
+			'ǝ' => 'e',
 			'Ș' => 'S',
 			'ș' => 's',
 			'Ț' => 'T',
