@@ -132,30 +132,26 @@ function determine_locale() {
 	 */
 	$determined_locale = apply_filters( 'pre_determine_locale', null );
 
-	if ( ! empty( $determined_locale ) && is_string( $determined_locale ) ) {
+	if ( $determined_locale && is_string( $determined_locale ) ) {
 		return $determined_locale;
 	}
 
-	$determined_locale = get_locale();
-
-	if ( is_admin() ) {
+	if (
+		isset( $GLOBALS['pagenow'] ) && 'wp-login.php' === $GLOBALS['pagenow'] &&
+		( ! empty( $_GET['wp_lang'] ) || ! empty( $_COOKIE['wp_lang'] ) )
+	) {
+		if ( ! empty( $_GET['wp_lang'] ) ) {
+			$determined_locale = sanitize_locale_name( $_GET['wp_lang'] );
+		} else {
+			$determined_locale = sanitize_locale_name( $_COOKIE['wp_lang'] );
+		}
+	} else if (
+		( isset( $_GET['_locale'] ) && 'user' === $_GET['_locale'] && wp_is_json_request() ) ||
+		is_admin()
+	) {
 		$determined_locale = get_user_locale();
-	}
-
-	if ( isset( $_GET['_locale'] ) && 'user' === $_GET['_locale'] && wp_is_json_request() ) {
-		$determined_locale = get_user_locale();
-	}
-
-	$wp_lang = '';
-
-	if ( ! empty( $_GET['wp_lang'] ) ) {
-		$wp_lang = sanitize_locale_name( wp_unslash( $_GET['wp_lang'] ) );
-	} elseif ( ! empty( $_COOKIE['wp_lang'] ) ) {
-		$wp_lang = sanitize_locale_name( wp_unslash( $_COOKIE['wp_lang'] ) );
-	}
-
-	if ( ! empty( $wp_lang ) && ! empty( $GLOBALS['pagenow'] ) && 'wp-login.php' === $GLOBALS['pagenow'] ) {
-		$determined_locale = $wp_lang;
+	} else {
+		$determined_locale = get_locale();
 	}
 
 	/**
