@@ -1,16 +1,15 @@
 /**
- * Makes "skip to content" link work correctly in IE9, Chrome, and Opera
- * for better accessibility.
+ * File skip-link-focus-fix.js.
  *
- * @link http://www.nczonline.net/blog/2013/01/15/fixing-skip-to-content-links/
+ * Helps with accessibility for keyboard only users.
+ *
+ * Learn more: https://git.io/vWdr2
  */
 
- ( function() {
-	var isWebkit = navigator.userAgent.toLowerCase().indexOf( 'webkit' ) > -1,
-		isOpera  = navigator.userAgent.toLowerCase().indexOf( 'opera' )  > -1,
-		isIE     = navigator.userAgent.toLowerCase().indexOf( 'msie' )   > -1;
+( function() {
+	var isIe = /(trident|msie)/i.test( navigator.userAgent );
 
-	if ( ( isWebkit || isOpera || isIE ) && document.getElementById && window.addEventListener ) {
+	if ( isIe && document.getElementById && window.addEventListener ) {
 		window.addEventListener( 'hashchange', function() {
 			var id = location.hash.substring( 1 ),
 				element;
