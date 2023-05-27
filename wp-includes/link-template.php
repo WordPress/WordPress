@@ -3024,7 +3024,7 @@ function _navigation_markup( $links, $css_class = 'posts-navigation', $screen_re
 	 */
 	$template = apply_filters( 'navigation_markup_template', $template, $css_class );
 
-	return sprintf( $template, sanitize_html_class( $css_class ), esc_html( $screen_reader_text ), $links, esc_html( $aria_label ) );
+	return sprintf( $template, sanitize_html_class( $css_class ), esc_html( $screen_reader_text ), $links, esc_attr( $aria_label ) );
 }
 
 /**
