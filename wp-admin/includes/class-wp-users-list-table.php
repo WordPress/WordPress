@@ -353,7 +353,7 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * @return string The bulk action required.
 	 */
 	public function current_action() {
-		if ( isset( $_REQUEST['changeit'] ) && ! empty( $_REQUEST['new_role'] ) ) {
+		if ( isset( $_REQUEST['changeit'] ) ) {
 			return 'promote';
 		}
 
