@@ -38,7 +38,7 @@ function wp_get_db_schema( $scope = 'all', $blog_id = null ) {
 
 	$charset_collate = $wpdb->get_charset_collate();
 
-	if ( $blog_id && $blog_id != $wpdb->blogid ) {
+	if ( $blog_id && (int) $blog_id !== $wpdb->blogid ) {
 		$old_blog_id = $wpdb->set_blog_id( $blog_id );
 	}
 
@@ -983,6 +983,8 @@ endif;
 function populate_network( $network_id = 1, $domain = '', $email = '', $site_name = '', $path = '/', $subdomain_install = false ) {
 	global $wpdb, $current_site, $wp_rewrite;
 
+	$network_id = (int) $network_id;
+
 	$errors = new WP_Error();
 	if ( '' === $domain ) {
 		$errors->add( 'empty_domain', __( 'You must provide a domain name.' ) );
@@ -994,11 +996,13 @@ function populate_network( $network_id = 1, $domain = '', $email = '', $site_nam
 	// Check for network collision.
 	$network_exists = false;
 	if ( is_multisite() ) {
-		if ( get_network( (int) $network_id ) ) {
+		if ( get_network( $network_id ) ) {
 			$errors->add( 'siteid_exists', __( 'The network already exists.' ) );
 		}
 	} else {
-		if ( $network_id == $wpdb->get_var( $wpdb->prepare( "SELECT id FROM $wpdb->site WHERE id = %d", $network_id ) ) ) {
+		if ( $network_id === (int) $wpdb->get_var(
+			$wpdb->prepare( "SELECT id FROM $wpdb->site WHERE id = %d", $network_id )
+		) ) {
 			$errors->add( 'siteid_exists', __( 'The network already exists.' ) );
 		}
 	}
@@ -1011,7 +1015,7 @@ function populate_network( $network_id = 1, $domain = '', $email = '', $site_nam
 		return $errors;
 	}
 
-	if ( 1 == $network_id ) {
+	if ( 1 === $network_id ) {
 		$wpdb->insert(
 			$wpdb->site,
 			array(
@@ -1040,7 +1044,17 @@ function populate_network( $network_id = 1, $domain = '', $email = '', $site_nam
 		)
 	);
 
-	$site_user = get_userdata( (int) $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM $wpdb->sitemeta WHERE meta_key = %s AND site_id = %d", 'admin_user_id', $network_id ) ) );
+	$site_user = get_userdata(
+		(int) $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT meta_value
+				FROM $wpdb->sitemeta
+				WHERE meta_key = %s AND site_id = %d",
+				'admin_user_id',
+				$network_id
+			)
+		)
+	);
 
 	/*
 	 * When upgrading from single to multisite, assume the current site will
@@ -1102,7 +1116,7 @@ function populate_network( $network_id = 1, $domain = '', $email = '', $site_nam
 		);
 		if ( is_wp_error( $page ) ) {
 			$errstr = $page->get_error_message();
-		} elseif ( 200 == wp_remote_retrieve_response_code( $page ) ) {
+		} elseif ( 200 === wp_remote_retrieve_response_code( $page ) ) {
 				$vhost_ok = true;
 		}
 
@@ -1168,11 +1182,11 @@ function populate_network_meta( $network_id, array $meta = array() ) {
 	$stylesheet     = get_option( 'stylesheet' );
 	$allowed_themes = array( $stylesheet => true );
 
-	if ( $template != $stylesheet ) {
+	if ( $template !== $stylesheet ) {
 		$allowed_themes[ $template ] = true;
 	}
 
-	if ( WP_DEFAULT_THEME != $stylesheet && WP_DEFAULT_THEME != $template ) {
+	if ( WP_DEFAULT_THEME !== $stylesheet && WP_DEFAULT_THEME !== $template ) {
 		$allowed_themes[ WP_DEFAULT_THEME ] = true;
 	}
 
