@@ -822,10 +822,12 @@ function update_menu_item_cache( $menu_items ) {
 function wp_setup_nav_menu_item( $menu_item ) {
 
 	/**
-	 * Short-circuit the wp_setup_nav_menu_item() output.
+	 * Filters whether to short-circuit the wp_setup_nav_menu_item() output.
 	 *
 	 * Returning a non-null value from the filter will short-circuit wp_setup_nav_menu_item(),
-	 * and return that value.
+	 * returning that value instead.
+	 *
+	 * @since 6.3.0
 	 *
 	 * @param object|null $modified_menu_item Modified menu item. Default null.
 	 * @param object      $menu_item          The menu item to modify.
