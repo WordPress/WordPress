@@ -1044,18 +1044,6 @@ function populate_network( $network_id = 1, $domain = '', $email = '', $site_nam
 		)
 	);
 
-	$site_user = get_userdata(
-		(int) $wpdb->get_var(
-			$wpdb->prepare(
-				"SELECT meta_value
-				FROM $wpdb->sitemeta
-				WHERE meta_key = %s AND site_id = %d",
-				'admin_user_id',
-				$network_id
-			)
-		)
-	);
-
 	/*
 	 * When upgrading from single to multisite, assume the current site will
 	 * become the main site of the network. When using populate_network()
@@ -1079,8 +1067,19 @@ function populate_network( $network_id = 1, $domain = '', $email = '', $site_nam
 			)
 		);
 		$current_site->blog_id = $wpdb->insert_id;
-		update_user_meta( $site_user->ID, 'source_domain', $domain );
-		update_user_meta( $site_user->ID, 'primary_blog', $current_site->blog_id );
+
+		$site_user_id = (int) $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT meta_value
+				FROM $wpdb->sitemeta
+				WHERE meta_key = %s AND site_id = %d",
+				'admin_user_id',
+				$network_id
+			)
+		);
+
+		update_user_meta( $site_user_id, 'source_domain', $domain );
+		update_user_meta( $site_user_id, 'primary_blog', $current_site->blog_id );
 
 		// Unable to use update_network_option() while populating the network.
 		$wpdb->insert(
