@@ -7523,7 +7523,7 @@ function mysql_to_rfc3339( $date_string ) {
  * @since 4.6.0
  *
  * @param string $context Optional. Context in which the function is called. Accepts either 'admin',
- *                        'image', or an arbitrary other context. If an arbitrary context is passed,
+ *                        'image', 'cron', or an arbitrary other context. If an arbitrary context is passed,
  *                        the similarly arbitrary {@see '$context_memory_limit'} filter will be
  *                        invoked. Default 'admin'.
  * @return int|string|false The limit that was set or false on failure.
@@ -7582,6 +7582,21 @@ function wp_raise_memory_limit( $context = 'admin' ) {
 			 *                                   notation, such as '256M'.
 			 */
 			$filtered_limit = apply_filters( 'image_memory_limit', $filtered_limit );
+			break;
+
+		case 'cron':
+			/**
+			 * Filters the memory limit allocated for WP-Cron event processing.
+			 *
+			 * @since 6.3.0
+			 *
+			 * @param int|string $filtered_limit Maximum memory limit to allocate for WP-Cron.
+			 *                                   Default `WP_MAX_MEMORY_LIMIT` or the original
+			 *                                   php.ini `memory_limit`, whichever is higher.
+			 *                                   Accepts an integer (bytes), or a shorthand string
+			 *                                   notation, such as '256M'.
+			 */
+			$filtered_limit = apply_filters( 'cron_memory_limit', $filtered_limit );
 			break;
 
 		default:
