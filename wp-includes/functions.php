@@ -7575,7 +7575,7 @@ function wp_raise_memory_limit( $context = 'admin' ) {
 			 * @since 3.5.0
 			 * @since 4.6.0 The default now takes the original `memory_limit` into account.
 			 *
-			 * @param int|string $filtered_limit Maximum memory limit to allocate for images.
+			 * @param int|string $filtered_limit Maximum memory limit to allocate for image processing.
 			 *                                   Default `WP_MAX_MEMORY_LIMIT` or the original
 			 *                                   php.ini `memory_limit`, whichever is higher.
 			 *                                   Accepts an integer (bytes), or a shorthand string
@@ -7586,7 +7586,7 @@ function wp_raise_memory_limit( $context = 'admin' ) {
 
 		default:
 			/**
-			 * Filters the memory limit allocated for arbitrary contexts.
+			 * Filters the memory limit allocated for an arbitrary context.
 			 *
 			 * The dynamic portion of the hook name, `$context`, refers to an arbitrary
 			 * context passed on calling the function. This allows for plugins to define
@@ -7594,8 +7594,8 @@ function wp_raise_memory_limit( $context = 'admin' ) {
 			 *
 			 * @since 4.6.0
 			 *
-			 * @param int|string $filtered_limit Maximum memory limit to allocate for images.
-			 *                                   Default '256M' or the original php.ini `memory_limit`,
+			 * @param int|string $filtered_limit Maximum memory limit to allocate for this context.
+			 *                                   Default WP_MAX_MEMORY_LIMIT` or the original php.ini `memory_limit`,
 			 *                                   whichever is higher. Accepts an integer (bytes), or a
 			 *                                   shorthand string notation, such as '256M'.
 			 */
