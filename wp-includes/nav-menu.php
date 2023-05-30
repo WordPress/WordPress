@@ -820,6 +820,22 @@ function update_menu_item_cache( $menu_items ) {
  * @return object The menu item with standard menu item properties.
  */
 function wp_setup_nav_menu_item( $menu_item ) {
+
+	/**
+	 * Short-circuit the wp_setup_nav_menu_item() output.
+	 *
+	 * Returning a non-null value from the filter will short-circuit wp_setup_nav_menu_item(),
+	 * and return that value.
+	 *
+	 * @param object|null $modified_menu_item Modified menu item. Default null.
+	 * @param object      $menu_item          The menu item to modify.
+	 */
+	$pre_menu_item = apply_filters( 'pre_wp_setup_nav_menu_item', null, $menu_item );
+
+	if ( null !== $pre_menu_item ) {
+		return $pre_menu_item;
+	}
+
 	if ( isset( $menu_item->post_type ) ) {
 		if ( 'nav_menu_item' === $menu_item->post_type ) {
 			$menu_item->db_id            = (int) $menu_item->ID;
