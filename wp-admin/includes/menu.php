@@ -44,11 +44,13 @@ if ( is_network_admin() ) {
 // Create list of page plugin hook names.
 foreach ( $menu as $menu_page ) {
 	$pos = strpos( $menu_page[2], '?' );
+
 	if ( false !== $pos ) {
 		// Handle post_type=post|page|foo pages.
 		$hook_name = substr( $menu_page[2], 0, $pos );
 		$hook_args = substr( $menu_page[2], $pos + 1 );
 		wp_parse_str( $hook_args, $hook_args );
+
 		// Set the hook name to be the post type.
 		if ( isset( $hook_args['post_type'] ) ) {
 			$hook_name = $hook_args['post_type'];
@@ -59,6 +61,7 @@ foreach ( $menu as $menu_page ) {
 	} else {
 		$hook_name = basename( $menu_page[2], '.php' );
 	}
+
 	$hook_name = sanitize_title( $hook_name );
 
 	if ( isset( $compat[ $hook_name ] ) ) {
@@ -98,17 +101,20 @@ foreach ( $menu as $id => $data ) {
 	if ( empty( $submenu[ $data[2] ] ) ) {
 		continue;
 	}
+
 	$subs       = $submenu[ $data[2] ];
 	$first_sub  = reset( $subs );
 	$old_parent = $data[2];
 	$new_parent = $first_sub[2];
+
 	/*
 	 * If the first submenu is not the same as the assigned parent,
 	 * make the first submenu the new parent.
 	 */
-	if ( $new_parent != $old_parent ) {
+	if ( $new_parent !== $old_parent ) {
 		$_wp_real_parent_file[ $old_parent ] = $new_parent;
-		$menu[ $id ][2]                      = $new_parent;
+
+		$menu[ $id ][2] = $new_parent;
 
 		foreach ( $submenu[ $old_parent ] as $index => $data ) {
 			$submenu[ $new_parent ][ $index ] = $submenu[ $old_parent ][ $index ];
@@ -171,7 +177,8 @@ foreach ( $menu as $id => $data ) {
 	if ( ! empty( $submenu[ $data[2] ] ) && 1 === count( $submenu[ $data[2] ] ) ) {
 		$subs      = $submenu[ $data[2] ];
 		$first_sub = reset( $subs );
-		if ( $data[2] == $first_sub[2] ) {
+
+		if ( $data[2] === $first_sub[2] ) {
 			unset( $submenu[ $data[2] ] );
 		}
 	}
@@ -217,32 +224,36 @@ function add_menu_classes( $menu ) {
 	$first_item  = false;
 	$last_order  = false;
 	$items_count = count( $menu );
-	$i           = 0;
+
+	$i = 0;
 
 	foreach ( $menu as $order => $top ) {
 		$i++;
 
-		if ( 0 == $order ) { // Dashboard is always shown/single.
+		if ( 0 === $order ) { // Dashboard is always shown/single.
 			$menu[0][4] = add_cssclass( 'menu-top-first', $top[4] );
 			$last_order = 0;
 			continue;
 		}
 
 		if ( str_starts_with( $top[2], 'separator' ) && false !== $last_order ) { // If separator.
-			$first_item             = true;
-			$classes                = $menu[ $last_order ][4];
+			$first_item = true;
+			$classes    = $menu[ $last_order ][4];
+
 			$menu[ $last_order ][4] = add_cssclass( 'menu-top-last', $classes );
 			continue;
 		}
 
 		if ( $first_item ) {
-			$classes           = $menu[ $order ][4];
+			$first_item = false;
+			$classes    = $menu[ $order ][4];
+
 			$menu[ $order ][4] = add_cssclass( 'menu-top-first', $classes );
-			$first_item        = false;
 		}
 
 		if ( $i === $items_count ) { // Last item.
-			$classes           = $menu[ $order ][4];
+			$classes = $menu[ $order ][4];
+
 			$menu[ $order ][4] = add_cssclass( 'menu-top-last', $classes );
 		}
 
@@ -272,10 +283,12 @@ uksort( $menu, 'strnatcasecmp' ); // Make it all pretty.
  */
 if ( apply_filters( 'custom_menu_order', false ) ) {
 	$menu_order = array();
+
 	foreach ( $menu as $menu_item ) {
 		$menu_order[] = $menu_item[2];
 	}
 	unset( $menu_item );
+
 	$default_menu_order = $menu_order;
 
 	/**
@@ -290,8 +303,9 @@ if ( apply_filters( 'custom_menu_order', false ) ) {
 	 *
 	 * @param array $menu_order An ordered array of menu items.
 	 */
-	$menu_order         = apply_filters( 'menu_order', $menu_order );
-	$menu_order         = array_flip( $menu_order );
+	$menu_order = apply_filters( 'menu_order', $menu_order );
+	$menu_order = array_flip( $menu_order );
+
 	$default_menu_order = array_flip( $default_menu_order );
 
 	/**
@@ -304,14 +318,16 @@ if ( apply_filters( 'custom_menu_order', false ) ) {
 	 */
 	function sort_menu( $a, $b ) {
 		global $menu_order, $default_menu_order;
+
 		$a = $a[2];
 		$b = $b[2];
+
 		if ( isset( $menu_order[ $a ] ) && ! isset( $menu_order[ $b ] ) ) {
 			return -1;
 		} elseif ( ! isset( $menu_order[ $a ] ) && isset( $menu_order[ $b ] ) ) {
 			return 1;
 		} elseif ( isset( $menu_order[ $a ] ) && isset( $menu_order[ $b ] ) ) {
-			if ( $menu_order[ $a ] == $menu_order[ $b ] ) {
+			if ( $menu_order[ $a ] === $menu_order[ $b ] ) {
 				return 0;
 			}
 			return ( $menu_order[ $a ] < $menu_order[ $b ] ) ? -1 : 1;
