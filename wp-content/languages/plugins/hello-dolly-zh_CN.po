@@ -1,0 +1,32 @@
+# Translation of Plugins - Hello Dolly - Stable (latest release) in Chinese (China)
+# This file is distributed under the same license as the Plugins - Hello Dolly - Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2018-03-20 01:42:43+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: GlotPress/2.4.0-alpha\n"
+"Language: zh_CN\n"
+"Project-Id-Version: Plugins - Hello Dolly - Stable (latest release)\n"
+
+#. Author URI of the plugin
+msgid "https://ma.tt/"
+msgstr "https://ma.tt/"
+
+#. Author of the plugin
+msgid "Matt Mullenweg"
+msgstr "Matt Mullenweg"
+
+#. Description of the plugin
+msgid "This is not just a plugin, it symbolizes the hope and enthusiasm of an entire generation summed up in two words sung most famously by Louis Armstrong: Hello, Dolly. When activated you will randomly see a lyric from <cite>Hello, Dolly</cite> in the upper right of your admin screen on every page."
+msgstr "这不仅仅是一个插件，它象征着一代人的希望和热情，用Louis Armstrong最著名的两个词来概括：Hello, Dolly。当激活时，您会在每个管理页面的右上角随机看到<cite>Hello, Dolly</cite>的歌词。"
+
+#. Plugin URI of the plugin
+msgid "https://wordpress.org/plugins/hello-dolly/"
+msgstr "https://wordpress.org/plugins/hello-dolly/"
+
+#. Plugin Name of the plugin
+msgid "Hello Dolly"
+msgstr "Hello Dolly"
