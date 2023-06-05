@@ -63,7 +63,14 @@ class Custom_Background {
 	 * @since 3.0.0
 	 */
 	public function init() {
-		$page = add_theme_page( __( 'Background' ), __( 'Background' ), 'edit_theme_options', 'custom-background', array( $this, 'admin_page' ) );
+		$page = add_theme_page(
+			_x( 'Background', 'custom background' ),
+			_x( 'Background', 'custom background' ),
+			'edit_theme_options',
+			'custom-background',
+			array( $this, 'admin_page' )
+		);
+
 		if ( ! $page ) {
 			return;
 		}

@@ -1052,7 +1052,7 @@ function wp_admin_bar_appearance_menu( $wp_admin_bar ) {
 			array(
 				'parent' => 'appearance',
 				'id'     => 'background',
-				'title'  => __( 'Background' ),
+				'title'  => _x( 'Background', 'custom background' ),
 				'href'   => admin_url( 'themes.php?page=custom-background' ),
 				'meta'   => array(
 					'class' => 'hide-if-customize',
@@ -1066,7 +1066,7 @@ function wp_admin_bar_appearance_menu( $wp_admin_bar ) {
 			array(
 				'parent' => 'appearance',
 				'id'     => 'header',
-				'title'  => __( 'Header' ),
+				'title'  => _x( 'Header', 'custom image header' ),
 				'href'   => admin_url( 'themes.php?page=custom-header' ),
 				'meta'   => array(
 					'class' => 'hide-if-customize',
