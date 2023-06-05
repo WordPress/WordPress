@@ -1,0 +1,5 @@
+# IntelliJ project files
+.idea
+
+# WordPress project files
+wp-config.php
