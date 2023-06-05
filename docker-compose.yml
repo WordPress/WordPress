@@ -2,6 +2,7 @@ version: '3.1'
 
 services:
   apache:
+    env_file: .env
     image: httpd:${HTTPD_VERSION}
     volumes:
       - ./:/var/www/html
@@ -13,6 +14,7 @@ services:
   wordpress:
     depends_on:
       - db
+    env_file: .env
     image: wordpress:${WORDPRESS_VERSION}
     restart: always
     ports:
@@ -28,6 +30,7 @@ services:
   db:
     image: mysql:${DB_VERSION}
     restart: always
+    env_file: .env
     environment:
       MYSQL_DATABASE: ${DB_DATABASE}
       MYSQL_USER: ${DB_USERNAME}
@@ -40,3 +43,4 @@ services:
 volumes:
   wordpress:
   db:
+  apache:
