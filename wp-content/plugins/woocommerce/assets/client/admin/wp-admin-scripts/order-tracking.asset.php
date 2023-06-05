@@ -1,0 +1,1 @@
+<?php return array('dependencies' => array('wc-customer-effort-score'), 'version' => '17597fc11b9f095ca64d351a36123a46');

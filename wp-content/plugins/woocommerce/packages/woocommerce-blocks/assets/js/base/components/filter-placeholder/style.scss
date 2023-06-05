@@ -1,0 +1,18 @@
+.wc-block-filter-title-placeholder {
+	@include placeholder();
+	border-radius: em(26px);
+	box-shadow: none;
+	min-width: 80px;
+	margin-top: $gap-small;
+	margin-bottom: $gap-small;
+	max-width: max-content !important;
+
+	.wc-block-stock-filter__title,
+	.wc-block-price-filter__title,
+	.wc-block-active-filters__title,
+	.wc-block-attribute-filter__title,
+	.wc-block-rating-filter__title {
+		margin: 0;
+		height: 1em;
+	}
+}

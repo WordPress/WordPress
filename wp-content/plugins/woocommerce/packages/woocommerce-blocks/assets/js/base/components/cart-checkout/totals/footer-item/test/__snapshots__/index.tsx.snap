@@ -1,0 +1,135 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TotalsFooterItem Does not show the "including %s of tax" line if tax is 0 1`] = `
+<div>
+  <div
+    class="wc-block-components-totals-item wc-block-components-totals-footer-item"
+  >
+    <span
+      class="wc-block-components-totals-item__label"
+    >
+      Total
+    </span>
+    <span
+      class="wc-block-formatted-money-amount wc-block-components-formatted-money-amount wc-block-components-totals-item__value"
+    >
+      £85.00
+    </span>
+    <div
+      class="wc-block-components-totals-item__description"
+    />
+  </div>
+</div>
+`;
+
+exports[`TotalsFooterItem Does not show the "including %s of tax" line if tax is disabled 1`] = `
+<div>
+  <div
+    class="wc-block-components-totals-item wc-block-components-totals-footer-item"
+  >
+    <span
+      class="wc-block-components-totals-item__label"
+    >
+      Total
+    </span>
+    <span
+      class="wc-block-formatted-money-amount wc-block-components-formatted-money-amount wc-block-components-totals-item__value"
+    >
+      £85.00
+    </span>
+    <div
+      class="wc-block-components-totals-item__description"
+    />
+  </div>
+</div>
+`;
+
+exports[`TotalsFooterItem Shows the "including %s TAX LABEL" line with single tax label 1`] = `
+<div>
+  <div
+    class="wc-block-components-totals-item wc-block-components-totals-footer-item"
+  >
+    <span
+      class="wc-block-components-totals-item__label"
+    >
+      Total
+    </span>
+    <span
+      class="wc-block-formatted-money-amount wc-block-components-formatted-money-amount wc-block-components-totals-item__value"
+    >
+      £85.00
+    </span>
+    <div
+      class="wc-block-components-totals-item__description"
+    >
+      <p
+        class="wc-block-components-totals-footer-item-tax"
+      >
+        Including £1.00 10% VAT
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`TotalsFooterItem Shows the "including %s TAX LABELS" line with multiple tax labels 1`] = `
+<div>
+  <div
+    class="wc-block-components-totals-item wc-block-components-totals-footer-item"
+  >
+    <span
+      class="wc-block-components-totals-item__label"
+    >
+      Total
+    </span>
+    <span
+      class="wc-block-formatted-money-amount wc-block-components-formatted-money-amount wc-block-components-totals-item__value"
+    >
+      £85.00
+    </span>
+    <div
+      class="wc-block-components-totals-item__description"
+    >
+      <p
+        class="wc-block-components-totals-footer-item-tax"
+      >
+        Including £0.50 10% VAT, £0.50 5% VAT
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`TotalsFooterItem Shows the "including %s of tax" line if tax is greater than 0 1`] = `
+<div>
+  <div
+    class="wc-block-components-totals-item wc-block-components-totals-footer-item"
+  >
+    <span
+      class="wc-block-components-totals-item__label"
+    >
+      Total
+    </span>
+    <span
+      class="wc-block-formatted-money-amount wc-block-components-formatted-money-amount wc-block-components-totals-item__value"
+    >
+      £85.00
+    </span>
+    <div
+      class="wc-block-components-totals-item__description"
+    >
+      <p
+        class="wc-block-components-totals-footer-item-tax"
+      >
+        Including 
+        <span
+          class="wc-block-formatted-money-amount wc-block-components-formatted-money-amount wc-block-components-totals-footer-item-tax-value"
+        >
+          £1.00
+        </span>
+         in taxes
+      </p>
+    </div>
+  </div>
+</div>
+`;

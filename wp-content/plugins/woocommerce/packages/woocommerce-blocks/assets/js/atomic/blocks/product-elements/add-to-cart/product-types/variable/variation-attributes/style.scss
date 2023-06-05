@@ -1,0 +1,33 @@
+.wc-block-components-product-add-to-cart-attribute-picker {
+	margin: 0;
+	flex-basis: 100%;
+
+	label {
+		display: block;
+		@include font-size(regular);
+	}
+
+	.wc-block-components-product-add-to-cart-attribute-picker__container {
+		position: relative;
+	}
+
+	.wc-block-components-product-add-to-cart-attribute-picker__select {
+		margin: 0 0 em($gap-small) 0;
+
+		select {
+			min-width: 60%;
+			min-height: 1.75em;
+		}
+
+		&.has-error {
+			margin-bottom: $gap-large;
+
+			select {
+				border-color: $alert-red;
+				&:focus {
+					outline-color: $alert-red;
+				}
+			}
+		}
+	}
+}

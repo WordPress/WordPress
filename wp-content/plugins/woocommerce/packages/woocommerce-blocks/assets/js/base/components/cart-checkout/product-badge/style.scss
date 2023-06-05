@@ -1,0 +1,10 @@
+.wc-block-components-product-badge {
+	@include font-size(smaller);
+	border-radius: 2px;
+	border: 1px solid;
+	display: inline-block;
+	font-weight: 600;
+	padding: 0 0.66em;
+	text-transform: uppercase;
+	white-space: nowrap;
+}

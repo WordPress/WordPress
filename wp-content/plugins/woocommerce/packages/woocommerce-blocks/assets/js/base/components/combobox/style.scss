@@ -1,0 +1,158 @@
+.wc-block-components-form .wc-block-components-combobox,
+.wc-block-components-combobox {
+	.wc-block-components-combobox-control {
+		@include reset-typography();
+		@include reset-box();
+
+		.components-base-control__field {
+			@include reset-box();
+		}
+		.components-combobox-control__suggestions-container {
+			@include reset-typography();
+			@include reset-box();
+			position: relative;
+		}
+		input.components-combobox-control__input {
+			@include reset-typography();
+			@include font-size(regular);
+
+			box-sizing: border-box;
+			outline: inherit;
+			border: 1px solid $input-border-gray;
+			background: #fff;
+			box-shadow: none;
+			color: $input-text-active;
+			font-family: inherit;
+			font-weight: normal;
+			height: 3em;
+			letter-spacing: inherit;
+			line-height: 1;
+			padding: em($gap-large) $gap em($gap-smallest);
+			text-align: left;
+			text-overflow: ellipsis;
+			text-transform: none;
+			white-space: nowrap;
+			width: 100%;
+			opacity: initial;
+			border-radius: 4px;
+
+			&[aria-expanded="true"],
+			&:focus {
+				background-color: #fff;
+				color: $input-text-active;
+				outline: 0;
+				box-shadow: 0 0 0 1px $input-border-gray;
+			}
+
+			&[aria-expanded="true"] {
+				border-bottom-right-radius: 0;
+				border-bottom-left-radius: 0;
+			}
+
+			.has-dark-controls & {
+				background-color: $input-background-dark;
+				border-color: $input-border-dark;
+				color: $input-text-dark;
+
+				&:focus {
+					background-color: $input-background-dark;
+					color: $input-text-dark;
+					box-shadow: 0 0 0 1px $input-border-dark;
+				}
+			}
+		}
+		.components-form-token-field__suggestions-list {
+			position: absolute;
+			z-index: 10;
+			background-color: $select-dropdown-light;
+			border: 1px solid $input-border-gray;
+			border-top: 0;
+			margin: 3em 0 0 0;
+			padding: 0;
+			max-height: 300px;
+			min-width: 100%;
+			overflow: auto;
+			color: $input-text-active;
+
+			.has-dark-controls & {
+				background-color: $select-dropdown-dark;
+				color: $input-text-dark;
+			}
+
+			.components-form-token-field__suggestion {
+				@include font-size(regular);
+				color: $gray-700;
+				cursor: default;
+				list-style: none;
+				margin: 0;
+				padding: em($gap-smallest) $gap;
+
+				&.is-selected {
+					background-color: $gray-300;
+					.has-dark-controls & {
+						background-color: $select-item-dark;
+					}
+				}
+
+				&:hover,
+				&:focus,
+				&.is-highlighted,
+				&:active {
+					background-color: #00669e;
+					color: #fff;
+
+				}
+			}
+		}
+
+		label.components-base-control__label {
+			@include reset-typography();
+			@include font-size(regular);
+			line-height: 1.375; // =22px when font-size is 16px.
+			position: absolute;
+			transform: translateY(0.75em);
+			transform-origin: top left;
+			transition: all 200ms ease;
+			color: $gray-700;
+			z-index: 1;
+			margin: 0 0 0 #{$gap + 1px};
+			overflow: hidden;
+			text-overflow: ellipsis;
+			max-width: calc(100% - #{2 * $gap});
+			white-space: nowrap;
+
+			.has-dark-controls & {
+				color: $input-placeholder-dark;
+			}
+			@media screen and (prefers-reduced-motion: reduce) {
+				transition: none;
+			}
+		}
+	}
+
+	&.is-active,
+	&:focus-within {
+		.wc-block-components-combobox-control label.components-base-control__label {
+			transform: translateY(#{$gap-smallest}) scale(0.75);
+		}
+	}
+
+	&.has-error {
+		.wc-block-components-combobox-control {
+			label.components-base-control__label {
+				color: $alert-red;
+			}
+			input.components-combobox-control__input {
+				&,
+				&:hover,
+				&:focus,
+				&:active {
+					border-color: $alert-red;
+				}
+				&:focus {
+					box-shadow: 0 0 0 1px $alert-red;
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,15 @@
+{
+	"name": "woocommerce/product-details",
+	"version": "1.0.0",
+	"icon": "info",
+	"title": "Product Details",
+	"description": "A block that allows your customers to see details and reviews about the product.",
+	"category": "woocommerce",
+	"keywords": [ "WooCommerce" ],
+	"supports": {
+		"align": true
+	},
+	"textdomain": "woocommerce",
+	"apiVersion": 2,
+	"$schema": "https://schemas.wp.org/trunk/block.json"
+}

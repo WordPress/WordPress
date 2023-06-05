@@ -1,0 +1,39 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 1,
+	"textdomain": "woocommerce",
+	"name": "woocommerce/all-products",
+	"title": "All Products",
+	"category": "woocommerce",
+	"keywords": [ "WooCommerce" ],
+	"description": "Display products from your store in a grid layout.",
+	"supports": {
+		"align": [ "wide", "full" ],
+		"html": false,
+		"multiple": false
+	},
+	"attributes": {
+		"columns": {
+			"type": "number"
+		},
+		"rows": {
+			"type": "number"
+		},
+		"alignButtons": {
+			"type": "boolean"
+		},
+		"contentVisibility": {
+			"type": "object"
+		},
+		"orderby": {
+			"type": "string"
+		},
+		"layoutConfig": {
+			"type": "array"
+		},
+		"isPreview": {
+			"type": "boolean",
+			"default": false
+		}
+	}
+}

@@ -1,0 +1,23 @@
+{
+	"name": "woocommerce/single-product",
+	"version": "1.0.0",
+	"icon": "info",
+	"title": "Single Product",
+	"description": "Display a single product.",
+	"category": "woocommerce",
+	"keywords": [ "WooCommerce" ],
+	"supports": {},
+	"attributes": {
+		"isPreview": {
+		   "type": "boolean",
+		   "default": false
+		},
+		"productId": {
+		   "type": "number"
+		}
+	 },
+	"usesContext": [ "postId", "postType", "queryId" ],
+	"textdomain": "woocommerce",
+	"apiVersion": 2,
+	"$schema": "https://schemas.wp.org/trunk/block.json"
+}

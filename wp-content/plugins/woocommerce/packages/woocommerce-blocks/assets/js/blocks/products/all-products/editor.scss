@@ -1,0 +1,116 @@
+.wc-block-products {
+	.components-placeholder__instructions {
+		border-bottom: 1px solid #e0e2e6;
+		width: 100%;
+		padding-bottom: 1em;
+		margin-bottom: 2em;
+	}
+	.components-placeholder__label svg {
+		fill: currentColor;
+		margin-right: 1ch;
+	}
+	.components-placeholder__fieldset {
+		display: block; /* Disable flex box */
+	}
+	.wc-block-products__add-product-button {
+		margin: 0 0 1em;
+		vertical-align: middle;
+		height: auto;
+		padding: 0.5em 1em;
+
+		svg {
+			fill: currentColor;
+			margin-left: 0.5ch;
+			vertical-align: middle;
+		}
+	}
+	.wc-block-products__read_more_button {
+		display: block;
+		margin-bottom: 1em;
+	}
+}
+
+// Edit view for product list.
+.wc-block-all-products {
+	.components-placeholder__fieldset {
+		max-width: initial;
+		overflow: hidden;
+	}
+	.wc-block-all-products-grid-item-template {
+		border-top: 1px solid $gray-200;
+		margin-top: 20px;
+		width: 100%;
+		overflow: hidden;
+		text-align: center;
+
+		.components-tip {
+			max-width: 450px;
+			margin: 20px auto;
+			text-align: left;
+
+			p {
+				margin: 1em 0;
+			}
+		}
+
+		.wc-block-all-products__actions {
+			display: flex;
+			margin: 20px auto;
+			padding: 1em 0 0;
+			align-items: center;
+			vertical-align: middle;
+			max-width: 450px;
+			.wc-block-all-products__done-button {
+				margin: 0;
+				order: 3;
+				line-height: 32px;
+				height: auto;
+			}
+			.wc-block-all-products__cancel-button {
+				margin: 0 1em 0 auto;
+				order: 2;
+			}
+			.wc-block-all-products__reset-button {
+				margin: 0;
+				order: 1;
+			}
+		}
+
+		.wc-block-grid__products {
+			margin: 0 auto !important;
+			text-align: center;
+			position: relative;
+			max-width: 450px;
+		}
+		.wc-block-grid__product {
+			padding: 1px 20px;
+			margin: 0 auto;
+			background: #fff;
+			box-shadow: 0 5px 7px -2px rgba(0, 0, 0, 0.2);
+			position: static;
+
+			.wp-block-button__link {
+				margin-top: 0;
+			}
+
+			&::before,
+			&::after {
+				content: "";
+				background: $gray-200;
+				display: block;
+				position: absolute;
+				width: 100%;
+				top: 20px;
+				bottom: 20px;
+			}
+			&::before {
+				right: 100%;
+				margin-right: 30px;
+			}
+			&::after {
+				left: 100%;
+				margin-left: 30px;
+			}
+		}
+	}
+}

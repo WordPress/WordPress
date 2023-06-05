@@ -1,0 +1,15 @@
+.wc-block-components-filter-submit-button {
+	border: none;
+	display: block;
+	margin-left: auto;
+	white-space: nowrap;
+
+	&.is-loading {
+		@include placeholder();
+		margin-top: $gap;
+		width: max-content;
+		box-shadow: none;
+		border-radius: 0;
+		line-height: initial;
+	}
+}

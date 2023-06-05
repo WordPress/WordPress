@@ -1,0 +1,19 @@
+.wc-block-components-validation-error {
+	@include font-size(smaller);
+	color: $alert-red;
+	max-width: 100%;
+	white-space: normal;
+
+	> p {
+		margin: 0;
+		padding: $gap-smallest 0 0 0;
+	}
+}
+
+.has-dark-mode-palette .wc-block-components-validation-error {
+	color: color.adjust($alert-red, $lightness: 30%);
+}
+
+.wc-block-components-select + .wc-block-components-validation-error {
+	margin-bottom: $gap-large;
+}

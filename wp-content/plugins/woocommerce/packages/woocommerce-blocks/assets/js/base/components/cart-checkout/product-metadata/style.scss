@@ -1,0 +1,8 @@
+.wc-block-components-product-metadata {
+	@include font-size(smaller);
+
+	.wc-block-components-product-metadata__description > p,
+	.wc-block-components-product-metadata__variation-data {
+		margin: 0.25em 0;
+	}
+}

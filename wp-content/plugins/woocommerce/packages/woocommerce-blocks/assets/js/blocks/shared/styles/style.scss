@@ -1,0 +1,16 @@
+// Fix related to https://github.com/woocommerce/woocommerce-blocks/issues/7882
+// and similar one, where input overlaps with the wrapper border.
+// Related only to single selection dropdown with already chosen option.
+@mixin includeFormTokenFieldFix {
+	.single-selection {
+		.components-form-token-field__token + input[type="text"].components-form-token-field__input {
+			opacity: 0;
+		}
+
+		.components-form-token-field__input-container.is-active {
+			.components-form-token-field__token + input[type="text"].components-form-token-field__input {
+				opacity: 1;
+			}
+		}
+	}
+}

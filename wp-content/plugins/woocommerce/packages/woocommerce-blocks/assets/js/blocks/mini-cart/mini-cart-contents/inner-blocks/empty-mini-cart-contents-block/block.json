@@ -1,0 +1,28 @@
+{
+	"name": "woocommerce/empty-mini-cart-contents-block",
+	"version": "1.0.0",
+	"title": "Empty Mini Cart view",
+	"description": "Blocks that are displayed when the Mini Cart is empty.",
+	"category": "woocommerce",
+	"supports": {
+		"align": false,
+		"html": false,
+		"multiple": false,
+		"reusable": false,
+		"inserter": false,
+		"lock": false
+	},
+	"attributes": {
+		"lock": {
+			"type": "object",
+			"default": {
+				"remove": true,
+				"move": true
+			}
+		}
+	},
+	"parent": [ "woocommerce/mini-cart-contents" ],
+	"textdomain": "woocommerce",
+	"apiVersion": 2,
+	"$schema": "https://schemas.wp.org/trunk/block.json"
+}

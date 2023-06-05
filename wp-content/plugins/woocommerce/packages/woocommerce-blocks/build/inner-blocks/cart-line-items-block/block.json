@@ -1,0 +1,28 @@
+{
+	"name": "woocommerce/cart-line-items-block",
+	"version": "1.0.0",
+	"title": "Cart Line Items",
+	"description": "Block containing current line items in Cart.",
+	"category": "woocommerce",
+	"supports": {
+		"align": false,
+		"html": false,
+		"multiple": false,
+		"reusable": false,
+		"inserter": false,
+		"lock": false
+	},
+	"attributes": {
+		"lock": {
+			"type": "object",
+			"default": {
+				"remove": true,
+				"move": true
+			}
+		}
+	},
+	"parent": [ "woocommerce/cart-items-block" ],
+	"textdomain": "woocommerce",
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2
+}

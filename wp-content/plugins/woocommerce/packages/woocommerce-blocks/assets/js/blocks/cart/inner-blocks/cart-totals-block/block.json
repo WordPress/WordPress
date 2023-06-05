@@ -1,0 +1,35 @@
+{
+	"name": "woocommerce/cart-totals-block",
+	"version": "1.0.0",
+	"title": "Cart Totals",
+	"description": "Column containing the cart totals.",
+	"category": "woocommerce",
+	"supports": {
+		"align": false,
+		"html": false,
+		"multiple": false,
+		"reusable": false,
+		"inserter": false,
+		"lock": false
+	},
+	"attributes": {
+		"checkbox": {
+			"type": "boolean",
+			"default": false
+		},
+		"text": {
+			"type": "string",
+			"required": false
+		},
+		"lock": {
+			"type": "object",
+			"default": {
+				"remove": true
+			}
+		}
+	},
+	"parent": [ "woocommerce/filled-cart-block" ],
+	"textdomain": "woocommerce",
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2
+}

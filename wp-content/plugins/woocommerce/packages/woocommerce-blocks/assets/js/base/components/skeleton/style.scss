@@ -1,0 +1,19 @@
+.wc-block-components-skeleton {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	width: 100%;
+
+}
+
+.wc-block-components-skeleton-text-line {
+	height: 0.8em;
+	width: 100%;
+	position: relative;
+	background: $gray-200;
+	border-radius: 2em;
+
+	&:last-child {
+		width: 80%;
+	}
+}

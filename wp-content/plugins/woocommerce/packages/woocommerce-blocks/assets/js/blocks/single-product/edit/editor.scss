@@ -1,0 +1,14 @@
+.wc-block-editor-single-product__selection {
+	width: 100%;
+}
+.wc-block-editor-single-product__reset-layout {
+	padding: 0;
+}
+.wc-block-single-product__edit-card {
+	padding: 16px;
+	border-top: 1px solid $gray-200;
+
+	.wc-block-single-product__edit-card-title {
+		margin: 0 0 $gap;
+	}
+}

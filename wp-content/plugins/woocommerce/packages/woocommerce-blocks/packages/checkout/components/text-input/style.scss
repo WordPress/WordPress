@@ -1,0 +1,132 @@
+.wc-block-components-form .wc-block-components-text-input,
+.wc-block-components-text-input {
+	position: relative;
+	margin-top: em($gap-large);
+	white-space: nowrap;
+
+	label {
+		@include reset-typography();
+		@include font-size(regular);
+		position: absolute;
+		transform: translateY(0.75em);
+		left: 0;
+		top: 0;
+		transform-origin: top left;
+		line-height: 1.375; // =22px when font-size is 16px.
+		color: $gray-700;
+		transition: transform 200ms ease;
+		margin: 0 0 0 #{$gap + 1px};
+		overflow: hidden;
+		text-overflow: ellipsis;
+		max-width: calc(100% - #{2 * $gap});
+		cursor: text;
+
+		.has-dark-controls & {
+			color: $input-placeholder-dark;
+		}
+		@media screen and (prefers-reduced-motion: reduce) {
+			transition: none;
+		}
+	}
+
+	input:-webkit-autofill + label {
+		transform: translateY(#{$gap-smallest}) scale(0.75);
+	}
+
+	&.is-active label {
+		transform: translateY(#{$gap-smallest}) scale(0.75);
+	}
+
+	input[type="tel"],
+	input[type="url"],
+	input[type="text"],
+	input[type="number"],
+	input[type="email"] {
+		@include font-size(regular);
+		background-color: #fff;
+		padding: em($gap-small) 0;
+		text-indent: $gap;
+		border-radius: 4px;
+		border: 1px solid $input-border-gray;
+		width: 100%;
+		line-height: 1.375; // =22px when font-size is 16px.
+		font-family: inherit;
+		margin: 0;
+		box-sizing: border-box;
+		height: 3em;
+		min-height: 0;
+		color: $input-text-active;
+
+		&:focus {
+			background-color: #fff;
+			color: $input-text-active;
+			outline: 0;
+			box-shadow: 0 0 0 1px $input-border-gray;
+		}
+
+		.has-dark-controls & {
+			background-color: $input-background-dark;
+			border-color: $input-border-dark;
+			color: $input-text-dark;
+
+			&:focus {
+				background-color: $input-background-dark;
+				color: $input-text-dark;
+				box-shadow: 0 0 0 1px $input-border-dark;
+			}
+		}
+	}
+
+	input[type="number"] {
+		-moz-appearance: textfield;
+
+		&::-webkit-outer-spin-button,
+		&::-webkit-inner-spin-button {
+			appearance: none;
+			margin: 0;
+		}
+	}
+
+	&.is-active input[type="tel"],
+	&.is-active input[type="url"],
+	&.is-active input[type="text"],
+	&.is-active input[type="number"],
+	&.is-active input[type="email"] {
+		padding: em($gap-large) 0 em($gap-smallest);
+	}
+
+	&.has-error input {
+		&,
+		&:hover,
+		&:focus,
+		&:active {
+			border-color: $alert-red;
+		}
+		&:focus {
+			box-shadow: 0 0 0 1px $alert-red;
+		}
+
+		.has-dark-controls &,
+		.has-dark-controls &:hover,
+		.has-dark-controls &:focus,
+		.has-dark-controls &:active {
+			border-color: color.adjust($alert-red, $lightness: 30%);
+		}
+
+		.has-dark-controls &:focus {
+			box-shadow: 0 0 0 1px color.adjust($alert-red, $lightness: 30%);
+		}
+	}
+
+	&.has-error label {
+		color: $alert-red;
+
+		.has-dark-controls & {
+			color: color.adjust($alert-red, $lightness: 30%);
+		}
+	}
+
+	&:only-child {
+		margin-top: 1.5em;
+	}
+}

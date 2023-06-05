@@ -1,0 +1,58 @@
+{
+	"name": "woocommerce/attribute-filter",
+	"version": "1.0.0",
+	"title": "Filter by Attribute Controls",
+	"description": "Enable customers to filter the product grid by selecting one or more attributes, such as color.",
+	"category": "woocommerce",
+	"keywords": [ "WooCommerce" ],
+	"supports": {
+		"html": false,
+		"color": {
+			"text": true,
+			"background": false
+		},
+		"inserter": false,
+		"lock": false
+	},
+	"attributes": {
+		"className": {
+			"type": "string",
+			"default": ""
+		},
+		"attributeId": {
+			"type": "number",
+			"default": 0
+		},
+		"showCounts": {
+			"type": "boolean",
+			"default": true
+		},
+		"queryType": {
+			"type": "string",
+			"default": "or"
+		},
+		"headingLevel": {
+			"type": "number",
+			"default": 3
+		},
+		"displayStyle": {
+			"type": "string",
+			"default": "list"
+		},
+		"showFilterButton": {
+			"type": "boolean",
+			"default": false
+		},
+		"selectType": {
+			"type": "string",
+			"default": "multiple"
+		},
+		"isPreview": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"textdomain": "woocommerce",
+	"apiVersion": 2,
+	"$schema": "https://schemas.wp.org/trunk/block.json"
+}

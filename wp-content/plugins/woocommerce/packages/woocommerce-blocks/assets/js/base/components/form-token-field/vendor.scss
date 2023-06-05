@@ -1,0 +1,12 @@
+// Including style of popover in bin/webpack-entries.js breaks the editor.
+// We need to import and scope the popover style under the
+// wc-blocks-attribute-filter-popover class to prevent conflict.
+// Tooltip must be under the same scope to work properly.
+.wc-blocks-components-form-token-field-wrapper {
+	/* stylelint-disable no-invalid-position-at-import-rule */
+	@import "node_modules/@wordpress/base-styles/breakpoints";
+	@import "node_modules/@wordpress/base-styles/mixins";
+	@import "node_modules/wordpress-components/src/popover/style";
+	@import "node_modules/wordpress-components/src/tooltip/style";
+	/* stylelint-enable no-invalid-position-at-import-rule */
+}

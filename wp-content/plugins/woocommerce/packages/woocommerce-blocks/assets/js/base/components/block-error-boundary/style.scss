@@ -1,0 +1,34 @@
+.wc-block-components-error {
+	display: flex;
+	padding: $gap-largest 0;
+	margin: $gap-largest 0;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	color: $gray-700;
+	text-align: center;
+}
+.wc-block-components-error__header {
+	@include font-size(larger);
+	margin: 0;
+	color: $studio-gray-50;
+}
+.wc-block-components-error__image {
+	width: 25%;
+	margin: 0 0 $gap-large 0;
+}
+.wc-block-components-error__text {
+	margin: 1em 0 0;
+	color: $studio-gray-30;
+	@include font-size(large);
+	max-width: 60ch;
+}
+.wc-block-components-error__message {
+	margin: 1em auto 0;
+	font-style: italic;
+	color: $studio-gray-30;
+	max-width: 60ch;
+}
+.wc-block-error__button {
+	margin: $gap-largest 0 0 0;
+}

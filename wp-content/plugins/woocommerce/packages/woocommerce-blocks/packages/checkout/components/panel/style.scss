@@ -1,0 +1,75 @@
+.wc-block-components-panel.has-border {
+	@include with-translucent-border(1px 0);
+
+	+ .wc-block-components-panel.has-border::after {
+		border-top-width: 0;
+	}
+}
+
+.wc-block-components-panel.has-border.no-top-border {
+	@include with-translucent-border(1px 0);
+	&::after {
+		border-top-width: 0;
+	}
+}
+
+.wc-block-components-panel__button {
+	@include reset-box();
+	height: auto;
+	line-height: 1;
+	margin-top: em(6px);
+	padding-right: #{24px + $gap-smaller};
+	padding-top: em($gap-small - 6px);
+	position: relative;
+	text-align: left;
+	width: 100%;
+	word-break: break-word;
+
+	&[aria-expanded="true"] {
+		padding-bottom: em($gap-small - 6px);
+		margin-bottom: em(6px);
+	}
+
+	&,
+	&:hover,
+	&:focus,
+	&:active {
+		@include reset-typography();
+		background: transparent;
+		box-shadow: none;
+	}
+
+	> .wc-block-components-panel__button-icon {
+		fill: currentColor;
+		position: absolute;
+		right: 0;
+		top: 50%;
+		transform: translateY(-50%);
+		width: auto;
+	}
+}
+
+.wc-block-components-panel__content {
+	// Ensures the panel contents are not visible for any theme that tweaked the
+	// `display` property of div elements.
+	&[hidden] {
+		display: none;
+	}
+}
+
+// Extra classes for specificity.
+.theme-twentytwentyone.theme-twentytwentyone.theme-twentytwentyone .wc-block-components-panel__button {
+	background-color: inherit;
+	color: inherit;
+}
+
+.theme-twentytwenty .wc-block-components-panel__button,
+.theme-twentyseventeen .wc-block-components-panel__button {
+	background: none transparent;
+	color: inherit;
+
+	&.wc-block-components-panel__button:hover,
+	&.wc-block-components-panel__button:focus {
+		background: none transparent;
+	}
+}

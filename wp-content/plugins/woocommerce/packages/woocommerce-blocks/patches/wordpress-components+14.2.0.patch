@@ -1,0 +1,44 @@
+diff --git a/node_modules/wordpress-components/build-module/combobox-control/index.js b/node_modules/wordpress-components/build-module/combobox-control/index.js
+index ddef775..2d0b3ab 100644
+--- a/node_modules/wordpress-components/build-module/combobox-control/index.js
++++ b/node_modules/wordpress-components/build-module/combobox-control/index.js
+@@ -55,6 +55,7 @@ function ComboboxControl({
+   const instanceId = useInstanceId(ComboboxControl);
+   const [selectedSuggestion, setSelectedSuggestion] = useState(null);
+   const [isExpanded, setIsExpanded] = useState(false);
++  const [inputHasFocus, setInputHasFocus] = useState( false );
+   const [inputValue, setInputValue] = useState('');
+   const inputContainer = useRef();
+   const currentOption = options.find(option => option.value === value);
+@@ -135,7 +136,12 @@ function ComboboxControl({
+     }
+   };
+ 
++  const onBlur = () => {
++    setInputHasFocus( false );
++  };
++
+   const onFocus = () => {
++	setInputHasFocus( true );
+     setIsExpanded(true);
+     onFilterValueChange('');
+     setInputValue('');
+@@ -149,7 +155,9 @@ function ComboboxControl({
+     const text = event.value;
+     setInputValue(text);
+     onFilterValueChange(text);
+-    setIsExpanded(true);
++    if ( inputHasFocus ) {
++		setIsExpanded( true );
++	}
+   };
+ 
+   const handleOnReset = () => {
+@@ -193,6 +201,7 @@ function ComboboxControl({
+     value: isExpanded ? inputValue : currentLabel,
+     "aria-label": currentLabel ? `${currentLabel}, ${label}` : null,
+     onFocus: onFocus,
++	onBlur: onBlur,
+     isExpanded: isExpanded,
+     selectedSuggestionIndex: matchingSuggestions.indexOf(selectedSuggestion),
+     onChange: onInputChange

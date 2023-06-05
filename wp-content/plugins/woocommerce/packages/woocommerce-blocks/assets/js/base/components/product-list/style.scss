@@ -1,0 +1,141 @@
+@keyframes spin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+.wc-block-grid {
+	text-align: center;
+}
+
+.wc-block-grid__no-products {
+	padding: $gap-largest;
+	text-align: center;
+	width: 100%;
+
+	.wc-block-grid__no-products-image {
+		max-width: 150px;
+		margin: 0 auto 1em;
+		display: block;
+		color: inherit;
+	}
+	.wc-block-grid__no-products-title {
+		display: block;
+		margin: 0;
+		font-weight: bold;
+	}
+	.wc-block-grid__no-products-description {
+		display: block;
+		margin: 0.25em 0 1em 0;
+	}
+}
+
+.wc-block-grid__products {
+	display: flex;
+	flex-wrap: wrap;
+	padding: 0;
+	margin: 0 (-$gap * 0.5) $gap;
+	background-clip: padding-box;
+}
+
+.wc-block-grid__product {
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+	float: none;
+	width: auto;
+	position: relative;
+	text-align: center;
+	border-left: $gap * 0.5 solid transparent;
+	border-right: $gap * 0.5 solid transparent;
+	border-bottom: $gap solid transparent;
+	list-style: none;
+}
+
+// Increased specificity necessary as Gutenberg's generic reset overrides box sizing
+.wc-block-grid__product.wc-block-grid__product {
+	box-sizing: border-box;
+}
+
+.theme-twentytwenty .wc-block-grid,
+.wc-block-grid {
+	&.has-aligned-buttons {
+		.wc-block-grid__product {
+			display: flex;
+			flex-direction: column;
+		}
+		.wc-block-grid__product > :last-child {
+			margin-top: auto;
+			margin-bottom: 0;
+			padding-bottom: $gap-small;
+		}
+	}
+	@for $i from 1 to 9 {
+		&.has-#{$i}-columns .wc-block-grid__product {
+			flex: 1 0 #{ math.div(100%, $i) };
+			max-width: math.div(100%, $i);
+		}
+	}
+	// Adjust font size as more cols are added.
+	&.has-6-columns .wc-block-grid__product {
+		font-size: 0.5em;
+	}
+	&.has-6-columns.alignfull,
+	&.has-5-columns {
+		.wc-block-grid__product {
+			font-size: 0.58em;
+		}
+	}
+	&.has-5-columns.alignfull,
+	&.has-4-columns:not(.alignwide):not(.alignfull) {
+		.wc-block-grid__product {
+			font-size: 0.75em;
+		}
+	}
+	&.has-3-columns:not(.alignwide):not(.alignfull) {
+		font-size: 0.92em;
+	}
+}
+
+@include breakpoint("<480px") {
+	.wc-block-grid {
+		@for $i from 2 to 9 {
+			&.has-#{$i}-columns {
+				.wc-block-grid__products {
+					display: block;
+				}
+				.wc-block-grid__product {
+					margin-left: auto;
+					margin-right: auto;
+					flex: 1 0 100%;
+					max-width: 100%;
+					padding: 0;
+				}
+			}
+		}
+	}
+}
+
+@include breakpoint("480px-600px") {
+	.wc-block-grid {
+		@for $i from 2 to 9 {
+			&.has-#{$i}-columns {
+				.wc-block-grid__product {
+					flex: 1 0 50%;
+					max-width: 50%;
+					padding: 0;
+					margin: 0 0 $gap-large 0;
+				}
+				.wc-block-grid__product:nth-child(odd) {
+					padding-right: $gap * 0.5;
+				}
+				.wc-block-grid__product:nth-child(even) {
+					padding-left: $gap * 0.5;
+				}
+			}
+		}
+	}
+}

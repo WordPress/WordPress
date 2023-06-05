@@ -1,0 +1,62 @@
+/* stylelint-disable block-closing-brace-newline-after */
+
+// Breakpoints
+// Forked from https://github.com/Automattic/wp-calypso/blob/46ae24d8800fb85da6acf057a640e60dac988a38/assets/stylesheets/shared/mixins/_breakpoints.scss
+
+// Think very carefully before adding a new breakpoint.
+// The list below is based on wp-admin's main breakpoints
+// See https://github.com/WordPress/gutenberg/tree/master/packages/viewport#usage
+$breakpoints: 480px, 600px, 782px, 960px, 1280px, 1440px;
+
+// @todo refactor breakpoints so they use the mixins from Gutenberg
+// https://github.com/WordPress/gutenberg/blob/master/packages/base-styles/_mixins.scss
+@mixin breakpoint($sizes...) {
+	@each $size in $sizes {
+		@if type-of($size) == string {
+			$approved-value: 0;
+			@each $breakpoint in $breakpoints {
+				$and-larger: ">" + $breakpoint;
+				$and-smaller: "<" + $breakpoint;
+
+				@if $size == $and-smaller {
+					$approved-value: 1;
+					@media (max-width: $breakpoint) {
+						@content;
+					}
+				} @else {
+					@if $size == $and-larger {
+						$approved-value: 2;
+						@media (min-width: $breakpoint + 1) {
+							@content;
+						}
+					} @else {
+						@each $breakpoint-end in $breakpoints {
+							$range: $breakpoint + "-" + $breakpoint-end;
+							@if $size == $range {
+								$approved-value: 3;
+								@media (min-width: $breakpoint + 1) and (max-width: $breakpoint-end) {
+									@content;
+								}
+							}
+						}
+					}
+				}
+			}
+			@if $approved-value == 0 {
+				$sizes: "";
+				@each $breakpoint in $breakpoints {
+					$sizes: $sizes + " " + $breakpoint;
+				}
+				@warn "ERROR in breakpoint(#{ $size }) : You can only use these sizes[ #{$sizes} ] using the following syntax [ <#{ nth($breakpoints, 1) } >#{ nth($breakpoints, 1) } #{ nth($breakpoints, 1) }-#{ nth($breakpoints, 2) } ]";
+			}
+		} @else {
+			$sizes: "";
+			@each $breakpoint in $breakpoints {
+				$sizes: $sizes + " " + $breakpoint;
+			}
+			@error "ERROR in breakpoint(#{ $size }) : Please wrap the breakpoint $size in parenthesis. You can use these sizes[ #{$sizes} ] using the following syntax [ <#{ nth($breakpoints, 1) } >#{ nth($breakpoints, 1) } #{ nth($breakpoints, 1) }-#{ nth($breakpoints, 2) } ]";
+		}
+	}
+}
+
+/* stylelint-enable */

@@ -1,0 +1,17 @@
+.wc-block-components-loading-mask {
+	position: relative;
+	min-height: 18px + $gap;
+	pointer-events: none;
+
+	.components-spinner {
+		position: absolute;
+		margin: 0;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+
+	.wc-block-components-loading-mask__children {
+		opacity: 0.25;
+	}
+}

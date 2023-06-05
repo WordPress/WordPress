@@ -1,0 +1,14 @@
+.wc-block-editor-product-gallery {
+	img {
+		max-width: 500px;
+		width: 100%;
+		height: auto;
+	}
+	.wc-block-editor-product-gallery__other-images {
+		img {
+			width: 100px;
+			height: 100px;
+			margin: 5px;
+		}
+	}
+}

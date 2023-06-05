@@ -1,0 +1,80 @@
+{
+	"name": "woocommerce/handpicked-products",
+	"title": "Hand-picked Products",
+	"category": "woocommerce",
+	"keywords": [ "Handpicked Products", "WooCommerce" ],
+	"description": "Display a selection of hand-picked products in a grid.",
+	"supports": {
+		"align": [ "wide", "full" ],
+		"html": false
+	},
+	"attributes": {
+		"align": {
+			"type": "string"
+		},
+		"columns": {
+			"type": "number",
+			"default": 3
+		},
+		"contentVisibility": {
+			"type": "object",
+			"default": {
+				"image": true,
+				"title": true,
+				"price": true,
+				"rating": true,
+				"button": true
+			},
+			"properties": {
+				"image": {
+					"type": "boolean",
+					"image": true
+				},
+				"title": {
+					"type": "boolean",
+					"title": true
+				},
+				"price": {
+					"type": "boolean",
+					"price": true
+				},
+				"rating": {
+					"type": "boolean",
+					"rating": true
+				},
+				"button": {
+					"type": "boolean",
+					"button": true
+				}
+			}
+		},
+		"orderby": {
+			"type": "string",
+			"enum": [
+				"date",
+				"popularity",
+				"price_asc",
+				"price_desc",
+				"rating",
+				"title",
+				"menu_order"
+			],
+			"default": "date"
+		},
+		"products": {
+			"type": "array",
+			"default": []
+		},
+		"alignButtons": {
+			"type": "boolean",
+			"default": false
+		},
+		"isPreview": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"textdomain": "woocommerce",
+	"apiVersion": 2,
+	"$schema": "https://schemas.wp.org/trunk/block.json"
+}

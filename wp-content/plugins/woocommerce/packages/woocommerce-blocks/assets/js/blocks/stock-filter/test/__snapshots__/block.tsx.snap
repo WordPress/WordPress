@@ -1,0 +1,389 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Filter by Stock block renders the stock filter block 1`] = `
+<div>
+  
+  <div
+    class="wc-block-stock-filter style-list"
+  >
+    <ul
+      class="wc-block-checkbox-list wc-block-components-checkbox-list wc-block-stock-filter-list"
+    >
+      <li>
+        <div
+          class="wc-block-components-checkbox wc-block-checkbox-list__checkbox"
+        >
+          <label
+            for="instock"
+          >
+            <input
+              aria-invalid="false"
+              class="wc-block-components-checkbox__input"
+              id="instock"
+              type="checkbox"
+            />
+            <svg
+              aria-hidden="true"
+              class="wc-block-components-checkbox__mark"
+              viewBox="0 0 24 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"
+              />
+            </svg>
+            <span
+              class="wc-block-components-checkbox__label"
+            >
+              In stock
+            </span>
+          </label>
+        </div>
+      </li>
+      <li>
+        <div
+          class="wc-block-components-checkbox wc-block-checkbox-list__checkbox"
+        >
+          <label
+            for="onbackorder"
+          >
+            <input
+              aria-invalid="false"
+              class="wc-block-components-checkbox__input"
+              id="onbackorder"
+              type="checkbox"
+            />
+            <svg
+              aria-hidden="true"
+              class="wc-block-components-checkbox__mark"
+              viewBox="0 0 24 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"
+              />
+            </svg>
+            <span
+              class="wc-block-components-checkbox__label"
+            >
+              On backorder
+            </span>
+          </label>
+        </div>
+      </li>
+      <li>
+        <div
+          class="wc-block-components-checkbox wc-block-checkbox-list__checkbox"
+        >
+          <label
+            for="outofstock"
+          >
+            <input
+              aria-invalid="false"
+              class="wc-block-components-checkbox__input"
+              id="outofstock"
+              type="checkbox"
+            />
+            <svg
+              aria-hidden="true"
+              class="wc-block-components-checkbox__mark"
+              viewBox="0 0 24 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"
+              />
+            </svg>
+            <span
+              class="wc-block-components-checkbox__label"
+            >
+              Out of stock
+            </span>
+          </label>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div
+    class="wc-block-stock-filter__actions"
+  />
+</div>
+`;
+
+exports[`Filter by Stock block renders the stock filter block with the filter button 1`] = `
+<div>
+  
+  <div
+    class="wc-block-stock-filter style-list"
+  >
+    <ul
+      class="wc-block-checkbox-list wc-block-components-checkbox-list wc-block-stock-filter-list"
+    >
+      <li>
+        <div
+          class="wc-block-components-checkbox wc-block-checkbox-list__checkbox"
+        >
+          <label
+            for="instock"
+          >
+            <input
+              aria-invalid="false"
+              class="wc-block-components-checkbox__input"
+              id="instock"
+              type="checkbox"
+            />
+            <svg
+              aria-hidden="true"
+              class="wc-block-components-checkbox__mark"
+              viewBox="0 0 24 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"
+              />
+            </svg>
+            <span
+              class="wc-block-components-checkbox__label"
+            >
+              In stock
+            </span>
+          </label>
+        </div>
+      </li>
+      <li>
+        <div
+          class="wc-block-components-checkbox wc-block-checkbox-list__checkbox"
+        >
+          <label
+            for="onbackorder"
+          >
+            <input
+              aria-invalid="false"
+              class="wc-block-components-checkbox__input"
+              id="onbackorder"
+              type="checkbox"
+            />
+            <svg
+              aria-hidden="true"
+              class="wc-block-components-checkbox__mark"
+              viewBox="0 0 24 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"
+              />
+            </svg>
+            <span
+              class="wc-block-components-checkbox__label"
+            >
+              On backorder
+            </span>
+          </label>
+        </div>
+      </li>
+      <li>
+        <div
+          class="wc-block-components-checkbox wc-block-checkbox-list__checkbox"
+        >
+          <label
+            for="outofstock"
+          >
+            <input
+              aria-invalid="false"
+              class="wc-block-components-checkbox__input"
+              id="outofstock"
+              type="checkbox"
+            />
+            <svg
+              aria-hidden="true"
+              class="wc-block-components-checkbox__mark"
+              viewBox="0 0 24 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"
+              />
+            </svg>
+            <span
+              class="wc-block-components-checkbox__label"
+            >
+              Out of stock
+            </span>
+          </label>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div
+    class="wc-block-stock-filter__actions"
+  >
+    <button
+      class="wp-block-button__link wc-block-filter-submit-button wc-block-components-filter-submit-button wc-block-stock-filter__button"
+      type="submit"
+    >
+      <span
+        aria-hidden="true"
+      >
+        Apply
+      </span>
+      <span
+        class="screen-reader-text"
+      >
+        Apply filter
+      </span>
+    </button>
+  </div>
+</div>
+`;
+
+exports[`Filter by Stock block renders the stock filter block with the product counts 1`] = `
+<div>
+  
+  <div
+    class="wc-block-stock-filter style-list"
+  >
+    <ul
+      class="wc-block-checkbox-list wc-block-components-checkbox-list wc-block-stock-filter-list"
+    >
+      <li>
+        <div
+          class="wc-block-components-checkbox wc-block-checkbox-list__checkbox"
+        >
+          <label
+            for="instock"
+          >
+            <input
+              aria-invalid="false"
+              class="wc-block-components-checkbox__input"
+              id="instock"
+              type="checkbox"
+            />
+            <svg
+              aria-hidden="true"
+              class="wc-block-components-checkbox__mark"
+              viewBox="0 0 24 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"
+              />
+            </svg>
+            <span
+              class="wc-block-components-checkbox__label"
+            >
+              In stock
+              <span
+                class="wc-filter-element-label-list-count"
+              >
+                <span
+                  aria-hidden="true"
+                >
+                  18
+                </span>
+                <span
+                  class="screen-reader-text"
+                >
+                  18 products
+                </span>
+              </span>
+            </span>
+          </label>
+        </div>
+      </li>
+      <li>
+        <div
+          class="wc-block-components-checkbox wc-block-checkbox-list__checkbox"
+        >
+          <label
+            for="onbackorder"
+          >
+            <input
+              aria-invalid="false"
+              class="wc-block-components-checkbox__input"
+              id="onbackorder"
+              type="checkbox"
+            />
+            <svg
+              aria-hidden="true"
+              class="wc-block-components-checkbox__mark"
+              viewBox="0 0 24 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"
+              />
+            </svg>
+            <span
+              class="wc-block-components-checkbox__label"
+            >
+              On backorder
+              <span
+                class="wc-filter-element-label-list-count"
+              >
+                <span
+                  aria-hidden="true"
+                >
+                  5
+                </span>
+                <span
+                  class="screen-reader-text"
+                >
+                  5 products
+                </span>
+              </span>
+            </span>
+          </label>
+        </div>
+      </li>
+      <li>
+        <div
+          class="wc-block-components-checkbox wc-block-checkbox-list__checkbox"
+        >
+          <label
+            for="outofstock"
+          >
+            <input
+              aria-invalid="false"
+              class="wc-block-components-checkbox__input"
+              id="outofstock"
+              type="checkbox"
+            />
+            <svg
+              aria-hidden="true"
+              class="wc-block-components-checkbox__mark"
+              viewBox="0 0 24 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"
+              />
+            </svg>
+            <span
+              class="wc-block-components-checkbox__label"
+            >
+              Out of stock
+              <span
+                class="wc-filter-element-label-list-count"
+              >
+                <span
+                  aria-hidden="true"
+                >
+                  1
+                </span>
+                <span
+                  class="screen-reader-text"
+                >
+                  1 product
+                </span>
+              </span>
+            </span>
+          </label>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div
+    class="wc-block-stock-filter__actions"
+  />
+</div>
+`;

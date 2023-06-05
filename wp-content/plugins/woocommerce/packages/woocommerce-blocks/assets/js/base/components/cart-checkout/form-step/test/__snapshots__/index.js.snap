@@ -1,0 +1,262 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FormStep fieldset legend should default to legend prop when title and legend are defined 1`] = `
+<fieldset
+  className="wc-block-components-checkout-step wc-block-components-checkout-step--with-step-number"
+  disabled={false}
+>
+  <legend
+    className="screen-reader-text"
+  >
+    Lorem Ipsum 2
+  </legend>
+  <div
+    className="wc-block-components-checkout-step__heading"
+  >
+    <h2
+      aria-hidden="true"
+      className="wc-block-components-title wc-block-components-checkout-step__title"
+    >
+      Lorem Ipsum
+    </h2>
+  </div>
+  <div
+    className="wc-block-components-checkout-step__container"
+  >
+    <div
+      className="wc-block-components-checkout-step__content"
+    >
+      Dolor sit amet
+    </div>
+  </div>
+</fieldset>
+`;
+
+exports[`FormStep should apply id and className props 1`] = `
+<div
+  className="my-classname wc-block-components-checkout-step wc-block-components-checkout-step--with-step-number"
+  disabled={false}
+  id="my-id"
+>
+  <div
+    className="wc-block-components-checkout-step__container"
+  >
+    <div
+      className="wc-block-components-checkout-step__content"
+    >
+      Dolor sit amet
+    </div>
+  </div>
+</div>
+`;
+
+exports[`FormStep should remove step number CSS class if prop is false 1`] = `
+<fieldset
+  className="wc-block-components-checkout-step"
+  disabled={false}
+>
+  <legend
+    className="screen-reader-text"
+  >
+    Lorem Ipsum
+  </legend>
+  <div
+    className="wc-block-components-checkout-step__heading"
+  >
+    <h2
+      aria-hidden="true"
+      className="wc-block-components-title wc-block-components-checkout-step__title"
+    >
+      Lorem Ipsum
+    </h2>
+  </div>
+  <div
+    className="wc-block-components-checkout-step__container"
+  >
+    <div
+      className="wc-block-components-checkout-step__content"
+    >
+      Dolor sit amet
+    </div>
+  </div>
+</fieldset>
+`;
+
+exports[`FormStep should render a div if no title or legend is provided 1`] = `
+<div
+  className="wc-block-components-checkout-step wc-block-components-checkout-step--with-step-number"
+  disabled={false}
+>
+  <div
+    className="wc-block-components-checkout-step__container"
+  >
+    <div
+      className="wc-block-components-checkout-step__content"
+    >
+      Dolor sit amet
+    </div>
+  </div>
+</div>
+`;
+
+exports[`FormStep should render a fieldset if a legend is provided 1`] = `
+<fieldset
+  className="wc-block-components-checkout-step wc-block-components-checkout-step--with-step-number"
+  disabled={false}
+>
+  <legend
+    className="screen-reader-text"
+  >
+    Lorem Ipsum 2
+  </legend>
+  <div
+    className="wc-block-components-checkout-step__container"
+  >
+    <div
+      className="wc-block-components-checkout-step__content"
+    >
+      Dolor sit amet
+    </div>
+  </div>
+</fieldset>
+`;
+
+exports[`FormStep should render a fieldset with heading if a title is provided 1`] = `
+<fieldset
+  className="wc-block-components-checkout-step wc-block-components-checkout-step--with-step-number"
+  disabled={false}
+>
+  <legend
+    className="screen-reader-text"
+  >
+    Lorem Ipsum
+  </legend>
+  <div
+    className="wc-block-components-checkout-step__heading"
+  >
+    <h2
+      aria-hidden="true"
+      className="wc-block-components-title wc-block-components-checkout-step__title"
+    >
+      Lorem Ipsum
+    </h2>
+  </div>
+  <div
+    className="wc-block-components-checkout-step__container"
+  >
+    <div
+      className="wc-block-components-checkout-step__content"
+    >
+      Dolor sit amet
+    </div>
+  </div>
+</fieldset>
+`;
+
+exports[`FormStep should render step description 1`] = `
+<fieldset
+  className="wc-block-components-checkout-step wc-block-components-checkout-step--with-step-number"
+  disabled={false}
+>
+  <legend
+    className="screen-reader-text"
+  >
+    Lorem Ipsum
+  </legend>
+  <div
+    className="wc-block-components-checkout-step__heading"
+  >
+    <h2
+      aria-hidden="true"
+      className="wc-block-components-title wc-block-components-checkout-step__title"
+    >
+      Lorem Ipsum
+    </h2>
+  </div>
+  <div
+    className="wc-block-components-checkout-step__container"
+  >
+    <p
+      className="wc-block-components-checkout-step__description"
+    >
+      This is the description
+    </p>
+    <div
+      className="wc-block-components-checkout-step__content"
+    >
+      Dolor sit amet
+    </div>
+  </div>
+</fieldset>
+`;
+
+exports[`FormStep should render step heading content 1`] = `
+<fieldset
+  className="wc-block-components-checkout-step wc-block-components-checkout-step--with-step-number"
+  disabled={false}
+>
+  <legend
+    className="screen-reader-text"
+  >
+    Lorem Ipsum
+  </legend>
+  <div
+    className="wc-block-components-checkout-step__heading"
+  >
+    <h2
+      aria-hidden="true"
+      className="wc-block-components-title wc-block-components-checkout-step__title"
+    >
+      Lorem Ipsum
+    </h2>
+    <span
+      className="wc-block-components-checkout-step__heading-content"
+    >
+      <span>
+        Some context to render next to the heading
+      </span>
+    </span>
+  </div>
+  <div
+    className="wc-block-components-checkout-step__container"
+  >
+    <div
+      className="wc-block-components-checkout-step__content"
+    >
+      Dolor sit amet
+    </div>
+  </div>
+</fieldset>
+`;
+
+exports[`FormStep should set disabled prop to the fieldset element when disabled is true 1`] = `
+<fieldset
+  className="wc-block-components-checkout-step wc-block-components-checkout-step--with-step-number wc-block-components-checkout-step--disabled"
+  disabled={true}
+>
+  <legend
+    className="screen-reader-text"
+  >
+    Lorem Ipsum
+  </legend>
+  <div
+    className="wc-block-components-checkout-step__heading"
+  >
+    <h2
+      aria-hidden="true"
+      className="wc-block-components-title wc-block-components-checkout-step__title"
+    >
+      Lorem Ipsum
+    </h2>
+  </div>
+  <div
+    className="wc-block-components-checkout-step__container"
+  >
+    <div
+      className="wc-block-components-checkout-step__content"
+    >
+      Dolor sit amet
+    </div>
+  </div>
+</fieldset>
+`;

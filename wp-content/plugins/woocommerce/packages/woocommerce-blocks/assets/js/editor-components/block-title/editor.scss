@@ -1,0 +1,6 @@
+// Ensure textarea bg color is transparent for block titles.
+// Some themes (e.g. Twenty Twenty) set a non-white background for the editor, and Gutenberg sets white background for text inputs, creating this issue.
+// https://github.com/woocommerce/woocommerce-gutenberg-products-block/issues/1204
+.wc-block-editor-components-title {
+	background-color: transparent;
+}

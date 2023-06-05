@@ -1,0 +1,338 @@
+// These styles are for the server side rendered product grid blocks.
+.wc-block-grid__products .wc-block-grid__product-image {
+	text-decoration: none;
+	display: block;
+	position: relative;
+
+	a {
+		text-decoration: none;
+		border: 0;
+		outline: 0;
+		box-shadow: none;
+	}
+
+	img {
+		height: auto;
+		width: auto;
+		max-width: 100%;
+
+		&[hidden] {
+			display: none;
+		}
+
+		&[alt=""] {
+			border: 1px solid $image-placeholder-border-color;
+		}
+	}
+}
+.edit-post-visual-editor .editor-block-list__block .wc-block-grid__product-title,
+.editor-styles-wrapper .wc-block-grid__product-title,
+.wc-block-grid__product-title {
+	font-family: inherit;
+	line-height: 1.2;
+	font-weight: 700;
+	padding: 0;
+	color: inherit;
+	font-size: inherit;
+	display: block;
+}
+.wc-block-grid__product-price {
+	display: block;
+
+	.wc-block-grid__product-price__regular {
+		margin-right: 0.5em;
+	}
+}
+.wc-block-grid__product-add-to-cart.wp-block-button {
+	word-break: break-word;
+	white-space: normal;
+	.wp-block-button__link {
+		word-break: break-word;
+		white-space: normal;
+		margin-right: auto !important;
+		margin-left: auto !important;
+		display: inline-flex;
+		justify-content: center;
+		text-align: center;
+		// Set button font size and padding so it inherits from parent.
+		padding: 0.5em 1em;
+		font-size: 1em;
+
+		&.loading {
+			opacity: 0.25;
+		}
+
+		&.added::after {
+			font-family: WooCommerce; /* stylelint-disable-line */
+			content: "\e017";
+			margin-left: 0.5em;
+			display: inline-block;
+			width: auto;
+			height: auto;
+		}
+
+		&.loading::after {
+			font-family: WooCommerce; /* stylelint-disable-line */
+			content: "\e031";
+			animation: spin 2s linear infinite;
+			margin-left: 0.5em;
+			display: inline-block;
+			width: auto;
+			height: auto;
+		}
+	}
+}
+// Remove button sugar if unlikely to fit.
+.has-5-columns:not(.alignfull),
+.has-6-columns,
+.has-7-columns,
+.has-8-columns,
+.has-9-columns {
+	.wc-block-grid__product-add-to-cart.wp-block-button .wp-block-button__link::after {
+		content: "";
+		margin: 0;
+	}
+}
+
+.wc-block-grid__product-rating {
+	display: block;
+
+	.wc-block-grid__product-rating__stars,
+	.star-rating {
+		overflow: hidden;
+		position: relative;
+		width: 5.3em;
+		height: 1.618em;
+		line-height: 1.618;
+		font-size: 1em;
+		/* stylelint-disable-next-line font-family-no-missing-generic-family-keyword */
+		font-family: star;
+		font-weight: 400;
+		margin: 0 auto;
+		text-align: left;
+
+		&::before {
+			content: "\53\53\53\53\53";
+			top: 0;
+			left: 0;
+			right: 0;
+			position: absolute;
+			opacity: 0.5;
+			white-space: nowrap;
+		}
+		span {
+			overflow: hidden;
+			top: 0;
+			left: 0;
+			right: 0;
+			position: absolute;
+			padding-top: 1.5em;
+		}
+		span::before {
+			content: "\53\53\53\53\53";
+			color: inherit;
+			top: 0;
+			left: 0;
+			right: 0;
+			position: absolute;
+			white-space: nowrap;
+		}
+	}
+}
+.wc-block-grid__product-onsale {
+	@include font-size(small);
+	padding: em($gap-smallest) em($gap-small);
+	display: inline-block;
+	width: auto;
+	border: 1px solid #43454b;
+	border-radius: 3px;
+	color: #43454b;
+	background: #fff;
+	text-align: center;
+	text-transform: uppercase;
+	font-weight: 600;
+	z-index: 9;
+	position: relative;
+}
+
+// Element spacing.
+.wc-block-grid__product {
+	// Not operator necessary for avoid this problem: https://github.com/woocommerce/woocommerce-gutenberg-products-block/pull/5925/files#r814043454
+	.wc-block-grid__product-image:not(.wc-block-components-product-image),
+	.wc-block-grid__product-title {
+		margin: 0 0 $gap-small;
+	}
+	// If centered when toggling alignment on, use auto margins to prevent flexbox stretching it.
+	.wc-block-grid__product-price,
+	.wc-block-grid__product-rating,
+	.wc-block-grid__product-add-to-cart,
+	.wc-block-grid__product-onsale {
+		margin: 0 auto $gap-small;
+	}
+}
+
+.theme-twentysixteen {
+	.wc-block-grid {
+		// Prevent white theme styles.
+		.price ins {
+			color: #77a464;
+		}
+	}
+}
+
+.theme-twentynineteen {
+	.wc-block-grid__product {
+		font-size: 0.88889em;
+	}
+	// Change the title font to match headings.
+	.wc-block-grid__product-title,
+	.wc-block-grid__product-onsale,
+	.wc-block-components-product-title,
+	.wc-block-components-product-sale-badge {
+		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+	}
+	.wc-block-grid__product-title::before {
+		display: none;
+	}
+	.wc-block-grid__product-onsale,
+	.wc-block-components-product-sale-badge {
+		line-height: 1;
+	}
+	.editor-styles-wrapper .wp-block-button .wp-block-button__link:not(.has-text-color) {
+		color: #fff;
+	}
+}
+
+.theme-twentytwenty {
+	$twentytwenty-headings: -apple-system, blinkmacsystemfont, "Helvetica Neue", helvetica, sans-serif;
+	$twentytwenty-highlights-color: #cd2653;
+
+	.wc-block-grid__product-link {
+		color: #000;
+	}
+
+	.wc-block-grid__product-title,
+	.wc-block-components-product-title {
+		font-family: $twentytwenty-headings;
+		color: $twentytwenty-highlights-color;
+		@include font-size(regular);
+	}
+
+	.wp-block-columns .wc-block-components-product-title {
+		margin-top: 0;
+	}
+
+	.wc-block-grid__product-price,
+	.wc-block-components-product-price {
+		&__value,
+		.woocommerce-Price-amount {
+			font-family: $twentytwenty-headings;
+			font-size: 0.9em;
+		}
+
+		del {
+			opacity: 0.5;
+		}
+
+		ins {
+			text-decoration: none;
+		}
+	}
+
+	.wc-block-grid__product-rating,
+	.star-rating {
+		font-size: 0.7em;
+
+		.wc-block-grid__product-rating__stars,
+		.wc-block-components-product-rating__stars {
+			line-height: 1;
+		}
+	}
+
+	.wc-block-grid__product-add-to-cart > .wp-block-button__link,
+	.wc-block-components-product-button > .wp-block-button__link {
+		font-family: $twentytwenty-headings;
+	}
+
+	.wc-block-grid__products .wc-block-grid__product-onsale,
+	.wc-block-components-product-sale-badge {
+		background: $twentytwenty-highlights-color;
+		color: #fff;
+		font-family: $twentytwenty-headings;
+		font-weight: 700;
+		letter-spacing: -0.02em;
+		line-height: 1.2;
+		text-transform: uppercase;
+	}
+
+	// Override style from WC Core that set its position to absolute.
+	// These rulesets can be removed once https://github.com/woocommerce/woocommerce/pull/26516 is released.
+	.wc-block-grid__products .wc-block-components-product-sale-badge {
+		position: static;
+	}
+	.wc-block-grid__products .wc-block-grid__product-image .wc-block-components-product-sale-badge {
+		position: absolute;
+	}
+
+	// These styles are not applied to the All Products atomic block, so it can be positioned normally.
+	.wc-block-grid__products .wc-block-grid__product-onsale:not(.wc-block-components-product-sale-badge) {
+		position: absolute;
+		right: 4px;
+		top: 4px;
+		z-index: 1;
+	}
+
+	.wc-block-active-filters__title,
+	.wc-block-attribute-filter__title,
+	.wc-block-price-filter__title,
+	.wc-block-stock-filter__title {
+		@include font-size(regular);
+	}
+
+	.wc-block-active-filters .wc-block-active-filters__clear-all {
+		@include font-size(smaller);
+	}
+
+	.wc-block-grid__product-add-to-cart.wp-block-button .wp-block-button__link {
+		@include font-size(smaller);
+		padding: em($gap-smaller);
+	}
+
+	@media only screen and (min-width: 768px) {
+		.wc-block-grid__products .wc-block-grid__product-onsale {
+			@include font-size(small);
+			padding: em($gap-smaller);
+		}
+	}
+
+	@media only screen and (min-width: 1168px) {
+		.wc-block-grid__products .wc-block-grid__product-onsale {
+			@include font-size(small);
+			padding: em($gap-smaller);
+		}
+	}
+}
+
+.theme-twentytwentytwo {
+	.wc-block-grid__product-add-to-cart {
+		.added_to_cart {
+			margin-top: $gap-small;
+			display: block;
+		}
+	}
+
+	.wc-block-components-product-price,
+	.wc-block-grid__product-price {
+		ins {
+			text-decoration: none;
+		}
+	}
+}
+
+// Default screen-reader styles. Included as a fallback for themes that don't have support.
+.screen-reader-text {
+	@include visually-hidden();
+}
+.screen-reader-text:focus {
+	@include visually-hidden-focus-reveal();
+}

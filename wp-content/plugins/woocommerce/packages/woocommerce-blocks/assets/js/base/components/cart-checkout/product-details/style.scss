@@ -1,0 +1,25 @@
+// Extra class added for specificity so styles are applied in the editor.
+.wc-block-components-product-details.wc-block-components-product-details {
+	list-style: none;
+	margin: 0.5em 0;
+	padding: 0;
+
+	&:last-of-type {
+		margin-bottom: 0;
+	}
+
+	li {
+		margin-left: 0;
+	}
+}
+
+.wc-block-components-product-details__name,
+.wc-block-components-product-details__value {
+	display: inline-block;
+}
+
+.is-large:not(.wc-block-checkout) {
+	.wc-block-components-product-details__name {
+		font-weight: bold;
+	}
+}

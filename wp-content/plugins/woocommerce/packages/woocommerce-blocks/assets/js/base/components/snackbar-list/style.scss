@@ -1,0 +1,54 @@
+.wc-block-components-notice-snackbar-list {
+	z-index: 100000;
+	box-sizing: border-box;
+	// Disable pointer events, so that clicking this area
+	// outside of an individual notice still allows the UI
+	// underneath to be clicked.
+	pointer-events: none;
+	position: fixed;
+	bottom: $gap-large;
+	left: $gap-large;
+	right: $gap-large;
+
+	.wc-block-components-notice-banner {
+		display: inline-flex;
+		width: auto;
+		max-width: 600px;
+		margin: 0;
+		pointer-events: all;
+		border: 1px solid transparent;
+		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+		position: relative;
+		margin: $gap-large 0 0;
+
+		&.is-default {
+			border-color: $gray-800;
+		}
+
+		@include breakpoint("<782px") {
+			width: 100%;
+			max-width: none;
+		}
+	}
+}
+
+.notice-transition-enter {
+	max-height: 0;
+}
+.notice-transition-enter.notice-transition-enter-active {
+	max-height: 99em;
+	transition: max-height 0.5s ease-in;
+}
+.notice-transition-enter-done {
+	max-height: auto;
+}
+.notice-transition-exit {
+	opacity: 1;
+}
+.notice-transition-exit.notice-transition-exit-active {
+	opacity: 0;
+	transition: opacity 0.5s ease-in;
+}
+.notice-transition-exit-done {
+	opacity: 0;
+}

@@ -1,0 +1,32 @@
+{
+	"name": "woocommerce/checkout-shipping-methods-block",
+	"version": "1.0.0",
+	"title": "Shipping Options",
+	"description": "Display shipping options and rates for your store.",
+	"category": "woocommerce",
+	"supports": {
+		"align": false,
+		"html": false,
+		"multiple": false,
+		"reusable": false,
+		"inserter": false,
+		"lock": false
+	},
+	"attributes": {
+		"lock": {
+			"type": "object",
+			"default": {
+				"remove": true,
+				"move": true
+			}
+		},
+		"shippingCostRequiresAddress": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"parent": [ "woocommerce/checkout-fields-block" ],
+	"textdomain": "woocommerce",
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2
+}

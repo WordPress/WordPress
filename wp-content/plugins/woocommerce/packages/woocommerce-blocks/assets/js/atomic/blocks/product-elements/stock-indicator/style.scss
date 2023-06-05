@@ -1,0 +1,6 @@
+.wc-block-components-product-stock-indicator {
+	margin-top: 0;
+	margin-bottom: em($gap-small);
+	display: block;
+	@include font-size(small);
+}

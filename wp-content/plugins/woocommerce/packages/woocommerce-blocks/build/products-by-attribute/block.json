@@ -1,0 +1,89 @@
+{
+	"name": "woocommerce/products-by-attribute",
+	"title": "Products by Attribute",
+	"category": "woocommerce",
+	"keywords": [ "WooCommerce" ],
+	"description": "Display a grid of products with selected attributes.",
+	"supports": {
+		"align": [ "wide", "full" ],
+		"html": false
+	},
+	"attributes": {
+		"attributes": {
+			"type": "array",
+			"default": []
+		},
+		"attrOperator": {
+			"type": "string",
+			"enum": [ "all", "any" ],
+			"default": "any"
+		},
+		"columns": {
+			"type": "number",
+			"default": 3
+		},
+		"contentVisibility": {
+			"type": "object",
+			"default": {
+				"image": true,
+				"title": true,
+				"price": true,
+				"rating": true,
+				"button": true
+			},
+			"properties": {
+				"image": {
+					"type": "boolean",
+					"default": true
+				},
+				"title": {
+					"type": "boolean",
+					"default": true
+				},
+				"price": {
+					"type": "boolean",
+					"default": true
+				},
+				"rating": {
+					"type": "boolean",
+					"default": true
+				},
+				"button": {
+					"type": "boolean",
+					"default": true
+				}
+			}
+		},
+		"orderby": {
+			"type": "string",
+			"enum": [
+				"date",
+				"popularity",
+				"price_asc",
+				"price_desc",
+				"rating",
+				"title",
+				"menu_order"
+			],
+			"default": "date"
+		},
+		"rows": {
+			"type": "number",
+			"default": 3
+		},
+		"alignButtons": {
+			"type": "boolean",
+			"default": false
+		},
+		"isPreview": {
+			"type": "boolean",
+			"default": false
+		},
+		"stockStatus": {
+			"type": "array"
+		}
+	},
+	"textdomain": "woocommerce",
+	"apiVersion": 2,
+	"$schema": "https://schemas.wp.org/trunk/block.json"
+}

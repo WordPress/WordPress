@@ -1,0 +1,46 @@
+.wc-block-cart__submit {
+	position: relative;
+	margin: 0 0 $gap 0;
+}
+
+.wc-block-cart__submit-button {
+	width: 100%;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+.wc-block-cart {
+	.wc-block-cart__submit-container {
+		padding: 0;
+	}
+}
+
+@include breakpoint(">782px") {
+	.wc-block-cart .wc-block-cart__submit-container--sticky {
+		display: none;
+	}
+}
+
+@include breakpoint("<782px") {
+	.wc-block-cart .wc-block-cart__submit-container--sticky {
+		background: $white;
+		bottom: 0;
+		left: 0;
+		padding: $gap;
+		position: fixed;
+		width: 100%;
+		z-index: 9999;
+
+		&::before {
+			box-shadow: 0 -10px 20px 10px currentColor;
+			color: color.adjust($gray-400, $alpha: -0.5);
+			content: "";
+			height: 100%;
+			left: 0;
+			position: absolute;
+			right: 0;
+			top: 0;
+		}
+	}
+}
+

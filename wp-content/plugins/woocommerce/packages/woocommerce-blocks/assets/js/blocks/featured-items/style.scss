@@ -1,0 +1,183 @@
+@mixin with-content-selection {
+	background-color: inherit;
+
+	&__selection {
+		width: 100%;
+	}
+}
+
+%with-media-controls {
+	// Applying image edits
+	.is-applying {
+		.components-spinner {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			margin-top: -9px;
+			margin-left: -9px;
+		}
+
+		img {
+			opacity: 0.3;
+		}
+	}
+}
+
+%with-resizable-box {
+	.components-resizable-box__container {
+		position: absolute !important;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		min-height: 50px;
+
+		&:not(.is-resizing) {
+			height: auto !important;
+		}
+	}
+
+	.components-resizable-box__handle {
+		z-index: 10;
+	}
+}
+
+%wp-block-featured-item {
+	background-color: transparent;
+	border-color: transparent;
+	color: #fff;
+	box-sizing: border-box;
+}
+
+@mixin wc-block-featured-item {
+	$block: &;
+
+	@include with-background-dim();
+	@include with-content-selection();
+
+	align-content: center;
+	align-items: center;
+	background-position: center center;
+	background-size: cover;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	margin: 0;
+	overflow: hidden;
+	position: relative;
+	width: 100%;
+
+	&.has-left-content {
+		justify-content: flex-start;
+
+		#{$block}__description,
+		#{$block}__price,
+		#{$block}__title,
+		#{$block}__variation {
+			margin-left: 0;
+			text-align: left;
+		}
+	}
+
+	&.has-right-content {
+		justify-content: flex-end;
+
+		#{$block}__description,
+		#{$block}__price,
+		#{$block}__title,
+		#{$block}__variation {
+			margin-right: 0;
+			text-align: right;
+		}
+	}
+
+	&.is-repeated {
+		background-repeat: repeat;
+		background-size: auto;
+	}
+
+	&__description,
+	&__price,
+	&__title,
+	&__variation {
+		line-height: 1.25;
+		margin-bottom: 0;
+		text-align: center;
+
+		a,
+		a:hover,
+		a:focus,
+		a:active {
+			color: $white;
+		}
+	}
+
+	&__description,
+	&__link,
+	&__price,
+	&__title,
+	&__variation {
+		color: inherit;
+		width: 100%;
+		padding: 0 48px 16px 48px;
+		z-index: 1;
+	}
+
+	& &__background-image {
+		@include absolute-stretch();
+		object-fit: none;
+
+		&.has-parallax {
+			background-attachment: fixed;
+
+			// Mobile Safari does not support fixed background attachment properly.
+			// See also https://stackoverflow.com/questions/24154666/background-size-cover-not-working-on-ios
+			// Chrome on Android does not appear to support the attachment at all: https://issuetracker.google.com/issues/36908439
+			@supports (-webkit-overflow-scrolling: touch) {
+				background-attachment: scroll;
+			}
+
+			// Remove the appearance of scrolling based on OS-level animation preferences.
+			@media (prefers-reduced-motion: reduce) {
+				background-attachment: scroll;
+			}
+		}
+	}
+
+	&__description {
+		color: inherit;
+
+		p {
+			margin: 0;
+		}
+	}
+
+	& &__title {
+		color: inherit;
+		margin-top: 0;
+
+		div {
+			color: inherit;
+		}
+
+		&::before {
+			display: none;
+		}
+	}
+
+	&__wrapper {
+		align-content: center;
+		align-items: center;
+		box-sizing: border-box;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		overflow: hidden;
+		width: 100%;
+		height: 100%;
+	}
+
+	.wp-block-button.aligncenter {
+		text-align: center;
+	}
+}

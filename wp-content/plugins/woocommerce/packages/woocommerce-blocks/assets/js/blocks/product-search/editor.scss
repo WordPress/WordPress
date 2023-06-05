@@ -1,0 +1,22 @@
+.wc-block-product-search__field.input-control {
+	color: #828b96 !important;
+	padding: 0;
+
+	.components-base-control__field {
+		margin-bottom: 0;
+	}
+}
+
+.wc-block-product-search {
+	.wc-block-product-search__fields {
+		.block-editor-rich-text {
+			flex-grow: 1;
+		}
+	}
+}
+
+.wc-block-components-actions {
+	.block-editor-warning__actions {
+		margin-top: 0;
+	}
+}

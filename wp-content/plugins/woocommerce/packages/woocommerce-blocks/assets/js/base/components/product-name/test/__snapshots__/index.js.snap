@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProductName should merge classes and props 1`] = `
+<a
+  className="wc-block-components-product-name lorem-ipsum"
+  dangerouslySetInnerHTML={
+    Object {
+      "__html": "Test product",
+    }
+  }
+  href="/"
+/>
+`;
+
+exports[`ProductName should not render a link if disabled is true 1`] = `
+<span
+  className="wc-block-components-product-name"
+  dangerouslySetInnerHTML={
+    Object {
+      "__html": "Test product",
+    }
+  }
+/>
+`;
+
+exports[`ProductName should render a link if disabled is false 1`] = `
+<a
+  className="wc-block-components-product-name"
+  dangerouslySetInnerHTML={
+    Object {
+      "__html": "Test product",
+    }
+  }
+  href="/"
+/>
+`;
+
+exports[`ProductName should render a link if disabled is not defined 1`] = `
+<a
+  className="wc-block-components-product-name"
+  dangerouslySetInnerHTML={
+    Object {
+      "__html": "Test product",
+    }
+  }
+  href="/"
+/>
+`;

@@ -1,0 +1,17 @@
+.wc-blocks-sidebar-compatibility-notice.is-dismissible {
+	margin: 0;
+	padding-right: 16px;
+	.components-notice__dismiss {
+		min-width: 24px;
+	}
+	.components-notice__content {
+		margin: 4px 0;
+	}
+	svg {
+		width: 16px;
+		height: 16px;
+	}
+	&.is-hidden {
+		display: none;
+	}
+}

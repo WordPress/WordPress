@@ -1,0 +1,12 @@
+.wc-block-checkout__terms {
+	margin: 1.5em 0;
+
+	textarea {
+		top: -5px;
+		position: relative;
+	}
+
+	&.wc-block-checkout__terms--disabled {
+		opacity: 0.6;
+	}
+}

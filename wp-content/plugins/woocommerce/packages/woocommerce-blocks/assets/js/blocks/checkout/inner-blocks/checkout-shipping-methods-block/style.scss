@@ -1,0 +1,11 @@
+.wc-block-checkout__shipping-option {
+	.wc-block-components-radio-control__option {
+		@include with-translucent-border(0 0 1px);
+		margin: 0;
+		padding: em($gap-small) 0 em($gap-small) em($gap-largest);
+	}
+
+	.wc-block-components-shipping-rates-control__no-results-notice {
+		margin: em($gap-small) 0;
+	}
+}

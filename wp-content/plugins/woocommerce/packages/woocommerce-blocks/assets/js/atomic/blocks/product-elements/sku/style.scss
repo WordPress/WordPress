@@ -1,0 +1,6 @@
+.wc-block-components-product-sku {
+	display: block;
+	text-transform: uppercase;
+	@include font-size(small);
+	overflow-wrap: break-word;
+}

@@ -1,0 +1,24 @@
+.editor-styles-wrapper .wc-block-components-checkout-policies,
+.wc-block-components-checkout-policies {
+	@include font-size(smaller);
+	text-align: center;
+	list-style: none outside;
+	line-height: 1;
+	margin: $gap-large 0;
+}
+
+.wc-block-components-checkout-policies__item {
+	list-style: none outside;
+	display: inline-block;
+	padding: 0 0.25em;
+	margin: 0;
+
+	&:not(:first-child) {
+		border-left: 1px solid $gray-400;
+	}
+
+	> a {
+		color: inherit;
+		padding: 0 0.25em;
+	}
+}

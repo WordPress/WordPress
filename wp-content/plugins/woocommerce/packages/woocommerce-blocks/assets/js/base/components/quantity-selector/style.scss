@@ -1,0 +1,109 @@
+@mixin reset-button {
+	border: 0;
+	padding: 0;
+	margin: 0;
+	background: none transparent;
+	box-shadow: none;
+
+	&:focus {
+		box-shadow: inset 0 0 1px 1px currentColor;
+		outline: none;
+	}
+}
+
+.wc-block-components-quantity-selector {
+	border-radius: 4px;
+	// needed so that buttons fill the container.
+	box-sizing: content-box;
+	display: flex;
+	margin: 0 0 0.25em 0;
+	position: relative;
+	width: 107px;
+
+	&::after {
+		border-radius: 4px;
+		border: 1px solid currentColor;
+		bottom: 0;
+		content: "";
+		left: 0;
+		opacity: 0.45;
+		pointer-events: none;
+		position: absolute;
+		right: 0;
+		top: 0;
+	}
+
+	// Extra label for specificity needed in the editor.
+	input.wc-block-components-quantity-selector__input {
+		@include font-size(regular);
+		appearance: textfield;
+		background: transparent;
+		border: 0;
+		box-shadow: none;
+		color: currentColor;
+		flex: 1 1 auto;
+		font-weight: 600;
+		line-height: 1;
+		margin: 0;
+		min-width: 40px;
+		order: 2;
+		padding: 0.4em 0;
+		text-align: center;
+		vertical-align: middle;
+
+		&:focus {
+			box-shadow: inset 0 0 1px 1px currentColor;
+			outline: none;
+		}
+		&:disabled {
+			opacity: 0.6;
+		}
+	}
+	input::-webkit-outer-spin-button,
+	input::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
+
+	.wc-block-components-quantity-selector__button {
+		@include reset-button;
+		@include font-size(regular, 0.9em);
+		color: currentColor;
+		cursor: pointer;
+		font-style: normal;
+		font-weight: normal;
+		min-width: 30px;
+		opacity: 0.6;
+		text-align: center;
+		text-decoration: none;
+
+		&:hover,
+		&:focus {
+			opacity: 1;
+		}
+		&:disabled {
+			box-shadow: none;
+			cursor: default;
+			opacity: 0.6;
+		}
+	}
+
+	> .wc-block-components-quantity-selector__button--minus {
+		border-radius: 4px 0 0 4px;
+		order: 1;
+	}
+
+	> .wc-block-components-quantity-selector__button--plus {
+		border-radius: 0 4px 4px 0;
+		order: 3;
+	}
+}
+
+.theme-twentyseventeen {
+	.wc-block-components-quantity-selector .wc-block-components-quantity-selector__button {
+		&:hover,
+		&:focus {
+			background: none transparent;
+		}
+	}
+}

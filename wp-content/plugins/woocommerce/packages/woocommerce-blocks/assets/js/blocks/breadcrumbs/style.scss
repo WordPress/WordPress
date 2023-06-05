@@ -1,0 +1,9 @@
+.woocommerce.wc-block-breadcrumbs {
+	font-size: inherit;
+}
+.woocommerce.woocommerce-shop .wc-block-breadcrumbs {
+	.woocommerce-breadcrumb {
+		margin: auto;
+		display: block;
+	}
+}

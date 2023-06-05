@@ -1,0 +1,33 @@
+{
+	"name": "woocommerce/checkout-totals-block",
+	"version": "1.0.0",
+	"title": "Checkout Totals",
+	"description": "Column containing the checkout totals.",
+	"category": "woocommerce",
+	"supports": {
+		"align": false,
+		"html": false,
+		"multiple": false,
+		"reusable": false,
+		"inserter": false,
+		"lock": false
+	},
+	"attributes": {
+		"className": {
+			"type": "string",
+			"default": ""
+		},
+		"checkbox": {
+			"type": "boolean",
+			"default": false
+		},
+		"text": {
+			"type": "string",
+			"required": false
+		}
+	},
+	"parent": [ "woocommerce/checkout" ],
+	"textdomain": "woocommerce",
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2
+}

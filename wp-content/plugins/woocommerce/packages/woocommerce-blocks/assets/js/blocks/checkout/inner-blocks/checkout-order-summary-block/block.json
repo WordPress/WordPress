@@ -1,0 +1,27 @@
+{
+	"name": "woocommerce/checkout-order-summary-block",
+	"version": "1.0.0",
+	"title": "Order Summary",
+	"description": "Show customers a summary of their order.",
+	"category": "woocommerce",
+	"supports": {
+		"align": false,
+		"html": false,
+		"multiple": false,
+		"reusable": false,
+		"inserter": false,
+		"lock": false
+	},
+	"attributes": {
+		"lock": {
+			"type": "object",
+			"default": {
+				"remove": true
+			}
+		}
+	},
+	"parent": [ "woocommerce/checkout-totals-block" ],
+	"textdomain": "woocommerce",
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2
+}

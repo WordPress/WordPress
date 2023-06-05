@@ -1,0 +1,287 @@
+.woocommerce-search-list {
+	width: 100%;
+	padding: 0 0 $gap;
+	text-align: left;
+
+	&.is-compact {
+		.woocommerce-search-list__selected {
+			margin: 0 0 $gap;
+			padding: 0;
+			border-top: none;
+			// 54px is the height of 1 row of tags in the sidebar.
+			min-height: 54px;
+		}
+
+		.woocommerce-search-list__search {
+			margin: 0 0 $gap;
+			padding: 0;
+			border-top: none;
+
+			&.is-token {
+				margin-bottom: 0;
+			}
+		}
+	}
+
+	&.is-loading {
+		.woocommerce-search-list__list {
+			padding: $gap-small 0;
+			text-align: center;
+			border: none;
+		}
+
+		.components-form-token-field__remove-token {
+			// We use a placeholder “Loading…” text when loading passed
+			// as a value to the `FormTokenField`, so we hide the “X”.
+			display: none;
+		}
+	}
+
+	&.is-token {
+		.woocommerce-search-list__list {
+			border-top: 0;
+		}
+
+		.woocommerce-search-list__search {
+			margin-bottom: 0;
+
+			.components-form-token-field__input-container {
+				border-bottom-left-radius: 0;
+				border-bottom-right-radius: 0;
+				margin-bottom: 0;
+			}
+		}
+	}
+}
+
+.woocommerce-search-list__selected {
+	margin: $gap 0;
+	padding: $gap 0 0;
+	// 76px is the height of 1 row of tags.
+	min-height: 76px;
+	border-top: 1px solid $gray-100;
+
+	.woocommerce-search-list__selected-header {
+		margin-bottom: $gap-smaller;
+
+		button {
+			margin-left: $gap-small;
+		}
+	}
+
+	.woocommerce-tag__text {
+		max-width: 13em;
+	}
+
+	ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+
+		li {
+			float: left;
+		}
+	}
+}
+
+.woocommerce-search-list__search {
+	margin: $gap 0;
+	padding: $gap 0 0;
+	border-top: 1px solid $gray-100;
+
+	.components-base-control__field {
+		margin-bottom: $gap;
+	}
+}
+
+.woocommerce-search-list__list {
+	border: 1px solid $gray-200;
+	margin: 0;
+	padding: 0;
+	max-height: 17em;
+	overflow-x: hidden;
+	overflow-y: auto;
+
+	li {
+		margin-bottom: 0;
+	}
+
+	&.is-not-found {
+		padding: $gap-small 0;
+		text-align: center;
+		border: none;
+
+		.woocommerce-search-list__not-found-icon,
+		.woocommerce-search-list__not-found-text {
+			display: inline-block;
+		}
+
+		.woocommerce-search-list__not-found-icon {
+			margin-right: $gap;
+
+			.gridicon {
+				vertical-align: top;
+				margin-top: -1px;
+			}
+		}
+	}
+
+	.components-spinner {
+		float: none;
+		margin: 0 auto;
+	}
+
+	.components-menu-group__label {
+		@include visually-hidden;
+	}
+
+	> [role="menu"] {
+		border: 1px solid $gray-100;
+		border-bottom: none;
+	}
+
+	.woocommerce-search-list__item {
+		display: flex;
+		align-items: center;
+		margin-bottom: 0;
+		padding: $gap-small $gap;
+		background: $studio-white;
+		// !important to keep the border around on hover
+		border-bottom: 1px solid $gray-100;
+		color: $gray-700;
+
+		&:hover,
+		&:active,
+		&:focus {
+			background: $gray-100;
+		}
+
+		&:active,
+		&:focus {
+			box-shadow: none;
+		}
+
+		&.has-children {
+			cursor: pointer;
+
+			&::after {
+				background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z" fill="#{encode-color($gray-700)}" /></svg>');
+				background-position: center right;
+				background-repeat: no-repeat;
+				background-size: contain;
+				content: "";
+				height: $gap-large;
+				margin-left: $gap-smaller;
+				width: $gap-large;
+			}
+
+			&[disabled]::after {
+				background: none;
+				margin-left: 0;
+				width: auto;
+			}
+
+			&.is-expanded::after {
+				background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" fill="#{encode-color($gray-700)}" /></svg>');
+			}
+		}
+
+		.woocommerce-search-list__item-input {
+			margin: 0 $gap-smaller 0 0;
+		}
+
+		.woocommerce-search-list__item-label {
+			display: flex;
+			flex: 1;
+		}
+
+		&.depth-0 + .depth-1 {
+			// Hide the border on the preceding list item
+			margin-top: -1px;
+		}
+
+		&:not(.depth-0) {
+			border-bottom: 0 !important;
+		}
+
+		&:not(.depth-0) + .depth-0 {
+			border-top: 1px solid $gray-100;
+		}
+
+		// Anything deeper than 5 levels will use this fallback depth
+		&[class*="depth-"] .woocommerce-search-list__item-label::before {
+			margin-right: $gap-smallest;
+			content: str-repeat("— ", 5);
+		}
+
+		&.depth-0 .woocommerce-search-list__item-label::before {
+			margin-right: 0;
+			content: "";
+		}
+
+		@for $i from 1 to 5 {
+			&.depth-#{$i} {
+				padding-left: $gap * ( $i + 1 );
+			}
+
+			&.depth-#{$i} .woocommerce-search-list__item-label::before {
+				content: str-repeat("— ", $i);
+			}
+		}
+
+		.woocommerce-search-list__item-name {
+			display: inline-block;
+		}
+
+		.woocommerce-search-list__item-prefix {
+			display: none;
+			color: $gray-700;
+		}
+
+		&.is-searching,
+		&.is-skip-level {
+			.woocommerce-search-list__item-label {
+				// Un-flex the label, so the prefix (breadcrumbs) and name are aligned.
+				display: inline-block;
+			}
+
+			.woocommerce-search-list__item-prefix {
+				display: inline;
+
+				&::after {
+					margin-right: $gap-smallest;
+					content: " ›";
+				}
+			}
+		}
+
+		&.is-searching {
+			.woocommerce-search-list__item-name {
+				color: $gray-900;
+			}
+		}
+
+		&.has-count {
+			> .components-menu-item__item {
+				width: 100%;
+			}
+		}
+
+		.woocommerce-search-list__item-count {
+			flex: 0 1 auto;
+			padding: math.div($gap-smallest, 2) $gap-smaller;
+			border: 1px solid $gray-100;
+			border-radius: 12px;
+			font-size: 0.8em;
+			line-height: 1.4;
+			margin-left: auto;
+			color: $gray-700;
+			background: $studio-white;
+			white-space: nowrap;
+		}
+	}
+
+	li:last-child .woocommerce-search-list__item {
+		border-bottom: none;
+	}
+}

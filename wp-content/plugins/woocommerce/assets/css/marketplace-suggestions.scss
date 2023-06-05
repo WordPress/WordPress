@@ -1,0 +1,304 @@
+/**
+ * marketplace-suggestions.scss
+ * Styling for in-product marketplace suggestions.
+ */
+
+@import "mixins";
+@import "variables";
+
+$suggestions-pale-gray: #ddd;
+$suggestions-metabox-pale-gray: #eee;
+
+$suggestions-copy-text: #444;
+
+a.suggestion-dismiss {
+	border: none;
+	box-shadow: none;
+	color: $suggestions-pale-gray;
+}
+
+a.suggestion-dismiss:hover {
+	color: #aaa;
+}
+
+a.suggestion-dismiss::before {
+
+	@include iconbeforedashicons( "\f335" );
+
+	font-size: 1.5em;
+}
+
+#woocommerce-product-data ul.wc-tabs li.marketplace-suggestions_tab {
+
+
+	a::before {
+
+		@include iconbeforedashicons( "\f106" );
+
+		@media only screen and (max-width: 900px) {
+			line-height: 40px;
+		}
+	}
+
+	a span {
+		margin: 0 0.618em;
+	}
+}
+
+.marketplace-suggestions-metabox-nosuggestions-placeholder {
+	max-width: 325px;
+	margin: 2em auto;
+	text-align: center;
+
+	.marketplace-suggestion-placeholder-content {
+		margin-bottom: 1em;
+	}
+
+	h4,
+	a,
+	p {
+		margin: auto;
+		text-align: center;
+		display: block;
+		margin-top: 0.75em;
+		line-height: 1.75;
+	}
+}
+
+.marketplace-suggestions-container.showing-suggestion {
+	text-align: left;
+
+	.marketplace-suggestion-container {
+		align-items: flex-start;
+		display: flex;
+		flex-direction: column;
+
+		// Allows us to position the dismiss x button
+		// relative to container on mobile.
+		position: relative;
+
+		img.marketplace-suggestion-icon {
+			height: 40px;
+			margin: 0;
+			margin-right: 1.5em;
+			flex: 0 0 40px;
+		}
+
+		.marketplace-suggestion-container-content {
+			flex: 1 1 60%;
+
+			h4 {
+				margin: 0;
+			}
+
+			p {
+				margin: 0;
+				margin-top: 4px;
+				color: $suggestions-copy-text;
+			}
+		}
+
+		.marketplace-suggestion-container-cta {
+			flex: 1 1 30%;
+			min-width: 160px;
+			text-align: right;
+
+			.suggestion-dismiss {
+				text-decoration: none;
+				position: absolute;
+				top: 1em;
+				right: 1em;
+			}
+		}
+	}
+
+	@media screen and (min-width: 600px) {
+
+		.marketplace-suggestion-container {
+			align-items: center;
+			flex-direction: row;
+
+			img.marketplace-suggestion-icon {
+				// display: inline-block;
+			}
+		}
+	}
+}
+
+.marketplace-suggestions-container.showing-suggestion[data-marketplace-suggestions-context="products-list-empty-header"],
+.marketplace-suggestions-container.showing-suggestion[data-marketplace-suggestions-context="products-list-empty-footer"],
+.marketplace-suggestions-container.showing-suggestion[data-marketplace-suggestions-context="product-edit-meta-tab-header"],
+.marketplace-suggestions-container.showing-suggestion[data-marketplace-suggestions-context="product-edit-meta-tab-footer"],
+.marketplace-suggestions-container.showing-suggestion[data-marketplace-suggestions-context="orders-list-empty-header"],
+.marketplace-suggestions-container.showing-suggestion[data-marketplace-suggestions-context="orders-list-empty-footer"] {
+
+	.marketplace-suggestion-container {
+
+		.marketplace-suggestion-container-content {
+
+			h4 {
+				font-size: 1.1em;
+				margin: 0;
+				margin-bottom: 0;
+			}
+		}
+	}
+}
+
+// Additional breathing space margin under empty-state footer.
+.marketplace-suggestions-container.showing-suggestion[data-marketplace-suggestions-context="products-list-empty-footer"],
+.marketplace-suggestions-container.showing-suggestion[data-marketplace-suggestions-context="orders-list-empty-footer"] {
+
+	margin-bottom: 6em;
+}
+
+
+// Optimise footer suggestion layout for left-aligned CTA link button only.
+.marketplace-suggestions-container.showing-suggestion[data-marketplace-suggestions-context="products-list-empty-footer"],
+.marketplace-suggestions-container.showing-suggestion[data-marketplace-suggestions-context="product-edit-meta-tab-footer"],
+.marketplace-suggestions-container.showing-suggestion[data-marketplace-suggestions-context="orders-list-empty-footer"] {
+
+	.marketplace-suggestion-container {
+
+		flex-direction: row-reverse;
+
+		.marketplace-suggestion-container-cta {
+
+			text-align: left;
+		}
+
+		.marketplace-suggestion-container-content.has-manage-link {
+			text-align: right;
+		}
+	}
+}
+
+
+.marketplace-suggestions-container.showing-suggestion[data-marketplace-suggestions-context="product-edit-meta-tab-header"],
+.marketplace-suggestions-container.showing-suggestion[data-marketplace-suggestions-context="product-edit-meta-tab-footer"],
+.marketplace-suggestions-container.showing-suggestion[data-marketplace-suggestions-context="product-edit-meta-tab-body"] {
+
+	.marketplace-suggestion-container {
+		padding: 1em 1.5em;
+
+		.marketplace-suggestion-container-content {
+
+			p {
+				padding: 0;
+				line-height: 1.5;
+			}
+		}
+	}
+}
+
+.marketplace-suggestions-container.showing-suggestion[data-marketplace-suggestions-context="products-list-empty-header"],
+.marketplace-suggestions-container.showing-suggestion[data-marketplace-suggestions-context="products-list-empty-footer"],
+.marketplace-suggestions-container.showing-suggestion[data-marketplace-suggestions-context="orders-list-empty-header"],
+.marketplace-suggestions-container.showing-suggestion[data-marketplace-suggestions-context="orders-list-empty-footer"] {
+
+	.marketplace-suggestion-container {
+		padding: 1.5em;
+	}
+}
+
+.marketplace-suggestions-container.showing-suggestion[data-marketplace-suggestions-context="products-list-empty-body"],
+.marketplace-suggestions-container.showing-suggestion[data-marketplace-suggestions-context="orders-list-empty-body"] {
+
+	.marketplace-suggestion-container {
+		padding: 0.75em 1.5em;
+
+		&:first-child {
+			padding-top: 1.5em;
+		}
+
+		&:last-child {
+			padding-bottom: 1.5em;
+		}
+
+		.marketplace-suggestion-container-content {
+
+			p:last-child {
+				margin-bottom: 0;
+			}
+		}
+	}
+}
+
+.marketplace-suggestions-container.showing-suggestion[data-marketplace-suggestions-context="products-list-empty-header"],
+.marketplace-suggestions-container.showing-suggestion[data-marketplace-suggestions-context="products-list-empty-footer"],
+.marketplace-suggestions-container.showing-suggestion[data-marketplace-suggestions-context="products-list-empty-body"],
+.marketplace-suggestions-container.showing-suggestion[data-marketplace-suggestions-context="orders-list-empty-header"],
+.marketplace-suggestions-container.showing-suggestion[data-marketplace-suggestions-context="orders-list-empty-footer"],
+.marketplace-suggestions-container.showing-suggestion[data-marketplace-suggestions-context="orders-list-empty-body"],
+.marketplace-suggestions-container.showing-suggestion[data-marketplace-suggestions-context="product-edit-meta-tab-header"],
+.marketplace-suggestions-container.showing-suggestion[data-marketplace-suggestions-context="product-edit-meta-tab-footer"],
+.marketplace-suggestions-container.showing-suggestion[data-marketplace-suggestions-context="product-edit-meta-tab-body"] {
+
+	// hide by default (mobile first)
+	display: none;
+
+	.marketplace-suggestion-container .marketplace-suggestion-container-cta {
+
+		a.button {
+			display: inline-block;
+			min-width: 120px;
+			text-align: center;
+			margin: 0;
+		}
+
+		a.linkout {
+			font-size: 1.1em;
+			text-decoration: none;
+		}
+
+		a.linkout .dashicons {
+			margin-left: 4px;
+			bottom: 2px;
+			position: relative;
+		}
+
+		.suggestion-dismiss {
+			position: relative;
+			top: 5px;
+			right: auto;
+			margin-left: 1em;
+		}
+	}
+
+	@media screen and (min-width: 600px) {
+
+		// Display onboarding table suggestion on desktop only. (for now)
+		// There's limited room on mobile, and there are edge-case
+		// styling issues in some browsers.
+		display: block;
+	}
+}
+
+
+.marketplace-suggestions-container.showing-suggestion[data-marketplace-suggestions-context="product-edit-meta-tab-header"],
+.marketplace-suggestions-container.showing-suggestion[data-marketplace-suggestions-context="product-edit-meta-tab-footer"] {
+
+	border: none;
+}
+
+.marketplace-suggestions-container.showing-suggestion[data-marketplace-suggestions-context="product-edit-meta-tab-body"] {
+
+	border: none;
+	border-top: 1px solid $suggestions-metabox-pale-gray;
+	border-bottom: 1px solid $suggestions-metabox-pale-gray;
+}
+
+.marketplace-suggestions-container.showing-suggestion[data-marketplace-suggestions-context="products-list-empty-header"],
+.marketplace-suggestions-container.showing-suggestion[data-marketplace-suggestions-context="products-list-empty-footer"],
+.marketplace-suggestions-container.showing-suggestion[data-marketplace-suggestions-context="products-list-empty-body"],
+.marketplace-suggestions-container.showing-suggestion[data-marketplace-suggestions-context="orders-list-empty-header"],
+.marketplace-suggestions-container.showing-suggestion[data-marketplace-suggestions-context="orders-list-empty-footer"],
+.marketplace-suggestions-container.showing-suggestion[data-marketplace-suggestions-context="orders-list-empty-body"] {
+
+	border: 1px solid $suggestions-pale-gray;
+	border-bottom: none;
+
+	&:last-child {
+		border-bottom: 1px solid $suggestions-pale-gray;
+	}
+}

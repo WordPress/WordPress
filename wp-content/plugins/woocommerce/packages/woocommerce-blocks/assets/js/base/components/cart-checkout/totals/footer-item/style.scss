@@ -1,0 +1,14 @@
+.wc-block-components-totals-footer-item {
+	.wc-block-components-totals-item__value,
+	.wc-block-components-totals-item__label {
+		@include font-size(large);
+	}
+
+	.wc-block-components-totals-item__label {
+		font-weight: 700;
+	}
+
+	.wc-block-components-totals-footer-item-tax {
+		margin-bottom: 0;
+	}
+}

@@ -1,0 +1,38 @@
+.wc-block-product-search {
+	.wc-block-product-search__fields {
+		display: flex;
+	}
+	.wc-block-product-search__field {
+		padding: 6px 8px;
+		line-height: 1.8;
+		flex-grow: 1;
+	}
+	.wc-block-product-search__button {
+		display: flex;
+		align-items: center;
+		margin: 0 0 0 6px;
+		cursor: pointer;
+		padding: 0 0.5em;
+		position: relative;
+		overflow: hidden;
+		svg {
+			fill: currentColor;
+			outline: none;
+			.rtl & {
+				transform: rotate(180deg);
+			}
+		}
+		&:active {
+			color: currentColor;
+		}
+		&:disabled,
+		&[aria-disabled="true"] {
+			cursor: default;
+			opacity: 0.3;
+		}
+		&[aria-disabled="true"]:focus,
+		&:disabled:focus {
+			box-shadow: none;
+		}
+	}
+}

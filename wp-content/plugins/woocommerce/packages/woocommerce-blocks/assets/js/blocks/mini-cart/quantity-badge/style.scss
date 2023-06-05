@@ -1,0 +1,34 @@
+.wc-block-mini-cart__quantity-badge {
+	align-items: center;
+	display: flex;
+}
+
+.wc-block-mini-cart__badge {
+	align-items: center;
+	background: transparent;
+	border: 0.15em solid;
+	border-radius: 1em;
+	box-sizing: border-box;
+	color: inherit;
+	display: flex;
+	font-size: 0.875em;
+	font-weight: 600;
+	height: math.div(em(20px), 0.875);
+	justify-content: center;
+	margin-left: math.div(em(-10px), 0.875);
+	min-width: math.div(em(20px), 0.875);
+	padding: 0 em($gap-smallest);
+	transform: translateY(-50%);
+	white-space: nowrap;
+	z-index: 1;
+}
+
+.wc-block-mini-cart__icon {
+	display: block;
+	height: em(24px);
+	width: em(24px);
+
+	html[dir="rtl"] & {
+		transform: scaleX(-1);
+	}
+}

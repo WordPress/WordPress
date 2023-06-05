@@ -1,0 +1,28 @@
+{
+	"name": "woocommerce/filled-mini-cart-contents-block",
+	"version": "1.0.0",
+	"title": "Filled Mini Cart view",
+	"description": "Contains blocks that display the content of the Mini Cart.",
+	"category": "woocommerce",
+	"supports": {
+		"align": false,
+		"html": false,
+		"multiple": false,
+		"reusable": false,
+		"inserter": false,
+		"lock": false
+	},
+	"attributes": {
+		"lock": {
+			"type": "object",
+			"default": {
+				"remove": true,
+				"move": true
+			}
+		}
+	},
+	"parent": [ "woocommerce/mini-cart-contents" ],
+	"textdomain": "woocommerce",
+	"apiVersion": 2,
+	"$schema": "https://schemas.wp.org/trunk/block.json"
+}

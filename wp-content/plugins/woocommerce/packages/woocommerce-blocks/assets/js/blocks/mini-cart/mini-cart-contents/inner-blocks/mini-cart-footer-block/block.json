@@ -1,0 +1,28 @@
+{
+	"name": "woocommerce/mini-cart-footer-block",
+	"version": "1.0.0",
+	"title": "Mini Cart Footer",
+	"description": "Block that displays the footer of the Mini Cart block.",
+	"category": "woocommerce",
+	"supports": {
+		"align": false,
+		"html": false,
+		"multiple": false,
+		"reusable": false,
+		"inserter": false,
+		"lock": false
+	},
+	"attributes": {
+		"lock": {
+			"type": "object",
+			"default": {
+				"remove": true,
+				"move": true
+			}
+		}
+	},
+	"parent": [ "woocommerce/filled-mini-cart-contents-block" ],
+	"textdomain": "woocommerce",
+	"apiVersion": 2,
+	"$schema": "https://schemas.wp.org/trunk/block.json"
+}

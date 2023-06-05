@@ -1,0 +1,303 @@
+$fontSizes: (
+	"smaller": 0.75,
+	"small": 0.875,
+	"regular": 1,
+	"large": 1.25,
+	"larger": 2,
+);
+
+// Maps a named font-size to its predefined size. Units default to em, but can
+// be changed using the multiplier parameter.
+@mixin font-size($sizeName, $multiplier: 1em) {
+	font-size: map.get($fontSizes, $sizeName) * $multiplier;
+}
+
+@keyframes spinner__animation {
+	0% {
+		animation-timing-function: cubic-bezier(0.5856, 0.0703, 0.4143, 0.9297);
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes loading__animation {
+	100% {
+		transform: translateX(100%);
+	}
+}
+
+// Adds animation to placeholder section
+@mixin placeholder($include-border-radius: true) {
+	outline: 0 !important;
+	border: 0 !important;
+	background-color: currentColor !important;
+	color: currentColor !important;
+	width: 100%;
+	@if $include-border-radius == true {
+		border-radius: 0.25rem;
+	}
+	display: block;
+	line-height: 1;
+	position: relative !important;
+	overflow: hidden !important;
+	max-width: 100% !important;
+	pointer-events: none;
+	box-shadow: none;
+	z-index: 1; /* Necessary for overflow: hidden to work correctly in Safari */
+	opacity: 0.15;
+
+	// Forces direct descendants to keep layout but lose visibility.
+	> * {
+		visibility: hidden;
+	}
+
+	&::after {
+		content: " ";
+		display: block;
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 0;
+		height: 100%;
+		background-repeat: no-repeat;
+		background-image: linear-gradient(90deg, currentColor, #f5f5f54d, currentColor);
+		transform: translateX(-100%);
+		animation: loading__animation 1.5s ease-in-out infinite;
+	}
+
+	@media screen and (prefers-reduced-motion: reduce) {
+		animation: none;
+	}
+}
+
+@mixin force-content() {
+	&::before {
+		content: "\00a0";
+	}
+}
+
+// Hide an element from sighted users, but available to screen reader users.
+@mixin visually-hidden() {
+	border: 0;
+	clip: rect(1px, 1px, 1px, 1px);
+	clip-path: inset(50%);
+	height: 1px;
+	width: 1px;
+	margin: -1px;
+	overflow: hidden;
+	/* Many screen reader and browser combinations announce broken words as they would appear visually. */
+	overflow-wrap: normal !important;
+	word-wrap: normal !important;
+	padding: 0;
+	position: absolute !important;
+	width: 1px;
+}
+
+@mixin visually-hidden-focus-reveal() {
+	background-color: #fff;
+	border-radius: 3px;
+	box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
+	clip: auto !important;
+	clip-path: none;
+	color: $input-text-active;
+	display: block;
+	font-size: 0.875rem;
+	font-weight: 700;
+	height: auto;
+	left: 5px;
+	line-height: normal;
+	padding: 15px 23px 14px;
+	text-decoration: none;
+	top: 5px;
+	width: auto;
+	z-index: 100000;
+}
+
+@mixin reset-box() {
+	border: 0;
+	border-radius: 0;
+	margin: 0;
+	padding: 0;
+	vertical-align: baseline;
+}
+
+@mixin reset-typography() {
+	color: inherit;
+	font-family: inherit;
+	font-size: inherit;
+	font-style: inherit;
+	font-weight: inherit;
+	letter-spacing: inherit;
+	line-height: inherit;
+	text-decoration: inherit;
+	text-transform: inherit;
+}
+
+// Reset <h1>, <h2>, etc. styles as if they were text. Useful for elements that must be headings for a11y but don't need those styles.
+@mixin text-heading() {
+	@include reset-box();
+	@include reset-typography();
+	box-shadow: none;
+	display: inline;
+
+	background: transparent;
+}
+
+// Reset <button> style as if it was text. Useful for elements that must be `<button>` for a11y but don't need those styles.
+@mixin text-button() {
+	@include reset-box();
+	@include reset-typography();
+	background: transparent;
+	box-shadow: none;
+	display: inline;
+	text-shadow: none;
+
+	&:hover,
+	&:focus,
+	&:active {
+		background: transparent;
+	}
+}
+
+// Reset <button> style so we can use link style for action buttons.
+@mixin link-button() {
+	@include text-button();
+	text-decoration: underline;
+}
+
+// Reset <button> style so we can use link style for action buttons in filter blocks
+@mixin filter-link-button() {
+	@include link-button();
+	@include font-size(small);
+	text-decoration: underline;
+	font-weight: normal;
+	color: inherit;
+
+	&:hover {
+		text-decoration: none;
+		color: inherit;
+	}
+}
+
+// Makes sure long words are broken if they overflow the container.
+@mixin wrap-break-word() {
+	// This is the current standard, works in most browsers.
+	overflow-wrap: anywhere;
+	// Safari supports word-break.
+	word-break: break-word;
+	// IE11 doesn't support overflow-wrap neither word-break: break-word, so we fallback to -ms-work-break: break-all.
+	-ms-word-break: break-all;
+}
+
+// Add support for content alignment classes
+@mixin with-alignment() {
+	// Apply max-width to floated items that have no intrinsic width
+	&.alignleft,
+	&.alignright {
+		max-width: $content-width * 0.5;
+		width: 100%;
+	}
+
+	// Using flexbox without an assigned height property breaks vertical center alignment in IE11.
+	// Appending an empty ::after element tricks IE11 into giving the cover image an implicit height, which sidesteps this issue.
+	&::after {
+		display: block;
+		content: "";
+		font-size: 0;
+		min-height: inherit;
+
+		// IE doesn't support flex so omit that.
+		@supports (position: sticky) {
+			content: none;
+		}
+	}
+
+	// Aligned cover blocks should not use our global alignment rules
+	&.aligncenter,
+	&.alignleft,
+	&.alignright {
+		display: flex;
+	}
+}
+
+// Shows an semi-transparent overlay
+@mixin with-background-dim($opacity: 0.5) {
+	&.has-background-dim {
+		.background-dim__overlay::before {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			right: 0;
+			background: inherit;
+			border-radius: inherit;
+			opacity: $opacity;
+			z-index: 1;
+		}
+	}
+
+	@for $i from 1 through 10 {
+		&.has-background-dim-#{ $i * 10 } .background-dim__overlay::before {
+			opacity: $i * 0.1;
+		}
+	}
+}
+
+// Shows a border with the current color and a custom opacity. That can't be achieved
+// with normal border because `currentColor` doesn't allow tweaking the opacity, and
+// setting the opacity of the entire element would change the children's opacity too.
+@mixin with-translucent-border($border-width: 1px, $opacity: 0.3) {
+	position: relative;
+
+	&::after {
+		border-style: solid;
+		border-width: $border-width;
+		bottom: 0;
+		content: "";
+		display: block;
+		left: 0;
+		opacity: $opacity;
+		pointer-events: none;
+		position: absolute;
+		right: 0;
+		top: 0;
+	}
+}
+
+// Wraps the content with a media query specially targeting IE11.
+@mixin ie11() {
+	@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+		@content;
+	}
+}
+
+// Positions an element absolutely and stretches it over the container
+@mixin absolute-stretch() {
+	margin: 0;
+	padding: 0;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	width: 100%;
+	height: 100%;
+}
+
+// Converts a px unit to em.
+@function em($size, $base: 16px) {
+	@return math.div($size, $base) * 1em;
+}
+
+// Encodes hex colors so they can be used in URL content.
+@function encode-color($color) {
+	@if type-of($color) != "color" or string.index(#{$color}, "#") != 1 {
+		@return $color;
+	}
+
+	$hex: string.slice(color.ie-hex-str($color), 4);
+	@return "%23" + unquote("#{$hex}");
+}

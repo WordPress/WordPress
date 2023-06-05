@@ -1,0 +1,18 @@
+.wc-block-error-message {
+	margin-bottom: 16px;
+	margin-top: 8px;
+}
+
+.wc-block-api-error {
+	.components-placeholder__fieldset {
+		display: block;
+	}
+
+	.wc-block-error-message {
+		margin-top: 0;
+	}
+
+	.components-spinner {
+		float: none;
+	}
+}

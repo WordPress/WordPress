@@ -1,0 +1,58 @@
+// Remove the list styling, which is added back by core GB styles.
+.editor-styles-wrapper {
+	.wc-block-grid {
+		.wc-block-grid__products {
+			list-style: none;
+			margin: 0 (-$gap * 0.5) $gap;
+			padding: 0;
+
+			.wc-block-grid__product {
+				margin: 0 0 $gap-large 0;
+			}
+		}
+
+		&.components-placeholder {
+			padding: 2em 1em;
+		}
+
+		&.is-loading,
+		&.is-not-found {
+			display: block;
+		}
+	}
+}
+
+// Style inline notices in the inspector.
+.components-base-control {
+	+ .wc-block-base-control-notice {
+		margin: -$gap 0 $gap;
+	}
+
+	+ .wc-block-base-control-notice:last-child {
+		margin: -$gap 0 $gap-small;
+	}
+}
+
+svg.wc-block-editor-components-block-icon--sparkles path {
+	fill: currentColor;
+}
+
+.block-editor-list-view-leaf.is-selected {
+	.block-editor-list-view-block-contents {
+		svg.wc-block-editor-components-block-icon {
+			color: currentColor;
+		}
+	}
+}
+
+.theme-twentytwenty {
+	.wp-block {
+		.wc-block-grid__product-title,
+		.wc-block-active-filters__title,
+		.wc-block-attribute-filter__title,
+		.wc-block-price-filter__title,
+		.wc-block-stock-filter__title {
+			@include font-size(regular);
+		}
+	}
+}

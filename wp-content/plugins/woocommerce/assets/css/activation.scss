@@ -1,0 +1,71 @@
+/**
+ * activation.scss
+ * Styles applied to elements displayed on activation
+ */
+
+/**
+ * Styling begins
+ */
+div.woocommerce-message {
+	overflow: hidden;
+	position: relative;
+
+	&.updated {
+		border-left-color: #cc99c2 !important;
+	}
+}
+
+p.woocommerce-actions,
+.woocommerce-message {
+
+	.button-primary {
+		background: #bb77ae;
+		border-color: #a36597;
+		box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 0 #a36597;
+		color: #fff;
+		text-shadow: 0 -1px 1px #a36597, 1px 0 1px #a36597, 0 1px 1px #a36597, -1px 0 1px #a36597;
+
+		&:hover,
+		&:focus,
+		&:active {
+			background: #a36597;
+			border-color: #a36597;
+			box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 0 #a36597;
+		}
+	}
+
+	a.woocommerce-message-close {
+		position: static;
+		float: right;
+		top: 0;
+		right: 0;
+		padding: 0 15px 10px 28px;
+		margin-top: -10px;
+		font-size: 13px;
+		line-height: 1.23076923;
+		text-decoration: none;
+
+		&::before {
+			position: relative;
+			top: 18px;
+			left: -20px;
+			transition: all 0.1s ease-in-out;
+		}
+	}
+
+	.button-primary,
+	.button-secondary {
+		text-decoration: none !important;
+	}
+
+	.twitter-share-button {
+		margin-top: -3px;
+		margin-left: 3px;
+		vertical-align: middle;
+	}
+}
+
+p.woocommerce-actions,
+.woocommerce-about-text {
+	margin-bottom: 1em !important;
+}

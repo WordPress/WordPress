@@ -1,0 +1,149 @@
+%notice-banner {
+	display: flex;
+	align-items: stretch;
+	align-content: flex-start;
+	color: $gray-800;
+	padding: $gap !important;
+	gap: $gap-small;
+	margin: $gap 0;
+	border-radius: 4px;
+	border-color: $gray-800;
+	font-weight: 400;
+	line-height: 1.5;
+	border: 1px solid;
+	@include font-size(small);
+	background-color: #fff;
+	box-sizing: border-box;
+
+	> .wc-block-components-notice-banner__content {
+		padding-right: $gap;
+		align-self: center;
+		white-space: normal;
+		flex-basis: 100%;
+
+		&:last-child {
+			padding-right: 0;
+		}
+
+		.wc-block-components-notice-banner__summary {
+			margin: 0 0 $gap-smaller;
+			font-weight: 600;
+		}
+
+		ul,
+		ol {
+			margin: 0 0 0 $gap-large;
+			padding: 0;
+
+			li::after {
+				content: "";
+				clear: both;
+				display: block;
+			}
+		}
+
+		// Legacy notice compatibility.
+		.wc-forward.wp-element-button {
+			float: right;
+			color: $gray-800 !important;
+			background: transparent;
+			padding: 0 !important;
+			margin: 0;
+			border: 0;
+			appearance: none;
+			opacity: 0.6;
+
+			&:hover,
+			&:focus,
+			&:active {
+				opacity: 1;
+			}
+		}
+	}
+
+	> svg {
+		fill: #fff;
+		border-radius: 50%;
+		padding: 2px;
+		background-color: $gray-800;
+		flex-shrink: 0;
+		flex-grow: 0;
+	}
+
+	> .wc-block-components-button {
+		margin: 6px 0 0 auto !important;
+		background: transparent none !important;
+		box-shadow: none !important;
+		outline: none !important;
+		border: 0 !important;
+		padding: 0 !important;
+		height: 16px !important;
+		width: 16px !important;
+		min-height: auto !important;
+		color: $gray-800 !important;
+		min-width: 0 !important;
+		flex: 0 0 16px;
+		opacity: 0.6;
+
+		> svg {
+			margin: 0 !important;
+		}
+
+		&:hover,
+		&:focus,
+		&:active {
+			opacity: 1;
+		}
+	}
+}
+
+%error {
+	border-color: $alert-red;
+	background-color: #fff0f0;
+
+	> svg {
+		background-color: $alert-red;
+		transform: rotate(180deg);
+	}
+}
+%warning {
+	border-color: $alert-yellow;
+	background-color: #fffbf4;
+
+	> svg {
+		background-color: $alert-yellow;
+		transform: rotate(180deg);
+	}
+}
+%success {
+	border-color: $alert-green;
+	background-color: #f4fff7;
+
+	> svg {
+		background-color: $alert-green;
+	}
+}
+%info {
+	border-color: #007cba;
+	background-color: #f4f8ff;
+
+	> svg {
+		background-color: #007cba;
+	}
+}
+
+.wc-block-components-notice-banner {
+	@extend %notice-banner;
+	&.is-error {
+		@extend %error;
+	}
+	&.is-warning {
+		@extend %warning;
+	}
+	&.is-success {
+		@extend %success;
+	}
+	&.is-info {
+		@extend %info;
+	}
+}

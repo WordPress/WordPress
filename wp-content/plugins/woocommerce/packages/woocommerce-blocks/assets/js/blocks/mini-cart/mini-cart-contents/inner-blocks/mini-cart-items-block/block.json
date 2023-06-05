@@ -1,0 +1,28 @@
+{
+	"name": "woocommerce/mini-cart-items-block",
+	"version": "1.0.0",
+	"title": "Mini Cart Items",
+	"description": "Contains the products table and other custom blocks of filled mini cart.",
+	"category": "woocommerce",
+	"supports": {
+		"align": false,
+		"html": false,
+		"multiple": false,
+		"reusable": false,
+		"inserter": false,
+		"lock": false
+	},
+	"attributes": {
+		"lock": {
+			"type": "object",
+			"default": {
+				"remove": true,
+				"move": true
+			}
+		}
+	},
+	"parent": [ "woocommerce/filled-mini-cart-contents-block" ],
+	"textdomain": "woocommerce",
+	"apiVersion": 2,
+	"$schema": "https://schemas.wp.org/trunk/block.json"
+}

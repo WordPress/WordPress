@@ -1,0 +1,22 @@
+.wc-block-checkout__add-note {
+	margin: em($gap-large) 0;
+}
+
+.is-mobile,
+.is-small,
+.is-medium {
+	.wc-block-checkout__add-note {
+		@include with-translucent-border(1px 0);
+		margin-bottom: em($gap);
+		margin-top: em($gap);
+		padding: em($gap) 0;
+	}
+}
+
+.wc-block-checkout__add-note .wc-block-components-textarea {
+	margin-top: $gap;
+}
+
+.wc-block-checkout__order-notes.wc-block-components-checkout-step {
+	padding-left: 0;
+}

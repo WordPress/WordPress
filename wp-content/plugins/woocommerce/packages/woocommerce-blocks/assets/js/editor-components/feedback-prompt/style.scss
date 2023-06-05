@@ -1,0 +1,19 @@
+.wc-block-feedback-prompt {
+	background-color: #f7f7f7;
+	border-top: 1px solid $gray-200;
+	margin: 0 -16px 0;
+	padding: $gap-large;
+	text-align: center;
+
+	.wc-block-feedback-prompt__title {
+		margin: 0 0 $gap-small;
+	}
+
+	.wc-block-feedback-prompt__link {
+		color: inherit;
+
+		> .gridicon {
+			vertical-align: text-bottom;
+		}
+	}
+}

@@ -1,0 +1,44 @@
+.woocommerce-tag {
+	display: inline-flex;
+	margin: 1px 4px 1px 0;
+	overflow: hidden;
+	vertical-align: middle;
+
+	.woocommerce-tag__text,
+	.woocommerce-tag__remove {
+		display: inline-block;
+		line-height: 24px;
+		background: $gray-100;
+		transition: all 0.2s cubic-bezier(0.4, 1, 0.4, 1);
+	}
+
+	.woocommerce-tag__text {
+		align-self: center;
+		padding: 0 $gap-smaller;
+		border-radius: 12px;
+		color: $gray-700;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	&.has-remove .woocommerce-tag__text {
+		padding: 0 $gap-smallest 0 $gap-smaller;
+		border-radius: 12px 0 0 12px;
+	}
+
+	.woocommerce-tag__remove {
+		cursor: pointer;
+		height: inherit;
+		padding: 0 2px;
+		border-radius: 0 12px 12px 0;
+		color: $gray-700;
+		line-height: 10px;
+		text-indent: 0;
+		height: 24px;
+
+		&:hover {
+			color: $gray-900;
+		}
+	}
+}

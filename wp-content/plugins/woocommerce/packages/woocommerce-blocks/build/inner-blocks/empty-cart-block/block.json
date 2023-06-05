@@ -1,0 +1,28 @@
+{
+	"name": "woocommerce/empty-cart-block",
+	"version": "1.0.0",
+	"title": "Empty Cart",
+	"description": "Contains blocks that are displayed when the cart is empty.",
+	"category": "woocommerce",
+	"supports": {
+		"align": [ "wide" ],
+		"html": false,
+		"multiple": false,
+		"reusable": false,
+		"inserter": false,
+		"lock": false
+	},
+	"attributes": {
+		"lock": {
+			"type": "object",
+			"default": {
+				"remove": true,
+				"move": true
+			}
+		}
+	},
+	"parent": [ "woocommerce/cart" ],
+	"textdomain": "woocommerce",
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2
+}

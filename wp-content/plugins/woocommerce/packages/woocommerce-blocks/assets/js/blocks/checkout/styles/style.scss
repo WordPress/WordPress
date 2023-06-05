@@ -1,0 +1,96 @@
+.wp-block-woocommerce-checkout {
+	margin: 0;
+
+	.with-scroll-to-top__scroll-point {
+		top: -96px;
+	}
+}
+
+.wp-block-woocommerce-checkout.is-loading {
+	display: flex;
+	flex-wrap: wrap;
+	margin: 0 auto $gap;
+	position: relative;
+	.wp-block-woocommerce-checkout-totals-block {
+		width: 35%;
+		padding-left: math.percentage(math.div($gap-large, 1060px));
+	}
+	.wp-block-woocommerce-checkout-fields-block {
+		width: 65%;
+		padding-right: math.percentage(math.div($gap-largest, 1060px)); // ~1060px is the default width of the content area in Storefront.
+	}
+	.wp-block-woocommerce-checkout-totals-block,
+	.wp-block-woocommerce-checkout-fields-block {
+		box-sizing: border-box;
+		margin: 0;
+
+		> div {
+			@include placeholder();
+			margin: 0 0 1.5em 0;
+			display: none;
+		}
+		.wp-block-woocommerce-checkout-contact-information-block,
+		.wp-block-woocommerce-checkout-payment-block {
+			min-height: 10em;
+			display: block;
+		}
+		.wp-block-woocommerce-checkout-shipping-address-block {
+			min-height: 24em;
+			display: block;
+		}
+		.wp-block-woocommerce-checkout-actions-block {
+			width: 50%;
+			min-height: 4em;
+			margin-left: 50%;
+			display: block;
+		}
+		.wp-block-woocommerce-checkout-order-summary-block {
+			min-height: 47em;
+			display: block;
+		}
+		.wc-block-components-panel > h2 {
+			@include font-size(regular);
+			@include reset-box();
+			@include reset-typography();
+			.wc-block-components-panel__button {
+				font-weight: 400;
+			}
+		}
+		.wc-block-components-totals-item,
+		.wc-block-components-totals-coupon-link,
+		.wc-block-components-panel {
+			padding-left: $gap;
+			padding-right: $gap;
+		}
+	}
+}
+// Skeleton is shown before mobile classes are appended.
+@media only screen and (max-width: 700px) {
+	.wp-block-woocommerce-checkout.is-loading {
+		flex-direction: column;
+		margin: 0 auto $gap;
+
+		.wp-block-woocommerce-checkout-fields-block {
+			padding: 0;
+			width: 100%;
+		}
+		.wp-block-woocommerce-checkout-totals-block {
+			padding: 0;
+			width: 100%;
+			.wc-block-components-totals-item,
+			.wc-block-components-totals-coupon-link,
+			.wc-block-components-panel {
+				padding-left: 0;
+				padding-right: 0;
+			}
+		}
+	}
+}
+
+// For Twenty Twenty we need to increase specificity a bit more.
+.theme-twentytwenty .wp-block-woocommerce-checkout.is-loading {
+	.wp-block-woocommerce-checkout-totals-block .wc-block-components-panel > h2 {
+		@include font-size(large);
+		@include reset-box();
+	}
+}

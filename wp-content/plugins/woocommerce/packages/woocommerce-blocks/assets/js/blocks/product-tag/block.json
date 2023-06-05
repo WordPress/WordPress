@@ -1,0 +1,79 @@
+{
+	"name": "woocommerce/product-tag",
+	"title": "Products by Tag",
+	"category": "woocommerce",
+	"keywords": [ "WooCommerce" ],
+	"description": "Display a grid of products with selected tags.",
+	"supports": {
+		"align": [ "wide", "full" ],
+		"html": false
+	},
+	"attributes": {
+		"columns": {
+			"type": "number",
+			"default": 3
+		},
+		"rows": {
+			"type": "number",
+			"default": 3
+		},
+		"alignButtons": {
+			"type": "boolean",
+			"default": false
+		},
+		"contentVisibility": {
+			"type": "object",
+			"default": {
+				"image": true,
+				"title": true,
+				"price": true,
+				"rating": true,
+				"button": true
+			},
+			"properties": {
+				"image": {
+					"type": "boolean",
+					"default": true
+				},
+				"title": {
+					"type": "boolean",
+					"default": true
+				},
+				"price": {
+					"type": "boolean",
+					"default": true
+				},
+				"rating": {
+					"type": "boolean",
+					"default": true
+				},
+				"button": {
+					"type": "boolean",
+					"default": true
+				}
+			}
+		},
+		"tags": {
+			"type": "array",
+			"default": []
+		},
+		"tagOperator": {
+			"type": "string",
+			"default": "any"
+		},
+		"orderby": {
+			"type": "string",
+			"default": "date"
+		},
+		"isPreview": {
+			"type": "boolean",
+			"default": false
+		},
+		"stockStatus": {
+			"type": "array"
+		}
+	},
+	"textdomain": "woocommerce",
+	"apiVersion": 2,
+	"$schema": "https://schemas.wp.org/trunk/block.json"
+}

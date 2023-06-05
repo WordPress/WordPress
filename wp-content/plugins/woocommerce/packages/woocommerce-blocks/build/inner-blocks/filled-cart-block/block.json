@@ -1,0 +1,28 @@
+{
+	"name": "woocommerce/filled-cart-block",
+	"version": "1.0.0",
+	"title": "Filled Cart",
+	"description": "Contains blocks that are displayed when the cart contains products.",
+	"category": "woocommerce",
+	"supports": {
+		"align": [ "wide" ],
+		"html": false,
+		"multiple": false,
+		"reusable": false,
+		"inserter": false,
+		"lock": false
+	},
+	"attributes": {
+		"lock": {
+			"type": "object",
+			"default": {
+				"remove": true,
+				"move": true
+			}
+		}
+	},
+	"parent": [ "woocommerce/cart" ],
+	"textdomain": "woocommerce",
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2
+}

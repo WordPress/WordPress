@@ -1,0 +1,10 @@
+@import "../style";
+
+.wp-block-woocommerce-featured-product {
+	@extend %with-media-controls;
+	@extend %with-resizable-box;
+
+	&__message {
+		margin-bottom: 16px;
+	}
+}

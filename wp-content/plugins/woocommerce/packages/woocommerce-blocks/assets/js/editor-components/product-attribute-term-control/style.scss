@@ -1,0 +1,35 @@
+.woocommerce-product-attributes__operator {
+	.components-base-control__help {
+		@include visually-hidden;
+	}
+
+	.components-base-control__label {
+		margin-bottom: 0;
+		margin-right: 0.5em;
+	}
+}
+
+.woocommerce-search-list__item.woocommerce-product-attributes__item {
+	&.is-searching,
+	&.is-skip-level {
+		.woocommerce-search-list__item-prefix::after {
+			content: ":";
+		}
+	}
+
+	&.is-not-active {
+		&:hover,
+		&:active,
+		&:focus {
+			background: $white;
+		}
+	}
+
+	&.is-loading {
+		justify-content: center;
+
+		.components-spinner {
+			margin-bottom: $gap-small;
+		}
+	}
+}

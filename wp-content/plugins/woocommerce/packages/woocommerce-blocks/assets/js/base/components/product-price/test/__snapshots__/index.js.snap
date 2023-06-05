@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProductPrice should apply the format if one is provided 1`] = `
+<span
+  className="price wc-block-components-product-price"
+>
+  pre price 
+  <span
+    className="screen-reader-text"
+  >
+    Previous price:
+  </span>
+  <del
+    className="wc-block-components-product-price__regular"
+  >
+    £1.00
+  </del>
+  <span
+    className="screen-reader-text"
+  >
+    Discounted price:
+  </span>
+  <ins
+    className="wc-block-components-product-price__value is-discounted"
+  >
+    £0.50
+  </ins>
+   Test format
+</span>
+`;
+
+exports[`ProductPrice should use default price if no format is provided 1`] = `
+<span
+  className="price wc-block-components-product-price"
+>
+  <span
+    className="screen-reader-text"
+  >
+    Previous price:
+  </span>
+  <del
+    className="wc-block-components-product-price__regular"
+  >
+    £1.00
+  </del>
+  <span
+    className="screen-reader-text"
+  >
+    Discounted price:
+  </span>
+  <ins
+    className="wc-block-components-product-price__value is-discounted"
+  >
+    £0.50
+  </ins>
+</span>
+`;

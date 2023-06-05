@@ -1,0 +1,10 @@
+parameters:
+    level: 5
+    paths:
+        - src
+        - tests
+    excludes_analyse:
+        - tests/Composer/Installers/Test/PolyfillTestCase.php
+
+includes:
+    - vendor/phpstan/phpstan-phpunit/extension.neon

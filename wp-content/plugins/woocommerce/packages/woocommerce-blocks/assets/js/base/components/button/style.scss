@@ -1,0 +1,97 @@
+.wc-block-components-button:not(.is-link) {
+	align-items: center;
+	display: inline-flex;
+	min-height: 3em;
+	justify-content: center;
+	text-align: center;
+	position: relative;
+	transition: box-shadow 0.1s linear;
+
+	&:focus {
+		box-shadow: 0 0 0 2px $studio-blue;
+		box-shadow: inset 0 0 0 1px $white, 0 0 0 2px $studio-blue;
+		outline: 3px solid transparent;
+	}
+
+	.wc-block-components-button__text {
+		display: block;
+
+		> svg {
+			fill: currentColor;
+		}
+	}
+	.wc-block-components-spinner + .wc-block-components-button__text {
+		visibility: hidden;
+	}
+
+	&.text {
+		color: $gray-900;
+
+		&:hover {
+			opacity: 0.9;
+		}
+	}
+
+	&.outlined {
+		background: transparent;
+		color: currentColor;
+
+		&:not(:focus) {
+			box-shadow: inset 0 0 0 1px currentColor;
+		}
+
+		&:disabled,
+		&:hover,
+		&:focus,
+		&:active {
+			background-color: $gray-900;
+			color: $white;
+		}
+
+		&:hover {
+			background-color: $gray-900;
+			color: $white;
+			opacity: 1;
+		}
+	}
+}
+
+body:not(.woocommerce-block-theme-has-button-styles) .wc-block-components-button:not(.is-link) {
+	@include reset-typography();
+	font-weight: bold;
+	line-height: 1;
+	padding: 0 em($gap);
+	text-decoration: none;
+	text-transform: none;
+
+	&:focus {
+		box-shadow: 0 0 0 2px $studio-blue;
+		box-shadow: inset 0 0 0 1px $white, 0 0 0 2px $studio-blue;
+		outline: 3px solid transparent;
+	}
+
+	&.text {
+		color: $gray-900;
+
+		&:hover {
+			opacity: 0.9;
+		}
+	}
+
+	&.contained {
+		background-color: $gray-900;
+		color: $white;
+
+		&:disabled,
+		&:hover,
+		&:focus,
+		&:active {
+			background-color: $gray-900;
+			color: $white;
+		}
+
+		&:hover {
+			opacity: 0.9;
+		}
+	}
+}

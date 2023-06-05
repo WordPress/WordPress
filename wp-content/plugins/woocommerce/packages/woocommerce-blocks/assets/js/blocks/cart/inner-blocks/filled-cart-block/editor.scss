@@ -1,0 +1,23 @@
+.wp-block-woocommerce-filled-cart-block {
+	.wc-block-components-sidebar-layout {
+		display: block;
+	}
+	.block-editor-block-list__layout {
+		display: flex;
+		flex-flow: row wrap;
+		align-items: flex-start;
+	}
+	.wc-block-components-main,
+	.wc-block-components-sidebar,
+	.block-editor-block-list__layout {
+		> :first-child {
+			margin-top: 0;
+		}
+	}
+	.wp-block-woocommerce-cart-totals-block,
+	.wp-block-woocommerce-cart-items-block {
+		.block-editor-block-list__layout {
+			display: block;
+		}
+	}
+}

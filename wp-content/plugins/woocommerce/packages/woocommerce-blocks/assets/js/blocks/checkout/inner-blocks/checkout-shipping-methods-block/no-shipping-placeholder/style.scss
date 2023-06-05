@@ -1,0 +1,21 @@
+.components-placeholder.wc-block-checkout__no-shipping-placeholder {
+	margin-bottom: $gap;
+
+	* {
+		pointer-events: all; // Overrides parent disabled component in editor context
+	}
+
+	.components-placeholder__fieldset {
+		display: block;
+
+		.components-button {
+			background-color: $gray-900;
+			color: $white;
+		}
+
+		.wc-block-checkout__no-shipping-placeholder-description {
+			display: block;
+			margin: 0.25em 0 1em 0;
+		}
+	}
+}

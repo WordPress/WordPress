@@ -1,0 +1,212 @@
+.is-loading {
+	.wc-block-components-review-list-item__text {
+		@include placeholder();
+		@include force-content();
+		display: block;
+		width: 60%;
+	}
+
+	.wc-block-components-review-list-item__info {
+		.wc-block-components-review-list-item__image {
+			@include placeholder();
+			@include force-content();
+		}
+
+		.wc-block-components-review-list-item__meta {
+			.wc-block-components-review-list-item__author {
+				@include placeholder();
+				@include font-size(regular);
+				@include force-content();
+				width: 80px;
+			}
+
+			.wc-block-components-review-list-item__product {
+				display: none;
+			}
+
+			.wc-block-components-review-list-item__rating {
+				.wc-block-components-review-list-item__rating__stars > span {
+					display: none;
+				}
+			}
+		}
+
+		.wc-block-components-review-list-item__published-date {
+			@include placeholder();
+			@include force-content();
+			height: 1em;
+			width: 120px;
+		}
+	}
+}
+
+.editor-styles-wrapper .wc-block-components-review-list-item__item,
+.wc-block-components-review-list-item__item {
+	margin: 0 0 $gap-large * 2;
+	list-style: none;
+}
+
+.wc-block-components-review-list-item__info {
+	display: grid;
+	grid-template-columns: 1fr;
+	margin-bottom: $gap-large;
+}
+
+.wc-block-components-review-list-item__meta {
+	grid-column: 1;
+	grid-row: 1;
+}
+
+.wc-block-components-review-list-item__item--has-image {
+	.wc-block-components-review-list-item__info {
+		grid-template-columns: calc(3em + #{$gap}) 1fr;
+	}
+	.wc-block-components-review-list-item__meta {
+		grid-column: 2;
+	}
+}
+
+.wc-block-components-review-list-item__image {
+	align-items: center;
+	display: flex;
+	height: 3em;
+	grid-column: 1;
+	grid-row: 1 / 3;
+	justify-content: center;
+	position: relative;
+	width: 3em;
+
+	> img {
+		display: block;
+		max-height: 100%;
+		object-fit: contain;
+	}
+}
+
+.wc-block-components-review-list-item__verified {
+	width: 21px;
+	height: 21px;
+	text-indent: 21px;
+	margin: 0;
+	line-height: 21px;
+	overflow: hidden;
+	position: absolute;
+	right: -7px;
+	bottom: -7px;
+
+	&::before {
+		width: 21px;
+		height: 21px;
+		background: transparent url('data:image/svg+xml;utf8,%3Csvg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="none"%3E%3Ccircle cx="10.5" cy="10.5" r="10.5" fill="%23fff"/%3E%3Cpath fill="%23008A21" fill-rule="evenodd" d="M2.1667 10.5003c0-4.6 3.7333-8.3333 8.3333-8.3333s8.3334 3.7333 8.3334 8.3333S15.1 18.8337 10.5 18.8337s-8.3333-3.7334-8.3333-8.3334zm2.5 0l4.1666 4.1667 7.5001-7.5-1.175-1.1833-6.325 6.325-2.9917-2.9834-1.175 1.175z" clip-rule="evenodd"/%3E%3Cmask id="a" width="17" height="17" x="2" y="2" maskUnits="userSpaceOnUse"%3E%3Cpath fill="%23fff" fill-rule="evenodd" d="M2.1667 10.5003c0-4.6 3.7333-8.3333 8.3333-8.3333s8.3334 3.7333 8.3334 8.3333S15.1 18.8337 10.5 18.8337s-8.3333-3.7334-8.3333-8.3334zm2.5 0l4.1666 4.1667 7.5001-7.5-1.175-1.1833-6.325 6.325-2.9917-2.9834-1.175 1.175z" clip-rule="evenodd"/%3E%3C/mask%3E%3Cg mask="url(%23a)"%3E%3Cpath fill="%23008A21" d="M.5.5h20v20H.5z"/%3E%3C/g%3E%3C/svg%3E') center center no-repeat; /* stylelint-disable-line */
+		display: block;
+		content: "";
+	}
+}
+
+.wc-block-components-review-list-item__meta {
+	display: flex;
+	align-items: center;
+	flex-flow: row wrap;
+
+	&::after {
+		// Force wrap after star rating.
+		order: 3;
+		content: "";
+		flex-basis: 100%;
+	}
+}
+
+.wc-block-components-review-list-item__product {
+	display: block;
+	font-weight: bold;
+	order: 1;
+	margin-right: $gap * 0.5;
+}
+
+.wc-block-components-review-list-item__author {
+	display: block;
+	font-weight: bold;
+	order: 1;
+	margin-right: $gap * 0.5;
+}
+
+.wc-block-components-review-list-item__product + .wc-block-components-review-list-item__author {
+	font-weight: normal;
+	order: 4;
+}
+
+.wc-block-components-review-list-item__published-date {
+	order: 5;
+}
+
+.wc-block-components-review-list-item__product + .wc-block-components-review-list-item__author + .wc-block-components-review-list-item__published-date {
+	padding-left: $gap * 0.5;
+	position: relative;
+
+	&::before {
+		content: "";
+		display: inline-block;
+		margin-left: -$gap * 0.5;
+		border-right: 1px solid currentColor;
+		opacity: 0.5;
+		height: 1em;
+		vertical-align: middle;
+		position: absolute;
+		top: calc(50% + 0.1em);
+		transform: translateY(-50%);
+	}
+}
+
+.wc-block-components-review-list-item__author:first-child + .wc-block-components-review-list-item__published-date,
+.wc-block-components-review-list-item__rating + .wc-block-components-review-list-item__author + .wc-block-components-review-list-item__published-date {
+	&::before {
+		display: none;
+	}
+}
+
+.wc-block-components-review-list-item__rating {
+	order: 2;
+
+	> .wc-block-components-review-list-item__rating__stars {
+		@include font-size(regular);
+		display: block;
+		top: 0;
+		overflow: hidden;
+		position: relative;
+		height: 1em;
+		line-height: 1;
+		width: 5.3em;
+		font-family: star; /* stylelint-disable-line */
+		font-weight: 400;
+	}
+
+	> .wc-block-components-review-list-item__rating__stars::before {
+		content: "\53\53\53\53\53";
+		opacity: 0.25;
+		float: left;
+		top: 0;
+		left: 0;
+		position: absolute;
+	}
+
+	> .wc-block-components-review-list-item__rating__stars span {
+		overflow: hidden;
+		float: left;
+		top: 0;
+		left: 0;
+		position: absolute;
+		padding-top: 1.5em;
+	}
+
+	> .wc-block-components-review-list-item__rating__stars span::before {
+		content: "\53\53\53\53\53";
+		top: 0;
+		position: absolute;
+		left: 0;
+		color: #e6a237;
+	}
+}
+
+.wc-block-components-review-list-item__text p {
+	font-size: inherit;
+}

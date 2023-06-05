@@ -1,0 +1,153 @@
+$border-width: 1px;
+$border-radius: 5px;
+
+.wc-block-components-express-payment {
+	margin: auto;
+	position: relative;
+
+	.wc-block-components-express-payment__event-buttons {
+		list-style: none;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(calc(33% - 10px), 1fr));
+		grid-gap: 10px;
+		box-sizing: border-box;
+		width: 100%;
+		padding: 0;
+		margin: 0;
+		overflow: hidden;
+		text-align: center;
+
+		> li {
+			margin: 0;
+			width: 100%;
+
+			> img {
+				width: 100%;
+				height: 48px;
+			}
+		}
+	}
+
+	@include breakpoint("<782px") {
+		.wc-block-components-express-payment__event-buttons {
+			grid-template-columns: 1fr;
+		}
+	}
+}
+
+.wc-block-components-express-payment--checkout {
+	/* stylelint-disable-next-line function-calc-no-unspaced-operator */
+	margin-top: calc($border-radius * 3);
+
+	.wc-block-components-express-payment__title-container {
+		display: flex;
+		flex-direction: row;
+		left: 0;
+		position: absolute;
+		right: 0;
+		top: -$border-radius;
+		vertical-align: middle;
+
+		// Pseudo-elements used to show the border before and after the title.
+		&::before {
+			border-left: $border-width solid currentColor;
+			border-top: $border-width solid currentColor;
+			border-radius: $border-radius 0 0 0;
+			content: "";
+			display: block;
+			height: $border-radius - $border-width;
+			margin-right: $gap-small;
+			opacity: 0.3;
+			pointer-events: none;
+			width: #{$gap-large - $gap-small - $border-width * 2};
+		}
+
+		&::after {
+			border-right: $border-width solid currentColor;
+			border-top: $border-width solid currentColor;
+			border-radius: 0 $border-radius 0 0;
+			content: "";
+			display: block;
+			height: $border-radius - $border-width;
+			margin-left: $gap-small;
+			opacity: 0.3;
+			pointer-events: none;
+			flex-grow: 1;
+		}
+	}
+
+	.wc-block-components-express-payment__title {
+		flex-grow: 0;
+		transform: translateY(-50%);
+	}
+
+	.wc-block-components-express-payment__content {
+		@include with-translucent-border(0 $border-width $border-width);
+		padding: #{$gap-large - $border-radius} $gap-large $gap-large;
+
+		&::after {
+			border-radius: 0 0 $border-radius $border-radius;
+		}
+
+		> p {
+			margin-bottom: em($gap);
+		}
+	}
+}
+
+.wc-block-components-express-payment--cart {
+	.wc-block-components-express-payment__event-buttons {
+		> li {
+			padding-bottom: $gap;
+			text-align: center;
+			width: 100%;
+
+			&:last-child {
+				padding-bottom: 0;
+			}
+		}
+	}
+}
+
+.wc-block-components-express-payment-continue-rule {
+	display: flex;
+	align-items: center;
+	text-align: center;
+	padding: 0 $gap-large;
+	margin: $gap-large 0;
+
+	&::before {
+		margin-right: 10px;
+	}
+
+	&::after {
+		margin-left: 10px;
+	}
+
+	&::before,
+	&::after {
+		content: " ";
+		flex: 1;
+		border-bottom: 1px solid;
+		opacity: 0.3;
+	}
+}
+
+.wc-block-components-express-payment-continue-rule--cart {
+	margin: $gap 0;
+	text-transform: uppercase;
+}
+
+.theme-twentynineteen {
+	.wc-block-components-express-payment__title::before {
+		display: none;
+	}
+}
+
+// For Twenty Twenty we need to increase specificity of the title.
+.theme-twentytwenty {
+	.wc-block-components-express-payment .wc-block-components-express-payment__title {
+		padding-left: $gap-small;
+		padding-right: $gap-small;
+	}
+}

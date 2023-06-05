@@ -1,0 +1,94 @@
+@import "./vendor";
+
+.wc-blocks-components-form-token-field-wrapper {
+	border-color: $gray-600;
+
+	.components-visually-hidden,
+	.components-form-token-field__label {
+		@include visually-hidden();
+	}
+
+	.components-form-token-field,
+	.components-form-token-field__input-container {
+		border-color: inherit;
+		box-sizing: border-box;
+		margin-bottom: 0;
+	}
+
+	.components-form-token-field__input-container {
+		background-color: #fff;
+		border-radius: 0;
+		box-shadow: none;
+		color: #000;
+		position: relative;
+
+		input[type="text"].components-form-token-field__input {
+			min-height: 30px;
+		}
+	}
+
+	.components-form-token-field__remove-token.components-button,
+	.components-form-token-field__token-text {
+		background: $gray-200;
+	}
+
+	.components-form-token-field__remove-token {
+		border: none;
+	}
+
+	.components-form-token-field__suggestions-list {
+		background-color: $white;
+		border: 1px solid $gray-600;
+		border-width: 0 1px 1px;
+		left: -1px;
+		margin: 1px 0 0;
+		position: absolute;
+		right: -1px;
+		top: 100%;
+		z-index: 50;
+
+		&:empty {
+			display: none;
+		}
+	}
+
+	.components-form-token-field__suggestion {
+		padding: 8px;
+
+		&.is-selected {
+			background: $gray-100;
+			color: $gray-800;
+		}
+	}
+
+	&.single-selection {
+		.components-form-token-field__token {
+			margin-right: 0;
+			position: relative;
+			width: 100%;
+			z-index: 1;
+		}
+
+		.components-form-token-field__remove-token.components-button,
+		.components-form-token-field__token-text {
+			background: transparent;
+		}
+
+		.components-form-token-field__token-text {
+			padding-left: 4px;
+			width: 100%;
+		}
+
+		.components-form-token-field__token + input[type="text"].components-form-token-field__input {
+			position: absolute;
+		}
+
+		.is-active .components-form-token-field__token + input[type="text"].components-form-token-field__input {
+			border: 1px solid $gray-600;
+			margin: 0 2px 4px;
+			padding: 0 5px;
+			position: static;
+		}
+
+	}
+}

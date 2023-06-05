@@ -1,0 +1,18 @@
+{
+	"name": "woocommerce/cart-cross-sells-block",
+	"version": "1.0.0",
+	"title": "Cart Cross-Sells",
+	"description": "Shows the Cross-Sells block.",
+	"category": "woocommerce",
+	"supports": {
+		"align": false,
+		"html": false,
+		"multiple": false,
+		"reusable": false,
+		"inserter": true
+	},
+	"parent": [ "woocommerce/cart-items-block" ],
+	"textdomain": "woocommerce",
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2
+}

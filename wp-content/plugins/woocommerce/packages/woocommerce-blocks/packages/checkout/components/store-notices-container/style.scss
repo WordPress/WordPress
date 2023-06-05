@@ -1,0 +1,80 @@
+.wc-block-components-notices {
+	display: block;
+	margin: 1.5em 0;
+	&:first-child {
+		margin-top: 0;
+	}
+	&:empty {
+		margin: 0;
+	}
+	.wc-block-components-notices__notice {
+		margin: 0;
+		display: flex;
+		flex-wrap: nowrap;
+		a {
+			text-decoration: underline;
+		}
+		.components-notice__dismiss {
+			background: transparent none;
+			padding: 0;
+			margin: 0 0 0 auto;
+			border: 0;
+			outline: 0;
+			color: currentColor;
+			svg {
+				fill: currentColor;
+				vertical-align: text-top;
+			}
+		}
+		.components-notice__content > div:not(.components-notice__actions) {
+			*:first-child {
+				margin-top: 0;
+			}
+			*:last-child {
+				margin-bottom: 0;
+			}
+		}
+		.components-notice__content {
+			ul {
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+			li + li {
+				margin: 0.25em 0 0 0;
+			}
+		}
+	}
+	.wc-block-components-notices__notice + .wc-block-components-notices__notice {
+		margin-top: 1em;
+	}
+}
+
+// @todo Either move notice style fixes to Woo core, or take full control over notice component styling in blocks.
+.theme-twentytwentyone,
+.theme-twentytwenty {
+	.wc-block-components-notices__notice {
+		padding: 1.5rem 3rem;
+	}
+}
+
+.wc-block-components-notices__snackbar {
+	position: fixed;
+	bottom: 20px;
+	left: 16px;
+	width: auto;
+
+	@include breakpoint("<782px") {
+		position: fixed;
+		top: 10px;
+		left: 0;
+		bottom: auto;
+	}
+
+	.components-snackbar-list__notice-container {
+		@include breakpoint("<782px") {
+			margin-left: 10px;
+			margin-right: 10px;
+		}
+	}
+}

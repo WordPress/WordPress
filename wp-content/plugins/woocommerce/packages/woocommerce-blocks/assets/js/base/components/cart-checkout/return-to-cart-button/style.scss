@@ -1,0 +1,23 @@
+.wc-block-components-checkout-return-to-cart-button {
+	box-shadow: none;
+	color: inherit;
+	padding-left: calc(24px + 0.25em);
+	position: relative;
+	text-decoration: none;
+
+	svg {
+		left: 0;
+		position: absolute;
+		transform: translateY(-50%);
+		top: 50%;
+		fill: currentColor;
+	}
+}
+
+.rtl {
+	.wc-block-components-checkout-return-to-cart-button {
+		svg {
+			transform: translateY(-50%) scale(-1);
+		}
+	}
+}

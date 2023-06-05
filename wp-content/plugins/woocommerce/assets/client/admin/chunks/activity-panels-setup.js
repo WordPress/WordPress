@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_wcAdmin_webpackJsonp=self.webpackChunk_wcAdmin_webpackJsonp||[]).push([[7844],{14254:function(e,n,c){c.r(n),c.d(n,{SetupTasksPanel:function(){return a}});var s=c(69307),t=c(28891);const a=e=>{let{query:n}=e;return(0,s.createElement)("div",{className:"woocommerce-setup-panel"},(0,s.createElement)(t.Tasks,{query:n}))};n.default=a}}]);

@@ -1,0 +1,9 @@
+@import "../style";
+
+.wp-block-woocommerce-featured-category {
+	@extend %wp-block-featured-item;
+}
+
+.wc-block-featured-category {
+	@include wc-block-featured-item();
+}

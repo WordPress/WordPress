@@ -1,0 +1,27 @@
+{
+	"name": "woocommerce/checkout-order-summary-shipping-block",
+	"version": "1.0.0",
+	"title": "Shipping",
+	"description": "Shows the cart shipping row.",
+	"category": "woocommerce",
+	"supports": {
+		"align": false,
+		"html": false,
+		"multiple": false,
+		"reusable": false,
+		"lock": false
+	},
+	"attributes": {
+		"lock": {
+			"type": "object",
+			"default": {
+				"remove": true,
+				"move": false
+			}
+		}
+	},
+	"parent": [ "woocommerce/checkout-order-summary-block" ],
+	"textdomain": "woocommerce",
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2
+}

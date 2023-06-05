@@ -1,0 +1,55 @@
+.wc-block-checkout__shipping-method-container {
+	width: 100%;
+	display: flex;
+	gap: $gap;
+	justify-content: space-between;
+}
+
+.edit-post-visual-editor .wc-block-checkout__shipping-method-option,
+.wc-block-checkout__shipping-method-option {
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	min-height: 80px;
+	flex-basis: 0;
+	gap: 4px;
+	padding: 16px 12px;
+	color: inherit;
+	background-color: transparent;
+	border: none;
+	box-shadow: none !important;
+	outline: 1px solid currentColor;
+	border-radius: 0 !important;
+	&.components-button:hover:not(:disabled),
+	&.components-button:focus:not(:disabled),
+	&:focus,
+	&:hover {
+		background-color: #d5d5d5;
+		border-color: #d5d5d5;
+		color: #333;
+	}
+	&.wc-block-checkout__shipping-method-option--selected {
+		outline: 3px solid currentColor;
+	}
+}
+
+.wc-block-checkout__shipping-method-option-icon {
+	fill: currentColor;
+}
+
+.wc-block-checkout__shipping-method-option-title {
+	@include font-size(regular, 1rem);
+	font-weight: bold;
+}
+
+.wc-block-checkout__shipping-method-option-price {
+	@include font-size(small, 1rem);
+
+	em {
+		text-transform: uppercase;
+		font-style: inherit;
+	}
+}

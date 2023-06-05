@@ -1,0 +1,9 @@
+.components-base-control {
+	+ .wc-block-reviews-by-product__notice {
+		margin: -$gap 0 $gap;
+	}
+
+	&:nth-last-child(2) + .wc-block-reviews-by-product__notice {
+		margin: -$gap 0 $gap-small;
+	}
+}

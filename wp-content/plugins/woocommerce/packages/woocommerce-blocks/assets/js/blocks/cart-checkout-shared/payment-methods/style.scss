@@ -1,0 +1,254 @@
+.wc-block-card-elements {
+	display: flex;
+	width: 100%;
+
+	.wc-block-components-validation-error {
+		position: static;
+	}
+}
+
+.wc-block-gateway-container {
+	position: relative;
+	margin-bottom: em($gap-large);
+	white-space: nowrap;
+
+	&.wc-card-number-element {
+		flex-basis: 15em;
+		flex-grow: 1;
+		// Currently, min() CSS function calls need to be wrapped with unquote.
+		min-width: string.unquote("min(15em, 60%)");
+	}
+
+	&.wc-card-expiry-element {
+		flex-basis: 7em;
+		margin-left: $gap-small;
+		min-width: string.unquote("min(7em, calc(24% - #{$gap-small}))");
+	}
+
+	&.wc-card-cvc-element {
+		flex-basis: 7em;
+		margin-left: $gap-small;
+		// Notice the min width ems value is smaller than flex-basis. That's because
+		// by default we want it to have the same width as `expiry-element`, but
+		// if available space is scarce, `cvc-element` should get smaller faster.
+		min-width: string.unquote("min(5em, calc(16% - #{$gap-small}))");
+	}
+
+	.wc-block-gateway-input {
+		@include font-size(regular);
+		line-height: 1.375; // =22px when font-size is 16px.
+		background-color: #fff;
+		padding: em($gap-small) 0 em($gap-small) $gap;
+		border-radius: 4px;
+		border: 1px solid $input-border-gray;
+		width: 100%;
+		font-family: inherit;
+		margin: 0;
+		box-sizing: border-box;
+		height: 3em;
+		color: $input-text-active;
+		cursor: text;
+
+		&:focus {
+			background-color: #fff;
+		}
+	}
+
+	&:focus {
+		background-color: #fff;
+	}
+
+	label {
+		@include reset-typography();
+		@include font-size(regular);
+		line-height: 1.375; // =22px when font-size is 16px.
+		position: absolute;
+		transform: translateY(0.75em);
+		left: 0;
+		top: 0;
+		transform-origin: top left;
+		color: $gray-700;
+		transition: transform 200ms ease;
+		margin: 0 0 0 #{$gap + 1px};
+		overflow: hidden;
+		text-overflow: ellipsis;
+		max-width: calc(100% - #{$gap + $gap-smaller});
+		cursor: text;
+
+		@media screen and (prefers-reduced-motion: reduce) {
+			transition: none;
+		}
+	}
+
+	&.wc-inline-card-element {
+		label {
+			// $gap is the padding of the input box, 1.5em the width of the card
+			// icon and $gap-smaller the space between the card
+			// icon and the label.
+			margin-left: calc(#{$gap + $gap-smaller} + 1.5em);
+		}
+		.wc-block-gateway-input.focused.empty,
+		.wc-block-gateway-input:not(.empty) {
+			+ label {
+				margin-left: $gap;
+				transform: translateY(#{$gap-smallest}) scale(0.75);
+			}
+		}
+		+ .wc-block-components-validation-error {
+			position: static;
+			margin-top: -$gap-large;
+		}
+	}
+
+	.wc-block-gateway-input.focused.empty,
+	.wc-block-gateway-input:not(.empty) {
+		padding: em($gap-large) 0 em($gap-smallest) $gap;
+		+ label {
+			transform: translateY(#{$gap-smallest}) scale(0.75);
+		}
+	}
+
+	.wc-block-gateway-input.has-error {
+		border-color: $alert-red;
+		&:focus {
+			outline-color: $alert-red;
+		}
+	}
+
+	.wc-block-gateway-input.has-error + label {
+		color: $alert-red;
+	}
+}
+
+// These elements have available space below, so we can display errors with a
+// larger line height.
+.is-medium,
+.is-large {
+	.wc-card-expiry-element,
+	.wc-card-cvc-element {
+		.wc-block-components-validation-error > p {
+			line-height: 16px;
+			padding-top: 4px;
+		}
+	}
+}
+
+.is-mobile,
+.is-small {
+	.wc-card-expiry-element,
+	.wc-card-cvc-element {
+		.wc-block-components-validation-error > p {
+			min-height: 28px;
+		}
+	}
+}
+
+.wc-block-components-checkout-payment-methods * {
+	pointer-events: all; // Overrides parent disabled component in editor context
+}
+
+.is-mobile,
+.is-small {
+	.wc-block-card-elements {
+		flex-wrap: wrap;
+	}
+
+	.wc-block-gateway-container.wc-card-number-element {
+		flex-basis: 100%;
+	}
+
+	.wc-block-gateway-container.wc-card-expiry-element {
+		flex-basis: calc(50% - #{$gap-smaller});
+		margin-left: 0;
+		margin-right: $gap-smaller;
+	}
+
+	.wc-block-gateway-container.wc-card-cvc-element {
+		flex-basis: calc(50% - #{$gap-smaller});
+		margin-left: $gap-smaller;
+	}
+}
+
+.wc-block-checkout__payment-method {
+	.wc-block-components-radio-control__option {
+		padding-left: 56px;
+
+		&::after {
+			content: none;
+		}
+
+		.wc-block-components-radio-control__input {
+			left: 16px;
+		}
+	}
+
+	// We need to add the first-child and last-child pseudoclasses for specificity.
+	.wc-block-components-radio-control__option,
+	.wc-block-components-radio-control__option:first-child,
+	.wc-block-components-radio-control__option:last-child {
+		margin: 0;
+		padding-bottom: em($gap);
+		padding-top: em($gap);
+	}
+
+	.wc-block-components-radio-control__option-checked {
+		font-weight: bold;
+	}
+
+	.wc-block-components-radio-control-accordion-option,
+	.wc-block-components-radio-control__option {
+		@include with-translucent-border(1px 1px 0 1px);
+	}
+
+	.wc-block-components-radio-control__option:last-child::after,
+	.wc-block-components-radio-control-accordion-option:last-child::after {
+		border-width: 1px;
+	}
+
+	.wc-block-components-radio-control-accordion-option {
+		.wc-block-components-radio-control__option::after {
+			border-width: 0;
+		}
+		.wc-block-components-radio-control__label {
+			display: flex;
+			align-items: center;
+			justify-content: flex-start;
+		}
+		.wc-block-components-radio-control__label img {
+			height: 24px;
+			max-height: 24px;
+			object-fit: contain;
+			object-position: left;
+		}
+	}
+
+	.wc-block-components-radio-control.disable-radio-control {
+		.wc-block-components-radio-control__option {
+			padding-left: 16px;
+		}
+
+		.wc-block-components-radio-control__input {
+			display: none;
+		}
+	}
+
+	.wc-block-components-checkout-step__description-payments-aligned {
+		padding-top: 14px;
+		height: 28px;
+	}
+
+}
+
+.wc-block-components-radio-control-accordion-content {
+	padding: 0 $gap em($gap) $gap;
+
+	&:empty {
+		display: none;
+	}
+}
+
+.wc-block-checkout__order-notes {
+	.wc-block-components-checkout-step__content {
+		padding-bottom: 0;
+	}
+}

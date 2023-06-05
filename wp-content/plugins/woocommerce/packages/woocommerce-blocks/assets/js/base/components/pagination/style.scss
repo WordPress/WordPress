@@ -1,0 +1,56 @@
+.wc-block-components-pagination {
+	margin: 0 auto $gap;
+}
+
+.wc-block-components-pagination__page,
+.wc-block-components-pagination__ellipsis {
+	@include font-size(regular);
+	color: #333;
+	display: inline-block;
+	font-weight: normal;
+}
+
+.wc-block-components-pagination__page {
+	border-color: transparent;
+	padding: 0.3em 0.6em;
+	min-width: 2.2em;
+
+	@include breakpoint("<782px") {
+		padding: 0.1em 0.2em;
+		min-width: 1.6em;
+	}
+
+	// Twenty Twenty register a background color for buttons that is too specific
+	// and broad at the same time `button:not(.toggle)` so we're engaing in a
+	// specify war with them here.
+	// https://github.com/woocommerce/woocommerce-gutenberg-products-block/issues/1203
+	&:not(.toggle) {
+		background-color: transparent;
+	}
+}
+
+.wc-block-components-pagination__ellipsis {
+	padding: 0.3em;
+
+	@include breakpoint("<782px") {
+		padding: 0.1em;
+	}
+}
+
+.wc-block-components-pagination__page--active[disabled] {
+	color: #333;
+	font-weight: bold;
+	opacity: 1 !important;
+
+	&:hover,
+	&:focus {
+		background-color: inherit;
+		color: #333;
+		opacity: 1 !important;
+	}
+}
+
+html[dir="rtl"] .wc-block-components-pagination-page--arrow span {
+	display: inline-block;
+	transform: scale(-1, 1);
+}

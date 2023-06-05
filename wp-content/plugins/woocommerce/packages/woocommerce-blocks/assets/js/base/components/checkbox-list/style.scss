@@ -1,0 +1,29 @@
+.editor-styles-wrapper .wc-block-components-checkbox-list,
+.wc-block-components-checkbox-list {
+	margin: 0;
+	padding: 0;
+	list-style: none outside;
+
+	li {
+		margin: 0 0 $gap-smallest;
+		padding: 0;
+		list-style: none outside;
+	}
+
+	li.show-more,
+	li.show-less {
+		button {
+			background: none;
+			border: none;
+			padding: 0;
+			text-decoration: underline;
+			cursor: pointer;
+		}
+	}
+
+	&.is-loading {
+		li {
+			@include placeholder();
+		}
+	}
+}

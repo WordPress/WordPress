@@ -1,0 +1,34 @@
+{
+	"name": "woocommerce/cart-order-summary-heading-block",
+	"version": "1.0.0",
+	"title": "Heading",
+	"description": "Shows the heading row.",
+	"category": "woocommerce",
+	"supports": {
+		"align": false,
+		"html": false,
+		"multiple": false,
+		"reusable": false
+	},
+	"attributes": {
+		"className": {
+			"type": "string",
+			"default": ""
+		},
+		"content": {
+			"type": "string",
+			"default": "Cart totals"
+		},
+		"lock": {
+			"type": "object",
+			"default": {
+				"remove": false,
+				"move": false
+			}
+		}
+	},
+	"parent": [ "woocommerce/cart-order-summary-block" ],
+	"textdomain": "woocommerce",
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2
+}

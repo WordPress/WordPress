@@ -1,0 +1,12 @@
+// Adjust padding and margins in the editor to improve selected block outlines.
+.wp-block-woocommerce-checkout-order-note-block {
+	margin-top: 20px;
+	margin-bottom: 20px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+
+	.wc-block-checkout__add-note {
+		margin-top: 0;
+		margin-bottom: 0;
+	}
+}

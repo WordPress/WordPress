@@ -1,0 +1,44 @@
+{
+	"name": "woocommerce/rating-filter",
+	"version": "1.0.0",
+	"title": "Filter by Rating Controls",
+	"description": "Enable customers to filter the product grid by rating.",
+	"category": "woocommerce",
+	"keywords": [ "WooCommerce" ],
+	"supports": {
+		"html": false,
+		"multiple": false,
+		"color": true,
+		"inserter": false,
+		"lock": false
+	},
+	"attributes": {
+		"className": {
+			"type": "string",
+			"default": ""
+		},
+		"showCounts": {
+			"type": "boolean",
+			"default": true
+		},
+		"displayStyle": {
+			"type": "string",
+			"default": "list"
+		},
+		"showFilterButton": {
+			"type": "boolean",
+			"default": false
+		},
+		"selectType": {
+			"type": "string",
+			"default": "multiple"
+		},
+		"isPreview": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"textdomain": "woocommerce",
+	"apiVersion": 2,
+	"$schema": "https://schemas.wp.org/trunk/block.json"
+}

@@ -1,0 +1,53 @@
+{
+	"name": "woocommerce/checkout",
+	"version": "1.0.0",
+	"title": "Checkout",
+	"description": "Display a checkout form so your customers can submit orders.",
+	"category": "woocommerce",
+	"keywords": [ "WooCommerce" ],
+	"supports": {
+		"align": [ "wide" ],
+		"html": false,
+		"multiple": false
+	},
+	"example": {
+		"attributes": {
+			"isPreview": true
+		},
+		"viewportWidth": 800
+	},
+	"attributes": {
+		"isPreview": {
+			"type": "boolean",
+			"default": false,
+			"save": false
+		},
+		"showCompanyField": {
+			"type": "boolean",
+			"default": false
+		},
+		"requireCompanyField": {
+			"type": "boolean",
+			"default": false
+		},
+		"showApartmentField": {
+			"type": "boolean",
+			"default": true
+		},
+		"showPhoneField": {
+			"type": "boolean",
+			"default": true
+		},
+		"requirePhoneField": {
+			"type": "boolean",
+			"default": false
+		},
+		"align": {
+			"type": "string",
+			"default": "wide"
+		}
+	},
+	"textdomain": "woocommerce",
+	"apiVersion": 2,
+	"$schema": "https://schemas.wp.org/trunk/block.json"
+}

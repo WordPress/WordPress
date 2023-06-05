@@ -1,0 +1,47 @@
+.wc-block-components-totals-shipping {
+	// Added extra label for specificity.
+	fieldset.wc-block-components-totals-shipping__fieldset {
+		background-color: transparent;
+		margin: 0;
+		padding: 0;
+		border: 0;
+	}
+
+	.wc-block-components-shipping-address {
+		margin-top: $gap;
+		display: block;
+	}
+
+	.wc-block-components-totals-shipping__options {
+		.wc-block-components-radio-control__label,
+		.wc-block-components-radio-control__description,
+		.wc-block-components-radio-control__secondary-label,
+		.wc-block-components-radio-control__secondary-description {
+			flex-basis: 100%;
+			text-align: left;
+		}
+		margin-top: ($gap-small);
+	}
+
+	.wc-block-components-shipping-rates-control__no-results-notice {
+		margin: 0 0 em($gap-small);
+	}
+
+	.wc-block-components-totals-shipping__change-address__link {
+		font-weight: normal;
+	}
+	.wc-block-components-totals-shipping__change-address-button {
+		@include link-button();
+
+		&:hover,
+		&:focus,
+		&:active {
+			opacity: 0.8;
+		}
+	}
+}
+
+// Extra classes for specificity.
+.theme-twentytwentyone.theme-twentytwentyone.theme-twentytwentyone .wc-block-components-totals-shipping__change-address-button {
+	@include link-button();
+}

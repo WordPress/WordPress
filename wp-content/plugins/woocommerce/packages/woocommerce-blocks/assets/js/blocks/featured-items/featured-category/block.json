@@ -1,0 +1,108 @@
+{
+	"name": "woocommerce/featured-category",
+	"version": "1.0.0",
+	"title": "Featured Category",
+	"category": "woocommerce",
+	"keywords": [
+		"WooCommerce"
+	],
+	"description": "Visually highlight a product category and encourage prompt action.",
+	"supports": {
+		"align": [
+			"wide",
+			"full"
+		],
+		"html": false,
+		"color": {
+			"background": true,
+			"text": true
+		},
+		"spacing": {
+			"padding": true,
+			"__experimentalDefaultControls": {
+				"padding": true
+			},
+			"__experimentalSkipSerialization": true
+		},
+		"__experimentalBorder": {
+			"color": true,
+			"radius": true,
+			"width": true,
+			"__experimentalSkipSerialization": true
+		}
+	},
+	"attributes": {
+		"alt": {
+			"type": "string",
+			"default": ""
+		},
+		"contentAlign": {
+			"type": "string",
+			"default": "center"
+		},
+		"dimRatio": {
+			"type": "number",
+			"default": 50
+		},
+		"editMode": {
+			"type": "boolean",
+			"default": true
+		},
+		"focalPoint": {
+			"type": "object",
+			"default": {
+				"x": 0.5,
+				"y": 0.5
+			}
+		},
+		"imageFit": {
+			"type": "string",
+			"default": "none"
+		},
+		"hasParallax": {
+			"type": "boolean",
+			"default": false
+		},
+		"isRepeated": {
+			"type": "boolean",
+			"default": false
+		},
+		"mediaId": {
+			"type": "number",
+			"default": 0
+		},
+		"mediaSrc": {
+			"type": "string",
+			"default": ""
+		},
+		"minHeight": {
+			"type": "number",
+			"default": 500
+		},
+		"linkText": {
+			"default": "Shop now",
+			"type": "string"
+		},
+		"categoryId": {
+			"type": "number"
+		},
+		"overlayColor": {
+			"type": "string",
+			"default": "#000000"
+		},
+		"overlayGradient": {
+			"type": "string"
+		},
+		"previewCategory": {
+			"type": "object",
+			"default": null
+		},
+		"showDesc": {
+			"type": "boolean",
+			"default": true
+		}
+	},
+	"textdomain": "woocommerce",
+	"apiVersion": 2,
+	"$schema": "https://schemas.wp.org/trunk/block.json"
+}

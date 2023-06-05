@@ -1,0 +1,79 @@
+.wc-block-components-sidebar-layout {
+	display: flex;
+	flex-wrap: wrap;
+	margin: 0 auto $gap;
+	position: relative;
+
+	.wc-block-must-login-prompt {
+		display: block;
+	}
+
+	.wc-block-components-main {
+		box-sizing: border-box;
+		margin: 0;
+		padding-right: math.percentage(math.div($gap-largest, 1060px)); // ~1060px is the default width of the content area in Storefront.
+		width: 65%;
+	}
+}
+
+.wc-block-components-sidebar {
+	box-sizing: border-box;
+	margin: 0;
+	padding-left: math.percentage(math.div($gap-large, 1060px));
+	width: 35%;
+
+	.wc-block-components-panel > h2 {
+		@include font-size(regular);
+		@include reset-box();
+	}
+}
+
+.is-medium,
+.is-small,
+.is-mobile {
+	&.wc-block-components-sidebar-layout {
+		flex-direction: column;
+		margin: 0 auto $gap;
+
+		.wc-block-components-main {
+			padding: 0;
+			width: 100%;
+		}
+		.wc-block-components-sidebar {
+			padding: 0;
+			width: 100%;
+		}
+	}
+}
+
+.is-large {
+	.wc-block-components-sidebar {
+		.wc-block-components-totals-item,
+		.wc-block-components-totals-coupon-link,
+		.wc-block-components-panel {
+			padding-left: $gap;
+			padding-right: $gap;
+		}
+
+		.wc-block-components-panel {
+			.wc-block-components-totals-item {
+				padding: 0;
+			}
+		}
+	}
+}
+
+.wc-block-components-sidebar .wc-block-components-panel > h2 {
+	@include reset-typography();
+	.wc-block-components-panel__button {
+		font-weight: 400;
+	}
+}
+
+// For Twenty Twenty we need to increase specificity a bit more.
+.theme-twentytwenty {
+	.wc-block-components-sidebar .wc-block-components-panel > h2 {
+		@include font-size(large);
+		@include reset-box();
+	}
+}

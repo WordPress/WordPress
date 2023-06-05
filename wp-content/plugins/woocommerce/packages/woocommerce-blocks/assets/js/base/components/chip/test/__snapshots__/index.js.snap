@@ -1,0 +1,312 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Chip should render children nodes 1`] = `
+<li
+  className="wc-block-components-chip wc-block-components-chip--radius-small"
+>
+  <span
+    aria-hidden={false}
+    className="wc-block-components-chip__text"
+  >
+    Test
+  </span>
+  Lorem Ipsum
+</li>
+`;
+
+exports[`Chip should render defined radius 1`] = `
+<li
+  className="wc-block-components-chip wc-block-components-chip--radius-large"
+>
+  <span
+    aria-hidden={false}
+    className="wc-block-components-chip__text"
+  >
+    Test
+  </span>
+</li>
+`;
+
+exports[`Chip should render nodes as the text 1`] = `
+<li
+  className="wc-block-components-chip wc-block-components-chip--radius-small"
+>
+  <span
+    aria-hidden={false}
+    className="wc-block-components-chip__text"
+  >
+    <h1>
+      Test
+    </h1>
+  </span>
+</li>
+`;
+
+exports[`Chip should render screen reader text 1`] = `
+<li
+  className="wc-block-components-chip wc-block-components-chip--radius-small"
+>
+  <span
+    aria-hidden={true}
+    className="wc-block-components-chip__text"
+  >
+    Test
+  </span>
+  <span
+    className="screen-reader-text"
+  >
+    Test 2
+  </span>
+</li>
+`;
+
+exports[`Chip should render text 1`] = `
+<li
+  className="wc-block-components-chip wc-block-components-chip--radius-small"
+>
+  <span
+    aria-hidden={false}
+    className="wc-block-components-chip__text"
+  >
+    Test
+  </span>
+</li>
+`;
+
+exports[`Chip with custom wrapper should render a chip made up of a div instead of a li 1`] = `
+<div
+  className="wc-block-components-chip wc-block-components-chip--radius-small"
+>
+  <span
+    aria-hidden={false}
+    className="wc-block-components-chip__text"
+  >
+    Test
+  </span>
+</div>
+`;
+
+exports[`RemovableChip should render custom aria label 1`] = `
+<li
+  className="is-removable wc-block-components-chip wc-block-components-chip--radius-small"
+>
+  <span
+    aria-hidden={false}
+    className="wc-block-components-chip__text"
+  >
+    <h1>
+      Test
+    </h1>
+  </span>
+  <button
+    aria-label="Aria test"
+    className="wc-block-components-chip__remove"
+    disabled={false}
+    onClick={[Function]}
+    onKeyDown={[Function]}
+  >
+    <svg
+      aria-hidden={true}
+      className="wc-block-components-chip__remove-icon"
+      focusable={false}
+      height={16}
+      role="img"
+      viewBox="0 0 24 24"
+      width={16}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M12 13.06l3.712 3.713 1.061-1.06L13.061 12l3.712-3.712-1.06-1.06L12 10.938 8.288 7.227l-1.061 1.06L10.939 12l-3.712 3.712 1.06 1.061L12 13.061z"
+      />
+    </svg>
+  </button>
+</li>
+`;
+
+exports[`RemovableChip should render default aria label if text is a node 1`] = `
+<li
+  className="is-removable wc-block-components-chip wc-block-components-chip--radius-small"
+>
+  <span
+    aria-hidden={true}
+    className="wc-block-components-chip__text"
+  >
+    <h1>
+      Test
+    </h1>
+  </span>
+  <span
+    className="screen-reader-text"
+  >
+    Test 2
+  </span>
+  <button
+    aria-label="Remove \\"Test 2\\""
+    className="wc-block-components-chip__remove"
+    disabled={false}
+    onClick={[Function]}
+    onKeyDown={[Function]}
+  >
+    <svg
+      aria-hidden={true}
+      className="wc-block-components-chip__remove-icon"
+      focusable={false}
+      height={16}
+      role="img"
+      viewBox="0 0 24 24"
+      width={16}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M12 13.06l3.712 3.713 1.061-1.06L13.061 12l3.712-3.712-1.06-1.06L12 10.938 8.288 7.227l-1.061 1.06L10.939 12l-3.712 3.712 1.06 1.061L12 13.061z"
+      />
+    </svg>
+  </button>
+</li>
+`;
+
+exports[`RemovableChip should render screen reader text aria label 1`] = `
+<li
+  className="is-removable wc-block-components-chip wc-block-components-chip--radius-small"
+>
+  <span
+    aria-hidden={true}
+    className="wc-block-components-chip__text"
+  >
+    Test
+  </span>
+  <span
+    className="screen-reader-text"
+  >
+    Test 2
+  </span>
+  <button
+    aria-label="Remove \\"Test 2\\""
+    className="wc-block-components-chip__remove"
+    disabled={false}
+    onClick={[Function]}
+    onKeyDown={[Function]}
+  >
+    <svg
+      aria-hidden={true}
+      className="wc-block-components-chip__remove-icon"
+      focusable={false}
+      height={16}
+      role="img"
+      viewBox="0 0 24 24"
+      width={16}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M12 13.06l3.712 3.713 1.061-1.06L13.061 12l3.712-3.712-1.06-1.06L12 10.938 8.288 7.227l-1.061 1.06L10.939 12l-3.712 3.712 1.06 1.061L12 13.061z"
+      />
+    </svg>
+  </button>
+</li>
+`;
+
+exports[`RemovableChip should render text and the remove button 1`] = `
+<li
+  className="is-removable wc-block-components-chip wc-block-components-chip--radius-small"
+>
+  <span
+    aria-hidden={false}
+    className="wc-block-components-chip__text"
+  >
+    Test
+  </span>
+  <button
+    aria-label="Remove \\"Test\\""
+    className="wc-block-components-chip__remove"
+    disabled={false}
+    onClick={[Function]}
+    onKeyDown={[Function]}
+  >
+    <svg
+      aria-hidden={true}
+      className="wc-block-components-chip__remove-icon"
+      focusable={false}
+      height={16}
+      role="img"
+      viewBox="0 0 24 24"
+      width={16}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M12 13.06l3.712 3.713 1.061-1.06L13.061 12l3.712-3.712-1.06-1.06L12 10.938 8.288 7.227l-1.061 1.06L10.939 12l-3.712 3.712 1.06 1.061L12 13.061z"
+      />
+    </svg>
+  </button>
+</li>
+`;
+
+exports[`RemovableChip should render with disabled remove button 1`] = `
+<li
+  className="is-removable wc-block-components-chip wc-block-components-chip--radius-small"
+>
+  <span
+    aria-hidden={false}
+    className="wc-block-components-chip__text"
+  >
+    Test
+  </span>
+  <button
+    aria-label="Remove \\"Test\\""
+    className="wc-block-components-chip__remove"
+    disabled={true}
+    onClick={[Function]}
+    onKeyDown={[Function]}
+  >
+    <svg
+      aria-hidden={true}
+      className="wc-block-components-chip__remove-icon"
+      focusable={false}
+      height={16}
+      role="img"
+      viewBox="0 0 24 24"
+      width={16}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M12 13.06l3.712 3.713 1.061-1.06L13.061 12l3.712-3.712-1.06-1.06L12 10.938 8.288 7.227l-1.061 1.06L10.939 12l-3.712 3.712 1.06 1.061L12 13.061z"
+      />
+    </svg>
+  </button>
+</li>
+`;
+
+exports[`RemovableChip with removeOnAnyClick should be a button when removeOnAnyClick is set to true 1`] = `
+<button
+  aria-label="Remove \\"Test\\""
+  className="is-removable wc-block-components-chip wc-block-components-chip--radius-small"
+  disabled={false}
+  onClick={[Function]}
+  onKeyDown={[Function]}
+>
+  <span
+    aria-hidden={false}
+    className="wc-block-components-chip__text"
+  >
+    Test
+  </span>
+  <span
+    aria-hidden={true}
+    className="wc-block-components-chip__remove"
+  >
+    <svg
+      aria-hidden={true}
+      className="wc-block-components-chip__remove-icon"
+      focusable={false}
+      height={16}
+      role="img"
+      viewBox="0 0 24 24"
+      width={16}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M12 13.06l3.712 3.713 1.061-1.06L13.061 12l3.712-3.712-1.06-1.06L12 10.938 8.288 7.227l-1.061 1.06L10.939 12l-3.712 3.712 1.06 1.061L12 13.061z"
+      />
+    </svg>
+  </span>
+</button>
+`;

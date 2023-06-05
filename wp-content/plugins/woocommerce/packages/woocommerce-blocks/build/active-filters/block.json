@@ -1,0 +1,31 @@
+{
+	"name": "woocommerce/active-filters",
+	"version": "1.0.0",
+	"title": "Active Filters Controls",
+	"description": "Display the currently active filters.",
+	"category": "woocommerce",
+	"keywords": [ "WooCommerce" ],
+	"supports": {
+		"html": false,
+		"multiple": false,
+		"inserter": false,
+		"color": {
+			"text": true,
+			"background": false
+		},
+		"lock": false
+	},
+	"attributes": {
+		"displayStyle": {
+			"type": "string",
+			"default": "list"
+		},
+		"headingLevel": {
+			"type": "number",
+			"default": 3
+		}
+	},
+	"textdomain": "woocommerce",
+	"apiVersion": 2,
+	"$schema": "https://schemas.wp.org/trunk/block.json"
+}

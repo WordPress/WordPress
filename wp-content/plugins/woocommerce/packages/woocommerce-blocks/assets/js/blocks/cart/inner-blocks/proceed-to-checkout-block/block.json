@@ -1,0 +1,27 @@
+{
+	"name": "woocommerce/proceed-to-checkout-block",
+	"version": "1.0.0",
+	"title": "Proceed to Checkout",
+	"description": "Allow customers proceed to Checkout.",
+	"category": "woocommerce",
+	"supports": {
+		"align": false,
+		"html": false,
+		"multiple": false,
+		"reusable": false,
+		"inserter": false,
+		"lock": false
+	},
+	"attributes": {
+		"lock": {
+			"default": {
+				"remove": true,
+				"move": true
+			}
+		}
+	},
+	"parent": [ "woocommerce/cart-totals-block" ],
+	"textdomain": "woocommerce",
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2
+}

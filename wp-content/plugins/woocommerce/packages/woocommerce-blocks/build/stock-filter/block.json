@@ -1,0 +1,48 @@
+{
+	"name": "woocommerce/stock-filter",
+	"version": "1.0.0",
+	"title": "Filter by Stock Controls",
+	"description": "Enable customers to filter the product grid by stock status.",
+	"category": "woocommerce",
+	"keywords": [ "WooCommerce" ],
+	"supports": {
+		"html": false,
+		"multiple": false,
+		"color": true,
+		"inserter": false,
+		"lock": false
+	},
+	"attributes": {
+		"className": {
+			"type": "string",
+			"default": ""
+		},
+		"headingLevel": {
+			"type": "number",
+			"default": 3
+		},
+		"showCounts": {
+			"type": "boolean",
+			"default": true
+		},
+		"showFilterButton": {
+			"type": "boolean",
+			"default": false
+		},
+		"displayStyle": {
+			"type": "string",
+			"default": "list"
+		},
+		"selectType": {
+			"type": "string",
+			"default": "multiple"
+		},
+		"isPreview": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"textdomain": "woocommerce",
+	"apiVersion": 2,
+	"$schema": "https://schemas.wp.org/trunk/block.json"
+}

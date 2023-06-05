@@ -1,0 +1,12 @@
+// For now, we use the PHP template to render that element, which has
+// high specificity styles applied. To overcome that double-class
+// selector is used here
+.woocommerce.wc-block-product-results-count {
+	.woocommerce-result-count {
+		float: none;
+		font-size: inherit;
+		// reset for margin
+		margin: auto;
+	}
+}
+

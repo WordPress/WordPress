@@ -1,0 +1,13 @@
+.wc-block-text-toolbar-button {
+	align-items: center;
+
+	&.is-toggled,
+	&.is-toggled:focus {
+		background: $gray-700;
+		color: $white;
+	}
+}
+.block-editor-block-toolbar__slot {
+	// prevents text toolbar items shrinking to avoid other buttons overlapping.
+	flex-shrink: 0;
+}

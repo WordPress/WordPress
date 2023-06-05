@@ -1,0 +1,92 @@
+#woocommerce_network_orders {
+	.inside {
+		margin: 0;
+		padding: 0;
+	}
+
+	.woocommerce-network-orders-no-orders,
+	.woocommerce-network-order-table-loading,
+	.woocommerce-network-order-table {
+		width: 100%;
+		display: none;
+
+		&.is-active {
+			display: block;
+		}
+	}
+
+	.woocommerce-network-orders-no-orders,
+	.woocommerce-network-order-table-loading {
+		p {
+			text-align: center;
+		}
+	}
+
+	.woocommerce-network-order-table {
+		&.is-active {
+			display: table;
+		}
+
+		margin-top: 0;
+
+		thead td {
+			padding: 0.5em 1em;
+		}
+	}
+
+	.spinner {
+		margin-top: 0;
+		float: none;
+	}
+
+	.post-type-shop_order {
+		.woocommerce-network-order-table {
+			tbody {
+				th, td {
+					border-top: 1px solid #f5f5f5;
+				}
+				td {
+					vertical-align: middle;
+					padding: 1em;
+
+					.order-status {
+						display: inline-flex;
+						padding: 0px 1em;
+						line-height: 2.5em;
+						color: #777;
+						background: #E5E5E5;
+						border-radius: 4px;
+						border-bottom: 1px solid rgba(0,0,0,0.05);
+						margin: -.5em 0;
+						cursor: inherit !important;
+
+						&.status-completed {
+							background: #C8D7E1;
+							color: #2e4453;
+						}
+
+						&.status-on-hold {
+							background: #f8dda7;
+							color: #94660c;
+						}
+
+						&.status-failed {
+							background: #eba3a3;
+							color: #761919;
+						}
+
+						&.status-processing {
+							background: #C6E1C6;
+							color: #5B841B;
+						}
+
+						&.status-trash {
+							background: #eba3a3;
+							color: #761919;
+						}
+					}
+				}
+			}
+		}
+	}
+}

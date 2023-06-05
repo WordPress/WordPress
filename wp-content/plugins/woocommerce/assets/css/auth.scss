@@ -1,0 +1,149 @@
+body {
+	background: #f1f1f1;
+	box-shadow: none;
+	margin: 100px auto 24px;
+	padding: 0;
+}
+
+#wc-logo {
+	border: 0;
+	margin: 0 0 24px;
+	padding: 0;
+	text-align: center;
+
+	img {
+		max-width: 50%;
+	}
+}
+
+.wc-auth-content {
+	background: #fff;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
+	overflow: hidden;
+	padding: 24px 24px 0;
+	zoom: 1;
+
+	h1, h2, h3, table {
+		border: 0;
+		clear: none;
+		color: #666;
+		margin: 0 0 24px;
+		padding: 0;
+	}
+
+	p, ul {
+		color: #666;
+		font-size: 1em;
+		line-height: 1.75em;
+		margin: 0 0 24px;
+	}
+
+	p {
+		padding: 0;
+	}
+
+	a {
+		color: #a16696;
+		&:hover, &:focus {
+			color: #111;
+		}
+	}
+
+	.wc-auth-login {
+		label {
+			color: #999;
+			display: block;
+			margin-bottom: 0.5em;
+		}
+
+		input {
+			box-sizing: border-box;
+			font-size: 1.3em;
+			padding: 0.5em;
+			width: 100%;
+		}
+
+		.wc-auth-actions {
+			padding: 0;
+
+			.wc-auth-login-button {
+				float: none;
+				width: 100%;
+			}
+		}
+	}
+}
+.wc-auth-permissions {
+	list-style: disc inside;
+	padding: 0;
+
+	li {
+		font-size: 1em;
+	}
+}
+.wc-auth-logged-in-as {
+	background: #f5f5f5;
+	border-bottom: 2px solid #eee;
+	line-height: 70px;
+	margin: 0 0 24px;
+	padding: 0 1em 0 0;
+
+	p {
+		margin: 0;
+		line-height: 70px;
+	}
+
+	img {
+		float: left;
+		height: 70px;
+		margin: 0 1em 0 0;
+	}
+
+	.wc-auth-logout {
+		float: right;
+	}
+}
+.wc-auth .wc-auth-actions {
+	overflow: hidden;
+	padding-left: 24px;
+
+	.button {
+		background: #f7f7f7;
+		border-bottom-width: 2px;
+		border: 1px solid #d7d7d7;
+		box-sizing: border-box;
+		color: #777;
+		float: right;
+		font-size: 1.25em;
+		height: auto;
+		line-height: 1em;
+		padding: 1em 2em;
+		text-align: center;
+		width: 50%;
+
+		&:hover, &:focus {
+			background: #fcfcfc;
+		}
+	}
+	.button-primary {
+		background: #ad6ea1;
+		border-color: #a16696;
+		box-shadow: inset 0 1px 0 rgba( 255, 255, 255, 0.2 ), 0 1px 0 rgba( 0, 0, 0, 0.15 );
+		color: #fff;
+		float: right;
+		opacity: 1;
+		text-shadow: 0 -1px 1px #8a4f7f, 1px 0 1px #8a4f7f, 0 1px 1px #8a4f7f, -1px 0 1px #8a4f7f;
+
+		&:hover, &:focus {
+			background: #b472a8;
+			color: #fff;
+		}
+	}
+	.wc-auth-approve {
+		float: right;
+	}
+	.wc-auth-deny {
+		float: left;
+		margin-left: -24px;
+	}
+}

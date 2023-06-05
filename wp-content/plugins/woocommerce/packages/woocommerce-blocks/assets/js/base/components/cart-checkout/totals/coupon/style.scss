@@ -1,0 +1,42 @@
+.wc-block-components-totals-coupon {
+
+	.wc-block-components-panel__button {
+		margin-top: 0;
+		padding-top: 0;
+	}
+
+	.wc-block-components-panel__content {
+		padding-bottom: 0;
+	}
+}
+
+.wc-block-components-totals-coupon__form {
+	display: flex;
+	width: 100%;
+	margin-bottom: 0;
+
+	.wc-block-components-totals-coupon__input {
+		margin-bottom: 0;
+		margin-top: 0;
+		flex-grow: 1;
+	}
+
+	.wc-block-components-totals-coupon__button {
+		height: em(48px);
+		flex-shrink: 0;
+		margin-left: $gap-smaller;
+		padding-left: $gap-large;
+		padding-right: $gap-large;
+		white-space: nowrap;
+	}
+
+	.wc-block-components-totals-coupon__button.no-margin {
+		margin: 0;
+	}
+}
+
+.wc-block-components-totals-coupon__content {
+	flex-direction: column;
+	position: relative;
+}
+

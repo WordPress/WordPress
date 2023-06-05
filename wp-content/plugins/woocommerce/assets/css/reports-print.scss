@@ -1,0 +1,73 @@
+/**
+ *	reports-print.scss
+ *	A print stylesheet for reports. Ensures reports look good when printed.
+ */
+
+* {
+	background: transparent !important;
+	color: black !important;
+	text-shadow: none !important;
+	filter:none !important;
+	-ms-filter: none !important;
+	font-size: 9pt !important;
+	opacity: 1;
+	transition: none !important;
+}
+
+@page {
+	margin: 0.5cm;
+}
+
+#adminmenuwrap,
+#adminmenuback,
+#wpadminbar,
+#screen-meta-links,
+.updated,
+.update-nag,
+.woocommerce-reports-wide .postbox h3.stats_range .export_csv,
+.woocommerce-reports-wrap .postbox h3.stats_range .export_csv,
+.woocommerce-reports-wide .button,
+#wpfooter,
+.woo-nav-tab-wrapper {
+	display: none;
+}
+
+h2 .nav-tab {
+	line-height: 14px;
+}
+
+.woocommerce-reports-wide .postbox h3.stats_range ul li.custom,
+.woocommerce-reports-wrap .postbox h3.stats_range ul li.custom,
+.woocommerce-reports-wide .postbox h3.stats_range ul li a,
+.woocommerce-reports-wrap .postbox h3.stats_range ul li a {
+	padding: 5px;
+	line-height: 14px;
+}
+
+#wpcontent {
+	margin-left: 0;
+}
+
+.woocommerce-reports-wide .postbox .chart-with-sidebar .chart-sidebar,
+.woocommerce-reports-wrap .postbox .chart-with-sidebar .chart-sidebar {
+	margin-left: -130px;
+	width: 130px;
+	display: block;
+}
+
+.woocommerce-reports-wide .postbox .chart-with-sidebar,
+.woocommerce-reports-wrap .postbox .chart-with-sidebar {
+	padding-left: 130px;
+}
+
+.chart-legend {
+	overflow: hidden;
+	zoom: 1;
+}
+
+.chart-legend li,
+.chart-legend li {
+	padding: 0.25em 0.5em !important;
+	box-shadow: none !important;
+	border-bottom: 1px solid gray !important;
+}

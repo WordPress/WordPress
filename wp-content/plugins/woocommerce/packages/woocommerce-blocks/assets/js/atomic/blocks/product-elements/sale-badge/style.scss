@@ -1,0 +1,23 @@
+.wc-block-components-product-sale-badge {
+	margin: 0 auto $gap-small;
+	@include font-size(small);
+	padding: em($gap-smallest) em($gap-small);
+	display: inline-block;
+	width: auto;
+	border: 1px solid #43454b;
+	border-radius: 3px;
+	box-sizing: border-box;
+	color: #43454b;
+	background: #fff;
+	text-align: center;
+	text-transform: uppercase;
+	font-weight: 600;
+	z-index: 9;
+	position: static;
+
+	span {
+		color: inherit;
+		background-color: inherit;
+	}
+
+}

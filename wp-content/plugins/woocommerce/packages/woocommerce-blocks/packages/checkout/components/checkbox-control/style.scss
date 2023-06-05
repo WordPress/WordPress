@@ -1,0 +1,131 @@
+.wc-block-components-checkbox {
+	@include reset-typography();
+	margin-top: em($gap-large);
+
+	label {
+		align-items: flex-start;
+		display: flex;
+		position: relative;
+		@include font-size(small);
+	}
+
+	.wc-block-components-checkbox__input[type="checkbox"] {
+		font-size: 1em;
+		appearance: none;
+		border: 2px solid $input-border-gray;
+		border-radius: 2px;
+		box-sizing: border-box;
+		height: em(24px);
+		width: em(24px);
+		margin: 0;
+		margin-right: em($gap);
+		min-height: em(24px);
+		min-width: em(24px);
+		overflow: hidden;
+		position: static;
+		vertical-align: middle;
+		background-color: #fff;
+
+		&:checked {
+			background: #fff;
+			border-color: $input-border-gray;
+		}
+
+		&:focus {
+			outline: 2px solid $input-border-gray;
+			outline-offset: 2px;
+		}
+
+		&::before,
+		&::after {
+			content: "";
+		}
+
+		&:not(:checked) + .wc-block-components-checkbox__mark {
+			display: none;
+		}
+
+		.has-dark-controls & {
+			border-color: $controls-border-dark;
+			background-color: $input-background-dark;
+
+			&:checked {
+				background: $input-background-dark;
+				border-color: $controls-border-dark;
+			}
+
+			&:focus {
+				outline: 2px solid $controls-border-dark;
+				outline-offset: 2px;
+			}
+		}
+	}
+
+	&.has-error {
+		color: $alert-red;
+
+		a {
+			color: $alert-red;
+		}
+		.wc-block-components-checkbox__input {
+			&,
+			&:hover,
+			&:focus,
+			&:active {
+				border-color: $alert-red;
+			}
+			&:focus {
+				outline: 2px solid $alert-red;
+				outline-offset: 2px;
+			}
+		}
+	}
+
+	.wc-block-components-checkbox__mark {
+		fill: #000;
+		position: absolute;
+		margin-left: em(3px);
+		margin-top: em(1px);
+		width: em(18px);
+		height: em(18px);
+		pointer-events: none;
+
+		.has-dark-controls & {
+			fill: #fff;
+		}
+	}
+
+	> span,
+	.wc-block-components-checkbox__label {
+		vertical-align: middle;
+		line-height: em(24px);
+	}
+}
+
+// Hack to hide the check mark in IE11
+// See comment: https://github.com/woocommerce/woocommerce-gutenberg-products-block/pull/2320/#issuecomment-621936576
+@include ie11() {
+	.wc-block-components-checkbox__mark {
+		display: none;
+	}
+}
+
+.theme-twentytwentyone {
+	.wc-block-components-checkbox__input[type="checkbox"],
+	.has-dark-controls .wc-block-components-checkbox__input[type="checkbox"] {
+		background-color: #fff;
+		border-color: var(--form--border-color);
+		position: relative;
+	}
+
+	.wc-block-components-checkbox__input[type="checkbox"]:checked,
+	.has-dark-controls
+	.wc-block-components-checkbox__input[type="checkbox"]:checked {
+		background-color: #fff;
+		border-color: var(--form--border-color);
+	}
+
+	.wc-block-components-checkbox__mark {
+		display: none;
+	}
+}

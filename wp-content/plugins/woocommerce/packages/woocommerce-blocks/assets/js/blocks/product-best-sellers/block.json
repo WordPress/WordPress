@@ -1,0 +1,92 @@
+{
+	"name": "woocommerce/product-best-sellers",
+	"title": "Best Selling Products",
+	"category": "woocommerce",
+	"keywords": [ "WooCommerce" ],
+	"description": "Display a grid of your all-time best selling products.",
+	"supports": {
+		"align": [ "wide", "full" ],
+		"html": false
+	},
+	"attributes": {
+		"columns": {
+			"type": "number",
+			"default": 3
+		},
+		"rows": {
+			"type": "number",
+			"default": 3
+		},
+		"alignButtons": {
+			"type": "boolean",
+			"default": false
+		},
+		"contentVisibility": {
+			"type": "object",
+			"default": {
+				"image": true,
+				"title": true,
+				"price": true,
+				"rating": true,
+				"button": true
+			},
+			"properties": {
+				"image": {
+					"type": "boolean",
+					"default": true
+				},
+				"title": {
+					"type": "boolean",
+					"default": true
+				},
+				"price": {
+					"type": "boolean",
+					"default": true
+				},
+				"rating": {
+					"type": "boolean",
+					"default": true
+				},
+				"button": {
+					"type": "boolean",
+					"default": true
+				}
+			}
+		},
+		"categories": {
+			"type": "array",
+			"default": []
+		},
+		"catOperator": {
+			"type": "string",
+			"default": "any"
+		},
+		"isPreview": {
+			"type": "boolean",
+			"default": false
+		},
+		"stockStatus": {
+			"type": "array"
+		},
+		"editMode": {
+			"type": "boolean",
+			"default": true
+		},
+		"orderby": {
+			"type": "string",
+			"enum": [
+				"date",
+				"popularity",
+				"price_asc",
+				"price_desc",
+				"rating",
+				"title",
+				"menu_order"
+			],
+			"default": "popularity"
+		}
+	},
+	"textdomain": "woocommerce",
+	"apiVersion": 2,
+	"$schema": "https://schemas.wp.org/trunk/block.json"
+}

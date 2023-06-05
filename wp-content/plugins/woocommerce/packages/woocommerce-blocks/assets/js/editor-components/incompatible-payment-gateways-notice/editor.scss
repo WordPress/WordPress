@@ -1,0 +1,40 @@
+.wc-blocks-incompatible-extensions-notice.is-dismissible {
+	margin: 0;
+	padding-right: 16px;
+	.components-notice__dismiss {
+		min-width: 24px;
+	}
+	.components-notice__content {
+		margin: 4px 0;
+	}
+	svg {
+		width: 16px;
+		height: 16px;
+	}
+	.wc-blocks-incompatible-extensions-notice__content {
+		display: flex;
+
+		.wc-blocks-incompatible-extensions-notice__warning-icon {
+			width: 24px;
+			height: 24px;
+			margin-right: 6px;
+			min-width: max-content;
+		}
+	}
+	.wc-blocks-incompatible-extensions-notice__element {
+		display: flex;
+		align-items: center;
+		position: relative;
+
+		&::before {
+			content: "•";
+			position: absolute;
+			left: -13px;
+			font-size: 1.2rem;
+		}
+	}
+}
+
+.wc-blocks-legacy-page-notice {
+	margin: 0;
+}

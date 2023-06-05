@@ -1,0 +1,25 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 2,
+    "name": "woocommerce/product-track-inventory-fields",
+    "title": "Product track inventory fields",
+    "category": "woocommerce",
+    "description": "The product track inventory fields.",
+    "keywords": ["products", "track", "inventory"],
+    "textdomain": "default",
+    "attributes": {
+        "name": {
+            "type": "string",
+            "__experimentalRole": "content"
+        }
+    },
+    "supports": {
+        "align": false,
+        "html": false,
+        "multiple": false,
+        "reusable": false,
+        "inserter": false,
+        "lock": false
+    },
+    "editorStyle": "file:./editor.css"
+}

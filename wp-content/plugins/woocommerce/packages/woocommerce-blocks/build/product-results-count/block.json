@@ -1,0 +1,21 @@
+{
+	"name": "woocommerce/product-results-count",
+	"version": "1.0.0",
+	"title": "Product Results Count",
+	"description": "Display the number of products on the archive page or search result page.",
+	"category": "woocommerce",
+	"keywords": [ "WooCommerce" ],
+	"supports": {
+		"color": {
+			"text": true,
+			"background": false
+		},
+		"typography": {
+			"fontSize": true
+		}
+	},
+	"attributes": {},
+	"textdomain": "woocommerce",
+	"apiVersion": 2,
+	"$schema": "https://schemas.wp.org/trunk/block.json"
+}

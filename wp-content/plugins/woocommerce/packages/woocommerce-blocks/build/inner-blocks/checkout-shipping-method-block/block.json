@@ -1,0 +1,32 @@
+{
+	"name": "woocommerce/checkout-shipping-method-block",
+	"version": "1.0.0",
+	"title": "Shipping Method",
+	"description": "Select between shipping or local pickup.",
+	"category": "woocommerce",
+	"supports": {
+		"align": false,
+		"html": false,
+		"multiple": false,
+		"reusable": false,
+		"inserter": false,
+		"lock": false
+	},
+	"attributes": {
+		"lock": {
+			"type": "object",
+			"default": {
+				"remove": true,
+				"move": true
+			}
+		},
+		"shippingCostRequiresAddress": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"parent": [ "woocommerce/checkout-fields-block" ],
+	"textdomain": "woocommerce",
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2
+}

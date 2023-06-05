@@ -1,0 +1,21 @@
+.wc-block-checkout-empty {
+	padding: $gap-largest;
+	text-align: center;
+	width: 100%;
+
+	.wc-block-checkout-empty__image {
+		max-width: 150px;
+		margin: 0 auto 1em;
+		display: block;
+		color: inherit;
+	}
+	.wc-block-checkout-empty__title {
+		display: block;
+		margin: 0;
+		font-weight: bold;
+	}
+	.wc-block-checkout-empty__description {
+		display: block;
+		margin: 0.25em 0 1em 0;
+	}
+}

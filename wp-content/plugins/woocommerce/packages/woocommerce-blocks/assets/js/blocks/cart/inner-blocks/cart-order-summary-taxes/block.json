@@ -1,0 +1,31 @@
+{
+	"name": "woocommerce/cart-order-summary-taxes-block",
+	"version": "1.0.0",
+	"title": "Taxes",
+	"description": "Shows the cart taxes row.",
+	"category": "woocommerce",
+	"supports": {
+		"align": false,
+		"html": false,
+		"multiple": false,
+		"reusable": false,
+		"lock": false
+	},
+	"attributes": {
+		"className": {
+			"type": "string",
+			"default": ""
+		},
+		"lock": {
+			"type": "object",
+			"default": {
+				"remove": true,
+				"move": false
+			}
+		}
+	},
+	"parent": [ "woocommerce/cart-order-summary-block" ],
+	"textdomain": "woocommerce",
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2
+}

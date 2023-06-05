@@ -1,0 +1,87 @@
+.editor-styles-wrapper .wp-block-woocommerce-mini-cart-contents {
+	max-width: 480px;
+	/* We need to override the margin top here to simulate the layout of
+	the mini cart contents on the front end. */
+	margin: 0 auto !important;
+
+	.wp-block-woocommerce-empty-mini-cart-contents-block[hidden],
+	.wp-block-woocommerce-filled-mini-cart-contents-block[hidden] {
+		display: none;
+	}
+
+	.wp-block-woocommerce-filled-mini-cart-contents-block > .block-editor-inner-blocks > .block-editor-block-list__layout {
+		display: flex;
+		flex-direction: column;
+		height: 100vh;
+	}
+
+	.wp-block-woocommerce-mini-cart-items-block {
+		display: grid;
+		flex-grow: 1;
+		margin-bottom: $gap;
+		padding: 0 $gap;
+
+		> .block-editor-inner-blocks > .block-editor-block-list__layout {
+			display: flex;
+			flex-direction: column;
+			height: 100%;
+		}
+
+		// Temporary fix after the appender button was positioned absolute
+		// See https://github.com/woocommerce/woocommerce-gutenberg-products-block/issues/5742#issuecomment-1032804168
+		.block-list-appender {
+			position: relative;
+		}
+
+	}
+
+	.wp-block-woocommerce-mini-cart-products-table-block {
+		margin-bottom: auto;
+		margin-top: $gap;
+	}
+
+	h2.wc-block-mini-cart__title {
+		@include font-size(larger);
+		margin: $gap-largest $gap 0;
+	}
+
+	table.wc-block-cart-items {
+		color: inherit;
+	}
+
+	.block-editor-button-block-appender {
+		box-shadow: inset 0 0 0 1px;
+		color: inherit;
+	}
+
+	.wp-block-woocommerce-empty-mini-cart-contents-block {
+		min-height: 100vh;
+		overflow-y: unset;
+		padding: 0;
+
+		> .block-editor-inner-blocks {
+			box-sizing: border-box;
+			max-height: 100vh;
+			overflow-y: auto;
+			padding: $gap-largest $gap $gap;
+		}
+
+		// Temporary fix after the appender button was positioned absolute
+		// See https://github.com/woocommerce/woocommerce-gutenberg-products-block/issues/5742#issuecomment-1032804168
+		.block-list-appender {
+			margin-top: $gap;
+			position: relative;
+		}
+
+	}
+
+	.wc-block-mini-cart__shopping-button a {
+		color: currentColor;
+	}
+}
+
+.editor-styles-wrapper .wp-block-woocommerce-mini-cart-contents,
+.editor-styles-wrapper .wp-block-woocommerce-filled-mini-cart-contents-block {
+	height: auto;
+	min-height: 500px;
+}

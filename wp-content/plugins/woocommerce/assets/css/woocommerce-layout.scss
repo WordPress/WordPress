@@ -1,0 +1,720 @@
+/**
+ * woocommerce-layout.scss
+ * Applies layout to the default WooCommerce frontend design
+ */
+
+/**
+ * Imports
+ */
+@import "mixins";
+@import "variables";
+
+/**
+ * Styling begins
+ */
+.woocommerce,
+.woocommerce-page {
+
+	.woocommerce-message,
+	.woocommerce-error,
+	.woocommerce-info {
+
+		.button {
+			float: right;
+		}
+	}
+
+	/**
+	 * General layout styles
+	 */
+	.col2-set {
+
+		@include clearfix();
+		width: 100%;
+
+		.col-1 {
+			float: left;
+			width: 48%;
+		}
+
+		.col-2 {
+			float: right;
+			width: 48%;
+		}
+	}
+
+	img {
+		height: auto;
+		max-width: 100%;
+	}
+
+	/**
+	 * Product page
+	 */
+	div.product,
+	#content div.product {
+
+		div.images {
+			float: left;
+			width: 48%;
+		}
+
+		div.thumbnails {
+
+			@include clearfix();
+
+			a {
+				float: left;
+				width: 30.75%;
+				margin-right: 3.8%;
+				margin-bottom: 1em;
+			}
+
+			a.last {
+				margin-right: 0;
+			}
+
+			a.first {
+				clear: both;
+			}
+
+			&.columns-1 {
+
+				a {
+					width: 100%;
+					margin-right: 0;
+					float: none;
+				}
+			}
+
+			&.columns-2 {
+
+				a {
+					width: 48%;
+				}
+			}
+
+			&.columns-4 {
+
+				a {
+					width: 22.05%;
+				}
+			}
+
+			&.columns-5 {
+
+				a {
+					width: 16.9%;
+				}
+			}
+		}
+
+		div.summary {
+			float: right;
+			width: 48%;
+			clear: none;
+		}
+
+		.woocommerce-tabs {
+			clear: both;
+
+			ul.tabs {
+
+				@include menu();
+			}
+		}
+
+		#reviews {
+
+			.comment {
+
+				@include mediaright();
+			}
+		}
+	}
+
+	/**
+	 * Product loops
+	 */
+	ul.products {
+		clear: both;
+
+		@include clearfix();
+
+		li.product {
+			float: left;
+			margin: 0 3.8% 2.992em 0;
+			padding: 0;
+			position: relative;
+			width: 22.05%;
+			margin-left: 0;
+		}
+
+		li.first {
+			clear: both;
+		}
+
+		li.last {
+			margin-right: 0;
+		}
+	}
+
+	ul.products {
+
+		&.columns-1 {
+
+			li.product {
+				width: 100%;
+				margin-right: 0;
+			}
+		}
+
+		&.columns-2 {
+
+			li.product {
+				width: 48%;
+			}
+		}
+
+		&.columns-3 {
+
+			li.product {
+				width: 30.75%;
+			}
+		}
+
+		&.columns-5 {
+
+			li.product {
+				width: 16.95%;
+			}
+		}
+
+		&.columns-6 {
+
+			li.product {
+				width: 13.5%;
+			}
+		}
+	}
+
+	&.columns-1 {
+
+		ul.products {
+
+			li.product {
+				width: 100%;
+				margin-right: 0;
+			}
+		}
+	}
+
+	&.columns-2 {
+
+		ul.products {
+
+			li.product {
+				width: 48%;
+			}
+		}
+	}
+
+	&.columns-3 {
+
+		ul.products {
+
+			li.product {
+				width: 30.75%;
+			}
+		}
+	}
+
+	&.columns-5 {
+
+		ul.products {
+
+			li.product {
+				width: 16.95%;
+			}
+		}
+	}
+
+	&.columns-6 {
+
+		ul.products {
+
+			li.product {
+				width: 13.5%;
+			}
+		}
+	}
+
+	.woocommerce-result-count {
+		float: left;
+	}
+
+	.woocommerce-ordering {
+		float: right;
+	}
+
+	.woocommerce-pagination {
+
+		ul.page-numbers {
+
+			@include menu();
+		}
+	}
+
+	/**
+	 * Cart page
+	 */
+	table.cart,
+	#content table.cart {
+
+		img {
+			height: auto;
+		}
+
+		td.actions {
+			text-align: right;
+
+			.input-text {
+				width: 80px;
+			}
+
+			.coupon {
+				float: left;
+			}
+		}
+	}
+
+	.cart-collaterals {
+
+		@include clearfix();
+		width: 100%;
+
+		.related {
+			width: 30.75%;
+			float: left;
+		}
+
+		.cross-sells {
+			width: 48%;
+			float: left;
+
+			ul.products {
+				float: none;
+
+				li {
+					width: 48%;
+				}
+			}
+		}
+
+		.shipping_calculator {
+			width: 48%;
+
+			@include clearfix();
+			clear: right;
+			float: right;
+
+			.col2-set {
+
+				.col-1,
+				.col-2 {
+					width: 47%;
+				}
+			}
+		}
+
+		.cart_totals {
+			float: right;
+			width: 48%;
+		}
+	}
+
+	/**
+	 * Cart sidebar
+	 */
+	ul.cart_list,
+	ul.product_list_widget {
+
+		li {
+
+			@include mediaright();
+		}
+	}
+
+	/**
+	 * Forms
+	 */
+	form {
+
+		.form-row {
+
+			@include clearfix();
+
+			label {
+				display: block;
+
+				&.checkbox {
+					display: inline;
+				}
+			}
+
+			select {
+				width: 100%;
+			}
+
+			.input-text {
+				box-sizing: border-box;
+				width: 100%;
+			}
+		}
+
+		.form-row-first,
+		.form-row-last {
+			width: 47%;
+			overflow: visible;
+		}
+
+		.form-row-first {
+			float: left;
+
+			/*rtl:raw:
+			float: right;
+			*/
+		}
+
+		.form-row-last {
+			float: right;
+		}
+
+		.form-row-wide {
+			clear: both;
+		}
+
+		.password-input {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			position: relative;
+
+			input[type="password"] {
+				padding-right: 2.5rem;
+			}
+
+			/* Hide the Edge "reveal password" native button */
+			input::-ms-reveal {
+				display: none;
+			}
+		}
+
+		.show-password-input {
+			position: absolute;
+			right: 0.7em;
+			top: 0.7em;
+			cursor: pointer;
+		}
+
+		.show-password-input::after {
+
+			@include iconafter( "\e010" ); 	// Icon styles and glyph
+		}
+
+		.show-password-input.display-password::after {
+			color: #585858;
+		}
+	}
+
+	#payment {
+
+		.form-row {
+
+			select {
+				width: auto;
+			}
+		}
+
+		.wc-terms-and-conditions,
+		.terms {
+			text-align: left;
+			padding: 0 1em 0 0;
+			float: left;
+		}
+
+		#place_order {
+			float: right;
+		}
+	}
+
+	.woocommerce-billing-fields,
+	.woocommerce-shipping-fields {
+
+		@include clearfix();
+	}
+
+	.woocommerce-terms-and-conditions {
+		margin-bottom: 1.618em;
+		padding: 1.618em;
+	}
+
+	/**
+	 * oEmbeds
+	 */
+	.woocommerce-oembed {
+		position: relative;
+	}
+}
+
+.woocommerce-account {
+
+	.woocommerce-MyAccount-navigation {
+		float: left;
+		width: 30%;
+	}
+
+	.woocommerce-MyAccount-content {
+		float: right;
+		width: 68%;
+	}
+}
+
+/**
+ * Twenty Eleven specific styles
+ */
+.woocommerce-page {
+
+	&.left-sidebar {
+
+		#content.twentyeleven {
+			width: 58.4%;
+			margin: 0 7.6%;
+			float: right;
+		}
+	}
+
+	&.right-sidebar {
+
+		#content.twentyeleven {
+			margin: 0 7.6%;
+			width: 58.4%;
+			float: left;
+		}
+	}
+}
+
+/**
+ * Twenty Fourteen specific styles
+ */
+.twentyfourteen {
+
+	.tfwc {
+		padding: 12px 10px 0;
+		max-width: 474px;
+		margin: 0 auto;
+
+		.product .entry-summary {
+			padding: 0 !important;
+			margin: 0 0 1.618em !important;
+		}
+
+		div.product.hentry.has-post-thumbnail {
+			margin-top: 0;
+		}
+	}
+}
+
+@media screen and (min-width: 673px) {
+
+	.twentyfourteen {
+
+		.tfwc {
+			padding-right: 30px;
+			padding-left: 30px;
+		}
+	}
+}
+
+@media screen and (min-width: 1040px) {
+
+	.twentyfourteen {
+
+		.tfwc {
+			padding-right: 15px;
+			padding-left: 15px;
+		}
+	}
+}
+
+@media screen and (min-width: 1110px) {
+
+	.twentyfourteen {
+
+		.tfwc {
+			padding-right: 30px;
+			padding-left: 30px;
+		}
+	}
+}
+
+@media screen and (min-width: 1218px) {
+
+	.twentyfourteen {
+
+		.tfwc {
+			margin-right: 54px;
+		}
+	}
+
+	.full-width {
+
+		.twentyfourteen {
+
+			.tfwc {
+				margin-right: auto;
+			}
+		}
+	}
+}
+
+/**
+ * Twenty Fifteen specific styles
+ */
+.twentyfifteen {
+
+	.t15wc {
+		padding-left: 7.6923%;
+		padding-right: 7.6923%;
+		padding-top: 7.6923%;
+		margin-bottom: 7.6923%;
+		background: #fff;
+		box-shadow: 0 0 1px rgba(0, 0, 0, 0.15);
+
+		.page-title {
+			margin-left: 0;
+		}
+	}
+}
+
+@media screen and (min-width: 38.75em) {
+
+	.twentyfifteen {
+
+		.t15wc {
+			margin-right: 7.6923%;
+			margin-left: 7.6923%;
+			margin-top: 8.3333%;
+		}
+	}
+}
+
+@media screen and (min-width: 59.6875em) {
+
+	.twentyfifteen {
+
+		.t15wc {
+			margin-left: 8.3333%;
+			margin-right: 8.3333%;
+			padding: 10%;
+		}
+	}
+
+	.single-product {
+
+		.twentyfifteen {
+
+			.entry-summary {
+				padding: 0 !important;
+			}
+		}
+	}
+}
+
+/**
+ * Twenty Sixteen specific styles
+ */
+.twentysixteen {
+
+	.site-main {
+		margin-right: 7.6923%;
+		margin-left: 7.6923%;
+	}
+
+	.entry-summary {
+		margin-right: 0;
+		margin-left: 0;
+	}
+}
+
+#content {
+
+	.twentysixteen {
+
+		div.product {
+
+			div.images,
+			div.summary {
+				width: 46.42857%;
+			}
+		}
+	}
+}
+
+@media screen and (min-width: 44.375em) {
+
+	.twentysixteen {
+
+		.site-main {
+			margin-right: 23.0769%;
+		}
+	}
+}
+
+@media screen and (min-width: 56.875em) {
+
+	.twentysixteen {
+
+		.site-main {
+			margin-right: 0;
+			margin-left: 0;
+		}
+	}
+
+	.no-sidebar {
+
+		.twentysixteen {
+
+			.site-main {
+				margin-right: 15%;
+				margin-left: 15%;
+			}
+
+			.entry-summary {
+				margin-right: 0;
+				margin-left: 0;
+			}
+		}
+	}
+}
+
+/**
+ * RTL styles.
+ */
+.rtl {
+
+	.woocommerce,
+	.woocommerce-page {
+
+		.col2-set {
+
+			.col-1 {
+				float: right;
+			}
+
+			.col-2 {
+				float: left;
+			}
+		}
+	}
+}

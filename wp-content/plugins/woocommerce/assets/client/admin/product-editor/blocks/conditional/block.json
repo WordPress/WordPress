@@ -1,0 +1,27 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 2,
+    "name": "woocommerce/conditional",
+    "title": "Conditional",
+    "category": "widgets",
+    "description": "Container to only conditionally render inner blocks.",
+    "textdomain": "default",
+    "attributes": {
+        "mustMatch": {
+            "__experimentalRole": "content",
+            "type": "array",
+            "items": {
+                "type": "object"
+            },
+            "default": []
+        }
+    },
+    "supports": {
+        "align": false,
+        "html": false,
+        "multiple": true,
+        "reusable": false,
+        "inserter": false,
+        "lock": false
+    }
+}

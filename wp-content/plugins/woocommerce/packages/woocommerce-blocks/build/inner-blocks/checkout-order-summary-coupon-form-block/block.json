@@ -1,0 +1,30 @@
+{
+	"name": "woocommerce/checkout-order-summary-coupon-form-block",
+	"version": "1.0.0",
+	"title": "Coupon Form",
+	"description": "Shows the apply coupon form.",
+	"category": "woocommerce",
+	"supports": {
+		"align": false,
+		"html": false,
+		"multiple": false,
+		"reusable": false
+	},
+	"attributes": {
+		"className": {
+			"type": "string",
+			"default": ""
+		},
+		"lock": {
+			"type": "object",
+			"default": {
+				"remove": false,
+				"move": false
+			}
+		}
+	},
+	"parent": [ "woocommerce/checkout-order-summary-block" ],
+	"textdomain": "woocommerce",
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2
+}

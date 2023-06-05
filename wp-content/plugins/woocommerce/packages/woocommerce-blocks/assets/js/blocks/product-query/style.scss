@@ -1,0 +1,14 @@
+.color-block-support-panel {
+	.wc-block-feedback-prompt {
+		grid-column: 1 / -1;
+	}
+}
+
+.woocommerce-product-query-panel__external-link {
+	display: block;
+	margin-top: $gap-small;
+
+	.components-external-link__icon {
+		margin-left: $gap-smaller;
+	}
+}

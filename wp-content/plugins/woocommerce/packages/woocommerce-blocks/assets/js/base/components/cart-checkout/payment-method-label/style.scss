@@ -1,0 +1,19 @@
+.wc-block-components-payment-method-label--with-icon {
+	display: inline-block;
+	vertical-align: middle;
+	> img,
+	> svg {
+		vertical-align: middle;
+		margin: -2px 4px 0 0;
+	}
+}
+
+.is-mobile,
+.is-small {
+	.wc-block-components-payment-method-label--with-icon {
+		> img,
+		> svg {
+			display: none;
+		}
+	}
+}

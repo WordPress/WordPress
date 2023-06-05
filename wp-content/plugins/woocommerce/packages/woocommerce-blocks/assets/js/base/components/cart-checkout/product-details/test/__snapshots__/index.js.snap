@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProductDetails should not render hidden details 1`] = `
+<ul
+  className="wc-block-components-product-details"
+>
+  <li
+    className="wc-block-components-product-details__lorem"
+  >
+    <span
+      className="wc-block-components-product-details__name"
+    >
+      LOREM
+      :
+    </span>
+     
+    <span
+      className="wc-block-components-product-details__value"
+    >
+      IPSUM
+    </span>
+  </li>
+</ul>
+`;
+
+exports[`ProductDetails should not rendering anything if all details are hidden 1`] = `null`;
+
+exports[`ProductDetails should not rendering anything if details is an empty array 1`] = `null`;
+
+exports[`ProductDetails should render details 1`] = `
+<ul
+  className="wc-block-components-product-details"
+>
+  <li
+    className="wc-block-components-product-details__lorem"
+  >
+    <span
+      className="wc-block-components-product-details__name"
+    >
+      Lorem
+      :
+    </span>
+     
+    <span
+      className="wc-block-components-product-details__value"
+    >
+      Ipsum
+    </span>
+  </li>
+  <li
+    className="wc-block-components-product-details__lorem"
+  >
+    <span
+      className="wc-block-components-product-details__name"
+    >
+      LOREM
+      :
+    </span>
+     
+    <span
+      className="wc-block-components-product-details__value"
+    >
+      IPSUM
+    </span>
+  </li>
+  <li
+    className=""
+  >
+    
+    <span
+      className="wc-block-components-product-details__value"
+    >
+      Ipsum
+    </span>
+  </li>
+</ul>
+`;

@@ -1,0 +1,49 @@
+.wp-block-woocommerce-price-filter {
+	border-color: $gray-700;
+	border-radius: 4px;
+	border-style: none !important;
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		text-transform: inherit;
+	}
+}
+
+.wc-block-price-slider {
+	border-radius: inherit;
+	border-color: inherit;
+}
+
+.wc-block-price-filter {
+	border-radius: inherit;
+	border-color: inherit;
+}
+
+.wc-block-price-filter__controls {
+	border-radius: inherit;
+	border-color: inherit;
+
+	// Force inheriting style is required for global style.
+	input {
+		border-radius: inherit !important;
+		border-color: inherit !important;
+		border-style: solid;
+	}
+
+	.input-loading {
+		@include placeholder();
+		border-radius: 0;
+		height: em(32px);
+		width: em(90px);
+	}
+}
+
+.editor-styles-wrapper .wc-block-price-filter__button.wc-block-components-price-slider__button,
+.wc-block-price-filter__button.wc-block-components-price-slider__button {
+	padding: em($gap-smaller) em($gap);
+	@include font-size(small);
+}

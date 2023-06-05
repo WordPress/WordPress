@@ -1,0 +1,487 @@
+/**
+* woocommerce-blocktheme.scss
+* Block theme default styles to ensure WooCommerce looks better out of the box with block themes that are not optimised for WooCommerce specifically.
+*/
+@import "fonts";
+@import "variables";
+
+/**
+* Layout
+*/
+.woocommerce-cart,
+.woocommerce-account,
+.woocommerce-checkout {
+	.wp-block-post-title,
+	main .woocommerce {
+		// Allow Cart/Checkout/Account pages more space to breathe.
+		max-width: 1000px;
+	}
+}
+
+.clear {
+	clear: both;
+}
+
+/**
+* General
+*/
+.woocommerce {
+	button.button,
+	a.button {
+
+		&.disabled,
+		&:disabled,
+		&:disabled[disabled],
+		&.disabled:hover,
+		&:disabled:hover,
+		&:disabled[disabled]:hover {
+			opacity: 0.5;
+		}
+	}
+
+	#respond input#submit,
+	input.button,
+	a.button.alt {
+
+		&:hover {
+			opacity: 0.9;
+		}
+
+		&.disabled,
+		&:disabled,
+		&:disabled[disabled],
+		&.disabled:hover,
+		&:disabled:hover,
+		&:disabled[disabled]:hover {
+			opacity: 0.5;
+		}
+	}
+}
+
+/**
+* Products
+*/
+.woocommerce {
+	/**
+	* Shop products list
+	*/
+	ul.products li.product .woocommerce-loop-product__title {
+		// Slightly increase font size to make product title more readable.
+		font-size: 1.2rem;
+	}
+
+	/**
+	* Single Product
+	*/
+	div.product {
+		// Ensure the single product contains its content.
+		// For details see https://github.com/woocommerce/woocommerce/pull/33511.
+		&::after {
+			content: "";
+			display: block;
+			clear: both;
+		}
+
+		div.summary > * {
+			// Ensure a more even block gap spacing in product summary.
+			margin-bottom: var(--wp--style--block-gap);
+		}
+
+		.woocommerce-tabs {
+			ul.tabs li.active {
+
+				&::before {
+					box-shadow: 2px 2px 0 var(--wp--preset--color--background, $contentbg);
+				}
+
+				&::after {
+					box-shadow: -2px 2px 0 var(--wp--preset--color--background, $contentbg);
+				}
+			}
+		}
+
+		form.cart {
+			div.quantity {
+				display: inline-block;
+				float: none; // Remove float set by WC core.
+				vertical-align: middle;
+	
+				// Adjust positioning of quantity selector and button.
+				.qty {
+					margin-right: 0.5rem;
+				}
+			}
+	
+			button[name="add-to-cart"],
+			button.single_add_to_cart_button {
+				display: inline-block;
+				float: none; // Remove float set by WC core.
+				margin-top: 0;
+				margin-bottom: 0;
+				vertical-align: middle;
+			}
+		}
+
+		.related.products {
+			// Ensure related products doesn't stick to product tabs.
+			margin-top: 5rem;
+		}
+	}
+
+	.woocommerce-Reviews {
+		#comments {
+			// Add spacing between the review comments and the review form.
+			margin-bottom: var(--wp--style--block-gap);
+		}
+
+		.commentlist {
+			// Ensure review comments width doesn't exceed review container.
+			box-sizing: border-box;
+		}
+
+		.comment-reply-title {
+			// Make review form title visually distinct.
+			font-size: var(--wp--preset--font-size--medium);
+			font-weight: 700;
+		}
+	}
+
+	.price ins,
+	bdi {
+		// Ensure discounted prices aren't underlined.
+		// For details see https://github.com/woocommerce/woocommerce-blocks/pull/5684.
+		text-decoration: none;
+	}
+
+	a.added_to_cart {
+		// Prevent "View Cart" button from sticking to "Add to Cart" button.
+		// For details see https://github.com/woocommerce/woocommerce-blocks/issues/5285.
+		display: block;
+		margin-top: 1rem;
+	}
+
+	span.onsale {
+		// Style "On Sale" badge in theme colors by default.
+		background-color: var(--wp--preset--color--foreground, $highlight);
+		color: var(--wp--preset--color--background, $highlightext);
+	}
+
+	/**
+	* Product variations
+	*/
+	table.variations {
+		tr {
+			// Limit variation dropdown width and add block gap.
+			display: block;
+			margin-bottom: var(--wp--style--block-gap);
+
+			th {
+				// Ensure variation label doesn't stick to dropdown.
+				padding-right: 1rem;
+			}
+
+			td select {
+				// Add padding to product variation dropdowns.
+				height: 3.5rem;
+				padding: 0.9rem 1.1rem;
+				font-size: var(--wp--preset--font-size--small);
+			}
+		}
+	}
+
+	div.product form.cart table.variations th {
+		// Ensure variation label is vertically centered.
+		line-height: 3.5rem;
+	}
+}
+
+/**
+* Form elements
+*/
+.woocommerce-page {
+	// Ensure text input fields aren't too small.
+	.input-text {
+		font-size: var(--wp--preset--font-size--small);
+		padding: 0.9rem 1.1rem;
+	}
+
+	label {
+		margin-bottom: 0.7rem;
+	}
+
+	// Ensure dropdowns are visually consistent with other form fields.
+	.select2-container {
+		.select2-selection,
+		.select2-search__field {
+			height: 3.5rem;
+			font-size: var(--wp--preset--font-size--small);
+			padding: 0.9rem 1.1rem;
+		}
+
+		.select2-dropdown {
+			padding: 0.9rem 1.1rem;
+
+			.select2-search__field {
+				margin-bottom: 1rem;
+			}
+		}
+
+		.select2-selection .select2-selection__arrow {
+			position: absolute;
+			top: 0;
+			right: 0;
+			width: 3rem;
+			height: 3.5rem;
+		}
+	}
+}
+
+.woocommerce {
+	form {
+		.form-row {
+			margin-bottom: 1rem;
+		}
+
+		textarea {
+			// Ensure textareas don't look squished.
+			min-height: 100px;
+		}
+	}
+}
+
+/**
+* Cart / Checkout
+*/
+.woocommerce-page {
+	/**
+	* Tables
+	*/
+	table.shop_table {
+		// Adjust table width to new checkout width.
+		width: 70%;
+		border-collapse: collapse;
+
+		@media only screen and ( max-width: 768px ) {
+			width: 100%;
+		}
+
+		th,
+		td {
+			// Allow cells more space to breathe.
+			padding: 1rem;
+		}
+	}
+
+	table.shop_table_responsive {
+		// Responsive tables should still take up the full width.
+		width: 100%;
+	}
+
+	/**
+	* Cart specific
+	*/
+	.woocommerce-cart-form {
+		.product-remove {
+			// Decrease width of the product remove column.
+			width: 1rem;
+		}
+
+		.product-thumbnail {
+			// Increase product thumbnails to improve visually fidelity.
+			width: 120px;
+
+			a img {
+				width: 117px;
+			}
+		}
+
+		.coupon {
+			display: flex;
+			align-items: center;
+		}
+
+		#coupon_code {
+			// Allow sufficient space for the coupon code.
+			width: auto;
+			margin-right: 0.8rem;
+			height: 50px;
+			font-size: var(--wp--preset--font-size--small);
+			padding: 0 1.1rem;
+		}
+
+		@media only screen and ( max-width: 768px ) {
+			.product-remove {
+				width: auto;
+			}
+
+			#coupon_code {
+				width: 50%;
+				margin-right: 0;
+			}
+		}
+	}
+
+	.cart-collaterals h2 {
+		// Ensure cart subheadline size is reasonable.
+		font-size: var(--wp--preset--font-size--medium);
+	}
+
+	/**
+	* Checkout specific
+	*/
+	.woocommerce-form-coupon .button {
+		min-height: 50px;
+	}
+
+	/**
+	* Order confirmation
+	*/
+	.woocommerce-thankyou-order-received,
+	h2.woocommerce-column__title {
+		font-size: var(--wp--preset--font-size--large);
+		font-weight: 300;
+	}
+
+	ul.woocommerce-order-overview {
+		// Display order overview items next to each other.
+		display: flex;
+		width: 100%;
+		padding-left: 0;
+		font-size: var(--wp--preset--font-size--small);
+
+		@media only screen and ( max-width: 768px ) {
+			flex-direction: column;
+		}
+
+		li {
+			flex-grow: 1;
+			margin-bottom: 1rem;
+			border: none;
+		}
+	}
+
+	.woocommerce-customer-details address {
+		// Ensure customer details match order overview.
+		box-sizing: border-box;
+		width: 70%;
+		padding: 2rem;
+		border-width: 1px;
+		border-radius: 0;
+	}
+}
+
+/**
+* My account
+*/
+.woocommerce-account {
+	.woocommerce-MyAccount-navigation {
+		ul {
+			// Ensure top left alignment of the navigation.
+			margin: 0 0 2rem;
+			padding: 0;
+		}
+
+		li {
+			// Remove default list styling.
+			list-style: none;
+			padding: 1rem 0;
+
+			@media only screen and ( max-width: 768px ) {
+				padding: 0.35rem 0;
+			}
+
+			&:first-child {
+				padding-top: 0;
+			}
+
+			&.is-active {
+				a {
+					text-decoration: underline;
+				}
+			}
+
+			a {
+				text-decoration: none;
+
+				&:hover {
+					text-decoration: underline;
+				}
+			}
+		}
+	}
+
+	.woocommerce-MyAccount-content {
+		> p:first-of-type,
+		p.form-row-first,
+		p.form-row-last {
+			// Ensure first paragraph in content is top aligned.
+			margin-block-start: 0;
+		}
+	}
+
+	table.shop_table.order_details,
+	.woocommerce-customer-details address {
+		// Ensure order/customer details are full width in My Account.
+		width: 100%;
+	}
+
+	.addresses .title .edit {
+		// Align "Add" and "Edit" buttons when title is too long (/my-account/edit-address/).
+		display: block;
+		margin-bottom: 1rem;
+	}
+
+	&.woocommerce-edit-address .woocommerce-MyAccount-content form > h3 {
+		// Ensure headline is top aligned (/my-account/edit-address/shipping/).
+		margin-block-start: 0;
+	}
+
+	.woocommerce-orders-table__cell.woocommerce-orders-table__cell-order-actions {
+		a {
+			display: block;
+			margin-bottom: 1em;
+			text-align: center;
+		}
+	}
+}
+
+/**
+* My account - Login form
+*/
+.woocommerce-page {
+	.woocommerce-form-login {
+		.input-text {
+			// Ensure inputs are well spaced.
+			font-size: var(--wp--preset--font-size--small);
+			padding: 0.9rem 1.1rem;
+		}
+
+		label {
+			margin-bottom: 0.7rem;
+		}
+
+		.show-password-input {
+			// Adjust password field icon position.
+			top: 0.8rem;
+			right: 1.2rem;
+		}
+	}
+}
+
+/**
+* Store notice
+*/
+p.demo_store,
+.woocommerce-store-notice {
+	// Add theme colors to the store notice.
+
+	background: var(--wp--preset--color--foreground, $primary);
+	bottom: 0;
+	color: var(--wp--preset--color--background, $primarytext);
+	position: fixed;
+	top: auto !important;
+
+	a {
+		color: var(--wp--preset--color--background, $primarytext);
+	}
+}

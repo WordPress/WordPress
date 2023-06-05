@@ -1,0 +1,28 @@
+{
+	"name": "woocommerce/mini-cart-products-table-block",
+	"version": "1.0.0",
+	"title": "Mini Cart Products Table",
+	"description": "Block that displays the products table of the Mini Cart block.",
+	"category": "woocommerce",
+	"supports": {
+		"align": false,
+		"html": false,
+		"multiple": false,
+		"reusable": false,
+		"inserter": false,
+		"lock": false
+	},
+	"attributes": {
+		"lock": {
+			"type": "object",
+			"default": {
+				"remove": true,
+				"move": false
+			}
+		}
+	},
+	"parent": [ "woocommerce/mini-cart-items-block" ],
+	"textdomain": "woocommerce",
+	"apiVersion": 2,
+	"$schema": "https://schemas.wp.org/trunk/block.json"
+}

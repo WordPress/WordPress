@@ -1,0 +1,38 @@
+.wp-block-woocommerce-product-details {
+	ul.wc-tabs {
+		list-style: none;
+		padding: 0 0 0 1em;
+		margin: 0 0 1.618em;
+		overflow: hidden;
+		position: relative;
+		border-bottom: 1px solid $gray-200;
+
+		li {
+			border: 1px solid $gray-200;
+			display: inline-block;
+			position: relative;
+			z-index: 0;
+			border-radius: 4px 4px 0 0;
+			margin: 0;
+			padding: 0.5em 1em;
+
+			a {
+				display: inline-block;
+				font-weight: 700;
+				text-decoration: none;
+
+				&:hover {
+					text-decoration: none;
+				}
+			}
+
+			&.active {
+				z-index: 2;
+
+				a {
+					text-shadow: inherit;
+				}
+			}
+		}
+	}
+}

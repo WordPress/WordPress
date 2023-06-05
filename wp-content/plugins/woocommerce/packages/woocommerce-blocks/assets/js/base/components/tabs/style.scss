@@ -1,0 +1,60 @@
+.wc-block-components-tabs {
+	.wc-block-components-tabs__list {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		width: 100%;
+		> .wc-block-components-tabs__item {
+			border: none;
+			flex: auto;
+			background: transparent;
+			padding: $gap-small $gap;
+			color: inherit;
+			outline-offset: -1px;
+			text-align: center;
+			transition: box-shadow 0.1s linear;
+			box-shadow: inset 0 -1px currentColor;
+			border-radius: 0;
+			&.is-active {
+				box-shadow: inset 0 -3px currentColor;
+				font-weight: 600;
+				position: relative;
+			}
+			&:focus {
+				outline-offset: -1px;
+				outline: 1px dotted currentColor;
+			}
+			&:hover,
+			&:active {
+				background: transparent;
+			}
+			.wc-block-components-tabs__item-content {
+				@include font-size(regular);
+				line-height: 1;
+				width: fit-content;
+				display: inline-block;
+				font-weight: bold;
+
+				> img,
+				> svg {
+					height: 1.2em;
+					vertical-align: middle;
+					margin: 0.2em 0 -0.2em;
+				}
+
+				.wc-block-components-payment-method-icons {
+					margin: 0.2em 0 -0.2em;
+
+					.wc-block-components-payment-method-icon {
+						height: 1.2em;
+						vertical-align: middle;
+					}
+				}
+			}
+		}
+	}
+	.wc-block-components-tabs__content {
+		padding: $gap 0;
+		text-transform: none;
+	}
+}

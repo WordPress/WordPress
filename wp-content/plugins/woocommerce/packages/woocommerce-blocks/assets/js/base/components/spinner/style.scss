@@ -1,0 +1,27 @@
+.wc-block-components-spinner {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	color: inherit;
+	box-sizing: content-box;
+	text-align: center;
+	font-size: 1.25em;
+
+	&::after {
+		content: " ";
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		margin: -0.5em 0 0 -0.5em;
+		width: 1em;
+		height: 1em;
+		box-sizing: border-box;
+		transform-origin: 50% 50%;
+		transform: translateZ(0) scale(0.5);
+		backface-visibility: hidden;
+		border-radius: 50%;
+		border: 0.2em solid currentColor;
+		border-left-color: transparent;
+		animation: spinner__animation 1s infinite linear;
+	}
+}

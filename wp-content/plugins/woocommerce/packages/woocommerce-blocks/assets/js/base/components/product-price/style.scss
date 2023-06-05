@@ -1,0 +1,29 @@
+/*rtl:begin:ignore*/
+.wc-block-components-product-price--align-left {
+	display: block;
+	text-align: left;
+}
+.wc-block-components-product-price--align-center {
+	display: block;
+	text-align: center;
+}
+.wc-block-components-product-price--align-right {
+	display: block;
+	text-align: right;
+}
+/*rtl:end:ignore*/
+
+.wc-block-components-product-price__value {
+	&.is-discounted {
+		margin-left: 0.5em;
+	}
+}
+
+.is-loading {
+	.wc-block-components-product-price::before {
+		@include placeholder();
+		content: ".";
+		display: inline-block;
+		width: 5em;
+	}
+}

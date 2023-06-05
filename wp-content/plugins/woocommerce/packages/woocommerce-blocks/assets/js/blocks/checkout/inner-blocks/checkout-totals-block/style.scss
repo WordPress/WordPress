@@ -1,0 +1,22 @@
+.wc-block-checkout__sidebar {
+	.wc-block-components-product-name {
+		display: block;
+		color: inherit;
+		flex-grow: 1;
+		// Required by IE11.
+		flex-basis: 0;
+	}
+	.wc-block-components-totals-footer-item {
+		margin: 0;
+		padding: 0;
+	}
+}
+
+.is-mobile,
+.is-small,
+.is-medium {
+	.wc-block-checkout__sidebar {
+		margin-bottom: $gap-large;
+		order: 0;
+	}
+}

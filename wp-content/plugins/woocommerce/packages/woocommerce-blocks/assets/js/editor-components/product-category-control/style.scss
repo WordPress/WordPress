@@ -1,0 +1,10 @@
+.woocommerce-product-categories__operator {
+	.components-base-control__help {
+		@include visually-hidden;
+	}
+
+	.components-base-control__label {
+		margin-bottom: 0;
+		margin-right: 0.5em;
+	}
+}

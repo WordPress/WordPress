@@ -1,0 +1,148 @@
+$drawer-animation-duration: 0.3s;
+$drawer-width: 480px;
+$drawer-width-mobile: 100vw;
+
+@keyframes fadein {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes slidein {
+	from {
+		transform: translateX(0);
+	}
+
+	to {
+		transform: translateX(-$drawer-width);
+	}
+}
+
+@media only screen and (max-width: 480px) {
+	@keyframes slidein {
+		from {
+			transform: translateX(0);
+		}
+
+		to {
+			transform: translateX(-$drawer-width-mobile);
+		}
+	}
+}
+
+.wc-block-components-drawer__screen-overlay {
+	background-color: rgba(95, 95, 95, 0.35);
+	bottom: 0;
+	left: 0;
+	position: fixed;
+	right: 0;
+	top: 0;
+	transition: opacity $drawer-animation-duration;
+	z-index: 9999;
+	opacity: 1;
+}
+
+.wc-block-components-drawer__screen-overlay--with-slide-out {
+	transition: opacity $drawer-animation-duration;
+}
+
+// We can't use transition for the slide-in animation because the element
+// doesn't exist in the DOM when not open. Instead, use an animation that
+// is triggered when the element is appended to the DOM.
+.wc-block-components-drawer__screen-overlay--with-slide-in {
+	animation-duration: $drawer-animation-duration;
+	animation-name: fadein;
+}
+
+.wc-block-components-drawer__screen-overlay--is-hidden {
+	pointer-events: none;
+	opacity: 0;
+}
+
+.wc-block-components-drawer {
+	@include with-translucent-border(0 0 0 1px);
+	background: #fff;
+	display: block;
+	height: 100%;
+	left: 100%;
+	position: fixed;
+	right: 0;
+	top: 0;
+	transform: translateX(-$drawer-width);
+	width: $drawer-width;
+
+	@media only screen and (max-width: 480px) {
+		transform: translateX(-$drawer-width-mobile);
+		width: $drawer-width-mobile;
+	}
+}
+
+.wc-block-components-drawer__screen-overlay--with-slide-out .wc-block-components-drawer {
+	transition: transform $drawer-animation-duration;
+}
+
+.wc-block-components-drawer__screen-overlay--with-slide-in .wc-block-components-drawer {
+	animation-duration: $drawer-animation-duration;
+	animation-name: slidein;
+}
+
+.wc-block-components-drawer__screen-overlay--is-hidden .wc-block-components-drawer {
+	transform: translateX(0);
+}
+
+@media screen and (prefers-reduced-motion: reduce) {
+	.wc-block-components-drawer__screen-overlay {
+		animation-name: none !important;
+		transition: none !important;
+	}
+	.wc-block-components-drawer {
+		animation-name: none !important;
+		transition: none !important;
+	}
+}
+
+.wc-block-components-drawer .components-modal__content {
+	padding: $gap-largest $gap;
+}
+
+.wc-block-components-drawer .components-modal__header {
+	position: relative;
+
+	// Close button.
+	.components-button {
+		@include reset-box();
+		background: transparent;
+		color: inherit;
+		position: absolute;
+		opacity: 0.6;
+		z-index: 2;
+		// The SVG has some white spacing around, thus we have to set this magic number.
+		right: 8px;
+		top: 0;
+		// Increase clickable area.
+		padding: 1em;
+		margin: -1em;
+
+		&:hover,
+		&:focus,
+		&:active {
+			opacity: 1;
+		}
+
+		> span {
+			@include visually-hidden();
+		}
+	}
+}
+
+// Same styles as `Title` component.
+.wc-block-components-drawer .components-modal__header-heading {
+	@include reset-box();
+	// We need the font size to be in rem so it doesn't change depending on the parent element.
+	@include font-size(large, 1rem);
+	word-break: break-word;
+}

@@ -1,0 +1,48 @@
+.wc-block-components-payment-method-icons {
+	margin: 0 0 #{$gap - 2px};
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+
+	.wc-block-components-payment-method-icon {
+		display: inline-block;
+		margin: 0 4px 2px;
+		padding: 0;
+		width: auto;
+		max-width: 38px;
+		height: 24px;
+		max-height: 24px;
+	}
+
+	&--align-left {
+		justify-content: flex-start;
+
+		.wc-block-components-payment-method-icon {
+			margin-left: 0;
+			margin-right: 8px;
+		}
+	}
+
+	&--align-right {
+		justify-content: flex-end;
+
+		.wc-block-components-payment-method-icon {
+			margin-right: 0;
+			margin-left: 8px;
+		}
+	}
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+
+.is-mobile,
+.is-small {
+	.wc-block-components-payment-method-icons {
+		.wc-block-components-payment-method-icon {
+			height: 16px;
+		}
+	}
+}

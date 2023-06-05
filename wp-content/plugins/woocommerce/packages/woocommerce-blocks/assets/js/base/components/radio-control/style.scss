@@ -1,0 +1,115 @@
+.wc-block-components-radio-control__option {
+	@include reset-typography();
+	display: block;
+	margin: em($gap) 0;
+	padding: 0 0 0 em($gap-larger);
+	position: relative;
+
+	&:first-child {
+		margin-top: 0;
+	}
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+
+.wc-block-components-radio-control__option-layout {
+	display: table;
+	width: 100%;
+}
+
+.wc-block-components-radio-control__option .wc-block-components-radio-control__option-layout {
+	&::after {
+		display: none;
+	}
+}
+
+.wc-block-components-radio-control__label-group,
+.wc-block-components-radio-control__description-group {
+	display: table-row;
+
+	> span {
+		display: table-cell;
+	}
+
+	.wc-block-components-radio-control__secondary-label,
+	.wc-block-components-radio-control__secondary-description {
+		text-align: right;
+		min-width: 50%;
+	}
+}
+
+.wc-block-components-radio-control__label,
+.wc-block-components-radio-control__secondary-label {
+	// Currently, max() CSS function calls need to be wrapped with unquote.
+	// See: https://github.com/sass/sass/issues/2378#issuecomment-367490840
+	// These values should be the same as the control input height.
+	line-height: string.unquote("max(1.5rem, 24px)");
+}
+
+.wc-block-components-radio-control__description,
+.wc-block-components-radio-control__secondary-description {
+	@include font-size(small);
+	line-height: 20px;
+}
+
+// Extra class for specificity.
+.wc-block-components-radio-control {
+	.wc-block-components-radio-control__input {
+		appearance: none;
+		background: #fff;
+		border: 2px solid $input-border-gray;
+		border-radius: 50%;
+		display: inline-block;
+		height: em(24px); // =1.5rem
+		min-height: 24px;
+		min-width: 24px;
+		width: em(24px);
+		// The code belows centers the input vertically.
+		position: absolute;
+		left: 0;
+		top: 50%;
+		transform: translate(0, -50%);
+
+		&:checked::before {
+			background: #000;
+			border-radius: 50%;
+			content: "";
+			display: block;
+			height: em(12px);
+			left: 50%;
+			margin: 0;
+			min-height: 12px;
+			min-width: 12px;
+			position: absolute;
+			top: 50%;
+			transform: translate(-50%, -50%);
+			width: em(12px);
+		}
+
+		.has-dark-controls & {
+			border-color: $controls-border-dark;
+			background-color: $input-background-dark;
+
+			&:checked::before {
+				background: $input-text-dark;
+			}
+		}
+	}
+}
+
+.theme-twentytwentyone {
+	.wc-block-components-radio-control .wc-block-components-radio-control__input {
+		&:checked {
+			border-width: 2px;
+
+			&::before {
+				background-color: var(--form--color-text);
+			}
+		}
+
+		&::after {
+			display: none;
+		}
+	}
+}

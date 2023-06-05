@@ -1,0 +1,30 @@
+{
+	"name": "woocommerce/checkout-order-note-block",
+	"version": "1.0.0",
+	"title": "Order Note",
+	"description": "Allow customers to add a note to their order.",
+	"category": "woocommerce",
+	"supports": {
+		"align": false,
+		"html": false,
+		"multiple": false,
+		"reusable": false
+	},
+	"attributes": {
+		"className": {
+			"type": "string",
+			"default": ""
+		},
+		"lock": {
+			"type": "object",
+			"default": {
+				"remove": false,
+				"move": true
+			}
+		}
+	},
+	"parent": [ "woocommerce/checkout-fields-block" ],
+	"textdomain": "woocommerce",
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2
+}
