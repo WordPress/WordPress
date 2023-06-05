@@ -1,7 +1,0 @@
-p {
-	line-height: var(--wp--typography--line-height, var(--global--line-height-body));
-
-	&.has-background {
-		padding: var(--global--spacing-unit);
-	}
-}
