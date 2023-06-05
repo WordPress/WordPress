@@ -1,0 +1,4 @@
+*** Bagberry Theme Changelog ***
+
+2023-03-13 - version 1.0.0
+* Initial release

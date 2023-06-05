@@ -1,0 +1,47 @@
+<!-- wp:template-part {"slug":"header-additional","theme":"bagberry"} /-->
+
+<!-- wp:cover {"overlayColor":"accent-background","minHeight":350,"minHeightUnit":"px","isDark":false,"style":{"spacing":{"padding":{"right":"var:preset|spacing|40","left":"var:preset|spacing|40"}}}} -->
+<div class="wp-block-cover is-light" style="padding-right:var(--wp--preset--spacing--40);padding-left:var(--wp--preset--spacing--40);min-height:350px"><span aria-hidden="true" class="wp-block-cover__background has-accent-background-background-color has-background-dim-100 has-background-dim"></span><div class="wp-block-cover__inner-container"><!-- wp:heading {"level":1,"fontSize":"large"} -->
+    <h1 class="has-large-font-size">Search Results</h1>
+    <!-- /wp:heading --></div></div>
+    <!-- /wp:cover -->
+    
+    <!-- wp:spacer {"height":"8vh"} -->
+    <div style="height:8vh" aria-hidden="true" class="wp-block-spacer"></div>
+    <!-- /wp:spacer -->
+    
+    <!-- wp:query {"queryId":7,"query":{"perPage":"6","pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":true},"displayLayout":{"type":"flex","columns":2},"layout":{"type":"constrained"}} -->
+    <div class="wp-block-query"><!-- wp:post-template -->
+    <!-- wp:post-featured-image {"isLink":true} /-->
+    
+    <!-- wp:post-date /-->
+    
+    <!-- wp:post-title {"level":3,"isLink":true} /-->
+    
+    <!-- wp:read-more {"content":"Continue reading","style":{"typography":{"textDecoration":"underline"}}} /-->
+    <!-- /wp:post-template -->
+    
+    <!-- wp:spacer {"height":"4vh"} -->
+    <div style="height:4vh" aria-hidden="true" class="wp-block-spacer"></div>
+    <!-- /wp:spacer -->
+    
+    <!-- wp:query-pagination {"layout":{"type":"flex","justifyContent":"center"}} -->
+    <!-- wp:query-pagination-previous /-->
+    
+    <!-- wp:query-pagination-numbers /-->
+    
+    <!-- wp:query-pagination-next /-->
+    <!-- /wp:query-pagination -->
+    
+    <!-- wp:query-no-results -->
+    <!-- wp:paragraph {"placeholder":"Add text or blocks that will display when a query returns no results."} -->
+    <p></p>
+    <!-- /wp:paragraph -->
+    <!-- /wp:query-no-results -->
+    
+    <!-- wp:spacer {"height":"4vh"} -->
+    <div style="height:4vh" aria-hidden="true" class="wp-block-spacer"></div>
+    <!-- /wp:spacer --></div>
+    <!-- /wp:query -->
+    
+    <!-- wp:template-part {"slug":"footer-additional","theme":"bagberry"} /-->

@@ -1,0 +1,725 @@
+.agni-importer-exporter {
+  position: relative;
+  overflow: hidden;
+  max-width: 910px;
+  padding: 25px;
+  background-color: #fff;
+  -webkit-box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.15);
+          box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.15);
+}
+.agni-importer-exporter h1 {
+  margin-top: 35px;
+  margin-bottom: 15px;
+  font-size: 24px;
+}
+.agni-importer-exporter-dashboard {
+  border: 1px dashed #ddd;
+}
+.agni-importer-exporter-dashboard__actions-link {
+  min-height: 400px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  gap: 20px;
+}
+.agni-importer-exporter-dashboard__actions-link a {
+  width: 200px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-weight: 600;
+  color: #005FF5;
+  border: 1px solid;
+  border-color: #999;
+  border-radius: 5px;
+  padding: 30px;
+  text-decoration: none;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.agni-importer-exporter-dashboard__actions-link a:hover {
+  border-color: #005FF5;
+}
+.agni-importer-exporter-dashboard__actions-link a img {
+  width: 32px;
+}
+.agni-importer-exporter-dashboard__actions-link a span {
+  font-size: 17px;
+  margin-top: 10px;
+}
+.agni-importer-exporter-dashboard .agni-export-container {
+  width: 360px;
+  margin: auto;
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+.agni-importer-exporter-dashboard .agni-export-container .agni-export-btn-all,
+.agni-importer-exporter-dashboard .agni-export-container .agni-export-btn-chosen {
+  width: 100%;
+  font-size: 17px;
+  padding: 8px 10px;
+  background-color: transparent;
+  border: 1px solid;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.agni-importer-exporter-dashboard .agni-export-container .agni-export-chosen-title {
+  font-size: 20px;
+  margin-top: 25px;
+  margin-bottom: 20px;
+  letter-spacing: -0.02em;
+}
+.agni-importer-exporter-dashboard .agni-export-container .agni-export-choices {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  margin-top: 8px;
+  padding: 0 12px;
+  max-height: 240px;
+  overflow-y: scroll;
+}
+.agni-importer-exporter-dashboard .agni-export-container .agni-export-btn-all {
+  background-color: #005FF5;
+  color: #fff;
+  border-color: #005FF5;
+}
+.agni-importer-exporter-dashboard .agni-export-container .agni-export-btn-chosen {
+  margin-top: 20px;
+  color: #005FF5;
+  border-color: #005FF5;
+}
+.agni-importer-exporter-dashboard .agni-import-choices,
+.agni-importer-exporter-dashboard .agni-import-individual-choices,
+.agni-importer-exporter-dashboard .agni-import-notices {
+  width: 360px;
+  margin: auto;
+}
+.agni-importer-exporter-dashboard .agni-import-notices {
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+.agni-importer-exporter-dashboard .agni-import-choices {
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+.agni-importer-exporter-dashboard .agni-import-individual-choices {
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+.agni-importer-exporter-dashboard .or {
+  display: block;
+  font-size: 15px;
+  text-align: center;
+  margin: 25px 0;
+}
+.agni-importer-exporter-dashboard hr {
+  max-width: 620px;
+  border-top: 1px solid;
+  border-color: #eee;
+}
+.agni-import-plugins-list + a {
+  -ms-flex-item-align: start;
+      align-self: flex-start;
+  margin-top: 3px;
+  margin-left: auto;
+}
+.agni-import-plugins-list-items > div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  gap: 10px;
+}
+.agni-import-notice {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.agni-import-notice a,
+.agni-import-notice button {
+  width: 100%;
+  background-color: transparent;
+  border: 1px solid #000;
+  color: #000;
+  font-size: var(--wp--preset--font-size--small);
+  padding: 6px 10px;
+  border-radius: 4px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.agni-import-notice span {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.agni-import-notice.info {
+  color: #005FF5;
+}
+.agni-import-notice.info a,
+.agni-import-notice.info button {
+  border: 1px solid #005FF5;
+  color: #005FF5;
+}
+.agni-import-notice.info a:hover,
+.agni-import-notice.info button:hover {
+  background-color: #005FF5;
+  border: 1px solid #005FF5;
+  color: #fff;
+}
+.agni-import-notice.warning {
+  color: #eca83b;
+}
+.agni-import-notice.warning a,
+.agni-import-notice.warning button {
+  border: 1px solid #eca83b;
+  color: #eca83b;
+}
+.agni-import-notice.warning a:not(.disabled):hover,
+.agni-import-notice.warning button:not(.disabled):hover {
+  background-color: #eca83b;
+  border: 1px solid #eca83b;
+  color: #fff;
+}
+.agni-import-choice__buttons,
+.agni-import-individual-choice__buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+}
+.agni-import-choice__buttons button,
+.agni-import-choice__buttons a,
+.agni-import-individual-choice__buttons button,
+.agni-import-individual-choice__buttons a {
+  position: relative;
+  height: 42px;
+  font-size: 17px;
+  padding: 10px;
+  background-color: transparent;
+  border: 1px solid;
+  border-radius: 5px;
+  cursor: pointer;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.agni-import-choice__buttons button:hover, .agni-import-choice__buttons button:focus,
+.agni-import-choice__buttons a:hover,
+.agni-import-choice__buttons a:focus,
+.agni-import-individual-choice__buttons button:hover,
+.agni-import-individual-choice__buttons button:focus,
+.agni-import-individual-choice__buttons a:hover,
+.agni-import-individual-choice__buttons a:focus {
+  outline: 0;
+}
+.agni-import-choice__buttons button .import-progress-bar,
+.agni-import-choice__buttons a .import-progress-bar,
+.agni-import-individual-choice__buttons button .import-progress-bar,
+.agni-import-individual-choice__buttons a .import-progress-bar {
+  position: absolute;
+  inset: 2px;
+  background-color: #FF856B;
+}
+.agni-import-choice__buttons button .import-status > span:last-child,
+.agni-import-choice__buttons a .import-status > span:last-child,
+.agni-import-individual-choice__buttons button .import-status > span:last-child,
+.agni-import-individual-choice__buttons a .import-status > span:last-child {
+  position: relative;
+}
+.agni-import-choice__buttons button .import-status:not(:last-child),
+.agni-import-choice__buttons a .import-status:not(:last-child),
+.agni-import-individual-choice__buttons button .import-status:not(:last-child),
+.agni-import-individual-choice__buttons a .import-status:not(:last-child) {
+  display: none;
+}
+.agni-import-choice__buttons button .import-status-indicator,
+.agni-import-choice__buttons a .import-status-indicator,
+.agni-import-individual-choice__buttons button .import-status-indicator,
+.agni-import-individual-choice__buttons a .import-status-indicator {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 13px;
+  padding: 0;
+  margin: 3px 5px;
+  opacity: 0.6;
+}
+.agni-import-choice__buttons a,
+.agni-import-individual-choice__buttons a {
+  -webkit-box-flex: 2;
+      -ms-flex: 2;
+          flex: 2;
+  color: #005FF5;
+  background-color: transparent;
+  border-color: #005FF5;
+  text-align: center;
+  text-decoration: none;
+}
+.agni-import-choice__buttons a:hover span,
+.agni-import-individual-choice__buttons a:hover span {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+.agni-import-choice__buttons .agni-import-choice__button-import,
+.agni-import-choice__buttons .agni-import-individual-choice__button-import,
+.agni-import-individual-choice__buttons .agni-import-choice__button-import,
+.agni-import-individual-choice__buttons .agni-import-individual-choice__button-import {
+  -webkit-box-flex: 2;
+      -ms-flex: 2;
+          flex: 2;
+  background-color: #005FF5;
+  color: #fff;
+  border-color: #005FF5;
+}
+.agni-import-choice__buttons .agni-import-choice__button-import:not(.disabled):hover,
+.agni-import-choice__buttons .agni-import-individual-choice__button-import:not(.disabled):hover,
+.agni-import-individual-choice__buttons .agni-import-choice__button-import:not(.disabled):hover,
+.agni-import-individual-choice__buttons .agni-import-individual-choice__button-import:not(.disabled):hover {
+  color: #005FF5;
+  background-color: transparent;
+}
+.agni-import-choice__buttons .agni-import-choice__button-import.disabled,
+.agni-import-choice__buttons .agni-import-individual-choice__button-import.disabled,
+.agni-import-individual-choice__buttons .agni-import-choice__button-import.disabled,
+.agni-import-individual-choice__buttons .agni-import-individual-choice__button-import.disabled {
+  color: #005FF5;
+  background-color: transparent;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  opacity: 1;
+}
+.agni-import-choice__buttons .agni-import-choice__button-import.disabled:before,
+.agni-import-choice__buttons .agni-import-individual-choice__button-import.disabled:before,
+.agni-import-individual-choice__buttons .agni-import-choice__button-import.disabled:before,
+.agni-import-individual-choice__buttons .agni-import-individual-choice__button-import.disabled:before {
+  -webkit-animation: rotate 1s infinite;
+          animation: rotate 1s infinite;
+  -webkit-animation-timing-function: linear;
+          animation-timing-function: linear;
+  border: solid 1px #005ff5;
+  border-radius: 50%;
+  border-right-color: #ddd;
+  border-bottom-color: #ddd;
+  content: "";
+  display: inline-block;
+  background-color: transparent;
+  margin: 0;
+  margin-left: 0px;
+  margin-right: 10px;
+  width: 16px;
+  height: 16px;
+  position: relative;
+  top: 0px;
+  right: 0;
+}
+@-webkit-keyframes rotate {
+  from {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+@keyframes rotate {
+  from {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+.agni-import-choice__buttons .agni-import-choice__button-remove,
+.agni-import-choice__buttons .agni-import-individual-choice__button-remove,
+.agni-import-individual-choice__buttons .agni-import-choice__button-remove,
+.agni-import-individual-choice__buttons .agni-import-individual-choice__button-remove {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  background-color: transparent;
+  color: #E34646;
+  border-color: #E34646;
+}
+.agni-import-choice-form,
+.agni-import-individual-choice-form {
+  margin-top: 20px;
+}
+.agni-import-choice-form__checkbox,
+.agni-import-individual-choice-form__checkbox {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  color: #222;
+}
+.agni-import-choice-form__checkbox-icon,
+.agni-import-individual-choice-form__checkbox-icon {
+  display: inline-block;
+  border: 1px solid #999;
+  position: relative;
+  width: 14px;
+  height: 14px;
+  margin-right: 7px;
+}
+.agni-import-choice-form__checkbox-icon span,
+.agni-import-individual-choice-form__checkbox-icon span {
+  color: #222;
+  font-size: 18px;
+  position: absolute;
+  left: -25%;
+  top: -2px;
+}
+.agni-import-choice-form__checkbox span:last-child,
+.agni-import-individual-choice-form__checkbox span:last-child {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+.agni-import-choice-form__checkbox small,
+.agni-import-individual-choice-form__checkbox small {
+  display: block;
+  color: #999;
+  font-weight: 400;
+  letter-spacing: 0;
+  margin-top: 2px;
+  line-height: 1.4;
+}
+.agni-import-choice img {
+  max-width: 360px;
+  background-color: #f5f5f5;
+}
+.agni-import-choice__title {
+  font-size: 20px;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  letter-spacing: -0.02em;
+}
+.agni-import-choice__author {
+  color: #555;
+}
+.agni-import-choice__author span {
+  margin-right: 4px;
+}
+.agni-import-individual-choice__buttons button,
+.agni-import-individual-choice__buttons a {
+  font-size: 15px;
+  padding: 8px 10px;
+}
+.agni-import-individual-choice__buttons .agni-import-individual-choice__button-import, .agni-import-individual-choice__buttons a {
+  background-color: transparent;
+  color: #005FF5;
+}
+.agni-import-individual-choice__dropdown {
+  margin-bottom: 20px;
+}
+.agni-import-individual-choice__chosen {
+  position: relative;
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  font-size: var(--wp--preset--font-size--small);
+  font-weight: 600;
+  border-radius: 5px;
+}
+.agni-import-individual-choice__chosen:after {
+  position: absolute;
+  right: 8px;
+  top: 10px;
+  color: #999;
+  font-family: dashicons;
+  display: inline-block;
+  line-height: 1;
+  font-weight: 400;
+  content: "\f347";
+}
+.agni-import-individual-choice__items {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  margin-top: 8px;
+  padding: 0 12px;
+  max-height: 240px;
+  overflow-y: scroll;
+}
+.agni-import-individual-choice__items > span {
+  display: block;
+  padding: 6px 0px;
+  font-size: 15px;
+}
+.agni-import-individual-choice__item {
+  cursor: pointer;
+}
+.agni-import-individual-btn {
+  font-size: 15px;
+  padding: 8px 10px;
+  position: relative;
+  width: 100%;
+  height: 42px;
+  padding: 10px;
+  background-color: transparent;
+  border: 1px solid;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.agni-plugins-manager {
+  position: relative;
+  max-width: 910px;
+  margin-top: 20px;
+}
+.agni-plugins {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin: 0 -15px;
+}
+.agni-plugin {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: calc(50% - 24px);
+  background-color: #fff;
+  padding: 20px;
+  margin: 0 12px;
+  margin-bottom: 24px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.agni-plugin h3 {
+  font-size: 20px;
+  line-height: 1.2;
+  margin-top: 0;
+  margin-bottom: 8px;
+}
+.agni-plugin h3 a {
+  color: #000;
+  text-decoration: none;
+}
+.agni-plugin.disabled {
+  opacity: 0.5;
+}
+.agni-plugin.disabled .agni-plugin-action {
+  cursor: not-allowed;
+}
+.agni-plugin__left {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  margin-right: 18px;
+  background-color: #F7F7F7;
+}
+.agni-plugin__left img {
+  max-width: 160px;
+  height: auto;
+  line-height: 1;
+}
+.agni-plugin__right {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+.agni-plugin__right p {
+  color: #777;
+  margin-top: 0;
+  margin-bottom: 8px;
+}
+.agni-plugin__right p a {
+  color: #005FF5;
+}
+.agni-plugin__meta {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin-left: 6px;
+  margin-top: 6px;
+}
+.agni-plugin__meta span {
+  background-color: #fff;
+  border: 1px solid;
+  padding: 2px 6px;
+  font-size: 11px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+.agni-plugin__meta span.required {
+  border-color: #FF2752;
+  color: #FF2752;
+}
+.agni-plugin__meta span.premium {
+  border-color: #005ff5;
+  color: #005ff5;
+}
+.agni-plugin-actions {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  gap: 3px 10px;
+  margin-top: auto;
+}
+.agni-plugin-actions .update {
+  position: relative;
+}
+.agni-plugin-actions .update span:not(.tooltip) {
+  display: none;
+}
+.agni-plugin-actions .update .tooltip {
+  display: none;
+  position: absolute;
+  top: 0;
+  white-space: nowrap;
+  margin-top: -30px;
+  left: 11px;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  color: #005FF5;
+  background-color: #fff;
+  padding: 2px 7px;
+  border: 1px solid;
+  border-color: #005FF5;
+  border-radius: 3px;
+  font-size: 11px;
+}
+.agni-plugin-actions .update:hover .tooltip {
+  display: block;
+}
+.agni-plugin-actions .update:before {
+  content: "\f463";
+  font-family: "dashicons";
+  font-size: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+.agni-plugin-actions .update.updating:before {
+  -webkit-animation: rotation 1.4s infinite linear;
+          animation: rotation 1.4s infinite linear;
+}
+.agni-plugin-actions .update.updated {
+  color: #11dd55;
+  border-color: #11dd55;
+}
+.agni-plugin-actions .update.updated:hover {
+  background-color: transparent;
+  color: #11dd55;
+  border-color: #11dd55;
+}
+.agni-plugin-actions .update.updated:before {
+  content: "\f15e";
+}
+.agni-plugin-actions .update.error:before {
+  content: "\f14c";
+}
+.agni-plugin-actions .install,
+.agni-plugin-actions .activate,
+.agni-plugin-actions .deactivate {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+.agni-plugin-actions .deactivate,
+.agni-plugin-actions .update {
+  color: #005FF5;
+  background-color: transparent;
+  border-color: #005FF5;
+}
+.agni-plugin-actions .deactivate:hover,
+.agni-plugin-actions .update:hover {
+  color: #fff;
+  background-color: #005FF5;
+  border-color: #005FF5;
+}
+.agni-plugin-actions .error {
+  width: 100%;
+  font-size: 12px;
+  color: #FF2752;
+}
+.agni-plugin-action {
+  display: block;
+  text-align: center;
+  padding: 7px;
+  border: 1px solid;
+  border-color: #005FF5;
+  border-radius: 5px;
+  color: #fff;
+  background-color: #005FF5;
+  text-decoration: none;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+.agni-plugin-action:focus, .agni-plugin-action:active {
+  color: #fff;
+}
+.agni-plugin-action:hover, .agni-plugin-action.loading {
+  color: #005FF5;
+  background-color: transparent;
+  border-color: #005FF5;
+}
+.agni-plugin-action:hover, .agni-plugin-action:active, .agni-plugin-action:focus {
+  outline: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+.agni-plugin-action > span:first-child:not(:only-child) {
+  display: none;
+}

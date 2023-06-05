@@ -1,0 +1,87 @@
+.edit-post-visual-editor__post-title-wrapper {
+  margin-bottom: 60px;
+}
+
+.editor-styles-wrapper.block-editor-writing-flow .is-root-container.block-editor-block-list__layout > * + * {
+  -webkit-margin-before: var(--wp--style--block-gap);
+          margin-block-start: var(--wp--style--block-gap);
+  -webkit-margin-after: 0;
+          margin-block-end: 0;
+}
+
+body.post-type-post .editor-styles-wrapper.block-editor-writing-flow .is-root-container {
+  font-size: 1.125rem;
+}
+
+body.post-type-post .editor-styles-wrapper.block-editor-writing-flow .is-root-container > :where(:not(.alignleft):not(.alignright)) {
+  max-width: 960px;
+}
+
+body.post-type-post .editor-styles-wrapper.block-editor-writing-flow .is-root-container > :where(.alignwide) {
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+body.post-type-post .editor-styles-wrapper.block-editor-writing-flow .is-root-container > :where(.alignfull) {
+  max-width: 100vw;
+  margin: 0 auto;
+  margin-right: calc(var(--wp--style--root--padding-right) * -1);
+  margin-left: calc(var(--wp--style--root--padding-left) * -1);
+}
+
+.editor-styles-wrapper .filter-content {
+  max-width: 260px;
+  margin: 0 auto;
+}
+
+.editor-styles-wrapper .has-megamenu > div > .block-list-appender {
+  width: 30px;
+}
+
+.editor-styles-wrapper .is-root-container textarea {
+  font-size: inherit;
+  background-color: transparent;
+  padding: 0;
+}
+
+.editor-styles-wrapper .is-root-container .wp-block-woocommerce-product-categories ul {
+  margin: 0;
+}
+
+.editor-styles-wrapper .is-root-container input {
+  padding: 0;
+  height: auto;
+  font-size: var(--wp--custom--typography--font-size--body);
+}
+
+.editor-styles-wrapper .wp-block-navigation .wp-block-navigation-item.has-megamenu > .wp-block-navigation__submenu-container {
+  position: absolute !important;
+  left: 50% !important;
+  width: 1680px !important;
+  margin-left: -840px !important;
+  max-width: none !important;
+}
+
+.editor-styles-wrapper .is-root-container {
+  min-height: 240px !important;
+}
+
+.wc-block-checkout > .block-editor-inner-blocks > .block-editor-block-list__layout {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.wp-block-image .components-resizable-box__container img {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.wp-block-search {
+  max-width: -webkit-max-content;
+  max-width: -moz-max-content;
+  max-width: max-content;
+}
