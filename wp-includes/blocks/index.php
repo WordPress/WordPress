@@ -21,7 +21,7 @@ require BLOCKS_PATH . 'require-dynamic-blocks.php';
 function register_core_block_types_from_metadata() {
 	$block_folders = require BLOCKS_PATH . 'require-static-blocks.php';
 	foreach ( $block_folders as $block_folder ) {
-		register_block_type(
+		register_block_type_from_metadata(
 			BLOCKS_PATH . $block_folder
 		);
 	}
