@@ -419,7 +419,7 @@ function add_blog_option( $id, $option, $value ) {
 }
 
 /**
- * Removes option by name for a given blog ID. Prevents removal of protected WordPress options.
+ * Removes an option by name for a given blog ID. Prevents removal of protected WordPress options.
  *
  * @since MU (3.0.0)
  *

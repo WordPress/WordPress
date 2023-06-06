@@ -727,7 +727,7 @@ function add_option( $option, $value = '', $deprecated = '', $autoload = 'yes' )
 }
 
 /**
- * Removes option by name. Prevents removal of protected WordPress options.
+ * Removes an option by name. Prevents removal of protected WordPress options.
  *
  * @since 1.2.0
  *
