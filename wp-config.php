@@ -82,11 +82,11 @@ $table_prefix = 'wp_';
 define( 'WP_DEBUG', false );
 
 /* Add any custom values between this line and the "stop editing" line. */
-define('WP_HOME', 'http://35.175.198.79');
-define('WP_SITEURL', 'http://35.175.198.79');
+define('WP_HOME', 'http://3.85.234.11');
+define('WP_SITEURL', 'http://3.85.234.11');
 
-UPDATE wp_options SET option_value = 'http://35.175.198.79' WHERE option_name = 'siteurl';
-UPDATE wp_options SET option_value = 'http://35.175.198.79' WHERE option_name = 'home';
+UPDATE wp_options SET option_value = 'http://3.85.234.11' WHERE option_name = 'siteurl';
+UPDATE wp_options SET option_value = 'http://3.85.234.11' WHERE option_name = 'home';
 
 
 /* That's all, stop editing! Happy publishing. */
