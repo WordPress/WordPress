@@ -362,11 +362,7 @@ final class WP_Theme implements ArrayAccess {
 			$this->template = $this->stylesheet;
 			$theme_path     = $this->theme_root . '/' . $this->stylesheet;
 
-			if (
-				! file_exists( $theme_path . '/templates/index.html' )
-				&& ! file_exists( $theme_path . '/block-templates/index.html' ) // Deprecated path support since 5.9.0.
-				&& ! file_exists( $theme_path . '/index.php' )
-			) {
+			if ( ! $this->is_block_theme() && ! file_exists( $theme_path . '/index.php' ) ) {
 				$error_message = sprintf(
 					/* translators: 1: templates/index.html, 2: index.php, 3: Documentation URL, 4: Template, 5: style.css */
 					__( 'Template is missing. Standalone themes need to have a %1$s or %2$s template file. <a href="%3$s">Child themes</a> need to have a %4$s header in the %5$s stylesheet.' ),
@@ -380,7 +376,7 @@ final class WP_Theme implements ArrayAccess {
 				$this->cache_add(
 					'theme',
 					array(
-						'block_theme' => $this->is_block_theme(),
+						'block_theme' => $this->block_theme,
 						'headers'     => $this->headers,
 						'errors'      => $this->errors,
 						'stylesheet'  => $this->stylesheet,
