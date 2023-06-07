@@ -948,10 +948,6 @@ function wp_get_active_and_valid_themes() {
 		return $themes;
 	}
 
-	if ( ! wp_using_themes() ) {
-		return $themes;
-	}
-
 	if ( TEMPLATEPATH !== STYLESHEETPATH ) {
 		$themes[] = STYLESHEETPATH;
 	}
