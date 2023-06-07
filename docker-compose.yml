@@ -26,6 +26,7 @@ services:
       WORDPRESS_DB_NAME: ${DB_DATABASE}
     volumes:
       - wordpress:/var/www/html
+      - ./wp-config.php:/var/www/html/wp-config.php
 
   db:
     image: mysql:${DB_VERSION}
