@@ -2048,7 +2048,7 @@ button:not(.components-button)[disabled],
 }
 .woocommerce-product-gallery__wrapper img {
   width: 1048px;
-  aspect-ratio: 16/9;
+  aspect-ratio: 4/5;
   -o-object-fit: cover;
      object-fit: cover;
 }
@@ -2089,7 +2089,6 @@ button:not(.components-button)[disabled],
   height: 32px;
   margin-top: 10px;
   margin-right: 7px;
-  text-indent: -9999px;
 }
 .woocommerce-product-gallery__trigger:before {
   content: "";
