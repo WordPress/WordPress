@@ -566,7 +566,7 @@ if ( current_user_can( 'create_users' ) ) {
 			</label>
 		</th>
 		<td>
-			<input class="hidden" value=" " /><!-- #24364 workaround -->
+			<input type="hidden" value=" " /><!-- #24364 workaround -->
 			<button type="button" class="button wp-generate-pw hide-if-no-js"><?php _e( 'Generate password' ); ?></button>
 			<div class="wp-pwd">
 				<?php $initial_password = wp_generate_password( 24 ); ?>

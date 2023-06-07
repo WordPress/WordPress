@@ -640,7 +640,7 @@ switch ( $action ) {
 							<tr id="password" class="user-pass1-wrap">
 								<th><label for="pass1"><?php _e( 'New Password' ); ?></label></th>
 								<td>
-									<input class="hidden" value=" " /><!-- #24364 workaround -->
+									<input type="hidden" value=" " /><!-- #24364 workaround -->
 									<button type="button" class="button wp-generate-pw hide-if-no-js" aria-expanded="false"><?php _e( 'Set New Password' ); ?></button>
 									<div class="wp-pwd hide-if-js">
 										<span class="password-input-wrapper">
