@@ -2872,12 +2872,18 @@ function wp_maybe_inline_styles() {
 
 	// Build an array of styles that have a path defined.
 	foreach ( $wp_styles->queue as $handle ) {
-		if ( wp_styles()->get_data( $handle, 'path' ) && file_exists( $wp_styles->registered[ $handle ]->extra['path'] ) ) {
+		$src  = $wp_styles->registered[ $handle ]->src;
+		$path = wp_styles()->get_data( $handle, 'path' );
+		if ( $path && $src ) {
+			$size = wp_filesize( $path );
+			if ( ! $size ) {
+				continue;
+			}
 			$styles[] = array(
 				'handle' => $handle,
-				'src'    => $wp_styles->registered[ $handle ]->src,
-				'path'   => $wp_styles->registered[ $handle ]->extra['path'],
-				'size'   => filesize( $wp_styles->registered[ $handle ]->extra['path'] ),
+				'src'    => $src,
+				'path'   => $path,
+				'size'   => $size,
 			);
 		}
 	}
