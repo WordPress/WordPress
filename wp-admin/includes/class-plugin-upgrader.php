@@ -57,7 +57,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 		$this->strings['up_to_date'] = __( 'The plugin is at the latest version.' );
 		$this->strings['no_package'] = __( 'Update package not available.' );
 		/* translators: %s: Package URL. */
-		$this->strings['downloading_package']  = sprintf( __( 'Downloading update from %s&#8230;' ), '<span class="code">%s</span>' );
+		$this->strings['downloading_package']  = sprintf( __( 'Downloading update from %s&#8230;' ), '<span class="code pre">%s</span>' );
 		$this->strings['unpack_package']       = __( 'Unpacking the update&#8230;' );
 		$this->strings['remove_old']           = __( 'Removing the old version of the plugin&#8230;' );
 		$this->strings['remove_old_failed']    = __( 'Could not remove the old plugin.' );
@@ -74,7 +74,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 	public function install_strings() {
 		$this->strings['no_package'] = __( 'Installation package not available.' );
 		/* translators: %s: Package URL. */
-		$this->strings['downloading_package'] = sprintf( __( 'Downloading installation package from %s&#8230;' ), '<span class="code">%s</span>' );
+		$this->strings['downloading_package'] = sprintf( __( 'Downloading installation package from %s&#8230;' ), '<span class="code pre">%s</span>' );
 		$this->strings['unpack_package']      = __( 'Unpacking the package&#8230;' );
 		$this->strings['installing_package']  = __( 'Installing the plugin&#8230;' );
 		$this->strings['remove_old']          = __( 'Removing the current plugin&#8230;' );
