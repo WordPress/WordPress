@@ -61,8 +61,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 
 		$this->show_autoupdates = wp_is_auto_update_enabled_for_type( 'plugin' )
 			&& current_user_can( 'update_plugins' )
-			&& ( ! is_multisite() || $this->screen->in_admin( 'network' ) )
-			&& ! in_array( $status, array( 'mustuse', 'dropins' ), true );
+			&& ( ! is_multisite() || $this->screen->in_admin( 'network' ) );
 	}
 
 	/**
@@ -463,7 +462,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			'description' => __( 'Description' ),
 		);
 
-		if ( $this->show_autoupdates ) {
+		if ( $this->show_autoupdates && ! in_array( $status, array( 'mustuse', 'dropins' ), true ) ) {
 			$columns['auto-updates'] = __( 'Automatic Updates' );
 		}
 
@@ -1154,7 +1153,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 					echo '</td>';
 					break;
 				case 'auto-updates':
-					if ( ! $this->show_autoupdates ) {
+					if ( ! $this->show_autoupdates || in_array( $status, array( 'mustuse', 'dropins' ), true ) ) {
 						break;
 					}
 
