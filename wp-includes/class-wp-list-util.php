@@ -116,12 +116,12 @@ class WP_List_Util {
 			foreach ( $args as $m_key => $m_value ) {
 				if ( is_array( $obj ) ) {
 					// Treat object as an array.
-					if ( array_key_exists( $m_key, $obj ) && ( $m_value == $obj[ $m_key ] ) ) {
+					if ( array_key_exists( $m_key, $obj ) && ( $m_value === $obj[ $m_key ] ) ) {
 						$matched++;
 					}
 				} elseif ( is_object( $obj ) ) {
 					// Treat object as an object.
-					if ( isset( $obj->{$m_key} ) && ( $m_value == $obj->{$m_key} ) ) {
+					if ( isset( $obj->{$m_key} ) && ( $m_value === $obj->{$m_key} ) ) {
 						$matched++;
 					}
 				}
@@ -276,7 +276,7 @@ class WP_List_Util {
 				continue;
 			}
 
-			if ( $a[ $field ] == $b[ $field ] ) {
+			if ( $a[ $field ] === $b[ $field ] ) {
 				continue;
 			}
 
