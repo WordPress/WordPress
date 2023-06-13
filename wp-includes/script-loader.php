@@ -2872,8 +2872,11 @@ function wp_maybe_inline_styles() {
 
 	// Build an array of styles that have a path defined.
 	foreach ( $wp_styles->queue as $handle ) {
+		if ( ! isset( $wp_styles->registered[ $handle ] ) ) {
+			continue;
+		}
 		$src  = $wp_styles->registered[ $handle ]->src;
-		$path = wp_styles()->get_data( $handle, 'path' );
+		$path = $wp_styles->get_data( $handle, 'path' );
 		if ( $path && $src ) {
 			$size = wp_filesize( $path );
 			if ( ! $size ) {
