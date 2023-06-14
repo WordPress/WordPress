@@ -58,7 +58,7 @@ class WP_Users_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Check the current user's permissions.
+	 * Checks the current user's permissions.
 	 *
 	 * @since 3.1.0
 	 *
@@ -73,7 +73,7 @@ class WP_Users_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Prepare the users list for display.
+	 * Prepares the users list for display.
 	 *
 	 * @since 3.1.0
 	 *
@@ -150,7 +150,7 @@ class WP_Users_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Output 'no users' message.
+	 * Outputs 'no users' message.
 	 *
 	 * @since 3.1.0
 	 */
@@ -159,7 +159,7 @@ class WP_Users_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Return an associative array listing all the views that can be used
+	 * Returns an associative array listing all the views that can be used
 	 * with this table.
 	 *
 	 * Provides a list of roles and user count for that role for easy
@@ -262,7 +262,7 @@ class WP_Users_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Retrieve an associative array of bulk actions available on this table.
+	 * Retrieves an associative array of bulk actions available on this table.
 	 *
 	 * @since 3.1.0
 	 *
@@ -290,7 +290,7 @@ class WP_Users_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Output the controls to allow user roles to be changed in bulk.
+	 * Outputs the controls to allow user roles to be changed in bulk.
 	 *
 	 * @since 3.1.0
 	 *
@@ -343,7 +343,7 @@ class WP_Users_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Capture the bulk action required, and return it.
+	 * Captures the bulk action required, and return it.
 	 *
 	 * Overridden from the base class implementation to capture
 	 * the role change drop-down.
@@ -361,7 +361,7 @@ class WP_Users_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Get a list of columns for the list table.
+	 * Gets a list of columns for the list table.
 	 *
 	 * @since 3.1.0
 	 *
@@ -385,7 +385,7 @@ class WP_Users_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Get a list of sortable columns for the list table.
+	 * Gets a list of sortable columns for the list table.
 	 *
 	 * @since 3.1.0
 	 *
@@ -401,7 +401,7 @@ class WP_Users_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Generate the list table rows.
+	 * Generates the list table rows.
 	 *
 	 * @since 3.1.0
 	 */
@@ -417,7 +417,7 @@ class WP_Users_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Generate HTML for a single row on the users.php admin panel.
+	 * Generates HTML for a single row on the users.php admin panel.
 	 *
 	 * @since 3.1.0
 	 * @since 4.2.0 The `$style` parameter was deprecated.

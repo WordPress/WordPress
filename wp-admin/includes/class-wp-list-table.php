@@ -173,7 +173,7 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Make private properties readable for backward compatibility.
+	 * Makes private properties readable for backward compatibility.
 	 *
 	 * @since 4.0.0
 	 *
@@ -187,7 +187,7 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Make private properties settable for backward compatibility.
+	 * Makes private properties settable for backward compatibility.
 	 *
 	 * @since 4.0.0
 	 *
@@ -202,7 +202,7 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Make private properties checkable for backward compatibility.
+	 * Makes private properties checkable for backward compatibility.
 	 *
 	 * @since 4.0.0
 	 *
@@ -218,7 +218,7 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Make private properties un-settable for backward compatibility.
+	 * Makes private properties un-settable for backward compatibility.
 	 *
 	 * @since 4.0.0
 	 *
@@ -231,7 +231,7 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Make private/protected methods readable for backward compatibility.
+	 * Makes private/protected methods readable for backward compatibility.
 	 *
 	 * @since 4.0.0
 	 *
@@ -269,7 +269,7 @@ class WP_List_Table {
 	}
 
 	/**
-	 * An internal method that sets all the necessary pagination arguments
+	 * Sets all the necessary pagination arguments.
 	 *
 	 * @since 3.1.0
 	 *
@@ -320,7 +320,7 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Whether the table has items to display or not
+	 * Determines whether the table has items to display or not
 	 *
 	 * @since 3.1.0
 	 *
@@ -1150,6 +1150,8 @@ class WP_List_Table {
 	}
 
 	/**
+	 * Gets the name of the primary column.
+	 *
 	 * Public wrapper for WP_List_Table::get_default_primary_column_name().
 	 *
 	 * @since 4.4.0
@@ -1451,7 +1453,7 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Extra controls to be displayed between bulk actions and pagination.
+	 * Displays extra controls between bulk actions and pagination.
 	 *
 	 * @since 3.1.0
 	 *

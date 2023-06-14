@@ -617,8 +617,8 @@ class WP_Automatic_Updater {
 	}
 
 	/**
-	 * If we tried to perform a core update, check if we should send an email,
-	 * and if we need to avoid processing future updates.
+	 * Checks whether to send an email and avoid processing future updates after
+	 * attempting a core update.
 	 *
 	 * @since 3.7.0
 	 *
@@ -967,7 +967,7 @@ class WP_Automatic_Updater {
 
 
 	/**
-	 * If we tried to perform plugin or theme updates, check if we should send an email.
+	 * Checks whether an email should be sent after attempting plugin or theme updates.
 	 *
 	 * @since 5.5.0
 	 *

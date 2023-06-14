@@ -51,7 +51,7 @@ class Theme_Upgrader_Skin extends WP_Upgrader_Skin {
 	}
 
 	/**
-	 * Action to perform following a single theme update.
+	 * Performs an action following a single theme update.
 	 *
 	 * @since 2.8.0
 	 */

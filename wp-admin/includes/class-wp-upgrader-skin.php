@@ -211,21 +211,21 @@ class WP_Upgrader_Skin {
 	}
 
 	/**
-	 * Action to perform before an update.
+	 * Performs an action before an update.
 	 *
 	 * @since 2.8.0
 	 */
 	public function before() {}
 
 	/**
-	 * Action to perform following an update.
+	 * Performs and action following an update.
 	 *
 	 * @since 2.8.0
 	 */
 	public function after() {}
 
 	/**
-	 * Output JavaScript that calls function to decrement the update counts.
+	 * Outputs JavaScript that calls function to decrement the update counts.
 	 *
 	 * @since 3.9.0
 	 *

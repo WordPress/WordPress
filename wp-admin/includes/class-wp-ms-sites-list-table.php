@@ -315,7 +315,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Extra controls to be displayed between bulk actions and pagination.
+	 * Displays extra controls between bulk actions and pagination.
 	 *
 	 * @since 5.3.0
 	 *
@@ -621,7 +621,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Maybe output comma-separated site states.
+	 * Determines whether to output comma-separated site states.
 	 *
 	 * @since 5.3.0
 	 *

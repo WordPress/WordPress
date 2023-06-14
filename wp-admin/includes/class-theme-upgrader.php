@@ -48,7 +48,7 @@ class Theme_Upgrader extends WP_Upgrader {
 	public $new_theme_data = array();
 
 	/**
-	 * Initialize the upgrade strings.
+	 * Initializes the upgrade strings.
 	 *
 	 * @since 2.8.0
 	 */
@@ -65,7 +65,7 @@ class Theme_Upgrader extends WP_Upgrader {
 	}
 
 	/**
-	 * Initialize the installation strings.
+	 * Initializes the installation strings.
 	 *
 	 * @since 2.8.0
 	 */
@@ -110,7 +110,7 @@ class Theme_Upgrader extends WP_Upgrader {
 	}
 
 	/**
-	 * Check if a child theme is being installed and we need to install its parent.
+	 * Checks if a child theme is being installed and its parent also needs to be installed.
 	 *
 	 * Hooked to the {@see 'upgrader_post_install'} filter by Theme_Upgrader::install().
 	 *
@@ -278,7 +278,7 @@ class Theme_Upgrader extends WP_Upgrader {
 	}
 
 	/**
-	 * Upgrade a theme.
+	 * Upgrades a theme.
 	 *
 	 * @since 2.8.0
 	 * @since 3.7.0 The `$args` parameter was added, making clearing the update cache optional.
@@ -364,7 +364,7 @@ class Theme_Upgrader extends WP_Upgrader {
 	}
 
 	/**
-	 * Upgrade several themes at once.
+	 * Upgrades several themes at once.
 	 *
 	 * @since 3.0.0
 	 * @since 3.7.0 The `$args` parameter was added, making clearing the update cache optional.
@@ -632,7 +632,7 @@ class Theme_Upgrader extends WP_Upgrader {
 	}
 
 	/**
-	 * Turn on maintenance mode before attempting to upgrade the active theme.
+	 * Turns on maintenance mode before attempting to upgrade the active theme.
 	 *
 	 * Hooked to the {@see 'upgrader_pre_install'} filter by Theme_Upgrader::upgrade() and
 	 * Theme_Upgrader::bulk_upgrade().
@@ -664,7 +664,7 @@ class Theme_Upgrader extends WP_Upgrader {
 	}
 
 	/**
-	 * Turn off maintenance mode after upgrading the active theme.
+	 * Turns off maintenance mode after upgrading the active theme.
 	 *
 	 * Hooked to the {@see 'upgrader_post_install'} filter by Theme_Upgrader::upgrade()
 	 * and Theme_Upgrader::bulk_upgrade().
@@ -702,7 +702,7 @@ class Theme_Upgrader extends WP_Upgrader {
 	}
 
 	/**
-	 * Delete the old theme during an upgrade.
+	 * Deletes the old theme during an upgrade.
 	 *
 	 * Hooked to the {@see 'upgrader_clear_destination'} filter by Theme_Upgrader::upgrade()
 	 * and Theme_Upgrader::bulk_upgrade().
@@ -740,7 +740,7 @@ class Theme_Upgrader extends WP_Upgrader {
 	}
 
 	/**
-	 * Get the WP_Theme object for a theme.
+	 * Gets the WP_Theme object for a theme.
 	 *
 	 * @since 2.8.0
 	 * @since 3.0.0 The `$theme` argument was added.

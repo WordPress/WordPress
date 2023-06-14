@@ -21,7 +21,7 @@
 class Core_Upgrader extends WP_Upgrader {
 
 	/**
-	 * Initialize the upgrade strings.
+	 * Initializes the upgrade strings.
 	 *
 	 * @since 2.8.0
 	 */
@@ -39,7 +39,7 @@ class Core_Upgrader extends WP_Upgrader {
 	}
 
 	/**
-	 * Upgrade WordPress core.
+	 * Upgrades WordPress core.
 	 *
 	 * @since 2.8.0
 	 *
@@ -385,7 +385,7 @@ class Core_Upgrader extends WP_Upgrader {
 	}
 
 	/**
-	 * Compare the disk file checksums against the expected checksums.
+	 * Compares the disk file checksums against the expected checksums.
 	 *
 	 * @since 3.7.0
 	 *
