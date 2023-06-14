@@ -399,7 +399,7 @@ function signup_another_blog( $blogname = '', $blog_title = '', $errors = '' ) {
 		<input type="hidden" name="stage" value="gimmeanotherblog" />
 		<?php
 		/**
-		 * Hidden sign-up form fields output when creating another site or user.
+		 * Fires when hidden sign-up form fields output when creating another site or user.
 		 *
 		 * @since MU (3.0.0)
 		 *

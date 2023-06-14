@@ -46,7 +46,7 @@ if ( isset( $_GET['rsd'] ) ) { // https://cyber.harvard.edu/blogs/gems/tech/rsd.
 			<api name="Blogger" blogID="1" preferred="false" apiLink="<?php echo site_url( 'xmlrpc.php', 'rpc' ); ?>" />
 			<?php
 			/**
-			 * Adds additional APIs to the Really Simple Discovery (RSD) endpoint.
+			 * Fires when adding APIs to the Really Simple Discovery (RSD) endpoint.
 			 *
 			 * @link https://cyber.harvard.edu/blogs/gems/tech/rsd.html
 			 *
