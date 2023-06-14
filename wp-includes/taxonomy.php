@@ -2737,7 +2737,7 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
  * @param int              $object_id The object to relate to.
  * @param string|int|array $terms     A single term slug, single term ID, or array of either term slugs or IDs.
  *                                    Will replace all existing related terms in this taxonomy. Passing an
- *                                    empty value will remove all related terms.
+ *                                    empty array will remove all related terms.
  * @param string           $taxonomy  The context in which to relate the term to the object.
  * @param bool             $append    Optional. If false will delete difference of terms. Default false.
  * @return array|WP_Error Term taxonomy IDs of the affected terms or WP_Error on failure.
@@ -2751,7 +2751,9 @@ function wp_set_object_terms( $object_id, $terms, $taxonomy, $append = false ) {
 		return new WP_Error( 'invalid_taxonomy', __( 'Invalid taxonomy.' ) );
 	}
 
-	if ( ! is_array( $terms ) ) {
+	if ( empty( $terms ) ) {
+		$terms = array();
+	} elseif ( ! is_array( $terms ) ) {
 		$terms = array( $terms );
 	}
 
