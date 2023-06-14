@@ -96,7 +96,7 @@ else :
 	<ul class="my-sites striped">
 	<?php
 	/**
-	 * Enable the Global Settings section on the My Sites screen.
+	 * Filters the settings HTML markup in the Global Settings section on the My Sites screen.
 	 *
 	 * By default, the Global Settings section is hidden. Passing a non-empty
 	 * string to this filter will enable the section, and allow new settings

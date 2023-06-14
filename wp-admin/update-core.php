@@ -817,7 +817,7 @@ function list_translation_updates() {
 }
 
 /**
- * Upgrade WordPress core display.
+ * Upgrades WordPress core display.
  *
  * @since 2.7.0
  *

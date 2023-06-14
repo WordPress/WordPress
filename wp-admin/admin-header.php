@@ -109,7 +109,7 @@ var ajaxurl = '<?php echo esc_js( admin_url( 'admin-ajax.php', 'relative' ) ); ?
 <?php
 
 /**
- * Enqueue scripts for all admin pages.
+ * Fires when enqueuing scripts for all admin pages.
  *
  * @since 2.8.0
  *
