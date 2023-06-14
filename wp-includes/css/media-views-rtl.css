@@ -1958,32 +1958,7 @@
 
 .media-modal .imgedit-wrap .imgedit-panel-content {
 	padding: 16px 16px 0;
-	position: absolute;
-	top: 0;
-	left: 282px;
-	bottom: 0;
-	right: 0;
-	overflow: auto;
-}
-
-/*
- * Implementation of bottom padding in overflow content differs across browsers.
- * We need a different method. See https://github.com/w3c/csswg-drafts/issues/129
- */
-.media-modal .imgedit-wrap .imgedit-submit {
-	margin-bottom: 16px;
-}
-
-.media-modal .imgedit-wrap .imgedit-settings {
-	background: #f6f7f7;
-	border-right: 1px solid #dcdcde;
-	padding: 20px 16px 0;
-	position: absolute;
-	top: 0;
-	left: 0;
-	bottom: 0;
-	width: 250px;
-	overflow: auto;
+	overflow: visible;
 }
 
 /*
@@ -1997,19 +1972,15 @@
 .media-modal .imgedit-group {
 	background: none;
 	border: none;
-	border-bottom: 1px solid #dcdcde;
 	box-shadow: none;
 	margin: 0;
-	margin-bottom: 16px;
 	padding: 0;
-	padding-bottom: 16px;
 	position: relative; /* RTL fix, #WP29352 */
 }
 
-.media-modal .imgedit-group:last-of-type {
-	border: none;
-	margin: 0;
-	padding: 0;
+.media-modal .imgedit-group.imgedit-panel-active {
+	margin-bottom: 16px;
+	padding-bottom: 16px;
 }
 
 .media-modal .imgedit-group-top {
@@ -2078,8 +2049,7 @@
 
 .media-modal .imgedit-wrap div.updated, /* Back-compat for pre-5.5 */
 .media-modal .imgedit-wrap .notice {
-	margin: 0;
-	margin-bottom: 16px;
+	margin: 0 16px;
 }
 
 /**
@@ -2828,6 +2798,10 @@
 }
 
 @media screen and (max-width: 782px) {
+	.imgedit-panel-content {
+		grid-template-columns: auto;
+	}
+
 	.media-frame-toolbar .media-toolbar {
 		bottom: -54px;
 	}

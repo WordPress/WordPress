@@ -956,7 +956,7 @@ $.imgAreaSelect = function (img, options) {
              * default 5px
              */
             if (!parseInt($handles.css('width')) >= 0)
-                $handles.width(5).height(5);
+                $handles.width(10).height(10);
 
             /*
              * If the borderWidth option is in use, add a solid border to
