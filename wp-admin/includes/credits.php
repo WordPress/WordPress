@@ -8,7 +8,7 @@
  */
 
 /**
- * Retrieve the contributor credits.
+ * Retrieves the contributor credits.
  *
  * @since 3.2.0
  * @since 5.6.0 Added the `$version` and `$locale` parameters.
@@ -61,7 +61,7 @@ function wp_credits( $version = '', $locale = '' ) {
 }
 
 /**
- * Retrieve the link to a contributor's WordPress.org profile page.
+ * Retrieves the link to a contributor's WordPress.org profile page.
  *
  * @access private
  * @since 3.2.0
@@ -75,7 +75,7 @@ function _wp_credits_add_profile_link( &$display_name, $username, $profiles ) {
 }
 
 /**
- * Retrieve the link to an external library used in WordPress.
+ * Retrieves the link to an external library used in WordPress.
  *
  * @access private
  * @since 3.2.0
