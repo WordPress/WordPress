@@ -237,6 +237,7 @@ class WP_oEmbed {
 		if ( in_array( $name, $this->compat_methods, true ) ) {
 			return $this->$name( ...$arguments );
 		}
+
 		return false;
 	}
 
@@ -551,8 +552,10 @@ class WP_oEmbed {
 			if ( is_wp_error( $result ) && 'not-implemented' === $result->get_error_code() ) {
 				continue;
 			}
+
 			return ( $result && ! is_wp_error( $result ) ) ? $result : false;
 		}
+
 		return false;
 	}
 
@@ -572,14 +575,18 @@ class WP_oEmbed {
 		$args = apply_filters( 'oembed_remote_get_args', array(), $provider_url_with_args );
 
 		$response = wp_safe_remote_get( $provider_url_with_args, $args );
-		if ( 501 == wp_remote_retrieve_response_code( $response ) ) {
+
+		if ( 501 === wp_remote_retrieve_response_code( $response ) ) {
 			return new WP_Error( 'not-implemented' );
 		}
+
 		$body = wp_remote_retrieve_body( $response );
 		if ( ! $body ) {
 			return false;
 		}
+
 		$parse_method = "_parse_$format";
+
 		return $this->$parse_method( $body );
 	}
 
@@ -593,6 +600,7 @@ class WP_oEmbed {
 	 */
 	private function _parse_json( $response_body ) {
 		$data = json_decode( trim( $response_body ) );
+
 		return ( $data && is_object( $data ) ) ? $data : false;
 	}
 
