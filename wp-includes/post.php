@@ -1957,6 +1957,7 @@ function _post_type_meta_capabilities( $capabilities = null ) {
  *                              Default is 'Post published privately.' / 'Page published privately.'
  * - `item_reverted_to_draft` - Label used when an item is switched to a draft.
  *                            Default is 'Post reverted to draft.' / 'Page reverted to draft.'
+ * - `item_trashed` - Label used when an item is moved to Trash. Default is 'Post trashed.' / 'Page trashed.'
  * - `item_scheduled` - Label used when an item is scheduled for publishing. Default is 'Post scheduled.' /
  *                    'Page scheduled.'
  * - `item_updated` - Label used when an item is updated. Default is 'Post updated.' / 'Page updated.'
@@ -1980,6 +1981,7 @@ function _post_type_meta_capabilities( $capabilities = null ) {
  *              `item_scheduled`, and `item_updated` labels.
  * @since 5.7.0 Added the `filter_by_date` label.
  * @since 5.8.0 Added the `item_link` and `item_link_description` labels.
+ * @since 6.3.0 Added the `item_trashed` label.
  *
  * @access private
  *
