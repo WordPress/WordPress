@@ -81,7 +81,7 @@ function get_file_description( $file ) {
 	global $wp_file_descriptions, $allowed_files;
 
 	$dirname   = pathinfo( $file, PATHINFO_DIRNAME );
-	$file_path = $allowed_files[ $file ];
+	$file_path = isset($allowed_files[ $file ])? $allowed_files[ $file ] : '';
 
 	if ( isset( $wp_file_descriptions[ basename( $file ) ] ) && '.' === $dirname ) {
 		return $wp_file_descriptions[ basename( $file ) ];
