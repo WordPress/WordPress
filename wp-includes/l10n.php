@@ -718,6 +718,28 @@ function load_textdomain( $domain, $mofile, $locale = null ) {
 	$l10n_unloaded = (array) $l10n_unloaded;
 
 	/**
+	 * Filters whether to short-circuit loading .mo file.
+	 *
+	 * Returning a non-null value from the filter will effectively short-circuit
+	 * the loading, returning the passed value instead.
+	 *
+	 * @since 6.3.0
+	 *
+	 * @param bool|null   $loaded The result of loading a .mo file. Default null.
+	 * @param string      $domain Text domain. Unique identifier for retrieving translated strings.
+	 * @param string      $mofile Path to the MO file.
+	 * @param string|null $locale Locale.
+	 */
+	$loaded = apply_filters( 'pre_load_textdomain', null, $domain, $mofile, $locale );
+	if ( null !== $loaded ) {
+		if ( true === $loaded ) {
+			unset( $l10n_unloaded[ $domain ] );
+		}
+
+		return $loaded;
+	}
+
+	/**
 	 * Filters whether to override the .mo file loading.
 	 *
 	 * @since 2.9.0
