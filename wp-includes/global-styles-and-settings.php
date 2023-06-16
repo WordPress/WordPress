@@ -426,3 +426,15 @@ function wp_clean_theme_json_cache() {
 	wp_cache_delete( 'wp_get_global_styles_custom_css', 'theme_json' );
 	WP_Theme_JSON_Resolver::clean_cached_data();
 }
+
+/**
+ * Returns the current theme's wanted patterns (slugs) to be
+ * registered from Pattern Directory.
+ *
+ * @since 6.3.0
+ *
+ * @return string[]
+ */
+function wp_get_remote_theme_patterns() {
+	return WP_Theme_JSON_Resolver::get_theme_data( array(), array( 'with_supports' => false ) )->get_patterns();
+}
