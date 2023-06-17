@@ -142,7 +142,7 @@ p.has-drop-cap:not(:focus)::first-letter {
 	color: #fff;
 	font-size: 12px;
 	font-weight: 700;
-	line-height: 15px;
+	line-height: 1.25;
 	padding: 10px 30px 11px;
 	text-transform: uppercase;
 	vertical-align: bottom;
@@ -235,7 +235,7 @@ p.has-drop-cap:not(:focus)::first-letter {
 .wp-block-button .wp-block-button__link {
 	font-size: 12px;
 	font-weight: 700;
-	line-height: 15px;
+	line-height: 1.25;
 	padding: 10px 30px 11px;
 	text-decoration: none;
 	text-transform: uppercase;
