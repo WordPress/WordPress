@@ -124,7 +124,7 @@ class WCAdminUser {
 	}
 
 	/**
-	 * Helper to retrive user data fields.
+	 * Helper to retrieve user data fields.
 	 *
 	 * Migrates old key prefixes as well.
 	 *

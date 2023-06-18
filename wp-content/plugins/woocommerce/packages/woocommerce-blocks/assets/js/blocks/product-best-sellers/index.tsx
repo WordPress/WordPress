@@ -1,7 +1,6 @@
 /**
  * External dependencies
  */
-import { without } from 'lodash';
 import { Icon, trendingUp } from '@wordpress/icons';
 import { createBlock, registerBlockType } from '@wordpress/blocks';
 
@@ -32,9 +31,8 @@ registerBlockType( metadata, {
 		from: [
 			{
 				type: 'block',
-				blocks: without(
-					sharedAttributeBlockTypes,
-					'woocommerce/product-best-sellers'
+				blocks: sharedAttributeBlockTypes.filter(
+					( value ) => value !== 'woocommerce/product-best-sellers'
 				),
 				transform: ( attributes ) =>
 					createBlock(

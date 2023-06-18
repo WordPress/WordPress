@@ -66,7 +66,9 @@ export const BlockSettings = ( {
 
 	return (
 		<InspectorControls key="inspector">
-			<AccountSettingsLink />
+			<PanelBody>
+				<AccountSettingsLink />
+			</PanelBody>
 			<PanelBody
 				title={ __(
 					'Display settings',
@@ -123,7 +125,7 @@ export const BlockSettings = ( {
 								iconStyle: value,
 							} )
 						}
-						className="wc-block-customer-account__icon-style-toggle"
+						className="wc-block-editor-customer-account__icon-style-toggle"
 					>
 						<ToggleGroupControlOption
 							value={ IconStyle.DEFAULT }
@@ -132,7 +134,7 @@ export const BlockSettings = ( {
 									icon={ customerAccountStyle }
 									size={ 16 }
 									className={ classNames(
-										'wc-block-customer-account__icon-option',
+										'wc-block-editor-customer-account__icon-option',
 										{
 											active:
 												iconStyle === IconStyle.DEFAULT,
@@ -148,7 +150,7 @@ export const BlockSettings = ( {
 									icon={ customerAccountStyleAlt }
 									size={ 20 }
 									className={ classNames(
-										'wc-block-customer-account__icon-option',
+										'wc-block-editor-customer-account__icon-option',
 										{
 											active: iconStyle === IconStyle.ALT,
 										}

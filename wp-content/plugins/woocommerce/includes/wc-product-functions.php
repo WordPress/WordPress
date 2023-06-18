@@ -698,7 +698,7 @@ function wc_get_product_variation_attributes( $variation_id ) {
 			$attribute                 = 'attribute_' . sanitize_title( $attribute_name );
 			$found_parent_attributes[] = $attribute;
 			if ( ! array_key_exists( $attribute, $variation_attributes ) ) {
-				$variation_attributes[ $attribute ] = ''; // Add it - 'any' will be asumed.
+				$variation_attributes[ $attribute ] = ''; // Add it - 'any' will be assumed.
 			}
 		}
 	}

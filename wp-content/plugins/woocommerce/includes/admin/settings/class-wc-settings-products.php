@@ -45,7 +45,7 @@ class WC_Settings_Products extends WC_Settings_Page {
 	}
 
 	/**
-	 * Get settings for the detault section.
+	 * Get settings for the default section.
 	 *
 	 * @return array
 	 */

@@ -3,7 +3,7 @@
  */
 import { __, _n, sprintf } from '@wordpress/i18n';
 import { Component } from '@wordpress/element';
-import { debounce } from 'lodash';
+import { debounce } from '@woocommerce/base-utils';
 import PropTypes from 'prop-types';
 import {
 	SearchListControl,

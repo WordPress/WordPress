@@ -12,6 +12,10 @@ export const blockAttributes: BlockAttributes = {
 		type: 'boolean',
 		default: false,
 	},
+	isDescendantOfAllProducts: {
+		type: 'boolean',
+		default: false,
+	},
 };
 
 export default blockAttributes;

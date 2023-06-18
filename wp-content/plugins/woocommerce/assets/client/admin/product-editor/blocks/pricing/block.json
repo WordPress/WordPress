@@ -1,0 +1,32 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 2,
+    "name": "woocommerce/product-pricing-field",
+    "description": "A product price block with currency display.",
+    "title": "Product pricing",
+    "category": "widgets",
+    "keywords": ["products", "price"],
+    "textdomain": "default",
+    "attributes": {
+        "name": {
+            "type": "string",
+            "__experimentalRole": "content"
+        },
+        "label": {
+            "type": "string"
+        },
+        "help": {
+            "type": "string"
+        }
+    },
+    "supports": {
+        "align": false,
+        "html": false,
+        "multiple": false,
+        "reusable": false,
+        "inserter": false,
+        "lock": false,
+        "__experimentalToolbar": false
+    },
+    "editorStyle": "file:./editor.css"
+}

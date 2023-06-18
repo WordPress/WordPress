@@ -362,7 +362,7 @@ class WC_Admin_Status {
 			<?php
 				echo esc_html(
 					sprintf(
-					// translators: Comma seperated list of missing tables.
+					// translators: Comma separated list of missing tables.
 						__( 'Missing base tables: %s. Some WooCommerce functionality may not work as expected.', 'woocommerce' ),
 						implode( ', ', $missing_tables )
 					)

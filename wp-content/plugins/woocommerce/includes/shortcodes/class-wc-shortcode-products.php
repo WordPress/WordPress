@@ -653,7 +653,7 @@ class WC_Shortcode_Products {
 					$GLOBALS['post'] = get_post( $product_id ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 					setup_postdata( $GLOBALS['post'] );
 
-					// Set custom product visibility when quering hidden products.
+					// Set custom product visibility when querying hidden products.
 					add_action( 'woocommerce_product_is_visible', array( $this, 'set_product_as_visible' ) );
 
 					// Render product template.

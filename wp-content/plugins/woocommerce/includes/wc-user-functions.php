@@ -22,6 +22,13 @@ defined( 'ABSPATH' ) || exit;
  * @return bool
  */
 function wc_disable_admin_bar( $show_admin_bar ) {
+	/**
+	 * Controls whether the WooCommerce admin bar should be disabled.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param bool $enabled
+	 */
 	if ( apply_filters( 'woocommerce_disable_admin_bar', true ) && ! ( current_user_can( 'edit_posts' ) || current_user_can( 'manage_woocommerce' ) ) ) {
 		$show_admin_bar = false;
 	}

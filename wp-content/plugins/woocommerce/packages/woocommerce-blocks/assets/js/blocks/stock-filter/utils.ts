@@ -23,9 +23,9 @@ export const getActiveFilters = (
 		? params.split( ',' )
 		: ( params as string[] );
 
-	return Object.keys( filters ).filter( ( filter ) =>
-		parsedParams.includes( filter )
-	);
+	const filterKeys = Object.keys( filters );
+
+	return parsedParams.filter( ( param ) => filterKeys.includes( param ) );
 };
 
 export function generateUniqueId() {

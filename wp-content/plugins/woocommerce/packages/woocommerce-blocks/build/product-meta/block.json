@@ -3,7 +3,7 @@
 	"version": "1.0.0",
 	"title": "Product Meta",
 	"icon": "product",
-	"description": "Display Product Meta",
+	"description": "Display a product’s SKU, categories, tags, and more.",
 	"category": "woocommerce",
 	"supports": {
 		"align": true,

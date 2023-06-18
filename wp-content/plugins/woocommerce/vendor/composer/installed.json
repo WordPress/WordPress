@@ -649,17 +649,17 @@
         },
         {
             "name": "woocommerce/woocommerce-blocks",
-            "version": "10.0.6",
-            "version_normalized": "10.0.6.0",
+            "version": "10.2.3",
+            "version_normalized": "10.2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/woocommerce/woocommerce-blocks.git",
-                "reference": "2b9bce3b279741cbabc1c29b998d4791fa89121d"
+                "reference": "1682631f0b14accc15b9c3a6207f36484d4f9050"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/woocommerce/woocommerce-blocks/zipball/2b9bce3b279741cbabc1c29b998d4791fa89121d",
-                "reference": "2b9bce3b279741cbabc1c29b998d4791fa89121d",
+                "url": "https://api.github.com/repos/woocommerce/woocommerce-blocks/zipball/1682631f0b14accc15b9c3a6207f36484d4f9050",
+                "reference": "1682631f0b14accc15b9c3a6207f36484d4f9050",
                 "shasum": ""
             },
             "require": {
@@ -669,13 +669,13 @@
                 "ext-json": "*"
             },
             "require-dev": {
-                "mockery/mockery": "^1.4",
+                "mockery/mockery": "^1",
+                "phpunit/phpunit": "^8",
                 "woocommerce/woocommerce-sniffs": "0.1.3",
                 "wp-hooks/generator": "^0.9.0",
-                "wp-phpunit/wp-phpunit": "^6.0",
                 "yoast/phpunit-polyfills": "^1.0"
             },
-            "time": "2023-05-30T19:43:34+00:00",
+            "time": "2023-06-09T14:13:09+00:00",
             "type": "wordpress-plugin",
             "extra": {
                 "scripts-description": {
@@ -707,7 +707,7 @@
             ],
             "support": {
                 "issues": "https://github.com/woocommerce/woocommerce-blocks/issues",
-                "source": "https://github.com/woocommerce/woocommerce-blocks/tree/v10.0.6"
+                "source": "https://github.com/woocommerce/woocommerce-blocks/tree/v10.2.3"
             },
             "install-path": "../../packages/woocommerce-blocks"
         }

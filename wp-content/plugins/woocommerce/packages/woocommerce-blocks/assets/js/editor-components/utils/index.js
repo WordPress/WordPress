@@ -1,10 +1,8 @@
-/* eslint-disable you-dont-need-lodash-underscore/flatten -- until we have an alternative to uniqBy we'll keep flatten to avoid potential introduced bugs with alternatives */
 /**
  * External dependencies
  */
 import { addQueryArgs } from '@wordpress/url';
 import apiFetch from '@wordpress/api-fetch';
-import { flatten, uniqBy } from 'lodash';
 import { getSetting } from '@woocommerce/settings';
 import { blocksConfig } from '@woocommerce/block-settings';
 
@@ -50,6 +48,18 @@ const getProductsRequests = ( {
 	return requests;
 };
 
+const uniqBy = ( array, iteratee ) => {
+	const seen = new Map();
+	return array.filter( ( item ) => {
+		const key = iteratee( item );
+		if ( ! seen.has( key ) ) {
+			seen.set( key, item );
+			return true;
+		}
+		return false;
+	} );
+};
+
 /**
  * Get a promise that resolves to a list of products from the Store API.
  *
@@ -69,7 +79,8 @@ export const getProducts = ( {
 
 	return Promise.all( requests.map( ( path ) => apiFetch( { path } ) ) )
 		.then( ( data ) => {
-			const products = uniqBy( flatten( data ), 'id' );
+			const flatData = data.flat();
+			const products = uniqBy( flatData, ( item ) => item.id );
 			const list = products.map( ( product ) => ( {
 				...product,
 				parent: 0,
@@ -154,7 +165,8 @@ export const getProductTags = ( { selected = [], search } ) => {
 
 	return Promise.all( requests.map( ( path ) => apiFetch( { path } ) ) ).then(
 		( data ) => {
-			return uniqBy( flatten( data ), 'id' );
+			const flatData = data.flat();
+			return uniqBy( flatData, ( item ) => item.id );
 		}
 	);
 };

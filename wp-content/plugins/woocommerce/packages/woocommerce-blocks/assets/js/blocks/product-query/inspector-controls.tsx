@@ -38,8 +38,9 @@ import {
 	QUERY_LOOP_ID,
 	STOCK_STATUS_OPTIONS,
 } from './constants';
-import { PopularPresets } from './inspector-controls/popular-presets';
 import { AttributesFilter } from './inspector-controls/attributes-filter';
+import { PopularPresets } from './inspector-controls/popular-presets';
+import { ProductSelector } from './inspector-controls/product-selector';
 
 import './editor.scss';
 
@@ -168,6 +169,7 @@ export const TOOLS_PANEL_CONTROLS = {
 			</ToolsPanelItem>
 		);
 	},
+	productSelector: ProductSelector,
 	stockStatus: ( props: ProductQueryBlock ) => {
 		const { query } = props.attributes;
 

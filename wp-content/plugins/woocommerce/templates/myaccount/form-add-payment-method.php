@@ -12,7 +12,7 @@
  *
  * @see https://docs.woocommerce.com/document/template-structure/
  * @package WooCommerce\Templates
- * @version 7.0.1
+ * @version 7.8.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -57,5 +57,5 @@ if ( $available_gateways ) : ?>
 		</div>
 	</form>
 <?php else : ?>
-	<p class="woocommerce-notice woocommerce-notice--info woocommerce-info"><?php esc_html_e( 'New payment methods can only be added during checkout. Please contact us if you require assistance.', 'woocommerce' ); ?></p>
+	<?php wc_print_notice( esc_html__( 'New payment methods can only be added during checkout. Please contact us if you require assistance.', 'woocommerce' ), 'notice' ); ?>
 <?php endif; ?>

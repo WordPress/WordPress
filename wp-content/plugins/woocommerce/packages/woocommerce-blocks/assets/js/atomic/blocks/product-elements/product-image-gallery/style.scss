@@ -1,5 +1,7 @@
 .woocommerce .wp-block-woocommerce-product-image-gallery {
 	position: relative;
+	// This is necessary to calculate the correct width of the gallery. https://www.lockedownseo.com/parent-div-100-height-child-floated-elements/#:~:text=Solution%20%232%3A%20Float%20Parent%20Container
+	clear: both;
 
 	span.onsale {
 		right: unset;
@@ -8,6 +10,15 @@
 	}
 }
 
-.woocommerce .wp-block-woocommerce-product-image-gallery .woocommerce-product-gallery.images {
-	width: initial;
+// This is necessary to calculate the correct width of the gallery. https://www.lockedownseo.com/parent-div-100-height-child-floated-elements/#:~:text=Solution%20%232%3A%20Float%20Parent%20Container
+.woocommerce .wp-block-woocommerce-product-image-gallery::after {
+	clear: both;
+	content: "";
+	display: table;
 }
+
+
+.woocommerce .wp-block-woocommerce-product-image-gallery .woocommerce-product-gallery.images {
+	width: 100%;
+}
+

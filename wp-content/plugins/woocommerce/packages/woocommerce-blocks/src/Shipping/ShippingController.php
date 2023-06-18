@@ -28,6 +28,13 @@ class ShippingController {
 	protected $asset_data_registry;
 
 	/**
+	 * Whether local pickup is enabled.
+	 *
+	 * @var bool
+	 */
+	private $local_pickup_enabled;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param AssetApi          $asset_api Instance of the asset API.
@@ -36,6 +43,8 @@ class ShippingController {
 	public function __construct( AssetApi $asset_api, AssetDataRegistry $asset_data_registry ) {
 		$this->asset_api           = $asset_api;
 		$this->asset_data_registry = $asset_data_registry;
+
+		$this->local_pickup_enabled = LocalPickupUtils::is_local_pickup_enabled();
 	}
 
 	/**
@@ -81,7 +90,7 @@ class ShippingController {
 	 * @return boolean Whether shipping cost calculation should require an address to be entered before calculating.
 	 */
 	public function override_cost_requires_address_option( $value ) {
-		if ( CartCheckoutUtils::is_checkout_block_default() ) {
+		if ( CartCheckoutUtils::is_checkout_block_default() && $this->local_pickup_enabled ) {
 			return 'no';
 		}
 		return $value;
@@ -94,7 +103,7 @@ class ShippingController {
 	 * @return boolean Whether shipping should continue to be enabled/disabled.
 	 */
 	public function force_shipping_enabled( $enabled ) {
-		if ( CartCheckoutUtils::is_checkout_block_default() ) {
+		if ( CartCheckoutUtils::is_checkout_block_default() && $this->local_pickup_enabled ) {
 			return true;
 		}
 		return $enabled;
@@ -141,48 +150,31 @@ class ShippingController {
 	 */
 	public function remove_shipping_settings( $settings ) {
 
-		// Do not add the "Hide shipping costs until an address is entered" setting if the Checkout block is not used on the WC checkout page.
-		if ( CartCheckoutUtils::is_checkout_block_default() ) {
-			$settings = array_filter(
-				$settings,
-				function( $setting ) {
-					return ! in_array(
-						$setting['id'],
-						array(
-							'woocommerce_shipping_cost_requires_address',
-						),
-						true
-					);
-				}
-			);
-		}
-
 		// Do not add the shipping calculator setting if the Cart block is not used on the WC cart page.
 		if ( CartCheckoutUtils::is_cart_block_default() ) {
 
-			// If the Cart is default, but not the checkout, we should ensure the 'Calculations' title is added to the
-			// `woocommerce_shipping_cost_requires_address` options group, since it is attached to the
-			// `woocommerce_enable_shipping_calc` option that we're going to remove later.
-			if ( ! CartCheckoutUtils::is_checkout_block_default() ) {
-				$calculations_title = '';
+			// Ensure the 'Calculations' title is added to the `woocommerce_shipping_cost_requires_address` options
+			// group, since it is attached to the `woocommerce_enable_shipping_calc` option that gets removed if the
+			// Cart block is in use.
+			$calculations_title = '';
 
-				// Get Calculations title so we can add it to 'Hide shipping costs until an address is entered' option.
-				foreach ( $settings as $setting ) {
-					if ( 'woocommerce_enable_shipping_calc' === $setting['id'] ) {
-						$calculations_title = $setting['title'];
-						break;
-					}
-				}
-
-				// Add Calculations title to 'Hide shipping costs until an address is entered' option.
-				foreach ( $settings as $index => $setting ) {
-					if ( 'woocommerce_shipping_cost_requires_address' === $setting['id'] ) {
-						$settings[ $index ]['title']         = $calculations_title;
-						$settings[ $index ]['checkboxgroup'] = 'start';
-						break;
-					}
+			// Get Calculations title so we can add it to 'Hide shipping costs until an address is entered' option.
+			foreach ( $settings as $setting ) {
+				if ( 'woocommerce_enable_shipping_calc' === $setting['id'] ) {
+					$calculations_title = $setting['title'];
+					break;
 				}
 			}
+
+			// Add Calculations title to 'Hide shipping costs until an address is entered' option.
+			foreach ( $settings as $index => $setting ) {
+				if ( 'woocommerce_shipping_cost_requires_address' === $setting['id'] ) {
+					$settings[ $index ]['title']         = $calculations_title;
+					$settings[ $index ]['checkboxgroup'] = 'start';
+					break;
+				}
+			}
+
 			$settings = array_filter(
 				$settings,
 				function( $setting ) {
@@ -196,6 +188,18 @@ class ShippingController {
 				}
 			);
 		}
+
+		if ( CartCheckoutUtils::is_checkout_block_default() && $this->local_pickup_enabled ) {
+			foreach ( $settings as $index => $setting ) {
+				if ( 'woocommerce_shipping_cost_requires_address' === $setting['id'] ) {
+					$settings[ $index ]['desc']    .= ' (' . __( 'Not available when using WooCommerce Blocks Local Pickup', 'woocommerce' ) . ')';
+					$settings[ $index ]['disabled'] = true;
+					$settings[ $index ]['value']    = 'no';
+					break;
+				}
+			}
+		}
+
 		return $settings;
 	}
 

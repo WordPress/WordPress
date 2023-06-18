@@ -295,10 +295,14 @@ class OnboardingTasks extends \WC_REST_Data_Controller {
 	/**
 	 * Check if a given request has access to manage woocommerce.
 	 *
+	 * @deprecated 7.8.0 snooze task is deprecated.
+	 *
 	 * @param  WP_REST_Request $request Full details about the request.
 	 * @return WP_Error|boolean
 	 */
 	public function snooze_task_permissions_check( $request ) {
+		wc_deprecated_function( __CLASS__ . '::' . __FUNCTION__, '7.8.0' );
+
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 			return new \WP_Error( 'woocommerce_rest_cannot_create', __( 'Sorry, you are not allowed to snooze onboarding tasks.', 'woocommerce' ), array( 'status' => rest_authorization_required_code() ) );
 		}
@@ -355,7 +359,7 @@ class OnboardingTasks extends \WC_REST_Data_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public static function create_product_from_template( $request ) {
-		$template_name = $request->get_param( 'template_name' );
+		$template_name = basename( $request->get_param( 'template_name' ) );
 		$template_path = __DIR__ . '/Templates/' . $template_name . '_product.csv';
 		$template_path = apply_filters( 'woocommerce_product_template_csv_file_path', $template_path, $template_name );
 
@@ -816,11 +820,15 @@ class OnboardingTasks extends \WC_REST_Data_Controller {
 	/**
 	 * Snooze an onboarding task.
 	 *
+	 * @deprecated 7.8.0 snooze task is deprecated.
+	 *
 	 * @param WP_REST_Request $request Request data.
 	 *
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function snooze_task( $request ) {
+		wc_deprecated_function( __CLASS__ . '::' . __FUNCTION__, '7.8.0' );
+
 		$task_id      = $request->get_param( 'id' );
 		$task_list_id = $request->get_param( 'task_list_id' );
 		$duration     = $request->get_param( 'duration' );
@@ -853,10 +861,14 @@ class OnboardingTasks extends \WC_REST_Data_Controller {
 	/**
 	 * Undo snooze of a single task.
 	 *
+	 * @deprecated 7.8.0 undo snooze task is deprecated.
+	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Request|WP_Error
 	 */
 	public function undo_snooze_task( $request ) {
+		wc_deprecated_function( __CLASS__ . '::' . __FUNCTION__, '7.8.0' );
+
 		$id   = $request->get_param( 'id' );
 		$task = TaskLists::get_task( $id );
 

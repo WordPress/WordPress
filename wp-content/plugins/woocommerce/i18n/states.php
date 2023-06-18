@@ -603,6 +603,7 @@ return array(
 		'ZA' => __( 'Zamora', 'woocommerce' ),
 		'Z'  => __( 'Zaragoza', 'woocommerce' ),
 	),
+	'ET' => array(),
 	'FI' => array(),
 	'FR' => array(),
 	'GF' => array(),
@@ -1807,6 +1808,7 @@ return array(
 		'RSKM' => _x( 'Kosovo-Metohija', 'district', 'woocommerce' ),
 		'RSVO' => _x( 'Vojvodina', 'district', 'woocommerce' ),
 	),
+	'RW' => array(),
 	'SE' => array(),
 	'UA' => array( // Ukrainian oblasts. https://github.com/unicode-org/cldr/blob/release-42/common/subdivisions/en.xml#L5243.
 		'UA05' => __( 'Vinnychchyna', 'woocommerce' ),

@@ -8,6 +8,7 @@
 
 use Automattic\Jetpack\Constants;
 use Automattic\WooCommerce\Admin\Features\Features;
+use Automattic\WooCommerce\Internal\Admin\WCAdminAssets;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -197,6 +198,7 @@ if ( ! class_exists( 'WC_Admin_Assets', false ) ) :
 				wp_enqueue_script( 'iris' );
 				wp_enqueue_script( 'woocommerce_admin' );
 				wp_enqueue_script( 'wc-enhanced-select' );
+
 				wp_enqueue_script( 'jquery-ui-sortable' );
 				wp_enqueue_script( 'jquery-ui-autocomplete' );
 
@@ -222,10 +224,10 @@ if ( ! class_exists( 'WC_Admin_Assets', false ) ) :
 						'export_products' => __( 'Export', 'woocommerce' ),
 					),
 					'nonces'                            => array(
-						'gateway_toggle' => wp_create_nonce( 'woocommerce-toggle-payment-gateway-enabled' ),
+						'gateway_toggle' => current_user_can( 'manage_woocommerce' ) ? wp_create_nonce( 'woocommerce-toggle-payment-gateway-enabled' ) : null,
 					),
 					'urls'                              => array(
-						'add_product'     => Features::is_enabled( 'new-product-management-experience' ) || Features::is_enabled( 'product-block-editor' ) ? esc_url_raw( admin_url( 'admin.php?page=wc-admin&path=/add-product' ) ) : null,
+						'add_product'     => Features::is_enabled( 'new-product-management-experience' ) || \Automattic\WooCommerce\Utilities\FeaturesUtil::feature_is_enabled( 'product_block_editor' ) ? esc_url_raw( admin_url( 'admin.php?page=wc-admin&path=/add-product' ) ) : null,
 						'import_products' => current_user_can( 'import' ) ? esc_url_raw( admin_url( 'edit.php?post_type=product&page=product_importer' ) ) : null,
 						'export_products' => current_user_can( 'export' ) ? esc_url_raw( admin_url( 'edit.php?post_type=product&page=product_exporter' ) ) : null,
 					),
@@ -295,14 +297,13 @@ if ( ! class_exists( 'WC_Admin_Assets', false ) ) :
 					'i18n_last_warning'                   => esc_js( __( 'Last warning, are you sure?', 'woocommerce' ) ),
 					'i18n_choose_image'                   => esc_js( __( 'Choose an image', 'woocommerce' ) ),
 					'i18n_set_image'                      => esc_js( __( 'Set variation image', 'woocommerce' ) ),
-					'i18n_variation_added'                => esc_js( __( 'variation added', 'woocommerce' ) ),
-					'i18n_variations_added'               => esc_js( __( 'variations added', 'woocommerce' ) ),
-					'i18n_no_variations_added'            => esc_js( __( 'No variations added', 'woocommerce' ) ),
+					'i18n_variation_added'                => esc_js( __( '1 variation added', 'woocommerce' ) ),
+					'i18n_variations_added'               => esc_js( __( '%qty% variations added', 'woocommerce' ) ),
 					'i18n_remove_variation'               => esc_js( __( 'Are you sure you want to remove this variation?', 'woocommerce' ) ),
 					'i18n_scheduled_sale_start'           => esc_js( __( 'Sale start date (YYYY-MM-DD format or leave blank)', 'woocommerce' ) ),
 					'i18n_scheduled_sale_end'             => esc_js( __( 'Sale end date (YYYY-MM-DD format or leave blank)', 'woocommerce' ) ),
 					'i18n_edited_variations'              => esc_js( __( 'Save changes before changing page?', 'woocommerce' ) ),
-					'i18n_variation_count_single'         => esc_js( __( '%qty% variation', 'woocommerce' ) ),
+					'i18n_variation_count_single'         => esc_js( __( '1 variation', 'woocommerce' ) ),
 					'i18n_variation_count_plural'         => esc_js( __( '%qty% variations', 'woocommerce' ) ),
 					'variations_per_page'                 => absint( apply_filters( 'woocommerce_admin_meta_boxes_variations_per_page', 15 ) ),
 				);
@@ -415,7 +416,6 @@ if ( ! class_exists( 'WC_Admin_Assets', false ) ) :
 					'rounding_precision'                 => wc_get_rounding_precision(),
 					'tax_rounding_mode'                  => wc_get_tax_rounding_mode(),
 					'product_types'                      => array_unique( array_merge( array( 'simple', 'grouped', 'variable', 'external' ), array_keys( wc_get_product_types() ) ) ),
-					'has_local_attributes'               => ! empty( wc_get_attribute_taxonomies() ),
 					'i18n_download_permission_fail'      => __( 'Could not grant access - the user may already have permission for this file or billing email is not set. Ensure the billing email is set, and the order has been saved.', 'woocommerce' ),
 					'i18n_permission_revoke'             => __( 'Are you sure you want to revoke access to this download?', 'woocommerce' ),
 					'i18n_tax_rate_already_exists'       => __( 'You cannot add the same tax rate twice!', 'woocommerce' ),
@@ -434,6 +434,7 @@ if ( ! class_exists( 'WC_Admin_Assets', false ) ) :
 					/* translators: %1$s: maximum file size */
 					'i18n_product_image_tip'             => sprintf( __( 'For best results, upload JPEG or PNG files that are 1000 by 1000 pixels or larger. Maximum upload file size: %1$s.', 'woocommerce' ) , size_format( wp_max_upload_size() ) ),
 					'i18n_remove_used_attribute_confirmation_message' => __( 'If you remove this attribute, customers will no longer be able to purchase some variations of this product.', 'woocommerce' ),
+					'i18n_add_attribute_error_notice'    => __( 'Adding new attribute failed.', 'woocommerce' ),
 				);
 
 				wp_localize_script( 'wc-admin-meta-boxes', 'woocommerce_admin_meta_boxes', $params );

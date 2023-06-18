@@ -79,7 +79,7 @@ jQuery( function( $ ) {
 		}
 	};
 
-	// Show password visiblity hover icon on woocommerce forms
+	// Show password visibility hover icon on woocommerce forms
 	$( '.woocommerce form .woocommerce-Input[type="password"]' ).wrap( '<span class="password-input"></span>' );
 	// Add 'password-input' class to the password wrapper in checkout page.
 	$( '.woocommerce form input' ).filter(':password').parent('span').addClass('password-input');

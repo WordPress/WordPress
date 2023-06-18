@@ -2345,6 +2345,10 @@ a.reset_variations {
 
 				&:first-child {
 					border-top: 1px solid;
+
+					td.product-remove:first-child {
+						border-top: inherit;
+					}
 				}
 
 				&:last-child {
@@ -2384,6 +2388,8 @@ a.reset_variations {
 
 				.product-remove {
 					float: right;
+					position: relative;
+					z-index: 1;
 				}
 
 				.product-thumbnail {
@@ -3047,6 +3053,20 @@ a.reset_variations {
 
 	.button {
 		order: 2;
+	}
+}
+
+@media only screen and (max-width: 768px) {
+	.woocommerce-message,
+	.woocommerce-error li,
+	.woocommerce-info {
+		padding: 1rem 1.5rem;
+
+		a.button {
+			margin-left: 10px;
+			min-width: 100px;
+			padding: calc(0.70 * var(--button--padding-vertical)) calc(0.50 * var(--button--padding-horizontal));
+		}
 	}
 }
 

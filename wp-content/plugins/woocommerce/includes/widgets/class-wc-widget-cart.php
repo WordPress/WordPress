@@ -56,6 +56,8 @@ class WC_Widget_Cart extends WC_Widget {
 			return;
 		}
 
+		wp_enqueue_script( 'wc-cart-fragments' );
+
 		$hide_if_empty = empty( $instance['hide_if_empty'] ) ? 0 : 1;
 
 		if ( ! isset( $instance['title'] ) ) {

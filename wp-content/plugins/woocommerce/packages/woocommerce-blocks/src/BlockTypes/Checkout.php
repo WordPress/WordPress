@@ -1,7 +1,6 @@
 <?php
 namespace Automattic\WooCommerce\Blocks\BlockTypes;
 
-use Automattic\WooCommerce\Blocks\Package;
 use Automattic\WooCommerce\StoreApi\Utilities\LocalPickupUtils;
 
 /**
@@ -261,9 +260,7 @@ class Checkout extends AbstractBlock {
 		$this->asset_data_registry->register_page_id( isset( $attributes['cartPageId'] ) ? $attributes['cartPageId'] : 0 );
 
 		$pickup_location_settings = get_option( 'woocommerce_pickup_location_settings', [] );
-		$local_pickup_enabled     = wc_string_to_bool( $pickup_location_settings['enabled'] ?? 'no' );
-
-		$this->asset_data_registry->add( 'localPickupEnabled', $local_pickup_enabled, true );
+		$this->asset_data_registry->add( 'localPickupEnabled', wc_string_to_bool( $pickup_location_settings['enabled'] ?? 'no' ), true );
 
 		$is_block_editor = $this->is_block_editor();
 

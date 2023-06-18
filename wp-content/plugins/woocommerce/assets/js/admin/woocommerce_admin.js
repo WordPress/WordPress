@@ -665,4 +665,91 @@
 			);
 		}
 	} );
+
+	$( function() {
+		/**
+		 * Handles heartbeat integration of order locking when HPOS is enabled.
+		 */
+		var wc_order_lock = {
+			init: function() {
+				// Order screen.
+				this.$lock_dialog = $( '.woocommerce_page_wc-orders #post-lock-dialog.order-lock-dialog' );
+				if ( 0 !== this.$lock_dialog.length && 'undefined' !== typeof woocommerce_admin_meta_boxes ) {
+					$( document ).on( 'heartbeat-send', this.refresh_order_lock );
+					$( document ).on( 'heartbeat-tick', this.check_order_lock );
+				}
+
+				// Orders list table.
+				this.$list_table = $( '.woocommerce_page_wc-orders table.wc-orders-list-table' );
+				if ( 0 !== this.$list_table.length ) {
+					$( document ).on( 'heartbeat-send', this.send_orders_in_list );
+					$( document ).on( 'heartbeat-tick', this.check_orders_in_list );
+				}
+			},
+
+			refresh_order_lock: function( e, data ) {
+				data['wc-refresh-order-lock'] = woocommerce_admin_meta_boxes.post_id;
+			},
+
+			check_order_lock: function( e, data ) {
+				var lock_data = data['wc-refresh-order-lock'];
+
+				if ( ! lock_data || ! lock_data.error ) {
+					// No lock request in heartbeat or lock refreshed ok.
+					return;
+				}
+
+				if ( wc_order_lock.$lock_dialog.is( ':visible' ) ) {
+					return;
+				}
+
+				if ( lock_data.error.user_avatar_src ) {
+					wc_order_lock.$lock_dialog.find( '.post-locked-avatar' ).empty().append(
+						$(
+							'<img />',
+							{
+								'class': 'avatar avatar-64 photo',
+								width: 64,
+								height: 64,
+								alt: '',
+								src: lock_data.error.user_avatar_src,
+								srcset: lock_data.error.user_avatar_src_2x ? lock_data.error.user_avatar_src_2x + ' 2x' : undefined
+							}
+						)
+					);
+				}
+
+				wc_order_lock.$lock_dialog.find( '.currently-editing' ).text( lock_data.error.message );
+				wc_order_lock.$lock_dialog.show();
+				wc_order_lock.$lock_dialog.find( '.wp-tab-first' ).trigger( 'focus' );
+			},
+
+			send_orders_in_list: function( e, data ) {
+				data['wc-check-locked-orders'] = wc_order_lock.$list_table.find( 'tr input[name="order"]' ).map(
+					function() { return this.value; }
+				).get();
+			},
+
+			check_orders_in_list: function( e, data ) {
+				var locked_orders = data['wc-check-locked-orders'] || {};
+
+				wc_order_lock.$list_table.find( 'tr' ).each( function( i, tr ) {
+					var $tr      = $( tr );
+					var order_id = $tr.find( 'input[name="order"]' ).val();
+
+					if ( locked_orders[ order_id ] ) {
+						if ( ! $tr.hasClass( 'wp-locked' ) ) {
+							$tr.find( '.check-column checkbox' ).prop( 'checked', false );
+							$tr.addClass( 'wp-locked' );
+						}
+					} else {
+						$tr.removeClass( 'wp-locked' ).find( '.locked-info span' ).empty();
+					}
+				} );
+			}
+		};
+
+		wc_order_lock.init();
+	} );
+
 } )( jQuery, woocommerce_admin );

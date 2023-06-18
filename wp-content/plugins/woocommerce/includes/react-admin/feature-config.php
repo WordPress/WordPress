@@ -6,8 +6,9 @@ if ( ! function_exists( 'wc_admin_get_feature_config' ) ) {
 		return array(
 			'activity-panels' => true,
 			'analytics' => true,
-			'product-block-editor' => false,
+			'product-block-editor' => true,
 			'coupons' => true,
+			'core-profiler' => false,
 			'customer-effort-score-tracks' => true,
 			'import-products-task' => true,
 			'experimental-fashion-sample-products' => true,
@@ -33,6 +34,7 @@ if ( ! function_exists( 'wc_admin_get_feature_config' ) ) {
 			'woo-mobile-welcome' => true,
 			'wc-pay-promotion' => true,
 			'wc-pay-welcome-page' => true,
+			'async-product-editor-category-field' => false,
 		);
 	}
 }

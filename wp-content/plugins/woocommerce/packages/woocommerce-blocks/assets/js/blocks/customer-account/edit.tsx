@@ -20,7 +20,7 @@ const Edit = ( {
 }: BlockEditProps< Attributes > ) => {
 	const { className } = attributes;
 	const blockProps = useBlockProps( {
-		className: classNames( 'wc-block-customer-account', className ),
+		className: classNames( 'wc-block-editor-customer-account', className ),
 	} );
 
 	return (

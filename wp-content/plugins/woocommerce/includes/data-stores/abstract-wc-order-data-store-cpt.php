@@ -599,7 +599,7 @@ abstract class Abstract_WC_Order_Data_Store_CPT extends WC_Data_Store_WP impleme
 	}
 
 	/**
-	 * Helper method to update order metadata from intialized order object.
+	 * Helper method to update order metadata from initialized order object.
 	 *
 	 * @param WC_Abstract_Order $order Order object.
 	 */

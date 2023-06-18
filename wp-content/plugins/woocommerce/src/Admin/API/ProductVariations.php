@@ -129,7 +129,7 @@ class ProductVariations extends \WC_REST_Product_Variations_Controller {
 			unset( $args['s'] );
 		}
 
-		// Retreive variations without specifying a parent product.
+		// Retrieve variations without specifying a parent product.
 		if ( "/{$this->namespace}/variations" === $request->get_route() ) {
 			unset( $args['post_parent'] );
 		}
