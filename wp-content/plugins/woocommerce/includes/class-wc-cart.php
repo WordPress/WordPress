@@ -822,6 +822,11 @@ class WC_Cart extends WC_Legacy_Cart {
 				if ( $values['quantity'] > 0 ) {
 					$cross_sells = array_merge( $values['data']->get_cross_sell_ids(), $cross_sells );
 					$in_cart[]   = $values['product_id'];
+
+					// Add variations to the in cart array.
+					if ( $values['data']->is_type( 'variation' ) ) {
+						$in_cart[] = $values['variation_id'];
+					}
 				}
 			}
 		}

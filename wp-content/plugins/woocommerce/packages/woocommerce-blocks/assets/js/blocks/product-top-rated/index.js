@@ -5,7 +5,6 @@ import { __ } from '@wordpress/i18n';
 import { createBlock, registerBlockType } from '@wordpress/blocks';
 import { thumbUp } from '@woocommerce/icons';
 import { Icon } from '@wordpress/icons';
-import { without } from 'lodash';
 
 /**
  * Internal dependencies
@@ -44,7 +43,9 @@ registerBlockType( blockTypeName, {
 		from: [
 			{
 				type: 'block',
-				blocks: without( sharedAttributeBlockTypes, blockTypeName ),
+				blocks: sharedAttributeBlockTypes.filter(
+					( value ) => value !== blockTypeName
+				),
 				transform: ( attributes ) =>
 					createBlock( 'woocommerce/product-top-rated', attributes ),
 			},

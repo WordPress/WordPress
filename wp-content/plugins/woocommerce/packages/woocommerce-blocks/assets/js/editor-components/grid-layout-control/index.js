@@ -2,9 +2,19 @@
  * External dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { clamp } from 'lodash';
 import PropTypes from 'prop-types';
 import { RangeControl, ToggleControl } from '@wordpress/components';
+
+const clamp = ( number, boundOne, boundTwo ) => {
+	if ( ! boundTwo ) {
+		return Math.max( number, boundOne ) === boundOne ? number : boundOne;
+	} else if ( Math.min( number, boundOne ) === number ) {
+		return boundOne;
+	} else if ( Math.max( number, boundTwo ) === number ) {
+		return boundTwo;
+	}
+	return number;
+};
 
 /**
  * A combination of range controls for product grid layout settings.

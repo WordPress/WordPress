@@ -19,13 +19,14 @@ export const Edit = ( {
 	};
 	setAttributes: ( attributes: Record< string, unknown > ) => void;
 } ): JSX.Element => {
-	const blockProps = useBlockProps();
+	const blockProps = useBlockProps( {
+		className: 'wp-block-button aligncenter',
+	} );
 	const { startShoppingButtonLabel } = attributes;
 
 	return (
-		<div className="wp-block-button aligncenter">
+		<div { ...blockProps }>
 			<EditableButton
-				{ ...blockProps }
 				className="wc-block-mini-cart__shopping-button"
 				value={ startShoppingButtonLabel }
 				placeholder={ defaultStartShoppingButtonLabel }

@@ -58,9 +58,14 @@
 	}
 }
 
-.wc-block-single-product {
+.wp-block-woocommerce-single-product {
 	.wc-block-components-product-rating__stars {
 		margin: 0;
+	}
+	.wc-block-components-product-rating__container {
+		display: flex;
+		align-items: center;
+		column-gap: $gap-smaller;
 	}
 }
 

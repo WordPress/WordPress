@@ -6,7 +6,7 @@ import {
 	AttributeQuery,
 	AttributeTerm,
 } from '@woocommerce/types';
-import { sortBy } from 'lodash';
+import { sort } from 'fast-sort';
 
 /**
  * Given a query object, removes an attribute filter by a single slug.
@@ -51,7 +51,7 @@ export const removeAttributeFilterBySlug = (
 		returnQuery.push( currentQuery );
 	}
 
-	setQuery( sortBy( returnQuery, 'attribute' ) );
+	setQuery( sort( returnQuery ).asc( 'attribute' ) );
 };
 
 /**
@@ -88,7 +88,7 @@ export const updateAttributeFilter = (
 			operator,
 			slug: attributeTerms.map( ( { slug } ) => slug ).sort(),
 		} );
-		setQuery( sortBy( returnQuery, 'attribute' ) );
+		setQuery( sort( returnQuery ).asc( 'attribute' ) );
 	}
 
 	return returnQuery;

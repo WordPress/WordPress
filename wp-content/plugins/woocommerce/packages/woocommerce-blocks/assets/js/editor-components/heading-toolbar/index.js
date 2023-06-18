@@ -1,7 +1,6 @@
 /**
  * External dependencies
  */
-import { range } from 'lodash';
 import { __, sprintf } from '@wordpress/i18n';
 import { Component } from '@wordpress/element';
 import { ToolbarGroup } from '@wordpress/components';
@@ -40,11 +39,16 @@ class HeadingToolbar extends Component {
 			onChange,
 		} = this.props;
 
+		const levels = Array.from(
+			{ length: maxLevel - minLevel + 1 },
+			( _, i ) => i + minLevel
+		);
+
 		return (
 			<ToolbarGroup
 				isCollapsed={ isCollapsed }
 				icon={ <HeadingLevelIcon level={ selectedLevel } /> }
-				controls={ range( minLevel, maxLevel ).map( ( index ) =>
+				controls={ levels.map( ( index ) =>
 					this.createLevelControl( index, selectedLevel, onChange )
 				) }
 			/>

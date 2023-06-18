@@ -180,13 +180,17 @@ function wc_print_notices( $return = false ) {
  * @param string $message The text to display in the notice.
  * @param string $notice_type Optional. The singular name of the notice type - either error, success or notice.
  * @param array  $data        Optional notice data. @since 3.9.0.
+ * @param bool   $return      true to return rather than echo. @since 7.7.0.
  */
-function wc_print_notice( $message, $notice_type = 'success', $data = array() ) {
+function wc_print_notice( $message, $notice_type = 'success', $data = array(), $return = false ) {
 	if ( 'success' === $notice_type ) {
 		$message = apply_filters( 'woocommerce_add_message', $message );
 	}
 
 	$message = apply_filters( 'woocommerce_add_' . $notice_type, $message );
+
+	// Buffer output.
+	ob_start();
 
 	wc_get_template(
 		"notices/{$notice_type}.php",
@@ -200,6 +204,14 @@ function wc_print_notice( $message, $notice_type = 'success', $data = array() ) 
 			),
 		)
 	);
+
+	$notice = wc_kses_notice( ob_get_clean() );
+
+	if ( $return ) {
+		return $notice;
+	}
+
+	echo $notice; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }
 
 /**

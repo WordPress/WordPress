@@ -17,6 +17,7 @@
 
 		// Number of import successes/failures.
 		this.imported = 0;
+		this.imported_variations = 0;
 		this.failed   = 0;
 		this.updated  = 0;
 		this.skipped  = 0;
@@ -54,6 +55,7 @@
 				if ( response.success ) {
 					$this.position  = response.data.position;
 					$this.imported += response.data.imported;
+					$this.imported_variations += response.data.imported_variations;
 					$this.failed   += response.data.failed;
 					$this.updated  += response.data.updated;
 					$this.skipped  += response.data.skipped;
@@ -64,6 +66,8 @@
 						window.location = response.data.url +
 							'&products-imported=' +
 							parseInt( $this.imported, 10 ) +
+							'&products-imported-variations=' +
+							parseInt( $this.imported_variations, 10 ) +
 							'&products-failed=' +
 							parseInt( $this.failed, 10 ) +
 							'&products-updated=' +

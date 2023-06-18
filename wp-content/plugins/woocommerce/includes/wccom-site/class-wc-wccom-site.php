@@ -223,6 +223,7 @@ class WC_WCCOM_Site {
 		require_once WC_ABSPATH . 'includes/wccom-site/rest-api/class-wc-rest-wccom-site-installer-error.php';
 		require_once WC_ABSPATH . 'includes/wccom-site/rest-api/endpoints/class-wc-rest-wccom-site-installer-controller.php';
 		require_once WC_ABSPATH . 'includes/wccom-site/rest-api/endpoints/class-wc-rest-wccom-site-installer-controller-v2.php';
+		require_once WC_ABSPATH . 'includes/wccom-site/rest-api/endpoints/class-wc-rest-wccom-site-ssr-controller.php';
 
 		require_once WC_ABSPATH . 'includes/wccom-site/installation/class-wc-wccom-site-installation-state.php';
 		require_once WC_ABSPATH . 'includes/wccom-site/installation/class-wc-wccom-site-installation-state-storage.php';
@@ -237,6 +238,7 @@ class WC_WCCOM_Site {
 
 		$namespaces['wccom-site/v1'] = array(
 			'installer' => 'WC_REST_WCCOM_Site_Installer_Controller',
+			'ssr'       => 'WC_REST_WCCOM_Site_SSR_Controller',
 		);
 
 		$namespaces['wccom-site/v2'] = array(

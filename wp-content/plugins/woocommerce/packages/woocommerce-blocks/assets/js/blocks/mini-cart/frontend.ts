@@ -111,7 +111,7 @@ window.addEventListener( 'load', () => {
 			document.body.removeEventListener(
 				'wc-blocks_added_to_cart',
 				// eslint-disable-next-line @typescript-eslint/no-use-before-define
-				openDrawerWithRefresh
+				funcOnAddToCart
 			);
 			document.body.removeEventListener(
 				'wc-blocks_removed_from_cart',
@@ -150,12 +150,17 @@ window.addEventListener( 'load', () => {
 		miniCartButton.addEventListener( 'focus', loadScripts );
 		miniCartButton.addEventListener( 'click', openDrawer );
 
+		const funcOnAddToCart =
+			miniCartBlock.dataset.addToCartBehaviour === 'open_drawer'
+				? openDrawerWithRefresh
+				: loadContentsWithRefresh;
+
 		// There might be more than one Mini Cart block in the page. Make sure
 		// only one opens when adding a product to the cart.
 		if ( i === 0 ) {
 			document.body.addEventListener(
 				'wc-blocks_added_to_cart',
-				openDrawerWithRefresh
+				funcOnAddToCart
 			);
 			document.body.addEventListener(
 				'wc-blocks_removed_from_cart',

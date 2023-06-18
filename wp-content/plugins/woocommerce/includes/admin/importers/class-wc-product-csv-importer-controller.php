@@ -461,12 +461,13 @@ class WC_Product_CSV_Importer_Controller {
 	 */
 	protected function done() {
 		check_admin_referer( 'woocommerce-csv-importer' );
-		$imported  = isset( $_GET['products-imported'] ) ? absint( $_GET['products-imported'] ) : 0;
-		$updated   = isset( $_GET['products-updated'] ) ? absint( $_GET['products-updated'] ) : 0;
-		$failed    = isset( $_GET['products-failed'] ) ? absint( $_GET['products-failed'] ) : 0;
-		$skipped   = isset( $_GET['products-skipped'] ) ? absint( $_GET['products-skipped'] ) : 0;
-		$file_name = isset( $_GET['file-name'] ) ? sanitize_text_field( wp_unslash( $_GET['file-name'] ) ) : '';
-		$errors    = array_filter( (array) get_user_option( 'product_import_error_log' ) );
+		$imported            = isset( $_GET['products-imported'] ) ? absint( $_GET['products-imported'] ) : 0;
+		$imported_variations = isset( $_GET['products-imported-variations'] ) ? absint( $_GET['products-imported-variations'] ) : 0;
+		$updated             = isset( $_GET['products-updated'] ) ? absint( $_GET['products-updated'] ) : 0;
+		$failed              = isset( $_GET['products-failed'] ) ? absint( $_GET['products-failed'] ) : 0;
+		$skipped             = isset( $_GET['products-skipped'] ) ? absint( $_GET['products-skipped'] ) : 0;
+		$file_name           = isset( $_GET['file-name'] ) ? sanitize_text_field( wp_unslash( $_GET['file-name'] ) ) : '';
+		$errors              = array_filter( (array) get_user_option( 'product_import_error_log' ) );
 
 		include_once dirname( __FILE__ ) . '/views/html-csv-import-done.php';
 	}

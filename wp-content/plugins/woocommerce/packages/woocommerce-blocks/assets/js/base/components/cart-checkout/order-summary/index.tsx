@@ -35,7 +35,6 @@ const OrderSummary = ( {
 					{ __( 'Order summary', 'woo-gutenberg-products-block' ) }
 				</span>
 			}
-			titleTag="h2"
 		>
 			<div className="wc-block-components-order-summary__content">
 				{ cartItems.map( ( cartItem ) => {

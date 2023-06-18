@@ -18,7 +18,7 @@
 			$table             = $( '.wc_tax_rates' ),
 			$tbody             = $( '#rates' ),
 			$save_button       = $( ':input[name="save"]' ),
-			$pagination        = $( '#rates-pagination' ),
+			$pagination        = $( '#rates-pagination, #rates-bottom-pagination' ),
 			$search_field      = $( '#rates-search .wc-tax-rates-search-field' ),
 			$submit            = $( '.submit .button-primary[type=submit]' ),
 			WCTaxTableModelConstructor = Backbone.Model.extend({

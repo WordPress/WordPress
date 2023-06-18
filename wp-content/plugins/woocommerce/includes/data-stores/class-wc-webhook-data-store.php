@@ -282,6 +282,7 @@ class WC_Webhook_Data_Store implements WC_Webhook_Data_Store_Interface {
 		$exclude         = '';
 		$date_created    = '';
 		$date_modified   = '';
+		$user_id         = '';
 
 		if ( ! empty( $args['include'] ) ) {
 			$args['include'] = implode( ',', wp_parse_id_list( $args['include'] ) );
@@ -291,6 +292,10 @@ class WC_Webhook_Data_Store implements WC_Webhook_Data_Store_Interface {
 		if ( ! empty( $args['exclude'] ) ) {
 			$args['exclude'] = implode( ',', wp_parse_id_list( $args['exclude'] ) );
 			$exclude         = 'AND webhook_id NOT IN (' . $args['exclude'] . ')';
+		}
+
+		if ( ! empty( $args['user_id'] ) ) {
+			$user_id = $wpdb->prepare( 'AND `user_id` = %d', absint( $args['user_id'] ) );
 		}
 
 		if ( ! empty( $args['after'] ) || ! empty( $args['before'] ) ) {
@@ -326,6 +331,7 @@ class WC_Webhook_Data_Store implements WC_Webhook_Data_Store_Interface {
 				{$exclude}
 				{$date_created}
 				{$date_modified}
+				{$user_id}
 				{$order}
 				{$limit}
 				{$offset}"
@@ -349,6 +355,7 @@ class WC_Webhook_Data_Store implements WC_Webhook_Data_Store_Interface {
 				{$exclude}
 				{$date_created}
 				{$date_modified}
+				{$user_id}
 				{$order}
 				{$limit}
 				{$offset}"

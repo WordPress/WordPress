@@ -72,6 +72,8 @@ final class ReserveStock {
 			return;
 		}
 
+		$held_stock_notes = array();
+
 		try {
 			$items = array_filter(
 				$order->get_items(),
@@ -113,6 +115,11 @@ final class ReserveStock {
 				$item_quantity = apply_filters( 'woocommerce_order_item_quantity', $item->get_quantity(), $order, $item );
 
 				$rows[ $managed_by_id ] = isset( $rows[ $managed_by_id ] ) ? $rows[ $managed_by_id ] + $item_quantity : $item_quantity;
+
+				if ( count( $held_stock_notes ) < 5 ) {
+					// translators: %1$s is a product's formatted name, %2$d: is the quantity of said product to which the stock hold applied.
+					$held_stock_notes[] = sprintf( _x( '- %1$s &times; %2$d', 'held stock note', 'woocommerce' ), $product->get_formatted_name(), $rows[ $managed_by_id ] );
+				}
 			}
 
 			if ( ! empty( $rows ) ) {
@@ -123,6 +130,27 @@ final class ReserveStock {
 		} catch ( ReserveStockException $e ) {
 			$this->release_stock_for_order( $order );
 			throw $e;
+		}
+
+		// Add order note after successfully holding the stock.
+		if ( ! empty( $held_stock_notes ) ) {
+			$remaining_count = count( $rows ) - count( $held_stock_notes );
+			if ( $remaining_count > 0 ) {
+				$held_stock_notes[] = sprintf(
+					// translators: %d is the remaining order items count.
+					_nx( '- ...and %d more item.', '- ... and %d more items.', $remaining_count, 'held stock note', 'woocommerce' ),
+					$remaining_count
+				);
+			}
+
+			$order->add_order_note(
+				sprintf(
+					// translators: %1$s is a time in minutes, %2$s is a list of products and quantities.
+					_x( 'Stock hold of %1$s minutes applied to: %2$s', 'held stock note', 'woocommerce' ),
+					$minutes,
+					'<br>' . implode( '<br>', $held_stock_notes )
+				)
+			);
 		}
 	}
 

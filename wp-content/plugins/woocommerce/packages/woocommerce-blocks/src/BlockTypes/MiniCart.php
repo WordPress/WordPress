@@ -282,6 +282,8 @@ class MiniCart extends AbstractBlock {
 				'products-table-frontend',
 				'cart-button-frontend',
 				'checkout-button-frontend',
+				'title-label-frontend',
+				'title-items-counter-frontend',
 			);
 		}
 		foreach ( $inner_blocks_frontend_scripts as $inner_block_frontend_script ) {
@@ -469,10 +471,15 @@ class MiniCart extends AbstractBlock {
 
 		$template_part_contents = '';
 
-		// Determine if we need to load the template part from the theme, or WooCommerce in that order.
-		$theme_has_mini_cart   = BlockTemplateUtils::theme_has_template_part( 'mini-cart' );
-		$template_slug_to_load = $theme_has_mini_cart ? get_stylesheet() : BlockTemplateUtils::PLUGIN_SLUG;
-		$template_part         = BlockTemplateUtils::get_block_template( $template_slug_to_load . '//mini-cart', 'wp_template_part' );
+		// Determine if we need to load the template part from the DB, the theme or WooCommerce in that order.
+		$templates_from_db = BlockTemplateUtils::get_block_templates_from_db( array( 'mini-cart' ), 'wp_template_part' );
+		if ( count( $templates_from_db ) > 0 ) {
+			$template_slug_to_load = $templates_from_db[0]->theme;
+		} else {
+			$theme_has_mini_cart   = BlockTemplateUtils::theme_has_template_part( 'mini-cart' );
+			$template_slug_to_load = $theme_has_mini_cart ? get_stylesheet() : BlockTemplateUtils::PLUGIN_SLUG;
+		}
+		$template_part = BlockTemplateUtils::get_block_template( $template_slug_to_load . '//mini-cart', 'wp_template_part' );
 
 		if ( $template_part && ! empty( $template_part->content ) ) {
 			$template_part_contents = do_blocks( $template_part->content );

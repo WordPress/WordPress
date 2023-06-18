@@ -6,7 +6,9 @@
 	"description": "Display a single product.",
 	"category": "woocommerce",
 	"keywords": [ "WooCommerce" ],
-	"supports": {},
+	"supports": {
+		"align": [ "wide", "full" ]
+	},
 	"attributes": {
 		"isPreview": {
 		   "type": "boolean",
@@ -16,6 +18,11 @@
 		   "type": "number"
 		}
 	 },
+	 "example": {
+		"attributes": {
+		  "isPreview": true
+		}
+	  },
 	"usesContext": [ "postId", "postType", "queryId" ],
 	"textdomain": "woocommerce",
 	"apiVersion": 2,

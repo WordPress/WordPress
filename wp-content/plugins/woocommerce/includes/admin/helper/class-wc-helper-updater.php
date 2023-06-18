@@ -201,7 +201,7 @@ class WC_Helper_Updater {
 	}
 
 	/**
-	 * Get translations updates informations.
+	 * Get translations updates information.
 	 *
 	 * Scans through all subscriptions for the connected user, as well
 	 * as all Woo extensions without a subscription, and obtains update
@@ -226,7 +226,7 @@ class WC_Helper_Updater {
 		$locales = apply_filters( 'plugins_update_check_locales', $locales );
 		$locales = array_unique( $locales );
 
-		// No locales, the respone will be empty, we can return now.
+		// No locales, the response will be empty, we can return now.
 		if ( empty( $locales ) ) {
 			return array();
 		}

@@ -2,7 +2,7 @@
  * External dependencies
  */
 import type { Block, BlockEditProps } from '@wordpress/blocks';
-import { isNumber } from 'lodash';
+import { isNumber } from '@woocommerce/types';
 
 export type EditorBlock< T > = Block< T > & BlockEditProps< T >;
 

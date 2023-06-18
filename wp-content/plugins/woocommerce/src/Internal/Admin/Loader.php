@@ -302,7 +302,7 @@ class Loader {
 	}
 
 	/**
-	 * Hooks extra neccessary data into the component settings array already set in WooCommerce core.
+	 * Hooks extra necessary data into the component settings array already set in WooCommerce core.
 	 *
 	 * @param array $settings Array of component settings.
 	 * @return array Array of component settings.

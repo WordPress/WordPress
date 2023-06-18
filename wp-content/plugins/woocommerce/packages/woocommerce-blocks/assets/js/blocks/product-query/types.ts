@@ -80,6 +80,7 @@ export interface QueryBlockAttributes {
 export interface QueryBlockQuery {
 	author?: string;
 	exclude?: string[];
+	include?: string[];
 	inherit: boolean;
 	offset?: number;
 	order: 'asc' | 'desc';

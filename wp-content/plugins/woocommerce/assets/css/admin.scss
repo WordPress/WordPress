@@ -1071,26 +1071,37 @@ $default-line-height: 18px;
 		}
 	}
 
-	.add-variation-container {
-		@extend %container-defaults;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		gap: 24px;
-		position: relative;
-
-		.arrow-image-wrapper {
-			position: absolute;
-			top: 10px;
-			left: 87px;
+	#variable_product_options_inner {
+		> .toolbar:not(.expand-close-hidden) {
+			border-bottom: 1px solid #eee;
 		}
-
-		p {
-			@extend %centered-text;
-		}
-
-		&.hidden {
+		.add-variation-container {
 			display: none;
+		}
+
+		&.no-variations {
+			> .toolbar:not(.expand-close-hidden) {
+				border-bottom: none;
+			}
+			.add-variation-container {
+				display: flex;
+				@extend %container-defaults;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				gap: 24px;
+				position: relative;
+
+				.arrow-image-wrapper {
+					position: absolute;
+					top: 10px;
+					left: 87px;
+				}
+
+				p {
+					@extend %centered-text;
+				}
+			}
 		}
 	}
 }
@@ -1130,7 +1141,6 @@ $default-line-height: 18px;
 	}
 	.toolbar-top {
 		.button,
-		.attribute_taxonomy,
 		.select2-container {
 			margin: 1px;
 		}
@@ -2789,6 +2799,10 @@ ul.wc_coupon_list_block {
 			padding: 1em 1em 1em 1em !important;
 			vertical-align: middle;
 
+			.locked-indicator {
+				margin-left: 0;
+			}
+
 			input {
 				vertical-align: text-top;
 				margin: 1px 0;
@@ -2867,6 +2881,14 @@ ul.wc_coupon_list_block {
 				background-size: 71%;
 			}
 		}
+	}
+}
+
+.woocommerce_page_wc-orders .wp-list-table .locked-indicator-icon {
+	margin-left: -2px;
+
+	&:before {
+		vertical-align: top;
 	}
 }
 
@@ -5348,11 +5370,19 @@ img.help_tip {
 		}
 	}
 
-	.description {
+	.description,
+	input[type="checkbox"] + .description,
+	input[type="radio"] + .description {
 		padding: 0;
 		margin: 0 0 0 7px;
 		clear: none;
 		display: inline;
+	}
+
+	input:not([type="checkbox"]):not([type="radio"]) + .description {
+		display: block;
+		clear: both;
+		margin-left: 0;
 	}
 
 	.description-block {
@@ -5497,13 +5527,15 @@ img.help_tip {
   * WooCommerce meta boxes
   */
 .wc-metaboxes-wrapper {
+	:not(#variable_product_options_inner) {
+		.toolbar:not(.expand-close-hidden) {
+		  border-bottom: 1px solid #eee;
+		}
+	}
 	.toolbar {
 		margin: 0 !important;
 		border-top: 1px solid white;
 		padding: 9px 12px !important;
-		&:not(.expand-close-hidden) {
-			border-bottom: 1px solid #eee;
-		}
 
 		&:first-child {
 			border-top: 0;

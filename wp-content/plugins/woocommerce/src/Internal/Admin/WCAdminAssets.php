@@ -238,7 +238,7 @@ class WCAdminAssets {
 	}
 
 	/**
-	 * Registers all the neccessary scripts and styles to show the admin experience.
+	 * Registers all the necessary scripts and styles to show the admin experience.
 	 */
 	public function register_scripts() {
 		if ( ! function_exists( 'wp_set_script_translations' ) ) {
@@ -278,6 +278,7 @@ class WCAdminAssets {
 			'wc-date',
 			'wc-components',
 			'wc-customer-effort-score',
+			'wc-experimental',
 			WC_ADMIN_APP,
 		);
 

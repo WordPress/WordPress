@@ -142,7 +142,7 @@ class Products extends \WC_REST_Products_Controller {
 	/**
 	 * Check whether the request is for products low in stock.
 	 *
-	 * It matches requests with paramaters:
+	 * It matches requests with parameters:
 	 *
 	 * low_in_stock = true
 	 * page = 1

@@ -298,7 +298,8 @@ $tt2-gray: #f7f7f7;
 				}
 			}
 
-			figure.woocommerce-product-gallery__wrapper {
+			figure.woocommerce-product-gallery__wrapper,
+			div.woocommerce-product-gallery__wrapper {
 				margin: 0;
 			}
 
@@ -312,7 +313,8 @@ $tt2-gray: #f7f7f7;
 				margin: 0;
 			}
 
-			figure.woocommerce-product-gallery__wrapper {
+			figure.woocommerce-product-gallery__wrapper,
+			div.woocommerce-product-gallery__wrapper {
 				margin: 0;
 			}
 
@@ -374,6 +376,10 @@ $tt2-gray: #f7f7f7;
 			list-style: none;
 			padding-left: 0;
 
+			li.review {
+				margin-bottom: var(--wp--style--block-gap);
+			}
+
 			img.avatar {
 				float: left;
 			}
@@ -383,7 +389,7 @@ $tt2-gray: #f7f7f7;
 			}
 
 			.comment-text {
-				display: inline-block;
+				display: flow-root;
 				padding-left: var(--wp--style--block-gap);
 
 				.star-rating {

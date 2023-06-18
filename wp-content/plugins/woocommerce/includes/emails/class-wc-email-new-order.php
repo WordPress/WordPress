@@ -166,6 +166,23 @@ if ( ! class_exists( 'WC_Email_New_Order' ) ) :
 		}
 
 		/**
+		 * Return content from the additional_content field.
+		 *
+		 * Displayed above the footer.
+		 *
+		 * @since 3.7.0
+		 * @return string
+		 */
+		public function get_additional_content() {
+			/**
+			 * This filter is documented in ./class-wc-email.php
+			 *
+			 * @since 7.8.0
+			 */
+			return apply_filters( 'woocommerce_email_additional_content_' . $this->id, $this->format_string( $this->get_option( 'additional_content' ) ), $this->object, $this );
+		}
+
+		/**
 		 * Initialise settings form fields.
 		 */
 		public function init_form_fields() {

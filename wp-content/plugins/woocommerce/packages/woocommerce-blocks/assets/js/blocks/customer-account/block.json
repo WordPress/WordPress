@@ -13,6 +13,9 @@
 		"typography": {
 			"fontSize": true,
 			"__experimentalFontFamily": true
+		},
+		"spacing": {
+			"margin": true
 		}
 	},
 	"attributes": {

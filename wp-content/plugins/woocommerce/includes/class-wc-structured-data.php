@@ -257,9 +257,15 @@ class WC_Structured_Data {
 				);
 			}
 
+			if ( $product->is_in_stock() ) {
+				$stock_status_schema = ( 'onbackorder' === $product->get_stock_status() ) ? 'BackOrder' : 'InStock';
+			} else {
+				$stock_status_schema = 'OutOfStock';
+			}
+
 			$markup_offer += array(
 				'priceCurrency' => $currency,
-				'availability'  => 'http://schema.org/' . ( $product->is_in_stock() ? 'InStock' : 'OutOfStock' ),
+				'availability'  => 'http://schema.org/' . $stock_status_schema,
 				'url'           => $permalink,
 				'seller'        => array(
 					'@type' => 'Organization',

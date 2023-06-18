@@ -10,6 +10,11 @@ namespace Automattic\WooCommerce\Admin\API;
 defined( 'ABSPATH' ) || exit;
 
 use Automattic\WooCommerce\Internal\Admin\RemoteFreeExtensions\Init as RemoteFreeExtensions;
+use WC_REST_Data_Controller;
+use WP_Error;
+use WP_REST_Request;
+use WP_REST_Response;
+use WP_REST_Server;
 
 /**
  * Onboarding Payments Controller.
@@ -17,7 +22,7 @@ use Automattic\WooCommerce\Internal\Admin\RemoteFreeExtensions\Init as RemoteFre
  * @internal
  * @extends WC_REST_Data_Controller
  */
-class OnboardingFreeExtensions extends \WC_REST_Data_Controller {
+class OnboardingFreeExtensions extends WC_REST_Data_Controller {
 
 	/**
 	 * Endpoint namespace.
@@ -42,7 +47,7 @@ class OnboardingFreeExtensions extends \WC_REST_Data_Controller {
 			'/' . $this->rest_base,
 			array(
 				array(
-					'methods'             => \WP_REST_Server::READABLE,
+					'methods'             => WP_REST_Server::READABLE,
 					'callback'            => array( $this, 'get_available_extensions' ),
 					'permission_callback' => array( $this, 'get_items_permissions_check' ),
 				),
@@ -59,7 +64,7 @@ class OnboardingFreeExtensions extends \WC_REST_Data_Controller {
 	 */
 	public function get_items_permissions_check( $request ) {
 		if ( ! wc_rest_check_manager_permissions( 'settings', 'read' ) ) {
-			return new \WP_Error( 'woocommerce_rest_cannot_view', __( 'Sorry, you cannot list resources.', 'woocommerce' ), array( 'status' => rest_authorization_required_code() ) );
+			return new WP_Error( 'woocommerce_rest_cannot_view', __( 'Sorry, you cannot list resources.', 'woocommerce' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		return true;
@@ -68,12 +73,29 @@ class OnboardingFreeExtensions extends \WC_REST_Data_Controller {
 	/**
 	 * Return available payment methods.
 	 *
-	 * @param \WP_REST_Request $request Request data.
+	 * @param WP_REST_Request $request Request data.
 	 *
-	 * @return \WP_Error|\WP_REST_Response
+	 * @return WP_Error|WP_REST_Response
 	 */
 	public function get_available_extensions( $request ) {
-		return RemoteFreeExtensions::get_extensions();
+		$extensions = RemoteFreeExtensions::get_extensions();
+		/**
+		* Remove Jetpack when woocommerce_suggest_jetpack is false.
+		 *
+		 * @since 7.8
+		*/
+		if ( false === apply_filters( 'woocommerce_suggest_jetpack', true ) ) {
+			foreach ( $extensions as &$extension ) {
+				$extension['plugins'] = array_filter(
+					$extension['plugins'],
+					function( $plugin ) {
+						return 'jetpack' !== $plugin->key;
+					}
+				);
+			}
+		}
+
+		return new WP_REST_Response( $extensions );
 	}
 
 }

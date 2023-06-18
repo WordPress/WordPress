@@ -182,7 +182,7 @@ final class AssetsController {
 			$this->api->get_block_asset_build_path( $filename )
 		);
 		$resources   = array_merge(
-			[ add_query_arg( 'ver', $script_data['version'], $script_data['src'] ) ],
+			[ esc_url( add_query_arg( 'ver', $script_data['version'], $script_data['src'] ) ) ],
 			$this->get_script_dependency_src_array( $script_data['dependencies'] )
 		);
 		return array_map(
@@ -208,7 +208,7 @@ final class AssetsController {
 			$dependencies,
 			function( $src, $handle ) use ( $wp_scripts ) {
 				if ( isset( $wp_scripts->registered[ $handle ] ) ) {
-					$src[] = add_query_arg( 'ver', $wp_scripts->registered[ $handle ]->ver, $this->get_absolute_url( $wp_scripts->registered[ $handle ]->src ) );
+					$src[] = esc_url( add_query_arg( 'ver', $wp_scripts->registered[ $handle ]->ver, $this->get_absolute_url( $wp_scripts->registered[ $handle ]->src ) ) );
 					$src   = array_merge( $src, $this->get_script_dependency_src_array( $wp_scripts->registered[ $handle ]->deps ) );
 				}
 				return $src;

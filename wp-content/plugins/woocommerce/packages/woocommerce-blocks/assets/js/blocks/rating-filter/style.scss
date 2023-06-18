@@ -56,6 +56,7 @@
 	}
 
 	.wc-blocks-components-form-token-field-wrapper .components-form-token-field__input-container {
+		@include reset-color();
 		@include reset-typography();
 		border: 0;
 		padding: $gap-smaller;

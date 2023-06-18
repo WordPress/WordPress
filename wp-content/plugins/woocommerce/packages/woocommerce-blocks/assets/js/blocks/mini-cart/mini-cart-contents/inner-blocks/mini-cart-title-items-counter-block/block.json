@@ -1,0 +1,29 @@
+{
+	"name": "woocommerce/mini-cart-title-items-counter-block",
+	"version": "1.0.0",
+	"title": "Mini Cart Title Items Counter",
+	"description": "Block that displays the items counter part of the Mini Cart Title block.",
+	"category": "woocommerce",
+	"supports": {
+		"align": false,
+		"html": false,
+		"multiple": false,
+		"reusable": false,
+		"inserter": false,
+		"lock": false,
+		"color": {
+			"text": true,
+			"background": true
+		},
+		"typography": {
+			"fontSize": true
+		},
+		"spacing": {
+			"padding": true
+		}
+	},
+	"parent": [ "woocommerce/mini-cart-title-block" ],
+	"textdomain": "woocommerce",
+	"apiVersion": 2,
+	"$schema": "https://schemas.wp.org/trunk/block.json"
+}

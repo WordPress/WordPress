@@ -477,7 +477,7 @@ jQuery( function( $ ) {
 
 			// Trigger a handler to let gateways manipulate the checkout if needed
 			// eslint-disable-next-line max-len
-			if ( $form.triggerHandler( 'checkout_place_order' ) !== false && $form.triggerHandler( 'checkout_place_order_' + wc_checkout_form.get_payment_method() ) !== false ) {
+			if ( $form.triggerHandler( 'checkout_place_order', [ wc_checkout_form ] ) !== false && $form.triggerHandler( 'checkout_place_order_' + wc_checkout_form.get_payment_method(), [ wc_checkout_form ] ) !== false ) {
 
 				$form.addClass( 'processing' );
 
@@ -525,7 +525,7 @@ jQuery( function( $ ) {
 						wc_checkout_form.detachUnloadEventsOnSubmit();
 
 						try {
-							if ( 'success' === result.result && $form.triggerHandler( 'checkout_place_order_success', result ) !== false ) {
+							if ( 'success' === result.result && $form.triggerHandler( 'checkout_place_order_success', [ result, wc_checkout_form ] ) !== false ) {
 								if ( -1 === result.redirect.indexOf( 'https://' ) || -1 === result.redirect.indexOf( 'http://' ) ) {
 									window.location = result.redirect;
 								} else {

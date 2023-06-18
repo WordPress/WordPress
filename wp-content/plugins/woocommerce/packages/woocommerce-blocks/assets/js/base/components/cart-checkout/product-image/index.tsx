@@ -4,11 +4,6 @@
 import { decodeEntities } from '@wordpress/html-entities';
 import { PLACEHOLDER_IMG_SRC } from '@woocommerce/settings';
 
-/**
- * Internal dependencies
- */
-import './style.scss';
-
 interface ProductImageProps {
 	image: { alt?: string; thumbnail?: string };
 	fallbackAlt: string;
@@ -37,13 +32,7 @@ const ProductImage = ( {
 				alt: '',
 		  };
 
-	return (
-		<img
-			className="wc-block-components-product-image"
-			{ ...imageProps }
-			alt={ imageProps.alt }
-		/>
-	);
+	return <img { ...imageProps } alt={ imageProps.alt } />;
 };
 
 export default ProductImage;

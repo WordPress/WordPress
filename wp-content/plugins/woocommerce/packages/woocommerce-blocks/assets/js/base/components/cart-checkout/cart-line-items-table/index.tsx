@@ -11,6 +11,7 @@ import type { RefObject } from 'react';
  * Internal dependencies
  */
 import CartLineItemRow from './cart-line-item-row';
+import './style.scss';
 
 const placeholderRows = [ ...Array( 3 ) ].map( ( _x, i ) => (
 	<CartLineItemRow lineItem={ {} } key={ i } />

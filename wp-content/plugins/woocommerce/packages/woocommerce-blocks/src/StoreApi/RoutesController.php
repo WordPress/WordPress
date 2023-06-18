@@ -57,6 +57,7 @@ class RoutesController {
 				Routes\V1\ProductTags::IDENTIFIER        => Routes\V1\ProductTags::class,
 				Routes\V1\Products::IDENTIFIER           => Routes\V1\Products::class,
 				Routes\V1\ProductsById::IDENTIFIER       => Routes\V1\ProductsById::class,
+				Routes\V1\ProductsBySlug::IDENTIFIER     => Routes\V1\ProductsBySlug::class,
 			],
 		];
 	}

@@ -1,12 +1,12 @@
-.wc-block-customer-account__icon-style-toggle {
+.wc-block-editor-customer-account {
+	padding: em($gap-smaller) em($gap-smaller);
+}
+
+.wc-block-editor-customer-account__icon-style-toggle {
 	width: 100%;
 }
 
 /* In sidebar without tabs (WP <=6.1) */
 .block-editor-block-card + div > .wc-block-editor-customer-account__link {
 	padding: 0 $gap $gap 52px;
-}
-/* In tabbed sidebar (ie: WP >=6.2) */
-.wc-block-editor-customer-account__link {
-	padding: $gap;
 }

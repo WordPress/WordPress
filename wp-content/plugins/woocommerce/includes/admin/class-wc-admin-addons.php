@@ -1119,7 +1119,7 @@ class WC_Admin_Addons {
 	/**
 	 * Install WooCommerce Payments from the Extensions screens.
 	 *
-	 * @param string $section Optional. Extenstions tab.
+	 * @param string $section Optional. Extensions tab.
 	 *
 	 * @return void
 	 */

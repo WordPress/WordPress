@@ -1,6 +1,10 @@
+:root {
+	/* This value might be overridden in PHP based on the attribute set by the user. */
+	--drawer-width: 480px;
+	--neg-drawer-width: calc(var(--drawer-width) * -1);
+}
+
 $drawer-animation-duration: 0.3s;
-$drawer-width: 480px;
-$drawer-width-mobile: 100vw;
 
 @keyframes fadein {
 	from {
@@ -18,19 +22,17 @@ $drawer-width-mobile: 100vw;
 	}
 
 	to {
-		transform: translateX(-$drawer-width);
+		transform: translateX(max(-100%, var(--neg-drawer-width)));
 	}
 }
 
-@media only screen and (max-width: 480px) {
-	@keyframes slidein {
-		from {
-			transform: translateX(0);
-		}
+@keyframes rtlslidein {
+	from {
+		transform: translateX(0);
+	}
 
-		to {
-			transform: translateX(-$drawer-width-mobile);
-		}
+	to {
+		transform: translateX(min(100%, var(--drawer-width)));
 	}
 }
 
@@ -72,13 +74,13 @@ $drawer-width-mobile: 100vw;
 	position: fixed;
 	right: 0;
 	top: 0;
-	transform: translateX(-$drawer-width);
-	width: $drawer-width;
+	transform: translateX(max(-100%, var(--neg-drawer-width)));
+	width: var(--drawer-width);
+	max-width: 100%;
+}
 
-	@media only screen and (max-width: 480px) {
-		transform: translateX(-$drawer-width-mobile);
-		width: $drawer-width-mobile;
-	}
+.rtl .wc-block-components-drawer {
+	transform: translateX(min(100%, var(--drawer-width)));
 }
 
 .wc-block-components-drawer__screen-overlay--with-slide-out .wc-block-components-drawer {
@@ -88,6 +90,10 @@ $drawer-width-mobile: 100vw;
 .wc-block-components-drawer__screen-overlay--with-slide-in .wc-block-components-drawer {
 	animation-duration: $drawer-animation-duration;
 	animation-name: slidein;
+}
+
+.rtl .wc-block-components-drawer__screen-overlay--with-slide-in .wc-block-components-drawer {
+	animation-name: rtlslidein;
 }
 
 .wc-block-components-drawer__screen-overlay--is-hidden .wc-block-components-drawer {

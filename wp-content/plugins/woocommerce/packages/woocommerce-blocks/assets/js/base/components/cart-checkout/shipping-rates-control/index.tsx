@@ -15,6 +15,7 @@ import {
 	useShippingData,
 } from '@woocommerce/base-context';
 import NoticeBanner from '@woocommerce/base-components/notice-banner';
+import { isObject } from '@woocommerce/types';
 
 /**
  * Internal dependencies
@@ -95,7 +96,16 @@ const ShippingRatesControl = ( {
 		context,
 	};
 	const { isEditor } = useEditorContext();
-	const { hasSelectedLocalPickup } = useShippingData();
+	const { hasSelectedLocalPickup, selectedRates } = useShippingData();
+
+	// Check if all rates selected are the same.
+	const selectedRateIds = isObject( selectedRates )
+		? ( Object.values( selectedRates ) as string[] )
+		: [];
+	const allPackagesHaveSameRate = selectedRateIds.every( ( rate: string ) => {
+		return rate === selectedRateIds[ 0 ];
+	} );
+
 	return (
 		<LoadingMask
 			isLoading={ isLoadingRates }
@@ -105,9 +115,10 @@ const ShippingRatesControl = ( {
 			) }
 			showSpinner={ true }
 		>
-			<ExperimentalOrderShippingPackages.Slot { ...slotFillProps } />
 			{ hasSelectedLocalPickup &&
+				context === 'woocommerce/cart' &&
 				shippingRates.length > 1 &&
+				! allPackagesHaveSameRate &&
 				! isEditor && (
 					<NoticeBanner
 						className="wc-block-components-notice"
@@ -120,6 +131,7 @@ const ShippingRatesControl = ( {
 						) }
 					</NoticeBanner>
 				) }
+			<ExperimentalOrderShippingPackages.Slot { ...slotFillProps } />
 			<ExperimentalOrderShippingPackages>
 				<Packages
 					packages={ shippingRates }

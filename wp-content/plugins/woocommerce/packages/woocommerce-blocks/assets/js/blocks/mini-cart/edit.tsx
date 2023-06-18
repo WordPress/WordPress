@@ -7,6 +7,7 @@ import {
 	PanelBody,
 	ExternalLink,
 	ToggleControl,
+	BaseControl,
 	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
 	__experimentalToggleGroupControl as ToggleGroupControl,
 } from '@wordpress/components';
@@ -58,36 +59,32 @@ const Edit = ( { attributes, setAttributes }: Props ): ReactElement => {
 						'woo-gutenberg-products-block'
 					) }
 				>
-					<ToggleGroupControl
-						className="wc-block-mini-cart__add-to-cart-behaviour-toggle"
+					<BaseControl
+						id="wc-block-mini-cart__add-to-cart-behaviour-toggle"
 						label={ __(
 							'Add-to-Cart behaviour',
 							'woo-gutenberg-products-block'
 						) }
-						value={ addToCartBehaviour }
-						onChange={ ( value ) => {
-							setAttributes( { addToCartBehaviour: value } );
-						} }
-						help={ __(
-							'Select what happens when a customer adds a product to the cart.',
-							'woo-gutenberg-products-block'
-						) }
 					>
-						<ToggleGroupControlOption
-							value="none"
+						<ToggleControl
 							label={ __(
-								'Do nothing',
+								'Open cart in a drawer',
 								'woo-gutenberg-products-block'
 							) }
-						/>
-						<ToggleGroupControlOption
-							value="open_drawer"
-							label={ __(
-								'Open cart drawer',
+							onChange={ ( value ) => {
+								setAttributes( {
+									addToCartBehaviour: value
+										? 'open_drawer'
+										: 'none',
+								} );
+							} }
+							help={ __(
+								'Select what happens when a customer adds a product to the cart.',
 								'woo-gutenberg-products-block'
 							) }
+							checked={ addToCartBehaviour === 'open_drawer' }
 						/>
-					</ToggleGroupControl>
+					</BaseControl>
 					<ToggleControl
 						label={ __(
 							'Hide Cart Price',

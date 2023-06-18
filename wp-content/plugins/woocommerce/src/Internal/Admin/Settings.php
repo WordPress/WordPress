@@ -9,6 +9,7 @@ use Automattic\WooCommerce\Admin\API\Plugins;
 use Automattic\WooCommerce\Admin\PageController;
 use Automattic\WooCommerce\Admin\API\Reports\Orders\DataStore as OrdersDataStore;
 use Automattic\WooCommerce\Admin\PluginsHelper;
+use Automattic\WooCommerce\Utilities\FeaturesUtil;
 use WC_Marketplace_Suggestions;
 
 /**
@@ -105,7 +106,7 @@ class Settings {
 	}
 
 	/**
-	 * Hooks extra neccessary data into the component settings array already set in WooCommerce core.
+	 * Hooks extra necessary data into the component settings array already set in WooCommerce core.
 	 *
 	 * @param array $settings Array of component settings.
 	 * @return array Array of component settings.
@@ -233,7 +234,28 @@ class Settings {
 		$settings['connectNonce']                     = wp_create_nonce( 'connect' );
 		$settings['wcpay_welcome_page_connect_nonce'] = wp_create_nonce( 'wcpay-connect' );
 
+		$settings['features'] = $this->get_features();
+
 		return $settings;
+	}
+
+	/**
+	 * Removes non necesary feature properties for the client side.
+	 *
+	 * @return array
+	 */
+	public function get_features() {
+		$features     = FeaturesUtil::get_features( true, true );
+		$new_features = array();
+
+		foreach ( array_keys( $features ) as $feature_id ) {
+			$new_features[ $feature_id ] = array(
+				'is_enabled'      => $features[ $feature_id ]['is_enabled'],
+				'is_experimental' => $features[ $feature_id ]['is_experimental'],
+			);
+		}
+
+		return $new_features;
 	}
 
 	/**

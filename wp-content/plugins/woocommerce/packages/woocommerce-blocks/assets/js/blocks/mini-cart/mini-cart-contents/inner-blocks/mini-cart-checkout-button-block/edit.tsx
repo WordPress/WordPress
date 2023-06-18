@@ -20,25 +20,25 @@ export const Edit = ( {
 	};
 	setAttributes: ( attributes: Record< string, unknown > ) => void;
 } ): JSX.Element => {
-	const blockProps = useBlockProps();
+	const blockProps = useBlockProps( {
+		className: classNames( 'wc-block-mini-cart__footer-checkout' ),
+	} );
 	const { checkoutButtonLabel } = attributes;
 
 	return (
-		<EditableButton
-			{ ...blockProps }
-			className={ classNames(
-				'wc-block-mini-cart__footer-checkout',
-				blockProps.className
-			) }
-			variant={ getVariant( blockProps.className, 'contained' ) }
-			value={ checkoutButtonLabel }
-			placeholder={ defaultCheckoutButtonLabel }
-			onChange={ ( content ) => {
-				setAttributes( {
-					checkoutButtonLabel: content,
-				} );
-			} }
-		/>
+		<div { ...blockProps }>
+			<EditableButton
+				variant={ getVariant( blockProps.className, 'contained' ) }
+				value={ checkoutButtonLabel }
+				placeholder={ defaultCheckoutButtonLabel }
+				onChange={ ( content ) => {
+					setAttributes( {
+						checkoutButtonLabel: content,
+					} );
+				} }
+				style={ blockProps.style }
+			/>
+		</div>
 	);
 };
 

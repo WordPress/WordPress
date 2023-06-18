@@ -285,7 +285,8 @@
 				}
 			}
 
-			figure.woocommerce-product-gallery__wrapper {
+			figure.woocommerce-product-gallery__wrapper,
+			div.woocommerce-product-gallery__wrapper {
 				margin: 0;
 			}
 
@@ -299,7 +300,8 @@
 				margin: 0;
 			}
 
-			figure.woocommerce-product-gallery__wrapper {
+			figure.woocommerce-product-gallery__wrapper,
+			div.woocommerce-product-gallery__wrapper {
 				margin: 0;
 			}
 
@@ -330,6 +332,11 @@
 
 		.single_variation_wrap {
 			margin-top: var(--wp--style--block-gap);
+
+			// Prevent height flickering when selecting a variation.
+			.single_variation .woocommerce-variation-description > :first-child {
+				margin-top: 0;
+			}
 		}
 
 		ol.flex-control-thumbs {
@@ -361,8 +368,12 @@
 
 		.related.products {
 			margin-top: 7rem;
+			clear: both;
 		}
 
+		.upsells.products {
+			clear: both;
+		}
 	}
 
 	// Reviews tab.
@@ -584,12 +595,28 @@ ul.wc-tabs {
 	font-size: var(--wp--preset--font-size--small);
 	margin-left: 1em;
 
-	h2 {
+	// Hide repeated heading.
+	h2:first-of-type {
 		display: none;
 	}
 
+	// Attributes table styles.
 	table.woocommerce-product-attributes {
-		text-align: left;
+		tbody {
+
+			td, th {
+				padding: 0.2rem 0.2rem 0.2rem 0;
+
+				p {
+					margin: 0;
+				}
+			}
+
+			th {
+				text-align: left;
+				padding-right: 1rem;
+			}
+		}
 	}
 }
 
@@ -1007,6 +1034,15 @@ ul.wc-tabs {
 
 		thead th {
 			text-transform: uppercase;
+		}
+
+		.wc-item-meta {
+			list-style-type: none;
+			padding-inline-start: 2rem;
+
+			li > p {
+				margin-block-start: 0.3rem;
+			}
 		}
 	}
 }

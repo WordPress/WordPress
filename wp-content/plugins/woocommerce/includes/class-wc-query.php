@@ -538,7 +538,7 @@ class WC_Query {
 		// Store reference to this query.
 		self::$product_query = $q;
 
-		// Additonal hooks to change WP Query.
+		// Additional hooks to change WP Query.
 		self::add_filter( 'posts_clauses', array( $this, 'product_query_post_clauses' ), 10, 2 );
 		add_filter( 'the_posts', array( $this, 'handle_get_posts' ), 10, 2 );
 

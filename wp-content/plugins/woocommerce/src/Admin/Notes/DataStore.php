@@ -391,7 +391,7 @@ class DataStore extends \WC_Data_Store_WP implements \WC_Object_Data_Store_Inter
 	 * @param string $type Comma separated list of note types.
 	 * @param string $status Comma separated list of statuses.
 	 * @param string $context Optional argument that the woocommerce_note_where_clauses filter can use to determine whether to apply extra conditions. Extensions should define their own contexts and use them to avoid adding to notes where clauses when not needed.
-	 * @return array An array of objects containing a note id.
+	 * @return string Count of objects with given type, status and context.
 	 */
 	public function get_notes_count( $type = array(), $status = array(), $context = self::WC_ADMIN_NOTE_OPER_GLOBAL ) {
 		global $wpdb;

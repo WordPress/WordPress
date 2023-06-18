@@ -2,7 +2,6 @@
  * External dependencies
  */
 import { createBlock, registerBlockType } from '@wordpress/blocks';
-import { without } from 'lodash';
 import { Icon, file } from '@wordpress/icons';
 
 /**
@@ -36,9 +35,8 @@ registerBlockType( metadata, {
 		from: [
 			{
 				type: 'block',
-				blocks: without(
-					sharedAttributeBlockTypes,
-					'woocommerce/product-category'
+				blocks: sharedAttributeBlockTypes.filter(
+					( value ) => value !== 'woocommerce/product-category'
 				),
 				transform: ( attributes ) =>
 					createBlock( 'woocommerce/product-category', {

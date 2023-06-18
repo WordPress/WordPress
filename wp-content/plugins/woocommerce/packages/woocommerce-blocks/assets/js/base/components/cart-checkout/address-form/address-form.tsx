@@ -21,7 +21,7 @@ import {
 	defaultAddressFields,
 	ShippingAddress,
 } from '@woocommerce/settings';
-import { useSelect, useDispatch } from '@wordpress/data';
+import { useSelect, useDispatch, dispatch } from '@wordpress/data';
 import { VALIDATION_STORE_KEY } from '@woocommerce/block-data';
 import { FieldValidationStatus } from '@woocommerce/types';
 
@@ -122,6 +122,23 @@ const AddressForm = ( {
 			}
 		} );
 	}, [ addressFormFields, onChange, values ] );
+
+	// Clear postcode validation error if postcode is not required.
+	useEffect( () => {
+		addressFormFields.forEach( ( field ) => {
+			if ( field.key === 'postcode' && field.required === false ) {
+				const store = dispatch( 'wc/store/validation' );
+
+				if ( type === 'shipping' ) {
+					store.clearValidationError( 'shipping_postcode' );
+				}
+
+				if ( type === 'billing' ) {
+					store.clearValidationError( 'billing_postcode' );
+				}
+			}
+		} );
+	}, [ addressFormFields, type, clearValidationError ] );
 
 	useEffect( () => {
 		if ( type === 'shipping' ) {
@@ -265,11 +282,13 @@ const AddressForm = ( {
 							} )
 						}
 						customValidation={ ( inputObject: HTMLInputElement ) =>
-							customValidationHandler(
-								inputObject,
-								field.key,
-								values
-							)
+							field.required || inputObject.value
+								? customValidationHandler(
+										inputObject,
+										field.key,
+										values
+								  )
+								: true
 						}
 						errorMessage={ field.errorMessage }
 						required={ field.required }

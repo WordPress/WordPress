@@ -295,7 +295,7 @@ add_action( 'wp_upgrade', 'wc_taxonomy_metadata_migrate_data', 10, 2 );
  *
  * @param int    $the_term Term ID.
  * @param int    $next_id  The id of the next sibling element in save hierarchy level.
- * @param string $taxonomy Taxnomy.
+ * @param string $taxonomy Taxonomy.
  * @param int    $index    Term index (default: 0).
  * @param mixed  $terms    List of terms. (default: null).
  * @return int
@@ -594,7 +594,7 @@ function wc_clear_term_product_ids( $object_id, $terms, $tt_ids, $taxonomy, $app
 add_action( 'set_object_terms', 'wc_clear_term_product_ids', 10, 6 );
 
 /**
- * Get full list of product visibilty term ids.
+ * Get full list of product visibility term ids.
  *
  * @since  3.0.0
  * @return int[]

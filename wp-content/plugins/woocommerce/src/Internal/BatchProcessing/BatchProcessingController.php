@@ -138,18 +138,17 @@ class BatchProcessingController {
 			return;
 		}
 
-		$batch_processor      = $this->get_processor_instance( $processor_class_name );
-		$pending_count_before = $batch_processor->get_total_pending_count();
-		$error                = $this->process_next_batch_for_single_processor_core( $batch_processor );
-		$pending_count_after  = $batch_processor->get_total_pending_count();
-		if ( ( $error instanceof \Exception ) && $pending_count_before === $pending_count_after ) {
+		$batch_processor = $this->get_processor_instance( $processor_class_name );
+		$error           = $this->process_next_batch_for_single_processor_core( $batch_processor );
+		$still_pending   = count( $batch_processor->get_next_batch_to_process( 1 ) ) > 0;
+		if ( ( $error instanceof \Exception ) ) {
 			// The batch processing failed and no items were processed:
 			// reschedule the processing with a delay, and also throw the error
 			// so Action Scheduler will ignore the rescheduling if this happens repeatedly.
 			$this->schedule_batch_processing( $processor_class_name, true );
 			throw $error;
 		}
-		if ( $pending_count_after > 0 ) {
+		if ( $still_pending ) {
 			$this->schedule_batch_processing( $processor_class_name );
 		} else {
 			$this->dequeue_processor( $processor_class_name );

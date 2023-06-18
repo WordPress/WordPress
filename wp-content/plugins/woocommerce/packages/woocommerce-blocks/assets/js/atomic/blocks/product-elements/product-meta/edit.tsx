@@ -3,6 +3,7 @@
  */
 import { InnerBlocks, useBlockProps } from '@wordpress/block-editor';
 import { InnerBlockTemplate } from '@wordpress/blocks';
+import { useSelect } from '@wordpress/data';
 
 /**
  * Internal dependencies
@@ -10,6 +11,13 @@ import { InnerBlockTemplate } from '@wordpress/blocks';
 import './editor.scss';
 
 const Edit = () => {
+	const isDescendentOfSingleProductTemplate = useSelect( ( select ) => {
+		const store = select( 'core/edit-site' );
+		const postId = store?.getEditedPostId< string | undefined >();
+
+		return postId?.includes( '//single-product' );
+	}, [] );
+
 	const TEMPLATE: InnerBlockTemplate[] = [
 		[
 			'core/group',
@@ -18,7 +26,7 @@ const Edit = () => {
 				[
 					'woocommerce/product-sku',
 					{
-						isDescendentOfSingleProductTemplate: true,
+						isDescendentOfSingleProductTemplate,
 					},
 				],
 				[

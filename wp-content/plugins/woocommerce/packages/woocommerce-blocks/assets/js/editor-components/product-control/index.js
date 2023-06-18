@@ -2,7 +2,7 @@
  * External dependencies
  */
 import { __, _n, sprintf } from '@wordpress/i18n';
-import { isEmpty } from 'lodash';
+import { isEmpty } from '@woocommerce/types';
 import PropTypes from 'prop-types';
 import {
 	SearchListControl,

@@ -1137,7 +1137,7 @@ class WC_Product_Data_Store_CPT extends WC_Data_Store_WP implements WC_Object_Da
 		/**
 		 * Check each variation to find the one that matches the $match_attributes.
 		 *
-		 * Note: Not all meta fields will be set which is why we check existance.
+		 * Note: Not all meta fields will be set which is why we check existence.
 		 */
 		foreach ( $sorted_meta as $variation_id => $variation ) {
 			$match = true;

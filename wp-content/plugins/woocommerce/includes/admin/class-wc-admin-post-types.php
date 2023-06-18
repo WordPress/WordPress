@@ -985,7 +985,7 @@ class WC_Admin_Post_Types {
 					break;
 				}
 				$regular_price = $product->get_regular_price();
-				if ( $is_percentage ) {
+				if ( $is_percentage && is_numeric( $regular_price ) ) {
 					$percent   = $price / 100;
 					$new_price = max( 0, $regular_price - ( NumberUtil::round( $regular_price * $percent, wc_get_price_decimals() ) ) );
 				} else {

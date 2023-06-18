@@ -1,9 +1,9 @@
 /**
  * External dependencies
  */
-import { groupBy, keyBy } from 'lodash';
 import { Fragment } from '@wordpress/element';
 import { __, _n, sprintf } from '@wordpress/i18n';
+import { keyBy } from '@woocommerce/base-utils';
 
 /**
  * Internal dependencies
@@ -42,7 +42,17 @@ export const buildTermsTree = (
 	filteredList: SearchListItem[],
 	list = filteredList
 ): SearchListItem[] | [] => {
-	const termsByParent = groupBy( filteredList, 'parent' );
+	const termsByParent = filteredList.reduce( ( acc, currentValue ) => {
+		const key = currentValue.parent || 0;
+
+		if ( ! acc[ key ] ) {
+			acc[ key ] = [];
+		}
+
+		acc[ key ].push( currentValue );
+		return acc;
+	}, {} as Record< string, SearchListItem[] > );
+
 	const listById = keyBy( list, 'id' );
 	const builtParents = [ '0' ];
 

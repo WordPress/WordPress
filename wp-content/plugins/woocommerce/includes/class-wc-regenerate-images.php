@@ -51,7 +51,7 @@ class WC_Regenerate_Images {
 			add_action( 'admin_init', array( __CLASS__, 'regenerating_notice' ) );
 			add_action( 'woocommerce_hide_regenerating_thumbnails_notice', array( __CLASS__, 'dismiss_regenerating_notice' ) );
 
-			// Regenerate thumbnails in the background after settings changes. Not ran on multisite to avoid multiple simultanious jobs.
+			// Regenerate thumbnails in the background after settings changes. Not ran on multisite to avoid multiple simultaneous jobs.
 			if ( ! is_multisite() ) {
 				add_action( 'customize_save_after', array( __CLASS__, 'maybe_regenerate_images' ) );
 				add_action( 'after_switch_theme', array( __CLASS__, 'maybe_regenerate_images' ) );

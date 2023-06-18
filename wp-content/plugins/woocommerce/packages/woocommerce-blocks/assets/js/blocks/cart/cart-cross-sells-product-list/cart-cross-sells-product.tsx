@@ -16,7 +16,7 @@ import { Block as ProductRating } from '../../../atomic/blocks/product-elements/
 import { Block as ProductSaleBadge } from '../../../atomic/blocks/product-elements/sale-badge/block';
 import { Block as ProductPrice } from '../../../atomic/blocks/product-elements/price/block';
 import { Block as ProductButton } from '../../../atomic/blocks/product-elements/button/block';
-import AddToCartButton from '../../../atomic/blocks/product-elements/add-to-cart/block';
+import { ImageSizing } from '../../../atomic/blocks/product-elements/image/types';
 
 interface CrossSellsProductProps {
 	product: ProductResponseItem;
@@ -44,7 +44,7 @@ const CartCrossSellsProduct = ( {
 							productId={ product.id }
 							showProductLink={ false }
 							saleBadgeAlign={ 'left' }
-							imageSizing={ 'full-size' }
+							imageSizing={ ImageSizing.SINGLE }
 							isDescendentOfQueryLoop={ false }
 						/>
 						<ProductName
@@ -59,11 +59,7 @@ const CartCrossSellsProduct = ( {
 						/>
 						<ProductPrice />
 					</div>
-					{ product.is_in_stock ? (
-						<AddToCartButton />
-					) : (
-						<ProductButton />
-					) }
+					<ProductButton />
 				</ProductDataContextProvider>
 			</InnerBlockLayoutContextProvider>
 		</div>

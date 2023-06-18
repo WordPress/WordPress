@@ -40,7 +40,6 @@ class Features {
 	protected static $beta_features = array(
 		'navigation',
 		'new-product-management-experience',
-		'product-block-editor',
 		'settings',
 	);
 

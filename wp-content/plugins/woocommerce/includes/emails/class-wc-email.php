@@ -400,6 +400,15 @@ class WC_Email extends WC_Settings_API {
 	 * @return string
 	 */
 	public function get_additional_content() {
+		/**
+		 * Provides an opportunity to inspect and modify additional content for the email.
+		 *
+		 * @since 3.7.0
+		 *
+		 * @param string      $additional_content Additional content to be added to the email.
+		 * @param object|bool $object             The object (ie, product or order) this email relates to, if any.
+		 * @param WC_Email    $email              WC_Email instance managing the email.
+		 */
 		return apply_filters( 'woocommerce_email_additional_content_' . $this->id, $this->format_string( $this->get_option( 'additional_content', $this->get_default_additional_content() ) ), $this->object, $this );
 	}
 

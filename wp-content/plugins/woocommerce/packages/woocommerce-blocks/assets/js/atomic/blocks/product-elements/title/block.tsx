@@ -10,11 +10,7 @@ import { isFeaturePluginBuild } from '@woocommerce/block-settings';
 import { withProductDataContext } from '@woocommerce/shared-hocs';
 import ProductName from '@woocommerce/base-components/product-name';
 import { useStoreEvents } from '@woocommerce/base-context/hooks';
-import {
-	useSpacingProps,
-	useTypographyProps,
-	useColorProps,
-} from '@woocommerce/base-hooks';
+import { useStyleProps } from '@woocommerce/base-hooks';
 import type { HTMLAttributes } from 'react';
 
 /**
@@ -60,14 +56,10 @@ export const Block = ( props: Props ): JSX.Element => {
 		linkTarget,
 		align,
 	} = props;
-
+	const styleProps = useStyleProps( props );
 	const { parentClassName } = useInnerBlockLayoutContext();
 	const { product } = useProductDataContext();
 	const { dispatchStoreEvent } = useStoreEvents();
-
-	const colorProps = useColorProps( props );
-	const spacingProps = useSpacingProps( props );
-	const typographyProps = useTypographyProps( props );
 
 	if ( ! product.id ) {
 		return (
@@ -75,7 +67,7 @@ export const Block = ( props: Props ): JSX.Element => {
 				headingLevel={ headingLevel }
 				className={ classnames(
 					className,
-					colorProps.className,
+					styleProps.className,
 					'wc-block-components-product-title',
 					{
 						[ `${ parentClassName }__product-title` ]:
@@ -84,15 +76,7 @@ export const Block = ( props: Props ): JSX.Element => {
 							align && isFeaturePluginBuild(),
 					}
 				) }
-				style={
-					isFeaturePluginBuild()
-						? {
-								...spacingProps.style,
-								...typographyProps.style,
-								...colorProps.style,
-						  }
-						: {}
-				}
+				style={ isFeaturePluginBuild() ? styleProps.style : {} }
 			/>
 		);
 	}
@@ -102,7 +86,7 @@ export const Block = ( props: Props ): JSX.Element => {
 			headingLevel={ headingLevel }
 			className={ classnames(
 				className,
-				colorProps.className,
+				styleProps.className,
 				'wc-block-components-product-title',
 				{
 					[ `${ parentClassName }__product-title` ]: parentClassName,
@@ -110,15 +94,7 @@ export const Block = ( props: Props ): JSX.Element => {
 						align && isFeaturePluginBuild(),
 				}
 			) }
-			style={
-				isFeaturePluginBuild()
-					? {
-							...spacingProps.style,
-							...typographyProps.style,
-							...colorProps.style,
-					  }
-					: {}
-			}
+			style={ isFeaturePluginBuild() ? styleProps.style : {} }
 		>
 			<ProductName
 				disabled={ ! showProductLink }

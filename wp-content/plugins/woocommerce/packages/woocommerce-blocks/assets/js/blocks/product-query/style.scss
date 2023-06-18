@@ -12,3 +12,21 @@
 		margin-left: $gap-smaller;
 	}
 }
+
+/**
+ * These are the default styles for `product elements` that appear inside the 'Products Block'.
+ * These styles follow the Gutenberg styling hierarchy, which is as follows:
+ * Editor Styles > Global Styles > Child Theme > Parent Theme > These styles
+ *
+ * To ensure that the styles below have the lowest precedence in the hierarchy,
+ * we use the :where() selector to decrease the specificity of the CSS selector.
+ */
+:where(.products-block-post-template .wp-block-post) > * {
+	margin-bottom: 0.75rem;
+	margin-top: 0;
+}
+
+:where(.editor-styles-wrapper .products-block-post-template .wp-block-post) > * > * {
+	margin-bottom: 0;
+	margin-top: 0;
+}
