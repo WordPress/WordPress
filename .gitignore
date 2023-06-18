@@ -2,5 +2,5 @@
 .idea
 
 # WordPress project files
-/.htaccess
+#/.htaccess
 /wp-config.php
