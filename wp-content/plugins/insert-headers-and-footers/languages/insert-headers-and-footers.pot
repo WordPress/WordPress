@@ -1,0 +1,5317 @@
+# Copyright (C) 2023 WPCode
+# This file is distributed under the GPLv2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: WPCode Lite 2.0.12\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/insert-headers-and-footers\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2023-05-30T09:24:45+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.5.0\n"
+"X-Domain: insert-headers-and-footers\n"
+
+#. Plugin Name of the plugin
+msgid "WPCode Lite"
+msgstr ""
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+msgid "https://www.wpcode.com/"
+msgstr ""
+
+#. Description of the plugin
+msgid "Easily add code snippets in WordPress. Insert scripts to the header and footer, add PHP code snippets with conditional logic, insert ads pixel, custom content, and more."
+msgstr ""
+
+#. Author of the plugin
+msgid "WPCode"
+msgstr ""
+
+#: ihaf.php:125
+msgid "Heads up!"
+msgstr ""
+
+#: ihaf.php:126
+msgid "Your site already has WPCode Pro activated. If you want to switch to WPCode Lite, please first go to Plugins → Installed Plugins and deactivate WPCode. Then, you can activate WPCode Lite."
+msgstr ""
+
+#: includes/admin/admin-ajax-handlers.php:25
+#: includes/class-wpcode-snippet.php:447
+msgid "You are not allowed to change snippet status, please contact your webmaster."
+msgstr ""
+
+#. Translators: formatted error code.
+#: includes/admin/admin-ajax-handlers.php:48
+msgid "Snippet not %2$s, the following error was encountered: %1$s"
+msgstr ""
+
+#: includes/admin/admin-ajax-handlers.php:50
+msgctxt "Snippet status change"
+msgid "activated"
+msgstr ""
+
+#: includes/admin/admin-ajax-handlers.php:50
+msgctxt "Snippet status change"
+msgid "deactivated"
+msgstr ""
+
+#. Translators: this an auto-generated title for when a snippet is saved from the generator.
+#: includes/admin/admin-ajax-handlers.php:159
+msgid "Generated Snippet %s"
+msgstr ""
+
+#: includes/admin/admin-ajax-handlers.php:215
+msgid "Success! Your server can make SSL connections."
+msgstr ""
+
+#: includes/admin/admin-ajax-handlers.php:222
+msgid "There was an error and the connection failed. Please contact your web host with the technical details below."
+msgstr ""
+
+#: includes/admin/admin-scripts.php:44
+msgid "Please wait."
+msgstr ""
+
+#: includes/admin/admin-scripts.php:45
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:300
+msgid "OK"
+msgstr ""
+
+#: includes/admin/class-wpcode-admin-page-loader.php:127
+#: includes/admin/class-wpcode-admin-page-loader.php:128
+#: includes/admin/class-wpcode-admin-page-loader.php:185
+#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:32
+msgid "Code Snippets"
+msgstr ""
+
+#: includes/admin/class-wpcode-admin-page-loader.php:193
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:38
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:180
+msgid "Settings"
+msgstr ""
+
+#: includes/admin/class-wpcode-admin-page-loader.php:208
+msgid "Upgrade to WPCode Pro"
+msgstr ""
+
+#: includes/admin/class-wpcode-admin-page-loader.php:209
+msgid "Get WPCode Pro"
+msgstr ""
+
+#. Translators: Placeholder for the category name.
+#: includes/admin/class-wpcode-docs.php:164
+msgid "View All %s Docs"
+msgstr ""
+
+#: includes/admin/class-wpcode-metabox-snippets.php:48
+msgid "WPCode Page Scripts"
+msgstr ""
+
+#: includes/admin/class-wpcode-metabox-snippets.php:50
+#: includes/admin/pages/class-wpcode-admin-page-headers-footers.php:156
+#: includes/generator/class-wpcode-generator-script.php:193
+#: includes/lite/admin/class-wpcode-metabox-snippets-lite.php:22
+msgid "Header"
+msgstr ""
+
+#: includes/admin/class-wpcode-metabox-snippets.php:51
+#: includes/admin/pages/class-wpcode-admin-page-headers-footers.php:160
+#: includes/generator/class-wpcode-generator-script.php:192
+#: includes/lite/admin/class-wpcode-metabox-snippets-lite.php:35
+msgid "Footer"
+msgstr ""
+
+#: includes/admin/class-wpcode-metabox-snippets.php:57
+#: includes/admin/pages/class-wpcode-admin-page-headers-footers.php:158
+#: includes/lite/admin/class-wpcode-metabox-snippets-lite.php:48
+msgid "Body"
+msgstr ""
+
+#: includes/admin/class-wpcode-metabox-snippets.php:60
+msgid "Custom Code Snippet"
+msgstr ""
+
+#. Translators: Human-Readable time to display.
+#: includes/admin/class-wpcode-notifications.php:282
+msgid "%1$s ago"
+msgstr ""
+
+#: includes/admin/class-wpcode-review.php:117
+msgid "Are you enjoying WPCode?"
+msgstr ""
+
+#: includes/admin/class-wpcode-review.php:120
+#: includes/generator/class-wpcode-generator-post-status.php:170
+#: includes/generator/class-wpcode-generator-post-status.php:195
+#: includes/generator/class-wpcode-generator-post-type.php:399
+#: includes/generator/class-wpcode-generator-post-type.php:551
+#: includes/generator/class-wpcode-generator-post-type.php:757
+#: includes/generator/class-wpcode-generator-query.php:136
+#: includes/generator/class-wpcode-generator-query.php:379
+#: includes/generator/class-wpcode-generator-query.php:436
+#: includes/generator/class-wpcode-generator-script.php:211
+#: includes/generator/class-wpcode-generator-script.php:228
+#: includes/generator/class-wpcode-generator-style.php:212
+#: includes/generator/class-wpcode-generator-style.php:229
+#: includes/generator/class-wpcode-generator-taxonomy.php:428
+#: includes/generator/class-wpcode-generator-taxonomy.php:505
+msgid "Yes"
+msgstr ""
+
+#: includes/admin/class-wpcode-review.php:122
+msgid "Not Really"
+msgstr ""
+
+#: includes/admin/class-wpcode-review.php:126
+msgid "We're sorry to hear you aren't enjoying WPCode. We would love a chance to improve. Could you take a minute and let us know what we can do better?"
+msgstr ""
+
+#: includes/admin/class-wpcode-review.php:129
+#: includes/admin/class-wpcode-review.php:140
+msgid "Give Feedback"
+msgstr ""
+
+#: includes/admin/class-wpcode-review.php:131
+#: includes/admin/class-wpcode-review.php:141
+msgid "No thanks"
+msgstr ""
+
+#: includes/admin/class-wpcode-review.php:135
+msgid "That's awesome! Could you please do me a BIG favor and give it a 5-star rating on WordPress to help us spread the word and boost our motivation?"
+msgstr ""
+
+#: includes/admin/class-wpcode-review.php:137
+msgid "~ Syed Balkhi<br>Co-Founder of WPCode"
+msgstr ""
+
+#. translators: $1$s - WPCode plugin name; $2$s - WP.org review link; $3$s - WP.org review link.
+#: includes/admin/class-wpcode-review.php:192
+msgid "Please rate %1$s <a href=\"%2$s\" target=\"_blank\" rel=\"noopener noreferrer\">&#9733;&#9733;&#9733;&#9733;&#9733;</a> on <a href=\"%3$s\" target=\"_blank\" rel=\"noopener\">WordPress.org</a> to help us spread the word. Thank you from the WPCode team!"
+msgstr ""
+
+#. Translators: Support link tag starts with url and Support link tag ends.
+#: includes/admin/class-wpcode-skin-legacy.php:92
+#: includes/admin/class-wpcode-skin.php:92
+msgid "There was an error installing the addon. Please try again. If you are still having issues, please %1$scontact our support%2$s team."
+msgstr ""
+
+#. Translators: The name of the addon that can't be installed, Support link tag starts with url and Support link tag ends.
+#: includes/admin/class-wpcode-skin-legacy.php:105
+#: includes/admin/class-wpcode-skin.php:105
+msgid "There was an error installing the addon, %1$s. Please try again. If you are still having issues, please %2$scontact our support%3$s team. "
+msgstr ""
+
+#: includes/admin/class-wpcode-upgrade-welcome.php:30
+#: includes/admin/class-wpcode-upgrade-welcome.php:31
+msgid "Welcome to WPCode"
+msgstr ""
+
+#: includes/admin/class-wpcode-upgrade-welcome.php:131
+msgid "Header & Footer Scripts"
+msgstr ""
+
+#: includes/admin/class-wpcode-upgrade-welcome.php:132
+msgid "Effortlessly manage global headers & footers in a familiar interface."
+msgstr ""
+
+#: includes/admin/class-wpcode-upgrade-welcome.php:136
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:31
+msgid "Conversion Pixels"
+msgstr ""
+
+#: includes/admin/class-wpcode-upgrade-welcome.php:137
+msgid "Easily target specific pages to track conversions reliably."
+msgstr ""
+
+#: includes/admin/class-wpcode-upgrade-welcome.php:141
+msgid "PHP Snippets"
+msgstr ""
+
+#: includes/admin/class-wpcode-upgrade-welcome.php:142
+msgid "Add or remove features with full confidence that your site will not break."
+msgstr ""
+
+#: includes/admin/class-wpcode-upgrade-welcome.php:146
+msgid "Conditional Logic"
+msgstr ""
+
+#: includes/admin/class-wpcode-upgrade-welcome.php:147
+msgid "Create advanced conditional logic rules in an easy-to-use interface."
+msgstr ""
+
+#: includes/admin/class-wpcode-upgrade-welcome.php:151
+msgid "Error Handling"
+msgstr ""
+
+#: includes/admin/class-wpcode-upgrade-welcome.php:152
+msgid "Unique error handling capabilities ensure you will not get locked out of your site."
+msgstr ""
+
+#: includes/admin/class-wpcode-upgrade-welcome.php:156
+msgid "Snippets Library"
+msgstr ""
+
+#: includes/admin/class-wpcode-upgrade-welcome.php:157
+msgid "One-click install from our extensive library of commonly-used snippets."
+msgstr ""
+
+#. Translators: This simply adds the plugin name before the logo text.
+#: includes/admin/class-wpcode-upgrade-welcome.php:162
+#: includes/admin/pages/class-wpcode-admin-page.php:395
+msgid "%s logo"
+msgstr ""
+
+#: includes/admin/class-wpcode-upgrade-welcome.php:171
+msgid "Insert Headers and Footers is now WPCode"
+msgstr ""
+
+#: includes/admin/class-wpcode-upgrade-welcome.php:172
+msgid "When we first built Insert Headers and Footers over a decade ago, it was meant to do one very simple thing: add header and footer scripts to your site without editing theme files."
+msgstr ""
+
+#: includes/admin/class-wpcode-upgrade-welcome.php:173
+msgid "Since then, the plugin has grown to over 1 million active installs with an amazing user base. We have continued to receive feature requests to add more options like controlling which pages the scripts get loaded, allowing more types of code snippets, etc."
+msgstr ""
+
+#: includes/admin/class-wpcode-upgrade-welcome.php:174
+msgid "We listened to your feedback, and we are excited to present WPCode, the next generation of Insert Headers and Footers. We chose a new name because it was only fair considering the plugin is now 10x more powerful. Aside from adding global headers and footer snippets, you can also add multiple other types of code snippets, have granular control of where the snippets are output with conditional logic, and a whole lot more."
+msgstr ""
+
+#. Translators: Placeholders 1 & 2 add a link to scroll down the page and 3 & 4 add a link to the suggestions form.
+#: includes/admin/class-wpcode-upgrade-welcome.php:179
+msgid "Please see the full list of features %1$sbelow%2$s and let us know what you'd like us to add next by %3$ssharing your feedback%4$s."
+msgstr ""
+
+#. Translators: Placeholders add link to the details about settings.
+#: includes/admin/class-wpcode-upgrade-welcome.php:194
+msgid "For those of you who want to limit the functionality and switch back to the old interface, you can do so with one click. %1$sSee details here%2$s."
+msgstr ""
+
+#: includes/admin/class-wpcode-upgrade-welcome.php:203
+msgid "We have an exciting roadmap ahead of us since you have shared tons of great ideas with us over the last several years. We truly appreciate your continued support and thank you for being an awesome user."
+msgstr ""
+
+#: includes/admin/class-wpcode-upgrade-welcome.php:204
+msgid "We truly appreciate your continued support and thank you for using WPCode."
+msgstr ""
+
+#. Translators: Placeholder for "WPBeginner".
+#: includes/admin/class-wpcode-upgrade-welcome.php:215
+msgid "Founder of %s"
+msgstr ""
+
+#: includes/admin/class-wpcode-upgrade-welcome.php:227
+msgid "Lead Developer"
+msgstr ""
+
+#: includes/admin/class-wpcode-upgrade-welcome.php:233
+msgid "What’s New in WPCode (Features & Highlights)"
+msgstr ""
+
+#: includes/admin/class-wpcode-upgrade-welcome.php:253
+#: includes/admin/class-wpcode-upgrade-welcome.php:303
+msgid "WPCode Generator Screen capture"
+msgstr ""
+
+#: includes/admin/class-wpcode-upgrade-welcome.php:256
+msgid "Snippet Generator"
+msgstr ""
+
+#: includes/admin/class-wpcode-upgrade-welcome.php:257
+msgid "WPCode now includes a snippet generator directly in the plugin."
+msgstr ""
+
+#: includes/admin/class-wpcode-upgrade-welcome.php:258
+msgid "Using the built-in generators, you can quickly add custom post types, custom post statuses, widgets, menus, build complex WP Queries and much more."
+msgstr ""
+
+#: includes/admin/class-wpcode-upgrade-welcome.php:259
+msgid "Simply fill in the fields in our guided wizard to generate a custom ready-to-use snippet for your website with 1 click. Try WordPress Snippet Generator."
+msgstr ""
+
+#: includes/admin/class-wpcode-upgrade-welcome.php:266
+msgid "Store Snippets in Cloud"
+msgstr ""
+
+#: includes/admin/class-wpcode-upgrade-welcome.php:267
+msgid "A lot of you requested the ability to save and re-use snippets on multiple websites."
+msgstr ""
+
+#. Translators: Placeholders add a link to the suggestions page.
+#: includes/admin/class-wpcode-upgrade-welcome.php:272
+msgid "This feature is now available in the %1$sPRO version of the plugin%2$s along with other powerful features."
+msgstr ""
+
+#. Translators: Placeholders add a link to the suggestions page.
+#: includes/admin/class-wpcode-upgrade-welcome.php:285
+msgid "If you have specific ideas or feature requests, please let us know by %1$sfilling out this form%2$s."
+msgstr ""
+
+#: includes/admin/class-wpcode-upgrade-welcome.php:296
+msgid "WPCode Cloud Screen capture"
+msgstr ""
+
+#: includes/admin/class-wpcode-upgrade-welcome.php:306
+msgid "Not ready for the new interface?"
+msgstr ""
+
+#: includes/admin/class-wpcode-upgrade-welcome.php:307
+msgid "If you are not ready to switch to the new interface, or you simply want to use the plugin just for inserting headers and footers we've got you covered."
+msgstr ""
+
+#. Translators: Placeholders add a link to the settings page.
+#: includes/admin/class-wpcode-upgrade-welcome.php:312
+msgid "You can switch to the simple Headers & Footers interface at any time from the %1$ssettings page%2$s."
+msgstr ""
+
+#: includes/admin/class-wpcode-upgrade-welcome.php:321
+msgid "And if you change your mind later and want to give the full plugin a shot, you can always switch back with just 2 clicks using the option at the top of the page."
+msgstr ""
+
+#: includes/admin/class-wpcode-upgrade-welcome.php:326
+msgid "Add Your First Snippet"
+msgstr ""
+
+#: includes/admin/importers/class-wpcode-importer-code-snippets.php:92
+#: includes/admin/importers/class-wpcode-importer-woody.php:89
+msgid "Unknown Snippet"
+msgstr ""
+
+#: includes/admin/importers/class-wpcode-importer-code-snippets.php:93
+#: includes/admin/importers/class-wpcode-importer-woody.php:90
+msgid "The snippet you are trying to import does not exist."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-click.php:45
+msgid "1-Click"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-click.php:98
+msgid "You're almost there! To finish installing the snippet, you need to connect your site to your account on the WPCode Library. This will allow you to install snippets directly to your site in the future."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-click.php:99
+msgid "You'll also get access to tens of free expert-curated snippets that can be installed with 1-click from inside the plugin."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-click.php:102
+#: includes/admin/pages/class-wpcode-admin-page-click.php:142
+#: includes/admin/pages/class-wpcode-admin-page.php:1239
+msgid "Connect to Library"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-click.php:109
+msgid "Your site is already connected to the  WPCode Library using another account"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-click.php:111
+msgid "In order to continue installing the snippet from the WPCode library you have to either login to the Library with the same account used to connect this site to the WPCode library initially or disconnect this site from the WPCode library and connect using your own account."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-click.php:115
+msgid "Disconnect Site From Library"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-click.php:118
+msgid "Login with another user on the WPCode Library"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-click.php:127
+msgid "Congratulations, your site is now connected!"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-click.php:128
+msgid "Your site is now connected to the WPCode Library and you can install snippets directly from the library. Please click the button below to resume installing the snippet you were viewing."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-click.php:131
+msgid "Resume Snippet Installation"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-click.php:138
+msgid "Your site is not connected to the WPCode library."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-click.php:139
+msgid "Connect now to enable installing public snippets from the WPCode library with 1-click and also get access to tens of expert-curated snippets that you can install from inside the plugin."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-click.php:150
+msgid "No snippet provided."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-click.php:157
+msgid "Missing authentication token, please click the link in the WPCode Library again."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-click.php:170
+msgid "We encountered an error loading your snippet, please try again in a few minutes"
+msgstr ""
+
+#. translators: %s: The error message from the API.
+#: includes/admin/pages/class-wpcode-admin-page-click.php:175
+msgid "We encountered the following error loading your snippet: %s"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-click.php:186
+msgid "Go back to the library"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-click.php:194
+msgid "Library Snippet Preview"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-click.php:195
+msgid "Please review the snippet below and confirm that you would like to install it."
+msgstr ""
+
+#. Translators: %s: The snippet name.
+#: includes/admin/pages/class-wpcode-admin-page-click.php:199
+msgid "Snippet title: %s"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-click.php:205
+msgid "Code preview"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-click.php:209
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:381
+msgid "Code Type"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-click.php:230
+msgid "Confirm & Install Snippet"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-click.php:255
+msgid "Confirm Snippet Installation"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:195
+#: includes/admin/pages/class-wpcode-admin-page.php:888
+msgid "Search Snippets"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:213
+#: includes/admin/pages/class-wpcode-admin-page.php:888
+msgid "All Snippets"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:215
+#: includes/generator/class-wpcode-generator-post-type.php:231
+msgid "Add New"
+msgstr ""
+
+#. Translators: %d - Trashed snippets count.
+#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:232
+msgid "%d snippet was successfully moved to Trash."
+msgid_plural "%d snippets were successfully moved to Trash."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d - Restored from trash snippets count.
+#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:240
+msgid "%d snippet was successfully restored."
+msgid_plural "%d snippet were successfully restored."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d - Deleted snippets count.
+#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:248
+msgid "%d snippet was successfully permanently deleted."
+msgid_plural "%d snippets were successfully permanently deleted."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d - Activated snippets count.
+#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:258
+msgid "%d snippet was successfully activated."
+msgid_plural "%d snippets were successfully activated."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d - Failed to activate snippets count.
+#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:267
+msgid "%d snippet was not activated due to an error."
+msgid_plural "%d snippets were not activated due to errors."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d - Deactivated snippets count.
+#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:276
+msgid "%d snippet was successfully deactivated."
+msgid_plural "%d snippets were successfully deactivated."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:301
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1948
+msgid "Enable Error Logging"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:312
+msgid "This view lists your snippets that have been automatically disabled due to throwing an error."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:314
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1987
+msgid "Learn More"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-code-snippets.php:321
+msgid "In order to get more info about the errors that caused the snippets to be disabled please consider enabling error logging."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-generator.php:59
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:791
+msgid "Generator"
+msgstr ""
+
+#. Translators: gets replaced with the snippet title.
+#: includes/admin/pages/class-wpcode-admin-page-generator.php:87
+msgid "You are now editing the generated snippet: \"%s\". Updating the snippet will override any edits you made to the code."
+msgstr ""
+
+#. Translators: gets replaced with the generator name.
+#: includes/admin/pages/class-wpcode-admin-page-generator.php:100
+msgid "%s Generator"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-generator.php:126
+msgid "All Generators"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-generator.php:141
+msgid "Generate"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-generator.php:193
+msgid "Update code"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-generator.php:203
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:346
+#: includes/admin/pages/class-wpcode-admin-page.php:1064
+msgid "Code Preview"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-generator.php:207
+msgid "Update Snippet"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-generator.php:209
+#: includes/admin/pages/class-wpcode-admin-page.php:1069
+msgid "Use Snippet"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-generator.php:212
+msgctxt "Copy to clipboard"
+msgid "Copy Code"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-generator.php:244
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1313
+#: includes/generator/class-wpcode-generator-type.php:212
+msgid "Remove Row"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-headers-footers.php:48
+msgid "Header & Footer"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-headers-footers.php:98
+msgid "Headers & Footers mode activated. Use the toggle next to the Save Changes button to disable it at any time."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-headers-footers.php:99
+msgid "Headers & Footers mode deactivated, if you wish to switch back please use the option on the settings page."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-headers-footers.php:117
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:139
+msgid "Sorry, you only have read-only access to this page. Ask your administrator for assistance editing."
+msgstr ""
+
+#. translators: %s: The `<head>` tag
+#: includes/admin/pages/class-wpcode-admin-page-headers-footers.php:143
+msgid "These scripts will be printed in the %s section."
+msgstr ""
+
+#. translators: %s: The `<head>` tag
+#: includes/admin/pages/class-wpcode-admin-page-headers-footers.php:148
+msgid "These scripts will be printed just below the opening %s tag."
+msgstr ""
+
+#. translators: %s: The `</body>` tag
+#: includes/admin/pages/class-wpcode-admin-page-headers-footers.php:153
+msgid "These scripts will be printed above the closing %s tag."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-headers-footers.php:205
+msgid "Global Header and Footer"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-headers-footers.php:210
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:167
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:244
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:308
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:358
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:184
+msgid "Save Changes"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-headers-footers.php:228
+msgid "Simple mode"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-headers-footers.php:282
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:224
+msgid "Settings Saved."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-library.php:44
+msgid "Library"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-library.php:55
+msgid "Snippets"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-library.php:56
+msgid "My Library"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-library.php:57
+msgid "My Favorites"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-library.php:173
+msgid "We encountered an error while trying to load the snippet data. Please try again."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-library.php:195
+msgid "My Library is a PRO Feature"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-library.php:196
+msgid "Upgrade to WPCode PRO today and save your snippets in the WPCode Library directly from the plugin and import them with 1-click on other sites."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-library.php:198
+msgid "Upgrade to PRO and Unlock \"My Library\""
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-library.php:202
+#: includes/admin/pages/class-wpcode-admin-page-library.php:232
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1859
+#: includes/lite/admin/class-wpcode-metabox-snippets-lite.php:149
+#: includes/lite/admin/class-wpcode-metabox-snippets-lite.php:292
+msgid "Learn more about all the features"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-library.php:206
+#: includes/admin/pages/class-wpcode-admin-page-library.php:238
+msgid "Save your snippets to the WPCode Library"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-library.php:207
+#: includes/admin/pages/class-wpcode-admin-page-library.php:237
+msgid "Import snippets from the WPCode Library"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-library.php:208
+#: includes/admin/pages/class-wpcode-admin-page-library.php:239
+msgid "Set up new websites faster"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-library.php:209
+#: includes/admin/pages/class-wpcode-admin-page-library.php:240
+msgid "Easily implement features on multiple sites"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-library.php:210
+#: includes/admin/pages/class-wpcode-admin-page-library.php:241
+msgid "Edit snippets in the WPCode Library"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-library.php:211
+#: includes/admin/pages/class-wpcode-admin-page-library.php:236
+msgid "Load favorite snippets in the plugin"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-library.php:225
+msgid "My Favorites is a PRO Feature"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-library.php:226
+msgid "Upgrade to WPCode PRO today and see the snippets you starred in the WPCode Library directly in the plugin."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-library.php:228
+msgid "Upgrade to PRO and Unlock \"My Favorites\""
+msgstr ""
+
+#. translators: %1$s and %2$s are <u> tags.
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:58
+msgid "While you can always add pixels manually using code snippets, our Conversion Pixels addon helps you %1$ssave time%2$s while %1$sreducing errors%2$s. It lets you properly implement Facebook, Google, Pinterest, and TikTok ads tracking with deep integrations for eCommerce events, interaction measurement, and more. This addon is available on WPCode Plus plan or higher."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:64
+msgid "Conversion Pixels Addon is a PRO Feature"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:67
+msgid "Upgrade to WPCode PRO"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:72
+msgid "Seamless integration with WooCommerce, Easy Digital Downloads and MemberPress"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:73
+msgid "Works with Facebook, Google Ads, Pinterest, and TikTok"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:74
+msgid "No coding required"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:75
+msgid "1-click setup for conversion tracking"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:87
+msgid "Facebook"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:88
+msgid "Google"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:89
+msgid "Pinterest"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:90
+msgid "TikTok"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:121
+msgid "Facebook Pixel"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:124
+msgid "Facebook Pixel ID"
+msgstr ""
+
+#. translators: %1$s and %2$s are the opening and closing anchor tags.
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:130
+msgid "You can find your Facebook Pixel ID in the Facebook Ads Manager. %1$sRead our step by step directions%2$s. "
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:138
+msgid "Conversions API Token"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:142
+msgid "The Conversions API token allows you to send API events that are more reliable and can improve audience targeting."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:148
+msgid "Facebook Pixel Events"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:152
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:228
+msgid "PageView Event"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:154
+msgid "Enable the PageView event to track and record page visits on all the pages of your website using the Facebook Pixel."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:161
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:238
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:302
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:352
+msgid "eCommerce Events Tracking"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:179
+msgid "Google Analytics & Ads Tracking"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:182
+msgid "Google Analytics ID"
+msgstr ""
+
+#. translators: %1$s and %2$s are the opening and closing anchor tags.
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:188
+msgid "You can find your Google Analytics ID in the Google Analytics Admin panel. %1$sRead our step by step directions%2$s. "
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:196
+msgid "Google Ads Tag ID"
+msgstr ""
+
+#. translators: %1$s and %2$s are the opening and closing anchor tags.
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:202
+msgid "You can find your Google Ads Tag ID in the Google Ads Settings under Google Tag. %1$sRead our step by step directions%2$s. "
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:210
+msgid "Ads Conversion Label"
+msgstr ""
+
+#. translators: %1$s and %2$s are the opening and closing anchor tags.
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:216
+msgid "Add your Google Ads Conversion Label for tracking conversion events. %1$sLearn More%2$s."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:224
+msgid "Google Events"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:230
+msgid "Enable PageView event on all pages."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:256
+msgid "Pinterest Tag"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:259
+msgid "Tag ID"
+msgstr ""
+
+#. translators: %1$s and %2$s are the opening and closing anchor tags.
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:265
+msgid "You can find your Tag id in your Pinterest Business account. %1$sRead our step by step directions%2$s. "
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:273
+msgid "Ad Account ID"
+msgstr ""
+
+#. translators: %1$s and %2$s are the opening and closing anchor tags.
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:279
+msgid "You can find your Ad Account ID in your Pinterest Business account. %1$sRead more%2$s. "
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:287
+msgid "Conversion Access Token"
+msgstr ""
+
+#. translators: %1$s and %2$s are the opening and closing anchor tags.
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:293
+msgid "You can find your Conversion Access Token under Ads > Conversions > Conversion access token. %1$sRead more%2$s. "
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:320
+msgid "TikTok Pixel"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:323
+msgid "Pixel ID"
+msgstr ""
+
+#. translators: %1$s and %2$s are the opening and closing anchor tags.
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:329
+msgid "You can find your Pixel id in your TikTok Business Account. %1$sRead our step by step directions%2$s."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:337
+msgid "Events API Access Token"
+msgstr ""
+
+#. translators: %1$s and %2$s are the opening and closing anchor tags.
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:343
+msgid "You can generate an access token in the Pixel Settings under Access Token Generation. %1$sRead more%2$s"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:371
+msgid "ViewContent Event"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:373
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:494
+msgid "Turn on the \"ViewContent\" event to track views of product pages on your website."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:378
+msgid "AddtoCart Event"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:380
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:501
+msgid "Turn on the \"AddToCart\" event to track when items are added to a shopping cart on your website."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:385
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:506
+msgid "InitiateCheckout Event"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:387
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:508
+msgid "Turn on the \"InitiateCheckout\" event to track when a user reaches the checkout page on your website."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:392
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:430
+msgid "Purchase Event"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:394
+msgid "Turn on the \"Purchase\" event to track successful purchases on your website."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:409
+msgid "View Item Event"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:411
+msgid "Send the View Item event to track views of product pages on your website."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:416
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:461
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:499
+msgid "Add to Cart Event"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:418
+msgid "Send the Add to Cart event when a product is added to the cart."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:423
+msgid "Begin Checkout Event"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:425
+msgid "Send the Begin Checkout event when the user sees the checkout page."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:432
+msgid "Send the Purchase event when the user completes a purchase."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:437
+msgid "Conversion Event"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:439
+msgid "Send the conversion event with the Google Ads label set above on a successful purchase."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:454
+msgid "PageVisit Product Event"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:456
+msgid "Turn on the \"PageVisit\" event to track views of product pages on your website."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:463
+msgid "Turn on the Add to Cart event to track when items are added to a shopping cart on your website."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:468
+msgid "Checkout PageVisit Event"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:470
+msgid "Enable the Checkout PageVisit event to track when a user reaches the checkout page on your website."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:475
+msgid "Checkout Event"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:477
+msgid "Turn on the \"Checkout\" event to track successful purchases on your website."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:492
+msgid "ViewContent Product Event"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:513
+msgid "PlaceAnOrder Event"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:515
+msgid "Turn on the \"PlaceAnOrder\" event to track successful purchases on your website."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:614
+msgid "Disabled, no eCommerce Platform Detected"
+msgstr ""
+
+#. translators: %s is the name of the eCommerce provider.
+#: includes/admin/pages/class-wpcode-admin-page-pixel.php:618
+msgid "%s Tracking Enabled"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:74
+msgid "This allows you to disable all Code Snippets functionality and have a single \"Headers & Footers\" item under the settings menu."
+msgstr ""
+
+#. Translators: Placeholders make the text bold.
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:79
+msgid "%1$sNOTE:%2$s Please use this setting with caution. It will disable all custom snippets that you add using the new snippet management interface."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:85
+msgid "License Key"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:90
+msgid "Headers & Footers mode"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:102
+msgid "Allow Usage Tracking"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:106
+msgid "By allowing us to track usage data, we can better help you, as we will know which WordPress configurations, themes, and plugins we should test."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:121
+msgid "WPCode Library Connection"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:126
+msgid "Editor Height"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:132
+msgid "Error Logging"
+msgstr ""
+
+#. Translators: %1$s: opening anchor tag, %2$s: closing anchor tag.
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:138
+msgid "Log errors thrown by snippets? %1$sView Logs%2$s"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:157
+msgid "Connect to the WPCode Library"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:160
+msgid "Disconnect from the WPCode Library"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:246
+msgid "Auto height"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:249
+msgid "Set the editor height in pixels or enable auto-grow so the code editor automatically grows in height with the code."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:264
+msgid "You're using WPCode Lite - no license needed. Enjoy!"
+msgstr ""
+
+#. Translators: %1$s - Opening anchor tag, do not translate. %2$s - Closing anchor tag, do not translate.
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:271
+msgid "To unlock more features consider %1$supgrading to PRO%2$s."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:278
+msgid "Already purchased? Simply enter your license key below to enable WPCode PRO!"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:280
+msgid "Paste license key here"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:282
+msgid "Verify Key"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:299
+msgid "Oops!"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:301
+msgid "Almost Done"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:302
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:345
+msgid "Activate"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:303
+msgid "Unfortunately there was a server connection error."
+msgstr ""
+
+#. Translators: This adds the name of the plugin "WPCode".
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:68
+msgid "Add %s Snippet"
+msgstr ""
+
+#. Translators: This adds the name of the plugin "WPCode".
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:69
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:99
+msgid "Add Snippet"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:92
+msgid "Save Snippet"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:93
+msgid "Create Custom Snippet"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:95
+msgid "Edit Snippet"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:96
+msgid "Update"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:126
+msgid "You cannot edit this snippet because it is in the Trash. Please restore it and try again."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:151
+msgid "Snippet updated."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:152
+msgid "Snippet created & Saved."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:153
+msgid "We encountered an error activating your snippet, please check the syntax and try again."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:154
+msgid "Sorry, you are not allowed to change the status of the snippet."
+msgstr ""
+
+#. translators: %s: Error message.
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:166
+msgid "Error message: %s"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:200
+msgid "Don't forget to activate your snippet using the toggle next to the \"Update\" button when you are ready to start using it."
+msgstr ""
+
+#. Translators: this changes the edit page title to show the snippet title.
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:234
+msgid "Edit snippet \"%s\""
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:286
+msgid "Add Your Custom Code (New Snippet)"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:287
+msgid "Choose this blank snippet to start from scratch and paste any custom code or simply write your own."
+msgstr ""
+
+#. Translators: The placeholders add links to create a new custom snippet or the suggest-a-snippet form.
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:306
+msgid "To speed up the process you can select from one of our pre-made library, or you can start with a %1$sblank snippet%2$s and %1$screate your own%2$s. Have a suggestion for new snippet? %3$sWe’d love to hear it!%4$s"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:329
+msgid "Add title for snippet"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:402
+msgid "Insertion"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:408
+msgid "Choose \"Auto Insert\" if you want the snippet to be automatically executed in one of the locations available. In \"Shortcode\" mode, the snippet will only be executed where the shortcode is inserted."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:411
+msgid "Insert Method"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:413
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:491
+msgid "Location"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:417
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:472
+msgid "Shortcode"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:433
+msgid "Your snippet can be either automatically executed or only used as a shortcode. When using the \"Auto Insert\" option you can choose the location where your snippet will be placed automatically."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:444
+msgid "before paragraph number"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:445
+msgid "after paragraph number"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:446
+msgid "before post number"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:447
+msgid "after post number"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:468
+msgid "Auto&nbsp;Insert"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:540
+msgid "Search locations"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:548
+msgid "Selected"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:712
+msgid "Please save the snippet first"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:786
+msgid "Tag"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:787
+#: includes/generator/class-wpcode-generator-hooks.php:1360
+msgid "Priority"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:788
+msgid "Note"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:795
+msgid "Basic info"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:797
+msgid "Tags: Use tags to make it easier to group similar snippets together. <br />Priority: A lower priority will result in the snippet being executed before others with a higher priority. <br />Note: Add a private note related to this snippet."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:809
+msgid "Using conditional logic you can limit the pages where you want the snippet to be auto-inserted."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:813
+msgid "Enable Logic"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:814
+msgid "Conditions"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:819
+msgid "Smart Conditional Logic"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:821
+msgid "Enable logic to add rules and limit where your snippets are inserted automatically. Use multiple groups for different sets of rules."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:861
+msgid "Update Generated Snippet"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:931
+msgid "Snippet Status:"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:934
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:362
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:804
+msgid "Active"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:937
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:363
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:807
+msgid "Inactive"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:958
+msgid "Save to Library"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1125
+msgid "+ Add new group"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1142
+msgid "Show"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1143
+msgid "Hide"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1159
+msgid "This code snippet if"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1262
+msgctxt "Conditional logic add another \"and\" rules row."
+msgid "AND"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1263
+msgid "Add another \"AND\" rules row."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1346
+msgctxt "Conditional logic \"or\" another rule"
+msgid "OR"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1366
+msgid "Save to Library is a Pro Feature"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1367
+msgid "Upgrade to PRO today and save your private snippets to the WPCode library for easy access. You can also share your snippets with other users or load them on other sites."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1368
+#: includes/lite/class-wpcode-smart-tags-lite.php:22
+msgid "Upgrade to PRO"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1369
+msgid "Custom Shortcode is a Pro Feature"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1370
+msgid "Upgrade today to use a custom shortcode and nerver worry about changing snippet ids again, even when importing your snippets to another site. You'll also get access to a private library that makes setting up new sites a lot easier."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1372
+msgid "Device Type is a Pro Feature"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1373
+msgid "Upgrade to PRO today and unlock one-click device targeting for your snippets."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1375
+msgid "Scheduling snippets is a Pro Feature"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1376
+msgid "Upgrade to PRO today and unlock powerful scheduling options to limit when your snippet is active on the site."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1378
+msgid "Blocks snippets is a Pro Feature"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1379
+msgid "Upgrade to PRO today and unlock building snippets using the Gutenberg Block Editor. Create templates using blocks and use the full power of WPCode to insert them in your site."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1382
+msgid "Shortcode Attributes"
+msgstr ""
+
+#. Translators: %1$s Opening anchor tag. %2$s Closing anchor tag.
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1385
+msgid "For better results using conditional logic with PHP snippets we automatically switched the auto-insert location to \"Frontend Conditional Logic\" that runs later. If you want to run the snippet earlier please switch back to \"Run Everywhere\" but note not all conditional logic options will be available. %1$sRead more%2$s"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1467
+msgid "Custom Shortcode"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1470
+msgid "Shortcode name"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1475
+msgid "Use this field to define a custom shortcode name instead of the id-based one."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1489
+msgid "Add&nbsp;Attribute"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1570
+msgid "Schedule snippet"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1599
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1600
+msgid "Start Date"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1601
+msgid "Clear start date"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1608
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1609
+msgid "End Date"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1610
+msgid "Clear end date"
+msgstr ""
+
+#. Translators: %1$s and %2$s are HTML tags for a link to the documentation article.
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1619
+msgid "Looking for more scheduling options? %1$sClick here%2$s to read more about all the available options."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1691
+msgid "As you make changes to your snippet and save, you will get a list of previous versions with all the changes made in each revision. You can compare revisions to the current version or see changes as they have been saved by going through each revision. Any of the revisions can then be restored as needed."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1696
+msgid "Code Revisions"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1698
+msgid "Easily switch back to a previous version of your snippet."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1710
+msgid "Limit where you want this snippet to be loaded by device type. By default, snippets are loaded on all devices."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1716
+#: includes/lite/conditional-logic/class-wpcode-conditional-device.php:26
+#: includes/lite/conditional-logic/class-wpcode-conditional-device.php:37
+msgid "Device Type"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1730
+msgid "Any device type"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1731
+msgid "Desktop only"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1732
+msgid "Mobile only"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1794
+#: includes/generator/class-wpcode-generator-query.php:514
+msgid "Compare"
+msgstr ""
+
+#. Translators: time since the revision has been updated.
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1804
+msgid "Updated %s ago"
+msgstr ""
+
+#. Translators: The placeholder gets replaced with the extra number of revisions available.
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1827
+msgid "%d Other Revisions"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1849
+msgid "Code Revisions is a Pro Feature"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1852
+msgid "Upgrade to WPCode Pro today and start tracking revisions and see exactly who, when and which changes were made to your snippet."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1855
+msgid "Upgrade to Pro and Unlock Revisions"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1939
+msgid "View Error Logs"
+msgstr ""
+
+#. Translators: The placeholder gets replaced with the time passed since the snippet was deactivated.
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1963
+msgid "This snippet was automatically deactivated due to an error at %1$s on %2$s (%3$s ago)."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1973
+msgid "You can view the error log to get more details about the error that caused this."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1975
+msgid "You can enable error logging to get more details about the error that caused this."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-snippet-manager.php:1980
+msgid "This message will disappear when the snippet is updated."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:52
+msgid "Tools"
+msgstr ""
+
+#. Translators: Adds a link to the snippets list in the admin.
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:87
+msgid "Import was successfully finished. You can go and check %1$syour snippets%2$s."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:133
+msgid "WPCode Snippet Import"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:134
+msgid "Select a WPCode export file"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:140
+msgid "No file chosen"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:144
+msgid "Choose a file&hellip;"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:153
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:186
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:308
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:484
+msgid "Import"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:159
+msgid "Import from Other Code Plugins"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:160
+msgid "WPCode makes it easy for you to switch by allowing you import your third-party snippet plugins with a single click."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:163
+msgid "Select previous Code plugin"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:169
+msgid "Not Installed"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:171
+msgid "Not Active"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:201
+msgid "Export Code Snippets"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:205
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:496
+#: includes/generator/class-wpcode-generator-post-status.php:111
+msgid "Status"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:210
+msgid "Code type"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:215
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:493
+msgid "Tags"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:222
+msgid "Export Snippets"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:236
+msgid "System Information"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:241
+msgid "Test SSL Connections"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:242
+msgid "Click the button below to verify your web server can perform SSL connections successfully."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:244
+msgid "Test Connection"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:267
+msgid "Snippets import"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:271
+msgid "Select the Snippets you would like to import."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:275
+#: includes/admin/pages/class-wpcode-admin-page.php:970
+msgid "Available Snippets"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:280
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:357
+msgid "No snippets found."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:294
+msgid "Select All"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:299
+msgid "Snippets to Import"
+msgstr ""
+
+#. Translators: These add markup to display which snippet out of the total from the provider name.
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:320
+msgid "Importing %1$s of %2$s snippets from %3$s."
+msgstr ""
+
+#. Translators: this adds the total snippets count that have been completed.
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:338
+msgid "Congrats, the import process has finished! We have successfully imported %s snippets. You can review the results below."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:361
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:801
+msgid "All"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:395
+msgid "No snippets available to export."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:420
+msgid "No tags available."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:485
+msgid "Export"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:486
+msgid "System Info"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:487
+msgid "Importer"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:488
+msgid "Logs"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:599
+msgid "Please upload a valid .json snippets export file."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:600
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:613
+msgid "Error"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:612
+msgid "Snippets data cannot be imported."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:673
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:302
+msgid "Edit"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:689
+msgid "Testing"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:961
+msgid "You do not have sufficient permissions to view logs."
+msgstr ""
+
+#. translators: %1$s: opening anchor tag, %2$s: closing anchor tag.
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:972
+msgid "No logs found. You can enable logging from the %1$ssettings panel%2$s."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:1010
+msgid "Delete log"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:1020
+msgid "View"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:1028
+msgid "Log is empty."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:1048
+msgid "Link expired. Please refresh the page and retry."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:1052
+msgid "You do not have sufficient permissions to delete logs."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page-tools.php:1071
+msgid "Are you sure you want to delete this log?"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page.php:237
+msgid "Search docs"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page.php:241
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:707
+msgid "Clear"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page.php:248
+msgid "No docs found"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page.php:263
+msgid "View Documentation"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page.php:264
+msgid "Browse documentation, reference material, and tutorials for WPCode."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page.php:265
+msgid "View All Documentation"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page.php:269
+msgid "Get Support"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page.php:270
+msgid "Submit a ticket and our world class support team will be in touch soon."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page.php:271
+msgid "Submit a Support Ticket"
+msgstr ""
+
+#. Translators: Placeholder for the number of active notifications.
+#: includes/admin/pages/class-wpcode-admin-page.php:283
+msgid "New Notifications (%s)"
+msgstr ""
+
+#. Translators: Placeholder for the number of dismissed notifications.
+#: includes/admin/pages/class-wpcode-admin-page.php:294
+msgid "Notifications (%s)"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page.php:301
+msgid "Dismissed Notifications"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page.php:304
+msgid "Active Notifications"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page.php:327
+msgid "Dismiss all"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page.php:369
+msgid "Dismiss"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page.php:427
+msgid "Help"
+msgstr ""
+
+#. translators: %s is the title of the metabox.
+#: includes/admin/pages/class-wpcode-admin-page.php:574
+msgid "Collapse Metabox %s"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page.php:691
+msgid "Use snippet"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page.php:705
+msgid "Edit snippet"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page.php:706
+msgid "Used"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page.php:717
+msgid "Preview"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page.php:730
+msgid "Connect to library to unlock (Free)"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page.php:894
+msgid "We encountered a problem loading the Snippet Library items, please try again later."
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page.php:1060
+msgid "Preview Snippet"
+msgstr ""
+
+#. translators: %d - snippets count.
+#: includes/admin/pages/class-wpcode-admin-page.php:1230
+msgid "Get Access to Our Library of %d FREE Snippets"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-admin-page.php:1235
+msgid "Connect your website with WPCode Library and get instant access to FREE code snippets written by our experts. Snippets can be installed with just 1-click from inside the plugin and come automatically-configured to save you time."
+msgstr ""
+
+#. Translators: This is the format for displaying the date in the admin list, [date] at [time].
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:106
+msgid "%1$s at %2$s"
+msgstr ""
+
+#. Translators: The tag by which to filter the list of snippets in the admin.
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:137
+msgid "Filter snippets by tag: %s"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:171
+msgid "Toggle Snippet Status"
+msgstr ""
+
+#. Translators: %1$s is the time since the snippet was deactivated, %2$s is the date and time of deactivation.
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:180
+msgid "This snippet was automatically deactivated because of a fatal erorr at %2$s on %3$s (%1$s ago)"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:234
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:301
+msgid "Edit This Snippet"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:274
+msgid "Restore this snippet"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:275
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:338
+msgid "Restore"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:291
+msgid "Delete this snippet permanently"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:292
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:339
+msgid "Delete Permanently"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:321
+msgid "Move this snippet to trash"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:322
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:344
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:810
+msgid "Trash"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:346
+msgid "Deactivate"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:489
+#: includes/generator/class-wpcode-generator-post-status.php:128
+#: includes/generator/class-wpcode-generator-post-type.php:136
+#: includes/generator/class-wpcode-generator-sidebar.php:130
+msgid "Name"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:490
+#: includes/generator/class-wpcode-generator-post-type.php:378
+#: includes/generator/class-wpcode-generator-query.php:225
+#: includes/generator/class-wpcode-generator-query.php:299
+msgid "Author"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:492
+msgid "Created"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:687
+msgid "0 items"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:703
+#: includes/generator/class-wpcode-generator-hooks.php:1337
+msgid "Filter"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:737
+msgid "Filter by code type"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:739
+msgid "All types"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:779
+msgid "Filter by location"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:781
+msgid "All locations"
+msgstr ""
+
+#: includes/admin/pages/class-wpcode-code-snippets-table.php:813
+msgid "Automatically Deactivated"
+msgstr ""
+
+#: includes/auto-insert/class-wpcode-auto-insert-archive.php:26
+msgid "Categories, Archives, Tags, Taxonomies"
+msgstr ""
+
+#: includes/auto-insert/class-wpcode-auto-insert-archive.php:29
+msgid "Insert Before Excerpt"
+msgstr ""
+
+#: includes/auto-insert/class-wpcode-auto-insert-archive.php:30
+msgid "Insert snippet above post summary."
+msgstr ""
+
+#: includes/auto-insert/class-wpcode-auto-insert-archive.php:33
+msgid "Insert After Excerpt"
+msgstr ""
+
+#: includes/auto-insert/class-wpcode-auto-insert-archive.php:34
+msgid "Insert snippet below post summary."
+msgstr ""
+
+#: includes/auto-insert/class-wpcode-auto-insert-archive.php:37
+msgid "Between Posts"
+msgstr ""
+
+#: includes/auto-insert/class-wpcode-auto-insert-archive.php:38
+msgid "Insert snippet between multiple posts."
+msgstr ""
+
+#: includes/auto-insert/class-wpcode-auto-insert-archive.php:41
+msgid "Before Post"
+msgstr ""
+
+#: includes/auto-insert/class-wpcode-auto-insert-archive.php:42
+#: includes/auto-insert/class-wpcode-auto-insert-single.php:37
+msgid "Insert snippet at the beginning of a post."
+msgstr ""
+
+#: includes/auto-insert/class-wpcode-auto-insert-archive.php:45
+msgid "After Post"
+msgstr ""
+
+#: includes/auto-insert/class-wpcode-auto-insert-archive.php:46
+#: includes/auto-insert/class-wpcode-auto-insert-single.php:41
+msgid "Insert snippet at the end of a post."
+msgstr ""
+
+#: includes/auto-insert/class-wpcode-auto-insert-everywhere.php:33
+msgid "PHP Snippets Only"
+msgstr ""
+
+#: includes/auto-insert/class-wpcode-auto-insert-everywhere.php:36
+msgid "Run Everywhere"
+msgstr ""
+
+#: includes/auto-insert/class-wpcode-auto-insert-everywhere.php:37
+msgid "Snippet gets executed everywhere on your website."
+msgstr ""
+
+#: includes/auto-insert/class-wpcode-auto-insert-everywhere.php:40
+msgid "Frontend Only"
+msgstr ""
+
+#: includes/auto-insert/class-wpcode-auto-insert-everywhere.php:41
+msgid "Snippet gets executed only in the frontend of the website."
+msgstr ""
+
+#: includes/auto-insert/class-wpcode-auto-insert-everywhere.php:44
+msgid "Admin Only"
+msgstr ""
+
+#: includes/auto-insert/class-wpcode-auto-insert-everywhere.php:45
+msgid "The snippet only gets executed in the wp-admin area."
+msgstr ""
+
+#: includes/auto-insert/class-wpcode-auto-insert-everywhere.php:48
+msgid "Frontend Conditional Logic"
+msgstr ""
+
+#: includes/auto-insert/class-wpcode-auto-insert-everywhere.php:49
+msgid "Ideal for running the snippet later with conditional logic rules in the frontend."
+msgstr ""
+
+#: includes/auto-insert/class-wpcode-auto-insert-single.php:33
+msgid "Page, Post, Custom Post Type"
+msgstr ""
+
+#: includes/auto-insert/class-wpcode-auto-insert-single.php:36
+msgid "Insert Before Post"
+msgstr ""
+
+#: includes/auto-insert/class-wpcode-auto-insert-single.php:40
+msgid "Insert After Post"
+msgstr ""
+
+#: includes/auto-insert/class-wpcode-auto-insert-single.php:44
+msgid "Insert Before Content"
+msgstr ""
+
+#: includes/auto-insert/class-wpcode-auto-insert-single.php:45
+msgid "Insert snippet at the beginning of the post content."
+msgstr ""
+
+#: includes/auto-insert/class-wpcode-auto-insert-single.php:48
+msgid "Insert After Content"
+msgstr ""
+
+#: includes/auto-insert/class-wpcode-auto-insert-single.php:49
+msgid "Insert snippet at the end of the post content."
+msgstr ""
+
+#: includes/auto-insert/class-wpcode-auto-insert-single.php:52
+msgid "Insert Before Paragraph"
+msgstr ""
+
+#: includes/auto-insert/class-wpcode-auto-insert-single.php:53
+msgid "Insert snippet before paragraph # of the post content."
+msgstr ""
+
+#: includes/auto-insert/class-wpcode-auto-insert-single.php:56
+msgid "Insert After Paragraph"
+msgstr ""
+
+#: includes/auto-insert/class-wpcode-auto-insert-single.php:57
+msgid "Insert snippet after paragraph # of the post content."
+msgstr ""
+
+#: includes/auto-insert/class-wpcode-auto-insert-site-wide.php:26
+msgid "Site wide"
+msgstr ""
+
+#: includes/auto-insert/class-wpcode-auto-insert-site-wide.php:29
+msgid "Site Wide Header"
+msgstr ""
+
+#: includes/auto-insert/class-wpcode-auto-insert-site-wide.php:30
+msgid "Insert snippet between the head tags of your website on all pages."
+msgstr ""
+
+#: includes/auto-insert/class-wpcode-auto-insert-site-wide.php:33
+msgid "Site Wide Body"
+msgstr ""
+
+#: includes/auto-insert/class-wpcode-auto-insert-site-wide.php:34
+msgid "Insert the snippet just after the opening body tag."
+msgstr ""
+
+#: includes/auto-insert/class-wpcode-auto-insert-site-wide.php:37
+msgid "Site Wide Footer"
+msgstr ""
+
+#: includes/auto-insert/class-wpcode-auto-insert-site-wide.php:38
+msgid "Insert the snippet in the footer just before the closing body tag."
+msgstr ""
+
+#: includes/class-wpcode-auto-insert.php:53
+msgid "Global"
+msgstr ""
+
+#: includes/class-wpcode-auto-insert.php:57
+msgid "Page-Specific"
+msgstr ""
+
+#: includes/class-wpcode-auto-insert.php:61
+msgid "eCommerce"
+msgstr ""
+
+#: includes/class-wpcode-generator.php:94
+msgid "Admin"
+msgstr ""
+
+#: includes/class-wpcode-generator.php:95
+msgid "Content"
+msgstr ""
+
+#: includes/class-wpcode-generator.php:96
+msgid "Core"
+msgstr ""
+
+#: includes/class-wpcode-generator.php:97
+msgid "Design"
+msgstr ""
+
+#: includes/class-wpcode-generator.php:98
+#: includes/generator/class-wpcode-generator-post-type.php:539
+msgid "Query"
+msgstr ""
+
+#: includes/class-wpcode-install.php:120
+msgid "Display a message after the 1st paragraph of posts"
+msgstr ""
+
+#: includes/class-wpcode-install.php:132
+msgid "Completely Disable Comments"
+msgstr ""
+
+#: includes/class-wpcode-library-auth.php:58
+#: includes/class-wpcode-library-auth.php:105
+#: includes/class-wpcode-library-auth.php:157
+msgid "You do not have permissions to connect WPCode to the library."
+msgstr ""
+
+#: includes/class-wpcode-library-auth.php:63
+msgid "Your WordPress Site"
+msgstr ""
+
+#: includes/class-wpcode-library-auth.php:142
+msgid "Authentication successfully completed"
+msgstr ""
+
+#: includes/class-wpcode-library-auth.php:143
+msgid "Reloading page, please wait."
+msgstr ""
+
+#: includes/class-wpcode-smart-tags.php:43
+msgid "Content ID"
+msgstr ""
+
+#: includes/class-wpcode-smart-tags.php:47
+msgid "Content title"
+msgstr ""
+
+#: includes/class-wpcode-smart-tags.php:51
+msgid "Content Categories"
+msgstr ""
+
+#: includes/class-wpcode-smart-tags.php:55
+msgid "User's email"
+msgstr ""
+
+#: includes/class-wpcode-smart-tags.php:59
+msgid "User's first name"
+msgstr ""
+
+#: includes/class-wpcode-smart-tags.php:63
+msgid "User's last name"
+msgstr ""
+
+#: includes/class-wpcode-smart-tags.php:67
+msgid "Custom Field (meta)"
+msgstr ""
+
+#: includes/class-wpcode-smart-tags.php:72
+msgid "Author ID"
+msgstr ""
+
+#: includes/class-wpcode-smart-tags.php:76
+msgid "Author Name"
+msgstr ""
+
+#: includes/class-wpcode-smart-tags.php:80
+msgid "Author URL"
+msgstr ""
+
+#: includes/class-wpcode-smart-tags.php:84
+msgid "Login URL"
+msgstr ""
+
+#: includes/class-wpcode-smart-tags.php:88
+msgid "Logout URL"
+msgstr ""
+
+#: includes/class-wpcode-smart-tags.php:95
+msgid "Order number"
+msgstr ""
+
+#: includes/class-wpcode-smart-tags.php:99
+msgid "Order subtotal"
+msgstr ""
+
+#: includes/class-wpcode-smart-tags.php:103
+msgid "Order total"
+msgstr ""
+
+#: includes/class-wpcode-smart-tags.php:189
+#: includes/lite/admin/class-wpcode-metabox-snippets-lite.php:201
+msgid "Show Smart Tags"
+msgstr ""
+
+#: includes/class-wpcode-smart-tags.php:192
+msgid "Hide Smart Tags"
+msgstr ""
+
+#: includes/class-wpcode-smart-tags.php:223
+msgid "Learn more about Smart Tags"
+msgstr ""
+
+#: includes/class-wpcode-snippet-execute.php:78
+msgid "HTML Snippet"
+msgstr ""
+
+#: includes/class-wpcode-snippet-execute.php:83
+msgid "Text Snippet"
+msgstr ""
+
+#: includes/class-wpcode-snippet-execute.php:87
+msgid "Blocks Snippet (PRO)"
+msgstr ""
+
+#: includes/class-wpcode-snippet-execute.php:92
+msgid "JavaScript Snippet"
+msgstr ""
+
+#: includes/class-wpcode-snippet-execute.php:96
+msgid "PHP Snippet"
+msgstr ""
+
+#: includes/class-wpcode-snippet-execute.php:100
+msgid "Universal Snippet"
+msgstr ""
+
+#: includes/class-wpcode-snippet-execute.php:104
+msgid "CSS Snippet"
+msgstr ""
+
+#: includes/class-wpcode-snippet-execute.php:382
+msgid "Snippet has not been activated due to an error."
+msgstr ""
+
+#: includes/class-wpcode-snippet-execute.php:386
+msgid "Please click the back button in the browser to update the snippet."
+msgstr ""
+
+#: includes/class-wpcode-snippet-execute.php:389
+msgid "WPCode has detected an error in one of the snippets which has now been automatically deactivated."
+msgstr ""
+
+#: includes/class-wpcode-snippet-execute.php:403
+msgid "Edit Deactivated Snippet"
+msgstr ""
+
+#: includes/class-wpcode-snippet-execute.php:417
+msgid "View error logs"
+msgstr ""
+
+#: includes/class-wpcode-snippet-execute.php:426
+msgid "Enable error logging"
+msgstr ""
+
+#: includes/class-wpcode-snippet-execute.php:432
+msgid "Error message:"
+msgstr ""
+
+#: includes/class-wpcode-snippet.php:648
+msgid "Untitled Snippet"
+msgstr ""
+
+#. translators: %s: Snippet title and ID used in the error log for clarity.
+#: includes/class-wpcode-snippet.php:688
+msgid "Snippet %s was automatically deactivated due to a fatal error."
+msgstr ""
+
+#: includes/conditional-logic/class-wpcode-conditional-page.php:26
+msgid "Page"
+msgstr ""
+
+#: includes/conditional-logic/class-wpcode-conditional-page.php:37
+msgid "Type of page"
+msgstr ""
+
+#: includes/conditional-logic/class-wpcode-conditional-page.php:41
+msgid "Homepage"
+msgstr ""
+
+#: includes/conditional-logic/class-wpcode-conditional-page.php:45
+msgid "Archive"
+msgstr ""
+
+#: includes/conditional-logic/class-wpcode-conditional-page.php:49
+msgid "Single post/page"
+msgstr ""
+
+#: includes/conditional-logic/class-wpcode-conditional-page.php:53
+msgid "Search page"
+msgstr ""
+
+#: includes/conditional-logic/class-wpcode-conditional-page.php:57
+msgid "404 page"
+msgstr ""
+
+#: includes/conditional-logic/class-wpcode-conditional-page.php:61
+msgid "Author page"
+msgstr ""
+
+#: includes/conditional-logic/class-wpcode-conditional-page.php:68
+#: includes/generator/class-wpcode-generator-query.php:204
+msgid "Post type"
+msgstr ""
+
+#: includes/conditional-logic/class-wpcode-conditional-page.php:74
+msgid "Referrer"
+msgstr ""
+
+#: includes/conditional-logic/class-wpcode-conditional-page.php:79
+msgid "Taxonomy page"
+msgstr ""
+
+#: includes/conditional-logic/class-wpcode-conditional-page.php:85
+msgid "Taxonomy term"
+msgstr ""
+
+#: includes/conditional-logic/class-wpcode-conditional-page.php:92
+msgid "Page URL"
+msgstr ""
+
+#: includes/conditional-logic/class-wpcode-conditional-user.php:26
+msgid "User"
+msgstr ""
+
+#: includes/conditional-logic/class-wpcode-conditional-user.php:37
+msgid "Logged-in"
+msgstr ""
+
+#: includes/conditional-logic/class-wpcode-conditional-user.php:41
+msgid "True"
+msgstr ""
+
+#: includes/conditional-logic/class-wpcode-conditional-user.php:45
+msgid "False"
+msgstr ""
+
+#: includes/conditional-logic/class-wpcode-conditional-user.php:52
+msgid "User Role"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-admin-bar.php:35
+msgid "Admin Bar Menu"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-admin-bar.php:36
+msgid "Add a custom admin bar menu with links or content."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-admin-bar.php:47
+#: includes/generator/class-wpcode-generator-contact-methods.php:47
+#: includes/generator/class-wpcode-generator-cronjob.php:47
+#: includes/generator/class-wpcode-generator-hooks.php:1279
+#: includes/generator/class-wpcode-generator-menu.php:47
+#: includes/generator/class-wpcode-generator-post-status.php:47
+#: includes/generator/class-wpcode-generator-post-type.php:47
+#: includes/generator/class-wpcode-generator-query.php:72
+#: includes/generator/class-wpcode-generator-script.php:47
+#: includes/generator/class-wpcode-generator-sidebar.php:47
+#: includes/generator/class-wpcode-generator-style.php:47
+#: includes/generator/class-wpcode-generator-taxonomy.php:47
+#: includes/generator/class-wpcode-generator-widget.php:47
+msgid "Info"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-admin-bar.php:54
+#: includes/generator/class-wpcode-generator-contact-methods.php:54
+#: includes/generator/class-wpcode-generator-cronjob.php:54
+#: includes/generator/class-wpcode-generator-hooks.php:1286
+#: includes/generator/class-wpcode-generator-menu.php:54
+#: includes/generator/class-wpcode-generator-post-status.php:54
+#: includes/generator/class-wpcode-generator-post-type.php:54
+#: includes/generator/class-wpcode-generator-query.php:79
+#: includes/generator/class-wpcode-generator-script.php:54
+#: includes/generator/class-wpcode-generator-sidebar.php:54
+#: includes/generator/class-wpcode-generator-style.php:54
+#: includes/generator/class-wpcode-generator-taxonomy.php:54
+#: includes/generator/class-wpcode-generator-widget.php:54
+msgid "Overview"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-admin-bar.php:55
+msgid "Generate a snippet to add a custom menu to the admin bar by filling in a simple form."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-admin-bar.php:63
+#: includes/generator/class-wpcode-generator-contact-methods.php:63
+#: includes/generator/class-wpcode-generator-cronjob.php:68
+#: includes/generator/class-wpcode-generator-hooks.php:1304
+#: includes/generator/class-wpcode-generator-menu.php:68
+#: includes/generator/class-wpcode-generator-post-status.php:63
+#: includes/generator/class-wpcode-generator-post-type.php:63
+#: includes/generator/class-wpcode-generator-query.php:93
+#: includes/generator/class-wpcode-generator-script.php:63
+#: includes/generator/class-wpcode-generator-sidebar.php:68
+#: includes/generator/class-wpcode-generator-style.php:63
+#: includes/generator/class-wpcode-generator-taxonomy.php:63
+#: includes/generator/class-wpcode-generator-widget.php:63
+msgid "Usage"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-admin-bar.php:65
+#: includes/generator/class-wpcode-generator-contact-methods.php:65
+msgid "Fill in the forms sections using the menu on the left."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-admin-bar.php:66
+#: includes/generator/class-wpcode-generator-contact-methods.php:66
+#: includes/generator/class-wpcode-generator-cronjob.php:71
+#: includes/generator/class-wpcode-generator-hooks.php:1307
+#: includes/generator/class-wpcode-generator-menu.php:71
+#: includes/generator/class-wpcode-generator-post-status.php:66
+#: includes/generator/class-wpcode-generator-post-type.php:66
+#: includes/generator/class-wpcode-generator-query.php:96
+#: includes/generator/class-wpcode-generator-script.php:66
+#: includes/generator/class-wpcode-generator-sidebar.php:71
+#: includes/generator/class-wpcode-generator-style.php:66
+#: includes/generator/class-wpcode-generator-taxonomy.php:66
+#: includes/generator/class-wpcode-generator-widget.php:66
+msgid "Click the \"Update Code\" button."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-admin-bar.php:67
+#: includes/generator/class-wpcode-generator-contact-methods.php:67
+#: includes/generator/class-wpcode-generator-cronjob.php:72
+#: includes/generator/class-wpcode-generator-hooks.php:1308
+#: includes/generator/class-wpcode-generator-menu.php:72
+#: includes/generator/class-wpcode-generator-post-status.php:67
+#: includes/generator/class-wpcode-generator-post-type.php:67
+#: includes/generator/class-wpcode-generator-query.php:97
+#: includes/generator/class-wpcode-generator-script.php:67
+#: includes/generator/class-wpcode-generator-sidebar.php:72
+#: includes/generator/class-wpcode-generator-style.php:67
+#: includes/generator/class-wpcode-generator-taxonomy.php:67
+#: includes/generator/class-wpcode-generator-widget.php:67
+msgid "Click on \"Use Snippet\" to create a new snippet with the generated code."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-admin-bar.php:68
+#: includes/generator/class-wpcode-generator-contact-methods.php:68
+#: includes/generator/class-wpcode-generator-cronjob.php:73
+#: includes/generator/class-wpcode-generator-hooks.php:1309
+#: includes/generator/class-wpcode-generator-menu.php:73
+#: includes/generator/class-wpcode-generator-post-status.php:68
+#: includes/generator/class-wpcode-generator-post-type.php:68
+#: includes/generator/class-wpcode-generator-query.php:98
+#: includes/generator/class-wpcode-generator-script.php:68
+#: includes/generator/class-wpcode-generator-sidebar.php:73
+#: includes/generator/class-wpcode-generator-style.php:68
+#: includes/generator/class-wpcode-generator-taxonomy.php:68
+#: includes/generator/class-wpcode-generator-widget.php:68
+msgid "Activate and save the snippet and you're ready to go"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-admin-bar.php:77
+#: includes/generator/class-wpcode-generator-contact-methods.php:77
+#: includes/generator/class-wpcode-generator-cronjob.php:82
+#: includes/generator/class-wpcode-generator-hooks.php:1318
+#: includes/generator/class-wpcode-generator-menu.php:82
+#: includes/generator/class-wpcode-generator-post-status.php:77
+#: includes/generator/class-wpcode-generator-post-type.php:77
+#: includes/generator/class-wpcode-generator-query.php:107
+#: includes/generator/class-wpcode-generator-script.php:77
+#: includes/generator/class-wpcode-generator-sidebar.php:82
+#: includes/generator/class-wpcode-generator-style.php:77
+#: includes/generator/class-wpcode-generator-taxonomy.php:77
+#: includes/generator/class-wpcode-generator-widget.php:77
+msgid "Examples"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-admin-bar.php:78
+msgid "You could add a new admin bar menu for links you use often, a list of posts, a site you often visit when in the admin, etc."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-admin-bar.php:84
+#: includes/generator/class-wpcode-generator-contact-methods.php:84
+#: includes/generator/class-wpcode-generator-cronjob.php:89
+#: includes/generator/class-wpcode-generator-menu.php:89
+#: includes/generator/class-wpcode-generator-post-status.php:84
+#: includes/generator/class-wpcode-generator-post-type.php:84
+#: includes/generator/class-wpcode-generator-query.php:114
+#: includes/generator/class-wpcode-generator-script.php:89
+#: includes/generator/class-wpcode-generator-sidebar.php:89
+#: includes/generator/class-wpcode-generator-style.php:89
+#: includes/generator/class-wpcode-generator-taxonomy.php:84
+#: includes/generator/class-wpcode-generator-widget.php:84
+msgid "General"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-admin-bar.php:90
+#: includes/generator/class-wpcode-generator-contact-methods.php:90
+#: includes/generator/class-wpcode-generator-cronjob.php:95
+#: includes/generator/class-wpcode-generator-menu.php:95
+#: includes/generator/class-wpcode-generator-post-status.php:90
+#: includes/generator/class-wpcode-generator-post-type.php:90
+#: includes/generator/class-wpcode-generator-script.php:95
+#: includes/generator/class-wpcode-generator-sidebar.php:95
+#: includes/generator/class-wpcode-generator-style.php:95
+#: includes/generator/class-wpcode-generator-taxonomy.php:90
+msgid "Function name"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-admin-bar.php:91
+#: includes/generator/class-wpcode-generator-cronjob.php:96
+#: includes/generator/class-wpcode-generator-menu.php:96
+#: includes/generator/class-wpcode-generator-post-status.php:91
+#: includes/generator/class-wpcode-generator-post-type.php:91
+#: includes/generator/class-wpcode-generator-script.php:96
+#: includes/generator/class-wpcode-generator-sidebar.php:96
+#: includes/generator/class-wpcode-generator-style.php:96
+#: includes/generator/class-wpcode-generator-taxonomy.php:91
+msgid "Make this unique to avoid conflicts with other snippets"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-admin-bar.php:101
+msgid "Position"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-admin-bar.php:102
+msgid "Select where you want the menu item to be displayed on the admin bar."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-admin-bar.php:106
+msgid "Last item on the left"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-admin-bar.php:107
+msgid "Before Site Name"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-admin-bar.php:108
+msgid "After Site Name"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-admin-bar.php:117
+msgid "Menu Structure"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-admin-bar.php:123
+msgid "Menu ID"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-admin-bar.php:124
+msgid "Unique menu id for the admin bar menu."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-admin-bar.php:131
+msgid "Menu Title"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-admin-bar.php:132
+msgid "Text or HTML that will show up in the admin bar top-level item. Use HTML if you want to display an image."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-admin-bar.php:139
+msgid "Menu item link"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-admin-bar.php:140
+msgid "If left empty, the top level menu item will not be a link, just text."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-admin-bar.php:147
+msgid "Menu item target"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-admin-bar.php:148
+msgid "The menu item is a link use this field to set the target attribute. Use \"_blank\" to open the link in a new tab."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-admin-bar.php:158
+msgid "Submenu Item Title"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-admin-bar.php:159
+msgid "Text or HTML for the submenu item."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-admin-bar.php:167
+msgid "Submenu item link"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-admin-bar.php:168
+msgid "If left empty, this menu item will not be a link, just text."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-admin-bar.php:176
+msgid "Submenu item target attribute"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-admin-bar.php:177
+msgid "If the menu item is a link use this for the target attribute. Use \"_blank\" to open in a new tab."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-admin-bar.php:188
+msgid "Add more submenu items"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-admin-bar.php:189
+msgid "Use the \"Add submenu item\" button below to add multiple submenu items."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-admin-bar.php:193
+msgid "Add submenu item"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-contact-methods.php:35
+#: includes/generator/class-wpcode-generator-contact-methods.php:111
+msgid "Contact Methods"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-contact-methods.php:36
+msgid "Add additional contact methods to WordPress user profiles."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-contact-methods.php:55
+msgid "Use this generator to create a snippet which adds more contact methods to your WordPress users profiles."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-contact-methods.php:78
+msgid "You can add extra fields for user profiles like their extended address, city, country, phone number, social media profiles (Facebook, Twitter, etc)."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-contact-methods.php:91
+msgid "Make this unique to avoid conflicts with other snippets."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-contact-methods.php:101
+#: includes/generator/class-wpcode-generator-cronjob.php:106
+#: includes/generator/class-wpcode-generator-menu.php:106
+#: includes/generator/class-wpcode-generator-post-status.php:101
+#: includes/generator/class-wpcode-generator-post-type.php:101
+#: includes/generator/class-wpcode-generator-sidebar.php:106
+#: includes/generator/class-wpcode-generator-taxonomy.php:102
+#: includes/generator/class-wpcode-generator-widget.php:113
+msgid "Text Domain"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-contact-methods.php:102
+#: includes/generator/class-wpcode-generator-cronjob.php:107
+#: includes/generator/class-wpcode-generator-menu.php:107
+#: includes/generator/class-wpcode-generator-post-status.php:102
+#: includes/generator/class-wpcode-generator-post-type.php:102
+#: includes/generator/class-wpcode-generator-sidebar.php:107
+#: includes/generator/class-wpcode-generator-taxonomy.php:103
+msgid "Optional text domain for translations."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-contact-methods.php:117
+msgid "Contact Method Slug"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-contact-methods.php:118
+msgid "A lowercase with no spaces slug for usage in the code. For example: \"facebook\" or \"telephone\"."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-contact-methods.php:126
+msgid "Contact Method Label"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-contact-methods.php:127
+msgid "This will show up as a label next to the contact method field. For example: \"Facebook URL\" or \"Phone number\"."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-contact-methods.php:138
+msgid "Add more contact methods"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-contact-methods.php:139
+msgid "Use the \"Add contact method\" button below to add as many contact methods as you wish."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-contact-methods.php:143
+msgid "Add contact method"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-cronjob.php:35
+msgid "Schedule a Cron Job"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-cronjob.php:36
+msgid "Generate a snippet to schedule a recurring event using the WordPress cron."
+msgstr ""
+
+#. Translators: Placeholders add links to the wordpress.org references.
+#: includes/generator/class-wpcode-generator-cronjob.php:57
+msgid "This generator makes it easy to generate a snippet that will schedule a recurring event using %1$swp_schedule_event%2$s."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-cronjob.php:70
+#: includes/generator/class-wpcode-generator-hooks.php:1306
+#: includes/generator/class-wpcode-generator-menu.php:70
+#: includes/generator/class-wpcode-generator-post-status.php:65
+#: includes/generator/class-wpcode-generator-post-type.php:65
+#: includes/generator/class-wpcode-generator-query.php:95
+#: includes/generator/class-wpcode-generator-script.php:65
+#: includes/generator/class-wpcode-generator-sidebar.php:70
+#: includes/generator/class-wpcode-generator-style.php:65
+#: includes/generator/class-wpcode-generator-taxonomy.php:65
+#: includes/generator/class-wpcode-generator-widget.php:65
+msgid "Fill in the forms using the menu on the left."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-cronjob.php:83
+msgid "You may want to run some code once every hour, day or week, for example you could use this to send an email with the number of published posts every week."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-cronjob.php:116
+#: includes/lite/conditional-logic/class-wpcode-conditional-schedule.php:26
+msgid "Schedule"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-cronjob.php:122
+msgid "Recurrence"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-cronjob.php:123
+msgid "Choose how often you want this event to run."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-cronjob.php:127
+msgid "Hourly"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-cronjob.php:128
+msgid "Twice Daily"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-cronjob.php:129
+msgid "Daily"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-cronjob.php:130
+msgid "Custom"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-cronjob.php:138
+msgid "Custom Recurrence Name"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-cronjob.php:139
+msgid "This is the recurrence name slug, lowercase and no space."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-cronjob.php:145
+msgid "Custom Recurrence Label"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-cronjob.php:148
+msgid "This label will be used in a list of cron events, for example."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-cronjob.php:152
+msgid "Custom Recurrence Interval"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-cronjob.php:155
+msgid "The number of seconds of this interval."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-cronjob.php:161
+#: includes/generator/class-wpcode-generator-hooks.php:1379
+msgid "Code"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-cronjob.php:167
+#: includes/generator/class-wpcode-generator-hooks.php:1342
+msgid "Hook name"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-cronjob.php:168
+msgid "Unique name of your hook used to run when scheduled."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-cronjob.php:177
+#: includes/generator/class-wpcode-generator-hooks.php:1385
+msgid "PHP Code"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-cronjob.php:178
+msgid "Custom PHP code that will run when the event is triggered."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-hooks.php:35
+msgid "Hooks"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-hooks.php:36
+msgid "Generate a snippet for an action or a filter using any available hook."
+msgstr ""
+
+#. Translators: Placeholders add links to the wordpress.org references.
+#: includes/generator/class-wpcode-generator-hooks.php:1289
+msgid "Using this generator you can safely add custom %1$shooks%2$s using either %3$sadd_action%4$s or %5$sadd_filter%6$s."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-hooks.php:1319
+msgid "You can use this to quickly get started with adding an action or filter."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-hooks.php:1325
+msgid "Hook Details"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-hooks.php:1331
+msgid "Hook type"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-hooks.php:1332
+msgid "Can be either an action or a filter"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-hooks.php:1336
+msgid "Action"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-hooks.php:1343
+msgid "Input hook name or pick one from the suggested list as you type."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-hooks.php:1353
+msgid "Callback function"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-hooks.php:1354
+msgid "Name of the function you want to add to this hook."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-hooks.php:1361
+msgid "Priority of this hook, by default 10."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-hooks.php:1370
+msgid "Arguments list"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-hooks.php:1371
+msgid "Add comma-separated custom arguments that will be passed to the callback function depending on the action/filter."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-hooks.php:1386
+msgid "Custom PHP code you want to run in the function, you can also edit this after you create the snippet."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-menu.php:35
+msgid "Navigation Menu"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-menu.php:36
+msgid "Generate a snippet to register new navigation menus for your website."
+msgstr ""
+
+#. Translators: Placeholders add links to the wordpress.org references.
+#: includes/generator/class-wpcode-generator-menu.php:57
+msgid "This generator makes it easy to add new navigation menus to your website using the \"register_nav_menus\" function."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-menu.php:83
+msgid "You can add a new navigation menu for your website to display in a flyout menu that is not part of the theme, for example."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-menu.php:116
+msgid "Menus"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-menu.php:122
+msgid "Menu name"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-menu.php:123
+msgid "This is the menu name slug, lowercase and no space."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-menu.php:130
+msgid "Menu label"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-menu.php:131
+msgid "Add a descriptive label for this menu in the admin."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-menu.php:141
+msgid "Add another menu"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-menu.php:142
+msgid "Use the \"Add menu\" button below to add as many menu locations as you need."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-menu.php:146
+msgid "Add Menu"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-status.php:35
+#: includes/generator/class-wpcode-generator-post-status.php:117
+msgid "Post Status"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-status.php:36
+msgid "Use this tool to generate a custom post status for your posts."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-status.php:55
+msgid "Generate custom post statuses for your posts to improve the way you manage content."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-status.php:78
+msgid "You could add a new status called \"Pending Review\" that your authors can use before the content will be published"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-status.php:118
+msgid "Name of status used in the code, lowercase maximum 32 characters."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-status.php:136
+#: includes/generator/class-wpcode-generator-post-type.php:144
+#: includes/generator/class-wpcode-generator-taxonomy.php:137
+msgid "Name (Plural)"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-status.php:146
+#: includes/generator/class-wpcode-generator-post-type.php:441
+#: includes/generator/class-wpcode-generator-taxonomy.php:309
+msgid "Visibility"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-status.php:152
+#: includes/generator/class-wpcode-generator-post-type.php:447
+#: includes/generator/class-wpcode-generator-taxonomy.php:315
+msgid "Public"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-status.php:153
+#: includes/generator/class-wpcode-generator-post-status.php:167
+msgid "Should the posts with this status be visible in the frontend?"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-status.php:156
+#: includes/generator/class-wpcode-generator-post-status.php:184
+msgid "Yes - Default"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-status.php:157
+#: includes/generator/class-wpcode-generator-post-status.php:185
+#: includes/generator/class-wpcode-generator-post-type.php:411
+#: includes/generator/class-wpcode-generator-post-type.php:426
+#: includes/generator/class-wpcode-generator-post-type.php:454
+#: includes/generator/class-wpcode-generator-post-type.php:465
+#: includes/generator/class-wpcode-generator-post-type.php:479
+#: includes/generator/class-wpcode-generator-post-type.php:521
+#: includes/generator/class-wpcode-generator-post-type.php:532
+#: includes/generator/class-wpcode-generator-post-type.php:552
+#: includes/generator/class-wpcode-generator-post-type.php:622
+#: includes/generator/class-wpcode-generator-post-type.php:636
+#: includes/generator/class-wpcode-generator-post-type.php:647
+#: includes/generator/class-wpcode-generator-query.php:137
+#: includes/generator/class-wpcode-generator-query.php:342
+#: includes/generator/class-wpcode-generator-query.php:437
+#: includes/generator/class-wpcode-generator-script.php:210
+#: includes/generator/class-wpcode-generator-script.php:229
+#: includes/generator/class-wpcode-generator-style.php:211
+#: includes/generator/class-wpcode-generator-style.php:230
+#: includes/generator/class-wpcode-generator-taxonomy.php:322
+#: includes/generator/class-wpcode-generator-taxonomy.php:336
+#: includes/generator/class-wpcode-generator-taxonomy.php:347
+#: includes/generator/class-wpcode-generator-taxonomy.php:361
+#: includes/generator/class-wpcode-generator-taxonomy.php:372
+#: includes/generator/class-wpcode-generator-taxonomy.php:417
+msgid "No"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-status.php:166
+msgid "Exclude from search results"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-status.php:171
+#: includes/generator/class-wpcode-generator-post-status.php:196
+msgid "No - Default"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-status.php:180
+msgid "Show in admin all list"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-status.php:181
+msgid "Show statuses in the edit listing of the post."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-status.php:191
+msgid "Show in admin status list"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-status.php:192
+msgid "Show statuses list at the top of the edit listings. e.g. Published (12) Custom Status (2)"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:35
+#: includes/generator/class-wpcode-generator-post-type.php:111
+msgid "Post Type"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:36
+msgid "Use this tool to generate a custom post type for your website."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:55
+msgid "Generate custom post types for your website using a snippet."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:78
+msgid "You can add custom post types for specific items that are not blog posts, for example, if your site is about music you can have post types for artists, albums or songs."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:117
+msgid "Post Type Key"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:118
+msgid "Name of post type used in the code, lowercase maximum 20 characters."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:125
+#: includes/generator/class-wpcode-generator-sidebar.php:138
+#: includes/generator/class-wpcode-generator-widget.php:150
+#: includes/generator/class-wpcode-generator-widget.php:223
+msgid "Description"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:126
+msgid "A short description of the post type."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:137
+msgid "The singular post type name (e.g. Artist, Album, Song)."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:145
+msgid "The post type plural name (e.g. Artists, Albums, Songs)."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:155
+msgid "Link To Taxonomies"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:156
+msgid "Comma-separated list of Taxonomies (e.g. post_tag, category)"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:163
+#: includes/generator/class-wpcode-generator-taxonomy.php:156
+msgid "Hierarchical"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:164
+msgid "Hierarchical post types can have parents/children."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:168
+msgid "Yes, like pages"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:169
+msgid "No, like posts"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:176
+#: includes/generator/class-wpcode-generator-taxonomy.php:169
+msgid "Labels"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:182
+#: includes/generator/class-wpcode-generator-taxonomy.php:175
+msgid "Menu Name"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:189
+msgid "Admin Bar Name"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:196
+msgid "Archives"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:203
+msgid "Attributes"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:210
+#: includes/generator/class-wpcode-generator-taxonomy.php:189
+msgid "Parent Item"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:217
+#: includes/generator/class-wpcode-generator-taxonomy.php:182
+msgid "All Items"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:224
+#: includes/generator/class-wpcode-generator-taxonomy.php:210
+msgid "Add New Item"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:238
+msgid "New Item"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:248
+#: includes/generator/class-wpcode-generator-taxonomy.php:220
+msgid "Edit Item"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:255
+#: includes/generator/class-wpcode-generator-taxonomy.php:227
+msgid "Update Item"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:262
+#: includes/generator/class-wpcode-generator-taxonomy.php:234
+msgid "View Item"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:269
+msgid "View Items"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:276
+msgid "Search Item"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:283
+#: includes/generator/class-wpcode-generator-taxonomy.php:279
+msgid "Not Found"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:290
+msgid "Not Found in Trash"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:297
+msgid "Featured Image"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:304
+msgid "Set featured image"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:314
+msgid "Remove featured image"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:321
+msgid "Use as featured image"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:328
+msgid "Insert into item"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:335
+msgid "Uploaded to this item"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:342
+#: includes/generator/class-wpcode-generator-taxonomy.php:293
+msgid "Items list"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:349
+#: includes/generator/class-wpcode-generator-taxonomy.php:300
+msgid "Items list navigation"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:356
+msgid "Filter items list"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:365
+#: includes/generator/class-wpcode-generator-widget.php:239
+msgid "Options"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:371
+msgid "Supports"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:372
+msgid "Select which features this post type should support"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:376
+#: includes/generator/class-wpcode-generator-query.php:300
+msgid "Title"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:377
+msgid "Content Editor"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:379
+msgid "Featured image"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:380
+msgid "Excerpt"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:381
+msgid "Trackbacks"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:382
+#: includes/generator/class-wpcode-generator-query.php:487
+msgid "Custom Fields"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:383
+msgid "Comments"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:384
+msgid "Revisions"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:385
+msgid "Page Attributes"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:386
+msgid "Post Formats"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:394
+msgid "Exclude From Search"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:395
+msgid "Exclude the posts of this post type from search results?"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:400
+#: includes/generator/class-wpcode-generator-post-type.php:758
+#: includes/generator/class-wpcode-generator-taxonomy.php:427
+#: includes/generator/class-wpcode-generator-taxonomy.php:506
+msgid "No - default"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:405
+msgid "Enable Export"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:406
+msgid "Allow exporting posts of this post type in Tools > Export."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:410
+#: includes/generator/class-wpcode-generator-post-type.php:424
+#: includes/generator/class-wpcode-generator-post-type.php:453
+#: includes/generator/class-wpcode-generator-post-type.php:464
+#: includes/generator/class-wpcode-generator-post-type.php:478
+#: includes/generator/class-wpcode-generator-post-type.php:520
+#: includes/generator/class-wpcode-generator-post-type.php:531
+#: includes/generator/class-wpcode-generator-post-type.php:621
+#: includes/generator/class-wpcode-generator-post-type.php:635
+#: includes/generator/class-wpcode-generator-post-type.php:646
+#: includes/generator/class-wpcode-generator-taxonomy.php:321
+#: includes/generator/class-wpcode-generator-taxonomy.php:335
+#: includes/generator/class-wpcode-generator-taxonomy.php:346
+#: includes/generator/class-wpcode-generator-taxonomy.php:360
+#: includes/generator/class-wpcode-generator-taxonomy.php:371
+#: includes/generator/class-wpcode-generator-taxonomy.php:416
+msgid "Yes - default"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:419
+msgid "Enable Archives"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:420
+msgid "Enables archives for this post type, the post type key is used as default."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:425
+msgid "Yes - using custom slug"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:431
+msgid "Custom Archive Slug"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:432
+msgid "Custom archive slug (if selected above)."
+msgstr ""
+
+#. Translators: Placeholders add a link to the wp.org documentation page.
+#: includes/generator/class-wpcode-generator-post-type.php:449
+msgid "Should this post type be %1$svisible to authors%2$s?"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:459
+#: includes/generator/class-wpcode-generator-taxonomy.php:330
+msgid "Show UI"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:460
+msgid "Should this post type be visible in the Admin?"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:473
+msgid "Show in Menu?"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:474
+msgid "Should this post type be visible in the admin menu?"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:484
+msgid "Menu position"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:485
+msgid "Choose the admin menu position."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:489
+msgid "Below Posts (5)"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:490
+msgid "Below Media (10)"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:491
+msgid "Below Pages (20)"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:492
+msgid "Below Comments (30)"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:493
+msgid "Below First Separator (60)"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:494
+msgid "Below Plugins (65)"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:495
+msgid "Below Users (70)"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:496
+msgid "Below Tools (75)"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:497
+msgid "Below Settings (80)"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:498
+msgid "Below Second Separator (100)"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:503
+msgid "Menu Icon"
+msgstr ""
+
+#. Translators: Placeholder adds a link to the dashicons page.
+#: includes/generator/class-wpcode-generator-post-type.php:505
+msgid "Icon used next to the post type label in the admin menu. Use either a %1$sdashicon%2$s name or a full URL to an image file."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:515
+msgid "Show in Admin Bar?"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:516
+msgid "Should this post type be visible in the admin bar?"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:526
+msgid "Show in Navigation Menus?"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:527
+msgid "Should this post type be available for use in menus (Appearance > Menus)?"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:545
+msgid "Publicly Queryable"
+msgstr ""
+
+#. Translators: Placeholders add link to wp.org docs.
+#: includes/generator/class-wpcode-generator-post-type.php:547
+msgid "Enable frontend requests using the query variable. %1$sSee Documentation.%2$s"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:560
+msgid "Query variable"
+msgstr ""
+
+#. Translators: Placeholders add link to wp.org docs.
+#: includes/generator/class-wpcode-generator-post-type.php:562
+msgid "Key used for querying posts in the frontend. %1$sSee Documentation.%2$s"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:566
+#: includes/generator/class-wpcode-generator-post-type.php:598
+msgid "Default (post type key)"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:567
+msgid "Custom variable"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:575
+msgid "Custom Query Variable"
+msgstr ""
+
+#. Translators: Placeholder adds a link to the dashicons page.
+#: includes/generator/class-wpcode-generator-post-type.php:577
+msgid "The custom query variable to use for this post type. %1$sSee documentation%2$s."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:586
+#: includes/generator/class-wpcode-generator-taxonomy.php:379
+msgid "Permalinks"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:592
+msgid "Rewrite Permalinks"
+msgstr ""
+
+#. Translators: Placeholders add link to wp.org docs.
+#: includes/generator/class-wpcode-generator-post-type.php:594
+msgid "Use the default permalink structure, disable permalinks for this post type or use custom options. %1$sSee Documentation.%2$s"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:599
+#: includes/generator/class-wpcode-generator-taxonomy.php:391
+msgid "Disable permalink rewrites"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:600
+#: includes/generator/class-wpcode-generator-taxonomy.php:392
+msgid "Custom permalink structure"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:608
+#: includes/generator/class-wpcode-generator-taxonomy.php:400
+msgid "URL Slug"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:609
+msgid "The slug used for this post types base. (for example: artist in www.example.com/artist/ )"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:616
+msgid "Use URL Slug?"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:617
+msgid "Use the post type name as URL slug base?"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:630
+msgid "Use pagination?"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:631
+msgid "Allow the post type to have pagination?"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:641
+msgid "Use feeds?"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:642
+msgid "Allow the post type to have feeds?"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:654
+#: includes/generator/class-wpcode-generator-post-type.php:660
+#: includes/generator/class-wpcode-generator-taxonomy.php:435
+#: includes/generator/class-wpcode-generator-taxonomy.php:441
+msgid "Capabilities"
+msgstr ""
+
+#. Translators: Placeholders add link to wp.org docs.
+#: includes/generator/class-wpcode-generator-post-type.php:662
+msgid "User capabilities in relation to this post type. %1$sSee Documentation.%2$s"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:666
+#: includes/generator/class-wpcode-generator-taxonomy.php:447
+msgid "Base capabilities - default"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:667
+#: includes/generator/class-wpcode-generator-post-type.php:686
+#: includes/generator/class-wpcode-generator-taxonomy.php:448
+#: includes/generator/class-wpcode-generator-taxonomy.php:453
+msgid "Custom Capabilities"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:672
+msgid "Base Capablities Type"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:673
+msgid "Use base capabilities from a core post type."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:677
+msgid "Posts"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:678
+msgid "Pages"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:691
+msgid "Read Post"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:698
+msgid "Read Private Posts"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:705
+msgid "Publish Posts"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:715
+msgid "Delete Posts"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:722
+msgid "Edit Post"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:729
+msgid "Edit Posts"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:736
+msgid "Edit Others Posts"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:745
+#: includes/generator/class-wpcode-generator-taxonomy.php:494
+msgid "Rest API"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:751
+#: includes/generator/class-wpcode-generator-taxonomy.php:500
+msgid "Show in Rest API?"
+msgstr ""
+
+#. Translators: Placeholders add link to wp.org docs.
+#: includes/generator/class-wpcode-generator-post-type.php:753
+msgid "Add the post type to the WordPress wp-json API. %1$sSee Documentation.%2$s"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:766
+#: includes/generator/class-wpcode-generator-taxonomy.php:514
+msgid "Rest Base"
+msgstr ""
+
+#. Translators: Placeholders add link to wp.org docs.
+#: includes/generator/class-wpcode-generator-post-type.php:768
+msgid "The base slug that this post type will use in the REST API. %1$sSee Documentation.%2$s"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-post-type.php:777
+#: includes/generator/class-wpcode-generator-taxonomy.php:524
+msgid "Rest Controller Class"
+msgstr ""
+
+#. Translators: Placeholders add link to wp.org docs.
+#: includes/generator/class-wpcode-generator-post-type.php:779
+msgid "The name of a custom Rest Controller class instead of WP_REST_Posts_Controller. %1$sSee Documentation.%2$s"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:42
+msgid "WP_Query"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:43
+msgid "Generate a snippet using WP_Query to load posts from your website."
+msgstr ""
+
+#. Translators: Placeholders add links to the wordpress.org references.
+#: includes/generator/class-wpcode-generator-query.php:82
+msgid "This generator makes it easy for you to create custom queries using %1$sWP_Query%2$s which you can then extend to display posts or similar."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:108
+msgid "You can use this generator to get quickly started with a query for all the posts of an author and display them using the shortcode functionality of WPCode or automatically displaying the posts using the auto-insert option."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:120
+msgid "Query variable name"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:121
+msgid "If you want to use something more specific. The leading $ will be automatically added."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:131
+msgid "Include loop"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:132
+msgid "Select yes if you want to include an empty loop of the results that you can fill in for output."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:144
+msgid "IDs & Parents"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:150
+msgid "Post ID(s)"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:151
+msgid "Query a specific post ID or comma-separated list of ids. Cannot be combined with \"Post ID not in\" below."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:158
+msgid "Post ID not in"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:159
+msgid "Post ids to exclude from this query. Cannot be combined with \"Post ID(s)\" above."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:169
+msgid "Post parent ID(s)"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:170
+msgid "Comma-separated list of post parent ids if the post type is hierarchical (like pages)."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:177
+msgid "Post parent not in"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:178
+msgid "Comma-separated list of post parent ids to exclude."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:188
+msgid "Post slugs"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:189
+msgid "Comma-separated list of post slugs to query by."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:198
+msgid "Type & Status"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:205
+msgid "Post type to query by, start typing to get suggestions."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:215
+msgid "Post status"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:216
+msgid "Post status to query by."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:231
+msgid "Author ID(s)"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:232
+msgid "Author ID or comma-separated list of ids."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:238
+msgid "Author not in"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:239
+msgid "Comma-separated list of author ids to exclude from the query."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:250
+msgid "Author name"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:251
+msgid "Use the \"user_nicename\" parameter to query by author."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:259
+msgid "Search"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:265
+msgid "Search term"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:266
+msgid "Search for posts by this search term."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:274
+msgid "Order"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:280
+msgid "Results Order"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:284
+msgid "Descending order (3, 2, 1; c, b, a)"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:285
+msgid "Ascending order (1, 2, 3; a, b, c)"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:293
+msgid "Order by"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:297
+msgid "No order (none)"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:298
+msgid "ID"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:301
+msgid "Slug (name)"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:302
+msgid "Post type (type)"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:303
+msgid "Date (default)"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:304
+msgid "Modified date"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:305
+msgid "Parent id"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:306
+msgid "Random"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:307
+msgid "Comment count"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:308
+msgid "Relevance (for search)"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:309
+msgid "Page Order (menu_order)"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:311
+msgid "Meta value"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:312
+msgid "Numerical meta value (meta_value_num)"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:313
+msgid "Order of ids in post__in"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:314
+msgid "Order of names in post_name__in"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:315
+msgid "Order of ids in post_parent__in"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:320
+#: includes/generator/class-wpcode-generator-query.php:493
+msgid "Meta Key"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:321
+msgid "Meta key to use if you choose to order by meta value."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:331
+msgid "Pagination"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:337
+msgid "Use Pagination"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:340
+msgid "Choose no to display all posts (not recommended)."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:343
+msgid "Yes (default)"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:348
+msgid "Page number"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:349
+msgid "Which page to show."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:358
+msgid "Posts per page"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:359
+msgid "How many posts should be displayed per page."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:365
+msgid "Offset"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:366
+msgid "Number of posts to skip."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:375
+msgid "Ignore sticky posts"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:380
+msgid "No (default)"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:387
+#: includes/generator/class-wpcode-generator-query.php:393
+#: includes/generator/class-wpcode-generator-taxonomy.php:35
+#: includes/generator/class-wpcode-generator-taxonomy.php:112
+msgid "Taxonomy"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:394
+msgid "Taxonomy slug that you want to query by."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:402
+msgid "Field"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:403
+msgid "Select taxonomy term by."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:409
+msgid "Term ID (default"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:410
+msgid "Term Name"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:411
+msgid "Term Slug"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:412
+msgid "Term Taxonomy ID"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:417
+msgid "Terms"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:418
+msgid "Comma-separated list of terms to query by."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:430
+msgid "Include Children"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:434
+msgid "Whether or not to include children for hierarchical taxonomies."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:443
+msgid "Operator"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:447
+msgid "Operator to test relation by."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:465
+msgid "Add another taxonomy"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:466
+msgid "Use the \"Add Taxonomy\" button below to query multiple taxonomies."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:470
+msgid "Add Taxonomy"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:475
+msgid "Tax Relation"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:479
+#: includes/generator/class-wpcode-generator-query.php:579
+msgid "AND (default)"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:480
+#: includes/generator/class-wpcode-generator-query.php:580
+msgid "OR"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:494
+msgid "The key of the custom field."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:502
+msgid "Meta Value"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:503
+msgid "Value to query the meta by."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:515
+msgid "How to compare the value for querying by meta."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:542
+msgid "Type"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:543
+msgid "Type of custom field."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:565
+msgid "Add another meta query"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:566
+msgid "Use the \"Add Meta\" button below to use multiple meta queries."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:570
+msgid "Add Meta"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-query.php:575
+msgid "Relation"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-script.php:35
+msgid "Register Scripts"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-script.php:36
+msgid "Generate a snippet to load JavaScript scripts using wp_register_script."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-script.php:55
+msgid "Using this generator you can create a WordPress function to register and enqueue scripts."
+msgstr ""
+
+#. Translators: the placeholders add a link to getboostrap.com.
+#: includes/generator/class-wpcode-generator-script.php:80
+msgid "You can use this to load external scripts or even scripts from a theme or plugin. For example, you could load %1$sbootstrap%2$s from a cdn."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-script.php:107
+#: includes/generator/class-wpcode-generator-style.php:107
+msgid "Action (hook)"
+msgstr ""
+
+#. Translators: placeholders add links to documentation on wordpress.org.
+#: includes/generator/class-wpcode-generator-script.php:110
+msgid "Hook used to add the scripts: %1$sfrontend%2$s, %3$sadmin%4$s, %5$slogin%6$s or %7$sembed%8$s."
+msgstr ""
+
+#. Translators: placeholder adds the hook name.
+#: includes/generator/class-wpcode-generator-script.php:124
+#: includes/generator/class-wpcode-generator-style.php:124
+msgid "Frontend (%s)"
+msgstr ""
+
+#. Translators: placeholder adds the hook name.
+#: includes/generator/class-wpcode-generator-script.php:126
+#: includes/generator/class-wpcode-generator-style.php:126
+msgid "Admin (%s)"
+msgstr ""
+
+#. Translators: placeholder adds the hook name.
+#: includes/generator/class-wpcode-generator-script.php:128
+#: includes/generator/class-wpcode-generator-style.php:128
+msgid "Login (%s)"
+msgstr ""
+
+#. Translators: placeholder adds the hook name.
+#: includes/generator/class-wpcode-generator-script.php:130
+#: includes/generator/class-wpcode-generator-style.php:130
+msgid "Embed (%s)"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-script.php:137
+msgid "Scripts"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-script.php:143
+msgid "Script name"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-script.php:144
+#: includes/generator/class-wpcode-generator-style.php:144
+msgid "This will be used as an identifier in the code, should be lowercase with no spaces."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-script.php:153
+msgid "Script URL"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-script.php:154
+msgid "The full URL for the script e.g. https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-script.php:163
+#: includes/generator/class-wpcode-generator-style.php:163
+msgid "Dependencies"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-script.php:164
+msgid "Comma-separated list of scripts required for this script to load, e.g. jquery"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-script.php:173
+msgid "Script Version"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-script.php:174
+msgid "The script version."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-script.php:186
+msgid "Header or Footer?"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-script.php:187
+msgid "Load the script in the page head or in the footer."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-script.php:199
+msgid "Deregister script?"
+msgstr ""
+
+#. Translators: Placeholders for wp.org docs link.
+#: includes/generator/class-wpcode-generator-script.php:202
+msgid "Should the script be %1$sderegistered%2$s first? (for example, if you are replacing an existing script)."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-script.php:217
+msgid "Enqueue script?"
+msgstr ""
+
+#. Translators: Placeholders for wp.org docs link.
+#: includes/generator/class-wpcode-generator-script.php:220
+msgid "Should the script be %1$senqueued%2$s or just registered? (select \"No\" only if you intend enqueueing it later."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-script.php:241
+msgid "Add more scripts"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-script.php:242
+msgid "Use the \"Add script\" button below to add multiple scripts in this snippet."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-script.php:246
+msgid "Add script"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-sidebar.php:35
+msgid "Sidebar"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-sidebar.php:36
+msgid "Generate a snippet to register a sidebar for your widgets."
+msgstr ""
+
+#. Translators: Placeholders add links to the wordpress.org references.
+#: includes/generator/class-wpcode-generator-sidebar.php:57
+msgid "This generator makes it easy to add sidebars to your website using the \"register_sidebar\" function."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-sidebar.php:83
+msgid "You can add multiple widget areas for your footer or post-type specific sidebars."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-sidebar.php:116
+msgid "Sidebars"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-sidebar.php:122
+msgid "Sidebar Id"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-sidebar.php:123
+msgid "This is the sidebar unique id, used in the code, lowercase with no spaces."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-sidebar.php:131
+msgid "Add a descriptive label for this sidebar to be used in the admin."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-sidebar.php:139
+msgid "A short description for the the admin area.."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-sidebar.php:146
+#: includes/generator/class-wpcode-generator-widget.php:158
+msgid "CSS Class"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-sidebar.php:147
+msgid "Use an unique CSS class name for better control over this sidebar's styles in the admin."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-sidebar.php:157
+msgid "Before Title"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-sidebar.php:158
+msgid "HTML code to add before each widget title."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-sidebar.php:166
+msgid "After Title"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-sidebar.php:167
+msgid "HTML code to add after each widget title."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-sidebar.php:175
+msgid "Before Widget"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-sidebar.php:176
+msgid "HTML code to add before each widget."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-sidebar.php:184
+msgid "After Widget"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-sidebar.php:185
+msgid "HTML code to add after each widget."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-sidebar.php:199
+msgid "Add another sidebar"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-sidebar.php:200
+msgid "Use the \"Add Sidebar\" button below to add as many sidebars as you need."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-sidebar.php:204
+msgid "Add Sidebar"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-style.php:35
+msgid "Register Stylesheets"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-style.php:36
+msgid "Generate a snippet to load CSS stylesheets using wp_register_style."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-style.php:55
+msgid "Using this generator you can create a WordPress function to register and enqueue styles."
+msgstr ""
+
+#. Translators: the placeholders add a link to getboostrap.com.
+#: includes/generator/class-wpcode-generator-style.php:80
+msgid "You can use this to load external styles or even styles from a theme or plugin. For example, you could load %1$sfontawesome%2$s from a cdn."
+msgstr ""
+
+#. Translators: placeholders add links to documentation on wordpress.org.
+#: includes/generator/class-wpcode-generator-style.php:110
+msgid "Hook used to add the styles: %1$sfrontend%2$s, %3$sadmin%4$s, %5$slogin%6$s or %7$sembed%8$s."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-style.php:137
+msgid "Styles"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-style.php:143
+msgid "Style name"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-style.php:153
+msgid "Stylesheet URL"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-style.php:154
+msgid "The full URL for the stylesheet e.g. https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-style.php:164
+msgid "Comma-separated list of styles required for this style to load, e.g. jquery"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-style.php:173
+msgid "Style Version"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-style.php:174
+msgid "The style version."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-style.php:186
+msgid "Media"
+msgstr ""
+
+#. Translators: placeholders add a link to the W3.org reference.
+#: includes/generator/class-wpcode-generator-style.php:189
+msgid "Load the style %1$smedia type%2$s, usually \"all\"."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-style.php:200
+msgid "Deregister style?"
+msgstr ""
+
+#. Translators: Placeholders for wp.org docs link.
+#: includes/generator/class-wpcode-generator-style.php:203
+msgid "Should the style be %1$sderegistered%2$s first? (for example, if you are replacing an existing style)."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-style.php:218
+msgid "Enqueue style?"
+msgstr ""
+
+#. Translators: Placeholders for wp.org docs link.
+#: includes/generator/class-wpcode-generator-style.php:221
+msgid "Should the style be %1$senqueued%2$s or just registered? (select \"No\" only if you intend enqueueing it later."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-style.php:242
+msgid "Add more styles"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-style.php:243
+msgid "Use the \"Add style\" button below to add multiple styles in this snippet."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-style.php:247
+msgid "Add style"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-taxonomy.php:36
+msgid "Create a custom taxonomy for your posts using this generator."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-taxonomy.php:55
+msgid "Use this generator to create custom taxonomies for your WordPress site."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-taxonomy.php:78
+msgid "Use this to add more taxonomies to posts or custom post types. For example, if you used the Post Type generator to create an Artist post type you can use this one to create a Genre taxonomy."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-taxonomy.php:118
+msgid "Taxonomy Key"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-taxonomy.php:119
+msgid "Name of taxonomy used in the code, lowercase maximum 20 characters."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-taxonomy.php:129
+msgid "Name (Singular)"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-taxonomy.php:130
+msgid "The singular taxonomy name (e.g. Genre, Year)."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-taxonomy.php:138
+msgid "The taxonomy plural name (e.g. Genres, Years)."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-taxonomy.php:148
+msgid "Link To Post Type(s)"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-taxonomy.php:149
+msgid "Comma-separated list of Post Types (e.g. post, page)"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-taxonomy.php:157
+msgid "Hierarchical taxonomies can have descendants."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-taxonomy.php:161
+msgid "No, like tags"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-taxonomy.php:162
+msgid "Yes, like categories"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-taxonomy.php:196
+msgid "Parent Item colon"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-taxonomy.php:203
+msgid "New Item Name"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-taxonomy.php:241
+msgid "Separate Items with commas"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-taxonomy.php:248
+msgid "Add or Remove Items"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-taxonomy.php:255
+msgid "Choose From Most Used"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-taxonomy.php:265
+msgid "Popular Items"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-taxonomy.php:272
+msgid "Search Items"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-taxonomy.php:286
+msgid "No items"
+msgstr ""
+
+#. Translators: Placeholders add a link to the wp.org documentation page.
+#: includes/generator/class-wpcode-generator-taxonomy.php:317
+msgid "Should this taxonomy be %1$svisible to authors%2$s?"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-taxonomy.php:331
+msgid "Should this taxonomy have an User Interface for managing?"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-taxonomy.php:341
+msgid "Show Admin Column"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-taxonomy.php:342
+msgid "Should this taxonomy add a column in the list of associated post types?"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-taxonomy.php:355
+msgid "Show Tag Cloud"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-taxonomy.php:356
+msgid "Should this taxonomy be visible in the tag cloud widget?"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-taxonomy.php:366
+msgid "Show in Navigation Menus"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-taxonomy.php:367
+msgid "Should this taxonomy be available in menus (Appearance > Menus)."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-taxonomy.php:385
+msgid "Permalink Rewrite"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-taxonomy.php:386
+msgid "Use Default Permalinks, disable automatic rewriting or use custom permalinks."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-taxonomy.php:390
+msgid "Default (taxonomy key)"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-taxonomy.php:401
+msgid "If you selected custom permalinks use this field for the rewrite base, e.g. taxonomy in https://yoursite.com/taxonomy"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-taxonomy.php:411
+msgid "Prepend permastruct"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-taxonomy.php:412
+msgid "Should the permastruct be prepended to the url (with_front parameter)."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-taxonomy.php:422
+msgid "Hierarchical URL Slug"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-taxonomy.php:423
+msgid "For hierarchical taxonomies use the whole hierarchy in the URL?"
+msgstr ""
+
+#. Translators: Placeholders add link to wp.org docs.
+#: includes/generator/class-wpcode-generator-taxonomy.php:443
+msgid "User capabilities in relation to this taxonomy. %1$sSee Documentation.%2$s"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-taxonomy.php:461
+msgid "Edit Terms"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-taxonomy.php:468
+msgid "Delete Terms"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-taxonomy.php:478
+msgid "Manage Terms"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-taxonomy.php:485
+msgid "Assign Terms"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-taxonomy.php:501
+msgid "Add the taxonomy to the WordPress wp-json API."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-taxonomy.php:515
+msgid "The base slug that this taxonomy will use in the REST API."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-taxonomy.php:525
+msgid "The name of a custom Rest Controller class instead of WP_REST_Terms_Controller."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-widget.php:35
+#: includes/generator/class-wpcode-generator-widget.php:123
+msgid "Widget"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-widget.php:36
+msgid "Generate a snippet to register a custom sidebar widget for your website."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-widget.php:55
+msgid "Using this generator you can easily add a custom sidebar widget with settings."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-widget.php:78
+msgid "Sidebar widgets are very useful when you want to display the same content on multiple pages, you can create a widget with contact methods, for example and fields to set a phone number, email, etc."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-widget.php:90
+msgid "Class name"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-widget.php:91
+msgid "Make this unique to avoid conflicts with other similar snippets."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-widget.php:102
+msgid "Prefix"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-widget.php:103
+msgid "Used to prefix all the field names."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-widget.php:114
+msgid "Optional textdomain for translations."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-widget.php:129
+msgid "Widget ID"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-widget.php:130
+msgid "Unique id for the widget, used in the code."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-widget.php:138
+msgid "Widget Title"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-widget.php:139
+msgid "The title of the widget (displayed in the admin)."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-widget.php:151
+msgid "Description used in the admin to explain what the widget is used for."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-widget.php:159
+msgid "Widget-specific CSS class name."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-widget.php:168
+msgid "Widget Output Code"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-widget.php:169
+msgid "PHP Code used for outputting the fields in the frontend. If left empty it will output the fields values in a simple list."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-widget.php:177
+msgid "Fields"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-widget.php:183
+msgid "Field Type"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-widget.php:184
+msgid "Pick the type of field you want to use for this setting."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-widget.php:188
+msgid "Text"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-widget.php:189
+msgid "Email"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-widget.php:190
+msgid "URL"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-widget.php:191
+msgid "Number"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-widget.php:192
+msgid "Textarea"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-widget.php:193
+msgid "Select"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-widget.php:194
+msgid "Checkboxes"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-widget.php:195
+msgid "Radio"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-widget.php:201
+msgid "Field ID"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-widget.php:202
+msgid "Unique id for this field, used in the code."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-widget.php:209
+msgid "Field Label"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-widget.php:210
+msgid "The label displayed next to this field in the admin form."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-widget.php:224
+msgid "Display a short descriptive text below this field."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-widget.php:231
+msgid "Default"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-widget.php:232
+msgid "Set the default value for this field."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-widget.php:240
+msgid "Use value|label for each line to add options for select, checkbox or radio."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-widget.php:250
+msgid "Add another field"
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-widget.php:251
+msgid "Use the \"Add field\" button below to add as many fields as you need."
+msgstr ""
+
+#: includes/generator/class-wpcode-generator-widget.php:255
+msgid "Add field"
+msgstr ""
+
+#: includes/helpers.php:166
+msgctxt "Copy to clipboard"
+msgid "Copy"
+msgstr ""
+
+#: includes/helpers.php:180
+msgid "Is"
+msgstr ""
+
+#: includes/helpers.php:181
+msgid "Is not"
+msgstr ""
+
+#: includes/helpers.php:182
+msgid "Contains"
+msgstr ""
+
+#: includes/helpers.php:183
+msgid "Doesn't Contain"
+msgstr ""
+
+#: includes/helpers.php:184
+msgid "Is Before"
+msgstr ""
+
+#: includes/helpers.php:185
+msgid "Is After"
+msgstr ""
+
+#: includes/helpers.php:186
+msgid "Is on or Before"
+msgstr ""
+
+#: includes/helpers.php:187
+msgid "Is on or After"
+msgstr ""
+
+#: includes/lite/admin/class-wpcode-admin-page-loader-lite.php:35
+#: includes/lite/admin/class-wpcode-admin-page-loader-lite.php:36
+msgid "Upgrade to Pro"
+msgstr ""
+
+#: includes/lite/admin/class-wpcode-connect.php:63
+msgid "You are not allowed to install plugins."
+msgstr ""
+
+#: includes/lite/admin/class-wpcode-connect.php:69
+msgid "Please enter your license key to connect."
+msgstr ""
+
+#: includes/lite/admin/class-wpcode-connect.php:73
+msgid "Only the Lite version can be upgraded."
+msgstr ""
+
+#: includes/lite/admin/class-wpcode-connect.php:90
+msgid "WPCode Pro is installed but not activated."
+msgstr ""
+
+#: includes/lite/admin/class-wpcode-connect.php:142
+msgid "There was an error while installing an upgrade. Please download the plugin from wpcode.com and install it manually."
+msgstr ""
+
+#: includes/lite/admin/class-wpcode-connect.php:175
+#: includes/lite/admin/class-wpcode-connect.php:188
+#: includes/lite/admin/class-wpcode-connect.php:249
+msgid "Plugin installed & activated."
+msgstr ""
+
+#: includes/lite/admin/class-wpcode-connect.php:196
+msgid "There was an error while installing an upgrade. Please check file system permissions and try again. Also, you can download the plugin from wpcode.com and install it manually."
+msgstr ""
+
+#: includes/lite/admin/class-wpcode-connect.php:223
+msgid "No key provided."
+msgstr ""
+
+#: includes/lite/admin/class-wpcode-connect.php:253
+msgid "Pro version installed but needs to be activated on the Plugins page inside your WordPress admin."
+msgstr ""
+
+#: includes/lite/admin/class-wpcode-metabox-snippets-lite.php:139
+#: includes/lite/admin/class-wpcode-metabox-snippets-lite.php:282
+msgid "Page Scripts is a Pro Feature"
+msgstr ""
+
+#: includes/lite/admin/class-wpcode-metabox-snippets-lite.php:142
+#: includes/lite/admin/class-wpcode-metabox-snippets-lite.php:285
+msgid "While you can always use global snippets, in the PRO version you can easily add page-specific scripts and snippets directly from the post edit screen."
+msgstr ""
+
+#: includes/lite/admin/class-wpcode-metabox-snippets-lite.php:145
+#: includes/lite/admin/class-wpcode-metabox-snippets-lite.php:288
+msgid "Upgrade to Pro and Unlock Page Scripts"
+msgstr ""
+
+#. Translators: placeholder for the name of the section (header or footer).
+#: includes/lite/admin/class-wpcode-metabox-snippets-lite.php:170
+msgid "Add scripts below to the %s section of this page."
+msgstr ""
+
+#. Translators: placeholder for the name of the section (header or footer).
+#: includes/lite/admin/class-wpcode-metabox-snippets-lite.php:181
+msgid "Disable global %s scripts on this page"
+msgstr ""
+
+#. Translators: placeholder for the name of the section (header or footer).
+#: includes/lite/admin/class-wpcode-metabox-snippets-lite.php:192
+msgid "%s - any device type"
+msgstr ""
+
+#. Translators: more here is used in the sense of "get access to more snippets" and gets replaced with the number of snippets if the library items are loaded correctly.
+#: includes/lite/admin/notices.php:33
+msgid "more"
+msgstr ""
+
+#. Translators: %1$s and %2$s add a link to the settings page. %3$s and %4$s make the text bold. %6$s is replaced with the number of snippets and %5$s adds a "new" icon.
+#: includes/lite/admin/notices.php:38
+msgid "%5$s%1$sConnect to the WPCode Library%2$s to get access to %3$s%6$s FREE snippets%4$s!"
+msgstr ""
+
+#. Translators: %1$s and %2$s add a link to the upgrade page. %3$s and %4$s make the text bold.
+#: includes/lite/admin/notices.php:84
+msgid "%3$sYou're using WPCode Lite%4$s. To unlock more features consider %1$supgrading to Pro%2$s."
+msgstr ""
+
+#: includes/lite/admin/notices.php:112
+msgid "Get WPCode Pro and Unlock all the Powerful Features"
+msgstr ""
+
+#: includes/lite/admin/notices.php:115
+msgid "Save & Reuse snippets in your private Cloud Library"
+msgstr ""
+
+#: includes/lite/admin/notices.php:116
+msgid "Add page-specific scripts when editing a post/page."
+msgstr ""
+
+#: includes/lite/admin/notices.php:117
+msgid "Track all snippet changes with Advanced Code Revisions"
+msgstr ""
+
+#: includes/lite/admin/notices.php:120
+msgid "Load snippets by device (mobile/desktop) with 1-click."
+msgstr ""
+
+#: includes/lite/admin/notices.php:121
+msgid "Easily insert and reuse content with Custom Shortcodes."
+msgstr ""
+
+#: includes/lite/admin/notices.php:122
+msgid "Precisely track eCommerce conversions for WooCommerce and EDD."
+msgstr ""
+
+#: includes/lite/admin/notices.php:128
+msgid "Get WPCode Pro Today and Unlock all the Powerful Features »"
+msgstr ""
+
+#. Translators: Placeholders make the text bold.
+#: includes/lite/admin/notices.php:133
+msgid "%1$sBonus:%2$s WPCode Lite users get %3$s$50 off regular price%4$s, automatically applied at checkout"
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-anywhere.php:40
+msgid "Anywhere (CSS Selector)"
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-anywhere.php:43
+msgid "Before HTML Element"
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-anywhere.php:44
+msgid "Insert snippet before the HTML element specified by the CSS selector."
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-anywhere.php:47
+msgid "After HTML Element"
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-anywhere.php:48
+msgid "Insert snippet after the HTML element specified by the CSS selector."
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-anywhere.php:51
+msgid "At the start of HTML Element"
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-anywhere.php:52
+msgid "Insert snippet before the content of the HTML element specified by CSS selector."
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-anywhere.php:55
+msgid "At the end of HTML Element"
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-anywhere.php:56
+msgid "Insert snippet after the content of the HTML element specified by CSS selector."
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-anywhere.php:59
+msgid "Insert Anywhere by CSS Selector is a Premium feature"
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-anywhere.php:60
+msgid "Upgrade to PRO today and insert snippets anywhere on your site using CSS selectors to target any HTML element."
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:43
+msgid "Before the Purchase Button"
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:44
+msgid "Insert snippet before the EDD purchase button."
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:47
+msgid "After the Purchase Button"
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:48
+msgid "Insert snippet after the EDD purchase button."
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:51
+msgid "Before the Single Download"
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:52
+msgid "Insert snippet before the single EDD download content."
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:55
+msgid "After the Single Download"
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:56
+msgid "Insert snippet after the single EDD download content."
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:59
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:67
+msgid "Before the Cart"
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:60
+msgid "Insert snippet before the EDD cart."
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:63
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:71
+msgid "After the Cart"
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:64
+msgid "Insert snippet after the EDD cart."
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:67
+msgid "Before the Checkout Cart"
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:68
+msgid "Insert snippet before the EDD cart on the checkout page."
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:71
+msgid "After the Checkout Cart"
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:72
+msgid "Insert snippet after the EDD cart on the checkout page."
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:75
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:75
+msgid "Before the Checkout Form"
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:76
+msgid "Insert snippet before the EDD checkout form on the checkout page."
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:79
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:79
+msgid "After the Checkout Form"
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:80
+msgid "Insert snippet after the EDD checkout form on the checkout page"
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:83
+msgid "Easy Digital Downloads Locations are a PRO feature"
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-edd.php:84
+#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:76
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:96
+msgid "Upgrade to PRO today and get access to advanced eCommerce auto-insert locations and conditional logic rules for your needs."
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:43
+msgid "Before the Registration Form"
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:44
+msgid "Insert snippet before the MemberPress registration form used for checkout."
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:47
+msgid "Before Checkout Submit Button"
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:48
+msgid "Insert snippet right before the MemberPress checkout submit button."
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:51
+msgid "Before Checkout Coupon Field"
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:52
+msgid "Insert snippet before the MemberPress checkout coupon field."
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:55
+msgid "Before Account First Name"
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:56
+msgid "Insert snippet to the Home tab of the MemberPress Account page before First Name field."
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:59
+msgid "Before Subscriptions Content"
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:60
+msgid "Insert snippet at the beginning of the Subscriptions tab on the MemberPress Account page."
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:63
+msgid "Before Login Form Submit"
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:64
+msgid "Insert snippet before the Remember Me checkbox on the MemberPress Login page."
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:67
+msgid "Before the Unauthorized Message"
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:68
+msgid "Insert a snippet before the notice that access to the content is unauthorized. "
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:71
+msgid "After the Unauthorized Message"
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:72
+msgid "Insert a snippet after the notice that access to the content is unauthorized. "
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-memberpress.php:75
+msgid "MemberPress Locations are a PRO feature"
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:43
+msgid "Before the List of Products"
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:44
+msgid "Insert snippet before the list of products on a WooCommerce page."
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:47
+msgid "After the List of Products"
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:48
+msgid "Insert snippet after the list of products on a WooCommerce page."
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:51
+msgid "Before the Single Product"
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:52
+msgid "Insert snippet before the content on the single WooCommerce product page."
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:55
+msgid "After the Single Product"
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:56
+msgid "Insert snippet after the content on the single WooCommerce product page."
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:59
+msgid "Before the Single Product Summary"
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:60
+msgid "Insert snippet before the product summary on the single WooCommerce product page."
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:63
+msgid "After the Single Product Summary"
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:64
+msgid "Insert snippet after the product summary on the single WooCommerce product page."
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:68
+msgid "Insert snippet before the cart on WooCommerce pages."
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:72
+msgid "Insert snippet after the cart on WooCommerce pages."
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:76
+msgid "Insert snippet before the checkout form on the WooCommerce checkout page."
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:80
+msgid "Insert snippet after the checkout form on the WooCommerce checkout page."
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:83
+msgid "Before Checkout Payment Button"
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:84
+msgid "Insert snippet before the checkout payment button on the WooCommerce checkout page."
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:87
+msgid "After Checkout Payment Button"
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:88
+msgid "Insert snippet after the checkout payment button on the WooCommerce checkout page."
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:91
+msgid "Before the Thank You Page"
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:92
+msgid "Insert snippet before the thank you page content for WooCommerce."
+msgstr ""
+
+#: includes/lite/auto-insert/class-wpcode-auto-insert-woocommerce.php:95
+msgid "WooCommerce Locations are a PRO feature"
+msgstr ""
+
+#: includes/lite/class-wpcode-smart-tags-lite.php:20
+msgid "Smart Tags are a Premium feature"
+msgstr ""
+
+#: includes/lite/class-wpcode-smart-tags-lite.php:21
+msgid "Upgrade to PRO today and simplify the way you write advanced snippets using smart tags without having to write any PHP code."
+msgstr ""
+
+#: includes/lite/conditional-logic/class-wpcode-conditional-device.php:40
+msgid "Device Type Rules are a Pro Feature"
+msgstr ""
+
+#: includes/lite/conditional-logic/class-wpcode-conditional-device.php:41
+msgid "Get access to advanced device type conditional logic rules by upgrading to PRO today."
+msgstr ""
+
+#: includes/lite/conditional-logic/class-wpcode-conditional-device.php:46
+msgid "Desktop"
+msgstr ""
+
+#: includes/lite/conditional-logic/class-wpcode-conditional-device.php:51
+msgid "Mobile"
+msgstr ""
+
+#: includes/lite/conditional-logic/class-wpcode-conditional-edd.php:37
+msgid "EDD Page"
+msgstr ""
+
+#: includes/lite/conditional-logic/class-wpcode-conditional-edd.php:40
+msgid "Easy Digital Downloads Page Rules is a Pro Feature"
+msgstr ""
+
+#: includes/lite/conditional-logic/class-wpcode-conditional-edd.php:41
+msgid "Get access to advanced conditional logic rules for Easy Digital Downloads by upgrading to PRO today."
+msgstr ""
+
+#: includes/lite/conditional-logic/class-wpcode-conditional-edd.php:46
+#: includes/lite/conditional-logic/class-wpcode-conditional-woocommerce.php:46
+msgid "Checkout Page"
+msgstr ""
+
+#: includes/lite/conditional-logic/class-wpcode-conditional-edd.php:51
+msgid "Success Page"
+msgstr ""
+
+#: includes/lite/conditional-logic/class-wpcode-conditional-edd.php:56
+msgid "Single Download Page"
+msgstr ""
+
+#: includes/lite/conditional-logic/class-wpcode-conditional-edd.php:61
+msgid "Download Category Page"
+msgstr ""
+
+#: includes/lite/conditional-logic/class-wpcode-conditional-edd.php:66
+msgid "Download Tag Page"
+msgstr ""
+
+#: includes/lite/conditional-logic/class-wpcode-conditional-memberpress.php:37
+msgid "MemberPress Page"
+msgstr ""
+
+#: includes/lite/conditional-logic/class-wpcode-conditional-memberpress.php:40
+msgid "MemberPress Page Rules is a Pro Feature"
+msgstr ""
+
+#: includes/lite/conditional-logic/class-wpcode-conditional-memberpress.php:41
+#: includes/lite/conditional-logic/class-wpcode-conditional-memberpress.php:69
+msgid "Get access to advanced conditional logic rules for MemberPress by upgrading to PRO today."
+msgstr ""
+
+#: includes/lite/conditional-logic/class-wpcode-conditional-memberpress.php:46
+msgid "Registration Page"
+msgstr ""
+
+#: includes/lite/conditional-logic/class-wpcode-conditional-memberpress.php:50
+#: includes/lite/conditional-logic/class-wpcode-conditional-woocommerce.php:51
+msgid "Thank You Page"
+msgstr ""
+
+#: includes/lite/conditional-logic/class-wpcode-conditional-memberpress.php:54
+msgid "Account Page"
+msgstr ""
+
+#: includes/lite/conditional-logic/class-wpcode-conditional-memberpress.php:58
+msgid "Login Page"
+msgstr ""
+
+#: includes/lite/conditional-logic/class-wpcode-conditional-memberpress.php:68
+msgid "MemberPress Active Membership Rules is a Pro Feature"
+msgstr ""
+
+#: includes/lite/conditional-logic/class-wpcode-conditional-schedule.php:37
+msgid "Date"
+msgstr ""
+
+#: includes/lite/conditional-logic/class-wpcode-conditional-schedule.php:41
+msgid "Date & Time"
+msgstr ""
+
+#: includes/lite/conditional-logic/class-wpcode-conditional-schedule.php:45
+msgid "Day of the Week"
+msgstr ""
+
+#: includes/lite/conditional-logic/class-wpcode-conditional-schedule.php:50
+msgid "Current time"
+msgstr ""
+
+#: includes/lite/conditional-logic/class-wpcode-conditional-schedule.php:57
+msgid "Scheduling rules are a Pro Feature"
+msgstr ""
+
+#: includes/lite/conditional-logic/class-wpcode-conditional-schedule.php:58
+msgid "Upgrade today and get access to advanced scheduling conditional logic rules."
+msgstr ""
+
+#: includes/lite/conditional-logic/class-wpcode-conditional-woocommerce.php:37
+msgid "WooCommerce Page"
+msgstr ""
+
+#: includes/lite/conditional-logic/class-wpcode-conditional-woocommerce.php:40
+msgid "WooCommerce Page Rules is a Pro Feature"
+msgstr ""
+
+#: includes/lite/conditional-logic/class-wpcode-conditional-woocommerce.php:41
+msgid "Get access to advanced conditional logic rules for WooCommerce by upgrading to PRO today."
+msgstr ""
+
+#: includes/lite/conditional-logic/class-wpcode-conditional-woocommerce.php:56
+msgid "Cart Page"
+msgstr ""
+
+#: includes/lite/conditional-logic/class-wpcode-conditional-woocommerce.php:61
+msgid "Single Product Page"
+msgstr ""
+
+#: includes/lite/conditional-logic/class-wpcode-conditional-woocommerce.php:66
+msgid "Shop Page"
+msgstr ""
+
+#: includes/lite/conditional-logic/class-wpcode-conditional-woocommerce.php:71
+msgid "Product Category Page"
+msgstr ""
+
+#: includes/lite/conditional-logic/class-wpcode-conditional-woocommerce.php:76
+msgid "Product Tag Page"
+msgstr ""
+
+#: includes/lite/conditional-logic/class-wpcode-conditional-woocommerce.php:81
+msgid "My Account Page"
+msgstr ""
+
+#: includes/safe-mode.php:71
+msgid "WPCode is in Safe Mode which means no snippets are getting executed. Please disable any snippets that have caused errors and when done click the button below to exit safe mode."
+msgstr ""
+
+#: includes/safe-mode.php:72
+msgid "The link will open in a new window so if you are still encountering issues you safely can return to this tab and make further adjustments"
+msgstr ""
+
+#: includes/safe-mode.php:74
+msgid "Exit safe mode"
+msgstr ""
