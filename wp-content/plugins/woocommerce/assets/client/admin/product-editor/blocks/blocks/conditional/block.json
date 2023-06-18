@@ -22,6 +22,7 @@
 		"multiple": true,
 		"reusable": false,
 		"inserter": false,
-		"lock": false
+		"lock": false,
+		"__experimentalToolbar": false
 	}
 }

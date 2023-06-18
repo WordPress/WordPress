@@ -123,8 +123,11 @@ $fontSizes: (
 	vertical-align: baseline;
 }
 
-@mixin reset-typography() {
+@mixin reset-color() {
 	color: inherit;
+}
+
+@mixin reset-typography() {
 	font-family: inherit;
 	font-size: inherit;
 	font-style: inherit;
@@ -138,6 +141,7 @@ $fontSizes: (
 // Reset <h1>, <h2>, etc. styles as if they were text. Useful for elements that must be headings for a11y but don't need those styles.
 @mixin text-heading() {
 	@include reset-box();
+	@include reset-color();
 	@include reset-typography();
 	box-shadow: none;
 	display: inline;
@@ -148,6 +152,7 @@ $fontSizes: (
 // Reset <button> style as if it was text. Useful for elements that must be `<button>` for a11y but don't need those styles.
 @mixin text-button() {
 	@include reset-box();
+	@include reset-color();
 	@include reset-typography();
 	background: transparent;
 	box-shadow: none;

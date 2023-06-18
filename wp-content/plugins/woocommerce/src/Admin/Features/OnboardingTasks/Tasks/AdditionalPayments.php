@@ -91,9 +91,6 @@ class AdditionalPayments extends Payments {
 			// Hide task if WC Pay is not installed via OBW, or is not connected, or the store is located in a country that is not supported by WC Pay.
 			return false;
 		}
-		if ( $this->get_parent_id() === 'extended_two_column' && WooCommercePayments::is_connected() ) {
-			return false;
-		}
 
 		return true;
 	}

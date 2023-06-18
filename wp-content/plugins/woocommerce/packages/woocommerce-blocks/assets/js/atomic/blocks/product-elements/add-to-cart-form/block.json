@@ -1,7 +1,7 @@
 {
 	"name": "woocommerce/add-to-cart-form",
 	"version": "1.0.0",
-	"title": "Add to Cart form",
+	"title": "Add to Cart with Options",
 	"description": "Display a button so the customer can add a product to their cart. Options will also be displayed depending on product type. e.g. quantity, variation.",
 	"category": "woocommerce",
 	"keywords": [ "WooCommerce" ],

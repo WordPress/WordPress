@@ -9,7 +9,7 @@ import {
 	useInnerBlockLayoutContext,
 	useProductDataContext,
 } from '@woocommerce/shared-context';
-import { useColorProps, useTypographyProps } from '@woocommerce/base-hooks';
+import { useStyleProps } from '@woocommerce/base-hooks';
 import { withProductDataContext } from '@woocommerce/shared-hocs';
 import type { HTMLAttributes } from 'react';
 
@@ -25,8 +25,7 @@ const Block = ( props: Props ): JSX.Element | null => {
 	const { className } = props;
 	const { parentClassName } = useInnerBlockLayoutContext();
 	const { product } = useProductDataContext();
-	const colorProps = useColorProps( props );
-	const typographyProps = useTypographyProps( props );
+	const styleProps = useStyleProps( props );
 
 	if ( ! product ) {
 		return (
@@ -55,7 +54,7 @@ const Block = ( props: Props ): JSX.Element | null => {
 		<Summary
 			className={ classnames(
 				className,
-				colorProps.className,
+				styleProps.className,
 				`wc-block-components-product-summary`,
 				{
 					[ `${ parentClassName }__product-summary` ]:
@@ -65,10 +64,7 @@ const Block = ( props: Props ): JSX.Element | null => {
 			source={ source }
 			maxLength={ 150 }
 			countType={ blocksConfig.wordCountType || 'words' }
-			style={ {
-				...colorProps.style,
-				...typographyProps.style,
-			} }
+			style={ styleProps.style }
 		/>
 	);
 };

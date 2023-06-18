@@ -12,7 +12,7 @@ import type { UniqueIdentifier } from '@dnd-kit/core';
 import apiFetch from '@wordpress/api-fetch';
 import { dispatch } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
-import { isEqual } from 'lodash';
+import fastDeepEqual from 'fast-deep-equal/es6';
 
 /**
  * Internal dependencies
@@ -139,11 +139,14 @@ export const SettingsProvider = ( {
 		} ).then( ( response ) => {
 			setIsSaving( false );
 			if (
-				isEqual(
+				fastDeepEqual(
 					response.pickup_location_settings,
 					data.pickup_location_settings
 				) &&
-				isEqual( response.pickup_locations, data.pickup_locations )
+				fastDeepEqual(
+					response.pickup_locations,
+					data.pickup_locations
+				)
 			) {
 				dispatch( 'core/notices' ).createSuccessNotice(
 					__(

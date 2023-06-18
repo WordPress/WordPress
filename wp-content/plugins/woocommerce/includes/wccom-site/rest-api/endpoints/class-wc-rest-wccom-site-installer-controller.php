@@ -35,7 +35,7 @@ class WC_REST_WCCOM_Site_Installer_Controller extends WC_REST_Controller {
 	protected $rest_base = 'installer';
 
 	/**
-	 * Register the routes for product reviews.
+	 * Register the routes for WCCCOM Installer Controller.
 	 *
 	 * @since 3.7.0
 	 */

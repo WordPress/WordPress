@@ -9,17 +9,12 @@ import { ProductResponseItem } from '@woocommerce/types';
  * Internal dependencies
  */
 import { Block } from '../block';
+import { ImageSizing } from '../types';
 
 jest.mock( '@woocommerce/base-hooks', () => ( {
 	__esModule: true,
-	useBorderProps: jest.fn( () => ( {
+	useStyleProps: jest.fn( () => ( {
 		className: '',
-		style: {},
-	} ) ),
-	useTypographyProps: jest.fn( () => ( {
-		style: {},
-	} ) ),
-	useSpacingProps: jest.fn( () => ( {
 		style: {},
 	} ) ),
 } ) );
@@ -152,7 +147,7 @@ describe( 'Product Image Block', () => {
 						productId={ productWithImages.id }
 						showSaleBadge={ false }
 						saleBadgeAlign={ 'left' }
-						imageSizing={ 'full-size' }
+						imageSizing={ ImageSizing.SINGLE }
 						isDescendentOfQueryLoop={ false }
 					/>
 				</ProductDataContextProvider>
@@ -186,7 +181,7 @@ describe( 'Product Image Block', () => {
 						productId={ productWithoutImages.id }
 						showSaleBadge={ false }
 						saleBadgeAlign={ 'left' }
-						imageSizing={ 'full-size' }
+						imageSizing={ ImageSizing.SINGLE }
 						isDescendentOfQueryLoop={ false }
 					/>
 				</ProductDataContextProvider>
@@ -219,7 +214,7 @@ describe( 'Product Image Block', () => {
 						productId={ productWithImages.id }
 						showSaleBadge={ false }
 						saleBadgeAlign={ 'left' }
-						imageSizing={ 'full-size' }
+						imageSizing={ ImageSizing.SINGLE }
 						isDescendentOfQueryLoop={ false }
 					/>
 				</ProductDataContextProvider>
@@ -249,7 +244,7 @@ describe( 'Product Image Block', () => {
 						productId={ productWithoutImages.id }
 						showSaleBadge={ false }
 						saleBadgeAlign={ 'left' }
-						imageSizing={ 'full-size' }
+						imageSizing={ ImageSizing.SINGLE }
 						isDescendentOfQueryLoop={ false }
 					/>
 				</ProductDataContextProvider>
@@ -277,7 +272,7 @@ describe( 'Product Image Block', () => {
 						productId={ productWithoutImages.id }
 						showSaleBadge={ false }
 						saleBadgeAlign={ 'left' }
-						imageSizing={ 'full-size' }
+						imageSizing={ ImageSizing.SINGLE }
 						isDescendentOfQueryLoop={ false }
 					/>
 				</ProductDataContextProvider>

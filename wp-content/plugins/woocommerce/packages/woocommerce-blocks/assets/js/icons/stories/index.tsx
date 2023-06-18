@@ -1,7 +1,6 @@
 /**
  * External dependencies
  */
-import { omitBy } from 'lodash';
 import type { Story } from '@storybook/react';
 import { useState } from '@wordpress/element';
 import { Icon } from '@wordpress/icons';
@@ -14,9 +13,16 @@ const { ...availableIcons } = icons;
 
 export const Library: Story = ( args ) => {
 	const [ filter, setFilter ] = useState( '' );
-	const filteredIcons = omitBy( availableIcons, ( _, name ) => {
-		return ! name.includes( filter );
-	} );
+
+	const filteredIcons = Object.entries( availableIcons ).reduce(
+		( acc: Record< string, unknown >, [ name, icon ] ) => {
+			if ( name.includes( filter ) ) {
+				acc[ name ] = icon;
+			}
+			return acc;
+		},
+		{} as Partial< typeof availableIcons >
+	);
 
 	return (
 		<div style={ { padding: '20px' } }>

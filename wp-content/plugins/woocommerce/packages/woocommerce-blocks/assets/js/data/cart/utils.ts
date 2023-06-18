@@ -1,9 +1,9 @@
 /**
  * External dependencies
  */
-import { camelCase, mapKeys } from 'lodash';
 import { Cart, CartResponse } from '@woocommerce/types';
 import { select } from '@wordpress/data';
+import { camelCaseKeys } from '@woocommerce/base-utils';
 
 /**
  * Internal dependencies
@@ -11,9 +11,7 @@ import { select } from '@wordpress/data';
 import { STORE_KEY as VALIDATION_STORE_KEY } from '../validation/constants';
 
 export const mapCartResponseToCart = ( responseCart: CartResponse ): Cart => {
-	return mapKeys( responseCart, ( _, key ) =>
-		camelCase( key )
-	) as unknown as Cart;
+	return camelCaseKeys( responseCart ) as unknown as Cart;
 };
 
 export const shippingAddressHasValidationErrors = () => {

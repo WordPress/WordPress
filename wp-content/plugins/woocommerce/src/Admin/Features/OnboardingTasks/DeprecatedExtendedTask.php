@@ -76,7 +76,7 @@ class DeprecatedExtendedTask extends Task {
 	}
 
 	/**
-	 * Additonal info.
+	 * Additional info.
 	 *
 	 * @return string
 	 */

@@ -59,6 +59,7 @@ export const INNER_BLOCKS_TEMPLATE: InnerBlockTemplate[] = [
 				'woocommerce/product-image',
 				{
 					productId: 0,
+					imageSizing: 'cropped',
 				},
 			],
 			[
@@ -67,6 +68,7 @@ export const INNER_BLOCKS_TEMPLATE: InnerBlockTemplate[] = [
 					textAlign: 'center',
 					level: 3,
 					fontSize: 'medium',
+					isLink: true,
 					__woocommerceNamespace: PRODUCT_TITLE_ID,
 				},
 				[],

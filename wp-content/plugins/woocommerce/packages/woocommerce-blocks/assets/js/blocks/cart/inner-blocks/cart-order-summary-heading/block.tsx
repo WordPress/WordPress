@@ -1,7 +1,6 @@
 /**
  * External dependencies
  */
-import Title from '@woocommerce/base-components/title';
 import classnames from 'classnames';
 
 const Block = ( {
@@ -12,12 +11,11 @@ const Block = ( {
 	content: string;
 } ): JSX.Element => {
 	return (
-		<Title
-			headingLevel="2"
+		<span
 			className={ classnames( className, 'wc-block-cart__totals-title' ) }
 		>
 			{ content }
-		</Title>
+		</span>
 	);
 };
 

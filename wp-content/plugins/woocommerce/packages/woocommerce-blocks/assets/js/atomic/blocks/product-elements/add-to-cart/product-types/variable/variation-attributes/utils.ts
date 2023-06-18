@@ -1,7 +1,6 @@
 /**
  * External dependencies
  */
-import { keyBy } from 'lodash';
 import { decodeEntities } from '@wordpress/html-entities';
 import {
 	Dictionary,
@@ -10,6 +9,7 @@ import {
 	ProductResponseTermItem,
 	ProductResponseVariationsItem,
 } from '@woocommerce/types';
+import { keyBy } from '@woocommerce/base-utils';
 
 /**
  * Internal dependencies

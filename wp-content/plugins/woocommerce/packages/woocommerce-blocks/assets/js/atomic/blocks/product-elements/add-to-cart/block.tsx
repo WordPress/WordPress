@@ -8,7 +8,7 @@ import {
 	useAddToCartFormContext,
 } from '@woocommerce/base-context';
 import { useProductDataContext } from '@woocommerce/shared-context';
-import { isEmpty } from 'lodash';
+import { isEmpty } from '@woocommerce/types';
 import { withProductDataContext } from '@woocommerce/shared-hocs';
 
 /**

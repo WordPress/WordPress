@@ -14,6 +14,11 @@ import { getIconsFromPaymentMethods } from '@woocommerce/base-utils';
 import { getSetting } from '@woocommerce/settings';
 import { PaymentEventsProvider } from '@woocommerce/base-context';
 
+/**
+ * Internal dependencies
+ */
+import './editor.scss';
+
 const PaymentMethodIconsElement = (): JSX.Element => {
 	const { paymentMethods } = usePaymentMethods();
 	return (
@@ -49,7 +54,9 @@ export const Edit = (): JSX.Element => {
 						'woo-gutenberg-products-block'
 					) }
 				/>
-				<InnerBlocks template={ TEMPLATE } />
+				<div className="wc-block-mini-cart__footer-actions">
+					<InnerBlocks template={ TEMPLATE } />
+				</div>
 				<PaymentEventsProvider>
 					<PaymentMethodIconsElement />
 				</PaymentEventsProvider>

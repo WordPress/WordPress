@@ -3,7 +3,7 @@
 /**
  * External dependencies
  */
-import { isEqual } from 'lodash';
+import fastDeepEqual from 'fast-deep-equal/es6';
 import { useRef } from '@wordpress/element';
 import {
 	CART_STORE_KEY as storeKey,
@@ -247,7 +247,7 @@ export const useStoreCart = (
 
 	if (
 		! currentResults.current ||
-		! isEqual( currentResults.current, results )
+		! fastDeepEqual( currentResults.current, results )
 	) {
 		currentResults.current = results;
 	}

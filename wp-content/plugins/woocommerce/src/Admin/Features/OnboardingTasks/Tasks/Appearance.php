@@ -76,10 +76,11 @@ class Appearance extends Task {
 	 */
 	public function get_additional_data() {
 		return array(
-			'has_homepage' => self::has_homepage(),
-			'has_products' => Products::has_products(),
-			'stylesheet'   => get_option( 'stylesheet' ),
-			'theme_mods'   => get_theme_mods(),
+			'has_homepage'        => self::has_homepage(),
+			'has_products'        => Products::has_products(),
+			'stylesheet'          => get_option( 'stylesheet' ),
+			'theme_mods'          => get_theme_mods(),
+			'support_custom_logo' => false !== get_theme_support( 'custom-logo' ),
 		);
 	}
 

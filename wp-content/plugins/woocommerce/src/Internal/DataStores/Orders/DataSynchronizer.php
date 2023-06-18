@@ -79,6 +79,8 @@ class DataSynchronizer implements BatchProcessorInterface {
 		self::add_action( 'deleted_post', array( $this, 'handle_deleted_post' ), 10, 2 );
 		self::add_action( 'woocommerce_new_order', array( $this, 'handle_updated_order' ), 100 );
 		self::add_action( 'woocommerce_update_order', array( $this, 'handle_updated_order' ), 100 );
+		self::add_action( 'wp_scheduled_auto_draft_delete', array( $this, 'delete_auto_draft_orders' ), 9 );
+
 		self::add_filter( 'woocommerce_feature_description_tip', array( $this, 'handle_feature_description_tip' ), 10, 3 );
 	}
 
@@ -465,6 +467,45 @@ ORDER BY orders.id ASC
 		if ( ! $this->custom_orders_table_is_authoritative() && $this->data_sync_is_enabled() ) {
 			$this->posts_to_cot_migrator->migrate_orders( array( $order_id ) );
 		}
+	}
+
+	/**
+	 * Handles deletion of auto-draft orders in sync with WP's own auto-draft deletion.
+	 *
+	 * @since 7.7.0
+	 *
+	 * @return void
+	 */
+	private function delete_auto_draft_orders() {
+		if ( ! $this->custom_orders_table_is_authoritative() ) {
+			return;
+		}
+
+		// Fetch auto-draft orders older than 1 week.
+		$to_delete = wc_get_orders(
+			array(
+				'date_query' => array(
+					array(
+						'column' => 'date_created',
+						'before' => '-1 week',
+					),
+				),
+				'orderby'    => 'date',
+				'order'      => 'ASC',
+				'status'     => 'auto-draft',
+			)
+		);
+
+		foreach ( $to_delete as $order ) {
+			$order->delete( true );
+		}
+
+		/**
+		 * Fires after schedueld deletion of auto-draft orders has been completed.
+		 *
+		 * @since 7.7.0
+		 */
+		do_action( 'woocommerce_scheduled_auto_draft_delete' );
 	}
 
 	/**

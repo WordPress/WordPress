@@ -91,49 +91,12 @@ class ProductCollectionData extends AbstractRoute {
 		}
 
 		if ( ! empty( $request['calculate_attribute_counts'] ) ) {
-			$taxonomy__or_queries  = [];
-			$taxonomy__and_queries = [];
-
 			foreach ( $request['calculate_attribute_counts'] as $attributes_to_count ) {
-				if ( ! empty( $attributes_to_count['taxonomy'] ) ) {
-					if ( empty( $attributes_to_count['query_type'] ) || 'or' === $attributes_to_count['query_type'] ) {
-						$taxonomy__or_queries[] = $attributes_to_count['taxonomy'];
-					} else {
-						$taxonomy__and_queries[] = $attributes_to_count['taxonomy'];
-					}
+				if ( ! isset( $attributes_to_count['taxonomy'] ) ) {
+					continue;
 				}
-			}
 
-			$data['attribute_counts'] = [];
-			// Or type queries need special handling because the attribute, if set, needs removing from the query first otherwise counts would not be correct.
-			if ( $taxonomy__or_queries ) {
-				foreach ( $taxonomy__or_queries as $taxonomy ) {
-					$filter_request    = clone $request;
-					$filter_attributes = $filter_request->get_param( 'attributes' );
-
-					if ( ! empty( $filter_attributes ) ) {
-						$filter_attributes = array_filter(
-							$filter_attributes,
-							function( $query ) use ( $taxonomy ) {
-								return $query['attribute'] !== $taxonomy;
-							}
-						);
-					}
-
-					$filter_request->set_param( 'attributes', $filter_attributes );
-					$counts = $filters->get_attribute_counts( $filter_request, [ $taxonomy ] );
-
-					foreach ( $counts as $key => $value ) {
-						$data['attribute_counts'][] = (object) [
-							'term'  => $key,
-							'count' => $value,
-						];
-					}
-				}
-			}
-
-			if ( $taxonomy__and_queries ) {
-				$counts = $filters->get_attribute_counts( $request, $taxonomy__and_queries );
+				$counts = $filters->get_attribute_counts( $request, $attributes_to_count['taxonomy'] );
 
 				foreach ( $counts as $key => $value ) {
 					$data['attribute_counts'][] = (object) [

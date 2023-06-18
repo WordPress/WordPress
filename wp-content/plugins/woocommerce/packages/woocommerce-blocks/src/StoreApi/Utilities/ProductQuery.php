@@ -27,6 +27,7 @@ class ProductQuery {
 			'post_parent__in'     => $request['parent'],
 			'post_parent__not_in' => $request['parent_exclude'],
 			'search'              => $request['search'], // This uses search rather than s intentionally to handle searches internally.
+			'slug'                => $request['slug'],
 			'fields'              => 'ids',
 			'ignore_sticky_posts' => true,
 			'post_status'         => 'publish',
@@ -34,8 +35,8 @@ class ProductQuery {
 			'post_type'           => 'product',
 		];
 
-		// If searching for a specific SKU, allow any post type.
-		if ( ! empty( $request['sku'] ) ) {
+		// If searching for a specific SKU or slug, allow any post type.
+		if ( ! empty( $request['sku'] ) || ! empty( $request['slug'] ) ) {
 			$args['post_type'] = [ 'product', 'product_variation' ];
 		}
 
@@ -96,7 +97,7 @@ class ProductQuery {
 		];
 
 		// Gets all registered product taxonomies and prefixes them with `tax_`.
-		// This is neeeded to avoid situations where a users registers a new product taxonomy with the same name as default field.
+		// This is needed to avoid situations where a user registers a new product taxonomy with the same name as default field.
 		// eg an `sku` taxonomy will be mapped to `tax_sku`.
 		$all_product_taxonomies = array_map(
 			function ( $value ) {
@@ -324,6 +325,17 @@ class ProductQuery {
 			}
 			$args['join']   = $this->append_product_sorting_table_join( $args['join'] );
 			$args['where'] .= ' AND wc_product_meta_lookup.sku IN ("' . implode( '","', array_map( 'esc_sql', $skus ) ) . '")';
+		}
+
+		if ( $wp_query->get( 'slug' ) ) {
+			$slugs = explode( ',', $wp_query->get( 'slug' ) );
+			// Include the current string as a slug too.
+			if ( 1 < count( $slugs ) ) {
+				$slugs[] = $wp_query->get( 'slug' );
+			}
+			$args['join']   = $this->append_product_sorting_table_join( $args['join'] );
+			$post_name__in  = implode( '","', array_map( 'esc_sql', $slugs ) );
+			$args['where'] .= " AND $wpdb->posts.post_name IN (\"$post_name__in\")";
 		}
 
 		if ( $wp_query->get( 'stock_status' ) ) {

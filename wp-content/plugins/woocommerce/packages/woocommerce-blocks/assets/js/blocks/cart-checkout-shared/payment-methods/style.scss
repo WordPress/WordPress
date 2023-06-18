@@ -59,6 +59,7 @@
 	}
 
 	label {
+		@include reset-color();
 		@include reset-typography();
 		@include font-size(regular);
 		line-height: 1.375; // =22px when font-size is 16px.

@@ -3,13 +3,16 @@
  */
 import { dispatch, select } from '@wordpress/data';
 import { previewCart } from '@woocommerce/resource-previews';
-import { camelCase, cloneDeep, mapKeys } from 'lodash';
-import { Cart, CartResponse } from '@woocommerce/types';
+import { Cart } from '@woocommerce/types';
+import { camelCaseKeys } from '@woocommerce/base-utils';
 
 /**
  * Internal dependencies
  */
 import { notifyQuantityChanges } from '../notify-quantity-changes';
+
+// Deep clone an object to avoid mutating it later.
+const cloneObject = ( obj ) => JSON.parse( JSON.stringify( obj ) );
 
 jest.mock( '@wordpress/data' );
 
@@ -34,14 +37,8 @@ select.mockImplementation( () => {
  * Clones the preview cart and turns it into a `Cart`.
  */
 const getFreshCarts = (): { oldCart: Cart; newCart: Cart } => {
-	const oldCart = mapKeys(
-		cloneDeep< CartResponse >( previewCart ),
-		( _, key ) => camelCase( key )
-	) as unknown as Cart;
-	const newCart = mapKeys(
-		cloneDeep< CartResponse >( previewCart ),
-		( _, key ) => camelCase( key )
-	) as unknown as Cart;
+	const oldCart = camelCaseKeys( cloneObject( previewCart ) ) as Cart;
+	const newCart = camelCaseKeys( cloneObject( previewCart ) ) as Cart;
 	return { oldCart, newCart };
 };
 

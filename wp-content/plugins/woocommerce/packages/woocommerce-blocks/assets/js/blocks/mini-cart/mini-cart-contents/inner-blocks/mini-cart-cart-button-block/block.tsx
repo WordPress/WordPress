@@ -4,13 +4,13 @@
 import { CART_URL } from '@woocommerce/block-settings';
 import Button from '@woocommerce/base-components/button';
 import classNames from 'classnames';
+import { useStyleProps } from '@woocommerce/base-hooks';
 
 /**
  * Internal dependencies
  */
 import { defaultCartButtonLabel } from './constants';
 import { getVariant } from '../utils';
-import { useColorProps } from '../color-utils';
 
 type MiniCartCartButtonBlockProps = {
 	cartButtonLabel?: string;
@@ -23,7 +23,7 @@ const Block = ( {
 	cartButtonLabel,
 	style,
 }: MiniCartCartButtonBlockProps ): JSX.Element | null => {
-	const colorProps = useColorProps( { style } );
+	const styleProps = useStyleProps( { style } );
 
 	if ( ! CART_URL ) {
 		return null;
@@ -33,10 +33,10 @@ const Block = ( {
 		<Button
 			className={ classNames(
 				className,
-				colorProps.className,
+				styleProps.className,
 				'wc-block-mini-cart__footer-cart'
 			) }
-			style={ { ...colorProps.style } }
+			style={ styleProps.style }
 			href={ CART_URL }
 			variant={ getVariant( className, 'outlined' ) }
 		>

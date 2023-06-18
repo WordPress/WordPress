@@ -141,6 +141,13 @@ class Products extends AbstractRoute {
 			'validate_callback' => 'rest_validate_request_arg',
 		);
 
+		$params['slug'] = array(
+			'description'       => __( 'Limit result set to products with specific slug(s). Use commas to separate.', 'woocommerce' ),
+			'type'              => 'string',
+			'sanitize_callback' => 'sanitize_text_field',
+			'validate_callback' => 'rest_validate_request_arg',
+		);
+
 		$params['after'] = array(
 			'description'       => __( 'Limit response to resources created after a given ISO8601 compliant date.', 'woocommerce' ),
 			'type'              => 'string',

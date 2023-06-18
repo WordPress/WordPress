@@ -128,6 +128,7 @@ export const TotalsCoupon = ( {
 									setCouponValue( newCouponValue );
 								} }
 								focusOnMount={ true }
+								validateOnMount={ false }
 								showError={ false }
 							/>
 							<Button

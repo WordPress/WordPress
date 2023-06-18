@@ -55,7 +55,7 @@ class WC_REST_Customers_V2_Controller extends WC_REST_Customers_V1_Controller {
 		// Format date values.
 		foreach ( $format_date as $key ) {
 			// Date created is stored UTC, date modified is stored WP local time.
-			$datetime              = 'date_created' === $key ? get_date_from_gmt( gmdate( 'Y-m-d H:i:s', $data[ $key ]->getTimestamp() ) ) : $data[ $key ];
+			$datetime              = 'date_created' === $key && is_subclass_of( $data[ $key ], 'DateTime' ) ? get_date_from_gmt( gmdate( 'Y-m-d H:i:s', $data[ $key ]->getTimestamp() ) ) : $data[ $key ];
 			$data[ $key ]          = wc_rest_prepare_date_response( $datetime, false );
 			$data[ $key . '_gmt' ] = wc_rest_prepare_date_response( $datetime );
 		}
