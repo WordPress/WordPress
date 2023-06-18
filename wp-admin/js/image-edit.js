@@ -358,10 +358,16 @@
 	 * @param {number} postid The post ID.
 	 *
 	 * @return {string} The value from the imagedit-save-target input field when available,
-	 *                  or 'full' when not available.
+	 *                  'full' when not selected, or 'all' if it doesn't exist.
 	 */
-	getTarget : function(postid) {
-		return $('input[name="imgedit-target-' + postid + '"]:checked', '#imgedit-save-target-' + postid).val() || 'full';
+	getTarget : function( postid ) {
+		var element = $( '#imgedit-save-target-' + postid );
+
+		if ( element.length ) {
+			return element.find( 'input[name="imgedit-target-' + postid + '"]:checked' ).val() || 'full';
+		}
+
+		return 'all';
 	},
 
 	/**
