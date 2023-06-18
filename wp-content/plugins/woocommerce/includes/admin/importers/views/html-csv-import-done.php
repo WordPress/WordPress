@@ -30,6 +30,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 			);
 		}
 
+		if ( 0 < $imported_variations ) {
+			$results[] = sprintf(
+				/* translators: %d: products count */
+				_n( '%s variations imported', '%s variations imported', $imported_variations, 'woocommerce' ),
+				'<strong>' . number_format_i18n( $imported_variations ) . '</strong>'
+			);
+		}
+
 		if ( 0 < $skipped ) {
 			$results[] = sprintf(
 				/* translators: %d: products count */

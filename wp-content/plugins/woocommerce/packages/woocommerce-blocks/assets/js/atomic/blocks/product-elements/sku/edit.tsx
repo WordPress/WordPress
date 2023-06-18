@@ -6,6 +6,7 @@ import type { BlockEditProps } from '@wordpress/blocks';
 import EditProductLink from '@woocommerce/editor-components/edit-product-link';
 import { ProductQueryContext as Context } from '@woocommerce/blocks/product-query/types';
 import { useEffect } from '@wordpress/element';
+import { useSelect } from '@wordpress/data';
 
 /**
  * Internal dependencies
@@ -28,9 +29,34 @@ const Edit = ( {
 	};
 	const isDescendentOfQueryLoop = Number.isFinite( context.queryId );
 
+	const isDescendentOfSingleProductTemplate = useSelect(
+		( select ) => {
+			const store = select( 'core/edit-site' );
+			const postId = store?.getEditedPostId< string | undefined >();
+
+			if ( ! postId ) {
+				return false;
+			}
+
+			return (
+				postId.includes( '//single-product' ) &&
+				! isDescendentOfQueryLoop
+			);
+		},
+		[ isDescendentOfQueryLoop ]
+	);
+
 	useEffect(
-		() => setAttributes( { isDescendentOfQueryLoop } ),
-		[ setAttributes, isDescendentOfQueryLoop ]
+		() =>
+			setAttributes( {
+				isDescendentOfQueryLoop,
+				isDescendentOfSingleProductTemplate,
+			} ),
+		[
+			setAttributes,
+			isDescendentOfQueryLoop,
+			isDescendentOfSingleProductTemplate,
+		]
 	);
 
 	return (

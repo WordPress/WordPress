@@ -3,6 +3,13 @@
 	@include reset-box();
 	@include font-size(large);
 	word-break: break-word;
+
+	textarea {
+		letter-spacing: inherit;
+		text-transform: inherit;
+		font-weight: inherit;
+		font-style: inherit;
+	}
 }
 
 // For Twenty Twenty we need to increase specificity a bit more.

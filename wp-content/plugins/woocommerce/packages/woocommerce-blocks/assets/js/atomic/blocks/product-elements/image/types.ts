@@ -1,3 +1,8 @@
+export enum ImageSizing {
+	SINGLE = 'single',
+	THUMBNAIL = 'thumbnail',
+}
+
 export interface BlockAttributes {
 	// The product ID.
 	productId: number;
@@ -10,7 +15,7 @@ export interface BlockAttributes {
 	// How should the sale badge be aligned if displayed.
 	saleBadgeAlign: 'left' | 'center' | 'right';
 	// Size of image to use.
-	imageSizing: 'full-size' | 'cropped';
+	imageSizing: ImageSizing;
 	// Whether or not be a children of Query Loop Block.
 	isDescendentOfQueryLoop: boolean;
 }

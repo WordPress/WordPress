@@ -3,7 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { createInterpolateElement, useState } from '@wordpress/element';
-import { ADMIN_URL } from '@woocommerce/settings';
+import { ADMIN_URL, getSetting } from '@woocommerce/settings';
 import { CHECKOUT_PAGE_ID } from '@woocommerce/block-settings';
 import {
 	CheckboxControl,
@@ -47,6 +47,11 @@ const GeneralSettings = () => {
 		useSettingsContext();
 	const [ showCosts, setShowCosts ] = useState( !! settings.cost );
 
+	const shippingCostRequiresAddress = getSetting< boolean >(
+		'shippingCostRequiresAddress',
+		false
+	);
+
 	return (
 		<SettingsSection Description={ GeneralSettingsDescription }>
 			<SettingsCard>
@@ -78,10 +83,23 @@ const GeneralSettings = () => {
 						'Enable local pickup',
 						'woo-gutenberg-products-block'
 					) }
-					help={ __(
-						'When enabled, local pickup will appear as an option on the block based checkout.',
-						'woo-gutenberg-products-block'
-					) }
+					help={
+						<span>
+							{ __(
+								'When enabled, local pickup will appear as an option on the block based checkout.',
+								'woo-gutenberg-products-block'
+							) }
+							{ shippingCostRequiresAddress ? (
+								<>
+									<br />
+									{ __(
+										'If local pickup is enabled, the "Hide shipping costs until an address is entered" setting will be ignored.',
+										'woo-gutenberg-products-block'
+									) }
+								</>
+							) : null }
+						</span>
+					}
 				/>
 				<TextControl
 					label={ __( 'Title', 'woo-gutenberg-products-block' ) }

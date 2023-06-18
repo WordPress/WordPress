@@ -1,7 +1,7 @@
 {
     "$schema": "https://schemas.wp.org/trunk/block.json",
     "apiVersion": 2,
-    "name": "woocommerce/product-sku",
+    "name": "woocommerce/product-sku-field",
     "title": "Product text control",
     "category": "woocommerce",
     "description": "The product sku.",

@@ -3,6 +3,7 @@
  */
 import classnames from 'classnames';
 import { forwardRef, useState } from '@wordpress/element';
+import { decodeEntities } from '@wordpress/html-entities';
 import type { InputHTMLAttributes } from 'react';
 
 /**
@@ -68,7 +69,7 @@ const TextInput = forwardRef< HTMLInputElement, TextInputProps >(
 				<input
 					type={ type }
 					id={ id }
-					value={ value }
+					value={ decodeEntities( value ) }
 					ref={ ref }
 					autoCapitalize={ autoCapitalize }
 					autoComplete={ autoComplete }

@@ -1,9 +1,11 @@
 .wc-block-components-radio-control__option {
+	@include reset-color();
 	@include reset-typography();
 	display: block;
 	margin: em($gap) 0;
 	padding: 0 0 0 em($gap-larger);
 	position: relative;
+	cursor: pointer;
 
 	&:first-child {
 		margin-top: 0;
@@ -70,6 +72,7 @@
 		left: 0;
 		top: 50%;
 		transform: translate(0, -50%);
+		cursor: pointer;
 
 		&:checked::before {
 			background: #000;

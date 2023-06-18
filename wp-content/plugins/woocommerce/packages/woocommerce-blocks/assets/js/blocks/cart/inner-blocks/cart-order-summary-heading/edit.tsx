@@ -2,7 +2,6 @@
  * External dependencies
  */
 import { PlainText, useBlockProps } from '@wordpress/block-editor';
-import Title from '@woocommerce/base-components/title';
 import classnames from 'classnames';
 
 /**
@@ -24,8 +23,7 @@ export const Edit = ( {
 	const blockProps = useBlockProps();
 	return (
 		<div { ...blockProps }>
-			<Title
-				headingLevel="2"
+			<span
 				className={ classnames(
 					className,
 					'wc-block-cart__totals-title'
@@ -39,7 +37,7 @@ export const Edit = ( {
 					}
 					style={ { backgroundColor: 'transparent' } }
 				/>
-			</Title>
+			</span>
 		</div>
 	);
 };

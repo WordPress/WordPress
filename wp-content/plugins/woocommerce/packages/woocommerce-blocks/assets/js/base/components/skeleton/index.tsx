@@ -10,11 +10,15 @@ export interface SkeletonProps {
 export const Skeleton = ( {
 	numberOfLines = 1,
 }: SkeletonProps ): JSX.Element => {
-	const skeletonLines = Array( numberOfLines ).fill(
-		<span
-			className="wc-block-components-skeleton-text-line"
-			aria-hidden="true"
-		/>
+	const skeletonLines = Array.from(
+		{ length: numberOfLines },
+		( _: undefined, index ) => (
+			<span
+				className="wc-block-components-skeleton-text-line"
+				aria-hidden="true"
+				key={ index }
+			/>
+		)
 	);
 	return (
 		<div className="wc-block-components-skeleton">{ skeletonLines }</div>

@@ -1,4 +1,5 @@
 .wc-block-components-checkbox {
+	@include reset-color();
 	@include reset-typography();
 	margin-top: em($gap-large);
 
@@ -6,7 +7,12 @@
 		align-items: flex-start;
 		display: flex;
 		position: relative;
+		cursor: pointer;
 		@include font-size(small);
+
+		input[type="checkbox"] {
+			cursor: inherit;
+		}
 	}
 
 	.wc-block-components-checkbox__input[type="checkbox"] {

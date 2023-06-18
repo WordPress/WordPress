@@ -32,7 +32,7 @@ function wc_importer_current_locale() {
  * @return array
  */
 function wc_importer_default_english_mappings( $mappings ) {
-	if ( 'en_US' === wc_importer_current_locale() ) {
+	if ( 'en_US' === wc_importer_current_locale() && is_array( $mappings ) && count( $mappings ) > 0 ) {
 		return $mappings;
 	}
 
@@ -92,7 +92,7 @@ add_filter( 'woocommerce_csv_product_import_mapping_default_columns', 'wc_import
  * @return array
  */
 function wc_importer_default_special_english_mappings( $mappings ) {
-	if ( 'en_US' === wc_importer_current_locale() ) {
+	if ( 'en_US' === wc_importer_current_locale() && is_array( $mappings ) && count( $mappings ) > 0 ) {
 		return $mappings;
 	}
 

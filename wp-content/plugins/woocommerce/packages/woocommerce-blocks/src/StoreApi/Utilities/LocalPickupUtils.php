@@ -6,6 +6,16 @@ namespace Automattic\WooCommerce\StoreApi\Utilities;
  * the ShippingController, i.e. the OrderController.
  */
 class LocalPickupUtils {
+
+	/**
+	 * Checks if WC Blocks local pickup is enabled.
+	 *
+	 * @return bool True if local pickup is enabled.
+	 */
+	public static function is_local_pickup_enabled() {
+		$pickup_location_settings = get_option( 'woocommerce_pickup_location_settings', [] );
+		return wc_string_to_bool( $pickup_location_settings['enabled'] ?? 'no' );
+	}
 	/**
 	 * Gets a list of payment method ids that support the 'local-pickup' feature.
 	 *

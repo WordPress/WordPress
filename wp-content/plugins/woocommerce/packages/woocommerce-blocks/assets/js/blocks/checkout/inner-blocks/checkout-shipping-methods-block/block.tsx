@@ -2,7 +2,10 @@
  * External dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { useShippingData } from '@woocommerce/base-context/hooks';
+import {
+	useCustomerData,
+	useShippingData,
+} from '@woocommerce/base-context/hooks';
 import { ShippingRatesControl } from '@woocommerce/base-components/cart-checkout';
 import {
 	getShippingRatesPackageCount,
@@ -19,15 +22,13 @@ import type {
 	PackageRateOption,
 	CartShippingPackageShippingRate,
 } from '@woocommerce/types';
-import { CART_STORE_KEY } from '@woocommerce/block-data';
-import { useSelect } from '@wordpress/data';
 import NoticeBanner from '@woocommerce/base-components/notice-banner';
+import type { ReactElement } from 'react';
 
 /**
  * Internal dependencies
  */
 import './style.scss';
-import { shippingAddressHasValidationErrors } from '../../../../data/cart/utils';
 
 /**
  * Renders a shipping rate control option.
@@ -54,10 +55,7 @@ const renderShippingRatesControlOption = (
 	};
 };
 
-const Block = ( {
-	noShippingPlaceholder = null,
-	shippingCostRequiresAddress = false,
-} ): React.ReactElement | null => {
+const Block = ( { noShippingPlaceholder = null } ): ReactElement | null => {
 	const { isEditor } = useEditorContext();
 
 	const {
@@ -68,9 +66,7 @@ const Block = ( {
 		isCollectable,
 	} = useShippingData();
 
-	const shippingAddressPushed = useSelect( ( select ) => {
-		return select( CART_STORE_KEY ).getFullShippingAddressPushed();
-	} );
+	const { shippingAddress } = useCustomerData();
 
 	const filteredShippingRates = isCollectable
 		? shippingRates.map( ( shippingRatesPackage ) => {
@@ -86,25 +82,14 @@ const Block = ( {
 		  } )
 		: shippingRates;
 
-	const shippingAddress = useSelect( ( select ) => {
-		return select( CART_STORE_KEY ).getCustomerData()?.shippingAddress;
-	} );
-
 	if ( ! needsShipping ) {
 		return null;
 	}
 
-	const shippingAddressHasErrors = ! shippingAddressHasValidationErrors();
-	const addressComplete = isAddressComplete( shippingAddress );
-
 	const shippingRatesPackageCount =
 		getShippingRatesPackageCount( shippingRates );
 
-	if (
-		( ! hasCalculatedShipping && ! shippingRatesPackageCount ) ||
-		( shippingCostRequiresAddress &&
-			( ! shippingAddressPushed || ! shippingAddressHasErrors ) )
-	) {
+	if ( ! hasCalculatedShipping && ! shippingRatesPackageCount ) {
 		return (
 			<p>
 				{ __(
@@ -114,6 +99,7 @@ const Block = ( {
 			</p>
 		);
 	}
+	const addressComplete = isAddressComplete( shippingAddress );
 
 	return (
 		<>

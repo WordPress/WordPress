@@ -7,7 +7,7 @@ import {
 	ApiErrorResponse,
 	isApiErrorResponse,
 } from '@woocommerce/types';
-import { camelCase, mapKeys } from 'lodash';
+import { camelCaseKeys } from '@woocommerce/base-utils';
 
 /**
  * Internal dependencies
@@ -31,9 +31,7 @@ export const receiveCart =
 		dispatch: CartDispatchFromMap;
 		select: CartSelectFromMap;
 	} ) => {
-		const newCart = mapKeys( response, ( _, key ) =>
-			camelCase( key )
-		) as unknown as Cart;
+		const newCart = camelCaseKeys( response ) as unknown as Cart;
 		const oldCart = select.getCartData();
 		notifyCartErrors( newCart.errors, oldCart.errors );
 		notifyQuantityChanges( {

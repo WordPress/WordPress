@@ -13,13 +13,13 @@ import { getIconsFromPaymentMethods } from '@woocommerce/base-utils';
 import { getSetting } from '@woocommerce/settings';
 import { PaymentEventsProvider } from '@woocommerce/base-context';
 import classNames from 'classnames';
-import { isObject } from '@woocommerce/types';
 
 /**
  * Internal dependencies
  */
 import CartButton from '../mini-cart-cart-button-block/block';
 import CheckoutButton from '../mini-cart-checkout-button-block/block';
+import { hasChildren } from '../utils';
 
 const PaymentMethodIconsElement = (): JSX.Element => {
 	const { paymentMethods } = usePaymentMethods();
@@ -36,18 +36,6 @@ interface Props {
 	cartButtonLabel: string;
 	checkoutButtonLabel: string;
 }
-
-/**
- * Checks if there are any children that are blocks.
- */
-const hasChildren = ( children ): boolean => {
-	return children.some( ( child ) => {
-		if ( Array.isArray( child ) ) {
-			return hasChildren( child );
-		}
-		return isObject( child ) && child.key !== null;
-	} );
-};
 
 const Block = ( {
 	children,

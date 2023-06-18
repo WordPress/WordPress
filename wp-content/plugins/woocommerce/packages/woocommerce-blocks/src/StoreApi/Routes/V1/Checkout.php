@@ -474,6 +474,7 @@ class Checkout extends AbstractCartRoute {
 	private function update_order_from_request( \WP_REST_Request $request ) {
 		$this->order->set_customer_note( $request['customer_note'] ?? '' );
 		$this->order->set_payment_method( $this->get_request_payment_method_id( $request ) );
+		$this->order->set_payment_method_title( $this->get_request_payment_method_title( $request ) );
 
 		wc_do_deprecated_action(
 			'__experimental_woocommerce_blocks_checkout_update_order_from_request',
@@ -578,6 +579,18 @@ class Checkout extends AbstractCartRoute {
 	private function get_request_payment_method_id( \WP_REST_Request $request ) {
 		$payment_method = $this->get_request_payment_method( $request );
 		return is_null( $payment_method ) ? '' : $payment_method->id;
+	}
+
+	/**
+	 * Gets the chosen payment method title from the request.
+	 *
+	 * @throws RouteException On error.
+	 * @param \WP_REST_Request $request Request object.
+	 * @return string
+	 */
+	private function get_request_payment_method_title( \WP_REST_Request $request ) {
+		$payment_method = $this->get_request_payment_method( $request );
+		return is_null( $payment_method ) ? '' : $payment_method->get_title();
 	}
 
 	/**

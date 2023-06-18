@@ -92,6 +92,40 @@ class PageController {
 	}
 
 	/**
+	 * Claims the lock for the order being edited/created (unless it belongs to someone else).
+	 * Also handles the 'claim-lock' action which allows taking over the order forcefully.
+	 *
+	 * @return void
+	 */
+	private function handle_edit_lock() {
+		if ( ! $this->order ) {
+			return;
+		}
+
+		$edit_lock = wc_get_container()->get( EditLock::class );
+
+		$locked = $edit_lock->is_locked_by_another_user( $this->order );
+
+		// Take over order?
+		if ( ! empty( $_GET['claim-lock'] ) && wp_verify_nonce( $_GET['_wpnonce'] ?? '', 'claim-lock-' . $this->order->get_id() ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+			$edit_lock->lock( $this->order );
+			wp_safe_redirect( $this->get_edit_url( $this->order->get_id() ) );
+			exit;
+		}
+
+		if ( ! $locked ) {
+			$edit_lock->lock( $this->order );
+		}
+
+		add_action(
+			'admin_footer',
+			function() use ( $edit_lock ) {
+				$edit_lock->render_dialog( $this->order );
+			}
+		);
+	}
+
+	/**
 	 * Sets up the page controller, including registering the menu item.
 	 *
 	 * @return void
@@ -266,6 +300,7 @@ class PageController {
 		global $theorder;
 		$this->order = wc_get_order( absint( isset( $_GET['id'] ) ? $_GET['id'] : 0 ) );
 		$this->verify_edit_permission();
+		$this->handle_edit_lock();
 		$theorder = $this->order;
 	}
 
@@ -286,8 +321,14 @@ class PageController {
 
 		$this->order = new $order_class_name();
 		$this->order->set_object_read( false );
-		$this->order->set_status( 'pending' );
+		$this->order->set_status( 'auto-draft' );
 		$this->order->save();
+		$this->handle_edit_lock();
+
+		// Schedule auto-draft cleanup. We re-use the WP event here on purpose.
+		if ( ! wp_next_scheduled( 'wp_scheduled_auto_draft_delete' ) ) {
+			wp_schedule_event( time(), 'daily', 'wp_scheduled_auto_draft_delete' );
+		}
 
 		$theorder = $this->order;
 	}

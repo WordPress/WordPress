@@ -92,7 +92,7 @@ class WooCommercePayments extends Task {
 		return ! $payments->is_complete() && // Do not re-display the task if the "add payments" task has already been completed.
 			self::is_installed() &&
 			self::is_supported() &&
-			( $this->get_parent_id() !== 'setup_two_column' || ! self::is_connected() );
+			! self::is_connected();
 	}
 
 	/**

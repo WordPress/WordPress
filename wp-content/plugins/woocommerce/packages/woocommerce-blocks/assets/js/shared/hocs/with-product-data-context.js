@@ -7,6 +7,9 @@ import {
 	useProductDataContext,
 } from '@woocommerce/shared-context';
 
+const getProductById = ( products, id ) =>
+	products.find( ( product ) => product.id === id );
+
 /**
  * Loads the product from the API and adds to the context provider.
  *
@@ -22,7 +25,10 @@ const OriginalComponentWithContext = ( props ) => {
 	} );
 
 	const productFromAPI = {
-		product: id > 0 && products.length > 0 ? products[ 0 ] : null,
+		product:
+			id > 0 && products.length > 0
+				? getProductById( products, id )
+				: null,
 		isLoading: productsLoading,
 	};
 

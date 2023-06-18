@@ -54,7 +54,7 @@ class Pagination {
 	 * @return string
 	 */
 	protected function get_link_base( $request ) {
-		return add_query_arg( $request->get_query_params(), rest_url( $request->get_route() ) );
+		return esc_url( add_query_arg( $request->get_query_params(), rest_url( $request->get_route() ) ) );
 	}
 
 	/**

@@ -32,10 +32,9 @@ import {
 	BLOCK_ICON as icon,
 	BLOCK_DESCRIPTION as description,
 } from './constants';
-import type { BlockAttributes } from './types';
+import { BlockAttributes, ImageSizing } from './types';
 
 type SaleBadgeAlignProps = 'left' | 'center' | 'right';
-type ImageSizingProps = 'full-size' | 'cropped';
 
 const Edit = ( {
 	attributes,
@@ -56,12 +55,6 @@ const Edit = ( {
 		() => setAttributes( { isDescendentOfQueryLoop } ),
 		[ setAttributes, isDescendentOfQueryLoop ]
 	);
-
-	useEffect( () => {
-		if ( isBlockThemeEnabled && attributes.imageSizing !== 'full-size' ) {
-			setAttributes( { imageSizing: 'full-size' } );
-		}
-	}, [ attributes.imageSizing, isBlockThemeEnabled, setAttributes ] );
 
 	return (
 		<div { ...blockProps }>
@@ -160,19 +153,19 @@ const Edit = ( {
 								}
 							) }
 							value={ imageSizing }
-							onChange={ ( value: ImageSizingProps ) =>
+							onChange={ ( value: ImageSizing ) =>
 								setAttributes( { imageSizing: value } )
 							}
 						>
 							<ToggleGroupControlOption
-								value="full-size"
+								value={ ImageSizing.SINGLE }
 								label={ __(
 									'Full Size',
 									'woo-gutenberg-products-block'
 								) }
 							/>
 							<ToggleGroupControlOption
-								value="cropped"
+								value={ ImageSizing.THUMBNAIL }
 								label={ __(
 									'Cropped',
 									'woo-gutenberg-products-block'

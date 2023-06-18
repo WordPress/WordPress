@@ -59,6 +59,11 @@ class ProductSchema extends AbstractSchema {
 				'type'        => 'string',
 				'context'     => [ 'view', 'edit' ],
 			],
+			'slug'                => [
+				'description' => __( 'Product slug.', 'woocommerce' ),
+				'type'        => 'string',
+				'context'     => [ 'view', 'edit' ],
+			],
 			'parent'              => [
 				'description' => __( 'ID of the parent product, if applicable.', 'woocommerce' ),
 				'type'        => 'integer',
@@ -449,6 +454,7 @@ class ProductSchema extends AbstractSchema {
 		return [
 			'id'                  => $product->get_id(),
 			'name'                => $this->prepare_html_response( $product->get_title() ),
+			'slug'                => $product->get_slug(),
 			'parent'              => $product->get_parent_id(),
 			'type'                => $product->get_type(),
 			'variation'           => $this->prepare_html_response( $product->is_type( 'variation' ) ? wc_get_formatted_variation( $product, true, true, false ) : '' ),

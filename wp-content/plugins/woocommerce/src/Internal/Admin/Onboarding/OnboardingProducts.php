@@ -128,9 +128,6 @@ class OnboardingProducts {
 				$product_data[ $key ]['description']  = $products[ $product_type['product'] ]->excerpt;
 				$product_data[ $key ]['more_url']     = $products[ $product_type['product'] ]->link;
 				$product_data[ $key ]['slug']         = strtolower( preg_replace( '~[^\pL\d]+~u', '-', $products[ $product_type['product'] ]->slug ) );
-			} elseif ( isset( $product_type['product'] ) ) {
-				/* translators: site currency symbol (used to show that the product costs money) */
-				$product_data[ $key ]['label'] .= sprintf( __( ' — %s', 'woocommerce' ), html_entity_decode( get_woocommerce_currency_symbol() ) );
 			}
 		}
 

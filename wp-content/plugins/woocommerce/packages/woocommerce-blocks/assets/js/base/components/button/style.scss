@@ -1,7 +1,7 @@
 .wc-block-components-button:not(.is-link) {
 	align-items: center;
 	display: inline-flex;
-	min-height: 3em;
+	height: auto;
 	justify-content: center;
 	text-align: center;
 	position: relative;
@@ -57,12 +57,7 @@
 }
 
 body:not(.woocommerce-block-theme-has-button-styles) .wc-block-components-button:not(.is-link) {
-	@include reset-typography();
-	font-weight: bold;
-	line-height: 1;
-	padding: 0 em($gap);
-	text-decoration: none;
-	text-transform: none;
+	min-height: 3em;
 
 	&:focus {
 		box-shadow: 0 0 0 2px $studio-blue;
@@ -72,23 +67,6 @@ body:not(.woocommerce-block-theme-has-button-styles) .wc-block-components-button
 
 	&.text {
 		color: $gray-900;
-
-		&:hover {
-			opacity: 0.9;
-		}
-	}
-
-	&.contained {
-		background-color: $gray-900;
-		color: $white;
-
-		&:disabled,
-		&:hover,
-		&:focus,
-		&:active {
-			background-color: $gray-900;
-			color: $white;
-		}
 
 		&:hover {
 			opacity: 0.9;

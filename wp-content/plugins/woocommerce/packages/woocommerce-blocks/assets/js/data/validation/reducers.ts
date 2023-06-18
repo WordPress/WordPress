@@ -2,7 +2,6 @@
  * External dependencies
  */
 import type { Reducer } from 'redux';
-import { pickBy } from 'lodash';
 import isShallowEqual from '@wordpress/is-shallow-equal';
 import { isString, FieldValidationStatus } from '@woocommerce/types';
 
@@ -19,16 +18,24 @@ const reducer: Reducer< Record< string, FieldValidationStatus > > = (
 	const newState = { ...state };
 	switch ( action.type ) {
 		case types.SET_VALIDATION_ERRORS:
-			const newErrors = pickBy( action.errors, ( error, property ) => {
-				if ( typeof error?.message !== 'string' ) {
-					return false;
+			if ( ! action.errors ) {
+				return state;
+			}
+			const hasNewError = Object.entries( action.errors ).some(
+				( [ property, error ] ) => {
+					if ( typeof error?.message !== 'string' ) {
+						return false;
+					}
+					if (
+						state.hasOwnProperty( property ) &&
+						isShallowEqual( state[ property ], error )
+					) {
+						return false;
+					}
+					return true;
 				}
-				if ( state.hasOwnProperty( property ) ) {
-					return ! isShallowEqual( state[ property ], error );
-				}
-				return true;
-			} );
-			if ( Object.values( newErrors ).length === 0 ) {
+			);
+			if ( ! hasNewError ) {
 				return state;
 			}
 			return { ...state, ...action.errors };

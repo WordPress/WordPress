@@ -1,6 +1,6 @@
-/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ../../../node_modules/.pnpm/css-loader@3.6.0_webpack@5.70.0/node_modules/css-loader/dist/cjs.js!../../../node_modules/.pnpm/postcss-loader@4.3.0_wn4p5kzkgq2ohl66pfawxjf2x4/node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[0].use[2]!../../../node_modules/.pnpm/sass-loader@10.2.1_webpack@5.70.0/node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[0].use[3]!./src/blocks/shipping-dimensions/editor.scss ***!
-  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ../../../node_modules/.pnpm/css-loader@3.6.0_webpack@5.70.0/node_modules/css-loader/dist/cjs.js!../../../node_modules/.pnpm/postcss-loader@4.3.0_postcss@8.4.12_webpack@5.70.0/node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[0].use[2]!../../../node_modules/.pnpm/sass-loader@10.2.1_sass@1.60.0_webpack@5.70.0/node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[0].use[3]!./src/blocks/shipping-dimensions/editor.scss ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /**
  * Colors
  */
@@ -232,17 +232,9 @@ body.admin-color-sunrise {
   flex-shrink: 0;
   color: #757575;
 }
-.wp-block-woocommerce-product-shipping-dimensions-fields .has-error .components-base-control {
-  margin-bottom: 0;
-}
-.wp-block-woocommerce-product-shipping-dimensions-fields .has-error .components-base-control .components-input-control__backdrop {
-  border-color: #d63638;
-}
-.wp-block-woocommerce-product-shipping-dimensions-fields .has-error .components-base-control__help {
-  color: #d63638;
-}
 .wp-block-woocommerce-product-shipping-dimensions-fields__dimensions-image {
   width: 100%;
   height: 100%;
   padding: 16px;
+  overflow: visible;
 }

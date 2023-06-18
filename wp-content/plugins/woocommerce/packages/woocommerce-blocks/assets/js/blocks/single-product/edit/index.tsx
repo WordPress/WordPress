@@ -40,7 +40,6 @@ interface EditorProps {
 }
 
 const Editor = ( {
-	className,
 	attributes,
 	setAttributes,
 	error,
@@ -69,7 +68,7 @@ const Editor = ( {
 	}
 
 	return (
-		<div className={ className }>
+		<div { ...blockProps }>
 			{ /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */ }
 			{ /* @ts-ignore */ }
 			<BlockErrorBoundary
@@ -105,7 +104,7 @@ const Editor = ( {
 						</div>
 					</Placeholder>
 				) : (
-					<div { ...blockProps }>
+					<div>
 						<InspectorControls>
 							<PanelBody
 								title={ __(

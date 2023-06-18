@@ -12,7 +12,7 @@ import {
 	useStoreEvents,
 } from '@woocommerce/base-context/hooks';
 import { sanitizeHTML } from '@woocommerce/utils';
-import { debounce } from 'lodash';
+import { useDebouncedCallback } from 'use-debounce';
 import type { ReactElement } from 'react';
 
 /**
@@ -91,23 +91,22 @@ export const ShippingRatesControlPackage = ( {
 			) }
 		</>
 	);
-	const onSelectRate = debounce(
-		useCallback(
-			( newShippingRateId: string ) => {
-				selectShippingRate( newShippingRateId, packageId );
-				dispatchCheckoutEvent( 'set-selected-shipping-rate', {
-					shippingRateId: newShippingRateId,
-				} );
-			},
-			[ dispatchCheckoutEvent, packageId, selectShippingRate ]
-		),
-		1000
+
+	const onSelectRate = useCallback(
+		( newShippingRateId: string ) => {
+			selectShippingRate( newShippingRateId, packageId );
+			dispatchCheckoutEvent( 'set-selected-shipping-rate', {
+				shippingRateId: newShippingRateId,
+			} );
+		},
+		[ dispatchCheckoutEvent, packageId, selectShippingRate ]
 	);
+	const debouncedOnSelectRate = useDebouncedCallback( onSelectRate, 1000 );
 	const packageRatesProps = {
 		className,
 		noResultsMessage,
 		rates: packageData.shipping_rates,
-		onSelectRate,
+		onSelectRate: debouncedOnSelectRate,
 		selectedRate: packageData.shipping_rates.find(
 			( rate ) => rate.selected
 		),

@@ -76,7 +76,7 @@ export const useShippingData = (): ShippingData => {
 	} as {
 		selectShippingRate: (
 			newShippingRateId: string,
-			packageId?: string | number | undefined
+			packageId?: string | number | null
 		) => Promise< unknown >;
 	};
 
@@ -99,11 +99,11 @@ export const useShippingData = (): ShippingData => {
 			 *
 			 * Forces pickup location to be selected for all packages since we don't allow a mix of shipping and pickup.
 			 */
-			if (
-				hasCollectableRate( newShippingRateId.split( ':' )[ 0 ] ) ||
-				hasSelectedLocalPickup
-			) {
-				selectPromise = dispatchSelectShippingRate( newShippingRateId );
+			if ( hasCollectableRate( newShippingRateId.split( ':' )[ 0 ] ) ) {
+				selectPromise = dispatchSelectShippingRate(
+					newShippingRateId,
+					null
+				);
 			} else {
 				selectPromise = dispatchSelectShippingRate(
 					newShippingRateId,

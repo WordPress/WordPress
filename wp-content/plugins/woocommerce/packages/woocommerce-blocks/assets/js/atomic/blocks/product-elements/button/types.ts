@@ -14,10 +14,8 @@ export interface BlockAttributes {
 }
 
 export interface AddToCartButtonPlaceholderAttributes {
-	borderStyles: WithClass & WithStyle;
-	colorStyles: WithClass & WithStyle;
-	spacingStyles: WithStyle;
-	typographyStyles: WithStyle;
+	className: string;
+	style: Record< string, unknown >;
 }
 
 export interface AddToCartButtonAttributes

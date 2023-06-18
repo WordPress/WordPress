@@ -1,9 +1,12 @@
 /**
  * External dependencies
  */
-import { debounce, pick } from 'lodash';
 import { select, dispatch } from '@wordpress/data';
-import { pluckEmail, removeAllNotices } from '@woocommerce/base-utils';
+import {
+	pluckEmail,
+	removeAllNotices,
+	debounce,
+} from '@woocommerce/base-utils';
 import {
 	CartBillingAddress,
 	CartShippingAddress,
@@ -26,6 +29,15 @@ type CustomerData = {
 
 type BillingOrShippingAddress = CartBillingAddress | CartShippingAddress;
 
+const pick = < Type >( object: Type, keys: string[] ): Type => {
+	return keys.reduce( ( obj, key ) => {
+		if ( object && object.hasOwnProperty( key ) ) {
+			obj[ key as keyof Type ] = object[ key as keyof Type ];
+		}
+		return obj;
+	}, {} as Type );
+};
+
 /**
  * Checks if a cart response contains an email property.
  */
@@ -41,13 +53,20 @@ const isBillingAddress = (
 export const normalizeAddress = ( address: BillingOrShippingAddress ) => {
 	const trimmedAddress = Object.entries( address ).reduce(
 		( acc, [ key, value ] ) => {
+			//Skip normalizing for any non string field
+			if ( typeof value !== 'string' ) {
+				acc[ key as keyof BillingOrShippingAddress ] = value;
+				return acc;
+			}
+
 			if ( key === 'postcode' ) {
 				acc[ key as keyof BillingOrShippingAddress ] = value
 					.replace( ' ', '' )
 					.toUpperCase();
-			} else {
-				acc[ key as keyof BillingOrShippingAddress ] = value.trim();
+				return acc;
 			}
+
+			acc[ key as keyof BillingOrShippingAddress ] = value.trim();
 			return acc;
 		},
 		{} as BillingOrShippingAddress

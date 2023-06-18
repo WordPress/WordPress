@@ -1,0 +1,30 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "woocommerce/product-collapsible",
+	"title": "Collapsible",
+	"category": "widgets",
+	"description": "Container with collapsible inner blocks.",
+	"textdomain": "default",
+	"attributes": {
+		"toggleText": {
+			"type": "string",
+			"__experimentalRole": "content"
+		},
+		"initialCollapsed": {
+			"type": "boolean"
+		},
+		"persistRender": {
+			"type": "boolean"
+		}
+	},
+	"supports": {
+		"align": false,
+		"html": false,
+		"multiple": true,
+		"reusable": false,
+		"inserter": false,
+		"lock": false,
+		"__experimentalToolbar": false
+	}
+}

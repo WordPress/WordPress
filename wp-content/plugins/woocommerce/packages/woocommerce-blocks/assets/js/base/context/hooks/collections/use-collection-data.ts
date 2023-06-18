@@ -3,9 +3,9 @@
  */
 import { useState, useEffect, useMemo } from '@wordpress/element';
 import { useDebounce } from 'use-debounce';
-import { isEmpty, sortBy } from 'lodash';
+import { isEmpty, objectHasProp } from '@woocommerce/types';
+import { sort } from 'fast-sort';
 import { useShallowEqual } from '@woocommerce/base-hooks';
-import { objectHasProp } from '@woocommerce/types';
 
 /**
  * Internal dependencies
@@ -22,7 +22,7 @@ const buildCollectionDataQuery = (
 	if (
 		Array.isArray( collectionDataQueryState.calculate_attribute_counts )
 	) {
-		query.calculate_attribute_counts = sortBy(
+		query.calculate_attribute_counts = sort(
 			collectionDataQueryState.calculate_attribute_counts.map(
 				( { taxonomy, queryType } ) => {
 					return {
@@ -30,9 +30,8 @@ const buildCollectionDataQuery = (
 						query_type: queryType,
 					};
 				}
-			),
-			[ 'taxonomy', 'query_type' ]
-		);
+			)
+		).asc( [ 'taxonomy', 'query_type' ] );
 	}
 
 	return query;

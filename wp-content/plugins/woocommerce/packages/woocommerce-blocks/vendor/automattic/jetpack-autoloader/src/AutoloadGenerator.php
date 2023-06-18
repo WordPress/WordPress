@@ -308,6 +308,9 @@ class AutoloadGenerator {
 
 				// Composer 2.4 changed the name of the class.
 				if ( class_exists( \Composer\ClassMapGenerator\ClassMapGenerator::class ) ) {
+					if ( ! is_dir( $dir ) && ! is_file( $dir ) ) {
+						return array();
+					}
 					$generator = new \Composer\ClassMapGenerator\ClassMapGenerator();
 					$generator->scanPaths( $dir, $excludedClasses, 'classmap', empty( $namespace ) ? null : $namespace );
 					return $generator->getClassMap()->getMap();

@@ -1,0 +1,50 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "woocommerce/product-summary-field",
+	"title": "Product summary",
+	"category": "widgets",
+	"description": "The product summary.",
+	"keywords": [ "products", "summary", "excerpt" ],
+	"textdomain": "default",
+	"attributes": {
+		"align": {
+			"type": "string"
+		},
+		"allowedFormats": {
+			"type": "array",
+			"default": [
+				"core/bold",
+				"core/code",
+				"core/italic",
+				"core/link",
+				"core/strikethrough",
+				"core/underline",
+				"core/text-color",
+				"core/subscript",
+				"core/superscript",
+				"core/unknown"
+			]
+		},
+		"direction": {
+			"type": "string",
+			"enum": [ "ltr", "rtl" ]
+		},
+		"label": {
+			"type": "string"
+		},
+		"content": {
+			"type": "string",
+			"__experimentalRole": "content"
+		}
+	},
+	"supports": {
+		"align": false,
+		"html": false,
+		"multiple": false,
+		"reusable": false,
+		"inserter": false,
+		"lock": false
+	},
+	"editorStyle": "file:./editor.css"
+}

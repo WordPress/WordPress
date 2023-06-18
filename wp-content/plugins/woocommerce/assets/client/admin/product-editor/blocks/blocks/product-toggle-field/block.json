@@ -1,0 +1,32 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "woocommerce/product-toggle-field",
+	"title": "Product toggle control",
+	"category": "woocommerce",
+	"description": "The product toggle.",
+	"keywords": [ "products", "radio", "input" ],
+	"textdomain": "default",
+	"attributes": {
+		"label": {
+			"type": "string",
+			"__experimentalRole": "content"
+		},
+		"property": {
+			"type": "string"
+		},
+		"disabled": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"supports": {
+		"align": false,
+		"html": false,
+		"multiple": true,
+		"reusable": true,
+		"inserter": false,
+		"lock": false,
+		"__experimentalToolbar": false
+	}
+}

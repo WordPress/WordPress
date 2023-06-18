@@ -19,22 +19,25 @@ export const Edit = ( {
 	};
 	setAttributes: ( attributes: Record< string, unknown > ) => void;
 } ): JSX.Element => {
-	const blockProps = useBlockProps();
+	const blockProps = useBlockProps( {
+		className: 'wc-block-mini-cart__footer-cart',
+	} );
 	const { cartButtonLabel } = attributes;
 
 	return (
-		<EditableButton
-			{ ...blockProps }
-			className="wc-block-mini-cart__footer-cart"
-			variant={ getVariant( blockProps.className, 'outlined' ) }
-			value={ cartButtonLabel }
-			placeholder={ defaultCartButtonLabel }
-			onChange={ ( content ) => {
-				setAttributes( {
-					cartButtonLabel: content,
-				} );
-			} }
-		/>
+		<div { ...blockProps }>
+			<EditableButton
+				variant={ getVariant( blockProps.className, 'outlined' ) }
+				value={ cartButtonLabel }
+				placeholder={ defaultCartButtonLabel }
+				onChange={ ( content ) => {
+					setAttributes( {
+						cartButtonLabel: content,
+					} );
+				} }
+				style={ blockProps.style }
+			/>
+		</div>
 	);
 };
 

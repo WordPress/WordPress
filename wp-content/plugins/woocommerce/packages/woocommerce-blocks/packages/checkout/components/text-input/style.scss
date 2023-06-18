@@ -5,6 +5,7 @@
 	white-space: nowrap;
 
 	label {
+		@include reset-color();
 		@include reset-typography();
 		@include font-size(regular);
 		position: absolute;

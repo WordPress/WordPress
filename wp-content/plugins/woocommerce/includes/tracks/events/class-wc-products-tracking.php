@@ -151,6 +151,27 @@ class WC_Products_Tracking {
 					var tagsText = '';
 					var currentStockValue = $( '#_stock' ).val();
 
+					function getProductTypeOptions() {
+						const productTypeOptionsCheckboxes = $( 'input[type=\"checkbox\"][data-product-type-option-id]' );
+						const productTypeOptions = productTypeOptionsCheckboxes.map( function() {
+							return {
+								id: $( this ).data( 'product-type-option-id' ),
+								isEnabled: $( this ).is( ':checked' ),
+							};
+						} ).get();
+						return productTypeOptions;
+					}
+
+					function getProductTypeOptionsString( productTypeOptions ) {
+						return productTypeOptions
+							.filter( productTypeOption => productTypeOption.isEnabled )
+							.map( productTypeOption => productTypeOption.id )
+							.join( ', ' );
+					}
+
+					const productTypeOptions = getProductTypeOptions();
+					const productTypeOptionsString = getProductTypeOptionsString( productTypeOptions );
+
 					if ( ! isBlockEditor ) {
 						tagsText          = $( '[name=\"tax_input[product_tag]\"]' ).val();
 						if ( $( '#content' ).is( ':visible' ) ) {
@@ -174,31 +195,94 @@ class WC_Products_Tracking {
 					} ).length;
 
 					var properties = {
-						attributes:				numberOfAttributes,
-						categories:				$( '[name=\"tax_input[product_cat][]\"]:checked' ).length,
-						cross_sells:			$( '#crosssell_ids option' ).length ? 'Yes' : 'No',
-						description:			description_value.trim() !== '' ? 'Yes' : 'No',
-						enable_reviews:			$( '#comment_status' ).is( ':checked' ) ? 'Yes' : 'No',
-						is_virtual:				$( '#_virtual' ).is( ':checked' ) ? 'Yes' : 'No',
-						is_block_editor:		isBlockEditor,
-						is_downloadable:		$( '#_downloadable' ).is( ':checked' ) ? 'Yes' : 'No',
-						manage_stock:			$( '#_manage_stock' ).is( ':checked' ) ? 'Yes' : 'No',
-						menu_order:				parseInt( $( '#menu_order' ).val(), 10 ) !== 0 ? 'Yes' : 'No',
-						product_gallery:		$( '#product_images_container .product_images > li' ).length,
-						product_image:			$( '#_thumbnail_id' ).val() > 0 ? 'Yes' : 'No',
-						product_type:			$( '#product-type' ).val(),
-						purchase_note:			$( '#_purchase_note' ).val().length ? 'yes' : 'no',
-						sale_price:				$( '#_sale_price' ).val() ? 'yes' : 'no',
-						short_description:		$( '#excerpt' ).val().length ? 'yes' : 'no',
-						stock_quantity_update:	( initialStockValue != currentStockValue ) ? 'Yes' : 'No',
-						tags:					tagsText.length > 0 ? tagsText.split( ',' ).length : 0,
-						upsells:				$( '#upsell_ids option' ).length ? 'Yes' : 'No',
-						weight:					$( '#_weight' ).val() ? 'Yes' : 'No',
+						attributes:				     numberOfAttributes,
+						categories:				     $( '[name=\"tax_input[product_cat][]\"]:checked' ).length,
+						cross_sells:			     $( '#crosssell_ids option' ).length ? 'Yes' : 'No',
+						description:			     description_value.trim() !== '' ? 'Yes' : 'No',
+						enable_reviews:			     $( '#comment_status' ).is( ':checked' ) ? 'Yes' : 'No',
+						is_virtual:				     $( '#_virtual' ).is( ':checked' ) ? 'Yes' : 'No',
+						is_block_editor:		     isBlockEditor,
+						is_downloadable:		     $( '#_downloadable' ).is( ':checked' ) ? 'Yes' : 'No',
+						manage_stock:			     $( '#_manage_stock' ).is( ':checked' ) ? 'Yes' : 'No',
+						menu_order:				     parseInt( $( '#menu_order' ).val(), 10 ) !== 0 ? 'Yes' : 'No',
+						product_gallery:		     $( '#product_images_container .product_images > li' ).length,
+						product_image:			     $( '#_thumbnail_id' ).val() > 0 ? 'Yes' : 'No',
+						product_type:			     $( '#product-type' ).val(),
+						product_type_options_string: productTypeOptionsString,
+						purchase_note:			     $( '#_purchase_note' ).val().length ? 'yes' : 'no',
+						sale_price:				     $( '#_sale_price' ).val() ? 'yes' : 'no',
+						short_description:		     $( '#excerpt' ).val().length ? 'yes' : 'no',
+						stock_quantity_update:	     ( initialStockValue != currentStockValue ) ? 'Yes' : 'No',
+						tags:					     tagsText.length > 0 ? tagsText.split( ',' ).length : 0,
+						upsells:				     $( '#upsell_ids option' ).length ? 'Yes' : 'No',
+						weight:					     $( '#_weight' ).val() ? 'Yes' : 'No',
 					};
 					window.wcTracks.recordEvent( 'product_update', properties );
 				} );
 			}
 			"
+		);
+	}
+
+	/**
+	 * Get the IDs of the possible product type options.
+	 *
+	 * @return array
+	 */
+	private static function get_possible_product_type_options_ids() {
+		$product_type_options_ids = array_merge(
+			array_values(
+				array_map(
+					function ( $product_type_option ) {
+						return $product_type_option['id'];
+					},
+					/* phpcs:disable WooCommerce.Commenting.CommentHooks.MissingHookComment */
+					apply_filters( 'product_type_options', array() )
+				)
+			),
+			array( '_downloadable', '_virtual' )
+		);
+
+		return $product_type_options_ids;
+	}
+
+	/**
+	 * Get the product type options for a product.
+	 *
+	 * @param int $post_id The ID of the product.
+	 *
+	 * @return array
+	 */
+	private static function get_product_type_options( $post_id ) {
+		$possible_product_type_options_ids = self::get_possible_product_type_options_ids();
+		$post_meta                         = get_post_meta( $post_id );
+		$product_type_options              = array();
+
+		foreach ( $possible_product_type_options_ids as $product_type_option_id ) {
+			$product_type_options[ $product_type_option_id ] = isset( $post_meta[ $product_type_option_id ] ) ? $post_meta[ $product_type_option_id ][0] : 'no';
+		}
+
+		return $product_type_options;
+	}
+
+	/**
+	 * Get a comma-separated string of the product type options that are enabled.
+	 *
+	 * @param array $product_type_options The product type options.
+	 *
+	 * @return string
+	 */
+	private static function get_product_type_options_string( $product_type_options ) {
+		return implode(
+			', ',
+			array_keys(
+				array_filter(
+					$product_type_options,
+					function ( $is_enabled ) {
+						return 'yes' === $is_enabled;
+					}
+				)
+			)
 		);
 	}
 
@@ -222,27 +306,31 @@ class WC_Products_Tracking {
 
 		$product = wc_get_product( $post_id );
 
+		$product_type_options        = self::get_product_type_options( $post_id );
+		$product_type_options_string = self::get_product_type_options_string( $product_type_options );
+
 		$properties = array(
-			'attributes'        => count( $product->get_attributes() ),
-			'categories'        => count( $product->get_category_ids() ),
-			'cross_sells'       => ! empty( $product->get_cross_sell_ids() ) ? 'yes' : 'no',
-			'description'       => $product->get_description() ? 'yes' : 'no',
-			'dimensions'        => wc_format_dimensions( $product->get_dimensions( false ) ) !== 'N/A' ? 'yes' : 'no',
-			'enable_reviews'    => $product->get_reviews_allowed() ? 'yes' : 'no',
-			'is_downloadable'   => $product->is_downloadable() ? 'yes' : 'no',
-			'is_virtual'        => $product->is_virtual() ? 'yes' : 'no',
-			'manage_stock'      => $product->get_manage_stock() ? 'yes' : 'no',
-			'menu_order'        => $product->get_menu_order() ? 'yes' : 'no',
-			'product_id'        => $post_id,
-			'product_gallery'   => count( $product->get_gallery_image_ids() ),
-			'product_image'     => $product->get_image_id() ? 'yes' : 'no',
-			'product_type'      => $product->get_type(),
-			'purchase_note'     => $product->get_purchase_note() ? 'yes' : 'no',
-			'sale_price'        => $product->get_sale_price() ? 'yes' : 'no',
-			'short_description' => $product->get_short_description() ? 'yes' : 'no',
-			'tags'              => count( $product->get_tag_ids() ),
-			'upsells'           => ! empty( $product->get_upsell_ids() ) ? 'yes' : 'no',
-			'weight'            => $product->get_weight() ? 'yes' : 'no',
+			'attributes'           => count( $product->get_attributes() ),
+			'categories'           => count( $product->get_category_ids() ),
+			'cross_sells'          => ! empty( $product->get_cross_sell_ids() ) ? 'yes' : 'no',
+			'description'          => $product->get_description() ? 'yes' : 'no',
+			'dimensions'           => wc_format_dimensions( $product->get_dimensions( false ) ) !== 'N/A' ? 'yes' : 'no',
+			'enable_reviews'       => $product->get_reviews_allowed() ? 'yes' : 'no',
+			'is_downloadable'      => $product->is_downloadable() ? 'yes' : 'no',
+			'is_virtual'           => $product->is_virtual() ? 'yes' : 'no',
+			'manage_stock'         => $product->get_manage_stock() ? 'yes' : 'no',
+			'menu_order'           => $product->get_menu_order() ? 'yes' : 'no',
+			'product_id'           => $post_id,
+			'product_gallery'      => count( $product->get_gallery_image_ids() ),
+			'product_image'        => $product->get_image_id() ? 'yes' : 'no',
+			'product_type'         => $product->get_type(),
+			'product_type_options' => $product_type_options_string,
+			'purchase_note'        => $product->get_purchase_note() ? 'yes' : 'no',
+			'sale_price'           => $product->get_sale_price() ? 'yes' : 'no',
+			'short_description'    => $product->get_short_description() ? 'yes' : 'no',
+			'tags'                 => count( $product->get_tag_ids() ),
+			'upsells'              => ! empty( $product->get_upsell_ids() ) ? 'yes' : 'no',
+			'weight'               => $product->get_weight() ? 'yes' : 'no',
 		);
 
 		WC_Tracks::record_event( 'product_add_publish', $properties );

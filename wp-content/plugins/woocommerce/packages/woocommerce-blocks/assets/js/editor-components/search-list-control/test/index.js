@@ -2,12 +2,13 @@
  * External dependencies
  */
 import { fireEvent, render } from '@testing-library/react';
-import { noop } from 'lodash';
 
 /**
  * Internal dependencies
  */
 import { SearchListControl } from '../';
+
+const noop = () => {};
 
 const SELECTORS = {
 	listItems: '.woocommerce-search-list__list > li',

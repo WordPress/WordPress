@@ -3,7 +3,7 @@
 	"version": "1.0.0",
 	"icon": "info",
 	"title": "Product Details",
-	"description": "A block that allows your customers to see details and reviews about the product.",
+	"description": "Display a product’s description, attributes, and reviews.",
 	"category": "woocommerce",
 	"keywords": [ "WooCommerce" ],
 	"supports": {

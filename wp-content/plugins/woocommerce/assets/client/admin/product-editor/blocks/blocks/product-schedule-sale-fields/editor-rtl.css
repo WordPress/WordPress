@@ -1,6 +1,6 @@
-/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ../../../node_modules/.pnpm/css-loader@3.6.0_webpack@5.70.0/node_modules/css-loader/dist/cjs.js!../../../node_modules/.pnpm/postcss-loader@4.3.0_wn4p5kzkgq2ohl66pfawxjf2x4/node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[0].use[2]!../../../node_modules/.pnpm/sass-loader@10.2.1_webpack@5.70.0/node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[0].use[3]!./src/blocks/schedule-sale/editor.scss ***!
-  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ../../../node_modules/.pnpm/css-loader@3.6.0_webpack@5.70.0/node_modules/css-loader/dist/cjs.js!../../../node_modules/.pnpm/postcss-loader@4.3.0_postcss@8.4.12_webpack@5.70.0/node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[0].use[2]!../../../node_modules/.pnpm/sass-loader@10.2.1_sass@1.60.0_webpack@5.70.0/node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[0].use[3]!./src/blocks/schedule-sale/editor.scss ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /**
  * Colors
  */
@@ -222,13 +222,18 @@ body.admin-color-sunrise {
  */
 /* stylelint-disable block-closing-brace-newline-after */
 /* stylelint-enable */
+.wp-block-woocommerce-product-schedule-sale-fields {
+  margin-bottom: 24px;
+}
+.wp-block-woocommerce-product-schedule-sale-fields .components-toggle-control {
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+}
 .wp-block-woocommerce-product-schedule-sale-fields .components-toggle-control__label {
   display: flex;
   align-items: center;
 }
-.wp-block-woocommerce-product-schedule-sale-fields .woocommerce-date-time-picker-control.has-error .components-base-control .components-input-control__backdrop {
-  border-color: #d63638;
-}
-.wp-block-woocommerce-product-schedule-sale-fields .woocommerce-date-time-picker-control.has-error .components-base-control__help {
-  color: #d63638;
+
+.wp-block-woocommerce-product-section > .block-editor-inner-blocks > .block-editor-block-list__layout > .wp-block.wp-block-woocommerce-product-schedule-sale-fields:not(:first-child) {
+  margin-top: 16px;
 }
