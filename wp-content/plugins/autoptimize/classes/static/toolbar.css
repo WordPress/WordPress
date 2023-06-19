@@ -1,0 +1,246 @@
+/* Loading Modal */
+.autoptimize-loading
+{
+	display: none;
+	position: fixed;
+	background-color: rgba(102, 102, 102, 0.8);
+	background-image: url('loading.gif');
+	background-position: center;
+	background-repeat: no-repeat;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 9000000000;
+}
+
+/* Toolbar Font Colors */
+#wp-admin-bar-autoptimize .white
+{
+	color: #EEE;
+}
+
+#wp-admin-bar-autoptimize .green
+{
+	color: #26BD26;
+}
+
+#wp-admin-bar-autoptimize .orange
+{
+	color: #EC9103;
+}
+
+#wp-admin-bar-autoptimize .red
+{
+	color: #EA1919;
+}
+
+#wp-admin-bar-autoptimize .bg-green
+{
+	background: #26BD26;
+}
+
+#wp-admin-bar-autoptimize .bg-orange
+{
+	background: #EC9103;
+}
+
+#wp-admin-bar-autoptimize .bg-red
+{
+	background: #EA1919;
+}
+
+/* Toolbar Bullet Icons */
+#wp-admin-bar-autoptimize.bullet-green .ab-icon::before,
+#wp-admin-bar-autoptimize.bullet-green:hover .ab-icon::before
+{
+	content: "\f159";
+	color: #02CA02;
+	font-size: 14px;
+}
+
+#wp-admin-bar-autoptimize.bullet-orange .ab-icon::before,
+#wp-admin-bar-autoptimize.bullet-orange:hover .ab-icon::before
+{
+	content: "\f159";
+	color: #EC9103;
+	font-size: 14px;
+}
+
+#wp-admin-bar-autoptimize.bullet-red .ab-icon::before,
+#wp-admin-bar-autoptimize.bullet-red:hover .ab-icon::before
+{
+	content: "\f159";
+	color: #EA1919;
+	font-size: 14px;
+	-webkit-animation: blink 1s step-end infinite;
+	animation: blink 1s step-end infinite;
+}
+
+@-webkit-keyframes blink { 50% { visibility: hidden; }}
+        @keyframes blink { 50% { visibility: hidden; }}
+
+
+/* Some cosmetic Toolbar things */
+#wp-admin-bar-autoptimize table, #wp-admin-bar-autoptimize  th, #wp-admin-bar-autoptimize  td
+{
+    border: 0px !important;
+}
+
+#wp-admin-bar-autoptimize-default
+{
+	padding-top: 0 !important;
+}
+
+#wp-admin-bar-autoptimize-delete-cache .ab-item
+{
+	cursor: pointer !important;
+	background: #464b50;
+}
+
+#wp-admin-bar-autoptimize-delete-cache .ab-item:hover
+{
+	color: rgba(240,245,250,0.85) !important;
+	background: #B57373 !important;
+}
+
+#wp-admin-bar-autoptimize-cache-info
+{
+	padding-top: 8px !important;
+	padding-bottom: 8px !important;
+}
+
+#wp-admin-bar-autoptimize-cache-info,
+#wp-admin-bar-autoptimize-cache-info .ab-item
+{
+	height: auto !important;
+	cursor: default !important;
+}
+
+#wp-admin-bar-autoptimize-cache-info td + td
+{
+	padding-left: 3px;
+}
+
+#wp-admin-bar-autoptimize-cache-info .ab-item,
+#wp-admin-bar-autoptimize-cache-info .ab-item:hover
+{
+	color: #b4b9be !important;
+}
+
+#wp-admin-bar-autoptimize-cache-info .ab-item > p
+{
+	display: block;
+}
+
+#wp-admin-bar-autoptimize-cache-info .ab-item p,
+#wp-admin-bar-autoptimize-cache-info .ab-item td
+{
+	font-size: 11px !important;
+	line-height: 16px !important;
+}
+
+#wp-admin-bar-autoptimize-cache-info .ab-item table
+{
+	display: inline-block !important;
+	margin-left: 10px !important;
+}
+
+/* Radial Bar */
+.autoptimize-radial-bar
+{
+	display: inline-block !important;
+	margin-top: 5px !important;
+}
+.autoptimize-radial-bar,
+.autoptimize-radial-bar	.mask,
+.autoptimize-radial-bar .fill,
+.autoptimize-radial-bar .shadow
+{
+	width				: 36px !important;
+	height				: 36px !important;
+}
+.autoptimize-radial-bar
+{
+	background-color	: #d6dadc;
+}
+.autoptimize-radial-bar .fill
+{
+	background-color	: #02ca02;
+}
+.autoptimize-radial-bar .numbers
+{
+	color	: #02ca02;
+}
+.autoptimize-radial-bar .mask
+{
+	clip				: rect(0px, 36px, 36px, 18px);
+}
+.autoptimize-radial-bar .fill
+{
+	clip				: rect(0px, 18px, 36px, 0px);
+}
+.autoptimize-radial-bar .inset
+{
+	width				: 26px !important;
+	height				: 26px !important;
+
+	margin-left			: 5px !important;
+	margin-top			: 5px !important;
+
+	background-color	: #32373c;
+}
+.autoptimize-radial-bar .percentage
+{
+	width				: 26px !important;
+	height				: 16px !important;
+	line-height			: 11px !important;
+
+	top					: 7px !important;
+	left				: 0px !important;
+
+	overflow			: hidden;
+}
+.autoptimize-radial-bar .numbers
+{
+	width				: 26px !important;
+	font-weight			: 600 !important;
+	font-size			: 9px !important;
+
+	margin-top			: -5px !important;
+
+	display				: inline-block;
+	vertical-align		: top;
+	text-align			: center;
+}
+
+.autoptimize-radial-bar .inset
+{
+	box-shadow			: 3px 3px 5px rgba(0,0,0,0.3) !important;
+}
+.autoptimize-radial-bar .shadow
+{
+	box-shadow			: 3px 3px 5px rgba(0,0,0,0.3) inset !important;
+}
+
+.autoptimize-radial-bar	.mask,
+.autoptimize-radial-bar .fill,
+.autoptimize-radial-bar .shadow,
+.autoptimize-radial-bar .inset,
+.autoptimize-radial-bar .percentage
+{
+	position			: absolute !important;
+}
+
+.autoptimize-radial-bar,
+.autoptimize-radial-bar .mask,
+.autoptimize-radial-bar .fill,
+.autoptimize-radial-bar .shadow,
+.autoptimize-radial-bar .inset
+{
+	border-radius		: 50% !important;
+}
+
+/* fixes for toolbar on frontend for other themes messing things up */
+#wp-admin-bar-autoptimize tr{border:0 !important}
+#wp-admin-bar-autoptimize td{background-color:#32373c !important}

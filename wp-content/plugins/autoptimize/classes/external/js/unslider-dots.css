@@ -1,0 +1,33 @@
+/**
+ *   Here's where everything gets included. You don't need
+ *   to change anything here, and doing so might break
+ *   stuff. Here be dragons and all that.
+ */
+/**
+ *   Default variables
+ *
+ *   While these can be set with JavaScript, it's probably
+ *   better and faster to just set them here, compile to
+ *   CSS and include that instead to use some of that
+ *   hardware-accelerated goodness.
+ */
+.unslider-nav ol {
+  list-style: none;
+  text-align: center;
+}
+.unslider-nav ol li {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin: 0 4px;
+  background: transparent;
+  border-radius: 5px;
+  overflow: hidden;
+  text-indent: -999em;
+  border: 2px solid #fff;
+  cursor: pointer;
+}
+.unslider-nav ol li.unslider-active {
+  background: #fff;
+  cursor: default;
+}

@@ -1,0 +1,26 @@
+<IfModule mod_expires.c>
+        ExpiresActive On
+        ExpiresByType text/css A30672000
+        ExpiresByType text/javascript A30672000
+        ExpiresByType application/javascript A30672000
+</IfModule>
+<IfModule mod_headers.c>
+    Header append Cache-Control "public, immutable"
+</IfModule>
+<IfModule mod_deflate.c>
+        <FilesMatch "\.(js|css)$">
+        SetOutputFilter DEFLATE
+    </FilesMatch>
+</IfModule>
+<IfModule mod_authz_core.c>
+    <Files *.php>
+        Require all granted
+    </Files>
+</IfModule>
+<IfModule !mod_authz_core.c>
+    <Files *.php>
+        Order allow,deny
+        Allow from all
+    </Files>
+</IfModule>
+ErrorDocument 404 /wordpress/wp-content/autoptimize_404_handler.php

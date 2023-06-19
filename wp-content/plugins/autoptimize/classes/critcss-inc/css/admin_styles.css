@@ -1,0 +1,253 @@
+/* form */
+.itemTitle {
+  margin: 0;
+}
+.itemTitle.fleft {
+  float: left;
+}
+.toggle-btn {
+  float: right;
+  position: relative;
+  top: -10px;
+  width: 36px;
+  height: 36px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: 0 0;
+  cursor: pointer;
+  outline: none;
+}
+.toggle-indicator {
+  color: #72777c;
+  display: inline-block;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-decoration: none!important;
+  outline: none;
+}
+.itemDetail {
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin: 15px 10px 10px 0;
+  min-height: 15px;
+  word-break: break-word;
+}
+.collapsible {
+  clear: both;
+}
+.howto {
+  margin: 10px 0 0;
+  padding: 2px 10px;
+  min-height: 45px;
+  font-style: normal;
+  border-left: solid;
+  border-left-width: 5px;
+  border-left-color: #00a0d2;
+  background-color: white;
+}
+.howto .title-wrap {
+  float: left;
+  margin: 5px 0 15px;
+}
+.howto .title {
+  margin: 0;
+}
+.howto .subtitle {
+  margin: 0;
+  padding: 0;
+  font-weight: 100;
+  font-style: italic;
+  color: #72777c;
+}
+.howto .toggle-btn {
+  top: -4px;
+  left: 10px;
+}
+.howto-wrap {
+  clear: both;
+  width: 100%;
+}
+.form-table {
+  margin-top: 20px;
+}
+.form-table tr {
+  vertical-align: top;
+}
+.form-table p.notes,
+.form-table p code {
+  font-size: 12px !important;
+}
+.form-table p.notes {
+  color: #666;
+}
+.form-table.rules {
+  margin-top: 0;
+}
+.form-table.rules th {
+  width: 175px;
+}
+.ui-dialog .form-table.rules th,
+.ui-dialog .form-table.rules td {
+  padding: 5px 0px;
+}
+.rules-list {
+  width: 100%;
+  margin-bottom: 10px;
+}
+.rules-list tr.header th {
+  background-color: #f1f1f1;
+}
+.rules-list tbody .rule:nth-child(even) td {
+  background-color: #f9f9f9;
+}
+#rules-list,
+#queue {
+  margin-bottom: 20px;
+}
+#rules-list h4 {
+  margin: 20px 0 10px;
+  font-size: 1.2em;
+}
+#rules-list .header th,
+#rules-list .rule td {
+  padding: 4px;
+}
+#rules-list .rule td {
+  margin: 0;
+  border-bottom: 1px solid #ccc;
+}
+#rules-list .type {
+  width: 80px;
+}
+#rules-list .btn {
+  width: 55px;
+}
+#rules-list .rule td.btn {
+  width: 70px;
+  padding: 4px 0 4px 2px;
+}
+.badge {
+  padding: 0 5px;
+  color: #fff;
+  background-color: #00a0d2;
+  border-radius: 5px;
+  font-size: .8em;
+  font-weight: bold;
+  text-align: center;
+}
+.badge.manual {
+  background-color: #46b450;
+}
+#rules-list .btn span {
+  width: 67px;
+  text-align: center;
+}
+p.rules-btn {
+  margin: 20px 0 0;
+  padding: 0;
+}
+.queue {
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+.queue .job td {
+  border-bottom: 1px solid #ccc;
+}
+.queue .status,
+.queue .job td.status {
+  width: 45px;
+}
+.queue td.status {
+  text-align: center;
+}
+.queue .badge {
+  border-radius: 3px;
+  cursor: default;
+}
+.badge.new {
+  background-color: #666;
+}
+.badge.pending {
+  background-color: #00a0d2;
+}
+.badge.done {
+  background-color: #46b450;
+}
+.badge.review {
+  background-color: #ffb900;
+}
+.badge.review.rule {
+  margin-left: 2px;
+}
+.badge.error {
+  background-color: #dc3232;
+}
+.badge.unknown {
+  color: #666;
+  background-color: #ccc;
+}
+.queue .btn {
+  width: 86px;
+}
+.queue .button-secondary {
+  line-height: 17px;
+  height: 19px;
+  padding: 0 2px;
+  font-size: 8pt;
+}
+.queue .button-secondary.to-right {
+  margin-left: 2px;
+}
+.queue .button-secondary a {
+  color: #555;
+  text-decoration: none;
+}
+.queue .button-secondary a:hover {
+  color: #23282d;
+}
+.queue .button-secondary .dashicons {
+  position: relative;
+  top: 1px;
+  font-size: 15px;
+}
+p.submit.left {
+  float: left;
+}
+#importSettingsForm {
+  float: right;
+  text-align: left;
+  max-width: 100%;
+  margin-top: 20px;
+  padding-top: 10px;
+  position: relative;
+  overflow: hidden;
+}
+#settingsfile {
+  padding: 0 2px;
+}
+#settingsfile {
+  padding: 0 2px;
+}
+
+/* debug block */
+#debug {
+  clear: both;
+}
+#debug .debug th,
+#debug .debug td {
+  padding: 5px 10px;
+  font-size: 13px;
+}
+#debug pre {
+  margin: 0 0 1em;
+  font-size: 12px;
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+  white-space: pre-wrap;
+}
+#explain-panel p {
+ font-size:120%
+}
