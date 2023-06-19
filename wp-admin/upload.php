@@ -141,7 +141,15 @@ if ( 'grid' === $mode ) {
 	wp_enqueue_script( 'media-grid' );
 	wp_enqueue_script( 'media' );
 
-	remove_action( 'admin_head', 'wp_admin_canonical_url' );
+	// Remove the error parameter added by deprecation of wp-admin/media.php.
+	add_filter(
+		'removable_query_args',
+		function() {
+			return array( 'error' );
+		},
+		10,
+		0
+	);
 
 	$q = $_GET;
 	// Let JS handle this.
