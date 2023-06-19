@@ -1515,8 +1515,8 @@ final class WP_Theme implements ArrayAccess {
 		}
 
 		$paths_to_index_block_template = array(
-			$this->get_file_path( '/block-templates/index.html' ),
 			$this->get_file_path( '/templates/index.html' ),
+			$this->get_file_path( '/block-templates/index.html' ),
 		);
 
 		$this->block_theme = false;
