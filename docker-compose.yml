@@ -18,7 +18,7 @@ services:
     image: wordpress:${WORDPRESS_VERSION}
     restart: always
     ports:
-      - 8080:80
+      - 8081:80
     environment:
       WORDPRESS_DB_HOST: ${DB_HOST}
       WORDPRESS_DB_USER: ${DB_USERNAME}
