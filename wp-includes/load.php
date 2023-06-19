@@ -772,10 +772,9 @@ function wp_start_object_cache() {
 				'rss',
 				'users',
 				'user-queries',
+				'user_meta',
 				'useremail',
 				'userlogins',
-				'usermeta',
-				'user_meta',
 				'userslugs',
 			)
 		);
