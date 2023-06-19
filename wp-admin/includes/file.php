@@ -1910,6 +1910,14 @@ function copy_dir( $from, $to, $skip_list = array() ) {
 	$from = trailingslashit( $from );
 	$to   = trailingslashit( $to );
 
+	if ( ! $wp_filesystem->exists( $to ) && ! $wp_filesystem->mkdir( $to ) ) {
+		return new WP_Error(
+			'mkdir_destination_failed_copy_dir',
+			__( 'Could not create the destination directory.' ),
+			basename( $to )
+		);
+	}
+
 	foreach ( (array) $dirlist as $filename => $fileinfo ) {
 		if ( in_array( $filename, $skip_list, true ) ) {
 			continue;
