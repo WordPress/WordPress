@@ -3096,11 +3096,11 @@ function feed_links( $args = array() ) {
 	}
 
 	$defaults = array(
-		/* translators: Separator between blog name and feed type in feed links. */
+		/* translators: Separator between site name and feed type in feed links. */
 		'separator' => _x( '&raquo;', 'feed link' ),
-		/* translators: 1: Blog title, 2: Separator (raquo). */
+		/* translators: 1: Site title, 2: Separator (raquo). */
 		'feedtitle' => __( '%1$s %2$s Feed' ),
-		/* translators: 1: Blog title, 2: Separator (raquo). */
+		/* translators: 1: Site title, 2: Separator (raquo). */
 		'comstitle' => __( '%1$s %2$s Comments Feed' ),
 	);
 
@@ -3148,21 +3148,21 @@ function feed_links( $args = array() ) {
  */
 function feed_links_extra( $args = array() ) {
 	$defaults = array(
-		/* translators: Separator between blog name and feed type in feed links. */
+		/* translators: Separator between site name and feed type in feed links. */
 		'separator'     => _x( '&raquo;', 'feed link' ),
-		/* translators: 1: Blog name, 2: Separator (raquo), 3: Post title. */
+		/* translators: 1: Site name, 2: Separator (raquo), 3: Post title. */
 		'singletitle'   => __( '%1$s %2$s %3$s Comments Feed' ),
-		/* translators: 1: Blog name, 2: Separator (raquo), 3: Category name. */
+		/* translators: 1: Site name, 2: Separator (raquo), 3: Category name. */
 		'cattitle'      => __( '%1$s %2$s %3$s Category Feed' ),
-		/* translators: 1: Blog name, 2: Separator (raquo), 3: Tag name. */
+		/* translators: 1: Site name, 2: Separator (raquo), 3: Tag name. */
 		'tagtitle'      => __( '%1$s %2$s %3$s Tag Feed' ),
-		/* translators: 1: Blog name, 2: Separator (raquo), 3: Term name, 4: Taxonomy singular name. */
+		/* translators: 1: Site name, 2: Separator (raquo), 3: Term name, 4: Taxonomy singular name. */
 		'taxtitle'      => __( '%1$s %2$s %3$s %4$s Feed' ),
-		/* translators: 1: Blog name, 2: Separator (raquo), 3: Author name. */
+		/* translators: 1: Site name, 2: Separator (raquo), 3: Author name. */
 		'authortitle'   => __( '%1$s %2$s Posts by %3$s Feed' ),
-		/* translators: 1: Blog name, 2: Separator (raquo), 3: Search query. */
+		/* translators: 1: Site name, 2: Separator (raquo), 3: Search query. */
 		'searchtitle'   => __( '%1$s %2$s Search Results for &#8220;%3$s&#8221; Feed' ),
-		/* translators: 1: Blog name, 2: Separator (raquo), 3: Post type name. */
+		/* translators: 1: Site name, 2: Separator (raquo), 3: Post type name. */
 		'posttypetitle' => __( '%1$s %2$s %3$s Feed' ),
 	);
 

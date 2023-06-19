@@ -113,7 +113,7 @@ function show_blog_form( $blogname = '', $blog_title = '', $errors = '' ) {
 	}
 
 	$current_network = get_network();
-	// Blog name.
+	// Site name.
 	if ( ! is_subdomain_install() ) {
 		echo '<label for="blogname">' . __( 'Site Name (subdirectory only):' ) . '</label>';
 	} else {

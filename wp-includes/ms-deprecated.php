@@ -355,7 +355,7 @@ function get_user_id_from_string( $email_or_login ) {
 }
 
 /**
- * Get a full blog URL, given a domain and a path.
+ * Get a full site URL, given a domain and a path.
  *
  * @since MU (3.0.0)
  * @deprecated 3.7.0

@@ -31,12 +31,12 @@ function wpmu_update_blogs_date() {
 }
 
 /**
- * Gets a full blog URL, given a blog ID.
+ * Gets a full site URL, given a site ID.
  *
  * @since MU (3.0.0)
  *
- * @param int $blog_id Blog ID.
- * @return string Full URL of the blog if found. Empty string if not.
+ * @param int $blog_id Site ID.
+ * @return string Full site URL if found. Empty string if not.
  */
 function get_blogaddress_by_id( $blog_id ) {
 	$bloginfo = get_site( (int) $blog_id );
@@ -52,7 +52,7 @@ function get_blogaddress_by_id( $blog_id ) {
 }
 
 /**
- * Gets a full blog URL, given a blog name.
+ * Gets a full site URL, given a site name.
  *
  * @since MU (3.0.0)
  *
