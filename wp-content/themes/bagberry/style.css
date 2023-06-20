@@ -5081,6 +5081,8 @@ div.hide-on-desktop {
     text-align: center;
   }
   .wp-block-navigation .wp-block-navigation-item.has-megamenu > .wp-block-navigation__submenu-container > .wp-block-navigation-item > .wp-block-navigation-item__content {
+    color: #df6724;
+
     padding: 0;
     padding-bottom: 0px;
     font-size: var(--wp--preset--font-size--large);
