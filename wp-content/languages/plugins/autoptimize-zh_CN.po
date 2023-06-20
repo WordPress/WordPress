@@ -1,0 +1,1638 @@
+# Translation of Plugins - Autoptimize - Stable (latest release) in Chinese (China)
+# This file is distributed under the same license as the Plugins - Autoptimize - Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2023-04-11 06:45:39+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: GlotPress/4.0.0-alpha.4\n"
+"Language: zh_CN\n"
+"Project-Id-Version: Plugins - Autoptimize - Stable (latest release)\n"
+
+#. Translators: the URL added points to the Autopmize Extra settings.
+#: classes/autoptimizeMain.php:783
+msgid "Shortpixel reports it cannot always reach your site, which might mean some images are not optimized. You can %1$sread more about why this happens and how you can fix that problem here%2$s."
+msgstr "Shortpixel 报告它不能总是到达您的站点，这可能意味着某些图像未优化。 您可以 %1$s 在此处 %2$s 详细了解为什么会发生这种情况以及如何解决该问题。"
+
+#. translators: "add more credits" will appear in a "a href".
+#: classes/autoptimizeImages.php:1460
+msgid "Your ShortPixel image optimization and CDN quota has been exhausted, %1$sadd more credits%2$s to continue to quickly deliver optimized images on your website <strong>or consider using %3$sAutoptimize Pro%2$s which comes with (nearly) unlimited image optimization</strong> but also automated critical CSS and extra booster options."
+msgstr "您的 ShortPixel 图像优化和 CDN 配额已用完，%1$s添加更多积分%2$s 以继续在您的网站上快速提供优化的图像<strong>或考虑使用 %3$sAutoptimize Pro%2$s 随附的 ( 几乎）无限制的图像优化</strong>，还有自动化的关键 CSS 和额外的助推器选项。"
+
+#. translators: "add more credits" will appear in a "a href".
+#: classes/autoptimizeImages.php:1457
+msgid "Your ShortPixel image optimization and CDN quota is almost used, make sure you %1$sadd more credits%2$s to avoid slowing down your website <strong>or consider using %3$sAutoptimize Pro%2$s which comes with (nearly) unlimited image optimization</strong> but also automated critical CSS and extra booster options."
+msgstr "您的 ShortPixel 图像优化和 CDN 配额几乎用完了，请确保您 %1$s增加更多的积分%2$s 以避免降低您的网站速度<strong>或考虑使用 %3$sAutoptimize Pro%2$s（几乎 ) 无限的图像优化</strong>，还有自动化的关键 CSS 和额外的助推器选项。"
+
+#. translators: 1st link points to autoptimize.com.pro, 2nd to shortpixel.
+#: classes/autoptimizeImages.php:1333
+msgid "For <strong>unlimited image optimizations %1$sbuy Autoptimize Pro%2$s</strong> which also includes Critical CSS and extra \"booster\" options or %3$ssign up at Shortpixel%4$s."
+msgstr "对于<strong>无限图像优化 %1$s，请购买 Autoptimize Pro%2$s</strong>，其中还包括 Critical CSS 和额外的“助推器”选项，或者 %3$s 在 Shortpixel%4$s 上注册。"
+
+#: classes/autoptimizeImages.php:1305
+msgid "On-the-fly image optimization and fast delivery via the Shortpixel global CDN."
+msgstr "通过 Shortpixel 全球 CDN 进行实时图像优化和快速交付。"
+
+#: classes/autoptimizeImages.php:1303
+msgid "Image optimization & CDN"
+msgstr "图像优化和CDN"
+
+#: classes/autoptimizeImages.php:1300
+msgid "Make your site significantly faster by simply ticking a few boxes and start serving CDN powered, optimized images in next-get formats like WebP and AVIF! No additional plugins or services needed."
+msgstr "只需勾选几个框并开始以 WebP 和 AVIF 等下一代格式提供 CDN 支持的优化图像，即可显着加快您的网站速度！ 无需额外的插件或服务。"
+
+#: classes/autoptimizeImages.php:1270
+msgid "The image optimization service does not work on locally hosted sites or when the server is on a private network."
+msgstr "图像优化服务不适用于本地托管站点或当服务器位于专用网络上时。"
+
+#: classes/autoptimizeCriticalCSSSettings.php:145
+msgid "The Critical CSS service does not work on locally hosted sites or when the server is on a private network."
+msgstr "Critical CSS 服务在本地托管站点或服务器位于专用网络上时不起作用。"
+
+#. Translators: before the 1st word a number + a space will be displayed, as in
+#. e.g. "2 of above rules".
+#: classes/critcss-inc/admin_settings_rules.js.php:116
+msgid "of the above rules got flagged by criticalcss.com as possibly needing review. This is often due to font-related issues which can be safely ignored, but in case of doubt do a visual test or check for Cumulative Layout Shift issues in e.g. Pagespeed Insights."
+msgstr "上面的规则被 criticalcss.com 标记为可能需要审查。 这通常是由于与字体相关的问题，可以安全地忽略这些问题，但如果有疑问，请进行视觉测试或检查 Cumulative Layout Shift 问题，例如 Pagespeed 洞察力。"
+
+#: classes/autoptimizeCriticalCSSBase.php:362
+msgid "Every %s (Autoptimize Crit. CSS)"
+msgstr "每 %s（Autoptimize Crit.CSS）"
+
+#: classes/critcss-inc/admin_settings_rules.js.php:302
+msgid "Path validation error:\\n\\nThe path contains characters that are not permitted, remove or encode the unsafe characters."
+msgstr "路径验证错误：\\n\\n路径包含不允许的字符，删除或编码不安全的字符。"
+
+#: classes/critcss-inc/admin_settings_rules.js.php:300
+msgid "Rule validation error:\\n\\nType based rules requires a minified critical CSS."
+msgstr "规则验证错误：\\n\\n基于类型的规则需要缩小的关键 CSS。"
+
+#: classes/critcss-inc/admin_settings_rules.js.php:298
+msgid "Rule validation error:\\n\\nBased on your rule type, you should set a path or conditional tag."
+msgstr "规则验证错误：\\in\\根据您的规则类型，您应该设置路径或条件标记。"
+
+#: classes/autoptimizeConfig.php:492
+msgid "In Autoptimize 3.0 extra compatibiity logic was added (e.g. for Gutenberg blocks, Revolution Slider, jQuery-heavy plugins, ...), but if you had Autoptimize installed already before the update to 3.0, this compatibility code was disabled. <strong>Untick this option to permanently enable the compatibility logic</strong>."
+msgstr "在 Autoptimize 3.0 中添加了额外的兼容性逻辑（例如，对于 Gutenberg 块、Revolution Slider、jQuery-heavy 插件等），但是如果您在更新到 3.0 之前已经安装了 Autoptimize，则此兼容性代码将被禁用。 <strong>取消选中此选项以永久启用兼容性逻辑</strong>。"
+
+#: classes/autoptimizeConfig.php:490
+msgid "Disable extra compatibilty logic?"
+msgstr "禁用额外的兼容性逻辑？"
+
+#: classes/autoptimizeConfig.php:375
+msgid "Enable this if you want inline JS or CSS to be minified as well."
+msgstr "如果您希望内联 JS 或 CSS 也被缩小，请启用此选项。"
+
+#: classes/autoptimizeConfig.php:373
+msgid "Also minify inline JS/ CSS?"
+msgstr "还要缩小内联 JS/CSS？"
+
+#: classes/autoptimizeExitSurvey.php:77
+msgid "I would like be contacted about my experience with Autoptimize."
+msgstr "我想就我在Autooptimize方面的经验与我联系。"
+
+#: classes/autoptimizeExitSurvey.php:56
+msgid "Ouch, sorry about that! But almost all problems can be fixed with the right configuration, have a look at <a href=\"https://blog.futtta.be/2022/05/05/what-to-do-when-autoptimize-breaks-your-site/\" target=\"_blank\">this short troubleshooting howto</a> or create a topic on <a href=\"https://wordpress.org/support/plugin/autoptimize/#new-topic-0\" target=\"_blank\">the support forum here</a>!"
+msgstr "哎呀，对不起！ 但是几乎所有的问题都可以通过正确的配置来解决，看看 <a href=\"https://blog.futtta.be/2022/05/05/what-to-do-when-autoptimize-breaks-your-site/\" target=\"_blank\">这个简短的故障排除指南</a> 或在<a href=\"https://wordpress.org/support/plugin/autoptimize/#new-topic-0\" target=\"_blank\">支持论坛</a>上创建主题！"
+
+#: classes/autoptimizeExitSurvey.php:42
+msgid "We would appreciate if you let us know why you're deactivating Autoptimize!"
+msgstr "如果您让我们知道您为什么要停用Autooptimize，我们将不胜感激！"
+
+#: classes/autoptimizeExitSurvey.php:39
+msgid "Sorry to see you go!"
+msgstr "很遗憾看见您离开！"
+
+#: classes/autoptimizeMetabox.php:129
+msgid "LCP Image to preload"
+msgstr "要预加载的LCP图片"
+
+#: classes/autoptimizeExtra.php:583
+msgid "WordPress adds block CSS and global styles to improve easy styling of block-based sites, but which can add a significant amount of CSS and SVG. If you are sure your site can do without the block CSS and \"global styles\", you can disable them here."
+msgstr "WordPress 添加块 CSS 和全局样式以改进基于块的站点的简单样式，但它可以添加大量 CSS 和 SVG。 如果您确定您的站点可以在没有块 CSS 和“全局样式”的情况下运行，您可以在此处禁用它们。"
+
+#: classes/autoptimizeExtra.php:581
+msgid "Remove WordPress block CSS"
+msgstr "删除WordPress区块CSS"
+
+#: classes/autoptimizeCriticalCSSSettings.php:168
+msgid "To be able to use Critical CSS you will have to enable CSS optimization and make sure \"eliminate render-blocking CSS\" is active on the main Autoptimize settings page."
+msgstr "为了能够使用 Critical CSS，您必须启用 CSS 优化，并确保“eliminate render-blocking CSS”在主 Autoptimize 设置页面上处于活动状态。"
+
+#. translators: links "autoptimize critical CSS" tab.
+#: classes/autoptimizeConfig.php:332
+msgid "You can manually create rules for different types of pages or have this done fully automated on the %s tab."
+msgstr "您可以为不同类型的页面手动创建规则，或者在%s选项卡上完全自动完成。"
+
+#: classes/autoptimizeExitSurvey.php:91
+msgid "Selected reason from the above survey"
+msgstr "从上述调查中选择的原因"
+
+#: classes/autoptimizeExitSurvey.php:91
+msgid "Uninstall reason"
+msgstr "卸载原因"
+
+#: classes/autoptimizeExitSurvey.php:90
+msgid "Current website:"
+msgstr "当前网站："
+
+#: classes/autoptimizeExitSurvey.php:89
+msgid "WordPress version"
+msgstr "WordPress版本"
+
+#: classes/autoptimizeExitSurvey.php:88
+msgid "Plugin version"
+msgstr "插件版本"
+
+#: classes/autoptimizeExitSurvey.php:86
+msgid "Below is a detailed view of all data that Optimizing Matters will receive if you fill in this survey. Your email address is only shared if you explicitly fill it in, your IP addres is never sent."
+msgstr "以下是如果您填写此调查，Optimizing Matters 将收到的所有数据的详细视图。 您的电子邮件地址只有在您明确填写后才会被共享，您的 IP 地址绝不会被发送。"
+
+#: classes/autoptimizeExitSurvey.php:85
+msgid "What info do we collect?"
+msgstr "我们收集什么信息？"
+
+#: classes/autoptimizeExitSurvey.php:70
+msgid "Other (please specify below)"
+msgstr "其他（请在下方注明）"
+
+#: classes/autoptimizeExitSurvey.php:65
+msgid "I'm just disabling temporarily."
+msgstr "我只是暂时禁用。"
+
+#: classes/autoptimizeExitSurvey.php:60
+msgid "I found a better solution."
+msgstr "我找到了更好的解决方案。"
+
+#: classes/autoptimizeExitSurvey.php:54
+msgid "It broke my site."
+msgstr "它破坏了我的网站。"
+
+#: classes/autoptimizeExitSurvey.php:49
+msgid "As Autoptimize does not do page caching, you might have to install e.g. KeyCDN Cache Enabler or WP Super Cache as well. Feel free to create a topic on <a href=\"https://wordpress.org/support/plugin/autoptimize/#new-topic-0\" target=\"_blank\">the support forum here</a> to get pointers on how get the most out of Autoptimize!"
+msgstr "由于 Autoptimize 不进行页面缓存，您可能必须安装例如 KeyCDN Cache Enabler 或 WP Super Cache。 欢迎在<a href=\"https://wordpress.org/support/plugin/autoptimize/#new-topic-0\" target=\"_blank\">此处的支持论坛</a>上创建主题以获取指导 关于如何充分利用 Autoptimize！"
+
+#: classes/autoptimizeExitSurvey.php:47
+msgid "I don't see a performance improvement."
+msgstr "我没有看到性能改进。"
+
+#: classes/critcss-inc/admin_settings_key.php:26
+msgid "API Key provided by a filter, no need to enter anything here."
+msgstr "API Key 由过滤器提供，无需在此输入任何内容。"
+
+#: classes/autoptimizeToolbar.php:117
+msgid "Clear CSS/ JS Cache"
+msgstr "清除 CSS/JS 缓存"
+
+#: classes/autoptimizeToolbar.php:96
+msgid "CSS/ JS Cache Info"
+msgstr "CSS/JS 缓存信息"
+
+#: classes/autoptimizeConfig.php:717 classes/autoptimizeToolbar.php:82
+msgid "Autoptimize Pro"
+msgstr "Autoptimize Pro"
+
+#: classes/autoptimizeConfig.php:533
+msgid "Autoptimize news"
+msgstr "Autoptimize 新闻"
+
+#: classes/autoptimizeConfig.php:399
+msgid "Enter your CDN root URL to enable CDN for Autoptimized files. The URL can be http, https or protocol-relative. This is not needed for Cloudflare."
+msgstr "输入您的 CDN 根 URL 以启用自动优化文件的 CDN。 URL 可以是 http、https 或相对协议。 Cloudflare 不需要这样做。"
+
+#: classes/autoptimizeConfig.php:398
+msgid "example: //cdn.yoursite.com/"
+msgstr "示例：//cdn.yoursite.com/"
+
+#: classes/autoptimizeConfig.php:394
+msgid "The CDN has automatically been set to make use of the image optimization CDN."
+msgstr "CDN 已自动设置为使用图像优化 CDN。"
+
+#: classes/autoptimizeConfig.php:200
+#: classes/autoptimizeCriticalCSSSettings.php:135
+#: classes/autoptimizeExtra.php:543 classes/autoptimizeImages.php:1265
+#: classes/autoptimizePartners.php:144
+msgid "Autoptimize Pro Settings"
+msgstr "Autoptimize Pro 设置"
+
+#: classes/critcss-inc/admin_settings_rules.php:169
+msgid "How To Use Autoptimize CriticalCSS Rules"
+msgstr "如何使用Autoptimize CriticalCSS规则"
+
+#: classes/critcss-inc/admin_settings_rules.js.php:443
+msgid "For path based rules, paste your specific and minified critical CSS. If you want to create a rule to exclude from critical CSS injection, enter \\\"none\\\""
+msgstr "对于基于路径的规则，请粘贴您特定和缩小的关键CSS。如果您想创建一个规则来排除关键的CSS注入，请输入\\“none\\”"
+
+#: classes/critcss-inc/admin_settings_queue.php:56
+msgid "How To Use Autoptimize CriticalCSS Queue"
+msgstr "如何使用自动优化 CriticalCSS 队列"
+
+#: classes/autoptimizeMetabox.php:224
+msgid "Sorry, something went wrong."
+msgstr "抱歉，出了点问题。"
+
+#: classes/autoptimizeMetabox.php:221
+msgid "Could not add to CCSS job queue."
+msgstr "无法添加到 CCSS 作业队列。"
+
+#: classes/autoptimizeMetabox.php:219
+msgid "Added to CCSS job queue."
+msgstr "添加到 CCSS 作业队列。"
+
+#: classes/autoptimizeMetabox.php:167
+msgid "Generate Critical CSS"
+msgstr "生成关键 CSS"
+
+#. Translators: the sentence will be finished with the name of the offending
+#. plugin and a final stop.
+#: classes/autoptimizeMain.php:831
+msgid "It looks like you have <strong>another plugin also doing CSS and/ or JS optimization</strong>, which can result in hard to troubleshoot <strong>conflicts</strong>. For this reason it is recommended to disable this functionality in"
+msgstr "看起来您有<strong>另一个插件也在做 CSS 和/或 JS 优化</strong>，这可能导致难以解决<strong>冲突</strong>。 因此，建议禁用此功能"
+
+#: classes/autoptimizeMain.php:810
+msgid "It looks like your site might not have <strong>page caching</strong> which is a <strong>must-have for performance</strong>. If you are sure you have a page cache, you can close this notice, but when in doubt check with your host if they offer this or install a page caching plugin like for example"
+msgstr "看起来您的网站可能没有<strong>页面缓存</strong>，这是<strong>性能必备</strong>。 如果您确定您有页面缓存，您可以关闭此通知，但如有疑问，请与您的主机联系，看看他们是否提供此功能或安装页面缓存插件，例如"
+
+#: classes/autoptimizeCriticalCSSSettings.php:181
+msgid "The \"Eliminate render-blocking CSS\" option was activated to allow critical CSS to be used."
+msgstr "“消除渲染阻塞 CSS”选项已激活以允许使用关键 CSS。"
+
+#: classes/critcss-inc/admin_settings_queue.php:85
+msgid "Manually process the job queue"
+msgstr "手动处理作业队列"
+
+#: classes/critcss-inc/admin_settings_queue.js.php:236
+msgid "Could not process queue."
+msgstr "无法处理队列。"
+
+#: classes/critcss-inc/admin_settings_queue.js.php:234
+msgid "The queue is locked, retry in a couple of minutes. If this problem persists and the queue is not moving at all remove the <code>wp-content/uploads/ao_ccss/queue.lock</code> file."
+msgstr "队列已锁定，请在几分钟后重试。 如果此问题仍然存在并且队列根本没有移动，请删除 <code>wp-content/uploads/ao_ccss/queue.lock</code> 文件。"
+
+#: classes/critcss-inc/admin_settings_queue.js.php:231
+msgid "Queue processed, reloading page."
+msgstr "队列已处理，正在重新加载页面。"
+
+#: classes/critcss-inc/admin_settings_adv.php:114
+msgid "<b>This functionality will be removed in a next major version of Autoptimize</b>, being replaced by the combination of the \"do not aggregate but defer JS\" + \"defer inline JS\" options on the main settings page."
+msgstr "<b>此功能将在 Autoptimize 的下一个主要版本中删除</b>，取而代之的是主设置页面上的“不聚合但延迟 JS”+“延迟内联 JS”选项的组合。"
+
+#: classes/critcss-inc/admin_settings_adv.php:108
+msgid "Defer jQuery and other non-aggregated JS-files? (deprecated)"
+msgstr "推迟加载 jQuery 和其他非聚合 JS 文件？"
+
+#: classes/autoptimizeMetabox.php:117
+msgid "Lazyload images?"
+msgstr "懒加载图像？"
+
+#: classes/autoptimizeMetabox.php:105
+msgid "Inline critical CSS?"
+msgstr "内联关键 CSS？"
+
+#: classes/autoptimizeMetabox.php:90
+msgid "Optimize CSS?"
+msgstr "优化CSS？"
+
+#: classes/autoptimizeMetabox.php:78
+msgid "Optimize JS?"
+msgstr "优化JS？"
+
+#: classes/autoptimizeMetabox.php:66
+msgid "Optimize this page?"
+msgstr "优化此页面？"
+
+#: classes/autoptimizeMetabox.php:37
+msgid "Autoptimize this page"
+msgstr "自动优化此页面"
+
+#: classes/autoptimizeImages.php:1386
+msgid "Automatically serve AVIF image format to any browser that supports it."
+msgstr "自动将 AVIF 图像格式提供给任何支持它的浏览器。"
+
+#: classes/autoptimizeCriticalCSSSettings.php:203
+msgid "You have \"defer jQuery and other non-aggregated JS-files\" active (under Advanced Settings), but that functionality is deprecated and will be removed in the next major version of Autoptimize. Consider using the new \"Do not aggregate but defer\" and \"Also defer inline JS\" options on the main settings page instead."
+msgstr "您启用了“延迟 jQuery 和其他非聚合 JS 文件”（在高级设置下），但该功能已被弃用，并将在下一个主要版本的 Autoptimize 中删除。 考虑在主设置页面上使用新的“不聚合但延迟”和“同时延迟内联 JS”选项。"
+
+#: classes/autoptimizeConfig.php:485
+msgid "Add a \"metabox\" to the post/ page edit screen allowing different optimizations to be turned off on a per post/ page level?"
+msgstr "向文章/页面编辑屏幕添加一个“元框”，允许在每个文章/页面级别关闭不同的优化？"
+
+#: classes/autoptimizeConfig.php:483
+msgid "Enable configuration per post/ page?"
+msgstr "启用每个文章/页面的配置？"
+
+#: classes/autoptimizeConfig.php:359
+msgid "If Google Pagespeed Insights detects unused CSS, consider using %s to <strong>reduce your site's CSS size to up to 90&#37;</strong>, resulting in a slimmer, faster site!"
+msgstr "如果 Google Pagespeed Insights 检测到未使用的 CSS，请考虑使用 %s <strong>将您网站的 CSS 大小减少到最多 90&#37;</strong>，从而使网站更精简、更快！"
+
+#: classes/autoptimizeConfig.php:355
+msgid "Remove Unused CSS?"
+msgstr "移除未使用的CSS？"
+
+#: classes/autoptimizeConfig.php:325
+msgid "Eliminate render-blocking CSS?"
+msgstr "消除阻塞渲染的 CSS？"
+
+#: classes/autoptimizeConfig.php:285
+msgid "Autoptimize combines your theme & plugins' JavaScript, but does not know what is used and what not. If Google Pagespeed Insights detects unused JavaScript, consider using a plugin like \"Plugin Organizer\" or similar to manage what JavaScript is added where."
+msgstr "Autoptimize 结合了您的主题和插件的 JavaScript，但不知道使用了哪些，不使用了哪些。 如果 Google Pagespeed Insights 检测到未使用的 JavaScript，请考虑使用“Plugin Organizer”之类的插件或类似插件来管理在何处添加了 JavaScript。"
+
+#: classes/autoptimizeConfig.php:284
+msgid "Remove Unused JavaScript?"
+msgstr "移除未使用的JavaScript?"
+
+#: classes/autoptimizeConfig.php:279
+msgid "Important: when \"aggregate JS-files\" is on, excluded non-minified files are still minified by Autoptimize unless that option under \"misc\" is disabled."
+msgstr "重要提示：当“聚合 JS 文件”打开时，排除的非缩小文件仍会被 Autoptimize 缩小，除非“杂项”下的该选项被禁用。"
+
+#: classes/autoptimizeConfig.php:279
+msgid "A comma-separated list of scripts you do not want optimized, for example 'whatever.js, my_var' (without the quotes)."
+msgstr "您不想优化的脚本的逗号分隔列表，例如 'whatever.js, my_var'（不带引号）。"
+
+#: classes/autoptimizeConfig.php:261
+msgid "Also defer inline JS. Generally this will allow all JS to be deferred, so you should remove default exclusions, test and only exclude specific items if still needed."
+msgstr "也延迟内联 JS。 通常这将允许所有 JS 被延迟，因此您应该删除默认排除项，测试并仅在仍然需要时排除特定项目。"
+
+#: classes/autoptimizeConfig.php:259
+msgid "Also defer inline JS?"
+msgstr "推迟内联JS？"
+
+#: classes/autoptimizeConfig.php:256
+msgid "Individual JS-files will be minified and deferred, making them non-render-blocking."
+msgstr "单个 JS 文件将被缩小和延迟，使它们不会阻塞渲染。"
+
+#: classes/autoptimizeConfig.php:251
+msgid "If your aggregated scripts break because of a JS-error, you might want to try this, but generally discouraged."
+msgstr "如果你的聚合脚本因为 JS 错误而中断，你可能想尝试这个，但通常不鼓励。"
+
+#: classes/autoptimizeConfig.php:246
+msgid "Load JavaScript early (discouraged as it makes the JS render blocking)"
+msgstr "尽早加载 JavaScript（不鼓励，因为它会使 JS 渲染阻塞）"
+
+#: classes/autoptimizeConfig.php:241
+msgid "Let Autoptimize also extract JS from the HTML (discouraged as it can make Autoptimize's cache size grow quickly)"
+msgstr "让 Autoptimize 也从 HTML 中提取 JS（不鼓励，因为它可以使 Autoptimize 的缓存大小快速增长）"
+
+#: classes/autoptimizeConfig.php:236
+msgid "Aggregate all linked JS-files to have them loaded non-render blocking?"
+msgstr "聚合所有链接的 JS 文件以让它们加载非渲染阻塞？"
+
+#. translators: "here to refresh" links to the Autoptimize Extra page and
+#. forces a refresh of the img opt stats.
+#: classes/autoptimizeImages.php:1488
+msgid "you can click %1$shere to refresh your quota status%2$s"
+msgstr "您可以单击 %1$此处刷新您的配额状态%2$s"
+
+#. translators: link points to shortpixel.
+#: classes/autoptimizeImages.php:1328
+msgid "Get more Google love by speeding up your website. Start serving on-the-fly optimized images (also in the \"next-gen\" <strong>WebP</strong> and <strong>AVIF</strong> image formats) by %1$sShortPixel%2$s. No additional image optimization plugins are needed: your images are optimized, cached and served from %3$sShortPixel's global CDN%2$s."
+msgstr "通过加速您的网站获得更多 Google 的喜爱。 开始提供由 %1$sShortPixel%2$s 即时优化的图像（也在“下一代”<strong>WebP</strong> 和 <strong>AVIF</strong> 图像格式中）。 不需要额外的图像优化插件：您的图像是从 %3$sShortPixel 的全球 CDN%2$s 优化、缓存和提供的。"
+
+#: classes/autoptimizeImages.php:1411
+msgid "Don't lazyload the first X images, '1' lazyloads all."
+msgstr "不要延迟加载前X个图像，'1' 延迟加载所有图像。"
+
+#: classes/autoptimizeImages.php:1409
+msgid "Lazy-load from nth image"
+msgstr "从第n个图像延迟加载"
+
+#: classes/autoptimizeImages.php:1349
+msgid "Comma-separated list of image classes or filenames that should not be optimized."
+msgstr "逗号分隔的图像类或文件名列表，不应该对其进行优化。"
+
+#: classes/autoptimizeImages.php:1347
+msgid "Optimization exclusions"
+msgstr "优化排除项"
+
+#: classes/autoptimizeConfig.php:254
+msgid "Do not aggregate but defer?"
+msgstr "不汇总而是推迟？"
+
+#: classes/autoptimizeCriticalCSSSettings.php:290
+msgid "It looks like the amount of Critical CSS rules is very high, it is recommended to reconfigure Autoptimize (e.g. by manually creating broader rules) to ensure less rules are created."
+msgstr "关键 CSS 规则的数量看起来非常多，建议重新配置自动优化（例如，通过手动创建更宽泛的规则），以确保创建的规则更少。"
+
+#: classes/autoptimizeCriticalCSSSettings.php:266
+msgid "In the meantime you might want to <strong>edit default rule CSS now</strong>, to avoid all CSS being inlined when no (applicable) rules are found."
+msgstr "同时，您可能希望现在<strong>立即编辑默认规则CSS</strong>，以避免在未找到（适用）规则时内联所有 CSS。"
+
+#: classes/critcss-inc/admin_settings_adv.php:68
+msgid "The cronned queue processing is an asynchronous process triggerd by (WordPress) cron. To avoid this process from running too long and potentially getting killed, you can set the number of seconds here, 0 means no limit."
+msgstr "临时队列处理是（WordPress）cron 触发的异步过程。 为避免此过程运行太长时间并有可能被杀死，您可以在此处设置秒数，0 表示没有限制。"
+
+#: classes/critcss-inc/admin_settings_adv.php:63
+msgid "Queue processing time limit"
+msgstr "队列处理时间限制"
+
+#. translators: "associate your domain" will appear in a "a href".
+#: classes/autoptimizeImages.php:1462
+msgid "If you have enough CDN quota remaining, then you may need to %1$sassociate your domain%2$s to your Shortpixel account."
+msgstr "如果您有足够的信用/CDN 配额, 则可能需要将您的 %1$s 关联你的域名 %2$s 到您的 Shortpixel 帐户。"
+
+#: classes/autoptimizeConfig.php:460
+msgid "Enable 404 fallbacks?"
+msgstr "启用 404 后备?"
+
+#: classes/critcss-inc/admin_settings_adv.php:126
+msgid "In rare cases the critical CSS needs to be removed once the full CSS loads, this option makes it so!"
+msgstr "在极少数情况下, 一旦完整的 CSS 加载完毕, 就需要删除关键的 CSS, 因此可以这样做!"
+
+#: classes/critcss-inc/admin_settings_adv.php:121
+msgid "Unload critical CSS after page load?"
+msgstr "页面加载后是否卸载 Critical CSS?"
+
+#: classes/critcss-inc/admin_settings_explain.php:45
+msgid "<h2>Fix render-blocking CSS!</h2><p>Significantly improve your first-paint times by making CSS non-render-blocking.</p><p>The next step is to sign up at <a href=\"https://criticalcss.com/?aff=1\" target=\"_blank\">https://criticalcss.com</a> (this is a premium service, priced 2 GBP/month for membership and 5 GBP/month per domain) <strong>and get the API key, which you can copy from <a href=\"https://criticalcss.com/account/api-keys?aff=1\" target=\"_blank\">the API-keys page</a></strong> and paste below.</p><p>If you have any questions or need support, head on over to <a href=\"https://wordpress.org/support/plugin/autoptimize\" target=\"_blank\">our support forum</a> and we'll help you get up and running in no time!</p>"
+msgstr "<h2>修复渲染阻止 CSS!</h2><p>通过使 CSS 不受渲染阻塞, 大大缩短了首次绘制的时间。</p><p>下一步是在 <a href=\"https://criticalcss.com/?aff=1\" target=\"_blank\">https://criticalcss.com</a> 上进行注册(这是一项高级服务, 价格为会员2英镑/月, 每个域名5英镑/月)<strong>, 并获取API密钥, 您可以从<a href=\"https://criticalcss.com/account/api-keys?aff=1\" target=\"_blank\"> API密钥页面</a></strong>并粘贴在下面。</p><p>如果您有任何疑问或需要支持, 请前往 <a href=\"https://wordpress.org/support/plugin/autoptimize\" target=\"_blank\">我们的支持论坛</a>, 我们将帮助您立即启动并运行!</p>"
+
+#: classes/autoptimizeCriticalCSSCore.php:441
+msgid "Please enter a valid <a href=\"https://criticalcss.com/?aff=1\" target=\"_blank\">criticalcss.com</a> API key to start."
+msgstr "请输入有效的 <a href=\"https://criticalcss.com/?aff=1\" target=\"_blank\">criticalcss.com</a> API 密钥以开始。"
+
+#: classes/autoptimizeCriticalCSSCore.php:432
+msgid "Something went wrong when checking your API key, make sure you server can communicate with https://criticalcss.com and/ or try again later."
+msgstr "检查 API 密钥时出现问题, 请确保服务器可以与 https://criticalcss.com 通信, 或稍后重试。"
+
+#: classes/autoptimizeCriticalCSSCore.php:412
+#: classes/autoptimizeCriticalCSSCore.php:430
+msgid "Your API key is invalid. Please enter a valid <a href=\"https://criticalcss.com/?aff=1\" target=\"_blank\">criticalcss.com</a> key."
+msgstr "您的 API 密钥无效。请输入有效的 <a href=\"https://criticalcss.com/?aff=1\" target=\"_blank\">criticalcss.com</a> 密钥。"
+
+#: classes/autoptimizeCriticalCSSCore.php:410
+#: classes/autoptimizeCriticalCSSCore.php:427
+msgid "Invalid"
+msgstr "无效"
+
+#: classes/autoptimizeCriticalCSSCore.php:403
+#: classes/autoptimizeCriticalCSSCore.php:421
+msgid "Valid"
+msgstr "有效"
+
+#: classes/autoptimizeConfig.php:462
+msgid "Sometimes Autoptimized JS/ CSS is referenced in cached HTML but is already removed, resulting in broken sites. With this option on, Autoptimize will try to redirect those not-found files to \"fallback\"-versions, keeping the page/ site somewhat intact. In some cases this will require extra web-server level configuration to ensure <code>wp-content/autoptimize_404_handler.php</code> is set to handle 404's in <code>wp-content/cache/autoptimize</code>."
+msgstr "有时, 在缓存的 HTML 中引用已被删除的经过优化的 JS/CSS, 会导致站点损坏。此实验功能尝试将这些未找到的文件重定向到\"回退\"版本, 使页面/网站保持完整。在某些情况下, 这将需要额外的 Web 服务器级别的配置, 以确保设置<code>wp-content/autoptimize_404_handler.php</code> 来处理<code>wp-content/cache/autoptimize</code>中的 404 错误 。"
+
+#: classes/autoptimizeConfig.php:343
+msgid "Inlining all CSS is an easy way to stop the CSS from being render-blocking, but is generally not recommended because the size of the HTML increases significantly. Additionally it might push meta-tags down to a position where e.g. Facebook and Whatsapp will not find them any more, breaking thumbnails when sharing."
+msgstr "内联所有 CSS 是解决 CSS 渲染阻塞的简便方法, 但通常不建议这样做, 因为 HTML 大小显著增加。此外, 此操作可能会将元标记向下推迟到 Facebook 和 Whatsapp 找不到它们的位置, 从而在共享时找不到缩略图。"
+
+#: classes/autoptimizeConfig.php:195
+msgid "Autoptimize now includes the criticalcss.com integration that was previously part of the separate power-up. If you want you can simply disable the power-up and Autoptimize will take over immediately."
+msgstr "Autoptimize 现已包括以前的 criticalcss.com 独立集成插件 power-up。如果您愿意，您可以直接禁用开启，Autoptimize 会立即接管。"
+
+#: classes/critcss-inc/admin_settings_rules.php:201
+msgid "Remove all rules"
+msgstr "删除所有规则"
+
+#: classes/critcss-inc/admin_settings_rules.php:198
+msgid "Add CSS To All Rules"
+msgstr "将 CSS 添加到所有规则"
+
+#: classes/critcss-inc/admin_settings_rules.php:197
+msgid "Edit Default Rule CSS"
+msgstr "编辑默认 CSS 规则"
+
+#: classes/critcss-inc/admin_settings_rules.php:196
+msgid "Add New Rule"
+msgstr "添加新规则"
+
+#: classes/critcss-inc/admin_settings_rules.php:183
+msgid "At any time you can delete an <span class=\"badge auto\">AUTO</span> or <span class=\"badge manual\">MANUAL</span> rule by cliking on \"Remove\" button of the desired rule and saving your changes."
+msgstr "您可以随时删除 <span class=\"badge auto\">自动</span> 或 <span class=\"badge manual\">手动</span> 规则。"
+
+#: classes/critcss-inc/admin_settings_rules.php:182
+msgid "You can create <span class=\"badge manual\">MANUAL</span> rules for specific page paths (URL). Longer, more specific paths have higher priority over shorter ones, which in turn have higher priority over <span class=\"badge auto\">AUTO</span> rules. Also, critical CSS files from <span class=\"badge manual\">MANUAL</span> <strong>rules are NEVER updated automatically.</strong>"
+msgstr "您可以为特定的页面路径 (URL) 创建<span class=\"badge manual\">MANUAL</span>规则。更长、更具体的路径比较短的路径具有更高的优先级, 较短的路径的优先级高于<span class=\"badge auto\">AUTO</span>规则。此外, 来自<span class=\"badge manual\">MANUAL</span>规则的 Critical CSS 文件<strong>永远不会自动更新。</strong>"
+
+#: classes/critcss-inc/admin_settings_rules.php:181
+msgid "If you want to make any fine tunning in the critical CSS file of an <span class=\"badge auto\">AUTO</span> rule, click on \"Edit\" button of that rule, change what you need, submit and save it. The rule you've just edited becomes a <span class=\"badge manual\">MANUAL</span> rule then."
+msgstr "如果要在 <span class=\"badge auto\">自动</span> 规则的 Critical CSS 文件的基础上中进行更细致的调整，请单击该规则的\"编辑\"按钮，更改所需的内容，提交并保存它。您刚刚编辑的规则将成为 <span class=\"badge manual\">手动</span>规则。"
+
+#: classes/critcss-inc/admin_settings_rules.php:180
+msgid "These requests also creates an <span class=\"badge auto\">AUTO</span> rule for you. The critical CSS files from <span class=\"badge auto\">AUTO</span> <strong>rules are updated automatically</strong> when a CSS file in your theme or frontend plugins changes."
+msgstr "这些请求还会为您创建<span class=\"badge auto\">自动</span>规则。当主题或前端插件中的 CSS 文件发生更改时，<span class=\"badge auto\">自动</span>规则生成的 Critical CSS 文件<strong>将自动更新</strong>。"
+
+#: classes/critcss-inc/admin_settings_rules.php:179
+msgid "Upon a request to any of the frontend pages made by a <strong>not logged in user</strong>, it will <strong>asynchronously</strong> fetch and update the critical CSS from <a href=\"https://criticalcss.com/?aff=1\" target=\"_blank\">criticalcss.com</a> for conditional tags you have on your site (e.g. is_page, is_single, is_archive etc.)"
+msgstr "当<strong>未登录用户</strong>访问任意前端页面时, 插件将<strong>异步</strong>根据你站点上的条件标记(如 is_page, is_single, is_archive )从<a href=\"https://criticalcss.com/?aff=1\" target=\"_blank\">criticalcss.com</a>提取和更新 Critical CSS"
+
+#: classes/critcss-inc/admin_settings_rules.php:178
+msgid "When a valid <a href=\"https://criticalcss.com/?aff=1\" target=\"_blank\">criticalcss.com</a> API key is in place, Autoptimize starts to operate <strong>automatically</strong>."
+msgstr "当有效的<a href=\"https://criticalcss.com/?aff=1\" target=\"_blank\">criticalcss.com</a> API 密钥到位时，自动优化 Critical CSS 开始<strong>自动</strong>运行。"
+
+#: classes/critcss-inc/admin_settings_rules.php:176
+msgid "TL;DR:<br />Critical CSS files from <span class='badge auto'>AUTO</span> <strong>rules are updated automatically</strong> while from <span class='badge manual'>MANUAL</span> <strong>rules are not.</strong>"
+msgstr "TL;DR:<br />来自 <span class='badge auto'>自动</span> 规则的 Critical CSS 文件<strong>会自动更新</strong>, 而 <span class='badge manual'>手动</span><strong> 规则则不更新。</strong>"
+
+#: classes/critcss-inc/admin_settings_rules.php:163
+msgid "Paste your minified additional critical CSS here and hit submit to save. This is the CSS to be added AT THE END of every critical CSS provided by a matching rule, or the default one."
+msgstr "在此处粘贴您压缩后的其他 Critical CSS, 并点击提交以保存。此 CSS将添加到匹配规则 Critical CSS 或在默认规则中添加的 CSS 中。"
+
+#: classes/critcss-inc/admin_settings_rules.php:158
+msgid "Paste your minified default critical CSS here and hit submit to save. This is the critical CSS to be used for every page not matching any rule."
+msgstr "在此处粘贴您压缩后的默认 Critical CSS 并点击提交以保存。此 Critical CSS 应用于与现有规则不匹配的所有页面中。"
+
+#: classes/critcss-inc/admin_settings_rules.php:153
+msgid "All Critical CSS rules will be deleted immediately and cannot be recovered.<br /><br /><strong>Are you sure?</strong>"
+msgstr "所有 Critical CSS 规则将立即删除, 无法恢复。<br /><br /><strong>确定吗?</strong>"
+
+#: classes/critcss-inc/admin_settings_rules.php:152
+msgid "Delete all Rules and Jobs"
+msgstr "删除所有规则和任务"
+
+#: classes/critcss-inc/admin_settings_rules.php:148
+msgid "This Critical CSS rule will be deleted immediately and cannot be recovered.<br /><br /><strong>Are you sure?</strong>"
+msgstr "此 Critical CSS 规则将立即删除, 无法恢复。<br /><br /><strong>确定吗?</strong>"
+
+#: classes/critcss-inc/admin_settings_rules.php:147
+msgid "Delete Rule"
+msgstr "删除规则"
+
+#: classes/critcss-inc/admin_settings_rules.php:138
+msgid "Paste your specific critical CSS here and hit submit to save."
+msgstr "在此处粘贴您的特定 Critical CSS 并点击提交以保存。"
+
+#: classes/critcss-inc/admin_settings_rules.php:135
+msgid "Custom Critical CSS"
+msgstr "自定义 Critical CSS"
+
+#: classes/critcss-inc/admin_settings_rules.php:100
+msgid "WooCommerce Conditional Tags"
+msgstr "WooCommerce 条件标签"
+
+#: classes/critcss-inc/admin_settings_rules.php:96
+msgid "Easy Digital Downloads Conditional Tags"
+msgstr "Easy Digital Downloads  条件标签"
+
+#: classes/critcss-inc/admin_settings_rules.php:92
+msgid "BuddyPress Conditional Tags"
+msgstr "BuddyPress条件标签"
+
+#: classes/critcss-inc/admin_settings_rules.php:88
+msgid "BBPress Conditional Tags"
+msgstr "BBPress 条件标签"
+
+#: classes/critcss-inc/admin_settings_rules.php:84
+msgid "Page Templates"
+msgstr "页面模板"
+
+#: classes/critcss-inc/admin_settings_rules.php:80
+msgid "Custom Post Types"
+msgstr "自定义文章类型"
+
+#: classes/critcss-inc/admin_settings_rules.php:58
+msgid "Standard Conditional Tags"
+msgstr "标准条件标签"
+
+#: classes/critcss-inc/admin_settings_rules.php:57
+msgid "Select from the list below..."
+msgstr "从下面的列表中选择..."
+
+#: classes/critcss-inc/admin_settings_rules.php:53
+msgid "Conditional Tag, Custom Post Type or Page Template"
+msgstr "条件标签、自定义文章类型或页面模板"
+
+#: classes/critcss-inc/admin_settings_rules.php:48
+msgid "Enter a part of the URL that identifies the page(s) you're targetting."
+msgstr "输入 URL 的一部分, 用于标识您要定位的页面。"
+
+#: classes/critcss-inc/admin_settings_rules.php:45
+msgid "String in Path"
+msgstr "路径中的字符串"
+
+#: classes/critcss-inc/admin_settings_rules.php:39
+msgid "Conditional Tag"
+msgstr "条件标签"
+
+#: classes/critcss-inc/admin_settings_rules.php:38
+msgid "Path"
+msgstr "路径"
+
+#: classes/critcss-inc/admin_settings_rules.php:34
+msgid "Rule Type"
+msgstr "规则类型"
+
+#: classes/critcss-inc/admin_settings_rules.php:26
+msgid "<strong>Rules or Queue changed!</strong> Don't forget to save your changes!"
+msgstr "<strong>规则或队列已更改!</strong>不要忘记保存您的更改!"
+
+#: classes/critcss-inc/admin_settings_rules.php:21
+msgid "Rules"
+msgstr "规则"
+
+#: classes/critcss-inc/admin_settings_impexp.js.php:35
+msgid "Export settings result"
+msgstr "导出设置结果"
+
+#: classes/critcss-inc/admin_settings_debug.php:81
+msgid "WP-Cron Scheduled Events"
+msgstr "WP-Cron 计划活动"
+
+#: classes/critcss-inc/admin_settings_debug.php:78
+msgid "WP-Cron Intervals"
+msgstr "WP-Cron 时间间隔"
+
+#: classes/critcss-inc/admin_settings_debug.php:45
+msgid "Options"
+msgstr "可选项"
+
+#: classes/critcss-inc/admin_settings_debug.php:39
+msgid "Debug Information"
+msgstr "调试信息"
+
+#: classes/critcss-inc/admin_settings_rules.js.php:343
+msgid "Additional Critical CSS"
+msgstr "其他 Critical CSS"
+
+#: classes/critcss-inc/admin_settings_rules.js.php:322
+msgid "Default Critical CSS"
+msgstr "默认 Critical CSS"
+
+#: classes/critcss-inc/admin_settings_rules.js.php:290
+#: classes/critcss-inc/admin_settings_rules.js.php:325
+#: classes/critcss-inc/admin_settings_rules.js.php:346
+msgid "Submit"
+msgstr "提交"
+
+#: classes/critcss-inc/admin_settings_rules.js.php:278
+msgid "For path based rules, paste your specific and minified critical CSS here or leave this empty to fetch it from criticalcss.com and hit submit to save. If you want to create a rule to exclude from critical CSS injection, enter \\\"none\\\""
+msgstr "对于基于路径的规则, 请在此处粘贴压缩后的 Critical CSS, 或将其留空以从 criticalcss.com 中获取, 然后点击提交以保存。如果要创建要从 Critical CSS 注入中排除的规则, 请输入 \\\"none\\\""
+
+#: classes/critcss-inc/admin_settings_rules.js.php:274
+msgid "For type based rules, paste your specific and minified critical CSS here and hit submit to save. If you want to create a rule to exclude from critical CSS injection, enter \\\"none\\\"."
+msgstr "对于基于类型的规则, 请在此处粘贴压缩后的 Critical CSS, 然后点击提交以保存。如果要创建要从 Critical CSS 注入中排除的规则, 请输入 \\\"none\\\"."
+
+#: classes/critcss-inc/admin_settings_rules.js.php:263
+msgid "Add Critical CSS Rule"
+msgstr "添加 Critical CSS 规则"
+
+#: classes/critcss-inc/admin_settings_rules.js.php:234
+msgid "Loading critical CSS..."
+msgstr "正在加载 Critical CSS..."
+
+#: classes/critcss-inc/admin_settings_rules.js.php:223
+msgid "Edit Critical CSS Rule"
+msgstr "编辑 Critical CSS 规则"
+
+#: classes/critcss-inc/admin_settings_rules.js.php:158
+msgid "Delete All"
+msgstr "删除所有"
+
+#: classes/critcss-inc/admin_settings_rules.js.php:102
+msgid "Remove"
+msgstr "删除"
+
+#: classes/critcss-inc/admin_settings_rules.js.php:102
+msgid "Edit"
+msgstr "编辑"
+
+#: classes/critcss-inc/admin_settings_rules.js.php:74
+msgid "AUTO"
+msgstr "自动"
+
+#: classes/critcss-inc/admin_settings_rules.js.php:71
+msgid "MANUAL"
+msgstr "手动"
+
+#: classes/critcss-inc/admin_settings_rules.js.php:68
+msgid "To be fetched from criticalcss.com in the next queue run..."
+msgstr "要从下一个队列运行中的 criticalcss.com 提取..."
+
+#: classes/critcss-inc/admin_settings_rules.js.php:49
+msgid "Critical CSS File"
+msgstr "Critical CSS 文件"
+
+#: classes/critcss-inc/admin_settings_rules.js.php:49
+msgid "Target"
+msgstr "打开方式"
+
+#: classes/critcss-inc/admin_settings_rules.js.php:49
+msgid "Type"
+msgstr "类型"
+
+#: classes/critcss-inc/admin_settings_rules.js.php:45
+msgid "Conditional Tags, Custom Post Types and Page Templates Rules"
+msgstr "条件标签、自定义帖子类型和页面模板规则"
+
+#: classes/critcss-inc/admin_settings_rules.js.php:43
+msgid "Path Based Rules"
+msgstr "基于路径的规则"
+
+#: classes/critcss-inc/admin_settings_adv.php:149
+msgid "<strong>CAUTION! Only use debug mode on production/live environments for ad-hoc troubleshooting and remember to turn it back off after</strong>, as this generates a lot of log-data.<br />Check the box above to enable Autoptimize CriticalCSS Power-Up debug mode. It provides debug facilities in this screen, to the browser console and to this file: "
+msgstr "<strong>小心! 仅在生产/实时环境中使用调试模式进行临时故障排除, 并记住在之后将其关闭</strong>, 因为这将生成大量日志数据。<br />选中上面的复选框, 启用自动优化 Critical CSS 开启调试模式。它在此屏幕、浏览器控制台和此文件中提供调试功能 "
+
+#: classes/critcss-inc/admin_settings_adv.php:143
+msgid "Debug Mode"
+msgstr "调试模式"
+
+#: classes/critcss-inc/admin_settings_adv.php:137
+msgid "Only requests from this domain will be sent for Critical CSS generation (pricing is per domain/ month)."
+msgstr "仅发送来自此域的请求才能生成 Critical CSS(定价是每个域名/月)。"
+
+#: classes/critcss-inc/admin_settings_adv.php:135
+msgid "Don't leave this empty, put e.g. https://example.net/ or simply 'none' to disable domain binding."
+msgstr "不要留空此项, 例如, 输入 https://example.net/, 或输入 \"none\" 禁用域名绑定。"
+
+#: classes/critcss-inc/admin_settings_adv.php:132
+msgid "Bound domain"
+msgstr "绑定域名"
+
+#: classes/critcss-inc/admin_settings_adv.php:113
+msgid "Defer all non-aggregated JS, including jQuery and inline JS to fix remaining render-blocking issues. Make sure to test your site thoroughly when activating this option!"
+msgstr "延迟所有非聚合 JS, 包括 jQuery 和内联 JS, 以解决剩余的渲染阻塞问题。激活此选项时, 一定要完整测试您的网站!"
+
+#: classes/critcss-inc/admin_settings_adv.php:101
+msgid "By default for each page a separate rule is generated. If your pages have (semi-)identical above the fold look and feel and you want to keep the rules lean, you can disable that so one rule is created to all pages."
+msgstr "默认情况下, 每个页面都会生成单独的规则。如果您的页面大致相同, 并希望维持一个精简的规则列表, 您可以禁用此规则, 以便为所有页面创建一个规则。"
+
+#: classes/critcss-inc/admin_settings_adv.php:96
+msgid "Force path-based rules to be generated for pages?"
+msgstr "强制为页面生成基于路径的规则?"
+
+#: classes/critcss-inc/admin_settings_adv.php:90
+msgid "Critical CSS is generated by criticalcss.com from your pages as seen by an \"anonymous visitor\". Disable this option if you don't want the \"visitor\" critical CSS to be used for logged in users."
+msgstr "Critical CSS 由 criticalcss.com 以\"匿名访问者\"可访问到的页面生成, 如果您不希望将\"匿名访问者\" Critical CSS 用于登录用户, 请禁用此选项。"
+
+#: classes/critcss-inc/admin_settings_adv.php:85
+msgid "Add CCSS for logged in users?"
+msgstr "为登录用户添加 CCSS?"
+
+#: classes/critcss-inc/admin_settings_adv.php:79
+msgid "In some (rare) cases the generation of critical CSS works better with the original CSS instead of the Autoptimized one, this option enables that behavior."
+msgstr "在极罕见的情况下, 使用原始 CSS 生成的 Critical CSS 代码比优化后的 CSS 运行得更好, 此选项支持该行为。"
+
+#: classes/critcss-inc/admin_settings_adv.php:74
+msgid "Fetch Original CSS"
+msgstr "获取原始 CSS"
+
+#: classes/critcss-inc/admin_settings_adv.php:57
+msgid "Force include CSS selectors can be used to style dynamic content that is not part of the HTML that is seen during the Critical CSS generation. To use this feature, add comma separated values with both simple strings and/or regular expressions to match the desired selectors. Regular expressions must be preceeded by two forward slashes. For instance: <code>.button-special,//#footer</code>. In this example <code>.button-special</code> will match <code>.button-special</code> selector only, while <code>//#footer</code> will match <code>#footer</code>, <code>#footer-address</code> and <code>#footer-phone</code> selectors in case they exist.<br />Do take into account that changing this setting will only affect new/ updated rules, so you might want to remove old rules and clear your page cache to expedite the forceIncludes becoming used."
+msgstr "强制包括 CSS 选择器可用于设置动态内容, 这些动态内容不是 Critical CSS 生成期间看到的 HTML 的一部分。要使用此功能, 请使用简单字符串和/或正则表达式添加逗号分隔值, 以匹配所需的选择器。正则表达式必须预先使用两个向前斜杠。例如: <code>.button-special, //#footer</code> .在此示例中 <code>.button-special</code> , 将仅匹配 <code>.button-special</code> 选择器, 而 <code>//#footer</code> 将匹配 <code>#footer</code> 和 <code>#footer-address</code> <code>#footer-phone</code> 选择器, 以防它们存在。<br />一请注意, 更改此设置只会影响新的/更新的规则, 因此您可能需要删除旧规则并清除页面缓存以加快强制包括使用。"
+
+#: classes/critcss-inc/admin_settings_adv.php:55
+msgid ".button-special,//#footer"
+msgstr ".button-special,//#footer"
+
+#: classes/critcss-inc/admin_settings_adv.php:52
+msgid "Force Include CSS selectors"
+msgstr "强制包含 CSS 选择器"
+
+#: classes/critcss-inc/admin_settings_adv.php:46
+msgid "<a href=\"https://criticalcss.com/account/api-keys?aff=1\" target=\"_blank\">criticalcss.com</a> default viewport size is 1400x1080 pixels (width x height). You can change this size by typing a desired width and height values above. Allowed value ranges are from 800 to 4096 for width and from 600 to 2160 for height."
+msgstr "<a href=\"https://criticalcss.com/account/api-keys?aff=1\" target=\"_blank\">criticalcss.com</a>默认视口大小为 1400x1080 像素(宽度 x 高度)。您可以通过在上面键入所需的宽度和高度值来更改此大小。允许的值范围为宽度从 800 到 4096，高度为 600 到 2160。"
+
+#: classes/critcss-inc/admin_settings_adv.php:44
+msgid "Height"
+msgstr "高度"
+
+#: classes/critcss-inc/admin_settings_adv.php:43
+msgid "Width"
+msgstr "宽度"
+
+#: classes/critcss-inc/admin_settings_adv.php:40
+msgid "Viewport Size"
+msgstr "视口大小"
+
+#: classes/critcss-inc/admin_settings_adv.php:32
+msgid "Advanced Settings"
+msgstr "高级设置"
+
+#: classes/critcss-inc/admin_settings_queue.js.php:186
+msgid "Retry"
+msgstr "重试"
+
+#: classes/critcss-inc/admin_settings_queue.js.php:166
+msgid "Delete all jobs?"
+msgstr "是否删除所有任务?"
+
+#: classes/critcss-inc/admin_settings_queue.js.php:153
+#: classes/critcss-inc/admin_settings_queue.js.php:171
+#: classes/critcss-inc/admin_settings_queue.js.php:201
+#: classes/critcss-inc/admin_settings_rules.js.php:145
+#: classes/critcss-inc/admin_settings_rules.js.php:165
+#: classes/critcss-inc/admin_settings_rules.js.php:308
+#: classes/critcss-inc/admin_settings_rules.js.php:330
+#: classes/critcss-inc/admin_settings_rules.js.php:351
+msgid "Cancel"
+msgstr "取消"
+
+#: classes/critcss-inc/admin_settings_queue.js.php:148
+#: classes/critcss-inc/admin_settings_rules.js.php:140
+msgid "Delete"
+msgstr "删除"
+
+#: classes/critcss-inc/admin_settings_queue.js.php:125
+msgid "Job status is "
+msgstr "任务状态为 "
+
+#: classes/critcss-inc/admin_settings_queue.js.php:119
+msgid "N/A"
+msgstr "不适用"
+
+#: classes/critcss-inc/admin_settings_queue.js.php:111
+msgid "UNKNOWN"
+msgstr "未知"
+
+#: classes/critcss-inc/admin_settings_queue.js.php:103
+#: classes/critcss-inc/admin_settings_queue.js.php:112
+msgid "Get Help"
+msgstr "获取帮助"
+
+#: classes/critcss-inc/admin_settings_queue.js.php:102
+msgid "ERROR"
+msgstr "错误"
+
+#: classes/critcss-inc/admin_settings_queue.js.php:95
+msgid "DONE"
+msgstr "完成"
+
+#: classes/critcss-inc/admin_settings_queue.js.php:88
+#: classes/critcss-inc/admin_settings_queue.js.php:102
+#: classes/critcss-inc/admin_settings_queue.js.php:111
+msgid "- Validation: "
+msgstr "- 验证: "
+
+#: classes/critcss-inc/admin_settings_queue.js.php:88
+#: classes/critcss-inc/admin_settings_queue.js.php:102
+#: classes/critcss-inc/admin_settings_queue.js.php:111
+msgid "- Result: "
+msgstr "- 结果: "
+
+#: classes/critcss-inc/admin_settings_queue.js.php:88
+#: classes/critcss-inc/admin_settings_queue.js.php:102
+#: classes/critcss-inc/admin_settings_queue.js.php:111
+msgid "- Status: "
+msgstr "- 状态: "
+
+#: classes/critcss-inc/admin_settings_queue.js.php:88
+#: classes/critcss-inc/admin_settings_queue.js.php:102
+#: classes/critcss-inc/admin_settings_queue.js.php:111
+msgid "- Job ID: "
+msgstr "- 任务 ID: "
+
+#: classes/critcss-inc/admin_settings_queue.js.php:88
+#: classes/critcss-inc/admin_settings_queue.js.php:102
+#: classes/critcss-inc/admin_settings_queue.js.php:111
+msgid "Info from criticalcss.com:"
+msgstr "来自 criticalcss.com 的信息:"
+
+#: classes/critcss-inc/admin_settings_queue.js.php:88
+msgid "REVIEW"
+msgstr "评论"
+
+#: classes/critcss-inc/admin_settings_queue.js.php:82
+msgid "PENDING"
+msgstr "待处理"
+
+#: classes/autoptimizeCriticalCSSCore.php:439
+#: classes/critcss-inc/admin_settings_queue.js.php:77
+#: classes/critcss-inc/admin_settings_queue.js.php:83
+msgid "None"
+msgstr "无"
+
+#: classes/critcss-inc/admin_settings_queue.js.php:76
+msgid "New"
+msgstr "新的"
+
+#: classes/critcss-inc/admin_settings_queue.php:88
+msgid "Remove all jobs"
+msgstr "删除所有任务"
+
+#: classes/critcss-inc/admin_settings_queue.php:78
+#: classes/critcss-inc/admin_settings_rules.js.php:49
+msgid "Actions"
+msgstr "操作"
+
+#: classes/critcss-inc/admin_settings_queue.php:78
+msgid "Finish Date"
+msgstr "完成日期"
+
+#: classes/critcss-inc/admin_settings_queue.php:78
+msgid "Creation Date"
+msgstr "创建日期"
+
+#: classes/critcss-inc/admin_settings_queue.php:78
+msgid "Page Type"
+msgstr "页面类型"
+
+#: classes/critcss-inc/admin_settings_queue.php:78
+msgid "Page Path"
+msgstr "页面路径"
+
+#: classes/critcss-inc/admin_settings_queue.php:78
+msgid "Target Rule"
+msgstr "目标规则"
+
+#: classes/critcss-inc/admin_settings_queue.php:78
+msgid "Status"
+msgstr "状态"
+
+#: classes/critcss-inc/admin_settings_queue.php:72
+msgid "<strong>A word about WordPress cron:</strong> Autoptimize watches the queue by using WordPress Cron (or WP-Cron for short.) It <a href=\"https://www.smashingmagazine.com/2013/10/schedule-events-using-wordpress-cron/#limitations-of-wordpress-cron-and-solutions-to-fix-em\" target=\"_blank\">could be faulty</a> on very light or very heavy loads. If your site receives just a few or thousands visits a day, it might be a good idea to <a href=\"https://developer.wordpress.org/plugins/cron/hooking-wp-cron-into-the-system-task-scheduler/\" target=\"_blank\">turn WP-Cron off and use your system task scheduler</a> to fire it instead."
+msgstr "<strong>关于WordPress cron的一个词：</strong>使用 WordPress Cron（简称 WP-Cron）自动优化关键 CSS 上电来观察队列。在非常轻或非常重的负载上<a href=\"https://www.smashingmagazine.com/2013/10/schedule-events-using-wordpress-cron/#limitations-of-wordpress-cron-and-solutions-to-fix-em\" target=\"_blank\">，它可能是有故障</a>的。如果您的网站每天仅收到几次或数千次访问，最好<a href=\"https://developer.wordpress.org/plugins/cron/hooking-into-the-system-task-scheduler/\" target=\"_blank\">关闭 WP-Cron 并使用系统任务调度程序</a>将其触发。"
+
+#: classes/critcss-inc/admin_settings_queue.php:71
+msgid "To get more information about jobs statuses, specially the ones with <span class=\"badge error\">E</span> and <span class=\"badge unknown\">U</span> status, hover your mouse in the status badge of that job. This information might be crucial when contacting <a href=\"https://criticalcss.com/?aff=1\" target=\"_blank\">criticalcss.com</a> for assistance."
+msgstr "要获取有关任务状态的详细信息, 尤其是状态为<span class=\"badge error\">E</span>和<span class=\"badge unknown\">U</span>的任务, 请将鼠标悬停在该任务的状态作业中。在联系criticalcss.com寻求帮助时<a href=\"https://criticalcss.com/?aff=1\" target=\"_blank\">, </a>此信息可能至关重要。"
+
+#: classes/critcss-inc/admin_settings_queue.php:70
+msgid "Sometimes an unknown condition can happen. In this case, the job status becomes <span class=\"badge unknown\">U</span> and you may want to ask <a href=\"https://criticalcss.com/?aff=1\" target=\"_blank\">criticalcss.com</a> for help or just delete it."
+msgstr "有时可能发生未知情况。在这种情况下, 任务状态变为<span class=\"badge unknown\">U, </span>您可能需要向<a href=\"https://criticalcss.com/?aff=1\" target=\"_blank\">criticalcss.com</a>寻求帮助或将其删除。"
+
+#: classes/critcss-inc/admin_settings_queue.php:69
+msgid "When things go wrong, a job is marked as <span class=\"badge error\">E</span>. You can retry faulty jobs, delete them or get in touch with <a href=\"https://criticalcss.com/?aff=1\" target=\"_blank\">criticalcss.com</a> for assistance."
+msgstr "出现错误时, 任务被标记为<span class=\"badge error\">E</span>。您可以重试、删除这些任务或联系<a href=\"https://criticalcss.com/?aff=1\" target=\"_blank\">criticalcss.com</a>寻求帮助。"
+
+#: classes/critcss-inc/admin_settings_queue.php:68
+msgid "As soon as <a href=\"https://criticalcss.com/?aff=1\" target=\"_blank\">criticalcss.com</a> returns a valid critical CSS file, the job is then finished and removed from the queue."
+msgstr "从<a href=\"https://criticalcss.com/?aff=1\" target=\"_blank\">criticalcss.com</a>返回有效的 Critical CSS 文件后，任务会被标记为已完成并从队列中删除。"
+
+#: classes/critcss-inc/admin_settings_queue.php:67
+msgid "Autoptimize constantly queries the queue for <span class='badge new'>N</span> jobs. When it finds one, gears spins and jobs becomes <span class='badge pending'>P</span> while they are running and <a href='https://criticalcss.com/?aff=1' target='_blank'>criticalcss.com</a> doesn't return a result."
+msgstr "Autoptimize Critical CSS 驱动不断查询队列的 <span class='badge new'>N</span>作业。当它找到一个，齿轮旋转和作业变成 <span class='badge pending'>P，</span>而他们运行 <a href='https://criticalcss.com/?aff=1' target='_blank'>criticalcss.com</a> 不返回结果。"
+
+#: classes/critcss-inc/admin_settings_queue.php:66
+msgid "When the conditions to create a job are met (i.e. user not logged in, no matching <span class=\"badge manual\">MANUAL</span> rule or CSS files has changed for an <span class=\"badge auto\">AUTO</span> rule), a <span class=\"badge new\">N</span> job is created in the queue."
+msgstr "当满足创建作业的条件时(即用户未登录、没有匹配的 <span class=\"badge manual\">MANUAL</span> 规则, 或匹配 <span class=\"badge auto\">AUTO</span>规则的CSS文件已更改时), 系统将在队列中创建一个<span class=\"badge new\">N</span>作业。"
+
+#: classes/critcss-inc/admin_settings_queue.php:65
+msgid "The queue operates <strong>automatically, asynchronously and on regular intervals of 10 minutes.</strong> To view updated queue status, refresh this page."
+msgstr "队列以<strong>10 分钟的间隔自动异步运行。</strong>要查看最新队列状态, 请刷新此页面。"
+
+#: classes/critcss-inc/admin_settings_queue.php:63
+msgid "TL;DR:<br /><strong>Queue runs every 10 minutes.</strong> Job statuses are <span class=\"badge new\">N</span> for NEW, <span class=\"badge pending\">P</span> for PENDING, <span class=\"badge error\">E</span> for ERROR and <span class=\"badge unknown\">U</span> for UNKOWN."
+msgstr "TL;DR:<br /><strong>队列每 10 分钟运行一次。</strong>任务状态为<span class=\"badge new\">N</span>表示\"新建<span class=\"badge pending\">\", P</span>表示\"挂起<span class=\"badge error\">\", E</span>表示错误<span class=\"badge unknown\">, U</span>表示 UNKOWN。"
+
+#: classes/critcss-inc/admin_settings_queue.php:57
+#: classes/critcss-inc/admin_settings_rules.php:170
+msgid "Click the side arrow to toggle instructions"
+msgstr "单击右侧箭头切换说明"
+
+#: classes/critcss-inc/admin_settings_queue.php:49
+msgid "This will delete all jobs, are you sure?"
+msgstr "此操作将删除所有作业, 确定吗?"
+
+#: classes/critcss-inc/admin_settings_queue.php:48
+msgid "Delete all jobs"
+msgstr "删除所有任务"
+
+#: classes/critcss-inc/admin_settings_queue.php:44
+msgid "Are you sure you want to delete this job?"
+msgstr "您確定想刪除该份任务吗?"
+
+#: classes/critcss-inc/admin_settings_queue.js.php:89
+#: classes/critcss-inc/admin_settings_queue.js.php:96
+#: classes/critcss-inc/admin_settings_queue.js.php:103
+#: classes/critcss-inc/admin_settings_queue.js.php:112
+#: classes/critcss-inc/admin_settings_queue.php:43
+msgid "Delete Job"
+msgstr "删除任务"
+
+#: classes/critcss-inc/admin_settings_queue.php:39
+msgid "Are you sure you want to retry this job?"
+msgstr "确定要重试此任务吗?"
+
+#: classes/critcss-inc/admin_settings_queue.js.php:103
+#: classes/critcss-inc/admin_settings_queue.php:38
+msgid "Retry Job"
+msgstr "重试任务"
+
+#: classes/critcss-inc/admin_settings_queue.php:24
+msgid "Job Queue"
+msgstr "任务队列"
+
+#: classes/critcss-inc/admin_settings_key.php:58
+msgid "Enter your <a href=\"https://criticalcss.com/account/api-keys?aff=1\" target=\"_blank\">criticalcss.com</a> API key above. The key is revalidated every time a new job is sent to it.<br />To obtain your API key, go to <a href=\"https://criticalcss.com/account/api-keys?aff=1\" target=\"_blank\">criticalcss.com</a> > Account > API Keys.<br />Requests to generate a critical CSS via the API are priced at £5 per domain per month.<br /><strong>Not sure yet? With the <a href=\"https://criticalcss.com/faq/?aff=1#trial\" target=\"_blank\">30 day money back guarantee</a>, you have nothing to lose!</strong>"
+msgstr "在上面输入<a href=\"https://criticalcss.com/account/api-keys?aff=1\" target=\"_blank\">criticalcss.com</a> API 密钥。每次发送新作业请求时，此密钥都会被重新验证。<br />要获取 API 密钥，请转到<a href=\"https://criticalcss.com/account/api-keys?aff=1\" target=\"_blank\">criticalcss.com</a> > Account > API Keys。<br />通过 API  生成 Critical CSS 的请求的定价为每个域每月 5 英镑。<br /><strong>还不确定？通过<a href=\"https://criticalcss.com/faq/?aff=1#trial\" target=\"_blank\">30天的免费试用</a>，你不会有任何损失！</strong>"
+
+#: classes/critcss-inc/admin_settings_key.php:56
+msgid "Please enter your criticalcss.com API key here."
+msgstr "请在此处输入 criticalcss.com API 密钥。"
+
+#: classes/critcss-inc/admin_settings_key.php:53
+msgid "Your API Key"
+msgstr "您的 API 密钥"
+
+#: classes/critcss-inc/admin_settings_key.php:32
+msgid "API Key"
+msgstr "API 密钥"
+
+#: classes/critcss-inc/admin_settings_key.php:24
+msgid "API key provided by your host/ WordPress administrator, no need to enter anything here. In case of problems with the API key, contact your host/ WordPress administrator."
+msgstr "API 密钥由您的主机/WordPress 管理员提供, 无需在此处输入任何内容。如果 API 密钥出现问题, 请与主机/WordPress 管理员联系。"
+
+#: classes/autoptimizeCriticalCSSSettings.php:377
+msgid "Import Settings"
+msgstr "导入设置"
+
+#: classes/autoptimizeCriticalCSSSettings.php:376
+msgid "Export Settings"
+msgstr "导出设置"
+
+#. translators: the placesholder is for a line of code in wp-config.php.
+#: classes/autoptimizeCriticalCSSSettings.php:311
+msgid "<p>Critical CSS settings cannot be set at network level as critical CSS is specific to each sub-site.</p><p>You can however provide the critical CSS API key for use by all sites by adding this your wp-config.php as %s</p>"
+msgstr "<p>Critical CSS 仅应用于每个子站点, 无法在网络级别设置。</p><p>但是, 您可以通过将 wp-config.php 添加为 %s, 提供 Critical CSS API 密钥供所有站点使用</p>"
+
+#: classes/autoptimizeCriticalCSSSettings.php:277
+msgid "The critical CSS service has been reported to be down. Although no new rules will be created for now, this does not prevent existing rules from being applied."
+msgstr "Critical CSS 服务已关闭。尽管目前不会创建新规则, 但现有规则的应用不会被阻止。"
+
+#: classes/autoptimizeCriticalCSSSettings.php:264
+msgid "Great, Autoptimize will now automatically start creating new critical CSS rules, you should see those appearing below in the next couple of hours."
+msgstr "很好, Autoptimize 现在将自动开始创建新的 Critical CSS 规则, 您应该在接下来的几个小时内看到下面显示的规则。"
+
+#: classes/autoptimizeCriticalCSSSettings.php:256
+msgid "It looks like there might be a problem with WordPress cron (task scheduling). Have a look at <a href=\"https://blog.futtta.be/2023/03/17/how-to-fix-autoptimize-critical-css-cron-issue/\" target=\"_blank\">the FAQ</a> or the info in the Job Queue instructions if all jobs remain in \"N\" status and no rules are created."
+msgstr "看起来 WordPress cron(任务调度)可能有问题。如果所有作业都保持\"N\"状态且未创建规则, 请查看作业队列说明中的 <a href=\"https://wordpress.org/plugins/autoptimize-criticalcss/faq/\" target=\"_blank\">常见问题解答</a> 或信息。"
+
+#: classes/autoptimizeCriticalCSSSettings.php:192
+msgid "WordPress cron (for task scheduling) seems to be disabled. Have a look at <a href=\"https://wordpress.org/plugins/autoptimize-criticalcss/faq/\" target=\"_blank\">the FAQ</a> or the info in the Job Queue instructions if all jobs remain in \"N\" status and no rules are created."
+msgstr "WordPress cron(用于任务调度)似乎已禁用。如果所有作业都保持\"N\"状态且未创建规则, 请查看任务队列说明中的<a href=\"https://wordpress.org/plugins/autoptimize-criticalcss/faq/\" target=\"_blank\">常见问题解答</a>或信息。"
+
+#: classes/autoptimizeCriticalCSSSettings.php:157
+msgid "Could not create the required directory. Make sure the webserver can write to the wp-content/uploads directory."
+msgstr "无法创建所需的目录。确保 Web 服务器可以写入 wp-content 目录。"
+
+#: classes/autoptimizeExtra.php:595
+msgid "Comma-separated list with full URL's of to to-be-preloaded resources. To be used sparingly!"
+msgstr "包含要预加载资源的完整URL列表(逗号隔开)。节约使用!"
+
+#: classes/autoptimizeExtra.php:593
+msgid "Preload specific requests <em>(advanced users)</em>"
+msgstr "预加载特定请求<em>(高级用户)</em>"
+
+#. translators: "display:swap" should remain untranslated, will be shown in
+#. code tags.
+#: classes/autoptimizeExtra.php:562 classes/autoptimizeExtra.php:564
+msgid "includes %1$sdisplay:swap%2$s."
+msgstr "包括 %1$sdisplay:swap%2$s。"
+
+#: classes/autoptimizeCriticalCSSSettings.php:59
+#: classes/autoptimizeCriticalCSSSettings.php:131
+#: classes/critcss-inc/admin_settings_explain.php:15
+msgid "Critical CSS"
+msgstr "Critical CSS"
+
+#: classes/autoptimizeConfig.php:467
+msgid "By default Autoptimize is also active for logged on editors/ administrators, uncheck this option if you don't want Autoptimize to optimize when logged in e.g. to use a pagebuilder."
+msgstr "默认情况下, Autoptimize 对于登录用户/管理员也是有效的, 不选中此选项, Autoptimize 将不优化登录后的账户, 例如使用页面生成器。"
+
+#: classes/autoptimizeConfig.php:465
+msgid "Also optimize for logged in editors/ administrators?"
+msgstr "用户登录时启用优化?"
+
+#: classes/autoptimizeConfig.php:338
+msgid "Paste the above the fold CSS here. You can leave this empty when using the automated Critical CSS integration."
+msgstr "将上面折叠的CSS粘贴到这里。使用自动化关键CSS集成时, 可以将此项留空。"
+
+#: classes/autoptimizeConfig.php:349
+msgid "Important: excluded non-minified files are still minified by Autoptimize unless that option under \"misc\" is disabled."
+msgstr "重要提示:排除的 CSS 仍会被压缩, 如不需压缩, 请在「杂项」部分禁用。"
+
+#: classes/autoptimizeConfig.php:218
+msgid "Enable Autoptimize configuration per site."
+msgstr "启用每个站点的 Autoptimize 配置。"
+
+#: classes/autoptimizeConfig.php:216
+msgid "Enable site configuration?"
+msgstr "启用站点配置?"
+
+#: classes/autoptimizeConfig.php:213
+msgid "Multisite Options"
+msgstr "多站点选项"
+
+#: classes/autoptimizeConfig.php:96
+msgid "Autoptimize is enabled and configured on a WordPress network level. Please contact your network administrator if you need Autoptimize settings changed."
+msgstr "在 WordPress 站点网络启用并配置了 Autoptimize。如果需要更改 \"Autoptimize\" 设置，请与网络管理员联系。"
+
+#. translators: "check the documentation here" will appear in a "a href".
+#: classes/autoptimizeImages.php:1465
+msgid "It seems ShortPixel image optimization is not able to fetch images from your site, %1$scheck the documentation here%2$s for more information"
+msgstr "似乎 ShortPixel 图像优化无法从您的站点获取图像, %1$s有关详细信息, 请查看此处的文档%2$s"
+
+#. translators: link points to shortpixel FAQ.
+#: classes/autoptimizeImages.php:1339
+msgid "Only works for websites and images that are publicly available."
+msgstr "仅适用于公开可用的网站/图像。"
+
+#: classes/autoptimizeConfig.php:956
+msgid "JS, CSS  &amp; HTML"
+msgstr "JS, CSS 和 HTML"
+
+#: classes/autoptimizeConfig.php:457
+msgid "When aggregating JS or CSS, excluded files that are not minified (based on filename) are by default minified by Autoptimize despite being excluded. Uncheck this option if anything breaks despite excluding."
+msgstr "聚合JS或CSS时, 未缩小的例外文件(基于文件名)在默认情况下会被 Autotimize 缩小, 尽管已被排除。如果有任何内容在排除时中断, 请取消选中此选项。"
+
+#: classes/autoptimizeConfig.php:455
+msgid "Minify excluded CSS and JS files?"
+msgstr "压缩排除的 CSS 和 JS 文件?"
+
+#: classes/autoptimizeImages.php:1405
+msgid "Comma-separated list of to be excluded image classes or filenames."
+msgstr "以逗号分隔的列表, 用于排除图像类或文件名。"
+
+#: classes/autoptimizeImages.php:1403
+msgid "Lazy-load exclusions"
+msgstr "延迟加载排除"
+
+#: classes/autoptimizeImages.php:1399
+msgid "Image lazy-loading will delay the loading of non-visible images to allow the browser to optimally load all resources for the \"above the fold\"-page first."
+msgstr "图像延迟加载将延迟加载不可见图像, 以允许浏览器首先为 \"首屏\" 页面最佳地加载所有资源。"
+
+#: classes/autoptimizeImages.php:1397
+msgid "Lazy-load images?"
+msgstr "\"延迟加载\" 图像?"
+
+#: classes/autoptimizeImages.php:1384
+msgid "Load AVIF in supported browsers?"
+msgstr "在支持的浏览器中加载WebP吗？"
+
+#: classes/autoptimizeImages.php:1299
+msgid "Image optimization"
+msgstr "图像优化"
+
+#. translators: "disable  Jetpack's site accelerator for images" will appear in
+#. a "a href" linking to the jetpack settings page.
+#: classes/autoptimizeImages.php:1293
+msgid "Please %1$sdisable Jetpack's site accelerator for images%2$s to be able to use Autoptomize's advanced image optimization features below."
+msgstr "请 %2$s 对图像禁用 Jetpack 的站点加速器 %1$s 以便能够使用下面 Autotomize 的高级图像优化功能。"
+
+#: classes/autoptimizeImages.php:1239 classes/autoptimizeImages.php:1263
+msgid "Images"
+msgstr "图像"
+
+#. Description of the plugin
+msgid "Makes your site faster by optimizing CSS, JS, Images, Google fonts and more."
+msgstr "通过优化 CSS, JS, 图像, Google字体等来使您的网站更快。"
+
+#: classes/autoptimizeImages.php:1484
+msgid "based on previously fetched data"
+msgstr "基于先前获取的数据"
+
+#: classes/autoptimizeImages.php:1482
+msgid "based on status at "
+msgstr "基于身份 "
+
+#. Translators: the URL added points to the Autopmize Extra settings.
+#: classes/autoptimizeMain.php:766
+msgid "Did you know that Autoptimize offers on-the-fly image optimization (with support for WebP and AVIF) and CDN via ShortPixel? Check out the %1$sAutoptimize Image settings%2$s to enable this option."
+msgstr "您是否知道 Autoptimize 包括动态图像优化 (支持WebP) 和通过 ShortPixel 进行的 CDN? 请查看 %1$sAutoptimize 图像设置%2$s 以激活此选项。"
+
+#. translators: link points Async Javascript settings page.
+#: classes/autoptimizeExtra.php:604
+msgid "You have \"Async JavaScript\" installed, %1$sconfiguration of async javascript is best done there%2$s."
+msgstr "您已安装 \"Async JavaScript\", 最好在 %2$s 进行 %1$s 异步 javascript 配置。"
+
+#. translators: link points to shortpixel image test page.
+#: classes/autoptimizeImages.php:1375
+msgid "You can %1$stest compression levels here%2$s."
+msgstr "您可以在%2$s这里%1$s测试压缩级别。"
+
+#. translators: links points to shortpixel TOS & Privacy Policy.
+#: classes/autoptimizeImages.php:1341
+msgid "Usage of this feature is subject to Shortpixel's %1$sTerms of Use%2$s and %3$sPrivacy policy%4$s."
+msgstr "此功能的使用受 Shortpixel 的 %1$s使用条款%2$s 和 %3$s隐私权政策%4$s 的约束。"
+
+#. translators: link points to shortpixel FAQ.
+#: classes/autoptimizeImages.php:1338
+msgid "<strong>Questions</strong>? Take a look at the %1$sAutoptimize + ShortPixel FAQ%2$s!"
+msgstr "<strong>有问题</strong>? 看看 %1$sShortPixel 常见问题解答%2$s!"
+
+#: classes/autoptimizeImages.php:1353
+msgid "Image Optimization quality"
+msgstr "图像优化质量"
+
+#: classes/autoptimizeImages.php:1330
+msgid "For a limited time only, this service is offered free for all Autoptimize users, <b>don't miss the chance to test it</b> and see how much it could improve your site's speed."
+msgstr "这项服务只在有限的时间内免费提供给所有自动优化用户, <b>不要错过测试它的机会</b>看看它能在多大程度上提高您网站的速度。"
+
+#: classes/autoptimizeImages.php:1325
+msgid "Shortpixel status: "
+msgstr "Shortpixel 状态: "
+
+#. translators: "display:swap" should remain untranslated, will be shown in
+#. code tags.
+#: classes/autoptimizeExtra.php:564
+msgid "Combine and link deferred in head (fonts load late, but are not render-blocking)"
+msgstr "在头部组合和预加载(字体加载较晚, 但不是渲染阻塞)"
+
+#. translators: "display:swap" should remain untranslated, will be shown in
+#. code tags.
+#: classes/autoptimizeExtra.php:562
+msgid "Combine and link in head (fonts load fast but are render-blocking)"
+msgstr "组合并链接在头部(字体加载速度快但是渲染阻塞)"
+
+#: classes/autoptimizeImages.php:1285
+msgid "The image optimization service is launching, but not yet available for this domain, it should become available in the next couple of days."
+msgstr "图片优化服务正在启动, 但尚未针对此域提供, 它将在未来几天内推出。"
+
+#. translators: "Autoptimize support forum" will appear in a "a href".
+#: classes/autoptimizeImages.php:1278
+msgid "The image optimization service is currently down, image optimization will be skipped until further notice. Check the %1$sAutoptimize support forum%2$s for more info."
+msgstr "图像优化服务当前已关闭, 将跳过图像优化, 直至另行通知。查看 %1$sAutoptimize 支持论坛%2$s 获取更多信息。"
+
+#: classes/autoptimizeExtra.php:547
+msgid "Most of below Extra optimizations require at least one of HTML, JS, CSS or Image autoptimizations being active."
+msgstr "以下大多数额外优化需要至少一个 HTML, JS, CSS 或图像自动优化处于活动状态。"
+
+#. translators: "log in to check your account" will appear in a "a href".
+#: classes/autoptimizeImages.php:1469
+msgid "Your ShortPixel image optimization and CDN quota are in good shape, %1$slog in to check your account%2$s."
+msgstr "您的小像素图像优化和 CDN 配额处于良好状态, 请 %1$s登录检查您的帐户%2$s。"
+
+#: classes/autoptimizeConfig.php:300
+msgid "Aggregate all linked CSS-files? If this option is off, the individual CSS-files will remain in place but will be minified."
+msgstr "合并所有链接的CSS文件? 如果禁用此选项, 则各个CSS文件将保留在原位但将缩小。"
+
+#: classes/autoptimizeConfig.php:298
+msgid "Aggregate CSS-files?"
+msgstr "合并CSS文件?"
+
+#: classes/autoptimizeConfig.php:234
+msgid "Aggregate JS-files?"
+msgstr "合并JS文件?"
+
+#: autoptimize.php:33
+msgid "Autoptimize requires PHP 5.6 (or higher) to function properly. Please upgrade PHP. The Plugin has been auto-deactivated."
+msgstr "Autoptimize 需要 PHP 5.6(或更高版本)才能正常运行。请升级PHP。该插件已被自动停用。"
+
+#: classes/autoptimizePartners.php:84
+msgid "More info"
+msgstr "更多信息"
+
+#. translators: %s will be replaced by a link to "wp youtube lyte" plugin.
+#: classes/autoptimizeExtra.php:629
+msgid "%s allows you to “lazy load” your videos, by inserting responsive “Lite YouTube Embeds\". "
+msgstr "%s允许您通过插入自适应的\" Lite YouTube Embeds\"来\"延迟加载\"视频。 "
+
+#: classes/autoptimizeExtra.php:626
+msgid "Click here to configure it."
+msgstr "单击此处进行配置。"
+
+#: classes/autoptimizeExtra.php:624
+msgid "Great, you have WP YouTube Lyte installed."
+msgstr "太棒了, 你安装了WP YouTube Lyte。"
+
+#: classes/autoptimizeExtra.php:620
+msgid "Optimize YouTube videos"
+msgstr "优化YouTube视频"
+
+#: classes/autoptimizeExtra.php:614 classes/autoptimizeExtra.php:631
+msgid "Click here to install and activate it."
+msgstr "单击此处安装并激活它。"
+
+#. translators: %s will be replaced by a link to the "async javascript" plugin.
+#: classes/autoptimizeExtra.php:612
+msgid "Configuration of async javascript is easier and more flexible using the %s plugin."
+msgstr "使用%s插件, 配置异步 javascript 更容易, 更灵活。"
+
+#: classes/autoptimizeExtra.php:610
+msgid "Comma-separated list of local or 3rd party JS-files that should loaded with the <code>async</code> flag. JS-files from your own site will be automatically excluded if added here. "
+msgstr "应该使用 <code>async</code> 标志加载的本地或第三方JS文件的逗号分隔列表。如果在这里添加，自己网站的 JS 文件将被自动排除。 "
+
+#: classes/autoptimizeExtra.php:599
+msgid "Async Javascript-files <em>(advanced users)</em>"
+msgstr "异步 Javascript 文件<em>(高级用户)</em>"
+
+#: classes/autoptimizeExtra.php:589
+msgid "Add 3rd party domains you want the browser to <a href=\"https://www.keycdn.com/support/preconnect/#primary\" target=\"_blank\">preconnect</a> to, separated by comma's. Make sure to include the correct protocol (HTTP or HTTPS)."
+msgstr "添加您希望浏览器<a href=\"https://www.keycdn.com/support/preconnect/#primary\" target=\"_blank\">预连接</a>的第三方域名, 以逗号分隔。确保包含正确的协议(HTTP或HTTPS)。"
+
+#: classes/autoptimizeExtra.php:587
+msgid "Preconnect to 3rd party domains <em>(advanced users)</em>"
+msgstr "预先连接到第三方域<em>(高级用户)</em>"
+
+#: classes/autoptimizeExtra.php:565
+msgid "Combine and load fonts asynchronously with <a href=\"https://github.com/typekit/webfontloader#readme\" target=\"_blank\">webfont.js</a>"
+msgstr "使用 <a href=\"https://github.com/typekit/webfontloader#readme\" target=\"_blank\">webfont.js</a> 异步合并和加载字体"
+
+#: classes/autoptimizeExtra.php:559
+msgid "Leave as is"
+msgstr "保持原样"
+
+#: classes/autoptimizeExtra.php:557
+msgid "Google Fonts"
+msgstr "Google 字体"
+
+#: classes/autoptimizeExtra.php:577
+msgid "Removing query strings (or more specifically the <code>ver</code> parameter) will not improve load time, but might improve performance scores."
+msgstr "删除查询字符串(或更具体地说, <code> ver </code>参数)不会改善加载时间, 但可能会提高性能分数。"
+
+#: classes/autoptimizeExtra.php:575
+msgid "Remove query strings from static resources"
+msgstr "从静态资源中删除查询字符串"
+
+#: classes/autoptimizeExtra.php:571
+msgid "Removes WordPress' core emojis' inline CSS, inline JavaScript, and an otherwise un-autoptimized JavaScript file."
+msgstr "移除WordPress核心繪文字的内联CSS, 内联JavaScript和其他未自动优化的JavaScript文件。"
+
+#: classes/autoptimizeExtra.php:569
+msgid "Remove emojis"
+msgstr "移除 emojis"
+
+#: classes/autoptimizeExtra.php:554
+msgid "The following settings can improve your site's performance even more."
+msgstr "以下设置可以进一步提高网站的性能。"
+
+#: classes/autoptimizeExtra.php:553
+msgid "Extra Auto-Optimizations"
+msgstr "额外的自动优化"
+
+#: classes/autoptimizeExtra.php:519 classes/autoptimizeExtra.php:541
+msgid "Extra"
+msgstr "额外"
+
+#: classes/autoptimizeCLI.php:30
+msgid "Cache flushed."
+msgstr "缓存已刷新。"
+
+#: classes/autoptimizeCLI.php:28
+msgid "Flushing the cache..."
+msgstr "正在刷新缓存..."
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+msgid "https://autoptimize.com/pro/"
+msgstr "https://autoptimize.com/"
+
+#. translators: links to the Autoptimize settings page.
+#: classes/autoptimizeToolbar.php:152
+msgid "Your Autoptimize cache might not have been purged successfully, please check on the <a href=%s>Autoptimize settings page</a>."
+msgstr "您的 Autoptimize 缓存可能尚未成功清除, 请检查<a href=%s>Autoptimize 设置页面</a>。"
+
+#: classes/autoptimizeConfig.php:526
+msgid "Need help? <a href='https://wordpress.org/plugins/autoptimize/faq/'>Check out the FAQ here</a>."
+msgstr "需要帮助吗? <a href='https://wordpress.org/plugins/autoptimize/faq/'>在这里查看常见问题解答</a>."
+
+#: classes/autoptimizeConfig.php:475
+msgid "By default Autoptimize is also active on your shop's cart/ checkout, uncheck not to optimize those."
+msgstr "默认情况下, Autoptimize 也会优化商品的购物车和结账页, 取消选中不优化这些页面。"
+
+#: classes/autoptimizeConfig.php:473
+msgid "Also optimize shop cart/ checkout?"
+msgstr "优化购物车/结帐?"
+
+#: classes/autoptimizeConfig.php:441
+msgid "Misc Options"
+msgstr "杂项"
+
+#. translators: Kilobytes + timestamp shown.
+#: classes/autoptimizeConfig.php:432
+msgid "%1$s files, totalling %2$s (calculated at %3$s)"
+msgstr "%1$s 个文件, 合计 %2$s Kbytes (以 %3$s 计算)"
+
+#: classes/autoptimizeConfig.php:268 classes/autoptimizeConfig.php:317
+#: classes/autoptimizeExtra.php:565
+msgid "(deprecated)"
+msgstr "(废弃)"
+
+#. Translators: %s is the cache directory location.
+#: classes/autoptimizeMain.php:745
+msgid "Autoptimize cannot write to the cache directory (%s), please fix to enable CSS/ JS optimization!"
+msgstr "Autoptimize 无法写入缓存目录(%s), 请修复以启用 CSS/JS 优化!"
+
+#: classes/autoptimizePartners.php:56
+msgid "Have a look at <a href=\"http://optimizingmatters.com/\">optimizingmatters.com</a> for Autoptimize power-ups!"
+msgstr "查看 <a href=\"http://optimizingmatters.com/\">optimizematters.com</a> 以获取 Autoptimize 更多功能！"
+
+#: classes/autoptimizePartners.php:146
+msgid "These Autoptimize power-ups and related services will improve your site's performance even more!"
+msgstr "这些 Autoptimize 功能和相关服务将会提高您网站的性能!"
+
+#: classes/autoptimizePartners.php:40 classes/autoptimizePartners.php:142
+msgid "Optimize More!"
+msgstr "优化更多!"
+
+#: classes/autoptimizeCacheChecker.php:67
+msgid "Autoptimize's cache size is getting big, consider purging the cache. Have a look at https://wordpress.org/plugins/autoptimize/faq/ to see how you can keep the cache size under control."
+msgstr "Autoptimize 的缓存越来越大, 请考虑清除缓存。看看 https://wordpress.org/plugins/autoptimize/faq/ 看看如何保持高速缓存的大小。"
+
+#: classes/autoptimizeCacheChecker.php:66
+msgid "Autoptimize cache size warning"
+msgstr "Autoptimize 缓存大小警告"
+
+#. translators: links to the Autoptimize settings page.
+#: classes/autoptimizeToolbar.php:153
+msgid "Dismiss this notice."
+msgstr "关闭此通知。"
+
+#: classes/autoptimizeToolbar.php:107
+msgid "Files"
+msgstr "文件"
+
+#: classes/autoptimizeToolbar.php:106
+msgid "Size"
+msgstr "尺寸"
+
+#: classes/autoptimizeConfig.php:380
+msgid "Enable this if you want HTML comments to remain in the page."
+msgstr "如果您希望保留 HTML 注释在页面中, 请启用此功能。"
+
+#: classes/autoptimizeCacheChecker.php:92
+msgid "<strong>Autoptimize's cache size is getting big</strong>, consider purging the cache. Have a look at <a href=\"https://wordpress.org/plugins/autoptimize/faq/\" target=\"_blank\" rel=\"noopener noreferrer\">the Autoptimize FAQ</a> to see how you can keep the cache size under control."
+msgstr "<strong>Autoptimize 的缓存大小越来越大</strong>, 请考虑清除缓存。请查看<a href=\"https://wordpress.org/plugins/autoptimize/faq/\" target=\"_blank\" rel=\"noopener noreferrer\">Autoptimize 常见问题解答</a>, 了解如何保留缓存大小受控制。"
+
+#. translators: the variable contains a date.
+#: classes/autoptimizeConfig.php:942
+msgid "Posted %s"
+msgstr "发表 %s"
+
+#: classes/autoptimizeConfig.php:936
+msgid "No items"
+msgstr "无项目"
+
+#: classes/autoptimizeConfig.php:527
+msgid "Try my other plugins!"
+msgstr "试试我的其他插件!"
+
+#: classes/autoptimizeConfig.php:527
+msgid "Happy with Autoptimize?"
+msgstr "满意 Autoptimize 吗?"
+
+#: classes/autoptimizeConfig.php:305
+msgid "Check this option for Autoptimize to also aggregate CSS in the HTML."
+msgstr "勾选此选项 Autoptimize 也聚合 CSS 到 HTML 里面。"
+
+#: classes/autoptimizeConfig.php:303
+msgid "Also aggregate inline CSS?"
+msgstr "合并内联 CSS?"
+
+#: classes/autoptimizeExtra.php:560
+msgid "Remove Google Fonts"
+msgstr "删除谷歌字体"
+
+#: classes/autoptimizeConfig.php:239
+msgid "Also aggregate inline JS?"
+msgstr "合并内联JS?"
+
+#. Author of the plugin
+msgid "Frank Goossens (futtta)"
+msgstr "Frank Goossens (futtta)"
+
+#: classes/autoptimizeConfig.php:789 classes/autoptimizeConfig.php:795
+msgid "Settings"
+msgstr "设置"
+
+#: classes/autoptimizeConfig.php:720 classes/autoptimizeConfig.php:723
+#: classes/autoptimizeConfig.php:726
+msgid "Autoptimize Options"
+msgstr "Autoptimize 选项"
+
+#: classes/autoptimizeConfig.php:542
+msgid "Do not donate for this plugin!"
+msgstr "不捐赠此插件!"
+
+#. Plugin Name of the plugin
+#: classes/autoptimizeCacheChecker.php:110 classes/autoptimizeConfig.php:717
+#: classes/autoptimizeToolbar.php:82
+msgid "Autoptimize"
+msgstr "Autoptimize"
+
+#: classes/autoptimizeConfig.php:502
+msgid "Save Changes and Empty Cache"
+msgstr "保存更改并清空缓存"
+
+#: classes/autoptimizeConfig.php:501
+#: classes/autoptimizeCriticalCSSSettings.php:357
+#: classes/autoptimizeExtra.php:637 classes/autoptimizeImages.php:1415
+msgid "Save Changes"
+msgstr "保存更改"
+
+#: classes/autoptimizeConfig.php:446
+msgid "By default files saved are static css/js, uncheck this option if your webserver doesn't properly handle the compression and expiry."
+msgstr "默认情况下, 优化后的代码会保存为静态的 CSS 和 JS 文件, 如果您的Web服务器不能正确处理压缩和过期, 请取消选中此选项。"
+
+#: classes/autoptimizeConfig.php:444
+msgid "Save aggregated script/css as static files?"
+msgstr "保存合并后的 JS/CSS资源为静态文件?"
+
+#: classes/autoptimizeConfig.php:421
+msgid "Cached styles and scripts"
+msgstr "已缓存的CSS 和 JS"
+
+#: classes/autoptimizeConfig.php:418
+msgid "No"
+msgstr "否"
+
+#: classes/autoptimizeConfig.php:418
+msgid "Yes"
+msgstr "是"
+
+#: classes/autoptimizeConfig.php:417
+msgid "Can we write?"
+msgstr "可写入?"
+
+#: classes/autoptimizeConfig.php:413
+msgid "Cache folder"
+msgstr "缓存文件夹"
+
+#: classes/autoptimizeConfig.php:410
+msgid "Cache Info"
+msgstr "缓存信息"
+
+#: classes/autoptimizeConfig.php:389
+msgid "CDN Base URL"
+msgstr "CDN 基本 URL"
+
+#: classes/autoptimizeConfig.php:386
+msgid "CDN Options"
+msgstr "CDN选项"
+
+#: classes/autoptimizeConfig.php:349
+msgid "A comma-separated list of CSS you want to exclude from being optimized."
+msgstr "输入需要排除的 CSS(以英文逗号分隔)。"
+
+#: classes/autoptimizeConfig.php:346
+msgid "Exclude CSS from Autoptimize:"
+msgstr "不处理以下 CSS:"
+
+#: classes/autoptimizeConfig.php:341
+msgid "Inline all CSS?"
+msgstr "内联所有 CSS?"
+
+#: classes/autoptimizeConfig.php:328
+msgid "Inline \"above the fold CSS\" while loading the main autoptimized CSS only after page load. <a href=\"https://wordpress.org/plugins/autoptimize/faq/\" target=\"_blank\">Check the FAQ</a> for more info."
+msgstr "内联“首屏CSS”，然后在页面加载后加载自动优化后的CSS。查看<a href=\"http://wordpress.org/plugins/autoptimize/faq/\" target=\"_blank\">常见问题</a>了解更多信息。"
+
+#: classes/autoptimizeConfig.php:321
+msgid "Don't autoptimize CSS outside the head-section. If the cache gets big, you might want to enable this."
+msgstr "不要自动优化头部之外的 CSS。如果缓存变得大了, 你可能要启用这个功能。"
+
+#: classes/autoptimizeConfig.php:316
+msgid "Look for styles only in &lt;head&gt;?"
+msgstr "只在 &lt;head&gt; 寻找样式?"
+
+#: classes/autoptimizeConfig.php:310
+msgid "Enable this to include small background-images in the CSS itself instead of as separate downloads."
+msgstr "启用它可以在CSS中包含小的背景图像, 而不是单独的下载。"
+
+#: classes/autoptimizeConfig.php:308
+msgid "Generate data: URIs for images?"
+msgstr "生成小图片为Base64 数据?"
+
+#: classes/autoptimizeConfig.php:294
+msgid "Optimize CSS Code?"
+msgstr "启用 CSS 优化?"
+
+#: classes/autoptimizeConfig.php:291
+msgid "CSS Options"
+msgstr "CSS 选项"
+
+#: classes/autoptimizeConfig.php:249
+msgid "Add try-catch wrapping?"
+msgstr "添加捕捉异常包装?"
+
+#: classes/autoptimizeConfig.php:276
+msgid "Exclude scripts from Autoptimize:"
+msgstr "从 Autoptimize 排除脚本:"
+
+#: classes/autoptimizeConfig.php:272
+msgid "Mostly useful in combination with previous option when using jQuery-based templates, but might help keeping cache size under control."
+msgstr "在使用基于 jQuery 的模板时与以前的选项结合使用非常有用, 但可能有助于控制缓存大小。"
+
+#: classes/autoptimizeConfig.php:267
+msgid "Look for scripts only in &lt;head&gt;?"
+msgstr "只处理 &lt;head&gt; 中的脚本?"
+
+#: classes/autoptimizeConfig.php:244
+msgid "Force JavaScript in &lt;head&gt;?"
+msgstr "把JavaScript文件放在 &lt;head&gt; 中?"
+
+#: classes/autoptimizeConfig.php:230
+msgid "Optimize JavaScript Code?"
+msgstr "启用 JavaScript 优化?"
+
+#: classes/autoptimizeConfig.php:227
+msgid "JavaScript Options"
+msgstr "JavaScript 选项"
+
+#: classes/autoptimizeConfig.php:378
+msgid "Keep HTML comments?"
+msgstr "保留 HTML 注释吗?"
+
+#: classes/autoptimizeConfig.php:369
+msgid "Optimize HTML Code?"
+msgstr "优化 HTML 代码吗?"
+
+#: classes/autoptimizeConfig.php:366
+msgid "HTML Options"
+msgstr "HTML 选项"
+
+#: classes/autoptimizeConfig.php:94 classes/autoptimizeConfig.php:200
+#: classes/autoptimizeCriticalCSSSettings.php:135
+#: classes/autoptimizeExtra.php:543 classes/autoptimizeImages.php:1265
+#: classes/autoptimizePartners.php:144
+msgid "Autoptimize Settings"
+msgstr "Autoptimize 设置"
+
+#: classes/autoptimizeMain.php:759
+msgid "Autoptimize has just been updated. Please <strong>test your site now</strong> and adapt Autoptimize config if needed."
+msgstr "Autoptimize 刚刚被更新。请 <strong>立即</strong> 测试您的网站, 如有需要请修改 Autoptimize 配置。"
+
+#: classes/autoptimizeMain.php:752
+msgid "Thank you for installing and activating Autoptimize. Please configure it under %1$sSettings -> Autoptimize%2$s to start improving your site's performance."
+msgstr "感谢您安装和激活 Autoptimize。请在 \"设置\" -> \"Autoptimize\" 里配置它去开始改善你的网站性能。"

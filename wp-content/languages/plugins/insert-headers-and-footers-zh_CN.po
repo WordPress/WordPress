@@ -1,0 +1,38 @@
+# Translation of Plugins - WPCode &#8211; Insert Headers and Footers + Custom Code Snippets &#8211; WordPress Code Manager - Stable (latest release) in Chinese (China)
+# This file is distributed under the same license as the Plugins - WPCode &#8211; Insert Headers and Footers + Custom Code Snippets &#8211; WordPress Code Manager - Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2020-06-21 10:09:20+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: GlotPress/4.0.0-alpha.4\n"
+"Language: zh_CN\n"
+"Project-Id-Version: Plugins - WPCode &#8211; Insert Headers and Footers + Custom Code Snippets &#8211; WordPress Code Manager - Stable (latest release)\n"
+
+#. translators: %s: The `</body>` tag
+#: includes/admin/pages/class-wpcode-admin-page-headers-footers.php:153
+msgid "These scripts will be printed above the closing %s tag."
+msgstr "这些脚本将显示在结束%s标记上方。"
+
+#. translators: %s: The `<head>` tag
+#: includes/admin/pages/class-wpcode-admin-page-headers-footers.php:143
+msgid "These scripts will be printed in the %s section."
+msgstr "这些脚本将显示在%s部分中。"
+
+#. translators: %s: The `<head>` tag
+#: includes/admin/pages/class-wpcode-admin-page-headers-footers.php:148
+msgid "These scripts will be printed just below the opening %s tag."
+msgstr "这些脚本将被显示在%s标记的下方。"
+
+#: includes/admin/class-wpcode-admin-page-loader.php:193
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:38
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:180
+msgid "Settings"
+msgstr "设置"
+
+#: includes/admin/pages/class-wpcode-admin-page-headers-footers.php:282
+#: includes/admin/pages/class-wpcode-admin-page-settings.php:224
+msgid "Settings Saved."
+msgstr "设置已保存。"
