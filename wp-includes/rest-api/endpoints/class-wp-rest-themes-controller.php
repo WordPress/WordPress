@@ -326,6 +326,10 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
 			}
 		}
 
+		if ( rest_is_field_included( 'is_block_theme', $fields ) ) {
+			$data['is_block_theme'] = $theme->is_block_theme();
+		}
+
 		$data = $this->add_additional_fields_to_object( $data, $request );
 
 		// Wrap the data in a response object.
@@ -493,6 +497,11 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
 							'type'        => 'string',
 						),
 					),
+				),
+				'is_block_theme' => array(
+					'description' => __( 'Whether the theme is a block-based theme.' ),
+					'type'        => 'boolean',
+					'readonly'    => true,
 				),
 				'name'           => array(
 					'description' => __( 'The name of the theme.' ),
