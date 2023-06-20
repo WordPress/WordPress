@@ -460,7 +460,7 @@ function wp_get_computed_fluid_typography_value( $args = array() ) {
  * @since 6.1.0
  * @since 6.1.1 Adjusted rules for min and max font sizes.
  * @since 6.2.0 Added 'settings.typography.fluid.minFontSize' support.
- * @since 6.3.0 Using layout.wideSize as max viewport width.
+ * @since 6.3.0 Using layout.wideSize as max viewport width, and logarithmic scale factor to calculate minimum font scale.
  *
  * @param array $preset                     {
  *     Required. fontSizes preset value as seen in theme.json.
@@ -507,12 +507,14 @@ function wp_get_typography_font_size_value( $preset, $should_use_fluid_typograph
 		: array();
 
 	// Defaults.
-	$default_maximum_viewport_width   = isset( $layout_settings['wideSize'] ) ? $layout_settings['wideSize'] : '1600px';
-	$default_minimum_viewport_width   = '768px';
-	$default_minimum_font_size_factor = 0.75;
-	$default_scale_factor             = 1;
-	$has_min_font_size                = isset( $fluid_settings['minFontSize'] ) && ! empty( wp_get_typography_value_and_unit( $fluid_settings['minFontSize'] ) );
-	$default_minimum_font_size_limit  = $has_min_font_size ? $fluid_settings['minFontSize'] : '14px';
+	$default_maximum_viewport_width       = isset( $layout_settings['wideSize'] ) ? $layout_settings['wideSize'] : '1600px';
+	$default_minimum_viewport_width       = '320px';
+	$default_minimum_font_size_factor_max = 0.75;
+	$default_minimum_font_size_factor_min = 0.25;
+	$default_scale_factor                 = 1;
+	$has_min_font_size                    = isset( $fluid_settings['minFontSize'] ) &&
+		! empty( wp_get_typography_value_and_unit( $fluid_settings['minFontSize'] ) );
+	$default_minimum_font_size_limit      = $has_min_font_size ? $fluid_settings['minFontSize'] : '14px';
 
 	// Font sizes.
 	$fluid_font_size_settings = isset( $preset['fluid'] ) ? $preset['fluid'] : null;
@@ -567,10 +569,16 @@ function wp_get_typography_font_size_value( $preset, $should_use_fluid_typograph
 	 * the given font size multiplied by the min font size scale factor.
 	 */
 	if ( ! $minimum_font_size_raw ) {
-		$calculated_minimum_font_size = round(
-			$preferred_size['value'] * $default_minimum_font_size_factor,
-			3
-		);
+		$preferred_font_size_in_px = 'px' === $preferred_size['unit'] ? $preferred_size['value'] : $preferred_size['value'] * 16;
+
+		/*
+		 * The scale factor is a multiplier that affects how quickly the curve will move towards the minimum,
+		 * that is, how quickly the size factor reaches 0 given increasing font size values.
+		 * For a - b * log2(), lower values of b will make the curve move towards the minimum faster.
+		 * The scale factor is constrained between min and max values.
+		 */
+		$minimum_font_size_factor     = min( max( 1 - 0.075 * log( $preferred_font_size_in_px, 2 ), $default_minimum_font_size_factor_min ), $default_minimum_font_size_factor_max );
+		$calculated_minimum_font_size = round( $preferred_size['value'] * $minimum_font_size_factor, 3 );
 
 		// Only use calculated min font size if it's > $minimum_font_size_limit value.
 		if ( ! empty( $minimum_font_size_limit ) && $calculated_minimum_font_size <= $minimum_font_size_limit['value'] ) {
