@@ -368,6 +368,7 @@ function wp_get_typography_value_and_unit( $raw_value, $options = array() ) {
  * width and min/max font sizes.
  *
  * @since 6.1.0
+ * @since 6.3.0 Checks for unsupported min/max viewport values that cause invalid clamp values.
  * @access private
  *
  * @param array $args {
@@ -433,6 +434,11 @@ function wp_get_computed_fluid_typography_value( $args = array() ) {
 		)
 	);
 
+	// Protects against unsupported units in min and max viewport widths.
+	if ( ! $minimum_viewport_width || ! $maximum_viewport_width ) {
+		return null;
+	}
+
 	/*
 	 * Build CSS rule.
 	 * Borrowed from https://websemantics.uk/tools/responsive-font-calculator/.
@@ -454,6 +460,7 @@ function wp_get_computed_fluid_typography_value( $args = array() ) {
  * @since 6.1.0
  * @since 6.1.1 Adjusted rules for min and max font sizes.
  * @since 6.2.0 Added 'settings.typography.fluid.minFontSize' support.
+ * @since 6.3.0 Using layout.wideSize as max viewport width.
  *
  * @param array $preset                     {
  *     Required. fontSizes preset value as seen in theme.json.
@@ -480,7 +487,10 @@ function wp_get_typography_font_size_value( $preset, $should_use_fluid_typograph
 	}
 
 	// Checks if fluid font sizes are activated.
-	$typography_settings = wp_get_global_settings( array( 'typography' ) );
+	$global_settings     = wp_get_global_settings();
+	$typography_settings = isset( $global_settings['typography'] ) ? $global_settings['typography'] : array();
+	$layout_settings     = isset( $global_settings['layout'] ) ? $global_settings['layout'] : array();
+
 	if (
 		isset( $typography_settings['fluid'] ) &&
 		( true === $typography_settings['fluid'] || is_array( $typography_settings['fluid'] ) )
@@ -497,7 +507,7 @@ function wp_get_typography_font_size_value( $preset, $should_use_fluid_typograph
 		: array();
 
 	// Defaults.
-	$default_maximum_viewport_width   = '1600px';
+	$default_maximum_viewport_width   = isset( $layout_settings['wideSize'] ) ? $layout_settings['wideSize'] : '1600px';
 	$default_minimum_viewport_width   = '768px';
 	$default_minimum_font_size_factor = 0.75;
 	$default_scale_factor             = 1;
