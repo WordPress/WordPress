@@ -674,18 +674,21 @@ function _is_valid_nav_menu_item( $item ) {
  * @param array              $args {
  *     Optional. Arguments to pass to get_posts().
  *
- *     @type string $order       How to order nav menu items as queried with get_posts(). Will be ignored
- *                               if 'output' is ARRAY_A. Default 'ASC'.
- *     @type string $orderby     Field to order menu items by as retrieved from get_posts(). Supply an orderby
- *                               field via 'output_key' to affect the output order of nav menu items.
- *                               Default 'menu_order'.
- *     @type string $post_type   Menu items post type. Default 'nav_menu_item'.
- *     @type string $post_status Menu items post status. Default 'publish'.
- *     @type string $output      How to order outputted menu items. Default ARRAY_A.
- *     @type string $output_key  Key to use for ordering the actual menu items that get returned. Note that
- *                               that is not a get_posts() argument and will only affect output of menu items
- *                               processed in this function. Default 'menu_order'.
- *     @type bool   $nopaging    Whether to retrieve all menu items (true) or paginate (false). Default true.
+ *     @type string $order                  How to order nav menu items as queried with get_posts().
+ *                                          Will be ignored if 'output' is ARRAY_A. Default 'ASC'.
+ *     @type string $orderby                Field to order menu items by as retrieved from get_posts().
+ *                                          Supply an orderby field via 'output_key' to affect the
+ *                                          output order of nav menu items. Default 'menu_order'.
+ *     @type string $post_type              Menu items post type. Default 'nav_menu_item'.
+ *     @type string $post_status            Menu items post status. Default 'publish'.
+ *     @type string $output                 How to order outputted menu items. Default ARRAY_A.
+ *     @type string $output_key             Key to use for ordering the actual menu items that get
+ *                                          returned. Note that that is not a get_posts() argument
+ *                                          and will only affect output of menu items processed in
+ *                                          this function. Default 'menu_order'.
+ *     @type bool   $nopaging               Whether to retrieve all menu items (true) or paginate
+ *                                          (false). Default true.
+ *     @type bool   $update_menu_item_cache Whether to update the menu item cache. Default true.
  * }
  * @return array|false Array of menu items, otherwise false.
  */
