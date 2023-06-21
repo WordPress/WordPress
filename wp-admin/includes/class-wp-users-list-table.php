@@ -393,8 +393,8 @@ class WP_Users_List_Table extends WP_List_Table {
 	 */
 	protected function get_sortable_columns() {
 		$columns = array(
-			'username' => 'login',
-			'email'    => 'email',
+			'username' => array( 'login', false, __( 'Username' ), __( 'Table ordered by Username.' ), 'asc' ),
+			'email'    => array( 'email', false, __( 'E-mail' ), __( 'Table ordered by E-mail.' ) ),
 		);
 
 		return $columns;

@@ -1109,10 +1109,17 @@ class WP_List_Table {
 	 *
 	 * The format is:
 	 * - `'internal-name' => 'orderby'`
+	 * - `'internal-name' => array( 'orderby', bool, 'abbr', 'orderby-text', 'initially-sorted-column-order' )` -
 	 * - `'internal-name' => array( 'orderby', 'asc' )` - The second element sets the initial sorting order.
 	 * - `'internal-name' => array( 'orderby', true )`  - The second element makes the initial order descending.
 	 *
+	 * In the second format, passing true as second parameter will make the initial
+	 * sorting order be descending. Following parameters add a short column name to
+	 * be used as 'abbr' attribute, a translatable string for the current sorting
+	 * and the initial order for the initial sorted column, 'asc' or 'desc' (default: false).
+	 *
 	 * @since 3.1.0
+	 * @since 6.3.0 Added 'abbr', 'orderby-text' and 'initially-sorted-column-order'.
 	 *
 	 * @return array
 	 */
@@ -1253,8 +1260,21 @@ class WP_List_Table {
 			}
 
 			$data = (array) $data;
+			// Descending initial sorting.
 			if ( ! isset( $data[1] ) ) {
 				$data[1] = false;
+			}
+			// Current sorting translatable string.
+			if ( ! isset( $data[2] ) ) {
+				$data[2] = '';
+			}
+			// Initial view sorted column and asc/desc order, default: false.
+			if ( ! isset( $data[3] ) ) {
+				$data[3] = false;
+			}
+			// Initial order for the initial sorted column, default: false.
+			if ( ! isset( $data[4] ) ) {
+				$data[4] = false;
 			}
 
 			$sortable[ $id ] = $data;
@@ -1292,15 +1312,19 @@ class WP_List_Table {
 		$current_url = set_url_scheme( 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
 		$current_url = remove_query_arg( 'paged', $current_url );
 
+		// When users click on a column header to sort by other columns.
 		if ( isset( $_GET['orderby'] ) ) {
 			$current_orderby = $_GET['orderby'];
+			// In the initial view there's no orderby parameter.
 		} else {
 			$current_orderby = '';
 		}
 
-		if ( isset( $_GET['order'] ) && 'desc' === $_GET['order'] ) {
+		// Not in the initial view and descending order.
+		if ( isset( $_GET['order'] ) && 'desc' == $_GET['order'] ) {
 			$current_order = 'desc';
 		} else {
+			// The initial view is not always 'asc' we'll take care of this below.
 			$current_order = 'asc';
 		}
 
@@ -1317,7 +1341,10 @@ class WP_List_Table {
 		}
 
 		foreach ( $columns as $column_key => $column_display_name ) {
-			$class = array( 'manage-column', "column-$column_key" );
+			$class          = array( 'manage-column', "column-$column_key" );
+			$aria_sort_attr = '';
+			$abbr_attr      = '';
+			$order_text     = '';
 
 			if ( in_array( $column_key, $hidden, true ) ) {
 				$class[] = 'hidden';
@@ -1334,29 +1361,53 @@ class WP_List_Table {
 			}
 
 			if ( isset( $sortable[ $column_key ] ) ) {
-				list( $orderby, $desc_first ) = $sortable[ $column_key ];
+				list( $orderby, $desc_first, $abbr, $orderby_text, $initial_order ) = $sortable[ $column_key ];
 
+				/*
+				 * We're in the initial view and there's no $_GET['orderby'] then check if the
+				 * initial sorting information is set in the sortable columns and use that.
+				 */
+				if ( '' === $current_orderby && $initial_order ) {
+					// Use the initially sorted column $orderby as current orderby.
+					$current_orderby = $orderby;
+					// Use the initially sorted column asc/desc order as initial order.
+					$current_order = $initial_order;
+				}
+
+				/*
+				 * True in the initial view when an initial orderby is set via get_sortable_columns()
+				 * and true in the sorted views when the actual $_GET['orderby'] is equal to $orderby.
+				 */
 				if ( $current_orderby === $orderby ) {
-					$order = 'asc' === $current_order ? 'desc' : 'asc';
-
+					// The sorted column. The `aria-sort` attribute must be set only on the sorted column.
+					if ( 'asc' == $current_order ) {
+						$order          = 'desc';
+						$aria_sort_attr = ' aria-sort="ascending"';
+					} else {
+						$order          = 'asc';
+						$aria_sort_attr = ' aria-sort="descending"';
+					}
 					$class[] = 'sorted';
 					$class[] = $current_order;
 				} else {
+					// The other sortable columns.
 					$order = strtolower( $desc_first );
 
 					if ( ! in_array( $order, array( 'desc', 'asc' ), true ) ) {
 						$order = $desc_first ? 'desc' : 'asc';
 					}
 
-					$class[] = 'sortable';
-					$class[] = 'desc' === $order ? 'asc' : 'desc';
+					$class[]    = 'sortable';
+					$class[]    = 'desc' === $order ? 'asc' : 'desc';
+					$order_text = 'asc' === $order ? __( 'Sort ascending.' ) : __( 'Sort descending.' );
+				}
+				if ( '' !== $order_text ) {
+					$order_text = ' <span class="screen-reader-text">' . $order_text . '</span>';
 				}
 
-				$column_display_name = sprintf(
-					'<a href="%s"><span>%s</span><span class="sorting-indicator"></span></a>',
-					esc_url( add_query_arg( compact( 'orderby', 'order' ), $current_url ) ),
-					$column_display_name
-				);
+				// Print an 'abbr' attribute if a value is provided via get_sortable_columns().
+				$abbr_attr           = $abbr ? ' abbr="' . esc_attr( $abbr ) . '"' : '';
+				$column_display_name = '<a href="' . esc_url( add_query_arg( compact( 'orderby', 'order' ), $current_url ) ) . '"><span>' . $column_display_name . '</span><span class="sorting-indicators"><span class="sorting-indicator asc" aria-hidden="true"></span><span class="sorting-indicator desc" aria-hidden="true"></span>' . $order_text . '</a>';
 			}
 
 			$tag   = ( 'cb' === $column_key ) ? 'td' : 'th';
@@ -1367,7 +1418,73 @@ class WP_List_Table {
 				$class = "class='" . implode( ' ', $class ) . "'";
 			}
 
-			echo "<$tag $scope $id $class>$column_display_name</$tag>";
+			echo "<$tag $scope $id $class $aria_sort_attr $abbr_attr>$column_display_name</$tag>";
+		}
+	}
+
+	/**
+	 * Print a table description with information about current sorting and order.
+	 *
+	 * For the table initial view, information about initial orderby and order
+	 * should be provided via get_sortable_columns().
+	 *
+	 * @since 4.3.0
+	 * @access public
+	 */
+	public function print_table_description() {
+		list( $columns, $hidden, $sortable ) = $this->get_column_info();
+
+		if ( empty( $sortable ) ) {
+			return;
+		}
+
+		// When users click on a column header to sort by other columns.
+		if ( isset( $_GET['orderby'] ) ) {
+			$current_orderby = $_GET['orderby'];
+			// In the initial view there's no orderby parameter.
+		} else {
+			$current_orderby = '';
+		}
+
+		// Not in the initial view and descending order.
+		if ( isset( $_GET['order'] ) && 'desc' == $_GET['order'] ) {
+			$current_order = 'desc';
+		} else {
+			// The initial view is not always 'asc' we'll take care of this below.
+			$current_order = 'asc';
+		}
+
+		foreach ( array_keys( $columns ) as $column_key ) {
+
+			if ( isset( $sortable[ $column_key ] ) ) {
+
+				list( $orderby, $desc_first, $abbr, $orderby_text, $initial_order ) = $sortable[ $column_key ];
+
+				if ( ! is_string( $orderby_text ) || '' === $orderby_text ) {
+					return;
+				}
+				/*
+				 * We're in the initial view and there's no $_GET['orderby'] then check if the
+				 * initial sorting information is set in the sortable columns and use that.
+				 */
+				if ( '' === $current_orderby && $initial_order ) {
+					// Use the initially sorted column $orderby as current orderby.
+					$current_orderby = $orderby;
+					// Use the initially sorted column asc/desc order as initial order.
+					$current_order = $initial_order;
+				}
+
+				/*
+				 * True in the initial view when an initial orderby is set via get_sortable_columns()
+				 * and true in the sorted views when the actual $_GET['orderby'] is equal to $orderby.
+				 */
+				if ( $current_orderby == $orderby ) {
+					$order_text = 'asc' === $current_order ? __( 'Ascending.' ) : __( 'Descending.' );
+					echo '<caption  class="screen-reader-text">' . $orderby_text . ' ' . $order_text . '</p>';
+
+					return;
+				}
+			}
 		}
 	}
 
@@ -1384,6 +1501,7 @@ class WP_List_Table {
 		$this->screen->render_screen_reader_content( 'heading_list' );
 		?>
 <table class="wp-list-table <?php echo implode( ' ', $this->get_table_classes() ); ?>">
+		<?php $this->print_table_description(); ?>
 	<thead>
 	<tr>
 		<?php $this->print_column_headers(); ?>

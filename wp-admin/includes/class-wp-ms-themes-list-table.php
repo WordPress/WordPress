@@ -343,7 +343,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	 */
 	protected function get_sortable_columns() {
 		return array(
-			'name' => 'name',
+			'name' => array( 'name', false, __( 'Theme' ), __( 'Table ordered by Theme Name.' ), 'asc' ),
 		);
 	}
 
