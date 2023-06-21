@@ -1477,24 +1477,30 @@ function status_header( $code, $description = '' ) {
 }
 
 /**
- * Gets the header information to prevent caching.
+ * Gets the HTTP header information to prevent caching.
  *
  * The several different headers cover the different ways cache prevention
- * is handled by different browsers
+ * is handled by different browsers.
  *
  * @since 2.8.0
+ * @since 6.3.0 The `Cache-Control` header for logged in users now includes the
+ *              `no-store` and `private` directives.
  *
  * @return array The associative array of header names and field values.
  */
 function wp_get_nocache_headers() {
+	$cache_control = ( function_exists( 'is_user_logged_in' ) && is_user_logged_in() )
+		? 'no-cache, must-revalidate, max-age=0, no-store, private'
+		: 'no-cache, must-revalidate, max-age=0';
+
 	$headers = array(
 		'Expires'       => 'Wed, 11 Jan 1984 05:00:00 GMT',
-		'Cache-Control' => 'no-cache, must-revalidate, max-age=0',
+		'Cache-Control' => $cache_control,
 	);
 
 	if ( function_exists( 'apply_filters' ) ) {
 		/**
-		 * Filters the cache-controlling headers.
+		 * Filters the cache-controlling HTTP headers that are used to prevent caching.
 		 *
 		 * @since 2.8.0
 		 *
@@ -1509,7 +1515,7 @@ function wp_get_nocache_headers() {
 }
 
 /**
- * Sets the headers to prevent caching for the different browsers.
+ * Sets the HTTP headers to prevent caching for the different browsers.
  *
  * Different browsers support different nocache headers, so several
  * headers must be sent so that all of them get the point that no
@@ -1536,7 +1542,7 @@ function nocache_headers() {
 }
 
 /**
- * Sets the headers for caching for 10 days with JavaScript content type.
+ * Sets the HTTP headers for caching for 10 days with JavaScript content type.
  *
  * @since 2.1.0
  */
