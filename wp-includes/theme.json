@@ -219,14 +219,19 @@
 					],
 					"spacingStyles": [
 						{
-							"selector": " > *",
+							"selector": " > :first-child:first-child",
 							"rules": {
-								"margin-block-start": "0",
+								"margin-block-start": "0"
+							}
+						},
+						{
+							"selector": " > :last-child:last-child",
+							"rules": {
 								"margin-block-end": "0"
 							}
 						},
 						{
-							"selector": " > * + *",
+							"selector": " > *",
 							"rules": {
 								"margin-block-start": null,
 								"margin-block-end": "0"
@@ -279,14 +284,19 @@
 					],
 					"spacingStyles": [
 						{
-							"selector": " > *",
+							"selector": " > :first-child:first-child",
 							"rules": {
-								"margin-block-start": "0",
+								"margin-block-start": "0"
+							}
+						},
+						{
+							"selector": " > :last-child:last-child",
+							"rules": {
 								"margin-block-end": "0"
 							}
 						},
 						{
-							"selector": " > * + *",
+							"selector": " > *",
 							"rules": {
 								"margin-block-start": null,
 								"margin-block-end": "0"
