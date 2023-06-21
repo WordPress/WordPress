@@ -248,6 +248,11 @@ Description: Used to style blocks in the editor.
 	padding: 0;
 }
 
+.editor-styles-wrapper ol.has-background,
+.editor-styles-wrapper ul.has-background {
+	padding: 1.25em 2.375em;
+}
+
 /* Quotes */
 
 .rtl .editor-block-list__block blockquote {
