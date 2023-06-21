@@ -92,6 +92,8 @@ function wp_get_global_settings( $path = array(), $context = array() ) {
  * Gets the styles resulting of merging core, theme, and user data.
  *
  * @since 5.9.0
+ * @since 6.3.0 the internal format "var:preset|color|secondary" is always resolved
+ *              to the standard form "var(--wp--preset--font-size--small)".
  *
  * @param array $path    Path to the specific style to retrieve. Optional.
  *                       If empty, will return all styles.
@@ -115,7 +117,6 @@ function wp_get_global_styles( $path = array(), $context = array() ) {
 	if ( isset( $context['origin'] ) && 'base' === $context['origin'] ) {
 		$origin = 'theme';
 	}
-
 	$styles = WP_Theme_JSON_Resolver::get_merged_data( $origin )->get_raw_data()['styles'];
 
 	return _wp_array_get( $styles, $path, $styles );
