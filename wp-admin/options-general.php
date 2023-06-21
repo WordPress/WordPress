@@ -84,11 +84,17 @@ if ( is_multisite() ) {
 	/* translators: %s: Network title. */
 	$sample_tagline = sprintf( __( 'Just another %s site' ), get_network()->site_name );
 }
+$tagline_description = sprintf(
+	'%1$s %2$s',
+	__( 'In a few words, explain what this site is about.' ),
+	/* translators: %s: Site tagline example. */
+	sprintf( __( 'Example: &#8220;%s.&#8221;' ), $sample_tagline )
+);
 ?>
 <tr>
 <th scope="row"><label for="blogdescription"><?php _e( 'Tagline' ); ?></label></th>
-<td><input name="blogdescription" type="text" id="blogdescription" aria-describedby="tagline-description" value="<?php form_option( 'blogdescription' ); ?>" class="regular-text" placeholder="<?php echo $sample_tagline; ?>" />
-<p class="description" id="tagline-description"><?php _e( 'In a few words, explain what this site is about.' ); ?></p></td>
+<td><input name="blogdescription" type="text" id="blogdescription" aria-describedby="tagline-description" value="<?php form_option( 'blogdescription' ); ?>" class="regular-text" />
+<p class="description" id="tagline-description"><?php echo $tagline_description; ?></p></td>
 </tr>
 
 <?php
