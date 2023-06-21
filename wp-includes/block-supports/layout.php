@@ -34,7 +34,6 @@ function wp_register_layout_support( $block_type ) {
  *
  * @since 5.9.0
  * @since 6.1.0 Added `$block_spacing` param, use style engine to enqueue styles.
- * @since 6.3.0 Added grid layout type.
  * @access private
  *
  * @param string               $selector                      CSS selector.
@@ -285,44 +284,6 @@ function wp_get_layout_style( $selector, $layout, $has_block_gap_support = false
 				$layout_styles[] = array(
 					'selector'     => $selector,
 					'declarations' => array( 'justify-content' => $vertical_alignment_options[ $layout['verticalAlignment'] ] ),
-				);
-			}
-		}
-	} elseif ( 'grid' === $layout_type ) {
-		if ( ! empty( $layout['columnCount'] ) ) {
-			$layout_styles[] = array(
-				'selector'     => $selector,
-				'declarations' => array( 'grid-template-columns' => 'repeat(' . $layout['columnCount'] . ', minmax(0, 1fr))' ),
-			);
-		} else {
-			$minimum_column_width = ! empty( $layout['minimumColumnWidth'] ) ? $layout['minimumColumnWidth'] : '12rem';
-
-			$layout_styles[] = array(
-				'selector'     => $selector,
-				'declarations' => array( 'grid-template-columns' => 'repeat(auto-fill, minmax(min(' . $minimum_column_width . ', 100%), 1fr))' ),
-			);
-		}
-
-		if ( $has_block_gap_support && isset( $gap_value ) ) {
-			$combined_gap_value = '';
-			$gap_sides          = is_array( $gap_value ) ? array( 'top', 'left' ) : array( 'top' );
-
-			foreach ( $gap_sides as $gap_side ) {
-				$process_value = is_string( $gap_value ) ? $gap_value : _wp_array_get( $gap_value, array( $gap_side ), $fallback_gap_value );
-				// Get spacing CSS variable from preset value if provided.
-				if ( is_string( $process_value ) && str_contains( $process_value, 'var:preset|spacing|' ) ) {
-					$index_to_splice = strrpos( $process_value, '|' ) + 1;
-					$slug            = _wp_to_kebab_case( substr( $process_value, $index_to_splice ) );
-					$process_value   = "var(--wp--preset--spacing--$slug)";
-				}
-				$combined_gap_value .= "$process_value ";
-			}
-			$gap_value = trim( $combined_gap_value );
-
-			if ( null !== $gap_value && ! $should_skip_gap_serialization ) {
-				$layout_styles[] = array(
-					'selector'     => $selector,
-					'declarations' => array( 'gap' => $gap_value ),
 				);
 			}
 		}

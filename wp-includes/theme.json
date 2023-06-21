@@ -332,28 +332,6 @@
 							}
 						}
 					]
-				},
-				"grid": {
-					"name": "grid",
-					"slug": "grid",
-					"className": "is-layout-grid",
-					"displayMode": "grid",
-					"baseStyles": [
-						{
-							"selector": " > *",
-							"rules": {
-								"margin": "0"
-							}
-						}
-					],
-					"spacingStyles": [
-						{
-							"selector": "",
-							"rules": {
-								"gap": null
-							}
-						}
-					]
 				}
 			}
 		},
