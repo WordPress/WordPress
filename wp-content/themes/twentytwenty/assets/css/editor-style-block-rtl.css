@@ -693,6 +693,7 @@ hr.wp-block-separator.is-style-dots::before {
 	color: inherit;
 	font-weight: 400;
 	margin: 0 0 20px 0;
+	letter-spacing: inherit;
 }
 
 .editor-styles-wrapper .wp-block-quote.is-style-large {
