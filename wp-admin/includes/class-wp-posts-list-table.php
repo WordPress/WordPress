@@ -1012,11 +1012,13 @@ class WP_Posts_List_Table extends WP_List_Table {
 		 */
 		if ( apply_filters( 'wp_list_table_show_post_checkbox', $show, $post ) ) :
 			?>
-			<label class="screen-reader-text" for="cb-select-<?php the_ID(); ?>">
+			<label class="label-covers-full-cell" for="cb-select-<?php the_ID(); ?>">
+				<span class="screen-reader-text">
 				<?php
 					/* translators: %s: Post title. */
 					printf( __( 'Select %s' ), _draft_or_post_title() );
 				?>
+				</span>
 			</label>
 			<input id="cb-select-<?php the_ID(); ?>" type="checkbox" name="post[]" value="<?php the_ID(); ?>" />
 			<div class="locked-indicator">

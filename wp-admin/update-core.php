@@ -571,13 +571,15 @@ function list_plugin_updates() {
 	<tr>
 		<td class="check-column">
 			<?php if ( $compatible_php ) : ?>
-				<input type="checkbox" name="checked[]" id="<?php echo $checkbox_id; ?>" value="<?php echo esc_attr( $plugin_file ); ?>" />
-				<label for="<?php echo $checkbox_id; ?>" class="screen-reader-text">
+				<label for="<?php echo $checkbox_id; ?>" class="label-covers-full-cell">
+					<span class="screen-reader-text">
 					<?php
 					/* translators: Hidden accessibility text. %s: Plugin name. */
 					printf( __( 'Select %s' ), $plugin_data->Name );
 					?>
+					</span>
 				</label>
+				<input type="checkbox" name="checked[]" id="<?php echo $checkbox_id; ?>" value="<?php echo esc_attr( $plugin_file ); ?>" />
 			<?php endif; ?>
 		</td>
 		<td class="plugin-title"><p>
@@ -745,13 +747,15 @@ function list_theme_updates() {
 	<tr>
 		<td class="check-column">
 			<?php if ( $compatible_wp && $compatible_php ) : ?>
-				<input type="checkbox" name="checked[]" id="<?php echo $checkbox_id; ?>" value="<?php echo esc_attr( $stylesheet ); ?>" />
-				<label for="<?php echo $checkbox_id; ?>" class="screen-reader-text">
+				<label for="<?php echo $checkbox_id; ?>" class="label-covers-full-cell">
+					<span class="screen-reader-text">
 					<?php
 					/* translators: Hidden accessibility text. %s: Theme name. */
 					printf( __( 'Select %s' ), $theme->display( 'Name' ) );
 					?>
+					</span>
 				</label>
+				<input type="checkbox" name="checked[]" id="<?php echo $checkbox_id; ?>" value="<?php echo esc_attr( $stylesheet ); ?>" />
 			<?php endif; ?>
 		</td>
 		<td class="plugin-title"><p>

@@ -553,6 +553,28 @@ th.asc a:focus span.sorting-indicator:before {
 	content: "\f142";
 }
 
+.check-column {
+	position: relative;
+}
+
+.check-column .label-covers-full-cell {
+	width: 100%;
+	height: 100%;
+	display: block;
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
+.check-column .label-covers-full-cell input {
+	position: relative;
+	z-index: 1;
+}
+
+.check-column .label-covers-full-cell:hover + input {
+	box-shadow: 0 0 0 1px #2271b1;
+}
+
 .locked-indicator {
 	display: none;
 	margin-right: 6px;

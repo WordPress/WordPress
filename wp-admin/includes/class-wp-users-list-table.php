@@ -523,7 +523,7 @@ class WP_Users_List_Table extends WP_List_Table {
 
 			// Set up the checkbox (because the user is editable, otherwise it's empty).
 			$checkbox = sprintf(
-				'<label class="screen-reader-text" for="user_%1$s">%2$s</label>' .
+				'<label class="label-covers-full-cell" for="user_%1$s"><span class="screen-reader-text">%2$s</span></label>' .
 				'<input type="checkbox" name="users[]" id="user_%1$s" class="%3$s" value="%1$s" />',
 				$user_object->ID,
 				/* translators: Hidden accessibility text. %s: User login. */
