@@ -1,6 +1,6 @@
 <?php
 /**
- * Functions which enhance the theme by hooking into WordPress
+ * Functions which enhance the theme by hooking into WordPress.
  *
  * @package WordPress
  * @subpackage Twenty_Nineteen
@@ -34,17 +34,19 @@ add_filter( 'body_class', 'twentynineteen_body_classes' );
 
 /**
  * Adds custom class to the array of posts classes.
+ *
+ * @param array $classes A list of existing post class values.
+ * @return array The filtered post class list.
  */
-function twentynineteen_post_classes( $classes, $css_class, $post_id ) {
+function twentynineteen_post_classes( $classes ) {
 	$classes[] = 'entry';
 
 	return $classes;
 }
-add_filter( 'post_class', 'twentynineteen_post_classes', 10, 3 );
-
+add_filter( 'post_class', 'twentynineteen_post_classes' );
 
 /**
- * Add a pingback url auto-discovery header for single posts, pages, or attachments.
+ * Adds a pingback url auto-discovery header for single posts, pages, or attachments.
  */
 function twentynineteen_pingback_header() {
 	if ( is_singular() && pings_open() ) {
@@ -96,7 +98,7 @@ function twentynineteen_get_the_archive_title() {
 add_filter( 'get_the_archive_title', 'twentynineteen_get_the_archive_title' );
 
 /**
- * Add custom 'sizes' attribute to responsive image functionality for post thumbnails.
+ * Adds custom 'sizes' attribute to responsive image functionality for post thumbnails.
  *
  * @origin Twenty Nineteen 1.0
  *
@@ -116,13 +118,13 @@ function twentynineteen_post_thumbnail_sizes_attr( $attr ) {
 
 	return $attr;
 }
-add_filter( 'wp_get_attachment_image_attributes', 'twentynineteen_post_thumbnail_sizes_attr', 10, 1 );
+add_filter( 'wp_get_attachment_image_attributes', 'twentynineteen_post_thumbnail_sizes_attr' );
 
 /**
- * Add an extra menu to our nav for our priority+ navigation to use
+ * Adds an extra menu to our nav for our priority+ navigation to use.
  *
- * @param string $nav_menu  Nav menu.
- * @param object $args      Nav menu args.
+ * @param string $nav_menu Nav menu.
+ * @param object $args     Nav menu args.
  * @return string More link for hidden menu items.
  */
 function twentynineteen_add_ellipses_to_nav( $nav_menu, $args ) {
@@ -156,14 +158,25 @@ function twentynineteen_add_ellipses_to_nav( $nav_menu, $args ) {
 add_filter( 'wp_nav_menu', 'twentynineteen_add_ellipses_to_nav', 10, 2 );
 
 /**
- * WCAG 2.0 Attributes for Dropdown Menus
+ * Handles WCAG 2.0 attributes for dropdown menus.
  *
- * Adjustments to menu attributes tot support WCAG 2.0 recommendations
+ * Adjustments to menu attributes to support WCAG 2.0 recommendations
  * for flyout and dropdown menus.
  *
  * @ref https://www.w3.org/WAI/tutorials/menus/flyout/
+ * @param array   $atts {
+ *     The HTML attributes applied to the menu item's `<a>` element, empty strings are ignored.
+ *
+ *     @type string $title        Title attribute.
+ *     @type string $target       Target attribute.
+ *     @type string $rel          The rel attribute.
+ *     @type string $href         The href attribute.
+ *     @type string $aria-current The aria-current attribute.
+ * }
+ * @param WP_Post $item The current menu item object.
+ * @return string[] Modified attributes.
  */
-function twentynineteen_nav_menu_link_attributes( $atts, $item, $args, $depth ) {
+function twentynineteen_nav_menu_link_attributes( $atts, $item ) {
 
 	// Add [aria-haspopup] and [aria-expanded] to menu items that have children.
 	$item_has_children = in_array( 'menu-item-has-children', $item->classes, true );
@@ -174,10 +187,10 @@ function twentynineteen_nav_menu_link_attributes( $atts, $item, $args, $depth ) 
 
 	return $atts;
 }
-add_filter( 'nav_menu_link_attributes', 'twentynineteen_nav_menu_link_attributes', 10, 4 );
+add_filter( 'nav_menu_link_attributes', 'twentynineteen_nav_menu_link_attributes', 10, 2 );
 
 /**
- * Create a nav menu item to be displayed on mobile to navigate from submenu back to the parent.
+ * Creates a nav menu item to be displayed on mobile to navigate from submenu back to the parent.
  *
  * This duplicates each parent nav menu item and makes it the first child of itself.
  *
