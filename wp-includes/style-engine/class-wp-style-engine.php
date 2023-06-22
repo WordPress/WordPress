@@ -21,6 +21,7 @@
  *
  * @access private
  * @since 6.1.0
+ * @since 6.3.0 Added support for text-columns.
  */
 #[AllowDynamicProperties]
 final class WP_Style_Engine {
@@ -216,6 +217,12 @@ final class WP_Style_Engine {
 					'default' => 'line-height',
 				),
 				'path'          => array( 'typography', 'lineHeight' ),
+			),
+			'textColumns'    => array(
+				'property_keys' => array(
+					'default' => 'column-count',
+				),
+				'path'          => array( 'typography', 'textColumns' ),
 			),
 			'textDecoration' => array(
 				'property_keys' => array(

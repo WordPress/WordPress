@@ -10,6 +10,7 @@
  * Registers the style and typography block attributes for block types that support it.
  *
  * @since 5.6.0
+ * @since 6.3.0 Added support for text-columns.
  * @access private
  *
  * @param WP_Block_Type $block_type Block Type.
@@ -30,6 +31,7 @@ function wp_register_typography_support( $block_type ) {
 	$has_font_weight_support     = _wp_array_get( $typography_supports, array( '__experimentalFontWeight' ), false );
 	$has_letter_spacing_support  = _wp_array_get( $typography_supports, array( '__experimentalLetterSpacing' ), false );
 	$has_line_height_support     = _wp_array_get( $typography_supports, array( 'lineHeight' ), false );
+	$has_text_columns_support    = _wp_array_get( $typography_supports, array( 'textColumns' ), false );
 	$has_text_decoration_support = _wp_array_get( $typography_supports, array( '__experimentalTextDecoration' ), false );
 	$has_text_transform_support  = _wp_array_get( $typography_supports, array( '__experimentalTextTransform' ), false );
 
@@ -39,6 +41,7 @@ function wp_register_typography_support( $block_type ) {
 		|| $has_font_weight_support
 		|| $has_letter_spacing_support
 		|| $has_line_height_support
+		|| $has_text_columns_support
 		|| $has_text_decoration_support
 		|| $has_text_transform_support;
 
@@ -72,6 +75,7 @@ function wp_register_typography_support( $block_type ) {
  *
  * @since 5.6.0
  * @since 6.1.0 Used the style engine to generate CSS and classnames.
+ * @since 6.3.0 Added support for text-columns.
  * @access private
  *
  * @param WP_Block_Type $block_type       Block type.
@@ -98,6 +102,7 @@ function wp_apply_typography_support( $block_type, $block_attributes ) {
 	$has_font_weight_support     = _wp_array_get( $typography_supports, array( '__experimentalFontWeight' ), false );
 	$has_letter_spacing_support  = _wp_array_get( $typography_supports, array( '__experimentalLetterSpacing' ), false );
 	$has_line_height_support     = _wp_array_get( $typography_supports, array( 'lineHeight' ), false );
+	$has_text_columns_support    = _wp_array_get( $typography_supports, array( 'textColumns' ), false );
 	$has_text_decoration_support = _wp_array_get( $typography_supports, array( '__experimentalTextDecoration' ), false );
 	$has_text_transform_support  = _wp_array_get( $typography_supports, array( '__experimentalTextTransform' ), false );
 
@@ -107,6 +112,7 @@ function wp_apply_typography_support( $block_type, $block_attributes ) {
 	$should_skip_font_style      = wp_should_skip_block_supports_serialization( $block_type, 'typography', 'fontStyle' );
 	$should_skip_font_weight     = wp_should_skip_block_supports_serialization( $block_type, 'typography', 'fontWeight' );
 	$should_skip_line_height     = wp_should_skip_block_supports_serialization( $block_type, 'typography', 'lineHeight' );
+	$should_skip_text_columns    = wp_should_skip_block_supports_serialization( $block_type, 'typography', 'textColumns' );
 	$should_skip_text_decoration = wp_should_skip_block_supports_serialization( $block_type, 'typography', 'textDecoration' );
 	$should_skip_text_transform  = wp_should_skip_block_supports_serialization( $block_type, 'typography', 'textTransform' );
 	$should_skip_letter_spacing  = wp_should_skip_block_supports_serialization( $block_type, 'typography', 'letterSpacing' );
@@ -160,6 +166,10 @@ function wp_apply_typography_support( $block_type, $block_attributes ) {
 
 	if ( $has_line_height_support && ! $should_skip_line_height ) {
 		$typography_block_styles['lineHeight'] = _wp_array_get( $block_attributes, array( 'style', 'typography', 'lineHeight' ) );
+	}
+
+	if ( $has_text_columns_support && ! $should_skip_text_columns && isset( $block_attributes['style']['typography']['textColumns'] ) ) {
+		$typography_block_styles['textColumns'] = _wp_array_get( $block_attributes, array( 'style', 'typography', 'textColumns' ), null );
 	}
 
 	if (
