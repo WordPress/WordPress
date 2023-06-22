@@ -1118,6 +1118,7 @@ final class WP_Screen {
 			<?php _e( 'Some screen elements can be shown or hidden by using the checkboxes.' ); ?>
 			<?php _e( 'Expand or collapse the elements by clicking on their headings, and arrange them by dragging their headings or by clicking on the up and down arrows.' ); ?>
 		</p>
+		<div class="metabox-prefs-container">
 		<?php
 
 		meta_box_prefs( $this );
@@ -1137,6 +1138,7 @@ final class WP_Screen {
 			echo _x( 'Welcome', 'Welcome panel' ) . "</label>\n";
 		}
 		?>
+		</div>
 		</fieldset>
 		<?php
 	}
