@@ -81,7 +81,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 
 		$s    = isset( $_REQUEST['s'] ) ? wp_unslash( trim( $_REQUEST['s'] ) ) : '';
 		$wild = '';
-		if ( false !== strpos( $s, '*' ) ) {
+		if ( str_contains( $s, '*' ) ) {
 			$wild = '*';
 			$s    = trim( $s, '*' );
 		}

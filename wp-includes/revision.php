@@ -138,7 +138,7 @@ function wp_save_post_revision( $post_id ) {
 	if ( $revisions ) {
 		// Grab the latest revision, but not an autosave.
 		foreach ( $revisions as $revision ) {
-			if ( false !== strpos( $revision->post_name, "{$revision->post_parent}-revision" ) ) {
+			if ( str_contains( $revision->post_name, "{$revision->post_parent}-revision" ) ) {
 				$latest_revision = $revision;
 				break;
 			}
@@ -223,7 +223,7 @@ function wp_save_post_revision( $post_id ) {
 	$revisions = array_slice( $revisions, 0, $delete );
 
 	for ( $i = 0; isset( $revisions[ $i ] ); $i++ ) {
-		if ( false !== strpos( $revisions[ $i ]->post_name, 'autosave' ) ) {
+		if ( str_contains( $revisions[ $i ]->post_name, 'autosave' ) ) {
 			continue;
 		}
 
@@ -313,7 +313,7 @@ function wp_is_post_autosave( $post ) {
 		return false;
 	}
 
-	if ( false !== strpos( $post->post_name, "{$post->post_parent}-autosave" ) ) {
+	if ( str_contains( $post->post_name, "{$post->post_parent}-autosave" ) ) {
 		return (int) $post->post_parent;
 	}
 

@@ -1693,7 +1693,7 @@ function _unzip_file_ziparchive( $file, $to, $needed_dirs = array() ) {
 			continue;
 		}
 
-		if ( strpos( $dir, $to ) === false ) { // If the directory is not within the working directory, skip it.
+		if ( ! str_contains( $dir, $to ) ) { // If the directory is not within the working directory, skip it.
 			continue;
 		}
 
@@ -1834,7 +1834,7 @@ function _unzip_file_pclzip( $file, $to, $needed_dirs = array() ) {
 			continue;
 		}
 
-		if ( strpos( $dir, $to ) === false ) { // If the directory is not within the working directory, skip it.
+		if ( ! str_contains( $dir, $to ) ) { // If the directory is not within the working directory, skip it.
 			continue;
 		}
 

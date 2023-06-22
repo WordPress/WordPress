@@ -69,7 +69,7 @@ if ( file_exists( ABSPATH . 'wp-config.php' ) ) {
 	$path = wp_guess_url() . '/wp-admin/setup-config.php';
 
 	// Redirect to setup-config.php.
-	if ( false === strpos( $_SERVER['REQUEST_URI'], 'setup-config' ) ) {
+	if ( ! str_contains( $_SERVER['REQUEST_URI'], 'setup-config' ) ) {
 		header( 'Location: ' . $path );
 		exit;
 	}

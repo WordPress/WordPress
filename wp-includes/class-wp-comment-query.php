@@ -677,7 +677,7 @@ class WP_Comment_Query {
 				// If no date-related order is available, use the date from the first available clause.
 				if ( ! $comment_id_order ) {
 					foreach ( $orderby_array as $orderby_clause ) {
-						if ( false !== strpos( 'ASC', $orderby_clause ) ) {
+						if ( str_contains( 'ASC', $orderby_clause ) ) {
 							$comment_id_order = 'ASC';
 						} else {
 							$comment_id_order = 'DESC';

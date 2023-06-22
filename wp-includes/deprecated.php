@@ -889,7 +889,7 @@ function permalink_single_rss($deprecated = '') {
 function wp_get_links($args = '') {
 	_deprecated_function( __FUNCTION__, '2.1.0', 'wp_list_bookmarks()' );
 
-	if ( strpos( $args, '=' ) === false ) {
+	if ( ! str_contains( $args, '=' ) ) {
 		$cat_id = $args;
 		$args = add_query_arg( 'category', $cat_id, $args );
 	}
@@ -995,7 +995,7 @@ function get_links($category = -1, $before = '', $after = '<br />', $between = '
 		$output .= '<a href="' . $the_link . '"' . $rel . $title . $target. '>';
 
 		if ( $row->link_image != null && $show_images ) {
-			if ( strpos($row->link_image, 'http') !== false )
+			if ( str_contains( $row->link_image, 'http' ) )
 				$output .= "<img src=\"$row->link_image\" $alt $title />";
 			else // If it's a relative path.
 				$output .= "<img src=\"" . get_option('siteurl') . "$row->link_image\" $alt $title />";
@@ -4484,7 +4484,7 @@ function wp_typography_get_css_variable_inline_style( $attributes, $feature, $cs
 	}
 
 	// If we don't have a preset CSS variable, we'll assume it's a regular CSS value.
-	if ( strpos( $style_value, "var:preset|{$css_property}|" ) === false ) {
+	if ( ! str_contains( $style_value, "var:preset|{$css_property}|" ) ) {
 		return sprintf( '%s:%s;', $css_property, $style_value );
 	}
 

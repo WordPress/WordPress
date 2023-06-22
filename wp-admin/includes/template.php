@@ -1240,7 +1240,7 @@ function _get_plugin_from_callback( $callback ) {
 	try {
 		if ( is_array( $callback ) ) {
 			$reflection = new ReflectionMethod( $callback[0], $callback[1] );
-		} elseif ( is_string( $callback ) && false !== strpos( $callback, '::' ) ) {
+		} elseif ( is_string( $callback ) && str_contains( $callback, '::' ) ) {
 			$reflection = new ReflectionMethod( $callback );
 		} else {
 			$reflection = new ReflectionFunction( $callback );

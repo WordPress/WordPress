@@ -3610,7 +3610,7 @@ final class WP_Customize_Manager {
 		 */
 		$revisions = wp_get_post_revisions( $changeset_post_id, array( 'check_enabled' => false ) );
 		foreach ( $revisions as $revision ) {
-			if ( false !== strpos( $revision->post_name, "{$changeset_post_id}-autosave" ) ) {
+			if ( str_contains( $revision->post_name, "{$changeset_post_id}-autosave" ) ) {
 				$wpdb->update(
 					$wpdb->posts,
 					array(

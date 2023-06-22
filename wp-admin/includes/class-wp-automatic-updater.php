@@ -582,7 +582,7 @@ class WP_Automatic_Updater {
 
 		// Send debugging email to admin for all development installations.
 		if ( ! empty( $this->update_results ) ) {
-			$development_version = false !== strpos( get_bloginfo( 'version' ), '-' );
+			$development_version = str_contains( get_bloginfo( 'version' ), '-' );
 
 			/**
 			 * Filters whether to send a debugging email for each automatic background update.
@@ -640,13 +640,13 @@ class WP_Automatic_Updater {
 		// Any of these WP_Error codes are critical failures, as in they occurred after we started to copy core files.
 		// We should not try to perform a background update again until there is a successful one-click update performed by the user.
 		$critical = false;
-		if ( 'disk_full' === $error_code || false !== strpos( $error_code, '__copy_dir' ) ) {
+		if ( 'disk_full' === $error_code || str_contains( $error_code, '__copy_dir' ) ) {
 			$critical = true;
 		} elseif ( 'rollback_was_required' === $error_code && is_wp_error( $result->get_error_data()->rollback ) ) {
 			// A rollback is only critical if it failed too.
 			$critical        = true;
 			$rollback_result = $result->get_error_data()->rollback;
-		} elseif ( false !== strpos( $error_code, 'do_rollback' ) ) {
+		} elseif ( str_contains( $error_code, 'do_rollback' ) ) {
 			$critical = true;
 		}
 

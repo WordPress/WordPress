@@ -263,7 +263,7 @@ if ( $doaction ) {
 	$location = 'upload.php';
 	$referer  = wp_get_referer();
 	if ( $referer ) {
-		if ( false !== strpos( $referer, 'upload.php' ) ) {
+		if ( str_contains( $referer, 'upload.php' ) ) {
 			$location = remove_query_arg( array( 'trashed', 'untrashed', 'deleted', 'message', 'ids', 'posted' ), $referer );
 		}
 	}

@@ -509,7 +509,7 @@ class WP_Rewrite {
 		$date_endian          = '';
 
 		foreach ( $endians as $endian ) {
-			if ( false !== strpos( $this->permalink_structure, $endian ) ) {
+			if ( str_contains( $this->permalink_structure, $endian ) ) {
 				$date_endian = $endian;
 				break;
 			}
@@ -1660,7 +1660,7 @@ class WP_Rewrite {
 			$external = false;
 			$query    = add_query_arg( $query, 'index.php' );
 		} else {
-			$index = false === strpos( $query, '?' ) ? strlen( $query ) : strpos( $query, '?' );
+			$index = ! str_contains( $query, '?' ) ? strlen( $query ) : strpos( $query, '?' );
 			$front = substr( $query, 0, $index );
 
 			$external = $front != $this->index;

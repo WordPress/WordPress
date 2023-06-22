@@ -105,7 +105,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			$tabs['search'] = __( 'Search Results' );
 		}
 
-		if ( 'beta' === $tab || false !== strpos( get_bloginfo( 'version' ), '-' ) ) {
+		if ( 'beta' === $tab || str_contains( get_bloginfo( 'version' ), '-' ) ) {
 			$tabs['beta'] = _x( 'Beta Testing', 'Plugin Installer' );
 		}
 

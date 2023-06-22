@@ -797,7 +797,7 @@ class ftp_base {
 		$chunks=explode(';',$pattern);
 		foreach($chunks as $pattern) {
 			$escape=array('$','^','.','{','}','(',')','[',']','|');
-			while(strpos($pattern,'**')!==false)
+			while(str_contains($pattern,'**'))
 				$pattern=str_replace('**','*',$pattern);
 			foreach($escape as $probe)
 				$pattern=str_replace($probe,"\\$probe",$pattern);

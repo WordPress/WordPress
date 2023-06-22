@@ -48,14 +48,14 @@
  * @return float Value in the range [0, 1].
  */
 function wp_tinycolor_bound01( $n, $max ) {
-	if ( 'string' === gettype( $n ) && false !== strpos( $n, '.' ) && 1 === (float) $n ) {
+	if ( 'string' === gettype( $n ) && str_contains( $n, '.' ) && 1 === (float) $n ) {
 		$n = '100%';
 	}
 
 	$n = min( $max, max( 0, (float) $n ) );
 
 	// Automatically convert percentage into number.
-	if ( 'string' === gettype( $n ) && false !== strpos( $n, '%' ) ) {
+	if ( 'string' === gettype( $n ) && str_contains( $n, '%' ) ) {
 		$n = (int) ( $n * $max ) / 100;
 	}
 

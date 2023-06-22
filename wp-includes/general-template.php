@@ -4021,7 +4021,7 @@ function wp_get_code_editor_settings( $args ) {
 		if ( 'application/x-patch' === $type || 'text/x-patch' === $type ) {
 			$type = 'text/x-diff';
 		}
-	} elseif ( isset( $args['file'] ) && false !== strpos( basename( $args['file'] ), '.' ) ) {
+	} elseif ( isset( $args['file'] ) && str_contains( basename( $args['file'] ), '.' ) ) {
 		$extension = strtolower( pathinfo( $args['file'], PATHINFO_EXTENSION ) );
 		foreach ( wp_get_mime_types() as $exts => $mime ) {
 			if ( preg_match( '!^(' . $exts . ')$!i', $extension ) ) {
@@ -4157,7 +4157,7 @@ function wp_get_code_editor_settings( $args ) {
 				'matchBrackets'     => true,
 			)
 		);
-	} elseif ( false !== strpos( $type, 'json' ) ) {
+	} elseif ( str_contains( $type, 'json' ) ) {
 		$settings['codemirror'] = array_merge(
 			$settings['codemirror'],
 			array(
@@ -4174,7 +4174,7 @@ function wp_get_code_editor_settings( $args ) {
 		} else {
 			$settings['codemirror']['mode']['json'] = true;
 		}
-	} elseif ( false !== strpos( $type, 'jsx' ) ) {
+	} elseif ( str_contains( $type, 'jsx' ) ) {
 		$settings['codemirror'] = array_merge(
 			$settings['codemirror'],
 			array(
@@ -4220,7 +4220,7 @@ function wp_get_code_editor_settings( $args ) {
 				'matchBrackets'     => true,
 			)
 		);
-	} elseif ( false !== strpos( $type, 'xml' ) ) {
+	} elseif ( str_contains( $type, 'xml' ) ) {
 		$settings['codemirror'] = array_merge(
 			$settings['codemirror'],
 			array(

@@ -496,7 +496,7 @@ function get_attachment_link( $post = null, $leavename = false ) {
 			$parentlink = get_permalink( $post->post_parent );
 		}
 
-		if ( is_numeric( $post->post_name ) || false !== strpos( get_option( 'permalink_structure' ), '%category%' ) ) {
+		if ( is_numeric( $post->post_name ) || str_contains( get_option( 'permalink_structure' ), '%category%' ) ) {
 			$name = 'attachment/' . $post->post_name; // <permalink>/<int>/ is paged so we use the explicit attachment marker.
 		} else {
 			$name = $post->post_name;
@@ -692,7 +692,7 @@ function get_feed_link( $feed = '' ) {
 	$permalink = $wp_rewrite->get_feed_permastruct();
 
 	if ( $permalink ) {
-		if ( false !== strpos( $feed, 'comments_' ) ) {
+		if ( str_contains( $feed, 'comments_' ) ) {
 			$feed      = str_replace( 'comments_', '', $feed );
 			$permalink = $wp_rewrite->get_comment_feed_permastruct();
 		}
@@ -709,7 +709,7 @@ function get_feed_link( $feed = '' ) {
 			$feed = get_default_feed();
 		}
 
-		if ( false !== strpos( $feed, 'comments_' ) ) {
+		if ( str_contains( $feed, 'comments_' ) ) {
 			$feed = str_replace( 'comments_', 'comments-', $feed );
 		}
 
@@ -1820,7 +1820,7 @@ function get_adjacent_post( $in_same_term = false, $excluded_terms = '', $previo
 
 	if ( ! empty( $excluded_terms ) && ! is_array( $excluded_terms ) ) {
 		// Back-compat, $excluded_terms used to be $excluded_categories with IDs separated by " and ".
-		if ( false !== strpos( $excluded_terms, ' and ' ) ) {
+		if ( str_contains( $excluded_terms, ' and ' ) ) {
 			_deprecated_argument(
 				__FUNCTION__,
 				'3.3.0',

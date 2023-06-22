@@ -369,7 +369,7 @@ class Custom_Image_Header {
 		$default_color = '';
 		if ( current_theme_supports( 'custom-header', 'default-text-color' ) ) {
 			$default_color = get_theme_support( 'custom-header', 'default-text-color' );
-			if ( $default_color && false === strpos( $default_color, '#' ) ) {
+			if ( $default_color && ! str_contains( $default_color, '#' ) ) {
 				$default_color = '#' . $default_color;
 			}
 		}
@@ -768,7 +768,7 @@ class Custom_Image_Header {
 			$default_color = '';
 			if ( current_theme_supports( 'custom-header', 'default-text-color' ) ) {
 				$default_color = get_theme_support( 'custom-header', 'default-text-color' );
-				if ( $default_color && false === strpos( $default_color, '#' ) ) {
+				if ( $default_color && ! str_contains( $default_color, '#' ) ) {
 					$default_color = '#' . $default_color;
 				}
 			}
@@ -776,7 +776,7 @@ class Custom_Image_Header {
 			$default_color_attr = $default_color ? ' data-default-color="' . esc_attr( $default_color ) . '"' : '';
 
 			$header_textcolor = display_header_text() ? get_header_textcolor() : get_theme_support( 'custom-header', 'default-text-color' );
-			if ( $header_textcolor && false === strpos( $header_textcolor, '#' ) ) {
+			if ( $header_textcolor && ! str_contains( $header_textcolor, '#' ) ) {
 				$header_textcolor = '#' . $header_textcolor;
 			}
 

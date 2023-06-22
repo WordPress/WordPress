@@ -272,18 +272,18 @@ function wptexturize( $text, $reset = false ) {
 
 			$curl = str_replace( $static_characters, $static_replacements, $curl );
 
-			if ( false !== strpos( $curl, "'" ) ) {
+			if ( str_contains( $curl, "'" ) ) {
 				$curl = preg_replace( $dynamic_characters['apos'], $dynamic_replacements['apos'], $curl );
 				$curl = wptexturize_primes( $curl, "'", $prime, $open_sq_flag, $closing_single_quote );
 				$curl = str_replace( $apos_flag, $apos, $curl );
 				$curl = str_replace( $open_sq_flag, $opening_single_quote, $curl );
 			}
-			if ( false !== strpos( $curl, '"' ) ) {
+			if ( str_contains( $curl, '"' ) ) {
 				$curl = preg_replace( $dynamic_characters['quote'], $dynamic_replacements['quote'], $curl );
 				$curl = wptexturize_primes( $curl, '"', $double_prime, $open_q_flag, $closing_quote );
 				$curl = str_replace( $open_q_flag, $opening_quote, $curl );
 			}
-			if ( false !== strpos( $curl, '-' ) ) {
+			if ( str_contains( $curl, '-' ) ) {
 				$curl = preg_replace( $dynamic_characters['dash'], $dynamic_replacements['dash'], $curl );
 			}
 
@@ -326,7 +326,7 @@ function wptexturize_primes( $haystack, $needle, $prime, $open_quote, $close_quo
 	$sentences = explode( $open_quote, $haystack );
 
 	foreach ( $sentences as $key => &$sentence ) {
-		if ( false === strpos( $sentence, $needle ) ) {
+		if ( ! str_contains( $sentence, $needle ) ) {
 			continue;
 		} elseif ( 0 !== $key && 0 === substr_count( $sentence, $close_quote ) ) {
 			$sentence = preg_replace( $quote_pattern, $flag, $sentence, -1, $count );
@@ -362,7 +362,7 @@ function wptexturize_primes( $haystack, $needle, $prime, $open_quote, $close_quo
 			$sentence = preg_replace( $prime_pattern, $prime, $sentence );
 			$sentence = preg_replace( $quote_pattern, $close_quote, $sentence );
 		}
-		if ( '"' === $needle && false !== strpos( $sentence, '"' ) ) {
+		if ( '"' === $needle && str_contains( $sentence, '"' ) ) {
 			$sentence = str_replace( '"', $close_quote, $sentence );
 		}
 	}
@@ -453,7 +453,7 @@ function wpautop( $text, $br = true ) {
 	 * Pre tags shouldn't be touched by autop.
 	 * Replace pre tags with placeholders and bring them back after autop.
 	 */
-	if ( strpos( $text, '<pre' ) !== false ) {
+	if ( str_contains( $text, '<pre' ) ) {
 		$text_parts = explode( '</pre>', $text );
 		$last_part  = array_pop( $text_parts );
 		$text       = '';
@@ -498,7 +498,7 @@ function wpautop( $text, $br = true ) {
 	$text = wp_replace_in_html_tags( $text, array( "\n" => ' <!-- wpnl --> ' ) );
 
 	// Collapse line breaks before and after <option> elements so they don't get autop'd.
-	if ( strpos( $text, '<option' ) !== false ) {
+	if ( str_contains( $text, '<option' ) ) {
 		$text = preg_replace( '|\s*<option|', '<option', $text );
 		$text = preg_replace( '|</option>\s*|', '</option>', $text );
 	}
@@ -507,7 +507,7 @@ function wpautop( $text, $br = true ) {
 	 * Collapse line breaks inside <object> elements, before <param> and <embed> elements
 	 * so they don't get autop'd.
 	 */
-	if ( strpos( $text, '</object>' ) !== false ) {
+	if ( str_contains( $text, '</object>' ) ) {
 		$text = preg_replace( '|(<object[^>]*>)\s*|', '$1', $text );
 		$text = preg_replace( '|\s*</object>|', '</object>', $text );
 		$text = preg_replace( '%\s*(</?(?:param|embed)[^>]*>)\s*%', '$1', $text );
@@ -517,14 +517,14 @@ function wpautop( $text, $br = true ) {
 	 * Collapse line breaks inside <audio> and <video> elements,
 	 * before and after <source> and <track> elements.
 	 */
-	if ( strpos( $text, '<source' ) !== false || strpos( $text, '<track' ) !== false ) {
+	if ( str_contains( $text, '<source' ) || str_contains( $text, '<track' ) ) {
 		$text = preg_replace( '%([<\[](?:audio|video)[^>\]]*[>\]])\s*%', '$1', $text );
 		$text = preg_replace( '%\s*([<\[]/(?:audio|video)[>\]])%', '$1', $text );
 		$text = preg_replace( '%\s*(<(?:source|track)[^>]*>)\s*%', '$1', $text );
 	}
 
 	// Collapse line breaks before and after <figcaption> elements.
-	if ( strpos( $text, '<figcaption' ) !== false ) {
+	if ( str_contains( $text, '<figcaption' ) ) {
 		$text = preg_replace( '|\s*(<figcaption[^>]*>)|', '$1', $text );
 		$text = preg_replace( '|</figcaption>\s*|', '</figcaption>', $text );
 	}
@@ -593,7 +593,7 @@ function wpautop( $text, $br = true ) {
 	}
 
 	// Restore newlines in all elements.
-	if ( false !== strpos( $text, '<!-- wpnl -->' ) ) {
+	if ( str_contains( $text, '<!-- wpnl -->' ) ) {
 		$text = str_replace( array( ' <!-- wpnl --> ', '<!-- wpnl -->' ), "\n", $text );
 	}
 
@@ -763,7 +763,7 @@ function wp_replace_in_html_tags( $haystack, $replace_pairs ) {
 
 		// Loop through delimiters (elements) only.
 		for ( $i = 1, $c = count( $textarr ); $i < $c; $i += 2 ) {
-			if ( false !== strpos( $textarr[ $i ], $needle ) ) {
+			if ( str_contains( $textarr[ $i ], $needle ) ) {
 				$textarr[ $i ] = str_replace( $needle, $replace, $textarr[ $i ] );
 				$changed       = true;
 			}
@@ -775,7 +775,7 @@ function wp_replace_in_html_tags( $haystack, $replace_pairs ) {
 		// Loop through delimiters (elements) only.
 		for ( $i = 1, $c = count( $textarr ); $i < $c; $i += 2 ) {
 			foreach ( $needles as $needle ) {
-				if ( false !== strpos( $textarr[ $i ], $needle ) ) {
+				if ( str_contains( $textarr[ $i ], $needle ) ) {
 					$textarr[ $i ] = strtr( $textarr[ $i ], $replace_pairs );
 					$changed       = true;
 					// After one strtr() break out of the foreach loop and look at next element.
@@ -2055,7 +2055,7 @@ function sanitize_file_name( $filename ) {
 	$filename = preg_replace( '/[\r\n\t -]+/', '-', $filename );
 	$filename = trim( $filename, '.-_' );
 
-	if ( false === strpos( $filename, '.' ) ) {
+	if ( ! str_contains( $filename, '.' ) ) {
 		$mime_types = wp_get_mime_types();
 		$filetype   = wp_check_filetype( 'test.' . $filename, $mime_types );
 		if ( $filetype['ext'] === $filename ) {
@@ -4475,7 +4475,7 @@ function esc_url( $url, $protocols = null, $_context = 'display' ) {
 		$url = str_replace( "'", '&#039;', $url );
 	}
 
-	if ( ( false !== strpos( $url, '[' ) ) || ( false !== strpos( $url, ']' ) ) ) {
+	if ( ( str_contains( $url, '[' ) ) || ( str_contains( $url, ']' ) ) ) {
 
 		$parsed = wp_parse_url( $url );
 		$front  = '';
@@ -5143,7 +5143,7 @@ function wp_pre_kses_less_than( $content ) {
  * @return string The text returned after esc_html if needed.
  */
 function wp_pre_kses_less_than_callback( $matches ) {
-	if ( false === strpos( $matches[0], '>' ) ) {
+	if ( ! str_contains( $matches[0], '>' ) ) {
 		return esc_html( $matches[0] );
 	}
 	return $matches[0];
@@ -5932,7 +5932,7 @@ function wp_encode_emoji( $content ) {
 
 	foreach ( $emoji as $emojum ) {
 		$emoji_char = html_entity_decode( $emojum );
-		if ( false !== strpos( $content, $emoji_char ) ) {
+		if ( str_contains( $content, $emoji_char ) ) {
 			$content = preg_replace( "/$emoji_char/", $emojum, $content );
 		}
 	}
@@ -5949,7 +5949,7 @@ function wp_encode_emoji( $content ) {
  * @return string The encoded content.
  */
 function wp_staticize_emoji( $text ) {
-	if ( false === strpos( $text, '&#x' ) ) {
+	if ( ! str_contains( $text, '&#x' ) ) {
 		if ( ( function_exists( 'mb_check_encoding' ) && mb_check_encoding( $text, 'ASCII' ) ) || ! preg_match( '/[^\x00-\x7F]/', $text ) ) {
 			// The text doesn't contain anything that might be emoji, so we can return early.
 			return $text;
@@ -5968,7 +5968,7 @@ function wp_staticize_emoji( $text ) {
 	// Quickly narrow down the list of emoji that might be in the text and need replacing.
 	$possible_emoji = array();
 	foreach ( $emoji as $emojum ) {
-		if ( false !== strpos( $text, $emojum ) ) {
+		if ( str_contains( $text, $emojum ) ) {
 			$possible_emoji[ $emojum ] = html_entity_decode( $emojum );
 		}
 	}
@@ -6006,9 +6006,9 @@ function wp_staticize_emoji( $text ) {
 		}
 
 		// If it's not a tag and not in ignore block.
-		if ( '' === $ignore_block_element && strlen( $content ) > 0 && '<' !== $content[0] && false !== strpos( $content, '&#x' ) ) {
+		if ( '' === $ignore_block_element && strlen( $content ) > 0 && '<' !== $content[0] && str_contains( $content, '&#x' ) ) {
 			foreach ( $possible_emoji as $emojum => $emoji_char ) {
-				if ( false === strpos( $content, $emojum ) ) {
+				if ( ! str_contains( $content, $emojum ) ) {
 					continue;
 				}
 

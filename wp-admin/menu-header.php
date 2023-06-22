@@ -112,7 +112,7 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 		$img_style = '';
 		$img_class = ' dashicons-before';
 
-		if ( false !== strpos( $class, 'wp-menu-separator' ) ) {
+		if ( str_contains( $class, 'wp-menu-separator' ) ) {
 			$is_separator = true;
 		}
 

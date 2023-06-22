@@ -2183,8 +2183,8 @@ function media_upload_form( $errors = null ) {
 	 */
 	if (
 		wp_is_mobile() &&
-		strpos( $_SERVER['HTTP_USER_AGENT'], 'OS 7_' ) !== false &&
-		strpos( $_SERVER['HTTP_USER_AGENT'], 'like Mac OS X' ) !== false
+		str_contains( $_SERVER['HTTP_USER_AGENT'], 'OS 7_' ) &&
+		str_contains( $_SERVER['HTTP_USER_AGENT'], 'like Mac OS X' )
 	) {
 		$plupload_init['multi_selection'] = false;
 	}
@@ -3850,7 +3850,7 @@ function wp_media_attach_action( $parent_id, $action = 'attach' ) {
 		$referer  = wp_get_referer();
 
 		if ( $referer ) {
-			if ( false !== strpos( $referer, 'upload.php' ) ) {
+			if ( str_contains( $referer, 'upload.php' ) ) {
 				$location = remove_query_arg( array( 'attached', 'detach' ), $referer );
 			}
 		}

@@ -298,7 +298,7 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
 		);
 
 		if ( is_wp_error( $api ) ) {
-			if ( false !== strpos( $api->get_error_message(), 'Plugin not found.' ) ) {
+			if ( str_contains( $api->get_error_message(), 'Plugin not found.' ) ) {
 				$api->add_data( array( 'status' => 404 ) );
 			} else {
 				$api->add_data( array( 'status' => 500 ) );
@@ -809,7 +809,7 @@ class WP_REST_Plugins_Controller extends WP_REST_Controller {
 			$matched_search = false;
 
 			foreach ( $item as $field ) {
-				if ( is_string( $field ) && false !== strpos( strip_tags( $field ), $search ) ) {
+				if ( is_string( $field ) && str_contains( strip_tags( $field ), $search ) ) {
 					$matched_search = true;
 					break;
 				}

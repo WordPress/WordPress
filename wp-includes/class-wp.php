@@ -274,10 +274,10 @@ class WP {
 			}
 
 			// If req_uri is empty or if it is a request for ourself, unset error.
-			if ( empty( $requested_path ) || $requested_file == $self || strpos( $_SERVER['PHP_SELF'], 'wp-admin/' ) !== false ) {
+			if ( empty( $requested_path ) || $requested_file == $self || str_contains( $_SERVER['PHP_SELF'], 'wp-admin/' ) ) {
 				unset( $error, $_GET['error'] );
 
-				if ( isset( $perma_query_vars ) && strpos( $_SERVER['PHP_SELF'], 'wp-admin/' ) !== false ) {
+				if ( isset( $perma_query_vars ) && str_contains( $_SERVER['PHP_SELF'], 'wp-admin/' ) ) {
 					unset( $perma_query_vars );
 				}
 
@@ -455,7 +455,7 @@ class WP {
 
 			// We're showing a feed, so WP is indeed the only thing that last changed.
 			if ( ! empty( $this->query_vars['withcomments'] )
-				|| false !== strpos( $this->query_vars['feed'], 'comments-' )
+				|| str_contains( $this->query_vars['feed'], 'comments-' )
 				|| ( empty( $this->query_vars['withoutcomments'] )
 					&& ( ! empty( $this->query_vars['p'] )
 						|| ! empty( $this->query_vars['name'] )
@@ -720,7 +720,7 @@ class WP {
 				// Check for paged content that exceeds the max number of pages.
 				if ( $post && ! empty( $this->query_vars['page'] ) ) {
 					// Check if content is actually intended to be paged.
-					if ( false !== strpos( $post->post_content, $next ) ) {
+					if ( str_contains( $post->post_content, $next ) ) {
 						$page          = trim( $this->query_vars['page'], '/' );
 						$content_found = (int) $page <= ( substr_count( $post->post_content, $next ) + 1 );
 					} else {

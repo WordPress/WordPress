@@ -76,7 +76,7 @@ function extract_from_markers( $filename, $marker ) {
 	$state = false;
 
 	foreach ( $markerdata as $markerline ) {
-		if ( false !== strpos( $markerline, '# END ' . $marker ) ) {
+		if ( str_contains( $markerline, '# END ' . $marker ) ) {
 			$state = false;
 		}
 
@@ -88,7 +88,7 @@ function extract_from_markers( $filename, $marker ) {
 			$result[] = $markerline;
 		}
 
-		if ( false !== strpos( $markerline, '# BEGIN ' . $marker ) ) {
+		if ( str_contains( $markerline, '# BEGIN ' . $marker ) ) {
 			$state = true;
 		}
 	}
@@ -194,10 +194,10 @@ Any changes to the directives between these markers will be overwritten.'
 	$found_end_marker = false;
 
 	foreach ( $lines as $line ) {
-		if ( ! $found_marker && false !== strpos( $line, $start_marker ) ) {
+		if ( ! $found_marker && str_contains( $line, $start_marker ) ) {
 			$found_marker = true;
 			continue;
-		} elseif ( ! $found_end_marker && false !== strpos( $line, $end_marker ) ) {
+		} elseif ( ! $found_end_marker && str_contains( $line, $end_marker ) ) {
 			$found_end_marker = true;
 			continue;
 		}

@@ -118,7 +118,7 @@ class WP_Ajax_Upgrader_Skin extends Automatic_Upgrader_Skin {
 				$string = $this->upgrader->strings[ $string ];
 			}
 
-			if ( false !== strpos( $string, '%' ) ) {
+			if ( str_contains( $string, '%' ) ) {
 				if ( ! empty( $args ) ) {
 					$string = vsprintf( $string, $args );
 				}

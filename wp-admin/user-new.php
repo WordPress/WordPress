@@ -34,7 +34,7 @@ if ( isset( $_REQUEST['action'] ) && 'adduser' === $_REQUEST['action'] ) {
 
 	$user_details = null;
 	$user_email   = wp_unslash( $_REQUEST['email'] );
-	if ( false !== strpos( $user_email, '@' ) ) {
+	if ( str_contains( $user_email, '@' ) ) {
 		$user_details = get_user_by( 'email', $user_email );
 	} else {
 		if ( current_user_can( 'manage_network_users' ) ) {

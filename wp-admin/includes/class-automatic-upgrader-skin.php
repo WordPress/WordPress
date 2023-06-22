@@ -84,7 +84,7 @@ class Automatic_Upgrader_Skin extends WP_Upgrader_Skin {
 			$string = $this->upgrader->strings[ $string ];
 		}
 
-		if ( strpos( $string, '%' ) !== false ) {
+		if ( str_contains( $string, '%' ) ) {
 			if ( ! empty( $args ) ) {
 				$string = vsprintf( $string, $args );
 			}

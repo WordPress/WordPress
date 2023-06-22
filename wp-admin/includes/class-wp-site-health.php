@@ -1366,7 +1366,7 @@ class WP_Site_Health {
 		 * libmysql has supported utf8mb4 since 5.5.3, same as the MySQL server.
 		 * mysqlnd has supported utf8mb4 since 5.0.9.
 		 */
-		if ( false !== strpos( $mysql_client_version, 'mysqlnd' ) ) {
+		if ( str_contains( $mysql_client_version, 'mysqlnd' ) ) {
 			$mysql_client_version = preg_replace( '/^\D+([\d.]+).*/', '$1', $mysql_client_version );
 			if ( version_compare( $mysql_client_version, '5.0.9', '<' ) ) {
 				$result['status'] = 'recommended';
@@ -3335,7 +3335,7 @@ class WP_Site_Health {
 	public function get_page_cache_headers() {
 
 		$cache_hit_callback = static function ( $header_value ) {
-			return false !== strpos( strtolower( $header_value ), 'hit' );
+			return str_contains( strtolower( $header_value ), 'hit' );
 		};
 
 		$cache_headers = array(

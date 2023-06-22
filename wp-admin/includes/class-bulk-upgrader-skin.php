@@ -59,7 +59,7 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 			$feedback = $this->upgrader->strings[ $feedback ];
 		}
 
-		if ( strpos( $feedback, '%' ) !== false ) {
+		if ( str_contains( $feedback, '%' ) ) {
 			if ( $args ) {
 				$args     = array_map( 'strip_tags', $args );
 				$args     = array_map( 'esc_html', $args );

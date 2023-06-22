@@ -205,14 +205,14 @@ function wp_is_local_html_output( $html ) {
 	// 1. Check if HTML includes the site's Really Simple Discovery link.
 	if ( has_action( 'wp_head', 'rsd_link' ) ) {
 		$pattern = preg_replace( '#^https?:(?=//)#', '', esc_url( site_url( 'xmlrpc.php?rsd', 'rpc' ) ) ); // See rsd_link().
-		return false !== strpos( $html, $pattern );
+		return str_contains( $html, $pattern );
 	}
 
 	// 2. Check if HTML includes the site's REST API link.
 	if ( has_action( 'wp_head', 'rest_output_link_wp_head' ) ) {
 		// Try both HTTPS and HTTP since the URL depends on context.
 		$pattern = preg_replace( '#^https?:(?=//)#', '', esc_url( get_rest_url() ) ); // See rest_output_link_wp_head().
-		return false !== strpos( $html, $pattern );
+		return str_contains( $html, $pattern );
 	}
 
 	// Otherwise the result cannot be determined.

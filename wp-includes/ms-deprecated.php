@@ -317,8 +317,8 @@ function wpmu_admin_do_redirect( $url = '' ) {
 function wpmu_admin_redirect_add_updated_param( $url = '' ) {
 	_deprecated_function( __FUNCTION__, '3.3.0', 'add_query_arg()' );
 
-	if ( strpos( $url, 'updated=true' ) === false ) {
-		if ( strpos( $url, '?' ) === false )
+	if ( ! str_contains( $url, 'updated=true' ) ) {
+		if ( ! str_contains( $url, '?' ) )
 			return $url . '?updated=true';
 		else
 			return $url . '&updated=true';

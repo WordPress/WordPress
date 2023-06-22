@@ -311,7 +311,7 @@ class WP_REST_Request implements ArrayAccess {
 		}
 
 		$value = strtolower( $value );
-		if ( false === strpos( $value, '/' ) ) {
+		if ( ! str_contains( $value, '/' ) ) {
 			return null;
 		}
 

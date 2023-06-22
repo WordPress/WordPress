@@ -101,7 +101,7 @@ class WP_Widget_Text extends WP_Widget {
 		}
 
 		$wpautop         = ! empty( $instance['filter'] );
-		$has_line_breaks = ( false !== strpos( trim( $instance['text'] ), "\n" ) );
+		$has_line_breaks = ( str_contains( trim( $instance['text'] ), "\n" ) );
 
 		// If auto-paragraphs are not enabled and there are line breaks, then ensure legacy mode.
 		if ( ! $wpautop && $has_line_breaks ) {
@@ -109,7 +109,7 @@ class WP_Widget_Text extends WP_Widget {
 		}
 
 		// If an HTML comment is present, assume legacy mode.
-		if ( false !== strpos( $instance['text'], '<!--' ) ) {
+		if ( str_contains( $instance['text'], '<!--' ) ) {
 			return true;
 		}
 

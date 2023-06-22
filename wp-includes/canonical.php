@@ -389,7 +389,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 					}
 				}
 			}
-		} elseif ( is_single() && strpos( $wp_rewrite->permalink_structure, '%category%' ) !== false ) {
+		} elseif ( is_single() && str_contains( $wp_rewrite->permalink_structure, '%category%' ) ) {
 			$category_name = get_query_var( 'category_name' );
 
 			if ( $category_name ) {
@@ -518,7 +518,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 
 			if ( ! empty( $addl_path )
 				&& $wp_rewrite->using_index_permalinks()
-				&& strpos( $redirect['path'], '/' . $wp_rewrite->index . '/' ) === false
+				&& ! str_contains( $redirect['path'], '/' . $wp_rewrite->index . '/' )
 			) {
 				$redirect['path'] = trailingslashit( $redirect['path'] ) . $wp_rewrite->index . '/';
 			}
@@ -737,7 +737,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 	}
 
 	// Hex-encoded octets are case-insensitive.
-	if ( false !== strpos( $requested_url, '%' ) ) {
+	if ( str_contains( $requested_url, '%' ) ) {
 		if ( ! function_exists( 'lowercase_octets' ) ) {
 			/**
 			 * Converts the first hex-encoded octet match to lowercase.

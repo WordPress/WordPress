@@ -542,12 +542,12 @@ function url_to_postid( $url ) {
 	$url    = set_url_scheme( $url, $scheme );
 
 	// Add 'www.' if it is absent and should be there.
-	if ( false !== strpos( home_url(), '://www.' ) && false === strpos( $url, '://www.' ) ) {
+	if ( str_contains( home_url(), '://www.' ) && ! str_contains( $url, '://www.' ) ) {
 		$url = str_replace( '://', '://www.', $url );
 	}
 
 	// Strip 'www.' if it is present and shouldn't be.
-	if ( false === strpos( home_url(), '://www.' ) ) {
+	if ( ! str_contains( home_url(), '://www.' ) ) {
 		$url = str_replace( '://www.', '://', $url );
 	}
 
@@ -572,7 +572,7 @@ function url_to_postid( $url ) {
 		$url = str_replace( $wp_rewrite->index . '/', '', $url );
 	}
 
-	if ( false !== strpos( trailingslashit( $url ), home_url( '/' ) ) ) {
+	if ( str_contains( trailingslashit( $url ), home_url( '/' ) ) ) {
 		// Chop off http://domain.com/[path].
 		$url = str_replace( home_url(), '', $url );
 	} else {
