@@ -552,6 +552,54 @@ fieldset label,
 
 .wp-pwd {
 	margin-top: 1em;
+	position: relative;
+}
+
+.mailserver-pass-wrap .wp-pwd {
+	display: inline-block;
+	margin-top: 0;
+}
+
+/* rtl:ignore */
+#mailserver_pass {
+	direction: ltr;
+	padding-right: 2.5rem;
+}
+
+/* rtl:ignore */
+.mailserver-pass-wrap .button.wp-hide-pw {
+	background: transparent;
+	border: 1px solid transparent;
+	box-shadow: none;
+	font-size: 14px;
+	line-height: 2;
+	width: 2.5rem;
+	min-width: 40px;
+	margin: 0;
+	padding: 0 9px;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+.mailserver-pass-wrap .button.wp-hide-pw:hover {
+	background: transparent;
+	border-color: transparent;
+}
+
+.mailserver-pass-wrap .button.wp-hide-pw:focus {
+	background: transparent;
+	border-color: #3582c4;
+	border-radius: 4px;
+	box-shadow: 0 0 0 1px #3582c4;
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
+}
+
+.mailserver-pass-wrap .button.wp-hide-pw:active {
+	background: transparent;
+	box-shadow: none;
+	transform: none;
 }
 
 #misc-publishing-actions label {
