@@ -703,7 +703,7 @@ class Custom_Image_Header {
 <th scope="row"><?php _e( 'Default Images' ); ?></th>
 <td>
 			<?php if ( current_theme_supports( 'custom-header', 'uploads' ) ) : ?>
-	<p><?php _e( 'If you don&lsquo;t want to upload your own image, you can use one of these cool headers, or show a random one.' ); ?></p>
+	<p><?php _e( 'If you do not want to upload your own image, you can use one of these cool headers, or show a random one.' ); ?></p>
 	<?php else : ?>
 	<p><?php _e( 'You can use one of these cool headers or show a random one on each page.' ); ?></p>
 	<?php endif; ?>

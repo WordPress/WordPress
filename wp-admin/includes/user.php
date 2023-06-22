@@ -539,7 +539,7 @@ function default_password_nag() {
 	<div class="error default-password-nag">
 		<p>
 			<strong><?php _e( 'Notice:' ); ?></strong>
-			<?php _e( 'You&rsquo;re using the auto-generated password for your account. Would you like to change it?' ); ?>
+			<?php _e( 'You are using the auto-generated password for your account. Would you like to change it?' ); ?>
 		</p>
 		<p>
 		<?php

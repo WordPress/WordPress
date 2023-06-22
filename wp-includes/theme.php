@@ -2378,7 +2378,7 @@ function get_theme_starter_content() {
 				'post_title'   => _x( 'About', 'Theme starter content' ),
 				'post_content' => sprintf(
 					"<!-- wp:paragraph -->\n<p>%s</p>\n<!-- /wp:paragraph -->",
-					_x( 'You might be an artist who would like to introduce yourself and your work here or maybe you&rsquo;re a business with a mission to describe.', 'Theme starter content' )
+					_x( 'You might be an artist who would like to introduce yourself and your work here or maybe you are a business with a mission to describe.', 'Theme starter content' )
 				),
 			),
 			'contact'          => array(
