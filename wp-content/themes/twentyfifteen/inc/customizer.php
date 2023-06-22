@@ -516,7 +516,6 @@ function twentyfifteen_get_color_scheme_css( $colors ) {
 	.widget_calendar tbody a:focus,
 	.page-links a:hover,
 	.page-links a:focus {
-		background-color: {$colors['textcolor']}; /* Fallback for IE7 and IE8 */
 		background-color: {$colors['secondary_textcolor']};
 	}
 
@@ -558,7 +557,6 @@ function twentyfifteen_get_color_scheme_css( $colors ) {
 	.comment-list .reply a,
 	.widecolumn label,
 	.widecolumn .mu_register label {
-		color: {$colors['textcolor']}; /* Fallback for IE7 and IE8 */
 		color: {$colors['secondary_textcolor']};
 	}
 
@@ -566,7 +564,6 @@ function twentyfifteen_get_color_scheme_css( $colors ) {
 	blockquote,
 	.logged-in-as a:hover,
 	.comment-author a:hover {
-		border-color: {$colors['textcolor']}; /* Fallback for IE7 and IE8 */
 		border-color: {$colors['secondary_textcolor']};
 	}
 
@@ -574,7 +571,6 @@ function twentyfifteen_get_color_scheme_css( $colors ) {
 	hr,
 	.dropdown-toggle:hover,
 	.dropdown-toggle:focus {
-		background-color: {$colors['textcolor']}; /* Fallback for IE7 and IE8 */
 		background-color: {$colors['border_color']};
 	}
 
@@ -610,7 +606,6 @@ function twentyfifteen_get_color_scheme_css( $colors ) {
 	.comment-list .trackback,
 	.comment-list .reply a,
 	.no-comments {
-		border-color: {$colors['textcolor']}; /* Fallback for IE7 and IE8 */
 		border-color: {$colors['border_color']};
 	}
 
@@ -618,13 +613,11 @@ function twentyfifteen_get_color_scheme_css( $colors ) {
 	a:focus,
 	button:focus,
 	input:focus {
-		outline-color: {$colors['textcolor']}; /* Fallback for IE7 and IE8 */
 		outline-color: {$colors['border_focus_color']};
 	}
 
 	input:focus,
 	textarea:focus {
-		border-color: {$colors['textcolor']}; /* Fallback for IE7 and IE8 */
 		border-color: {$colors['border_focus_color']};
 	}
 
@@ -646,19 +639,16 @@ function twentyfifteen_get_color_scheme_css( $colors ) {
 
 	/* Sidebar Border Color */
 	.secondary-toggle {
-		border-color: {$colors['sidebar_textcolor']}; /* Fallback for IE7 and IE8 */
 		border-color: {$colors['sidebar_border_color']};
 	}
 
 	/* Sidebar Border Focus Color */
 	.secondary-toggle:hover,
 	.secondary-toggle:focus {
-		border-color: {$colors['sidebar_textcolor']}; /* Fallback for IE7 and IE8 */
 		border-color: {$colors['sidebar_border_focus_color']};
 	}
 
 	.site-title a {
-		outline-color: {$colors['sidebar_textcolor']}; /* Fallback for IE7 and IE8 */
 		outline-color: {$colors['sidebar_border_focus_color']};
 	}
 
