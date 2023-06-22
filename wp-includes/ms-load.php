@@ -46,7 +46,7 @@ function wp_get_active_network_plugins() {
 
 	foreach ( $active_plugins as $plugin ) {
 		if ( ! validate_file( $plugin )                     // $plugin must validate as file.
-			&& '.php' === substr( $plugin, -4 )             // $plugin must end with '.php'.
+			&& str_ends_with( $plugin, '.php' )             // $plugin must end with '.php'.
 			&& file_exists( WP_PLUGIN_DIR . '/' . $plugin ) // $plugin must exist.
 			) {
 			$plugins[] = WP_PLUGIN_DIR . '/' . $plugin;
@@ -229,7 +229,7 @@ function get_site_by_path( $domain, $path, $segments = null ) {
 	// Either www or non-www is supported, not both. If a www domain is requested,
 	// query for both to provide the proper redirect.
 	$domains = array( $domain );
-	if ( 'www.' === substr( $domain, 0, 4 ) ) {
+	if ( str_starts_with( $domain, 'www.' ) ) {
 		$domains[] = substr( $domain, 4 );
 	}
 

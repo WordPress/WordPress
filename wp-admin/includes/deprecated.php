@@ -1365,7 +1365,7 @@ function wp_dashboard_plugins_output( $rss, $args = array() ) {
 			// Is this random plugin's slug already installed? If so, try again.
 			reset( $plugin_slugs );
 			foreach ( $plugin_slugs as $plugin_slug ) {
-				if ( $slug === substr( $plugin_slug, 0, strlen( $slug ) ) ) {
+				if ( str_starts_with( $plugin_slug, $slug ) ) {
 					unset( $items[$item_key] );
 					continue 2;
 				}

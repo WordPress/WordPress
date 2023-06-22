@@ -835,7 +835,7 @@ function wp_get_mu_plugins() {
 		return $mu_plugins;
 	}
 	while ( ( $plugin = readdir( $dh ) ) !== false ) {
-		if ( '.php' === substr( $plugin, -4 ) ) {
+		if ( str_ends_with( $plugin, '.php' ) ) {
 			$mu_plugins[] = WPMU_PLUGIN_DIR . '/' . $plugin;
 		}
 	}

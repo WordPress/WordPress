@@ -3323,7 +3323,7 @@ function wp_ajax_send_attachment_to_editor() {
 
 	remove_filter( 'media_send_to_editor', 'image_media_send_to_editor' );
 
-	if ( 'image' === substr( $post->post_mime_type, 0, 5 ) ) {
+	if ( str_starts_with( $post->post_mime_type, 'image' ) ) {
 		$align = isset( $attachment['align'] ) ? $attachment['align'] : 'none';
 		$size  = isset( $attachment['image-size'] ) ? $attachment['image-size'] : 'medium';
 		$alt   = isset( $attachment['image_alt'] ) ? $attachment['image_alt'] : '';

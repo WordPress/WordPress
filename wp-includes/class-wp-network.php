@@ -306,7 +306,7 @@ class WP_Network {
 		}
 
 		$this->cookie_domain = $this->domain;
-		if ( 'www.' === substr( $this->cookie_domain, 0, 4 ) ) {
+		if ( str_starts_with( $this->cookie_domain, 'www.' ) ) {
 			$this->cookie_domain = substr( $this->cookie_domain, 4 );
 		}
 	}

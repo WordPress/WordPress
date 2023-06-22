@@ -1181,7 +1181,7 @@ function load_script_textdomain( $handle, $domain = 'default', $path = '' ) {
 	}
 
 	// Translations are always based on the unminified filename.
-	if ( substr( $relative, -7 ) === '.min.js' ) {
+	if ( str_ends_with( $relative, '.min.js' ) ) {
 		$relative = substr( $relative, 0, -7 ) . '.js';
 	}
 
@@ -1454,7 +1454,7 @@ function wp_get_installed_translations( $type ) {
 		if ( '.' === $file[0] || is_dir( WP_LANG_DIR . "$dir/$file" ) ) {
 			continue;
 		}
-		if ( substr( $file, -3 ) !== '.po' ) {
+		if ( ! str_ends_with( $file, '.po' ) ) {
 			continue;
 		}
 		if ( ! preg_match( '/(?:(.+)-)?([a-z]{2,3}(?:_[A-Z]{2})?(?:_[a-z0-9]+)?).po/', $file, $match ) ) {

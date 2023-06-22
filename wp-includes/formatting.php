@@ -242,7 +242,7 @@ function wptexturize( $text, $reset = false ) {
 		// Only call _wptexturize_pushpop_element if $curl is a delimiter.
 		$first = $curl[0];
 		if ( '<' === $first ) {
-			if ( '<!--' === substr( $curl, 0, 4 ) ) {
+			if ( str_starts_with( $curl, '<!--' ) ) {
 				// This is an HTML comment delimiter.
 				continue;
 			} else {
@@ -260,7 +260,7 @@ function wptexturize( $text, $reset = false ) {
 		} elseif ( '[' === $first && $found_shortcodes && 1 === preg_match( '/^' . $shortcode_regex . '$/', $curl ) ) {
 			// This is a shortcode delimiter.
 
-			if ( '[[' !== substr( $curl, 0, 2 ) && ']]' !== substr( $curl, -2 ) ) {
+			if ( ! str_starts_with( $curl, '[[' ) && ! str_ends_with( $curl, ']]' ) ) {
 				// Looks like a normal shortcode.
 				_wptexturize_pushpop_element( $curl, $no_texturize_shortcodes_stack, $no_texturize_shortcodes );
 			} else {
@@ -2627,7 +2627,7 @@ function force_balance_tags( $text ) {
 		$is_single_tag     = in_array( $tag, $single_tags, true );
 		$pre_attribute_ws  = isset( $regex[4] ) ? $regex[4] : '';
 		$attributes        = trim( isset( $regex[5] ) ? $regex[5] : $regex[3] );
-		$has_self_closer   = '/' === substr( $attributes, -1 );
+		$has_self_closer   = str_ends_with( $attributes, '/' );
 
 		$newtext .= $tagqueue;
 
@@ -3693,7 +3693,7 @@ function iso8601_timezone_to_offset( $timezone ) {
 	if ( 'Z' === $timezone ) {
 		$offset = 0;
 	} else {
-		$sign    = ( '+' === substr( $timezone, 0, 1 ) ) ? 1 : -1;
+		$sign    = ( str_starts_with( $timezone, '+' ) ) ? 1 : -1;
 		$hours   = (int) substr( $timezone, 1, 2 );
 		$minutes = (int) substr( $timezone, 3, 4 ) / 60;
 		$offset  = $sign * HOUR_IN_SECONDS * ( $hours + $minutes );
@@ -5266,7 +5266,7 @@ function wp_sprintf( $pattern, ...$args ) {
  */
 function wp_sprintf_l( $pattern, $args ) {
 	// Not a match.
-	if ( '%l' !== substr( $pattern, 0, 2 ) ) {
+	if ( ! str_starts_with( $pattern, '%l' ) ) {
 		return $pattern;
 	}
 

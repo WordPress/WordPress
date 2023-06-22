@@ -295,7 +295,7 @@ function wpmu_admin_do_redirect( $url = '' ) {
 	if ( isset( $_GET['redirect'] ) && isset( $_POST['redirect'] ) && $_GET['redirect'] !== $_POST['redirect'] ) {
 		wp_die( __( 'A variable mismatch has been detected.' ), __( 'Sorry, you are not allowed to view this item.' ), 400 );
 	} elseif ( isset( $_GET['redirect'] ) ) {
-		if ( 's_' === substr( $_GET['redirect'], 0, 2 ) )
+		if ( str_starts_with( $_GET['redirect'], 's_' ) )
 			$url .= '&action=blogs&s='. esc_html( substr( $_GET['redirect'], 2 ) );
 	} elseif ( isset( $_POST['redirect'] ) ) {
 		$url = wpmu_admin_redirect_add_updated_param( $_POST['redirect'] );

@@ -336,9 +336,9 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 		$po = false;
 		$mo = false;
 		foreach ( (array) $files as $file => $filedata ) {
-			if ( '.po' === substr( $file, -3 ) ) {
+			if ( str_ends_with( $file, '.po' ) ) {
 				$po = true;
-			} elseif ( '.mo' === substr( $file, -3 ) ) {
+			} elseif ( str_ends_with( $file, '.mo' ) ) {
 				$mo = true;
 			}
 		}

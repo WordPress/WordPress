@@ -83,7 +83,7 @@ function _walk_bookmarks( $bookmarks, $args = '' ) {
 		$title = $desc;
 
 		if ( $parsed_args['show_updated'] ) {
-			if ( '00' !== substr( $bookmark->link_updated_f, 0, 2 ) ) {
+			if ( ! str_starts_with( $bookmark->link_updated_f, '00' ) ) {
 				$title .= ' (';
 				$title .= sprintf(
 					/* translators: %s: Date and time of last update. */

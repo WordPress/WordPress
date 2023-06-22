@@ -81,7 +81,7 @@ function extract_from_markers( $filename, $marker ) {
 		}
 
 		if ( $state ) {
-			if ( '#' === substr( $markerline, 0, 1 ) ) {
+			if ( str_starts_with( $markerline, '#' ) ) {
 				continue;
 			}
 
@@ -750,7 +750,7 @@ function set_screen_options() {
 		default:
 			$screen_option = false;
 
-			if ( '_page' === substr( $option, -5 ) || 'layout_columns' === $option ) {
+			if ( str_ends_with( $option, '_page' ) || 'layout_columns' === $option ) {
 				/**
 				 * Filters a screen option value before it is set.
 				 *

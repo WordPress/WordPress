@@ -513,7 +513,7 @@ function human_readable_duration( $duration = '' ) {
 	$duration = trim( $duration );
 
 	// Remove prepended negative sign.
-	if ( '-' === substr( $duration, 0, 1 ) ) {
+	if ( str_starts_with( $duration, '-' ) ) {
 		$duration = substr( $duration, 1 );
 	}
 
@@ -743,7 +743,7 @@ function is_serialized_string( $data ) {
 		return false;
 	} elseif ( ':' !== $data[1] ) {
 		return false;
-	} elseif ( ';' !== substr( $data, -1 ) ) {
+	} elseif ( ! str_ends_with( $data, ';' ) ) {
 		return false;
 	} elseif ( 's' !== $data[0] ) {
 		return false;
@@ -6361,17 +6361,17 @@ function _wp_timezone_choice_usort_callback( $a, $b ) {
 	// Don't use translated versions of Etc.
 	if ( 'Etc' === $a['continent'] && 'Etc' === $b['continent'] ) {
 		// Make the order of these more like the old dropdown.
-		if ( 'GMT+' === substr( $a['city'], 0, 4 ) && 'GMT+' === substr( $b['city'], 0, 4 ) ) {
+		if ( str_starts_with( $a['city'], 'GMT+' ) && str_starts_with( $b['city'], 'GMT+' ) ) {
 			return -1 * ( strnatcasecmp( $a['city'], $b['city'] ) );
 		}
 		if ( 'UTC' === $a['city'] ) {
-			if ( 'GMT+' === substr( $b['city'], 0, 4 ) ) {
+			if ( str_starts_with( $b['city'], 'GMT+' ) ) {
 				return 1;
 			}
 			return -1;
 		}
 		if ( 'UTC' === $b['city'] ) {
-			if ( 'GMT+' === substr( $a['city'], 0, 4 ) ) {
+			if ( str_starts_with( $a['city'], 'GMT+' ) ) {
 				return -1;
 			}
 			return 1;

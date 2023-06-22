@@ -505,10 +505,10 @@ if ( ! class_exists( 'PO', false ) ) :
 		 * @return string
 		 */
 		public static function trim_quotes( $s ) {
-			if ( '"' === substr( $s, 0, 1 ) ) {
+			if ( str_starts_with( $s, '"' ) ) {
 				$s = substr( $s, 1 );
 			}
-			if ( '"' === substr( $s, -1, 1 ) ) {
+			if ( str_ends_with( $s, '"' ) ) {
 				$s = substr( $s, 0, -1 );
 			}
 			return $s;

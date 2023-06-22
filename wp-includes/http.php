@@ -694,10 +694,10 @@ function wp_parse_url( $url, $component = -1 ) {
 	$to_unset = array();
 	$url      = (string) $url;
 
-	if ( '//' === substr( $url, 0, 2 ) ) {
+	if ( str_starts_with( $url, '//' ) ) {
 		$to_unset[] = 'scheme';
 		$url        = 'placeholder:' . $url;
-	} elseif ( '/' === substr( $url, 0, 1 ) ) {
+	} elseif ( str_starts_with( $url, '/' ) ) {
 		$to_unset[] = 'scheme';
 		$to_unset[] = 'host';
 		$url        = 'placeholder://placeholder' . $url;
