@@ -562,7 +562,6 @@ fieldset label,
 
 /* rtl:ignore */
 #mailserver_pass {
-	direction: ltr;
 	padding-right: 2.5rem;
 }
 
@@ -1768,6 +1767,15 @@ table.form-table td .updated p {
 
 	.wp-cancel-pw .dashicons-no {
 		display: inline-block;
+	}
+
+	.mailserver-pass-wrap .wp-pwd {
+		display: block;
+	}
+
+	/* rtl:ignore */
+	#mailserver_pass {
+		padding-left: 10px;
 	}
 
 	.options-general-php input[type="text"].small-text {
