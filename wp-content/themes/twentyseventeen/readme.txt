@@ -37,10 +37,6 @@ GNU General Public License for more details.
 
 Twenty Seventeen bundles the following third-party resources:
 
-HTML5 Shiv, Copyright 2014 Alexander Farkas
-Licenses: MIT/GPL2
-Source: https://github.com/aFarkas/html5shiv
-
 jQuery scrollTo, Copyright 2007-2015 Ariel Flesler
 License: MIT
 Source: https://github.com/flesler/jquery.scrollTo
