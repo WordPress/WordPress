@@ -124,8 +124,13 @@ p.has-drop-cap:not(:focus)::first-letter {
 
 /* Pullquote */
 
+.wp-block-pullquote {
+	font-size: 1em;
+}
+
 .wp-block-pullquote p {
 	font-size: 1.5em;
+	line-height: 1.3;
 }
 
 .wp-block-pullquote__citation,
