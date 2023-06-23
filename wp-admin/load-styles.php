@@ -73,7 +73,7 @@ foreach ( $load as $handle ) {
 
 	$content = get_file( $path ) . "\n";
 
-	// str_starts_with() is not used here, as wp-includes/compat.php is not loaded in this file.
+	// Note: str_starts_with() is not used here, as wp-includes/compat.php is not loaded in this file.
 	if ( 0 === strpos( $style->src, '/' . WPINC . '/css/' ) ) {
 		$content = str_replace( '../images/', '../' . WPINC . '/images/', $content );
 		$content = str_replace( '../js/tinymce/', '../' . WPINC . '/js/tinymce/', $content );
