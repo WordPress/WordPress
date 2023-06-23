@@ -583,7 +583,10 @@ class WP_Comments_List_Table extends WP_List_Table {
 		<?php
 		if ( ! isset( $_GET['orderby'] ) ) {
 			// In the initial view, Comments are ordered by comment's date but there's no column for that.
-			echo '<caption class="screen-reader-text">' . __( 'Ordered by Comment Date, descending.' ) . '</p>';
+			echo '<caption class="screen-reader-text">' .
+			/* translators: Hidden accessibility text. */
+			__( 'Ordered by Comment Date, descending.' ) .
+			'</caption>';
 		} else {
 			$this->print_table_description();
 		}
