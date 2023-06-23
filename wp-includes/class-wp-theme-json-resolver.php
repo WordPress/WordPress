@@ -314,6 +314,14 @@ class WP_Theme_JSON_Resolver {
 
 			// Classic themes without a theme.json don't support global duotone.
 			$theme_support_data['settings']['color']['defaultDuotone'] = false;
+
+			// Allow themes to enable all border settings via theme_support.
+			if ( current_theme_supports( 'border' ) ) {
+				$theme_support_data['settings']['border']['color']  = true;
+				$theme_support_data['settings']['border']['radius'] = true;
+				$theme_support_data['settings']['border']['style']  = true;
+				$theme_support_data['settings']['border']['width']  = true;
+			}
 		}
 		$with_theme_supports = new WP_Theme_JSON( $theme_support_data );
 		$with_theme_supports->merge( static::$theme );
