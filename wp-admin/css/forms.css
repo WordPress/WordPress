@@ -547,6 +547,16 @@ fieldset label,
 
 .wp-generate-pw {
 	margin-top: 1em;
+	position: relative;
+}
+
+.wp-pwd button {
+	height: min-content;
+}
+
+.wp-pwd button.pwd-toggle .dashicons {
+	position: relative;
+	top: 0.25rem;
 }
 
 .wp-pwd {
@@ -638,6 +648,10 @@ fieldset label,
 	background-color: #b8e6bf;
 	border-color: #68de7c;
 	opacity: 1;
+}
+
+.password-input-wrapper {
+	display: inline-block;
 }
 
 .password-input-wrapper input {
@@ -1628,6 +1642,10 @@ table.form-table td .updated p {
 		width: 100%;
 		box-sizing: border-box;
 		padding: 8px;
+	}
+
+	.password-input-wrapper {
+		display: block;
 	}
 
 	p.search-box {

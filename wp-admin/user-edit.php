@@ -643,9 +643,10 @@ switch ( $action ) {
 									<input type="hidden" value=" " /><!-- #24364 workaround -->
 									<button type="button" class="button wp-generate-pw hide-if-no-js" aria-expanded="false"><?php _e( 'Set New Password' ); ?></button>
 									<div class="wp-pwd hide-if-js">
-										<span class="password-input-wrapper">
+										<div class="password-input-wrapper">
 											<input type="password" name="pass1" id="pass1" class="regular-text" value="" autocomplete="new-password" spellcheck="false" data-pw="<?php echo esc_attr( wp_generate_password( 24 ) ); ?>" aria-describedby="pass-strength-result" />
-										</span>
+											<div style="display:none" id="pass-strength-result" aria-live="polite"></div>
+										</div>
 										<button type="button" class="button wp-hide-pw hide-if-no-js" data-toggle="0" aria-label="<?php esc_attr_e( 'Hide password' ); ?>">
 											<span class="dashicons dashicons-hidden" aria-hidden="true"></span>
 											<span class="text"><?php _e( 'Hide' ); ?></span>
@@ -654,7 +655,6 @@ switch ( $action ) {
 											<span class="dashicons dashicons-no" aria-hidden="true"></span>
 											<span class="text"><?php _e( 'Cancel' ); ?></span>
 										</button>
-										<div style="display:none" id="pass-strength-result" aria-live="polite"></div>
 									</div>
 								</td>
 							</tr>
