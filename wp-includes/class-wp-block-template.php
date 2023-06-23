@@ -146,4 +146,12 @@ class WP_Block_Template {
 	 * @var string|null
 	 */
 	public $area;
+
+	/**
+	 * Modified.
+	 *
+	 * @since 6.3.0
+	 * @var string|null
+	 */
+	public $modified;
 }
