@@ -145,12 +145,14 @@ function determine_locale() {
 		} else {
 			$determined_locale = sanitize_locale_name( $_COOKIE['wp_lang'] );
 		}
-	} else if (
-		( isset( $_GET['_locale'] ) && 'user' === $_GET['_locale'] && wp_is_json_request() ) ||
-		is_admin()
+	} elseif (
+		is_admin() ||
+		( isset( $_GET['_locale'] ) && 'user' === $_GET['_locale'] && wp_is_json_request() )
 	) {
 		$determined_locale = get_user_locale();
-	} else {
+	}
+
+	if ( ! $determined_locale ) {
 		$determined_locale = get_locale();
 	}
 
