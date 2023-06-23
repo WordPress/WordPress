@@ -593,11 +593,13 @@ function list_plugin_updates() {
 				$plugin_data->update->new_version
 			);
 
-			echo ' ' . $details . $compat . $upgrade_notice;
+			echo ' ' . $details . $compat;
 
 			if ( in_array( $plugin_file, $auto_updates, true ) ) {
 				echo $auto_update_notice;
 			}
+
+			echo $upgrade_notice;
 			?>
 		</p></td>
 	</tr>
