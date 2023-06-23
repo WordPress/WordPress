@@ -315,6 +315,11 @@ class WP_Theme_JSON_Resolver {
 			// Classic themes without a theme.json don't support global duotone.
 			$theme_support_data['settings']['color']['defaultDuotone'] = false;
 
+			// Allow themes to enable link color setting via theme_support.
+			if ( current_theme_supports( 'link-color' ) ) {
+				$theme_support_data['settings']['color']['link'] = true;
+			}
+
 			// Allow themes to enable all border settings via theme_support.
 			if ( current_theme_supports( 'border' ) ) {
 				$theme_support_data['settings']['border']['color']  = true;
