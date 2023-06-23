@@ -3023,6 +3023,11 @@ h2.entry-title {
 	padding: calc(1.1em - 0.2rem) calc(1.44em - 0.2rem);
 }
 
+.wp-block-buttons[style*="text-transform"] .wp-block-button__link,
+.wp-block-button[style*="text-transform"] .wp-block-button__link {
+	text-transform: inherit;
+}
+
 /* Block: Columns ---------------------------- */
 
 .wp-block-columns.alignfull,
