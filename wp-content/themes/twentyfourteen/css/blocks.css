@@ -242,6 +242,11 @@ p.has-drop-cap:not(:focus)::first-letter {
 	vertical-align: bottom;
 }
 
+.wp-block-buttons[style*="text-transform"] .wp-block-button__link,
+.wp-block-button[style*="text-transform"] .wp-block-button__link {
+	text-transform: inherit;
+}
+
 .wp-block-button__link {
 	background-color: #24890d;
 	color: #fff;
