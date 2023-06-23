@@ -219,7 +219,7 @@ function register_block_style_handle( $metadata, $field_name, $index = 0 ) {
 	// Check whether styles should have a ".min" suffix or not.
 	$suffix = SCRIPT_DEBUG ? '' : '.min';
 	if ( $is_core_block ) {
-		$style_path = "style$suffix.css";
+		$style_path = ( 'editorStyle' === $field_name ) ? "editor{$suffix}.css" : "style{$suffix}.css";
 	}
 
 	$style_path_norm = wp_normalize_path( realpath( dirname( $metadata['file'] ) . '/' . $style_path ) );
@@ -239,7 +239,8 @@ function register_block_style_handle( $metadata, $field_name, $index = 0 ) {
 		if ( $is_theme_block ) {
 			$style_uri = get_theme_file_uri( str_replace( $theme_path_norm, '', $style_path_norm ) );
 		} elseif ( $is_core_block ) {
-			$style_uri = includes_url( 'blocks/' . str_replace( 'core/', '', $metadata['name'] ) . "/style$suffix.css" );
+			// All possible $style_path variants for core blocks are hard-coded above.
+			$style_uri = includes_url( 'blocks/' . str_replace( 'core/', '', $metadata['name'] ) . '/' . $style_path );
 		}
 	} else {
 		$style_uri = false;
