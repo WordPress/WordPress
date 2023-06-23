@@ -64,6 +64,7 @@ if ( file_exists( ABSPATH . 'wp-config.php' ) ) {
 	// Standardize $_SERVER variables across setups.
 	wp_fix_server_vars();
 
+	require_once ABSPATH . WPINC . '/compat.php';
 	require_once ABSPATH . WPINC . '/functions.php';
 
 	$path = wp_guess_url() . '/wp-admin/setup-config.php';
