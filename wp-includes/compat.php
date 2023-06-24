@@ -482,8 +482,8 @@ if ( ! function_exists( 'str_ends_with' ) ) {
 	 * @return bool True if `$haystack` ends with `$needle`, otherwise false.
 	 */
 	function str_ends_with( $haystack, $needle ) {
-		if ( '' === $haystack && '' !== $needle ) {
-			return false;
+		if ( '' === $haystack ) {
+			return '' === $needle;
 		}
 
 		$len = strlen( $needle );
