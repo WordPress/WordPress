@@ -78,17 +78,17 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 </tr>
 
 <?php
-/* translators: Site tagline. */
-$sample_tagline = __( 'Just another WordPress site' );
-if ( is_multisite() ) {
+if ( ! is_multisite() ) {
+	/* translators: Site tagline. */
+	$sample_tagline = __( 'Just another WordPress site' );
+} else {
 	/* translators: %s: Network title. */
 	$sample_tagline = sprintf( __( 'Just another %s site' ), get_network()->site_name );
 }
+/* translators: %s: Site tagline example. */
 $tagline_description = sprintf(
-	'%1$s %2$s',
-	__( 'In a few words, explain what this site is about.' ),
-	/* translators: %s: Site tagline example. */
-	sprintf( __( 'Example: &#8220;%s.&#8221;' ), $sample_tagline )
+	__( 'In a few words, explain what this site is about. Example: &#8220;%s.&#8221;' ),
+	$sample_tagline
 );
 ?>
 <tr>
