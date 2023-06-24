@@ -2475,7 +2475,7 @@
 					return;
 				}
 
-				$itemRow.addClass( 'is-enqueued' )
+				$itemRow.addClass( 'is-enqueued' );
 
 				// Add it to the queue.
 				wp.updates.queue.push( {
