@@ -488,7 +488,7 @@ if ( ! function_exists( 'str_ends_with' ) ) {
 
 		$len = strlen( $needle );
 
-		return 0 === substr_compare( $haystack, $needle, -$len, $len );
+		return $needle === substr( $haystack, -$len, $len );
 	}
 }
 
