@@ -747,7 +747,7 @@ wpList = {
 			return list.wpList.add( this );
 		} );
 
-		$element.on( 'click', 'a[data-wp-lists^="add:' + list.id + ':"], input[data-wp-lists^="add:' + list.id + ':"]', function() {
+		$element.on( 'click', '[data-wp-lists^="add:' + list.id + ':"], input[data-wp-lists^="add:' + list.id + ':"]', function() {
 			return list.wpList.add( this );
 		} );
 

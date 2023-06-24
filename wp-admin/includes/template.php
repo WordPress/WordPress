@@ -724,16 +724,13 @@ function meta_form( $post = null ) {
 
 	if ( $keys ) {
 		natcasesort( $keys );
-		$meta_key_input_id = 'metakeyselect';
-	} else {
-		$meta_key_input_id = 'metakeyinput';
 	}
 	?>
 <p><strong><?php _e( 'Add New Custom Field:' ); ?></strong></p>
 <table id="newmeta">
 <thead>
 <tr>
-<th class="left"><label for="<?php echo $meta_key_input_id; ?>"><?php _ex( 'Name', 'meta name' ); ?></label></th>
+<th class="left"><label for="metakeyselect"><?php _ex( 'Name', 'meta name' ); ?></label></th>
 <th><label for="metavalue"><?php _e( 'Value' ); ?></label></th>
 </tr>
 </thead>
@@ -753,19 +750,21 @@ function meta_form( $post = null ) {
 		}
 		?>
 </select>
-<input class="hide-if-js" type="text" id="metakeyinput" name="metakeyinput" value="" />
-<a href="#postcustomstuff" class="hide-if-no-js" onclick="jQuery('#metakeyinput, #metakeyselect, #enternew, #cancelnew').toggle();return false;">
+<input class="hidden" type="text" id="metakeyinput" name="metakeyinput" value="" aria-label="<?php _e( 'New custom field name' ); ?>" />
+<button type="button" id="newmeta-button" class="button button-small hide-if-no-js" onclick="jQuery('#metakeyinput, #metakeyselect, #enternew, #cancelnew').toggleClass('hidden');jQuery('#metakeyinput, #metakeyselect').filter(':visible').trigger('focus');">
 <span id="enternew"><?php _e( 'Enter new' ); ?></span>
-<span id="cancelnew" class="hidden"><?php _e( 'Cancel' ); ?></span></a>
+<span id="cancelnew" class="hidden"><?php _e( 'Cancel' ); ?></span></button>
 <?php } else { ?>
 <input type="text" id="metakeyinput" name="metakeyinput" value="" />
 <?php } ?>
 </td>
-<td><textarea id="metavalue" name="metavalue" rows="2" cols="25"></textarea></td>
+<td><textarea id="metavalue" name="metavalue" rows="2" cols="25"></textarea>
+	<?php wp_nonce_field( 'add-meta', '_ajax_nonce-add-meta', false ); ?>
+</td>
 </tr>
-
-<tr><td colspan="2">
-<div class="submit">
+</tbody>
+</table>
+<div class="submit add-custom-field">
 	<?php
 	submit_button(
 		__( 'Add Custom Field' ),
@@ -779,12 +778,7 @@ function meta_form( $post = null ) {
 	);
 	?>
 </div>
-	<?php wp_nonce_field( 'add-meta', '_ajax_nonce-add-meta', false ); ?>
-</td></tr>
-</tbody>
-</table>
 	<?php
-
 }
 
 /**
