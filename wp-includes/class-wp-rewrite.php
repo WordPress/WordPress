@@ -1907,7 +1907,7 @@ class WP_Rewrite {
 		unset( $this->feed_structure );
 		unset( $this->comment_feed_structure );
 
-		$this->use_trailing_slashes = ( '/' === substr( $this->permalink_structure, -1, 1 ) );
+		$this->use_trailing_slashes = str_ends_with( $this->permalink_structure, '/' );
 
 		// Enable generic rules for pages if permalink structure doesn't begin with a wildcard.
 		if ( preg_match( '/^[^%]*%(?:postname|category|tag|author)%/', $this->permalink_structure ) ) {

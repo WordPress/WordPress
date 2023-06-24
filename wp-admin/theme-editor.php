@@ -161,7 +161,7 @@ if ( ! empty( $posted_content ) ) {
 	$f       = fopen( $file, 'r' );
 	$content = fread( $f, filesize( $file ) );
 
-	if ( '.php' === substr( $file, strrpos( $file, '.' ) ) ) {
+	if ( str_ends_with( $file, '.php' ) ) {
 		$functions = wp_doc_link_parse( $content );
 
 		if ( ! empty( $functions ) ) {
