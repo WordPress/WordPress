@@ -401,13 +401,12 @@ function is_email_address_unsafe( $user_email ) {
 				continue;
 			}
 
-			if ( $email_domain == $banned_domain ) {
+			if ( $email_domain === $banned_domain ) {
 				$is_email_address_unsafe = true;
 				break;
 			}
 
-			$dotted_domain = ".$banned_domain";
-			if ( substr( $normalized_email, -strlen( $dotted_domain ) ) === $dotted_domain ) {
+			if ( str_ends_with( $normalized_email, ".$banned_domain" ) ) {
 				$is_email_address_unsafe = true;
 				break;
 			}

@@ -1461,7 +1461,7 @@ class WP_Query {
 
 		foreach ( $q['search_terms'] as $term ) {
 			// If there is an $exclusion_prefix, terms prefixed with it should be excluded.
-			$exclude = $exclusion_prefix && ( substr( $term, 0, 1 ) === $exclusion_prefix );
+			$exclude = $exclusion_prefix && str_starts_with( $term, $exclusion_prefix );
 			if ( $exclude ) {
 				$like_op  = 'NOT LIKE';
 				$andor_op = 'AND';

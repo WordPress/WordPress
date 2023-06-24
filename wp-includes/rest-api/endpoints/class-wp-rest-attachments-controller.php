@@ -1137,7 +1137,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			$filename = trim( $attributes['filename'] );
 
 			// Unquote quoted filename, but after trimming.
-			if ( substr( $filename, 0, 1 ) === '"' && substr( $filename, -1, 1 ) === '"' ) {
+			if ( str_starts_with( $filename, '"' ) && str_ends_with( $filename, '"' ) ) {
 				$filename = substr( $filename, 1, -1 );
 			}
 		}

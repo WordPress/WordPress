@@ -947,7 +947,7 @@ function get_links($category = -1, $before = '', $after = '<br />', $between = '
 	_deprecated_function( __FUNCTION__, '2.1.0', 'get_bookmarks()' );
 
 	$order = 'ASC';
-	if ( substr($orderby, 0, 1) === '_' ) {
+	if ( str_starts_with($orderby, '_') ) {
 		$order = 'DESC';
 		$orderby = substr($orderby, 1);
 	}
