@@ -803,7 +803,7 @@ function serialize_blocks( $blocks ) {
 function filter_block_content( $text, $allowed_html = 'post', $allowed_protocols = array() ) {
 	$result = '';
 
-	if ( false !== strpos( $text, '<!--' ) && false !== strpos( $text, '--->' ) ) {
+	if ( str_contains( $text, '<!--' ) && str_contains( $text, '--->' ) ) {
 		$text = preg_replace_callback( '%<!--(.*?)--->%', '_filter_block_content_callback', $text );
 	}
 

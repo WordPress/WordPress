@@ -4463,8 +4463,9 @@ function esc_url( $url, $protocols = null, $_context = 'display' ) {
 	 * it needs http:// prepended (unless it's a relative link
 	 * starting with /, # or ?, or a PHP file).
 	 */
-	if ( strpos( $url, ':' ) === false && ! in_array( $url[0], array( '/', '#', '?' ), true ) &&
-		! preg_match( '/^[a-z0-9-]+?\.php/i', $url ) ) {
+	if ( ! str_contains( $url, ':' ) && ! in_array( $url[0], array( '/', '#', '?' ), true ) &&
+		! preg_match( '/^[a-z0-9-]+?\.php/i', $url )
+	) {
 		$url = 'http://' . $url;
 	}
 

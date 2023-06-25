@@ -222,7 +222,7 @@ function get_permalink( $post = 0, $leavename = false ) {
 	) {
 
 		$category = '';
-		if ( strpos( $permalink, '%category%' ) !== false ) {
+		if ( str_contains( $permalink, '%category%' ) ) {
 			$cats = get_the_category( $post->ID );
 			if ( $cats ) {
 				$cats = wp_list_sort(
@@ -260,7 +260,7 @@ function get_permalink( $post = 0, $leavename = false ) {
 		}
 
 		$author = '';
-		if ( strpos( $permalink, '%author%' ) !== false ) {
+		if ( str_contains( $permalink, '%author%' ) ) {
 			$authordata = get_userdata( $post->post_author );
 			$author     = $authordata->user_nicename;
 		}
@@ -502,7 +502,7 @@ function get_attachment_link( $post = null, $leavename = false ) {
 			$name = $post->post_name;
 		}
 
-		if ( strpos( $parentlink, '?' ) === false ) {
+		if ( ! str_contains( $parentlink, '?' ) ) {
 			$link = user_trailingslashit( trailingslashit( $parentlink ) . '%postname%' );
 		}
 
