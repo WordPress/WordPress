@@ -169,6 +169,10 @@ function _wp_translate_postdata( $update = false, $post_data = null ) {
 		}
 	}
 
+	if ( isset( $post_data['edit_date'] ) && 'false' === $post_data['edit_date'] ) {
+		$post_data['edit_date'] = false;
+	}
+
 	if ( ! empty( $post_data['edit_date'] ) ) {
 		$aa = $post_data['aa'];
 		$mm = $post_data['mm'];
