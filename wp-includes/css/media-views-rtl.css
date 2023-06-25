@@ -282,10 +282,6 @@
 	width: calc(48% - 12px);
 }
 
-.media-modal-content .attachments-browser .search {
-	width: 100%;
-}
-
 /* higher specificity */
 .wp-core-ui .media-modal-icon {
 	background-image: url(../images/uploader-icons.png);
@@ -923,6 +919,14 @@
 
 .media-toolbar-primary .search {
 	max-width: 100%;
+}
+
+.media-modal .media-frame .media-search-input-label {
+	position: absolute;
+	right: 0;
+	top: 10px;
+	margin: 0;
+	line-height: 1;
 }
 
 /**
