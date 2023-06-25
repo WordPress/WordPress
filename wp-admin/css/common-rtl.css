@@ -574,7 +574,8 @@ code {
 	margin: 10px 2px 0 20px;
 }
 
-.wrap.block-editor-no-js {
+.wrap.block-editor-no-js,
+.wrap.site-editor-no-js {
 	padding-right: 20px;
 }
 
