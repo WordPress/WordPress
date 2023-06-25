@@ -925,14 +925,6 @@
 	max-width: 100%;
 }
 
-.media-frame .media-search-input-label {
-	position: absolute;
-	right: 0;
-	top: 10px;
-	margin: 0;
-	line-height: 1;
-}
-
 /**
  * Attachments
  */
@@ -1218,6 +1210,7 @@
 .mode-grid .attachments-browser .media-toolbar-primary {
 	display: flex;
 	align-items: center;
+	column-gap: .5rem;
 }
 
 .mode-grid .attachments-browser .media-toolbar-mode-select .media-toolbar-primary {
@@ -2807,7 +2800,11 @@
 	}
 
 	.mode-grid .attachments-browser .media-toolbar-primary {
-		display: block;
+		display: flex;
+	}
+
+	.mode-grid .attachments-browser .media-toolbar-primary input[type="search"] {
+		width: 100%;
 	}
 
 	.media-sidebar .copy-to-clipboard-container .success,

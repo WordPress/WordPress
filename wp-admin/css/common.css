@@ -1081,7 +1081,6 @@ th.action-links {
 }
 
 .wp-filter .search-form input[type="search"] {
-	margin: 1px 0;
 	width: 280px;
 	max-width: 100%;
 }
@@ -4063,6 +4062,7 @@ img {
 	}
 
 	.wp-filter .search-form input[type="search"] {
+		width: 100%;
 		font-size: 1rem;
 	}
 
@@ -4115,10 +4115,6 @@ img {
 	.nav-tab-active:focus,
 	.nav-tab-active:focus:active {
 		border-bottom: 1px solid #c3c4c7;
-	}
-
-	.wp-filter .search-form input[type="search"] {
-		width: 100%;
 	}
 }
 

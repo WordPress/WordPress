@@ -1651,11 +1651,9 @@ table.form-table td .updated p {
 
 	p.search-box {
 		float: none;
-		position: absolute;
-		bottom: 0;
-		width: 98%;
-		height: 90px;
+		width: 100%;
 		margin-bottom: 20px;
+		display: flex;
 	}
 
 	p.search-box input[name="s"] {

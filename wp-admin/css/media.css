@@ -583,16 +583,6 @@ border color while dragging a file over the uploader drop area */
 	margin-top: 0;
 }
 
-.media-search-input-label {
-	margin: 0 .2em 0 0;
-	vertical-align: baseline;
-}
-
-.media-frame.mode-grid .media-search-input-label {
-	position: static;
-	margin: 0 .5em 0 0;
-}
-
 .attachments-browser .media-toolbar-secondary > .media-button {
 	margin-right: 10px;
 }
