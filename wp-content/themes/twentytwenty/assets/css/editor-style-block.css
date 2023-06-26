@@ -462,11 +462,6 @@ Inter variable font. Usage:
 	padding-left: 0;
 }
 
-.editor-styles-wrapper ul.wp-block-latest-posts {
-	margin-left: auto;
-	margin-right: auto;	
-}
-
 .editor-styles-wrapper ul.wp-block-categories__list ul {
 	margin: 0;
 }
@@ -991,7 +986,7 @@ hr.wp-block-separator.is-style-dots::before {
 
 .editor-styles-wrapper .wp-block-latest-comments {
 	font-family: inherit;
-	margin-left: auto;
+	margin-left: 0;
 }
 
 .editor-styles-wrapper .wp-block-latest-comments li.wp-block-latest-comments__comment {
