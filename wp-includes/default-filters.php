@@ -720,4 +720,7 @@ add_filter( 'render_block', 'wp_render_typography_support', 10, 2 );
 // User preferences.
 add_action( 'init', 'wp_register_persisted_preferences_meta' );
 
+// CPT wp_block custom postmeta field.
+add_action( 'init', 'wp_create_initial_post_meta' );
+
 unset( $filter, $action );

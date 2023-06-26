@@ -11,6 +11,7 @@
  * Returns the list of default categories for block types.
  *
  * @since 5.8.0
+ * @since 6.3.0 Reusable Blocks renamed to Patterns.
  *
  * @return array[] Array of categories for block types.
  */
@@ -48,7 +49,7 @@ function get_default_block_categories() {
 		),
 		array(
 			'slug'  => 'reusable',
-			'title' => _x( 'Reusable Blocks', 'block category' ),
+			'title' => _x( 'Patterns', 'block category' ),
 			'icon'  => null,
 		),
 	);

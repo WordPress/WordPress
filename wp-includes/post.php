@@ -282,26 +282,26 @@ function create_initial_post_types() {
 		'wp_block',
 		array(
 			'labels'                => array(
-				'name'                     => _x( 'Reusable blocks', 'post type general name' ),
-				'singular_name'            => _x( 'Reusable block', 'post type singular name' ),
-				'add_new'                  => _x( 'Add New', 'Reusable block' ),
-				'add_new_item'             => __( 'Add new Reusable block' ),
-				'new_item'                 => __( 'New Reusable block' ),
-				'edit_item'                => __( 'Edit Reusable block' ),
-				'view_item'                => __( 'View Reusable block' ),
-				'view_items'               => __( 'View Reusable blocks' ),
-				'all_items'                => __( 'All Reusable blocks' ),
-				'search_items'             => __( 'Search Reusable blocks' ),
-				'not_found'                => __( 'No reusable blocks found.' ),
-				'not_found_in_trash'       => __( 'No reusable blocks found in Trash.' ),
-				'filter_items_list'        => __( 'Filter reusable blocks list' ),
-				'items_list_navigation'    => __( 'Reusable blocks list navigation' ),
-				'items_list'               => __( 'Reusable blocks list' ),
-				'item_published'           => __( 'Reusable block published.' ),
-				'item_published_privately' => __( 'Reusable block published privately.' ),
-				'item_reverted_to_draft'   => __( 'Reusable block reverted to draft.' ),
-				'item_scheduled'           => __( 'Reusable block scheduled.' ),
-				'item_updated'             => __( 'Reusable block updated.' ),
+				'name'                     => _x( 'Patterns', 'post type general name' ),
+				'singular_name'            => _x( 'Pattern', 'post type singular name' ),
+				'add_new'                  => _x( 'Add New', 'Pattern' ),
+				'add_new_item'             => __( 'Add new Pattern' ),
+				'new_item'                 => __( 'New Pattern' ),
+				'edit_item'                => __( 'Edit Pattern' ),
+				'view_item'                => __( 'View Pattern' ),
+				'view_items'               => __( 'View Patterns' ),
+				'all_items'                => __( 'All Patterns' ),
+				'search_items'             => __( 'Search Patterns' ),
+				'not_found'                => __( 'No patterns found.' ),
+				'not_found_in_trash'       => __( 'No patterns found in Trash.' ),
+				'filter_items_list'        => __( 'Filter patterns list' ),
+				'items_list_navigation'    => __( 'Patterns list navigation' ),
+				'items_list'               => __( 'Patterns list' ),
+				'item_published'           => __( 'Pattern published.' ),
+				'item_published_privately' => __( 'Pattern published privately.' ),
+				'item_reverted_to_draft'   => __( 'Pattern reverted to draft.' ),
+				'item_scheduled'           => __( 'Pattern scheduled.' ),
+				'item_updated'             => __( 'Pattern updated.' ),
 			),
 			'public'                => false,
 			'_builtin'              => true, /* internal use only. don't use this when registering your own post type. */
@@ -328,6 +328,7 @@ function create_initial_post_types() {
 				'title',
 				'editor',
 				'revisions',
+				'custom-fields',
 			),
 		)
 	);
@@ -8017,4 +8018,29 @@ function use_block_editor_for_post_type( $post_type ) {
 	 * @param string $post_type         The post type being checked.
 	 */
 	return apply_filters( 'use_block_editor_for_post_type', true, $post_type );
+}
+
+/**
+ * Registers any additional post meta fields.
+ *
+ * @since 6.3.0 Adds sync_status meta field to the wp_block post type so an unsynced option can be added.
+ *
+ * @link https://github.com/WordPress/gutenberg/pull/51144
+ */
+function wp_create_initial_post_meta() {
+	register_post_meta(
+		'wp_block',
+		'sync_status',
+		array(
+			'sanitize_callback' => 'sanitize_text_field',
+			'single'            => true,
+			'type'              => 'string',
+			'show_in_rest'      => array(
+				'schema' => array(
+					'type' => 'string',
+					'enum' => array( 'partial', 'unsynced' ),
+				),
+			),
+		)
+	);
 }
