@@ -105,7 +105,7 @@ function wp_initial_constants() {
 	// non-concatenated scripts and stylesheets.
 	if ( ! defined( 'SCRIPT_DEBUG' ) ) {
 		if ( ! empty( $wp_version ) ) {
-			$develop_src = false !== strpos( $wp_version, '-src' );
+			$develop_src = str_contains( $wp_version, '-src' );
 		} else {
 			$develop_src = false;
 		}

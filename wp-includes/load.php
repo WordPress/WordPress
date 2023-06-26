@@ -1505,11 +1505,11 @@ function wp_convert_hr_to_bytes( $value ) {
 	$value = strtolower( trim( $value ) );
 	$bytes = (int) $value;
 
-	if ( false !== strpos( $value, 'g' ) ) {
+	if ( str_contains( $value, 'g' ) ) {
 		$bytes *= GB_IN_BYTES;
-	} elseif ( false !== strpos( $value, 'm' ) ) {
+	} elseif ( str_contains( $value, 'm' ) ) {
 		$bytes *= MB_IN_BYTES;
-	} elseif ( false !== strpos( $value, 'k' ) ) {
+	} elseif ( str_contains( $value, 'k' ) ) {
 		$bytes *= KB_IN_BYTES;
 	}
 
@@ -1788,7 +1788,7 @@ function wp_is_xml_request() {
 
 	if ( isset( $_SERVER['HTTP_ACCEPT'] ) ) {
 		foreach ( $accepted as $type ) {
-			if ( false !== strpos( $_SERVER['HTTP_ACCEPT'], $type ) ) {
+			if ( str_contains( $_SERVER['HTTP_ACCEPT'], $type ) ) {
 				return true;
 			}
 		}
