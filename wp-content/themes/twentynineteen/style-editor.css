@@ -1276,6 +1276,31 @@ figcaption,
   padding-left: calc(2 * 1rem);
 }
 
+.wp-block-separator.has-primary-background-color {
+  color: #0073aa;
+  background-color: #0073aa;
+}
+
+.wp-block-separator.has-secondary-background-color {
+  color: #005177;
+  background-color: #005177;
+}
+
+.wp-block-separator.has-dark-gray-background-color {
+  color: #111;
+  background-color: #111;
+}
+
+.wp-block-separator.has-light-gray-background-color {
+  color: #767676;
+  background-color: #767676;
+}
+
+.wp-block-separator.has-white-background-color {
+  color: #fff;
+  background-color: #fff;
+}
+
 /* Remove duplicate rule-line when a separator
  * is followed by an H1, or H2 */
 .wp-block[data-type="core/separator"] + .wp-block[data-type="core/heading"] h1:before,
