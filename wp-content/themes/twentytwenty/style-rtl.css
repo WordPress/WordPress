@@ -2925,6 +2925,11 @@ h2.entry-title {
 	list-style: none;
 }
 
+ol.wp-block-latest-comments {
+	margin-left: auto;
+	margin-right: auto;
+}
+
 .entry-content .wp-block-archives > li,
 .entry-content .wp-block-categories > li,
 .entry-content .wp-block-latest-posts > li,
