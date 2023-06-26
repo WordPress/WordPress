@@ -2815,13 +2815,10 @@ if ( ! function_exists( 'get_avatar' ) ) :
 			'class'         => null,
 			'force_display' => false,
 			'loading'       => null,
+			'fetchpriority' => null,
 			'extra_attr'    => '',
 			'decoding'      => 'async',
 		);
-
-		if ( wp_lazy_loading_enabled( 'img', 'get_avatar' ) ) {
-			$defaults['loading'] = wp_get_loading_attr_default( 'get_avatar' );
-		}
 
 		if ( empty( $args ) ) {
 			$args = array();
@@ -2839,6 +2836,11 @@ if ( ! function_exists( 'get_avatar' ) ) :
 		if ( empty( $args['width'] ) ) {
 			$args['width'] = $args['size'];
 		}
+
+		// Update args with loading optimized attributes.
+		$loading_optimization_attr = wp_get_loading_optimization_attributes( 'img', $args, 'get_avatar' );
+
+		$args = array_merge( $args, $loading_optimization_attr );
 
 		if ( is_object( $id_or_email ) && isset( $id_or_email->comment_ID ) ) {
 			$id_or_email = get_comment( $id_or_email );
@@ -2892,7 +2894,7 @@ if ( ! function_exists( 'get_avatar' ) ) :
 			}
 		}
 
-		// Add `loading` and `decoding` attributes.
+		// Add `loading`, `fetchpriority` and `decoding` attributes.
 		$extra_attr = $args['extra_attr'];
 
 		if ( in_array( $args['loading'], array( 'lazy', 'eager' ), true )
@@ -2913,6 +2915,17 @@ if ( ! function_exists( 'get_avatar' ) ) :
 			}
 
 			$extra_attr .= "decoding='{$args['decoding']}'";
+		}
+
+		// Add support for `fetchpriority`.
+		if ( in_array( $args['fetchpriority'], array( 'high', 'low', 'auto' ), true )
+			&& ! preg_match( '/\bfetchpriority\s*=/', $extra_attr )
+		) {
+			if ( ! empty( $extra_attr ) ) {
+				$extra_attr .= ' ';
+			}
+
+			$extra_attr .= "fetchpriority='{$args['fetchpriority']}'";
 		}
 
 		$avatar = sprintf(
