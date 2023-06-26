@@ -4059,9 +4059,10 @@ function wp_plupload_default_settings() {
 	 * but iOS 7.x has a bug that prevents uploading of videos when enabled.
 	 * See #29602.
 	 */
-	if ( wp_is_mobile() && strpos( $_SERVER['HTTP_USER_AGENT'], 'OS 7_' ) !== false &&
-		strpos( $_SERVER['HTTP_USER_AGENT'], 'like Mac OS X' ) !== false ) {
-
+	if ( wp_is_mobile()
+		&& str_contains( $_SERVER['HTTP_USER_AGENT'], 'OS 7_' )
+		&& str_contains( $_SERVER['HTTP_USER_AGENT'], 'like Mac OS X' )
+	) {
 		$defaults['multi_selection'] = false;
 	}
 
