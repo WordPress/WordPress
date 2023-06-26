@@ -2280,6 +2280,7 @@ function kses_init() {
  * @since 6.2.0 Added support for `aspect-ratio`, `position`, `top`, `right`, `bottom`, `left`,
  *              and `z-index` CSS properties.
  * @since 6.3.0 Extended support for `filter` to accept a URL and added support for repeat().
+ *              Added support for `box-shadow`.
  *
  * @param string $css        A string of CSS rules.
  * @param string $deprecated Not used.
@@ -2447,6 +2448,7 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 			'bottom',
 			'left',
 			'z-index',
+			'box-shadow',
 			'aspect-ratio',
 
 			// Custom CSS properties.
