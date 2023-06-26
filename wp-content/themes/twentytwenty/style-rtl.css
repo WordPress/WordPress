@@ -2926,8 +2926,8 @@ h2.entry-title {
 }
 
 ol.wp-block-latest-comments {
-	margin-left: auto;
 	margin-right: auto;
+	margin-left: auto;
 }
 
 .entry-content .wp-block-archives > li,
