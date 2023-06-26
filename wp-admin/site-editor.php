@@ -132,9 +132,7 @@ do_action( 'enqueue_block_editor_assets' );
 require_once ABSPATH . 'wp-admin/admin-header.php';
 ?>
 
-<div class="edit-site">
-	<div id="site-editor"></div>
-
+<div class="edit-site" id="site-editor">
 	<?php // JavaScript is disabled. ?>
 	<div class="wrap hide-if-js site-editor-no-js">
 		<h1 class="wp-heading-inline"><?php _e( 'Edit site' ); ?></h1>
