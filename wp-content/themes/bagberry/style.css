@@ -2048,7 +2048,7 @@ button:not(.components-button)[disabled],
 }
 .woocommerce-product-gallery__wrapper img {
   width: 1048px;
-  aspect-ratio: 16/9;
+  aspect-ratio: 4/5;
   -o-object-fit: cover;
      object-fit: cover;
 }
@@ -2059,7 +2059,8 @@ button:not(.components-button)[disabled],
   display: block;
 }
 .woocommerce-product-gallery .flex-control-nav {
-  width: 100%;
+  /* 商品图片详情 下排缩略图宽度 */
+  /*width: 100%;*/
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2143,7 +2144,8 @@ button:not(.components-button)[disabled],
     margin-right: 0px;
   }
   .product .woocommerce-product-gallery {
-    width: 66.67%;
+    /* 商品图片详情 图片宽度 */
+    width: 50%;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
         -ms-flex-direction: row;
@@ -2168,7 +2170,8 @@ button:not(.components-button)[disabled],
   .product .entry-summary {
     position: sticky;
     top: 16px;
-    width: min(40%, 500px);
+    /* 商品图片详情 简介宽度 */
+    width: min(50%, 800px);
     padding-left: clamp(1rem, 3vw, 3rem);
     margin-top: 0;
   }
