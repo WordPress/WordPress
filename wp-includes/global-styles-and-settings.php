@@ -66,12 +66,10 @@ function wp_get_global_settings( $path = array(), $context = array() ) {
 	$cache_key   = 'wp_get_global_settings_' . $origin;
 
 	/*
-	 * Ignore cache when `WP_DEBUG` is enabled, so it doesn't interfere with the theme
+	 * Ignore cache when the development mode is set to 'theme', so it doesn't interfere with the theme
 	 * developer's workflow.
-	 *
-	 * @todo Replace `WP_DEBUG` once an "in development mode" check is available in Core.
 	 */
-	$can_use_cached = ! WP_DEBUG;
+	$can_use_cached = wp_get_development_mode() !== 'theme';
 
 	$settings = false;
 	if ( $can_use_cached ) {
@@ -151,12 +149,10 @@ function wp_get_global_styles( $path = array(), $context = array() ) {
  */
 function wp_get_global_stylesheet( $types = array() ) {
 	/*
-	 * Ignore cache when `WP_DEBUG` is enabled, so it doesn't interfere with the theme
+	 * Ignore cache when the development mode is set to 'theme', so it doesn't interfere with the theme
 	 * developer's workflow.
-	 *
-	 * @todo Replace `WP_DEBUG` once an "in development mode" check is available in Core.
 	 */
-	$can_use_cached = empty( $types ) && ! WP_DEBUG;
+	$can_use_cached = empty( $types ) && wp_get_development_mode() !== 'theme';
 
 	/*
 	 * By using the 'theme_json' group, this data is marked to be non-persistent across requests.
@@ -252,12 +248,10 @@ function wp_get_global_styles_custom_css() {
 		return '';
 	}
 	/*
-	 * Ignore cache when `WP_DEBUG` is enabled, so it doesn't interfere with the theme
+	 * Ignore cache when the development mode is set to 'theme', so it doesn't interfere with the theme
 	 * developer's workflow.
-	 *
-	 * @todo Replace `WP_DEBUG` once an "in development mode" check is available in Core.
 	 */
-	$can_use_cached = ! WP_DEBUG;
+	$can_use_cached = wp_get_development_mode() !== 'theme';
 
 	/*
 	 * By using the 'theme_json' group, this data is marked to be non-persistent across requests.
@@ -303,12 +297,10 @@ function wp_get_global_styles_custom_css() {
  */
 function wp_get_global_styles_svg_filters() {
 	/*
-	 * Ignore cache when `WP_DEBUG` is enabled, so it doesn't interfere with the theme
+	 * Ignore cache when the development mode is set to 'theme', so it doesn't interfere with the theme
 	 * developer's workflow.
-	 *
-	 * @todo Replace `WP_DEBUG` once an "in development mode" check is available in Core.
 	 */
-	$can_use_cached = ! WP_DEBUG;
+	$can_use_cached = wp_get_development_mode() !== 'theme';
 	$cache_group    = 'theme_json';
 	$cache_key      = 'wp_get_global_styles_svg_filters';
 	if ( $can_use_cached ) {
@@ -402,12 +394,10 @@ function wp_theme_has_theme_json() {
 	if (
 		null !== $theme_has_support &&
 		/*
-		 * Ignore static cache when `WP_DEBUG` is enabled. Why? To avoid interfering with
+		 * Ignore static cache when the development mode is set to 'theme', to avoid interfering with
 		 * the theme developer's workflow.
-		 *
-		 * @todo Replace `WP_DEBUG` once an "in development mode" check is available in Core.
 		 */
-		! WP_DEBUG &&
+		wp_get_development_mode() !== 'theme' &&
 		/*
 		 * Ignore cache when automated test suites are running. Why? To ensure
 		 * the static cache is reset between each test.
