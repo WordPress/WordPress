@@ -11,6 +11,8 @@
 		},
 		"color": {
 			"background": true,
+			"button": true,
+			"caption": true,
 			"custom": true,
 			"customDuotone": true,
 			"customGradient": true,
@@ -121,6 +123,7 @@
 					"slug": "midnight"
 				}
 			],
+			"heading": true,
 			"link": false,
 			"palette": [
 				{
