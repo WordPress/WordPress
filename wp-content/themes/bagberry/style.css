@@ -2060,7 +2060,7 @@ button:not(.components-button)[disabled],
 }
 .woocommerce-product-gallery .flex-control-nav {
   /* 商品图片详情 下排缩略图宽度 */
-  /*width: 100%;*/
+  width: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2070,6 +2070,7 @@ button:not(.components-button)[disabled],
   gap: 12px;
   padding: 0;
   margin: 0;
+  overflow-x: auto;
 }
 .woocommerce-product-gallery .flex-control-nav > li {
   position: relative;
