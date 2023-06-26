@@ -186,6 +186,20 @@ function register_block_style_handle( $metadata, $field_name, $index = 0 ) {
 		return false;
 	}
 
+	$style_handle = $metadata[ $field_name ];
+	if ( is_array( $style_handle ) ) {
+		if ( empty( $style_handle[ $index ] ) ) {
+			return false;
+		}
+		$style_handle = $style_handle[ $index ];
+	}
+
+	$style_handle_name = generate_block_asset_handle( $metadata['name'], $field_name, $index );
+	// If the style handle is already registered, skip re-registering.
+	if ( wp_style_is( $style_handle_name, 'registered' ) ) {
+		return $style_handle_name;
+	}
+
 	static $wpinc_path_norm = '';
 	if ( ! $wpinc_path_norm ) {
 		$wpinc_path_norm = wp_normalize_path( realpath( ABSPATH . WPINC ) );
@@ -195,14 +209,6 @@ function register_block_style_handle( $metadata, $field_name, $index = 0 ) {
 	// Skip registering individual styles for each core block when a bundled version provided.
 	if ( $is_core_block && ! wp_should_load_separate_core_block_assets() ) {
 		return false;
-	}
-
-	$style_handle = $metadata[ $field_name ];
-	if ( is_array( $style_handle ) ) {
-		if ( empty( $style_handle[ $index ] ) ) {
-			return false;
-		}
-		$style_handle = $style_handle[ $index ];
 	}
 
 	$style_path      = remove_block_asset_path_prefix( $style_handle );
@@ -246,10 +252,9 @@ function register_block_style_handle( $metadata, $field_name, $index = 0 ) {
 		$style_uri = false;
 	}
 
-	$style_handle = generate_block_asset_handle( $metadata['name'], $field_name, $index );
-	$version      = ! $is_core_block && isset( $metadata['version'] ) ? $metadata['version'] : false;
-	$result       = wp_register_style(
-		$style_handle,
+	$version = ! $is_core_block && isset( $metadata['version'] ) ? $metadata['version'] : false;
+	$result  = wp_register_style(
+		$style_handle_name,
 		$style_uri,
 		array(),
 		$version
@@ -259,7 +264,7 @@ function register_block_style_handle( $metadata, $field_name, $index = 0 ) {
 	}
 
 	if ( $has_style_file ) {
-		wp_style_add_data( $style_handle, 'path', $style_path_norm );
+		wp_style_add_data( $style_handle_name, 'path', $style_path_norm );
 
 		if ( $is_core_block ) {
 			$rtl_file = str_replace( "{$suffix}.css", "-rtl{$suffix}.css", $style_path_norm );
@@ -268,13 +273,13 @@ function register_block_style_handle( $metadata, $field_name, $index = 0 ) {
 		}
 
 		if ( is_rtl() && file_exists( $rtl_file ) ) {
-			wp_style_add_data( $style_handle, 'rtl', 'replace' );
-			wp_style_add_data( $style_handle, 'suffix', $suffix );
-			wp_style_add_data( $style_handle, 'path', $rtl_file );
+			wp_style_add_data( $style_handle_name, 'rtl', 'replace' );
+			wp_style_add_data( $style_handle_name, 'suffix', $suffix );
+			wp_style_add_data( $style_handle_name, 'path', $rtl_file );
 		}
 	}
 
-	return $style_handle;
+	return $style_handle_name;
 }
 
 /**
@@ -320,7 +325,7 @@ function register_block_type_from_metadata( $file_or_folder, $args = array() ) {
 	 */
 	static $core_blocks_meta;
 	if ( ! $core_blocks_meta ) {
-		$core_blocks_meta = require_once ABSPATH . WPINC . '/blocks/blocks-json.php';
+		$core_blocks_meta = require ABSPATH . WPINC . '/blocks/blocks-json.php';
 	}
 
 	$metadata_file = ( ! str_ends_with( $file_or_folder, 'block.json' ) ) ?
