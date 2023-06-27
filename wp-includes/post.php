@@ -491,6 +491,14 @@ function create_initial_post_types() {
 		)
 	);
 
+	$navigation_post_edit_link = 'site-editor.php?' . build_query(
+		array(
+			'postId'   => '%s',
+			'postType' => 'wp_navigation',
+			'canvas'   => 'edit',
+		)
+	);
+
 	register_post_type(
 		'wp_navigation',
 		array(
@@ -517,6 +525,7 @@ function create_initial_post_types() {
 			'description'           => __( 'Navigation menus that can be inserted into your site.' ),
 			'public'                => false,
 			'_builtin'              => true, /* internal use only. don't use this when registering your own post type. */
+			'_edit_link'            => $navigation_post_edit_link, /* internal use only. don't use this when registering your own post type. */
 			'has_archive'           => false,
 			'show_ui'               => true,
 			'show_in_menu'          => false,
