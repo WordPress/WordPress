@@ -168,3 +168,10 @@ add_action( 'post_updated', array( 'WP_Privacy_Policy_Content', '_policy_page_up
 
 // Append '(Draft)' to draft page titles in the privacy page dropdown.
 add_filter( 'list_pages', '_wp_privacy_settings_filter_draft_page_titles', 10, 2 );
+
+// Attaches filters to enable theme previews in the Site Editor.
+if ( ! empty( $_GET['wp_theme_preview'] ) ) {
+	add_filter( 'stylesheet', 'wp_get_theme_preview_path' );
+	add_filter( 'template', 'wp_get_theme_preview_path' );
+	add_action( 'init', 'wp_attach_theme_preview_middleware' );
+}
