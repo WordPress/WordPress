@@ -3137,11 +3137,13 @@ class wpdb {
 		} elseif ( ARRAY_A === $output || ARRAY_N === $output ) {
 			// Return an integer-keyed array of...
 			if ( $this->last_result ) {
-				foreach ( (array) $this->last_result as $row ) {
-					if ( ARRAY_N === $output ) {
+				if ( ARRAY_N === $output ) {
+					foreach ( (array) $this->last_result as $row ) {
 						// ...integer-keyed row arrays.
 						$new_array[] = array_values( get_object_vars( $row ) );
-					} else {
+					}
+				} else {
+					foreach ( (array) $this->last_result as $row ) {
 						// ...column name-keyed row arrays.
 						$new_array[] = get_object_vars( $row );
 					}
