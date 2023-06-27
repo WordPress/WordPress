@@ -839,6 +839,21 @@ class WP_Debug_Data {
 			);
 		}
 
+		// Server time.
+		$date = new DateTime( 'now', new DateTimeZone( 'UTC' ) );
+		$info['wp-server']['fields']['current'] = array(
+			'label' => __( 'Current time' ),
+			'value' => $date->format( DateTime::ATOM ),
+		);
+		$info['wp-server']['fields']['utc-time'] = array(
+			'label' => __( 'Current UTC time' ),
+			'value' => $date->format( DateTime::RFC850 ),
+		);
+		$info['wp-server']['fields']['server-time'] = array(
+			'label' => __( 'Current Server time' ),
+			'value' => wp_date( 'c', $_SERVER['REQUEST_TIME'] ),
+		);
+
 		// Populate the database debug fields.
 		if ( is_resource( $wpdb->dbh ) ) {
 			// Old mysql extension.
