@@ -74,7 +74,9 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
 	$current->last_checked = time();
 	set_site_transient( 'update_core', $current );
 
-	if ( method_exists( $wpdb, 'db_version' ) ) {
+	if ( method_exists( $wpdb, 'db_server_info' ) ) {
+		$mysql_version = $wpdb->db_server_info();
+	} elseif ( method_exists( $wpdb, 'db_version' ) ) {
 		$mysql_version = preg_replace( '/[^0-9.].*/', '', $wpdb->db_version() );
 	} else {
 		$mysql_version = 'N/A';
