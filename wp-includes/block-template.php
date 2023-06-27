@@ -6,27 +6,13 @@
  */
 
 /**
- * Adds necessary filters to use 'wp_template' posts instead of theme template files.
+ * Adds necessary hooks to resolve '_wp-find-template' requests.
  *
  * @access private
  * @since 5.9.0
  */
 function _add_template_loader_filters() {
-	if ( ! current_theme_supports( 'block-templates' ) ) {
-		return;
-	}
-
-	$template_types = array_keys( get_default_block_template_types() );
-	foreach ( $template_types as $template_type ) {
-		// Skip 'embed' for now because it is not a regular template type.
-		if ( 'embed' === $template_type ) {
-			continue;
-		}
-		add_filter( str_replace( '-', '', $template_type ) . '_template', 'locate_block_template', 20, 3 );
-	}
-
-	// Request to resolve a template.
-	if ( isset( $_GET['_wp-find-template'] ) ) {
+	if ( isset( $_GET['_wp-find-template'] ) && current_theme_supports( 'block-templates' ) ) {
 		add_action( 'pre_get_posts', '_resolve_template_for_new_post' );
 	}
 }
