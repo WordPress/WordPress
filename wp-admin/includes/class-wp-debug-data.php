@@ -323,6 +323,11 @@ class WP_Debug_Data {
 					'value' => $wp_environment_type,
 					'debug' => $wp_environment_type,
 				),
+				'WP_DEVELOPMENT_MODE' => array(
+					'label' => 'WP_DEVELOPMENT_MODE',
+					'value' => WP_DEVELOPMENT_MODE ? WP_DEVELOPMENT_MODE : __( 'Disabled' ),
+					'debug' => WP_DEVELOPMENT_MODE,
+				),
 				'DB_CHARSET'          => array(
 					'label' => 'DB_CHARSET',
 					'value' => ( defined( 'DB_CHARSET' ) ? DB_CHARSET : __( 'Undefined' ) ),
