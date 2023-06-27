@@ -816,23 +816,27 @@ class WP_Media_List_Table extends WP_List_Table {
 				);
 			}
 
-			$actions['copy'] = sprintf(
-				'<span class="copy-to-clipboard-container"><button type="button" class="button-link copy-attachment-url media-library" data-clipboard-text="%s" aria-label="%s">%s</button><span class="success hidden" aria-hidden="true">%s</span></span>',
-				esc_url( $attachment_url ),
-				/* translators: %s: Attachment title. */
-				esc_attr( sprintf( __( 'Copy &#8220;%s&#8221; URL to clipboard' ), $att_title ) ),
-				__( 'Copy URL' ),
-				__( 'Copied!' )
-			);
+			if ( $attachment_url ) {
+				$actions['copy'] = sprintf(
+					'<span class="copy-to-clipboard-container"><button type="button" class="button-link copy-attachment-url media-library" data-clipboard-text="%s" aria-label="%s">%s</button><span class="success hidden" aria-hidden="true">%s</span></span>',
+					esc_url( $attachment_url ),
+					/* translators: %s: Attachment title. */
+					esc_attr( sprintf( __( 'Copy &#8220;%s&#8221; URL to clipboard' ), $att_title ) ),
+					__( 'Copy URL' ),
+					__( 'Copied!' )
+				);
+			}
 		}
 
-		$actions['download'] = sprintf(
-			'<a href="%s" aria-label="%s" download>%s</a>',
-			esc_url( $attachment_url ),
-			/* translators: %s: Attachment title. */
-			esc_attr( sprintf( __( 'Download &#8220;%s&#8221;' ), $att_title ) ),
-			__( 'Download file' )
-		);
+		if ( $attachment_url ) {
+			$actions['download'] = sprintf(
+				'<a href="%s" aria-label="%s" download>%s</a>',
+				esc_url( $attachment_url ),
+				/* translators: %s: Attachment title. */
+				esc_attr( sprintf( __( 'Download &#8220;%s&#8221;' ), $att_title ) ),
+				__( 'Download file' )
+			);
+		}
 
 		if ( $this->detached && current_user_can( 'edit_post', $post->ID ) ) {
 			$actions['attach'] = sprintf(
