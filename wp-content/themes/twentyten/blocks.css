@@ -210,7 +210,9 @@ p.has-drop-cap:not(:focus)::first-letter {
 --------------------------------------------------------------*/
 
 .has-blue-color,
-.has-blue-color:visited {
+.has-blue-color:visited,
+#content .has-blue-color,
+#content .has-blue-color:visited {
 	color: #0066cc;
 }
 
@@ -220,7 +222,9 @@ p.has-drop-cap:not(:focus)::first-letter {
 }
 
 .has-black-color,
-.has-black-color:visited {
+.has-black-color:visited,
+#content .has-black-color,
+#content .has-black-color:visited {
 	color: #000;
 }
 
@@ -230,7 +234,9 @@ p.has-drop-cap:not(:focus)::first-letter {
 }
 
 .has-medium-gray-color,
-.has-medium-gray-color:visited {
+.has-medium-gray-color:visited,
+#content .has-medium-gray-color,
+#content .has-medium-gray-color:visited {
 	color: #666;
 }
 
@@ -240,7 +246,9 @@ p.has-drop-cap:not(:focus)::first-letter {
 }
 
 .has-light-gray-color,
-.has-light-gray-color:visited {
+.has-light-gray-color:visited,
+#content .has-light-gray-color,
+#content .has-light-gray-color:visited {
 	color: #f1f1f1;
 }
 
@@ -250,7 +258,9 @@ p.has-drop-cap:not(:focus)::first-letter {
 }
 
 .has-white-color,
-.has-white-color:visited {
+.has-white-color:visited,
+#content .has-white-color,
+#content .has-white-color:visited {
 	color: #fff;
 }
 
