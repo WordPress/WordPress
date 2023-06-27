@@ -76,7 +76,12 @@ if ( isset( $_GET['postType'] ) && ! isset( $_GET['postId'] ) ) {
 
 $active_global_styles_id = WP_Theme_JSON_Resolver::get_user_global_styles_post_id();
 $active_theme            = get_stylesheet();
-$preload_paths           = array(
+
+$navigation_rest_route = rest_get_route_for_post_type_items(
+	'wp_navigation'
+);
+
+$preload_paths = array(
 	array( '/wp/v2/media', 'OPTIONS' ),
 	'/wp/v2/types?context=view',
 	'/wp/v2/types/wp_template?context=edit',
@@ -87,6 +92,37 @@ $preload_paths           = array(
 	'/wp/v2/global-styles/' . $active_global_styles_id . '?context=edit',
 	'/wp/v2/global-styles/' . $active_global_styles_id,
 	'/wp/v2/global-styles/themes/' . $active_theme,
+	array( $navigation_rest_route, 'OPTIONS' ),
+	array(
+		add_query_arg(
+			array(
+				'context'   => 'edit',
+				'per_page'  => 100,
+				'order'     => 'desc',
+				'orderby'   => 'date',
+				'_locale'   => 'user',
+				// array indices are required to avoid query being encoded and not matching in cache.
+				'status[0]' => 'publish',
+				'status[1]' => 'draft',
+			),
+			$navigation_rest_route
+		),
+		'GET',
+	),
+	$preload_paths[] = array(
+		add_query_arg(
+			array(
+				'context'   => 'edit',
+				'per_page'  => 100,
+				'order'     => 'desc',
+				'orderby'   => 'date',
+				'status[0]' => 'publish',
+				'status[1]' => 'draft',
+			),
+			$navigation_rest_route
+		),
+		'GET',
+	),
 );
 
 block_editor_rest_api_preload( $preload_paths, $block_editor_context );
