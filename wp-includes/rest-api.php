@@ -377,6 +377,10 @@ function create_initial_rest_routes() {
 	// Site Editor Export.
 	$controller = new WP_REST_Edit_Site_Export_Controller();
 	$controller->register_routes();
+
+	// Navigation Fallback.
+	$controller = new WP_REST_Navigation_Fallback_Controller();
+	$controller->register_routes();
 }
 
 /**
