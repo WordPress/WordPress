@@ -2219,6 +2219,7 @@ html {
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #fff;
   color: #111;
   font-family: "NonBreakingSpaceOverride", "Hoefler Text", Garamond, "Times New Roman", serif;
   font-weight: 400;
@@ -2491,10 +2492,6 @@ html {
 *:before,
 *:after {
   box-sizing: inherit;
-}
-
-body {
-  background-color: #fff;
 }
 
 a {
