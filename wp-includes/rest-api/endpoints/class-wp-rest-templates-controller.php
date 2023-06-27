@@ -150,14 +150,21 @@ class WP_REST_Templates_Controller extends WP_REST_Controller {
 	 * Returns the fallback template for the given slug.
 	 *
 	 * @since 6.1.0
+	 * @since 6.3.0 Ignore empty templates.
 	 *
 	 * @param WP_REST_Request $request The request instance.
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function get_template_fallback( $request ) {
-		$hierarchy         = get_template_hierarchy( $request['slug'], $request['is_custom'], $request['template_prefix'] );
-		$fallback_template = resolve_block_template( $request['slug'], $hierarchy, '' );
-		$response          = $this->prepare_item_for_response( $fallback_template, $request );
+		$hierarchy = get_template_hierarchy( $request['slug'], $request['is_custom'], $request['template_prefix'] );
+
+		do {
+			$fallback_template = resolve_block_template( $request['slug'], $hierarchy, '' );
+			array_shift( $hierarchy );
+		} while ( ! empty( $hierarchy ) && empty( $fallback_template->content ) );
+
+		$response = $this->prepare_item_for_response( $fallback_template, $request );
+
 		return rest_ensure_response( $response );
 	}
 
