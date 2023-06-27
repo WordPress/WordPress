@@ -2030,7 +2030,8 @@ function validate_username( $username ) {
  *     An array, object, or WP_User object of user data arguments.
  *
  *     @type int    $ID                   User ID. If supplied, the user will be updated.
- *     @type string $user_pass            The plain-text user password.
+ *     @type string $user_pass            The plain-text user password for new users.
+ *                                        Hashed password for existing users.
  *     @type string $user_login           The user's login username.
  *     @type string $user_nicename        The URL-friendly user name.
  *     @type string $user_url             The user URL.
@@ -2520,6 +2521,8 @@ function wp_update_user( $userdata ) {
 		$userdata = $userdata->to_array();
 	}
 
+	$userdata_raw = $userdata;
+
 	$user_id = isset( $userdata['ID'] ) ? (int) $userdata['ID'] : 0;
 	if ( ! $user_id ) {
 		return new WP_Error( 'invalid_user_id', __( 'Invalid user ID.' ) );
@@ -2733,6 +2736,17 @@ All at ###SITENAME###
 			wp_set_auth_cookie( $user_id, $remember );
 		}
 	}
+
+	/**
+	 * Fires after the user has been updated and emails have been sent.
+	 *
+	 * @since 6.3.0
+	 *
+	 * @param int   $user_id      The ID of the user that was just updated.
+	 * @param array $userdata     The array of user data that was updated.
+	 * @param array $userdata_raw The unedited array of user data that was updated.
+	 */
+	do_action( 'wp_update_user', $user_id, $userdata, $userdata_raw );
 
 	return $user_id;
 }
