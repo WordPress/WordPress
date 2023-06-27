@@ -2372,20 +2372,8 @@ function wp_common_block_scripts_and_styles() {
 
 	wp_enqueue_style( 'wp-block-library' );
 
-	if ( current_theme_supports( 'wp-block-styles' ) ) {
-		if ( wp_should_load_separate_core_block_assets() ) {
-			$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? 'css' : 'min.css';
-			$files  = glob( __DIR__ . "/blocks/**/theme.$suffix" );
-			foreach ( $files as $path ) {
-				$block_name = basename( dirname( $path ) );
-				if ( is_rtl() && file_exists( __DIR__ . "/blocks/$block_name/theme-rtl.$suffix" ) ) {
-					$path = __DIR__ . "/blocks/$block_name/theme-rtl.$suffix";
-				}
-				wp_add_inline_style( "wp-block-{$block_name}", file_get_contents( $path ) );
-			}
-		} else {
-			wp_enqueue_style( 'wp-block-library-theme' );
-		}
+	if ( current_theme_supports( 'wp-block-styles' ) && ! wp_should_load_separate_core_block_assets() ) {
+		wp_enqueue_style( 'wp-block-library-theme' );
 	}
 
 	/**
