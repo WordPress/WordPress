@@ -296,6 +296,15 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			$plugins['search'] = array_filter( $plugins['all'], array( $this, '_search_callback' ) );
 		}
 
+		/**
+		 * Filters the array of plugins for the list table.
+		 *
+		 * @since 6.3.0
+		 *
+		 * @param array[] $plugins An array of arrays of plugin data, keyed by context.
+		 */
+		$plugins = apply_filters( 'plugins_list', $plugins );
+
 		$totals = array();
 		foreach ( $plugins as $type => $list ) {
 			$totals[ $type ] = count( $list );
